@@ -115,13 +115,6 @@
 #endif
 
 
-/* FS_STDARG indicates whether the compiler has <stdarg.h> */
-
-#ifndef FS_STDARG
-#define FS_STDARG		FS_STDC
-#endif
-
-
 /* Definitions of PROTO macros for weak prototypes */
 
 #if FS_WEAK_PROTOTYPES
