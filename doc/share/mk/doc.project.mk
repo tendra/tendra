@@ -56,7 +56,7 @@
 
 # Document-specific defaults
 DOCFORMAT?=	docbook
-MAINTAINER?=	doc@FreeBSD.org
+MAINTAINER?=	docs@tendra.org
 
 # Master list of known target formats.  The doc.<format>.mk files implement 
 # the code to convert from their source format to one or more of these target
@@ -66,7 +66,7 @@ ALL_FORMATS=	html html.tar html-split html-split.tar txt rtf ps pdf tex dvi tar 
 # User-modifiable
 LOCALBASE?=	/usr/local
 PREFIX?=	${LOCALBASE}
-PRI_LANG?=	en_US.ISO8859-1
+PRI_LANG?=	en
 
 CP?=		/bin/cp
 CAT?=		/bin/cat
