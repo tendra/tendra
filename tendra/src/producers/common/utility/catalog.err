@@ -2246,7 +2246,7 @@ expr_pre_incr_bool_inc ( LEX: op, TYPE: t )
 
 expr_pre_incr_bool_dec ( LEX: op, TYPE: t )
 {
-    KEY (STD)	"Postfix '"op"' can't be applied to type '"t"'"
+    KEY (STD)	"Prefix '"op"' can't be applied to type '"t"'"
 }
 
 
