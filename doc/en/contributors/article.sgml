@@ -1,0 +1,49 @@
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+
+<article>
+  <articleinfo>
+    <title>Contributors to the TenDRA Project</title>
+
+    <pubdate>$TenDRA$</pubdate>
+
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+
+    <copyright>
+      <year>2003</year>
+
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+    <abstract>
+      <para>This article lists the individual and organizational contributors
+        to the TenDRA Project.</para>
+    </abstract>
+  </articleinfo>
+
+  <sect1 id="donors">
+    <title>The donors</title>
+
+    <para>The donors list holds the list of individuals and organizations who
+      thank very much for their donation of resources, such as bandwidth,
+      processing power, and/or hardware.  Without your donations we could not
+      have pulled a lot off of what we do now.  Thank you.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>Contributors to our infrastructure:</emphasis></para>
+
+        <para>The following individuals and organizations allowed us to set up
+          an infrastructure permitting the TenDRA Project to make their
+          software available to the world.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><ulink url="http://www.stanford.edu/">The Stanford
+              University</ulink> donated bandwidth, our central machine
+              'spill' and hosting in general.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+</article>
