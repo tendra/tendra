@@ -4,7 +4,7 @@
 
 SRC=${BASE_DIR}/src/lib/cpp/src
 
-TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/default -yTENDRA_BASEDIR="${OBJ_DIR}/src" -yTENDRA_ENVDIR="${OBJ_DIR}/${ENVIRONMENT}" -yTCPPLUS="${OBJ_DIR}/src/producers/cpp/tcpplus" -Yc++ -I${SRC}
+TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
 
 SYS_FILES=basic.j ptr_func.j ptr_mem.j throw.j vtable.j
 
