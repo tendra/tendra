@@ -167,10 +167,11 @@ static PROGRAM_ARG prog_args [] = {
     { 'M', 1, "<mach>", "machine dependent options" },
     { 'N', 1, "<name>:<dir>", "specify a named include directory" },
     { 'O', 0, NULL, "optimise output capsule" },
+    { 'Q', 0, NULL, "quit immediately" },
     { 'R', 0, NULL, "reverse order of files" },
     { 'S', 0, NULL, "spec file linker action" },
     { 'U', 1, "<mac>", "undefine a macro" },
-    { 'V', 0, NULL, "enable verbose mode" },
+    { 'V', 0, NULL, "print version number" },
     { 'W', 1, "<opt>", "enable warnings option" },
     { 'X', 0, NULL, "disable exception handling" },
     { 'Z', 1, "<number>", "set maximum number of errors" },
@@ -185,18 +186,16 @@ static PROGRAM_ARG prog_args [] = {
     { 'm', 1, "<opts>", "set error printing options" },
     { 'n', 1, "<file>", "specify portability table" },
     { 'o', 1, "<output>", "specify output file" },
-    { 'q', 0, NULL, "quit immediately" },
     { 'r', 1, "<file>", "specify error marker" },
     { 's', 1, "<file>", "specify spec output file" },
     { 't', 0, NULL, "output TDF token declarations" },
     { 'u', 0, NULL, "unmangle identifier names" },
-    { 'v', 0, NULL, "print version number" },
+    { 'v', 0, NULL, "enable verbose mode" },
     { 'w', 0, NULL, "disable all warnings" },
 #ifdef DEBUG
     { 'x', 1, "<debug>", "debugging options" },
 #endif
     { 'z', 0, NULL, "ignore compilation errors" },
-    { '?', 0, NULL, "print this help page" },
     { '-', 0, NULL, "specify end of options" }
 };
 
@@ -480,6 +479,12 @@ process_args(int argc, char **argv)
 					break;
 				}
 					
+                case 'Q' : {
+                    /* Quit immediately */
+                    quit_immediately = 1;
+                    break;
+                }
+
 				case 'R' : {
 					/* Reverse order of files */
 					output_last = 0;
@@ -505,8 +510,9 @@ process_args(int argc, char **argv)
 				}
 					
 				case 'V' : {
-					/* Switch on verbose mode */
-					verbose = 1;
+                    /* Print version number */
+                    string v = report_version (1);
+                    fprintf_v (error_file, "%s\n\n", strlit (v));
 					break;
 				}
 					
@@ -623,8 +629,7 @@ process_args(int argc, char **argv)
 					break;
 				}
 					
-				case 'h' :
-				case '?' : {
+				case 'h' : {
 					/* Help option */
 					report_usage (error_file);
 					break;
@@ -662,12 +667,6 @@ process_args(int argc, char **argv)
 					break;
 				}
 					
-				case 'q' : {
-					/* Quit immediately */
-					quit_immediately = 1;
-					break;
-				}
-					
 				case 'r' : {
 					/* Error marker file */
 					output_name [ OUTPUT_ERROR ] = xustrcpy (uarg);
@@ -697,9 +696,8 @@ process_args(int argc, char **argv)
 				}
 					
 				case 'v' : {
-					/* Print version number */
-					string v = report_version (1);
-					fprintf_v (error_file, "%s\n\n", strlit (v));
+                    /* Switch on verbose mode */
+                    verbose = 1;
 					break;
 				}
 					
