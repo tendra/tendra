@@ -190,7 +190,7 @@ key_match(char *key, char *keyfield)
 	/* advance pointers past command chars */
 	while (*key && !is_alphanum(*key))
 		key++;
-	while (keyfield && !is_alphanum(*keyfield))
+	while (*keyfield && !is_alphanum(*keyfield))
 		keyfield++;
 	for (i=0; i < strlen(key); i++)
 		if (key[i] != keyfield[i]) {
