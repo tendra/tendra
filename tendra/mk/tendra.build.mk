@@ -87,17 +87,12 @@ OBJS=  ${SRCS:S/.c/.o/}
 all:
 .if defined(PROG)
 	@${MAKE} _OBJDIR
-	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} build-prog
-	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} link-prog
+	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} ${PROG}
 .endif
 
-build-prog: ${PROG}
-
-link-prog: ${OBJS}
+${PROG}: ${OBJS}
 	@${ECHO} Linking ${PROG}...
 	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
-
-${PROG}: ${OBJS}
 
 clean:
 .if defined(PROG)
