@@ -2045,9 +2045,7 @@ move(shape sha, where from, where to)
 			return;			/* from and to are the same */
 		if (f1pos && f1pos > f2pos && f2 != 0x10000) {
 			if (f1pos == fstack_pos &&
-				from.where_exp != flstack.where_exp &&
-				/*  name (sha) != doublehd && */
-				use_pop_ass (to.where_exp, from.where_exp) != 2) {
+				from.where_exp != flstack.where_exp) {
 				if (flinmem (to)) {	/* are going to pop the floating point
 									 *				   stack */
 					contop (te, 0, reg0);	/* compute address of to if necessary */
