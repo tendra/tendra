@@ -5,6 +5,16 @@
 .include <tendra.base.mk>
 .include <tendra.rules.mk>
 
+# This shell function is inlined in rules below. Careful about quoting.
+CONDCREATE= 	@Condcreate() { 					\
+			for dir in $${*} ; do 				\
+				if ${TEST} ! -e $${dir} ; then 		\
+					echo "\# Creating $${dir}/" ; 	\
+					${MKDIR} -p $${dir} ; 		\
+				fi ; 					\
+			done ; 						\
+		} ; Condcreate
+
 # Do some pretty-printing.
 WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 
@@ -68,6 +78,23 @@ _REALWORK: ${PROG} .USE
 		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
 		${.CURDIR}/${WRAPPER} > ${WRAPPER}
 . endif
+
+.elif "${STARTUPSUBDIR}" != ""
+#
+# Install startup files in object directory
+#
+_REALWORK: .USE
+	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories into object directory"
+	${CONDCREATE} ${STARTUPSUBDIR:S/^/${OBJ_SDIR}\//g}
+. for startsub in ${STARTUPSUBDIR}
+	@${ECHO} "Dir is: ${.CURDIR}"
+.  for file in ${:!${ECHO} ${.CURDIR}/${startsub}/*!:T}
+	${INSTALL} -m 644 ${.CURDIR}/${startsub}/${file} \
+		${OBJ_SDIR}/${startsub}/${file}
+.  endfor
+. endfor
+
+_objdir=	${OBJ_SDIR}
 
 CLEAN_EXTRA+=	${PROG} ${PROG}.core core ${OBJS}
 _objdir=	${OBJ_SDIR}
