@@ -735,9 +735,9 @@ preproc(FILE *output, char *api, char *file,
     }
     if (verbose > 1) {
 		if (subset) {
-			error (ERR_INFO, "Preprocessing %s [%s] ...", nm, subset);
+			IGNORE printf ("Preprocessing %s [%s] ...\n", nm, subset);
 		} else {
-			error (ERR_INFO, "Preprocessing %s ...", nm);
+			IGNORE printf ("Preprocessing %s ...\n", nm);
 		}
     }
     old_filename = filename;

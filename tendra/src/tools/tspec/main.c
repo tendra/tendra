@@ -95,7 +95,7 @@ handler(int sig)
 		FILE *f = p->u.u_file;
 		if (f) {
 			char *nm = p->name;
-			if (verbose) IGNORE printf ("Removing %s ...", nm);
+			if (verbose) IGNORE printf ("Removing %s ...\n", nm);
 			IGNORE fclose (f);
 			IGNORE remove (nm);
 		}
@@ -119,7 +119,7 @@ separate(object *p)
     if (i->subset || i->file == null) return;
     if (exec == null) exec = buffer + strlen (buffer);
     IGNORE sprintf (exec, "%s %s", i->api, i->file);
-    if (verbose > 1) IGNORE printf ("Executing '%s' ...", buffer);
+    if (verbose > 1) IGNORE printf ("Executing '%s' ...\n", buffer);
     if (system (buffer)) {
 		error (ERR_SERIOUS, "Separate compilation of %s failed", p->name);
     }
@@ -242,8 +242,8 @@ main(int argc, char **argv)
 					case 'v' : verbose++ ; break;
 					case 'w' : warnings = 0 ; break;
 					case 'V' : {
-						error (ERR_INFO, "Version: %s (release %s)",
-							   progvers, RELEASE);
+						IGNORE printf ("Version: %s (release %s)\n",
+									   progvers, RELEASE);
 						break;
 					}
 					default : {
