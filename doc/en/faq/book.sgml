@@ -310,6 +310,23 @@
         </answer>
 
       </qandaentry>
+
+        <qandaentry>
+          <question id="diff-format">
+            <para>What is the preferred way of generating diffs?</para>
+          </question>
+
+          <answer>
+            <para>When creating a patchset, please use <command>diff</command>
+              <parameter class="option">-ruN</parameter> or
+              <command>diff</command> <parameter
+              class="option">-u</parameter>.  Please refrain from submitting
+              uuencoded files, unless the patch is really big, or patches
+              generated with <command>diff</command> <parameter
+              class="option">-c</parameter>.
+            </para>
+          </answer>
+        </qandaentry>
     </qandaset>
 
   </chapter>
