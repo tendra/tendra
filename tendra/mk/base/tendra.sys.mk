@@ -22,4 +22,4 @@ ECHODIR		?=	echo
 	${PL} ${.IMPSRC} ${.TARGET} 
 
 .c.j:
-	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}
+	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} ${.IMPSRC}
