@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,75 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/10/10  18:32:50  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.8  1997/08/23  13:54:24  pwe
- * initial ANDF-DE
- *
- * Revision 1.7  1997/02/18  11:48:13  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.6  1996/08/27  14:54:38  pwe
- * Q_functions destroy flpt regs
- *
- * Revision 1.5  1996/03/20  16:12:37  john
- * Reformatting
- *
- * Revision 1.4  1995/07/27  16:32:04  john
- * Fix for quad op
- *
- * Revision 1.3  1995/07/14  16:33:04  john
- * Changes for new error handling
- *
- * Revision 1.2  1995/05/26  13:00:16  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:50  john
- * Entered into CVS
- *
- * Revision 1.5  1994/12/21  11:47:13  djch
- * added labeldecs.h to declare set_label
- *
- * Revision 1.4  1994/12/01  13:18:59  djch
- * Altered abs code to generate a label, and pass to br_abs. .+8 is allowed by
- * the SPARC asm manual, not by /bin/as...
- *
- * Revision 1.3  1994/11/28  16:55:06  djch
- * added code for absop to generate efficient abs code
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:47  djch
- * Initial revision
- *
- * Revision 1.5  93/09/27  14:52:20  14:52:20  ra (Robert Andrews)
- * Added quad_op, the main routine for dealing with long double
- * operations.  Modified fop to allow for long doubles.
- * 
- * Revision 1.4  93/08/27  11:34:44  11:34:44  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.3  93/07/08  18:22:32  18:22:32  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.2  93/06/29  14:30:03  14:30:03  ra (Robert Andrews)
- * Now use ins_p to represent instructions.
- * 
- * Revision 1.1  93/06/24  14:58:57  14:58:57  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
