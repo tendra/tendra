@@ -3,6 +3,8 @@
 %bookinfo;
 <!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
 %doc;
+<!ENTITY % trademarks PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN">
+%trademarks;
 ]>
 
 <book>
@@ -42,6 +44,10 @@
     &bookinfo.legalnotice;
 
     &bookinfo.legalnotice-crown;
+
+    <legalnotice id="trademarks" role="trademarks">
+      &tm-attrib.mips;
+    </legalnotice>
 
   </bookinfo>
 
@@ -1289,7 +1295,7 @@ maximum_exponent::  NAT
       <para>In most processor architectures there are limitations on how one
         can address particular kinds of objects in convenient ways. These
         limitations are usually defined as part of the ABI for the processor. For
-        example, in the MIPs processor the fastest way to access a 32-bit integer
+        example, in the &mips; processor the fastest way to access a 32-bit integer
         is to ensure that the address of the integer is aligned on a 4-byte
         boundary in the address space; obviously one can extract a mis-aligned
         integer but not in one machine instruction. Similarly, 16-bit integers
@@ -1404,7 +1410,7 @@ maximum_exponent::  NAT
       <title>Pointer and offset SHAPEs</title> 
 
       <para>A pointer value must have a form which reflects the alignment of
-        the object that it points to; for example, in the MIPs processor, the
+        the object that it points to; for example, in the &mips; processor, the
         bottom two bits of a pointer to an integer must be zero. The TDF SHAPE
         for a pointer is POINTER qualified by the ALIGNMENT of the object pointed
         to. The constructor pointer uses this alignment to make a POINTER
