@@ -76,6 +76,21 @@
             Atkins' Personal Retrospective</ulink>.</para>
         </answer>
       </qandaentry>
+
+      <qandaentry>
+        <question id="ten15">
+          <para>What does <emphasis>Ten15</emphasis> mean?</para>
+        </question>
+
+        <answer>
+          <para>Legend has it that the idea for the Ten15 system, which is at
+            the heart of TenDRA, was proposed at 10:15 in the morning. The
+            Ten15 system was developed by Michael Foster, Ian Currie, Philip
+            Core, et al, at the Royal Signals and Radar Establishment
+            (<acronym>RSRE</acronym>, then <acronym>DERA</acronym>, now 
+            <ulink url="http://www.qinetiq.com/">QinetiQ</ulink>).</para>
+        </answer>
+      </qandaentry>
     </qandaset>
   </chapter>
 
