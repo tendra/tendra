@@ -4,21 +4,30 @@
 <book>
   <bookinfo>
     <title>TenDRA README</title> 
+
     <pubdate>$TenDRA$</pubdate>
+
     <corpauthor>The TenDRA Documentation Team</corpauthor>
+
     <copyright>
       <year>2002</year>
+
+      <year>2003</year>
+
       <holder>TenDRA Documentation Team</holder>
     </copyright>
+
     <copyright>
       <year>1997</year>
+
       <year>1998</year>
+
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
+
     <abstract>
-
-      <para>Please email us at <email>docs@tendra.org</email> if you see any errors</para>
-
+      <para>Please email us at <email>docs@tendra.org</email> if you see any
+        errors</para>
     </abstract>
   </bookinfo>
 
@@ -37,13 +46,14 @@
       <title>Source</title>
 
       <para>The latest TenDRA release is available via the url:
-        <ulink
-        url="http://www.tendra.org/download/">http://www.tendra.org/download/</ulink>.</para>  
+        <ulink url="http://www.tendra.org/download/">
+        http://www.tendra.org/download/</ulink>.</para>  
 
-      <para>It is also available from the main FTP site directly accessible via HTTP or FTP:
-<ulink url="http://ftp.tendra.org/source/">http://ftp.tendra.org/source/</ulink>,
-<ulink url="ftp://ftp.tendra.org/pub/source/">ftp://ftp.tendra.org/pub/source/</ulink>.
-      </para>
+      <para>It is also available from the main FTP site directly accessible
+        via HTTP or FTP: <ulink url="http://ftp.tendra.org/source/">
+        http://ftp.tendra.org/source/</ulink>,
+        <ulink url="ftp://ftp.tendra.org/pub/source/">
+        ftp://ftp.tendra.org/pub/source/</ulink>.</para>
     </sect1>
 
     <sect1>
@@ -51,24 +61,24 @@
 
       <para>TenDRA also has a comprehensive set of documentation you may
         peruse in either HTML, TXT or PDF at:
-<ulink url="http://www.tendra.org/docs/">http://www.tendra.org/docs/</ulink>.</para>
+        <ulink url="http://www.tendra.org/docs/">http://www.tendra.org/docs/
+        </ulink>.</para>
 
-      <para>It is also available from the main FTP site directly
-      accessible via HTTP or FTP: 
-<ulink url="http://ftp.tendra.org/docs/">http://ftp.tendra.org/docs/</ulink>,
-<ulink url="ftp://ftp.tendra.org/pub/docs/">ftp://ftp.tendra.org/pub/docs/</ulink>.
-      </para>
+      <para>It is also available from the main FTP site directly accessible
+        via HTTP or FTP: <ulink url="http://ftp.tendra.org/docs/">
+        http://ftp.tendra.org/docs/</ulink>,
+        <ulink url="ftp://ftp.tendra.org/pub/docs/">
+        ftp://ftp.tendra.org/pub/docs/</ulink>.</para>
     </sect1>
 
     <sect1>
       <title>CVS</title>
 
       <para>The TenDRA CVS repository is accessible with the help of
-      <ulink url="http://www.cvsup.org/">John Polstra's CVSup
-      program</ulink>. An example <ulink
-      url="http://www.tendra.org/download/cvsupfile">cvsupfile</ulink>
-      is also available.</para> 
-
+        <ulink url="http://www.cvsup.org/">John Polstra's CVSup
+        program</ulink>. An example
+        <ulink url="http://www.tendra.org/download/cvsupfile">cvsupfile
+        </ulink> is also available.</para> 
     </sect1>
   </chapter>
 
@@ -153,6 +163,7 @@
           <thead>
             <row>
               <entry>Directory</entry>
+
               <entry>Description</entry>
             </row>
           </thead>
@@ -160,30 +171,49 @@
           <tbody>
             <row>
               <entry><filename class="directory">680x0</filename></entry>
+
               <entry>Motorola 68020, 68030 and 68040</entry>
             </row>
+
             <row>
               <entry><filename class="directory">80x86</filename></entry>
+
               <entry>Intel i386, i486 and Pentium</entry>
             </row>
+
             <row>
               <entry><filename class="directory">alpha</filename></entry>
+
               <entry>DEC Alpha,</entry>
             </row>
+
             <row>
               <entry><filename class="directory">hppa</filename></entry>
+
               <entry>HP Precision Architecture</entry>
-            </row><row>
+            </row>
+
+            <row>
               <entry><filename class="directory">mips</filename></entry>
+
               <entry>SGI/DEC MIPS</entry>
-            </row><row>
+            </row>
+
+            <row>
               <entry><filename class="directory">power</filename></entry>
+
               <entry>POWER</entry>
-            </row><row>
+            </row>
+
+            <row>
               <entry><filename class="directory">ppc601</filename></entry>
+
               <entry>POWER PC</entry>
-            </row><row>
+            </row>
+
+            <row>
               <entry><filename class="directory">sparc</filename></entry>
+
               <entry>SPARC.</entry>
             </row>
           </tbody>
@@ -198,7 +228,9 @@
           <thead>
             <row>
               <entry>CPU</entry>
+
               <entry>Directory</entry>
+
               <entry>Description</entry>
             </row>
           </thead>
@@ -206,77 +238,121 @@
           <tbody>
             <row>
               <entry>680x0</entry>
+
               <entry><filename class="directory">sunos</filename></entry>
+
               <entry>SunOS 4</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">cygwin32</filename></entry>
+
               <entry>Cygwin32</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">freebsd</filename></entry>
+
               <entry>FreeBSD</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">linux</filename></entry>
+
               <entry>Linux</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">sco</filename></entry>
+
               <entry>SCO</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">solaris</filename></entry>
+
               <entry>Solaris</entry>
             </row>
+
             <row>
               <entry>80x86</entry>
+
               <entry><filename class="directory">svr4.2</filename></entry>
+
               <entry>Unixware</entry>
             </row>
+
             <row>
               <entry>alpha</entry>
+
               <entry><filename class="directory">osf1</filename></entry>
+
               <entry>OSF/1,</entry>
             </row>
+
             <row>
               <entry>hppa</entry>
+
               <entry><filename class="directory">hpux</filename></entry>
+
               <entry>HP-UX</entry>
             </row>
+
             <row>
               <entry>mips</entry>
+
               <entry><filename class="directory">irix</filename></entry>
+
               <entry>Irix</entry>
             </row>
+
             <row>
               <entry>mips</entry>
+
               <entry><filename class="directory">ultrix</filename></entry>
+
               <entry>Ultrix</entry>
             </row>
+
             <row>
               <entry>power</entry>
+
               <entry><filename class="directory">aix</filename></entry>
+
               <entry>AIX</entry>
             </row>
+
             <row>
               <entry>ppc601</entry>
+
               <entry><filename class="directory">aix</filename></entry>
+
               <entry>AIX</entry>
             </row>
+
             <row>
               <entry>sparc</entry>
+
               <entry><filename class="directory">solaris</filename></entry>
+
               <entry>Solaris 2</entry>
             </row>
+
             <row>
               <entry>sparc</entry>
+
               <entry><filename class="directory">sunos</filename></entry>
+
               <entry>SunOS 4</entry>
             </row>
           </tbody>
@@ -292,6 +368,7 @@
           <thead>
             <row>
               <entry>Directory</entry>
+
               <entry>Description</entry>
             </row>
           </thead>
@@ -299,42 +376,54 @@
           <tbody>
             <row>
               <entry><filename class="directory">construct</filename></entry>
+
               <entry>Main routines for transforming and optimising the internal
                 representation;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">diag</filename></entry>
+
               <entry>Routines for reading and processing diagnostic information
                 contained within the TDF;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">dwarf</filename></entry>
+
               <entry>Routines for writing out diagnostic information as DWARF
                 directives;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">dwarf2</filename></entry>
+
               <entry>Routines for writing out diagnostic information as DWARF 2
                 directives;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">linkinfo</filename></entry>
+
               <entry>Routines for reading linkage information contained within
                 the TDF;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">reader</filename></entry>
+
               <entry>Main routine for reading the input TDF and building up the
                 internal representation;</entry>
             </row>
+
             <row>
               <entry><filename class="directory">templ</filename></entry>
+
               <entry>Template files used to generate the TDF reading
                 routines.</entry>
             </row>
           </tbody>
         </informaltable>
-  
       </sect2>
   
       <sect2>
@@ -367,14 +456,13 @@
   
         <para>tdf containing a description of the TDF specification used by
           make_tdf to generate TDF encoders and decoders.</para>
-  
       </sect2>
   
       <sect2>
         <title>producers</title>
   
-        <para>contains the compiler front-ends, which translate C and C++ to the
-          compiler intermediate form, TDF;</para>
+        <para>contains the compiler front-ends, which translate C and C++ to
+          the compiler intermediate form, TDF;</para>
   
         <para>The producers subdirectory is divided into a common directory,
           containing code shared by both the C and C++ producers, plus
@@ -408,7 +496,6 @@
   
         <para>utility which contains routines for error reporting, memory
           allocation etc.</para>
-  
       </sect2>
   
       <sect2>
@@ -432,7 +519,6 @@
         
         <para>tspec is a specification tool used in the TenDRA API
           descriptions.</para>
-        
       </sect2>
         
       <sect2>
@@ -463,7 +549,6 @@
         
         <para>tuname is a uname-like utility used in the installation
           process.</para>
-        
       </sect2>
     </sect1>
   </chapter>
@@ -523,7 +608,6 @@
     
     <para>startup containing the C and C++ producer configuration files copied
       directly from the src/lib/startup directory in the release.</para>
-  
   </chapter>
 
   <chapter>
@@ -574,7 +658,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
       </literallayout>
     </sect1>
-
 
     <sect1>
       <title>Crown Copyright</title>
