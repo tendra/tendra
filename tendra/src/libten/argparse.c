@@ -72,6 +72,12 @@
 #define	AP_RIGHT_MARGIN	80
 #define	AP_TEXT_LEN		(AP_RIGHT_MARGIN - AP_LEFT_MARGIN)
 
+typedef void ProcBool(char *, void *, BoolT);
+typedef void ProcEmpty(char *, void *);
+typedef void ProcStr(char *, void *, char *);
+typedef void ProcStr2(char *, void *, char *, char *);
+typedef void ProcStr3(char *, void *, char *, char *, char *);
+
 
 int
 arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
@@ -79,6 +85,11 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 	int       tmp_argc = argc;
 	char    **tmp_argv = argv;
 	BoolT    *closure;
+	ProcBool *proc_bool;
+	ProcEmpty *proc_empty;
+	ProcStr  *proc_str;
+	ProcStr2 *proc_str2;
+	ProcStr3 *proc_str3;
 
 	while (tmp_argc) {
 		int is_long = 0;
@@ -135,6 +146,12 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 				UNREACHED;
 			} else {
 				closure = chosen->closure;
+				proc_bool = (ProcBool *)chosen->proc;
+				proc_empty = (ProcEmpty *)chosen->proc;
+				proc_str = (ProcStr *)chosen->proc;
+				proc_str2 = (ProcStr2 *)chosen->proc;
+				proc_str3 = (ProcStr3 *)chosen->proc;
+
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
 					*closure = c == '-';
@@ -149,12 +166,11 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					*closure = FALSE;
 					break;
 				case AT_PROC_SWITCH:
-					(*chosen->proc) (option, chosen->closure, c == '-');
+					(*proc_bool) (option, chosen->closure, c == '-');
 					break;
 				case AT_IMMEDIATE:
 					if (immediate != NULL) {
-						(*chosen->proc) (option, chosen->closure,
-										   immediate);
+						(*proc_str) (option, chosen->closure, immediate);
 					} else {
 						MSG_arg_parse_unknown_option (option);
 						UNREACHED;
@@ -163,13 +179,11 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 				case AT_EITHER:
 					if (immediate != NULL) {
 						if (immediate[0] != '\0') {
-							(*chosen->proc) (option,
-											   chosen->closure, immediate);
+							(*proc_str) (option, chosen->closure, immediate);
 						} else if (tmp_argc > 1) {
 							tmp_argv++;
 							tmp_argc--;
-							(*chosen->proc) (option,
-											   chosen->closure, tmp_argv [0]);
+							(*proc_str) (option, chosen->closure, tmp_argv [0]);
 						} else {
 							MSG_arg_parse_missing_argument (option);
 							UNREACHED;
@@ -183,22 +197,21 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					if (tmp_argc > 1) {
 						tmp_argv++;
 						tmp_argc--;
-						(*chosen->proc) (option, chosen->closure,
-										   tmp_argv[0]);
+						(*proc_str) (option, chosen->closure, tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option);
 						UNREACHED;
 					}
 					break;
 				case AT_EMPTY:
-					(*chosen->proc) (option, chosen->closure);
+					(*proc_empty) (option, chosen->closure);
 					break;
 				case AT_FOLLOWING2:
 					if (tmp_argc > 2) {
 						tmp_argv += 2;
 						tmp_argc -= 2;
-						(*chosen->proc) (option, chosen->closure,
-										   tmp_argv[-1], tmp_argv[0]);
+						(*proc_str2) (option, chosen->closure,
+									  tmp_argv[-1], tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option);
 						UNREACHED;
@@ -208,9 +221,8 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					if (tmp_argc > 3) {
 						tmp_argv += 3;
 						tmp_argc -= 3;
-						(*chosen->proc) (option, chosen->closure,
-										   tmp_argv[-2], tmp_argv[-1],
-										   tmp_argv[0]);
+						(*proc_str3) (option, chosen->closure,
+									  tmp_argv[-2], tmp_argv[-1], tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option);
 						UNREACHED;
@@ -245,6 +257,12 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					UNREACHED;
 				}
 				closure = chosen->closure;
+				proc_bool = (ProcBool *)chosen->proc;
+				proc_empty = (ProcEmpty *)chosen->proc;
+				proc_str = (ProcStr *)chosen->proc;
+				proc_str2 = (ProcStr2 *)chosen->proc;
+				proc_str3 = (ProcStr3 *)chosen->proc;
+
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
 					*closure = c == '-';
@@ -259,19 +277,19 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					*closure = FALSE;
 					break;
 				case AT_PROC_SWITCH:
-					(*chosen->proc) (opt, chosen->closure, c == '-');
+					(*proc_bool) (opt, chosen->closure, c == '-');
 					break;
 				case AT_IMMEDIATE:
-					(*chosen->proc) (opt, chosen->closure, opt + 1);
+					(*proc_str) (opt, chosen->closure, opt + 1);
 					opt = NULL;
 					break;
 				case AT_EITHER:
 					if (opt[1] != '\0') {
-						(*chosen->proc) (opt, chosen->closure, opt + 1);
+						(*proc_str) (opt, chosen->closure, opt + 1);
 					} else if (tmp_argc > 1) {
 						tmp_argv++;
 						tmp_argc--;
-						(*chosen->proc) (opt, chosen->closure, tmp_argv[0]);
+						(*proc_str) (opt, chosen->closure, tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_short_arg (option, opt);
 						UNREACHED;
@@ -282,21 +300,21 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					if (tmp_argc > 1) {
 						tmp_argv++;
 						tmp_argc--;
-						(*chosen->proc) (opt, chosen->closure, tmp_argv[0]);
+						(*proc_str) (opt, chosen->closure, tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_short_arg (option, opt);
 						UNREACHED;
 					}
 					break;
 				case AT_EMPTY:
-					(*chosen->proc) (opt, chosen->closure);
+					(*proc_empty) (opt, chosen->closure);
 					break;
 				case AT_FOLLOWING2:
 					if (tmp_argc > 2) {
 						tmp_argv += 2;
 						tmp_argc -= 2;
-						(*chosen->proc) (opt, chosen->closure,
-										   tmp_argv[-1], tmp_argv[0]);
+						(*proc_str2) (opt, chosen->closure,
+									  tmp_argv[-1], tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_short_arg (option, opt);
 						UNREACHED;
@@ -306,9 +324,8 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					if (tmp_argc > 3) {
 						tmp_argv += 3;
 						tmp_argc -= 3;
-						(*chosen->proc) (opt, chosen->closure,
-										   tmp_argv[-2], tmp_argv [-1],
-										   tmp_argv[0]);
+						(*proc_str3) (opt, chosen->closure,
+									  tmp_argv[-2], tmp_argv [-1], tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_short_arg (option, opt);
 						UNREACHED;
