@@ -112,11 +112,6 @@ After this the work directory can be removed, and:
 
 run to bootstrap the system.
 
-It is suggested that the output of INSTALL is piped into a log file
-for later examination if things go wrong (the script will report whether
-or not there were errors in the installation, but it isn't always
-reliable).
-
 The comments in the INSTALL script should be consulted for more details. 
 
 
