@@ -113,13 +113,13 @@ Finer granularity in stages allows for more overlapping, thus:
  
 So, before a single instruction can complete, another one is started
 down the pipeline.  The development of pipeline technologies prompted
-the study of types of data hazards.  This yielded the familiar et of
+the study of types of data hazards.  This yielded the familiar set of
 hazard types:
 
        1) structural, which happen because of hardware
           limitations that do not support instruction overlap
 
-       2) data hazards, which occur when on instruction needs
+       2) data hazards, which occur when an instruction needs
           the output of another (as yet) incomplete instruction
 
        3) control hazards, which occur because of branch
