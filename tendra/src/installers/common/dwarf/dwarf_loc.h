@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 extern void out_dwarf_member_loc_attr(exp e);
 extern void out_dwarf_bit_member_loc_attr(int u);

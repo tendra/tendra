@@ -57,10 +57,6 @@
 
 /* linux/assembler.c */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 
 #include "config.h"

@@ -57,11 +57,6 @@
 
 /* sol86/diag_out.c */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"

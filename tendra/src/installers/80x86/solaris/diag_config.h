@@ -57,11 +57,6 @@
 
 /* sol86/diag_config.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 #ifndef diag_config_key
 #define diag_config_key
 

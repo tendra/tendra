@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 #ifndef mess_li_key
 #define mess_li_key 1
 

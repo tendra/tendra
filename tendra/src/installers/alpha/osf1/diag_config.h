@@ -54,7 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
 
 #ifndef diag_config_key
 #define diag_config_key

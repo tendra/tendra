@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*special.c
  *    inlines some of the simpler standard library functions
  */

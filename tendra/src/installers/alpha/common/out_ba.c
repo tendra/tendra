@@ -55,12 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /*
    out_ba.c
   

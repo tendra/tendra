@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* DWARF is now defined in config.h */
 #include "dwarf_vsn.h"

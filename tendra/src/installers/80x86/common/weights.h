@@ -57,10 +57,6 @@
 
 /* 80x86/weightsdecs.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #ifndef weights_key
 #define weights_key 1

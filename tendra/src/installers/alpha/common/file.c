@@ -55,12 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /*
    file.c
    file handling functions for the alpha translator.

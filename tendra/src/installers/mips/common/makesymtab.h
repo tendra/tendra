@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* procedure to make a symbol table using the stored tables from
  *   routines in new_symbol.c */
 

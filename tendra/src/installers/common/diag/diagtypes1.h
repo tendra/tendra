@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef diag_types_1_key
 #define diag_types_1_key 1
 

@@ -57,10 +57,5 @@
 
 /* svr4/system_v.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 
 #define target_system "SVR4.2"

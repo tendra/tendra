@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef diag_fns_key
 #define diag_fns_key 1
 

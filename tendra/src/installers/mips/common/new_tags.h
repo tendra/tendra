@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* new_tags. h - introduced with dump_opt */
 
 #ifndef dump_tag

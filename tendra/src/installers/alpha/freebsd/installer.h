@@ -55,8 +55,6 @@
  */
 
 
-/* 	$Id$	 */
-/**/
 #ifndef config_key
 #define config_key 1
 

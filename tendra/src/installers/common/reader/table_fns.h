@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef table_decs_key
 #define table_decs_key 1
 

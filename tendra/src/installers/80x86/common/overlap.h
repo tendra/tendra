@@ -57,10 +57,6 @@
 
 /* 80x86/overlap.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef overlap_key
 #define overlap_key 1

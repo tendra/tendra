@@ -54,11 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
 
 /*
   This function recognises special tokens used by the 

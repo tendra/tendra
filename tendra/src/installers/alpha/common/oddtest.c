@@ -55,12 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /* 
    Pattern in oddtest.pat
    this is intended to be the pattern for:

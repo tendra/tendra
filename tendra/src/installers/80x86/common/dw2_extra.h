@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* Sparc specific declarations are listed here.
  *	   Declarations visible to common/dwarf2 are in dw2_config.h */

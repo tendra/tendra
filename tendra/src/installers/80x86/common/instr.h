@@ -57,10 +57,6 @@
 
 /* 80x86/instrdecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef indecs_key
 #define indecs_key 1

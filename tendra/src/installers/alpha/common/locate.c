@@ -55,12 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /* 
    locate.c
    This file provides functions to locate an exp.

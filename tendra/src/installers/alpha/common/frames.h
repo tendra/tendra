@@ -54,9 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
-
 
 #ifndef FRAMES
 #define FRAMES

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef basicrd_key
 #define basicrd_key 1
 

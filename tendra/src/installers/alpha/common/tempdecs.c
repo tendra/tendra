@@ -54,12 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 
 /*  
   tempdec.c - is the value in the declaration required over  

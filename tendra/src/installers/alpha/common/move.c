@@ -55,14 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/**/
-
 /*
   move.c
   This file contains code to move a value from src to dest, 

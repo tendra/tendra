@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef dw2_lines_key
 #define dw2_lines_key

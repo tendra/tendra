@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 /* LOG 3/6/93 added extra message to is_fund_dwarf when using
    non-diag libraries djch */

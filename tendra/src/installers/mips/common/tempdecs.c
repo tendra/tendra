@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*  tempdec.c - is the value in the declaration required over  proc calls ?
  *	if it isn't, declaration can be allocated in t-reg, rather than
  *	s-reg.

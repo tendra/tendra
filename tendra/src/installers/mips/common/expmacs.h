@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef expmacs_key
 #define expmacs_key 1

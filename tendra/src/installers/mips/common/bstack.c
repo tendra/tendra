@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #include "config.h"
 #include "xalloc.h"
 #include "bstack.h"

@@ -57,10 +57,6 @@
 
 /* 80x86/fbase.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef fbase_key
 #define fbase_key 1

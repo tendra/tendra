@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*  Definition of stack for maintaining isymMac and isymstart.
  *
  *This is required because entries in the symbol table such as blocks,

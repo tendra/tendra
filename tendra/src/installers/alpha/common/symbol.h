@@ -55,8 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
 /**/
 
 #include "archsyms.h"

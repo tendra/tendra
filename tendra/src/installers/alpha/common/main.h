@@ -55,8 +55,6 @@
  */
 
 
-/* 	$Id$	 */
-
 /* main.h */
 
 #ifndef MAIN

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* out_badecs.h */
 #include "ibinasm.h"
 extern void out_common(asmsym symno, unsigned asmtype);

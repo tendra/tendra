@@ -59,12 +59,6 @@
   translate.h
 */
 
-/*
-$Id$
-*/
-
-/**/
-
 #ifndef TRANSLATE_H
 #define TRANSLATE_H 1
 

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* these are name tags fabricated by scan or tokens*/
 #ifndef EXTRATAGS
 #define EXTRATAGS

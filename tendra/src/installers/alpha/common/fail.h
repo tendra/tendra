@@ -55,11 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-/**/
-
-
 #ifndef FAIL_H
 #define FAIL_H
 #define MAX_WARNINGS 10

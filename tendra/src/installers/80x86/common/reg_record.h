@@ -57,10 +57,6 @@
 
 /* 80x86/reg_recordde.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 
 extern  reg_record crt_reg_record;

@@ -57,10 +57,6 @@
 
 /* 80x86/operanddecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef opdecs_key
 #define opdecs_key 1

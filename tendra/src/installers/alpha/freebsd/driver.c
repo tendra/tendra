@@ -55,12 +55,6 @@
  */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /*
   driver.c
   Provides the driver function for the TDF->DEC Alpha translator.

@@ -57,10 +57,6 @@
 
 /* 80x86/exptypes.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef exptypes_key
 #define exptypes_key 1

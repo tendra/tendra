@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 #ifndef li_types_key
 #define li_types_key 1
 

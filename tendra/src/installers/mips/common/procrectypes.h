@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* procrectypes.h
  *     types for properties of procs
  *      needs, weights,parpair,procrec,spacereq

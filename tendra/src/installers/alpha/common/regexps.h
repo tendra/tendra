@@ -54,7 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
 
 /* 
    regexpsdecs.h

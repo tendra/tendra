@@ -57,10 +57,6 @@
 
 /* sco/cv_types.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #ifndef cv_types_key
 #define cv_types_key 1

@@ -57,10 +57,6 @@
 
 /* sco/cv_outtype.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #ifndef cv_outtype_key
 #define cv_outtype_key 1

@@ -57,10 +57,6 @@
 
 /* 80x86/gloptdecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef glopt_key
 #define glopt_key 1

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*   mipsdgdecs.h   - definitions in mipsdiags.c  */
 #ifndef MIPSDGDECS
 #define MIPSDGDECS

@@ -55,8 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
 /*
   alpha_insdecs.h
   This file provides definitions for the components of the alpha 

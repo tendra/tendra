@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 /****************************************************************** 
                ibinasm.h
    Structures and constants for outputting binary assembly format

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch
  *   new stuff for sparc registers  added by ra 8/9/93 */

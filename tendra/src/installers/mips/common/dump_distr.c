@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* dump_distr.c
  * Idea is to avoid dumping of  s-registers and register parameters
  *    if there is a simple route through a procedure which only uses the values

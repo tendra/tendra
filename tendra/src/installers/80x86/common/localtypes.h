@@ -57,10 +57,6 @@
 
 /* 80x86/localtypes.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef localtypes_key
 #define localtypes_key 1

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* psu_ops.c
  *	Output various psuedo operations to assembler
  */

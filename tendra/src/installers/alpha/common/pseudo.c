@@ -55,11 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
 /* 
    psu_ops.c
    Output various psuedo operations to assembler 

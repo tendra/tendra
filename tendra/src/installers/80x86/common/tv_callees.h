@@ -57,10 +57,6 @@
 
 /* 80x86/tv_callees.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #ifndef tvcallee_key
 #define tvcallee_key 1

@@ -82,10 +82,6 @@
 
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 
 /* dynamic_init.c does all the dynamic initialisation code

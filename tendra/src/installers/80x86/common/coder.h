@@ -57,10 +57,6 @@
 
 /* 80x86/coderdecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef coder_key
 #define coder_key 1

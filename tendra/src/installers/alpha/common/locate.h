@@ -54,8 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
 
 /* 
    locatedecs.h

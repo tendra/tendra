@@ -55,8 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
 /**/
 #ifndef SHAPE_RANGE_H
 #define SHAPE_RANGE_H

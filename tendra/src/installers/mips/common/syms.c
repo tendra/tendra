@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*  syms.c   - produce symbol numbers for binasm (dense numbers)
 	
 */

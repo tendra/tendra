@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #include "common_types.h"
 
 extern void init_table_space(long, long);

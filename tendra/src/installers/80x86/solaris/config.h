@@ -57,11 +57,6 @@
 
 /* sol86/config.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 #ifndef config_key
 #define config_key 1
 

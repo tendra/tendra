@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* handle_sregs.c
  *	handle_sregs dumps and recovers the s-registers;
  *	the registers to be dumped are expressed as bits in a long eg

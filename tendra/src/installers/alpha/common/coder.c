@@ -55,13 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-/**/
-
 /* 
    coder.c
    This is the principal code producing module

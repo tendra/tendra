@@ -57,10 +57,6 @@
 
 /* 80x86/messages_8.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef messages_8_key
 #define messages_8_key 1

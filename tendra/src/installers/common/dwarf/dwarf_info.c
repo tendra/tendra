@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* LOG 4 July 1994 added dwarf_types.h to unify with sparc version */
 /* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #define TOP_SZ (long)0
 #define TOP_ALIGN const_al1

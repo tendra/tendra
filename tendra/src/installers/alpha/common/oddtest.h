@@ -54,8 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
 
 #ifndef ODDTEST_H
 #define ODDTEST_H

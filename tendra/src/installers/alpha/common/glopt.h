@@ -54,8 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
 
 #ifndef glopt_key
 

@@ -55,14 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/**/
-
 /*
   eval.c
   This file contains functions which output data to the assembler

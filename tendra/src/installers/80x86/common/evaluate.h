@@ -57,11 +57,6 @@
 
 /* 80x86/evaluate.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$
- **/
 
 #ifndef evaluate_key
 #define evaluate_key 1

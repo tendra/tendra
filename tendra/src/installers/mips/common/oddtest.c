@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*
  *Pattern in oddtest.pat
  *this is intended to be the pattern for:

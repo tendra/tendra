@@ -55,15 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/**/
-
-
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"

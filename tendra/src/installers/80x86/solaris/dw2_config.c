@@ -55,11 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 #include "dw2_config.h"
 #include "flags.h"
 #include "machine.h"

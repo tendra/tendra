@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 #ifndef MIPS_SIGFPE
  
 #define MIPS_SIGFPE  8

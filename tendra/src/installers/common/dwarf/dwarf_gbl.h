@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* 14/2/94 djch new_dwarf_global was declared as diag_global *, but should
  *   be dwarf_global *. Note that diag_global is typedefed to be 

@@ -54,7 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
 
 /*  S Y M B O L   T A B L E   P R O D U C T I O N   
 

@@ -57,10 +57,6 @@
 
 /* 80x86/instrmacs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef instrmackey
 #define instrmackey 1

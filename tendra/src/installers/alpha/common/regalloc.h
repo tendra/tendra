@@ -54,8 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
 
 /* 
    regallocdecs.h

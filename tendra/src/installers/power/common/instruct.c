@@ -82,10 +82,6 @@
 
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /*
  * INS_DEFINE causes definition and initialisation of instructions

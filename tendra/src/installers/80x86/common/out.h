@@ -57,10 +57,6 @@
 
 /* 80x86/outdecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef out_key
 #define out_key 1

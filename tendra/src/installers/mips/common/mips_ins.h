@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* mips_instructionsdecs.h
  *    each mips instruction is a unique string starting i_ using MIPS names 
  *      with . replaced by _

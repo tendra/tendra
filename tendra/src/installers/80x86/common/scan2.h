@@ -57,10 +57,6 @@
 
 /* 80x86/scan2decs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef scan2_key
 #define scan2_key 1

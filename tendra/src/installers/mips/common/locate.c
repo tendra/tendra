@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* locate.c
  *     discovers "where" an "exp" is;
  *     The where coding of an address tells one whether the result of

@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 extern void out_dwarf_type_attr PROTO_S ((diag_type t));
 extern void out_dwarf_user_type PROTO_S ((diag_type t));

@@ -54,9 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
-
 
 /* tempdecsdecs.h */
 

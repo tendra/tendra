@@ -57,10 +57,6 @@
 
 /* 80x86/assembler.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef assembler_key
 #define assembler_key 1

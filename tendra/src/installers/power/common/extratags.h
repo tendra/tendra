@@ -82,10 +82,6 @@
 
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 
 /* these are name tags fabricated by scan */

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 
 /* a rather more complicated equivalence of expressions - allows sequences and

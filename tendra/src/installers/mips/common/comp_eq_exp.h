@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 extern bool comp_eq_exp(exp a, exp b, exp laba, exp labb);
 

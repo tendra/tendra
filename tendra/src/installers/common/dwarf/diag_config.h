@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* LOG 3/6/93 setting CONST is now in compiler.h djch */
 

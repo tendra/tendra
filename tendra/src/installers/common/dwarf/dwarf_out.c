@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* extra fns for writing DWARF info */
 /* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch

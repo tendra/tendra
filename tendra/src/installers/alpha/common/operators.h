@@ -54,9 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
-
-
 
 /* 
    operators.h

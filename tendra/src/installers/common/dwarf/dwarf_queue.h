@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 extern void add_type_q(diag_type t);
 extern void dump_type_q(void);

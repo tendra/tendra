@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /* inst_fmtdecs.h
  *    procs for outputting various MIPS instruction formats to external files
  *    as_file and ba_file

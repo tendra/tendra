@@ -55,12 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 #include "config.h"
 #include "symtab.h"	
 #include "makesymtab.h"	

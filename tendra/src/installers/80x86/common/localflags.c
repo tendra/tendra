@@ -57,10 +57,6 @@
 
 /* 80x86/localflags.c */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #include "config.h"
 #include "common_types.h"

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #include "config.h"
 #include "extern_adds.h"
 #include "common_types.h"

@@ -57,10 +57,6 @@
 
 /* 80x86/codecdecs.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef codec_key
 #define codec_key 1

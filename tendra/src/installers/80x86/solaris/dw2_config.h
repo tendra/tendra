@@ -55,11 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 #ifndef dw2_config_key
 #define dw2_config_key 1
 

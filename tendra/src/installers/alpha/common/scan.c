@@ -55,14 +55,6 @@
 */
 
 
-/* 	$Id$	 */
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/**/
-
 /*
   scan.c
   Defines the scan through a program which reorganises it so 

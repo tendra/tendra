@@ -55,10 +55,6 @@
 */
 
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #ifndef dwarf_types_key
 #define dwarf_types_key

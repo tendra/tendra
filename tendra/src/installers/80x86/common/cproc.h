@@ -57,10 +57,6 @@
 
 /* 80x86/cproc.h */
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 #ifndef cproc_key
 #define cproc_key 1

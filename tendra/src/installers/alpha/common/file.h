@@ -54,7 +54,6 @@
  * $TenDRA$
  */
 
-/* 	$Id$	 */
 
 /*
    file.h

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 extern void 	dwarf4(CONST char *t);
 extern void 	dwarf4n(int x);

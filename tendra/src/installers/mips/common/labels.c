@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 /*   labels.c
  *	create and set program labels;
  *	The setting of a label clears all memory of the contents of

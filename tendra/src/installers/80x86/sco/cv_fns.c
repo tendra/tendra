@@ -57,10 +57,6 @@
 
 /* sco/cv_fns.c */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
 
 #include "config.h"
 #include "common_types.h"

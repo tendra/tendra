@@ -57,10 +57,5 @@
 
 /* sol86/system_v.h */
 
-/**********************************************************************
-$Author$
-$Date$
-$Revision$*/
-
 
 #define target_system "Solaris 2.4"

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef spec_tokdecs_key
 #define spec_tokdecs_key 1
 

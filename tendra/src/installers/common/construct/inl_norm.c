@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /* normalised_inlining chooses the order in which inlining is to be
  *   done.

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 
 /**********************************************************************
  *The identifier names and values in the first part of this file were derived from
