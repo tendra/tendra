@@ -265,7 +265,34 @@ void	arg_std_version(char *, void *);
 
 /*--------------------------------------------------------------------------*/
 
-#define ARG_PARSE_END_LIST \
-	{NULL, '\0', (ArgTypeT) 0, (ArgProcT *)NULL, NULL, 0}
+#define	AP_OPTION(snm, lnm, type, proc, closure, msgid) \
+	{(lnm), (snm), (type), (ArgProcP)(proc), (void*)(closure), (msgid)}
+
+#define	AP_OPT_EMPTY(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_EMPTY, (proc), NULL, MID_description_of_##name)
+
+#define	AP_OPT_SET(name, snm, lnm, var) \
+	AP_OPTION((snm), (lnm), AT_SET, NULL, (var), MID_description_of_##name)
+
+#define	AP_OPT_RESET(name, snm, lnm, var) \
+	AP_OPTION((snm), (lnm), AT_RESET, NULL, (var), MID_description_of_##name)
+
+#define	AP_OPT_EITHER(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_EITHER, (proc), NULL, MID_description_of_##name)
+
+#define	AP_OPT_FOLLOWING(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_FOLLOWING, (proc), NULL, MID_description_of_##name)
+
+#define	AP_OPT_FOLLOWING2(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_FOLLOWING2, (proc), NULL, MID_description_of_##name)
+
+#define	AP_OPT_IMMEDIATE(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_IMMEDIATE, (proc), NULL, MID_description_of_##name)
+
+#define	AP_OPT_PROC_SW(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_PROC_SWITCH, (proc), NULL, MID_description_of_##name)
+
+#define AP_OPT_EOL \
+	{NULL, '\0', (ArgTypeT) 0, (ArgProcP)NULL, NULL, 0}
 
 #endif /* !defined (H_ARG_PARSE) */
