@@ -145,11 +145,8 @@ read_env_aux(char *nm, hashtable *ht)
 {
 	/* Find the environment */
 	FILE *f;
-	char *p, *q, *s;
-	char *tmp;
-	int  count;
+	char *p, *q;
 	int  line_num;
-	int  line_len;
 	
 	if (*nm == 0) {
 		return (1);
@@ -179,7 +176,6 @@ read_env_aux(char *nm, hashtable *ht)
 		char c;          /* temp char */
 		char *p;         /* current pointer to scan buffer */
 		char *key_start; /* points to +, <, > start of key */
-		char *key_end;   /* end of key */
 		int  key_length; /* length of key */
 		char *val_start; /* start of value associated with key */
 		char *val_end;   /* end of value */
@@ -188,7 +184,6 @@ read_env_aux(char *nm, hashtable *ht)
 		int  esc_len;    /* number of chars to escape over */
 		char *sub;       /* character substitution for escape
 							sequences */
-		int  sub_len;    /* length of escape sequence */
 		int  count;      /* counter to stop scan at buffer_size */
 		int  line_len;   /* length of this buffer */
 		char *end = NULL;       /* end of line */

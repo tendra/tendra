@@ -162,7 +162,6 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 {
 	int i;
 	hashtable* ht;
-	htnode *hn;
 	optmap *t;	
 	ht = malloc (sizeof (hashtable));
 	ht->tblsize = tblsize;
@@ -176,7 +175,7 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 	for (t = environ_optmap; t->in != NULL; t++)
 	{
 		/* initialize hash table with tccenv keys */
-		hn =  update_table (ht, t->in, NULL, TCCENV, NULL, -1);
+		update_table (ht, t->in, NULL, TCCENV, NULL, -1);
 	}
 	return ht;
 }
@@ -204,7 +203,6 @@ lookup_table (hashtable *ht, char *key)
 {
 	int  hashval;
 	htnode *hn;
-	char *v = NULL;
 
 	if (! key) {
 		error(WARNING, "Looking up null key in tccenv hashtable");
@@ -212,8 +210,6 @@ lookup_table (hashtable *ht, char *key)
 	}
 	hashval = ht->hashfcn (key, ht->tblsize, ht->keysize);
 	hn = ht->node[hashval];
-	if (hn)
-		v = hn->key;
 	while (hn != NULL && !key_match(key, hn->key))
 	{
 		hn = hn->next;

@@ -178,7 +178,6 @@ insert_inorder(ordered_node* indata, list *inlst)
 	list *curr = inlst;
 	list *newlst  = new_list();
 	list *prev = newlst;
-	list *tmp = inlst;
 	
 	newlst->item = indata;
 	newlst->next = NULL;
