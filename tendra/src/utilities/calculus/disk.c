@@ -252,8 +252,8 @@ disk_read_def(char *dir)
 			/* Function header */
 			output ("/* Disk reading routine for %TT */\n\n", t);
 			output ("#ifndef READ_%TI\n\n", t);
-			output ("static %TT READ_%TI\n", t, t);
-			output ("()\n");
+			output ("static %TT\nREAD_%TI", t, t);
+			output ("(void)\n");
 			output ("{\n");
 			output ("\t%TT x_;\n", t);
 
@@ -528,7 +528,7 @@ disk_write_def(char *dir)
 			/* Function header */
 			output ("/* Disk writing routine for %TT */\n\n", t);
 			output ("#ifndef WRITE_%TI\n\n", t);
-			output ("static void WRITE_%TI\n", t);
+			output ("static void\nWRITE_%TI", t);
 			output ("(%TT x_)\n", t);
 		       	output ("{\n");
 

@@ -892,9 +892,9 @@ print_comment(void)
 		output ("%s\n\n", first_comment);
     }
     output ("/*\n");
-    output ("    AUTOMATICALLY GENERATED FROM ALGEBRA %X (VERSION %V)\n");
-    output ("    BY %ZX (VERSION %ZV)\n");
-    output ("*/\n\n");
+    output (" *    AUTOMATICALLY GENERATED FROM ALGEBRA %X (VERSION %V)\n");
+    output (" *    BY %ZX (VERSION %ZV)\n");
+    output (" */\n\n");
     return;
 }
 
