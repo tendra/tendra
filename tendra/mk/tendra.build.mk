@@ -68,7 +68,7 @@ _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
 .for entry in ${SUBDIR}
 		@${ECHODIR} "Entering ${DIRPREFIX}${entry}"
-		@${ECHODIR} "	Executing ${entry}: ${MAKE} ${.TARGET}"
+		@${ECHODIR} "..Executing ${entry}: ${MAKE} ${.TARGET}"
 		@cd ${.CURDIR}/${entry}; \
 			${MAKE} ${.TARGET} DIRPREFIX=${DIRPREFIX}${entry}/
 .endfor
