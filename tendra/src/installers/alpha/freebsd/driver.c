@@ -111,7 +111,6 @@ bool trap_all_fops = FALSE;
 bool do_extern_adds = FALSE;
 
 static int infoopt = FALSE;	/* set if the -V option has been invoked */
-static bool produce_symbolic_assembler = FALSE;
 
 void printinfo
     PROTO_Z ()
@@ -206,9 +205,6 @@ void process_flag
    case 'R':
     round_after_flop = get_switch(option[2],1);
     break;
-   case 'S':
-    produce_symbolic_assembler = TRUE;
-    break;
    case 'U':
     do_unroll = get_switch(option[2],1);
     break;
@@ -273,17 +269,14 @@ int mainfile=0;
 int majorno = 3;
 int minorno = 11;
 
-#define MIN_COMMAND_LINE_ARGS 4
+#define MIN_COMMAND_LINE_ARGS 2
 
 int main
     PROTO_N ( ( argc,argv ) )
     PROTO_T ( int argc X char *argv[] )
 {
-  int i;
-  int num_flags=0;
   char *aname;	/* name of file for assembly output */
   char *dname;	/* name of file to hold symbol table */
-  char *baname;
   char *tname;
   do_inlining=0;
   redo_structfns=1;
@@ -294,14 +287,15 @@ int main
 #else
   use_umulh_for_div = 0;
 #endif
+
   /* read command line options */
-  for(i=1;i<argc;++i){
-    if(argv[i][0] == '-'){
-      num_flags++;
-      process_flag(argv[i]);
-    }
-  }
-  if((argc-num_flags)<MIN_COMMAND_LINE_ARGS){
+  for (argv++,argc--; argc > 0; argv++, argc--)
+    if (**argv == '-')
+      process_flag(*argv);
+    else
+      break;
+
+  if(argc<MIN_COMMAND_LINE_ARGS){
     if(infoopt){
       exit(EXIT_SUCCESS);
     }
@@ -310,19 +304,20 @@ int main
     }
   }
 
-  /* the files are passed in the order .t .G .T .s */
+  /* the files are passed in the order .t .s .G .T */
 
-  if(produce_symbolic_assembler){
-      aname = argv[argc-1];
-      as_file = open_file(aname,WRITE);
-      argc--;
-  }
-  baname = argv[argc-2];
-  dname = argv[argc-1];
-  tname = argv[argc-3];
+  tname = argv[0];
+  if (!initreader (tname))
+    alphafail(OPENING_T_FILE,tname);
+  aname = argv[1];
+  as_file = open_file(aname,WRITE);
+  if (argc > 2)
+    dname = argv[2];
+  else
+    dname = NULL;
+  if (argc > 3)
+    ba_file = open_file(argv[3],WRITE);
 
-  ba_file = open_file(baname,WRITE);
-  if(!initreader (tname)) alphafail(OPENING_T_FILE,tname);
   init_flpt();
 #include "inits.h"
   top_def = (dec*)0;
@@ -335,7 +330,8 @@ int main
 #endif
 
   (void)d_capsule();
-  output_symtab(dname);
+  if (dname != NULL)
+    output_symtab(dname);
 #if DO_SCHEDULE
   if(do_scheduling){
 /*    schduler_finished();*/
@@ -343,7 +339,8 @@ int main
 #endif
   if (as_file != NULL)
     close_file(as_file);
-  close_file(ba_file);
+  if (ba_file != NULL)
+    close_file(ba_file);
   return (SUCCESS);
 }
 
