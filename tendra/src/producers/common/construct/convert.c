@@ -1014,8 +1014,10 @@ convert_const(EXP a)
 	    case exp_null_tag : {
 			/* Propagate null constants */
 			TYPE t;
-			DECONS_exp_null (t, e);
+			int npc;
+			DECONS_exp_null (t, npc, e);
 			MAKE_exp_null (t, e);
+			COPY_int (exp_null_npc (e), npc);
 			return (e);
 	    }
 		}

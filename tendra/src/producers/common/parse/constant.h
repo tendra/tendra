@@ -115,6 +115,7 @@ extern int is_negative_nat(NAT);
 extern int is_error_nat(NAT);
 extern int is_calc_nat(NAT);
 extern int is_zero_exp(EXP);
+extern int is_npc_exp(EXP);
 extern int is_literal(EXP);
 
 

@@ -2115,6 +2115,21 @@ is_zero_exp(EXP a)
 
 
 /*
+ *    IS AN EXPRESSION A NULL POINTER CONSTANT?
+ *
+ *    This routine checks whether the expression a is a null pointer
+ *    constant.  Some expressions have special rules for them.
+ */
+
+int
+is_npc_exp(EXP a)
+{
+	if (IS_exp_null (a) && DEREF_int (exp_null_npc (a))) return (1);
+	return (is_zero_exp (a));
+}
+
+
+/*
  *    IS AN INTEGER CONSTANT A LITERAL?
  *
  *    This routine checks whether the integer constant expression a is an

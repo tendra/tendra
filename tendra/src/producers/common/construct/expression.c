@@ -133,6 +133,20 @@ make_null_ptr(EXP a, TYPE t)
 				report (crt_loc, ERR_conv_ptr_null_complex ());
 			}
 			MAKE_exp_null (t, e);
+#if LANGUAGE_C
+			/*
+			 * In ISO C an integer constant expression with value 0 cast to
+			 * 'void *' is a null pointer constant too.  Set the npc flag to
+			 * indicate that this null pointer can be used as null pointer
+			 * constant.
+			 */
+			{
+				ERROR err = NULL_err;
+				if (type_composite (t, type_void_star, 0, 1, &err, 0) != NULL) {
+					if (IS_NULL_err (err)) COPY_int (exp_null_npc (e), 1);
+				}
+			}
+#endif
 		} else {
 			if (in_template_decl && IS_exp_int_lit (a)) {
 				if (depends_on_exp (a, any_templ_param, 0)) {

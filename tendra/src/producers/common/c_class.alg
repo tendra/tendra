@@ -1050,6 +1050,7 @@ union EXP (exp) = {
     },
     null, zero -> {
 	/* Null value (null pointer, zero etc.) */
+	int npc = "0" ;
     },
     paren, copy -> {
 	/* Identity operation (used for parentheses) */

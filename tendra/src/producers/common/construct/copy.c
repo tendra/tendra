@@ -1024,7 +1024,9 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 	}
 	case exp_null_tag : {
 	    /* Null expressions */
+	    int npc = DEREF_int (exp_null_npc (e));
 	    MAKE_exp_null (t2, e);
+	    COPY_int (exp_null_npc (e), npc);
 	    break;
 	}
 	case exp_zero_tag : {
