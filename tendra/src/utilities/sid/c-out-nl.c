@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -94,7 +94,7 @@ c_output_save_non_locals_1(COutputInfoP info,
 {
     OStreamP ostream = c_out_info_ostream (info);
     EntryP   entry   = non_local_entry_get_initialiser (non_local);
-	
+
     if (entry) {
 		EntryP      type;
 		BoolT       reference;
@@ -110,7 +110,7 @@ c_output_save_non_locals_1(COutputInfoP info,
 		TypeTupleT  args;
 		TypeTupleT  result_args;
 		SaveRStackT state;
-		
+
 		c_output_key_message (info, "/* BEGINNING OF INITIALISER: ", key,
 							  " */", indent);
 		c_output_open (info, indent);
@@ -155,7 +155,7 @@ c_output_restore_non_locals_1(EntryP from,
     COutputInfoP     info    = closure->info;
     SaveRStackP      state   = closure->state;
     unsigned         indent  = closure->indent;
-	
+
     c_output_assign (info, to, from, state, state, indent);
 }
 
@@ -166,7 +166,7 @@ c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
 {
     OStreamP       ostream = c_out_info_ostream (info);
     NonLocalEntryP non_local;
-	
+
     for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		if (!c_out_info_get_split (info)) {
@@ -186,7 +186,7 @@ c_output_declare_non_locals(COutputInfoP info,
 {
     OStreamP       ostream = c_out_info_ostream (info);
     NonLocalEntryP non_local;
-	
+
     for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		write_cstring (ostream, "extern ");
@@ -212,11 +212,11 @@ c_output_save_non_locals(COutputInfoP info,
     NonLocalEntryP non_local;
     SaveRStackT    state;
     SaveRStackT    non_local_state;
-	
+
     for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		EntryP entry = table_add_generated_name (table);
-		
+
 		output_indent (c_out_info_info (info), indent);
 		c_output_mapped_key (info, non_local->type);
 		write_char (ostream, ' ');
@@ -236,7 +236,7 @@ c_output_save_non_locals(COutputInfoP info,
 		EntryP entry = rstack_get_translation (&non_local_state,
 											   non_local->name, &type,
 											   &reference);
-		
+
 		ASSERT ((entry != NIL (EntryP)) && (type == non_local->type) &&
 				(!reference));
 		c_output_assign (info, non_local->name, entry, &state, &state, indent);
@@ -257,7 +257,7 @@ c_output_restore_non_locals(COutputInfoP info,
 {
     NonLocalClosureT closure;
     SaveRStackT      state;
-	
+
     rstack_save_state (rstack, &state);
     closure.info   = info;
     closure.state  = &state;

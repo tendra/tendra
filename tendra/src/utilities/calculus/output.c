@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -366,7 +366,7 @@ output(char *s, ...)
     char c;
     va_list args;
     char nbuff [100];
-	
+
 #if FS_STDARG
     va_start (args, s);
 #else
@@ -374,13 +374,13 @@ output(char *s, ...)
     va_start (args);
     s = va_arg (args, char *);
 #endif
-	
+
     while (c = *(s++), c != 0) {
 		if (c == '%') {
 			char *s0 = s;
 			c = *(s++);
 			switch (c) {
-				
+
 			case 'A' : {
 				/* Arguments */
 				c = *(s++);
@@ -405,7 +405,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'C' : {
 				/* Components */
 				c = *(s++);
@@ -449,7 +449,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'E' : {
 				/* Enumerations */
 				c = *(s++);
@@ -508,7 +508,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'F' : {
 				/* Fields */
 				c = *(s++);
@@ -533,7 +533,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'I' : {
 				/* Identities */
 				c = *(s++);
@@ -568,7 +568,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'M' : {
 				/* Maps */
 				c = *(s++);
@@ -593,7 +593,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'P' : {
 				/* Primitives */
 				c = *(s++);
@@ -628,7 +628,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'S' : {
 				/* Structures */
 				c = *(s++);
@@ -655,7 +655,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'T' : {
 				/* Types */
 				c = *(s++);
@@ -688,7 +688,7 @@ output(char *s, ...)
 				}
 				goto bad_format;
 			}
-				
+
 			case 'U' : {
 				/* Unions */
 				c = *(s++);
@@ -733,7 +733,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'V' : {
 				/* %V -> overall version */
 				int v1 = algebra->major_no;
@@ -742,13 +742,13 @@ output(char *s, ...)
 				output_string (nbuff);
 				break;
 			}
-				
+
 			case 'X' : {
 				/* %X -> overall name */
 				output_string (algebra->name);
 				break;
 			}
-				
+
 			case 'Z' : {
 				c = *(s++);
 				if (c == 'V') {
@@ -762,13 +762,13 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 'b' : {
 				/* %b -> backspace */
 				if (output_posn) output_posn--;
 				break;
 			}
-				
+
 			case 'd' : {
 				/* %d -> integer (extra argument) */
 				if (have_varargs) {
@@ -779,7 +779,7 @@ output(char *s, ...)
 				}
 				goto bad_format;
 			}
-				
+
 			case 'e' : {
 				/* %e -> evaluated string (extra argument) */
 				if (have_varargs) {
@@ -789,7 +789,7 @@ output(char *s, ...)
 				}
 				goto bad_format;
 			}
-				
+
 			case 'n' : {
 				/* %n -> number (extra argument) */
 				if (have_varargs) {
@@ -800,7 +800,7 @@ output(char *s, ...)
 				}
 				goto bad_format;
 			}
-				
+
 			case 'p' : {
 				/* Pragmas */
 				c = *(s++);
@@ -815,7 +815,7 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case 's' : {
 				/* %s -> string (extra argument) */
 				if (have_varargs) {
@@ -825,7 +825,7 @@ output(char *s, ...)
 				}
 				goto bad_format;
 			}
-				
+
 			case 't' : {
 				/* %t[0-9]* -> tab */
 				int t = 0;
@@ -836,14 +836,14 @@ output(char *s, ...)
 				while (column < t) output_char ('\t');
 				break;
 			}
-				
+
 			case 'u' : {
 				/* %u -> unique */
 				sprintf_v (nbuff, "%d", unique);
 				output_string (nbuff);
 				break;
 			}
-				
+
 			case 'x' : {
 				/* Expression tokens */
 				c = *(s++);
@@ -862,37 +862,37 @@ output(char *s, ...)
 				}
 				break;
 			}
-				
+
 			case '0' : {
 				/* %0 -> x<unique>_ */
 				sprintf_v (nbuff, "x%d_", unique);
 				output_string (nbuff);
 				break;
 			}
-				
+
 			case '%' : {
 				/* %% -> '%' */
 				output_string ("%");
 				break;
 			}
-				
+
 			case '@' : {
 				/* %@ -> '@' */
 				output_string ("@");
 				break;
 			}
-				
+
 			case '\n' : {
 				/* %\n -> ignored newline */
 				break;
 			}
-				
+
 				misplaced_arg : {
 					error (ERROR_SERIOUS,
 						   "Misplaced formatting string '%%%.2s'", s0);
 					break;
 				}
-				
+
 			default :
 				bad_format : {
 					error (ERROR_SERIOUS,
@@ -964,7 +964,7 @@ open_file(char *dir, char *nm, char *suff)
 		IGNORE printf ("Creating %s ...\n", buff);
     }
     column = 0;
-	
+
     if (output_c_code) {
 		/* Set up protection macro */
 		char *tok = "";
@@ -979,7 +979,7 @@ open_file(char *dir, char *nm, char *suff)
 			}
 			*p = c;
 		}
-		
+
 		/* Print file header */
 		print_comment ();
 		output ("#ifndef %s\n", buff);

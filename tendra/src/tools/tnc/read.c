@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -95,20 +95,20 @@ read_token(node *p, sortname s)
     construct *v;
     tok_info *info;
     boolean in_brackets = 0;
-	
+
     /* Check bracket (1) */
     read_word ();
     if (!func_input && word_type == INPUT_OPEN) {
 		in_brackets = 1;
 		read_word ();
     }
-	
+
     /* Read token identifier */
     if (word_type != INPUT_WORD) {
 		input_error ("Token identifier expected");
 		return;
     }
-	
+
     /* Check bracket (2) */
     if (func_input) {
 		wtemp = temp_copy (word);
@@ -121,7 +121,7 @@ read_token(node *p, sortname s)
     } else {
 		wtemp = word;
     }
-	
+
     /* Look up token */
     v = search_var_hash (wtemp, SORT_token);
     if (v == null) {
@@ -146,12 +146,12 @@ read_token(node *p, sortname s)
 		return;
     }
     adjust_token (v);
-	
+
     /* Decode arguments */
     p->son = new_node ();
     p->son->cons = v;
     if (ra) p->son->son = read_node (ra);
-	
+
     /* Check end */
     if (in_brackets) {
 		read_word ();
@@ -187,14 +187,14 @@ static node
     construct *v;
     high_sort *h;
     tok_info *info;
-	
+
     /* Read token identifier */
     read_word ();
     if (word_type != INPUT_WORD) {
 		input_error ("Token identifier expected");
 		return (null);
     }
-	
+
     /* Look up token */
     v = search_var_hash (word, SORT_token);
     if (v == null) {
@@ -202,7 +202,7 @@ static node
 		return (null);
     }
     info = get_tok_info (v);
-	
+
     /* Check consistency */
     h = high_sorts + high_no (s);
     if (h->res == info->res) {
@@ -218,7 +218,7 @@ static node
     if (!ok) {
 		input_error ("Token %s has incorrect sort", v->name);
     }
-	
+
     /* Return the construct */
     p = new_node ();
     p->cons = v;
@@ -382,7 +382,7 @@ static node
     construct *cons;
     read_func fn = null;
     boolean in_brackets = 0;
-	
+
     /* Find the corresponding sort name */
     if (str [1] == '&') {
 		/* Introduced variable */
@@ -416,22 +416,22 @@ static node
 	    break;
 	}
     }
-	
+
     /* Read the next word */
     read_word ();
-	
+
     /* Check for blanks */
     if (word_type == INPUT_BLANK && !strict) {
 		word_type = INPUT_BLANK_FIRST;
 		return (null);
     }
-	
+
     /* Check for bars */
     if (word_type == INPUT_BAR && !strict) {
 		word_type = INPUT_BAR_FIRST;
 		return (null);
     }
-	
+
     /* Deal with strings */
     if (s == SORT_tdfstring) {
 		if (word_type == INPUT_STRING) {
@@ -476,7 +476,7 @@ static node
 		if (strict) input_error ("String expected");
 		return (null);
     }
-	
+
     /* Deal with numbers */
     if (word_type == INPUT_NUMBER) {
 		boolean negate = 0;
@@ -493,7 +493,7 @@ static node
 			p->cons->sortnum = SORT_tdfint;
 			p->cons->name = string_copy_aux (word);
 		}
-		
+
 		switch (s) {
 	    case SORT_tdfint : {
 			if (negate) {
@@ -532,7 +532,7 @@ static node
 	    }
 		}
     }
-	
+
     /* Deal with strings */
     if (word_type == INPUT_STRING) {
 		if (s == SORT_string) {
@@ -549,25 +549,25 @@ static node
 			return (q);
 		}
     }
-	
+
     /* That was the last chance for numbers */
     if (fn == null) {
 		if (strict) input_error ("Number expected");
 		return (null);
     }
-	
+
     /* Check for brackets (1) */
     if (!func_input && word_type == INPUT_OPEN) {
 		in_brackets = 1;
 		read_word ();
     }
-	
+
     /* The next word should be the identifier */
     if (word_type != INPUT_WORD) {
 		if (strict) input_error ("%s expected", sort_name (s));
 		return (null);
     }
-	
+
     /* Check for brackets (2) */
     if (func_input) {
 		wtemp = temp_copy (word);
@@ -580,7 +580,7 @@ static node
     } else {
 		wtemp = word;
     }
-	
+
     if (s == SORT_string && streq (word, MAKE_STRING)) {
 		node *q;
 		p = new_node ();
@@ -595,7 +595,7 @@ static node
 		q->son = p;
 		return (q);
     }
-	
+
     /* Look up construct */
     cons = search_cons_hash (wtemp, s);
     if (cons) {
@@ -659,7 +659,7 @@ static node
 			}
 		}
     }
-	
+
     /* Check end of construct */
     if (in_brackets) {
 		read_word ();
@@ -695,14 +695,14 @@ adjust_scope(node *p, int end)
 		construct *v = p->cons;
 		sortname s = v->sortnum;
 		switch (s) {
-			
+
 	    case SORT_repeat :
 	    case SORT_option : {
 			/* Scan repeated and optional arguments */
 			if (p->son) adjust_scope (p->son, end);
 			break;
 	    }
-			
+
 	    case SORT_al_tag :
 	    case SORT_label :
 	    case SORT_tag : {
@@ -798,21 +798,21 @@ node
     node *p, *q = null, *qe = null;
     while (c = *str, (c != 0 && c != ']')) {
 		switch (c) {
-			
+
 	    case '{' : {
 			/* Start of scope */
 			adjust_scope (q, 0);
 			p = null;
 			break;
 	    }
-			
+
 	    case '}' : {
 			/* End of scope */
 			adjust_scope (q, 1);
 			p = null;
 			break;
 	    }
-			
+
 	    case '[' :
 	    case '|' :
 	    case '&' :
@@ -821,7 +821,7 @@ node
 			p = null;
 			break;
 	    }
-			
+
 	    case '*' :
 	    case '!' : {
 			/* Repeats */
@@ -897,7 +897,7 @@ node
 			}
 			break;
 	    }
-			
+
 	    case '?' : {
 			/* Optionals */
 			node *po;
@@ -930,7 +930,7 @@ node
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case '@' : {
 			/* Conditionals */
 			str += 2;
@@ -940,7 +940,7 @@ node
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case 'T' : {
 			/* Tokens */
 			sortname sn;
@@ -948,7 +948,7 @@ node
 			p = read_token_name (sn);
 			break;
 	    }
-			
+
 	    default : {
 			/* Simple sort */
 			p = read_node_aux (str, 1);

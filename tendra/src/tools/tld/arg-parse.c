@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -79,7 +79,7 @@ arg_parse_intern_descriptions(ArgListP arg_list)
     while ((arg_list->name != NIL (CStringP)) ||
 		   (arg_list->short_name != '\0')) {
 		EStringP estring = error_lookup_string (arg_list->u.name);
-		
+
 		ASSERT (estring != NIL (EStringP));
 		arg_list->u.message = estring;
 		arg_list ++;
@@ -93,13 +93,13 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
     int       tmp_argc = argc;
     char    **tmp_argv = argv;
     ArgUsageT closure;
-	
+
     closure.usage    = error_string_contents (usage);
     closure.arg_list = arg_list;
     while (tmp_argc) {
 		CStringP option = (tmp_argv [0]);
 		char     c      = (option [0]);
-		
+
 		if ((((c == '-') && (option [1] == '-')) ||
 			 ((c == '+') && (option [1] == '+'))) && (option [2] == '\0')) {
 			return (argc - tmp_argc + 1);
@@ -109,16 +109,16 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			ArgListP chosen    = NIL (ArgListP);
 			unsigned matches   = 0;
 			CStringP immediate = NIL (CStringP);
-			
+
 			while ((tmp_list->name != NIL (CStringP)) ||
 				   (tmp_list->short_name != '\0')) {
 				CStringP opt = (tmp_list->name);
 				CStringP arg = (&(option [2]));
-				
+
 				if (opt != NIL (CStringP)) {
 					char optch;
 					char argch;
-					
+
 					do {
 						optch = (*opt ++);
 						argch = (*arg ++);
@@ -235,11 +235,11 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			UNREACHED;
 		} else if ((c == '-') || (c == '+')) {
 			CStringP opt = &(option [1]);
-			
+
 			while ((opt != NIL (CStringP)) && (*opt != '\0')) {
 				ArgListP tmp_list = arg_list;
 				ArgListP chosen   = NIL (ArgListP);
-				
+
 				while ((tmp_list->name != NIL (CStringP)) ||
 					   (tmp_list->short_name != '\0')) {
 					if (tmp_list->short_name == *opt) {
@@ -344,12 +344,12 @@ write_arg_usage(OStreamP ostream, ArgUsageP closure)
 {
     CStringP usage    = (closure->usage);
     ArgListP arg_list = (closure->arg_list);
-	
+
     write_cstring (ostream, usage);
     while ((arg_list->name != NIL (CStringP)) ||
 		   (arg_list->short_name != '\0')) {
 		CStringP desc = error_string_contents (arg_list->u.message);
-		
+
 		if (arg_list->name) {
 			write_newline (ostream);
 			write_cstring (ostream, "    {--|++}");

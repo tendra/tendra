@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -184,21 +184,21 @@ check_names(int c)
     int line = crt_line_no;
     CONST char *file = crt_file_name;
     all_names = NULL;
-	
+
     LOOP_PRIMITIVE {
 		id = DEREF_ptr (prim_id (CRT_PRIMITIVE));
 		split_id (id, &na, &nb);
 		if (c) make_name (NAME_TYPE, na, empty, empty);
 		make_name (NAME_TYPE_AUX, nb, empty, empty);
     }
-	
+
     LOOP_IDENTITY {
 		id = DEREF_ptr (ident_id (CRT_IDENTITY));
 		split_id (id, &na, &nb);
 		if (c) make_name (NAME_TYPE, na, empty, empty);
 		make_name (NAME_TYPE_AUX, nb, empty, empty);
     }
-	
+
     LOOP_ENUM {
 		id = DEREF_ptr (en_id (CRT_ENUM));
 		split_id (id, &na, &nb);
@@ -209,7 +209,7 @@ check_names(int c)
 			make_name (NAME_ENUM_CONST, na, ne, empty);
 		}
     }
-	
+
     LOOP_STRUCTURE {
 		id = DEREF_ptr (str_id (CRT_STRUCTURE));
 		split_id (id, &na, &nb);
@@ -220,7 +220,7 @@ check_names(int c)
 			make_name (NAME_STRUCT_CMP, na, nc, empty);
 		}
     }
-	
+
     LOOP_UNION {
 		id = DEREF_ptr (un_id (CRT_UNION));
 		split_id (id, &na, &nb);
@@ -247,7 +247,7 @@ check_names(int c)
 			}
 		}
     }
-	
+
     crt_file_name = file;
     crt_line_no = line;
     return;

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -122,7 +122,7 @@ disk_read_union(void)
 		int al = DEREF_int (fld_flag (CRT_FIELD));
 		output ("\t    case %UM_%FN_tag : {\n");
 		LOOP_FIELD_COMPONENT output ("\t\t%CT %CN ;\n");
-		
+
 		/* Deal with aliasing */
 		if (al) {
 			output ("\t\tunsigned alias_ = READ_ALIAS () ;\n");
@@ -137,7 +137,7 @@ disk_read_union(void)
 				output ("\t\tNEW_ALIAS_%UM_%FN (x_, alias_) ;\n");
 			}
 		}
-		
+
 		/* Read the components */
 		LOOP_UNION_COMPONENT {
 			TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
@@ -147,7 +147,7 @@ disk_read_union(void)
 			TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
 			output ("\t\t%CN = READ_%TI () ;\n", t);
 		}
-		
+
 		/* Assign components into x_ */
 		if (al == 2) {
 			output ("\t\tUNIFY_%UM_%FN (");
@@ -225,7 +225,7 @@ disk_read_def(char *dir)
 {
     open_file (dir, READ_PREFIX, DEF_SUFFIX);
     print_include ();
-	
+
     comment ("Disk reading function declarations");
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -242,7 +242,7 @@ disk_read_def(char *dir)
 		}
     }
     output ("\n");
-	
+
     /* Function definitions */
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -256,10 +256,10 @@ disk_read_def(char *dir)
 			output ("()\n");
 			output ("{\n");
 			output ("    %TT x_ ;\n", t);
-			
+
 			/* Function body */
 			switch (tag) {
-				
+
 			case type_enumeration_tag : {
 				ENUM_P p = DEREF_ptr (type_enumeration_en (t0));
 				LOOP_ENUM {
@@ -270,7 +270,7 @@ disk_read_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_structure_tag : {
 				STRUCTURE_P p = DEREF_ptr (type_structure_struc (t0));
 				LOOP_STRUCTURE {
@@ -281,7 +281,7 @@ disk_read_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_onion_tag : {
 				UNION_P p = DEREF_ptr (type_onion_un (t0));
 				LOOP_UNION {
@@ -292,7 +292,7 @@ disk_read_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_ptr_tag : {
 				TYPE_P s = DEREF_ptr (type_ptr_sub (t0));
 				output ("    if (READ_BITS (1) == 0) {\n");
@@ -303,7 +303,7 @@ disk_read_def(char *dir)
 				output ("    }\n");
 				break;
 			}
-				
+
 			case type_list_tag : {
 				TYPE_P s = DEREF_ptr (type_list_sub (t0));
 				output ("    x_ = NULL_list (%TT) ;\n", s);
@@ -317,7 +317,7 @@ disk_read_def(char *dir)
 				output ("    }\n");
 				break;
 			}
-				
+
 			case type_stack_tag : {
 				TYPE_P s = DEREF_ptr (type_stack_sub (t0));
 				output ("    LIST (%TT) w_ ;\n", s);
@@ -333,7 +333,7 @@ disk_read_def(char *dir)
 				output ("    x_ = STACK_list (w_) ;\n");
 				break;
 			}
-				
+
 			case type_vec_tag : {
 				TYPE_P s = DEREF_ptr (type_vec_sub (t0));
 				output ("    PTR (%TT) y_ ;\n", s);
@@ -347,7 +347,7 @@ disk_read_def(char *dir)
 				output ("    }\n");
 				break;
 			}
-				
+
 			case type_vec_ptr_tag : {
 				TYPE_P s = DEREF_ptr (type_vec_ptr_sub (t0));
 				output ("    VEC (%TT) y_ ;\n", s);
@@ -359,14 +359,14 @@ disk_read_def(char *dir)
 				break;
 			}
 			}
-			
+
 			/* Function trailer */
 			output ("    return (x_) ;\n");
 			output ("}\n\n");
 			output ("#endif\n\n\n", t);
 		}
     }
-	
+
     close_file ();
     return;
 }
@@ -440,7 +440,7 @@ disk_write_union(void)
 			output ("\t\t%CT %CN ;\n");
 			have_cmp = 1;
 		}
-		
+
 		/* Deal with aliasing */
 		if (al) {
 			output ("\t\tunsigned alias_ = GET_ALIAS_%UM_%FN (x_) ;\n");
@@ -454,7 +454,7 @@ disk_write_union(void)
 			output ("\t\tWRITE_ALIAS (alias_) ;\n");
 			output ("\t\tWRITE_BITS (1, (unsigned) 1) ;\n");
 		}
-		
+
 		/* Deconstruct union */
 		if (have_cmp) {
 			output ("\t\tDECONS_%UM_%FN (");
@@ -462,7 +462,7 @@ disk_write_union(void)
 			LOOP_FIELD_COMPONENT output ("%CN, ");
 			output (" x_) ;\n");
 		}
-		
+
 		/* Process further if necessary */
 		if (al == 2) {
 			output ("\t\tALIAS_%UM_%FN (");
@@ -470,7 +470,7 @@ disk_write_union(void)
 			LOOP_FIELD_COMPONENT output ("%CN, ");
 			output (" x_) ;\n");
 		}
-		
+
 		/* Write out components */
 		LOOP_UNION_COMPONENT {
 			TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
@@ -501,7 +501,7 @@ disk_write_def(char *dir)
 {
     open_file (dir, WRITE_PREFIX, DEF_SUFFIX);
     print_include ();
-	
+
     comment ("Disk writing function declarations");
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -518,7 +518,7 @@ disk_write_def(char *dir)
 		}
     }
     output ("\n");
-	
+
     /* Function definitions */
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -531,10 +531,10 @@ disk_write_def(char *dir)
 			output ("static void WRITE_%TI\n", t);
 			output ("(%TT x_)\n", t);
 		       	output ("{\n");
-			
+
 			/* Function body */
 			switch (tag) {
-				
+
 			case type_enumeration_tag : {
 				ENUM_P p = DEREF_ptr (type_enumeration_en (t0));
 				LOOP_ENUM {
@@ -545,7 +545,7 @@ disk_write_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_structure_tag : {
 				STRUCTURE_P p = DEREF_ptr (type_structure_struc (t0));
 				LOOP_STRUCTURE {
@@ -556,7 +556,7 @@ disk_write_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_onion_tag : {
 				UNION_P p = DEREF_ptr (type_onion_un (t0));
 				LOOP_UNION {
@@ -567,7 +567,7 @@ disk_write_def(char *dir)
 				}
 				break;
 			}
-				
+
 			case type_ptr_tag : {
 				TYPE_P s = DEREF_ptr (type_ptr_sub (t0));
 				output ("    if (IS_NULL_ptr (x_)) {\n");
@@ -580,7 +580,7 @@ disk_write_def(char *dir)
 				output ("    }\n");
 				break;
 			}
-				
+
 			case type_list_tag : {
 				TYPE_P s = DEREF_ptr (type_list_sub (t0));
 				output ("    while (!IS_NULL_list (x_)) {\n");
@@ -593,7 +593,7 @@ disk_write_def(char *dir)
 				output ("    WRITE_BITS (1, (unsigned) 0) ;\n");
 				break;
 			}
-				
+
 			case type_stack_tag : {
 				TYPE_P s = DEREF_ptr (type_stack_sub (t0));
 				output ("    LIST (%TT) w_ = LIST_stack (x_) ;\n", s);
@@ -607,7 +607,7 @@ disk_write_def(char *dir)
 				output ("    WRITE_BITS (1, (unsigned) 0) ;\n");
 				break;
 			}
-				
+
 			case type_vec_tag : {
 				TYPE_P s = DEREF_ptr (type_vec_sub (t0));
 				output ("    %X_dim n_ = DIM_vec (x_);\n");
@@ -622,7 +622,7 @@ disk_write_def(char *dir)
 				output ("    }\n");
 				break;
 			}
-				
+
 			case type_vec_ptr_tag : {
 				TYPE_P s = DEREF_ptr (type_vec_ptr_sub (t0));
 				output ("    PTR (%TT) y_ = PTR_vec_ptr (x_) ;\n", s);
@@ -632,7 +632,7 @@ disk_write_def(char *dir)
 				break;
 			}
 			}
-			
+
 			/* Function trailer */
 			output ("    return ;\n");
 			output ("}\n\n");

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -80,13 +80,13 @@ print_simple_tok(char *nm, char *ns, int e,
 {
     /* SIZE token */
     output ("%pt %xc : SIZE (%e) : SIZE_%e #\n\n", nm, ns);
-	
+
     /* Assign token */
     output ("%pt PROC (\\\n");
     output ("\t%xr : PTR (%e) :,\\\n\t%xr : %e :\\\n   ) ", nm, nm);
     output (e ? "%xr : void :" : "STATEMENT");
     output (" COPY_%e #\n\n", ns);
-	
+
     /* Dereference token */
     output ("%pt PROC (\\\n");
     output ("\t%xr : PTR (%e) :", nm);
@@ -96,35 +96,35 @@ print_simple_tok(char *nm, char *ns, int e,
 		output (",\\\n\t%xl : %e :\\\n   ) STATEMENT", nm);
     }
     output (" DEREF_%e #\n\n", ns);
-	
+
     if (lst) {
 		/* CONS token */
 		output ("%pt PROC (\\\n");
 		output ("\t%xr : %e :,\\\n\t%xr : LIST (%e) :,\\\n", nm, nm);
 		output ("\t%xl : LIST (%e) :\\\n", nm);
 		output ("   ) STATEMENT CONS_%e #\n\n", ns);
-		
+
 		/* UN_CONS token */
 		output ("%pt PROC (\\\n");
 		output ("\t%xl : %e :,\\\n", nm);
 		output ("\t%xl : LIST (%e) :,\\\n", nm);
 		output ("\t%xr : LIST (%e) :\\\n", nm);
 		output ("   ) STATEMENT UN_CONS_%e #\n\n", ns);
-		
+
 		/* DESTROY_CONS token */
 		output ("%pt PROC (\\\n");
 		output ("\t%xr : DESTROYER :,\\\n\t%xl : %e :,\\\n", nm);
 		output ("\t%xl : LIST (%e) :,\\\n", nm);
 		output ("\t%xr : LIST (%e) :\\\n", nm);
 		output ("   ) STATEMENT DESTROY_CONS_%e #\n\n", ns);
-		
+
 		if (allow_stack) {
 			/* PUSH token */
 			output ("%pt PROC (\\\n");
 			output ("\t%xr : %e :,\\\n", nm);
 			output ("\t%xl : STACK (%e) :\\\n", nm);
 			output ("   ) STATEMENT PUSH_%e #\n\n", ns);
-			
+
 			/* POP token */
 			output ("%pt PROC (\\\n");
 			output ("\t%xl : %e :,\\\n", nm);
@@ -132,7 +132,7 @@ print_simple_tok(char *nm, char *ns, int e,
 			output ("   ) STATEMENT POP_%e #\n\n", ns);
 		}
     }
-	
+
     /* Interface commands */
     output ("%pi SIZE_%e COPY_%e DEREF_%e\n", ns, ns, ns);
     if (lst) {
@@ -157,7 +157,7 @@ print_type_ops_tok(char *op, char *nm, int e)
     /* Size token */
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xc : SIZE (%s (t)) : SIZE_%s #\n\n", op, nm);
-	
+
     /* Assign token */
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (%s (t)) : e1,\\\n", op);
@@ -165,7 +165,7 @@ print_type_ops_tok(char *op, char *nm, int e)
     output ("\tEXP e1, EXP e2\\\n    } ");
     output (e ? "%xr : void :" : "STATEMENT");
     output (" COPY_%s #\n\n", nm);
-	
+
     /* Dereference token */
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (%s (t)) : e", op);
@@ -178,7 +178,7 @@ print_type_ops_tok(char *op, char *nm, int e)
 		output ("    } STATEMENT ");
     }
     output ("DEREF_%s #\n\n", nm);
-	
+
     /* CONS token */
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : %s (t) : e2,\\\n", op);
@@ -186,7 +186,7 @@ print_type_ops_tok(char *op, char *nm, int e)
     output ("\t%xl : LIST (%s (t)) : e4 |\\\n", op);
     output ("\tEXP e2, EXP e3, EXP e4\\\n");
     output ("    } STATEMENT CONS_%s #\n\n", nm);
-	
+
     /* UN_CONS token */
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xl : %s (t) : e2,\\\n", op);
@@ -194,7 +194,7 @@ print_type_ops_tok(char *op, char *nm, int e)
     output ("\t%xr : LIST (%s (t)) : e4 |\\\n", op);
     output ("\tEXP e2, EXP e3, EXP e4\\\n");
     output ("    } STATEMENT UN_CONS_%s #\n\n", nm);
-	
+
     /* DESTROY_CONS token */
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : DESTROYER : e1,\\\n");
@@ -203,7 +203,7 @@ print_type_ops_tok(char *op, char *nm, int e)
     output ("\t%xr : LIST (%s (t)) : e4 |\\\n", op);
     output ("\tEXP e1, EXP e2, EXP e3, EXP e4\\\n");
     output ("    } STATEMENT DESTROY_CONS_%s #\n\n", nm);
-	
+
     if (allow_stack) {
 		/* PUSH token */
 		output ("%pt PROC {\\\n");
@@ -211,7 +211,7 @@ print_type_ops_tok(char *op, char *nm, int e)
 		output ("\t%xl : STACK (%s (t)) : e3 |\\\n", op);
 		output ("\tEXP e2, EXP e3\\\n");
 		output ("    } STATEMENT PUSH_%s #\n\n", nm);
-		
+
 		/* POP token */
 		output ("%pt PROC {\\\n");
 		output ("\tTYPE t, %xl : %s (t) : e2,\\\n", op);
@@ -219,7 +219,7 @@ print_type_ops_tok(char *op, char *nm, int e)
 		output ("\tEXP e2, EXP e3\\\n");
 		output ("    } STATEMENT POP_%s #\n\n", nm);
     }
-	
+
     /* Interface commands */
     output ("%pi SIZE_%s COPY_%s DEREF_%s\n", nm, nm, nm);
     output ("%pi CONS_%s UN_CONS_%s DESTROY_CONS_%s\n", nm, nm, nm);
@@ -246,7 +246,7 @@ print_types_tok(void)
 		if (!streq (pn, pd)) output ("typedef %PD %PN ;\n");
     }
     output ("\n\n");
-	
+
     comment ("Basic types");
     output ("#ifndef %X_DESTR_DEFINED\n");
     output ("#define %X_DESTR_DEFINED\n");
@@ -267,23 +267,23 @@ print_types_tok(void)
     if (allow_stack) output ("STACK ");
     if (allow_vec) output ("%X_dim VEC VEC_PTR ");
     output ("SIZE\n\n\n");
-	
+
     comment ("Enumeration type definitions");
     LOOP_ENUM {
 		output ("%pt VARIETY %EN #\n");
 		output ("%pi %EN\n");
     }
     output ("\n\n");
-	
+
     comment ("Union type definitions");
     LOOP_UNION {
 		output ("%pt TYPE %UN #\n");
 		output ("%pi %UN\n");
     }
     output ("\n\n");
-	
+
     print_struct_defn ();
-	
+
     comment ("Function declarations");
     output ("extern void destroy_%X () ;\n");
     output ("extern void dummy_destroy_%X () ;\n");
@@ -310,41 +310,41 @@ print_ptr_tok(void)
     output ("\tTYPE t, %xr : PTR (t) : e1, %xr : SIZE (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } %xr : PTR (t) : STEP_ptr #\n\n");
-	
+
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xc : PTR (t) : NULL_ptr #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : int : IS_NULL_ptr #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (t) : e1, %xr : PTR (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } %xr : int : EQ_ptr #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : SIZE (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : PTR (t) : MAKE_ptr #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (t) : e1, %xr : SIZE (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } %xr : void : DESTROY_ptr #\n\n");
-	
+
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xr : PTR (t) : UNIQ_ptr #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : void : DESTROY_UNIQ_ptr #\n\n");
-	
+
     output ("%pi STEP_ptr NULL_ptr IS_NULL_ptr EQ_ptr\n");
     output ("%pi MAKE_ptr DESTROY_ptr\n\n");
-	
+
     output ("#ifdef %X_IO_ROUTINES\n");
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (t) : e |\\\n");
@@ -352,7 +352,7 @@ print_ptr_tok(void)
     output ("    } %xr : void * : VOIDSTAR_ptr #\n");
     output ("%pi VOIDSTAR_ptr\n");
     output ("#endif\n\n");
-	
+
     print_type_ops_tok ("PTR", "ptr", 1);
     return;
 }
@@ -372,68 +372,68 @@ print_list_tok(void)
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : PTR (t) : HEAD_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : PTR (LIST (t)) : PTR_TAIL_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : LIST (t) : TAIL_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1 |\\\n");
     output ("\tEXP e1\\\n");
     output ("    } %xr : unsigned : LENGTH_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1 |\\\n");
     output ("\tEXP e1\\\n");
     output ("    } %xr : LIST (t) : END_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1 |\\\n");
     output ("\tEXP e1\\\n");
     output ("    } %xr : LIST (t) : REVERSE_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1, %xr : LIST (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } %xr : LIST (t) : APPEND_list #\n\n");
-	
+
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xc : LIST (t) : NULL_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : int : IS_NULL_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1, %xr : LIST (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } %xr : int : EQ_list #\n\n");
-	
+
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xr : LIST (t) : UNIQ_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : void : DESTROY_UNIQ_list #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1, %xr : SIZE (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } STATEMENT DESTROY_list #\n\n");
-	
+
     output ("%pi HEAD_list PTR_TAIL_list TAIL_list\n");
     output ("%pi LENGTH_list END_list REVERSE_list APPEND_list\n");
     output ("%pi NULL_list IS_NULL_list EQ_list\n");
     output ("%pi UNIQ_list DESTROY_UNIQ_list DESTROY_list\n\n");
-	
+
     output ("#ifdef %X_IO_ROUTINES\n");
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e |\\\n");
@@ -441,7 +441,7 @@ print_list_tok(void)
     output ("    } %xr : void * : VOIDSTAR_list #\n");
     output ("%pi VOIDSTAR_list\n");
     output ("#endif\n\n");
-	
+
     print_type_ops_tok ("LIST", "list", 1);
     return;
 }
@@ -459,24 +459,24 @@ print_stack_tok(void)
     comment ("Stack token specifications");
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xc : STACK (t) : NULL_stack #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : STACK (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : int : IS_NULL_stack #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : STACK (t) : e1 |\\\n");
     output ("\tEXP e1\\\n");
     output ("    } %xr : LIST (t) : LIST_stack #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : LIST (t) : e1 |\\\n");
     output ("\tEXP e1\\\n");
     output ("    } %xr : STACK (t) : STACK_list #\n\n");
-	
+
     output ("%pi NULL_stack IS_NULL_stack LIST_stack STACK_list\n\n");
-	
+
     print_type_ops_tok ("STACK", "stack", 1);
     return;
 }
@@ -496,39 +496,39 @@ print_vec_tok(void)
     output ("\tTYPE t, %xr : VEC (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : %X_dim : DIM_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (VEC (t)) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : PTR (t) : PTR_ptr_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : PTR (VEC (t)) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : %X_dim : DIM_ptr_vec #\n\n");
-	
+
     output ("%pt PROC (\\\n\tTYPE t\\\n");
     output ("   ) %xr : VEC (t) : NULL_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : SIZE (t) : e1,\\\n");
     output ("\t%xr : %X_dim : e2,\\\n");
     output ("\t%xl : VEC (t) : e3 |\\\n");
     output ("\tEXP e1, EXP e2, EXP e3\\\n");
     output ("    } STATEMENT MAKE_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : VEC (t) : e1, %xr : SIZE (t) : e2 |\\\n");
     output ("\tEXP e1, EXP e2\\\n");
     output ("    } STATEMENT DESTROY_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : VEC (t) : e1,\\\n");
     output ("\t%xr : SIZE (t) : e2, %xr : int : e3,\\\n");
     output ("\t%xr : int : e4, %xl : VEC (t) : e5 |\\\n");
     output ("\tEXP e1, EXP e2, EXP e3, EXP e4, EXP e5\\\n");
     output ("    } STATEMENT TRIM_vec #\n\n");
-	
+
     output ("%pi DIM_vec PTR_ptr_vec DIM_ptr_vec\n");
     output ("%pi NULL_vec MAKE_vec DESTROY_vec TRIM_vec\n\n");
     print_type_ops_tok ("VEC", "vec", 0);
@@ -551,12 +551,12 @@ print_vec_ptr_tok(void)
     output ("\tTYPE t, %xr : VEC (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : VEC_PTR (t) : VEC_PTR_vec #\n\n");
-	
+
     output ("%pt PROC {\\\n");
     output ("\tTYPE t, %xr : VEC_PTR (t) : e |\\\n");
     output ("\tEXP e\\\n");
     output ("    } %xr : PTR (t) : PTR_vec_ptr #\n\n");
-	
+
     output ("%pi VEC_PTR_vec PTR_vec_ptr\n\n");
     print_type_ops_tok ("VEC_PTR", "vec_ptr", 0);
     return;
@@ -625,7 +625,7 @@ static void
 print_struct_tok(void)
 {
     STRUCTURE_P base = DEREF_ptr (str_base (CRT_STRUCTURE));
-	
+
     comment ("Definitions for structure %SN");
     LOOP_STRUCTURE_COMPONENT {
 		output ("%pt PROC (%xr : PTR (%SN) :) ");
@@ -640,7 +640,7 @@ print_struct_tok(void)
     output ("\t%xr : PTR (%SN) :\\\n");
     output ("   ) STATEMENT MAKE_%SM #\n");
     output ("%pi MAKE_%SM\n\n");
-	
+
     if (!IS_NULL_ptr (base)) {
 		CLASS_ID_P id = DEREF_ptr (str_id (base));
 		char *nt = DEREF_string (cid_name (id));
@@ -650,7 +650,7 @@ print_struct_tok(void)
 		output ("   ) %xr : PTR (%s) : CONVERT_%SM_%s #\n", nt, nm);
 		output ("%pi CONVERT_%SM_%s\n\n", nm);
     }
-	
+
     print_simple_tok ("%SN", "%SM", 0, 1);
     return;
 }
@@ -666,7 +666,7 @@ static void
 print_union_tok(void)
 {
     UNION_P base = DEREF_ptr (un_base (CRT_UNION));
-	
+
     comment ("Definitions for union %UN");
     output ("#define ORDER_%UM ((unsigned) %UO)\n");
     output ("%pt %xc : %UN : NULL_%UM #\n");
@@ -674,7 +674,7 @@ print_union_tok(void)
     output ("%pt PROC (%xr : %UN :, %xr : %UN :) ");
     output ("%xr : int : EQ_%UM #\n");
     output ("%pi NULL_%UM IS_NULL_%UM EQ_%UM\n\n");
-	
+
     if (!IS_NULL_ptr (base)) {
 		CLASS_ID_P id = DEREF_ptr (un_id (base));
 		char *nt = DEREF_string (cid_name (id));
@@ -683,7 +683,7 @@ print_union_tok(void)
 				nt, nm);
 		output ("%pi CONVERT_%UM_%s\n\n", nm);
     }
-	
+
     print_simple_tok ("%UN", "%UM", 1, 1);
     return;
 }
@@ -708,7 +708,7 @@ print_main_tok(char *dir)
     output ("#define %X_SPECIFICATION%t40%d\n", 1);
     output ("#define %X_IMPLEMENTATION%t40%d\n", 0);
     output ("#endif\n\n\n");
-	
+
     print_proto ();
     print_types_tok ();
     print_ptr_tok ();
@@ -721,12 +721,12 @@ print_main_tok(char *dir)
 		print_vec_ptr_tok ();
     }
     print_size_tok ();
-	
+
     LOOP_PRIMITIVE print_prim_tok ();
     LOOP_ENUM print_enum_tok ();
     LOOP_STRUCTURE print_struct_tok ();
     LOOP_UNION print_union_tok ();
-	
+
     if (extra_headers) {
 		output ("#include \"%s_term.h\"\n\n", MAIN_PREFIX);
     }
@@ -779,21 +779,21 @@ static void
 print_field_tok(int rng, int al)
 {
     char *f = (rng ? "%FN_etc" : "%FN");
-	
+
     LOOP_FIELD_COMPONENT {
 		output ("%pt PROC (%xr : %UN :)\\\n");
 		output ("    %xr : PTR (%CT) : ");
 		output ("%UM_%e_%CN #\n", f);
 		output ("%pi %UM_%e_%CN\n\n", f);
     }
-	
+
     /* Component constructor */
     output ("%pt PROC (");
     if (rng) output ("\\\n\t%xr : unsigned :,");
     print_cons_tok_args (0, 1);
     output ("\\\n   ) STATEMENT MAKE_%UM_%e #\n", f);
     output ("%pi MAKE_%UM_%e\n\n", f);
-	
+
     /* Tag modifier */
     if (rng) {
 		output ("%pt PROC (");
@@ -802,7 +802,7 @@ print_field_tok(int rng, int al)
 		output ("\\\n   ) STATEMENT MODIFY_%UM_%e #\n", f);
 		output ("%pi MODIFY_%UM_%e\n\n", f);
     }
-	
+
     /* Component deconstructor */
     if (field_not_empty ()) {
 		output ("%pt PROC (");
@@ -810,14 +810,14 @@ print_field_tok(int rng, int al)
 		output ("\\\n   ) STATEMENT DECONS_%UM_%e #\n", f);
 		output ("%pi DECONS_%UM_%e\n\n", f);
     }
-	
+
     /* Component destructor */
     output ("%pt PROC (");
     output ("\\\n\t%xr : DESTROYER :,");
     print_cons_tok_args (1, 0);
     output ("\\\n   ) STATEMENT DESTROY_%UM_%e #\n", f);
     output ("%pi DESTROY_%UM_%e\n\n", f);
-	
+
     /* Aliasing tokens */
     if (al && !rng) {
 		output ("#ifdef %X_IO_ROUTINES\n\n");
@@ -826,7 +826,7 @@ print_field_tok(int rng, int al)
 		output ("\t%xr : unsigned :\\\n");
 		output ("   ) STATEMENT NEW_ALIAS_%UM_%FN #\n");
 		output ("%pi NEW_ALIAS_%UM_%FN\n\n");
-		
+
 		output ("%pt PROC (%xr : %UN :)\\\n    ");
 		output ("%xr : unsigned : GET_ALIAS_%UM_%FN #\n");
 		output ("%pt PROC (%xr : %UN :, %xr : unsigned :)\\\n    ");
@@ -856,11 +856,11 @@ print_union_ops_tok(char *dir, char *un)
 		output ("#include \"%s%s\"\n", MAIN_PREFIX, MAIN_SUFFIX);
 		output ("#include <%s_ops.h>\n\n", MAIN_PREFIX);
     }
-	
+
     comment ("Operations for union %UN");
     output ("%pt PROC (%xr : %UN :) %xr : unsigned : TAG_%UM #\n");
     output ("%pi TAG_%UM\n\n\n");
-	
+
     /* Operations on common components */
     LOOP_UNION_COMPONENT {
 		comment ("Operations for component %CN of union %UN");
@@ -868,7 +868,7 @@ print_union_ops_tok(char *dir, char *un)
 		output ("    %xr : PTR (%CT) : %UM_%CN #\n");
 		output ("%pi %UM_%CN\n\n");
     }
-	
+
     /* Operations on field components */
     LOOP_UNION_FIELD {
 		int rng = DEREF_int (fld_set (CRT_FIELD));
@@ -882,14 +882,14 @@ print_union_ops_tok(char *dir, char *un)
 			output ("%pi %UM_%FN_etc_tag IS_%UM_%FN_etc\n\n");
 			print_field_tok (rng, al);
 		}
-		
+
 		comment ("Operations for field %FN of union %UN");
 		output ("%pt %xc : unsigned : %UM_%FN_tag #\n");
 		output ("%pt PROC (%xr : %UN :) %xr : int : IS_%UM_%FN #\n");
 		output ("%pi %UM_%FN_tag IS_%UM_%FN\n\n");
 		print_field_tok (0, al);
     }
-	
+
     /* Map tables */
     LOOP_UNION_MAP {
 		int hash = DEREF_int (map_flag (CRT_MAP));
@@ -901,7 +901,7 @@ print_union_ops_tok(char *dir, char *un)
 		output ("\\\n   ) %xr : %MR : %MN_%UM #\n ");
 		output ("%pi %MN_%UM\n\n\n");
     }
-	
+
     /* End of file */
     close_file ();
     return;
@@ -921,7 +921,7 @@ main_action_tok(char *dir)
     int ign = 0;
     output_c_code = 2;
     print_main_tok (dir);
-	
+
     LOOP_UNION {
 		LIST (MAP_P) maps;
 		CLASS_ID_P cid = DEREF_ptr (un_id (CRT_UNION));
@@ -934,7 +934,7 @@ main_action_tok(char *dir)
 			ign = 1;
         }
     }
-	
+
     if (ign) {
 		open_file (dir, IGNORE_PREFIX, DEF_SUFFIX);
 		comment ("Map ignore macros");
@@ -944,7 +944,7 @@ main_action_tok(char *dir)
 		output ("\n");
 		close_file ();
     }
-	
+
     if (extra_asserts) {
 		open_file (dir, ASSERT_PREFIX, DEF_SUFFIX);
 		comment ("Dummy assertion function definitions");

@@ -25,7 +25,7 @@
  *
  *
  *  		 Crown Copyright (c) 1997
- *  
+ *
  *  This TenDRA(r) Computer Program is subject to Copyright
  *  owned by the United Kingdom Secretary of State for Defence
  *  acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *  to other parties and amendment for any purpose not excluding
  *  product development provided that any such use et cetera
  *  shall be deemed to be acceptance of the following conditions:-
- *  
+ *
  *      (1) Its Recipients shall ensure that this Notice is
  *      reproduced upon any copies or amended versions of it;
- *  
+ *
  *      (2) Any amended version of it shall be clearly marked to
  *      show both the nature of and the organisation responsible
  *      for the relevant amendment or amendments;
- *  
+ *
  *      (3) Its onward transfer from a recipient to another
  *      party shall be deemed to be that party's acceptance of
  *      these conditions;
- *  
+ *
  *      (4) DERA gives no warranty or assurance as to its
  *      quality or suitability for any purpose and DERA accepts
  *      no liability whatsoever in relation to any use to which
@@ -150,7 +150,7 @@ output_pass(character *p, int n, int d)
     char *ret = NULL;
     char *args = NULL;
     char *cond = NULL;
-	
+
     /* First pass */
     for (q = p->next ; q != NULL ; q = q->opt) {
 		letter c = q->ch;
@@ -164,7 +164,7 @@ output_pass(character *p, int n, int d)
 			classes++;
 		}
     }
-	
+
     /* Deal with cases */
     if (cases || classes) {
 		int w1 = (n == 0 && !in_pre_pass);
@@ -186,7 +186,7 @@ output_pass(character *p, int n, int d)
 			fputs_v ("restart : {\n", out);
 			d++;
 		}
-		
+
 		if (cases > 4) {
 			/* Small number of cases */
 			output_indent (d);
@@ -225,7 +225,7 @@ output_pass(character *p, int n, int d)
 				fputs_v ("}\n", out);
 			}
 		}
-		
+
 		if (classes) {
 			/* Complex cases */
 			int started = 0;
@@ -263,7 +263,7 @@ output_pass(character *p, int n, int d)
 			fprintf_v (out, "unread_char (c%d) ;\n", n);
 		}
     }
-	
+
     /* Deal with return */
     if (ret) {
 		if (in_pre_pass) {
@@ -349,10 +349,10 @@ output_main(unsigned opts)
 {
     int c, n;
     int no;
-	
+
     CONST char *hex;
     CONST char *type;
-	
+
     /* Character look-up table */
     if (no_groups >= 16) {
 		type = "unsigned long";
@@ -399,7 +399,7 @@ output_main(unsigned opts)
 		}
 		fputs_v ("\n} ;\n\n", out);
     }
-	
+
     /* Macros for accessing table */
     if (opts & OUTPUT_MACROS) {
 		fputs_v ("#ifndef LEX_EOF\n", out);
@@ -426,7 +426,7 @@ output_main(unsigned opts)
 		fputs_v ("#endif\n", out);
 		fputs_v ("#endif\n\n\n", out);
     }
-	
+
     /* Lexical pre-pass */
     if (opts & OUTPUT_FUNCTIONS) {
 		if (pre_pass->next) {
@@ -442,7 +442,7 @@ output_main(unsigned opts)
 			read_name = "read_char_aux";
 		}
     }
-	
+
     /* Main pass */
     if (opts & OUTPUT_FUNCTIONS) {
 		in_pre_pass = 0;

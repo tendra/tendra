@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -122,10 +122,10 @@ error_file_skip_white_space(IStreamP istream,
 							char *c_ref)
 {
     BoolT comment = FALSE;
-	
+
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -221,11 +221,11 @@ error_file_read_until(IStreamP istream, char term,
 					  ErrorFileLexP token)
 {
     DStringT dstring;
-	
+
     dstring_init (&dstring);
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -239,7 +239,7 @@ error_file_read_until(IStreamP istream, char term,
 		default:
 			if (c == term) {
 				CStringP tmp;
-				
+
 				tmp = dstring_to_cstring (&dstring);
 				dstring_destroy (&dstring);
 				token->u.string = tmp;
@@ -292,7 +292,7 @@ static void
 error_file_next_token(IStreamP istream, ErrorFileLexP token)
 {
     char c;
-	
+
     if (error_file_skip_white_space (istream, &c)) {
 		switch (c) {
 		case '%':
@@ -323,7 +323,7 @@ error_file_parse_strings(IStreamP istream,
     while (error_file_next_token (istream, token),
 		   (token->tag == EFTOKEN_NAME)) {
 		CStringP name = token->u.string;
-		
+
 		if (error_file_next_token (istream, token),
 			(token->tag != EFTOKEN_STRING)) {
 			E_errf_expected_string (istream);
@@ -359,7 +359,7 @@ error_file_parse_errors(IStreamP istream,
     while (error_file_next_token (istream, token),
 		   (token->tag == EFTOKEN_NAME)) {
 		CStringP name = token->u.string;
-		
+
 		error_file_next_token (istream, token);
 		if (token->tag != EFTOKEN_STRING) {
 			E_errf_expected_string (istream);
@@ -389,7 +389,7 @@ error_file_parse(CStringP name, BoolT must_open)
 {
     IStreamT      istream;
     ErrorFileLexT token;
-	
+
     if (istream_open (&istream, name)) {
 		error_file_next_token (&istream, &token);
 		while (token.tag != EFTOKEN_EOF) {

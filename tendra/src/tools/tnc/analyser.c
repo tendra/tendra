@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -143,13 +143,13 @@ read_word()
     char *p;
     int negate = 0;
     unsigned base = 10;
-	
+
     /* If we have looked ahead one, return last value */
     if (looked_ahead) {
 		looked_ahead = 0;
 		return;
     }
-	
+
     /* Get the first letter */
     if (pending) {
 		c = pending;
@@ -162,7 +162,7 @@ read_word()
 		c = getc (input);
 		if (c == '\n') crt_line_no++;
     }
-	
+
     /* Step over any white space and comments */
     while (white_space (c) || c == '#') {
 		if (c == '#') {
@@ -183,28 +183,28 @@ read_word()
 		}
     }
     line_no = crt_line_no;
-	
+
     /* Check for end of file */
     if (c == EOF) {
 		word_type = INPUT_EOF;
 		pending = EOF;
 		return;
     }
-	
+
     /* Check for open brackets */
     if (c == '(') {
 		word = "(";
 		word_type = INPUT_OPEN;
 		return;
     }
-	
+
     /* Check for close brackets */
     if (c == ')') {
 		word = ")";
 		word_type = INPUT_CLOSE;
 		return;
     }
-	
+
     if (func_input) {
 		/* Check for commas (c-like input only) */
 		if (c == ',') {
@@ -212,7 +212,7 @@ read_word()
 			word_type = INPUT_COMMA;
 			return;
 		}
-		
+
 		/* Check for semicolons (c-like input only) */
 		if (c == ';') {
 			word = ";";
@@ -220,7 +220,7 @@ read_word()
 			return;
 		}
     }
-	
+
     /* Check for strings */
     if (c == '"') {
 		boolean escaped;
@@ -295,7 +295,7 @@ read_word()
 		word_type = INPUT_STRING;
 		return;
     }
-	
+
     /* Check for words */
     if (alpha (c)) {
 		p = word_buff;
@@ -314,7 +314,7 @@ read_word()
 		word_type = INPUT_WORD;
 		return;
     }
-	
+
     /* Check for bars */
     if (c == '|') {
 		c = getc (input);
@@ -328,7 +328,7 @@ read_word()
 		word_type = INPUT_BAR;
 		return;
     }
-	
+
     /* Check for a single dash and arrow */
     if (c == '-') {
 		c = getc (input);
@@ -347,14 +347,14 @@ read_word()
 		}
 		negate = 1;
     }
-	
+
     /* Step over any signs */
     while (c == '-' || c == '+') {
 		if (c == '-') negate = 1 - negate;
 		c = getc (input);
 		if (c == '\n') crt_line_no++;
     }
-	
+
     /* Check for numbers */
     if (c == '0') {
 		base = 8;
@@ -378,13 +378,13 @@ read_word()
 		read_word ();
 		return;
     }
-	
+
     /* Set up buffer */
     p = word_buff + BUFFSIZE;
     *(--p) = 0;
     *(--p) = '0';
     *(--p) = 0;
-	
+
     /* Read the number */
     do {
 		unsigned n;
@@ -420,7 +420,7 @@ read_word()
 		c = getc (input);
 		if (c == '\n') crt_line_no++;
     } while (!terminator (c));
-	
+
     /* Find the start of the number */
     if (really_analyse) {
 		for (p = word_buff + (BUFFSIZE - 2) ; *p ; p--) /* empty */;

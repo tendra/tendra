@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -89,7 +89,7 @@ bitvec_set_size(unsigned size)
     if (size % NUM_BITS) {
 		unsigned i;
 		unsigned mask =0;
-		
+
 		for (i = (NUM_BITS - (size % NUM_BITS)); i; i --) {
 			mask >>= 1;
 			mask  |= ((unsigned) 1 << (NUM_BITS - (unsigned) 1));
@@ -131,7 +131,7 @@ bitvec_is_empty(BitVecP bitvec)
 {
     ByteP    bitvec_bits = (bitvec->bits);
     unsigned bytes       = bitvec_size;
-	
+
     while (bytes --) {
 		if (*bitvec_bits ++) {
 			return (FALSE);
@@ -145,10 +145,10 @@ bitvec_is_full(BitVecP bitvec)
 {
     ByteP    bitvec_bits = (bitvec->bits);
     unsigned bytes       = bitvec_size;
-	
+
     while (bytes --) {
 		ByteT byte = (*bitvec_bits ++);
-		
+
 		if (bytes == 0) {
 			byte |= (ByteT) ~bitvec_mask;
 		}
@@ -180,7 +180,7 @@ bitvec_or(BitVecP to, BitVecP from)
     ByteP    to_bits   = (to->bits);
     ByteP    from_bits = (from->bits);
     unsigned bytes     = bitvec_size;
-	
+
     while (bytes --) {
 		(*to_bits ++) |= (*from_bits ++);
     }
@@ -192,7 +192,7 @@ bitvec_and(BitVecP to, BitVecP from)
     ByteP    to_bits   = (to->bits);
     ByteP    from_bits = (from->bits);
     unsigned bytes     = bitvec_size;
-	
+
     while (bytes --) {
 		(*to_bits ++) &= (*from_bits ++);
     }
@@ -203,7 +203,7 @@ bitvec_not(BitVecP to)
 {
     ByteP    to_bits = (to->bits);
     unsigned bytes   = bitvec_size;
-	
+
     while (bytes --) {
 		(*to_bits) = (~(*to_bits));
 		to_bits ++;
@@ -217,7 +217,7 @@ bitvec_equal(BitVecP bitvec1, BitVecP bitvec2)
     ByteP    bitvec1_bits = (bitvec1->bits);
     ByteP    bitvec2_bits = (bitvec2->bits);
     unsigned bytes        = bitvec_size;
-	
+
     while (bytes --) {
 		if ((*bitvec1_bits ++) != (*bitvec2_bits ++)) {
 			return (FALSE);
@@ -232,7 +232,7 @@ bitvec_intersects(BitVecP bitvec1, BitVecP bitvec2)
     ByteP    bitvec1_bits = (bitvec1->bits);
     ByteP    bitvec2_bits = (bitvec2->bits);
     unsigned bytes        = bitvec_size;
-	
+
     while (bytes --) {
 		if ((*bitvec1_bits ++) & (*bitvec2_bits ++)) {
 			return (TRUE);
@@ -246,7 +246,7 @@ bitvec_num_bits(BitVecP bitvec)
 {
     unsigned i;
     unsigned num_bits = 0;
-	
+
     for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			num_bits ++;
@@ -259,7 +259,7 @@ unsigned
 bitvec_first_bit(BitVecP bitvec)
 {
     unsigned i;
-	
+
     for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			return (i);
@@ -272,7 +272,7 @@ BoolT
 bitvec_next_bit(BitVecP bitvec, unsigned *next_ref)
 {
     unsigned i;
-	
+
     for (i = ((*next_ref) + 1); i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			*next_ref = i;
@@ -293,7 +293,7 @@ write_bitvec_indices(OStreamP ostream, BitVecP bitvec)
 {
     unsigned num_bits_set = 0;
     unsigned i;
-	
+
     for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			num_bits_set ++;

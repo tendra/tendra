@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -160,7 +160,7 @@ ostream_close(OStreamP ostream)
 {
     if (fclose (ostream->file)) {
 		CStringP name = cstring_duplicate (ostream_name (ostream));
-		
+
 		THROW_VALUE (XX_ostream_write_error, name);
     }
     ostream_init (ostream);
@@ -171,7 +171,7 @@ ostream_flush(OStreamP ostream)
 {
     if (fflush (ostream->file)) {
 		CStringP name = cstring_duplicate (ostream_name (ostream));
-		
+
 		THROW_VALUE (XX_ostream_write_error, name);
     }
 }
@@ -287,7 +287,7 @@ void
 write_cstring(OStreamP ostream, CStringP cstring)
 {
     CStringP tmp = cstring;
-	
+
     while (*tmp) {
 		if (*tmp ++ == '\n') {
 			ostream->line ++;
@@ -303,7 +303,7 @@ write_bytes(OStreamP ostream, ByteP bytes,
 {
     unsigned tmp_length = length;
     ByteP    tmp_bytes  = bytes;
-	
+
     while (tmp_length --) {
 		if (*tmp_bytes ++ == '\n') {
 			ostream->line ++;
@@ -340,7 +340,7 @@ write_system_error(OStreamP ostream)
     CStringP message = strerror (errno);
 # else
     CStringP message;
-	
+
     if ((errno >= 0) && (errno < sys_nerr)) {
 		message = sys_errlist [errno];
     } else {

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -258,7 +258,7 @@ do_produce(filename *input)
     producer_options (PRODUCE_ID);
     cmd_filename (input);
     cmd_filename (output);
-	
+
     /* Execute the command */
     enable_delayed_signal ();
     output = execute (input, output);
@@ -340,7 +340,7 @@ do_cpp_produce(filename *input)
     cmd_filename (input);
     cmd_filename (output);
     producer_output = execute (input, output);
-	
+
     /* If we are in checker mode and intermodular checks are enabled
 	 *       we must ignore any errors from the producer and continue
 	 *       to run the dump_linker. */
@@ -501,7 +501,7 @@ do_translate(filename *input)
 		cmd_string (vflag);
     }
     cmd_list (opt_translate);
-	
+
     if (use_mips_assembler || use_alpha_assembler) {
 		/* Deal with the mips assembler */
 		t = MIPS_G_FILE;
@@ -650,10 +650,10 @@ linker_options(filename *input, filename *output)
 			} else if (strneq (arg, "-L", 2)) {
 				cmd_string ("-L");
 				cmd_string (arg + 2);
-			} else if (strneq (arg, "-l", 2)) {	      
+			} else if (strneq (arg, "-l", 2)) {
 				/* save up -l options for inclusion after any -L options */
-				dl_libs = add_item (dl_libs, arg) ;	      
-			} else {	      
+				dl_libs = add_item (dl_libs, arg) ;
+			} else {
 				cmd_string (arg);
 			}
 		}
@@ -661,9 +661,9 @@ linker_options(filename *input, filename *output)
 		filename *p;
 		for (p = input ; p != null ; p = p->next) {
 			char *arg = p->name;
-			if (strneq (arg, "-l", 2)) {	      
+			if (strneq (arg, "-l", 2)) {
 				/* save up -l options for inclusion after any -L options */
-				dl_libs = add_item (dl_libs, arg) ;	      
+				dl_libs = add_item (dl_libs, arg) ;
 			} else if (dl_state && (p->storage == INPUT_OPTION)) {
 				/* Add input options to user link options for subsequent use */
 				opt_link = add_item (opt_link, arg);
@@ -678,7 +678,7 @@ linker_options(filename *input, filename *output)
         cmd_list (std_link_libdirs);
     }
     /* now include the -l options */
-    if (dl_libs != null) {      
+    if (dl_libs != null) {
         cmd_list (dl_libs);
     }
     if (!use_system_cc) {

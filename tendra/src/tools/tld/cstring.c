@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -78,7 +78,7 @@ cstring_duplicate(CStringP cstring)
 {
     unsigned length = cstring_length (cstring);
     CStringP tmp    = ALLOCATE_VECTOR (char, length + 1);
-	
+
     (void) strcpy (tmp, cstring);
     return (tmp);
 }
@@ -88,15 +88,15 @@ cstring_duplicate_prefix(CStringP cstring,
 						 unsigned prefix)
 {
     unsigned length = cstring_length (cstring);
-	
+
     if (length <= prefix) {
 		CStringP tmp = ALLOCATE_VECTOR (char, length + 1);
-		
+
 		(void) strcpy (tmp, cstring);
 		return (tmp);
     } else {
 		CStringP tmp = ALLOCATE_VECTOR (char, prefix + 1);
-		
+
 		(void) memcpy ((GenericP) tmp, (GenericP) cstring, (SizeT) prefix);
 		tmp [prefix] = '\0';
 		return (tmp);
@@ -107,7 +107,7 @@ unsigned
 cstring_hash_value(CStringP cstring)
 {
     unsigned value = 0;
-	
+
     while (*cstring) {
 		value += ((unsigned) (*cstring ++));
     }
@@ -143,7 +143,7 @@ cstring_ci_equal(CStringP cstring1, CStringP cstring2)
 {
     char c1;
     char c2;
-	
+
     do {
 		c1 = syntax_upcase (*cstring1 ++);
 		c2 = syntax_upcase (*cstring2 ++);
@@ -155,13 +155,13 @@ BoolT
 cstring_to_unsigned(CStringP cstring, unsigned *num_ref)
 {
     unsigned number = 0;
-	
+
     if (*cstring == '\0') {
 		return (FALSE);
     }
     do {
 		int value = syntax_value (*cstring);
-		
+
 		if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
 			(((UINT_MAX - (unsigned) value) / (unsigned) 10) < number)) {
 			return (FALSE);

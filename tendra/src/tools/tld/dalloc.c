@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -110,7 +110,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
 				   CStringP file, unsigned line)
 {
     GenericP tmp;
-	
+
     ASSERT (size != 0);
     if (length == 0) {
 		tmp = NIL (GenericP);
@@ -119,7 +119,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
 		vm_address_t address;
 		DallocDataP  data;
 		ByteP        base;
-		
+
 		if (vm_allocate (task_self (), &address, (vm_size_t) real_size,
 						 TRUE) != KERN_SUCCESS) {
 			THROW (XX_dalloc_no_memory);
@@ -146,7 +146,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
 		vm_address_t  address = (vm_address_t) data;
 		vm_size_t     size    = data->size;
 		kern_return_t result;
-		
+
 		if (data->magic == 0) {
 			E_dalloc_multi_deallocate (ptr, file, line, data->file,
 									   data->line);
@@ -168,7 +168,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
 				   CStringP file, unsigned line)
 {
     GenericP tmp;
-	
+
     ASSERT (size != 0);
     if (length == 0) {
 		tmp = NIL (GenericP);
@@ -176,7 +176,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
 		SizeT       real_size = ((size * length) + dalloc_data_size);
 		ByteP       base;
 		DallocDataP data;
-		
+
 		if ((tmp = malloc (real_size)) == NIL (GenericP)) {
 			THROW (XX_dalloc_no_memory);
 			UNREACHED;
@@ -199,7 +199,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
     if (ptr) {
 		ByteP       pointer = (ByteP) ptr;
 		DallocDataP data    = (DallocDataP) (pointer - dalloc_data_size);
-		
+
 		if (data->magic == 0) {
 			E_dalloc_multi_deallocate (ptr, file, line, data->file,
 									   data->line);
@@ -221,7 +221,7 @@ GenericP
 X__dalloc_allocate(SizeT size, SizeT length)
 {
     GenericP tmp;
-	
+
     ASSERT (size != 0);
     if (length == 0) {
 		tmp = NIL (GenericP);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -684,7 +684,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
     int else_depth = 0;
     FILE *input = null;
     boolean printing = (boolean) (subset ? 0 : 1);
-	
+
     /* Check for previous inclusion */
     sn = subset_name (api, file, subset);
     p = search_hash (subsets, sn, no_version);
@@ -696,7 +696,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 		}
 		return;
     }
-	
+
     /* Open the input file */
     nm = (file ? file : MASTER_FILE);
     if (!streq (api, LOCAL_API)) {
@@ -749,16 +749,16 @@ preproc(FILE *output, char *api, char *file, char *subset)
     p = make_object (sn, OBJ_SUBSET);
     p->u.u_info = null;
     IGNORE add_hash (subsets, p, no_version);
-	
+
     /* Print position identifier */
     print_subset_name (output, "+SET", api, file, subset, 0);
     IGNORE fputs (" := {\n", output);
     if (printing) print_posn (output);
-	
+
     /* Process the input */
     while (c = read_pptoken (0), c != lex_eof) {
 		switch (c) {
-			
+
 	    case lex_subset : {
 			/* Deal with subsets */
 			int d = 0;
@@ -811,25 +811,25 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			}
 			break;
 	    }
-			
+
 	    case lex_implement : {
 			/* Deal with subset uses */
 			if (printing) preproc_subfile (output, "+IMPLEMENT");
 			break;
 	    }
-			
+
 	    case lex_use : {
 			/* Deal with subset uses */
 			if (printing) preproc_subfile (output, "+USE");
 			break;
 	    }
-			
+
 	    case lex_set : {
 			/* Deal with sets */
 			error (ERR_SERIOUS, "+SET directive in preprocessor");
 			goto default_lab;
 	    }
-			
+
 	    case lex_if :
 	    case lex_ifdef :
 	    case lex_ifndef : {
@@ -837,7 +837,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			else_depth = 0;
 			goto default_lab;
 	    }
-			
+
 	    case lex_else : {
 			if (if_depth == 0) {
 				error (ERR_SERIOUS, "+ELSE without +IF");
@@ -849,7 +849,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			}
 			goto default_lab;
 	    }
-			
+
 	    case lex_endif : {
 			if (if_depth == 0) {
 				error (ERR_SERIOUS, "+ENDIF without +IF");
@@ -859,7 +859,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			else_depth = 0;
 			goto default_lab;
 	    }
-			
+
 	    case lex_string : {
 			/* Deal with strings */
 			if (printing) {
@@ -867,13 +867,13 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			}
 			break;
 	    }
-			
+
 	    case lex_open_Hbrace : {
 			/* Start of subset */
 			brackets++;
 			goto default_lab;
 	    }
-			
+
 	    case lex_close_Hbrace : {
 			/* End of subset */
 			brackets--;
@@ -886,7 +886,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			}
 			goto default_lab;
 	    }
-			
+
 	    default :
 			default_lab : {
 				/* Deal with simple tokens */
@@ -895,7 +895,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			}
 		}
     }
-	
+
     /* End of file */
     end_of_file : {
 		if (brackets) {

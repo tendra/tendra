@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -80,7 +80,7 @@ AltP
 alt_create()
 {
     AltP alt = ALLOCATE (AltT);
-	
+
     alt->next      = NIL (AltP);
     types_init (alt_names (alt));
     bitvec_init (alt_first_set (alt));
@@ -94,17 +94,17 @@ alt_create_merge(ItemP initial_item, ItemP trailing_item,
 				 TypeTransP translator, TableP table)
 {
     AltP alt = alt_create ();
-	
+
     for (; initial_item; initial_item = item_next (initial_item)) {
 		ItemP new_item = item_duplicate_and_translate (initial_item,
 													   translator,
 													   table);
-		
+
 		alt_add_item (alt, new_item);
     }
     for (; trailing_item; trailing_item = item_next (trailing_item)) {
 		ItemP new_item = item_duplicate (trailing_item);
-		
+
 		alt_add_item (alt, new_item);
     }
     return (alt);
@@ -115,10 +115,10 @@ alt_duplicate(AltP alt)
 {
     AltP  new_alt = alt_create ();
     ItemP item;
-	
+
     for (item = alt_item_head (alt); item; item = item_next (item)) {
 		ItemP new_item = item_duplicate (item);
-		
+
 		alt_add_item (new_alt, new_item);
     }
     return (new_alt);
@@ -133,7 +133,7 @@ alt_less_than(AltP alt1, AltP alt2)
     KeyP       key2;
     TypeTupleP type1;
     TypeTupleP type2;
-	
+
     if (item_type (item1) < item_type (item2)) {
 		return (TRUE);
     } else if (item_type (item1) > item_type (item2)) {
@@ -177,7 +177,7 @@ alt_equal(AltP alt1, AltP alt2)
 {
     ItemP item1;
     ItemP item2;
-	
+
     if ((alt1 == NIL (AltP)) && (alt2 == NIL (AltP))) {
 		return (TRUE);
     } else if ((alt1 == NIL (AltP)) || (alt2 == NIL (AltP))) {
@@ -274,7 +274,7 @@ ItemP
 alt_unlink_item_head(AltP alt)
 {
     ItemP item = alt_item_head (alt);
-	
+
     alt->item_head = item_next (item);
     item_set_next (item, NIL (ItemP));
     if (alt->item_tail == item_next_ref (item)) {
@@ -295,7 +295,7 @@ alt_deallocate(AltP alt)
 {
     AltP  next = alt_next (alt);
     ItemP item;
-	
+
     for (item = alt_item_head (alt); item; item = item_deallocate (item)) {
 		/*NOTHING*/
     }
@@ -309,7 +309,7 @@ void
 write_alt(OStreamP ostream, AltP alt)
 {
     ItemP item;
-	
+
     for (item = alt_item_head (alt); item; item = item_next (item)) {
 		write_tab (ostream);
 		write_item (ostream, item);
@@ -322,7 +322,7 @@ write_alt_highlighting(OStreamP ostream, AltP alt,
 					   ItemP highlight)
 {
     ItemP item;
-	
+
     for (item = alt_item_head (alt); item; item = item_next (item)) {
 		if (item == highlight) {
 			write_cstring (ostream, "==>>");

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -159,13 +159,13 @@ eq_node_aux(node *p, node *q, construct *ap,
 			sortname s = p->cons->sortnum;
 			if (s != q->cons->sortnum) return (0);
 			switch (s) {
-				
+
 			case SORT_bytestream :
 			case SORT_option : {
 				/* Just check son */
 				break;
 			}
-				
+
 			case SORT_tdfbool :
 			case SORT_small_tdfint :
 			case SORT_repeat : {
@@ -175,7 +175,7 @@ eq_node_aux(node *p, node *q, construct *ap,
 				}
 				break;
 			}
-				
+
 			case SORT_tdfint :
 			case SORT_tdfstring : {
 				/* Check value */
@@ -184,7 +184,7 @@ eq_node_aux(node *p, node *q, construct *ap,
 				}
 				break;
 			}
-				
+
 			default : {
 				/* Check lists of local variables */
 				boolean ok = 0;
@@ -320,14 +320,14 @@ construct
     p->ename = null;
     p->next = null;
     switch (s) {
-		
+
 	case SORT_al_tag : {
 	    /* Initialize alignment tag */
 	    al_tag_info *q = get_al_tag_info (p);
 	    q->def = null;
 	    break;
 	}
-		
+
 	case SORT_tag : {
 	    /* Initialize tag */
 	    tag_info *q = get_tag_info (p);
@@ -337,7 +337,7 @@ construct
 	    q->def = null;
 	    break;
 	}
-		
+
 	case SORT_token : {
 	    /* Initialize token */
 	    tok_info *q = get_tok_info (p);

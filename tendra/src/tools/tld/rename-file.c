@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -118,10 +118,10 @@ rename_file_skip_white_space(IStreamP istream,
 							 char *c_ref)
 {
     BoolT comment = FALSE;
-	
+
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -157,12 +157,12 @@ rename_file_read_unique(IStreamP istream,
     NStringListT      list;
     NStringListEntryP entry;
     unsigned          i;
-	
+
     dstring_init (&dstring);
     nstring_list_init (&list);
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -181,7 +181,7 @@ rename_file_read_unique(IStreamP istream,
 			for (i = 0, entry = nstring_list_head (&list); entry;
 				 i ++, entry = nstring_list_entry_deallocate (entry)) {
 				NStringP component = nstring_list_entry_string (entry);
-				
+
 				name_key_set_component (name, i, component);
 			}
 			token->tag = RTOK_NAME;
@@ -228,11 +228,11 @@ static void
 rename_file_read_shape(IStreamP istream, RenameTokenP token)
 {
     DStringT dstring;
-	
+
     dstring_init (&dstring);
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -278,11 +278,11 @@ rename_file_read_string(IStreamP istream,
 {
     DStringT dstring;
     NStringT nstring;
-	
+
     dstring_init (&dstring);
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -330,7 +330,7 @@ static void
 rename_file_next_token(IStreamP istream, RenameTokenP token)
 {
     char c;
-	
+
   again:
     if (rename_file_skip_white_space (istream, &c)) {
 		switch (c) {
@@ -363,7 +363,7 @@ rename_file_parse_names(IStreamP istream,
     rename_file_next_token (istream, token);
     while (token->tag == RTOK_NAME) {
 		NameKeyT name;
-		
+
 		name_key_assign (&name, &(token->u.name));
 		rename_file_next_token (istream, token);
 		if (token->tag != RTOK_NAME) {
@@ -375,7 +375,7 @@ rename_file_parse_names(IStreamP istream,
 			rename_file_next_token (istream, token);
 		} else {
 			NameKeyT to_name;
-			
+
 			name_key_assign (&to_name, &(token->u.name));
 			arg_data_add_rename (arg_data, shape, &name, &to_name);
 			rename_file_next_token (istream, token);
@@ -394,7 +394,7 @@ rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
     BoolT        need_error = TRUE;
     RenameTokenT token;
     NStringT     shape;
-	
+
     rename_file_next_token (istream, &token);
     while (token.tag != RTOK_EOF) {
 		switch (token.tag) {
@@ -424,7 +424,7 @@ void
 rename_file_parse(CStringP name, ArgDataP arg_data)
 {
     IStreamT istream;
-	
+
     if (istream_open (&istream, name)) {
 		rename_file_parse_1 (&istream, arg_data);
 		istream_close (&istream);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -80,7 +80,7 @@ name_key_parse_hex_char(CStringP name, char *c_ref)
     char result;
     char c;
     int  value;
-	
+
     if ((c = name [0]), ((value = syntax_value (c)) != SYNTAX_NO_VALUE)) {
 		result = (char) ((unsigned) value << 4);
     } else {
@@ -100,7 +100,7 @@ name_key_parse_escaped(CStringP *name_ref,
 					   char *c_ref)
 {
     CStringP name = (*name_ref);
-	
+
     switch ((*++ name)) {
 	case 'x': case 'X':
 		if (!name_key_parse_hex_char (name, c_ref)) {
@@ -142,7 +142,7 @@ name_key_parse_cstring_unique(NameKeyP key,
     CStringP tmp_name = name;
     NStringP components;
     unsigned i;
-	
+
     while (*++ tmp_name) {
 		if (*tmp_name == '.') {
 			length ++;
@@ -152,7 +152,7 @@ name_key_parse_cstring_unique(NameKeyP key,
     length     = 0;
     for (;;) {
 		DStringT dstring;
-		
+
 		name ++;
 		dstring_init (&dstring);
 		while ((*name != '.') && (*name != ']')) {
@@ -161,7 +161,7 @@ name_key_parse_cstring_unique(NameKeyP key,
 				goto fail;
 			} else if (*name == '\\') {
 				char c;
-				
+
 				if (name_key_parse_escaped (&name, &c)) {
 					dstring_append_char (&dstring, c);
 				} else {
@@ -199,7 +199,7 @@ name_key_parse_cstring_string(NameKeyP key,
 {
     DStringT dstring;
     NStringT nstring;
-	
+
     dstring_init (&dstring);
     while (*name) {
 		if ((*name == '[') || (*name == ']') || (*name == '.')) {
@@ -207,7 +207,7 @@ name_key_parse_cstring_string(NameKeyP key,
 			return (FALSE);
 		} else if (*name == '\\') {
 			char c;
-			
+
 			if (name_key_parse_escaped (&name, &c)) {
 				dstring_append_char (&dstring, c);
 			} else {
@@ -228,7 +228,7 @@ write_name_key_1(OStreamP ostream, NStringP nstring)
 {
     unsigned length = nstring_length (nstring);
     CStringP bytes  = nstring_contents (nstring);
-	
+
     while (length --) {
 		switch (*bytes) {
 		case '[': case ']': case '.': case '\\':
@@ -313,7 +313,7 @@ name_key_hash_value(NameKeyP key)
 #endif /* defined (__TenDRA__) */
     unsigned components;
     unsigned i;
-	
+
     switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		hash_value = nstring_hash_value (&(key->u.string));
@@ -334,7 +334,7 @@ name_key_equal(NameKeyP key1, NameKeyP key2)
 {
     unsigned components;
     unsigned i;
-	
+
     if (key1->type != key2->type) {
 		return (FALSE);
     }
@@ -375,7 +375,7 @@ name_key_copy(NameKeyP to, NameKeyP from)
 {
     unsigned components;
     unsigned i;
-	
+
     switch (to->type = from->type) EXHAUSTIVE {
 	case KT_STRING:
 		nstring_copy (&(to->u.string), &(from->u.string));
@@ -396,7 +396,7 @@ name_key_destroy(NameKeyP key)
 {
     unsigned components;
     unsigned i;
-	
+
     switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		nstring_destroy (&(key->u.string));
@@ -417,7 +417,7 @@ write_name_key(OStreamP ostream, NameKeyP key)
     char     sep = '[';
     unsigned components;
     unsigned i;
-	
+
     switch (key->type) EXHAUSTIVE {
 	case KT_STRING:
 		write_name_key_1 (ostream, &(key->u.string));
@@ -426,7 +426,7 @@ write_name_key(OStreamP ostream, NameKeyP key)
 		components = key->u.unique.length;
 		for (i = 0; i < components; i ++) {
 			NStringP nstring = &(key->u.unique.components [i]);
-			
+
 			write_char (ostream, sep);
 			write_name_key_1 (ostream, nstring);
 			sep = '.';
@@ -448,7 +448,7 @@ void
 name_key_list_add(NameKeyListP list, NameKeyP key)
 {
     NameKeyListEntryP entry;
-	
+
     for (entry = name_key_list_head (list); entry;
 		 entry = name_key_list_entry_next (entry)) {
 		if (name_key_equal (key, &(entry->key))) {
@@ -493,7 +493,7 @@ name_key_pair_list_add(NameKeyPairListP list,
 					   NameKeyP from, NameKeyP to)
 {
     NameKeyPairListEntryP entry;
-	
+
     for (entry = name_key_pair_list_head (list); entry;
 		 entry = name_key_pair_list_entry_next (entry)) {
 		if (name_key_equal (from, &(entry->from))) {

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -320,7 +320,7 @@ print_action(char *dir)
 {
     open_file (dir, PRINT_PREFIX, DEF_SUFFIX);
     print_include ();
-	
+
     comment ("Printing function declarations");
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -337,12 +337,12 @@ print_action(char *dir)
 		}
     }
     output ("\n\n");
-	
+
     comment ("Printing variables");
     output ("static int print_indent_step = 4 ;\n");
     output ("static int print_ptr_depth = 1 ;\n");
     output ("static int print_list_expand = 0 ;\n\n\n");
-	
+
     comment ("Printing indentation routine");
     output ("static void print_indent\n");
     output ("(FILE *f, int d)\n");
@@ -351,7 +351,7 @@ print_action(char *dir)
     output ("    while (i--) (void) fputc (' ', f) ;\n");
     output ("    return ;\n");
     output ("}\n\n\n");
-	
+
     /* Function definitions */
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;

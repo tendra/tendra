@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -120,10 +120,10 @@ bistream_read_chars(BIStreamP bistream, unsigned length,
 {
     unsigned bytes_read = (unsigned) fread ((GenericP) chars, sizeof (char),
 											(SizeT) length, bistream->file);
-	
+
     if ((bytes_read == 0) && (ferror (bistream->file))) {
 		CStringP name = cstring_duplicate (bistream->name);
-		
+
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
     }
@@ -137,10 +137,10 @@ bistream_read_bytes(BIStreamP bistream, unsigned length,
 {
     unsigned bytes_read = (unsigned) fread ((GenericP) bytes, sizeof (ByteT),
 											(SizeT) length, bistream->file);
-	
+
     if ((bytes_read == 0) && (ferror (bistream->file))) {
 		CStringP name = cstring_duplicate (bistream->name);
-		
+
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
     }
@@ -152,11 +152,11 @@ BoolT
 bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
 {
     int byte = fgetc (bistream->file);
-	
+
     if (byte == EOF) {
 		if (ferror (bistream->file)) {
 			CStringP name = cstring_duplicate (bistream->name);
-			
+
 			THROW_VALUE (XX_bistream_read_error, name);
 			UNREACHED;
 		} else if (feof (bistream->file)) {

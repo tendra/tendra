@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -231,15 +231,15 @@ main_end(void)
 
 int
 main(int argc, char **argv)
-{ 
+{
     int a;
     char *s;
     filename *output;
     list *opts = null;
-	
+
     /* Initialisation */
     main_start (PROGNAME_TCC, environ);
-	
+
     /* Check TCCOPTS options */
     s = getenv (TCCOPT_VAR);
     if (s != null) {
@@ -248,7 +248,7 @@ main(int argc, char **argv)
         free_list (opts);
         opts = null;
     }
-	
+
     /* Process command line options */
     for (a = argc - 1 ; a >= 1 ; a--) {
 		opts = insert_item (argv [a], opts);
@@ -257,17 +257,17 @@ main(int argc, char **argv)
     update_options ();
 	reconcile_envopts();
     free_list (opts);
-	
+
     /* Check for input files */
     if (input_files == null) {
 		if (flag_no_files) main_end ();
 		error (FATAL, "No input files specified");
     }
-	
+
     /* Apply compilation */
     main_middle ();
     output = apply_all (input_files);
-	
+
     /* Check for unprocessed files */
     while (output != null) {
 		if (output->storage == INPUT_FILE) {
@@ -275,7 +275,7 @@ main(int argc, char **argv)
 		}
 		output = output->next;
     }
-	
+
     /* Exit from program */
     main_end ();
     return (0);

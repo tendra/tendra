@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -118,10 +118,10 @@ bostream_write_chars(BOStreamP bostream, unsigned length,
 {
     unsigned bytes_read = (unsigned) fwrite ((GenericP) chars, sizeof (char),
 											 (SizeT) length, bostream->file);
-	
+
     if ((bytes_read != length) && (ferror (bostream->file))) {
 		CStringP name = cstring_duplicate (bostream->name);
-		
+
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
     }
@@ -133,10 +133,10 @@ bostream_write_bytes(BOStreamP bostream, unsigned length,
 {
     unsigned bytes_read = (unsigned) fwrite ((GenericP) bytes, sizeof (ByteT),
 											 (SizeT) length, bostream->file);
-	
+
     if ((bytes_read != length) && (ferror (bostream->file))) {
 		CStringP name = cstring_duplicate (bostream->name);
-		
+
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
     }
@@ -148,7 +148,7 @@ bostream_write_byte(BOStreamP bostream, ByteT byte)
     if ((fputc ((int) byte, bostream->file) == EOF) &&
 		(ferror (bostream->file))) {
 		CStringP name = cstring_duplicate (bostream->name);
-		
+
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
     }
@@ -165,7 +165,7 @@ bostream_close(BOStreamP bostream)
 {
     if (fclose (bostream->file)) {
 		CStringP name = cstring_duplicate (bostream->name);
-		
+
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
     }

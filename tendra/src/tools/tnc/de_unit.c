@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -180,15 +180,15 @@ de_aldef()
 		node *d;
 		construct *p;
 		al_tag_info *info;
-		
+
 		/* Find the definition type */
 		IGNORE de_al_tagdef_bits ();
-		
+
 		/* Find the alignment tag */
 		t = tdf_int ();
 		p = find_binding (crt_binding, al_tag_var, t);
 		info = get_al_tag_info (p);
-		
+
 		/* Decode the definition (an alignment) */
 		d = completion (de_alignment ());
 		if (info->def) {
@@ -224,7 +224,7 @@ de_tagdec()
 		boolean is_var;
 		construct *p;
 		tag_info *info;
-		
+
 		/* Find the declaration type */
 		long m = de_tagdec_bits ();
 		if (m == ENC_make_id_tagdec) {
@@ -234,13 +234,13 @@ de_tagdec()
 		} else {
 			is_var = 2;
 		}
-		
+
 		/* Find the tag */
 		t = tdf_int ();
 		p = find_binding (crt_binding, tag_var, t);
 		set_tag_type (p, is_var);
 		info = get_tag_info (p);
-		
+
 		/* Declaration = optional access + optional string + shape from 4.0 */
 		d = completion (de_node ("?[u]?[X]S"));
 		info->var = is_var;
@@ -276,7 +276,7 @@ de_tagdef()
 		construct *p;
 		tag_info *info;
 		boolean is_var;
-		
+
 		/* Find the definition type */
 		long m = de_tagdef_bits ();
 		if (m == ENC_make_id_tagdef) {
@@ -286,7 +286,7 @@ de_tagdef()
 		} else {
 			is_var = 2;
 		}
-		
+
 		/* Find the tag */
 		t = tdf_int ();
 		p = find_binding (crt_binding, tag_var, t);
@@ -295,7 +295,7 @@ de_tagdef()
 			input_error ("Tag %s defined but not declared", p->name);
 		}
 		set_tag_type (p, is_var);
-		
+
 		/* Added signature in 4.0 */
 		d = completion (de_node (is_var ? "?[u]?[X]x" : "?[X]x"));
 		info->var = is_var;
@@ -337,18 +337,18 @@ de_tokdec()
 		sortname rs;
 		construct *p;
 		tok_info *info;
-		
+
 		/* Find the declaration type */
 		IGNORE de_tokdec_bits ();
-		
+
 		/* Find the token */
 		t = tdf_int ();
 		p = find_binding (crt_binding, tok_var, t);
 		info = get_tok_info (p);
-		
+
 		/* Deal with signature */
 		sig = de_node ("?[X]");
-		
+
 		/* Decode token sort */
 		rs = de_sortname (0);
 		if (rs == SORT_token) {
@@ -401,14 +401,14 @@ de_token_defn(construct *p, node *sig)
     sortname rs;
     tok_info *info = get_tok_info (p);
     construct **old_pars = info->pars;
-	
+
     /* Find the end of the definition */
     long end_posn = tdf_int ();
     end_posn += input_posn ();
-	
+
     /* Find the definition type */
     IGNORE de_token_defn_bits ();
-	
+
     /* Decode the token sort */
     rs = de_sortname (1);
     de_list_start ();
@@ -444,7 +444,7 @@ de_token_defn(construct *p, node *sig)
     }
     set_token_sort (p, rs, args, sig);
     info->dec = 1;
-	
+
     /* Decode the actual definition */
     if (in_skip_pass) {
 		long bits = end_posn - input_posn ();
@@ -501,17 +501,17 @@ de_tokdef()
 		long t;
 		node *sig;
 		construct *p;
-		
+
 		/* Find the definition type */
 		IGNORE de_tokdef_bits ();
-		
+
 		/* Find the token */
 		t = tdf_int ();
 		p = find_binding (crt_binding, tok_var, t);
-		
+
 		/* Deal with signature */
 		sig = de_node ("?[X]");
-		
+
 		/* Decode token definition */
 		de_token_defn (p, sig);
     }

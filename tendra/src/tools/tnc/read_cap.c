@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -88,11 +88,11 @@ static construct
     int estate = 0;
     position store;
     allow_multibyte = 0;
-	
+
     /* Read identifier */
     store_position (&store);
     read_word ();
-	
+
     /* Check for external name */
     if (func_input) {
 		if (word_type == INPUT_WORD) {
@@ -132,7 +132,7 @@ static construct
 			}
 		}
     }
-	
+
     if (estate) {
 		/* There is an external name */
 		if (local) {
@@ -171,7 +171,7 @@ static construct
 			e->cons = &false_cons;
 		}
     }
-	
+
     /* Check internal name */
     if (word_type != INPUT_WORD) input_error ("Identifier expected");
     p = search_var_hash (word, s);
@@ -232,7 +232,7 @@ read_aldef(boolean local)
     node *d;
     construct *p = read_external (SORT_al_tag, local);
     al_tag_info *info = get_al_tag_info (p);
-	
+
     /* Check comma */
     if (func_input) {
 		read_word ();
@@ -242,7 +242,7 @@ read_aldef(boolean local)
 			looked_ahead = 1;
 		}
     }
-	
+
     /* Read the definition (an alignment) */
     d = completion (read_node ("a"));
     if (info->def) {
@@ -273,7 +273,7 @@ read_tagdec(boolean local, int is_var)
     construct *p = read_external (SORT_tag, local);
     tag_info *info = get_tag_info (p);
     set_tag_type (p, is_var);
-	
+
     /* Check comma */
     if (func_input) {
 		read_word ();
@@ -283,7 +283,7 @@ read_tagdec(boolean local, int is_var)
 			looked_ahead = 1;
 		}
     }
-	
+
     /* Declaration = optional access + optional string + shape from 4.0 */
     d = completion (read_node ("?[u]?[X]S"));
     info->var = (boolean) is_var;
@@ -313,14 +313,14 @@ read_tagdef(boolean local, int is_var)
     node *d;
     construct *p = read_external (SORT_tag, local);
     tag_info *info = get_tag_info (p);
-	
+
     /* Set the tag type */
     if (info->dec == null && !do_check) {
 		is_fatal = 0;
 		input_error ("Tag %s defined but not declared", word);
     }
     set_tag_type (p, is_var);
-	
+
     /* Check comma */
     if (func_input) {
 		read_word ();
@@ -330,7 +330,7 @@ read_tagdef(boolean local, int is_var)
 			looked_ahead = 1;
 		}
     }
-	
+
     /* Definition - signature added in 4.0 */
     d = completion (read_node (is_var ? "?[u]?[X]x" : "?[X]x"));
     info->var = (boolean) is_var;
@@ -403,16 +403,16 @@ read_toksort(tok_info *info, boolean def)
 			looked_ahead = 1;
 		}
     }
-	
+
     /* Initialize values */
     info->res = SORT_unknown;
     info->args = null;
     info->pars = null;
     info->sig = null;
-	
+
     /* Read signature */
     info->sig = read_node ("?[X]");
-	
+
     /* Read argument sorts */
     read_word ();
     if (word_type == INPUT_OPEN) {
@@ -481,7 +481,7 @@ read_toksort(tok_info *info, boolean def)
 			read_word ();
 		}
     }
-	
+
     /* Read result sort */
     info->res = read_sortname ();
     if (is_high (info->res)) {
@@ -503,7 +503,7 @@ read_tokdec(boolean local)
     tok_info store;
     construct *p = read_external (SORT_token, local);
     tok_info *info = get_tok_info (p);
-	
+
     /* Get token sort */
     adjust_token (p);
     read_toksort (&store, 0);
@@ -528,14 +528,14 @@ read_tokdef(boolean local)
     construct *p = read_external (SORT_token, local);
     tok_info *info = get_tok_info (p);
     construct **old_pars = info->pars;
-	
+
     /* Get token sort */
     adjust_token (p);
     read_toksort (&store, 1);
     info->dec = 1;
     info->pars = store.pars;
     set_token_sort (p, store.res, store.args, store.sig);
-	
+
     /* Check comma */
     if (func_input) {
 		read_word ();
@@ -545,12 +545,12 @@ read_tokdef(boolean local)
 			looked_ahead = 1;
 		}
     }
-	
+
     /* Read the definition */
     buff [0] = sort_letters [ store.res ];
     buff [1] = 0;
     d = read_node (buff);
-	
+
     /* Free formal parameters */
     if (info->pars) {
 		construct **ps;
@@ -558,7 +558,7 @@ read_tokdef(boolean local)
 			remove_var_hash ((*ps)->name, SORT_token);
 		}
     }
-	
+
     /* Check consistency */
     d = completion (d);
     if (info->def) {
@@ -586,18 +586,18 @@ read_sortdef(boolean local)
 {
     char *nm;
     tok_info store;
-	
+
     /* The local quantifier should not be used */
     if (local) {
 		is_fatal = 0;
 		input_error ("Can't have local here");
     }
-	
+
     /* Read the sort name */
     read_word ();
     if (word_type != INPUT_WORD) input_error ("Identifier expected");
     nm = string_copy_aux (word);
-	
+
     /* Get sort definition */
     read_toksort (&store, 0);
     set_high_sort (nm, &store);
@@ -619,7 +619,7 @@ sub_file(int ftype, int ex)
     position store;
     boolean old_func_input = func_input;
     char *old_name = input_file, *new_name;
-	
+
     /* Read the file name */
     allow_multibyte = 0;
     read_word ();
@@ -630,10 +630,10 @@ sub_file(int ftype, int ex)
 		return;
     }
     new_name = string_copy_aux (word);
-	
+
     /* Save the position in the existing file */
     store_position (&store);
-	
+
     /* Read the subfile */
     text_input = (boolean) (ftype == 0 ? 1 : 0);
     open_input (new_name, 1);
@@ -648,7 +648,7 @@ sub_file(int ftype, int ex)
 		}
 		extract_tokdecs = 0;
     }
-	
+
     /* Restore the position in the old file */
     text_input = 1;
     open_input (old_name, 1);
@@ -679,7 +679,7 @@ read_capsule()
 		starter = INPUT_WORD;
     }
     looked_ahead = 1;
-	
+
     while (read_word (), word_type == starter) {
 		char *cmd;
 		char *wtemp;
@@ -690,7 +690,7 @@ read_capsule()
 				input_error ("Construct name expected");
 			}
 		}
-		
+
 		/* Check for the local qualifier */
 		if (streq (word, LOCAL_DECL)) {
 			local = 1;
@@ -699,7 +699,7 @@ read_capsule()
 				input_error ("Construct name expected");
 			}
 		}
-		
+
 		/* For functional input, expect an open bracket */
 		if (func_input) {
 			wtemp = temp_copy (word);
@@ -712,13 +712,13 @@ read_capsule()
 		} else {
 			wtemp = word;
 		}
-		
+
 		/* Macro to aid checking */
 #define test_cmd(X, Y)\
 	if (streq (wtemp, cmd = (X))) {\
 	    Y ;\
 	} else
-		
+
 		/* Check on the various possible constructs */
 		test_cmd (MAKE_ALDEC, read_aldec (local))
 			test_cmd (MAKE_ALDEF, read_aldef (local))
@@ -731,7 +731,7 @@ read_capsule()
 			test_cmd (COMMON_TAGDEC, read_tagdec (local, 2))
 			test_cmd (COMMON_TAGDEF, read_tagdef (local, 2))
 			test_cmd (MAKE_SORT, read_sortdef (local))
-			
+
 			{
 				/* Include constructs */
 				if (local) {
@@ -748,7 +748,7 @@ read_capsule()
 						input_error ("Illegal construct name, %s", wtemp);
 					}
 			}
-		
+
 		/* End of construct */
 		read_word ();
 		if (word_type != INPUT_CLOSE) {

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -81,7 +81,7 @@ ShapeEntryP
 shape_entry_create(NStringP key)
 {
     ShapeEntryP entry = ALLOCATE (ShapeEntryT);
-	
+
     entry->next      = NIL (ShapeEntryP);
     nstring_copy (shape_entry_key (entry), key);
     entry->names     = name_table_create ();
@@ -149,7 +149,7 @@ NameEntryP
 shape_entry_get_from_list(ShapeEntryP entry)
 {
     NameEntryP name_entry;
-	
+
     if ((name_entry = entry->head) != NIL (NameEntryP)) {
 		entry->head = name_entry_list_next (name_entry);
 		if (entry->head == NIL (NameEntryP)) {
@@ -163,7 +163,7 @@ ShapeEntryP
 shape_entry_deallocate(ShapeEntryP entry)
 {
     ShapeEntryP next = shape_entry_next (entry);
-	
+
     nstring_destroy (shape_entry_key (entry));
     name_table_deallocate (shape_entry_name_table (entry));
     DEALLOCATE (entry);
@@ -176,7 +176,7 @@ void
 shape_entry_do_count(ShapeEntryP entry, GenericP gclosure)
 {
     unsigned *count_ref = (unsigned *) gclosure;
-	
+
     if ((entry->id_count > 0) || (shape_entry_get_non_empty (entry))) {
 		shape_entry_set_non_empty (entry);
 		(*count_ref) ++;
@@ -191,7 +191,7 @@ shape_entry_write_shape(ShapeEntryP entry,
 		TDFWriterP writer  = (TDFWriterP) gclosure;
 		NStringP   key     = shape_entry_key (entry);
 		unsigned   num_ids = entry->id_count;
-		
+
 		debug_info_w_shape (key, num_ids);
 		tdf_write_string (writer, key);
 		tdf_write_int (writer, num_ids);
@@ -207,7 +207,7 @@ shape_entry_write_externs(ShapeEntryP entry,
 		unsigned   num_externs = 0;
 		NameTableP table       = entry->names;
 		NStringP   key         = shape_entry_key (entry);
-		
+
 		name_table_iter (table, name_entry_do_count, (GenericP) &num_externs);
 		debug_info_w_start_shape_names (key, num_externs);
 		tdf_write_int (writer, num_externs);
@@ -238,7 +238,7 @@ shape_entry_write_count(ShapeEntryP entry,
 						GenericP gclosure)
 {
     ShapeClosureP closure = (ShapeClosureP) gclosure;
-	
+
     if (shape_entry_get_non_empty (entry)) {
 		MapTableP  table     = closure->table;
 		TDFWriterP writer    = closure->writer;
@@ -246,7 +246,7 @@ shape_entry_write_count(ShapeEntryP entry,
 		unsigned   count     = (map_entry ? map_entry_get_count (map_entry) :
 								0);
 		NStringP   key       = shape_entry_key (entry);
-		
+
 		debug_info_w_count (count, key);
 		tdf_write_int (writer, count);
     }
@@ -257,23 +257,23 @@ shape_entry_write_links(ShapeEntryP entry,
 						GenericP gclosure)
 {
     ShapeClosureP closure = (ShapeClosureP) gclosure;
-	
+
     if (shape_entry_get_non_empty (entry)) {
 		MapTableP  table     = closure->table;
 		TDFWriterP writer    = closure->writer;
 		MapEntryP  map_entry = map_table_get (table, shape_entry_key (entry));
 		NStringP   key       = shape_entry_key (entry);
-		
+
 		if (map_entry) {
 			unsigned num_links = map_entry_get_num_links (map_entry);
 			unsigned i;
-			
+
 			debug_info_w_start_shape_maps (key, num_links);
 			tdf_write_int (writer, num_links);
 			for (i = 0; i < num_links; i ++) {
 				unsigned internal;
 				unsigned external;
-				
+
 				map_entry_get_link (map_entry, i , &internal, &external);
 				debug_info_w_map (internal, external);
 				tdf_write_int (writer, internal);
@@ -292,7 +292,7 @@ shape_entry_check_multi_defs(ShapeEntryP entry,
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   key   = shape_entry_key (entry);
-	
+
     UNUSED (gclosure);
     name_table_iter (table, name_entry_check_multi_defs, (GenericP) key);
 }
@@ -303,11 +303,11 @@ shape_entry_do_lib_count(ShapeEntryP entry,
 {
     NameTableP table     = shape_entry_name_table (entry);
     unsigned   num_names = 0;
-	
+
     name_table_iter (table, name_entry_do_lib_count, (GenericP) &num_names);
     if (num_names > 0) {
 		unsigned *num_shapes_ref = (unsigned *) gclosure;
-		
+
 		(*num_shapes_ref) ++;
     }
     entry->num_lib_names = num_names;
@@ -318,12 +318,12 @@ shape_entry_do_lib_write(ShapeEntryP entry,
 						 GenericP gclosure)
 {
     unsigned num_names = entry->num_lib_names;
-	
+
     if (num_names > 0) {
 		TDFWriterP writer = (TDFWriterP) gclosure;
 		NameTableP table  = shape_entry_name_table (entry);
 		NStringP   key    = shape_entry_key (entry);
-		
+
 		debug_info_w_start_shape_index (key, num_names);
 		tdf_write_string (writer, shape_entry_key (entry));
 		tdf_write_int (writer, num_names);
@@ -342,7 +342,7 @@ shape_entry_resolve_undefined(ShapeEntryP entry,
 								  shape_entry_name_table (lib_entry) :
 								  NIL (NameTableP));
     NameEntryP       name_entry;
-	
+
     while ((name_entry = shape_entry_get_from_list (entry)) !=
 		   NIL (NameEntryP)) {
 		if (name_entry_resolve_undefined (name_entry, table, closure->units,
@@ -358,7 +358,7 @@ shape_entry_hide_all_defd(ShapeEntryP entry,
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
-	
+
     UNUSED (gclosure);
     name_table_iter (table, name_entry_hide_defd, (GenericP) shape);
 }
@@ -369,7 +369,7 @@ shape_entry_suppress_mult(ShapeEntryP entry,
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
-	
+
     UNUSED (gclosure);
     name_table_iter (table, name_entry_suppress_mult, (GenericP) shape);
 }
@@ -380,7 +380,7 @@ shape_entry_lib_suppress_mult(ShapeEntryP entry,
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
-	
+
     UNUSED (gclosure);
     name_table_iter (table, name_entry_lib_suppress_mult, (GenericP) shape);
 }

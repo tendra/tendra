@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -87,7 +87,7 @@ main(int argc, char **argv)
     char c;
     int input, output;
     int a, b, stage = 1;
-	
+
     /* Read the arguments */
     for (a = 1 ; a < argc ; a++) {
 		if (argv [a][0] == '-') {
@@ -121,7 +121,7 @@ main(int argc, char **argv)
 					case 'U' : show_usage = 1 ; break;
 					case 'V' : dumb_mode = 1 ; break;
 					case 'W' : warn_undeclared = 1 ; break;
-						
+
 					case 'v' : {
 						/* Version number */
 						IGNORE fprintf (stderr, "%s: %s",
@@ -144,7 +144,7 @@ main(int argc, char **argv)
 			}
 		}
     }
-	
+
     /* Open the files */
     switch (stage) {
 	case 1 : {
@@ -167,7 +167,7 @@ main(int argc, char **argv)
 	    break;
 	}
     }
-	
+
     /* Perform binary dump if required */
     if (dump) {
 		long f;
@@ -187,7 +187,7 @@ main(int argc, char **argv)
 		if (n != 1) IGNORE fputc ('\n', pp_file);
 		exit (0);
     }
-	
+
     /* Call the main routines */
     if (diagnostics || show_usage) do_foreign_sorts = 1;
     init_foreign_sorts ();

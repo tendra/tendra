@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -134,7 +134,7 @@ main(int argc, char **argv)
     char *in = NULL;
     char *alg = NULL;
     int act = ACTION_C;
-	
+
     /* Scan arguments */
     set_progname (argv [0], "1.2");
     for (a = 1; a < argc; a++) {
@@ -145,7 +145,7 @@ main(int argc, char **argv)
 		}
     }
     if (no_args == 1) last_arg = 0;
-	
+
     /* Process arguments */
     for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
@@ -185,7 +185,7 @@ main(int argc, char **argv)
 					/* Input flags */
 				case 'r' : text = 0; break;
 				case 'i' : text = 1; break;
-					
+
 					/* Output flags */
 				case 'c' : act = ACTION_C; break;
 				case 'd' : act = ACTION_DISK; break;
@@ -194,7 +194,7 @@ main(int argc, char **argv)
 				case 'p' : act = ACTION_PRINT; break;
 				case 't' : act = ACTION_TOKEN; break;
 				case 'w' : act = ACTION_WRITE; break;
-					
+
 					/* Output options */
 				case 'a' : extra_asserts = 1; break;
 				case 'e' : extra_headers = 1; break;
@@ -202,7 +202,7 @@ main(int argc, char **argv)
 				case 'n' : const_tokens = 0; break;
 				case 'x' : allow_vec = 0; break;
 				case 'z' : allow_stack = 0; break;
-					
+
 					/* Other options */
 				case 'q' : verbose_output = 0; break;
 				case 'v' : report_version (); break;
@@ -226,7 +226,7 @@ main(int argc, char **argv)
     }
     if (no_args == 0) error (ERROR_FATAL, "Not enough arguments");
     if (!need_alg) error (ERROR_SERIOUS, "Badly placed -E option");
-	
+
     /* Look up output algebra */
     if (alg) {
 		ALGEBRA_DEFN *al = find_algebra (alg);
@@ -236,7 +236,7 @@ main(int argc, char **argv)
 			algebra = al;
 		}
     }
-	
+
     /* Generate output */
     if (exit_status == EXIT_SUCCESS) {
 		char *out = (last_arg ? argv [ last_arg ] : ".");

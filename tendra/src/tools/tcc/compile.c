@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -100,7 +100,7 @@ apply_cc(filename *input)
 		filename *pn = p->next;
 		p->next = null;
 		switch (p->type) {
-			
+
 	    case C_SOURCE : {
 			/* C source */
 			if (make_preproc || keeps [ PREPROC_C ]) {
@@ -109,7 +109,7 @@ apply_cc(filename *input)
 			}
 			goto preproc_c_lab;
 	    }
-			
+
 	    case PREPROC_C :
 			preproc_c_lab : {
 				/* Preprocessed C source */
@@ -136,7 +136,7 @@ apply_cc(filename *input)
 				}
 				goto as_source_lab;
 			}
-			
+
 	    case CPP_SOURCE : {
 			/* C++ source */
 			if (make_preproc || keeps [ PREPROC_CPP ]) {
@@ -145,7 +145,7 @@ apply_cc(filename *input)
 			}
 			goto preproc_cpp_lab;
 	    }
-			
+
 	    case PREPROC_CPP :
 			preproc_cpp_lab : {
 				/* Preprocessed C++ source */
@@ -172,19 +172,19 @@ apply_cc(filename *input)
 				}
 				goto as_source_lab;
 			}
-			
+
 	    case AS_SOURCE :
 			as_source_lab : {
 				/* Assembly source file */
 				if (!stops [ AS_SOURCE ]) p = do_cc (p, BINARY_OBJ);
 				break;
 			}
-			
+
 	    case BINARY_OBJ : {
 			/* Binary object file */
 			break;
 	    }
-			
+
 	    case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
@@ -199,7 +199,7 @@ apply_cc(filename *input)
 			}
 			break;
 	    }
-			
+
 	    case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
@@ -214,7 +214,7 @@ apply_cc(filename *input)
 			}
 			break;
 	    }
-			
+
 	    default : {
 			/* Other file types give an error */
 			error (WARNING, "TDF file '%s' not recognised in cc mode",
@@ -292,7 +292,7 @@ apply_compile(filename *input, int produce)
 		filename *pn = p->next;
 		p->next = null;
 		switch (p->type) {
-			
+
 	    case C_SOURCE : {
 			/* C source */
 			if (keeps [ PREPROC_C ]) {
@@ -304,7 +304,7 @@ apply_compile(filename *input, int produce)
 			if (p != pc) p = apply_compile (p, produce);
 			break;
 	    }
-			
+
 	    case PREPROC_C : {
 			/* Preprocessed C source */
 			if (stops [ PREPROC_C ]) break;
@@ -313,7 +313,7 @@ apply_compile(filename *input, int produce)
 			if (p != pc) p = apply_compile (p, produce);
 			break;
 	    }
-			
+
 	    case CPP_SOURCE : {
 			/* C++ source */
 			if (allow_cpp) {
@@ -331,7 +331,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case PREPROC_CPP : {
 			/* Preprocessed C++ source */
 			if (stops [ PREPROC_CPP ]) break;
@@ -346,7 +346,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case INDEP_TDF : {
 			/* Target independent TDF */
 			if (!produce) {
@@ -355,7 +355,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case DEP_TDF : {
 			/* Target dependent TDF */
 			if (!produce) {
@@ -364,7 +364,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case AS_SOURCE : {
 			/* Assembly source */
 			if (!produce) {
@@ -373,7 +373,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case PRETTY_TDF : {
 			/* TDF notation source */
 			if (allow_notation) {
@@ -386,7 +386,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case PL_TDF : {
 			/* PL_TDF source */
 			if (allow_pl_tdf) {
@@ -399,7 +399,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
@@ -414,7 +414,7 @@ apply_compile(filename *input, int produce)
 			}
 			break;
 	    }
-			
+
 	    case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
@@ -772,36 +772,36 @@ filename*
 apply_all(filename *input)
 {
     filename *p = input;
-	
+
     /* Set up file types */
     if (allow_specs) binary_obj_type = BINARY_OBJ_AUX;
-	
+
     /* Preprocessing is a special case */
     if (make_preproc) return (apply_preproc (p));
-	
+
     /* Any TDF archives are split immediately */
     p = apply_split_arch (input);
-	
+
     /* Deal with building TDF archive case */
     if (make_archive) {
 		p = apply_compile (p, 1);
 		if (make_complex) p = apply_build (p);
 		return (apply_build_arch (p));
     }
-	
+
     /* Deal with pretty printing case */
     if (make_pretty) {
 		p = apply_compile (p, 1);
 		if (make_complex) p = apply_build (p);
 		return (apply_pretty (p));
     }
-	
+
     /* Deal with building TDF complex */
     if (make_complex) {
 		p = apply_compile (p, 1);
 		p = apply_build (p);
     }
-	
+
     /* Main compilation phases */
     p = apply_compile (p, (int) checker);
     if (allow_specs && !stops [ BINARY_OBJ ]) {

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -163,10 +163,10 @@ de_tokdec_aux()
     object *obj;
     char *args = null;
     word *w = new_word (HORIZ_NONE);
-	
+
     /* Find declaration type */
     IGNORE de_tokdec ();
-	
+
     /* Find token number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_token, t);
@@ -176,12 +176,12 @@ de_tokdec_aux()
     }
     out_object (t, obj, var_token);
     out (":");
-	
+
     /* Deal with signature */
     out ("[");
     decode ("?[X]");
     out ("] :");
-	
+
     /* Decode token sort */
     s = de_sort_name (0);
     if (s.res == sort_token) {
@@ -229,10 +229,10 @@ de_tokdef_aux()
     object *obj;
     long end, m;
     word *w = new_word (HORIZ_NONE);
-	
+
     /* Find definition type */
     IGNORE de_tokdef ();
-	
+
     /* Find token number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_token, t);
@@ -242,19 +242,19 @@ de_tokdef_aux()
     }
     out_object (t, obj, var_token);
     out (":");
-	
+
     /* Deal with signature */
     out ("[");
     decode ("?[X]");
     out ("] :");
-	
+
     /* Read definition length and work out end */
     end = tdf_int ();
     end += posn (here);
-	
+
     /* Find definition type */
     IGNORE de_token_defn ();
-	
+
     /* Decode token sort */
     s = de_sort_name (1);
     check_list ();
@@ -301,12 +301,12 @@ de_tokdef_aux()
 		end_word (wp);
     }
     out_string ("-> ");
-	
+
     /* Set result sort */
     out (s.name);
     end_word (w);
     token_sort (obj, s.res, args, t);
-	
+
     /* Main definition body */
     out ("Definition :");
     if (skipping || is_foreign (obj)) {
@@ -344,10 +344,10 @@ de_tagdec_aux()
     word *wa;
     object *obj;
     word *w = new_word (HORIZ_NONE);
-	
+
     /* Find declaration type */
     long n = de_tagdec ();
-	
+
     /* Get tag number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_tag, t);
@@ -356,7 +356,7 @@ de_tagdec_aux()
 		set_binding (crt_binding, var_tag, t, obj);
     }
     out_object (t, obj, var_tag);
-	
+
     /* Check consistency */
     switch (n) {
 	case tagdec_make_var_tagdec : out ("(variable)") ; m = 0 ; break;
@@ -370,7 +370,7 @@ de_tagdec_aux()
 		}
 		var (obj) = m;
     }
-	
+
     /* Decode declaration body */
     wa = new_word (VERT_NONE);
     format (HORIZ_NONE, "has access : ", "?[u]");
@@ -395,10 +395,10 @@ de_tagdef_aux()
     char m;
     object *obj;
     word *w = new_word (HORIZ_NONE);
-	
+
     /* Find definition type */
     long n = de_tagdef ();
-	
+
     /* Get tag number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_tag, t);
@@ -409,7 +409,7 @@ de_tagdef_aux()
 		set_binding (crt_binding, var_tag, t, obj);
     }
     out_object (t, obj, var_tag);
-	
+
     /* Check consistency */
     switch (n) {
 	case tagdef_make_var_tagdef : out ("(variable)") ; m = 0 ; break;
@@ -423,7 +423,7 @@ de_tagdef_aux()
 		}
 		var (obj) = m;
     }
-	
+
     /* Decode definition body */
     out ("is :");
     end_word (w);
@@ -446,10 +446,10 @@ de_al_tagdef_aux()
     long t;
     object *obj;
     word *w = new_word (HORIZ_NONE);
-	
+
     /* Find definition type */
     IGNORE de_al_tagdef ();
-	
+
     /* Get alignment tag number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_al_tag, t);
@@ -458,7 +458,7 @@ de_al_tagdef_aux()
 		set_binding (crt_binding, var_al_tag, t, obj);
     }
     out_object (t, obj, var_al_tag);
-	
+
     /* Decode alignment body */
     out ("is :");
     end_word (w);
@@ -734,7 +734,7 @@ de_diag_tagdef_aux()
     object *obj;
     word *w = new_word (HORIZ_NONE);
     IGNORE de_diag_tagdef ();
-	
+
     /* Get alignment tag number */
     t = tdf_int ();
     obj = find_binding (crt_binding, var_diag_tag, t);
@@ -743,7 +743,7 @@ de_diag_tagdef_aux()
 		set_binding (crt_binding, var_diag_tag, t, obj);
     }
     out_object (t, obj, var_diag_tag);
-	
+
     /* Decode body */
     out ("is :");
     end_word (w);

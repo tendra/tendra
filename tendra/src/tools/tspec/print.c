@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -325,7 +325,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
     object *q = t->v.obj2;
     boolean show_token = 1, show_interface = 1;
     boolean show_ignore = 1, show_defn = 1;
-	
+
     /* Find the token type */
     switch (t->id) EXHAUSTIVE {
 	case TYPE_STRUCT : tok = "STRUCT"; tag = ""; break;
@@ -333,13 +333,13 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 	case TYPE_UNION : tok = "UNION"; tag = ""; break;
 	case TYPE_UNION_TAG : tok = "UNION"; tag = "TAG "; break;
     }
-	
+
     /* Deal with undefined tokens immediately */
     if (q == null) {
 		OUT (output, "#pragma token %s %s%s # %s\n", tok, tag, nm, tnm);
 		return;
     }
-	
+
     /* Deal with the various definition cases */
     switch (t->state) {
 	case 0 : {
@@ -380,12 +380,12 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 	    break;
 	}
     }
-	
+
     /* Print the token if necessary */
     if (show_token) {
 		OUT (output, "#pragma token %s %s%s # %s\n", tok, tag, nm, tnm);
     }
-	
+
     /* Print the interface statement */
     if (show_interface) {
 		char *b = BUILDING_MACRO;
@@ -393,7 +393,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 		OUT (output, "#pragma interface %s%s\n", tag, nm);
 		OUT (output, "#else /* %s */\n", b);
     }
-	
+
     /* Print the ignore statement */
     if (show_ignore) {
 		if (!show_interface) {
@@ -402,7 +402,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 		}
 		OUT (output, "#pragma ignore %s%s\n", tag, nm);
     }
-	
+
     /* Print the type definition */
     if (show_defn) {
 		tok = (tok [0] == 'S' ? "struct" : "union");
@@ -424,7 +424,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 			OUT (output, "} %s;\n", nm);
 		}
     }
-	
+
     /* Print the final #endif */
     if (show_interface || show_ignore) {
 		char *b = BUILDING_MACRO;
@@ -449,7 +449,7 @@ print_token_type(FILE *output, object *p, char *tnm)
     type *t = p->u.u_type;
     int i = t->id;
     switch (i) {
-		
+
 	case TYPE_DEFINED : {
 	    /* Defined types */
 	    char *tm, *sp;
@@ -480,21 +480,21 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    OUT (output, "#endif /* %s */\n", b);
 	    break;
 	}
-		
+
 	case TYPE_INT : tok = "VARIETY"; goto generic_lab;
 	case TYPE_SIGNED : tok = "VARIETY signed"; goto generic_lab;
 	case TYPE_UNSIGNED : tok = "VARIETY unsigned"; goto generic_lab;
 	case TYPE_FLOAT : tok = "FLOAT"; goto generic_lab;
 	case TYPE_ARITH : tok = "ARITHMETIC"; goto generic_lab;
 	case TYPE_SCALAR : tok = "SCALAR"; goto generic_lab;
-		
+
 	case TYPE_GENERIC :
 		generic_lab : {
 			/* Generic types */
 			OUT (output, "#pragma token %s %s # %s\n", tok, nm, tnm);
 			break;
 		}
-		
+
 	case TYPE_PROMOTE : {
 	    /* Promotion types */
 	    char *pt = t->v.next->u.obj->name;
@@ -502,7 +502,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    OUT (output, "#pragma promote %s : %s\n", pt, nm);
 	    break;
 	}
-		
+
 	case TYPE_STRUCT :
 	case TYPE_STRUCT_TAG :
 	case TYPE_UNION :
@@ -511,7 +511,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    print_struct_defn (output, t, nm, tnm, 0);
 	    break;
 	}
-		
+
 	case TYPE_ENUM :
 	case TYPE_ENUM_TAG : {
 	    /* Enumeration types are a complete hack */
@@ -519,14 +519,14 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    boolean tagged = (boolean) (i == TYPE_ENUM ? 0 : 1);
 	    object *q = t->v.obj2;
 	    OUT (output, "#ifndef %s\n", b);
-		
+
 	    /* Print the enumeration type */
 	    if (tagged) {
 			OUT (output, "typedef enum %s {", nm);
 	    } else {
 			OUTS (output, "typedef enum {");
 	    }
-		
+
 	    /* Print the enumeration elements */
 	    while (q) {
 			object *r = q->u.u_obj;
@@ -539,7 +539,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 			q = q->next;
 			if (q) OUTC (output, ',');
 	    }
-		
+
 	    /* Print the end of the enumeration type */
 	    if (tagged) {
 			IGNORE sprintf (buffer, "%s%s", enum_hack, nm);
@@ -547,7 +547,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    } else {
 			OUT (output, "\n} %s;\n", nm);
 	    }
-		
+
 	    /* Print the hacked library building version */
 	    OUT (output, "#else /* %s */\n", b);
 	    if (tagged) {
@@ -560,7 +560,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    OUT (output, "#endif /* %s */\n", b);
 	    break;
 	}
-		
+
 	default : {
 	    /* Other types */
 	    error (ERR_INTERNAL, "Unknown type identifier, '%d'\n", i);
@@ -583,7 +583,7 @@ print_token(FILE *output, object *p, char *tnm)
 {
     char *nm = p->name;
     switch (p->objtype) {
-		
+
 	case OBJ_CONST :
 	case OBJ_EXP : {
 	    /* Constants and expressions */
@@ -597,7 +597,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
-		
+
 	case OBJ_EXTERN : {
 	    /* External expressions */
 	    type *t = p->u.u_type;
@@ -607,7 +607,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUTS (output, ";\n");
 	    break;
 	}
-		
+
 	case OBJ_WEAK : {
 	    /* Weak prototype declarations */
 	    int sp;
@@ -633,14 +633,14 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUTS (output, ");\n");
 	    break;
 	}
-		
+
 	case OBJ_DEFINE : {
 	    /* Macro definitions */
 	    char *s = p->u.u_str;
 	    OUT (output, "#define %s%s\n", nm, s);
 	    break;
 	}
-		
+
 	case OBJ_FIELD : {
 	    /* Field selectors */
 	    field *f = p->u.u_field;
@@ -651,7 +651,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUT (output, " : %s # %s\n", f->fname, tnm);
 	    break;
 	}
-		
+
 	case OBJ_FUNC : {
 	    /* Functions */
 	    type *t = p->u.u_type;
@@ -660,7 +660,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
-		
+
 	case OBJ_MACRO : {
 	    /* Macros */
 	    type *t = p->u.u_type;
@@ -679,13 +679,13 @@ print_token(FILE *output, object *p, char *tnm)
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
-		
+
 	case OBJ_NAT : {
 	    /* Nats */
 	    OUT (output, "#pragma token NAT %s # %s\n", nm, tnm);
 	    break;
 	}
-		
+
 	case OBJ_STATEMENT : {
 	    /* Statements */
 	    type *t = p->u.u_type;
@@ -706,20 +706,20 @@ print_token(FILE *output, object *p, char *tnm)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_TOKEN : {
 	    /* Tokens */
 	    char *s = p->u.u_str;
 	    OUT (output, "#pragma token %s %s # %s\n", s, nm, tnm);
 	    break;
 	}
-		
+
 	case OBJ_TYPE : {
 	    /* Types */
 	    print_token_type (output, p, tnm);
 	    break;
 	}
-		
+
 	default : {
 	    /* Unknown objects */
 	    error (ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
@@ -757,7 +757,7 @@ print_ifs(FILE *output, ifcmd *ifs)
 {
     ifcmd *p;
     boolean changed;
-	
+
     /* Simplify the list of statements */
     do {
 		ifcmd *q = null;
@@ -797,7 +797,7 @@ print_ifs(FILE *output, ifcmd *ifs)
 			}
 		}
     } while (changed);
-	
+
     /* Print the result */
     if (column) OUTC (output, '\n');
     for (p = ifs; p->dir != CMD_END; p++) {
@@ -842,7 +842,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 {
     char *nm = p->name;
     switch (p->objtype) {
-		
+
 	case OBJ_CONST :
 	case OBJ_EXP :
 	case OBJ_MACRO :
@@ -852,14 +852,14 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    /* Simple tokens are easy */
 	    break;
 	}
-		
+
 	case OBJ_EXTERN :
 	case OBJ_WEAK : {
 	    /* Deal with externals */
 	    nm = null;
 	    break;
 	}
-		
+
 	case OBJ_FIELD : {
 	    /* Deal with fields */
 	    field *f = p->u.u_field;
@@ -874,7 +874,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_FUNC : {
 	    /* Functions containing ... are not actually tokens */
 	    type *t = p->u.u_type->v.next;
@@ -887,13 +887,13 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_DEFINE : {
 	    /* Macro definitions are not tokens */
 	    nm = null;
 	    break;
 	}
-		
+
 	case OBJ_TYPE : {
 	    /* Deal with types */
 	    type *t = p->u.u_type;
@@ -932,7 +932,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    }
 	    break;
 	}
-		
+
 	default : {
 	    /* Unknown objects */
 	    error (ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
@@ -940,7 +940,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    break;
 	}
     }
-	
+
     /* Print the interface statement */
     if (nm) {
 		int n = (int) strlen (nm) + 1;
@@ -993,7 +993,7 @@ print_object(FILE *output, object *input, int pass)
     for (p = input; p != null; p = p->next) {
 		char *nm = p->name;
 		switch (p->objtype) {
-			
+
 	    case OBJ_IF	 : {
 			/* If statements etc. */
 			if (pass != 1) {
@@ -1006,7 +1006,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_IMPLEMENT :
 	    case OBJ_USE : {
 			/* Inclusion statements */
@@ -1047,7 +1047,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_SET : {
 			/* Subsets */
 			object *q = p->u.u_obj;
@@ -1065,7 +1065,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_TEXT_INCL : {
 			/* Include file quoted text */
 			if (pass == 0) {
@@ -1075,7 +1075,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_TEXT_SRC : {
 			/* Source file quoted text */
 			if (pass == 1) {
@@ -1085,7 +1085,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_TOKEN : {
 			/* Tokenised objects */
 			if (pass == 0) {
@@ -1096,7 +1096,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_TYPE : {
 			/* Definition of previously declared type */
 			if (pass == 0) {
@@ -1106,7 +1106,7 @@ print_object(FILE *output, object *input, int pass)
 			}
 			break;
 	    }
-			
+
 	    default : {
 			/* Unknown objects */
 			char *err = "Unknown object type, '%d'";
@@ -1161,7 +1161,7 @@ print_set(object *input, int pass)
     object *ss = input->u.u_obj;
     info *i = ss->u.u_info;
     column = 0;
-	
+
     if (streq (i->api, LOCAL_API)) {
 		/* Local files go to the standard output */
 		if (pass != 0) return;
@@ -1186,7 +1186,7 @@ print_set(object *input, int pass)
 		if (progdate > t1) t1 = progdate;
 		t2 = date_stamp (nm);
     }
-	
+
     if ((t1 && t1 < t2) && !force_output) {
 		/* Output file is up to date */
 		object *q;
@@ -1205,7 +1205,7 @@ print_set(object *input, int pass)
 		int old_column = column;
 		boolean old_weak_proto = weak_proto;
 		weak_proto = 0;
-		
+
 		/* Open output file */
 		if (output == null) {
 			create_dir (nm);
@@ -1222,13 +1222,13 @@ print_set(object *input, int pass)
 				return;
 			}
 		}
-		
+
 		crt_info = i;
 		if (pass == 0) {
 			/* Include output file */
 			char *m = i->protect;
 			char *v = i->version;
-			
+
 			/* Print the copyright message */
 			if (copyright) {
 				if (copyright_text == null) {
@@ -1253,7 +1253,7 @@ print_set(object *input, int pass)
 				}
 				OUTS (output, copyright_text);
 			}
-			
+
 			/* Find the version number */
 			if (v == null && i->subset) {
 				char *a = subset_name (i->api, i->file, null_str);
@@ -1265,14 +1265,14 @@ print_set(object *input, int pass)
 				object *ap = make_subset (a);
 				v = ap->u.u_info->version;
 			}
-			
+
 			/* Print the file header */
 			OUTS (output, "/*\n    AUTOMATICALLY GENERATED BY ");
 			OUT (output, "%s %s\n", progname, progvers);
 			OUT (output, "    API SUBSET: %s", ss->name);
 			if (v) OUT (output, " (VERSION %s)", v);
 			OUTS (output, "\n*/\n\n");
-			
+
 			/* Print the file body */
 			if (*m) {
 				OUT (output, "#ifndef %s\n", m);
@@ -1333,7 +1333,7 @@ print_set(object *input, int pass)
 				}
 			}
 			if (*m) OUT (output, "\n#endif /* %s */\n", m);
-			
+
 		} else {
 			/* Source output file */
 			if (i->method == null) {
@@ -1364,7 +1364,7 @@ print_set(object *input, int pass)
 				print_object (output, i->elements, 1);
 			}
 		}
-		
+
 		/* End the output */
 		IGNORE fclose (output);
 		if (q) q->u.u_file = null;

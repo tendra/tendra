@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -137,11 +137,11 @@ optmap main_optmap [] = {
 	{"-vt", "1TT", "verbose information about tool chain invocation", 51},
 	{"-ve", "1TE", "verbose information about tool chain environment", 51},
     {"-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1},
-		
+
 	/* added */
 	{"-y+$=$", "E?$1?$2", "sets an env directory variable", 1},
-	
-	
+
+
 	/* Options not allowed in checker */
 	{"-J+$", "AUJ-L$1", "specifies a TDF library directory", 20},
 	{"-M", "1MC", "causes all .j files to be merged", 133},
@@ -153,7 +153,7 @@ optmap main_optmap [] = {
 	{"-im", "1CS", "enables intermodular checks", 139},
 	{"-j+$", "AUj-l$1", "specifies a TDF library", 30},
 	{"-prod", "1AR", "causes a TDF archive to be produced", 141},
-	
+
 	/* Less common options */
 	{"-A+-", "AOC$0", "unasserts all built-in predicates", 142},
 	{"-A+$", "D#pragma$saccept$sdirective$sassert$n|D#assert$s$1$n|AOC$0",
@@ -193,7 +193,7 @@ optmap main_optmap [] = {
 	{"-version", "CPV", "causes %s to print its version number", 1},
 	{"-w", "0WA", "suppresses %s warnings", 1},
 	{"-work+$", "SWD$1", "specifies the work directory",1},
-	
+
 	/* Options not allowed in checker */
 	{"-G", "EGoption", "provided for cc compatibility", 154},
 	{"-K+$,+*", "EK-$1", "provided for cc compatibility", 155},
@@ -210,11 +210,11 @@ optmap main_optmap [] = {
 	{"-#", "1VB", "equivalent to -v", 1},
 	{"-##", "1VB", "equivalent to -v",1 },
 	{"-###", "1VB|1DR", "equivalent to -dry", 1},
-	
+
 	/* Default options */
 	{"--+$,+*", "$1", "communicates directly with the option interpreter", 0},
 	{"$", "XUnknown option,$s$0|AXO$0", "unknown option", 0},
-	
+
 	/* End marker */
 	{ null, null, null }
 };
@@ -251,10 +251,10 @@ optmap environ_optmap [] = {
 	{"\\+FLAG_DUMP_LINK $", "AOu$1", null, 0},
 	{"\\+FLAG_CC $", "AOC$1", null, 0},
 	{"\\+FLAG_INSTALL $", "AOI$1", null, 0},
-	
+
 	/* Additional filename suffixes */
 	{"\\+SUFFIX_CPP $", "SSC$1|1SO", null, 0},
-	
+
 	/* Executables */
 	{"?AS $", "$1Ea$2", null, 0},
 	{"?AS1 $", "$1EA$2", null, 0},
@@ -294,11 +294,11 @@ optmap environ_optmap [] = {
 	{"$TENDRA_INCLDIR $", "SSV4$2", null, 0},
 	{"$TENDRA_STARTUPDIR $", "SSV5$2", null, 0},
 	{"$TENDRA_TMPDIR $", "SSV6$2", null, 0},
-	{"$TENDRA_BASEDIR $", "SSV7$2", null, 0},	
-	
+	{"$TENDRA_BASEDIR $", "SSV7$2", null, 0},
 
 
-	
+
+
 	/* Flags */
 	{"?API $", "", null, 0},
 	{"?API_NAME $", "", null, 0},
@@ -320,12 +320,12 @@ optmap environ_optmap [] = {
 	{"?SYS_LIB $", "$1Sl$2", null, 0},
 	{"?SYS_LIBC $", "$1Sc$2", null, 0},
 	{"?LINK_ENTRY $", "$1Se$2", null, 0},
-	
+
 	/* Startup and endup lines */
 	{"\\+COMP_OPTION $", "@CAP:$1", null, 0},
 	{"\\+LINE_START $", "@D$1$n", null, 0},
 	{"\\+LINE_END $", "@F$1$n", null, 0},
-	
+
 	/* Miscellaneous */
 	{"\\+INFO $", "@SAI$1", null, 0},
 	{">INFO $", "@SAI$SAI@plus@$1", null, 0},
@@ -339,12 +339,12 @@ optmap environ_optmap [] = {
 	{"\\?TEMP $", "?:TD$1", null, 0},
 	{"\\+VERSION $", "SVF$1", null, 0},
 	{"\\?VERSION $", "?:VF$1", null, 0},
-	
+
 	/* Errors */
 	{"\\+E$ $", "X+E$soptions$sno$slonger$ssupported", null, 0},
 	{"$ $", "XUnknown$senvironmental$svariable,$s$1", null, 0},
 	{"$", "XIllegal$senvironmental$soption,$s$0", null, 0},
-	
+
 	/* End marker */
 	{ null, null, null, 0 }
 };
@@ -805,14 +805,14 @@ match_option(char *in, char *out, char *opt, args_out *res)
 {
 	char *p = in;
 	char *q = opt;
-	
+
 	int i, a, v = 1;
 	int go = 1, loop = 1, loopv = -1;
 	struct {
 		char *txt;
 		int len;
 	} var [max_var];
-	
+
 	/* Process input */
 	while (*p && go) {
 		if (*p == '$') {
@@ -926,15 +926,15 @@ match_option(char *in, char *out, char *opt, args_out *res)
 		}
 		p++;
 	}
-	
+
 	/* Check end of option */
 	if (go && *q)
 		return (MATCH_FAILED);
-	
+
 	/* The first variable is the whole option */
 	var [0].txt = opt;
 	var [0].len = (int) strlen (opt);
-	
+
 	/* Print output */
 	a = 0;
 	for (i = 0 ; i < loop ; i++) {
@@ -1025,7 +1025,7 @@ static void
 interpret_cmd(char *cmd)
 {
 	char c = *cmd;
-	
+
 	/* Debugging */
 	if (debug_options)
 		error (OPTION, "Interpreting '%s'", cmd);
@@ -1039,11 +1039,11 @@ interpret_cmd(char *cmd)
 		cmd = p;
 		c = *p;
 	}
-	
+
 	/* Deal with empty strings */
 	if (c == 0)
 		return;
-	
+
 	/* Digits set values */
 	if (c >= '0' && c <= '9') {
 		boolean *b = lookup_bool (cmd + 1);
@@ -1052,12 +1052,12 @@ interpret_cmd(char *cmd)
 		*b = (boolean) (c - '0');
 		return;
 	}
-	
+
 	/* Translations */
 	if (c == '>') c = 'A';
 	if (c == '<') c = 'B';
 	if (c == '+') c = 'L';
-	
+
 	/* Deal with list query */
 	if (c == '?') {
 		if (cmd [1] == ':') {
@@ -1079,7 +1079,7 @@ interpret_cmd(char *cmd)
 		}
 		return;
 	}
-	
+
 	/* Deal with equivalences */
 	if (c == '=') {
 		list *p = make_list (cmd + 1);
@@ -1087,10 +1087,10 @@ interpret_cmd(char *cmd)
 		free_list (p);
 		return;
 	}
-	
+
 	/* Deal with primitives */
 	switch (c) {
-		
+
 	case 'A' : {
 		/* Change list */
 		list **sp = lookup_list (cmd + 1);
@@ -1099,7 +1099,7 @@ interpret_cmd(char *cmd)
 		*sp = add_list (*sp, make_list (cmd + 3));
 		return;
 	}
-		
+
 	case 'B' : {
 		/* Change list */
 		list **sp = lookup_list (cmd + 1);
@@ -1108,7 +1108,7 @@ interpret_cmd(char *cmd)
 		*sp = add_list (make_list (cmd + 3), *sp);
 		return;
 	}
-		
+
 	case 'L' : {
 		/* Change list */
 		list **sp = lookup_list (cmd + 1);
@@ -1118,7 +1118,7 @@ interpret_cmd(char *cmd)
 		*sp = make_list (cmd + 3);
 		return;
 	}
-		
+
 	case 'C' : {
 		/* Call */
 		proc p = lookup_proc (cmd + 1);
@@ -1132,13 +1132,13 @@ interpret_cmd(char *cmd)
 		(*p) ();
 		return;
 	}
-		
+
 	case 'D' : {
 		/* Startup options */
 		add_to_startup (cmd + 1);
 		return;
 	}
-		
+
 	case 'E' : {
 		/* Environment */
 		if (*(cmd+1) == '?') {
@@ -1160,7 +1160,7 @@ interpret_cmd(char *cmd)
 				*q++ = c1;
 			}
 			*q++='\0';
-			
+
 			while ((c1 = *p++) != '\0') {
 				*r++ = c1;
 				/* only the val is user supplied and needs bounds
@@ -1172,7 +1172,7 @@ interpret_cmd(char *cmd)
  			}
 			*r++ ='\0';
 			/* additional error checking for those platforms supporting stat */
-#if FS_STAT	
+#if FS_STAT
 			if (stat (val, &sb) == -1) {
 				error (SERIOUS, "interpret_cmd: %s %s\n",
 					   val, strerror(errno));
@@ -1197,20 +1197,20 @@ interpret_cmd(char *cmd)
 		}
 		return;
 	}
-		
+
 	case 'F' : {
 		/* Endup options */
 		add_to_endup (cmd + 1);
 		return;
 	}
-		
+
 	case 'H' : {
 		/* Halt */
 		char stage = cmd [1];
 		set_stage (find_type (stage, 0), STOP_STAGE);
 		return;
 	}
-		
+
 	case 'I' : {
 		/* Input file */
 		int t;
@@ -1226,7 +1226,7 @@ interpret_cmd(char *cmd)
 		input_files = add_filename (input_files, f);
 		return;
 	}
-		
+
 	case 'K' : {
 		/* Keep */
 		static int k = KEEP_STAGE;
@@ -1239,7 +1239,7 @@ interpret_cmd(char *cmd)
 		}
 		return;
 	}
-		
+
 	case 'Q' : {
 		/* Query */
 		char *s;
@@ -1288,7 +1288,7 @@ interpret_cmd(char *cmd)
 		}
 		return;
 	}
-		
+
 	case 'S' : {
 		/* String */
 		char **s = lookup_string (cmd + 1);
@@ -1296,7 +1296,7 @@ interpret_cmd(char *cmd)
 		*s = cmd + 3;
 		return;
 	}
-		
+
 	case 'V' : {
 		if (cmd [1] == 'B') {
 			boolean *b = lookup_bool (cmd + 2);
@@ -1328,7 +1328,7 @@ interpret_cmd(char *cmd)
 		}
 		break;
 	}
-		
+
 	case 'X' : {
 		/* Error */
 		error (WARNING, "%s", cmd + 1);
@@ -1417,7 +1417,7 @@ process_options(list *opt, optmap *tab, int fast)
 		end_search :
 			p = p->next;
 	}
-	
+
 	/* Check for incomplete options */
 	if (status == MATCH_MORE) {
 		error (WARNING, "Option '%s' is incomplete", arg);

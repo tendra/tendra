@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -203,7 +203,7 @@ void
 init_tables()
 {
     int i;
-	
+
     /* Allocate tables */
     cons_table = alloc_nof (construct *, SORT_no);
     cons_sizes = alloc_nof (int, SORT_no);
@@ -219,7 +219,7 @@ init_tables()
     sort_removed = alloc_nof (long, SORT_no);
     sort_decode = alloc_nof (decode_func, SORT_no);
     sort_read = alloc_nof (read_func, SORT_no);
-	
+
     /* Clear out tables */
     for (i = 0 ; i < SORT_no ; i++) {
 		cons_table [i] = null;
@@ -236,7 +236,7 @@ init_tables()
 		sort_read [i] = read_dummy;
     }
     sort_letters [ SORT_no ] = 0;
-	
+
     /* Initialize construct hash tables */
     for (i = 0 ; i < SORT_no * hash_size ; i++) {
 		cons_hash_tables [i] = null;

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -122,16 +122,16 @@ word
 #define BLOCK 100
     static word *wblock;
     static int block_count = BLOCK;
-	
+
     word *new_ptr;
     if (printflag) {
-		
+
 		if (block_count == BLOCK) {
 			/* Allocate space if required */
 			wblock = alloc_nof (word, BLOCK);
 			block_count = 0;
 		}
-		
+
 		/* set up fields of new word */
 		new_ptr = wblock + (block_count++);
 		if (word_ptr->type != SIMPLE && word_ptr->son == null) {
@@ -233,10 +233,10 @@ out_int(long n)
     if (printflag) {
 		/* Note that the input is cast to an unsigned int */
 		unsigned long m = (unsigned long) n, dig, power = 1;
-		
+
 		/* Get the highest power of 10 dividing m */
 		while ((m / power) >= 10) power *= 10;
-		
+
 		/* Now output digits of m */
 		while (power != 0) {
 			dig = (m / power);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -79,7 +79,7 @@ name_table_create()
 {
     NameTableP table = ALLOCATE (NameTableT);
     unsigned   i;
-	
+
     for (i = 0; i < NAME_TABLE_SIZE; i ++) {
 		table->contents [i] = NIL (NameEntryP);
     }
@@ -96,7 +96,7 @@ name_table_add_rename(NameTableP table, NameKeyP from,
     NameEntryP *from_entryp   = &(table->contents [hash_value]);
     NameEntryP  to_entry;
     NameEntryP  from_entry;
-	
+
     while ((to_entry = *to_entryp) != NIL (NameEntryP)) {
 		if (name_key_equal (to, name_entry_key (to_entry))) {
 			goto found;
@@ -123,10 +123,10 @@ name_table_resolve_renames(NameTableP table,
 						   BoolT report)
 {
     unsigned i;
-	
+
     for (i = 0; i < NAME_TABLE_SIZE; i ++) {
 		NameEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			(void) name_entry_resolve_renames (entry, shape, report);
 			entry = name_entry_next (entry);
@@ -141,7 +141,7 @@ name_table_add(NameTableP table, NameKeyP key,
     unsigned    hash_value = (name_key_hash_value (key) % NAME_TABLE_SIZE);
     NameEntryP *entryp     = &(table->contents [hash_value]);
     NameEntryP  entry;
-	
+
     while ((entry = *entryp) != NIL (NameEntryP)) {
 		if (name_key_equal (key, name_entry_key (entry))) {
 			if (name_entry_is_indirect (entry)) {
@@ -164,7 +164,7 @@ name_table_get(NameTableP table, NameKeyP key)
 {
     unsigned   hash_value = (name_key_hash_value (key) % NAME_TABLE_SIZE);
     NameEntryP entry      = table->contents [hash_value];
-	
+
     while (entry) {
 		if (name_key_equal (key, name_entry_key (entry))) {
 			if (name_entry_is_indirect (entry)) {
@@ -185,10 +185,10 @@ name_table_iter(NameTableP table, void (*proc)(NameEntryP, GenericP),
 				GenericP closure)
 {
     unsigned i;
-	
+
     for (i = 0; i < NAME_TABLE_SIZE; i ++) {
 		NameEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			if (name_entry_is_direct (entry)) {
 				(*proc) (entry, closure);
@@ -202,10 +202,10 @@ void
 name_table_deallocate(NameTableP table)
 {
     unsigned i;
-	
+
     for (i = 0; i < NAME_TABLE_SIZE; i ++) {
 		NameEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			entry = name_entry_deallocate (entry);
 		}

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -156,7 +156,7 @@ register_type(TYPE_P t)
     while (!IS_NULL_list (r)) {
 		TYPE_P s = DEREF_ptr (HEAD_list (r));
 		if (streq (name_type (s), nm)) {
-			
+
 			/* Check for multiple definition */
 			if (!IS_type_undef (DEREF_type (s))) {
 				char *fn1 = DEREF_string (cid_file (id));
@@ -175,7 +175,7 @@ register_type(TYPE_P t)
 							"Type %s already defined (at %s, line %d)",
 							nm, fn2, ln2);
 			}
-			
+
 			COPY_type (s, DEREF_type (t));
 			return (s);
 		}
@@ -280,7 +280,7 @@ compound_type(unsigned tag, TYPE_P r, int depth)
     TYPE s0;
     TYPE_P s;
     LIST (TYPE_P) t = algebra->types;
-	
+
     /* Search for uses */
     while (!IS_NULL_list (t)) {
 		s = DEREF_ptr (HEAD_list (t));
@@ -350,7 +350,7 @@ derived_types(TYPE_P t, LIST (TYPE_P) p)
     t0 = DEREF_type (t);
     tag = TAG_type (t0);
     switch (tag) {
-		
+
 	case type_ident_tag : {
 	    /* Identity definition */
 	    IDENTITY_P r = DEREF_ptr (type_ident_id (t0));
@@ -358,7 +358,7 @@ derived_types(TYPE_P t, LIST (TYPE_P) p)
 	    p = derived_types (s, p);
 	    break;
 	}
-		
+
 	case type_structure_tag : {
 	    /* Structure components */
 	    STRUCTURE_P r = DEREF_ptr (type_structure_struc (t0));
@@ -371,7 +371,7 @@ derived_types(TYPE_P t, LIST (TYPE_P) p)
 	    }
 	    break;
 	}
-		
+
 	case type_onion_tag : {
 	    /* Union components, fields and maps */
 	    UNION_P r = DEREF_ptr (type_onion_un (t0));
@@ -410,7 +410,7 @@ derived_types(TYPE_P t, LIST (TYPE_P) p)
 	    }
 	    break;
 	}
-		
+
 	case type_list_tag :
 	case type_ptr_tag :
 	case type_stack_tag :
@@ -556,13 +556,13 @@ size_type(TYPE_P t, int depth)
     TYPE t0 = DEREF_type (t);
     int sz = DEREF_int (type_size (t0));
     if (sz) return (sz);
-	
+
     if (depth > MAX_TYPE_DEPTH) {
 		error (ERROR_SERIOUS, "Cyclic type definition involving %s",
 			   name_type (t));
 		return (1);
     }
-	
+
     switch (TAG_type (t0)) {
 	case type_ident_tag : {
 	    IDENTITY_P i = DEREF_ptr (type_ident_id (t0));
@@ -570,7 +570,7 @@ size_type(TYPE_P t, int depth)
 	    sz = size_type (DEREF_ptr (s), depth + 1);
 	    break;
 	}
-		
+
 	case type_structure_tag : {
 	    STRUCTURE_P str = DEREF_ptr (type_structure_struc (t0));
 	    LIST (COMPONENT_P) c = DEREF_list (str_defn (str));
@@ -583,7 +583,7 @@ size_type(TYPE_P t, int depth)
 	    }
 	    break;
 	}
-		
+
 	case type_primitive_tag : sz = SIZE_PRIM; break;
 	case type_enumeration_tag : sz = SIZE_ENUM; break;
 	case type_onion_tag : sz = SIZE_UNION; break;
@@ -592,7 +592,7 @@ size_type(TYPE_P t, int depth)
 	case type_stack_tag : sz = SIZE_STACK; break;
 	case type_vec_tag : sz = SIZE_VEC; break;
 	case type_vec_ptr_tag : sz = SIZE_VEC_PTR; break;
-		
+
 	default : {
 	    error (ERROR_SERIOUS, "Can't take size of type %s",
 			   name_type (t));

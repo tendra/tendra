@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -772,7 +772,7 @@ main_init(int argc, char **argv)
     ArgListP  arg_list      = main_linker_arg_list;
     CStringP  error_file;
     int       skip;
-	
+
     error_init (argv [0], gen_errors_init_errors);
     error_intern_strings (main_description_strings);
     if ((error_file = getenv ("TLD_ERROR_FILE")) != NIL (CStringP)) {
@@ -783,7 +783,7 @@ main_init(int argc, char **argv)
   retry:
     if ((argc > 0) && (argv [0][0] == '-') && (argv [0][1] == 'm')) {
 		char c = argv [0][2];
-		
+
 		argc --;
 		argv ++;
 		switch (c) {
@@ -858,20 +858,20 @@ main(int argc, char **argv)
 		}
     } WITH {
 		ExceptionP exception = EXCEPTION_EXCEPTION ();
-		
+
 		if (exception == XX_dalloc_no_memory) {
 			E_no_memory ();
 			UNREACHED;
 		} else if ((exception == XX_istream_read_error) ||
 				   (exception == XX_bistream_read_error)) {
 			CStringP file = (CStringP) EXCEPTION_VALUE ();
-			
+
 			E_read_error (file);
 			UNREACHED;
 		} else if ((exception == XX_ostream_write_error) ||
 				   (exception == XX_bostream_write_error)) {
 			CStringP file = (CStringP) EXCEPTION_VALUE ();
-			
+
 			E_write_error (file);
 			UNREACHED;
 		} else {

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -133,17 +133,17 @@ pretty_tree()
 {
     int i, j;
     int maximum0;
-	
+
     initialize_tree ();
-	
+
     /* Do some trial runs to try to fit into right number of columns... */
     printflag = 0;
-	
+
     /* With a maximum identation of 0... */
     maxtab = 0;
     display (0);
     maximum0 = maximum;
-	
+
     /* Try some larger/smaller values */
     if (!quickflag && maximum < maxcol) {
 		maxtab = 4;
@@ -154,7 +154,7 @@ pretty_tree()
 			maxtab = dec[j][ maximum < maxcol ? 2 : 1 ];
 		}
     }
-	
+
     /* Work out dot spacing */
     dot_spacing = 8;
     if (maxtab != 100) dot_spacing = 2 * (maxtab + 1);
@@ -163,7 +163,7 @@ pretty_tree()
 		dot_spacing = 4;
     }
     init_spaces (dot_spacing);
-	
+
     /* Actually do the printing */
     printflag = 1;
     display (0);
@@ -253,37 +253,37 @@ expression(word *ptr, int col, int first,
     char sort, opener, sep;
     int len, visible, horiz;
     int mflag, new_col, temp_col, temp_max;
-	
+
     /* print initial spaces */
     if (column == 0) spaces (col);
-	
+
     /* output first character */
     put_out (first);
-	
+
     /* copy out initial text */
     col = column;
     len = (int) ptr->length;
     sort = ptr->type;
     if (printflag) IGNORE fputs (ptr->text, pp_file);
     column += len;
-	
+
     /* if we have parameters, we need to decode them */
     if (sort != SIMPLE) {
-		
+
 		/* are the brackets visible or not? */
 		visible = ((sort == HORIZ_NONE || sort == VERT_NONE) ? 0 : 1);
 		if (!visible) {
 			open = close = bar = 0;
 			comma = ' ';
 		}
-		
+
 		/* are we printing horizontally or vertically? */
 		horiz = (sort == HORIZ_BRACKETS || sort == HORIZ_NONE);
-		
+
 		/* does the maximum tab come into effect? */
 		mflag = (!horiz && (len > maxtab));
 		new_col = col + (mflag ? maxtab : len) + 1;
-		
+
 		if (sort == VERT_BRACKETS) {
 			/* try to print things with only one parameter horizontally */
 			p = ptr->son;
@@ -293,7 +293,7 @@ expression(word *ptr, int col, int first,
 				if (p->son == null && p->bro == null) horiz = 1;
 			}
 		}
-		
+
 		/* have a test run, if printing horizontally */
 		if (horiz && printflag) {
 			horiz = 1;
@@ -329,7 +329,7 @@ expression(word *ptr, int col, int first,
 			maximum = temp_max;
 			printflag = 1;
 		}
-		
+
 		if (horiz && printflag) {
 			/* do horizontal printing of parameters */
 			/* open bracket */
@@ -377,10 +377,10 @@ expression(word *ptr, int col, int first,
 			if (visible) put_out (close);
 		}
     }
-	
+
     /* output last character */
     if (last != ',' || (lastc != '.' && lastc != ':')) put_out (last);
-	
+
     /* and a newline if required */
     if (flag) new_line ();
     return;

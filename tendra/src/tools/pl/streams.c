@@ -127,7 +127,7 @@ append_TDF(TDF * tdf, Bool free_it) /* appends the stream tdf onto current strea
 {
     Chunk * t_ch = current_TDF->last;
     Chunk * a_ch = tdf->first;
-	
+
     if (t_ch->usage < DATA_SIZE -1 - a_ch->usage) {
 		/* room to put it in current chunk */
 		int i;

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -199,10 +199,10 @@ de_equation(equation_func f)
     long no_var;
     int needs_it = 0;
     static long unitno = 1;
-	
+
     /* Record old bindings */
     binding *old_binding = crt_binding;
-	
+
     /* Read the number of each type of variable */
     no_var = tdf_int ();
     if (no_var) {
@@ -221,7 +221,7 @@ de_equation(equation_func f)
 		}
 		if (show_stuff) blank_line ();
     }
-	
+
     /* Read linkage for each type of variable */
     n = tdf_int ();
     if (n != no_var) input_error ("Number of linkage units wrong");
@@ -264,11 +264,11 @@ de_equation(equation_func f)
 			if (needs_it) blank_line ();
 			blank_lines = 1;
 		}
-		
+
 		/* Complete the bindings */
 		complete_binding (crt_binding);
     }
-	
+
     /* Read the unit body */
     n = BYTESIZE * tdf_int ();
     byte_align ();
@@ -286,7 +286,7 @@ de_equation(equation_func f)
 		byte_align ();
 		if (posn (here) != end) input_error ("Unit length wrong");
     }
-	
+
     /* Restore old bindings */
     if (no_var) {
 		free_binding_table (crt_binding);
@@ -318,14 +318,14 @@ de_capsule()
     long i, n;
     long no_eqn, no_var;
     if (dumb_mode) show_stuff = 1;
-	
+
     /* Read the magic number */
     out ("MAGIC NUMBER");
     blank_line ();
     de_magic (version_magic);
     blank_line ();
     blank_line ();
-	
+
     /* Read the equation types */
     no_eqn = tdf_int ();
     if (no_eqn) {
@@ -344,7 +344,7 @@ de_capsule()
 			blank_line ();
 		}
     }
-	
+
     /* Read the variable types and initialize the bindings */
     no_var = tdf_int ();
     no_variables = no_var;
@@ -358,7 +358,7 @@ de_capsule()
 		var_letters = alloc_nof (char, no_var + 1);
 		var_count = alloc_nof (long, no_var);
 		var_letters [ no_var ] = 0;
-		
+
 		for (i = 0 ; i < no_var ; i++) {
 			string sv = de_tdfstring_align ();
 			long sz = tdf_int ();
@@ -377,7 +377,7 @@ de_capsule()
 			blank_line ();
 		}
     }
-	
+
     /* Read the external variable names */
     n = tdf_int ();
     if (n != no_var) input_error ("Number of variables wrong");
@@ -395,10 +395,10 @@ de_capsule()
 			blank_line ();
 		}
     }
-	
+
     /* Complete the bindings */
     complete_binding (crt_binding);
-	
+
     /* Read the equations */
     n = tdf_int ();
     if (n != no_eqn) input_error ("Number of equations wrong");
@@ -446,7 +446,7 @@ de_capsule()
 			skipping = 0;
 			printflag = old_pf;
 		}
-		
+
 		/* Main pass */
 		if (dumb_mode || f) {
 			if (title && !show_stuff) {

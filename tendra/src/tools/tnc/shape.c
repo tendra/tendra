@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -91,15 +91,15 @@ init_shapes()
 		/* Construct sh_bottom */
 		sh_bottom = new_node ();
 		sh_bottom->cons = cons_no (SORT_shape, ENC_bottom);
-		
+
 		/* Construct sh_proc */
 		sh_proc = new_node ();
 		sh_proc->cons = cons_no (SORT_shape, ENC_proc);
-		
+
 		/* Construct sh_top */
 		sh_top = new_node ();
 		sh_top->cons = cons_no (SORT_shape, ENC_top);
-		
+
 		/* Initialize alignments */
 		init_alignments ();
     }
@@ -407,17 +407,17 @@ node
     node *q0 = (tg == 2 ? null : q);
     node *p1 = p;
     boolean check_further = 0;
-	
+
     /* If one is unknown, return the other */
     if (p == null) return (q0);
     if (q == null) return (p0);
     if (p->cons->sortnum == SORT_unknown) return (q0);
     if (q->cons->sortnum == SORT_unknown) return (p0);
-	
+
     s = p->cons->sortnum;
     np = p->cons->encoding;
     nq = q->cons->encoding;
-	
+
     /* Check for tokens */
     if (np == sort_tokens [s]) {
 		p = expand_tok (p);
@@ -434,9 +434,9 @@ node
 		if (q == null) return (p0);
 		nq = q->cons->encoding;
     }
-	
+
     switch (s) {
-		
+
 	case SORT_shape : {
 	    /* Check for bottoms */
 	    if (tg == 2) {
@@ -450,7 +450,7 @@ node
 			ok = 0;
 	    } else {
 			switch (np) {
-				
+
 		    case ENC_bitfield :
 		    case ENC_floating :
 		    case ENC_integer :
@@ -459,10 +459,10 @@ node
 				check_further = 1;
 				break;
 		    }
-				
+
 				/* case ENC_pointer */
 				/* case ENC_offset */
-				
+
 		    case ENC_bottom :
 		    case ENC_proc :
 		    case ENC_top : {
@@ -474,7 +474,7 @@ node
 	    }
 	    break;
 	}
-		
+
 	case SORT_bitfield_variety : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_bfvar_cond) return (q0);
@@ -487,7 +487,7 @@ node
 	    }
 	    break;
 	}
-		
+
 	case SORT_bool : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_bool_cond) return (q0);
@@ -496,7 +496,7 @@ node
 	    if (tg == 2) return (ok ? p1 : sh_top);
 	    break;
 	}
-		
+
 	case SORT_floating_variety : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_flvar_cond) return (q0);
@@ -509,7 +509,7 @@ node
 	    }
 	    break;
 	}
-		
+
 	case SORT_nat : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_nat_cond) return (q0);
@@ -525,7 +525,7 @@ node
 	    }
 	    break;
 	}
-		
+
 	case SORT_signed_nat : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_signed_nat_cond) return (q0);
@@ -541,7 +541,7 @@ node
 	    }
 	    break;
 	}
-		
+
 	case SORT_variety : {
 	    /* Don't know about conditionals */
 	    if (np == ENC_var_cond) return (q0);
@@ -554,14 +554,14 @@ node
 	    }
 	    break;
 	}
-		
+
 	default : {
 	    is_fatal = 0;
 	    input_error ("Shouldn't be checking %s's", sort_name (s));
 	    break;
 	}
     }
-	
+
     /* Check arguments if necessary */
     if (check_further) {
 		node *xp = p->son;
@@ -578,7 +578,7 @@ node
     } else {
 		if (tg == 2) return (null);
     }
-	
+
     if (!ok) {
 		/* Definitely not compatible */
 		if (tg == 2) return (sh_top);
@@ -623,18 +623,18 @@ node
     long n;
     char *nm = p->cons->name;
     node *s = p->shape, *s0 = s;
-	
+
     if (s == null) return (null);
     if (s->cons->sortnum == SORT_unknown) return (s);
     if (t >= ENC_shape_none) return (s);
-	
+
     n = s->cons->encoding;
     if (n == ENC_shape_apply_token) {
 		s = expand_tok (s);
 		if (s == null) return (s0);
 		n = s->cons->encoding;
     }
-	
+
     if (n == ENC_shape_cond) {
 		/* Don't know about conditionals */
     } else if (n != (long) t) {
@@ -665,7 +665,7 @@ node
 {
     node *sp = check1 (t, p);
     node *sq = check1 (t, q);
-	
+
     if (t == ENC_nof) {
 		/* For arrays check for concat_nof */
 		node *s = null;
@@ -698,7 +698,7 @@ node
 		}
 		return (sh_nof (n, s));
     }
-	
+
     return (check_shapes (sp, sq, 0));
 }
 

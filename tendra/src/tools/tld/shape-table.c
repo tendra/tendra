@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -78,7 +78,7 @@ shape_table_create()
 {
     ShapeTableP table = ALLOCATE (ShapeTableT);
     unsigned    i;
-	
+
     for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		table->contents [i] = NIL (ShapeEntryP);
     }
@@ -93,7 +93,7 @@ shape_table_add(ShapeTableP table, NStringP key)
     unsigned     hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
     ShapeEntryP *entryp     = &(table->contents [hash_value]);
     ShapeEntryP  entry;
-	
+
     while ((entry = *entryp) != NIL (ShapeEntryP)) {
 		if (nstring_equal (key, shape_entry_key (entry))) {
 			return (entry);
@@ -110,7 +110,7 @@ shape_table_get(ShapeTableP table, NStringP key)
 {
     unsigned    hash_value = (nstring_hash_value (key) % SHAPE_TABLE_SIZE);
     ShapeEntryP entry      = (table->contents [hash_value]);
-	
+
     while (entry) {
 		if (nstring_equal (key, shape_entry_key (entry))) {
 			return (entry);
@@ -125,7 +125,7 @@ shape_table_get_token_entry(ShapeTableP table)
 {
     if (table->token_entry == NIL (ShapeEntryP)) {
 		NStringT nstring;
-		
+
 		nstring_copy_cstring (&nstring, "token");
 		table->token_entry = shape_table_get (table, &nstring);
 		nstring_destroy (&nstring);
@@ -138,7 +138,7 @@ shape_table_get_tag_entry(ShapeTableP table)
 {
     if (table->tag_entry == NIL (ShapeEntryP)) {
 		NStringT nstring;
-		
+
 		nstring_copy_cstring (&nstring, "tag");
 		table->tag_entry = shape_table_get (table, &nstring);
 		nstring_destroy (&nstring);
@@ -151,10 +151,10 @@ shape_table_iter(ShapeTableP table, void (*proc)(ShapeEntryP, GenericP),
 				 GenericP closure)
 {
     unsigned i;
-	
+
     for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		ShapeEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			(*proc) (entry, closure);
 			entry = shape_entry_next (entry);
@@ -166,10 +166,10 @@ void
 shape_table_deallocate(ShapeTableP table)
 {
     unsigned i;
-	
+
     for (i = 0; i < SHAPE_TABLE_SIZE; i ++) {
 		ShapeEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			entry = shape_entry_deallocate (entry);
 		}

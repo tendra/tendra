@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- 
+
  *  		 Crown Copyright (c) 1997
  *
  *  This TenDRA(r) Computer Program is subject to Copyright
@@ -297,7 +297,7 @@ decode(char * id)
     int mid;
     int cl,cu,cm;
     Tokdec * td;
-	
+
     cl = strcmp(terminals[lower].name, id);
     if (cl == 0) return term_val(lower);
     if (cl > 0) goto notterm;
@@ -315,7 +315,7 @@ decode(char * id)
 			break;
 		}
     }
-	
+
   notterm:
     lower = 0;
     upper = no_of_cons-1;
@@ -336,7 +336,7 @@ decode(char * id)
 			break;
 		}
     }
-	
+
   notcons:
     if (search_for_toks) {
 		td = tokdecs;
@@ -456,7 +456,7 @@ reader()
 {
     int c;
     int ll;
-	
+
   again:
     switch (c = mygetc()) {
 	case '(': return symbol(lex_ord);
@@ -468,20 +468,20 @@ reader()
   	case ':': return symbol(lex_colon);
   	case ';': return symbol(lex_semi);
   	case ',': return symbol(lex_comma);
-		
+
   	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9': {
 	    return numval(c);
 	}
-		
+
   	case ' ': case 0: case '\t': case '\n': case '\r': {
 	    goto again;
 	}
-		
+
   	case '\'': return charval();
   	case '"' : return stringval();
   	case -1: return symbol(lex_eof);
-		
+
 	default: {
 	    int number = (c=='-' || c=='.');
 	    ll = 0;

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -91,13 +91,13 @@ builder_read_libraries(ArgDataP arg_data,
     LibraryP *libraries       = ALLOCATE_VECTOR (LibraryP, num_lib_files);
     unsigned  num_capsules    = 0;
     unsigned  i;
-	
+
     for (i = 0; i < num_lib_files; i ++) {
 		LibraryP library = library_create_stream_input (lib_files [i]);
-		
+
 		if (library != NIL (LibraryP)) {
 			ShapeTableP lib_shapes = shape_table_create ();
-			
+
 			library_read (library, lib_shapes);
 			library_close (library);
 			libraries [i] = library;
@@ -120,7 +120,7 @@ builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
 {
     CStringP name = capsule_name (capsule);
     unsigned i;
-	
+
     for (i = 0; i < capsule_index; i ++) {
 		if (cstring_equal (name, capsule_name (capsules [i]))) {
 			E_duplicate_capsule_name (name);
@@ -145,24 +145,24 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
     unsigned  num_capsules;
     CapsuleP *capsules;
     unsigned  i;
-	
+
     libraries     = builder_read_libraries (arg_data, &num_libraries,
 					    &num_capsules);
     num_capsules += num_input_files;
     capsules      = ALLOCATE_VECTOR (CapsuleP, num_capsules);
     for (i = 0; i < num_libraries; i ++) {
 		LibraryP library = libraries [i];
-		
+
 		if (library != NIL (LibraryP)) {
 			unsigned num_lib_capsules = library_num_capsules (library);
 			unsigned j;
-			
+
 			for (j = 0; j < num_lib_capsules; j ++) {
 				LibCapsuleP lib_capsule = library_get_capsule (library, j);
 				CStringP    name        = lib_capsule_name (lib_capsule);
 				NStringP    contents    = lib_capsule_contents (lib_capsule);
 				CapsuleP    capsule;
-				
+
 				capsule = capsule_create_string_input (name, contents);
 				builder_read_capsule (capsule, capsules, capsule_index,
 									  units, shapes);
@@ -173,7 +173,7 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
     DEALLOCATE (libraries);
     for (i = 0; i < num_input_files; i ++) {
 		CapsuleP capsule;
-		
+
 		if ((capsule = capsule_create_stream_input (input_files [i])) !=
 			NIL (CapsuleP)) {
 			builder_read_capsule (capsule, capsules, capsule_index, units,
@@ -207,11 +207,11 @@ builder_suppress_1(NStringP shape, BoolT all,
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
-	
+
     if (entry) {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
-		
+
 		if (all) {
 			name_table_iter (table, name_entry_builder_suppress,
 							 (GenericP) shape);
@@ -219,7 +219,7 @@ builder_suppress_1(NStringP shape, BoolT all,
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
 			NameEntryP name_entry = name_table_get (table, key);
-			
+
 			if (name_entry) {
 				debug_info_l_suppress (shape, key);
 				name_entry_set_definition (name_entry, NIL (CapsuleP));
@@ -250,7 +250,7 @@ builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
 {
     CStringP output_file = arg_data_get_output_file (arg_data);
     LibraryP library;
-	
+
     if ((library = library_create_stream_output (output_file)) !=
 		NIL (LibraryP)) {
 		library_write (library, shapes, num_capsules, capsules);
@@ -274,7 +274,7 @@ builder_main(ArgDataP arg_data)
     ShapeTableP shapes = shape_table_create ();
     unsigned    num_capsules;
     CapsuleP   *capsules;
-	
+
     capsules = builder_read_capsules (arg_data, units, shapes, &num_capsules);
     builder_check_multi_defs (shapes);
     builder_suppress (arg_data, shapes);

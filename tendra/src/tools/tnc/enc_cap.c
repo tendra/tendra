@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -317,7 +317,7 @@ enc_links(bitstream *p, long ntok, long nalign,
     if (al_tag_total) enc_tdf_int (p, nalign);
     if (tag_total) enc_tdf_int (p, ntag);
     enc_tdf_int (p, var_total);
-	
+
     /* Token links */
     if (tok_total) {
 		enc_tdf_int (p, ntok);
@@ -326,7 +326,7 @@ enc_links(bitstream *p, long ntok, long nalign,
 			enc_tdf_int (p, i);
 		}
     }
-	
+
     /* Alignment tag links */
     if (al_tag_total) {
 		enc_tdf_int (p, nalign);
@@ -335,7 +335,7 @@ enc_links(bitstream *p, long ntok, long nalign,
 			enc_tdf_int (p, i);
 		}
     }
-	
+
     /* Tag links */
     if (tag_total) {
 		enc_tdf_int (p, ntag);
@@ -374,17 +374,17 @@ enc_equation(bitstream *p, long ne, bitstream *q,
 {
     long n;
     bitstream *u;
-	
+
     if (ne == 0) {
 		/* There are no sets of equations */
 		enc_tdf_int (p, (long) 0);
 		return;
     }
-	
+
     /* There is one set of equations */
     enc_tdf_int (p, (long) 1);
     u = new_bitstream ();
-	
+
     /* Encode the links */
     switch (t) {
 	case EQN_VERS : {
@@ -409,11 +409,11 @@ enc_equation(bitstream *p, long ne, bitstream *q,
 	    break;
 	}
     }
-	
+
     /* Append the body to the links */
     join_bitstreams (u, q);
     align_bitstream (u);
-	
+
     /* Precede links and body by their length in bytes */
     n = bitstream_length (u);
     enc_tdf_int (p, (long) (n / BYTESIZE));
@@ -447,12 +447,12 @@ enc_capsule()
     bitstream *vers_bs;
     char *m = magic_number;
     bitstream *p = new_bitstream ();
-	
+
     /* Map to lowest applicable version number */
     if (version_major == 4) {
 		if (version_minor == 1) version_minor = 0;
     }
-	
+
     /* Initialize the equation bitstreams */
     tld_bs = new_bitstream ();
     tok_decs_bs = new_bitstream ();
@@ -460,21 +460,21 @@ enc_capsule()
     al_tag_defs_bs = new_bitstream ();
     tag_decs_bs = new_bitstream ();
     tag_defs_bs = new_bitstream ();
-	
+
     /* Analyse all the tags, tokens etc */
     enc_tdf_int (tld_bs, (long) 1);
     apply_to_all (enc_label_aux, SORT_label);
     apply_to_all (enc_token_aux, SORT_token);
     apply_to_all (enc_al_tag_aux, SORT_al_tag);
     apply_to_all (enc_tag_aux, SORT_tag);
-	
+
     /* Check on output options */
     if (!show_tokdecs) tok_decs = 0;
     if (!show_tokdefs) tok_defs = 0;
     if (!show_aldefs) al_tag_defs = 0;
     if (!show_tagdecs) tag_decs = 0;
     if (!show_tagdefs) tag_defs = 0;
-	
+
     /* Output equation types */
     eqn_total = 2;
     if (tok_decs) eqn_total++;
@@ -506,13 +506,13 @@ enc_capsule()
     if (tag_defs) {
 		enc_aligned_string (p, LINK_tagdef_props, (long) -1);
     }
-	
+
     /* Adjust totals for removed variables */
     tok_total += sort_removed [ SORT_token ];
     tag_total += sort_removed [ SORT_tag ];
     al_tag_total += sort_removed [ SORT_al_tag ];
     lab_total += sort_removed [ SORT_label ];
-	
+
     /* Output variable sorts */
     var_total = 0;
     if (tok_total) var_total++;
@@ -531,7 +531,7 @@ enc_capsule()
 		enc_aligned_string (p, LINK_tag, (long) -1);
 		enc_tdf_int (p, tag_total);
     }
-	
+
     /* Output external names */
     enc_tdf_int (p, var_total);
     crt_bitstream = p;
@@ -547,7 +547,7 @@ enc_capsule()
 		enc_tdf_int (p, tag_external);
 		apply_to_all (enc_tag_names, SORT_tag);
     }
-	
+
     /* Output equations */
     enc_tdf_int (p, eqn_total);
     enc_equation (p, (long) 1, tld_bs, EQN_TLD);
@@ -563,7 +563,7 @@ enc_capsule()
     }
     if (tag_decs) enc_equation (p, tag_decs, tag_decs_bs, EQN_TAGDEC);
     if (tag_defs) enc_equation (p, tag_defs, tag_defs_bs, EQN_TAGDEF);
-	
+
     /* Send bitstream to output file */
     print_bitstream (p);
     return;

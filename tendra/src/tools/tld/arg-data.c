@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -88,7 +88,7 @@ shape_control_find(ShapeControlP control,
 {
     NStringT           nstring;
     ShapeControlEntryP entry;
-	
+
     nstring_copy_cstring (&nstring, shape);
     for (entry = control->head; entry; entry = entry->next) {
 		if (nstring_equal (&nstring, &(entry->shape))) {
@@ -110,7 +110,7 @@ shape_control_entry_add_name(ShapeControlEntryP entry,
 							 CStringP name)
 {
     NameKeyT key;
-	
+
     if (name_key_parse_cstring (&key, name)) {
 		name_key_list_add (&(entry->names), &key);
     } else {
@@ -137,7 +137,7 @@ rename_control_find(RenameControlP control,
 					NStringP shape)
 {
     RenameControlEntryP entry;
-	
+
     for (entry = control->head; entry; entry = entry->next) {
 		if (nstring_equal (shape, &(entry->shape))) {
 			return (entry);
@@ -165,7 +165,7 @@ rename_control_entry_parse_pair(RenameControlEntryP entry,
     NStringP shape = &(entry->shape);
     NameKeyT from_key;
     NameKeyT to_key;
-	
+
     if (!name_key_parse_cstring (&from_key, from)) {
 		E_illegal_external_name (from);
     } else if (!name_key_parse_cstring (&to_key, to)) {
@@ -185,7 +185,7 @@ shape_control_iter(ShapeControlP control,
 				   GenericP closure)
 {
     ShapeControlEntryP entry;
-	
+
     for (entry = control->head; entry; entry = entry->next) {
 		(*proc) (&(entry->shape), entry->all, &(entry->names), closure);
     }
@@ -197,7 +197,7 @@ rename_control_iter(RenameControlP control,
 					GenericP closure)
 {
     RenameControlEntryP entry;
-	
+
     for (entry = control->head; entry; entry = entry->next) {
 		(*proc) (&(entry->shape), &(entry->names), closure);
     }
@@ -262,7 +262,7 @@ arg_data_add_hide(ArgDataP arg_data, CStringP shape,
 				  CStringP name)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->hides), shape);
-	
+
     shape_control_entry_add_name (entry, name);
 }
 
@@ -271,7 +271,7 @@ arg_data_add_hide_defined(ArgDataP arg_data,
 						  CStringP shape)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->hides), shape);
-	
+
     shape_control_entry_set (entry);
 }
 
@@ -286,7 +286,7 @@ arg_data_add_keep(ArgDataP arg_data, CStringP shape,
 				  CStringP name)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->keeps), shape);
-	
+
     shape_control_entry_add_name (entry, name);
 }
 
@@ -294,7 +294,7 @@ void
 arg_data_add_keep_all(ArgDataP arg_data, CStringP shape)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->keeps), shape);
-	
+
     shape_control_entry_set (entry);
 }
 
@@ -310,7 +310,7 @@ arg_data_add_suppress(ArgDataP arg_data, CStringP shape,
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->suppresses),
 												   shape);
-	
+
     shape_control_entry_add_name (entry, name);
 }
 
@@ -320,7 +320,7 @@ arg_data_add_suppress_all(ArgDataP arg_data,
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->suppresses),
 												   shape);
-	
+
     shape_control_entry_set (entry);
 }
 
@@ -336,7 +336,7 @@ arg_data_add_rename(ArgDataP arg_data, NStringP shape,
 {
     RenameControlEntryP entry;
     NameKeyPairListP    names;
-	
+
     entry = rename_control_find (&(arg_data->renames), shape);
     names = rename_control_entry_names (entry);
     if (!name_key_pair_list_add (names, from, to)) {
@@ -352,7 +352,7 @@ arg_data_parse_rename(ArgDataP arg_data, CStringP shape,
 {
     NStringT            nstring;
     RenameControlEntryP entry;
-	
+
     nstring_copy_cstring (&nstring, shape);
     entry = rename_control_find (&(arg_data->renames), &nstring);
     nstring_destroy (&nstring);
@@ -512,7 +512,7 @@ arg_data_vector_libraries(ArgDataP arg_data)
     CStringP         *paths     = ALLOCATE_VECTOR (CStringP, num_paths);
     CStringListEntryP entry;
     unsigned          i;
-	
+
     for (i = 0, entry = cstring_list_head (&(arg_data->library.list.file));
 		 i < num_files; i ++, entry = cstring_list_entry_deallocate (entry)) {
 		files [i] = cstring_list_entry_string (entry);

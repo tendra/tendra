@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -77,7 +77,7 @@ typedef struct { Chunk * first; Chunk * last;
 extern TDF * current_TDF;   	/* the current output stream */
 
 extern Chunk * create_chunk(void);
-extern void out_basic_int(unsigned long num, unsigned int bts); 
+extern void out_basic_int(unsigned long num, unsigned int bts);
 extern void append_TDF(TDF * tdf, Bool free_it);
 extern unsigned long bits_in_TDF(TDF *tdf);
 extern void out_extendable_int(unsigned long num, unsigned int bts);
@@ -194,7 +194,7 @@ extern void byte_align(void);
   out_tdfint32(bits_in_TDF(&new_));\
   append_TDF(&new_,1);\
   SET_RSORT(sort_);\
-}    
+}
 
 #define o_token_def(p_result_sort, p_tok_params, p_body)\
 { TDF new_;\

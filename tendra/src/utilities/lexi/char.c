@@ -37,15 +37,15 @@
  *
  *      (1) Its Recipients shall ensure that this Notice is
  *      reproduced upon any copies or amended versions of it;
- *  
+ *
  *      (2) Any amended version of it shall be clearly marked to
  *      show both the nature of and the organisation responsible
  *      for the relevant amendment or amendments;
- *  
+ *
  *      (3) Its onward transfer from a recipient to another
  *      party shall be deemed to be that party's acceptance of
  *	these conditions;
- *  
+ *
  *      (4) DERA gives no warranty or assurance as to its
  *      quality or suitability for any purpose and DERA accepts
  *      no liability whatsoever in relation to any use to which

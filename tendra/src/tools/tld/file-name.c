@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -77,7 +77,7 @@ CStringP
 file_name_basename(CStringP path)
 {
     CStringP last = cstring_find_reverse (path, '/');
-	
+
     if (last) {
 		return (cstring_duplicate (last + 1));
     } else {
@@ -89,7 +89,7 @@ CStringP
 file_name_dirname(CStringP path)
 {
     CStringP last = cstring_find_reverse (path, '/');
-	
+
     if (last) {
 		return (cstring_duplicate_prefix (path, (unsigned) (last - path)));
     } else {
@@ -109,7 +109,7 @@ file_name_expand(CStringP dir, CStringP name,
     unsigned length;
     CStringP path;
     CStringP tmp;
-	
+
     if ((dir_length > 0) && (dir [dir_length - 1] != '/')) {
 		extra = 1;
     } else {
@@ -156,7 +156,7 @@ file_name_populate(CStringP path)
 #ifdef FS_MKDIR
     CStringP new_path = cstring_duplicate (path);
     CStringP tmp      = cstring_find (new_path, '/');
-	
+
     if (tmp) {
 		do {
 			*tmp = '\0';

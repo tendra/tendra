@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -123,25 +123,25 @@ print_node(node *p, int d)
 		long m = q->encoding;
 		newline = 0;
 		switch (s) {
-			
+
 	    case SORT_tdfbool : {
 			/* Set neg for subsequent number */
 			negate = (boolean) (m ? 1 : 0);
 			break;
 	    }
-			
+
 	    case SORT_bytestream : {
 			/* Print a bytestream */
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_completion : {
 			/* Print a completion */
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_small_tdfint : {
 			/* Print a small number */
 			long n = q->encoding;
@@ -152,7 +152,7 @@ print_node(node *p, int d)
 			newline = 1;
 			break;
 	    }
-			
+
 	    case SORT_tdfint : {
 			/* Print a number */
 			char *num = q->name;
@@ -169,7 +169,7 @@ print_node(node *p, int d)
 			newline = 1;
 			break;
 	    }
-			
+
 	    case SORT_option : {
 			/* Print an optional argument */
 			if (p->son) {
@@ -181,7 +181,7 @@ print_node(node *p, int d)
 			}
 			break;
 	    }
-			
+
 	    case SORT_repeat : {
 			/* Print a repeated argument */
 			if (m == 0) {
@@ -195,7 +195,7 @@ print_node(node *p, int d)
 			}
 			break;
 	    }
-			
+
 	    case SORT_tdfstring : {
 			/* Print a string */
 			int i, n = (int) m;
@@ -230,28 +230,28 @@ print_node(node *p, int d)
 			}
 			break;
 	    }
-			
+
 	    case SORT_nat : {
 			/* Print a nat */
 			if (m != ENC_make_nat) goto default_label;
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_signed_nat : {
 			/* Print a signed_nat */
 			if (m != ENC_make_signed_nat) goto default_label;
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_string : {
 			/* Print a string */
 			if (m != ENC_make_string) goto default_label;
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_al_tag : {
 			/* Print an alignment tag */
 			if (verbose || m != ENC_make_al_tag || p->son == null) {
@@ -260,7 +260,7 @@ print_node(node *p, int d)
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_label : {
 			/* Print a label */
 			if (verbose || m != ENC_make_label || p->son == null) {
@@ -269,7 +269,7 @@ print_node(node *p, int d)
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_tag : {
 			/* Print a tag */
 			if (verbose || m != ENC_make_tag || p->son == null) {
@@ -278,7 +278,7 @@ print_node(node *p, int d)
 			newline = print_node (p->son, d);
 			break;
 	    }
-			
+
 	    case SORT_exp : {
 			static node special_node;
 			if (print_shapes && p->shape != &special_node) {
@@ -300,7 +300,7 @@ print_node(node *p, int d)
 			}
 			goto default_label;
 	    }
-			
+
 	    default : {
 			/* Print a simple sort */
 			default_label : {

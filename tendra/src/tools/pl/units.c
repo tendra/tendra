@@ -353,7 +353,7 @@ make_tdf_file(TDF * s, FILE * file)
 	curin->ch = ch;
 	curin->byte_pos = 0;
 	curin->bit_pos = 0;
-	
+
 	while (ch != (Chunk*)0)	{
 		offst += ch->offst;
 		offst &= 7;
@@ -366,7 +366,7 @@ make_tdf_file(TDF * s, FILE * file)
 		}
 		ch = ch->next;
 	}
-	
+
 	while ((x = get_byte())>=0) {
 		IGNORE fputc(x, file);
 	}

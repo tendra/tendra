@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -90,7 +90,7 @@ help_args(char *str, boolean num)
     while (c = *str, c != 0 && c != ']') {
 		if (func_help && started) IGNORE putchar (',');
 		switch (c) {
-			
+
 	    case '[' :
 	    case '{' :
 	    case '}' :
@@ -100,7 +100,7 @@ help_args(char *str, boolean num)
 			/* Ignore these cases */
 			break;
 	    }
-			
+
 	    case 'i' : {
 			/* Numbers or identifiers */
 			if (num) {
@@ -110,18 +110,18 @@ help_args(char *str, boolean num)
 			}
 			break;
 	    }
-			
+
 	    case 'j' : {
 			/* Ignore bits */
 			break;
 	    }
-			
+
 	    case '$' : {
 			/* Strings */
 			IGNORE printf (" tdfstring");
 			break;
 	    }
-			
+
 	    case '*' : {
 			/* Repeated arguments */
 			str += 2;
@@ -135,7 +135,7 @@ help_args(char *str, boolean num)
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case '?' : {
 			/* Optional arguments */
 			str += 2;
@@ -145,7 +145,7 @@ help_args(char *str, boolean num)
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case '@' : {
 			/* Conditional arguments */
 			str += 2;
@@ -153,7 +153,7 @@ help_args(char *str, boolean num)
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case '!' : {
 			/* Token applications */
 			if (func_help) {
@@ -163,13 +163,13 @@ help_args(char *str, boolean num)
 			}
 			break;
 	    }
-			
+
 	    case 'F' : {
 			is_fatal = 0;
 			input_error ("Foreign sorts not supported");
 			break;
 	    }
-			
+
 	    default : {
 			sortname s = find_sort (c);
 			IGNORE printf (" %s", sort_name (s));
@@ -224,7 +224,7 @@ help(char *nm)
     construct *p;
     static int sorted = 0;
     func_help = func_input;
-	
+
     /* Check for "help all" */
     if (streq (nm, "all")) {
 		for (s = 0 ; s < SORT_no ; s++) {
@@ -240,7 +240,7 @@ help(char *nm)
 		}
 		return;
     }
-	
+
     /* Check for "help construct" */
     for (s = 0 ; s < SORT_no ; s++) {
 		if (s != SORT_sortname) {
@@ -260,7 +260,7 @@ help(char *nm)
 			}
 		}
     }
-	
+
     /* Check for "help sort" */
     if (streq (nm, "alignment_sort")) nm = "alignment";
     p = search_cons_hash (nm, SORT_sortname);
@@ -272,7 +272,7 @@ help(char *nm)
 		for (; p ; p = p->next) output_help (p);
 		return;
     }
-	
+
     /* Unknown construct */
     is_fatal = 0;
     input_error ("Unknown construct, %s", nm);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -112,7 +112,7 @@ tdf_write_int(TDFWriterP writer, unsigned value)
     unsigned shift = 0;
     unsigned tmp   = value;
     unsigned mask  = (~(unsigned) 0x07);
-	
+
     while (tmp & mask) {
 		tmp >>= 3;
 		shift ++;
@@ -140,7 +140,7 @@ tdf_write_bytes(TDFWriterP writer, NStringP nstring)
 {
     unsigned length   = nstring_length (nstring);
     CStringP contents = nstring_contents (nstring);
-	
+
     tdf_write_align (writer);
     bostream_write_chars (&(writer->bostream), length, contents);
 }
@@ -149,7 +149,7 @@ void
 tdf_write_string(TDFWriterP writer, NStringP nstring)
 {
     unsigned length = nstring_length (nstring);
-	
+
     tdf_write_int (writer, (unsigned) 8);
     tdf_write_int (writer, length);
     tdf_write_bytes (writer, nstring);
@@ -162,7 +162,7 @@ tdf_write_name(TDFWriterP writer, NameKeyP name)
     unsigned  components;
     unsigned  i;
     NStringP  nstring;
-	
+
     switch (name_key_type (name)) EXHAUSTIVE {
 	case KT_STRING:
 		type = (unsigned) (0x1 << 2);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -103,7 +103,7 @@ void
 nstring_copy_cstring(NStringP nstring, CStringP cstring)
 {
     unsigned length = cstring_length (cstring);
-	
+
     if (length > 0) {
 		nstring->length   = length;
 		nstring->contents = ALLOCATE_VECTOR (char, length);
@@ -119,7 +119,7 @@ void
 nstring_insert_cstring(NStringP nstring, CStringP cstring)
 {
     unsigned length = nstring_length (nstring);
-	
+
     if (length > 0) {
 		(void) memcpy ((GenericP) (nstring->contents), (GenericP) cstring,
 					   (SizeT) length);
@@ -130,7 +130,7 @@ void
 nstring_copy(NStringP to, NStringP from)
 {
     unsigned length = nstring_length (from);
-	
+
     if (length > 0) {
 		to->length   = length;
 		to->contents = ALLOCATE_VECTOR (char, length);
@@ -147,7 +147,7 @@ nstring_to_cstring(NStringP nstring)
 {
     unsigned length = nstring_length (nstring);
     CStringP tmp    = ALLOCATE_VECTOR (char, length + 1);
-	
+
     if (length > 0) {
 		(void) memcpy ((GenericP) tmp, (GenericP) (nstring->contents),
 					   (SizeT) length);
@@ -162,7 +162,7 @@ nstring_hash_value(NStringP nstring)
     unsigned value        = 0;
     CStringP tmp_contents = (nstring->contents);
     unsigned tmp_length   = nstring_length (nstring);
-	
+
     while (tmp_length --) {
 		value += ((unsigned) (*tmp_contents ++));
     }
@@ -198,7 +198,7 @@ nstring_compare(NStringP nstring1, NStringP nstring2)
 {
     unsigned length = nstring_length (nstring1);
     int      status;
-	
+
     if (length > nstring_length (nstring2)) {
 		length = nstring_length (nstring2);
     }
@@ -221,7 +221,7 @@ BoolT
 nstring_equal(NStringP nstring1, NStringP nstring2)
 {
     unsigned length = nstring_length (nstring1);
-	
+
     return ((length == nstring_length (nstring2)) &&
 			(memcmp ((GenericP) (nstring1->contents),
 					 (GenericP) (nstring2->contents), (SizeT) length) == 0));
@@ -231,13 +231,13 @@ BoolT
 nstring_ci_equal(NStringP nstring1, NStringP nstring2)
 {
     unsigned length = nstring_length (nstring1);
-	
+
     if (length == nstring_length (nstring2)) {
 		CStringP tmp1 = (nstring1->contents);
 		CStringP tmp2 = (nstring2->contents);
 		char c1;
 		char c2;
-		
+
 		do {
 			c1 = syntax_upcase (*tmp1 ++);
 			c2 = syntax_upcase (*tmp2 ++);
@@ -254,7 +254,7 @@ nstring_contains(NStringP nstring, char c)
 {
     CStringP contents = nstring_contents (nstring);
     unsigned length   = nstring_length (nstring);
-	
+
     return (memchr ((GenericP) contents, c, (SizeT) length) != NIL (GenericP));
 }
 
@@ -264,7 +264,7 @@ nstring_is_prefix(NStringP nstring1, NStringP nstring2)
     CStringP contents1 = nstring_contents (nstring1);
     CStringP contents2 = nstring_contents (nstring2);
     unsigned length    = nstring_length (nstring2);
-	
+
     return ((length < nstring_length (nstring1)) &&
 			(memcmp ((GenericP) contents1, (GenericP) contents2,
 					 (SizeT) length) == 0));
@@ -280,7 +280,7 @@ void
 write_nstring(OStreamP ostream, NStringP nstring)
 {
     unsigned length = nstring_length (nstring);
-	
+
     if (length > 0) {
 		write_chars (ostream, nstring->contents, length);
     }
@@ -314,7 +314,7 @@ dstring_append_char(DStringP dstring, char c)
 {
     if ((dstring->length) >= (dstring->max_length)) {
 		CStringP tmp;
-		
+
 		dstring->max_length += DSTRING_CHUNK_SIZE;
 		tmp                  = ALLOCATE_VECTOR (char, dstring->max_length);
 		(void) memcpy ((GenericP) tmp, (GenericP) (dstring->contents),
@@ -330,10 +330,10 @@ dstring_append_cstring(DStringP dstring, CStringP cstring)
 {
     unsigned clength = cstring_length (cstring);
     unsigned length  = (clength + (dstring->length));
-	
+
     if (length > (dstring->max_length)) {
 		CStringP tmp;
-		
+
 		while ((dstring->max_length) < length) {
 			dstring->max_length += DSTRING_CHUNK_SIZE;
 		}
@@ -353,10 +353,10 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 {
     unsigned nlength = nstring_length (nstring);
     unsigned length  = (nlength + (dstring->length));
-	
+
     if (length > (dstring->max_length)) {
 		CStringP tmp;
-		
+
 		while ((dstring->max_length) < length) {
 			dstring->max_length += DSTRING_CHUNK_SIZE;
 		}
@@ -398,7 +398,7 @@ CStringP
 dstring_to_cstring(DStringP dstring)
 {
     CStringP tmp = ALLOCATE_VECTOR (char, dstring->length + 1);
-	
+
     if (dstring->length > 0) {
 		(void) memcpy ((GenericP) tmp, (GenericP) (dstring->contents),
 					   (SizeT) (dstring->length));
@@ -411,7 +411,7 @@ CStringP
 dstring_destroy_to_cstring(DStringP dstring)
 {
     CStringP tmp;
-	
+
     if ((dstring->length) >= (dstring->max_length)) {
 		tmp = ALLOCATE_VECTOR (char, (dstring->length) + 1);
 		(void) memcpy ((GenericP) tmp, (GenericP) (dstring->contents),

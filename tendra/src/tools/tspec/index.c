@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -350,7 +350,7 @@ print_if_nest(void)
 		char code;
 		object *p = if_stack [i];
 		char *c = p->name;
-		
+
 		if (i > 0) print_escape (";");
 		if (i + 1 < if_stack_index &&
 			if_stack [i + 1]->u.u_num == CMD_ELSE) {
@@ -386,50 +386,50 @@ print_item_m(object *p, char *u, char *a, type *e)
     char *ap;
     char *tnm = p->name;
     object *q = p->u.u_obj;
-	
+
     if (q->objtype == OBJ_FIELD) {
 		nm = q->u.u_field->fname;
     } else {
 		nm = q->name;
     }
-	
+
     /* Field 1: C_SYMBOL */
     print_field (nm);
-	
+
     /* Field 2: TOKEN */
     print_field (tnm);
-	
+
     /* Field 3: STATUS */
     IGNORE printf ("%c%c", u [0], field_sep);
-	
+
     /* Field 4: IF_NESTING */
     print_if_nest ();
     print_field_sep ();
-	
+
     /* Field 5: API_LOCATION */
     for (ap = a; *ap && *ap != ':'; ap++) IGNORE putchar (*ap);
     print_field_sep ();
-	
+
     /* Field 6: FILE_LOCATION */
     if (*ap) ap++;
     for (; *ap && *ap != ':'; ap++) IGNORE putchar (*ap);
     print_field_sep ();
-	
+
     /* Field 7: LINE_LOCATION */
     IGNORE printf ("%d%c", q->line_no, field_sep);
-	
+
     /* Field 8: SUBSET_NESTING */
     if (*ap) IGNORE printf ("%s", ap + 1);
     print_field_sep ();
-	
+
     /* Fields 9-12: SORT, INFO, TYPE, VALUE */
     switch (q->objtype) {
-		
+
 	case OBJ_CONST : {
 	    print_st ("const", q->u.u_type, null_str);
 	    break;
 	}
-		
+
 	case OBJ_ENUMVAL : {
 	    print_field ("enum_member");
 	    print_type (stdout, e, null_str, 0);
@@ -441,14 +441,14 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_EXP : {
 	    type *t = q->u.u_type;
 	    char *s = (t->id == TYPE_LVALUE ? "lvalue" : "rvalue");
 	    print_st (s, t, null_str);
 	    break;
 	}
-		
+
 	case OBJ_EXTERN : {
 	    type *t = q->u.u_type;
 	    if (t->id == TYPE_LVALUE) t = t->u.subtype;
@@ -459,13 +459,13 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_WEAK : {
 	    type *t = q->u.u_type;
 	    print_sit ("func", "weak", t, nm);
 	    break;
 	}
-		
+
 	case OBJ_DEFINE : {
 	    char *s = q->u.u_str;
 	    if (*s == '(') {
@@ -483,7 +483,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    print_value (s);
 	    break;
 	}
-		
+
 	case OBJ_FIELD : {
 	    field *f = q->u.u_field;
 	    print_field ("member");
@@ -493,22 +493,22 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    print_no_value ();
 	    break;
 	}
-		
+
 	case OBJ_FUNC : {
 	    print_st ("func", q->u.u_type, nm);
 	    break;
 	}
-		
+
 	case OBJ_MACRO : {
 	    print_st ("macro", q->u.u_type, nm);
 	    break;
 	}
-		
+
 	case OBJ_NAT : {
 	    print_s ("nat");
 	    break;
 	}
-		
+
 	case OBJ_STATEMENT : {
 	    type *t = q->u.u_type;
 	    if (t) {
@@ -518,43 +518,43 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    }
 	    break;
 	}
-		
+
 	case OBJ_TOKEN : {
 	    print_s_v ("token");
 	    print_value (q->u.u_str);
 	    break;
 	}
-		
+
 	case OBJ_TYPE : {
 	    type *t = q->u.u_type;
 	    int i = t->id;
 	    switch (i) {
-			
+
 		case TYPE_DEFINED : {
 		    print_st ("typedef", t->v.next, null_str);
 		    break;
 		}
-			
+
 		case TYPE_GENERIC : {
 		    print_s ("opaque");
 		    break;
 		}
-			
+
 		case TYPE_INT : {
 		    print_s ("integral");
 		    break;
 		}
-			
+
 		case TYPE_SIGNED : {
 		    print_s ("signed_integral");
 		    break;
 		}
-			
+
 		case TYPE_UNSIGNED : {
 		    print_s ("unsigned_integral");
 		    break;
 		}
-			
+
 		case TYPE_PROMOTE : {
 		    print_field ("promotion");
 		    print_type (stdout, t->v.next, null_str, 0);
@@ -562,22 +562,22 @@ print_item_m(object *p, char *u, char *a, type *e)
 		    print_no_value ();
 		    break;
 		}
-			
+
 		case TYPE_FLOAT : {
 		    print_s ("floating");
 		    break;
 		}
-			
+
 		case TYPE_ARITH : {
 		    print_s ("arithmetic");
 		    break;
 		}
-			
+
 		case TYPE_SCALAR : {
 		    print_s ("scalar");
 		    break;
 		}
-			
+
 		case TYPE_STRUCT :
 		case TYPE_STRUCT_TAG :
 		case TYPE_UNION :
@@ -603,7 +603,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 		    }
 		    break;
 		}
-			
+
 		default : {
 		    error (ERR_INTERNAL, "Unknown type identifier, '%d'", i);
 		    break;
@@ -611,7 +611,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    }
 	    break;
 	}
-		
+
 	default : {
 	    error (ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 	    break;
@@ -642,30 +642,30 @@ print_item_h(object *p, char *u, char *a, type *e)
     IGNORE printf ("\nDEFINED: %s, line %d\n", a, q->line_no);
     IGNORE printf ("INFO: ");
     if (commented_out == 2) IGNORE printf ("(commented out) ");
-	
+
     switch (q->objtype) {
-		
+
 	case OBJ_CONST : {
 	    IGNORE printf ("%s is a constant expression of type ", nm);
 	    print_type (stdout, q->u.u_type, null_str, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_ENUMVAL : {
 	    IGNORE printf ("%s is a member of the enumeration type ", nm);
 	    print_type (stdout, e, null_str, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_EXP : {
 	    IGNORE printf ("%s is an expression of type ", nm);
 	    print_type (stdout, q->u.u_type, null_str, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_EXTERN : {
 	    type *t = q->u.u_type;
 	    if (t->id == TYPE_LVALUE) t = t->u.subtype;
@@ -680,7 +680,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_WEAK : {
 	    type *t = q->u.u_type;
 	    IGNORE printf ("%s is an external ", nm);
@@ -689,7 +689,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_DEFINE : {
 	    char *s = q->u.u_str;
 	    IGNORE printf ("%s is a macro ", nm);
@@ -705,7 +705,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("defined to be %s\n\n", s);
 	    break;
 	}
-		
+
 	case OBJ_FIELD : {
 	    field *f = q->u.u_field;
 	    IGNORE printf ("%s is a field selector of ", f->fname);
@@ -715,26 +715,26 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_FUNC : {
 	    IGNORE printf ("%s is a function with prototype ", nm);
 	    print_type (stdout, q->u.u_type, nm, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_MACRO : {
 	    IGNORE printf ("%s is a macro with prototype ", nm);
 	    print_type (stdout, q->u.u_type, nm, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_NAT : {
 	    IGNORE printf ("%s is a constant integer\n\n", nm);
 	    break;
 	}
-		
+
 	case OBJ_STATEMENT : {
 	    type *t = q->u.u_type;
 	    IGNORE printf ("%s is a statement", nm);
@@ -745,67 +745,67 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("\n\n");
 	    break;
 	}
-		
+
 	case OBJ_TOKEN : {
 	    IGNORE printf ("%s is a complex token\n\n", nm);
 	    break;
 	}
-		
+
 	case OBJ_TYPE : {
 	    type *t = q->u.u_type;
 	    int i = t->id;
 	    print_type (stdout, t, null_str, 0);
 	    switch (i) {
-			
+
 		case TYPE_DEFINED : {
 		    IGNORE printf (" is a type defined to be ");
 		    print_type (stdout, t->v.next, null_str, 0);
 		    IGNORE printf ("\n\n");
 		    break;
 		}
-			
+
 		case TYPE_GENERIC : {
 		    IGNORE printf (" is a type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_INT : {
 		    IGNORE printf (" is an integral type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_SIGNED : {
 		    IGNORE printf (" is a signed integral type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_UNSIGNED : {
 		    IGNORE printf (" is an unsigned integral type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_PROMOTE : {
 		    IGNORE printf (" is the integral promotion of ");
 		    print_type (stdout, t->v.next, null_str, 0);
 		    IGNORE printf ("\n\n");
 		    break;
 		}
-			
+
 		case TYPE_FLOAT : {
 		    IGNORE printf (" is a floating type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_ARITH : {
 		    IGNORE printf (" is an arithmetic type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_SCALAR : {
 		    IGNORE printf (" is a scalar type\n\n");
 		    break;
 		}
-			
+
 		case TYPE_STRUCT :
 		case TYPE_STRUCT_TAG :
 		case TYPE_UNION :
@@ -829,7 +829,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 		    }
 		    break;
 		}
-			
+
 		case TYPE_ENUM :
 		case TYPE_ENUM_TAG : {
 		    object *r = t->v.obj2;
@@ -840,7 +840,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 		    }
 		    break;
 		}
-			
+
 		default : {
 		    IGNORE printf (" is a type\n\n");
 		    error (ERR_INTERNAL, "Unknown type identifier, '%d'", i);
@@ -849,7 +849,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    }
 	    break;
 	}
-		
+
 	default : {
 	    error (ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 	    break;
@@ -876,7 +876,7 @@ print_index_with(object *input, index_func fn)
     char *u = (i->implemented ? "implemented" : "used");
     for (p = i->elements; p != null; p = p->next) {
 		switch (p->objtype) {
-			
+
 	    case OBJ_IF : {
 			/* Deal with preprocessing directives */
 			char *c = p->name;
@@ -944,13 +944,13 @@ print_index_with(object *input, index_func fn)
 			}
 			break;
 	    }
-			
+
 	    case OBJ_SET : {
 			/* Deal with subsets */
 			print_index_with (p, fn);
 			break;
 	    }
-			
+
 	    case OBJ_TOKEN : {
 			/* Deal with tokens */
 			if (i->implemented || !restrict_use) {

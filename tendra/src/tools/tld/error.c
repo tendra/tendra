@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -109,7 +109,7 @@ error_deallocate_error_list(ErrorListP error_list)
 {
     while (error_list) {
 		ErrorListP tmp = error_list;
-		
+
 		if (error_list->tag == ERROR_TAG_STRING) {
 			nstring_destroy (&(error_list->u.string));
 		}
@@ -125,12 +125,12 @@ error_parse_message(CStringP message)
     ErrorListP *error_list_next = &error_list;
     CStringP    message_copy    = cstring_duplicate (message);
     CStringP    scan            = message = message_copy;
-	
+
     while (*scan) {
 		if ((*scan ++ == '$') && (*scan == '{')) {
 			if (scan > (message + 1)) {
 				ErrorListP tmp = ALLOCATE (ErrorListT);
-				
+
 				tmp->tag  = ERROR_TAG_STRING;
 				scan [-1] = '\0';
 				nstring_copy_cstring (&(tmp->u.string), message);
@@ -151,7 +151,7 @@ error_parse_message(CStringP message)
 			if (scan ++ > message) {
 				ErrorListP tmp = ALLOCATE (ErrorListT);
 				CStringP   tag;
-				
+
 				tmp->tag   = ERROR_TAG_TAG;
 				scan [-1]  = '\0';
 				tag        = cstring_duplicate (message);
@@ -167,7 +167,7 @@ error_parse_message(CStringP message)
     }
     if (scan > message) {
 		ErrorListP tmp = ALLOCATE (ErrorListT);
-		
+
 		tmp->tag = ERROR_TAG_STRING;
 		nstring_copy_cstring (&(tmp->u.string), message);
 		*error_list_next = tmp;
@@ -194,7 +194,7 @@ write_error_list(OStreamP ostream, ErrorListP error_list,
 			} else if (error_list->u.tag == etag_severity) {
 				EStringP estring =
 					severity_data [(error->severity)].estring;
-				
+
 				write_cstring (ostream, error_string_contents (estring));
 			} else if (error_list->u.tag == etag_error_name) {
 				write_cstring (ostream, error->name);
@@ -219,7 +219,7 @@ write_error_list_text(OStreamP ostream, ErrorListP error_list)
     NStringP nstring;
     CStringP contents;
     unsigned length;
-	
+
     write_char (ostream, '"');
     while (error_list) {
 		switch (error_list->tag) EXHAUSTIVE {
@@ -227,7 +227,7 @@ write_error_list_text(OStreamP ostream, ErrorListP error_list)
 			nstring  = &(error_list->u.string);
 			contents = nstring_contents (nstring);
 			length   = nstring_length (nstring);
-			
+
 			while (length --) {
 				switch (*contents) {
 				case '\n':
@@ -260,10 +260,10 @@ static void
 write_error_table(OStreamP ostream)
 {
     unsigned i;
-	
+
     for (i = 0; i < ERROR_TABLE_SIZE; i ++) {
 		ErrorP error = error_table [i];
-		
+
 		while (error) {
 			write_char (ostream, '\'');
 			write_cstring (ostream, error->name);
@@ -281,13 +281,13 @@ static void
 write_string_table(OStreamP ostream)
 {
     unsigned i;
-	
+
     for (i = 0; i < STRING_TABLE_SIZE; i ++) {
 		EStringP string = string_table [i];
-		
+
 		while (string) {
 			CStringP contents = string->contents;
-			
+
 			write_char (ostream, '\'');
 			write_cstring (ostream, string->name);
 			write_char (ostream, '\'');
@@ -322,7 +322,7 @@ void
 error_init(CStringP name, ErrorInitProcP proc)
 {
     static CStringP prefix = "${program name}: ${severity}: ";
-	
+
     program_name = name;
     while (*name) {
 		if (*name ++ == '/') {
@@ -356,7 +356,7 @@ error_define_tag(CStringP name)
     unsigned hash   = (cstring_hash_value (name) % TAG_TABLE_SIZE);
     ETagP   *entryp = &(tag_table [hash]);
     ETagP    entry;
-	
+
     while ((entry = *entryp) != NIL (ETagP)) {
 		if (cstring_equal (entry->name, name)) {
 			return (entry);
@@ -378,7 +378,7 @@ error_define_error(CStringP name, ESeverityT severity,
     unsigned   hash       = (cstring_hash_value (name) % ERROR_TABLE_SIZE);
     ErrorP    *entryp     = &(error_table [hash]);
     ErrorP     entry;
-	
+
     while ((entry = *entryp) != NIL (ErrorP)) {
 		ASSERT (!cstring_equal (entry->name, name));
 		entryp = &(entry->next);
@@ -399,7 +399,7 @@ error_intern_tags(ETagDataP vector)
 {
     while (vector->name) {
 		ETagP tag = error_define_tag (vector->name);
-		
+
 		vector->tag = tag;
 		vector ++;
     }
@@ -411,7 +411,7 @@ error_intern_errors(ErrorDataP vector)
     while (vector->s.name) {
 		ErrorP error = error_define_error (vector->s.name, vector->s.severity,
 										   vector->s.message, vector->s.data);
-		
+
 		vector->error = error;
 		vector ++;
     }
@@ -424,11 +424,11 @@ error_redefine_error(CStringP name, CStringP message)
     {
 		unsigned hash  = (cstring_hash_value (name) % ERROR_TABLE_SIZE);
 		ErrorP   entry = (error_table [hash]);
-		
+
 		while (entry) {
 			if (cstring_equal (entry->name, name)) {
 				ErrorListP error_list = error_parse_message (message);
-				
+
 				if (error_list == NIL (ErrorListP)) {
 					return (ERROR_STATUS_BAD_MESSAGE);
 				}
@@ -449,7 +449,7 @@ error_lookup_error(CStringP name)
     {
 		unsigned hash  = (cstring_hash_value (name) % ERROR_TABLE_SIZE);
 		ErrorP   entry = (error_table [hash]);
-		
+
 		while (entry) {
 			if (cstring_equal (entry->name, name)) {
 				return (entry);
@@ -520,7 +520,7 @@ BoolT
 error_set_prefix_message(CStringP message)
 {
     ErrorListP error_list = error_parse_message (message);
-	
+
     if (error_list == NIL (ErrorListP)) {
 		return (FALSE);
     }
@@ -535,7 +535,7 @@ error_define_string(CStringP name, CStringP contents)
     unsigned  hash   = (cstring_hash_value (name) % STRING_TABLE_SIZE);
     EStringP *entryp = &(string_table [hash]);
     EStringP  entry;
-	
+
     while ((entry = *entryp) != NIL (EStringP)) {
 		ASSERT (!cstring_equal (entry->name, name));
 		entryp = &(entry->next);
@@ -554,7 +554,7 @@ error_intern_strings(EStringDataP vector)
     while (vector->s.name) {
 		EStringP estring = error_define_string (vector->s.name,
 												vector->s.contents);
-		
+
 		vector->estring = estring;
 		vector ++;
     }
@@ -565,7 +565,7 @@ error_redefine_string(CStringP name, CStringP contents)
 {
     unsigned hash  = (cstring_hash_value (name) % STRING_TABLE_SIZE);
     EStringP entry = (string_table [hash]);
-	
+
     while (entry) {
 		if (cstring_equal (entry->name, name)) {
 			entry->contents = contents;
@@ -581,7 +581,7 @@ error_lookup_string(CStringP name)
 {
     unsigned hash  = (cstring_hash_value (name) % STRING_TABLE_SIZE);
     EStringP entry = (string_table [hash]);
-	
+
     while (entry) {
 		if (cstring_equal (entry->name, name)) {
 			return (entry);

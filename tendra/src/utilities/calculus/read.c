@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -235,7 +235,7 @@ void
 read_file(char *nm)
 {
     char *s;
-	
+
     /* Open file */
     crt_line_no = -1;
     crt_file_name = nm;
@@ -247,7 +247,7 @@ read_file(char *nm)
     init_bitmask ();
     input_buff = 0;
     input_bits = 0;
-	
+
     /* Confirm file header */
     s = READ_string ();
     if (!streq (s, calculus_NAME)) {
@@ -257,14 +257,14 @@ read_file(char *nm)
     if (!streq (s, calculus_VERSION)) {
 		error (ERROR_FATAL, "Invalid file header version, '%s'", s);
     }
-	
+
     /* Read the algebra */
     algebra->name = READ_string ();
     algebra->major_no = READ_int ();
     algebra->minor_no = READ_int ();
     algebra->types = READ_list_ptr_type ();
     clear_calculus_alias ();
-	
+
     /* Extract lists of primitives etc */
     LOOP_TYPE {
 		TYPE_P t = CRT_TYPE;
@@ -297,7 +297,7 @@ read_file(char *nm)
 	    }
 		}
     }
-	
+
     /* Close file */
     fclose_v (input_file);
     return;

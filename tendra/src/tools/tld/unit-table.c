@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -78,7 +78,7 @@ unit_table_create()
 {
     UnitTableP table = ALLOCATE (UnitTableT);
     unsigned   i;
-	
+
     for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
 		table->contents [i] = NIL (UnitEntryP);
     }
@@ -92,7 +92,7 @@ unit_table_add(UnitTableP table, NStringP key,
     unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
     UnitEntryP next       = (table->contents [hash_value]);
     UnitEntryP entry      = unit_entry_create (key, next, order);
-	
+
     table->contents [hash_value] = entry;
     return (entry);
 }
@@ -102,7 +102,7 @@ unit_table_get(UnitTableP table, NStringP key)
 {
     unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
     UnitEntryP entry      = (table->contents [hash_value]);
-	
+
     while (entry && (!nstring_equal (key, unit_entry_key (entry)))) {
 		entry = unit_entry_next (entry);
     }
@@ -114,10 +114,10 @@ unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, GenericP),
 				GenericP closure)
 {
     unsigned i;
-	
+
     for (i = 0; i < UNIT_TABLE_SIZE; i ++) {
 		UnitEntryP entry = (table->contents [i]);
-		
+
 		while (entry) {
 			(*proc) (entry, closure);
 			entry = unit_entry_next (entry);

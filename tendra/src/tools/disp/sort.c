@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -91,7 +91,7 @@ object
     object *obj = null;
     int ap = 1, simple = 1;
     int just_tok = (s == sort_unknown ? 1 : 0);
-	
+
     /* Find the token number */
     long n = de_token ();
     if (n == token_make_tok) {
@@ -99,7 +99,7 @@ object
     } else {
 		simple = 0;
     }
-	
+
     /* Look up simple tokens */
     if (simple) {
 		SET (t);
@@ -108,7 +108,7 @@ object
 			obj = new_object (var_token);
 			set_binding (crt_binding, var_token, t, obj);
 		}
-		
+
 		/* Check token sort */
 		if (res_sort (obj) == sort_unknown) {
 			sortname is = implicit_sort (obj);
@@ -136,7 +136,7 @@ object
 			input_error ("Sort error, token %s, %s expected",
 						 object_name (var_token, t), es.name);
 		}
-		
+
 		/* Output token name if appropriate */
 		if (!dumb_mode) {
 			if (obj->named) {
@@ -152,7 +152,7 @@ object
 			}
 		}
     }
-	
+
     /* Output "apply_token" if appropriate */
     if (ap) {
 		if (just_tok) {
@@ -182,7 +182,7 @@ object
 		/* Applications of named tokens are indicated by "*" */
 		out_string ("*");
     }
-	
+
     /* Quit here if just reading token */
     if (just_tok) {
 		if (ap) {
@@ -193,10 +193,10 @@ object
 		}
 		return (obj);
     }
-	
+
     /* Read length of token arguments */
     bits = tdf_int ();
-	
+
     /* Deal with tokens without arguments */
     if (bits == 0) {
 		if (obj && res_sort (obj) != sort_unknown) {
@@ -219,7 +219,7 @@ object
 		}
 		return (obj);
     }
-	
+
     /* Deal with tokens with arguments */
     if (obj && res_sort (obj) != sort_unknown && !is_foreign (obj)) {
 		/* Known token - decode arguments */
@@ -366,28 +366,28 @@ de_solve_fn(char *nm, char *str1, char *str2,
     long i, n;
     word *ptr1, *ptr2;
     place posn1, posn2;
-	
+
     int tempflag = printflag;
-	
+
     out_string (nm);
     ptr1 = new_word (VERT_BRACKETS);
-	
+
     /* Read the number of statements A1, ..., An */
     check_list ();
     n = tdf_int ();
-	
+
     /* Record the position of A1 */
     posn1.byte = here.byte;
     posn1.bit = here.bit;
-	
+
     /* Step over A1, ..., An */
     printflag = 0;
     for (i = 0 ; i < n ; i++) decode (str1);
     printflag = tempflag;
-	
+
     /* Decode B */
     decode (str2);
-	
+
     if (ntwice) {
 		/* Read and check the number of statements C1, ..., Cn */
 		long m;
@@ -395,26 +395,26 @@ de_solve_fn(char *nm, char *str1, char *str2,
 		m = tdf_int ();
 		if (m != n) input_error ("Illegal %s construct", nm);
     }
-	
+
     for (i = 0 ; i < n ; i++) {
 		ptr2 = new_word (VERT_BRACKETS);
-		
+
 		/* Record the position of Ci */
 		posn2.byte = here.byte;
 		posn2.bit = here.bit;
-		
+
 		/* Go back and read Ai */
 		set_place (&posn1);
 		decode (str1);
-		
+
 		/* Record the position of A(i+1) */
 		posn1.byte = here.byte;
 		posn1.bit = here.bit;
-		
+
 		/* Go forward and read Ci */
 		set_place (&posn2);
 		decode (str3);
-		
+
 		end_word (ptr2);
     }
     end_word (ptr1);
@@ -438,7 +438,7 @@ de_case_fn(char *nm, char *str1, char *str2)
 {
     long i, n;
     word *ptr1, *ptr2, *ptr3;
-	
+
     out_string (nm);
     ptr1 = new_word (VERT_BRACKETS);
     decode (str1);

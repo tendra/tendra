@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -298,8 +298,8 @@ execute(filename *input, filename *output)
     char *cmd;
     int err = 0;
     boolean filled_buff = 0;
-    char buff [ buffer_size ] ;   
-	
+    char buff [ buffer_size ] ;
+
     cmd_string ((char *) null);
     cmd = command [0];
     if (cmd == null) {
@@ -309,7 +309,7 @@ execute(filename *input, filename *output)
     last_command = cmd;
     last_return = 0;
     junk = output;
-	
+
     if (taciturn) {
 		/* Print input files if in taciturn mode */
 		filename *p;
@@ -319,14 +319,14 @@ execute(filename *input, filename *output)
 			}
 		}
     }
-	
+
     if (verbose) {
 		/* Print command if in verbose mode */
 		print_cmd (buff);
 		filled_buff = 1;
 		comment (1, "%s\n", buff + 1);
     }
-	
+
     if (cmd && strneq (cmd, "builtin/", 8)) {
 		/* Check built in commands */
 		cmd += 8;
@@ -395,7 +395,7 @@ execute(filename *input, filename *output)
 		}
 		error (SERIOUS, "Built-in '%s' command not implemented", cmd);
 		err = 1;
-		
+
     } else if (!dry_run) {
 		/* Call system commands */
 #if FS_FORK
@@ -413,7 +413,7 @@ execute(filename *input, filename *output)
 					if (process_exited (status)) {
 						err = process_exit_value (status);
 						/* This only returns if there was no
-						 * remembered signal. 
+						 * remembered signal.
 						 */
 						process_delayed_signal ();
 					} else {
@@ -422,7 +422,7 @@ execute(filename *input, filename *output)
 							 * tells us that it is ok to let the next
 							 * call to execute report that the command
 							 * received a signal.  This supports the
-							 * way that the producer is called. 
+							 * way that the producer is called.
 							 */
 							int sig = process_signal_value (status);
 							if (delay_signal_handling && last_signal == 0) {
@@ -430,7 +430,7 @@ execute(filename *input, filename *output)
 								last_signal = sig;
 							} else {
 								handler (sig);
-							}					
+							}
 						}
 						err = 1;
 					}
@@ -496,9 +496,9 @@ execute(filename *input, filename *output)
 		}
 #endif
     }
-	
+
     /* Deal with errors */
-    execute_error : {      
+    execute_error : {
         disable_delayed_signal ();
 		last_return = err;
 		if (tidy_up) {

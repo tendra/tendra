@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -120,7 +120,7 @@ construct
     construct *t;
     tok_info *info;
     construct dummy;
-	
+
     /* Find token type */
     long n = de_token_bits ();
     if (n == ENC_make_tok) {
@@ -154,7 +154,7 @@ construct
 		t = &dummy;
 		info = &dummy.u.tok_u;
     }
-	
+
     /* Quit here if only reading token */
     if (s == SORT_unknown) {
 		if (!text_output) {
@@ -163,10 +163,10 @@ construct
 		}
 		return (null);
     }
-	
+
     /* Find the length of the arguments */
     bits = tdf_int ();
-	
+
     if (info->res == SORT_unknown) {
 		/* Unknown token */
 		if (bits) {
@@ -227,7 +227,7 @@ construct
 		}
 		info->dec = 1;
     }
-	
+
     /* Mark used tokens */
     if (info->dec) adjust_token (t);
     return (t);
@@ -279,7 +279,7 @@ node
     node *p, *q = null, *qe = null;
     while (c = *str, c != 0 && c != ']') {
 		switch (c) {
-			
+
 	    case '[' :
 	    case '{' :
 	    case '}' :
@@ -289,14 +289,14 @@ node
 			p = null;
 			break;
 	    }
-			
+
 	    case '|' : {
 			/* Align input stream */
 			byte_align ();
 			p = null;
 			break;
 	    }
-			
+
 	    case 'i' : {
 			/* Decode an integer as a string of octal digits */
 			long d, n = 0;
@@ -318,14 +318,14 @@ node
 			}
 			break;
 	    }
-			
+
 	    case 'j' : {
 			/* Decode a bit */
 			p = new_node ();
 			p->cons = (tdf_bool () ? &true_cons : &false_cons);
 			break;
 	    }
-			
+
 	    case '$' : {
 			/* Decode a string */
 			long i, n = tdf_int ();
@@ -368,7 +368,7 @@ node
 			}
 			break;
 	    }
-			
+
 	    case '=' : {
 			/* Decode an aligned string */
 			char *s;
@@ -390,13 +390,13 @@ node
 			byte_align ();
 			break;
 	    }
-			
+
 	    case '*' : {
 			/* The following text is repeated n times */
 			de_list_start ();
 			goto percent_case;
 	    }
-			
+
 	    case '%' :
 			percent_case : {
 				/* The following text is repeated n times */
@@ -420,7 +420,7 @@ node
 				str = skip_text (str);
 				break;
 			}
-			
+
 	    case '?' : {
 			/* The following text is optional */
 			p = new_node ();
@@ -436,7 +436,7 @@ node
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case '@' : {
 			/* The following text is a bitstream */
 			long len, pos;
@@ -452,7 +452,7 @@ node
 			str = skip_text (str);
 			break;
 	    }
-			
+
 	    case 'T' : {
 			node dummy;
 			str = find_sortname (str, (sortname *) null);
@@ -460,14 +460,14 @@ node
 			p = dummy.son;
 			break;
 	    }
-			
+
 	    case 'F' : {
 			/* Unknown sort */
 			p = new_node ();
 			p->cons = &unknown_cons;
 			break;
 	    }
-			
+
 	    default : {
 			/* Basic sorts */
 			sortname s = find_sort (c);

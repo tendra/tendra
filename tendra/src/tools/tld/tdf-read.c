@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -127,7 +127,7 @@ tdf_reader_open_string(TDFReaderP reader,
 {
     CStringP contents = nstring_contents (bytes);
     unsigned length   = nstring_length (bytes);
-	
+
     reader->type              = RT_STRING;
     reader->new_byte          = TRUE;
     reader->u.string.contents = contents;
@@ -166,10 +166,10 @@ tdf_read_int(TDFReaderP reader)
 {
     unsigned value = 0;
     unsigned limit = (UINT_MAX >> 3);
-	
+
     for (;;) {
 		unsigned nibble = tdf_read_nibble (reader);
-		
+
 		if (value > limit) {
 			E_tdf_integer_too_big_in_tdf (reader);
 			THROW (XX_tdf_read_error);
@@ -194,7 +194,7 @@ tdf_read_bytes(TDFReaderP reader, NStringP nstring)
 {
     unsigned length   = nstring_length (nstring);
     CStringP contents = nstring_contents (nstring);
-	
+
     tdf_read_align (reader);
     switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
@@ -223,7 +223,7 @@ tdf_read_string(TDFReaderP reader, NStringP nstring)
 {
     unsigned size = tdf_read_int (reader);
     unsigned length;
-	
+
     if (size != 8) {
 		E_unsupported_char_size_in_tdf (reader, size);
 		THROW (XX_tdf_read_error);
@@ -241,7 +241,7 @@ tdf_read_name(TDFReaderP reader, NameKeyP name)
     NStringT nstring;
     unsigned components;
     unsigned i;
-	
+
     tdf_read_align (reader);
     switch (type) {
 	case 0x1:
@@ -267,7 +267,7 @@ void
 tdf_read_eof(TDFReaderP reader)
 {
     ByteT byte;
-	
+
     switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		if (bistream_read_byte (&(reader->u.bistream), &byte)) {

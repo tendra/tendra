@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -96,7 +96,7 @@ c_lexer_skip_bracketed_comment(IStreamP istream)
 {
     char c1;
     char c2;
-	
+
   redo1:
     LEXER_READ_ONE_CHAR (istream, redo1, eof, c1);
   redo2:
@@ -124,7 +124,7 @@ c_lexer_skip_white_space(IStreamP istream)
 {
     for (;;) {
 		char c;
-		
+
       redo1:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -179,11 +179,11 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 {
     DStringT dstring;
     CStringP cstring;
-	
+
     dstring_init (&dstring);
     for (;;) {
 		char c;
-		
+
       redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
@@ -248,7 +248,7 @@ c_lexer_read_identifier(IStreamP istream,
 {
     BoolT    c_ident = (c != '-');
     DStringT dstring;
-	
+
     dstring_init (&dstring);
     dstring_append_char (&dstring, c);
     for (;;) {
@@ -289,7 +289,7 @@ c_lexer_read_code_id(IStreamP istream, char c,
     BoolT    numbers_ok = (syntax_is_letter (c) || (c == '_'));
     DStringT dstring;
     char     c1;
-	
+
     dstring_init (&dstring);
     if (numbers_ok) {
 		dstring_append_char (&dstring, c);
@@ -326,7 +326,7 @@ c_lexer_flush_string(DStringP dstring, CCodeP code,
 					 BoolT force_nl)
 {
     NStringT nstring;
-	
+
     if (dstring_length (dstring) > 0) {
 		if (force_nl && (!dstring_last_char_equal (dstring, '\n'))) {
 			dstring_append_char (dstring, '\n');
@@ -347,7 +347,7 @@ c_lexer_read_at(IStreamP istream, DStringP dstring,
 {
     char     c;
     NStringT nstring;
-	
+
   redo:
     switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\0':
@@ -411,7 +411,7 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 								   istream_line (istream));
     DStringT dstring;
     char     c;
-	
+
   redo1:
     switch (ISTREAM_PEEK_CHAR (istream)) {
 	case '\0':
@@ -523,7 +523,7 @@ c_lexer_next_token(CLexerStreamP stream)
     IStreamP istream = &(stream->istream);
     CLexT    token;
     char     c;
-	
+
   retry:
     switch (c = c_lexer_skip_white_space (istream)) {
 	case '\0': /*FOR EOF*/

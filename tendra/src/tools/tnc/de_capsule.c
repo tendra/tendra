@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -336,7 +336,7 @@ de_equation(equation_func f)
 {
     long i, n;
     binding *old_binding = null;
-	
+
     /* Read new bindings */
     n = tdf_int ();
     if (n) {
@@ -363,7 +363,7 @@ de_equation(equation_func f)
 		n = tdf_int ();
 		if (n) input_error ("Number of linkage units wrong");
     }
-	
+
     /* Read the actual equation */
     n = BYTESIZE * tdf_int ();
     byte_align ();
@@ -377,7 +377,7 @@ de_equation(equation_func f)
 		decode_status = 1;
 		if (input_posn () != end_posn) input_error ("Unit length wrong");
     }
-	
+
     /* Restore the old bindings */
     if (old_binding) {
 		free_binding (crt_binding);
@@ -399,7 +399,7 @@ de_capsule()
     long i, n;
     long no_eqn;
     char **eqns;
-	
+
     /* Reset variables */
     al_tag_var = -1;
     tag_var = -2;
@@ -407,15 +407,15 @@ de_capsule()
     spare_binding = null;
     have_version = 0;
     decode_status = 0;
-	
+
     /* Read magic number */
     de_magic (MAGIC_NUMBER);
-	
+
     /* Read equation names */
     no_eqn = tdf_int ();
     eqns = alloc_nof (char *, no_eqn);
     for (i = 0 ; i < no_eqn ; i++) eqns [i] = de_aligned_string ();
-	
+
     /* Read variable sort names */
     no_var = tdf_int ();
     vars = alloc_nof (var_sort, no_var);
@@ -438,7 +438,7 @@ de_capsule()
 		}
 		set_binding_size (crt_binding, i, sz);
     }
-	
+
     /* Read external names */
     decode_status = 1;
     n = tdf_int ();
@@ -459,7 +459,7 @@ de_capsule()
 				(sort_count [ si ])--;
 				p->encoding = -1;
 			}
-			
+
 			if (n == ENC_string_extern) {
 				/* Simple external name */
 				boolean name_ok = 1;
@@ -525,7 +525,7 @@ de_capsule()
 			} else {
 				input_error ("Illegal EXTERN value, %ld", n);
 			}
-			
+
 			/* Add construct to tables */
 			if (reject) {
 				set_binding (crt_binding, i, id, p);
@@ -549,10 +549,10 @@ de_capsule()
 			}
 		}
     }
-	
+
     /* Complete the bindings */
     complete_binding (crt_binding);
-	
+
     /* Read the equations */
     n = tdf_int ();
     if (n != no_eqn) input_error ("Number of equations wrong");
@@ -562,7 +562,7 @@ de_capsule()
 		if (no_units) {
 			boolean skip_pass = 0;
 			equation_func f = null;
-			
+
 			/* Find equation decoding routine */
 			if (extract_tokdecs) {
 				if (streq (eq, LINK_tokdec_props)) {
@@ -587,7 +587,7 @@ de_capsule()
 					f = de_version;
 				}
 			}
-			
+
 			/* Skip pass */
 			if (skip_pass) {
 				long old_posn = input_posn ();
@@ -596,13 +596,13 @@ de_capsule()
 				in_skip_pass = 0;
 				input_goto (old_posn);
 			}
-			
+
 			/* Main pass */
 			for (j = 0 ; j < no_units ; j++) de_equation (f);
 			in_skip_pass = 0;
 		}
     }
-	
+
     /* Free unused constructs */
     free_construct (&garbage);
     return;
@@ -628,12 +628,12 @@ de_library()
     long old_posn;
     long i, no_cap;
     boolean old_extract = extract_tokdecs;
-	
+
     de_magic (MAGIC_LINK_NUMBER);
     IGNORE tdf_int ();
     no_cap = tdf_int ();
     old_posn = input_posn ();
-	
+
     /* First pass - extract all token declaration */
     extract_tokdecs = 1;
     for (i = 0 ; i < no_cap ; i++) {
@@ -659,7 +659,7 @@ de_library()
 		}
 		capname = null;
     }
-	
+
     /* Second pass - if the first pass didn't do everything */
     extract_tokdecs = old_extract;
     if (extract_tokdecs) return;

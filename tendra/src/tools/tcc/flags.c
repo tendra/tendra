@@ -24,7 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -33,18 +33,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -133,7 +133,7 @@ boolean make_pretty = 0;
 boolean make_tspec = 0;
 boolean use_assembler = 1;
 boolean use_mips_assembler = 0;
-boolean use_alpha_assembler = 0 ; 
+boolean use_alpha_assembler = 0 ;
 boolean use_hp_linker = 0;
 boolean use_dynlink = 0;
 boolean use_sparc_cc = 0;
@@ -527,7 +527,7 @@ initialise_options(void)
     exec_remove = make_list ("builtin/remove");
     exec_touch = make_list ("builtin/touch");
     exec_dynlink = make_list ("builtin/undef dynamic_initialiser");
-	
+
     /* Initialise other options */
     find_envpath ();
     for (p = opt_startup ; p != null ; p = p->next) {
@@ -537,7 +537,7 @@ initialise_options(void)
 		add_to_endup (p->item);
     }
     if (checker) allow_specs = 1;
-	
+
     /* allocate space for cmd line env args */
     sz = PATH_SUBS_elems * sizeof(PATH_SUBS[0]);
     env_paths = (char**) xalloc (sz);
@@ -550,7 +550,7 @@ initialise_options(void)
 	/* Set the environment file table to null, and zero out counters */
 	environ_hashtable = NULL;
 	environ_count = 0;
-	
+
     return;
 }
 
@@ -573,10 +573,10 @@ update_options(void)
     static boolean done_preproc = 0;
     static boolean done_prof = 0;
     static boolean done_time = 0;
-	
+
     /* Process archive options */
     process_archive_opt ();
-	
+
     /* Deal with cc mode */
     if (checker) mode = "checker";
     if (use_system_cc) {
@@ -603,7 +603,7 @@ update_options(void)
 		allow_notation = 0;
 		allow_pl_tdf = 0;
     }
-	
+
     /* Register extra stops */
     if (make_archive) set_stage (TDF_ARCHIVE, STOP_STAGE);
     if (make_preproc) {
@@ -611,7 +611,7 @@ update_options(void)
 		set_stage (PREPROC_CPP, STOP_ONLY_STAGE);
     }
     if (make_pretty) set_stage (PRETTY_TDF, STOP_STAGE);
-	
+
     /* Read special environments etc. */
     if (make_preproc && keeps [ PREPROC_C ] && !done_preproc) {
 		read_env (PREPROC_ENV);
@@ -629,13 +629,13 @@ update_options(void)
 		read_env (TIME_ENV);
 		done_time = 1;
     }
-	
+
     /* Print API information */
     if (show_api) {
 		error (INFO, "API is %s", api_info);
 		show_api = 0;
     }
-	
+
 #if 0
     /* The option -Fk means stop after producer */
     if (stops [ C_SPEC ] || stops [ CPP_SPEC ] ||
@@ -643,7 +643,7 @@ update_options(void)
 		stops [ INDEP_TDF ] = 1;
     }
 #endif
-	
+
     /* Propagate stop options down */
     if (stops [ INDEP_TDF ]) {
 		stops [ INDEP_TDF_COMPLEX ] = 1;
@@ -660,7 +660,7 @@ update_options(void)
     } else if (stops [ MIPS_T_FILE ]) {
 		stops [ BINARY_OBJ ] = 1;
     }
-	
+
     /* Check keep options */
     if (make_complex) {
 		if (keeps [ INDEP_TDF ]) {
@@ -722,7 +722,7 @@ update_options(void)
 			keeps [ BINARY_OBJ_AUX ] = 1;
 		}
     }
-	
+
     /* Set checker options */
     if (checker) {
 		if (allow_specs == 0) allow_specs = 1;
@@ -731,13 +731,13 @@ update_options(void)
 			stops [ CPP_SPEC_2 ] = 1;
 		}
     }
-	
+
     /* Print the copyright message if required */
     if (copyright) {
 		print_copyright ();
 		copyright = 0;
     }
-	
+
     /* A couple of housekeeping routines */
     close_startup ();
     find_envpath ();

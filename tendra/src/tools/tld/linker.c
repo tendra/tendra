@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -101,11 +101,11 @@ linker_rename_1(NStringP shape, NameKeyPairListP names,
     NameTableP            table      = shape_entry_name_table (entry);
     NameTableP            lib_table  = shape_entry_name_table (lib_entry);
     NameKeyPairListEntryP name       = name_key_pair_list_head (names);
-	
+
     for (; name; name = name_key_pair_list_entry_next (name)) {
 		NameKeyP from = name_key_pair_list_entry_from (name);
 		NameKeyP to   = name_key_pair_list_entry_to (name);
-		
+
 		debug_info_l_rename (shape, from, to);
 		name_table_add_rename (table, from, to);
 		name_table_add_rename (lib_table, from, to);
@@ -119,7 +119,7 @@ linker_rename(ArgDataP arg_data, ShapeTableP shapes,
 			  ShapeTableP lib_shapes)
 {
     RenameClosureT closure;
-	
+
     closure.shapes     = shapes;
     closure.lib_shapes = lib_shapes;
     rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
@@ -137,10 +137,10 @@ linker_read_capsules(ArgDataP arg_data, UnitTableP units,
     unsigned  num_input_files = arg_data_get_num_files (arg_data);
     CStringP *input_files     = arg_data_get_files (arg_data);
     unsigned  i;
-	
+
     for (i = 0; i < num_input_files; i ++) {
 		CapsuleP capsule;
-		
+
 		if ((capsule = capsule_create_stream_input (input_files [i])) !=
 			NIL (CapsuleP)) {
 			capsule_read (capsule, units, shapes);
@@ -163,16 +163,16 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
     unsigned    num_files = arg_data_num_library_files (arg_data);
     unsigned    num_paths = arg_data_num_library_paths (arg_data);
     unsigned    i;
-	
+
     for (i = 0; i < num_files; i ++) {
 		LibraryP library = NIL (LibraryP);
-		
+
 		if (file_name_is_basename (files [i])) {
 			unsigned j;
-			
+
 			for (j = 0; j < num_paths; j ++) {
 				CStringP name = file_name_expand (paths [j], files [i], "tl");
-				
+
 				if ((library = library_create_stream_input (name)) !=
 					NIL (LibraryP)) {
 					goto found;
@@ -205,18 +205,18 @@ linker_suppress_1(NStringP shape, BoolT all,
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
-	
+
     if (entry) {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
-		
+
 		if (all) {
 			name_table_iter (table, name_entry_suppress, (GenericP) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
 			NameEntryP name_entry = name_table_get (table, key);
-			
+
 			if (name_entry) {
 				debug_info_l_suppress (shape, key);
 				name_entry_set_lib_definition (name_entry, NIL (LibCapsuleP));
@@ -246,7 +246,7 @@ linker_resolve_undefined(UnitTableP units,
 						 ShapeTableP lib_shapes)
 {
     ShapeLibClosureT closure;
-	
+
     closure.lib_shapes = lib_shapes;
     closure.units      = units;
     closure.shapes     = shapes;
@@ -267,20 +267,20 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
-	
+
     if (entry == NIL (ShapeEntryP)) {
 		E_cannot_hide_shape (shape);
     } else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
-		
+
 		if (all) {
 			name_table_iter (table, name_entry_hide_defd, (GenericP) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
 			NameEntryP name_entry = name_table_get (table, key);
-			
+
 			if (name_entry == NIL (NameEntryP)) {
 				E_cannot_hide (shape, key);
 			} else if (name_entry_get_use (name_entry) & U_DEFD) {
@@ -299,20 +299,20 @@ linker_keep(NStringP shape, BoolT all, NameKeyListP names,
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
-	
+
     if (entry == NIL (ShapeEntryP)) {
 		E_cannot_keep_shape (shape);
     } else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
-		
+
 		if (all) {
 			name_table_iter (table, name_entry_keep, (GenericP) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
 			NameEntryP name_entry = name_table_get (table, key);
-			
+
 			if (name_entry == NIL (NameEntryP)) {
 				E_cannot_keep (shape, key);
 			} else {
@@ -345,7 +345,7 @@ linker_write_capsule(ArgDataP arg_data, UnitTableP units,
 {
     CStringP output_file = arg_data_get_output_file (arg_data);
     CapsuleP capsule;
-	
+
     if ((capsule = capsule_create_stream_output (output_file)) !=
 		NIL (CapsuleP)) {
 		capsule_write (capsule, units, shapes);
@@ -368,7 +368,7 @@ linker_main(ArgDataP arg_data)
     UnitTableP  units      = unit_table_create ();
     ShapeTableP shapes     = shape_table_create ();
     ShapeTableP lib_shapes = shape_table_create ();
-	
+
     linker_rename (arg_data, shapes, lib_shapes);
     linker_read_capsules (arg_data, units, shapes);
     linker_load_libraries (arg_data, lib_shapes);

@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -83,10 +83,10 @@ unit_write(UnitP unit, ShapeTableP shapes,
 {
     unsigned  length = nstring_length (&(unit->contents));
     MapTableP table;
-	
+
     if ((table = unit->map_table) != NIL (MapTableP)) {
 		ShapeClosureT shape_closure;
-		
+
 		shape_closure.table  = table;
 		shape_closure.writer = writer;
 		debug_info_w_start_counts (num_shapes);
@@ -127,7 +127,7 @@ unit_entry_create(NStringP key, UnitEntryP next,
 				  unsigned order)
 {
     UnitEntryP entry = ALLOCATE (UnitEntryT);
-	
+
     entry->next  = next;
     entry->order = order;
     nstring_copy (&(entry->key), key);
@@ -158,7 +158,7 @@ UnitP
 unit_entry_add_unit(UnitEntryP entry, unsigned num_counts)
 {
     UnitP unit = ALLOCATE (UnitT);
-	
+
     unit->next      = NIL (UnitP);
     unit->map_table = ((num_counts != 0) ?
 					   map_table_create () : NIL (MapTableP));
@@ -174,11 +174,11 @@ unit_entry_do_count(UnitEntryP entry, GenericP gclosure)
 {
     UnitSetClosureP closure = (UnitSetClosureP) gclosure;
     UnitP           unit;
-	
+
     if ((unit = entry->head) != NIL (UnitP)) {
 		while (unit) {
 			MapTableP table;
-			
+
 			if ((table = unit->map_table) != NIL (MapTableP)) {
 				map_table_iter (table, map_entry_check_non_empty,
 								(GenericP) closure->shapes);
@@ -196,7 +196,7 @@ unit_entry_write_unit_set(UnitEntryP entry,
 {
     if ((entry->head) || (entry == tld_entry)) {
 		NStringP key = unit_entry_key (entry);
-		
+
 		debug_info_w_unit_dec (key);
 		tdf_write_string (writer, key);
     }
@@ -209,7 +209,7 @@ unit_entry_write_tld_unit(UnitEntryP entry,
 {
     unsigned size = (tdf_int_size ((unsigned) 1) + 1);
     NStringP key  = unit_entry_key (entry);
-	
+
     debug_info_w_start_units (key, (unsigned) 1);
     tdf_write_int (writer, (unsigned) 1);
     debug_info_w_start_unit (key, (unsigned) 1, (unsigned) 1);
@@ -236,13 +236,13 @@ unit_entry_write_units(UnitEntryP entry, ShapeTableP shapes,
     unsigned num_units = 0;
     NStringP key       = unit_entry_key (entry);
     UnitP    unit;
-	
+
     for (unit = entry->head; unit; unit = unit->next) {
 		num_units ++;
     }
     if (num_units > 0) {
 		unsigned i;
-		
+
 		debug_info_w_start_units (key, num_units);
 		tdf_write_int (writer, num_units);
 		for (unit = entry->head, i = 1; unit; unit = unit->next, i ++) {

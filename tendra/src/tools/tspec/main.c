@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -171,7 +171,7 @@ main(int argc, char **argv)
     boolean check_only = 0;
     boolean preproc_input = 0;
     boolean separate_files = 0;
-	
+
     /* Initialisation */
     line_no = 1;
     filename = "built-in definitions";
@@ -182,7 +182,7 @@ main(int argc, char **argv)
     IGNORE signal (SIGINT, handler);
     IGNORE signal (SIGSEGV, handler);
     IGNORE signal (SIGTERM, handler);
-	
+
     /* Read system variables */
     env = getenv (INPUT_ENV);
     if (env) input_dir = string_copy (env);
@@ -205,7 +205,7 @@ main(int argc, char **argv)
     }
     env = getenv (COPYRIGHT_ENV);
     if (env) copyright = string_copy (env);
-	
+
     /* Process options */
     for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
@@ -273,7 +273,7 @@ main(int argc, char **argv)
     }
     if (api == null) error (ERR_FATAL, "Not enough arguments");
     input_dir = string_printf ("%s:%s", dir, input_dir);
-	
+
     if (preproc_input) {
 		/* Open preprocessed input */
 		if (file != null) error (ERR_WARNING, "Too many arguments");
@@ -303,7 +303,7 @@ main(int argc, char **argv)
 		filename = "temporary file";
 		line_no = 1;
     }
-	
+
     /* Deal with separate compilation */
     if (separate_files) {
 		int n;
@@ -331,7 +331,7 @@ main(int argc, char **argv)
 		}
 		exit (exit_status);
     }
-	
+
     /* Process the input */
     input_file = preproc_file;
     input_pending = LEX_EOF;
@@ -342,7 +342,7 @@ main(int argc, char **argv)
 		filename = null;
 		error (ERR_FATAL, "%d error(s) in analyser phase", no_errors);
     }
-	
+
     /* Perform the output */
     if (!check_only) {
 		filename = null;

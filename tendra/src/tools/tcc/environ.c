@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -147,7 +147,7 @@ read_env_aux(char *nm, hashtable *ht)
 	FILE *f;
 	char *p, *q;
 	int  line_num;
-	
+
 	if (*nm == 0) {
 		return (1);
 	} else if (*nm == '/') {
@@ -170,7 +170,7 @@ read_env_aux(char *nm, hashtable *ht)
 	 *  Parse each line of the env file
 	 */
 	line_num = 0;
-	
+
 	while (fgets (buffer, buffer_size, f) != null)
 	{
 		char c;          /* temp char */
@@ -190,7 +190,7 @@ read_env_aux(char *nm, hashtable *ht)
 		char *cmd;       /* final command string being built */
 		list  dummy;     /* final command */
 		htnode* hn;      /* wrapper for command storage */
-		
+
 		line_len = strlen(buffer);
 		count = 1;
 		p = buffer;
@@ -205,7 +205,7 @@ read_env_aux(char *nm, hashtable *ht)
 						  nm, line_num);
 				key_length++;
 			}
-			
+
 			/* mark off key from val */
 			*(p-1) = '\0';
 
@@ -214,9 +214,9 @@ read_env_aux(char *nm, hashtable *ht)
 				c = *p++;
 				if (count++ == buffer_size)
 					error(FATAL, "%s: line %d: Exceeded max line size",
-						  nm, line_num);			
+						  nm, line_num);
 			}
-			
+
 			/* sanity check */
 			if (c== '\0') {
 				error (WARNING, "%s: line %d: No value assigned to key %s",
@@ -231,7 +231,7 @@ read_env_aux(char *nm, hashtable *ht)
 				continue;
 			}
 			val_start = p;
-			
+
 			/* remove leading quotation mark from val */
 			*(val_start-1) = ' ';
 
@@ -239,7 +239,7 @@ read_env_aux(char *nm, hashtable *ht)
 			while (c = *p++, (c != '"' && c != '\n' && c != '\0')) {
 				if (count++ == buffer_size)
 					error(FATAL, "%s: line %d: Exceeded max line size",
-						  nm, line_num);				
+						  nm, line_num);
 
 				if (c=='<') {
 					int sub_len;    /* length of substitution */
@@ -279,7 +279,7 @@ read_env_aux(char *nm, hashtable *ht)
 					   function */
 					sub = dereference_var(esc_start+1, esc_end, ht,
 										  nm, line_num);
-					
+
 					/* find length of substitution */
 					sub_len = strlen(sub);
 
@@ -289,10 +289,10 @@ read_env_aux(char *nm, hashtable *ht)
 					/* find the number of characters that must be
 					   moved */
 					shift_max = strlen (esc_end);
-					
+
 					if (!end)
 						end = (buffer + line_len);
-					
+
 					if (diff > 0) { /* grow */
 						pivot = end;
 						delta = -1;
@@ -304,11 +304,11 @@ read_env_aux(char *nm, hashtable *ht)
 
 					/* adjust end pointers and length counters */
 					end += diff;
-					line_len += diff;						
+					line_len += diff;
 					count += diff;
 					if (count == buffer_size)
 						error(FATAL, "%s: line %d: Exceeded max line size",
-							  nm, line_num);					
+							  nm, line_num);
 
 					/* make room for the substitution */
 					for (cnt = 0; cnt < shift_max; cnt++) {
@@ -320,11 +320,11 @@ read_env_aux(char *nm, hashtable *ht)
 					for (cnt = 0; cnt < sub_len; cnt++)
 						*(esc_start + cnt) = sub[cnt];
 
-					/* advance our scanning pointer */					
+					/* advance our scanning pointer */
 					p = esc_end + diff;
 
 				} /* if escape '<' sequence */
-				
+
 			} /* while *p != '"' */
 
 			/* did we end the val scan on new line or EOF? */
@@ -337,7 +337,7 @@ read_env_aux(char *nm, hashtable *ht)
 
 			/* mark end of the value */
 			val_end = (p-1);
-			
+
 			/* set close quote to null */
 			*(val_end) = '\0';
 
@@ -345,7 +345,7 @@ read_env_aux(char *nm, hashtable *ht)
 			cmd = string_append (key_start, val_start, ' ');
 			key_start = string_copy (key_start);
 			val_start = (cmd + key_length + 2);
-			
+
 			/* if the key/value pair is a tccenv variable, it's
 			   a finished command, and should be executed */
 			hn = lookup_table(ht, key_start);
@@ -360,9 +360,9 @@ read_env_aux(char *nm, hashtable *ht)
 			/* update hashtable with new key/value pair*/
 			hn = update_table(ht, key_start, val_start,
 							  USR, nm, line_num);
-			
+
 		} /* if the line is a +, >, < env action command */
-		
+
 	} /* for each line in the env file */
 	return (0);
 } /* read_env_aux() */
@@ -390,13 +390,13 @@ dereference_var (char *esc_start, char *esc_end, hashtable *ht,
 	/* temporarily replace '>' with '\0' to facilitate lookup */
 	char tmp = *esc_end;
 	*esc_end = '\0';
-	
+
 	/*   Attempt to match TENDRA_* env arguments,
 		 which are most likely to occur. */
 	if (!strncmp ("TENDRA", esc_start, 6)) {
 		sub = find_path_subst(esc_start);
 	}
-	
+
 	/* If we fail to find a TENDRA_* env match, look
 	   up in hashtable */
 	if (!sub)
@@ -409,7 +409,7 @@ dereference_var (char *esc_start, char *esc_end, hashtable *ht,
 				   "Undefined variable <%s> in %s line %d\n",
 				   esc_start, nm, line_num);
 		}
-		sub = hn->val;						
+		sub = hn->val;
 	}
 	*esc_end = tmp;
 	return sub;
@@ -463,7 +463,7 @@ reconcile_envopts(void)
 			error (WARNING, "failed to load any environment files");
 		return;
 	}
-	
+
 	for (i = 0; i < TCC_TBLSZE; i++)
 	{
 		hn = environ_hashtable->node[i];
@@ -490,7 +490,7 @@ read_env(char *nm)
 
 	/* note attempt to load -Y env file */
 	environ_count++;
-	
+
 	if (ht == NULL)
 	{
 		ht = init_table (TCC_TBLSZE, TCC_KEYSZE, &hash);

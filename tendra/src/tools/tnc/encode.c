@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -214,13 +214,13 @@ enc_node(bitstream *b, node *p)
     while (p) {
 		construct *q = p->cons;
 		switch (q->sortnum) {
-			
+
 	    case SORT_tdfbool : {
 			/* Encode a bit */
 			enc_bits (b, 1, q->encoding);
 			break;
 	    }
-			
+
 	    case SORT_bytestream : {
 			/* Encode a bytestream */
 			bitstream *c = new_bitstream ();
@@ -229,19 +229,19 @@ enc_node(bitstream *b, node *p)
 			join_bitstreams (b, c);
 			break;
 	    }
-			
+
 	    case SORT_completion : {
 			/* Encode a completion */
 			if (p->son) enc_node (b, p->son);
 			break;
 	    }
-			
+
 	    case SORT_small_tdfint : {
 			/* Encode a small integer */
 			enc_tdf_int (b, q->encoding);
 			break;
 	    }
-			
+
 	    case SORT_tdfint : {
 			/* Encode a number */
 			char *num = q->name;
@@ -253,7 +253,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_option : {
 			/* Encode an optional argument */
 			if (p->son) {
@@ -264,7 +264,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_repeat : {
 			/* Encode a repeated argument */
 			enc_list_start (b);
@@ -272,7 +272,7 @@ enc_node(bitstream *b, node *p)
 			if (p->son) enc_node (b, p->son);
 			break;
 	    }
-			
+
 	    case SORT_tdfstring : {
 			/* Encode a string */
 			long i, n = q->encoding;
@@ -299,13 +299,13 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_unknown : {
 			/* Encode an unknown bitstream */
 			fatal_error ("Can't encode unknown bitstream");
 			break;
 	    }
-			
+
 	    case SORT_al_tag : {
 			/* Encode an alignment tag */
 			long e = q->encoding;
@@ -317,7 +317,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_label : {
 			/* Encode a label */
 			long e = q->encoding;
@@ -329,7 +329,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_tag : {
 			/* Encode a tag */
 			long e = q->encoding;
@@ -341,7 +341,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    case SORT_token : {
 			/* Encode a token */
 			tok_info *info = get_tok_info (q);
@@ -366,7 +366,7 @@ enc_node(bitstream *b, node *p)
 			}
 			break;
 	    }
-			
+
 	    default : {
 			/* Encode a simple sort */
 			int bits = sort_encoding [ q->sortnum ];
@@ -511,20 +511,20 @@ enc_tokdec(bitstream *b, construct *p)
     tok_info *info = get_tok_info (p);
     enc_tokdec_bits (b, ENC_make_tokdec);
     enc_tdf_int (b, p->encoding);
-	
+
     /* Deal with signature */
     if (info->sig == null) {
 		enc_bits (b, 1, (long) 0);
     } else {
 		enc_node (b, info->sig);
     }
-	
+
     /* Encode token sort */
     enc_sort (b, SORT_token);
-	
+
     /* Encode the token result sort */
     enc_sort (b, info->res);
-	
+
     /* Encode the token argument sorts */
     enc_list_start (b);
     if (info->args) {
@@ -556,20 +556,20 @@ enc_tokdef(bitstream *b, construct *p)
     tok_info *info = get_tok_info (p);
     enc_tokdef_bits (b, ENC_make_tokdef);
     enc_tdf_int (b, p->encoding);
-	
+
     /* Deal with signature */
     if (info->sig == null) {
 		enc_bits (b, 1, (long) 0);
     } else {
 		enc_node (b, info->sig);
     }
-	
+
     /* Encode token definition type */
     enc_token_defn_bits (c, ENC_token_definition);
-	
+
     /* Encode the token result sort */
     enc_sort (c, info->res);
-	
+
     /* Encode the token arguments */
     enc_list_start (c);
     if (info->args) {
@@ -584,7 +584,7 @@ enc_tokdef(bitstream *b, construct *p)
     } else {
 		enc_tdf_int (c, (long) 0);
     }
-	
+
     /* Encode the token definition */
     enc_node (c, info->def);
     enc_tdf_int (b, bitstream_length (c));
