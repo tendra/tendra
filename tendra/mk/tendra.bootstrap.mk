@@ -1,4 +1,4 @@
-# TenDRA make build infrastructure
+# TenDRA make bootstrap infrastructure
 #
 # $Id$
 
@@ -31,19 +31,27 @@ _objdir= 	${OBJ_DIR}/${APIS}
 #
 fixenv.sed:
 	@${ECHO} "# Create ${.TARGET}"
-	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g" 		> ${.TARGET}
-	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g" 		>> ${.TARGET}
-	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g" 		>> ${.TARGET}
-	@${ECHO} "1,\$$s%-ENVDIR-%${MACH_BASE}/env%g" 		>> ${.TARGET}
-	@${ECHO} "1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g" 		>> ${.TARGET}
-	@${ECHO} "1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g" 	>> ${.TARGET}
-	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" 	>> ${.TARGET}
-	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g" 		>> ${.TARGET}
+	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g" 		\
+		> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-ENVDIR-%${MACH_BASE}/env%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g" 	\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" 	\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
 
 _REALWORK: fixenv.sed .USE
 	@${ECHO} "# Fixing paths for ${ENVFILE} environments"
 . for entry in ${ENVFILE}
-	sed -f fixenv.sed ${.CURDIR}/${entry} > ${entry}
+	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
