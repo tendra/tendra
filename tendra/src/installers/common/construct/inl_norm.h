@@ -55,5 +55,5 @@
  */
 
 
-extern void normalised_inlining PROTO_S ((void));
-extern int inlinechoice PROTO_S ((exp, exp, int));
+extern void normalised_inlining(void);
+extern int inlinechoice(exp, exp, int);

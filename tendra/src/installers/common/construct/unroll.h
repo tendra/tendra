@@ -55,4 +55,4 @@
  */
 
 
-extern void unroller PROTO_S ((void));
+extern void unroller(void);
