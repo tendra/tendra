@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,246 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.2  1998/03/15  16:00:43  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.61  1998/01/09  14:59:42  pwe
- * prep restructure
- *
- * Revision 1.60  1997/11/06  09:29:13  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.59  1997/10/28  10:19:05  pwe
- * extra diags
- *
- * Revision 1.58  1997/10/23  09:33:16  pwe
- * prep extra_diags
- *
- * Revision 1.57  1997/10/10  18:32:56  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.56  1997/08/23  13:54:28  pwe
- * initial ANDF-DE
- *
- * Revision 1.55  1997/05/02  11:09:11  pwe
- * dwarf2 re return address offset
- *
- * Revision 1.54  1997/04/24  15:16:31  pwe
- * optim -O0 in tail_call
- *
- * Revision 1.53  1997/04/17  11:59:54  pwe
- * dwarf2 support
- *
- * Revision 1.52  1997/03/26  13:04:45  pwe
- * general proc compatibility
- *
- * Revision 1.51  1997/03/24  17:09:35  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.50  1997/02/18  11:48:17  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.49  1996/09/18  12:03:59  pwe
- * fixed PIC_code
- *
- * Revision 1.48  1996/09/10  14:36:48  pwe
- * fix diags - nested scope, param struct and leaf return
- *
- * Revision 1.47  1996/09/09  12:32:52  pwe
- * protect result during postlude
- *
- * Revision 1.46  1996/09/06  16:50:27  pwe
- * fix outpar doubles for postlude
- *
- * Revision 1.45  1996/09/04  12:41:37  pwe
- * untidy_call must not remove stacked callees
- *
- * Revision 1.44  1996/08/30  17:00:25  pwe
- * ensure space available for struct return
- *
- * Revision 1.43  1996/08/28  16:57:51  pwe
- * postlude with calls and no callers
- *
- * Revision 1.42  1996/08/28  11:47:54  pwe
- * correct postlude with calls
- *
- * Revision 1.41  1996/08/27  14:09:09  pwe
- * ensure all varargs are stored, and ptr is not64bit
- *
- * Revision 1.40  1996/08/22  16:47:10  pwe
- * correct accessing for double params
- *
- * Revision 1.39  1996/06/24  08:46:09  john
- * Removed aggregate initialisation
- *
- * Revision 1.38  1996/06/19  15:39:22  john
- * Fixed register allocation bug
- *
- * Revision 1.37  1996/05/24  10:46:08  john
- * Fixed discarded return for function returning struct/long double
- *
- * Revision 1.36  1996/03/20  15:39:49  john
- * Fix to  double & long double handling
- *
- * Revision 1.35  1996/03/18  09:02:03  john
- * Change to caller move
- *
- * Revision 1.34  1996/02/20  14:16:29  john
- * Fix for caller param lists containing structures.
- *
- * Revision 1.33  1996/01/17  10:29:59  john
- * Fix to stack space usage on tail call
- *
- * Revision 1.32  1996/01/10  17:23:00  john
- * Fix to check_stack
- *
- * Revision 1.31  1996/01/08  11:15:24  john
- * Fix to discarded function return when using out_pars
- *
- * Revision 1.30  1995/12/15  10:26:23  john
- * Changes stack error handling + fixes to postlude for general procs
- *
- * Revision 1.29  1995/11/27  09:22:54  john
- * Fixed register allocation
- *
- * Revision 1.28  1995/11/24  14:51:43  john
- * Fixed bug in register allocation
- *
- * Revision 1.27  1995/11/24  11:41:38  john
- * Fix for postludes
- *
- * Revision 1.26  1995/11/23  12:47:43  john
- * Fix for general procs
- *
- * Revision 1.25  1995/11/17  13:01:08  john
- * Fix to general proc call
- *
- * Revision 1.24  1995/11/16  17:23:43  john
- * Fix to same_callees
- *
- * Revision 1.23  1995/11/16  14:14:00  john
- * Fixed untidy return
- *
- * Revision 1.22  1995/11/16  14:03:28  john
- * Fixed register problems in general procs
- *
- * Revision 1.21  1995/11/07  09:42:09  john
- * Extensive changes to handling of callee parameters in general procs
- *
- * Revision 1.20  1995/11/01  16:13:59  john
- * Changed general proc definition
- *
- * Revision 1.19  1995/10/31  12:48:10  john
- * Change to dynamic callees
- *
- * Revision 1.18  1995/10/27  14:22:54  john
- * change to previous fix
- *
- * Revision 1.17  1995/10/27  10:51:41  john
- * Fix to general procs
- *
- * Revision 1.16  1995/10/25  17:13:18  john
- * Changed stack overflow test to unsigned
- *
- * Revision 1.15  1995/09/29  09:23:09  john
- * Fixed condition for setting Has_no_vcallers
- *
- * Revision 1.14  1995/09/27  13:35:27  john
- * Fix to tail_call
- *
- * Revision 1.13  1995/09/22  15:58:23  john
- * Fix to apply_general_proc
- *
- * Revision 1.12  1995/09/22  13:07:07  john
- * Fix to general procs
- *
- * Revision 1.11  1995/09/15  16:17:02  john
- * New exception handling
- *
- * Revision 1.10  1995/09/04  10:14:22  john
- * Fix to general procs
- *
- * Revision 1.9  1995/08/04  15:46:34  john
- * Fix to general procs
- *
- * Revision 1.8  1995/07/27  16:31:32  john
- * Fixed prototype
- *
- * Revision 1.7  1995/07/18  08:24:34  john
- * Fix to tail calls
- *
- * Revision 1.6  1995/07/14  16:33:23  john
- * Various changes for new spec
- *
- * Revision 1.5  1995/07/04  07:51:45  john
- * *** empty log message ***
- *
- * Revision 1.4  1995/06/30  08:29:35  john
- * Fixed bug in tail_call
- *
- * Revision 1.3  1995/06/14  15:35:44  john
- * Added support for trap error treatment and stack limits.  Also, some
- * reformatting
- *
- * Revision 1.2  1995/05/26  13:00:28  john
- * Changes for new spec (3.1)
- *
- * Revision 1.1.1.1  1995/03/13  10:18:51  john
- * Entered into CVS
- *
- * Revision 1.5  1995/01/17  15:32:24  john
- * Removed structure parameter check.
- *
- * Revision 1.4  1994/12/01  13:07:34  djch
- * with longjmp one can get procs of shape bottom. consider them as returning
- * void
- *
- * Revision 1.3  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/05/13  13:06:59  djch
- * Incorporates improvements from expt version
- * removed rscope related fns.
- * added RET_IN_CODE, not set -> return at end of leaf, not in middle...
- *
- * Revision 1.1  94/05/03  14:49:48  djch
- * Initial revision
- * 
- * Revision 1.8  94/02/21  16:12:49  16:12:49  ra (Robert Andrews)
- * reg_result now returns int, not bool.
- * 
- * Revision 1.7  93/09/27  14:53:49  14:53:49  ra (Robert Andrews)
- * In System V the __GLOBAL_OFFSET_TABLE_ starts with only one _.
- * 
- * Revision 1.6  93/08/27  11:35:12  11:35:12  ra (Robert Andrews)
- * A number of lint-like changes.
- * 
- * Revision 1.5  93/08/13  14:44:13  14:44:13  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.4  93/07/14  11:21:26  11:21:26  ra (Robert Andrews)
- * Misprint when reformatting : .reserved should be .reserve.
- * 
- * Revision 1.3  93/07/05  18:23:46  18:23:46  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * Added support for PIC (procedure prologue).
- * 
- * Revision 1.2  93/06/29  14:30:40  14:30:40  ra (Robert Andrews)
- * Changed an error message.
- * 
- * Revision 1.1  93/06/24  14:59:01  14:59:01  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 /*
   This file contains functions which handle the various aspects
