@@ -2564,7 +2564,7 @@ external-declaration : () -> ( e : EXP ) = {
  *    and constant-initialiser.  Also two types are passed into these
  *    rules, one reflecting the declaration type and the other the sequence
  *    of type-specifiers used to describe this type.  This is because
- *    in bitfields 'signed int' is not synonomous with 'int'.
+ *    in bitfields 'signed int' is not synonymous with 'int'.
  */
 
 <declare_member> : ( :TYPE, :IDENTIFIER ) -> ();
