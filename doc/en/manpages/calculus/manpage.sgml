@@ -1,0 +1,149 @@
+<refmeta>
+  <refentrytitle>calculus</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>calculus</refname>
+  <refpurpose>algebraic type system tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>calculus</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain' rep='repeat'><replaceable>input-file</replaceable></arg>
+    <arg choice='opt'><replaceable>output</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title>
+    <para><command>calculus</command> translates a specification of an algebraic
+      type system, <emphasis>input-file</emphasis>, into code representing that
+      system.  This takes the form of a number of files which are generated in
+      the output directory, <emphasis>output</emphasis>.  If no output directory
+      is specified then the current working directory is used.</para>
+
+    <para>Input files and command-line options may be given in any order.
+      Options always relate to the input files immediately following.</para>
+
+    <para>By default, C code implementing the type system is generated, however
+      this may be changed by means of command-line options.</para>
+</refsect1>
+
+<refsect1 id='options'>
+  <title>OPTIONS</title>
+  <variablelist>
+    <varlistentry>
+      <term>"<option>-A</option><replaceable>name</replaceable>"</term>
+      <listitem>
+        <para>Specifies that the algebra named <emphasis>name</emphasis>
+          should be used by the output routines.  Unless otherwise specified
+          the last algebra input is used for output.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-E</option><replaceable>file</replaceable></term>
+      <listitem>
+      <para>Specifies a file containing a list of extra types to 
+      <command>calculus</command>.  These are used, for example, to
+        generate extra disk reading and writing routines in conjunction with
+        the <option>-d</option> option.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-T</option><replaceable>file</replaceable></term>
+      <listitem>
+        <para>Specifies a template file which is used to generate an output
+          file <emphasis>output</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-a</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to generate extra statements
+          in its C code which includes assertions about null pointers etc. and
+           other code to help in writing programs using the tool.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-d</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to generate disk reading and
+          writing routines designed to add persistence to the generated type
+          system.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-i</option></term>
+      <listitem>
+        <para>Indicates to <command>calculus</command> that 
+          <emphasis>input</emphasis> is a simple input file.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-o</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to output a pretty-print of
+          the input algebra into <emphasis>output</emphasis>, which in this
+          instance in an output file.  If no output file is given then the
+          standard output is used.</para>
+        </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-p</option></term>
+        <listitem>
+          <para>Causes <command>calculus</command> to generate printing
+            routines designed for use in the debugging of programs written
+            using the type system.</para>
+        </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-r</option></term>
+       <listitem>
+         <para>Indicates to <command>calculus</command> that 
+           <emphasis>input</emphasis> is the output of a
+           previous <option>-w</option> option.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-t</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to generate <emphasis>#pragma
+          token</emphasis> commands describing the type system.  These are
+          designed so that
+          &man.tendra.tcc;
+          can apply extremely rigorous type checking to programs written
+          using the type system.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><option>-v</option></term>
+      <listitem>
+         <para>Causes <command>calculus</command> print its version number.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-w</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to output a dump of the input algebra into
+          <emphasis>output</emphasis>, which in this instance is an output file.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-x</option></term>
+      <listitem>
+        <para>Causes <command>calculus</command> to suppress the vector and vector pointer constructs
+          in its output.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='seealso'><title>SEE ALSO</title>
+<para>&man.tendra.tcc;.</para>
+</refsect1>
