@@ -1432,7 +1432,7 @@ read_define(void)
     } else {
 		/* Read the macro definition for object-like macros */
 		ERROR err = NULL_err;
-		if (skip_white (0) != WHITE_SPACE) err = ERR_cpp_space_replace2 ();
+		if (!(skip_white (0) & WHITE_SPACE)) err = ERR_cpp_space_replace2 ();
 		if (!legal && err == NULL_err) err = ERR_cpp_space_replace ();
 		defn = read_line (first_tok, lex_ignore_token);
 		if (defn != NULL) {
