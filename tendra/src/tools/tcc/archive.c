@@ -614,7 +614,6 @@ int
 split_archive(char *arch, filename **ret)
 {
     boolean failed = 0, go = 1;
-    char *emsg = null;
     list *opts = null;
     filename *q = null;
     filename *output = null;
