@@ -1,6 +1,5 @@
 # $Id$
 
-SUBDIR = utilities tools installers lib 
-#SUBDIR = installers lib producers tools utilities
+SUBDIR=	utilities tools installers lib 
 
 .include "Makefile.inc"
