@@ -4,6 +4,8 @@
 <!ENTITY tcpplus.manpage SYSTEM "../manpages/tcpplus/manpage.sgml">
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man;
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc
 ]>
 
 <book>
@@ -50,8 +52,8 @@
 
     <para>This document is designed as a technical overview of the TenDRA C++
       to TDF/ANDF producer. It is divided into two broad areas; descriptions of
-      the -XREF-public interfaces of the producer, and an overview of the
-      producer -XREF-source code.</para>
+      the <xref linkend='interface-desc'> interfaces of the producer, and an overview of the
+      producer <xref linkend='program-overview'> code.</para>
 
     <para>Whereas the interface description contains most of the information
       which would be required in a users' guide, it is not necessarily in a
@@ -60,24 +62,23 @@
       programs, the same design philosophy underlies both and they share a number
       of common interfaces. There are no radical differences between the two
       producers, besides the fact that the C++ producer covers a vastly larger
-      and more complex language. This means that much of the -XREF-#tdfc existing
+      and more complex language. This means that much of the &doc.tdfc; existing
       documentation on the C producer can be taken as also applying to the C++
       producer. This document tries to make clear where the C++ producer extends
       the C producer's interfaces, and those portions of these interfaces which
       are not directly applicable to C++.</para>
 
     <para>&gt;A familiarity with both C++ and TDF is assumed. The version of
-      C++ implemented is that given by the -XREF-#cplusplus draft ISO C++
-      standard. All references to &quot;ISO C++&quot; within the document should
+      C++ implemented is that given by the <xref linkend='bib-draft-pro-std'>.
+      All references to &quot;ISO C++&quot; within the document should
       strictly be qualified using the word &quot;draft&quot;, but for convenience
       this has been left implicit. The C++ producer has a number of switches
       which allow it to be configured for older dialects of C++. In particular,
-      the version of C++ described in the -XREF-#arm ARM (Annotated Reference
-      Manual) is fully supported.</para>
+      the version of C++ described in the  ARM (<xref linkend='bib-anno-cpp-ref-man'>) is fully supported.</para>
 
-    <para>The -XREF-#tdf TDF specification (version 4.0) may be consulted for a
+    <para>The &doc.tdf; may be consulted for a
       description of the compiler intermediate language used. The paper
-      -XREF-#port <emphasis>TDF and Portability</emphasis> provides a useful (if
+      &doc.port; <emphasis>TDF and Portability</emphasis> provides a useful (if
       slightly old) introduction to some of the ideas relating to static program
       analysis and interface checking which underlie the whole TenDRA compilation
       system.</para>
@@ -89,16 +90,16 @@
       (DRA/CIS3/OSSG/TR/95/102/1.0)</title>
     </biblioentry>
 
-    <biblioentry>
-      <title><ulink url=
-      "http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/">Working paper for
-      Draft Proposed Internation Standard for Information Systems - Programming
+    <biblioentry id='bib-draft-pro-std'>
+      <title>
+        <ulink url="http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/">Working paper for
+        Draft Proposed Internation Standard for Information Systems - Programming
       Language C++</ulink> X3J16/96-0225</title>
 
       <copyright><year>December 1996</year></copyright>
     </biblioentry>
 
-    <biblioentry>
+    <biblioentry id='bib-anno-cpp-ref-man'>
       <authorgroup>
         <author>
           <firstname>Margaret</firstname><surname>Ellis</surname>
@@ -108,15 +109,13 @@
           <firstname>Bjarne</firstname><surname>Stroustrup</surname>
         </author>
       </authorgroup>
-      <title><ulink url=
-      "http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html">The
-      Annotated C++ Reference Manual</ulink></title>
-
+      <title>
+        <ulink url="http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html">The Annotated C++ Reference Manual</ulink></title>
       <copyright><year>1990</year></copyright>
       <publishername>Addison-Wesley</publishername> <isbn>0-201-51459-1</isbn>
     </biblioentry>
 
-    <biblioentry>
+    <biblioentry id='bib-ccs'>
       <title>C Coding Standards, DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal
       document)</title>
     </biblioentry>
@@ -133,13 +132,13 @@
     <para>An important design criterion of the C++ producer was that it should
       be strictly ISO conformant by default, but have a method whereby dialect
       features and extra static program analysis can be enabled. This compiler
-      configuration is controlled by the -XREF-pragma.html <literal>#pragma
+      configuration is controlled by the <xref linkend='configuration'> <literal>#pragma
       TenDRA</literal> directives described in the first section.</para>
 
     <para>The requirement that the C and C++ producers should be able to
       translate portable C or C++ programs into target independent TDF requires a
       mechanism whereby the target dependent implementations of APIs can be
-      represented. This mechanism, the -XREF-token.html <literal>#pragma
+      represented. This mechanism, the <xref linkend='token-syntax'> <literal>#pragma
       token</literal> syntax, is described in the following section. Note that at
       present this mechanism only contains support for C APIs; it is considered
       that the C++ language itself contains sufficient interface mechanisms for
@@ -147,16 +146,16 @@
 
     <para>The C and C++ producers provide two mechanisms whereby type and
       declaration information derived from a translation unit can be stored to a
-      file for post-processing by other tools. The first is the -XREF-dump.html
+      file for post-processing by other tools. The first is the <xref linkend='symbol-table-dump'>
       symbol table dump, which is a public interface designed for use by third
-      party tools. The second is the -XREF-link.html C/C++ spec file, which is
+      party tools. The second is the <xref linkend='intermodule-analysis'> C/C++ spec file, which is
       designed for ease of reading and writing by the producers themselves, and
       is used for intermodule analysis.</para>
 
     <para>The mapping from C++ to TDF implemented by the C++ producer is
       largely straightforward. There are however target dependencies arising
       within the language itself which require special handling. These are
-      represented by certain -XREF-lib.html standard tokens which the producer
+      represented by certain <xref linkend='implementation-details'> standard tokens which the producer
       requires to be defined on the target machine. These tokens are also used to
       describe the interface between the producer and the run-time system. Note
       that the C++ producer is primarily concerned with the C++ language, not
@@ -164,7 +163,7 @@
       components which are required as an integral part of the language (memory
       allocation, exception handling, run-time type information etc.) is
       provided. Otherwise, libraries should be obtained from third parties. A
-      number of hints on -XREF-std.html integrating such libraries with the C++
+      number of hints on <xref linkend='standard-lib'> integrating such libraries with the C++
       producer are given.</para>
 
     <sect1 id='invocation'>
@@ -183,7 +182,7 @@
         <literal>-Yc++</literal> command-line option in order to enable their C++
         capabilities. Files with a <literal>.C</literal> suffix are recognised as
         C++ source files and passed to <literal>tcpplus</literal> for processing
-        (see -XREF#compile"&gt;below). It is possible to change the suffix used
+        (see <xref linkend='compilation-scheme'>). It is possible to change the suffix used
         for C++ source files; for example <literal>-sC:cc</literal> causes
         <literal>.cc</literal> files to be recognised as C++ source files. An
         interesting variation is <literal>-sC:c</literal> which causes C source
@@ -231,7 +230,7 @@
 
         <para>In addition to this main compilation scheme,
           <literal>tcpplus</literal> can additionally be made to output a
-          -XREF-link.html C++ spec file for each C++ source file,
+          <xref linkend='intermodule-analysis'> C++ spec file for each C++ source file,
           <literal>a.K</literal> say. These C++ spec files can be linked, using
           <literal>tcpplus</literal> in its spec linker mode, to give an
           additional TDF capsule, <literal>x.j</literal> say, and a combined C++
@@ -269,11 +268,11 @@
         standard with no extra checks.</para>
 
       <para>Certain very basic configuration information is specified using a
-        -XREF-#table portability table, however the primary method of
+        <xref linkend='port-tables'> portability table, however the primary method of
         configuration is by means of <literal>#pragma</literal> directives. These
         directives may be placed within the program itself, however it is
-        generally more convenient to group them into a -XREF-man.html#start-up
-        start-up file in order to create a -XREF-usruser-defined compilation
+        generally more convenient to group them into a <xref linkend='invocation'>
+        start-up file in order to create a user-defined compilation
         profile. The <literal>#pragma</literal> directives recognised by the C++
         producer have one of the equivalent forms:</para>
 <programlisting>
@@ -298,7 +297,7 @@
         <emphasis>integer-literal</emphasis> is any integer literal,
         <emphasis>identifier</emphasis> is any simple, unqualified identifier
         name, and <emphasis>type-id</emphasis> is any type identifier. Other
-        syntactic items are described in the text. A -XREF-pragma1.html complete
+        syntactic items are described in the text. A <xref linkend='pragma-directive-syntax'> complete
         grammar for the <literal>#pragma</literal> directives accepted by the C++
         producer is given as an annex.</para>
 
@@ -307,9 +306,9 @@
 
         <para>Certain very basic configuration information is read from a file
           called a portability table, which may be specified to the producer
-          using a -XREF-man.html#table <literal>-n</literal> option. This
+          using a <xref linkend='invocation'> <literal>-n</literal> option. This
           information includes the minimum sizes of the basic integral types, the
-          -XREF-#char sign of plain <literal>char</literal>, and whether signed
+          <xref linkend='character-literals'> sign of plain <literal>char</literal>, and whether signed
           types can be assumed to be symmetric (for example, [-127,127]) or
           maximum (for example, [-128,127]).</para>
 
@@ -344,7 +343,7 @@ multibyte           1
 </programlisting>
 
         <para>The given <emphasis>string-literal</emphasis> should name an
-          error from the -XREF-error.html error catalogue. A severity of
+          error from the <xref linkend='error-catalogue'> error catalogue. A severity of
           <literal>on</literal> or <literal>disallow</literal> indicates that the
           associated diagnostic message should be an error, which causes the
           compilation to fail. A severity of <literal>warning</literal> indicates
@@ -438,7 +437,7 @@ multibyte           1
 </programlisting>
 
         <para>where the directory name is one introduced via a
-          -XREF-man.html#directory<literal>-N</literal> command-line option. The
+          <xref linkend='invocation'><literal>-N</literal> command-line option. The
           effect of this directive, if a <literal>#include</literal> directive is
           found to resolve to a file from the given directory, is as if the file
           was enclosed in directives of the form:</para>
@@ -871,8 +870,8 @@ multibyte           1
           <emphasis>integer-literal</emphasis> gives the limit to be imposed. An
           error is reported if the quantity exceeds this limit (note however that
           checks have not yet been implemented for all of the quantities listed).
-          Note that the -XREF-#identifier <literal>name_limit</literal> and
-          -XREF-#include"&gt;<literal>include_depth</literal> implementation
+          Note that the <literal>name_limit</literal> and
+          <xref linkend='inclusion-directives'> <literal>include_depth</literal> implementation
           limits can be set using dedicated directives.</para>
 
         <para>The maximum number of errors allowed before the producer bails
@@ -988,7 +987,7 @@ multibyte           1
 </programlisting>
 
         <para>This length is given by the <literal>name_limit</literal>
-          implementation quantity -XREF-#limits mentioned above. Identifiers
+          implementation quantity <xref linkend='implimentation-limits'> mentioned above. Identifiers
           which exceed this length raise an error or a warning, but are not
           truncated.</para>
       </sect2>
@@ -1035,7 +1034,7 @@ multibyte           1
           of this form. This list gives a mapping from the value of the literal
           to the type to be used to represent the literal. There are three cases
           for the literal type; it may be a given integral type, it may be
-          calculated using a given -XREF-lib.html#literal literal type token, or
+          calculated using a given <xref linkend='integer-literal-types'> literal type token, or
           it may cause an error to be raised. There are also three cases for
           describing a literal range; it may be given by values less than or
           equal to a given integer literal, it may be given by values which are
@@ -1121,7 +1120,7 @@ multibyte           1
           implementation dependent. By default the implementation is determined
           by the definition of the <xref linkend='arithmetic-types'> <literal>~char</literal>
           token, however this can be overridden in the producer either by means
-          of the -XREF-#table"&gt;portability table or by the directive:</para>
+          of the <xref linkend='port-tables'> portability table or by the directive:</para>
 <programlisting>
 #pragma TenDRA character <emphasis>character-sign</emphasis>
 </programlisting>
@@ -1336,7 +1335,7 @@ if ( cond ) {
 
         <para>There is a maximum depth of nested <literal>#include</literal>
           directives allowed by the C++ producer. This depth is given by the
-          <literal>include_depth</literal> implementation quantity -XREF-#limits
+          <literal>include_depth</literal> implementation quantity <xref linkend='implimentation-limits'>
           mentioned above . Its value is fairly small in order to detect
           recursive inclusions. The maximum depth can be set using:</para>
 <programlisting>
@@ -2041,7 +2040,7 @@ char c = a + b ;
 
               <para>whereby a keyword can be introduced which can be used to
                 explicitly declare a type with given representation and semantic
-                components. Unfortunately this makes the -XREF-parse.html C++
+                components. Unfortunately this makes the <xref linkend='parsing-cpp'> C++
                 grammar ambiguous, so it has not yet been implemented in the C++
                 producer.</para>
             </blockquote>
@@ -2049,7 +2048,7 @@ char c = a + b ;
         </warning>
 
         <para>It is possible to allow individual conversions by means of
-          conversion tokens. A -XREF-token.html procedure token which takes one
+          conversion tokens. A <xref linkend='token-syntax'> procedure token which takes one
           rvalue expression program parameter and returns an rvalue expression,
           such as:</para>
 <programlisting>
@@ -2135,7 +2134,7 @@ s b = a ;       // maps to conv ( a )
           <literal>...</literal> as a primary expression in a function defined
           with ellipsis. The type of such an expression is implementation
           defined. This expression is used in the definition of the
-          -XREF-lib.html#ellipsis <literal>va_start</literal> macro in the
+          <xref linkend='ellipsis-functions'> <literal>va_start</literal> macro in the
           <literal>&lt;stdarg.h&gt;</literal> header. This header automatically
           enables this switch.</para>
       </sect2>
@@ -2439,7 +2438,7 @@ while ( true ) {
           suppressed by enclosing the assignment within parentheses.</para>
 
         <para>Another common error associated with iteration statements,
-          particularly with certain -XREF-style.html heretical brace styles, is
+          particularly with certain <xref linkend='source-code-org-style'> heretical brace styles, is
           the accidental insertion of an extra semicolon as in:</para>
 <programlisting>
 for ( init ; cond ; step ) ;
@@ -2661,7 +2660,7 @@ void f ()
 
         <para>The second, and more particularly the third, of these checks
           requires some fairly sophisticated flow analysis, so any hints which
-          can be picked up from -XREF-#switch exhaustive
+          can be picked up from <xref linkend='switch-statements'>  exhaustive
           <literal>switch</literal> statements etc. is likely to increase the
           accuracy of the errors detected.</para>
 
@@ -2782,7 +2781,7 @@ void e () throw ( int )
               <blockquote>
                 <para>The automatic instantiation of exported templates has not
                 yet been implemented correctly. It is intended that such
-                instantiations will be generated during -XREF-link.html
+                instantiations will be generated during <xref linkend='intermodule-analysis'>
                 intermodule analysis (where they conceptually belong). At present
                 it is necessary to work round this using explicit
                 instantiations.</para>
@@ -3015,7 +3014,7 @@ void e () throw ( int )
             lie in the macro namespace. The most general form of procedure token
             specifies two sets of parameters. The bound parameters are those
             which are used in encoding the actual TDF output, and the program
-            parameters are those which are -XREF-#args specified in the program.
+            parameters are those which are specified in the program.
             The program parameters are expressed in terms of the bound
             parameters. A program parameter can be an expression token parameter,
             a statement token parameter, a member token parameter, a procedure
@@ -3138,7 +3137,7 @@ PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :
           the correct category for the corresponding token. For example, a
           <literal>VARIETY</literal> token requires an integral type.</para>
 
-        <para>-XREF-offset A member argument must describe the offset of a
+        <para><xref linkend='offset'>set A member argument must describe the offset of a
           member or nested member of the given structure or union type. The type
           of the member should agree with that of the <literal>MEMBER</literal>
           token. The general form of a member offset can be described in terms of
@@ -3319,7 +3318,7 @@ reject -&gt; reject
 #pragma TenDRA member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis>
 </programlisting>
 
-        <para>where <emphasis>member-offset</emphasis> is -XREF-#offset as
+        <para>where <emphasis>member-offset</emphasis> is <xref linkend='offset'>set as
           above .</para>
       </sect2>
     </sect1>
@@ -3336,8 +3335,8 @@ reject -&gt; reject
 
       <para>The file to be used as the symbol table output file, plus details
         of what information is to be included in the dump file can be specified
-        using the -XREF-man.html#dump <literal>-d</literal> command-line option.
-        The format of the dump file is described below; a -XREF-dump1.html
+        using the <xref linkend='invocation'> <literal>-d</literal> command-line option.
+        The format of the dump file is described below; a <xref linkend='symbol-table-dump-syntax'>
         summary of the syntax is given as an annex.</para>
 
       <sect2 id='lexical-elements'>
@@ -3441,7 +3440,7 @@ reject -&gt; reject
   *
 </programlisting>
 
-        <para>Note that there is a concept of the -XREF-crt_loc current file
+        <para>Note that there is a concept of the <anchor id='crt-loc' xreflabel='current-file-locatioin'> current file
           location, relative to which other locations are given. The initial
           value of the current file location is undefined. Unless otherwise
           stated, all <emphasis>location</emphasis> elements update the current
@@ -3964,7 +3963,7 @@ reject -&gt; reject
       <sect2 id='types'>
         <title>Types</title>
 
-        <para>The -XREF-built-in built-in types are represented in the symbol
+        <para>The built-in types are represented in the symbol
           table dump as follows:</para>
 
         <table frame='all' id='symbol-table-dump-b'>
@@ -4105,7 +4104,7 @@ reject -&gt; reject
 <emphasis>token-application</emphasis>
 </programlisting>
 
-        <para>-XREF-composite Composite and qualified types are represented in
+        <para><anchor id='composite-qual-types' xreflabel='composite-qual-types'>Composite and qualified types are represented in
           terms of their subtypes as follows:</para>
 
         <table frame='all' id='subtypes'>
@@ -4480,7 +4479,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       <sect2 id='errors'>
         <title>Errors</title>
 
-        <para>Each error in the C++ -XREF-error.html error catalogue is
+        <para>Each error in the C++ <xref linkend='error-catalogue'> error catalogue is
           represented by a number. These numbers happen to correspond to the
           position of the error within the catalogue, but in general this need
           not be the case. The first use of each error introduces the error
@@ -4540,7 +4539,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
         <para>corresponding to the various syntactic categories described
           above. Note that a <emphasis>location</emphasis> error argument, while
-          expressed relative to the -XREF-#crt_loc current file location, does
+          expressed relative to the <xref linkend='crt-loc'> current file location, does
           not change this location.</para>
       </sect2>
 
@@ -4557,7 +4556,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
         <para>The first <emphasis>string</emphasis> gives the directory
           pathname; the second, if present, gives the associated directory name
-          as specified in the -XREF-man.html#directory <literal>-N</literal>
+          as specified in the <xref linkend='invocation'> <literal>-N</literal>
           command-line option.</para>
 
         <para>Now the start and end of each file are marked using:</para>
@@ -4592,7 +4591,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         <para>the first three corresponding to header names of the forms
           <literal>&lt;....&gt;</literal>, <literal>&quot;....&quot;</literal>
           and <literal>[....]</literal> respectively, the next two corresponding
-          to -XREF-man.html#start-up start-up and -XREF-man.html#end-up end-up
+          to <xref linkend='invocation'> start-up and <xref linkend='invocation'> end-up
           files, and the final form being used to resume the original file after
           the <literal>#include</literal> directive has been processed.</para>
       </sect2>
@@ -4629,7 +4628,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         </para>
       </warning>
 
-      <para>A C++ spec file is a dump of the C++ producer's -XREF-alg.html
+      <para>A C++ spec file is a dump of the C++ producer's <xref linkend='primitive-types'>
         internal representation of a translation unit. Such files can be written
         to, and read from, disk to perform such operations as intermodule
         analysis.</para>
@@ -4638,7 +4637,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         producer and may change between releases to reflect modifications in the
         internal type system. The C producer has a similar dump format, called a
         C spec file, however the two are incompatible. If intermodule analysis
-        between C and C++ source files is required then the -XREF-dump.html
+        between C and C++ source files is required then the <xref linkend='symbol-table-dump'>
         symbol table dump format should be used.</para>
     </sect1>
 
@@ -4652,7 +4651,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         common to the C and C++ producers. Those which are unique to the C++
         producer have names of the form <literal>~cpp.*</literal>. Note that the
         description is in terms of TDF tokens, not the internal tokens introduced
-        by the -XREF-token.html<literal>#pragma token</literal> syntax.</para>
+        by the <xref linkend='token-syntax'><literal>#pragma token</literal> syntax.</para>
 
       <para>There are two levels of implementation in the run-time system. The
         actual interface between the producer and the run-time system is given by
@@ -5367,7 +5366,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         <para>A pointer to a data member of a non-virtual base class can be
           converted to a pointer to a data member of a derived class. The reverse
           conversion is also possible using <literal>static_cast</literal>. If
-          the base is a -XREF-#primaryprimary base class then these conversions
+          the base is a base class then these conversions
           are trivial and have no effect. Otherwise null pointers to data members
           are converted to null pointers to data members, and the non-null cases
           are handled by the tokens:</para>
@@ -5435,7 +5434,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           functions), and the third argument is a zero offset.</para>
 
         <para>For virtual functions, a pointer to function member of the form
-          above is entered in the -XREF-#vtablevirtual function table for the
+          above is entered in the <xref linkend='virt-funct-tables'>virtual function table for the
           corresponding class. The actual pointer to the virtual function member
           then gives a reference into the virtual function table as
           follows:</para>
@@ -5572,7 +5571,7 @@ class A {
           omitted; otherwise space for <emphasis>vptr A</emphasis> needs to be
           allocated within the class and the pointer needs to be initialised in
           each constructor for <emphasis>A</emphasis>. The precise layout of the
-          -XREF-#vtablevirtual function table and the -XREF-#rttirun-time type
+          <xref linkend='virt-funct-tables'>virtual function table and the <xref linkend='run-time-type-info'>run-time type
           information is given below.</para>
 
         <para>Two alternative ways of laying out the non-static data members
@@ -5716,7 +5715,7 @@ class D : public B, public C {
             the start of <emphasis>B</emphasis> means that the base class
             conversion from <emphasis>B</emphasis> to <emphasis>A</emphasis> is
             trivial. Any base class with this property is called a
-            -XREF-primaryprimary base class.</para>
+            primary base class.</para>
 
           <note>
             <para>In theory two virtual function tables are required, the
@@ -5732,7 +5731,7 @@ class D : public B, public C {
               usually be combined - if the virtual functions added in
               <emphasis>B</emphasis> are listed in the virtual function table
               after those inherited from <emphasis>A</emphasis> and the form of
-              the overriding is -XREF-#overridesuitably well behaved (in the
+              the overriding is <xref linkend='override'>suitably well behaved (in the
               sense defined below) then <emphasis>vptr B::A</emphasis> is an
               initial segment of <emphasis>vptr B</emphasis>. It is also possible
               to remove the <emphasis>vptr B</emphasis> field and use
@@ -5796,7 +5795,7 @@ class D : public B, public C {
             virtual functions inherited from <emphasis>B</emphasis> first,
             followed by those inherited from <emphasis>C</emphasis>, followed by
             those first declared in <emphasis>D</emphasis> (there are
-            -XREF-#overrideother reasons as well). Thus <emphasis>vtbl
+            <xref linkend='override'>other reasons as well). Thus <emphasis>vtbl
             D::C</emphasis> cannot be eliminated.</para>
         </sect3>
 
@@ -5823,7 +5822,7 @@ class D : public B, public C {
 } ;
 </programlisting>
 
-          <para>or, as a -XREF-diamonddirected acyclic graph:</para>
+          <para>or, as a directed acyclic graph:</para>
 
           <figure id="acyclic-graph">
             <title>Acyclic Graph</title>
@@ -5871,7 +5870,7 @@ class D : public B, public C {
             <emphasis>B</emphasis> object can be determined statically it is
             possible to access the <emphasis>A</emphasis> sub-object directly by
             adding a suitable offset. Because this conversion is non-trivial (see
-            -XREF-#overridebelow) the virtual function table <emphasis>vtbl
+            <xref linkend='override'>below) the virtual function table <emphasis>vtbl
             B::A</emphasis> is not an initial segment of <emphasis>vtbl
             B</emphasis> and cannot be eliminated.</para>
 
@@ -6033,7 +6032,7 @@ delete this ;
           initialisers are handled correctly (see ISO C++ 12.7).</para>
 
         <para>A further complication arises from the need to destroy
-          -XREF-partialpartially constructed objects if an exception is thrown in
+          <anchor id='partial' xreflabel='composite-qual-types'>partially constructed objects if an exception is thrown in
           a constructor. A count is maintained of the number of base classes and
           members constructed within a constructor. If an exception is thrown
           then it is caught in the constructor, the constructed base classes and
@@ -6085,7 +6084,7 @@ delete this ;
 </programlisting>
 
         <para>where the first expression gives the address of the
-          -XREF-#rttirun-time type information structure for the class, the
+          <xref linkend='run-time-type-info'>run-time type information structure for the class, the
           second expression gives the offset of the <emphasis>vptr</emphasis>
           field within the class (i.e. <emphasis>voff</emphasis>), the integer
           constant is <emphasis>n + 1</emphasis>, and the final expression is a
@@ -6093,7 +6092,7 @@ delete this ;
           <emphasis>n</emphasis> virtual functions.</para>
 
         <para>The information given on each virtual function in this table has
-          the form of a -XREF-#ptr_mem_funcpointer to function member formed
+          the form of a <xref linkend='pointers-to-funct-mem'>pointer to function member formed
           using the token:</para>
 <programlisting>
 ~cpp.pmf.make : ( EXP PROC, EXP OFFSET, EXP OFFSET ) -&gt; EXP pmf
@@ -6118,7 +6117,7 @@ delete this ;
           first non-inline, non-pure virtual function declared in that class. If
           such a function does not exist then duplicate copies are created in
           every module which requires them. In the former case the virtual
-          function table will have an -XREF-#otherexternal tag name; in the
+          function table will have an external tag name; in the
           latter case it will be an internal tag. This scheme can be overridden
           using the <literal>-jv</literal> command-line option, which causes
           local virtual function tables to be output for all classes.</para>
@@ -6126,7 +6125,7 @@ delete this ;
         <para>Note that the discussion above applies to both simple virtual
           function tables, such as <emphasis>vtbl B</emphasis> above, and to
           those arising from base classes, such as <emphasis>vtbl
-          B::A</emphasis>. -XREF-overrideWe are now in a position to precisely
+          B::A</emphasis>. <anchor id='override' xreflabel='override'>We are now in a position to precisely
           determine when <emphasis>vtbl B::A</emphasis> is an initial segment of
           <emphasis>vtbl B</emphasis> and hence can be eliminated. Firstly,
           <emphasis>A</emphasis> must be the first direct base class of
@@ -6169,7 +6168,7 @@ delete this ;
 ~cpp.pmf.func : ( EXP ppmf ) -&gt; EXP PROC
 </programlisting>
 
-          <para>described as part of the -XREF-#ptr_mem_funcpointer to function
+          <para>described as part of the <xref linkend='pointers-to-funct-mem'>pointer to function
             member call mechanism above.</para>
         </sect3>
       </sect2>
@@ -6462,7 +6461,7 @@ delete this ;
         </table>
 
         <para>For example, the run-time type information structures for the
-          classes declared in the -XREF-#diamonddiamond lattice above can be
+          classes declared in the diamond lattice above can be
           represented as follows:</para>
 
         <figure id="run-time">
@@ -6616,7 +6615,7 @@ delete this ;
           </table>
 
           <para>Note that the encoding for the basic integral types is the same
-            as that -XREF-#arithgiven above. The other types are assigned to
+            as that <xref linkend='arithmetic-types'>given above. The other types are assigned to
             unused values. Note that the encodings for
             <literal>ptrdiff_t</literal> and <literal>size_t</literal> are not
             used, instead that for their implementation is used (using the
@@ -6631,10 +6630,10 @@ delete this ;
             <literal>~cpp.typeid.basic</literal>.</para>
 
           <para>The run-time type information structures for classes are
-            defined in the same place as their -XREF-#vtablevirtual function
+            defined in the same place as their <xref linkend='virt-funct-tables'>virtual function
             tables. Other run-time type information structures are defined in
             whatever modules require them. In the former case the type
-            information structure will have an -XREF-#otherexternal tag name; in
+            information structure will have an external tag name; in
             the latter case it will be an internal tag.</para>
         </sect3>
 
@@ -6717,7 +6716,7 @@ delete this ;
           the third is the destructor to be used. In this way a list giving the
           objects to be destroyed, and the order in which to destroy them, is
           built up. Note that partially constructed objects are destroyed within
-          their constructors (see -XREF-#partialabove) so that only completely
+          their constructors (<xref linkend='partial'>) so that only completely
           constructed objects need to be considered.</para>
 
         <para>The implementation also needs to ensure that it calls the
@@ -6845,7 +6844,7 @@ delete this ;
           <para>where the argument is a pointer to destructor variable, is
             called to remove the local variable destructor from the stack. Note
             that partially constructed objects are destroyed within their
-            constructors (see -XREF-#partialabove) so that only completely
+            constructors (see <xref linkend='partial'>) so that only completely
             constructed objects need to be considered.</para>
 
           <para>In cases where the local variable may be conditionally
@@ -7030,7 +7029,7 @@ variable (
             overhead for small functions, this extra code is not generated if it
             can be proved that such unexpected exceptions can never be thrown
             (the analysis is essentially the same as that in the
-            -XREF-pragma.html#exceptionexception analysis check).</para>
+            <xref linkend='exception-analysis'>exception analysis check).</para>
 
           <para>The implementation of exception specification is to enclose the
             entire function definition in a <literal>try</literal> block. The
@@ -7060,7 +7059,7 @@ variable (
           further processing, namely TDF tag names. This mangled name contains an
           encoding of the identifier name, its parent namespace or class and its
           type. Identifiers with C linkage are not mangled. The producer contains
-          a built-in -XREF-man.html#unmanglename unmangler which performs the
+          a built-in <xref linkend='invocation'> unmangler which performs the
           reverse operation of transforming the mangled form of an identifier
           name back to the underlying identifier. This can be useful when
           analysing system linker errors.</para>
@@ -7409,18 +7408,18 @@ extern &quot;C&quot; int errno ;
           <title>Mangling types</title>
 
           <para>The mangling of types is essentially similar to that used in
-            the -XREF-dump.htmlsymbol table dump format. The type used in the
+            the <xref linkend='symbol-table-dump'>symbol table dump format. The type used in the
             mangled name for an identifier ignores the return type for a function
             and ignores the most significant bound for an array.</para>
 
           <para>The built-in types are mapped in precisely the same way as in
-            the -XREF-dump.html#built-insymbol table dump. Class and enumeration
+            the <xref linkend='identifers'>symbol table dump. Class and enumeration
             types are mapped to their type names mangled in the same way as the
             namespace names above. The exception to this is that in a class
             member, the parent class is mapped to <literal>X</literal>.</para>
 
           <para>The composite types are again mapped in a similar fashion to
-            that in the -XREF-dump.html#compositedump file. For example,
+            that in the <xref linkend='composite-qual-types'> file. For example,
             <literal>PCc</literal> represents <literal>const char *</literal>.
             The only difficult case concerns function parameter types where the
             ARM <literal>T</literal> and <literal>N</literal> encodings are used
@@ -7447,14 +7446,14 @@ extern &quot;C&quot; int errno ;
         <sect3 id='other-mangled-names'>
           <title>Other mangled names</title>
 
-          <para>The -XREF-#vtablevirtual function table for a class, when this
+          <para>The <xref linkend='virt-funct-tables'>virtual function table for a class, when this
             is a variable with external linkage, is named
             <literal>__vt__</literal><emphasis>type</emphasis> , where
             <emphasis>type</emphasis> is the mangled form of the class name. The
             virtual function table for a base class is named
             <literal>__vt__</literal><emphasis>base</emphasis> where
             <emphasis>base</emphasis> is a sequence of mangled class names
-            specifying the base class. The -XREF-#rttirun-time type information
+            specifying the base class. The <xref linkend='run-time-type-info'>run-time type information
             structure for a type, when this is a variable with external linkage,
             is named <literal>__ti__</literal><emphasis>type</emphasis>, where
             <emphasis>type</emphasis> is the mangled form of the type
@@ -7502,14 +7501,14 @@ namespace N {
         <literal>&lt;typeinfo&gt;</literal> - which are an integral part of the
         language specification. These headers are also those which require the
         most cooperation between the producer and the library implementation, as
-        described in the -XREF-lib.htmlprevious section.</para>
+        described in the <xref linkend='implementation-details'>previous section.</para>
 
       <para>It is suggested that if further library components are required
         then they be acquired from third parties. It should be noted however that
-        such libraries may require -XREF-#portingsome effort to be ported to an
+        such libraries may require <xref linkend='common-porting-prob'>some effort to be ported to an
         ISO compliant compiler; for example, some information on porting the
         <literal>libio</literal> component of <literal>libg++</literal>, which
-        contains some very compiler-dependent code, are -XREF-#libiogiven below.
+        contains some very compiler-dependent code, are <xref linkend='porting-libio'>given below.
         Libraries compiled with other C++ compilers may not link correctly with
         modules compiled using <literal>tcc</literal>.</para>
 
@@ -7538,7 +7537,7 @@ namespace N {
           </listitem>
 
           <listitem>
-            <para>-XREF-lib.html#mangleVariables have linkage and so should be
+            <para><xref linkend='mangled-indentifer-names'>Variables have linkage and so should be
               declared <literal>extern &quot;C&quot;</literal> if
               appropriate.</para>
           </listitem>
@@ -7583,7 +7582,7 @@ namespace N {
           section describes some of the problems encountered in porting this
           package (version 2.7.1).</para>
 
-        <para>The -XREF-man.html<literal>tcc</literal> compiler flags used in
+        <para>The <xref linkend='invocation'><literal>tcc</literal> compiler flags used in
           porting <literal>libio</literal> were:</para>
 <programlisting>
 tcc -Yposix -Yc++ -sC:cc
@@ -7596,7 +7595,7 @@ tcc -Yposix -Yc++ -sC:cc
         <para>In <literal>iostream.h</literal>, <literal>cin</literal>,
           <literal>cout</literal>, <literal>cerr</literal> and
           <literal>clog</literal> should be declared with C linkage, otherwise
-          the C++ producer includes the type in the -XREF-lib.html#manglemangled
+          the C++ producer includes the type in the <xref linkend='mangled-indentifer-names'>mangled
           name and the fake <literal>iostream</literal> hacks in
           <literal>stdstream.cc</literal> don't work. The definition of
           <literal>EOF</literal> in this header can cause problems if both
@@ -7605,7 +7604,7 @@ tcc -Yposix -Yc++ -sC:cc
           first.</para>
 
         <para>In <literal>stdstream.cc</literal>, the
-          -XREF-lib.html#derivecorrect definitions for the fake
+          <xref linkend='derived-class-layout'>correct definitions for the fake
           <literal>iostream</literal> structures are as follows:</para>
 <programlisting>
 struct _fake_istream::myfields {
@@ -7634,7 +7633,7 @@ struct _fake_ostream::myfields {
         </note>
 
         <para>In <literal>stdstrbufs.cc</literal>, the
-          -XREF-lib.html#othercorrect definitions for the virtual function table
+          <xref linkend='other-mangled-names'>correct definitions for the virtual function table
           names are as follows:</para>
 <programlisting>
 #define filebuf_vtable      __vt__7filebuf
@@ -7682,8 +7681,8 @@ struct _fake_ostream::myfields {
 
     <para>The C++ producer is a large program (over 200000 lines, including
       automatically generated code) written in C. A description of the
-      -XREF-style.html#language coding conventions used, the -XREF-style.html#api
-      API observed and the basic organisation of the -XREF-style.html#src source
+      <xref linkend='coding-standard'> coding conventions used, the <xref linkend='api-usage-target-dep'>
+      API observed and the basic organisation of the <xref linkend='source-code-modules'> source
       code are described in the first section.</para>
 
     <para>One of the design methods used in the C++ producer is the extensive
@@ -7694,20 +7693,20 @@ struct _fake_ostream::myfields {
       generic type constructors for lists, stacks etc., encapsulation of the
       operations on the types within the system, and optional run-time checking
       for null pointers and discriminated union tags. An overview is given of the
-      -XREF-alg.html type system used as the basis of the C++ producer design.
-      Also see the -XREF-../utilities/calc.html <literal>calculus</literal>
+      <xref linkend='primitive-types'> type system used as the basis of the C++ producer design.
+      Also see the &doc.calculus; <literal>calculus</literal>
       users' guide.</para>
 
     <para>The other general purpose code generation tool used in the C++
       producer is the parser generator, <literal>sid</literal>. A brief
-      description of the problems in writing a -XREF-parse.html C++ parser is
-      given. Also see the -XREF-utilities/sid.html <literal>sid</literal> users'
+      description of the problems in writing a <xref linkend='parsing-cpp'> C++ parser is
+      given. Also see the &doc.sid; <literal>sid</literal> users'
       guide.</para>
 
     <para>The other code generation tools used were written specifically for
       the C++ producer. The error reporting routines within the producer are
-      based on an -XREF-error.html error catalogue, from which code for
-      constructing and printing errors is generated. The -XREF-tdf.html TDF
+      based on an <xref linkend='error-catalogue'> error catalogue, from which code for
+      constructing and printing errors is generated. The <xref linkend='tdf-generation'> TDF
       output routines are based on primitives automatically generated from a
       standard database describing the TDF specification.</para>
 
@@ -7733,8 +7732,8 @@ struct _fake_ostream::myfields {
         <para>The C++ producer is written in a subset of C which is compatible
           with C++ (it compiles with most C compilers, but also bootstraps
           itself). It has been written to conform to the local (OSSG)
-          -XREF-index.html#cstyleC coding standard; most of the conformance
-          checking being automated by use of a -XREF-pragma.html#usruser-defined
+          <xref linkend='bib-ccs'>C coding standard; most of the conformance
+          checking being automated by use of a <xref linkend='configuration'>user-defined
           compilation profile, <literal>ossg_std.h</literal>. The standard macros
           described in the coding standard are defined in the standard header
           <literal>ossg.h</literal>. This is included from the header
@@ -7851,7 +7850,7 @@ ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;
           TenDRA C producer is applied with the user-defined compilation mode
           <literal>ossg_std.h</literal> and intermodule checks enabled. Checking
           is applied with both the C and <literal>#pragma token</literal>
-          -XREF-../utilities/calc.html<literal>calculus</literal> output files.
+          &doc.calculus; <literal>calculus</literal> output files.
           The C++ producer itself is applied with the same checks. <literal>gcc
           -Wall</literal> and various versions of <literal>lint</literal> are
           also periodically applied.</para>
@@ -7978,7 +7977,7 @@ stat::st_mtime
             <para>The directories <literal>obj_c</literal> and
               <literal>obj_tok</literal> contain respectively the C and
               <literal>#pragma token</literal> headers generated from the type
-              algebra by -XREF-../utilities/calc.html<literal>calculus</literal>
+              algebra by &doc.calculus; <literal>calculus</literal>
               . The directory <literal>obj_templ</literal> contains certain
               <literal>calculus</literal> template files.</para>
           </listitem>
@@ -7986,13 +7985,13 @@ stat::st_mtime
           <listitem>
             <para>The directory <literal>utility</literal> contains routines
               for such utility operations as memory allocation and error
-              reporting, including the -XREF-error.htmlerror catalogue.</para>
+              reporting, including the <xref linkend='error-catalogue'>error catalogue.</para>
           </listitem>
 
           <listitem>
             <para>The directory <literal>parse</literal> contains routines
               concerned with parsing and preprocessing the input, including the
-              -XREF-../utilities/sid.html<literal>sid</literal> grammar.</para>
+              &doc.sid; <literal>sid</literal> grammar.</para>
           </listitem>
 
           <listitem>
@@ -8004,8 +8003,8 @@ stat::st_mtime
           <listitem>
             <para>The directory <literal>output</literal> contains routines for
               outputting the internal representation in various formats including
-              as a -XREF-tdf.htmlTDF capsule, a -XREF-link.htmlC++ spec file, or
-              a -XREF-dump.htmlsymbol table dump file.</para>
+              as a <xref linkend='tdf-generation'>TDF capsule, a <xref linkend='intermodule-analysis'>C++ spec file, or
+              a <xref linkend='symbol-table-dump'>symbol table dump file.</para>
           </listitem>
         </orderedlist>
 
@@ -8665,7 +8664,7 @@ stat::st_mtime
 
       <para>This section describes the type system used in the C++ producer.
         Unless otherwise stated the types are declared using the
-        -XREF-../utilities/calc.html<literal>calculus</literal> tool as part of
+        &doc.calculus; <literal>calculus</literal> tool as part of
         the algebra, <literal>c_class.alg</literal>. The design of this type
         algebra was clearly largely based on the concepts underlying the C++
         language; however TDF provided an important influence, not merely as the
@@ -8695,8 +8694,8 @@ typedef unsigned char character ;
         <para>hence the definition of <literal>string</literal>. The remaining
           primitive give links to those portions of the type system which are
           defined outside of the algebra. The types
-          -XREF-#bits<literal>BITSTREAM</literal> and
-          -XREF-#pptok<literal>PPTOKEN</literal> are described below.</para>
+          <xref linkend='bitstream'><literal>BITSTREAM</literal> and
+          <xref linkend='pptoken'><literal>PPTOKEN</literal> are described below.</para>
       </sect2>
 
       <sect2 id='cv-spec'>
@@ -8788,10 +8787,10 @@ typedef unsigned char character ;
 
         <para>The union type <literal>CLASS_TYPE</literal>
           (<literal>ctype</literal>) is used to represent a C++ class or union.
-          The main components are an -XREF-#ididentifier giving the class name,
-          -XREF-#cinfoclass information and -XREF-#cusageclass usage fields, a
-          -XREF-#nspacenamespace giving the class members, a -XREF-#graphgraph
-          representing the base class structure, and a -XREF-#virtvirtual
+          The main components are an <xref linkend='identifer'> giving the class name,
+          <xref linkend='class-info'>class information and <xref linkend='class-usage'>class usage fields, a
+          <xref linkend='namespace'>namespace giving the class members, a <xref linkend='graph'>graph
+          representing the base class structure, and a <xref linkend='virtual'>virtual
           function table. Only one <literal>CLASS_TYPE</literal> object is
           created for each class or union.</para>
 
@@ -8816,14 +8815,14 @@ typedef unsigned char character ;
         <para>The union type <literal>GRAPH</literal>
           (<literal>graph</literal>) is used to represent a directed acyclic
           graph arising from the base classes of a class. Each node of the graph
-          has a <literal>head</literal> which is a -XREF-#ctypeclass type, and
+          has a <literal>head</literal> which is a <xref linkend='class-type'>class type, and
           several <literal>tails</literal> which give the base class graphs for
           that class. Each node has pointers, <literal>top</literal>, to the top
           of the graph (i.e. the most derived class), and <literal>up</literal>,
           to the node of which the current node is a direct base. Each node also
           has an <literal>access</literal> field which gives information on the
           base access, whether it is virtual or not, and so on, in the form of a
-          -XREF-#dspec<literal>DECL_SPEC</literal>. Virtual bases are handled by
+          <xref linkend='decl-spec'><literal>DECL_SPEC</literal>. Virtual bases are handled by
           the <literal>equal</literal> field which defines an equivalence
           relation on the graph which identifies equivalent virtual bases.</para>
       </sect2>
@@ -8852,10 +8851,10 @@ typedef unsigned char character ;
 
         <para>The union type <literal>ENUM_TYPE</literal>
           (<literal>etype</literal>) is used to represent a C++ enumeration type.
-          This consists primarily of an -XREF-#ididentifier giving the
-          enumeration name, a -XREF-#cinfoclass information field, a
+          This consists primarily of an <xref linkend='identifer'> giving the
+          enumeration name, a <xref linkend='class-info'>class information field, a
           <xref linkend='type-directive'>type giving the underlying representation of the enumeration
-          type, and a list of -XREF-#ididentifiers giving the enumerators
+          type, and a list of <xref linkend='identifer'> giving the enumerators
           comprising the enumeration.</para>
       </sect2>
 
@@ -8864,19 +8863,19 @@ typedef unsigned char character ;
 
         <para>The union type <literal>TYPE</literal> (<literal>type</literal>)
           is used to represent a C++ type. Every type has an associated
-          -XREF-#cvtype qualifier, <literal>qual</literal>, which determines
+          <xref linkend='cv-spec'>type qualifier, <literal>qual</literal>, which determines
           whether the type is <literal>const</literal>,
           <literal>volatile</literal> or an lvalue. A type may also have an
-          associated -XREF-#ididentifier, <literal>name</literal>, giving the
+          associated <xref linkend='identifer'>, <literal>name</literal>, giving the
           corresponding type name (the null identifier being used for unnamed
           types). The other type components are determined by the union tag. Each
           of the type constructs above has a corresponding field in the
           <literal>TYPE</literal> union: <literal>integer</literal> for
-          -XREF-#itypeintegral types, <literal>floating</literal> for
-          -XREF-#ftypefloating point types, <literal>bitfield</literal> for
-          -XREF-#itypebitfield types, <literal>compound</literal> for
-          -XREF-#ctypeclass or union types, and <literal>enumerate</literal> for
-          -XREF-#etypeenumeration types. There are also fields
+          <xref linkend='int-type'>integral types, <literal>floating</literal> for
+          <xref linkend='float-type'>floating point types, <literal>bitfield</literal> for
+          <xref linkend='int-type'>bitfield types, <literal>compound</literal> for
+          <xref linkend='class-type'>class or union types, and <literal>enumerate</literal> for
+          <xref linkend='enum-type'>enumeration types. There are also fields
           <literal>top</literal> and <literal>bottom</literal> corresponding to
           <literal>void</literal> and bottom (the type used to represent values
           which never return).</para>
@@ -8884,17 +8883,17 @@ typedef unsigned char character ;
         <para>Other fields of the <literal>TYPE</literal> union represent
           composite types; for example, the <literal>array</literal> field,
           representing array types, comprises a base type,
-          <literal>sub</literal>, and an -XREF-#natinteger constant giving the
+          <literal>sub</literal>, and an <xref linkend='nat'>integer constant giving the
           array bound, <literal>size</literal>. These are generally simple, apart
           from <literal>func</literal>, representing a function type. This has
           the obvious components: a return type, <literal>ret</literal>, a list
           of parameter types, <literal>ptypes</literal>, and a flag indicating
           ellipsis functions, <literal>ellipsis</literal>. It also has an
-          associated -XREF-#nspacenamespace, <literal>pars</literal>, in which
+          associated <xref linkend='namespace'>namespace, <literal>pars</literal>, in which
           the function parameters are declared. The parameter identifiers are
           extracted from this as a list, <literal>pids</literal>. Member function
           qualifiers and language linkage information are represented by a
-          -XREF-#cv<literal>CV_QUAL</literal>, <literal>mqual</literal>. The
+          <xref linkend='cv-spec'><literal>CV_QUAL</literal>, <literal>mqual</literal>. The
           implicit extra parameter for member functions is recorded in the list
           <literal>mtypes</literal>, which adds this extra type to the start of
           <literal>ptypes</literal>. Finally <literal>except</literal> gives any
@@ -8935,7 +8934,7 @@ typedef unsigned char character ;
           anonymous identifiers (<literal>anon</literal>).</para>
 
         <para>Note the distinction between an identifier name and an actual
-          -XREF-#ididentifier. The latter is a meaning associated with a name in
+          <xref linkend='identifer'>. The latter is a meaning associated with a name in
           a particular context. Every identifier name has an associated
           underlying meaning, <literal>id</literal>. This is used to handle
           keywords and macros, but for most identifier names this will be a dummy
@@ -8970,9 +8969,9 @@ typedef unsigned char character ;
 
         <para>The union type <literal>IDENTIFIER</literal>
           (<literal>id</literal>) is used to represent the various kinds of C++
-          identifiers. Every identifier has an associated -XREF-#hashididentifier
-          name, a parent -XREF-#nspacenamespace, a -XREF-#dspecdeclaration
-          information field, and a -XREF-#loclocation for its declaration or
+          identifiers. Every identifier has an associated <xref linkend='hashid'>identifier
+          name, a parent <xref linkend='namespace'>namespace, a <xref linkend='decl-spec'>declaration
+          information field, and a <xref linkend='location'> for its declaration or
           definition. Each identifier also has an <literal>alias</literal> field
           which is normally used to represent the aliasing which can occur in
           inheritance or <literal>using</literal> declarations.</para>
@@ -8983,7 +8982,7 @@ typedef unsigned char character ;
           Each field has appropriate components giving its type, its definition
           or whatever other information is required. For example, the
           <literal>variable</literal> field has a <xref linkend='type-directive'>type and two
-          -XREF-#expexpressions, giving the constructor and destructor values for
+          <xref linkend='exp'>expressions, giving the constructor and destructor values for
           the object.</para>
 
         <para>Most of these identifier components are self-explanatory, however
@@ -8992,12 +8991,12 @@ typedef unsigned char character ;
           which is used to link overloaded functions together. A set of
           overloaded functions is treated as if it were a single
           <literal>IDENTIFIER</literal> - the first in the list - for the
-          purposes of storing in a -XREF-#membernamespace member; the other
+          purposes of storing in a <xref linkend='namespace'> member namespace member; the other
           overloaded meanings are accessed by chasing down the
           <literal>over</literal> components. In other situations, whether a
           function identifier represents a single function or a set of overloaded
           functions can be worked out from the context. For example, in
-          identifier expressions the -XREF-#qualidentifier qualifier is used to
+          identifier expressions the <xref linkend='qualifier'>identifier qualifier is used to
           mark whether overload resolution has taken place.</para>
       </sect2>
 
@@ -9006,7 +9005,7 @@ typedef unsigned char character ;
 
         <para>The union type <literal>MEMBER</literal>
           (<literal>member</literal>) is used to represent a member of a
-          -XREF-#nspacenamespace. Each member contains two identifiers,
+          <xref linkend='namespace'>namespace. Each member contains two identifiers,
           <literal>id</literal> and <literal>alt</literal>. The
           <literal>id</literal> field gives the meaning associated with a
           particular name in this namespace; the <literal>alt</literal> field is
@@ -9032,10 +9031,10 @@ typedef unsigned char character ;
           their members as a simple linked lists. The second, such as classes,
           which have larger numbers of elements, store their members in hash
           tables. In both cases the elements are stored using the
-          -XREF-#member<literal>MEMBER</literal> type.</para>
+          r<literal>MEMBER</literal> type.</para>
 
         <para>The key operation on a namespace is to look up a particular
-          -XREF-#hashididentifier name in its linked list or hash table of
+          <xref linkend='hashid'>identifier name in its linked list or hash table of
           members to find the meaning, if any, associated with that name in the
           namespace. This can be a complex operation because of the need to take
           base classes and <literal>using</literal> directives (as stored in the
@@ -9054,7 +9053,7 @@ typedef unsigned char character ;
           constant expressions is performed in the producer, however the result
           can only be represented as described above if its value is target
           independent. Target dependent values are represented by the
-          <literal>calc</literal> field which contains an -XREF-#expexpression
+          <literal>calc</literal> field which contains an <xref linkend='exp'>expression
           describing how to calculate the value. The <literal>token</literal>
           field is used to represent <literal>NAT</literal> tokens.</para>
 
@@ -9075,7 +9074,7 @@ typedef unsigned char character ;
 
         <para>Objects representing useful floating point constants (0.0, 1.0
           etc.) are created for each floating point type and stored as part of
-          the corresponding -XREF-#ftype<literal>FLOAT_TYPE</literal>. Other
+          the corresponding <xref linkend='float-type'><literal>FLOAT_TYPE</literal>. Other
           values are created as and when they are required.</para>
       </sect2>
 
@@ -9102,7 +9101,7 @@ typedef unsigned char character ;
 
         <para>Note that the terminal zero character does not form part of the
           <literal>STRING</literal> object. Instead information on this is stored
-          as part of the type of a -XREF-#expstring literal expression. The text
+          as part of the type of a <xref linkend='exp'>string literal expression. The text
           of the string literal is either truncated or padded with zeros until
           its length matches the size of the array bound in the type of the
           corresponding literal expression.</para>
@@ -9142,8 +9141,8 @@ typedef unsigned char character ;
           information about an expression is stored in one of the large number of
           fields of the <literal>EXP</literal> union. Most of these fields are
           fairly simple. For example, there are fields corresponding to
-          -XREF-#natinteger literals, -XREF-#fltfloating point literals,
-          -XREF-#strstring literals and -XREF-#ididentifiers. Composite
+          <xref linkend='nat'>integer literals, <xref linkend='float'> point literals,
+          <xref linkend='string'>string literals and <xref linkend='identifer'>. Composite
           expressions are formed in the normal way; for example, there are
           various binary operators comprising two argument expressions. The
           <literal>EXP</literal> fields corresponding to statements are slightly
@@ -9152,7 +9151,7 @@ typedef unsigned char character ;
           discussion.</para>
 
         <para>The <literal>sequence</literal> field represents a compound
-          statement or block. This contains a -XREF-#nspacenamespace, in which
+          statement or block. This contains a <xref linkend='namespace'>namespace, in which
           any local variables are declared, and a list of expressions, giving the
           statements comprising the block. The null namespace is used if the
           block does not constitute a scope. The first statement in the list is
@@ -9160,7 +9159,7 @@ typedef unsigned char character ;
           <literal>last</literal> pointers to be maintained to the start and end
           of the list without having to worry about null lists.</para>
 
-        <para>-XREF-solveThe <literal>solve_stmt</literal> field corresponds to
+        <para>The <literal>solve_stmt</literal> field corresponds to
           the TDF <literal>labelled</literal> construct (in early versions of TDF
           this construct was called <literal>solve</literal>, hence the
           terminology). The problem is that C and C++ labels and
@@ -9180,7 +9179,7 @@ typedef unsigned char character ;
 
         <para>The union type <literal>OFFSET</literal> (<literal>off</literal>)
           is used to represent an offset expression. This is used as an adjunct
-          to the normal -XREF-#expexpression representation. The
+          to the normal <xref linkend='exp'>expression representation. The
           <literal>OFFSET</literal> union has fields corresponding to a type
           offset (used in pointer arithmetic), the offset of a member of a class
           and the offset of a base class. There are also simple operations on
@@ -9193,7 +9192,7 @@ typedef unsigned char character ;
         <para>The union type <literal>TOKEN</literal> (<literal>tok</literal>)
           is used to represent one of a number of different categories within the
           C++ language. It corresponds to the sort of a token declared using the
-          -XREF-token.html<literal>#pragma token</literal> syntax. Thus there are
+          <xref linkend='token-syntax'><literal>#pragma token</literal> syntax. Thus there are
           fields corresponding to expression, statement, integer constant, type,
           function, member and procedure tokens. The similarities between
           <literal>PROC</literal> tokens and templates have been remarked above;
@@ -9226,7 +9225,7 @@ PROC ( TYPE T, EXP const : int : n ) ....
           template arguments. Each of the parameter sorts listed above has an
           appropriate <literal>value</literal> component which can store a value
           of that sort. Many of the union types in the algebra, including
-          <xref linkend='type-directive'>types and -XREF-#expexpressions, have a field of the
+          <xref linkend='type-directive'>types and <xref linkend='exp'>expressions, have a field of the
           form:</para>
 <programlisting>
 token -&gt; {
@@ -9235,24 +9234,24 @@ token -&gt; {
 }
 </programlisting>
 
-        <para>representing the given token -XREF-#ididentifier applied to the
+        <para>representing the given token <xref linkend='identifer'> applied to the
           given list of arguments.</para>
 
-        <para>-XREF-formTemplate instances are represented slightly differently
+        <para>Template instances are represented slightly differently
           from token applications. Each instance of a template class or a
           template function gives rise to a new class or function
-          -XREF-#ididentifier. This identifier has an underlying form giving the
+          <xref linkend='identifer'>. This identifier has an underlying form giving the
           template identifier and the template arguments. This is expressed as a
           <literal>token</literal> member of the
           <xref linkend='type-directive'><literal>TYPE</literal> union (although it is not
           technically a type, this happens to be the most convenient
           representation). Each such form has an associated
-          -XREF-#inst<literal>INSTANCE</literal> component which gives further
+          <xref linkend='instance'><literal>INSTANCE</literal> component which gives further
           information about the template instance. The form for a template
           function instance is stored in the <literal>form</literal> component of
-          the corresponding -XREF-#ididentifier. The form for a template class
+          the corresponding <xref linkend='identifer'>. The form for a template class
           instance is stored in the <literal>form</literal> component of the
-          corresponding -XREF-#ctypeclass type.</para>
+          corresponding <xref linkend='class-type'>class type.</para>
 
         <para>Members of instances of template classes also have a form type,
           but in this case the form is an <literal>instance</literal> type. This
@@ -9265,14 +9264,14 @@ token -&gt; {
 
         <para>The union type <literal>INSTANCE</literal>
           (<literal>inst</literal>) is used to represent a particular instance of
-          a template or token. Each -XREF-#toktemplate sort has an associated
+          a template or token. Each <xref linkend='token'> template sort has an associated
           list of all the instances of that template, which is used to ensure
           that the same template applied with the same arguments always has the
           same value. Information on partial or explicit specialisations and
           usage information are stored as part of the corresponding
           <literal>INSTANCE</literal>. Each template instance identifier has a
           link back to its corresponding <literal>INSTANCE</literal> via its
-          -XREF-#form<literal>form</literal> component.</para>
+          <literal>form</literal> component.</para>
       </sect2>
 
       <sect2 id='error'>
@@ -9292,7 +9291,7 @@ token -&gt; {
 
         <para>The chief operation on an error after it has been built up is to
           report it. Each error report consists of an error object and a
-          -XREF-#locfile location indicating where the error occurred.</para>
+          <xref linkend='file-locations'> location indicating where the error occurred.</para>
       </sect2>
 
       <sect2 id='variable'>
@@ -9308,7 +9307,7 @@ token -&gt; {
 
         <para>The structure type <literal>LOCATION</literal>
           (<literal>loc</literal>) is used to represent a location in an input
-          file. It comprises a pointer to an -XREF-#posninput file position,
+          file. It comprises a pointer to an <xref linkend='position'>input file position,
           <literal>posn</literal>, modified by a line number, taking
           <literal>#line</literal> directives into account,
           <literal>line</literal>. Note that character positions within the line
@@ -9327,7 +9326,7 @@ token -&gt; {
           between the line number taking <literal>#line</literal> directives into
           account and the actual line number. Other information stored includes
           the datestamp on the input file, <literal>datestamp</literal>, and a
-          pointer to a -XREF-#locfile location which, for files included using
+          pointer to a <xref linkend='file-locations'> location which, for files included using
           <literal>#include</literal>, gives the location the file was included
           from.</para>
       </sect2>
@@ -9366,7 +9365,7 @@ token -&gt; {
           linked list of preprocessing tokens. Each token has an associated
           <literal>sid</literal> lexical token number, <literal>tok</literal>,
           plus additional data dependent on the token type. Each token also
-          records a pointer to the current -XREF-#opt<literal>OPTIONS</literal>
+          records a pointer to the current <xref linkend='options'><literal>OPTIONS</literal>
           value.</para>
       </sect2>
     </sect1>
@@ -9376,7 +9375,7 @@ token -&gt; {
 
       <para>This section describes the error catalogue which lies at the heart
         of the C++ producer's error reporting routines. The full
-        -XREF-error1.htmlerror catalogue syntax is given as an annex. A typical
+        <xref linkend='error-catalogue-syntax'>error catalogue syntax is given as an annex. A typical
         entry in the catalogue is as follows:</para>
 <programlisting>
 class_union_deriv ( CLASS_TYPE: ct )
@@ -9460,7 +9459,7 @@ linkage (at &quot;loc&quot;)&quot;
         (there are currently 873 errors in the catalogue) which gives an index
         into an automatically generated table of error information. It is this
         error number, together with a list of error arguments, which forms the
-        associated -XREF-alg.html#err<literal>ERROR</literal> object.
+        associated <xref linkend='primitive-types'>#err<literal>ERROR</literal> object.
         <literal>make_err</literal> generates a macro for each error in the
         catalogue which takes arguments of the appropriate types (which may be
         statically checked) and creates an <literal>ERROR</literal> object. For
@@ -9518,12 +9517,12 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
       <title>Parsing C++</title>
 
       <para>The parser used in the C++ producer is generated using the
-        -XREF-../utilities/sid.html<literal>sid</literal> tool. Because of the
+        &doc.sid; <literal>sid</literal> tool. Because of the
         large size of the generated code (1.3MB), the <literal>sid</literal>
         output is run through a simple program, <literal>sidsplit</literal>,
         which splits the output into a number of more manageable modules. It also
         transforms the code to use the
-        -XREF-style.html#language<literal>PROTO</literal> macros used in the rest
+        <xref linkend='coding-standard'><literal>PROTO</literal> macros used in the rest
         of the program.</para>
 
       <para><literal>sid</literal> is designed as a parser for grammars which
@@ -9534,7 +9533,7 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
         distinguish, for example, declaration statements from expression
         statements. In the technical phrase, C++ is an LL(k) grammar. Fortunately
         there are relatively few such situations, and <literal>sid</literal>
-        provides a mechanism, -XREF-../utilities/sid.html#predicatepredicates,
+        provides a mechanism, &doc.sid;,
         for bypassing the normal parsing mechanism in these cases. Thus it is
         possible, although difficult, to express C++ as a <literal>sid</literal>
         grammar.</para>
@@ -9557,12 +9556,12 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
       <para>The <literal>sid</literal> grammar contains a number of entry
         points. The most important is <literal>parse_file</literal>, which is
         used to parse a complete C++ translation unit. The syntax for the
-        -XREF-pragma.html<literal>#pragma TenDRA</literal> directives is included
+        <xref linkend='configuration'><literal>#pragma TenDRA</literal> directives is included
         within the same grammar with two entry points,
         <literal>parse_tendra</literal> in normal use, and
         <literal>parse_preproc</literal> for use in preprocessing mode. There are
         also entry points in the grammar for each of the kinds of
-        -XREF-token.html#argstoken argument. The parsing routines for token and
+        <xref linkend='token-arguments'>token argument. The parsing routines for token and
         template arguments are largely hand-crafted, based on these
         primitives.</para>
 
@@ -9656,8 +9655,8 @@ bs = enc_exp ( bs, b ) ;
 
 
     <para>The following gives a summary of the syntax for the
-      <literal>#pragma</literal> directives used for -XREF-pragma.htmlcompiler
-      configuration and -XREF-token.htmltoken specification:</para>
+      <literal>#pragma</literal> directives used for <xref linkend='configuration'>compiler
+      configuration and <xref linkend='token-syntax'>token specification:</para>
 
 
 
@@ -9697,10 +9696,6 @@ bs = enc_exp ( bs, b ) ;
         </row>
       </thead>
       <tbody>
-      <row>
-          <entry><emphasis>tendra-directive</emphasis> :</entry>
-          <entry>-XREF-tendra</entry>
-      </row>
 
       <row>
           <entry><emphasis>scope-directive</emphasis></entry>
@@ -9997,7 +9992,7 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry>throw analysis</entry>
-          <entry>-XREF-pragma.html#throw</entry>
+          <entry><xref linkend='configuration'>#throw</entry>
       </row>
 
       <row>
@@ -10245,7 +10240,7 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry>fextra type definition</entry>
-          <entry>-XREF-pragma.html#typede</entry>
+          <entry><xref linkend='decl'></entry>
       </row>
 
       <row>
@@ -12235,7 +12230,7 @@ bs = enc_exp ( bs, b ) ;
     <title>Symbol table dump syntax</title>
 
     <para>The following gives a summary of the syntax for the
-      -XREF-dump.htmlsymbol table dump file (version 1.1):</para>
+      <xref linkend='symbol-table-dump'>symbol table dump file (version 1.1):</para>
 <programlisting>
 <emphasis>dump-file</emphasis> :
 <emphasis>command-list<subscript>opt</subscript></emphasis>
@@ -12635,7 +12630,7 @@ ACL <emphasis>location string</emphasis>
     <title>Error catalogue syntax</title>
 
     <para>The following gives a summary of the syntax for the
-      -XREF-error.htmlerror catalogue accepted by the <literal>make_err</literal>
+      <xref linkend='error-catalogue'>error catalogue accepted by the <literal>make_err</literal>
       tool. Identifiers are normal C-style identifiers, strings consist of any
       sequence of characters enclosed inside <literal>&quot;....&quot;</literal>.
       The escape sequences <literal>\&quot;</literal> and <literal>\\</literal>
@@ -12764,21 +12759,3 @@ KEY ( <emphasis>key-name</emphasis> ) <emphasis>message-list<subscript>opt</subs
 </programlisting>
   </appendix>
 </book>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
