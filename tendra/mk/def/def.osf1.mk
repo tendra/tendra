@@ -4,6 +4,19 @@
 # OSF1 4.0 and Tru64 5.x symlink /bin -> /usr/bin, so use the end location
 # to not incur namei lookups on the symbolic links.
 
+# The execution startup routines.
+# crt is for normal support, crti for _init, crtn for _fini.
+# gcrt is for profiling support (gprof).
+# mcrt is for profiling support (prof).
+
+CRT0?=		/usr/lib/cmplrs/cc/crt0.o
+CRT1?=		
+CRTI?=		
+CRTN?=		
+GCRT0?=		/usr/lib/cmplrs/cc/gcrt0.o
+GCRT1?=		
+MCRT0?=		/usr/lib/cmplrs/cc/mcrt0.o
+
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
 CAT?=		/usr/bin/cat

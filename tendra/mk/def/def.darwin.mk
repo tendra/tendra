@@ -2,6 +2,19 @@
 #
 # Binary / variable definitions for the Darwin operating system.
 
+# The execution startup routines.
+# crt is for normal support, crti for _init, crtn for _fini.
+# gcrt is for profiling support (gprof).
+# mcrt is for profiling support (prof).
+
+CRT0?=          
+CRT1?=		
+CRTI?=		
+CRTN?=		
+GCRT0?=         
+GCRT1?=		
+MCRT0?=         
+
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
 CAT?=		/bin/cat

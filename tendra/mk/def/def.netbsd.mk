@@ -2,6 +2,17 @@
 #
 # Binary / variable definitions for the NetBSD operating system.
 
+# The execution startup routines.
+# gcrt is for profiling support (gprof).
+# mcrt is for profiling support (prof).
+
+CRT0?=		/usr/lib/crt0.o
+CRT1?=		/usr/lib/crti.o
+CRTN?=		/usr/lib/crtn.o
+GCRT0?=		/usr/lib/gcrtn.o
+GCRT1?=		
+MCRT0?=		
+
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
 CAT?=		/bin/cat
@@ -10,9 +21,6 @@ CHMOD?=		/bin/chmod
 CHOWN?=		/usr/sbin/chown
 CP?=		/bin/cp
 CP_VERBOSE?=	${CP}
-CRT0?=		/usr/lib/crt0.o
-CRT1?=		
-CRTN?=		/usr/lib/crtn.o
 CUT?=		/usr/bin/cut
 DC?=		/usr/bin/dc
 DIRNAME?=	/usr/bin/dirname

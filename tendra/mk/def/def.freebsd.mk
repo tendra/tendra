@@ -2,6 +2,19 @@
 #
 # Binary / variable definitions for the FreeBSD operating system.
 
+# The execution startup routines.
+# crt is for normal support, crti for _init, crtn for _fini.
+# gcrt is for profiling support (gprof).
+# mcrt is for profiling support (prof).
+
+CRT0?=		
+CRT1?=		/usr/lib/crt1.o
+CRTI?=		/usr/lib/crti.o
+CRTN?=		/usr/lib/crtn.o
+GCRT0?=		
+GCRT1?=		/usr/lib/gcrt1.o
+MCRT0?=		
+
 AS?=            /usr/bin/as
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
@@ -11,9 +24,6 @@ CHMOD?=		/bin/chmod
 CHOWN?=		/usr/sbin/chown
 CP?=		/bin/cp
 CP_VERBOSE?=	${CP} -v
-CRT0?=		
-CRT1?=		/usr/lib/crt1.o
-CRTN?=		/usr/lib/crtn.o
 CUT?=		/usr/bin/cut
 DC?=		/usr/bin/dc
 DIRNAME?=	/usr/bin/dirname
