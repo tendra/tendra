@@ -87,13 +87,13 @@ install:
 .if defined(STARTUPSUBDIR)
 .if !exists(${COMMON_DIR}/startup)
 	${MKDIR} -p ${COMMON_DIR}/startup
+.endif
 .for entry in ${STARTUPSUBDIR}
 	${MKDIR} -p ${COMMON_DIR}/startup/${entry}
 	(cd ${entry} && for file in *;\
 		do ${INSTALL} -m 644 $$file ${COMMON_DIR}/startup/${entry}/$$file;\
 		done)
 .endfor
-.endif
 .endif
 
 _OBJDIR:
