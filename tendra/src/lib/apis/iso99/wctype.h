@@ -24,8 +24,81 @@
 #
 # $TenDRA$
 #
-+IMPLEMENT "iso", "wctype.h";
++IMPLEMENT "iso99", "wchar.h", "wint";
+
+# 7.25.1
+
++TYPE (int) wctrans_t;
++TYPE (int) wctype_t;
+
+# 7.25.2.1.1
+
++FUNC int iswalnum(wint_t);
+
+# 7.25.2.1.2
+
++FUNC int iswalpha(wint_t);
 
 # 7.25.2.1.3
 
 +FUNC int iswblank(wint_t);
+
+# 7.25.2.1.4
+
++FUNC int iswcntrl(wint_t);
+
+# 7.25.2.1.5
+
++FUNC int iswdigit(wint_t);
+
+# 7.25.2.1.6
+
++FUNC int iswgraph(wint_t);
+
+# 7.25.2.1.7
+
++FUNC int iswlower(wint_t);
+
+# 7.25.2.1.8
+
++FUNC int iswprint(wint_t);
+
+# 7.25.2.1.9
+
++FUNC int iswpunct(wint_t);
+
+# 7.25.2.1.10
+
++FUNC int iswspace(wint_t);
+
+# 7.25.2.1.11
+
++FUNC int iswupper(wint_t);
+
+# 7.25.2.1.12
+
++FUNC int iswxdigit(wint_t);
+
+# 7.25.2.2.1
+
++FUNC wctype_t wctype(const char *);
+
+# 7.25.2.2.2
+
++FUNC int iswctype(wint_t, wctype_t);
+
+# 7.25.3.1.1
+
++FUNC wint_t towlower(wint_t);
+
+# 7.25.3.1.2
+
++FUNC wint_t towupper(wint_t);
+
+# 7.25.3.2.1
+
++FUNC wctrans_t wctrans(const char *);
+
+# 7.25.3.2.2
+
++FUNC wint_t towctrans(wint_t, wctrans_t);
