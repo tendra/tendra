@@ -15,7 +15,7 @@
   <cmdsynopsis>
     <command>pl</command>
     <arg choice='opt'>-v</arg>
-    <arg choice='opt'>-I<replaceable> path</replaceable></arg>
+    <arg choice='opt'>-I <replaceable>path</replaceable></arg>
     <arg choice='opt'>-V</arg>
     <arg choice='plain'><replaceable>infile.pl</replaceable></arg>
     <arg choice='plain'><replaceable>outfile.j</replaceable></arg>
@@ -36,7 +36,7 @@
   <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
-      <term><option>-I&nbsp;path</option></term>
+      <term><option>-I</option> <replaceable>path</replaceable></term>
       <listitem>
         <para>Gives the search path for any #include files in the PL_TDF
           text.</para>
