@@ -105,6 +105,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-i</option></term>
       <listitem>
         <para>Indicates to <command>calculus</command> that

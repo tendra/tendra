@@ -47,6 +47,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-k</option></term>
       <listitem>
       <para>Causes <command>lexi</command> to generate code describing any
