@@ -7,20 +7,20 @@ terminal = lex_ ;
 
 
 /*
-    ENTRY POINT
-
-    The main entry point for is mapped onto a function named read_spec.
-*/
+ *  ENTRY POINT
+ *
+ *  The main entry point for is mapped onto a function named read_spec.
+ */
 
 specification -> read_spec ;
 
 
 /*
-    TYPE MAPPINGS
-
-    These maps give the relationship between the types used in the syntax
-    and in the C implementation.
-*/
+ *  TYPE MAPPINGS
+ *
+ *  These maps give the relationship between the types used in the syntax
+ *  and in the C implementation.
+ */
 
 BOOLEAN -> int ;
 COMMAND -> SID_COMMAND ;
@@ -38,33 +38,59 @@ VERSION -> int ;
 
 %header% @{
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  		 Crown Copyright (c) 1997
+ *  
+ *  This TenDRA(r) Computer Program is subject to Copyright
+ *  owned by the United Kingdom Secretary of State for Defence
+ *  acting through the Defence Evaluation and Research Agency
+ *  (DERA).  It is made available to Recipients with a
+ *  royalty-free licence for its use, reproduction, transfer
+ *  to other parties and amendment for any purpose not excluding
+ *  product development provided that any such use et cetera
+ *  shall be deemed to be acceptance of the following conditions:-
+ *  
+ *      (1) Its Recipients shall ensure that this Notice is
+ *      reproduced upon any copies or amended versions of it;
+ *  
+ *      (2) Any amended version of it shall be clearly marked to
+ *      show both the nature of and the organisation responsible
+ *      for the relevant amendment or amendments;
+ *  
+ *      (3) Its onward transfer from a recipient to another
+ *      party shall be deemed to be that party's acceptance of
+ *      these conditions;
+ *  
+ *      (4) DERA gives no warranty or assurance as to its
+ *      quality or suitability for any purpose and DERA accepts
+ *      no liability whatsoever in relation to any use to which
+ *      it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 #include "config.h"
@@ -79,11 +105,11 @@ VERSION -> int ;
 
 
 /*
-    PARSER TYPES
-
-    These types give the implementations of the various types used
-    in the syntax.
-*/
+ *  PARSER TYPES
+ *
+ *  These types give the implementations of the various types used
+ *  in the syntax.
+ */
 
 typedef char *SID_STRING ;
 typedef type *SID_TYPE ;
@@ -97,33 +123,33 @@ typedef struct {
 
 
 /*
-    CURRENT FIELD NAME
-
-    The name of the current structure is stored during a +FIELD
-    construct.
-*/
+ *  CURRENT FIELD NAME
+ *
+ *  The name of the current structure is stored during a +FIELD
+ *  construct.
+ */
 
 static char *crt_field_name = null ;
 static int anon_no = 0 ;
 
 
 /*
-    CV-QUALIFIER NAMES
-
-    This table gives the mapping between the values used to represent
-    cv-qualifiers in the parser and the qualifier names used in the
-    internal representation.
-*/
+ *  CV-QUALIFIER NAMES
+ *
+ *  This table gives the mapping between the values used to represent
+ *  cv-qualifiers in the parser and the qualifier names used in the
+ *  internal representation.
+ */
 
 static char *cv_qualifier [] = {
     null, "const", "volatile", "const volatile"
 } ;
 
 /*
-    COMPILATION MODE
-
-    We allow unreached code in the automatically generated sections.
-*/
+ *  COMPILATION MODE
+ *
+ *  We allow unreached code in the automatically generated sections.
+ */
 
 #if FS_TENDRA
 #pragma TenDRA begin
@@ -134,33 +160,59 @@ static char *cv_qualifier [] = {
 
 @}, @{
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  		 Crown Copyright (c) 1997
+ *  
+ *  This TenDRA(r) Computer Program is subject to Copyright
+ *  owned by the United Kingdom Secretary of State for Defence
+ *  acting through the Defence Evaluation and Research Agency
+ *  (DERA).  It is made available to Recipients with a
+ *  royalty-free licence for its use, reproduction, transfer
+ *  to other parties and amendment for any purpose not excluding
+ *  product development provided that any such use et cetera
+ *  shall be deemed to be acceptance of the following conditions:-
+ *  
+ *      (1) Its Recipients shall ensure that this Notice is
+ *      reproduced upon any copies or amended versions of it;
+ *  
+ *      (2) Any amended version of it shall be clearly marked to
+ *      show both the nature of and the organisation responsible
+ *      for the relevant amendment or amendments;
+ *  
+ *      (3) Its onward transfer from a recipient to another
+ *      party shall be deemed to be that party's acceptance of
+ *      these conditions;
+ *  
+ *      (4) DERA gives no warranty or assurance as to its
+ *      quality or suitability for any purpose and DERA accepts
+ *      no liability whatsoever in relation to any use to which
+ *      it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 #ifndef SYNTAX_INCLUDED
@@ -174,10 +226,10 @@ typedef object *SID_COMMAND ;
 
 
 /*
-    TERMINALS
-
-    The mapping of the terminals is trivial.
-*/
+ *  TERMINALS
+ *
+ *  The mapping of the terminals is trivial.
+ */
 
 name : () -> ( s ) = @{ @s = token_value ; @} ;
 number : () -> ( s ) = @{ @s = token_value ; @} ;
@@ -192,20 +244,20 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    BOOLEAN CONSTANTS
-
-    These actions describe the boolean constants.
-*/
+ *  BOOLEAN CONSTANTS
+ *
+ *  These actions describe the boolean constants.
+ */
 
 <bool_false> : () -> ( b ) = @{ @b = 0 ; @} ;
 <bool_true> : () -> ( b ) = @{ @b = 1 ; @} ;
 
 
 /*
-    BASIC TYPE SPECIFIERS
-
-    These actions describe the basic type specifiers.
-*/
+ *  BASIC TYPE SPECIFIERS
+ *
+ *  These actions describe the basic type specifiers.
+ */
 
 <btype_char> : () -> ( b ) = @{ @b = BTYPE_CHAR ; @} ;
 <btype_short> : () -> ( b ) = @{ @b = BTYPE_SHORT ; @} ;
@@ -231,10 +283,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    TYPE KEYS
-
-    These actions describe the type keys.
-*/
+ *  TYPE KEYS
+ *
+ *  These actions describe the type keys.
+ */
 
 <key_type> : () -> ( t ) = @{ @t = TYPE_GENERIC ; @} ;
 <key_struct_tag> : () -> ( t ) = @{ @t = TYPE_STRUCT_TAG ; @} ;
@@ -267,11 +319,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    TYPE QUALIFIERS
-
-    These actions describe the type qualifiers.  const is represented by 1
-    and volatile by 2.
-*/
+ *  TYPE QUALIFIERS
+ *
+ *  These actions describe the type qualifiers.  const is represented by 1
+ *  and volatile by 2.
+ */
 
 <cv_none> : () -> ( c ) = @{
     @c = 0 ;
@@ -289,10 +341,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    TYPE CONSTRUCTORS
-
-    These actions describe the type constructors.
-*/
+ *  TYPE CONSTRUCTORS
+ *
+ *  These actions describe the type constructors.
+ */
 
 <type_none> : () -> ( t ) = @{
     @t = null ;
@@ -350,10 +402,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    TYPE LISTS
-
-    These actions describe the parameter type lists.
-*/
+ *  TYPE LISTS
+ *
+ *  These actions describe the parameter type lists.
+ */
 
 <type_list_none> : () -> ( p ) = @{
     @p = null ;
@@ -380,10 +432,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    CONSTANT EXPRESSIONS
-
-    These actions describe the constant expressions.
-*/
+ *  CONSTANT EXPRESSIONS
+ *
+ *  These actions describe the constant expressions.
+ */
 
 <value_none> : () -> ( s ) = @{
     @s = "" ;
@@ -409,11 +461,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    CONDITIONAL COMPILATION MACROS 
-
-    These rules describe the special macros which can be used in
-    conditional compilation.
-*/
+ *  CONDITIONAL COMPILATION MACROS 
+ *
+ *  These rules describe the special macros which can be used in
+ *  conditional compilation.
+ */
 
 <cond_building> : () -> ( s ) = @{
     @s = BUILDING_MACRO ;
@@ -425,10 +477,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    MACRO DEFINITION PARAMETERS
-
-    These rules describe the macro definition parameter lists.
-*/
+ *  MACRO DEFINITION PARAMETERS
+ *
+ *  These rules describe the macro definition parameter lists.
+ */
 
 <param_none> : () -> ( p ) = @{ @p = null ; @} ;
 <param_empty> : () -> ( p ) = @{ @p = "" ; @} ;
@@ -439,10 +491,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    IDENTIFIERS
-
-    These actions describe the identifier names.
-*/
+ *  IDENTIFIERS
+ *
+ *  These actions describe the identifier names.
+ */
 
 <name_none> : () -> ( nm ) = @{
     @nm = null ;
@@ -488,10 +540,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    SUBSET NAMES
-
-    These actions describe the subset names.
-*/
+ *  SUBSET NAMES
+ *
+ *  These actions describe the subset names.
+ */
 
 <subset_none> : () -> ( s ) = @{ @s = "00" ; @} ;
 <subset_first> : () -> ( s ) = @{ @s = "10" ; @} ;
@@ -514,10 +566,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    COMMAND KEYS
-
-    These actions describe the command keys.
-*/
+ *  COMMAND KEYS
+ *
+ *  These actions describe the command keys.
+ */
 
 <cmd_constant> : () -> ( c ) = @{ @c = OBJ_CONST ; @} ;
 <cmd_exp> : () -> ( c ) = @{ @c = OBJ_EXP ; @} ;
@@ -530,10 +582,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    COMMANDS
-
-    These actions describe the basic command constructs.
-*/
+ *  COMMANDS
+ *
+ *  These actions describe the basic command constructs.
+ */
 
 <command_none> : () -> ( c ) = @{
     @c = null ;
@@ -572,10 +624,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    VARIABLE COMMANDS
-
-    These commands describe the variable assignment commands.
-*/
+ *  VARIABLE COMMANDS
+ *
+ *  These commands describe the variable assignment commands.
+ */
 
 <variable_string> : ( a, b ) -> () = @{
     set_string ( @a, @b ) ;
@@ -591,11 +643,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    SPECIFICATION COMMANDS
-
-    These actions describe the constructs for the various specification
-    commands.
-*/
+ *  SPECIFICATION COMMANDS
+ *
+ *  These actions describe the constructs for the various specification
+ *  commands.
+ */
 
 <declare_base> : () -> ( c ) = @{
     @c = null ;
@@ -716,10 +768,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    FIELD SPECIFICATION COMMANDS
-
-    These actions describe the member specification constructs.
-*/
+ *  FIELD SPECIFICATION COMMANDS
+ *
+ *  These actions describe the member specification constructs.
+ */
 
 <begin_field> : ( id, tag ) -> ( t, c ) = @{
     @t = find_type ( @id.iname, any_version, @tag, 0 ) ;
@@ -776,10 +828,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    CONDITIONAL COMPILATION COMMANDS
-
-    These actions describe the conditional compilation constructs.
-*/
+ *  CONDITIONAL COMPILATION COMMANDS
+ *
+ *  These actions describe the conditional compilation constructs.
+ */
 
 <command_if> : ( s ) -> ( c ) = @{
     @c = make_object ( @s, OBJ_IF ) ;
@@ -812,11 +864,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 
 /*
-    SYNTAX ERROR
-
-    This action describes the error message which is printed if a parse
-    error occurs.
-*/
+ *  SYNTAX ERROR
+ *
+ *  This action describes the error message which is printed if a parse
+ *  error occurs.
+ */
 
 <syntax_error> : () -> () = @{
     error ( ERR_SERIOUS, "Syntax error" ) ;

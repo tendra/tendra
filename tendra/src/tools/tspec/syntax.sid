@@ -1,42 +1,68 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  		 Crown Copyright (c) 1997
+ *  
+ *  This TenDRA(r) Computer Program is subject to Copyright
+ *  owned by the United Kingdom Secretary of State for Defence
+ *  acting through the Defence Evaluation and Research Agency
+ *  (DERA).  It is made available to Recipients with a
+ *  royalty-free licence for its use, reproduction, transfer
+ *  to other parties and amendment for any purpose not excluding
+ *  product development provided that any such use et cetera
+ *  shall be deemed to be acceptance of the following conditions:-
+ *  
+ *      (1) Its Recipients shall ensure that this Notice is
+ *      reproduced upon any copies or amended versions of it;
+ *  
+ *      (2) Any amended version of it shall be clearly marked to
+ *      show both the nature of and the organisation responsible
+ *      for the relevant amendment or amendments;
+ *  
+ *      (3) Its onward transfer from a recipient to another
+ *      party shall be deemed to be that party's acceptance of
+ *      these conditions;
+ *  
+ *      (4) DERA gives no warranty or assurance as to its
+ *      quality or suitability for any purpose and DERA accepts
+ *      no liability whatsoever in relation to any use to which
+ *      it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 %types%
 
 /*
-    TYPES
-
-    The types are fairly self-explanitory.  Note that distinctions are
-    made in the parser type system which do not exist in the underlying
-    program.
-*/
+ *  TYPES
+ *
+ *  The types are fairly self-explanitory.  Note that distinctions are
+ *  made in the parser type system which do not exist in the underlying
+ *  program.
+ */
 
 BOOLEAN ;
 COMMAND ;
@@ -55,12 +81,12 @@ VERSION ;
 %terminals%
 
 /*
-    TERMINALS
-
-    The terminals are arranged in five groups; the names and strings, the
-    commands (beginning with '+'), the types, the special macro names
-    (beginning with '~'), and the punctuators and operators.
-*/
+ *  TERMINALS
+ *
+ *  The terminals are arranged in five groups; the names and strings, the
+ *  commands (beginning with '+'), the types, the special macro names
+ *  (beginning with '~'), and the punctuators and operators.
+ */
 
 name : () -> ( :STRING ) ;
 number : () -> ( :STRING ) ;
@@ -90,11 +116,11 @@ equal ; exclaim ; minus ; or ; question ; semicolon ; star ; eof ;
 
 
 /*
-    BUILT-IN TYPES
-
-    These rules describe the built-in types.  Illegal combinations of
-    keywords are detected by the action <type_builtin>.
-*/
+ *  BUILT-IN TYPES
+ *
+ *  These rules describe the built-in types.  Illegal combinations of
+ *  keywords are detected by the action <type_builtin>.
+ */
 
 <btype_char> : () -> ( :TYPE_SPEC ) ;
 <btype_short> : () -> ( :TYPE_SPEC ) ;
@@ -130,10 +156,10 @@ builtin-type : () -> ( b : TYPE_SPEC ) = {
 
 
 /*
-    SIMPLE TYPES
-
-    These rules describes the simple, unqualified, types.
-*/
+ *  SIMPLE TYPES
+ *
+ *  These rules describes the simple, unqualified, types.
+ */
 
 <type_builtin> : ( :TYPE_SPEC ) -> ( :TYPE ) ;
 <type_name> : ( :STRING, :TYPE_KEY ) -> ( :TYPE ) ;
@@ -159,10 +185,10 @@ simple-type : () -> ( t : TYPE ) = {
 
 
 /*
-    QUALIFIED TYPES
-
-    These rules describe the type qualifiers and the qualified types.
-*/
+ *  QUALIFIED TYPES
+ *
+ *  These rules describe the type qualifiers and the qualified types.
+ */
 
 <cv_none> : () -> ( :TYPE_QUAL ) ;
 <cv_const> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL ) ;
@@ -196,10 +222,10 @@ qualified-type : () -> ( t : TYPE ) = {
 
 
 /*
-    LVALUE QUALIFIERS
-
-    This rule describes the lvalue and rvalue type qualifiers.
-*/
+ *  LVALUE QUALIFIERS
+ *
+ *  This rule describes the lvalue and rvalue type qualifiers.
+ */
 
 <key_rvalue> : () -> ( :TYPE_KEY ) ;
 <key_lvalue> : () -> ( :TYPE_KEY ) ;
@@ -211,12 +237,12 @@ object-qualifier : () -> ( lv : TYPE_KEY ) = {
 
 
 /*
-    CONSTANT EXPRESSIONS
-
-    This rule describes the constant expressions.  These comprise the
-    numbers, the NAT token names, plus some simple operations on these
-    values.  More complex expressions can be expressed using an insert.
-*/
+ *  CONSTANT EXPRESSIONS
+ *
+ *  This rule describes the constant expressions.  These comprise the
+ *  numbers, the NAT token names, plus some simple operations on these
+ *  values.  More complex expressions can be expressed using an insert.
+ */
 
 <value_none> : () -> ( :STRING ) ;
 <value_nat> : ( :STRING ) -> ( :STRING ) ;
@@ -233,10 +259,10 @@ constant-value : () -> ( s : STRING ) = {
 
 
 /*
-    POINTER TYPE OPERATOR
-
-    This rule describes the pointer type operator.
-*/
+ *  POINTER TYPE OPERATOR
+ *
+ *  This rule describes the pointer type operator.
+ */
 
 <type_ptr> : ( :TYPE_QUAL ) -> ( :TYPE ) ;
 
@@ -247,10 +273,10 @@ ptr-operator : () -> ( t : TYPE ) = {
 
 
 /*
-    ARRAY TYPE OPERATOR
-
-    This rule describes the array type operator.
-*/
+ *  ARRAY TYPE OPERATOR
+ *
+ *  This rule describes the array type operator.
+ */
 
 <type_array> : ( :STRING ) -> ( :TYPE ) ;
 
@@ -266,10 +292,10 @@ array-operator : () -> ( t : TYPE ) = {
 
 
 /*
-    BITFIELD TYPE OPERATOR
-
-    This rule describes the bitfield type operator.
-*/
+ *  BITFIELD TYPE OPERATOR
+ *
+ *  This rule describes the bitfield type operator.
+ */
 
 <type_bitfield> : ( :STRING ) -> ( :TYPE ) ;
 
@@ -280,10 +306,10 @@ bitfield-operator : () -> ( t : TYPE ) = {
 
 
 /*
-    FUNCTION TYPE OPERATOR
-
-    These rules describe the function type operator.
-*/
+ *  FUNCTION TYPE OPERATOR
+ *
+ *  These rules describe the function type operator.
+ */
 
 <type_func> : ( :TYPE_LIST ) -> ( :TYPE ) ;
 <type_inject> : ( :TYPE, :TYPE ) -> ( :TYPE ) ;
@@ -321,12 +347,12 @@ function-operator : () -> ( t : TYPE ) = {
 
 
 /*
-    MACRO TYPE OPERATOR
-
-    These rules describe the macro type operator.  This is similar to the
-    function type operator except that each parameter may be specified
-    as an lvalue and there are no ellipsis parameters.
-*/
+ *  MACRO TYPE OPERATOR
+ *
+ *  These rules describe the macro type operator.  This is similar to the
+ *  function type operator except that each parameter may be specified
+ *  as an lvalue and there are no ellipsis parameters.
+ */
 
 <type_lvalue> : ( :TYPE, :TYPE_KEY ) -> ( :TYPE ) ;
 <type_macro> : ( :TYPE_LIST ) -> ( :TYPE ) ;
@@ -359,11 +385,11 @@ macro-operator : () -> ( t : TYPE ) = {
 
 
 /*
-    MACRO DEFINITION PARAMETER LISTS
-
-    These rules describe the macro definition parameter lists.  These
-    comprise a simple list of identifier names.
-*/
+ *  MACRO DEFINITION PARAMETER LISTS
+ *
+ *  These rules describe the macro definition parameter lists.  These
+ *  comprise a simple list of identifier names.
+ */
 
 <param_none> : () -> ( :STRING ) ;
 <param_empty> : () -> ( :STRING ) ;
@@ -384,12 +410,12 @@ define-param-clause : () -> ( p : STRING ) = {
 
 
 /*
-    OBJECT DECLARATORS
-
-    These rules describe the object declarators.  These consist of an
-    identifier qualified using pointer, array and function type
-    operators.
-*/
+ *  OBJECT DECLARATORS
+ *
+ *  These rules describe the object declarators.  These consist of an
+ *  identifier qualified using pointer, array and function type
+ *  operators.
+ */
 
 <type_none> : () -> ( :TYPE ) ;
 declarator : () -> ( :IDENTIFIER, :TYPE ) ;
@@ -416,11 +442,11 @@ declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
 
 
 /*
-    MACRO DECLARATORS
-
-    These rules describe the macro declarators.  These are a restricted
-    subset of the declarators in which only pointer operators are allowed.
-*/
+ *  MACRO DECLARATORS
+ *
+ *  These rules describe the macro declarators.  These are a restricted
+ *  subset of the declarators in which only pointer operators are allowed.
+ */
 
 macro-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
 	id = identifier ; t = <type_none> ;
@@ -431,14 +457,14 @@ macro-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
 
 
 /*
-    ABSTRACT DECLARATORS
-
-    These rules describe the abstract declarators, as used in function
-    parameter declarations.  For simplicity, the case of a list of
-    function parameters without a declarator has been omitted; function
-    parameters should be pointers to functions, rather than functions,
-    anyway.
-*/
+ *  ABSTRACT DECLARATORS
+ *
+ *  These rules describe the abstract declarators, as used in function
+ *  parameter declarations.  For simplicity, the case of a list of
+ *  function parameters without a declarator has been omitted; function
+ *  parameters should be pointers to functions, rather than functions,
+ *  anyway.
+ */
 
 <name_none> : () -> ( :STRING ) ;
 
@@ -466,13 +492,13 @@ abstract-declarator : () -> ( nm : STRING, t : TYPE ) = {
 
 
 /*
-    IDENTIFIER NAMES
-
-    These rules describe the identifier names.  These comprise the actual
-    internal name, plus an optional external name (the external and internal
-    names are equal if this is not given).  Either name may have an
-    associated version number.
-*/
+ *  IDENTIFIER NAMES
+ *
+ *  These rules describe the identifier names.  These comprise the actual
+ *  internal name, plus an optional external name (the external and internal
+ *  names are equal if this is not given).  Either name may have an
+ *  associated version number.
+ */
 
 <field_name> : ( :STRING ) -> ( :STRING ) ;
 <token_name> : ( :STRING ) -> ( :STRING ) ;
@@ -509,12 +535,12 @@ identifier : () -> ( id : IDENTIFIER ) = {
 
 
 /*
-    SUBSET NAMES
-
-    These rules describe the specification subset names.  These consist
-    of between one and three components, giving the API name, the header
-    file within that API, and the subset of that header.
-*/
+ *  SUBSET NAMES
+ *
+ *  These rules describe the specification subset names.  These consist
+ *  of between one and three components, giving the API name, the header
+ *  file within that API, and the subset of that header.
+ */
 
 <cmd_implement> : () -> ( :COMMAND_KEY ) ;
 <cmd_use> : () -> ( :COMMAND_KEY ) ;
@@ -545,12 +571,12 @@ use-subset-name : () -> ( s : STRING ) = {
 
 
 /*
-    SUBSET USAGE KEYS
-
-    This rule describes the subset usage keys.  These are used to indicate
-    whether a file inclusion refers to the specification output, the
-    library building output, or both.
-*/
+ *  SUBSET USAGE KEYS
+ *
+ *  This rule describes the subset usage keys.  These are used to indicate
+ *  whether a file inclusion refers to the specification output, the
+ *  library building output, or both.
+ */
 
 <subset_none> : () -> ( :SUBSET_KEY ) ;
 <subset_first> : () -> ( :SUBSET_KEY ) ;
@@ -576,10 +602,10 @@ subset-key : () -> ( key : SUBSET_KEY ) = {
 
 
 /*
-    CONDITIONAL COMPILATION COMMANDS
-
-    These rules describe the conditional compilation commands.
-*/
+ *  CONDITIONAL COMPILATION COMMANDS
+ *
+ *  These rules describe the conditional compilation commands.
+ */
 
 <cond_building> : () -> ( :STRING ) ;
 <cond_protect> : ( :STRING, :STRING ) -> ( :STRING ) ;
@@ -612,12 +638,12 @@ if-command : () -> ( c : COMMAND, s : STRING ) = {
 
 
 /*
-    ENUMERATION COMMANDS
-
-    These rules describe the enumeration commands.  Each enumeration type
-    consists of a list of enumerator namess, each of which may be associated
-    with a value.
-*/
+ *  ENUMERATION COMMANDS
+ *
+ *  These rules describe the enumeration commands.  Each enumeration type
+ *  consists of a list of enumerator namess, each of which may be associated
+ *  with a value.
+ */
 
 <command_none> : () -> ( :COMMAND ) ;
 <command_join> : ( :COMMAND, :COMMAND ) -> ( :COMMAND ) ;
@@ -649,12 +675,12 @@ enumerator-list : () -> ( c : COMMAND ) = {
 
 
 /*
-    EXPRESSION COMMANDS
-
-    These rules describe the expression commands.  Each expression command
-    consists of an lvalue specifier, a qualified type plus a list of
-    declarators.
-*/
+ *  EXPRESSION COMMANDS
+ *
+ *  These rules describe the expression commands.  Each expression command
+ *  consists of an lvalue specifier, a qualified type plus a list of
+ *  declarators.
+ */
 
 <cmd_constant> : () -> ( :COMMAND_KEY ) ;
 <cmd_exp> : () -> ( :COMMAND_KEY ) ;
@@ -683,12 +709,12 @@ exp-declarator-list : ( cmd : COMMAND_KEY, s : TYPE, lv : TYPE_KEY )
 
 
 /*
-    FIELD COMMANDS
-
-    These rules describe the field commands.  Each field consists of a
-    qualified type and a list of declarators.  Conditional compilation
-    of fields is allowed.
-*/
+ *  FIELD COMMANDS
+ *
+ *  These rules describe the field commands.  Each field consists of a
+ *  qualified type and a list of declarators.  Conditional compilation
+ *  of fields is allowed.
+ */
 
 <bool_true> : () -> ( :BOOLEAN ) ;
 <bool_false> : () -> ( :BOOLEAN ) ;
@@ -741,10 +767,10 @@ field-list : ( m : TYPE ) -> ( c : COMMAND ) = {
 
 
 /*
-    FUNCTION COMMANDS
-
-    This rule describes the various function command keys.
-*/
+ *  FUNCTION COMMANDS
+ *
+ *  This rule describes the various function command keys.
+ */
 
 <cmd_func> : () -> ( :COMMAND_KEY ) ;
 <cmd_func_extern> : () -> ( :COMMAND_KEY ) ;
@@ -762,11 +788,11 @@ func-command : () -> ( cmd : COMMAND_KEY ) = {
 
 
 /*
-    INTEGER CONSTANT COMMANDS
-
-    This rule describes the integer constant commands.  This consists of
-    a simple list of identifiers.
-*/
+ *  INTEGER CONSTANT COMMANDS
+ *
+ *  This rule describes the integer constant commands.  This consists of
+ *  a simple list of identifiers.
+ */
 
 <declare_nat> : ( :IDENTIFIER ) -> ( :COMMAND ) ;
 
@@ -782,11 +808,11 @@ nat-declarator-list : () -> ( c : COMMAND ) = {
 
 
 /*
-    TYPE COMMANDS
-
-    These rules describe the type commands.  These comprise a list of
-    identifiers, each preceded by an optional type command key.
-*/
+ *  TYPE COMMANDS
+ *
+ *  These rules describe the type commands.  These comprise a list of
+ *  identifiers, each preceded by an optional type command key.
+ */
 
 <key_int> : () -> ( :TYPE_KEY ) ;
 <key_signed> : () -> ( :TYPE_KEY ) ;
@@ -824,11 +850,11 @@ type-declarator-list : () -> ( c : COMMAND ) = {
 
 
 /*
-    SUBSET COMMAND
-
-    These rules describes the subset command.  This is the main entry point
-    into the grammar.
-*/
+ *  SUBSET COMMAND
+ *
+ *  These rules describes the subset command.  This is the main entry point
+ *  into the grammar.
+ */
 
 <begin_subset> : ( :STRING ) -> ( :COMMAND ) ;
 <end_subset> : ( :COMMAND, :COMMAND ) -> ( :COMMAND ) ;
@@ -852,11 +878,11 @@ specification : () -> ( c : COMMAND ) = {
 
 
 /*
-    SPECIFICATION COMMANDS
-
-    This rule describes the main group of commands; those which introduce
-    a specification item.
-*/
+ *  SPECIFICATION COMMANDS
+ *
+ *  This rule describes the main group of commands; those which introduce
+ *  a specification item.
+ */
 
 <declare_base> : () -> ( :COMMAND ) ;
 <declare_define> : ( :IDENTIFIER, :STRING, :STRING ) -> ( :COMMAND ) ;
@@ -956,11 +982,11 @@ spec-command : () -> ( c : COMMAND ) = {
 
 
 /*
-    TEXTUAL COMMANDS
-
-    This rule describes the second group of commands; those which are
-    concerned with textual substitution.
-*/
+ *  TEXTUAL COMMANDS
+ *
+ *  This rule describes the second group of commands; those which are
+ *  concerned with textual substitution.
+ */
 
 <declare_comment> : ( :STRING ) -> ( :COMMAND ) ;
 <declare_insert> : ( :STRING ) -> ( :COMMAND ) ;
@@ -988,11 +1014,11 @@ text-command : () -> ( c : COMMAND ) = {
 
 
 /*
-    VARIABLE COMMANDS
-
-    This rule describes the third group of commands; those which affect the
-    program environment, but do not actually introduce a specified item.
-*/
+ *  VARIABLE COMMANDS
+ *
+ *  This rule describes the third group of commands; those which affect the
+ *  program environment, but do not actually introduce a specified item.
+ */
 
 <variable_string> : ( :STRING, :STRING ) -> () ;
 <variable_plus> : ( :STRING, :STRING ) -> () ;
@@ -1013,10 +1039,10 @@ variable-command : () -> () = {
 
 
 /*
-    COMMAND LISTS
-
-    These rules describe the lists of commands.
-*/
+ *  COMMAND LISTS
+ *
+ *  These rules describe the lists of commands.
+ */
 
 command-list : () -> ( c : COMMAND ) = {
 	c = <command_none> ;
