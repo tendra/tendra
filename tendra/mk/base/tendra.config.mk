@@ -17,14 +17,14 @@ config-check:
 HAVE_CONF=	yes
 .include "${SRC_DIR}/config.mk"
 .else
-	@${ECHO} "YOU HAVE NOT CONFIGURED TenDRA YET"
-	@${ECHO} ""
-	@${ECHO} "available targets are:"
-	@${ECHO} "  ${BUILD_TARGETS}"
-	@${ECHO} ""
-	@${ECHO} "In order to configure TenDRA please execute make with the"
-	@${ECHO} "proper targets to create config.mk"
-	@${ECHO} ""
+	@echo "YOU HAVE NOT CONFIGURED TenDRA YET"
+	@echo ""
+	@echo "available targets are:"
+	@echo "  ${BUILD_TARGETS}"
+	@echo ""
+	@echo "In order to configure TenDRA please execute make with the"
+	@echo "proper targets to create config.mk"
+	@echo ""
 .endif
 
 
