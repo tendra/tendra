@@ -57,7 +57,13 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
+
+#include "fmm.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "version.h"
 #include "system.h"
 #include "c_types.h"
@@ -81,7 +87,6 @@
 #include "throw.h"
 #include "tok.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -204,7 +209,7 @@ start_linkage(BITSTREAM **ps, int create)
     /* Allocate a linkage unit */
     int i;
     VAR_INFO *var = vars;
-    LINKAGE *p = xmalloc_one (LINKAGE);
+    LINKAGE *p = xmalloc (sizeof(*p));
     for (i = 0 ; i < VAR_no ; i++) {
 		ulong j, n = var->sz;
 		if (n) {
@@ -249,10 +254,10 @@ extend_linkage(int v)
     string *s = var->names;
     unsigned char *u = var->uses;
     ulong *d = var->diags;
-    s = xrealloc_nof (s, string, n);
-    u = xrealloc_nof (u, unsigned char, n);
+    s = xrealloc (s, sizeof(*s) * n);
+    u = xrealloc (u, sizeof(*u) * n);
     if (output_diag && (v == VAR_tag || v == VAR_token)) {
-		d = xrealloc_nof (d, ulong, n);
+		d = xrealloc (d, sizeof(*d) * n);
     }
     for (i = m ; i < n ; i++) {
 		s [i] = NULL;
@@ -267,7 +272,7 @@ extend_linkage(int v)
     /* Extend each unit linkage table */
     for (q = all_links ; q != NULL ; q = q->next) {
 		ulong *r = q->map [v];
-		r = xrealloc_nof (r, ulong, n);
+		r = xrealloc (r, sizeof(*r) * n);
 		for (i = m ; i < n ; i++) r [i] = LINK_NONE;
 		q->map [v] = r;
     }
@@ -1291,7 +1296,7 @@ write_capsule()
 		if (!open_output (OUTPUT_TDF, binary_mode)) {
 			string nm = output_name [ OUTPUT_TDF ];
 			fail (ERR_fail_output (nm));
-			term_error (0);
+			tenapp_exit ();
 			return;
 		}
 		f = output_file [ OUTPUT_TDF ];

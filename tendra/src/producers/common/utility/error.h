@@ -84,7 +84,6 @@
 
 extern ERROR make_error(int, ...);
 extern void error(int, const char *, ...);
-extern void set_progname(const char *, const char *);
 extern string report_version(int);
 extern void error_option(string);
 extern void print_error(LOCATION *, ERROR);
@@ -94,7 +93,7 @@ extern void destroy_error(ERROR, int);
 extern ERROR concat_error(ERROR, ERROR);
 extern ERROR concat_warning(ERROR, ERROR);
 extern void add_error(ERROR *, ERROR);
-extern void term_error(int);
+extern void exit_handler(void);
 extern ERROR set_prefix(ERROR);
 extern void restore_prefix(ERROR);
 
@@ -110,9 +109,6 @@ extern void restore_prefix(ERROR);
  *    routines.
  */
 
-extern const char *progname;
-extern const char *progvers;
-extern int exit_status;
 extern unsigned long number_errors;
 extern unsigned long number_warnings;
 extern unsigned long max_errors;
@@ -123,35 +119,7 @@ extern int error_threshold;
 extern int no_error_args;
 extern LOCATION crt_loc;
 extern LOCATION builtin_loc;
-extern FILE *error_file;
 
-
-/*
- *    ASSERTION ROUTINE DECLARATIONS
- *
- *    These macros are used to define assertions for aiding program
- *    development.  If the macro ASSERTS is defined then code for checking
- *    these assertions is output, otherwise the macros have no effect.
- *    Note that ASSERTS is automatically defined if DEBUG is (see config.h).
- *    FAIL_COMPILER is intended as an alternative to #error blows up some
- *    compilers even if it is not on the main compilation path.
- */
-
-#ifdef ASSERTS
-extern int is_true(int);
-extern void assertion(const char *, const char *, int);
-#define ASSERT(A)	if (is_true (!(A)))\
-			    assertion (#A, __FILE__, __LINE__)
-#define FAIL(A)	assertion (#A, __FILE__, __LINE__)
-#else
-#if FS_LINT
-#define ASSERT(A)	/* empty */
-#define FAIL(A)	/* empty */
-#else
-#define ASSERT(A)	(IGNORE 0)
-#define FAIL(A)	(IGNORE 0)
-#endif
-#endif
 
 #define FAIL_COMPILER	ERROR [!]
 

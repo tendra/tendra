@@ -59,6 +59,13 @@
 #include "producer.h"
 #include <stdarg.h>
 #include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "system.h"
 #include "version.h"
 #include "c_types.h"
@@ -82,42 +89,6 @@
 #include "save.h"
 #include "statement.h"
 #include "ustring.h"
-#include "xalloc.h"
-
-
-/*
- *    PROGRAM NAME
- *
- *    These variables give the program name and version number.
- */
-
-const char *progname = NULL;
-const char *progvers = NULL;
-
-
-/*
- *    SET PROGRAM NAME
- *
- *    This routine sets the program name to the basename of prog and the
- *    program version to vers.
- */
-
-void
-set_progname(const char *prog, const char *vers)
-{
-    error_file = stderr;
-    if (prog) {
-		char *s = strrchr (prog, '/');
-		if (s) prog = s + 1;
-		s = strrchr (prog, file_sep);
-		if (s) prog = s + 1;
-		progname = prog;
-    } else {
-		progname = "unknown";
-    }
-    progvers = vers;
-    return;
-}
 
 
 /*
@@ -171,8 +142,6 @@ LOCATION builtin_loc = NULL_loc;
  *    of max_errors.
  */
 
-FILE *error_file = NULL;
-int exit_status = EXIT_SUCCESS;
 unsigned long number_errors = 0;
 unsigned long number_warnings = 0;
 unsigned long max_errors = 32;
@@ -243,18 +212,18 @@ error_option(string opt)
 	    case '+' : out = 1; break;
 	    case '-' : out = 0; break;
 	    case 'o' : {
-			error_file = (out ? stdout : stderr);
+			msg_stream = (out ? ostream_output : ostream_error);
 			break;
 	    }
 	    case 'v' : {
 			int i, j, n, year; 
 			j = sscanf(strlit (opt), "%4d%n", &year, &n);
-			for (i = 0; i < array_size (std_version); i++)
+			for (i = 0; i < ARRAY_SIZE (std_version); i++)
 				if (j == 1 && year == std_version [i].year) {
 					std_version_idx = i;
 					break;
 				}
-			if (i == array_size (std_version))
+			if (i == ARRAY_SIZE (std_version))
 				error (ERROR_WARNING, "Unknown standard version");
 			if (j == 1) opt += n;
 			break;
@@ -348,9 +317,9 @@ static void print_error_msg(ERROR, LOCATION *, FILE *);
  */
 
 void
-term_error(int fatal)
+exit_handler(void)
 {
-    if (fatal) {
+    if (fmm_error) {
 		/* Cope with memory allocation errors */
 		exit_status = EXIT_FAILURE;
 		output_capsule = 0;
@@ -379,7 +348,6 @@ term_error(int fatal)
 		/* Write capsule */
 		write_capsule ();
     }
-    exit (exit_status);
 }
 
 
@@ -554,7 +522,7 @@ print_error_end(FILE *f, int sev)
     }
     fputs_v (MESSAGE_TERM, f);
     error_break ();
-    if (sev == ERROR_FATAL) term_error (0);
+    if (sev == ERROR_FATAL) tenapp_exit ();
     return;
 }
 
@@ -1222,11 +1190,11 @@ print_error(LOCATION *loc, ERROR e)
 				IGNORE error_header (sev);
 				n = number_errors;
 				error_break ();
-				if (sev == ERROR_FATAL) term_error (0);
-				if (n >= max_errors) term_error (0);
+				if (sev == ERROR_FATAL) tenapp_exit ();
+				if (n >= max_errors) tenapp_exit ();
 			} else {
 				/* Print error to standard error */
-				FILE *f = error_file;
+				FILE *f = msg_stream->file;
 				print_error_start (f, loc, sev);
 				print_error_msg (e, loc, f);
 				print_error_end (f, sev);
@@ -1260,7 +1228,7 @@ install_error(LOCATION *loc, ERROR e)
 			}
 			print_error_body (e, loc, bf);
 			bfputc (bf, 0);
-			s = xustrcpy (bf->start);
+			s = string_copy (bf->start);
 			MAKE_exp_fail (type_bottom, s, a);
 		}
 		destroy_error (e, 1);
@@ -1283,7 +1251,7 @@ error(int sev, const char *s, ...) /* VARARGS */
     va_list args;
     va_start (args, s);
     if (sev > error_threshold) {
-		FILE *f = error_file;
+		FILE *f = msg_stream->file;
 		print_error_start (f, NULL, sev);
 		vfprintf_v (f, s, args);
 		fputs_v (MESSAGE_END, f);
@@ -1329,7 +1297,7 @@ commentary(IDENTIFIER id)
 void
 assertion(const char *s, const char *file, int line)
 {
-    FILE *f = error_file;
+    FILE *f = msg_stream->file;
     PRINT_HEADER (HEADER_ASSERT, &crt_loc, f);
     fprintf_v (f, "  %s, %s: line %d.\n\n", s, file, line);
     error_break ();

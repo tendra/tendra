@@ -57,6 +57,11 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -78,7 +83,6 @@
 #include "syntax.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -259,7 +263,7 @@ lookup_name(string s, unsigned long h, int ext, int tok)
     /* Create new hash table entry */
     len = (unsigned long) ustrlen (s);
     if (tok == lex_unknown) {
-		s = xustrncpy (s, (size_t) len);
+		s = string_ncopy (s, (size_t) len);
 		tok = lex_identifier;
     }
     tag = hashid_name_tag;
@@ -622,7 +626,7 @@ prime_name(IDENTIFIER id)
 		HASHID nm = DEREF_hashid (id_name (id));
 		if (IS_hashid_name (nm)) {
 			string s = DEREF_string (hashid_name_text (nm));
-			s = xustrcat (s, ustrlit ("'"));
+			s = string_concat (s, ustrlit ("'"));
 			nm = lookup_name (s, hash (s), 0, lex_identifier);
 		}
 		COPY_hashid (id_name (id), nm);

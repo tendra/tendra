@@ -57,7 +57,13 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "exp_ops.h"
 #include "flt_ops.h"
@@ -87,7 +93,6 @@
 #include "tok.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -528,7 +533,7 @@ begin_literal(int base, int suff)
 void
 add_range_literal(EXP e, int n)
 {
-    LITERAL_INFO *p = xmalloc_one (LITERAL_INFO);
+    LITERAL_INFO *p = xmalloc (sizeof(*p));
     p->tag = n;
     if (!IS_NULL_exp (e) && IS_exp_int_lit (e)) {
 		p->bound = DEREF_nat (exp_int_lit_nat (e));
@@ -940,8 +945,8 @@ make_literal_exp(string str, int *ptok, int force)
 			}
 		}
 		if (IS_NULL_flt (lit)) {
-			int_part = xustrcpy (int_part);
-			frac_part = xustrcpy (frac_part);
+			int_part = string_copy (int_part);
+			frac_part = string_copy (frac_part);
 		}
 		if (trail_zero) {
 			/* Restore trailing zeros */
@@ -1356,7 +1361,7 @@ new_string_lit(string s, string se, int lex)
     int multibyte = allow_multibyte;
 #endif
     size_t sz = (size_t) (se - s) + 1;
-    string str = xustr (sz);
+    string str = string_alloc (sz);
 	
     /* Find string type */
     switch (lex) {
@@ -1492,7 +1497,7 @@ new_string_lit(string s, string se, int lex)
 			/* Convert to multi-character format */
 			string a;
 			sz *= MULTI_WIDTH;
-			a = xustr (sz);
+			a = string_alloc (sz);
 			make_multi_string (a, str, len, kind);
 			if (len) {
 				len *= MULTI_WIDTH;
@@ -1543,7 +1548,7 @@ new_string_lit(string s, string se, int lex)
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, len, str, kind, v, res);
-		xufree (str, sz);
+		string_free (str);
 		UNUSED (res);
 		UNUSED (len);
 		UNUSED (kind);
@@ -1619,14 +1624,14 @@ concat_string_lit(STRING s, STRING t)
 		unsigned long sa = MULTI_WIDTH * na;
 		unsigned long sc = MULTI_WIDTH * nc;
 		sz = (size_t) (sc + MULTI_WIDTH);
-		c = xustr (sz);
+		c = string_alloc (sz);
 		make_multi_string (c, a, na, ka);
 		make_multi_string (c + sa, b, nb, kb);
 		add_multi_char (c + sc, (unsigned long) 0, CHAR_OCTAL);
     } else {
 		/* Simple strings */
 		sz = (size_t) (nc + 1);
-		c = xustr (sz);
+		c = string_alloc (sz);
 		xumemcpy (c, a, (size_t) na);
 		xumemcpy (c + na, b, (size_t) nb);
 		c [ nc ] = 0;
@@ -1637,7 +1642,7 @@ concat_string_lit(STRING s, STRING t)
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, nc, c, kc, v, res);
-		xufree (c, sz);
+		string_free (c);
 		UNUSED (res);
 		UNUSED (nc);
 		UNUSED (kc);

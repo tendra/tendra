@@ -57,6 +57,9 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "msgcat.h"
+
 #include "version.h"
 #include "system.h"
 #include "c_types.h"

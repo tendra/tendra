@@ -57,12 +57,15 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "cstring.h"
+#include "fmm.h"
+
 #include "system.h"
 #include "c_types.h"
 #include "error.h"
 #include "file.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -291,7 +294,7 @@ const char
 		char *nm = getcwd (buff, 1024);
 		if (nm) {
 			/* Copy result */
-			string dir = xustrcpy (ustrlit (nm));
+			string dir = string_copy (ustrlit (nm));
 			dir = make_pathname (dir);
 			crt_directory = strlit (dir);
 		} else {
@@ -321,7 +324,7 @@ const char
 		struct utsname un;
 		if (uname (&un) != -1) {
 			string s = ustrlit (un.nodename);
-			s = xustrcpy (s);
+			s = string_copy (s);
 			machine_name = strlit (s);
 			return (machine_name);
 		}

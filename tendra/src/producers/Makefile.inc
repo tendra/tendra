@@ -1,6 +1,8 @@
 # $TenDRA$
 
 CFLAGS+= -I${.CURDIR} -I. ${SRCDIRS:S|^|-I${.CURDIR}/../|}
+CFLAGS+= -I${SRC_DIR}/src/include
+
 .PATH : ${.CURDIR} ${SRCDIRS:S|^|${.CURDIR}/../|}
 SID_OPTS=	-l ansi-c -s numeric -s split -s no-lines
 
@@ -31,6 +33,8 @@ SRCS+=	buffer.c catalog.c debug.c error.c option.c print.c system.c \
 
 DEPEND_SRC=	syntax.h psyntax.h c_class.h errors1.h errors2.h errors3.h \
 		opts.h tdf1.h
+
+USE_LIBTEN=	yes
 
 syntax.h:: syntax.sid syntax.act
 	${SID} ${SID_OPTS} ${.CURDIR}/syntax/syntax.sid ${.CURDIR}/syntax/syntax.act \

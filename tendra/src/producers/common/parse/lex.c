@@ -61,6 +61,10 @@
 #if FS_MULTIBYTE
 #include <locale.h>
 #endif
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -85,7 +89,6 @@
 #include "print.h"
 #include "syntax.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*

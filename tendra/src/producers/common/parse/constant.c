@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "cstring.h"
+#include "fmm.h"
+
 #include "c_types.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -82,7 +86,6 @@
 #include "template.h"
 #include "tokdef.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -1672,7 +1675,7 @@ make_char_nat(TYPE t, unsigned tag, int d, unsigned kind, NAT n)
 				ERROR err = NULL_err;
 				s [0] = (character) (d + char_zero);
 				s [1] = 0;
-				MAKE_str_simple (1, xustrcpy (s), kind, str);
+				MAKE_str_simple (1, string_copy (s), kind, str);
 				e = make_string_exp (str);
 				e = make_cast_nat (t, e, &err, CAST_STATIC);
 				if (!IS_NULL_err (err)) report (crt_loc, err);

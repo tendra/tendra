@@ -55,10 +55,14 @@
  */
 
 
-#include <limits.h>
-
 #include "config.h"
 #include "producer.h"
+
+#include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+
 #include "system.h"
 #include "c_types.h"
 #include "loc_ext.h"
@@ -74,7 +78,6 @@
 #include "syntax.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -231,7 +234,7 @@ make_pathname(string nm)
     character q = (character) file_sep;
     if (q != char_slash) {
 		string s;
-		nm = xustrcpy (nm);
+		nm = string_copy (nm);
 		for (s = nm; *s; s++) {
 			if (*s == q) *s = char_slash;
 		}
@@ -296,7 +299,7 @@ normalise_pathname(string s)
 		}
     }
     bfputc (bf, 0);
-    if (changed) s = xustrcpy (bf->start);
+    if (changed) s = string_copy (bf->start);
     return (s);
 }
 
@@ -388,7 +391,7 @@ term_input(void)
     if (started_buff) {
 		unsigned i;
 		for (i = 0; i < NO_BUFFER; i++) {
-			xfree_nof (input_buff [i].buff);
+			xfree (input_buff [i].buff);
 			input_buff [i].buff = NULL;
 		}
 		started_buff = 0;
@@ -725,7 +728,7 @@ void
 add_directory(string dir, string nm)
 {
     INCL_DIR *p = dir_path;
-    INCL_DIR *q = xmalloc_one (INCL_DIR);
+    INCL_DIR *q = xmalloc (sizeof(*q));
     if (nm && find_directory (nm)) {
 		char *s = strlit (nm);
 		error (ERROR_WARNING, "Directory '%s' already defined", s);
@@ -793,7 +796,7 @@ builtin_startup(void)
 {
     BUFFER *bf = &internal_buff;
     internal_name = DEREF_string (posn_file (crt_loc.posn));
-    internal_file = xmalloc_one (FILE);
+    internal_file = xmalloc (sizeof(FILE*));
     if (bf->posn != bf->start) {
 		/* Add to list of start-up files if necessary */
 		CONS_string (internal_name, startup_files, startup_files);
@@ -915,7 +918,7 @@ set_incl_depth(unsigned long n)
 		for (i = 0; i < m; i++) p [i] = q [i];
 		position_size = n;
 		position = p;
-		if (q != position_array) xfree_nof (q);
+		if (q != position_array) xfree (q);
     }
     option_value (OPT_VAL_include_depth) = n;
     return;
@@ -968,7 +971,7 @@ already_included(string nm, STAT_TYPE *fs, int st)
     }
 	
     /* Create new imported file structure */
-    p = xmalloc_one (INCL_FILE);
+    p = xmalloc (sizeof(*p));
     if (st != 4) crt_included_file = p;
     p->name = nm;
     p->imported = st;
@@ -1174,7 +1177,7 @@ start_include(string nm, int q, int st, int next)
     }
 	
     /* Check for multiple inclusions */
-    file = xustrcpy (file);
+    file = string_copy (file);
     if (special) {
 		crt_included_file = NULL;
     } else {

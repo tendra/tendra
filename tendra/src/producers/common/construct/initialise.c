@@ -57,6 +57,9 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"

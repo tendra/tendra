@@ -57,7 +57,13 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
+
+#include "fmm.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "system.h"
 #include "version.h"
 #include "c_types.h"
@@ -93,7 +99,6 @@
 #include "statement.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -2315,7 +2320,7 @@ init_dump(string nm, string opt)
 		output_name [ OUTPUT_DUMP ] = nm;
 		if (!open_output (OUTPUT_DUMP, text_mode)) {
 			fail (ERR_fail_dump (nm));
-			term_error (0);
+			tenapp_exit ();
 			return;
 		}
 		f = output_file [ OUTPUT_DUMP ];

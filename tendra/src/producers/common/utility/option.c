@@ -57,8 +57,13 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
 #include <stdarg.h>
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "err_ops.h"
 #include "exp_ops.h"
@@ -84,7 +89,6 @@
 #include "redeclare.h"
 #include "syntax.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -110,7 +114,7 @@ OPT_DATA OPT_CATALOG [] = {
     { NULL, OPT_VALUE_off }
 };
 
-#define CATALOG_SIZE		array_size (OPT_CATALOG)
+#define CATALOG_SIZE		ARRAY_SIZE (OPT_CATALOG)
 
 
 /*
@@ -180,7 +184,7 @@ OPT_VALUE_DATA OPT_VALUE_CATALOG [] = {
     { NULL, NULL, 0, 0, 0, 0 }
 };
 
-#define VALUE_CAT_SIZE		array_size (OPT_VALUE_CATALOG)
+#define VALUE_CAT_SIZE		ARRAY_SIZE (OPT_VALUE_CATALOG)
 
 
 /*
@@ -222,7 +226,7 @@ static OPT_TYPE_DATA OPT_TYPE_CATALOG [] = {
     { "plural", ERR_KEY_plural }
 };
 
-#define TYPE_CAT_SIZE		array_size (OPT_TYPE_CATALOG)
+#define TYPE_CAT_SIZE		ARRAY_SIZE (OPT_TYPE_CATALOG)
 
 
 /*
@@ -1245,7 +1249,7 @@ term_option(void)
 			report (preproc_loc, ERR_dcl_dcl_none ());
 		}
     }
-    xfree_nof (all_option_hash);
+    xfree (all_option_hash);
     all_option_hash = NULL;
     return;
 }

@@ -57,7 +57,13 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "version.h"
 #include "system.h"
 #include "c_types.h"
@@ -98,7 +104,6 @@
 #include "tok.h"
 #include "ustring.h"
 #include "variable.h"
-#include "xalloc.h"
 
 
 /*
@@ -1523,7 +1528,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
     if (d == 0 && IS_NULL_type (t) && pre == NULL) {
 		if (copy) {
 			if (ustrchr (s, MANGLE_error)) return (NULL);
-			s = xustrcpy (s);
+			s = string_copy (s);
 		}
 		return (s);
     }
@@ -1569,7 +1574,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
     /* Check for illegal names */
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = xustrcpy (s);
+    s = string_copy (s);
     return (s);
 }
 
@@ -1611,7 +1616,7 @@ mangle_common(string s, IDENTIFIER id)
 		bfputs (bf, s);
 		t = bf->start;
 		if (ustrchr (t, MANGLE_error)) return (NULL);
-		t = xustrcpy (t);
+		t = string_copy (t);
     }
     return (t);
 }
@@ -1635,7 +1640,7 @@ mangle_vtable(const char *pre, GRAPH gr)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = xustrcpy (s);
+    s = string_copy (s);
     return (s);
 }
 
@@ -1658,7 +1663,7 @@ mangle_typeid(const char *pre, CLASS_TYPE ct)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = xustrcpy (s);
+    s = string_copy (s);
     return (s);
 }
 
@@ -1681,7 +1686,7 @@ mangle_tname(const char *pre, TYPE t)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = xustrcpy (s);
+    s = string_copy (s);
     return (s);
 }
 
@@ -1703,7 +1708,7 @@ mangle_init()
     char buff [50];
     output_init = 1;
     sprintf_v (buff, "_GLOBAL_$I$%s", uniq_string);
-    return (xustrcpy (ustrlit (buff)));
+    return (string_copy (ustrlit (buff)));
 #endif
 }
 
@@ -1721,7 +1726,7 @@ mangle_anon()
     char buff [50];
     static unsigned long anon_no = 0;
     sprintf_v (buff, "__%lu_%s", anon_no++, uniq_string);
-    return (xustrcpy (ustrlit (buff)));
+    return (string_copy (ustrlit (buff)));
 }
 
 

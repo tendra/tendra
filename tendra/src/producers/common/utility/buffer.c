@@ -57,12 +57,16 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <stdarg.h>
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "error.h"
 #include "buffer.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -74,7 +78,7 @@
 void
 free_buffer(BUFFER *bf)
 {
-    xfree_nof (bf->start);
+    xfree (bf->start);
     bf->start = NULL;
     bf->posn = NULL;
     bf->end = NULL;
@@ -136,7 +140,7 @@ extend_buffer(BUFFER *bf, string s)
     string p = bf->start;
     size_t m = (size_t) (s - p);
     size_t n = (size_t) (bf->end - p) + 500;
-    p = xrealloc_nof (p, character, n + 12);
+    p = xrealloc (p, sizeof(*p) * (n + 12));
     bf->start = p;
     bf->end = p + n;
     return (p + m);

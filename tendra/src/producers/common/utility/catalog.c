@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "exp_ops.h"
 #include "str_ops.h"
@@ -69,7 +73,6 @@
 #include "literal.h"
 #include "syntax.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -88,7 +91,7 @@
  *    This value gives the number of errors in the error catalogue.
  */
 
-#define CATALOG_SIZE	array_size (ERR_CATALOG)
+#define CATALOG_SIZE	ARRAY_SIZE (ERR_CATALOG)
 unsigned catalog_size = (unsigned) CATALOG_SIZE;
 
 
@@ -244,7 +247,7 @@ init_catalog()
 void
 term_catalog()
 {
-    xfree_nof (all_error_hash);
+    xfree (all_error_hash);
     all_error_hash = NULL;
     return;
 }

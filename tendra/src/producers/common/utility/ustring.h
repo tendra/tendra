@@ -91,5 +91,8 @@
 #define ustrchr(S, C)		(S2U (strchr (U2S (S), (C))))
 #define ustrrchr(S, C)	(S2U (strrchr (U2S (S), (C))))
 
+extern void xumemcpy(string, string, size_t);
+extern int xumemcmp(string, string, size_t);
+
 
 #endif

@@ -322,7 +322,7 @@ int
 unicode_alpha(unsigned long c)
 {
     int i = 0;
-    int j = array_size (alpha_range) - 1;
+    int j = ARRAY_SIZE (alpha_range) - 1;
     do {
 		int k = (i + j) / 2;
 		if (c < alpha_range [k].lo) {

@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "system.h"
 #include "c_types.h"
 #include "exp_ops.h"
@@ -95,7 +99,6 @@
 #include "tokdef.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -2490,7 +2493,7 @@ preprocess_file(void)
     if (!open_output (OUTPUT_PREPROC, text_mode)) {
 		string nm = output_name [ OUTPUT_PREPROC ];
 		fail (ERR_fail_output (nm));
-		term_error (0);
+		tenapp_exit ();
 		return;
     }
     f = output_file [ OUTPUT_PREPROC ];

@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "version.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -102,7 +106,6 @@
 #include "throw.h"
 #include "ustring.h"
 #include "variable.h"
-#include "xalloc.h"
 
 
 /*
@@ -1235,7 +1238,7 @@ enc_tokdef(IDENTIFIER id, int def)
 		}
 		COPY_ulong (id_no (id), n);
 		enc_tokdef_end (n, bs);
-		if (pars != std_pars) xfree_nof (pars);
+		if (pars != std_pars) xfree (pars);
     }
     return (r);
 }

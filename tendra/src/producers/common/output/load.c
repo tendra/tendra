@@ -57,6 +57,11 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "version.h"
 #include "system.h"
 #include "c_types.h"
@@ -104,7 +109,6 @@
 #include "syntax.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -238,11 +242,11 @@ load_loc(BITSTREAM *bs)
 				STAT_TYPE fstr;
 				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				de_tdfstring (bs, bf);
-				file = xustrcpy (bf->start);
+				file = string_copy (bf->start);
 				if (DE_BOOL (bs)) {
 					bf = clear_buffer (&token_buff, NULL);
 					de_tdfstring (bs, bf);
-					input = xustrcpy (bf->start);
+					input = string_copy (bf->start);
 				} else {
 					input = file;
 				}
@@ -403,7 +407,7 @@ static IDENTIFIER
     IDENTIFIER *p = id_table;
     if (d >= m) {
 		ulong n = d + 100;
-		p = xrealloc_nof (p, IDENTIFIER, n);
+		p = xrealloc (p, sizeof(*p) * n);
 		while (m < n) {
 			p [m] = NULL_id;
 			m++;
@@ -1904,7 +1908,7 @@ read_spec()
     /* Check for errors */
     if (msg) fail (ERR_fail_spec_bad (input_name, ustrlit (msg)));
     if (!output_spec) e = 1;
-    xfree_nof (id_table);
+    xfree (id_table);
     id_table_size = 0;
     id_table = NULL;
     spec_error = 0;

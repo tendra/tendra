@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -100,7 +104,6 @@
 #include "tokdef.h"
 #include "token.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -128,7 +131,7 @@ add_candidate(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER bid, int kind)
     if (n >= m) {
 		/* Increase size if necessary */
 		m += 200;
-		q = xrealloc_nof (q, CANDIDATE, m);
+		q = xrealloc (q, sizeof(*q) * m);
 		p->elem = q;
 		p->max_size = m;
     }
@@ -378,8 +381,8 @@ koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id, TYPE t, int kind)
 void
 free_candidates(CANDIDATE_LIST *p)
 {
-    xfree_nof (p->elem);
-    xfree_nof (p->convs);
+    xfree (p->elem);
+    xfree (p->convs);
     p->elem = NULL;
     p->size = 0;
     p->max_size = 0;
@@ -894,7 +897,7 @@ CANDIDATE
 		mconvs = match * nargs;
 		if (mconvs >= nconvs) {
 			nconvs = mconvs + 200;
-			convs = xrealloc_nof (convs, CONVERSION, nconvs);
+			convs = xrealloc (convs, sizeof(*convs) * nconvs);
 			p->nconvs = nconvs;
 			p->convs = convs;
 		}
@@ -1210,7 +1213,7 @@ CANDIDATE
 			a = TAIL_list (a);
 			na++;
 		}
-		if (save != saved) xfree_nof (save);
+		if (save != saved) xfree (save);
     }
 	
     /* Select last viable candidate */
@@ -1443,7 +1446,7 @@ make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST (EXP) args,
     }
 	
     /* Create new instance */
-    all = xmalloc_one (AMBIG_FUNCTION);
+    all = xmalloc (sizeof(*all));
     all->id = NULL_id;
     all->funcs = funcs;
     all->types = types;

@@ -57,6 +57,9 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "ctype_ops.h"
 #include "exp_ops.h"
@@ -2591,9 +2594,9 @@ declare_func_id(void)
 		lex_close_Hsquare_H1, lex_assign, lex_string_Hlit, lex_semicolon
 	};
 	int i;
-	PPTOKEN *p = patch_tokens (array_size (toks));
+	PPTOKEN *p = patch_tokens (ARRAY_SIZE (toks));
 
-	for (i = 0; i < array_size (toks); i++) {
+	for (i = 0; i < ARRAY_SIZE (toks); i++) {
 		p->tok = toks[i];
 		if (p->tok == lex_identifier) {
 			p->pp_data.id.hash = KEYWORD (lex_func_Hid);

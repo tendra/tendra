@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "version.h"
 #include "system.h"
 #include "c_types.h"
@@ -1232,7 +1236,7 @@ begin_spec()
 		if (!open_output (OUTPUT_SPEC, binary_mode)) {
 			fail (ERR_fail_spec (nm));
 			spec_unit = NULL;
-			term_error (0);
+			tenapp_exit ();
 			return;
 		}
 		f = output_file [ OUTPUT_SPEC ];

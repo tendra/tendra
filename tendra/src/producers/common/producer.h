@@ -94,28 +94,4 @@
 #define strcpy_v	IGNORE strcpy
 
 
-/*
- *    ASSERTION MACROS
- *
- *    These macros are used in connection with the assertion routines.  If
- *    the macro DEBUG is defined then assertions will be included in the
- *    program along with other aids to program development.  The standard
- *    __FILE__ and __LINE__ macros are defined to dummy values for the
- *    benefit of compilers which do not define them.
- */
-
-#ifdef DEBUG
-#define ASSERTS		1
-#define RUNTIME		1
-#endif
-
-#ifndef __FILE__
-#define __FILE__	"unknown"
-#endif
-
-#ifndef __LINE__
-#define __LINE__	1
-#endif
-
-
 #endif

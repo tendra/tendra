@@ -57,9 +57,12 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "c_types.h"
 #include "error.h"
-#include "xalloc.h"
 
 
 /*

@@ -58,6 +58,13 @@
 #include "config.h"
 #include "producer.h"
 #include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "system.h"
 #include "version.h"
 #include "c_types.h"
@@ -100,7 +107,6 @@
 #include "unmangle.h"
 #include "ustring.h"
 #include "variable.h"
-#include "xalloc.h"
 
 
 /*
@@ -201,7 +207,7 @@ static PROGRAM_ARG prog_args [] = {
     { '-', 0, NULL, "specify end of options" }
 };
 
-#define no_prog_args	array_size (prog_args)
+#define no_prog_args	ARRAY_SIZE (prog_args)
 
 
 /*
@@ -349,7 +355,7 @@ process_args(int argc, char **argv)
 		}
 		if (opt == 0) {
 			/* Input or output file 'arg' */
-			string uarg = xustrcpy (ustrlit (arg));
+			string uarg = string_copy (ustrlit (arg));
 			CONS_string (uarg, files, files);
 			
 		} else {
@@ -447,7 +453,7 @@ process_args(int argc, char **argv)
 					
 				case 'I' : {
 					/* Include file search directory */
-					uarg = xustrcpy (uarg);
+					uarg = string_copy (uarg);
 					add_directory (uarg, NULL_string);
 					break;
 				}
@@ -461,7 +467,7 @@ process_args(int argc, char **argv)
 				case 'N' : {
 					/* Named include file search directory */
 					string dir;
-					uarg = xustrcpy (uarg);
+					uarg = string_copy (uarg);
 					dir = ustrchr (uarg, ':');
 					if (dir == NULL) {
 						const char *err = "Bad '-%c' option";
@@ -514,7 +520,7 @@ process_args(int argc, char **argv)
 				case 'V' : {
 					/* Print version number */
 					string v = report_version (1);
-					fprintf_v (error_file, "%s\n\n", strlit (v));
+					write_fmt (msg_stream, "%s\n\n", strlit (v));
 					break;
 				}
 					
@@ -578,7 +584,7 @@ process_args(int argc, char **argv)
 				case 'd' : {
 					/* Dump file */
 					string dump;
-					uarg = xustrcpy (uarg);
+					uarg = string_copy (uarg);
 					dump = ustrchr (uarg, '=');
 					if (dump == NULL) {
 						const char *err = "Bad '-%c' option";
@@ -597,7 +603,7 @@ process_args(int argc, char **argv)
 				case 'e' : {
 					/* End-up file */
 					LIST (string) p;
-					uarg = xustrcpy (uarg);
+					uarg = string_copy (uarg);
 					CONS_string (uarg, NULL_list (string), p);
 					endup_files = APPEND_list (endup_files, p);
 					have_startup = 1;
@@ -607,7 +613,7 @@ process_args(int argc, char **argv)
 				case 'f' : {
 					/* Start-up file */
 					LIST (string) p;
-					uarg = xustrcpy (uarg);
+					uarg = string_copy (uarg);
 					CONS_string (uarg, NULL_list (string), p);
 					startup_files = APPEND_list (startup_files, p);
 					have_startup = 1;
@@ -633,7 +639,7 @@ process_args(int argc, char **argv)
 					
 				case 'h' : {
 					/* Help option */
-					report_usage (error_file);
+					report_usage (msg_stream->file);
 					break;
 				}
 					
@@ -670,7 +676,7 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple portability tables";
 						error (ERROR_WARNING, err);
 					}
-					table_name = xustrcpy (uarg);
+					table_name = string_copy (uarg);
 					break;
 				}
 					
@@ -680,13 +686,13 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple output files";
 						error (ERROR_WARNING, err);
 					}
-					output = xustrcpy (uarg);
+					output = string_copy (uarg);
 					break;
 				}
 					
 				case 'r' : {
 					/* Error marker file */
-					output_name [ OUTPUT_ERROR ] = xustrcpy (uarg);
+					output_name [ OUTPUT_ERROR ] = string_copy (uarg);
 					break;
 				}
 					
@@ -696,7 +702,7 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple spec output files";
 						error (ERROR_WARNING, err);
 					}
-					spec_name = xustrcpy (uarg);
+					spec_name = string_copy (uarg);
 					break;
 				}
 					
@@ -959,7 +965,7 @@ process_files(LIST (string) files)
 		input_name = DEREF_string (HEAD_list (input));
 		if (!open_input (mode)) {
 			fail (ERR_fail_input (input_name));
-			term_error (0);
+			tenapp_exit ();
 			return;
 		}
 		init_diag ();
@@ -1028,7 +1034,9 @@ int
 main(int argc, char **argv)
 {
     LIST (string) files;
-    set_progname (argv [0], PROG_VERSION);
+
+	tenapp_init (argc, argv, "producer", PROG_VERSION);
+	tenapp_add_eh (exit_handler);
     IGNORE set_machine (FS_MACHINE);
     init_loc ();
     files = process_args (argc - 1, argv + 1);
@@ -1040,7 +1048,7 @@ main(int argc, char **argv)
 			unmangle_list (files, stdout, 1);
 		} else {
 			process_files (files);
-			term_error (0);
+			tenapp_exit ();
 		}
     }
     return (exit_status);

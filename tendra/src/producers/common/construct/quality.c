@@ -139,7 +139,7 @@ check_paren(int n, int op, EXP a, EXP b)
 		
 		/* Check first operand */
 		unsigned tag = exp_tag (a);
-		for (i = n ; i < array_size (paren_ops) ; i++) {
+		for (i = n ; i < ARRAY_SIZE (paren_ops) ; i++) {
 			if (tag == paren_ops [i].tag) {
 				int op1 = paren_ops [i].op;
 				if (op1 == lex_eq) op1 = op_token (a, op1);
@@ -150,7 +150,7 @@ check_paren(int n, int op, EXP a, EXP b)
 		
 		/* Check second operand */
 		tag = exp_tag (b);
-		for (i = n ; i < array_size (paren_ops) ; i++) {
+		for (i = n ; i < ARRAY_SIZE (paren_ops) ; i++) {
 			if (tag == paren_ops [i].tag) {
 				int op2 = paren_ops [i].op;
 				if (op2 == lex_eq) op2 = op_token (b, op2);

@@ -57,6 +57,11 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "system.h"
 #include "version.h"
 #include "c_types.h"
@@ -81,7 +86,6 @@
 #include "symbols.h"
 #include "syntax.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -168,7 +172,7 @@ term_macros(void)
     while (!IS_NULL_list (p)) {
 		PPTOKEN *q;
 		DESTROY_CONS_pptok (destroy, q, p, p);
-		xfree_nof (q);
+		xfree (q);
     }
     alloc_tokens = p;
     free_tokens = NULL;
@@ -225,9 +229,9 @@ token_parts(int t, PPTOKEN *p)
 	    string s2;
 	    if (n < 2) {
 			/* Optimise for small strings */
-			s2 = xustrcpy (s1);
+			s2 = string_copy (s1);
 	    } else {
-			s2 = xustr (n + 1);
+			s2 = string_alloc (n + 1);
 			xumemcpy (s2, s1, n);
 			s2 [n] = 0;
 	    }
@@ -237,7 +241,7 @@ token_parts(int t, PPTOKEN *p)
 	}
 	case lex_integer_Hlit : {
 	    /* Integer and floating-point literals */
-	    p->pp_data.text = xustrcpy (token_buff.start);
+	    p->pp_data.text = string_copy (token_buff.start);
 	    break;
 	}
 	case lex_hash_Hif :
@@ -572,7 +576,7 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			string s = q->pp_data.text;
 			if (s [0] == char_dot) return (0);
 			p->tok = lex_integer_Hlit;
-			p->pp_data.text = xustrcat (token_name (a), s);
+			p->pp_data.text = string_concat (token_name (a), s);
 			return (1);
 			
 		} else if (a == lex_backslash && b == lex_identifier) {
@@ -588,7 +592,7 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			/* Two identifiers give another identifier */
 			HASHID nm2 = q->pp_data.id.hash;
 			string s2 = DEREF_string (hashid_name_etc_text (nm2));
-			s = xustrcat (s, s2);
+			s = string_concat (s, s2);
 			nm = lookup_name (s, hash (s), 2, lex_identifier);
 			p->pp_data.id.hash = nm;
 			p->pp_data.id.use = DEREF_id (hashid_id (nm));
@@ -604,7 +608,7 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 					return (0);
 				}
 			}
-			s = xustrcat (s, q->pp_data.text);
+			s = string_concat (s, q->pp_data.text);
 			nm = lookup_name (s, hash (s), 2, lex_identifier);
 			p->pp_data.id.hash = nm;
 			p->pp_data.id.use = DEREF_id (hashid_id (nm));
@@ -631,25 +635,25 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			/* A number followed by an identifier is a number */
 			HASHID nm = q->pp_data.id.hash;
 			string s2 = DEREF_string (hashid_name_etc_text (nm));
-			p->pp_data.text = xustrcat (s, s2);
+			p->pp_data.text = string_concat (s, s2);
 			return (1);
 			
 		} else if (b == lex_integer_Hlit) {
 			/* Two numbers form another number */
 			string s2 = q->pp_data.text;
-			p->pp_data.text = xustrcat (s, s2);
+			p->pp_data.text = string_concat (s, s2);
 			return (1);
 			
 		} else if (b == lex_dot || b == lex_ellipsis) {
 			/* A number followed by a sequence of dots is a number */
-			p->pp_data.text = xustrcat (s, token_name (b));
+			p->pp_data.text = string_concat (s, token_name (b));
 			return (1);
 			
 		} else if (b == lex_plus || b == lex_minus) {
 			/* A sign may terminate a number after e or E */
 			unsigned n = (unsigned) ustrlen (s) - 1;
 			if (s [n] == char_e || s [n] == char_E) {
-				p->pp_data.text = xustrcat (s, token_name (b));
+				p->pp_data.text = string_concat (s, token_name (b));
 				return (1);
 			}
 		}
@@ -1170,7 +1174,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 				for (n = 1; n <= no_args && n <= no_pars; n++) {
 					free_tok_list (arg_array [n]);
 				}
-				if (arg_array != arg_array_base) xfree_nof (arg_array);
+				if (arg_array != arg_array_base) xfree (arg_array);
 				goto incomplete_macro;
 			}
 		}
@@ -1304,7 +1308,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 		/* Free the macro arguments */
 		unsigned n;
 		for (n = 1; n <= no_pars; n++) free_tok_list (arg_array [n]);
-		if (arg_array != arg_array_base) xfree_nof (arg_array);
+		if (arg_array != arg_array_base) xfree (arg_array);
     }
 	
     /* Return the result */
@@ -1436,11 +1440,11 @@ builtin_macro(const char *nm, int t, const char *d)
 		p->next = NULL;
 		if (t == lex_integer_Hlit) {
 			/* Set up associated integer data */
-			string c = xustrcpy (ustrlit (d));
+			string c = string_copy (ustrlit (d));
 			p->pp_data.text = c;
 		} else if (t == lex_string_Hlit) {
 			/* Set up associated string data */
-			string c = xustrcpy (ustrlit (d));
+			string c = string_copy (ustrlit (d));
 			p->pp_data.str.start = c;
 			p->pp_data.str.end = c + ustrlen (c);
 		} else if (t == lex_builtin_Hline || t == lex_builtin_Hfile) {

@@ -57,14 +57,18 @@
 
 #include "config.h"
 #include "producer.h"
+
 #include <limits.h>
+
+#include "cstring.h"
+#include "fmm.h"
+
 #include "c_types.h"
 #include "error.h"
 #include "char.h"
 #include "encode.h"
 #include "literal.h"
 #include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -116,8 +120,8 @@ BITSTREAM
     if (bs) {
 		free_bitstreams = bs->prev;
     } else {
-		bs = xmalloc_one (BITSTREAM);
-		bs->text = xustr ((size_t) CHUNK_SIZE);
+		bs = xmalloc (sizeof(*bs));
+		bs->text = string_alloc ((size_t) CHUNK_SIZE);
     }
     bs->bytes = 0;
     bs->bits = 0;
