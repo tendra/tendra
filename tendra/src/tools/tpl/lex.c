@@ -63,6 +63,7 @@ $Log: lex.c,v $
 #include "util.h"
 #include "defs.h"
 #include "includes.h"
+#include "lex.h"
 #include "syntax.h"
 #include "reserved.h"
 #include "consfile.h"
