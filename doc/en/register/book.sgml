@@ -163,7 +163,12 @@
     <sect1>
       <title>Integer variety representations</title>
       
-      <para>Since TDF specifies integer representations to be twos-complement, the number of bits required to store an integer variety representation fully specifies that representation. The minimum or maximum signed or unsigned integer that can be represented within any variety representation can easily be determined from the number of bits.</para>
+      <para>Since TDF specifies integer representations to be twos-complement,
+        the number of bits required to store an integer variety representation
+        fully specifies that representation. The minimum or maximum signed or
+        unsigned integer that can be represented within any variety
+        representation can easily be determined from the number of
+        bits.</para>
       
       <sect2>
         <title><literal>.~rep_var_width</literal></title>
@@ -173,7 +178,13 @@
 -&gt; NAT
         </programlisting>
         
-        <para>If <emphasis>w</emphasis> lies within the range of <literal>VARIETY</literal> sizes supported by the associated installer, <emphasis>rep_var_width</emphasis>(<emphasis>w</emphasis>) will be the number of bits required to store values of <literal>VARIETY</literal> <emphasis>var_width</emphasis>( <emphasis>b</emphasis>,<emphasis>w</emphasis>), for any <literal>BOOL</literal> <emphasis>b</emphasis>.</para>
+        <para>If <emphasis>w</emphasis> lies within the range of
+          <literal>VARIETY</literal> sizes supported by the associated
+          installer, <emphasis>rep_var_width</emphasis>(
+          <emphasis>w</emphasis>) will be the number of bits required to store
+          values of <literal>VARIETY</literal> <emphasis>var_width</emphasis>(
+          <emphasis>b</emphasis>,<emphasis>w</emphasis>), for any
+          <literal>BOOL</literal> <emphasis>b</emphasis>.</para>
         
         <para>If <emphasis>w</emphasis> is outside the range of
           <literal>VARIETY</literal> sizes supported by the associated
@@ -288,147 +299,142 @@
         <title><literal>.~rep_fv_min_exp</literal></title>
         
         <programlisting>
-        <emphasis>n</emphasis>:   NAT
-        -&gt; NAT
+<emphasis>n</emphasis>:   NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~rep_fv_min_exp</emphasis>(<emphasis>n</emphasis>)
-        will be the maximum integer <emphasis>m</emphasis> such that
-        (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>-m</emphasis>
-        is exactly representable (though not necessarily normalised) by the
-        <literal>FLOATING_VARIETY</literal>
-        <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+          will be the maximum integer <emphasis>m</emphasis> such that
+          (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))
+          <emphasis>-m</emphasis> is exactly representable (though not
+          necessarily normalised) by the <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
         
         <para><emphasis>n</emphasis> will lie within the sequence range of
-        supported floating point representations.</para>
-        
+          supported floating point representations.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~rep_fv_max_exp</literal></title>
         
         <programlisting>
-        <emphasis>n</emphasis>:   NAT
-        -&gt; NAT
+<emphasis>n</emphasis>:   NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~rep_fv_max_exp</emphasis>(<emphasis>n</emphasis>)
-        will be the maximum integer <emphasis>m</emphasis> such that
-        (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>m</emphasis>
-        is exactly representable by the <literal>FLOATING_VARIETY</literal>
-        <emphasis>.~rep_fv</emphasis>( <emphasis>n</emphasis>).</para>
+          will be the maximum integer <emphasis>m</emphasis> such that
+          (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))
+          <emphasis>m</emphasis> is exactly representable by the
+          <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(
+          <emphasis>n</emphasis>).</para>
         
         <para><emphasis>n</emphasis> will lie within the sequence range of
-      supported floating point representations.</para>
+          supported floating point representations.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~rep_fv_epsilon</literal></title>
         
         <programlisting>
-        <emphasis>n</emphasis>:   NAT
-        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+<emphasis>n</emphasis>:   NAT
+-&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
         </programlisting>
         
         <para><emphasis>.~rep_fv_epsilon</emphasis>(<emphasis>n</emphasis>)
-        will be the smallest strictly positive real <emphasis>x</emphasis>
-        such that (1.0 + <emphasis>x</emphasis>) is exactly representable by
-        the <literal>FLOATING_VARIETY</literal>
-        <emphasis>.~rep_fv(n)</emphasis>.</para>
+          will be the smallest strictly positive real <emphasis>x</emphasis>
+          such that (1.0 + <emphasis>x</emphasis>) is exactly representable by
+          the <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv(n)</emphasis>.</para>
         
-        <para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+          supported floating point representations.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~rep_fv_min_val</literal></title>
         
         <programlisting>
-        <emphasis>n</emphasis>:   NAT
-        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+<emphasis>n</emphasis>:   NAT
+-&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
         </programlisting>
         
         <para><emphasis>.~rep_fv_min_val</emphasis>(<emphasis>n</emphasis>)
-        will be the smallest strictly positive real number that is exactly
-        representable (though not necessarily normalised)) by the
-        <literal>FLOATING_VARIETY</literal>
-        <emphasis>.~rep_fv(n)</emphasis>.</para>
+          will be the smallest strictly positive real number that is exactly
+          representable (though not necessarily normalised)) by the
+          <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv(n)</emphasis>.</para>
         
-        <para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-      
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+          supported floating point representations.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~rep_fv_max_val</literal></title>
         
         <programlisting>
-        <emphasis>n</emphasis>:   NAT
-        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+<emphasis>n</emphasis>:   NAT
+-&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
         </programlisting>
         
         <para><emphasis>.~rep_fv_max_val</emphasis>(<emphasis>n</emphasis>)
-        will be the largest real number that is exactly representable by the
-        <literal>FLOATING_VARIETY</literal>
-        <emphasis>.~rep_fv(n)</emphasis>.</para>
+          will be the largest real number that is exactly representable by the
+          <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv(n)</emphasis>.</para>
         
         <para><emphasis>n</emphasis> will lie within the sequence range of
-      supported floating point representations.</para>
-      
+          supported floating point representations.</para>
       </sect2>
     </sect1>
     
     <sect1>
       <title>Non-numeric representations</title>
       
-      <para> </para>
-      
       <sect2>
-      <title><literal>.~ptr_width</literal></title>
+        <title><literal>.~ptr_width</literal></title>
       
-      <programlisting>
-      -&gt; NAT
-      </programlisting>
+        <programlisting>
+-&gt; NAT
+        </programlisting>
       
       <para><emphasis>.~ptr_width</emphasis> will be the minimum
-    <emphasis>.~rep_var_width</emphasis>(<emphasis>w</emphasis>) for any
-    <emphasis>w</emphasis> such that any pointer to any alignment may be
-    converted to an integer of <literal>VARIETY</literal>
-    <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,<emphasis>w</emphasis>),
-    for some <literal>BOOL</literal> <emphasis>b</emphasis>, and back again
-    without loss of information, using the conversions
-    <emphasis>.~ptr_to_int</emphasis> and <emphasis>.~int_to_ptr</emphasis>
-    (q.v.).</para>
-    
+        <emphasis>.~rep_var_width</emphasis>(<emphasis>w</emphasis>) for any
+        <emphasis>w</emphasis> such that any pointer to any alignment may be
+        converted to an integer of <literal>VARIETY</literal>
+        <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,
+        <emphasis>w</emphasis>), for some <literal>BOOL</literal>
+        <emphasis>b</emphasis>, and back again without loss of information,
+        using the conversions <emphasis>.~ptr_to_int</emphasis> and
+        <emphasis>.~int_to_ptr</emphasis> (q.v.).</para>
     </sect2>
 
     <sect2>
       <title><literal>.~best_div</literal></title>
       
       <programlisting>
-      -&gt; NAT
+-&gt; NAT
       </programlisting>
       
       <para><emphasis>.~best_div</emphasis> is 1 or 2 to indicate preference
-    for class 1 or class 2 division and modulus (as defined in the TDF
-    Specification). This token would be used in situations where either class
-    is valid but must be used consistently.</para>
-    
+        for class 1 or class 2 division and modulus (as defined in the TDF
+        Specification). This token would be used in situations where either
+        class is valid but must be used consistently.</para>
     </sect2>
 
     <sect2>
       <title><literal>.~little_endian</literal></title>
       
       <programlisting>
-      -&gt; BOOL
+-&gt; BOOL
       </programlisting>
       
       <para><emphasis>.~little_endian</emphasis> is a property of the
-      relationship between different variety representations and arrays. If an
-      array of a smaller variety can be mapped onto a larger variety, and
-      <emphasis>.~little_endian</emphasis> is true, then smaller indices of
-      the smaller variety array map onto smaller ranges of the larger variety.
-      If <emphasis>.~little_endian</emphasis> is false, no such assertion can
-      be made.</para>
-      
+        relationship between different variety representations and arrays. If
+        an array of a smaller variety can be mapped onto a larger variety, and
+        <emphasis>.~little_endian</emphasis> is true, then smaller indices of
+        the smaller variety array map onto smaller ranges of the larger
+        variety.  If <emphasis>.~little_endian</emphasis> is false, no such
+        assertion can be made.</para>
       </sect2>
     </sect1>
 
@@ -436,110 +442,111 @@
       <title>Common conversion routines</title>
       
       <para>This subsection contains a set of conversion routines between
-      values of different shapes, that are not required to have any specific
-      meaning apart from reversability. If the storage space requirements for
-      the two shapes are identical, the conversion can usually be achieved
-      without change of representation. When that is the case, and if the two
-      shapes can be stored at a common alignment, the conversion can simply be
-      achieved by assignment via a common union, which will ensure the
-      required alignment consistency.</para>
+        values of different shapes, that are not required to have any specific
+        meaning apart from reversability. If the storage space requirements
+        for the two shapes are identical, the conversion can usually be
+        achieved without change of representation. When that is the case, and
+        if the two shapes can be stored at a common alignment, the conversion
+        can simply be achieved by assignment via a common union, which will
+        ensure the required alignment consistency.</para>
       
       <sect2>
         <title><literal>.~ptr_to_ptr</literal></title>
         
         <programlisting>
-        <emphasis>a1</emphasis>:  ALIGNMENT
-        <emphasis>a2</emphasis>:  ALIGNMENT
-        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a1</emphasis>)
-        -&gt; EXP POINTER(<emphasis>a2</emphasis>)
+<emphasis>a1</emphasis>:  ALIGNMENT
+<emphasis>a2</emphasis>:  ALIGNMENT
+<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a1</emphasis>)
+-&gt; EXP POINTER(<emphasis>a2</emphasis>)
         </programlisting>
         
-        <para><emphasis>.~ptr_to_ptr</emphasis> converts pointers from one pointer shape to another.</para>
+        <para><emphasis>.~ptr_to_ptr</emphasis> converts pointers from one
+          pointer shape to another.</para>
         
         <para>If <emphasis>p</emphasis> is any pointer with alignment
-      <emphasis>a1</emphasis>, then <emphasis>.~ptr_to_ptr</emphasis>
-      (<emphasis>a2</emphasis>, <emphasis>a1</emphasis>,
-      <emphasis>.~ptr_to_ptr</emphasis>(<emphasis>a1</emphasis>,
-      <emphasis>a2</emphasis>, <emphasis>p</emphasis>)) shall result in the
-      same pointer <emphasis>p</emphasis>, provided that the number of bits
-      required to store a pointer with alignment <emphasis>a2</emphasis> is
-      not less than that required to store a pointer with alignment
-      <emphasis>a1</emphasis>.</para>
-      
+          <emphasis>a1</emphasis>, then <emphasis>.~ptr_to_ptr</emphasis>
+          (<emphasis>a2</emphasis>, <emphasis>a1</emphasis>,
+          <emphasis>.~ptr_to_ptr</emphasis>(<emphasis>a1</emphasis>,
+          <emphasis>a2</emphasis>, <emphasis>p</emphasis>)) shall result in
+          the same pointer <emphasis>p</emphasis>, provided that the number of
+          bits required to store a pointer with alignment
+          <emphasis>a2</emphasis> is not less than that required to store a
+          pointer with alignment <emphasis>a1</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~ptr_to_int</literal></title>
         
         <programlisting>
-        <emphasis>a</emphasis>:   ALIGNMENT
-        <emphasis>v</emphasis>:   VARIETY
-        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
-        -&gt; EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>a</emphasis>:   ALIGNMENT
+<emphasis>v</emphasis>:   VARIETY
+<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
+-&gt; EXP INTEGER(<emphasis>v</emphasis>)
         </programlisting>
         
         <para><emphasis>.~ptr_to_int</emphasis> converts a pointer to an
-      integer. The result is undefined if the <literal>VARIETY</literal> v is
-      insufficient to distinguish between all possible distinct pointers
-      <emphasis>p</emphasis> of alignment <emphasis>a</emphasis>.</para>
-      
+          integer. The result is undefined if the <literal>VARIETY</literal> v
+          is insufficient to distinguish between all possible distinct
+          pointers <emphasis>p</emphasis> of alignment
+          <emphasis>a</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~int_to_ptr</literal></title>
         
         <programlisting>
-        <emphasis>v</emphasis>:   VARIETY
-        <emphasis>a</emphasis>:   ALIGNMENT
-        <emphasis>i</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
-        -&gt; EXP POINTER(<emphasis>a</emphasis>)
+<emphasis>v</emphasis>:   VARIETY
+<emphasis>a</emphasis>:   ALIGNMENT
+<emphasis>i</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+-&gt; EXP POINTER(<emphasis>a</emphasis>)
         </programlisting>
         
         <para><emphasis>.~int_to_ptr</emphasis> converts an integer to a
-        pointer. The result is undefined unless the integer i was obtained
-        without modification from some pointer using
-        <emphasis>.~ptr_to_int</emphasis> with the same variety and alignment
-        arguments.</para>
+          pointer. The result is undefined unless the integer i was obtained
+          without modification from some pointer using
+          <emphasis>.~ptr_to_int</emphasis> with the same variety and
+          alignment arguments.</para>
         
         <para>If <emphasis>p</emphasis> is any pointer with alignment
-      <emphasis>a</emphasis>, and <emphasis>v</emphasis> is
-      <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,
-      <emphasis>.~ptr_width</emphasis>) for some <literal>BOOL</literal>
-      <emphasis>b</emphasis>, then
-      <emphasis>.~int_to_ptr</emphasis>(<emphasis>v</emphasis>,
-      <emphasis>a</emphasis>, <emphasis>.~ptr_to_int</emphasis>
-      (<emphasis>a</emphasis>, <emphasis>v</emphasis>,
-      <emphasis>p</emphasis>)) shall result in the same pointer
-      <emphasis>p</emphasis>.</para>
-      
+          <emphasis>a</emphasis>, and <emphasis>v</emphasis> is
+          <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,
+          <emphasis>.~ptr_width</emphasis>) for some <literal>BOOL</literal>
+          <emphasis>b</emphasis>, then <emphasis>.~int_to_ptr</emphasis>(
+          <emphasis>v</emphasis>, <emphasis>a</emphasis>,
+          <emphasis>.~ptr_to_int</emphasis> (<emphasis>a</emphasis>,
+          <emphasis>v</emphasis>, <emphasis>p</emphasis>)) shall result in the
+          same pointer <emphasis>p</emphasis>.</para>
       </sect2>
 
       <sect2>
-        <title>
-        <literal>.~f_to_ptr</literal></title>
+        <title><literal>.~f_to_ptr</literal></title>
         
         <programlisting>
-        <emphasis>a</emphasis>:   ALIGNMENT
-        <emphasis>fn</emphasis>:  EXP PROC
-        -&gt; EXP POINTER(<emphasis>a</emphasis>)
+<emphasis>a</emphasis>:   ALIGNMENT
+<emphasis>fn</emphasis>:  EXP PROC
+-&gt; EXP POINTER(<emphasis>a</emphasis>)
         </programlisting>
         
         <para><emphasis>.~f_to_ptr</emphasis> converts a procedure to a
-      pointer. The result is undefined except as required for consistency with
-      <emphasis>.~ptr_to_f</emphasis>.</para>
+          pointer. The result is undefined except as required for consistency
+          with <emphasis>.~ptr_to_f</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~ptr_to_f</literal></title>
         
         <programlisting>
-        <emphasis>a</emphasis>:   ALIGNMENT
-        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
-        -&gt; EXP PROC
+<emphasis>a</emphasis>:   ALIGNMENT
+<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
+-&gt; EXP PROC
         </programlisting>
         
-        <para><emphasis>.~ptr_to_f</emphasis> converts a pointer to a procedure. The result is undefined unless the pointer p was obtained without modification from some procedure <emphasis>f</emphasis> using <emphasis>.~f_to_ptr</emphasis>(<emphasis>a</emphasis>, <emphasis>f</emphasis>). The same procedure <emphasis>f</emphasis> is delivered.</para>
-      </sect2>
+        <para><emphasis>.~ptr_to_f</emphasis> converts a pointer to a
+          procedure. The result is undefined unless the pointer p was obtained
+          without modification from some procedure <emphasis>f</emphasis>
+          using <emphasis>.~f_to_ptr</emphasis>(<emphasis>a</emphasis>,
+          <emphasis>f</emphasis>). The same procedure <emphasis>f</emphasis>
+          is delivered.</para> </sect2>
     </sect1>
   </chapter>
   
@@ -547,20 +554,20 @@
     <title>Basic mapping tokens</title>
     
     <para>Basic mapping tokens provide target specific detail for specific
-    language features that are defined to be target dependent. This detail
-    need not be fixed for a particular target architecture, but needs to
-    provide compatibility with any external library with which an application
-    program is to be linked.</para>
+      language features that are defined to be target dependent. This detail
+      need not be fixed for a particular target architecture, but needs to
+      provide compatibility with any external library with which an
+      application program is to be linked.</para>
     
     <para>Tokens specific to the C and Fortran language families are included.
-    Like the target dependency tokens, it is again recommended that these
-    tokens should not be used directly within application programs. They are
-    designed for use within LPI definitions, which can provide a more
-    appropriate interface for applications.</para>
+      Like the target dependency tokens, it is again recommended that these
+      tokens should not be used directly within application programs. They are
+      designed for use within LPI definitions, which can provide a more
+      appropriate interface for applications.</para>
     
     <para>Every operating system variant of an installer should have
-    associated with it, a capsule containing the definitions of all the tokens
-    specificed within this section -XREF-#S114.</para>
+      associated with it, a capsule containing the definitions of all the
+      tokens specificed within this section -XREF-#S114.</para>
     
     <sect1>
       <title>C mapping tokens</title>
@@ -573,9 +580,8 @@
         </programlisting>
         
         <para><emphasis>.~char_width</emphasis> is the number of bits required
-      to store values of the representation <literal>VARIETY</literal> that
-      corresponds to the C type <emphasis>char</emphasis>.</para>
-      
+          to store values of the representation <literal>VARIETY</literal>
+          that corresponds to the C type <emphasis>char</emphasis>.</para>
       </sect2>
 
       <sect2>
@@ -586,234 +592,230 @@
         </programlisting>
       
         <para><emphasis>.~short_width</emphasis> is the number of bits
-      required to store values of the representation
-      <literal>VARIETY</literal> that corresponds to the C type
-      <emphasis>short int</emphasis>.</para>
-      
+          required to store values of the representation
+          <literal>VARIETY</literal> that corresponds to the C type
+          <emphasis>short int</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~int_width</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~int_width</emphasis> is the number of bits required
-      to store values of the representation <literal>VARIETY</literal> that
-      corresponds to the C type <emphasis>int</emphasis>.</para>
-      
+          to store values of the representation <literal>VARIETY</literal>
+          that corresponds to the C type <emphasis>int</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~long_width</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~long_width</emphasis> is the number of bits required
-      to store values of the representation <literal>VARIETY</literal> that
-      corresponds to the C type <emphasis>long int</emphasis>.</para>
-      
+          to store values of the representation <literal>VARIETY</literal>
+          that corresponds to the C type <emphasis>long int</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~longlong_width</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~longlong_width</emphasis> is the number of bits
-      required to store values of the representation
-      <literal>VARIETY</literal> that corresponds to the C type <emphasis>long
-      long int</emphasis>.</para>
-      
+          required to store values of the representation
+          <literal>VARIETY</literal> that corresponds to the C type
+          <emphasis>long long int</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~size_t_width</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~size_t_width</emphasis> is the number of bits
-      required to store values of the representation
-      <literal>VARIETY</literal> that corresponds to the C type
-      <emphasis>size_t</emphasis>. It will be the same as one of
-      <emphasis>.~short_width</emphasis>, <emphasis>.~int_width</emphasis>, or
-      <emphasis>.~long_width</emphasis>.</para>
-      
+          required to store values of the representation
+          <literal>VARIETY</literal> that corresponds to the C type
+          <emphasis>size_t</emphasis>. It will be the same as one of
+          <emphasis>.~short_width</emphasis>,
+          <emphasis>.~int_width</emphasis>, or
+          <emphasis>.~long_width</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~fl_rep</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~fl_rep</emphasis> is the sequence number (see
-      subsection -XREF-#S83.2) of the floating point representation to be used
-      for values of C type <emphasis>float</emphasis>.</para>
-      
+          subsection -XREF-#S83.2) of the floating point representation to be
+          used for values of C type <emphasis>float</emphasis>.</para>
       </sect2>
 
       <sect2>
         <title><literal>.~dbl_rep</literal></title>
         
         <programlisting>
-        -&gt; NAT
+-&gt; NAT
         </programlisting>
         
         <para><emphasis>.~dbl_rep</emphasis> is the sequence number (see
-      subsection 3.2) of the floating point representation to be used for
-      values of C type <emphasis>double</emphasis>.</para>
-      
+          subsection 3.2) of the floating point representation to be used for
+          values of C type <emphasis>double</emphasis>.</para>
       </sect2>
+
       <sect2>
-      <title><literal>.~ldbl_rep</literal></title>
-      
-      <programlisting>
-      -&gt; NAT
-      </programlisting>
-      
-      <para><emphasis>.~ldbl_rep</emphasis> is the sequence number (see
-      subsection 3.2) of the floating point representation to be used for
-      values of C type <emphasis>long double</emphasis>.</para>
-      
+        <title><literal>.~ldbl_rep</literal></title>
+        
+        <programlisting>
+-&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~ldbl_rep</emphasis> is the sequence number (see
+          subsection 3.2) of the floating point representation to be used for
+          values of C type <emphasis>long double</emphasis>.</para>
       </sect2>
+
       <sect2>
-      <title><literal>.~pv_align</literal></title>
-      
-      <programlisting>
-      -&gt; ALIGNMENT
-      </programlisting>
-      
-      <para><emphasis>.~pv_align</emphasis> is the common alignment for all
-      pointers that can be represented by the C generic pointer type
-      <emphasis>void*</emphasis>. For architecture independence, this would
-      have to be a union of several alignments, but for many installers it can
-      be simplified to
-      <emphasis>alignment</emphasis>(<emphasis>integer</emphasis>(<emphasis>var_width</emphasis>(<emphasis>false</emphasis>,
-      <emphasis>.~char_width</emphasis>))).</para>
-      
+        <title><literal>.~pv_align</literal></title>
+        
+        <programlisting>
+-&gt; ALIGNMENT
+        </programlisting>
+        
+        <para><emphasis>.~pv_align</emphasis> is the common alignment for all
+          pointers that can be represented by the C generic pointer type
+          <emphasis>void*</emphasis>. For architecture independence, this
+          would have to be a union of several alignments, but for many
+          installers it can be simplified to
+          <emphasis>alignment</emphasis>(<emphasis>integer</emphasis>(
+          <emphasis>var_width</emphasis>(<emphasis>false</emphasis>,
+          <emphasis>.~char_width</emphasis>))).</para>
       </sect2>
+
       <sect2>
-      <title><literal>.~min_struct_rep</literal></title>
-      
-      <programlisting>
-      -&gt; NAT
-      </programlisting>
-      
-      <para><emphasis>.~min_struct_rep</emphasis> is the number of bits
-      required to store values of the smallest C integral type which share the
-      same alignment properties as a structured value whose members are all of
-      that same integral type. It will be the same as one of
-      <emphasis>.~char_width</emphasis>, <emphasis>.~short_width</emphasis>,
-      <emphasis>.~int_width</emphasis>, or
-      <emphasis>.~long_width</emphasis>.</para>
-      
+        <title><literal>.~min_struct_rep</literal></title>
+        
+        <programlisting>
+-&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~min_struct_rep</emphasis> is the number of bits
+          required to store values of the smallest C integral type which share
+          the same alignment properties as a structured value whose members
+          are all of that same integral type. It will be the same as one of
+          <emphasis>.~char_width</emphasis>,
+          <emphasis>.~short_width</emphasis>,
+          <emphasis>.~int_width</emphasis>, or
+          <emphasis>.~long_width</emphasis>.</para>
       </sect2>
+
       <sect2>
-      <title><literal>.~char_is_signed</literal></title>
-      
-      <programlisting>
-      -&gt; BOOL
-      </programlisting>
-      
-      <para><emphasis>.~char_is_signed</emphasis> is <emphasis>true</emphasis>
-      if the C type <emphasis>char</emphasis> is treated as signed, or
-      <emphasis>false</emphasis> if it is unsigned.</para>
-      
+        <title><literal>.~char_is_signed</literal></title>
+        
+        <programlisting>
+-&gt; BOOL
+        </programlisting>
+        
+        <para><emphasis>.~char_is_signed</emphasis> is
+          <emphasis>true</emphasis> if the C type <emphasis>char</emphasis> is
+          treated as signed, or <emphasis>false</emphasis> if it is
+          unsigned.</para>
       </sect2>
+
       <sect2>
-      <title><literal>.~bitfield_is_signed</literal></title>
-      
-      <programlisting>
-      -&gt; BOOL
-      </programlisting>
-      
-      <para><emphasis>.~bitfield_is_signed</emphasis> is
-      <emphasis>true</emphasis> if bitfield members of structures in C are
-      treated as signed, or <emphasis>false</emphasis> if unsigned.</para>
-      
+        <title><literal>.~bitfield_is_signed</literal></title>
+        
+        <programlisting>
+-&gt; BOOL
+        </programlisting>
+        
+        <para><emphasis>.~bitfield_is_signed</emphasis> is
+          <emphasis>true</emphasis> if bitfield members of structures in C are
+          treated as signed, or <emphasis>false</emphasis> if unsigned.</para>
       </sect2>
     </sect1>
     
     <sect1>
-    <title>Fortran mapping tokens</title>
-    
-    <para> </para>
-    <sect2>
-    <title><literal>.~F_char_width</literal></title>
-    
-    <programlisting>
-    -&gt; NAT
-    </programlisting>
-    
-    <para><emphasis>.~F_char_width</emphasis> is the number of bits required
-    to store values of the representation <literal>VARIETY</literal> that
-    corresponds to the Fortran77 type <emphasis>CHARACTER</emphasis>.</para>
-    
-    <para>In most cases, <emphasis>.~F_char_width</emphasis> is the same as
-    <emphasis>.~char_width</emphasis>.</para>
-    
-    </sect2>
-    <sect2>
-    <title><literal>.~F_int_width</literal></title>
-    
-    <programlisting>
-    -&gt; NAT
-    </programlisting>
-    
-    <para><emphasis>.~F_int_width</emphasis> is the number of bits required to
-    store values of the representation <literal>VARIETY</literal> that
-    corresponds to the Fortran77 type <emphasis>INTEGER</emphasis>.</para>
-    
-    <para>In most cases, <emphasis>.~F_int_width</emphasis> is the same as
-    <emphasis>.~int_width</emphasis>.</para>
-    
-    </sect2>
-    <sect2>
-    <title><literal>.~F_fl_rep</literal></title>
-    
-    <programlisting>
-    -&gt; NAT
-    </programlisting>
-    
-    <para><emphasis>.~F_fl_rep</emphasis> is the sequence number (see
-    subsection -XREF-#S83.2) of the floating point representation to be used
-    for values of Fortran77 type <emphasis>REAL</emphasis>, with the
-    constraint that
-    <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis> ) =
-    <emphasis>.~F_int_width</emphasis>.</para>
-    
-    <para>If this constraint cannot be met, <emphasis>.~F_fl_rep</emphasis>
-    will be 0.</para>
-    
-    </sect2>
-    <sect2>
-    <title><literal>.~F_dbl_rep</literal></title>
-    
-    <programlisting>
-    -&gt; NAT
-    </programlisting>
-    
-    <para><emphasis>.~F_dbl_rep</emphasis> is the sequence number (see
-    subsection 3.2) of the floating point representation to be used for values
-    of Fortran77 type <emphasis>DOUBLE PRECISION</emphasis>, with the
-    constraint that <emphasis>.~rep_fv_width</emphasis>(
-    <emphasis>.~F_dbl_rep</emphasis>) = 2 *
-    <emphasis>.~F_int_width</emphasis>.</para>
-    
-    <para>If this constraint cannot be met, <emphasis>.~F_dbl_rep</emphasis>
-    will be 0.</para>
-    
-    
-    </sect2>
+      <title>Fortran mapping tokens</title>
+      
+      <sect2>
+        <title><literal>.~F_char_width</literal></title>
+        
+        <programlisting>
+-&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~F_char_width</emphasis> is the number of bits
+          required to store values of the representation
+          <literal>VARIETY</literal> that corresponds to the Fortran77 type
+          <emphasis>CHARACTER</emphasis>.</para>
+        
+        <para>In most cases, <emphasis>.~F_char_width</emphasis> is the same
+          as <emphasis>.~char_width</emphasis>.</para>
+      </sect2>
+
+      <sect2>
+        <title><literal>.~F_int_width</literal></title>
+        
+        <programlisting>
+-&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~F_int_width</emphasis> is the number of bits
+          required to store values of the representation
+          <literal>VARIETY</literal> that corresponds to the Fortran77 type
+          <emphasis>INTEGER</emphasis>.</para>
+        
+        <para>In most cases, <emphasis>.~F_int_width</emphasis> is the same as
+          <emphasis>.~int_width</emphasis>.</para>
+      </sect2>
+
+      <sect2>
+        <title><literal>.~F_fl_rep</literal></title>
+        
+        <programlisting>
+-&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~F_fl_rep</emphasis> is the sequence number (see
+          subsection -XREF-#S83.2) of the floating point representation to be
+          used for values of Fortran77 type <emphasis>REAL</emphasis>, with
+          the constraint that
+          <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis>
+          ) = <emphasis>.~F_int_width</emphasis>.</para>
+        
+        <para>If this constraint cannot be met,
+          <emphasis>.~F_fl_rep</emphasis> will be 0.</para>
+      </sect2>
+
+      <sect2>
+        <title><literal>.~F_dbl_rep</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~F_dbl_rep</emphasis> is the sequence number (see
+          subsection 3.2) of the floating point representation to be used for
+          values of Fortran77 type <emphasis>DOUBLE PRECISION</emphasis>, with
+          the constraint that <emphasis>.~rep_fv_width</emphasis>(
+          <emphasis>.~F_dbl_rep</emphasis>) = 2 *
+          <emphasis>.~F_int_width</emphasis>.</para>
+        
+        <para>If this constraint cannot be met,
+          <emphasis>.~F_dbl_rep</emphasis> will be 0.</para>
+      </sect2>
     </sect1>
   </chapter>
   
@@ -821,81 +823,81 @@
     <title>TDF Interface tokens</title>
     
     <para>A very few specifically named tokens are referred to within the TDF
-    specification, which are required to complete the ability to use certain
-    TDF constructs. Responsibility for providing appropriate definitions for
-    these tokens is indicated with the specifications below.</para>
+      specification, which are required to complete the ability to use certain
+      TDF constructs. Responsibility for providing appropriate definitions for
+      these tokens is indicated with the specifications below.</para>
     
     <para>Similarly, a few tokens are specified within the TDF Diagnostic
-    Specification.</para>
+      Specification.</para>
     
     <sect1>
       <title>Exception handling</title>
       
-      <para> </para>
       <sect2>
-      <title><literal>~Throw</literal></title>
-      
-      <programlisting>
-      <emphasis>n</emphasis>:   NAT
-      -&gt; EXP BOTTOM
-      </programlisting>
-      
-      <para>The <literal>EXP</literal> <emphasis>e</emphasis> defined as the
-      body of this token will be evaluated on occurrence of any error whose
-      <literal>ERROR_TREATMENT</literal> is <emphasis>trap</emphasis>. The
-      type of error can be determined within <emphasis>e</emphasis> from the
-      NAT <emphasis>n</emphasis>, which will be
-      <emphasis>error_val(ec)</emphasis> for some
-      <literal>ERROR_CODE</literal> <emphasis>ec</emphasis>. The token
-      definition body <emphasis>e</emphasis> will typically consist of a
-      <emphasis>long_jump</emphasis> to some previously set exception
-      handler.</para>
-      
-      <para>Exception handling using <emphasis>trap</emphasis> and
-      ~<emphasis>Throw</emphasis> will usually be determined by producers for
-      languages that specify their own exception handling semantics.
-      Responsibility for the <emphasis>~Throw</emphasis> token definition will
-      therefore normally rest with producers, by including this token within
-      the producer specific LPI.</para>
-      
+        <title><literal>~Throw</literal></title>
+        
+        <programlisting>
+<emphasis>n</emphasis>:   NAT
+-&gt; EXP BOTTOM
+        </programlisting>
+        
+        <para>The <literal>EXP</literal> <emphasis>e</emphasis> defined as the
+          body of this token will be evaluated on occurrence of any error
+          whose <literal>ERROR_TREATMENT</literal> is
+          <emphasis>trap</emphasis>. The type of error can be determined
+          within <emphasis>e</emphasis> from the NAT <emphasis>n</emphasis>,
+          which will be <emphasis>error_val(ec)</emphasis> for some
+          <literal>ERROR_CODE</literal> <emphasis>ec</emphasis>. The token
+          definition body <emphasis>e</emphasis> will typically consist of a
+          <emphasis>long_jump</emphasis> to some previously set exception
+          handler.</para>
+        
+        <para>Exception handling using <emphasis>trap</emphasis> and
+          ~<emphasis>Throw</emphasis> will usually be determined by producers
+          for languages that specify their own exception handling semantics.
+          Responsibility for the <emphasis>~Throw</emphasis> token definition
+          will therefore normally rest with producers, by including this token
+          within the producer specific LPI.</para>
       </sect2>
+
       <sect2>
-      <title><literal>~Set_signal_handler</literal></title>
-      
-      <programlisting>
-      -&gt; EXP OFFSET (locals_alignment, locals_alignment)
-      </programlisting>
-      
-      <para><emphasis>~Set_signal_handler</emphasis> must be applied before
-      any use of the <literal>ERROR_TREATMENT</literal>
-      <emphasis>trap</emphasis>, to indicate the need for exception trapping.
-      Responsibility for the <emphasis>~Set_signal_handler</emphasis> token
-      definition will rest with installers. Responsibility for applying it
-      will normally rest with producers.</para>
-      
-      <para>The resulting offset value will contain the amount of space beyond
-      any stack limit, which must be reserved for use when handling a
-      <emphasis>stack_overflow</emphasis> trap raised by exceeding that
-      limit.</para>
-      
+        <title><literal>~Set_signal_handler</literal></title>
+        
+        <programlisting>
+-&gt; EXP OFFSET (locals_alignment, locals_alignment)
+        </programlisting>
+        
+        <para><emphasis>~Set_signal_handler</emphasis> must be applied before
+          any use of the <literal>ERROR_TREATMENT</literal>
+          <emphasis>trap</emphasis>, to indicate the need for exception
+          trapping.  Responsibility for the
+          <emphasis>~Set_signal_handler</emphasis> token definition will rest
+          with installers. Responsibility for applying it will normally rest
+          with producers.</para>
+        
+        <para>The resulting offset value will contain the amount of space beyond
+          any stack limit, which must be reserved for use when handling a
+          <emphasis>stack_overflow</emphasis> trap raised by exceeding that
+          limit.</para>
       </sect2>
+
       <sect2>
-      <title><literal>~Sync_handle</literal>r</title>
-      
-      <programlisting>
-      -&gt; EXP TOP
-      </programlisting>
-      
-      <para><emphasis>~Sync_handler</emphasis> delays subsequent processing
-      until any pending exceptions have been raised, as necessary to
-      synchronise exception handler modification. It must be applied
-      immediately prior to any action that modifies the effect of
-      <emphasis>~Throw</emphasis>, such as assignment to a variable holding an
-      exception handler as <emphasis>long_jump</emphasis> destination
-      Responsibility for the <emphasis>~Sync_handler</emphasis> token
-      definition will rest with installers. Responsibility for applying it
-      will normally rest with producers.</para>
-      
+        <title><literal>~Sync_handle</literal>r</title>
+        
+        <programlisting>
+-&gt; EXP TOP
+        </programlisting>
+        
+        <para><emphasis>~Sync_handler</emphasis> delays subsequent processing
+          until any pending exceptions have been raised, as necessary to
+          synchronise exception handler modification. It must be applied
+          immediately prior to any action that modifies the effect of
+          <emphasis>~Throw</emphasis>, such as assignment to a variable
+          holding an exception handler as <emphasis>long_jump</emphasis>
+          destination Responsibility for the
+          <emphasis>~Sync_handler</emphasis> token definition will rest with
+          installers. Responsibility for applying it will normally rest with
+          producers.</para>
       </sect2>
     </sect1>
     
@@ -903,31 +905,30 @@
       <title>TDF Diagnostic Specification</title>
       
       <para>The -XREF-../diag/diag1.htmlTDF Diagnostic Specification is a
-      separate document which describes an extension to TDF, optionally used
-      to provide program diagnostic information that can be transformed by
-      installers to the form required by popular platform-specific debuggers.
-      This extension cannot be considered fully developed and is therefore not
-      included as part of standard TDF. Its use for other than DRA's C
-      producer has not been considered.</para>
+        separate document which describes an extension to TDF, optionally used
+        to provide program diagnostic information that can be transformed by
+        installers to the form required by popular platform-specific
+        debuggers.  This extension cannot be considered fully developed and is
+        therefore not included as part of standard TDF. Its use for other than
+        DRA's C producer has not been considered.</para>
       
       <sect2>
-      <title><literal>~exp_to_source, ~diag_id_scope, ~diag_type_scope, ~diag_tag_scope</literal></title>
-      
-      <programlisting>
-      <emphasis>bdy</emphasis>: EXP
-      ... :    ...
-      -&gt; EXP
-      </programlisting>
-      
-      <para>Each of these four tokens has several arguments of which the
-        first, <emphasis>bdy</emphasis>, is an <literal>EXP</literal>. In each
-        case the default definition body, when no diagnostic information is
-        required, is simply <emphasis>bdy</emphasis>. Note that this
-        description is quite sufficient to enable installers to ignore any
-        diagnostic information that may be included in produced TDF, without
-        needing any further knowledge of the TDF Diagnostic
-        Specification.</para>
-      
+        <title><literal>~exp_to_source, ~diag_id_scope, ~diag_type_scope, ~diag_tag_scope</literal></title>
+        
+        <programlisting>
+<emphasis>bdy</emphasis>: EXP
+... :    ...
+-&gt; EXP
+        </programlisting>
+        
+        <para>Each of these four tokens has several arguments of which the
+          first, <emphasis>bdy</emphasis>, is an <literal>EXP</literal>. In each
+          case the default definition body, when no diagnostic information is
+          required, is simply <emphasis>bdy</emphasis>. Note that this
+          description is quite sufficient to enable installers to ignore any
+          diagnostic information that may be included in produced TDF, without
+          needing any further knowledge of the TDF Diagnostic
+          Specification.</para>
       </sect2>
     </sect1>
 
@@ -938,136 +939,140 @@
         in this section.</para>
       
       <sect2>
-      <title><literal>~va_list</literal></title>
-      
-      <programlisting>
-      -&gt; SHAPE
-      </programlisting>
-      
-      <para>This is the <literal>SHAPE</literal> of a variable capable of
-      holding state information used for stepping through the anonymous
-      parameters of a procedure created by
-      <emphasis>make_proc</emphasis>.</para>
-      
+        <title><literal>~va_list</literal></title>
+        
+        <programlisting>
+-&gt; SHAPE
+        </programlisting>
+        
+        <para>This is the <literal>SHAPE</literal> of a variable capable of
+          holding state information used for stepping through the anonymous
+          parameters of a procedure created by
+          <emphasis>make_proc</emphasis>.</para>
       </sect2>
       
       <sect2>
-      <title><literal>~__va_start</literal></title>
-      
-      <programlisting>
-      <emphasis>p</emphasis>:   EXP POINTER var_param_alignment
-      -&gt; EXP ~va_list
-      </programlisting>
-      
-      <para>If <emphasis>t</emphasis> is the <literal>TAG</literal> introduced
-      by <emphasis>var_intro</emphasis> <literal>OPTION(TAGACC)</literal> in
-      <emphasis>make_proc</emphasis>, then the token application
-      <emphasis>~__va_start(obtain_tag(t))</emphasis> will provide the initial
-      value for a local variable to be used for stepping through the anonymous
-      parameters of the procedure, starting with the first actual parameter
-      (if any) that does not have a corresponding entry in the make_proc
-      params_intro list.</para>
-      
+        <title><literal>~__va_start</literal></title>
+        
+        <programlisting>
+<emphasis>p</emphasis>:   EXP POINTER var_param_alignment
+-&gt; EXP ~va_list
+        </programlisting>
+        
+        <para>If <emphasis>t</emphasis> is the <literal>TAG</literal>
+          introduced by <emphasis>var_intro</emphasis>
+          <literal>OPTION(TAGACC)</literal> in <emphasis>make_proc</emphasis>,
+          then the token application
+          <emphasis>~__va_start(obtain_tag(t))</emphasis> will provide the
+          initial value for a local variable to be used for stepping through
+          the anonymous parameters of the procedure, starting with the first
+          actual parameter (if any) that does not have a corresponding entry
+          in the make_proc params_intro list.</para>
       </sect2>
+
       <sect2>
-      <title><literal>~va_arg</literal></title>
-      
-      <programlisting>
-      <emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
-      <emphasis>s</emphasis>:   SHAPE
-      -&gt; EXP <emphasis>s</emphasis>
-      </programlisting>
-      
-      <para>If <emphasis>v</emphasis> is the variable initialised by
-      <emphasis>~__va_start</emphasis> (see above), then successive token
-      applications <emphasis>~va_arg(v,s)</emphasis> will deliver the
-      anonymous parameter values in turn. The successive
-      <literal>SHAPE</literal>s <emphasis>s</emphasis> must be the appropriate
-      <literal>SHAPE</literal>s for the successive parameters.</para>
-      
+        <title><literal>~va_arg</literal></title>
+        
+        <programlisting>
+<emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
+<emphasis>s</emphasis>:   SHAPE
+-&gt; EXP <emphasis>s</emphasis>
+        </programlisting>
+        
+        <para>If <emphasis>v</emphasis> is the variable initialised by
+          <emphasis>~__va_start</emphasis> (see above), then successive token
+          applications <emphasis>~va_arg(v,s)</emphasis> will deliver the
+          anonymous parameter values in turn. The successive
+          <literal>SHAPE</literal>s <emphasis>s</emphasis> must be the
+          appropriate <literal>SHAPE</literal>s for the successive
+          parameters.</para>
       </sect2>
+
       <sect2>
-      <title><literal>~va_end</literal></title>
+        <title><literal>~va_end</literal></title>
       
-      <programlisting>
-      <emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
-      -&gt; EXP TOP
-      </programlisting>
+        <programlisting>
+<emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
+-&gt; EXP TOP
+        </programlisting>
       
-      <para>If <emphasis>v</emphasis> is a variable initialised by
-      <emphasis>~__va_start</emphasis>, the token application
-      <emphasis>~va_end(v)</emphasis> indicates that no further use will be
-      made of <emphasis>v</emphasis>.</para>
-      
+        <para>If <emphasis>v</emphasis> is a variable initialised by
+          <emphasis>~__va_start</emphasis>, the token application
+          <emphasis>~va_end(v)</emphasis> indicates that no further use will
+          be made of <emphasis>v</emphasis>.</para>
       </sect2>
+
       <sect2>
-      <title><literal>~next_caller_offset</literal></title>
-      
-      <programlisting>
-      <emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
-      <emphasis>s1</emphasis>:  SHAPE
-      <emphasis>s2</emphasis>:  SHAPE
-      -&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
-      </programlisting>
-      
-      <para><emphasis>~next_caller_offset</emphasis> is used to provide access
-      to successive elements of the <emphasis>caller_params</emphasis> of an
-      <emphasis>apply_general_proc</emphasis>, by delivering successive
-      <literal>OFFSET</literal>s of their positions relative to the
-      environment pointer created by that procedure application. Both the
-      <emphasis>apply_general_proc</emphasis> and associated
-      <emphasis>make_general_proc</emphasis> will include
-      <literal>PROCPROPS</literal> <emphasis>var_callers</emphasis>.</para>
-      
-      <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for
-      a <emphasis>caller_params</emphasis> element of <literal>SHAPE</literal>
-      <emphasis>s1</emphasis>, and will be derived either from
-      <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced
-      by <emphasis>caller_intro</emphasis> of the
-      <emphasis>make_general_proc</emphasis> , or from a previous application
-      of <emphasis>~next_caller_offset</emphasis>. <emphasis>s2</emphasis>
-      will be the <literal>SHAPE</literal> of the subsequent
-      <emphasis>caller_params</emphasis> element, whose
-      <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will
-      include the set union of <literal>ALIGNMENT</literal>s appropriate to
-      the <emphasis>make_general_proc</emphasis> (as specified by
-      <emphasis>current_env</emphasis>).</para>
-      
+        <title><literal>~next_caller_offset</literal></title>
+        
+        <programlisting>
+<emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
+<emphasis>s1</emphasis>:  SHAPE
+<emphasis>s2</emphasis>:  SHAPE
+-&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
+        </programlisting>
+        
+        <para><emphasis>~next_caller_offset</emphasis> is used to provide
+          access to successive elements of the
+          <emphasis>caller_params</emphasis> of an
+          <emphasis>apply_general_proc</emphasis>, by delivering successive
+          <literal>OFFSET</literal>s of their positions relative to the
+          environment pointer created by that procedure application. Both the
+          <emphasis>apply_general_proc</emphasis> and associated
+          <emphasis>make_general_proc</emphasis> will include
+          <literal>PROCPROPS</literal>
+          <emphasis>var_callers</emphasis>.</para>
+        
+        <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal>
+          for a <emphasis>caller_params</emphasis> element of
+          <literal>SHAPE</literal> <emphasis>s1</emphasis>, and will be
+          derived either from <emphasis>env_offset</emphasis> for a
+          <literal>TAG</literal> introduced by
+          <emphasis>caller_intro</emphasis> of the
+          <emphasis>make_general_proc</emphasis> , or from a previous
+          application of <emphasis>~next_caller_offset</emphasis>.
+          <emphasis>s2</emphasis> will be the <literal>SHAPE</literal> of the
+          subsequent <emphasis>caller_params</emphasis> element, whose
+          <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will
+          include the set union of <literal>ALIGNMENT</literal>s appropriate
+          to the <emphasis>make_general_proc</emphasis> (as specified by
+          <emphasis>current_env</emphasis>).</para>
       </sect2>
+
       <sect2>
-      <title><literal>~next_callee_offset</literal></title>
-      
-      <programlisting>
-      <emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
-      <emphasis>s1</emphasis>:  SHAPE
-      <emphasis>s2</emphasis>:  SHAPE
-      -&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
-      </programlisting>
-      
-      <para><emphasis>~next_callee_offset</emphasis> is used to provide access
-      to successive elements of the <literal>CALLEES</literal> of an
-      <emphasis>apply_general_proc</emphasis> or
-      <emphasis>tail_call</emphasis>, by delivering successive
-      <literal>OFFSET</literal>s of their positions relative to the
-      environment pointer created by that procedure application. Both the
-      procedure application and associated
-      <emphasis>make_general_proc</emphasis> will include
-      <literal>PROCPROPS</literal> <emphasis>var_callees</emphasis>.</para>
-      
-      <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for
-      a <literal>CALLEES</literal> element of <literal>SHAPE</literal>
-      <emphasis>s1</emphasis>, and will be derived either from
-      <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced
-      by <emphasis>callee_intro</emphasis> of the
-      <emphasis>make_general_proc</emphasis>, or from a previous application
-      of <emphasis>~next_callee_offset</emphasis>. <emphasis>s2</emphasis>
-      will be the <literal>SHAPE</literal> of the subsequent
-      <literal>CALLEES</literal> element, whose <literal>OFFSET</literal> is
-      delivered. <emphasis>fa</emphasis> will include the set union of
-      <literal>ALIGNMENT</literal>s appropriate to the
-      <emphasis>make_general_proc</emphasis> (as specified by
-      <emphasis>current_env</emphasis> ).</para>
-      
+        <title><literal>~next_callee_offset</literal></title>
+        
+        <programlisting>
+<emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
+<emphasis>s1</emphasis>:  SHAPE
+<emphasis>s2</emphasis>:  SHAPE
+-&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
+        </programlisting>
+        
+        <para><emphasis>~next_callee_offset</emphasis> is used to provide
+          access to successive elements of the <literal>CALLEES</literal> of
+          an <emphasis>apply_general_proc</emphasis> or
+          <emphasis>tail_call</emphasis>, by delivering successive
+          <literal>OFFSET</literal>s of their positions relative to the
+          environment pointer created by that procedure application. Both the
+          procedure application and associated
+          <emphasis>make_general_proc</emphasis> will include
+          <literal>PROCPROPS</literal>
+          <emphasis>var_callees</emphasis>.</para>
+        
+        <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal>
+          for a <literal>CALLEES</literal> element of <literal>SHAPE</literal>
+          <emphasis>s1</emphasis>, and will be derived either from
+          <emphasis>env_offset</emphasis> for a <literal>TAG</literal>
+          introduced by <emphasis>callee_intro</emphasis> of the
+          <emphasis>make_general_proc</emphasis>, or from a previous
+          application of <emphasis>~next_callee_offset</emphasis>.
+          <emphasis>s2</emphasis> will be the <literal>SHAPE</literal> of the
+          subsequent <literal>CALLEES</literal> element, whose
+          <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will
+          include the set union of <literal>ALIGNMENT</literal>s appropriate
+          to the <emphasis>make_general_proc</emphasis> (as specified by
+          <emphasis>current_env</emphasis> ).</para>
       </sect2>
     </sect1>
   </chapter>
@@ -1156,27 +1161,44 @@
         standard function calls.</para>
       
       <simplelist type='horiz' columns='2'>
-        <member>
-          <emphasis>.Et~SQRT</emphasis>
-        </member>
+        <member><emphasis>.Et~SQRT</emphasis></member>
+
         <member>square root of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~<literal>EXP</literal></emphasis></member><member>exponential (<emphasis>e ** x</emphasis>) of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~LOG</emphasis></member><member>(natural) logarithm of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~LOG_10</emphasis></member><member>base 10 logarithm of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~LOG_2</emphasis></member><member>base 2 logarithm of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~SIN</emphasis></member><member>sine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~COS</emphasis></member><member>cosine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~TAN</emphasis></member><member>tangent of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ASIN</emphasis></member><member>inverse sine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ACOS</emphasis></member><member>inverse cosine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ATAN</emphasis></member><member>inverse (one argument) tangent of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ATAN2</emphasis></member><member>inverse (two arguments) tangent of any floating variety, excluding complex.</member>
+
         <member><emphasis>.Et~SINH</emphasis></member><member>hyperbolic sine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~COSH</emphasis></member><member>hyperbolic cosine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~TANH</emphasis></member><member>hyperbolic tangent of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ASINH</emphasis></member><member>inverse hyperbolic sine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ACOSH</emphasis></member><member>inverse hyperbolic cosine of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~ATANH</emphasis></member><member>inverse hyperbolic tangent of any floating variety, including complex.</member>
+
         <member><emphasis>.Et~MOD</emphasis></member><member>floating point remainder of any floating variety, excluding complex.</member>
       </simplelist>
     </sect1>
@@ -1256,8 +1278,6 @@
     <sect1>
       <title>Common exceptional cases</title>
     
-      <para> </para>
-      
       <sect2>
         <title><literal>ansi.setjmp.setjmp</literal></title>
         
