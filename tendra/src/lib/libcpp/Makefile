@@ -5,7 +5,7 @@
 CFLAGS=	-I${.CURDIR}/src
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
-		-Y${OBJ_PREFIX}/lib/env/${BUILD_OS}/common/${MACH_CPU}/default-build \
+		-Y${DEFAULT_BUILD} \
 		-Ydefault.extra \
 		-Yc++ \
 		-J${OBJ_PREFIX}/lib/apis/lib/cpp \
