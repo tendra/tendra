@@ -66,7 +66,7 @@
 
 <!ENTITY tm-attrib.hp "<para>HP-UX is a registered trademark of
   Hewlett-Packard Company.  <ulink url='http://www.hp.com'>http://www.hp.com</ulink></para>">
-<!ENTITY hpux "<trademark class='registered'>HP-UX</trademark">
+<!ENTITY hp-ux "<trademark class='registered'>HP-UX</trademark>">
 
 
 <!ENTITY tm-attrib.ibm "<para>IBM, PowerPC and AIX are
@@ -91,6 +91,13 @@
 <!ENTITY tm-attrib.netbsd "<para>NetBSD is a registered trademark of The NetBSD
   Foundation Inc.  <ulink url='http://www.netbsd.org'>http://www.netbsd.org</ulink></para>">
 <!ENTITY netbsd "<trademark class='registered'>NetBSD</trademark>">
+
+
+<!ENTITY tm-attrib.next "<para>NeXT is a registered trademark and NeXTSTEP is 
+  a trademark of NeXT Computer, Inc.  Please note that NeXT was purchased by 
+  Apple Computer, Inc.  <ulink url='http://www.apple.com/'>http://www.apple.com/</ulink></para>">
+<!ENTITY next "<trademark class='registered'>NeXT</trademark>">
+<!ENTITY nextstep "<trademark>NeXTSTEP</trademark>">
 
 
 <!ENTITY tm-attrib.openbsd "<para>OpenBSD is a registered trademark of Theo de
