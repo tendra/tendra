@@ -84,6 +84,7 @@
 #define issol86 0
 #define islinux 0
 #define isfreebsd 0
+#define isnetbsd 0
 #define isopenbsd 1
 #define remove_struct_ref 1
 
