@@ -1,0 +1,9 @@
+# $Id$
+
+# Check if the CC environment variable is set.
+check_cc()
+{
+	if [ "x$CC" = "x" ]; then
+		CC="cc"
+	fi
+}

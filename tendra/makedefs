@@ -31,6 +31,8 @@
 # The purpose of this script is to determine the host on which we are
 # compiling TenDRA and provide sane compilation defaults.
 
+. ./makedefs.funcs
+
 SYSTEM=`/usr/bin/env uname -s`
 VERSION=`/usr/bin/env uname -r`
 
@@ -54,19 +56,17 @@ fi
 case "${SYSTEM}.${VERSION}" in
 	DragonFly.1*)	# Use the system supplied GCC for CC.
 			# System definition is __DragonFly__
-			if [ "x$CC" = "x" ]; then
-				CC="cc"
-			fi
+			check_cc
 			OSVER="DRAGONFLY1"
 			;;
 	FreeBSD.4*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
-			CC="cc"
+			check_cc
 			OSVER="FREEBSD4"
 			;;
 	FreeBSD.5*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
-			CC="cc"
+			check_cc
 			OSVER="FREEBSD5"
 			;;
 	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
