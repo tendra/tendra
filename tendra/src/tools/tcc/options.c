@@ -128,8 +128,8 @@ optmap main_optmap[] = {
     { "-sym:$", "1CS|SDO-d$1=", "enables symbol table dump linking with flags" },
     { "-v", "1VB", "specifies verbose mode" },
     { "-vb", "1TC", "specifies fairly verbose mode" },
-    { "-vt", "1TT", "verbose information about tool chain invocation" },
     { "-ve", "1TE", "verbose information about tool chain environment" },
+    { "-vt", "1TT", "verbose information about tool chain invocation" },
 
     /* Options not allowed in checker */
     { "-J+$", "AUJ-L$1", "specifies a TDF library directory" },
