@@ -325,3 +325,21 @@
 +FUNC double trunc(double);
 +FUNC float truncf(float);
 +FUNC long double trunalc(long double);
+
+# 7.12.10.1
+
++FUNC double fmod(double, double);
++FUNC float fmodf(float, float);
++FUNC long double fmodl(long double, long double);
+
+# 7.12.10.2
+
++FUNC double remainder(double, double);
++FUNC float remainderf(float, float);
++FUNC long double remainderl(long double, long double);
+
+# 7.12.10.3
+
++FUNC double remquo(double, double, int *);
++FUNC float remquof(float, float, int *);
++FUNC long double remquol(long double, long double, int *);
