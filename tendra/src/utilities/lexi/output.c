@@ -378,7 +378,7 @@ output_all(void)
     fputs_v("#define LEX_EOF\t\t256\n", out);
     fputs_v("#endif\n\n", out);
     fputs_v("#define lookup_char(C)\t", out);
-    fputs_v("((int)lookup_tab[(C)] )\n", out);
+    fputs_v("((int)lookup_tab[(C)])\n", out);
     fputs_v("#define is_white(T)\t((T) & 0x0001)\n", out);
     for (n = 0; n < no_groups; n++) {
 	char *gnm = groups [n].name;
