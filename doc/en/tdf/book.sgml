@@ -1,6 +1,8 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc
 ]>
 
 <book>
@@ -174,7 +176,7 @@
         <listitem>
           <para>Use of installer-defined <literal>TOKEN</literal>s for
             accessing variable parameter lists - see the companion document
-            -XREF-register.htmlTDF Token Register (Revision 1).</para>
+            &doc.register;.</para>
         </listitem>
 
         <listitem>
@@ -547,7 +549,7 @@
             <literal>SORT</literal>s). This mechanism should only be used for
             extending standard TDF to the next standard, since otherwise
             extensions made by different groups of people might conflict with
-            each other. See -XREF-spec11.html#13Extendable integer
+            each other. See <xref linkend='bet-extendable-int-encoding'>Extendable integer
             encoding.</para>
         </listitem>
 
@@ -556,7 +558,7 @@
             unit. It also contains a mechanism for extending these so that other
             information can be transmitted in a capsule and properly related to
             basic TDF. The rules for linking this extra information are also laid
-            down. See -XREF-spec8.html#M53make_capsule.</para>
+            down. See <xref linkend='make-capsule'>make_capsule.</para>
 
           <para>If a new kind of unit is added, it can contain any information,
             but if it is to refer to the tags and tokens of other units it must
@@ -580,7 +582,7 @@
             TDF <literal>SORT</literal>s) can be supplied. This mechanism should
             only be used for the second purpose, though it could be used to
             experiment with extensions for future standards. See
-            -XREF-spec11.html#8<literal>BITSTREAM</literal>.</para>
+            <xref linkend='bet-bitstream'><literal>BITSTREAM</literal>.</para>
         </listitem>
       </itemizedlist>
     </sect1>
@@ -591,13 +593,12 @@
 
     <para>The following examples show how TDF constructs are described in this
       document. The first is the construct
-      -XREF-spec8.html#M282<emphasis>floating</emphasis>:</para>
+      <xref linkend='floating'><emphasis>floating</emphasis>:</para>
 <programlisting>
    <emphasis>fv</emphasis>:      FLOATING_VARIETY
   -&gt; SHAPE
   
 </programlisting>
-    c
 
     <para>The constructs' arguments (one in this case) precede the
       &quot;<emphasis>-&gt;</emphasis>&quot; and the result follows it. Each
@@ -623,7 +624,7 @@
       semantics. However, in the case of some constructs it is convenient to
       specify more information in the formal section. For example, the
       specification of the construct
-      -XREF-spec8.html#M116<emphasis>floating_negate</emphasis> not only states
+      <xref linkend='floating-negate'><emphasis>floating_negate</emphasis> not only states
       that it has an <literal>EXP</literal> argument and an
       <literal>EXP</literal> result:</para>
 <programlisting>
@@ -638,7 +639,7 @@
       floating point numbers of the same kind.</para>
 
     <para>Some construct's arguments are optional. This is denoted as follows
-      (from -XREF-spec8.html#M80<emphasis>apply_proc</emphasis>):</para>
+      (from <xref linkend='apply-proc'><emphasis>apply_proc</emphasis>):</para>
 <programlisting>
    <emphasis>result_shape</emphasis>:    SHAPE
 <emphasis>p</emphasis>:       EXP PROC
@@ -660,7 +661,7 @@
     <para>Some constructs' results are governed by the values of their
       arguments. This is denoted by the &quot;<literal>?</literal>&quot;
       formation shown in the specification of the
-      -XREF-spec8.html#M89<emphasis>case</emphasis> construct shown below:</para>
+      <xref linkend='case'><emphasis>case</emphasis> construct shown below:</para>
 <programlisting>
    <emphasis>exhaustive</emphasis>:  BOOL
 <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
@@ -678,7 +679,7 @@
       installers do not need to process one of the arguments of the
       <emphasis>x_cond</emphasis> constructs (where <emphasis>x</emphasis> stands
       for a <literal>SORT</literal>, e.g.
-      -XREF-spec8.html#M75<emphasis>exp_cond</emphasis>. Secondly, standard tools
+      <xref linkend='exp-cond'><emphasis>exp_cond</emphasis>. Secondly, standard tools
       might want to ignore embedded fragments of TDF adhering to some private
       standard. In these cases it is desirable for tools to be able to skip the
       irrelevant pieces of TDF. <literal>BITSTREAM</literal>s and
@@ -723,7 +724,7 @@
       <emphasis>tag</emphasis>, <emphasis>token</emphasis> etc.</para>
 
     <para>The bit encodings are also specified in this document. The details
-      are given in -XREF-spec11.html#0The bit encoding of TDF. This section
+      are given in <xref linkend='bit-encoding-tdf'>The bit encoding of TDF. This section
       describes the encoding in terms of information given with the descriptions
       of the <literal>SORT</literal>s and constructs.</para>
 
@@ -755,7 +756,7 @@
 
     <para>There may be a requirement that a component of a construct should
       start on a byte boundary in the encoding. This is denoted by inserting
-      -XREF-M13<literal>BYTE_ALIGN</literal> before the component
+      <xref linkend='standard-access'><literal>BYTE_ALIGN</literal> before the component
       <literal>SORT</literal>.</para>
   </chapter>
 
@@ -1236,7 +1237,7 @@
           <emphasis>control</emphasis>. Simultaneous equations defining
           <literal>ALIGNMENT</literal>s can then always be solved.</para>
 
-        <para>See -XREF-spec10.html#32Circular types in languages.</para>
+        <para>See <xref linkend='circular-types-in-lang'>Circular types in languages.</para>
       </sect2>
     </sect1>
 
@@ -1280,7 +1281,7 @@
       <para>An <literal>ALIGNMENT</literal> gives information about the layout
         of data in memory and hence is a parameter for the
         <literal>POINTER</literal> and <literal>OFFSET SHAPE</literal>s (see
-        -XREF-spec10.html#26Memory Model). This information consists of a set of
+        <xref linkend='memory-model'>Memory Model). This information consists of a set of
         elements.</para>
 
       <para>The possible values of the elements in such a set are
@@ -1656,8 +1657,8 @@
         addressing boundaries.</para>
 
       <para>There is no limit on the size of bitfield values in TDF, but an
-        installer may specify limits. See -XREF-spec10.html#66Representing
-        bitfields and -XREF-spec10.html#68Permitted limits.</para>
+        installer may specify limits. See <xref linkend='representing-bitfields'>Representing
+        bitfields and <xref linkend='permitted-limits'>Permitted limits.</para>
 
       <sect2 id='bfvar-apply-token'>
         <title>bfvar_apply_token</title>
@@ -1740,7 +1741,7 @@
         definition of this <literal>TOKEN</literal> available, this will provide
         the information needed to decode the bitstream.</para>
 
-      <para>See -XREF-spec11.html#17The TDF encoding.</para>
+      <para>See <xref linkend='bet-tdf-encoding'>The TDF encoding.</para>
     </sect1>
 
     <sect1 id='bool'>
@@ -1838,7 +1839,7 @@
         <literal>BITSTREAM</literal>, but is encoded to permit fast
         copying.</para>
 
-      <para>See -XREF-spec11.html#17The TDF encoding.</para>
+      <para>See <xref linkend='bet-tdf-encoding'>The TDF encoding.</para>
     </sect1>
 
     <sect1 id='callees'>
@@ -1957,14 +1958,14 @@
 
         <para><emphasis>make_capsule</emphasis> brings together
           <literal>UNIT</literal>s and linking and naming information. See
-          -XREF-spec5.html#2The Overall Structure.</para>
+          <xref linkend='overall-struct'>The Overall Structure.</para>
 
         <para>The elements of the list, <emphasis>prop_names</emphasis>,
           correspond one-to-one with the elements of the list,
           <emphasis>groups</emphasis>. The element of
           <emphasis>prop_names</emphasis> is the unit identification of all the
           <literal>UNIT</literal>s in the corresponding <literal>GROUP</literal>.
-          See -XREF-#M266<literal>PROPS</literal>. A <literal>CAPSULE</literal>
+          See <xref linkend='props'><literal>PROPS</literal>. A <literal>CAPSULE</literal>
           need not contain all the kinds of <literal>UNIT</literal>.</para>
 
         <para>It is intended that new kinds of <literal>PROPS</literal> with
@@ -2257,7 +2258,7 @@
           <emphasis>trap_list</emphasis> specifies a set of possible exceptional
           behaviours. If any of these occur in an construction with
           <literal>ERROR_TREATMENT</literal> <emphasis>trap</emphasis>, the TDF
-          exception handling is invoked (see -XREF-spec10.html#17section
+          exception handling is invoked (see <xref linkend='exceptions-and-jumps'>section
           7.8).</para>
 
         <para>The observations on canonical ordering in
@@ -2284,7 +2285,7 @@
           not one of <emphasis>mult, power, div0, div1, div2, rem0, rem1,
           rem2</emphasis>. The result will be evaluated and any bits in the
           result lying outside the representing <literal>VARIETY</literal> will
-          be discarded (see -XREF-spec10.html#51Representing integers).</para>
+          be discarded (see <xref linkend='representing-integers'>Representing integers).</para>
       </sect2>
 
       <sect2 id='impossible'>
@@ -2432,7 +2433,7 @@
           for the original pointer.</para>
 
         <para>In the simple representation of <literal>POINTER</literal>
-          arithmetic (see -XREF-spec10.html#26Memory Model) add_to_ptr is
+          arithmetic (see <xref linkend='memory-model'>Memory Model) add_to_ptr is
           represented by addition. The constraint &quot;x includes y&quot;
           ensures that no padding has to be inserted in this case.</para>
       </sect2>
@@ -2456,7 +2457,7 @@
           <literal>VARIETY</literal>. The result is delivered with the same
           <literal>SHAPE</literal> as the arguments.</para>
 
-        <para>See -XREF-spec10.html#51Representing integers.</para>
+        <para>See <xref linkend='representing-integers'>Representing integers.</para>
       </sect2>
 
       <sect2 id='apply-proc'>
@@ -2504,7 +2505,7 @@
           (<emphasis>&lt;stdarg.h&gt;</emphasis> or
           <emphasis>&lt;varargs.h&gt;</emphasis>) sense, which are communicated
           by extending the <emphasis>params</emphasis> list. This is discussed
-          further in -XREF-spec10.html#18section 7.9. If the number of arguments
+          further in <xref linkend='procedures'>section 7.9. If the number of arguments
           in the <emphasis>params</emphasis> list differs from the number of
           elements in the <emphasis>params_intro</emphasis> of the corresponding
           <emphasis>make_proc</emphasis>, then <emphasis>var_param</emphasis>
@@ -2514,7 +2515,7 @@
           <literal>SHAPE</literal>.</para>
 
         <para>For notes on the intended implementation of procedures see
-          -XREF-spec10.html#18section 7.9.</para>
+          <xref linkend='procedures'>section 7.9.</para>
       </sect2>
 
       <sect2 id='apple-general-proc'>
@@ -2669,8 +2670,8 @@
         <para>If the value delivered by <emphasis>arg1</emphasis> is a null
           pointer the effect is undefined.</para>
 
-        <para>See -XREF-spec10.html#48Overlapping and
-          -XREF-spec10.html#50Incomplete assignment.</para>
+        <para>See <xref linkend='Overlapping'>Overlapping and
+          <xref linkend='incomplete-assignment'>Incomplete assignment.</para>
 
         <para>The constraint &quot;x will include alignment(y)&quot; ensures in
           the simple memory model that no change is needed to the
@@ -2714,8 +2715,8 @@
         <para>If the value delivered by <emphasis>arg1</emphasis> is a null
           pointer the effect is undefined.</para>
 
-        <para>See -XREF-spec10.html#48Overlapping and
-          -XREF-spec10.html#50Incomplete assignment.</para>
+        <para>See <xref linkend='Overlapping'>Overlapping and
+          <xref linkend='incomplete-assignment'>Incomplete assignment.</para>
       </sect2>
 
       <sect2 id='bitfield-assign'>
@@ -2741,7 +2742,7 @@
 
         <para><emphasis>arg2</emphasis>,
           <literal>BITFIELD</literal>(<emphasis>v</emphasis>) will be
-          <emphasis>variety-enclosed</emphasis> (see -XREF-spec10.html#66section
+          <emphasis>variety-enclosed</emphasis> (see <xref linkend='representing-bitfields'>section
           7.24).</para>
       </sect2>
 
@@ -2775,7 +2776,7 @@
 
         <para><emphasis>arg2</emphasis>,
           <literal>BITFIELD</literal>(<emphasis>v</emphasis>) will be
-          <emphasis>variety-enclosed</emphasis>.(see -XREF-spec10.html#66section
+          <emphasis>variety-enclosed</emphasis>.(see <xref linkend='representing-bitfields'>section
           7.24).</para>
       </sect2>
 
@@ -2803,7 +2804,7 @@
 
         <para><emphasis>arg2</emphasis>,
           <literal>BITFIELD</literal>(<emphasis>v</emphasis>) will be
-          <emphasis>variety_enclosed</emphasis> (see -XREF-spec10.html#66section
+          <emphasis>variety_enclosed</emphasis> (see <xref linkend='representing-bitfields'>section
           7.24).</para>
       </sect2>
 
@@ -2839,7 +2840,7 @@
 
         <para><emphasis>arg2</emphasis>,
           <literal>BITFIELD</literal>(<emphasis>v</emphasis>) will be
-          <emphasis>variety_enclosed</emphasis> (see -XREF-spec10.html#66section
+          <emphasis>variety_enclosed</emphasis> (see <xref linkend='representing-bitfields'>section
           7.24).</para>
       </sect2>
 
@@ -2863,7 +2864,7 @@
           <emphasis>upper</emphasis>, for each element of
           <emphasis>branches</emphasis>. If this tests succeeds, control passes
           to the label <emphasis>branch</emphasis> belonging to that
-          <literal>CASELIM</literal> (see -XREF-#M56section 5.13). If
+          <literal>CASELIM</literal> (see <xref linkend='caselim'>section 5.13). If
           <emphasis>c</emphasis> lies between no pair, the construct delivers a
           value of <literal>SHAPE TOP</literal>. The order in which the
           comparisons are made is undefined.</para>
@@ -2921,7 +2922,7 @@
         <para>If there is a floating point error it is handled by
           <emphasis>flpt_err</emphasis>.</para>
 
-        <para>See -XREF-spec10.html#60Floating point errors.</para>
+        <para>See <xref linkend='floating-point-errors'>Floating point errors.</para>
       </sect2>
 
       <sect2 id='change-variety'>
@@ -3008,11 +3009,11 @@
           <emphasis>sha</emphasis>.</para>
 
         <para><emphasis>arg2</emphasis> will be a constant and non-negative
-          (see -XREF-spec10.html#7Constant evaluation).</para>
+          (see <xref linkend='constant-evaluation'>Constant evaluation).</para>
 
         <para>If <emphasis>sha</emphasis> is a <literal>BITFIELD</literal> then
           <emphasis>arg2</emphasis>, <emphasis>sha</emphasis> will be
-          <emphasis>variety_enclosed</emphasis> (see -XREF-spec10.html#66section
+          <emphasis>variety_enclosed</emphasis> (see <xref linkend='representing-bitfields'>section
           7.24).</para>
       </sect2>
 
@@ -3073,7 +3074,7 @@
           any obeyed part of <emphasis>alt</emphasis>. Note that this
           specifically includes any defined error handling.</para>
 
-        <para>For LUB see -XREF-spec10.html#70Least Upper Bound.</para>
+        <para>For LUB see <xref linkend='least-upper-bound'>Least Upper Bound.</para>
       </sect2>
 
       <sect2 id='contents'>
@@ -3193,7 +3194,7 @@
           the <literal>TAG</literal> used by <emphasis>env_offset</emphasis>,
           then the result is an original <literal>POINTER</literal>,
           notwithstanding the normal rules for <emphasis>add_to_ptr</emphasis>
-          (see -XREF-spec10.html#44Original pointers).</para>
+          (see <xref linkend='orig-pointers'>Original pointers).</para>
 
         <para>If an <literal>OFFSET</literal> produced by
           <emphasis>env_offset</emphasis> is added to such a pointer from an
@@ -3236,7 +3237,7 @@
         <para>Producers may assume that shifting and <emphasis>div0</emphasis>
           by a constant which is a power of two yield equally good code.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -3273,7 +3274,7 @@
         <para>Producers may assume that shifting and <emphasis>div1</emphasis>
           by a constant which is a power of two yield equally good code.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -3311,7 +3312,7 @@
           by a constant which is a power of two yield equally good code if the
           lower bound of <emphasis>v</emphasis> is zero.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -3367,7 +3368,7 @@
           <emphasis>y</emphasis> will be
           <emphasis>alignment</emphasis>(<emphasis>x</emphasis>).</para>
 
-        <para>See -XREF-spec10.html#19section 7.10.</para>
+        <para>See <xref linkend='frames'>section 7.10.</para>
       </sect2>
 
       <sect2 id='env-size'>
@@ -3435,7 +3436,7 @@
           will be zero.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
       </sect2>
 
@@ -3465,7 +3466,7 @@
 
         <para><emphasis>f</emphasis> will not be complex.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-div'>
@@ -3491,10 +3492,10 @@
           arguments.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-minus'>
@@ -3520,10 +3521,10 @@
           arguments.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-maximum'>
@@ -3547,7 +3548,7 @@
         <para>If <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
           incomparable, <emphasis>flpt_err</emphasis> will be invoked.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-minimum'>
@@ -3571,7 +3572,7 @@
         <para>If <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
           incomparable, <emphasis>flpt_err</emphasis> will be invoked.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-mult'>
@@ -3595,7 +3596,7 @@
           same <literal>SHAPE</literal> as the arguments.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
         <note>
@@ -3610,7 +3611,7 @@
           the value of that element. There will be at least one element in
           <emphasis>arg1</emphasis>.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-negate'>
@@ -3636,7 +3637,7 @@
           overflow it can give an invalid operand exception which is handled by
           <emphasis>flpt_err</emphasis>.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-plus'>
@@ -3660,7 +3661,7 @@
           <literal>SHAPE</literal> as the arguments.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
         <para>Note that separate floating_plus operations cannot in general be
@@ -3673,7 +3674,7 @@
           the value of that element. There will be at least one element in
           <emphasis>arg1</emphasis>.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-power'>
@@ -3694,10 +3695,10 @@
           given by <emphasis>arg2</emphasis>.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='floating-test'>
@@ -3737,10 +3738,10 @@
           <emphasis>prob</emphasis> is absent this probability is unknown.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
 
-        <para>See also -XREF-spec10.html#64Floating point accuracy.</para>
+        <para>See also <xref linkend='floating-point-accuracy'>Floating point accuracy.</para>
       </sect2>
 
       <sect2 id='goto'>
@@ -3831,7 +3832,7 @@
           evaluated shall be indistinguishable in all observable effects (apart
           from time) from completely evaluating <emphasis>definition</emphasis>
           before starting <emphasis>body</emphasis>. See the note about order in
-          -XREF-#M193sequence.</para>
+          <xref linkend='sequence'>sequence.</para>
       </sect2>
 
       <sect2 id='ignorable'>
@@ -3896,7 +3897,7 @@
         <para>The order of evaluation of the different
           <emphasis>initial_values</emphasis> in a program is undefined.</para>
 
-        <para>See -XREF-spec10.html#73section 7.29.</para>
+        <para>See <xref linkend='dynamic-init'>section 7.29.</para>
       </sect2>
 
       <sect2 id='integer-test'>
@@ -3972,7 +3973,7 @@
 
         <para>The <literal>SHAPE</literal> <emphasis>w</emphasis> is the LUB of
           <emphasis>x</emphasis> and all the <emphasis>places</emphasis>. See
-          -XREF-spec10.html#70Least Upper Bound.</para>
+          <xref linkend='least-upper-bound'>Least Upper Bound.</para>
 
         <para>The actual order of evaluation of the constituents shall be
           indistinguishable in all observable effects (apart from time) from that
@@ -4023,7 +4024,7 @@
           <emphasis>alloca_alignment</emphasis>, includes the set union of all
           the <literal>ALIGNMENT</literal>s which can be produced by
           <emphasis>alignment</emphasis> from any <literal>SHAPE</literal>. See
-          -XREF-spec10.html#34Special alignments.</para>
+          <xref linkend='special-alignments'>Special alignments.</para>
       </sect2>
 
       <sect2 id='local-alloc'>
@@ -4040,7 +4041,7 @@
 
         <para>The <emphasis>arg1</emphasis> expression is evaluated and space
           is allocated sufficient to hold a value of the given size.
-          -XREF-M339The result is an original pointer to this space.</para>
+          <anchor id='arg1-exp-eval'>The result is an original pointer to this space.</para>
 
         <para><emphasis>x</emphasis> will not consist entirely of bitfield
           alignments.</para>
@@ -4078,7 +4079,7 @@
           <emphasis>local_alloc</emphasis> is inlined, it may be necessary to use
           <emphasis>local_free</emphasis> to get the correct semantics.</para>
 
-        <para>See also -XREF-spec10.html#22section 7.12.</para>
+        <para>See also <xref linkend='alloca'>section 7.12.</para>
       </sect2>
 
       <sect2 id='local-alloc-check'>
@@ -4095,7 +4096,7 @@
 
         <para>If the <literal>OFFSET</literal> <emphasis>arg1</emphasis> can be
           accomodated within the limit of the local_alloc stack (see
-          -XREF-#M130section 5.16.108), the action is precisely the same as
+          <xref linkend='local-alloc'>section 5.16.108), the action is precisely the same as
           <emphasis>local_alloc</emphasis>.</para>
 
         <para>If not, normal action is stopped and a TDF exception is raised
@@ -4239,7 +4240,7 @@
           <emphasis>z</emphasis><emphasis>k</emphasis>.</para>
 
         <para><emphasis>arg1</emphasis> will be a constant non-negative
-          <literal>OFFSET</literal>, see -XREF-#M169offset_pad.</para>
+          <literal>OFFSET</literal>, see <xref linkend='offset-pad'>offset_pad.</para>
 
         <para>The values <emphasis>x</emphasis>[2 * <emphasis>k</emphasis> - 1]
           will be such that the components when in place either do not overlap or
@@ -4257,7 +4258,7 @@
         <para>If <emphasis>x[2 * k]</emphasis> is a <literal>BITFIELD</literal>
           then <emphasis>x[2 * k - 1]</emphasis>, <emphasis>shape(x[2 *
           k])</emphasis> will be <emphasis>variety-enclosed</emphasis> (see
-          -XREF-spec10.html#66section 7.24).</para>
+          <xref linkend='representing-bitfields'>section 7.24).</para>
       </sect2>
 
       <sect2 id='make-floating'>
@@ -4393,7 +4394,7 @@
           <emphasis>long_jump</emphasis>.</para>
 
         <para>For notes on the intended implementation of procedures see
-          -XREF-spec10.html#18section 7.9.</para>
+          <xref linkend='procedures'>section 7.9.</para>
       </sect2>
 
       <sect2 id='make-int'>
@@ -4572,7 +4573,7 @@
 
         <para>If <emphasis>var_intro</emphasis> is present, it may be used for
           one of two purposes, with different consequences for corresponding uses
-          of <emphasis>apply_proc</emphasis>. See -XREF-spec10.html#18section
+          of <emphasis>apply_proc</emphasis>. See <xref linkend='procedures'>section
           7.9. The <literal>ALIGNMENT</literal>,
           <emphasis>var_param_alignment</emphasis>, includes the set union of all
           the <literal>ALIGNMENT</literal>s which can be produced by
@@ -4620,7 +4621,7 @@
           <emphasis>result_shape</emphasis>.</para>
 
         <para>For notes on the intended implementation of procedures see
-          -XREF-spec10.html#18section 7.9.</para>
+          <xref linkend='procedures'>section 7.9.</para>
       </sect2>
 
       <sect2 id='make-stack-limit'>
@@ -4804,7 +4805,7 @@
           <emphasis>y</emphasis> will include <emphasis>z</emphasis>.</para>
 
         <para><emphasis>sz</emphasis> will be a non-negative
-          <literal>OFFSET</literal>, see -XREF-#M169offset_pad.</para>
+          <literal>OFFSET</literal>, see <xref linkend='offset-pad'>offset_pad.</para>
 
         <para>If the spaces of size <emphasis>sz</emphasis> to which
           <emphasis>p1</emphasis> and <emphasis>p2</emphasis> point do not lie
@@ -4816,7 +4817,7 @@
           <emphasis>arg2</emphasis> is a null pointer the effect is
           undefined.</para>
 
-        <para>See -XREF-spec10.html#48Overlapping.</para>
+        <para>See <xref linkend='Overlapping'>Overlapping.</para>
       </sect2>
 
       <sect2 id='mult'>
@@ -4912,7 +4913,7 @@
           the construct, with the same <literal>SHAPE</literal> as the
           arguments.</para>
 
-        <para>See -XREF-spec10.html#51Representing integers.</para>
+        <para>See <xref linkend='representing-integers'>Representing integers.</para>
       </sect2>
 
       <sect2 id='obtain-tag'>
@@ -5030,7 +5031,7 @@
           is the maximum of these <literal>OFFSET</literal>s, as an
           <literal>OFFSET</literal>.</para>
 
-        <para>See -XREF-spec10.html#31Comparison of pointers and
+        <para>See <xref linkend='comparision-of-pointers-and-offsets'>Comparison of pointers and
           offsets.</para>
 
         <para>In the simple memory model this operation is represented by
@@ -5225,7 +5226,7 @@
           result of the construct, with the same <literal>SHAPE</literal> as the
           arguments.</para>
 
-        <para>See -XREF-spec10.html#51Representing integers.</para>
+        <para>See <xref linkend='representing-integers'>Representing integers.</para>
       </sect2>
 
       <sect2 id='plus'>
@@ -5447,7 +5448,7 @@
           <emphasis>rem0</emphasis> by a power of two yield equally good
           code.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -5487,7 +5488,7 @@
           <emphasis>rem1</emphasis> by a power of two yield equally good
           code.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -5527,7 +5528,7 @@
           <emphasis>rem2</emphasis> by a power of two yield equally good code if
           the lower bound of <emphasis>v</emphasis> is zero.</para>
 
-        <para>See -XREF-spec10.html#10Division and modulus for the definitions
+        <para>See <xref linkend='division-modulus'>Division and modulus for the definitions
           of D1, D2, M1 and M2.</para>
       </sect2>
 
@@ -5637,7 +5638,7 @@
           the real part of <emphasis>arg1</emphasis>.</para>
 
         <para>If there is a floating point error it is handled by
-          <emphasis>flpt_err</emphasis>. See -XREF-spec10.html#60Floating point
+          <emphasis>flpt_err</emphasis>. See <xref linkend='floating-point-errors'>Floating point
           errors.</para>
       </sect2>
 
@@ -5999,7 +6000,7 @@
           and <emphasis>body</emphasis> are evaluated shall be indistinguishable
           in all observable effects (apart from time) from completely evaluating
           <emphasis>init</emphasis> before starting <emphasis>body</emphasis>.
-          See the note about order in -XREF-#M193sequence.</para>
+          See the note about order in <xref linkend='sequence'>sequence.</para>
 
         <para>When compiling languages which permit uninitialised variable
           declarations, <emphasis>make_value</emphasis> may be used to provide an
@@ -6026,7 +6027,7 @@
           result of the construct, with the same <literal>SHAPE</literal> as the
           arguments.</para>
 
-        <para>See -XREF-spec10.html#51Representing integers.</para>
+        <para>See <xref linkend='representing-integers'>Representing integers.</para>
       </sect2>
     </sect1>
 
@@ -7124,7 +7125,7 @@
         same kind.</para>
 
       <para>In addition there is a <emphasis>tld</emphasis>
-        <literal>UNIT</literal>, see -XREF-spec11.html#17The TDF encoding.</para>
+        <literal>UNIT</literal>, see <xref linkend='bet-tdf-encoding'>The TDF encoding.</para>
     </sect1>
 
     <sect1 id='rounding-mode'>
@@ -7331,7 +7332,7 @@
         <para>A <literal>BITFIELD</literal> is used to represent a pattern of
           bits which will be packed, provided that the
           <emphasis>variety_enclosed</emphasis> constraints are not violated.
-          (see See -XREF-spec10.html#66section 7.24)</para>
+          (see See <xref linkend='representing-bitfields'>section 7.24)</para>
 
         <para>A <literal>BITFIELD_VARIETY</literal> specifies the number of
           bits and whether they are considered to be signed.</para>
@@ -7341,7 +7342,7 @@
           arithmetic can be performed on them.</para>
 
         <para>An installer may place a limit on the number of bits it
-          implements. See -XREF-spec10.html#68Permitted limits.</para>
+          implements. See <xref linkend='permitted-limits'>Permitted limits.</para>
       </sect2>
 
       <sect2 id='bottom'>
@@ -7388,7 +7389,7 @@
           <emphasis>sy</emphasis>.</para>
 
         <para><emphasis>sz</emphasis> will evaluate to a constant, non-negative
-          <literal>OFFSET</literal> (see -XREF-#M169offset_pad). The resulting
+          <literal>OFFSET</literal> (see <xref linkend='offset-pad'>offset_pad). The resulting
           <literal>SHAPE</literal> describes a value whose size is given by
           <emphasis>sz</emphasis>.</para>
       </sect2>
@@ -7412,11 +7413,11 @@
           the arguments have to be of the same kind, and the result is of the
           same kind.</para>
 
-        <para>See -XREF-spec10.html#57Representing floating point.</para>
+        <para>See <xref linkend='representing-floating-point'>Representing floating point.</para>
 
         <para>An installer may limit the <literal>FLOATING_VARIETY</literal>s
           it can represent. A statement of any such limits shall be part of the
-          specification of an installer. See -XREF-spec10.html#57Representing
+          specification of an installer. See <xref linkend='representing-floating-point'>Representing
           floating point.</para>
       </sect2>
 
@@ -7468,7 +7469,7 @@
           target-defined.</para>
 
         <para>A particular installer may limit the ranges of integers that it
-          implements. See -XREF-spec10.html#51Representing integers.</para>
+          implements. See <xref linkend='representing-integers'>Representing integers.</para>
       </sect2>
 
       <sect2 id='nof'>
@@ -7527,7 +7528,7 @@
         <para>The set <emphasis>arg1</emphasis> will include the set
           <emphasis>arg2</emphasis>.</para>
 
-        <para>See -XREF-spec10.html#26Memory Model.</para>
+        <para>See <xref linkend='memory-model'>Memory Model.</para>
       </sect2>
 
       <sect2 id='pointer'>
@@ -7546,7 +7547,7 @@
           allocated in a computer's memory. The <literal>POINTER</literal>
           constructor takes an <literal>ALIGNMENT</literal> argument. This
           argument will not consist entirely of
-          <literal>BITFIELD_VARIETY</literal>s. See -XREF-spec10.html#26Memory
+          <literal>BITFIELD_VARIETY</literal>s. See <xref linkend='memory-model'>Memory
           Model.</para>
       </sect2>
 
@@ -8179,7 +8180,7 @@
         <para>If two <emphasis>make_id_tagdecs</emphasis> specify the same tag
           and both have <emphasis>signatures</emphasis> present, the strings will
           be identical. Possible uses of this signature argument are outlined in
-          -XREF-spec10.html#72section 7.28.</para>
+          <xref linkend='tag-token-signatures'>section 7.28.</para>
       </sect2>
 
       <sect2 id='make-var-tagdec'>
@@ -8218,7 +8219,7 @@
         <para>If two <emphasis>make_var_tagdec</emphasis>s specify the same tag
           and both have <emphasis>signature</emphasis> present, the strings will
           be identical. Possible uses of this signature argument are outlined in
-          -XREF-spec10.html#72section 7.28.</para>
+          <xref linkend='tag-token-signatures'>section 7.28.</para>
       </sect2>
 
       <sect2 id='common-tagdec'>
@@ -8297,7 +8298,7 @@
         <para>If two <emphasis>common_tagdecs</emphasis> specify the same tag
           and both have <emphasis>signatures</emphasis> present, the strings will
           be identical. Possible uses of this signature argument are outlined in
-          -XREF-spec10.html#72section 7.28.</para>
+          <xref linkend='tag-token-signatures'>section 7.28.</para>
       </sect2>
     </sect1>
 
@@ -8365,7 +8366,7 @@
 
         <para><emphasis>e</emphasis> will be a constant which can be evaluated
           at load_time or <emphasis>e</emphasis> will be some
-          <emphasis>initial_value</emphasis>(E) (see -XREF-#M125section
+          <emphasis>initial_value</emphasis>(E) (see <xref linkend='initial-value'>section
           5.16.48).</para>
 
         <para><emphasis>t</emphasis> will be declared in the
@@ -8418,7 +8419,7 @@
         <para><emphasis>e</emphasis> will be a constant which can be evaluated
           at load_time or <emphasis>e</emphasis> will be some
           <emphasis>initial_value</emphasis>(<emphasis>e1</emphasis>) (see
-          -XREF-#M125section 5.16.48).</para>
+          <xref linkend='initial-value'>section 5.16.48).</para>
 
         <para><emphasis>t</emphasis> will be declared in the
           <literal>CAPSULE</literal> using <emphasis>make_var_tagdec</emphasis>.
@@ -8463,7 +8464,7 @@
 
         <para><emphasis>e</emphasis> will be a constant evaluable at load_time
           or <emphasis>e</emphasis> will be some
-          <emphasis>initial_value</emphasis>(E) (see -XREF-#M125section 5.16.48
+          <emphasis>initial_value</emphasis>(E) (see <xref linkend='initial-value'>section 5.16.48
           ).</para>
 
         <para><emphasis>t</emphasis> will be declared in the
@@ -8474,7 +8475,7 @@
           <emphasis>signatures</emphasis> present, the string.</para>
 
         <para>will be identical. Let the maximum <literal>SHAPE</literal> of
-          these (see -XREF-#M331common_tagdec) be <emphasis>s</emphasis>.</para>
+          these (see <xref linkend='common-tagdec'>common_tagdec) be <emphasis>s</emphasis>.</para>
 
         <para>There may be any number of <emphasis>common_tagdef</emphasis>
           definitions for <emphasis>t</emphasis> in a <literal>CAPSULE</literal>.
@@ -8601,7 +8602,7 @@
       <title>TDFBOOL</title>
 
       <para>A <literal>TDFBOOL</literal> is the TDF encoding of a boolean. See
-        -XREF-spec11.html#4Fundamental encoding.</para>
+        <xref linkend='bet-findamental-encodings'>Fundamental encoding.</para>
     </sect1>
 
     <sect1 id='tdfident'>
@@ -8611,7 +8612,7 @@
         <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis>
         unsigned integers of size <emphasis>k</emphasis> bits.
         <emphasis>k</emphasis> will be a multiple of 8. See
-        -XREF-spec11.html#4Fundamental encoding.</para>
+        <xref linkend='bet-findamental-encodings'>Fundamental encoding.</para>
 
       <para>This construction will not be used inside a
         <literal>BITSTREAM</literal>.</para>
@@ -8621,7 +8622,7 @@
       <title>TDFINT</title>
 
       <para>A <literal>TDFINT</literal> is the TDF encoding of an unbounded
-        unsigned integer constant. See -XREF-spec11.html#4Fundamental
+        unsigned integer constant. See <xref linkend='bet-findamental-encodings'>Fundamental
         encoding.</para>
     </sect1>
 
@@ -8631,7 +8632,7 @@
       <para>A <literal>TDFSTRING</literal>(<emphasis>k</emphasis>,
         <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis>
         unsigned integers of size <emphasis>k</emphasis> bits. See
-        -XREF-spec11.html#4Fundamental encoding.</para>
+        <xref linkend='bet-findamental-encodings'>Fundamental encoding.</para>
     </sect1>
 
     <sect1 id='tokdec'>
@@ -8671,7 +8672,7 @@
         <para>If two <emphasis>make_tokdecs</emphasis> specify the same token
           and both have <emphasis>signatures</emphasis> present, the strings will
           be identical. Possible uses of this signature argument are outlined in
-          -XREF-spec10.html#72section 7.28.</para>
+          <xref linkend='tag-token-signatures'>section 7.28.</para>
       </sect2>
     </sect1>
 
@@ -8734,7 +8735,7 @@
           <emphasis>token</emphasis>. The <literal>SORT</literal> of the result,
           <emphasis>result_sort</emphasis>, is given by the first component of
           the <literal>BITSTREAM</literal>. See
-          -XREF-#M362token_definition.</para>
+          <xref linkend='token-definition'>token_definition.</para>
 
         <para>If <emphasis>signature</emphasis> is present, it will be produced
           by <emphasis>make_string</emphasis>.</para>
@@ -9079,7 +9080,7 @@
           were copied from the source to an independent place and thence to the
           destination.</para>
 
-        <para>See -XREF-spec10.html#48Overlapping.</para>
+        <para>See <xref linkend='Overlapping'>Overlapping.</para>
       </sect2>
 
       <sect2 id='standard-transfer-mode'>
@@ -9225,7 +9226,7 @@
 
         <para>The <emphasis>properties</emphasis> will be a
           <literal>PROPS</literal> of a form dictated by the unit identification,
-          see -XREF-#M53make_capsule.</para>
+          see <xref linkend='make-capsule'>make_capsule.</para>
 
         <para>The length of <emphasis>lks</emphasis> will be either 0 or equal
           to the length of <emphasis>cap_linking</emphasis> in
@@ -9248,7 +9249,7 @@
         (inclusive at both ends).</para>
 
       <para>There is no limitation on the magnitude of these bounds in TDF, but
-        an installer may specify limits. See -XREF-spec10.html#51Representing
+        an installer may specify limits. See <xref linkend='representing-integers'>Representing
         integers.</para>
 
       <sect2 id='var-apply-token'>
@@ -9608,7 +9609,7 @@
         <emphasis>tagdef</emphasis> <literal>UNIT</literal>s, or values may be
         supplied by linking.</para>
 
-      <para>-XREF-M3-XREF-M4-XREF-M5The following constructions introduce
+      <para>The following constructions introduce
         <literal>LABEL</literal>s: <emphasis>conditional</emphasis>,
         <emphasis>repeat</emphasis>, <emphasis>labelled</emphasis>.</para>
 
@@ -9910,7 +9911,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         with some TDF libraries.</para>
 
       <para>These tokens are specified in more detail in the companion
-        document, -XREF-register.htmlTDF Token Register.</para>
+        document, &doc.register;.</para>
     </sect1>
 
     <sect1 id='procedures'>
@@ -9947,7 +9948,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         their <emphasis>var_param</emphasis> option present. The body of the
         <emphasis>make_proc</emphasis> can access the additional params by using
         installer-defined <literal>TOKEN</literal>s specified in the companion
-        document -XREF-register.htmlTDF Token Register, analogous to the use of
+        document &doc.register;, analogous to the use of
         variable argument lists in C. A local variable <emphasis>v</emphasis> of
         shape <emphasis>~va_list</emphasis> must be initialised to
         <emphasis>~__va_start</emphasis>(<emphasis>p</emphasis>), where
@@ -10008,7 +10009,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         <emphasis>result_shape</emphasis> in an <emphasis>apply_proc</emphasis>
         or <emphasis>apply_general_proc</emphasis>.</para>
 
-      <para>-XREF-S392</para>
+      <para><xref linkend='frames'></para>
     </sect1>
 
     <sect1 id='frames'>
@@ -10139,13 +10140,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         of all the <literal>ALIGNMENT</literal>s which can be produced by
         <emphasis>alignment</emphasis> from any <literal>SHAPE</literal>.</para>
 
-      <para>-XREF-M24-XREF-M25The use of <emphasis>alloca_alignment</emphasis>
+      <para><xref linkend='alignment-apply-token'><xref linkend='alignment-cond'>The use of <emphasis>alloca_alignment</emphasis>
         arises so that the <emphasis>alloca</emphasis> stack can hold any kind of
         value. The sizes of spaces allocated must be rounded up to the
         appropriate <literal>ALIGNMENT</literal>. Since this includes all value
         <literal>ALIGNMENT</literal>s a value of any <literal>ALIGNMENT</literal>
         can be assigned into this space. Note that there is no necessary relation
-        with the special frame alignments (see -XREF-#19section 7.10) though they
+        with the special frame alignments (see <xref linkend='frames'>section 7.10) though they
         must both contain all the <literal>ALIGNMENT</literal>s which can be
         produced by <emphasis>alignment</emphasis> from any
         <literal>SHAPE</literal>.</para>
@@ -10384,7 +10385,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         <para>The comparison of <literal>OFFSET</literal>s is reduced to the
           definition of <emphasis>offset_max</emphasis> and the equality of
           <literal>OFFSET</literal>s by the note in
-          -XREF-spec8.html#M172offset_test.</para>
+          <xref linkend='offset-test'>offset_test.</para>
       </sect2>
 
       <sect2 id='circular-types-in-lang'>
@@ -10425,7 +10426,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           nor need there be any relation between them.</para>
 
         <para>In particular they are not equal (in the sense of
-          -XREF-#15Equality of <literal>ALIGNMENT</literal>s).</para>
+          <xref linkend='equality-of-align'>Equality of <literal>ALIGNMENT</literal>s).</para>
 
         <para>Each of these five refer to alignments of various components of a
           frame.</para>
@@ -10496,7 +10497,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         order.</para>
 
       <para>Note that the rule specifying when error_jumps or traps are to be
-        taken (-XREF-spec8.html#M68<emphasis>error_jump</emphasis>) relaxes the
+        taken (<xref linkend='error-jump'><emphasis>error_jump</emphasis>) relaxes the
         strict rule that everything has to be &quot;as if&quot; completed by the
         end of certain constructions. Without this rule pipelines would have to
         stop at such points, in order to be sure of processing any errors. Since
@@ -10518,14 +10519,14 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
 
       <para>A null pointer is counted as an original pointer.</para>
 
-      <para>-XREF-M47If procedures are called which come from outside the TDF
+      <para><xref linkend='callees'>If procedures are called which come from outside the TDF
         world (such as <emphasis>calloc</emphasis>) it is part of their interface
         with TDF to state if they produce original pointers, and what is the
         lifetime of the pointer.</para>
 
       <para>As a special case, original pointers can be produced by using
         <emphasis>current_env</emphasis> and <emphasis>env_offset</emphasis> (see
-        -XREF-spec8.html#M101<emphasis>current_env</emphasis>).</para>
+        <xref linkend='current-env'><emphasis>current_env</emphasis>).</para>
 
       <para>Note that:</para>
 <programlisting>
@@ -11072,11 +11073,11 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
 
     <para>This is a description of the encoding used for TDF.</para>
 
-    <para>-XREF-#1Section 8.1 defines the basic level of encoding, in which
+    <para><xref linkend='bet-basic-encoding'>Section 8.1 defines the basic level of encoding, in which
       integers consisting of a specified number of bits are appended to the
-      sequence of bytes. -XREF-#4Section 8.2 defines the second level of
+      sequence of bytes. <xref linkend='bet-findamental-encodings'>Section 8.2 defines the second level of
       encoding, in which fundamental kinds of value are encoded in terms of
-      integers of specified numbers of bits. -XREF-#17Section 8.4 defines the
+      integers of specified numbers of bits. <xref linkend='bet-tdf-encoding'>Section 8.4 defines the
       third level, in which TDF is encoded using the previously defined
       concepts.</para>
 
@@ -11282,7 +11283,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         </listitem>
 
         <listitem>
-          <para>-XREF-M18If the number of encoding bits,
+          <para><xref linkend='make-al-tag'>If the number of encoding bits,
             <emphasis>b</emphasis>, is not zero the <literal>SORT</literal> is
             described as extendable or as not extendable. For each construction
             there is an encoding number given. If the <literal>SORT</literal> is
@@ -11294,7 +11295,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         </listitem>
 
         <listitem>
-          <para>-XREF-M21For the classes which are named
+          <para><xref linkend='al-tagdef-props'>For the classes which are named
             <literal>SLIST</literal>(<emphasis>x</emphasis>) - e.g.
             <literal>SLIST</literal>(<literal>UNIT</literal>) - the encoding
             consists of a <literal>TDFINT</literal>, <emphasis>n</emphasis>,
@@ -11303,7 +11304,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         </listitem>
 
         <listitem>
-          <para>-XREF-M22For the classes which are named
+          <para><xref linkend='make-al-tagdefs'>For the classes which are named
             <literal>LIST</literal>(<emphasis>x</emphasis>) - e.g.
             <literal>LIST</literal>(<literal>EXP</literal>) - the encoding
             consists of a 1-bit integer which will be 0, followed by an
@@ -11313,7 +11314,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         </listitem>
 
         <listitem>
-          <para>-XREF-M23-XREF-M24For the classes which are named
+          <para><xref linkend='alloca'><xref linkend='alignment-apply-token'>For the classes which are named
             <literal>OPTION</literal>( <emphasis>x</emphasis>) the encoding
             consists of a 1-bit basic integer. If this is zero, the option is
             absent and there is no more encoding. If the integer is 1, the option
