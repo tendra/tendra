@@ -340,12 +340,12 @@ main(int argc, char **argv)
 		case 'g':
 			flpt_always_comparable = 1;
 			break;
-		case 'h':
-			no_bss = 1;
-			break;
 		case 'i':
 			print_inlines = 1;
 			break;
+        case 'j':
+            no_bss = 1;
+            break;
 #if islinux
 		case 'k':
 			set_linux_format (s[2] == '1');
