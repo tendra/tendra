@@ -1051,9 +1051,9 @@ evaluated(exp e, int l)
     if (as_file){
 #if DO_SCHEDULE
       outline = (char*)xcalloc(20,sizeof(char));
-      (void)sprintf(outline, "\t.sdata\n");
+      (void)sprintf(outline, "\t" SDATA_INSTR "\n");
 #else
-      (void)fprintf (as_file, "\t.sdata\n");
+      (void)fprintf (as_file, "\t" SDATA_INSTR "\n");
 #endif
     }
 #if DO_SCHEDULE

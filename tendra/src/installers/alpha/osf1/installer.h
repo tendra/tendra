@@ -138,6 +138,7 @@
 
 #define HAS_MAGIC 1
 
+#define SDATA_INSTR ".sdata"
 #define VERSION_INSTR ".verstamp %d %d"
 
 #define USAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
