@@ -271,3 +271,42 @@
 +FUNC double tgamma(double);
 +FUNC float tgammaf(float);
 +FUNC long double tgammal(long double);
+
+# 7.12.9.1
+
++FUNC double ceil(double);
++FUNC float ceilf(float);
++FUNC long double ceill(long double);
+
+# 7.12.9.2
+
++FUNC double floor(double);
++FUNC float floorf(float);
++FUNC long double floorl(long double);
+
+# 7.12.9.3
+
++FUNC double nearbyint(double);
++FUNC float nearbyintf(float);
++FUNC long double nearbyintl(long double);
+
+# 7.12.9.4
+
++FUNC double rint(double);
++FUNC float rintf(float);
++FUNC long double rintl(long double);
+
+# 7.12.9.5
+
++FUNC double lint(double);
++FUNC float lrintf(float);
++FUNC long double lrintl(long double);
++FUNC double llrint(double);
++FUNC float llrintf(float);
++FUNC long double llrintl(long double);
+
+# 7.12.9.6
+
++FUNC double round(double);
++FUNC float roundf(float);
++FUNC long double roundl(long double);
