@@ -4,14 +4,19 @@
 
 SCR2PNG?=	${PREFIX}/bin/scr2png
 SCR2PNGOPTS?=	${SCR2PNGFLAGS}
+
 EPS2PNG?=	${PREFIX}/bin/peps
 EPS2PNGOPTS?=	-p -r ${EPS2PNG_RES} ${EPS2PNGFLAGS}
+
 PNGTOPNM?=	${PREFIX}/bin/pngtopnm
 PNGTOPNMOPTS?=	${PNGTOPNMFLAGS}
+
 PNMTOPS?=	${PREFIX}/bin/pnmtops
 PNMTOPSOPTS?=	-noturn ${PNMTOPSFLAGS}
+
 EPSTOPDF?=	${PREFIX}/bin/epstopdf
 EPSTOPDFOPTS?=	${EPSTOPDFFLAGS}
+
 PS2EPS?=	${PREFIX}/bin/ps2epsi
 PIC2PS?=	${GROFF} -p -S -Wall -mtty-char -man 
 TGIF?=		/usr/X11R6/bin/tgif
