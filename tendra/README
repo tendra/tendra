@@ -115,6 +115,10 @@ executing make:
 
 	$ make
 
+When compilation is done follow up with:
+
+	$ make install
+
 
 KNOWN INSTALLATION PROBLEMS
 ---------------------------
