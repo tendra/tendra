@@ -29,12 +29,12 @@
   <chapter id="introduction">
     <title>Introduction</title>
   
-    <para>This document describes a tool, <productname>calculus</productname>,
+    <para>This document describes a tool, <command>calculus</command>,
       which allows complex type systems to be described in a simple algebraic
       format, and transforms this into a system of C types which implements
       this algebra.</para>
   
-    <para><productname>calculus</productname> was initially written as a
+    <para><command>calculus</command> was initially written as a
       design tool for use with the TenDRA C and C++ producers. The producers'
       internal datatypes reflect the highly complex interdependencies between
       the C and C++ language concepts (types, expressions and so on) which
@@ -67,7 +67,7 @@
     <sect1 id="Options">
       <title>1.1. Using calculus</title>
   
-      <para>The general form for invoking <productname>calculus</productname>
+      <para>The general form for invoking <command>calculus</command>
         is as follows:
         <command>calculus<optional><option>options</option></optional>
         <option>input</option> ....
@@ -93,7 +93,7 @@
         described in the following section.</para>
   
       <para>Note that it is necessary to check any program written using
-        <productname>calculus</productname> against the <code>#pragma
+        <command>calculus</command> against the <code>#pragma
         token</code> version of the specification in order to get the full
         benefits of the rigorous type checking provided by the tool. Some
         sections of the program (if only the <link linkend="COutputSupport">basic
@@ -104,9 +104,9 @@
     <sect1 id="Example">
       <title>1.2. Example program</title>
 
-      <para>The program <productname>calculus</productname> itself was written
+      <para>The program <command>calculus</command> itself was written
         using a type system specified using the
-        <productname>calculus</productname> tool. It is designed to provide an
+        <command>calculus</command> tool. It is designed to provide an
         example of its own application, with some features not strictly
         necessary for the functionality of the program being added for
         illustrative purposes.</para>
@@ -423,7 +423,7 @@
       <title>2.7. Relations between algebras</title>
   
       <para>As <link linkend="Options">mentioned above</link>, more than one input
-        algebra may be specified to <productname>calculus</productname>. Each
+        algebra may be specified to <command>calculus</command>. Each
         is processed separately, and output is generated for only one. By
         default this is the last algebra processed, however a specific algebra
         can be specified using the command-line option
@@ -454,7 +454,7 @@
     <title>Output type system specification</title>
   
     <para>In this section we document the basic output of
-      <productname>calculus</productname>. Two forms of the output can be
+      <command>calculus</command>. Two forms of the output can be
       generated - a description of the output specification in terms of the
       TenDRA <code>#pragma token</code> constructs, and the actual C code
       which implements these tokens.</para>
@@ -508,7 +508,7 @@
         type <i>t</i> respectively. (It is possible to suppress all constructs
         involving <code>VEC</code> or <code>VEC_PTR</code> by passing the
         <code>-x</code> command-line option to
-        <productname>calculus</productname>. Similarly <code>STACK</code>
+        <command>calculus</command>. Similarly <code>STACK</code>
         constructs may be suppressed using <code>-z</code>.)</para>
   
       <para>These constructors can be applied to any type, although in
@@ -1273,7 +1273,7 @@
       </programlisting>needs to be defined.</para>
   
       <para>Examples of these support routines can be found in the
-        <link linkend="Example"><productname>calculus</productname> program</link>
+        <link linkend="Example"><command>calculus</command> program</link>
         itself.</para>
     </sect1>
 
@@ -1281,11 +1281,11 @@
       <title>4.3. Run-time checking</title>
   
       <para>The type checking facilities supported by
-        <productname>calculus</productname> allow for compile-time detection
+        <command>calculus</command> allow for compile-time detection
         of many potential programming errors, however there are many problems,
         such as dereferencing null pointers, deconstructing empty lists and
         union tag errors which can only be detected at run-time. For this
-        reason <productname>calculus</productname> can be made to add extra
+        reason <command>calculus</command> can be made to add extra
         assertions to check for such errors into its output. This is done by
         specifying the <code>-a</code> command-line option.</para>
   
@@ -1316,7 +1316,7 @@
     <para>The disk reading and writing routines are output into the files
       <filename>read_def.h</filename> and <filename>write_def.h</filename>
       respectively if the <option>-d</option> command-line option is passed to
-      <productname>calculus</productname>. The object printing routines are
+      <command>calculus</command>. The object printing routines are
       output if the <option>-p</option> option is given, with additional code
       designed for use with run-time debuggers being added if the
       <option>-a</option> option is also given.</para>
@@ -1449,12 +1449,12 @@
   
       <para>One application of these object printing routines is to aid
         debugging programs written using the
-        <productname>calculus</productname> tool.  The form of the type system
+        <command>calculus</command> tool.  The form of the type system
         implementation means that it is not easy to extract information using
         run-time debuggers without a detailed knowledge of the structure of
         this implementation. As a more convenient alternative, if both the
         <code>-p</code> and <code>-a</code> command-line options are given
-        then <productname>calculus</productname> will generate
+        then <command>calculus</command> will generate
         functions:
         <programlisting>
           void DEBUG_<i>type</i> ( <i>t</i> ) ;
@@ -1476,7 +1476,7 @@
       <para>An important feature of the disk reading and writing routines,
         namely aliasing, has been mentioned but not yet described. The problem
         to be faced is that many of the objects built up using type systems
-        defined using <productname>calculus</productname> will be cyclic -
+        defined using <command>calculus</command> will be cyclic -
         they will include references to themselves in their own definitions.
         Aliasing is a mechanism for breaking such cycles by ensuring that only
         one copy of an object is ever written to disk, or that only one copy
@@ -1547,7 +1547,7 @@
         giving the next alias number to be assigned, and routines for adding
         an alias to the list of all aliases, and looking up an alias in this
         list. Example implementations of these routines are given in the
-        <link linkend="Example"><productname>calculus</productname> program</link>
+        <link linkend="Example"><command>calculus</command> program</link>
         itself.</para>
     </sect1>
 
@@ -1555,7 +1555,7 @@
       <title>5.5. Application to calculus</title>
   
       <para>As <link linkend="Example">mentioned above</link>, the
-        <productname>calculus</productname> program itself is an example of
+        <command>calculus</command> program itself is an example of
         its own application. It therefore contains routines for reading and
         writing a representation of an algebra to and from disk, and for
         pretty-printing the contents of an algebra. These may be accessed
@@ -1563,12 +1563,12 @@
         above.</para>
   
       <para>If the <option>-w</option> command-line option is specified to
-        <productname>calculus</productname> then it reads its input file,
+        <command>calculus</command> then it reads its input file,
         <i>input</i>, as normal, but writes a disk representation of the input
         algebra to <i>output</i>, which in this instance is an output file,
         rather than an output directory. An output file produced in this way
         can then be specified as an input file to
-        <productname>calculus</productname> if the <option>-r</option> option
+        <command>calculus</command> if the <option>-r</option> option
         is given.  Finally the input algebra may be pretty-printed to an
         output file (or the standard output if no <i>output</i> argument is
         given) by specifying the <option>-o</option> option.</para>
@@ -1578,7 +1578,7 @@
   <chapter>
     <title>Template files</title>
   
-    <para>It is possible to use <productname>calculus</productname> to
+    <para>It is possible to use <command>calculus</command> to
       generate an output file from a template input file, <i>template</i>,
       using the syntax:
       <programlisting>
@@ -1586,7 +1586,7 @@
       </programlisting>
       The template file consists of a list of either template directives or
       source lines containing escape sequences which are expanded by
-      <productname>calculus</productname>. Template directive lines are
+      <command>calculus</command>. Template directive lines are
       distinguished by having <code>@</code> as their first character.  Escape
       sequences consist of <code>%</code> following by one or more
       characters.</para>
@@ -1644,7 +1644,7 @@
   
     <para>A number of escape sequences can be used anywhere.  <code>%ZX</code>
       and <code>%ZV</code> give the name and version number of the version of
-      <productname>calculus</productname> used.  <code>%Z</code> and
+      <command>calculus</command> used.  <code>%Z</code> and
       <code>%V</code> give the name and version number of the input algebra.
       <code>%%</code> and <code>%@</code> give <code>%</code> and
       <code>@</code> respectively, and <code>%</code> as the last character in

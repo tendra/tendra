@@ -51,7 +51,7 @@
     
       <para>In this document we address the problem of how to translate a
         standard API specification into its TDF representation, by describing
-        a tool, <productname>tspec</productname>, which has been developed for
+        a tool, <command>tspec</command>, which has been developed for
         this purpose.</para>
     
       <para>The low level form which is used to represent APIs to the C to TDF
@@ -61,7 +61,7 @@
         necessarily complex, and can only be checked through extensive testing
         using the producer. Instead an alternative form, close to C, has been
         developed for this purpose. API specifications in this form are
-        transformed by <productname>tspec</productname> into the corresponding
+        transformed by <command>tspec</command> into the corresponding
         <code>#pragma token</code> statements, while it applies various
         internal checks to the API description.</para>
     
@@ -76,7 +76,7 @@
         it directly to the <code>#pragma token</code> syntax could require
         periodic reworkings. Improvements in the <code>#pragma token</code>
         syntax will be reflected in the translations produced by future
-        versions of <productname>tspec</productname>.</para>
+        versions of <command>tspec</command>.</para>
     
       <para>The <code>tspec</code> syntax is not designed to be a formal
         specification language. Instead it is a pragmatic attempt to capture
@@ -97,12 +97,12 @@
         <title>2.1. Specification Levels</title>
     
         <para>Let us begin by examining the various levels of specification
-          with which <productname>tspec</productname> is concerned. At the
+          with which <command>tspec</command> is concerned. At the
           lowest level it is concerned with objects - the types, expressions,
           constants etc.  which comprise the API - and indeed most of this
-          document is concerned with how <productname>tspec</productname>
+          document is concerned with how <command>tspec</command>
           describes these objects. At the highest level,
-          <productname>tspec</productname> is concerned with APIs. We could
+          <command>tspec</command> is concerned with APIs. We could
           just describe an API as being a set of objects, however this is to
           ignore the internal structure of APIs.</para>
       
