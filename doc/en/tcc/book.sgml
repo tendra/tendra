@@ -215,7 +215,7 @@
                 <entry>TDF linker (tld)</entry>
                 <entry>L</entry>
                 <entry>target ind. TDF</entry>
-                <entry>target ind. TDF</entry>
+                <entry>target dep. TDF</entry>
               </row>
 
               <row>
