@@ -7,8 +7,6 @@ INCL_DIR=${DEST}/include
 #SRC=${BASE}/src/tools/tspec
 API_DIR=${BASE_DIR}/src/lib/apis
 
-.PATH=${.CURDIR}
-
 # Standard variables
 
 TCCOPTS=	-Yposix1 -Xs
