@@ -146,7 +146,7 @@
         exp_cond in -XREF-guide11.html#1section 9.1 on page 43) which allows
         translate time conditional expansion of the SORT.</para>
 
-    <table frame="all">
+    <table frame="all" id='first-class-sorts'>
       <title>First class SORTs</title>
         <tgroup cols="2">
           <thead>
@@ -409,7 +409,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         constructions. These include BITSTREAM, BYTESTREAM, TDFINT,
         TDFIDENT and TDFSTRING.</para>
 
-    <table frame="all">
+    <table frame="all" id='sorts-without-sortnames'>
       <title>Sorts without SORTNAMEs</title>
         <tgroup cols="2">
           <thead>
