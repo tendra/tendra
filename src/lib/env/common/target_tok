@@ -1,0 +1,4 @@
+/* tcc environment for target_tok token library */
+>LIB		"-ltarget_tok"
++FLAG_INSTALL	"-Ytarget_tok"
+>INFO		"TDF@Token@Register@1.0"

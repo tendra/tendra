@@ -1,0 +1,4 @@
++MACHINE		"aix-*-*"
++FLAG			"--2DL"
++LD			"/bin/ld -H512 -T512 -bhalt:4"
++CRT1			"-LIBDIR-/sys/TDFpower.o"

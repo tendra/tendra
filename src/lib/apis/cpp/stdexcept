@@ -1,0 +1,86 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+
+
+$LINKAGE = "C++" ;
+$NAMESPACE = "std" ;
+
++USE "cpp", "exception", "except" ;
+
+%%
+// DUMMY STRING TYPE
+typedef const char *_string ;
+
+// BASE CLASS FOR LOGICAL ERROR EXCEPTIONS
+class logic_error : public exception {
+public :
+    logic_error ( const _string & ) ;
+} ;
+
+// DOMAIN ERROR EXCEPTIONS
+class domain_error : public logic_error {
+public :
+    domain_error ( const _string & ) ;
+} ;
+
+// INVALID ARGUMENT EXCEPTIONS
+class invalid_argument : public logic_error {
+public :
+    invalid_argument ( const _string & ) ;
+} ;
+
+// LENGTH ERROR EXCEPTIONS
+class length_error : public logic_error {
+public :
+    length_error ( const _string & ) ;
+} ;
+
+// OUT OF RANGE ERROR EXCEPTIONS
+class out_of_range : public logic_error {
+public :
+    out_of_range ( const _string & ) ;
+} ;
+
+// BASE CLASS FOR RUNTIME ERROR EXCEPTIONS
+class runtime_error : public exception {
+public :
+    runtime_error ( const _string & ) ;
+} ;
+
+// RANGE ERROR EXCEPTIONS
+class range_error : public runtime_error {
+public :
+    range_error ( const _string & ) ;
+} ;
+
+// OVERFLOW ERROR EXCEPTIONS
+class overflow_error : public runtime_error {
+public :
+    overflow_error ( const _string & ) ;
+} ;
+%%

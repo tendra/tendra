@@ -1,0 +1,6 @@
+/* TCC ENVIRONMENT : PROFILING FOR Linux I386 */
+
++CRT0		"/usr/lib/gcrt0.o"
+<SYS_LINK	"-static -lgmon -lc_p"
++FLAG_TRANS	"-P"
++LINE_START	"#pragma@preserve@*"

@@ -1,0 +1,8 @@
+/* TCC ENVIRONMENT : PROFILING FOR I386 */
+
++LD		"/bin/ld"
++CRT0		"/lib/mcrt1.o"
++CRTN		"/lib/crtn.o"
+<SYS_LINK	"-L/usr/lib/libp"
++FLAG_TRANS	"-P"
++LINE_START	"#pragma@preserve@*"

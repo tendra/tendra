@@ -1,0 +1,905 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+%types%
+
+AltP;
+BoolT;
+EntryP;
+ItemP;
+RuleP;
+StringT;
+
+%terminals%
+
+blt-types;		// %types%
+blt-terminals;		// %maxterminal%
+blt-productions;	// %productions% 
+blt-entry;		// %entry%
+identifier: () -> (: StringT);
+typemark;		// :
+open-tuple;		// (
+close-tuple;		// )
+arrow;			// ->
+terminator;		// ;
+begin-action;		// <
+end-action;		// >
+define;			// =
+begin-rule;		// {
+end-rule;		// }
+alt-sep;		// ||
+handler-sep;		// ##
+empty;			// $
+pred-result;		// ?
+ignore;			// !
+scopemark;		// ::
+begin-scope;		// [
+end-scope;		// ]
+separator;		// ,
+reference;		// &
+eof;
+
+%productions%
+
+<init-tuple>;
+<tuple-name>: (: StringT &, : StringT &) -> ();
+<tuple-ref-name>: (: StringT &, : StringT &) -> ();
+<tuple-type>: (: StringT &) -> ();
+<tuple-ref-type>: (: StringT &) -> ();
+<save-tuple>;
+<null-type>;
+<add-type>: (: StringT &) -> ();
+<terminal>: (: StringT &) -> ();
+<i-terminal>: (: StringT &) -> ();
+<x-terminal>;
+<add-name>: (: StringT &) -> ();
+<add-ref-name>: (: StringT &) -> ();
+<add-var>: (: StringT &) -> ();
+<add-pred>;
+<add-void>;
+<action>: (: StringT &) -> ();
+<x-action>;
+<non-local>: (: StringT &, : StringT &) -> ();
+<non-local-init>: (: StringT &) -> ();
+<save-scope>: () -> (: EntryP, : RuleP);
+<restore-scope>: (: EntryP, : RuleP) -> ();
+<prod-action>: (: StringT &) -> ();
+<x-prod-action>;
+<x-identity>;
+<x-prod-rule>: (: StringT &) -> ();
+<x-prod-rule-or-identity>: (: StringT &) -> ();
+<save>: () -> (: EntryP, : RuleP, : AltP, : BoolT, : ItemP);
+<restore>: (: EntryP, : RuleP, : AltP, :BoolT, : ItemP) -> ();
+<handler>;
+<x-handler>;
+<empty-alt>;
+<non-empty-alt>;
+<x-non-empty-alt>;
+<rule>: (: StringT &) -> ();
+<x-rule>;
+<prod>;
+<x-prod>;
+<push-scope>;
+<pop-scope>;
+<use-global>;
+<use-local>;
+<add-entry>: (: StringT &) -> ();
+<init>;
+<x-terminals>;
+
+<unhandled-syntax-error>;
+
+<expected-typemark>;
+<expected-identifier>;
+<expected-tuple-defn>;
+<expected-terminal-decn>;
+<expected-separator>;
+<expected-open-tuple>;
+<expected-close-tuple>;
+<expected-arrow>;
+<expected-terminator>;
+<expected-lhs-name>;
+<expected-rhs-name>;
+<expected-begin-action>;
+<expected-end-action>;
+<expected-end-scope>;
+<expected-tuple-or-terminator>;
+<expected-item-rhs>;
+<expected-define>;
+<expected-tuple-or-define-or-terminator>;
+<expected-begin-rule>;
+<expected-end-rule>;
+<expected-item>;
+<expected-alternative>;
+<expected-other-defn>;
+<expected-production-defn>;
+<expected-blt-types>;
+<expected-blt-terminals>;
+<expected-blt-productions>;
+<expected-blt-entry>;
+<expected-eof>;
+<expected-terminator-or-define>;
+
+<destroy-string>: (: StringT &) -> ();
+
+<skip-to-end-of-tuple-defn>;
+<skip-to-end-of-terminal-decn>;
+<skip-to-end-of-lhs-name>;
+<skip-to-end-of-rhs-name>;
+<skip-to-end-of-action-decn>;
+<skip-to-end-of-item>;
+<skip-to-end-of-alternative>;
+<skip-to-end-of-other-defn>;
+<skip-to-end-of-production-defn>;
+<skip-to-end-of-entry-list>;
+<skip-recover>;
+
+<is-blt-entry-or-end-scope-or-eof>: () -> (: BoolT);
+<is-close-tuple-or-skipped-or-eof>: () -> (: BoolT);
+<is-terminator>: () -> (: BoolT);
+<is-not-separator>: () -> (: BoolT);
+
+/*
+-------------------------------------------------------------------------------
+| Before calling the "sid-parse-grammar" function, the following variables
+| should have been initialized: "sid_current_stream" and "sid_current_grammar".
+-------------------------------------------------------------------------------
+*/
+
+sid-parse-grammar [
+    // FUNCTION TYPE SPECIFICATIONS:
+    function-type-defn [
+	tuple-defn = {
+	    name = identifier;
+	    {
+		typemark;
+	      ##
+		<expected-typemark>;
+	    };
+	    {
+		type = identifier;
+		{
+		    reference;
+		    <tuple-ref-name> (&name, &type);
+		  ||
+		    <tuple-name> (&name, &type);
+		};
+	      ##
+		<expected-identifier>;
+		<destroy-string> (&name);
+		<skip-to-end-of-tuple-defn>;
+	    };
+	  ||
+	    typemark;
+	    {
+		type = identifier;
+		{
+		    reference;
+		    <tuple-ref-type> (&type);
+		  ||
+		    <tuple-type> (&type);
+		};
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-tuple-defn>;
+	    };
+	  ##
+	    <expected-tuple-defn>;
+	    <skip-to-end-of-tuple-defn>;
+	};
+
+	tuple-defn-list-1 = {
+	    tuple-defn;
+	    {
+		? = <is-close-tuple-or-skipped-or-eof>;
+	      ||
+		separator;
+		tuple-defn-list-1;
+	      ##
+		<expected-separator>;
+		tuple-defn-list-1;
+	    };
+	};
+
+	tuple-defn-list = {
+	    $;
+	  ||
+	    tuple-defn-list-1;
+	};
+
+	type-tuple-defn = {
+	    <init-tuple>;
+	    {
+		open-tuple;
+	      ##
+		<expected-open-tuple>;
+	    };
+	    tuple-defn-list;
+	    <skip-recover>;
+	    {
+		close-tuple;
+	      ##
+		<expected-close-tuple>;
+	    };
+	};
+    ] = {
+	typemark;
+	type-tuple-defn;
+	<save-tuple>;
+	{
+	    arrow;
+	  ##
+	    <expected-arrow>;
+	};
+	type-tuple-defn;
+      ||
+	<null-type>;
+    };
+
+    // TYPE DECLARATIONS:
+    type-decl-list [
+	type-decl = {
+	    id = identifier;
+	    <add-type> (&id);
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	};
+    ] = {
+	$;
+      ||
+	type-decl;
+	type-decl-list;
+    };
+
+    // TERMINAL DECLARATIONS:
+    terminal-decn-list [
+	terminal-decn = {
+	    id = identifier;
+	    <terminal> (&id);
+	    function-type-defn;
+	    <x-terminal>;
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	  ||
+	    ignore;
+	    {
+		id = identifier;
+		<i-terminal> (&id);
+		function-type-defn;
+		<x-terminal>;
+		{
+		    terminator;
+		  ##
+		    <expected-terminator>;
+		};
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-terminal-decn>;
+	    };
+	  ##
+	    <expected-terminal-decn>;
+	    <skip-to-end-of-terminal-decn>;
+	};
+    ] = {
+	terminal-decn;
+	<skip-recover>;
+	{
+	    $;
+	  ||
+	    terminal-decn-list;
+	};
+    };
+
+    // PRODUCTION DEFINITIONS:
+    production-defn-list [
+	// LHS TUPLES:
+	lhs-name-tuple [
+	    lhs-name = {
+		id = identifier;
+		<add-name> (&id);
+	      ||
+		reference;
+		{
+		    id = identifier;
+		    <add-var> (&id);
+		  ##
+		    <expected-identifier>;
+		};
+	      ||
+		pred-result;
+		<add-pred>;
+	      ||
+		ignore;
+		<add-void>;
+	      ##
+		<expected-lhs-name>;
+		<skip-to-end-of-lhs-name>;
+	    };
+
+	    lhs-name-list-1 = {
+		lhs-name;
+		{
+		    ? = <is-close-tuple-or-skipped-or-eof>;
+		  ||
+		    separator;
+		    lhs-name-list-1;
+		  ##
+		    <expected-separator>;
+		    lhs-name-list-1;
+		};
+	    };
+
+	    lhs-name-list = {
+		$;
+	      ||
+		lhs-name-list-1;
+	    };
+	] = {
+	    <init-tuple>;
+	    {
+		open-tuple;
+	      ##
+		<expected-open-tuple>;
+	    };
+	    lhs-name-list;
+	    <skip-recover>;
+	    {
+		close-tuple;
+	      ##
+		<expected-close-tuple>;
+	    };
+	};
+
+	// RHS TUPLES:
+	rhs-name-tuple [
+	    rhs-name = {
+		id = identifier;
+		<add-name> (&id);
+	      ||
+		reference;
+		{
+		    id = identifier;
+		    <add-ref-name> (&id);
+		  ##
+		    <expected-identifier>;
+		    <skip-to-end-of-rhs-name>;
+		};
+	      ##
+		<expected-rhs-name>;
+		<skip-to-end-of-rhs-name>;
+	    };
+
+	    rhs-name-list-1 = {
+		rhs-name;
+		{
+		    ? = <is-close-tuple-or-skipped-or-eof>;
+		  ||
+		    separator;
+		    rhs-name-list-1;
+		  ##
+		    <expected-separator>;
+		    rhs-name-list-1;
+		};
+	    };
+
+	    rhs-name-list = {
+		$;
+	      ||
+		rhs-name-list-1;
+	    };
+	] = {
+	    <init-tuple>;
+	    {
+		open-tuple;
+	      ##
+		<expected-open-tuple>;
+	    };
+	    rhs-name-list;
+	    <skip-recover>;
+	    {
+		close-tuple;
+	      ##
+		<expected-close-tuple>;
+	    };
+	};
+
+	// ACTION DECLARATIONS:
+	action-decn = {
+	    begin-action;
+	    {
+		id = identifier;
+		<action> (&id);
+		{
+		    end-action;
+		  ##
+		    <expected-end-action>;
+		};
+		function-type-defn;
+		<x-action>;
+		{
+		    terminator;
+		  ##
+		    <expected-terminator>;
+		};
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-action-decn>;
+	    };
+	};
+
+	// PRODUCTION DEFINITIONS:
+	production-locals = {
+	    $;
+	  ||
+	    begin-scope;
+	    (entry, rule) = <save-scope>;
+	    production-defn-list;
+	    <restore-scope> (entry, rule);
+	    {
+		end-scope;
+	      ##
+		<expected-end-scope>;
+	    };
+	};
+
+	production-defn-define-4 = {
+	    rhs-name-tuple;
+	    <x-prod-action>;
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	  ||
+	    <init-tuple>;
+	    <x-prod-action>;
+	    terminator;
+	  ##
+	    <expected-tuple-or-terminator>;
+	    <skip-to-end-of-item>;
+	};
+
+	production-defn-define-1 = {
+	    begin-action;
+	    {
+		id = identifier;
+		<prod-action> (&id);
+		{
+		    end-action;
+		  ##
+		    <expected-end-action>;
+		};
+		production-defn-define-4;
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-item>;
+	    };
+	  ||
+	    id = identifier;
+	    {
+		<init-tuple>;
+		<x-prod-rule-or-identity> (&id);
+		terminator;
+	      ||
+		rhs-name-tuple;
+		<x-prod-rule> (&id);
+		{
+		    terminator;
+		  ##
+		    <expected-terminator>;
+		};
+	      ##
+		<expected-tuple-or-terminator>;
+		<destroy-string> (&id);
+		<skip-to-end-of-item>;
+	    };
+	  ||
+	    <init-tuple>;
+	    reference;
+	    {
+		id = identifier;
+		<add-ref-name> (&id);
+		<x-identity>;
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-item>;
+	    };
+	  ||
+	    rhs-name-tuple;
+	    <x-identity>;
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	  ##
+	    <expected-item-rhs>;
+	    <skip-to-end-of-item>;
+	};
+
+	production-defn-define = {
+	    lhs-name-tuple;
+	    <save-tuple>;
+	    {
+		define;
+	      ##
+		<expected-define>;
+	    };
+	    production-defn-define-1;
+	  ||
+	    <init-tuple>;
+	    <add-pred>;
+	    pred-result;
+	    <save-tuple>;
+	    {
+		define;
+	      ##
+		<expected-define>;
+	    };
+	    production-defn-define-1;
+	  ||
+	    <init-tuple>;
+	    <add-void>;
+	    ignore;
+	    <save-tuple>;
+	    {
+		define;
+	      ##
+		<expected-define>;
+	    };
+	    production-defn-define-1;
+	  ||
+	    reference;
+	    {
+		id = identifier;
+		<init-tuple>;
+		<add-var> (&id);
+		<save-tuple>;
+		{
+		    define;
+		  ##
+		    <expected-define>;
+		};
+		production-defn-define-1;
+	      ##
+		<expected-identifier>;
+	    };
+	  ||
+	    id = identifier;
+	    {
+		<init-tuple>;
+		<save-tuple>;
+		rhs-name-tuple;
+		<x-prod-rule> (&id);
+		{
+		    terminator;
+		  ##
+		    <expected-terminator>;
+		};
+	      ||
+		<init-tuple>;
+		<add-name> (&id);
+		<save-tuple>;
+		define;
+		production-defn-define-1;
+	      ||
+		<init-tuple>;
+		<save-tuple>;
+		<init-tuple>;
+		<x-prod-rule> (&id);
+		terminator;
+	      ##
+		<expected-tuple-or-define-or-terminator>;
+		<destroy-string> (&id);
+		<skip-to-end-of-item>;
+	    };
+	  ||
+	    <init-tuple>;
+	    <save-tuple>;
+	    begin-action;
+	    {
+		id = identifier;
+		<prod-action> (&id);
+		{
+		    end-action;
+		  ##
+		    <expected-end-action>;
+		};
+		production-defn-define-4;
+	      ##
+		<expected-identifier>;
+		<skip-to-end-of-item>;
+	    };
+	};
+
+	production-defn-rhs;
+
+	production-defn-item = {
+	    production-defn-define;
+	    <skip-recover>;
+	  ||
+	    begin-rule;
+	    (entry, rule, alt, internal, item) = <save>;
+	    production-defn-rhs;
+	    <restore> (entry, rule, alt, internal, item);
+	    {
+		end-rule;
+	      ##
+		<expected-end-rule>;
+	    };
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	};
+
+	production-defn-non-empty-alternative = {
+	    production-defn-item;
+	  ||
+	    production-defn-item;
+	    production-defn-non-empty-alternative;
+	  ##
+	    <expected-item>;
+	    <skip-to-end-of-item>;
+	    <skip-recover>;
+	};
+
+	exception-handler = {
+	    <handler>;
+	    production-defn-non-empty-alternative;
+	    <x-handler>;
+	};
+
+	production-defn-alternative = {
+	    <empty-alt>;
+	    empty;
+	    {
+		terminator;
+	      ##
+		<expected-terminator>;
+	    };
+	  ||
+	    <non-empty-alt>;
+	    production-defn-non-empty-alternative;
+	    <x-non-empty-alt>;
+	  ##
+	    <expected-alternative>;
+	    <skip-to-end-of-alternative>;
+	    <skip-recover>;
+	};
+
+	production-defn-alternatives = {
+	    production-defn-alternative;
+	    {
+		$;
+	      ||
+		alt-sep;
+		production-defn-alternatives;
+	    };
+	};
+
+	production-defn-rhs = {
+	    production-defn-alternatives;
+	    {
+		$;
+	      ||
+		handler-sep;
+		exception-handler;
+	    };
+	};
+
+	other-defn = {
+	    id = identifier;
+	    {
+		typemark;
+		{
+		    type = identifier;
+		    <non-local> (&id, &type);
+		    {
+			terminator;
+		      ||
+			define;
+			{
+			    begin-action;
+			  ##
+			    <expected-begin-action>;
+			};
+			{
+			    action = identifier;
+			    <non-local-init> (&action);
+			    {
+				end-action;
+			      ##
+				<expected-end-action>;
+			    };
+			    {
+				terminator;
+			      ##
+				<expected-terminator>;
+			    };
+			  ##
+			    <expected-identifier>;
+			};
+		      ##
+			<expected-terminator-or-define>;
+		    };
+		  ##
+		    <expected-identifier>;
+		    <destroy-string> (&id);
+		    <skip-to-end-of-other-defn>;
+		};
+	      ||
+		function-type-defn;
+		<rule> (&id);
+		{
+		    <x-rule>;
+		    terminator;
+		  ||
+		    <prod>;
+		    <push-scope>;
+		    production-locals;
+		    {
+			define;
+		      ##
+			<expected-define>;
+		    };
+		    {
+			begin-rule;
+		      ##
+			<expected-begin-rule>;
+		    };
+		    production-defn-rhs;
+		    {
+			end-rule;
+		      ##
+			<expected-end-rule>;
+		    };
+		    <pop-scope>;
+		    <x-prod>;
+		    {
+			terminator;
+		      ##
+			<expected-terminator>;
+		    };
+		};
+	      ##
+		<expected-other-defn>;
+		<destroy-string> (&id);
+		<skip-to-end-of-other-defn>;
+	    };
+	};
+
+	production-defn = {
+	    {
+		scopemark;
+		<use-global>;
+	       ||
+		<use-local>;
+	    };
+	    {
+		action-decn;
+	      ||
+		other-defn;
+	    };
+	};
+    ] /* production-defn-list */ = {
+	production-defn;
+	<skip-recover>;
+	{
+	    ? = <is-blt-entry-or-end-scope-or-eof>;
+	  ||
+	    production-defn-list;
+	};
+      ##
+	<expected-production-defn>;
+	<skip-to-end-of-production-defn>;
+	<skip-recover>;
+	{
+	    ? = <is-blt-entry-or-end-scope-or-eof>;
+	  ##
+	    production-defn-list;
+	};
+    };
+
+    // ENTRY DECLARATIONS:
+    entry-list [
+	entry = {
+	    id = identifier;
+	    <add-entry> (&id);
+	  ##
+	    <expected-identifier>;
+	};
+    ] = {
+	entry;
+	{
+	    ? = <is-terminator>;
+	  ||
+	    separator;
+	    entry-list;
+	  ##
+	    <expected-separator>;
+	    <skip-to-end-of-entry-list>;
+	    <skip-recover>;
+	    {
+		? = <is-not-separator>;
+	      ##
+		entry-list;
+	    };
+	};
+    };
+] /* sid-parse-grammar */ = {
+    <init>;
+    {
+	blt-types;
+      ##
+	<expected-blt-types>;
+    };
+    type-decl-list;
+    {
+	blt-terminals;
+      ##
+	<expected-blt-terminals>;
+    };
+    terminal-decn-list;
+    <x-terminals>;
+    {
+	blt-productions;
+      ##
+	<expected-blt-productions>;
+    };
+    production-defn-list;
+    {
+	blt-entry;
+      ##
+	<expected-blt-entry>;
+    };
+    entry-list;
+    {
+	terminator;
+      ##
+	<expected-terminator>;
+    };
+    {
+	eof;
+      ##
+	<expected-eof>;
+    };
+  ##
+    <unhandled-syntax-error>;
+};
+
+%entry% sid-parse-grammar;

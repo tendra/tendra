@@ -1,0 +1,52 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+UTIL=${BASE}/src/utilities
+SRC=${UTIL}/sid
+
+make_mf\
+    +A BASE=${BASE}\
+    +A UTIL=${UTIL}\
+    +A SRC=${SRC}\
+    +A SRC2=${SRC}/errors\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../sid\
+    -Yansi -Xs\
+    -I${SRC}\
+    ${SRC}/*.c\
+    > Makefile
+
+cat >> Makefile << EOF
+
+SID=sid
+SIDOPTS=-l ossg-c -s numeric -s no-lines
+
+PARSER_OUT=\${SRC}/parser.c \${SRC}/junk.h
+C_OUT=\${SRC}/c-parser.c \${SRC}/c-junk.h
+ERR_OUT=\${SRC}/gen-errors.c \${SRC}/gen-errors.h
+
+EFILES=\${SRC2}/arg-parse.e \${SRC2}/c-check.e \${SRC2}/c-code.e\\
+ \${SRC2}/c-lexer.e \${SRC2}/c-parser.e \${SRC2}/error-file.e\\
+ \${SRC2}/for-osif.e \${SRC2}/grammar.e \${SRC2}/lexer.e \${SRC2}/main.e\\
+ \${SRC2}/parser.e \${SRC2}/rule-check.e \${SRC2}/rule-factor.e\\
+ \${SRC2}/rule-firsts.e \${SRC2}/rule-lre.e \${SRC2}/scope.e\\
+ \${SRC2}/table.e \${SRC2}/types.e
+
+auto : \${PARSER_OUT} \${C_OUT} \${ERR_OUT}
+
+\${SRC}/parser.c : \${SRC}/parser.sid \${SRC}/parser.act
+	@\${REMOVE} \${PARSER_OUT}
+	\${SID} \${SIDOPTS} \${SRC}/parser.sid \${SRC}/parser.act \${PARSER_OUT}
+
+\${SRC}/c-parser.c : \${SRC}/c-parser.sid \${SRC}/c-parser.act
+	@\${REMOVE} \${C_OUT}
+	\${SID} \${SIDOPTS} \${SRC}/c-parser.sid \${SRC}/c-parser.act \${C_OUT}
+
+\${SRC}/gen-errors.c : \${SRC2}/BUILD_ERRORS \${EFILES}
+	@\${REMOVE} \${ERR_OUT}
+	\${SRC2}/BUILD_ERRORS -o \${SRC}/gen-errors \${EFILES}
+
+auto_clobber :
+	\${REMOVE} \${PARSER_OUT} \${C_OUT} \${ERR_OUT}
+EOF

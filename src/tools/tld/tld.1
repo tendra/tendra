@@ -1,0 +1,529 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tld 1
+.SH NAME
+tld \- TDF linking and library manipulation utility
+.SH SYNTAX
+.B tld
+[\fImode\fR] [\fIoption\fR]... \fIfile\fR...
+.SH DESCRIPTION
+.LP
+The
+.B tld
+command is used to create and manipulate TDF libraries, and to link together
+TDF capsules.  It has four modes, selected by one of the \fB\-ml\fR (link TDF
+capsules), \fB\-mc\fR (create TDF library), \fB\-mt\fR (list TDF library
+contents) or \fB\-mx\fR (extract capsules from TDF library) switches.  If
+provided, the switch must be the first on the command line.  If one is not
+provided, the \fB\-ml\fR switch is assumed.
+.LP
+The different modes are described below.  In the description, external name
+definitions are referred to as unique and multiple.  A unique definition is
+a definition where the defined attribute is set; a multiple definition is
+one where the multiple attribute is set (i.e. more than one definition is
+allowed).  A definition may be both multiple and unique (if both bits are
+set - this means that there is more than definition, but one of them is
+unique).  It is an error for there to be more than one unique definition of
+any given name.  It is an error for token external names to have the
+multiple attribute set.
+.SH SWITCHES
+.LP
+The new version of
+.B tld
+accepts both short form and long form command line switches.
+.LP
+Short form switches are single characters, and begin with a \&'-' or \&'+'
+character.  They can be concatenated into a single command line word, e.g.:
+.IP
+\fB\-vor\fR \fIoutput-file\fR \fIrename-shape\fR \fIrename-from\fR
+\fIrename-to\fR
+.LP
+which contains three different switches (\fB\-v\fR, which takes no
+arguments; \fB\-o\fR, which takes one argument: \fIoutput-file\fR; and
+\fB\-r\fR, which takes three arguments: \fIrename-shape\fR,
+\fIrename-from\fR, and \fIrename-to\fR).
+.LP
+Long form switches are strings, and begin with \&'--' or \&'++'.  With long
+form switches, only the shortest unique prefix need be entered.  The long
+form of the above example would be:
+.IP
+\fB\-\-version\fR \fB\-\-output\-file\fR \fIoutput-file\fR
+\fB\-\-rename\fR \fIrename-shape\fR \fIrename-from\fR \fIrename-to\fR
+.LP
+In most cases the arguments to the switch should follow the switch as a
+separate word.  In the case of short form switches, the arguments to the
+short form switches in a single word should follow the word in the order of
+the switches (as in the first example).  For some options, the argument may
+be part of the same word as the switch (such options are shown without a
+space between the switch and the argument in the switch summaries below).
+In the case of short form switches, such a switch would terminate any
+concatenation of switches (either a character would follow it, which would
+be treated as its argument, or it would be the end of the word, and its
+argument would follow as normal).
+.LP
+For binary switches, the \&'-' or \&'--' switch prefixes set (enable) the
+switch, and the \&'+' or \&'++' switch prefixes reset (disable) the switch.
+This is probably back to front, but is in keeping with other programs. The
+switches \&'--' or \&'++' by themselves terminate option parsing.
+.SH EXTERNAL NAMES
+.LP
+An external name may be either a string or a unique.  A unique is written as
+.IP
+\fB[\fIcomponent1\fB.\fIcomponent2\fB.\fR...\fB.\fIcomponentN\fB]\fR
+.LP
+Each component of a unique is a string.  A string consists of any sequence
+of characters, although some special characters must be preceded by a
+backslash character to stop them being treated specially.  These characters
+are \&'\fB\\\fR', \&'\fB[\fR', \&'\fB]\fR' and \&'\fB.\fR'.  In addition,
+the following character sequences are treated the same as they would be in
+C: \&'\fB\\n\fR', \&'\fB\\r\fR', \&'\fB\\t\fR', \&'\fB\\0\fR'.  Finally, the
+sequence \&'\fB\\x\fINN\fR' represents the character with code \fINN\fR in
+hex.
+.SH RENAME FILE SYNTAX
+.LP
+Renaming may be specified either on the command line, or in a file.  The files
+that specify the renamings to be performed have the following syntax.  The
+file consists of a number of sections.  Each section begins with a shape
+name, followed by zero or more pairs of external names (each pair is
+terminated by a semi-colon).  Shape names are written as a sequence of
+characters surrounded by single quotes.  Unique names have the same syntax
+as described above.  String names are a sequence of characters surrounded by
+double quotes.  The normal backslash escape sequences are supported.  The
+hash character acts as a comment to end of line character (if this is
+necessary).
+.SH UNIT SET FILE SYNTAX
+.LP
+The file should consist of a sequence of strings enclosed in double quotes.
+The backslash character can be used to escape characters.  The following C
+style escape sequences are recognized: \&'\fB\\n\fR', \&'\fB\\r\fR',
+\&'\fB\\t\fR', \&'\fB\\0\fR'.  Also, the sequence \&'\fB\\x\fINN\fR'
+represents the character with code \fINN\fR in hex.  The order of the
+strings is important, as it specifies the order that the unit sets should be
+in when read from capsules.  It is necessary to specify the \fItld\fR unit
+set name.
+.SH ERROR FILE SYNTAX
+.LP
+It is possible to change the error messages that the linker uses.  In order
+to do this, make the environment variable \fITLD_ERROR_FILE\fR contain the
+name of a file with the new error messages in.
+.LP
+The error file consists of zero or more sections.  Each section begins with
+a section marker (one of \fB%prefix%\fR, \fB%errors%\fR or \fB%strings%\fR).
+The prefix section takes a single string (this is to be the prefix for all
+error messages).  The other sections take zero or more pairs of names and
+strings.  A name is a sequence of characters surrounded by single quotes.  A
+string is a sequence of characters surrounded by double quotes.  In the case
+of the prefix and error sections, the strings may contain variables of the
+form \fB${\fIvariable name\fB}\fR.  These variables will be replaced by
+suitable information when the error occurs.  The normal backslash escape
+sequences are supported.  The hash character acts as a comment to end of
+line character.
+.LP
+The \fB\-\-show\-errors\fR option may be used to get a copy of the current
+error messages.
+.SH LINKING
+.LP
+In the default mode,
+.B tld
+tries to link together the TDF capsules specified on the command line.  This
+consists of the following stages:
+.IP 1.
+All of the external names specified for renaming on the command line are
+added to the name tables as indirections to their new names.
+.IP 2.
+All of the capsules specified on the command line are loaded, and their
+identifiers are mapped into a per shape namespace.  In these namespaces, all
+external names of the same shape and with the same name will be mapped to
+the same identifier.
+.B tld
+will report errors about any attempt to link together more than one capsule
+providing a unique definition for any external name.
+.IP 3.
+If any libraries were specified on the command line, then the libraries are
+loaded to see what definitions they provide.  After loading the libraries,
+the external names specified for link suppression on the command line are
+removed from the library index (so that the linker will not attempt to
+define those names).  Link suppression does not prevent a name from being
+defined, it just stops the linker trying to define it; a definition for it
+may still be found from a capsule that is loaded to define another name.
+.IP
+Any capsules that provide necessary definitions are loaded.  There must only
+be one definition for each external name in all of the libraries (in the
+case of all non-token shapes, this may be either one non-unique definition,
+or one unique definition with zero or more non-unique definitions; if a
+unique definition exists, then the non-unique definitions are ignored).
+.IP 4.
+If any external names require hiding or keeping (specified by command line
+switches), then they are hidden at this point.  Hiding means removing the
+external name from the external name list.  It is illegal to hide undefined
+external names.  Keeping means keeping an external name in the external name
+tables.  Keeping a name overrides any attempt to hide that name.
+.IP 5.
+A new TDF capsule is created, consisting of all of the input capsules and
+the necessary library capsules.  Unless specified with the
+\fB\-\-output\-file\fR switch, the output file will be called
+\fIcapsule.j\fR.
+.SH Switches
+.LP
+.B tld
+accepts the following switches in link mode:
+.LP
+\fB\-\-all\-hide\-defined\fR
+.br
+\fB\-a\fR
+.IP
+Hide all external names (of any shape) that are defined.
+.LP
+\fB\-\-debug\-file\fR \fIFILE\fR
+.br
+\fB\-d\fR \fIFILE\fR
+.IP
+Produce a diagnostic trace of the linking process in \fIFILE\fR.
+.LP
+\fB\-\-help\fR
+.br
+\fB\-?\fR
+.IP
+Write an option summary to the standard error.
+.LP
+\fB\-\-hide\fR \fISHAPE\fR \fINAME\fR
+.br
+\fB\-h\fR \fISHAPE\fR \fINAME\fR
+.IP
+Cause the external \fISHAPE\fR name \fINAME\fR to be hidden.  An error is
+reported if the name is not defined.
+.LP
+\fB\-\-hide\-defined\fR \fISHAPE\fR
+.br
+\fB\-H\fR \fISHAPE\fR
+.IP
+Cause the all external \fISHAPE\fR names that are defined to be hidden.
+.LP
+\fB\-\-keep\fR \fISHAPE\fR \fINAME\fR
+.br
+\fB\-k\fR \fISHAPE\fR \fINAME\fR
+.IP
+Cause the external \fISHAPE\fR name \fINAME\fR to be kept.
+.LP
+\fB\-\-keep\-all\fR \fISHAPE\fR
+.br
+\fB\-K\fR \fISHAPE\fR
+.IP
+Cause the all external \fISHAPE\fR names to be kept.
+.LP
+\fB\-\-library\fR \fIFILE\fR
+.br
+\fB\-l\fR\fIFILE\fR
+.IP
+Use the file \fIFILE\fR as a TDF library.  If the file name contains a \&'/',
+then it is used as specified; if not, the library search path is searched
+for a file named \&'\fIFILE\fR.tl'.  Duplicate entries for the same library
+are ignored.
+.LP
+\fB\-\-output\-file\fR \fIFILE\fR
+.br
+\fB\-o\fR \fIFILE\fR
+.IP
+Write the output capsule to the file \fIFILE\fR.  If this switch is not
+specified, then the output is written to the file \&'capsule.j' instead.
+.LP
+\fB\-\-path\fR \fIDIRECTORY\fR
+.br
+\fB\-L\fR\fIDIRECTORY\fR
+.IP
+Append the directory \fIDIRECTORY\fR to the library search path.
+.LP
+\fB\-\-rename\fR \fISHAPE\fR \fIFROM\fR \fITO\fR
+.br
+\fB\-r\fR \fISHAPE\fR \fIFROM\fR \fITO\fR
+.IP
+Rename the external \fISHAPE\fR name \fIFROM\fR to \fITO\fR.
+.LP
+\fB\-\-rename\-file\fR \fIFILE\fR
+.br
+\fB\-R\fR \fIFILE\fR
+.IP
+Read the contents of the file \fIFILE\fR as a series of renaming
+specifications.  The format of the file is described above.
+.LP
+\fB\-\-show\-errors\fR
+.br
+\fB\-e\fR
+.IP
+Write the current error message list to the standard output.
+.LP
+\fB\-\-suppress\fR \fISHAPE\fR \fINAME\fR
+.br
+\fB\-s\fR \fISHAPE\fR \fINAME\fR
+.IP
+Do not try to find a definition for the external \fISHAPE\fR name \fINAME\fR.
+.LP
+\fB\-\-suppress\-all\fR \fISHAPE\fR
+.br
+\fB\-S\fR \fISHAPE\fR
+.IP
+Do not try to find a definition for any external \fISHAPE\fR name.
+.LP
+\fB\-\-suppress\-mult\fR
+.br
+\fB\-M\fR
+.IP
+Do not use non-unique definitions in libraries as definitions for external
+names.
+.LP
+\fB\-\-unit\-file\fR \fIFILE\fR
+.br
+\fB\-u\fR \fIFILE\fR
+.IP
+Parse \fIFILE\fR to get a new unit set name list.  By default, all of the
+standard (as specified in the version 4.0 TDF specification) unit set names
+are known.
+.LP
+\fB\-\-version\fR
+.br
+\fB\-v\fR
+.IP
+Write the version number of the program to the standard error stream.
+.LP
+\fB\-\-warnings\fR
+.br
+\fB\-w\fR
+.IP
+Enable/disable the printing of warning messages.  Warnings are generated for
+things like obsolete linker information units, and undefined external names.
+.SH LIBRARY CONSTRUCTION
+.LP
+A TDF library is a sequence of named capsules, with an index.  The index
+indicates which external names are defined by the capsules in the library,
+and which capsules provide the definitions.  When invoked with the
+\fB\-mc\fR switch,
+.B tld
+produces a library consisting of the TDF capsules specified on the command
+line.  The library is written to the file \fIlibrary.tl\fR, unless the
+\fB\-\-output\-file\fR switch is used.
+.SH Switches
+.LP
+.B tld
+accepts the following switches in library construction mode:
+.LP
+\fB\-\-debug\-file\fR \fIFILE\fR
+.br
+\fB\-d\fR \fIFILE\fR
+.IP
+Produce a diagnostic trace of the library construction process in \fIFILE\fR.
+.LP
+\fB\-\-help\fR
+.br
+\fB\-?\fR
+.IP
+Write an option summary to the standard error.
+.LP
+\fB\-\-include\-library\fR \fIFILE\fR
+.br
+\fB\-i\fR \fIFILE\fR
+.IP
+Include all of the capsules in the TDF library \fIFILE\fR in the library
+being constructed.  The library name should be a proper file name, not a
+library abbreviation like the \fB\-\-library\fR switch used by the linking
+mode.
+.LP
+\fB\-\-output\-file\fR \fIFILE\fR
+.br
+\fB\-o\fR \fIFILE\fR
+.IP
+Write the output library to the file \fIFILE\fR.  If this switch is not
+specified, then the output is written to the file \&'library.tl' instead.
+.LP
+\fB\-\-show\-errors\fR
+.br
+\fB\-e\fR
+.IP
+Write the current error message list to the standard output.
+.LP
+\fB\-\-suppress\fR \fISHAPE\fR \fINAME\fR
+.br
+\fB\-s\fR \fISHAPE\fR \fINAME\fR
+.IP
+Do not try to find a definition for the external \fISHAPE\fR name \fINAME\fR.
+.LP
+\fB\-\-suppress\-all\fR \fISHAPE\fR
+.br
+\fB\-S\fR \fISHAPE\fR
+.IP
+Do not try to find a definition for any external \fISHAPE\fR name.
+.LP
+\fB\-\-suppress\-mult\fR
+.br
+\fB\-M\fR
+.IP
+Do not use non-unique definitions in libraries as definitions for external
+names.
+.LP
+\fB\-\-unit\-file\fR \fIFILE\fR
+.br
+\fB\-u\fR \fIFILE\fR
+.IP
+Parse \fIFILE\fR to get a new unit set name list.  By default, all of the
+standard (as specified in the version 4.0 TDF specification) unit set names
+are known.
+.LP
+\fB\-\-version\fR
+.br
+\fB\-v\fR
+.IP
+Write the version number of the program to the standard error stream.
+.SH LIBRARY CONTENTS
+.LP
+When invoked with the \fB\-mt\fR switch,
+.B tld
+produces a listing of the contents of the TDF library specified on the
+command line.
+.SH Switches
+.LP
+.B tld
+accepts the following switches in library contents mode:
+.LP
+\fB\-\-debug\-file\fR \fIFILE\fR
+.br
+\fB\-d\fR \fIFILE\fR
+.IP
+Produce a diagnostic trace of the library contents process in \fIFILE\fR.
+.LP
+\fB\-\-help\fR
+.br
+\fB\-?\fR
+.IP
+Write an option summary to the standard error.
+.LP
+\fB\-\-index\fR
+.br
+\fB\-i\fR
+.IP
+Enable/disable the printing of the index of the library.  If printing of the
+index is enabled, the index of the library will be printed.  The order of
+the shapes and external names in the printed index is not necessarily the
+same as the order of the index in the library itself.  If the order is
+important, use the \fR\-\-debug\-file\fR option and look at the output that is
+produced.
+.LP
+\fB\-\-show\-errors\fR
+.br
+\fB\-e\fR
+.IP
+Write the current error message list to the standard output.
+.LP
+\fB\-\-size\fR
+.br
+\fB\-s\fR
+.IP
+Enable/disable the printing of the size of each capsule in the library.  If
+enabled, the size of each capsule in bytes is printed after its name.
+.LP
+\fB\-\-version\fR
+.br
+\fB\-v\fR
+.IP
+Write the version number of the program to the standard error stream.
+.SH LIBRARY EXTRACTION
+.LP
+When invoked with the \fB\-mx\fR switch,
+.B tld
+extracts capsules from the TDF library specified as the first file on the
+command line.  The names of the capsules to extract should follow the
+library name.  If capsule names are specified, they must match exactly the
+names of the capsules in the library (use the \fB\-mt\fR mode switch to find
+out what the exact names are).  The capsules are normally extracted relative
+to the current directory, using the name of the capsule as the output file
+name.  The linker will try to create any directories on the extracted
+capsule's path name (in some implementations of the linker this may not be
+supported, in which case the directories will need to be created manually
+before extraction).  The extracted capsules will overwrite existing files of
+the same name.
+.SH Switches
+.LP
+.B tld
+accepts the following switches in library extraction mode:
+.LP
+\fB\-\-all\fR
+.br
+\fB\-a\fR
+.IP
+Enable/disable the extraction of all capsules.  If all capsules are to be
+extracted, no capsule names should be specified on the command line.
+.LP
+\fB\-\-basename\fR
+.br
+\fB\-b\fR
+.IP
+Enable/disable the use of the basename of each capsule when extracting.  If
+this is enabled, then extracted capsules are extracted into the current
+directory, using just their basename.  This may cause some of the capsules
+to be written on top of each other.
+.LP
+\fB\-\-debug\-file\fR \fIFILE\fR
+.br
+\fB\-d\fR \fIFILE\fR
+.IP
+Produce a diagnostic trace of the library extraction process in \fIFILE\fR.
+.LP
+\fB\-\-help\fR
+.br
+\fB\-?\fR
+.IP
+Write an option summary to the standard error.
+.LP
+\fB\-\-info\fR
+.br
+\fB\-i\fR
+.IP
+Enable/disable informational messages.  These say which capsules are being
+extracted.
+.LP
+\fB\-\-match\-basename\fR
+.br
+\fB\-m\fR
+.IP
+Enable/disable matching of capsule names by basename.  If enabled, then the
+basename of each library capsule is also matched against the file names
+specified.  This may result in more than one capsule being extracted for one
+file name.
+.LP
+\fB\-\-show\-errors\fR
+.br
+\fB\-e\fR
+.IP
+Write the current error message list to the standard output.
+.LP
+\fB\-\-version\fR
+.br
+\fB\-v\fR
+.IP
+Write the version number of the program to the standard error stream.
+.SH SEE ALSO
+.LP
+tcc(1).

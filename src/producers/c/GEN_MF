@@ -1,0 +1,76 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+SPEC=${BASE}/src/lib/tdf/def_4_1.db
+PROD=${BASE}/src/producers
+SRC=${PROD}/c
+SRC1=${PROD}/common
+
+make_mf\
+    +A BASE=${BASE}\
+    +A PROD=${PROD}\
+    +A SRC=${SRC}\
+    +A SRC1=${SRC1}\
+    +A SRC2=${SRC1}/obj_c\
+    +A SRC2A=${SRC1}/obj_tok\
+    +A SRC2B=${SRC1}/obj_templ\
+    +A SRC3=${SRC1}/construct\
+    +A SRC4=${SRC1}/output\
+    +A SRC5=${SRC1}/parse\
+    +A SRC6=${SRC}/syntax\
+    +A SRC7=${SRC1}/utility\
+    +A SPEC=${SPEC}\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../tdfc2\
+    -Yposix1 -Xs\
+    -I ${SRC1}\
+    -I ${SRC1}/obj_c\
+    -I ${SRC1}/construct\
+    -I ${SRC1}/output\
+    -I ${SRC1}/parse\
+    -I ${SRC}/syntax\
+    -I ${SRC1}/utility\
+    ${SRC1}/*.c\
+    ${SRC1}/obj_c/*.c\
+    ${SRC1}/construct/*.c\
+    ${SRC1}/output/*.c\
+    ${SRC1}/parse/*.c\
+    ${SRC}/syntax/*.c\
+    ${SRC1}/utility/*.c\
+    > Makefile
+
+make_mf\
+    +fcheck.ini\
+    +A BASE=${BASE}\
+    +A PROD=${PROD}\
+    +A SRC=${SRC}\
+    +A SRC1=${SRC1}\
+    +A SRC2=${SRC1}/obj_c\
+    +A SRC2A=${SRC1}/obj_tok\
+    +A SRC2B=${SRC1}/obj_templ\
+    +A SRC3=${SRC1}/construct\
+    +A SRC4=${SRC1}/output\
+    +A SRC5=${SRC1}/parse\
+    +A SRC6=${SRC}/syntax\
+    +A SRC7=${SRC1}/utility\
+    +A SPEC=${SPEC}\
+    +W ...\
+    -o .../tdfc2.k\
+    -Yposix1 -Xs\
+    -I ${SRC1}\
+    -I ${SRC1}/obj_tok\
+    -I ${SRC1}/construct\
+    -I ${SRC1}/output\
+    -I ${SRC1}/parse\
+    -I ${SRC}/syntax\
+    -I ${SRC1}/utility\
+    ${SRC1}/*.c\
+    ${SRC1}/construct/*.c\
+    ${SRC1}/output/*.c\
+    ${SRC1}/parse/*.c\
+    ${SRC}/syntax/*.c\
+    ${SRC1}/utility/*.c\
+    > Makefile.chk
+
+cat ../common/Makefile.ext >> Makefile

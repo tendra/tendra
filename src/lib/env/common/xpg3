@@ -1,0 +1,7 @@
+/* tcc environment for xpg3 */
+
++INCL			"-Nxpg3:-INCLDIR-/xpg3.api"
++LIB			"-lxpg3 -lposix -lansi"
++FLAG_INSTALL		"-Yxpg3"
++API_NAME		"-Axpg3"
++INFO			"X/Open@Portability@Guide@3"

@@ -1,0 +1,7 @@
+/* tcc environment for svid3 */
+
++INCL			"-Nsvid3:-INCLDIR-/svid3.api"
++LIB			"-lsvid3 -lxpg3 -lposix -lansi"
++FLAG_INSTALL		"-Ysvid3"
++API_NAME		"-Asvid3"
++INFO			"System@V@Interface@Definition@(3rd@edition)"

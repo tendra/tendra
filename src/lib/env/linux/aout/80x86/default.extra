@@ -1,0 +1,6 @@
++MACHINE		"linux-1.2.8-80x86"
++TRANS			"-BINDIR-/trans -k0"
++AS			"/usr/bin/as"
++LD			"/usr/bin/ld -m486"
++CC			"/usr/bin/cc"
++CRT0			"/usr/lib/crt0.o"

@@ -1,0 +1,4 @@
+/* tcc environment for library construction */
+>TLD		"-mc"
++FLAG		"-M"
++FLAG		"-Fj"

@@ -1,0 +1,3 @@
+/* Make string literals writable */
+
++FLAG_TRANS		"-W1"

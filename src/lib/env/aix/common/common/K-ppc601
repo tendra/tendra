@@ -1,0 +1,3 @@
+/* environment for powerpc specific code */
++FLAG_AS		"-m ppc"
++FLAG_TRANS		"-KP"

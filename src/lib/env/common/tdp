@@ -1,0 +1,8 @@
+/* tcc environment for tdp */
++TDFC		"-BINDIR-/tdp"
++TLD		"-BINDIR-/tsimp"
++TNC		"-BINDIR-/tnc -z"
++DISP		"-BINDIR-/tnc -p"
++FLAG		"-no_startup_options"
++FLAG		"-special tnc"
++FLAG		"-special pl_tdf"

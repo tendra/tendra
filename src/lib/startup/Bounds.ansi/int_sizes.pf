@@ -1,0 +1,9 @@
+#ifndef __STARTUP_INTSIZES_INCLUDED
+#define __STARTUP_INTSIZES_INCLUDED
+
+#define int_max		32767
+#define uint_max	65535
+#define lint_max	2147483647
+#define llint_max       2147483647
+
+#endif

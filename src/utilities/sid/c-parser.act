@@ -1,0 +1,901 @@
+// -*- C -*-
+%prefixes%
+
+%maps%
+
+StringT		-> NStringT;
+CCodeP		-> CCodeP;
+BoolT		-> BoolT;
+c-parse-grammar	-> c_parse_grammar;
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "c-parser.h"
+#include "action.h"
+#include "c-code.h"
+#include "c-out-info.h"
+#include "basic.h"
+#include "entry.h"
+#include "gen-errors.h"
+#include "type.h"
+#include "types.h"
+
+/*--------------------------------------------------------------------------*/
+
+#define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
+#define ADVANCE_LEXER c_lexer_next_token (c_current_stream)
+#define SAVE_LEXER(x) (c_lexer_save_terminal (c_current_stream, (CTokenT) (x)))
+#define RESTORE_LEXER (c_lexer_restore_terminal (c_current_stream))
+
+/*--------------------------------------------------------------------------*/
+
+static NStringT		c_prefix_names [CPFX_NUM_PREFIXES];
+static BoolT		c_inited_prefix_names = FALSE;
+static CPrefixT		c_current_prefix;
+static EntryP		c_current_entry;
+static TypeTupleT	c_saved_type;
+static TypeTupleT	c_current_type;
+static BoolT		c_propagating_error = FALSE;
+
+/*--------------------------------------------------------------------------*/
+
+CLexerStreamP		c_current_stream;
+COutputInfoP		c_current_out_info;
+TableP			c_current_table;
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+@};
+
+%assignments%
+
+StringT: (a) -> (b) = @{
+    nstring_assign (&@b, @&a);
+@};
+
+%parameter-assignments%
+
+StringT: (a) -> (b) = @{
+    nstring_assign (&@b, @a);
+@};
+
+%result-assignments%
+
+StringT: (a) -> (b) = @{
+    nstring_assign (@b, @&a);
+@};
+
+%terminals%
+
+c-identifier: () -> (i) = @{
+    nstring_assign (&@i, c_lexer_string_value (c_current_stream));
+@};
+
+sid-identifier: () -> (i) = @{
+    nstring_assign (&@i, c_lexer_string_value (c_current_stream));
+@};
+
+code: () -> (c) = @{
+    @c = c_lexer_code_value (c_current_stream);
+@};
+
+%actions%
+
+// Prefix section actions:
+
+<set-prefix>: (string) -> () = @{
+    int prefix;
+
+    if (!c_inited_prefix_names) {
+	nstring_copy_cstring (&(c_prefix_names [CPFX_TYPE]), "type");
+	nstring_copy_cstring (&(c_prefix_names [CPFX_FN]), "function");
+	nstring_copy_cstring (&(c_prefix_names [CPFX_IN]), "input");
+	nstring_copy_cstring (&(c_prefix_names [CPFX_OUT]), "output");
+	nstring_copy_cstring (&(c_prefix_names [CPFX_LABEL]), "label");
+	nstring_copy_cstring (&(c_prefix_names [CPFX_TERMINAL]), "terminal");
+	c_inited_prefix_names = TRUE;
+    }
+    for (prefix = 0; prefix < CPFX_NUM_PREFIXES; prefix ++) {
+	if (nstring_ci_equal (@&string, &(c_prefix_names [prefix]))) {
+	    break;
+	}
+    }
+    if ((c_current_prefix = (CPrefixT) prefix) == CPFX_NUM_PREFIXES) {
+	E_c_unknown_prefix (@&string);
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-set-prefix>: (string) -> () = @{
+    if (c_current_prefix == CPFX_NUM_PREFIXES) {
+	nstring_destroy (&@=string);
+    } else {
+	NStringP prefix = c_out_info_prefix (c_current_out_info,
+					     c_current_prefix);
+
+	nstring_destroy (prefix);
+	nstring_assign (prefix, &@=string);
+    }
+@};
+
+// Mapping section actions:
+
+<set-map>: (string) -> () = @{
+    if ((c_current_entry = table_get_entry (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_identifier (@&string);
+    } else if (entry_get_mapping (c_current_entry)) {
+	E_c_remapped_identifier (@&string);
+	c_current_entry = NIL (EntryP);
+    } else {
+	switch (entry_type (c_current_entry)) EXHAUSTIVE {
+	  case ET_NAME:
+	  case ET_ACTION:
+	  case ET_NON_LOCAL:
+	    E_c_illegal_map (@&string);
+	    c_current_entry = NIL (EntryP);
+	    break;
+	  case ET_RENAME:
+	  case ET_PREDICATE:
+	    /* UNREACHED */
+	    break;
+	  case ET_TYPE:
+	  case ET_RULE:
+	  case ET_BASIC:
+	    break;
+	}
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-set-map>: (string) -> () = @{
+    if (c_current_entry) {
+	entry_set_mapping (c_current_entry, &@=string);
+    } else {
+	nstring_destroy (&@=string);
+    }
+@};
+
+// Header actions:
+
+<set-header1>: (code) -> () = @{
+    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+		  c_current_table);
+    c_out_info_set_header1 (c_current_out_info, @code);
+@};
+
+<set-header2>: (code) -> () = @{
+    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+		  c_current_table);
+    c_out_info_set_header2 (c_current_out_info, @code);
+@};
+
+// Argument list actions:
+
+<save-tuple> = @{
+    types_assign (&c_saved_type, &c_current_type);
+@};
+
+<null-type> = @{
+    types_init (&c_saved_type);
+    types_init (&c_current_type);
+@};
+
+<init-tuple> = @{
+    types_init (&c_current_type);
+@};
+
+<tuple-type>: (name, type) -> () = @{
+    if (!types_add_typed_name (&c_current_type, c_current_table, &@=name,
+			       @&type, FALSE)) {
+	E_c_unknown_type (@&type);
+    }
+    nstring_destroy (&@=type);
+@};
+
+<tuple-ref-type>: (name, type) -> () = @{
+    if (!types_add_typed_name (&c_current_type, c_current_table, &@=name,
+			       @&type, TRUE)) {
+	E_c_unknown_type (@&type);
+    }
+    nstring_destroy (&@=type);
+@};
+
+<tuple-name>: (string) -> () = @{
+    types_add_name (&c_current_type, c_current_table, &@=string, FALSE);
+@};
+
+// Type assignment actions:
+
+<assign>: (string) -> () = @{
+    if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_assign (@&string);
+    } else if (type_get_assign_code (entry_get_type (c_current_entry))) {
+	E_c_assign_mult_def (@&string);
+	c_current_entry = NIL (EntryP);
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-assign>: (code) -> () = @{
+    if (c_current_entry) {
+	BoolT      errored = FALSE;
+	KeyP       key     = entry_key (c_current_entry);
+	TypeTupleT tmp;
+
+	types_init (&tmp);
+	types_add_type_entry (&tmp, c_current_entry, FALSE);
+	if (!types_disjoint_names (&c_saved_type)) {
+	    E_c_assign_param_clash (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_saved_type, &tmp)) {
+	    E_c_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_disjoint_names (&c_current_type)) {
+	    E_c_assign_result_clash (key, &c_current_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_current_type, &tmp)) {
+	    E_c_assign_result_mismatch (key, &tmp, &c_current_type);
+	    errored = TRUE;
+	}
+	if (types_intersect (&c_saved_type, &c_current_type)) {
+	    E_c_assign_formal_clash (key, &c_saved_type, &c_current_type);
+	    errored = TRUE;
+	}
+	types_destroy (&tmp);
+	if (errored) {
+	    types_destroy (&c_saved_type);
+	    types_destroy (&c_current_type);
+	    c_code_deallocate (@code);
+	    c_current_entry = NIL (EntryP);
+	} else {
+	    TypeP type = entry_get_type (c_current_entry);
+
+	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
+			  c_current_table);
+	    type_set_assign_code (type, (GenericP) @code);
+	}
+    } else {
+	types_destroy (&c_saved_type);
+	types_destroy (&c_current_type);
+	c_code_deallocate (@code);
+    }
+@};
+
+<passign>: (string) -> () = @{
+    if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_param_assign (@&string);
+    } else if (type_get_param_assign_code (entry_get_type (c_current_entry))) {
+	E_c_param_assign_mult_def (@&string);
+	c_current_entry = NIL (EntryP);
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-passign>: (code) -> () = @{
+    if (c_current_entry) {
+	BoolT      errored = FALSE;
+	KeyP       key     = entry_key (c_current_entry);
+	TypeTupleT tmp;
+
+	types_init (&tmp);
+	types_add_type_entry (&tmp, c_current_entry, FALSE);
+	if (!types_disjoint_names (&c_saved_type)) {
+	    E_c_param_assign_param_clash (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_saved_type, &tmp)) {
+	    E_c_param_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_disjoint_names (&c_current_type)) {
+	    E_c_param_assign_result_clash (key, &c_current_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_current_type, &tmp)) {
+	    E_c_param_assign_res_mismatch (key, &tmp, &c_current_type);
+	    errored = TRUE;
+	}
+	if (types_intersect (&c_saved_type, &c_current_type)) {
+	    E_c_param_assign_formal_clash (key, &c_saved_type,
+					    &c_current_type);
+	    errored = TRUE;
+	}
+	types_destroy (&tmp);
+	if (errored) {
+	    types_destroy (&c_saved_type);
+	    types_destroy (&c_current_type);
+	    c_code_deallocate (@code);
+	    c_current_entry = NIL (EntryP);
+	} else {
+	    TypeP type = entry_get_type (c_current_entry);
+
+	    c_code_check (@code, FALSE, TRUE, &c_saved_type, &c_current_type,
+			  c_current_table);
+	    type_set_param_assign_code (type, (GenericP) @code);
+	}
+    } else {
+	types_destroy (&c_saved_type);
+	types_destroy (&c_current_type);
+	c_code_deallocate (@code);
+    }
+@};
+
+<rassign>: (string) -> () = @{
+    if ((c_current_entry = table_get_type (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_result_assign (@&string);
+    } else if (type_get_result_assign_code (entry_get_type (c_current_entry))) {
+	E_c_result_assign_mult_def (@&string);
+	c_current_entry = NIL (EntryP);
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-rassign>: (code) -> () = @{
+    if (c_current_entry) {
+	BoolT      errored = FALSE;
+	KeyP       key     = entry_key (c_current_entry);
+	TypeTupleT tmp;
+
+	types_init (&tmp);
+	types_add_type_entry (&tmp, c_current_entry, FALSE);
+	if (!types_disjoint_names (&c_saved_type)) {
+	    E_c_result_assign_param_clash (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_saved_type, &tmp)) {
+	    E_c_res_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_disjoint_names (&c_current_type)) {
+	    E_c_result_assign_result_clash (key, &c_current_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_current_type, &tmp)) {
+	    E_c_res_assign_result_mismatch (key, &tmp, &c_current_type);
+	    errored = TRUE;
+	}
+	if (types_intersect (&c_saved_type, &c_current_type)) {
+	    E_c_result_assign_formal_clash (key, &c_saved_type,
+					    &c_current_type);
+	    errored = TRUE;
+	}
+	types_destroy (&tmp);
+	if (errored) {
+	    types_destroy (&c_saved_type);
+	    types_destroy (&c_current_type);
+	    c_code_deallocate (@code);
+	    c_current_entry = NIL (EntryP);
+	} else {
+	    TypeP type = entry_get_type (c_current_entry);
+
+	    c_code_check (@code, FALSE, FALSE, &c_saved_type, &c_current_type,
+			  c_current_table);
+	    type_set_result_assign_code (type, (GenericP) @code);
+	}
+    } else {
+	types_destroy (&c_saved_type);
+	types_destroy (&c_current_type);
+	c_code_deallocate (@code);
+    }
+@};
+
+// Terminal result extraction actions:
+
+<set-terminal>: (string) -> () = @{
+    if ((c_current_entry = table_get_basic (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_basic (@&string);
+    } else {
+	BasicP basic = entry_get_basic (c_current_entry);
+
+	if (basic_get_result_code (basic)) {
+	    E_c_basic_mult_def (@&string);
+	    c_current_entry = NIL (EntryP);
+	} else if (types_equal_zero_tuple (basic_result (basic))) {
+	    E_c_basic_has_no_result (@&string);
+	    c_current_entry = NIL (EntryP);
+	}
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-set-terminal>: (code) -> () = @{
+    if (c_current_entry) {
+	BasicP     basic   = entry_get_basic (c_current_entry);
+	TypeTupleP result  = basic_result (basic);
+	BoolT      errored = FALSE;
+	KeyP       key     = entry_key (c_current_entry);
+
+	if (!types_disjoint_names (&c_saved_type)) {
+	    E_c_basic_param_clash (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_equal_zero_tuple (&c_saved_type)) {
+	    E_c_basic_param_mismatch (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_disjoint_names (&c_current_type)) {
+	    E_c_basic_result_clash (key, &c_current_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_current_type, result)) {
+	    E_c_basic_result_mismatch (key, result, &c_current_type);
+	    errored = TRUE;
+	}
+	if (types_intersect (&c_saved_type, &c_current_type)) {
+	    E_c_basic_formal_clash (key, &c_saved_type, &c_current_type);
+	    errored = TRUE;
+	}
+	if (errored) {
+	    types_destroy (&c_saved_type);
+	    types_destroy (&c_current_type);
+	    c_code_deallocate (@code);
+	    c_current_entry = NIL (EntryP);
+	} else {
+	    types_destroy (&c_saved_type);
+	    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP),
+			  &c_current_type, c_current_table);
+	    basic_set_result_code (basic, (GenericP) @code);
+	}
+    } else {
+	types_destroy (&c_saved_type);
+	types_destroy (&c_current_type);
+	c_code_deallocate (@code);
+    }
+@};
+
+// Action definition actions:
+
+<set-action>: (string) -> () = @{
+    if ((c_current_entry = table_get_action (c_current_table, @&string)) ==
+	NIL (EntryP)) {
+	E_c_unknown_action (@&string);
+    } else {
+	ActionP action = entry_get_action (c_current_entry);
+
+	if (action_get_code (action)) {
+	    E_c_action_mult_def (@&string);
+	    c_current_entry = NIL (EntryP);
+	}
+    }
+    nstring_destroy (&@=string);
+@};
+
+<x-set-action>: (code) -> () = @{
+    if (c_current_entry) {
+	ActionP    action  = entry_get_action (c_current_entry);
+	TypeTupleP param   = action_param (action);
+	TypeTupleP result  = action_result (action);
+	BoolT      errored = FALSE;
+	KeyP       key     = entry_key (c_current_entry);
+
+	if (!types_disjoint_names (&c_saved_type)) {
+	    E_c_action_param_clash (key, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_saved_type, param)) {
+	    E_c_action_param_mismatch (key, param, &c_saved_type);
+	    errored = TRUE;
+	}
+	if (!types_disjoint_names (&c_current_type)) {
+	    E_c_action_result_clash (key, &c_current_type);
+	    errored = TRUE;
+	}
+	if (!types_fillin_types (&c_current_type, result)) {
+	    E_c_action_result_mismatch (key, result, &c_current_type);
+	    errored = TRUE;
+	}
+	if (types_intersect (&c_saved_type, &c_current_type)) {
+	    E_c_action_formal_clash (key, &c_saved_type, &c_current_type);
+	    errored = TRUE;
+	}
+	if (errored) {
+	    types_destroy (&c_saved_type);
+	    types_destroy (&c_current_type);
+	    c_code_deallocate (@code);
+	    c_current_entry = NIL (EntryP);
+	} else {
+	    c_code_check (@code, TRUE, FALSE, &c_saved_type, &c_current_type,
+			  c_current_table);
+	    types_propogate_mutations (param, &c_saved_type);
+	    action_set_code (action, (GenericP) @code);
+	}
+    } else {
+	types_destroy (&c_saved_type);
+	types_destroy (&c_current_type);
+	c_code_deallocate (@code);
+    }
+@};
+
+<set-trailer1>: (code) -> () = @{
+    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+		  c_current_table);
+    c_out_info_set_trailer1 (c_current_out_info, @code);
+@};
+
+<set-trailer2>: (code) -> () = @{
+    c_code_check (@code, FALSE, FALSE, NIL (TypeTupleP), NIL (TypeTupleP),
+		  c_current_table);
+    c_out_info_set_trailer2 (c_current_out_info, @code);
+@};
+
+// Error recovery stuff:
+
+<unhandled-syntax-error> = @{
+    UNREACHED;
+@};
+
+<expected-identifier> = @{
+    if (!c_propagating_error) {
+	E_c_expected_identifier ();
+    }
+@};
+
+<expected-c-identifier> = @{
+    if (!c_propagating_error) {
+	E_c_expected_c_identifier ();
+    }
+@};
+
+<expected-separator> = @{
+    if (!c_propagating_error) {
+	E_c_expected_separator ();
+    }
+@};
+
+<expected-open-tuple> = @{
+    if (!c_propagating_error) {
+	E_c_expected_open_tuple ();
+    }
+@};
+
+<expected-close-tuple> = @{
+    if (!c_propagating_error) {
+	E_c_expected_close_tuple ();
+    }
+@};
+
+<expected-arrow> = @{
+    if (!c_propagating_error) {
+	E_c_expected_arrow ();
+    }
+@};
+
+<expected-terminator> = @{
+    if (!c_propagating_error) {
+	E_c_expected_terminator ();
+    }
+@};
+
+<expected-end-action> = @{
+    if (!c_propagating_error) {
+	E_c_expected_end_action ();
+    }
+@};
+
+<expected-define> = @{
+    if (!c_propagating_error) {
+	E_c_expected_define ();
+    }
+@};
+
+<expected-code> = @{
+    if (!c_propagating_error) {
+	E_c_expected_code ();
+    }
+@};
+
+<expected-blt-header> = @{
+    if (!c_propagating_error) {
+	E_c_expected_blt_header ();
+    }
+@};
+
+<expected-blt-terminals> = @{
+    if (!c_propagating_error) {
+	E_c_expected_blt_terminals ();
+    }
+@};
+
+<expected-blt-actions> = @{
+    if (!c_propagating_error) {
+	E_c_expected_blt_actions ();
+    }
+@};
+
+<expected-blt-trailer> = @{
+    if (!c_propagating_error) {
+	E_c_expected_blt_trailer ();
+    }
+@};
+
+<expected-eof> = @{
+    if (!c_propagating_error) {
+	E_c_expected_eof ();
+    }
+@};
+
+<destroy-string>: (string) -> () = @{
+    nstring_destroy (&@=string);
+@};
+
+<skip-to-end-of-tuple-defn> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_DEFINE) &&
+	   (@. != C_TOK_CODE) &&
+	   (@. != C_TOK_SEPARATOR) &&
+	   (@. != C_TOK_CLOSE_TUPLE) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_PARAM_ASSIGN) &&
+	   (@. != C_TOK_BLT_RESULT_ASSIGN) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-prefix> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_MAPS) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ASSIGNMENTS) &&
+	   (@. != C_TOK_BLT_PARAM_ASSIGN) &&
+	   (@. != C_TOK_BLT_RESULT_ASSIGN) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-map> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_ASSIGNMENTS) &&
+	   (@. != C_TOK_BLT_PARAM_ASSIGN) &&
+	   (@. != C_TOK_BLT_RESULT_ASSIGN) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-assignment> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_PARAM_ASSIGN) &&
+	   (@. != C_TOK_BLT_RESULT_ASSIGN) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-param-assign> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_RESULT_ASSIGN) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-result-assign> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_TERMINALS) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-terminal> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_ACTIONS) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-to-end-of-action> = @{
+    while ((@. != C_TOK_EOF) &&
+	   (@. != C_TOK_TERMINATOR) &&
+	   (@. != C_TOK_BLT_TRAILER)) {
+	if ((@. == C_TOK_SID_IDENTIFIER) ||
+	    (@. == C_TOK_C_IDENTIFIER)) {
+	    nstring_destroy (c_lexer_string_value (c_current_stream));
+	} else if (@. == C_TOK_CODE) {
+	    c_code_deallocate (c_lexer_code_value (c_current_stream));
+	}
+	@>;
+    }
+    if ((@. == C_TOK_SID_IDENTIFIER) ||
+	(@. == C_TOK_C_IDENTIFIER)) {
+	nstring_destroy (c_lexer_string_value (c_current_stream));
+    }
+    if (@. != C_TOK_EOF) {
+	@>;
+    }
+    c_propagating_error = TRUE;
+@};
+
+<skip-recover> = @{
+    c_propagating_error = FALSE;
+@};
+
+<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{
+    @predicate = ((@. == C_TOK_CLOSE_TUPLE) ||
+		  (@. == C_TOK_EOF) ||
+		  (c_propagating_error));
+@};
+
+%trailer% @{
+@}, @{
+@};

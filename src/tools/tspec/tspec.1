@@ -1,0 +1,134 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tspec 1
+.SH NAME
+tspec \- An API specification tool
+.SH SYNOPSIS
+\fBtspec\fR [ \fIoptions\fR ] \fIapi\fR
+.PP
+\fBtspec\fR [ \fIoptions\fR ] \fIapi\fR \fIheader\fR
+.PP
+\fBtspec\fR [ \fIoptions\fR ] \fIapi\fR \fIheader\fR \fIsubset\fR
+.PP
+\fBtspec\fR [ \fIoptions\fR ] \fB-l\fR \fIfile\fR
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+\fBtspec\fR is a tool for translating a form of API (Application
+Programming Interface) description into the \fI#pragma\fR headers used
+by \fItcc\fR(1) to represent such APIs.  It is more fully documented
+in \fItspec - An API Specification Tool\fR.
+.PP
+There are two basic forms of command-line.  The first specifies that
+\fBtspec\fR should process the whole of the API description \fIapi\fR, or
+just one header from it, \fIheader\fR, or just a subset of that header,
+\fIsubset\fR, writing its output to the standard output directory.  The
+second (using the \fB-l\fR option) specifies that it should process a
+single file, writing the output to the standard output.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+.\" ----------------------------------------------------------------------
+.IP \fB-C\fIfile\fR
+Causes \fBtspec\fR to insert the contents of \fIfile\fR as a copyright
+message at the start of each output file.  This can also be specified
+using the \fBTSPEC_COPYRIGHT\fR environmental variable.  The order of
+precedence for this and other similar options is, built-in values
+lowest, environmental variables next, and command-line options highest.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIdir\fR
+Add the colon-separated list of directories \fIdir\fR to the list of
+directories searched for input files.   Input directories can also be
+specified using the \fBTSPEC_INPUT\fR environmental variable.
+.\" ----------------------------------------------------------------------
+.IP \fB-O\fIdir\fR
+Specifies that the directory \fIdir\fR should be used as a base for the
+include output files.  This can also be specified using the
+\fBTSPEC_INCL_OUTPUT\fR or the \fBTSPEC_OUTPUT\fR environmental variable.
+In the latter case it is given by \fB${TSPEC_OUTPUT}/include\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fIdir\fR
+Specifies that the directory \fIdir\fR should be used as a base for the
+source output files.  This can also be specified using the
+\fBTSPEC_SRC_OUTPUT\fR or the \fBTSPEC_OUTPUT\fR environmental variable.
+In the latter case it is given by \fB${TSPEC_OUTPUT}/src\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-c\fR
+Causes \fBtspec\fR to only check the input files, not to generate any
+output files.
+.\" ----------------------------------------------------------------------
+.IP \fB-e\fR
+Causes \fBtspec\fR to only run its preprocessor phase, writing the output
+to the standard output.
+.\" ----------------------------------------------------------------------
+.IP \fB-f\fR
+Causes \fBtspec\fR to ignore date stamps when deciding whether it is
+necessary to update an output file, and to force it to be updated.
+.\" ----------------------------------------------------------------------
+.IP \fB-i\fR
+Causes \fBtspec\fR to print an index of all the objects specified in
+the input files to the standard output.  This index is designed to be
+used as a quick guide to the contents of an API.
+.\" ----------------------------------------------------------------------
+.IP \fB-l\fR
+Specifies local input mode (see above).
+.\" ----------------------------------------------------------------------
+.IP \fB-m\fR
+Causes \fBtspec\fR to print an index intended for machine processing of
+all the objects specified in the input files to the standard output.
+This index is suitable for processing with text processing tools such
+as \fIawk\fR(1).
+.\" ----------------------------------------------------------------------
+.IP \fB-n\fR
+Causes \fBtspec\fR to update any output files which are younger than
+the \fBtspec\fR executable.  This is useful primarily in development
+work on \fBtspec\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-p\fR
+Indicates to \fBtspec\fR that its input has already been preprocessed
+(i.e. that it is the output of a previous \fB-e\fR option).
+.\" ----------------------------------------------------------------------
+.IP \fB-r\fR
+Causes \fBtspec\fR to only produce output for implemented, as opposed to
+used, objects.
+.\" ----------------------------------------------------------------------
+.IP \fB-s\fR
+Causes \fBtspec\fR to check each header in an API separately, as opposed
+to all at once (as with the \fB-c\fR option).
+.\" ----------------------------------------------------------------------
+.IP \fB-u\fR
+Causes \fBtspec\fR to generate unique token names for the objects in
+its input files.
+.\" ----------------------------------------------------------------------
+.IP \fB-v\fR
+Causes \fBtspec\fR to enter verbose mode, in which it reports on the
+output files it creates.  If two \fB-v\fR options are given then
+\fBtspec\fR enters very verbose mode, in which it gives more information
+on its activities.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1), \fItdfc\fR(1).
+.\" ----------------------------------------------------------------------

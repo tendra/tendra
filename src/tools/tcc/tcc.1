@@ -1,0 +1,557 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tcc 1
+.SH NAME
+tcc \- User interface to the TDF system
+.SH SYNOPSIS
+\fBtcc\fR [ \fIoptions\fR ] \fIfiles\fR
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+\fBtcc\fR is the user interface to the TDF system.  It is more fully
+documented in the \fItcc User's Guide\fR.
+.\" ----------------------------------------------------------------------
+.PP
+\fBtcc\fR accepts several types of arguments as \fIfiles\fR:
+.IP -
+Arguments whose names end in \fB.c\fR are understood to be C source files.
+.IP -
+Arguments whose names end in \fB.i\fR are understood to be preprocessed
+C source files.
+.IP -
+Arguments whose names end in \fB.C\fR are understood to be C++ source
+files (only if \fB-Yc++\fR is specified).
+.IP -
+Arguments whose names end in \fB.I\fR are understood to be preprocessed
+C++ source files (only if \fB-Yc++\fR is specified).
+.IP -
+Arguments whose names end in \fB.j\fR are understood to be target
+independent TDF capsules.
+.IP -
+Arguments whose names end in \fB.ta\fR are understood to be archives of
+target independent TDF capsules.
+.IP -
+Arguments whose names end in \fB.t\fR are understood to be target
+dependent TDF capsules.
+.IP -
+Arguments whose names end in \fB.s\fR are understood to be assembly
+source files.
+.IP -
+Arguments whose names end in \fB.d\fR are understood to be TenDRA dump
+files.
+.IP -
+Arguments whose names end in \fB.K\fR are understood to be C++ spec files
+(only if \fB-Yc++\fR is specified).
+.IP -
+Arguments whose names end in \fB.p\fR are understood to be TDF notation
+source files (only if \fB-Ytnc\fR is specified).
+.IP -
+Arguments whose names end in \fB.pl\fR are understood to be PL_TDF source
+files (only if \fB-Ypl_tdf\fR is specified).
+.IP -
+All other arguments (but particularly those whose names end in \fB.o\fR
+and \fB.a\fR) are understood to be binary object files.
+.\" ----------------------------------------------------------------------
+.PP
+The compilation process is as follows.  Depending on the options given,
+it may halt at any stage:
+.IP 1.
+TDF archives are split into their constituent target independent capsules.
+.IP 2.
+C source files (including preprocessed C) are compiled into target
+independent TDF capsules using \fItdfc\fR(1).  (\fItcpplus\fR(1)
+does the same for C++ source files when \fB-Yc++\fR is specified.)
+.IP 3.
+Target independent TDF capsules are linked, using \fItld\fR(1), with
+the TDF libraries to produce target dependent TDF capsules.
+.IP 4.
+Target dependent TDF capsules are translated into assembly source files
+using one of \fImipstrans\fR(1) (q.v. - things are not quite so simple
+in this case), \fItrans386\fR(1) etc.
+.IP 5.
+Assembly source files are compiled into binary object files
+using \fIas\fR(1).
+.IP 6.
+Binary object files are linked with the precompiled libraries, using
+\fIld\fR(1), to produce a final executable.
+.PP
+With the exception of binary object files, intermediate files are not
+preserved unless explicitly instructed.
+.\" ----------------------------------------------------------------------
+.PP
+The standard file suffixes \fBc\fR, \fBi\fR, \fBC\fR, \fBI\fR, \fBj\fR,
+\fBt\fR, \fBs\fR, \fBo\fR, \fBd\fR, \fBk\fR, and \fBK\fR, together with
+\fBp\fR (pretty-printed TDF capsule) and \fBpl\fR (PL_TDF source file),
+are used to indicate file types in some options.  Also the various
+compilation phases are identified by letters in some options.
+These are:
+.IP \fBc\fR
+C to TDF producer
+.IP \fBp\fR
+C preprocessor
+.IP \fBx\fR
+C++ to TDF producer (only if \fB-Yc++\fR is specified)
+.IP \fBg\fR
+C++ preprocessor (only if \fB-Yc++\fR is specified)
+.IP \fBL\fR
+TDF linker (or builder)
+.IP \fBt\fR
+TDF translator
+.IP \fBa\fR
+System assembler
+.IP \fBl\fR
+System linker
+.IP \fBS\fR
+C++ spec linker
+.IP \fBe\fR
+Compact-output error reporter (only if \fB-Ycompact\fR is specified)
+.IP \fBu\fR
+TenDRA dump file linker
+.IP \fBd\fR
+TDF pretty-printer
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+The following options are supported by \fBtcc\fR.  All options are scanned
+before input files are dealt with.  The system variable \fBTCCOPTS\fR
+may be used to specify a list of options which are processed before the
+first command-line option.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIstring\fR
+Asserts the predicate \fIstring\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-B\fIstring\fR
+Passed to the system linker.  The valid values of \fIstring\fR are target
+dependent.
+.\" ----------------------------------------------------------------------
+.IP \fB-C\fR
+Not implemented and provided for \fIcc\fR(1) compatibility only.  It is
+meant to preserve comments when preprocessing.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fIstring\fR
+Where \fIstring\fR is of the form \fImacro\fR or \fImacro=defn\fR, is
+equivalent to inserting the preprocessor directives "#define \fImacro\fR 1"
+or "#define \fImacro defn\fR" at the start of each C source file.  This
+is implemented by \fBtcc\fR writing this directive into a start-up file.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+Invokes the C preprocessor only, putting the result into a file with
+a \fB.i\fR suffix if other options indicate that preprocessed C files
+are to be preserved, or onto the standard output otherwise.  Similarly,
+C++ source files are preprocessed and put into files with \fB.I\fR suffixes.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fIletter\fB:\fIfile\fR
+Causes \fIfile\fR to be invoked as the executable for the compilation
+stage given by \fIletter\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-F\fIletter\fB\fR
+Tells \fBtcc\fR to stop after producing the files indicated by \fIletter\fR,
+and to preserve these files. \fIletter\fR is a single character corresponding
+to the suffix of the files to be preserved.
+.\" ----------------------------------------------------------------------
+.IP \fB-G\fR
+Provided for \fIcc\fR compatibility.
+.\" ----------------------------------------------------------------------
+.IP \fB-H\fR
+Causes the names of files included by a '#include' directive to be printed.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIstring\fR
+Tells the producers and preprocessors to search the directory \fIstring\fR
+for included files.  The directories are searched in the order given,
+followed by the system default directories.
+.\" ----------------------------------------------------------------------
+.IP \fB-J\fIstring\fR
+Tells the TDF linker to search the directory \fIstring\fR for TDF libraries.
+The linker searches the directories in the order given, followed by the
+system default directories.
+.\" ----------------------------------------------------------------------
+.IP \fB-K\fIstring\fB,...\fR
+Provided for \fIcc\fR compatibility.  Specifies various installer options.
+.\" ----------------------------------------------------------------------
+.IP \fB-L\fIstring\fR
+Tells the system linker to search the directory \fIstring\fR for libraries.
+It searches the directories in the order given, followed by the system
+default directories.
+.\" ----------------------------------------------------------------------
+.IP \fB-M\fR
+Specifies that the TDF linker should link all the given target
+independent TDF capsules into one.  This is done between stages 2
+and 3 above.  The default name for the produced capsule is \fBa.j\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-MA\fR
+Specifies that the TDF linker should link all the given target
+independent TDF capsules into one and also hide all the defined
+tag and token names from the resultant TDF (except the tag "main").
+This should only be used to compile complete programs.  The default
+name for the resulting capsule is \fBa.j\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-N\fIidentifier\fR:\fIstring\fR
+As \fB-I\fIstring\fR except that the identifier \fIidentifier\fR is
+associated with the directory \fIstring\fR in the producer.
+.\" ----------------------------------------------------------------------
+.IP \fB-O\fIstring\fR
+This flag has no effect other than to cancel any previous diagnostics
+flag and is included only for compatibility with other compilers.  All
+TDF optimisations are on by default.  All optimisations are believed to
+be correct, any bug which occurs in the fully-optimised state is a
+genuine bug.
+.\" ----------------------------------------------------------------------
+.IP \fB-P\fR
+Invokes the C preprocessor only, putting the result into a file with
+a \fB.i\fR suffix.  The C++ preprocessor is similarly invoked for C++
+source files, putting the result into a file with a \fB.I\fR suffix.
+.\" ----------------------------------------------------------------------
+.IP \fB-P\fIletter\fR...
+Tells \fBtcc\fR to preserve those files indicated by \fIletter\fR.  Each
+\fIletter\fR is a single character corresponding to the suffix of the files
+to be preserved.  The \fBtcc\fR startup-file can be preserved as
+\fBtcc_startup.h\fR using \fB-Ph\fR.  All intermediate files can be
+preserved using \fB-Pa\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fR
+Tells \fBtcc\fR to stop after producing an assembly source file.  This
+is equivalent to \fB-Fs\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fIletter\fB,\fIstring\fB,\fR...
+The specifies that the list of input files \fIstring\fR all have type
+\fIletter\fR, where \fIletter\fR is a single character giving the normal
+suffix of the file type.  This gives an alternative method of passing input
+files to \fBtcc\fR, one which does not depend on it having to recognise
+suffixes to find the type of a file.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fIletter\fB:\fIstring\fR
+Similar to the option above, but specifies a single input file,
+\fIstring\fR (which may contain a comma).
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fIstring\fR
+Is equivalent to inserting  the preprocessor directive "#undef \fIstring\fR"
+at the start of each C source file.  This is implemented by \fBtcc\fR writing
+this directive into a start-up file.  The only macros built into the C to
+TDF producer are __LINE__ , __FILE__ , __DATE__ , __TIME__ , __STDC__ ,
+__ANDF__ and __TenDRA__ .
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+Causes all tools invoked by \fBtcc\fR to print their version numbers.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIletter\fB,\fIstring\fB,\fR...
+This passes the list of options \fIstring\fR to the compilation phase
+indicated by \fIletter\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIletter\fB:\fIstring\fR
+Similar to the option above, but specifies a single option \fIstring\fR
+(which may contain a comma).
+.\" ----------------------------------------------------------------------
+.IP \fB-X\fIstring\fR
+Specifies a compilation mode.  \fIstring\fR can be \fBa\fR for "lenient
+ANSI", \fBc\fR for "strict ANSI" (this is default), \fBp\fR for "strict
+ANSI with some extra checks", \fBs\fR for "strict ANSI with many extra
+checks" or \fBt\fR for "traditional".
+.\" ----------------------------------------------------------------------
+.IP \fB-X:\fIstring\fR
+Specifies an individual compilation option.  See the \fItcc User's Guide\fR
+for details.
+.\" ----------------------------------------------------------------------
+.IP \fB-Y\fIfile\fR
+Specifies the environment to use.  An environment is a file telling
+\fBtcc\fR to modify its defaults.  If the full pathname of \fIenv\fR is
+not given, the file is searched for along the \fBtcc\fR environments path
+which is a list of directories separated by colons.  This search path can
+be printed using \fB-show_env\fR.  There are certain standard environments,
+for example, \fBansi\fR, representing the ANSI API (this is the default
+API environment), \fBposix\fR represents the POSIX API, \fBxpg3\fR the
+XPG3 API, and so on.  The \fBsystem\fR environment allows \fBtcc\fR to
+behave like \fIcc\fR(1), using the system header files etc.  See the
+\fItcc User's Guide\fR and \fBtccenv\fR(5) manual page for more details
+about environments.
+.\" ----------------------------------------------------------------------
+.IP \fB-Z\fIstring\fR
+Provided for \fIcc\fR(1) compatibility.  Specifies various installer
+options.
+.\" ----------------------------------------------------------------------
+.IP \fB-api_check\fR
+Causes \fBtchk\fR to create an API usage analysis file, with default name
+\fBa.api\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-api_check_out\ \fIstring\fR
+If an API usage analysis file is produced, call it \fIstring\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-b\fR
+Stops the library \fBlibc.a\fR being used by the linker by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-c\fR
+Tells \fBtcc\fR to stop after producing the binary object files.  This is
+equivalent to \fB-Fo\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-cc\fR
+Causes \fBtcc\fR to invoke \fIcc\fR(1) for its code production, using the
+C to TDF producer as a checking front-end to \fIcc\fR.  This allows the
+checking capabilities of the front-end of the TDF compiler to be exploited
+on machines where no TDF back-end is available.
+.\" ----------------------------------------------------------------------
+.IP \fB-cc_only\fR
+Causes \fBtcc\fR to invoke \fIcc\fR(1) only.
+.\" ----------------------------------------------------------------------
+.IP \fB-ch\fR
+Causes \fBtcc\fR to emulate the stand-alone static checker,
+\fItchk\fR(1).  Intermodular checks are enabled in this mode.
+.\" ----------------------------------------------------------------------
+.IP \fB-d\fR
+Halts the compilation after the creation of the dump files.  This is
+equivalent to \fB-Fd\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-disp\fR
+Runs the TDF pretty-printer on all files at stage 2 or 3 and then
+terminates.  The results are put into files with \fB.p\fR suffixes.
+.\" ----------------------------------------------------------------------
+.IP \fB-disp_t\fR
+Runs the pretty-printer on all files at stage 3 and then terminates.
+This differs from the previous option in that it displays the TDF
+after linking with the target-dependent TDF libraries rather than
+before.  The output is put into a file with a \fB.p\fR suffix.
+.\" ----------------------------------------------------------------------
+.IP \fB-dn\fR\ or\ \fB-dy\fR
+Passed to the system linker.
+.\" ----------------------------------------------------------------------
+.IP \fB-do\fIletter\fR\ \fIstring\fR
+Sets the name of the default output file of type \fIletter\fR to
+\fIstring\fR.  For example, \fB-doh\fR can be used to set the name of
+the preserved start-up file.
+.\" ----------------------------------------------------------------------
+.IP \fB-dry\fR
+Makes \fBtcc\fR print information on what system commands it would execute
+with the given files and options (as in verbose mode) but not actually
+perform them.
+.\" ----------------------------------------------------------------------
+.IP \fB-dump\fR
+Causes \fBtcc\fR to dump its current status.  This option is only used
+during the actual compilation of \fBtcc\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-e\fIstring\fR
+Is equivalent to inserting the preprocessor directive
+"#include "\fIstring\fR"" at the end of each C source file.
+.\" ----------------------------------------------------------------------
+.IP \fB-f\fIstring\fR
+Is equivalent to inserting the preprocessor directive
+"#include "\fIstring\fR"" at the start of each C source file.
+.\" ----------------------------------------------------------------------
+.IP \fB-g\fR
+Tells \fBtcc\fR to produce diagnostic information compatible with the
+system debugger.
+.\" ----------------------------------------------------------------------
+.IP \fB-h\fIstring\fR
+Passed to the system linker.
+.\" ----------------------------------------------------------------------
+.IP \fB-i\fR
+Tells \fBtcc\fR to stop after producing the target independent TDF capsules.
+This is equivalent to \fB-Fj\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-im\fR
+Enables intermodular checks.
+.\" ----------------------------------------------------------------------
+.IP \fB-im0\fR
+Disables intermodular checks.
+.\" ----------------------------------------------------------------------
+.IP \fB-info\fR
+Causes \fBtcc\fR to print information on the current API.
+.\" ----------------------------------------------------------------------
+.IP \fB-j\fIstring\fR
+Tells the TDF linker to use the TDF library \fIstring\fR\fB.tl\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-k\fR
+In intermodular checking mode, halts the compilation after the creation
+of the C++ spec files.  This is equivalent to \fB-FK\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-keep_errors\fR
+By default, if an error occurs during the production of a file, \fBtcc\fR
+will remove it.  This option will preserve such files.
+.\" ----------------------------------------------------------------------
+.IP \fB-l\fIstring\fR
+Tells the system linker to use the library \fBlib\fR\fIstring\fR\fB.a\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-make_up_names\fR
+Causes \fBtcc\fR to make up names for all intermediate files rather than
+forming them from the basenames of the input files.
+.\" ----------------------------------------------------------------------
+.IP \fB-message\ \fIstring\fR
+Causes \fBtcc\fR to print the message \fIstring\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-nepc\fR
+Tells the C to TDF producer to allow certain non-portable constructs
+through.
+.\" ----------------------------------------------------------------------
+.IP \fB-not_ansi\fR
+Tells the C to TDF producer to allow certain non-ANSI features through.
+.\" ----------------------------------------------------------------------
+.IP \fB-no_startup_options\fR
+Ensures that no start-up or end-up options are passed to the C to TDF
+producer (unlikely to be useful).
+.\" ----------------------------------------------------------------------
+.IP \fB-o\ \fIstring\fR
+If a final executable is produced, call it \fIstring\fR (the default is
+\fBa.out\fR).  Otherwise, if only one file is preserved, call it \fIstring\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-p\fR
+Produces profiling data for use with \fIprof\fR(1) on those machines for
+which this command is available.
+.\" ----------------------------------------------------------------------
+.IP \fB-prod\fR
+Specifies that \fBtcc\fR should stop after producing the target independent
+TDF capsules and combine them into a TDF archive.  The default archive
+name is \fBa.ta\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-q\fR\ or\ \fB-quiet\fR
+Specifies that \fBtcc\fR should work silently.  This is the default.
+.\" ----------------------------------------------------------------------
+.IP \fB-query\fR
+Causes \fBtcc\fR to print a list of all the options it recognises,
+together with a brief description of each.  Since this list is
+automatically generated it is likely to be more accurate than this
+manual page.
+.\" ----------------------------------------------------------------------
+.IP \fB-s\fR
+Passed to the system linker.
+.\" ----------------------------------------------------------------------
+.IP \fB-s\fIletter\fB:\fIsuffix\fR\fR
+Specifies that files with suffix \fIsuffix\fR are interpreted as having
+type indicated by \fIletter\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-show_env\fR
+Prints the \fBtcc\fR environments path.  This is a list of directories
+separated by colons.  The first element of the list is always the system
+default environments directory and the last element is always the current
+working directory.  The other elements may be specified by the user by
+means of the \fBTCCENV\fR system variable.
+.\" ----------------------------------------------------------------------
+.IP \fB-show_errors\fR
+Makes \fBtcc\fR report on the command it was executing when an error
+occurred.
+.\" ----------------------------------------------------------------------
+.IP \fB-special\ \fIstring\fR
+Allows various internal options to be specified.
+.\" ----------------------------------------------------------------------
+.IP \fB-startup\ \fIstring\fR
+Causes \fIstring\fR to be printed to the \fBtcc\fR built-in start-up file.
+.\" ----------------------------------------------------------------------
+.IP \fB-sym\fR
+Enables dump-linking.
+.\" ----------------------------------------------------------------------
+.IP \fB-sym:\ \fIstring\\fR
+Enables dump-linking (with mode specified by options in \fIstring\fR).
+.\" ----------------------------------------------------------------------
+.IP \fB-target\ \fIstring\fR
+No effect (allowed for compatibility with \fIcc\fR(1) on some systems).
+.\" ----------------------------------------------------------------------
+.IP \fB-temp\ \fIdir\fR
+Specifies that \fBtcc\fR should use \fIdir\fR as its temporary directory.
+.\" ----------------------------------------------------------------------
+.IP \fB-tidy\fR
+Causes \fBtcc\fR to remove its intermediate files when they are no longer
+required rather than waiting to the end of the compilation.
+.\" ----------------------------------------------------------------------
+.IP \fB-time\fR
+Makes \fBtcc\fR print information on what system commands it is executing
+(as with verbose mode) followed by the time taken for each.
+.\" ----------------------------------------------------------------------
+.IP \fB-u\fIstring\fR
+Passed to the system linker.
+.\" ----------------------------------------------------------------------
+.IP \fB-v\fR\ or\ \fB-verbose\fR
+Specifies that \fBtcc\fR should work in verbose mode, sending information
+on what system commands it is executing to the standard output.
+.\" ----------------------------------------------------------------------
+.IP \fB-vb\fR
+Causes the name of each input file to be printed as it is processed.
+.\" ----------------------------------------------------------------------
+.IP \fB-version\fR
+Makes \fBtcc\fR report its version number.
+.\" ----------------------------------------------------------------------
+.IP \fB-w\fR
+Suppresses all \fBtcc\fR warning messages.
+.\" ----------------------------------------------------------------------
+.IP \fB-work\ \fIstring\fR
+Specifies that all preserved intermediate files are placed in the
+directory \fIstring\fR rather than where they are placed by default,
+in the current working directory.
+.\" ----------------------------------------------------------------------
+.IP \fB-wsl\fR
+Tells the TDF translator to make all string literals writable.
+.\" ----------------------------------------------------------------------
+.IP \fB-z\fIstring\fR
+Passed to the system linker.
+.\" ----------------------------------------------------------------------
+.SH FILES
+.IP file.c
+C source file
+.IP file.i
+Preprocessed C source file
+.IP file.C
+C++ source file (only if \fB-Yc++\fR is specified)
+.IP file.I
+Preprocessed C++ source file (only if \fB-Yc++\fR is specified)
+.IP file.j
+Target independent TDF capsule
+.IP file.t
+Target dependent TDF capsule
+.IP file.s
+Assembly source file
+.IP file.o
+Binary object file
+.IP file.d
+TenDRA dump file
+.IP file.K
+C++ spec file (only if \fB-Yc++\fR is specified)
+.IP file.p
+Pretty-printed TDF capsule
+.IP file.pl
+PL_TDF source file (only if \fB-Ypl_tdf\fR is specified)
+.IP file.ta
+TDF archive
+.IP file.G
+Binasm source file (Mips and Alpha only)
+.IP file.T
+Assembler symbol table (Mips and Alpha only)
+.IP a.out
+Default executable name
+.IP a.ta
+Default TDF archive name
+.IP a.d
+Default dump file name
+.IP a.api
+Default API usage analysis file name
+.IP a.j
+Default output file for merge-TDF-capsules option
+.IP tcc_startup.h
+Name of preserved \fBtcc\fR start-up file
+.IP /tmp/tcc*
+Temporary directory (this may be changed using the \fBTMPDIR\fR
+system variable, see \fItempnam\fR(3)).
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fIas\fR(1), \fIcc\fR(1), \fIdisp\fR(1), \fIld\fR(1), \fIprof\fR(1),
+\fItchk\fR(1), \fItdfc\fR(1), \fItcpplus\fR(1), \fItot_o\fR(1),
+\fItld\fR(1), \fItrans386\fR(1), \fIalphatrans\fR(1), \fIhppatrans\fR(1),
+\fImipstrans\fR(1), \fIsparctrans\fR(1), \fItccenv\fR(5).
+.\" ----------------------------------------------------------------------

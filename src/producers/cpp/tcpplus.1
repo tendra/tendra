@@ -1,0 +1,211 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tcpplus 1
+.SH NAME
+tcpplus \- C++ to TDF/ANDF producer
+.SH SYNOPSIS
+\fBtcpplus\fR [ \fIoptions\fR ] [ \fIinput-file\fR ] [ \fIoutput-file\fR ]
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+In its default action, \fBtcpplus\fR translates the input C++ source
+file, \fIinput-file\fR, into a TDF/ANDF capsule, \fIoutput-file\fR.  If
+the output file name is omitted or is \fB-\fR, the standard output is used.
+If the input file name is omitted or is \fB-\fR, the standard input is
+used.
+.PP
+By use of the \fB-s\fIspec-file\fR option, \fBtcpplus\fR can additionally
+be made to output a C++ spec file which contains information enabling
+intermodule analysis to be performed.  Alternatively usage and error
+information suitable for processing by other tools can be output using
+the \fB-d\fIopt\fB=\fIdump-file\fR option.
+.PP
+\fBtcpplus\fR also has a preprocessing action, when invoked with the
+\fB-E\fR option, in which the input C++ source file, \fIinput-file\fR,
+is preprocessed to an output file, \fIouput-file\fR.
+.PP
+Finally \fBtcpplus\fR has a spec linker action, when invoked with the
+\fB-S\fR option, in which any number of spec input files, \fIinput-file\fR,
+are combined into a spec output file, which may be specified using the
+\fB-s\fR option.  Any extra code generation resulting from this linking
+phase is written to the TDF capsule, \fIoutput-file\fR.
+.PP
+It is recommended that \fBtcpplus\fR is invoked via \fItcc\fR(1).
+The \fB-Yc++\fR option is required to enable the C++ capabilities.
+Files with a \fB.C\fR suffix are recognised as C++ source files.
+Options can be passed directly to \fBtcpplus\fR using the
+\fB-Wx,\fIopt\fR option to \fItcc\fR.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+.PP
+The command-line options can appear in any order and can be interspersed
+with the input and output files.  All the multi-part options can be
+given either as one or two command-line arguments, so that \fB-I\fIdir\fR
+and \fB-I\fR \fIdir\fR are equivalent.  Most of the option handling
+required is handled by \fItcc\fR(1) when this is being used, but
+options may be passed directly to \fBtcpplus\fR using the \fB-Wx,\fIopt\fR
+option.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIpredicate\fB(\fItokens\fB)\fR
+Asserts that the given predicate is true.  The special case \fB-A-\fR
+undefines all the built-in predicates (of which there are none).
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fImacro\fR
+Defines the given macro to be 1.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fImacro\fB=\fItokens\fR
+Defines the given macro to be the given sequence of preprocessing tokens.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+Enables preprocessing mode in which the input C++ source file is
+preprocessed into the output file.
+.\" ----------------------------------------------------------------------
+.IP \fB-F\fIfile\fR
+Causes a list of options to be read from \fIfile\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-H\fR
+Enables verbose inclusion mode in which warnings are printed at the
+start and the end of each included source file.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIdirectory\fR
+Adds the given directory to the list searched by \fBtcpplus\fR for
+included source files.  No such directories are built into \fBtcpplus\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-N\fIname\fB:\fIdirectory\fR
+Is identical to \fB-I\fIdirectory\fR except that it also associates the
+given identifier with the directory.
+.\" ----------------------------------------------------------------------
+.IP \fB-S\fR
+Enables spec linker mode in which any number of C++ spec input files are
+linked into a single C++ spec output file.
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fImacro\fR
+Undefines the given macro.  The special case \fB-U-\fR undefines all the
+built-in macros.  These are \fB__FILE__\fR, \fB__LINE__\fR,
+\fB__TIME__\fR, \fB__DATE__\fR, \fB__STDC__\fR, \fB__STDC_VERSION__\fR,
+and \fB__cplusplus\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+Causes \fBtcpplus\fR to print the name of each function to the standard
+output as it is compiled.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIoption\fR
+Causes \fBtcpplus\fR to print a warning in the circumstances described
+by \fIoption\fR.  The special case \fB-Wall\fR enables a wide range of
+warnings.
+.\" ----------------------------------------------------------------------
+.IP \fB-X\fR
+Disables exception handling.  The current implementation can be a large
+run-time overhead if not required.  The effect of linking any module
+compiled with this option with a module which throws an exception is
+undefined.  This is equivalent to \fB-j-e\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-Z\fInumber\fR
+Sets the maximum number of errors printed by \fBtcpplus\fR before
+bailing out to be \fInumber\fR.  The default is 32.
+.\" ----------------------------------------------------------------------
+.IP \fB-a\fR
+Causes \fBtcpplus\fR to apply complete program analysis to its input
+files.  That is it assumes that no other translation units need to be
+linked in order for the program to execute.
+.\" ----------------------------------------------------------------------
+.IP \fB-c\fR
+Disables TDF output.  The output file will still be a valid TDF capsule,
+only it will contain no information.  This is equivalent to \fB-j-c\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-d\fIopt\fB=\fIdump-file\fR
+Causes \fBtcpplus\fR to dump information about its input file into
+\fIdump-file\fR.  \fIopt\fR is a series of characters describing the
+information to be dumped; \fBc\fR for string literals, \fBe\fR for errors,
+\fBh\fR for header files, \fBk\fR for keywords, \fBl\fR for local variables,
+\fBm\fR for macros, \fBs\fR for scopes, and \fBu\fR for usage.  \fBa\fR is
+equivalent to \fBehlmu\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-e\fIfile\fR
+Specifies the given file as an end-up file.  This is equivalent to
+adding a \fB#include\fR directive for this file at the end of the input
+source file.
+.\" ----------------------------------------------------------------------
+.IP \fB-f\fIfile\fR
+Specifies the given file as a start-up file.  This is equivalent to
+adding a \fB#include\fR directive for this file at the start of the input
+source file.
+.\" ----------------------------------------------------------------------
+.IP \fB-g\fR
+Specifies that the output TDF capsule should also contain information
+to allow for the generation of run-time debugging directives.  This
+is equivalent to \fB-jg\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-h\fR
+Causes \fBtcpplus\fR to print a full list of its available command-line
+options.  This includes a number not documented here which are unlikely
+to prove useful to the normal user.
+.\" ----------------------------------------------------------------------
+.IP \fB-j\fIopt\fR
+Sets the TDF output options given by \fIopt\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-m\fIopt\fR
+Sets the error formatting options given by \fIopt\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-n\fIport-table\fR
+Specifies that the given portability table should be used to specify
+the basic configuration parameters.
+.\" ----------------------------------------------------------------------
+.IP \fB-o\fIoutput-file\fR
+Gives an alternative method of specifying the output file.
+.\" ----------------------------------------------------------------------
+.IP \fB-q\fR
+Causes \fBtcpplus\fR to quit immediately without processing its input
+file.  This is useful primarily in version and option queries.
+.\" ----------------------------------------------------------------------
+.IP \fB-s\fIspec-file\fR
+Causes \fBtcpplus\fR to write a C++ spec file describing the input source
+file to \fIspec-file\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-t\fR
+Specifies that \fBtcpplus\fR should include token declarations in its
+output TDF capsule.  While these are strictly unnecessary, they help when
+pretty-printing the output.  This is equivalent to \fB-jt\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-u\fI\ name\ ...\ name\fR
+Causes \fBtcpplus\fR to print the unmangle forms of the given mangled
+identifier names.
+.\" ----------------------------------------------------------------------
+.IP \fB-v\fR
+Causes \fBtcpplus\fR to print its version number.
+.\" ----------------------------------------------------------------------
+.IP \fB-w\fR
+Disables all warning messages.  This is equivalent to \fB-mw\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-z\fR
+Forces \fBtcpplus\fR to produce an output file even if compilation errors
+occur.  The effect of installing a TDF capsule produced using this option
+is undefined.  This is equivalent to \fB-mz\fR.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1), \fItdfc\fR(1).
+.\" ----------------------------------------------------------------------

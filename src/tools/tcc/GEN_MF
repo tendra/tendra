@@ -1,0 +1,24 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+SRC=${BASE}/src/tools/tcc
+
+SED=/tmp/sed$$
+cat > ${SED} << EOF
+1,\$s/\${LINK_CC} -o \${NAME}/&.new/
+/\${NAME}.new/a\\
+	\${REMOVE} \${NAME}\\
+	\${MOVE} \${NAME}.new \${NAME}
+EOF
+
+make_mf\
+    +A BASE=${BASE}\
+    +A SRC=${SRC}\
+    +W ...\
+    -o .../tcc1\
+    -Yxpg4 -Xs\
+    -I ${SRC}\
+    ${SRC}/*.c |\
+    sed -f ${SED} > Makefile
+
+rm -f ${SED}

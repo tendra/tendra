@@ -1,0 +1,105 @@
+#
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+$UNIQUE = 1 ;
+$VERSION = "2.7" ;
++BASE_API ;
+
++IMPLEMENT "ansi", "dummy/sys.h" ;
++IMPLEMENT "unix95", "arpa/inet.h" ;		# Networking
++IMPLEMENT "unix95", "assert.h" ;
++IMPLEMENT "unix95", "cpio.h" ;
++IMPLEMENT "unix95", "ctype.h" ;
++IMPLEMENT "unix95", "curses.h" ;		# Curses
++IMPLEMENT "unix95", "dirent.h" ;
++IMPLEMENT "unix95", "errno.h" ;
++IMPLEMENT "unix95", "fcntl.h" ;
++IMPLEMENT "unix95", "float.h" ;
++IMPLEMENT "unix95", "fmtmsg.h" ;
++IMPLEMENT "unix95", "fnmatch.h" ;
++IMPLEMENT "unix95", "ftw.h" ;
++IMPLEMENT "unix95", "glob.h" ;
++IMPLEMENT "unix95", "grp.h" ;
++IMPLEMENT "unix95", "iconv.h" ;
++IMPLEMENT "unix95", "langinfo.h" ;
++IMPLEMENT "unix95", "libgen.h" ;
++IMPLEMENT "unix95", "limits.h" ;
++IMPLEMENT "unix95", "locale.h" ;
++IMPLEMENT "unix95", "math.h" ;
++IMPLEMENT "unix95", "monetary.h" ;
++IMPLEMENT "unix95", "ndbm.h" ;
++IMPLEMENT "unix95", "netdb.h" ;		# Networking
++IMPLEMENT "unix95", "netinet/in.h" ;		# Networking
++IMPLEMENT "unix95", "nl_types.h" ;
++IMPLEMENT "unix95", "poll.h" ;
++IMPLEMENT "unix95", "pwd.h" ;
++IMPLEMENT "unix95", "re_comp.h" ;
++IMPLEMENT "unix95", "regex.h" ;
++IMPLEMENT "unix95", "regexp.h" ;
++IMPLEMENT "unix95", "search.h" ;
++IMPLEMENT "unix95", "setjmp.h" ;
++IMPLEMENT "unix95", "signal.h" ;
++IMPLEMENT "unix95", "stdarg.h" ;
++IMPLEMENT "unix95", "stddef.h" ;
++IMPLEMENT "unix95", "stdio.h" ;
++IMPLEMENT "unix95", "stdlib.h" ;
++IMPLEMENT "unix95", "string.h" ;
++IMPLEMENT "unix95", "strings.h" ;
++IMPLEMENT "unix95", "stropts.h" ;
++IMPLEMENT "unix95", "syslog.h" ;
++IMPLEMENT "unix95", "sys/ipc.h" ;
++IMPLEMENT "unix95", "sys/mman.h" ;
++IMPLEMENT "unix95", "sys/msg.h" ;
++IMPLEMENT "unix95", "sys/resource.h" ;
++IMPLEMENT "unix95", "sys/sem.h" ;
++IMPLEMENT "unix95", "sys/shm.h" ;
++IMPLEMENT "unix95", "sys/socket.h" ;		# Networking
++IMPLEMENT "unix95", "sys/stat.h" ;
++IMPLEMENT "unix95", "sys/statvfs.h" ;
++IMPLEMENT "unix95", "sys/time.h" ;
++IMPLEMENT "unix95", "sys/timeb.h" ;
++IMPLEMENT "unix95", "sys/times.h" ;
++IMPLEMENT "unix95", "sys/types.h" ;
++IMPLEMENT "unix95", "sys/uio.h" ;
++IMPLEMENT "unix95", "sys/un.h" ;		# Networking
++IMPLEMENT "unix95", "sys/utsname.h" ;
++IMPLEMENT "unix95", "sys/wait.h" ;
++IMPLEMENT "unix95", "tar.h" ;
++IMPLEMENT "unix95", "term.h" ;			# Curses
++IMPLEMENT "unix95", "termios.h" ;
++IMPLEMENT "unix95", "time.h" ;
++IMPLEMENT "unix95", "ucontext.h" ;
++IMPLEMENT "unix95", "ulimit.h" ;
++IMPLEMENT "unix95", "unctrl.h" ;		# Curses
++IMPLEMENT "unix95", "unistd.h" ;
++IMPLEMENT "unix95", "utime.h" ;
++IMPLEMENT "unix95", "utmpx.h" ;
++IMPLEMENT "unix95", "varargs.h" ;
++IMPLEMENT "unix95", "wchar.h" ;
++IMPLEMENT "unix95", "wordexp.h" ;
++IMPLEMENT "unix95", "xti.h" ;			# Networking

@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : PROFILING FOR SGI MIPS */
+
++CRT1		"/usr/lib/mcrt1.o -LIBDIR-/sys/dyn_begin.o"
++SYS_LIBC	"-lprof -lc"
++LINE_START	"#pragma@preserve@*"

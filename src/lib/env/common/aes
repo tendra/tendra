@@ -1,0 +1,7 @@
+/* tcc environment for aes */
+
++INCL			"-Naes:-INCLDIR-/aes.api"
++LIB			"-laes -lxpg3 -lposix -lansi"
++FLAG_INSTALL		"-Yaes"
++API_NAME		"-Aaes"
++INFO			"Application@Environment@Specification@(Revision@A)"

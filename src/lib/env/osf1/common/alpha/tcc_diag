@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR ALPHA */
+
++AS		"/bin/as"
++AS1		"/usr/lib/cmplrs/as/as1 -O1 -g2"
+<LINK		"-L-LIBDIR-/diag"

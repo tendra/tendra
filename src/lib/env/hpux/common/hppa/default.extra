@@ -1,0 +1,5 @@
++MACHINE		"hpux-*-hppa"
++FLAG			"--1HL"
++LD			"/bin/ld -x -u main"
++CRT1			"-LIBDIR-/sys/dyn_begin.o"
++CRTN			"-LIBDIR-/sys/dyn_end.o"

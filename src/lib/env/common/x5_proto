@@ -1,0 +1,8 @@
+/* tcc environment for x5_proto */
+
+<INCL			"-Nx5_proto:-INCLDIR-/x5/proto.api"
++FLAG_INSTALL		"-Yx5_proto"
+<LIB			"-lx5_proto"
+<INFO			"X11@Release@5@(X@Protocol)"
+<API_NAME		"-Ax5_proto"
++FLAG			"-D__X11_PROTO__"

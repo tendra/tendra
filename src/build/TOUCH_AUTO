@@ -1,0 +1,100 @@
+#!/bin/sh -x
+
+#
+# TOUCH ALL AUTOMATICALLY GENERATED FILES
+#
+# The source contains a great number of automatically generated files.
+# During the installation process the tools used to generate these files
+# are generally built before they are used, but this is not possible
+# for tools like calculus, lexi and sid which are defined in terms of
+# themselves.  The datestamps on the files provided in the release
+# should prevent the makefiles from building the automatically generated
+# files in the initial installation.  If the datestamps become corrupted
+# then this script can be used to touch all the automatically generated
+# files.
+#
+
+BASE="../.."
+TOUCH="touch -c"
+
+${TOUCH} ${BASE}/src/installers/common/reader/decoder.c
+${TOUCH} ${BASE}/src/installers/common/reader/ecodes.h
+${TOUCH} ${BASE}/src/installers/common/reader/externs.h
+${TOUCH} ${BASE}/src/installers/common/reader/inits.h
+${TOUCH} ${BASE}/src/installers/common/reader/main_reads.h
+${TOUCH} ${BASE}/src/installers/common/reader/temp_fns.new
+
+${TOUCH} ${BASE}/src/producers/c/syntax/syntax*.c
+${TOUCH} ${BASE}/src/producers/c/syntax/syntax.h
+
+${TOUCH} ${BASE}/src/producers/common/obj_c/*.h
+${TOUCH} ${BASE}/src/producers/common/obj_tok/*.h
+${TOUCH} ${BASE}/src/producers/common/output/tdf1.h
+${TOUCH} ${BASE}/src/producers/common/parse/psyntax*.c
+${TOUCH} ${BASE}/src/producers/common/parse/psyntax.h
+${TOUCH} ${BASE}/src/producers/common/utility/errors*.h
+${TOUCH} ${BASE}/src/producers/common/utility/opts.h
+
+${TOUCH} ${BASE}/src/producers/cpp/syntax/syntax*.c
+${TOUCH} ${BASE}/src/producers/cpp/syntax/syntax.h
+
+${TOUCH} ${BASE}/src/tools/disp/tdf.c
+${TOUCH} ${BASE}/src/tools/disp/tdf.h
+
+${TOUCH} ${BASE}/src/tools/pl/consfile.c
+${TOUCH} ${BASE}/src/tools/pl/consfile.h
+${TOUCH} ${BASE}/src/tools/pl/decodings.c
+${TOUCH} ${BASE}/src/tools/pl/decodings.h
+${TOUCH} ${BASE}/src/tools/pl/enc_nos.h
+${TOUCH} ${BASE}/src/tools/pl/encodings.h
+${TOUCH} ${BASE}/src/tools/pl/fnsfile.c
+${TOUCH} ${BASE}/src/tools/pl/syntax.c
+${TOUCH} ${BASE}/src/tools/pl/syntax.h
+
+${TOUCH} ${BASE}/src/tools/tld/gen-errors.c
+${TOUCH} ${BASE}/src/tools/tld/gen-errors.h
+
+${TOUCH} ${BASE}/src/tools/tnc/check_exp.h
+${TOUCH} ${BASE}/src/tools/tnc/tdf.c
+${TOUCH} ${BASE}/src/tools/tnc/tdf.h
+
+${TOUCH} ${BASE}/src/tools/tspec/keyword.h
+${TOUCH} ${BASE}/src/tools/tspec/lexer.h
+${TOUCH} ${BASE}/src/tools/tspec/syntax.c
+${TOUCH} ${BASE}/src/tools/tspec/syntax.h
+
+${TOUCH} ${BASE}/src/utilities/calculus/keyword.h
+${TOUCH} ${BASE}/src/utilities/calculus/lexer.h
+${TOUCH} ${BASE}/src/utilities/calculus/obj_c/*.h
+${TOUCH} ${BASE}/src/utilities/calculus/obj_tok/*.h
+${TOUCH} ${BASE}/src/utilities/calculus/print_def.h
+${TOUCH} ${BASE}/src/utilities/calculus/read_def.h
+${TOUCH} ${BASE}/src/utilities/calculus/syntax.c
+${TOUCH} ${BASE}/src/utilities/calculus/syntax.h
+${TOUCH} ${BASE}/src/utilities/calculus/write_def.h
+
+${TOUCH} ${BASE}/src/utilities/lexi/keyword.h
+${TOUCH} ${BASE}/src/utilities/lexi/lexer.h
+${TOUCH} ${BASE}/src/utilities/lexi/syntax.c
+${TOUCH} ${BASE}/src/utilities/lexi/syntax.h
+
+${TOUCH} ${BASE}/src/utilities/make_err/keyword.h
+${TOUCH} ${BASE}/src/utilities/make_err/lexer.h
+${TOUCH} ${BASE}/src/utilities/make_err/obj_c/*.h
+${TOUCH} ${BASE}/src/utilities/make_err/obj_tok/*.h
+${TOUCH} ${BASE}/src/utilities/make_err/syntax.c
+${TOUCH} ${BASE}/src/utilities/make_err/syntax.h
+
+${TOUCH} ${BASE}/src/utilities/make_tdf/keyword.h
+${TOUCH} ${BASE}/src/utilities/make_tdf/lexer.h
+${TOUCH} ${BASE}/src/utilities/make_tdf/obj_c/*.h
+${TOUCH} ${BASE}/src/utilities/make_tdf/obj_tok/*.h
+${TOUCH} ${BASE}/src/utilities/make_tdf/syntax.c
+${TOUCH} ${BASE}/src/utilities/make_tdf/syntax.h
+
+${TOUCH} ${BASE}/src/utilities/sid/c-junk.h
+${TOUCH} ${BASE}/src/utilities/sid/c-parser.c
+${TOUCH} ${BASE}/src/utilities/sid/gen-errors.c
+${TOUCH} ${BASE}/src/utilities/sid/gen-errors.h
+${TOUCH} ${BASE}/src/utilities/sid/junk.h
+${TOUCH} ${BASE}/src/utilities/sid/parser.c

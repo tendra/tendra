@@ -1,0 +1,35 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+SRC=${BASE}/src/tools/tld
+
+make_mf\
+    +A BASE=${BASE}\
+    +A SRC=${SRC}\
+    +A SRC1=${SRC}/errors\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../tld\
+    -Yansi -Xs\
+    ${SRC}/*.c\
+    > Makefile
+
+cat >> Makefile << EOF
+
+ERR_OUT=\${SRC}/gen-errors.c \${SRC}/gen-errors.h
+
+EFILES=\${SRC1}/arg-data.e \${SRC1}/arg-parse.e \${SRC1}/builder.e\\
+ \${SRC1}/capsule.e \${SRC1}/contents.e \${SRC1}/error-file.e\\
+ \${SRC1}/extract.e \${SRC1}/for-osif.e \${SRC1}/library.e \${SRC1}/linker.e\\
+ \${SRC1}/main.e \${SRC1}/name-entry.e \${SRC1}/rename-file.e\\
+ \${SRC1}/shape-entry.e \${SRC1}/tdf-read.e
+
+auto : \${ERR_OUT}
+
+\${SRC}/gen-errors.c : \${SRC1}/BUILD_ERRORS \${EFILES}
+	@\${REMOVE} \${ERR_OUT}
+	\${SRC1}/BUILD_ERRORS -o \${SRC}/gen-errors \${EFILES}
+
+auto_clobber :
+	\${REMOVE} \${ERR_OUT}
+EOF

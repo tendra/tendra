@@ -1,0 +1,7 @@
+/* tcc environment for UNIX 95 */
+
++INCL			"-Nunix95:-INCLDIR-/unix95.api"
++LIB			"-lunix95 -lxpg4 -lxpg3 -lposix2 -lposix1 -lposix -liso -lansi"
++FLAG_INSTALL		"-Yunix95"
++API_NAME		"-Aunix95"
++INFO			"X/Open@Single@UNIX@Specification"

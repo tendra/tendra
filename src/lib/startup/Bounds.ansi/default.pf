@@ -1,0 +1,11 @@
+char_bits			8
+short_bits			16
+int_bits			16
+long_bits			32
+
+signed_range			symmetric
+char_type			either
+ptr_int				none
+ptr_fn				no
+non_prototype_checks		yes
+multibyte			1

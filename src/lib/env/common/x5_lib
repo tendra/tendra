@@ -1,0 +1,7 @@
+/* tcc environment for x5_lib */
+
+<INCL			"-Nx5_lib:-INCLDIR-/x5/lib.api"
+<LIB			"-lx5_lib"
++FLAG_INSTALL		"-Yx5_lib"
+<API_NAME		"-Ax5_lib"
+<INFO			"X11@Release@5@Xlib"

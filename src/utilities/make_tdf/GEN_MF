@@ -1,0 +1,82 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+UTIL=${BASE}/src/utilities
+SRC=${UTIL}/make_tdf
+
+make_mf\
+    +A BASE=${BASE}\
+    +A UTIL=${UTIL}\
+    +A SRC=${SRC}\
+    +A SRC2=${SRC}/obj_c\
+    +A SRC2A=${SRC}/obj_tok\
+    +A SRCX=${UTIL}/shared\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../make_tdf\
+    -Yansi -Xs\
+    -I ${SRC}\
+    -I ${SRC}/obj_c\
+    -I ${UTIL}/shared\
+    ${SRC}/*.c\
+    ${SRC}/obj_c/*.c\
+    ${UTIL}/shared/*.c\
+    > Makefile
+
+make_mf\
+    +fcheck.ini\
+    +A BASE=${BASE}\
+    +A UTIL=${UTIL}\
+    +A SRC=${SRC}\
+    +A SRC2=${SRC}/obj_c\
+    +A SRC2A=${SRC}/obj_tok\
+    +A SRCX=${UTIL}/shared\
+    +W ...\
+    -o .../make_tdf.k\
+    -Yansi -Xs\
+    -I ${SRC}\
+    -I ${SRC}/obj_tok\
+    -I ${UTIL}/shared\
+    ${SRC}/*.c\
+    ${UTIL}/shared/*.c\
+    > Makefile.chk
+
+cat >> Makefile << EOF
+
+CALCULUS=calculus
+LEXI=lexi
+SID=sid
+SIDOPTS=-l ossg-c -s no-lines
+
+SID_OUT=\${SRC}/syntax.c \${SRC}/syntax.h
+C_OUT=\${SRC2}/tdf.h
+TOK_OUT=\${SRC2A}/tdf.h
+LEXI_OUT=\${SRC}/lexer.h \${SRC}/keyword.h
+
+auto : \${SID_OUT} \${C_OUT} \${TOK_OUT} \${LEXI_OUT}
+
+\${SRC}/syntax.c : \${SRC}/syntax.sid \${SRC}/syntax.act
+	@\${REMOVE} \${SID_OUT}
+	\${SID} \${SIDOPTS} \${SRC}/syntax.sid \${SRC}/syntax.act \${SID_OUT}
+
+\${SRC2}/tdf.h : \${SRC}/tdf.alg
+	@\${REMOVE} \${SRC2}/*.h
+	\${CALCULUS} -a -x \${SRC}/tdf.alg \${SRC2}
+
+\${SRC2A}/tdf.h : \${SRC}/tdf.alg
+	@\${REMOVE} \${SRC2A}/*.h
+	\${CALCULUS} -a -x -t \${SRC}/tdf.alg \${SRC2A}
+
+\${SRC}/lexer.h : \${SRC}/lexer.lxi
+	@\${REMOVE} \${SRC}/lexer.h
+	\${LEXI} \${SRC}/lexer.lxi \${SRC}/lexer.h
+
+\${SRC}/keyword.h : \${SRC}/lexer.lxi
+	@\${REMOVE} \${SRC}/keyword.h
+	\${LEXI} -k \${SRC}/lexer.lxi \${SRC}/keyword.h
+
+auto_clobber :
+	\${REMOVE} \${SID_OUT} \${LEXI_OUT}
+	\${REMOVE} \${SRC2}/*.h
+	\${REMOVE} \${SRC2A}/*.h
+EOF

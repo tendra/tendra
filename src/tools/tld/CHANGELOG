@@ -1,0 +1,81 @@
+-*- indented-text -*-
+
+			USER VISIBLE CHANGES TO TLD
+			===========================
+
+Thu Nov 30 16:51:00 1995  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * Added extra information to version output.
+
+    * FROZE VERSION 4.0#3.
+
+Fri Sep 22 08:35:00 1995  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * Fixed problem with library capsules being loaded more than once in
+    special cases.
+
+    * FROZE VERSION 4.0#2.
+
+Fri Sep 08 16:10:50 1995  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * FROZE VERSION 4.0#1.
+
+Fri Jul 07 15:31:46 1995  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * Updated to TDF specification 4.0.
+
+    * FROZE VERSION 4.0#0.
+
+Wed Jul 05 11:56:59 1995  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * Added release identification string to version output.
+
+    * FROZE VERSION 3.6.
+
+Fri Jul 22 14:47:00 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * FROZE VERSION 3.5.
+
+Fri May 13 10:14:44 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Fixed bug in file name expansion.
+
+    * FROZE VERSION 3.4.
+
+Wed May 11 09:13:11 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Fixed bug in reading and writing names (missed out the alignment).
+
+    * FROZE VERSION 3.3.
+
+Wed Apr 27 13:20:14 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "--show-errors" option to show error table, and "--help" option
+    to show command line options.
+
+    * FROZE VERSION 3.2.
+
+Tue Apr 26 13:22:37 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "--match-basename" option to allow extraction by basename.
+
+Fri Apr 22 16:48:41 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "--rename-file" option for reading renaming information from
+    files.
+
+    * FROZE VERSION 3.1.
+
+Wed Apr 20 13:39:58 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "--suppress-mult" option to suppress non-unique definitions.
+    Removed "--rename" option from library construction.
+
+Tue Apr 19 14:04:05 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Created new version of the TDF linker.  Complete rewrite, borrowing
+    the library code from SID.  Added several new features such as renaming,
+    link suppression, extensible format for libraries and linker information
+    units, and more regular treatment of non token and tag names.
+
+    * FROZE VERSION 3.0.

@@ -1,0 +1,73 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+/*
+    LEXICAL ANALYSER FOR MAKE_ERR
+
+    This file describes the lexical analyser used by make_err.
+*/
+
+/* Character groups */
+GROUP white = " \t\n\r" ;
+GROUP alpha = {A-Z} + {a-z} + "_" ;
+GROUP digit = {0-9} ;
+GROUP alphanum = "[alpha][digit]" ;
+
+/* Simple symbols */
+TOKEN "|" -> $or ;
+TOKEN "(" -> $open-round ;
+TOKEN ")" -> $close-round ;
+TOKEN "{" -> $open-brace ;
+TOKEN "}" -> $close-brace ;
+TOKEN "," -> $comma ;
+TOKEN ":" -> $colon ;
+TOKEN "=" -> $equal ;
+TOKEN "->" -> $arrow ;
+TOKEN "\e" -> $eof ;
+
+/* Comments, strings and identifiers */
+TOKEN "/*" -> get_comment () ;
+TOKEN "\"" -> get_string () ;
+TOKEN "[alpha]" -> get_identifier () ;
+
+/* Keywords */
+KEYWORD "ALT_NAME" -> $alt-name ;
+KEYWORD "DATABASE_NAME" -> $db-name ;
+KEYWORD "ENTRIES" -> $entries ;
+KEYWORD "KEY" -> $key ;
+KEYWORD "KEYS" -> $keys ;
+KEYWORD "PREFIX" -> $prefix ;
+KEYWORD "PROPERTIES" -> $properties ;
+KEYWORD "RIG" -> $rig ;
+KEYWORD "TYPES" -> $types ;
+KEYWORD "USAGE" -> $usage ;
+KEYWORD "compiler_output" -> $comp-output ;
+KEYWORD "from_compiler" -> $from-comp ;
+KEYWORD "from_database" -> $from-db ;

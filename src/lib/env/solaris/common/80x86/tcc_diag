@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR sol_i386 */
+
+<LINK		"-L-LIBDIR-/diag"
+<CRTN		"-LIBDIR-/sys/dwarf.o"
++FLAG_AS	"-s"

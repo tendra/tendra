@@ -1,0 +1,7 @@
+/* tcc environment for mse */
+
++INCL			"-Nmse:-INCLDIR-/mse.api"
++LIB			"-lmse -lansi"
++FLAG_INSTALL		"-Ymse"
++API_NAME		"-Amse"
++INFO			"Draft@ISO@MSE@(9899:1990/Amendment@1:1993@(E))"

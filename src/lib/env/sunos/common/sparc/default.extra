@@ -1,0 +1,6 @@
++MACHINE		"sunos-*-sparc"
++FLAG			"--1SC"
++FLAG			"--1DL"
++AS			"/bin/as -O"
++LD			"/bin/ld -dc -dp -X -x"
++LINK_ENTRY		"-e start"

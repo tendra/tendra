@@ -1,0 +1,97 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
+
+# Standard MIT headers
++IMPLEMENT "x5/mit", "X11/Xfuncs.h" ;
++IMPLEMENT "x5/mit", "X11/Xos.h" ;
++IMPLEMENT "x5/mit", "X11/copyright.h" ;
+
+# Standard bitmaps
++IMPLEMENT "x5/mit", "X11/bitmaps/1x1" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/2x2" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/black" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/boxes" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/calculator" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cntr_ptr" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cntr_ptrmsk" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cross_weave" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dimple1" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dimple3" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dot" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dropbar7" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dropbar8" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flagdown" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flagup" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flipped_gray" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray1" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray3" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/hlines2" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/hlines3" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/icon" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/keyboard16" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/left_ptr" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/left_ptrmsk" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/letters" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu10" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/light_gray" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailempty" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailemptymsk" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailfull" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailfullmsk" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu12" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu16" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu8" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/noletters" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/opendot" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/opendotMask" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/plaid" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/right_ptr" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/right_ptrmsk" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/root_weave" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/scales" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/sipb" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/star" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/starMask" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/stipple" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/stripe4" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/target" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/terminal" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/tie_fighter" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/vlines2" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/vlines3" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/weird_size" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/wide_weave" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/wingdogs" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xfd_icon" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo11" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo16" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo32" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo64" ;

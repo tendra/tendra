@@ -1,0 +1,1279 @@
+%prefixes%
+
+
+/*
+    TERMINAL PREFIX
+
+    This prefix is used to identify lexical token numbers in syntax.h
+    (see also symbols.h).
+*/
+
+terminal = lex_ ;
+type = XT ;
+function = XR ;
+input = XI ;
+output = XO ;
+label = XL ;
+
+
+%maps%
+
+
+/*
+    PARSER ENTRY POINTS
+
+    There are a number of entry points into the parser.  The main ones
+    are translation-unit which is used to parse an entire translation
+    unit and hash-if-expression which is used to parse expressions in
+    #if preprocessing directives.
+*/
+
+pragma-tendra -> parse_tendra ;
+pragma-preproc -> parse_preproc ;
+
+
+/*
+    BASIC TYPES
+
+    The type BOOL is used to hold the predicate values, true and false.
+    The type COUNT is used to hold the various counters maintained (see
+    predict.c).  The type LEX is used to hold a lexical token number
+    (i.e.  one of the values defined in syntax.h).  The other types used
+    in the parser map in a simple fashion to the main program types.
+    Note that it is necessary to use aliases for compound types because
+    of the restrictions imposed by sid.
+*/
+
+ACCESS -> DECL_SPEC ;
+BOOL -> int ;
+BTYPE -> BASE_TYPE ;
+CV -> CV_SPEC ;
+EXP -> EXP ;
+IDENTIFIER -> IDENTIFIER ;
+LEX -> int ;
+LINKAGE -> DECL_SPEC ;
+LIST-ID -> SID_LIST_ID ;
+NAMESPACE -> NAMESPACE ;
+NUMBER -> int ;
+STATE -> unsigned ;
+TOKEN -> TOKEN ;
+TYPE -> TYPE ;
+VALUE -> unsigned ;
+
+
+/*
+    FILE HEADERS
+
+    These headers are prepended to the parser definition and declaration
+    output files.  Because of the simple file splitting algorithm applied
+    to the output this should contain only declarations and not definitions.
+*/
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997, 1998
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "c_types.h"
+#include "exp_ops.h"
+#include "hashid_ops.h"
+#include "id_ops.h"
+#include "tok_ops.h"
+#include "type_ops.h"
+#include "error.h"
+#include "catalog.h"
+#include "option.h"
+#include "access.h"
+#include "allocate.h"
+#include "assign.h"
+#include "basetype.h"
+#include "cast.h"
+#include "chktype.h"
+#include "class.h"
+#include "constant.h"
+#include "construct.h"
+#include "convert.h"
+#include "declare.h"
+#include "derive.h"
+#include "exception.h"
+#include "expression.h"
+#include "function.h"
+#include "hash.h"
+#include "identifier.h"
+#include "initialise.h"
+#include "inttype.h"
+#include "label.h"
+#include "lex.h"
+#include "literal.h"
+#include "member.h"
+#include "namespace.h"
+#include "parse.h"
+#include "pragma.h"
+#include "predict.h"
+#include "preproc.h"
+#include "printf.h"
+#include "redeclare.h"
+#include "rewrite.h"
+#include "statement.h"
+#include "symbols.h"
+#include "template.h"
+#include "tokdef.h"
+#include "token.h"
+#include "typeid.h"
+#include "variable.h"
+
+
+/*
+    COMPOUND TYPE ALIASES
+
+    These are the aliases for the compound types used in the parser.
+*/
+
+typedef LIST ( IDENTIFIER ) SID_LIST_ID ;
+
+
+/*
+     DECLARE FUNCTIONS
+
+     The function declarations are included at this point so that the
+     type definitions are in scope.
+*/
+
+#include "psyntax.h"
+extern void parse_tok_type PROTO_S ( ( TYPE * ) ) ;
+extern void parse_mem_type PROTO_S ( ( TYPE * ) ) ;
+extern void parse_operator PROTO_S ( ( IDENTIFIER * ) ) ;
+
+
+/*
+    COMPILATION MODE
+
+    The output of sid is automatically generated.  Hence it is not
+    necessarily appropriate to apply the same level of checking to this
+    as to the rest of the program.  These pragmas describe the relaxations
+    allowed for the sid output.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#pragma TenDRA variable analysis off
+#ifndef OLD_PRODUCER
+#pragma TenDRA unreachable code allow
+#endif
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997, 1998
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef PSYNTAX_INCLUDED
+#define PSYNTAX_INCLUDED
+
+@} ;
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINALS
+
+    Identifiers and related terminals (type names, namespace names and
+    destructor names) are identified by means of an identifier stored in
+    crt_token by expand_token.
+*/
+
+identifier : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+type-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+namespace-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+statement-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+destructor-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+template-id : () -> ( id ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @id = parse_id_template ( id, args, 0 ) ;
+    crt_templ_qualifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+template-type : () -> ( id ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @id = parse_type_template ( id, args, 0 ) ;
+    crt_templ_qualifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+
+/*
+    NAMESPACE SPECIFIER TERMINALS
+
+    Namespace specifiers (i.e. sequences of namespace or class names
+    separated using '::') are identified by expand_token.  The full nested
+    names are those which begin with the global namespace.
+*/
+
+nested-name : () -> ( ns ) = @{
+    @ns = crt_token->pp_data.ns ;
+@} ;
+
+full-name : () -> ( ns ) = @{
+    @ns = crt_token->pp_data.ns ;
+@} ;
+
+
+/*
+    POINTER TO MEMBER TERMINALS
+
+    Pointer to member specifiers (such as 'C::*') are identified by
+    expand_token.  The identifier corresponding to the given class is
+    stored in crt_token.
+*/
+
+nested-name-star : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+full-name-star : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+
+/*
+    INTEGER AND FLOATING-POINT LITERAL TERMINALS
+
+    Integer and floating-point literal tokens have already been transformed
+    into their corresponding expressions by expand_token, which stores this
+    information in crt_token.
+*/
+
+integer-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+floating-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    STRING AND CHARACTER LITERAL TERMINALS
+
+    String and character literal tokens have already been transformed
+    into their corresponding expressions by expand_token, which stores this
+    information in crt_token.
+*/
+
+char-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+wchar-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+string-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+wstring-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    CONDITIONAL COMPILATION TERMINALS
+
+    Any target dependent conditional compilation expressions are stored
+    in crt_token by the preprocessing routines.
+*/
+
+hash-if : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+hash-elif : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    COMPLEX EXPRESSION AND TYPE TERMINALS
+
+    These terminals are used to handle complex expressions and types
+    such as token applications.
+*/
+
+complex-exp : () -> ( e ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @e = parse_exp_token ( id, args ) ;
+    RESCAN_LEXER ;
+@} ;
+
+complex-stmt : () -> ( e ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @e = parse_exp_token ( id, args ) ;
+    RESCAN_LEXER ;
+@} ;
+
+complex-type : () -> ( t ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @t = parse_type_token ( id, args ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_type_specifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+
+%actions%
+
+
+/*
+    LINKS TO MAIN SYNTAX
+
+    These actions give links into the main syntax.  Note that none of the
+    used rules in the main syntax has an associated exception handler,
+    allowing syntax errors to be handled in the pragma syntax.
+*/
+
+<parse_type> : () -> ( t ) = @{
+    @t = type_error ;
+    parse_tok_type ( &@t ) ;
+    object_type ( @t, null_tag ) ;
+@} ;
+
+<parse_func_type> : () -> ( t ) = @{
+    @t = type_error ;
+    parse_tok_type ( &@t ) ;
+    object_type ( @t, id_function_tag ) ;
+@} ;
+
+<parse_mem_type> : () -> ( t ) = @{
+    @t = type_error ;
+    parse_mem_type ( &@t ) ;
+    object_type ( @t, null_tag ) ;
+@} ;
+
+<parse_operator> : () -> ( id ) = @{
+    @id = DEREF_id ( hashid_id ( KEYWORD ( lex_zzzz ) ) ) ;
+    parse_operator ( &@id ) ;
+@} ;
+
+<is_operator> : () -> ( b ) = @{
+    @b = predict_operator () ;
+@} ;
+
+
+/*
+    LEXICAL TOKENS
+
+    These actions give the basic values for the type LEX.  They are used
+    primarily in overloaded operator function names, but they are also used
+    to distinguish closely related groups of expressions, such as relational
+    expressions.  Note that the primary form of the token has been given
+    whenever there is a choice, otherwise the actions are very dull.
+*/
+
+<lex_asm> : () -> ( t ) = @{ @t = lex_asm ; @} ;
+<lex_discard> : () -> ( t ) = @{ @t = lex_discard ; @} ;
+<lex_exhaustive> : () -> ( t ) = @{ @t = lex_exhaustive ; @} ;
+<lex_fall> : () -> ( t ) = @{ @t = lex_fall ; @} ;
+<lex_inline> : () -> ( t ) = @{ @t = lex_inline ; @} ;
+<lex_none> : () -> ( t ) = @{ @t = lex_ignore_token ; @} ;
+<lex_postpone> : () -> ( t ) = @{ @t = lex_postpone ; @} ;
+<lex_pragma> : () -> ( t ) = @{ @t = lex_hash_Hpragma ; @} ;
+<lex_reachable> : () -> ( t ) = @{ @t = lex_reachable ; @} ;
+<lex_representation> : () -> ( t ) = @{ @t = lex_representation ; @} ;
+<lex_set> : () -> ( t ) = @{ @t = lex_set ; @} ;
+<lex_unpostpone> : () -> ( t ) = @{ @t = lex_unpostpone ; @} ;
+<lex_unreachable> : () -> ( t ) = @{ @t = lex_unreachable ; @} ;
+<lex_unused> : () -> ( t ) = @{ @t = lex_unused ; @} ;
+<lex_weak> : () -> ( t ) = @{ @t = lex_weak ; @} ;
+
+<lex_symbol> : () -> ( t ) = @{
+    @t = crt_lex_token ;
+    if ( @t >= FIRST_SYMBOL && @t <= LAST_SYMBOL ) crt_lex_token = lex_plus ;
+@} ;
+
+
+/*
+    SPECIAL IDENTIFIERS
+
+    id_none gives the null identifier and id_anon generates a unique
+    anonymous identifier.
+*/
+
+<id_none> : () -> ( id ) = @{
+    @id = NULL_id ;
+    crt_id_qualifier = qual_none ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+<id_anon> : () -> ( id ) = @{
+    HASHID nm = lookup_anon () ;
+    @id = DEREF_id ( hashid_id ( nm ) ) ;
+    crt_id_qualifier = qual_none ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+<exp_none> : () -> ( e ) = @{
+    @e = NULL_exp ;
+@} ;
+
+
+/*
+    CONST-VOLATILE QUALIFIERS
+
+    These actions describe how to construct and combine the const and
+    volatile type qualifiers.
+*/
+
+<cv_none> : () -> ( cv ) = @{ @cv = cv_none ; @} ;
+<cv_const> : () -> ( cv ) = @{ @cv = cv_const ; @} ;
+
+
+/*
+    BASIC TYPES
+
+    These actions describe the basic type specifiers, char, short, int,
+    and so on.  This is a simple map onto the calculus type BTYPE.
+*/
+
+<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed ; @} ;
+<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned ; @} ;
+<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t ; @} ;
+<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t ; @} ;
+<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t ; @} ;
+<btype_none> : () -> ( bt ) = @{ @bt = btype_none ; @} ;
+
+
+/*
+    ACCESS SPECIFIERS
+
+    These actions describe the access specifiers, private, protected and
+    public.
+*/
+
+<access_private> : () -> ( a ) = @{ @a = dspec_private ; @} ;
+<access_protected> : () -> ( a ) = @{ @a = dspec_protected ; @} ;
+<access_public> : () -> ( a ) = @{ @a = dspec_public ; @} ;
+
+
+/*
+    LINKAGE SPECIFIERS
+
+    These actions describe the linkage specifiers.  These are implemented
+    by a simple global variable, crt_linkage.  The action linkage_string
+    translates a string literal expression into a linkage specifier.
+*/
+
+<linkage_string> : ( s ) -> ( a ) = @{
+    @a = find_linkage ( @s ) ;
+@} ;
+
+
+/*
+    OBJECT DECLARATIONS
+
+    These actions describe how to construct an object declaration.
+*/
+
+<declarator_start> : () -> () = @{
+    crt_templ_qualifier = 0 ;
+@} ;
+
+
+/*
+    LISTS OF IDENTIFIERS
+
+    These actions give the basic constructs for building up lists of
+    identifiers.  They map directly to the calculus list operations.
+*/
+
+<list_id_null> : () -> ( p ) = @{
+    @p = NULL_list ( IDENTIFIER ) ;
+@} ;
+
+<list_id_cons> : ( id, q ) -> ( p ) = @{
+    CONS_id ( @id, @q, @p ) ;
+@} ;
+
+
+/*
+    TOKEN ACTIONS
+
+    The following rules are concerned with the construction and definition
+    of TDF tokens.
+*/
+
+<token_nat> : () -> ( t ) = @{
+    MAKE_tok_nat ( NULL_nat, @t ) ;
+@} ;
+
+<token_snat> : () -> ( t ) = @{
+    MAKE_tok_snat ( NULL_nat, @t ) ;
+@} ;
+
+<token_stmt> : () -> ( t ) = @{
+    MAKE_tok_stmt ( NULL_exp, @t ) ;
+@} ;
+
+<token_type> : () -> ( t ) = @{
+    @t = make_type_token ( btype_none ) ;
+@} ;
+
+<token_variety> : () -> ( t ) = @{
+    @t = make_type_token ( btype_int ) ;
+@} ;
+
+<token_signed> : () -> ( t ) = @{
+    @t = make_type_token ( btype_signed | btype_int ) ;
+@} ;
+
+<token_unsigned> : () -> ( t ) = @{
+    @t = make_type_token ( btype_unsigned | btype_int ) ;
+@} ;
+
+<token_float> : () -> ( t ) = @{
+    @t = make_type_token ( btype_float ) ;
+@} ;
+
+<token_arith> : () -> ( t ) = @{
+    @t = make_type_token ( btype_arith ) ;
+@} ;
+
+<token_class> : () -> ( t ) = @{
+    @t = make_type_token ( btype_lang ) ;
+@} ;
+
+<token_scalar> : () -> ( t ) = @{
+    @t = make_type_token ( btype_scalar ) ;
+@} ;
+
+<token_struct> : () -> ( t ) = @{
+    @t = make_type_token ( btype_struct ) ;
+@} ;
+
+<token_union> : () -> ( t ) = @{
+    @t = make_type_token ( btype_union ) ;
+@} ;
+
+<token_exp> : ( a, c, b ) -> ( t ) = @{
+    @t = make_exp_token ( @b, @a, @c ) ;
+@} ;
+
+<token_member> : ( p, a, b ) -> ( t ) = @{
+    @t = make_member_token ( @a, @b, @p ) ;
+@} ;
+
+<token_func> : ( a ) -> ( t ) = @{
+    @t = make_func_token ( @a ) ;
+@} ;
+
+<token_param> : ( t, b, tid ) -> ( id ) = @{
+    @id = make_tok_param ( @t, @b, @tid ) ;
+@} ;
+
+<token_exp_par> : ( tid, r ) -> ( id ) = @{
+    @id = prog_tok_param ( @tid, NULL_type, tok_exp_tag, @r ) ;
+@} ;
+
+<token_stmt_par> : ( tid, r ) -> ( id ) = @{
+    @id = prog_tok_param ( @tid, NULL_type, tok_stmt_tag, @r ) ;
+@} ;
+
+<token_type_par> : ( t, r ) -> ( id ) = @{
+    IDENTIFIER tid = DEREF_id ( type_name ( @t ) ) ;
+    @id = prog_tok_param ( tid, @t, tok_type_tag, @r ) ;
+@} ;
+
+<token_member_par> : ( t, tid, r ) -> ( id ) = @{
+    @id = prog_tok_param ( @tid, @t, tok_member_tag, @r ) ;
+@} ;
+
+<token_proc_par> : ( tid, r ) -> ( id ) = @{
+    @id = prog_tok_param ( @tid, NULL_type, tok_proc_tag, @r ) ;
+@} ;
+
+<token_proc_begin> : () -> ( t ) = @{
+    @t = begin_proc_token () ;
+@} ;
+
+<token_proc_simple> : ( a, p ) -> ( t ) = @{
+    @t = cont_proc_token ( @a, @p, @p ) ;
+@} ;
+
+<token_proc_complex> : ( a, p, q ) -> ( t ) = @{
+    @t = cont_proc_token ( @a, @p, @q ) ;
+@} ;
+
+<token_proc_end> : ( a, b ) -> ( t ) = @{
+    @t = end_proc_token ( @a, @b ) ;
+@} ;
+
+<token_decl> : ( t, c, a, b ) -> () = @{
+    IGNORE make_token_decl ( @t, @c, @a, @b ) ;
+@} ;
+
+<token_name> : ( a ) -> ( id ) = @{
+    @id = check_id ( crt_namespace, @a, 0 ) ;
+@} ;
+
+<token_tag> : ( a ) -> ( id ) = @{
+    @id = find_tag_token ( @a ) ;
+@} ;
+
+<token_selector> : ( a, b ) -> ( id ) = @{
+    @id = find_mem_token ( @a, @b ) ;
+@} ;
+
+<token_extern> : ( a ) -> ( id ) = @{
+    @id = find_ext_token ( @a ) ;
+@} ;
+
+<token_interface> : ( id, i ) -> () = @{
+    token_interface ( @id, @i ) ;
+@} ;
+
+<token_member_def> : ( t, id ) -> () = @{
+    if ( define_mem_macro ( @id, @t ) ) no_declarations++ ;
+@} ;
+
+<tokdef_start> : () -> () = @{
+    in_token_decl = 1 ;
+@} ;
+
+<tokdef_end> : () -> () = @{
+    in_token_decl = 0 ;
+@} ;
+
+<id_conv> : ( id ) -> () = @{
+    allow_conversion ( @id ) ;
+@} ;
+
+<id_init> : ( id ) -> () = @{
+    allow_initialiser ( @id ) ;
+@} ;
+
+<id_postpone> : ( id, a ) -> () = @{
+    preserve_id ( @id, @a ) ;
+@} ;
+
+<id_preserve> : ( id ) -> () = @{
+    preserve_id ( @id, lex_preserve ) ;
+@} ;
+
+<id_preserve_all> : () -> () = @{
+    preserve_all = 1 ;
+@} ;
+
+<id_susp> : ( id ) -> () = @{
+    preserve_id ( @id, lex_suspend ) ;
+@} ;
+
+<interface_define> : () -> ( i ) = @{ @i = lex_define ; @} ;
+<interface_no_def> : () -> ( i ) = @{ @i = lex_no_Hdef ; @} ;
+<interface_ignore> : () -> ( i ) = @{ @i = lex_ignore ; @} ;
+<interface_crt> : () -> ( i ) = @{ @i = crt_interface ; @} ;
+<interface_undef> : () -> ( i ) = @{ @i = lex_undef ; @} ;
+
+
+/*
+    INTEGER LITERAL PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with defining integer literal types.
+*/
+
+<base_octal> : () -> ( b ) = @{ @b = BASE_OCTAL ; @} ;
+<base_decimal> : () -> ( b ) = @{ @b = BASE_DECIMAL ; @} ;
+<base_hexadecimal> : () -> ( b ) = @{ @b = BASE_HEXADECIMAL ; @} ;
+
+<suffix_none> : () -> ( s ) = @{ @s = SUFFIX_NONE ; @} ;
+<suffix_u> : () -> ( s ) = @{ @s = SUFFIX_U ; @} ;
+<suffix_l> : () -> ( s ) = @{ @s = SUFFIX_L ; @} ;
+<suffix_ul> : () -> ( s ) = @{ @s = SUFFIX_UL ; @} ;
+<suffix_ll> : () -> ( s ) = @{ @s = SUFFIX_LL ; @} ;
+<suffix_ull> : () -> ( s ) = @{ @s = SUFFIX_ULL ; @} ;
+
+<literal_set> : () -> () = @{
+    pragma_number = 1 ;
+@} ;
+
+<literal_begin> : ( b, s ) -> () = @{
+    begin_literal ( @b, @s ) ;
+@} ;
+
+<literal_infinity> : () -> () = @{
+    add_range_literal ( NULL_exp, 0 ) ;
+@} ;
+
+<literal_integer> : ( e ) -> () = @{
+    add_range_literal ( @e, 2 ) ;
+@} ;
+
+<literal_range> : () -> () = @{
+    add_range_literal ( NULL_exp, 1 ) ;
+@} ;
+
+<literal_type> : ( t ) -> () = @{
+    add_type_literal ( @t ) ;
+@} ;
+
+<literal_token> : ( id, a ) -> () = @{
+    add_token_literal ( @id, @a ) ;
+@} ;
+
+<literal_star> : ( a ) -> () = @{
+    add_token_literal ( NULL_id, @a ) ;
+@} ;
+
+
+/*
+    CHECKING SCOPE PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with defining error checking scopes.
+*/
+
+<check_begin> : ( id ) -> () = @{
+    begin_option ( @id ) ;
+@} ;
+
+<check_end> : () -> () = @{
+    end_option ( 1 ) ;
+@} ;
+
+<check_directory> : ( dir, id ) -> () = @{
+    directory_option ( @dir, @id ) ;
+@} ;
+
+<check_use> : ( id, e ) -> () = @{
+    use_option ( @id, @e ) ;
+@} ;
+
+<decl_block_begin> : ( id ) -> () = @{
+    begin_decl_block ( @id ) ;
+@} ;
+
+<decl_block_end> : () -> () = @{
+    IGNORE end_decl_block ( NULL_id, 1 ) ;
+@} ;
+
+
+/*
+    ERROR PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with error messages.
+*/
+
+<error_number> : ( e ) -> ( n ) = @{
+    STRING s = DEREF_str ( exp_string_lit_str ( @e ) ) ;
+    @n = find_error_no ( s, 0 ) ;
+    if ( @n == -1 ) {
+	report ( preproc_loc, ERR_pragma_error_bad ( s ) ) ;
+    }
+@} ;
+
+<option_number> : ( e ) -> ( n ) = @{
+    STRING s = DEREF_str ( exp_string_lit_str ( @e ) ) ;
+    @n = find_option_no ( s, 0 ) ;
+    if ( @n == -1 ) {
+	report ( preproc_loc, ERR_pragma_option_bad ( s ) ) ;
+    }
+@} ;
+
+<option_value_number> : ( e ) -> ( n ) = @{
+    STRING s = DEREF_str ( exp_string_lit_str ( @e ) ) ;
+    @n = find_value_no ( s, 0 ) ;
+    if ( @n == -1 ) {
+	report ( preproc_loc, ERR_pragma_option_bad ( s ) ) ;
+    }
+@} ;
+
+<error_on> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_ON ; @} ;
+<error_off> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_OFF ; @} ;
+<error_warning> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_WARN ; @} ;
+
+<error_state> : ( n, e ) -> () = @{
+    set_error_sev ( @n, @e ) ;
+@} ;
+
+<error_use> : ( n ) -> () = @{
+    if ( @n >= 0 ) {
+	no_error_args = 1 ;
+	report ( crt_loc, make_error ( @n ) ) ;
+	no_error_args = 0 ;
+    }
+@} ;
+
+
+/*
+    TYPE PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with types.
+*/
+
+<type_argument> : ( s, t ) -> () = @{
+    accept_argument ( @s, @t ) ;
+@} ;
+
+<type_ellipsis> : ( t ) -> () = @{
+    accept_ellipsis ( @t ) ;
+@} ;
+
+<type_char_lit> : ( t ) -> () = @{
+    set_char_lit ( @t ) ;
+@} ;
+
+<type_char_sign> : ( bt ) -> () = @{
+    set_char_sign ( @bt ) ;
+@} ;
+
+<type_string_lit> : ( cv ) -> () = @{
+    set_string_qual ( @cv ) ;
+@} ;
+
+<type_long_long> : ( b ) -> () = @{
+    set_long_long_type ( @b ) ;
+@} ;
+
+<type_compatible> : ( s, t, e ) -> () = @{
+    set_compatible_type ( @s, @t, @e ) ;
+@} ;
+
+<type_compute> : ( id ) -> () = @{
+    compute_promote_type ( @id ) ;
+@} ;
+
+<type_promote> : ( s, t ) -> () = @{
+    set_promote_type ( @s, @t, ntype_ellipsis ) ;
+@} ;
+
+<type_builtin> : ( bt, t ) -> () = @{
+    set_builtin_type ( @bt, @t ) ;
+@} ;
+
+<type_special> : ( id, t ) -> () = @{
+    typedef_special ( @id, @t ) ;
+@} ;
+
+<nspace_std> : ( id ) -> () = @{
+    set_std_namespace ( @id ) ;
+@} ;
+
+<type_bottom> : () -> ( t ) = @{ @t = type_bottom ; @} ;
+<type_printf> : () -> ( t ) = @{ @t = type_printf ; @} ;
+<type_scanf> : () -> ( t ) = @{ @t = type_scanf ; @} ;
+<type_wprintf> : () -> ( t ) = @{ @t = type_wprintf ; @} ;
+<type_wscanf> : () -> ( t ) = @{ @t = type_wscanf ; @} ;
+<type_ptrdiff_t> : () -> ( t ) = @{ @t = type_ptrdiff_t ; @} ;
+<type_size_t> : () -> ( t ) = @{ @t = type_size_t ; @} ;
+<type_wchar_t> : () -> ( t ) = @{ @t = type_wchar_t ; @} ;
+
+
+/*
+    KEYWORD PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with keywords.
+*/
+
+<keyword_spec> : ( id ) -> ( t ) = @{
+    @t = find_keyword ( @id ) ;
+@} ;
+
+<keyword_define> : ( id, t ) -> () = @{
+    define_keyword ( @id, @t ) ;
+@} ;
+
+<keyword_undef> : ( id ) -> () = @{
+    undef_keyword ( @id ) ;
+@} ;
+
+
+/*
+    CHARACTER PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with characters.
+*/
+
+<char_set> : ( a, b ) -> () = @{
+    set_character ( @a, @b ) ;
+@} ;
+
+<escape_set> : ( a, b ) -> () = @{
+    set_escape ( @a, @b ) ;
+@} ;
+
+
+/*
+    CAST PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with explicit casts.
+*/
+
+<cast_static> : () -> ( c ) = @{ @c = CAST_STATIC ; @} ;
+<cast_reinterp> : () -> ( c ) = @{ @c = CAST_REINTERP ; @} ;
+<cast_const> : () -> ( c ) = @{ @c = CAST_CONST ; @} ;
+<cast_explicit> : () -> ( c ) = @{ @c = CAST_EXPLICIT ; @} ;
+<cast_join> : ( a, b ) -> ( c ) = @{ @c = ( @a | @b ) ; @} ;
+
+
+/*
+    OPTION PRAGMA DIRECTIVES
+
+    The following rules are concerned with processing those '#pragma'
+    directives concerned with setting options.
+*/
+
+<analysis_state> : ( n, e ) -> () = @{
+    set_option ( @n, @e ) ;
+@} ;
+
+<analysis_value> : ( n, v ) -> () = @{
+    set_value ( @n, NULL_exp, ( unsigned long ) @v ) ;
+@} ;
+
+<analysis_exp> : ( n, e ) -> () = @{
+    set_value ( @n, @e, ( unsigned long ) 0 ) ;
+@} ;
+
+<analysis_linkage> : ( a ) -> () = @{
+    set_link_opt ( @a ) ;
+@} ;
+
+<opt_on> : () -> ( n ) = @{ @n = OPT_error ; @} ;
+<opt_off> : () -> ( n ) = @{ @n = OPT_none ; @} ;
+<opt_warning> : () -> ( n ) = @{ @n = OPT_warning ; @} ;
+<opt_bitf_overflow> : () -> ( n ) = @{ @n = OPT_bitf_overflow ; @} ;
+<opt_bitf_type> : () -> ( n ) = @{ @n = OPT_bitf_type ; @} ;
+<opt_bool_assign> : () -> ( n ) = @{ @n = OPT_bool_assign ; @} ;
+<opt_case_fall> : () -> ( n ) = @{ @n = OPT_case_fall ; @} ;
+<opt_cast_explicit> : () -> ( n ) = @{ @n = OPT_cast_explicit ; @} ;
+<opt_comma_extra> : () -> ( n ) = @{ @n = OPT_comma_extra ; @} ;
+<opt_complete_struct> : () -> ( n ) = @{ @n = OPT_complete_struct ; @} ;
+<opt_concat_string> : () -> ( n ) = @{ @n = OPT_concat_string ; @} ;
+<opt_cond_lvalue> : () -> ( n ) = @{ @n = OPT_cond_lvalue ; @} ;
+<opt_const_cond> : () -> ( n ) = @{ @n = OPT_const_cond ; @} ;
+<opt_const_internal> : () -> ( n ) = @{ @n = OPT_const_internal ; @} ;
+<opt_const_string> : () -> ( n ) = @{ @n = OPT_const_string ; @} ;
+<opt_conv> : () -> ( n ) = @{ @n = OPT_conv ; @} ;
+<opt_conv_int_enum> : () -> ( n ) = @{ @n = OPT_conv_int_enum ; @} ;
+<opt_conv_int_int> : () -> ( n ) = @{ @n = OPT_conv_int_int ; @} ;
+<opt_conv_int_int_expl> : () -> ( n ) = @{ @n = OPT_conv_int_int_expl ; @} ;
+<opt_conv_int_int_impl> : () -> ( n ) = @{ @n = OPT_conv_int_int_impl ; @} ;
+<opt_conv_int_ptr> : () -> ( n ) = @{ @n = OPT_conv_int_ptr ; @} ;
+<opt_conv_int_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_expl ; @} ;
+<opt_conv_int_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_impl ; @} ;
+<opt_conv_ptr_func> : () -> ( n ) = @{ @n = OPT_conv_ptr_func ; @} ;
+<opt_conv_ptr_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr ; @} ;
+<opt_conv_ptr_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_expl ; @} ;
+<opt_conv_ptr_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_impl ; @} ;
+<opt_conv_ptr_ptr_void> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_void ; @} ;
+<opt_conv_ptr_void_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_void_ptr ; @} ;
+<opt_decl_cond> : () -> ( n ) = @{ @n = OPT_decl_cond ; @} ;
+<opt_decl_hide> : () -> ( n ) = @{ @n = OPT_decl_hide ; @} ;
+<opt_decl_none> : () -> ( n ) = @{ @n = OPT_decl_none ; @} ;
+<opt_decl_struct_anon> : () -> ( n ) = @{ @n = OPT_decl_struct_anon ; @} ;
+<opt_decl_unify> : () -> ( n ) = @{ @n = OPT_decl_unify ; @} ;
+<opt_decl_volatile> : () -> ( n ) = @{ @n = OPT_decl_volatile ; @} ;
+<opt_discard> : () -> ( n ) = @{ @n = OPT_discard ; @} ;
+<opt_discard_func> : () -> ( n ) = @{ @n = OPT_discard_func ; @} ;
+<opt_discard_static> : () -> ( n ) = @{ @n = OPT_discard_static ; @} ;
+<opt_discard_value> : () -> ( n ) = @{ @n = OPT_discard_value ; @} ;
+<opt_dollar_ident> : () -> ( n ) = @{ @n = OPT_dollar_ident ; @} ;
+<opt_dspec_none> : () -> ( n ) = @{ @n = OPT_dspec_none ; @} ;
+<opt_dspec_none_func> : () -> ( n ) = @{ @n = OPT_dspec_none_func ; @} ;
+<opt_ellipsis_extra> : () -> ( n ) = @{ @n = OPT_ellipsis_extra ; @} ;
+<opt_ellipsis_ident> : () -> ( n ) = @{ @n = OPT_ellipsis_ident ; @} ;
+<opt_empty_body> : () -> ( n ) = @{ @n = OPT_empty_body ; @} ;
+<opt_enum_decl> : () -> ( n ) = @{ @n = OPT_enum_decl ; @} ;
+<opt_enum_switch> : () -> ( n ) = @{ @n = OPT_enum_switch ; @} ;
+<opt_eof_nline> : () -> ( n ) = @{ @n = OPT_eof_nline ; @} ;
+<opt_escape_overflow> : () -> ( n ) = @{ @n = OPT_escape_overflow ; @} ;
+<opt_escape_unknown> : () -> ( n ) = @{ @n = OPT_escape_unknown ; @} ;
+<opt_for_scope> : () -> ( n ) = @{ @n = OPT_for_scope ; @} ;
+<opt_func_block> : () -> ( n ) = @{ @n = OPT_func_block ; @} ;
+<opt_func_impl> : () -> ( n ) = @{ @n = OPT_func_impl ; @} ;
+<opt_func_incompat> : () -> ( n ) = @{ @n = OPT_func_incompat ; @} ;
+<opt_func_linkage> : () -> ( n ) = @{ @n = OPT_func_linkage ; @} ;
+<opt_func_proto> : () -> ( n ) = @{ @n = OPT_func_proto ; @} ;
+<opt_func_ret_void> : () -> ( n ) = @{ @n = OPT_func_ret_void ; @} ;
+<opt_func_token_undef> : () -> ( n ) = @{ @n = OPT_func_token_undef ; @} ;
+<opt_func_weak> : () -> ( n ) = @{ @n = OPT_func_weak ; @} ;
+<opt_hash_ident> : () -> ( n ) = @{ @n = OPT_hash_ident ; @} ;
+<opt_infer_int> : () -> ( n ) = @{ @n = OPT_infer_int ; @} ;
+<opt_infer_int_cv> : () -> ( n ) = @{ @n = OPT_infer_int_cv ; @} ;
+<opt_include_full> : () -> ( n ) = @{ @n = OPT_include_full ; @} ;
+<opt_init_aggregate> : () -> ( n ) = @{ @n = OPT_init_aggregate ; @} ;
+<opt_init_dynamic> : () -> ( n ) = @{ @n = OPT_init_dynamic ; @} ;
+<opt_init_struct> : () -> ( n ) = @{ @n = OPT_init_struct ; @} ;
+<opt_inline_internal> : () -> ( n ) = @{ @n = OPT_inline_internal ; @} ;
+<opt_interf_incompat> : () -> ( n ) = @{ @n = OPT_interf_incompat ; @} ;
+<opt_int_operator> : () -> ( n ) = @{ @n = OPT_int_operator ; @} ;
+<opt_int_overflow> : () -> ( n ) = @{ @n = OPT_int_overflow ; @} ;
+<opt_link_incompat> : () -> ( n ) = @{ @n = OPT_link_incompat ; @} ;
+<opt_link_internal> : () -> ( n ) = @{ @n = OPT_link_internal ; @} ;
+<opt_link_resolve> : () -> ( n ) = @{ @n = OPT_link_resolve ; @} ;
+<opt_longlong> : () -> ( n ) = @{ @n = OPT_longlong ; @} ;
+<opt_macro_arg_dir> : () -> ( n ) = @{ @n = OPT_macro_arg_dir ; @} ;
+<opt_macro_redef> : () -> ( n ) = @{ @n = OPT_macro_redef ; @} ;
+<opt_macro_weak> : () -> ( n ) = @{ @n = OPT_macro_weak ; @} ;
+<opt_member_incompat> : () -> ( n ) = @{ @n = OPT_member_incompat ; @} ;
+<opt_name_limit> : () -> ( n ) = @{ @n = OPT_name_limit ; @} ;
+<opt_nest_comment> : () -> ( n ) = @{ @n = OPT_nest_comment ; @} ;
+<opt_overload_ambig> : () -> ( n ) = @{ @n = OPT_overload_ambig ; @} ;
+<opt_overload_dep> : () -> ( n ) = @{ @n = OPT_overload_dep ; @} ;
+<opt_overload_res> : () -> ( n ) = @{ @n = OPT_overload_res ; @} ;
+<opt_overload_strict> : () -> ( n ) = @{ @n = OPT_overload_strict ; @} ;
+<opt_param_impl> : () -> ( n ) = @{ @n = OPT_param_impl ; @} ;
+<opt_paren> : () -> ( n ) = @{ @n = OPT_paren ; @} ;
+<opt_ppdir_id> : () -> ( n ) = @{ @n = OPT_ppdir_id ; @} ;
+<opt_ppdir_indent> : () -> ( n ) = @{ @n = OPT_ppdir_indent ; @} ;
+<opt_ppdir_indent_dir> : () -> ( n ) = @{ @n = OPT_ppdir_indent_dir ; @} ;
+<opt_ppdir_text> : () -> ( n ) = @{ @n = OPT_ppdir_text ; @} ;
+<opt_ppdir_unknown> : () -> ( n ) = @{ @n = OPT_ppdir_unknown ; @} ;
+<opt_pragma_unknown> : () -> ( n ) = @{ @n = OPT_pragma_unknown ; @} ;
+<opt_ptr_operator> : () -> ( n ) = @{ @n = OPT_ptr_operator ; @} ;
+<opt_reached> : () -> ( n ) = @{ @n = OPT_reached ; @} ;
+<opt_semicolon_extra> : () -> ( n ) = @{ @n = OPT_semicolon_extra ; @} ;
+<opt_templ_export> : () -> ( n ) = @{ @n = OPT_templ_export ; @} ;
+<opt_this_lvalue> : () -> ( n ) = @{ @n = OPT_this_lvalue ; @} ;
+<opt_throw_bad> : () -> ( n ) = @{ @n = OPT_throw_bad ; @} ;
+<opt_token_const> : () -> ( n ) = @{ @n = OPT_token_const ; @} ;
+<opt_token_redef> : () -> ( n ) = @{ @n = OPT_token_redef ; @} ;
+<opt_token_undef> : () -> ( n ) = @{ @n = OPT_token_undef ; @} ;
+<opt_type_obj_incompl> : () -> ( n ) = @{ @n = OPT_type_obj_incompl ; @} ;
+<opt_type_qual_incompat> : () -> ( n ) = @{ @n = OPT_type_qual_incompat ; @} ;
+<opt_type_redef> : () -> ( n ) = @{ @n = OPT_type_redef ; @} ;
+<opt_type_tag_ignore> : () -> ( n ) = @{ @n = OPT_type_tag_ignore ; @} ;
+<opt_unmatched> : () -> ( n ) = @{ @n = OPT_unmatched ; @} ;
+<opt_variable> : () -> ( n ) = @{ @n = OPT_variable ; @} ;
+<opt_wall> : () -> ( n ) = @{ @n = OPT_wall ; @} ;
+<opt_weak> : () -> ( n ) = @{ @n = OPT_weak ; @} ;
+
+<opt_val_cast_explicit> : () -> ( n ) = @{ @n = OPT_VAL_cast_explicit ; @} ;
+<opt_val_include_depth> : () -> ( n ) = @{ @n = OPT_VAL_include_depth ; @} ;
+<opt_val_maximum_error> : () -> ( n ) = @{ @n = OPT_VAL_maximum_error ; @} ;
+<opt_val_name_limit> : () -> ( n ) = @{ @n = OPT_VAL_name_limit ; @} ;
+
+<opt_ppdir_assert> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_assert ;
+    @m = OPT_ppdir_assert_ignore ;
+@} ;
+
+<opt_ppdir_file> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_file ;
+    @m = OPT_ppdir_file_ignore ;
+@} ;
+
+<opt_ppdir_ident> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_ident ;
+    @m = OPT_ppdir_ident_ignore ;
+@} ;
+
+<opt_ppdir_import> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_import ;
+    @m = OPT_ppdir_import_ignore ;
+@} ;
+
+<opt_ppdir_unassert> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_unassert ;
+    @m = OPT_ppdir_unassert_ignore ;
+@} ;
+
+<opt_ppdir_warning> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_warning ;
+    @m = OPT_ppdir_warning_ignore ;
+@} ;
+
+<opt_ppdir_weak> : () -> ( n, m ) = @{
+    @n = OPT_ppdir_weak ;
+    @m = OPT_ppdir_weak_ignore ;
+@} ;
+
+
+/*
+    ERROR REPORTING
+
+    These actions describe the error reporting functions for syntax errors
+    and for weeding out extra constructs which have been allowed in the
+    grammar to permit for better error reporting.
+*/
+
+<error_syntax> : () -> () = @{
+    /* Syntax errors */
+    ERROR err = ERR_lex_parse ( crt_token ) ;
+    report ( crt_loc, err ) ;
+    have_syntax_error = 1 ;
+@} ;
+
+<error_comma> : () -> () = @{
+    /* Extra comma at the end of a list */
+    report ( crt_loc, ERR_lex_extra_comma () ) ;
+@} ;
+
+
+/*
+    PREDICATE LITERALS
+
+    These actions give the basic values, true and false, for the type
+    BOOL.
+*/
+
+<bool_false> : () -> ( b ) = @{ @b = 0 ; @} ;
+<bool_true> : () -> ( b ) = @{ @b = 1 ; @} ;
+
+
+/*
+    PARSER HACKS AND PATCHES
+
+    In a couple of places it is necessary to fool the parser by changing
+    the next token (or even inserting an extra token) depending on the
+    current state.
+*/
+
+<rescan_id> : () -> () = @{
+    int t = crt_lex_token ;
+    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
+	crt_lex_token = lex_identifier ;
+    }
+@} ;
+
+<rescan_keyword> : () -> () = @{
+    int t = crt_lex_token ;
+    if ( t == lex_identifier || t == lex_type_Hname ||
+	 t == lex_namespace_Hname || t == lex_statement_Hname ) {
+	t = find_hashid ( crt_token->pp_data.id.hash ) ;
+	crt_lex_token = t ;
+    }
+@} ;
+
+<rescan_line> : () -> () = @{
+    rescan_pragma ( lex_unknown ) ;
+    RESCAN_LEXER ;
+@} ;
+
+<rescan_allow_line> : () -> () = @{
+    rescan_pragma ( lex_allow ) ;
+    RESCAN_LEXER ;
+@} ;
+
+<rescan_as_line> : () -> () = @{
+    rescan_pragma ( lex_as ) ;
+    RESCAN_LEXER ;
+@} ;
+
+<rescan_tag_line> : () -> () = @{
+    int t = crt_lex_token ;
+    if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
+	if ( t != lex_tag_Hcap && !predict_operator () ) {
+	    crt_lex_token = lex_identifier ;
+	}
+    }
+@} ;
+
+
+/*
+    FILE TRAILERS
+
+    These trailers are appended to the parser definition and declaration
+    output files.
+*/
+
+%trailer% @{
+@}, @{
+
+
+/*
+    DUMMY LEXICAL TOKEN VALUES
+
+    These values are used as lexical token values in certain circumstances
+    but do not represent actual tokens.  Note that they are all negative.
+*/
+
+#define lex_ignore_token	-1
+#define lex_end_condition	-2
+#define lex_included		-3
+
+
+#endif
+@} ;

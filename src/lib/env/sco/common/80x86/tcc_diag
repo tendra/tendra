@@ -1,0 +1,6 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR I386 */
+
++LD		"/bin/ld"
++CRT0		"/lib/crt1.o"
++CRTN		"/lib/crtn.o"
+<LINK		"-L-LIBDIR-/diag"

@@ -1,0 +1,755 @@
+#!/usr/local/bin/perl -w
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+
+
+###############################################################################
+$[    = 1 ;
+$prog = $0;
+($tmp = rindex ($prog, "/")) && ($prog = substr ($prog, $tmp + 1));
+###############################################################################
+
+sub fatal {
+    print STDERR ($prog, ": fatal: ", @_, "\n");
+    exit (1);
+}
+
+sub ifatal {
+    print STDERR ($prog, ": fatal: ", $lexer'file, ": ", $lexer'line_num, ": ",
+		  @_, "\n");
+    exit (1);
+}
+
+###############################################################################
+### Lexical analyser:
+
+$lexer'file		= undef;
+$lexer'line_num		= undef;
+$lexer'line		= undef;
+
+###############################################################################
+
+$TOK_EOF		= 0;
+$TOK_OPEN_BRACE		= 1;
+$TOK_CLOSE_BRACE	= 2;
+$TOK_COMMA		= 3;
+$TOK_SEMI_COLON		= 4;
+$TOK_COLON		= 5;
+$TOK_STRING		= 6;
+$TOK_PROGRAM		= 7;
+$TOK_SEVERITY		= 8;
+$TOK_HEADER		= 9;
+$TOK_C_HEADER		= 10;
+$TOK_OPEN		= 11;
+$TOK_CLOSE		= 12;
+
+%error_severity		= (
+	"info",		"ERROR_SEVERITY_INFORMATION",
+	"information",	"ERROR_SEVERITY_INFORMATION",
+	"warning",	"ERROR_SEVERITY_WARNING",
+	"error",	"ERROR_SEVERITY_ERROR",
+	"fatal",	"ERROR_SEVERITY_FATAL",
+	"internal",	"ERROR_SEVERITY_INTERNAL",
+);
+
+###############################################################################
+
+sub reset_lexer {
+    local ($file) = @_;
+
+    $lexer'file     = $file;
+    $lexer'line_num = 0;
+    $lexer'line     = "";
+    open (INFILE, "<" . $file) ||
+	&fatal ("cannot open input file '", $file, "'");
+}
+
+sub lexer'read_string {
+    local ($string) = "";
+
+    read_string: {
+	(($lexer'line eq "") &&
+	    (($lexer'line = <INFILE>), ($lexer'line_num ++)));
+	(defined ($lexer'line)) ||
+	    &ifatal ("unexpected end of file in string");
+
+	if ($lexer'line =~ s/^([^"]*)"//) {
+	    $string .= $1;
+	} else {
+	    $string    .= $lexer'line;
+	    $lexer'line = "";
+	    redo read_string;
+	}
+    }
+    $string;
+}
+
+sub lexer'read_program {
+    local ($program) = "";
+    local ($index, $tmp);
+
+    read_program: {
+	(($lexer'line eq "") &&
+	    (($lexer'line = <INFILE>), ($lexer'line_num ++)));
+	(defined ($lexer'line)) ||
+	    &ifatal ("unexpected end of file in program segment");
+
+	if ($index = index ($lexer'line, "]\$")) {
+	    $tmp        = substr ($lexer'line, 1, $index - 1);
+	    $lexer'line = substr ($lexer'line, $index + 2);
+	    $tmp        =~ s/^[ \t]*//;
+	    $program   .= $tmp;
+	} else {
+	    $program   .= $lexer'line;
+	    $lexer'line = "";
+	    redo read_program;
+	}
+    }
+    $program;
+}
+
+sub next_token {
+    local ($token, $data);
+
+    get_token: {
+	(($lexer'line eq "") &&
+	    (($lexer'line = <INFILE>), ($lexer'line_num ++)));
+	(defined ($lexer'line)) || return ($TOK_EOF, 0);
+	$lexer'line =~ s/^[ \t\n]*(#.*$)?\n?//;
+	($lexer'line eq "") && redo get_token;
+
+	if ($lexer'line =~ s/^{//) {
+	    $token = $TOK_OPEN_BRACE;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^}//) {
+	    $token = $TOK_CLOSE_BRACE;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^\(//) {
+	    $token = $TOK_OPEN;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^\)//) {
+	    $token = $TOK_CLOSE;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^,//) {
+	    $token = $TOK_COMMA;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^;//) {
+	    $token = $TOK_SEMI_COLON;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^://) {
+	    $token = $TOK_COLON;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^"//) {
+	    $token = $TOK_STRING;
+	    $data  = &lexer'read_string;
+	} elsif ($lexer'line =~ s/^\$\[([ \t]*\n)?//) {
+	    $token = $TOK_PROGRAM;
+	    $data  = &lexer'read_program;
+	} elsif ($lexer'line =~ s/^header\(c\)//) {
+	    $token = $TOK_C_HEADER;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^header\(h\)//) {
+	    $token = $TOK_HEADER;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^header//) {
+	    $token = $TOK_HEADER;
+	    $data  = 0;
+	} elsif ($lexer'line =~ s/^[A-Za-z_]+//) {
+	    $token = $TOK_SEVERITY;
+	    $data  = $error_severity{$&};
+	    defined ($data) ||
+		&ifatal ("unknown error severity '", $&, "'");
+	} elsif ($lexer'line =~ s/^.//) {
+	    &ifatal ("illegal character '", $&, "'");
+	}
+    }
+    ($token, $data);
+}
+
+###############################################################################
+### Parser:
+
+$error_header		= "";
+$error_c_header		= "";
+$error_tag_index	= 0;
+$error_struct_num	= 0;
+$error_tproc_num	= 0;
+
+@error_tag_order	= ();
+@error_order		= ();
+@error_structures	= ();
+@error_tag_procs	= ();
+
+%error_tags		= ();
+%error_tag_index	= ();
+%error_severities	= ();
+%error_munged_names	= ();
+%error_messages		= ();
+%error_client_data	= ();
+%error_struct_match	= ();
+%error_struct_name	= ();
+%error_proc_decs	= ();
+%error_proc_defs	= ();
+%error_index		= ();
+%error_tproc_match	= ();
+%error_tproc_name	= ();
+
+###############################################################################
+
+sub munge_name {
+    local ($name) = @_;
+
+    $name =~ s/[^A-Za-z0-9_]/_/g;
+    $name;
+}
+
+sub basename {
+    local ($name) = @_;
+    local ($tmp);
+
+    ($tmp = rindex ($name, "/")) && ($name = substr ($name, $tmp + 1));
+    $name;
+}
+
+sub find_tags {
+    local ($mesg) = @_;
+    local (%tag_names);
+
+    while ($mesg =~ /\$\{([^\}\n]+)\}/) {
+	$tag_names{$1} = 1;
+	$mesg          = $';
+    }
+    keys (%tag_names);
+}
+
+sub indent_to {
+    local ($prefix, $col) = @_;
+    local ($length);
+
+    if (($length = length ($prefix)) >= $col) {
+	" ";
+    } else {
+	(" " x ($col - $length));
+    }
+}
+
+###############################################################################
+
+sub parse_param_list {
+    local ($error, *param_types, *param_order) = @_;
+    local ($token, $data, $name, $type);
+
+    parse_param: {
+	if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	    &ifatal ("expected parameter name string");
+	}
+	$name = $data;
+	if ((($token, $data) = &next_token), ($token != $TOK_COLON)) {
+	    &ifatal ("expected ':'");
+	}
+	if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	    &ifatal ("expected parameter type string");
+	}
+	$type = $data;
+	if (defined ($param_types{$name})) {
+	    &fatal ("parameter '", $name, "' already defined in error '",
+		    $error, "'");
+	} else {
+	    $param_types{$name} = $type;
+	    push (@param_order, $name);
+	}
+	if ((($token, $data) = &next_token), ($token == $TOK_COMMA)) {
+	    redo parse_param;
+	} elsif ($token != $TOK_CLOSE) {
+	    &ifatal ("expected ')'");
+	}
+    }
+}
+
+sub parse_error_header {
+    local ($severity, *tag_names, *param_types, *param_order) = @_;
+    local ($token, $data, $name, $munged_name, $tmp);
+
+    if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	&ifatal ("expected error name string");
+    }
+    $name = $data;
+    if (defined ($error_severities{$name})) {
+	&ifatal ("error '", $name, "' is already defined");
+    }
+    $error_severities{$name} = $severity;
+    if ((($token, $data) = &next_token), ($token == $TOK_COLON)) {
+	if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	    &ifatal ("expected error function name string");
+	} elsif (($data =~ /[^A-Za-z_0-9]/) || ($data =~ /^[0-9]/)) {
+	    &ifatal ("illegal error function name string '", $data, "'");
+	}
+	$munged_name = $data;
+	($token, $data) = &next_token;
+    } else {
+	$munged_name = &munge_name ($name);
+    }
+    if (defined ($tmp = $error_munged_names{$munged_name})) {
+	&ifatal ("error '", $name, "' clashes with error '", $tmp, "'");
+    }
+    $error_munged_names{$munged_name} = $name;
+    if ($token == $TOK_OPEN) {
+	&parse_param_list ($error, *param_types, *param_order);
+	($token, $data) = &next_token;
+    }
+    if ($token != $TOK_OPEN_BRACE) {
+	&ifatal ("expected '{'");
+    }
+    if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	&ifatal ("expected error message text string");
+    }
+    $error_messages{$name} = $data;
+    @tag_names = &find_tags ($data);
+    ($name, $munged_name);
+}
+
+sub parse_error_tag {
+    local ($name, *tag_types, *tag_names, *tag_mnames, *tag_code, *tag_init,
+	   *tag_order, *param_types) = @_;
+    local ($token, $data, $tag_name, $tag_type, $tag_code, $tag_init);
+    local ($munged_name, $tmp);
+
+    if ((($token, $data) = &next_token), ($token != $TOK_OPEN_BRACE)) {
+	&ifatal ("expected '{'");
+    }
+    if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	&ifatal ("expected tag name");
+    }
+    $tag_name    = $data;
+    $munged_name = &munge_name ($tag_name);
+    if (defined ($tag_types{$tag_name})) {
+	&ifatal ("tag '", $tag_name, "' defined twice in error '", $name, "'");
+    } elsif (defined ($tmp = $tag_mnames{$munged_name})) {
+	&ifatal ("tag '", $tag_name, "' clashes with tag '", $tmp,
+		 "' in error '", $name, "'");
+    } elsif (defined ($tmp = $param_types{$munged_name})) {
+	&ifatal ("tag '", $tag_name, "' clashes with parameter '",
+		 $munged_name, "' in error '", $name, "'");
+    }
+    if ((($token, $data) = &next_token), ($token != $TOK_COLON)) {
+	&ifatal ("expected ':'");
+    }
+    if ((($token, $data) = &next_token), ($token != $TOK_STRING)) {
+	&ifatal ("expected tag type string");
+    }
+    $tag_type = $data;
+    if ((($token, $data) = &next_token), ($token != $TOK_PROGRAM)) {
+	&ifatal ("expected tag handling code");
+    }
+    $tag_code = $data;
+    if ((($token, $data) = &next_token), ($token == $TOK_PROGRAM)) {
+	$tag_init = $data;
+	($token, $data) = &next_token;
+    }
+    if ($token != $TOK_CLOSE_BRACE) {
+	&ifatal ("expected '}'");
+    }
+    if (!defined ($error_tags{$tag_name})) {
+	$error_tags{$tag_name} = $error_tag_index ++;
+	push (@error_tag_order, $tag_name);
+    }
+    $tag_types{$tag_name}     = $tag_type;
+    $tag_mnames{$munged_name} = $tag_name;
+    $tag_names{$tag_name}     = $munged_name;
+    $tag_code{$tag_name}      = $tag_code;
+    if (defined ($tag_init)) {
+	$tag_init{$tag_name}  = $tag_init;
+    }
+    push (@tag_order, $tag_name);
+}
+
+sub build_structure {
+    local ($error, *tag_types, *tag_names, *tag_order) = @_;
+    local ($header, $def, $i, $tag, $type, $name, $indent, $tmp);
+
+    if ($#tag_order) {
+	$def = (" {\n");
+	for ($i = 1; $i <= $#tag_order; $i ++) {
+	    $tag    = $tag_order [$i];
+	    $type   = $tag_types{$tag};
+	    $name   = $tag_names{$tag};
+	    $indent = &indent_to ("    " . $type, 30);
+	    $def   .= ("    " . $type . $indent . $name . ";\n");
+	}
+	$def .= "};\n";
+	if (defined ($tmp = $error_struct_match{$def})) {
+	    $error_struct_name{$error} = $tmp;
+	} else {
+	    $header = sprintf ("struct ES_%05d", $error_struct_num ++);
+	    $error_struct_match{$def}  = $header;
+	    $error_struct_name{$error} = $header;
+	    push (@error_structures, ($header . $def));
+	}
+    }
+}
+
+sub build_tag_proc {
+    local ($error, *tag_types, *tag_names, *tag_order, *tag_code) = @_;
+    local ($header, $def, $i, $tag, $code, $index, $name, $struct);
+
+    if (defined ($struct = $error_struct_name{$error})) {
+	$def    = ("{\n    " . $struct . " *closure = (" . $struct .
+		   " *) gclosure;\n\n");
+	for ($i = 1; $i <= $#tag_order; $i ++) {
+	    $tag   = $tag_order [$i];
+	    $name  = $tag_names{$tag};
+	    $code  = $tag_code{$tag};
+	    $index = $error_tags{$tag};
+	    if ($i == 1) {
+		$def .= ("    if (tag == ET [" . $index . "].tag) {\n");
+	    } else {
+		$def .= ("    } else if (tag == ET [" . $index . "].tag) {\n");
+	    }
+	    $def .= $code;
+	}
+	$def .= "    }\n}\n";
+    } else {
+	$def = ("{\n    UNUSED (ostream);\n" . "    UNUSED (tag);\n" .
+		"    UNUSED (gclosure);\n}\n");
+    }
+    if (defined ($tmp = $error_tproc_match{$def})) {
+	$error_tproc_name{$error} = $tmp;
+    } else {
+	$name   = sprintf ("ET_%05d", $error_tproc_num ++);
+	$header = ("static void\n" . $name .
+		   " PROTO_N ((ostream, tag, gclosure))\n" .
+		   &indent_to ("", 9) . "PROTO_T (OStreamP ostream X\n" .
+		   &indent_to ("", 18) . "ETagP    tag X\n" .
+		   &indent_to ("", 18) . "GenericP gclosure)\n");
+	$error_tproc_match{$def}  = $name;
+	$error_tproc_name{$error} = $name;
+	push (@error_tag_procs, ($header . $def));
+    }
+}
+
+sub build_proc_dec {
+    local ($error, $munged_name, *tag_types, *tag_names, *tag_init, *tag_order,
+	   *param_types, *param_order) = @_;
+    local ($dec, $i, $tag, $type, $sep, $args, $param);
+
+    $sep  = undef;
+    $dec  = ("extern void E_" . $munged_name . "\n\tPROTO_S ((");
+    $args = 0;
+    for ($i = 1; $i <= $#param_order; $i ++) {
+	$param = $param_order [$i];
+	$type  = $param_types{$param};
+	if (defined ($sep)) {
+	    $dec .= $sep;
+	}
+	$dec .= $type;
+	$sep  = ", ";
+	$args ++;
+    }
+    for ($i = 1; $i <= $#tag_order; $i ++) {
+	$tag  = $tag_order [$i];
+	$type = $tag_types{$tag};
+	if (!defined ($tag_init{$tag})) {
+	    if (defined ($sep)) {
+		$dec .= $sep;
+	    }
+	    $dec .= $type;
+	    $sep  = ", ";
+	    $args ++;
+	}
+    }
+    if ($args == 0) {
+	$dec .= "void";
+    }
+    $error_proc_decs{$error} = ($dec . "));\n");
+}
+
+sub build_proc_def {
+    local ($error, $munged_name, *tag_types, *tag_names, *tag_init,
+	   *tag_order, *param_types, *param_order) = @_;
+    local ($def, $tmp_def, $i, $tag, $type, $name, $col, $sep, $init, $args);
+    local ($param, $struct, $closure);
+
+    $sep     = undef;
+    $def     = ("void\nE_" . $munged_name);
+    $tmp_def = " PROTO_N ((";
+    $col     = (length ($munged_name) + 3);
+    $args    = 0;
+    $sep     = undef;
+    for ($i = 1; $i <= $#param_order; $i ++) {
+	$param = $param_order [$i];
+	if (defined ($sep)) {
+	    $tmp_def .= $sep;
+	}
+	$tmp_def .= $param;
+	$sep      = ", ";
+	$args ++;
+    }
+    for ($i = 1; $i <= $#tag_order; $i ++) {
+	$tag  = $tag_order [$i];
+	$name = $tag_names{$tag};
+	if (!defined ($tag_init{$tag})) {
+	    if (defined ($sep)) {
+		$tmp_def .= $sep;
+	    }
+	    $tmp_def .= $name;
+	    $sep      = ", ";
+	    $args ++;
+	}
+    }
+    $tmp_def .= ("))\n" . &indent_to ("", $col) . "PROTO_T (");
+    $col     += 9;
+    if ($args == 0) {
+	$def .= " PROTO_Z ()\n";
+    } else {
+	$def .= $tmp_def;
+	$sep  = undef;
+	for ($i = 1; $i <= $#param_order; $i ++) {
+	    $param = $param_order [$i];
+	    $type  = $param_types{$param};
+	    if (defined ($sep)) {
+		$def .= $sep;
+	    }
+	    $def .= ($type . " " . $param);
+	    $sep  = (" X\n" . &indent_to ("", $col));
+	}
+	for ($i = 1; $i <= $#tag_order; $i ++) {
+	    $tag  = $tag_order [$i];
+	    $name = $tag_names{$tag};
+	    $type = $tag_types{$tag};
+	    if (!defined ($tag_init{$tag})) {
+		if (defined ($sep)) {
+		    $def .= $sep;
+		}
+		$def .= ($type . " " . $name);
+		$sep  = (" X\n" . &indent_to ("", $col));
+	    }
+	}
+	$def .= ")\n";
+    }
+    $def .= "{\n";
+    if (defined ($struct = $error_struct_name{$error})) {
+	$def .= ("    " . $struct . " closure; \n\n");
+	for ($i = 1; $i <= $#tag_order; $i ++) {
+	    $tag  = $tag_order [$i];
+	    $name = $tag_names{$tag};
+	    if (defined ($init = $tag_init{$tag})) {
+		$def .= $init;
+	    } else {
+		$def .= ("    closure." . $name . " = " . $name . ";\n");
+	    }
+	}
+	$closure = "(GenericP) &closure";
+    } else {
+	$closure = "NIL (GenericP)";
+    }
+    $def .= ("    error_call_init_proc ();\n    error_report (EE [" .
+	     $error_index{$error} . "].error, " . $error_tproc_name{$error} .
+	     ", " . $closure . ");\n");
+    if (($error_severities{$error} eq "ERROR_SEVERITY_FATAL") ||
+	($error_severities{$error} eq "ERROR_SEVERITY_INTERNAL")) {
+	$def .= "    UNREACHED;\n";
+    }
+    $error_proc_defs{$error} = ($def . "}\n");
+}
+
+sub parse_error {
+    local ($severity) = @_;
+    local ($token, $data, $name, $munged_name);
+    local (%tag_types, %tag_names, %tag_mnames, %tag_code, %tag_init,
+	   @tag_order, @used_tags, $tag, %param_types, @param_order);
+
+    ($name, $munged_name) = &parse_error_header ($severity, *used_tags,
+						 *param_types, *param_order);
+    while ((($token, $data) = &next_token), ($token == $TOK_COMMA)) {
+	&parse_error_tag ($name, *tag_types, *tag_names, *tag_mnames,
+			  *tag_code, *tag_init, *tag_order, *param_types);
+    }
+    if ($token == $TOK_PROGRAM) {
+	$error_client_data{$name} = $data;
+	($token, $data) = &next_token;
+    } else {
+	$error_client_data{$name} = "NIL (GenericP)";
+    }
+    if ($token != $TOK_CLOSE_BRACE) {
+	&ifatal ("expected '}'");
+    }
+    foreach $tag (@used_tags) {
+	if (!defined ($tag_types{$tag})) {
+	    &fatal ("error '", $name, "' uses undefined tag '", $tag, "'");
+	}
+    }
+    $error_index{$name} = $#error_order;
+    &build_structure ($name, *tag_types, *tag_names, *tag_order);
+    &build_tag_proc  ($name, *tag_types, *tag_names, *tag_order, *tag_code);
+    &build_proc_dec  ($name, $munged_name, *tag_types, *tag_names, *tag_init,
+		      *tag_order, *param_types, *param_order);
+    &build_proc_def  ($name, $munged_name, *tag_types, *tag_names, *tag_init,
+		      *tag_order, *param_types, *param_order);
+    push (@error_order, $name);
+}
+
+sub parse_header {
+    local ($token, $data);
+
+    if ((($token, $data) = &next_token), ($token != $TOK_PROGRAM)) {
+	&ifatal ("expected program section");
+    }
+    $error_header .= ("/* Header from input file '" . $infile . "' */\n" .
+		      $data . "\n");
+}
+
+sub parse_c_header {
+    local ($token, $data);
+
+    if ((($token, $data) = &next_token), ($token != $TOK_PROGRAM)) {
+	&ifatal ("expected program section");
+    }
+    $error_c_header .= ("/* Header from input file '" . $infile . "' */\n" .
+			$data . "\n");
+}
+
+sub parse_file {
+    local ($file) = @_;
+
+    &reset_lexer ($file);
+    while ((($token, $data) = &next_token), ($token != $TOK_EOF)) {
+	if ($token == $TOK_HEADER) {
+	    &parse_header;
+	} elsif ($token == $TOK_C_HEADER) {
+	    &parse_c_header;
+	} elsif ($token == $TOK_SEVERITY) {
+	    &parse_error ($data);
+	} else {
+	    &ifatal ("expected header or severity level");
+	}
+	if ((($token, $data) = &next_token), ($token != $TOK_SEMI_COLON)) {
+	    &ifatal ("expected ';'");
+	}
+    }
+    close (INFILE);
+}
+
+###############################################################################
+### Output:
+
+sub output_c_file {
+    local ($i, $tag, $error, $name);
+
+    print OUTFILE ("/* Automatically generated by '", $prog, "' */\n\n");
+    print OUTFILE ("#include \"", &basename ($outfile), ".h\"\n");
+    print OUTFILE ("#include \"error.h\"\n");
+    print OUTFILE ("#include \"ostream.h\"\n\n");
+    print OUTFILE ($error_c_header, "\n");
+
+    print OUTFILE ("static ETagDataT ET [] = {\n");
+    for ($i = 1; $i <= $#error_tag_order; $i ++) {
+	$tag = $error_tag_order [$i];
+	print OUTFILE ("    UB \"", $tag, "\" UE,\n");
+    }
+    print OUTFILE ("    ERROR_END_TAG_LIST\n");
+    print OUTFILE ("};\n\n");
+
+    print OUTFILE ("static ErrorDataT EE [] = {\n");
+    for ($i = 1; $i <= $#error_order; $i ++) {
+	$error = $error_order [$i];
+	print OUTFILE ("    UB {\n\t\"", $error, "\",\n\t",
+		       $error_severities{$error}, ",\n\t\"",
+		       $error_messages{$error}, "\",\n\t",
+		       $error_client_data{$error}, "\n    } UE,\n");
+    }
+    print OUTFILE ("    ERROR_END_ERROR_LIST\n");
+    print OUTFILE ("};\n\n");
+
+    for ($i = 1; $i <= $#error_structures; $i ++) {
+	print OUTFILE ($error_structures [$i]);
+    }
+    print OUTFILE ("\n");
+
+    for ($i = 1; $i <= $#error_tag_procs; $i ++) {
+	print OUTFILE ($error_tag_procs [$i]);
+    }
+    print OUTFILE ("\n");
+
+    for ($i = 1; $i <= $#error_order; $i ++) {
+	$error = $error_order [$i];
+	print OUTFILE ($error_proc_defs{$error});
+    }
+    $name = &munge_name (&basename ($outfile));
+    print OUTFILE ("\nvoid\n", $name, "_init_errors PROTO_Z ()\n",
+		   "{\n    error_intern_tags (ET);\n",
+		   "    error_intern_errors (EE);\n}\n");
+}
+
+sub output_h_file {
+    local ($i);
+
+    print OUTFILE ("/* Automatically generated by '", $prog, "' */\n\n");
+    print OUTFILE ("#include \"os-interface.h\"\n\n");
+    print OUTFILE ($error_header, "\n");
+
+    print OUTFILE ("/* Error function declarations */\n\n");
+    for ($i = 1; $i <= $#error_order; $i ++) {
+	$error = $error_order [$i];
+	print OUTFILE ($error_proc_decs{$error});
+    }
+    print OUTFILE ("\nextern void ", &munge_name (&basename ($outfile)),
+		   "_init_errors\n\tPROTO_S ((void));\n");
+}
+
+###############################################################################
+
+$outfile	= "error-mesgs";
+
+###############################################################################
+
+arg:
+while (defined ($arg = shift (@ARGV))) {
+    if ($arg =~ /^-o/) {
+	(defined ($outfile = shift (@ARGV))) ||
+	    &fatal ("no output file name specified after '", $arg, "' option");
+    } elsif ($arg =~ /^-/) {
+	&fatal ("unknown option '", $arg, "'");
+    } else {
+	unshift (@ARGV, $arg);
+	last arg;
+    }
+}
+
+while (defined ($infile = shift (@ARGV))) {
+    &parse_file ($infile);
+}
+
+open (OUTFILE, ">" . $outfile . ".c") ||
+    &fatal ("cannot open output file '", $outfile, ".c'");
+&output_c_file;
+close (OUTFILE);
+open (OUTFILE, ">" . $outfile . ".h") ||
+    &fatal ("cannot open output file '", $outfile, ".h'");
+&output_h_file;
+close (OUTFILE);
+exit (0);

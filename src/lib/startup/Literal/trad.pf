@@ -1,0 +1,48 @@
+/* SIMPLE INTEGER LITERAL RULES */
+
+#ifndef __STARTUP_INT_LIT_INCLUDED
+#define __STARTUP_INT_LIT_INCLUDED
+
+
+#include <int_sizes.pf>
+
+#pragma token PROC ( VARIETY ) VARIETY l_i # ~lit_int
+
+#pragma TenDRA begin
+#pragma TenDRA no external declaration allow
+#pragma TenDRA longlong type allow
+#pragma integer literal decimal unsigned long long int_max:int | **:l_i
+#pragma integer literal octal unsigned long long int_max:int | **:l_i
+#pragma integer literal hexadecimal long long int_max:int | **:l_i
+
+#pragma integer literal decimal long long int_max:int | **:l_i
+#pragma integer literal octal long long int_max:int | **:l_i
+#pragma integer literal hexadecimal long long int_max:int | **:l_i
+#pragma TenDRA end
+#pragma TenDRA begin
+
+#pragma integer literal decimal unsigned long int_max:int | **:l_i
+#pragma integer literal octal unsigned long int_max:int | **:l_i
+#pragma integer literal hexadecimal unsigned long int_max:int | **:l_i
+
+#pragma integer literal decimal unsigned int_max:int | **:l_i
+#pragma integer literal octal unsigned int_max:int | **:l_i
+#pragma integer literal hexadecimal unsigned int_max:int | **:l_i
+
+#pragma integer literal decimal long int_max:int | **:l_i
+#pragma integer literal octal long int_max:int | **:l_i
+#pragma integer literal hexadecimal long int_max:int | **:l_i
+
+#pragma integer literal decimal int_max:int | **:l_i
+#pragma integer literal octal int_max:int | **:l_i
+#pragma integer literal hexadecimal int_max:int | **:l_i
+
+#pragma no_def l_i
+#undef int_max
+#undef uint_max
+#undef lint_max
+#undef llint_max
+#undef l_i
+
+
+#endif

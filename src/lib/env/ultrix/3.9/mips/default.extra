@@ -1,0 +1,5 @@
++MACHINE		"ultrix-3.9-mips"
++VERSION		"1.31"
++FLAG			"--1MA"
++AS			"/bin/as -O2"
++AS1			"/usr/lib/as11.31 -O2"

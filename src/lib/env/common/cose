@@ -1,0 +1,3 @@
+/* tcc environment for cose */
+
++FLAG		"-Yunix95"

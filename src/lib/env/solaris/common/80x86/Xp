@@ -1,0 +1,5 @@
+/* ENVIRONMENT FOR -Xp ON sol_i386 */
+
++STARTUP		"-f-STARTUPDIR-/Modes/Xp"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xp"
++CRT1			"/usr/ccs/lib/values-Xc.o"

@@ -1,0 +1,3 @@
+/* tcc environment for tsimp tool */
++TLD		"-BINDIR-/tsimp"
++FLAG		"-no_startup_options"

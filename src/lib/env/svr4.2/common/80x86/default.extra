@@ -1,0 +1,7 @@
++MACHINE		"svr4.2-*-80x86"
++FLAG			"--2SC"
++AS			"/usr/bin/as"
++LD			"/usr/bin/ld"
++CRT0			"/usr/ccs/lib/crt1.o /usr/ccs/lib/crti.o"
++CRT1			"/usr/ccs/lib/values-Xc.o"
++CRTN			"/usr/ccs/lib/crtn.o"

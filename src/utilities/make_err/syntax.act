@@ -1,0 +1,491 @@
+%prefixes%
+
+terminal = lex_ ;
+
+
+%maps%
+
+
+/*
+    ENTRY POINT
+
+    The main entry point for the grammar is given by unit.
+*/
+
+unit -> read_errors ;
+
+
+/*
+    TYPE MAPPINGS
+
+    These mappings give the correspondences between syntax types and
+    C types.
+*/
+
+ID -> string ;
+STRING -> string ;
+ENTRY -> ENTRY ;
+KEY -> KEY ;
+MAP -> MAP ;
+MSG -> MESSAGE ;
+NAME -> NAME ;
+PARAM -> PARAM ;
+PROP -> PROPERTY ;
+TYPE -> TYPE ;
+USAGE -> USAGE ;
+LIST-ENTRY -> LIST_ENTRY ;
+LIST-MAP -> LIST_MAP ;
+LIST-MSG -> LIST_MESSAGE ;
+LIST-NAME -> LIST_NAME ;
+LIST-PARAM -> LIST_PARAM ;
+LIST-PROP -> LIST_PROPERTY ;
+
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "errors.h"
+#include "entry_ops.h"
+#include "map_ops.h"
+#include "msg_ops.h"
+#include "name_ops.h"
+#include "param_ops.h"
+#include "error.h"
+#include "lex.h"
+#include "process.h"
+#include "syntax.h"
+#include "xalloc.h"
+
+
+/*
+    PARSER TYPES
+
+    These types give the implementation of the types used in the syntax.
+*/
+
+typedef LIST ( ENTRY ) LIST_ENTRY ;
+typedef LIST ( MAP ) LIST_MAP ;
+typedef LIST ( MESSAGE ) LIST_MESSAGE ;
+typedef LIST ( NAME ) LIST_NAME ;
+typedef LIST ( PARAM ) LIST_PARAM ;
+typedef LIST ( PROPERTY ) LIST_PROPERTY ;
+
+
+/*
+    COUNTER VARIABLE
+
+    This variable is used to keep count of the position in a name or
+    parameter list.
+*/
+
+static int counter = 0 ;
+
+
+/*
+    FIND A NAME
+
+    This routine searches the name list p for an identifier matching id.
+    The null name is returned if no matching name is found.
+*/
+
+static NAME find_name
+    PROTO_N ( ( p, id ) )
+    PROTO_T ( LIST ( NAME ) p X string id )
+{
+    while ( !IS_NULL_list ( p ) ) {
+	NAME a = DEREF_name ( HEAD_list ( p ) ) ;
+	string nm = DEREF_string ( name_id ( a ) ) ;
+	if ( streq ( nm, id ) ) return ( a ) ;
+	p = TAIL_list ( p ) ;
+    }
+    return ( NULL_name ) ;
+}
+
+
+/*
+    FIND A PARAMETER
+
+    This routine searches the parameter list p for an identifier matching
+    id.  The null parameter is returned if no matching parameter is found.
+*/
+
+static PARAM find_param
+    PROTO_N ( ( p, id ) )
+    PROTO_T ( LIST ( PARAM ) p X string id )
+{
+    while ( !IS_NULL_list ( p ) ) {
+	PARAM a = DEREF_param ( HEAD_list ( p ) ) ;
+	string nm = DEREF_string ( param_name ( a ) ) ;
+	if ( streq ( nm, id ) ) return ( a ) ;
+	p = TAIL_list ( p ) ;
+    }
+    return ( NULL_param ) ;
+}
+
+
+/*
+    COMPILATION MODE
+
+    We allow unreached code and switch off the variable analysis in the
+    automatically generated sections.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#pragma TenDRA variable analysis off
+#ifndef OLD_PRODUCER
+#pragma TenDRA unreachable code allow
+#endif
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+@};
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINAL
+
+    This action gives the terminal for identifiers.  The identifier text
+    is built up in token_buff by the lexical routines.
+*/
+
+identifier : () -> ( i : ID ) = @{
+    @i = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    STRING TERMINAL
+
+    This action gives the terminal for strings.  The string text is built
+    up in token_buff by the lexical routines.
+*/
+
+string : () -> ( s : STRING ) = @{
+    @s = xstrcpy ( token_buff ) ;
+@} ;
+
+
+%actions%
+
+
+/*
+    NULL IDENTIFIER
+
+    This action describes the null identifier.
+*/
+
+<null_identifier> : () -> ( id : ID ) = @{
+    @id = NULL ;
+@} ;
+
+
+/*
+    LIST CONSTRUCTION ACTIONS
+
+    These actions give the empty lists and cons operations for the various
+    list types used in the grammar.  They basically map directly onto the
+    various calculus constructs, except that checks are made for duplicate
+    entries in some cases.
+*/
+
+<empty_message_list> : () -> ( p : LIST-MSG ) = @{
+    @p = NULL_list ( MESSAGE ) ;
+@} ;
+
+<cons_message_list> : ( a : MSG, q : LIST-MSG ) -> ( p : LIST-MSG ) = @{
+    CONS_msg ( @a, @q, @p ) ;
+@} ;
+
+<empty_map_list> : () -> ( p : LIST-MAP ) = @{
+    @p = NULL_list ( MAP ) ;
+@} ;
+
+<cons_map_list> : ( a : MAP, q : LIST-MAP ) -> ( p : LIST-MAP ) = @{
+    CONS_map ( @a, @q, @p ) ;
+@} ;
+
+<empty_props_list> : () -> ( p : LIST-PROP ) = @{
+    @p = NULL_list ( PROPERTY ) ;
+@} ;
+
+<cons_props_list> : ( a : PROP, q : LIST-PROP ) -> ( p : LIST-PROP ) = @{
+    CONS_name ( @a, @q, @p ) ;
+@} ;
+
+<empty_param_list> : () -> ( p : LIST-PARAM ) = @{
+    @p = NULL_list ( PARAM ) ;
+@} ;
+
+<cons_param_list> : ( a : PARAM, q : LIST-PARAM ) -> ( p : LIST-PARAM ) = @{
+    string id = DEREF_string ( param_name ( @a ) ) ;
+    PARAM b = find_param ( @q, id ) ;
+    if ( !IS_NULL_param ( b ) ) {
+	error ( ERROR_SERIOUS, "Parameter '%s' defined twice", id ) ;
+    }
+    CONS_param ( @a, @q, @p ) ;
+@} ;
+
+<empty_entry_list> : () -> ( p : LIST-ENTRY ) = @{
+    @p = NULL_list ( ENTRY ) ;
+@} ;
+
+<cons_entry_list> : ( a : ENTRY, q : LIST-ENTRY ) -> ( p : LIST-ENTRY ) = @{
+    CONS_entry ( @a, @q, @p ) ;
+@} ;
+
+<empty_name_list> : () -> ( p : LIST-NAME ) = @{
+    @p = NULL_list ( NAME ) ;
+@} ;
+
+<cons_name_list> : ( a : NAME, q : LIST-NAME ) -> ( p : LIST-NAME ) = @{
+    string id = DEREF_string ( name_id ( @a ) ) ;
+    NAME b = find_name ( @q, id ) ;
+    if ( !IS_NULL_name ( b ) ) {
+	error ( ERROR_SERIOUS, "Name '%s' given twice in list", id ) ;
+    }
+    CONS_name ( @a, @q, @p ) ;
+@} ;
+
+<join_name_list> : ( a : NAME, q : LIST-NAME ) -> ( p : LIST-NAME ) = @{
+    CONS_name ( @a, @q, @p ) ;
+@} ;
+
+
+/*
+    NAME LOOK-UP ACTIONS
+
+    These actions are used to look up an identifier in various circumstances.
+    They map directly onto the routines find_name and find_param defined
+    above.
+*/
+
+<find_key> : ( id : ID ) -> ( k : KEY ) = @{
+    NAME n = find_name ( all_keys, @id ) ;
+    if ( IS_NULL_name ( n ) ) {
+	error ( ERROR_SERIOUS, "Key '%s' not defined", @id ) ;
+    }
+    @k = n ;
+@} ;
+
+<find_props> : ( id : ID ) -> ( p : PROP ) = @{
+    NAME n = find_name ( all_props, @id ) ;
+    if ( IS_NULL_name ( n ) ) {
+	error ( ERROR_SERIOUS, "Property '%s' not defined", @id ) ;
+	MAKE_name_basic ( @id, 0, n ) ;
+    }
+    @p = n ;
+@} ;
+
+<find_type> : ( id : ID ) -> ( t : TYPE ) = @{
+    NAME n = find_name ( all_types, @id ) ;
+    if ( IS_NULL_name ( n ) ) {
+	error ( ERROR_SERIOUS, "Type '%s' not defined", @id ) ;
+	MAKE_name_basic ( @id, 0, n ) ;
+    }
+    @t = n ;
+@} ;
+
+<find_usage> : ( id : ID ) -> ( u : USAGE ) = @{
+    NAME n = find_name ( all_usages, @id ) ;
+    if ( IS_NULL_name ( n ) ) {
+	error ( ERROR_SERIOUS, "Usage '%s' not defined", @id ) ;
+	MAKE_name_basic ( @id, 0, n ) ;
+    }
+    @u = n ;
+@} ;
+
+<find_param> : ( id : ID, s : LIST-PARAM ) -> ( p : PARAM ) = @{
+    PARAM a = find_param ( @s, @id ) ;
+    if ( IS_NULL_param ( a ) ) {
+	error ( ERROR_SERIOUS, "Parameter '%s' not defined", @id ) ;
+    }
+    @p = a ;
+@} ;
+
+
+/*
+    OBJECT CONSTRUCTION ACTIONS
+
+    These actions are used to construct various objects from their
+    components.  They map directly onto the calculus construction routines.
+*/
+
+<null_usage> : () -> ( u : USAGE ) = @{
+    @u = NULL_name ;
+@} ;
+
+<make_name> : ( id : ID ) -> ( n : NAME ) = @{
+    MAKE_name_basic ( @id, counter, @n ) ;
+    counter++ ;
+@} ;
+
+<make_name_aux> : ( id : ID ) -> ( n : NAME ) = @{
+    MAKE_name_basic ( @id, 0, @n ) ;
+@} ;
+
+<make_param> : ( t : TYPE, id : ID ) -> ( p : PARAM ) = @{
+    MAKE_param_basic ( @t, @id, counter, @p ) ;
+    counter++ ;
+@} ;
+
+<message_param> : ( p : PARAM ) -> ( m : MSG ) = @{
+    if ( !IS_NULL_param ( @p ) ) {
+	MAKE_msg_param ( @p, @m ) ;
+    } else {
+	MAKE_msg_text ( "<error>", @m ) ;
+    }
+@} ;
+
+<message_string> : ( s : STRING ) -> ( m : MSG ) = @{
+    MAKE_msg_text ( @s, @m ) ;
+@} ;
+
+<make_map> : ( k : KEY, p : LIST-MSG, q : LIST-MSG ) -> ( m : MAP ) = @{
+    MAKE_map_basic  ( @k, @p, @q, @m ) ;
+@} ;
+
+<make_entry> : ( a : ID, b : ID, s : LIST-PARAM, u : USAGE, v : USAGE,
+		 p : LIST-PROP, m : LIST-MAP ) -> ( e : ENTRY ) = @{
+    MAKE_entry_basic ( @a, @b, @s, @u, @v, @p, @m, @e ) ;
+    counter = 0 ;
+@} ;
+
+
+/*
+    GLOBAL ASSIGNMENT ACTIONS
+
+    These actions assign the lists and strings constructed by the parser
+    to the various global variables designed to hold this information.
+*/
+
+<set_db> : ( r : ID, s : ID ) -> () = @{
+    db_name = @r ;
+    db_name_alt = @s ;
+@} ;
+
+<set_rig> : ( r : ID ) -> () = @{
+    rig_name = @r ;
+@} ;
+
+<set_prefix> : ( a : ID, b : ID, c : ID ) -> () = @{
+    if ( @a ) rig_comp_output = @a ;
+    if ( @b ) rig_from_comp = @b ;
+    if ( @c ) rig_from_db = @c ;
+@} ;
+
+<set_types> : ( p : LIST-NAME, q : LIST-NAME, r : LIST-NAME ) -> () = @{
+    all_types = @p ;
+    all_types_aux = @q ;
+    all_types_alt = @r ;
+    counter = 0 ;
+@} ;
+
+<set_props> : ( p : LIST-NAME, q : LIST-NAME, r : LIST-NAME ) -> () = @{
+    all_props = @p ;
+    all_props_aux = @q ;
+    all_props_alt = @r ;
+    counter = 0 ;
+@} ;
+
+<set_keys> : ( p : LIST-NAME, q : LIST-NAME, r : LIST-NAME ) -> () = @{
+    all_keys = @p ;
+    all_keys_aux = @q ;
+    all_keys_alt = @r ;
+    counter = 0 ;
+@} ;
+
+<set_usages> : ( p : LIST-NAME, q : LIST-NAME, r : LIST-NAME ) -> () = @{
+    all_usages = @p ;
+    all_usages_aux = @q ;
+    all_usages_alt = @r ;
+    counter = 0 ;
+@} ;
+
+<set_entries> : ( p : LIST-ENTRY ) -> () = @{
+    all_entries = @p ;
+    counter = 0 ;
+@} ;
+
+
+/*
+    SYNTAX ERROR ACTION
+
+    This action is used to signal a syntax error.
+*/
+
+<syntax_error> : () -> () = @{
+    error ( ERROR_SERIOUS, "Syntax error" ) ;
+@} ;
+
+
+%trailer% @{
+@}, @{
+#endif
+@} ;

@@ -1,0 +1,5 @@
+/* TCC environment for Sparc SunOS PIC code */
+
++FLAG			"--3DL"
++FLAG_TRANS		"-D1"
++FLAG_AS        	"-k"

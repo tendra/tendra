@@ -1,0 +1,4 @@
+/* tcc environment for library building */
+
++INCL			"-I-INCLDIR-/dummy.api"
++FLAG			"-D__BUILDING_LIBS"

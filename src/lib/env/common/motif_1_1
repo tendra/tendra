@@ -1,0 +1,7 @@
+/* tcc environment for motif_1_1 */
+
+<INCL			"-Nmotif_1_1:-INCLDIR-/motif/1_1.api"
+<LIB			"-lmotif_1_1"
++FLAG_INSTALL		"-Ymotif_1_1"
+<API_NAME		"-Amotif_1_1"
+<INFO			"Motif@Release@1.1"

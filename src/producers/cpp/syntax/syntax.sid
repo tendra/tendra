@@ -1,0 +1,4241 @@
+/*
+    		 Crown Copyright (c) 1997, 1998
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+/*
+    C++ SYNTAX
+
+    This module contains the syntax for the C++ language.
+*/
+
+
+/*
+    TYPE DECLARATIONS
+
+    The types BOOL, COUNT and LEX are natural types arising from the
+    parser.  The remaining types directly correspond to types within the
+    main program, or composite types formed from them.
+*/
+
+%types%
+
+ACCESS ;
+ACCESSES ;
+BOOL ;
+BTYPE ;
+CONDITION ;
+COUNT ;
+CV ;
+DECL ;
+DSPEC ;
+EXP ;
+IDENTIFIER ;
+KEY ;
+LEX ;
+LINKAGE ;
+LIST-EXP ;
+LIST-TYPE ;
+NAMESPACE ;
+NUMBER ;
+OFFSET ;
+QUALIFIER ;
+TEMPLATE ;
+TYPE ;
+
+
+/*
+    LIST OF TERMINALS
+
+    This list of terminals corresponds to that given in symbols.h and
+    psyntax.h.
+*/
+
+%terminals%
+
+!unknown ;
+
+/* Identifiers */
+identifier : () -> ( :IDENTIFIER ) ;
+type-name : () -> ( :IDENTIFIER ) ;
+namespace-name : () -> ( :IDENTIFIER ) ;
+statement-name : () -> ( :IDENTIFIER ) ;
+destructor-name : () -> ( :IDENTIFIER ) ;
+template-id : () -> ( :IDENTIFIER ) ;
+template-type : () -> ( :IDENTIFIER ) ;
+
+/* Nested name specifiers */
+nested-name : () -> ( :NAMESPACE ) ;
+full-name : () -> ( :NAMESPACE ) ;
+nested-name-star : () -> ( :IDENTIFIER ) ;
+full-name-star : () -> ( :IDENTIFIER ) ;
+
+/* Literals */
+!char-lit ; !wchar-lit ; !string-lit ; !wstring-lit ; !integer-lit ;
+
+/* Literal expressions */
+char-exp : () -> ( :EXP ) ;
+wchar-exp : () -> ( :EXP ) ;
+string-exp : () -> ( :EXP ) ;
+wstring-exp : () -> ( :EXP ) ;
+integer-exp : () -> ( :EXP ) ;
+floating-exp : () -> ( :EXP ) ;
+
+/* Token applications */
+complex-exp : () -> ( :EXP ) ;
+complex-stmt : () -> ( :EXP ) ;
+complex-type : () -> ( :TYPE ) ;
+
+/* Target-dependent preprocessing directives */
+hash-if : () -> ( :EXP ) ;
+hash-elif : () -> ( :EXP ) ;
+hash-else ;
+hash-endif ;
+hash-pragma ;
+
+/* End of file markers */
+!newline ; eof ;
+
+/* Symbols */
+and-1 ; and-eq-1 ; arrow ; assign ; !backslash ; close-brace-1 ;
+close-round ; close-square-1 ; colon ; comma ; compl-1 ; div ; div-eq ;
+dot ; ellipsis ; eq ; greater ; greater-eq ; !hash-1 ; !hash-hash-1 ;
+less ; less-eq ; logical-and-1 ; logical-or-1 ; lshift ; lshift-eq ;
+minus ; minus-eq ; minus-minus ; not-1 ; not-eq-1 ; open-brace-1 ;
+open-round ; open-square-1 ; or-1 ; or-eq-1 ; plus ; plus-eq ; plus-plus ;
+question ; rem ; rem-eq ; rshift ; rshift-eq ; semicolon ; star ;
+star-eq ; xor-1 ; xor-eq-1 ; arrow-star ; colon-colon ; dot-star ; abs ;
+max ; min ;
+
+/* Digraphs */
+!close-brace-2 ; !close-square-2 ; !hash-2 ; !hash-hash-2 ;
+!open-brace-2 ; !open-square-2 ;
+
+/* C keywords */
+auto ; break ; case ; char ; const ; continue ; default ; do ; double ;
+else ; enum ; extern ; float ; for ; goto ; if ; int ; long ; register ;
+return ; short ; signed ; sizeof ; static ; struct ; switch ; typedef ;
+union ; unsigned ; void ; volatile ; while ;
+
+/* C++ keywords */
+asm ; bool ; catch ; class ; const-cast ; delete ; dynamic-cast ;
+explicit ; export ; false ; friend ; inline ; mutable ; namespace ; new ;
+operator ; private ; protected ; public ; reinterpret-cast ;
+static-cast ; template ; this ; throw ; true ; try ; typeid ; typename ;
+using ; virtual ; wchar-t ;
+
+/* ISO keywords */
+!and-2 ; !and-eq-2 ; !compl-2 ; !logical-and-2 ; !logical-or-2 ;
+!not-2 ; !not-eq-2 ; !or-2 ; !or-eq-2 ; !xor-2 ; !xor-eq-2 ;
+
+/* TenDRA keywords */
+!accept ; !after ; alignof ; !all ; !allow ; !ambiguous ; !analysis ;
+!argument ; !arith-cap ; !array ; !as ; !assert ; !assignment ; !begin ;
+!bitfield ; !block ; bottom ; !cast ; !character ; !class-cap ; !code ;
+!comment ; !compatible ; !complete ; !compute ; !conditional ;
+!conversion ; !decimal ; !decl ; !define ; !define-cap ; !defined ;
+!definition ; !depth ; !directive ; !directory ; !disallow ; discard ;
+!dollar ; !either ; !elif ; ellipsis-exp ; !end ; !endif ; !environment ;
+!equality ; !error ; !escape ; exhaustive ; !exp-cap ; !explain ;
+!extend ; !external ; !extra ; fall ; !file ; !float-cap ; !forward ;
+!func-cap ; !function ; !hexadecimal ; !hiding ; !ident ; !identif ;
+!ifdef ; !ifndef ; !ignore ; !implement ; !implicit ; !import ; !include ;
+!includes ; !include-next ; !incompatible ; !incomplete ; !indented ;
+!initialization ; !integer ; !interface ; !internal ; !into ; !int-cap ;
+!keyword ; !limit ; !line ; !linkage ; !lit ; !longlong ; !lvalue ;
+!macro ; !main ; !member ; !member-cap ; !name ; !nat-cap ; !nested ;
+!nline ; !no ; !no-def ; !object ; !octal ; !of ; !off ; !on ; !option ;
+!overflow ; overload ; !pointer ; !postpone ; !pragma ; !precedence ;
+!preserve ; !printf ; !proc-cap ; !promote ; !promoted ; !prototype ;
+ptrdiff-t ; !qualifier ; !quote ; reachable ; !reference ; !reject ;
+!representation ; !reset ; !resolution ; !rvalue ; !scalar-cap ; !scanf ;
+set ; size-t ; !size-t-2 ; !sort ; !std ; !stmt-cap ; !string ;
+!struct-cap ; !suspend ; !tag ; !tag-cap ; !tendra ; !text ; !this-name ;
+!token ; !type ; !type-cap ; !typeof ; !un-known ; !unassert ; !undef ;
+!unify ; !union-cap ; !unmatched ; !unpostpone ; unreachable ; unused ;
+!use ; !value ; !variable ; !variety-cap ; !volatile-t ; vtable ;
+!warning ; weak ; !writeable ; !zzzz ;
+
+/* Miscellaneous symbols */
+!array-op ; !builtin-file ; !builtin-line ; !close-template ; !cond-op ;
+!delete-full ; !delete-array ; !delete-array-full ; !func-op ; !hash-op ;
+!hash-hash-op ; inset-start ; inset-end ; !macro-arg ; !new-full ;
+!new-array ; !new-array-full ; !open-init ; !open-template ; !zzzzzz ;
+
+
+/*
+    ALTERNATIVE REPRESENTATIONS
+
+    The ISO keywords and digraphs will have been replaced by their primary
+    representations by this stage.  These rules are effectively identities
+    for these alternatives.  Don't try removing them - SID gets very
+    confused.
+*/
+
+%productions%
+
+close-brace =	{ close-brace-1 ; } ;
+close-square =	{ close-square-1 ; } ;
+open-brace =	{ open-brace-1 ; } ;
+open-square =	{ open-square-1 ; } ;
+
+and =		{ and-1 ; } ;
+and-eq =	{ and-eq-1 ; } ;
+compl =		{ compl-1 ; } ;
+logical-and =	{ logical-and-1 ; } ;
+logical-or =	{ logical-or-1 ; } ;
+not =		{ not-1 ; } ;
+not-eq =	{ not-eq-1 ; } ;
+or =		{ or-1 ; } ;
+or-eq =		{ or-eq-1 ; } ;
+xor =		{ xor-1 ; } ;
+xor-eq =	{ xor-eq-1 ; } ;
+
+ellipsis-aux =	{ ellipsis ; || ellipsis-exp ; } ;
+
+
+/*
+    LEXICAL TOKENS
+
+    These actions give the lexical token numbers for various symbols.
+*/
+
+<lex_crt> : () -> ( :LEX ) ;
+<lex_close_round> : () -> ( :LEX ) ;
+<lex_close_square> : () -> ( :LEX ) ;
+<lex_colon> : () -> ( :LEX ) ;
+<lex_cond_op> : () -> ( :LEX ) ;
+<lex_open_round> : () -> ( :LEX ) ;
+<lex_semicolon> : () -> ( :LEX ) ;
+<lex_array_op> : () -> ( :LEX ) ;
+<lex_func_op> : () -> ( :LEX ) ;
+<lex_new> : () -> ( :LEX ) ;
+<lex_delete> : () -> ( :LEX ) ;
+<lex_new_array> : () -> ( :LEX ) ;
+<lex_delete_array> : () -> ( :LEX ) ;
+<lex_alignof> : () -> ( :LEX ) ;
+<lex_sizeof> : () -> ( :LEX ) ;
+<lex_typeid> : () -> ( :LEX ) ;
+<lex_vtable> : () -> ( :LEX ) ;
+
+
+/*
+    EXPECTED SYMBOLS
+
+    These rules are used when a certain symbol is expected.  If it is
+    not present then the action expected is called with the appropriate
+    lexical token number.
+*/
+
+<expected> : ( :LEX ) -> () ;
+<error_fatal> : () -> () ;
+<error_syntax> : () -> () ;
+
+close-round-x = {
+	close-round ;
+    ##	t = <lex_close_round> ; <expected> ( t ) ;
+} ;
+
+close-square-x = {
+	close-square ;
+    ##	t = <lex_close_square> ; <expected> ( t ) ;
+} ;
+
+colon-x = {
+	colon ;
+    ##	t = <lex_colon> ; <expected> ( t ) ;
+} ;
+
+open-round-x = {
+	open-round ;
+    ##	t = <lex_open_round> ; <expected> ( t ) ;
+} ;
+
+semicolon-x = {
+	semicolon ;
+    ##	t = <lex_semicolon> ; <expected> ( t ) ;
+} ;
+
+
+/*
+    IDENTIFIERS
+
+    The identifier terminal is exclusive - it does not include those
+    identifiers which are actually type and namespace names.  This rule
+    gives all identifiers and sets the appropriate identifier type.
+*/
+
+any-identifier : () -> ( id : IDENTIFIER ) = {
+	id = identifier ;
+    ||	id = type-name ;
+    ||	id = namespace-name ;
+    ||	id = statement-name ;
+} ;
+
+
+/*
+    NAMESPACE SPECIFIERS
+
+    The nested-name-specifiers are handled by the terminals nested-name
+    (corresponding to nested-name-specifier in the specification) and
+    full-name (corresponding to :: nested-name-specifier).  These rules
+    give various combinations of these specifiers.
+*/
+
+<namespace_none> : () -> ( :NAMESPACE ) ;
+<namespace_global> : () -> ( :NAMESPACE ) ;
+<namespace_nested> : ( :NAMESPACE ) -> () ;
+<namespace_full> : ( :NAMESPACE ) -> () ;
+
+nonempty-nested-name : () -> ( ns : NAMESPACE ) = {
+	ns = nested-name ; <namespace_nested> ( ns ) ;
+    ||	ns = full-name ; <namespace_full> ( ns ) ;
+} ;
+
+any-nested-name : () -> ( ns : NAMESPACE ) = {
+	ns = nonempty-nested-name ;
+    ||	colon-colon ; ns = <namespace_global> ;
+} ;
+
+any-nested-name-opt : () -> ( ns : NAMESPACE ) = {
+	ns = any-nested-name ;
+    ||	ns = <namespace_none> ;
+} ;
+
+
+/*
+    LITERAL EXPRESSIONS
+
+    These rules describe the literal expressions.  These are the integer
+    and floating point literals, the character and string literals, plus
+    the boolean literals true and false.  Concatenation of adjacent string
+    literals has already been performed.
+*/
+
+<exp_true> : () -> ( :EXP ) ;
+<exp_false> : () -> ( :EXP ) ;
+
+integer-literal : () -> ( e : EXP ) = {
+	e = integer-exp ;
+} ;
+
+character-literal : () -> ( e : EXP ) = {
+	e = char-exp ;
+    ||	e = wchar-exp ;
+} ;
+
+floating-literal : () -> ( e : EXP ) = {
+	e = floating-exp ;
+} ;
+
+string-literal : () -> ( e : EXP ) = {
+	e = string-exp ;
+    ||	e = wstring-exp ;
+} ;
+
+boolean-literal : () -> ( e : EXP ) = {
+	false ; e = <exp_false> ;
+    ||	true ; e = <exp_true> ;
+} ;
+
+literal : () -> ( e : EXP ) = {
+	e = integer-literal ;
+    ||	e = character-literal ;
+    ||	e = floating-literal ;
+    ||	e = string-literal ;
+    ||	e = boolean-literal ;
+} ;
+
+
+/*
+    OPERATOR AND CONVERSION FUNCTION IDENTIFIERS
+
+    These rules describe the overloaded operator and conversion function
+    names.  These consist of 'operator' followed by one of a large number
+    of operator names (including a few illegal ones which are immediately
+    reported using error_overload) or a type name.  Note the use of the
+    predicate is_array to distinguish 'operator new []' from 'operator
+    new [ expression ]'.  The rule operator-id subsumes both the rules
+    operator-function-id and conversion-function-id from the grammar.
+*/
+
+<is_array> : () -> ( :BOOL ) ;
+<type_decl_begin> : () -> ( :BOOL ) ;
+<type_decl_end> : ( :BOOL ) -> ( :BOOL ) ;
+<type_decl_quit> : ( :BOOL ) -> () ;
+<qual_get> : () -> ( :QUALIFIER, :BOOL ) ;
+<qual_set> : ( :QUALIFIER, :BOOL ) -> () ;
+<qual_none> : () -> () ;
+<error_overload> : ( :LEX ) -> () ;
+<operator_func> : ( :LEX ) -> ( :IDENTIFIER ) ;
+<conversion_func> : ( :TYPE, :BOOL ) -> ( :IDENTIFIER ) ;
+<id_anon> : () -> ( :IDENTIFIER ) ;
+
+conversion-type-id : () -> ( :TYPE ) ;
+
+operator-name : () -> ( op : LEX ) = {
+	op = <lex_crt> ;
+	{
+		and  ;
+	    ||	and-eq  ;
+	    ||	arrow  ;
+	    ||	arrow-star  ;
+	    ||	assign  ;
+	    ||	comma  ;
+	    ||	compl  ;
+	    ||	div  ;
+	    ||	div-eq  ;
+	    ||	eq  ;
+	    ||	greater  ;
+	    ||	greater-eq  ;
+	    ||	less  ;
+	    ||	less-eq  ;
+	    ||	logical-and  ;
+	    ||	logical-or  ;
+	    ||	lshift  ;
+	    ||	lshift-eq  ;
+	    ||	minus  ;
+	    ||	minus-eq  ;
+	    ||	minus-minus  ;
+	    ||	not  ;
+	    ||	not-eq  ;
+	    ||	or  ;
+	    ||	or-eq  ;
+	    ||	plus  ;
+	    ||	plus-eq  ;
+	    ||	plus-plus  ;
+	    ||	rem  ;
+	    ||	rem-eq  ;
+	    ||	rshift  ;
+	    ||	rshift-eq  ;
+	    ||	star  ;
+	    ||	star-eq  ;
+	    ||	xor  ;
+	    ||	xor-eq  ;
+	    ||	abs  ;
+	    ||	max  ;
+	    ||	min  ;
+	} ;
+    ||
+	open-round ; close-round-x ;
+	op = <lex_func_op> ;
+    ||
+	open-square ; close-square-x ;
+	op = <lex_array_op> ;
+    ||
+	new ;
+	op = <lex_new> ;
+    ||
+	delete ;
+	op = <lex_delete> ;
+    ||
+	new ; ? = <is_array> ; open-square ; close-square-x ;
+	op = <lex_new_array> ;
+    ||
+	delete ; ? = <is_array> ; open-square ; close-square-x ;
+	op = <lex_delete_array> ;
+    ||
+	op = <lex_crt> ;
+	{
+		dot ;
+	    ||	dot-star ;
+	    ||	colon-colon ;
+	    ||	colon ;
+	    ||	alignof ;
+	    ||	sizeof ;
+	    ||	typeid ;
+	    ||	vtable ;
+	} ;
+	<error_overload> ( op ) ;
+    ||
+	question ; colon-x ;
+	op = <lex_cond_op> ;
+	<error_overload> ( op ) ;
+} ;
+
+operator-id : () -> ( id : IDENTIFIER ) = {
+	operator ;
+	( i, b ) = <qual_get> ;
+	td = <type_decl_begin> ;
+	{
+		t = conversion-type-id ;
+		d = <type_decl_end> ( td ) ;
+		tid = <conversion_func> ( t, d ) ;
+	    ||
+		op = operator-name ;
+		<type_decl_quit> ( td ) ;
+		tid = <operator_func> ( op ) ;
+	} ;
+	<qual_set> ( i, b ) ;
+	id = tid ;
+} ;
+
+
+/*
+    IDENTIFIER EXPRESSIONS
+
+    These rules describe the qualified and unqualified identifier
+    expressions.  The identifier qualifiers have been reworked slightly
+    to make it clear exactly what is being qualified when and by what.
+*/
+
+<bool_true> : () -> ( :BOOL ) ;
+<bool_false> : () -> ( :BOOL ) ;
+<namespace_id> : ( :NAMESPACE, :IDENTIFIER ) -> ( :IDENTIFIER ) ;
+<namespace_simple> : ( :IDENTIFIER ) -> ( :IDENTIFIER ) ;
+<namespace_complex> : ( :IDENTIFIER ) -> ( :IDENTIFIER ) ;
+<namespace_templ> : ( :NAMESPACE, :IDENTIFIER, :BOOL ) -> ( :IDENTIFIER ) ;
+<decl_nspace_begin> : ( :NAMESPACE ) -> () ;
+<decl_nspace_end> : ( :NAMESPACE ) -> () ;
+<rescan_template> : ( :NAMESPACE ) -> () ;
+<id_none> : () -> ( :IDENTIFIER ) ;
+
+unqualified-type : () -> ( :IDENTIFIER ) ;
+any-qualified-type : () -> ( :IDENTIFIER ) ;
+qualified-stmt-name : () -> ( :IDENTIFIER ) ;
+
+template-opt : ( ns : NAMESPACE ) -> ( t : BOOL ) = {
+	<rescan_template> ( ns ) ; template ; t = <bool_true> ;
+    ||	t = <bool_false> ;
+} ;
+
+nested-id : ( ns : NAMESPACE ) -> ( id : IDENTIFIER ) = {
+	id = identifier ;
+    ||
+	id = namespace-name ;
+    ||
+	id = destructor-name ;
+    ||
+	id = template-id ;
+    ||
+	<decl_nspace_begin> ( ns ) ;
+	id = operator-id ;
+	<decl_nspace_end> ( ns ) ;
+} ;
+
+unqualified-id : () -> ( id : IDENTIFIER ) = {
+	uid = identifier ;
+	id = <namespace_simple> ( uid ) ;
+    ||
+	uid = namespace-name ;
+	id = <namespace_simple> ( uid ) ;
+    ||
+	uid = operator-id ;
+	id = <namespace_complex> ( uid ) ;
+    ||
+	uid = destructor-name ;
+	id = <namespace_complex> ( uid ) ;
+    ||
+	uid = template-id ;
+	id = <namespace_complex> ( uid ) ;
+} ;
+
+qualified-id : () -> ( id : IDENTIFIER ) = {
+	ns = nested-name ;
+	q = template-opt ( ns ) ; uid = nested-id ( ns ) ;
+	<namespace_nested> ( ns ) ;
+	id = <namespace_templ> ( ns, uid, q ) ;
+} ;
+
+full-qualified-id : () -> ( id : IDENTIFIER ) = {
+	ns = full-name ;
+	q = template-opt ( ns ) ; uid = nested-id ( ns ) ;
+	<namespace_full> ( ns ) ;
+	id = <namespace_templ> ( ns, uid, q ) ;
+} ;
+
+top-qualified-id : () -> ( id : IDENTIFIER ) = {
+	colon-colon ;
+	ns = <namespace_global> ;
+	q = template-opt ( ns ) ; uid = nested-id ( ns ) ;
+	id = <namespace_templ> ( ns, uid, q ) ;
+} ;
+
+id-expression : () -> ( id : IDENTIFIER ) = {
+	id = unqualified-id ;
+    ||	id = qualified-id ;
+    ||	id = full-qualified-id ;
+    ||	id = top-qualified-id ;
+} ;
+
+any-qualified-id : () -> ( id : IDENTIFIER ) = {
+	id = id-expression ;
+    ||	id = unqualified-type ;
+    ||	id = any-qualified-type ;
+    ||	id = qualified-stmt-name ;
+} ;
+
+id-entry : () -> ( id : IDENTIFIER ) = {
+	id = any-qualified-id ;
+    ##
+	<error_syntax> ;
+	id = <id_none> ;
+} ;
+
+
+/*
+    PRIMARY EXPRESSIONS
+
+    This rule describes the primary expressions.  These include the
+    literals, the identity expressions, the this expression and the
+    parenthesised expressions.  The assertion expressions are an
+    extension.
+*/
+
+<exp_this> : () -> ( :EXP ) ;
+<exp_ellipsis> : () -> ( :EXP ) ;
+<exp_paren_begin> : () -> () ;
+<exp_paren_end> : ( :EXP ) -> ( :EXP ) ;
+<exp_identifier> : ( :IDENTIFIER ) -> ( :EXP ) ;
+
+expression : () -> ( :EXP ) ;
+
+primary-expression : () -> ( e : EXP ) = {
+	e = literal ;
+    ||
+	this ;
+	e = <exp_this> ;
+    ||
+	id = id-expression ;
+	e = <exp_identifier> ( id ) ;
+    ||
+	ellipsis-exp ;
+	e = <exp_ellipsis> ;
+    ||
+	open-round ;
+	<exp_paren_begin> ;
+	a = expression ;
+	e = <exp_paren_end> ( a ) ;
+	close-round ;
+    ||
+	e = complex-exp ;
+} ;
+
+
+/*
+    EXPRESSION LISTS
+
+    These rules describes the lists of expressions.  Note that the
+    constituents are assignment-expressions so that any commas are list
+    separators rather than comma operators.
+*/
+
+<list_exp_null> : () -> ( :LIST-EXP ) ;
+<list_exp_cons> : ( :EXP, :LIST-EXP ) -> ( :LIST-EXP ) ;
+
+assignment-expression : () -> ( :EXP ) ;
+
+expression-list : () -> ( p : LIST-EXP ) = {
+	e = assignment-expression ;
+	{
+		comma ; q = expression-list ;
+	    ||	q = <list_exp_null> ;
+	} ;
+	p = <list_exp_cons> ( e, q ) ;
+} ;
+
+expression-list-opt : () -> ( p : LIST-EXP ) = {
+	p = expression-list ;
+    ||	p = <list_exp_null> ;
+} ;
+
+
+/*
+    QUALIFIED TYPE NAMES
+
+    These rules describe the qualified and unqualified type names.
+*/
+
+any-type-name : () -> ( id : IDENTIFIER ) = {
+	id = type-name ;
+    ||	id = template-type ;
+} ;
+
+unqualified-type : () -> ( id : IDENTIFIER ) = {
+	tid = any-type-name ;
+	id = <namespace_simple> ( tid ) ;
+} ;
+
+qualified-type : () -> ( id : IDENTIFIER ) = {
+	ns = nested-name ; tid = any-type-name ;
+	<namespace_nested> ( ns ) ;
+	id = <namespace_id> ( ns, tid ) ;
+} ;
+
+full-qualified-type : () -> ( id : IDENTIFIER ) = {
+	ns = full-name ; tid = any-type-name ;
+	<namespace_full> ( ns ) ;
+	id = <namespace_id> ( ns, tid ) ;
+} ;
+
+top-qualified-type : () -> ( id : IDENTIFIER ) = {
+	colon-colon ; tid = any-type-name ;
+	ns = <namespace_global> ;
+	id = <namespace_id> ( ns, tid ) ;
+} ;
+
+any-qualified-type : () -> ( id : IDENTIFIER ) = {
+	id = qualified-type ;
+    ||	id = full-qualified-type ;
+    ||	id = top-qualified-type ;
+} ;
+
+
+/*
+    FIELD SELECTOR EXPRESSIONS
+
+    These rules are used to perform field selector look-up following a
+    '.' or '->' operator.  The input namespace gives the class being
+    selected from (or the null namespace in case of an error).  Note
+    the provisions for dummy destructor calls.
+*/
+
+<btype_none> : () -> ( :BTYPE ) ;
+<namespace_type> : ( :NAMESPACE ) -> ( :IDENTIFIER ) ;
+<pseudo_destructor> : ( :IDENTIFIER, :BTYPE, :IDENTIFIER, :BTYPE ) -> ( :IDENTIFIER ) ;
+
+any-class-name : () -> ( :IDENTIFIER ) ;
+base-type-specifier : () -> ( :BTYPE ) ;
+
+field-type-expression : ( ns : NAMESPACE ) -> ( id : IDENTIFIER ) = {
+	tid = unqualified-type ;
+	id = <namespace_id> ( ns, tid ) ;
+    ||
+	tid = qualified-type ;
+	id = <namespace_id> ( ns, tid ) ;
+    ||
+	id = full-qualified-type ;
+    ||
+	id = top-qualified-type ;
+} ;
+
+pseudo-destr-prefix : ( ns : NAMESPACE ) -> ( id : IDENTIFIER, bt : BTYPE, cns : NAMESPACE ) = {
+	cns = any-nested-name ;
+	id = <namespace_type> ( cns ) ;
+	bt = <btype_none> ;
+    ||
+	id = field-type-expression ( ns ) ; colon-colon ;
+	bt = <btype_none> ;
+	cns = ns ;
+    ||
+	bt = base-type-specifier ; colon-colon ;
+	id = <id_none> ;
+	cns = ns ;
+} ;
+
+pseudo-destr-suffix : () -> ( id : IDENTIFIER, bt : BTYPE ) = {
+	id = any-class-name ;
+	bt = <btype_none> ;
+    ||
+	bt = base-type-specifier ;
+	id = <id_none> ;
+} ;
+
+field-id-expression : ( ns : NAMESPACE ) -> ( id : IDENTIFIER ) = {
+	uid = nested-id ( ns ) ;
+	<qual_none> ;
+	id = <namespace_id> ( ns, uid ) ;
+    ||
+	qid = qualified-id ;
+	id = <namespace_id> ( ns, qid ) ;
+    ||
+	id = full-qualified-id ;
+    ||
+	id = top-qualified-id ;
+    ||
+	id = field-type-expression ( ns ) ;
+    ||
+	( id1, bt1, ns1 ) = pseudo-destr-prefix ( ns ) ;
+	( i, b ) = <qual_get> ;
+	compl ; ( id2, bt2 ) = pseudo-destr-suffix ;
+	<qual_set> ( i, b ) ;
+	uid = <pseudo_destructor> ( id1, bt1, id2, bt2 ) ;
+	id = <namespace_id> ( ns1, uid ) ;
+    ||
+	compl ; ( id2, bt2 ) = pseudo-destr-suffix ;
+	<qual_none> ;
+	id = <pseudo_destructor> ( id2, bt2, id2, bt2 ) ;
+} ;
+
+
+/*
+    POSTFIX EXPRESSIONS
+
+    These rules describes the postfix expressions.  These include array
+    indexing, function calls and function style casts, field selectors,
+    postfix increment and decrement operations, new style casts and
+    type identification operators.
+*/
+
+<exp_postinc> : ( :EXP ) -> ( :EXP ) ;
+<exp_postdec> : ( :EXP ) -> ( :EXP ) ;
+<exp_index> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_func> : ( :EXP, :LIST-EXP ) -> ( :EXP ) ;
+
+<exp_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+<exp_func_cast> : ( :TYPE, :LIST-EXP ) -> ( :EXP ) ;
+<exp_dynamic_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+<exp_static_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+<exp_reinterpret_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+<exp_const_cast> : ( :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+
+<exp_typeid_exp> : ( :EXP, :LEX, :COUNT ) -> ( :EXP ) ;
+<exp_typeid_type> : ( :TYPE, :LEX, :COUNT ) -> ( :EXP ) ;
+
+<exp_dot_begin> : ( :EXP ) -> ( :EXP, :TYPE, :NAMESPACE ) ;
+<exp_dot_end> : ( :EXP, :TYPE, :NAMESPACE, :IDENTIFIER, :BOOL ) -> ( :EXP ) ;
+<exp_arrow_begin> : ( :EXP ) -> ( :EXP, :TYPE, :NAMESPACE ) ;
+<exp_arrow_end> : ( :EXP, :TYPE, :NAMESPACE, :IDENTIFIER, :BOOL ) -> ( :EXP ) ;
+<rescan_token> : () -> () ;
+
+<no_type_defns> : () -> ( :COUNT ) ;
+<no_side_effects> : () -> ( :COUNT ) ;
+<diff_type_defns> : ( :COUNT ) -> ( :COUNT ) ;
+<diff_side_effects> : ( :COUNT ) -> ( :COUNT ) ;
+<sizeof_begin> : () -> () ;
+<sizeof_end> : () -> () ;
+
+simple-type-id : () -> ( :TYPE ) ;
+type-id : () -> ( :TYPE, :COUNT ) ;
+type-id-false : () -> ( :TYPE, :COUNT ) ;
+type-id-true : () -> ( :TYPE, :COUNT ) ;
+
+cast-operand : () -> ( t : TYPE, e : EXP, n : COUNT ) = {
+	less ; ( t, n ) = type-id ; greater ;
+	open-round ; e = expression ; close-round ;
+} ;
+
+typeid-expression : ( op : LEX ) -> ( e : EXP ) = {
+	<sizeof_begin> ;
+	n1 = <no_side_effects> ;
+	m1 = <no_type_defns> ;
+	open-round ;
+	{
+		a = expression ; close-round ;
+		n2 = <diff_side_effects> ( n1 ) ;
+		c = <exp_typeid_exp> ( a, op, n2 ) ;
+	    ||
+		( t, m2 ) = type-id-true ; close-round ;
+		c = <exp_typeid_type> ( t, op, m2 ) ;
+	} ;
+	<sizeof_end> ;
+	e = c ;
+} ;
+
+postfix-expression : () -> ( e : EXP ) = {
+	e = primary-expression ;
+    ||
+	a = postfix-expression ;
+	open-square ; b = expression ; close-square ;
+	e = <exp_index> ( a, b ) ;
+    ||
+	a = postfix-expression ;
+	open-round ; p = expression-list-opt ; close-round ;
+	e = <exp_func> ( a, p ) ;
+    ||
+	t = simple-type-id ;
+	open-round ; p = expression-list-opt ; close-round ;
+	e = <exp_func_cast> ( t, p ) ;
+    ||
+	a = postfix-expression ;
+	( b, t, ns ) = <exp_dot_begin> ( a ) ;
+	dot ; q = template-opt ( ns ) ; id = field-id-expression ( ns ) ;
+	e = <exp_dot_end> ( b, t, ns, id, q ) ;
+	<rescan_token> ;
+    ||
+	a = postfix-expression ;
+	( b, t, ns ) = <exp_arrow_begin> ( a ) ;
+	arrow ; q = template-opt ( ns ) ; id = field-id-expression ( ns ) ;
+	e = <exp_arrow_end> ( b, t, ns, id, q ) ;
+	<rescan_token> ;
+    ||
+	a = postfix-expression ; plus-plus ;
+	e = <exp_postinc> ( a ) ;
+    ||
+	a = postfix-expression ; minus-minus ;
+	e = <exp_postdec> ( a ) ;
+    ||
+	dynamic-cast ; ( t, a, n ) = cast-operand ;
+	e = <exp_dynamic_cast> ( t, a, n ) ;
+    ||
+	static-cast ; ( t, a, n ) = cast-operand ;
+	e = <exp_static_cast> ( t, a, n ) ;
+    ||
+	reinterpret-cast ; ( t, a, n ) = cast-operand ;
+	e = <exp_reinterpret_cast> ( t, a, n ) ;
+    ||
+	const-cast ; ( t, a, n ) = cast-operand ;
+	e = <exp_const_cast> ( t, a, n ) ;
+    ||
+	typeid ; op = <lex_typeid> ; e = typeid-expression ( op ) ;
+    ||
+	vtable ; op = <lex_vtable> ; e = typeid-expression ( op ) ;
+} ;
+
+
+/*
+    NEW EXPRESSIONS
+
+    These rules describe the new expressions.  These consist of a new
+    operator followed by an optional placement, a type identifier (either
+    a simplified form or a bracketed full form), and an optional initialiser
+    list.  Note that the second and third components have been combined
+    as the single rule new-place-and-type.
+*/
+
+<exp_none> : () -> ( :EXP ) ;
+<exp_new> : ( :BOOL, :LIST-EXP, :TYPE, :COUNT, :BOOL, :EXP ) -> ( :EXP ) ;
+<exp_new_start> : () -> ( :EXP ) ;
+<exp_new_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_new_init> : ( :TYPE, :LIST-EXP ) -> ( :EXP ) ;
+<exp_new_none> : ( :TYPE ) -> ( :EXP ) ;
+
+new-type-id : () -> ( :TYPE, :COUNT ) ;
+
+new-initialiser-opt : ( t : TYPE ) -> ( e : EXP ) = {
+	open-round ; p = expression-list-opt ; close-round ;
+	e = <exp_new_init> ( t, p ) ;
+    ||
+	e = <exp_new_none> ( t ) ;
+} ;
+
+colon-colon-opt : () -> ( b : BOOL ) = {
+	colon-colon ; b = <bool_true> ;
+    ||	b = <bool_false> ;
+} ;
+
+new-place-and-type : () -> ( p : LIST-EXP, t : TYPE, n : COUNT ) = {
+	open-round ;
+	{
+		p = expression-list ; close-round ;
+		td = <type_decl_begin> ;
+		{
+			open-round ; ( s, m ) = type-id ; close-round ;
+		    ||
+			( s, m ) = new-type-id ;
+		} ;
+		<type_decl_quit> ( td ) ;
+		t = s ;
+		n = m ;
+	    ||
+		( t, n ) = type-id-false ; close-round ;
+		p = <list_exp_null> ;
+	} ;
+    ||
+	( t, n ) = new-type-id ;
+	p = <list_exp_null> ;
+} ;
+
+new-expression : () -> ( e : EXP ) = {
+	b = colon-colon-opt ; new ;
+	td = <type_decl_begin> ;
+	( p, t, n ) = new-place-and-type ;
+	d = <type_decl_end> ( td ) ;
+	s = <exp_new_start> ;
+	i = new-initialiser-opt ( t ) ;
+	a = <exp_new_end> ( s, i ) ;
+	e = <exp_new> ( b, p, t, n, d, a ) ;
+} ;
+
+
+/*
+    DELETE EXPRESSIONS
+
+    This rule describes the delete expressions.  These consist of a
+    delete operator followed by the expression to be deleted.  The
+    anachronistic form of the 'delete []' operator, in which the array
+    size had to be given, has been included in the grammar, to be weeded
+    out by the action anachronism_delete.
+*/
+
+<exp_delete> : ( :BOOL, :LEX, :EXP ) -> ( :EXP ) ;
+<anachronism_delete> : ( :EXP ) -> () ;
+
+cast-expression : () -> ( :EXP ) ;
+unary-expression : () -> ( :EXP ) ;
+
+delete-operator : () -> ( op : LEX ) = {
+	delete ;
+	op = <lex_delete> ;
+    ||
+	delete ; open-square ; close-square ;
+	op = <lex_delete_array> ;
+    ||
+	delete ; open-square ; e = expression ;
+	<anachronism_delete> ( e ) ;
+	close-square ;
+	op = <lex_delete_array> ;
+} ;
+
+delete-expression : () -> ( e : EXP ) = {
+	b = colon-colon-opt ;
+	op = delete-operator ;
+	a = cast-expression ;
+	e = <exp_delete> ( b, op, a ) ;
+} ;
+
+
+/*
+    UNARY EXPRESSIONS
+
+    These rules describe the unary expressions.  These include the simple
+    unary operations (indirection, address, unary plus, unary minus, logical
+    negation and bitwise complement), the prefix increment and decrement
+    operations and sizeof expressions, as well as the new and delete
+    expressions.
+*/
+
+<exp_not> : ( :EXP ) -> ( :EXP ) ;
+<exp_ref> : ( :EXP ) -> ( :EXP ) ;
+<exp_indir> : ( :EXP ) -> ( :EXP ) ;
+<exp_unary> : ( :LEX, :EXP ) -> ( :EXP ) ;
+<exp_preinc> : ( :EXP ) -> ( :EXP ) ;
+<exp_predec> : ( :EXP ) -> ( :EXP ) ;
+
+<exp_sizeof> : ( :LEX, :TYPE, :EXP, :COUNT ) -> ( :EXP ) ;
+<type_of> : ( :LEX, :EXP, :COUNT ) -> ( :TYPE ) ;
+
+sizeof-expression : ( op : LEX ) -> ( e : EXP ) = {
+	<sizeof_begin> ;
+	n1 = <no_side_effects> ;
+	m1 = <no_type_defns> ;
+	{
+		a = unary-expression ;
+		n2 = <diff_side_effects> ( n1 ) ;
+		m2 = <diff_type_defns> ( m1 ) ;
+		t = <type_of> ( op, a, n2 ) ;
+		c = <exp_sizeof> ( op, t, a, m2 ) ;
+	    ||
+		open-round ; ( t, m2 ) = type-id-true ;
+		a = <exp_none> ;
+		c = <exp_sizeof> ( op, t, a, m2 ) ;
+		close-round ;
+	} ;
+	<sizeof_end> ;
+	e = c ;
+} ;
+
+unary-operator : () -> () = {
+	plus ;
+    ||	minus ;
+    ||	compl ;
+    ||	abs ;
+} ;
+
+unary-expression : () -> ( e : EXP ) = {
+	e = postfix-expression ;
+    ||
+	plus-plus ; a = cast-expression ;
+	e = <exp_preinc> ( a ) ;
+    ||
+	minus-minus ; a = cast-expression ;
+	e = <exp_predec> ( a ) ;
+    ||
+	star ; a = cast-expression ;
+	e = <exp_indir> ( a )  ;
+    ||
+	and ; a = cast-expression ;
+	e = <exp_ref> ( a )  ;
+    ||
+	not ; a = cast-expression ;
+	e = <exp_not> ( a ) ;
+    ||
+	op = <lex_crt> ; unary-operator ;
+	a = cast-expression ;
+	e = <exp_unary> ( op, a ) ;
+    ||
+	sizeof ; op = <lex_sizeof> ; e = sizeof-expression ( op ) ;
+    ||
+	alignof ; op = <lex_alignof> ; e = sizeof-expression ( op ) ;
+    ||
+	e = new-expression ;
+    ||
+	e = delete-expression ;
+} ;
+
+
+/*
+    CAST EXPRESSIONS
+
+    This rule describes the traditional style cast expressions, consisting
+    of a bracketed type identifier followed by an expression.  The ignore
+    keyword is an extension which is semantically equivalent to casting
+    to void.
+*/
+
+<exp_ignore> : ( :EXP ) -> ( :EXP ) ;
+
+cast-expression : () -> ( e : EXP ) = {
+	e = unary-expression ;
+    ||
+	open-round ; ( t, n ) = type-id-false ; close-round ;
+	a = cast-expression ;
+	e = <exp_cast> ( t, a, n ) ;
+    ||
+	discard ; a = cast-expression ;
+	e = <exp_ignore> ( a ) ;
+} ;
+
+
+/*
+    POINTER MEMBER EXPRESSIONS
+
+    This rule describes the pointer to member expressions, consisting of
+    the '.*' and '->*' operators.
+*/
+
+<exp_ptr_mem> : () -> () ;
+<exp_dot_star> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_arrow_star> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+pm-expression : () -> ( e : EXP ) = {
+	e = cast-expression ;
+    ||
+	a = pm-expression ; dot-star ;
+	<exp_ptr_mem> ;
+	b = cast-expression ;
+	e = <exp_dot_star> ( a, b ) ;
+    ||
+	a = pm-expression ; arrow-star ;
+	<exp_ptr_mem> ;
+	b = cast-expression ;
+	e = <exp_arrow_star> ( a, b ) ;
+} ;
+
+
+/*
+    MULTIPLICATIVE EXPRESSIONS
+
+    This rule describes the multiplicative expressions.  These include
+    the division and remainder operations, as well as multiplication.
+*/
+
+<exp_div> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_rem> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_mult> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+multiplicative-expression : () -> ( e : EXP ) = {
+	e = pm-expression ;
+    ||
+	a = multiplicative-expression ; star ; b = pm-expression ;
+	e = <exp_mult> ( a, b ) ;
+    ||
+	a = multiplicative-expression ; div ; b = pm-expression ;
+	e = <exp_div> ( a, b ) ;
+    ||
+	a = multiplicative-expression ; rem ; b = pm-expression ;
+	e = <exp_rem> ( a, b ) ;
+} ;
+
+
+/*
+    ADDITIVE EXPRESSIONS
+
+    This rule describes the additive expressions.  These include both the
+    addition and the subtraction operations.
+*/
+
+<exp_plus> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_minus> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+additive-expression : () -> ( e : EXP ) = {
+	e = multiplicative-expression ;
+    ||
+	a = additive-expression ; plus ; b = multiplicative-expression ;
+	e = <exp_plus> ( a, b ) ;
+    ||
+	a = additive-expression ; minus ; b = multiplicative-expression ;
+	e = <exp_minus> ( a, b ) ;
+} ;
+
+
+/*
+    SHIFT EXPRESSIONS
+
+    This rule describes the shift expressions.  Both left and right shifts
+    are included.
+*/
+
+<exp_lshift> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_rshift> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+shift-expression : () -> ( e : EXP ) = {
+	e = additive-expression ;
+    ||
+	a = shift-expression ; lshift ; b = additive-expression ;
+	e = <exp_lshift> ( a, b ) ;
+    ||
+	a = shift-expression ; rshift ; b = additive-expression ;
+	e = <exp_rshift> ( a, b ) ;
+} ;
+
+
+/*
+    RELATIONAL EXPRESSIONS
+
+    These rules describe the relational expressions, less than, greater
+    than, less than or equal and greater than or equal.
+*/
+
+<exp_relation> : ( :LEX, :EXP, :EXP ) -> ( :EXP ) ;
+
+relational-operator : () -> () = {
+	less ;
+    ||	greater ;
+    ||	less-eq ;
+    ||	greater-eq ;
+} ;
+
+relational-expression : () -> ( e : EXP ) = {
+	e = shift-expression ;
+    ||
+	a = relational-expression ;
+	op = <lex_crt> ; relational-operator ;
+	b = shift-expression ;
+	e = <exp_relation> ( op, a, b ) ;
+} ;
+
+
+/*
+    EQUALITY EXPRESSIONS
+
+    These rules describe the equality expressions, equal and not equal.
+*/
+
+<exp_equality> : ( :LEX, :EXP, :EXP ) -> ( :EXP ) ;
+
+equality-operator : () -> () = {
+	eq ;
+    ||	not-eq ;
+} ;
+
+equality-expression : () -> ( e : EXP ) = {
+	e = relational-expression ;
+    ||
+	a = equality-expression ;
+	op = <lex_crt> ; equality-operator ;
+	b = relational-expression ;
+	e = <exp_equality> ( op, a, b ) ;
+} ;
+
+
+/*
+    MAXIMUM AND MINIMUM EXPRESSIONS (EXTENSION)
+
+    These rules describes the maximum and minimum expressions.
+*/
+
+<exp_maxmin> : ( :LEX, :EXP, :EXP ) -> ( :EXP ) ;
+
+maxmin-operator : () -> () = {
+	max ;
+    ||	min ;
+} ;
+
+maxmin-expression : () -> ( e : EXP ) = {
+	e = equality-expression ;
+    ||
+	a = maxmin-expression ;
+	op = <lex_crt> ; maxmin-operator ;
+	b = equality-expression ;
+	e = <exp_maxmin> ( op, a, b ) ;
+} ;
+
+
+/*
+    AND EXPRESSIONS
+
+    This rule describes the bitwise and expressions.
+*/
+
+<exp_and> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+and-expression : () -> ( e : EXP ) = {
+	e = maxmin-expression ;
+    ||
+	a = and-expression ; and ; b = maxmin-expression ;
+	e = <exp_and> ( a, b ) ;
+} ;
+
+
+/*
+    EXCLUSIVE OR EXPRESSIONS
+
+    This rule describes the bitwise exclusive or expressions.
+*/
+
+<exp_xor> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+exclusive-or-expression : () -> ( e : EXP ) = {
+	e = and-expression ;
+    ||
+	a = exclusive-or-expression ; xor ; b = and-expression ;
+	e = <exp_xor> ( a, b ) ;
+} ;
+
+
+/*
+    INCLUSIVE OR EXPRESSIONS
+
+    This rule describes the bitwise inclusive or expressions.
+*/
+
+<exp_or> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+inclusive-or-expression : () -> ( e : EXP ) = {
+	e = exclusive-or-expression ;
+    ||
+	a = inclusive-or-expression ; or ; b = exclusive-or-expression ;
+	e = <exp_or> ( a, b ) ;
+} ;
+
+
+/*
+    LOGICAL AND EXPRESSIONS
+
+    This rule describes the logical and expressions.
+*/
+
+<exp_log_and> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+logical-and-expression : () -> ( e : EXP ) = {
+	e = inclusive-or-expression ;
+    ||
+	a = logical-and-expression ;
+	logical-and ; b = inclusive-or-expression ;
+	e = <exp_log_and> ( a, b ) ;
+} ;
+
+
+/*
+    LOGICAL OR EXPRESSIONS
+
+    This rule describes the logical or expressions.
+*/
+
+<exp_log_or> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+logical-or-expression : () -> ( e : EXP ) = {
+	e = logical-and-expression ;
+    ||
+	a = logical-or-expression ;
+	logical-or ; b = logical-and-expression ;
+	e = <exp_log_or> ( a, b ) ;
+} ;
+
+
+/*
+    CONDITIONAL EXPRESSIONS
+
+    This rule describes the conditional expressions, consisting of the
+    '?:' operator.
+*/
+
+<exp_cond> : ( :EXP, :EXP, :EXP ) -> ( :EXP ) ;
+
+conditional-expression : () -> ( e : EXP ) = {
+	e = logical-or-expression ;
+    ||
+	c = logical-or-expression ;
+	question ; a = expression ;
+	colon ; b = assignment-expression ;
+	e = <exp_cond> ( c, a, b ) ;
+} ;
+
+
+/*
+    THROW EXPRESSIONS
+
+    This rule describes the throw expressions.  These consist of 'throw'
+    followed by an optional expression.  The extension 'throw type-id'
+    has also been added.
+*/
+
+<exp_throw> : ( :EXP ) -> ( :EXP ) ;
+<exp_throw_type> : ( :TYPE, :COUNT ) -> ( :EXP ) ;
+
+throw-expression : () -> ( e : EXP ) = {
+	throw ;
+	{
+		a = assignment-expression ;
+	    ||
+		( t, n ) = type-id-false ;
+		a = <exp_throw_type> ( t, n ) ;
+	    ||
+		a = <exp_none> ;
+	} ;
+	e = <exp_throw> ( a ) ;
+} ;
+
+
+/*
+    ASSIGNMENT EXPRESSIONS
+
+    These rules describe the assignment expressions.  These include both
+    simple assignment and the 'operate and becomes' operators like '+='.
+*/
+
+<exp_assign> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<exp_assign_op> : ( :LEX, :EXP, :EXP ) -> ( :EXP ) ;
+
+assignment-operator : () -> () = {
+	and-eq ;
+    ||	div-eq ;
+    ||	lshift-eq ;
+    ||	minus-eq ;
+    ||	or-eq ;
+    ||	plus-eq ;
+    ||	rem-eq ;
+    ||	rshift-eq ;
+    ||	star-eq ;
+    ||	xor-eq ;
+} ;
+
+assignment-expression : () -> ( e : EXP ) = {
+	e = conditional-expression ;
+    ||
+	a = logical-or-expression ;
+	assign ; b = assignment-expression ;
+	e = <exp_assign> ( a, b ) ;
+    ||
+	a = logical-or-expression ;
+	op = <lex_crt> ; assignment-operator ;
+	b = assignment-expression ;
+	e = <exp_assign_op> ( op, a, b ) ;
+    ||
+	e = throw-expression ;
+} ;
+
+expression-entry : () -> ( e : EXP ) = {
+	e = assignment-expression ;
+    ##
+	<error_syntax> ;
+	e = <exp_none> ;
+} ;
+
+
+/*
+    FLOW ANALYSIS EXPRESSIONS (EXTENSION)
+
+    This rule describes the flow analysis expressions, which are an
+    extension to the standard syntax.  These consist of the assignment
+    expressions, plus operations for setting and discarding values.
+*/
+
+<exp_set> : ( :EXP ) -> ( :EXP ) ;
+<exp_unused> : ( :EXP ) -> ( :EXP ) ;
+
+flow-expression : () -> ( e : EXP ) = {
+	set ; open-round ; a = expression ;
+	e = <exp_set> ( a ) ;
+	close-round ;
+    ||
+	unused ; open-round ; a = expression ;
+	e = <exp_unused> ( a ) ;
+	close-round ;
+} ;
+
+inset-flow-expression : () -> ( e : EXP ) = {
+	inset-start ; set ; a = expression ;
+	e = <exp_set> ( a ) ;
+	inset-end ;
+    ||
+	inset-start ; unused ; a = expression ;
+	e = <exp_unused> ( a ) ;
+	inset-end ;
+} ;
+
+inset-flow-statement : () -> ( e : EXP ) = {
+	inset-start ; set ; a = expression ;
+	e = <exp_set> ( a ) ;
+	semicolon ; inset-end ;
+    ||
+	inset-start ; unused ; a = expression ;
+	e = <exp_unused> ( a ) ;
+	semicolon ; inset-end ;
+} ;
+
+
+/*
+    EXPRESSIONS
+
+    This rule describes the top level expressions.  These are derived
+    from the flow-expressions by the addition of the comma operator.
+*/
+
+<exp_comma> : ( :LIST-EXP ) -> ( :EXP ) ;
+
+comma-expression-head : () -> ( e : EXP ) = {
+	e = assignment-expression ; comma ;
+    ||
+	e = flow-expression ;
+    ||
+	e = inset-flow-expression ;
+} ;
+
+comma-expression-tail : () -> ( p : LIST-EXP ) = {
+	a = assignment-expression ;
+	q = <list_exp_null> ;
+	p = <list_exp_cons> ( a, q ) ;
+    ||
+	a = comma-expression-head ; q = comma-expression-tail ;
+	p = <list_exp_cons> ( a, q ) ;
+} ;
+
+expression : () -> ( e : EXP ) = {
+	e = assignment-expression ;
+    ||
+	a = comma-expression-head ; q = comma-expression-tail ;
+	p = <list_exp_cons> ( a, q ) ;
+	e = <exp_comma> ( p ) ;
+} ;
+
+
+/*
+    INITIALISER EXPRESSIONS
+
+    An initialiser expression consists of an assignment expression
+    with all its temporary variables bound to it.
+*/
+
+initialiser-expression : () -> ( e : EXP ) = {
+	e = assignment-expression ;
+} ;
+
+
+/*
+    CONSTANT EXPRESSIONS
+
+    This rule describes the constant expressions.  Lexically these are
+    identical to the conditional-expressions, but with restrictions on
+    the permitted operands.  Constant expressions are identified by
+    evaluation - whenever a valid constant expression is encountered it
+    is evaluated to give an integer literal expression.
+*/
+
+<exp_eval> : ( :EXP ) -> ( :EXP ) ;
+
+constant-expression : () -> ( e : EXP ) = {
+	a = conditional-expression ;
+	e = <exp_eval> ( a ) ;
+} ;
+
+
+/*
+    LABELLED STATEMENTS
+
+    This rule describes the labelled statements.  These include the case
+    and default statements as well as the simple labels.  Note that the
+    statements following the labels are only the first component of the
+    label body.  Actually imposing some structure on the labelled statements
+    is the most difficult part of the statement processing.
+*/
+
+<stmt_case_begin> : ( :EXP ) -> ( :EXP ) ;
+<stmt_case_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_default_begin> : () -> ( :EXP ) ;
+<stmt_default_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_label_begin> : ( :IDENTIFIER ) -> ( :EXP ) ;
+<stmt_label_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_label_set> : () -> () ;
+<stmt_label_mod> : () -> () ;
+<stmt_label_clear> : () -> () ;
+
+statement : () -> ( :EXP ) ;
+
+fall-check : () -> () = {
+	fall ; <stmt_label_set> ;
+    ||	fall ; semicolon ; <stmt_label_set> ;
+    ||	$ ;
+} ;
+
+labelled-statement : () -> ( e : EXP ) = {
+	fall-check ;
+	case ; c = constant-expression ;
+	a = <stmt_case_begin> ( c ) ;
+	<stmt_label_set> ;
+	colon ; b = statement ;
+	e = <stmt_case_end> ( a, b ) ;
+    ||
+	fall-check ;
+	default ;
+	a = <stmt_default_begin> ;
+	<stmt_label_set> ;
+	colon ; b = statement ;
+	e = <stmt_default_end> ( a, b ) ;
+    ||
+	id = any-identifier ;
+	<qual_none> ;
+	<stmt_label_mod> ;
+	a = <stmt_label_begin> ( id ) ;
+	colon ; b = statement ;
+	e = <stmt_label_end> ( a, b ) ;
+} ;
+
+
+/*
+    EXPRESSION STATEMENTS
+
+    This rule describes the expression statements, consisting of an optional
+    expression followed by a semicolon.  There is an ambiguity between empty
+    expression statements (i.e. just a semicolon) and empty declaration
+    statements.  We have resolved this by explicitly making declaration
+    statements non-empty.
+*/
+
+<stmt_exp> : ( :EXP ) -> ( :EXP ) ;
+<stmt_none> : () -> ( :EXP ) ;
+<reach_check> : () -> ( :BOOL ) ;
+<reach_prev> : ( :BOOL ) -> () ;
+
+block-expression : () -> ( e : EXP ) = {
+	e = expression ;
+    ||	e = flow-expression ;
+} ;
+
+expression-statement : () -> ( e : EXP ) = {
+	a = block-expression ;
+	r = <reach_check> ;
+	e = <stmt_exp> ( a ) ;
+	<stmt_label_clear> ;
+	semicolon ;
+    ||
+	a = inset-flow-statement ;
+	r = <reach_check> ;
+	e = <stmt_exp> ( a ) ;
+	<stmt_label_clear> ;
+    ||
+	semicolon ;
+	e = <stmt_none> ;
+} ;
+
+
+/*
+    COMPOUND STATEMENTS
+
+    These rules describe the compound statements, consisting of a list of
+    statements enclosed within braces.  Note that compound statements
+    automatically define a local scope.
+*/
+
+<stmt_compound_begin> : () -> ( :EXP ) ;
+<stmt_compound_end> : ( :EXP ) -> ( :EXP ) ;
+<stmt_compound_add> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_compound_block> : ( :EXP ) -> () ;
+<stmt_compound_mark> : ( :EXP ) -> () ;
+
+statement-seq-opt : ( c : EXP ) -> ( e : EXP ) = {
+	a = statement ;
+	b = <stmt_compound_add> ( c, a ) ;
+	e = statement-seq-opt ( b ) ;
+    ||
+	e = c ;
+} ;
+
+compound-statement : () -> ( e : EXP ) = {
+	c = <stmt_compound_begin> ;
+	open-brace ;
+	<stmt_compound_block> ( c ) ;
+	a = statement-seq-opt ( c ) ;
+	close-brace ;
+	e = <stmt_compound_end> ( a ) ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    LOCAL STATEMENT SCOPES
+
+    Several statements, in addition to the compound statements, form local
+    scopes (for example, the body of an iteration statement).  This rule
+    describes such scopes, the initial scope expression begin passed in as
+    c to avoid predicate problems.  Note that local scopes which are also
+    compound statements are treated differently from other (simple)
+    statements.
+*/
+
+simple-statement : () -> ( :EXP ) ;
+
+scoped-stmt-body : ( c : EXP ) -> ( e : EXP ) = {
+	open-brace ;
+	<stmt_compound_block> ( c ) ;
+	e = statement-seq-opt ( c ) ;
+	close-brace ;
+    ||
+	a = simple-statement ;
+	e = <stmt_compound_add> ( c, a ) ;
+} ;
+
+scoped-statement : ( c : EXP ) -> ( e : EXP ) = {
+	a = scoped-stmt-body ( c ) ;
+	e = <stmt_compound_end> ( a ) ;
+	<rescan_token> ;
+    ##
+	<error_syntax> ;
+	e = <stmt_compound_end> ( c ) ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    DECLARATION STATEMENTS
+
+    This rule describes the (non-empty) declaration statements, consisting
+    of just a declaration.  See expression-statement for a discussion of
+    empty statements.  The look-ahead required to distinguish declaration-
+    statements from expression-statements is implemented using the predicate
+    is_decl_statement.
+*/
+
+<is_decl_statement> : () -> ( :BOOL ) ;
+<dspec_none> : () -> ( :DSPEC ) ;
+<type_none> : () -> ( :TYPE ) ;
+<stmt_decl> : ( :EXP ) -> ( :EXP ) ;
+
+declaration-basic : ( :TYPE, :DSPEC ) -> () ;
+declaration-nonempty : ( :TYPE, :DSPEC ) -> ( :EXP ) ;
+
+declaration-statement : () -> ( e : EXP ) = {
+	? = <is_decl_statement> ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	a = declaration-nonempty ( t, ds ) ;
+	e = <stmt_decl> ( a ) ;
+	<stmt_label_clear> ;
+} ;
+
+simple-declaration : () -> ( e : EXP ) = {
+	? = <is_decl_statement> ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	declaration-basic ( t, ds ) ;
+	a = <exp_none> ;
+	e = <stmt_decl> ( a ) ;
+} ;
+
+
+/*
+    TARGET DEPENDENT CONDITIONAL COMPILATIONS
+
+    These rules describe the unresolved target dependent conditional
+    compilations.  Note that these must be structured, as opposed to the
+    normal unstructured preprocessing directives.  Any braces required
+    to make the lists of statements in target dependent conditional
+    bodies into compound statements are automatically inserted by the
+    preprocessor.
+*/
+
+<stmt_hash_if> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_hash_elif> : ( :EXP, :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_hash_endif> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<cond_hash_if> : ( :EXP ) -> ( :EXP ) ;
+<cond_hash_elif> : ( :EXP ) -> () ;
+<cond_hash_else> : () -> () ;
+<cond_hash_endif> : ( :EXP ) -> () ;
+
+target-condition-head : () -> ( e : EXP, p : EXP, r : BOOL ) = {
+	c = hash-if ;
+	p = <cond_hash_if> ( c ) ;
+	r = <reach_check> ;
+	a = compound-statement ;
+	<reach_prev> ( r ) ;
+	e = <stmt_hash_if> ( c, a ) ;
+    ||
+	( a, p, r ) = target-condition-head ;
+	c = hash-elif ;
+	<cond_hash_elif> ( c ) ;
+	s = <reach_check> ;
+	b = compound-statement ;
+	<reach_prev> ( r ) ;
+	e = <stmt_hash_elif> ( a, c, b ) ;
+} ;
+
+target-condition : () -> ( e : EXP ) = {
+	( a, p, r ) = target-condition-head ;
+	{
+		hash-else ;
+		<cond_hash_else> ;
+		s = <reach_check> ;
+		b = compound-statement ;
+	    ||
+		b = <stmt_none> ;
+	} ;
+	<cond_hash_endif> ( p ) ;
+	hash-endif ;
+	<reach_prev> ( r ) ;
+	e = <stmt_hash_endif> ( a, b ) ;
+} ;
+
+
+/*
+    SELECTION STATEMENTS
+
+    These rules describe the selection statements, consisting of the if
+    and switch statements, plus the target dependent conditionals above.
+    The way that the dangling else problem is dealt with is interesting.
+    A simple optional else-block leads to an ambiguity, however an
+    exception handler gives precisely what is required.  To paraphrase,
+    an if statement always has an associated else, except when it doesn't.
+*/
+
+<stmt_if_begin> : ( :EXP ) -> ( :EXP ) ;
+<stmt_if_cont> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_if_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_else> : () -> () ;
+<stmt_no_else> : () -> ( :EXP ) ;
+<stmt_switch_begin> : ( :EXP ) -> ( :EXP ) ;
+<stmt_switch_end> : ( :EXP, :EXP, :BOOL ) -> ( :EXP ) ;
+<cond_inject> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+<condition_get> : () -> ( :CONDITION ) ;
+<condition_set> : ( :CONDITION ) -> () ;
+
+condition-declaration : () -> ( :EXP ) ;
+
+condition : () -> ( e : EXP ) = {
+	e = expression ;
+    ||	e = condition-declaration ;
+} ;
+
+selection-statement : () -> ( e : EXP ) = {
+	if ;
+	x = <condition_get> ;
+	r = <reach_check> ;
+	open-round-x ; c = condition ;
+	a = <stmt_if_begin> ( c ) ;
+	close-round ;
+	bs = <stmt_compound_begin> ;
+	bc = <cond_inject> ( bs, c ) ;
+	b = scoped-statement ( bc ) ;
+	<reach_prev> ( r ) ;
+	d = <stmt_if_cont> ( a, b ) ;
+	{
+		else ;
+		<stmt_else> ;
+		fs = <stmt_compound_begin> ;
+		fc = <cond_inject> ( fs, c ) ;
+		f = scoped-statement ( fc ) ;
+	    ##
+		f = <stmt_no_else> ;
+	} ;
+	<reach_prev> ( r ) ;
+	e = <stmt_if_end> ( d, f ) ;
+	<condition_set> ( x ) ;
+	<stmt_label_clear> ;
+    ||
+	switch ;
+	r = <reach_check> ;
+	open-round ; c = condition ;
+	a = <stmt_switch_begin> ( c ) ;
+	close-round ;
+	{
+		exhaustive ; ex = <bool_true> ;
+	    ||	ex = <bool_false> ;
+	} ;
+	bs = <stmt_compound_begin> ;
+	bc = <cond_inject> ( bs, c ) ;
+	b = scoped-statement ( bc ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_switch_end> ( a, b, ex ) ;
+	<stmt_label_clear> ;
+    ||
+	e = target-condition ;
+	<stmt_label_clear> ;
+} ;
+
+
+/*
+    ITERATION STATEMENTS
+
+    These rules describe the iteration statements, consisting of the
+    while, do and for statements.
+*/
+
+<stmt_while_begin> : ( :EXP ) -> ( :EXP ) ;
+<stmt_while_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_do_begin> : () -> ( :EXP ) ;
+<stmt_do_end> : ( :EXP, :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_for_begin> : () -> ( :EXP ) ;
+<stmt_for_init> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_for_cond> : ( :EXP, :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_for_end> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<bind_temporary> : ( :EXP ) -> ( :EXP ) ;
+<exp_location> : ( :EXP ) -> ( :EXP ) ;
+<init_inject> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<loop_inject> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+for-init-statement : () -> ( e : EXP ) = {
+	e = expression-statement ;
+    ||	e = simple-declaration ;
+} ;
+
+for-cond-statement : () -> ( a : EXP, e : EXP ) = {
+	c = condition ;
+	a = <bind_temporary> ( c ) ;
+	e = <exp_location> ( a ) ;
+	semicolon ;
+    ||
+	semicolon ;
+	a = <exp_none> ;
+	e = <exp_location> ( a ) ;
+} ;
+
+for-end-statement : () -> ( e : EXP ) = {
+	a = expression ;
+	b = <stmt_exp> ( a ) ;
+	e = <bind_temporary> ( b ) ;
+    ||
+	e = <exp_none> ;
+} ;
+
+iteration-statement : () -> ( e : EXP ) = {
+	while ;
+	x = <condition_get> ;
+	r = <reach_check> ;
+	open-round ; c0 = condition ;
+	c = <bind_temporary> ( c0 ) ;
+	a = <stmt_while_begin> ( c ) ;
+	close-round ;
+	bs = <stmt_compound_begin> ;
+	bc = <loop_inject> ( bs, c ) ;
+	b = scoped-statement ( bc ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_while_end> ( a, b ) ;
+	<condition_set> ( x ) ;
+	<stmt_label_clear> ;
+    ||
+	do ;
+	x = <condition_get> ;
+	r = <reach_check> ;
+	a = <stmt_do_begin> ;
+	bs = <stmt_compound_begin> ;
+	b = scoped-statement ( bs ) ;
+	while ; open-round ; c0 = expression ;
+	c = <bind_temporary> ( c0 ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_do_end> ( a, b, c ) ;
+	close-round ;
+	<condition_set> ( x ) ;
+	<stmt_label_clear> ;
+	semicolon-x ;
+    ||
+	for ;
+	x = <condition_get> ;
+	r = <reach_check> ;
+	open-round ;
+	f = <stmt_for_begin> ;
+	a = for-init-statement ;
+	g = <stmt_for_init> ( f, a ) ;
+	( c, cp ) = for-cond-statement ;
+	ds = <stmt_compound_begin> ;
+	b = for-end-statement ;
+	h = <stmt_for_cond> ( g, cp, b ) ;
+	close-round ;
+	da = <init_inject> ( ds, a ) ;
+	dc = <loop_inject> ( da, c ) ;
+	<stmt_compound_mark> ( dc ) ;
+	d = scoped-statement ( dc ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_for_end> ( h, d ) ;
+	<condition_set> ( x ) ;
+	<stmt_label_clear> ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    JUMP STATEMENTS
+
+    This rule describes the jump statements, consisting of the break,
+    continue, return and goto statements.
+*/
+
+<stmt_break> : () -> ( :EXP ) ;
+<stmt_continue> : () -> ( :EXP ) ;
+<stmt_return> : ( :EXP ) -> ( :EXP ) ;
+<stmt_goto> : ( :IDENTIFIER ) -> ( :EXP ) ;
+<stmt_goto_case> : ( :EXP ) -> ( :EXP ) ;
+<stmt_goto_default> : () -> ( :EXP ) ;
+
+jump-label : () -> ( e : EXP ) = {
+	id = any-identifier ;
+	<qual_none> ;
+	e = <stmt_goto> ( id ) ;
+    ||
+	case ; c = constant-expression ;
+	e = <stmt_goto_case> ( c ) ;
+    ||
+	default ;
+	e = <stmt_goto_default> () ;
+} ;
+
+jump-statement : () -> ( e : EXP ) = {
+	break ;
+	r = <reach_check> ;
+	e = <stmt_break> ;
+	<stmt_label_clear> ;
+	semicolon-x ;
+    ||
+	continue ;
+	r = <reach_check> ;
+	e = <stmt_continue> ;
+	<stmt_label_clear> ;
+	semicolon-x ;
+    ||
+	return ;
+	r = <reach_check> ;
+	{
+		a = expression ;
+	    ||	a = <exp_none> ;
+	} ;
+	e = <stmt_return> ( a ) ;
+	<stmt_label_clear> ;
+	semicolon-x ;
+    ||
+	goto ;
+	r = <reach_check> ;
+	e = jump-label ;
+	<stmt_label_clear> ;
+	semicolon-x ;
+} ;
+
+
+/*
+    TRY BLOCKS
+
+    These rules describe the try blocks and exception handlers.  A try
+    block consists of 'try' followed by a compound statement, giving the
+    exception body, and a list of exception handlers (the syntax has been
+    extended to allow empty lists).  Each exception handler consists of
+    'catch' followed by an exception declaration and a compound statement,
+    giving the handler body.
+*/
+
+<stmt_catch_begin> : ( :EXP, :DECL ) -> ( :EXP ) ;
+<stmt_catch_end> : ( :EXP, :EXP ) -> () ;
+<stmt_caught> : () -> ( :EXP ) ;
+<stmt_try_begin> : () -> ( :EXP ) ;
+<stmt_try_inject> : ( :EXP ) -> () ;
+<stmt_try_cont> : ( :EXP, :EXP ) -> ( :EXP ) ;
+<stmt_try_end> : ( :EXP ) -> ( :EXP ) ;
+
+exception-declaration : ( :COUNT ) -> ( :DECL ) ;
+
+handler : ( a : EXP ) -> () = {
+	catch ;
+	c = <stmt_compound_begin> ;
+	<stmt_try_inject> ( a ) ;
+	n = <no_type_defns> ;
+	open-round ; d = exception-declaration ( n ) ;
+	b = <stmt_catch_begin> ( a, d ) ;
+	close-round ;
+	open-brace ;
+	<stmt_compound_block> ( c ) ;
+	e0 = <exp_none> ;
+	e1 = <stmt_decl> ( e0 ) ;
+	c1 = <stmt_compound_add> ( c, e1 ) ;
+	e2 = <stmt_caught> ;
+	c2 = <stmt_compound_add> ( c1, e2 ) ;
+	c3 = statement-seq-opt ( c2 ) ;
+	close-brace ;
+	c4 = <stmt_compound_end> ( c3 ) ;
+	<stmt_catch_end> ( b, c4 ) ;
+	<rescan_token> ;
+} ;
+
+handler-seq-opt : ( a : EXP ) -> () = {
+	handler ( a ) ;
+	handler-seq-opt ( a ) ;
+    ||
+	$ ;
+} ;
+
+try-block : () -> ( e : EXP ) = {
+	try ;
+	r = <reach_check> ;
+	a = <stmt_try_begin> ;
+	b = compound-statement ;
+	c = <stmt_try_cont> ( a, b ) ;
+	handler-seq-opt ( c ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_try_end> ( c ) ;
+	<stmt_label_clear> ;
+} ;
+
+
+/*
+    FLOW CONTROL STATEMENTS (EXTENSION)
+
+    This rule describes the extensions added to the statements to handle
+    flow control and variable analysis commands.
+*/
+
+<reach_set> : () -> () ;
+<reach_unset> : () -> () ;
+<stmt_reach> : ( :EXP ) -> ( :EXP ) ;
+<stmt_unreach> : ( :EXP ) -> ( :EXP ) ;
+
+control-statement : () -> ( e : EXP ) = {
+	reachable ; <reach_set> ;
+	a = statement ;
+	e = <stmt_reach> ( a ) ;
+    ||
+	unreachable ; <reach_unset> ;
+	a = statement ;
+	e = <stmt_unreach> ( a ) ;
+} ;
+
+
+/*
+    TOKENISED STATEMENTS
+
+    This rule describes the tokenised statements.  This comprises the
+    statement names and the complex statements.
+*/
+
+qualified-stmt-name : () -> ( id : IDENTIFIER ) = {
+	uid = statement-name ;
+	id = <namespace_simple> ( uid ) ;
+    ||
+	ns = nested-name ; uid = statement-name ;
+	<namespace_nested> ( ns ) ;
+	id = <namespace_id> ( ns, uid ) ;
+    ||
+	ns = full-name ; uid = statement-name ;
+	<namespace_full> ( ns ) ;
+	id = <namespace_id> ( ns, uid ) ;
+    ||
+	colon-colon ; uid = statement-name ;
+	ns = <namespace_global> ;
+	id = <namespace_id> ( ns, uid ) ;
+} ;
+
+token-statement : () -> ( e : EXP ) = {
+	id = qualified-stmt-name ;
+	a = <exp_identifier> ( id ) ;
+	e = <stmt_exp> ( a ) ;
+    ||
+	a = complex-stmt ;
+	e = <stmt_exp> ( a ) ;
+} ;
+
+
+/*
+    STATEMENTS
+
+    This rule describes the statements.  These consist of the all the
+    types of statements listing above, including the try blocks.
+*/
+
+simple-statement : () -> ( e : EXP ) = {
+	e = labelled-statement ;
+    ||	e = expression-statement ;
+    ||	e = selection-statement ;
+    ||	e = iteration-statement ;
+    ||	e = jump-statement ;
+    ||	e = declaration-statement ;
+    ||	e = try-block ;
+    ||	e = control-statement ;
+    ||	e = token-statement ;
+} ;
+
+statement : () -> ( e : EXP ) = {
+	e = simple-statement ;
+    ||	e = compound-statement ;
+} ;
+
+statement-entry : () -> ( e : EXP ) = {
+	e = statement ;
+    ##
+	<error_syntax> ;
+	e = <exp_none> ;
+} ;
+
+
+/*
+    CONST-VOLATILE QUALIFIERS
+
+    These rules describe the lists of const and volatile type qualifiers.
+*/
+
+<cv_none> : () -> ( :CV ) ;
+<cv_const> : () -> ( :CV ) ;
+<cv_volatile> : () -> ( :CV ) ;
+<cv_join> : ( :CV, : CV ) -> ( :CV ) ;
+
+cv-qualifier : () -> ( cv : CV ) = {
+	const ; cv = <cv_const> ;
+    ||	volatile ; cv = <cv_volatile> ;
+} ;
+
+cv-qualifier-seq : () -> ( cv : CV ) = {
+	a = cv-qualifier ;
+	{
+		cv = a ;
+	    ||	b = cv-qualifier-seq ; cv = <cv_join> ( a, b ) ;
+	} ;
+} ;
+
+cv-qualifier-seq-opt : () -> ( cv : CV ) = {
+	cv = <cv_none> ;
+    ||	cv = cv-qualifier-seq ;
+} ;
+
+
+/*
+    SIMPLE TYPE SPECIFIERS
+
+    These rules describe the simple type specifiers.  These comprise the
+    type names (class names, enumeration names and typedef names) plus the
+    basic type keywords.  size_t and ptrdiff_t have been included for
+    future convenience only.  Each simple type specifier gives a partial
+    type, which is only completed using type_complete when the entire type
+    specifier has been given.
+*/
+
+<btype_char> : () -> ( :BTYPE ) ;
+<btype_short> : () -> ( :BTYPE ) ;
+<btype_int> : () -> ( :BTYPE ) ;
+<btype_long> : () -> ( :BTYPE ) ;
+<btype_signed> : () -> ( :BTYPE ) ;
+<btype_unsigned> : () -> ( :BTYPE ) ;
+<btype_float> : () -> ( :BTYPE ) ;
+<btype_double> : () -> ( :BTYPE ) ;
+<btype_bool> : () -> ( :BTYPE ) ;
+<btype_wchar_t> : () -> ( :BTYPE ) ;
+<btype_size_t> : () -> ( :BTYPE ) ;
+<btype_ptrdiff_t> : () -> ( :BTYPE ) ;
+<btype_void> : () -> ( :BTYPE ) ;
+<btype_bottom> : () -> ( :BTYPE ) ;
+<btype_join> : ( :BTYPE, :BTYPE ) -> ( :BTYPE ) ;
+
+<type_pre> : () -> ( :TYPE ) ;
+<type_name> : ( :IDENTIFIER ) -> ( :TYPE ) ;
+<type_join> : ( :TYPE, :TYPE ) -> ( :TYPE ) ;
+<type_complete> : ( :BTYPE, :TYPE, :CV ) -> ( :TYPE ) ;
+
+base-type-specifier : () -> ( bt : BTYPE ) = {
+	char ; bt = <btype_char> ;
+    ||	short ; bt = <btype_short> ;
+    ||	int ; bt = <btype_int> ;
+    ||	long ; bt = <btype_long> ;
+    ||	signed ; bt = <btype_signed> ;
+    ||	unsigned ; bt = <btype_unsigned> ;
+    ||	float ; bt = <btype_float> ;
+    ||	double ; bt = <btype_double> ;
+    ||	bool ; bt = <btype_bool> ;
+    ||	wchar-t ; bt = <btype_wchar_t> ;
+    ||	size-t ; bt = <btype_size_t> ;
+    ||	ptrdiff-t ; bt = <btype_ptrdiff_t> ;
+    ||	void ; bt = <btype_void> ;
+    ||	bottom ; bt = <btype_bottom> ;
+} ;
+
+simple-type-specifier : () -> ( bt : BTYPE, t : TYPE ) = {
+	bt = base-type-specifier ;
+	t = <type_pre> ;
+    ||
+	id = unqualified-type ;
+	t = <type_name> ( id ) ;
+	bt = <btype_none> ;
+    ||
+	id = any-qualified-type ;
+	t = <type_name> ( id ) ;
+	bt = <btype_none> ;
+    ||
+	t = complex-type ;
+	bt = <btype_none> ;
+} ;
+
+simple-type-id : () -> ( t : TYPE ) = {
+	( bt, p ) = simple-type-specifier ;
+	cv = <cv_none> ;
+	t = <type_complete> ( bt, p, cv ) ;
+} ;
+
+
+/*
+    ELABORATED TYPE SPECIFIERS
+
+    This rule describes the elaborated type specifiers, such as 'struct tag'.
+    Again, type_elaborate only gives a partial type.
+*/
+
+<key_class> : () -> ( :KEY ) ;
+<key_struct> : () -> ( :KEY ) ;
+<key_union> : () -> ( :KEY ) ;
+<key_enum> : () -> ( :KEY ) ;
+
+<declarator_start> : () -> () ;
+<type_elaborate> : ( :IDENTIFIER, :KEY ) -> ( :TYPE ) ;
+<type_typename> : ( :NAMESPACE, :IDENTIFIER ) -> ( :TYPE ) ;
+
+class-key : () -> ( key : KEY ) = {
+	class ; key = <key_class> ;
+    ||	struct ; key = <key_struct> ;
+    ||	union ; key = <key_union> ;
+} ;
+
+class-or-enum-key : () -> ( key : KEY ) = {
+	key = class-key ;
+    ||	enum ; key = <key_enum> ;
+} ;
+
+any-class-name : () -> ( id : IDENTIFIER ) = {
+	id = any-identifier ;
+    ||	id = template-type ;
+} ;
+
+elaborated-type-specifier : () -> ( t : TYPE ) = {
+	key = class-or-enum-key ;
+	<declarator_start> ;
+	ns = any-nested-name-opt ; aid = any-class-name ;
+	id = <namespace_id> ( ns, aid ) ;
+	t = <type_elaborate> ( id, key ) ;
+    ||
+	typename ;
+	<declarator_start> ;
+	ns = any-nested-name-opt ; id = any-class-name ;
+	t = <type_typename> ( ns, id ) ;
+} ;
+
+
+/*
+    ACCESS SPECIFIERS
+
+    This rule describes the class access specifiers, private, protected
+    and public.  When defining a class the current access specifier is
+    held in a simple state variable which can be accessed via the actions
+    access_set and access_get.
+*/
+
+<access_private> : () -> ( :ACCESS ) ;
+<access_protected> : () -> ( :ACCESS ) ;
+<access_public> : () -> ( :ACCESS ) ;
+<access_none> : () -> ( :ACCESS ) ;
+<access_set> : ( :ACCESS ) -> () ;
+<access_get> : () -> ( :ACCESS ) ;
+
+access-specifier : () -> ( a : ACCESS ) = {
+	private ; a = <access_private> ;
+    ||	protected ; a = <access_protected> ;
+    ||	public ; a = <access_public> ;
+} ;
+
+
+/*
+    TARGET DEPENDENT MEMBER DECLARATION SEQUENCES
+
+    These rules describe the unresolved target dependent conditional
+    member declarations.  See target-condition for details.
+*/
+
+<decl_hash_if> : ( :EXP ) -> () ;
+<decl_hash_elif> : ( :EXP ) -> () ;
+<decl_hash_else> : () -> () ;
+<decl_hash_endif> : () -> () ;
+
+member-specification-opt : ( :TYPE, :DSPEC ) -> () ;
+
+member-cond-body : () -> () = {
+	open-brace ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	member-specification-opt ( t, ds ) ;
+	close-brace ;
+} ;
+
+member-cond-head : () -> ( p : EXP ) = {
+	c = hash-if ;
+	p = <cond_hash_if> ( c ) ;
+	<decl_hash_if> ( c ) ;
+	member-cond-body ;
+    ||
+	p = member-cond-head ;
+	c = hash-elif ;
+	<cond_hash_elif> ( c ) ;
+	<decl_hash_elif> ( c ) ;
+	member-cond-body ;
+} ;
+
+member-cond : () -> () = {
+	p = member-cond-head ;
+	{
+		hash-else ;
+		<cond_hash_else> ;
+		<decl_hash_else> ;
+		member-cond-body ;
+	    ||
+		$ ;
+	} ;
+	<cond_hash_endif> ( p ) ;
+	hash-endif ;
+	<decl_hash_endif> ;
+} ;
+
+
+/*
+    CLASS MEMBER SPECIFIERS
+
+    These rules describe the class member specifiers.  These consist
+    of a list of member declarations, which may also contain a number
+    of access specifiers.
+*/
+
+<template_check> : ( :TYPE, :DSPEC ) -> () ;
+
+member-declaration : ( :TYPE, :DSPEC ) -> () ;
+
+member-elem : ( t : TYPE, ds : DSPEC ) -> () = {
+	member-declaration ( t, ds ) ;
+    ||
+	b = access-specifier ; colon ;
+	<access_set> ( b ) ;
+    ||
+	<template_check> ( t, ds ) ;
+	member-cond ;
+} ;
+
+member-specification-opt : ( t : TYPE, ds : DSPEC ) -> () = {
+	member-elem ( t, ds ) ;
+	member-specification-opt ( t, ds ) ;
+    ||
+	$ ;
+} ;
+
+
+/*
+    BASE CLASS SPECIFIERS
+
+    These rules describe the base class specifiers.  These are either
+    empty or a colon followed by a list of class names, each of which
+    may be qualified by an access specification and by 'virtual'.
+*/
+
+<class_base> : ( :IDENTIFIER, :ACCESS, :BOOL ) -> () ;
+<class_base_end> : ( :BOOL ) -> () ;
+
+base-specifier : () -> () = {
+	{
+		a = access-specifier ;
+		v = <bool_false> ;
+	    ||
+		a = access-specifier ;
+		virtual ; v = <bool_true> ;
+	    ||
+		virtual ; v = <bool_true> ;
+		a = <access_none> ;
+	    ||
+		virtual ; v = <bool_true> ;
+		a = access-specifier ;
+	    ||
+		a = <access_none> ;
+		v = <bool_false> ;
+	} ;
+	ns = any-nested-name-opt ; aid = any-class-name ;
+	id = <namespace_id> ( ns, aid ) ;
+	<class_base> ( id, a, v ) ;
+} ;
+
+base-specifier-list : () -> () = {
+	base-specifier ;
+	{
+		comma ; base-specifier-list ;
+	    ||	$ ;
+	} ;
+} ;
+
+base-clause-opt : () -> ( t : BOOL ) = {
+	colon ; base-specifier-list ; t = <bool_true> ;
+    ||	colon ; t = <bool_false> ;
+    ||	t = <bool_true>;
+} ;
+
+
+/*
+    CLASS SPECIFIERS
+
+    These rules describe the class (which includes structure and union)
+    type specifiers.  These consist of a class key followed by an optional
+    class name, a list of base classes, and the class definition body.
+    This body consists of a list of member declarations enclosed within
+    braces.  Note that the default access specifier for the class is
+    completely determined by the class key, it is 'private' for 'class'
+    and 'public' for 'struct' and 'union'.
+*/
+
+<is_class_spec> : () -> ( :BOOL ) ;
+<access_check_class> : () -> () ;
+<access_check> : () -> () ;
+<template_decl> : ( :TYPE ) -> () ;
+
+<type_class_begin> : ( :IDENTIFIER, :KEY, :TYPE ) -> ( :IDENTIFIER, :BOOL ) ;
+<type_class_end> : ( :IDENTIFIER, :BOOL ) -> ( :IDENTIFIER ) ;
+
+class-specifier : ( q : TYPE ) -> ( c : IDENTIFIER ) = {
+	key = class-key ;
+	? = <is_class_spec> ;
+	<declarator_start> ;
+	{
+		ns = any-nested-name-opt ; aid = any-class-name ;
+		id = <namespace_id> ( ns, aid ) ;
+	    ||
+		id = <id_anon> ;
+	} ;
+	( qu, i ) = <qual_get> ;
+	<template_decl> ( q ) ;
+	b = <access_get> ;
+	( p, f ) = <type_class_begin> ( id, key, q ) ;
+	s = base-clause-opt ;
+	<class_base_end> ( s ) ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	open-brace ; member-specification-opt ( t, ds ) ; close-brace ;
+	<access_check_class> ;
+	c = <type_class_end> ( p, f ) ;
+	<access_set> ( b ) ;
+	<qual_set> ( qu, i ) ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    ENUMERATION TYPE SPECIFIERS
+
+    These rules describe the enumeration type specifiers.  These consist
+    of 'enum' followed by an optional identifier and an enumeration
+    definition body.  This body consists of a list of enumerator definitions
+    enclosed within braces.
+*/
+
+<error_comma> : () -> () ;
+<is_enum_spec> : () -> ( :BOOL ) ;
+<type_enum_begin> : ( :IDENTIFIER, :TYPE ) -> ( :IDENTIFIER ) ;
+<type_enum_end> : ( :IDENTIFIER ) -> ( :IDENTIFIER ) ;
+<declare_enum> : ( :IDENTIFIER, :IDENTIFIER, :EXP ) -> () ;
+<declarator_posn> : ( :IDENTIFIER ) -> () ;
+
+enumerator-definition : ( e : IDENTIFIER ) -> () = {
+	eid = any-identifier ;
+	id = <namespace_simple> ( eid ) ;
+	<declarator_posn> ( id ) ;
+	{
+		assign ; c = constant-expression ;
+	    ||	c = <exp_none> ;
+	} ;
+	<declare_enum> ( e, id, c ) ;
+} ;
+
+enumerator-list : ( e : IDENTIFIER ) -> () = {
+	enumerator-definition ( e ) ;
+	{
+		comma ; enumerator-list ( e ) ;
+	    ||	comma ; comma ; <error_comma> ; enumerator-list ( e ) ;
+	    ||	comma ; <error_comma> ;
+	    ||	$ ;
+	} ;
+} ;
+
+enum-specifier : ( q : TYPE ) -> ( e : IDENTIFIER ) = {
+	enum ;
+	? = <is_enum_spec> ;
+	<declarator_start> ;
+	{
+		ns = any-nested-name-opt ; aid = any-class-name ;
+		id = <namespace_id> ( ns, aid ) ;
+	    ||
+		id = <id_anon> ;
+	} ;
+	( qu, i ) = <qual_get> ;
+	p = <type_enum_begin> ( id, q ) ;
+	open-brace ;
+	{
+		enumerator-list ( p ) ;
+	    ||	$ ;
+	} ;
+	close-brace ;
+	<access_check> ;
+	e = <type_enum_end> ( p ) ;
+	<qual_set> ( qu, i ) ;
+} ;
+
+
+/*
+    TYPE SPECIFIERS
+
+    These rules describes the type specifiers.  These consist of the simple
+    type specifiers, the class definitions, the enumeration definitions,
+    the elaborated type specifiers and the const and volatile qualifiers.
+    Sequences of these specifiers may be combined into a single partial
+    type using type_join.  The partial type is not turned into a real
+    type until type_complete is applied to it.  Note that the rule
+    check-type-specifier-seq is identical to type-specifier-seq except
+    that it always calls the predicate is_type_specifier to check what
+    is coming next.
+*/
+
+<is_type_specifier> : () -> ( :BOOL ) ;
+
+type-specifier : ( s : TYPE ) -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
+	( bt, t ) = simple-type-specifier ;
+	cv = <cv_none> ;
+    ||
+	c = class-specifier ( s ) ;
+	t = <type_name> ( c ) ;
+	bt = <btype_none> ;
+	cv = <cv_none> ;
+    ||
+	e = enum-specifier ( s ) ;
+	t = <type_name> ( e ) ;
+	bt = <btype_none> ;
+	cv = <cv_none> ;
+    ||
+	t = elaborated-type-specifier ;
+	bt = <btype_none> ;
+	cv = <cv_none> ;
+    ||
+	cv = cv-qualifier ;
+	bt = <btype_none> ;
+	t = <type_none> ;
+} ;
+
+type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
+	s = <type_none> ;
+	( b1, t1, cv1 ) = type-specifier ( s ) ;
+	{
+		( b2, t2, cv2 ) = type-specifier-seq ;
+		bt = <btype_join> ( b1, b2 ) ;
+		t = <type_join> ( t1, t2 ) ;
+		cv = <cv_join> ( cv1, cv2 ) ;
+	    ||
+		bt = b1 ;
+		t = t1 ;
+		cv = cv1 ;
+	} ;
+} ;
+
+check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
+	? = <is_type_specifier> ;
+	s = <type_none> ;
+	( b1, t1, cv1 ) = type-specifier ( s ) ;
+	{
+		( b2, t2, cv2 ) = check-type-specifier-seq ;
+		bt = <btype_join> ( b1, b2 ) ;
+		t = <type_join> ( t1, t2 ) ;
+		cv = <cv_join> ( cv1, cv2 ) ;
+	    ||
+		bt = b1 ;
+		t = t1 ;
+		cv = cv1 ;
+	} ;
+} ;
+
+
+/*
+    STORAGE CLASS SPECIFIERS
+
+    This rule describes the storage class specifiers, including 'mutable'
+    as well as the more obvious 'static', 'extern' and so on.
+*/
+
+<dspec_auto> : () -> ( :DSPEC ) ;
+<dspec_extern> : () -> ( :DSPEC ) ;
+<dspec_static> : () -> ( :DSPEC ) ;
+<dspec_mutable> : () -> ( :DSPEC ) ;
+<dspec_register> : () -> ( :DSPEC ) ;
+
+storage-class-specifier : () -> ( ds : DSPEC ) = {
+	auto ; ds = <dspec_auto> ;
+    ||	extern ; ds = <dspec_extern> ;
+    ||	static ; ds = <dspec_static> ;
+    ||	mutable ; ds = <dspec_mutable> ;
+    ||	register ; ds = <dspec_register> ;
+} ;
+
+
+/*
+    FUNCTION SPECIFIERS
+
+    This rule describes the function specifiers, 'inline, 'virtual' and
+    'explicit'.
+*/
+
+<dspec_inline> : () -> ( :DSPEC ) ;
+<dspec_virtual> : () -> ( :DSPEC ) ;
+<dspec_explicit> : () -> ( :DSPEC ) ;
+<dspec_overload> : () -> ( :DSPEC ) ;
+
+function-specifier : () -> ( ds : DSPEC ) = {
+	inline ; ds = <dspec_inline> ;
+    ||	virtual ; ds = <dspec_virtual> ;
+    ||	explicit ; ds = <dspec_explicit> ;
+    ||	overload ; ds = <dspec_overload> ;
+} ;
+
+
+/*
+    DECLARATION SPECIFIERS
+
+    These rules describes the declaration specifiers.  These consist of
+    the type specifiers, the storage class and function specifiers, plus
+    'friend' and 'typedef'.  Like type specifiers, declaration specifiers
+    can be formed into lists which are only turned into complete types
+    and declaration specifiers later.  Again check-decl-specifier-seq is
+    identical to decl-specifier-seq except that it always calls the
+    predicate is_decl_specifier to check what is coming next.
+*/
+
+<dspec_friend> : () -> ( :DSPEC ) ;
+<dspec_typedef> : () -> ( :DSPEC ) ;
+<dspec_join> : ( :DSPEC, :DSPEC ) -> ( :DSPEC ) ;
+<dspec_check> : ( :DSPEC ) -> () ;
+
+<is_decl_specifier> : () -> ( :BOOL ) ;
+<check_decl_specifier> : () -> () ;
+
+decl-specifier : ( s : TYPE ) -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+	{
+		ds = storage-class-specifier ;
+	    ||	ds = function-specifier ;
+	    ||	friend ; ds = <dspec_friend> ;
+	    ||	typedef ; ds = <dspec_typedef> ;
+	} ;
+	<dspec_check> ( ds ) ;
+	bt = <btype_none> ;
+	t = <type_none> ;
+	cv = <cv_none> ;
+    ||
+	( bt, t, cv ) = type-specifier ( s ) ;
+	ds = <dspec_none> ;
+} ;
+
+decl-specifier-seq : ( s : TYPE ) -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+	( b1, t1, cv1, ds1 ) = decl-specifier ( s ) ;
+	<check_decl_specifier> ;
+	{
+		( b2, t2, cv2, ds2 ) = decl-specifier-seq ( s ) ;
+		bt = <btype_join> ( b1, b2 ) ;
+		t = <type_join> ( t1, t2 ) ;
+		cv = <cv_join> ( cv1, cv2 ) ;
+		ds = <dspec_join> ( ds1, ds2 ) ;
+	    ||
+		bt = b1 ;
+		t = t1 ;
+		cv = cv1 ;
+		ds = ds1 ;
+	} ;
+} ;
+
+check-decl-specifier-seq : ( s : TYPE ) -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+	? = <is_decl_specifier> ;
+	( b1, t1, cv1, ds1 ) = decl-specifier ( s ) ;
+	{
+		( b2, t2, cv2, ds2 ) = check-decl-specifier-seq ( s ) ;
+		bt = <btype_join> ( b1, b2 ) ;
+		t = <type_join> ( t1, t2 ) ;
+		cv = <cv_join> ( cv1, cv2 ) ;
+		ds = <dspec_join> ( ds1, ds2 ) ;
+	    ||
+		bt = b1 ;
+		t = t1 ;
+		cv = cv1 ;
+		ds = ds1 ;
+	} ;
+} ;
+
+check-decl-specifier-seq-opt : ( s : TYPE ) -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
+	( bt, t, cv, ds ) = check-decl-specifier-seq ( s ) ;
+    ||
+	bt = <btype_none> ;
+	t = <type_none> ;
+	cv = <cv_none> ;
+	ds = <dspec_none> ;
+} ;
+
+
+/*
+    POINTER OPERATORS
+
+    These rules describe the pointer, reference and pointer to member
+    operators.  They build up a partial type, containing the pointer
+    information, but not what is pointed to.  This is only filled in later
+    by type_inject.  The const and volatile qualified references have been
+    included in the grammar, but are weeded out by type_ref.
+*/
+
+<type_ptr> : ( :CV ) -> ( :TYPE ) ;
+<type_ref> : ( :CV ) -> ( :TYPE ) ;
+<type_ptr_mem> : ( :IDENTIFIER, :CV ) -> ( :TYPE ) ;
+
+ptr-operator : () -> ( p : TYPE ) = {
+	star ; cv = cv-qualifier-seq-opt ;
+	p = <type_ptr> ( cv ) ;
+    ||
+	and ; cv = cv-qualifier-seq-opt ;
+	p = <type_ref> ( cv ) ;
+    ||
+	id = nested-name-star ; cv = cv-qualifier-seq-opt ;
+	p = <type_ptr_mem> ( id, cv ) ;
+    ||
+	id = full-name-star ; cv = cv-qualifier-seq-opt ;
+	p = <type_ptr_mem> ( id, cv ) ;
+} ;
+
+
+/*
+    DECLARATORS
+
+    These rules describe the declarators.  The rule declarator-aux
+    builds up a partial type, containing pointer, array, and other
+    type information, but not the base type of what is pointed to etc.
+    This base type is provided by the rule declarator and filled in
+    using type_inject.  Note also that the function style initialisers
+    have been included in this rule.  They are distinguished from the
+    parameter declaration clauses by the predicate is_initialiser.  This
+    can lead to initialisers appearing in the wrong places, but they are
+    easily weeded out using initialiser_bad.
+*/
+
+<type_array> : ( :EXP ) -> ( :TYPE ) ;
+<type_build> : ( :TYPE, :TYPE ) -> ( :TYPE ) ;
+<type_inject> : ( :TYPE, :TYPE ) -> ( :TYPE ) ;
+<type_func> : ( :BOOL, :BOOL, :CV, :LIST-TYPE ) -> ( :TYPE ) ;
+
+<declarator_begin> : ( :IDENTIFIER ) -> () ;
+<declarator_end> : ( :DECL ) -> () ;
+<declarator_type> : ( :IDENTIFIER ) -> ( :IDENTIFIER ) ;
+
+<param_begin> : ( :IDENTIFIER ) -> () ;
+<param_end> : () -> () ;
+
+<is_initialiser> : () -> ( :BOOL ) ;
+<initialiser_bad> : ( :BOOL ) -> () ;
+<declarator_bad> : ( :TYPE ) -> () ;
+
+exception-specification-opt : () -> ( :LIST-TYPE ) ;
+declarator-aux : () -> ( :TYPE, :IDENTIFIER, :BOOL ) ;
+parameter-declaration-clause : () -> ( :BOOL ) ;
+
+declarator-id : () -> ( id : IDENTIFIER ) = {
+	id = id-expression ;
+    ||
+	tid = unqualified-type ;
+	id = <declarator_type> ( tid ) ;
+    ||
+	tid = any-qualified-type ;
+	id = <declarator_type> ( tid ) ;
+    ||
+	id = qualified-stmt-name ;
+} ;
+
+parameter-tail : ( w : BOOL ) -> ( t : TYPE ) = {
+	ell = parameter-declaration-clause ;
+	close-round ;
+	cv = cv-qualifier-seq-opt ;
+	ex = exception-specification-opt ;
+	t = <type_func> ( ell, w, cv, ex ) ;
+} ;
+
+declarator-tail : ( id : IDENTIFIER ) -> ( t : TYPE, c : BOOL ) = {
+	open-round ;
+	{
+		w = <bool_false> ;
+		<param_begin> ( id ) ;
+		t = parameter-tail ( w ) ;
+		<param_end> ;
+		c = <bool_false> ;
+	    ||
+		? = <is_initialiser> ;
+		c = <bool_true> ;
+		t = <type_none> ;
+	} ;
+    ||
+	open-square ;
+	{
+		e = constant-expression ;
+	    ||	e = <exp_none> ;
+	} ;
+	t = <type_array> ( e ) ;
+	close-square ;
+	c = <bool_false> ;
+    ||
+	weak ; open-round ;
+	w = <bool_true> ;
+	<param_begin> ( id ) ;
+	t = parameter-tail ( w ) ;
+	<param_end> ;
+	c = <bool_false> ;
+} ;
+
+direct-declarator : () -> ( t : TYPE, id : IDENTIFIER, c : BOOL ) = {
+	id = declarator-id ;
+	t = <type_none> ;
+	c = <bool_false> ;
+	<declarator_begin> ( id ) ;
+    ||
+	( p, id, b ) = direct-declarator ;
+	( i, a ) = <qual_get> ;
+	( q, c ) = declarator-tail ( id ) ;
+	<initialiser_bad> ( b ) ;
+	t = <type_build> ( p, q ) ;
+	<qual_set> ( i, a ) ;
+    ||
+	open-round ; ( t, id, c ) = declarator-aux ;
+	<initialiser_bad> ( c ) ;
+	<declarator_bad> ( t ) ;
+	close-round ;
+} ;
+
+declarator-aux : () -> ( t : TYPE, id : IDENTIFIER, c : BOOL ) = {
+	( t, id, c ) = direct-declarator ;
+    ||
+	p = ptr-operator ; ( q, id, c ) = declarator-aux ;
+	t = <type_build> ( q, p ) ;
+} ;
+
+declarator : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER, c : BOOL ) = {
+	( q, id, c ) = declarator-aux ;
+	<template_decl> ( p ) ;
+	t = <type_inject> ( q, p ) ;
+} ;
+
+
+/*
+    ABSTRACT DECLARATORS
+
+    These rules describe the abstract declarators.  These are identical
+    to the declarators except that they do not have a declarator-id.
+    Also initialisers cannot appear in abstract declarators.
+*/
+
+abstract-declarator-aux : () -> ( :TYPE ) ;
+
+abstract-declarator-tail : () -> ( t : TYPE ) = {
+	open-round ;
+	id = <id_none> ;
+	w = <bool_false> ;
+	<param_begin> ( id ) ;
+	t = parameter-tail ( w ) ;
+	<param_end> ;
+    ||
+	open-square ;
+	{
+		e = constant-expression ;
+	    ||	e = <exp_none> ;
+	} ;
+	t = <type_array> ( e ) ;
+	close-square ;
+    ||
+	weak ; open-round ;
+	id = <id_none> ;
+	w = <bool_true> ;
+	<param_begin> ( id ) ;
+	t = parameter-tail ( w ) ;
+	<param_end> ;
+} ;
+
+direct-abstract-declarator : () -> ( t : TYPE ) = {
+	t = abstract-declarator-tail ;
+    ||
+	p = direct-abstract-declarator ;
+	q = abstract-declarator-tail ;
+	t = <type_build> ( p, q ) ;
+    ||
+	open-round ; t = abstract-declarator-aux ;
+	<declarator_bad> ( t ) ;
+	close-round ;
+} ;
+
+abstract-declarator-aux : () -> ( t : TYPE ) = {
+	t = direct-abstract-declarator ;
+    ||
+	t = ptr-operator ;
+    ||
+	p = ptr-operator ; q = abstract-declarator-aux ;
+	t = <type_build> ( q, p ) ;
+} ;
+
+abstract-declarator-opt : ( p : TYPE ) -> ( t : TYPE ) = {
+	q = abstract-declarator-aux ;
+	t = <type_inject> ( q, p ) ;
+    ||
+	t = p ;
+} ;
+
+
+/*
+    PARAMETER DECLARATOR
+
+    A parameter declarator can be a declarator, an abstract-declarator or
+    be empty.  The easiest way to do this is as a separate set of rules.
+    A predicate is necessary to distinguish declarator-ids from type names.
+    Again it is not necessary to include initialisers.
+*/
+
+<is_parameter> : () -> ( :BOOL ) ;
+
+parameter-declarator-aux : () -> ( :TYPE, :IDENTIFIER ) ;
+parameter-declarator-aux-opt : () -> ( :TYPE, :IDENTIFIER ) ;
+
+direct-parameter-declarator : () -> ( t : TYPE, id : IDENTIFIER ) = {
+	? = <is_parameter> ;
+	id = declarator-id ;
+	t = <type_none> ;
+	<declarator_posn> ( id ) ;
+    ||
+	( p, id ) = direct-parameter-declarator ;
+	( i, b ) = <qual_get> ;
+	q = abstract-declarator-tail ;
+	<qual_set> ( i, b ) ;
+	t = <type_build> ( p, q ) ;
+    ||
+	t = abstract-declarator-tail ;
+	id = <id_anon> ;
+	<declarator_posn> ( id ) ;
+    ||
+	open-round ;
+	( t, id ) = parameter-declarator-aux ;
+	<declarator_bad> ( t ) ;
+	close-round ;
+} ;
+
+parameter-declarator-aux : () -> ( t : TYPE, id : IDENTIFIER ) = {
+	( t, id ) = direct-parameter-declarator ;
+    ||
+	p = ptr-operator ;
+	( q, id ) = parameter-declarator-aux-opt ;
+	t = <type_build> ( q, p ) ;
+} ;
+
+parameter-declarator-aux-opt : () -> ( t : TYPE, id : IDENTIFIER ) = {
+	( t, id ) = parameter-declarator-aux ;
+    ||
+	t = <type_none> ;
+	id = <id_anon> ;
+	<declarator_posn> ( id ) ;
+} ;
+
+parameter-declarator-opt : ( p : TYPE ) -> ( t : TYPE, id : IDENTIFIER ) = {
+	( q, id ) = parameter-declarator-aux-opt ;
+	t = <type_inject> ( q, p ) ;
+} ;
+
+
+/*
+    FUNCTION PARAMETER DECLARATIONS
+
+    These rules describe the function parameter declarations.  The rules
+    differ slightly from those given in the standard, which was clearly
+    not written with LL(1) parsers in mind, but are equivalent.
+*/
+
+<dspec_complete> : ( :BTYPE, :TYPE, :CV, :DSPEC ) -> ( :TYPE, :DSPEC ) ;
+<declare_param> : ( :DSPEC, :TYPE, :IDENTIFIER, :NUMBER ) -> ( :DECL ) ;
+<initialise_param> : ( :DECL, :EXP ) -> () ;
+<param_func> : () -> ( :NUMBER ) ;
+<decl_none> : () -> ( :DECL ) ;
+<default_arg_skip> : ( :DECL ) -> ( :EXP ) ;
+<default_arg_begin> : () -> () ;
+<default_arg_end> : () -> () ;
+<is_skipped> : ( :NUMBER ) -> ( :BOOL ) ;
+
+parameter-declaration : ( s : TYPE, p : NUMBER ) -> ( d : DECL ) = {
+	( bt, t1, cv1, ds1 ) = decl-specifier-seq ( s ) ;
+	( t2, ds2 ) = <dspec_complete> ( bt, t1, cv1, ds1 ) ;
+	<declarator_start> ;
+	( t, id ) = parameter-declarator-opt ( t2 ) ;
+	d = <declare_param> ( ds2, t, id, p ) ;
+	{
+		assign ;
+		<default_arg_begin> ;
+		{
+			? = <is_skipped> ( p ) ;
+			a = <default_arg_skip> ( d ) ;
+		    ||
+			a = initialiser-expression ;
+		} ;
+		<default_arg_end> ;
+		e = a ;
+	    ||
+		e = <exp_none> ;
+	} ;
+	<initialise_param> ( d, e ) ;
+} ;
+
+parameter-declaration-list : () -> ( ell : BOOL ) = {
+	ellipsis ;
+	ell = <bool_true> ;
+    ||
+	s = <type_none> ;
+	p = <param_func> ;
+	d = parameter-declaration ( s, p ) ;
+	{
+		comma ;
+		ell = parameter-declaration-list ;
+	    ||
+		ellipsis ;
+		ell = <bool_true> ;
+	    ||
+		ell = <bool_false> ;
+	} ;
+} ;
+
+parameter-declaration-clause : () -> ( ell : BOOL ) = {
+	ell = parameter-declaration-list ;
+    ||
+	ell = <bool_false> ;
+} ;
+
+parameter-entry : ( s : TYPE, p : NUMBER ) -> ( d : DECL ) = {
+	d = parameter-declaration ( s, p ) ;
+    ##
+	<error_syntax> ;
+	d = <decl_none> ;
+} ;
+
+
+/*
+    TYPE IDENTIFIERS
+
+    This rule describes the type identifiers.  There is a predicate to
+    distinguish type identifiers from expressions in, for example, sizeof
+    expressions.  A count of the number of types defined in the type
+    identifier is maintained.
+*/
+
+<is_type_id_false> : () -> ( :BOOL ) ;
+<is_type_id_true> : () -> ( :BOOL ) ;
+<type_bitfield> : ( :TYPE, :BTYPE, :EXP ) -> ( :TYPE ) ;
+<type_check> : ( :TYPE ) -> () ;
+
+type-id : () -> ( t : TYPE, n : COUNT ) = {
+	n1 = <no_type_defns> ;
+	( bt, p, cv ) = type-specifier-seq ;
+	q = <type_complete> ( bt, p, cv ) ;
+	t = abstract-declarator-opt ( q ) ;
+	n = <diff_type_defns> ( n1 ) ;
+	<type_check> ( t ) ;
+} ;
+
+type-id-false : () -> ( t : TYPE, n : COUNT ) = {
+	? = <is_type_id_false> ;
+	( t, n ) = type-id ;
+} ;
+
+type-id-true : () -> ( t : TYPE, n : COUNT ) = {
+	? = <is_type_id_true> ;
+	( t, n ) = type-id ;
+} ;
+
+token-type-id : () -> ( t : TYPE ) = {
+	( bt, p, cv ) = type-specifier-seq ;
+	q = <type_complete> ( bt, p, cv ) ;
+	t = abstract-declarator-opt ( q ) ;
+} ;
+
+member-type-id : () -> ( t : TYPE ) = {
+	( bt, p, cv ) = type-specifier-seq ;
+	q = <type_complete> ( bt, p, cv ) ;
+	{
+		t = abstract-declarator-opt ( q ) ;
+	    ||
+		rem ;
+		( i, b ) = <qual_get> ;
+		c = constant-expression ;
+		t = <type_bitfield> ( q, bt, c ) ;
+		<qual_set> ( i, b ) ;
+	} ;
+} ;
+
+type-id-entry : () -> ( t : TYPE ) = {
+	t = token-type-id ;
+	<type_check> ( t ) ;
+    ##
+	<error_syntax> ;
+	t = <type_none> ;
+} ;
+
+
+/*
+    CONVERSION TYPE IDENTIFIERS
+
+    These rules describe those type identifiers which can be used in
+    conversion function identifiers.  The predicate is_ptr_operator is
+    required to resolve 'operator int * ( 3 )' as a function call rather
+    than a multiplication expression.
+*/
+
+<is_ptr_operator> : () -> ( :BOOL ) ;
+
+conversion-declarator-opt : () -> ( t : TYPE ) = {
+	? = <is_ptr_operator> ;
+	p = ptr-operator ; q = conversion-declarator-opt ;
+	t = <type_build> ( q, p ) ;
+    ||
+	t = <type_none> ;
+} ;
+
+conversion-type-id : () -> ( t : TYPE ) = {
+	( bt, p, cv ) = check-type-specifier-seq ;
+	s = <type_complete> ( bt, p, cv ) ;
+	q = conversion-declarator-opt () ;
+	t = <type_inject> ( q, s ) ;
+} ;
+
+
+/*
+    NEW TYPE IDENTIFIERS
+
+    These rules describe those type identifiers which can be used in
+    new expressions.  Again it necessary to resolve 'new int * ( 3 )'
+    correctly by means of a predicate.  Note that in array new-declarators
+    the first array bound is not necessarily a constant-expression, so
+    that, for example, it is possible to form 'new int [n]' for any integral
+    expression, n.
+*/
+
+<type_new_array> : ( :EXP ) -> ( :TYPE ) ;
+<is_new_ptr_operator> : () -> ( :BOOL ) ;
+
+direct-new-declarator : () -> ( t : TYPE ) = {
+	open-square ; a = expression ;
+	e = <exp_eval> ( a ) ;
+	t = <type_new_array> ( e ) ;
+	close-square ;
+    ||
+	p = direct-new-declarator ;
+	open-square ; e = constant-expression ;
+	q = <type_array> ( e ) ;
+	t = <type_build> ( p, q ) ;
+	close-square ;
+} ;
+
+new-declarator-opt : () -> ( t : TYPE ) = {
+	? = <is_new_ptr_operator> ;
+	p = ptr-operator ; q = new-declarator-opt ;
+	t = <type_build> ( q, p ) ;
+    ||
+	t = direct-new-declarator ;
+    ||
+	t = <type_none> ;
+} ;
+
+new-type-id : () -> ( t : TYPE, n : COUNT ) = {
+	n1 = <no_type_defns> ;
+	( bt, p, cv ) = type-specifier-seq ;
+	s = <type_complete> ( bt, p, cv ) ;
+	q = new-declarator-opt () ;
+	t = <type_inject> ( q, s ) ;
+	n = <diff_type_defns> ( n1 ) ;
+} ;
+
+
+/*
+    INITIALISERS
+
+    These rules describe the initialisers.  This includes the assignment
+    style and aggregate initialisers, but excludes the function style
+    initialisers.  The latter are included as part of the associated
+    declarator and passed in to initialiser-opt as c (which is the null
+    expression if no such initialiser was given).
+*/
+
+<exp_aggregate> : ( :LIST-EXP ) -> ( :EXP ) ;
+<exp_initialiser> : ( :LIST-EXP ) -> ( :EXP ) ;
+<access_check_decl> : ( :DECL ) -> () ;
+<access_check_ret> : ( :DECL, :ACCESSES ) -> () ;
+<is_true> : ( :BOOL ) -> ( :BOOL ) ;
+<rescan_init> : () -> () ;
+
+initialiser-clause : ( :DECL ) -> ( :EXP ) ;
+
+initialiser-list : ( d : DECL ) -> ( p : LIST-EXP ) = {
+	b = initialiser-clause ( d ) ;
+	a = <exp_location> ( b ) ;
+	{
+		comma ; q = initialiser-list ( d ) ;
+	    ||	comma ; q = <list_exp_null> ;
+	    ||	q = <list_exp_null> ;
+	} ;
+	p = <list_exp_cons> ( a, q ) ;
+} ;
+
+initialiser-clause : ( d : DECL ) -> ( e : EXP ) = {
+	e = initialiser-expression ;
+	<access_check_decl> ( d ) ;
+    ||
+	open-brace ;
+	{
+		p = initialiser-list ( d ) ;
+	    ||	p = <list_exp_null> ;
+	} ;
+	close-brace ;
+	e = <exp_aggregate> ( p ) ;
+} ;
+
+initialiser-exp-list : ( d : DECL ) -> ( p : LIST-EXP ) = {
+	e = initialiser-expression ;
+	<access_check_decl> ( d ) ;
+	{
+		comma ; q = initialiser-exp-list ( d ) ;
+	    ||	q = <list_exp_null> ;
+	} ;
+	p = <list_exp_cons> ( e, q ) ;
+} ;
+
+initialiser-opt : ( c : BOOL, d : DECL ) -> ( e : EXP ) = {
+	? = <is_true> ( c ) ;
+	<rescan_init> ;
+	p = initialiser-exp-list ( d ) ;
+	e = <exp_initialiser> ( p ) ;
+	close-round ;
+    ||
+	assign ; e = initialiser-clause ( d ) ;
+    ||
+	e = <exp_none> ;
+} ;
+
+initialiser-entry : ( d : DECL ) -> ( e : EXP ) = {
+	e = initialiser-clause ( d ) ;
+    ##
+	<error_syntax> ;
+	e = <exp_none> ;
+} ;
+
+
+/*
+    INITIALISATION DECLARATORS
+
+    These rules describe the declarators with initialisers.  In fact the
+    first element in any init-declarator-list is handled separately in the
+    rule declaration.  See above for the handling of function style
+    initialisers.
+*/
+
+<declare_id> : ( :DSPEC, :BTYPE, :TYPE, :IDENTIFIER ) -> ( :DECL ) ;
+<initialise_id> : ( :DECL, :EXP ) -> () ;
+
+init-declarator : ( ds : DSPEC, bt : BTYPE, p : TYPE, r : ACCESSES ) -> () = {
+	( t, id, c ) = declarator ( p ) ;
+	d = <declare_id> ( ds, bt, t, id ) ;
+	<access_check_ret> ( d, r ) ;
+	<access_check_decl> ( d ) ;
+	e = initialiser-opt ( c, d ) ;
+	<initialise_id> ( d, e ) ;
+	<access_check_decl> ( d ) ;
+	<declarator_end> ( d ) ;
+} ;
+
+init-declarator-list : ( ds : DSPEC, bt : BTYPE, t : TYPE, r : ACCESSES ) -> () = {
+	init-declarator ( ds, bt, t, r ) ;
+	{
+		comma ;
+		<declarator_start> ;
+		init-declarator-list ( ds, bt, t, r ) ;
+	    ||
+		$ ;
+	} ;
+} ;
+
+
+/*
+    CONSTRUCTOR CLASS INITIALISERS
+
+    These rules describe the class initialisers which may be associated
+    with a constructor definition.  These consist of a colon followed by a
+    list of class names and expressions associated with these classes.
+*/
+
+<ctor_begin> : () -> ( :NAMESPACE ) ;
+<ctor_end> : ( :NAMESPACE, :EXP, :BOOL ) -> ( :EXP ) ;
+<ctor_none> : ( :EXP ) -> ( :EXP, :EXP ) ;
+<ctor_initialise> : ( :NAMESPACE, :IDENTIFIER, :EXP ) -> () ;
+<ctor_postlude> : ( :EXP, :EXP ) -> ( :EXP ) ;
+
+mem-initialiser : ( cns : NAMESPACE ) -> () = {
+	ns = any-nested-name-opt ; aid = any-class-name ;
+	id = <namespace_id> ( ns, aid ) ;
+	( i, b ) = <qual_get> ;
+	open-round ; p = expression-list-opt ; close-round ;
+	<qual_set> ( i, b ) ;
+	e = <exp_initialiser> ( p ) ;
+	<ctor_initialise> ( cns, id, e ) ;
+    ||
+	open-round ; p = expression-list-opt ; close-round ;
+	e = <exp_initialiser> ( p ) ;
+	id = <id_none> ;
+	<ctor_initialise> ( cns, id, e ) ;
+} ;
+
+mem-initialiser-list : ( cns : NAMESPACE ) -> () = {
+	mem-initialiser ( cns ) ;
+	{
+		comma ; mem-initialiser-list ( cns ) ;
+	    ||	$ ;
+	} ;
+} ;
+
+ctor-initialiser-opt : ( c : EXP ) -> ( e : EXP, d : EXP ) = {
+	colon ;
+	cns = <ctor_begin> ;
+	{
+		mem-initialiser-list ( cns ) ; b = <bool_true> ;
+	    ||	b = <bool_false> ;
+	} ;
+	e = <ctor_end> ( cns, c, b ) ;
+	d = <exp_none> ;
+    ||
+	( e, d ) = <ctor_none> ( c ) ;
+} ;
+
+
+/*
+    FUNCTION DEFINITIONS
+
+    These rules describe the function definitions.  The actual declarator
+    for function-definition has been built into declaration.  The rest of
+    the definition consists of an optional list of constructor class
+    initialisers, which are only actually valid if the function is a
+    constructor, plus a compound statement, giving the definition body.
+*/
+
+<stmt_try_func> : () -> ( :EXP ) ;
+
+function-body : ( c : EXP ) -> ( e : EXP ) = {
+	( b, d ) = ctor-initialiser-opt ( c ) ;
+	open-brace ;
+	<stmt_compound_block> ( b ) ;
+	a = statement-seq-opt ( b ) ;
+	e = <ctor_postlude> ( a, d ) ;
+	close-brace ;
+} ;
+
+function-try-block : () -> ( e : EXP ) = {
+	try ;
+	r = <reach_check> ;
+	a = <stmt_try_func> ;
+	b = <stmt_compound_begin> ;
+	<stmt_try_inject> ( a ) ;
+	f = function-body ( b ) ;
+	c = <stmt_compound_end> ( f ) ;
+	d = <stmt_try_cont> ( a, c ) ;
+	handler-seq-opt ( d ) ;
+	<reach_prev> ( r ) ;
+	e = <stmt_try_end> ( d ) ;
+} ;
+
+function-definition-body : () -> ( e : EXP ) = {
+	c = <stmt_compound_begin> ;
+	{
+		a = function-body ( c ) ;
+	    ||
+		b = function-try-block ;
+		a = <stmt_compound_add> ( c, b ) ;
+	} ;
+	e = <stmt_compound_end> ( a ) ;
+	<access_check> ;
+} ;
+
+function-definition-entry : () -> ( e : EXP ) = {
+	e = function-definition-body ;
+    ##
+	<error_syntax> ;
+	e = <exp_none> ;
+} ;
+
+
+/*
+    TARGET DEPENDENT DECLARATION SEQUENCES
+
+    These rules describe the unresolved target dependent conditional
+    declarations.  See target-condition for details.  The '#pragma'
+    directives are included in this rule for convenience.
+*/
+
+declaration-seq-opt : ( :TYPE, :DSPEC ) -> () ;
+
+declaration-cond-body : () -> () = {
+	open-brace ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	declaration-seq-opt ( t, ds ) ;
+	close-brace ;
+} ;
+
+declaration-cond-head : () -> ( p : EXP ) = {
+	c = hash-if ;
+	p = <cond_hash_if> ( c ) ;
+	<decl_hash_if> ( c ) ;
+	declaration-cond-body ;
+    ||
+	p = declaration-cond-head ;
+	c = hash-elif ;
+	<cond_hash_elif> ( c ) ;
+	<decl_hash_elif> ( c ) ;
+	declaration-cond-body ;
+} ;
+
+declaration-cond : () -> () = {
+	p = declaration-cond-head ;
+	{
+		hash-else ;
+		<cond_hash_else> ;
+		<decl_hash_else> ;
+		declaration-cond-body ;
+	    ||
+		$ ;
+	} ;
+	<cond_hash_endif> ( p ) ;
+	hash-endif ;
+	<decl_hash_endif> ;
+    ||
+	hash-pragma ;
+} ;
+
+
+/*
+    SEQUENCES OF DECLARATIONS
+
+    These rules describe the declaration sequences, consisting of a simple
+    list of declarations.
+*/
+
+<declare_extern> : ( :EXP ) -> () ;
+
+declaration : ( :TYPE, :DSPEC ) -> ( :EXP ) ;
+
+declaration-elem : ( t : TYPE, ds : DSPEC ) -> () = {
+	e = declaration ( t, ds ) ;
+	<declare_extern> ( e ) ;
+    ||
+	<template_check> ( t, ds ) ;
+	declaration-cond ;
+	<access_check> ;
+} ;
+
+declaration-seq-opt : ( t : TYPE, ds : DSPEC ) -> () = {
+	declaration-elem ( t, ds ) ;
+	declaration-seq-opt ( t, ds ) ;
+    ||
+	$ ;
+} ;
+
+
+/*
+    NAMESPACE DEFINITIONS
+
+    These rules describe the namespace definitions, consisting of 'namespace'
+    followed by an optional identifier and a list of declarations enclosed
+    within braces.
+*/
+
+<namespace_begin> : ( :IDENTIFIER ) -> () ;
+<namespace_end> : () -> () ;
+<namespace_begin_anon> : () -> () ;
+<namespace_end_anon> : () -> () ;
+
+named-namespace-definition : () -> () = {
+	namespace ; nid = any-identifier ;
+	id = <namespace_simple> ( nid ) ;
+	<declarator_posn> ( id ) ;
+	<namespace_begin> ( id ) ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	open-brace ;
+	declaration-seq-opt ( t, ds ) ;
+	<namespace_end> ;
+	close-brace ;
+} ;
+
+unnamed-namespace-definition : () -> () = {
+	namespace ;
+	<namespace_begin_anon> ;
+	ds = <dspec_none> ;
+	t = <type_none> ;
+	open-brace ;
+	declaration-seq-opt ( t, ds ) ;
+	<namespace_end_anon> ;
+	close-brace ;
+} ;
+
+namespace-definition : () -> () = {
+	{
+		named-namespace-definition ;
+	    ||	unnamed-namespace-definition ;
+	} ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    NAMESPACE ALIAS DEFINITIONS
+
+    These rules describe the namespace alias definitions, consisting of
+    an identification of a new name with an existing namespace.
+*/
+
+<namespace_name> : ( :IDENTIFIER ) -> ( :NAMESPACE ) ;
+<namespace_alias> : ( :IDENTIFIER, :NAMESPACE ) -> () ;
+
+namespace-alias-definition : () -> () = {
+	namespace ; nid = any-identifier ;
+	id = <namespace_simple> ( nid ) ;
+	<declarator_posn> ( id ) ;
+	assign ; pns = any-nested-name-opt ; pid = any-class-name ;
+	mid = <namespace_id> ( pns, pid ) ;
+	ns = <namespace_name> ( mid ) ;
+	<qual_none> ;
+	<namespace_alias> ( id, ns ) ;
+	semicolon-x ;
+} ;
+
+
+/*
+    USING DECLARATIONS
+
+    This rule describes the using declarations, which may be used to bring
+    an identifier declared in a namespace into scope.
+*/
+
+<using_identifier> : ( :IDENTIFIER ) -> () ;
+<using_typename> : ( :TYPE ) -> () ;
+
+using-declaration : () -> () = {
+	using ; id = declarator-id ;
+	<using_identifier> ( id ) ;
+	semicolon-x ;
+    ||
+	using ; typename ;
+	<declarator_start> ;
+	ns = any-nested-name-opt ; id = any-class-name ;
+	t = <type_typename> ( ns, id ) ;
+	<using_typename> ( t ) ;
+	semicolon-x ;
+} ;
+
+
+/*
+    USING DIRECTIVES
+
+    This rule describes the using directives, which may be used to bring all
+    the identifiers declared in a namespace into scope.
+*/
+
+<using_namespace> : ( :NAMESPACE ) -> () ;
+
+using-directive : () -> () = {
+	using ; namespace ;
+	pns = any-nested-name-opt ; pid = any-class-name ;
+	id = <namespace_id> ( pns, pid ) ;
+	ns = <namespace_name> ( id ) ;
+	<using_namespace> ( ns ) ;
+	semicolon-x ;
+} ;
+
+
+/*
+    ASM DEFINITIONS
+
+    This rule describes the asm definitions.  These consist of 'asm' followed
+    by a bracketed string literal and a semicolon.
+*/
+
+<declare_asm> : ( :EXP, :LIST-EXP ) -> ( :EXP ) ;
+
+asm-definition : () -> ( e : EXP ) = {
+	asm ; open-round ;
+	a = string-literal ;
+	{
+		comma ; p = expression-list ;
+	    ||	p = <list_exp_null> ;
+	} ;
+	e = <declare_asm> ( a, p ) ;
+	close-round ;
+	semicolon-x ;
+} ;
+
+
+/*
+    LINKAGE SPECIFICATIONS
+
+    This rule describes the linkage specifications.  This is implemented
+    by a single linkage state variable.  The main action is linkage_string,
+    which translates a string literal into a linkage specifier.  The
+    'extern' in a linkage specification is distinguished from that in a
+    declaration specifier by the predicate is_decl_specifier.
+*/
+
+<linkage_begin> : ( :LINKAGE ) -> ( :LINKAGE ) ;
+<linkage_end> : ( :LINKAGE ) -> () ;
+<linkage_string> : ( :EXP ) -> ( :LINKAGE ) ;
+<dspec_linkage> : () -> ( :DSPEC ) ;
+
+linkage-specification : ( t : TYPE, ds : DSPEC ) -> ( e : EXP ) = {
+	extern ; c = string-literal ;
+	a = <linkage_string> ( c ) ;
+	b = <linkage_begin> ( a ) ;
+	ds0 = <dspec_linkage> ;
+	ds1 = <dspec_join> ( ds, ds0 ) ;
+	{
+		e1 = declaration ( t, ds1 ) ;
+		<linkage_end> ( b ) ;
+	    ||
+		open-brace ;
+		<template_check> ( t, ds1 ) ;
+		t2 = <type_none> ;
+		ds2 = <dspec_none> ;
+		declaration-seq-opt ( t2, ds2 ) ;
+		<linkage_end> ( b ) ;
+		close-brace ;
+		e1 = <exp_none> ;
+	} ;
+	e = e1 ;
+} ;
+
+
+/*
+    DECLARATIONS
+
+    This rule describes the declarations.  Note that the empty declaration,
+    consisting of just a semicolon has been made a separate case (see
+    expression-statement).  The first declarator in a simple declaration
+    has been factored out of the init-declarator-list and combined with
+    the function-definition rule.  Linkage specifications, namespace and
+    using declarations and asm-definitions are also classified as
+    declarations.
+*/
+
+<is_function> : () -> ( :BOOL ) ;
+<function_begin> : ( :DECL ) -> ( :BOOL ) ;
+<function_end> : ( :DECL, :EXP, :BOOL ) -> () ;
+<declare_id_empty> : ( :DSPEC, :TYPE, :BTYPE, :TYPE, :CV ) -> () ;
+<access_return> : () -> ( :ACCESSES ) ;
+<access_free> : ( :ACCESSES ) -> () ;
+
+template-declaration : ( :TYPE, :DSPEC ) -> ( :EXP ) ;
+
+declaration-basic : ( t : TYPE, ds : DSPEC ) -> () = {
+	( bt, t1, cv1, ds1 ) = check-decl-specifier-seq-opt ( t ) ;
+	ds2 = <dspec_join> ( ds, ds1 ) ;
+	( t2, ds3 ) = <dspec_complete> ( bt, t1, cv1, ds2 ) ;
+	t3 = <type_inject> ( t, t2 ) ;
+	r = <access_return> ;
+	<declarator_start> ;
+	( s, id, c ) = declarator ( t3 ) ;
+	d = <declare_id> ( ds3, bt, s, id ) ;
+	<access_check_ret> ( d, r ) ;
+	<access_check_decl> ( d ) ;
+	{
+		e = initialiser-opt ( c, d ) ;
+		<initialise_id> ( d, e ) ;
+		<access_check_decl> ( d ) ;
+		<declarator_end> ( d ) ;
+		{
+			comma ;
+			<declarator_start> ;
+			init-declarator-list ( ds3, bt, t3, r ) ;
+		    ||
+			$ ;
+		} ;
+		<access_free> ( r ) ;
+		semicolon ;
+	    ||
+		? = <is_function> ;
+		<initialiser_bad> ( c ) ;
+		<access_free> ( r ) ;
+		b = <function_begin> ( d ) ;
+		e = function-definition-body ;
+		<function_end> ( d, e, b ) ;
+		<declarator_end> ( d ) ;
+		<rescan_token> ;
+	} ;
+    ||
+	( bt, t1, cv1, ds1 ) = check-decl-specifier-seq ( t ) ;
+	ds2 = <dspec_join> ( ds, ds1 ) ;
+	<declare_id_empty> ( ds2, t, bt, t1, cv1 ) ;
+	<access_check> ;
+	semicolon ;
+} ;
+
+declaration-other : () -> ( e : EXP ) = {
+	e = asm-definition ;
+    ||	namespace-definition ; e = <exp_none> ;
+    ||	namespace-alias-definition ; e = <exp_none> ;
+    ||	using-declaration ; e = <exp_none> ;
+    ||	using-directive ; e = <exp_none> ;
+} ;
+
+declaration-nonempty : ( t : TYPE, ds : DSPEC ) -> ( e : EXP ) = {
+	declaration-basic ( t, ds ) ;
+	e = <exp_none> ;
+    ||
+	e = template-declaration ( t, ds ) ;
+    ||
+	e = linkage-specification ( t, ds ) ;
+    ||
+	<template_check> ( t, ds ) ;
+	e = declaration-other ;
+} ;
+
+declaration : ( t : TYPE, ds : DSPEC ) -> ( e : EXP ) = {
+	e = declaration-nonempty ( t, ds ) ;
+    ||
+	bt = <btype_none> ;
+	t1 = <type_none> ;
+	cv = <cv_none> ;
+	<declare_id_empty> ( ds, t, bt, t1, cv ) ;
+	semicolon ;
+	e = <exp_none> ;
+} ;
+
+declaration-entry : ( t : TYPE, ds : DSPEC ) -> () = {
+	declaration-basic ( t, ds ) ;
+    ##
+	<error_syntax> ;
+} ;
+
+
+/*
+    CLASS MEMBER DECLARATORS
+
+    These rules describe the class member declarators.  Note that the
+    rule member-specifier-opt is intended to handle both pure-specifier
+    and constant-initialiser.  Also two types are passed into these
+    rules, one reflecting the declaration type and the other the sequence
+    of type-specifiers used to describe this type.  This is because
+    in bitfields 'signed int' is not synonomous with 'int'.
+*/
+
+<declare_member> : ( :DSPEC, :BTYPE, :TYPE, :IDENTIFIER, :BOOL ) -> ( :DECL, :BOOL ) ;
+<declare_bitfield> : ( :DSPEC, :TYPE, :IDENTIFIER ) -> ( :DECL ) ;
+<type_bitfield_mem> : ( :TYPE, :BTYPE, :EXP, :IDENTIFIER ) -> ( :TYPE ) ;
+<initialise_member> : ( :DECL, :EXP, :BOOL ) -> () ;
+
+member-specifier-opt : () -> ( e : EXP ) = {
+	assign ; e = constant-expression ;
+    ||	e = <exp_none> ;
+} ;
+
+member-declarator : ( ds : DSPEC, p : TYPE, q : BTYPE, r : ACCESSES, f : BOOL ) -> ( d : DECL ) = {
+	( t, id, c ) = declarator ( p ) ;
+	<initialiser_bad> ( c ) ;
+	( d, fr ) = <declare_member> ( ds, q, t, id, f ) ;
+	<access_check_ret> ( d, r ) ;
+	<access_check_decl> ( d ) ;
+	e = member-specifier-opt () ;
+	<initialise_member> ( d, e, fr ) ;
+	<access_check_decl> ( d ) ;
+    ||
+	{
+		mid = any-identifier ;
+		id = <namespace_simple> ( mid ) ;
+	    ||
+		id = <id_anon> ;
+	} ;
+	<template_decl> ( p ) ;
+	<declarator_begin> ( id ) ;
+	( i, b ) = <qual_get> ;
+	colon ; c = constant-expression ;
+	<qual_set> ( i, b ) ;
+	t = <type_bitfield_mem> ( p, q, c, id ) ;
+	d = <declare_bitfield> ( ds, t, id ) ;
+	<access_check_ret> ( d, r ) ;
+	<access_check_decl> ( d ) ;
+} ;
+
+member-declarator-list : ( ds : DSPEC, p : TYPE, q : BTYPE, r : ACCESSES, f : BOOL ) -> () = {
+	d = member-declarator ( ds, p, q, r, f ) ;
+	<declarator_end> ( d ) ;
+	{
+		comma ;
+		n = <bool_false> ;
+		<declarator_start> ;
+		member-declarator-list ( ds, p, q, r, n ) ;
+	    ||
+		$ ;
+	} ;
+} ;
+
+
+/*
+    CLASS MEMBER DECLARATION
+
+    This rule describes the class member declarations.  As with the normal
+    declaration rule, the first member-declarator has been factored out and
+    combined with the function-definition rule.  There is a slight problem
+    in that member-declarators allow an initialiser, whereas they are not
+    allowed in a function-definition.  However the look-ahead for is_function
+    actually occurs in declare_member, so a function definition with an
+    initialiser will be resolved as an initialised function declaration
+    (which may actually be a legal pure function declaration).  Note also
+    that the qualified-ids used to change the access of a member are a
+    special case of the first option.
+*/
+
+template-member-decl : ( :TYPE, :DSPEC ) -> () ;
+
+<function_skip> : ( :DECL ) -> () ;
+<declare_member_empty> : ( :DSPEC, :TYPE, :BTYPE, :TYPE, :CV ) -> () ;
+
+member-declaration : ( t : TYPE, ds : DSPEC ) -> () = {
+	( bt, t1, cv1, ds1 ) = check-decl-specifier-seq-opt ( t ) ;
+	ds2 = <dspec_join> ( ds, ds1 ) ;
+	( t2, ds3 ) = <dspec_complete> ( bt, t1, cv1, ds2 ) ;
+	t3 = <type_inject> ( t, t2 ) ;
+	r = <access_return> ;
+	f = <bool_true> ;
+	<declarator_start> ;
+	d = member-declarator ( ds3, t3, bt, r, f ) ;
+	{
+		semicolon ;
+		<access_free> ( r ) ;
+		<declarator_end> ( d ) ;
+	    ||
+		comma ;
+		<declarator_end> ( d ) ;
+		n = <bool_false> ;
+		<declarator_start> ;
+		member-declarator-list ( ds3, t3, bt, r, n ) ;
+		<access_free> ( r ) ;
+		semicolon ;
+	    ||
+		? = <is_function> ;
+		<access_free> ( r ) ;
+		<function_skip> ( d ) ;
+		<declarator_end> ( d ) ;
+		<rescan_token> ;
+	} ;
+    ||
+	( bt, t1, cv1, ds1 ) = check-decl-specifier-seq ( t ) ;
+	ds2 = <dspec_join> ( ds, ds1 ) ;
+	<declare_member_empty> ( ds2, t, bt, t1, cv1 ) ;
+	<access_check_class> ;
+	semicolon ;
+    ||
+	t1 = <type_none> ;
+	bt = <btype_none> ;
+	cv1 = <cv_none> ;
+	<declare_member_empty> ( ds, t, bt, t1, cv1 ) ;
+	semicolon ;
+    ||
+	template-member-decl ( t, ds ) ;
+    ||
+	<template_check> ( t, ds ) ;
+	using-declaration ;
+} ;
+
+
+/*
+    CONDITION DECLARATIONS
+
+    A condition can be a simple declaration.  These rules describes those
+    declarations which are allowed in this situation.
+*/
+
+<cond_start> : () -> () ;
+<cond_end> : () -> ( :EXP ) ;
+<cond_type> : ( :TYPE ) -> ( :TYPE ) ;
+
+condition-declarator : () -> ( d : DECL ) = {
+	( bt, t1, cv1 ) = check-type-specifier-seq ;
+	ds1 = <dspec_none> ;
+	( t2, ds ) = <dspec_complete> ( bt, t1, cv1, ds1 ) ;
+	<declarator_start> ;
+	( t3, id, c ) = declarator ( t2 ) ;
+	<initialiser_bad> ( c ) ;
+	t = <cond_type> ( t3 ) ;
+	d = <declare_id> ( ds, bt, t, id ) ;
+	<access_check_decl> ( d ) ;
+} ;
+
+condition-declaration : () -> ( e : EXP ) = {
+	? = <is_decl_statement> ;
+	<cond_start> ;
+	d = condition-declarator ; assign ; a = initialiser-expression ;
+	<access_check_decl> ( d ) ;
+	<initialise_id> ( d, a ) ;
+	<access_check_decl> ( d ) ;
+	<declarator_end> ( d ) ;
+	e = <cond_end> ;
+} ;
+
+
+/*
+    EXCEPTION DECLARATIONS
+
+    This rule describes the exception declarations.  Both declarators and
+    abstract declarators are allowed in these declarations, as with function
+    parameters.  Therefore the same rule is used.
+*/
+
+<declare_except> : ( :DSPEC, :TYPE, :IDENTIFIER, :COUNT ) -> ( :DECL ) ;
+<declare_none> : () -> ( :DECL ) ;
+
+exception-declaration : ( n1 : COUNT ) -> ( d : DECL ) = {
+	( bt, t1, cv1 ) = check-type-specifier-seq ;
+	ds1 = <dspec_none> ;
+	( t2, ds2 ) = <dspec_complete> ( bt, t1, cv1, ds1 ) ;
+	<declarator_start> ;
+	( t, id ) = parameter-declarator-opt ( t2 ) ;
+	n2 = <diff_type_defns> ( n1 ) ;
+	d = <declare_except> ( ds2, t, id, n2 ) ;
+    ||
+	ellipsis-aux ;
+	d = <declare_none> ;
+} ;
+
+
+/*
+    EXCEPTION SPECIFICATIONS
+
+    These rules describe the exception specifications.  These consist of
+    'throw' followed by a bracketed list of type identifiers.
+*/
+
+<exception_check> : ( :TYPE, :COUNT ) -> ( :TYPE ) ;
+<list_type_null> : () -> ( :LIST-TYPE ) ;
+<list_type_cons> : ( :TYPE, :LIST-TYPE ) -> ( :LIST-TYPE ) ;
+<list_type_all> : () -> ( :LIST-TYPE ) ;
+<list_type_ellipsis> : () -> ( :LIST-TYPE ) ;
+
+type-id-list : () -> ( p : LIST-TYPE ) = {
+	( s, n ) = type-id ;
+	t = <exception_check> ( s, n ) ;
+	{
+		comma ; q = type-id-list ;
+	    ||	comma ; <error_comma> ; q = <list_type_null> ;
+	    ||	q = <list_type_null> ;
+	} ;
+	p = <list_type_cons> ( t, q ) ;
+} ;
+
+exception-specification-opt : () -> ( p : LIST-TYPE ) = {
+	throw ; open-round ;
+	{
+		p = type-id-list ;
+	    ||	ellipsis ; p = <list_type_ellipsis> ;
+	    ||	p = <list_type_null> ;
+	} ;
+	close-round ;
+    ||
+	p = <list_type_all> ;
+} ;
+
+
+/*
+    TEMPLATE DECLARATIONS
+
+    These rules describe the template declarations, including template
+    specialisations and explicit instantiations.  The rule template-
+    parameter-list is sufficiently awkward to require hand crafting via
+    the action template_params.
+*/
+
+<template_params> : ( :BOOL ) -> ( :TEMPLATE ) ;
+<template_type> : ( :TEMPLATE, :TYPE ) -> ( :TYPE ) ;
+<template_end> : ( :TEMPLATE ) -> () ;
+
+export-opt : () -> ( x : BOOL ) = {
+	export ; x = <bool_true> ;
+    ||	x = <bool_false> ;
+} ;
+
+template-declaration : ( t : TYPE, ds : DSPEC ) -> ( e : EXP ) = {
+	x = export-opt ;
+	template ; p = <template_params> ( x ) ;
+	t1 = <template_type> ( p, t ) ;
+	e = declaration ( t1, ds ) ;
+	<template_end> ( p ) ;
+	<rescan_token> ;
+} ;
+
+template-member-decl : ( t : TYPE, ds : DSPEC ) -> () = {
+	x = export-opt ;
+	template ; p = <template_params> ( x ) ;
+	t1 = <template_type> ( p, t ) ;
+	member-declaration ( t1, ds ) ;
+	<template_end> ( p ) ;
+	<rescan_token> ;
+} ;
+
+
+/*
+    TEMPLATE TYPE PARAMETERS
+
+    These rules describes the template type parameters.
+*/
+
+<template_param_type> : ( :IDENTIFIER ) -> ( :DECL ) ;
+<template_init_type> : ( :DECL, :TYPE ) -> () ;
+<template_param_name> : ( :TYPE, :IDENTIFIER, :DSPEC ) -> ( :DECL ) ;
+<template_init_name> : ( :DECL, :IDENTIFIER ) -> () ;
+
+template-param-name : () -> ( id : IDENTIFIER ) = {
+	tid = any-identifier ;
+	id = <namespace_simple> ( tid ) ;
+    ||
+	id = <id_anon> ;
+} ;
+
+template-type-param : () -> ( d : DECL ) = {
+	{
+		class ;
+	    ||	typename ;
+	} ;
+	id = template-param-name ;
+	d = <template_param_type> ( id ) ;
+	{
+		assign ;
+		<default_arg_begin> ;
+		t = token-type-id ;
+		<default_arg_end> ;
+		<type_check> ( t ) ;
+	    ||
+		t = <type_none> ;
+	} ;
+	<template_init_type> ( d, t ) ;
+    ||
+	template ;
+	e = <bool_false> ;
+	p = <template_params> ( e ) ;
+	t = <type_none> ;
+	ds = <dspec_none> ;
+	t1 = <template_type> ( p, t ) ;
+	class ; id = template-param-name ;
+	d = <template_param_name> ( t1, id, ds ) ;
+	{
+		assign ;
+		<default_arg_begin> ;
+		aid = any-qualified-id ;
+		tid = <namespace_simple> ( aid ) ;
+		<default_arg_end> ;
+	    ||
+		tid = <id_none> ;
+	} ;
+	<template_init_name> ( d, tid ) ;
+	<template_end> ( p ) ;
+	<rescan_token> ;
+    ##
+	<error_syntax> ;
+	d = <decl_none> ;
+} ;
+
+
+/*
+    TRANSLATION UNITS
+
+    This is the main entry point for the grammar.  A translation unit
+    consists of a (possibly empty) sequence of declarations, followed
+    by the end of the file.
+*/
+
+translation-unit : ( t : TYPE, ds : DSPEC ) -> () = {
+	declaration-seq-opt ( t, ds ) ; eof ;
+    ##
+	<error_fatal> ;
+} ;
+
+
+/*
+    CONDITIONAL COMPILATION CONSTANTS
+
+    This rule is the alternative entry point for the conditions following
+    #if and #elif preprocessing directives.  It consists of a constant
+    expression.  The end of line marker which follows this expression is
+    handled by the calling routine.
+*/
+
+hash-if-expression : () -> ( e : EXP ) = {
+	e = constant-expression ;
+    ##
+	<error_syntax> ;
+	e = <exp_none> ;
+} ;
+
+
+/*
+    CONSTANT MEMBER DESIGNATORS
+
+    These rules describe the constant member offsets.  The entry point
+    constant-offset is used for reading member token definitions.
+*/
+
+<offset_nspace> : ( :TYPE ) -> ( :NAMESPACE ) ;
+<offset_index> : ( :OFFSET, :TYPE, :EXP ) -> ( :OFFSET, :TYPE ) ;
+<offset_member> : ( :OFFSET, :TYPE, :IDENTIFIER, :NAMESPACE ) -> ( :OFFSET, :TYPE ) ;
+
+member-designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
+	ns = <offset_nspace> ( s ) ;
+	<rescan_token> ;
+	id = field-id-expression ( ns ) ;
+	( a, t ) = <offset_member> ( b, s, id, ns ) ;
+	<rescan_token> ;
+} ;
+
+designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
+	dot ; ( a, t ) = member-designator ( b, s ) ;
+    ||
+	open-square ; e = constant-expression ;
+	( a, t ) = <offset_index> ( b, s, e ) ;
+	close-square ;
+} ;
+
+designator-list : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
+	( a, t ) = designator ( b, s ) ;
+    ||
+	( c, u ) = designator-list ( b, s ) ;
+	( a, t ) = designator ( c, u ) ;
+} ;
+
+constant-offset : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
+	( c, u ) = member-designator ( b, s ) ;
+	{
+		a = c ;
+		t = u ;
+	    ||
+		( a, t ) = designator-list ( c, u ) ;
+	} ;
+    ##
+	<error_syntax> ;
+	a = b ;
+	t = s ;
+} ;
+
+
+/*
+    ENTRY POINTS
+
+    There are a large number of entry points for the grammar, the main
+    one being translation-unit, with others for expressions, types etc.
+*/
+
+%entry% translation-unit, expression-entry, function-definition-entry,
+	declaration-entry, id-entry, operator-id, type-id-entry,
+	token-type-id, member-type-id, parameter-entry, statement-entry,
+	initialiser-entry, hash-if-expression, template-type-param,
+	constant-offset ;

@@ -1,0 +1,336 @@
+%prefixes%
+
+terminal = lex_ ;
+
+
+%maps%
+
+
+/*
+    ENTRY POINT
+
+    The main entry point for the grammar is given by specification.
+*/
+
+specification -> read_spec ;
+
+
+/*
+    TYPE MAPPINGS
+
+    These mappings give the correspondences between syntax types and
+    C types.
+*/
+
+NAME -> string ;
+NUMBER -> unsigned ;
+CONS -> CONSTRUCT ;
+LINK -> LINKAGE ;
+PARAM -> PARAMETER ;
+SORT -> SORT ;
+SPEC -> SPECIFICATION ;
+CONS-LIST -> SID_CONS_LIST ;
+LINK-LIST -> SID_LINK_LIST ;
+PARAM-LIST -> SID_PARAM_LIST ;
+
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "tdf.h"
+#include "cmd_ops.h"
+#include "cons_ops.h"
+#include "info_ops.h"
+#include "link_ops.h"
+#include "par_ops.h"
+#include "sort_ops.h"
+#include "spec_ops.h"
+#include "error.h"
+#include "input.h"
+#include "lex.h"
+#include "syntax.h"
+#include "xalloc.h"
+
+
+/*
+    LOCAL TYPE ALIASES
+
+    These definitions give the aliases used for compound types within the
+    grammar.
+*/
+
+typedef LIST ( CONSTRUCT ) SID_CONS_LIST ;
+typedef LIST ( LINKAGE ) SID_LINK_LIST ;
+typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
+
+
+/*
+    COMPILATION MODE
+
+    We allow unreached code and switch off the variable analysis in the
+    automatically generated sections.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#pragma TenDRA variable analysis off
+#ifndef OLD_PRODUCER
+#pragma TenDRA unreachable code allow
+#endif
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+@};
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINAL
+
+    This action gives the terminal for identifiers.  The identifier text
+    is built up in token_buff by the lexical routines.
+*/
+
+name : () -> ( n : NAME ) = @{
+    @n = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    NUMBER TERMINAL
+
+    This action gives the terminal for numbers.  The number value is built
+    up in token_value by the lexical routines.
+*/
+
+number : () -> ( n : NUMBER ) = @{
+    @n = token_value ;
+@} ;
+
+
+%actions%
+
+
+/*
+    KEYWORD NAME
+
+    This action is used to map a keyword onto an identifier name.  At the
+    point at which it is called the keyword text is still in token_buff.
+*/
+
+<keyword_name> : () -> ( n : NAME ) = @{
+    @n = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    PARAMETER ACTIONS
+
+    These actions are used in the construction of parameters.
+*/
+
+<make_param> : ( n : NAME, s : SORT ) -> ( a : PARAM ) = @{
+    int intro = 0 ;
+    if ( ends_in ( @n, "_intro" ) ) intro = 1 ;
+    MAKE_par_basic ( @n, @s, 0, 0, intro, @a ) ;
+@} ;
+
+<null_param> : () -> ( p : PARAM-LIST ) = @{
+    @p = NULL_list ( PARAMETER ) ;
+@} ;
+
+<cons_param> : ( a : PARAM, q : PARAM-LIST ) -> ( p : PARAM-LIST ) = @{
+    CONS_par ( @a, @q, @p ) ;
+@} ;
+
+<set_break> : ( c : CONS, a : NUMBER ) -> () = @{
+    PARAMETER p = find_param ( @c, @a ) ;
+    if ( !IS_NULL_par ( p ) ) COPY_int ( par_brk ( p ), 1 ) ;
+@} ;
+
+<set_boundary> : ( c : CONS, a : NUMBER ) -> () = @{
+    PARAMETER p = find_param ( @c, @a ) ;
+    if ( !IS_NULL_par ( p ) ) COPY_int ( par_align ( p ), 1 ) ;
+@} ;
+
+
+/*
+    CONSTRUCT ACTIONS
+
+    These actions are used in the construction of constructs.
+*/
+
+<make_cons> : ( n : NAME, e : NUMBER, r : SORT, p : PARAM-LIST, s : SORT ) -> ( c : CONS ) = @{
+    if ( !EQ_sort ( @r, @s ) ) {
+	error ( ERROR_SERIOUS, "Wrong result sort for '%s'", @n ) ;
+    }
+    @c = make_construct ( @n, @e, @s, @p ) ;
+@} ;
+
+<null_cons> : () -> ( p : CONS-LIST ) = @{
+    @p = NULL_list ( CONSTRUCT ) ;
+@} ;
+
+<cons_cons> : ( c : CONS, q : CONS-LIST ) -> ( p : CONS-LIST ) = @{
+    CONS_cons ( @c, @q, @p ) ;
+@} ;
+
+
+/*
+    SORT ACTIONS
+
+    These actions are used in the construction of sorts.
+*/
+
+<find_new_sort> : ( n : NAME ) -> ( s : SORT ) = @{
+    @s = find_sort ( @n, 1 ) ;
+@} ;
+
+<find_old_sort> : ( n : NAME ) -> ( s : SORT ) = @{
+    @s = find_sort ( @n, 0 ) ;
+@} ;
+
+<make_sort> : ( s : SORT, b : NUMBER, e : NUMBER, p : CONS-LIST ) -> () = @{
+    basic_sort ( @s, @b, @e, @p ) ;
+@} ;
+
+<make_clist> : ( s : SORT ) -> () = @{
+    compound_sort ( @s, "_list", info_clist_tag, '*' ) ;
+@} ;
+
+<make_slist> : ( s : SORT ) -> () = @{
+    compound_sort ( @s, "_list", info_slist_tag, '%' ) ;
+@} ;
+
+<make_option> : ( s : SORT ) -> () = @{
+    compound_sort ( @s, "_option", info_option_tag, '?' ) ;
+@} ;
+
+<set_edge> : ( s : SORT, c : NAME ) -> () = @{
+    set_special ( @s, @c, KIND_edge ) ;
+    COPY_int ( sort_edge ( @s ), 1 ) ;
+@} ;
+
+
+/*
+    LINKAGE ACTIONS
+
+    These actions are used in the construction of linkage items.
+*/
+
+<make_edge_link> : ( s : SORT, n : NAME ) -> ( a : LINK ) = @{
+    MAKE_link_basic ( @n, @s, @a ) ;
+    COPY_string ( sort_link ( @s ), @n ) ;
+@} ;
+
+<make_unit_link> : ( s : SORT, n : NAME ) -> ( a : LINK ) = @{
+    MAKE_link_basic ( @n, @s, @a ) ;
+    COPY_string ( sort_unit ( @s ), @n ) ;
+@} ;
+
+<null_link> : () -> ( p : LINK-LIST ) = @{
+    @p = NULL_list ( LINKAGE ) ;
+@} ;
+
+<cons_link> : ( a : LINK, q : LINK-LIST ) -> ( p : LINK-LIST ) = @{
+    CONS_link ( @a, @q, @p ) ;
+@} ;
+
+
+/*
+    SPECIFICATION ACTIONS
+
+    This action is used to define the overall TDF specification.
+*/
+
+<make_spec> : ( v1 : NUMBER, v2 : NUMBER, p1 : LINK-LIST, p2 : LINK-LIST ) -> ( spec : SPEC ) = @{
+    LIST ( SORT ) p = check_sorts () ;
+    LIST ( LINKAGE ) q = foreign_sorts () ;
+    MAKE_spec_basic ( @v1, @v2, p, @p1, @p2, q, @spec ) ;
+@} ;
+
+<null_spec> : () -> ( spec : SPEC ) = @{
+    @spec = NULL_spec ;
+@} ;
+
+
+/*
+    SYNTAX ERROR ACTION
+
+    This action is used to signal a syntax error.
+*/
+
+<syntax_error> : () -> () = @{
+    error ( ERROR_SERIOUS, "Syntax error" ) ;
+@} ;
+
+
+%trailer% @{
+@}, @{
+#endif
+@} ;

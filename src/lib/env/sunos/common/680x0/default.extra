@@ -1,0 +1,6 @@
++MACHINE		"sunos-*-680x0"
++AS			"/usr/local/bin/gas -mc68020"
++LD			"/bin/ld -dc -dp -X -L/usr/lib/f68881"
++CRT0			"/usr/lib/crt0.o"
++CRT1			"/usr/lib/Fcrt1.o"
++LINK_ENTRY		"-e start"

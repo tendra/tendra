@@ -1,0 +1,107 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH calculus 1
+.SH NAME
+calculus \- algebraic type system tool
+.SH SYNOPSIS
+\fBcalculus\fR [ \fIoptions\fR ] \fIinput-file\fR ... [ \fIoutput\fR ]
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+\fBcalculus\fR translates a specification of an algebraic type system,
+\fIinput-file\fR, into code representing that system.  This takes the
+form of a number of files which are generated in the output directory,
+\fIoutput\fR.  If no output directory is specified then the current
+working directory is used.
+.PP
+Input files and command-line options may be given in any order.  Options
+always relate to the input files immediately following.
+.PP
+By default, C code implementing the type system is generated, however
+this may be changed by means of command-line options.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIname\fR
+Specifies that the algebra named \fIname\fR should be used by the
+output routines.  Unless otherwise specified the last algebra input is
+used for output.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fIfile\fR
+Specifies a file containing a list of extra types to \fBcalculus\fR.
+These are used, for example, to generate extra disk reading and writing
+routines in conjunction with the \fB-d\fR option.
+.\" ----------------------------------------------------------------------
+.IP \fB-T\fIfile\fR
+Specifies a template file which is used to generate an output file
+\fIoutput\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-a\fR
+Causes \fBcalculus\fR to generate extra statements in its C code which
+includes assertions about null pointers etc. and other code to help
+in writing programs using the tool.
+.\" ----------------------------------------------------------------------
+.IP \fB-d\fR
+Causes \fBcalculus\fR to generate disk reading and writing routines
+designed to add persistence to the generated type system.
+.\" ----------------------------------------------------------------------
+.IP \fB-i\fR
+Indicates to \fBcalculus\fR that \fIinput\fR is a simple input file.
+.\" ----------------------------------------------------------------------
+.IP \fB-o\fR
+Causes \fBcalculus\fR to output a pretty-print of the input algebra
+into \fIoutput\fR, which in this instance in an output file.  If no
+output file is given then the standard output is used.
+.\" ----------------------------------------------------------------------
+.IP \fB-p\fR
+Causes \fBcalculus\fR to generate printing routines designed for use
+in the debugging of programs written using the type system.
+.\" ----------------------------------------------------------------------
+.IP \fB-r\fR
+Indicates to \fBcalculus\fR that \fIinput\fR is the output of a
+previous \fB-w\fR option.
+.\" ----------------------------------------------------------------------
+.IP \fB-t\fR
+Causes \fBcalculus\fR to generate \fI#pragma token\fR commands describing
+the type system.  These are designed so that \fItcc\fR(1) can apply
+extremely rigorous type checking to programs written using the type
+system.
+.\" ----------------------------------------------------------------------
+.IP \fB-v\fR
+Causes \fBcalculus\fR print its version number.
+.\" ----------------------------------------------------------------------
+.IP \fB-w\fR
+Causes \fBcalculus\fR to output a dump of the input algebra into
+\fIoutput\fR, which in this instance is an output file.
+.\" ----------------------------------------------------------------------
+.IP \fB-x\fR
+Causes \fBcalculus\fR to suppress the vector and vector pointer constructs
+in its output.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1).
+.\" ----------------------------------------------------------------------

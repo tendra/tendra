@@ -1,0 +1,4 @@
+/* tcc environment for motif private headers */
+
++FLAG		"-D__MOTIF_P_HEADERS"
+<INFO		"Motif@Private@Headers"

@@ -1,0 +1,9 @@
+/* TCC ENVIRONMENT : PROFILING FOR Solaris I386 */
+
+/*	Not supported at present	*/
+
+/*	+CRT0		"-LIBDIR-/sys/mcrt1.o -LIBDIR-/sys/crti.o"	*/
+/*	+CRTN		"-LIBDIR-/sys/crtn.o"	*/
+/*	<SYS_LINK	"-Y P,/usr/ccs/lib/libp:/usr/lib/libp:/usr/ccs/lib:/usr/lib -Qy"	*/
+/*	+FLAG_TRANS	"-P"	*/
+/*	+LINE_START	"#pragma@preserve@*"	*/

@@ -1,0 +1,5 @@
+/* tcc environment implementing keep list for except_toks.j */
++FLAG		"-Yposix"
++FLAG_TLD	"-H token"
++FLAG_TLD	"-k token ~Set_signal_handler"
++FLAG_TLD	"-k token ~Sync_handler"

@@ -1,0 +1,63 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+#
+# This specification represents the POSIX standard (1003.1).
+#
+
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
+
++IMPLEMENT "ansi", "dummy/sys.h" ;
++IMPLEMENT "posix", "assert.h" ;
++IMPLEMENT "posix", "ctype.h" ;
++IMPLEMENT "posix", "dirent.h" ;
++IMPLEMENT "posix", "errno.h" ;
++IMPLEMENT "posix", "fcntl.h" ;
++IMPLEMENT "posix", "float.h" ;
++IMPLEMENT "posix", "grp.h" ;
++IMPLEMENT "posix", "limits.h" ;
++IMPLEMENT "posix", "locale.h" ;
++IMPLEMENT "posix", "math.h" ;
++IMPLEMENT "posix", "pwd.h" ;
++IMPLEMENT "posix", "setjmp.h" ;
++IMPLEMENT "posix", "signal.h" ;
++IMPLEMENT "posix", "stdarg.h" ;
++IMPLEMENT "posix", "stddef.h" ;
++IMPLEMENT "posix", "stdio.h" ;
++IMPLEMENT "posix", "stdlib.h" ;
++IMPLEMENT "posix", "string.h" ;
++IMPLEMENT "posix", "sys/stat.h" ;
++IMPLEMENT "posix", "sys/times.h" ;
++IMPLEMENT "posix", "sys/types.h" ;
++IMPLEMENT "posix", "sys/utsname.h" ;
++IMPLEMENT "posix", "sys/wait.h" ;
++IMPLEMENT "posix", "termios.h" ;
++IMPLEMENT "posix", "time.h" ;
++IMPLEMENT "posix", "unistd.h" ;
++IMPLEMENT "posix", "utime.h" ;

@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : PROFILING FOR HPPA */
+
++LD			"/bin/ld"
++CRT0			"/lib/mcrt0.o"
+<SYS_LINK		"-L /lib/libp"
++FLAG_TRANS		"-P"
++LINE_START		"#pragma@preserve@*"

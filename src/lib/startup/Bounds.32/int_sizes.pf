@@ -1,0 +1,11 @@
+#ifndef __STARTUP_INTSIZES_INCLUDED
+#define __STARTUP_INTSIZES_INCLUDED
+
+#define int_max		2147483647
+#define uint_max	4294967295
+#define lint_max	2147483647
+#define llint_max       2147483647
+
+#define __ushort_to_int
+
+#endif

@@ -1,0 +1,69 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+SRC=${BASE}/src/tools/pl
+SPEC=${BASE}/src/lib/tdf/def_4_0.db
+
+make_mf\
+    +A BASE=${BASE}\
+    +A SRC=${SRC}\
+    +A SRC2=${SRC}/templ\
+    +A SPEC=${SPEC}\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../pl\
+    -Yansi -Xs\
+    -I ${SRC}\
+    ${SRC}/*.c\
+    | sed -e '/^ \${SRC2}/d' > Makefile
+
+cat >> Makefile << EOF
+
+MAKE_TDF=make_tdf
+SID=sid
+SIDOPTS=-l ossg-c -s no-lines
+SORT=sort
+
+SID_OUT=\${SRC}/syntax.c \${SRC}/syntax.h
+
+GEN_FILES=\${SRC}/consfile.c \${SRC}/consfile.h \${SRC}/decodings.c\\
+ \${SRC}/decodings.h \${SRC}/encodings.h \${SRC}/enc_nos.h \${SRC}/fnsfile.c
+
+auto : \${SID_OUT} \${GEN_FILES}
+
+\${SRC}/syntax.c : \${SRC}/syntax.sid \${SRC}/syntax.act
+	@\${REMOVE} \${SID_OUT}
+	\${SID} \${SIDOPTS} \${SRC}/syntax.sid \${SRC}/syntax.act \${SID_OUT}
+
+\${SRC}/consfile.c : \${SRC2}/consfile.c \${SPEC}
+	@\${REMOVE} \${SRC}/consfile.c
+	\${MAKE_TDF} \${SPEC} \${SRC2}/consfile.c | \${SORT} > \${SRC}/consfile.c
+
+\${SRC}/consfile.h : \${SRC2}/consfile.h \${SPEC}
+	@\${REMOVE} \${SRC}/consfile.h
+	\${MAKE_TDF} \${SPEC} \${SRC2}/consfile.h \${SRC}/consfile.h
+
+\${SRC}/decodings.c : \${SRC2}/decodings.c \${SPEC}
+	@\${REMOVE} \${SRC}/decodings.c
+	\${MAKE_TDF} \${SPEC} \${SRC2}/decodings.c \${SRC}/decodings.c
+
+\${SRC}/decodings.h : \${SRC2}/decodings.h \${SPEC}
+	@\${REMOVE} \${SRC}/decodings.h
+	\${MAKE_TDF} \${SPEC} \${SRC2}/decodings.h \${SRC}/decodings.h
+
+\${SRC}/encodings.h : \${SRC2}/encodings.h \${SPEC}
+	@\${REMOVE} \${SRC}/encodings.h
+	\${MAKE_TDF} \${SPEC} \${SRC2}/encodings.h \${SRC}/encodings.h
+
+\${SRC}/enc_nos.h : \${SRC2}/enc_nos.h \${SPEC}
+	@\${REMOVE} \${SRC}/enc_nos.h
+	\${MAKE_TDF} \${SPEC} \${SRC2}/enc_nos.h \${SRC}/enc_nos.h
+
+\${SRC}/fnsfile.c : \${SRC2}/fnsfile.c \${SPEC}
+	@\${REMOVE} \${SRC}/fnsfile.c
+	\${MAKE_TDF} \${SPEC} \${SRC2}/fnsfile.c \${SRC}/fnsfile.c
+
+auto_clobber :
+	\${REMOVE} \${SID_OUT}
+	\${REMOVE} \${GEN_FILES}
+EOF

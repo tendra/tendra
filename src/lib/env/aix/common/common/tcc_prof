@@ -1,0 +1,6 @@
+/* TCC ENVIRONMENT : PROFILING FOR IBM POWER */
+
+<SYS_LINK	"-L/lib/profiled -L/usr/lib/profiled"
++FLAG_TRANS	"-P"
++CRT0		"/lib/mcrt0.o"
++LINE_START	"#pragma@preserve@*"

@@ -1,0 +1,307 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH sid 1
+.SH NAME
+sid \- Syntax Improving Device; parser generator.
+.SH SYNTAX
+.LP
+.B sid
+[\fIoption\fR]... \fIfile\fR...
+.SH DESCRIPTION
+.LP
+The
+.B sid
+command is used to turn descriptions of a language into a program for
+recognising that language.  This manual page details the command line
+syntax; for more information, consult the
+.B sid
+user documentation.  The number of files specified on the command line
+varies depending upon the output language.  The description of the
+\fB\-\-language\fR option specifies the number of files for each language.
+.SH SWITCHES
+.LP
+The new version of
+.B sid
+accepts both short form and long form command line switches.
+.LP
+Short form switches are single characters, and begin with a \&'-' or \&'+'
+character.  They can be concatentated into a single command line word, e.g.:
+.IP
+\fB\-vdl\fR \fIdump-file\fR \fIlanguage-name\fR
+.LP
+which contains three different switches (\fB\-v\fR, which takes no
+arguments; \fB\-d\fR, which takes one argument: \fIdump-file\fR; and
+\fB\-l\fR, which takes one argument: \fIlanguage-name\fR).
+.LP
+Long form switches are strings, and begin with \&'--' or \&'++'.  With long
+form switches, only the shortest unique prefix need be entered.  The long
+form of the above example would be:
+.IP
+\fB\-\-version\fR \fB\-\-dump\-file\fR \fIdump-file\fR
+\fB\-\-language\fR \fIlanguage\-name\fR
+.LP
+In most cases the arguments to the switch should follow the switch as a
+separate word.  In the case of short form switches, the arguments to the
+short form switches in a single word should follow the word in the order of
+the switches (as in the first example).  For some options, the argument may
+be part of the same word as the switch (such options are shown without a
+space between the switch and the argument in the switch summaries below).
+In the case of short form switches, such a switch would terminate any
+concatentation of switches (either a character would follow it, which would
+be treated as its argument, or it would be the end of the word, and its
+argument would follow as normal).
+.LP
+For binary switches, the \&'-' or \&'--' switch prefixes set (enable) the
+switch, and the \&'+' or \&'++' switch prefixes reset (disable) the switch.
+This is probably back to front, but is in keeping with other programs. The
+switches \&'--' or \&'++' by themselves terminate option parsing.
+.SH ERROR FILE SYNTAX
+.LP
+It is possible to change the error messages that
+.B sid
+uses.  In order to do this, make the environment variable
+\fISID_ERROR_FILE\fR contain the name of a file with the new error messages
+in.
+.LP
+The error file consists of zero or more sections.  Each section begins
+with a section marker (one of \fB%prefix%\fR, \fB%errors%\fR or
+\fB%strings%\fR).  The prefix section takes a single string (this is to
+be the prefix for all error messages).  The other sections take zero or
+more pairs of names and strings.  A name is a sequence of characters
+surrounded by single quotes.  A string is a sequence of characters
+surrounded by double quotes.  In the case of the prefix and error
+sections, the strings may contain variables of the form \fB${\fIvariable
+name\fB}\fR.  These variables will be replaced by suitable information
+when the error occurs.  The backslash character can be used to escape
+characters.  The following C style escape sequences are recognized:
+\&'\fB\\n\fR', \&'\fB\\r\fR', \&'\fB\\t\fR', \&'\fB\\0\fR'.  Also, the
+sequence \&'\fB\\x\fINN\fR' represents the character with code \fINN\fR
+in hex.  The hash character acts as a comment to end of line character.
+.LP
+The \fB\-\-show\-errors\fR option may be used to get a copy of the current
+error messages.
+.SH OPTIONS
+.LP
+.B sid
+accepts the following command line options:
+.LP
+\fB\-\-dump\-file\fR \fIFILE\fR
+.br
+\fB\-d\fR \fIFILE\fR
+.IP
+This option causes intermediate dumps of the grammar to be
+written to the file \fIFILE\fR.
+.LP
+\fB\-\-factor\-limit\fR \fILIMIT\fR
+.br
+\fB\-f\fR \fILIMIT\fR
+.IP
+This option limits the number of rules that can be created during the
+factorisation process.  It is probably best not to change this.
+.LP
+\fB\-\-help\fR
+.br
+\fB\-?\fR
+.IP
+Write an option summary to the standard error.
+.LP
+\fB\-\-inline\fR \fIINLINES\fR
+.br
+\fB\-i\fR \fIINLINES\fR
+.IP
+This option controls what inlining will be done in the output parser.
+The inlines argument should be a comma seperated list of the following
+words:
+.RS 1i
+.IP SINGLES
+This causes single alternative rules to be inlined.  This inlining is no
+longer performed as a modification to the grammar (it was in version 1.0).
+.IP BASICS
+This causes rules that contain only basics (and no exception handlers or
+empty alternatives) to be inlined.  The restriction on exception
+handlers and empty alternatives is rather arbitrary, and may be changed
+later.
+.IP TAIL
+This causes tail recursive calls to be inlined.  Without this, tail
+recursion elimination will not be performed.
+.IP OTHER
+This causes other calls to be inlined wherever possible.  Unless the
+"MULTI" inlining is also specified, this will be done only for
+productions that are called once.
+.IP MULTI
+This causes calls to be inlined, even if the rule being called is called
+more than once.  Turning this inlining on implies "OTHER".  Similarly
+turning off "OTHER" inlining will turn off "MULTI" inlining.  For
+grammars of any size, this is probably best avoided; if used the
+generated parser may be huge (e.g. a C grammar has produced a file that
+was several hundred MB in size).
+.IP ALL
+.br
+This turns on all inlining.
+.RE
+.IP
+In addition, prefixing a word with "NO" turns off that inlining
+phase.  The words may be given in any case.  They are evaluated in
+the order given, so:
+.RS
+.IP
+\-inline noall,singles
+.RE
+.IP
+would turn on single alternative rule inlining only, whilst:
+.RS
+.IP
+\-inline singles,noall
+.RE
+.IP
+would turn off all inlining.  The default is as if SID were invoked
+with the option:
+.RS
+.IP
+\-inline noall,basics,tail
+.RE
+.LP
+\fB\-\-language\fR \fILANGUAGE\fR
+.br
+\fB\-l\fR \fILANGUAGE\fR
+.IP
+This option specifies the output language.  Currently this should be
+either "ansi\-c", "pre\-ansi\-c", "ossg\-c", or "test".  The default is
+"ansi\-c".
+.IP
+The "ansi\-c" and "pre\-ansi\-c" languages are basically the same.  The
+only difference is that "ansi\-c" initially uses function prototypes,
+and "pre\-ansi\-c" doesn't.  The "ossg\-c" language uses macros to
+declare and define functions which may be defined to give either
+prototypes or non-prototypes.  Each language takes two input files, a
+grammar file and an actions file, and produces two output files, a C
+source file containing the generated parser and a C header file containing
+the external declarations for the parser.  The C language specific options
+are:
+.RS
+prototypes
+proto
+ossg\-prototypes
+ossg\-proto
+no\-prototypes
+no\-proto
+.RS
+These enable or disable the use of function prototypes or the OSSG
+prototype macros.
+.RE
+split
+split=\fINUMBER\fR
+no\-split
+.RS
+These enable or disable the output file split option.  The generated
+files can be very large even without inlining.  This option splits the
+main output file into a number of components containing about \fINUMBER\fR
+lines each (the default being 50000).  These components are distinguished
+by successively substituting 1, 2, 3, ... for the character '@' in the
+output file name.
+.RE
+numeric\-ids
+numeric
+no\-numeric\-ids
+no\-numeric
+.RS
+These enable or disable the use of numeric identifiers.  Numeric
+identifiers replace the identifier name with a number, which is mainly
+of use in stopping identifier names getting too long.  The disadvantage
+is that the code becomes less readable, and more difficult to debug.
+Numeric identifiers are not used by default and are never used for
+terminal numbers.
+.RE
+casts
+cast
+no\-casts
+no\-cast
+.RS
+These enable or disable casting of action and assignment operator
+immutable parameters.  If enabled, a parameter is cast to its own type
+when it is substituted into the action.  This will cause some compilers
+to complain about attempts to modify the parameter (which can help pick
+out attempts at mutating parameters that should not be mutated).  The
+disadvantage is that not all compilers will reject attempts at mutation,
+and that ANSI doesn't allow casting to structure and union types, which
+means that some code may be illegal.  Parameter casting is disabled by
+default.
+.RE
+unreachable\-macros
+unreachable\-macro
+unreachable\-comments
+unreachable\-comment
+.RS
+These choose whether unreachable code is marked by a macro or a comment.
+The default is to mark unreachable code with a comment "/*UNREACHED*/",
+however a macro "UNREACHED;" may be used instead, if desired.
+.RE
+lines
+line
+no\-lines
+no\-line
+.RS
+These determine whether "#line" directives should be output to relate the
+output file to the actions file.  These are generated by default.
+.RE
+.RE
+.IP
+The "test" language only takes one input file, and produces no
+output file.  It may be used to check that a grammar is valid.  In
+conjunction with the dump file, it may be used to check the
+transformations that would be applied to the grammar.  There are no
+language specific options for the "test" language.
+.LP
+\fB\-\-show\-errors\fR
+.br
+\fB\-e\fR
+.IP
+Write the current error message list to the standard output.
+.LP
+\fB\-\-switch\fR \fIOPTION\fR
+.br
+\fB\-s\fR \fIOPTION\fR
+.IP
+Pass through \fIOPTION\fR as a language specific option.
+.LP
+\fB\-\-tab\-width\fR \fINUMBER\fR
+.br
+\fB\-t\fR \fINUMBER\fR
+.IP
+This option specifies the number of spaces that a tab occupies.  It
+defaults to 8.  It is only used when indenting output.
+.LP
+\fB\-\-version\fR
+.br
+\fB\-v\fR
+.IP
+This option causes the version number and supported languages to be
+written to the standard error stream.
+.SH SEE ALSO
+.LP
+SID users' guide.

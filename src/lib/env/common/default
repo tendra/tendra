@@ -1,0 +1,48 @@
+/* default environment for -MACH- */
+
++TDFC			"-BINDIR-/tdfc2"
++TDFCPP			"-BINDIR-/tdfc2 -E"
++SPEC_LINK		"-BINDIR-/tdfc2 -S"
++TCPPLUS		"-BINDIR-/tcpplus"
++TCPPLUSPP		"-BINDIR-/tcpplus -E"
++CPP_SPEC_LINK		"-BINDIR-/tcpplus -S"
++TLD			"-BINDIR-/tld"
++TRANS			"-BINDIR-/trans"
++DISP			"-BINDIR-/disp"
++PL_TDF			"-BINDIR-/pl"
++TNC			"-BINDIR-/tnc"
+
++DUMP_ANAL		"-BINDIR-/dump_lint"
++DUMP_LINK		"-BINDIR-/dump_linker"
+
++AS			"/bin/as"
++AS1			"/bin/as"
++LD			"/bin/ld"
++DYN_LINK		"-LIBDIR-/sys/dyninit"
++CC			"/bin/cc"
+
++INCL			"-Nansi:-INCLDIR-/ansi.api"
++STARTUP_DIR		"-I-STARTUPDIR-/Bounds.ansi -I-STARTUPDIR-/Modes"
++STARTUP		"-f-STARTUPDIR-/Modes/Xc"
++STARTUP_CPP_DIR	"-I-STARTUPDIR-/Bounds.ansi -I-STARTUPDIR-/Modes.cpp"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xc"
++PORTABILITY		"-STARTUPDIR-/Bounds.ansi/default.pf"
++LINK			"-L-LIBDIR-"
++LIB			"-lansi"
+
++CRT0			"/lib/crt0.o"
++CRT1			""
++CRTN			""
++SYS_LIB		""
++SYS_LIBC		"-lc"
++LINK_ENTRY		""
+
++API_NAME		"-Aansi"
++API			"-R-INCLDIR-/ansi.d"
++ENVDIR			"-ENVDIR-"
++INFO			"ANSI@(X3.159)"
++TEMP			"-TMPDIR-"
++VERSION		""
+
+/* Extra information */
+

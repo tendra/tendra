@@ -1,0 +1,397 @@
+%prefixes%
+
+terminal = lex_ ;
+
+
+%maps%
+
+
+/*
+    ENTRY POINT
+
+    The main entry point for the grammar is given by unit.
+*/
+
+unit -> read_lex ;
+
+
+/*
+    TYPE MAPPINGS
+
+    These mappings give the correspondences between syntax types and
+    C types.
+*/
+
+BOOL -> int ;
+CHARACTERS -> SID_CHARS ;
+IDENTIFIER -> SID_STRING ;
+STRING -> SID_STRING ;
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "char.h"
+#include "error.h"
+#include "lex.h"
+#include "syntax.h"
+#include "xalloc.h"
+
+
+/*
+    PARSER TYPES
+
+    These types give the implementation of the types used in the syntax.
+*/
+
+typedef letter *SID_CHARS ;
+typedef char *SID_STRING ;
+
+
+/*
+    SID IDENTIFIER PREFIX
+
+    This string is added to the start of each sid identifier.
+*/
+
+char *sid_prefix = "lex_" ;
+
+
+/*
+    CURRENT CONDITIONAL
+
+    This variable is used to record the current conditional.
+*/
+
+static char *crt_cond = NULL ;
+
+
+/*
+    COMPILATION MODE
+
+    We allow unreached code in the automatically generated sections.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#ifndef OLD_PRODUCER
+#pragma TenDRA unreachable code allow
+#endif
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+extern char *sid_prefix ;
+
+@};
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINAL
+
+    This action gives the terminal for identifiers.  The identifier text
+    is built up in token_buff by the lexical routines.
+*/
+
+identifier : () -> ( i : IDENTIFIER ) = @{
+    @i = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    SID IDENTIFIER TERMINAL
+
+    This action gives the terminal for sid-style identifiers.  The
+    identifier text is built up in token_buff by the lexical routines.
+*/
+
+sid-identifier : () -> ( i : IDENTIFIER ) = @{
+    int n ;
+    char *s ;
+    char buff [1000] ;
+    strcpy_v ( buff, sid_prefix ) ;
+    n = ( int ) strlen ( buff ) ;
+    for ( s = token_buff ; *s ; s++ ) {
+	if ( *s == '-' ) {
+	    buff [ n++ ] = '_' ;
+	    buff [ n++ ] = 'H' ;
+	} else if ( *s == '_' ) {
+	    buff [ n++ ] = '_' ;
+	    buff [ n++ ] = '_' ;
+	} else {
+	    buff [ n++ ] = *s ;
+	}
+	if ( n >= 900 ) {
+	    error ( ERROR_SERIOUS, "Identifier too long" ) ;
+	    break ;
+	}
+    }
+    buff [n] = 0 ;
+    @i = xstrcpy ( buff ) ;
+@} ;
+
+
+/*
+    STRING TERMINAL
+
+    This action gives the terminal for strings.  The string text is built
+    up in token_buff by the lexical routines.
+*/
+
+string : () -> ( s : STRING ) = @{
+    @s = xstrcpy ( token_buff ) ;
+@} ;
+
+
+/*
+    SPECIAL STRING TERMINALS
+
+    These actions give a number of special strings.
+*/
+
+upper : () -> ( s : STRING ) =	@{ @s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ; @} ;
+lower : () -> ( s : STRING ) =	@{ @s = "abcdefghijklmnopqrstuvwxyz" ; @} ;
+digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
+
+
+%actions%
+
+
+/*
+    CONCATENATE TWO STRINGS
+
+    This action concatenates two strings.
+*/
+
+<string-concat> : ( a : STRING, b : STRING ) -> ( s : STRING ) = @{
+    @s = xstrcat ( @a, @b ) ;
+@} ;
+
+
+/*
+    CREATE A CHARACTER STRING
+
+    This action maps an input string into its internal representation
+    as an array of character codes.
+*/
+
+<make-chars> : ( s : STRING ) -> ( c : CHARACTERS ) = @{
+    @c = make_string ( @s ) ;
+@} ;
+
+
+/*
+    SET WHITE SPACE VARIABLE
+
+    This action sets the white space variable to the given array of
+    characters.  There is a check to make sure that it has not already
+    been set.
+*/
+
+<make-white> : ( s : CHARACTERS ) -> () = @{
+    if ( white_space ) {
+	error ( ERROR_SERIOUS, "White space group already defined" ) ;
+    }
+    white_space = @s ;
+@} ;
+
+
+/*
+    CREATE A CHARACTER GROUP
+
+    This action defines the character group i to be s.
+*/
+
+<make-group> : ( i : IDENTIFIER, s : CHARACTERS ) -> () = @{
+    make_group ( @i, @s ) ;
+@} ;
+
+
+/*
+    CREATE A PRE-PASS MAPPING
+
+    This action creates a pre-pass mapping from s to t.
+*/
+
+<make-trigraph> : ( s : CHARACTERS, t : STRING ) -> () = @{
+    char *data [3] ;
+    data [0] = @t ;
+    data [1] = NULL ;
+    data [2] = crt_cond ;
+    add_char ( pre_pass, @s, data ) ;
+@} ;
+
+
+/*
+    CREATE A MAIN-PASS MAPPING
+
+    This action creates a main-pass mapping from s to the lexical token i.
+*/
+
+<make-token> : ( s : CHARACTERS, i : IDENTIFIER, b : BOOL ) -> () = @{
+    char *data [3] ;
+    data [0] = @i ;
+    data [1] = ( @b ? "()" : NULL ) ;
+    data [2] = crt_cond ;
+    add_char ( main_pass, @s, data ) ;
+@} ;
+
+
+/*
+    CREATE A KEYWORD
+
+    This action creates a keyword called s.
+*/
+
+<make-keyword> : ( s : STRING, i : IDENTIFIER, b : BOOL ) -> () = @{
+    char *data [3] ;
+    data [0] = @i ;
+    data [1] = ( @b ? "()" : NULL ) ;
+    data [2] = crt_cond ;
+    add_keyword ( @s, data ) ;
+@} ;
+
+
+/*
+    ADD A CONDITION
+
+    This action adds i to the current condition.
+*/
+
+<add-condition> : ( i : IDENTIFIER ) -> () = @{
+    if ( crt_cond ) {
+	crt_cond = xstrcat ( crt_cond, xstrcat ( " && ", @i ) ) ;
+    } else {
+	crt_cond = @i ;
+    }
+@} ;
+
+
+/*
+    COMPLEMENT CONDITION
+
+    This action complements the current condition.
+*/
+
+<compl-condition> : () -> () = @{
+    if ( crt_cond ) {
+	if ( strchr ( crt_cond, '&' ) ) {
+	    crt_cond = xstrcat ( xstrcat ( "!( ", crt_cond ), " )" ) ;
+	} else {
+	    crt_cond = xstrcat ( "!", crt_cond ) ;
+	}
+    }
+@} ;
+
+
+/*
+    GET CONDITION
+
+    This action gets the current condition.
+*/
+
+<get-condition> : () -> ( i : IDENTIFIER ) = @{
+    @i = crt_cond ;
+@} ;
+
+
+/*
+    SET CONDITION
+
+    This action sets the current condition.
+*/
+
+<set-condition> : ( i : IDENTIFIER ) -> () = @{
+    crt_cond = @i ;
+@} ;
+
+
+/*
+    BOOLEANS
+
+    These actions give the booleans true and false.
+*/
+
+<true> : () -> ( b : BOOL ) =	@{ @b = 1 ; @} ;
+<false> : () -> ( b : BOOL ) =	@{ @b = 0 ; @} ;
+
+
+/*
+    SYNTAX ERROR
+
+    This action reports a syntax error.
+*/
+
+<syntax-error> : () -> () = @{
+    error ( ERROR_SERIOUS, "Syntax error" ) ;
+@} ;
+
+
+%trailer% @{
+@}, @{
+#endif
+@} ;

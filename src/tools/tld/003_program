@@ -1,0 +1,309 @@
+-*- indented-text -*-
+
+	  The TDF Linker - Program Documentation: Program Overview
+	  ========================================================
+
+			    Written:  April 1994
+			    ====================
+
+			  Last Modified: July 1995
+			  ========================
+
+			    Author: Steve Folkes
+			    ====================
+
+			     Issue Number: 4.0
+			     =================
+
+1. INTRODUCTION
+===============
+
+This document gives an overview of the linker source code.  The next
+section describes the directory structure.  The remaining sections describe
+how the various parts of the linker work.
+
+2. DIRECTORY STRUCTURE
+======================
+
+The sources to the new version of the TDF linker are spread over several
+directories.  These directories are described below:
+
+    .
+
+	The top level directory contains the "main.[ce]" files that contain
+	the top level function for the linker.
+
+    os-interface
+
+	This directory contains the low level interface to the operating
+	system and compiler.  All target dependent code should be in this
+	directory.  Much of this code is shared with SID, so not all of the
+	functions will be used.  Because this is intended to be shared code,
+	it is documented in the header files.
+
+    library
+
+	This directory contains some generic library routines.  It is
+	similar to the "os-interface" directory except that all code in this
+	directory should be target independent.  Much of this code is shared
+	with SID, so not all of the functions will be used.  Because this is
+	intended to be shared code, it is documented in the header files.
+
+    generated
+
+	This directory is where the automatically generated files are put.
+	Currently this is just the error messages.
+
+    tdf
+
+	This is where the majority of the files that do the actual work are.
+
+    frontends
+
+	This is where the files that implement the frontends to the linker
+	are stored.
+
+This document doesn't describe the behaviour of the content of the
+"os-interface" and "library" directories, as it is documented in the header
+files.  It also doesn't describe the behaviour of the content of the
+"generated" directory, as this is described (where necessary) in the files
+from which it is generated.
+
+3. HASH TABLES
+==============
+
+This section describes the four types of hash table that are used by the
+linker.  These data structures are fundamental to the linker, and most of
+the linker's behaviour involves adding things to the hash tables or writing
+out information stored in them.
+
+The four types of hash table are the unit set table, the shape table, the
+name table, and the mapping table.  Name tables only exist as part of
+entries in a shape table, and mapping tables only exist as part of entries
+in a unit set table.
+
+When linking, there is one unit set table and one shape table into which the
+information read from capsules is stored.  There is a second shape table
+into which the information from the library index is stored.
+
+When building libraries, one unit set table and one shape table are used for
+reading capsules in the same way as for linking, but one shape table is used
+for each library that is read (they are only used for checking the validity
+of the index, and are discarded immediately after the library has been
+read).
+
+For showing the library content, and extracting capsules from a library,
+only a single shape table is used to store the library index.
+
+3.1 THE UNIT SET TABLE
+----------------------
+
+The first hash table type is the unit set hash table, defined in
+"tdf/unit-table.[ch]".  Each entry in the table (defined in
+"tdf/unit-entry.[ch]") has the following information:
+
+    next
+
+	This is a pointer to the next entry in the hash table.
+
+    key
+
+	This is the unit set name.
+
+    order
+
+	This is the order number of the unit set.  When reading unit set
+	names from a capsule, each unit set must have a higher order number
+	than the preceding unit sets.
+
+    head
+    tail
+
+	These are the start and end pointers of the list of units in the
+	unit set that this entry represents.
+
+Each unit in the unit list contains the following information:
+
+    next
+
+	This is a pointer to the next unit in the list.
+
+    map_table
+
+	This is the unit mapping table.  It contains the unit scope
+	identifier limits (counts) and the unit scope to capsule scope
+	identifier mapping tables for each shape in the capsule that the
+	unit came from.
+
+    contents
+
+	This is the unit's TDF content.
+
+3.2 THE SHAPE TABLE
+-------------------
+
+The second main hash table type is the shape table defined in
+"shape-table.[ch]".  Each entry in the table (defined in "shape-entry.[ch]")
+has the following information:
+
+    next
+
+	This is a pointer to the next entry in the hash table.
+
+    key
+
+	This is the shape name.
+
+    names
+
+	This is a table that contains the external names for the shape.
+
+    id_count
+
+	This stores the next available capsule scope identifier for the
+	shape.
+
+    non_empty
+
+	This is set to true during the capsule output routines if the shape
+	is to be output (if it has either unit scope identifiers or capsule
+	scope identifiers).
+
+    num_lib_names
+
+	This is used to cache the number of identifiers of the shape that
+	are going to be written out to the library index.
+
+    head
+    tail
+
+	These store a list of name entries as they are added to the name
+	table "names".  As new names are added to the the name table, they
+	are also added to this list.  When trying to resolve undefined
+	external names, the names are removed from the front of this list,
+	and definitions are looked up in the libraries.  When all such lists
+	are empty, then all possible name resolution has been done.
+
+3.3 NAME TABLES
+---------------
+
+The third hash table type is the name table defined in "name-table.[ch]".
+Each entry in the table (defined in "name-entry.[ch]") has the following
+information:
+
+    next
+
+	This is a pointer to the next entry in the hash table.
+
+    key
+
+	This is the name's name.
+
+    type
+
+	This is the type of the name.  There are five types: "NT_INDIRECT",
+	"NT_INDIRECT_CYCLING", "NT_INDIRECT_DONE", "NT_DIRECT" and
+	"NT_PLACEHOLDER".  The first three types are all indirect names
+	(used by the renaming); the last type is also used by the renaming.
+	The direct name type is the real name type.
+
+	When renaming information is read, it is entered into each name
+	table of the appropriate shape.  Initially, a place holder name is
+	created for the new name, and an indirect name is created for the
+	old name.  The indirect name contains a pointer to the place holder
+	name (actually, this may also be an indirect name if it has also
+	been renamed).
+
+	Once all of the renamed names have been added to the table, the
+	renamings are checked for cycles, and the indirect entries are set
+	so that they all point to a place holder entry (so that it will not
+	be necessary to follow chains of indirect entries).  The other two
+	indirect types are used by this process.  After the process has
+	completed, all entries in the table will be of type
+	"NT_INDIRECT_DONE" or "NT_PLACEHOLDER".  At this stage, there will
+	be no direct entries.
+
+	Direct entries are added when capsules and libraries are read.
+	Place holder entries will automatically turn into direct entries
+	when a direct entry of the same name is added.  Attempts to add an
+	entry with the same name as an indirect entry will result in the
+	entry it points to being used instead.
+
+	The name table hides all of the renaming: the functions that get
+	entries from the name table follow indirect entries, and ignore
+	place holder entries; the iteration function only iterates across
+	direct entries.  In this way, nothing outside of the name table
+	structure needs to worry about renaming.
+
+    u.indirect
+
+	This contains a pointer to another entry that is to be used in place
+	of this entry.  It is only used if the entry is an indirect entry of
+	some form.
+
+    u.direct.id
+
+	This contains the capsule scope identifier that has been allocated
+	for this name.  It is only used if the entry is a direct entry (as
+	is the case for all other "u.direct.X" fields).
+
+    u.direct.use
+
+	This contains the name's usage information (as read from the linker
+	information unit).  In addition, an otherwise unused bit is used to
+	indicate that the name is hidden.
+
+    u.direct.definition
+
+	This contains a pointer to the capsule object that defined the name.
+	It is used for reporting the original definition for multiply
+	defined names.  It is also used to indicate that the name has a
+	definition (it is set to the nil pointer if the name has no
+	definition, or if the definition has been suppressed).  It is only
+	used for names not in a library index.
+
+    u.direct.lib_definition
+
+	This contains a pointer to the library capsule object that defined
+	the name.  It is only used for names in a library index, to indicate
+	which capsule should be loaded to define the name.  It is set to
+	the nil pointer if the name has no library definition, or if the
+	definition has been suppressed.
+
+    u.direct.list_next
+
+	This contains a pointer to the next name in the list of names of
+	this shape (the list that the "head" and "tail" fields in the shape
+	entry structure represent).
+
+3.4 MAPPING TABLES
+------------------
+
+The last hash table type is the mapping table defined in "map-table.[ch]".
+Each entry in the table (defined in "map-entry.[ch]") has the following
+information:
+
+    next
+
+	This is a pointer to the next entry in the hash table.
+
+    key
+
+	This is the shape name.
+
+    count
+
+	This contains the unit scope identifier limit for the shape in the
+	unit that contains the table that the entry is an entry in.
+
+    num_links
+
+	This contains the number of unit scope to capsule scope identifier
+	mappings for the shape in the unit that contains the table that the
+	entry is an entry in.
+
+    links
+
+	This contains the unit scope to capsule scope identifier mappings
+	for the shape in the unit that contains the table that the entry is
+	an entry in.

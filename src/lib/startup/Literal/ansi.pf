@@ -1,0 +1,61 @@
+/* ANSI INTEGER LITERAL RULES */
+
+#ifndef __STARTUP_INT_LIT_INCLUDED
+#define __STARTUP_INT_LIT_INCLUDED
+
+
+#include <int_sizes.pf>
+
+#pragma token PROC ( VARIETY ) VARIETY l_i # ~lit_int
+#pragma token PROC ( VARIETY ) VARIETY l_h # ~lit_hex
+#pragma token PROC ( VARIETY ) VARIETY l_u # ~lit_unsigned
+#pragma token PROC ( VARIETY ) VARIETY l_l # ~lit_long
+#pragma token PROC ( VARIETY ) VARIETY l_lu # ~lit_ulong
+#pragma token PROC ( VARIETY ) VARIETY l_ll # ~lit_longlong
+#pragma token PROC ( VARIETY ) VARIETY l_llu # ~lit_ulonglong
+
+#pragma TenDRA begin
+#pragma TenDRA no external declaration allow
+#pragma TenDRA longlong type allow
+#pragma integer literal decimal unsigned long long *:unsigned long long
+#pragma integer literal octal unsigned long long *:unsigned long long
+#pragma integer literal hexadecimal long long *:unsigned long long
+
+#pragma integer literal decimal long long llint_max:long long | **:l_ll
+#pragma integer literal octal long long llint_max:long long | **:l_ll
+#pragma integer literal hexadecimal long long llint_max:long long | **:l_ll
+#pragma TenDRA end
+#pragma TenDRA begin
+
+#pragma integer literal decimal unsigned long *:unsigned long
+#pragma integer literal octal unsigned long *:unsigned long
+#pragma integer literal hexadecimal unsigned long *:unsigned long
+
+#pragma integer literal decimal unsigned uint_max:unsigned int | **:l_u
+#pragma integer literal octal unsigned uint_max:unsigned int | **:l_u
+#pragma integer literal hexadecimal unsigned uint_max:unsigned int | **:l_u
+
+#pragma integer literal decimal long lint_max:long | **:l_l
+#pragma integer literal octal long lint_max:long | **:l_l
+#pragma integer literal hexadecimal long lint_max:long | **:l_l
+
+#pragma integer literal decimal int_max:int | **:l_i
+#pragma integer literal octal int_max:int | **:l_h
+#pragma integer literal hexadecimal int_max:int | **:l_h
+
+
+#pragma no_def l_i l_h l_u l_l l_lu l_ll l_llu
+#undef int_max
+#undef uint_max
+#undef lint_max
+#undef llint_max
+#undef l_i
+#undef l_u
+#undef l_h
+#undef l_l
+#undef l_lu
+#undef l_ll
+#undef l_llu
+
+
+#endif

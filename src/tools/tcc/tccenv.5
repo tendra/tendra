@@ -1,0 +1,256 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tccenv 5
+.SH NAME
+tccenv \- Environments for tcc
+.SH DESCRIPTION
+.IP
+.PP
+\fBTcc\fR environments are used to configure the behaviour of \fBtcc\fR(1),
+a special case of which is specifying the APIs used.  The standard
+environments supplied with the release are used to represent a number of
+commonly used APIs, implement certain \fItcc\fR(1) command-line options,
+and provide a means of implementing system-specific options.  User-defined
+environments can easily be written to correspond to a user-defined API, or
+to group together a number of \fBtcc\fR(1) command-line options into a
+single file.
+.\" ----------------------------------------------------------------------
+.PP
+An environment is just a file which is interpreted by \fBtcc\fR(1) when it
+is specified with the command-line option -Y\fBstring\fR, where
+\fBstring\fR is the name of the file.  Each environment file consists of
+lines of the form
+.IP
+*\fBIDENTIFIER\fR "\fBtext\fR"
+.PP
+where \fBIDENTIFIER\fR is one of the environmental identifiers, \fBtext\fR
+tells \fBtcc\fR(1) how to modify the value given by this identifier, and *
+stands for one of the environment prefixes + < and >.
+.\" ----------------------------------------------------------------------
+.SH USER-DEFINED ENVIRONMENTS
+.IP
+.PP
+The simplest example of a user-defined environment contains lines of the
+form
+.IP
++FLAG "\fBtext\fR"
+.PP
+which tells \fBtcc\fR(1) to interpret \fBtext\fR as if it were passed on
+the command-line.  So, for example, an environment consisting of the lines
+.PP
+.IP
+.TS
+l l.
++FLAG "-Yposix"
++FLAG "-Xs"
++FLAG "-I/home/user/include"
+.TE
+.PP
+will modify \fBtcc\fR(1) to use the POSIX 1003.1 API with strict checks,
+and add the directory /home/user/include to the search path for #included
+files.
+.PP
+.\" ----------------------------------------------------------------------
+By default, \fBtcc\fR(1) looks for environments in the current working
+directory and in the default environments directory.  In addition, if the
+system variable \fBTCCENV\fR is defined, this specifies a colon-separated
+list of directories along which \fBtcc\fR(1) searches for any environment
+which is not a full pathname.
+.\" ----------------------------------------------------------------------
+.SH FULL ENVIRONMENT LIST
+.IP
+.PP
+The majority of the standard environments can be divided into two classes:
+those which correspond to APIs and those which implement \fBtcc\fR(1)
+command-line options.  (In addition to these, a small number are used to
+enable extra tools and to specify minimum integer sizes.)
+.PP
+The API environments are subdivided into base APIs (such as ANSI, POSIX)
+and extension APIs (such as the X11 environments):
+.\" ----------------------------------------------------------------------
+.PP
+.IP
+.TS
+l l.
+\fBansi\fR	the ANSI X3.159 API (this is the default API environment)
+\fBiso\fR	the ISO/IEC 9899:1990 (Amendment 1:L1995 (E)) API
+\fBposix\fR	the POSIX (IEEE 1003.1:1988) API
+\fBposix1\fR	the POSIX.1 (ISO/IEC 9945-1:1990) API
+\fBposix2\fR	the POSIX.2 (ISO/IEC 9945-2:1993) API
+\fBxpg3\fR	the X/Open Portability Guide 3
+\fBxpg4\fR	the X/Open Portability Guide 4
+\fBunix95\fR	the X/Open Single UNIX Specification (Spec 1170)
+\fBsvid3\fR	the System V Interface Definition (3rd Edition)
+\fBaes\fR	the Application Environment Specification (Revision A) API
+
+\fBbsd_extn\fR	BSD-like extension for use with POSIX, etc.
+\fBx5_lib\fR	X11 (Release 5) X Library
+\fBx5_t\fR	X11 (Release 5) Intrinsics Toolkit
+\fBx5_mu\fR	X11 (Release 5) Miscellaneous Utilities
+\fBx5_aw\fR	X11 (Release 5) Athena Widgets
+\fBx5_mit\fR	X11 (Release 5) MIT Implementation
+\fBx5_proto\fR	X11 (Release 5) Protocol Extension
+\fBx5_ext\fR	X11 (Release 5) Extensions
+\fBmotif_1_1\fR	Motif (Release 1.1)
+\fBmotif_1_2\fR	Motif (Release 1.2)
+
+\fBsystem\fR	System headers as main API
+\fBsystem+\fR	System headers as last resort extension API
+\fBtdf_ext\fR	compilation using TDF Version 4.0 extensions
+.TE
+.\" ----------------------------------------------------------------------
+.PP
+Some environments are available which modify access to previously
+specified APIs:
+.PP
+.IP
+.TS
+l l.
+\fBx5_private\fR	permit access to X11 Release 5 private headers (*P.h)
+\fBmotif_private\fR	permit access to Motif private headers (*P.h)
+.TE
+.PP
+Note that TDF token libraries for all these APIs will not be
+available on all platforms, so it may not be possible run installers
+for programs compiled with all API environments.
+It will always be possible to check code with any API environment
+using \fBtchk\fR(1).
+.\" ----------------------------------------------------------------------
+.PP
+The following environments are used to specify the use of particular
+tools (where available) which are not enabled by default:
+.PP
+.IP
+.TS
+l l.
+\fBc++\fR	enables the C++ producer/checker \fBtcpplus\fR.
+\fBpl_tdf\fR	enables the PL_TDF compiler \fBpl\fR.
+\fBtnc\fR	enables the TDF notation compiler \fBtnc\fR.
+.TE
+.\" ----------------------------------------------------------------------
+.PP
+The default behaviour of \fBtcc\fR(1) is to assume the minimal sizes of
+integer types allowed by ANSI.  This behaviour can be modified with the
+following environments:
+.PP
+.IP
+.TS
+l l.
+\fB16bit\fR	specifies minimal integer sizes allowed by ANSI (default)
+\fB32bit\fR	specifies integer sizes found on most 32-bit machines
+.TE
+.\" ----------------------------------------------------------------------
+.PP
+In addition to these, the following implement target-specific
+options:
+.PP
+.IP
+.TS
+l l.
+\fBaout\fR	Use a.out instead of ELF format (386 Linux ELF only).
+\fBstatic\fR	Use static instead of dynamic linking (Alpha only).
+.TE
+.\" ----------------------------------------------------------------------
+.SH ENVIRONMENTAL IDENTIFIERS
+.IP
+.PP
+In the following list, the environmental prefix * must be replaced by one
+of + (which replaces the existing value), < (which adds a value to the
+beginning of the existing list), or > (which adds a value to the end of
+the existing list).
+.PP
+.TS
+l l.
+\fB*API_NAME\fR	modifies the list of API analysis environment names
+\fB*AS\fR	modifies the system assembler executable
+\fB*AS1\fR	modifies the auxiliary assembler executable (Mips and Alpha only)
+\fB*CC\fR	modifies the system compiler executable
+\fB*CPP_SPEC_LINK\fR	modifies the C++ spec linker executable
+\fB*CRT0\fR	modifies the first list of initial default .o files
+\fB*CRT1\fR	modifies the second list of initial default .o files
+\fB*CRTP_N\fR	modifies the list of additional default .o files (-Yprom only)
+\fB*CRTN\fR	modifies the list of final default .o files
+\fB*DISP\fR	modifies the TDF pretty printer executable
+\fB*DUMP_ANAL\fR	modifies the dump-file analyser executable
+\fB*DUMP_LINK\fR	modifies the dump linker executable
+\fB*DYN_LINK\fR	modifies the dynamic-initialisation linker executable (RS6000 and Sparc only)
+\fB+ENVDIR\fR	sets the default environment directory
+\fB+FLAG\fR	passes a flag to \fBtcc\fR(1)
+\fB+FLAG_AS\fR	passes a flag to the assembler
+\fB+FLAG_AS1\fR	passes a flag to the auxiliary assembler (Mips and Alpha only)
+\fB+FLAG_CC\fR	passes a flag to the system compiler
+\fB+FLAG_CPP_SPEC_LINK\fR	passes a flag to the C++ spec linker
+\fB+FLAG_DISP\fR	passes a flag to the TDF pretty printer
+\fB+FLAG_DUMP_ANAL\fR	passes a flag to the dump-file analyser
+\fB+FLAG_DUMP_LINK\fR	passes a flag to the dump linker
+\fB+FLAG_DYN_LINK\fR	passes a flag to the dynamic-initialisation linker ((RS6000 and Sparc only)
+\fB+FLAG_INSTALL\fR	passes a flag to the TDF archive builder
+\fB+FLAG_LD\fR	passes a flag to the system linker
+\fB+FLAG_PL_TDF\fR	passes a flag to the PL_TDF compiler
+\fB+FLAG_SPEC_LINKER\fR	passes a flag to the C spec linker
+\fB+FLAG_TCPPLUS\fR	passes a flag to the C++ producer
+\fB+FLAG_TCPPLUSPP\fR	passes a flag to the C++ preprocessor
+\fB+FLAG_TDFC\fR	passes a flag to the C producer
+\fB+FLAG_TDFCPP\fR	passes a flag to the C preprocessor
+\fB+FLAG_TLD\fR	passes a flag to the TDF linker
+\fB+FLAG_TNC\fR	passes a flag to the TDF notation compiler
+\fB+FLAG_TRANS\fR	passes a flag to the TDF translator
+\fB*INCL\fR	modifies the list of default include file directories
+\fB*INFO\fR	modifies the list of API information
+\fB*LD\fR	modifies the system linker executable
+\fB*LIB\fR	modifies the list of default TDF libraries
+\fB+LINE_START\fR	inserts a line in the \fBtcc\fR(1) built-in start-up file
+\fB+LINE_END\fR	inserts a line in the \fBtcc\fR(1) built-in end-up file
+\fB*LINK\fR	modifies the list of default TDF library directories
+\fB*LINK_ENTRY\fR	modifies the linker options specifying the entry point
+\fB+MACHINE\fR	sets the target machine type
+\fB+PORTABILITY\fR	sets the producer portability table
+\fB*PL_TDF\fR	modifies the PL_TDF compiler executable
+\fB*SPEC_LINK\fR	modifies the C spec linker executable
+\fB*STARTUP\fR	modifies the list of default C producer start-up files
+\fB*STARTUP_DIR\fR	modifies the list of default C producer start-up directories
+\fB*STARTUP_CPP\fR	modifies the list of default C++ producer start-up files
+\fB*STARTUP_CPP_DIR\fR	modifies the list of default C++ producer start-up directories
+\fB*SUFFIX_CPP\fR	sets the filename suffix override for C++ source files
+\fB*SYS_LIB\fR	modifies the list of default system libraries
+\fB*SYS_LIBC\fR	modifies the list of standard system libraries
+\fB*SYS_LINK\fR	modifies the list of default system library directories
+\fB*TCPPLUS\fR	modifies the C++ producer executable
+\fB*TCPPLUSPP\fR	modifies the C++ preprocessor executable
+\fB*TDFC\fR	modifies the C producer executable
+\fB*TDFCPP\fR	modifies the C preprocessor executable
+\fB+TEMP\fR	sets the temporary directory
+\fB*TLD\fR	modifies the TDF linker executable
+\fB*TNC\fR	modifies the TDF notation compiler executable
+\fB*TRANS\fR	modifies the TDF translator executable
+\fB+VERSION\fR	sets the target machine version (Mips only)
+.TE
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1), \fItchk\fR(1), \fItcpplus\fR(1), \fIpl\fR(1), \fItnc\fR(1).
+.\" ----------------------------------------------------------------------

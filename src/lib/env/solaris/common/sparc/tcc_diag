@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS for sol_sparc */
+
+<LINK		"-L-LIBDIR-/diag"
+<CRTN		"-LIBDIR-/sys/dwarf.o"
++FLAG_AS	"-s"

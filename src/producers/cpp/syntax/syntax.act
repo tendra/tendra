@@ -1,0 +1,2227 @@
+%prefixes%
+
+
+/*
+    TERMINAL PREFIX
+
+    This prefix is used to identify lexical token numbers in syntax.h
+    (see also symbols.h).
+*/
+
+terminal = lex_ ;
+
+
+%maps%
+
+
+/*
+    PARSER ENTRY POINTS
+
+    There are a number of entry points into the parser.  The main ones
+    are translation-unit which is used to parse an entire translation
+    unit and hash-if-expression which is used to parse expressions in
+    #if preprocessing directives.
+*/
+
+translation-unit -> parse_file ;
+expression-entry -> parse_exp ;
+id-entry -> parse_id ;
+operator-id -> parse_operator ;
+declaration-entry -> parse_decl ;
+function-definition-entry -> parse_func ;
+type-id-entry -> parse_type ;
+token-type-id -> parse_tok_type ;
+member-type-id -> parse_mem_type ;
+parameter-entry -> parse_param ;
+statement-entry -> parse_stmt ;
+initialiser-entry -> parse_init ;
+hash-if-expression -> parse_nat ;
+template-type-param -> parse_type_param ;
+constant-offset -> parse_offset ;
+
+
+/*
+    BASIC TYPES
+
+    The type BOOL is used to hold the predicate values, true and false.
+    The type COUNT is used to hold the various counters maintained (see
+    predict.c).  The type LEX is used to hold a lexical token number
+    (i.e.  one of the values defined in syntax.h).  The other types used
+    in the parser map in a simple fashion to the main program types.
+    Note that it is necessary to use aliases for compound types because
+    of the restrictions imposed by sid.
+*/
+
+ACCESS -> DECL_SPEC ;
+ACCESSES -> ACCESS_LIST ;
+BOOL -> int ;
+BTYPE -> BASE_TYPE ;
+CONDITION -> unsigned ;
+COUNT -> int ;
+CV -> CV_SPEC ;
+DECL -> IDENTIFIER ;
+DSPEC -> DECL_SPEC ;
+EXP -> EXP ;
+IDENTIFIER -> IDENTIFIER ;
+KEY -> BASE_TYPE ;
+LEX -> int ;
+LINKAGE -> DECL_SPEC ;
+LIST-EXP -> SID_LIST_EXP ;
+LIST-TYPE -> SID_LIST_TYPE ;
+NAMESPACE -> NAMESPACE ;
+NUMBER -> int ;
+OFFSET -> OFFSET ;
+QUALIFIER -> QUALIFIER ;
+TEMPLATE -> TOKEN ;
+TYPE -> TYPE ;
+
+
+/*
+    FILE HEADERS
+
+    These headers are prepended to the parser definition and declaration
+    output files.  Because of the simple file splitting algorithm applied
+    to the output this should contain only declarations and not definitions.
+*/
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997, 1998
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#include "config.h"
+#include "c_types.h"
+#include "ctype_ops.h"
+#include "exp_ops.h"
+#include "hashid_ops.h"
+#include "id_ops.h"
+#include "nspace_ops.h"
+#include "type_ops.h"
+#include "error.h"
+#include "catalog.h"
+#include "option.h"
+#include "access.h"
+#include "allocate.h"
+#include "assign.h"
+#include "basetype.h"
+#include "cast.h"
+#include "chktype.h"
+#include "class.h"
+#include "constant.h"
+#include "construct.h"
+#include "convert.h"
+#include "declare.h"
+#include "derive.h"
+#include "dump.h"
+#include "exception.h"
+#include "expression.h"
+#include "function.h"
+#include "hash.h"
+#include "identifier.h"
+#include "initialise.h"
+#include "inttype.h"
+#include "label.h"
+#include "lex.h"
+#include "literal.h"
+#include "member.h"
+#include "namespace.h"
+#include "parse.h"
+#include "pragma.h"
+#include "predict.h"
+#include "preproc.h"
+#include "redeclare.h"
+#include "rewrite.h"
+#include "statement.h"
+#include "symbols.h"
+#include "template.h"
+#include "tokdef.h"
+#include "token.h"
+#include "typeid.h"
+#include "variable.h"
+
+
+/*
+    COMPOUND TYPE ALIASES
+
+    These are the aliases for the compound types used in the parser.
+*/
+
+typedef LIST ( EXP ) SID_LIST_EXP ;
+typedef LIST ( TYPE ) SID_LIST_TYPE ;
+
+
+/*
+    FUNCTION DECLARATIONS
+
+    The function declarations are included at this point so that the
+    type definitions are in scope.
+*/
+
+#include "syntax.h"
+
+
+/*
+    COMPILATION MODE
+
+    The output of sid is automatically generated.  Hence it is not
+    necessarily appropriate to apply the same level of checking to this
+    as to the rest of the program.  These pragmas describe the relaxations
+    allowed for the sid output.
+*/
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#pragma TenDRA const conditional allow
+#pragma TenDRA unreachable code allow
+#pragma TenDRA variable analysis off
+#endif
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997, 1998
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+@} ;
+
+
+%terminals%
+
+
+/*
+    IDENTIFIER TERMINALS
+
+    Identifiers and related terminals (type names, namespace names and
+    destructor names) are identified by means of an identifier stored in
+    crt_token by expand_token.
+*/
+
+identifier : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+type-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+namespace-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+statement-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+destructor-name : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+template-id : () -> ( id ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @id = parse_id_template ( id, args, 0 ) ;
+    crt_templ_qualifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+template-type : () -> ( id ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @id = parse_type_template ( id, args, 0 ) ;
+    crt_templ_qualifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+
+/*
+    NAMESPACE SPECIFIER TERMINALS
+
+    Namespace specifiers (i.e. sequences of namespace or class names
+    separated using '::') are identified by expand_token.  The full nested
+    names are those which begin with the global namespace.
+*/
+
+nested-name : () -> ( ns ) = @{
+    @ns = crt_token->pp_data.ns ;
+@} ;
+
+full-name : () -> ( ns ) = @{
+    @ns = crt_token->pp_data.ns ;
+@} ;
+
+
+/*
+    POINTER TO MEMBER TERMINALS
+
+    Pointer to member specifiers (such as 'C::*') are identified by
+    expand_token.  The identifier corresponding to the given class is
+    stored in crt_token.
+*/
+
+nested-name-star : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+full-name-star : () -> ( id ) = @{
+    @id = crt_token->pp_data.id.use ;
+@} ;
+
+
+/*
+    INTEGER AND FLOATING-POINT LITERAL TERMINALS
+
+    Integer and floating-point literal tokens have already been transformed
+    into their corresponding expressions by expand_token, which stores this
+    information in crt_token.
+*/
+
+integer-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+floating-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    STRING AND CHARACTER LITERAL TERMINALS
+
+    String and character literal tokens have already been transformed
+    into their corresponding expressions by expand_token, which stores this
+    information in crt_token.
+*/
+
+char-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+wchar-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+string-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+wstring-exp : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    CONDITIONAL COMPILATION TERMINALS
+
+    Any target dependent conditional compilation expressions are stored
+    in crt_token by the preprocessing routines.
+*/
+
+hash-if : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+hash-elif : () -> ( e ) = @{
+    @e = crt_token->pp_data.exp ;
+@} ;
+
+
+/*
+    COMPLEX EXPRESSION AND TYPE TERMINALS
+
+    These terminals are used to handle complex expressions and types
+    such as token applications.
+*/
+
+complex-exp : () -> ( e ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @e = parse_exp_token ( id, args ) ;
+    RESCAN_LEXER ;
+@} ;
+
+complex-stmt : () -> ( e ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @e = parse_exp_token ( id, args ) ;
+    RESCAN_LEXER ;
+@} ;
+
+complex-type : () -> ( t ) = @{
+    IDENTIFIER id = crt_token->pp_data.tok.id ;
+    PPTOKEN *args = crt_token->pp_data.tok.args ;
+    @t = parse_type_token ( id, args ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_type_specifier = 1 ;
+    RESCAN_LEXER ;
+@} ;
+
+
+%actions%
+
+
+/*
+    LEXICAL TOKENS
+
+    These actions give the basic values for the type LEX.  They are used
+    primarily in overloaded operator function names, but they are also used
+    to distinguish closely related groups of expressions, such as relational
+    expressions.  Note that the primary form of the token has been given
+    whenever there is a choice, otherwise the actions are very dull.
+*/
+
+<lex_crt> : () -> ( t ) = @{ @t = crt_lex_token ; @} ;
+<lex_close_round> : () -> ( t ) = @{ @t = lex_close_Hround ; @} ;
+<lex_close_square> : () -> ( t ) = @{ @t = lex_close_Hsquare_H1 ; @} ;
+<lex_colon> : () -> ( t ) = @{ @t = lex_colon ; @} ;
+<lex_cond_op> : () -> ( t ) = @{ @t = lex_cond_Hop ; @} ;
+<lex_open_round> : () -> ( t ) = @{ @t = lex_open_Hround ; @} ;
+<lex_semicolon> : () -> ( t ) = @{ @t = lex_semicolon ; @} ;
+<lex_alignof> : () -> ( t ) = @{ @t = lex_alignof ; @} ;
+<lex_array_op> : () -> ( t ) = @{ @t = lex_array_Hop ; @} ;
+<lex_func_op> : () -> ( t ) = @{ @t = lex_func_Hop ; @} ;
+<lex_new> : () -> ( t ) = @{ @t = lex_new ; @} ;
+<lex_delete> : () -> ( t ) = @{ @t = lex_delete ; @} ;
+<lex_new_array> : () -> ( t ) = @{ @t = lex_new_Harray ; @} ;
+<lex_delete_array> : () -> ( t ) = @{ @t = lex_delete_Harray ; @} ;
+<lex_sizeof> : () -> ( t ) = @{ @t = lex_sizeof ; @} ;
+<lex_typeid> : () -> ( t ) = @{ @t = lex_typeid ; @} ;
+<lex_vtable> : () -> ( t ) = @{ @t = lex_vtable ; @} ;
+
+
+/*
+    SPECIAL FUNCTION IDENTIFIERS
+
+    These actions are used to construct the identifiers corresponding to
+    the operator-function-ids and conversion-function-ids.  In addition,
+    id_none gives the null identifier and id_anon generates a unique
+    anonymous identifier.
+*/
+
+<type_decl_begin> : () -> ( td ) = @{
+    @td = have_type_declaration ;
+    have_type_declaration = TYPE_DECL_NONE ;
+@} ;
+
+<type_decl_end> : ( td ) -> ( d ) = @{
+    int td = have_type_declaration ;
+    @d = 0 ;
+    if ( td != TYPE_DECL_NONE ) {
+	if ( td == TYPE_DECL_ELABORATE && found_elaborate_type ) {
+	    /* This is allowed */
+	    /* EMPTY */
+	} else {
+	    @d = 1 ;
+	}
+    }
+    have_type_declaration = @td ;
+@} ;
+
+<type_decl_quit> : ( td ) -> () = @{
+    have_type_declaration = @td ;
+@} ;
+
+<operator_func> : ( op ) -> ( id ) = @{
+    /* op will be in its primary form */
+    HASHID nm = lookup_op ( @op ) ;
+    @id = DEREF_id ( hashid_id ( nm ) ) ;
+    set_hashid_loc ( @id, underlying_op ) ;
+@} ;
+
+<conversion_func> : ( t, d ) -> ( id ) = @{
+    HASHID nm = lookup_conv ( @t ) ;
+    if ( @d ) report ( crt_loc, ERR_class_conv_fct_typedef ( nm ) ) ;
+    @id = DEREF_id ( hashid_id ( nm ) ) ;
+    set_hashid_loc ( @id, underlying_op ) ;
+@} ;
+
+<pseudo_destructor> : ( t1, b1, t2, b2 ) -> ( id ) = @{
+    @id = make_pseudo_destr ( @t1, @b1, @t2, @b2 ) ;
+@} ;
+
+<id_none> : () -> ( id ) = @{
+    @id = NULL_id ;
+    crt_id_qualifier = qual_none ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+<id_anon> : () -> ( id ) = @{
+    HASHID nm = lookup_anon () ;
+    @id = DEREF_id ( hashid_id ( nm ) ) ;
+    crt_id_qualifier = qual_none ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+
+/*
+    NAMESPACES AND IDENTIFIER LOOK-UP
+
+    These actions are used to identify namespaces and identifiers within
+    those namespaces.
+*/
+
+<namespace_none> : () -> ( ns ) = @{
+    @ns = NULL_nspace ;
+    crt_id_qualifier = qual_none ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+<namespace_global> : () -> ( ns ) = @{
+    @ns = global_namespace ;
+    crt_id_qualifier = qual_top ;
+    qual_namespace = @ns ;
+@} ;
+
+<namespace_nested> : ( ns ) -> () = @{
+    crt_id_qualifier = qual_nested ;
+    qual_namespace = @ns ;
+@} ;
+
+<namespace_full> : ( ns ) -> () = @{
+    crt_id_qualifier = qual_full ;
+    qual_namespace = @ns ;
+@} ;
+
+<namespace_id> : ( ns, id ) -> ( n ) = @{
+    @n = check_id ( @ns, @id, 0 ) ;
+    last_namespace = @ns ;
+@} ;
+
+<namespace_simple> : ( id ) -> ( n ) = @{
+    @n = @id ;
+    crt_id_qualifier = qual_none ;
+    last_namespace = crt_namespace ;
+@} ;
+
+<namespace_complex> : ( id ) -> ( n ) = @{
+    @n = check_id ( NULL_nspace, @id, 0 ) ;
+    crt_id_qualifier = qual_none ;
+    last_namespace = crt_namespace ;
+@} ;
+
+<namespace_templ> : ( ns, id, q ) -> ( n ) = @{
+    @n = check_id ( @ns, @id, @q ) ;
+    last_namespace = @ns ;
+@} ;
+
+<namespace_type> : ( ns ) -> ( id ) = @{
+    @id = DEREF_id ( nspace_name ( @ns ) ) ;
+@} ;
+
+
+/*
+    IDENTIFIER QUALIFIERS
+
+    These actions are used to set crt_id_qualifier to the qualifier of an
+    identifier.
+*/
+
+<qual_get> : () -> ( i, b ) = @{
+    @i = crt_id_qualifier ;
+    @b = crt_templ_qualifier ;
+@} ;
+
+<qual_set> : ( i, b ) -> () = @{
+    crt_id_qualifier = @i ;
+    crt_templ_qualifier = @b ;
+@} ;
+
+<qual_none> : () -> () = @{
+    crt_id_qualifier = qual_none ;
+    crt_templ_qualifier = 0 ;
+    qual_namespace = NULL_nspace ;
+@} ;
+
+
+/*
+    LISTS OF EXPRESSIONS
+
+    These actions give the basic constructs for building up lists of
+    expressions.  They map directly to the calculus list operations.
+*/
+
+<list_exp_null> : () -> ( p ) = @{
+    @p = NULL_list ( EXP ) ;
+@} ;
+
+<list_exp_cons> : ( e, q ) -> ( p ) = @{
+    CONS_exp ( @e, @q, @p ) ;
+@} ;
+
+
+/*
+    EXPRESSION CONSTRUCTORS
+
+    These actions describe how to build up expressions from more primitive
+    expressions.  The null expression, exp_none, is used to indicate that
+    an optional expression is absent.  Most of the actions are very
+    straightforward, either directly calling a calculus EXP constructor
+    or the appropriate expression construction function.
+*/
+
+<exp_none> : () -> ( e ) = @{
+    @e = NULL_exp ;
+@} ;
+
+<exp_aggregate> : ( p ) -> ( e ) = @{
+    /* The expression type is a dummy */
+    MAKE_exp_aggregate ( type_void, @p, NULL_list ( OFFSET ), @e ) ;
+@} ;
+
+<exp_and> : ( a, b ) -> ( e ) = @{
+    @e = make_and_exp ( @a, @b ) ;
+@} ;
+
+<exp_arrow_begin> : ( a ) -> ( e, t, ns ) = @{
+    @e = begin_field_exp ( lex_arrow, @a, &@t, &@ns ) ;
+@} ;
+
+<exp_arrow_end> : ( a, t, ns, id, q ) -> ( e ) = @{
+    @e = end_field_exp ( lex_arrow, @a, @t, @ns, @id, @q ) ;
+@} ;
+
+<exp_arrow_star> : ( a, b ) -> ( e ) = @{
+    @e = make_member_exp ( lex_arrow_Hstar, @a, @b ) ;
+    in_ptr_mem_selector-- ;
+@} ;
+
+<exp_assign> : ( a, b ) -> ( e ) = @{
+    @e = make_assign_exp ( @a, @b, 0 ) ;
+@} ;
+
+<exp_assign_op> : ( op, a, b ) -> ( e ) = @{
+    /* op will be in its primary form */
+    @e = make_become_exp ( @op, @a, @b ) ;
+@} ;
+
+<exp_cast> : ( t, a, n ) -> ( e ) = @{
+    /* n is the number of type definitions in t */
+    @e = make_cast_exp ( @t, @a, @n ) ;
+@} ;
+
+<exp_comma> : ( p ) -> ( e ) = @{
+    @e = make_comma_exp ( @p ) ;
+@} ;
+
+<exp_cond> : ( a, b, c ) -> ( e ) = @{
+    @e = make_cond_exp ( @a, @b, @c ) ;
+@} ;
+
+<exp_const_cast> : ( t, a, n ) -> ( e ) = @{
+    /* n is the number of type definitions in t */
+    @e = make_const_cast_exp ( @t, @a, @n ) ;
+@} ;
+
+<exp_delete> : ( b, op, a ) -> ( e ) = @{
+    @e = make_delete_exp ( @op, @b, @a ) ;
+@} ;
+
+<exp_div> : ( a, b ) -> ( e ) = @{
+    @e = make_mult_exp ( lex_div, @a, @b ) ;
+@} ;
+
+<exp_dot_begin> : ( a ) -> ( e, t, ns ) = @{
+    @e = begin_field_exp ( lex_dot, @a, &@t, &@ns ) ;
+@} ;
+
+<exp_dot_end> : ( a, t, ns, id, q ) -> ( e ) = @{
+    @e = end_field_exp ( lex_dot, @a, @t, @ns, @id, @q ) ;
+@} ;
+
+<exp_dot_star> : ( a, b ) -> ( e ) = @{
+    @e = make_member_exp ( lex_dot_Hstar, @a, @b ) ;
+    in_ptr_mem_selector-- ;
+@} ;
+
+<exp_dynamic_cast> : ( t, a, n ) -> ( e ) = @{
+    /* n is the number of type definitions in t */
+    @e = make_dynamic_cast_exp ( @t, @a, @n ) ;
+@} ;
+
+<exp_ellipsis> : () -> ( e ) = @{
+    @e = make_ellipsis_exp () ;
+@} ;
+
+<exp_equality> : ( op, a, b ) -> ( e ) = @{
+    /* op will be in its primary form */
+    @e = make_equality_exp ( @op, @a, @b ) ;
+@} ;
+
+<exp_eval> : ( a ) -> ( e ) = @{
+    @e = convert_reference ( @a, REF_NORMAL ) ;
+    @e = convert_lvalue ( @e ) ;
+@} ;
+
+<exp_false> : () -> ( e ) = @{
+    @e = make_bool_exp ( BOOL_FALSE, exp_int_lit_tag ) ;
+@} ;
+
+<exp_func> : ( a, p ) -> ( e ) = @{
+    @e = make_func_exp ( @a, @p, 0 ) ;
+@} ;
+
+<exp_func_cast> : ( t, p ) -> ( e ) = @{
+    @e = make_func_cast_exp ( @t, @p ) ;
+@} ;
+
+<exp_identifier> : ( id ) -> ( e ) = @{
+    @e = make_id_exp ( @id ) ;
+@} ;
+
+<exp_ignore> : ( a ) -> ( e ) = @{
+    @e = make_cast_exp ( type_void, @a, 0 ) ;
+@} ;
+
+<exp_index> : ( a, b ) -> ( e ) = @{
+    @e = make_index_exp ( @a, @b ) ;
+@} ;
+
+<exp_indir> : ( a ) -> ( e ) = @{
+    @e = make_indir_exp ( @a ) ;
+@} ;
+
+<exp_initialiser> : ( p ) -> ( e ) = @{
+    MAKE_exp_initialiser ( type_void, @p, NULL_list ( OFFSET ), 0, 0, 0, @e ) ;
+@} ;
+
+<exp_location> : ( a ) -> ( e ) = @{
+    MAKE_exp_location ( type_void, crt_loc, @a, @e ) ;
+@} ;
+
+<exp_log_and> : ( a, b ) -> ( e ) = @{
+    @e = make_log_and_exp ( @a, @b ) ;
+@} ;
+
+<exp_log_or> : ( a, b ) -> ( e ) = @{
+    @e = make_log_or_exp ( @a, @b ) ;
+@} ;
+
+<exp_lshift> : ( a, b ) -> ( e ) = @{
+    @e = make_shift_exp ( lex_lshift, @a, @b ) ;
+@} ;
+
+<exp_maxmin> : ( op, a, b ) -> ( e ) = @{
+    @e = make_mult_exp ( @op, @a, @b ) ;
+@} ;
+
+<exp_minus> : ( a, b ) -> ( e ) = @{
+    @e = make_minus_exp ( @a, @b ) ;
+@} ;
+
+<exp_mult> : ( a, b ) -> ( e ) = @{
+    @e = make_mult_exp ( lex_star, @a, @b ) ;
+@} ;
+
+<exp_new> : ( b, p, t, n, d, i ) -> ( e ) = @{
+    @e = make_new_exp ( @t, @n + @d, @b, @p, @i ) ;
+@} ;
+
+<exp_new_init> : ( t, p ) -> ( e ) = @{
+    @e = make_new_init ( @t, @p, 1 ) ;
+@} ;
+
+<exp_new_none> : ( t ) -> ( e ) = @{
+    @e = make_new_init ( @t, NULL_list ( EXP ), 0 ) ;
+@} ;
+
+<exp_new_start> : () -> ( e ) = @{
+    @e = begin_new_try () ;
+@} ;
+
+<exp_new_end> : ( a, b ) -> ( e ) = @{
+    @e = end_new_try ( @a, @b ) ;
+@} ;
+
+<exp_not> : ( a ) -> ( e ) = @{
+    @e = make_not_exp ( @a ) ;
+@} ;
+
+<exp_or> : ( a, b ) -> ( e ) = @{
+    @e = make_or_exp ( @a, @b ) ;
+@} ;
+
+<exp_paren_begin> : () -> () = @{
+    IGNORE incr_value ( OPT_VAL_paren_depth ) ;
+@} ;
+
+<exp_paren_end> : ( a ) -> ( e ) = @{
+    @e = make_paren_exp ( @a ) ;
+    decr_value ( OPT_VAL_paren_depth ) ;
+@} ;
+
+<exp_plus> : ( a, b ) -> ( e ) = @{
+    @e = make_plus_exp ( @a, @b ) ;
+@} ;
+
+<exp_postdec> : ( a ) -> ( e ) = @{
+    @e = make_postfix_exp ( lex_minus_Hminus, @a ) ;
+@} ;
+
+<exp_postinc> : ( a ) -> ( e ) = @{
+    @e = make_postfix_exp ( lex_plus_Hplus, @a ) ;
+@} ;
+
+<exp_predec> : ( a ) -> ( e ) = @{
+    @e = make_prefix_exp ( lex_minus_Hminus, @a ) ;
+@} ;
+
+<exp_preinc> : ( a ) -> ( e ) = @{
+    @e = make_prefix_exp ( lex_plus_Hplus, @a ) ;
+@} ;
+
+<exp_ptr_mem> : () -> () = @{
+    in_ptr_mem_selector++ ;
+@} ;
+
+<exp_ref> : ( a ) -> ( e ) = @{
+    @e = make_ref_exp ( @a, 0 ) ;
+@} ;
+
+<exp_reinterpret_cast> : ( t, a, n ) -> ( e ) = @{
+    /* n is the number of type definitions in t */
+    @e = make_reinterp_cast_exp ( @t, @a, @n ) ;
+@} ;
+
+<exp_relation> : ( op, a, b ) -> ( e ) = @{
+    /* op will be in its primary form */
+    @e = make_relation_exp ( @op, @a, @b ) ;
+@} ;
+
+<exp_rem> : ( a, b ) -> ( e ) = @{
+    @e = make_rem_exp ( @a, @b ) ;
+@} ;
+
+<exp_rshift> : ( a, b ) -> ( e ) = @{
+    @e = make_shift_exp ( lex_rshift, @a, @b ) ;
+@} ;
+
+<exp_set> : ( a ) -> ( e ) = @{
+    @e = make_set_exp ( @a ) ;
+@} ;
+
+<exp_sizeof> : ( op, t, a, n ) -> ( e ) = @{
+    @e = make_sizeof_exp ( @t, @a, @n, @op ) ;
+@} ;
+
+<exp_static_cast> : ( t, a, n ) -> ( e ) = @{
+    @e = make_static_cast_exp ( @t, @a, @n ) ;
+@} ;
+
+<exp_this> : () -> ( e ) = @{
+    @e = make_this_exp () ;
+@} ;
+
+<exp_throw> : ( a ) -> ( e ) = @{
+    @e = make_throw_exp ( @a, 1 ) ;
+@} ;
+
+<exp_throw_type> : ( t, n ) -> ( e ) = @{
+    @e = make_throw_arg ( @t, @n ) ;
+@} ;
+
+<exp_true> : () -> ( e ) = @{
+    @e = make_bool_exp ( BOOL_TRUE, exp_int_lit_tag ) ;
+@} ;
+
+<exp_typeid_exp> : ( a, op, n ) -> ( e ) = @{
+    @e = make_typeid_exp ( @op, @a, @n ) ;
+@} ;
+
+<exp_typeid_type> : ( t, op, n ) -> ( e ) = @{
+    @e = make_typeid_type ( @op, @t, @n ) ;
+@} ;
+
+<exp_unary> : ( op, a ) -> ( e ) = @{
+    @e = make_uminus_exp ( @op, @a ) ;
+@} ;
+
+<exp_unused> : ( a ) -> ( e ) = @{
+    @e = make_unused_exp ( @a ) ;
+@} ;
+
+<exp_xor> : ( a, b ) -> ( e ) = @{
+    @e = make_xor_exp ( @a, @b ) ;
+@} ;
+
+
+/*
+    STATEMENT CONSTRUCTORS
+
+    These actions describe how to build up statements from expressions,
+    declarations, and more primitive statements.  The empty statement is
+    represented by the null expression, stmt_none.  The other statement
+    constructors map directly onto constructor functions.
+*/
+
+<stmt_none> : () -> ( e ) = @{
+    @e = NULL_exp ;
+@} ;
+
+<stmt_break> : () -> ( e ) = @{
+    @e = make_break_stmt () ;
+@} ;
+
+<stmt_case_begin> : ( a ) -> ( e ) = @{
+    @e = begin_case_stmt ( @a, 0 ) ;
+@} ;
+
+<stmt_case_end> : ( a, b ) -> ( e ) = @{
+    @e = end_case_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_catch_begin> : ( a, d ) -> ( e ) = @{
+    @e = begin_catch_stmt ( @a, @d ) ;
+@} ;
+
+<stmt_catch_end> : ( a, b ) -> () = @{
+    IGNORE end_catch_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_caught> : () -> ( e ) = @{
+    MAKE_exp_thrown ( type_void, 1, @e ) ;
+@} ;
+
+<stmt_compound_begin> : () -> ( e ) = @{
+    @e = begin_compound_stmt ( 1 ) ;
+@} ;
+
+<stmt_compound_block> : ( a ) -> () = @{
+    COPY_int ( exp_sequence_block ( @a ), 2 ) ;
+@} ;
+
+<stmt_compound_mark> : ( a ) -> () = @{
+    mark_compound_stmt ( @a ) ;
+@} ;
+
+<stmt_compound_add> : ( a, b ) -> ( e ) = @{
+    @e = add_compound_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_compound_end> : ( a ) -> ( e ) = @{
+    @e = end_compound_stmt ( @a ) ;
+@} ;
+
+<stmt_continue> : () -> ( e ) = @{
+    @e = make_continue_stmt () ;
+@} ;
+
+<stmt_decl> : ( a ) -> ( e ) = @{
+    @e = @a ;
+    in_declaration-- ;
+@} ;
+
+<stmt_default_begin> : () -> ( e ) = @{
+    @e = begin_default_stmt ( 0 ) ;
+@} ;
+
+<stmt_default_end> : ( a, b ) -> ( e ) = @{
+    @e = end_default_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_do_begin> : () -> ( e ) = @{
+    @e = begin_do_stmt () ;
+@} ;
+
+<stmt_do_end> : ( a, b, c ) -> ( e ) = @{
+    @e = end_do_stmt ( @a, @b, @c ) ;
+@} ;
+
+<stmt_exp> : ( a ) -> ( e ) = @{
+    @e = make_exp_stmt ( @a ) ;
+@} ;
+
+<stmt_for_begin> : () -> ( e ) = @{
+    @e = begin_for_stmt () ;
+@} ;
+
+<stmt_for_init> : ( a, b ) -> ( e ) = @{
+    @e = init_for_stmt ( @a, &@b ) ;
+@} ;
+
+<stmt_for_cond> : ( a, b, c ) -> ( e ) = @{
+    @e = cond_for_stmt ( @a, @b, @c ) ;
+@} ;
+
+<stmt_for_end> : ( a, b ) -> ( e ) = @{
+    @e = end_for_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_goto> : ( id ) -> ( e ) = @{
+    @e = make_goto_stmt ( @id ) ;
+@} ;
+
+<stmt_goto_case> : ( a ) -> ( e ) = @{
+    report ( crt_loc, ERR_stmt_goto_case ( lex_case ) ) ;
+    @e = begin_case_stmt ( @a, 1 ) ;
+@} ;
+
+<stmt_goto_default> : () -> ( e ) = @{
+    report ( crt_loc, ERR_stmt_goto_case ( lex_default ) ) ;
+    @e = begin_default_stmt ( 1 ) ;
+@} ;
+
+<stmt_if_begin> : ( a ) -> ( e ) = @{
+    @e = begin_if_stmt ( @a ) ;
+@} ;
+
+<stmt_if_cont> : ( a, b ) -> ( e ) = @{
+    @e = cont_if_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_if_end> : ( a, b ) -> ( e ) = @{
+    @e = end_if_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_else> : () -> () = @{
+    check_empty_stmt ( lex_else ) ;
+@} ;
+
+<stmt_no_else> : () -> ( e ) = @{
+    report ( crt_loc, ERR_stmt_if_no_else () ) ;
+    @e = NULL_exp ;
+@} ;
+
+<stmt_label_begin> : ( id ) -> ( e ) = @{
+    @e = begin_label_stmt ( @id, lex_identifier ) ;
+@} ;
+
+<stmt_label_end> : ( a, b ) -> ( e ) = @{
+    @e = end_label_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_label_set> : () -> () = @{
+    unreached_fall = 0 ;
+@} ;
+
+<stmt_label_clear> : () -> () = @{
+    unreached_fall = 1 ;
+@} ;
+
+<stmt_label_mod> : () -> () = @{
+    if ( unreached_code ) unreached_fall = 0 ;
+@} ;
+
+<stmt_return> : ( a ) -> ( e ) = @{
+    @e = make_return_stmt ( @a, lex_return ) ;
+@} ;
+
+<stmt_switch_begin> : ( a ) -> ( e ) = @{
+    @e = begin_switch_stmt ( @a ) ;
+@} ;
+
+<stmt_switch_end> : ( a, b, ex ) -> ( e ) = @{
+    @e = end_switch_stmt ( @a, @b, @ex ) ;
+@} ;
+
+<stmt_try_begin> : () -> ( e ) = @{
+    @e = begin_try_stmt ( 0 ) ;
+@} ;
+
+<stmt_try_func> : () -> ( e ) = @{
+    @e = begin_try_stmt ( 1 ) ;
+@} ;
+
+<stmt_try_inject> : ( a ) -> () = @{
+    inject_try_stmt ( @a ) ;
+@} ;
+
+<stmt_try_cont> : ( a, b ) -> ( e ) = @{
+    @e = cont_try_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_try_end> : ( a ) -> ( e ) = @{
+    @e = end_try_stmt ( @a, 0 ) ;
+@} ;
+
+<stmt_while_begin> : ( a ) -> ( e ) = @{
+    @e = begin_while_stmt ( @a ) ;
+@} ;
+
+<stmt_while_end> : ( a, b ) -> ( e ) = @{
+    @e = end_while_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_hash_if> : ( a, b ) -> ( e ) = @{
+    @e = begin_hash_if_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_hash_elif> : ( a, b, c ) -> ( e ) = @{
+    @e = cont_hash_if_stmt ( @a, @b, @c ) ;
+@} ;
+
+<stmt_hash_endif> : ( a, b ) -> ( e ) = @{
+    @e = end_hash_if_stmt ( @a, @b ) ;
+@} ;
+
+<stmt_reach> : ( a ) -> ( e ) = @{
+    @e = make_reach_stmt ( @a, 1 ) ;
+@} ;
+
+<stmt_unreach> : ( a ) -> ( e ) = @{
+    @e = make_reach_stmt ( @a, 0 ) ;
+@} ;
+
+<bind_temporary> : ( a ) -> ( e ) = @{
+    @e = bind_temporary ( @a ) ;
+@} ;
+
+<cond_start> : () -> () = @{
+    begin_cond () ;
+@} ;
+
+<cond_end> : () -> ( e ) = @{
+    @e = end_cond () ;
+    in_declaration-- ;
+@} ;
+
+<cond_type> : ( s ) -> ( t ) = @{
+    @t = make_cond_type ( @s ) ;
+@} ;
+
+<cond_inject> : ( a, b ) -> ( e ) = @{
+    @e = inject_cond ( @a, @b ) ;
+@} ;
+
+<loop_inject> : ( a, b ) -> ( e ) = @{
+    @e = inject_cond ( @a, @b ) ;
+@} ;
+
+<init_inject> : ( a, b ) -> ( e ) = @{
+    @e = inject_cond ( @a, @b ) ;
+@} ;
+
+
+/*
+    FLOW ANALYSIS
+
+    These actions are concerned with flow and variable analysis.
+*/
+
+<reach_check> : () -> ( r ) = @{
+    @r = unreached_code ;
+    if ( @r ) {
+	if ( !unreached_last ) {
+	    report ( crt_loc, ERR_stmt_stmt_unreach () ) ;
+	    unreached_last = 1 ;
+	}
+    } else {
+	unreached_last = 0 ;
+    }
+@} ;
+
+<reach_prev> : ( r ) -> () = @{ unreached_prev = @r ; @} ;
+<reach_set> : () -> () = @{ unreached_code = 0 ; @} ;
+<reach_unset> : () -> () = @{ unreached_code = 1 ; @} ;
+
+<condition_get> : () -> ( c ) = @{ @c = crt_condition ; @} ;
+<condition_set> : ( c ) -> () = @{ crt_condition = @c ; @} ;
+
+
+/*
+    FUNCTION DEFINITIONS CONSTRUCTORS
+
+    These actions are called at the start and the end of a function
+    definition.  Most of the work is done by construction functions, but
+    the flags have_type_declaration and in_function_defn are handled
+    locally.
+*/
+
+<function_begin> : ( d ) -> ( b ) = @{
+    @b = in_class_defn ;
+    in_class_defn = 0 ;
+    in_function_defn++ ;
+    really_in_function_defn++ ;
+    begin_function ( @d ) ;
+@} ;
+
+<function_end> : ( d, a, b ) -> () = @{
+    IGNORE end_function ( @d, @a ) ;
+    in_class_defn = @b ;
+    in_function_defn-- ;
+    really_in_function_defn-- ;
+@} ;
+
+<function_skip> : ( d ) -> () = @{
+    skip_function ( @d ) ;
+@} ;
+
+<default_arg_skip> : ( d ) -> ( e ) = @{
+    @e = skip_default_arg ( @d ) ;
+@} ;
+
+<decl_none> : () -> ( d ) = @{
+    @d = NULL_id ;
+@} ;
+
+<ctor_begin> : () -> ( ns ) = @{
+    @ns = ctor_begin () ;
+@} ;
+
+<ctor_end> : ( ns, c, b ) -> ( e ) = @{
+    @e = ctor_end ( @ns, @c, @b ) ;
+@} ;
+
+<ctor_initialise> : ( ns, id, e ) -> () = @{
+    ctor_initialise ( @ns, @id, @e ) ;
+@} ;
+
+<ctor_none> : ( c ) -> ( e, d ) = @{
+    @d = NULL_exp ;
+    @e = ctor_none ( @c, &@d ) ;
+@} ;
+
+<ctor_postlude> : ( a, b ) -> ( e ) = @{
+    @e = ctor_postlude ( @a, @b ) ;
+@} ;
+
+<param_begin> : ( id ) -> () = @{
+    func_type_defn ( 0 ) ;
+    begin_param ( @id ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+@} ;
+
+<param_end> : () -> () = @{
+    end_param () ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 1 ;
+@} ;
+
+
+/*
+    CONST-VOLATILE QUALIFIERS
+
+    These actions describe how to construct and combine the const and
+    volatile type qualifiers.  The main action is cv_join which combines
+    two CV bitmasks by bitwise or'ing them.  It also checks for
+    duplicate qualifiers.
+*/
+
+<cv_none> : () -> ( cv ) = @{ @cv = cv_none ; @} ;
+<cv_const> : () -> ( cv ) = @{ @cv = cv_const ; @} ;
+<cv_volatile> : () -> ( cv ) = @{ @cv = cv_volatile ; @} ;
+
+<cv_join> : ( a, b ) -> ( cv ) = @{
+    CV_SPEC c = ( @a & @b ) ;
+    if ( c ) report ( crt_loc, ERR_dcl_type_cv_dup ( c ) ) ;
+    @cv = ( @a | @b ) ;
+@} ;
+
+
+/*
+    BASIC TYPES
+
+    These actions describe the basic type specifiers, char, short, int,
+    and so on.  This is a simple map onto the calculus type BTYPE.
+*/
+
+<btype_char> : () -> ( bt ) = @{ @bt = btype_char ; @} ;
+<btype_short> : () -> ( bt ) = @{ @bt = btype_short ; @} ;
+<btype_int> : () -> ( bt ) = @{ @bt = btype_int ; @} ;
+<btype_long> : () -> ( bt ) = @{ @bt = btype_long ; @} ;
+<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed ; @} ;
+<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned ; @} ;
+<btype_float> : () -> ( bt ) = @{ @bt = btype_float ; @} ;
+<btype_double> : () -> ( bt ) = @{ @bt = btype_double ; @} ;
+<btype_bool> : () -> ( bt ) = @{ @bt = btype_bool ; @} ;
+<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t ; @} ;
+<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t ; @} ;
+<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t ; @} ;
+<btype_void> : () -> ( bt ) = @{ @bt = btype_void ; @} ;
+<btype_bottom> : () -> ( bt ) = @{ @bt = btype_bottom ; @} ;
+<btype_none> : () -> ( bt ) = @{ @bt = btype_none ; @} ;
+
+<btype_join> : ( b1, b2 ) -> ( bt ) = @{
+    if ( @b1 & @b2 ) {
+	@bt = join_pre_types ( @b1, @b2 ) ;
+    } else {
+	@bt = ( @b1 | @b2 ) ;
+    }
+@} ;
+
+
+/*
+    BASIC TYPE CONSTRUCTORS
+
+    These actions describe how to combine the basic types into real type
+    descriptors.  The null type, type_none, is used to indicate the absence
+    of an optional type.  A base type specifier can be transformed into a
+    partial type by type_pre, and a type name by type_name.  Two partial
+    types may be combined using type_join.  A partial type may be turned
+    into a real type by type_complete, which also checks that the resultant
+    type is not an inferred type (also see dspec_complete).
+*/
+
+<type_none> : () -> ( t ) = @{
+    @t = NULL_type ;
+@} ;
+
+<type_pre> : () -> ( t ) = @{
+    @t = NULL_type ;
+    have_type_specifier = 1 ;
+@} ;
+
+<type_name> : ( id ) -> ( t ) = @{
+    MAKE_type_pre ( cv_none, btype_alias, crt_id_qualifier, @t ) ;
+    COPY_id ( type_name ( @t ), @id ) ;
+    have_type_specifier = 1 ;
+@} ;
+
+<type_elaborate> : ( id, k ) -> ( t ) = @{
+    MAKE_type_pre ( cv_none, @k, crt_id_qualifier, @t ) ;
+    COPY_id ( type_name ( @t ), @id ) ;
+    if ( have_type_declaration == TYPE_DECL_NONE ) {
+	have_type_declaration = TYPE_DECL_ELABORATE ;
+    }
+    have_type_specifier = 1 ;
+@} ;
+
+<type_typename> : ( ns, id ) -> ( t ) = @{
+    @t = make_typename ( @ns, @id ) ;
+    if ( have_type_declaration == TYPE_DECL_NONE ) {
+	have_type_declaration = TYPE_DECL_ELABORATE ;
+	found_elaborate_type = 1 ;
+    }
+    have_type_specifier = 1 ;
+@} ;
+
+<type_join> : ( a, b ) -> ( t ) = @{
+    /* Join two partial types */
+    if ( IS_NULL_type ( @a ) ) {
+	@t = @b ;
+    } else if ( IS_NULL_type ( @b ) ) {
+	@t = @a ;
+    } else {
+	report ( crt_loc, ERR_dcl_type_simple_many ( @a, @b ) ) ;
+	@t = @b ;
+    }
+@} ;
+
+<type_complete> : ( bt, t, cv ) -> ( c ) = @{
+    @c = complete_pre_type ( @bt, @t, @cv, 1 ) ;
+    have_type_specifier = 0 ;
+@} ;
+
+<type_of> : ( op, e, n ) -> ( t ) = @{
+    @t = typeof_exp ( &@e, @n, @op ) ;
+@} ;
+
+<type_check> : ( t ) -> () = @{
+    object_type ( @t, null_tag ) ;
+@} ;
+
+
+/*
+    COMPOSITE TYPE CONSTRUCTORS
+
+    These actions describe how to build up composite types from simpler
+    types.  Except in bitfield types, the type formed is, for example,
+    pointer to null type, the type being pointed to only being filled in
+    later by type_inject.  Note that type_new_array differs from type_array
+    in that the bound expression does not need to be constant.
+*/
+
+<type_ptr> : ( cv ) -> ( p ) = @{
+    MAKE_type_ptr ( @cv, NULL_type, @p ) ;
+@} ;
+
+<type_ref> : ( cv ) -> ( p ) = @{
+    /* Can't have const-volatile qualified references */
+    if ( @cv ) report ( crt_loc, ERR_dcl_ref_cv ( @cv ) ) ;
+    MAKE_type_ref ( cv_none, NULL_type, @p ) ;
+@} ;
+
+<type_ptr_mem> : ( id, cv ) -> ( p ) = @{
+    CLASS_TYPE ct = find_class ( @id ) ;
+    if ( IS_NULL_ctype ( ct ) ) {
+	report ( crt_loc, ERR_dcl_mptr_type ( @id ) ) ;
+	MAKE_type_ptr ( @cv, NULL_type, @p ) ;
+    } else {
+	MAKE_type_ptr_mem ( @cv, ct, NULL_type, @p ) ;
+    }
+@} ;
+
+<type_func> : ( e, w, cv, ex ) -> ( f ) = @{
+    CV_SPEC cv = func_linkage ( @cv ) ;
+    if ( @w ) @e |= FUNC_WEAK ;
+    @f = make_func_type ( NULL_type, @e, cv, @ex ) ;
+@} ;
+
+<type_array> : ( e ) -> ( a ) = @{
+    NAT n = make_array_dim ( @e ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, @a ) ;
+@} ;
+
+<type_new_array> : ( e ) -> ( a ) = @{
+    /* First array bound in a new-declarator */
+    NAT n = make_new_array_dim ( @e ) ;
+    MAKE_type_array ( cv_none, NULL_type, n, @a ) ;
+@} ;
+
+<type_bitfield> : ( p, q, e ) -> ( a ) = @{
+    @a = make_bitfield_type ( @p, @q, @e, 0 ) ;
+@} ;
+
+<type_bitfield_mem> : ( p, q, e, id ) -> ( a ) = @{
+    /* Check for anonymous bitfields */
+    HASHID nm = DEREF_hashid ( id_name ( @id ) ) ;
+    int z = IS_hashid_anon ( nm ) ;
+    @a = make_bitfield_type ( @p, @q, @e, z ) ;
+@} ;
+
+<type_inject> : ( p, t ) -> ( c ) = @{
+    @c = ( IS_NULL_type ( @p ) ? @t : inject_pre_type ( @p, @t, 1 ) ) ;
+@} ;
+
+<type_build> : ( p, t ) -> ( c ) = @{
+    @c = ( IS_NULL_type ( @p ) ? @t : inject_pre_type ( @p, @t, 0 ) ) ;
+@} ;
+
+
+/*
+    LISTS OF TYPES
+
+    These actions give the basic constructs for building up lists of
+    types.  They map directly to the calculus list operations.
+*/
+
+<list_type_null> : () -> ( p ) = @{
+    @p = NULL_list ( TYPE ) ;
+@} ;
+
+<list_type_cons> : ( t, q ) -> ( p ) = @{
+    @p = cons_type_set ( @q, @t ) ;
+@} ;
+
+<list_type_all> : () -> ( p ) = @{
+    @p = empty_type_set ;
+@} ;
+
+<list_type_ellipsis> : () -> ( p ) = @{
+    report ( crt_loc, ERR_except_spec_ellipsis () ) ;
+    @p = univ_type_set ;
+@} ;
+
+
+/*
+    CLASS KEYS
+
+    These actions describe the class key qualifiers, class, struct, union
+    and enum.  These are representing by the corresponding lexical token
+    numbers.
+*/
+
+<key_class> : () -> ( key ) = @{ @key = btype_class ; @} ;
+<key_struct> : () -> ( key ) = @{ @key = btype_struct ; @} ;
+<key_union> : () -> ( key ) = @{ @key = btype_union ; @} ;
+<key_enum> : () -> ( key ) = @{ @key = btype_enum ; @} ;
+
+
+/*
+    ACCESS SPECIFIERS
+
+    These actions describe the access specifiers, private, protected and
+    public.  Each access specifier is represented by the corresponding
+    lexical token number.  The current access specifier is held in the
+    crt_access variable, which is initialised in begin_class_defn.
+*/
+
+<access_private> : () -> ( a ) = @{ @a = dspec_private ; @} ;
+<access_protected> : () -> ( a ) = @{ @a = dspec_protected ; @} ;
+<access_public> : () -> ( a ) = @{ @a = dspec_public ; @} ;
+<access_none> : () -> ( a ) = @{ @a = dspec_none ; @} ;
+<access_get> : () -> ( a ) = @{ @a = crt_access ; @} ;
+<access_set> : ( a ) -> () = @{ crt_access = @a ; @} ;
+
+<access_check> : () -> () = @{
+    if ( crt_access_list.pending ) {
+	IGNORE report_access ( crt_func_id ) ;
+    }
+@} ;
+
+<access_check_class> : () -> () = @{
+    if ( crt_access_list.pending ) {
+	IDENTIFIER id = DEREF_id ( ctype_name ( crt_class ) ) ;
+	IGNORE report_access ( id ) ;
+    }
+@} ;
+
+<access_check_decl> : ( d ) -> () = @{
+    if ( crt_access_list.pending ) {
+	IGNORE report_access ( @d ) ;
+    }
+@} ;
+
+<access_check_ret> : ( d, r ) -> () = @{
+    IGNORE clear_access ( @d, &@r ) ;
+@} ;
+
+<access_return> : () -> ( r ) = @{
+    save_access ( &@r ) ;
+@} ;
+
+<access_free> : ( r ) -> () = @{
+    free_access ( &@r ) ;
+@} ;
+
+
+/*
+    CLASS AND ENUMERATION TYPE CONSTRUCTORS
+
+    These actions describe how to build up class and enumeration types.
+    They also include the elaborated type specifiers.  Note that the value
+    of have_type_declaration is set according to the declaration processed.
+*/
+
+<type_class_begin> : ( id, k, q ) -> ( t, b ) = @{
+    IDENTIFIER id = constr_name ( last_namespace, @id ) ;
+    @t = begin_class_defn ( id, @k, cinfo_none, @q ) ;
+    @b = in_function_defn ;
+    in_function_defn = 0 ;
+    in_class_defn++ ;
+    really_in_class_defn++ ;
+    no_type_defns++ ;
+@} ;
+
+<type_class_end> : ( p, b ) -> ( t ) = @{
+    @t = end_class_defn ( @p ) ;
+    in_function_defn = @b ;
+    in_class_defn-- ;
+    really_in_class_defn-- ;
+@} ;
+
+<class_base> : ( id, a, v ) -> () = @{
+    add_base_class ( @id, @a, @v ) ;
+@} ;
+
+<class_base_end> : ( t ) -> () = @{
+    end_base_class ( crt_class, @t ) ;
+@} ;
+
+<type_enum_begin> : ( id, q ) -> ( t ) = @{
+    IDENTIFIER id = constr_name ( last_namespace, @id ) ;
+    @t = begin_enum_defn ( id, @q ) ;
+    no_type_defns++ ;
+@} ;
+
+<type_enum_end> : ( p ) -> ( t ) = @{
+    @t = end_enum_defn ( @p ) ;
+@} ;
+
+
+/*
+    DECLARATION SPECIFIERS
+
+    These actions describe how to construct and combine declaration
+    specifiers.  These include the storage class specifiers, the function
+    specifiers, friend and typedef.  The action dspec_join combines two
+    declaration specifiers by bitwise or'ing them and checking for
+    duplications.  The action dspec_complete is analogous to tspec_complete
+    but also checks any associated declaration specifiers.  It also does
+    not check for inferred types.
+*/
+
+<dspec_none> : () -> ( ds ) = @{ @ds = dspec_none ; @} ;
+<dspec_auto> : () -> ( ds ) = @{ @ds = dspec_auto ; @} ;
+<dspec_register> : () -> ( ds ) = @{ @ds = dspec_register ; @} ;
+<dspec_static> : () -> ( ds ) = @{ @ds = dspec_static ; @} ;
+<dspec_extern> : () -> ( ds ) = @{ @ds = dspec_extern ; @} ;
+<dspec_mutable> : () -> ( ds ) = @{ @ds = dspec_mutable ; @} ;
+<dspec_inline> : () -> ( ds ) = @{ @ds = dspec_inline ; @} ;
+<dspec_virtual> : () -> ( ds ) = @{ @ds = dspec_virtual ; @} ;
+<dspec_explicit> : () -> ( ds ) = @{ @ds = dspec_explicit ; @} ;
+<dspec_overload> : () -> ( ds ) = @{ @ds = dspec_none ; @} ;
+<dspec_friend> : () -> ( ds ) = @{ @ds = dspec_friend ; @} ;
+<dspec_typedef> : () -> ( ds ) = @{ @ds = dspec_typedef ; @} ;
+<dspec_linkage> : () -> ( ds ) = @{ @ds = ( dspec_extern | dspec_c ) ; @} ;
+
+<dspec_join> : ( a, b ) -> ( ds ) = @{
+    /* Combine two declaration specifiers */
+    DECL_SPEC d = ( ( @a & @b ) & dspec_duplicate ) ;
+    if ( d ) report ( crt_loc, ERR_dcl_spec_dup ( d ) ) ;
+    @ds = ( @a | @b ) ;
+@} ;
+
+<dspec_check> : ( ds ) -> () = @{
+    if ( have_type_specifier ) report ( crt_loc, ERR_dcl_spec_order ( @ds ) ) ;
+@} ;
+
+<dspec_complete> : ( bt, t, cv, ds ) -> ( c, d ) = @{
+    /* Complete a declaration specifier and a type */
+    @d = complete_dspec ( @ds, @bt, @t, @cv ) ;
+    @c = complete_pre_type ( @bt, @t, @cv, 0 ) ;
+    have_type_specifier = 0 ;
+@} ;
+
+
+/*
+    LINKAGE SPECIFIERS
+
+    These actions describe the linkage specifiers.  These are implemented
+    by a simple global variable, crt_linkage.  The action linkage_string
+    translates a string literal expression into a linkage specifier.
+*/
+
+<linkage_string> : ( s ) -> ( a ) = @{
+    @a = find_linkage ( @s ) ;
+@} ;
+
+<linkage_begin> : ( a ) -> ( b ) = @{
+    @b = crt_linkage ;
+    crt_linkage = @a ;
+    IGNORE incr_value ( OPT_VAL_external_specs ) ;
+@} ;
+
+<linkage_end> : ( a ) -> () = @{
+    decr_value ( OPT_VAL_external_specs ) ;
+    crt_linkage = @a ;
+@} ;
+
+
+/*
+    OBJECT DECLARATIONS
+
+    These actions describe how to construct an object declaration.
+*/
+
+<declare_id> : ( ds, bt, t, id ) -> ( d ) = @{
+    if ( type_tag ( @t ) == type_func_tag ) {
+	/* Look ahead for function definitions */
+	int def = predict_func_defn () ;
+	if ( def & !have_func_declarator ) adjust_param ( @t ) ;
+	@d = make_func_decl ( @ds, @t, @id, def ) ;
+	is_function_next = def ;
+    } else {
+	int def = predict_obj_defn () ;
+	@d = make_object_decl ( @ds, @t, @id, def ) ;
+	is_function_next = 0 ;
+    }
+    if ( IS_id_type_alias ( @d ) ) {
+	BASE_TYPE bs = DEREF_btype ( id_type_alias_rep ( @d ) ) ;
+	bs |= @bt ;
+	COPY_btype ( id_type_alias_rep ( @d ), bs ) ;
+    }
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+@} ;
+
+<declare_id_empty> : ( ds, s, bt, t, cv ) -> () = @{
+    IGNORE empty_decl ( @ds, @s, @bt, @t, @cv, last_lex_token, 0 ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+    have_type_specifier = 0 ;
+@} ;
+
+<declare_param> : ( ds, t, id, p ) -> ( d ) = @{
+    @d = make_param_decl ( @ds, @t, @id, @p ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+@} ;
+
+<declare_member> : ( ds, bt, t, id, f ) -> ( d, fr ) = @{
+    DECL_SPEC ds = @ds ;
+    if ( type_tag ( @t ) == type_func_tag ) {
+	/* Look ahead for function definitions */
+	int def = predict_func_defn () ;
+	if ( def & !have_func_declarator ) adjust_param ( @t ) ;
+	if ( ds & dspec_friend ) {
+	    @d = make_friend_decl ( ds, @t, @id, def, 1 ) ;
+	    @fr = 1 ;
+	} else {
+	    @d = make_func_mem_decl ( ds, @t, @id, def ) ;
+	    @fr = 0 ;
+	}
+	is_function_next = def ;
+    } else {
+	int f = ( @f && ( crt_lex_token == lex_semicolon ) ) ;
+	@d = make_member_decl ( ds, @t, @id, f ) ;
+	@fr = 0 ;
+	is_function_next = 0 ;
+    }
+    if ( IS_id_type_alias ( @d ) ) {
+	BASE_TYPE bs = DEREF_btype ( id_type_alias_rep ( @d ) ) ;
+	bs |= @bt ;
+	COPY_btype ( id_type_alias_rep ( @d ), bs ) ;
+    }
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+@} ;
+
+<declare_member_empty> : ( ds, s, bt, t, cv ) -> () = @{
+    IGNORE empty_decl ( @ds, @s, @bt, @t, @cv, last_lex_token, 1 ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+    have_type_specifier = 0 ;
+@} ;
+
+<declare_bitfield> : ( ds, t, id ) -> ( d ) = @{
+    IDENTIFIER id = make_member_decl ( @ds, @t, @id, 0 ) ;
+    int def = init_member ( id, NULL_exp ) ;
+    if ( do_dump ) dump_declare ( id, &decl_loc, def ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+    is_function_next = 0 ;
+    @d = id ;
+@} ;
+
+<declare_enum> : ( t, id, e ) -> () = @{
+    IDENTIFIER id = constr_name ( last_namespace, @id ) ;
+    IGNORE make_enumerator ( @t, id, @e ) ;
+@} ;
+
+<declare_except> : ( ds, t, id, n ) -> ( d ) = @{
+    @d = make_except_decl ( @ds, @t, @id, @n ) ;
+    have_type_declaration = TYPE_DECL_NONE ;
+    have_func_declarator = 0 ;
+@} ;
+
+<declare_none> : () -> ( d ) = @{
+    @d = NULL_id ;
+@} ;
+
+<declarator_start> : () -> () = @{
+    crt_templ_qualifier = 0 ;
+@} ;
+
+<declarator_begin> : ( id ) -> () = @{
+    begin_declarator ( @id, crt_id_qualifier, qual_namespace, 1 ) ;
+@} ;
+
+<declarator_end> : ( d ) -> () = @{
+    end_declarator ( @d, 1 ) ;
+@} ;
+
+<declarator_posn> : ( id ) -> () = @{
+    IDENTIFIER pid = underlying_id ( @id ) ;
+    DEREF_loc ( id_loc ( pid ), decl_loc ) ;
+@} ;
+
+<decl_nspace_begin> : ( ns ) -> () = @{
+    if ( add_nested_nspace ( @ns ) ) {
+	RESCAN_LEXER ;
+    }
+@} ;
+
+<decl_nspace_end> : ( ns ) -> () = @{
+    if ( remove_nested_nspace ( @ns ) ) {
+	RESCAN_LEXER ;
+    }
+@} ;
+
+<declarator_type> : ( id ) -> ( cid ) = @{
+    @cid = constr_name ( last_namespace, @id ) ;
+@} ;
+
+<declarator_bad> : ( t ) -> () = @{
+    if ( IS_NULL_type ( @t ) ) {
+	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
+    }
+@} ;
+
+<declare_extern> : ( e ) -> () = @{
+    external_declaration ( @e, 1 ) ;
+@} ;
+
+<param_func> : () -> ( p ) = @{
+    @p = CONTEXT_PARAMETER ;
+@} ;
+
+
+/*
+    INITIALISERS
+
+    These actions describe the object initialisers.  The main action is
+    initialise_id which initialises d to e (which can be the null expression).
+    The action initialiser_bad is used to weed out badly placed function
+    style initialisers caused by their inclusion in the declarators.
+*/
+
+<initialise_id> : ( d, e ) -> () = @{
+    int def = init_object ( @d, @e ) ;
+    if ( do_dump ) dump_declare ( @d, &decl_loc, def ) ;
+@} ;
+
+<initialise_param> : ( d, e ) -> () = @{
+    init_param ( @d, @e ) ;
+@} ;
+
+<initialise_member> : ( d, e, f ) -> () = @{
+    int def = ( @f ? init_object ( @d, @e ) : init_member ( @d, @e ) ) ;
+    if ( do_dump ) dump_declare ( @d, &decl_loc, def ) ;
+@} ;
+
+<initialiser_bad> : ( b ) -> () = @{
+    if ( @b ) report ( crt_loc, ERR_dcl_init_bad () ) ;
+@} ;
+
+
+/*
+    NAMESPACES
+
+    These actions describe the namespace and using declarations.
+*/
+
+<namespace_begin> : ( id ) -> () = @{
+    begin_namespace ( @id, 0 ) ;
+@} ;
+
+<namespace_end> : () -> () = @{
+    end_namespace ( 0 ) ;
+@} ;
+
+<namespace_begin_anon> : () -> () = @{
+    decl_loc = crt_loc ;
+    begin_namespace ( NULL_id, 1 ) ;
+@} ;
+
+<namespace_end_anon> : () -> () = @{
+    end_namespace ( 1 ) ;
+@} ;
+
+<namespace_name> : ( id ) -> ( ns ) = @{
+    @ns = find_nspace_id ( @id ) ;
+@} ;
+
+<namespace_alias> : ( id, ns ) -> () = @{
+    alias_namespace ( @id, @ns ) ;
+@} ;
+
+<using_identifier> : ( id ) -> () = @{
+    IGNORE using_identifier ( @id ) ;
+@} ;
+
+<using_typename> : ( t ) -> () = @{
+    using_typename ( @t ) ;
+@} ;
+
+<using_namespace> : ( ns ) -> () = @{
+    using_namespace ( @ns ) ;
+@} ;
+
+
+/*
+    TEMPLATES
+
+    These actions describe the template declarations.
+*/
+
+<template_type> : ( p, t ) -> ( s ) = @{
+    @s = make_template_type ( @p, @t ) ;
+@} ;
+
+<template_end> : ( p ) -> () = @{
+    end_template ( @p ) ;
+@} ;
+
+<template_params> : ( e ) -> ( p ) = @{
+    @p = template_params ( @e ) ;
+    RESCAN_LEXER ;
+@} ;
+
+<template_param_type> : ( id ) -> ( d ) = @{
+    @d = make_type_param ( @id ) ;
+@} ;
+
+<template_init_type> : ( d, t ) -> () = @{
+    init_type_param ( @d, @t ) ;
+@} ;
+
+<template_param_name> : ( t, id, ds ) -> ( d ) = @{
+    @d = make_template_param ( @t, @id ) ;
+    UNUSED ( @ds ) ;
+@} ;
+
+<template_init_name> : ( d, id ) -> () = @{
+    init_template_param ( @d, @id ) ;
+@} ;
+
+<template_check> : ( t, ds ) -> () = @{
+    if ( !IS_NULL_type ( @t ) ) report ( crt_loc, ERR_temp_decl_bad () ) ;
+    UNUSED ( @ds ) ;
+@} ;
+
+<template_decl> : ( t ) -> () = @{
+    if ( !IS_NULL_type ( @t ) ) template_decl ( @t ) ;
+@} ;
+
+
+/*
+    OFFSETS
+
+    These actions describe the constant offset expressions.
+*/
+
+<offset_nspace> : ( t ) -> ( ns ) = @{
+    @ns = offset_nspace ( @t ) ;
+@} ;
+
+<offset_member> : ( b, s, id, ns ) -> ( a, t ) = @{
+    OFFSET off = offset_member ( @s, @id, &@t, @ns, 1 ) ;
+    @a = offset_add ( @b, off ) ;
+@} ;
+
+<offset_index> : ( b, s, e ) -> ( a, t ) = @{
+    OFFSET off = offset_index ( @s, @e, &@t ) ;
+    @a = offset_add ( @b, off ) ;
+@} ;
+
+
+/*
+    OTHER DECLARATIONS
+
+    These actions describe the declarations not covered above.
+*/
+
+<declare_asm> : ( a, p ) -> ( e ) = @{
+    @e = make_asm ( @a, @p ) ;
+@} ;
+
+<decl_hash_if> : ( a ) -> () = @{
+    target_decl ( lex_if, @a ) ;
+@} ;
+
+<decl_hash_elif> : ( a ) -> () = @{
+    target_decl ( lex_elif, @a ) ;
+@} ;
+
+<decl_hash_else> : () -> () = @{
+    target_decl ( lex_else, NULL_exp ) ;
+@} ;
+
+<decl_hash_endif> : () -> () = @{
+    target_decl ( lex_endif, NULL_exp ) ;
+@} ;
+
+<cond_hash_if> : ( a ) -> ( c ) = @{
+    EXP c = crt_hash_cond ;
+    crt_hash_cond = make_if_cond ( @a, c ) ;
+    @c = c ;
+@} ;
+
+<cond_hash_elif> : ( a ) -> () = @{
+    EXP c = make_else_cond ( crt_hash_cond ) ;
+    crt_hash_cond = make_if_cond ( @a, c ) ;
+@} ;
+
+<cond_hash_else> : () -> () = @{
+    crt_hash_cond = make_else_cond ( crt_hash_cond ) ;
+@} ;
+
+<cond_hash_endif> : ( a ) -> () = @{
+    crt_hash_cond = @a ;
+@} ;
+
+
+/*
+    EXCEPTION SPECIFIERS
+
+    These actions deal with the exception specifiers.
+*/
+
+<exception_check> : ( s, n ) -> ( t ) = @{
+    @t = check_except_type ( @s, @n ) ;
+@} ;
+
+
+/*
+    ANACHRONISMS
+
+    The following rules deal with various anachronistic constructs which
+    have been included in the grammar.
+*/
+
+<anachronism_delete> : ( e ) -> () = @{
+    /* Array size in 'delete []' */
+    old_delete_array ( @e ) ;
+@} ;
+
+
+/*
+    ERROR REPORTING
+
+    These actions describe the error reporting functions for syntax errors
+    and for weeding out extra constructs which have been allowed in the
+    grammar to permit for better error reporting.
+*/
+
+<error_fatal> : () -> () = @{
+    /* Unrecoverable syntax errors */
+    ERROR err = ERR_lex_parse ( crt_token ) ;
+    err = concat_error ( err, ERR_lex_abort () ) ;
+    report ( crt_loc, err ) ;
+    have_syntax_error = 1 ;
+@} ;
+
+<error_syntax> : () -> () = @{
+    /* Syntax errors */
+    ERROR err = ERR_lex_parse ( crt_token ) ;
+    report ( crt_loc, err ) ;
+    have_syntax_error = 1 ;
+@} ;
+
+<error_comma> : () -> () = @{
+    /* Extra comma at the end of a list */
+    report ( crt_loc, ERR_lex_extra_comma () ) ;
+@} ;
+
+<error_overload> : ( t ) -> () = @{
+    /* Illegal overloaded operator */
+    report ( crt_loc, ERR_over_oper_bad ( @t ) ) ;
+@} ;
+
+<expected> : ( t ) -> () = @{
+    /* Expected symbol */
+    int p = primary_form ( crt_lex_token ) ;
+    if ( p != @t ) report ( crt_loc, ERR_lex_expect ( @t ) ) ;
+@} ;
+
+
+
+/*
+    PARSER COUNTERS
+
+    These actions correspond to the various parser counters defined in
+    predict.c.  For example no_side_effects gives the total number of side
+    effects encountered, while diff_side_effects gives the number defined
+    since a previous call of no_side_effects.
+*/
+
+<no_side_effects> : () -> ( n ) = @{
+    @n = no_side_effects ;
+@} ;
+
+<no_type_defns> : () -> ( n ) = @{
+    @n = no_type_defns ;
+@} ;
+
+<diff_side_effects> : ( m ) -> ( n ) = @{
+    @n = no_side_effects - @m ;
+@} ;
+
+<diff_type_defns> : ( m ) -> ( n ) = @{
+    @n = no_type_defns - @m ;
+@} ;
+
+<default_arg_begin> : () -> () = @{
+    in_default_arg++ ;
+@} ;
+
+<default_arg_end> : () -> () = @{
+    in_default_arg-- ;
+@} ;
+
+<sizeof_begin> : () -> () = @{
+    suppress_usage++ ;
+@} ;
+
+<sizeof_end> : () -> () = @{
+    suppress_usage-- ;
+@} ;
+
+
+/*
+    PREDICATE LITERALS
+
+    These actions give the basic values, true and false, for the type
+    BOOL.
+*/
+
+<bool_false> : () -> ( b ) = @{ @b = 0 ; @} ;
+<bool_true> : () -> ( b ) = @{ @b = 1 ; @} ;
+
+
+/*
+    PARSER PREDICATES
+
+    In several places the parser needs some help in order to resolve
+    ambiguities by means of look-ahead etc.  This help is provided by
+    means of the following predicates.  See predict.c for more details.
+*/
+
+<is_true> : ( c ) -> ( b ) = @{
+    @b = @c ;
+@} ;
+
+<is_class_spec> : () -> ( b ) = @{
+    /* Resolve class-specifiers from elaborated-type-specifiers */
+    @b = predict_class ( 1 ) ;
+@} ;
+
+<is_function> : () -> ( b ) = @{
+    /* Resolve function definitions from other declarations */
+    @b = is_function_next ;
+@} ;
+
+<is_decl_specifier> : () -> ( b ) = @{
+    /* Resolve declaration-specifiers from other declarators */
+    @b = predict_dspec ( 0 ) ;
+@} ;
+
+<is_decl_statement> : () -> ( b ) = @{
+    /* Resolve declaration-statements from expression-statements */
+    int b = predict_decl () ;
+    if ( b ) in_declaration++ ;
+    @b = b ;
+@} ;
+
+<is_enum_spec> : () -> ( b ) = @{
+    /* Resolve enum-specifiers from elaborated-type-specifiers */
+    @b = predict_class ( 0 ) ;
+@} ;
+
+<is_initialiser> : () -> ( b ) = @{
+    /* Resolve function-style initialisers from function declarators */
+    @b = predict_init () ;
+@} ;
+
+<is_new_ptr_operator> : () -> ( b ) = @{
+    /* Resolve pointer declarators from expressions */
+    @b = predict_ptr ( 0 ) ;
+@} ;
+
+<is_ptr_operator> : () -> ( b ) = @{
+    /* Resolve pointer or reference declarators from expressions */
+    @b = predict_ptr ( 1 ) ;
+@} ;
+
+<is_array> : () -> ( b ) = @{
+    /* Resolve 'operator new []' from 'operator new [3]' */
+    @b = predict_array () ;
+@} ;
+
+<is_type_id_false> : () -> ( b ) = @{
+    /* Resolve type-ids from expressions */
+    @b = predict_typeid ( 0 ) ;
+@} ;
+
+<is_type_id_true> : () -> ( b ) = @{
+    /* Resolve type-ids from expressions */
+    @b = predict_typeid ( 1 ) ;
+@} ;
+
+<is_type_specifier> : () -> ( b ) = @{
+    /* Resolve type-specifiers from other declarators */
+    @b = predict_tspec ( 0 ) ;
+@} ;
+
+<is_parameter> : () -> ( b ) = @{
+    /* Resolve parameter declarators from type names */
+    @b = predict_param () ;
+@} ;
+
+<is_skipped> : ( p ) -> ( b ) = @{
+    @b = ( in_class_defn && @p == CONTEXT_PARAMETER ) ;
+@} ;
+
+
+/*
+    PARSER HACKS AND PATCHES
+
+    In a couple of places it is necessary to fool the parser by changing
+    the next token (or even inserting an extra token) depending on the
+    current state.
+*/
+
+<rescan_token> : () -> () = @{
+    RESCAN_LEXER ;
+@} ;
+
+<rescan_template> : ( ns ) -> () = @{
+    rescan_template ( @ns ) ;
+@} ;
+
+<rescan_init> : () -> () = @{
+    if ( crt_lex_token == lex_open_Hinit ) {
+	crt_lex_token = lex_open_Hround ;
+    } else {
+	RESCAN_LEXER ;
+    }
+@} ;
+
+<check_decl_specifier> : () -> () = @{
+    /* A type-name can be a declarator-id */
+    if ( have_type_specifier && crt_lex_token == lex_type_Hname ) {
+	crt_lex_token = lex_identifier ;
+    }
+@} ;
+
+
+/*
+    FILE TRAILERS
+
+    These trailers are appended to the parser definition and declaration
+    output files.
+*/
+
+%trailer% @{
+@}, @{
+
+
+/*
+    DUMMY LEXICAL TOKEN VALUES
+
+    These values are used as lexical token values in certain circumstances
+    but do not represent actual tokens.  Note that they are all negative.
+*/
+
+#define lex_ignore_token	-1
+#define lex_end_condition	-2
+#define lex_included		-3
+
+
+#endif
+@} ;

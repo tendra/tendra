@@ -1,0 +1,5 @@
+/* TCC environment for compact output */
+
++FLAG			"--2LI"
++FLAG_DUMP_LINK		"-D"
++FLAG			"-error_limit0"

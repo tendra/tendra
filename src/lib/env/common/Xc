@@ -1,0 +1,4 @@
+/* ENVIRONMENT FOR -Xc ON common */
+
++STARTUP		"-f-STARTUPDIR-/Modes/Xc"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xc"

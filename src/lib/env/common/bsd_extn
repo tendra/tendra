@@ -1,0 +1,7 @@
+/* tcc environment for bsd_extn */
+
+<INCL			"-Nbsd_extn:-INCLDIR-/bsd_extn.api"
+<LIB			"-lbsd_extn"
++FLAG_INSTALL		"-Ybsd_extn"
+<API_NAME		"-Absd_extn"
+<INFO			"BSD@extension@API"

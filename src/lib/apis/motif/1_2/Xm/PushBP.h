@@ -1,0 +1,93 @@
+/*
+    COPYRIGHT NOTICE
+
+    This program is the proprietary property of IXI Ltd, a subsidiary
+    of the Santa Cruz Operation (SCO). Use, reproduction, production
+    of amended versions and/or transfer of this program is permitted
+    PROVIDED THAT:
+
+    (a)  This legend be preserved on any such reproduction and amended
+         version.
+
+    (b)  Any recipient of such reproduction or amended version accept
+         the conditions set out in this legend.
+
+    IXI accepts no liability whatsoever in relation to any use to
+    which this program may be put and gives no warranty as to the
+    program's suitability for any purpose.
+
+    All rights reserved.
+
+    Copyright (c) 1995, 1996
+
+*/
+
+
+/* SCO CID (IXI) PushBP.h,v 1.1 1996/08/08 14:13:15 wendland Exp */
+
+%%
+#ifndef __MOTIF_P_HEADERS
+#error Unexpected access to Motif P headers
+#endif
+%%
+
++USE "motif/1_2", "Xm/PushB.h";
++USE "motif/1_2", "Xm/LabelP.h";
+
++FIELD (struct) _XmPushButtonClassPart := {
+
+   	XtPointer	extension;
+};
+
++TYPEDEF _XmPushButtonClassPart XmPushButtonClassPart;
+
++FIELD (struct) _XmPushButtonClassRec := {
+
+    CoreClassPart	  core_class;
+    XmPrimitiveClassPart  primitive_class;
+    XmLabelClassPart      label_class;
+    XmPushButtonClassPart pushbutton_class;
+};
+
++TYPEDEF _XmPushButtonClassRec XmPushButtonClassRec;
+
+
++EXP lvalue XmPushButtonClassRec xmPushButtonClassRec;
+
++FIELD (struct) _XmPushButtonPart := {
+
+   Boolean 	    	fill_on_arm;
+   Dimension        	show_as_default;
+   Pixel	    	arm_color;
+   Pixmap	    	arm_pixmap;
+   XtCallbackList   	activate_callback;
+   XtCallbackList   	arm_callback;
+   XtCallbackList   	disarm_callback;
+
+   Boolean 	    	armed;
+   Pixmap	    	unarm_pixmap;
+   GC               	fill_gc;
+   GC               	background_gc;
+   XtIntervalId     	timer;	
+   unsigned char    	multiClick;
+   int		   	click_count;
+   Time		    	armTimeStamp;
+   Boolean      	compatible;
+   Dimension    	default_button_shadow_thickness;  
+};
+
++TYPEDEF _XmPushButtonPart XmPushButtonPart;
+
+
++FIELD (struct) _XmPushButtonRec := {
+
+    CorePart	     core;
+    XmPrimitivePart  primitive;
+    XmLabelPart      label;
+    XmPushButtonPart pushbutton;
+};
+
++TYPEDEF _XmPushButtonRec XmPushButtonRec;
+
++FUNC void _XmClearBCompatibility(Widget pb) ;
+

@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR Linux I386 */
+
++CRT0		"/usr/lib/crt0.o"
+<LINK		"-L-LIBDIR-/diag"
+>SYS_LIB	"-static -lg"

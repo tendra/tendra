@@ -1,0 +1,4 @@
+/* tcc environment for code production on PROMs */
+
++FLAG_TRANS			"-N"
++CRTP_N				"-LIBDIR-/sys/crtp_n.o"

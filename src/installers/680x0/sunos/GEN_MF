@@ -1,0 +1,39 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+INST=${BASE}/src/installers
+SPEC=${BASE}/src/lib/tdf/def_4_1.db
+MACH_CPU=680x0
+MACH_OS=sunos
+MACH_DIAG=stabs
+
+make_mf\
+    +A BASE=${BASE}\
+    +A INST=${INST}\
+    +A SPEC=${SPEC}\
+    +A SRC=${INST}/${MACH_CPU}/${MACH_OS}\
+    +A SRC1=${INST}/${MACH_CPU}/common\
+    +A SRC2=${INST}/common/construct\
+    +A SRC3=${INST}/common/diag\
+    +A SRC5=${INST}/common/linkinfo\
+    +A SRC6=${INST}/common/reader\
+    +A SRC7=${INST}/common/templ\
+    +V EXTRA=auto\
+    +W ...\
+    -o .../trans\
+    -Xc -Y32bit -Yposix\
+    -I${INST}/${MACH_CPU}/${MACH_OS}\
+    -I${INST}/${MACH_CPU}/common\
+    -I${INST}/common/construct\
+    -I${INST}/common/diag\
+    -I${INST}/common/linkinfo\
+    -I${INST}/common/reader\
+    ${INST}/${MACH_CPU}/${MACH_OS}/*.c\
+    ${INST}/${MACH_CPU}/common/*.c\
+    ${INST}/common/construct/*.c\
+    ${INST}/common/diag/*.c\
+    ${INST}/common/linkinfo/*.c\
+    ${INST}/common/reader/*.c\
+    > Makefile
+
+cat ../../common/Makefile.ext >> Makefile

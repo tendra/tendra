@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : PROFILING FOR SPARC */
+
++LD			"/bin/ld -dc -dp -X"
++SYS_LIBC		"-lc_p"
++FLAG_TRANS		"-P"
++CRT0			"/usr/lib/mcrt0.o"
++LINE_START		"#pragma@preserve@*"

@@ -1,0 +1,5 @@
+/* ENVIRONMENT FOR -Xa ON svr4_sparc */
+
++STARTUP		"-f-STARTUPDIR-/Modes/Xa"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xa"
++CRT1			"/usr/ccs/lib/values-Xa.o"

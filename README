@@ -1,0 +1,387 @@
+TENDRA 4.1.2 RELEASE INFORMATION
+================================
+
+
+COPYRIGHT INFORMATION
+---------------------
+
+Please read the file COPYRIGHT for the DERA copyright notice.  In addition,
+the power installer (src/installers/power and its subdirectories) are
+subject to the following copyright notice:
+
+    Copyright (c) 1996 Open Software Foundation, Inc.
+
+    All Rights Reserved
+
+    Permission to use, copy, modify, and distribute this software and its
+    documentation for any purpose and without fee is hereby granted, provided
+    that the above copyright notice appears in all copies and that both the
+    copyright notice and this permission notice appear in supporting
+    documentation.
+
+    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+    INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE.
+
+    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+    CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+and the Motif 1.2 API description (src/lib/apis/motif1.2 and its
+subdirectories) are subject to the following copyright:
+
+    COPYRIGHT NOTICE
+
+    This program is the proprietary property of IXI Ltd, a subsidiary
+    of the Santa Cruz Operation (SCO). Use, reproduction, production
+    of amended versions and/or transfer of this program is permitted
+    PROVIDED THAT:
+
+    (a)  This legend be preserved on any such reproduction and amended
+         version.
+
+    (b)  Any recipient of such reproduction or amended version accept
+         the conditions set out in this legend.
+
+    IXI accepts no liability whatsoever in relation to any use to
+    which this program may be put and gives no warranty as to the
+    program's suitability for any purpose.
+
+    All rights reserved.
+
+    Copyright (c) 1995, 1996
+
+
+DOWNLOADING INFORMATION
+-----------------------
+
+The TenDRA 4.1.2 release is available via the Web site:
+
+	http://alph.dera.gov.uk/TenDRA/
+
+or by FTP from alph.dera.gov.uk, in the directory /pub/TenDRA.  It consists
+of the gzipped tar archive:
+
+	TenDRA-4.1.2.tar.gz
+
+(about 3.9MB - see the actual site for the precise figure), plus the
+optional documentation, comprising a copy of the documents available
+from the TenDRA web site:
+
+	TenDRA-4.1.2-doc.tar.gz
+
+(about 760kB).
+
+
+INSTALLATION INFORMATION
+------------------------
+
+The main source archive, TenDRA-4.1.2.tar.gz, can be extracted using:
+
+	gzip -d TenDRA-4.1.2.tar.gz
+	tar xvf TenDRA-4.1.2.tar
+
+to give a directory, TenDRA-4.1.2, containing the release source.  If
+you also want to install the release documentation you will also need to
+download TenDRA-4.1.2-doc.tar.gz and extract this as above.  The
+documentation is extracted into the subdirectory TenDRA-4.1.2/doc.
+
+The release is installed by running the shell script INSTALL found in
+the main source directory.  The default configuration installs the
+public executables into /usr/local/bin, the private executables,
+libraries, configuration files etc. into /usr/local/lib/TenDRA, and
+the manual pages into /usr/local/man. It also assumes that the source
+has been installed in /usr/local/src/TenDRA-4.1.2.  These locations
+may be changed by editing the INSTALL script (which is fully commented).
+
+Note that the installation script makes no distinction between build
+and installation due to the large degree of interdependence between
+the various tools.  If a separate build phase is required then the
+system should be installed into a local directory and then re-installed
+into its permanent location.
+
+Other installation details, such as which compiler to use, can be
+specified using command-line options to INSTALL, or by editing the
+script.  For example:
+
+	INSTALL -gcc
+
+will install the release using gcc as the compiler.  After this the
+work directory can be removed, and:
+
+	INSTALL -tcc
+
+run to bootstrap the system.
+
+It is suggested that the output of INSTALL is piped into a log file
+for later examination if things go wrong (the script will report whether
+or not there were errors in the installation, but it isn't always
+reliable).
+
+The comments in the INSTALL script should be consulted for more details. 
+
+
+KNOWN INSTALLATION PROBLEMS
+---------------------------
+
+Several of the components have been updated to use the posix1 or xpg4
+APIs rather than the older posix and xpg3.  Due to an error in the
+TenDRA-4.1.1 posix1 API specification, this means that they may not
+compile under the TenDRA-4.1.1 (although they will with TenDRA-4.1.2
+of course).  If this is an issue then modify the Makefiles to use
+the older APIs.
+
+The location of certain system linker files has changed in later versions
+of Linux.  The solution is to change the tcc environment files to reflect
+the new locations.  This can be done by:
+
+	cd src/lib/env/linux/elf
+	mv 80x86 80x86.old
+	mv 80x86.new 80x86
+
+before running INSTALL.
+
+
+ORGANISATION OF RELEASE
+-----------------------
+
+The src subdirectory, which contains the source code, is organised into
+the following top-level directories:
+
+    build		which contains various information used during
+			installation;
+
+    installers		which contains the compiler back-ends, which
+			translate the compiler intermediate form, TDF,
+			to the appropriate machine instructions;
+
+    lib			which contains everything not included in the
+			other directories;
+
+    producers		which contains the compiler front-ends, which
+			translate C and C++ to the compiler intermediate
+			form, TDF;
+
+    tools		which contains various tools for manipulating,
+			viewing and generating TDF;
+
+    utilities		which contains various compiler generator
+			utilities used in the development of the TenDRA
+			software.
+
+The installers directory is split into a common section, containing code
+which is used by all the back ends, plus a directory for each of the
+target CPUs:
+
+    680x0		Motorola 68020, 68030 and 68040,
+    80x86		Intel i386, i486 and Pentium,
+    alpha		DEC Alpha,
+    hppa		HP Precision Architecture,
+    mips		SGI/DEC MIPS,
+    power		POWER,
+    ppc601		POWER PC,
+    sparc		SPARC.
+
+Each CPU directory is also divided into a common section, plus a directory
+for each of the target operating systems:
+
+    680x0/sunos		680x0 on SunOS 4,
+    80x86/cygwin32	Intel on Cygwin32,
+    80x86/freebsd	Intel on FreeBSD,
+    80x86/linux		Intel on Linux,
+    80x86/sco		Intel on SCO,
+    80x86/solaris	Intel on Solaris 2,
+    80x86/svr4.2	Intel on Unixware,
+    alpha/osf1		Alpha on OSF/1,
+    hppa/hpux		HP-PA on HP-UX,
+    mips/irix		MIPS on Irix,
+    mips/ultrix		MIPS on Ultrix,
+    power/aix		POWER on AIX,
+    ppc601/aix		POWER PC on AIX,
+    sparc/solaris	SPARC on Solaris 2,
+    sparc/sunos		SPARC on SunOS 4.
+
+The common installer directory is also subdivided, for convenience, into
+a number of different subdirectories:
+
+    construct		which contains the main routines for transforming
+			and optimising the internal representation;
+
+    diag		which contains routines for reading and processing
+			diagnostic information contained within the TDF;
+
+    dwarf		which contains routines for writing out diagnostic
+			information as DWARF directives;
+
+    dwarf2		which contains routines for writing out diagnostic
+			information as DWARF 2 directives;
+
+    linkinfo		which contains routines for reading linkage
+			information contained within the TDF;
+
+    reader		which contains the main routine for reading the
+			input TDF and building up the internal representation;
+
+    templ		which contains template files used to generate
+			the TDF reading routines.
+
+The producers subdirectory is divided into a common directory, containing
+code shared by both the C and C++ producers, plus directories c and cpp,
+containing the language specific components.  The differences between
+the languages are driven from the parser, which is found in the syntax
+subdirectory of c and cpp.  C merely uses a subset of the routines
+available for the C++ producer, with a number of run-time or compile-time
+flags to control the differences between the languages.
+
+The common producer directory is divided, for convenience into a number
+of subdirectories:
+
+    construct		which contains the main routines for building up
+			and checking the internal representation;
+
+    obj_c		which contains macros describing the internal
+			representation;
+
+    obj_templ		which contains various template files used in
+			automatic code generation;
+
+    obj_tok		which contains TenDRA tokens describing the
+			internal representation;
+
+    output		which contains the routines of writing the
+			internal representation to disk as TDF;
+
+    parse		which contains routines for lexical analysis
+			and preprocessing;
+
+    utility		which contains routines for error reporting,
+			memory allocation etc.
+
+The tools directory contains the source for a number of different tools:
+
+    disp		translates TDF into a human readable form;
+
+    pl			is a structured TDF assembler;
+
+    tcc			is the front-end to the TenDRA compiler;
+
+    tld			links a number of TDF capsules into one;
+
+    tnc			is an unstructured TDF assember and disassembler;
+
+    tspec		is a specification tool used in the TenDRA API
+			descriptions.
+
+The utilities directory contains the source for a number of different
+compiler generator tools:
+
+    calculus		is used to manage the complex type system used
+			in the producers;
+
+    lexi		is a simple lexical analyser generator (lex is
+			not used);
+
+    make_err		is used to manage the producer error catalogue;
+
+    make_mf		is a simple makefile generator;
+
+    make_tdf		is used to generate TDF encoding and decoding
+			routines from the TDF specification;
+
+    shared		contains code common to a number of tools;
+
+    sid			is a parser generator (yacc is not used);
+
+    tuname		is a uname-like utility used in the installation
+			process.
+
+The lib directory is divided into a number of subdirectories:
+
+    apis		containing the TenDRA API descriptions used in
+			its API checking facilities;
+
+    cpp			containing the C++ support library (note that this
+			is only a minimal language support subset of the
+			complete C++ standard library);
+
+    env			containing the compiler front-end configuration
+			files;
+
+    libtdf		containing a support library certain aspects of
+			TDF (such as 64 bits integers);
+
+    machines		containing machine specific tools, libraries and
+			configuration files;
+
+    startup		containing the C and C++ producer configuration
+			files;
+
+    tdf			containing a description of the TDF specification
+			used by make_tdf to generate TDF encoders and
+			decoders.
+
+
+ORGANISATION OF INSTALLED RELEASE
+---------------------------------
+
+The installation script creates three shell scripts in the public
+binaries directory (/usr/local/bin in the default set-up).  These are
+the compiler, tcc, the stand-alone static checker, tchk, and the
+API specification tool, tspec.  The manual pages for these tools and
+those which they invoke are installed in the manual page directory
+(/usr/local/man in the default set-up).  The remaining files are
+installed into the TenDRA configuration directory (/usr/local/lib/TenDRA
+in the default set-up).  The remainder of this section describes the
+files installed into this directory.
+
+For each target machine, a directory:
+
+		    machines/<os>/<os_vers>/<cpu>
+
+is created to hold the machine dependent files, where <os> denotes the
+operating system name, <os_vers> denotes the operating system version
+and <cpu> denotes the CPU type (as above).  This machine directory
+has five subdirectories:
+
+    bin			containing the compiled executables for this
+			machine; advanced users may wish to put this
+			directory on their PATH, but the executables
+			in the public binaries directory should suffice
+			for most users;
+
+    env			containing the tcc configuration files for this
+			machine (see above);
+
+    include		containing the modified system headers for this
+			machine; these are copied directly from the
+			src/lib/machines directory in the release;
+
+    lib			containing the API token libraries describing the
+			implementation of the various standard APIs on
+			this machine; the generation of these libraries
+			from the API descriptions and the system headers
+			is the most complex part of the installation;
+
+    startup		containing the compiler configuration files
+			describing how to navigate through the system
+			headers on this machine; these are copied directly
+			from the src/lib/machines directory in the
+			release.
+
+The remainder of the directories created by the installation are common
+to all machines.  These are:
+
+    building		containing files automatically generated by tspec
+			from the API descriptions which are used to build
+			the API token libraries; these files are only used
+			during installation and may be deleted if space is
+			short;
+
+    include		containing the include files automatically generated
+			by tspec from the API descriptions;
+
+    startup		containing the C and C++ producer configuration
+			files copied directly from the src/lib/startup
+			directory in the release.

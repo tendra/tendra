@@ -1,0 +1,53 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+DEST=${BASE}/lib
+SRC=${BASE}/src/tools/tspec
+APIS=${BASE}/src/lib/apis
+INCL=${DEST}/include
+BUILD=${DEST}/building
+
+make_mf\
+    +A BASE=${BASE}\
+    +A DEST=${DEST}\
+    +A SRC=${SRC}\
+    +A API_DIR=${APIS}\
+    +A INCL_DIR=${INCL}\
+    +A SRC_DIR=${BUILD}\
+    +W ...\
+    +V 'EXTRA=auto'\
+    -o .../tspec1\
+    -DINPUT_DIR='\"${API_DIR}\"'\
+    -DINCLUDE_DIR='\"${INCL_DIR}\"'\
+    -DSRC_DIR='\"${SRC_DIR}\"'\
+    -Yposix1 -Xs\
+    -I ${SRC}\
+    ${SRC}/*.c\
+    > Makefile
+
+cat >> Makefile << EOF
+
+LEXI=lexi
+SID=sid
+SIDOPTS=-l ossg-c -s no-lines
+
+SID_OUT=\${SRC}/syntax.c \${SRC}/syntax.h
+LEXI_OUT=\${SRC}/lexer.h \${SRC}/keyword.h
+
+auto : \${SID_OUT} \${LEXI_OUT}
+
+\${SRC}/syntax.c : \${SRC}/syntax.sid \${SRC}/syntax.act
+	@\${REMOVE} \${SID_OUT}
+	\${SID} \${SIDOPTS} \${SRC}/syntax.sid \${SRC}/syntax.act \${SID_OUT}
+
+\${SRC}/lexer.h : \${SRC}/lexer.lxi
+	@\${REMOVE} \${SRC}/lexer.h
+	\${LEXI} \${SRC}/lexer.lxi \${SRC}/lexer.h
+
+\${SRC}/keyword.h : \${SRC}/lexer.lxi
+	@\${REMOVE} \${SRC}/keyword.h
+	\${LEXI} -k \${SRC}/lexer.lxi \${SRC}/keyword.h
+
+auto_clobber :
+	\${REMOVE} \${SID_OUT} \${LEXI_OUT}
+EOF

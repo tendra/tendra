@@ -1,0 +1,5 @@
+/* tcc environment for strict motif_1_2 */
+
++FLAG		"-Ymotif_1_2"
++FLAG		"-D__STRICT_MOTIF_1_2"
+/* can't put INFO since this is already an extension API */

@@ -1,0 +1,8 @@
+/* tcc environment for system headers on unknown machine */
+
+>INCL			"-Nsystem1:-MACHDIR-/include -Nsystem:/usr/include"
++FLAG			"-f-MACHDIR-/startup/system.h"
++FLAG			"-Y32bit"
++FLAG_TRANS		"-B0"
+>API_NAME		"-Asystem1 -Asystem"
+>INFO			"System@Headers"

@@ -1,0 +1,4 @@
+/* ENVIRONMENT FOR -Xa ON common */
+
++STARTUP		"-f-STARTUPDIR-/Modes/Xa"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xa"

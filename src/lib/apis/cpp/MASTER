@@ -1,0 +1,117 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+
+
+$UNIQUE = 1 ;
+$VERSION = "1.1" ;
+
+# C++ ABI tokens
++IMPLEMENT "cpp", "dummy/basic.h" ;
++IMPLEMENT "cpp", "dummy/ptr_func.h" ;
++IMPLEMENT "cpp", "dummy/ptr_mem.h" ;
++IMPLEMENT "cpp", "dummy/throw.h" ;
++IMPLEMENT "cpp", "dummy/vtable.h" ;
+
+# Standard C headers
++IMPLEMENT "cpp", "cassert" ;
++IMPLEMENT "cpp", "cctype" ;
++IMPLEMENT "cpp", "cerrno" ;
++IMPLEMENT "cpp", "cfloat" ;
++IMPLEMENT "cpp", "climits" ;
++IMPLEMENT "cpp", "clocale" ;
++IMPLEMENT "cpp", "cmath" ;
++IMPLEMENT "cpp", "csetjmp" ;
++IMPLEMENT "cpp", "csignal" ;
++IMPLEMENT "cpp", "cstdarg" ;
++IMPLEMENT "cpp", "cstddef" ;
++IMPLEMENT "cpp", "cstdio" ;
++IMPLEMENT "cpp", "cstdlib" ;
++IMPLEMENT "cpp", "cstring" ;
++IMPLEMENT "cpp", "ctime" ;
++IMPLEMENT "cpp", "cwchar" ;
++IMPLEMENT "cpp", "cwctype" ;
+
+# Standard C++ headers
++IMPLEMENT "cpp", "algorithm" ;
++IMPLEMENT "cpp", "bitset" ;
++IMPLEMENT "cpp", "complex" ;
++IMPLEMENT "cpp", "deque" ;
++IMPLEMENT "cpp", "exception" ;
++IMPLEMENT "cpp", "fstream" ;
++IMPLEMENT "cpp", "functional" ;
++IMPLEMENT "cpp", "iomanip" ;
++IMPLEMENT "cpp", "ios" ;
++IMPLEMENT "cpp", "iosfwd" ;
++IMPLEMENT "cpp", "iostream" ;
++IMPLEMENT "cpp", "istream" ;
++IMPLEMENT "cpp", "iterator" ;
++IMPLEMENT "cpp", "limits" ;
++IMPLEMENT "cpp", "list" ;
++IMPLEMENT "cpp", "locale" ;
++IMPLEMENT "cpp", "map" ;
++IMPLEMENT "cpp", "memory" ;
++IMPLEMENT "cpp", "new" ;
++IMPLEMENT "cpp", "numeric" ;
++IMPLEMENT "cpp", "ostream" ;
++IMPLEMENT "cpp", "queue" ;
++IMPLEMENT "cpp", "set" ;
++IMPLEMENT "cpp", "sstream" ;
++IMPLEMENT "cpp", "stack" ;
++IMPLEMENT "cpp", "stdexcept" ;
++IMPLEMENT "cpp", "streambuf" ;
++IMPLEMENT "cpp", "string" ;
++IMPLEMENT "cpp", "typeinfo" ;
++IMPLEMENT "cpp", "utility" ;
++IMPLEMENT "cpp", "valarray" ;
++IMPLEMENT "cpp", "vector" ;
+
+# C compatibility headers
++IMPLEMENT "cpp", "assert.h" ;
++IMPLEMENT "cpp", "ctype.h" ;
++IMPLEMENT "cpp", "errno.h" ;
++IMPLEMENT "cpp", "float.h" ;
++IMPLEMENT "cpp", "iso646.h" ;
++IMPLEMENT "cpp", "limits.h" ;
++IMPLEMENT "cpp", "locale.h" ;
++IMPLEMENT "cpp", "math.h" ;
++IMPLEMENT "cpp", "setjmp.h" ;
++IMPLEMENT "cpp", "signal.h" ;
++IMPLEMENT "cpp", "stdarg.h" ;
++IMPLEMENT "cpp", "stddef.h" ;
++IMPLEMENT "cpp", "stdio.h" ;
++IMPLEMENT "cpp", "stdlib.h" ;
++IMPLEMENT "cpp", "string.h" ;
++IMPLEMENT "cpp", "time.h" ;
++IMPLEMENT "cpp", "wchar.h" ;
++IMPLEMENT "cpp", "wctype.h" ;
+
+# C++ compatibility headers
++IMPLEMENT "cpp", "iomanip.h" ;
++IMPLEMENT "cpp", "iostream.h" ;
++IMPLEMENT "cpp", "new.h" ;
++IMPLEMENT "cpp", "strstream.h" ;

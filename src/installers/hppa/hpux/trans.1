@@ -1,0 +1,143 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH hppatrans 1
+.SH NAME
+\fBhppatrans \- TDF to HP PA-RISC translator
+.SH SYNOPSIS
+\fBhppatrans\fR [ \fIoptions\fR ] \fIinput-file\fR \fIoutput-file\fR
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+The code production portion of the TDF compiler is under the control of
+a TDF translator, which translates a TDF capsule into an assembly source
+file. There are separate TDF translators for each target architecture.
+This manual page describes the translator which produces assembly code
+for the HP PA-RISC machines. It is recommended that hppatrans not be invoked
+directly, but via the user interface \fItcc\fR(1). The option \fB-\fIopt\fR can be passed to hppatrans by passing the option \fB-Wt,-\fIopt\fR to
+\fItcc\fR(1).
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+The options \fB-h\fR and \fB-d\fR are specific to hppatrans. The other
+options are common to most translators, although the defaults may vary.
+\fIswitch\fR stands for either \fB0\fR, to switch an option off, or
+\fB1\fR, to switch it on.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIswitch\fR
+This option determines whether hppatrans should inline calls to
+\fBalloca\fR. This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-B\fIswitch\fR
+This option determines whether hppatrans should report floating point
+constants which exceed their range. This is done by default. If this option
+is switched off such constants are replaced by infinity.
+.\" ----------------------------------------------------------------------
+.IP \fB-C\fIswitch\fR
+This option determines whether hppatrans should apply the "constants out of
+loops" optimisation. This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fR\fIswitch\fR\ \fB-d\fR\fIswitch\fR
+These options cause hppatrans to output \fBPosition Independent Code\fR (PIC).
+The \fB-D\fR flag emulates cc's \fB+Z\fR flag, \fB-d\fR emulates cc's \fB+z\fR flag. Neither option has yet been tested.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+This option disables hppatrans' constant overflow checks.
+.\" ----------------------------------------------------------------------
+.IP \fB-F\fIswitch\fR
+This option determines whether hppatrans should apply the "for all"
+optimisation. This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-H\fR\ \fB-h\fR
+
+The \fB-H\fR flag causes hppatrans to output \fBxdb\fR compatible debugging
+information in its output file. This option is only available if the header
+file \fBhpux_symtab.h\fR was included whilst compiling hppatrans. (hpux_symtab.h is available by anonymous FTP - see the release notes for further
+information.) Please note well that there is a known bug in the \fB-H\fR
+option. The bug sometimes prohibits \fBxdb\fR reading selective diagnostic
+information from a suite of two or more modules linked together.
+
+The \fB-h\fR flag causes hppatrans to output \fBgdb\fR compatible, i.e.
+\fBstabs\fR, debugging information in its output file. The \fB-h\fR flag is
+believed to be valid - any error is a genuine bug.
+
+The -H and -h options will only work if the input TDF capsule contains
+debugging information.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIswitch\fR
+This option determines whether hppatrans applies the "inlining" optimisation.
+This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-K\fIstr\fR
+Causes hppatrans to optimise its code for a particular processor
+model, determined by \fIstr\fR. At present there are no valid values for
+\fIstr\fR. 
+.\" ----------------------------------------------------------------------
+.IP \fB-M\fIswitch\fR
+This option determines whether hppatrans preserves division by a
+floating point constant rather than replacing it by multiplication by
+the reciprocal of the constant. While the latter produces faster code,
+it may lead to rounding errors. By default, division by constants is
+preserved.
+.\" ----------------------------------------------------------------------
+.IP \fB-P\fR
+This option causes hppatrans to output \fBprofiling\fR information suitable
+for use with \fBprof\fR(1) or a similar tool (see individual manual
+pages for details).
+.\" ----------------------------------------------------------------------
+.IP \fB-Q\fR
+This option causes hppatrans to quit before processing its input files. This
+is particularly useful in conjunction with \fB-V\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-R\fIswitch\fR
+This option determines whether hppatrans should immediately round every
+floating point operation to its appropriate range. This produces slower
+code, but is necessary for strict IEEE conformance. It is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fIswitch\fR
+This option determines whether hppatrans should apply the "loop unrolling"
+optimisation. This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+This option causes hppatrans to print its version number, the version of
+the TDF specification it supports, and the date of compilation.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIswitch\fR
+This option determines whether hppatrans makes string literals writable. At
+present all string literals are writable, and this cannot be altered. 
+.\" ----------------------------------------------------------------------
+.IP \fB-X\fR
+This option disables all the optimisations performed by hppatrans. All
+hppatrans' optimisations are believed to be valid - any error in
+optimisation is a genuine bug.
+.\" ----------------------------------------------------------------------
+.IP \fB-Z\fR
+This option causes hppatrans to print the version number of all the TDF
+capsules it decodes.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fItcc\fR(1),\fIcc\fR(1) and \fIxdb\fR(1).
+.\" ----------------------------------------------------------------------
+

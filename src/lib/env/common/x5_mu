@@ -1,0 +1,9 @@
+/* tcc environment for x5_mu */
+
+<INCL			"-Nx5_lib:-INCLDIR-/x5/lib.api"
+<INCL			"-Nx5_t:-INCLDIR-/x5/t.api"
+<INCL			"-Nx5_mu:-INCLDIR-/x5/mu.api"
+<LIB			"-lx5_lib -lx5_t -lx5_mu"
++FLAG_INSTALL		"-Yx5_mu"
+<API_NAME		"-Ax5_mu -Ax5_t -Ax5_lib"
+<INFO			"X11@Release@5@Xlib+Xt+Xmu"

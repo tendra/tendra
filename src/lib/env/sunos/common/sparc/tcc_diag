@@ -1,0 +1,6 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR SPARC */
+
++AS			"/bin/as"
++LD			"/bin/ld -dc -dp -X"
+>SYS_LIB		"-lg"
+<LINK			"-L-LIBDIR-/diag"

@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR MIPS 1.31 */
+
++AS		"/bin/as"
++AS1		"/usr/lib/as11.31 -O1 -g2"
+<LINK		"-L-LIBDIR-/diag"

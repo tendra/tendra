@@ -1,0 +1,17 @@
+/* tcc environment implementing -V flag */
+
++FLAG			"-version"
++FLAG_TDFC		"-v"
++FLAG_TDFCPP		"-v"
++FLAG_SPEC_LINK		"-v"
++FLAG_TCPPLUS		"-v"
++FLAG_TCPPLUSPP		"-v"
++FLAG_CPP_SPEC_LINK	"-v"
++FLAG_TLD		"-v"
++FLAG_TRANS		"-V"
++FLAG_DYN_LINK		"-v"
++FLAG_DISP		"-v"
++FLAG_TNC		"-version"
++FLAG_PL_TDF		"-V"
++FLAG_DUMP_ANAL		"-v"
++FLAG_DUMP_LINK		"-v"

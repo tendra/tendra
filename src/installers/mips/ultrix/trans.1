@@ -1,0 +1,142 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH mipstrans 1
+.SH NAME
+mipstrans \- MIPS TDF translator
+.SH SYNOPSIS
+\fBmipstrans\fR [ \fIoptions\fR ] \fIinf\fR \fIop.G\fR \fIop.H\fR [\fIop.s\fR]
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+The code production portion of the TDF compiler is under the control of
+a TDF translator, which translates a TDF capsule,\fIinf\fR, into assembly 
+files.  There are separate TDF translators for each target architecture.
+This manual page describes the translators which produce MIPS code.
+There are two versions, one for IRIX, and one for ULTRIX. Both
+produce .G and .H files required by as1, but may also optionally give .s
+assembly files using \fB-S\fR. Note that full run-time diagnostic information 
+cannot be transmitted through the MIPS assembler, as(1). 
+.PP
+It is recommended that \fBmipstrans\fR is not invoked directly, but via the
+user interface \fItcc\fR(1).  The option \fB-\fIopt\fR can be passed
+to \fBmipstrans\fR by passing the option \fB-Wt,-\fIopt\fR to \fItcc(1)\fR.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+These options are common to most translators, although the defaults may vary.
+\fIswitch\fR stands for either \fB0\fR, to switch an option off, or \fB1\fR,
+to switch it on.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIswitch\fR
+This option determines whether \fBmipstrans\fR should inline calls to
+\fIalloca\fR.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-B\fIswitch\fR
+This option determines whether \fBmipstrans\fR should report floating point
+constants which exceed their range.  This is done by default.
+If this option is switched off such constants are replaced by infinity.
+.\" ----------------------------------------------------------------------
+.IP \fB-C\fIswitch\fR
+This option determines whether \fBmipstrans\fR should apply the "constants
+out of loops" optimisation.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fIswitch\fR
+This option determines whether \fBmipstrans\fR should produce Position
+Independent Code (PIC).  This is done by default in the IRIX version and not 
+at all in the ULTRIX version.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+This option disables \fBmipstrans\fR's constant overflow checks.
+.\" ----------------------------------------------------------------------
+.IP \fB-F\fIswitch\fR
+This option determines whether \fBmipstrans\fR should apply the "for all"
+optimisation.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-H\fR
+This option causes \fBmipstrans\fR to output debugging information in its
+output file.  This will only work if the input TDF capsule contains
+debugging information. The diagnostic format used is  as used by the native 
+compilers.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIswitch\fR
+This option determines whether \fBmipstrans\fR should apply the "inlining"
+optimisation.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-K\fIstr\fR
+Causes \fBmipstrans\fR to optimise its code for a particular processor
+model, determined by \fIstr\fR. At present there are no valid values for
+\fIstr\fR. 
+.\" ----------------------------------------------------------------------
+.IP \fB-M\fIswitch\fR
+This option determines whether \fBmipstrans\fR preserves division by a
+floating point constant rather than replacing it by multiplication by
+the reciprocal of the constant.  While the latter produces faster code,
+it may lead to rounding errors.  By default, division by constants is
+preserved.
+.\" ----------------------------------------------------------------------
+.IP \fB-P\fR
+This option causes \fBmipstrans\fR to output profiling information suitable
+for use with \fIprof\fR(1) or a similar tool (see individual manual
+pages for details). This option is untested at present, and should not be used.
+.\" ----------------------------------------------------------------------
+.IP \fB-Q\fR
+This option causes \fBmipstrans\fR to quit before processing its input
+files.  This is particularly useful after \fB-V\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-R\fIswitch\fR
+This option determines whether \fBmipstrans\fR should immediately round every
+floating point operation to its appropriate range.  This produces slower
+code, but is necessary for strict IEEE conformance.  It is not 
+done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-S
+This option will produce assembly code in the optional .s file.
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fIswitch\fR
+This option determines whether \fBmipstrans\fR should apply the "loop
+unrolling" optimisation.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+This option causes \fBmipstrans\fR to print its version number and the
+version of the TDF specification it supports.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIswitch\fR
+This option determines whether \fBmipstrans\fR makes string literals
+writable. At present all string literals are writable, and this cannot be
+altered. 
+.\" ----------------------------------------------------------------------
+.IP \fB-X\fR
+This option disables all optimisations.  All \fBmipstrans\fR's optimisations
+are believed to be valid, so that any error in optimisation is a genuine
+bug.
+.\" ----------------------------------------------------------------------
+.IP \fB-Z\fR
+This option causes \fBmipstrans\fR to print the version number of all the
+TDF capsules it decodes.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fIas\fR(1),\fIprof(1)\fR, \fItcc\fR(1).
+.\" ----------------------------------------------------------------------

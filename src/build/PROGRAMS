@@ -1,0 +1,16 @@
+calculus:utilities/calculus
+lexi:utilities/lexi
+make_err:utilities/make_err
+make_mf:utilities/make_mf
+make_tdf:utilities/make_tdf
+sid:utilities/sid
+tuname:utilities/tuname
+disp:tools/disp
+pl:tools/pl
+tcc1:tools/tcc
+tld:tools/tld
+tnc:tools/tnc
+tspec1:tools/tspec
+tdfc2:producers/c
+tcpplus:producers/cpp
+trans:installers/MACH_CPU/MACH_OS

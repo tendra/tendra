@@ -1,0 +1,7 @@
++MACHINE		"solaris-*-80x86"
++FLAG			"--2SC"
++AS			"/usr/ccs/bin/as"
++LD			"/usr/ccs/bin/ld"
++CRT0			"-LIBDIR-/sys/crt1.o -LIBDIR-/sys/crti.o"
++CRT1			"/usr/ccs/lib/values-Xc.o"
++CRTN			"-LIBDIR-/sys/crtn.o"

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+DEST=${BASE}/lib
+UTIL=${BASE}/src/utilities
+SRC=${UTIL}/make_mf
+INIT=${SRC}/make_mf.ini
+
+make_mf\
+    +A BASE=${BASE}\
+    +A DEST=${DEST}\
+    +A UTIL=${UTIL}\
+    +A SRC=${SRC}\
+    +A SRCX=${UTIL}/shared\
+    +A INIT=${INIT}\
+    +W ...\
+    +V 'EXTRA=${INIT}'\
+    -o .../make_mf\
+    -Yposix1 -Xs\
+    -I ${SRC}\
+    -I ${UTIL}/shared\
+    '-DINIT_FILE=\"${INIT}\"'\
+    ${SRC}/*.c\
+    ${UTIL}/shared/*.c\
+    > Makefile
+
+cat >> Makefile << EOF
+
+\${INIT} : \${SRC}/compile.ini
+	@\${REMOVE} \${INIT}
+	\${COPY} \${SRC}/compile.ini \${INIT}
+	\${REMOVE} main.o
+
+auto_clobber :
+	\${REMOVE} \${INIT}
+EOF

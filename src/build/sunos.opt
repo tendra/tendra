@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "X${TCCOPTS}X" != "XX" ]
+then
+    CCOPTS="-DFS_NO_ANSI_ENVIRON"
+fi
+LIBOPTS="-DFS_ATEXIT=1"

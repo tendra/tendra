@@ -1,0 +1,8 @@
+/* tcc environment for the TDF Spec 4.0 extensions on hp_pa */
+
+<SYS_LINK		"-L-LIBDIR-/sys"
+<LIB			"-ltarget_tok"
+<SYS_LIB        	"-ltdf"
++FLAG_INSTALL		"-Ytdf_ext"
++FLAG_LD	       	"-z"
+>INFO			"XANDF@Preliminary@Specification@(DRA-005@proposal)"

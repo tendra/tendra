@@ -1,0 +1,7 @@
+/* tcc environment for posix1 */
+
++INCL			"-Nposix1:-INCLDIR-/posix1.api"
++LIB			"-lposix1 -lposix -lansi"
++FLAG_INSTALL		"-Yposix1"
++API_NAME		"-Aposix1"
++INFO			"POSIX.1@(ISO/IEC@9945-1:1990)"

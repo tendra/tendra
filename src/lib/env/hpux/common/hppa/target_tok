@@ -1,0 +1,5 @@
+/* tcc environment for target_tok token library for hp_pa*/
+>LIB			"-ltarget_tok"
++FLAG_LD	       	"-z"
++FLAG_INSTALL		"-Ytarget_tok"
+>INFO			"TDF@Token@Register@1.0"

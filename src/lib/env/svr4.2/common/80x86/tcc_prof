@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : PROFILING FOR SVR4 I386 */
+
++CRT0		"/usr/ccs/lib/mcrt1.o /usr/ccs/lib/crti.o"
++CRTN		"/usr/ccs/lib/crtn.o"
+<SYS_LINK	"-Y P,/usr/ccs/lib/libp:/usr/lib/libp:/usr/ccs/lib:/usr/lib -Qy"
++FLAG_TRANS	"-P"
++LINE_START	"#pragma@preserve@*"

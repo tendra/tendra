@@ -1,0 +1,32 @@
+TCC ENVIRONMENTS
+================
+
+This directory contains the tcc environments; the files which are used
+to configure the driver program tcc for a particular platform.  It is
+organised into subdirectories as follows:
+
+	common
+	<os>/common/common
+	<os>/common/<cpu>
+	<os>/<exec>/common
+	<os>/<exec>/<cpu>
+	<os>/<version>/common
+	<os>/<version>/<cpu>
+
+for each operating system <os>, operating system executable format <exec>,
+operating system version <version>, and processor type <cpu>.  These are
+listed from most generic to most target specific.  A more target specific
+version of a given environment always overrides a more generic version.
+
+Each environment is run through a simple sed script as it is installed
+which replaces certain placeholders by their value on the target machine.
+These placeholders are:
+
+    -MACH-		for the machine type '<os>/<cpu>',
+    -MACHDIR-		for the private machine directory,
+    -BINDIR-		for the private executable directory,
+    -ENVDIR-		for the private environment directory,
+    -LIBDIR-		for the private library directory,
+    -INCLDIR-		for the public include file directory,
+    -STARTUPDIR-	for the public start-up file directory,
+    -TMPDIR-		for the temporary directory.

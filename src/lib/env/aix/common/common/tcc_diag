@@ -1,0 +1,4 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR IBM POWER */
+
+>SYS_LIB        "-lg -bexport:/usr/lib/libg.exp"
+<LINK		"-L-LIBDIR-/diag"

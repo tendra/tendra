@@ -1,0 +1,5 @@
+/* ENVIRONMENT FOR -Xc ON svr4_sparc */
+
++STARTUP		"-f-STARTUPDIR-/Modes/Xc"
++STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xc"
++CRT1			"/usr/ccs/lib/values-Xc.o"

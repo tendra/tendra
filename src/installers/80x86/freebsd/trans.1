@@ -1,0 +1,163 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH trans386 1
+.SH NAME
+trans386 \- Translator for 80386, 80486 and Pentium
+.SH SYNOPSIS
+\fBtrans386\fR [ \fIoptions\fR ] \fIinput-file\fR \fIoutput-file\fR
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+The code production portion of the TDF compiler is under the control of
+a TDF translator, which translates a TDF capsule into an assembly source
+file.  There are separate TDF translators for each target architecture.
+This manual page describes the installer for the 80x86 architecture.
+.PP
+The basic action of the TDF translator, \fBtrans386\fR, is to
+translate a TDF capsule, \fIinput-file\fR, into an assembly source
+file, \fIoutput-file\fR.
+.PP
+It is recommended that \fBtrans386\fR should not be invoked directly, but via the
+user interface \fItcc\fR(1).  The option \fB-\fIopt\fR can be passed
+to \fBtrans386\fR by passing the option \fB-Wt, -\fIopt\fR to \fItcc\fR(1).
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+The options denoted by a capital letter are common to the TDF installers
+for all the architectures. The options denoted by a lower case letter are
+specific to the 80x86. \fIswitch\fR stands for either \fB0\fR, to switch
+an option off, or \fB1\fR, to switch it on.  The default states described
+here may be different on other translators.
+.\" ----------------------------------------------------------------------
+.IP \fB-A\fIswitch\fR
+This option determines whether \fBtrans386\fR should inline calls to
+\fIalloca\fR.  This is done by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-B\fIswitch\fR
+This option determines whether \fBtrans386\fR should report floating point
+constants which exceed their range.  This is always done by default.
+If this option is switched off such constants are replaced by infinity.
+.\" ----------------------------------------------------------------------
+.IP \fB-C\fIswitch\fR
+This option determines whether \fBtrans386\fR should apply the "constants
+out of loops" optimisation.  This optimisation is performed by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-D\fIswitch\fR
+This option determines whether \fBtrans386\fR should produce Position
+Independent Code (PIC).  This is not done by default.  This option is not
+supported on the SCO or FreeBSD platforms, and on the Linux platform it is
+supported only for ELF binary format.
+.\" ----------------------------------------------------------------------
+.IP \fB-E\fR
+This option disables \fBtrans386\fR's constant overflow checks.
+.\" ----------------------------------------------------------------------
+.IP \fB-F\fIswitch\fR
+This option determines whether \fBtrans386\fR should apply the "strength
+reduction" optimisation. This optimisation is performed by default. 
+.\" ----------------------------------------------------------------------
+.IP \fB-H\fR
+This option causes \fBtrans386\fR to output debugging information in its
+output file.  This will only work if the input TDF capsule contains
+debugging information.  On the SCO platform the format used by \fBdbxtra\fR
+and \fBcodeview\fR is supported. On the SVR4.2 platform Dwarf 1 is supported,
+which is used by \fBdebug\fR. On the Solaris, FreeBSD, and Linux platforms,
+\fBstabs\fR is supported. The GNU debugger \fBgdb\fR may be used on all
+platforms.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIswitch\fR
+This option determines whether \fBtrans386\fR should apply the "inlining"
+optimisation.  This optimisation is performed by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-K\fIstr\fR
+Causes \fBtrans386\fR to optimise its code for a particular processor
+model, determined by \fIstr\fR.  The available values of \fIstr\fR are
+3 for the 80386, 4 for the 80486 (the default) and 5 for the Pentium.
+So \fB-K3\fR means optimise for the 80386 etc.
+.\" ----------------------------------------------------------------------
+.IP \fB-M\fIswitch\fR
+If this option is on, \fBtrans386\fR preserves division by a
+floating point number rather than replacing it by multiplication by
+the reciprocal of the number.  While the latter produces faster code,
+it may lead to rounding errors.  By default, division by constants is
+preserved.
+.\" ----------------------------------------------------------------------
+.IP \fB-P\fR
+This option causes \fBtrans386\fR to output profiling information suitable
+for use with \fIprof\fR(1) or a similar tool (see individual manual
+pages for details). This option is currently not supported on the Solaris platform.
+.\" ----------------------------------------------------------------------
+.IP \fB-Q\fR
+This option causes \fBtrans386\fR to quit before processing its input
+files.  This is particularly useful in conjunction with \fB-V\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-R\fIswitch\fR
+This option determines whether \fBtrans386\fR should immediately round every
+floating point operation to its appropriate range.  This produces slower
+code, but is necessary for strict IEEE conformance.  The default is not
+to round after every operation.
+.\" ----------------------------------------------------------------------
+.IP \fB-U\fIswitch\fR
+This option determines whether \fBtrans386\fR should apply the "loop
+unrolling" optimisation.  This optimisation is performed by default.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+This option causes \fBtrans386\fR to print its version number and the
+version of the TDF specification it supports.
+.\" ----------------------------------------------------------------------
+.IP \fB-W\fIswitch\fR
+This option determines whether \fBtrans386\fR should make string literals
+writable.  At present the C producer does not make use of this
+facility, so strings are writable.
+.\" ----------------------------------------------------------------------
+.IP \fB-X\fR
+This option disables all optimisations.  All \fBtrans386\fR's optimisations
+are believed to be valid, so that any error in optimisation is a genuine
+bug.
+.\" ----------------------------------------------------------------------
+.IP \fB-Z\fR
+This option causes \fBtrans386\fR to print the version number of all the
+TDF capsules it decodes.
+.\" ----------------------------------------------------------------------
+.IP \fB-a\fR
+Always use a frame pointer. The default is to avoid using a frame pointer
+whenever possible. The default results in better performance, but
+in special cases where the stack is to be processed it may be necessary to
+enforce the use of a frame pointer.
+.\" ----------------------------------------------------------------------
+.IP \fB-h\fR
+Do not use the .bss segment, always put data into the .data segment even
+if it is zero. This should very rarely be needed. The default is to use
+the .bss segment.
+.\" ----------------------------------------------------------------------
+.IP \fB-k\fIswitch\fR
+This option is applicable to Linux platforms only. If this option is on,
+\fBtrans386\fR will produce output for an ELF binary format assembler, otherwise
+a.out binary format is assumed. By default this option is on, as appropriate for
+later versions of Linux.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fIas\fR(1),\fIprof\fR(1), \fItcc\fR(1).
+.\" ----------------------------------------------------------------------

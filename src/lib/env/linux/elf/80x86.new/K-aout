@@ -1,0 +1,10 @@
+/* TCC ENVIRONMENT : producing old "a.out" for LINUX */
+
++FLAG_TRANS		"-k0"
++AS			"/usr/i486-linuxaout/bin/as"
++LD			"/usr/i486-linuxaout/bin/ld -m i386linux"
++CRT0			"/usr/i486-linuxaout/lib/crt0.o"
++CRT1			""
++CRTN			""
+<SYS_LIB		"-ltdfaout"
+<SYS_LINK		"-L-LIBDIR-/sys"

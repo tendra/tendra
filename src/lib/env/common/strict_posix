@@ -1,0 +1,6 @@
+/* tcc environment for strict posix */
+
++FLAG		"-Yposix"
++FLAG		"-D__STRICT_POSIX"
++FLAG		"-D__JUST_POSIX"
++INFO		"Strict@POSIX@(IEEE@1003.1-1988)"

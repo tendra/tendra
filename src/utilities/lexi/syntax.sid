@@ -1,0 +1,281 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+%types%
+
+/*
+    TYPES
+
+    There are four types, representing booleans, identifiers, input strings
+    and strings of character codes.
+*/
+
+BOOL ;
+CHARACTERS ;
+IDENTIFIER ;
+STRING ;
+
+
+%terminals%
+
+/*
+    TERMINALS
+
+    These terminals give the various terminals identified by the lexical
+    analysis routines.
+*/
+
+identifier : () -> ( :IDENTIFIER ) ;
+sid-identifier : () -> ( :IDENTIFIER ) ;
+string : () -> ( :STRING ) ;
+
+upper : () -> ( :STRING ) ;
+lower : () -> ( :STRING ) ;
+digit : () -> ( :STRING ) ;
+
+group ;
+keyword ;
+mapping ;
+token ;
+white ;
+
+if ;
+else ;
+
+open ;
+close ;
+open-brace ;
+close-brace ;
+
+arrow ;
+eof ;
+equal ;
+plus ;
+semicolon ;
+!unknown ;
+
+
+%productions%
+
+
+/*
+    ACTION DECLARATIONS
+
+    The actions are described in more detail in the action definition
+    file.
+*/
+
+<string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
+<make-chars> : ( :STRING ) -> ( :CHARACTERS ) ;
+<make-white> : ( :CHARACTERS ) -> () ;
+<make-group> : ( :IDENTIFIER, :CHARACTERS ) -> () ;
+<make-trigraph> : ( :CHARACTERS, :STRING ) -> () ;
+<make-token> : ( :CHARACTERS, :IDENTIFIER, :BOOL ) -> () ;
+<make-keyword> : ( :STRING, :IDENTIFIER, :BOOL ) -> () ;
+<add-condition> : ( :IDENTIFIER ) -> () ;
+<compl-condition> : () -> () ;
+<get-condition> : () -> ( :IDENTIFIER ) ;
+<set-condition> : ( :IDENTIFIER ) -> () ;
+<true> : () -> ( :BOOL ) ;
+<false> : () -> ( :BOOL ) ;
+<syntax-error> : () -> () ;
+
+
+/*
+    STRINGS
+
+    This action gives the full definition of a string, including special
+    strings and string concatenation.
+*/
+
+string-plus : () -> ( s : STRING ) = {
+	{
+		a = string ;
+	    ||	a = upper ;
+	    ||	a = lower ;
+	    ||	a = digit ;
+	} ;
+	{
+		s = a ;
+	    ||	plus ; b = string-plus ; s = <string-concat> ( a, b ) ;
+	} ;
+} ;
+
+
+/*
+    CHARACTER STRING
+
+    This action transforms an input string into the internal representation
+    of arrays of character codes.
+*/
+
+chars : () -> ( c : CHARACTERS ) = {
+	s = string-plus ;
+	c = <make-chars> ( s ) ;
+} ;
+
+
+/*
+    WHITE SPACE DEFINITION
+
+    This action defines the set of white space characters.
+*/
+
+white-defn : () -> () = {
+	group ; white ; equal ; s = chars ;
+	<make-white> ( s ) ;
+} ;
+
+
+/*
+    CHARACTER GROUP DEFINITION
+
+    This action assigns a name to a group of characters.
+*/
+
+group-defn : () -> () = {
+	group ; i = identifier ; equal ; s = chars ;
+	<make-group> ( i, s ) ;
+} ;
+
+
+/*
+    RETURN ARGUMENTS
+
+    This action deals with the optional arguments which may be used in
+    a token definition.
+*/
+
+args : () -> ( a : BOOL ) = {
+	a = <false> ;
+    ||	open ; close ; a = <true> ;
+} ;
+
+
+/*
+    TRIGRAPH DEFINITION
+
+    This action defines a lexical pre-pass mapping (for example, trigraphs
+    in ANSI C).
+*/
+
+trigraph-defn : () -> () = {
+	mapping ; s = chars ; arrow ; t = string-plus ;
+	<make-trigraph> ( s, t ) ;
+} ;
+
+
+/*
+    TOKEN DEFINITION
+
+    This action defines a lexical main-pass mapping (for example, operators
+    and keywords).
+*/
+
+token-defn : () -> () = {
+	token ; s = chars ; arrow ;
+	{
+		i = identifier ; a = args ;
+	    ||	i = sid-identifier ; a = <false> ;
+	} ;
+	<make-token> ( s, i, a ) ;
+} ;
+
+
+/*
+    KEYWORD DEFINITION
+
+    This action defines a keyword.
+*/
+
+keyword-defn : () -> () = {
+	keyword ; s = string ; arrow ;
+	{
+		i = identifier ; a = args ;
+	    ||	i = sid-identifier ; a = <false> ;
+	} ;
+	<make-keyword> ( s, i, a ) ;
+} ;
+
+
+/*
+    COMMANDS
+
+    These actions define the composite commands derived from the basic
+    commands above.
+*/
+
+command : () -> () ;
+
+command-list : () -> () = {
+	$ ;
+    ||	command ; command-list ;
+    ##	<syntax-error> ;
+} ;
+
+if-command : () -> () = {
+	if ; open ; i = identifier ; close ;
+	j = <get-condition> ;
+	<add-condition> ( i ) ;
+	command ;
+	{
+		else ; <compl-condition> ; command ; <set-condition> ( j ) ;
+	    ##	<set-condition> ( j ) ;
+	} ;
+} ;
+
+command : () -> () = {
+	semicolon ;
+    ||	white-defn ; semicolon ;
+    ||	group-defn ; semicolon ;
+    ||	trigraph-defn ; semicolon ;
+    ||	token-defn ; semicolon ;
+    ||	keyword-defn ; semicolon ;
+    ||	open-brace ; command-list ; close-brace ;
+    ||	if-command ;
+} ;
+
+
+/*
+    COMPLETE UNIT
+
+    This action gives the main entry point for the syntax.  A complete
+    unit just consists of a list of commands.
+*/
+
+unit : () -> () = {
+	command-list ;
+	{
+		eof ;
+	    ##	<syntax-error> ;
+	} ;
+}  ;
+
+%entry% unit ;

@@ -1,0 +1,9 @@
+/* tcc environment for gcc */
+
++FLAG			"-Yxpg3"
+<INCL			"-Ngcc:-INCLDIR-/gcc.api"
+<LIB			"-lgcc"
++FLAG_INSTALL		"-Ygcc"
++FLAG			"-ftdf_alloca.h"
+<API_NAME		"-Agcc"
+<INFO			"API@for@gcc@SPEC@test"

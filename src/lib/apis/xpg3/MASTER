@@ -1,0 +1,76 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+#
+# This specification represents the XPG3 standard (X/Open Portability
+# Guide, Volume 3).
+#
+
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
+
++IMPLEMENT "ansi", "dummy/sys.h" ;
++IMPLEMENT "xpg3", "assert.h" ;
++IMPLEMENT "xpg3", "ctype.h" ;
++IMPLEMENT "xpg3", "dirent.h" ;
++IMPLEMENT "xpg3", "errno.h" ;
++IMPLEMENT "xpg3", "fcntl.h" ;
++IMPLEMENT "xpg3", "float.h" ;
++IMPLEMENT "xpg3", "ftw.h" ;
++IMPLEMENT "xpg3", "grp.h" ;
++IMPLEMENT "xpg3", "langinfo.h" ;
++IMPLEMENT "xpg3", "limits.h" ;
++IMPLEMENT "xpg3", "locale.h" ;
++IMPLEMENT "xpg3", "math.h" ;
++IMPLEMENT "xpg3", "nl_types.h" ;
++IMPLEMENT "xpg3", "pwd.h" ;
++IMPLEMENT "xpg3", "regexp.h" ;
++IMPLEMENT "xpg3", "search.h" ;
++IMPLEMENT "xpg3", "setjmp.h" ;
++IMPLEMENT "xpg3", "signal.h" ;
++IMPLEMENT "xpg3", "stdarg.h" ;
++IMPLEMENT "xpg3", "stddef.h" ;
++IMPLEMENT "xpg3", "stdio.h" ;
++IMPLEMENT "xpg3", "stdlib.h" ;
++IMPLEMENT "xpg3", "string.h" ;
++IMPLEMENT "xpg3", "sys/ipc.h" ;
++IMPLEMENT "xpg3", "sys/msg.h" ;
++IMPLEMENT "xpg3", "sys/sem.h" ;
++IMPLEMENT "xpg3", "sys/shm.h" ;
++IMPLEMENT "xpg3", "sys/stat.h" ;
++IMPLEMENT "xpg3", "sys/times.h" ;
++IMPLEMENT "xpg3", "sys/types.h" ;
++IMPLEMENT "xpg3", "sys/utsname.h" ;
++IMPLEMENT "xpg3", "sys/wait.h" ;
++IMPLEMENT "xpg3", "termios.h" ;
++IMPLEMENT "xpg3", "time.h" ;
++IMPLEMENT "xpg3", "ulimit.h" ;
++IMPLEMENT "xpg3", "unistd.h" ;
++IMPLEMENT "xpg3", "utime.h" ;
++IMPLEMENT "xpg3", "varargs.h" ;
++IMPLEMENT "xpg3", "xti.h" ;

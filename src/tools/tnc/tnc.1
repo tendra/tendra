@@ -1,0 +1,140 @@
+.\" 		 Crown Copyright (c) 1997
+.\" 
+.\" This TenDRA(r) Manual Page is subject to Copyright
+.\" owned by the United Kingdom Secretary of State for Defence
+.\" acting through the Defence Evaluation and Research Agency
+.\" (DERA).  It is made available to Recipients with a
+.\" royalty-free licence for its use, reproduction, transfer
+.\" to other parties and amendment for any purpose not excluding
+.\" product development provided that any such use et cetera
+.\" shall be deemed to be acceptance of the following conditions:-
+.\" 
+.\"     (1) Its Recipients shall ensure that this Notice is
+.\"     reproduced upon any copies or amended versions of it;
+.\" 
+.\"     (2) Any amended version of it shall be clearly marked to
+.\"     show both the nature of and the organisation responsible
+.\"     for the relevant amendment or amendments;
+.\" 
+.\"     (3) Its onward transfer from a recipient to another
+.\"     party shall be deemed to be that party's acceptance of
+.\"     these conditions;
+.\" 
+.\"     (4) DERA gives no warranty or assurance as to its
+.\"     quality or suitability for any purpose and DERA accepts
+.\"     no liability whatsoever in relation to any use to which
+.\"     it may be put.
+.\"
+.TH tnc 1
+.SH NAME
+tnc \- TDF notation compiler
+.SH SYNOPSIS
+\fBtnc\fR [ \fIoptions\fR ] \fIinput-file\fR [ \fIoutput-file\fR ]
+.\" ----------------------------------------------------------------------
+.SH DESCRIPTION
+\fBtnc\fR translates TDF capsules to and from text.  It has two
+input modes, \fIread\fR and \fIdecode\fR.  In the first, which
+is default, \fIinput-file\fR is a file containing TDF text.  In
+the second \fIinput-file\fR is a TDF capsule.  There are also
+two output mode, \fIencode\fR and \fIwrite\fR.  In the first,
+which is default, a TDF capsule is written to \fIoutput-file\fR
+In the second, TDF text is written to \fIoutput-file\fR.  If the
+\fIoutput-file\fR argument is absent, the standard output is used
+instead.
+.PP
+Combination of these modes give four actions: text to TDF (which
+is default), TDF to text, text to text, and TDF to TDF.  The last
+two actions are not precise identities, but they do give equivalent
+files.  The TDF pretty-printer, \fIdisp\fR(1), provides a more
+sophisticated TDF to text translator, although its output cannot be
+used as the input to \fBtnc\fR.
+.PP
+The form of the TDF text format and more information about \fBtnc\fR
+can be found in the document \fIThe TDF Notation Compiler\fR.
+.\" ----------------------------------------------------------------------
+.SH OPTIONS
+.\" ----------------------------------------------------------------------
+.IP \fB-c\fR\ or\ \fB-cv\fR\ or\ \fB-check\fR
+Specifies that \fBtnc\fR should apply extra checks to \fIinput-file\fR.
+For example, simple shape checking is applied.  These checks are more
+efficient in \fIread\fR mode than in \fIdecode\fR mode.  If the \fB-cv\fR
+option is used in \fIwrite\fR mode, all the information gleaned from the
+shape checking appears in \fIoutput-file\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-d\fR\ or\ \fB-decode\fR
+Specifies that \fBtnc\fR should be in \fIdecode\fR mode.  That is,
+that \fIinput-file\fR is a TDF capsule.
+.\" ----------------------------------------------------------------------
+.IP \fB-e\fR\ or\ \fB-encode\fR
+Specifies that \fBtnc\fR should be in \fIencode\fR mode.  That is,
+that \fIoutput-file\fR is a TDF capsule.
+.\" ----------------------------------------------------------------------
+.IP \fB-eval\fR
+Specifies that \fBtnc\fR should simplify its input by evaluating
+constant expressions as far as possible.
+.\" ----------------------------------------------------------------------
+.IP \fB-expand\fR
+Specifies that \fBtnc\fR should expand its input by replacing all
+applications of defined tokens by the token definition.
+.\" ----------------------------------------------------------------------
+.IP \fB-f\fR\ or\ \fB-func\fR
+Causes \fBtnc\fR to use its alternative, functional, form for both input
+and output.  The options \fB-func_in\fR and \fB-func_out\fR may be used
+to change the input and the output independently.
+.\" ----------------------------------------------------------------------
+.IP \fB-help\ \fIsubject\fR\ ...
+Makes \fBtnc\fR print its help message on the given subject(s).  If no
+subject is given, or the subject is \fIall\fR, all the help messages are
+printed.
+.\" ----------------------------------------------------------------------
+.IP \fB-I\fIdir\fR
+Adds the directory \fIdir\fR to the search path used by \fBtnc\fR to
+find included files in \fIread\fR mode.
+.\" ----------------------------------------------------------------------
+.IP \fB-l\fR\ or\ \fB-lib\fR
+In \fIdecode\fR mode, specifies that \fIinput-file\fR is not a TDF
+capsule, but a TDF library.  All the capsules comprising the library
+are decoded.
+.\" ----------------------------------------------------------------------
+.IP \fB-L\fIprefix\fR
+Causes \fBtnc\fR to treat any external identifiers starting with
+\fIprefix\fR to be treated as if they were declare \fBlocal\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-o\fR\ \fIoutput-file\fR
+Gives an alternative method of specifying the output file.
+.\" ----------------------------------------------------------------------
+.IP \fB-p\fR\ or\ \fB-print\fR
+Specifies that \fBtnc\fR should be in \fIdecode\fR and \fIwrite\fR modes.
+That is, that \fIinput-file\fR is a TDF capsule and \fIoutput-file\fR
+should consist of TDF text.  This option makes \fBtnc\fR into a TDF
+pretty-printer.
+.\" ----------------------------------------------------------------------
+.IP \fB-q\fR
+Causes \fBtnc\fR not to check the consistency of multiple tag or token
+definitions.
+.\" ----------------------------------------------------------------------
+.IP \fB-r\fR\ or\ \fB-read\fR
+Specifies that \fBtnc\fR should be in \fIread\fR mode.  That is,
+that \fIinput-file\fR should consist of TDF text.
+.\" ----------------------------------------------------------------------
+.IP \fB-t\fR\ or\ \fB-tsimp\fR
+Specifies that \fBtnc\fR should expand its input by replacing all
+applications of defined tokens by the token definition and by evaluating
+constant expressions as far as possible.  This is equivalent to
+\fB-expand -eval\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-V\fR
+In \fIwrite\fR mode, specifies that the output should be in the "verbose"
+form, with no shorthand forms.
+.\" ----------------------------------------------------------------------
+.IP \fB-version\fR
+Makes \fBtnc\fR print its version number and the version of the TDF
+specification it supports.
+.\" ----------------------------------------------------------------------
+.IP \fB-w\fR\ or\ \fB-write\fR
+Specifies that \fBtnc\fR should be in \fIwrite\fR mode.  That is,
+that \fIoutput-file\fR should consist of TDF text.
+.\" ----------------------------------------------------------------------
+.SH SEE ALSO
+\fIdisp\fR(1), \fItcc\fR(1).
+.\" ----------------------------------------------------------------------
