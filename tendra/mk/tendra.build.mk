@@ -37,7 +37,7 @@
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
 
-BASE_DIR = ${.CURDIR:C/\/src.*//}
+BASE_DIR = ${.CURDIR:C/\/(mk|src).*//}
 PUBLIC_BIN = /usr/local/bin
 INSTALL_DIR = /usr/local/lib/TenDRA
 COMMON_DIR = ${INSTALL_DIR}/lib
