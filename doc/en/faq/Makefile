@@ -1,13 +1,16 @@
-# Use the FreeBSD DocBook makefiles for now, until I get the makefiles in
-# place.
-#
-# $Id$
+# $TenDRA$
 
-DOC?= FAQ
-FORMATS?= html html-split pdf
+.if exists(../Makefile.inc)
+.include "../Makefile.inc"
+.endif
 
-SRCS=	FAQ.sgml
+DOC?= book
 
-DOC_PREFIX?= ${.CURDIR}/..
+FORMATS?= html
+
+SRCS=   book.sgml
+
+DOC_PREFIX?= ../../
 
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"
+
