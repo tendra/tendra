@@ -1,0 +1,944 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<book>
+  <bookinfo>
+    <title>TDF Diagnostic Specification, Issue 3.0</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+
+    <author>Jeroen Ruigrok van der Werven</author>
+    <authorinitials>JRvdW</authorinitials>
+    <pubdate>2004</pubdate>
+
+    <copyright>
+      <year>2004</year>
+      <year>2005</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+
+      <holder>DERA</holder>
+    </copyright>
+  </bookinfo>
+  
+  <chapter>
+    <title>TDF Diagnostic Specification, Issue 3.0</title>
+  
+    <sect1 id="intro">
+      <title>Introduction</title>
+      
+      <para>The TDF diagnostic information is intended to convey all that
+        information, used by current source level debuggers, which would
+        conventionally be part of an object file. Any particular installer
+        will only use those parts of this information which its native object
+        format can represent.</para>
+  
+      <para>The version of the diagnostics described here is the first
+        version. It has only been tested with TDF produced from C programs.
+        There are known to be certain deficiencies relative to other languages
+        (in particular to FORTRAN). A later version will correct these
+        deficiencies. The changes already envisaged are detailed in
+        <a href="diag6.html#0">section 4</a>, and would have minimal (if any)
+        impact on C producers.</para>
+  
+      <para>The diagnostic system introduces one new type of TDF linkable
+        entities, and currently adds two new units to the bitstream
+        representation of TDF.</para>
+    
+      <para>Much of the actual annotation of procedure bodies is currently
+        done by reserved <code>TOKEN</code>s, which installers recognize
+        specially. These <code>TOKEN</code>s are described in
+        <a href= "diag5.html#0">section 3</a>.</para>
+    
+      <para>There is a resemblance between the TDF diagnostic information and
+        Unix International's DWARF format. DWARF has similar aims to the TDF
+        diagnostics, and ensuring that complete DWARF information could be
+        generated provided a useful check during the development of the TDF
+        diagnostics. However the TDF diagnostics are intended to be
+        architecture (and format) neutral. No inference should be made about
+        any link (present or future) between DWARF and TDF diagnostics.</para>
+    </sect1>
+  
+    <sect1>
+      <title>2. Diagnostic SORTs</title>
+      
+      <para>As a summary of this section:
+        <itemizedlist>
+          <listitem>
+            <para><code>DIAG_TYPE</code>s describe programming language types
+              (e.g. arrays, structs...). <code>DIAG_TQ</code>s are qualifiers
+              of <code>DIAG_TYPE</code> s used for attributes like volatile
+              and const.</para>
+          </listitem>
+    
+          <listitem>
+            <para><code>FILENAME</code>s and <code>SOURCEMARK</code>s describe
+            source files and locations within them.</para>
+          </listitem>
+    
+          <listitem>
+            <para><code>DIAG_TAG</code>s associate integers with
+              <code>DIAG_TYPE</code>s. They are used in a similar manner to
+              normal TDF <code>TAG</code>s, and are held in a (TDF) linkable
+              unit called a <code>DIAG_TYPE_UNIT</code>.</para>
+          </listitem>
+    
+          <listitem>
+            <para><code>DIAG_UNIT</code>s hold a collection of
+            <code>DIAG_DESCRIPTOR</code>s, used for information outside
+            procedure bodies.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+  
+      <sect2 id="S5">
+        <title>2.1. DIAG_DESCRIPTOR</title>
+
+        <para>
+        <b>Number of encoding bits</b>: 2
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para><code>DIAG_DESCRIPTOR</code>s are used to associate names in the
+          source program with diagnostic items.</para>
+  
+        <sect3 id="S6">
+          <title>2.1.1. diag_desc_id</title>
+
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+            <i>whence</i>:          SOURCEMARK
+            <i>found_at</i>:        EXP POINTER(<i>al</i>)
+            <i>type</i>:            DIAG_TYPE
+                       -&gt; DIAG_DESCRIPTOR
+    
+            </programlisting>
+            Generates a descriptor for an identifier (of
+            <code>DIAG_TYPE</code> <i>type</i>), whose source name was
+            <i>src_name</i> from source location <i>whence</i>. The
+            <code>EXP</code> <i>found_at</i> describes how to access the
+            value.  Note that the <code>EXP</code> need not be unique (e.g.
+            FORTRAN EQUIVALENCE might be implemented this way).</para>
+        </sect3>
+  
+        <sect3 id="S7">
+          <title>2.1.2. diag_desc_struct</title>
+
+          <para>
+          <b>Encoding number</b>: 2
+
+          <programlisting>
+            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+            <i>whence</i>:          SOURCEMARK
+            <i>new_type</i>:        DIAG_TYPE
+                       -&gt; DIAG_DESCRIPTOR
+    
+          </programlisting>
+
+          Generates a descriptor whose source name was <i>src_name</i>.
+          <i>new_type</i> must be either a <code>DIAG_STRUCT</code>,
+          <code>DIAG_UNION</code> or <code>DIAG_ENUM</code>.</para>
+  
+          <para>This construct is obsolete.</para>
+        </sect3>
+  
+        <sect3 id="S8">
+          <title>2.1.3. diag_desc_typedef</title>
+          
+          <para>
+          <b>Encoding number</b>: 3
+          <programlisting>
+            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+            <i>whence</i>:          SOURCEMARK
+            <i>new_type</i>:        DIAG_TYPE
+                       -&gt; DIAG_DESCRIPTOR
+    
+          </programlisting>
+          
+          Generates a descriptor for a type <i>new_type</i> whose source name
+          was <i>src_name</i>. Note that <i>diag_desc_typedef</i> is used for
+          associating a name with a type, rather than for any name given in
+          the initial description of the type (e.g. in C this is used for
+          typedef, not for struct/union/enum tags).</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S9">
+        <title>2.2. DIAG_UNIT</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 0
+        <b>Is coding extendable</b>: no
+        <b>Unit identification</b>: <i>diagdef</i>
+        </para>
+  
+        <para>A <code>DIAG_UNIT</code> is a TDF unit containing
+          <code>DIAG_DESCRIPTOR</code>s. A <code>DIAG_UNIT</code> is used to
+          contain descriptions of items outside procedure bodies (e.g.  global
+          variables, global type definitions).</para>
+  
+        <sect3 id="S10">
+          <title>2.2.1. build_diag_unit</title>
+    
+          <para>
+          <b>Encoding number</b>: 0
+          <programlisting>
+            <i>no_labels</i>:       TDFINT
+            <i>descriptors</i>:     SLIST(DIAG_DESCRIPTOR)
+                       -&gt; DIAG_UNIT
+    
+          </programlisting>
+          Create a <code>DIAG_UNIT</code> containing
+          <code>DIAG_DESCRIPTOR</code>s. <i>no_labels</i> is the number of
+          local labels used in <i>descriptors</i> (for conditionals).</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S11">
+        <title>2.3. DIAG_TAG</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 1
+        <b>Is coding extendable</b>: yes
+        <b>Linkable entity identification</b>: <i>diagtag</i>
+        </para>
+  
+        <para><code>DIAG_TAG</code>s are used <i>inter alia</i> to break
+          cyclic diagnostic types. They are (TDF) linkable entities. A
+          <code>DIAG_TAG</code> is made from a number, and used in
+          <i>use_diag_tag</i> to obtain the <code>DIAG_TYPE</code> associated
+          with that number by <i>make_diag_tagdef</i>.</para>
+  
+        <sect3 id="S12">
+          <title>2.3.1. make_diag_tag</title>
+          
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>num</i>:             TDFINT
+                       -&gt; DIAG_TAG
+    
+          </programlisting>
+          Create a <code>DIAG_TAG</code> from <i>num</i>.
+          </para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S13">
+        <title>2.4. DIAG_TAGDEF</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 1
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para><code>DIAG_TAGDEF</code>s associate <code>DIAG_TAG</code>s with
+          <code>DIAG_TYPE</code> s.</para>
+  
+        <sect3 id="S14">
+          <title>2.4.1. make_diag_tagdef</title>
+          
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>tno</i>:             TDFINT
+            <i>dtype</i>:           DIAG_TYPE
+                       -&gt; DIAG_TAGDEF
+    
+          </programlisting>
+          Associates tag number <i>tno</i> with <i>dtype</i>.
+          </para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S15">
+        <title>2.5. DIAG_TYPE_UNIT</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 0
+        <b>Is coding extendable</b>: no
+        <b>Unit identification</b>: <i>diagtype</i>
+        </para>
+  
+        <para>A <code>DIAG_TYPE_UNIT</code> is a TDF unit containing
+          <code>DIAG_TAGDEF</code>s.</para>
+  
+        <sect3 id="S16">
+          <title>2.5.1. build_diagtype_unit</title>
+          
+          <para>
+          <b>Encoding number</b>: 0
+          <programlisting>
+            <i>no_labels</i>:       TDFINT
+            <i>tagdefs</i>: SLIST(DIAG_TAGDEF)
+                       -&gt; DIAG_TYPEUNIT
+    
+          </programlisting>
+          Create a <code>DIAG_TYPEUNIT</code> containing
+          <code>DIAG_TAGDEF</code>s. <i>no_labels</i> is the number of local
+          labels used in <i>tagdefs</i> (for conditionals).</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S17">
+        <title>2.6. DIAG_TYPE</title>
+        
+        <para>
+        <b>Sortname</b>:
+        <i>foreign_sort("diag_type")</i>
+        <b>Number of encoding bits</b>: 4
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para><code>DIAG_TYPE</code>s are used to provide diagnostic
+          information about data types.</para>
+  
+        <sect3 id="S18">
+          <title>2.6.1. diag_type_apply_token</title>
+          
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>token_value</i>:     TOKEN
+            <i>token_args</i>:      BITSTREAM
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          The token is applied to the arguments to give a
+          <code>DIAG_TYPE</code>. If there is a definition for
+          <i>token_value</i> in the <code>CAPSULE</code> then
+          <i>token_args</i> is a <code>BITSTREAM</code> encoding of the
+          <code>SORT</code>s of its parameters, in the order specified.</para>
+        </sect3>
+  
+        <sect3 id="S19">
+          <title>2.6.2. diag_array</title>
+          
+          <para>
+          <b>Encoding number</b>: 2
+          <programlisting>
+            <i>element_type</i>:    DIAG_TYPE
+            <i>stride</i>:          EXP OFFSET(<i>p</i>,<i>p</i>)
+            <i>lower_bound</i>:     EXP INTEGER(<i>v</i>)
+            <i>upper_bound</i>:     EXP INTEGER(<i>v</i>)
+            <i>index_type</i>:      DIAG_TYPE
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          An array of <i>element_type</i> objects. <i>stride</i> is the
+          <code>OFFSET</code> between elements of the array (i.e. <i>p</i> is
+          described by <i>element_type</i>). The bounds are in general not
+          runtime constants, hence the values are <code>EXP</code>s (not say
+          <code>SIGNED_NAT</code>). The <code>VARIETY</code> <i>v</i> is
+          described by <i>index_type</i>. As in TDF there is no
+          multi-dimensional array primitive.</para>
+        </sect3>
+  
+        <sect3 id="S20">
+          <title>2.6.3. diag_bitfield</title>
+          
+          <para>
+          <b>Encoding number</b>: 3
+          <programlisting>
+            <i>type</i>:            DIAG_TYPE
+            <i>number_of_bits</i>:  NAT
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Describes <i>number_of_bits</i>, which when extracted will have
+          <code>DIAG_TYPE</code> <i>type</i>.</para>
+        </sect3>
+  
+        <sect3 id="S21">
+          <title>2.6.4. diag_enum</title>
+          
+          <para>
+          <b>Encoding number</b>: 4
+          <programlisting>
+            <i>base_type</i>:       DIAG_TYPE
+            <i>enum_name</i>:       TDFSTRING<i>(k, n)</i>
+            <i>values</i>:          LIST(ENUM_VALUES) 
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          An enumeration to be stored in an object of type <i>base_type</i>.
+          If <i>enum_name</i> is a string contining zero characters this
+          signifies no source tag.</para>
+        </sect3>
+  
+        <sect3 id="S22">
+          <title>2.6.5. diag_floating_variety</title>
+          
+          <para><b>Encoding number</b>: 5
+          <programlisting>
+            <i>var</i>:             FLOATING_VARIETY
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Creates a <code>DIAG_TYPE</code> to describe an
+          <code>FLOATING_VARIETY</code> <i>var</i>.</para>
+        </sect3>
+ 
+        <sect3 id="S23">
+          <title>2.6.6. diag_loc</title>
+          
+          <para>
+          <b>Encoding number</b>: 6
+          <programlisting>
+            <i>object</i>:          DIAG_TYPE
+            <i>qualifier</i>:       DIAG_TQ
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Records the existence of an item of <code>DIAG_TYPE</code>
+          <i>object</i>, qualified by <i>qualifier</i>. <i>diag_loc</i> is
+          used for variables (which may of course not actually occupy a memory
+          location).</para>
+        </sect3>
+  
+        <sect3 id="S24">
+          <title>2.6.7. diag_proc</title>
+          
+          <para>
+          <b>Encoding number</b>: 7
+          <programlisting>
+            <i>params</i>:          LIST(DIAG_TYPE)
+            <i>optional_args</i>:   BOOL
+            <i>result_type</i>:     DIAG_TYPE
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Describes a procedure taking <i>n</i> parameters.
+          <i>optional_args</i> is true if and only if the <i>make_proc</i>
+          which this <i>diag_proc</i> describes had <i>vartag</i>
+          present.</para>
+        </sect3>
+  
+        <sect3 id="S25">
+          <title>2.6.8. diag_ptr</title>
+          
+          <para>
+          <b>Encoding number</b>: 8
+          <programlisting>
+            <i>object</i>:          DIAG_TYPE
+            <i>qualifier</i>:       DIAG_TQ
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Describes a pointer to an object of <code>DIAG_TYPE</code>
+          <i>object</i>. The <code>DIAG_TQ</code> qualifier <i>qualifier</i>
+          qualifies the pointer, not the object pointed to.</para>
+        </sect3>
+  
+        <sect3 id="S26">
+          <title>2.6.9. diag_struct</title>
+          
+          <para>
+          <b>Encoding number</b>: 9
+          <programlisting>
+            <i>tdf_shape</i>:       SHAPE
+            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+            <i>fields</i>:          LIST(DIAG_FIELD) 
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Describes a structure. If <i>src_name</i> is a string contining zero
+          characters this signifies no source tag for the whole structure.
+          <i>tdf_shape</i> allows the total size to be computed.</para>
+        </sect3>
+  
+        <sect3 id="S27">
+          <title>2.6.10. diag_type_null</title>
+
+          <para>
+          <b>Encoding number</b>: 10
+          <programlisting>
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          A null <code>DIAG_TYPE</code>.
+          </para>
+        </sect3>
+  
+        <sect3 id="S28">
+          <title>2.6.11. diag_union</title>
+          
+          <para>
+          <b>Encoding number</b>: 11
+          <programlisting>
+            <i>tdf_shape</i>:       SHAPE
+            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+            <i>fields</i>:          LIST(DIAG_FIELD)
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Describes a union. If <i>src_name</i> is a string contining zero
+          characters this signifies no source tag for the whole union.
+          <i>tdf_shape</i> allows the total size to be computed.</para>
+        </sect3>
+  
+        <sect3 id="S29">
+          <title>2.6.12. diag_variety</title>
+          
+          <para><b>Encoding number</b>: 12
+          <programlisting>
+            <i>var</i>:             VARIETY
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Creates a <code>DIAG_TYPE</code> to describe an integer
+          <code>VARIETY</code> <i>var</i>.
+          </para>
+        </sect3>
+  
+        <sect3 id="S30">
+          <title>2.6.13. use_diag_tag</title>
+          
+          <para>
+          <b>Encoding number</b>: 13
+          <programlisting>
+            <i>dtag</i>:            DIAG_TAG
+                       -&gt; DIAG_TYPE
+    
+          </programlisting>
+          Obtains the <code>DIAG_TYPE</code> associated with
+          <code>DIAG_TAG</code> <i>dtag</i>.</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S31">
+        <title>2.7. ENUM_VALUES</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 0
+        <b>Is coding extendable</b>: no
+        </para>
+  
+        <sect3 id="S32">
+          <title>2.7.1. make_enum_values_list</title>
+          
+          <para><b>Encoding number</b>: 0
+          <programlisting>
+          <i>value</i>:           EXP <i>sh</i>
+          <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+                     -&gt; ENUM_VALUES
+    
+          </programlisting>
+          <code>ENUM_VALUES</code> describe elements of an enumerated type.
+          <i>src_name</i> is the source language name. <i>value</i> evaluates
+          to a value of <code>SHAPE</code> <i>sh</i>. Note that all members of
+          a <code>LIST(ENUM_VALUES</code>) must have the same
+          <i>sh</i>.</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S33">
+        <title>2.8. DIAG_FIELD</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 0
+        <b>Is coding extendable</b>: no
+        </para>
+  
+        <sect3 id="S34">
+          <title>2.8.1. make_diag_field</title>
+          
+          <para>
+          <b>Encoding number</b>: 0
+          <programlisting>
+            <i>field_name</i>:      TDFSTRING<i>(k, n)</i>
+            <i>found_at</i>:        EXP OFFSET( ALIGNMENT <i>whole</i>, ALIGNMENT <i>this_field
+    </i>)
+            <i>field_type</i>:      DIAG_TYPE
+                       -&gt; DIAG_FIELD
+    
+          </programlisting>
+          <code>DIAG_FIELD</code>s describe one field of a structure or union.
+          <i>field_name</i> is the source language name.  <i>found_at</i> is
+          the <code>OFFSET</code> between <i>whole</i> (the enclosing
+          structure or union), and this field (<i>this_field</i>).
+          <i>field_type</i> is the <code>DIAG_TYPE</code> of the field.</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S35">
+        <title>2.9. DIAG_TQ</title>
+        
+        <para>
+        <b>Number of encoding bits</b>: 2
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para><code>DIAG_TQ</code>s are type qualifiers, used to qualify
+          <code>DIAG_TYPE</code> s. A <code>DIAG_TQ</code> is constructed from
+          <i>diag_tq_null</i> and the various <i>add_diag_XXX</i>
+          operations.</para>
+  
+        <sect3 id="S36">
+          <title>2.9.1. add_diag_const</title>
+          
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>qual</i>:            DIAG_TQ
+                       -&gt; DIAG_TQ
+    
+          </programlisting>
+          Marks a <code>DIAG_TQ</code> type qualifier as being <i>const</i> in
+          the ANSI C sense.</para>
+        </sect3>
+  
+        <sect3 id="S37">
+          <title>2.9.2. add_diag_volatile</title>
+          
+          <para>
+          <b>Encoding number</b>: 2
+          <programlisting>
+            <i>qual</i>:            DIAG_TQ
+                       -&gt; DIAG_TQ
+    
+          </programlisting>
+          Marks a <code>DIAG_TQ</code> type qualifier as being <i>volatile</i>
+          in the ANSI C sense.</para>
+        </sect3>
+  
+        <sect3 id="S38">
+          <title>2.9.3. diag_tq_null</title>
+          
+          <para>
+          <b>Encoding number</b>: 3
+          <programlisting>
+                       -&gt; DIAG_TQ
+    
+          </programlisting>
+          Create a null <code>DIAG_TQ</code> type qualifier.</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S39">
+        <title>2.10. FILENAME</title>
+        
+        <para>
+        <b>Sortname</b>:
+        <i>foreign_sort("~diag_file")</i>
+        <b>Number of encoding bits</b>: 2
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para><code>FILENAME</code> record details of source files used in
+          producing a <code>CAPSULE</code>. They can be tokenised for
+          abbreviation.</para>
+  
+        <sect3 id="S40">
+          <title>2.10.1. filename_apply_token</title>
+
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>token_value</i>:     TOKEN
+            <i>token_args</i>:      BITSTREAM
+                       -&gt; FILENAME
+    
+          </programlisting>
+          The token is applied to the arguments to give a
+          <code>FILENAME</code>. If there is a definition for
+          <i>token_value</i> in the <code>CAPSULE</code> then
+          <i>token_args</i> is a <code>BITSTREAM</code> encoding of the
+          <code>SORT</code>s of its parameters, in the order specified.</para>
+        </sect3>
+  
+        <sect3 id="S41">
+          <title>2.10.2. make_filename</title>
+          
+          <para>
+          <b>Encoding number</b>: 2
+          <programlisting>
+            <i>date</i>:            NAT
+            <i>machine</i>: TDFSTRING<i>(k1, n1)</i>
+            <i>file</i>:            TDFSTRING<i>(k2, n2)</i>
+                       -&gt; FILENAME
+    
+          </programlisting>
+          Create a <code>FILENAME</code> for file <i>file</i>, dated
+          <i>date</i> (a UNIX timestamp; seconds since 1 Jan 1970) on machine
+          <i>machine</i>.</para>
+        </sect3>
+      </sect2>
+  
+      <sect2 id="S42">
+        <title>2.11. SOURCEMARK</title>
+      
+        <para>
+        <b>Number of encoding bits</b>: 1
+        <b>Is coding extendable</b>: yes
+        </para>
+  
+        <para>A <code>SOURCEMARK</code> records a location in the source
+          program. Present <code>SOURCEMARK</code>s assume that a location can
+          be described by one or two numbers within a
+          <code>FILENAME</code>.</para>
+  
+        <sect3 id="S43">
+          <title>2.11.1. make_sourcemark</title>
+          
+          <para>
+          <b>Encoding number</b>: 1
+          <programlisting>
+            <i>file</i>:            FILENAME
+            <i>line_no</i>: NAT
+            <i>char_offset</i>:     NAT
+                       -&gt; SOURCEMARK
+    
+          </programlisting>
+          Create a <code>SOURCEMARK</code> referencing the
+          <i>char_offset</i>'th character on line <i>line_no</i> in file <i>
+          file</i>.</para>
+  
+          <para><i>char_offset</i> is counted from 1, 0 meaning that no
+            character offset is available.</para>
+        </sect3>
+      </sect2>
+    </sect1>
+  
+    <sect1 name="0">
+      <title>Reserved diagnostic TOKENs</title>
+      
+      <para>Reserved <code>TOKEN</code>s were used for diagnostic extensions
+        to <code>EXP</code>s, to avoid adding new constructs the contents of
+        an existing <code>UNIT</code>. All other parts of the diagnostic
+        system occur in other <code>UNIT</code>s.</para>
+ 
+      <sect2>
+ 
+        <sect3 id="S45">
+          <title>3.0.1. ~exp_to_source</title>
+
+          <para>
+          <programlisting>
+            <i>body</i>:            EXP <i>sh</i>
+            <i>from</i>:            SOURCEMARK
+            <i>to</i>:              SOURCEMARK
+                       -&gt; EXP <i>sh</i>
+    
+          </programlisting>
+          Records that the <code>EXP</code> <i>body</i> arose from translating
+          program between <code>SOURCEMARK</code> <i>from</i> and
+          <code>SOURCEMARK</code> <i>to</i> (inclusive).
+          </para>
+        </sect3>
+  
+        <sect3 id="S46">
+          <title>3.0.2. ~diag_id_source</title>
+          
+          <para>
+          <programlisting>
+            <i>body</i>:            EXP <i>sh</i>
+            <i>name</i>:            TDFSTRING<i>(k, n)</i>
+            <i>access</i>:          EXP POINTER(<i>al</i>)
+            <i>type</i>:            DIAG_TYPE
+                       -&gt; EXP <i>sh</i>
+    
+          </programlisting>
+          Within the <code>EXP</code> <i>body</i> a variable named <i>
+          name</i> of <code>DIAG_TYPE</code> <i>type</i> can be accessed via
+          the <code>EXP</code> <i>access</i>.</para>
+        </sect3>
+  
+        <sect3 id="S47">
+          <title>3.0.3. ~diag_type_scope</title>
+
+          <para>
+          <programlisting>
+            <i>body</i>:            EXP <i>sh</i>
+            <i>name</i>:            TDFSTRING<i>(k, n)</i>
+            <i>type</i>:            DIAG_TYPE
+                       -&gt; EXP <i>sh</i>
+    
+          </programlisting>
+          Within the <code>EXP</code> <i>body</i> a source language type named
+          <i>name</i> of <code>DIAG_TYPE</code> <i>type</i> is valid.</para>
+        </sect3>
+  
+        <sect3 id="S48">
+          <title>3.0.4. ~diag_tag_scope</title>
+
+          <para>
+          <programlisting>
+            <i>body</i>:            EXP <i>sh</i>
+            <i>name</i>:            TDFSTRING<i>(k, n)</i>
+            <i>type</i>:            DIAG_TYPE
+                       -&gt; EXP <i>sh</i>
+    
+          </programlisting>
+          This <code>TOKEN</code> is obsolete.</para>
+        </sect3>
+      </sect2>
+    </sect1>
+  
+    <sect1>
+      <title>4. Proposed changes</title>
+      
+      <para>It is thought likely that the new TDF entities described above
+        will eventually be incorporated into the main TDF
+        specification.</para>
+  
+      <para>In several places below the absence of "standardised methods" is
+        noted. These are cases where TDF can express some operation in several
+        ways, and the installer cannot be expected to spot all of them and
+        generate new diagnostic info.</para>
+    
+      <sect2 id="S50">
+        <title>4.1. Language features currently missing</title>
+        
+        <para>The following sections list some of the language features known
+          not to be supported by the current specification.  It is not intended
+          to be exhaustive.</para>
+    
+        <sect3 id="S51">
+          <title>4.1.1. Data types</title>
+    
+          <itemizedlist>
+            <listitem>Complex numbers.</listitem>
+    
+            <listitem>Fortran alternate <i>RETURN</i>s.</listitem>
+          </itemizedlist>
+        </sect3>
+    
+        <sect3 id="S52">
+          <title>4.1.2. C++ requirements</title>
+    
+          <itemizedlist>
+            <listitem>
+              <para>The <i>reference</i> type is not yet present.</para>
+            </listitem>
+        
+            <listitem>
+              <para>The accessibility attributes (<i>public</i>, <i>private</i>
+                and <i>protected</i>) are not yet present.</para>
+            </listitem>
+        
+            <listitem>
+              <para>No <i>member</i> function information, and no specification
+                of how to deal with name mangling. Pointer to <i>member</i> may
+                need special recognition.</para>
+            </listitem>
+        
+            <listitem>No operations for describing <i>class</i>es and
+            inheritance.</listitem>
+          </itemizedlist>
+        </sect3>
+        
+        <sect3 id="S53">
+          <title>4.1.3. FORTRAN requirements</title>
+        
+          <itemizedlist>
+            <listitem>Main <i>PROGRAM</i> attribute missing.</listitem>
+        
+            <listitem>
+              <para>Fortran optional parameters may need special
+                treatment</para>
+            </listitem>
+        
+            <listitem>Use of <i>COMMON</i> is not explicit in TDF.</listitem>
+        
+            <listitem>Fortran77 etc. has a string type, which could be
+            implemented in several ways (other languages need this, but
+            they may differ on the same machine).</listitem>
+          </itemizedlist>
+        </sect3>
+        
+        <sect3 id="S54">
+          <title>4.1.4. Other requirements</title>
+        
+          <itemizedlist>
+            <listitem>No standardised method for describing static link info. TDF
+            can express such programs, but the link could be stored in
+            several ways.</listitem>
+        
+            <listitem>No standardised method for describing arrays with either
+            non-constant bounds, and/or where the bounds are present in the
+            running image. (The <i>upper_bound</i> and <i>lower_bound</i>
+            <code>EXP</code>s are sufficiently powerful, but needs some
+            rules)</listitem>
+        
+            <listitem>No way to name a lexical block.</listitem>
+        
+            <listitem>Formal parameters with default values cannot have the
+            default made visible.</listitem>
+        
+            <listitem>Variables which are constant, and have been inlined
+            everywhere may be a problem.</listitem>
+        
+            <listitem>No standardised method of describing the discriminant part
+            of a discriminated union (in TDF probably represented by a
+            struct containing the discriminant and the union).</listitem>
+        
+            <listitem>The distinction between ANSI prototyped and non-prototyped
+            functions (this is a real problem for functions taking
+            <i>float</i>)</listitem>
+        
+            <listitem>No standardised method for PASCAL sets.</listitem>
+        
+            <listitem>No standardised method for subrange types.</listitem>
+        
+            <listitem>PASCAL and Modula have a <i>WITH</i> construct to change
+            semantics of record field lookup. No standardised method for
+            documenting this.</listitem>
+          </itemizedlist>
+        </sect3>
+      </sect2>
+      
+      <sect2 id="S55">
+        <title>4.2. Areas for further abstraction</title>
+      
+        <sect3 id="S56">
+          <title>4.2.1. Compilation related</title>
+          
+          <para>How a running program has been created from several components
+            is of interest when debugging. The present system cannot record
+            all details of how a program has been created. In particular there
+            is no indication of the source language of any piece of TDF, nor
+            of the full name of any of the source files.</para>
+        </sect3>
+      
+        <sect3 id="S57">
+          <title>4.2.2. C related</title>
+          
+          <para>At present there is no defined link between the fundamental C
+            types and the <code>VARIETY</code>s etc. used for them. Present
+            installers for 32 bit machines cannot distinguish between
+            <i>int</i> and <i>long</i> when generating diagnostics, other than
+            by means of the standard token names which form part of the C
+            producer language interface.</para>
+        </sect3>
+      
+        <sect3 id="S58">
+          <title>4.2.3. Naming of types</title>
+          
+          <para>At present various <code>DIAG_TYPE</code>s have names, some
+            don't. I suspect we should make a separate <i>is_named</i>
+            operation and remove the other names.</para>
+        </sect3>
+      </sect2>
+      
+      <sect2 id="S59">
+        <title>4.3. Postscript - ANDF-DE</title>
+        
+        <para>As this section makes clear, the TDF Diagnostic Specification
+          was only ever really intended to deal with C. As of 1997, a more
+          extensive diagnostic extension to TDF, ANDF-DE, is under development
+          by DDC-I. This has been designed with the requirements of C, C++ and
+          Ada in mind. It is intended that eventually ANDF-DE will be
+          incorporated into the TDF specification, and the diagnostic format
+          described here will be denegrated.</para>
+      </sect2>
+    </sect1>
+  </chapter>
+</book>
