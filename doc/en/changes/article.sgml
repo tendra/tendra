@@ -1,0 +1,292 @@
+<!DOCTYPE ARTICLE PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
+%bookinfo;
+]>
+
+<article>
+  <articleinfo>
+    <title>TenDRA Changes</title>
+
+    <pubdate>$TenDRA$</pubdate>
+
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+
+    <copyright>
+      <year>2003</year>
+      <year>2004</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+    <abstract>
+      <para>This article outlines major changes to the TenDRA codebase since
+        the 4.1.2 release.</para>
+      <para>The changes are categorized as follows:
+      <informaltable frame="none">
+        <tgroup cols="2" align="left">
+          <thead>
+            <row>
+              <entry>Category</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+          <row>
+            <entry>API</entry>
+            <entry>Changes related to APIs, such as C99 and SUSv3.</entry>
+          </row>
+          <row>
+            <entry>Arch</entry>
+            <entry>Changes related to support of new architectures, such as
+               Alpha and PPC.</entry>
+          </row>
+          <row>
+            <entry>Behaviour</entry>
+            <entry>Changes in the behaviour of a program or system, such as a
+              change in the output produced by a utility.</entry>
+          </row>
+          <row>
+            <entry>Bugfix</entry>
+            <entry>Changes that fix known bugs.</entry>
+          </row>
+          <row>
+            <entry>Build</entry>
+            <entry>Changes to the build infrastructure, such as support for
+              new platforms.</entry>
+          </row>
+          <row>
+            <entry>Codebase</entry>
+            <entry>General changes to the codebase, such as OSSG removal or
+              imports of updated and/or new utilities.</entry>
+          </row>
+          <row>
+            <entry>OS support</entry>
+            <entry>Changes in the operating systems supported, such as added
+              support for NetBSD and OpenBSD.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+    </para>
+
+    </abstract>
+
+    &bookinfo.legalnotice;
+
+  </articleinfo>
+
+  <sect1 id="changes-4.1.2">
+  <title>Changes since TenDRA-4.1.2</title>
+    <informaltable frame="none">
+      <tgroup cols="3" align="left">
+        <thead>
+          <row>
+            <entry>Date</entry>
+            <entry>Category</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>20040307</entry>
+            <entry>Codebase</entry>
+            <entry>Added AWK-based mkerr utility. This is fully compatible
+              with the existing make_err, but adds a few extensions.</entry>
+          </row>
+          <row>
+            <entry>20040307</entry>
+            <entry>Codebase</entry>
+            <entry>Added new libten library. It will be used for common
+              functions and data across a number of TenDRA programs and
+              utilities.</entry>
+          </row>
+          <row>
+            <entry>20040107</entry>
+            <entry>Build</entry>
+            <entry>The SunOS/Solaris target bas been split into two separate
+              targets.</entry>
+          </row>
+          <row>
+            <entry>20030829</entry>
+            <entry>API</entry>
+            <entry>Preliminary C99 environment available (-Yc99).</entry>
+          </row>
+          <row>
+            <entry>20030820</entry>
+            <entry>Behaviour</entry>
+            <entry>Invoking tcc without any -Y env arguments now results in a
+              warning.</entry>
+          </row>
+          <row>
+            <entry>20030803</entry>
+            <entry>Build</entry>
+            <entry>Added QNX support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20030731</entry>
+            <entry>Build</entry>
+            <entry>Added IRIX support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20030726</entry>
+            <entry>Bugfix</entry>
+            <entry>tcc now ignores conditional non-ISO compliant
+              preprocessor instructions. The old behaviour is re-attainable by
+              grep'ing for 'gcc_dependency' in the tree and uncommenting all
+              affected files.</entry>
+          </row>
+          <row>
+            <entry>20030610</entry>
+            <entry>Arch</entry>
+            <entry>Added FreeBSD/Alpha support.</entry>
+          </row>
+          <row>
+            <entry>20030513</entry>
+            <entry>src/utilities/lexi</entry>
+            <entry>The lexi read_comment() function now has a dynamic sizing
+              buffer.</entry>
+          </row>
+          <row>
+            <entry>20030506</entry>
+            <entry>Codebase</entry>
+            <entry>lexi has been updated to version 1.2.</entry>
+          </row>
+          <row>
+            <entry>20030414</entry>
+            <entry>Build</entry>
+            <entry>Added AIX support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20030414</entry>
+            <entry>OS support</entry>
+            <entry>Added SunOS/Solaris support.</entry>
+          </row>
+          <row>
+            <entry>20030301</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed minor bug that prevented bmake from working on HP-UX
+              and Tru64.</entry>
+          </row>
+          <row>
+            <entry>20030213</entry>
+            <entry>Build</entry>
+            <entry>Added partly functional HP-UX support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20030210</entry>
+            <entry>OS support</entry>
+            <entry>Added NetBSD support.</entry>
+          </row>
+          <row>
+            <entry>20030210</entry>
+            <entry>OS support</entry>
+            <entry>Added OpenBSD support.</entry>
+          </row>
+          <row>
+            <entry>20021229</entry>
+            <entry>contrib/make</entry>
+            <entry>Added an initial regression testing framework.</entry>
+          </row>
+          <row>
+            <entry>20021227</entry>
+            <entry>OS support</entry>
+            <entry>Added OSF1 support.</entry>
+          </row>
+          <row>
+            <entry>20021227</entry>
+            <entry>Build</entry>
+            <entry>Added Cygwin support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20021227</entry>
+            <entry>Build</entry>
+            <entry>Added OSF1 / Digital UNIX / Tru64 support to bmake.</entry>
+          </row>
+          <row>
+            <entry>20021221</entry>
+            <entry>Bugfix</entry>
+            <entry>tspec now sends informational output to stdout instead of
+              stderr.</entry>
+          </row>
+          <row>
+            <entry>20021217</entry>
+            <entry>Enhancement</entry>
+            <entry>Added ELF support for FreeBSD. ELF is now the default
+              FreeBSD output format.</entry>
+          </row>
+          <row>
+            <entry>20021216</entry>
+            <entry>API</entry>
+            <entry>Added framework files for ISO99.</entry>
+          </row>
+          <row>
+            <entry>20021214</entry>
+            <entry>src/tools/tcc</entry>
+            <entry>tcc now has a -vt flag to dump verbose information about
+              each step in the toolchain, including the argv given to each
+              stage. Additionally, tcc now has a -ve flag to dump very verbose
+              information about the environment used in each step of the
+              toolchain.</entry>
+          </row>
+          <row>
+            <entry>20021211</entry>
+            <entry>Bugfix</entry>
+            <entry>tspec and calculus now print non-error verbose output to
+              stdout instead of stderr.</entry>
+          </row>
+          <row>
+            <entry>20021205</entry>
+            <entry>Behaviour</entry>
+            <entry>sid now outputs ansi-c instead of ossg-c.</entry>
+          </row>
+          <row>
+            <entry>20021201</entry>
+            <entry>src/tools/tcc</entry>
+            <entry>Added -y option to tcc used to modify the relative location
+              of the environment files specified by -Y arguments. Added
+              -no_shuffle options to tcc to turn off command line argument
+              reordering. Added support for variable substitution within
+              environment files.</entry>
+          </row>
+          <row>
+            <entry>20021130</entry>
+            <entry>API</entry>
+            <entry>Added initial math.h.</entry>
+          </row>
+          <row>
+            <entry>20021121</entry>
+            <entry>Codebase</entry>
+            <entry>Removed OSSG prototypes.</entry>
+          </row>
+          <row>
+            <entry>20021118</entry>
+            <entry>API</entry>
+            <entry>Added beginnings of OpenMP support.</entry>
+          </row>
+          <row>
+            <entry>20021117</entry>
+            <entry>OS support</entry>
+            <entry>Added Darwin support.</entry>
+          </row>
+          <row>
+            <entry>20021025</entry>
+            <entry>Codebase</entry>
+            <entry>Added bmake to the repository.</entry>
+          </row>
+          <row>
+            <entry>20021020</entry>
+            <entry>OS</entry>
+            <entry>Added Cygwin support.</entry>
+          </row>
+          <row>
+            <entry>20021012</entry>
+            <entry>Build</entry>
+            <entry>Added completely revamped build system. This obsoletes the
+              tuname and make_mf utilities.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+  </sect1>
+
+</article>
