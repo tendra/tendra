@@ -8,9 +8,9 @@ TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
 		-Y${OBJ_PREFIX}/lib/env/${BUILD_OS}/common/${MACH_CPU}/default-build \
 		-Ydefault.extra \
 		-Yc++ \
-		-J${SRC_DIR}/obj/lib/apis/lib/cpp \
-		-J${SRC_DIR}/obj/lib/apis/lib/ansi \
-		-J${SRC_DIR}/obj/lib/cpp/tokens
+		-J${OBJ_PREFIX}/lib/apis/lib/cpp \
+		-J${OBJ_PREFIX}/lib/apis/lib/ansi \
+		-J${OBJ_PREFIX}/lib/cpp/tokens
 
 LIB=	libcpp.a
 

@@ -6,7 +6,7 @@
 
 TLD_FLAGS+=	-mc
 
-TCC_OPTS+=      -yTENDRA_BASEDIR=${SRC_DIR}/obj/
+TCC_OPTS+=      -yTENDRA_BASEDIR=${OBJ_PREFIX}
 
 TCC_OPTS+=	-Fj \
 		-Y${DEFAULT_BUILD} \
@@ -19,11 +19,11 @@ TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
 #
 #  Uncomment this block of testing -y handling
 #
-#TCC_OPTS+=      -yTENDRA_BASEDIR=${SRC_DIR}/obj \
-#               -yTENDRA_MACHDIR=${SRC_DIR}/obj/lib/machines \
-#               -yTENDRA_BINDIR=${SRC_DIR}/obj \
-#               -yTENDRA_ENVDIR=${SRC_DIR}/obj/lib/env \
-#               -yTENDRA_LIBDIR=${SRC_DIR}/obj/lib \
-#               -yTENDRA_INCLDIR=${SRC_DIR}/obj/lib/machines/${BUILD_OS}/80x86/include \
-#               -yTENDRA_STARTUPDIR=${SRC_DIR}/obj/lib \
+#TCC_OPTS+=      -yTENDRA_BASEDIR=${OBJ_PREFIX} \
+#               -yTENDRA_MACHDIR=${OBJ_PREFIX}/lib/machines \
+#               -yTENDRA_BINDIR=${OBJ_PREFIX} \
+#               -yTENDRA_ENVDIR=${OBJ_PREFIX}/lib/env \
+#               -yTENDRA_LIBDIR=${OBJ_PREFIX}/lib \
+#               -yTENDRA_INCLDIR=${OBJ_PREFIX}/lib/machines/${BUILD_OS}/80x86/include \
+#               -yTENDRA_STARTUPDIR=${OBJ_PREFIX}/lib \
 #               -yTENDRA_TMPDIR=/tmp

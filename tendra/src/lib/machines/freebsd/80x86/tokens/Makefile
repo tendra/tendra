@@ -5,8 +5,8 @@
 TCC_OPTS=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
 		-Ydefault.extra \
-		-J${SRC_DIR}/obj/lib/apis/lib/posix \
-		-J${SRC_DIR}/obj/lib/apis/lib/ansi
+		-J${OBJ_PREFIX}/lib/apis/lib/posix \
+		-J${OBJ_PREFIX}/lib/apis/lib/ansi
 
 
 DEPEND_SRC=	except_toks.t var_toks.t dep_toks.j \
