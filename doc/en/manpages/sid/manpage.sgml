@@ -1,0 +1,298 @@
+<refmeta>
+  <refentrytitle>sid</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>sid</refname>
+  <refpurpose>Syntax Improving Device; parser generator.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>sid</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title> 
+
+  <para>The <emphasis>sid</emphasis> command is used to turn descriptions
+    of a language into a program for recognising that language. This manual
+    page details the command line syntax; for more information, consult the
+    <emphasis>sid</emphasis> user documentation. The number of files
+    specified on the command line varies depending upon the output language.
+    The description of the <option>--language</option> option specifies the
+    number of files for each language.</para>
+</refsect1>
+
+<refsect1 id='switches'>
+  <title>SWITCHES</title> 
+
+  <para>The new version of <emphasis>sid</emphasis> accepts both short form
+    and long form command line switches.</para>
+
+  <para>Short form switches are single characters, and begin with a '-' or
+    '+' character. They can be concatentated into a single command line word,
+    e.g.:</para>
+
+  <para><option>-vdl</option> <replaceable>dump-file</replaceable>
+    <emphasis>language-name</emphasis></para>
+
+  <para>which contains three different switches (<option>-v</option>, which
+    takes no arguments; <option>-d</option>, which takes one argument:
+    <emphasis>dump-file</emphasis>; and <option>-l</option>, which takes one
+    argument: <emphasis>language-name</emphasis>).</para>
+
+  <para>Long form switches are strings, and begin with '--' or '++'. With
+    long form switches, only the shortest unique prefix need be entered. The
+    long form of the above example would be:</para>
+
+  <para><option>--version</option> <option>--dump-file</option>
+    <replaceable>dump-file</replaceable> <option>--language</option>
+    <replaceable>language-name</replaceable></para>
+
+  <para>In most cases the arguments to the switch should follow the switch
+    as a separate word. In the case of short form switches, the arguments to
+    the short form switches in a single word should follow the word in the
+    order of the switches (as in the first example). For some options, the
+    argument may be part of the same word as the switch (such options are
+    shown without a space between the switch and the argument in the switch
+    summaries below). In the case of short form switches, such a switch would
+    terminate any concatentation of switches (either a character would follow
+    it, which would be treated as its argument, or it would be the end of the
+    word, and its argument would follow as normal).</para>
+
+  <para>For binary switches, the '-' or '--' switch prefixes set (enable)
+    the switch, and the '+' or '++' switch prefixes reset (disable) the
+    switch. This is probably back to front, but is in keeping with other
+    programs. The switches '--' or '++' by themselves terminate option
+    parsing.</para>
+</refsect1>
+
+<refsect1 id='errorfilesyntax'>
+  <title>ERROR FILE SYNTAX</title> 
+
+  <para>It is possible to change the error messages that
+    <emphasis>sid</emphasis> uses. In order to do this, make the environment
+    variable <emphasis>SID_ERROR_FILE</emphasis> contain the name of a file
+    with the new error messages in.</para>
+
+  <para>The error file consists of zero or more sections. Each section
+    begins with a section marker (one of <emphasis>%prefix%</emphasis>,
+    <emphasis>%errors%</emphasis> or <emphasis>%strings%</emphasis>). The
+    prefix section takes a single string (this is to be the prefix for all
+    error messages). The other sections take zero or more pairs of names and
+    strings. A name is a sequence of characters surrounded by single quotes.
+    A string is a sequence of characters surrounded by double quotes. In the
+    case of the prefix and error sections, the strings may contain variables
+    of the form <emphasis>${</emphasis><emphasis>variable
+    name</emphasis><emphasis>}</emphasis>. These variables will be replaced
+    by suitable information when the error occurs. The backslash character
+    can be used to escape characters. The following C style escape sequences
+    are recognized: '<emphasis>\\n</emphasis>', '<emphasis>\\r</emphasis>',
+    '<emphasis>\</emphasis> ', '<emphasis>&amp;numsp;</emphasis>'. Also, the
+    sequence '<emphasis>\\x</emphasis><emphasis>NN</emphasis>' represents the
+    character with code <emphasis>NN</emphasis> in hex. The hash character
+    acts as a comment to end of line character.</para>
+
+  <para>The <option>--show-errors</option> option may be used to get a copy
+    of the current error messages.</para>
+</refsect1>
+
+<refsect1 id='options'>
+  <title>OPTIONS</title> 
+
+  <para><command>sid</command>accepts the following command line options:</para>
+
+  <para><option>--dump-file</option> <replaceable>FILE</replaceable> 
+    <option>-d</option> <replaceable>FILE</replaceable></para>
+
+  <para>This option causes intermediate dumps of the grammar to be written
+    to the file <emphasis>FILE</emphasis>.</para>
+
+  <para><option>--factor-limit</option> <replaceable>LIMIT</replaceable> 
+    <option>-f</option> <replaceable>LIMIT</replaceable></para>
+
+  <para>This option limits the number of rules that can be created during
+    the factorisation process. It is probably best not to change this.</para>
+
+  <para><option>--help</option>
+    <option>-?</option></para>
+
+  <para>Write an option summary to the standard error.</para>
+
+  <para><option>--inline</option> <replaceable>INLINES</replaceable> 
+    <option>-i</option> <replaceable>INLINES</replaceable></para>
+
+  <para>This option controls what inlining will be done in the output
+    parser. The inlines argument should be a comma separated list of the
+    following words:</para>
+
+  <variablelist>
+    <varlistentry>
+      <term>"SINGLES"</term> 
+      <listitem>
+        <para>This causes single alternative rules to be inlined. This
+          inlining is no longer performed as a modification to the grammar
+          (it was in version 1.0).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>BASICS</term> 
+      <listitem>
+        <para>This causes rules that contain only basics (and no exception
+          handlers or empty alternatives) to be inlined. The restriction on
+          exception handlers and empty alternatives is rather arbitrary, and
+          may be changed later.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>TAIL</term> 
+      <listitem>
+        <para>This causes tail recursive calls to be inlined. Without this,
+          tail recursion elimination will not be performed.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>OTHER</term> 
+      <listitem>
+        <para>This causes other calls to be inlined wherever possible.
+          Unless the "MULTI" inlining is also specified, this will be done
+          only for productions that are called once.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>MULTI</term> 
+      <listitem>
+        <para>This causes calls to be inlined, even if the rule being
+          called is called more than once. Turning this inlining on implies
+          "OTHER". Similarly turning off "OTHER" inlining will turn off
+          "MULTI" inlining. For grammars of any size, this is probably best
+          avoided; if used the generated parser may be huge (e.g. a C grammar
+          has produced a file that was several hundred MB in size).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>ALL</term> 
+      <listitem>
+        <para>This turns on all inlining.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+
+  <para>In addition, prefixing a word with "NO" turns off that inlining
+    phase. The words may be given in any case. They are evaluated in the
+    order given, so:</para>
+
+  <para>-inline noall,singles</para>
+
+  <para>would turn on single alternative rule inlining only, whilst:</para>
+
+  <para>-inline singles,noall</para>
+
+  <para>would turn off all inlining. The default is as if SID were invoked
+    with the option:</para>
+
+  <para>-inline noall,basics,tail</para>
+
+  <para><option>--language</option> <envar>LANGUAGE</envar> <!-- .br -->
+    <option>-l</option> <envar>LANGUAGE</envar></para>
+
+  <para>This option specifies the output language. Currently this should be
+    either "ansi-c", "pre-ansi-c", "ossg-c", or "test". The default is
+    "ansi-c".</para>
+
+  <para>The "ansi-c" and "pre-ansi-c" languages are basically the same. The
+    only difference is that "ansi-c" initially uses function prototypes, and
+    "pre-ansi-c" doesn't. The "ossg-c" language uses macros to declare and
+    define functions which may be defined to give either prototypes or
+    non-prototypes. Each language takes two input files, a grammar file and
+    an actions file, and produces two output files, a C source file
+    containing the generated parser and a C header file containing the
+    external declarations for the parser. The C language specific options
+    are:
+
+  <para>prototypes proto ossg-prototypes ossg-proto no-prototypes
+    no-proto</para>
+
+  <para>These enable or disable the use of function prototypes or the OSSG
+    prototype macros.
+    split split=<emphasis>NUMBER</emphasis> no-split
+    These enable or disable the output file split option. The generated files
+    can be very large even without inlining. This option splits the main
+    output file into a number of components containing about
+    <emphasis>NUMBER</emphasis> lines each (the default being 50000). These
+    components are distinguished by successively substituting 1, 2, 3, ...
+    for the character '@' in the output file name.
+    numeric-ids numeric no-numeric-ids no-numeric
+    These enable or disable the use of numeric identifiers. Numeric
+    identifiers replace the identifier name with a number, which is mainly of
+    use in stopping identifier names getting too long. The disadvantage is
+    that the code becomes less readable, and more difficult to debug. Numeric
+    identifiers are not used by default and are never used for terminal
+    numbers.
+    casts cast no-casts no-cast
+    These enable or disable casting of action and assignment operator
+    immutable parameters. If enabled, a parameter is cast to its own type
+    when it is substituted into the action. This will cause some compilers to
+    complain about attempts to modify the parameter (which can help pick out
+    attempts at mutating parameters that should not be mutated). The
+    disadvantage is that not all compilers will reject attempts at mutation,
+    and that ANSI doesn't allow casting to structure and union types, which
+    means that some code may be illegal. Parameter casting is disabled by
+    default.
+    unreachable-macros unreachable-macro unreachable-comments
+    unreachable-comment
+    These choose whether unreachable code is marked by a macro or a comment.
+    The default is to mark unreachable code with a comment "/*UNREACHED*/",
+    however a macro "UNREACHED;" may be used instead, if desired. 
+    lines line no-lines no-line
+    These determine whether "#line" directives should be output to relate the
+    output file to the actions file. These are generated by default.</para>
+
+  <para>The "test" language only takes one input file, and produces no
+    output file. It may be used to check that a grammar is valid. In
+    conjunction with the dump file, it may be used to check the
+    transformations that would be applied to the grammar. There are no
+    language specific options for the "test" language.</para>
+
+  <para><option>--show-errors</option>
+    <option>-e</option></para>
+
+  <para>Write the current error message list to the standard output.</para>
+
+  <para><option>--switch</option> <replaceable>OPTION</replaceable> 
+    <option>-s</option> <replaceable>OPTION</replaceable></para>
+
+  <para>Pass through <emphasis>OPTION</emphasis> as a language specific
+    option.</para>
+
+  <para><option>--tab-width</option> <replaceable>NUMBER</replaceable> 
+    <option>-t</option> <replaceable>NUMBER</replaceable></para>
+
+  <para>This option specifies the number of spaces that a tab occupies. It
+    defaults to 8. It is only used when indenting output.</para>
+
+  <para><option>--version</option>
+    <option>-v</option></para>
+
+  <para>This option causes the version number and supported languages to be
+    written to the standard error stream.</para>
+</refsect1>
+
+<refsect1 id='seealso'>
+  <title>SEE ALSO</title> 
+
+  <para>SID users' guide.</para>
+</refsect1>

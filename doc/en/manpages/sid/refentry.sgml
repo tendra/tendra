@@ -1,0 +1,9 @@
+<!DOCTYPE refentry PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY manpage SYSTEM "manpage.sgml">
+]>
+
+<!-- $TenDRA$ -->
+
+<refentry id="man-tcc">
+&manpage;
+</refentry>
