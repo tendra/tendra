@@ -6814,16 +6814,24 @@ cpp_indent_dir ()
     KEY (STD)	"Space after '#' in preprocessing directive"
 }
 
+cpp_old ( LEX: dir )
+{
+    USAGE:	none
+    KEY (STD)	"Pre-ISO preprocessors don't handle '#"dir"'"
+}
+
 cpp_space_replace ()
 {
     KEY (STD)	"White space required before illegal character in
 		 replacement list"
 }
 
-cpp_old ( LEX: dir )
+cpp_space_replace2 ()
 {
     USAGE:	none
-    KEY (STD)	"Pre-ISO preprocessors don't handle '#"dir"'"
+    KEY (ISO)	"-" | "-, 6.10.3"
+    KEY (STD)	"White space required between macro identifier and
+		 replacement list"
 }
 
 

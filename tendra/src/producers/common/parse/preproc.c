@@ -1420,8 +1420,15 @@ read_define(void)
 		
     } else {
 		/* Read the macro definition for object-like macros */
-		if (!legal) report (preproc_loc, ERR_cpp_space_replace ());
+		ERROR err = NULL_err;
+		if (skip_white (0) != WHITE_SPACE) err = ERR_cpp_space_replace2 ();
+		if (!legal && err == NULL_err) err = ERR_cpp_space_replace ();
 		defn = read_line (first_tok, lex_ignore_token);
+		if (defn != NULL) {
+			report (preproc_loc, err);
+		} else {
+			destroy_error (err, 1);
+		}
 		object_like = 1;
     }
 	
