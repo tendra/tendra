@@ -24,3 +24,70 @@
 #
 # $TenDRA$
 #
+
+# 7.6
+
++TYPE fenv_t;
++TYPE fexcept_t;
+
++IFNDEF __NO_FP_EXCEPTIONS
++CONST int FE_DIVBYZERO;
++CONST int FE_INEXACT;
++CONST int FE_INVALID;
++CONST int FE_OVERFLOW;
++CONST int FE_UNDERFLOW;
++CONST int FE_ALL_EXCEPT;
++ENDIF
+
++IFNDEF __NO_FP_ROUND_DIRECTIONS
++CONST int FE_DOWNWARD;
++CONST int FE_TONEAREST;
++CONST int FE_TOWARDZERO;
++CONST int FE_UPWARD;
++ENDIF
+
++EXP const fenv_t *FE_DFL_ENV;
+
+# 7.6.2.1
+
++FUNC int feclearexcept(int);
+
+# 7.6.2.2
+
++FUNC int fegetexceptflag(fexcept_t *, int);
+
+# 7.6.2.3
+
++FUNC int feraiseexcept(int);
+
+# 7.6.2.4
+
++FUNC int fesetexceptflag(const fexcept_t *, int);
+
+# 7.6.2.5
+
++FUNC int fetestexcept(int);
+
+# 7.6.3.1
+
++FUNC int fegetround(void);
+
+# 7.6.3.2
+
++FUNC int fesetround(int);
+
+# 7.6.4.1
+
++FUNC int fegetenv(fenv_t *);
+
+# 7.6.4.2
+
++FUNC int feholdexcept(fenv_t *);
+
+# 7.6.4.3
+
++FUNC int fesetenv(const fenv_t *);
+
+# 7.6.4.4
+
++FUNC int feupdateenv(const fenv_t *);

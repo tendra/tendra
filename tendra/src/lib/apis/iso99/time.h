@@ -24,3 +24,59 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stddef.h", "null";
++IMPLEMENT "ansi", "stddef.h", "size_t";
+
+# 7.23.1
+
++TYPE (arith) clock_t;
++CONST clock_t CLOCKS_PER_SEC;
++TYPE (arith) time_t;
++FIELD struct tm {
+    int tm_sec;
+    int tm_min;
+    int tm_hour;
+    int tm_mday;
+    int tm_mon;
+    int tm_year;
+    int tm_wday;
+    int tm_yday;
+    int tm_isdst;
+};
+
+# 7.23.2.1
+
++FUNC clock_t clock(void);
+
+# 7.23.2.2
+
++FUNC double difftime(time_t, time_t);
+
+# 7.23.2.3
+
++FUNC time_t mktime(struct tm *);
+
+# 7.23.2.4
+
++FUNC time_t time(time_t *);
+
+# 7.23.3.1
+
++FUNC char *asctime(const struct tm *);
+
+# 7.23.3.2
+
++FUNC char *ctime(const time_t *);
+
+# 7.23.3.3
+
++FUNC struct tm *gmtime(const time_t *);
+
+# 7.23.3.4
+
++FUNC struct tm *localtime(const time_t *);
+
+# 7.23.3.5
+
++FUNC size_t strftime(char * restrict, size_t, const char * restrict,
+		      const struct tm * restrict);
