@@ -47,10 +47,10 @@
     <para>This tutorial is divided into three main sections corresponding to
       basic, intermediate and advanced PMake usage.  If you already know Make
       well, you will only need to skim chapter 2 (there are some aspects of
-      PMake that I consider basic to its use that didn't exist in Make).
+      PMake that are considered basic to its use that didn't exist in Make).
       Things in chapter 3 make life much easier, while those in chapter 4 are
       strictly for those who know what they are doing. Chapter 5 has
-      definitions for the jargon I use and chapter 6 contains possible
+      definitions for the jargon used and chapter 6 contains possible
       solutions to the problems presented throughout the tutorial.</para>
 
     <para>Permission to use, copy, modify, and distribute this software and
@@ -146,11 +146,11 @@ o the target doesn't exist, or
 o the target has no sources.
 If  the target is out-of-date according to these rules,
 it will be re-created.  This operator also does something
-else to the targets, but I'll go into that in the
+else to the targets, but that will be covered in the
 next section (``Shell Commands'').
       </programlisting>
 
-      <para>Enough words, now for an example. Take that C program I mentioned
+      <para>Enough words, now for an example. Take that C program mentioned
         earlier. Say there are three C files (a.c, b.c and c.c) each of which
         includes the file defs.h. The dependencies between the files could
         then be expressed as follows:</para>
@@ -240,8 +240,8 @@ a.o depends on both defs.h and a.c.
       <para>If the double-colon was used, each dependency line for the target
         may be followed by a shell script. That script will only be executed
         if the target on the associated dependency line is out-of-date with
-        respect to the sources on that line, according to the rules I gave
-        earlier. I'll give you a good example of this later on.</para>
+        respect to the sources on that line, according to the rules given
+        earlier. A good example of this will be provided later on.</para>
 
       <para>To expand on the earlier makefile, you might add commands as
         follows:</para>
@@ -265,8 +265,8 @@ cc -c c.c
         recently than a.o, the command will be executed (a.o will be
         considered out-of-date).</para>
 
-      <para>Remember how I said the only difference between a makefile shell
-        command and a regular shell command was the leading tab? I lied. There
+      <para>Remember how the only difference between a makefile shell command
+        and a regular shell command was the leading tab? That's not true. There
         is another way in which makefile commands differ from regular ones.
         The first two characters after the initial whitespace are treated
         specially.  If they are any combination of `@' and `-', they cause
@@ -310,7 +310,7 @@ Linking index
         depend on each command being executed by a single shell, PMake has a
         -B flag (it stands for backwards-compatible) that forces each command
         to be given to a separate shell. It also does several other things,
-        all of which I discourage since they are now old-fashioned...</para>
+        all of which are discouraged since they are now old-fashioned...</para>
 
       <para>A target's shell script is fed to the shell on its (the shell's)
         input stream. This means that any commands, such as ci that need to
@@ -528,7 +528,7 @@ pmake "CFLAGS = -I/sprite/src/lib/libc -O"
           before the makefile is read, thus the values set in the makefile are
           unavailable at the time. += is the same as =, because the old value
           of the variable is sought only in the scope in which the assignment
-          is taking place (for reasons of efficiency that I won't get into
+          is taking place (for reasons of efficiency that won't be discussed
           here). := and ?= will work if the only variables used are in the
           environment. != is sort of pointless to use from the command line,
           since the same effect can no doubt be accomplished using the shell's
@@ -542,7 +542,7 @@ pmake "CFLAGS = -I/sprite/src/lib/libc -O"
 
         <para>Global variables are those set or appended-to in the makefile.
           There are two classes of global variables: those you set and those
-          PMake sets. As I said before, the ones you set can have any name you
+          PMake sets. As stated before, the ones you set can have any name you
           want them to have, except they may not contain a colon or an
           exclamation point. The variables PMake sets (almost) always begin
           with a period and always contain upper-case letters, only. The
@@ -646,8 +646,8 @@ cc -c c.c
 
         <para>The other problem comes from improperly-specified dependencies
           that worked in Make because of its sequential, depthfirst way of
-          examining them. While I don't want to go into depth on how PMake
-          works (look in chapter 4 if you're interested), I will warn you that
+          examining them. Without going into depth on how PMake
+          works (look in chapter 4 if you're interested), be warned that
           files in two different ``levels'' of the dependency tree may be
           examined in a different order in PMake than they were in Make. For
           example, given the makefile</para>
@@ -667,7 +667,7 @@ b               : d
         <para>Another problem you may face is that, while PMake is set up to
           handle the output from multiple jobs in a graceful fashion, the same
           is not so for input. It has no way to regulate input to different
-          jobs, so if you use the redirection from /dev/tty I mentioned
+          jobs, so if you use the redirection from /dev/tty mentioned
           earlier, you must be careful not to run two of the jobs at
           once.</para>
 
@@ -678,8 +678,8 @@ b               : d
 
         <para>Now you know most of what's in a makefile, what do you do next?
           There are two choices: (1) use one of the uncommonly available
-          makefile generators or (2) write your own makefile (I leave out the
-          third choice of ignoring PMake and doing everything by hand as being
+          makefile generators or (2) write your own makefile (the third choice
+          of ignoring PMake and doing everything by hand is ignored as being
           beyond the bounds of common sense).</para>
 
         <para>When faced with the writing of a makefile, it is usually best to
@@ -743,8 +743,8 @@ cc -c output.c
         <para>The makefile is now complete and will, in fact, create the
           program you want it to without unnecessary compilations or excessive
           typing on your part. There are two things wrong with it, however
-          (aside from it being altogether too long, something I'll address in
-          chapter 3):</para>
+          (aside from it being altogether too long, something that will be
+          addressed in chapter 3):</para>
 
         <para>The string ``main.o parse.o output.o'' is repeated twice,
           necessitating two changes when you add postfix (you were planning on
@@ -754,7 +754,7 @@ cc -c output.c
           makefiles: Anything that needs to be written more than once should
           be placed in a variable.</para>
 
-        <para>I cannot emphasize this enough as being very important to the
+        <para>This cannot be emphasized enough as being very important to the
           maintenance of a makefile and its program.</para>
 
         <para>There is no way to alter the way compilations are performed
@@ -845,7 +845,7 @@ d         : a
           useful to you. If you can't figure out why PMake is doing what it's
           doing, you might try using this flag. The what parameter is a string
           of single characters that tell PMake what aspects you are interested
-          in. Most of what I describe will make little sense to you,
+          in. Most of what is described will make little sense to you,
           unless you've dealt with Make before. Just remember where this table
           is and come back to it as you read on. The characters and the
           information they produce are as follows:</para>
@@ -936,7 +936,7 @@ v    Variable assignment.
 
         <para>-r When PMake starts up, it reads a default makefile that tells
           it what sort of system it's on and gives it some idea of what to do
-          if you don't tell it anything. I'll tell you about it in chapter 3.
+          if you don't tell it anything. This is covered in chapter 3.
           If you give this flag, PMake won't read the default makefile.</para>
 
         <para>-s This causes PMake to not print commands before they're
@@ -979,7 +979,7 @@ v    Variable assignment.
         <para>Allows you to define a variable to have ``1'' as its value. The
           variable is a global variable, not a command-line variable. This
           is useful mostly for people who are used to the C compiler arguments
-          and those using conditionals, which I'll get into in section
+          and those using conditionals, which will be covered in section
           4.3</para>
 
         <para>-I directory Tells PMake another place to search for included
@@ -1013,7 +1013,8 @@ v    Variable assignment.
           done by catching the output of the shell (and its children) and
           buffering it until an entire line is received, then printing that
           line preceded by an indication of which job produced the output.
-          Since I prefer this second method, it is the one used by default.
+          Since this second method is preferable, it is the one used
+          by default.
           The first method will be used if you give the -P flag to
           PMake.</para>
 
@@ -1097,15 +1098,15 @@ v    Variable assignment.
     <chapter>
       <title>Shortcuts and Other Nice Things</title>
 
-      <para>Based on what I've told you so far, you may have gotten the
+      <para>Based on what has been covered so far, you may have gotten the
         impression that PMake is just a way of storing away commands and
         making sure you don't forget to compile something. Good. That's just
-        what it is. However, the ways I've described have been inelegant, at
+        what it is. However, the ways described have been inelegant, at
         best, and painful, at worst. This chapter contains things that make
         the writing of makefiles easier and the makefiles themselves shorter
-        and easier to modify (and, occasionally, simpler). In this chapter, I
-        assume you are somewhat more familiar with Sprite (or UNIX, if that's
-        what you're using) than I did in chapter 2, just so you're on your
+        and easier to modify (and, occasionally, simpler). This chapter
+        assumes you are somewhat more familiar with Sprite (or UNIX, if that's
+        what you're using) than chapter 2, just so you're on your
         toes. So without further ado...</para>
 
       <sect1>
@@ -1144,7 +1145,7 @@ $(CC) $(CFLAGS) -c $(.IMPSRC)
           rule given above says that to transform a C source file into an
           object file, you compile it using cc with the -c flag. This rule is
           taken straight from the system makefile. Many transformation rules
-          (and suffixes) are defined there, and I refer you to it for more
+          (and suffixes) are defined there, please refer to it for more
           examples (type ``pmake -h'' to find out where it is). There are
           several things to note about the transformation rule given
           above:</para>
@@ -1171,7 +1172,7 @@ $(CC) -o $(.TARGET) $(.ALLSRC)
 $(OBJS)         : defs.h
         </programlisting>
 
-        <para>The transformation rule I gave above takes the place of the 6
+        <para>The transformation rule given above takes the place of the 6
           lines1</para>
 
         <programlisting>
@@ -1209,7 +1210,7 @@ total 4
 
         <para>While just typing ``pmake'' will do the right thing, it's</para>
 
-        <para>This is also somewhat cleaner, I think, than</para>
+        <para>This is also somewhat cleaner than</para>
 
         <para>show you what PMake is up to as it processes the files. In this
           case, PMake prints the following:</para>
@@ -1470,12 +1471,12 @@ ranlib $(.TARGET)
         <para>PMake allows you to give attributes to targets by means of
           special sources. Like everything else PMake uses, these sources
           begin with a period and are made up of all uppercase letters. There
-          are various reasons for using them, and I will try to give examples
+          are various reasons for using them, and examples will be given
           for most of them. Others you'll have to find uses for yourself.
           Think of it as ``an exercise for the reader.'' By placing one (or
           more) of these as a source on a dependency line, you are ``marking
-          the target(s) with that attribute.'' That's just the way I phrase
-          it, so you know.</para>
+          the target(s) with that attribute.'' That's an arbitrarily
+          chosen phrase, so you know.</para>
 
         <para>Any attributes given as sources for a transformation rule are
           applied to the target of the transformation rule when the rule is
@@ -1569,7 +1570,7 @@ prog2           : $(PROG2OBJS) .INVISIBLE MAKEINSTALL
           value of its .ALLSRC variable. As an example, suppose you have a
           program that has four libraries that compile in the same directory
           along with, and at the same time as, the program. You again have the
-          problem with ranlib that I mentioned earlier, only this time it's
+          problem with ranlib mentioned earlier, only this time it's
           more severe: you can't just put the ranlib off to the end since the
           program will need those libraries before it can be re-created. You
           can do something like this:</para>
@@ -1636,7 +1637,7 @@ pmake -n
           attributes (except .USE) of the source. If the target already has
           commands, the .USE target's commands are added to the end. If more
           than one .USE-marked source is given to a target, the rules are
-          applied sequentially. The typical .USE rule (as I call them) will
+          applied sequentially. The typical .USE rule will
           use the sources of the target to which it is applied (as stored in
           the .ALLSRC variable for the target) as its ``arguments,'' if you
           will. For section 3.3 were exactly the same. You can use the .USE
@@ -1658,8 +1659,8 @@ ranlib $(.TARGET)
           (they're in the default, system makefile directory...take a look).
           Note that the .USE rule source itself (MAKELIB) does not appear in
           any of the targets's local variables. There is no limit to the
-          number of times I could use the MAKELIB rule. If there were more
-          libraries, I could continue with ``lib3.a : $(LIB3OBJS) MAKELIB''
+          number of times the MAKELIB rule could be used. If there were more
+          libraries, one could continue with ``lib3.a : $(LIB3OBJS) MAKELIB''
           and so on and so forth.</para>
 
       </sect1>
@@ -1672,8 +1673,8 @@ ranlib $(.TARGET)
           is the only target that may appear on the left-hand-side of the
           operator.  As for the attributes and variables, all the special
           targets begin with a period and consist of upper-case letters only.
-          I won't describe them all in detail because some of them are rather
-          complex and I'll describe them in more detail than you'll want in
+          They won't all be described in detail because some of them are rather
+          complex and they will be described in more detail than you'll want in
           chapter 4. The targets are as follows:</para>
 
         <para>.BEGIN Any commands attached to this target are executed</para>
@@ -1757,8 +1758,8 @@ cc $(.INCLUDES) -c xprogram.c
           as directories in which to search for files it cannot find in the
           current directory. If you give no sources, it will clear out any
           directories added to the search path before. Since the effects of
-          this all get very complex, I'll leave it til chapter four to give
-          you a complete explanation.</para>
+          this all get very complex, a complete explanation will be provided
+          in chapter four.</para>
         
         <para>.PATHsuffix This does a similar thing to .PATH, but it does it
           only for files with the given suffix. The suffix must have been
@@ -1925,8 +1926,8 @@ $($(FOO))
         do some things you couldn't do in Make without a great deal of work
         (and perhaps the use of other programs). The problem with these
         features, is they must be handled with care, or you will end up with a
-        mess. Once more, I assume a greater familiarity with UNIX or Sprite
-        than I did in the previous two chapters.</para>
+        mess. Once more, a greater familiarity with UNIX or Sprite is assumed
+        than in the previous two chapters.</para>
 
       <sect1>
         <title>Search Paths</title>
@@ -1974,8 +1975,8 @@ $(CC) -o $(.TARGET) $(.ALLSRC)
           ../lib/mumble.c.'' (As an aside, the command in this case isn't
           strictly necessary, since it will be found using transformation
           rules if it isn't given. This is because .out is the null suffix by
-          default and a transformation exists from .c to .out. Just thought
-          I'd throw that in.) If a file exists in two directories on the same
+          default and a transformation exists from .c to .out.) If a file
+          exists in two directories on the same
           search path, the file in the first directory on the path will be the
           one PMake uses. So if you have a large system spread over many
           directories, it would behoove you to follow a naming convention that
@@ -2239,9 +2240,9 @@ ifnmake   !make
           you can create two makefiles, one of which uses the -g flag for the
           compilation, while the other uses the -O flag, or you can use
           another target (call it debug) to create the debug version. The
-          construct below will take care of this for you. I have also made it
-          so defining the variable DEBUG (say with pmake -D DEBUG) will also
-          cause the debug version to be made.</para>
+          construct below will take care of this for you. It has been made
+          so that defining the variable DEBUG (say with pmake -DDEBUG will
+          DEBUG) will also cause the debug version to be made.</para>
 
         <programlisting>
 #if defined(DEBUG) || make(debug)
@@ -2267,7 +2268,7 @@ FORMATTER = nroff -Pdot_matrix_printer
         </programlisting>
 
         <para>would wreak havoc if you tried ``pmake draft print'' since you
-          would use the same formatter for each target. As I said, this all
+          would use the same formatter for each target. As stated, this all
           gets somewhat complicated.</para>
 
       </sect1>
@@ -2333,14 +2334,14 @@ path=path
           echo-control, error-control is achieved by inserting commands into
           the shell's input stream. This is the command to make the shell
           check for errors. It also serves another purpose if the shell
-          doesn't have error-control as commands, but I'll get into that in a
-          minute. Again, once error checking has been turned on, it is
+          doesn't have error-control as commands, but that will be explained
+          in a minute. Again, once error checking has been turned on, it is
           expected to remain on until it is turned off again.</para>
         
         <para>ignore=command to turn error checking off This is the command
           PMake uses to turn error checking off. It has another use if the
-          shell doesn't do error-control, but I'll tell you about
-          that...now.</para>
+          shell doesn't do error-control, but that will be
+          discussed...now.</para>
         
         <para>hasErrCtl=yes or no This takes a value that is either yes or no.
           Now you might think that the existence of the check and ignore
@@ -2428,11 +2429,11 @@ ignore="set +e"
           
           <listitem>
             <para>The shell can turn error-checking on and off, and the
-              commands to do so are set +e and set -e, respectively. I should
-              note that this specification is for Bourne Shells that are not
-              part of Berkeley UNIX, as shells from Berkeley don't do error
-              control. You can get a similar effect, however, by changing the
-              last three lines to be:</para>
+              commands to do so are set +e and set -e, respectively. It should
+              be noted that this specification is for Bourne Shells that are
+              not part of Berkeley UNIX, as shells from Berkeley don't do
+              error control. You can get a similar effect, however, by
+              changing the last three lines to be:</para>
           </listitem>
         </itemizedlist>
 
@@ -2621,7 +2622,7 @@ sh -c 'cmd || true'
   <chapter>
     <title>Answers to Exercises</title>
 
-    <para>This is something of a trick question, for which I apologize. The
+    <para>This is something of a trick question. The
       trick comes from the UNIX definition of a suffix, which PMake doesn't
       necessarily share. You will have noticed that all the suffixes used in
       this tutorial (and in UNIX in general) begin with a period (.ms, .c,
