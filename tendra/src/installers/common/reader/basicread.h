@@ -65,25 +65,18 @@ extern char initreader(char *n);
 
 extern void endreader(void);
 
-extern int getcode(int n);
+extern unsigned long getcode(unsigned int n);
 /* read n bits from the input stream */
 
-extern int get_big_code(int n);
+extern int get_big_code(unsigned int n);
 /* read construct encoding number (n bit pieces)
  *        from the input stream */
 
-extern place keep_place(void);
+extern tdf_pos keep_place(void);
 /* deliver the current place in the input stream */
 
-extern place add_place(place pl, int n);
-/* form a place n bits further on in the input stream than pl */
-
-extern void set_place(place pl);
+extern void set_place(tdf_pos);
 /* start reading from pl in the input stream */
-
-extern place new_place(int bn);
-/* records bn bits from the input stream in a new place.
- *        The input stream is stepped on over these bits */
 
 extern void failer(char *s);
 /* records the failure message s and sets good_trans to false */
@@ -127,8 +120,6 @@ extern int crt_lno;
 extern char * crt_flnm;
 
 extern int crt_charno;
-
-extern void add_capsule_frees(void * vp);
 
 
 

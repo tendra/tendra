@@ -112,7 +112,7 @@ special_token(token t, bitstream pars, int sortcode,
 		exp arg1;
 		exp id;
 		exp env_o;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -137,7 +137,7 @@ special_token(token t, bitstream pars, int sortcode,
 		shape s, s1;
 		exp id, ass, con;
 		exp_list el;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -170,7 +170,7 @@ special_token(token t, bitstream pars, int sortcode,
 	if (!strcmp(t -> tok_name,"~next_caller_offset")) {
 		exp arg1;
 		shape s1, s2;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -192,7 +192,7 @@ special_token(token t, bitstream pars, int sortcode,
 	if (!strcmp(t -> tok_name,"~next_callee_offset")) {
 		exp arg1;
 		shape s1, s2;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -210,7 +210,7 @@ special_token(token t, bitstream pars, int sortcode,
 
 	if (!strcmp(t -> tok_name, "~alloca"))  {
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -230,7 +230,7 @@ special_token(token t, bitstream pars, int sortcode,
 
 	if (!strcmp(t->tok_name, "__sparc_special")){
 		exp arg;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg = d_exp();
@@ -259,7 +259,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 		)  {
 
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
@@ -344,7 +344,7 @@ special_token(token t, bitstream pars, int sortcode,
 	if (!strncmp(t -> tok_name, "~asm", 4)) {
 		int prp;
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		if (!strcmp(t -> tok_name, "~asm")) {
 			set_place(pars);

@@ -74,6 +74,8 @@
 **********************************************************************/
 
 #include "config.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "hppains.h"
 #include "inst_fmt.h"
@@ -84,7 +86,6 @@
 #include "labels.h"
 #include "comment.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "regmacs.h"
 #include "maxminmacs.h"
 #include "makecode.h"

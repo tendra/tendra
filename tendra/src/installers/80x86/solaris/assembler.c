@@ -63,6 +63,7 @@
 #include "expmacs.h"
 #include "exp.h"
 #include "operand.h"
+#include "instr.h"
 #include "machine.h"
 #include "localflags.h"
 #include "flags.h"

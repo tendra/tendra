@@ -58,6 +58,8 @@
 /* freebsd/machine.c */
 
 #include "config.h"
+#include "tdf_types.h"
+
 #include "common_types.h"
 #include "expmacs.h"
 #include "exp.h"

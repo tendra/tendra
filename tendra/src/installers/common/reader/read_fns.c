@@ -1353,7 +1353,7 @@ f_make_tokdef(tdfint tokn, string_option sig,
 {
 	sortname result_sort;
 	tokformals_list params;
-	place old_place;
+	tdf_pos old_place;
 	tok_define * tok = get_tok(natint(tokn));
 	if (sig.present) check_tok_sig(tok, sig.val);
 	old_place = keep_place();
@@ -1390,7 +1390,7 @@ f_use_tokdef(bitstream def)
 	token tok = (token)xcalloc(1, sizeof(tok_define)) /* space thief ?*/;
 	sortname result_sort;
 	tokformals_list params;
-	place old_place;
+	tdf_pos old_place;
 	
 	old_place = keep_place();
 	set_place(def);

@@ -95,7 +95,7 @@ special_token(token t, bitstream pars, int sortcode,
 	
 	if (!strcmp(t -> tok_name, "JMFprofile"))  {
 		nat n;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		n = d_nat();
@@ -107,7 +107,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "JMFinline"))  {
 		exp s;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		IGNORE d_shape();
@@ -129,7 +129,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~div"))  {
 		exp arg1, arg2;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -142,7 +142,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~rem"))  {
 		exp arg1, arg2;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -156,7 +156,7 @@ special_token(token t, bitstream pars, int sortcode,
 #ifdef INBUILT_PROMOTE
 	if (!strcmp(t -> tok_name, "~arith_type")) {
 		int a, b;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -172,7 +172,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~promote")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -186,7 +186,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~sign_promote")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -200,7 +200,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~convert")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -214,7 +214,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 	if (!strcmp(t -> tok_name, "~alloca"))  {
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -235,7 +235,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 		)  {
 		
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
@@ -326,7 +326,7 @@ special_token(token t, bitstream pars, int sortcode,
 	if (!strncmp(t -> tok_name, "~asm", 4)) {
 		int prp;
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		if (!strcmp(t -> tok_name, "~asm")) {
 			set_place(pars);

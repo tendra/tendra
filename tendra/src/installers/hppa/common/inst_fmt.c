@@ -71,6 +71,7 @@
 #include "config.h"
 #include "fmm.h"
 
+#include "common_types.h"
 #include "myassert.h"
 #include "addrtypes.h"
 #include "regexps.h"

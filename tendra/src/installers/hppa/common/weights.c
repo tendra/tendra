@@ -91,6 +91,8 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "exptypes.h"
 #include "expmacs.h"
 #include "codetypes.h"
@@ -98,7 +100,6 @@
 #include "const.h"
 #include "exp.h"
 #include "tags.h"
-#include "common_types.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

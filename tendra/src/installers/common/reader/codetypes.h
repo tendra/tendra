@@ -74,13 +74,7 @@ typedef struct nat_t nat;
 
 /* the definition of the internal representation of the sort tdfstring
  *    and tdfident */
-typedef struct tdfstring_t
-{int size;	/* size of components in bits */
-	int number;	/* number of components */
-	union tdfs_u {char * chars; short * shorts; int * longs;} ints;
-	/* the components are place in the array of the smallest
-	 *	   possible size elements */
-} tdfstring;
+typedef TDFSTRING tdfstring;
 
 /* the definition of the internal representation of the sort tdfbool */
 typedef char tdfbool;

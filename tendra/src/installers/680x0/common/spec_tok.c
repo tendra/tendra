@@ -95,7 +95,7 @@ special_token(token t, bitstream pars, int sortcode,
     /* alloca */
     if (!strcmp (t->tok_name, "~alloca")) {
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place ();
 		set_place (pars);
 		arg1 = hold_check (d_exp ());
@@ -112,7 +112,7 @@ special_token(token t, bitstream pars, int sortcode,
 		!strcmp (t->tok_name, "~diag_id_scope") ||
 		!strcmp (t->tok_name, "~diag_type_scope") ||
 		!strcmp (t->tok_name, "~diag_tag_scope")) {
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place ();
 		set_place (pars);
 		tkv.tk_exp = hold_check (d_exp ());

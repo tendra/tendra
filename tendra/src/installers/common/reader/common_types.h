@@ -61,6 +61,7 @@
 
 
 /* a collection of all the type defining header files */
+#include "tdf_types.h"
 
 #include "installer.h"
 

@@ -115,7 +115,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 
   if (!strcmp(t -> tok_name, "~alloca"))  {
     exp arg1;
-    place old_place;
+    tdf_pos old_place;
     old_place = keep_place();
     set_place(pars);
     arg1 = hold_check(d_exp());
@@ -130,7 +130,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     /* builtin function taking a TYPE argument and returning 
        TRUE if the argument is float,double or long double and FALSE
        otherwise */
-    place old_place;
+    tdf_pos old_place;
     shape arg;
     signed_nat lower,upper,resval;
     old_place=keep_place();
@@ -168,7 +168,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     /* This is a means of invoking alpha assembler instructions from a
        TDF file */
     exp arg;
-    place old_place = keep_place();
+    tdf_pos old_place = keep_place();
     set_place(pars);
     arg = d_exp();
     Assert(name(arg) == val_tag);
@@ -194,7 +194,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
        The pointer field of the compound is set equal to the 64
        bit integer, and the integer field is set to 8.
        */
-    place old_place;
+    tdf_pos old_place;
     exp arg1,arg2,arg3;		/* parameters of the token */
     exp_list list;		/* list of exps used to construct the 
 			       result sequence */
@@ -237,7 +237,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       !strcmp(t -> tok_name, "~diag_id_scope") ||
       !strcmp(t -> tok_name, "~diag_type_scope") ||
       !strcmp(t -> tok_name, "~diag_tag_scope"))  {
-    place old_place;
+    tdf_pos old_place;
     old_place = keep_place();
     set_place(pars);
     tkv.tk_exp = hold_check(d_exp());

@@ -58,19 +58,8 @@
 #ifndef toktypes_key
 #define toktypes_key 1
 
-
-
-/* definitions of types used in read_fns.c */
-
-struct place_t {
-	int  flag;  /* false if reading from stream, true if reading from pl_mem */
-	char *pl_mem;	/* pointer to the characters */
-	int  bits_on; /* bit_index displacement of the start */
-};
-
-typedef struct place_t  place;
-typedef place bitstream;
-typedef place bytestream;
+typedef tdf_pos bitstream;
+typedef tdf_pos bytestream;
 
 typedef struct sortname_t
 {int code;	/* code number for the sort - see sortmacs.h */
@@ -155,7 +144,7 @@ struct tok_define_t {
         int number;		/* total number of parameters */
 	} params;
 	sortname tdsort;		/* sort of token result */
-	place tdplace;		/* place to read definition from */
+	tdf_pos tdplace;		/* place to read definition from */
 	int unit_number;		/* number of unit in which defined */
 	union tokval_u tdvalue;	/* preserved value if valpresent */
 	int tok_index;		/* index number of this token */

@@ -59,6 +59,7 @@
 
 #include "config.h"
 #include "fmm.h"
+#include "tdf_types.h"
 
 #include "common_types.h"
 #include "basicread.h"

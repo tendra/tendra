@@ -132,7 +132,7 @@ special_token(token t, bitstream pars, int sortcode,
 #if is80x86
 	if (!strcmp(t -> tok_name, "~div"))  {
 		exp arg1, arg2;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -145,7 +145,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~arith_type")) {
 		int a, b;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -161,7 +161,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~promote")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -175,7 +175,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~sign_promote")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -189,7 +189,7 @@ special_token(token t, bitstream pars, int sortcode,
 	};
 	if (!strcmp(t -> tok_name, "~convert")) {
 		int a;
-		place old_place;
+		tdf_pos old_place;
 		signed_nat sn;
 		old_place = keep_place();
 		set_place(pars);
@@ -203,7 +203,7 @@ special_token(token t, bitstream pars, int sortcode,
 #endif
 	if (!strcmp(t -> tok_name, "~alloca"))  {
 		exp arg1;
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		arg1 = hold_check(d_exp());
@@ -220,7 +220,7 @@ special_token(token t, bitstream pars, int sortcode,
 		!strcmp(t -> tok_name, "~diag_type_scope") ||
 		!strcmp(t -> tok_name, "~diag_tag_scope"))  {
 		
-		place old_place;
+		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());

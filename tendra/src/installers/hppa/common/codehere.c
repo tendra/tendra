@@ -80,8 +80,9 @@
 
 
 #include "config.h"
-#include "myassert.h"
+
 #include "common_types.h"
+#include "myassert.h"
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"

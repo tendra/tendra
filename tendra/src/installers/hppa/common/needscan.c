@@ -73,13 +73,14 @@
 
 
 #include "config.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "tags.h"
 #include "new_tags.h"
-#include "common_types.h"
 #include "check.h"
 #include "proctypes.h"
 #include "bitsmacs.h"

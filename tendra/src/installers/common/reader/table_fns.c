@@ -257,7 +257,7 @@ apply_tok(token td, bitstream pars, int sortcode,
 		context * old_context = crt_context;
 		
 		tokval val;
-		place old_place;  /* to record the current place in the input stream */
+		tdf_pos old_place;  /* to record the current place in the input stream */
 		tok_define * new_bindings;
 		int i,j;
 		dec * * old_tagtab;

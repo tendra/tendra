@@ -60,6 +60,8 @@
 
 #define HPPATRANS_CODE
 #include "config.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "needscan.h"
 #include "addrtypes.h"

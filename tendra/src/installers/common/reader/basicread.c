@@ -58,6 +58,9 @@
 
 #include "config.h"
 #include "fmm.h"
+#include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "common_types.h"
 #include "flags.h"
@@ -70,71 +73,21 @@
 
 #include "basicread.h"
 
-/* MACROS */
-
-#define bpby 8
-/* bits per byte */
-
-#define cppkt 256
-/* bytes per packet */
-
-#define bppkt (bpby*cppkt)
-/* the number of bits per packet (from the file). */
-
-
 /* VARIABLES */
-/* All variables are initialised, jmf */
 
-static char * crt_ptr;	/* initialised by init_reader */
-static char * end_ptr;	/* initialised by init_reader */
-
-static int getcode_bitposn;
-static union pun_u
-{unsigned int intc;
-    struct pun_s {char a; char b; char c; char d;} chars;
-} crt_bits;		/* set before use */
-
+struct tdf_stream *tdfr;
 
 
 static char *crt_dot_t;	/* initialised by init_reader */
 int  crt_lno;		/* initialised to -1 by init_reader */
 int crt_charno;		/* only used if crt_lno != -1. No init needed */
 char * crt_flnm;	/* only used if crt_lno != -1. No init needed */
+
 static int  failer_count;	/* initialised by init_reader */
 /* number of failures so far. To allow for
  *				   limiting error messages */
-static int   pkt_index;	/* initialised by init_reader */
-/* the index of the current packet in the
- *				   file */
-static int table_flag;	/* initialised by init_reader */
-/* 1 if reading from memory, 0 if reading
- *				   from file buffer */
-static char *crt_line;	/* set before use */
-/* current line of encoding */
-static int   file_pkt;	/* initialised by init_reader */
-/* holds the index of the packet in the
- *				   file */
-static FILE * fpin;	/* initialised by init_reader */
-/* file pointer for input */
-static int  buff[64];	/* set by read_line */
-/* file buffer for input */
-static place current_place;	/* set before use */
-static place bytestream_pickup;	/* set before use */
+static tdf_pos bytestream_pickup;	/* set before use */
 /* records the end of a bytestream */
-
-
-
-
-/* IDENTITIES */
-
-static unsigned int  mask[33] = {
-	0, 1, 3, 7, 15, 31, 63, 127, 255,
-	0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff, 0x7fff, 0xffff,
-	0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff,
-	0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff,
-    0x7fffffff, 0xffffffff
-};
-/* used to mask bits out of characters */
 
 
 
@@ -160,27 +113,6 @@ failer(char *s)
 }
 
 
-
-/**************************************************************
- *  read_line reads the next line from the file and
- *  updates pkt_index, file_pkt and crt_line.
- **************************************************************/
-
-static void
-read_line(int complain)
-{
-	
-	size_t   test = fread ((char *)buff, sizeof (char), cppkt, fpin);
-	
-	if (test == (size_t)0 && complain) {
-		failer (READ_PAST_END);
-		exit(EXIT_FAILURE);
-	};
-	pkt_index++;
-	file_pkt++;
-	crt_line = (char *)buff;
-}
-
 /***************************************************************
  *  initreader opens the file called n and sets initial values
  *  into variables.
@@ -193,22 +125,13 @@ initreader(char *n)
 	crt_dot_t = n;
 	crt_lno = -1;
 	failer_count = 0;
-	
-	fpin = fopen (n, "rb");
-	if (fpin == (FILE *) 0) {
-		failer (CANT_OPEN_FILE);
+
+	tdfr = tdf_fstream_create (n);
+	if (tdfr == NULL) {
+		MSG_cant_open_input_file (n);
 		return (0);
-	};
+	}
 	
-	pkt_index = -1;
-	file_pkt = -1;
-	table_flag = 0;
-	getcode_bitposn = 0;
-	read_line (1);
-	
-	crt_line = (char *)buff;
-	crt_ptr = crt_line;
-	end_ptr = crt_line + cppkt;
 	check_magic_no();
 	return (1);
 }
@@ -216,79 +139,21 @@ initreader(char *n)
 void
 endreader()
 {
-	int   st = fclose (fpin);
-	if (st == EOF) {
-		failer ("failed to close file");
-		exit(EXIT_FAILURE);
-	};
+	tdf_stream_destroy (tdfr);
+	tdfr = NULL;
+}
+
+unsigned long
+getcode(unsigned int np)
+{
+	return tdf_de_bits (tdfr, np);
 }
 
 int
-getcode(int np)
+get_big_code(unsigned int n)
 {
-	/* np = no of bits to read, np is >= 1 */
-	{
-		unsigned int m;
-		int p;
-		{
-			int n = np;
-			p = getcode_bitposn - n;
-			m = mask[n];
-		};
-		if (p >= 0) {
-			getcode_bitposn = p;
-			return (int)((crt_bits.intc >> p) & m);
-		};
-	};
-	
-	{
-		int p = getcode_bitposn;
-		int q;
-		unsigned int m;
-		{
-			int n = np - p;
-			m = mask[n];
-			q = (int)((crt_bits.intc & mask[p]) << n);
-			p = 32 - n;
-		};
-		
-		if (crt_ptr == end_ptr) {
-			read_line (1);
-			crt_ptr = crt_line;
-		};
-		
-#ifndef FS_LITTLE_ENDIAN
-		!!!!!!!!!!!!!  /* define FS_LITTLE_ENDIAN in config.h */
-#else
-#if FS_LITTLE_ENDIAN
-									crt_bits.chars.d = crt_ptr[0];
-									crt_bits.chars.c = crt_ptr[1];
-									crt_bits.chars.b = crt_ptr[2];
-									crt_bits.chars.a = crt_ptr[3];
-#else
-									crt_bits.intc = ((unsigned int*)crt_ptr)[0];
-#endif
-#endif
-									crt_ptr += 4;
-									getcode_bitposn = p;
-									return q + (int)((crt_bits.intc >> p) & m);
-	}
-}
-
-int
-get_big_code(int n)
-{
-	int t;
-	int res = 0;
-	
-	while (1)
-	{
-		t = getcode(n);
-		if (t == 0)
-			res += (int)(mask[n]);
-		else
-			return (res + t);
-	};
+	/* XXX: many places should be examined in order to change int -> ulong */
+	return (int)tdf_de_tdfextint (tdfr, n);
 }
 
 /********************************************************************
@@ -297,131 +162,24 @@ get_big_code(int n)
  *   bits_on field, measured from the start of the recorded line.
  ********************************************************************/
 
-place
+tdf_pos
 keep_place()
 {
-	place new_pl;
-	new_pl.flag = table_flag;
-	if (table_flag)
-		new_pl.pl_mem = crt_line;
-	new_pl.bits_on = (int)(crt_ptr - crt_line) * 8 - getcode_bitposn;
-	if (!table_flag)
-		new_pl.bits_on += pkt_index * bppkt;
-	return (new_pl);
+	return tdf_stream_tell (tdfr);
 }
 
 /********************************************************************
  *  set_place resets the getcode variables from the place pl, which
- *  was produced by keep_place or add_place. If necessary it reads more
+ *  was produced by keep_placee. If necessary it reads more
  *  lines from the file.
  ********************************************************************/
 
-
 void
-set_place(place pl)
+set_place(tdf_pos pos)
 {
-	int  new_pi;
-	table_flag = pl.flag;
-	if (!table_flag) {
-		new_pi = pl.bits_on / bppkt;
-		crt_line = (char *)buff;
-		crt_ptr = crt_line + (pl.bits_on / 32) * 4 - new_pi * cppkt;
-		getcode_bitposn = 32 - pl.bits_on % 32;
-		pkt_index = file_pkt;
-		while (pkt_index < new_pi)
-			read_line (0);
-	}
-	else {
-		crt_line = pl.pl_mem;
-		crt_ptr = crt_line + (pl.bits_on/32)*4;
-		getcode_bitposn = 32 - pl.bits_on % 32;
-		current_place = pl;
-	};
-	if (getcode_bitposn == 32)
-		getcode_bitposn = 0;
-	
-	if (getcode_bitposn > 0) {
-#if FS_LITTLE_ENDIAN
-		crt_bits.chars.d = crt_ptr[0];
-		crt_bits.chars.c = crt_ptr[1];
-		crt_bits.chars.b = crt_ptr[2];
-		crt_bits.chars.a = crt_ptr[3];
-#else
-		crt_bits.intc = ((unsigned int*)crt_ptr)[0];
-#endif
-		crt_ptr += 4;
-	};
-	return;
+	tdf_stream_seek (tdfr, pos);
 }
 
-/********************************************************************
- *   add_place produces a place n bits on from the place pl.
- ********************************************************************/
-
-
-place
-add_place(place pl, int n)
-{
-	place new_pl;
-	new_pl.bits_on = pl.bits_on + n;
-	new_pl.pl_mem = pl.pl_mem;
-	new_pl.flag = pl.flag;
-	return (new_pl);
-}
-
-/**********************************************************************
- *   new_place memorises a line starting from the current position
- *   and going on for bn bits. This may cause more lines to be read
- *   from the file.
- **********************************************************************/
-void
-add_capsule_frees(void * vp)
-{
-	capsule_frees * cf;
-	cf = (capsule_frees*)xmalloc(sizeof(capsule_frees));
-	cf->next = capsule_freelist;
-	cf->ptr = vp;
-	capsule_freelist = cf;
-	return;
-}
-
-
-place
-new_place(int bn)
-{
-	place pl;
-	int   no_chars,
-        i;
-	char *mem;
-	char  c;
-	pl.flag = 1;
-	
-	if (!table_flag)  {
-		pl.bits_on = 32 - getcode_bitposn;
-		if (getcode_bitposn == 0)
-			pl.bits_on = 0;
-		no_chars = ((pl.bits_on + bn + 31) / 32) * 4;
-		if (getcode_bitposn > 0) {
-			crt_ptr -= 4;
-		};
-		mem = (char *) xcalloc (no_chars, sizeof (char));
-		for (i = 0; i < no_chars; ++i) {
-			if (crt_ptr == end_ptr) {
-				read_line (1);
-				crt_ptr = crt_line;
-			};
-			c = *crt_ptr++;
-			mem[i] = c;
-		};
-		pl.pl_mem = mem;
-		add_capsule_frees((void*)mem);
-		return (pl);
-	};
-	
-	pl.bits_on = (int)(crt_ptr - crt_line) * 8 - getcode_bitposn;
-	pl.pl_mem = current_place.pl_mem;
-	return pl;
-}
 
 /*********************************************************************
  *  small_dtdfint reads one TDF integer using getcode. TDF integers are
@@ -445,7 +203,7 @@ small_dtdfint()
 void
 to_boundary()
 {
-	getcode_bitposn = getcode_bitposn - getcode_bitposn % 8;
+	tdf_de_align (tdfr);
 	return;
 }
 
@@ -456,14 +214,13 @@ to_boundary()
 bitstream
 d_bitstream()
 {
-	bitstream crt_bitstream;
-	place here;
-	int  length;
-	length = small_dtdfint ();
-	here = keep_place ();
-	crt_bitstream = new_place (length);
-	set_place (add_place (here, length));
-	return crt_bitstream;
+	TDFINTL  length;
+	tdf_pos here;
+
+	length = tdf_de_tdfintl (tdfr);
+	here = tdf_stream_tell (tdfr);
+	tdf_stream_seek (tdfr, here + length);
+	return here;
 }
 
 
@@ -479,12 +236,13 @@ void
 ignore_bytestream()
 {
 	/* steps over a bytestream */
-	int  length;
-	place here;
-	length = small_dtdfint ();
-	to_boundary ();
-	here = keep_place ();
-	set_place (add_place (here, (length * 8)));
+	TDFINTL length;
+	tdf_pos here;
+
+	length = tdf_de_tdfintl (tdfr);
+	tdf_de_align (tdfr);
+	here = tdf_stream_tell (tdfr);
+	tdf_stream_seek (tdfr, here + length * TDF_BYTE_SIZE);
 	return;
 }
 
@@ -493,12 +251,13 @@ ignore_bytestream()
 void
 start_bytestream()
 {
-	int  length;
-	place here;
-	length = small_dtdfint ();
-	to_boundary ();
-	here = keep_place ();
-	bytestream_pickup = add_place (here, (length * 8));
+	TDFINTL length;
+	tdf_pos here;
+
+	length = tdf_de_tdfintl (tdfr);
+	tdf_de_align (tdfr);
+	here = tdf_stream_tell (tdfr);
+	bytestream_pickup = here + length * TDF_BYTE_SIZE;
 	return;
 }
 
@@ -508,7 +267,7 @@ start_bytestream()
 void
 end_bytestream()
 {
-	set_place (bytestream_pickup);
+	tdf_stream_seek (tdfr, bytestream_pickup);
 	return;
 }
 
@@ -516,10 +275,11 @@ tdfstring
 d_tdfstring()
 {
 	/* reads a tdfstring from the input stream */
-	int  bits = small_dtdfint ();
-	int  n = small_dtdfint ();
+	TDFINTL bits, i, n;
 	tdfstring tdb;
-	int  i;
+
+	bits = tdf_de_tdfintl (tdfr);
+	n = tdf_de_tdfintl (tdfr);
 	tdb.number = n;
 	if (bits <= 8) {
 		tdb.ints.chars = (char *) xcalloc (n + 1, sizeof (char));
@@ -538,7 +298,7 @@ d_tdfstring()
 		return tdb;
 	};
 	if (bits <= 32) {
-		tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
+		tdb.ints.longs = (long *) xcalloc (n + 1, sizeof (long));
 		for (i = 0; i < n; ++i)
 			tdb.ints.longs[i] = getcode (bits);
 		tdb.ints.longs[n] = 0;
@@ -546,7 +306,7 @@ d_tdfstring()
 		return tdb;
 	};
 	if (bits <= 64) {
-		tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
+		tdb.ints.longs = (long *) xcalloc (n + 1, sizeof (long));
 		for (i = 0; i < n; ++i) {
 			flt64 x;
 			flpt f;
@@ -566,37 +326,9 @@ d_tdfstring()
 tdfstring
 d_tdfident()
 {
-	/* reads a tdfident from the input stream */
-	int  bits = small_dtdfint ();
-	int  n = small_dtdfint ();
 	tdfstring tdb;
-	int  i;
-	tdb.size = bits;
-	tdb.number = n;
-	if (bits <= 8) {
-		tdb.ints.chars = (char *) xcalloc (n + 1, sizeof (char));
-		to_boundary ();
-		for (i = 0; i < n; ++i)
-			tdb.ints.chars[i] = (char)getcode (bits);
-		tdb.ints.chars[n] = 0;
-		to_boundary ();
-		return tdb;
-	};
-	if (bits <= 16) {
-		tdb.ints.shorts = (short *) xcalloc (n + 1, sizeof (short));
-		to_boundary ();
-		for (i = 0; i < n; ++i)
-			tdb.ints.shorts[i] = (short)getcode (bits);
-		tdb.ints.shorts[n] = 0;
-		to_boundary ();
-		return tdb;
-	};
-	tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
-	to_boundary ();
-	for (i = 0; i < n; ++i)
-		tdb.ints.longs[i] = getcode (bits);
-	tdb.ints.longs[n] = 0;
-	to_boundary ();
+
+	tdf_de_tdfident (tdfr, &tdb);
 	return tdb;
 }
 
@@ -604,7 +336,7 @@ tdfbool
 d_tdfbool()
 {
 	/* reads a tdfbool from the input stream */
-	return (tdfbool)getcode (1);
+	return (tdfbool)tdf_de_tdfbool (tdfr);
 }
 
 
@@ -656,27 +388,19 @@ d_tdfint()
 void
 check_magic_no()
 {
-	tdfint maj;
-	tdfint min;
-	
-	if (getcode(8) != 'T' || getcode(8) != 'D' || getcode(8) != 'F' ||
-		getcode(8) != 'C') {
-		failer("This is not a TDF Version >= 4 capsule");
-		exit(EXIT_FAILURE);
-	}
-	maj = d_tdfint();
-	if (natint(maj) > MAJOR_VERSION) {
+	struct tdf_version v;
+
+	tdf_de_magic (tdfr, tdf_cap_magic);
+	tdf_de_make_version (tdfr, &v);
+	if (v.major > MAJOR_VERSION) {
 		failer("TDF version of capsule is later than version dealt with by translator - update the translator");
 		exit(EXIT_FAILURE);
+	} else if (v.major < MAJOR_VERSION) {
+		failer("TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
+		exit(EXIT_FAILURE);
 	}
-	else
-		if (natint(maj) < MAJOR_VERSION) {
-			failer("TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
-			exit(EXIT_FAILURE);
-		}
-	min = d_tdfint();
-	if (natint(min) > MINOR_VERSION) {
+	if (v.minor > MINOR_VERSION) {
 	    IGNORE fprintf(stderr, "Warning: capsule may contain constructions not dealt with in this minor version of the translator\n");
 	}
-	to_boundary();
+	tdf_de_align (tdfr);
 }

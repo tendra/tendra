@@ -5235,7 +5235,7 @@ f_concat_string(string a1, string a2)
 			res.ints.shorts[res.number]=0;
 		}
 		else {
-			res.ints.longs = (int*)xcalloc(res.number+1, sizeof(int));
+			res.ints.longs = (long*)xcalloc(res.number+1, sizeof(long));
 			for (i=0; i<a1.number; i++)
 				res.ints.longs[i] = a1.ints.longs[i];
 			for (i=0; i<a2.number; i++)

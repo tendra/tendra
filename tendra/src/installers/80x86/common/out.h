@@ -72,6 +72,5 @@ extern  void outhex(int n);
 extern  void outnl(void);
 extern  int outinit(char *intermed);
 extern  FILE * fpout;
-extern int  last_jump_label;
 
 #endif
