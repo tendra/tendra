@@ -101,7 +101,7 @@ field; func; if; ifdef; ifndef; implement; info; macro; nat;
 set; statement; !subset; token; type; typedef; use;
 
 arith; char; const; double; enum; extern; float; int; long;
-lvalue; scalar; short; signed; struct; union; unsigned; void;
+lvalue; restrict; scalar; short; signed; struct; union; unsigned; void;
 volatile; weak;
 
 building; promote; protect; special;
@@ -192,6 +192,7 @@ simple-type : () -> ( t : TYPE ) = {
 
 <cv_none> : () -> ( :TYPE_QUAL );
 <cv_const> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL );
+<cv_restrict> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL );
 <cv_volatile> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL );
 <type_qualify> : ( :TYPE, :TYPE_QUAL ) -> ( :TYPE );
 
@@ -205,6 +206,9 @@ type-qualifier-opt : () -> ( cv : TYPE_QUAL ) = {
 type-qualifier : () -> ( cv : TYPE_QUAL ) = {
     	const; a = type-qualifier-opt;
 	cv = <cv_const> ( a );
+    ||
+    	restrict; a = type-qualifier-opt;
+	cv = <cv_restrict> ( a );
     ||
     	volatile; a = type-qualifier-opt;
 	cv = <cv_volatile> ( a );

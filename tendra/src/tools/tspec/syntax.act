@@ -142,7 +142,8 @@ static int anon_no = 0;
  */
 
 static char *cv_qualifier [] = {
-    null, "const", "volatile", "const volatile"
+    null, "const", "restrict", "const restrict",
+    "volatile", "const volatile", "const restrict volatile"
 };
 
 /*
@@ -321,8 +322,8 @@ build-insert : () -> ( s ) = @{ @s = token_value; @};
 /*
  *  TYPE QUALIFIERS
  *
- *  These actions describe the type qualifiers.  const is represented by 1
- *  and volatile by 2.
+ *  These actions describe the type qualifiers.  const is represented by 1,
+ *  restrict by 2 and volatile by 4.
  */
 
 <cv_none> : () -> ( c ) = @{
@@ -334,11 +335,15 @@ build-insert : () -> ( s ) = @{ @s = token_value; @};
     @c = ( @a | 1 );
 @};
 
-<cv_volatile> : ( a ) -> ( c ) = @{
+<cv_restrict> : ( a ) -> ( c ) = @{
     if ( @a & 2 ) error ( ERR_SERIOUS, "Duplicate type qualifier" );
     @c = ( @a | 2 );
 @};
 
+<cv_volatile> : ( a ) -> ( c ) = @{
+    if ( @a & 4 ) error ( ERR_SERIOUS, "Duplicate type qualifier" ) ;
+    @c = ( @a | 4 ) ;
+@} ;
 
 /*
  *  TYPE CONSTRUCTORS
