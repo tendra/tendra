@@ -48,7 +48,7 @@ _REALWORK: fixenv.sed .USE
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/lib/env/default
 . endif
 
-_objdir=	${OBJ_DIR}/lib/env
+_objdir=	${OBJ_DIR}/${ENVIRONMENT}
 .elif "${PROG}" != ""
 #
 # Build a program.
@@ -108,6 +108,7 @@ obj:
 .if "${_objdir}" != "" && (!exists(${_objdir}) || !exists(obj))
 	@${ECHO} "# Creating objdir ${_objdir}"
 	@${MKDIR} -p ${_objdir}
+	@${REMOVE} ${.CURDIR}/obj
 	@${LN} -sf ${_objdir} ${.CURDIR}/obj
 .endif
 
