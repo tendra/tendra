@@ -70,8 +70,8 @@
  *    This routine creates a new object, with name nm and type t.
  */
 
-object
-*make_object(char *nm, int t)
+object *
+make_object(char *nm, int t)
 {
     object *p;
     alloc_variable (p, object, 1000);
@@ -90,8 +90,8 @@ object
  *    This routine joins two lists of objects, returning the result.
  */
 
-object
-*join_object(object *p, object *q)
+object *
+join_object(object *p, object *q)
 {
     object *r = p;
     if (p == null) return (q);
@@ -110,8 +110,8 @@ object
  *    input) needs to be kept in step with subset_name.
  */
 
-object
-*make_subset(char *nm)
+object *
+make_subset(char *nm)
 {
     object *p = search_hash (subsets, nm, no_version);
     if (p == null) {
@@ -145,8 +145,8 @@ object
  *    api:file:subset.
  */
 
-info
-*make_info(char *api, char *file, char *subset)
+info *
+make_info(char *api, char *file, char *subset)
 {
     info *p;
     alloc_variable (p, info, 100);
@@ -197,9 +197,8 @@ update_time(object *p, object *q)
  *    current subset is set.
  */
 
-object
-*make_token(char *nm, int vers, object *p,
-			int objtype)
+object *
+make_token(char *nm, int vers, object *p, int objtype)
 {
     object *r = make_object (nm, OBJ_TOKEN);
     r->u.u_obj = p;
@@ -227,11 +226,11 @@ object
  *    vers).
  */
 
-object
-*make_exp(char *nm, int vers, int t)
+object *
+make_exp(char *nm, int vers, int t)
 {
     object *r = make_object (nm, t);
     IGNORE add_hash (exps, r, vers);
-    r->u.u_type = null ;
+    r->u.u_type = null;
     return (r);
 }

@@ -66,15 +66,15 @@
  *    and system calls.
  */
 
-extern void error PROTO_W ((int, char *, ...));
-extern pointer xalloc(int) ;
-extern pointer xrealloc(pointer, int) ;
-extern char *string_copy(char *) ;
-extern char *string_concat(char *, char *) ;
-extern char *string_printf PROTO_W ((char *, ...));
-extern void create_dir(char *) ;
-extern void check_name(char *) ;
-extern time_t date_stamp(char *) ;
+extern void error(int, char *, ...);
+extern pointer xalloc(int);
+extern pointer xrealloc(pointer, int);
+extern char *string_copy(char *);
+extern char *string_concat(char *, char *);
+extern char *string_printf(char *, ...);
+extern void create_dir(char *);
+extern void check_name(char *);
+extern time_t date_stamp(char *);
 
 
 /*
@@ -144,13 +144,13 @@ extern int line_no;
 
 #define alloc_variable(V, T, N)\
     {\
-	static int no_free = 0 ;\
-	static T *free_list = null ;\
+	static int no_free = 0;\
+	static T *free_list = null;\
 	if (no_free == 0) {\
-	    no_free = N ;\
-	    free_list = alloc_nof (T, N) ;\
+	    no_free = N;\
+	    free_list = alloc_nof (T, N);\
 	}\
-	V = free_list + (--no_free) ;\
+	V = free_list + (--no_free);\
     }
 
 

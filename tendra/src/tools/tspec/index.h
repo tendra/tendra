@@ -65,8 +65,8 @@
  *    These routines are concerned with printing an index for an API.
  */
 
-extern void print_index(object *) ;
-extern void print_machine_index(object *) ;
+extern void print_index(object *);
+extern void print_machine_index(object *);
 
 
 #endif

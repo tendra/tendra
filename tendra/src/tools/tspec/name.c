@@ -104,11 +104,11 @@ int output_src_len = (int) sizeof (SRC_DIR);
  *    the filename nm.
  */
 
-char
-*basename(char *nm)
+char *
+basename(char *nm)
 {
     char *b = nm;
-    for (; *nm ; nm++) {
+    for (; *nm; nm++) {
 		if (*nm == '/') b = nm + 1;
     }
     return (b);
@@ -122,12 +122,12 @@ char
  *    nm.
  */
 
-char
-*dirname(char *nm)
+char *
+dirname(char *nm)
 {
     char *p, *end = null;
     char *dir = string_copy (nm);
-    for (p = dir ; *p ; p++) {
+    for (p = dir; *p; p++) {
 		if (*p == '/') end = p;
     }
     if (end == null || end == dir) return (null);
@@ -143,13 +143,13 @@ char
  *    file to, ignoring the first n characters.
  */
 
-char
-*relative(char *from, char *to, int n)
+char *
+relative(char *from, char *to, int n)
 {
     char *s = buffer;
     if (from == null) return (to);
     if (to == null) return (from);
-    for (from = from + n; *from ; from++) {
+    for (from = from + n; *from; from++) {
 		if (*from == '/') {
 			IGNORE strcpy (s, "../");
 			s += 3;
@@ -166,11 +166,11 @@ char
  *    This routine hacks the name nm according to the given key.
  */
 
-char
-*hack_name(char *nm, char *key)
+char *
+hack_name(char *nm, char *key)
 {
     char *p = string_copy (nm), *q;
-    for (q = p ; *q ; q++) {
+    for (q = p; *q; q++) {
 		char c = *q;
 		if (isalpha (c) && isupper (c)) {
 			/* The second letter of key maps upper case letters */
@@ -200,8 +200,8 @@ char
  *    a string depending on the current input file.
  */
 
-char
-*token_name(char *nm)
+char *
+token_name(char *nm)
 {
     if (strneq (nm, HIDDEN_NAME, HIDDEN_LEN)) {
 		nm = string_concat ("~", nm + HIDDEN_LEN);
@@ -225,8 +225,8 @@ char
  *    This routine finds the token prefix for the API subset api:file:subset.
  */
 
-char
-*token_prefix(char *api, char *file, char *subset)
+char *
+token_prefix(char *api, char *file, char *subset)
 {
     UNUSED (subset);
     if (unique_names) {
@@ -248,8 +248,8 @@ char
  *    api, header file and subset subset.
  */
 
-char
-*subset_name(char *api, char *file, char *subset)
+char *
+subset_name(char *api, char *file, char *subset)
 {
     char *sn;
     if (subset) {
@@ -271,15 +271,14 @@ char
  *    api:file:subset using the directory dir as a base.
  */
 
-char
-*include_name(char *dir, char *api, char *file,
-			  char *subset)
+char *
+include_name(char *dir, char *api, char *file, char *subset)
 {
     char *nm;
     if (subset) {
 		char s [20];
 		IGNORE strncpy (s, subset, 18);
-		s [ OUTPUT_LENGTH ] = 0;
+		s [OUTPUT_LENGTH] = 0;
 		nm = string_printf (OUTPUT_SUBSET, dir, api, s);
     } else if (file) {
 		nm = string_printf (OUTPUT_FILE, dir, api, file);
@@ -297,15 +296,14 @@ char
  *    api:file:subset using the directory dir as a base.
  */
 
-char
-*src_name(char *dir, char *api, char *file,
-		  char *subset)
+char *
+src_name(char *dir, char *api, char *file, char *subset)
 {
     char *nm;
     if (subset) {
 		char s [20];
 		IGNORE strncpy (s, subset, 18);
-		s [ OUTPUT_LENGTH ] = 0;
+		s [OUTPUT_LENGTH] = 0;
 		nm = string_printf (SOURCE_SUBSET, dir, api, s);
     } else if (file) {
 		int n;
@@ -328,9 +326,8 @@ char
  *    api:file:subset using the macro prefix pfx.
  */
 
-char
-*macro_name(char *pfx, char *api, char *file,
-			char *subset)
+char *
+macro_name(char *pfx, char *api, char *file, char *subset)
 {
     if (subset) {
 		char *f = (file ? file : "");
@@ -351,8 +348,8 @@ char
  *    api:file:subset.
  */
 
-char
-*block_name(char *api, char *file, char *subset)
+char *
+block_name(char *api, char *file, char *subset)
 {
     char * pfx = (subset ? "subset" : "api");
     if (file) {
@@ -361,7 +358,7 @@ char
 		/* remove any trailing ".h" */
 		len = (int) strlen (buffer);
 		if (streq (buffer + len - 2, ".h"))
-			buffer [ len - 2 ] = '\0';
+			buffer [len - 2] = '\0';
     } else {
 		IGNORE sprintf (buffer, "%s__%s", pfx, api);
     }

@@ -161,7 +161,7 @@ print_value(char *s)
  */
 
 static void
-print_no_value()
+print_no_value(void)
 {
     IGNORE printf ("%c\n", field_sep);
     return;
@@ -317,7 +317,7 @@ stack_if (object *p)
 		if_stack_sz += 16;
 		if_stack = realloc_nof (if_stack, object *, if_stack_sz);
     }
-    if_stack [ if_stack_index ] = p;
+    if_stack [if_stack_index] = p;
     if_stack_index++;
     return;
 }
@@ -329,10 +329,10 @@ stack_if (object *p)
  *    Routine to unstack an object representing +IFxxx or +ELSE.
  */
 
-static object
-*unstack_if ()
+static object *
+unstack_if(void)
 {
-    return (if_stack [ --if_stack_index ]);
+    return (if_stack [--if_stack_index]);
 }
 
 
@@ -343,24 +343,24 @@ static object
  */
 
 static void
-print_if_nest()
+print_if_nest(void)
 {
     int i;
-    for (i = 0 ; i < if_stack_index ; i++) {
+    for (i = 0; i < if_stack_index; i++) {
 		char code;
-		object *p = if_stack [ i ];
+		object *p = if_stack [i];
 		char *c = p->name;
 		
 		if (i > 0) print_escape (";");
 		if (i + 1 < if_stack_index &&
-			if_stack [ i + 1 ]->u.u_num == CMD_ELSE) {
+			if_stack [i + 1]->u.u_num == CMD_ELSE) {
 			IGNORE printf ("e");
 			i++;
 		}
 		switch (p->u.u_num) EXHAUSTIVE {
-	    case CMD_IF : code = 'i' ; break;
-	    case CMD_IFDEF : code = 'd' ; break;
-	    case CMD_IFNDEF : code = 'n' ; break;
+	    case CMD_IF : code = 'i'; break;
+	    case CMD_IFDEF : code = 'd'; break;
+	    case CMD_IFNDEF : code = 'n'; break;
 		}
 		IGNORE printf ("%c", code);
 		print_escape (":");
@@ -380,8 +380,7 @@ print_if_nest()
  */
 
 static void
-print_item_m(object *p, char *u, char *a,
-			 type *e)
+print_item_m(object *p, char *u, char *a, type *e)
 {
     char *nm;
     char *ap;
@@ -401,19 +400,19 @@ print_item_m(object *p, char *u, char *a,
     print_field (tnm);
 	
     /* Field 3: STATUS */
-    IGNORE printf ("%c%c", u [ 0 ], field_sep);
+    IGNORE printf ("%c%c", u [0], field_sep);
 	
     /* Field 4: IF_NESTING */
     print_if_nest ();
     print_field_sep ();
 	
     /* Field 5: API_LOCATION */
-    for (ap = a ; *ap && *ap != ':' ; ap++) IGNORE putchar (*ap);
+    for (ap = a; *ap && *ap != ':'; ap++) IGNORE putchar (*ap);
     print_field_sep ();
 	
     /* Field 6: FILE_LOCATION */
     if (*ap) ap++;
-    for (; *ap && *ap != ':' ; ap++) IGNORE putchar (*ap);
+    for (; *ap && *ap != ':'; ap++) IGNORE putchar (*ap);
     print_field_sep ();
 	
     /* Field 7: LINE_LOCATION */
@@ -472,7 +471,7 @@ print_item_m(object *p, char *u, char *a,
 	    if (*s == '(') {
 			print_field ("define");
 			print_field ("param");
-			for (; *s && *s != ')' ; s++) {
+			for (; *s && *s != ')'; s++) {
 				IGNORE putchar (*s);
 			}
 			if (*s == ')') s++;
@@ -590,12 +589,12 @@ print_item_m(object *p, char *u, char *a,
 		    object *r = t->v.obj2;
 		    char *inf = (r ? "exact" : "");
 		    switch (i) EXHAUSTIVE {
-			case TYPE_STRUCT : s = "struct" ; break;
-			case TYPE_STRUCT_TAG : s = "struct_tag" ; break;
-			case TYPE_UNION : s = "union" ; break;
-			case TYPE_UNION_TAG : s = "union_tag" ; break;
-			case TYPE_ENUM : s = "enum" ; en = t ; break;
-			case TYPE_ENUM_TAG : s = "enum_tag" ; en = t ; break;
+			case TYPE_STRUCT : s = "struct"; break;
+			case TYPE_STRUCT_TAG : s = "struct_tag"; break;
+			case TYPE_UNION : s = "union"; break;
+			case TYPE_UNION_TAG : s = "union_tag"; break;
+			case TYPE_ENUM : s = "enum"; en = t; break;
+			case TYPE_ENUM_TAG : s = "enum_tag"; en = t; break;
 		    }
 		    print_si (s, inf);
 		    while (r) {
@@ -631,8 +630,7 @@ print_item_m(object *p, char *u, char *a,
  */
 
 static void
-print_item_h(object *p, char *u, char *a,
-			 type *e)
+print_item_h(object *p, char *u, char *a, type *e)
 {
     char *tnm = p->name;
     object *q = p->u.u_obj;
@@ -697,7 +695,7 @@ print_item_h(object *p, char *u, char *a,
 	    IGNORE printf ("%s is a macro ", nm);
 	    if (*s == '(') {
 			IGNORE printf ("with arguments ");
-			for (; *s && *s != ')' ; s++) {
+			for (; *s && *s != ')'; s++) {
 				IGNORE putchar (*s);
 			}
 			if (*s == ')') s++;
@@ -815,10 +813,10 @@ print_item_h(object *p, char *u, char *a,
 		    char *n;
 		    object *r = t->v.obj2;
 		    switch (i) EXHAUSTIVE {
-			case TYPE_STRUCT : n = "structure" ; break;
-			case TYPE_STRUCT_TAG : n = "structure" ; break;
-			case TYPE_UNION : n = "union" ; break;
-			case TYPE_UNION_TAG : n = "union" ; break;
+			case TYPE_STRUCT : n = "structure"; break;
+			case TYPE_STRUCT_TAG : n = "structure"; break;
+			case TYPE_UNION : n = "union"; break;
+			case TYPE_UNION_TAG : n = "union"; break;
 		    }
 		    if (r == null) {
 				IGNORE printf (" is an inexact %s type\n\n", n);
@@ -867,7 +865,7 @@ print_item_h(object *p, char *u, char *a,
  *    This routine prints an index of the set object input using fn.
  */
 
-typedef void (*index_func)(object *, char *, char *, type *) ;
+typedef void (*index_func)(object *, char *, char *, type *);
 
 static void
 print_index_with(object *input, index_func fn)
@@ -876,7 +874,7 @@ print_index_with(object *input, index_func fn)
     info *i = p->u.u_info;
     char *a = p->name;
     char *u = (i->implemented ? "implemented" : "used");
-    for (p = i->elements ; p != null ; p = p->next) {
+    for (p = i->elements; p != null; p = p->next) {
 		switch (p->objtype) {
 			
 	    case OBJ_IF : {

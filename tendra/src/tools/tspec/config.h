@@ -73,33 +73,36 @@
 
 
 /*
- *    HACKS FOR BAD API IMPLEMENTATIONS
- *
- *    These values are meant to be in the headers above, but sometimes
- *    they are omitted.
- */
-
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS		0
-#define EXIT_FAILURE		1
-#endif
-
-#ifndef SEEK_SET
-#define SEEK_SET		0
-#define SEEK_CUR		1
-#define SEEK_END		2
-#endif
-
-#ifdef __MSDOS__
-#define FS_NO_MODE_T		1
-#endif
-
-
-/*
  *    COMPILER DEPENDENT MACROS
  */
 
-#include "ossg.h"
+#ifdef __TenDRA__
+#pragma TenDRA keyword SET for set
+#pragma TenDRA keyword UNUSED for discard variable
+#pragma TenDRA keyword IGNORE for discard value
+#pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+#define FALL_THROUGH
+
+#elif defined ( lint ) || defined ( __lint )
+#define SET(name)
+#define UNUSED(name)		(name) = (name)
+#define IGNORE			(void)
+#define EXHAUSTIVE
+#define REACHED
+#define UNREACHED
+#define FALL_THROUGH
+
+#else
+#define SET(name)
+#define UNUSED(name)
+#define IGNORE			(void)
+#define EXHAUSTIVE
+#define REACHED
+#define UNREACHED
+#define FALL_THROUGH
+#endif
 
 
 /*
@@ -110,11 +113,7 @@
  */
 
 typedef char boolean;
-#if FS_PTR_VOID
 typedef void *pointer;
-#else
-typedef char *pointer;
-#endif
 
 
 /*

@@ -140,8 +140,7 @@ is_tailed_type(type *t)
  */
 
 static int
-print_head(FILE *output, type *t, int sp,
-		   int tok)
+print_head(FILE *output, type *t, int sp, int tok)
 {
     if (t == null) return (sp);
     switch (t->id) {
@@ -298,8 +297,7 @@ print_tail(FILE *output, type *t, int tok)
  */
 
 void
-print_type(FILE *output, type *t, char *nm,
-		   int tok)
+print_type(FILE *output, type *t, char *nm, int tok)
 {
     if (t) {
 		int sp = print_head (output, t, 0, tok);
@@ -321,8 +319,7 @@ print_type(FILE *output, type *t, char *nm,
  */
 
 static void
-print_struct_defn(FILE *output, type *t, char *nm,
-				  char *tnm, int d)
+print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 {
     char *tok, *tag;
     object *q = t->v.obj2;
@@ -331,10 +328,10 @@ print_struct_defn(FILE *output, type *t, char *nm,
 	
     /* Find the token type */
     switch (t->id) EXHAUSTIVE {
-	case TYPE_STRUCT : tok = "STRUCT" ; tag = "" ; break;
-	case TYPE_STRUCT_TAG : tok = "STRUCT" ; tag = "TAG " ; break;
-	case TYPE_UNION : tok = "UNION" ; tag = "" ; break;
-	case TYPE_UNION_TAG : tok = "UNION" ; tag = "TAG " ; break;
+	case TYPE_STRUCT : tok = "STRUCT"; tag = ""; break;
+	case TYPE_STRUCT_TAG : tok = "STRUCT"; tag = "TAG "; break;
+	case TYPE_UNION : tok = "UNION"; tag = ""; break;
+	case TYPE_UNION_TAG : tok = "UNION"; tag = "TAG "; break;
     }
 	
     /* Deal with undefined tokens immediately */
@@ -445,8 +442,7 @@ print_struct_defn(FILE *output, type *t, char *nm,
  */
 
 static void
-print_token_type(FILE *output, object *p,
-				 char *tnm)
+print_token_type(FILE *output, object *p, char *tnm)
 {
     char *tok = "TYPE";
     char *nm = p->name;
@@ -485,12 +481,12 @@ print_token_type(FILE *output, object *p,
 	    break;
 	}
 		
-	case TYPE_INT : tok = "VARIETY" ; goto generic_lab;
-	case TYPE_SIGNED : tok = "VARIETY signed" ; goto generic_lab;
-	case TYPE_UNSIGNED : tok = "VARIETY unsigned" ; goto generic_lab;
-	case TYPE_FLOAT : tok = "FLOAT" ; goto generic_lab;
-	case TYPE_ARITH : tok = "ARITHMETIC" ; goto generic_lab;
-	case TYPE_SCALAR : tok = "SCALAR" ; goto generic_lab;
+	case TYPE_INT : tok = "VARIETY"; goto generic_lab;
+	case TYPE_SIGNED : tok = "VARIETY signed"; goto generic_lab;
+	case TYPE_UNSIGNED : tok = "VARIETY unsigned"; goto generic_lab;
+	case TYPE_FLOAT : tok = "FLOAT"; goto generic_lab;
+	case TYPE_ARITH : tok = "ARITHMETIC"; goto generic_lab;
+	case TYPE_SCALAR : tok = "SCALAR"; goto generic_lab;
 		
 	case TYPE_GENERIC :
 		generic_lab : {
@@ -766,7 +762,7 @@ print_ifs(FILE *output, ifcmd *ifs)
     do {
 		ifcmd *q = null;
 		changed = 0;
-		for (p = ifs ; p->dir != CMD_END ; p++) {
+		for (p = ifs; p->dir != CMD_END; p++) {
 			int d = p->dir;
 			if (d != CMD_NONE) {
 				if (q && q->dir != CMD_NONE) {
@@ -804,7 +800,7 @@ print_ifs(FILE *output, ifcmd *ifs)
 	
     /* Print the result */
     if (column) OUTC (output, '\n');
-    for (p = ifs ; p->dir != CMD_END ; p++) {
+    for (p = ifs; p->dir != CMD_END; p++) {
 		switch (p->dir) {
 	    case CMD_IF : {
 			OUT (output, "#if %s\n", p->nm);
@@ -989,13 +985,12 @@ print_include(FILE *output, char *nm, int on)
  */
 
 static void
-print_object(FILE *output, object *input,
-			 int pass)
+print_object(FILE *output, object *input, int pass)
 {
     object *p;
     ifcmd ifs [100];
     ifs [0].dir = CMD_END;
-    for (p = input ; p != null ; p = p->next) {
+    for (p = input; p != null; p = p->next) {
 		char *nm = p->name;
 		switch (p->objtype) {
 			
@@ -1006,7 +1001,7 @@ print_object(FILE *output, object *input,
 				while (ifs [i].dir != CMD_END) i++;
 				ifs [i].dir = p->u.u_num;
 				ifs [i].nm = p->name;
-				ifs [ i + 1 ].dir = CMD_END;
+				ifs [i + 1].dir = CMD_END;
 				if (i >= 90) print_ifs (output, ifs);
 			}
 			break;
@@ -1015,7 +1010,7 @@ print_object(FILE *output, object *input,
 	    case OBJ_IMPLEMENT :
 	    case OBJ_USE : {
 			/* Inclusion statements */
-			if (pass < 2 && nm [ pass ] == '1') {
+			if (pass < 2 && nm [pass] == '1') {
 				object *q = p->u.u_obj;
 				info *i = q->u.u_info;
 				char *b = BUILDING_MACRO;
@@ -1135,7 +1130,7 @@ static void
 scan_object(object *input, int pass)
 {
     object *p;
-    for (p = input ; p != null ; p = p->next) {
+    for (p = input; p != null; p = p->next) {
 		if (p->objtype == OBJ_SET) {
 			object *q = p->u.u_obj;
 			info *i = q->u.u_info;
@@ -1200,7 +1195,7 @@ print_set(object *input, int pass)
 		q = make_object (nm, OBJ_FILE);
 		q->u.u_file = null;
 		IGNORE add_hash (files, q, no_version);
-		for (q = i->elements ; q != null ; q = q->next) {
+		for (q = i->elements; q != null; q = q->next) {
 			if (q->objtype == OBJ_SET) print_set (q, pass);
 		}
     } else {

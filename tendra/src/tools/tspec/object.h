@@ -175,13 +175,13 @@ typedef struct info_tag {
  *    These routines are concerned with creating and manipulating objects.
  */
 
-extern object *make_object(char *, int) ;
-extern object *join_object(object *, object *) ;
-extern object *make_subset(char *) ;
-extern info *make_info(char *, char *, char *) ;
-extern object *make_token(char *, int, object *, int) ;
-extern object *make_exp(char *, int, int) ;
-extern void update_time(object *, object *) ;
+extern object *make_object(char *, int);
+extern object *join_object(object *, object *);
+extern object *make_subset(char *);
+extern info *make_info(char *, char *, char *);
+extern object *make_token(char *, int, object *, int);
+extern object *make_exp(char *, int, int);
+extern void update_time(object *, object *);
 
 
 #endif

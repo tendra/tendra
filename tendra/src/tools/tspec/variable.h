@@ -65,8 +65,8 @@
  *    These routines are concerned with setting various system variables.
  */
 
-extern void set_string(char *, char *) ;
-extern void set_integer(char *, int) ;
+extern void set_string(char *, char *);
+extern void set_integer(char *, int);
 extern object *crt_object;
 
 

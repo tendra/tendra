@@ -88,7 +88,7 @@ hash_table *type_fields;
  */
 
 void
-init_hash()
+init_hash(void)
 {
     buffer = alloc_nof (char, buffsize + 100);
     exps = make_hash_table ("Expression");
@@ -116,7 +116,7 @@ hash(char *nm)
 {
     char *s;
     int n = 0;
-    for (s = nm ; *s ; s++) n += *s;
+    for (s = nm; *s; s++) n += *s;
     return (n % hash_size);
 }
 
@@ -127,13 +127,13 @@ hash(char *nm)
  *    This routine creates a new hash table called nm.
  */
 
-hash_table
-*make_hash_table(char *nm)
+hash_table *
+make_hash_table(char *nm)
 {
     int i;
     hash_table *t = alloc_nof (hash_table, 1);
     t->name = nm;
-    for (i = 0 ; i < hash_size ; i++) t->array [i] = null;
+    for (i = 0; i < hash_size; i++) t->array [i] = null;
     return (t);
 }
 
@@ -146,9 +146,8 @@ hash_table
  *    otherwise.
  */
 
-static object
-*lookup_hash(hash_table *t, char *nm, int v,
-			 int h)
+static object *
+lookup_hash(hash_table *t, char *nm, int v, int h)
 {
     hash_elem *e = t->array [h];
     while (e) {
@@ -169,8 +168,8 @@ static object
  *    defined.  Otherwise it returns p.
  */
 
-object
-*add_hash(hash_table *t, object *p, int v)
+object *
+add_hash(hash_table *t, object *p, int v)
 {
     hash_elem *e;
     char *nm = p->name;
@@ -203,8 +202,8 @@ object
  *    null is returned.
  */
 
-object
-*search_hash(hash_table *t, char *nm, int v)
+object *
+search_hash(hash_table *t, char *nm, int v)
 {
     int h = hash (nm);
     return (lookup_hash (t, nm, v, h));
@@ -218,13 +217,13 @@ object
  *    alphabetical list.  The table cannot be used subsequently.
  */
 
-hash_elem
-*sort_hash(hash_table *t)
+hash_elem *
+sort_hash(hash_table *t)
 {
     int i;
     hash_elem *r = null;
-    for (i = 0 ; i < hash_size ; i++) {
-		hash_elem *p = t->array [i] ;
+    for (i = 0; i < hash_size; i++) {
+		hash_elem *p = t->array [i];
 		while (p) {
 			hash_elem *pn = p->next;
 			hash_elem *q = r, *s = null;

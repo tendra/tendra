@@ -79,7 +79,7 @@
  */
 
 void
-init_types()
+init_types(void)
 {
 #define BUILTIN(TYPE, NAME, VERS, ID)\
     TYPE = make_type (NAME, VERS, ID)
@@ -96,8 +96,8 @@ init_types()
  *    corresponding field hash table is returned.
  */
 
-static hash_table
-*find_namespace(int id, int fld)
+static hash_table *
+find_namespace(int id, int fld)
 {
     switch (id) {
 	case TYPE_STRUCT_TAG :
@@ -116,8 +116,8 @@ static hash_table
  *    This routine allocates space for a new type.
  */
 
-static type
-*new_type()
+static type *
+new_type(void)
 {
     type *t;
     alloc_variable (t, type, 1000);
@@ -133,8 +133,8 @@ static type
  *    type.
  */
 
-type
-*basic_type(unsigned n)
+type *
+basic_type(unsigned n)
 {
     type *t;
     switch (n) {
@@ -235,8 +235,8 @@ type
  *    This routine returns the special type described by the string s.
  */
 
-type
-*special_type(char *s)
+type *
+special_type(char *s)
 {
     if (streq (s, "bottom")) return (type_bottom);
     if (streq (s, "printf")) return (type_printf);
@@ -252,8 +252,8 @@ type
  *    This routine creates a type called nm (version vers) with identifier id.
  */
 
-type
-*make_type(char *nm, int vers, int id)
+type *
+make_type(char *nm, int vers, int id)
 {
     type *t = new_type ();
     object *p = make_object (nm, OBJ_TYPE);
@@ -274,8 +274,8 @@ type
  *    if force is true.
  */
 
-type
-*find_type(char *nm, int vers, int id, int force)
+type *
+find_type(char *nm, int vers, int id, int force)
 {
     type *t;
     object *p;
@@ -301,8 +301,8 @@ type
  *    This routine creates a compound type with identifier id and subtype t.
  */
 
-type
-*make_subtype(type *t, int id)
+type *
+make_subtype(type *t, int id)
 {
     type *s = new_type ();
     s->id = id;
@@ -319,8 +319,8 @@ type
  *    the type t.
  */
 
-type
-*inject_type(type *s, type *t)
+type *
+inject_type(type *s, type *t)
 {
     type *p = s;
     if (p == null) return (t);
@@ -339,8 +339,8 @@ type
  *    of the structure of union s of type t.
  */
 
-field
-*make_field(char *nm, int vers, type *s, type *t)
+field *
+make_field(char *nm, int vers, type *s, type *t)
 {
     char *n;
     field *r;
@@ -364,8 +364,8 @@ field
  *    definitions.
  */
 
-type
-*expand_type(type *t)
+type *
+expand_type(type *t)
 {
     while (t && t->id == TYPE_DEFINED) {
 		t = t->v.next;
@@ -380,8 +380,8 @@ type
  *    This routine applies various checks to the type t.
  */
 
-static type
-*check_type_aux(type *t, int obj, int c, int ret)
+static type *
+check_type_aux(type *t, int obj, int c, int ret)
 {
     if (t == null) return (null);
     switch (t->id) {
@@ -466,8 +466,8 @@ static type
  *    type id.  It returns an equivalent type.
  */
 
-type
-*check_type(type *t, int id)
+type *
+check_type(type *t, int id)
 {
     if (t) {
 		switch (id) {

@@ -169,16 +169,16 @@ typedef struct field_tag {
  *    These routines are concerned with creating and manipulating types.
  */
 
-extern type *basic_type(unsigned) ;
-extern type *make_type(char *, int, int) ;
-extern type *find_type(char *, int, int, int) ;
-extern type *make_subtype(type *, int) ;
-extern type *inject_type(type *, type *) ;
-extern type *check_type(type *, int) ;
-extern type *expand_type(type *) ;
-extern field *make_field(char *, int, type *, type *) ;
-extern type *special_type(char *) ;
-extern void init_types(void) ;
+extern type *basic_type(unsigned);
+extern type *make_type(char *, int, int);
+extern type *find_type(char *, int, int, int);
+extern type *make_subtype(type *, int);
+extern type *inject_type(type *, type *);
+extern type *check_type(type *, int);
+extern type *expand_type(type *);
+extern field *make_field(char *, int, type *, type *);
+extern type *special_type(char *);
+extern void init_types(void);
 
 
 #endif

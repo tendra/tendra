@@ -137,7 +137,7 @@ print_makefile(char *api, hash_elem *f, int whole)
 	
     /* Print the list of files */
     IGNORE fputs ("JFILES=", output);
-    for (e = f ; e != null ; e = e->next) {
+    for (e = f; e != null; e = e->next) {
 		info *i = e->obj->u.u_info;
 		if (need_info (i, api)) {
 			int m;
@@ -157,7 +157,7 @@ print_makefile(char *api, hash_elem *f, int whole)
     IGNORE fputs ("\t${TLIB} -o ${LIB} ${JFILES}\n\n", output);
 	
     /* Print the construction for each file */
-    for (e = f ; e != null ; e = e->next) {
+    for (e = f; e != null; e = e->next) {
 		info *i = e->obj->u.u_info;
 		if (need_info (i, api)) {
 			int m;

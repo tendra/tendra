@@ -88,7 +88,7 @@ make_keyword(char *nm, int t)
  */
 
 void
-init_keywords()
+init_keywords(void)
 {
 #define MAKE_KEYWORD(NAME, LEX)\
     make_keyword (NAME, LEX)
@@ -127,7 +127,7 @@ int input_pending = LEX_EOF;
  */
 
 static int
-read_char()
+read_char(void)
 {
     int c = input_pending;
     if (c == LEX_EOF) {
@@ -149,12 +149,12 @@ read_char()
  *    routines defined in this module.
  */
 
-static int read_identifier(int, int, int) ;
-static int read_number(int, int) ;
-static int read_string(int) ;
-static int read_insert(int) ;
-static int read_c_comment(int) ;
-static int read_comment(int) ;
+static int read_identifier(int, int, int);
+static int read_number(int, int);
+static int read_string(int);
+static int read_insert(int);
+static int read_c_comment(int);
+static int read_comment(int);
 
 #define unread_char(A)		input_pending = (A)
 #define get_global(A)		read_identifier (0, (A), 0)
@@ -196,9 +196,9 @@ read_identifier(int a, int b, int pp)
     object *p;
     int i = 0;
     char *s = buffer;
-    if (a) s [ i++ ] = (char) a;
-    s [ i++ ] = (char) b;
-    for (; ;) {
+    if (a) s [i++] = (char) a;
+    s [i++] = (char) b;
+    for (;;) {
 		c = read_char ();
 		if (!is_alphanum (lookup_char (c))) break;
 		s [i] = (char) c;
@@ -244,8 +244,8 @@ read_number(int a, int pp)
     int c;
     int i = 0;
     char *s = buffer;
-    s [ i++ ] = (char) a;
-    for (; ;) {
+    s [i++] = (char) a;
+    for (;;) {
 		c = read_char ();
 		if (!is_digit (lookup_char (c))) break;
 		s [i] = (char) c;
@@ -278,7 +278,7 @@ read_string(int pp)
     int c;
     int i = 0;
     char *s = buffer;
-    for (; ;) {
+    for (;;) {
 		c = read_char ();
 		if (c == '"') {
 			/* End of string */
@@ -294,9 +294,9 @@ read_string(int pp)
 			} else {
 				/* Examine escape sequence */
 				switch (c) {
-				case 'n' : c = '\n' ; break;
-				case 'r' : c = '\r' ; break;
-				case 't' : c = '\t' ; break;
+				case 'n' : c = '\n'; break;
+				case 'r' : c = '\r'; break;
+				case 't' : c = '\t'; break;
 				}
 			}
 		} else if (c == '\n' || c == LEX_EOF) {
@@ -346,7 +346,7 @@ read_insert(int pp)
     if (pp) {
 		/* Preserve percents when preprocessing */
 		if (percents < buffsize) {
-			for (i = 0 ; i < percents ; i++) s [i] = '%';
+			for (i = 0; i < percents; i++) s [i] = '%';
 		} else {
 			error (ERR_SERIOUS, "Insert too long");
 		}
@@ -383,7 +383,7 @@ read_insert(int pp)
 			s [i] = 0;
 		}
 		i = 0;
-		for (; ;) {
+		for (;;) {
 			int a = (int) s [i];
 			int t = lookup_char (a & 0xff);
 			if (!is_white (t)) break;
@@ -521,13 +521,13 @@ read_pptoken(int w)
 	    unread_char (a);
 	    break;
 	}
-	case '(' : t = lex_open_Hround ; break;
-	case ')' : t = lex_close_Hround ; break;
-	case '{' : t = lex_open_Hbrace ; break;
-	case '}' : t = lex_close_Hbrace ; break;
-	case ';' : t = lex_semicolon ; break;
-	case ',' : t = lex_comma ; break;
-	case LEX_EOF : t = lex_eof ; break;
+	case '(' : t = lex_open_Hround; break;
+	case ')' : t = lex_close_Hround; break;
+	case '{' : t = lex_open_Hbrace; break;
+	case '}' : t = lex_close_Hbrace; break;
+	case ';' : t = lex_semicolon; break;
+	case ',' : t = lex_comma; break;
+	case LEX_EOF : t = lex_eof; break;
     }
     buffer [0] = (char) c;
     buffer [1] = 0;
@@ -576,8 +576,7 @@ read_pp_string(char **str, int *b)
  */
 
 static void
-print_subset_name(FILE *output, char *cmd,
-				  char *api, char *file,
+print_subset_name(FILE *output, char *cmd, char *api, char *file,
 				  char *subset, int b)
 {
     if (b) {
@@ -668,8 +667,7 @@ preproc_subfile(FILE *output, char *cmd)
  */
 
 void
-preproc(FILE *output, char *api, char *file,
-		char *subset)
+preproc(FILE *output, char *api, char *file, char *subset)
 {
     int c;
     char *s;

@@ -65,8 +65,8 @@
  *    These routines are concerned with printing objects to the output file.
  */
 
-extern void print_set(object *, int) ;
-extern void print_type(FILE *, type *, char *, int) ;
+extern void print_set(object *, int);
+extern void print_type(FILE *, type *, char *, int);
 extern char *copyright;
 
 

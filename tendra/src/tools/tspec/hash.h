@@ -106,11 +106,11 @@ typedef struct {
  *    hash tables.
  */
 
-extern hash_table *make_hash_table(char *) ;
-extern object *add_hash(hash_table *, object *, int) ;
-extern object *search_hash(hash_table *, char *, int) ;
-extern hash_elem *sort_hash(hash_table *) ;
-extern void init_hash(void) ;
+extern hash_table *make_hash_table(char *);
+extern object *add_hash(hash_table *, object *, int);
+extern object *search_hash(hash_table *, char *, int);
+extern hash_elem *sort_hash(hash_table *);
+extern void init_hash(void);
 
 
 /*

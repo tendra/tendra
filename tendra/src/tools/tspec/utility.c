@@ -56,24 +56,12 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include <sys/types.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include "name.h"
 #include "utility.h"
-
-#ifdef FS_NO_MODE_T
-typedef unsigned short mode_t;
-#endif
-
-#ifndef errno
-extern int errno;
-#endif
 
 
 /*
@@ -118,15 +106,7 @@ error(int e, char *s, ...) /* VARARGS */
     va_list args;
     char *errtype = null;
     boolean show_line = 1;
-#if FS_STDARG
     va_start (args, s);
-#else
-    int e;
-    char *s;
-    va_start (args);
-    e = va_arg (args, int);
-    s = va_arg (args, char *);
-#endif
     switch (e) {
 	case ERR_FATAL : {
 	    exit_status = EXIT_FAILURE;
@@ -183,7 +163,7 @@ error(int e, char *s, ...) /* VARARGS */
 pointer
 xalloc(int sz)
 {
-    pointer p = (pointer) malloc ((size_t) sz);
+    pointer p = malloc ((size_t) sz);
     if (p == null) error (ERR_FATAL, "Memory allocation error");
     return (p);
 }
@@ -194,8 +174,7 @@ xalloc(int sz)
  *
  *    This routine reallocates the block of memory p to have size sz.
  *    xrealloc (null, sz) is equivalent to xalloc (sz).
- 
-*/
+ */
 
 pointer
 xrealloc(pointer p, int sz)
@@ -214,8 +193,8 @@ xrealloc(pointer p, int sz)
  *    This routine allocates space for a string of size n.
  */
 
-static char
-*string_alloc(int n)
+static char *
+string_alloc(int n)
 {
     char *r;
     if (n >= 1000) {
@@ -244,8 +223,8 @@ static char
  *    the string into this space.  This copy is returned.
  */
 
-char
-*string_copy(char *s)
+char *
+string_copy(char *s)
 {
     int n = (int) strlen (s);
     char *r = string_alloc (n + 1);
@@ -261,8 +240,8 @@ char
  *    s and t.
  */
 
-char
-*string_concat(char *s, char *t)
+char *
+string_concat(char *s, char *t)
 {
     int n = (int) strlen (s);
     int m = (int) strlen (t);
@@ -280,17 +259,11 @@ char
  *    does a sprintf into a permanent area of memory.
  */
 
-char
-*string_printf(char *s, ...) /* VARARGS */
+char *
+string_printf(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
     IGNORE vsprintf (buffer, s, args);
     va_end (args);
     return (string_copy (buffer));
@@ -337,7 +310,7 @@ create_dir(char *nm)
 #endif
     create_dir (dir);
     if (verbose) IGNORE printf ("Creating directory, %s ...\n", dir);
-    if (mkdir (dir, (mode_t) DIRMODE)) {
+    if (mkdir (dir, DIRMODE)) {
 		error (ERR_SERIOUS, "Can't create directory, %s", dir);
 		return;
     }
@@ -357,7 +330,7 @@ check_name(char *nm)
 {
     char *p;
     int i = 0, n = 0;
-    for (p = nm ; *p ; p++) {
+    for (p = nm; *p; p++) {
 		if (*p == '/') {
 			if (i > n) n = i;
 			i = 0;

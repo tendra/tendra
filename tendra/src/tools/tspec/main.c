@@ -83,10 +83,10 @@ handler(int sig)
     hash_elem *e;
     IGNORE signal (SIGINT, SIG_IGN);
     switch (sig) {
-	case SIGINT : s = "interrupt" ; break;
-	case SIGSEGV : s = "segmentation violation" ; break;
-	case SIGTERM : s = "termination signal" ; break;
-	default : s = "unknown signal" ; break;
+	case SIGINT : s = "interrupt"; break;
+	case SIGSEGV : s = "segmentation violation"; break;
+	case SIGTERM : s = "termination signal"; break;
+	default : s = "unknown signal"; break;
     }
     error (ERR_SERIOUS, "Caught %s", s);
     e = sort_hash (files);
@@ -140,7 +140,7 @@ implement(object *p, int depth)
     info *i = p->u.u_info;
     if (i == null || i->implemented >= depth) return;
     i->implemented = depth;
-    for (q = i->elements ; q != null ; q = q->next) {
+    for (q = i->elements; q != null; q = q->next) {
 		if (q->objtype == OBJ_IMPLEMENT) {
 			implement (q->u.u_obj, depth + 1);
 		}
@@ -207,7 +207,7 @@ main(int argc, char **argv)
     if (env) copyright = string_copy (env);
 	
     /* Process options */
-    for (a = 1 ; a < argc ; a++) {
+    for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
 		line_no = a;
 		if (arg [0] == '-') {
@@ -223,24 +223,24 @@ main(int argc, char **argv)
 				copyright = arg + 2;
 			} else {
 				char *s;
-				for (s = arg + 1 ; *s ; s++) {
+				for (s = arg + 1; *s; s++) {
 					switch (*s) {
-					case 'a' : separate_files = 0 ; break;
-					case 'c' : check_only = 1 ; break;
-					case 'd' : restrict_depth = 0 ; break;
-					case 'e' : preproc_file = stdout ; break;
-					case 'f' : force_output = 1 ; break;
-					case 'i' : show_index = 1 ; break;
-					case 'l' : local_input = 1 ; break;
-					case 'm' : show_index = 2 ; break;
-					case 'n' : progdate = date_stamp (argv [0]) ; break;
-					case 'p' : preproc_input = 1 ; break;
-					case 'r' : restrict_use = 1 ; break;
-					case 's' : separate_files = 1 ; break;
-					case 't' : allow_long_long = 1 ; break;
-					case 'u' : unique_names = 1 ; break;
-					case 'v' : verbose++ ; break;
-					case 'w' : warnings = 0 ; break;
+					case 'a' : separate_files = 0; break;
+					case 'c' : check_only = 1; break;
+					case 'd' : restrict_depth = 0; break;
+					case 'e' : preproc_file = stdout; break;
+					case 'f' : force_output = 1; break;
+					case 'i' : show_index = 1; break;
+					case 'l' : local_input = 1; break;
+					case 'm' : show_index = 2; break;
+					case 'n' : progdate = date_stamp (argv [0]); break;
+					case 'p' : preproc_input = 1; break;
+					case 'r' : restrict_use = 1; break;
+					case 's' : separate_files = 1; break;
+					case 't' : allow_long_long = 1; break;
+					case 'u' : unique_names = 1; break;
+					case 'v' : verbose++; break;
+					case 'w' : warnings = 0; break;
 					case 'V' : {
 						IGNORE printf ("Version: %s (release %s)\n",
 									   progvers, RELEASE);
@@ -310,7 +310,7 @@ main(int argc, char **argv)
 		hash_elem *e;
 		char *s = buffer;
 		IGNORE sprintf (s, "%s ", argv [0]);
-		for (a = 1 ; a < argc ; a++) {
+		for (a = 1; a < argc; a++) {
 			char *arg = argv [a];
 			if (arg [0] == '-') {
 				s = s + strlen (s);

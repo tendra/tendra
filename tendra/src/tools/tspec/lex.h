@@ -66,9 +66,9 @@
  *    analyser.
  */
 
-extern int read_token(void) ;
-extern void preproc(FILE *, char *, char *, char *) ;
-extern void init_keywords(void) ;
+extern int read_token(void);
+extern void preproc(FILE *, char *, char *, char *);
+extern void init_keywords(void);
 extern int input_pending;
 extern FILE *input_file;
 extern int crt_lex_token;

@@ -159,17 +159,17 @@
  *    names, token names etc.
  */
 
-extern char *basename(char *) ;
-extern char *dirname(char *) ;
-extern char *relative(char *, char *, int) ;
-extern char *hack_name(char *, char *) ;
-extern char *token_name(char *) ;
-extern char *token_prefix(char *, char *, char *) ;
-extern char *subset_name(char *, char *, char *) ;
-extern char *include_name(char *, char *, char *, char *) ;
-extern char *src_name(char *, char *, char *, char *) ;
-extern char *macro_name(char *, char *, char *, char *) ;
-extern char *block_name(char *, char *, char *) ;
+extern char *basename(char *);
+extern char *dirname(char *);
+extern char *relative(char *, char *, int);
+extern char *hack_name(char *, char *);
+extern char *token_name(char *);
+extern char *token_prefix(char *, char *, char *);
+extern char *subset_name(char *, char *, char *);
+extern char *include_name(char *, char *, char *, char *);
+extern char *src_name(char *, char *, char *, char *);
+extern char *macro_name(char *, char *, char *, char *);
+extern char *block_name(char *, char *, char *);
 
 
 /*
