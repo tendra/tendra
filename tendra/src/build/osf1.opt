@@ -1,2 +1,0 @@
-#!/bin/sh
-LIBOPTS="-DNATIVE_INT64"
