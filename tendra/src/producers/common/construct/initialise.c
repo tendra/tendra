@@ -1701,16 +1701,15 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 					/* Otherwise read constituents from p */
 					e = init_aggr_aux (s, cv2, &p, 0, id, &serr);
 				}
+				/* Check flexible array members */
+				if (sid == DEREF_id (ctype_flex_mem (ct))) {
+					ERROR ferr = ERR_dcl_init_flex_mem ();
+					serr = concat_error (ferr, serr);
+				}
 			} else {
 				/* Pad rest of structure */
 				e = init_empty (s, cv2, 1, &serr);
 				pads++;
-			}
-
-			/* Check flexible array members */
-			if (sid == DEREF_id (ctype_flex_mem (ct))) {
-				ERROR ferr = ERR_dcl_init_flex_mem ();
-				serr = concat_error (ferr, serr);
 			}
 
 			/* Report any errors for this field */
