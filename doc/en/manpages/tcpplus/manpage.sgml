@@ -134,12 +134,33 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-M</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-N</option><replaceable>name</replaceable><emphasis>:</emphasis><emphasis>
         directory</emphasis></term>
       <listitem>
         <para>Is identical to
           <option>-I</option><replaceable>directory</replaceable> except that
           it also associates the given identifier with the directory.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-O</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-R</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -210,6 +231,13 @@
           analysis to its input files. That is it assumes that no other
           translation units need to be linked in order for the program to
           execute.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-b</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -318,6 +346,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-r</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-s</option><replaceable>spec-file</replaceable></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to write a C++ spec file
@@ -357,6 +392,13 @@
       <listitem>
         <para>Disables all warning messages. This is equivalent to
           <option>-mw</option>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-x</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
