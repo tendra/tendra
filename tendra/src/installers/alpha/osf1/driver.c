@@ -340,7 +340,8 @@ int main
 /*    schduler_finished();*/
   }
 #endif
-  close_file(as_file);
+  if (as_file != NULL)
+    close_file(as_file);
   close_file(ba_file);
   return (SUCCESS);
 }
