@@ -50,7 +50,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<option>-g</option>"</term> 
+      <term><option>-g</option></term> 
       <listitem>
         <para>Makes <command>disp</command> print any diagnostic
           information units within the TDF capsule.</para>

@@ -39,7 +39,7 @@
   <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
-      <term>"<option>-A</option><replaceable>name</replaceable>"</term>
+      <term><option>-A</option><replaceable>name</replaceable></term>
       <listitem>
         <para>Specifies that the algebra named <emphasis>name</emphasis>
           should be used by the output routines.  Unless otherwise specified

@@ -61,7 +61,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<option>-C</option><replaceable>file</replaceable>"</term> 
+      <term><option>-C</option><replaceable>file</replaceable></term> 
       <listitem>
         <para>Causes <command>tspec</command> to insert the contents of
           <emphasis>file</emphasis> as a copyright message at the start of

@@ -52,7 +52,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<option>-c</option> or <option>-cv</option> or <option>-check</option>"</term>
+      <term><option>-c</option> or <option>-cv</option> or <option>-check</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should apply extra
           checks to <emphasis>input-file</emphasis>. For example, simple

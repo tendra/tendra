@@ -75,8 +75,8 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<option>-A</option><replaceable>predicate</replaceable><emphasis>
-        (</emphasis><emphasis>tokens</emphasis><emphasis>)</emphasis>"</term>
+      <term><option>-A</option><replaceable>predicate</replaceable><emphasis>
+        (</emphasis><emphasis>tokens</emphasis><emphasis>)</emphasis></term>
       <listitem>
         <para>Asserts that the given predicate is true. The special case
           <option>-A-</option> undefines all the built-in predicates (of

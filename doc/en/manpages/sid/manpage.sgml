@@ -136,7 +136,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"SINGLES"</term> 
+      <term>SINGLES</term> 
       <listitem>
         <para>This causes single alternative rules to be inlined. This
           inlining is no longer performed as a modification to the grammar

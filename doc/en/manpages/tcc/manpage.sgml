@@ -179,7 +179,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<emphasis>c</emphasis>"</term> 
+      <term><emphasis>c</emphasis></term> 
       <listitem>
         <para>C to TDF producer</para>
       </listitem>
@@ -277,7 +277,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>"<option>-A</option><replaceable>string</replaceable>"</term> 
+      <term><option>-A</option><replaceable>string</replaceable></term> 
       <listitem>
         <para>Asserts the predicate <emphasis>string</emphasis>.</para>
       </listitem>
@@ -1067,7 +1067,7 @@
 
   <variablelist>
     <varlistentry>
-      <term> <filename>"file.c"</filename></term> 
+      <term> <filename>file.c</filename></term> 
       <listitem>
         <para>C source file</para>
       </listitem>
