@@ -95,8 +95,10 @@ install-machine:
 install-startup:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .for i in ${DATA}
-	${BIN_INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
-		${INSTALL_PREFIX}/lib/startup/${STARTUP}
+	${BIN_CP} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
+		${INSTALL_PREFIX}/lib/startup/${STARTUP}/${i}
+	${BIN_CHMOD} ${ARGS_CHMOD_DATA} \
+		${INSTALL_PREFIX}/lib/startup/${STARTUP}/${i}
 .endfor
 
 
