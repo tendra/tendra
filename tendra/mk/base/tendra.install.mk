@@ -89,6 +89,7 @@ install-dir:
 #
 SED_WRAPPER_OPTS= -e "s%-INSTALL_PREFIX-%${INSTALL_PREFIX}%g"
 install-wrapper:
+	${MKDIR} -p ${PREFIX}/bin
 	${SED} ${SED_WRAPPER_OPTS} ${SRC_DIR}/src/tools/tcc/tcc.sh > \
 		${PREFIX}/bin/tcc
 	${CHMOD} +x ${PREFIX}/bin/tcc
