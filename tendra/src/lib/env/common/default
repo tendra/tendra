@@ -1,5 +1,23 @@
-/* $TenDRA$ */
-/* default environment for -MACH- */
+/* $TenDRA$
+ * default environment for -MACH-
+ *
+ * Aditional platform defines are added to the bottom of this file.  You
+ * can find the settings contained within each platform directory named
+ * as default.extra
+ */
+
+/* Binaries
+ * Most of these are set in each respective default.extra file
+ * on a per-platform basis
+ */
+
++BIN_TIME		-BIN_TIME-
+
+
+/* TenDRA specific settings
+ * TENDRA_BASEDIR is set on the command line (-y), it can also be taken
+ * from the running environment.
+ */
 
 +TENDRA_MACHDIR         "<TENDRA_BASEDIR>/lib/machines"
 +TENDRA_BINDIR          "<TENDRA_BASEDIR>/bin"
@@ -9,49 +27,43 @@
 +TENDRA_STARTUPDIR      "<TENDRA_BASEDIR>/lib/startup"
 +TENDRA_TMPDIR          "/tmp"
 
-+TDFC			"-BINDIR-/tdfc2"
-+TDFCPP			"-BINDIR-/tdfc2 -E"
-+SPEC_LINK		"-BINDIR-/tdfc2 -S"
-+TCPPLUS		"-BINDIR-/tcpplus"
-+TCPPLUSPP		"-BINDIR-/tcpplus -E"
-+CPP_SPEC_LINK		"-BINDIR-/tcpplus -S"
-+TLD			"-BINDIR-/tld"
-+TRANS			"-BINDIR-/trans"
-+DISP			"-BINDIR-/disp"
-+PL_TDF			"-BINDIR-/pl"
-+TNC			"-BINDIR-/tnc"
 
-+DUMP_ANAL		"-BINDIR-/dump_lint"
-+DUMP_LINK		"-BINDIR-/dump_linker"
++TDFC			"<TENDRA_BINDIR>/tdfc2"
++TDFCPP			"<TENDRA_BINDIR>/tdfc2 -E"
++SPEC_LINK		"<TENDRA_BINDIR>/tdfc2 -S"
++TCPPLUS		"<TENDRA_BINDIR>/tcpplus"
++TCPPLUSPP		"<TENDRA_BINDIR>/tcpplus -E"
++CPP_SPEC_LINK		"<TENDRA_BINDIR>/tcpplus -S"
++TLD			"<TENDRA_BINDIR>/tld"
++TRANS			"<TENDRA_BINDIR>/trans"
++DISP			"<TENDRA_BINDIR>/disp"
++PL_TDF			"<TENDRA_BINDIR>/pl"
++TNC			"<TENDRA_BINDIR>/tnc"
 
-+AS			"/usr/bin/as"
-+AS1			"/usr/bin/as"
-+LD			"/usr/bin/ld"
-+DYN_LINK		"-LIBDIR-/sys/dyninit"
-+CC			"/bin/cc"
++DUMP_ANAL		"<TENDRA_BINDIR>/dump_lint"
++DUMP_LINK		"<TENDRA_BINDIR>/dump_linker"
 
-+INCL			"-Nansi:-INCLDIR-/ansi.api"
-+STARTUP_DIR		"-I-STARTUPDIR-/Bounds.ansi -I-STARTUPDIR-/Modes"
-+STARTUP		"-f-STARTUPDIR-/Modes/Xc"
-+STARTUP_CPP_DIR	"-I-STARTUPDIR-/Bounds.ansi -I-STARTUPDIR-/Modes.cpp"
-+STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xc"
-+PORTABILITY		"-STARTUPDIR-/Bounds.ansi/default.pf"
-+LINK			"-L-LIBDIR-"
++DYN_LINK		"<TENDRA_LIBDIR>/sys/dyninit"
+
++INCL			"-Nansi:<TENDRA_INCLDIR>/ansi.api"
++STARTUP_DIR		"-I<TENDRA_STARTUPDIR>/Bounds.ansi -I<TENDRA_STARTUPDIR>/Modes"
++STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xc"
++STARTUP_CPP_DIR	"-I<TENDRA_STARTUPDIR>/Bounds.ansi -I<TENDRA_STARTUPDIR>/Modes.cpp"
++STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xc"
++PORTABILITY		"<TENDRA_STARTUPDIR>/Bounds.ansi/default.pf"
++LINK			"-L<TENDRA_STARTUPDIR>"
 +LIB			"-lansi"
 
-+CRT0			"-CRT0-"
-+CRT1			"-CRT1-"
-+CRTN			"-CRTN-"
 +SYS_LIB		""
 +SYS_LIBC		"-lc"
 +LINK_ENTRY		""
 
 +API_NAME		"-Aansi"
-+API			"-R-INCLDIR-/ansi.d"
-+ENVDIR			"-ENVDIR-"
++API			"-R<TENDRA_INCLDIR>/ansi.d"
++ENVDIR			"<TENDRA_ENVDIR>"
 +INFO			"ANSI@(X3.159)"
-+TEMP			"-TMPDIR-"
++TEMP			"<TENDRA_TMPDIR>"
 +VERSION		""
 
-/* Extra information */
+/* default.extra will get added below. */
 
