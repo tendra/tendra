@@ -29,5 +29,5 @@
 <!ENTITY doc.team '<ulink url="http://www.ten15.org/docs/team/">TenDRA Team Members</ulink>'>
 <!ENTITY doc.tld '<ulink url="http://www.ten15.org/docs/tld/">TDF Linker</ulink>'>
 <!ENTITY doc.tnc '<ulink url="http://www.ten15.org/docs/tnc/">tnc User&#039;s Guide</ulink>'>
-<!ENTITY doc.tspec '<ulink url="http://www.ten15.org/docs/tspec/">tspec API Specification Tool</ulink>'>
+<!ENTITY doc.original '<ulink url="http://www.ten15.org/docs/archive/tendra-doc-4.1.2/">TenDRA 4.12 Documentation</ulink>'>
 
