@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,81 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1996/08/28  17:36:21  pwe
- * fixed local_alloc_check use of registers
- *
- * Revision 1.9  1996/03/29  14:41:54  john
- * Fixed for zero-sized alloca
- *
- * Revision 1.8  1996/01/17  12:04:41  john
- * Fix to local_alloc check
- *
- * Revision 1.7  1995/12/15  10:28:02  john
- * Changes local_alloc stack check
- *
- * Revision 1.6  1995/11/15  16:57:21  john
- * Stack check now uses unsigned test
- *
- * Revision 1.5  1995/09/22  15:58:42  john
- * Fix to stack check
- *
- * Revision 1.4  1995/09/20  12:40:28  john
- * Portability fix
- *
- * Revision 1.3  1995/09/19  14:32:37  john
- * Added checkstack to alloca_tag
- *
- * Revision 1.2  1995/09/15  16:18:43  john
- * New exception handling
- *
- * Revision 1.1.1.1  1995/03/13  10:18:58  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:58  djch
- * Initial revision
- *
- * Revision 1.8  93/09/27  14:56:39  14:56:39  ra (Robert Andrews)
- * Changed the names of a couple of my built-in functions.
- * 
- * Revision 1.7  93/08/27  11:39:21  11:39:21  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.6  93/08/13  14:47:14  14:47:14  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.5  93/07/14  11:22:35  11:22:35  ra (Robert Andrews)
- * Add library_key to determine presence of TDF support library.
- * 
- * Revision 1.4  93/07/12  15:18:57  15:18:57  ra (Robert Andrews)
- * Added support for special_routines, which is used to handle built-in
- * system calls like .mul and TDF library calls like L.div1 (used to
- * implement div1).
- * 
- * Revision 1.3  93/07/05  18:28:48  18:28:48  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * 
- * Revision 1.2  93/06/29  14:35:30  14:35:30  ra (Robert Andrews)
- * Have to include regexps.h.
- * 
- * Revision 1.1  93/06/24  14:59:27  14:59:27  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
