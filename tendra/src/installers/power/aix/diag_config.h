@@ -1,27 +1,54 @@
 /*
-    Copyright (c) 1993 Open Software Foundation, Inc.
-
-
-    All Rights Reserved
-
-
-    Permission to use, copy, modify, and distribute this software
-    and its documentation for any purpose and without fee is hereby
-    granted, provided that the above copyright notice appears in all
-    copies and that both the copyright notice and this permission
-    notice appear in supporting documentation.
-
-
-    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
-    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-    PARTICULAR PURPOSE.
-
-
-    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
-    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
-    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    Copyright (c) 1993 Open Software Foundation, Inc.
+ *
+ *
+ *    All Rights Reserved
+ *
+ *
+ *    Permission to use, copy, modify, and distribute this software
+ *    and its documentation for any purpose and without fee is hereby
+ *    granted, provided that the above copyright notice appears in all
+ *    copies and that both the copyright notice and this permission
+ *    notice appear in supporting documentation.
+ *
+ *
+ *    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ *    PARTICULAR PURPOSE.
+ *
+ *
+ *    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+ *    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+ *    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ *    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * $TenDRA$
 */
 
 /*
@@ -58,21 +85,7 @@
 /**********************************************************************
 $Author$
 $Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:24  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.2  1998/02/04  15:48:34  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:00:06  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
+$Revision$*/
 
 
 #ifndef DIAG_CONFIG_H
