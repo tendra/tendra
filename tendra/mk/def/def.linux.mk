@@ -58,6 +58,7 @@ BIN_AWK?=	/bin/awk
 #BIN_AS?=			# see above!
 BASENAME?=	/bin/basename
 BIN_CAT?=	/bin/cat
+BIN_CC?=	/usr/bin/cc
 BIN_CHGRP?=	/bin/chgrp
 BIN_CHMOD?=	/bin/chmod
 BIN_CHOWN?=	/bin/chown
@@ -94,7 +95,7 @@ BIN_RMDIR?=	/bin/rmdir
 BIN_SED?=	/bin/sed
 BIN_SETENV?=	/usr/bin/env
 BIN_SH?=	/bin/sh
-BIN_SORT?=	/bin/sort
+BIN_SORT?=	${BIN_SETENV} LC_ALL=C /bin/sort
 BIN_SU?=	/bin/su
 BIN_TAIL?=	/usr/bin/tail
 BIN_TEST?=	/usr/bin/test
