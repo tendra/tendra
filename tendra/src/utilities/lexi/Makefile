@@ -17,7 +17,7 @@ SRCS=		char.c error.c lex.c main.c output.c syntax.c xalloc.c
 
 .PATH:	${SRCX}
 
-SIDOPTS=-l ossg-c -s no-lines
+SIDOPTS=-l ansi-c -s no-lines
 
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h

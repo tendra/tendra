@@ -26,7 +26,7 @@ SRCS=		action.c alt.c arg-parse.c basic.c bitvec.c c-check.c\
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-SIDOPTS=-l ossg-c -s numeric -s no-lines
+SIDOPTS=-l ansi-c -s numeric -s no-lines
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h

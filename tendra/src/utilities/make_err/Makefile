@@ -22,7 +22,7 @@ SRCS=		error.c errors.c lex.c main.c process.c syntax.c xalloc.c
 #CALCULUS=calculus
 #LEXI=lexi
 #SID=sid
-#SIDOPTS=-l ossg-c -s no-lines
+#SIDOPTS=-l ansi-c -s no-lines
 #
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #C_OUT=${SRC2}/errors.h

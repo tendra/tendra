@@ -21,7 +21,7 @@ SRCS=		calculus.c check.c code.c common.c disk.c error.c lex.c main.c\
 
 .PATH:	${SRCC} ${SRCTOK} ${SRCX}
 
-SIDOPTS=-l ossg-c -s no-lines
+SIDOPTS=-l ansi-c -s no-lines
 
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #C_OUT=${SRCC}/calculus.h ${SRCC}/type_ops.h
