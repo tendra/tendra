@@ -584,7 +584,11 @@ function process_entries()
 		if (lex_tt != ttIdent)
 			errsrc("Entry name or keyword expected.");
 		entry = lex_token;
-		entries[entry_count++] = entry;
+		if (entries_hash[entry] != "")
+			errsrc("Duplicate entry");
+		entries[entry_count] = entry;
+		entries_hash[entry] = entry_count;
+		entry_count++;
 		debug(1, "Entry: " entry);
 		lex_get_token(ttOpenRound);
 		lex_get_token();
