@@ -278,8 +278,7 @@ clean_tok_list(PPTOKEN *toks)
 			sp |= q->pp_space;
 			p->next = q->next;
 			free_pptok (q);
-			q = p->next;
-			if (q == NULL) break;
+			q = p;
 		} else {
 			if (sp) {
 				q->pp_space |= sp;
