@@ -118,7 +118,7 @@ statement-name : () -> ( :IDENTIFIER );
 !full-name-star : () -> ( :IDENTIFIER );
 
 /* Literals */
-!char-lit ; !wchar-lit ; !string-lit ; !wstring-lit ; !integer-lit;
+!char-lit; !wchar-lit; !string-lit; !wstring-lit; !integer-lit;
 
 /* Literal expressions */
 char-exp : () -> ( :EXP );
@@ -141,73 +141,73 @@ hash-endif;
 hash-pragma;
 
 /* End of file markers */
-!newline ; eof;
+!newline; eof;
 
 /* Symbols */
-and-1 ; and-eq-1 ; arrow ; assign ; !backslash ; close-brace-1;
-close-round ; close-square-1 ; colon ; comma ; compl-1 ; div ; div-eq;
-dot ; ellipsis ; eq ; greater ; greater-eq ; !hash-1 ; !hash-hash-1;
-less ; less-eq ; logical-and-1 ; logical-or-1 ; lshift ; lshift-eq;
-minus ; minus-eq ; minus-minus ; not-1 ; not-eq-1 ; open-brace-1;
-open-round ; open-square-1 ; or-1 ; or-eq-1 ; plus ; plus-eq ; plus-plus;
-question ; rem ; rem-eq ; rshift ; rshift-eq ; semicolon ; star;
-star-eq ; xor-1 ; xor-eq-1 ; !arrow-star ; !colon-colon ; !dot-star;
-abs ; max ; min;
+and-1; and-eq-1; arrow; assign; !backslash; close-brace-1;
+close-round; close-square-1; colon; comma; compl-1; div; div-eq;
+dot; ellipsis; eq; greater; greater-eq; !hash-1; !hash-hash-1;
+less; less-eq; logical-and-1; logical-or-1; lshift; lshift-eq;
+minus; minus-eq; minus-minus; not-1; not-eq-1; open-brace-1;
+open-round; open-square-1; or-1; or-eq-1; plus; plus-eq; plus-plus;
+question; rem; rem-eq; rshift; rshift-eq; semicolon; star;
+star-eq; xor-1; xor-eq-1; !arrow-star; !colon-colon; !dot-star;
+abs; max; min;
 
 /* Digraphs */
-!close-brace-2 ; !close-square-2 ; !hash-2 ; !hash-hash-2;
-!open-brace-2 ; !open-square-2;
+!close-brace-2; !close-square-2; !hash-2; !hash-hash-2;
+!open-brace-2; !open-square-2;
 
 /* C keywords */
-auto ; break ; case ; char ; const ; continue ; default ; do ; double;
-else ; enum ; extern ; float ; for ; goto ; if ; int ; long ; register;
-return ; short ; signed ; sizeof ; static ; struct ; switch ; typedef;
-union ; unsigned ; void ; volatile ; while;
+auto; break; case; char; const; continue; default; do; double;
+else; enum; extern; float; for; goto; if; int; long; register;
+return; short; signed; sizeof; static; struct; switch; typedef;
+union; unsigned; void; volatile; while;
 
 /* C++ keywords */
-asm ; !bool ; !catch ; !class ; !const-cast ; !delete ; !dynamic-cast;
-!explicit ; !export ; !false ; !friend ; inline ; !mutable ; !namespace;
-!new ; !operator ; !private ; !protected ; !public ; !reinterpret-cast;
-!static-cast ; !template ; !this ; !throw ; !true ; !try ; !typeid;
-!typename ; !using ; !virtual ; wchar-t;
+asm; !bool; !catch; !class; !const-cast; !delete; !dynamic-cast;
+!explicit; !export; !false; !friend; inline; !mutable; !namespace;
+!new; !operator; !private; !protected; !public; !reinterpret-cast;
+!static-cast; !template; !this; !throw; !true; !try; !typeid;
+!typename; !using; !virtual; wchar-t;
 
 /* ISO keywords */
-!and-2 ; !and-eq-2 ; !compl-2 ; !logical-and-2 ; !logical-or-2;
-!not-2 ; !not-eq-2 ; !or-2 ; !or-eq-2 ; !xor-2 ; !xor-eq-2;
+!and-2; !and-eq-2; !compl-2; !logical-and-2; !logical-or-2;
+!not-2; !not-eq-2; !or-2; !or-eq-2; !xor-2; !xor-eq-2;
 
 /* TenDRA keywords */
-!accept ; !after ; alignof ; !all ; !allow ; !ambiguous ; !analysis;
-!argument ; !arith-cap ; !array ; !as ; !assert ; !assignment ; !begin;
-!bitfield ; !block ; bottom ; !cast ; !character ; !class-cap ; !code;
-!comment ; !compatible ; !complete ; !compute ; !conditional;
-!conversion ; !decimal ; !decl ; !define ; !define-cap ; !defined;
-!definition ; !depth ; !directive ; !directory ; !disallow ; discard;
-!dollar ; !either ; !elif ; ellipsis-exp ; !end ; !endif ; !environment;
-!equality ; !error ; !escape ; exhaustive ; !exp-cap ; !explain;
-!extend ; !external ; !extra ; fall ; !file ; !float-cap ; !forward;
-!func-cap ; !function ; !hexadecimal ; !hiding ; !ident ; !identif;
-!ifdef ; !ifndef ; !ignore ; !implement ; !implicit ; !import ; !include;
-!includes ; !include-next ; !incompatible ; !incomplete ; !indented;
-!initialization ; !integer ; !interface ; !internal ; !into ; !int-cap;
-!keyword ; !limit ; !line ; !linkage ; !lit ; !longlong ; !lvalue;
-!macro ; !main ; !member ; !member-cap ; !name ; !nat-cap ; !nested;
-!nline ; !no ; !no-def ; !object ; !octal ; !of ; !off ; !on ; !option;
-!overflow ; !overload ; !pointer ; !postpone ; !pragma ; !precedence;
-!preserve ; !printf ; !proc-cap ; !promote ; !promoted ; !prototype;
-ptrdiff-t ; !qualifier ; !quote ; reachable ; !reference ; !reject;
-!representation ; !reset ; !resolution ; !rvalue ; !scalar-cap ; !scanf;
-set ; size-t ; !size-t-2 ; !sort ; !std ; !stmt-cap ; !string;
-!struct-cap ; !suspend ; !tag ; !tag-cap ; !tendra ; !text ; !this-name;
-!token ; !type ; !type-cap ; !typeof ; !un-known ; !unassert ; !undef;
-!unify ; !union-cap ; !unmatched ; !unpostpone ; unreachable ; unused;
-!use ; !value ; !variable ; !variety-cap ; !volatile-t ; !vtable;
-!warning ; weak ; !writeable ; !zzzz;
+!accept; !after; alignof; !all; !allow; !ambiguous; !analysis;
+!argument; !arith-cap; !array; !as; !assert; !assignment; !begin;
+!bitfield; !block; bottom; !cast; !character; !class-cap; !code;
+!comment; !compatible; !complete; !compute; !conditional;
+!conversion; !decimal; !decl; !define; !define-cap; !defined;
+!definition; !depth; !directive; !directory; !disallow; discard;
+!dollar; !either; !elif; ellipsis-exp; !end; !endif; !environment;
+!equality; !error; !escape; exhaustive; !exp-cap; !explain;
+!extend; !external; !extra; fall; !file; !float-cap; !forward;
+!func-cap; !function; !hexadecimal; !hiding; !ident; !identif;
+!ifdef; !ifndef; !ignore; !implement; !implicit; !import; !include;
+!includes; !include-next; !incompatible; !incomplete; !indented;
+!initialization; !integer; !interface; !internal; !into; !int-cap;
+!keyword; !limit; !line; !linkage; !lit; !longlong; !lvalue;
+!macro; !main; !member; !member-cap; !name; !nat-cap; !nested;
+!nline; !no; !no-def; !object; !octal; !of; !off; !on; !option;
+!overflow; !overload; !pointer; !postpone; !pragma; !precedence;
+!preserve; !printf; !proc-cap; !promote; !promoted; !prototype;
+ptrdiff-t; !qualifier; !quote; reachable; !reference; !reject;
+!representation; !reset; !resolution; !rvalue; !scalar-cap; !scanf;
+set; size-t; !size-t-2; !sort; !std; !stmt-cap; !string;
+!struct-cap; !suspend; !tag; !tag-cap; !tendra; !text; !this-name;
+!token; !type; !type-cap; !typeof; !un-known; !unassert; !undef;
+!unify; !union-cap; !unmatched; !unpostpone; unreachable; unused;
+!use; !value; !variable; !variety-cap; !volatile-t; !vtable;
+!warning; weak; !writeable; !zzzz;
 
 /* Miscellaneous symbols */
-!array-op ; !builtin-file ; !builtin-line ; !close-template ; !cond-op;
-!delete-full ; !delete-array ; !delete-array-full ; !func-op ; !hash-op;
-!hash-hash-op ; inset-start ; inset-end ; !macro-arg ; !new-full;
-!new-array ; !new-array-full ; !open-init ; !open-template ; !zzzzzz;
+!array-op; !builtin-file; !builtin-line; !close-template; !cond-op;
+!delete-full; !delete-array; !delete-array-full; !func-op; !hash-op;
+!hash-hash-op; inset-start; inset-end; !macro-arg; !new-full;
+!new-array; !new-array-full; !open-init; !open-template; !zzzzzz;
 
 
 /*
@@ -221,22 +221,22 @@ set ; size-t ; !size-t-2 ; !sort ; !std ; !stmt-cap ; !string;
 
 %productions%
 
-close-brace =	{ close-brace-1 ; };
-close-square =	{ close-square-1 ; };
-open-brace =	{ open-brace-1 ; };
-open-square =	{ open-square-1 ; };
+close-brace =	{ close-brace-1; };
+close-square =	{ close-square-1; };
+open-brace =	{ open-brace-1; };
+open-square =	{ open-square-1; };
 
-and =		{ and-1 ; };
-and-eq =	{ and-eq-1 ; };
-compl =		{ compl-1 ; };
-logical-and =	{ logical-and-1 ; };
-logical-or =	{ logical-or-1 ; };
-not =		{ not-1 ; };
-not-eq =	{ not-eq-1 ; };
-or =		{ or-1 ; };
-or-eq =		{ or-eq-1 ; };
-xor =		{ xor-1 ; };
-xor-eq =	{ xor-eq-1 ; };
+and =		{ and-1; };
+and-eq =	{ and-eq-1; };
+compl =		{ compl-1; };
+logical-and =	{ logical-and-1; };
+logical-or =	{ logical-or-1; };
+not =		{ not-1; };
+not-eq =	{ not-eq-1; };
+or =		{ or-1; };
+or-eq =		{ or-eq-1; };
+xor =		{ xor-1; };
+xor-eq =	{ xor-eq-1; };
 
 
 /*
@@ -266,12 +266,12 @@ xor-eq =	{ xor-eq-1 ; };
 
 open-round-x = {
 	open-round;
-    ##	t = <lex_open_round> ; <expected> ( t );
+    ##	t = <lex_open_round>; <expected> ( t );
 };
 
 semicolon-x = {
 	semicolon;
-    ##	t = <lex_semicolon> ; <expected> ( t );
+    ##	t = <lex_semicolon>; <expected> ( t );
 };
 
 
@@ -395,7 +395,7 @@ assignment-expression : () -> ( :EXP );
 expression-list : () -> ( p : LIST-EXP ) = {
 	e = assignment-expression;
 	{
-		comma ; q = expression-list;
+		comma; q = expression-list;
 	    ||	q = <list_exp_null>;
 	};
 	p = <list_exp_cons> ( e, q );
@@ -459,30 +459,30 @@ postfix-expression : () -> ( e : EXP ) = {
 	e = primary-expression;
     ||
 	a = postfix-expression;
-	open-square ; b = expression ; close-square;
+	open-square; b = expression; close-square;
 	e = <exp_index> ( a, b );
     ||
 	a = postfix-expression;
-	open-round ; p = expression-list-opt;
+	open-round; p = expression-list-opt;
 	e = <exp_func> ( a, p );
 	close-round;
     ||
 	a = postfix-expression;
 	( b, t, ns ) = <exp_dot_begin> ( a );
-	dot ; id = field-id-expression ( ns );
+	dot; id = field-id-expression ( ns );
 	e = <exp_dot_end> ( b, t, ns, id );
 	<rescan_token>;
     ||
 	a = postfix-expression;
 	( b, t, ns ) = <exp_arrow_begin> ( a );
-	arrow ; id = field-id-expression ( ns );
+	arrow; id = field-id-expression ( ns );
 	e = <exp_arrow_end> ( b, t, ns, id );
 	<rescan_token>;
     ||
-	a = postfix-expression ; plus-plus;
+	a = postfix-expression; plus-plus;
 	e = <exp_postinc> ( a );
     ||
-	a = postfix-expression ; minus-minus;
+	a = postfix-expression; minus-minus;
 	e = <exp_postdec> ( a );
 };
 
@@ -522,7 +522,7 @@ sizeof-expression : ( op : LEX ) -> ( e : EXP ) = {
 		t = <type_of> ( op, a, n2 );
 		c = <exp_sizeof> ( op, t, a, m2 );
 	    ||
-		open-round ; ( t, m2 ) = type-id-true;
+		open-round; ( t, m2 ) = type-id-true;
 		a = <exp_none>;
 		c = <exp_sizeof> ( op, t, a, m2 );
 		close-round;
@@ -541,28 +541,28 @@ unary-operator : () -> () = {
 unary-expression : () -> ( e : EXP ) = {
 	e = postfix-expression;
     ||
-	plus-plus ; a = unary-expression;
+	plus-plus; a = unary-expression;
 	e = <exp_preinc> ( a );
     ||
-	minus-minus ; a = unary-expression;
+	minus-minus; a = unary-expression;
 	e = <exp_predec> ( a );
     ||
-	star ; a = cast-expression;
-	e = <exp_indir> ( a ) ;
+	star; a = cast-expression;
+	e = <exp_indir> ( a );
     ||
-	and ; a = cast-expression;
-	e = <exp_ref> ( a ) ;
+	and; a = cast-expression;
+	e = <exp_ref> ( a );
     ||
-	not ; a = cast-expression;
+	not; a = cast-expression;
 	e = <exp_not> ( a );
     ||
-	op = <lex_crt> ; unary-operator;
+	op = <lex_crt>; unary-operator;
 	a = cast-expression;
 	e = <exp_unary> ( op, a );
     ||
-	sizeof ; op = <lex_sizeof> ; e = sizeof-expression ( op );
+	sizeof; op = <lex_sizeof>; e = sizeof-expression ( op );
     ||
-	alignof ; op = <lex_alignof> ; e = sizeof-expression ( op );
+	alignof; op = <lex_alignof>; e = sizeof-expression ( op );
 };
 
 
@@ -581,11 +581,11 @@ unary-expression : () -> ( e : EXP ) = {
 cast-expression : () -> ( e : EXP ) = {
 	e = unary-expression;
     ||
-	open-round ; ( t, n ) = type-id-false ; close-round;
+	open-round; ( t, n ) = type-id-false; close-round;
 	a = cast-expression;
 	e = <exp_cast> ( t, a, n );
     ||
-	discard ; a = cast-expression;
+	discard; a = cast-expression;
 	e = <exp_ignore> ( a );
 };
 
@@ -604,13 +604,13 @@ cast-expression : () -> ( e : EXP ) = {
 multiplicative-expression : () -> ( e : EXP ) = {
 	e = cast-expression;
     ||
-	a = multiplicative-expression ; star ; b = cast-expression;
+	a = multiplicative-expression; star; b = cast-expression;
 	e = <exp_mult> ( a, b );
     ||
-	a = multiplicative-expression ; div ; b = cast-expression;
+	a = multiplicative-expression; div; b = cast-expression;
 	e = <exp_div> ( a, b );
     ||
-	a = multiplicative-expression ; rem ; b = cast-expression;
+	a = multiplicative-expression; rem; b = cast-expression;
 	e = <exp_rem> ( a, b );
 };
 
@@ -628,10 +628,10 @@ multiplicative-expression : () -> ( e : EXP ) = {
 additive-expression : () -> ( e : EXP ) = {
 	e = multiplicative-expression;
     ||
-	a = additive-expression ; plus ; b = multiplicative-expression;
+	a = additive-expression; plus; b = multiplicative-expression;
 	e = <exp_plus> ( a, b );
     ||
-	a = additive-expression ; minus ; b = multiplicative-expression;
+	a = additive-expression; minus; b = multiplicative-expression;
 	e = <exp_minus> ( a, b );
 };
 
@@ -649,10 +649,10 @@ additive-expression : () -> ( e : EXP ) = {
 shift-expression : () -> ( e : EXP ) = {
 	e = additive-expression;
     ||
-	a = shift-expression ; lshift ; b = additive-expression;
+	a = shift-expression; lshift; b = additive-expression;
 	e = <exp_lshift> ( a, b );
     ||
-	a = shift-expression ; rshift ; b = additive-expression;
+	a = shift-expression; rshift; b = additive-expression;
 	e = <exp_rshift> ( a, b );
 };
 
@@ -677,7 +677,7 @@ relational-expression : () -> ( e : EXP ) = {
 	e = shift-expression;
     ||
 	a = relational-expression;
-	op = <lex_crt> ; relational-operator;
+	op = <lex_crt>; relational-operator;
 	b = shift-expression;
 	e = <exp_relation> ( op, a, b );
 };
@@ -700,7 +700,7 @@ equality-expression : () -> ( e : EXP ) = {
 	e = relational-expression;
     ||
 	a = equality-expression;
-	op = <lex_crt> ; equality-operator;
+	op = <lex_crt>; equality-operator;
 	b = relational-expression;
 	e = <exp_equality> ( op, a, b );
 };
@@ -723,7 +723,7 @@ maxmin-expression : () -> ( e : EXP ) = {
 	e = equality-expression;
     ||
 	a = maxmin-expression;
-	op = <lex_crt> ; maxmin-operator;
+	op = <lex_crt>; maxmin-operator;
 	b = equality-expression;
 	e = <exp_maxmin> ( op, a, b );
 };
@@ -740,7 +740,7 @@ maxmin-expression : () -> ( e : EXP ) = {
 and-expression : () -> ( e : EXP ) = {
 	e = maxmin-expression;
     ||
-	a = and-expression ; and ; b = maxmin-expression;
+	a = and-expression; and; b = maxmin-expression;
 	e = <exp_and> ( a, b );
 };
 
@@ -756,7 +756,7 @@ and-expression : () -> ( e : EXP ) = {
 exclusive-or-expression : () -> ( e : EXP ) = {
 	e = and-expression;
     ||
-	a = exclusive-or-expression ; xor ; b = and-expression;
+	a = exclusive-or-expression; xor; b = and-expression;
 	e = <exp_xor> ( a, b );
 };
 
@@ -772,7 +772,7 @@ exclusive-or-expression : () -> ( e : EXP ) = {
 inclusive-or-expression : () -> ( e : EXP ) = {
 	e = exclusive-or-expression;
     ||
-	a = inclusive-or-expression ; or ; b = exclusive-or-expression;
+	a = inclusive-or-expression; or; b = exclusive-or-expression;
 	e = <exp_or> ( a, b );
 };
 
@@ -789,7 +789,7 @@ logical-and-expression : () -> ( e : EXP ) = {
 	e = inclusive-or-expression;
     ||
 	a = logical-and-expression;
-	logical-and ; b = inclusive-or-expression;
+	logical-and; b = inclusive-or-expression;
 	e = <exp_log_and> ( a, b );
 };
 
@@ -806,7 +806,7 @@ logical-or-expression : () -> ( e : EXP ) = {
 	e = logical-and-expression;
     ||
 	a = logical-or-expression;
-	logical-or ; b = logical-and-expression;
+	logical-or; b = logical-and-expression;
 	e = <exp_log_or> ( a, b );
 };
 
@@ -824,8 +824,8 @@ conditional-expression : () -> ( e : EXP ) = {
 	e = logical-or-expression;
     ||
 	c = logical-or-expression;
-	question ; a = expression;
-	colon ; b = conditional-expression;
+	question; a = expression;
+	colon; b = conditional-expression;
 	e = <exp_cond> ( c, a, b );
 };
 
@@ -857,11 +857,11 @@ assignment-expression : () -> ( e : EXP ) = {
 	e = conditional-expression;
     ||
 	a = unary-expression;
-	assign ; b = assignment-expression;
+	assign; b = assignment-expression;
 	e = <exp_assign> ( a, b );
     ||
 	a = unary-expression;
-	op = <lex_crt> ; assignment-operator;
+	op = <lex_crt>; assignment-operator;
 	b = assignment-expression;
 	e = <exp_assign_op> ( op, a, b );
 };
@@ -886,33 +886,33 @@ expression-entry : () -> ( e : EXP ) = {
 <exp_unused> : ( :EXP ) -> ( :EXP );
 
 flow-expression : () -> ( e : EXP ) = {
-	set ; open-round ; a = expression;
+	set; open-round; a = expression;
 	e = <exp_set> ( a );
 	close-round;
     ||
-	unused ; open-round ; a = expression;
+	unused; open-round; a = expression;
 	e = <exp_unused> ( a );
 	close-round;
 };
 
 inset-flow-expression : () -> ( e : EXP ) = {
-	inset-start ; set ; a = expression;
+	inset-start; set; a = expression;
 	e = <exp_set> ( a );
 	inset-end;
     ||
-	inset-start ; unused ; a = expression;
+	inset-start; unused; a = expression;
 	e = <exp_unused> ( a );
 	inset-end;
 };
 
 inset-flow-statement : () -> ( e : EXP ) = {
-	inset-start ; set ; a = expression;
+	inset-start; set; a = expression;
 	e = <exp_set> ( a );
-	semicolon ; inset-end;
+	semicolon; inset-end;
     ||
-	inset-start ; unused ; a = expression;
+	inset-start; unused; a = expression;
 	e = <exp_unused> ( a );
-	semicolon ; inset-end;
+	semicolon; inset-end;
 };
 
 
@@ -926,7 +926,7 @@ inset-flow-statement : () -> ( e : EXP ) = {
 <exp_comma> : ( :LIST-EXP ) -> ( :EXP );
 
 comma-expression-head : () -> ( e : EXP ) = {
-	e = assignment-expression ; comma;
+	e = assignment-expression; comma;
     ||
 	e = flow-expression;
     ||
@@ -938,14 +938,14 @@ comma-expression-tail : () -> ( p : LIST-EXP ) = {
 	q = <list_exp_null>;
 	p = <list_exp_cons> ( a, q );
     ||
-	a = comma-expression-head ; q = comma-expression-tail;
+	a = comma-expression-head; q = comma-expression-tail;
 	p = <list_exp_cons> ( a, q );
 };
 
 expression : () -> ( e : EXP ) = {
 	e = assignment-expression;
     ||
-	a = comma-expression-head ; q = comma-expression-tail;
+	a = comma-expression-head; q = comma-expression-tail;
 	p = <list_exp_cons> ( a, q );
 	e = <exp_comma> ( p );
 };
@@ -1004,30 +1004,30 @@ constant-expression : () -> ( e : EXP ) = {
 statement : () -> ( :EXP );
 
 fall-check : () -> () = {
-	fall ; <stmt_label_set>;
-    ||	fall ; semicolon ; <stmt_label_set>;
+	fall; <stmt_label_set>;
+    ||	fall; semicolon; <stmt_label_set>;
     ||	$;
 };
 
 labelled-statement : () -> ( e : EXP ) = {
 	fall-check;
-	case ; c = constant-expression;
+	case; c = constant-expression;
 	a = <stmt_case_begin> ( c );
 	<stmt_label_set>;
-	colon ; b = statement;
+	colon; b = statement;
 	e = <stmt_case_end> ( a, b );
     ||
 	fall-check;
 	default;
 	a = <stmt_default_begin>;
 	<stmt_label_set>;
-	colon ; b = statement;
+	colon; b = statement;
 	e = <stmt_default_end> ( a, b );
     ||
 	id = any-identifier;
 	<stmt_label_mod>;
 	a = <stmt_label_begin> ( id );
-	colon ; b = statement;
+	colon; b = statement;
 	e = <stmt_label_end> ( a, b );
 };
 
@@ -1265,7 +1265,7 @@ selection-statement : () -> ( e : EXP ) = {
 	if;
 	x = <condition_get>;
 	r = <reach_check>;
-	open-round-x ; c = expression;
+	open-round-x; c = expression;
 	a = <stmt_if_begin> ( c );
 	close-round;
 	bs = <stmt_compound_begin>;
@@ -1287,11 +1287,11 @@ selection-statement : () -> ( e : EXP ) = {
     ||
 	switch;
 	r = <reach_check>;
-	open-round ; c = expression;
+	open-round; c = expression;
 	a = <stmt_switch_begin> ( c );
 	close-round;
 	{
-		exhaustive ; ex = <bool_true>;
+		exhaustive; ex = <bool_true>;
 	    ||	ex = <bool_false>;
 	};
 	bs = <stmt_compound_begin>;
@@ -1349,7 +1349,7 @@ iteration-statement : () -> ( e : EXP ) = {
 	while;
 	x = <condition_get>;
 	r = <reach_check>;
-	open-round ; c0 = expression;
+	open-round; c0 = expression;
 	c = <bind_temporary> ( c0 );
 	a = <stmt_while_begin> ( c );
 	close-round;
@@ -1366,7 +1366,7 @@ iteration-statement : () -> ( e : EXP ) = {
 	a = <stmt_do_begin>;
 	bs = <stmt_compound_begin>;
 	b = scoped-statement ( bs );
-	while ; open-round ; c0 = expression;
+	while; open-round; c0 = expression;
 	c = <bind_temporary> ( c0 );
 	<reach_prev> ( r );
 	e = <stmt_do_end> ( a, b, c );
@@ -1415,7 +1415,7 @@ jump-label : () -> ( e : EXP ) = {
 	id = any-identifier;
 	e = <stmt_goto> ( id );
     ||
-	case ; c = constant-expression;
+	case; c = constant-expression;
 	e = <stmt_goto_case> ( c );
     ||
 	default;
@@ -1466,11 +1466,11 @@ jump-statement : () -> ( e : EXP ) = {
 <stmt_unreach> : ( :EXP ) -> ( :EXP );
 
 control-statement : () -> ( e : EXP ) = {
-	reachable ; <reach_set>;
+	reachable; <reach_set>;
 	a = statement;
 	e = <stmt_reach> ( a );
     ||
-	unreachable ; <reach_unset>;
+	unreachable; <reach_unset>;
 	a = statement;
 	e = <stmt_unreach> ( a );
 };
@@ -1503,10 +1503,10 @@ token-statement : () -> ( e : EXP ) = {
 <declare_asm> : ( :EXP, :LIST-EXP ) -> ( :EXP );
 
 asm-definition : () -> ( e : EXP ) = {
-	asm ; open-round;
+	asm; open-round;
 	a = string-literal;
 	{
-		comma ; p = expression-list;
+		comma; p = expression-list;
 	    ||	p = <list_exp_null>;
 	};
 	e = <declare_asm> ( a, p );
@@ -1558,15 +1558,15 @@ statement-entry : () -> ( e : EXP ) = {
 <cv_join> : ( :CV, : CV ) -> ( :CV );
 
 cv-qualifier : () -> ( cv : CV ) = {
-	const ; cv = <cv_const>;
-    ||	volatile ; cv = <cv_volatile>;
+	const; cv = <cv_const>;
+    ||	volatile; cv = <cv_volatile>;
 };
 
 cv-qualifier-seq : () -> ( cv : CV ) = {
 	a = cv-qualifier;
 	{
 		cv = a;
-	    ||	b = cv-qualifier-seq ; cv = <cv_join> ( a, b );
+	    ||	b = cv-qualifier-seq; cv = <cv_join> ( a, b );
 	};
 };
 
@@ -1613,19 +1613,19 @@ class-specifier : () -> ( :TYPE );
 enum-specifier : () -> ( :TYPE );
 
 base-type-specifier : () -> ( bt : BTYPE ) = {
-	char ; bt = <btype_char>;
-    ||	short ; bt = <btype_short>;
-    ||	int ; bt = <btype_int>;
-    ||	long ; bt = <btype_long>;
-    ||	signed ; bt = <btype_signed>;
-    ||	unsigned ; bt = <btype_unsigned>;
-    ||	float ; bt = <btype_float>;
-    ||	double ; bt = <btype_double>;
-    ||	wchar-t ; bt = <btype_wchar_t>;
-    ||	size-t ; bt = <btype_size_t>;
-    ||	ptrdiff-t ; bt = <btype_ptrdiff_t>;
-    ||	void ; bt = <btype_void>;
-    ||	bottom ; bt = <btype_bottom>;
+	char; bt = <btype_char>;
+    ||	short; bt = <btype_short>;
+    ||	int; bt = <btype_int>;
+    ||	long; bt = <btype_long>;
+    ||	signed; bt = <btype_signed>;
+    ||	unsigned; bt = <btype_unsigned>;
+    ||	float; bt = <btype_float>;
+    ||	double; bt = <btype_double>;
+    ||	wchar-t; bt = <btype_wchar_t>;
+    ||	size-t; bt = <btype_size_t>;
+    ||	ptrdiff-t; bt = <btype_ptrdiff_t>;
+    ||	void; bt = <btype_void>;
+    ||	bottom; bt = <btype_bottom>;
 };
 
 type-specifier : () -> ( bt : BTYPE, t : TYPE ) = {
@@ -1681,8 +1681,8 @@ member-specification-opt : () -> () = {
 <key_enum> : () -> ( :KEY );
 
 class-key : () -> ( key : KEY ) = {
-    	struct ; key = <key_struct>;
-    ||	union ; key = <key_union>;
+    	struct; key = <key_struct>;
+    ||	union; key = <key_union>;
 };
 
 class-specifier : () -> ( t : TYPE ) = {
@@ -1690,7 +1690,7 @@ class-specifier : () -> ( t : TYPE ) = {
 	{
 		id = any-identifier-opt;
 		( p, f ) = <type_class_begin> ( id, key );
-		open-brace ; member-specification-opt ; close-brace;
+		open-brace; member-specification-opt; close-brace;
 		tid = <type_class_end> ( p, f );
 		t = <type_name> ( tid );
 		<rescan_token>;
@@ -1720,7 +1720,7 @@ enumerator-definition : ( e : IDENTIFIER ) -> () = {
 	id = any-identifier;
 	<declarator_begin> ( id );
 	{
-		assign ; c = constant-expression;
+		assign; c = constant-expression;
 	    ||	c = <exp_none>;
 	};
 	<declare_enum> ( e, id, c );
@@ -1729,9 +1729,9 @@ enumerator-definition : ( e : IDENTIFIER ) -> () = {
 enumerator-list : ( e : IDENTIFIER ) -> () = {
 	enumerator-definition ( e );
 	{
-		comma ; enumerator-list ( e );
-	    ||	comma ; comma ; <error_comma> ; enumerator-list ( e );
-	    ||	comma ; <error_comma>;
+		comma; enumerator-list ( e );
+	    ||	comma; comma; <error_comma>; enumerator-list ( e );
+	    ||	comma; <error_comma>;
 	    ||	$;
 	};
 };
@@ -1827,12 +1827,12 @@ check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
 <dspec_inline> : () -> ( :DSPEC );
 
 storage-class-specifier : () -> ( ds : DSPEC ) = {
-	auto ; ds = <dspec_auto>;
-    ||	extern ; ds = <dspec_extern>;
-    ||	static ; ds = <dspec_static>;
-    ||	register ; ds = <dspec_register>;
-    ||	typedef ; ds = <dspec_typedef>;
-    ||	inline ; ds = <dspec_inline>;
+	auto; ds = <dspec_auto>;
+    ||	extern; ds = <dspec_extern>;
+    ||	static; ds = <dspec_static>;
+    ||	register; ds = <dspec_register>;
+    ||	typedef; ds = <dspec_typedef>;
+    ||	inline; ds = <dspec_inline>;
 };
 
 
@@ -1926,7 +1926,7 @@ check-decl-specifier-seq-opt : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC
 <type_ptr> : ( :CV ) -> ( :TYPE );
 
 ptr-operator : () -> ( p : TYPE ) = {
-	star ; cv = cv-qualifier-seq-opt;
+	star; cv = cv-qualifier-seq-opt;
 	p = <type_ptr> ( cv );
 };
 
@@ -1984,7 +1984,7 @@ declarator-tail : ( id : IDENTIFIER ) -> ( t : TYPE ) = {
 	t = <type_array> ( e );
 	close-square;
     ||
-	weak ; open-round;
+	weak; open-round;
 	<param_begin> ( id );
 	{
 		ell = parameter-declaration-list;
@@ -2004,7 +2004,7 @@ direct-declarator : () -> ( t : TYPE, id : IDENTIFIER ) = {
 	q = declarator-tail ( id );
 	t = <type_build> ( p, q );
     ||
-	open-round ; ( t, id ) = declarator-aux;
+	open-round; ( t, id ) = declarator-aux;
 	<declarator_bad> ( t );
 	close-round;
 };
@@ -2012,7 +2012,7 @@ direct-declarator : () -> ( t : TYPE, id : IDENTIFIER ) = {
 declarator-aux : () -> ( t : TYPE, id : IDENTIFIER ) = {
 	( t, id ) = direct-declarator;
     ||
-	p = ptr-operator ; ( q, id ) = declarator-aux;
+	p = ptr-operator; ( q, id ) = declarator-aux;
 	t = <type_build> ( q, p );
 };
 
@@ -2054,7 +2054,7 @@ abstract-declarator-tail : () -> ( t : TYPE ) = {
 	t = <type_array> ( e );
 	close-square;
     ||
-	weak ; open-round;
+	weak; open-round;
 	id = <id_none>;
 	<param_begin> ( id );
 	{
@@ -2073,7 +2073,7 @@ direct-abstract-declarator : () -> ( t : TYPE ) = {
 	q = abstract-declarator-tail;
 	t = <type_build> ( p, q );
     ||
-	open-round ; t = abstract-declarator-aux;
+	open-round; t = abstract-declarator-aux;
 	<declarator_bad> ( t );
 	close-round;
 };
@@ -2083,7 +2083,7 @@ abstract-declarator-aux : () -> ( t : TYPE ) = {
     ||
 	t = ptr-operator;
     ||
-	p = ptr-operator ; q = abstract-declarator-aux;
+	p = ptr-operator; q = abstract-declarator-aux;
 	t = <type_build> ( q, p );
 };
 
@@ -2212,11 +2212,11 @@ first-parameter-id : () -> ( id : IDENTIFIER ) = {
 
 second-parameter-id : () -> ( id : IDENTIFIER ) = {
 	id = first-parameter-id;
-    ||	id = type-name ; <declarator_weak> ( id );
+    ||	id = type-name; <declarator_weak> ( id );
 };
 
 parameter-id-tail : () -> () = {
-	comma ; id = second-parameter-id;
+	comma; id = second-parameter-id;
 	<declarator_begin> ( id );
 	<declare_weak_param> ( id );
 	parameter-id-tail;
@@ -2307,8 +2307,8 @@ initialiser-list : ( d : DECL ) -> ( p : LIST-EXP ) = {
 	b = initialiser-clause ( d );
 	a = <exp_location> ( b );
 	{
-		comma ; q = initialiser-list ( d );
-	    ||	comma ; q = <list_exp_null>;
+		comma; q = initialiser-list ( d );
+	    ||	comma; q = <list_exp_null>;
 	    ||	q = <list_exp_null>;
 	};
 	p = <list_exp_cons> ( a, q );
@@ -2327,7 +2327,7 @@ initialiser-clause : ( d : DECL ) -> ( e : EXP ) = {
 };
 
 initialiser-opt : ( d : DECL ) -> ( e : EXP ) = {
-	assign ; e = initialiser-clause ( d );
+	assign; e = initialiser-clause ( d );
     ||
 	e = <exp_none>;
 };
@@ -2548,7 +2548,7 @@ member-declarator : ( p : TYPE, q : BTYPE ) -> () = {
     ||
 	id = any-identifier-opt;
 	<declarator_begin> ( id );
-	colon ; c = constant-expression;
+	colon; c = constant-expression;
 	t = <type_bitfield_mem> ( p, q, c, id );
 	<declare_bitfield> ( t, id );
 };
@@ -2599,7 +2599,7 @@ member-declaration : () -> () = {
  */
 
 translation-unit : ( t : TYPE, ds : DSPEC ) -> () = {
-	declaration-seq-opt ; eof;
+	declaration-seq-opt; eof;
     ##
 	<error_fatal>;
 };
@@ -2642,9 +2642,9 @@ member-designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
 };
 
 designator : ( b : OFFSET, s : TYPE ) -> ( a : OFFSET, t : TYPE ) = {
-	dot ; ( a, t ) = member-designator ( b, s );
+	dot; ( a, t ) = member-designator ( b, s );
     ||
-	open-square ; e = constant-expression;
+	open-square; e = constant-expression;
 	( a, t ) = <offset_index> ( b, s, e );
 	close-square;
 };

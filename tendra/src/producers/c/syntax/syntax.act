@@ -469,11 +469,11 @@ complex-type : () -> ( t ) = @{
  *    whenever there is a choice, otherwise the actions are very dull.
  */
 
-<lex_crt> : () -> ( t ) = @{ @t = crt_lex_token ; @};
-<lex_open_round> : () -> ( t ) = @{ @t = lex_open_Hround ; @};
-<lex_semicolon> : () -> ( t ) = @{ @t = lex_semicolon ; @};
-<lex_alignof> : () -> ( t ) = @{ @t = lex_alignof ; @};
-<lex_sizeof> : () -> ( t ) = @{ @t = lex_sizeof ; @};
+<lex_crt> : () -> ( t ) = @{ @t = crt_lex_token; @};
+<lex_open_round> : () -> ( t ) = @{ @t = lex_open_Hround; @};
+<lex_semicolon> : () -> ( t ) = @{ @t = lex_semicolon; @};
+<lex_alignof> : () -> ( t ) = @{ @t = lex_alignof; @};
+<lex_sizeof> : () -> ( t ) = @{ @t = lex_sizeof; @};
 
 
 /*
@@ -939,12 +939,12 @@ complex-type : () -> ( t ) = @{
     }
 @};
 
-<reach_prev> : ( r ) -> () = @{ unreached_prev = @r ; @};
-<reach_set> : () -> () = @{ unreached_code = 0 ; @};
-<reach_unset> : () -> () = @{ unreached_code = 1 ; @};
+<reach_prev> : ( r ) -> () = @{ unreached_prev = @r; @};
+<reach_set> : () -> () = @{ unreached_code = 0; @};
+<reach_unset> : () -> () = @{ unreached_code = 1; @};
 
-<condition_get> : () -> ( c ) = @{ @c = crt_condition ; @};
-<condition_set> : ( c ) -> () = @{ crt_condition = @c ; @};
+<condition_get> : () -> ( c ) = @{ @c = crt_condition; @};
+<condition_set> : ( c ) -> () = @{ crt_condition = @c; @};
 
 
 /*
@@ -994,9 +994,9 @@ complex-type : () -> ( t ) = @{
  *    duplicate qualifiers.
  */
 
-<cv_none> : () -> ( cv ) = @{ @cv = cv_none ; @};
-<cv_const> : () -> ( cv ) = @{ @cv = cv_const ; @};
-<cv_volatile> : () -> ( cv ) = @{ @cv = cv_volatile ; @};
+<cv_none> : () -> ( cv ) = @{ @cv = cv_none; @};
+<cv_const> : () -> ( cv ) = @{ @cv = cv_const; @};
+<cv_volatile> : () -> ( cv ) = @{ @cv = cv_volatile; @};
 
 <cv_join> : ( a, b ) -> ( cv ) = @{
     CV_SPEC c = ( @a & @b );
@@ -1012,20 +1012,20 @@ complex-type : () -> ( t ) = @{
  *    and so on.  This is a simple map onto the calculus type BTYPE.
  */
 
-<btype_char> : () -> ( bt ) = @{ @bt = btype_char ; @};
-<btype_short> : () -> ( bt ) = @{ @bt = btype_short ; @};
-<btype_int> : () -> ( bt ) = @{ @bt = btype_int ; @};
-<btype_long> : () -> ( bt ) = @{ @bt = btype_long ; @};
-<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed ; @};
-<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned ; @};
-<btype_float> : () -> ( bt ) = @{ @bt = btype_float ; @};
-<btype_double> : () -> ( bt ) = @{ @bt = btype_double ; @};
-<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t ; @};
-<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t ; @};
-<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t ; @};
-<btype_void> : () -> ( bt ) = @{ @bt = btype_void ; @};
-<btype_bottom> : () -> ( bt ) = @{ @bt = btype_bottom ; @};
-<btype_none> : () -> ( bt ) = @{ @bt = btype_none ; @};
+<btype_char> : () -> ( bt ) = @{ @bt = btype_char; @};
+<btype_short> : () -> ( bt ) = @{ @bt = btype_short; @};
+<btype_int> : () -> ( bt ) = @{ @bt = btype_int; @};
+<btype_long> : () -> ( bt ) = @{ @bt = btype_long; @};
+<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed; @};
+<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned; @};
+<btype_float> : () -> ( bt ) = @{ @bt = btype_float; @};
+<btype_double> : () -> ( bt ) = @{ @bt = btype_double; @};
+<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t; @};
+<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t; @};
+<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t; @};
+<btype_void> : () -> ( bt ) = @{ @bt = btype_void; @};
+<btype_bottom> : () -> ( bt ) = @{ @bt = btype_bottom; @};
+<btype_none> : () -> ( bt ) = @{ @bt = btype_none; @};
 
 <btype_join> : ( b1, b2 ) -> ( bt ) = @{
     if ( @b1 & @b2 ) {
@@ -1161,9 +1161,9 @@ complex-type : () -> ( t ) = @{
  *    numbers.
  */
 
-<key_struct> : () -> ( key ) = @{ @key = btype_struct ; @};
-<key_union> : () -> ( key ) = @{ @key = btype_union ; @};
-<key_enum> : () -> ( key ) = @{ @key = btype_enum ; @};
+<key_struct> : () -> ( key ) = @{ @key = btype_struct; @};
+<key_union> : () -> ( key ) = @{ @key = btype_union; @};
+<key_enum> : () -> ( key ) = @{ @key = btype_enum; @};
 
 
 /*
@@ -1213,13 +1213,13 @@ complex-type : () -> ( t ) = @{
  *    not check for inferred types.
  */
 
-<dspec_none> : () -> ( ds ) = @{ @ds = dspec_none ; @};
-<dspec_auto> : () -> ( ds ) = @{ @ds = dspec_auto ; @};
-<dspec_register> : () -> ( ds ) = @{ @ds = dspec_register ; @};
-<dspec_static> : () -> ( ds ) = @{ @ds = dspec_static ; @};
-<dspec_extern> : () -> ( ds ) = @{ @ds = dspec_extern ; @};
-<dspec_typedef> : () -> ( ds ) = @{ @ds = dspec_typedef ; @};
-<dspec_inline> : () -> ( ds ) = @{ @ds = dspec_inline ; @};
+<dspec_none> : () -> ( ds ) = @{ @ds = dspec_none; @};
+<dspec_auto> : () -> ( ds ) = @{ @ds = dspec_auto; @};
+<dspec_register> : () -> ( ds ) = @{ @ds = dspec_register; @};
+<dspec_static> : () -> ( ds ) = @{ @ds = dspec_static; @};
+<dspec_extern> : () -> ( ds ) = @{ @ds = dspec_extern; @};
+<dspec_typedef> : () -> ( ds ) = @{ @ds = dspec_typedef; @};
+<dspec_inline> : () -> ( ds ) = @{ @ds = dspec_inline; @};
 
 <dspec_join> : ( a, b ) -> ( ds ) = @{
     /* Combine two declaration specifiers */
@@ -1503,8 +1503,8 @@ complex-type : () -> ( t ) = @{
  *    BOOL.
  */
 
-<bool_false> : () -> ( b ) = @{ @b = 0 ; @};
-<bool_true> : () -> ( b ) = @{ @b = 1 ; @};
+<bool_false> : () -> ( b ) = @{ @b = 0; @};
+<bool_true> : () -> ( b ) = @{ @b = 1; @};
 
 
 /*
