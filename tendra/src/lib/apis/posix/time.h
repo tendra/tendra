@@ -26,6 +26,7 @@
 #       it may be put.
 #
 +IMPLEMENT "ansi", "time.h" ;
++IMPLEMENT "ansi", "stddef.h", "size_t" ;
 +EXP int CLK_TCK ;
 +FUNC void tzset ( void ) ;
 +EXP (extern) char *tzname [] ;
