@@ -23,6 +23,6 @@ MACH_CPU=      sparc
 MACH_CPU=      680x0
 .endif
 
-TCC_OPTS=  ${SRC_DIR}/src/lib/machines/openbsd/${MACH_CPU}/include/gcc_dependency.h
+TCC_OPTS=  -f${SRC_DIR}/src/lib/machines/openbsd/${MACH_CPU}/include/gcc_dependency.h
 
 .include "config.common.mk"
