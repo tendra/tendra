@@ -4,8 +4,7 @@
 .include "../../../mk/tendra.build.mk"
 
 # Standard directories and files
-SRC = ${.CURDIR}
-SRCX = ${SRC}/../shared
+SRCX = ${.CURDIR}/../shared
 
 CC ?= tcc
 TCCOPTS = -Ysystem
@@ -18,9 +17,11 @@ LIBS =
 
 NAME = tuname
 
-${NAME} : ${SRC}/tuname.c
+CFILES = tuname.c
+
+${NAME} : ${CFILES}
 	@${ECHO} ${BASE_DIR}
-	${CC} ${CCOPTS} -o ${NAME} ${SRC}/tuname.c ${LIBS}
+	${CC} ${CCOPTS} -o ${NAME} ${CFILES} ${LIBS}
 
 all: ${NAME}
 	@${ECHO} all done
