@@ -5,13 +5,15 @@
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
+# We use the system's compiler, not gcc.
+
 CC=	cc
 AR=	ar
 RANLIB=	ranlib
 
 MACHINE_ARCH=	alpha
 
-CFLAGS=		-I. -Iohash -Ilst.lib \
+CFLAGS=		-I. -Iohash -Ilst.lib -std1 \
 		-DHAS_EXTENDED_GETCWD -DNEED_FGETLN -DNEED_SETENV \
 		-DHAVE_SNPRINTF -DNEED_UNSETENV -DHAVE_UTIMES \
 		-DHAVE_VSNPRINTF -DHAVE_VSPRINTF \
