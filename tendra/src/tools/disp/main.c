@@ -109,12 +109,14 @@ main(int argc, char **argv)
 			} else {
 				while (c = argv [a][ b++ ], c != 0) {
 					switch (c) {
+					case 'a' : helpflag = 0 ; break;
 					case 'd' : dflag = 0 ; break;
 					case 'g' : diagnostics = 1 ; break;
-					case 'h' : helpflag = 0 ; break;
 					case 'i' : /* Compatibility */ break;
-					case 'p' : progress = 1 ; break;
+                    case 'l' : show_usage = 1 ; break;
 					case 'q' : quickflag = 1 ; break;
+					case 'r' : dumb_mode = 1 ; break;
+					case 'v' : progress = 1 ; break;
 					case 'x' : versions = 0 ; break;
 					case 'A' : {
 						diagnostics = 1;
@@ -126,15 +128,12 @@ main(int argc, char **argv)
 					case 'E' : show_stuff = 1 ; break;
 					case 'S' : skip_pass = 0 ; break;
 					case 'T' : show_skip = 1 ; break;
-					case 'U' : show_usage = 1 ; break;
-					case 'V' : dumb_mode = 1 ; break;
+					case 'V' : {
+                        tenapp_report_version ();
+                        MSG_TDF_version(version_major, version_minor);
+                        break;
+                    }
 					case 'W' : warn_undeclared = 1 ; break;
-
-					case 'v' : {
-						tenapp_report_version ();
-						MSG_TDF_version(version_major, version_minor);
-						break;
-					}
 					}
 				}
 			}
