@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,104 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:30  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/04/04  15:23:59  pwe
- * tidy re old DWARF interface
- *
- * Revision 1.2  1997/04/01  17:18:04  pwe
- * diagnose pl_tests
- *
- * Revision 1.1  1997/03/24  17:10:19  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.11  1997/02/18  11:48:22  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.10  1996/09/10  14:36:55  pwe
- * fix diags - nested scope, param struct and leaf return
- *
- * Revision 1.9  1996/09/09  08:39:55  pwe
- * correct stabs enums
- *
- * Revision 1.8  1995/12/15  10:27:23  john
- * Fixed error in previous fix
- *
- * Revision 1.7  1995/11/23  15:21:31  john
- * Fix for diagnostics (nested structures)
- *
- * Revision 1.6  1995/07/03  09:30:13  john
- * Fixed error
- *
- * Revision 1.5  1995/06/29  08:20:22  john
- * Reformatting
- *
- * Revision 1.4  1995/06/27  08:47:38  john
- * Some reformatting
- *
- * Revision 1.3  1995/04/20  08:06:36  john
- * Minor change
- *
- * Revision 1.2  1995/03/27  12:50:40  john
- * Fix for c-style varargs handling
- *
- * Revision 1.1.1.1  1995/03/13  10:18:56  john
- * Entered into CVS
- *
- * Revision 1.7  1995/01/11  16:40:35  john
- * Fixed bug in diagnostics (for change request CR95_40)
- *
- * Revision 1.6  1995/01/11  09:59:32  john
- * Fixed bug in diagnostics (for change request CR94_224)
- *
- * Revision 1.5  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.4  1994/07/04  08:29:06  djch
- * added extra parameter to stabd (section number). -ve values used to control
- * not putting out stabd (sometimes) in solaris; line #s go in the stabs.
- * added assert(0) to catch uninitialized items.
- *
- * Revision 1.3  1994/06/22  09:48:33  djch
- * Changes for solaris - line #s in functions are relative to start of fns,
- * global decls have line # in the stabs, and no stabn, and local labels are .LL,
- * not LL
- *
- * Revision 1.2  1994/05/13  13:08:39  djch
- * Incorporates improvements from expt version
- * changed format strings to remove longs..
- *
- * Revision 1.1  1994/05/03  14:49:53  djch
- * Initial revision
- *
- * Revision 1.6  93/09/27  14:55:15  14:55:15  ra (Robert Andrews)
- * Only whitespace.
- * 
- * Revision 1.5  93/08/27  11:37:55  11:37:55  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.4  93/08/13  14:45:51  14:45:51  ra (Robert Andrews)
- * Allow the stabs for long double to vary depending on DOUBLE_SZ.
- * 
- * Revision 1.3  93/07/05  18:26:29  18:26:29  ra (Robert Andrews)
- * A couple of minor corrections.  Introduced stab_ptrs to avoid duplication
- * of basic pointer types.
- * 
- * Revision 1.2  93/06/29  14:32:54  14:32:54  ra (Robert Andrews)
- * Fairly major rewrite and reformat.  There were a number of errors which
- * meant that the diagnostics were not previously working.
- * 
- * Revision 1.1  93/06/24  14:59:22  14:59:22  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
