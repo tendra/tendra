@@ -122,6 +122,26 @@ clean:
 .endif
 
 install:
+.if defined(API)
+.if !exists(${INSTALL_DIR}/lib/building/${API}.api)
+	${MKDIR} -p ${INSTALL_DIR}/lib/building/${API}.api
+.endif
+.if !exists(${INSTALL_DIR}/lib/include/${API}.api)
+	${MKDIR} -p ${INSTALL_DIR}/lib/include/${API}.api
+.endif
+	cd ${OBJ_SDIR:S/${API}$/building\/${API}.api/};\
+	for file in *; do\
+		if [ $$file != Makefile ]; then\
+			${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/building/${API}.api/$$file;\
+		fi\
+	done
+	cd ${OBJ_SDIR:S/${API}$/include\/${API}.api/};\
+	for file in *; do\
+		if [ $$file != Makefile ]; then\
+			${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/include/${API}.api/$$file;\
+		fi\
+	done
+.endif # API
 .if defined(PROG)
 	cd ${OBJ_SDIR};
 .if !exists(PUBLIC_BIN)
