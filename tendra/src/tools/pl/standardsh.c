@@ -60,13 +60,14 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#include "util.h"
 #include "streams.h"
 #include "units.h"
 #include "encodings.h"
 #include "enc_nos.h"
 #include "defs.h"
 #include "errors.h"
+#include "fmm.h"
+#include "msgcat.h"
 #include "standardsh.h"
 
 
@@ -92,7 +93,7 @@ select_tokdef_unit()
 		SELECT_UNIT(tokdef_unit);
 	}
 	else {
-		TDFlist * tl = MALLOC(TDFlist);
+		TDFlist * tl = xalloc(sizeof(*tl));
 		tl->next = extra_toks;
 		extra_toks = tl;
 		current_TDF = &tl->t;
@@ -203,7 +204,7 @@ tokforintsh(Bool issigned)
 	int cu = current_Unit;
 	Name ** t = (issigned)?&intshtok:&uintshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -223,7 +224,7 @@ tokforlongsh(Bool issigned)
 	int cu = current_Unit;
 	Name ** t = (issigned)?&longshtok:&ulongshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -243,7 +244,7 @@ tokforshortsh(Bool issigned)
 	int cu = current_Unit;
 	Name ** t = (issigned)?&shortshtok:&ushortshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -263,7 +264,7 @@ tokforcharsh(Bool issigned)
 	int cu = current_Unit;
 	Name ** t = (issigned)?&charshtok:&ucharshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -283,7 +284,7 @@ tokforfloatsh()
 	int cu = current_Unit;
 	Name ** t = &floatshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -303,7 +304,7 @@ tokfordoublesh()
 	int cu = current_Unit;
 	Name ** t = &doubleshtok;
 	if ((*t) != (Name*)0) return (*t);
-	(*t) = MALLOC(Name);
+	(*t) = xalloc(sizeof(Name));
 	select_tokdef_unit();
 	* (*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},

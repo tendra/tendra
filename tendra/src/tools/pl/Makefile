@@ -2,15 +2,15 @@
 
 CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
 .PATH : ${.CURDIR} ${.CURDIR}/templ .
-SID_OPTS=	-l ossg-c -s no-lines
 
 PROG = pl
 
 SRCS=	analyse_sort.c consfile.c decodings.c errors.c \
 	find_id.c fnsfile.c includes.c lex.c main.c \
 	readstreams.c standardsh.c streams.c syntax.c \
-	units.c util.c
+	units.c
 
+USE_LIBTEN=	yes
 
 DEPEND_SRC=	syntax.c consfile.c consfile.h decodings.c \
 		decodings.h encodings.h enc_nos.h fnsfile.c

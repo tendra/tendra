@@ -56,8 +56,9 @@
 
 
 #include "config.h"
-#include "util.h"
 #include "defs.h"
+#include "fmm.h"
+#include "msgcat.h"
 #include "streams.h"
 #include "enc_nos.h"
 #include "errors.h"
@@ -68,15 +69,15 @@ TDF * current_TDF;
 static Chunk * free_chunks = (Chunk*)0;
 
 
-Chunk * create_chunk
-PROTO_Z ()
+Chunk *
+create_chunk(void)
 {
     Chunk * ans;
     if (free_chunks != (Chunk*)0) {
 		ans = free_chunks;
 		free_chunks = free_chunks->next;
     } else {
-		ans = MALLOC(Chunk);
+		ans = xalloc(sizeof(*ans));
     }
     ans->next = (Chunk*)0;
     ans->usage = 0;
@@ -86,18 +87,16 @@ PROTO_Z ()
 }
 
 
-static void free_chunk
-PROTO_N ((x))
-    PROTO_T (Chunk * x)
+static void
+free_chunk(Chunk * x)
 {
     x->next = free_chunks;
     free_chunks = x;
 }
 
 
-void out_basic_int
-PROTO_N ((num, bts))
-    PROTO_T (unsigned long num X unsigned int bts)
+void
+out_basic_int(unsigned long num, unsigned int bts)
     /* outputs num onto current stream in bts bits */
 {
     Chunk * t_ch = current_TDF->last;

@@ -60,9 +60,9 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#include "util.h"
 #include "defs.h"
 #include "find_id.h"
+#include "msgcat.h"
 #include "syntax.h"
 
 
@@ -142,7 +142,7 @@ tok_kind(Sort * x)
 	case token_sort: return tok_kind(&x->toksort->ressort);
 	case variety_sort: return variety_tok;
     }
-    fail("Not a sort - internal error");
+    MSG_not_sort_internal_error();
     return 0;
 }
 

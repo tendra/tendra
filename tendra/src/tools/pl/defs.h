@@ -64,7 +64,6 @@
 
 #include "namedecs.h"
 #include "errors.h"
-#include "util.h"
 #include "includes.h"
 
 typedef struct{

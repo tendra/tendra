@@ -60,9 +60,11 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#include "util.h"
+#include "cstring.h"
+#include "fmm.h"
 #include "includes.h"
 #include "errors.h"
+#include "msgcat.h"
 
 
 char * file_name;
@@ -72,7 +74,7 @@ static Path * inc_paths;
 void
 init_includes()
 {
-    inc_paths = MALLOC(Path);
+    inc_paths = xalloc(sizeof(*inc_paths));
     inc_paths->name = "";
     inc_paths->next = (Path*)0;
 }
@@ -80,9 +82,9 @@ init_includes()
 void
 add_include(char * p)
 {
-    Path * x = MALLOC(Path);
+    Path * x = xalloc(sizeof(*x));
     Path ** n = &inc_paths->next;
-    x->name = append_string(p,"/");
+    x->name = string_concat(p,"/");
     x->next = (Path*)0;
     while (*n != (Path*)0) n = &((*n)->next);
     *n = x;
@@ -105,7 +107,7 @@ open_include(char * a)
 		}
     }
     while (p != (Path*)0) {
-		fn = append_string(p->name, a);
+		fn = string_concat(p->name, a);
 		ans = fopen(fn,"r");
 		if (ans != (FILE*)0) {
 			file_name = fn;
@@ -113,6 +115,6 @@ open_include(char * a)
 		}
 		p = p->next;
     }
-    fail("Can't open include file %s", a);
+    MSG_cant_open_include(a);
     return (FILE*)0;
 }

@@ -60,49 +60,17 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#if FS_STDARG
-#include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
-#include "util.h"
 #include "streams.h"
 #include "errors.h"
 #include "defs.h"
-
-
-void
-fail(char *s, ...)
-    /*VARARGS*/
-{
-    char c;
-    va_list args;
-    FILE *f = stderr;
-#if FS_STDARG
-    va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
-    IGNORE fprintf (f, "Error: ");
-    IGNORE vfprintf (f, s, args);
-    c = buff [ bind ];
-    buff [ bind ] = 0;
-    IGNORE fprintf (f, ", %s, line %ld.\n", file_name, cLINE);
-    IGNORE fprintf (f, "    %s!!!!", buff);
-    buff [ bind ] = c;
-    IGNORE fprintf (f, "%s\n", buff + bind);
-    va_end (args);
-    exit (EXIT_FAILURE);
-}
+#include "msgcat.h"
 
 void
 assert_sort(unsigned x)
 {
     unsigned y = current_TDF->sort;
     if (y != x) {
-		fail ("Sort error: req = %u, curr = %u", x, y);
+		MSG_sort_error(x, y);
     }
     return;
 }
@@ -113,7 +81,7 @@ assert_sort_or_empty(unsigned x)
 {
     unsigned y = current_TDF->sort;
     if (current_TDF->no != 0 && y != x) {
-		fail ("Sort/list error: req = %u, curr = %u", x, y);
+		MSG_sort_list_error(x, y);
     }
     return;
 }

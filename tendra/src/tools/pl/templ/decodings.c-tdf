@@ -35,6 +35,7 @@
 #include "errors.h"
 #include "readstreams.h"
 #include "decodings.h"
+#include "msgcat.h"
 @use all
 @loop sort
 @if sort.basic
@@ -62,7 +63,7 @@ unsigned int d_%SN
 	}
 @end
 	default : {
-	    fail ( "Bad %SN value, %u", enc ) ;
+            MSG_bad_sn_value(enc);
 	    break ;
 	}
     }

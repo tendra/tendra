@@ -61,9 +61,11 @@
  *$Revision$*/
 
 #include "config.h"
-#include "util.h"
+#include "cstring.h"
 #include "defs.h"
+#include "fmm.h"
 #include "includes.h"
+#include "msgcat.h"
 #include "syntax.h"
 #include "reserved.h"
 #include "consfile.h"
@@ -89,7 +91,7 @@ long radix;
 static void
 push_current()
 {
-    FStack * x = MALLOC(FStack);
+    FStack * x = xalloc(sizeof(*x));
     x->file = in_file; x->fname = file_name;
     x->line = cLINE; x->next = fstack;
     fstack = x;
@@ -176,7 +178,7 @@ charval()
     LEX l;
     l.t = lex_character;
     l.val.v = string_char(0);
-    if (mygetc()!= '\'') fail("Unmatched quote");
+    if (mygetc()!= '\'') MSG_unmatched_quote();
     return l;
 }
 
@@ -193,13 +195,14 @@ stringval()
 			int c = string_char(1);
 			if (c<0) {
 				lexeme[i] = 0;
-				l.val.name = append_string(l.val.name, lexeme);
+				/* TODO: free old string */
+				l.val.name = string_concat(l.val.name, lexeme);
 				return l;
 			}
 			lexeme[i]= (char)c;
 		}
 		lexeme[i] = 0;
-		l.val.name = append_string(l.val.name, lexeme);
+		l.val.name = string_concat(l.val.name, lexeme);
     }
 }
 
@@ -248,7 +251,7 @@ id_val(char * id)
 {
     LEX l;
     l.t = lex_ident;
-    l.val.name = copy_string(id);
+    l.val.name = string_copy(id);
     return l;
 }
 
@@ -283,7 +286,7 @@ tok_val(Tokdec * td)
 	    st = td->sort.ressort.toksort->ressort.sort;
 	    goto again;
 	}
-	default: fail("Not a legal sort"); break;
+	default: MSG_not_legal_sort(); break;
     }
     return l;
 }
@@ -536,7 +539,7 @@ skip_term(int c)
 	    case lex_crd : s = ")" ; break;
 	    case lex_comma : s = "," ; break;
 		}
-		fail ("Syntax error, '%s' expected", s);
+		MSG_syntax_error(s);
     }
     lex_v = reader();
 }

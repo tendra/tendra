@@ -60,28 +60,27 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#include "util.h"
 #include "defs.h"
 #include "syntax.h"
 #include "analyse_sort.h"
 #include "encodings.h"
 #include "enc_nos.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "namedecs.h"
 #include "streams.h"
 #include "errors.h"
 
-
 void
 read_tdfint()
 {
-    fail ("This shouldn't happen");
+    MSG_shouldnt_happen();
 }
 
 void
 read_tdfbool()
 {
-    fail ("This shouldn't happen");
+    MSG_shouldnt_happen();
 }
 
 
@@ -108,7 +107,7 @@ out_nontoksort(int sort)
 	case transfer_mode_sort: o_transfer_mode; return;
 	case variety_sort: o_variety; return;
     }
-    fail("Not a legal sort");
+    MSG_not_legal_sort();
 }
 
 void
@@ -159,7 +158,7 @@ analyse_sort(int sort)
 	case transfer_mode_sort: read_transfer_mode(); return;
 	case variety_sort: read_variety(); return;
     }
-    fail("Not a legal sort");
+    MSG_not_legal_sort();
 }
 
 
@@ -270,7 +269,7 @@ expand_tok(Tokdec * td, TokSort * ts)
 	    break;
 	}
 	default: {
-	    fail("Not a legal sort");
+	    MSG_not_legal_sort();
 	    break;
 	}
     }

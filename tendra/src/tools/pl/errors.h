@@ -62,8 +62,6 @@
 #ifndef ERRORS_INCLUDED
 #define ERRORS_INCLUDED
 
-
-extern void fail PROTO_W((char *, ...));
 extern void assert_sort(unsigned int);
 extern void assert_sort_or_empty(unsigned int);
 
@@ -76,11 +74,7 @@ extern void assert_sort_or_empty(unsigned int);
 #define ASSERT_SORT(x) assert_sort((unsigned int)x)
 #define ASSERT_SORT_OR_EMPTY(x) assert_sort_or_empty((unsigned int)x)
 
-#if FS_STDC_HASH
-#define Assert(x) if (!(x)) {fail("Assertion %s failed", #x);}
-#else
-#define Assert(x) if (!(x)) {fail("Assertion %s failed", "x");}
-#endif
 
+#define Assert(x) if (!(x)) { MSG_assertion_failed(#x); }
 
 #endif

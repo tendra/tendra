@@ -56,18 +56,19 @@
 
 
 #include "config.h"
-#include "util.h"
 #include "readstreams.h"
 #include "enc_nos.h"
 #include "errors.h"
 #include "decodings.h"
 #include "defs.h"
+#include "fmm.h"
+#include "msgcat.h"
 
 
 Instream * curin;
 
-unsigned int get_bit
-PROTO_Z ()
+unsigned int
+get_bit(void)
 {
     unsigned int x;
     Chunk * ch = curin->ch;
@@ -139,7 +140,7 @@ d_tdfstring(int n)
     unsigned int i;
     int k = (int) get_tdfint();
     unsigned int l = get_tdfint();
-    char * s = CALLOC(char,l);
+    char * s = xalloc(l);
     for (i=0; i<l; i++) s[i] = (char) get_basic_int(k,0);
     indent(n);
     for (i=0; i<l; i++) IGNORE printf("%c", s[i]);
@@ -207,7 +208,7 @@ d_X(unsigned int rsort, int n)
 	case e_token: IGNORE d_token(n); break;
 	case e_transfer_mode: IGNORE d_transfer_mode(n); break;
 	case e_variety: IGNORE d_variety(n); break;
-	default: fail("Not a 1st class SORT\n");
+	default: MSG_not_first_class_sort();
     }
     return rsort;
 }
@@ -270,7 +271,7 @@ d_bitstream(char * s, int n)
 void
 read_cur(unsigned int (*f)(int))
 {
-    curin = MALLOC(Instream);
+    curin = xalloc(sizeof(*curin));
     curin->ch = current_TDF->first;
     curin->byte_pos = 0;
     curin->bit_pos = 0;

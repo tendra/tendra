@@ -40,6 +40,8 @@
 #include "consfile.h"
 #include "lex.h"
 #include "syntax.h"
+#include "msgcat.h"
+
 @use exp
 @special callees
 @special procprops

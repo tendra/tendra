@@ -60,7 +60,9 @@
  *$Date$
  *$Revision$*/
 #include "config.h"
-#include "util.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "readstreams.h"
 #include "streams.h"
 #include "units.h"
@@ -127,7 +129,7 @@ capsule_name(Name * n, int ent)
 		nl_links = nl_links->next;
 	}
 	Assert(n->unit_name < (nl_unit->no_entity)[ent]);
-	nl_links = MALLOC(Link);
+	nl_links = xalloc(sizeof(*nl_links));
 	nl_links->capsule_name = next_capsule_name(ent);
 	nl_links->unit_name = n->unit_name;
 	nl_links->next = (nl_unit->links)[ent];
@@ -144,7 +146,7 @@ cname_to_lname(int c_name, int ent)
 		if (c_name == links->capsule_name) return links->unit_name;
 		links = links->next;
 	}
-	links = MALLOC(Link);
+	links = xalloc(sizeof(*links));
 	links->capsule_name = c_name;
 	links->unit_name = next_unit_name(ent);
 	links->next = (units[current_Unit].links)[ent];
@@ -298,7 +300,7 @@ props(int unit_no)
 					}
 						);
 					break;
-				default: fail("Don't know unit type");
+				default: MSG_dont_know_unit_type();
 				}
 		);
 	append_bytestream(&temp,1);

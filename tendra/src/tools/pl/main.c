@@ -61,18 +61,14 @@
  *$Revision$*/
 #include "config.h"
 #include "release.h"
-#include "util.h"
+#include "msgcat.h"
 #include "namedecs.h"
 #include "lex.h"
 #include "includes.h"
 #include "syntax.h"
+#include "tenapp.h"
 #include "units.h"
 
-#ifndef RELEASE
-#define RELEASE		"unknown"
-#endif
-
-static char *pl_version = "pl: Version 5.0 (TDF %lu.%lu, Release %s)\n";
 static char *pl_usage = "pl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j";
 
 int
@@ -83,6 +79,8 @@ main(int argc, char **argv)
     int diag = 0;
     char *in = NULL;
     char *out = NULL;
+
+    tenapp_init(argc, argv, "PL-TDF compiler", "5.0");
     init_includes ();
     for (i = 1 ; i < argc; i++) {
 		char *a = argv [i];
@@ -103,11 +101,7 @@ main(int argc, char **argv)
 				break;
 			}
 			case 'V' : {
-				char *vc = RELEASE;
-				unsigned long va = MAJOR_NO;
-				unsigned long vb = MINOR_NO;
-				if (a [2]) ok = 0;
-				IGNORE fprintf (stderr, pl_version, va, vb, vc);
+				tenapp_report_version ();
 				break;
 			}
 			default : {
@@ -133,13 +127,11 @@ main(int argc, char **argv)
     in_file = fopen (in, "r");
     file_name = in;
     if (in_file == NULL) {
-		IGNORE fprintf (stderr, "Error: Can't open input file, %s.\n", in);
-		exit (EXIT_FAILURE);
+		MSG_cant_open_input_file(in);
     }
     out_file = fopen (out, "wb");
     if (out_file == NULL) {
-		IGNORE fprintf (stderr, "Error: Can't open output file, %s.\n", out);
-		exit (EXIT_FAILURE);
+		MSG_cant_open_output_file(out);
     }
     lex_v = reader ();
     init_units ();
