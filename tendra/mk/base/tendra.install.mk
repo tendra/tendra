@@ -50,7 +50,7 @@ install-machine:
 
 # lib/startup: our startup files for compilation modes.
 install-startup:
-	${MKDIR} ${INSTALL_PREFIX}/startup/${STARTUP}
+	${MKDIR} ${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .for i in ${DATA}
 	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
 		${INSTALL_PREFIX}/lib/startup/${STARTUP}
