@@ -24,3 +24,19 @@
 #
 # $TenDRA$
 #
+
+# 7.21.2.3
+
++FUNC char *strcpy(char *, const char *);
+
+# 7.21.3.1
+
++FUNC char *strcat(char *, const char *);
+
+# 7.21.4.2
+
++FUNC int strcmp(const char *, const char *);
+
+# 7.21.4.3
+
++FUNC int strcoll(const char *, const char *);
