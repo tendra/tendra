@@ -52,56 +52,56 @@ install-machine:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${INSTALL_PREFIX}/lib/machines/${i}
 .endfor
 .for i in ${DATA_INCLUDE}
-	${INSTALL} ${.OBJDIR}/${i} \
+	${BIN_INSTALL} ${.OBJDIR}/${i} \
 		${INSTALL_PREFIX}/lib/machines/${i:C/(.*)\/.*$/\1/}
 .endfor
 .for i in ${DATA_STARTUP}
-	${INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/lib/machines/startup
+	${BIN_INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/lib/machines/startup
 .endfor
-	${INSTALL} ${.OBJDIR}/tokens/target_tok.tl ${INSTALL_PREFIX}/lib
+	${BIN_INSTALL} ${.OBJDIR}/tokens/target_tok.tl ${INSTALL_PREFIX}/lib
 
 # lib/startup: our startup files for compilation modes.
 install-startup:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .for i in ${DATA}
-	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
+	${BIN_INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
 		${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .endfor
 
 # lib/apis: our api files.
 install-api:
 	for i in ${.OBJDIR}.api/*.h; do \
-		${INSTALL} $$i ${INSTALL_PREFIX}/lib/include/${API}.api; \
+		${BIN_INSTALL} $$i ${INSTALL_PREFIX}/lib/include/${API}.api; \
 	done
 	for i in ${.OBJDIR:C/apis/apis\/shared/}.api/*.h; do \
-		${INSTALL} $$i ${INSTALL_PREFIX}/lib/include/shared/${API}.api; \
+		${BIN_INSTALL} $$i ${INSTALL_PREFIX}/lib/include/shared/${API}.api; \
 	done
-	${INSTALL} ${.OBJDIR:C/apis/apis\/lib/}/${API}.tl \
+	${BIN_INSTALL} ${.OBJDIR:C/apis/apis\/lib/}/${API}.tl \
 		${INSTALL_PREFIX}/lib
 
 # lib/env: our environment files.
 install-env:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${INSTALL_PREFIX}/env
-	${SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
+	${BIN_SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
 		${INSTALL_PREFIX}/env/default
 .for i in ${DATA_COMMON} ${DATA}
-	${INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/env
+	${BIN_INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/env
 .endfor
 
 # installers/*, tools/*, utilities/*: our binary files.
 install-bin:
-	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${PROG} ${INSTALL_PREFIX}/bin
+	${BIN_INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${PROG} ${INSTALL_PREFIX}/bin
 
 # installers/*, producers/*, tools/*, utilities/*: our man pages.
 install-man:
 .for i in ${MAN}
 	${BIN_MKDIR} ${ARGS_MKDIR} ${PREFIX}/man/man${i:E}
-	${INSTALL} ${.CURDIR}/${i} ${PREFIX}/man/man${i:E}
+	${BIN_INSTALL} ${.CURDIR}/${i} ${PREFIX}/man/man${i:E}
 .endfor
 
 # lib/sys: our shared libraries
 install-shlib:
-	${INSTALL} ${.OBJDIR}/${SHLIB} ${INSTALL_PREFIX}/lib/sys
+	${BIN_INSTALL} ${.OBJDIR}/${SHLIB} ${INSTALL_PREFIX}/lib/sys
 
 install-dir:
 	for i in ${INSTALL_SUB}; do \
@@ -114,8 +114,8 @@ install-dir:
 SED_WRAPPER_OPTS= -e "s%-INSTALL_PREFIX-%${INSTALL_PREFIX}%g"
 install-wrapper:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${PREFIX}/bin
-	${SED} ${SED_WRAPPER_OPTS} ${SRC_DIR}/src/tools/tcc/tcc.sh > \
+	${BIN_SED} ${SED_WRAPPER_OPTS} ${SRC_DIR}/src/tools/tcc/tcc.sh > \
 		${PREFIX}/bin/tcc
-	${CHMOD} +x ${PREFIX}/bin/tcc
+	${BIN_CHMOD} +x ${PREFIX}/bin/tcc
 
 .include "tendra.version.mk"
