@@ -46,7 +46,8 @@
 .if !defined(_TENDRA_BASE_MK_)
 _TENDRA_BASE_MK_=1
 
-BASE_DIR=	${.CURDIR:C/\/(mk|src).*//}
+.MAKEOVERRIDES:	BASE_DIR
+BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
 STARTUP=	src/lib/startup
@@ -72,13 +73,16 @@ SHELL=		/bin/sh
 
 ENV?=		/usr/bin/env
 
+# Keep in alphabetical order
 COPY?=		${ENV} cp
 ECHO?=		${ENV} echo
 ECHODIR?=	${ENV} echo
 EXIT?=		exit
 INSTALL?=	${ENV} install
+LN?=		${ENV} ln
 MKDIR?=		${ENV} mkdir
 MOVE?=		${ENV} mv
 REMOVE?=	${ENV} rm -f
+TEST?=		${ENV} test
 
 .endif	# !defined(_TENDRA_BASE_MK_)
