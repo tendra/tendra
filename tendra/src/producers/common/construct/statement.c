@@ -2860,7 +2860,7 @@ TYPE make_cond_type
     BEGIN A CONDITION DECLARATION
 
     Condition declarations are declared in their own local scope and
-    brought into the outermost scope of the the statements they control
+    brought into the outermost scope of the statements they control
     using inject_cond.  This routine begins the construction of such a
     local scope.
 */

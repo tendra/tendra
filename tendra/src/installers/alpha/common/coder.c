@@ -1370,7 +1370,7 @@ freg fregfrmdest
 
 /*
   Divide dividend by divisor using the divide instructions supplied 
-  by the the assembler.  These divide instructions corrupt the t-regs
+  by the assembler.  These divide instructions corrupt the t-regs
   23,24,25,27(PV), and 28(AT) which have to be protected if in use.
   Returns result register.
 */

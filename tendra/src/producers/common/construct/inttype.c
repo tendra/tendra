@@ -1032,7 +1032,7 @@ find_itype_sign(BASE_TYPE bt)
  *    FIND THE SIZE OF AN INTEGRAL TYPE
  *
  *    This routine determines the minimum number of bits in the integral
- *    type it.  It also returns information on the the maximum number of
+ *    type it.  It also returns information on the maximum number of
  *    bits and the sign of the type in the given pointer arguments.
  */
 

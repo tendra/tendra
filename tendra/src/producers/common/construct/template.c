@@ -875,7 +875,7 @@ TYPE parse_typedef_templ
 
     This routine deduces the arguments for the template type id called
     without arguments.  Within a template class definition the template
-    name gives the the template applied to the current arguments.
+    name gives the template applied to the current arguments.
     Otherwise template declarations and definitions (for which used is
     false) are allowed but other instances are not.
 */

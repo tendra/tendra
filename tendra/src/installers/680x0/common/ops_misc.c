@@ -93,7 +93,7 @@
 /************************************************************************
  *  SET_OVERFLOW
  *  If the expression e has a long_jump error treatment then
- *  the global variable overflow_jump is set the the corresponding label.
+ *  the global variable overflow_jump is set to the corresponding label.
  *  If e has the error treatment trap overflow_jump is set to -1 instead.
  *  The previous value of overflow_jump is returned, so it can be restored.
  ************************************************************************/

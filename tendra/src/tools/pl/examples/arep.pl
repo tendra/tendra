@@ -63,7 +63,7 @@
 
 Struct Desc (BASE:Ptr Double, LB:Int, UB:Int,
 		STRIDE:offset(alignment(Double), alignment(Double)));
-/* Desc is a token giving the shape of of a 1-d array pointer;
+/* Desc is a token giving the shape of a 1-d array pointer;
 	BASE is token which extracts the base pointer from a Desc EXP
 	.BASE is the offset of the base pointer from the start of a Desc
 	etc for LB,UB and STRIDE
