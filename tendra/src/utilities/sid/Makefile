@@ -26,4 +26,12 @@ gen-errors.c:
 
 CLEANFILES+=    gen-errors.c gen-errors.h
 
+regenerate_cparser:
+	${SID} ${SID_OPTS} ${.CURDIR}/c-parser.sid ${.CURDIR}/c-parser.act \
+	${OBJ_DIR}/c-parser.c ${OBJ_DIR}/c-junk.h
+
+regenerate_parser:
+	${SID} ${SID_OPTS} ${.CURDIR}/parser.sid ${.CURDIR}/parser.act \
+	${OBJ_DIR}/parser.c ${OBJ_DIR}/junk.h
+
 .include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
