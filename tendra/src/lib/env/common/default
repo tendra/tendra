@@ -39,9 +39,9 @@
 +LINK			"-L-LIBDIR-"
 +LIB			"-lansi"
 
-+CRT0			""
-+CRT1			"/usr/lib/crt1.o"
-+CRTN			"/usr/lib/crtn.o"
++CRT0			"-CRT0-"
++CRT1			"-CRT1-"
++CRTN			"-CRTN-"
 +SYS_LIB		""
 +SYS_LIBC		"-lc"
 +LINK_ENTRY		""
