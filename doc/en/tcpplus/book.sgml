@@ -43,7 +43,7 @@
   </bookinfo>
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>This document is designed as a technical overview of the TenDRA C++
       to TDF/ANDF producer. It is divided into two broad areas; descriptions of
@@ -90,7 +90,7 @@
       <title><ulink url=
       "http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/">Working paper for
       Draft Proposed Internation Standard for Information Systems - Programming
-      Language C++</ulink> X3J16/96-0225</title> 
+      Language C++</ulink> X3J16/96-0225</title>
 
       <copyright><year>December 1996</year></copyright>
     </biblioentry>
@@ -107,7 +107,7 @@
       </authorgroup>
       <title><ulink url=
       "http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html">The
-      Annotated C++ Reference Manual</ulink></title> 
+      Annotated C++ Reference Manual</ulink></title>
 
       <copyright><year>1990</year></copyright>
       <publishername>Addison-Wesley</publishername> <isbn>0-201-51459-1</isbn>
@@ -120,7 +120,7 @@
   </bibliography>
 
   <chapter id='interface-desc'>
-    <title>Interface Descriptions</title> 
+    <title>Interface Descriptions</title>
 
     <para>The most important public interfaces of the C++ producer are the ISO
       C++ standard and the TDF 4.0 specification; however there are other
@@ -165,7 +165,7 @@
       producer are given.</para>
 
     <sect1 id='invocation'>
-      <title>Invocation</title> 
+      <title>Invocation</title>
 
       <para>In this section it is described how the C++ to TDF producer,
         <literal>tcpplus</literal>, fits into the overall compilation scheme
@@ -202,14 +202,14 @@
         respectively.</para>
 
       <sect2 id='compilation-scheme'>
-        <title>Compilation scheme</title> 
+        <title>Compilation scheme</title>
 
         <para>The overall compilation scheme controlled by
           <literal>tcc</literal>, as it relates to the C++ producer, can be
           represented as follows:</para>
 
         <figure id="compile-scheme">
-          <title>Compile Scheme</title> 
+          <title>Compile Scheme</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="compile" format=
@@ -249,14 +249,14 @@
       </sect2>
 
       <sect2 id='producer-options'>
-        <title>Producer options</title> 
+        <title>Producer options</title>
 
         <para>this should be XREF'd to the tcpplus manpage</para>
       </sect2>
     </sect1>
 
     <sect1 id='configuration'>
-      <title>Configuration</title> 
+      <title>Configuration</title>
 
       <para>This section describes how the C++ producer can be configured to
         apply extra static checks or to support various dialects of C++. In all
@@ -298,7 +298,7 @@
         producer is given as an annex.</para>
 
       <sect2 id='port-tables'>
-        <title>Portability tables</title> 
+        <title>Portability tables</title>
 
         <para>Certain very basic configuration information is read from a file
           called a portability table, which may be specified to the producer
@@ -329,7 +329,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='low-level-conf'>
-        <title>Low level configuration</title> 
+        <title>Low level configuration</title>
 
         <para>The simplest level of configuration is to reset the severity
           level of a particular error message using:</para>
@@ -370,7 +370,7 @@ multibyte           1
 
         <para>Note that the directive:</para>
 <programlisting>
-#pragma TenDRA++ use error <emphasis>string-literal</emphasis> 
+#pragma TenDRA++ use error <emphasis>string-literal</emphasis>
 </programlisting>
 
         <para>can be used to raise a given error at any point in a translation
@@ -384,7 +384,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='checking-scopes'>
-        <title>Checking scopes</title> 
+        <title>Checking scopes</title>
 
         <para>Most compiler options are scoped. A checking scope may be defined
           by enclosing a list of declarations within:</para>
@@ -453,7 +453,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='implimentation-limits'>
-        <title>Implementation limits</title> 
+        <title>Implementation limits</title>
 
         <para>This table gives the default implementation limits imposed by the
           C++ producer for the various implementation quantities listed in Annex
@@ -466,7 +466,7 @@ multibyte           1
           limits.</para>
 
         <table frame='all' id='impl-limits'>
-          <title>Implementation Limits</title> 
+          <title>Implementation Limits</title>
 
           <tgroup cols='4'>
             <thead>
@@ -880,7 +880,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='lexical-analysis'>
-        <title>Lexical analysis</title> 
+        <title>Lexical analysis</title>
 
         <para>During lexical analysis, a source file which is not empty should
           end in a newline character. It is possible to relax this constraint
@@ -891,21 +891,21 @@ multibyte           1
       </sect2>
 
       <sect2 id='keywords'>
-        <title>Keywords</title> 
+        <title>Keywords</title>
 
         <para>In several places in this section it is described how to
           introduce keywords for TenDRA language extensions. By default, no such
           extra keywords are defined. There are also low-level directives for
           defining and undefining keywords. The directive:</para>
 <programlisting>
-#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis> 
+#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis>
 </programlisting>
 
         <para>can be used to introduce a keyword (the first identifier)
           standing for the standard C++ keyword given by the second identifier.
           The directive:</para>
 <programlisting>
-#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis> 
+#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis>
 </programlisting>
 
         <para>can similarly be used to introduce a keyword giving an
@@ -917,14 +917,14 @@ multibyte           1
 
         <para>Finally the directive:</para>
 <programlisting>
-#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis> 
+#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis>
 </programlisting>
 
         <para>can be used to undefine a keyword.</para>
       </sect2>
 
       <sect2 id='comments'>
-        <title>Comments</title> 
+        <title>Comments</title>
 
         <para>C-style comments do not nest. The directive:</para>
 <programlisting>
@@ -936,7 +936,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='identifier-names'>
-        <title>Identifier names</title> 
+        <title>Identifier names</title>
 
         <para>During lexical analysis, each character in the source file has an
           associated look-up value which is used to determine whether the
@@ -944,20 +944,20 @@ multibyte           1
           etc. These values are stored in a simple look-up table. It is possible
           to set the look-up value using:</para>
 <programlisting>
-#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow 
+#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow
 </programlisting>
 
         <para>which sets the look-up for the first character to be the default
           look-up for the second character. The form:</para>
 <programlisting>
-#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow 
+#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow
 </programlisting>
 
         <para>sets the look-up of the character to be that of an invalid
           character. The forms:</para>
 <programlisting>
-#pragma TenDRA++ character <emphasis>string-literal</emphasis> as <emphasis>character-literal</emphasis> allow 
-#pragma TenDRA++ character <emphasis>string-literal</emphasis> disallow 
+#pragma TenDRA++ character <emphasis>string-literal</emphasis> as <emphasis>character-literal</emphasis> allow
+#pragma TenDRA++ character <emphasis>string-literal</emphasis> disallow
 </programlisting>
 
         <para>can be used to modify the look-up values for the set of
@@ -979,7 +979,7 @@ multibyte           1
           can be set using the directives:</para>
 <programlisting>
 #pragma TenDRA set name limit <emphasis>integer-literal</emphasis>
-#pragma TenDRA++ set name limit <emphasis>integer-literal</emphasis> warning 
+#pragma TenDRA++ set name limit <emphasis>integer-literal</emphasis> warning
 </programlisting>
 
         <para>This length is given by the <literal>name_limit</literal>
@@ -989,7 +989,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='integer-literals'>
-        <title>Integer literals</title> 
+        <title>Integer literals</title>
 
         <para>The rules for finding the type of an integer literal can be
           described using directives of the form:</para>
@@ -1063,13 +1063,13 @@ multibyte           1
       </sect2>
 
       <sect2 id='character-literals'>
-        <title>Character literals and built-in types</title> 
+        <title>Character literals and built-in types</title>
 
         <para>By default, a simple character literal has type
           <literal>int</literal> in C and type <literal>char</literal> in C++.
           The type of such literals can be controlled using the directive:</para>
 <programlisting>
-#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis> 
+#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis>
 </programlisting>
 
         <para>The type of a wide character literal is given by the
@@ -1103,7 +1103,7 @@ multibyte           1
           included (with the exception of the keyword <literal>wchar_t</literal>
           in ISO C++), however the directives:</para>
 <programlisting>
-#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis> 
+#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis>
 </programlisting>
 
         <para>can be used to make these types visible. They are equivalent to a
@@ -1129,7 +1129,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='string-literals-a'>
-        <title>String literals</title> 
+        <title>String literals</title>
 
         <para>By default, character string literals have type <literal>char
           [n]</literal> in C and older dialects of C++, but type <literal>const
@@ -1138,8 +1138,8 @@ multibyte           1
           Whether string literals are <literal>const</literal> or not can be
           controlled using the two directives:</para>
 <programlisting>
-#pragma TenDRA++ set string literal : const 
-#pragma TenDRA++ set string literal : no const 
+#pragma TenDRA++ set string literal : const
+#pragma TenDRA++ set string literal : no const
 </programlisting>
 
         <para>In the case where literals are <literal>const</literal>, the
@@ -1180,7 +1180,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='escape-sequences'>
-        <title>Escape sequences</title> 
+        <title>Escape sequences</title>
 
         <para>By default, if the character following the <literal>\</literal>
           in an escape sequence is not one of those listed in the ISO C or C++
@@ -1196,14 +1196,14 @@ multibyte           1
           <literal>z</literal>, for example. Individual escape sequences can be
           enabled or disabled using the directives:</para>
 <programlisting>
-#pragma TenDRA++ escape <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow 
-#pragma TenDRA++ escape <emphasis>character-literal</emphasis> disallow 
+#pragma TenDRA++ escape <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow
+#pragma TenDRA++ escape <emphasis>character-literal</emphasis> disallow
 </programlisting>
 
         <para>so that, for example:</para>
 <programlisting>
-#pragma TenDRA++ escape 'e' as '\033' allow 
-#pragma TenDRA++ escape 'a' disallow 
+#pragma TenDRA++ escape 'e' as '\033' allow
+#pragma TenDRA++ escape 'a' disallow
 </programlisting>
 
         <para>sets <literal>\e</literal> to be the ASCII escape character and
@@ -1221,7 +1221,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='preprocessing-directives'>
-        <title>Preprocessing directives</title> 
+        <title>Preprocessing directives</title>
 
         <para>Non-standard preprocessing directives can be controlled using the
           directives:</para>
@@ -1286,7 +1286,7 @@ multibyte           1
       </sect2>
 
       <sect2 id='target-dep-conditional'>
-        <title>Target dependent conditional inclusion</title> 
+        <title>Target dependent conditional inclusion</title>
 
         <para>One of the effects of trying to compile code in a target
           independent manner is that it is not always possible to completely
@@ -1327,7 +1327,7 @@ if ( cond ) {
       </sect2>
 
       <sect2 id='inclusion-directives'>
-        <title>File inclusion directives</title> 
+        <title>File inclusion directives</title>
 
         <para>There is a maximum depth of nested <literal>#include</literal>
           directives allowed by the C++ producer. This depth is given by the
@@ -1342,12 +1342,12 @@ if ( cond ) {
           <literal>#include</literal> directives (which may not be portable), can
           be enabled using the directive:</para>
 <programlisting>
-#pragma TenDRA++ complete file includes <emphasis>allow</emphasis> 
+#pragma TenDRA++ complete file includes <emphasis>allow</emphasis>
 </programlisting>
       </sect2>
 
       <sect2 id='macro-definitions'>
-        <title>Macro definitions</title> 
+        <title>Macro definitions</title>
 
         <para>By default, multiple consistent definitions of a macro are
           allowed. This behaviour can be controlled using the directive:</para>
@@ -1384,7 +1384,7 @@ if ( cond ) {
       </sect2>
 
       <sect2 id='empty-source-files'>
-        <title>Empty source files</title> 
+        <title>Empty source files</title>
 
         <para>ISO C requires that a translation unit should contain at least
           one declaration. C++ and older dialects of C allow translation units
@@ -1396,7 +1396,7 @@ if ( cond ) {
       </sect2>
 
       <sect2 id='std-namespace'>
-        <title>The <literal>std</literal> namespace</title> 
+        <title>The <literal>std</literal> namespace</title>
 
         <para>Several classes declared in the <literal>std</literal> namespace
           arise naturally as part of the C++ language specification. These are as
@@ -1424,7 +1424,7 @@ std::bad_exception  // used in exception specifications
       </sect2>
 
       <sect2 id='object-linkage'>
-        <title>Object linkage</title> 
+        <title>Object linkage</title>
 
         <para>If an object is declared with both external and internal linkage
           in the same translation unit then, by default, an error is given. This
@@ -1482,7 +1482,7 @@ void g ()
           internal linkage in older dialects. The default linkage can be set
           using the directive:</para>
 <programlisting>
-#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis> 
+#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis>
 </programlisting>
 
         <para>where <emphasis>linkage-spec</emphasis> can be
@@ -1491,7 +1491,7 @@ void g ()
           C++, but external linkage in C. The default linkage can be set using
           the directive:</para>
 <programlisting>
-#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis> 
+#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis>
 </programlisting>
 
         <para>Older dialects of C treated all identifiers with external linkage
@@ -1505,7 +1505,7 @@ void g ()
         <para>It is possible to set the default language linkage using the
           directive:</para>
 <programlisting>
-#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis> 
+#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis>
 </programlisting>
 
         <para>This is equivalent to enclosing the rest of the current checking
@@ -1533,7 +1533,7 @@ int ( *pf ) ( int ) = f ;       // error
 
         <para>The directive:</para>
 <programlisting>
-#pragma TenDRA++ external function linkage <emphasis>on</emphasis> 
+#pragma TenDRA++ external function linkage <emphasis>on</emphasis>
 </programlisting>
 
         <para>can be used to control whether function types with differing
@@ -1542,7 +1542,7 @@ int ( *pf ) ( int ) = f ;       // error
       </sect2>
 
       <sect2 id='static-identifers'>
-        <title>Static identifiers</title> 
+        <title>Static identifiers</title>
 
         <para>By default, objects and functions with internal linkage are
           mapped to tags without external names in the output TDF capsule. Thus
@@ -1566,7 +1566,7 @@ int ( *pf ) ( int ) = f ;       // error
       </sect2>
 
       <sect2 id='empty-decl'>
-        <title>Empty declarations</title> 
+        <title>Empty declarations</title>
 
         <para>ISO C++ requires every declaration or member declaration to
           introduce one or more names into the program. The directive:</para>
@@ -1594,7 +1594,7 @@ int ( *pf ) ( int ) = f ;       // error
       </sect2>
 
       <sect2 id='implicit-int'>
-        <title>Implicit <literal>int</literal></title> 
+        <title>Implicit <literal>int</literal></title>
 
         <para>The C &quot;implicit <literal>int</literal>&quot; rule, whereby a
           type of <literal>int</literal> is inferred in a list of type or
@@ -1602,13 +1602,13 @@ int ( *pf ) ( int ) = f ;       // error
           removed in ISO C++, although it was supported in older dialects of C++.
           This check is controlled by the directive:</para>
 <programlisting>
-#pragma TenDRA++ implicit int type <emphasis>allow</emphasis> 
+#pragma TenDRA++ implicit int type <emphasis>allow</emphasis>
 </programlisting>
 
         <para>Partial relaxations of this rules are allowed. The
           directive:</para>
 <programlisting>
-#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis> 
+#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis>
 </programlisting>
 
         <para>will allow for implicit <literal>int</literal> when the list of
@@ -1645,7 +1645,7 @@ c = 3 ;         // error: not allowed in C++
       </sect2>
 
       <sect2 id='extended-ingegral'>
-        <title>Extended integral types</title> 
+        <title>Extended integral types</title>
 
         <para>The <literal>long long</literal> integral types are not part of
           ISO C or C++ by default, however support for them can be enabled using
@@ -1687,7 +1687,7 @@ c = 3 ;         // error: not allowed in C++
       </sect2>
 
       <sect2 id='bitfield-types-b'>
-        <title>Bitfield types</title> 
+        <title>Bitfield types</title>
 
         <para>The C++ rules on bitfield types differ slightly from the C rules.
           Firstly any integral or enumeration type is allowed in a bitfield, and
@@ -1703,7 +1703,7 @@ c = 3 ;         // error: not allowed in C++
       </sect2>
 
       <sect2 id='elaborated-specifiers'>
-        <title>Elaborated type specifiers</title> 
+        <title>Elaborated type specifiers</title>
 
         <para>In elaborated type specifiers, the class key
           (<literal>class</literal>, <literal>struct</literal>,
@@ -1744,7 +1744,7 @@ c = 3 ;         // error: not allowed in C++
       </sect2>
 
       <sect2 id='implicit-function-decl'>
-        <title>Implicit function declarations</title> 
+        <title>Implicit function declarations</title>
 
         <para>C, but not C++, allows calls to undeclared functions, the
           function being declared implicitly. It is possible to enable support
@@ -1758,7 +1758,7 @@ c = 3 ;         // error: not allowed in C++
       </sect2>
 
       <sect2 id='weak-function-prototypes'>
-        <title>Weak function prototypes</title> 
+        <title>Weak function prototypes</title>
 
         <para>The C producer supports a concept, weak prototypes, whereby type
           checking can be applied to the arguments of a non-prototype function.
@@ -1804,7 +1804,7 @@ c = 3 ;         // error: not allowed in C++
 
       <sect2 id='printf-scanf-argument'>
         <title><literal>printf</literal> and <literal>scanf</literal> argument
-        checking</title> 
+        checking</title>
 
         <para>The C producer includes a number of checks that the arguments in
           a call to a function in the <literal>printf</literal> or
@@ -1854,7 +1854,7 @@ int sprintf ( char *, __printf_string, ... ) ;
       </sect2>
 
       <sect2 id='decl'>
-        <title>Type declarations</title> 
+        <title>Type declarations</title>
 
         <para>C does not allow multiple definitions of a
           <literal>typedef</literal> name, whereas C++ allows multiple consistent
@@ -1866,7 +1866,7 @@ int sprintf ( char *, __printf_string, ... ) ;
       </sect2>
 
       <sect2 id='compat'>
-        <title>Type compatibility</title> 
+        <title>Type compatibility</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -1880,7 +1880,7 @@ int sprintf ( char *, __printf_string, ... ) ;
 
         <para>The directive:</para>
 <programlisting>
-#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis> 
+#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis>
 </programlisting>
 
         <para>asserts that the given two types are compatible. Currently the
@@ -1890,7 +1890,7 @@ int sprintf ( char *, __printf_string, ... ) ;
       </sect2>
 
       <sect2 id='incomplete-types'>
-        <title>Incomplete types</title> 
+        <title>Incomplete types</title>
 
         <para>Some dialects of C allow incomplete arrays as member types. These
           are generally used as a place-holder at the end of a structure to allow
@@ -1902,7 +1902,7 @@ int sprintf ( char *, __printf_string, ... ) ;
       </sect2>
 
       <sect2 id='type-conversations'>
-        <title>Type conversions</title> 
+        <title>Type conversions</title>
 
         <para>There are a number of directives which allow various classes of
           type conversion to be checked. The directives:</para>
@@ -1962,7 +1962,7 @@ int sprintf ( char *, __printf_string, ... ) ;
           an arithmetic type can be converted implicitly to an enumeration type
           in C, but not in C++. The directive:</para>
 <programlisting>
-#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis> 
+#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis>
 </programlisting>
 
         <para>can be used to control the status of this conversion. The level
@@ -1977,14 +1977,14 @@ int sprintf ( char *, __printf_string, ... ) ;
           pointer type in C but not in C++; this is controlled by the
           directive:</para>
 <programlisting>
-#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis> 
+#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis>
 </programlisting>
 
         <para>The reverse conversion, from a pointer type to <literal>void
           *</literal> is allowed in both C and C++, and has a controlling
           directive:</para>
 <programlisting>
-#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis> 
+#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis>
 </programlisting>
 
         <para>In ISO C and C++, a function pointer can only be cast to other
@@ -2075,7 +2075,7 @@ s b = a ;       // maps to conv ( a )
       </sect2>
 
       <sect2 id='cast-expressions'>
-        <title>Cast expressions</title> 
+        <title>Cast expressions</title>
 
         <para>ISO C++ introduces the constructs <literal>static_cast</literal>,
           <literal>const_cast</literal> and <literal>reinterpret_cast</literal>,
@@ -2085,8 +2085,8 @@ s b = a ;       // maps to conv ( a )
           constructs. To aid migration to the new style casts the
           directives:</para>
 <programlisting>
-#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis> 
-#pragma TenDRA++ explicit cast <emphasis>allow</emphasis> 
+#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis>
+#pragma TenDRA++ explicit cast <emphasis>allow</emphasis>
 </programlisting>
 
         <para>where <emphasis>cast-state</emphasis> is defined as
@@ -2119,7 +2119,7 @@ s b = a ;       // maps to conv ( a )
       </sect2>
 
       <sect2 id='ellipsis-funct'>
-        <title>Ellipsis functions</title> 
+        <title>Ellipsis functions</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -2136,20 +2136,20 @@ s b = a ;       // maps to conv ( a )
       </sect2>
 
       <sect2 id='overloaded-funct'>
-        <title>Overloaded functions</title> 
+        <title>Overloaded functions</title>
 
         <para>Older dialects of C++ did not report ambiguous overloaded
           function resolutions, but instead resolved the call to the first of the
           most viable candidates to be declared. This behaviour can be controlled
           using the directive:</para>
 <programlisting>
-#pragma TenDRA++ ambiguous overload resolution <emphasis>allow</emphasis> 
+#pragma TenDRA++ ambiguous overload resolution <emphasis>allow</emphasis>
 </programlisting>
 
         <para>There are occasions when the resolution of an overloaded function
           call is not clear. The directive:</para>
 <programlisting>
-#pragma TenDRA++ overload resolution <emphasis>allow</emphasis> 
+#pragma TenDRA++ overload resolution <emphasis>allow</emphasis>
 </programlisting>
 
         <para>can be used to report the resolution of any such call (whether
@@ -2176,8 +2176,8 @@ int a = f ( sizeof ( int ) ) ;  // which f?
           unique resolution, but what it is is target dependent. The equivalent
           directives:</para>
 <programlisting>
-#pragma TenDRA++ conditional overload resolution <emphasis>allow</emphasis> 
-#pragma TenDRA++ conditional overload resolution (complete) <emphasis>allow</emphasis> 
+#pragma TenDRA++ conditional overload resolution <emphasis>allow</emphasis>
+#pragma TenDRA++ conditional overload resolution (complete) <emphasis>allow</emphasis>
 </programlisting>
 
         <para>can be used to warn about such target dependent overload
@@ -2186,7 +2186,7 @@ int a = f ( sizeof ( int ) ) ;  // which f?
           types (note that, for simplicity, the possibility of <literal>long
           long</literal> implementation types is ignored). The directive:</para>
 <programlisting>
-#pragma TenDRA++ conditional overload resolution (incomplete) <emphasis>allow</emphasis> 
+#pragma TenDRA++ conditional overload resolution (incomplete) <emphasis>allow</emphasis>
 </programlisting>
 
         <para>can be used to allow target dependent overload resolutions which
@@ -2206,11 +2206,11 @@ int a = f ( sizeof ( int ) ) ;  // which f?
       </sect2>
 
       <sect2 id='expressions'>
-        <title>Expressions</title> 
+        <title>Expressions</title>
 
         <para>The directive:</para>
 <programlisting>
-#pragma TenDRA operator precedence analysis <emphasis>on</emphasis> 
+#pragma TenDRA operator precedence analysis <emphasis>on</emphasis>
 </programlisting>
 
         <para>can be used to enable a check for expressions where the operator
@@ -2278,7 +2278,7 @@ cout &lt;&lt; b + c ;       // precedence is cout &lt;&lt; ( b + c )
           testing whether an unsigned value is less than zero, which serve no
           purpose. Similarly the directive:</para>
 <programlisting>
-#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis> 
+#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis>
 </programlisting>
 
         <para>checks for dubious pointer operations. This includes very simple
@@ -2299,7 +2299,7 @@ char *p = 1 - 1 ;   // valid, but weird
       </sect2>
 
       <sect2 id='initialiser-expr'>
-        <title>Initialiser expressions</title> 
+        <title>Initialiser expressions</title>
 
         <para>C, but not C++, only allows constant expressions in static
           initialisers. The directive:</para>
@@ -2320,7 +2320,7 @@ char *p = 1 - 1 ;   // valid, but weird
 
         <para>The directive:</para>
 <programlisting>
-#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis> 
+#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis>
 </programlisting>
 
         <para>can be used to check aggregate initialisers. The initialiser
@@ -2329,7 +2329,7 @@ char *p = 1 - 1 ;   // valid, but weird
       </sect2>
 
       <sect2 id='lvalue-expressions'>
-        <title>Lvalue expressions</title> 
+        <title>Lvalue expressions</title>
 
         <para>C++ defines the results of several operations to be lvalues,
           whereas they are rvalues in C. The directive:</para>
@@ -2344,7 +2344,7 @@ char *p = 1 - 1 ;   // valid, but weird
           treated as an lvalue. It is possible to enable support for this dialect
           feature using the directive:</para>
 <programlisting>
-#pragma TenDRA++ this lvalue <emphasis>allow</emphasis> 
+#pragma TenDRA++ this lvalue <emphasis>allow</emphasis>
 </programlisting>
 
         <para>however it is recommended that programs using this feature should
@@ -2352,7 +2352,7 @@ char *p = 1 - 1 ;   // valid, but weird
       </sect2>
 
       <sect2 id='discarded-expressions'>
-        <title>Discarded expressions</title> 
+        <title>Discarded expressions</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -2400,11 +2400,11 @@ char *p = 1 - 1 ;   // valid, but weird
       </sect2>
 
       <sect2 id='conditional-iteration'>
-        <title>Conditional and iteration statements</title> 
+        <title>Conditional and iteration statements</title>
 
         <para>The directive:</para>
 <programlisting>
-#pragma TenDRA const conditional <emphasis>allow</emphasis> 
+#pragma TenDRA const conditional <emphasis>allow</emphasis>
 </programlisting>
 
         <para>can be used to enable a check for constant expressions used in
@@ -2453,7 +2453,7 @@ for ( init ; cond ; step ) ;
       </sect2>
 
       <sect2 id='switch-statements'>
-        <title>Switch statements</title> 
+        <title>Switch statements</title>
 
         <para>A <literal>switch</literal> statement is said to be exhaustive if
           its control statement is guaranteed to take one of the values of its
@@ -2487,7 +2487,7 @@ switch ( cond ) EXHAUSTIVE {
           <literal>switch</literal> statement is exhaustive or not. For example,
           the directive:</para>
 <programlisting>
-#pragma TenDRA enum switch analysis <emphasis>on</emphasis> 
+#pragma TenDRA enum switch analysis <emphasis>on</emphasis>
 </programlisting>
 
         <para>enables a check on <literal>switch</literal> statements on values
@@ -2521,7 +2521,7 @@ enum bool { false = 0, true = 1 } ;
       </sect2>
 
       <sect2 id='for-statements'>
-        <title>For statements</title> 
+        <title>For statements</title>
 
         <para>In ISO C++ the scope of a variable declared in a
           for-init-statement is the body of the <literal>for</literal> statement;
@@ -2536,7 +2536,7 @@ return i ;  // OK in older dialects, error in ISO C++
 
         <para>This behaviour is controlled by the directive:</para>
 <programlisting>
-#pragma TenDRA++ for initialization block <emphasis>on</emphasis> 
+#pragma TenDRA++ for initialization block <emphasis>on</emphasis>
 </programlisting>
 
         <para>a state of <literal>on</literal> corresponding to the ISO rules
@@ -2549,7 +2549,7 @@ return i ;  // OK in older dialects, error in ISO C++
       </sect2>
 
       <sect2 id='return-statements'>
-        <title>Return statements</title> 
+        <title>Return statements</title>
 
         <para>In C, but not in C++, it is possible to have a
           <literal>return</literal> statement without an expression in a function
@@ -2567,7 +2567,7 @@ return i ;  // OK in older dialects, error in ISO C++
       </sect2>
 
       <sect2 id='unreached-code-analysis'>
-        <title>Unreached code analysis</title> 
+        <title>Unreached code analysis</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -2606,7 +2606,7 @@ __bottom abort ( void ) ;
       </sect2>
 
       <sect2 id='variable-flow-analysis'>
-        <title>Variable flow analysis</title> 
+        <title>Variable flow analysis</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -2708,7 +2708,7 @@ DISCARD ( <emphasis>expression</emphasis> )
       </sect2>
 
       <sect2 id='variable-hiding'>
-        <title>Variable hiding</title> 
+        <title>Variable hiding</title>
 
         <para>The directive:</para>
 <programlisting>
@@ -2721,7 +2721,7 @@ DISCARD ( <emphasis>expression</emphasis> )
       </sect2>
 
       <sect2 id='exception-analysis'>
-        <title>Exception analysis</title> 
+        <title>Exception analysis</title>
 
         <para>The ISO C++ rules do not require exception specifications to be
           checked statically. This is to facilitate the integration of large
@@ -2753,7 +2753,7 @@ void e () throw ( int )
       </sect2>
 
       <sect2 id='template-compilation'>
-        <title>Template compilation</title> 
+        <title>Template compilation</title>
 
         <para>The C++ producer makes the distinction between exported
           templates, which may be used in one module and defined in another, and
@@ -2787,14 +2787,14 @@ void e () throw ( int )
       </sect2>
 
       <sect2 id='other-checks'>
-        <title>Other checks</title> 
+        <title>Other checks</title>
 
         <para>Several checks of varying utility have been implemented in the
           C++ producer but do not as yet have individual directives controlling
           their use. These can be enabled <emphasis>en masse</emphasis> using the
           directive:</para>
 <programlisting>
-#pragma TenDRA++ catch all <emphasis>allow</emphasis> 
+#pragma TenDRA++ catch all <emphasis>allow</emphasis>
 </programlisting>
 
         <para>It is intended that this directive will be phased out as these
@@ -2805,7 +2805,7 @@ void e () throw ( int )
     </sect1>
 
     <sect1 id='token-syntax'>
-      <title>Token syntax</title> 
+      <title>Token syntax</title>
 
       <para>The C and C++ producers allow place-holders for various categories
         of syntactic classes to be expressed using directives of the form:</para>
@@ -2834,7 +2834,7 @@ void e () throw ( int )
         annex.</para>
 
       <sect2 id='token-specifcations'>
-        <title>Token specifications</title> 
+        <title>Token specifications</title>
 
         <para>A token specification is divided into two components, a
           <emphasis>token-introduction</emphasis> giving the token sort, and a
@@ -2875,7 +2875,7 @@ void e () throw ( int )
           as a separator for the unique name components.</para>
 
         <sect3 id='expression-tokens'>
-          <title>Expression tokens</title> 
+          <title>Expression tokens</title>
 
           <para>Expression tokens are specified as follows:</para>
 <programlisting>
@@ -2912,7 +2912,7 @@ void e () throw ( int )
         </sect3>
 
         <sect3 id='statement-tokens'>
-          <title>Statement tokens</title> 
+          <title>Statement tokens</title>
 
           <para>Statement tokens are specified as follows:</para>
 <programlisting>
@@ -2924,7 +2924,7 @@ void e () throw ( int )
         </sect3>
 
         <sect3 id='type-tokens'>
-          <title>Type tokens</title> 
+          <title>Type tokens</title>
 
           <para>Type tokens are specified as follows:</para>
 <programlisting>
@@ -2959,7 +2959,7 @@ void e () throw ( int )
         </sect3>
 
         <sect3 id='member-tokens'>
-          <title>Member tokens</title> 
+          <title>Member tokens</title>
 
           <para>Member tokens are specified as follows:</para>
 <programlisting>
@@ -2995,7 +2995,7 @@ void e () throw ( int )
         </sect3>
 
         <sect3 id='procedure-tokens'>
-          <title>Procedure tokens</title> 
+          <title>Procedure tokens</title>
 
           <para>Procedure, or high-level, tokens are specified in one of three
             ways:</para>
@@ -3019,7 +3019,7 @@ void e () throw ( int )
             argument deduction.</para>
 <programlisting>
 <emphasis>general-procedure</emphasis> :
-  PROC { <emphasis>bound-toks<subscript>opt</subscript></emphasis> | <emphasis>prog-pars<subscript>opt</subscript></emphasis> } <emphasis>token-introduction</emphasis> 
+  PROC { <emphasis>bound-toks<subscript>opt</subscript></emphasis> | <emphasis>prog-pars<subscript>opt</subscript></emphasis> } <emphasis>token-introduction</emphasis>
 
 <emphasis>bound-toks</emphasis> :
   <emphasis>bound-token</emphasis>
@@ -3108,7 +3108,7 @@ PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :
       </sect2>
 
       <sect2 id='token-arguments'>
-        <title>Token arguments</title> 
+        <title>Token arguments</title>
 
         <para>As mentioned above, the program parameters for a
           <literal>PROC</literal> token are those specified in the program
@@ -3151,7 +3151,7 @@ PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :
       </sect2>
 
       <sect2 id='defining-tokens'>
-        <title>Defining tokens</title> 
+        <title>Defining tokens</title>
 
         <para>Given a token specification of a syntactic object and a normal
           language definition of the same object (including macro definitions if
@@ -3311,7 +3311,7 @@ reject -&gt; reject
           macros in terms of other member selectors. Such a token needs to be
           explicitly defined using a directive of the form:</para>
 <programlisting>
-#pragma TenDRA member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis> 
+#pragma TenDRA member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis>
 </programlisting>
 
         <para>where <emphasis>member-offset</emphasis> is -XREF-#offset as
@@ -3320,7 +3320,7 @@ reject -&gt; reject
     </sect1>
 
     <sect1 id='symbol-table-dump'>
-      <title>Symbol table dump</title> 
+      <title>Symbol table dump</title>
 
       <para>The symbol table dump provides a method whereby third party tools
         can interface with the C and C++ producers. The producer outputs
@@ -3336,7 +3336,7 @@ reject -&gt; reject
         summary of the syntax is given as an annex.</para>
 
       <sect2 id='lexical-elements'>
-        <title>Lexical elements</title> 
+        <title>Lexical elements</title>
 
         <para>A symbol table dump file consists of a sequence of characters
           giving information on identifiers, errors etc. arising from a
@@ -3369,7 +3369,7 @@ reject -&gt; reject
       </sect2>
 
       <sect2 id='overall-syntax'>
-        <title>Overall syntax</title> 
+        <title>Overall syntax</title>
 
         <para>A symbol table dump file takes the form of a list of commands of
           various kinds conveying information on the analysed file. This can be
@@ -3411,7 +3411,7 @@ reject -&gt; reject
       </sect2>
 
       <sect2 id='file-locations'>
-        <title>File locations</title> 
+        <title>File locations</title>
 
         <para>A location within a source file can be specified using three
           <emphasis>number</emphasis>s and two <emphasis>string</emphasis>s.
@@ -3444,14 +3444,14 @@ reject -&gt; reject
       </sect2>
 
       <sect2 id='identifers'>
-        <title>Identifiers</title> 
+        <title>Identifiers</title>
 
         <para>Each identifier is represented in the symbol table dump by a
           unique number. The same number always represents the same
           identifier.</para>
 
         <sect3 id='indentifer-names'>
-          <title>Identifier names</title> 
+          <title>Identifier names</title>
 
           <para>The number representing an identifier is introduced in the
             first declaration or use of that identifier and thereafter the number
@@ -3471,7 +3471,7 @@ reject -&gt; reject
   D <emphasis>type</emphasis>
   O <emphasis>string</emphasis>
   T <emphasis>type</emphasis>
- 
+
 </programlisting>
 
           <para>denoting respectively, a simple identifier name, a constructor
@@ -3506,7 +3506,7 @@ reject -&gt; reject
         </sect3>
 
         <sect3 id='identifer-uses'>
-          <title>Identifier uses</title> 
+          <title>Identifier uses</title>
 
           <para>Each declaration or use of an identifier is represented by a
             command of the form:</para>
@@ -3555,7 +3555,7 @@ reject -&gt; reject
             following table:</para>
 
           <table frame='all' id='identifer-keys'>
-            <title>Identifier Keys</title> 
+            <title>Identifier Keys</title>
 
             <tgroup cols='3'>
               <thead>
@@ -3821,7 +3821,7 @@ reject -&gt; reject
         </sect3>
 
         <sect3 id='identifier-scopes'>
-          <title>Identifier scopes</title> 
+          <title>Identifier scopes</title>
 
           <para>Each identifier belongs to a scope, called its parent scope, in
             which it is declared. For example, the parent of a member of a class
@@ -3876,7 +3876,7 @@ reject -&gt; reject
         </sect3>
 
         <sect3 id='other-identifier-info'>
-          <title>Other identifier information</title> 
+          <title>Other identifier information</title>
 
           <para>Other information associated with an identifier may be
             expressed using other dump commands. For example:</para>
@@ -3957,13 +3957,13 @@ reject -&gt; reject
       </sect2>
 
       <sect2 id='types'>
-        <title>Types</title> 
+        <title>Types</title>
 
         <para>The -XREF-built-in built-in types are represented in the symbol
           table dump as follows:</para>
 
         <table frame='all' id='symbol-table-dump-b'>
-          <title>Symbol Table Dump</title> 
+          <title>Symbol Table Dump</title>
 
           <tgroup cols='4'>
             <thead>
@@ -4104,7 +4104,7 @@ reject -&gt; reject
           terms of their subtypes as follows:</para>
 
         <table frame='all' id='subtypes'>
-          <title>Subtypes</title> 
+          <title>Subtypes</title>
 
           <tgroup cols='2'>
             <thead>
@@ -4319,7 +4319,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='sorts'>
-        <title>Sorts</title> 
+        <title>Sorts</title>
 
         <para>A <emphasis>sort</emphasis> in the symbol table dump corresponds
           to the sort of a token declared in the -XREF-token.html#spec
@@ -4422,7 +4422,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='token-applications'>
-        <title>Token applications</title> 
+        <title>Token applications</title>
 
         <para>Given an identifier representing a <literal>PROC</literal> token
           or a template, an application of that token or an instance of that
@@ -4473,7 +4473,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='errors'>
-        <title>Errors</title> 
+        <title>Errors</title>
 
         <para>Each error in the C++ -XREF-error.html error catalogue is
           represented by a number. These numbers happen to correspond to the
@@ -4540,7 +4540,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='file-inclusions'>
-        <title>File inclusions</title> 
+        <title>File inclusions</title>
 
         <para>It is possible to include information on header files within the
           symbol table dump. Firstly a number is associated with each directory
@@ -4593,7 +4593,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='string-literals-b'>
-        <title>String literals</title> 
+        <title>String literals</title>
 
         <para>It is possible to dump information on string literals to the
           symbol table dump file using the commands:</para>
@@ -4612,7 +4612,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
     </sect1>
 
     <sect1 id='intermodule-analysis'>
-      <title>Intermodule analysis</title> 
+      <title>Intermodule analysis</title>
 
       <warning>
         <para>
@@ -4638,7 +4638,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
     </sect1>
 
     <sect1 id='implementation-details'>
-      <title>Implementation Details</title> 
+      <title>Implementation Details</title>
 
       <para>This section describes various of the implementation details of the
         C++ producer TDF output. In particular it describes the standard TDF
@@ -4658,7 +4658,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         into the producer output in the manner they require.</para>
 
       <sect2 id='arithmetic-types'>
-        <title>Arithmetic types</title> 
+        <title>Arithmetic types</title>
 
         <para>The representations of the basic arithmetic types are target
           dependent, so, for example, an <literal>int</literal> may contain 16,
@@ -4669,7 +4669,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           follows:</para>
 
         <table frame='all' id='variety-tokens'>
-          <title>Variety Tokens</title> 
+          <title>Variety Tokens</title>
 
           <tgroup cols='3'>
             <thead>
@@ -4778,7 +4778,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           <literal>FLOATING_VARIETY</literal> token:</para>
 
         <table frame='all' id='floating-var-tokens'>
-          <title>Floating Variety Tokens</title> 
+          <title>Floating Variety Tokens</title>
 
           <tgroup cols='2'>
             <thead>
@@ -4816,7 +4816,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           pattern built up from the following values:</para>
 
         <table frame='all' id='bit-pattern'>
-          <title>Signed Bit Pattern</title> 
+          <title>Signed Bit Pattern</title>
 
           <tgroup cols='2'>
             <thead>
@@ -4937,7 +4937,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           external token names for these types are given below:</para>
 
         <table frame='all' id='external-tokens'>
-          <title>External Tokens</title> 
+          <title>External Tokens</title>
 
           <tgroup cols='2'>
             <thead>
@@ -4984,7 +4984,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='integer-literal-types'>
-        <title>Integer literal types</title> 
+        <title>Integer literal types</title>
 
         <para>The -XREF-pragma.html#inttype of an integer literal is defined in
           terms of the first in a list of possible integral types. The first type
@@ -5006,7 +5006,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           suffix used, as given in the following table:</para>
 
         <table frame='all' id='int-literal-types'>
-          <title>Integer Literal Types</title> 
+          <title>Integer Literal Types</title>
 
           <tgroup cols='4'>
             <thead>
@@ -5113,7 +5113,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='bitfield-types-a'>
-        <title>Bitfield types</title> 
+        <title>Bitfield types</title>
 
         <para>The sign of a plain bitfield type, declared without using
           <literal>signed</literal> or <literal>unsigned</literal>, is left
@@ -5133,7 +5133,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='generic-pointers'>
-        <title>Generic pointers</title> 
+        <title>Generic pointers</title>
 
         <para>TDF has no concept of a generic pointer type, so tokens are used
           to defer the representation of <literal>void *</literal> and the basic
@@ -5178,7 +5178,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='undefined-conversions'>
-        <title>Undefined conversions</title> 
+        <title>Undefined conversions</title>
 
         <para>Several conversions in C and C++ can only be represented by
           undefined TDF. For example, converting a pointer to an integer can only
@@ -5230,7 +5230,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='integer-division'>
-        <title>Integer division</title> 
+        <title>Integer division</title>
 
         <para>The precise form of the integer division and remainder operations
           in C and C++ is left unspecified with respect to the sign of the result
@@ -5248,7 +5248,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='calling-conventions'>
-        <title>Calling conventions</title> 
+        <title>Calling conventions</title>
 
         <para>The function calling conventions used by the C++ producer are
           essentially the same as those used by the C producer with one
@@ -5265,7 +5265,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           a location into which the return value should be copied.</para>
 
         <sect3 id='member-functions'>
-          <title>Member functions</title> 
+          <title>Member functions</title>
 
           <para>Non-static member functions are implemented in the obvious
             fashion, by passing a pointer to the object the method is being
@@ -5274,7 +5274,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         </sect3>
 
         <sect3 id='ellipsis-functions'>
-          <title>Ellipsis functions</title> 
+          <title>Ellipsis functions</title>
 
           <para>Calls to functions declared with ellipses are via the
             <literal>apply_proc</literal> TDF construct, with all the arguments
@@ -5313,7 +5313,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='pointers-to-data-mem'>
-        <title>Pointers to data members</title> 
+        <title>Pointers to data members</title>
 
         <para>The representation of, and operations on, pointers to data
           members are represented by tokens to allow for a variety of
@@ -5399,7 +5399,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       </sect2>
 
       <sect2 id='pointers-to-funct-mem'>
-        <title>Pointers to function members</title> 
+        <title>Pointers to function members</title>
 
         <para>As with pointers to data members, pointers to function members
           and the operations on them are represented by tokens to allow for a
@@ -5537,7 +5537,7 @@ struct PTR_MEM_FUNC {
       </sect2>
 
       <sect2 id='class-layout'>
-        <title>Class layout</title> 
+        <title>Class layout</title>
 
         <para>Consider a class with no base classes:</para>
 <programlisting>
@@ -5553,7 +5553,7 @@ class A {
           accomplished using a layout of the form:</para>
 
         <figure id="class-layout1c">
-          <title>Class Layout</title> 
+          <title>Class Layout</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="class" format="PNG"></imageobject>
@@ -5639,7 +5639,7 @@ class A {
       </sect2>
 
       <sect2 id='derived-class-layout'>
-        <title>Derived class layout</title> 
+        <title>Derived class layout</title>
 
         <para>The description of the implementation of derived classes will be
           given in terms of the example class hierarchy given by:</para>
@@ -5664,7 +5664,7 @@ class D : public B, public C {
         <para>or, as a directed acyclic graph:</para>
 
         <figure id="class-layouta">
-          <title>Class Layout</title> 
+          <title>Class Layout</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="graph" format="PNG"></imageobject>
@@ -5672,12 +5672,12 @@ class D : public B, public C {
         </figure>
 
         <sect3 id='single-inheritance'>
-          <title>Single inheritance</title> 
+          <title>Single inheritance</title>
 
           <para>The layout of class <emphasis>A</emphasis> is given by:</para>
 
           <figure id="class-a">
-            <title>Single Inheritance - Class A</title> 
+            <title>Single Inheritance - Class A</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="classa" format=
@@ -5695,7 +5695,7 @@ class D : public B, public C {
             follows:</para>
 
           <figure id="class-b">
-            <title>Single Inheritance - Class B</title> 
+            <title>Single Inheritance - Class B</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="classb" format=
@@ -5740,7 +5740,7 @@ class D : public B, public C {
           <para>The class <emphasis>C</emphasis> is similarly given by:</para>
 
           <figure id="class-c">
-            <title>Single Inheritance - Class C</title> 
+            <title>Single Inheritance - Class C</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="classc" format=
@@ -5750,7 +5750,7 @@ class D : public B, public C {
         </sect3>
 
         <sect3 id='multiple-inheritance'>
-          <title>Multiple inheritance</title> 
+          <title>Multiple inheritance</title>
 
           <para>Class <emphasis>D</emphasis> is more complex because of the
             presence of multiple inheritance. <emphasis>D</emphasis> inherits all
@@ -5765,7 +5765,7 @@ class D : public B, public C {
             represented as follows:</para>
 
           <figure id="class-d">
-            <title>Multiple Inheritance - Class D</title> 
+            <title>Multiple Inheritance - Class D</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="classd" format=
@@ -5796,7 +5796,7 @@ class D : public B, public C {
         </sect3>
 
         <sect3 id='virtual-inheritance'>
-          <title>Virtual inheritance</title> 
+          <title>Virtual inheritance</title>
 
           <para>Virtual inheritance introduces a further complication. Now
             consider the class hierarchy given by:</para>
@@ -5821,7 +5821,7 @@ class D : public B, public C {
           <para>or, as a -XREF-diamonddirected acyclic graph:</para>
 
           <figure id="acyclic-graph">
-            <title>Acyclic Graph</title> 
+            <title>Acyclic Graph</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="diamond" format=
@@ -5832,7 +5832,7 @@ class D : public B, public C {
           <para>As before <emphasis>A</emphasis> is given by:</para>
 
           <figure id="class-a1">
-            <title>Single Inheritance - Class A</title> 
+            <title>Single Inheritance - Class A</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="classa" format=
@@ -5843,7 +5843,7 @@ class D : public B, public C {
           <para>but now <emphasis>B</emphasis> is given by:</para>
 
           <figure id="virtual-b">
-            <title>Virtual B</title> 
+            <title>Virtual B</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="virtualb" format=
@@ -5873,7 +5873,7 @@ class D : public B, public C {
           <para>The class <emphasis>C</emphasis> is similarly given by:</para>
 
           <figure id="virtual-c">
-            <title>Virtual C</title> 
+            <title>Virtual C</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="virtualc" format=
@@ -5884,7 +5884,7 @@ class D : public B, public C {
           <para>Now the class <emphasis>D</emphasis> is given by:</para>
 
           <figure id="virtual-d">
-            <title>Virtual D</title> 
+            <title>Virtual D</title>
 
             <mediaobject>
               <imageobject><imagedata fileref="virtuald" format=
@@ -5901,7 +5901,7 @@ class D : public B, public C {
       </sect2>
 
       <sect2 id='const-and-destructors'>
-        <title>Constructors and destructors</title> 
+        <title>Constructors and destructors</title>
 
         <para>The implementation of constructors and destructors, whether
           explicitly or implicitly defined, is slightly more complex than that of
@@ -6049,7 +6049,7 @@ delete this ;
       </sect2>
 
       <sect2 id='virt-funct-tables'>
-        <title>Virtual function tables</title> 
+        <title>Virtual function tables</title>
 
         <para>The virtual functions in a polymorphic class are given in its
           virtual function table in the following order: firstly those virtual
@@ -6144,7 +6144,7 @@ delete this ;
           type of <emphasis>A::f</emphasis>.</para>
 
         <sect3 id='calling-virt-funct'>
-          <title>&gt;Calling virtual functions</title> 
+          <title>&gt;Calling virtual functions</title>
 
           <para>The virtual function call mechanism is implemented using the
             token:</para>
@@ -6170,7 +6170,7 @@ delete this ;
       </sect2>
 
       <sect2 id='run-time-type-info'>
-        <title>Run-time type information</title> 
+        <title>Run-time type information</title>
 
         <para>Each C++ type can be associated with a run-time type information
           structure giving information about that type. These type information
@@ -6213,7 +6213,7 @@ delete this ;
           producer.</para>
 
         <table frame='all' id='info-struct-tag-num'>
-          <title>Information Structure Tag Numbers</title> 
+          <title>Information Structure Tag Numbers</title>
 
           <tgroup cols='4'>
             <thead>
@@ -6376,7 +6376,7 @@ delete this ;
           follows:</para>
 
         <table frame='all' id='info-struct-base-types'>
-          <title>Information Structure Base Types</title> 
+          <title>Information Structure Base Types</title>
 
           <tgroup cols='2'>
             <thead>
@@ -6423,7 +6423,7 @@ delete this ;
           follows:</para>
 
         <table frame='all' id='base-class-access'>
-          <title>Base Class Access Encoding</title> 
+          <title>Base Class Access Encoding</title>
 
           <tgroup cols='2'>
             <thead>
@@ -6461,7 +6461,7 @@ delete this ;
           represented as follows:</para>
 
         <figure id="run-time">
-          <title>Run-time Type Information Structures</title> 
+          <title>Run-time Type Information Structures</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="rttid" format="PNG"></imageobject>
@@ -6469,7 +6469,7 @@ delete this ;
         </figure>
 
         <sect3 id='defining-info-struct'>
-          <title>Defining run-time type information structures</title> 
+          <title>Defining run-time type information structures</title>
 
           <para>For built-in types, the run-time type information structure may
             be referenced by the token:</para>
@@ -6481,7 +6481,7 @@ delete this ;
             the following table:</para>
 
           <table frame='all' id='type-encodings'>
-            <title>Type Encodiing</title> 
+            <title>Type Encodiing</title>
 
             <tgroup cols='4'>
               <thead>
@@ -6634,7 +6634,7 @@ delete this ;
         </sect3>
 
         <sect3 id='accessing-run-info'>
-          <title>Accessing run-time type information</title> 
+          <title>Accessing run-time type information</title>
 
           <para>The primary means of accessing the run-time type information
             for an object is using the <literal>typeid</literal> construct. In
@@ -6676,7 +6676,7 @@ delete this ;
       </sect2>
 
       <sect2 id='dynamic-init'>
-        <title>Dynamic initialisation</title> 
+        <title>Dynamic initialisation</title>
 
         <para>The dynamic initialisation of variables with static storage
           duration in C++ is implemented by means of the TDF
@@ -6735,13 +6735,13 @@ delete this ;
       </sect2>
 
       <sect2 id='exception-handling'>
-        <title>Exception handling</title> 
+        <title>Exception handling</title>
 
         <para>Conceptually, exception handling can be described in terms of the
           following diagram:</para>
 
         <figure id="exeption-handling">
-          <title>Exception Handling</title> 
+          <title>Exception Handling</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="try" format="PNG"></imageobject>
@@ -6781,7 +6781,7 @@ delete this ;
           implementation.</para>
 
         <sect3 id='try-blocks'>
-          <title>Try blocks</title> 
+          <title>Try blocks</title>
 
           <para>At the start of a <literal>try</literal> block a variable of
             shape:</para>
@@ -6816,7 +6816,7 @@ delete this ;
         </sect3>
 
         <sect3>
-          <title>Local variables</title> 
+          <title>Local variables</title>
 
           <para>The technique used to add a local variable with a non-trivial
             destructor to the stack is similar to that used in the dynamic
@@ -6867,7 +6867,7 @@ delete this ;
         </sect3>
 
         <sect3 id='throwing-an-exception'>
-          <title>Throwing an exception</title> 
+          <title>Throwing an exception</title>
 
           <para>When a <literal>throw</literal> expression with an argument is
             encountered a number of steps performed. Firstly, space is allocated
@@ -6905,7 +6905,7 @@ delete this ;
         </sect3>
 
         <sect3 id='handling-an-exception'>
-          <title>Handling an exception</title> 
+          <title>Handling an exception</title>
 
           <para>The exception manager proceeds to find an exception in the
             manner described above, unwinding the stack and calling destructors
@@ -7016,7 +7016,7 @@ variable (
         </sect3>
 
         <sect3 id='exception-spec'>
-          <title>Exception specifications</title> 
+          <title>Exception specifications</title>
 
           <para>If a function is declared with an exception specification then
             extra code needs to be generated in the function definition to catch
@@ -7048,7 +7048,7 @@ variable (
       </sect2>
 
       <sect2 id='mangled-indentifer-names'>
-        <title>Mangled identifier names</title> 
+        <title>Mangled identifier names</title>
 
         <para>In a similar fashion to other C++ compilers, the C++ producer
           needs a method of mapping C++ identifiers to a form suitable for
@@ -7087,7 +7087,7 @@ extern &quot;C&quot; int errno ;
           themselves should be consulted for a complete description.</para>
 
         <sect3 id='mangling-identifer-names'>
-          <title>Mangling identifier names</title> 
+          <title>Mangling identifier names</title>
 
           <para>Simple identifier names are mapped to themselves. Unicode
             characters of the forms
@@ -7104,7 +7104,7 @@ extern &quot;C&quot; int errno ;
             mapped as follows:</para>
 
           <table frame='all' id='overloaded-oper-funct'>
-            <title>Overloaded Operator Functions</title> 
+            <title>Overloaded Operator Functions</title>
 
             <tgroup cols='6'>
               <thead>
@@ -7385,7 +7385,7 @@ extern &quot;C&quot; int errno ;
         </sect3>
 
         <sect3 id='mangling-namespace-names'>
-          <title>Mangling namespace names</title> 
+          <title>Mangling namespace names</title>
 
           <para>The global namespace is mapped to an empty string. Simple
             namespace and class names are mapped as above, but are preceded by a
@@ -7401,7 +7401,7 @@ extern &quot;C&quot; int errno ;
         </sect3>
 
         <sect3 id='mangling-types'>
-          <title>Mangling types</title> 
+          <title>Mangling types</title>
 
           <para>The mangling of types is essentially similar to that used in
             the -XREF-dump.htmlsymbol table dump format. The type used in the
@@ -7440,7 +7440,7 @@ extern &quot;C&quot; int errno ;
         </sect3>
 
         <sect3 id='other-mangled-names'>
-          <title>Other mangled names</title> 
+          <title>Other mangled names</title>
 
           <para>The -XREF-#vtablevirtual function table for a class, when this
             is a variable with external linkage, is named
@@ -7457,7 +7457,7 @@ extern &quot;C&quot; int errno ;
         </sect3>
 
         <sect3 id='mangled-name-examples'>
-          <title>Mangled name examples</title> 
+          <title>Mangled name examples</title>
 
           <para>The following gives some examples of the name mangling
             scheme:</para>
@@ -7489,7 +7489,7 @@ namespace N {
     </sect1>
 
     <sect1 id='standard-lib'>
-      <title>Standard library</title> 
+      <title>Standard library</title>
 
       <para>At present the default implementation contains only a very small
         fraction of the ISO C++ library, namely those headers -
@@ -7509,7 +7509,7 @@ namespace N {
         modules compiled using <literal>tcc</literal>.</para>
 
       <sect2 id='common-porting-prob'>
-        <title>Common porting problems</title> 
+        <title>Common porting problems</title>
 
         <para>Experience in porting pre-ISO C++ programs has shown that the
           following new ISO C++ features tend to cause the most problems:</para>
@@ -7568,7 +7568,7 @@ namespace N {
       </sect2>
 
       <sect2 id='porting-libio'>
-        <title>Porting <literal>libio</literal></title> 
+        <title>Porting <literal>libio</literal></title>
 
         <para>Perhaps the library component which is most likely to be required
           is <literal>&lt;iostream&gt;</literal>. A readily available freeware
@@ -7673,7 +7673,7 @@ struct _fake_ostream::myfields {
   </chapter>
 
   <chapter id='program-overview'>
-    <title>Program Overview</title> 
+    <title>Program Overview</title>
 
     <para>The C++ producer is a large program (over 200000 lines, including
       automatically generated code) written in C. A description of the
@@ -7715,7 +7715,7 @@ struct _fake_ostream::myfields {
       print an object from the internal type system.</para>
 
     <sect1 id='source-code-org-style'>
-      <title>Source Code Organisation / Style Guide</title> 
+      <title>Source Code Organisation / Style Guide</title>
 
       <para>This section describes the basic organisation of the source code
         for the C++ producer. This includes the coding conventions applied, the
@@ -7723,7 +7723,7 @@ struct _fake_ostream::myfields {
         code into separate modules.</para>
 
       <sect2 id='coding-standard'>
-        <title>C coding standard</title> 
+        <title>C coding standard</title>
 
         <para>The C++ producer is written in a subset of C which is compatible
           with C++ (it compiles with most C compilers, but also bootstraps
@@ -7853,7 +7853,7 @@ ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;
       </sect2>
 
       <sect2 id='api-usage-target-dep'>
-        <title>API usage and target dependencies</title> 
+        <title>API usage and target dependencies</title>
 
         <para>Most of the API features used in the C++ producer are to be found
           in the ISO C API, with just a couple of extensions from POSIX required.
@@ -7957,7 +7957,7 @@ stat::st_mtime
       </sect2>
 
       <sect2 id='source-code-modules'>
-        <title>Source code modules</title> 
+        <title>Source code modules</title>
 
         <para>For convenience, the source code is divided between a number of
           directories:</para>
@@ -8019,7 +8019,7 @@ stat::st_mtime
           producer with a brief description of the purpose of each:</para>
 
         <table frame='all' id='cpp-prod-modules'>
-          <title>C++ Producer Modules</title> 
+          <title>C++ Producer Modules</title>
 
           <tgroup cols='3'>
             <thead>
@@ -8656,7 +8656,7 @@ stat::st_mtime
     </sect1>
 
     <sect1 id='type-system'>
-      <title>Type System</title> 
+      <title>Type System</title>
 
       <para>This section describes the type system used in the C++ producer.
         Unless otherwise stated the types are declared using the
@@ -8668,7 +8668,7 @@ stat::st_mtime
         essential language features.</para>
 
       <sect2 id='primitive-types'>
-        <title>Primitive types</title> 
+        <title>Primitive types</title>
 
         <para>The primitive types used within the algebra
           <literal>c_class</literal> are defined as follows:</para>
@@ -8695,7 +8695,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='cv-spec'>
-        <title><literal>CV_SPEC</literal></title> 
+        <title><literal>CV_SPEC</literal></title>
 
         <para>The enumeration type <literal>CV_SPEC</literal> (short name
           <literal>cv</literal>) is used to represent a C++ type qualifier. It
@@ -8709,7 +8709,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='builtin-type'>
-        <title><literal>BUILTIN_TYPE</literal></title> 
+        <title><literal>BUILTIN_TYPE</literal></title>
 
         <para>The enumeration type <literal>BUILTIN_TYPE</literal>
           (<literal>ntype</literal>) is used to represent the built-in C++ types
@@ -8719,7 +8719,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='base-type'>
-        <title><literal>BASE_TYPE</literal></title> 
+        <title><literal>BASE_TYPE</literal></title>
 
         <para>The enumeration type <literal>BASE_TYPE</literal>
           (<literal>btype</literal>) is used to represent a C++ simple type
@@ -8733,7 +8733,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='int-type'>
-        <title><literal>INT_TYPE</literal></title> 
+        <title><literal>INT_TYPE</literal></title>
 
         <para>The union type <literal>INT_TYPE</literal>
           (<literal>itype</literal>) is used to represent an integral or bitfield
@@ -8747,7 +8747,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='float-type'>
-        <title><literal>FLOAT_TYPE</literal></title> 
+        <title><literal>FLOAT_TYPE</literal></title>
 
         <para>The union type <literal>FLOAT_TYPE</literal>
           (<literal>ftype</literal>) is used to represent a floating point C++
@@ -8759,7 +8759,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='class-info'>
-        <title><literal>CLASS_INFO</literal></title> 
+        <title><literal>CLASS_INFO</literal></title>
 
         <para>The enumeration type <literal>CLASS_INFO</literal>
           (<literal>cinfo</literal>) is used to represent information relating to
@@ -8769,7 +8769,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='class-usage'>
-        <title><literal>CLASS_USAGE</literal></title> 
+        <title><literal>CLASS_USAGE</literal></title>
 
         <para>The enumeration type <literal>CLASS_USAGE</literal>
           (<literal>cusage</literal>) is used to represent information relating
@@ -8779,7 +8779,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='class-type'>
-        <title><literal>CLASS_TYPE</literal></title> 
+        <title><literal>CLASS_TYPE</literal></title>
 
         <para>The union type <literal>CLASS_TYPE</literal>
           (<literal>ctype</literal>) is used to represent a C++ class or union.
@@ -8806,7 +8806,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='graph'>
-        <title><literal>GRAPH</literal></title> 
+        <title><literal>GRAPH</literal></title>
 
         <para>The union type <literal>GRAPH</literal>
           (<literal>graph</literal>) is used to represent a directed acyclic
@@ -8824,7 +8824,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='virtual'>
-        <title><literal>VIRTUAL</literal></title> 
+        <title><literal>VIRTUAL</literal></title>
 
         <para>The union type <literal>VIRTUAL</literal>
           (<literal>virt</literal>) is used to represent the virtual functions
@@ -8843,7 +8843,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='enum-type'>
-        <title><literal>ENUM_TYPE</literal></title> 
+        <title><literal>ENUM_TYPE</literal></title>
 
         <para>The union type <literal>ENUM_TYPE</literal>
           (<literal>etype</literal>) is used to represent a C++ enumeration type.
@@ -8855,7 +8855,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='type'>
-        <title><literal>TYPE</literal></title> 
+        <title><literal>TYPE</literal></title>
 
         <para>The union type <literal>TYPE</literal> (<literal>type</literal>)
           is used to represent a C++ type. Every type has an associated
@@ -8899,7 +8899,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='decl-spec'>
-        <title><literal>DECL_SPEC</literal></title> 
+        <title><literal>DECL_SPEC</literal></title>
 
         <para>The enumeration type <literal>DECL_SPEC</literal>
           (<literal>dspec</literal>) is used to represent information on the
@@ -8913,7 +8913,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='hashid'>
-        <title><literal>HASHID</literal></title> 
+        <title><literal>HASHID</literal></title>
 
         <para>The union type <literal>HASHID</literal>
           (<literal>hashid</literal>) is used to represent a C++ identifier name.
@@ -8949,7 +8949,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='qualifier'>
-        <title><literal>QUALIFIER</literal></title> 
+        <title><literal>QUALIFIER</literal></title>
 
         <para>The enumeration type <literal>QUALIFIER</literal>
           (<literal>qual</literal>) is used to represent the various ways in
@@ -8961,7 +8961,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='identifer'>
-        <title><literal>IDENTIFIER</literal></title> 
+        <title><literal>IDENTIFIER</literal></title>
 
         <para>The union type <literal>IDENTIFIER</literal>
           (<literal>id</literal>) is used to represent the various kinds of C++
@@ -8997,7 +8997,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='member'>
-        <title><literal>MEMBER</literal></title> 
+        <title><literal>MEMBER</literal></title>
 
         <para>The union type <literal>MEMBER</literal>
           (<literal>member</literal>) is used to represent a member of a
@@ -9014,7 +9014,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='namespace'>
-        <title><literal>NAMESPACE</literal></title> 
+        <title><literal>NAMESPACE</literal></title>
 
         <para>The union type <literal>NAMESPACE</literal>
           (<literal>nspace</literal>) is used to represent the set of identifiers
@@ -9038,7 +9038,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='nat'>
-        <title><literal>NAT</literal></title> 
+        <title><literal>NAT</literal></title>
 
         <para>The union type <literal>NAT</literal> (<literal>nat</literal>) is
           used to represent an integer constant expression. Values are
@@ -9059,7 +9059,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='float'>
-        <title><literal>FLOAT</literal></title> 
+        <title><literal>FLOAT</literal></title>
 
         <para>The union type <literal>FLOAT</literal> (<literal>flt</literal>)
           is used to represent a floating point constant expression. There is
@@ -9075,7 +9075,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='string'>
-        <title><literal>STRING</literal></title> 
+        <title><literal>STRING</literal></title>
 
         <para>The union type <literal>STRING</literal> (<literal>str</literal>)
           is used to represent a string constant expression. There is only one
@@ -9104,7 +9104,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='ntext'>
-        <title><literal>NTEST</literal></title> 
+        <title><literal>NTEST</literal></title>
 
         <para>The enumeration type <literal>NTEST</literal>
           (<literal>ntest</literal>) is used to represent the various C++
@@ -9119,7 +9119,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='rmode'>
-        <title><literal>RMODE</literal></title> 
+        <title><literal>RMODE</literal></title>
 
         <para>The enumeration type <literal>RMODE</literal>
           (<literal>rmode</literal>) is used to represent the various C++
@@ -9129,7 +9129,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='exp'>
-        <title><literal>EXP</literal></title> 
+        <title><literal>EXP</literal></title>
 
         <para>The union type <literal>EXP</literal> (<literal>exp</literal>) is
           used to represent a C++ expression or statement. Each expression has an
@@ -9171,7 +9171,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='offset'>
-        <title><literal>OFFSET</literal></title> 
+        <title><literal>OFFSET</literal></title>
 
         <para>The union type <literal>OFFSET</literal> (<literal>off</literal>)
           is used to represent an offset expression. This is used as an adjunct
@@ -9183,7 +9183,7 @@ typedef unsigned char character ;
       </sect2>
 
       <sect2 id='token'>
-        <title><literal>TOKEN</literal></title> 
+        <title><literal>TOKEN</literal></title>
 
         <para>The union type <literal>TOKEN</literal> (<literal>tok</literal>)
           is used to represent one of a number of different categories within the
@@ -9256,7 +9256,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='instance'>
-        <title><literal>INSTANCE</literal></title> 
+        <title><literal>INSTANCE</literal></title>
 
         <para>The union type <literal>INSTANCE</literal>
           (<literal>inst</literal>) is used to represent a particular instance of
@@ -9271,7 +9271,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='error'>
-        <title><literal>ERROR</literal></title> 
+        <title><literal>ERROR</literal></title>
 
         <para>The union type <literal>ERROR</literal> (<literal>err</literal>)
           is used to represent an error arising during the compilation of a C++
@@ -9291,7 +9291,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='variable'>
-        <title><literal>VARIABLE</literal></title> 
+        <title><literal>VARIABLE</literal></title>
 
         <para>The structure type <literal>VARIABLE</literal>
           (<literal>var</literal>) is used to represent a variable state and is
@@ -9299,7 +9299,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='location'>
-        <title><literal>LOCATION</literal></title> 
+        <title><literal>LOCATION</literal></title>
 
         <para>The structure type <literal>LOCATION</literal>
           (<literal>loc</literal>) is used to represent a location in an input
@@ -9311,7 +9311,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='position'>
-        <title><literal>POSITION</literal></title> 
+        <title><literal>POSITION</literal></title>
 
         <para>The structure type <literal>POSITION</literal>
           (<literal>posn</literal>) is used to represent a position in an input
@@ -9328,7 +9328,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='bitstream'>
-        <title><literal>BITSTREAM</literal></title> 
+        <title><literal>BITSTREAM</literal></title>
 
         <para>The structure <literal>BITSTREAM</literal> is not part of the
           <literal>calculus</literal> type system. It is used to represent a
@@ -9337,7 +9337,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='buffer'>
-        <title><literal>BUFFER</literal></title> 
+        <title><literal>BUFFER</literal></title>
 
         <para>The structure <literal>BUFFER</literal> is not part of the
           <literal>calculus</literal> type system. It is used to represent a
@@ -9345,7 +9345,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='options'>
-        <title><literal>OPTIONS</literal></title> 
+        <title><literal>OPTIONS</literal></title>
 
         <para>The structure <literal>OPTIONS</literal> is not part of the
           <literal>calculus</literal> type system. It is used to represent the
@@ -9354,7 +9354,7 @@ token -&gt; {
       </sect2>
 
       <sect2 id='pptoken'>
-        <title><literal>PPTOKEN</literal></title> 
+        <title><literal>PPTOKEN</literal></title>
 
         <para>The structure <literal>PPTOKEN</literal> is not part of the
           <literal>calculus</literal> type system. It is used to represent a
@@ -9367,7 +9367,7 @@ token -&gt; {
     </sect1>
 
     <sect1 id='error-catalogue'>
-      <title>Error catalogue</title> 
+      <title>Error catalogue</title>
 
       <para>This section describes the error catalogue which lies at the heart
         of the C++ producer's error reporting routines. The full
@@ -9510,7 +9510,7 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
     </sect1>
 
     <sect1 id='parsing-cpp'>
-      <title>Parsing C++</title> 
+      <title>Parsing C++</title>
 
       <para>The parser used in the C++ producer is generated using the
         -XREF-../utilities/sid.html<literal>sid</literal> tool. Because of the
@@ -9586,7 +9586,7 @@ int A::B::c = 0 ;
     </sect1>
 
     <sect1 id='tdf-generation'>
-      <title>TDF generation</title> 
+      <title>TDF generation</title>
 
       <para>The TDF encoding as a bitstream is expressed as a series of macros
         generated by the <literal>make_tdf</literal> tool from the TDF
@@ -9637,7 +9637,7 @@ bs = enc_exp ( bs, b ) ;
   </chapter>
 
   <appendix id='pragma-directive-syntax'>
-    <title><literal>#pragma</literal> directive syntax</title> 
+    <title><literal>#pragma</literal> directive syntax</title>
 
     <para>The following gives a summary of the syntax for the
       <literal>#pragma</literal> directives used for -XREF-pragma.htmlcompiler
@@ -10104,7 +10104,7 @@ FUNC <emphasis>type-id</emphasis> :
   </appendix>
 
   <appendix id='symbol-table-dump-syntax'>
-    <title>Symbol table dump syntax</title> 
+    <title>Symbol table dump syntax</title>
 
     <para>The following gives a summary of the syntax for the
       -XREF-dump.htmlsymbol table dump file (version 1.1):</para>
@@ -10504,7 +10504,7 @@ ACL <emphasis>location string</emphasis>
   </appendix>
 
   <appendix id='error-catalogue-syntax'>
-    <title>Error catalogue syntax</title> 
+    <title>Error catalogue syntax</title>
 
     <para>The following gives a summary of the syntax for the
       -XREF-error.htmlerror catalogue accepted by the <literal>make_err</literal>

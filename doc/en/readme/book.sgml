@@ -5,7 +5,7 @@
 
 <book>
   <bookinfo>
-    <title>TenDRA README</title> 
+    <title>TenDRA README</title>
 
     <pubdate>$TenDRA$</pubdate>
 
@@ -34,7 +34,7 @@
   </bookinfo>
 
   <preface>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>Please read the file COPYRIGHT for the DERA copyright notice. In
       addition, the power installer (src/installers/power and its
@@ -49,7 +49,7 @@
 
       <para>The latest TenDRA release is available via the url:
         <ulink url="http://www.ten15.org/download/">
-        http://www.ten15.org/download/</ulink>.</para>  
+        http://www.ten15.org/download/</ulink>.</para> 
 
       <para>It is also available from the main FTP site directly accessible
         via HTTP or FTP: <ulink url="http://ftp.ten15.org/source/">
@@ -80,7 +80,7 @@
         <ulink url="http://www.cvsup.org/">John Polstra's CVSup
         program</ulink>. An example
         <ulink url="http://www.ten15.org/download/cvsupfile">cvsupfile
-        </ulink> is also available.</para> 
+        </ulink> is also available.</para>
     </sect1>
   </chapter>
 
@@ -138,7 +138,7 @@
       <sect2>
         <title>src</title>
 
-        <para>See <xref linkend="src-dir"></para> 
+        <para>See <xref linkend="src-dir"></para>
       </sect2>
     </sect1>
 
@@ -150,18 +150,18 @@
 
       <sect2>
         <title>installers</title>
-  
+ 
         <para>Contains the compiler back-ends, which translate the compiler
           intermediate form, TDF, to the appropriate machine
           instructions;</para>
-  
+ 
         <para>The installers directory is split into a common section,
           containing code which is used by all the back ends, plus a directory
           for each of the target CPUs:</para>
-  
+ 
         <informaltable frame="none">
           <tgroup cols="3" align="left">
-  
+ 
           <thead>
             <row>
               <entry>Directory</entry>
@@ -169,7 +169,7 @@
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             <row>
               <entry><filename class="directory">680x0</filename></entry>
@@ -220,13 +220,13 @@
             </row>
           </tbody>
         </informaltable>
-  
+ 
         <para>Each CPU directory is also divided into a common section, plus a
           directory for each of the target operating systems:</para>
-  
+ 
         <informaltable frame="none">
           <tgroup cols="2" align="left">
-  
+ 
           <thead>
             <row>
               <entry>CPU</entry>
@@ -236,7 +236,7 @@
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             <row>
               <entry>680x0</entry>
@@ -359,14 +359,14 @@
             </row>
           </tbody>
         </informaltable>
-  
-  
+ 
+ 
         <para>The common installer directory is also subdivided, for
           convenience, into a number of different subdirectories:</para>
-  
+ 
         <informaltable frame="none">
           <tgroup cols="2" align="left">
-  
+ 
           <thead>
             <row>
               <entry>Directory</entry>
@@ -374,7 +374,7 @@
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             <row>
               <entry><filename class="directory">construct</filename></entry>
@@ -427,45 +427,45 @@
           </tbody>
         </informaltable>
       </sect2>
-  
+ 
       <sect2>
         <title>lib</title>
-  
+ 
         <para>lib which contains everything not included in the other
           directories;</para>
-  
+ 
         <para>The lib directory is divided into a number of
           subdirectories:</para>
-  
+ 
         <para>apis containing the TenDRA API descriptions used in its API
           checking facilities;</para>
-  
+ 
         <para>cpp containing the C++ support library (note that this is only a
           minimal language support subset of the complete C++ standard
           library);</para>
-  
+ 
         <para>env containing the compiler front-end configuration
           files;</para>
-  
+ 
         <para>libtdf containing a support library certain aspects of TDF (such
           as 64 bits integers);</para>
-  
+ 
         <para>machines containing machine specific tools, libraries and
           configuration files;</para>
-  
+ 
         <para>startup containing the C and C++ producer configuration
           files;</para>
-  
+ 
         <para>tdf containing a description of the TDF specification used by
           make_tdf to generate TDF encoders and decoders.</para>
       </sect2>
-  
+ 
       <sect2>
         <title>producers</title>
-  
+ 
         <para>contains the compiler front-ends, which translate C and C++ to
           the compiler intermediate form, TDF;</para>
-  
+ 
         <para>The producers subdirectory is divided into a common directory,
           containing code shared by both the C and C++ producers, plus
           directories c and cpp, containing the language specific components.
@@ -474,81 +474,81 @@
           uses a subset of the routines available for the C++ producer, with a
           number of run-time or compile-time flags to control the differences
           between the languages.</para>
-  
+ 
         <para>The common producer directory is divided, for convenience into a
           number of subdirectories:</para>
-  
+ 
         <para>construct which contains the main routines for building up and
           checking the internal representation;</para>
-  
+ 
         <para>obj_c which contains macros describing the internal
           representation;</para>
-  
+ 
         <para>obj_templ which contains various template files used in
           automatic code generation;</para>
-  
+ 
         <para>obj_tok which contains TenDRA tokens describing the internal
           representation;</para>
-  
+ 
         <para>output which contains the routines of writing the internal
           representation to disk as TDF;</para>
-  
+ 
         <para>parse which contains routines for lexical analysis and
           preprocessing;</para>
-  
+ 
         <para>utility which contains routines for error reporting, memory
           allocation etc.</para>
       </sect2>
-  
+ 
       <sect2>
         <title>tools</title>
-  
+ 
         <para>contains various tools for manipulating, viewing and generating
           TDF;</para>
-        
+       
         <para>The tools directory contains the source for a number of
           different tools:</para>
-        
+       
         <para>disp translates TDF into a human readable form;</para>
-        
+       
         <para>pl is a structured TDF assembler;</para>
-        
+       
         <para>tcc is the front-end to the TenDRA compiler;</para>
-        
+       
         <para>tld links a number of TDF capsules into one;</para>
-        
+       
         <para>tnc is an unstructured TDF assember and disassembler;</para>
-        
+       
         <para>tspec is a specification tool used in the TenDRA API
           descriptions.</para>
       </sect2>
-        
+       
       <sect2>
         <title>utilities</title>
-        
+       
         <para>contains various compiler generator utilities used in the
           development of the TenDRA software.</para>
-        
+       
         <para>The utilities directory contains the source for a number of
           different compiler generator tools:</para>
-        
+       
         <para>calculus is used to manage the complex type system used in the
           producers;</para>
-        
+       
         <para>lexi is a simple lexical analyser generator (lex is not
           used);</para>
-        
+       
         <para>make_err is used to manage the producer error catalogue;</para>
-        
+       
         <para>make_mf is a simple makefile generator;</para>
-        
+       
         <para>make_tdf is used to generate TDF encoding and decoding routines
           from the TDF specification;</para>
-        
+       
         <para>shared contains code common to a number of tools;</para>
-        
+       
         <para>sid is a parser generator (yacc is not used);</para>
-        
+       
         <para>tuname is a uname-like utility used in the installation
           process.</para>
       </sect2>
@@ -557,7 +557,7 @@
 
   <chapter>
     <title>Installed Layout</title>
-    
+   
     <para>The installation script creates three shell scripts in the public
       binaries directory (/usr/local/bin in the default set-up). These are the
       compiler, tcc, the stand-alone static checker, tchk, and the API
@@ -567,47 +567,47 @@
       installed into the TenDRA configuration directory (/usr/local/lib/TenDRA
       in the default set-up). The remainder of this section describes the
       files installed into this directory.</para>
-    
+   
     <para>For each target machine, a directory:</para>
-    
+   
     <para>machines/&lt;os&gt;/&lt;os_vers&gt;/&lt;cpu&gt;</para>
-    
+   
     <para>is created to hold the machine dependent files, where &lt;os&gt;
       denotes the operating system name, &lt;os_vers&gt; denotes the operating
       system version and &lt;cpu&gt; denotes the CPU type (as above). This
       machine directory has five subdirectories:</para>
-    
+   
     <para>bin containing the compiled executables for this machine; advanced
       users may wish to put this directory on their PATH, but the executables
       in the public binaries directory should suffice for most users;</para>
-    
+   
     <para>env containing the tcc configuration files for this machine (see
       above);</para>
-    
+   
     <para>include containing the modified system headers for this machine;
       these are copied directly from the src/lib/machines directory in the
       release;</para>
-    
+   
     <para>lib containing the API token libraries describing the implementation
       of the various standard APIs on this machine; the generation of these
       libraries from the API descriptions and the system headers is the most
       complex part of the installation;</para>
-    
+   
     <para>startup containing the compiler configuration files describing how
       to navigate through the system headers on this machine; these are copied
       directly from the src/lib/machines directory in the release.</para>
-    
+   
     <para>The remainder of the directories created by the installation are
       common to all machines. These are:</para>
-    
+   
     <para>building containing files automatically generated by tspec from the
       API descriptions which are used to build the API token libraries; these
       files are only used during installation and may be deleted if space is
       short;</para>
-    
+   
     <para>include containing the include files automatically generated by
       tspec from the API descriptions;</para>
-    
+   
     <para>startup containing the C and C++ producer configuration files copied
       directly from the src/lib/startup directory in the release.</para>
   </chapter>
@@ -627,13 +627,13 @@
 
   <chapter>
     <title>Licenses and Copyright Information</title>
-  
+ 
     <sect1>
       <title>The TenDRA Project (BSDL)</title>
-  
+ 
       <para>All source code modifications to the original 4.1.2 release of
         TenDRA are subject to the following copyright:</para>
-  
+ 
       <literallayout>
 Copyright (c) 2002, 2003, The TenDRA Project
 All rights reserved.

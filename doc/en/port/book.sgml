@@ -51,7 +51,7 @@
   </bookinfo>
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>TDF is the name of the technology developed at DRA which has been
       adopted by the Open Software Foundation (OSF), Unix System Laboratories
@@ -78,66 +78,66 @@
   </preface>
 
   <bibliography>
-    <title>Bibliography</title> 
+    <title>Bibliography</title>
 
     <biblioentry>
-      <title>tcc User's Guide</title> 
+      <title>tcc User's Guide</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>tspec - An API Specification Tool</title> 
+      <title>tspec - An API Specification Tool</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>The C to TDF Producer</title> 
+      <title>The C to TDF Producer</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>A Guide to the TDF Specification</title> 
+      <title>A Guide to the TDF Specification</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>TDF Facts and Figures</title> 
+      <title>TDF Facts and Figures</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>TDF Specification</title> 
+      <title>TDF Specification</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>The 80386/80486 TDF Installer</title> 
+      <title>The 80386/80486 TDF Installer</title>
 
       <copyright><year>1992</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>Guide to Porting using TDF</title> 
+      <title>Guide to Porting using TDF</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
     </biblioentry>
 
     <biblioentry>
-      <title>The TDF Notation Compiler</title> 
+      <title>The TDF Notation Compiler</title>
 
       <copyright><year>1993</year></copyright>
       <corpauthor>DRA</corpauthor>
@@ -145,7 +145,7 @@
   </bibliography>
 
   <chapter id='port'>
-    <title>Portability</title> 
+    <title>Portability</title>
 
     <para>We start by examining some of the problems involved in the writing of
       portable programs. Although the discussion is very general, and makes no
@@ -153,10 +153,10 @@
       second half of the paper, which deals with TDF.</para>
 
     <sect1 id='port-prog'>
-      <title>Portable Programs</title> 
+      <title>Portable Programs</title>
 
       <sect2 id='def-pre-disc'>
-        <title>Definitions and Preliminary Discussion</title> 
+        <title>Definitions and Preliminary Discussion</title>
 
         <para>Let us firstly say what we mean by a portable program. A program
           is portable to a number of machines if it can be compiled to give the
@@ -196,7 +196,7 @@ int main ()
       </sect2>
 
       <sect2 id='sep-comb-code'>
-        <title>Separation and Combination of Code</title> 
+        <title>Separation and Combination of Code</title>
 
         <para>So why is the second example above more portable (in the sense of
           more easily ported to a new machine) than the first? The first,
@@ -274,7 +274,7 @@ extern int fputs ( const char *, FILE * ) ;
       </sect2>
 
       <sect2 id='app-prog-int'>
-        <title>Application Programming Interfaces</title> 
+        <title>Application Programming Interfaces</title>
 
         <para>As we have seen, the separation of the target dependent sections
           of a program into the system headers and system libraries greatly
@@ -324,7 +324,7 @@ int fputs ( const char *s, FILE *f ) ;
       </sect2>
 
       <sect2 id='comp-phases'>
-        <title>Compilation Phases</title> 
+        <title>Compilation Phases</title>
 
         <para>The general plan for how to write the extreme example of a
           portable program, namely one which contains no target dependent code,
@@ -337,7 +337,7 @@ int fputs ( const char *s, FILE *f ) ;
           things which need to be done on every target machine.</para>
 
         <figure id="trad-scheme">
-          <title>Traditional Compilation Phases</title> 
+          <title>Traditional Compilation Phases</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="trad_scheme" scale="100" format=
@@ -382,7 +382,7 @@ int fputs ( const char *s, FILE *f ) ;
     </sect1>
 
     <sect1 id='port-prob'>
-      <title>Portability Problems</title> 
+      <title>Portability Problems</title>
 
       <para>We have set out a scheme whereby it should be possible to write
         portable programs with a minimum of difficulties. So why, in reality,
@@ -391,7 +391,7 @@ int fputs ( const char *s, FILE *f ) ;
         most of the points raised apply by extension to all programs.</para>
 
       <sect2 id='prog-prob'>
-        <title>Programming Problems</title> 
+        <title>Programming Problems</title>
 
         <para>A first, obvious class of problems concern the program itself. It
           is to be assumed that as many bugs as possible have been eliminated by
@@ -426,7 +426,7 @@ int fputs ( const char *s, FILE *f ) ;
       </sect2>
 
       <sect2 id='trans-prob'>
-        <title>Code Transformation Problems</title> 
+        <title>Code Transformation Problems</title>
 
         <para>We now move on from programming problems to compilation problems.
           As we mentioned above, compilation may be regarded as a series of
@@ -474,7 +474,7 @@ int fputs ( const char *s, FILE *f ) ;
       </sect2>
 
       <sect2 id='code-comb-prob'>
-        <title>Code Combination Problems</title> 
+        <title>Code Combination Problems</title>
 
         <para>If code transformation problems may be regarded as a time
           consuming irritation, involving the rewriting of sections of code or
@@ -607,7 +607,7 @@ int open ( char *nm )
       </sect2>
 
       <sect2 id='api-prob'>
-        <title>API Problems</title> 
+        <title>API Problems</title>
 
         <para>We have said that the API defines the interface between the
           program and the standard library provided with the operating system on
@@ -619,7 +619,7 @@ int open ( char *nm )
       </sect2>
 
       <sect2 id='api-check'>
-        <title>API Checking</title> 
+        <title>API Checking</title>
 
         <para>The problem of whether or not a program conforms to its API - not
           using any objects from the operating system other than those specified
@@ -710,7 +710,7 @@ int main ()
           finding out whether <literal>t</literal> is odd or even.</para>
 
         <sect3 id='api-imp-err'>
-          <title>API Implementation Errors</title> 
+          <title>API Implementation Errors</title>
 
           <para>Undoubtedly the problem which causes the writer of portable
             programs the greatest headache (and heartache) is that of incorrect
@@ -728,7 +728,7 @@ int main ()
         </sect3>
 
         <sect3 id='sys-header-prob-a'>
-          <title>System Header Problems</title> 
+          <title>System Header Problems</title>
 
           <para>Some header problems are immediately apparent because they are
             syntactic and cause the program to fail to compile. For example,
@@ -851,7 +851,7 @@ typedef int size_t ; /* ??? */
         </sect3>
 
         <sect3 id='sys-lib-prob-a'>
-          <title>System Library Problems</title> 
+          <title>System Library Problems</title>
 
           <para>The system header problems just discussed are primarily
             syntactic problems. By contrast, system library problems are
@@ -943,13 +943,13 @@ return ;
     </sect1>
 
     <sect1 id='api-port'>
-      <title>APIs and Portability</title> 
+      <title>APIs and Portability</title>
 
       <para>We now return to our discussion of the general issues involved in
         portability to more closely examine the role of the API.</para>
 
       <sect2 id='targ-dep-code'>
-        <title>Target Dependent Code</title> 
+        <title>Target Dependent Code</title>
 
         <para>So far we have been considering programs which contain no
           conditional compilation, in which the API forms the basis of the
@@ -1093,7 +1093,7 @@ int main ()
       </sect2>
 
       <sect2 id='making-api-exp'>
-        <title>Making APIs Explicit</title> 
+        <title>Making APIs Explicit</title>
 
         <para>As we have said, every program has an API even if it is implicit
           rather than explicit. Every system header included, every type or value
@@ -1121,7 +1121,7 @@ int main ()
       </sect2>
 
       <sect2 id='choosing-api'>
-        <title>Choosing an API</title> 
+        <title>Choosing an API</title>
 
         <para>So how does one go about choosing an API? In a sense the
           user-defined component is easier to specify than the system-defined
@@ -1198,7 +1198,7 @@ typedef struct direct dir_entry ;
       </sect2>
 
       <sect2 id='alt-prog-ver-a'>
-        <title>Alternative Program Versions</title> 
+        <title>Alternative Program Versions</title>
 
         <para>Another reason for introducing conditional compilation which
           relates to APIs is the desire to combine several programs, or versions
@@ -1239,7 +1239,7 @@ typedef struct direct dir_entry ;
   </chapter>
 
   <chapter id='namespaces-apis'>
-    <title>Namespaces and APIs</title> 
+    <title>Namespaces and APIs</title>
 
     <para>Namespace problems are amongst the most difficult faced by standard
       defining bodies (for example, the ANSI and POSIX committees) and they often
@@ -1332,7 +1332,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
   </chapter>
 
   <chapter id='tdf'>
-    <title>TDF</title> 
+    <title>TDF</title>
 
     <para>Having discussed many of the problems involved with writing portable
       programs, we now eventually turn to TDF. Firstly a brief technical overview
@@ -1345,7 +1345,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
       described in more detail.</para>
 
     <sect1 id='features-tdf'>
-      <title>Features of TDF</title> 
+      <title>Features of TDF</title>
 
       <para>It is not the purpose of this paper to explain the exact
         specification of TDF - this is described elsewhere (see [6] and [4]) -
@@ -1367,7 +1367,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
         semantic interpretation as defined in the TDF specification.</para>
 
       <sect2 id='capsule-structure'>
-        <title>Capsule Structure</title> 
+        <title>Capsule Structure</title>
 
         <para>A TDF capsule consists of a number of units of various types.
           These are embedded in a general linkage scheme (see Fig. 2). Each unit
@@ -1381,7 +1381,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
           associated with the fourth external name.</para>
 
         <figure id="tdf-link">
-          <title>TDF Capsule Structure</title> 
+          <title>TDF Capsule Structure</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="tdf_link" scale="100" format=
@@ -1402,7 +1402,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
       </sect2>
 
       <sect2 id='tokens'>
-        <title>Tokens</title> 
+        <title>Tokens</title>
 
         <para>So, the combination of program at this high level is
           straightforward. But TDF also provides another mechanism which allows
@@ -1414,7 +1414,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
           decoding process to form the complete tree (see Fig. 3).</para>
 
         <figure id="token">
-          <title>TDF Tokens</title> 
+          <title>TDF Tokens</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="token" scale="100" format=
@@ -1427,7 +1427,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
           in the token definition.</para>
 
         <figure id="token-args">
-          <title>TDF Tokens (with Arguments)</title> 
+          <title>TDF Tokens (with Arguments)</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="token_args" scale="100" format=
@@ -1446,7 +1446,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
     </sect1>
 
     <sect1 id='tdf-compilation-phases'>
-      <title>TDF Compilation Phases</title> 
+      <title>TDF Compilation Phases</title>
 
       <para>We have seen how one of the great strengths of TDF is the fact that
         it facilitates the separation and combination of program. We now
@@ -1485,7 +1485,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
         phase.</para>
 
       <figure id="tdf-scheme">
-        <title>TDF Compilation Phases</title> 
+        <title>TDF Compilation Phases</title>
 
         <mediaobject>
           <imageobject><imagedata fileref="tdf_scheme" scale="100" format=
@@ -1494,7 +1494,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
       </figure>
 
       <sect2 id='api-desc-tr'>
-        <title>API Description (Top Right)</title> 
+        <title>API Description (Top Right)</title>
 
         <para>The method used for this separation is the token mechanism.
           Firstly the syntactic element of the API is described in the form of a
@@ -1539,7 +1539,7 @@ int fputs ( const char *, FILE * ) ;
       </sect2>
 
       <sect2 id='api-desc-tl'>
-        <title>Production (Top Left)</title> 
+        <title>Production (Top Left)</title>
 
         <para>Now the producer can compile the program using these target
           independent headers. As will be seen from the &quot;Hello world&quot;
@@ -1561,7 +1561,7 @@ int fputs ( const char *, FILE * ) ;
       </sect2>
 
       <sect2 id='api-impl-br'>
-        <title>API Implementation (Bottom Right)</title> 
+        <title>API Implementation (Bottom Right)</title>
 
         <para>Before the TDF output by the producer can be decoded fully it
           needs to have had the definitions of the tokens it has left undefined
@@ -1624,7 +1624,7 @@ int fputs ( const char *, FILE * ) ;
       </sect2>
 
       <sect2 id='installation-bl'>
-        <title>Installation (Bottom Left)</title> 
+        <title>Installation (Bottom Left)</title>
 
         <para>The installation phase is now straightforward. The target
           independent TDF representing the program contains various undefined
@@ -1640,14 +1640,14 @@ int fputs ( const char *, FILE * ) ;
       </sect2>
 
       <sect2 id='illustrated-example'>
-        <title>Illustrated Example</title> 
+        <title>Illustrated Example</title>
 
         <para>In order to help clarify exactly what is happening where, Fig. 6
           shows a simple example superimposed on the TDF compilation
           diagram.</para>
 
         <figure id="eg-scheme">
-          <title>Example Compilation</title> 
+          <title>Example Compilation</title>
 
           <mediaobject>
             <imageobject><imagedata fileref="eg_scheme" scale="100" format=
@@ -1678,13 +1678,13 @@ FILE f ;
     </sect1>
 
     <sect1 id='aspects-tdf-system'>
-      <title>Aspects of the TDF System</title> 
+      <title>Aspects of the TDF System</title>
 
       <para>Let us now consider in more detail some of the components of the
         TDF system and how they fit into the compilation scheme.</para>
 
       <sect2 id='c-tdf-producer'>
-        <title>The C to TDF Producer</title> 
+        <title>The C to TDF Producer</title>
 
         <para>Above it was emphasised how the design of the compilation
           strategy aids the representation of program in a target independent
@@ -1785,7 +1785,7 @@ struct tag {
       </sect2>
 
       <sect2 id='c-tdf-mappings'>
-        <title>C to TDF Mappings</title> 
+        <title>C to TDF Mappings</title>
 
         <para>The nature of the C -&gt; TDF transformation implemented by the
           producer is worth considering, although not all the features described
@@ -1862,7 +1862,7 @@ struct tag {
       </sect2>
 
       <sect2 id='tdf-linking'>
-        <title>TDF Linking</title> 
+        <title>TDF Linking</title>
 
         <para>We now move from considering the components of the producer to
           those of the installer. The first phase of the installation - linking
@@ -1959,7 +1959,7 @@ struct tag {
       </sect2>
 
       <sect2 id='tdf-installers'>
-        <title>The TDF Installers</title> 
+        <title>The TDF Installers</title>
 
         <para>The TDF installer on a given machine typically consists of four
           phases: TDF linking, which has already been discussed, translating TDF
@@ -2043,7 +2043,7 @@ struct tag {
     </sect1>
 
     <sect1 id='tdf-apis'>
-      <title>TDF and APIs</title> 
+      <title>TDF and APIs</title>
 
       <para>What the discussion above has emphasised is that the ability to
         describe APIs abstractly as target independent headers underpins the
@@ -2051,7 +2051,7 @@ struct tag {
         detail.</para>
 
       <sect2 id='api-desc'>
-        <title>API Description</title> 
+        <title>API Description</title>
 
         <para>The process of transforming an API specification into its
           description in terms of <literal>#pragma token</literal> directives is
@@ -2060,7 +2060,7 @@ struct tag {
           this way.</para>
 
         <sect3 id='desc-process'>
-          <title>The Description Process</title> 
+          <title>The Description Process</title>
 
           <para>As may be observed from the example given in section 3.2.1, the
             <literal>#pragma token</literal> syntax is not necessarily
@@ -2144,7 +2144,7 @@ EXP rvalue : t : va_arg # ansi.stdarg.va_arg
         </sect3>
 
         <sect3 id='resolving-conflicts'>
-          <title>Resolving Conflicts</title> 
+          <title>Resolving Conflicts</title>
 
           <para>Another consideration during the description process is to try
             to integrate the various API descriptions. For example, POSIX extends
@@ -2242,7 +2242,7 @@ size_t s ;
         </sect3>
 
         <sect3 id='benifits-api-desc'>
-          <title>The Benefits of API Description</title> 
+          <title>The Benefits of API Description</title>
 
           <para>The description process is potentially of great benefit to
             bodies involved in API specification. While the specification itself
@@ -2296,7 +2296,7 @@ size_t s ;
       </sect2>
 
       <sect2 id='tdf-lib-building'>
-        <title>TDF Library Building</title> 
+        <title>TDF Library Building</title>
 
         <para>As we have said, two of the primary problems with writing
           portable programs are dealing with API implementation errors on the
@@ -2348,7 +2348,7 @@ size_t s ;
           machine (bottom right).</para>
 
         <sect3 id='sys-header-prob-b'>
-          <title>System Header Problems</title> 
+          <title>System Header Problems</title>
 
           <para>Values which are defined in the wrong place, such as
             <literal>SEEK_SET</literal> in the example given, present no
@@ -2393,7 +2393,7 @@ size_t s ;
         </sect3>
 
         <sect3 id='sys-lib-prob-b'>
-          <title>System Library Problems</title> 
+          <title>System Library Problems</title>
 
           <para>Errors in the system libraries will not be detected by the TDF
             library builder because they are semantic errors, whereas the library
@@ -2430,7 +2430,7 @@ static void *__realloc ( void *p, size_t s )
         </sect3>
 
         <sect3 id='tdf-lib-builders'>
-          <title>TDF Library Builders</title> 
+          <title>TDF Library Builders</title>
 
           <para>The discussion above shows how the TDF libraries are an extra
             layer which lies on top of the existing system API implementation,
@@ -2483,7 +2483,7 @@ static void *__realloc ( void *p, size_t s )
     </sect1>
 
     <sect1 id='tdf-cond-compilation'>
-      <title>TDF and Conditional Compilation</title> 
+      <title>TDF and Conditional Compilation</title>
 
       <para>So far our discussion of the TDF approach to portability has been
         confined to the simplest case, where the program itself contains no
@@ -2504,7 +2504,7 @@ static void *__realloc ( void *p, size_t s )
         different on different machines. It is this we now consider.</para>
 
       <sect2 id='user-defined-apis'>
-        <title>User-Defined APIs</title> 
+        <title>User-Defined APIs</title>
 
         <para>The things which are done genuinely differently on different
           machines have previously been characterised as comprising the
@@ -2579,7 +2579,7 @@ int main ()
       </sect2>
 
       <sect2 id='user-defined-tokens-example'>
-        <title>User Defined Tokens - Example</title> 
+        <title>User Defined Tokens - Example</title>
 
         <para>As an example of how to define a simple token consider the
           following example. We have a simple program which prints
@@ -2712,7 +2712,7 @@ tcc -Fj -not_ansi tokens.c
       </sect2>
 
       <sect2 id='conditional-comp-tdf'>
-        <title>Conditional Compilation within TDF</title> 
+        <title>Conditional Compilation within TDF</title>
 
         <para>Although tokens are the main method used to deal with target
           dependencies, TDF does have built-in conditional compilation
@@ -2823,7 +2823,7 @@ int main ()
       </sect2>
 
       <sect2 id='alt-prog-ver-b'>
-        <title>Alternative Program Versions</title> 
+        <title>Alternative Program Versions</title>
 
         <para>Consider again the program described in section 2.3.4 which has
           optional features for displaying its output graphically depending on
@@ -2857,7 +2857,7 @@ int main ()
   </chapter>
 
   <chapter id='conclusions'>
-    <title>Conclusions</title> 
+    <title>Conclusions</title>
 
     <para>The philosophy underlying the whole TDF approach to portability is
       that of separation or isolation. This separation of the various components

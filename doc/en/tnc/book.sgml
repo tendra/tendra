@@ -43,7 +43,7 @@
   </bookinfo>
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>The TDF notation compiler, <literal>tnc</literal>, is a tool for
       translating TDF capsules to and from text. This paper gives a brief
@@ -118,7 +118,7 @@
     <para>The overall syntax for <literal>tnc</literal> is as follows:</para>
 
     <cmdsynopsis>
-      <command>tnc</command> 
+      <command>tnc</command>
       <arg>
         <replaceable>options</replaceable>
       </arg>
@@ -135,13 +135,13 @@
   </preface>
 
   <chapter id='input-classes'>
-    <title>Input classes</title> 
+    <title>Input classes</title>
 
     <para>The rest of this paper is concerned with the form required of the input
       text file. The input can be divided into eight classes.</para>
 
     <sect1 id='delimiters'>
-      <title>Delimiters</title> 
+      <title>Delimiters</title>
 
       <para>The characters <literal>(</literal> and <literal>)</literal> are used
         as delimiters to impose a syntactic structure on the input.</para>
@@ -149,7 +149,7 @@
     </sect1>
 
     <sect1 id='white-space'>
-      <title>White space</title> 
+      <title>White space</title>
 
       <para>White space comprises sequences of space, tab and newline characters,
         together with comments (see below). It is not significant to the output
@@ -160,7 +160,7 @@
     </sect1>
 
     <sect1 id='comments'>
-      <title>Comments</title> 
+      <title>Comments</title>
 
       <para>Comments may be inserted in the input at any point. They begin with a
         <literal>#</literal> character and run to the end of the line.</para>
@@ -168,7 +168,7 @@
     </sect1>
 
     <sect1 id='identifiers'>
-      <title>Identifiers</title> 
+      <title>Identifiers</title>
 
       <para>An identifier consists of any sequence of characters drawn from the
         following set: upper case letters, lower case letters, decimal digits,
@@ -182,7 +182,7 @@
     </sect1>
 
     <sect1 id='numbers'>
-      <title>Numbers</title> 
+      <title>Numbers</title>
 
       <para>Numbers can be given in octal (prefixed by <literal>0</literal>),
         decimal, or hexadecimal (prefixed by <literal>0x</literal> or
@@ -193,7 +193,7 @@
     </sect1>
 
     <sect1 id='strings'>
-      <title>Strings</title> 
+      <title>Strings</title>
 
       <para>A string consists of a sequence of characters enclosed in double quotes
         (<literal>"</literal>). The following escape sequences are recognised:</para>
@@ -219,7 +219,7 @@
     </sect1>
 
     <sect1 id='blanks'>
-      <title>Blanks</title> 
+      <title>Blanks</title>
 
       <para>A single minus character (<literal>-</literal>) has a special meaning.
         It may be used to indicate the absence of an optional argument or
@@ -228,7 +228,7 @@
     </sect1>
 
     <sect1 id='bars'>
-      <title>Bars</title> 
+      <title>Bars</title>
 
       <para>A single vertical bar (<literal>|</literal>) has a special meaning. It
         may be used to indicate the end of a sequence of repeated arguments.</para>
@@ -237,10 +237,10 @@
   </chapter>
 
   <chapter id='input-syntax'>
-    <title>Input syntax</title> 
+    <title>Input syntax</title>
 
     <sect1 id='basic-syntax'>
-      <title>Basic syntax</title> 
+      <title>Basic syntax</title>
 
       <para>The basic input syntax is very simple. A construct consists of an
         identifier followed by a list of arguments, all enclosed in brackets in
@@ -269,7 +269,7 @@ arglist     : (empty)
     </sect1>
 
     <sect1 id='sorts'>
-      <title>Sorts</title> 
+      <title>Sorts</title>
 
       <para>Except at the outermost level, which forms a special case discussed
         below, every construct and argument has an associated sort. This is one
@@ -359,7 +359,7 @@ tnc -help
     </sect1>
 
     <sect1 id='numbers-strings'>
-      <title>Numbers and strings</title> 
+      <title>Numbers and strings</title>
 
       <para>Numbers can occur in two contexts, as the argument to the TDF
         constructs <literal>make_nat</literal> and
@@ -400,7 +400,7 @@ string for ( make_string string )
     </sect1>
 
     <sect1 id='tokens-tags'>
-      <title>Tokens, tags, alignment tags and labels</title> 
+      <title>Tokens, tags, alignment tags and labels</title>
 
       <para>In TDF simple tokens, tags, alignment tags and labels are represented
         by numbers which may, or may not, be associated with external names. In
@@ -475,7 +475,7 @@ token_id
     </sect1>
 
     <sect1 id='outer-level'>
-      <title>Outer level syntax</title> 
+      <title>Outer level syntax</title>
 
       <para>At the outer level <literal>tnc</literal> is expecting a sequence of
         constructs of the following forms:</para>
@@ -506,7 +506,7 @@ token_id
     </sect1>
 
     <sect1 id='included-files'>
-      <title>Included files</title> 
+      <title>Included files</title>
 
       <para>Included files may be of three types - text, TDF capsule or TDF
         library. For TDF capsules and libraries there are two include modes.
@@ -550,7 +550,7 @@ token_id
     </sect1>
 
     <sect1 id='internal-external'>
-      <title>Internal and external names</title> 
+      <title>Internal and external names</title>
 
       <para>All tokens, tags and alignment tags have an internal name, namely the
         associated identifier, but this name does not necessarily appear in the
@@ -607,7 +607,7 @@ token_id
     </sect1>
 
     <sect1 id='token-decl'>
-      <title>Token declarations</title> 
+      <title>Token declarations</title>
 
       <para>The basic form of a token declaration is:</para>
 
@@ -635,7 +635,7 @@ token_id
     </sect1>
 
     <sect1 id='token-def'>
-      <title>Token definitions</title> 
+      <title>Token definitions</title>
 
       <para>The basic form of a token definition is:</para>
 
@@ -666,7 +666,7 @@ token_id
     </sect1>
 
     <sect1 id='alignment-tag-decl'>
-      <title>Alignment tag declarations</title> 
+      <title>Alignment tag declarations</title>
 
       <para>The basic form of an alignment tag declaration is:</para>
 
@@ -683,7 +683,7 @@ token_id
     </sect1>
 
     <sect1 id='alignment-tag-def'>
-      <title>Alignment tag definitions</title> 
+      <title>Alignment tag definitions</title>
 
       <para>The basic form of an alignment tag definition is:</para>
 
@@ -702,7 +702,7 @@ token_id
     </sect1>
 
     <sect1 id='tag-declarations'>
-      <title>Tag declarations</title> 
+      <title>Tag declarations</title>
 
       <para>The basic forms of a tag declaration are:</para>
 
@@ -726,7 +726,7 @@ token_id
     </sect1>
 
     <sect1 id='tag-definitions'>
-      <title>Tag definitions</title> 
+      <title>Tag definitions</title>
 
       <para>The basic forms of a tag definition are:</para>
 
@@ -753,7 +753,7 @@ token_id
   </chapter>
 
   <chapter id='shape-checking'>
-    <title>Shape checking</title> 
+    <title>Shape checking</title>
 
     <para>The input in <literal>read</literal> (and to a lesser extent
       <literal>decode</literal>) mode is checked for shape correctness if the
@@ -775,7 +775,7 @@ token_id
   </chapter>
 
   <chapter id='remarks'>
-    <title>Remarks</title> 
+    <title>Remarks</title>
 
     <para>The target independent TDF capsules produced by the C -&gt; TDF compiler,
       <literal>tcc</literal>, do not contain declarations or definitions for
@@ -795,7 +795,7 @@ token_id
   </chapter>
 
   <chapter id='limitations'>
-    <title>Limitations</title> 
+    <title>Limitations</title>
 
     <para>The main limitations in the current version of <literal>tnc</literal> are
       as follows:</para>

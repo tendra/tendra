@@ -34,11 +34,11 @@
    <legalnotice id='legalnotic'>
      <para>This code is derived from software contributed to Berkeley by Adam de
        Boor</para>
- 
+
      <para>Redistribution and use in source and binary forms, with or without
        modification, are permitted provided that the following conditions
        are met:</para>
- 
+
      <orderedlist>
        <listitem>
          <para>Redistributions of source code must retain the above copyright
@@ -61,7 +61,7 @@
            this software without specific prior written permission.</para>
        </listitem>
      </orderedlist>
- 
+
      <para>THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
@@ -245,7 +245,7 @@ a.o depends on both defs.h and a.c.
       <para>Both targets and sources may contain the standard C-Shell wildcard
         characters ({, }, *, ?, [, and ]), but not the following
         things:</para>
-      
+     
       <para>{} These enclose a comma-separated list of options and cause the
         pattern to be expanded once for each element of the list. Each
         expansion contains a different element. For example,
@@ -254,13 +254,13 @@ a.o depends on both defs.h and a.c.
         the other wildcard characters, the resulting words need not be actual
         files. All other wildcard characters are expanded using the files that
         exist when PMake is started.</para>
-      
+     
       <para>* This matches zero or more characters of any sort. src/*.c will
         expand to the same three words as above as long as src contains those
         three files (and no other files that end in .c).</para>
-      
+     
       <para>? Matches any single character.</para>
-      
+     
       <para>[] This is known as a character class and contains either a list
         of single characters, or a series of character ranges (a-z, for
         example means all characters between a and z), or both. It matches any
@@ -1411,46 +1411,46 @@ cc -o jive.out jive.o
           parts of a makefile into another file and just include it in other
           makefiles somehow. Many compilers allow you say something
           like</para>
-        
+       
         <para>#include "defs.h"</para>
-        
+       
         <para>to include the contents of defs.h in the source file. PMake
           allows you to do the same thing for makefiles, with the added
           ability to use variables in the filenames. An include directive in a
           makefile looks either like this:</para>
-        
+       
         <para>.include &lt;file&gt;</para>
-        
+       
         <para>or this</para>
-        
+       
         <para>.include "file"</para>
-        
+       
         <para>The difference between the two is where PMake searches for the
           file: the first way, PMake will look for the file only in the system
           makefile directory (or directories) (to find the -m option. For
           files in double-quotes, the search is more complex:</para>
-        
+       
         <orderedlist>
           <listitem>
             <para>The directory of the makefile that's including the
               file.</para>
           </listitem>
-          
+         
           <listitem>
             <para>The current directory (the one in which you invoked
               PMake).</para>
           </listitem>
-          
+         
           <listitem>
             <para>The directories given by you using -I flags, in the order in
               which you gave them.</para>
           </listitem>
-          
+         
           <listitem>
             <para>Directories given by .PATH dependency lines (see chapter
               4).</para>
           </listitem>
-          
+         
           <listitem>
             <para>The system makefile directory. in that order. You are free
               to use PMake variables in the filename -- PMake will expand them
@@ -1459,7 +1459,7 @@ cc -o jive.out jive.o
               variable expansion. I.e. the following</para>
           </listitem>
         </orderedlist>
-        
+       
         <programlisting>
 SYSTEM = &lt;command.mk&gt;
         </programlisting>
@@ -1580,12 +1580,12 @@ echo '(load-system)' &gt; input
           flag). Note that all the rules, not just that for system, include
           init as a source. This is because none of the other targets can be
           made until init has been made, thus they depend on it.</para>
-        
+       
         <para>.EXPORT This is used to mark those targets whose creation
           should be sent to another machine if at all possible. This may be
           used by some exportation schemes if the exportation is expensive.
           You should ask your system administrator if it is necessary.</para>
-        
+       
         <para>.EXPORTSAME Tells the export system that the job should be
           exported to a machine of the same architecture as the current one.
           Certain operations (e.g. running text through nroff) can be
@@ -1593,28 +1593,28 @@ echo '(load-system)' &gt; input
           type), while others (e.g. compiling a program with cc) must be
           performed on a machine with the same architecture. Not all export
           systems will support this attribute.</para>
-        
+       
         <para>.IGNORE Giving a target the .IGNORE attribute causes PMake to
           ignore errors from any of the target's commands, as if they all had
           `-' before them.</para>
-        
+       
         <para>.INVISIBLE This allows you to specify one target as a source for
           another without the one affecting the of which is used to create the
           other, so it must exist before the other is created. You could
           say</para>
-        
+       
         <programlisting>
 prog1           : $(PROG1OBJS) prog2 MAKEINSTALL
 prog2           : $(PROG2OBJS) .INVISIBLE MAKEINSTALL
         </programlisting>
-        
+       
         <para>where MAKEINSTALL is some complex .USE rule (see below) that
           depends on the .ALLSRC variable containing the right things.
           Without the .INVISIBLE attribute for prog2, the MAKEINSTALL rule
           couldn't be applied. This is not as useful as it should be, and the
           semantics may change (or the whole thing go away) in the
           not-too-distant future.</para>
-        
+       
         <para>.JOIN This is another way to avoid performing some operations in
           parallel while permitting everything else to be done so.
           Specifically it forces the target's shell script to be executed only
@@ -1628,7 +1628,7 @@ prog2           : $(PROG2OBJS) .INVISIBLE MAKEINSTALL
           more severe: you can't just put the ranlib off to the end since the
           program will need those libraries before it can be re-created. You
           can do something like this:</para>
-        
+       
         <programlisting>
 program         : $(OBJS) libraries
 cc -o $(.TARGET) $(.ALLSRC)
@@ -1636,7 +1636,7 @@ cc -o $(.TARGET) $(.ALLSRC)
 libraries       : lib1.a lib2.a lib3.a lib4.a .JOIN
 ranlib $(.OODATE)
         </programlisting>
-        
+       
         <para>In this case, PMake will re-create the $(OBJS) as necessary,
           along with lib1.a, lib2.a, lib3.a and lib4.a. It will then execute
           ranlib on any library that was changed and set program's .ALLSRC
@@ -1646,26 +1646,26 @@ ranlib $(.OODATE)
           target marked with the attribute. Another aspect of the .JOIN
           attribute is it keeps the target from being created if the -t flag
           was given.</para>
-        
+       
         <para>.MAKE The .MAKE attribute marks its target as being a recursive
           invocation of PMake. This forces the -n or -t flag. By doing this,
           you can start at the top of a system and type</para>
-        
+       
         <programlisting>
 pmake -n
         </programlisting>
-        
+       
         <para>and have it descend the directory tree (if your makefiles are
           set up correctly), printing what it would have executed if you
           hadn't included the -n flag.</para>
-        
+       
         <para>.NOEXPORT If possible, PMake will attempt to export the creation
           of all targets to another machine (this depends on how PMake was
           configured). Sometimes, the creation is so simple, it is pointless
           to send it to another machine. If you give the target the
           .NOEXPORT attribute, it will be run locally, even if you've given
           PMake the -L 0 flag.</para>
-        
+       
         <para>.NOTMAIN Normally, if you do not specify a target to make in any
           other way, PMake will take the first target on the first
           dependency line of a makefile as the target to create. That target
@@ -1674,17 +1674,17 @@ pmake -n
           attribute tells PMake that the target is definitely not the Main
           Target. This allows you to place targets in an included makefile and
           have PMake create some- thing else by default.</para>
-        
+       
         <para>.PRECIOUS When PMake is interrupted (you type control-C at the
           keyboard), it will attempt to clean up after itself by removing any
           half-made targets. If a target has the .PRECIOUS attribute, however,
           PMake will leave it alone. An additional side effect of the `::'
           operator is to mark the targets as .PRECIOUS.</para>
-        
+       
         <para>.SILENT Marking a target with this attribute keeps its commands
           from being printed when they're executed, just as if they had an
           `@' in front of them.</para>
-        
+       
         <para>.USE By giving a target this attribute, you turn it into PMake's
           equivalent of a macro. When the target is used as a source for
           another target, the other target acquires the commands, sources and
@@ -1696,7 +1696,7 @@ pmake -n
           the .ALLSRC variable for the target) as its ``arguments,'' if you
           will. For section 3.3 were exactly the same. You can use the .USE
           attribute to eliminate the repetition, like so:</para>
-        
+       
         <programlisting>
 lib1.a          : $(LIB1OBJS) MAKELIB
 lib2.a          : $(LIB2OBJS) MAKELIB
@@ -1707,7 +1707,7 @@ ar cr $(.TARGET) $(.ALLSRC)
 ...
 ranlib $(.TARGET)
         </programlisting>
-        
+       
         <para>Several system makefiles (not to be confused with The System
           Makefile) make use of these .USE rules to make your life easier
           (they're in the default, system makefile directory...take a look).
@@ -1732,17 +1732,17 @@ ranlib $(.TARGET)
           chapter 4. The targets are as follows:</para>
 
         <para>.BEGIN Any commands attached to this target are executed</para>
-        
+       
         <para>before anything else is done. You can use it for any
           initialization that needs doing.</para>
-        
+       
         <para>.DEFAULT This is sort of a .USE rule for any target (that was
           used only as a source) that PMake can't figure out any other way to
           create. It's only ``sort of'' a .USE rule because only the shell
           script attached to the .DEFAULT target is used. The .IMPSRC variable
           of a target that inherits .DEFAULT's commands is set to the target's
           own name.</para>
-        
+       
         <para>.END This serves a function similar to .BEGIN, in that commands
           attached to it are executed once every thing has been re-created
           (so long as no errors occurred). It also serves the extra function
@@ -1751,12 +1751,12 @@ ranlib $(.TARGET)
           of the commands exportation system compiled into PMake. Some sys-
           tems will use these sources to configure themselves. You should
           ask your system administrator about this.</para>
-        
+       
         <para>.IGNORE This target marks each of its sources with the .IGNORE
           attribute. If you don't give it any sources, then it is like giving
           the -i flag when you invoke PMake -- errors are ignored for all
           commands.</para>
-        
+       
         <para>.INCLUDES The sources for this target are taken to be suffixes
           that indicate a file that can be included in a program source file.
           The suffix must have already been declared with .SUFFIXES (see
@@ -1766,26 +1766,26 @@ ranlib $(.TARGET)
           argument for the compiler in the normal fashion. The .h suffix is
           already marked in this way in the system makefile. E.g. if you
           have</para>
-        
+       
         <programlisting>
 .SUFFIXES       : .bitmap
 .PATH.bitmap    : /usr/local/X/lib/bitmaps
 .INCLUDES       : .bitmap
         </programlisting>
-        
+       
         <para>PMake will place ``-I/usr/local/X/lib/bitmaps'' in the .INCLUDES
           variable and you can then say</para>
-        
+       
         <programlisting>
 cc $(.INCLUDES) -c xprogram.c
         </programlisting>
-        
+       
         <para>(Note: the .INCLUDES variable is not actually filled in until
           the entire makefile has been read.)</para>
-        
+       
         <para>.INTERRUPT When PMake is interrupted, it will execute the
           commands in the script for this target, if it exists.</para>
-        
+       
         <para>.LIBS This does for libraries what .INCLUDES does for include
           files, except the flag used is -L, as required by those linkers that
           allow you to tell them where to find libraries. The variable used is
@@ -1793,82 +1793,82 @@ cc $(.INCLUDES) -c xprogram.c
           this if the linker on your system doesn't accept the -L flag, though
           the .LIBS variable will always be defined once the makefile has
           been read.</para>
-        
+       
         <para>.MAIN If you didn't give a target (or targets) to create when
           you invoked PMake, it will take the sources of this target as the
           targets to create.</para>
-        
+       
         <para>.MAKEFLAGS This target provides a way for you to always specify
           flags for PMake when the makefile is used. The they're in the
           environment), though the -f and -r flags have no effect.</para>
-        
+       
         <para>.NULL This allows you to specify what suffix PMake should
           pretend a file has if, in fact, it has no known suffix. Only one
           suffix may be so designated. The last source on the dependency
           line is the suffix that is used (you should, however, only give one
           suffix...).</para>
-        
+       
         <para>.PATH If you give sources for this target, PMake will take them
           as directories in which to search for files it cannot find in the
           current directory. If you give no sources, it will clear out any
           directories added to the search path before. Since the effects of
           this all get very complex, a complete explanation will be provided
           in chapter four.</para>
-        
+       
         <para>.PATHsuffix This does a similar thing to .PATH, but it does it
           only for files with the given suffix. The suffix must have been
           defined already. Look at Search Paths (section 4.1) for more
           information.</para>
-        
+       
         <para>.PRECIOUS Similar to .IGNORE, this gives the .PRECIOUS attribute
           to each source on the dependency line, unless there are no sources,
           in which case the .PRECIOUS attribute is given to every target in
           the file.</para>
-        
+       
         <para>.RECURSIVE This target applies the .MAKE attribute to all its
           sources. It does nothing if you don't give it any sources.</para>
-        
+       
         <para>.SHELL PMake is not constrained to only using the Bourne shell
           to execute the commands you put in the makefile. You can tell it
           some other shell to use with this target. Check out A Shell is a
           Shell is a Shell (section 4.4) for more information.</para>
-        
+       
         <para>.SILENT When you use .SILENT as a target, it applies the .SILENT
           attribute to each of its sources. If there are no sources on the
           dependency line, then it is as if you gave PMake the -s flag and no
           commands will be echoed.</para>
-        
+       
         <para>.SUFFIXES This is used to give new file suffixes for PMake to
           handle. Each source is a suffix PMake should recognize. If you give
           a .SUFFIXES dependency line with no sources, PMake will forget about
           all the suffixes it knew (this also nukes the null suffix). For
           those targets that need to have suffixes defined, this is how you
           do it.</para>
-        
+       
         <para>In addition to these targets, a line of the form</para>
-        
+       
         <programlisting>
 attribute : sources
         </programlisting>
-        
+       
         <para>applies the attribute to all the targets listed as sources.
           Variables need not always be expanded verbatim. PMake defines
           several modifiers that may be applied to a variable' s value before
           it is expanded. You apply a modifier by placing it after the
           variable name with a colon between the two, like so:</para>
-        
+       
         <programlisting>
 ${VARIABLE:modifier}
         </programlisting>
-        
+       
         <para>Each modifier is a single character followed by something
           specific to the modifier itself. You may apply as many modifiers as
           you want -- each one is applied to the result of the previous and is
           separated from the previous by another colon.</para>
-        
+       
         <para>There are seven ways to modify a variable's expansion, most of
           which come from the C shell variable modification characters:</para>
-        
+       
         <para>Mpattern This is used to select only those words (a word is a
           series of characters that are neither spaces nor tabs) that match
           the given pattern. The pattern is a wildcard pattern like that used
@@ -1884,10 +1884,10 @@ ${VARIABLE:modifier}
           -I and -D flags that would be passed to the C compiler. This allows
           it to properly locate include files and generate the correct
           dependencies.</para>
-        
+       
         <para>Npattern This is identical to :M except it substitutes all words
           that don't match the given pattern.</para>
-        
+       
         <para>S/search-string/replacement-string/[g] Causes the first
           occurrence of search-string in the variable to be replaced by
           replacement-string, unless the g flag is given at the end, in which
@@ -1909,35 +1909,35 @@ ${VARIABLE:modifier}
           point to separate the two strings. This so-called delimiter
           character may be placed in either string by preceeding it with a
           backslash.</para>
-        
+       
         <para>T Replaces each word in the variable expansion by its last
           component (its ``tail''). For example, given</para>
-        
+       
         <programlisting>
 OBJS = ../lib/a.o b /usr/lib/libm.a
 TAILS = $(OBJS:T)
         </programlisting>
-        
+       
         <para>the variable TAILS would expand to ``a.o b libm.a.''</para>
-        
+       
         <para>H This is similar to :T, except that every word is replaced by
           everything but the tail (the ``head''). Using the same definition of
           OBJS, the string ``$(OBJS:H)'' would expand to ``../lib /usr/lib.''
           Note that the final slash on the heads is removed and anything
           without a head is replaced by the empty string.</para>
-        
+       
         <para>E :E replaces each word by its suffix (``extension''). So
           ``$(OBJS:E)'' would give you ``.o .a.''</para>
-        
+       
         <para>R This replaces each word by everything but the suffix (the
           ``root'' of the word). ``$(OBJS:R)'' expands to `` ../lib/a b
           /usr/lib/libm.''</para>
-        
+       
         <para>In addition, the System V style of substitution is also
           supported. This looks like:</para>
-        
+       
         <para>$(VARIABLE:search-string=replacement)</para>
-        
+       
         <para>It must be the last modifier in the chain. The search is
           anchored at the end of each word, so only suffixes or whole words
           may be replaced.</para>
@@ -1955,20 +1955,20 @@ TAILS = $(OBJS:T)
           .exe. How can you still use transformation rules to make your life
           easier (Hint: assume the error-checking versions have ec tacked
           onto their prefix)?</para>
-        
+       
         <para>Assume, for a moment or two, you want to perform a sort of
           ``indirection'' by placing the name of a variable into another one,
           then you want to get the value of the first by expanding the second
           somehow. Unfortunately, PMake doesn't allow constructs like</para>
-        
+       
         <programlisting>
 $($(FOO))
         </programlisting>
-        
+       
         <para>What do you do? Hint: no further variable expansion is performed
           after modifiers are applied, thus if you cause a $ to occur in the
           expansion, that's what will be in the result.</para>
-        
+       
       </sect1>
     </chapter>
 
@@ -2245,14 +2245,14 @@ still more lines
           definition of || will prevent the empty() from being evaluated and
           causing an error, if the variable is undefined). This can be used
           to see if a variable contains a given word, for example:</para>
-        
+       
         <para>The arithmetic and string operators may only be used to test the
           value of a variable. The lefthand side must contain the variable
           expansion, while the righthand side contains either a string,
           enclosed in double-quotes, or a number. The standard C numeric
           conventions (except for specifying an octal number) apply to both
           sides.  E.g.</para>
-        
+       
         <programlisting>
 #if $(OS) == 4.3
 
@@ -2347,21 +2347,21 @@ path=path
           knows and use the specification it finds, if any. Use this if you
           just want to use a different version of the Bourne or C Shell (yes,
           PMake knows how to use the C Shell too).</para>
-        
+       
         <para>name=name This is the name by which the shell is to be known. It
           is a single word and, if no other keywords are specified (other
           than path), it is the name by which PMake attempts to find a
           specification for it (as mentioned above). You can use this if you
           would just rather use the C Shell than the Bourne Shell (``.SHELL:
           name=csh'' will do it).</para>
-        
+       
         <para>quiet=echo-off command As mentioned before, PMake actually
           controls whether commands are printed by introducing commands into
           the shell's input stream. This keyword, and the next two, control
           what those commands are. The quiet keyword is the command used to
           turn echoing off. Once it is turned off, echoing is expected to
           remain off until the echo-on command is given.</para>
-        
+       
         <para>echo=echo-on command The command PMake should give to turn
           echoing back on Many shells will echo the echo-off command when it
           is given. This keyword tells PMake in what format the shell actually
@@ -2369,7 +2369,7 @@ path=path
           shell's output, it will delete it and any following whitespace, up
           to and including the next newline. See the example at the end of
           this section for more details.</para>
-        
+       
         <para>echoFlag=flag to turn echoing on Unless a target has been marked
           .SILENT, PMake wants to start the shell running with echoing on. To
           do this, it passes this flag to the shell as one of its arguments.
@@ -2377,13 +2377,13 @@ path=path
           passed to the shell as separate arguments. Otherwise, the two will
           be concatenated (if they are used at the same time, of
           course).</para>
-        
+       
         <para>errFlag=flag to turn error checking on Likewise, unless a target
           is marked .IGNORE, PMake wishes error-checking to be on from the
           very start. To this end, it will pass this flag to the shell as an
           argument. The same rules for an initial `-' apply as for the
           echoFlag.</para>
-        
+       
         <para>check=command to turn error checking on Just as for
           echo-control, error-control is achieved by inserting commands into
           the shell's input stream. This is the command to make the shell
@@ -2391,12 +2391,12 @@ path=path
           doesn't have error-control as commands, but that will be explained
           in a minute. Again, once error checking has been turned on, it is
           expected to remain on until it is turned off again.</para>
-        
+       
         <para>ignore=command to turn error checking off This is the command
           PMake uses to turn error checking off. It has another use if the
           shell doesn't do error-control, but that will be
           discussed...now.</para>
-        
+       
         <para>hasErrCtl=yes or no This takes a value that is either yes or no.
           Now you might think that the existence of the check and ignore
           keywords would be enough to tell PMake if the shell can do
@@ -2411,12 +2411,12 @@ path=path
           will execute the command to be executed and ignore any error it
           returns. When these strings are used as templates, you must provide
           newline(s) (``\n'') in the appropriate place(s).</para>
-        
+       
         <para>The strings that follow these keywords may be enclosed in line,
           \r is return, \b is backspace, \' escapes a single quote inside
           single-quotes, \" escapes a double-quote inside double-quotes). Now
           for an example.</para>
-        
+       
         <para>This is actually the contents of the &lt;shx.mk&gt; system
           makefile, and causes PMake to use the Bourne Shell in such a way
           that each command is printed as it is executed. That is, if more
@@ -2424,7 +2424,7 @@ path=path
           separately.  Similarly, each time the body of a loop is executed,
           the commands within that loop will be printed, etc. The
           specification runs like this:</para>
-        
+       
         <programlisting>
 #
 # This is a shell specification to have the Bourne shell echo
@@ -2460,7 +2460,7 @@ ignore="set +e"
           <listitem>
             <para>The command to start echoing is set -x.</para>
           </listitem>
-          
+         
           <listitem>
             <para>When the echo off command is executed, the shell will print
               + set - (The `+' comes from using the -x flag (rather than the
@@ -2468,19 +2468,19 @@ ignore="set +e"
               of this string from the output, so you don't notice extra
               commands you didn't put there.</para>
           </listitem>
-          
+         
           <listitem>
             <para>The flag the Bourne Shell will take to start echoing in this
               way is the -x flag. The Bourne Shell will only take its flag
               arguments concatenated as its first argument, so neither this
               nor the errFlag specification begins with a -.</para>
           </listitem>
-          
+         
           <listitem>
             <para>The flag to use to turn error-checking on from the start is
               -e.</para>
           </listitem>
-          
+         
           <listitem>
             <para>The shell can turn error-checking on and off, and the
               commands to do so are set +e and set -e, respectively. It should
@@ -2587,19 +2587,19 @@ sh -c 'cmd || true'
 
           <itemizedlist>
             <listitem><para>No parallel execution.</para></listitem>
-          
+         
             <listitem>
               <para>Targets are made in the exact order specified by the
                 makefile. The sources for each target are made in strict
                 left-to-right order, etc.</para>
             </listitem>
-          
+         
           <listitem>
             <para>A single Bourne shell is used to execute each command, thus
               the shell's $$ variable is useless, changing directories doesn't
               work across command lines, etc.</para>
           </listitem>
-          
+         
           <listitem>
             <para>If no special characters exist in a command line, PMake will
               break the command into words itself and execute the command
@@ -2610,7 +2610,7 @@ sh -c 'cmd || true'
               by the shell (except ' and , which PMake deals with all by its
               lonesome).</para>
           </listitem>
-          
+         
           <listitem>
             <para>The use of the null suffix is turned off.</para>
           </listitem>
@@ -2721,26 +2721,26 @@ $(PTR:S/^/\$(/:S/$/))
 
   <chapter>
     <title>Glossary of Jargon</title>
-    
+   
     <para>attribute: A property given to a target that causes PMake to treat
       it differently.</para>
-    
+   
     <para>command script: The lines immediately following a dependency line
       that specify commands to execute to create each of the targets on the
       dependency line. Each line in the command script must begin with a
       tab.</para>
-    
+   
     <para>command-line variable: A variable defined in an argument when PMake
       is first executed. Overrides all assignments to the same variable name
       in the makefile.</para>
-    
+   
     <para>conditional: A construct much like that used in C that allows a
       makefile to be configured on the fly based on the local environment, or
       on what is being made by that invocation of PMake.</para>
-    
+   
     <para>creation script: Commands used to create a target. See ``command
       script.''</para>
-    
+   
     <para>dependency: The relationship between a source and a target. This
       comes in three flavors, as indicated by the operator between the
       target and the source. `:' gives a straight time-wise dependency (if the
@@ -2748,64 +2748,64 @@ $(PTR:S/^/\$(/:S/$/))
       provides simply an ordering and always considers the target out-of-date.
       :: is much like :, save it creates multiple instances of a target each
       of which depends on its own list of sources.</para>
-    
+   
     <para>dynamic source: This refers to a source that has a local variable
       invocation in it. It allows a single dependency line to specify a
       different source for each target on the line.</para>
-    
+   
     <para>global variable: Any variable defined in a makefile. Takes
       precedence over variables defined in the environment, but not over
       command-line or local variables.</para>
-    
+   
     <para>input graph: What PMake constructs from a makefile. Consists of
       nodes made of the targets in the makefile, and the links between them
       (the dependencies). The links are directed (from source to target) and
       there may not be any cycles (loops) in the graph.</para>
-    
+   
     <para>local variable: A variable defined by PMake visible only in a
       target's shell script. There are seven local variables, not all of
       which are defined for every target: .TARGET, .ALLSRC, .OODATE, .PREFIX,
       .IMPSRC, .ARCHIVE, and .MEMBER. .TARGET, .PREFIX, .ARCHIVE, and .MEMBER
       may be used on dependency lines to create ``dynamic sources.''</para>
-    
+   
     <para>makefile: A file that describes how a system is built. If you don't
       know what it is after reading this tutorial....</para>
-    
+   
     <para>modifier: A letter, following a colon, used to alter how a variable
       is expanded. It has no effect on the variable itself.</para>
-    
+   
     <para>operator: What separates a source from a target (on a dependency
       line) and specifies the relationship between the two. There are three:
       `:', `::', and `!'.</para>
-    
+   
     <para>search path: A list of directories in which a file should be sought.
       PMake's view of the contents of directories in a search path does not
       change once the makefile has been read. A file is sought on a search
       path only if it is exclusively a source.</para>
-    
+   
     <para>shell: A program to which commands are passed in order to create
       targets.</para>
-    
+   
     <para>source: Anything to the right of an operator on a dependency line.
       Targets on the dependency line are usually created from the
       sources.</para>
-    
+   
     <para>special target: A target that causes PMake to do special things when
       it's encountered.</para>
-    
+   
     <para>suffix: The tail end of a file name. Usually begins with a period,
       .c or .ms, e.g.</para>
-    
+   
     <para>target: A word to the left of the operator on a dependency line.
       More generally, any file that PMake might create. A file may be (and
       often is) both a target and a source (what it is depends on how PMake is
       looking at it at the time -- sort of like the wave/particle duality of
       light, you know).</para>
-    
+   
     <para>transformation rule: A special construct in a makefile that
       specifies how to create a file of one type from a file a variable for a
       reference to it. Expansion may be altered by means of modifiers.</para>
-    
+   
     <para>variable: A place in which to store text that may be retrieved
       later. Also used to define the local environment. Conditionals exist
       that test whether a variable is defined or not.</para>

@@ -45,7 +45,7 @@
             <listitem><para>Send heads-up message to
               tendra-dev@ten15.org.</para></listitem>
           </itemizedlist>
-      </listitem> 
+      </listitem>
       <listitem>
         <para>Create the release branch.</para>
           <itemizedlist mark="bullet">
@@ -106,7 +106,7 @@
   <chapter id="documentation">
     <title>Documentation</title>
 
-    <para>Various documents that will be shipped with releases of 
+    <para>Various documents that will be shipped with releases of
       <application>TenDRA</application> must be compiled from their SGML
       source into text form. These include:</para>
 

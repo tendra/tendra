@@ -834,7 +834,7 @@
         <listitem><para>if the prefix is <command>&gt;</command> then a = a + b,</para>
         <listitem><para>if the prefix is <command>&lt;</command> then a = b + a,</para>
       </itemizedlist>
-  
+ 
       where + denotes concatenation of lists. The lists represented in this
       way include those giving the pathnames of the executables of the various
       compilation components (plus default flags). These are given by the
@@ -842,15 +842,15 @@
       a complete list). The other lists can be divided between those affecting
       the producer, the TDF linker, and the system linker respectively (see
       sections 5.1, 5.2 and 5.5 for more details):
-  
+ 
         <screen>
     	INCL		list of default producer include file directories (as <option>-I</option> options),
     	STARTUP		list of default producer start-up files (as <option>-f</option> options),
     	STARTUP_DIR	list of default producer start-up directories (as <option>-I</option> options),
-  
+ 
     	LIB		list of default TDF libraries (as <option>-l</option> options),
     	LINK		list of default TDF library directories (as <option>-L</option> options),
-  
+ 
     	CRT0		list of default initial .o files,
     	CRT1		second list of default initial .o files,
     	CRTN		list of default final .o files,
@@ -859,10 +859,10 @@
     	SYS_LINK	list of default system library directories (as <option>-L</option> options).
         </screen>
       </para>
-  
+ 
     <sect1 id='environment-search-path'>
       <title>The Environment Search Path</title>
-  
+ 
       <para>The command-line option
         <option>-Y</option><option>env</option> tells
         <command>tcc</command> to read the environment
@@ -881,10 +881,10 @@
         <command>tcc</command> to print this environment search path. If
         the environment cannot be found, then a warning is issued.</para>
     </sect1>
-  
+ 
     <sect1 id='default-environment'>
       <title>The Default Environment: Configuring tcc</title>
-  
+ 
       <para>The most important environment is the
         <command>default</command> environment, which is built into
         <command>tcc</command> at compile-time. This does not mean that
@@ -892,7 +892,7 @@
         that <command>tcc</command> is invoked, but rather that it is
         read once (at compile-time) to determine the default
         configuration of <command>tcc</command>.</para>
-  
+ 
       <para>The information included in the <command>default</command>
         environment includes: the pathnames and default flags of the
         various components of the compilation system; the target machine
@@ -901,7 +901,7 @@
         comprising the default API (which is always ANSI); the variables
         specifying the default compilation mode; the default
         environments directory (mentioned above).</para>
-  
+ 
       <para>The target machine type, defined by the
         <command>MACHINE</command> environmental identifier, actually
         plays a very minor role in dealing with the very real target
@@ -923,10 +923,10 @@
         for <command>tcc</command> to know that the machine type is Mips
         in this case (see section 5.3.4 for more details).</para>
     </sect1>
-  
+ 
     <sect1 id='using-environments-specify-apies'>
       <title>Using Environments to Specify APIs</title>
-  
+ 
       <para>Another important use of environments concerns their use in
         specifying APIs. As was mentioned above, an API may be
         considered to have three components: the target independent
@@ -941,7 +941,7 @@
         <command>SYS_LINK </command> the location of the system
         libraries. Moreover, all this information can be canned into a
         single command-line option.</para>
-  
+ 
       <para>A number of standard APIs have been described as target
         independent headers and are provided with the TDF system. A
         <command>tcc</command> environment is provided for each of these
@@ -962,7 +962,7 @@
         specify the API POSIX plus X11 Release 5, the command-line
         options <option>-Yposix -Yx5_lib</option> are required (in that
         order).</para>
-  
+ 
       <para>All the standard API environments provided also contain
         lines which set, or modify, the <command>INFO</command>
         environmental identifier. This contains textual information on
@@ -970,19 +970,19 @@
         information can be printed by invoking <command>tcc</command>
         with the <option>-info</option> command-line option. For
         example, the command-line options:
-  
+ 
         <screen>
     	&gt; tcc -info -Yposix -Yx5_lib
         </screen>
-  
+ 
         cause the message:
-  
+ 
         <screen>
     	tcc: API is X11 Release 5 Xlib plus POSIX (1003.1).
         </screen>
-  
+ 
         to be printed.</para>
-  
+ 
       <para>As was mentioned above, the default API is ANSI. Thus
         invoking <command>tcc</command> without specifying an API
         environment is equivalent to giving the <option>-Yansi</option>
@@ -990,10 +990,10 @@
         portability, explicit decisions are better than implicit ones,
         the use of <option>-Yansi</option> is recommended.</para>
     </sect1>
-  
+ 
     <sect1 id='using-environments-to-impl-tcc-opt'>
       <title>Using Environments to Implement tcc Options</title>
-  
+ 
       <para>Another use to which environments are put is to implement
         certain <command>tcc</command> command-line options. In
         particular, some options require different actions depending on
@@ -1001,7 +1001,7 @@
         of an environment, which can be defined differently on each
         target machine, rather than by trying to build all the
         alternative definitions into <command>tcc</command>.</para>
-  
+ 
       <para>An important example is the <option>-g</option> flag, which
         causes the generation of information for symbolic debugging.
         Depending on the target machine, different flags may need to be
@@ -1011,17 +1011,17 @@
         need to be changed. For this reason <command>tcc</command> uses
         a standard environment, <command>tcc_diag</command>, to
         implement the <option>-g</option> option.</para>
-  
+ 
       <para>For a complete list of those options which are implemented
         by means of environments, see 7.7. If the given option is not
         supported on a particular target machine, then the corresponding
         environment will not exist, and <command>tcc</command> will
         issue a warning to that effect.</para>
     </sect1>
-  
+ 
     <sect1 id='user-defined-environments'>
       <title>User-Defined Environments</title>
-  
+ 
       <para>The <command>tcc</command> user can also set up and use
         environments. It is anticipated that this facility will be used
         mainly to group a number of <command>tcc</command> command-line
@@ -1196,16 +1196,16 @@
             <itemizedlist>
               <listitem><para><option>-Xs</option> specifies strict
                 ISO/ANSI C with extra portability checks,</para>
-              
+             
               <listitem><para><option>-Xp</option> specifies strict ISO/ANSI
                 C with minimal portability checks,</para>
-              
+             
               <listitem><para><option>-Xc</option> specifies strict ISO/ANSI
                 C with no extra portability checks,</para>
-              
+             
               <listitem><para><option>-Xa</option> specifies ISO/ANSI C with
                 various syntactic extensions,</para>
-              
+             
               <listitem><para><option>-Xt</option> specifies
                 &quot;traditional&quot; C.</para>
             </itemizedlist>
@@ -1278,7 +1278,7 @@
           	syntactic relaxations: no
           	extra prototype checks: yes
           	additional checks: yes
-        
+       
           	compilation mode: <option>-Xp
           	</option>description: strict ISO/ANSI with minimal extra checks
           	pre-defined macros: __STDC__ = 1, __ANDF__ = 1, __TenDRA__ = 1
@@ -1286,7 +1286,7 @@
           	syntactic relaxations: no
           	extra prototype checks: yes
           	additional checks: some
-        
+       
           	compilation mode: <option>-Xc
           	</option>description: strict ISO/ANSI with no extra checks
           	pre-defined macros: __STDC__ = 1, __ANDF__ = 1, __TenDRA__ = 1
@@ -1294,7 +1294,7 @@
           	syntactic relaxations: no
           	extra prototype checks: no
           	additional checks: no
-        
+       
           	compilation mode: <option>-Xa</option> (default)
           	description: lenient ISO/ANSI with no extra checks
           	pre-defined macros: __STDC__ = 1, __ANDF__ = 1, __TenDRA__ = 1
@@ -1302,7 +1302,7 @@
           	syntactic relaxations: yes
           	extra prototype checks: no
           	additional checks: no
-        
+       
           	compilation mode: <option>-Xt
           	</option>description: traditional C
           	pre-defined macros: __STDC__ = 0, __ANDF__ = 1, __TenDRA__ = 1
@@ -1330,20 +1330,20 @@
             standard) and so forms a suitable baseline. Suppose that,
             on examining the program to be compiled, we decide that we
             need to do the following:
-              
+             
           <itemizedlist>
             <listitem><para>allow the <command>#ident</command>
               directive,</para>
             </listitem>
-            
+           
             <listitem><para>allow through unknown escape sequences
               with a warning,</para>
             </listitem>
-            
+           
             <listitem><para>warn of uses of undeclared
               procedures,</para>
             </listitem>
-            
+           
             <listitem><para>warn of incorrect uses of simple
               <command>return</command> statements.</para>
             </listitem>
@@ -1521,7 +1521,7 @@
           appropriate manual page.</para>
       </sect2>
     </sect1>
-        
+       
     <sect1 id='tdf-target-translator'>
       <title>The TDF to Target Translator</title>
 
@@ -1561,7 +1561,7 @@
             SunOS and Solaris 1. These versions again differ primarily
             in the symbolic debugger supported.</para>
           </listitem>
-      
+     
           <listitem><para>The TDF --&gt; Mips (R2000/R3000,
             little-endian) translator is called
             <command>mipstrans</command>. This differs from the other
@@ -1576,7 +1576,7 @@
             in the format of the binasm file between these two
             releases.</para>
           </listitem>
-      
+     
           <listitem><para>The TDF --&gt; 68030/68040 translator also
             exists in two versions.  One runs on HP-UX and is called
             <command>hptrans</command>; the other runs on NeXTStep and
@@ -1814,7 +1814,7 @@
           second by <command>CRT1</command>. The list of final
           <command>.o</command> files is given by the
           <command>CRTN</command> environmental identifier.</para>
-  
+ 
         <para>The information on the default system libraries the
           linker requires is given by three environmental identifiers.
           <command>SYS_LINK</command> gives a list of directories to
@@ -1835,7 +1835,7 @@
           if linking statically, or
           <command>lib</command><option>str</option><command>.so</command>
           if linking dynamically.</para>
-  
+ 
         <para>So the main target dependencies affecting the system
           linker are described in these six environmental variables:
           <command>CRT0</command>, <command>CRT1</command>,
@@ -1848,11 +1848,11 @@
           system libraries containing the API implementation, although
           at present this has not been done.</para>
       </sect2>
-  
+ 
       <sect2 id='effect-command-line-opt'>
         <title>The Effect of Command-Line Options on the
           System Linker</title>
-        
+       
         <para>The most important <command>tcc</command> command-line
           options affecting the system linker are those which specify
           the use of certain system libraries. The option
@@ -1870,7 +1870,7 @@
           normally <option>-l</option> (and to a lesser extent
           <option>-L</option>) options should be the final
           command-line options given.</para>
-      
+     
         <para>The following <command>tcc</command> command-line
           options are passed directly to <command>ld</command>. A
           brief description is given of the purpose of each option,
@@ -1878,7 +1878,7 @@
           option depends on the target machine. The local
           <command>ld</command> manual page should be consulted for
           details.
-      
+     
           <screen>
           	<option>-B</option><option>str</option>		sets library type: <option>str</option> can be dynamic or static,
           	<option>-G</option>		causes a shared object rather than an executable to be produced,
@@ -1889,7 +1889,7 @@
           	<option>-u</option><option>str</option>		causes <option>str</option> to be marked as undefined,
           	<option>-z</option><option>str</option>		specifies error behaviour, depending on <option>str</option>.
           </screen>
-      
+     
           The position of any <option>-B</option><option>str</option>
           options on the command-line is significant. These positions
           are therefore preserved. The position of the other options
@@ -1908,7 +1908,7 @@
           environmental identifiers controlling the linker.</para>
       </sect2>
     </sect1>
-  
+ 
     <sect1 id='c-preprocessor'>
       <title>The C Preprocessor</title>
 
@@ -1920,7 +1920,7 @@
         the former case the output is send to the standard output,
         whereas in the latter it is send to the corresponding
         <command>.i</command> files.</para>
-  
+ 
       <para>The TDF system differs from most C compilation systems in
         that preprocessing is an integral part of the producer,
         <command>tdfc</command>, rather than a preliminary textual
@@ -1934,10 +1934,10 @@
         the textual level to the degree which is normal in C
         preprocessors.</para>
     </sect1>
-  
+ 
     <sect1 id='tdf-pretty-printer'>
       <title>The TDF Pretty Printer</title>
-  
+ 
       <para>The TDF pretty printer, <command>disp</command>, and the TDF
         notation compiler, <command>tnc</command>, have already been
         discussed in some detail in section 3.5.3. The TDF decoding
@@ -1951,7 +1951,7 @@
         <option>-Ytnc</option> option also causes any input
         <command>.p</command> files to be encoded into
         <command>.j</command> files by <command>tnc</command>.</para>
-    
+   
       <para>The pretty printer, <command>disp</command>, can be used as
         a useful check that a given <command>.j</command> or
         <command>.t</command> file is a legal TDF capsule. The TDF
@@ -1965,7 +1965,7 @@
         </option><option>opt</option><option>,</option> ...
         command-line option to <command>tcc</command>. The potentially
         useful <command>disp </command> options include:
-    
+   
       <screen>
       	<option>-A</option>		causes all known unit types to be decoded,
       	<option>-g</option>		causes diagnostic information units to be decoded,
@@ -1974,17 +1974,17 @@
       	<option>-V</option>		causes the input not to be rationalised,
       	<option>-W</option>		causes a warning to be printed if a token is used before it is declared.
       </screen>
-    
+   
       The manual page for <command>disp</command> should be consulted for more
       details.</para>
-    
+   
       <para>The TDF notation compiler, <command>tnc</command>, is
         fully documented in [4].</para>
     </sect1>
-  
+ 
     <sect1 id='tdf-archiver'>
       <title>The TDF Archiver</title>
-    
+   
       <para>A TDF archive is a <command>tcc</command>-specific form
         intended for software distribution. It consists of a set of
         target independent TDF capsules (<command>.j</command> files)
@@ -1992,7 +1992,7 @@
         is intended that a TDF archive can be produced on one machine,
         and distributed to, and installed on, a number of target
         machines.</para>
-  
+ 
       <para>If a TDF archive is given as an input file to
         <command>tcc</command> (it will be recognised by its
         <command>.ta</command> suffix), then it is split into its
@@ -2005,7 +2005,7 @@
         tool. Options passed to the archiver using <option>-WJ,
         </option><option>opt</option> are interpreted by
         <command>tcc</command>.</para>
-      
+     
       <para>In order to specify that a TDF archive should be created,
         the <option>-prod</option> flag should be used. This specifies
         that all target independent capsules (<command>.j</command>
@@ -2019,7 +2019,7 @@
         names of the capsules comprising the archive are inserted into
         the archive, but this may be suppressed by the use of the
         <option>-WJ, -no_names</option> option.</para>
-      
+     
       <para>As an example of the kind of option that might be included
         in an archive, suppose that the production has been done using
         the POSIX API. Then the installation should also be done using
@@ -2031,16 +2031,16 @@
         describing the standard APIs have been set up so that this
         happens automatically. For example, the
         <command>posix</command> environment contains the line:
-      
+     
         <screen>
         	+FLAG &quot;-WI,-Yposix&quot;
         </screen>
-      
+     
         Another kind of option that it might be useful to include in
         an archive is a <option>-l</option><option>str</option>
         option. In this way all the information on the install-time
         options can be specified at produce-time.</para>
-      
+     
       <para>A final example of an option which might be included in an
         archive is the <option>-message</option> option. The
         command-line option <option>-message</option>
@@ -2049,11 +2049,11 @@
         characters in <option>str</option> replaced by spaces (there
         are problems with escaping spaces). So, by using the
         command-line option:
-      
+     
         <screen>
         	<option>-WI,-message&quot;Installing@TDF@archive@...&quot;</option>
         </screen>
-      
+     
         one can produce an archive which prints a message as it is
         installed.  This option is also useful in environments. By
         inserting the line:
@@ -2245,12 +2245,12 @@
               identifier (usually in the <command>default</command>
               environment),</para>
           </listitem>
-          
+         
           <listitem>
             <para>by the <option>-temp</option> <option>dir</option>
               command-line option,</para>
           </listitem>
-          
+         
           <listitem>
             <para>by the <command>TMPDIR</command> system
             variable.</para>
@@ -2302,7 +2302,7 @@
       <para><command>tcc</command> identifies the file type of the
         input files it is passed by means of their file suffix. The
         recognised file suffixes are as follows:
-        
+       
     <table frame="all" id='input-file-suffexes'>
       <title>Input File Suffixes</title>
         <tgroup cols="3">
@@ -2312,7 +2312,7 @@
               <entry>Code</entry>
               <entry>Description</entry>
             </row>
-          </thead> 
+          </thead>
 
           <tbody>
             <row>
@@ -2458,7 +2458,7 @@
 
       <para>The various compilation phases under the control of
         <command>tcc</command> may be summarised as follows:</para>
-        
+       
     <table frame="all" id='compilation-phase'>
       <title>Compilation Phase</title>
         <tgroup cols="4">
@@ -2480,7 +2480,7 @@
                        <member>.i &rarr .j</member>
                        <member>.c &rarr .j + .k</member>
                        <member>.i &rarr .j + .k</member>
-                     </simplelist></entry>            
+                     </simplelist></entry>           
               <entry><simplelist type="vert" columns="1">
                        <member>C to <literal>TDF</literal> producer</member>
                        <member></member>
@@ -2500,7 +2500,7 @@
                        <member><emphasis>(in <literal>TDF</literal> merging mode)</emphasis></member>
                      </simplelist></entry>
             </row>
-            <row>        
+            <row>       
               <entry><command>trans</command></entry>
               <entry>t</entry>
               <entry>.t &rarr .s</entry>
@@ -2528,7 +2528,7 @@
               <entry><command>(archiver)</command></entry>
               <entry>J</entry>
               <entry>.ta &rarr <emphasis>n</emphasis> &times .j</entry>
-              <entry>Archive splitter (built into <command>tcc</command>)</entry> 
+              <entry>Archive splitter (built into <command>tcc</command>)</entry>
             </row>
             <row>
               <entry><command>tdfcpp</command></entry>
@@ -2563,7 +2563,7 @@
               <entry><simplelist type="vert" columns="1">
                        <member>.j &rarr .p</member>
                        <member>.t &rarr .p</member>
-                     </simplelist></entry>        
+                     </simplelist></entry>       
               <entry>Reverse <literal>TDF</literal> notation compiler</entry>
             </row>
             <row>
@@ -2613,12 +2613,12 @@
         than one command-line argument.</para>
 
     <para>INSERT MAN PAGE XREF HERE!</para>
-      
+     
       <para>The following two tables list the producer and archiver
       options which can be passed using the <option>-Wc,
       </option><option>opt</option> and <option>-WJ,</option><option>
       opt</option> options, respectively.
-      
+     
     <para>INSERT MAN PAGE XREF HERE!</para>
 
     <table frame="all" id='archiver-options'>
@@ -2633,7 +2633,7 @@
 
           <tbody>
             <row>
-              <entry><command>-copy</command> or <command>-c</command></entry> 
+              <entry><command>-copy</command> or <command>-c</command></entry>
               <entry>copies files into archives</entry>
             </row>
             <row>
@@ -2682,7 +2682,7 @@
               denotes strict ISO/ANSI C with most extra checks enabled
               as warnings.</para>
           </listitem>
-          
+         
           <listitem>
             <para><command>Xp</command> (&quot;partial checks&quot;)
               denotes strict ISO/ANSI C with some extra checks
@@ -2717,7 +2717,7 @@
 
       <para>The following standard APIs are supported in the form of
         TenDRA headers:</para>
-        
+       
     <table frame="all" id='supported-apis-b'>
       <title>Supported APIs</title>
         <tgroup cols="3">
@@ -2727,7 +2727,7 @@
                <entry>Description</entry>
                <entry>Comments</entry>
              </row>
-           </thead>  
+           </thead> 
 
            <tbody>
              <row>
@@ -2753,7 +2753,7 @@
              <row>
                <entry>xpg3</entry>
                <entry>X/Open Portability Guide 3</entry>
-               <entry>base API</entry> 
+               <entry>base API</entry>
              </row>
              <row>
                <entry>xpg4</entry>
@@ -2771,15 +2771,15 @@
                <entry>base API</entry>
              </row>
              <row>
-               <entry>aes</entry> 
+               <entry>aes</entry>
                <entry>AES Revision A</entry>
-               <entry>base API</entry> 
-             </row>  
+               <entry>base API</entry>
+             </row> 
              <row>
-               <entry>bsd_extn<superscript>b</superscript></entry> 
+               <entry>bsd_extn<superscript>b</superscript></entry>
                <entry>BSD-Like extension for use with POSIX etc.</entry>
-               <entry>extension API</entry> 
-             </row>  
+               <entry>extension API</entry>
+             </row> 
              <row>
                <entry>x5_lib</entry>
                <entry>X11 (Release 5) X library</entry>
@@ -2868,7 +2868,7 @@
 
       <para>The following <command>tcc</command> environment
         identifiers are recognised:</para>
-        
+       
     <table frame="all" id='env-identifers'>
       <title>Environment Identifiers</title>
         <tgroup cols="2">
@@ -2884,7 +2884,7 @@
                <entry><literal>*AS</literal></entry>
                <entry>modifies the system assembler executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*AS1</literal></entry>
                <entry>modifies the auxiliary assembler executable (Mips only)</entry>
              </row>
@@ -2892,7 +2892,7 @@
                <entry><literal>*CC</literal></entry>
                <entry>modifies the system compiler executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*CRT0</literal></entry>
                <entry>modifies the first list of initial default <literal>.o</literal> files</entry>
              </row>
@@ -2900,7 +2900,7 @@
                <entry><literal>*CRT1</literal></entry>
                <entry>modifies the second list of initial default <literal>.o</literal> files </entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*CRTN</literal></entry>
                <entry>modifies the list of final default <literal>.o</literal> files</entry>
              </row>
@@ -2908,7 +2908,7 @@
                <entry><literal>*DISP</literal></entry>
                <entry>modifies the <literal>TDF</literal> pretty printer executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>+ENVDIR</literal></entry>
                <entry>sets the main environment directory</entry>
              </row>
@@ -2916,7 +2916,7 @@
                <entry><literal>+FLAG</literal></entry>
                <entry>passes a flag to <command>tcc</command></entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>+FLAG_AS</literal></entry>
                <entry>passes a falg to the assembler</entry>
              </row>
@@ -2924,7 +2924,7 @@
                <entry><literal>+FLAG_CC</literal></entry>
                <entry>passes a flag to the system compiler</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>+FLAG_DISP</literal></entry>
                <entry>passes a flag to the <literal>TDF</literal> pretty printer</entry>
              </row>
@@ -2932,119 +2932,119 @@
                <entry><literal>+FLAG_INSTALL</literal></entry>
                <entry>passes a flag to the <literal>TDF</literal> archive builder</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>+FLAG_LD</literal></entry>
                <entry>passes a flag to the system linker</entry>
              </row>
-             <row>                                   
-               <entry><literal>+FLAG_SPEC_LINK</literal></entry>    
+             <row>                                  
+               <entry><literal>+FLAG_SPEC_LINK</literal></entry>   
                <entry>passes a flag to the C spec linker</entry>
              </row>
              <row>
                <entry><literal>+FLAG_TDFC</literal></entry>
                <entry>passes a flag to the producer</entry>
              </row>
-             <row>                                   
-               <entry><literal>+FLAG_TDFCPP</literal></entry>    
-               <entry>passes a flag to the preprocessor</entry>        
+             <row>                                  
+               <entry><literal>+FLAG_TDFCPP</literal></entry>   
+               <entry>passes a flag to the preprocessor</entry>       
              </row>
              <row>
                <entry><literal>+FLAG_TLD</literal></entry>
                <entry>passes a flag to the <literal>TDF</literal> linker</entry>
              </row>
-             <row>                                   
-               <entry><literal>+FLAG_TNC</literal></entry>    
-               <entry>passes a flag to the <literal>TDF</literal> notation compiler</entry>                       
+             <row>                                  
+               <entry><literal>+FLAG_TNC</literal></entry>   
+               <entry>passes a flag to the <literal>TDF</literal> notation compiler</entry>                      
              </row>
              <row>
                <entry><literal>+FLAG_TRANS</literal></entry>
                <entry>passes a flag to the <literal>TDF</literal> translator</entry>
              </row>
-             <row>                                   
-               <entry><literal>*INCL</literal></entry>    
-               <entry>modifies the list of default include file directories</entry>                       
+             <row>                                  
+               <entry><literal>*INCL</literal></entry>   
+               <entry>modifies the list of default include file directories</entry>                      
              </row>
              <row>
                <entry><literal>*INFO</literal></entry>
                <entry>modififes the list of API information</entry>
              </row>
-             <row>                                   
-               <entry><literal>*LD</literal></entry>    
-               <entry>modifies the system linker executable</entry>  
+             <row>                                  
+               <entry><literal>*LD</literal></entry>   
+               <entry>modifies the system linker executable</entry> 
              </row>
              <row>
                <entry><literal>*LIB</literal></entry>
                <entry>modifies the list of default <literal>TDF</literal> libraries</entry>
              </row>
-             <row>                                   
-               <entry><literal>+LINE_START</literal></entry>    
-               <entry>inserts a line in the <command>tcc</command> built-in start-up <literal>file</literal></entry>                       
+             <row>                                  
+               <entry><literal>+LINE_START</literal></entry>   
+               <entry>inserts a line in the <command>tcc</command> built-in start-up <literal>file</literal></entry>                      
              </row>
              <row>
                <entry><literal>+LINE_END</literal></entry>
                <entry>>inserts a line in the <command>tcc</command> built-in end-up <literal>file</literal></entry>
              </row>
-             <row>                                   
-               <entry><literal>*LINK</literal></entry>    
-               <entry>modifies the list of default <literal>TDF</literal> library directories</entry>                       
+             <row>                                  
+               <entry><literal>*LINK</literal></entry>   
+               <entry>modifies the list of default <literal>TDF</literal> library directories</entry>                      
              </row>
              <row>
                <entry><literal>+MACHINE</literal></entry>
                <entry>sets the target machine type</entry>
              </row>
-             <row>                                   
-               <entry><literal>+PORTABILITY</literal></entry>    
-               <entry>sets the producer portability table</entry>        
+             <row>                                  
+               <entry><literal>+PORTABILITY</literal></entry>   
+               <entry>sets the producer portability table</entry>       
              </row>
              <row>
                <entry><literal>*SPEC_LINK</literal></entry>
                <entry>modifies the C spec linker executable</entry>
              </row>
-             <row>                                   
-               <entry><literal>*STARTUP</literal></entry>    
+             <row>                                  
+               <entry><literal>*STARTUP</literal></entry>   
                <entry>modifies the list of default producer start-up files</entry>
              </row>
              <row>
                <entry><literal>*STARTUP_DIR</literal></entry>
                <entry>modifies the list of default start-up directories</entry>
              </row>
-             <row>                                   
-               <entry><literal>*SYS_LIB</literal></entry>    
+             <row>                                  
+               <entry><literal>*SYS_LIB</literal></entry>   
                <entry>modifies the list of default system libraries</entry>
              </row>
              <row>
                <entry><literal>*SYS_LIBC</literal></entry>
                <entry>modifies the list of standard system libraries</entry>
              </row>
-             <row>                                   
-               <entry><literal>*SYS_LINK</literal></entry>    
-               <entry>modifies the list of default system library directories</entry>      
+             <row>                                  
+               <entry><literal>*SYS_LINK</literal></entry>   
+               <entry>modifies the list of default system library directories</entry>     
              </row>
              <row>
                <entry><literal>*TDFC</literal></entry>
                <entry>modifies the producer executable</entry>
              </row>
-             <row>                                   
-               <entry><literal>*TDFCPP</literal></entry>    
-               <entry>modifies the preprocessor executable</entry>     
+             <row>                                  
+               <entry><literal>*TDFCPP</literal></entry>   
+               <entry>modifies the preprocessor executable</entry>    
              </row>
              <row>
                <entry><literal>+TEMP</literal></entry>
                <entry>sets the temporary directory</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*TLD</literal></entry>
                <entry>modifies the <literal>TDF</literal> linker executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*TNC</literal></entry>
                <entry>modifies the <literal>TDF</literal> notation compiler executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>*TRANS</literal></entry>
                <entry>modifies the <literal>TDF</literal> translator executable</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>+VERSION</literal></entry>
                <entry>sets the target machine version (Mips only)</entry>
              </row>
@@ -3135,22 +3135,22 @@
                <entry><literal>makelib</literal></entry>
                <entry>used to construct <literal>TDF</literal> libraries</entry>
              </row>
-             <row> 
+             <row>
                <entry><literal>pl_tdf</literal></entry>
                <entry>used to specify the use of the <literal>PL_TDF</literal> compiler</entry>
              </row>
              <row>
                <entry><literal>status</literal></entry>
                <entry>used to make report its environment status</entry>
-             </row>   
+             </row>  
              <row>
                <entry><literal>tdp</literal></entry>
                <entry>used in <literal>TDF</literal> library building</entry>
-             </row>   
+             </row>  
              <row>
                <entry><literal>tnc</literal></entry>
                <entry>used to specify the use of the <literal>TDF</literal> notation compiler</entry>
-             </row>                 
+             </row>                
            </tbody>
          </tgroup>
        </table>

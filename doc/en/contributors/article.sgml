@@ -40,19 +40,19 @@
 
         <informaltable frame="none">
           <tgroup cols="3" align="left">
-      
+     
           <thead>
             <row>
               <entry>Donator</entry>
-      
+     
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             <row>
               <entry><ulink url="http://www.stanford.edu/">Stanford University</ulink>
-    
+   
               <entry>Bandwidth and our central development machine 'spill'.</entry>
             </row>
           </tbody>
@@ -68,17 +68,17 @@
 
         <informaltable frame="none">
           <tgroup cols="3" align="left">
-      
+     
           <thead>
             <row>
               <entry>Contributor</entry>
 
               <entry>Email</entry>
-      
+     
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             &individual;
           </tbody>
@@ -89,23 +89,23 @@
   <sect1 id="organisation">
     <title>Organisational Contributors</title>
 
-    <para>The following are organisation's who have contributed to 
+    <para>The following are organisation's who have contributed to
 TenDRA.</para>
 
 
         <informaltable frame="none">
           <tgroup cols="3" align="left">
-      
+     
           <thead>
             <row>
               <entry>Contributor</entry>
 
               <entry>URL</entry>
-      
+     
               <entry>Description</entry>
             </row>
           </thead>
-  
+ 
           <tbody>
             &organisation;
           </tbody>

@@ -23,7 +23,7 @@
       <year>1998</year>
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
-    
+   
     <abstract>
       <para>This is the Frequently Asked Questions for TenDRA.</para>
       <para>Please email us at <email>docs@ten15.org</email> if you
@@ -89,7 +89,7 @@
             the heart of TenDRA, was proposed at 10:15 in the morning. The
             Ten15 system was developed by Michael Foster, Ian Currie, Philip
             Core, et al, at the Royal Signals and Radar Establishment
-            (<acronym>RSRE</acronym>, then <acronym>DERA</acronym>, now 
+            (<acronym>RSRE</acronym>, then <acronym>DERA</acronym>, now
             <ulink url="http://www.qinetiq.com/">QinetiQ</ulink>).</para>
         </answer>
       </qandaentry>

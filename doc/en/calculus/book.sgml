@@ -7,9 +7,9 @@
 <book>
   <bookinfo>
     <title>calculus User's Guide</title>
-    
+   
     <pubdate>$TenDRA$</pubdate>
-    
+   
     <corpauthor>The TenDRA Documentation Team</corpauthor>
 
     <copyright>
@@ -30,9 +30,9 @@
     </abstract>
 
     <legalnotice id='legalnotice'>
-      <para>Extensions to this document from the original 
+      <para>Extensions to this document from the original
         <ulink url='ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2-doc.tar.gz'>TenDRA-4.1.2-doc.tar.gz</ulink>
-        source distribution are covered by the <link linkend='legal-bsdl'>BSDL</link>,  
+        source distribution are covered by the <link linkend='legal-bsdl'>BSDL</link>, 
         while all prior modifications remain under the
         <link linkend='legal-crown'>Crown Copyright</link>.</para>
     </legalnotice>

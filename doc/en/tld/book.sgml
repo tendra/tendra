@@ -5,7 +5,7 @@
 
 <book>
   <bookinfo>
-    <title>TDF Linker</title> 
+    <title>TDF Linker</title>
 
     <pubdate>$TenDRA$</pubdate>
 
@@ -52,7 +52,7 @@
 
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>This document describes the formats of the files used by the TDF linker
       and the linker's required behaviour. There are two file formats: the
@@ -63,7 +63,7 @@
   </preface>
 
   <chapter id='tdf-structures'>
-    <title>Basic TDF structures</title> 
+    <title>Basic TDF structures</title>
 
     <para>The structure of a TDF capsule is defined properly in the TDF
       specification. This section describes the basic components of the TDF
@@ -72,7 +72,7 @@
       terms of these components. The basic components are:</para>
 
     <sect1 id='align'>
-      <title><literal>ALIGN</literal></title> 
+      <title><literal>ALIGN</literal></title>
 
       <para>This is a byte alignment. It forces the next object to begin on an
         eight bit boundary.</para>
@@ -80,7 +80,7 @@
     </sect1>
 
     <sect1 id='tdfint'>
-      <title><literal>TDFINT</literal></title> 
+      <title><literal>TDFINT</literal></title>
 
       <para>This is an unsigned number of unbounded size. Its representation is
         described properly in the TDF specification. It is a series of nibbles
@@ -92,7 +92,7 @@
     </sect1>
 
     <sect1 id='byte'>
-      <title><literal>BYTE</literal></title> 
+      <title><literal>BYTE</literal></title>
 
       <para>This is an eight bit quantity. <literal>BYTE</literal>s are always
         aligned on an eight bit boundary.</para>
@@ -100,7 +100,7 @@
     </sect1>
 
     <sect1 id='tdfident'>
-      <title><literal>TDFIDENT</literal></title> 
+      <title><literal>TDFIDENT</literal></title>
 
       <para>A <literal>TDFIDENT</literal> is a sequence of characters. It is
         possible to change the size of the characters, although the current
@@ -114,7 +114,7 @@
     </sect1>
 
     <sect1 id='unique'>
-      <title><literal>UNIQUE</literal></title> 
+      <title><literal>UNIQUE</literal></title>
 
       <para>A <literal>UNIQUE</literal> is a list of <literal>TDFIDENT</literal> s.
         It is represented as a <literal>TDFINT</literal> specifying the number
@@ -124,7 +124,7 @@
     </sect1>
 
     <sect1 id='external'>
-      <title><literal>EXTERNAL</literal></title> 
+      <title><literal>EXTERNAL</literal></title>
 
       <para>An <literal>EXTERNAL</literal> is a mechanism for identifying external
         identifiers. It is represented as a discriminating tag, followed by a
@@ -141,7 +141,7 @@
 
     <sect1 id='name'>
       <title>Syntax <emphasis>name</emphasis>
-      <emphasis>types</emphasis></title> 
+      <emphasis>types</emphasis></title>
 
       <para>In the following descriptions, the syntax <emphasis>name:
         type</emphasis> is used to specify an object in the structure. The
@@ -150,7 +150,7 @@
         object is. A <emphasis>type</emphasis> is one of the following:</para>
 
       <sect2 id='basic-type'>
-        <title><emphasis>basic_type</emphasis></title> 
+        <title><emphasis>basic_type</emphasis></title>
 
         <para>
           This represents one of the basic types listed above.
@@ -159,7 +159,7 @@
       </sect2>
       <sect2 id='type-integer'>
         <title><emphasis>type</emphasis> * <emphasis>integer</emphasis></title>
-        
+       
 
         <para>This represents a sequence of objects of the specified type. The
           <emphasis>integer</emphasis> may be either an integer literal, or a
@@ -169,7 +169,7 @@
       </sect2>
       <sect2 id='name-type'>
         <title>{ <emphasis>name1</emphasis>: <emphasis>type1</emphasis> ...
-        <emphasis>nameN</emphasis>: <emphasis>typeN</emphasis> }</title> 
+        <emphasis>nameN</emphasis>: <emphasis>typeN</emphasis> }</title>
 
         <para>This represents a structure composed of the elements <emphasis>name1:
           type1</emphasis> to <emphasis>nameN: typeN</emphasis>. It is used for
@@ -178,7 +178,7 @@
       </sect2>
       <sect2 id='type-value'>
         <title><emphasis>type</emphasis> = ( <emphasis>value1</emphasis> | ...
-        | <emphasis>valueN</emphasis> )</title> 
+        | <emphasis>valueN</emphasis> )</title>
 
         <para>This represents a type with a constraint imposed upon it. The object
           value must be one of <emphasis>value1</emphasis> to
@@ -189,7 +189,7 @@
   </chapter>
 
   <chapter id='struct-tdf-capsule'>
-    <title>Structure of a TDF Capsule</title> 
+    <title>Structure of a TDF Capsule</title>
 
     <para>A TDF capsule has the following structure:</para>
 
@@ -315,7 +315,7 @@ link_sets: {
   </chapter>
 
   <chapter id='linker-info'>
-    <title>Linker information unit groups</title> 
+    <title>Linker information unit groups</title>
 
     <para>The <emphasis>tld</emphasis> unit group (if it exists in the capsule)
       should contain one unit only. This unit should begin with two zeroes
@@ -377,7 +377,7 @@ link_sets: {
   </chapter>
 
   <chapter id='struct-tdf-lib'>
-    <title>Structure of a TDF library</title> 
+    <title>Structure of a TDF library</title>
 
     <para>A TDF library begins with a header, followed by a
       <literal>TDFINT</literal>, that is the type of the library. At present
@@ -449,7 +449,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='purpose'>
-    <title>Purpose</title> 
+    <title>Purpose</title>
 
     <para>The TDF linker has four uses:</para>
 
@@ -478,7 +478,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='tdf-linking'>
-    <title>TDF Linking</title> 
+    <title>TDF Linking</title>
 
     <para>This section describes the requirements of linking capsules together. The
       first sub-section describes the basic linking requirements. Subsequent
@@ -523,7 +523,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='basic-linking'>
-    <title>Basic linking</title> 
+    <title>Basic linking</title>
 
     <para>This sub-section describes the process of binding capsules together in
       greater detail.</para>
@@ -637,7 +637,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='renaming'>
-    <title>Renaming</title> 
+    <title>Renaming</title>
 
     <para>Renaming just requires that any occurrence of the name being renamed is
       treated as though it were an occurrence of the name it is being renamed
@@ -646,7 +646,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='lib-capsules'>
-    <title>Library capsules</title> 
+    <title>Library capsules</title>
 
     <para>After reading in all of the specified capsules, the linker loads the
       libraries. The library indices are read, and checked to ensure that there
@@ -666,7 +666,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='hiding'>
-    <title>Hiding</title> 
+    <title>Hiding</title>
 
     <para>Hiding and keeping just require that all names which should be hidden,
       and are not required to be kept, are not written to the external name
@@ -675,7 +675,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='writing-capsule'>
-    <title>Writing out the capsule</title> 
+    <title>Writing out the capsule</title>
 
     <para>The magic number is written out, followed by the major and minor version
       numbers. The major version number is the same as that in each of the
@@ -716,7 +716,7 @@ capsule:            TDFINT
   </chapter>
 
   <chapter id='constructing-tdf-lib'>
-    <title>Constructing TDF Libraries</title> 
+    <title>Constructing TDF Libraries</title>
 
     <para>This section describes the requirements of building TDF libraries. Here
       is an outline of the stages of the construction process:</para>

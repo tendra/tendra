@@ -55,7 +55,7 @@
   </bookinfo>
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>PL_TDF is a language in the lineage of Wirth's PL360 and its later
       derivatives. The basic idea in PL360 was to give one an assembler in
@@ -84,9 +84,9 @@
   </preface>
 
   <chapter id='notation'>
-    <title>Notation</title> 
+    <title>Notation</title>
     <sect1 id='syntax-desc'>
-      <title>Syntax description</title> 
+      <title>Syntax description</title>
 
       <para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
         symbols. Other symbols and words stand for themselves as terminal
@@ -114,7 +114,7 @@
         &lt;AccessOption&gt; whose expansions are:</para>
 
       <programlisting>
-&lt;AccessOption&gt; ::= 
+&lt;AccessOption&gt; ::=
 &lt;AccessOption&gt; ::= &lt;Access&gt;
       </programlisting>
 
@@ -140,11 +140,11 @@
     </sect1>
 
     <sect1 id='lexical-units'>
-      <title>Lexical Units</title> 
+      <title>Lexical Units</title>
 
       <para>The terminal symbols ( ), [ ], and { } always occur as parenthetic
         pairs and never form part of other terminal symbols.</para>
-        
+       
       <para>The terminal symbols , ; and : are similarly terminators for other
         terminal symbols.</para>
 
@@ -193,7 +193,7 @@
     </sect1>
 
     <sect1 id='pre-processing'>
-      <title>Pre-processing</title> 
+      <title>Pre-processing</title>
 
       <para>At the moment there is only one pre-processing directive. A line
         starting with #include will textually include the following file
@@ -207,7 +207,7 @@
   </chapter>
 
   <chapter id='language'>
-    <title>The Language</title> 
+    <title>The Language</title>
 
     <para>The basic philosophy of PL_TDF is to provide the "glue" constructors
       of TDF automatically, while still allowing the programmer to use the
@@ -270,12 +270,12 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
       applications. In applications, these names will be denoted by
       &lt;exp_token&gt;, &lt;shape_token&gt; etc. , depending on the result
       sort of their introduction.</para>
-      
+     
     <para>The principle of "no use before declaration" also applies to
       &lt;ident&gt; names given to TAGs.</para>
 
     <sect1 id='program'>
-      <title>Program</title> 
+      <title>Program</title>
 
       <para>The root expansion of a PL_TDF program is given by
         &lt;Program&gt;:</para>
@@ -309,7 +309,7 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
       <para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
 
       <sect2 id='tokdec'>
-        <title>Tokdec</title> 
+        <title>Tokdec</title>
 
         <para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:</para>
 
@@ -328,7 +328,7 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
       </sect2>
 
       <sect2 id='tokdef'>
-        <title>Tokdef</title> 
+        <title>Tokdef</title>
 
         <para>A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
           &lt;ident&gt; may have previously been introduced by a
@@ -369,7 +369,7 @@ exp_apply_token( token_apply_token(x, ()), L)
       </sect2>
 
       <sect2 id='tagdec'>
-        <title>Tagdec</title> 
+        <title>Tagdec</title>
 
         <para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:</para>
 
@@ -391,7 +391,7 @@ exp_apply_token( token_apply_token(x, ()), L)
       </sect2>
 
       <sect2 id='tagdef'>
-        <title>Tagdef</title> 
+        <title>Tagdef</title>
 
         <para>A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
           &lt;ident&gt; may have previously been introduced by a
@@ -436,7 +436,7 @@ String format = "Result = %d\n"
       </sect2>
 
       <sect2 id='altagdef'>
-        <title>Altagdef</title> 
+        <title>Altagdef</title>
 
         <para>An &lt;Altagdef&gt; defines an &lt;ident&gt; as an
           AL_TAG:</para>
@@ -451,7 +451,7 @@ String format = "Result = %d\n"
       </sect2>
 
       <sect2 id='structdef'>
-        <title>Structdef</title> 
+        <title>Structdef</title>
 
         <para> A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
           together with two TOKENs for each field of the structure to allow
@@ -490,7 +490,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='procdef'>
-        <title>Procdef</title> 
+        <title>Procdef</title>
 
         <para>A &lt;Procdef&gt; defines a TAG to be a procedure; it is simply
           an abreviation of a an Iddec &lt;Tagdef&gt;:</para>
@@ -540,7 +540,7 @@ Struct Complex (re: Double, im: Double)
     </sect1>
 
     <sect1 id='first-class-sort-exp'>
-      <title>First-class SORT expansions</title> 
+      <title>First-class SORT expansions</title>
 
       <para>All of the first-class sorts have similar expansions for native
         TDF constructions and for token applications. I shall take
@@ -581,7 +581,7 @@ Struct Complex (re: Double, im: Double)
         TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
 
       <sect2 id='access'>
-        <title>Access</title> 
+        <title>Access</title>
 
         <programlisting>
 &lt;Access&gt; ::= ACCESS ? ( &lt;Exp&gt; , &lt;Access&gt; , &lt;Access&gt; )
@@ -594,7 +594,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='al-tag'>
-        <title>Al_tag</title> 
+        <title>Al_tag</title>
 
         <programlisting>
 &lt;Al_tag&gt; ::= &lt;al_tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -611,7 +611,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='alignment'>
-        <title>Alignment</title> 
+        <title>Alignment</title>
 
         <programlisting>
 &lt;Alignment&gt; ::= ALIGNMENT ? ( &lt;Exp&gt; , &lt;Alignment&gt; , &lt;Alignment&gt; )
@@ -637,7 +637,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='bitfield-variety'>
-        <title>Bitfield_variety</title> 
+        <title>Bitfield_variety</title>
 
         <programlisting>
 &lt;Bitfield_variety&gt; ::= BITFIELD_VARIETY ? ( &lt;Exp&gt; , &lt;Bitfield_variety&gt;, &lt;Bitfield_variety&gt;)
@@ -659,7 +659,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='bool'>
-        <title>Bool</title> 
+        <title>Bool</title>
 
         <programlisting>
 &lt;Bool&gt; ::= BOOL ? ( &lt;Exp&gt; , &lt;Bool&gt;, &lt;Bool&gt;)
@@ -672,17 +672,17 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='error-treatment'>
-        <title>Error_treatment</title> 
+        <title>Error_treatment</title>
 
         <programlisting>
-&lt;Error_treatment&gt; ::= ERROR_TREATMENT ? 
+&lt;Error_treatment&gt; ::= ERROR_TREATMENT ?
 ( &lt;Exp&gt; , &lt;Error_treatment&gt;, &lt;Error_treatment&gt;)
 &lt;Error_treatment&gt; ::= &lt;error_treatment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Error_treatment&gt; ::= &lt;error_treatment__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
         </programlisting>
 
         <para>The standard expansions.</para>
-        
+       
         <programlisting>
 &lt;Error_treatment&gt; ::= &lt;Label&gt;
         </programlisting>
@@ -700,7 +700,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='exp'>
-        <title>Exp</title> 
+        <title>Exp</title>
 
         <programlisting>
 &lt;Exp&gt; ::= &lt;ExpTerm&gt;
@@ -716,12 +716,12 @@ Struct Complex (re: Double, im: Double)
         <para>The names like *+. (i.e. add_to_ptr) do have a certain logic;
           the * indicates that the left operand must be a pointer expression
           and the. that the other is an offset</para>
-          
+         
         <para>The further expansions of &lt;Exp&gt; are all
           &lt;ExpTerm&gt;s</para>
 
         <sect3 id='expterm'>
-          <title>ExpTerm</title> 
+          <title>ExpTerm</title>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
@@ -825,10 +825,10 @@ Struct Complex (re: Double, im: Double)
 
           <para>Produces an apply_proc with the given parameters returning
             the given &lt;Shape&gt;.</para>
-            
+           
           <programlisting>
 &lt;ExpTerm&gt; ::=         &lt;ProcVal&gt; [ &lt;Shape&gt; ]
-[ &lt;Act_Callers&gt;-Opt ; &lt;Act_Callees&gt;-Opt &lt;; &lt;Postlude&gt;&gt;-Opt ] 
+[ &lt;Act_Callers&gt;-Opt ; &lt;Act_Callees&gt;-Opt &lt;; &lt;Postlude&gt;&gt;-Opt ]
 &lt;ProcProps&gt;-Opt
 &lt;Act_Callers&gt; ::= &lt;&lt;Exp&gt; &lt;: &lt;ident&gt;&gt;-Opt&gt;-List &lt;...&gt;-Opt
 &lt;Act_Callees&gt; ::= &lt;Exp&gt;-List &lt;...&gt;-Opt
@@ -875,10 +875,10 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='floating-variety'>
-        <title>Floating_variety</title> 
+        <title>Floating_variety</title>
 
         <programlisting>
-&lt;Floating_variety&gt; ::= FLOATING_VARIETY ? 
+&lt;Floating_variety&gt; ::= FLOATING_VARIETY ?
 ( &lt;Exp&gt; , &lt;Floating_variety&gt;, &lt;Floating_variety&gt;)
 &lt;Floating_variety&gt; ::= &lt;floating_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Floating_variety&gt; ::= &lt;floating_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -900,7 +900,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='label'>
-        <title>Label</title> 
+        <title>Label</title>
 
         <programlisting>
 &lt;Label&gt; ::= &lt;label_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -917,7 +917,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='nat'>
-        <title>Nat</title> 
+        <title>Nat</title>
 
         <programlisting>
 &lt;Nat&gt; ::= NAT ? ( &lt;Exp&gt; , &lt;Nat&gt;, &lt;Nat&gt;)
@@ -941,7 +941,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='ntest'>
-        <title>Ntest</title> 
+        <title>Ntest</title>
 
         <programlisting>
 &lt;Ntest&gt; ::= NTEST ? ( &lt;Exp&gt; , &lt;Ntest&gt;, &lt;Ntest&gt;)
@@ -1019,10 +1019,10 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='rounding-mode'>
-        <title>Rounding_mode</title> 
+        <title>Rounding_mode</title>
 
         <programlisting>
-&lt;Rounding_mode&gt; ::= ROUNDING_MODE? 
+&lt;Rounding_mode&gt; ::= ROUNDING_MODE?
 ( &lt;Exp&gt; , &lt;Rounding_mode&gt;, &lt;Rounding_mode&gt;)
 &lt;Rounding_mode&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Rounding_mode&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -1033,7 +1033,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='shape'>
-        <title>Shape</title> 
+        <title>Shape</title>
 
         <programlisting>
 &lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt; , &lt;Shape&gt;, &lt;Shape&gt;)
@@ -1090,7 +1090,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='signed-nat'>
-        <title>Signed_Nat</title> 
+        <title>Signed_Nat</title>
 
         <programlisting>
 &lt;Signed_Nat&gt; ::= SIGNED_NAT ? ( &lt;Exp&gt; , &lt;Signed_Nat&gt;, &lt;Signed_Nat&gt;)
@@ -1132,8 +1132,8 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='string'>
-        <title>String</title> 
-        
+        <title>String</title>
+       
         <programlisting>
 &lt;String&gt; ::= STRING? ( &lt;Exp&gt; , &lt;String&gt;, &lt;String&gt;)
 &lt;String&gt; ::= &lt;string_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
@@ -1150,7 +1150,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='tag'>
-        <title>Tag</title> 
+        <title>Tag</title>
 
         <programlisting>
 &lt;Tag&gt; ::= &lt;tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -1167,7 +1167,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='token'>
-        <title>Token</title> 
+        <title>Token</title>
 
         <para>TOKEN is rather a limited first-class sort. There is no
           explicit construction given for token_apply_token, since the only
@@ -1196,7 +1196,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='transfer-mode'>
-        <title>Transfer_mode</title> 
+        <title>Transfer_mode</title>
 
         <programlisting>
 &lt;Transfer_mode&gt; ::= TRANSFER_MODE ? ( &lt;Exp&gt; , &lt;Transfer_mode&gt;, &lt;Transfer_mode&gt;)
@@ -1209,7 +1209,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='variety'>
-        <title>Variety</title> 
+        <title>Variety</title>
 
         <programlisting>
 &lt;Variety&gt; ::= VARIETY ? ( &lt;Exp&gt; , &lt;Variety&gt;, &lt;Variety&gt;)
@@ -1238,7 +1238,7 @@ Struct Complex (re: Double, im: Double)
     </sect1>
 
     <sect1 id='control-struct-decl'>
-      <title>Control structure and local declarations</title> 
+      <title>Control structure and local declarations</title>
 
       <para>The control and declaration structure is given by
         &lt;ClosedExp&gt;:</para>
@@ -1265,7 +1265,7 @@ Struct Complex (re: Double, im: Double)
         &lt;Assertion&gt; is given below.</para>
 
       <sect2 id='conditionalexp-assertion'>
-        <title>ConditionalExp and Assertion</title> 
+        <title>ConditionalExp and Assertion</title>
 
         <programlisting>
 &lt;ConditionalExp&gt; ::= ? { &lt;ExpSeq&gt; | &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
@@ -1293,7 +1293,7 @@ Struct Complex (re: Double, im: Double)
 
         <para>The assertion will be translated as a floating_test with a wrap
           error_treatment.</para>
-          
+         
         <programlisting>
 &lt;Query&gt; ::= *?
         </programlisting>
@@ -1341,7 +1341,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='repeatexp'>
-        <title>RepeatExp</title> 
+        <title>RepeatExp</title>
 
         <programlisting>
 &lt;RepeatExp&gt; ::= Rep &lt;Starter&gt;-Opt { &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
@@ -1357,7 +1357,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='labelledxp'>
-        <title>LabelledExp</title> 
+        <title>LabelledExp</title>
 
         <programlisting>
 &lt;LabelledExp&gt; ::= Labelled { &lt;ExpSeq&gt; &lt;Places&gt; }
@@ -1374,7 +1374,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
 
       <sect2 id='local-defn'>
-        <title>Local_Defn</title> 
+        <title>Local_Defn</title>
 
         <para>A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for
           the scope of the component &lt;ClosedExp&gt;. Any containing an
@@ -1411,22 +1411,22 @@ Struct Complex (re: Double, im: Double)
   </chapter>
 
   <chapter id='example-pl-tdf'>
-    <title>Example PL_TDF programs</title> 
+    <title>Example PL_TDF programs</title>
 
     <example id='sieve-erastothenes'>
-      <title>Sieve of Erastothenes</title> 
+      <title>Sieve of Erastothenes</title>
 
       <programlisting>
 /* Print out the primes less than 10000 */
 String s1 = "%d\t";                   /* good strings for printf */
 String s2 = "\n";
- 
+
 Var n: nof(10000, Char);                    /* will contain1 for prime; 0 for composite */
- 
+
 Tokdef N = [ind:EXP]EXP n *+. (Sizeof(Char) .* ind);
             /* Token delivering pointer to element of n */
- 
-Iddec printf : proc;                /* definition provided by ansi library */  
+
+Iddec printf : proc;                /* definition provided by ansi library */ 
 
  Proc main = top ()
 Var i:Int
@@ -1438,7 +1438,7 @@ Var j:Int
      ?(* i &gt;= 10000(Int))            /* NB assertion fails to continue loop */
     }
 Rep (i = 2(Int) )
-    { 
+    {
      ?{     ?( *(Char)N[* i] == 1(Char));
         /* if its a prime ... */
         Rep ( j = (* i + * i) )
@@ -1450,7 +1450,7 @@ Rep (i = 2(Int) )
      | make_top
      };
      i = (* i + 1(Int));
-     ?(* i &gt;= 100(Int)) 
+     ?(* i &gt;= 100(Int))
      };
  Rep (i = 2(Int); j = 0(Int) )
      {   ?{  ?( *(Char)N[* i] == 1(Char));
@@ -1467,16 +1467,16 @@ Rep (i = 2(Int) )
         };
         i = (* i + 1(Int));
         ?(* i &gt;= 10000(Int))
-     }; 
+     };
  return(make_top)
 };
-  
+ 
 Keep (main)         /* main will be an external name; so will printf since it is not defined */
       </programlisting>
     </example>
 
     <example id='example-structures'>
-      <title>Example with structures</title> 
+      <title>Example with structures</title>
 
       <programlisting>
    Struct C (re:Double, im:Double);
@@ -1489,11 +1489,11 @@ Proc addC = C (lv:C, rv:C)                  /* add two complex numbers */
     Let l = * lv
     Let r = * rv
     { return( Cons[shape_offset(C)] ( .re: re[l] F+ re[r], .im: im[l] F+ im[r]) ) } ;
-    
+   
 String s1 = "Ans = (%g, %g)\n";
 
 Proc main = top()
-    Let x = Cons[shape_offset(C)] (.re: 1.0(Double), .im:2.0(Double)) 
+    Let x = Cons[shape_offset(C)] (.re: 1.0(Double), .im:2.0(Double))
     Let y = Cons[shape_offset(C)] (.re: 3.0(Double), .im:4.0(Double))
     Let z = addC[C](x,y)
     {   printf[top](s1, re[z], im[z]);
@@ -1506,7 +1506,7 @@ Keep(main)
     </example>
 
     <example id='test-case'>
-      <title>Test for case</title> 
+      <title>Test for case</title>
 
       <programlisting>
    Iddec printf:proc;
@@ -1516,17 +1516,17 @@ String s2 = "%d OK\n";
 
 Proc test = top(i:Int, l:Int, u:Int)                    /* report whether l&lt;=i&lt;=u */
     ?{  ?(* i &gt;= * l); ?(* i &lt;= * u);
-        printf[top](s2, * i); 
+        printf[top](s2, * i);
         return(make_top)
     |   printf[top](s1, * i, * l, * u);
         return(make_top)
     };
 
 String s3 = "ERROR with %d\n";
- 
+
 Proc main = top()               /* check to see that case is working */
 Var i:Int = 0(Int)
-     Rep { 
+     Rep {
         Labelled {
             Case * i (0 -&gt; l0, 1 -&gt; l1, 2:3 -&gt; l2, 4:10000 -&gt; l3)
             | :l0: test[top](* i, 0(Int), 0(Int))
@@ -1538,13 +1538,13 @@ Var i:Int = 0(Int)
     ?(* i &gt; 3(Int));
     return(make_top)
  };
- 
+
 Keep (main, test)
       </programlisting>
     </example>
 
     <example id='high-order-tokens'>
-      <title>Example of use of high-order TOKENs</title> 
+      <title>Example of use of high-order TOKENs</title>
 
       <programlisting>
    Tokdef IF = [ boolexp:TOKEN[LABEL]EXP, thenpt:EXP, elsept:EXP] EXP
@@ -1552,14 +1552,14 @@ Keep (main, test)
         /* IF is a TOKEN which can be used to mirror a standard if ... then ... else
              construction; the boolexp is a formal TOKEN with a LABEL parameter
              which is jumped to if the boolean is false */
-    
+   
 Iddec printf: proc;
 
 String cs = "Correct\n";
 String ws = "Wrong\n";
 
 Proc main = top()
-    Var i:Int = 0(Int) 
+    Var i:Int = 0(Int)
     {
         IF[ Use [l:LABEL]EXP ?(* i == 0(Int) | l), printf[top](cs), printf[top](ws) ];
             /* in other words if (i==0) printf("Correct") else printf("Wrong") */
@@ -1574,7 +1574,7 @@ Keep (main)
     </example>
 
     <example id='test-long-jumps'>
-      <title>A test for long jumps</title> 
+      <title>A test for long jumps</title>
 
       <programlisting>
    Iddec printf:proc;
@@ -1592,7 +1592,7 @@ Labelled{
         f[bottom](current_env, make_local_lv(l));
         printf[top](s1);            /* should never reach here */
         return(make_top)
-           | :l: 
+           | :l:
         printf[top](s2);
         return(make_top)
           };
@@ -1603,7 +1603,7 @@ Keep (main)
   </chapter>
 
   <chapter id='use-pl-tdf-compiler'>
-    <title>Use of the PL_TDF compiler</title> 
+    <title>Use of the PL_TDF compiler</title>
 
     <para>Please see the <xref linkend='pl-manpage'> manpage for a complete list of
       command-line options.</para>
