@@ -1,8 +1,8 @@
-# $TenDRA$
+# $TenDRA: tendra/src/lib/machines/freebsd/4/alpha/Makefile,v 1.7 2004/03/27 18:14:53 stefanf Exp $
 
 INSTALL_MACHINE=	freebsd/alpha
 
-.PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../common/tokens
+.PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../../common/tokens
 
 # include
 DATA_INCLUDE=	include/ctype.h include/limits.h include/stdarg.h \
@@ -31,4 +31,4 @@ ${DATA_INCLUDE} ${DATA_STARTUP}:
 CLEANOPT=	-r
 CLEANFILES=     ${MAKEDIR}
 
-.include "${.CURDIR}/../../../../../mk/base/tendra.prog.mk"
+.include "${.CURDIR}/../../../../../../mk/base/tendra.prog.mk"

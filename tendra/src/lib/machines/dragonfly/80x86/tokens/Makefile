@@ -1,6 +1,6 @@
-# $TenDRA$
+# $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/tokens/Makefile,v 1.8 2004/03/27 18:14:53 stefanf Exp $
 
-.PATH : ${.CURDIR} ${OBJ_DIR} . ${.CURDIR}/../../../common/tokens ${.CURDIR}/../../../common/src
+.PATH : ${.CURDIR} ${OBJ_DIR} . ${.CURDIR}/../../../../common/tokens ${.CURDIR}/../../../../common/src
 
 TCC_OPTS=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
@@ -49,4 +49,4 @@ CLEANFILES=	except_toks.j except_toks.t map_toks.j var_toks.j \
 		var_toks.t dep_toks.j c_toks.j sys.j sys_toks.j target_tok.tl \
 		crtp_n.o
 
-.include "${.CURDIR}/../../../../../../mk/base/tendra.prog.mk"
+.include "${.CURDIR}/../../../../../../../mk/base/tendra.prog.mk"
