@@ -3,14 +3,41 @@
 Overview
 --------
 
-This is a gathering of links, possibly combined with explanation, which might
-be relevant, or not, to TenDRA and its further development.
+This is a gathering of links, possibly combined with explanation,
+which might be relevant, or not, to TenDRA and its further
+development.
 
 
 Links
 -----
 
 Common C++ ABI: http://www.codesourcery.com/cxx-abi/
+
 System V ABI:   http://www.caldera.com/developers/devspecs/
+
 parsers.org (intro material):    http://home.earthlink.net/~parsersinc/
+
+ASDL:
+    http://www.research.microsoft.com/~drh/pubs/asdl.pdf (overview and
+      initial experience with abstract syntax description language)
+ 
+    http://www.cs.princeton.edu/zephyr/ASDL/docs/slides/ztalk-dsl97.pdf
+      (slides from talk on asdl; note: the link is broken, so use
+      the google cache:  
+
+    http://www.research.microsoft.com/~drh/pubs/cdb3.pdf
+      (showing the power of adsl to be used in retargetable tools other
+      than a compiler)
+
+    http://asdl.sourceforge.net/
+       (asdl homepage)
+
+Zephyr:  http://www.cs.virginia.edu/zephyr/index.html
+
+SLED:  http://www.cs.virginia.edu/~nr/toolkit/base/refman.ps
+       (A Zephyr language that adds assm attributes to basic trees)
+
+NCI Home:   http://www.cs.virginia.edu/nci/
+       (The Nat'l Compiler Infrastructure home page)
+
 
