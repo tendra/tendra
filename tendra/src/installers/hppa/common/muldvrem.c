@@ -1,38 +1,285 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-	(1) Its Recipients shall ensure that this Notice is
-	reproduced upon any copies or amended versions of it;
-    
-	(2) Any amended version of it shall be clearly marked to
-	show both the nature of and the organisation responsible
-	for the relevant amendment or amendments;
-    
-	(3) Its onward transfer from a recipient to another
-	party shall be deemed to be that party's acceptance of
-	these conditions;
-    
-	(4) DERA gives no warranty or assurance as to its
-	quality or suitability for any purpose and DERA accepts
-	no liability whatsoever in relation to any use to which
-	it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *	(1) Its Recipients shall ensure that this Notice is
+ *	reproduced upon any copies or amended versions of it;
+ *    
+ *	(2) Any amended version of it shall be clearly marked to
+ *	show both the nature of and the organisation responsible
+ *	for the relevant amendment or amendments;
+ *    
+ *	(3) Its onward transfer from a recipient to another
+ *	party shall be deemed to be that party's acceptance of
+ *	these conditions;
+ *    
+ *	(4) DERA gives no warranty or assurance as to its
+ *	quality or suitability for any purpose and DERA accepts
+ *	no liability whatsoever in relation to any use to which
+ *	it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*
-$Log$
-Revision 1.1  2002/01/26 21:31:21  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:07  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:56:03  release
  * First version to be checked into rolling release.
  *
@@ -91,7 +338,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  95/01/11  13:13:34  13:13:34  wfs (William Simmonds)
  * Initial revision
  * 
-*/
+ */
 
 
 #define HPPATRANS_CODE
@@ -132,67 +379,66 @@ Initial version of TenDRA 4.1.2.
 #define BITS_PER_WORD		32
 
 #define MAX_MUL_POW2_OFFSET	2	/* max permissable X in 2**n +- X for
-					 * constant multiply */
+								 * constant multiply */
 
 #define NOT_MUL_CONST_SIMPLE	(MAX_MUL_POW2_OFFSET+1)
- /* any constant larger than permissable X offset in 2**n +- X */
+/* any constant larger than permissable X offset in 2**n +- X */
 
 #define IS_POW2(c)		((c) != 0 && ((c) & ((c)-1)) == 0)
 
-extern long trap_label PROTO_S ((exp));
-extern comib_ins PROTO_S ((ins_p,int,int,int));
+extern long trap_label(exp);
+extern comib_ins(ins_p,int,int,int);
 /*
  * Utility functions.
  */
 
 /* return bit number 0..31 from right of word of 'c' which has one bit set */
-static int bit_no 
-    PROTO_N ( ( c ) )
-    PROTO_T ( unsigned long c )
+static int
+bit_no(unsigned long c)
 {
-  int shift_const;
-  unsigned long mask;
-
-  assert(IS_POW2(c));
-
-  for (mask = 1, shift_const = 0; mask != c; mask = mask << 1)
-  {
-    shift_const++;
-  }
-
-  return shift_const;
+	int shift_const;
+	unsigned long mask;
+	
+	assert(IS_POW2(c));
+	
+	for (mask = 1, shift_const = 0; mask != c; mask = mask << 1)
+	{
+		shift_const++;
+	}
+	
+	return shift_const;
 }
 
 
-void clear_t_regs
-    PROTO_Z ()
+void
+clear_t_regs()
 {
-  /* clear t-regs, i.e. GR2,GR19,GR20..,GR31, which might be modified by a
-     call */
-  int r;
-  clear_reg(GR2);
-  for (r = GR19; r < GR31+1; r++)
-  {
-     clear_reg(r);
-  }
+	/* clear t-regs, i.e. GR2,GR19,GR20..,GR31, which might be modified by a
+	 *     call */
+	int r;
+	clear_reg(GR2);
+	for (r = GR19; r < GR31+1; r++)
+	{
+		clear_reg(r);
+	}
 }
 
 
 /* call millicode library procedure for complicated operation */
-int call_muldivrem 
-    PROTO_N ( ( lhs, rhs, sp, proc ) )
-    PROTO_T ( exp lhs X exp rhs X space sp X int proc )
+int
+call_muldivrem(exp lhs, exp rhs, space sp,
+			   int proc)
 {
     char *stub="ARGW0=GR ARGW1=GR";
     reg_operand_here(lhs, sp, ARG0);
     sp = needreg(ARG0, sp);
-
+	
     reg_operand_here(rhs,sp,ARG1);
     sp = needreg(ARG1,sp);
     call_millicode(proc,RP,stub,1);
-
+	
     clear_t_regs();
-
+	
     /* result left in RET1 */
     return RET1;
 }
@@ -204,523 +450,522 @@ int call_muldivrem
 
 
 /* generate code for multiply by constant */
-static void mul_const_complex
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned )
+static void
+mul_const_complex(int src, long constval,
+				  int dest, space sp, bool sgned)
 {
-  struct
-  {
-    unsigned char bsl;		/* bit-string of 1s length */
-    unsigned char shift;	/* shift from right of word */
-  }      bs_tab[BITS_PER_WORD / 2];
-
-  int bs_tab_len = 0;
-  int bsl_1_tab = -1;
-  int max_bsl = 0;
-
-  comment1("multiply by %ld", constval);
-
-
-  /* special case ~0 (all 1) which cannot be handled by the general algorithm */
-  if (constval == ~0)
-  {
-    if (sgned)
-    {
-       assert(constval == -1);
-       /* X * -1 => -X */
-       rrr_ins(i_sub,c_,0,src,dest);
-    }
-    else
-    {
-
-      /*
-       * only 2 non overflowing cases to consider 0 * ~0 == 0 1 * ~0 == ~0 ==
-       * -1
-       * 
-       * negate handles these two correctly
-       */
-      rrr_ins(i_sub,c_,0,src,dest);
-    }
-    return;
-  }
-
-
-  /* set up bs_tab from constval */
-  {
-    unsigned long c = constval;
-    int bsl = 0;
-    int shift;
-
-    for (c = constval, shift = 0; shift <= BITS_PER_WORD; shift++, c >>= 1)
-    {
-      if (c & 1)
-      {
-	bsl++;
-      }
-      else if (bsl != 0)
-      {
-	/* a complete all-1s bit-string */
-	assert(bs_tab_len < BITS_PER_WORD / 2);
-	bs_tab[bs_tab_len].bsl = bsl;
-	bs_tab[bs_tab_len].shift = shift - bsl;	/* .shift is from right */
-	if (bsl == 1)
-	  bsl_1_tab = bs_tab_len;
-	if (bsl > max_bsl)
-	  max_bsl = bsl;
-	comment4("mul_const_complex: bs_tab[%d]=%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
-	bs_tab_len++;
-	bsl = 0;
-      }
-    }
-  }
-
-  comment2("mul_const_complex: max_bsl=%d bsl_1_tab=%d", max_bsl, bsl_1_tab);
-
-  assert(bs_tab_len > 0);	/* shouldn't be here otherwise */
-  assert(max_bsl >= 1);
-  assert(max_bsl <= 31);	/* shifts by 32 don't work */
-
-  /* generate the code */
-  {
-    int bsl;
-    int bsl_laststep_tab;
-    int tmp = GR1;
-    int accum;
-    bool accum_init = 0;	/* set to 1 when 'accum' reg initialised */
-
-
-    /* allocate regs */
-    assert(src != GR1);
-    assert(dest != GR1);
-
-    if (src != dest)
-      accum = dest;
-    else
-      accum = getreg(sp.fixed);
-
-    assert(src != accum);
-
-
-    /* +++ neg */
-
-    /* init accum if useful */
-    if (bsl_1_tab >= 0 && bs_tab[bsl_1_tab].shift != 0)
-    {
-
-      /*
-       * Usefully do one of the 1 bit strings with simple shift to accum. If
-       * left to general algorithm 2 instructions, shift and move/add, would
-       * often be used.
-       */
-      assert(bs_tab[bsl_1_tab].bsl == 1);
-      rrir_ins(i_shd,c_,src,0,32-bs_tab[bsl_1_tab].shift,accum);
-      bs_tab[bsl_1_tab].bsl = 0;/* mark as done */
-      accum_init = 1;
-    }
-
-
-    /* find last cond generation step, so we can move to dest at that step */
-    bsl_laststep_tab = -1;
-
-    for (bsl = max_bsl; bsl > 0; bsl--)
-    {
-      int i;
-
-      for (i = 0; i < bs_tab_len; i++)
-      {
-	if (bs_tab[i].bsl == bsl)
-	  bsl_laststep_tab = i;
-      }
-    }
-
-    assert(bsl_laststep_tab != -1);
-
-
-    /*
-     * accumulate handle all bit strings of same length together, so
-     * 'src*((2**bsl)-1)' can be shared
-     */
-    for (bsl = max_bsl; bsl > 0; bsl--)
-    {
-      bool found_bsl = 0;
-      int tmp_shifted=0;
-      int i;
-
-      for (i = 0; i < bs_tab_len; i++)
-      {
-	if (bs_tab[i].bsl == bsl)
+	struct
 	{
-	  int to_accum_reg;	/* reg to be added to 'accum' at end of step */
-	  int step_accum_dest = (i == bsl_laststep_tab ? dest : accum);
-
-	  assert(accum != R_NO_REG);
-
-	  /* amount to accum into tmp reg */
-	  if (bsl == 1)
-	  {
-	    /* accumulate src<<shift */
-	    if (bs_tab[i].shift == 0)
-	    {
-	       /* simple add */
-	       to_accum_reg = src;
-	       if (accum_init)
-		  rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
-	       else
-	       {
-		  rr_ins(i_copy,to_accum_reg,step_accum_dest);
-		  accum_init = 1;
-	       }
-	    }
-	    else
-	    {
-	       /* simple shift and add */
-	       to_accum_reg = tmp;
- 	       if (accum_init)
-	       {
-		  if (bs_tab[i].shift==1)
-		     rrr_ins(i_sh1add,c_,src,accum,step_accum_dest);
-		  else if (bs_tab[i].shift==2)
-		     rrr_ins(i_sh2add,c_,src,accum,step_accum_dest);
-		  else if (bs_tab[i].shift==3)
-		     rrr_ins(i_sh3add,c_,src,accum,step_accum_dest);
-		  else
-		  {
-		     rrir_ins(i_shd,c_,src,0,32-bs_tab[i].shift,tmp);
-		     rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
-		  }
-	       }
-	       else
-	       {
-		  rrir_ins(i_shd,c_,src,0,32-bs_tab[i].shift,step_accum_dest);
-		  accum_init = 1;
-	       }
-	    }
-	  }
-	  else
-	  {			/* bsl != 1 */
-	    /* accumulate (src*((2**bsl)-1))<<shift */
-
-	    to_accum_reg = tmp;
-	    if (!found_bsl)
-	    {
-	      if (bsl==2)
-		 rrr_ins(i_sh1add,c_,src,src,tmp);
-	      else
-	      {
-		 rrir_ins(i_shd,c_,src,0,32-bsl,tmp);
-		 rrr_ins(i_sub,c_,tmp,src,tmp);
-	      }
-	      tmp_shifted = 0;
-	      found_bsl = 1;
-	    }
-
-	    if (bs_tab[i].shift != tmp_shifted)
-	    {
-	      int extra_shift = bs_tab[i].shift - tmp_shifted;
-
-	      assert(extra_shift > 0 && extra_shift <= 31);
-	      rrir_ins(i_shd,c_,tmp,0,32-extra_shift,tmp);
-	      tmp_shifted += extra_shift;
-	    }
-	    /* else tmp already shifted to correct position */
-
-	    to_accum_reg = tmp;
-
-	    if (accum_init)
-	       rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
-	    else
-	    {
-	       rr_ins(i_copy,to_accum_reg,step_accum_dest);
-	       accum_init=1;
-	    }
-
-	  }
-
-	  if (i == bsl_laststep_tab)
-	    accum = R_NO_REG;	/* error check */
+		unsigned char bsl;		/* bit-string of 1s length */
+		unsigned char shift;	/* shift from right of word */
+	}      bs_tab[BITS_PER_WORD / 2];
+	
+	int bs_tab_len = 0;
+	int bsl_1_tab = -1;
+	int max_bsl = 0;
+	
+	comment1("multiply by %ld", constval);
+	
+	
+	/* special case ~0 (all 1) which cannot be handled by the general algorithm */
+	if (constval == ~0)
+	{
+		if (sgned)
+		{
+			assert(constval == -1);
+			/* X * -1 => -X */
+			rrr_ins(i_sub,c_,0,src,dest);
+		}
+		else
+		{
+			
+			/*
+			 * only 2 non overflowing cases to consider 0 * ~0 == 0 1 * ~0 == ~0 ==
+			 * -1
+			 * 
+			 * negate handles these two correctly
+			 */
+			rrr_ins(i_sub,c_,0,src,dest);
+		}
+		return;
 	}
-      }
-    }
-
-    assert(accum_init);
-    assert(accum == R_NO_REG);
-
-    /* result in dest, due to step_accum_dest above */
-  }
-
-  comment1("end multiply by %ld", constval);
+	
+	
+	/* set up bs_tab from constval */
+	{
+		unsigned long c = constval;
+		int bsl = 0;
+		int shift;
+		
+		for (c = constval, shift = 0; shift <= BITS_PER_WORD; shift++, c >>= 1)
+		{
+			if (c & 1)
+			{
+				bsl++;
+			}
+			else if (bsl != 0)
+			{
+				/* a complete all-1s bit-string */
+				assert(bs_tab_len < BITS_PER_WORD / 2);
+				bs_tab[bs_tab_len].bsl = bsl;
+				bs_tab[bs_tab_len].shift = shift - bsl;	/* .shift is from right */
+				if (bsl == 1)
+					bsl_1_tab = bs_tab_len;
+				if (bsl > max_bsl)
+					max_bsl = bsl;
+				comment4("mul_const_complex: bs_tab[%d]=%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
+				bs_tab_len++;
+				bsl = 0;
+			}
+		}
+	}
+	
+	comment2("mul_const_complex: max_bsl=%d bsl_1_tab=%d", max_bsl, bsl_1_tab);
+	
+	assert(bs_tab_len > 0);	/* shouldn't be here otherwise */
+	assert(max_bsl >= 1);
+	assert(max_bsl <= 31);	/* shifts by 32 don't work */
+	
+	/* generate the code */
+	{
+		int bsl;
+		int bsl_laststep_tab;
+		int tmp = GR1;
+		int accum;
+		bool accum_init = 0;	/* set to 1 when 'accum' reg initialised */
+		
+		
+		/* allocate regs */
+		assert(src != GR1);
+		assert(dest != GR1);
+		
+		if (src != dest)
+			accum = dest;
+		else
+			accum = getreg(sp.fixed);
+		
+		assert(src != accum);
+		
+		
+		/* +++ neg */
+		
+		/* init accum if useful */
+		if (bsl_1_tab >= 0 && bs_tab[bsl_1_tab].shift != 0)
+		{
+			
+			/*
+			 * Usefully do one of the 1 bit strings with simple shift to accum. If
+			 * left to general algorithm 2 instructions, shift and move/add, would
+			 * often be used.
+			 */
+			assert(bs_tab[bsl_1_tab].bsl == 1);
+			rrir_ins(i_shd,c_,src,0,32-bs_tab[bsl_1_tab].shift,accum);
+			bs_tab[bsl_1_tab].bsl = 0;/* mark as done */
+			accum_init = 1;
+		}
+		
+		
+		/* find last cond generation step, so we can move to dest at that step */
+		bsl_laststep_tab = -1;
+		
+		for (bsl = max_bsl; bsl > 0; bsl--)
+		{
+			int i;
+			
+			for (i = 0; i < bs_tab_len; i++)
+			{
+				if (bs_tab[i].bsl == bsl)
+					bsl_laststep_tab = i;
+			}
+		}
+		
+		assert(bsl_laststep_tab != -1);
+		
+		
+		/*
+		 * accumulate handle all bit strings of same length together, so
+		 * 'src*((2**bsl)-1)' can be shared
+		 */
+		for (bsl = max_bsl; bsl > 0; bsl--)
+		{
+			bool found_bsl = 0;
+			int tmp_shifted=0;
+			int i;
+			
+			for (i = 0; i < bs_tab_len; i++)
+			{
+				if (bs_tab[i].bsl == bsl)
+				{
+					int to_accum_reg;	/* reg to be added to 'accum' at end of step */
+					int step_accum_dest = (i == bsl_laststep_tab ? dest : accum);
+					
+					assert(accum != R_NO_REG);
+					
+					/* amount to accum into tmp reg */
+					if (bsl == 1)
+					{
+						/* accumulate src<<shift */
+						if (bs_tab[i].shift == 0)
+						{
+							/* simple add */
+							to_accum_reg = src;
+							if (accum_init)
+								rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
+							else
+							{
+								rr_ins(i_copy,to_accum_reg,step_accum_dest);
+								accum_init = 1;
+							}
+						}
+						else
+						{
+							/* simple shift and add */
+							to_accum_reg = tmp;
+							if (accum_init)
+							{
+								if (bs_tab[i].shift==1)
+									rrr_ins(i_sh1add,c_,src,accum,step_accum_dest);
+								else if (bs_tab[i].shift==2)
+									rrr_ins(i_sh2add,c_,src,accum,step_accum_dest);
+								else if (bs_tab[i].shift==3)
+									rrr_ins(i_sh3add,c_,src,accum,step_accum_dest);
+								else
+								{
+									rrir_ins(i_shd,c_,src,0,32-bs_tab[i].shift,tmp);
+									rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
+								}
+							}
+							else
+							{
+								rrir_ins(i_shd,c_,src,0,32-bs_tab[i].shift,step_accum_dest);
+								accum_init = 1;
+							}
+						}
+					}
+					else
+					{			/* bsl != 1 */
+						/* accumulate (src*((2**bsl)-1))<<shift */
+						
+						to_accum_reg = tmp;
+						if (!found_bsl)
+						{
+							if (bsl==2)
+								rrr_ins(i_sh1add,c_,src,src,tmp);
+							else
+							{
+								rrir_ins(i_shd,c_,src,0,32-bsl,tmp);
+								rrr_ins(i_sub,c_,tmp,src,tmp);
+							}
+							tmp_shifted = 0;
+							found_bsl = 1;
+						}
+						
+						if (bs_tab[i].shift != tmp_shifted)
+						{
+							int extra_shift = bs_tab[i].shift - tmp_shifted;
+							
+							assert(extra_shift > 0 && extra_shift <= 31);
+							rrir_ins(i_shd,c_,tmp,0,32-extra_shift,tmp);
+							tmp_shifted += extra_shift;
+						}
+						/* else tmp already shifted to correct position */
+						
+						to_accum_reg = tmp;
+						
+						if (accum_init)
+							rrr_ins(i_add,c_,accum,to_accum_reg,step_accum_dest);
+						else
+						{
+							rr_ins(i_copy,to_accum_reg,step_accum_dest);
+							accum_init=1;
+						}
+						
+					}
+					
+					if (i == bsl_laststep_tab)
+						accum = R_NO_REG;	/* error check */
+				}
+			}
+		}
+		
+		assert(accum_init);
+		assert(accum == R_NO_REG);
+		
+		/* result in dest, due to step_accum_dest above */
+	}
+	
+	comment1("end multiply by %ld", constval);
 }
 
 /* is constval +ve const 2**n or 2**(n +- X) where abs(X) <= MAX_MUL_POW2_OFFSET */
-static int offset_mul_const_simple 
-    PROTO_N ( ( constval, sgned ) )
-    PROTO_T ( long constval X bool sgned )
+static int
+offset_mul_const_simple(long constval, bool sgned)
 {
-  int i;
-
-  FULLCOMMENT1("offset_mul_const_simple: %ld", constval);
-
-  if (constval < 0)
-  {
-    if (sgned)
-      constval = -constval;
-    else
-      return NOT_MUL_CONST_SIMPLE;	/* very rare case */
-  }
-
-  for (i = 0; i <= MAX_MUL_POW2_OFFSET; i++)
-  {
-    long c;			/* power of two close to constval */
-
-    /* check for add offsets, avoiding overflow confusion */
-    c = constval - i;
-    if (IS_POW2(c) && c + i == constval)
-      return i;
-
-    /* check for sub offset of 1 only, avoiding overflow confusion */
-    if (i == 1)
-    {
-      c = constval + i;
-      if (IS_POW2(c) && c - i == constval)
-	return -i;
-    }
-  }
-
-  return NOT_MUL_CONST_SIMPLE;
+	int i;
+	
+	FULLCOMMENT1("offset_mul_const_simple: %ld", constval);
+	
+	if (constval < 0)
+	{
+		if (sgned)
+			constval = -constval;
+		else
+			return NOT_MUL_CONST_SIMPLE;	/* very rare case */
+	}
+	
+	for (i = 0; i <= MAX_MUL_POW2_OFFSET; i++)
+	{
+		long c;			/* power of two close to constval */
+		
+		/* check for add offsets, avoiding overflow confusion */
+		c = constval - i;
+		if (IS_POW2(c) && c + i == constval)
+			return i;
+		
+		/* check for sub offset of 1 only, avoiding overflow confusion */
+		if (i == 1)
+		{
+			c = constval + i;
+			if (IS_POW2(c) && c - i == constval)
+				return -i;
+		}
+	}
+	
+	return NOT_MUL_CONST_SIMPLE;
 }
 
 
 /* generate code for multiply by constant */
-static void mul_const_simple
-    PROTO_N ( ( src, constval, dest, sgned ) )
-    PROTO_T ( int src X long constval X int dest X bool sgned )
+static void
+mul_const_simple(int src, long constval, int dest,
+				 bool sgned)
 {
-  int shift_const;
-  long c;			/* power of two close to constval */
-  int add_sub;			/* difference from power of two: +N add, 0
-				 * nop, -N sub */
-
-  if (sgned && constval < 0)
-  {
-    if (constval == -1)
-    {
-      /* X * -1 => -X */
-      rrr_ins(i_sub,c_,0,src,dest);
-      return;
-    }
-    constval = -constval;
-    rrr_ins(i_sub,c_,0,src,GR1); /* incorrect to modify source */
-    src = GR1;
-  }
-
-  if (constval==1)
-  {
-     if (src != dest)
-	rr_ins(i_copy,src,dest);
-     return;
-  }
-  else if (constval == 2)
-  {
-    /* use add, which can be peep-hole optimised to addcc later */
-    rrr_ins(i_add,c_,src,src,dest);
-    return;
-  }
-
-  add_sub = offset_mul_const_simple(constval, sgned);
-  c = constval - add_sub;
-
-  assert(constval == c + add_sub);
-
-  shift_const = bit_no(c);
-
-  FULLCOMMENT3("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
-  assert(constval == (1 << shift_const) + add_sub);
-
-  if (add_sub == 0)
-     rrir_ins(i_shd,c_,src,0,32-shift_const,dest);
-  else
-  {
-    /* add_sub != 0 */
-    ins_p i_add_sub;
-    int n;			/* number of add_sub instructions */
-    int inter_reg;		/* for partial result */
-    int i;
-
-    if (add_sub > 0)
-    {
-      i_add_sub = i_add;
-      n = add_sub;
-    }
-    else
-    {
-      i_add_sub = i_sub;
-      n = -add_sub;
-    }
-
-    if (src == dest)
-    {
-      inter_reg = GR1;	/* must preserve src for add/sub */
-    }
-    else
-    {
-      inter_reg = dest;
-    }
-
-    assert(src != inter_reg);
-
-    rrir_ins(i_shd,c_,src,0,32-shift_const,inter_reg);
-  
-    if (i_add_sub==i_add)
-    {
-       i=1;
-       while (i<n)
-       {
-	  if (i+7<n)
-	  {
-	     rrr_ins(i_sh3add,c_,src,inter_reg,inter_reg);
-	     i+=8;
-	  }   
-	  else if (i+3<n)
-	  {
-	     rrr_ins(i_sh2add,c_,src,inter_reg,inter_reg);
-	     i+=4;
-	  }   
-	  else if (i+1<n)
-	  {
-	     rrr_ins(i_sh1add,c_,src,inter_reg,inter_reg);
-	     i+=2;
-	  }   
-	  else 
-	  {
-	     rrr_ins(i_add,c_,src,inter_reg,inter_reg);
-	     i++;
-	  }   
-       }
-    }
-    else
-       for (i = 1; i < n; i++)
-	   rrr_ins(i_add_sub,c_,inter_reg,src,inter_reg);
-
-    /* final add_sub to dest reg */
-    rrr_ins(i_add_sub,c_,inter_reg,src,dest);
-
-  }
+	int shift_const;
+	long c;			/* power of two close to constval */
+	int add_sub;			/* difference from power of two: +N add, 0
+							 * nop, -N sub */
+	
+	if (sgned && constval < 0)
+	{
+		if (constval == -1)
+		{
+			/* X * -1 => -X */
+			rrr_ins(i_sub,c_,0,src,dest);
+			return;
+		}
+		constval = -constval;
+		rrr_ins(i_sub,c_,0,src,GR1); /* incorrect to modify source */
+		src = GR1;
+	}
+	
+	if (constval==1)
+	{
+		if (src != dest)
+			rr_ins(i_copy,src,dest);
+		return;
+	}
+	else if (constval == 2)
+	{
+		/* use add, which can be peep-hole optimised to addcc later */
+		rrr_ins(i_add,c_,src,src,dest);
+		return;
+	}
+	
+	add_sub = offset_mul_const_simple(constval, sgned);
+	c = constval - add_sub;
+	
+	assert(constval == c + add_sub);
+	
+	shift_const = bit_no(c);
+	
+	FULLCOMMENT3("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
+	assert(constval == (1 << shift_const) + add_sub);
+	
+	if (add_sub == 0)
+		rrir_ins(i_shd,c_,src,0,32-shift_const,dest);
+	else
+	{
+		/* add_sub != 0 */
+		ins_p i_add_sub;
+		int n;			/* number of add_sub instructions */
+		int inter_reg;		/* for partial result */
+		int i;
+		
+		if (add_sub > 0)
+		{
+			i_add_sub = i_add;
+			n = add_sub;
+		}
+		else
+		{
+			i_add_sub = i_sub;
+			n = -add_sub;
+		}
+		
+		if (src == dest)
+		{
+			inter_reg = GR1;	/* must preserve src for add/sub */
+		}
+		else
+		{
+			inter_reg = dest;
+		}
+		
+		assert(src != inter_reg);
+		
+		rrir_ins(i_shd,c_,src,0,32-shift_const,inter_reg);
+		
+		if (i_add_sub==i_add)
+		{
+			i=1;
+			while (i<n)
+			{
+				if (i+7<n)
+				{
+					rrr_ins(i_sh3add,c_,src,inter_reg,inter_reg);
+					i+=8;
+				}   
+				else if (i+3<n)
+				{
+					rrr_ins(i_sh2add,c_,src,inter_reg,inter_reg);
+					i+=4;
+				}   
+				else if (i+1<n)
+				{
+					rrr_ins(i_sh1add,c_,src,inter_reg,inter_reg);
+					i+=2;
+				}   
+				else 
+				{
+					rrr_ins(i_add,c_,src,inter_reg,inter_reg);
+					i++;
+				}   
+			}
+		}
+		else
+			for (i = 1; i < n; i++)
+				rrr_ins(i_add_sub,c_,inter_reg,src,inter_reg);
+		
+		/* final add_sub to dest reg */
+		rrr_ins(i_add_sub,c_,inter_reg,src,dest);
+		
+	}
 }
 
 
 /* generate code for multiply by constant */
-static void mul_const
-    PROTO_N ( ( src, constval, dest, sp, sgned ) )
-    PROTO_T ( int src X long constval X int dest X space sp X bool sgned )
+static void
+mul_const(int src, long constval, int dest,
+		  space sp, bool sgned)
 {
-  if (constval == 0)
-     /* rare case not handled by mul_const_X() */
-     rr_ins(i_copy,0,dest);
-  else if (offset_mul_const_simple(constval, sgned) == NOT_MUL_CONST_SIMPLE)
-    mul_const_complex(src, constval, dest, sp, sgned);
-  else
-    mul_const_simple(src, constval, dest, sgned);
+	if (constval == 0)
+		/* rare case not handled by mul_const_X() */
+		rr_ins(i_copy,0,dest);
+	else if (offset_mul_const_simple(constval, sgned) == NOT_MUL_CONST_SIMPLE)
+		mul_const_complex(src, constval, dest, sp, sgned);
+	else
+		mul_const_simple(src, constval, dest, sgned);
 }
 
 
 /*
  *   Generate code for multiply .
  */
-static int do_mul_comm 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int
+do_mul_comm(exp e, space sp, int final_reg,
+			bool sgned)
 {
-  exp seq = son(e);
-  exp arg2 = bro(seq);
-  char *mul_proc;
-  int arg = 1;
-  baseoff b;
-  int v;
-
-  if (name(arg2) == val_tag)
-  {
-    /* const optim */
-    v = reg_operand(seq, sp);
-    sp = guardreg(v,sp);
-    assert(last(arg2));	 /* check() & scan() should move const to last */
-    if (final_reg == R_NO_REG)
-    {
-       final_reg = getreg(sp.fixed);
-       sp = guardreg(final_reg, sp);
-    }
-    mul_const(v, no(arg2), final_reg, sp, sgned);
-    return final_reg;
-  }
-
-
-  /* need to call .mul/.umul */
-
-  mul_proc = (sgned ? "$$mulI" : "$$mulU");
-
-  b=mem_temp(4);
-  reg_operand_here(seq,sp,ARG0);
-  st_ins(i_sw,ARG0,b);
-  b=mem_temp(0);
-
-
-  for (;;)
-  {
-    assert(!last(seq));		/* should have break out below by now */
-
-    seq = bro(seq);
-    arg++;
-
-    FULLCOMMENT1("do_mul_comm: name(seq) = %d", name(seq));
-
-    if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned) != NOT_MUL_CONST_SIMPLE)
-    {
-      /* const optim */
-      assert(last(seq)); /* check() & scan() should move const to last */
-
-      stf_ins(i_fstw,14,b);
-      ld_ins(i_lw,SIGNED,b,ARG0);
-
-      if (final_reg == R_NO_REG)
-	 final_reg = RET0;	
-	 /* better code from mul_const if src != dest register */
-
-      mul_const(ARG0, no(seq), final_reg, sp, sgned);
-
-      break;
-    }
-    else
-    {
-       reg_operand_here(seq,sp,ARG0);
-       if (last(seq) && b.offset<-17)
-       {
-	  ld_ins(i_lo,1,b,GR1);
-	  b.base=GR1;
-	  b.offset=0;
-       }
-       st_ins(i_sw,ARG0,b);
-       if (arg==2)
-	  ldf_ins(i_fldd,b,13);
-       else
-	  ldf_ins(i_fldw,b,12);
-       rrrf_ins(i_xmpyu,f_,12,14,13);
-  
-       clear_t_regs();
-
-       if (last(seq))
-       {
-	  stf_ins(i_fstw,14,b);
-	  if (final_reg == R_NO_REG || final_reg == RET0)
-	  {
-	     ld_ins(i_lw,SIGNED,b,RET0);
- 	     final_reg = RET0;  
-	  }
-	  else
-	     ld_ins(i_lw,SIGNED,b,final_reg);
-	  break;
-       }
-    }
-  }
-  return final_reg;
+	exp seq = son(e);
+	exp arg2 = bro(seq);
+	char *mul_proc;
+	int arg = 1;
+	baseoff b;
+	int v;
+	
+	if (name(arg2) == val_tag)
+	{
+		/* const optim */
+		v = reg_operand(seq, sp);
+		sp = guardreg(v,sp);
+		assert(last(arg2));	 /* check() & scan() should move const to last */
+		if (final_reg == R_NO_REG)
+		{
+			final_reg = getreg(sp.fixed);
+			sp = guardreg(final_reg, sp);
+		}
+		mul_const(v, no(arg2), final_reg, sp, sgned);
+		return final_reg;
+	}
+	
+	
+	/* need to call .mul/.umul */
+	
+	mul_proc = (sgned ? "$$mulI" : "$$mulU");
+	
+	b=mem_temp(4);
+	reg_operand_here(seq,sp,ARG0);
+	st_ins(i_sw,ARG0,b);
+	b=mem_temp(0);
+	
+	
+	for (;;)
+	{
+		assert(!last(seq));		/* should have break out below by now */
+		
+		seq = bro(seq);
+		arg++;
+		
+		FULLCOMMENT1("do_mul_comm: name(seq) = %d", name(seq));
+		
+		if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned) != NOT_MUL_CONST_SIMPLE)
+		{
+			/* const optim */
+			assert(last(seq)); /* check() & scan() should move const to last */
+			
+			stf_ins(i_fstw,14,b);
+			ld_ins(i_lw,SIGNED,b,ARG0);
+			
+			if (final_reg == R_NO_REG)
+				final_reg = RET0;	
+			/* better code from mul_const if src != dest register */
+			
+			mul_const(ARG0, no(seq), final_reg, sp, sgned);
+			
+			break;
+		}
+		else
+		{
+			reg_operand_here(seq,sp,ARG0);
+			if (last(seq) && b.offset<-17)
+			{
+				ld_ins(i_lo,1,b,GR1);
+				b.base=GR1;
+				b.offset=0;
+			}
+			st_ins(i_sw,ARG0,b);
+			if (arg==2)
+				ldf_ins(i_fldd,b,13);
+			else
+				ldf_ins(i_fldw,b,12);
+			rrrf_ins(i_xmpyu,f_,12,14,13);
+			
+			clear_t_regs();
+			
+			if (last(seq))
+			{
+				stf_ins(i_fstw,14,b);
+				if (final_reg == R_NO_REG || final_reg == RET0)
+				{
+					ld_ins(i_lw,SIGNED,b,RET0);
+					final_reg = RET0;  
+				}
+				else
+					ld_ins(i_lw,SIGNED,b,final_reg);
+				break;
+			}
+		}
+	}
+	return final_reg;
 }
 
 
@@ -728,410 +973,405 @@ static int do_mul_comm
  *   Generate code for div0, div1 and div2 by calling divI or divU unless
  *   dividing by a simple constant.
  */
-static int do_div 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int
+do_div(exp e, space sp, int final_reg, bool sgned)
 {
-   exp seq = son(e);
-   exp lhs = seq;
-   exp rhs = bro(lhs);
-   space nsp;
-   int trap = 0;
-   int sz = shape_size(sh(e));
-   char *stub="ARGW0=GR ARGW1=GR";
-   if ( !optop(e) )
-      trap = trap_label(e);
-   assert(last(rhs));
-   /*
-    *   ov_err can only occur when calculating p div1 q with p == variety's
-    *   minimum and q==-1 
-    */
-   if ( name(rhs)==val_tag )
-   {
-      /*   nb. div_by_zero_err handled by common code  */
-      int n = no(rhs);
-      if ( n > 0 && IS_POW2(n) )
-      {
-	 int lhs_reg = reg_operand(lhs, sp);
-	 int shift_const = bit_no(n);
-	 sp = guardreg(lhs_reg, sp);
-	 if ( final_reg == R_NO_REG )
-	 {
-	   final_reg = getreg(sp.fixed);
-	 }
-	 if ( n==1)
-	 {
-	    /*
-	     *   div = lhs
-	     */
- 	    rr_ins(i_copy,lhs_reg,final_reg);
-	    return final_reg;
-	 }
-	 else 
-	 if (sgned)
-	 {
-	   /* signed, adjust lhs before shift */
- 	   assert(shift_const > 0);/* assumed below */
-	   if ( n==-1 && !optop(e) )
-	   {
-	      if (sz==8)
-		 iiir_ins(i_zdepi,c_,-1,24,25,GR1);
-	      else
-	      if (sz==16)
-		 iiir_ins(i_zdepi,c_,-1,16,17,GR1);
-	      else
-		 iiir_ins(i_zdepi,c_,-1,0,1,GR1);
-	      cj_ins(c_eq,lhs_reg,GR1,trap);
-	   }
-	   if (shift_const - 1 != 0)
-	   {
-	      riir_ins(i_extrs,c_,lhs_reg,32-shift_const,33-shift_const,GR1);
-	      rrir_ins(i_shd,c_,0,GR1,32-shift_const,GR1);
-	   }
-	   else
-	      rrir_ins(i_shd,c_,0,lhs_reg,32-shift_const,GR1);
- 	   rrr_ins(i_add,c_,lhs_reg,GR1,GR1);
-	   riir_ins(i_extrs,c_,GR1,31-shift_const,32-shift_const,final_reg);
-	 }
-	 else
-	    rrir_ins(i_shd,c_,0,lhs_reg,shift_const,final_reg);
-	 return final_reg;
-      }
-   }
-
-   /*  We will have to call divI or divU */
-
-   reg_operand_here(lhs, sp, ARG0);
-   nsp = guardreg(ARG0,sp);
-   reg_operand_here(rhs,nsp,ARG1);
-
-
-   if ( !optop(e) )
-   {
-      cj_ins(c_eq,GR0,ARG1,trap);
-      if (sgned)
-      {
-	 comib_ins(c_neq,-1,ARG1,-16);        
-	 z_ins(i_nop);
-	 if (sz==8)
-	    iiir_ins(i_zdepi,c_,-1,24,25,GR1);
-	 else
-	 if (sz==16)
-	    iiir_ins(i_zdepi,c_,-1,16,17,GR1);
-	 else
-	    iiir_ins(i_zdepi,c_,-1,0,1,GR1);
-	 cj_ins(c_eq,ARG0,GR1,trap);
-      }
-   }
-
-   if (name(bro(rhs)) == div1_tag && sgned)
-   {
-      int fin = new_label();
-      baseoff b;
-      b = mem_temp(0);
-      rrr_ins(i_or,c_neq,0,ARG0,RET1);
-      ub_ins(cmplt_N,fin);
-      st_ins(i_sw,ARG0,b);
-      b.offset += 4;
-      st_ins(i_sw,ARG1,b);
-      call_millicode(MILLI_DIVI,RP,stub,1);
-      ld_ins(i_lw,1,b,ARG1);
-      b.offset -= 4;
-      ld_ins(i_lw,1,b,ARG0);
-      rrr_ins(i_xor,c_l,ARG0,ARG1,0);
-      ub_ins(cmplt_N,fin);
-      ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,b.offset,b.base,GR1);
-      b.base = GR1; b.offset = 0;
-      st_ins(i_sw,RET1,b);
-      ldf_ins(i_fldd,b,13);
-      rrrf_ins(i_xmpyu,f_,12,14,13);
-      stf_ins(i_fstw,14,b);
-      ld_ins(i_lw,1,b,ARG1);
-      rrr_ins(i_comclr,c_eq,ARG0,ARG1,0);
-      irr_ins(i_addi,c_,fs_,-1,RET1,RET1);
-      outlab("L$$",fin);
-   }
-   else
-   {
-      call_millicode(sgned ? MILLI_DIVI : MILLI_DIVU,RP,stub,1);
-   }
-   clear_t_regs();
-   /* result left in RET1 */
-   return RET1;
+	exp seq = son(e);
+	exp lhs = seq;
+	exp rhs = bro(lhs);
+	space nsp;
+	int trap = 0;
+	int sz = shape_size(sh(e));
+	char *stub="ARGW0=GR ARGW1=GR";
+	if (!optop(e))
+		trap = trap_label(e);
+	assert(last(rhs));
+	/*
+	 *   ov_err can only occur when calculating p div1 q with p == variety's
+	 *   minimum and q==-1 
+	 */
+	if (name(rhs)==val_tag)
+	{
+		/*   nb. div_by_zero_err handled by common code  */
+		int n = no(rhs);
+		if (n > 0 && IS_POW2(n))
+		{
+			int lhs_reg = reg_operand(lhs, sp);
+			int shift_const = bit_no(n);
+			sp = guardreg(lhs_reg, sp);
+			if (final_reg == R_NO_REG)
+			{
+				final_reg = getreg(sp.fixed);
+			}
+			if (n==1)
+			{
+				/*
+				 *   div = lhs
+				 */
+				rr_ins(i_copy,lhs_reg,final_reg);
+				return final_reg;
+			}
+			else 
+				if (sgned)
+				{
+					/* signed, adjust lhs before shift */
+					assert(shift_const > 0);/* assumed below */
+					if (n==-1 && !optop(e))
+					{
+						if (sz==8)
+							iiir_ins(i_zdepi,c_,-1,24,25,GR1);
+						else
+							if (sz==16)
+								iiir_ins(i_zdepi,c_,-1,16,17,GR1);
+							else
+								iiir_ins(i_zdepi,c_,-1,0,1,GR1);
+						cj_ins(c_eq,lhs_reg,GR1,trap);
+					}
+					if (shift_const - 1 != 0)
+					{
+						riir_ins(i_extrs,c_,lhs_reg,32-shift_const,33-shift_const,GR1);
+						rrir_ins(i_shd,c_,0,GR1,32-shift_const,GR1);
+					}
+					else
+						rrir_ins(i_shd,c_,0,lhs_reg,32-shift_const,GR1);
+					rrr_ins(i_add,c_,lhs_reg,GR1,GR1);
+					riir_ins(i_extrs,c_,GR1,31-shift_const,32-shift_const,final_reg);
+				}
+				else
+					rrir_ins(i_shd,c_,0,lhs_reg,shift_const,final_reg);
+			return final_reg;
+		}
+	}
+	
+	/*  We will have to call divI or divU */
+	
+	reg_operand_here(lhs, sp, ARG0);
+	nsp = guardreg(ARG0,sp);
+	reg_operand_here(rhs,nsp,ARG1);
+	
+	
+	if (!optop(e))
+	{
+		cj_ins(c_eq,GR0,ARG1,trap);
+		if (sgned)
+		{
+			comib_ins(c_neq,-1,ARG1,-16);        
+			z_ins(i_nop);
+			if (sz==8)
+				iiir_ins(i_zdepi,c_,-1,24,25,GR1);
+			else
+				if (sz==16)
+					iiir_ins(i_zdepi,c_,-1,16,17,GR1);
+				else
+					iiir_ins(i_zdepi,c_,-1,0,1,GR1);
+			cj_ins(c_eq,ARG0,GR1,trap);
+		}
+	}
+	
+	if (name(bro(rhs)) == div1_tag && sgned)
+	{
+		int fin = new_label();
+		baseoff b;
+		b = mem_temp(0);
+		rrr_ins(i_or,c_neq,0,ARG0,RET1);
+		ub_ins(cmplt_N,fin);
+		st_ins(i_sw,ARG0,b);
+		b.offset += 4;
+		st_ins(i_sw,ARG1,b);
+		call_millicode(MILLI_DIVI,RP,stub,1);
+		ld_ins(i_lw,1,b,ARG1);
+		b.offset -= 4;
+		ld_ins(i_lw,1,b,ARG0);
+		rrr_ins(i_xor,c_l,ARG0,ARG1,0);
+		ub_ins(cmplt_N,fin);
+		ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,b.offset,b.base,GR1);
+		b.base = GR1; b.offset = 0;
+		st_ins(i_sw,RET1,b);
+		ldf_ins(i_fldd,b,13);
+		rrrf_ins(i_xmpyu,f_,12,14,13);
+		stf_ins(i_fstw,14,b);
+		ld_ins(i_lw,1,b,ARG1);
+		rrr_ins(i_comclr,c_eq,ARG0,ARG1,0);
+		irr_ins(i_addi,c_,fs_,-1,RET1,RET1);
+		outlab("L$$",fin);
+	}
+	else
+	{
+		call_millicode(sgned ? MILLI_DIVI : MILLI_DIVU,RP,stub,1);
+	}
+	clear_t_regs();
+	/* result left in RET1 */
+	return RET1;
 }
 
 
 /*
  *   Generate code for remainder using remI or remU unless  simple constant.
  */
-static int do_rem 
-    PROTO_N ( ( e, sp, final_reg, sgned ) )
-    PROTO_T ( exp e X space sp X int final_reg X bool sgned )
+static int
+do_rem(exp e, space sp, int final_reg, bool sgned)
 {
-   exp seq = son(e);
-   exp lhs = seq;
-   exp rhs = bro(lhs);
-   int p=0;
-   space nsp;
-   int trap = 0;
-   baseoff b;
-   char *stub="ARGW0=GR ARGW1=GR";
-   assert(last(rhs));
-   b = mem_temp(0);
-   if ( !optop(e) )
-      trap = trap_label(e);
-   if (name(rhs) == val_tag)
-   {
-      int n = no(rhs);
-      if ( n==0 )
-      {
-	 if ( !optop(e) )
-	    ub_ins(cmplt_N,trap);        
-	 return GR0;
-      }
-      else 
-      if ( IS_POW2(n) )
-      {
-	 int lhs_reg = reg_operand(lhs, sp);
-	 sp = guardreg(lhs_reg, sp);
-	 if (final_reg == R_NO_REG)
-	 {
-	    final_reg = getreg(sp.fixed);
-	 }
-	 if (n == 1)
-	 {
-	    /*
-	     *   rem = 0
-	     */
- 	    rr_ins(i_copy,0,final_reg);
-	    return final_reg;
-	 }
-	 while (((1<<(++p)) & n)==0);
-	 if (sgned && name(bro(rhs)) == rem2_tag)
-	 {
-	    /*
-	     *   Allow for negative lhs. Calculate lhs % n ( = 2**p ) by
-	     *   anding lhs with mask, negating lhs before and after anding
-	     *   if lhs<0.
-	     */
-	    if (lhs_reg==final_reg)
-	    {
-	       rrr_ins(i_or,c_g,0,lhs_reg,GR1);
-	       rrr_ins(i_sub,c_,0,lhs_reg,lhs_reg);
-	       riir_ins(i_dep,c_,0,31-p,32-p,lhs_reg);
-	       rrr_ins(i_or,c_g,0,GR1,0);
-	       rrr_ins(i_sub,c_,0,lhs_reg,lhs_reg);
-	    }
-	    else
-	    {
-	       rrr_ins(i_or,c_g,0,lhs_reg,final_reg);
-	       rrr_ins(i_sub,c_,0,final_reg,final_reg);
-	       riir_ins(i_dep,c_,0,31-p,32-p,final_reg);
-	       rrr_ins(i_or,c_g,0,lhs_reg,0);
-	       rrr_ins(i_sub,c_,0,final_reg,final_reg);
-	    }
-	 }
-	 else
-	 {
-	    /*
-	     *   Calculate lhs % n ( = 2**p ) by anding with mask.
-	     */
-	    if (lhs_reg==final_reg)   
-	       riir_ins(i_dep,c_,0,31-p,32-p,final_reg);
-	    else
-	       riir_ins(i_zdep,c_,lhs_reg,31,p,final_reg);
-	 }
-	 return final_reg;
-      }
-      else
-      {
-	 /*
-	  *   Need to call remI or remU.
-	  */
-	 reg_operand_here(lhs,sp,ARG0);
-	 imm_to_r(n,ARG1);
-	 if (sgned)
-	 {
-	    call_millicode(MILLI_REMI,RP,stub,1);
-	    if (name(bro(rhs)) == mod_tag)
-	    {
-	       if (SIMM14(n))
-	       {
-		  if (n>0)
-		     rrr_ins(i_comclr,c_geq,RET1,0,0);
-		  else
-		  if (n<0)
-		     rrr_ins(i_comclr,c_leq,RET1,0,0);
-		  ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,RET1,RET1);
-	       }
-	       else 
-	       {
-		  imm_to_r(n,ARG1);
-		  if (n>0)
-		     rrr_ins(i_comclr,c_geq,RET1,0,0);
-		  else
-		  if (n<0)
-		     rrr_ins(i_comclr,c_leq,RET1,0,0);
-		  rrr_ins(i_add,c_,ARG1,RET1,RET1);
-	       }
-	    }
-	 }
-	 else
-	 {
-	    call_millicode(MILLI_REMU,RP,stub,1);
-	 }
-	 clear_t_regs();
-	 return RET1;  /* result left in RET1 */
-      }
-   }
-   /*
-    *   Need to call remI/.urem
-    */
-   reg_operand_here(lhs, sp, ARG0);
-   nsp = guardreg(ARG0, sp);
-   reg_operand_here(rhs, nsp, ARG1);
-   if ( !optop(e) )
-      cj_ins(c_eq,GR0,ARG1,trap);
-
-   if (name(bro(rhs)) == mod_tag && sgned)
-   {
-      st_ins(i_sw,ARG1,b);
-      call_millicode(MILLI_REMI,RP,stub,1);
-      rrr_ins(i_comclr,c_eq,RET1,0,ARG1);
-      ld_ins(i_lw,1,b,ARG1);
-      rrr_ins(i_xor,c_geq,RET1,ARG1,0);
-      rrr_ins(i_add,c_,RET1,ARG1,RET1);
-   }
-   else
-   {
-      call_millicode( sgned ? MILLI_REMI : MILLI_REMU, RP, stub,1 );
-   }
-   clear_t_regs();
-   return RET1;  /* result left in RET1 */
+	exp seq = son(e);
+	exp lhs = seq;
+	exp rhs = bro(lhs);
+	int p=0;
+	space nsp;
+	int trap = 0;
+	baseoff b;
+	char *stub="ARGW0=GR ARGW1=GR";
+	assert(last(rhs));
+	b = mem_temp(0);
+	if (!optop(e))
+		trap = trap_label(e);
+	if (name(rhs) == val_tag)
+	{
+		int n = no(rhs);
+		if (n==0)
+		{
+			if (!optop(e))
+				ub_ins(cmplt_N,trap);        
+			return GR0;
+		}
+		else 
+			if (IS_POW2(n))
+			{
+				int lhs_reg = reg_operand(lhs, sp);
+				sp = guardreg(lhs_reg, sp);
+				if (final_reg == R_NO_REG)
+				{
+					final_reg = getreg(sp.fixed);
+				}
+				if (n == 1)
+				{
+					/*
+					 *   rem = 0
+					 */
+					rr_ins(i_copy,0,final_reg);
+					return final_reg;
+				}
+				while (((1<<(++p)) & n)==0);
+				if (sgned && name(bro(rhs)) == rem2_tag)
+				{
+					/*
+					 *   Allow for negative lhs. Calculate lhs % n (= 2**p) by
+					 *   anding lhs with mask, negating lhs before and after anding
+					 *   if lhs<0.
+					 */
+					if (lhs_reg==final_reg)
+					{
+						rrr_ins(i_or,c_g,0,lhs_reg,GR1);
+						rrr_ins(i_sub,c_,0,lhs_reg,lhs_reg);
+						riir_ins(i_dep,c_,0,31-p,32-p,lhs_reg);
+						rrr_ins(i_or,c_g,0,GR1,0);
+						rrr_ins(i_sub,c_,0,lhs_reg,lhs_reg);
+					}
+					else
+					{
+						rrr_ins(i_or,c_g,0,lhs_reg,final_reg);
+						rrr_ins(i_sub,c_,0,final_reg,final_reg);
+						riir_ins(i_dep,c_,0,31-p,32-p,final_reg);
+						rrr_ins(i_or,c_g,0,lhs_reg,0);
+						rrr_ins(i_sub,c_,0,final_reg,final_reg);
+					}
+				}
+				else
+				{
+					/*
+					 *   Calculate lhs % n (= 2**p) by anding with mask.
+					 */
+					if (lhs_reg==final_reg)   
+						riir_ins(i_dep,c_,0,31-p,32-p,final_reg);
+					else
+						riir_ins(i_zdep,c_,lhs_reg,31,p,final_reg);
+				}
+				return final_reg;
+			}
+			else
+			{
+				/*
+				 *   Need to call remI or remU.
+				 */
+				reg_operand_here(lhs,sp,ARG0);
+				imm_to_r(n,ARG1);
+				if (sgned)
+				{
+					call_millicode(MILLI_REMI,RP,stub,1);
+					if (name(bro(rhs)) == mod_tag)
+					{
+						if (SIMM14(n))
+						{
+							if (n>0)
+								rrr_ins(i_comclr,c_geq,RET1,0,0);
+							else
+								if (n<0)
+									rrr_ins(i_comclr,c_leq,RET1,0,0);
+							ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,RET1,RET1);
+						}
+						else 
+						{
+							imm_to_r(n,ARG1);
+							if (n>0)
+								rrr_ins(i_comclr,c_geq,RET1,0,0);
+							else
+								if (n<0)
+									rrr_ins(i_comclr,c_leq,RET1,0,0);
+							rrr_ins(i_add,c_,ARG1,RET1,RET1);
+						}
+					}
+				}
+				else
+				{
+					call_millicode(MILLI_REMU,RP,stub,1);
+				}
+				clear_t_regs();
+				return RET1;  /* result left in RET1 */
+			}
+	}
+	/*
+	 *   Need to call remI/.urem
+	 */
+	reg_operand_here(lhs, sp, ARG0);
+	nsp = guardreg(ARG0, sp);
+	reg_operand_here(rhs, nsp, ARG1);
+	if (!optop(e))
+		cj_ins(c_eq,GR0,ARG1,trap);
+	
+	if (name(bro(rhs)) == mod_tag && sgned)
+	{
+		st_ins(i_sw,ARG1,b);
+		call_millicode(MILLI_REMI,RP,stub,1);
+		rrr_ins(i_comclr,c_eq,RET1,0,ARG1);
+		ld_ins(i_lw,1,b,ARG1);
+		rrr_ins(i_xor,c_geq,RET1,ARG1,0);
+		rrr_ins(i_add,c_,RET1,ARG1,RET1);
+	}
+	else
+	{
+		call_millicode(sgned ? MILLI_REMI : MILLI_REMU, RP, stub,1);
+	}
+	clear_t_regs();
+	return RET1;  /* result left in RET1 */
 }
 
 
-typedef int ( *find_fn ) PROTO_S ( ( exp, space, int, bool ) ) ;
+typedef int (*find_fn)(exp, space, int, bool) ;
 
 /* choose regs and generate code using do_fn */
-static int find_reg_and_apply
-    PROTO_N ( ( e, sp, dest, sgned, do_fn ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned X find_fn do_fn )
+static int
+find_reg_and_apply(exp e, space sp, where dest,
+				   bool sgned, find_fn do_fn)
 {
-  ans a;
-  int dest_reg;
-
-  /* +++ mips has tidyshort(dest, sh(e)); check not needed on HPPA */
-
-  switch (discrim ( dest.answhere ) )
-  {
-  case inreg:
-    dest_reg = (*do_fn) (e, sp, regalt(dest.answhere), sgned);
-    break;
-
-  case insomereg:
+	ans a;
+	int dest_reg;
+	
+	/* +++ mips has tidyshort(dest, sh(e)); check not needed on HPPA */
+	
+	switch (discrim (dest.answhere))
+	{
+	case inreg:
+		dest_reg = (*do_fn) (e, sp, regalt(dest.answhere), sgned);
+		break;
+		
+	case insomereg:
     {
-      int *dr = someregalt(dest.answhere);
-
-      *dr = (*do_fn) (e, sp, R_NO_REG, sgned);	/* leave (*do_fn)() to
-							 * allocate reg */
-      return *dr;		/* no need for move */
+		int *dr = someregalt(dest.answhere);
+		
+		*dr = (*do_fn) (e, sp, R_NO_REG, sgned);	/* leave (*do_fn)() to
+													 * allocate reg */
+		return *dr;		/* no need for move */
     }
-
-  default:
-    dest_reg = (*do_fn) (e, sp, R_NO_REG, sgned);	/* leave (*do_fn)() to
-							 * allocate reg */
-  }
-
-  assert(dest_reg != R_NO_REG);
-
-  setregalt(a, dest_reg);
-  sp = guardreg(dest_reg, sp);
-  move(a, dest, sp.fixed, sgned);
-
-  return dest_reg;
+	
+	default:
+		dest_reg = (*do_fn) (e, sp, R_NO_REG, sgned);	/* leave (*do_fn)() to
+														 * allocate reg */
+	}
+	
+	assert(dest_reg != R_NO_REG);
+	
+	setregalt(a, dest_reg);
+	sp = guardreg(dest_reg, sp);
+	move(a, dest, sp.fixed, sgned);
+	
+	return dest_reg;
 }
 
 
 
 /* choose regs and generate code for multiply using multiply proc */
-int do_mul_comm_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int
+do_mul_comm_op(exp e, space sp, where dest,
+			   bool sgned)
 {
-   return find_reg_and_apply(e, sp, dest, sgned, do_mul_comm);
+	return find_reg_and_apply(e, sp, dest, sgned, do_mul_comm);
 }
 
 
 /* choose regs and generate code for divide using divide proc */
-int do_div_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int
+do_div_op(exp e, space sp, where dest, bool sgned)
 {
-  return find_reg_and_apply(e, sp, dest, sgned, do_div);
+	return find_reg_and_apply(e, sp, dest, sgned, do_div);
 }
 
 
 /* choose regs and generate code for rem using rem proc */
-int do_rem_op 
-    PROTO_N ( ( e, sp, dest, sgned ) )
-    PROTO_T ( exp e X space sp X where dest X bool sgned )
+int
+do_rem_op(exp e, space sp, where dest, bool sgned)
 {
-  return find_reg_and_apply(e, sp, dest, sgned, do_rem);
+	return find_reg_and_apply(e, sp, dest, sgned, do_rem);
 }
 
 
 
 /* is exp mul, div or rem that may call */
-bool is_muldivrem_call 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+is_muldivrem_call(exp e)
 {
-
-  switch (name(e))
-  {
-
+	
+	switch (name(e))
+	{
+		
 #if use_long_double
-     case test_tag:
-     case chfl_tag:
-     case round_tag:
-     {
-	 exp s = son(e);
-	 if ( name(sh(s))==doublehd )
-	    return (1) ;
-	 /* FALL THROUGH */
-     }      
-
-     case fplus_tag:
-     case fminus_tag:
-     case fmult_tag:
-     case fdiv_tag:
-     case fneg_tag:
-     case fabs_tag:
-     case float_tag:
-     {
-	if ( name(sh(e))==doublehd)
-	   return(1);
-	else
-	   return(0);
-     }
+	case test_tag:
+	case chfl_tag:
+	case round_tag:
+	{
+		exp s = son(e);
+		if (name(sh(s))==doublehd)
+			return (1);
+		/* FALL THROUGH */
+	}      
+	
+	case fplus_tag:
+	case fminus_tag:
+	case fmult_tag:
+	case fdiv_tag:
+	case fneg_tag:
+	case fabs_tag:
+	case float_tag:
+	{
+		if (name(sh(e))==doublehd)
+			return (1);
+		else
+			return (0);
+	}
 #endif
 #if 0
-   case chvar_tag:
-     e = son(e);		/* fall through, look at arg */
+	case chvar_tag:
+		e = son(e);		/* fall through, look at arg */
 #endif
-      case mult_tag:
-      case offset_mult_tag:
-      {
-	/*multneeds - simple cases don't need a call */
-	exp arg2 = bro(son(e));
-	if (last(arg2) && name(arg2) == val_tag)
+	case mult_tag:
+	case offset_mult_tag:
 	{
-	  return 0;
-	}
-	return 1;
-      }    
-
+		/*multneeds - simple cases don't need a call */
+		exp arg2 = bro(son(e));
+		if (last(arg2) && name(arg2) == val_tag)
+		{
+			return 0;
+		}
+		return 1;
+	}    
+	
     case div0_tag:
     case rem0_tag:
     case div1_tag:
@@ -1140,22 +1380,22 @@ bool is_muldivrem_call
     case rem2_tag:
     case offset_div_tag:
     case offset_div_by_int_tag: 
-      {
-	/*remneeds, divneeds - simple cases don't need a call */
-	exp arg2 = bro(son(e));
-
-	if (last(arg2) && name(arg2) == val_tag)
 	{
-	  long constval = no(arg2);
-	  if (constval > 0 && IS_POW2(constval))
-	  {
-	    return 0;
-	  }
+		/*remneeds, divneeds - simple cases don't need a call */
+		exp arg2 = bro(son(e));
+		
+		if (last(arg2) && name(arg2) == val_tag)
+		{
+			long constval = no(arg2);
+			if (constval > 0 && IS_POW2(constval))
+			{
+				return 0;
+			}
+		}
+		return 1;
 	}
-	return 1;
-      }
-  default:
-      return 0;
+	default:
+		return 0;
     }
 }
 
@@ -1165,92 +1405,89 @@ bool is_muldivrem_call
  */
 
 
-needs multneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+multneeds(exp * e, exp ** at)
 {
-  needs n ;
-  exp arg1 = son(*(e));
-  exp arg2 = bro(arg1);
-  n = likeplus(e, at);	/* has had comm_ass() treatment */
-
-  /* remember that mult may have more than two args after optimisation */
-
-  if (last(arg2) && name(arg2) == val_tag)
-  {
-
-    /*
-     * const optim, additional reg only needed where src and dest are same
-     * reg, in which case it has already been allowed for.
-     */
-    return n;
-  }
-
-  /* default, call .mul */
-  n.fixneeds = maxfix;
+	needs n;
+	exp arg1 = son(*(e));
+	exp arg2 = bro(arg1);
+	n = likeplus(e, at);	/* has had comm_ass() treatment */
+	
+	/* remember that mult may have more than two args after optimisation */
+	
+	if (last(arg2) && name(arg2) == val_tag)
+	{
+		
+		/*
+		 * const optim, additional reg only needed where src and dest are same
+		 * reg, in which case it has already been allowed for.
+		 */
+		return n;
+	}
+	
+	/* default, call .mul */
+	n.fixneeds = maxfix;
 #if 1
-  n.propsneeds |= hasproccall;
+	n.propsneeds |= hasproccall;
 #endif
-  return n;
+	return n;
 }
 
 
-needs divneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+divneeds(exp * e, exp ** at)
 {
-  needs n ;
-  exp lhs = son(*(e));
-  exp rhs = bro(lhs);
-  n = likediv(e, at);
-
-  assert(last(rhs));
-
-  if (name(rhs) == val_tag)
-  {
-    long constval = no(rhs);
-
-    if (constval > 0 && IS_POW2(constval))
-    {
-      /* const optim, replace div by positive, non-zero, 2**n by shift right */
-
-      return n;
-    }
-  }
-
-  /* default, call .div */
-  n.fixneeds = maxfix;
-  n.propsneeds |= hasproccall;
-
-  return n;
+	needs n;
+	exp lhs = son(*(e));
+	exp rhs = bro(lhs);
+	n = likediv(e, at);
+	
+	assert(last(rhs));
+	
+	if (name(rhs) == val_tag)
+	{
+		long constval = no(rhs);
+		
+		if (constval > 0 && IS_POW2(constval))
+		{
+			/* const optim, replace div by positive, non-zero, 2**n by shift right */
+			
+			return n;
+		}
+	}
+	
+	/* default, call .div */
+	n.fixneeds = maxfix;
+	n.propsneeds |= hasproccall;
+	
+	return n;
 }
 
 
-needs remneeds 
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+remneeds(exp * e, exp ** at)
 {
-  needs n ;
-  exp lhs = son(*(e));
-  exp rhs = bro(lhs);
-  n = likediv(e, at);
-
-  assert(last(rhs));
-  if (name(rhs) == val_tag)
-  {
-    long constval = no(rhs);
-
-    if (constval > 0 && IS_POW2(constval))
-    {
-      /* const optim of rem by positive, non-zero, 2**n */
-
-      return n;
-    }
-  }
-  /* default, call .rem */
-  n.fixneeds = maxfix;
-  n.propsneeds |= hasproccall;
-  return n;
+	needs n;
+	exp lhs = son(*(e));
+	exp rhs = bro(lhs);
+	n = likediv(e, at);
+	
+	assert(last(rhs));
+	if (name(rhs) == val_tag)
+	{
+		long constval = no(rhs);
+		
+		if (constval > 0 && IS_POW2(constval))
+		{
+			/* const optim of rem by positive, non-zero, 2**n */
+			
+			return n;
+		}
+	}
+	/* default, call .rem */
+	n.fixneeds = maxfix;
+	n.propsneeds |= hasproccall;
+	return n;
 }
 
 

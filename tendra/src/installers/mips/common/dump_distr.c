@@ -1,41 +1,288 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:22  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:09  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:56:05  release
  * First version to be checked into rolling release.
  *
@@ -45,18 +292,18 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1995/04/13  09:08:06  currie
  * Initial revision
  *
-***********************************************************************/
+ ***********************************************************************/
 /* dump_distr.c
- Idea is to avoid dumping of  s-registers and register parameters
-    if there is a simple route through a procedure which only uses the values
-     of its parameters, constants,  globals or t-registers.
-    Applied to rscopes  after registers have been allocated .
-    Mechanism is to insert a new exp with name dump_tag in the
-    appropriate place where son is exp after dump, pt is next dump starting
-    at pt of original rscope with no and prop fields telling which regs to dump.
-    Main proc is dump_opt; if dump_opt_flag is off then dump is placed in at highest
-    level, dumping all the required registers.
-
+ * Idea is to avoid dumping of  s-registers and register parameters
+ *    if there is a simple route through a procedure which only uses the values
+ *     of its parameters, constants,  globals or t-registers.
+ *    Applied to rscopes  after registers have been allocated .
+ *    Mechanism is to insert a new exp with name dump_tag in the
+ *    appropriate place where son is exp after dump, pt is next dump starting
+ *    at pt of original rscope with no and prop fields telling which regs to dump.
+ *    Main proc is dump_opt; if dump_opt_flag is off then dump is placed in at highest
+ *    level, dumping all the required registers.
+ 
 */
 #include "config.h"
 #include "common_types.h"
@@ -76,74 +323,72 @@ Initial version of TenDRA 4.1.2.
 bool do_dump_opt = 1;		/*  may be unset by -d flag */
 
 static  space zsp = {
-  0, 0
+	0, 0
 };				/* long fixed, long flt */
 
-void maxsp
-    PROTO_N ( (a, b) )
-    PROTO_T ( space * a X space b )
+void
+maxsp(space * a, space b)
 {
-  a -> fixed |= b.fixed;
-  a -> flt |= b.flt;
+	a -> fixed |= b.fixed;
+	a -> flt |= b.flt;
 }
 
-space suses
-    PROTO_N ( (e, pars, incpars) )
-    PROTO_T ( exp e X space * pars X int incpars )
+space
+suses(exp e, space * pars, int incpars)
 {
-  /* accumulate s regs used in e; pars gives bits indicating which s-regs
-     are used for the parameters of current proc; incpars says dont ignore
-     	pars in registers */
-  space ans;
-  ans = zsp;
-  if (e == nilexp)
-    return ans;
-  switch (name(e)) {
+	/* accumulate s regs used in e; pars gives bits indicating which s-regs
+	 *     are used for the parameters of current proc; incpars says dont ignore
+	 *     	pars in registers */
+	space ans;
+	ans = zsp;
+	if (e == nilexp)
+		return ans;
+	switch (name(e)) {
     case name_tag: {
-	exp id = son (e);
-	if (name (id) == ident_tag) {
-	  if (isglob (id) || (props (id) & inanyreg) == 0)
-	    return ans /* global or not in register */ ;
-	  if ((props (id) & defer_bit) != 0)
-	    return suses (son (id), pars, incpars) /* dec does not take space */ ;
-
-	  if (isparam(id) && no(id) !=0 &&
-	      ((!incpars && props(son(id)) != 0) || no(id)==props(son(id)) ) )
-	   /* par in original reg (perhaps destined for sreg) */
-	  	 return ans;
-
-	  if ((props(id) & infreg_bits)!=0 ) {
-	    if (no (id) != 16 && no (id) != 0) {/* uses floating s-reg */
-		ans.flt = 3 << ((no (id)) << 1);
-	    }
-	  }
-	  else
-	    if (no (id) != 0 && no (id) != 2) {
-	      /* in s seg */
-	      if (isparam(id) && props(son(id)) !=0 &&
-	                     props(son(id)) >= incpars) return ans;
-	      ans.fixed = 1 << (no (id));
-	    }
+		exp id = son (e);
+		if (name (id) == ident_tag) {
+			if (isglob (id) || (props (id) & inanyreg) == 0)
+				return ans /* global or not in register */;
+			if ((props (id) & defer_bit) != 0)
+				return suses (son (id), pars, incpars) /* dec does not take space */;
+			
+			if (isparam(id) && no(id) !=0 &&
+				((!incpars && props(son(id)) != 0) || no(id)==props(son(id))))
+				/* par in original reg (perhaps destined for sreg) */
+				return ans;
+			
+			if ((props(id) & infreg_bits)!=0) {
+				if (no (id) != 16 && no (id) != 0) {/* uses floating s-reg */
+					ans.flt = 3 << ((no (id)) << 1);
+				}
+			}
+			else
+				if (no (id) != 0 && no (id) != 2) {
+					/* in s seg */
+					if (isparam(id) && props(son(id)) !=0 &&
+						props(son(id)) >= incpars) return ans;
+					ans.fixed = 1 << (no (id));
+				}
+		}
+		
+		break;
 	}
-
-	break;
-      }
     case case_tag:
-      {
-	return suses (son (e), pars, incpars);
-      }
-
-    case seq_tag: {
-	exp t = son (son (e));
-	ans = suses (bro (son (e)), pars, incpars);
-	for (;;) {
-	  maxsp (&ans, suses (t, pars,incpars));
-	  if (last (t)) {
-	    return ans;
-	  }
-	  t = bro (t);
+	{
+		return suses (son (e), pars, incpars);
 	}
-      }
+	
+    case seq_tag: {
+		exp t = son (son (e));
+		ans = suses (bro (son (e)), pars, incpars);
+		for (;;) {
+			maxsp (&ans, suses (t, pars,incpars));
+			if (last (t)) {
+				return ans;
+			}
+			t = bro (t);
+		}
+	}
     case 0:
     case goto_tag:
     case val_tag:
@@ -153,169 +398,165 @@ space suses
     case clear_tag:
     case top_tag:
     case env_offset_tag:
-      {
-	break;
-      }
-
+	{
+		break;
+	}
+	
     case apply_general_tag: case tail_call_tag:{
     	maxsp(&ans, *pars);
     	goto default1;
     }
     case caller_tag: return suses(son(e), pars, incpars);
-
-
+		
+		
     case apply_tag: {
-	/* proc call preserves s-regs; however must make sure that any
-	   pars destined for s-regs get there */
-	exp dad = father(e);
-	if (name(dad)==res_tag && props(dad)) {
-		/* tl recursion  - don't have to dump link or later regs */
-		int i;
-		exp p = bro(son(e));
-
-		if (last(son(e)) || name(p)==top_tag) return ans;
-		for(i=(incpars>4)?incpars:4; ; i++) {
-			if (!valregable(sh(p))) i=8;
-			maxsp(&ans, suses(p, pars, i));
-			if(last(p)) return ans;
-			p = bro(p);
-		}
-	} else 	maxsp (&ans, *pars);
-      }				/* else cont to default */
-
+		/* proc call preserves s-regs; however must make sure that any
+		 *	   pars destined for s-regs get there */
+		exp dad = father(e);
+		if (name(dad)==res_tag && props(dad)) {
+			/* tl recursion  - don't have to dump link or later regs */
+			int i;
+			exp p = bro(son(e));
+			
+			if (last(son(e)) || name(p)==top_tag) return ans;
+			for (i=(incpars>4)?incpars:4; ; i++) {
+				if (!valregable(sh(p))) i=8;
+				maxsp(&ans, suses(p, pars, i));
+				if (last(p)) return ans;
+				p = bro(p);
+			}
+		} else 	maxsp (&ans, *pars);
+	}				/* else cont to default */
+		
     default: default1:{
-	exp t = son (e);
-	maxsp (&ans, suses (t, pars,incpars));
-	while (t!=nilexp && !last (t)) {
-	  t = bro (t);
-	  maxsp (&ans, suses (t, pars,incpars));
+		exp t = son (e);
+		maxsp (&ans, suses (t, pars,incpars));
+		while (t!=nilexp && !last (t)) {
+			t = bro (t);
+			maxsp (&ans, suses (t, pars,incpars));
+		}
 	}
-      }
-      }
-  return ans;
+	}
+	return ans;
 }
 
-bool sameregs
-    PROTO_N ( (a, b) )
-    PROTO_T ( space * a X space * b )
+bool
+sameregs(space * a, space * b)
 {
-  /*  regs a <= regs b */
-  return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
-
+	/*  regs a <= regs b */
+	return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
+	
 }
 
-space remd
-    PROTO_N ( (tobd, dmpd) )
-    PROTO_T ( space * tobd X space * dmpd )
+space
+remd(space * tobd, space * dmpd)
 {
-  /* any regs left out of tobd after dmpd has been done */
-  space ans;
-  ans.fixed = tobd -> fixed & ~dmpd -> fixed;
-  ans.flt = tobd -> flt & ~dmpd -> flt;
-  return ans;
+	/* any regs left out of tobd after dmpd has been done */
+	space ans;
+	ans.fixed = tobd -> fixed & ~dmpd -> fixed;
+	ans.flt = tobd -> flt & ~dmpd -> flt;
+	return ans;
 }
 
-bool placedump
-    PROTO_N ( (pe, dmpd, tobd, nds) )
-    PROTO_T ( exp * pe X space * dmpd X space * tobd X space * nds )
+bool
+placedump(exp * pe, space * dmpd, space * tobd,
+		  space * nds)
 {
-  /* replace exp in pe by new dump with props = fixeds and no = flts to be
-     dumped ; thread different dumps to same rsc via pt; delivers bool to
-     say whether all sregs have been dumped */
-  exp e = *pe;
-  exp dflt = getexp(nilexp, nilexp, 1, nilexp,nilexp, 0, nds->flt & ~dmpd->flt, dump_tag);
-  exp dump = getexp (sh (e), bro (e), last (e), e, dflt, 0, (nds -> fixed & ~dmpd -> fixed),
-       dump_tag);
-  bro (e) = dump;
-  setlast (e);
-  *(pe) = dump;
-  (dmpd -> fixed) |= nds -> fixed;
-  (dmpd -> flt) |= nds -> flt;
-  return sameregs (tobd, dmpd);
+	/* replace exp in pe by new dump with props = fixeds and no = flts to be
+	 *     dumped ; thread different dumps to same rsc via pt; delivers bool to
+	 *     say whether all sregs have been dumped */
+	exp e = *pe;
+	exp dflt = getexp(nilexp, nilexp, 1, nilexp,nilexp, 0, nds->flt & ~dmpd->flt, dump_tag);
+	exp dump = getexp (sh (e), bro (e), last (e), e, dflt, 0, (nds -> fixed & ~dmpd -> fixed),
+					   dump_tag);
+	bro (e) = dump;
+	setlast (e);
+	*(pe) = dump;
+	(dmpd -> fixed) |= nds -> fixed;
+	(dmpd -> flt) |= nds -> flt;
+	return sameregs (tobd, dmpd);
 }
 
 
 
 
-exp goodcond
-    PROTO_N ( (first, second, beforeb, pars) )
-    PROTO_T ( exp first X exp second X space * beforeb X space * pars )
+exp
+goodcond(exp first, exp second, space * beforeb,
+		 space * pars)
 {
-  /* delivers last exp in seq first after all tests (to second) ;
-     beforeb is space upto end of tests; second only use beforeb;
-     otherwise nilexp */
-  exp t;
-  space nds;
-  int   n = no (son (second));	/* no of uses of labst second */
-  if (name (first) != seq_tag)
-    return nilexp;
-  t = son (son (first));
-  *beforeb = zsp;
-  for (;;) {
-    maxsp(beforeb, suses(t, pars, 0));
-
-    if (name (t) == test_tag) {
-      if (pt (t) != second)
+	/* delivers last exp in seq first after all tests (to second);
+	 *     beforeb is space upto end of tests; second only use beforeb;
+	 *     otherwise nilexp */
+	exp t;
+	space nds;
+	int   n = no (son (second));	/* no of uses of labst second */
+	if (name (first) != seq_tag)
+		return nilexp;
+	t = son (son (first));
+	*beforeb = zsp;
+	for (;;) {
+		maxsp(beforeb, suses(t, pars, 0));
+		
+		if (name (t) == test_tag) {
+			if (pt (t) != second)
+				return nilexp;
+			if (--n == 0) break;
+		}
+		if (last (t)) {
+			return nilexp;
+		}
+		t = bro (t);
+	}
+	
+	nds = suses (second, pars, 0);
+	if (sameregs (&nds, beforeb))
+		return t;
 	return nilexp;
-      if (--n == 0) break;
-    }
-    if (last (t)) {
-     	return nilexp;
-    }
-    t = bro (t);
-  }
-
-  nds = suses (second, pars, 0);
-  if (sameregs (&nds, beforeb))
-    return t;
-  return nilexp;
 }
 
-bool alljumps
-    PROTO_N ( (e, slv, nol) )
-    PROTO_T ( exp e X exp slv X int * nol )
+bool
+alljumps(exp e, exp slv, int * nol)
 {
 	/* all all branches to labsts of slove_tag slv in e ? */
-     recurse:
+  recurse:
 	switch (name(e)) {
-	   case case_tag: {
+	case case_tag: {
 	   	exp z = bro(son(e));
-	   	for(;;) {
+	   	for (;;) {
 	   		if (father(pt(z))==slv) {
 	   			if (--(*nol)==0) return 1;
 	   		}
 	   		if (last(z)) { e = son(e); goto recurse; }
 	   		z = bro(z);
 	   	}
-	   }
-	   case goto_tag: case test_tag: {
-	     	 if (father(pt(e))==slv) {
-	     	 	if (--(*nol)==0) return 1;
-	     	 }
-	     	 if (name(e)== goto_tag) return 0;
-	     	 /* and continue */
-	   }
-	   case name_tag: case val_tag: case float_tag: case string_tag:
+	}
+	case goto_tag: case test_tag: {
+		if (father(pt(e))==slv) {
+			if (--(*nol)==0) return 1;
+		}
+		if (name(e)== goto_tag) return 0;
+		/* and continue */
+	}
+	case name_tag: case val_tag: case float_tag: case string_tag:
 	   	return 0;
-	   default: {
+	default: {
 	   	exp se = son(e);
 	   	if (se==nilexp) return 0;
-	   	for(;;) {
+	   	for (;;) {
 	   		if (last(se)) { e = se; goto recurse; }
 	   		if (alljumps(se, slv, nol)) return 1;
 	   		se = bro(se);
 	   	}
-	   }
+	}
 	}
 }
 
-bool goodsolve
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+goodsolve(exp e)
 {
 	exp m = bro(son(e));
 	int nol;
-	for(nol=0;;nol++) {
+	for (nol=0;;nol++) {
 		if (no(son(m))!=1) return 0; /* more than one branch to labst */
 		if (last(m)) break;
 		m = bro(m);
@@ -325,227 +566,226 @@ bool goodsolve
 
 static int  notregs;
 static int  notfregs;
- /* use to make sure of enough t-regs which are not par regs; I reuse any
-    par registers whose pars are put in s-regs as t-regs  */
+/* use to make sure of enough t-regs which are not par regs; I reuse any
+ *    par registers whose pars are put in s-regs as t-regs  */
 
-void pushdumps
-    PROTO_N ( (pe, dmpd, tobd, pars) )
-    PROTO_T ( exp * pe X space * dmpd X space * tobd X space * pars )
+void
+pushdumps(exp * pe, space * dmpd, space * tobd,
+		  space * pars)
 {
-
-  /* tries to delay the dumps of the s-regs as late as possible
-     ; pe is the place in the tree to insert any dump found
-     necessary in this recursion; dmpd gives the sregs already dumped and
-     tobd is all which may have to be dumped; pars give the registers
-     containing the initial position of any parameters */
-
-  space nds;
-  exp e = *(pe);
-  exp *arg;
-
-  switch (name (e)) {
+	
+	/* tries to delay the dumps of the s-regs as late as possible
+	 *     ; pe is the place in the tree to insert any dump found
+	 *     necessary in this recursion; dmpd gives the sregs already dumped and
+	 *     tobd is all which may have to be dumped; pars give the registers
+	 *     containing the initial position of any parameters */
+	
+	space nds;
+	exp e = *(pe);
+	exp *arg;
+	
+	switch (name (e)) {
     case ident_tag: {
-	nds = suses (son (e), pars,0);
-	if ((props (e) & inanyreg) != 0 && no (e) == 0) {
-	  /*  This definition will be allocated into a t-reg so make sure
-	     of enough t-regs which are not par regs; I reuse any par
-	     registers whose pars are put in s-regs as t-regs  */
-	  if (is_floating (name (sh (son (e))))) {
-	    if (notfregs-- < 0) {
-	      nds = remd (tobd, dmpd);
-	      placedump ( pe, dmpd, tobd, &nds);
-	      return;
-	    }
-	  }
-	  else {
-	    if (notregs-- < 0) {
-	      nds = remd (tobd, dmpd);
-	      placedump ( pe, dmpd, tobd, &nds);
-	      return;
-	    }
-	  }
+		nds = suses (son (e), pars,0);
+		if ((props (e) & inanyreg) != 0 && no (e) == 0) {
+			/*  This definition will be allocated into a t-reg so make sure
+			 *	     of enough t-regs which are not par regs; I reuse any par
+			 *	     registers whose pars are put in s-regs as t-regs  */
+			if (is_floating (name (sh (son (e))))) {
+				if (notfregs-- < 0) {
+					nds = remd (tobd, dmpd);
+					placedump (pe, dmpd, tobd, &nds);
+					return;
+				}
+			}
+			else {
+				if (notregs-- < 0) {
+					nds = remd (tobd, dmpd);
+					placedump (pe, dmpd, tobd, &nds);
+					return;
+				}
+			}
+		}
+		
+		if (name (son (e)) != clear_tag ||
+			(isparam(e) && props(son(e))==0 /* ie initially on stack */) ) {
+			/* id could be in s-reg; find from use */
+			maxsp (&nds, suses (pt (e), pars, 0));
+		}
+		if (sameregs (&nds, dmpd) ||
+			!placedump (pe, dmpd, tobd, &nds)) {
+			/* not all regs have been dumped - continue with body */
+			arg = &bro(son (e));
+			pushdumps (arg, dmpd, tobd, pars);
+		}
+		return;
 	}
-
-	if (name (son (e)) != clear_tag ||
-	      (isparam(e) && props(son(e))==0 /* ie initially on stack */)  ) {
-	  /* id could be in s-reg; find from use */
-	  maxsp (&nds, suses (pt (e), pars, 0));
-	}
-	if (sameregs (&nds, dmpd) ||
-	    !placedump ( pe, dmpd, tobd, &nds)) {
-	  /* not all regs have been dumped - continue with body */
-	  arg = &bro(son (e));
-	  pushdumps ( arg, dmpd, tobd, pars);
-	}
-	return;
-      }
-
+		
     case seq_tag: {
-	exp prev;
-	exp list = son (son (e));
-	if (last(list) ) {
-	   nds = suses(bro(son(e)), pars, 8);
-	   if (nds.fixed==0 && nds.flt==0) {
-	   	/* seq consists of two exps with last not using regs */
-	   	pushdumps(&son(son(e)), dmpd, tobd, pars);
-	   	return;
-	   }
+		exp prev;
+		exp list = son (son (e));
+		if (last(list)) {
+			nds = suses(bro(son(e)), pars, 8);
+			if (nds.fixed==0 && nds.flt==0) {
+				/* seq consists of two exps with last not using regs */
+				pushdumps(&son(son(e)), dmpd, tobd, pars);
+				return;
+			}
+		}
+		nds = suses (list, pars, 0);
+		if (!sameregs (&nds, dmpd)) {
+			/* first statement uses undumped s-regs */
+			if (placedump (pe, dmpd, tobd, &nds)) {
+				return;
+			}
+		}
+		prev = list;
+		while (!last (list)) {
+			prev = list;
+			list = bro (list);
+			nds = suses (list, pars, 0);
+			if (!sameregs (&nds, dmpd)) {
+				/* uses undumped s-regs; construct new seq as result of this
+				 *	       one .... */
+				exp s_hold = getexp (sh (e), bro (son (e)), 0, list, nilexp, 0, 0,
+									 name (son (e)));
+				exp seq = getexp (sh (e), e, 1, s_hold, nilexp, 0, 0, seq_tag);
+				
+				bro (prev) = son (e);
+				setlast (prev);
+				bro (son (e)) = seq;
+				bro (bro (s_hold)) = seq;
+				while (!last (list)) {
+					list = bro (list);
+				}
+				bro (list) = s_hold;
+				/* .... and continue with new result */
+				arg = &bro(son (e));
+				if (!placedump (arg, dmpd, tobd, &nds)) {
+					pushdumps (arg, dmpd, tobd, pars);
+				}
+				return;
+			}
+		}
+		/* no new s-regs used - carry on with result */
+		arg = &bro(son (e));
+		pushdumps (arg, dmpd, tobd, pars);
+		return;
 	}
-	nds = suses (list, pars, 0);
-	if (!sameregs (&nds, dmpd)) {
-				/* first statement uses undumped s-regs */
-	  if (placedump ( pe, dmpd, tobd, &nds)) {
-	    return;
-	  }
-	}
-	prev = list;
-	while (!last (list)) {
-	  prev = list;
-	  list = bro (list);
-	  nds = suses (list, pars, 0);
-	  if (!sameregs (&nds, dmpd)) {
-	    /* uses undumped s-regs; construct new seq as result of this
-	       one .... */
-	    exp s_hold = getexp (sh (e), bro (son (e)), 0, list, nilexp, 0, 0,
-		name (son (e)));
-	    exp seq = getexp (sh (e), e, 1, s_hold, nilexp, 0, 0, seq_tag);
-
-	    bro (prev) = son (e);
-	    setlast (prev);
-	    bro (son (e)) = seq;
-	    bro (bro (s_hold)) = seq;
-	    while (!last (list)) {
-	      list = bro (list);
-	    }
-	    bro (list) = s_hold;
-	    /* .... and continue with new result */
-	    arg = &bro(son (e));
-	    if (!placedump ( arg, dmpd, tobd, &nds)) {
-	      pushdumps ( arg, dmpd, tobd, pars);
-	    }
-	    return;
-	  }
-	}
-	/* no new s-regs used - carry on with result */
-	arg = &bro(son (e));
-	pushdumps ( arg, dmpd, tobd, pars);
-	return;
-      }
-
+		
     case cond_tag: {
-	exp first = son (e);
-	exp second = bro (first);
-	exp t;
-	bool same;
-	space beforeb;
-	nds = suses (first, pars, 0);
-
-	same = sameregs (&nds, dmpd);
-
-	if (!same && (t = goodcond (first, second, &beforeb, pars)) != nilexp) {
-	  /* worth looking further  into first part */
-	  if (!sameregs(&beforeb, dmpd) ) {
-	  	if (placedump ( pe, dmpd, tobd, &beforeb)) {
-	    	 return;
-	  	}
-	  }
-	  if (!last (t)) {
-	    exp seq_hold =
-	      getexp (sh (first), bro (son (first)), 0, bro (t), nilexp, 0, 0,
-		name (son (first)));
-	    exp new =
-	      getexp (sh (first), first, 1, seq_hold, nilexp, 0, 0, seq_tag);
-	    exp x = son (seq_hold);
-	    while (!last (x)) {
-	      x = bro (x);
-	    }
-	    bro (x) = seq_hold;	/* set dad son seq_hold */
-
-	    bro (bro (seq_hold)) = new;
-	    setlast (bro (seq_hold));/* set dad of seq_hold */
-	    bro (son (first)) = new;
-	    setlast (t);
-	    bro (t) = son (first);
-	    /* first is now (t; (rest of first)) */
-	  }
-	  arg = &bro(son (first));
-	  pushdumps ( arg, dmpd, tobd, pars);
-	  return;
-
+		exp first = son (e);
+		exp second = bro (first);
+		exp t;
+		bool same;
+		space beforeb;
+		nds = suses (first, pars, 0);
+		
+		same = sameregs (&nds, dmpd);
+		
+		if (!same && (t = goodcond (first, second, &beforeb, pars)) != nilexp) {
+			/* worth looking further  into first part */
+			if (!sameregs(&beforeb, dmpd)) {
+				if (placedump (pe, dmpd, tobd, &beforeb)) {
+					return;
+				}
+			}
+			if (!last (t)) {
+				exp seq_hold =
+					getexp (sh (first), bro (son (first)), 0, bro (t), nilexp, 0, 0,
+							name (son (first)));
+				exp new =
+					getexp (sh (first), first, 1, seq_hold, nilexp, 0, 0, seq_tag);
+				exp x = son (seq_hold);
+				while (!last (x)) {
+					x = bro (x);
+				}
+				bro (x) = seq_hold;	/* set dad son seq_hold */
+				
+				bro (bro (seq_hold)) = new;
+				setlast (bro (seq_hold));/* set dad of seq_hold */
+				bro (son (first)) = new;
+				setlast (t);
+				bro (t) = son (first);
+				/* first is now (t; (rest of first)) */
+			}
+			arg = &bro(son (first));
+			pushdumps (arg, dmpd, tobd, pars);
+			return;
+			
+		}
+		if (!same) {		/* new s-regs used in first part */
+			if (placedump (pe, dmpd, tobd, &nds)) {
+				return;
+			}
+		}
+		arg = &bro(son (e));
+		pushdumps (arg, dmpd, tobd, pars);
+		return;
 	}
-	if (!same) {		/* new s-regs used in first part */
-	  if (placedump ( pe, dmpd, tobd, &nds)) {
-	    return;
-	  }
-	}
-	arg = &bro(son (e));
-	pushdumps ( arg, dmpd, tobd, pars);
-	return;
-      }
-
+		
 /*    case diag_tag:
-    case fscope_tag:
-    case cscope_tag: {
-	arg= &son(e);
-	pushdumps ( arg, dmpd, tobd, pars);
-	return;
-      }
-*/
+ *    case fscope_tag:
+ *    case cscope_tag: {
+ *	arg= &son(e);
+ *	pushdumps (arg, dmpd, tobd, pars);
+ *	return;
+ *      }
+ */
     case labst_tag: {		/* can only arrive here from cond */
-	arg = &bro(son (e));
-	pushdumps ( arg, dmpd, tobd, pars);
-	return;
-      }
-
+		arg = &bro(son (e));
+		pushdumps (arg, dmpd, tobd, pars);
+		return;
+	}
+		
     case solve_tag: {
     	if (goodsolve(e)) {
     		exp m = bro(son(e));
     		space old_dmpd;
     		nds = suses(son(e), pars, 0);
     		if (!sameregs(&nds, dmpd)) {
-    			if (placedump(pe, dmpd,tobd, &nds) ) return;
+    			if (placedump(pe, dmpd,tobd, &nds)) return;
     		}
     		old_dmpd = *dmpd;
-    		for(;;) {
+    		for (;;) {
     			pushdumps(&bro(son(m)), dmpd, tobd, pars);
     			if (last(m)) return;
     			m = bro(m);
     			*dmpd = old_dmpd;
     		}
     	} /* else continue ... */
-
+		
     }
-
+		
     default: {
     	nds = suses(e, pars, 0);
     	if (!sameregs(&nds, dmpd)) {
-		placedump ( pe, dmpd, tobd, &nds);
+			placedump (pe, dmpd, tobd, &nds);
+		}
 	}
-      }
-  }
-
+	}
+	
 }
 
 
-void dump_opt
-    PROTO_N ( (rscope, tobd, pars) )
-    PROTO_T ( exp rscope X space * tobd X space * pars )
+void
+dump_opt(exp rscope, space * tobd, space * pars)
 {
-  /* rscope is proc-tag exp;  tobd is set of s-regs to be dumped; pars is
-     subset of tobd which will be used as  parameters of proc */
-  exp  * arg;
-  space dmpd;
-  dmpd = zsp;			/* those regs already dumped */
-  arg = &son(rscope);
-
-  notregs = 10;
-  notfregs = 8;			/* no of t-regs != par regs */
-  if (!do_dump_opt || No_S || sameregs (tobd, &dmpd) ||
-  	name(rscope)!=proc_tag) {
-    placedump ( arg, &dmpd, tobd, tobd);
-  }
-  else {
-    pushdumps ( arg, &dmpd, tobd, pars);
-  }
-  return;
+	/* rscope is proc-tag exp;  tobd is set of s-regs to be dumped; pars is
+	 *     subset of tobd which will be used as  parameters of proc */
+	exp  * arg;
+	space dmpd;
+	dmpd = zsp;			/* those regs already dumped */
+	arg = &son(rscope);
+	
+	notregs = 10;
+	notfregs = 8;			/* no of t-regs != par regs */
+	if (!do_dump_opt || No_S || sameregs (tobd, &dmpd) ||
+		name(rscope)!=proc_tag) {
+		placedump (arg, &dmpd, tobd, tobd);
+	}
+	else {
+		pushdumps (arg, &dmpd, tobd, pars);
+	}
+	return;
 }

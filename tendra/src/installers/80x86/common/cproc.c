@@ -1,43 +1,290 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /* 80x86/cproc.c */
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:11  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:02  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.4  1998/03/16  11:25:21  release
  * Modifications prior to version 4.1.2.
  *
@@ -146,12 +393,12 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1994/07/12  14:29:47  jmf
  * Initial revision
  *
-**********************************************************************/
+ **********************************************************************/
 
 
 /**********************************************************************
-   cproc produces the code for the procedure defined by which has
-   name pname.
+ *   cproc produces the code for the procedure defined by which has
+ *   name pname.
 
 **********************************************************************/
 
@@ -205,224 +452,222 @@ exp hasenvoff_list = nilexp;	/* global, used by coder */
 
 /* PROCEDURES */
 
-static void add_odd_bits
-    PROTO_N ( (r) )
-    PROTO_T ( outofline * r )
+static void
+add_odd_bits(outofline * r)
 {
-  if (r != (outofline*)0) {
-    if (r -> next == (outofline*)0)
-      last_odd_bit = 1;
-    add_odd_bits(r -> next);
-  }
-  else
-    return;
-
-  current_odd_bit = r;
-  if (is80486)
-    dot_align(4);
-  simple_set_label(r->labno);
-  clear_reg_record(crt_reg_record);
+	if (r != (outofline*)0) {
+		if (r -> next == (outofline*)0)
+			last_odd_bit = 1;
+		add_odd_bits(r -> next);
+	}
+	else
+		return;
+	
+	current_odd_bit = r;
+	if (is80486)
+		dot_align(4);
+	simple_set_label(r->labno);
+	clear_reg_record(crt_reg_record);
 #ifdef NEWDWARF
-  if (dwarf2) {
+	if (dwarf2) {
 #if 1
-    dw2_start_extra_bit (r->body);
+		dw2_start_extra_bit (r->body);
 #else
-    dw2_start_extra_bit (r->dw2_slave);
+		dw2_start_extra_bit (r->dw2_slave);
 #endif
-    START_BB ();
-  }
+		START_BB ();
+	}
 #endif
-
-  regsinuse = r->regsinuse;
-  fstack_pos = r->fstack_pos;
-  cond1_set = r->cond1_set;
-  cond2_set = r->cond2_set;
-  cond1 = r->cond1;
-  cond2a = r->cond2a;
-  cond2b = r->cond2b;
-  repeat_level = r->repeat_level;
-  scale = r->scale;
-  coder(r->dest, r->stack, r->body);
-  if (name(sh(r->body)) != bothd)  {
-    clean_stack();
-    jump(r->jr, 0);
-  }
-  else
-    stack_dec = 0;
+	
+	regsinuse = r->regsinuse;
+	fstack_pos = r->fstack_pos;
+	cond1_set = r->cond1_set;
+	cond2_set = r->cond2_set;
+	cond1 = r->cond1;
+	cond2a = r->cond2a;
+	cond2b = r->cond2b;
+	repeat_level = r->repeat_level;
+	scale = r->scale;
+	coder(r->dest, r->stack, r->body);
+	if (name(sh(r->body)) != bothd)  {
+		clean_stack();
+		jump(r->jr, 0);
+	}
+	else
+		stack_dec = 0;
 #ifdef NEWDWARF
-  if (dwarf2)
+	if (dwarf2)
 #if 1
-    dw2_end_extra_bit (r->body);
+		dw2_end_extra_bit (r->body);
 #else
     dw2_end_extra_bit (r->dw2_hi);
 #endif
 #endif
-  return;
+	return;
 }
 
-static void out_pops
-    PROTO_N ( (tot_sp, push_space, extra, dpos) )
-    PROTO_T ( int tot_sp X int push_space X int extra X int dpos )
+static void
+out_pops(int tot_sp, int push_space, int extra,
+		 int dpos)
 {
 #ifdef NEWDWARF
-  int st;
-  long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
+	int st;
+	long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
 #endif
-  tot_sp -= extra;
-  if (no_frame && !stack_aligned_8byte) {
-    if (tot_sp != push_space) {
-      outs (" addl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%esp");
-      outnl();
+	tot_sp -= extra;
+	if (no_frame && !stack_aligned_8byte) {
+		if (tot_sp != push_space) {
+			outs (" addl $");
+			outn ((long)(tot_sp - push_space));
+			outs (",%esp");
+			outnl();
 #ifdef NEWDWARF
-      if (diagnose && dwarf2)
-	dwl0 = set_dw_text_label ();
+			if (diagnose && dwarf2)
+				dwl0 = set_dw_text_label ();
 #endif
-    };
-  }
-  else {
-    if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
-      outs (" leal -");
-      outn ((long)push_space);
-      outs ("(%ebp),%esp");
-      outnl();
-    };
-  };
-
-  /* pop the registers at the end */
-  if (no_frame && (min_rfree & 0x40)) {
-    outs (" pop %ebp");
-    outnl();
+		};
+	}
+	else {
+		if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
+			outs (" leal -");
+			outn ((long)push_space);
+			outs ("(%ebp),%esp");
+			outnl();
+		};
+	};
+	
+	/* pop the registers at the end */
+	if (no_frame && (min_rfree & 0x40)) {
+		outs (" pop %ebp");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl1 = set_dw_text_label ();
 #endif
-  };
-  if (min_rfree & 0x20) {
-    outs (" pop %esi");
-    outnl();
+	};
+	if (min_rfree & 0x20) {
+		outs (" pop %esi");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl2 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl2 = set_dw_text_label ();
 #endif
-  };
-  if (min_rfree & 0x10) {
-    outs (" pop %edi");
-    outnl();
+	};
+	if (min_rfree & 0x10) {
+		outs (" pop %edi");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl3 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl3 = set_dw_text_label ();
 #endif
-  };
-  if (min_rfree & 0x8) {
-    outs (" pop %ebx");
-    outnl();
+	};
+	if (min_rfree & 0x8) {
+		outs (" pop %ebx");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl4 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl4 = set_dw_text_label ();
 #endif
-  };
-
-  if (!no_frame)  {
-    outs (" pop %ebp");
-    outnl();
+	};
+	
+	if (!no_frame)  {
+		outs (" pop %ebp");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl1 = set_dw_text_label ();
 #endif
-  };
-  outnl();
+	};
+	outnl();
 #ifdef NEWDWARF
-  if (diagnose && dwarf2) {
-    st = fseek (fpout, dpos, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    dw2_fde_restore_args (dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
-  }
+	if (diagnose && dwarf2) {
+		st = fseek (fpout, dpos, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		dw2_fde_restore_args (dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
+	}
 #endif
-  return;
+	return;
 }
 
-static void out_untidy_pops
-    PROTO_N ( (tot_sp, push_space) )
-    PROTO_T ( int tot_sp X int push_space )
+static void
+out_untidy_pops(int tot_sp, int push_space)
 {
-  if (no_frame) {
-    int s_offset = tot_sp - push_space;
-    if (min_rfree & 0x40) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%ebp");
-      outnl();
-      s_offset += 4;
-    };
-    if (min_rfree & 0x20) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%esi");
-      outnl();
-      s_offset += 4;
-    };
-    if (min_rfree & 0x10) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%edi");
-      outnl();
-      s_offset += 4;
-    };
-    if (min_rfree & 0x8) {
-      outs (" movl ");
-      outn ((long)s_offset);
-      outs ("(%esp),%ebx");
-      outnl();
-      /* s_offset += 4; */
-    };
-  }
-  else {
-    int fm_offset = - push_space;
-    if (min_rfree & 0x20) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%esi");
-      outnl();
-      fm_offset += 4;
-    };
-    if (min_rfree & 0x10) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%edi");
-      outnl();
-      fm_offset += 4;
-    };
-    if (min_rfree & 0x8) {
-      outs (" movl ");
-      outn ((long)fm_offset);
-      outs ("(%ebp),%ebx");
-      outnl();
-      /* fm_offset += 4; */
-    };
-    outs (" movl 0(%ebp),%ebp");
-    outnl();
-  };
-  return;
+	if (no_frame) {
+		int s_offset = tot_sp - push_space;
+		if (min_rfree & 0x40) {
+			outs (" movl ");
+			outn ((long)s_offset);
+			outs ("(%esp),%ebp");
+			outnl();
+			s_offset += 4;
+		};
+		if (min_rfree & 0x20) {
+			outs (" movl ");
+			outn ((long)s_offset);
+			outs ("(%esp),%esi");
+			outnl();
+			s_offset += 4;
+		};
+		if (min_rfree & 0x10) {
+			outs (" movl ");
+			outn ((long)s_offset);
+			outs ("(%esp),%edi");
+			outnl();
+			s_offset += 4;
+		};
+		if (min_rfree & 0x8) {
+			outs (" movl ");
+			outn ((long)s_offset);
+			outs ("(%esp),%ebx");
+			outnl();
+			/* s_offset += 4; */
+		};
+	}
+	else {
+		int fm_offset = - push_space;
+		if (min_rfree & 0x20) {
+			outs (" movl ");
+			outn ((long)fm_offset);
+			outs ("(%ebp),%esi");
+			outnl();
+			fm_offset += 4;
+		};
+		if (min_rfree & 0x10) {
+			outs (" movl ");
+			outn ((long)fm_offset);
+			outs ("(%ebp),%edi");
+			outnl();
+			fm_offset += 4;
+		};
+		if (min_rfree & 0x8) {
+			outs (" movl ");
+			outn ((long)fm_offset);
+			outs ("(%ebp),%ebx");
+			outnl();
+			/* fm_offset += 4; */
+		};
+		outs (" movl 0(%ebp),%ebp");
+		outnl();
+	};
+	return;
 }
 
 
-int cproc
-    PROTO_N ( (p, pname, cname, global, diag_props) )
-    PROTO_T ( exp p X char *pname X int cname X int global X diag_global * diag_props )
+int
+cproc(exp p, char *pname, int cname, int global,
+	  diag_global * diag_props)
 {
-  exp jr, t, body;
-  ash stack;
-  int  ms;
-  int tot_sp;
-  int param_pos;
-  int byte_stack_align = stack_align / 8;
-  int   st;
-  long  old_pos1,
+	exp jr, t, body;
+	ash stack;
+	int  ms;
+	int tot_sp;
+	int param_pos;
+	int byte_stack_align = stack_align / 8;
+	int   st;
+	long  old_pos1,
         old_pos1a,
         old_pos2,
         old_pos3,
@@ -431,635 +676,634 @@ int cproc
         old_pos8,
         old_pos9,
         this_pos;
-  int  push_space = 0;
+	int  push_space = 0;
 #ifdef NEWDWARF
-  long dwl0, dwl8, dw_entry_pos;
-  long dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
-  char * dw_labroom = "                 ";
-		     /* .Ldw12345678:\n */
+	long dwl0, dwl8, dw_entry_pos;
+	long dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
+	char * dw_labroom = "                 ";
+	/* .Ldw12345678:\n */
 #endif
-
-  int request_align_8byte;
-
-  returns_list = nilexp;
-  crt_proc_exp = p;
-  crt_proc_id = next_lab();
-  crt_ret_lab = next_lab ();	/* set up the return label for the
-				   procedure */
-  crt_ret_lab_used = 0;
-  odd_bits = (outofline*)0;
-  scale = (float)1.0;
-  not_in_params = 1;
-  not_in_postlude = 1;
-  keep_short = 0;
-  repeat_level = 0;
-  callee_size = (proc_has_vcallees(p) ? -1 : 0);
-  ferrsize = 0;
-  fpucon = normal_fpucon;
-
-  has_dy_callees = 0;		/* set by scan2 when stack_dec indeterminable */
-  has_tail_call = 0;		/* set by scan2, used in coder */
-  has_same_callees = 0;		/* set by scan2, used in coder */
-  proc_has_asm = 0;		/* set by scan2 if any asm operands */
-  IGNORE scan2(1, p, p, 0);
-  useful_double = 0;
-  comp_weights(p);
-
+	
+	int request_align_8byte;
+	
+	returns_list = nilexp;
+	crt_proc_exp = p;
+	crt_proc_id = next_lab();
+	crt_ret_lab = next_lab ();	/* set up the return label for the
+								 *				   procedure */
+	crt_ret_lab_used = 0;
+	odd_bits = (outofline*)0;
+	scale = (float)1.0;
+	not_in_params = 1;
+	not_in_postlude = 1;
+	keep_short = 0;
+	repeat_level = 0;
+	callee_size = (proc_has_vcallees(p) ? -1 : 0);
+	ferrsize = 0;
+	fpucon = normal_fpucon;
+	
+	has_dy_callees = 0;		/* set by scan2 when stack_dec indeterminable */
+	has_tail_call = 0;		/* set by scan2, used in coder */
+	has_same_callees = 0;		/* set by scan2, used in coder */
+	proc_has_asm = 0;		/* set by scan2 if any asm operands */
+	IGNORE scan2(1, p, p, 0);
+	useful_double = 0;
+	comp_weights(p);
+	
 /* 8byte align */
-  request_align_8byte = permit_8byte_align && useful_double;
-
-  if (pname[0] != local_prefix[0])
-    proc_type(pname);
-
-  has_alloca = proc_has_alloca(p);
-
-  must_use_bp = (has_alloca || proc_has_lv(p));
-
-  regsinuse = 0;
-
-  no_frame = 1;
-  if (always_use_frame || do_profile || must_use_bp || has_dy_callees ||
+	request_align_8byte = permit_8byte_align && useful_double;
+	
+	if (pname[0] != local_prefix[0])
+		proc_type(pname);
+	
+	has_alloca = proc_has_alloca(p);
+	
+	must_use_bp = (has_alloca || proc_has_lv(p));
+	
+	regsinuse = 0;
+	
+	no_frame = 1;
+	if (always_use_frame || do_profile || must_use_bp || has_dy_callees ||
         proc_uses_crt_env(p) || proc_has_setjmp(p) || proc_has_asm
-     )
-     no_frame = 0;
-
-  if (request_align_8byte && no_frame) {
-    no_frame = 0;
-    stack_aligned_8byte = 1;
-  }
-  else
-    stack_aligned_8byte = 0;
-
-  if (!no_frame)
-    regsinuse = 0x40; /* prevent ebp from being used as an ordinary
-                          register */
-
-  fstack_pos = first_fl_reg;
-
-  max_stack = 0;		/* maximum stack value attained */
-  max_extra_stack = 0;		/* maximum stack value attained */
-  min_rfree = 0;		/* total registers used */
-  stack_dec = 0;		/* current stack decrement */
-  cond1_set = 0;
-  cond2_set = 0;		/* state of condition flags is not known
-				*/
-  clear_reg_record (crt_reg_record);
-  stack.ashsize = 0;
-  stack.ashalign = 0;
-
-
-
-  vc_pointer = nilexp;
-				/* set up params before any diagnostics */
-  t = son(p);
-  param_pos = 0;
-  while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
-   {
-     t = bro(son(t));
-   };
-  if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
-   {
-     if (callee_size < 0)
-	vc_pointer = t;
-     while (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
-      {
-	ptno(t) = par_pl;
-	no(t) = param_pos;
-	if (isenvoff(t))
-	  set_env_off(param_pos+64, t);
-	param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
-	t = bro(son(t));
-      };
-     if (callee_size == 0)
-	callee_size = param_pos;
-   };
-   {
-     exp pp = son(p);
-     while (name(pp) == ident_tag && isparam(pp) && name(son(pp)) != formal_callee_tag)
-      {
-	ptno(pp) = par_pl;
-	no(pp) = param_pos;
-	if (isenvoff(pp))
-	  set_env_off(param_pos+64, pp);
-	param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
-	pp = bro(son(pp));
-      };
-   };
-
-  body = t;
-
-
-
-
-  if (global) {
-    outs (".globl ");
-    outs (pname);
-    outnl ();
-  };
-
-  if (is80486)
-    dot_align(16);
-  else
-    dot_align(4);
-
-  if (diagnose)
+		)
+		no_frame = 0;
+	
+	if (request_align_8byte && no_frame) {
+		no_frame = 0;
+		stack_aligned_8byte = 1;
+	}
+	else
+		stack_aligned_8byte = 0;
+	
+	if (!no_frame)
+		regsinuse = 0x40; /* prevent ebp from being used as an ordinary
+						   *                          register */
+	
+	fstack_pos = first_fl_reg;
+	
+	max_stack = 0;		/* maximum stack value attained */
+	max_extra_stack = 0;		/* maximum stack value attained */
+	min_rfree = 0;		/* total registers used */
+	stack_dec = 0;		/* current stack decrement */
+	cond1_set = 0;
+	cond2_set = 0;		/* state of condition flags is not known
+						 */
+	clear_reg_record (crt_reg_record);
+	stack.ashsize = 0;
+	stack.ashalign = 0;
+	
+	
+	
+	vc_pointer = nilexp;
+	/* set up params before any diagnostics */
+	t = son(p);
+	param_pos = 0;
+	while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
+	{
+		t = bro(son(t));
+	};
+	if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
+	{
+		if (callee_size < 0)
+			vc_pointer = t;
+		while (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
+		{
+			ptno(t) = par_pl;
+			no(t) = param_pos;
+			if (isenvoff(t))
+				set_env_off(param_pos+64, t);
+			param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
+			t = bro(son(t));
+		};
+		if (callee_size == 0)
+			callee_size = param_pos;
+	};
+	{
+		exp pp = son(p);
+		while (name(pp) == ident_tag && isparam(pp) && name(son(pp)) != formal_callee_tag)
+		{
+			ptno(pp) = par_pl;
+			no(pp) = param_pos;
+			if (isenvoff(pp))
+				set_env_off(param_pos+64, pp);
+			param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
+			pp = bro(son(pp));
+		};
+	};
+	
+	body = t;
+	
+	
+	
+	
+	if (global) {
+		outs (".globl ");
+		outs (pname);
+		outnl ();
+	};
+	
+	if (is80486)
+		dot_align(16);
+	else
+		dot_align(4);
+	
+	if (diagnose)
 #ifdef NEWDWARF
-    DIAG_PROC_BEGIN (diag_props, global, cname, pname, p);
+		DIAG_PROC_BEGIN (diag_props, global, cname, pname, p);
 #else
     diag_proc_begin (diag_props, global, cname, pname);
 #endif
-
-  if (cname == -1)
-    outs (pname);
-  else
+	
+	if (cname == -1)
+		outs (pname);
+	else
     {
-      outs(local_prefix);
-      outn((long)cname);
+		outs(local_prefix);
+		outn((long)cname);
     };
-  outs (":");
-  outnl ();
+	outs (":");
+	outnl ();
 #ifdef NEWDWARF
-  if (diagnose && dwarf2) {
-    START_BB ();
-    dwl0 = set_dw_text_label ();
-  }
+	if (diagnose && dwarf2) {
+		START_BB ();
+		dwl0 = set_dw_text_label ();
+	}
 #endif
-
+	
 /* space for setting local displacement label */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos1 = ftell (fpout);
-  outs ("                          ");
-     /* ".set .LdispNNNN, SSSSS\n" */
-  outnl ();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos1a = ftell (fpout);
-  outs ("                             ");
-     /* ".set .LfcwdispNNNN, SSSSS\n" */
-  outnl ();
-
-  if (!no_frame) {
-    outs (" pushl %ebp");
-    outnl ();
-    outs (" movl %esp,%ebp");
-    outnl ();
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos1 = ftell (fpout);
+	outs ("                          ");
+	/* ".set .LdispNNNN, SSSSS\n" */
+	outnl ();
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos1a = ftell (fpout);
+	outs ("                             ");
+	/* ".set .LfcwdispNNNN, SSSSS\n" */
+	outnl ();
+	
+	if (!no_frame) {
+		outs (" pushl %ebp");
+		outnl ();
+		outs (" movl %esp,%ebp");
+		outnl ();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl1 = set_dw_text_label ();
 #endif
-  };
-
+	};
+	
 /* space for pushing fixed point registers */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos2 = ftell (fpout);
-  outs ("               ");
-     /* " pushl %ebx\n" */
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos2 = ftell (fpout);
+	outs ("               ");
+	/* " pushl %ebx\n" */
 #ifdef NEWDWARF
-  if (diagnose && dwarf2)
-    outs (dw_labroom);
+	if (diagnose && dwarf2)
+		outs (dw_labroom);
 #endif
-  outnl ();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos3 = ftell (fpout);
-  outs ("               ");
-     /* " pushl %edi\n" */
+	outnl ();
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos3 = ftell (fpout);
+	outs ("               ");
+	/* " pushl %edi\n" */
 #ifdef NEWDWARF
-  if (diagnose && dwarf2)
-    outs (dw_labroom);
+	if (diagnose && dwarf2)
+		outs (dw_labroom);
 #endif
-  outnl ();
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos4 = ftell (fpout);
-  outs ("               ");
-     /* " pushl %esi\n" */
+	outnl ();
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos4 = ftell (fpout);
+	outs ("               ");
+	/* " pushl %esi\n" */
 #ifdef NEWDWARF
-  if (diagnose && dwarf2)
-    outs (dw_labroom);
+	if (diagnose && dwarf2)
+		outs (dw_labroom);
 #endif
-  outnl ();
-  if (no_frame) {
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    old_pos5 = ftell (fpout);
-    outs ("               ");
-       /* " pushl %ebp\n" */
+	outnl ();
+	if (no_frame) {
+		if (flush_before_tell)
+			IGNORE fflush(fpout);
+		old_pos5 = ftell (fpout);
+		outs ("               ");
+		/* " pushl %ebp\n" */
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      outs (dw_labroom);
+		if (diagnose && dwarf2)
+			outs (dw_labroom);
 #endif
-    outnl ();
-  }
-
+		outnl ();
+	}
+	
 /* space for subtract from stack pointer */
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos8 = ftell (fpout);
-  outs ("                     ");
-     /* " subl $SSSSS,%esp\n" */
-     /* " movl $SSSSS,%eax\n" */
-  outnl ();
-  if (proc_has_checkstack(p)) {
-    checkalloc_stack (reg0, 1);
-  };
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos8 = ftell (fpout);
+	outs ("                     ");
+	/* " subl $SSSSS,%esp\n" */
+	/* " movl $SSSSS,%eax\n" */
+	outnl ();
+	if (proc_has_checkstack(p)) {
+		checkalloc_stack (reg0, 1);
+	};
 #ifdef NEWDWARF
-  if (diagnose && dwarf2) {
-    dwl8 = set_dw_text_label ();
-    dw_entry_pos = dw2_start_fde (dwl0, dwl1);
-  }
+	if (diagnose && dwarf2) {
+		dwl8 = set_dw_text_label ();
+		dw_entry_pos = dw2_start_fde (dwl0, dwl1);
+	}
 #endif
-
-  if (stack_aligned_8byte) {
-    outs(" andl $-8,%esp");
-    outnl();
-  };
-
-  if (flush_before_tell)
-    IGNORE fflush(fpout);
-  old_pos9 = ftell (fpout);
-  outs ("                                    ");
-     /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
-  outnl ();
-
-
+	
+	if (stack_aligned_8byte) {
+		outs(" andl $-8,%esp");
+		outnl();
+	};
+	
+	if (flush_before_tell)
+		IGNORE fflush(fpout);
+	old_pos9 = ftell (fpout);
+	outs ("                                    ");
+	/* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
+	outnl ();
+	
+	
 #if islinux || isfreebsd
-  if (
+	if (
 #if islinux
-	!linux_elf &&
+		!linux_elf &&
 #endif
-	pname[0] != local_prefix[0] &&
-	!strcmp (pname+prefix_length, "main")) {
-    out_main_prelude();
-  }
+		pname[0] != local_prefix[0] &&
+		!strcmp (pname+prefix_length, "main")) {
+		out_main_prelude();
+	}
 #endif
-
-  if (do_profile) {
-    int  labl = next_lab ();	/* output profile procedure header */
-    outs (".data");
-    outnl ();
-    dot_align(4);
-    outs(local_prefix);
-    outs ("P");
-    outn ((long)labl);
-    outs (":");
-    outnl ();
-    outs (" .long 0");
-    outnl ();
-    outs (".text");
-    outnl ();
-    outs (" leal ");
-    outs(local_prefix);
-    outs ("P");
-    outn ((long)labl);
-    outs (",%edx");
-    outnl ();
-    outs (" call _mcount");
-    outnl ();
-  };
-
-
-  if (PIC_code && proc_uses_external(p))
-   {
-     regsinuse |= GLOBALTABLEMASK;
-     min_rfree |= GLOBALTABLEMASK;
-     pic_prelude();
-   };
-
-  need_preserve_stack = 0;
-  if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca)
-   {
-     need_preserve_stack = 1;
-     stack.ashsize += 32;
-     max_stack = stack.ashsize;
-     save_stack ();
-   };
-
-  scale = (float)1.0;
-  last_odd_bit = 0;
-  doing_odd_bits = 0;
-  coder (zero, stack, body); /* code body of procedure */
-
-  stack_dec = 0;
-  doing_odd_bits = 1;
-  while (odd_bits != (outofline*)0) {
-    outofline * ol = odd_bits;
-    odd_bits = (outofline*)0;
-    last_odd_bit = 0;
-    add_odd_bits(ol);
-  }
-
-
-  if (crt_ret_lab_used) {
-    jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
-                0, 0);
-    sonno(jr) = stack_dec;
-    ptno(jr) = crt_ret_lab;
-    fstack_pos_of(jr) = (prop)first_fl_reg;
-    set_label (jr);
-  };
-
+	
+	if (do_profile) {
+		int  labl = next_lab ();	/* output profile procedure header */
+		outs (".data");
+		outnl ();
+		dot_align(4);
+		outs(local_prefix);
+		outs ("P");
+		outn ((long)labl);
+		outs (":");
+		outnl ();
+		outs (" .long 0");
+		outnl ();
+		outs (".text");
+		outnl ();
+		outs (" leal ");
+		outs(local_prefix);
+		outs ("P");
+		outn ((long)labl);
+		outs (",%edx");
+		outnl ();
+		outs (" call _mcount");
+		outnl ();
+	};
+	
+	
+	if (PIC_code && proc_uses_external(p))
+	{
+		regsinuse |= GLOBALTABLEMASK;
+		min_rfree |= GLOBALTABLEMASK;
+		pic_prelude();
+	};
+	
+	need_preserve_stack = 0;
+	if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca)
+	{
+		need_preserve_stack = 1;
+		stack.ashsize += 32;
+		max_stack = stack.ashsize;
+		save_stack ();
+	};
+	
+	scale = (float)1.0;
+	last_odd_bit = 0;
+	doing_odd_bits = 0;
+	coder (zero, stack, body); /* code body of procedure */
+	
+	stack_dec = 0;
+	doing_odd_bits = 1;
+	while (odd_bits != (outofline*)0) {
+		outofline * ol = odd_bits;
+		odd_bits = (outofline*)0;
+		last_odd_bit = 0;
+		add_odd_bits(ol);
+	}
+	
+	
+	if (crt_ret_lab_used) {
+		jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
+					 0, 0);
+		sonno(jr) = stack_dec;
+		ptno(jr) = crt_ret_lab;
+		fstack_pos_of(jr) = (prop)first_fl_reg;
+		set_label (jr);
+	};
+	
 	/* If the procedure loads the current env and uses make_lv
-	   it may be the destination of a long_jump. In that case
-	   ebx, esi and edi must be saved at and restored at exit.
-	   ebp will be saved and restored anyway because such a
-	   procedure will have a frame pointer.
-	*/
-  if (proc_uses_crt_env(p) && proc_has_lv(p))
-    min_rfree |= 0x38;
-
-  /* compute space needed for local variables in memory */
-  ms = ((max_stack + 31) / 32) * 4;
-  /* compute space needed for pushing registers */
-  if (no_frame && min_rfree & 0x40)
-    push_space += 4;
-  if (min_rfree & 0x20)
-    push_space += 4;
-  if (min_rfree & 0x10)
-    push_space += 4;
-  if (min_rfree & 0x8)
-    push_space += 4;
-
-  ferrsize /= 8;
-  tot_sp = rounder(ms + push_space + ferrsize, byte_stack_align);
-
-  if (crt_ret_lab_used) {
+	 *	   it may be the destination of a long_jump. In that case
+	 *	   ebx, esi and edi must be saved at and restored at exit.
+	 *	   ebp will be saved and restored anyway because such a
+	 *	   procedure will have a frame pointer.
+	 */
+	if (proc_uses_crt_env(p) && proc_has_lv(p))
+		min_rfree |= 0x38;
+	
+	/* compute space needed for local variables in memory */
+	ms = ((max_stack + 31) / 32) * 4;
+	/* compute space needed for pushing registers */
+	if (no_frame && min_rfree & 0x40)
+		push_space += 4;
+	if (min_rfree & 0x20)
+		push_space += 4;
+	if (min_rfree & 0x10)
+		push_space += 4;
+	if (min_rfree & 0x8)
+		push_space += 4;
+	
+	ferrsize /= 8;
+	tot_sp = rounder(ms + push_space + ferrsize, byte_stack_align);
+	
+	if (crt_ret_lab_used) {
 #ifdef NEWDWARF
-    long over_lab;
-    if (diagnose && dwarf2) {
-      over_lab = next_dwarf_label ();
-      dw2_return_pos (over_lab);
-    }
+		long over_lab;
+		if (diagnose && dwarf2) {
+			over_lab = next_dwarf_label ();
+			dw2_return_pos (over_lab);
+		}
 #endif
-    restore_callregs (0);
-    retins();
-    outnl ();
+		restore_callregs (0);
+		retins();
+		outnl ();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dw2_after_fde_exit (over_lab);
+		if (diagnose && dwarf2)
+			dw2_after_fde_exit (over_lab);
 #endif
-  };
-  outnl ();
-
-  this_pos = ftell (fpout);
-  while (returns_list != nilexp) {
-    st = fseek (fpout, (long)no(returns_list), 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    if (name(returns_list) == 1)
-      out_untidy_pops (tot_sp, push_space);
-    else
-      out_pops(tot_sp, push_space, ptno(returns_list)/8, sonno(returns_list));
-    returns_list = bro(returns_list);
-  };
-  fseek(fpout, this_pos, 0);
-
-  locals_offset = tot_sp;
-  if (diagnose) {
-    no (p) = tot_sp;	/* may be used by delayed diagnostics */
+	};
+	outnl ();
+	
+	this_pos = ftell (fpout);
+	while (returns_list != nilexp) {
+		st = fseek (fpout, (long)no(returns_list), 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		if (name(returns_list) == 1)
+			out_untidy_pops (tot_sp, push_space);
+		else
+			out_pops(tot_sp, push_space, ptno(returns_list)/8, sonno(returns_list));
+		returns_list = bro(returns_list);
+	};
+	fseek(fpout, this_pos, 0);
+	
+	locals_offset = tot_sp;
+	if (diagnose) {
+		no (p) = tot_sp;	/* may be used by delayed diagnostics */
 #ifdef NEWDWARF
-    DIAG_PROC_END (diag_props, p);
+		DIAG_PROC_END (diag_props, p);
 #else
-    diag_proc_end (diag_props);
+		diag_proc_end (diag_props);
 #endif
 #ifdef NEWDWARF
-  if (dwarf2)
-    dw2_complete_fde ();
+		if (dwarf2)
+			dw2_complete_fde ();
 #endif
-  }
-
-  /* now set in the information at the head of the procedure */
-  {
-
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    this_pos = ftell (fpout);
-    st = fseek (fpout, old_pos1, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-
-    /* set the label which says how much the stack was decreased, in case
-       frame pointer addressing is used  */
-    outs (".set ");
-    outs(local_prefix);
-    outs ("disp");
-    outn ((long)crt_proc_id);
-    outs (", ");
-    outn ((long)tot_sp);
-
-    if (ferrsize != 0) {
-	/* set label for displacement to fpu control local store */
-      st = fseek (fpout, old_pos1a, 0);
-      if (st == -1) {
-        failer (SEEK_FAILURE);
-        exit(EXIT_FAILURE);
-      };
-      outs (".set ");
-      outs(local_prefix);
-      outs ("fcwdisp");
-      outn ((long)crt_proc_id);
-      outs (", ");
-      outn ((long)((no_frame) ? (tot_sp - push_space - ferrsize) : (push_space + ferrsize)));
-    }
-
-    st = fseek (fpout, this_pos, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-  };
-
-  if (tot_sp != push_space || proc_has_checkstack(p)) {
-    if (flush_before_tell)
-      IGNORE fflush(fpout);
-    this_pos = ftell (fpout);
-    st = fseek (fpout, old_pos8, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-
-    /* decrease the stack if necessary */
-    if (proc_has_checkstack(p)) {
-      outs (" movl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%eax");
-    }
-    else {
-      outs (" subl $");
-      outn ((long)(tot_sp - push_space));
-      outs (",%esp");
-    };
-    outnl();
-
-    if (ferrsize != 0) {	/* record FPU control word */
-      st = fseek (fpout, old_pos9, 0);
-      if (st == -1) {
-        failer (SEEK_FAILURE);
-        exit(EXIT_FAILURE);
-      };
-      move (uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
-    }
-
-    st = fseek (fpout, this_pos, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-  };
-
-  /* push registers as necessary */
-  if (min_rfree & 0x8) {
-    st = fseek (fpout, old_pos2, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    outs (" pushl %ebx");
-    outnl();
+	}
+	
+	/* now set in the information at the head of the procedure */
+	{
+		
+		if (flush_before_tell)
+			IGNORE fflush(fpout);
+		this_pos = ftell (fpout);
+		st = fseek (fpout, old_pos1, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		
+		/* set the label which says how much the stack was decreased, in case
+		 *       frame pointer addressing is used  */
+		outs (".set ");
+		outs(local_prefix);
+		outs ("disp");
+		outn ((long)crt_proc_id);
+		outs (", ");
+		outn ((long)tot_sp);
+		
+		if (ferrsize != 0) {
+			/* set label for displacement to fpu control local store */
+			st = fseek (fpout, old_pos1a, 0);
+			if (st == -1) {
+				failer (SEEK_FAILURE);
+				exit(EXIT_FAILURE);
+			};
+			outs (".set ");
+			outs(local_prefix);
+			outs ("fcwdisp");
+			outn ((long)crt_proc_id);
+			outs (", ");
+			outn ((long)((no_frame) ? (tot_sp - push_space - ferrsize) : (push_space + ferrsize)));
+		}
+		
+		st = fseek (fpout, this_pos, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+	};
+	
+	if (tot_sp != push_space || proc_has_checkstack(p)) {
+		if (flush_before_tell)
+			IGNORE fflush(fpout);
+		this_pos = ftell (fpout);
+		st = fseek (fpout, old_pos8, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		
+		/* decrease the stack if necessary */
+		if (proc_has_checkstack(p)) {
+			outs (" movl $");
+			outn ((long)(tot_sp - push_space));
+			outs (",%eax");
+		}
+		else {
+			outs (" subl $");
+			outn ((long)(tot_sp - push_space));
+			outs (",%esp");
+		};
+		outnl();
+		
+		if (ferrsize != 0) {	/* record FPU control word */
+			st = fseek (fpout, old_pos9, 0);
+			if (st == -1) {
+				failer (SEEK_FAILURE);
+				exit(EXIT_FAILURE);
+			};
+			move (uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
+		}
+		
+		st = fseek (fpout, this_pos, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+	};
+	
+	/* push registers as necessary */
+	if (min_rfree & 0x8) {
+		st = fseek (fpout, old_pos2, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		outs (" pushl %ebx");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl2 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl2 = set_dw_text_label ();
 #endif
-  };
-
-  if (min_rfree & 0x10) {
-    st = fseek (fpout, old_pos3, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    outs (" pushl %edi");
-    outnl();
+	};
+	
+	if (min_rfree & 0x10) {
+		st = fseek (fpout, old_pos3, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		outs (" pushl %edi");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl3 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl3 = set_dw_text_label ();
 #endif
-  };
-
-
-  if (min_rfree & 0x20) {
-    st = fseek (fpout, old_pos4, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    outs (" pushl %esi");
-    outnl();
+	};
+	
+	
+	if (min_rfree & 0x20) {
+		st = fseek (fpout, old_pos4, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		outs (" pushl %esi");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl4 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl4 = set_dw_text_label ();
 #endif
-  };
-
-  if (no_frame && (min_rfree & 0x40)) {
-    st = fseek (fpout, old_pos5, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    outs (" pushl %ebp");
-    outnl();
+	};
+	
+	if (no_frame && (min_rfree & 0x40)) {
+		st = fseek (fpout, old_pos5, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		outs (" pushl %ebp");
+		outnl();
 #ifdef NEWDWARF
-    if (diagnose && dwarf2)
-      dwl1 = set_dw_text_label ();
+		if (diagnose && dwarf2)
+			dwl1 = set_dw_text_label ();
 #endif
-  };
-
+	};
+	
 #ifdef NEWDWARF
-  if (diagnose && dwarf2) {
-    st = fseek (fpout, dw_entry_pos, 0);
-    if (st == -1) {
-      failer (SEEK_FAILURE);
-      exit(EXIT_FAILURE);
-    };
-    dw2_fde_entry (dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
-  };
+	if (diagnose && dwarf2) {
+		st = fseek (fpout, dw_entry_pos, 0);
+		if (st == -1) {
+			failer (SEEK_FAILURE);
+			exit(EXIT_FAILURE);
+		};
+		dw2_fde_entry (dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
+	};
 #endif
-
-  st = fseek (fpout, this_pos, 0);
-  if (st == -1) {
-    failer (SEEK_FAILURE);
-    exit(EXIT_FAILURE);
-  };
-
-  if (pname[0] != local_prefix[0])
-    proc_size (pname);
-
-  if (proc_needs_envsize(p)) {
-    outs (".set ");
-    outs(local_prefix);
-    outs ("ESZ");
-    outs (pname);
-    outs (", ");
-    outn ((long)(tot_sp + 4 + max_extra_stack/8));
-    outnl ();
-  }
-
+	
+	st = fseek (fpout, this_pos, 0);
+	if (st == -1) {
+		failer (SEEK_FAILURE);
+		exit(EXIT_FAILURE);
+	};
+	
+	if (pname[0] != local_prefix[0])
+		proc_size (pname);
+	
+	if (proc_needs_envsize(p)) {
+		outs (".set ");
+		outs(local_prefix);
+		outs ("ESZ");
+		outs (pname);
+		outs (", ");
+		outn ((long)(tot_sp + 4 + max_extra_stack/8));
+		outnl ();
+	}
+	
 #if islinux || isfreebsd
-  if (
+	if (
 #if islinux
-	!linux_elf &&
+		!linux_elf &&
 #endif
-	pname[0] != local_prefix[0] &&
-	!strcmp (pname+prefix_length, "main")) {
-    out_main_postlude();
-  }
+		pname[0] != local_prefix[0] &&
+		!strcmp (pname+prefix_length, "main")) {
+		out_main_postlude();
+	}
 #endif
-
-  /* now prepare params with env_offset for possible constant evaluation */
-  t = son(p);
-  while (name(t) == ident_tag && isparam(t)) {
-    if (isenvoff(t)) {
-      no(t) += 64;
-      name(t) = 0;
-      ptno(t) = local_pl;
-    }
-    t = bro(son(t));
-  }
-  while (hasenvoff_list != nilexp) {
-    exp id = son(hasenvoff_list);
-    exp next = bro(hasenvoff_list);
-    no(id) -= (locals_offset * 8);
-    name(id) = 0;
-    retcell(hasenvoff_list);
-    hasenvoff_list = next;
-  }
-
-  if (no_frame)			/* hold info for later diagnostics */
-    clear_proc_has_fp(p);
-  else
-    set_proc_has_fp(p);
-
-  return (proc_needs_envsize(p) ? tot_sp + 4 + max_extra_stack/8 : 0);
+	
+	/* now prepare params with env_offset for possible constant evaluation */
+	t = son(p);
+	while (name(t) == ident_tag && isparam(t)) {
+		if (isenvoff(t)) {
+			no(t) += 64;
+			name(t) = 0;
+			ptno(t) = local_pl;
+		}
+		t = bro(son(t));
+	}
+	while (hasenvoff_list != nilexp) {
+		exp id = son(hasenvoff_list);
+		exp next = bro(hasenvoff_list);
+		no(id) -= (locals_offset * 8);
+		name(id) = 0;
+		retcell(hasenvoff_list);
+		hasenvoff_list = next;
+	}
+	
+	if (no_frame)			/* hold info for later diagnostics */
+		clear_proc_has_fp(p);
+	else
+		set_proc_has_fp(p);
+	
+	return (proc_needs_envsize(p) ? tot_sp + 4 + max_extra_stack/8 : 0);
 }
 
 
 /* Restore call_save registers (%ebp, %esi, %edi, %ebx)
-   when we know which ones are reused.
-   This preserves %eax, %ecx, %edx */
-void restore_callregs
-    PROTO_N ( (untidy) )
-    PROTO_T ( int untidy )
+ *   when we know which ones are reused.
+ *   This preserves %eax, %ecx, %edx */
+void
+restore_callregs(int untidy)
 {
-  char *sp50 = "                                                  ";
-  long retpos = ftell(fpout);
-  outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
-  outs(sp50); outs(sp50); outs(sp50);
-  outnl();
-  returns_list = getexp(f_top, returns_list, 0, nilexp,
-				nilexp, 0, 0, (unsigned char)untidy);
-  no(returns_list) = (int)retpos;
-  ptno(returns_list) = stack_dec;
+	char *sp50 = "                                                  ";
+	long retpos = ftell(fpout);
+	outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
+	outs(sp50); outs(sp50); outs(sp50);
+	outnl();
+	returns_list = getexp(f_top, returns_list, 0, nilexp,
+						  nilexp, 0, 0, (unsigned char)untidy);
+	no(returns_list) = (int)retpos;
+	ptno(returns_list) = stack_dec;
 #ifdef NEWDWARF
-  if (diagnose && dwarf2)
-    sonno(returns_list) = (int)dw2_prep_fde_restore_args (untidy);
+	if (diagnose && dwarf2)
+		sonno(returns_list) = (int)dw2_prep_fde_restore_args (untidy);
 #endif
-  return;
+	return;
 }

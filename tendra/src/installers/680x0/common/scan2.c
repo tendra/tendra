@@ -1,61 +1,308 @@
 /*
-    		 Crown Copyright (c) 1996
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1996
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:10  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------
+ *$Log$
+ *Revision 1.2  2002/11/21 22:30:45  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:55:50  release
  * First version to be checked into rolling release.
  *
-Revision 1.1.1.1  1997/10/13 12:42:57  ma
-First version.
-
-Revision 1.4  1997/09/25 06:45:31  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/24 10:56:09  ma
-Added changes for "Plumhall Patch"
-
-Revision 1.2  1997/04/20 11:30:38  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:17  ma
-Imported from DRA
-
+ *Revision 1.1.1.1  1997/10/13 12:42:57  ma
+ *First version.
+ *
+ *Revision 1.4  1997/09/25 06:45:31  ma
+ *All general_proc tests passed
+ *
+ *Revision 1.3  1997/06/24 10:56:09  ma
+ *Added changes for "Plumhall Patch"
+ *
+ *Revision 1.2  1997/04/20 11:30:38  ma
+ *Introduced gcproc.c & general_proc.[ch].
+ *Added cases for apply_general_proc next to apply_proc in all files.
+ *
+ *Revision 1.1.1.1  1997/03/14 07:50:17  ma
+ *Imported from DRA
+ 
  * Revision 1.1.1.1  1996/09/20  10:56:58  john
  *
  * Revision 1.3  1996/07/30  16:32:16  john
@@ -81,16 +328,16 @@ Imported from DRA
  * Revision 1.1  93/02/22  17:16:39  17:16:39  ra (Robert Andrews)
  * Initial revision
  *
---------------------------------------------------------------------------
-*/
+ *--------------------------------------------------------------------------
+ */
 
 
 /*
-    SCAN2
-
-    Scans through the program and puts all the arguments of operations
-    into a suitable 68000 operand form.
-
+ *    SCAN2
+ *
+ *    Scans through the program and puts all the arguments of operations
+ *    into a suitable 68000 operand form.
+ 
 */
 
 
@@ -107,600 +354,577 @@ Imported from DRA
 #include "special_exps.h"
 #endif
 
-void scan2 PROTO_S ( ( bool, exp, exp ) ) ;
+void scan2(bool, exp, exp) ;
 
 /*
-    MACROS TO SET OR GET THE SON OR BRO
-*/
+ *    MACROS TO SET OR GET THE SON OR BRO
+ */
 
-#define  assexp( I, P, V )	if ( I ) setson ( P, V ) ; else setbro ( P, V )
-#define  contexp( I, P )	( ( I ) ? son ( P ) : bro ( P ) )
+#define  assexp(I, P, V)	if (I) setson (P, V) ; else setbro (P, V)
+#define  contexp(I, P)	((I) ? son (P) : bro (P))
 
 
 /*
-  Transform a non-bit offset into a bit offset.
-  (borrowed from trans386)
-*/
-static void make_bitfield_offset
-    PROTO_N ( (e,pe,spe,sha) )
-    PROTO_T ( exp e X exp pe X int spe X shape sha )
+ *  Transform a non-bit offset into a bit offset.
+ *  (borrowed from trans386)
+ */
+static void
+make_bitfield_offset(exp e, exp pe, int spe,
+					 shape sha)
 {
-  exp omul;
-  exp val8;
-  if (name(e) == val_tag){
-    no(e) *= 8;
-    return;
-  }
-  omul = getexp (sha, bro(e), (int)(last (e)), e, nilexp, 0, 0, offset_mult_tag);
-  val8 = getexp (slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
-  clearlast(e);
-  setbro(e, val8);
-  if(spe) {
-    son(pe) = omul;
-  }
-  else{
-    bro(pe) = omul;
-  }
-  return;
-}
-
-
-/*
-    INSERT AN IDENTITY DECLARATION
-
-    This routine inserts an identity declaration of x at to and replaces
-    x by a use of this identity.
-*/
-
-static void cca
-    PROTO_N ( ( sto, to, sx, x ) )
-    PROTO_T ( bool sto X exp to X bool sx X exp x )
-{
-   exp d, a, id, tg;
-   d = contexp (sx, x);
-#ifndef tdf3
-   if (name(d)==caller_tag) {	/* position sensitive */
-      cca (sto, to, 1, d);
-      return;
-   }
-#endif
-   d = contexp ( sx, x ) ;
-   a = contexp ( sto, to ) ;
-   id = getexp ( sh ( a ), bro ( a ), last(a), d, nilexp, 0, L1, ident_tag ) ;
-   tg = getexp ( sh ( d ), bro ( d ), last(d), id, nilexp, 0, L0, name_tag ) ;
-   pt ( id ) = tg ;
-   clearlast ( d ) ;
-   if ( d != a ) {
-      bro ( d ) = a ;
-      bro ( a ) = id ;
-      setlast ( a ) ;
-      assexp ( sto, to, id ) ;
-      assexp ( sx, x, tg ) ;
-   } else {
-      bro ( d ) = tg ;
-      bro ( tg ) = id ;
-      setlast ( tg ) ;
-      clearlast ( d ) ;
-      assexp ( sto, to, id ) ;
-   }
-   return ;
-}
-
-
-/*
-    INSERT AN IDENTITY DECLARATION IN A BRO-LIST
-
-    Keeping the same to, cc scans along the bro list e, applying cca to
-    introduce an identity declaration when doit is 1.  It keeps count as
-    the index position along the list in order to pass it to doit.  If it
-    uses cca it scans the resulting declaration, using the same to.  If it
-    doesn't, it scans the list element, still using the same to.  This keeps
-    all operations in the same order.
-*/
-
-static void cc
-    PROTO_N ( ( sto, to, se, e, doit, count ) )
-    PROTO_T ( bool sto X exp to X bool se X exp e X
-	      bool ( *doit ) PROTO_S ( ( exp, int ) ) X int count )
-{
-  exp ec = contexp ( se, e ) ;
-
-  if ( last ( ec ) ) {
-    if ( doit ( ec, count ) ) {
-      cca ( sto, to, se, e ) ;
-      ec = contexp ( sto, to ) ;
-      scan2 ( 1, ec, son ( ec ) ) ;
-    } else {
-      scan2 ( sto, to, ec ) ;
-    }
-  } else {
-    cc ( sto, to, 0, ec, doit, count + 1 ) ;
-    ec = contexp ( se, e ) ;
-    if ( doit ( ec, count ) ) {
-      cca ( sto, to, se, e ) ;
-      ec = contexp ( sto, to ) ;
-      scan2 ( 1, ec, son ( ec ) ) ;
-    } else {
-      scan2 ( sto, to, ec ) ;
-    }
-  }
-  return ;
-}
-
-
-/*
-    INSERT AN IDENTITY DECLARATION
-
-    This routine is the same as cca, but forces the declaration into
-    a register.
-*/
-
-static void ccp
-    PROTO_N ( ( sto, to, sx, x ) )
-    PROTO_T ( bool sto X exp to X bool sx X exp x )
-{
-    exp xc = contexp ( sx, x ) ;
-    exp toc ;
-    if ( name ( xc ) != name_tag || !isusereg ( son ( xc ) ) ) {
-	cca ( sto, to, sx, x ) ;
-	toc = contexp ( sto, to ) ;
-	setusereg ( toc ) ;
-	scan2 ( 1, toc, son ( toc ) ) ;
-    }
-    return ;
-}
-
-
-/*
-    IS THE EXP e AN OPERAND?
-*/
-
-static bool is_opnd
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
-{
-    switch ( name ( e ) ) {
-
-	case name_tag : {
-	    exp s = son ( e ) ;
-	    return ( !isvar ( s ) && (son(son(e))!=nilexp) && !isparam ( son ( son ( e ) ) ) ) ;
+	exp omul;
+	exp val8;
+	if (name(e) == val_tag){
+		no(e) *= 8;
+		return;
 	}
+	omul = getexp (sha, bro(e), (int)(last (e)), e, nilexp, 0, 0, offset_mult_tag);
+	val8 = getexp (slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+	clearlast(e);
+	setbro(e, val8);
+	if (spe) {
+		son(pe) = omul;
+	}
+	else{
+		bro(pe) = omul;
+	}
+	return;
+}
 
+
+/*
+ *    INSERT AN IDENTITY DECLARATION
+ *
+ *    This routine inserts an identity declaration of x at to and replaces
+ *    x by a use of this identity.
+ */
+
+static void
+cca(bool sto, exp to, bool sx, exp x)
+{
+	exp d, a, id, tg;
+	d = contexp (sx, x);
+#ifndef tdf3
+	if (name(d)==caller_tag) {	/* position sensitive */
+		cca (sto, to, 1, d);
+		return;
+	}
+#endif
+	d = contexp (sx, x);
+	a = contexp (sto, to);
+	id = getexp (sh (a), bro (a), last(a), d, nilexp, 0, L1, ident_tag);
+	tg = getexp (sh (d), bro (d), last(d), id, nilexp, 0, L0, name_tag);
+	pt (id) = tg;
+	clearlast (d);
+	if (d != a) {
+		bro (d) = a;
+		bro (a) = id;
+		setlast (a);
+		assexp (sto, to, id);
+		assexp (sx, x, tg);
+	} else {
+		bro (d) = tg;
+		bro (tg) = id;
+		setlast (tg);
+		clearlast (d);
+		assexp (sto, to, id);
+	}
+	return;
+}
+
+
+/*
+ *    INSERT AN IDENTITY DECLARATION IN A BRO-LIST
+ *
+ *    Keeping the same to, cc scans along the bro list e, applying cca to
+ *    introduce an identity declaration when doit is 1.  It keeps count as
+ *    the index position along the list in order to pass it to doit.  If it
+ *    uses cca it scans the resulting declaration, using the same to.  If it
+ *    doesn't, it scans the list element, still using the same to.  This keeps
+ *    all operations in the same order.
+ */
+
+static void
+cc(bool sto, exp to, bool se, exp e, bool (*doit)(exp, int),
+   int count)
+{
+	exp ec = contexp (se, e);
+	
+	if (last (ec)) {
+		if (doit (ec, count)) {
+			cca (sto, to, se, e);
+			ec = contexp (sto, to);
+			scan2 (1, ec, son (ec));
+		} else {
+			scan2 (sto, to, ec);
+		}
+	} else {
+		cc (sto, to, 0, ec, doit, count + 1);
+		ec = contexp (se, e);
+		if (doit (ec, count)) {
+			cca (sto, to, se, e);
+			ec = contexp (sto, to);
+			scan2 (1, ec, son (ec));
+		} else {
+			scan2 (sto, to, ec);
+		}
+	}
+	return;
+}
+
+
+/*
+ *    INSERT AN IDENTITY DECLARATION
+ *
+ *    This routine is the same as cca, but forces the declaration into
+ *    a register.
+ */
+
+static void
+ccp(bool sto, exp to, bool sx, exp x)
+{
+    exp xc = contexp (sx, x);
+    exp toc;
+    if (name (xc) != name_tag || !isusereg (son (xc))) {
+		cca (sto, to, sx, x);
+		toc = contexp (sto, to);
+		setusereg (toc);
+		scan2 (1, toc, son (toc));
+    }
+    return;
+}
+
+
+/*
+ *    IS THE EXP e AN OPERAND?
+ */
+
+static bool
+is_opnd(exp e)
+{
+    switch (name (e)) {
+		
+	case name_tag : {
+	    exp s = son (e);
+	    return (!isvar (s) && (son(son(e))!=nilexp) && !isparam (son (son (e))));
+	}
+		
 	case val_tag :
 	case real_tag :
-        case env_size_tag :
-        case general_proc_tag:
-        case proc_tag :
+	case env_size_tag :
+	case general_proc_tag:
+	case proc_tag :
 	case cont_tag :
 	case string_tag :
 	case null_tag : {
-	    return ( 1 ) ;
+	    return (1);
 	}
     }
-    return ( 0 ) ;
+    return (0);
 }
 
 
 /*
-    CHECK THE POINTER ARGUMENT OF AN ADDPTR
-*/
+ *    CHECK THE POINTER ARGUMENT OF AN ADDPTR
+ */
 
-static void ap_arg1
-    PROTO_N ( ( sto, to, sa, a, b ) )
-    PROTO_T ( bool sto X exp to X bool sa X exp a X bool b )
+static void
+ap_arg1(bool sto, exp to, bool sa, exp a,
+		bool b)
 {
-    exp ac = contexp ( sa, a ) ;
-
-    if ( !b && name ( ac ) == cont_tag && name ( son ( ac ) ) == name_tag &&
-	 isvar ( son ( son ( ac ) ) ) ) return ;
-
-    if ( !b && name ( ac ) == name_tag ) return ;
-
+    exp ac = contexp (sa, a);
+	
+    if (!b && name (ac) == cont_tag && name (son (ac)) == name_tag &&
+		isvar (son (son (ac)))) return;
+	
+    if (!b && name (ac) == name_tag) return;
+	
     /* The pointer has to go into a register */
-    ccp ( sto, to, sa, a ) ;
-    return ;
+    ccp (sto, to, sa, a);
+    return;
 }
 
 
 /*
-    CHECK THE INTEGER ARGUMENT OF AN ADDPTR
-*/
+ *    CHECK THE INTEGER ARGUMENT OF AN ADDPTR
+ */
 
-static void ap_argsc
-    PROTO_N ( ( sto, to, se, e, sz, b ) )
-    PROTO_T ( bool sto X exp to X bool se X exp e X int sz X bool b )
+static void
+ap_argsc(bool sto, exp to, bool se, exp e,
+		 int sz, bool b)
 {
-    exp ec = contexp ( se, e ) ;
-    exp p = son ( ec ) ;
-    exp a = bro ( p ) ;
-    exp temp ;
-
+    exp ec = contexp (se, e);
+    exp p = son (ec);
+    exp a = bro (p);
+    exp temp;
+	
     /* Check for multiplication by constant scale factor */
-    if ( name ( a ) == offset_mult_tag &&
-	 name ( bro ( son ( a ) ) ) == val_tag ) {
-
-	long k = no ( bro ( son ( a ) ) ) ;
-	if ( ( k == 8 || k == 16 || k == 32 || k == 64 ) && k == sz ) {
-	    ccp ( sto, to, 1, a ) ;
-	    ap_arg1 ( sto, to, 1, ec, b ) ;
-	    return ;
-	}
-
+    if (name (a) == offset_mult_tag &&
+		name (bro (son (a))) == val_tag) {
+		
+		long k = no (bro (son (a)));
+		if ((k == 8 || k == 16 || k == 32 || k == 64) && k == sz) {
+			ccp (sto, to, 1, a);
+			ap_arg1 (sto, to, 1, ec, b);
+			return;
+		}
+		
     }
-
-    if ( sz == 8 ) {
-	ccp ( sto, to, 0, son ( ec ) ) ;
-	ap_arg1 ( sto, to, 1, ec, b ) ;
-	return ;
+	
+    if (sz == 8) {
+		ccp (sto, to, 0, son (ec));
+		ap_arg1 (sto, to, 1, ec, b);
+		return;
     }
-
-    if ( b ) {
-	ccp ( sto, to, se, e ) ;
-	return ;
+	
+    if (b) {
+		ccp (sto, to, se, e);
+		return;
     }
-
-    cca ( sto, to, se, e ) ;
-    temp = contexp ( sto, to ) ;
-    scan2 ( 1, temp, son ( temp ) ) ;
-    return ;
+	
+    cca (sto, to, se, e);
+    temp = contexp (sto, to);
+    scan2 (1, temp, son (temp));
+    return;
 }
 
 
 /*
-    CHECK THE ARGUMENT OF A CONT OR THE DESTINATION OF AN ASSIGN
-*/
+ *    CHECK THE ARGUMENT OF A CONT OR THE DESTINATION OF AN ASSIGN
+ */
 
-static void cont_arg
-    PROTO_N ( ( sto, to, e, sa ) )
-    PROTO_T ( bool sto X exp to X exp e X shape sa )
+static void
+cont_arg(bool sto, exp to, exp e, shape sa)
 {
-    unsigned char n = name ( son ( e ) ) ;
-    if ( n == name_tag ) return ;
-
-    if ( n == cont_tag ) {
-	exp s = son ( son ( e ) ) ;
-	if ( name ( s ) == name_tag &&
-	     ( isvar ( son ( s ) ) || isglob ( son ( s ) ) ||
-	       isusereg ( son ( s ) ) ) ) return ;
-
-	if ( name ( s ) == reff_tag &&
-	    name ( son ( s ) ) == name_tag &&
-	    ( isvar ( son ( son ( s ) ) ) || isglob ( son ( son ( s ) ) ) ||
-	      isusereg ( son ( son ( s ) ) ) ) ) return ;
-
-	ccp ( sto, to, 1, e ) ;
-	return ;
+    unsigned char n = name (son (e));
+    if (n == name_tag) return;
+	
+    if (n == cont_tag) {
+		exp s = son (son (e));
+		if (name (s) == name_tag &&
+			(isvar (son (s)) || isglob (son (s)) ||
+			 isusereg (son (s)))) return;
+		
+		if (name (s) == reff_tag &&
+			name (son (s)) == name_tag &&
+			(isvar (son (son (s))) || isglob (son (son (s))) ||
+			 isusereg (son (son (s))))) return;
+		
+		ccp (sto, to, 1, e);
+		return;
     }
-
-    if ( n == reff_tag ) {
-	exp s = son ( e ) ;
-	if ( name ( son ( s ) ) == name_tag &&
-	     isusereg ( son ( son ( s ) ) ) ) return ;
-
-	if ( name ( son ( s ) ) == addptr_tag ) {
-	    ap_argsc ( sto, to, 1, s, shape_size ( sa ), 1 ) ;
-	    return ;
-	}
-
-	ccp ( sto, to, 1, s ) ;
-	return ;
+	
+    if (n == reff_tag) {
+		exp s = son (e);
+		if (name (son (s)) == name_tag &&
+			isusereg (son (son (s)))) return;
+		
+		if (name (son (s)) == addptr_tag) {
+			ap_argsc (sto, to, 1, s, shape_size (sa), 1);
+			return;
+		}
+		
+		ccp (sto, to, 1, s);
+		return;
     }
-
-    if ( n == addptr_tag ) {
-	ap_argsc ( sto, to, 1, e, shape_size ( sa ), 0 ) ;
-	return ;
+	
+    if (n == addptr_tag) {
+		ap_argsc (sto, to, 1, e, shape_size (sa), 0);
+		return;
     }
-
-    ccp ( sto, to, 1, e ) ;
-    return ;
+	
+    ccp (sto, to, 1, e);
+    return;
 }
 
 
 /*
-    DOIT ROUTINE, IS t NOT AN OPERAND?
-*/
+ *    DOIT ROUTINE, IS t NOT AN OPERAND?
+ */
 
-static bool notopnd
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+notopnd(exp t, int i)
 {
-    return ( i >= 0 && !is_opnd ( t ) ) ;
+    return (i >= 0 && !is_opnd (t));
 }
 
 #ifndef tdf3
-static int scan_for_alloca PROTO_S ( ( exp ) ) ;
+static int scan_for_alloca(exp) ;
 
-static int scan_alloc_args
-    PROTO_N ( (s) )
-    PROTO_T ( exp s )
+static int
+scan_alloc_args(exp s)
 {
-  if (scan_for_alloca(s))
-    return 1;
-  if (last(s))
-    return 0;
-  return scan_alloc_args(bro(s));
+	if (scan_for_alloca(s))
+		return 1;
+	if (last(s))
+		return 0;
+	return scan_alloc_args(bro(s));
 }
 
-static int scan_for_alloca
-    PROTO_N ( (t) )
-    PROTO_T ( exp t )
+static int
+scan_for_alloca(exp t)
 {
-   switch (name(t)) {
-   case local_free_all_tag:
-   case local_free_tag:
-   case last_local_tag:
-   case alloca_tag:
-   case make_lv_tag:
-      return 1;
-   case case_tag:
-      return scan_for_alloca(son(t));
-   case labst_tag:
-      return scan_for_alloca(bro(son(t)));
-   case env_offset_tag:
-   case string_tag:
-   case name_tag:
-      return 0;
-   case apply_general_tag:
-      if call_is_untidy(t)
-      return 1;
-      return scan_alloc_args(son(t));
-   default:
-      if (son(t) == nilexp)
-      return 0;
-      return scan_alloc_args(son(t));
-   };
+	switch (name(t)) {
+	case local_free_all_tag:
+	case local_free_tag:
+	case last_local_tag:
+	case alloca_tag:
+	case make_lv_tag:
+		return 1;
+	case case_tag:
+		return scan_for_alloca(son(t));
+	case labst_tag:
+		return scan_for_alloca(bro(son(t)));
+	case env_offset_tag:
+	case string_tag:
+	case name_tag:
+		return 0;
+	case apply_general_tag:
+		if call_is_untidy(t)
+							 return 1;
+		return scan_alloc_args(son(t));
+	default:
+		if (son(t) == nilexp)
+			return 0;
+		return scan_alloc_args(son(t));
+	};
 }
 
-static bool no_alloca
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+no_alloca(exp t, int i)
 {
-    UNUSED ( i ) ;
-    return ( scan_for_alloca ( t ) ) ;
+    UNUSED (i);
+    return (scan_for_alloca (t));
 }
 
 #endif
 
 /*
-    APPLY cc, DOING IT WITH OPERANDS
-*/
+ *    APPLY cc, DOING IT WITH OPERANDS
+ */
 
-static void all_opnd
-    PROTO_N ( ( sto, to, e ) )
-    PROTO_T ( bool sto X exp to X exp e )
+static void
+all_opnd(bool sto, exp to, exp e)
 {
 #if 0
-  if(!last(bro(son(e)))) {
-
-    /* Operation has more than two parameters.  Make it diadic */
-    exp opn = getexp(sh(e),e,0,bro(son(e)),nilexp,0,0,name(e));
-    exp nd = getexp(sh(e),bro(e),last(e),opn,nilexp,0,1,ident_tag);
-    exp id = getexp(sh(e),e,1,nd,nilexp,0,0,name_tag);
-    pt(nd) = id;
-    bro(son(e)) = id;
-    setlast(e);
-    bro(e) = nd;
-    while (!last(bro(son(e)))) {
-      bro(son(e)) = bro(bro(son(e)));
-    }
-    bro(bro(son(e))) = opn;
-    e = nd;
-    scan2(sto,e,e);
-  }
+	if (!last(bro(son(e)))) {
+		
+		/* Operation has more than two parameters.  Make it diadic */
+		exp opn = getexp(sh(e),e,0,bro(son(e)),nilexp,0,0,name(e));
+		exp nd = getexp(sh(e),bro(e),last(e),opn,nilexp,0,1,ident_tag);
+		exp id = getexp(sh(e),e,1,nd,nilexp,0,0,name_tag);
+		pt(nd) = id;
+		bro(son(e)) = id;
+		setlast(e);
+		bro(e) = nd;
+		while (!last(bro(son(e)))) {
+			bro(son(e)) = bro(bro(son(e)));
+		}
+		bro(bro(son(e))) = opn;
+		e = nd;
+		scan2(sto,e,e);
+	}
 #endif
-  cc ( sto, to, 1, e, notopnd, 1 ) ;
-  return ;
+	cc (sto, to, 1, e, notopnd, 1);
+	return;
 }
 
 
 /*
-    IS e ASSIGNABLE?
-*/
+ *    IS e ASSIGNABLE?
+ */
 
-static bool is_assable
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static bool
+is_assable(exp e)
 {
-    long sz ;
-    unsigned char n = name ( e ) ;
-    if ( is_a ( n ) ) return ( 1 ) ;
-    if ( n != apply_tag && n != apply_general_tag ) return ( 0 ) ;
-    n = name ( sh ( e ) ) ;
-    sz = shape_size ( sh ( e ) ) ;
-    return ( n <= ulonghd || ( n == ptrhd && sz == 32 ) ) ;
+    long sz;
+    unsigned char n = name (e);
+    if (is_a (n)) return (1);
+    if (n != apply_tag && n != apply_general_tag) return (0);
+    n = name (sh (e));
+    sz = shape_size (sh (e));
+    return (n <= ulonghd || (n == ptrhd && sz == 32));
 }
 
 
 /*
-    DOIT ROUTINE, IS t NOT ASSIGNABLE?
-*/
+ *    DOIT ROUTINE, IS t NOT ASSIGNABLE?
+ */
 
-static bool notass
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+notass(exp t, int i)
 {
-    return ( i >= 0 && !is_assable ( t ) ) ;
+    return (i >= 0 && !is_assable (t));
 }
 
 
 /*
-    APPLY cc, DOING IT WITH ASSIGNABLES
-*/
+ *    APPLY cc, DOING IT WITH ASSIGNABLES
+ */
 
-static void all_assable
-    PROTO_N ( ( sto, to, e ) )
-    PROTO_T ( bool sto X exp to X exp e )
+static void
+all_assable(bool sto, exp to, exp e)
 {
-    cc ( sto, to, 1, e, notass, 1 ) ;
-    return ;
+    cc (sto, to, 1, e, notass, 1);
+    return;
 }
 
 
 /*
-    IS e DIRECTLY ADDRESSABLE?
-*/
+ *    IS e DIRECTLY ADDRESSABLE?
+ */
 
-static bool is_direct
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static bool
+is_direct(exp e)
 {
-    unsigned char s = name ( e ) ;
-    return ( ( s == name_tag && !isglob ( son ( e ) ) &&
-	       !isvar ( son ( e ) ) ) ||
-	     ( s == cont_tag && name ( son ( e ) ) == name_tag &&
-	       !isglob ( son ( son ( e ) ) ) &&
-	       isvar ( son ( son ( e ) ) ) ) ) ;
+    unsigned char s = name (e);
+    return ((s == name_tag && !isglob (son (e)) &&
+			 !isvar (son (e))) ||
+			(s == cont_tag && name (son (e)) == name_tag &&
+			 !isglob (son (son (e))) &&
+			 isvar (son (son (e)))));
 }
 
 
 /*
-    IS e INDIRECTLY ADDRESSABLE?
-*/
+ *    IS e INDIRECTLY ADDRESSABLE?
+ */
 
-static bool is_indable
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static bool
+is_indable(exp e)
 {
-    unsigned char s = name ( e ) ;
-    if ( s == name_tag ) return ( 1 ) ;
-
-    if ( s == cont_tag ) {
-	unsigned char t = name ( son ( e ) ) ;
-	return ( ( t == name_tag && isvar ( son ( son ( e ) ) ) ) ||
-		 ( t == cont_tag && name ( son ( son ( e ) ) ) == name_tag &&
-		   isvar ( son ( son ( son ( e ) ) ) ) ) ||
-		 ( t == reff_tag && is_direct ( son ( son ( e ) ) ) ) ) ;
+    unsigned char s = name (e);
+    if (s == name_tag) return (1);
+	
+    if (s == cont_tag) {
+		unsigned char t = name (son (e));
+		return ((t == name_tag && isvar (son (son (e)))) ||
+				(t == cont_tag && name (son (son (e))) == name_tag &&
+				 isvar (son (son (son (e))))) ||
+				(t == reff_tag && is_direct (son (son (e)))));
     }
-
-    return ( ( s == reff_tag && is_direct ( son ( e ) ) ) ||
-	     s == addptr_tag ) ;
+	
+    return ((s == reff_tag && is_direct (son (e))) ||
+			s == addptr_tag);
 }
 
 #ifndef tdf3
 /*
-    MAKES son ( e ) INDIRECTLY ADDRESSABLE
-*/
-static void indable_son
-    PROTO_N ( ( sto, to, e ) )
-    PROTO_T ( bool sto X exp to X exp e )
+ *    MAKES son (e) INDIRECTLY ADDRESSABLE
+ */
+static void
+indable_son(bool sto, exp to, exp e)
 {
-  if (!is_indable (son (e))) {
-    exp ec;
-    cca (sto, to, 1, e);
-    ec = contexp (sto, to);
-    scan2 (1, ec, son (ec));
-  }
-  else
-    scan2 (sto, to, son (e));
-  return;
+	if (!is_indable (son (e))) {
+		exp ec;
+		cca (sto, to, 1, e);
+		ec = contexp (sto, to);
+		scan2 (1, ec, son (ec));
+	}
+	else
+		scan2 (sto, to, son (e));
+	return;
 }
 
 #endif
 
 /*
-    APPLY scan2 TO A BRO LIST
-*/
+ *    APPLY scan2 TO A BRO LIST
+ */
 
-static void scanargs
-    PROTO_N ( ( st, e ) )
-    PROTO_T ( bool st X exp e )
+static void
+scanargs(bool st, exp e)
 {
-    exp t = e ;
-    exp temp ;
-
-    while ( temp = contexp ( st, t ), scan2 ( st, t, temp ),
-	    temp = contexp ( st, t ), !last ( temp ) ) {
-	t = contexp ( st, t ) ;
-	st = 0 ;
+    exp t = e;
+    exp temp;
+	
+    while (temp = contexp (st, t), scan2 (st, t, temp),
+		   temp = contexp (st, t), !last (temp)) {
+		t = contexp (st, t);
+		st = 0;
     }
-    return ;
+    return;
 }
 
 
 /*
-    DOIT ROUTINE FOR APPLY
-*/
+ *    DOIT ROUTINE FOR APPLY
+ */
 
 #if 0
-static bool apdo
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+apdo(exp t, int i)
 {
     /* The first argument needs special treatment */
-    if ( i == 1 ) return ( !is_indable ( t ) ) ;
-    return ( 0 ) ;
+    if (i == 1) return (!is_indable (t));
+    return (0);
 }
 #endif
 
 
 /*
-    DOIT ROUTINE FOR PLUS
-*/
+ *    DOIT ROUTINE FOR PLUS
+ */
 
-static bool plusdo
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+plusdo(exp t, int i)
 {
     /* Can't negate first argument */
-    if ( i == 1 ) return ( !is_opnd ( t ) ) ;
+    if (i == 1) return (!is_opnd (t));
     /* But can negate the rest */
-    if ( name ( t ) == neg_tag ) return ( 0 ) ;
-    return ( !is_opnd ( t ) ) ;
+    if (name (t) == neg_tag) return (0);
+    return (!is_opnd (t));
 }
 
 
 /*
-    DOIT ROUTINE FOR MULT
-*/
+ *    DOIT ROUTINE FOR MULT
+ */
 
-static bool multdo
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+multdo(exp t, int i)
 {
-    return ( i >= 0 && !is_o ( name ( t ) ) ) ;
+    return (i >= 0 && !is_o (name (t)));
 }
 
 
 /*
-    DOIT ROUTINE FOR AND
-*/
+ *    DOIT ROUTINE FOR AND
+ */
 
-static bool anddo
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+anddo(exp t, int i)
 {
 #if 0
     /* Can't negate first argument */
-    if ( i == 1 ) return ( !is_o ( name ( t ) ) ) ;
+    if (i == 1) return (!is_o (name (t)));
     /* But can negate the rest */
-    if ( name ( t ) == not_tag ) return ( 0 ) ;
+    if (name (t) == not_tag) return (0);
 #endif
-    return ( !is_o ( name ( t ) ) ) ;
+    return (!is_o (name (t)));
 }
 
 
 /*
-    DOIT ROUTINE FOR XOR
-*/
+ *    DOIT ROUTINE FOR XOR
+ */
 
-static bool notado
-    PROTO_N ( ( t, i ) )
-    PROTO_T ( exp t X int i )
+static bool
+notado(exp t, int i)
 {
-    return ( i >= 0 && !is_o ( name ( t ) ) ) ;
+    return (i >= 0 && !is_o (name (t)));
 }
 
 
 /*
-    MAIN SCAN ROUTINE
-*/
+ *    MAIN SCAN ROUTINE
+ */
 
-void scan2
-    PROTO_N ( ( sto, to, e ) )
-    PROTO_T ( bool sto X exp to X exp e )
+void
+scan2(bool sto, exp to, exp e)
 {
-    switch ( name ( e ) ) {
-
+    switch (name (e)) {
+		
 	case cond_tag :
 	case rep_tag :
 	case compound_tag :
@@ -712,79 +936,79 @@ void scan2
 	case nof_tag :
 	case diagnose_tag :
 #ifndef tdf3
-     case caller_tag: {
+	case caller_tag: {
         if (son(e) == nilexp) /* empty make_nof */
-        return ;
+			return;
         scanargs (1, e);
-        return ;
-     };
+        return;
+	};
 #else
-        {
-	    scanargs ( 1, e ) ;
-	    return ;
+	{
+	    scanargs (1, e);
+	    return;
 	}
 #endif
 	case labst_tag : {
-	    scan2 ( 0, son ( e ), bro ( son ( e ) ) ) ;
-	    return ;
+	    scan2 (0, son (e), bro (son (e)));
+	    return;
 	}
-
+		
 	case ident_tag : {
-	    scan2 ( 0, son ( e ), bro ( son ( e ) ) ) ;
-	    scan2 ( 1, e, son ( e ) ) ;
-	    return ;
+	    scan2 (0, son (e), bro (son (e)));
+	    scan2 (1, e, son (e));
+	    return;
 	}
-
+		
 	case seq_tag : {
-	    scanargs ( 1, son ( e ) ) ;
-	    scan2 ( 0, son ( e ), bro ( son ( e ) ) ) ;
-	    return ;
+	    scanargs (1, son (e));
+	    scan2 (0, son (e), bro (son (e)));
+	    return;
 	}
-
+		
 #if 0
 	case diag_tag :
 	case cscope_tag :
 	case fscope_tag : {
-	    scanargs ( 1, e ) ;
-	    return ;
+	    scanargs (1, e);
+	    return;
 	}
 #endif
-
+		
 	case local_free_tag :
 	case long_jump_tag :
 	case ncopies_tag : {
-	    all_assable ( sto, to, e ) ;
-	    return ;
+	    all_assable (sto, to, e);
+	    return;
 	}
-
+		
 	case alloca_tag : {
-	    all_opnd ( sto, to, e ) ;
-	    return ;
+	    all_opnd (sto, to, e);
+	    return;
 	}
 #ifndef tdf3
-       case set_stack_limit_tag: {
-          exp lim = get_stack_limit();
-          setbro (lim, son(e));
-          setson (e, lim);
-          setname (e, ass_tag);
-          scan2 (sto, to, e);
-          return ;
-       };
+	case set_stack_limit_tag: {
+		exp lim = get_stack_limit();
+		setbro (lim, son(e));
+		setson (e, lim);
+		setname (e, ass_tag);
+		scan2 (sto, to, e);
+		return;
+	};
 #endif
-
-      case offset_add_tag :
-      case offset_subtract_tag : {
-	if((al2(sh(son(e))) == 1) && (al2(sh(bro(son(e)))) != 1)){
-	  make_bitfield_offset(bro(son(e)),son(e),0,sh(e));
+		
+	case offset_add_tag :
+	case offset_subtract_tag : {
+		if ((al2(sh(son(e))) == 1) && (al2(sh(bro(son(e)))) != 1)){
+			make_bitfield_offset(bro(son(e)),son(e),0,sh(e));
+		}
+		if ((al2(sh(son(e))) != 1) && (al2(sh(bro(son(e)))) == 1)){
+			make_bitfield_offset(son(e),e,1,sh(e));
+		}
 	}
-	if((al2(sh(son(e))) != 1) && (al2(sh(bro(son(e)))) == 1)){
-	  make_bitfield_offset(son(e),e,1,sh(e));
-	}
-      }
 	case test_tag :
 	case absbool_tag :
 	case testbit_tag :
-        case make_stack_limit_tag:
+	case make_stack_limit_tag:
 	case minus_tag :
 	case subptr_tag :
 	case div0_tag :
@@ -797,7 +1021,7 @@ void scan2
 	case rem2_tag :
 	case round_tag :
 	case max_tag :
-        case offset_max_tag :
+	case offset_max_tag :
 	case min_tag :
 	case offset_div_by_int_tag :
 	case offset_negate_tag :
@@ -814,219 +1038,219 @@ void scan2
 	case offset_mult_tag :
 	case offset_div_tag :
 	case movecont_tag : {
-	    all_opnd ( sto, to, e ) ;
-	    return ;
+	    all_opnd (sto, to, e);
+	    return;
 	}
 	case not_tag :
 	case neg_tag :
 	case abs_tag :
 	case chvar_tag : {
-	    all_opnd ( sto, to, e ) ;
-	    return ;
+	    all_opnd (sto, to, e);
+	    return;
 	}
-
+		
 	case bitf_to_int_tag :
 	case int_to_bitf_tag : {
-	    all_opnd ( sto, to, e ) ;
-	    return ;
+	    all_opnd (sto, to, e);
+	    return;
 	}
-
+		
 	case ass_tag :
 	case assvol_tag : {
-	    exp toc ;
+	    exp toc;
 	    /* Change assvol into ass */
-	    if ( name ( e ) == assvol_tag ) setname ( e, ass_tag ) ;
-	    if ( !is_assable ( bro ( son ( e ) ) ) ) {
-		cca ( sto, to, 0, son ( e ) ) ;
-		toc = contexp ( sto, to ) ;
-		scan2 ( 1, toc, son ( toc ) ) ;
+	    if (name (e) == assvol_tag) setname (e, ass_tag);
+	    if (!is_assable (bro (son (e)))) {
+			cca (sto, to, 0, son (e));
+			toc = contexp (sto, to);
+			scan2 (1, toc, son (toc));
 	    } else {
-		scan2 ( sto, to, bro ( son ( e ) ) ) ;
+			scan2 (sto, to, bro (son (e)));
 	    }
-	    cont_arg ( sto, to, e, sh ( bro ( son ( e ) ) ) ) ;
-	    return ;
+	    cont_arg (sto, to, e, sh (bro (son (e))));
+	    return;
 	}
-
+		
 #ifndef tdf3
-       case tail_call_tag: {
-          exp cees = bro(son(e));
-          cur_proc_has_tail_call = 1;
-          cur_proc_use_same_callees  = (name(cees) == same_callees_tag);
-
-          if (son(cees) != nilexp)
-          cc (sto, to, 1, cees, no_alloca, 1);
-
-          indable_son (sto, to, e);
-
-          return ;
-       };
-
-       case apply_general_tag : {
-
-             exp cees = bro(bro(son(e)));
-             exp p_post = cees;	/* bro(p_post) is postlude */
-
-             cur_proc_use_same_callees  = (name(cees) == same_callees_tag);
-
-             while (name(bro(p_post)) == ident_tag && name(son(bro(p_post))) == caller_name_tag)
-             p_post = son(bro(p_post));
-             scan2 (0, p_post, bro(p_post));
-             if (son(cees) != nilexp)
-             scanargs (1, cees);
-             if (no(bro(son(e))) != 0)
-             scanargs (1, bro(son(e)));
-
-             if ( !is_indable ( son(e) ) ) {
-		exp ec ;
-		cca ( sto, to, 1, e ) ;
-		ec = contexp ( sto, to ) ;
-		scan2 ( 1, ec, son ( ec ) ) ;
-             } else {
-		scan2 ( sto, to, son ( e ) ) ;
-             }
-             return ;
-          }
+	case tail_call_tag: {
+		exp cees = bro(son(e));
+		cur_proc_has_tail_call = 1;
+		cur_proc_use_same_callees  = (name(cees) == same_callees_tag);
+		
+		if (son(cees) != nilexp)
+			cc (sto, to, 1, cees, no_alloca, 1);
+		
+		indable_son (sto, to, e);
+		
+		return;
+	};
+		
+	case apply_general_tag : {
+		
+		exp cees = bro(bro(son(e)));
+		exp p_post = cees;	/* bro(p_post) is postlude */
+		
+		cur_proc_use_same_callees  = (name(cees) == same_callees_tag);
+		
+		while (name(bro(p_post)) == ident_tag && name(son(bro(p_post))) == caller_name_tag)
+			p_post = son(bro(p_post));
+		scan2 (0, p_post, bro(p_post));
+		if (son(cees) != nilexp)
+			scanargs (1, cees);
+		if (no(bro(son(e))) != 0)
+			scanargs (1, bro(son(e)));
+		
+		if (!is_indable (son(e))) {
+			exp ec;
+			cca (sto, to, 1, e);
+			ec = contexp (sto, to);
+			scan2 (1, ec, son (ec));
+		} else {
+			scan2 (sto, to, son (e));
+		}
+		return;
+	}
 #endif
-
+		
 	case apply_tag : {
-	    scanargs ( 1, e ) ;
+	    scanargs (1, e);
 	    /* Fall through */
 	}
-
+		
 	case goto_lv_tag : {
-	    if ( !is_indable ( son ( e ) ) ) {
-		exp ec ;
-		cca ( sto, to, 1, e ) ;
-		ec = contexp ( sto, to ) ;
-		scan2 ( 1, ec, son ( ec ) ) ;
+	    if (!is_indable (son (e))) {
+			exp ec;
+			cca (sto, to, 1, e);
+			ec = contexp (sto, to);
+			scan2 (1, ec, son (ec));
 	    } else {
-		scan2 ( sto, to, son ( e ) ) ;
+			scan2 (sto, to, son (e));
 	    }
-	    return ;
+	    return;
 	}
-
+		
 #ifndef tdf3
-        case untidy_return_tag:
+	case untidy_return_tag:
 #endif
 	case res_tag : {
-	    long sz ;
-
-	    if ( name ( son ( e ) ) == apply_tag
-              || name ( son ( e ) ) == apply_general_tag )
-            {
-		scan2 ( sto, to, son ( e ) ) ;
-		return ;
+	    long sz;
+		
+	    if (name (son (e)) == apply_tag
+			|| name (son (e)) == apply_general_tag)
+		{
+			scan2 (sto, to, son (e));
+			return;
 	    }
-
-	    sz = shape_size ( sh ( son ( e ) ) ) ;
-
-	    if ( sz <= 64 ) {
-		all_assable ( sto, to, e ) ;
-		return ;
+		
+	    sz = shape_size (sh (son (e)));
+		
+	    if (sz <= 64) {
+			all_assable (sto, to, e);
+			return;
 	    }
-	    all_opnd ( sto, to, e ) ;
-	    return ;
+	    all_opnd (sto, to, e);
+	    return;
 	}
-
+		
 	case case_tag : {
-	    exp toc ;
-	    if ( !is_opnd ( son ( e ) ) ) {
-		cca ( sto, to, 1, e ) ;
-		toc = contexp ( sto, to ) ;
-		scan2 ( 1, toc, son ( toc ) ) ;
+	    exp toc;
+	    if (!is_opnd (son (e))) {
+			cca (sto, to, 1, e);
+			toc = contexp (sto, to);
+			scan2 (1, toc, son (toc));
 	    } else {
-		scan2 ( sto, to, son ( e ) ) ;
+			scan2 (sto, to, son (e));
 	    }
-	    return ;
+	    return;
 	}
-
+		
 	case plus_tag : {
-	    if ( name ( son ( e ) ) == neg_tag &&
-		 name ( bro ( son ( e ) ) ) == val_tag ) {
-		scan2 ( sto, to, son ( e ) ) ;
-		return ;
+	    if (name (son (e)) == neg_tag &&
+			name (bro (son (e))) == val_tag) {
+			scan2 (sto, to, son (e));
+			return;
 	    }
-	    cc ( sto, to, 1, e, plusdo, 1 ) ;
-	    return ;
+	    cc (sto, to, 1, e, plusdo, 1);
+	    return;
 	}
-
+		
 	case addptr_tag : {
-	    exp a = bro ( son ( e ) ) ;
-
-	    if ( name ( a ) == offset_mult_tag &&
-		 name ( bro ( son ( a ) ) ) == val_tag ) {
-		long k = no ( bro ( son ( a ) ) ) / 8 ;
-		if ( k == 1 || k == 2 || k == 4 || k == 8 ) {
-		    ccp ( sto, to, 1, a ) ;
-		    ap_arg1 ( sto, to, 1, e, 0 ) ;
-		    return ;
-		}
+	    exp a = bro (son (e));
+		
+	    if (name (a) == offset_mult_tag &&
+			name (bro (son (a))) == val_tag) {
+			long k = no (bro (son (a))) / 8;
+			if (k == 1 || k == 2 || k == 4 || k == 8) {
+				ccp (sto, to, 1, a);
+				ap_arg1 (sto, to, 1, e, 0);
+				return;
+			}
 	    }
-
-	    ccp ( sto, to, 0, son ( e ) ) ;
-	    ap_arg1 ( sto, to, 1, e, 0 ) ;
-	    return ;
+		
+	    ccp (sto, to, 0, son (e));
+	    ap_arg1 (sto, to, 1, e, 0);
+	    return;
 	}
-
+		
 	case mult_tag : {
-	    cc ( sto, to, 1, e, multdo, 1 ) ;
-	    return ;
+	    cc (sto, to, 1, e, multdo, 1);
+	    return;
 	}
-
+		
 	case and_tag : {
-	    cc ( sto, to, 1, e, anddo, 1 ) ;
-	    return ;
+	    cc (sto, to, 1, e, anddo, 1);
+	    return;
 	}
-
+		
 	case or_tag :
 	case xor_tag : {
-	    cc ( sto, to, 1, e, notado, 1 ) ;
-	    return ;
+	    cc (sto, to, 1, e, notado, 1);
+	    return;
 	}
-
+		
 	case cont_tag :
 	case contvol_tag : {
 	    /* Change contvol into cont */
-	    if ( name ( e ) == contvol_tag ) setname ( e, cont_tag ) ;
-	    cont_arg ( sto, to, e, sh ( e ) ) ;
-	    return ;
+	    if (name (e) == contvol_tag) setname (e, cont_tag);
+	    cont_arg (sto, to, e, sh (e));
+	    return;
 	}
-
+		
 	case field_tag : {
-	    if ( !is_o ( name ( son ( e ) ) ) || name ( e ) == cont_tag ) {
-		exp temp ;
-		cca ( sto, to, 1, e ) ;
-		temp = contexp ( sto, to ) ;
-		scan2 ( 1, temp, son ( temp ) ) ;
+	    if (!is_o (name (son (e))) || name (e) == cont_tag) {
+			exp temp;
+			cca (sto, to, 1, e);
+			temp = contexp (sto, to);
+			scan2 (1, temp, son (temp));
 	    } else {
-		scan2 ( sto, to, son ( e ) ) ;
+			scan2 (sto, to, son (e));
 	    }
-	    return ;
+	    return;
 	}
-
+		
 	case reff_tag : {
-	    exp s = son ( e ) ;
-	    if ( name ( s ) == name_tag ||
-		 ( name ( s ) == cont_tag &&
-		   name ( son ( s ) ) == name_tag ) ) return ;
-	    ccp ( sto, to, 1, e ) ;
-	    return ;
+	    exp s = son (e);
+	    if (name (s) == name_tag ||
+			(name (s) == cont_tag &&
+			 name (son (s)) == name_tag)) return;
+	    ccp (sto, to, 1, e);
+	    return;
 	}
-
+		
 	case general_proc_tag:
 	case proc_tag : {
-	    scan2 ( 1, e, son ( e ) ) ;
-	    return ;
+	    scan2 (1, e, son (e));
+	    return;
 	}
 #if 0
 	case val_tag :{
-	  if(name(sh(e)) == offsethd && al2(sh(e))>=8){
-	    no(e) = no(e)>>3;
-	  }
-	  return;
+		if (name(sh(e)) == offsethd && al2(sh(e))>=8){
+			no(e) = no(e)>>3;
+		}
+		return;
 	}
 #endif
-
-	default : return ;
+		
+	default : return;
     }
 }

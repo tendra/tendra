@@ -1,44 +1,291 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:27  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:14  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.5  1998/03/15  16:00:41  pwe
  * regtrack dwarf dagnostics added
  *
@@ -84,8 +331,8 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1997/04/17  12:00:30  pwe
  * dwarf2 support
  *
---------------------------------------------------------------------------
-*/
+ *--------------------------------------------------------------------------
+ */
 
 #include "config.h"
 #include "common_types.h"
@@ -149,1099 +396,1073 @@ static exp this_proc;
 enum loctype { L_INREG = 1, L_REGOFF, L_GLOB, L_INDIRECT, L_SPLIT };
 
 typedef struct {
-  int key;
-  int reg;
-  long off;
+	int key;
+	int reg;
+	long off;
 } loc_s;
 
 
 
-static void outsep
-    PROTO_Z ()
+static void
+outsep()
 {
-  outs (", ");
+	outs (", ");
 }
 
 
-int dw_is_const
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+int
+dw_is_const(exp e)
 {
-  switch (name(e)) {
+	switch (name(e)) {
     case val_tag:
     case null_tag:
     case real_tag:
-      return 1;
+		return 1;
     case name_tag:
-      if (isdiscarded(e))
-	return 0;
-      if (isvar(son(e)))
-	return 1;
-      if ( props (son(e)) & defer_bit )
-	return dw_is_const (son(son(e)));
-      return 0;
+		if (isdiscarded(e))
+			return 0;
+		if (isvar(son(e)))
+			return 1;
+		if (props (son(e)) & defer_bit)
+			return dw_is_const (son(son(e)));
+		return 0;
 #if 0
     case cont_tag:
-      return (name(son(e)) == name_tag && !isdiscarded(son(e)) &&
-		!isvar(son(son(e))) && !isparam(son(son(e))) );
+		return (name(son(e)) == name_tag && !isdiscarded(son(e)) &&
+				!isvar(son(son(e))) && !isparam(son(son(e))));
 #endif
     case reff_tag:
-      return 1;
+		return 1;
     default:
-      return 0;
-  }
+		return 0;
+	}
 }
 
-exp dw_has_location
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+exp
+dw_has_location(exp e)
 {			/* return ident or nilexp */
-  switch (name(e)) {
+	switch (name(e)) {
     case name_tag: {
-      if (isdiscarded(e) || isvar(son(e)))
-	return nilexp;
-      if ( props (son(e)) & defer_bit )
-	return dw_has_location (son(son(e)));
-      return (son(e));
+		if (isdiscarded(e) || isvar(son(e)))
+			return nilexp;
+		if (props (son(e)) & defer_bit)
+			return dw_has_location (son(son(e)));
+		return (son(e));
     }
     case cont_tag: {
-      do {
-	e = son(e);
-	if (name(e) == name_tag && isdiscarded(e))
-	  return nilexp;
-      }
-      while (name(e) != ident_tag || (props(e) & defer_bit));
-      return e;
+		do {
+			e = son(e);
+			if (name(e) == name_tag && isdiscarded(e))
+				return nilexp;
+		}
+		while (name(e) != ident_tag || (props(e) & defer_bit));
+		return e;
     }
     default:
-      return nilexp;
-  }
+		return nilexp;
+	}
 }
 
 
-static loc_s find_in_store
-    PROTO_N ( (dc, off) )
-    PROTO_T ( exp dc X long off )
+static loc_s
+find_in_store(exp dc, long off)
 {
-  loc_s l;
-  baseoff b;
-  assert (! ( props ( dc ) & defer_bit ));
-  b = boff (dc);
-  l.reg = b.base;
-  l.off = off + b.offset;
-  l.key = (isglob(dc) ? L_GLOB : L_REGOFF);
-  return l;
-}
-
-
-static loc_s find_loc
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
-{
-  loc_s l;
-  switch ( name ( e ) ) {
-
-    case name_tag : {
-      if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
-				!(brog(son(e))->dec_u.dec_val.extnamed) )) {
-	l.key = L_INREG;
-	l.reg = 0;
-	no_location = 1;
+	loc_s l;
+	baseoff b;
+	assert (! (props (dc) & defer_bit));
+	b = boff (dc);
+	l.reg = b.base;
+	l.off = off + b.offset;
+	l.key = (isglob(dc) ? L_GLOB : L_REGOFF);
 	return l;
-      }
-      if ( isvar(son(e)) )
-	extra_deref--;
-      if ( props (son(e)) & defer_bit ) {
-	l = find_loc (son(son(e)));
-	l.off += (no(e)/8);
-      }
-      else
-      if (locate_param) {
-	int r = no(son(son(e)))/32;
-	if (!isparam(son(e))) {
-	  if (name(son(son(e))) == chvar_tag ||
-		name(son(son(e))) == chfl_tag)
-	    return find_loc (son(son(son(e))));
-	  failer ("param inconsistency");
-	}
-	if (r > last_param_reg) {
-	  l.key = L_REGOFF;
-	  l.reg = R_SP;
-	  l.off = (no(son(son(e))) + no(e))/8 + 68;
-	}
-	else
-	if (shape_size(sh(son(son(e)))) > 32) {
-	  l.key = L_SPLIT;
-	  l.reg = r;
-	}
-	else {
-	  l.key = L_INREG;
-	  l.reg = r + R_O0;
-	}
-      }
-      else
-      if ( l.reg = regofval(e), l.reg >= 0 && l.reg < R_NO_REG ) {
-	l.key = L_INREG;
-      }
-      else
-      if ( l.reg = fregofval(e), l.reg >= 0 && l.reg < R_NO_REG ) {
-	l.reg = ((l.reg << 1) + DIAG_FREG);
-	l.key = L_INREG;
-      }
-      else
-	l = find_in_store (son(e), (long)no(e)/8);
-      break;
-    }
+}
 
+
+static loc_s
+find_loc(exp e)
+{
+	loc_s l;
+	switch (name (e)) {
+		
+    case name_tag : {
+		if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
+							   !(brog(son(e))->dec_u.dec_val.extnamed))) {
+			l.key = L_INREG;
+			l.reg = 0;
+			no_location = 1;
+			return l;
+		}
+		if (isvar(son(e)))
+			extra_deref--;
+		if (props (son(e)) & defer_bit) {
+			l = find_loc (son(son(e)));
+			l.off += (no(e)/8);
+		}
+		else
+			if (locate_param) {
+				int r = no(son(son(e)))/32;
+				if (!isparam(son(e))) {
+					if (name(son(son(e))) == chvar_tag ||
+						name(son(son(e))) == chfl_tag)
+						return find_loc (son(son(son(e))));
+					failer ("param inconsistency");
+				}
+				if (r > last_param_reg) {
+					l.key = L_REGOFF;
+					l.reg = R_SP;
+					l.off = (no(son(son(e))) + no(e))/8 + 68;
+				}
+				else
+					if (shape_size(sh(son(son(e)))) > 32) {
+						l.key = L_SPLIT;
+						l.reg = r;
+					}
+					else {
+						l.key = L_INREG;
+						l.reg = r + R_O0;
+					}
+			}
+			else
+				if (l.reg = regofval(e), l.reg >= 0 && l.reg < R_NO_REG) {
+					l.key = L_INREG;
+				}
+				else
+					if (l.reg = fregofval(e), l.reg >= 0 && l.reg < R_NO_REG) {
+						l.reg = ((l.reg << 1) + DIAG_FREG);
+						l.key = L_INREG;
+					}
+					else
+						l = find_in_store (son(e), (long)no(e)/8);
+		break;
+    }
+		
     case cont_tag :
     case contvol_tag : {
-      if (name(son(e)) == name_tag && (isdiscarded(son(e)) ||
-			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
-			 !(brog(son(son(e)))->dec_u.dec_val.extnamed) ))) {
-	l.key = L_INREG;
-	l.reg = 0;
-	no_location = 1;
+		if (name(son(e)) == name_tag && (isdiscarded(son(e)) ||
+										 (isglob(son(son(e))) && no(son(son(e))) == 0 &&
+										  !(brog(son(son(e)))->dec_u.dec_val.extnamed)))) {
+			l.key = L_INREG;
+			l.reg = 0;
+			no_location = 1;
+			return l;
+		}
+		if (name(son(e)) != name_tag || !isvar(son(son(e)))) {
+			l = find_loc (son(e));
+			if (l.key == L_INREG) {
+				l.key = L_REGOFF;
+				l.off = 0;
+			}
+			else
+				l.key = L_INDIRECT;
+		}
+		else
+			if (props (son(son(e))) & defer_bit) {
+				l = find_loc (son(son(son(e))));
+				l.off += (no(son(e))/8);
+			}
+			else
+				if (locate_param) {
+					int r = no(son(son(son(e))))/32;
+					if (!isparam(son(son(e)))) {
+						if (name(son(son(son(e)))) == chvar_tag ||
+							name(son(son(son(e)))) == chfl_tag)
+							return find_loc (son(son(son(son(e)))));
+						failer ("param inconsistency");
+					}
+					if (r > last_param_reg) {
+						l.key = L_REGOFF;
+						l.reg = R_SP;
+						l.off = (no(son(son(son(e)))) + no(son(e)))/8 + 68;
+					}
+					else
+						if (shape_size(sh(son(son(son(e))))) > 32) {
+							l.key = L_SPLIT;
+							l.reg = r;
+						}
+						else {
+							l.key = L_INREG;
+							l.reg = r + R_O0;
+						}
+				}
+				else
+					if (l.reg = - regofval(son(e)), l.reg >= 0) {
+						l.key = L_INREG;
+					}
+					else
+						if (l.reg = fregofval(son(e)), l.reg < R_NO_REG) {
+							l.reg = ((l.reg << 1) + DIAG_FREG);
+							l.key = L_INREG;
+						}
+						else
+							l = find_in_store (son(son(e)), (long)no(son(e))/8);
+		break;
+    }
+		
+    case reff_tag : {
+		l = find_loc (son(e));
+		if (l.key == L_GLOB || l.key == L_REGOFF)
+			l.off += (no(e)/8);
+		else
+			if (l.key == L_INREG) {
+				l.key = L_REGOFF;
+				l.off = (no(e)/8);
+				extra_deref--;
+			}
+			else
+				l.key = L_INDIRECT;
+		break;
+    }
+		
+    default:
+		failer ("unimplemented location condition");
+	}
 	return l;
-      }
-      if ( name(son(e)) != name_tag || !isvar(son(son(e))) ) {
-	l = find_loc (son(e));
-	if (l.key == L_INREG) {
-	  l.key = L_REGOFF;
-	  l.off = 0;
-	}
-	else
-	  l.key = L_INDIRECT;
-      }
-      else
-      if ( props (son(son(e))) & defer_bit ) {
-	l = find_loc (son(son(son(e))));
-	l.off += (no(son(e))/8);
-      }
-      else
-      if (locate_param) {
-	int r = no(son(son(son(e))))/32;
-	if (!isparam(son(son(e)))) {
-	  if (name(son(son(son(e)))) == chvar_tag ||
-		name(son(son(son(e)))) == chfl_tag)
-	    return find_loc (son(son(son(son(e)))));
-	  failer ("param inconsistency");
-	}
-	if (r > last_param_reg) {
-	  l.key = L_REGOFF;
-	  l.reg = R_SP;
-	  l.off = (no(son(son(son(e)))) + no(son(e)))/8 + 68;
-	}
-	else
-	if (shape_size(sh(son(son(son(e))))) > 32) {
-	  l.key = L_SPLIT;
-	  l.reg = r;
+}
+
+static int
+inreg_length(int r, int more)
+{
+	int ans = 1 + more;
+	if (r >= 32)
+		ans += uleb128_length((unsigned long)r);
+	return ans;
+}
+
+static void
+out_inreg(int r, int more)
+{
+	if (!more) {
+		if (r < 32)
+			outn ((long)(DW_OP_reg0 + r));
+		else {
+			outn ((long)DW_OP_regx); outsep(); uleb128((unsigned long)r);
+		}
 	}
 	else {
-	  l.key = L_INREG;
-	  l.reg = r + R_O0;
+		if (r < 32)
+			outn ((long)(DW_OP_breg0 + r));
+		else {
+			outn ((long)DW_OP_bregx); outsep(); uleb128((unsigned long)r);
+		}
+		outsep(); outn ((long)0);
 	}
-      }
-      else
-      if ( l.reg = - regofval(son(e)), l.reg >= 0 ) {
-	l.key = L_INREG;
-      }
-      else
-      if ( l.reg = fregofval(son(e)), l.reg < R_NO_REG ) {
-	l.reg = ((l.reg << 1) + DIAG_FREG);
-	l.key = L_INREG;
-      }
-      else
-	l = find_in_store (son(son(e)), (long)no(son(e))/8);
-      break;
-    }
-
-    case reff_tag : {
-      l = find_loc (son(e));
-      if (l.key == L_GLOB || l.key == L_REGOFF)
-	l.off += (no(e)/8);
-      else
-      if (l.key == L_INREG) {
-	l.key = L_REGOFF;
-	l.off = (no(e)/8);
-	extra_deref--;
-      }
-      else
-	l.key = L_INDIRECT;
-      break;
-    }
-
-    default:
-      failer ("unimplemented location condition");
-  }
-  return l;
+	return;
 }
 
-static int inreg_length
-    PROTO_N ( (r, more) )
-    PROTO_T ( int r X int more )
+static int
+regoff_length(loc_s l)
 {
-  int ans = 1 + more;
-  if (r >= 32)
-    ans += uleb128_length((unsigned long)r);
-  return ans;
+	assert (l.reg >= 0 && l.reg < 32);
+	return (1 + sleb128_length (l.off));
 }
 
-static void out_inreg
-    PROTO_N ( (r, more) )
-    PROTO_T ( int r X int more )
+static void
+out_regoff(loc_s l)
 {
-  if (!more) {
-    if (r < 32)
-      outn ((long)(DW_OP_reg0 + r));
-    else {
-      outn ((long)DW_OP_regx); outsep(); uleb128((unsigned long)r);
-    }
-  }
-  else {
-    if (r < 32)
-      outn ((long)(DW_OP_breg0 + r));
-    else {
-      outn ((long)DW_OP_bregx); outsep(); uleb128((unsigned long)r);
-    }
-    outsep(); outn ((long)0);
-  }
-  return;
+	outn ((long)(l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg)); outsep();
+	sleb128 (l.off);
+	return;
 }
 
-static int regoff_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static int
+split_length(loc_s l)
 {
-  assert (l.reg >= 0 && l.reg < 32);
-  return (1 + sleb128_length (l.off));
+	int ans = inreg_length (l.reg + R_O0, 0) +4;
+	if (l.reg == last_param_reg) {
+		l.key = L_REGOFF;
+		l.off = (l.reg * 4) + 72;
+		l.reg = R_SP;
+		ans += regoff_length (l);
+	}
+	else
+		ans += inreg_length (l.reg + R_O1, 0);
+	return ans;
 }
 
-static void out_regoff
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static void
+out_split(loc_s l)
 {
-  outn ((long)(l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg)); outsep();
-  sleb128 (l.off);
-  return;
+	out_inreg (l.reg + R_O0, 0);
+	outsep(); outn ((long)DW_OP_piece);
+	outsep(); outn ((long)4); outsep();
+	if (l.reg == last_param_reg) {
+		l.key = L_REGOFF;
+		l.off = (l.reg * 4) + 72;
+		l.reg = R_SP;
+		out_regoff (l);
+	}
+	else
+		out_inreg (l.reg + R_O1, 0);
+	outsep(); outn ((long)DW_OP_piece);
+	outsep(); outn ((long)4);
+	return;
 }
 
-static int split_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
-{
-  int ans = inreg_length (l.reg + R_O0, 0) +4;
-  if (l.reg == last_param_reg) {
-    l.key = L_REGOFF;
-    l.off = (l.reg * 4) + 72;
-    l.reg = R_SP;
-    ans += regoff_length (l);
-  }
-  else
-    ans += inreg_length (l.reg + R_O1, 0);
-  return ans;
-}
-
-static void out_split
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
-{
-  out_inreg (l.reg + R_O0, 0);
-  outsep(); outn ((long)DW_OP_piece);
-  outsep(); outn ((long)4); outsep();
-  if (l.reg == last_param_reg) {
-    l.key = L_REGOFF;
-    l.off = (l.reg * 4) + 72;
-    l.reg = R_SP;
-    out_regoff (l);
-  }
-  else
-    out_inreg (l.reg + R_O1, 0);
-  outsep(); outn ((long)DW_OP_piece);
-  outsep(); outn ((long)4);
-  return;
-}
-
-static int glob_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static int
+glob_length(loc_s l)
 {
 #ifdef NEEDS_DEBUG_ALIGN
-  calc_length = 0;
+	calc_length = 0;
 #endif
-  return 5;
+	return 5;
 }
 
-static void out_glob
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static void
+out_glob(loc_s l)
 {
-  outn ((long)DW_OP_addr); d_outnl ();
-  out32 (); outlab (l.reg);
-  if (l.off) {
-    outs (" + ");
-    outn ((long)l.off);
-  }
-  return;
+	outn ((long)DW_OP_addr); d_outnl ();
+	out32 (); outlab (l.reg);
+	if (l.off) {
+		outs (" + ");
+		outn ((long)l.off);
+	}
+	return;
 }
 
-static int indirect_length
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int
+indirect_length(exp e)
 {
-  int length;
-  loc_s l;
+	int length;
+	loc_s l;
 #ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
-    return 0;
+	if (!calc_length)
+		return 0;
 #endif
-  switch (name(e)) {
+	switch (name(e)) {
     case cont_tag: {
-      length = 1;
-      break;
+		length = 1;
+		break;
     }
     case reff_tag: {
-      if (no(e) >= 0)
-	length = 1 + uleb128_length ((unsigned long)(no(e)/8));
-      else
-	length = 2 + uleb128_length ((unsigned long)(-no(e)/8));
-      break;
+		if (no(e) >= 0)
+			length = 1 + uleb128_length ((unsigned long)(no(e)/8));
+		else
+			length = 2 + uleb128_length ((unsigned long)(-no(e)/8));
+		break;
     }
     case name_tag: {
-      if (props(son(e)) & defer_bit) {
-	return indirect_length (son(son(e)));
-      }	/* else drop through to failure */
+		if (props(son(e)) & defer_bit) {
+			return indirect_length (son(son(e)));
+		}	/* else drop through to failure */
     }
     default: {
-      failer ("unimplemented dwarf locate");
-      return 0;
+		failer ("unimplemented dwarf locate");
+		return 0;
     }
-  }
-  l = find_loc (son(e));
-  switch (l.key) {
+	}
+	l = find_loc (son(e));
+	switch (l.key) {
     case L_INREG: {
-      length += inreg_length (l.reg, 1);
-      break;
+		length += inreg_length (l.reg, 1);
+		break;
     }
     case L_REGOFF: {
-      length += regoff_length(l);
-      break;
+		length += regoff_length(l);
+		break;
     }
     case L_SPLIT: {
-      length += split_length(l);
-      break;
+		length += split_length(l);
+		break;
     }
     case L_GLOB: {
-      length += glob_length(l);
-      break;
+		length += glob_length(l);
+		break;
     }
     case L_INDIRECT: {
-      length += indirect_length(son(e));
-      break;
+		length += indirect_length(son(e));
+		break;
     }
-  }
-  return length;
+	}
+	return length;
 }
 
-static void out_indirect
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static void
+out_indirect(exp e)
 {
-  loc_s l;
-  if (name(e) == name_tag) {
-    assert (props(son(e)) & defer_bit);
-    out_indirect (son(son(e)));
-    return;
-  }
-  l = find_loc (son(e));
-  switch (l.key) {
+	loc_s l;
+	if (name(e) == name_tag) {
+		assert (props(son(e)) & defer_bit);
+		out_indirect (son(son(e)));
+		return;
+	}
+	l = find_loc (son(e));
+	switch (l.key) {
     case L_INREG: {
-      out_inreg (l.reg, 1);
-      outsep();
-      break;
+		out_inreg (l.reg, 1);
+		outsep();
+		break;
     }
     case L_REGOFF: {
-      out_regoff (l);
-      outsep();
-      break;
+		out_regoff (l);
+		outsep();
+		break;
     }
     case L_SPLIT: {
-      out_split (l);
-      outsep();
-      break;
+		out_split (l);
+		outsep();
+		break;
     }
     case L_GLOB: {
-      out_glob (l);
-      d_outnl(); out8();
-      break;
+		out_glob (l);
+		d_outnl(); out8();
+		break;
     }
     case L_INDIRECT: {
-      out_indirect(son(e));
-      outsep();
-      break;
+		out_indirect(son(e));
+		outsep();
+		break;
     }
-  }
-  switch (name(e)) {
+	}
+	switch (name(e)) {
     case cont_tag: {
-      outn ((long)DW_OP_deref);
-      break;
+		outn ((long)DW_OP_deref);
+		break;
     }
     case reff_tag: {
-      if (no(e) >= 0) {
-	outn ((long)DW_OP_plus_uconst); outsep();
-	uleb128 ((unsigned long)(no(e)/8));
-      }
-      else {
-	outn ((long)DW_OP_constu); outsep();
-	uleb128 ((unsigned long)(-no(e)/8)); outsep();
-	outn ((long)DW_OP_minus);
-      }
-      break;
+		if (no(e) >= 0) {
+			outn ((long)DW_OP_plus_uconst); outsep();
+			uleb128 ((unsigned long)(no(e)/8));
+		}
+		else {
+			outn ((long)DW_OP_constu); outsep();
+			uleb128 ((unsigned long)(-no(e)/8)); outsep();
+			outn ((long)DW_OP_minus);
+		}
+		break;
     }
-  }
-  return;
+	}
+	return;
 }
 
 
-void dw2_locate_exp
-    PROTO_N ( (e, locate_const, cx) )
-    PROTO_T ( exp e X int locate_const X int cx )
+void
+dw2_locate_exp(exp e, int locate_const, int cx)
 {
-  loc_s l;
-  int length;
-  int within_loclist = (cx & 1);
+	loc_s l;
+	int length;
+	int within_loclist = (cx & 1);
 #ifdef NEEDS_DEBUG_ALIGN
-  long over_lab;
-  calc_length = 1;
+	long over_lab;
+	calc_length = 1;
 #endif
-  locate_param = (cx & 2);
-  extra_deref = locate_const;
-  no_location = 0;
-  l = find_loc (e);	/* may reduce extra_deref */
-  length = extra_deref;
-  switch (l.key) {
+	locate_param = (cx & 2);
+	extra_deref = locate_const;
+	no_location = 0;
+	l = find_loc (e);	/* may reduce extra_deref */
+	length = extra_deref;
+	switch (l.key) {
     case L_INREG: {
-      length += inreg_length (l.reg, extra_deref);
-      break;
+		length += inreg_length (l.reg, extra_deref);
+		break;
     }
     case L_REGOFF: {
-      length += regoff_length(l);
-      break;
+		length += regoff_length(l);
+		break;
     }
     case L_SPLIT: {
-      length += split_length(l);
-      break;
+		length += split_length(l);
+		break;
     }
     case L_GLOB: {
-      length += glob_length(l);
-      break;
+		length += glob_length(l);
+		break;
     }
     case L_INDIRECT: {
-      length += indirect_length(e);
-      break;
+		length += indirect_length(e);
+		break;
     }
-  }
-  if (no_location)
-    length = 0;
-
-  if (within_loclist)
-    out16 ();
-  else
-    out8 ();
+	}
+	if (no_location)
+		length = 0;
+	
+	if (within_loclist)
+		out16 ();
+	else
+		out8 ();
 #ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length) {
-    over_lab = next_dwarf_label();
-    out_dwf_label (over_lab, 0);
-    if (within_loclist)
-      outs (" - . - 2");
-    else
-      outs (" - . - 1");
-  }
-  else
+	if (!calc_length) {
+		over_lab = next_dwarf_label();
+		out_dwf_label (over_lab, 0);
+		if (within_loclist)
+			outs (" - . - 2");
+		else
+			outs (" - . - 1");
+	}
+	else
 #endif
-  outn ((long)length);
-  d_outnl();
-  if (no_location)
-    return;
-  out8 ();
-  switch (l.key) {
+		outn ((long)length);
+	d_outnl();
+	if (no_location)
+		return;
+	out8 ();
+	switch (l.key) {
     case L_INREG: {
-      out_inreg (l.reg, extra_deref);
-      break;
+		out_inreg (l.reg, extra_deref);
+		break;
     }
     case L_REGOFF: {
-      out_regoff (l);
-      break;
+		out_regoff (l);
+		break;
     }
     case L_SPLIT: {
-      out_split (l);
-      break;
+		out_split (l);
+		break;
     }
     case L_GLOB: {
-      out_glob (l);
-      break;
+		out_glob (l);
+		break;
     }
     case L_INDIRECT: {
-      out_indirect (e);
-      break;
+		out_indirect (e);
+		break;
     }
-  }
-  while (extra_deref) {
-    if (extra_deref < 0) {
-      failer ("miscalculated location");
-      break;
-    }
+	}
+	while (extra_deref) {
+		if (extra_deref < 0) {
+			failer ("miscalculated location");
+			break;
+		}
 #if 0
-    if (locate_const)
-      failer ("constant location???");
+		if (locate_const)
+			failer ("constant location???");
 #endif
-    outsep();
-    outn ((long)DW_OP_deref);
-    extra_deref--;
-  }
-  d_outnl ();
+		outsep();
+		outn ((long)DW_OP_deref);
+		extra_deref--;
+	}
+	d_outnl ();
 #ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
-    out_dwf_label (over_lab, 1);
+	if (!calc_length)
+		out_dwf_label (over_lab, 1);
 #endif
-  return;
+	return;
 }
 
 static long current_pprops;
 
-void dw2_prepare_locate
-    PROTO_N ( (id) )
-    PROTO_T ( exp id )
+void
+dw2_prepare_locate(exp id)
 {
-			/* set local proc conditions for local locations */
-  exp e = son(id);	/* proc or general proc */
-  procrec *pr = &procrecs [ no ( e ) ] ;
-  needs *ndpr = &pr->needsproc ;
-  spacereq *sppr = &pr->spacereqproc ;
-  long pprops = ( long ) ( ndpr->prps ) ;
-  /* bool leaf = ( bool ) ( ( pprops & anyproccall ) == 0 ) ;	*/
-  long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
-  long st = sppr->stack ;		/* space for locals in bits */
-
-  Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
+	/* set local proc conditions for local locations */
+	exp e = son(id);	/* proc or general proc */
+	procrec *pr = &procrecs [ no (e) ];
+	needs *ndpr = &pr->needsproc;
+	spacereq *sppr = &pr->spacereqproc;
+	long pprops = (long) (ndpr->prps);
+	/* bool leaf = (bool) ((pprops & anyproccall) == 0) ;	*/
+	long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
+	long st = sppr->stack ;		/* space for locals in bits */
+	
+	Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
 	/* callee_start_reg as initialisation */
-  call_base_reg = R_NO_REG;	/* needs reset at apply_general */
-  proc_state.params_offset = PARAMS_OFFSET;
-  st = ( st + 63 ) & ~63 ;
-  proc_state.callee_size = ndpr->callee_size;
-  proc_state.locals_space = st ;
-  proc_state.locals_offset = 0 ;
-  proc_state.frame_size = maxargs + st ;
-  proc_state.maxargs = maxargs ;
-  last_param_reg = 5;
-  if (proc_may_have_callees(e))
-    last_param_reg = (Has_vcallees ? 3 : 4);
-  this_proc = e;
-  current_pprops = pprops;
-  return;
+	call_base_reg = R_NO_REG;	/* needs reset at apply_general */
+	proc_state.params_offset = PARAMS_OFFSET;
+	st = (st + 63) & ~63;
+	proc_state.callee_size = ndpr->callee_size;
+	proc_state.locals_space = st;
+	proc_state.locals_offset = 0;
+	proc_state.frame_size = maxargs + st;
+	proc_state.maxargs = maxargs;
+	last_param_reg = 5;
+	if (proc_may_have_callees(e))
+		last_param_reg = (Has_vcallees ? 3 : 4);
+	this_proc = e;
+	current_pprops = pprops;
+	return;
 }
 
 
-void dw2_locate_result
-    PROTO_N ( (sha) )
-    PROTO_T ( shape sha )
+void
+dw2_locate_result(shape sha)
 {
-  out8 ();
-  if ( !valregable (sha) && name (sha) != tophd &&
-	( !is_floating ( name (sha) ) || shape_size(sha) > 64 )) {
-      /* structure or union result, address of space to [ %fp+64 ] */
-    loc_s l;
-    l.key = L_REGOFF;
-    l.reg = R_FP;
-    l.off = 64;
-    outn ((long)regoff_length (l)); outsep();
-    out_regoff (l);
-  }
-  else {
-    int r;
-    if ( is_floating ( name (sha) ) ) {
-	/* proc has real result */
-      r = R_F0 + DIAG_FREG;
-    }
-    else if ( name (sha) > tophd  ) {
-      r = R_I0;
-    }
-    else {
-	/* no result */
-      failer ("inconsistent result");
-      r = R_G0;
-    }
-    outn ((long)inreg_length (r, 0)); outsep();
-    out_inreg (r, 0);
-  }
-  d_outnl ();
-  return;
+	out8 ();
+	if (!valregable (sha) && name (sha) != tophd &&
+		(!is_floating (name (sha)) || shape_size(sha) > 64)) {
+		/* structure or union result, address of space to [ %fp+64 ] */
+		loc_s l;
+		l.key = L_REGOFF;
+		l.reg = R_FP;
+		l.off = 64;
+		outn ((long)regoff_length (l)); outsep();
+		out_regoff (l);
+	}
+	else {
+		int r;
+		if (is_floating (name (sha))) {
+			/* proc has real result */
+			r = R_F0 + DIAG_FREG;
+		}
+		else if (name (sha) > tophd ) {
+			r = R_I0;
+		}
+		else {
+			/* no result */
+			failer ("inconsistent result");
+			r = R_G0;
+		}
+		outn ((long)inreg_length (r, 0)); outsep();
+		out_inreg (r, 0);
+	}
+	d_outnl ();
+	return;
 }
 
-void dw_at_procdetails
-    PROTO_Z ()
+void
+dw_at_procdetails()
 {			/* return address and frame base */
-  out8(); outn((long)2); outsep();
-  outn((long)DW_OP_breg0 + R_I7); outsep();
-  outn ((long)(has_struct_res (this_proc) ? 12 : 8)); d_outnl();
-  out8(); outn((long)1); outsep();
-  outn((long)DW_OP_reg0 + R_SP); d_outnl();
-  return;
+	out8(); outn((long)2); outsep();
+	outn((long)DW_OP_breg0 + R_I7); outsep();
+	outn ((long)(has_struct_res (this_proc) ? 12 : 8)); d_outnl();
+	out8(); outn((long)1); outsep();
+	outn((long)DW_OP_reg0 + R_SP); d_outnl();
+	return;
 }
 
 
-void dw2_locate_val
-    PROTO_N ( (v) )
-    PROTO_T ( dg_where v )
+void
+dw2_locate_val(dg_where v)
 {
 #ifdef NEEDS_DEBUG_ALIGN
-  long over_lab;
-  calc_length = 1;
+	long over_lab;
+	calc_length = 1;
 #endif
-  out8 ();
-  switch (v.k) {
+	out8 ();
+	switch (v.k) {
     case WH_CODELAB: {
-      int length;
-      loc_s l;
-      l.key = L_GLOB;
-      l.reg = v.u.l;
-      l.off = v.o;
-      length = glob_length (l);
+		int length;
+		loc_s l;
+		l.key = L_GLOB;
+		l.reg = v.u.l;
+		l.off = v.o;
+		length = glob_length (l);
 #ifdef NEEDS_DEBUG_ALIGN
-      if (!calc_length) {
-	over_lab = next_dwarf_label();
-	out_dwf_label (over_lab, 0);
-	outs (" - . - 1");
-      }
-      else
+		if (!calc_length) {
+			over_lab = next_dwarf_label();
+			out_dwf_label (over_lab, 0);
+			outs (" - . - 1");
+		}
+		else
 #endif
-      outn ((long)length);
-      d_outnl();
-      out8 ();
-      out_glob (l);
-      break;
+			outn ((long)length);
+		d_outnl();
+		out8 ();
+		out_glob (l);
+		break;
     }
     case WH_REG: {
-      int r = v.u.l;
-      outn ((long)inreg_length (r, 0)); outsep();
-      out_inreg (r, 0);
-      break;
+		int r = v.u.l;
+		outn ((long)inreg_length (r, 0)); outsep();
+		out_inreg (r, 0);
+		break;
     }
     case WH_REGOFF: {
-      loc_s l;
-      l.key = L_REGOFF;
-      l.reg = v.u.l;
-      l.off = v.o;
-      outn ((long)regoff_length (l)); outsep();
-      out_regoff (l);
-      break;
+		loc_s l;
+		l.key = L_REGOFF;
+		l.reg = v.u.l;
+		l.off = v.o;
+		outn ((long)regoff_length (l)); outsep();
+		out_regoff (l);
+		break;
     }
     default:
-      failer ("unexpected locate val");
-  }
-  d_outnl ();
+		failer ("unexpected locate val");
+	}
+	d_outnl ();
 #ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
-    out_dwf_label (over_lab, 1);
+	if (!calc_length)
+		out_dwf_label (over_lab, 1);
 #endif
-  return;
+	return;
 }
 
 
-static int dw_eval_exp
-    PROTO_N ( (e, line_started) )
-    PROTO_T ( exp e X int line_started )
+static int
+dw_eval_exp(exp e, int line_started)
 {
-  if (line_started)
-    outsep();
-  else {
-    out8 ();
-    line_started = 1;
-  }
-  switch (name(e)) {
+	if (line_started)
+		outsep();
+	else {
+		out8 ();
+		line_started = 1;
+	}
+	switch (name(e)) {
     case name_tag:
     case cont_tag:
     case contvol_tag:
     case reff_tag: {
-      loc_s l;
-      locate_param = extra_deref = no_location = 0;
-      l = find_loc (e);
-      if (no_location || extra_deref)
-	failer ("value unobtainable by DWARF expression");
-      switch (l.key) {
-	case L_INREG: {
-	  out_inreg (l.reg, extra_deref);
-	  break;
-	}
-	case L_REGOFF: {
-	  out_regoff (l);
-	  break;
-	}
-	case L_GLOB: {
-	  out_glob (l);
-	  d_outnl ();
-	  line_started = 0;
-	  break;
-	}
-	case L_INDIRECT: {
-	  out_indirect (e);
-	  break;
-	}
-      }
-      break;
+		loc_s l;
+		locate_param = extra_deref = no_location = 0;
+		l = find_loc (e);
+		if (no_location || extra_deref)
+			failer ("value unobtainable by DWARF expression");
+		switch (l.key) {
+		case L_INREG: {
+			out_inreg (l.reg, extra_deref);
+			break;
+		}
+		case L_REGOFF: {
+			out_regoff (l);
+			break;
+		}
+		case L_GLOB: {
+			out_glob (l);
+			d_outnl ();
+			line_started = 0;
+			break;
+		}
+		case L_INDIRECT: {
+			out_indirect (e);
+			break;
+		}
+		}
+		break;
     }
     case val_tag:
     case null_tag : {
-      if (isbigval(e)) {
-	flt64 x;
-	int ov;
-	x = flt_to_f64(no(e), is_signed(sh(e)), &ov);
-	outn((long)(is_signed(sh(e)) ? DW_OP_const8s : DW_OP_const8u)); d_outnl();
-	out32(); outn((long)(x.small)); outsep(); outn((long)(x.big)); d_outnl();
-	line_started = 0;
-      }
-      else
-      if (no(e) >= 0 && no(e) < 32)
-	outn((long)(DW_OP_lit0 + no(e)));
-      else
-      if (is_signed(sh(e))) {
-	outn((long)DW_OP_consts); outsep();
-	sleb128 ((long)no(e));
-      }
-      else {
-	outn((long)DW_OP_constu); outsep();
-	uleb128 ((unsigned long)no(e));
-      }
-      break;
+		if (isbigval(e)) {
+			flt64 x;
+			int ov;
+			x = flt_to_f64(no(e), is_signed(sh(e)), &ov);
+			outn((long)(is_signed(sh(e)) ? DW_OP_const8s : DW_OP_const8u)); d_outnl();
+			out32(); outn((long)(x.small)); outsep(); outn((long)(x.big)); d_outnl();
+			line_started = 0;
+		}
+		else
+			if (no(e) >= 0 && no(e) < 32)
+				outn((long)(DW_OP_lit0 + no(e)));
+			else
+				if (is_signed(sh(e))) {
+					outn((long)DW_OP_consts); outsep();
+					sleb128 ((long)no(e));
+				}
+				else {
+					outn((long)DW_OP_constu); outsep();
+					uleb128 ((unsigned long)no(e));
+				}
+		break;
     }
     case plus_tag:
     case offset_add_tag : {
-      line_started = dw_eval_exp (son(e), line_started);
-      if (name(bro(son(e))) == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
-	if (line_started)
-	  outsep();
-	else {
-	  out8 ();
-	  line_started = 1;
-	}
-	outn((long)DW_OP_plus_uconst); outsep();
-	uleb128 ((unsigned long)no(e));
-      }
-      else {
-	line_started = dw_eval_exp (bro(son(e)), line_started);
-	if (line_started)
-	  outsep();
-	else {
-	  out8 ();
-	  line_started = 1;
-	}
-	outn((long)DW_OP_plus);
-      }
-      break;
+		line_started = dw_eval_exp (son(e), line_started);
+		if (name(bro(son(e))) == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
+			if (line_started)
+				outsep();
+			else {
+				out8 ();
+				line_started = 1;
+			}
+			outn((long)DW_OP_plus_uconst); outsep();
+			uleb128 ((unsigned long)no(e));
+		}
+		else {
+			line_started = dw_eval_exp (bro(son(e)), line_started);
+			if (line_started)
+				outsep();
+			else {
+				out8 ();
+				line_started = 1;
+			}
+			outn((long)DW_OP_plus);
+		}
+		break;
     }
     case minus_tag:
     case offset_subtract_tag : {
-      line_started = dw_eval_exp (son(e), line_started);
-      line_started = dw_eval_exp (bro(son(e)), line_started);
-      if (line_started)
-	outsep();
-      else {
-	out8 ();
-	line_started = 1;
-      }
-      outn((long)DW_OP_minus);
-      break;
+		line_started = dw_eval_exp (son(e), line_started);
+		line_started = dw_eval_exp (bro(son(e)), line_started);
+		if (line_started)
+			outsep();
+		else {
+			out8 ();
+			line_started = 1;
+		}
+		outn((long)DW_OP_minus);
+		break;
     }
     case neg_tag:
     case offset_negate_tag : {
-      line_started = dw_eval_exp (son(e), line_started);
-      if (line_started)
-	outsep();
-      else {
-	out8 ();
-	line_started = 1;
-      }
-      outn((long)DW_OP_neg);
-      break;
+		line_started = dw_eval_exp (son(e), line_started);
+		if (line_started)
+			outsep();
+		else {
+			out8 ();
+			line_started = 1;
+		}
+		outn((long)DW_OP_neg);
+		break;
     }
     case mult_tag:
     case offset_mult_tag : {
-      line_started = dw_eval_exp (son(e), line_started);
-      line_started = dw_eval_exp (bro(son(e)), line_started);
-      if (line_started)
-	outsep();
-      else {
-	out8 ();
-	line_started = 1;
-      }
-      outn((long)DW_OP_mul);
-      break;
+		line_started = dw_eval_exp (son(e), line_started);
+		line_started = dw_eval_exp (bro(son(e)), line_started);
+		if (line_started)
+			outsep();
+		else {
+			out8 ();
+			line_started = 1;
+		}
+		outn((long)DW_OP_mul);
+		break;
     }
     case div0_tag :
     case div1_tag :
     case div2_tag :
     case offset_div_by_int_tag :
     case offset_div_tag : {
-      line_started = dw_eval_exp (son(e), line_started);
-      line_started = dw_eval_exp (bro(son(e)), line_started);
-      if (line_started)
-	outsep();
-      else {
-	out8 ();
-	line_started = 1;
-      }
-      outn((long)DW_OP_div);
-      break;
+		line_started = dw_eval_exp (son(e), line_started);
+		line_started = dw_eval_exp (bro(son(e)), line_started);
+		if (line_started)
+			outsep();
+		else {
+			out8 ();
+			line_started = 1;
+		}
+		outn((long)DW_OP_div);
+		break;
     }
     default:
-      failer ("unsupported operation for DWARF expression");
-  }
-  return line_started;
+		failer ("unsupported operation for DWARF expression");
+	}
+	return line_started;
 }
 
 
-void dw2_offset_exp
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+dw2_offset_exp(exp e)
 {
-  long block_end = next_dwarf_label ();
-  if (name(sh(e)) != offsethd)
-    failer ("wrong shape for offset expression");
-  dw_at_form (DW_FORM_block2); d_outnl();
-  out16 (); out_dwf_dist_to_label (block_end); d_outnl();
-  if (dw_eval_exp (e, 0))
-    d_outnl();
-  if (name(sh(e)) == offsethd && al2(sh(e)) < 8 ) {
-    out8 (); outn((long)(DW_OP_lit0 + 8)); outsep();
-    outn((long)DW_OP_mul); d_outnl();
-  }
-  out_dwf_label (block_end, 1);
-  return;
+	long block_end = next_dwarf_label ();
+	if (name(sh(e)) != offsethd)
+		failer ("wrong shape for offset expression");
+	dw_at_form (DW_FORM_block2); d_outnl();
+	out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+	if (dw_eval_exp (e, 0))
+		d_outnl();
+	if (name(sh(e)) == offsethd && al2(sh(e)) < 8) {
+		out8 (); outn((long)(DW_OP_lit0 + 8)); outsep();
+		outn((long)DW_OP_mul); d_outnl();
+	}
+	out_dwf_label (block_end, 1);
+	return;
 }
 
 
-void dw2_cie
-    PROTO_Z ()
+void
+dw2_cie()
 {
-  long cie_end;
-  int i;
-  cie_pointer = next_dwarf_label();
-  cie_end = next_dwarf_label();
-  enter_section ("debug_frame");
-  outnl_comment ("Common Information Entry");
-  out_dwf_label (cie_pointer, 1);
-  out32 (); out_dwf_dist_to_label (cie_end); d_outnl ();
-  out32 (); outn ((long)DW_CIE_id); d_outnl ();
-  out8 (); outn ((long)DW_CIE_MOD_VERSION); d_outnl ();
-  out_string ("DERA/DDC-I");
-  out8 (); uleb128 ((unsigned long)framecode_factor); d_outnl ();
-  out8 (); sleb128 ((long)framedata_factor); d_outnl ();
-  out8 (); outn ((long)retaddr_column); d_outnl ();	/* return address column */
-
-  out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
+	long cie_end;
+	int i;
+	cie_pointer = next_dwarf_label();
+	cie_end = next_dwarf_label();
+	enter_section ("debug_frame");
+	outnl_comment ("Common Information Entry");
+	out_dwf_label (cie_pointer, 1);
+	out32 (); out_dwf_dist_to_label (cie_end); d_outnl ();
+	out32 (); outn ((long)DW_CIE_id); d_outnl ();
+	out8 (); outn ((long)DW_CIE_MOD_VERSION); d_outnl ();
+	out_string ("DERA/DDC-I");
+	out8 (); uleb128 ((unsigned long)framecode_factor); d_outnl ();
+	out8 (); sleb128 ((long)framedata_factor); d_outnl ();
+	out8 (); outn ((long)retaddr_column); d_outnl ();	/* return address column */
+	
+	out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
 	sleb128 ((long) 8); d_outnl ();		/* sparc entry rules, ret offset 8 */
-
-  for (i = R_FIRST; i <= R_LAST; i++) {
-    if ((i > R_G0 && i <= (R_G0 + g_reg_max)) ||
-		(i >= R_O0 && i <= R_O7 && i != R_SP)) {
-	out8 (); outn ((long)DW_CFA_undefined); outsep();
-	uleb128 ((unsigned long)i); d_outnl ();
-    }
-  }
-  dot_align (PTR_SZ/8);
-  out_dwf_label (cie_end, 1);
-  exit_section ();
-  return;
+	
+	for (i = R_FIRST; i <= R_LAST; i++) {
+		if ((i > R_G0 && i <= (R_G0 + g_reg_max)) ||
+			(i >= R_O0 && i <= R_O7 && i != R_SP)) {
+			out8 (); outn ((long)DW_CFA_undefined); outsep();
+			uleb128 ((unsigned long)i); d_outnl ();
+		}
+	}
+	dot_align (PTR_SZ/8);
+	out_dwf_label (cie_end, 1);
+	exit_section ();
+	return;
 }
 
 
-void dw2_start_fde
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+dw2_start_fde(exp e)
 {
-  long proc_start = next_dwarf_label();
-  fde_end = next_dwarf_label();
-  proc_end = next_dwarf_label();
-  out_dwf_label (proc_start, 1);
-  enter_section ("debug_frame");
-  outnl_comment ("Frame Descriptor Entry");
-  out32 (); out_dwf_dist_to_label (fde_end); d_outnl ();
-  out32 (); out_dwf_label (cie_pointer, 0); d_outnl ();
-  out32 (); out_dwf_label (proc_start, 0); d_outnl ();
-  out32 (); out_dwf_labdiff (proc_start, proc_end); d_outnl ();
-  this_proc = e;
-  if (has_struct_res (this_proc)) {
-    out8 (); outn ((long)DW_CFA_DD_location); outsep();
-	uleb128 ((unsigned long)retaddr_column);  outsep();
-	outn ((long)(2 + sleb128_length((long)12))); outsep();
-	outn ((long)DW_OP_drop); outsep();
-	outn ((long)(DW_OP_breg0 + R_O7)); outsep();
-	sleb128 ((long) 12); d_outnl ();	/* return R_O7 offset 12 */
-  }
-  exit_section ();
-  instr_count = -1;
-  fde_count = 0;
-  return;
+	long proc_start = next_dwarf_label();
+	fde_end = next_dwarf_label();
+	proc_end = next_dwarf_label();
+	out_dwf_label (proc_start, 1);
+	enter_section ("debug_frame");
+	outnl_comment ("Frame Descriptor Entry");
+	out32 (); out_dwf_dist_to_label (fde_end); d_outnl ();
+	out32 (); out_dwf_label (cie_pointer, 0); d_outnl ();
+	out32 (); out_dwf_label (proc_start, 0); d_outnl ();
+	out32 (); out_dwf_labdiff (proc_start, proc_end); d_outnl ();
+	this_proc = e;
+	if (has_struct_res (this_proc)) {
+		out8 (); outn ((long)DW_CFA_DD_location); outsep();
+		uleb128 ((unsigned long)retaddr_column);  outsep();
+		outn ((long)(2 + sleb128_length((long)12))); outsep();
+		outn ((long)DW_OP_drop); outsep();
+		outn ((long)(DW_OP_breg0 + R_O7)); outsep();
+		sleb128 ((long) 12); d_outnl ();	/* return R_O7 offset 12 */
+	}
+	exit_section ();
+	instr_count = -1;
+	fde_count = 0;
+	return;
 }
 
-static void fde_advance
-    PROTO_N ( (here) )
-    PROTO_T ( long here )
+static void
+fde_advance(long here)
 {
-  if (fde_count < 0) {
-    out8 (); outn ((long)DW_CFA_set_loc); d_outnl ();
-    out32 (); out_dwf_label (here, 0);
-  }
-  else
-  if (fde_count < 0x40) {
-    out8 (); outn ((long)DW_CFA_advance_loc + fde_count);
-  }
-  else
-  if (fde_count < 0x100) {
-    out8 (); outn ((long)DW_CFA_advance_loc1); outsep();
-    outn (fde_count);
-  }
-  else
-  if (fde_count < 0x10000) {
-    out8 (); outn ((long)DW_CFA_advance_loc2); d_outnl ();
-    out16 (); outn (fde_count);
-  }
-  else {
-    out8 (); outn ((long)DW_CFA_advance_loc4); d_outnl ();
-    out32 (); outn (fde_count);
-  }
-  d_outnl ();
-  fde_count = 0;
-  return;
+	if (fde_count < 0) {
+		out8 (); outn ((long)DW_CFA_set_loc); d_outnl ();
+		out32 (); out_dwf_label (here, 0);
+	}
+	else
+		if (fde_count < 0x40) {
+			out8 (); outn ((long)DW_CFA_advance_loc + fde_count);
+		}
+		else
+			if (fde_count < 0x100) {
+				out8 (); outn ((long)DW_CFA_advance_loc1); outsep();
+				outn (fde_count);
+			}
+			else
+				if (fde_count < 0x10000) {
+					out8 (); outn ((long)DW_CFA_advance_loc2); d_outnl ();
+					out16 (); outn (fde_count);
+				}
+				else {
+					out8 (); outn ((long)DW_CFA_advance_loc4); d_outnl ();
+					out32 (); outn (fde_count);
+				}
+	d_outnl ();
+	fde_count = 0;
+	return;
 }
 
-void dw2_fde_save
-    PROTO_Z ()
+void
+dw2_fde_save()
 {
-  long here = 0;
-  if (fde_count < 0)
-    here = set_dw_text_label();
-  enter_section ("debug_frame");
-  fde_advance (here);
-  out8 (); outn ((long)DW_CFA_DD_sparc_save_regwindow); outsep();
+	long here = 0;
+	if (fde_count < 0)
+		here = set_dw_text_label();
+	enter_section ("debug_frame");
+	fde_advance (here);
+	out8 (); outn ((long)DW_CFA_DD_sparc_save_regwindow); outsep();
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	d_outnl ();
-  exit_section ();
-  return;
+	exit_section ();
+	return;
 }
 
-void dw2_fde_restore
-    PROTO_Z ()
+void
+dw2_fde_restore()
 {
-  long here = 0;
-  if (fde_count < 0)
-    here = set_dw_text_label();
-  enter_section ("debug_frame");
-  fde_advance (here);
-  out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
+	long here = 0;
+	if (fde_count < 0)
+		here = set_dw_text_label();
+	enter_section ("debug_frame");
+	fde_advance (here);
+	out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	d_outnl ();
-  exit_section ();
-  return;
+	exit_section ();
+	return;
 }
 
-void dw2_complete_fde
-    PROTO_Z ()
+void
+dw2_complete_fde()
 {
-  out_dwf_label (proc_end, 1);
-  enter_section ("debug_frame");
-  dot_align (PTR_SZ/8);
-  out_dwf_label (fde_end, 1);
-  exit_section ();
-  return;
+	out_dwf_label (proc_end, 1);
+	enter_section ("debug_frame");
+	dot_align (PTR_SZ/8);
+	out_dwf_label (fde_end, 1);
+	exit_section ();
+	return;
 }
 
 
 static exp lab_mark_list;
 
-static void mark_lab
-    PROTO_N ( (labst) )
-    PROTO_T ( exp labst )
+static void
+mark_lab(exp labst)
 {
-  if (!dg_labmark (labst)) {
-    set_dg_labmark (labst);
-    if (son(son(labst)) != nilexp)
-      failer ("strange labst");
-    son(son(labst)) = lab_mark_list;
-    lab_mark_list = labst;
-  }
-  return;
+	if (!dg_labmark (labst)) {
+		set_dg_labmark (labst);
+		if (son(son(labst)) != nilexp)
+			failer ("strange labst");
+		son(son(labst)) = lab_mark_list;
+		lab_mark_list = labst;
+	}
+	return;
 }
 
-static void trace_branch_aux
-    PROTO_N ( (whole, e) )
-    PROTO_T ( exp whole X exp e )
+static void
+trace_branch_aux(exp whole, exp e)
 {
-  exp t;
-  switch (name(e)) {
+	exp t;
+	switch (name(e)) {
     case test_tag:
     case goto_tag: {
-      if (!intnl_to (whole, pt(e)))
-	mark_lab (pt(e));
-      break;
+		if (!intnl_to (whole, pt(e)))
+			mark_lab (pt(e));
+		break;
     }
     case case_tag: {
-      t = bro(son(e));
-      for (;;) {
-	if (!intnl_to (whole, pt(t)))
-	  mark_lab (pt(t));
-	if (last(t)) break;
-	t = bro(t);
-      }
-      break;
+		t = bro(son(e));
+		for (;;) {
+			if (!intnl_to (whole, pt(t)))
+				mark_lab (pt(t));
+			if (last(t)) break;
+			t = bro(t);
+		}
+		break;
     }
     case name_tag:
     case env_offset_tag:
     case general_env_offset_tag:
-      return;
-  }
-  t = son(e);
-  if (t) {
-    for (;;) {
-      trace_branch_aux (whole, t);
-      if (last(t) || name(e) == case_tag) break;
-      t = bro(t);
-    }
-  }
-  return;
+		return;
+	}
+	t = son(e);
+	if (t) {
+		for (;;) {
+			trace_branch_aux (whole, t);
+			if (last(t) || name(e) == case_tag) break;
+			t = bro(t);
+		}
+	}
+	return;
 }
 
-void trace_dw_branch_exits
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+trace_dw_branch_exits(exp e)
 {
-  lab_mark_list = nilexp;
-  trace_branch_aux (e, e);
-  while (lab_mark_list) {
-    exp holder = son(lab_mark_list);
-    clear_dg_labmark (lab_mark_list);
-    lab_mark_list = son(holder);
-    son(holder) = nilexp;
-    dw_entry (dwe_break, (long)0);
-    out32 (); out_code_label ((long)no(holder)); d_outnl ();
-  }
-  return;
+	lab_mark_list = nilexp;
+	trace_branch_aux (e, e);
+	while (lab_mark_list) {
+		exp holder = son(lab_mark_list);
+		clear_dg_labmark (lab_mark_list);
+		lab_mark_list = son(holder);
+		son(holder) = nilexp;
+		dw_entry (dwe_break, (long)0);
+		out32 (); out_code_label ((long)no(holder)); d_outnl ();
+	}
+	return;
 }
 
 
-int dw_loc_equivalence
-    PROTO_N ( (a, b) )
-    PROTO_T ( exp a X exp b )
+int
+dw_loc_equivalence(exp a, exp b)
 {
-  return (int)sim_exp (a, b);
+	return (int)sim_exp (a, b);
 }
 
 typedef struct
 {
-  dg_name	alloc;
-  void *	share_set;
-  dg_name	nm;
-  long		start;
-  long		end;
+	dg_name	alloc;
+	void *	share_set;
+	dg_name	nm;
+	long		start;
+	long		end;
 } dw_regdata;
 
 #define TRACKREGS 32
@@ -1249,103 +1470,98 @@ typedef struct
 static dw_regdata regassns [TRACKREGS];
 
 
-void dw_allocated
-    PROTO_N ( (nm, id) )
-    PROTO_T ( dg_name nm X exp id )
+void
+dw_allocated(dg_name nm, exp id)
 {
-  int reg = no(id), i;
-  exp x = son(nm->data.n_obj.obtain_val);
-  if (!isglob(id) && (props(id) & inreg_bits) && reg < TRACKREGS) {
-    dw_close_regassn (reg);
-    regassns[reg].alloc = nm;
-    regassns[reg].share_set = (void *)0;
-  }
-  for (i=0; i<TRACKREGS; i++) {
-    if (regexps[i].keptexp && 
-	(regexps[i].iscont ? (name(x) == cont_tag &&
-			sim_exp (son(x), regexps[i].keptexp))
-		      : sim_exp (x, regexps[i].keptexp) )) {
-      regassns[i].nm = nm;
-      regassns[i].start = set_dw_text_label ();
-      regassns[i].end = (long)0;
-      break;
-    }
-  }
-  return;
+	int reg = no(id), i;
+	exp x = son(nm->data.n_obj.obtain_val);
+	if (!isglob(id) && (props(id) & inreg_bits) && reg < TRACKREGS) {
+		dw_close_regassn (reg);
+		regassns[reg].alloc = nm;
+		regassns[reg].share_set = (void *)0;
+	}
+	for (i=0; i<TRACKREGS; i++) {
+		if (regexps[i].keptexp && 
+			(regexps[i].iscont ? (name(x) == cont_tag &&
+								  sim_exp (son(x), regexps[i].keptexp))
+			 : sim_exp (x, regexps[i].keptexp))) {
+			regassns[i].nm = nm;
+			regassns[i].start = set_dw_text_label ();
+			regassns[i].end = (long)0;
+			break;
+		}
+	}
+	return;
 }
 
-void dw_deallocated
-    PROTO_N ( (nm) )
-    PROTO_T ( dg_name nm )
+void
+dw_deallocated(dg_name nm)
 {
-  int i;
-  for (i=0; i<TRACKREGS; i++) {
-    if (regassns[i].alloc == nm) {
-      dw_close_regassn (i);
-      regassns[i].alloc = (dg_name)0;
-      regassns[i].share_set = (void *)0;
-    }
-  }
-  return;
+	int i;
+	for (i=0; i<TRACKREGS; i++) {
+		if (regassns[i].alloc == nm) {
+			dw_close_regassn (i);
+			regassns[i].alloc = (dg_name)0;
+			regassns[i].share_set = (void *)0;
+		}
+	}
+	return;
 }
 
-void dw_all_deallocated		/* initialisation */
-    PROTO_Z ()
+void dw_all_deallocated		/* initialisation
+							 */()
 {
-  int i;
-  for (i=0; i<TRACKREGS; i++) {
-    regassns[i].alloc = (dg_name)0;
-    regassns[i].share_set = (void *)0;
-    regassns[i].start = regassns[i].end = (long)0;
-  }
-  return;
+	int i;
+	for (i=0; i<TRACKREGS; i++) {
+		regassns[i].alloc = (dg_name)0;
+		regassns[i].share_set = (void *)0;
+		regassns[i].start = regassns[i].end = (long)0;
+	}
+	return;
 }
 
 
-void dw_init_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void
+dw_init_regassn(int reg)
 {
-  if (reg < TRACKREGS) {
-    dg_name nm = find_equiv_object (regexps[reg].keptexp,
-					regexps[reg].iscont);
-    if (nm) {
-      regassns[reg].nm = nm;
-      regassns[reg].start = set_dw_text_label ();
-      regassns[reg].end = (long)0;
-    }
-  }
-  return;
+	if (reg < TRACKREGS) {
+		dg_name nm = find_equiv_object (regexps[reg].keptexp,
+										regexps[reg].iscont);
+		if (nm) {
+			regassns[reg].nm = nm;
+			regassns[reg].start = set_dw_text_label ();
+			regassns[reg].end = (long)0;
+		}
+	}
+	return;
 }
 
-void dw_used_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void
+dw_used_regassn(int reg)
 {
-  if (reg < TRACKREGS && regassns[reg].start)
-    regassns[reg].end = set_dw_text_label ();
-  return;
+	if (reg < TRACKREGS && regassns[reg].start)
+		regassns[reg].end = set_dw_text_label ();
+	return;
 }
 
-void dw_close_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void
+dw_close_regassn(int reg)
 {
-  if (reg >= TRACKREGS)
-    return;
-  if (regassns[reg].end) {
-    if (!regassns[reg].share_set) {
-      regassns[reg].share_set = (void *)
-		dw_new_regshare (regassns[reg].alloc, reg);
-    }
-    dw_add_regshare (regassns[reg].share_set, regassns[reg].nm,
-			regassns[reg].start, regassns[reg].end);
-    regassns[reg].end = (long)0;
-    if (!regassns[reg].alloc)
-      regassns[reg].share_set = (void *)0;
-  }
-  regassns[reg].start = (long)0;
-  return;
+	if (reg >= TRACKREGS)
+		return;
+	if (regassns[reg].end) {
+		if (!regassns[reg].share_set) {
+			regassns[reg].share_set = (void *)
+				dw_new_regshare (regassns[reg].alloc, reg);
+		}
+		dw_add_regshare (regassns[reg].share_set, regassns[reg].nm,
+						 regassns[reg].start, regassns[reg].end);
+		regassns[reg].end = (long)0;
+		if (!regassns[reg].alloc)
+			regassns[reg].share_set = (void *)0;
+	}
+	regassns[reg].start = (long)0;
+	return;
 }
 
 

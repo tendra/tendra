@@ -1,43 +1,290 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /* 80x86/operand.c */
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:12  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:02  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.2  1998/02/18  11:22:05  pwe
  * test corrections
  *
@@ -83,14 +330,14 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1994/07/12  14:38:12  jmf
  * Initial revision
  *
-**********************************************************************/
+ **********************************************************************/
 
 
 /*********************************************************************
-                              operand.c
-
-  operand outputs a 80386 operand, given a "where" and the number of
-  bits the operand occupies.
+ *                              operand.c
+ *
+ *  operand outputs a 80386 operand, given a "where" and the number of
+ *  bits the operand occupies.
 
 
 
@@ -128,633 +375,628 @@ Initial version of TenDRA 4.1.2.
 
 int  crt_proc_id;	/* init by cproc */
 int  stack_dec;		/* init by cproc */
-			/* current stack decrement */
+/* current stack decrement */
 exp const_list;		/* init by init_all */
-			/* list of constants belonging to current
-				   procedure */
+/* list of constants belonging to current
+ *				   procedure */
 
 /* PROCEDURES */
 
 /* turns an exp and an offset (in bits)
-   into a where */
-where mw
-    PROTO_N ( (e, off) )
-    PROTO_T ( exp e X int off )
+ *   into a where */
+where
+mw(exp e, int off)
 {
-  where w;
-  w.where_exp = e;
-  w.where_off = off;
-  return (w);
+	where w;
+	w.where_exp = e;
+	w.where_off = off;
+	return (w);
 }
 
 /* compares wheres for equality of operand.
-   This is also used by equiv_reg to detect
-   invalidity of register copy, in which case
-   we need to detect overlaps, this case
-   determined by 'overlap' */
-int eq_where_exp
-    PROTO_N ( (a, b, first, overlap) )
-    PROTO_T ( exp a X exp b X int first X int overlap )
+ *   This is also used by equiv_reg to detect
+ *   invalidity of register copy, in which case
+ *   we need to detect overlaps, this case
+ *   determined by 'overlap' */
+int
+eq_where_exp(exp a, exp b, int first, int overlap)
 {
-  unsigned char  na;
-  unsigned char  nb;
-
-rept:
-  na = name(a);
-  nb = name(b);
-
-  if (a == b)
-    return (1);
-  if (na == nb) {		/* same kind of operation "equal names" */
-    if (na == val_tag && !isbigval(a) && !isbigval(b))
-      return (no (a) == no (b));
-    if (na == ident_tag) {
-      int good = son(a) != nilexp && son(b) != nilexp &&
-          bro(son(a)) != nilexp && bro(son(b)) != nilexp;
-      if (good) {
-        exp bsa = bro(son(a));
-        exp bsb = bro(son(b));
-        if (name (bsa) == name_tag && son (bsa) == a &&
-	    name (bsb) == name_tag && son (bsb) == b) {
-	  a = son(a);
-	  b = son(b);
-	  first = 0;
-	  goto rept;
-        };
-        if (name (bsa) == reff_tag &&
-	    name (bsb) == reff_tag &&
-	    (overlap ? (no (bsa) & -32) == (no (bsb) & -32) : no (bsa) == no (bsb)) &&
-	    name (son (bsa)) == name_tag &&
-	    son (son (bsa)) == a &&
-	    name (son (bsb)) == name_tag &&
-	    son (son (bsb)) == b) {
-	  a = son(a);
-	  b = son(b);
-	  first = 0;
-	  goto rept;
-        };
-      };
-      if (isglob(a) || isglob(b))
-        return 0;
-      return (pt (a) == pt (b) &&
-	      (overlap ? (no (a) & -32) == (no (b) & -32) : no (a) == no (b)));
-    };
-    if (na == name_tag) {
-      if ((overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b)) ||
-	  (isvar (son (a)) != isvar (son (b))))
+	unsigned char  na;
+	unsigned char  nb;
+	
+  rept:
+	na = name(a);
+	nb = name(b);
+	
+	if (a == b)
+		return (1);
+	if (na == nb) {		/* same kind of operation "equal names" */
+		if (na == val_tag && !isbigval(a) && !isbigval(b))
+			return (no (a) == no (b));
+		if (na == ident_tag) {
+			int good = son(a) != nilexp && son(b) != nilexp &&
+				bro(son(a)) != nilexp && bro(son(b)) != nilexp;
+			if (good) {
+				exp bsa = bro(son(a));
+				exp bsb = bro(son(b));
+				if (name (bsa) == name_tag && son (bsa) == a &&
+					name (bsb) == name_tag && son (bsb) == b) {
+					a = son(a);
+					b = son(b);
+					first = 0;
+					goto rept;
+				};
+				if (name (bsa) == reff_tag &&
+					name (bsb) == reff_tag &&
+					(overlap ? (no (bsa) & -32) == (no (bsb) & -32) : no (bsa) == no (bsb)) &&
+					name (son (bsa)) == name_tag &&
+					son (son (bsa)) == a &&
+					name (son (bsb)) == name_tag &&
+					son (son (bsb)) == b) {
+					a = son(a);
+					b = son(b);
+					first = 0;
+					goto rept;
+				};
+			};
+			if (isglob(a) || isglob(b))
+				return 0;
+			return (pt (a) == pt (b) &&
+					(overlap ? (no (a) & -32) == (no (b) & -32) : no (a) == no (b)));
+		};
+		if (na == name_tag) {
+			if ((overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b)) ||
+				(isvar (son (a)) != isvar (son (b))))
+				return (0);
+			a = son(a);
+			b = son(b);
+			first = 0;
+			goto rept;
+		};
+		if (na == cont_tag || na == ass_tag) {
+			a = son(a);
+			b = son(b);
+			first = 0;
+			goto rept;
+		};
+		if (na == field_tag || na == reff_tag) {
+			if (overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b))
+				return (0);
+			a = son(a);
+			b = son(b);
+			first = 0;
+			goto rept;
+		};
+		if (na == real_tag && name (sh (a)) == name (sh (b))) {
+			flt fa, fb;
+			int  i;
+			int is_zero = 1;
+			fa = flptnos[no (a)];
+			fb = flptnos[no (b)];
+			
+			for (i = 0; i < MANT_SIZE && (fa.mant)[i] == (fb.mant)[i];
+				 i++) {
+				if ((fa.mant)[i] != 0)
+					is_zero = 0;
+			};
+			
+			return (i == MANT_SIZE &&
+					(is_zero || (fa.exp == fb.exp &&
+								 fa.sign == fb.sign)));
+			
+		};
+		return (0);
+	};				/* end equal names */
+	
+	
+	if (na == name_tag && nb == ident_tag && first) {
+		if (overlap ? (no (a) & -32) != 0 : no (a) != 0)
+			return (0);
+		a = son(a);
+		first = 0;
+		goto rept;
+	};
+	if (na == ident_tag && nb == name_tag && first) {
+		if (overlap ? (no (b) & -32) != 0 : no (b) != 0)
+			return (0);
+		b = son(b);
+		first = 0;
+		goto rept;
+	};
+	
+	if (na == cont_tag && name(son(a)) == name_tag &&
+		isvar(son(son(a))) && nb == ident_tag && first) {
+		if (overlap ? (no (son(a)) & -32) != 0 : no (son(a)) != 0)
+			return (0);
+		a = son(son(a));
+		first = 0;
+		goto rept;
+	};
+	if (na == ident_tag && nb == cont_tag && name(son(b)) == name_tag
+		&& isvar(son(son(b))) && first) {
+		if (overlap ? (no (son(b)) & -32) != 0 : no (son(b)) != 0)
+			return (0);
+		b = son(b);
+		first = 0;
+		goto rept;
+	};
+	
+	if ((na == cont_tag || na == ass_tag) &&
+		name (son (a)) == name_tag &&
+		isvar (son (son (a))) && nb == name_tag && !isvar (son (b))) {
+		if (overlap ? (no (son(a)) & -32) != (no (b) & -32) : no (son(a)) != no (b))
+			return (0);
+		a = son (son (a));
+		b = son (b);
+		first = 0;
+		goto rept;
+	};
+	if ((nb == cont_tag || nb == ass_tag) &&
+		name (son (b)) == name_tag &&
+		isvar (son (son (b))) && na == name_tag && !isvar (son (a))) {
+		if (overlap ? (no (son(b)) & -32) != (no (a) & -32) : no (son(b)) != no (a))
+			return (0);
+		a = son (a);
+		b = son (son (b));
+		first = 0;
+		goto rept;
+	};
+	if ((na == ass_tag && nb == cont_tag) ||
+		(nb == ass_tag && na == cont_tag)) {
+		a = son(a);
+		b = son(b);
+		first = 0;
+		goto rept;
+	};
 	return (0);
-      a = son(a);
-      b = son(b);
-      first = 0;
-      goto rept;
-    };
-    if (na == cont_tag || na == ass_tag) {
-      a = son(a);
-      b = son(b);
-      first = 0;
-      goto rept;
-    };
-    if (na == field_tag || na == reff_tag) {
-      if (overlap ? (no (a) & -32) != (no (b) & -32) : no (a) != no (b))
-	return (0);
-      a = son(a);
-      b = son(b);
-      first = 0;
-      goto rept;
-    };
-    if (na == real_tag && name (sh (a)) == name (sh (b))) {
-      flt fa, fb;
-      int  i;
-      int is_zero = 1;
-      fa = flptnos[no (a)];
-      fb = flptnos[no (b)];
-
-      for (i = 0; i < MANT_SIZE && (fa.mant)[i] == (fb.mant)[i];
-	  i++) {
-	if ((fa.mant)[i] != 0)
-	  is_zero = 0;
-      };
-
-      return (i == MANT_SIZE &&
-	  (is_zero || (fa.exp == fb.exp &&
-	      fa.sign == fb.sign)));
-
-    };
-    return (0);
-  };				/* end equal names */
-
-
-  if (na == name_tag && nb == ident_tag && first) {
-    if (overlap ? (no (a) & -32) != 0 : no (a) != 0)
-      return (0);
-    a = son(a);
-    first = 0;
-    goto rept;
-  };
-  if (na == ident_tag && nb == name_tag && first) {
-    if (overlap ? (no (b) & -32) != 0 : no (b) != 0)
-      return (0);
-    b = son(b);
-    first = 0;
-    goto rept;
-  };
-
-  if (na == cont_tag && name(son(a)) == name_tag &&
-         isvar(son(son(a))) && nb == ident_tag && first) {
-    if (overlap ? (no (son(a)) & -32) != 0 : no (son(a)) != 0)
-      return (0);
-    a = son(son(a));
-    first = 0;
-    goto rept;
-  };
-  if (na == ident_tag && nb == cont_tag && name(son(b)) == name_tag
-            && isvar(son(son(b))) && first) {
-    if (overlap ? (no (son(b)) & -32) != 0 : no (son(b)) != 0)
-      return (0);
-    b = son(b);
-    first = 0;
-    goto rept;
-  };
-
-  if ((na == cont_tag || na == ass_tag) &&
-      name (son (a)) == name_tag &&
-      isvar (son (son (a))) && nb == name_tag && !isvar (son (b))) {
-    if (overlap ? (no (son(a)) & -32) != (no (b) & -32) : no (son(a)) != no (b))
-      return (0);
-    a = son (son (a));
-    b = son (b);
-    first = 0;
-    goto rept;
-  };
-  if ((nb == cont_tag || nb == ass_tag) &&
-      name (son (b)) == name_tag &&
-      isvar (son (son (b))) && na == name_tag && !isvar (son (a))) {
-    if (overlap ? (no (son(b)) & -32) != (no (a) & -32) : no (son(b)) != no (a))
-      return (0);
-    a = son (a);
-    b = son (son (b));
-    first = 0;
-    goto rept;
-  };
-  if ((na == ass_tag && nb == cont_tag) ||
-      (nb == ass_tag && na == cont_tag)) {
-    a = son(a);
-    b = son(b);
-    first = 0;
-    goto rept;
-  };
-  return (0);
 }
 
 /* compares wheres for equality of operand */
-int eq_where
-    PROTO_N ( (wa, wb) )
-    PROTO_T ( where wa X where wb )
+int
+eq_where(where wa, where wb)
 {
-  exp a = wa.where_exp;
-  exp b = wb.where_exp;
-  if (a == nilexp || b == nilexp)
-     return 0;
-  if (wa.where_off != wb.where_off)
-    return (0);
-  return eq_where_exp (a, b, 1, 0);
+	exp a = wa.where_exp;
+	exp b = wb.where_exp;
+	if (a == nilexp || b == nilexp)
+		return 0;
+	if (wa.where_off != wb.where_off)
+		return (0);
+	return eq_where_exp (a, b, 1, 0);
 }
 
 
 /* find the first register in the register bit pattern r */
-frr first_reg
-    PROTO_N ( (r) )
-    PROTO_T ( int r )
+frr
+first_reg(int r)
 {
-  frr t;
-  t.regno = 1;
-  t.fr_no = 0;
-  if (r == 0)
-    failer (BAD_REGISTER);
-  else {
-    while (!(t.regno & r)) {
-      t.regno = t.regno << 1;
-      ++t.fr_no;
-    }
-  };
-  return (t);
+	frr t;
+	t.regno = 1;
+	t.fr_no = 0;
+	if (r == 0)
+		failer (BAD_REGISTER);
+	else {
+		while (!(t.regno & r)) {
+			t.regno = t.regno << 1;
+			++t.fr_no;
+		}
+	};
+	return (t);
 }
 
 /* output operand,  wh is a where Note
-   that the pt field of a declaration now
-   hold a code for the position of the
-   value (eg. reg_pl for in a register,
-   local_pl for relative to sp etc.). The
-   no field hold the location, bit pattern
-   for register, offset (in bits) for
-   local etc. stack_dec hold the amount
-   the stack is decremented from its
-   position at the start of the procedure
-   (ie the place where no is measured
-   from). This is to allow for push
-   operations. b is passed to extn to
-   control whether a bracket is output
-   (index instructions). addr is true if
-   we need a literal address. */
-void operand
-    PROTO_N ( (le, wh, b, addr) )
-    PROTO_T ( int le X where wh X int b X int addr )
+ *   that the pt field of a declaration now
+ *   hold a code for the position of the
+ *   value (eg. reg_pl for in a register,
+ *   local_pl for relative to sp etc.). The
+ *   no field hold the location, bit pattern
+ *   for register, offset (in bits) for
+ *   local etc. stack_dec hold the amount
+ *   the stack is decremented from its
+ *   position at the start of the procedure
+ *   (ie the place where no is measured
+ *   from). This is to allow for push
+ *   operations. b is passed to extn to
+ *   control whether a bracket is output
+ *   (index instructions). addr is true if
+ *   we need a literal address. */
+void
+operand(int le, where wh, int b, int addr)
 {
-  exp w = wh.where_exp;
-  int  off = wh.where_off;
-  unsigned char  n = name (w);
-
-  if (n == val_tag && !isbigval(w)) {		/* integer constant */
-    int  k = no (w) + off;
-    if (name(sh(w)) == offsethd && al2(sh(w)) != 1)
-      k = k / 8;
-    int_operand (k, le);
-    return;
-  };
-
-  if (n == ident_tag || n == labst_tag) {/* can only be dest */
-    switch (ptno (w)) {
-      case local_pl: {
-	  rel_sp ((no (w) + off - stack_dec) / 8, b);
-	  return;
+	exp w = wh.where_exp;
+	int  off = wh.where_off;
+	unsigned char  n = name (w);
+	
+	if (n == val_tag && !isbigval(w)) {		/* integer constant */
+		int  k = no (w) + off;
+		if (name(sh(w)) == offsethd && al2(sh(w)) != 1)
+			k = k / 8;
+		int_operand (k, le);
+		return;
 	};
-      case reg_pl: {
-	  regn (no (w), off, w, le);
-	  return;
+	
+	if (n == ident_tag || n == labst_tag) {/* can only be dest */
+		switch (ptno (w)) {
+		case local_pl: {
+			rel_sp ((no (w) + off - stack_dec) / 8, b);
+			return;
+		};
+		case reg_pl: {
+			regn (no (w), off, w, le);
+			return;
+		};
+		default: {
+			failer (BAD_OPND);
+			return;
+		};
+		};
 	};
-      default: {
-	  failer (BAD_OPND);
-	  return;
+	
+	if (n == name_tag) {
+		exp ident = son (w);
+		int  noff = no (w) + off;
+		int  ni = no (ident);
+		
+		if (isglob (ident)) {
+			if (name (sh (w)) == prokhd)	/* special treatment for procedures */
+			{
+				const_extn (ident, noff);
+				return;
+			};
+			
+			if (isvar (ident))
+				const_extn (ident, noff);
+			else
+				extn (ident, noff, b);
+			return;
+		};
+		
+		switch (ptno (ident)) {
+		case local_pl: {		/* local so relative to stack pointer or fp */
+			rel_sp ((ni + noff - stack_dec) / 8, b);
+			return;
+		};
+		case callstack_pl: {	/* caller arg so relative to stack pointer */
+			rel_cp ((ni + noff - stack_dec) / 8, b);
+			return;
+		};
+		case par_pl: {		/* parameter so relative to fp */
+			rel_ap ((ni + noff + 32) / 8, b);
+			return;
+		};
+		case reg_pl: {		/* in a register */
+			regn (ni, noff, w, le);
+			return;
+		};
+		case ferr_pl: {		/* relative to fp, depending on push space */
+			rel_ap1 ((ni + noff) / 8, b);
+			return;
+		};
+		default: {		/* doesnt happen */
+			failer (BAD_OPND);
+			return;
+		};
+		};
 	};
-    };
-  };
-
-  if (n == name_tag) {
-    exp ident = son (w);
-    int  noff = no (w) + off;
-    int  ni = no (ident);
-
-    if (isglob (ident)) {
-      if (name (sh (w)) == prokhd)	/* special treatment for procedures */
-        {
-          const_extn (ident, noff);
-          return;
-        };
-
-      if (isvar (ident))
-	const_extn (ident, noff);
-      else
-	extn (ident, noff, b);
-      return;
-    };
-
-    switch (ptno (ident)) {
-      case local_pl: {		/* local so relative to stack pointer or fp */
-	  rel_sp ((ni + noff - stack_dec) / 8, b);
-	  return;
+	
+	if (n == cont_tag || n == ass_tag) {
+		exp ref = son (w);
+		unsigned char  s = name (ref);
+		if (addr) {
+			operand (le, mw (son (w), 0), b, 0);
+			return;
+		};
+		if (s == name_tag) {	/* content of id */
+			if (!isvar (son (ref))) {
+				exp ident = son (ref);
+				if (ptno (ident) != reg_pl && off != 0) {
+					failer (BAD_OPND);
+				};
+				if (isglob (ident)) {
+					if (name (sh (w)) != prokhd)
+						failer (BAD_OPND);
+					else
+					{
+						if (PIC_code)
+							proc_extn (ident, no(ref));
+						else
+							extn (ident, no (ref), b);
+					};
+					return;
+				};
+				switch (ptno (ident)) {
+				case reg_pl: {	/* indirect from register */
+					ind_reg (no (ident), no (ref), off, ref, b);
+					return;
+				};
+				default: {
+					failer (BAD_OPND);
+					return;
+				};
+				};
+			}
+			else {			/* variable */
+				
+				exp ident = son (ref);
+				int  noff = no (ref) + off;
+				int  ni = no (ident);
+				
+				if (isglob (ident)) {
+					extn (ident, noff, b);
+					return;
+				};
+				switch (ptno (ident)) {
+				case local_pl: {
+					/* local so relative to stack pointer or fp */
+					rel_sp ((ni + noff - stack_dec) / 8, b);
+					return;
+				};
+				case callstack_pl: {
+					/* caller arg so relative to stack pointer */
+					rel_cp ((ni + noff - stack_dec) / 8, b);
+					return;
+				};
+				case par_pl: {	/* parameter so relative to fp */
+					rel_ap ((ni + noff + 32) / 8, b);
+					return;
+				};
+				case reg_pl: {	/* in a register */
+					regn (ni, noff, ref, le);
+					return;
+				};
+				default: {		/* doesnt happen */
+					failer (BAD_OPND);
+					return;
+				};
+				};
+			};
+		};				/* end of cont(name) */
+		
+		if (s == cont_tag && name (son (ref)) == name_tag &&
+			isvar (son (son (ref)))) {
+			exp ident = son (son (ref));
+			if (ptno (ident) != reg_pl && off != 0) {
+				failer (BAD_OPND);
+			};
+			if (isglob (ident)) {
+				if (name (sh (w)) != prokhd)
+					failer (BAD_OPND);
+				else
+					extn (ident, no (son (ref)), b);
+				return;
+			};
+			switch (ptno (ident)) {
+			case reg_pl: {		/* indirect from register */
+				ind_reg (no (ident), no (son (ref)), off, ref, b);
+				return;
+			};
+			default: {
+				failer (BAD_OPND);
+				return;
+			};
+			};
+		};				/* end of cont(cont(var)) */
+		
+		
+		if (s == reff_tag) {
+			exp et = son (ref);
+			unsigned char  t = name (et);
+			if (t == name_tag) {
+				if (isglob (son (et))) {
+					extn (son (et), no (ref), b);
+					return;
+				};
+				switch (ptno (son (et))) {
+				case reg_pl: {
+					ind_reg (no (son (et)), no (et), (no (ref) + off), et, b);
+					return;
+				};
+				default: {
+					failer (BAD_OPND);
+					return;
+				};
+				};
+			};			/* end of cont(reff(name)) */
+			
+			if (t == cont_tag) {
+				switch (ptno (son (son (et)))) {
+				case reg_pl: {
+					ind_reg (no (son (son (et))), no (son (et)),
+							 (no (ref) + off), son (et), b);
+					return;
+				};
+				default: {
+					failer (BAD_OPND);
+					return;
+				};
+				};
+			};			/* end of cont(ref(cont())) */
+			
+			if (t == addptr_tag) {
+				where new_w;
+				new_w.where_exp = et;
+				new_w.where_off = off + no (ref);
+				operand (le, new_w, b, 0);
+				return;
+			};			/* end of cont(reff(addptr())) */
+			failer (BAD_OPND);
+		};				/* end of cont(reff()) */
+		
+		if (s == addptr_tag) {
+			exp u = bro (son (ref));
+			exp c = getexp (f_bottom, nilexp, 0, son (ref), nilexp,
+							0, 0, cont_tag);
+			where wc, wu;
+			wc.where_exp = c;
+			wc.where_off = off;
+			wu.where_exp = u;
+			wu.where_off = 0;
+			if (name (u) == name_tag || name (u) == cont_tag) {
+				index_opnd (wc, wu, 1);
+				return;
+			};			/* end of cont(addptr(-, name)) */
+			
+			if (name (u) == offset_mult_tag) {
+				int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
+				wu.where_exp = son (u);
+				index_opnd (wc, wu, k);
+				return;
+			};			/* end of cont(addptr(-, mult)) */
+		};				/* end of cont(addptr()) */
+		
+		
+	};				/* end of cont */
+	
+	
+	if (n == reff_tag) {
+		exp se = son (w);
+		unsigned char  s = name (se);
+		if (s == name_tag) {
+			if (isglob (son (se))) {
+				extn (son (se), no (w), b);
+				return;
+			};
+			switch (ptno (son (se))) {
+			case reg_pl: {
+				ind_reg (no (son (se)), no (son (se)), no (w), se, b);
+				return;
+			};
+			default: {
+				failer (BAD_OPND);
+				return;
+			};
+			};
+		};				/* end of reff(name)  */
+		
+		if (s == cont_tag) {
+			if (isglob (son (son (se)))) {
+				extn (son (son (se)), no (w), b);
+				return;
+			};
+			switch (ptno (son (son (se)))) {
+			case reg_pl: {
+				ind_reg (no (son (son (se))), no (son (se)),
+						 no (w), son (se), b);
+				return;
+			};
+			default: {
+				failer (BAD_OPND);
+				return;
+			};
+			};
+		};				/* end of reff(cont()) */
+		
+		if (s == addptr_tag) {
+			where ww;
+			ww.where_exp = se;
+			ww.where_off = off + no (w);
+			operand (le, ww, b, 0);
+			return;
+		};				/* end of reff(addptr()) */
+	};				/* end of reff() */
+	
+	if (n == addptr_tag) {
+		exp u = bro (son (w));
+		exp c = getexp (f_bottom, nilexp, 0, son (w), nilexp, 0, 0, cont_tag);
+		where wc, wu;
+		wc.where_exp = c;
+		wc.where_off = off;
+		wu.where_exp = u;
+		wu.where_off = 0;
+		if (name (u) == name_tag || name (u) == cont_tag) {
+			index_opnd (wc, wu, 1);
+			return;
+		};				/* end of addptr(-, name)  */
+		
+		if (name (u) == offset_mult_tag) {
+			int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
+			wu.where_exp = son (u);
+			index_opnd (wc, wu, k);
+			return;
+		};				/* end of addptr(-, mult) */
+	};				/* end of addptr() */
+	
+	if (n == real_tag || n == val_tag || n == string_tag ||
+		n == proc_tag || n == general_proc_tag) {
+		int  ln;
+		if (off == 0 || addr) {
+			ln = next_lab ();
+			const_list = getexp (f_bottom, const_list, 0, w, nilexp, 0, ln, 0);
+			const_intnl ((addr || n == proc_tag || n == general_proc_tag), ln, 0);
+			return;
+		};
+		/* assumes this is only used just after using the first part of the
+		 *       constant */
+		const_intnl (0, no (const_list), off);
+		return;
 	};
-      case callstack_pl: {	/* caller arg so relative to stack pointer */
-	  rel_cp ((ni + noff - stack_dec) / 8, b);
-	  return;
+	
+	if (n == res_tag) {
+		const_intnl (0, no (w), off);
+		return;
 	};
-      case par_pl: {		/* parameter so relative to fp */
-	  rel_ap ((ni + noff + 32) / 8, b);
-	  return;
+	
+	if (n == null_tag) {
+		int_operand (no(w), le);
+		return;
 	};
-      case reg_pl: {		/* in a register */
-	  regn (ni, noff, w, le);
-	  return;
+	
+	if (n == field_tag) {
+		operand (le, mw (son (w), off + no (w)), b, addr);
+		return;
 	};
-      case ferr_pl: {		/* relative to fp, depending on push space */
-	  rel_ap1 ((ni + noff) / 8, b);
-	  return;
+	
+	if (n == make_lv_tag) {
+		label_operand(w);
+		return;
 	};
-      default: {		/* doesnt happen */
-	  failer (BAD_OPND);
-	  return;
+	
+	if (n == current_env_tag) {
+		outbp();
+		return;
 	};
-    };
-  };
-
-  if (n == cont_tag || n == ass_tag) {
-    exp ref = son (w);
-    unsigned char  s = name (ref);
-    if (addr) {
-      operand (le, mw (son (w), 0), b, 0);
-      return;
-    };
-    if (s == name_tag) {	/* content of id */
-      if (!isvar (son (ref))) {
-	exp ident = son (ref);
-	if (ptno (ident) != reg_pl && off != 0) {
-	  failer (BAD_OPND);
+	
+	if (n == env_offset_tag) {
+		if (name(son(w))==0) {	/* must be caller arg with var_callees */
+			int_operand(no(son(w))/8, le);
+			return;
+		}
+		outs("$");
+		envoff_operand(son(w), no(w));
+		return;
 	};
-	if (isglob (ident)) {
-	  if (name (sh (w)) != prokhd)
-	    failer (BAD_OPND);
-	  else
-           {
-	     if (PIC_code)
-	       proc_extn (ident, no(ref));
-             else
-               extn (ident, no (ref), b);
-           };
-	  return;
+	
+	if (n == env_size_tag) {
+		outs("$");
+		envsize_operand(son(son(w)));
+		return;
 	};
-	switch (ptno (ident)) {
-	  case reg_pl: {	/* indirect from register */
-	      ind_reg (no (ident), no (ref), off, ref, b);
-	      return;
-	    };
-	  default: {
-	      failer (BAD_OPND);
-	      return;
-	    };
+	
+	if (n == local_free_all_tag) {
+		ldisp();
+		return;
 	};
-      }
-      else {			/* variable */
-
-	exp ident = son (ref);
-	int  noff = no (ref) + off;
-	int  ni = no (ident);
-
-	if (isglob (ident)) {
-	  extn (ident, noff, b);
-	  return;
+	
+	if (n == clear_tag) {
+		/* any legal operand will do! */
+		if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
+			outs("%st");
+			return;
+		}
+		switch (shape_size(sh(w))) {
+		case 8:
+			outs("%al");
+			return;
+		case 16:
+			outs("%ax");
+			return;
+		default:
+			outs("%eax");
+			return;
+		};
 	};
-	switch (ptno (ident)) {
-	  case local_pl: {
-	      /* local so relative to stack pointer or fp */
-	      rel_sp ((ni + noff - stack_dec) / 8, b);
-	      return;
-	    };
-	  case callstack_pl: {
-	      /* caller arg so relative to stack pointer */
-	      rel_cp ((ni + noff - stack_dec) / 8, b);
-	      return;
-	    };
-	  case par_pl: {	/* parameter so relative to fp */
-	      rel_ap ((ni + noff + 32) / 8, b);
-	      return;
-	    };
-	  case reg_pl: {	/* in a register */
-	      regn (ni, noff, ref, le);
-	      return;
-	    };
-	  default: {		/* doesnt happen */
-	      failer (BAD_OPND);
-	      return;
-	    };
-	};
-      };
-    };				/* end of cont(name) */
-
-    if (s == cont_tag && name (son (ref)) == name_tag &&
-	isvar (son (son (ref)))) {
-      exp ident = son (son (ref));
-      if (ptno (ident) != reg_pl && off != 0) {
+	
 	failer (BAD_OPND);
-      };
-      if (isglob (ident)) {
-	if (name (sh (w)) != prokhd)
-	  failer (BAD_OPND);
-	else
-	  extn (ident, no (son (ref)), b);
+	
 	return;
-      };
-      switch (ptno (ident)) {
-	case reg_pl: {		/* indirect from register */
-	    ind_reg (no (ident), no (son (ref)), off, ref, b);
-	    return;
-	  };
-	default: {
-	    failer (BAD_OPND);
-	    return;
-	  };
-      };
-    };				/* end of cont(cont(var)) */
-
-
-    if (s == reff_tag) {
-      exp et = son (ref);
-      unsigned char  t = name (et);
-      if (t == name_tag) {
-	if (isglob (son (et))) {
-	  extn (son (et), no (ref), b);
-	  return;
-	};
-	switch (ptno (son (et))) {
-	  case reg_pl: {
-	      ind_reg (no (son (et)), no (et), (no (ref) + off), et, b);
-	      return;
-	    };
-	  default: {
-	      failer (BAD_OPND);
-	      return;
-	    };
-	};
-      };			/* end of cont(reff(name)) */
-
-      if (t == cont_tag) {
-	switch (ptno (son (son (et)))) {
-	  case reg_pl: {
-	      ind_reg (no (son (son (et))), no (son (et)),
-		  (no (ref) + off), son (et), b);
-	      return;
-	    };
-	  default: {
-	      failer (BAD_OPND);
-	      return;
-	    };
-	};
-      };			/* end of cont(ref(cont())) */
-
-      if (t == addptr_tag) {
-	where new_w;
-	new_w.where_exp = et;
-	new_w.where_off = off + no (ref);
-	operand (le, new_w, b, 0);
-	return;
-      };			/* end of cont(reff(addptr())) */
-      failer (BAD_OPND);
-    };				/* end of cont(reff()) */
-
-    if (s == addptr_tag) {
-      exp u = bro (son (ref));
-      exp c = getexp (f_bottom, nilexp, 0, son (ref), nilexp,
-	  0, 0, cont_tag);
-      where wc, wu;
-      wc.where_exp = c;
-      wc.where_off = off;
-      wu.where_exp = u;
-      wu.where_off = 0;
-      if (name (u) == name_tag || name (u) == cont_tag) {
-	index_opnd (wc, wu, 1);
-	return;
-      };			/* end of cont(addptr(-, name)) */
-
-      if (name (u) == offset_mult_tag) {
-	int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
-	wu.where_exp = son (u);
-	index_opnd (wc, wu, k);
-	return;
-      };			/* end of cont(addptr(-, mult)) */
-    };				/* end of cont(addptr()) */
-
-
-  };				/* end of cont */
-
-
-  if (n == reff_tag) {
-    exp se = son (w);
-    unsigned char  s = name (se);
-    if (s == name_tag) {
-      if (isglob (son (se))) {
-	extn (son (se), no (w), b);
-	return;
-      };
-      switch (ptno (son (se))) {
-	case reg_pl: {
-	    ind_reg (no (son (se)), no (son (se)), no (w), se, b);
-	    return;
-	  };
-	default: {
-	    failer (BAD_OPND);
-	    return;
-	  };
-      };
-    };				/* end of reff(name)  */
-
-    if (s == cont_tag) {
-      if (isglob (son (son (se)))) {
-	extn (son (son (se)), no (w), b);
-	return;
-      };
-      switch (ptno (son (son (se)))) {
-	case reg_pl: {
-	    ind_reg (no (son (son (se))), no (son (se)),
-		no (w), son (se), b);
-	    return;
-	  };
-	default: {
-	    failer (BAD_OPND);
-	    return;
-	  };
-      };
-    };				/* end of reff(cont()) */
-
-    if (s == addptr_tag) {
-      where ww;
-      ww.where_exp = se;
-      ww.where_off = off + no (w);
-      operand (le, ww, b, 0);
-      return;
-    };				/* end of reff(addptr()) */
-  };				/* end of reff() */
-
-  if (n == addptr_tag) {
-    exp u = bro (son (w));
-    exp c = getexp (f_bottom, nilexp, 0, son (w), nilexp, 0, 0, cont_tag);
-    where wc, wu;
-    wc.where_exp = c;
-    wc.where_off = off;
-    wu.where_exp = u;
-    wu.where_off = 0;
-    if (name (u) == name_tag || name (u) == cont_tag) {
-      index_opnd (wc, wu, 1);
-      return;
-    };				/* end of addptr(-, name)  */
-
-    if (name (u) == offset_mult_tag) {
-      int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
-      wu.where_exp = son (u);
-      index_opnd (wc, wu, k);
-      return;
-    };				/* end of addptr(-, mult) */
-  };				/* end of addptr() */
-
-  if (n == real_tag || n == val_tag || n == string_tag ||
-	n == proc_tag || n == general_proc_tag) {
-    int  ln;
-    if (off == 0 || addr) {
-      ln = next_lab ();
-      const_list = getexp (f_bottom, const_list, 0, w, nilexp, 0, ln, 0);
-      const_intnl ((addr || n == proc_tag || n == general_proc_tag), ln, 0);
-      return;
-    };
-    /* assumes this is only used just after using the first part of the
-       constant */
-    const_intnl (0, no (const_list), off);
-    return;
-  };
-
-  if (n == res_tag) {
-    const_intnl (0, no (w), off);
-    return;
-  };
-
-  if (n == null_tag) {
-    int_operand (no(w), le);
-    return;
-  };
-
-  if (n == field_tag) {
-    operand (le, mw (son (w), off + no (w)), b, addr);
-    return;
-  };
-
-  if (n == make_lv_tag) {
-    label_operand(w);
-    return;
-  };
-
-  if (n == current_env_tag) {
-    outbp();
-    return;
-  };
-
-  if (n == env_offset_tag) {
-    if (name(son(w))==0) {	/* must be caller arg with var_callees */
-      int_operand(no(son(w))/8, le);
-      return;
-    }
-    outs("$");
-    envoff_operand(son(w), no(w));
-    return;
-  };
-
-  if (n == env_size_tag) {
-    outs("$");
-    envsize_operand(son(son(w)));
-    return;
-  };
-
-  if (n == local_free_all_tag) {
-    ldisp();
-    return;
-  };
-
-  if (n == clear_tag) {
-	/* any legal operand will do! */
-    if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
-      outs("%st");
-      return;
-    }
-    switch (shape_size(sh(w))) {
-      case 8:
-	outs("%al");
-	return;
-      case 16:
-	outs("%ax");
-	return;
-      default:
-	outs("%eax");
-	return;
-    };
-  };
-
-  failer (BAD_OPND);
-
-  return;
 }
 

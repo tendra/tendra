@@ -1,38 +1,285 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-	(1) Its Recipients shall ensure that this Notice is
-	reproduced upon any copies or amended versions of it;
-    
-	(2) Any amended version of it shall be clearly marked to
-	show both the nature of and the organisation responsible
-	for the relevant amendment or amendments;
-    
-	(3) Its onward transfer from a recipient to another
-	party shall be deemed to be that party's acceptance of
-	these conditions;
-    
-	(4) DERA gives no warranty or assurance as to its
-	quality or suitability for any purpose and DERA accepts
-	no liability whatsoever in relation to any use to which
-	it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *	(1) Its Recipients shall ensure that this Notice is
+ *	reproduced upon any copies or amended versions of it;
+ *    
+ *	(2) Any amended version of it shall be clearly marked to
+ *	show both the nature of and the organisation responsible
+ *	for the relevant amendment or amendments;
+ *    
+ *	(3) Its onward transfer from a recipient to another
+ *	party shall be deemed to be that party's acceptance of
+ *	these conditions;
+ *    
+ *	(4) DERA gives no warranty or assurance as to its
+ *	quality or suitability for any purpose and DERA accepts
+ *	no liability whatsoever in relation to any use to which
+ *	it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*
-$Log$
-Revision 1.1  2002/01/26 21:31:21  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:07  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:56:03  release
  * First version to be checked into rolling release.
  *
@@ -134,7 +381,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  95/01/11  13:14:24  13:14:24  wfs (William Simmonds)
  * Initial revision
  * 
-*/
+ */
 
 
 #define HPPATRANS_CODE
@@ -156,7 +403,7 @@ Initial version of TenDRA 4.1.2.
 #include "frames.h"
 #include "oprators.h"
 
-#define isdbl(e) ( ( bool ) ( name ( e ) != shrealhd ) )
+#define isdbl(e) ((bool) (name (e) != shrealhd))
 
 
 #if use_long_double
@@ -173,59 +420,57 @@ Initial version of TenDRA 4.1.2.
 #include "inst_fmt.h"
 #endif
 
-extern long trap_label PROTO_S ((exp));
-extern void trap_handler PROTO_S ((baseoff,int,int));
-extern baseoff zero_exception_register PROTO_S ((space));
+extern long trap_label(exp);
+extern void trap_handler(baseoff,int,int);
+extern baseoff zero_exception_register(space);
 extern labexp current,first;
 
 
 int long_double_0 = 0;
 
 /* corrects possible overflows of chars and shorts in reg r */
-void tidyshort 
-    PROTO_N ( ( r, s ) )
-    PROTO_T ( int r X shape s )
+void
+tidyshort(int r, shape s)
 {
-  if (name(s) == ucharhd)
-     riir_ins(i_dep,c_,0,23,24,r);
-  else if (name(s) == uwordhd)
-     riir_ins(i_dep,c_,0,15,16,r);
+	if (name(s) == ucharhd)
+		riir_ins(i_dep,c_,0,23,24,r);
+	else if (name(s) == uwordhd)
+		riir_ins(i_dep,c_,0,15,16,r);
 }
 
 
- /*
-  * given a list of expressions seq which contains one whose value is in
-  * register reg, removes that exp from seq and delivers 1; otherwise delivers
-  * 0
-  */
-bool regremoved 
-    PROTO_N ( ( seq, reg ) )
-    PROTO_T ( exp * seq X int reg )
+/*
+ * given a list of expressions seq which contains one whose value is in
+ * register reg, removes that exp from seq and delivers 1; otherwise delivers
+ * 0
+ */
+bool
+regremoved(exp * seq, int reg)
 {
-  exp s = *seq;
-  exp t = bro(s);
-
-  if (ABS_OF(regofval(s)) == reg)
-  {
-    (*seq) = t;
-    return 1;
-  }
-  for (;;)
-  {
-    if (ABS_OF(regofval(t)) == reg)
-    {
-      bro(s) = bro(t);
-      if (last(t))
-	setlast(s);
-      return 1;
-    }
-    if (last(t))
-    {
-      return 0;
-    }
-    s = t;
-    t = bro(t);
-  }
+	exp s = *seq;
+	exp t = bro(s);
+	
+	if (ABS_OF(regofval(s)) == reg)
+	{
+		(*seq) = t;
+		return 1;
+	}
+	for (;;)
+	{
+		if (ABS_OF(regofval(t)) == reg)
+		{
+			bro(s) = bro(t);
+			if (last(t))
+				setlast(s);
+			return 1;
+		}
+		if (last(t))
+		{
+			return 0;
+		}
+		s = t;
+		t = bro(t);
+	}
 }
 
 
@@ -233,909 +478,900 @@ bool regremoved
 /*
  *   logical operation, lop, with operands immediate, i, and register, r
  */
-void logical_op
-    PROTO_N ( (lop,i,r,d) )
-    PROTO_T ( CONST char *lop X long i X int r X int d )
+void
+logical_op(CONST char *lop, long i, int r,
+		   int d)
 {
-   int t;
-   if (r==d)
-      t=GR1; 
-   else
-      t=d;
-   if (lop==i_and && i==-1)
-   {
-      if (r!=d)
-	 rr_ins(i_copy,r,d);
-      return;
-   }
-   else if ( lop==i_and && IS_POW2((i+1)))
-   {
-      int p=0;
-      while ( i & (1<<p) ) p++;
-      if (r==d)
-	 iiir_ins(i_depi,c_,0,31-p,32-p,d);
-      else
-	 riir_ins(i_extru,c_,r,31,p,d);
-      return;
-   }
-   else if ( lop==i_and && IS_POW2((-i)) )
-   {
-      int p=0;
-      while ( (i & (1<<p))==0 ) p++;
-      if (r!=d)
-	 rr_ins(i_copy,r,d);
-      iiir_ins(i_depi,c_,0,31,p,d);
-      return;
-   }
-   else if ( lop==i_or )
-   {
-      if (r==0)
-      {
-	 imm_to_r(i,d);
-	 return;
-      }
-      else 
-      if (i==-1)
-      {
-	 ir_ins(i_ldi,fs_,"",-1,d);
-	 return;
-      }
-      else
-      {
-	 int j=0;
-	 unsigned int p=i;
-	 while ( (p & (1<<j))==0 ) j++;
-	 p=p>>j;
-	 if (((p+1)&p)==0)
-	 {
-	    int k=0;
-	    while ( p & (1<<k) ) k++;
-	    if (r!=d)
-	       rr_ins(i_copy,r,d);
-	    iiir_ins(i_depi,c_,-1,31-j,k,d);
-	    return;
-	 }
-      }
-   }
-   if (SIMM14(i))
-   {
-      ir_ins(i_ldi,fs_,"",i,t);
-      rrr_ins(lop,c_,r,t,d);
-   }
-   else
-   if (SIMM14(~i) && lop==i_and)
-   {
-      ir_ins(i_ldi,fs_,"",~i,t);
-      rrr_ins(i_andcm,c_,r,t,d);
-   }
-   else
-   if ( ((i&(i+1))==0) && lop==i_and)
-   {
-       unsigned long ui = i;
-       int nbits=0;
-       while (ui != 0)
-       {
-	 nbits++;
-	 ui=ui>>1;
-       }
-       riir_ins(i_zdep,c_,r,31,nbits,d);
-   }
-   else
-   {
-      imm_to_r(i,t);
-      rrr_ins(lop,c_,r,t,d);
-   }
+	int t;
+	if (r==d)
+		t=GR1; 
+	else
+		t=d;
+	if (lop==i_and && i==-1)
+	{
+		if (r!=d)
+			rr_ins(i_copy,r,d);
+		return;
+	}
+	else if (lop==i_and && IS_POW2((i+1)))
+	{
+		int p=0;
+		while (i & (1<<p)) p++;
+		if (r==d)
+			iiir_ins(i_depi,c_,0,31-p,32-p,d);
+		else
+			riir_ins(i_extru,c_,r,31,p,d);
+		return;
+	}
+	else if (lop==i_and && IS_POW2((-i)))
+	{
+		int p=0;
+		while ((i & (1<<p))==0) p++;
+		if (r!=d)
+			rr_ins(i_copy,r,d);
+		iiir_ins(i_depi,c_,0,31,p,d);
+		return;
+	}
+	else if (lop==i_or)
+	{
+		if (r==0)
+		{
+			imm_to_r(i,d);
+			return;
+		}
+		else 
+			if (i==-1)
+			{
+				ir_ins(i_ldi,fs_,"",-1,d);
+				return;
+			}
+			else
+			{
+				int j=0;
+				unsigned int p=i;
+				while ((p & (1<<j))==0) j++;
+				p=p>>j;
+				if (((p+1)&p)==0)
+				{
+					int k=0;
+					while (p & (1<<k)) k++;
+					if (r!=d)
+						rr_ins(i_copy,r,d);
+					iiir_ins(i_depi,c_,-1,31-j,k,d);
+					return;
+				}
+			}
+	}
+	if (SIMM14(i))
+	{
+		ir_ins(i_ldi,fs_,"",i,t);
+		rrr_ins(lop,c_,r,t,d);
+	}
+	else
+		if (SIMM14(~i) && lop==i_and)
+		{
+			ir_ins(i_ldi,fs_,"",~i,t);
+			rrr_ins(i_andcm,c_,r,t,d);
+		}
+		else
+			if (((i&(i+1))==0) && lop==i_and)
+			{
+				unsigned long ui = i;
+				int nbits=0;
+				while (ui != 0)
+				{
+					nbits++;
+					ui=ui>>1;
+				}
+				riir_ins(i_zdep,c_,r,31,nbits,d);
+			}
+			else
+			{
+				imm_to_r(i,t);
+				rrr_ins(lop,c_,r,t,d);
+			}
 }
 
 
 
- /*
-  * evaluates the fixed operation seq1 rins seq 2 rins...., into reg final,
-  * using sp as free t-regs
-  */
-void do_comm 
-    PROTO_N ( ( seq, sp, final, rins ) )
-    PROTO_T ( exp seq X space sp X int final X ins_p rins )
+/*
+ * evaluates the fixed operation seq1 rins seq 2 rins...., into reg final,
+ * using sp as free t-regs
+ */
+void
+do_comm(exp seq, space sp, int final, ins_p rins)
 {
-  int r = 0;
-  space nsp;
-  int a1;
-  int a2;
-  exp next = bro(seq);
-
-  if ( name(seq)==not_tag &&
-       last(next) &&
-       rins==i_and &&
-       name(next)!=val_tag )
-  {
-     a1=reg_operand(son(seq), sp);
-     nsp = guardreg(a1, sp);
-     a2=reg_operand(next, nsp);
-     rrr_ins(i_andcm,c_,a2,a1,final);
-     return;
-  }
-
-  if ( name(next)==not_tag &&
-      last(next) && 
-      rins==i_and &&
-      name(seq)!=val_tag )
-  {
-     a1=reg_operand(seq, sp);
-     nsp = guardreg(a1, sp);
-     a2=reg_operand(son(next), nsp);
-     rrr_ins(i_andcm,c_,a1,a2,final);
-     return;
-  }
-
-  if ( name(next)==val_tag &&
-       last(next) &&
-       rins==i_and &&
-       name(seq)==shr_tag )
-  {
-     exp shift=bro(son(seq));
-     if (name(shift)==val_tag)
-     { 
-	int n,s;
-	n=no(next);
-	s=no(shift);
-	if ( IS_POW2((n+1)) )
+	int r = 0;
+	space nsp;
+	int a1;
+	int a2;
+	exp next = bro(seq);
+	
+	if (name(seq)==not_tag &&
+		last(next) &&
+		rins==i_and &&
+		name(next)!=val_tag)
 	{
-	   int p=0;
-	   a1=reg_operand(son(seq), sp);
-	   while ( n & (1<<p) ) p++;
-	   if ( p > (32-s) )
-	      p = 32-s;
-	   riir_ins(i_extru,c_,a1,31-s,p,final);
-	   return;
+		a1=reg_operand(son(seq), sp);
+		nsp = guardreg(a1, sp);
+		a2=reg_operand(next, nsp);
+		rrr_ins(i_andcm,c_,a2,a1,final);
+		return;
 	}
-     }
-  }
-
-
-  /* evaluate 1st operand into a1 */
-  
-  if ( name(seq)==cont_tag && name(bro(seq))==val_tag && last(bro(seq))
-       && !(props(son(seq)) & inreg_bits) )
-  {
-     reg_operand_here(seq, sp, final);
-     a1 = final;
-  }
-  else
-     a1 = reg_operand(seq, sp);
-
-  if ( name(father(seq))==make_stack_limit_tag )
-  {
-     baseoff b;
-     b.offset = FP_BOFF.offset;
-     b.base = a1;
-     ld_ins(i_lw,0,b,b.base);
-  }
-
-  for (;;)
-  {
-    nsp = guardreg(a1, sp);
-    seq = bro(seq);
-    if (name(seq) == val_tag)	/* next operand is a constant */
-    {
-      int n=no(seq);
-      if (last(seq))
-      {
-	if (rins==i_add)
+	
+	if (name(next)==not_tag &&
+		last(next) && 
+		rins==i_and &&
+		name(seq)!=val_tag)
 	{
-	   if (SIMM14(n))
-	      ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,a1,final);
-	   else
-	   {
-	      ir_ins(i_addil,fs_L,empty_ltrl,n,a1);
-	      ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,final);
-	   }
+		a1=reg_operand(seq, sp);
+		nsp = guardreg(a1, sp);
+		a2=reg_operand(son(next), nsp);
+		rrr_ins(i_andcm,c_,a1,a2,final);
+		return;
+	}
+	
+	if (name(next)==val_tag &&
+		last(next) &&
+		rins==i_and &&
+		name(seq)==shr_tag)
+	{
+		exp shift=bro(son(seq));
+		if (name(shift)==val_tag)
+		{ 
+			int n,s;
+			n=no(next);
+			s=no(shift);
+			if (IS_POW2((n+1)))
+			{
+				int p=0;
+				a1=reg_operand(son(seq), sp);
+				while (n & (1<<p)) p++;
+				if (p > (32-s))
+					p = 32-s;
+				riir_ins(i_extru,c_,a1,31-s,p,final);
+				return;
+			}
+		}
+	}
+	
+	
+	/* evaluate 1st operand into a1 */
+	
+	if (name(seq)==cont_tag && name(bro(seq))==val_tag && last(bro(seq))
+		&& !(props(son(seq)) & inreg_bits))
+	{
+		reg_operand_here(seq, sp, final);
+		a1 = final;
 	}
 	else
-	   logical_op(rins,n,a1,final);
-	return;
-      }
-      else
-      {
-	 if (r == 0)
-	     r = getreg(sp.fixed);
-	 if (rins==i_add)
-	 {
-	   if (SIMM14(n))
-	      ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,a1,r);
-	   else
-	   {
-	      ir_ins(i_addil,fs_L,empty_ltrl,n,a1);
-	      ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,r);
-	   }
-	 }
-	 else
-	    logical_op(rins,n,a1,r);
-      }
-    }
-    else
-    {
-       exp sq = seq;
-       CONST char *ins = rins;
-
-       a2 = reg_operand(sq, nsp);
-       /* evaluate next operand */
-       if (last(seq))
-       {
- 	  rrr_ins(ins,c_,a1,a2,final);
-	  return;
-       }
-       else
-       {
-	  if (r == 0)
-	     r = getreg(sp.fixed);
-	  rrr_ins(ins,c_,a1,a2,r);
-       }
-    }
-    a1 = r;
-  }
+		a1 = reg_operand(seq, sp);
+	
+	if (name(father(seq))==make_stack_limit_tag)
+	{
+		baseoff b;
+		b.offset = FP_BOFF.offset;
+		b.base = a1;
+		ld_ins(i_lw,0,b,b.base);
+	}
+	
+	for (;;)
+	{
+		nsp = guardreg(a1, sp);
+		seq = bro(seq);
+		if (name(seq) == val_tag)	/* next operand is a constant */
+		{
+			int n=no(seq);
+			if (last(seq))
+			{
+				if (rins==i_add)
+				{
+					if (SIMM14(n))
+						ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,a1,final);
+					else
+					{
+						ir_ins(i_addil,fs_L,empty_ltrl,n,a1);
+						ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,final);
+					}
+				}
+				else
+					logical_op(rins,n,a1,final);
+				return;
+			}
+			else
+			{
+				if (r == 0)
+					r = getreg(sp.fixed);
+				if (rins==i_add)
+				{
+					if (SIMM14(n))
+						ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,a1,r);
+					else
+					{
+						ir_ins(i_addil,fs_L,empty_ltrl,n,a1);
+						ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,r);
+					}
+				}
+				else
+					logical_op(rins,n,a1,r);
+			}
+		}
+		else
+		{
+			exp sq = seq;
+			CONST char *ins = rins;
+			
+			a2 = reg_operand(sq, nsp);
+			/* evaluate next operand */
+			if (last(seq))
+			{
+				rrr_ins(ins,c_,a1,a2,final);
+				return;
+			}
+			else
+			{
+				if (r == 0)
+					r = getreg(sp.fixed);
+				rrr_ins(ins,c_,a1,a2,r);
+			}
+		}
+		a1 = r;
+	}
 }
 
 
 
 /* evaluate commutative operation rrins given by e into d, using sp to get t-regs */
-int comm_op 
-    PROTO_N ( ( e, sp, d, rrins ) )
-    PROTO_T ( exp e X space sp X where d X ins_p rrins )
+int
+comm_op(exp e, space sp, where d, ins_p rrins)
 {
-  CONST char *rins = rrins;
-
-  switch (discrim ( d.answhere ))
-  {
-  case inreg:
-    {
-      int dest = regalt(d.answhere);
-      bool usesdest = regremoved(&son(e), dest);
-      exp seq = son(e);
-
-      /*
-       * the destination is in a register; take care that we dont alter it
-       * before possible use as an operand ....
-       */
-      if (usesdest && last(seq))
-      {
-	/* used, but there is only one other operand */
-	if (name(seq)==val_tag)
+	CONST char *rins = rrins;
+	
+	switch (discrim (d.answhere))
 	{
-	   int n = no(seq);
-	   if (rrins==i_add)
-	   {
-	      if (SIMM14(n))
-		 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,dest,dest);
-	      else
-	      {
-		 ir_ins(i_addil,fs_L,empty_ltrl,n,dest);
-		 ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,dest);
-	      }
-	   }
-	   else
-	      logical_op(rins,n,dest,dest);
+	case inreg:
+    {
+		int dest = regalt(d.answhere);
+		bool usesdest = regremoved(&son(e), dest);
+		exp seq = son(e);
+		
+		/*
+		 * the destination is in a register; take care that we dont alter it
+		 * before possible use as an operand ....
+		 */
+		if (usesdest && last(seq))
+		{
+			/* used, but there is only one other operand */
+			if (name(seq)==val_tag)
+			{
+				int n = no(seq);
+				if (rrins==i_add)
+				{
+					if (SIMM14(n))
+						ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,n,dest,dest);
+					else
+					{
+						ir_ins(i_addil,fs_L,empty_ltrl,n,dest);
+						ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,n,GR1,dest);
+					}
+				}
+				else
+					logical_op(rins,n,dest,dest);
+			}
+			else
+				rrr_ins(rins,c_,dest,reg_operand(seq,sp),dest);
+			if (optop(e))
+				tidyshort(dest, sh(e));
+			return dest;
+		}
+		else if (usesdest)
+		{
+			/* dest used, use temp */
+			int r = getreg(sp.fixed);
+			
+			do_comm(seq, sp, r, rins);
+			rrr_ins(rins,c_,dest,r,dest);
+			if (optop(e))
+				tidyshort(dest, sh(e));
+			return dest;
+		}
+		else
+		{
+			/* dest not used, evaluate into dest */
+			do_comm(seq, sp, dest,rins);
+			if (optop(e))
+				tidyshort(dest, sh(e));
+			return dest;
+		}
+    }				/* end inreg */
+	default:
+    {
+		ans a;
+		int r = getreg(sp.fixed);
+		space nsp;
+		bool rok = 1;
+		setregalt(a, r);
+		do_comm(son(e), sp, r, rins);
+		/* evaluate the expression into r ... */
+		if (discrim(d.answhere) != notinreg)
+		{
+			if (optop(e))
+				tidyshort(r, sh(e));
+		}
+		else
+			rok = shape_size(sh(e))==32;
+		nsp = guardreg(r, sp);
+		move(a, d, nsp.fixed, 1);
+		/* ... and move into a */
+		return ((rok)?r:NOREG);
+    }				/* notinreg */
+	}				/* end switch */
+}
+
+
+
+int
+non_comm_op(exp e, space sp, where dest, ins_p rins) /* evalate binary operation e with rins into dest */
+{
+	exp l = son(e);
+	exp r = bro(l);
+	int a1 = reg_operand(l, sp);
+	space nsp;
+	int a2;
+	CONST char *ins;
+	ins=rins;
+	nsp = guardreg(a1, sp);
+	a2 = reg_operand(r, nsp);
+	if (discrim(dest.answhere)==inreg)
+	{
+		int d = regalt(dest.answhere);
+		rrr_ins(ins,c_,a1,a2,d);
+		if (optop(e))
+			tidyshort(d, sh(e));
+		return d;
 	}
 	else
-	   rrr_ins(rins,c_,dest,reg_operand(seq,sp),dest);
-	if (optop(e))
-	   tidyshort(dest, sh(e));
-	return dest;
-      }
-      else if (usesdest)
-      {
-	/* dest used, use temp */
-	int r = getreg(sp.fixed);
-
-	do_comm(seq, sp, r, rins);
-	rrr_ins(rins,c_,dest,r,dest);
-	if (optop(e))
-	   tidyshort(dest, sh(e));
-	return dest;
-      }
-      else
-      {
-	/* dest not used, evaluate into dest */
-	do_comm(seq, sp, dest,rins);
-	if (optop(e))
-	   tidyshort(dest, sh(e));
-	return dest;
-      }
-    }				/* end inreg */
-  default:
-    {
-      ans a;
-      int r = getreg(sp.fixed);
-      space nsp;
-      bool rok = 1;
-      setregalt(a, r);
-      do_comm(son(e), sp, r, rins);
-      /* evaluate the expression into r ... */
-      if (discrim(d.answhere) != notinreg)
-      {
-	 if (optop(e))
-	    tidyshort(r, sh(e));
-      }
-      else
-	 rok = shape_size(sh(e))==32;
-      nsp = guardreg(r, sp);
-      move(a, d, nsp.fixed, 1);
-      /* ... and move into a */
-      return ((rok)?r:NOREG);
-    }				/* notinreg */
-  }				/* end switch */
+	{
+		/* destination elsewhere */
+		ans a;
+		int r1 = getreg(nsp.fixed);
+		setregalt(a, r1);
+		rrr_ins(ins,c_,a1,a2,r1);
+		if (optop(e))
+			tidyshort(r1, sh(e));
+		nsp = guardreg(r1, sp);
+		move(a, dest, nsp.fixed, 1);
+		return r1;
+	}
 }
 
-
-
-int non_comm_op 
-    PROTO_N ( ( e, sp, dest, rins ) )
-    PROTO_T ( exp e X space sp X where dest X ins_p rins )
- /* evalate binary operation e with rins into dest */
+int
+monop(exp e, space sp, where dest, ins_p ins) /* evaluate fixed monadic operation e using ins into dest */
 {
-   exp l = son(e);
-   exp r = bro(l);
-   int a1 = reg_operand(l, sp);
-   space nsp;
-   int a2;
-   CONST char *ins;
-   ins=rins;
-   nsp = guardreg(a1, sp);
-   a2 = reg_operand(r, nsp);
-   if (discrim( dest.answhere )==inreg)
-   {
-      int d = regalt(dest.answhere);
-      rrr_ins(ins,c_,a1,a2,d);
-      if (optop(e))
-	 tidyshort(d, sh(e));
-      return d;
-   }
-   else
-   {
-      /* destination elsewhere */
-      ans a;
-      int r1 = getreg(nsp.fixed);
-      setregalt(a, r1);
-      rrr_ins(ins,c_,a1,a2,r1);
-      if (optop(e))
-	 tidyshort(r1, sh(e));
-      nsp = guardreg(r1, sp);
-      move(a, dest, nsp.fixed, 1);
-      return r1;
-   }
-}
-
-int monop 
-    PROTO_N ( ( e, sp, dest, ins ) )
-    PROTO_T ( exp e X space sp X where dest X ins_p ins )
- /* evaluate fixed monadic operation e using ins into dest */
-{
-   int r1 = getreg(sp.fixed);
-   int a1 = reg_operand(son(e), sp);
-
-   /* operand in reg a1 */
-   space nsp;
-
-   if ( discrim(dest.answhere) == inreg )
-   {
-      /* destination in register */
-      int d = regalt(dest.answhere);
-      if (ins==i_subi)
-	 rrr_ins(i_sub,c_,0,a1,d);
-      else
-      if (ins==i_sub)
-	 rrr_ins(i_sub,c_,0,a1,d);
-      else
-	 rrr_ins(i_uaddcm,c_,0,a1,d);
-      if (optop(e))
-	 tidyshort(d,sh(e));
-      return d;
-   }
-   else
-   {
-      /* destination elsewhere */
-      ans a;
-      setregalt(a, r1);
-      if (ins==i_subi)
-	 rrr_ins(i_sub,c_,0,a1,r1);
-      else
-      if (ins==i_sub)
-	 rrr_ins(i_sub,c_,0,a1,r1);
-      else
-	 rrr_ins(i_uaddcm,c_,0,a1,r1);
-      if (optop(e))
-	 tidyshort(r1, sh(e));
-      nsp = guardreg(r1, sp);
-      move(a, dest, nsp.fixed, 1);
-      return r1;
-   }
+	int r1 = getreg(sp.fixed);
+	int a1 = reg_operand(son(e), sp);
+	
+	/* operand in reg a1 */
+	space nsp;
+	
+	if (discrim(dest.answhere) == inreg)
+	{
+		/* destination in register */
+		int d = regalt(dest.answhere);
+		if (ins==i_subi)
+			rrr_ins(i_sub,c_,0,a1,d);
+		else
+			if (ins==i_sub)
+				rrr_ins(i_sub,c_,0,a1,d);
+			else
+				rrr_ins(i_uaddcm,c_,0,a1,d);
+		if (optop(e))
+			tidyshort(d,sh(e));
+		return d;
+	}
+	else
+	{
+		/* destination elsewhere */
+		ans a;
+		setregalt(a, r1);
+		if (ins==i_subi)
+			rrr_ins(i_sub,c_,0,a1,r1);
+		else
+			if (ins==i_sub)
+				rrr_ins(i_sub,c_,0,a1,r1);
+			else
+				rrr_ins(i_uaddcm,c_,0,a1,r1);
+		if (optop(e))
+			tidyshort(r1, sh(e));
+		nsp = guardreg(r1, sp);
+		move(a, dest, nsp.fixed, 1);
+		return r1;
+	}
 }
 
 
 #if use_long_double
 
 /*
-    GET THE ADDRESS OF A LONG DOUBLE
-*/
-static void quad_addr
-    PROTO_N ( (e,r,sp) )
-    PROTO_T ( exp e X int r X space sp )
+ *    GET THE ADDRESS OF A LONG DOUBLE
+ */
+static void
+quad_addr(exp e, int r, space sp)
 {
-    instore is ;
+    instore is;
     if (name(e)==real_tag)
     {
-	labexp next;
-	next  = (labexp) malloc( sizeof(struct labexp_t) );
-	next->e = e;
-	next->lab = next_data_lab();
-	next->next = (labexp) 0;
-	current->next = next;
-	current = next;
-	is.adval = 0;
-	is.b.offset = 0;
-	is.b.base = next->lab;
+		labexp next;
+		next  = (labexp) malloc(sizeof(struct labexp_t));
+		next->e = e;
+		next->lab = next_data_lab();
+		next->next = (labexp) 0;
+		current->next = next;
+		current = next;
+		is.adval = 0;
+		is.b.offset = 0;
+		is.b.base = next->lab;
     }
     else
     {
-       where w ;
-       w=locate1(e,sp,sh(e),0) ;
-       if (discrim(w.answhere)!=notinreg) 
-	  failer ("Illegal expression in quad_addr");
-       is=insalt(w.answhere) ;
+		where w;
+		w=locate1(e,sp,sh(e),0);
+		if (discrim(w.answhere)!=notinreg) 
+			failer ("Illegal expression in quad_addr");
+		is=insalt(w.answhere);
     }
     if (is.adval)
     {
-	failer("Illegal expression in quad_addr") ;
+		failer("Illegal expression in quad_addr");
     }
     if (IS_FIXREG(is.b.base))
     {
-       if (is.b.offset==0)
-       {
-	  if (is.b.base!=r)
-	     rr_ins(i_copy,is.b.base,r) ;
-       }
-       else
-	  ld_ins(i_lo,1,is.b,r) ;
+		if (is.b.offset==0)
+		{
+			if (is.b.base!=r)
+				rr_ins(i_copy,is.b.base,r);
+		}
+		else
+			ld_ins(i_lo,1,is.b,r);
     }
     else
-       set_ins("",is.b,r) ;
-    return ;
+		set_ins("",is.b,r);
+    return;
 }
 
 
 /*
-    LONG DOUBLE LIBRARY
-*/
+ *    LONG DOUBLE LIBRARY
+ */
 
 static struct {
-		  CONST char proc_name[32] ;
-		  bool called ;
-	      } long_double_lib [ 14 ] =
-	      {
-		  { "_U_Qfcmp", 0 },
-		  { "_U_Qfadd", 0 },
-		  { "_U_Qfsub", 0 },
-		  { "_U_Qfmpy", 0 },
-		  { "_U_Qfdiv", 0 },
-		  { "_U_Qfcnvff_dbl_to_quad", 0 },
-		  { "_U_Qfcnvff_sgl_to_quad", 0 },
-		  { "_U_Qfcnvxf_dbl_to_quad", 0 },
-		  { "_U_Qfcnvxf_sgl_to_quad", 0 },
-		  { "_U_Qfcnvff_quad_to_dbl", 0 },
-		  { "_U_Qfcnvff_quad_to_sgl", 0 },
-		  { "_U_Qfabs", 0 },
-		  { "_U_Qfcnvfxt_quad_to_sgl", 0 },
-		  { "_U_Qfrnd", 0 }
-	      } ;
-
-
-void import_long_double_lib
-    PROTO_Z ()
+	CONST char proc_name[32];
+	bool called;
+} long_double_lib [ 14 ] =
 {
-   int n;
-   for(n=0; n<14; n++)
-      if ( long_double_lib[n].called )
-	 fprintf(outf,"\t.IMPORT\t%s,CODE\n",long_double_lib[n].proc_name);
-   if (long_double_0)
-   {
-      outnl();
-      outs("\t.DATA\n");
-      outs("$qfp_lit_sym$\n");
-      outs("\t.ALIGN\t8\n");
-      outs("\t.STRINGZ \"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\n");
-      outs("\t.STRINGZ \"?\\xFF\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\n");
-   }
+	{ "_U_Qfcmp", 0 },
+	{ "_U_Qfadd", 0 },
+	{ "_U_Qfsub", 0 },
+	{ "_U_Qfmpy", 0 },
+	{ "_U_Qfdiv", 0 },
+	{ "_U_Qfcnvff_dbl_to_quad", 0 },
+	{ "_U_Qfcnvff_sgl_to_quad", 0 },
+	{ "_U_Qfcnvxf_dbl_to_quad", 0 },
+	{ "_U_Qfcnvxf_sgl_to_quad", 0 },
+	{ "_U_Qfcnvff_quad_to_dbl", 0 },
+	{ "_U_Qfcnvff_quad_to_sgl", 0 },
+	{ "_U_Qfabs", 0 },
+	{ "_U_Qfcnvfxt_quad_to_sgl", 0 },
+	{ "_U_Qfrnd", 0 }
+};
+
+
+void
+import_long_double_lib()
+{
+	int n;
+	for (n=0; n<14; n++)
+		if (long_double_lib[n].called)
+			fprintf(outf,"\t.IMPORT\t%s,CODE\n",long_double_lib[n].proc_name);
+	if (long_double_0)
+	{
+		outnl();
+		outs("\t.DATA\n");
+		outs("$qfp_lit_sym$\n");
+		outs("\t.ALIGN\t8\n");
+		outs("\t.STRINGZ \"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\n");
+		outs("\t.STRINGZ \"?\\xFF\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\n");
+	}
 }
 
 
 /*
-    DO A QUAD FLOAT OPERATION
-*/
-void quad_op
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+ *    DO A QUAD FLOAT OPERATION
+ */
+void
+quad_op(exp e, space sp, where dest)
 {
-   char *s=0,*stub=0;
-   bool quad_ret = 1 ;
-
-   switch ( name(e) )
-   {
-      case test_tag:
-      {
-	 /* Quad comparisons */
-	 exp l,r;
-	 int tn;
-	 quad_ret = 0 ;
-	 s = "_U_Qfcmp";
-	 stub = "ARGW0=GR,ARGW1=GR,ARGW2=GR";
-	 long_double_lib[0].called=1;
-	 sp = guardreg(ARG2,sp);
-	 tn = (int)test_number(e);
-	 if ( tn < 1 || tn > 6 )
-	 {
-	    fail ( "Illegal floating-point test" ) ;
-	 }
-	 ir_ins(i_ldi, fs_, empty_ltrl, tn==1 ? 17 : tn==2 ? 21 : tn==3 ? 9 : tn==4 ? 13 : tn==5 ? 4 : 25,               ARG2);
-	 if ( IsRev(e) )
-	 {
-	    r = son(e);
-	    l = bro(r);
-	 }
-	 else
-	 {
-	    l = son(e);
-	    r = bro(l);
-	 }
-	 quad_addr(l,ARG0,sp) ;
-	 sp = guardreg(ARG0,sp) ;
-	 quad_addr(r,ARG1,sp) ;
-	 break;
-      }
-      case fneg_tag : 
-      {
-	 baseoff b;
-	 b.base=0; b.offset=0;
-	 s = "_U_Qfsub" ;
-	 long_double_lib[2].called=1;
-	 set_ins("$qfp_lit_sym$",b,ARG0);
-	 sp = guardreg(ARG0,sp);
-	 quad_addr(son(e),ARG1,sp) ;
-	 sp = guardreg(ARG1,sp);
-	 stub = "ARGW0=GR,ARGW1=GR";
-	 long_double_0 = 1;
-	 break ;
-      }
-      case fabs_tag :
-      {
-	 s = "_U_Qfabs" ;
-	 long_double_lib[11].called=1;
-	 stub = "ARGW0=GR";
-	 quad_addr(son(e),ARG0,sp) ;
-	 break ;
-      }
-      case chfl_tag :
-      {
- 	 ans aa ;
-	 where w ;
-	 freg frg ;
-	 exp l;
-	 if ( name(sh(e)) == doublehd )
-	 {
-	    baseoff b;
-	    b.base=SP;
-	    l = son(e);
-	    if ( name(sh(l)) == doublehd )
-	       return;
-	    else 
-	    if  (name(sh(l))==realhd)
-	    {
-	       s = "_U_Qfcnvff_dbl_to_quad" ;
-	       long_double_lib[5].called=1;
-	       frg.dble=1;
-	       frg.fr=5;
-	       stub = "ARGW0=FR,ARGW1=FU";
-	    }
-	    else
-	    {
-	       s = "_U_Qfcnvff_sgl_to_quad" ;
-	       long_double_lib[6].called=1;
-	       frg.dble=0;
-	       frg.fr=4;
-	       stub = "ARGW0=FR";
-	    }
-	    setfregalt ( aa, frg ) ;
-	    w.answhere = aa ;
-	    w.ashwhere = ashof (sh(l)) ;
-	    code_here(l,sp,w);
-	    if (frg.dble)
-	    {
-	       b.offset=-40;
-	       stf_ins(i_fstd,(5*3)+1,b);
-	       ld_ins(i_ldw,1,b,ARG1);
-	       b.offset+=4;
-	       ld_ins(i_ldw,1,b,ARG0);
-	    }
-	    else
-	    {
-	       b.offset=-36;
-	       stf_ins(i_fstw,(4*3)+0,b);
-	       ld_ins(i_ldw,1,b,ARG0);
-	    }
-	 }
-	 else
-	 {
-	    if ( isdbl(sh(e)) )
-	    {
-	       s = "_U_Qfcnvff_quad_to_dbl";
-	       long_double_lib[9].called=1;
-	    }
-	    else
-	    {
-	       s = "_U_Qfcnvff_quad_to_sgl";
-	       long_double_lib[10].called=1;
-	    }
-	    stub = "ARGW0=GR";
-	    quad_ret = 0;
-	    quad_addr(son(e),ARG0,sp) ;
-	 }
-	 break ;
-      }
-      case float_tag :
-      {
-	 exp l = son(e);
-	 reg_operand_here(l,sp,ARG0);
-	 sp = guardreg(ARG0,sp);
-	 if ( name(sh(l))==ulonghd )
-	 {
-	    rr_ins(i_copy,0,ARG1);
-	    long_double_lib[7].called=1;
-	    s = "_U_Qfcnvxf_dbl_to_quad" ;
-	    stub = "ARGW0=GR,ARGW1=GR";
-	 }
-	 else
-	 {
-	    s = "_U_Qfcnvxf_sgl_to_quad" ;
-	    long_double_lib[8].called=1;
-	    stub = "ARGW0=GR";
-	 }
-	 break ;
-      }
-      case round_tag :
-      {
-	 if ( round_number(e)==3 && errhandle(e)<2 )
-	 {
-	    s = "_U_Qfcnvfxt_quad_to_sgl";
-	    long_double_lib[12].called=1;
-	 }
-	 else
-	 {
-	    s = "_U_Qfcnvff_quad_to_dbl";
-	    long_double_lib[9].called=1;
-	 }
-	 stub = "ARGW0=GR";
-	 quad_ret = 0;
-	 quad_addr(son(e),ARG0,sp) ;
-	 break;
-      }
+	char *s=0,*stub=0;
+	bool quad_ret = 1;
+	
+	switch (name(e))
+	{
+	case test_tag:
+	{
+		/* Quad comparisons */
+		exp l,r;
+		int tn;
+		quad_ret = 0;
+		s = "_U_Qfcmp";
+		stub = "ARGW0=GR,ARGW1=GR,ARGW2=GR";
+		long_double_lib[0].called=1;
+		sp = guardreg(ARG2,sp);
+		tn = (int)test_number(e);
+		if (tn < 1 || tn > 6)
+		{
+			fail ("Illegal floating-point test");
+		}
+		ir_ins(i_ldi, fs_, empty_ltrl, tn==1 ? 17 : tn==2 ? 21 : tn==3 ? 9 : tn==4 ? 13 : tn==5 ? 4 : 25,               ARG2);
+		if (IsRev(e))
+		{
+			r = son(e);
+			l = bro(r);
+		}
+		else
+		{
+			l = son(e);
+			r = bro(l);
+		}
+		quad_addr(l,ARG0,sp);
+		sp = guardreg(ARG0,sp);
+		quad_addr(r,ARG1,sp);
+		break;
+	}
+	case fneg_tag : 
+	{
+		baseoff b;
+		b.base=0; b.offset=0;
+		s = "_U_Qfsub";
+		long_double_lib[2].called=1;
+		set_ins("$qfp_lit_sym$",b,ARG0);
+		sp = guardreg(ARG0,sp);
+		quad_addr(son(e),ARG1,sp);
+		sp = guardreg(ARG1,sp);
+		stub = "ARGW0=GR,ARGW1=GR";
+		long_double_0 = 1;
+		break;
+	}
+	case fabs_tag :
+	{
+		s = "_U_Qfabs";
+		long_double_lib[11].called=1;
+		stub = "ARGW0=GR";
+		quad_addr(son(e),ARG0,sp);
+		break;
+	}
+	case chfl_tag :
+	{
+		ans aa;
+		where w;
+		freg frg;
+		exp l;
+		if (name(sh(e)) == doublehd)
+		{
+			baseoff b;
+			b.base=SP;
+			l = son(e);
+			if (name(sh(l)) == doublehd)
+				return;
+			else 
+				if  (name(sh(l))==realhd)
+				{
+					s = "_U_Qfcnvff_dbl_to_quad";
+					long_double_lib[5].called=1;
+					frg.dble=1;
+					frg.fr=5;
+					stub = "ARGW0=FR,ARGW1=FU";
+				}
+				else
+				{
+					s = "_U_Qfcnvff_sgl_to_quad";
+					long_double_lib[6].called=1;
+					frg.dble=0;
+					frg.fr=4;
+					stub = "ARGW0=FR";
+				}
+			setfregalt (aa, frg);
+			w.answhere = aa;
+			w.ashwhere = ashof (sh(l));
+			code_here(l,sp,w);
+			if (frg.dble)
+			{
+				b.offset=-40;
+				stf_ins(i_fstd,(5*3)+1,b);
+				ld_ins(i_ldw,1,b,ARG1);
+				b.offset+=4;
+				ld_ins(i_ldw,1,b,ARG0);
+			}
+			else
+			{
+				b.offset=-36;
+				stf_ins(i_fstw,(4*3)+0,b);
+				ld_ins(i_ldw,1,b,ARG0);
+			}
+		}
+		else
+		{
+			if (isdbl(sh(e)))
+			{
+				s = "_U_Qfcnvff_quad_to_dbl";
+				long_double_lib[9].called=1;
+			}
+			else
+			{
+				s = "_U_Qfcnvff_quad_to_sgl";
+				long_double_lib[10].called=1;
+			}
+			stub = "ARGW0=GR";
+			quad_ret = 0;
+			quad_addr(son(e),ARG0,sp);
+		}
+		break;
+	}
+	case float_tag :
+	{
+		exp l = son(e);
+		reg_operand_here(l,sp,ARG0);
+		sp = guardreg(ARG0,sp);
+		if (name(sh(l))==ulonghd)
+		{
+			rr_ins(i_copy,0,ARG1);
+			long_double_lib[7].called=1;
+			s = "_U_Qfcnvxf_dbl_to_quad";
+			stub = "ARGW0=GR,ARGW1=GR";
+		}
+		else
+		{
+			s = "_U_Qfcnvxf_sgl_to_quad";
+			long_double_lib[8].called=1;
+			stub = "ARGW0=GR";
+		}
+		break;
+	}
+	case round_tag :
+	{
+		if (round_number(e)==3 && errhandle(e)<2)
+		{
+			s = "_U_Qfcnvfxt_quad_to_sgl";
+			long_double_lib[12].called=1;
+		}
+		else
+		{
+			s = "_U_Qfcnvff_quad_to_dbl";
+			long_double_lib[9].called=1;
+		}
+		stub = "ARGW0=GR";
+		quad_ret = 0;
+		quad_addr(son(e),ARG0,sp);
+		break;
+	}
 #if 0
-      /* Binary operations */
-      {
-	 stub = "ARGW0=GR,ARGW1=GR";
-	 break ;
-      }
+	/* Binary operations */
+	{
+		stub = "ARGW0=GR,ARGW1=GR";
+		break;
+	}
 #endif
-      case fplus_tag :
-      case fminus_tag : 
-      case fmult_tag :
-      case fdiv_tag :
-      {
-	 exp l,r;
-	 if ( name(e) == fplus_tag )
-	 {
-	    s = "_U_Qfadd" ;
-	    long_double_lib[1].called=1;
-	 }
-	 else
-	 if ( name(e) == fminus_tag )
-	 {
-	   s = "_U_Qfsub" ; 
-	   long_double_lib[2].called=1;
-	 }
-	 else
-	 if ( name(e) == fmult_tag )
-	 {
-	    s = "_U_Qfmpy" ; 
-	    long_double_lib[3].called=1;
-	 }
-	 else
-	 {
-	    s = "_U_Qfdiv" ;
-	    long_double_lib[4].called=1;
-	 }
-	 stub = "ARGW0=GR,ARGW1=GR";
-	 if ( IsRev(e) )
-	 {
-	    r = son(e);
-	    l = bro(r);
-	 }
-	 else
-	 {
-	    l = son(e);
-	    r = bro(l);
-	 }
-	 quad_addr(l,ARG0,sp) ;
-	 sp = guardreg(ARG0,sp) ;
-	 quad_addr(r,ARG1,sp) ;
-	 break ;
-      }
-      default :
-	fail ( "Illegal floating-point operation" ) ;
-   }
-   if (quad_ret)
-   {
-      instore is ;
-      is = insalt(dest.answhere);
-      if (discrim(dest.answhere)!=notinreg)
-	  failer("Illegal expression in quad_op");
-      if (is.adval)
-      {
-	 if (IS_FIXREG(is.b.base))
-	 {
-	    if (is.b.offset==0)
-	       rr_ins(i_copy,is.b.base,RET0) ;
-	    else
-	       ld_ins(i_lo,1,is.b,RET0) ;
-	 } 
-	 else
-	    set_ins("",is.b,RET0) ;
-      }
-      else
-	 ld_ins(i_lw,1,is.b,RET0) ;
-   }
-   /* ..and make call */
-   call_ins(cmplt_,s,RP,stub) ;
+	case fplus_tag :
+	case fminus_tag : 
+	case fmult_tag :
+	case fdiv_tag :
+	{
+		exp l,r;
+		if (name(e) == fplus_tag)
+		{
+			s = "_U_Qfadd";
+			long_double_lib[1].called=1;
+		}
+		else
+			if (name(e) == fminus_tag)
+			{
+				s = "_U_Qfsub" ; 
+				long_double_lib[2].called=1;
+			}
+			else
+				if (name(e) == fmult_tag)
+				{
+					s = "_U_Qfmpy" ; 
+					long_double_lib[3].called=1;
+				}
+				else
+				{
+					s = "_U_Qfdiv";
+					long_double_lib[4].called=1;
+				}
+		stub = "ARGW0=GR,ARGW1=GR";
+		if (IsRev(e))
+		{
+			r = son(e);
+			l = bro(r);
+		}
+		else
+		{
+			l = son(e);
+			r = bro(l);
+		}
+		quad_addr(l,ARG0,sp);
+		sp = guardreg(ARG0,sp);
+		quad_addr(r,ARG1,sp);
+		break;
+	}
+	default :
+		fail ("Illegal floating-point operation");
+	}
+	if (quad_ret)
+	{
+		instore is;
+		is = insalt(dest.answhere);
+		if (discrim(dest.answhere)!=notinreg)
+			failer("Illegal expression in quad_op");
+		if (is.adval)
+		{
+			if (IS_FIXREG(is.b.base))
+			{
+				if (is.b.offset==0)
+					rr_ins(i_copy,is.b.base,RET0);
+				else
+					ld_ins(i_lo,1,is.b,RET0);
+			} 
+			else
+				set_ins("",is.b,RET0);
+		}
+		else
+			ld_ins(i_lw,1,is.b,RET0);
+	}
+	/* ..and make call */
+	call_ins(cmplt_,s,RP,stub);
 #if 1
-   if (!optop(e) && name(e)!=test_tag)
-   {
-      int trap = trap_label(e);
-      baseoff b;
-      int end;
-      if (quad_ret)
-      {
-	 instore is ;
-	 end=new_label();
-	 is = insalt(dest.answhere);
-	 if (discrim(dest.answhere)!=notinreg)
-	    failer("Illegal expression in quad_op");
-	 if (is.adval)
-	 {
-	    if (IS_FIXREG(is.b.base))
-	    {
-	       if (is.b.offset==0)
-		  rr_ins(i_copy,is.b.base,RET0) ;
-	       else
-		  ld_ins(i_lo,1,is.b,RET0) ;
-	    } 
-	    else
-	       set_ins("",is.b,RET0) ;
-	 }
-	 else
-	    ld_ins(i_lw,1,is.b,RET0) ;
-	 b.base =  RET0; b.offset = 4;
-	 ld_ins(i_lw,1,b,T3);
-	 cj_ins( c_neq, 0, T3, end ) ;         
-	 b.offset+=4;
-	 ld_ins(i_lw,1,b,T3);
-	 cj_ins( c_neq, 0, T3, end ) ;         
-	 b.offset+=4;
-	 ld_ins(i_lw,1,b,T3);
-	 cj_ins( c_neq, 0, T3, end ) ;         
-	 b.offset=0;
-	 ld_ins(i_lw,1,b,T3);
-	 imm_to_r(2147418112,T4);
-	 cj_ins( c_eq, T4, T3, trap ) ;         
-	 imm_to_r(-65536,T4);
-	 cj_ins( c_eq, T4, T3, trap ) ;         
-	 outlab("L$$",end);
-      }
-      else
-      if ( name(e) == chfl_tag )
-      {
-	 if ( isdbl(sh(e)) )
-	 {
-	    baseoff b;
-	    b = mem_temp(0);
-	    end = new_label();
-	    stf_ins(i_fstd,3*4+1,b);
-	    b.offset+=4;
-	    ld_ins(i_lw,1,b,T3);
-	    cj_ins( c_neq, 0, T3, end ) ;         
-	    b.offset-=4;
-	    ld_ins(i_lw,1,b,T3);
-	    imm_to_r(2146435072,T4);
-	    cj_ins( c_eq, T4, T3, trap ) ;         
-	    imm_to_r(-1048576,T4);
-	    cj_ins( c_eq, T4, T3, trap ) ;         
-	    outlab("L$$",end);
-	 }
-	 else
-	 {
-	    baseoff b;
-	    b = mem_temp(0);
-	    stf_ins(i_fstw,3*4,b);
-	    ld_ins(i_lw,1,b,T3);
-	    imm_to_r(2139095040,T4);
-	    cj_ins( c_eq, T4, T3, trap ) ;         
-	    imm_to_r(-8388608,T4);
-	    cj_ins( c_eq, T4, T3, trap ) ;         
-	 }
-      }
-   }
+	if (!optop(e) && name(e)!=test_tag)
+	{
+		int trap = trap_label(e);
+		baseoff b;
+		int end;
+		if (quad_ret)
+		{
+			instore is;
+			end=new_label();
+			is = insalt(dest.answhere);
+			if (discrim(dest.answhere)!=notinreg)
+				failer("Illegal expression in quad_op");
+			if (is.adval)
+			{
+				if (IS_FIXREG(is.b.base))
+				{
+					if (is.b.offset==0)
+						rr_ins(i_copy,is.b.base,RET0);
+					else
+						ld_ins(i_lo,1,is.b,RET0);
+				} 
+				else
+					set_ins("",is.b,RET0);
+			}
+			else
+				ld_ins(i_lw,1,is.b,RET0);
+			b.base =  RET0; b.offset = 4;
+			ld_ins(i_lw,1,b,T3);
+			cj_ins(c_neq, 0, T3, end) ;         
+			b.offset+=4;
+			ld_ins(i_lw,1,b,T3);
+			cj_ins(c_neq, 0, T3, end) ;         
+			b.offset+=4;
+			ld_ins(i_lw,1,b,T3);
+			cj_ins(c_neq, 0, T3, end) ;         
+			b.offset=0;
+			ld_ins(i_lw,1,b,T3);
+			imm_to_r(2147418112,T4);
+			cj_ins(c_eq, T4, T3, trap) ;         
+			imm_to_r(-65536,T4);
+			cj_ins(c_eq, T4, T3, trap) ;         
+			outlab("L$$",end);
+		}
+		else
+			if (name(e) == chfl_tag)
+			{
+				if (isdbl(sh(e)))
+				{
+					baseoff b;
+					b = mem_temp(0);
+					end = new_label();
+					stf_ins(i_fstd,3*4+1,b);
+					b.offset+=4;
+					ld_ins(i_lw,1,b,T3);
+					cj_ins(c_neq, 0, T3, end) ;         
+					b.offset-=4;
+					ld_ins(i_lw,1,b,T3);
+					imm_to_r(2146435072,T4);
+					cj_ins(c_eq, T4, T3, trap) ;         
+					imm_to_r(-1048576,T4);
+					cj_ins(c_eq, T4, T3, trap) ;         
+					outlab("L$$",end);
+				}
+				else
+				{
+					baseoff b;
+					b = mem_temp(0);
+					stf_ins(i_fstw,3*4,b);
+					ld_ins(i_lw,1,b,T3);
+					imm_to_r(2139095040,T4);
+					cj_ins(c_eq, T4, T3, trap) ;         
+					imm_to_r(-8388608,T4);
+					cj_ins(c_eq, T4, T3, trap) ;         
+				}
+			}
+	}
 #endif
-   clear_t_regs() ;
-   return ;
+	clear_t_regs();
+	return;
 }
 
 #endif
 
 
-int fop
-    PROTO_N ( (e, sp, dest, ins) )
-    PROTO_T ( exp e X space sp X where dest X ins_p ins )
+int
+fop(exp e, space sp, where dest, ins_p ins)
 {
-   /* Evaluate floating dyadic operation e using ins into dest. If
-      !optop(e), then we have two fixed point registers at our disposal */
-   exp l = son(e);
-   exp r = bro(l);
-   int a1,a2,dble;
-   space nsp;
-   freg fr;
-   ans aa;
-   baseoff b;
-
+	/* Evaluate floating dyadic operation e using ins into dest. If
+	 *      !optop(e), then we have two fixed point registers at our disposal */
+	exp l = son(e);
+	exp r = bro(l);
+	int a1,a2,dble;
+	space nsp;
+	freg fr;
+	ans aa;
+	baseoff b;
+	
 #if use_long_double
-   if (name(sh(e))==doublehd)
-   {
-      /* i.e. quads */
-      quad_op( e, sp, dest );
-      return (NOREG) ;
-   }
+	if (name(sh(e))==doublehd)
+	{
+		/* i.e. quads */
+		quad_op(e, sp, dest);
+		return (NOREG);
+	}
 #endif
-
-
-   dble=( name(sh(e))==realhd ? 1 : 0 );
-   if (IsRev(e))
-   {
-      a2 = freg_operand(r, sp, getfreg(sp.flt));
-      nsp = guardfreg(a2, sp);
-      a1 = freg_operand(l, nsp, getfreg(nsp.flt));
-   }
-   else
-   {
-      a1 = freg_operand(l, sp, getfreg(sp.flt));
-      nsp = guardfreg(a1, sp);
-      a2 = freg_operand(r, nsp, getfreg(nsp.flt));
-   }
-   if ( (discrim(dest.answhere)) == infreg )
-      fr = fregalt(dest.answhere);
-   else
-   {
-      fr.fr = getfreg(nsp.flt);
-      fr.dble = (dest.ashwhere.ashsize == 64) ? 1 : 0;
-      setfregalt(aa, fr);
-   }
-   if (!optop(e))
-   {
-      b = zero_exception_register(nsp);
-   }
-   if (dble)
-      rrrf_ins(ins,f_dbl,(3*a1)+1,(3*a2)+1,(3*fr.fr)+1);
-   else
-      rrrf_ins(ins,f_sgl,3*a1,3*a2,3*fr.fr);
-   if (!optop(e))
-   {
-      trap_handler(b,trap_label(e),EXCEPTION_CODE);
-   }
-   if ( (discrim(dest.answhere)) != infreg )
-      move(aa, dest, sp.fixed, 1);
-   return ( dble ? -(fr.fr + 32) : (fr.fr + 32) );
+	
+	
+	dble=(name(sh(e))==realhd ? 1 : 0);
+	if (IsRev(e))
+	{
+		a2 = freg_operand(r, sp, getfreg(sp.flt));
+		nsp = guardfreg(a2, sp);
+		a1 = freg_operand(l, nsp, getfreg(nsp.flt));
+	}
+	else
+	{
+		a1 = freg_operand(l, sp, getfreg(sp.flt));
+		nsp = guardfreg(a1, sp);
+		a2 = freg_operand(r, nsp, getfreg(nsp.flt));
+	}
+	if ((discrim(dest.answhere)) == infreg)
+		fr = fregalt(dest.answhere);
+	else
+	{
+		fr.fr = getfreg(nsp.flt);
+		fr.dble = (dest.ashwhere.ashsize == 64) ? 1 : 0;
+		setfregalt(aa, fr);
+	}
+	if (!optop(e))
+	{
+		b = zero_exception_register(nsp);
+	}
+	if (dble)
+		rrrf_ins(ins,f_dbl,(3*a1)+1,(3*a2)+1,(3*fr.fr)+1);
+	else
+		rrrf_ins(ins,f_sgl,3*a1,3*a2,3*fr.fr);
+	if (!optop(e))
+	{
+		trap_handler(b,trap_label(e),EXCEPTION_CODE);
+	}
+	if ((discrim(dest.answhere)) != infreg)
+		move(aa, dest, sp.fixed, 1);
+	return (dble ? -(fr.fr + 32) : (fr.fr + 32));
 }

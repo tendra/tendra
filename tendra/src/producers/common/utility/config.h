@@ -1,31 +1,58 @@
 /*
-    		 Crown Copyright (c) 1997, 1998
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997, 1998
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 #ifndef CONFIG_INCLUDED
@@ -33,13 +60,13 @@
 
 
 /*
-    INCLUDE BASIC CONFIGURATION FILES
-
-    The basic compiler configuration macros are defined in the standard
-    header ossg.h.  The basic API headers are included from ossg_api.h.
-    Other API headers are included by individual modules.  The basic
-    compiler configuration (i.e. C or C++) header is also included.
-*/
+ *    INCLUDE BASIC CONFIGURATION FILES
+ *
+ *    The basic compiler configuration macros are defined in the standard
+ *    header ossg.h.  The basic API headers are included from ossg_api.h.
+ *    Other API headers are included by individual modules.  The basic
+ *    compiler configuration (i.e. C or C++) header is also included.
+ */
 
 #include "ossg_api.h"
 #include "ossg.h"
@@ -47,16 +74,16 @@
 
 
 /*
-    USEFUL MACROS
+ *    USEFUL MACROS
+ *
+ *    Useful general utility macros (including discarded function returns)
+ *    can be placed here.
+ */
 
-    Useful general utility macros (including discarded function returns)
-    can be placed here.
-*/
-
-#define streq( A, B )	( strcmp ( ( A ), ( B ) ) == 0 )
-#define array_size( A )	( ( int ) sizeof ( A ) / ( int ) sizeof ( *( A ) ) )
-#define NIL( A )	( ( A * ) NULL )
-#define NULL_gen_ptr	( ( gen_ptr ) NULL )
+#define streq(A, B)	(strcmp ((A), (B)) == 0)
+#define array_size(A)	((int) sizeof (A) / (int) sizeof (*(A)))
+#define NIL(A)	((A *) NULL)
+#define NULL_gen_ptr	((gen_ptr) NULL)
 
 #define fclose_v	IGNORE fclose
 #define fflush_v	IGNORE fflush
@@ -74,31 +101,31 @@
 
 
 /*
-    GENERIC POINTER AND SIZE TYPES
-
-    The type gen_ptr is used to represent the generic pointer.  The type
-    gen_size is used to represent a generic size type (it is equivalent
-    to size_t).
-*/
+ *    GENERIC POINTER AND SIZE TYPES
+ *
+ *    The type gen_ptr is used to represent the generic pointer.  The type
+ *    gen_size is used to represent a generic size type (it is equivalent
+ *    to size_t).
+ */
 
 #if FS_PTR_VOID
-typedef void *gen_ptr ;
+typedef void *gen_ptr;
 #else
-typedef char *gen_ptr ;
+typedef char *gen_ptr;
 #endif
 
-typedef unsigned long gen_size ;
+typedef unsigned long gen_size;
 
 
 /*
-    ASSERTION MACROS
-
-    These macros are used in connection with the assertion routines.  If
-    the macro DEBUG is defined then assertions will be included in the
-    program along with other aids to program development.  The standard
-    __FILE__ and __LINE__ macros are defined to dummy values for the
-    benefit of compilers which do not define them.
-*/
+ *    ASSERTION MACROS
+ *
+ *    These macros are used in connection with the assertion routines.  If
+ *    the macro DEBUG is defined then assertions will be included in the
+ *    program along with other aids to program development.  The standard
+ *    __FILE__ and __LINE__ macros are defined to dummy values for the
+ *    benefit of compilers which do not define them.
+ */
 
 #ifdef DEBUG
 #define ASSERTS		1

@@ -1,57 +1,304 @@
 /*
-    		 Crown Copyright (c) 1996
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1996
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:10  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------
+ *$Log$
+ *Revision 1.2  2002/11/21 22:30:45  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:55:49  release
  * First version to be checked into rolling release.
  *
-Revision 1.2  1997/11/09 14:23:43  ma
-Now is_signed is used instead of issigned.
-
-Revision 1.1.1.1  1997/10/13 12:42:57  ma
-First version.
-
-Revision 1.2  1997/09/25 06:45:26  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
+ *Revision 1.2  1997/11/09 14:23:43  ma
+ *Now is_signed is used instead of issigned.
+ *
+ *Revision 1.1.1.1  1997/10/13 12:42:57  ma
+ *First version.
+ *
+ *Revision 1.2  1997/09/25 06:45:26  ma
+ *All general_proc tests passed
+ *
+ *Revision 1.1.1.1  1997/03/14 07:50:15  ma
+ *Imported from DRA
+ 
  * Revision 1.1.1.1  1996/09/20  10:57:00  john
  *
  * Revision 1.2  1996/07/05  14:24:36  john
@@ -70,7 +317,7 @@ Imported from DRA
  * Minor correction to bitfields of complex operands.
  *
  * Revision 1.3  93/03/08  15:30:22  15:30:22  ra (Robert Andrews)
- * Emulate cc by mapping ( a << b ) to ( a << ( b % 64 ) ) when b is
+ * Emulate cc by mapping (a << b) to (a << (b % 64)) when b is
  * a constant.
  *
  * Revision 1.2  93/03/03  14:49:37  14:49:37  ra (Robert Andrews)
@@ -79,8 +326,8 @@ Imported from DRA
  * Revision 1.1  93/02/22  17:16:23  17:16:23  ra (Robert Andrews)
  * Initial revision
  *
---------------------------------------------------------------------------
-*/
+ *--------------------------------------------------------------------------
+ */
 
 
 #include "config.h"
@@ -111,12 +358,12 @@ Imported from DRA
 
 
 /*
-    MARKERS FOR AND, OR AND XOR
-
-    The logical operations, and, or and xor are handled by a single
-    routine with a flag to indicate which is meant.  The flag can take
-    the following values.
-*/
+ *    MARKERS FOR AND, OR AND XOR
+ *
+ *    The logical operations, and, or and xor are handled by a single
+ *    routine with a flag to indicate which is meant.  The flag can take
+ *    the following values.
+ */
 
 #define  AND		0
 #define  OR		1
@@ -124,800 +371,790 @@ Imported from DRA
 
 
 /*
-    AND/OR/XOR BY A CONSTANT
+ *    AND/OR/XOR BY A CONSTANT
+ *
+ *    The value a of shape sha and size sz has the logical operator indicated
+ *    by logop applied to it and the constant c.  The result is stored in
+ *    dest.  instr is one of m_andl, m_orl, eorl.
+ */
 
-    The value a of shape sha and size sz has the logical operator indicated
-    by logop applied to it and the constant c.  The result is stored in
-    dest.  instr is one of m_andl, m_orl, eorl.
-*/
-
-static void andetc_const
-    PROTO_N ( ( instr, sha, sz, c, a, dest, logop ) )
-    PROTO_T ( int instr X shape sha X long sz X long c X where a X where dest X int logop )
+static void
+andetc_const(int instr, shape sha, long sz,
+			 long c, where a, where dest,
+			 int logop)
 {
-    long whd ;
-
+    long whd;
+	
     /* First check that a is not a constant */
-    if ( whereis ( a ) == Value ) {
-	long ca = nw ( a ) ;
-	switch ( logop ) {
-	    case AND : ca &= c ; break ;
-	    case OR  : ca |= c ; break ;
-	    case XOR : ca ^= c ; break ;
-	}
-	move ( sha, mnw ( ca ), dest ) ;
-	return ;
+    if (whereis (a) == Value) {
+		long ca = nw (a);
+		switch (logop) {
+	    case AND : ca &= c ; break;
+	    case OR  : ca |= c ; break;
+	    case XOR : ca ^= c ; break;
+		}
+		move (sha, mnw (ca), dest);
+		return;
     }
-
+	
     /* Now look for some special values of c */
-    switch ( logop ) {
-
+    switch (logop) {
+		
 	case AND : {
-	    long cc ;
-	    if ( c == 0 ) {
-		move ( sha, zero, dest ) ;
-		return ;
+	    long cc;
+	    if (c == 0) {
+			move (sha, zero, dest);
+			return;
 	    }
-	    cc = ~c ;
-	    if ( sz == 32 ) {
-		if ( cc == 0 ) {
-		    change_var ( sha, a, dest ) ;
-		    return ;
-		}
-		if ( is_pow2 ( cc ) ) {
-		    long p = log2 ( cc ) ;
-		    if ( whereis ( dest ) == Dreg ) {
-			change_var ( sha, a, dest ) ;
-			ins2n ( m_bclr, p, sz, dest, 1 ) ;
-			have_cond = 0 ;
-			return ;
-		    }
-		}
+	    cc = ~c;
+	    if (sz == 32) {
+			if (cc == 0) {
+				change_var (sha, a, dest);
+				return;
+			}
+			if (is_pow2 (cc)) {
+				long p = log2 (cc);
+				if (whereis (dest) == Dreg) {
+					change_var (sha, a, dest);
+					ins2n (m_bclr, p, sz, dest, 1);
+					have_cond = 0;
+					return;
+				}
+			}
 	    }
-	    break ;
+	    break;
 	}
-
+		
 	case OR : {
-	    if ( c == 0 ) {
-		change_var ( sha, a, dest ) ;
-		return ;
+	    if (c == 0) {
+			change_var (sha, a, dest);
+			return;
 	    }
-	    if ( is_pow2 ( c ) ) {
-		long p = log2 ( c ) ;
-		if ( whereis ( dest ) == Dreg ) {
-		    change_var ( sha, a, dest ) ;
-		    ins2n ( m_bset, p, sz, dest, 1 ) ;
-		    have_cond = 0 ;
-		    return ;
-		}
+	    if (is_pow2 (c)) {
+			long p = log2 (c);
+			if (whereis (dest) == Dreg) {
+				change_var (sha, a, dest);
+				ins2n (m_bset, p, sz, dest, 1);
+				have_cond = 0;
+				return;
+			}
 	    }
-	    break ;
+	    break;
 	}
-
+		
 	case XOR : {
-	    if ( c == 0 ) {
-		change_var ( sha, a, dest ) ;
-		return ;
+	    if (c == 0) {
+			change_var (sha, a, dest);
+			return;
 	    }
-	    break ;
+	    break;
 	}
     }
-
-    whd = whereis ( dest ) ;
-    if ( whd != Areg && eq_where ( a, dest ) ) {
-	ins2h ( instr, c, sz, dest, 1 ) ;
-	set_cond ( dest, sz ) ;
-	return ;
+	
+    whd = whereis (dest);
+    if (whd != Areg && eq_where (a, dest)) {
+		ins2h (instr, c, sz, dest, 1);
+		set_cond (dest, sz);
+		return;
     }
-    if ( whd == Dreg ) {
-	change_var ( sha, a, dest ) ;
-	ins2h ( instr, c, sz, dest, 1 ) ;
-	set_cond ( dest, sz ) ;
-	return ;
+    if (whd == Dreg) {
+		change_var (sha, a, dest);
+		ins2h (instr, c, sz, dest, 1);
+		set_cond (dest, sz);
+		return;
     }
-    if ( whereis ( a ) == Dreg && last_use ( a ) ) {
-	ins2h ( instr, c, sz, a, 1 ) ;
-	change_var ( sha, a, dest ) ;
-	set_cond ( dest, sz ) ;
-	return ;
+    if (whereis (a) == Dreg && last_use (a)) {
+		ins2h (instr, c, sz, a, 1);
+		change_var (sha, a, dest);
+		set_cond (dest, sz);
+		return;
     }
-    change_var ( sha, a, D0 ) ;
-    ins2h ( instr, c, sz, D0, 1 ) ;
-    move ( sha, D0, dest ) ;
-    set_cond ( dest, sz ) ;
-    return ;
+    change_var (sha, a, D0);
+    ins2h (instr, c, sz, D0, 1);
+    move (sha, D0, dest);
+    set_cond (dest, sz);
+    return;
 }
 
 
 /*
-    AUXILLARY ROUTINE FOR AND/OR/XOR
+ *    AUXILLARY ROUTINE FOR AND/OR/XOR
+ *
+ *    The values a1 and a2 of shape sha have the logical operation indicated
+ *    by logop applied to them and the result is stored in dest.  (opb,
+ *    opw, opl) is an ordered triple giving the byte, word and long forms of
+ *    the appropriate machine instruction.
+ */
 
-    The values a1 and a2 of shape sha have the logical operation indicated
-    by logop applied to them and the result is stored in dest.  ( opb,
-    opw, opl ) is an ordered triple giving the byte, word and long forms of
-    the appropriate machine instruction.
-*/
-
-static void andetc
-    PROTO_N ( ( opb, opw, opl, sha, a1, a2, dest, logop ) )
-    PROTO_T ( int opb X int opw X int opl X shape sha X where a1 X where a2 X where dest X int logop )
+static void
+andetc(int opb, int opw, int opl, shape sha,
+	   where a1, where a2, where dest, int logop)
 {
-    int instr ;
-    long wha, whb, whd ;
-    long sz = shape_size ( sha ) ;
-
-    if ( eq_where ( a1, a2 ) ) {
-	switch ( logop ) {
-	    case AND : move ( sha, a1, dest ) ; return ;
-	    case OR  : move ( sha, a1, dest ) ; return ;
-	    case XOR : move ( sha, zero, dest ) ; return ;
-	}
-    }
-
-    instr = ins ( sz, opb, opw, opl ) ;
-
-    wha = whereis ( a1 ) ;
-    whb = whereis ( a2 ) ;
-
-    if ( wha == Freg ) {
-	move ( sha, a1, D0 ) ;
-	andetc ( opb, opw, opl, sha, D0, a2, dest, logop ) ;
-	return ;
-    }
-
-    if ( whb == Freg ) {
-	move ( sha, a2, D0 ) ;
-	andetc ( opb, opw, opl, sha, a1, D0, dest, logop ) ;
-	return ;
-    }
-
-    if ( wha == Value ) {
-	long c = nw ( a1 ) ;
-	andetc_const ( instr, sha, sz, c, a2, dest, logop ) ;
-	return ;
-    }
-
-    if ( whb == Value ) {
-	long c = nw ( a2 ) ;
-	andetc_const ( instr, sha, sz, c, a1, dest, logop ) ;
-	return ;
-    }
-
-    whd = whereis ( dest ) ;
-
-    if ( eq_where ( a1, dest ) && whd != Areg ) {
-	if ( whb == Dreg ) {
-	    ins2 ( instr, sz, sz, a2, dest, 1 ) ;
-	    return ;
-	}
-	if ( whd == Dreg ) {
-	    if ( logop == XOR || whb == Areg ) {
-		if ( eq_where ( dest, D0 ) ) {
-		    regsinproc |= regmsk ( REG_D1 ) ;
-		    move ( sha, a2, D1 ) ;
-		    ins2 ( instr, sz, sz, D1, dest, 1 ) ;
-		    set_cond ( dest, sz ) ;
-		    return ;
-		} else {
-		    move ( sha, a2, D0 ) ;
-		    ins2 ( instr, sz, sz, D0, dest, 1 ) ;
-		    set_cond ( dest, sz ) ;
-		    return ;
+    int instr;
+    long wha, whb, whd;
+    long sz = shape_size (sha);
+	
+    if (eq_where (a1, a2)) {
+		switch (logop) {
+	    case AND : move (sha, a1, dest) ; return;
+	    case OR  : move (sha, a1, dest) ; return;
+	    case XOR : move (sha, zero, dest) ; return;
 		}
-	    } else {
-		ins2 ( instr, sz, sz, a2, dest, 1 ) ;
-		set_cond ( dest, sz ) ;
-		return ;
-	    }
-	} else {
-	    move ( sha, a2, D0 ) ;
-	    ins2 ( instr, sz, sz, D0, dest, 1 ) ;
-	    set_cond ( dest, sz ) ;
-	    return ;
-	}
     }
-
-    if ( eq_where ( a2, dest ) && whd != Areg ) {
-	if ( wha == Dreg ) {
-	    ins2 ( instr, sz, sz, a1, dest, 1 ) ;
-	    set_cond ( dest, sz ) ;
-	    return ;
-	}
-	if ( whd == Dreg ) {
-	    if ( logop == XOR || wha == Areg || wha == Freg ) {
-		if ( eq_where ( dest, D0 ) ) {
-		    regsinproc |= regmsk ( REG_D1 ) ;
-		    move ( sha, a1, D1 ) ;
-		    ins2 ( instr, sz, sz, D1, dest, 1 ) ;
-		} else {
-		    move ( sha, a1, D0 ) ;
-		    ins2 ( instr, sz, sz, D0, dest, 1 ) ;
+	
+    instr = ins (sz, opb, opw, opl);
+	
+    wha = whereis (a1);
+    whb = whereis (a2);
+	
+    if (wha == Freg) {
+		move (sha, a1, D0);
+		andetc (opb, opw, opl, sha, D0, a2, dest, logop);
+		return;
+    }
+	
+    if (whb == Freg) {
+		move (sha, a2, D0);
+		andetc (opb, opw, opl, sha, a1, D0, dest, logop);
+		return;
+    }
+	
+    if (wha == Value) {
+		long c = nw (a1);
+		andetc_const (instr, sha, sz, c, a2, dest, logop);
+		return;
+    }
+	
+    if (whb == Value) {
+		long c = nw (a2);
+		andetc_const (instr, sha, sz, c, a1, dest, logop);
+		return;
+    }
+	
+    whd = whereis (dest);
+	
+    if (eq_where (a1, dest) && whd != Areg) {
+		if (whb == Dreg) {
+			ins2 (instr, sz, sz, a2, dest, 1);
+			return;
 		}
-	    } else {
-		ins2 ( instr, sz, sz, a1, dest, 1 ) ;
-	    }
-	} else {
-	    move ( sha, a1, D0 ) ;
-	    ins2 ( instr, sz, sz, D0, dest, 1 ) ;
-	}
-	set_cond ( dest, sz ) ;
-	return ;
+		if (whd == Dreg) {
+			if (logop == XOR || whb == Areg) {
+				if (eq_where (dest, D0)) {
+					regsinproc |= regmsk (REG_D1);
+					move (sha, a2, D1);
+					ins2 (instr, sz, sz, D1, dest, 1);
+					set_cond (dest, sz);
+					return;
+				} else {
+					move (sha, a2, D0);
+					ins2 (instr, sz, sz, D0, dest, 1);
+					set_cond (dest, sz);
+					return;
+				}
+			} else {
+				ins2 (instr, sz, sz, a2, dest, 1);
+				set_cond (dest, sz);
+				return;
+			}
+		} else {
+			move (sha, a2, D0);
+			ins2 (instr, sz, sz, D0, dest, 1);
+			set_cond (dest, sz);
+			return;
+		}
     }
-
-    if ( whd == Dreg ) {
-	if ( !interfere ( a2, dest ) ) {
-	    move ( sha, a1, dest ) ;
-	    andetc ( opb, opw, opl, sha, a2, dest, dest, logop ) ;
-	    return ;
-	}
-	if ( !interfere ( a1, dest ) ) {
-	    move ( sha, a2, dest ) ;
-	    andetc ( opb, opw, opl, sha, a1, dest, dest, logop ) ;
-	    return ;
-	}
+	
+    if (eq_where (a2, dest) && whd != Areg) {
+		if (wha == Dreg) {
+			ins2 (instr, sz, sz, a1, dest, 1);
+			set_cond (dest, sz);
+			return;
+		}
+		if (whd == Dreg) {
+			if (logop == XOR || wha == Areg || wha == Freg) {
+				if (eq_where (dest, D0)) {
+					regsinproc |= regmsk (REG_D1);
+					move (sha, a1, D1);
+					ins2 (instr, sz, sz, D1, dest, 1);
+				} else {
+					move (sha, a1, D0);
+					ins2 (instr, sz, sz, D0, dest, 1);
+				}
+			} else {
+				ins2 (instr, sz, sz, a1, dest, 1);
+			}
+		} else {
+			move (sha, a1, D0);
+			ins2 (instr, sz, sz, D0, dest, 1);
+		}
+		set_cond (dest, sz);
+		return;
     }
-
-    move ( sha, a1, D0 ) ;
-    andetc ( opb, opw, opl, sha, a2, D0, D0, logop ) ;
-    move ( sha, D0, dest ) ;
-    return ;
+	
+    if (whd == Dreg) {
+		if (!interfere (a2, dest)) {
+			move (sha, a1, dest);
+			andetc (opb, opw, opl, sha, a2, dest, dest, logop);
+			return;
+		}
+		if (!interfere (a1, dest)) {
+			move (sha, a2, dest);
+			andetc (opb, opw, opl, sha, a1, dest, dest, logop);
+			return;
+		}
+    }
+	
+    move (sha, a1, D0);
+    andetc (opb, opw, opl, sha, a2, D0, D0, logop);
+    move (sha, D0, dest);
+    return;
 }
 
 
 /*
-    AND INSTRUCTION
+ *    AND INSTRUCTION
+ *
+ *    The values a1 and a2 of shape sha are anded and the result is stored
+ *    in dested.
+ */
 
-    The values a1 and a2 of shape sha are anded and the result is stored
-    in dested.
-*/
-
-void and
-    PROTO_N ( ( sha, a1, a2, dest ) )
-    PROTO_T ( shape sha X where a1 X where a2 X where dest )
+void
+and(shape sha, where a1, where a2, where dest)
 {
-    andetc ( ml_and, sha, a1, a2, dest, AND ) ;
-    return ;
+    andetc (ml_and, sha, a1, a2, dest, AND);
+    return;
 }
 
 
 /*
-    OR INSTRUCTION
+ *    OR INSTRUCTION
+ *
+ *    The values a1 and a2 of shape sha are ored and the result is stored
+ *    in dested.
+ */
 
-    The values a1 and a2 of shape sha are ored and the result is stored
-    in dested.
-*/
-
-void or
-    PROTO_N ( ( sha, a1, a2, dest ) )
-    PROTO_T ( shape sha X where a1 X where a2 X where dest )
+void
+or(shape sha, where a1, where a2, where dest)
 {
-    andetc ( ml_or, sha, a1, a2, dest, OR ) ;
-    return ;
+    andetc (ml_or, sha, a1, a2, dest, OR);
+    return;
 }
 
 
 /*
-    XOR INSTRUCTION
+ *    XOR INSTRUCTION
+ *
+ *    The values a1 and a2 of shape sha are xored and the result is stored
+ *    in dested.
+ */
 
-    The values a1 and a2 of shape sha are xored and the result is stored
-    in dested.
-*/
-
-void xor
-    PROTO_N ( ( sha, a1, a2, dest ) )
-    PROTO_T ( shape sha X where a1 X where a2 X where dest )
+void
+xor(shape sha, where a1, where a2, where dest)
 {
-    andetc ( ml_eor, sha, a1, a2, dest, XOR ) ;
-    return ;
+    andetc (ml_eor, sha, a1, a2, dest, XOR);
+    return;
 }
 
 
 /*
-    LOGICAL NEGATION INSTRUCTION
+ *    LOGICAL NEGATION INSTRUCTION
+ *
+ *    The value a of shape sha is logically negated and the result is stored
+ *    in dest.
+ */
 
-    The value a of shape sha is logically negated and the result is stored
-    in dest.
-*/
-
-void not
-    PROTO_N ( ( sha, a, dest ) )
-    PROTO_T ( shape sha X where a X where dest )
+void
+not(shape sha, where a, where dest)
 {
-    int instr ;
-    long sz = shape_size ( sha ) ;
-    long wha = whereis ( a ) ;
-    long whd = whereis ( dest ) ;
-
-    if ( wha == Value ) {
-	long c = nw ( a ) ;
-	move ( sha, mnw ( ~c ), dest ) ;
-	return ;
+    int instr;
+    long sz = shape_size (sha);
+    long wha = whereis (a);
+    long whd = whereis (dest);
+	
+    if (wha == Value) {
+		long c = nw (a);
+		move (sha, mnw (~c), dest);
+		return;
     }
-
-    if ( eq_where ( a, dest ) && whd != Areg ) {
-	instr = ins ( sz, ml_not ) ;
-	ins1 ( instr, sz, dest, 1 ) ;
-	set_cond ( dest, sz ) ;
-	return ;
+	
+    if (eq_where (a, dest) && whd != Areg) {
+		instr = ins (sz, ml_not);
+		ins1 (instr, sz, dest, 1);
+		set_cond (dest, sz);
+		return;
     }
-
-    if ( whd == Dreg ) {
-	move ( sha, a, dest ) ;
-	not ( sha, dest, dest ) ;
-	return ;
+	
+    if (whd == Dreg) {
+		move (sha, a, dest);
+		not (sha, dest, dest);
+		return;
     }
-
-    if ( wha == Dreg && last_use ( a ) ) {
-	not ( sha, a, a ) ;
-	move ( sha, a, dest ) ;
-	return ;
+	
+    if (wha == Dreg && last_use (a)) {
+		not (sha, a, a);
+		move (sha, a, dest);
+		return;
     }
-
-    move ( sha, a, D0 ) ;
-    not ( sha, D0, D0 ) ;
-    move ( sha, D0, dest ) ;
-    return ;
+	
+    move (sha, a, D0);
+    not (sha, D0, D0);
+    move (sha, D0, dest);
+    return;
 }
 
 
 /*
-    LOW LEVEL SHIFT
+ *    LOW LEVEL SHIFT
+ *
+ *    This routine outputs a simple shift instruction, taking overflow
+ *    into account if necessary (not right yet).
+ */
 
-    This routine outputs a simple shift instruction, taking overflow
-    into account if necessary (not right yet).
-*/
-
-static void shift_it
-    PROTO_N ( ( sha, shb, instr, by, to ) )
-    PROTO_T ( shape sha X shape shb X int instr X where by X where to )
+static void
+shift_it(shape sha, shape shb, int instr,
+		 where by, where to)
 {
-    long sz = shape_size ( sha ) ;
-    ins2 ( instr, L8, sz, by, to, 1 ) ;
-    have_cond = 0 ;
-    test_overflow( ON_OVERFLOW ) ;
-    return ;
+    long sz = shape_size (sha);
+    ins2 (instr, L8, sz, by, to, 1);
+    have_cond = 0;
+    test_overflow(ON_OVERFLOW);
+    return;
 }
 
 
 /*
-    AUXILIARY SHIFT ROUTINE
+ *    AUXILIARY SHIFT ROUTINE
+ *
+ *    The value from of shape sha is shifted, either left if sw is 0, or
+ *    right otherwise, by the value by.  The result is stored in to.
+ *    The dont_use_D1 flag indicates that register D1 should not be used.
+ *    It is always false for simple shifts, but may be true for certain
+ *    multiplications which are done by shifts.
+ */
 
-    The value from of shape sha is shifted, either left if sw is 0, or
-    right otherwise, by the value by.  The result is stored in to.
-    The dont_use_D1 flag indicates that register D1 should not be used.
-    It is always false for simple shifts, but may be true for certain
-    multiplications which are done by shifts.
-*/
-
-void shift_aux
-    PROTO_N ( ( sha, by, from, to, sw, dont_use_D1 ) )
-    PROTO_T ( shape sha X where by X where from X where to X int sw X int dont_use_D1 )
+void
+shift_aux(shape sha, where by, where from,
+		  where to, int sw, int dont_use_D1)
 {
-    where w ;
-    long whb, wht ;
-    int instr, shift_plus, shift_minus ;
-
-    shape shb = sh ( by.wh_exp ) ;
-    long sz = shape_size ( sha ) ;
-    bool sig = is_signed ( sha ) ;
-
-    switch ( sz ) {
+    where w;
+    long whb, wht;
+    int instr, shift_plus, shift_minus;
+	
+    shape shb = sh (by.wh_exp);
+    long sz = shape_size (sha);
+    bool sig = is_signed (sha);
+	
+    switch (sz) {
 	case 8 : {
-	    shift_plus = ( sig ? m_aslb : m_lslb ) ;
-	    shift_minus = ( sig ? m_asrb : m_lsrb ) ;
-	    break ;
+	    shift_plus = (sig ? m_aslb : m_lslb);
+	    shift_minus = (sig ? m_asrb : m_lsrb);
+	    break;
 	}
 	case 16 : {
-	    shift_plus = ( sig ? m_aslw : m_lslw ) ;
-	    shift_minus = ( sig ? m_asrw : m_lsrw ) ;
-	    break ;
+	    shift_plus = (sig ? m_aslw : m_lslw);
+	    shift_minus = (sig ? m_asrw : m_lsrw);
+	    break;
 	}
 	default : {
-	    shift_plus = ( sig ? m_asll : m_lsll ) ;
-	    shift_minus = ( sig ? m_asrl : m_lsrl ) ;
-	    break ;
+	    shift_plus = (sig ? m_asll : m_lsll);
+	    shift_minus = (sig ? m_asrl : m_lsrl);
+	    break;
 	}
     }
-
-    if ( sw ) {
-	/* Switch shift_plus and shift_minus for right shifts */
-	instr = shift_plus ;
-	shift_plus = shift_minus ;
-	shift_minus = instr ;
+	
+    if (sw) {
+		/* Switch shift_plus and shift_minus for right shifts */
+		instr = shift_plus;
+		shift_plus = shift_minus;
+		shift_minus = instr;
     }
-
-    whb = whereis ( by ) ;
-    wht = whereis ( to ) ;
-
-    if ( whb == Value && !have_overflow () ) {
-	long p = nw ( by ) ;
-	if ( p == 0 ) {
-	    /* A shift by 0 is a move */
-	    move ( sha, from, to ) ;
-	    return ;
-	}
-	/* Reduce mod 64 to emulate instruction */
-	p &= 0x3f ;
-	instr = shift_plus ;
-	/* Do the shift, at most eight at a time */
-	if ( p <= 8 || D1_is_special || dont_use_D1 ) {
-	    w = ( wht == Dreg ? to : D0 ) ;
-	    move ( sha, from, w ) ;
-	    while ( p ) {
-		long q = ( p > 8 ? 7 : p ) ;
-		ins2n ( instr, q, sz, w, 1 ) ;
-		p -= q ;
-	    }
-	    have_cond = 0 ;
-	    move ( sha, w, to ) ;
-	    return ;
-	}
-	/* Fall through otherwise */
-	shb = slongsh ;
-    }
-
-    if ( wht == Dreg ) {
-	if ( whb == Dreg && !eq_where ( by, to ) ) {
-	    move ( sha, from, to ) ;
-	    shift_it ( sha, shb, shift_plus, by, to ) ;
-	    return ;
-	}
-	if ( eq_where ( D0, to ) ) {
-	    w = D1 ;
-	    regsinproc |= regmsk ( REG_D1 ) ;
-	} else {
-	    w = D0 ;
-	}
-	move ( shb, by, w ) ;
-	move ( sha, from, to ) ;
-	shift_it ( sha, shb, shift_plus, w, to ) ;
-	return ;
-    }
-
-    if ( whb == Dreg ) {
-	if ( eq_where ( D0, by ) ) {
-	    w = D1 ;
-	    regsinproc |= regmsk ( REG_D1 ) ;
-	} else {
-	    w = D0 ;
-	}
-	move ( sha, from, w ) ;
-	shift_it ( sha, shb, shift_plus, by, w ) ;
-	move ( sha, w, to ) ;
-	return ;
-    }
-
-    regsinproc |= regmsk ( REG_D1 ) ;
-    move ( shb, by, D0 ) ;
-    move ( sha, from, D1 ) ;
-    shift_it ( sha, shb, shift_plus, D0, D1 ) ;
-    move ( sha, D1, to ) ;
-    return ;
-}
-
-
-/*
-    MAIN LEFT SHIFT ROUTINE
-
-    The value from of shape sha is shifted left by the value by.  The
-    result is stored in to.
-*/
-
-void shift
-    PROTO_N ( ( sha, by, from, to ) )
-    PROTO_T ( shape sha X where by X where from X where to )
-{
-    shift_aux ( sha, by, from, to, 0, 0 ) ;
-    return ;
-}
-
-
-/*
-    MAIN RIGHT SHIFT ROUTINE
-
-    The value from of shape sha is shifted right by the value by.  The
-    result is stored in to.
-*/
-
-void rshift
-    PROTO_N ( ( sha, by, from, to ) )
-    PROTO_T ( shape sha X where by X where from X where to )
-{
-    shift_aux ( sha, by, from, to, 1, 0 ) ;
-    return ;
-}
-
-
-/*
-    ADJUST AN EXPRESSION READY FOR A BITFIELD OPERATION
-
-    The value in the no field of e is rounded down to a multiple of 32.
-    The remainder is the bitfield offset and is returned.
-*/
-
-static long adjust_bitf
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
-{
-    long boff = no ( e ) % 32 ;
-    no ( e ) -= boff ;
-    return ( boff ) ;
-}
-
-
-/*
-    FIND POSITION OF A CONTENTS BITFIELD
-*/
-
-static long contents_bitf
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
-{
-    char n = name ( e ) ;
-    if ( n == name_tag || n == reff_tag ) return ( adjust_bitf ( e ) ) ;
-    if ( n == ident_tag ) {
-	exp s = son ( e ) ;
-	exp b = bro ( s ) ;
-	if ( name ( b ) == reff_tag ) return ( adjust_bitf ( b ) ) ;
-	if ( name ( b ) == ident_tag ) return ( contents_bitf ( b ) ) ;
-	if ( name ( b ) == name_tag && son ( b ) == e &&
-	     name ( s ) == name_tag ) {
-	    return ( contents_bitf ( son ( s ) ) ) ;
-	}
-	if ( name ( s ) == name_tag ) return ( adjust_bitf ( s ) ) ;
-    }
-    error ( "Illegal bitfield operation" ) ;
-    return ( 0 ) ;
-}
-
-
-/*
-    FIND POSITION OF A BITFIELD OPERATION
-*/
-
-static long bitf_posn
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
-{
-    char n = name ( e ) ;
-    if ( n == name_tag ) return ( adjust_bitf ( e ) ) ;
-    if ( n == cont_tag || n == ass_tag ) {
-	return ( bitf_posn ( son ( e ) ) ) ;
-    }
-    if ( n == ident_tag ) return ( 0 ) ;
-    error ( "Illegal bitfield operation" ) ;
-    return ( 0 ) ;
-}
-
-
-/*
-    EXTRACT A BITFIELD
-
-    The bitfield e of shape sha is extracted into dest.  The current state
-    of the stack is also given.
-*/
-
-void bitf_to_int
-    PROTO_N ( ( e, sha, dest, stack ) )
-    PROTO_T ( exp e X shape sha X where dest X ash stack )
-{
-    where bf, d ;
-    exp t = dest.wh_exp ;
-    shape dsha = sh ( t ) ;
-
-    int extend = ( is_signed ( sha ) ? 1 : 0 ) ;
-    int instr = ( extend ? m_bfexts : m_bfextu ) ;
-
-    long off, sz, bstart ;
-    bitpattern pmask ;
-    long nbits = shape_size ( sha ) ;
-    long boff = bitf_posn ( e ) ;
-
-    off = 8 * ( boff / 8 ) ;
-    sz = 8 * ( ( boff + nbits - 1 ) / 8 ) + 8 - off ;
-    if ( sz == 24 ) { sz = 32 ; off -= 8 ; }
-    bstart = boff - off ;
-
-    pmask = ( ( hi_bits [ nbits ] ) >> bstart ) >> ( 32 - sz ) ;
-
-    switch ( name ( t ) ) {
-	case ident_tag : dsha = sh ( son ( t ) ) ; break ;
-	case ass_tag : dsha = sh ( bro ( son ( t ) ) ) ; break ;
-    }
-    if ( name ( dsha ) == bitfhd ) dsha = ( extend ? slongsh : ulongsh ) ;
-    if ( name ( dsha ) == tophd ) warning ( "Top in bitfield assignment" ) ;
-
-    bf = mw ( e, off ) ;
-
-    if ( bstart == 0 && nbits == sz ) {
-	shape bsha ;
-	switch ( sz ) {
-	    case 8 : bsha = scharsh ; break ;
-	    case 16 : bsha = swordsh ; break ;
-	    case 32 : bsha = slongsh ; break ;
-	}
-	change_var_sh ( dsha, bsha, bf, dest ) ;
-	return ;
-    }
-
-    if ( whereis ( bf ) == Dreg ) {
-	bitpattern m = ( lo_bits [ nbits ] <<  boff ) ;
-	d = ( whereis ( dest ) == Dreg ? dest : D0 ) ;
-	and ( slongsh, bf, mnw ( m ), d ) ;
-	if ( extend ) {
-	    long r = 32 - nbits - boff ;
-	    if ( r ) {
-		if ( r <= 8 ) {
-		    ins2n ( m_lsll, r, L32, d, 1 ) ;
-		    ins2n ( m_asrl, r, L32, d, 1 ) ;
-		} else {
-		    regsinproc |= regmsk ( REG_D1 ) ;
-		    ins2n ( m_moveq, r, L32, D1, 1 ) ;
-		    ins2 ( m_lsll, L32, L32, D1, d, 1 ) ;
-		    ins2 ( m_asrl, L32, L32, D1, d, 1 ) ;
+	
+    whb = whereis (by);
+    wht = whereis (to);
+	
+    if (whb == Value && !have_overflow ()) {
+		long p = nw (by);
+		if (p == 0) {
+			/* A shift by 0 is a move */
+			move (sha, from, to);
+			return;
 		}
-	    }
-	}
-	have_cond = 0 ;
-	change_var_sh ( dsha, slongsh, d, dest ) ;
-	return ;
+		/* Reduce mod 64 to emulate instruction */
+		p &= 0x3f;
+		instr = shift_plus;
+		/* Do the shift, at most eight at a time */
+		if (p <= 8 || D1_is_special || dont_use_D1) {
+			w = (wht == Dreg ? to : D0);
+			move (sha, from, w);
+			while (p) {
+				long q = (p > 8 ? 7 : p);
+				ins2n (instr, q, sz, w, 1);
+				p -= q;
+			}
+			have_cond = 0;
+			move (sha, w, to);
+			return;
+		}
+		/* Fall through otherwise */
+		shb = slongsh;
+    }
+	
+    if (wht == Dreg) {
+		if (whb == Dreg && !eq_where (by, to)) {
+			move (sha, from, to);
+			shift_it (sha, shb, shift_plus, by, to);
+			return;
+		}
+		if (eq_where (D0, to)) {
+			w = D1;
+			regsinproc |= regmsk (REG_D1);
+		} else {
+			w = D0;
+		}
+		move (shb, by, w);
+		move (sha, from, to);
+		shift_it (sha, shb, shift_plus, w, to);
+		return;
+    }
+	
+    if (whb == Dreg) {
+		if (eq_where (D0, by)) {
+			w = D1;
+			regsinproc |= regmsk (REG_D1);
+		} else {
+			w = D0;
+		}
+		move (sha, from, w);
+		shift_it (sha, shb, shift_plus, by, w);
+		move (sha, w, to);
+		return;
+    }
+	
+    regsinproc |= regmsk (REG_D1);
+    move (shb, by, D0);
+    move (sha, from, D1);
+    shift_it (sha, shb, shift_plus, D0, D1);
+    move (sha, D1, to);
+    return;
+}
+
+
+/*
+ *    MAIN LEFT SHIFT ROUTINE
+ *
+ *    The value from of shape sha is shifted left by the value by.  The
+ *    result is stored in to.
+ */
+
+void
+shift(shape sha, where by, where from, where to)
+{
+    shift_aux (sha, by, from, to, 0, 0);
+    return;
+}
+
+
+/*
+ *    MAIN RIGHT SHIFT ROUTINE
+ *
+ *    The value from of shape sha is shifted right by the value by.  The
+ *    result is stored in to.
+ */
+
+void
+rshift(shape sha, where by, where from, where to)
+{
+    shift_aux (sha, by, from, to, 1, 0);
+    return;
+}
+
+
+/*
+ *    ADJUST AN EXPRESSION READY FOR A BITFIELD OPERATION
+ *
+ *    The value in the no field of e is rounded down to a multiple of 32.
+ *    The remainder is the bitfield offset and is returned.
+ */
+
+static long
+adjust_bitf(exp e)
+{
+    long boff = no (e) % 32;
+    no (e) -= boff;
+    return (boff);
+}
+
+
+/*
+ *    FIND POSITION OF A CONTENTS BITFIELD
+ */
+
+static long
+contents_bitf(exp e)
+{
+    char n = name (e);
+    if (n == name_tag || n == reff_tag) return (adjust_bitf (e));
+    if (n == ident_tag) {
+		exp s = son (e);
+		exp b = bro (s);
+		if (name (b) == reff_tag) return (adjust_bitf (b));
+		if (name (b) == ident_tag) return (contents_bitf (b));
+		if (name (b) == name_tag && son (b) == e &&
+			name (s) == name_tag) {
+			return (contents_bitf (son (s)));
+		}
+		if (name (s) == name_tag) return (adjust_bitf (s));
+    }
+    error ("Illegal bitfield operation");
+    return (0);
+}
+
+
+/*
+ *    FIND POSITION OF A BITFIELD OPERATION
+ */
+
+static long
+bitf_posn(exp e)
+{
+    char n = name (e);
+    if (n == name_tag) return (adjust_bitf (e));
+    if (n == cont_tag || n == ass_tag) {
+		return (bitf_posn (son (e)));
+    }
+    if (n == ident_tag) return (0);
+    error ("Illegal bitfield operation");
+    return (0);
+}
+
+
+/*
+ *    EXTRACT A BITFIELD
+ *
+ *    The bitfield e of shape sha is extracted into dest.  The current state
+ *    of the stack is also given.
+ */
+
+void
+bitf_to_int(exp e, shape sha, where dest,
+			ash stack)
+{
+    where bf, d;
+    exp t = dest.wh_exp;
+    shape dsha = sh (t);
+	
+    int extend = (is_signed (sha) ? 1 : 0);
+    int instr = (extend ? m_bfexts : m_bfextu);
+	
+    long off, sz, bstart;
+    bitpattern pmask;
+    long nbits = shape_size (sha);
+    long boff = bitf_posn (e);
+	
+    off = 8 * (boff / 8);
+    sz = 8 * ((boff + nbits - 1) / 8) + 8 - off;
+    if (sz == 24) { sz = 32 ; off -= 8 ; }
+    bstart = boff - off;
+	
+    pmask = ((hi_bits [ nbits ]) >> bstart) >> (32 - sz);
+	
+    switch (name (t)) {
+	case ident_tag : dsha = sh (son (t)) ; break;
+	case ass_tag : dsha = sh (bro (son (t))) ; break;
+    }
+    if (name (dsha) == bitfhd) dsha = (extend ? slongsh : ulongsh);
+    if (name (dsha) == tophd) warning ("Top in bitfield assignment");
+	
+    bf = mw (e, off);
+	
+    if (bstart == 0 && nbits == sz) {
+		shape bsha;
+		switch (sz) {
+	    case 8 : bsha = scharsh ; break;
+	    case 16 : bsha = swordsh ; break;
+	    case 32 : bsha = slongsh ; break;
+		}
+		change_var_sh (dsha, bsha, bf, dest);
+		return;
+    }
+	
+    if (whereis (bf) == Dreg) {
+		bitpattern m = (lo_bits [ nbits ] <<  boff);
+		d = (whereis (dest) == Dreg ? dest : D0);
+		and (slongsh, bf, mnw (m), d);
+		if (extend) {
+			long r = 32 - nbits - boff;
+			if (r) {
+				if (r <= 8) {
+					ins2n (m_lsll, r, L32, d, 1);
+					ins2n (m_asrl, r, L32, d, 1);
+				} else {
+					regsinproc |= regmsk (REG_D1);
+					ins2n (m_moveq, r, L32, D1, 1);
+					ins2 (m_lsll, L32, L32, D1, d, 1);
+					ins2 (m_asrl, L32, L32, D1, d, 1);
+				}
+			}
+		}
+		have_cond = 0;
+		change_var_sh (dsha, slongsh, d, dest);
+		return;
     } else {
-	mach_op *op1, *op2 ;
-	d = ( whereis ( dest ) == Dreg ? dest : D0 ) ;
-	op1 = operand ( L32, bf ) ;
-	op1 = make_bitfield_op ( op1, ( int ) bstart, ( int ) nbits ) ;
-	op2 = operand ( L32, d ) ;
-	make_instr ( instr, op1, op2, regs_changed ( op2, 1 ) ) ;
-	have_cond = 0 ;
-	change_var_sh ( dsha, slongsh, d, dest ) ;
-	return ;
+		mach_op *op1, *op2;
+		d = (whereis (dest) == Dreg ? dest : D0);
+		op1 = operand (L32, bf);
+		op1 = make_bitfield_op (op1, (int) bstart, (int) nbits);
+		op2 = operand (L32, d);
+		make_instr (instr, op1, op2, regs_changed (op2, 1));
+		have_cond = 0;
+		change_var_sh (dsha, slongsh, d, dest);
+		return;
     }
 }
 
 
 /*
-    INSERT A BITFIELD
+ *    INSERT A BITFIELD
+ *
+ *    The value e is inserted into the bitfield d.  The state of the stack
+ *    is also given.
+ */
 
-    The value e is inserted into the bitfield d.  The state of the stack
-    is also given.
-*/
-
-void int_to_bitf
-    PROTO_N ( ( e, d, stack ) )
-    PROTO_T ( exp e X exp d X ash stack )
+void
+int_to_bitf(exp e, exp d, ash stack)
 {
-    shape sha ;
-    where dest, f ;
-
-    long off, sz, bstart, bend ;
-    bitpattern pmask, nmask, v ;
-    long nbits = shape_size ( sh ( e ) ) ;
-    long boff = bitf_posn ( d ) ;
-
-    off = 8 * ( boff / 8 ) ;
-    sz = 8 * ( ( boff + nbits - 1 ) / 8 ) + 8 - off ;
-    if ( sz == 24 ) { sz = 32 ; off -= 8 ; }
-    bstart = boff - off ;
-    bend = sz - nbits - bstart ;
-
-    pmask = ( ( hi_bits [ nbits ] ) >> bstart ) >> ( 32 - sz ) ;
-    nmask = ~pmask ;
-
-    switch ( sz ) {
-	case 8 : nmask &= 0xff ; sha = scharsh ; break ;
-	case 16 : nmask &= 0xffff ; sha = swordsh ; break ;
-	default : sha = slongsh ; break ;
+    shape sha;
+    where dest, f;
+	
+    long off, sz, bstart, bend;
+    bitpattern pmask, nmask, v;
+    long nbits = shape_size (sh (e));
+    long boff = bitf_posn (d);
+	
+    off = 8 * (boff / 8);
+    sz = 8 * ((boff + nbits - 1) / 8) + 8 - off;
+    if (sz == 24) { sz = 32 ; off -= 8 ; }
+    bstart = boff - off;
+    bend = sz - nbits - bstart;
+	
+    pmask = ((hi_bits [ nbits ]) >> bstart) >> (32 - sz);
+    nmask = ~pmask;
+	
+    switch (sz) {
+	case 8 : nmask &= 0xff ; sha = scharsh ; break;
+	case 16 : nmask &= 0xffff ; sha = swordsh ; break;
+	default : sha = slongsh ; break;
     }
-
-    if ( name ( e ) == int_to_bitf_tag ) {
-	exp s = son ( e ) ;
-	if ( is_o ( name ( s ) ) ) {
-	    e = s ;
-	} else {
-	    regsinproc |= regmsk ( REG_D1 ) ;
-	    coder ( D1, stack, s ) ;
-	    if ( shape_size ( sh ( s ) ) < 32 ) warning ( "Think again!" ) ;
-	    e = D1.wh_exp ;
-	}
+	
+    if (name (e) == int_to_bitf_tag) {
+		exp s = son (e);
+		if (is_o (name (s))) {
+			e = s;
+		} else {
+			regsinproc |= regmsk (REG_D1);
+			coder (D1, stack, s);
+			if (shape_size (sh (s)) < 32) warning ("Think again!");
+			e = D1.wh_exp;
+		}
     }
-
-    dest = mw ( d, off ) ;
-
-    if ( bstart == 0 && nbits == sz ) {
-	change_var_sh ( sha, sh ( e ), zw ( e ), dest ) ;
-	return ;
+	
+    dest = mw (d, off);
+	
+    if (bstart == 0 && nbits == sz) {
+		change_var_sh (sha, sh (e), zw (e), dest);
+		return;
     }
-
-    if ( ( bstart + nbits > 32 ) || ( name ( e ) != val_tag ) ) {
-	where dd ;
-	bitpattern ch ;
-	mach_op *op1, *op2 ;
-	dd = zw ( e ) ;
-	if ( whereis ( dd ) != Dreg || shape_size ( sh ( e ) ) != 32 ) {
-	    change_var_sh ( slongsh, sh ( e ), dd, D0 ) ;
-	    dd = D0 ;
-	}
-	op1 = operand ( L32, dd ) ;
-	op2 = operand ( L32, dest ) ;
-	ch = regs_changed ( op2, 1 ) ;
-	op2 = make_bitfield_op ( op2, ( int ) bstart, ( int ) nbits ) ;
-	make_instr ( m_bfins, op1, op2, ch ) ;
-	have_cond = 0 ;
-	return ;
+	
+    if ((bstart + nbits > 32) || (name (e) != val_tag)) {
+		where dd;
+		bitpattern ch;
+		mach_op *op1, *op2;
+		dd = zw (e);
+		if (whereis (dd) != Dreg || shape_size (sh (e)) != 32) {
+			change_var_sh (slongsh, sh (e), dd, D0);
+			dd = D0;
+		}
+		op1 = operand (L32, dd);
+		op2 = operand (L32, dest);
+		ch = regs_changed (op2, 1);
+		op2 = make_bitfield_op (op2, (int) bstart, (int) nbits);
+		make_instr (m_bfins, op1, op2, ch);
+		have_cond = 0;
+		return;
     }
-
-    v = ( bitpattern ) no ( e ) ;
-    v = ( ( v << bend ) & pmask ) ;
-
-    if ( v == 0 ) {
-	and ( sha, mnw ( nmask ), dest, dest ) ;
-	return ;
+	
+    v = (bitpattern) no (e);
+    v = ((v << bend) & pmask);
+	
+    if (v == 0) {
+		and (sha, mnw (nmask), dest, dest);
+		return;
     }
-
-    if ( v == pmask ) {
-	or ( sha, mnw ( pmask ), dest, dest ) ;
-	return ;
+	
+    if (v == pmask) {
+		or (sha, mnw (pmask), dest, dest);
+		return;
     }
-
-    f = ( ( whereis ( dest ) == Dreg ) ? dest : D0 ) ;
-    and ( sha, mnw ( nmask ), dest, f ) ;
-    or ( sha, mnw ( v ), f, dest ) ;
-    return ;
+	
+    f = ((whereis (dest) == Dreg) ? dest : D0);
+    and (sha, mnw (nmask), dest, f);
+    or (sha, mnw (v), f, dest);
+    return;
 }
 
 
 /*
-    TEST A NUMBER OF BITS
+ *    TEST A NUMBER OF BITS
+ *
+ *    The value a1 of shape sha is tested to see if the bits indicated by
+ *    the value a2 are set.  If a2 is a constant power of 2 then a bit
+ *    test operation is used.  Otherwise a1 is anded with a2 and the
+ *    result is stored in an unwanted D-register.
+ */
 
-    The value a1 of shape sha is tested to see if the bits indicated by
-    the value a2 are set.  If a2 is a constant power of 2 then a bit
-    test operation is used.  Otherwise a1 is anded with a2 and the
-    result is stored in an unwanted D-register.
-*/
-
-void bit_test
-    PROTO_N ( ( sha, a1, a2 ) )
-    PROTO_T ( shape sha X where a1 X where a2 )
+void
+bit_test(shape sha, where a1, where a2)
 {
-    long sz = shape_size ( sha ) ;
-    long wh1 = whereis ( a1 ) ;
-    long wh2 = whereis ( a2 ) ;
-    if ( wh2 == Value ) {
-	if ( wh1 == External || wh1 == Parameter || wh1 == RegInd ) {
-	    long v = nw ( a2 ) ;
-	    if ( is_pow2 ( v ) ) {
-		where w ;
-		long n = log2 ( v ) ;
-		long off = sz - 8 * ( 1 + ( n / 8 ) ) ;
-		w = mw ( a1.wh_exp, a1.wh_off + off ) ;
-		ins2n ( m_btstb, n % 8, 8, w, 1 ) ;
-		have_cond = 0 ;
-		return ;
-	    }
-	}
-	if ( wh1 == Dreg ) {
-	    long v = nw ( a2 ) ;
-	    if ( last_use ( a1 ) ) {
-		and ( sha, a2, a1, a1 ) ;
-		return ;
-	    }
-	    if ( is_pow2 ( v ) && sz == 32 ) {
-		long n = log2 ( v ) ;
-		ins2n ( m_btstl, n, sz, a1, 1 ) ;
-		have_cond = 0 ;
-		return ;
-	    }
-	}
+    long sz = shape_size (sha);
+    long wh1 = whereis (a1);
+    long wh2 = whereis (a2);
+    if (wh2 == Value) {
+		if (wh1 == External || wh1 == Parameter || wh1 == RegInd) {
+			long v = nw (a2);
+			if (is_pow2 (v)) {
+				where w;
+				long n = log2 (v);
+				long off = sz - 8 * (1 + (n / 8));
+				w = mw (a1.wh_exp, a1.wh_off + off);
+				ins2n (m_btstb, n % 8, 8, w, 1);
+				have_cond = 0;
+				return;
+			}
+		}
+		if (wh1 == Dreg) {
+			long v = nw (a2);
+			if (last_use (a1)) {
+				and (sha, a2, a1, a1);
+				return;
+			}
+			if (is_pow2 (v) && sz == 32) {
+				long n = log2 (v);
+				ins2n (m_btstl, n, sz, a1, 1);
+				have_cond = 0;
+				return;
+			}
+		}
     }
-    if ( wh1 == Dreg && last_use ( a1 ) ) {
-	and ( sha, a2, a1, a1 ) ;
-	return ;
+    if (wh1 == Dreg && last_use (a1)) {
+		and (sha, a2, a1, a1);
+		return;
     }
-    if ( wh2 == Dreg && last_use ( a2 ) ) {
-	and ( sha, a1, a2, a2 ) ;
-	return ;
+    if (wh2 == Dreg && last_use (a2)) {
+		and (sha, a1, a2, a2);
+		return;
     }
-    move ( sha, a1, D0 ) ;
-    and ( sha, a2, D0, D0 ) ;
-    return ;
+    move (sha, a1, D0);
+    and (sha, a2, D0, D0);
+    return;
 }

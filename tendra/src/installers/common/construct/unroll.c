@@ -1,41 +1,288 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:17  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:04  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:55:47  release
  * First version to be checked into rolling release.
  *
@@ -45,7 +292,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1995/04/06  10:44:05  currie
  * Initial revision
  *
-***********************************************************************/
+ ***********************************************************************/
 
 
 
@@ -64,7 +311,7 @@ Initial version of TenDRA 4.1.2.
 #include "shapemacs.h"
 #include "unroll.h"
 
-static int  unroll_complex PROTO_S ( ( exp, int, exp, int, exp, int ) ) ;
+static int  unroll_complex(exp, int, exp, int, exp, int) ;
 
 /* MACROS */
 
@@ -85,117 +332,117 @@ static int jumps_out;		/* no init needed */
 
 /* PROCEDURES */
 
-static int  uc_list
-    PROTO_N ( (e, n, control, lia, ul, decr) )
-    PROTO_T ( exp e X int n X exp control X int lia X exp ul X int decr )
+static int
+uc_list(exp e, int n, exp control, int lia,
+		exp ul, int decr)
 {
-  int   c = unroll_complex (e, n, control, lia, ul, decr);
-  if (c < 0 || last (e))
-    return c;
-  return uc_list (bro (e), c, control, lia, ul, decr);
+	int   c = unroll_complex (e, n, control, lia, ul, decr);
+	if (c < 0 || last (e))
+		return c;
+	return uc_list (bro (e), c, control, lia, ul, decr);
 }
 
-static int  unroll_complex
-    PROTO_N ( (e, n, control, lia, ul, decr) )
-    PROTO_T ( exp e X int n X exp control X int lia X exp ul X int decr )
+static int
+unroll_complex(exp e, int n, exp control,
+			   int lia, exp ul, int decr)
 {
-  /* e = body - repeated statement less label */
-  /* n = complexity maximum */
-  /* control = variable declaration for control variable */
-  /* lia = boolean, limit is aliased */
-  /* ul = variable declaration for limit if not aliased */
-  /* decr = unit to decrement by */
-  if (n < 0)
-    return - 1;	/* complexity exceeded */
-
-  if (son (e) == nilexp) {
-    if (name(e) == goto_tag)
-      allow_double = 0;		/* prevent removal of internal test */
-    return n;
-  };
-
-  switch (name (e)) {
+	/* e = body - repeated statement less label */
+	/* n = complexity maximum */
+	/* control = variable declaration for control variable */
+	/* lia = boolean, limit is aliased */
+	/* ul = variable declaration for limit if not aliased */
+	/* decr = unit to decrement by */
+	if (n < 0)
+		return - 1;	/* complexity exceeded */
+	
+	if (son (e) == nilexp) {
+		if (name(e) == goto_tag)
+			allow_double = 0;		/* prevent removal of internal test */
+		return n;
+	};
+	
+	switch (name (e)) {
     case test_tag:
     case testbit_tag:
-      if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
-	allow_double = 0;	/* prevent removal of internal test; jump out of loop */
-      };
-      return uc_list (son (e), n - decr, control, lia, ul, decr);
+		if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
+			allow_double = 0;	/* prevent removal of internal test; jump out of loop */
+		};
+		return uc_list (son (e), n - decr, control, lia, ul, decr);
     case goto_tag:
-      if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
-	allow_double = 0;	/* prevent removal of internal test; jump out of loop */
-      };
-      return n-1;
+		if (!isunroll(pt(e))) {	/* flag set and cleared by cond_tag below */
+			allow_double = 0;	/* prevent removal of internal test; jump out of loop */
+		};
+		return n-1;
     case cond_tag:
-      {
-	int t;
+	{
+		int t;
         setunroll(bro(son(e)));		/* mark internal label */
-	if (name(sh(son(e))) == bothd) {
-	  t = unroll_complex(son(e), n - (4*decr), control, lia, ul, 0);
-	  t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
-	}
-	else {
-	  t = unroll_complex(son(e), n - decr, control, lia, ul, decr);
-	  t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
+		if (name(sh(son(e))) == bothd) {
+			t = unroll_complex(son(e), n - (4*decr), control, lia, ul, 0);
+			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
+		}
+		else {
+			t = unroll_complex(son(e), n - decr, control, lia, ul, decr);
+			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
+		};
+		clearunroll(bro(son(e)));	/* unmark it */
+		return t;
 	};
-	clearunroll(bro(son(e)));	/* unmark it */
-	return t;
-      };
     case ass_tag:
     case assvol_tag:
-      {
-	exp assdest = son(e);	/* destination of assignment */
-	if (name(assdest) == name_tag && son(assdest) == ul)
-	  allow_double = 0;	/* prevent removal of internal test; assigning to limit */
-	if (lia) {
-	  if (name(assdest) == name_tag && !isvar(son(assdest)))
-	    allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
-	  if (name(assdest) == name_tag && !iscaonly(son(assdest)))
-	    allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
-	};
+	{
+		exp assdest = son(e);	/* destination of assignment */
+		if (name(assdest) == name_tag && son(assdest) == ul)
+			allow_double = 0;	/* prevent removal of internal test; assigning to limit */
+		if (lia) {
+			if (name(assdest) == name_tag && !isvar(son(assdest)))
+				allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
+			if (name(assdest) == name_tag && !iscaonly(son(assdest)))
+				allow_double = 0;	/* prevent removal of internal test; perhaps assigning to limit */
+		};
         return uc_list (son (e), n - decr, control, lia, ul, decr);
-      };
-    case name_tag:
-      if (son (e) == control) { /* is this the control variable? */
-	exp t;
-	if (!last (e) || name (bro (e)) != cont_tag)
-	  allow_double = 0;	/* any use but contents -> no test elim */
-	else {	/* it is a cont */
-	  t = bro (e);
-#if isalpha
-	  if (!last(t) || name(bro(t)) != chvar_tag ||
-	      last (bro(t)) || name (bro(bro (t))) != val_tag || !last (bro (bro(t))) ||
-	      name (bro (bro (bro(t)))) != offset_mult_tag)
-	    allow_double = 0;	/* not offset_mult -> no test elim */
-	  else
-	    names[names_index++] = bro(e);	/* record the use */
-#else
-	  if (last (t) || name (bro (t)) != val_tag || !last (bro (t)) ||
-	      name (bro (bro (t))) != offset_mult_tag)
-	    allow_double = 0;	/* not offset_mult -> no test elim */
-	  else
-	    names[names_index++] = bro(e);	/* record the use */
-#endif
 	};
-      };
-      return n - decr;
+    case name_tag:
+		if (son (e) == control) { /* is this the control variable? */
+			exp t;
+			if (!last (e) || name (bro (e)) != cont_tag)
+				allow_double = 0;	/* any use but contents -> no test elim */
+			else {	/* it is a cont */
+				t = bro (e);
+#if isalpha
+				if (!last(t) || name(bro(t)) != chvar_tag ||
+					last (bro(t)) || name (bro(bro (t))) != val_tag || !last (bro (bro(t))) ||
+					name (bro (bro (bro(t)))) != offset_mult_tag)
+					allow_double = 0;	/* not offset_mult -> no test elim */
+				else
+					names[names_index++] = bro(e);	/* record the use */
+#else
+				if (last (t) || name (bro (t)) != val_tag || !last (bro (t)) ||
+					name (bro (bro (t))) != offset_mult_tag)
+					allow_double = 0;	/* not offset_mult -> no test elim */
+				else
+					names[names_index++] = bro(e);	/* record the use */
+#endif
+			};
+		};
+		return n - decr;
     case apply_tag:
     case solve_tag:
-      return - 1;	/* no unroll */
+		return - 1;	/* no unroll */
     case case_tag:
-      return unroll_complex (son (e), n - decr, control, lia, ul, decr);
+		return unroll_complex (son (e), n - decr, control, lia, ul, decr);
     case string_tag:
     case env_offset_tag:
     case general_env_offset_tag:
-      return n - decr;	/* decrease the complexity count */
+		return n - decr;	/* decrease the complexity count */
     case top_tag:
     case prof_tag:
     case clear_tag:
-      return n;
+		return n;
     case labst_tag:
-      return unroll_complex (bro (son (e)), n, control, lia, ul, decr);
+		return unroll_complex (bro (son (e)), n, control, lia, ul, decr);
     case seq_tag:
-      return uc_list (son (e), n, control, lia, ul, decr);
+		return uc_list (son (e), n, control, lia, ul, decr);
     case round_tag:
     case fplus_tag:
     case fminus_tag:
@@ -208,15 +455,15 @@ static int  unroll_complex
     case fmin_tag:
     case float_tag:
     case chfl_tag:
-      return uc_list (son (e), n - (16*decr), control, lia, ul, decr);	/* heavy flpt ops */
+		return uc_list (son (e), n - (16*decr), control, lia, ul, decr);	/* heavy flpt ops */
     default:
-      return uc_list (son (e), n - decr, control, lia, ul, decr);	/* other ops decrease complexity by 1 */
-  };
+		return uc_list (son (e), n - decr, control, lia, ul, decr);	/* other ops decrease complexity by 1 */
+	};
 }
 
-void simple_unroll
-    PROTO_N ( (candidate, body, inc, te) )
-    PROTO_T ( exp candidate X exp body X exp inc X exp te )
+void
+simple_unroll(exp candidate, exp body, exp inc,
+			  exp te)
 {
     /* candidate = rep_tag */
     /* body = repeated statement less label, assignment and test */
@@ -227,15 +474,15 @@ void simple_unroll
     exp second_test = copy (te);
     exp z = getexp (f_top, te, 0, nilexp, nilexp, 0, 0, 0);
     exp seq = getexp (f_top, bro (son (candidate)), 1,
-        z, nilexp, 0, 0, seq_tag);
+					  z, nilexp, 0, 0, seq_tag);
     exp cond_labst;
     exp cl1, mt;
     exp cond, f;
     exp * point;
     float freq = fno(bro(son(candidate)));
-
+	
     no (son (bro (son (candidate))))--;	/* decrease label count (increased by copy(te)) */
-
+	
     setlast (second_inc);
     bro (second_inc) = z;
     clearlast (second_body);
@@ -250,409 +497,409 @@ void simple_unroll
     setlast (te);
     bro (te) = seq;
     bro (son (bro (son (candidate)))) = seq;
-
+	
 /*
-candidate
-	rep
-	x	labst
-		1 use	seq
-			0	te
-			body	inc	second_test	second_body	second_inc
-*/
-
+ *candidate
+ *	rep
+ *	x	labst
+ *		1 use	seq
+ *			0	te
+ *			body	inc	second_test	second_body	second_inc
+ */
+	
     cond_labst = getexp (f_top, nilexp, 1, nilexp, nilexp,
-			 0, 0, labst_tag);
+						 0, 0, labst_tag);
     fno(cond_labst) = (float) (freq / 20.0);
     mt = getexp (f_top, cond_labst, 1, nilexp, nilexp, 0, 0, top_tag);
     cl1 = getexp (f_top, mt, 0, nilexp, nilexp, 0, 1, clear_tag);
     son (cond_labst) = cl1;
-
+	
     pt (second_test) = cond_labst;
     settest_number (second_test,
-		   (int)int_inverse_ntest[test_number (te)]);
-
+					(int)int_inverse_ntest[test_number (te)]);
+	
     cond = getexp (f_top, bro (candidate), (int)(last (candidate)),
-        candidate, nilexp, 0, 0, cond_tag);
+				   candidate, nilexp, 0, 0, cond_tag);
     bro (cond_labst) = cond;
-
+	
     f = father (candidate);
     point = refto (f, candidate);
     *point = cond;
-
+	
     clearlast (candidate);
     bro (candidate) = cond_labst;
-
+	
 /*
-cond
-	cond
-	rep				labst(ln)
-	x	labst			1 use	top
-		1 use	seq
-			0	te
-			body	inc	second_test(invert, ln)	second_body	second_inc
-
+ *cond
+ *	cond
+ *	rep				labst(ln)
+ *	x	labst			1 use	top
+ *		1 use	seq
+ *			0	te
+ *			body	inc	second_test(invert, ln)	second_body	second_inc
+ 
 */
-
+	
     setunrolled (candidate);
     return;
 }
 
-static exp inc_offset
-    PROTO_N ( (var, sha, konst, body, i) )
-    PROTO_T ( exp var X shape sha X exp konst X exp body X int i )
+static exp
+inc_offset(exp var, shape sha, exp konst,
+		   exp body, int i)
 {
-  exp sum, t;
-  exp id = son(var);
-  exp rest = pt(id);
-  body = copy(body);
-  if (names_index > 0) {	/* count of offset_mult uses of control variable */
-    t = pt(id);
-    sum = me_u3(sha, copy(var), cont_tag);
-    sum = hold_check(me_b3(sha, sum,
-	  		     me_shint(sha, i*no(konst)), plus_tag));	/* variable + i */
-
-    for (i = 0; i < names_index; ++i) {
-      exp q = pt(t);
-      exp b = bro(t);
-      replace(bro(t), copy(sum), body);	/* replace the offset_mults in body */
-      kill_exp(b, b);
-      t = q;
-    };
-    if (t != rest)
-      failer("unroll failure");
-
-    kill_exp(sum, sum);
-  };
-  return body;
+	exp sum, t;
+	exp id = son(var);
+	exp rest = pt(id);
+	body = copy(body);
+	if (names_index > 0) {	/* count of offset_mult uses of control variable */
+		t = pt(id);
+		sum = me_u3(sha, copy(var), cont_tag);
+		sum = hold_check(me_b3(sha, sum,
+							   me_shint(sha, i*no(konst)), plus_tag));	/* variable + i */
+		
+		for (i = 0; i < names_index; ++i) {
+			exp q = pt(t);
+			exp b = bro(t);
+			replace(bro(t), copy(sum), body);	/* replace the offset_mults in body */
+			kill_exp(b, b);
+			t = q;
+		};
+		if (t != rest)
+			failer("unroll failure");
+		
+		kill_exp(sum, sum);
+	};
+	return body;
 }
 
-void unroll_trans
-    PROTO_N ( (candidate, body, inc, te, limit, nt, var, konst, reps, times) )
-    PROTO_T ( exp candidate X exp body X exp inc X exp te X exp limit X
-	      int nt X exp var X exp konst X exp reps X int times )
+void
+unroll_trans(exp candidate, exp body, exp inc,
+			 exp te, exp limit, int nt, exp var,
+			 exp konst, exp reps, int times)
 {
-  /* candidate = rep_tag */
-  /* body = repeated statement less label, assignment and test */
-  /* inc = the single assignment to the control variable */
-  /* te = the final test - only jump to repeat label */
-  /* limit = the limit exp */
-  /* nt = the test number */
-  /* var = name_tag for control variable */
-  /* konst = the value added to the control variable */
-  /* reps = current element of the repeat list */
-  /* times = no of times to unroll */
-  float freq = fno(bro(son(candidate)));
-  if (allow_double && no(konst) == 1 && 	/* allow_double==0 prevents test elimination */
-      (nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
+	/* candidate = rep_tag */
+	/* body = repeated statement less label, assignment and test */
+	/* inc = the single assignment to the control variable */
+	/* te = the final test - only jump to repeat label */
+	/* limit = the limit exp */
+	/* nt = the test number */
+	/* var = name_tag for control variable */
+	/* konst = the value added to the control variable */
+	/* reps = current element of the repeat list */
+	/* times = no of times to unroll */
+	float freq = fno(bro(son(candidate)));
+	if (allow_double && no(konst) == 1 && 	/* allow_double==0 prevents test elimination */
+		(nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
 		/* the permitted tests - we are counting upwards */
-      ((name(limit) == name_tag && !isvar(son(limit))) ||
-	 name(limit) == val_tag ||
-	(name(limit) == cont_tag && name(son(limit)) == name_tag &&
-	    isvar(son(son(limit)))))	/* permitted forms of limit */
-      ) {
+		((name(limit) == name_tag && !isvar(son(limit))) ||
+		 name(limit) == val_tag ||
+		 (name(limit) == cont_tag && name(son(limit)) == name_tag &&
+		  isvar(son(son(limit)))))	/* permitted forms of limit */
+		) {
 		/* unroll and remove the internal increment and test */
-
-    int i;
-    shape sha = sh(konst);
-    exp branches [UNROLL_MAX + 2];	/* 0 - (times-2) are preliminaries
-					   (times-1) is test out
-					   times is the loop
-					   (times+1) is the end */
-    exp test_out = copy(te);		/* used to jump out after < times */
-    exp temp, temp1, bc, repeater, lrep, res, id, temp2;
-    exp new_c = me_shint(sha, times*no(konst));	/* used to increment the control variable */
-
-    settest_number(test_out,
-		   (int)int_inverse_ntest[test_number(test_out)]);
-
-    for (i = 0; i < times + 2; ++i) {	/* set up labst for branches */
-      exp lia = me_shint(sha, (((i > 1) && (i < (times-1))) || i >= times) ? 2: 1);
-      exp li = getexp(f_bottom, nilexp, 0, lia, nilexp, 0, 0, labst_tag);
-      fno(li) = (float) (freq / 20.0);
-      name(lia) = clear_tag;
-      clearlast(lia);
-      branches[i] = li;
-    };
-    SET(branches);
-    sh(branches[times+1]) = f_top;
-
-
-    for (i = 0; i < times - 1; ++ i) {	/* set up preliminaries */
-      exp sub = me_b3(f_top, copy(body), copy(inc), 0);
-      exp seq = me_b3(f_bottom, sub,
-		 getexp(f_bottom, nilexp, 0, nilexp, branches[i+1], 0, 0, goto_tag), seq_tag);
-      bro(son(branches[i])) = seq;
-      setlast(seq);
-      bro(seq) = branches[i];
-    };
-
-    pt(test_out) = branches[times+1];
-    temp = me_u3(f_top, test_out, 0);
-    temp = me_b3(f_bottom, temp,
-		 getexp(f_bottom, nilexp, 0, nilexp, branches[times], 0, 0, goto_tag), seq_tag);
-    bro(son(branches[times-1])) = temp;
-    setlast(temp);
-    bro(temp) = branches[times-1];
-
-    temp = copy(body);
-    temp1 = temp;
-    if (jumps_out) {
-      bro(temp1) = copy(inc);
-      clearlast(temp1);
-      temp1 = bro(temp1);
-    };
-    for (i = 1; i < times - 1; ++i) {
-      if (jumps_out)
-	bro(temp1) = copy(body);
-      else
-        bro(temp1) = inc_offset(var, sha, konst, body, i);
-      clearlast(temp1);
-      temp1 = bro(temp1);
-      if (jumps_out) {
-	bro(temp1) = copy(inc);
-        clearlast(temp1);
-        temp1 = bro(temp1);
-      };
-    };
-    bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
-    setlast(temp1);
-    bro(temp1) = bc;
-    if (jumps_out)
-      bc = me_b3(f_top, bc, copy(body), seq_tag);
-    else {
-      bc = me_b3(f_top, bc, inc_offset(var, sha, konst, body, i), seq_tag);
-      kill_exp(body, body);
-    };
-
-    if (jumps_out)
-      kill_exp(new_c, new_c);
-    else
-      replace(bro(son(bro(var))), new_c, new_c);	/* replace konst by times*konst */
-
-    temp = me_b3(f_top, bc, inc, 0);
-    temp = me_b3(f_top, temp, te, seq_tag);
-    lrep = me_b3(f_top, me_shint(sha, 1), temp, labst_tag);
-    fno(lrep) = freq / (float)times;
-    name(son(lrep)) = clear_tag;
-    repeater = me_b3(f_top, f_make_top(), lrep, rep_tag);
-    son(reps) = repeater;
-    pt(te) = lrep;	/* label in repeater */
-    pt(test_out) = branches[times+1];
-
-    temp = f_make_top();
-    bro(son(branches[times+1])) = temp;
-    setlast(temp);
-    bro(temp) = branches[times+1];
-
-    temp = me_u3(f_top, repeater, 0);
-    temp = me_b3(f_bottom, temp,
-		 getexp(f_bottom, nilexp, 0, nilexp, branches[times+1], 0, 0, goto_tag), seq_tag);
-    bro(son(branches[times])) = temp;
-    setlast(temp);
-    bro(temp) = branches[times];
-
-    temp = me_u3(sha, copy(var), cont_tag);
-    temp1 = copy(limit);
-    sh(temp1) = sha;
-    temp = hold_check(me_b3(sha, temp1, temp, minus_tag));
-    if (nt == (int)f_greater_than) {
-      temp = hold_check(me_b3(sha, temp, me_shint(sha, 1), plus_tag));
-    };
-    temp = hold_check(me_b3(sha, temp,
-				 me_shint(sha, times-1), and_tag));
-
-    id = me_startid(sha, temp, 0);
-    temp = getexp(f_top, nilexp, 0, me_obtain(id), branches[times], 0, 0, test_tag);
-    settest_number(temp, f_not_equal);
-    bro(son(temp)) = me_shint(sha, 0);
-    setlast(bro(son(temp)));
-    bro(bro(son(temp))) = temp;
-    temp1 = temp;
-
-    for (i = 1; i < (times-1); ++i) {
-      temp2 = getexp(f_top, nilexp, 0, me_obtain(id), branches[times-i-1], 0, 0, test_tag);
-      settest_number(temp2, f_not_equal);
-      bro(son(temp2)) = me_shint(sha, i);
-      setlast(bro(son(temp2)));
-      bro(bro(son(temp2))) = temp2;
-      settest_number(temp, f_not_equal);
-      clearlast(temp1);
-      bro(temp1) = temp2;
-      temp1 = temp2;
-    };
-
-    bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
-    setlast(temp1);
-    bro(temp1) = bc;
-    bc = me_b3(f_bottom, bc,
-	 getexp(f_bottom, nilexp, 0, nilexp, branches[0], 0, 0, goto_tag), seq_tag);
-    id = me_complete_id(id, bc);
-
-    temp1 = id;
-    for (i = 0; i < (times+2); ++i) {
-      bro(temp1) = branches[i];
-      clearlast(temp1);
-      temp1 = bro(temp1);
-    };
-    res = getexp(f_top, nilexp, 0, id, nilexp, 0, 0, solve_tag);
-    setlast(temp1);
-    bro(temp1) = res;
-    setunrolled(repeater);
-
-    replace(candidate, res, res);
-  }
+		
+		int i;
+		shape sha = sh(konst);
+		exp branches [UNROLL_MAX + 2];	/* 0 - (times-2) are preliminaries
+										 *					   (times-1) is test out
+										 *					   times is the loop
+										 *					   (times+1) is the end */
+		exp test_out = copy(te);		/* used to jump out after < times */
+		exp temp, temp1, bc, repeater, lrep, res, id, temp2;
+		exp new_c = me_shint(sha, times*no(konst));	/* used to increment the control variable */
+		
+		settest_number(test_out,
+					   (int)int_inverse_ntest[test_number(test_out)]);
+		
+		for (i = 0; i < times + 2; ++i) {	/* set up labst for branches */
+			exp lia = me_shint(sha, (((i > 1) && (i < (times-1))) || i >= times) ? 2: 1);
+			exp li = getexp(f_bottom, nilexp, 0, lia, nilexp, 0, 0, labst_tag);
+			fno(li) = (float) (freq / 20.0);
+			name(lia) = clear_tag;
+			clearlast(lia);
+			branches[i] = li;
+		};
+		SET(branches);
+		sh(branches[times+1]) = f_top;
+		
+		
+		for (i = 0; i < times - 1; ++ i) {	/* set up preliminaries */
+			exp sub = me_b3(f_top, copy(body), copy(inc), 0);
+			exp seq = me_b3(f_bottom, sub,
+							getexp(f_bottom, nilexp, 0, nilexp, branches[i+1], 0, 0, goto_tag), seq_tag);
+			bro(son(branches[i])) = seq;
+			setlast(seq);
+			bro(seq) = branches[i];
+		};
+		
+		pt(test_out) = branches[times+1];
+		temp = me_u3(f_top, test_out, 0);
+		temp = me_b3(f_bottom, temp,
+					 getexp(f_bottom, nilexp, 0, nilexp, branches[times], 0, 0, goto_tag), seq_tag);
+		bro(son(branches[times-1])) = temp;
+		setlast(temp);
+		bro(temp) = branches[times-1];
+		
+		temp = copy(body);
+		temp1 = temp;
+		if (jumps_out) {
+			bro(temp1) = copy(inc);
+			clearlast(temp1);
+			temp1 = bro(temp1);
+		};
+		for (i = 1; i < times - 1; ++i) {
+			if (jumps_out)
+				bro(temp1) = copy(body);
+			else
+				bro(temp1) = inc_offset(var, sha, konst, body, i);
+			clearlast(temp1);
+			temp1 = bro(temp1);
+			if (jumps_out) {
+				bro(temp1) = copy(inc);
+				clearlast(temp1);
+				temp1 = bro(temp1);
+			};
+		};
+		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
+		setlast(temp1);
+		bro(temp1) = bc;
+		if (jumps_out)
+			bc = me_b3(f_top, bc, copy(body), seq_tag);
+		else {
+			bc = me_b3(f_top, bc, inc_offset(var, sha, konst, body, i), seq_tag);
+			kill_exp(body, body);
+		};
+		
+		if (jumps_out)
+			kill_exp(new_c, new_c);
+		else
+			replace(bro(son(bro(var))), new_c, new_c);	/* replace konst by times*konst */
+		
+		temp = me_b3(f_top, bc, inc, 0);
+		temp = me_b3(f_top, temp, te, seq_tag);
+		lrep = me_b3(f_top, me_shint(sha, 1), temp, labst_tag);
+		fno(lrep) = freq / (float)times;
+		name(son(lrep)) = clear_tag;
+		repeater = me_b3(f_top, f_make_top(), lrep, rep_tag);
+		son(reps) = repeater;
+		pt(te) = lrep;	/* label in repeater */
+		pt(test_out) = branches[times+1];
+		
+		temp = f_make_top();
+		bro(son(branches[times+1])) = temp;
+		setlast(temp);
+		bro(temp) = branches[times+1];
+		
+		temp = me_u3(f_top, repeater, 0);
+		temp = me_b3(f_bottom, temp,
+					 getexp(f_bottom, nilexp, 0, nilexp, branches[times+1], 0, 0, goto_tag), seq_tag);
+		bro(son(branches[times])) = temp;
+		setlast(temp);
+		bro(temp) = branches[times];
+		
+		temp = me_u3(sha, copy(var), cont_tag);
+		temp1 = copy(limit);
+		sh(temp1) = sha;
+		temp = hold_check(me_b3(sha, temp1, temp, minus_tag));
+		if (nt == (int)f_greater_than) {
+			temp = hold_check(me_b3(sha, temp, me_shint(sha, 1), plus_tag));
+		};
+		temp = hold_check(me_b3(sha, temp,
+								me_shint(sha, times-1), and_tag));
+		
+		id = me_startid(sha, temp, 0);
+		temp = getexp(f_top, nilexp, 0, me_obtain(id), branches[times], 0, 0, test_tag);
+		settest_number(temp, f_not_equal);
+		bro(son(temp)) = me_shint(sha, 0);
+		setlast(bro(son(temp)));
+		bro(bro(son(temp))) = temp;
+		temp1 = temp;
+		
+		for (i = 1; i < (times-1); ++i) {
+			temp2 = getexp(f_top, nilexp, 0, me_obtain(id), branches[times-i-1], 0, 0, test_tag);
+			settest_number(temp2, f_not_equal);
+			bro(son(temp2)) = me_shint(sha, i);
+			setlast(bro(son(temp2)));
+			bro(bro(son(temp2))) = temp2;
+			settest_number(temp, f_not_equal);
+			clearlast(temp1);
+			bro(temp1) = temp2;
+			temp1 = temp2;
+		};
+		
+		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
+		setlast(temp1);
+		bro(temp1) = bc;
+		bc = me_b3(f_bottom, bc,
+				   getexp(f_bottom, nilexp, 0, nilexp, branches[0], 0, 0, goto_tag), seq_tag);
+		id = me_complete_id(id, bc);
+		
+		temp1 = id;
+		for (i = 0; i < (times+2); ++i) {
+			bro(temp1) = branches[i];
+			clearlast(temp1);
+			temp1 = bro(temp1);
+		};
+		res = getexp(f_top, nilexp, 0, id, nilexp, 0, 0, solve_tag);
+		setlast(temp1);
+		bro(temp1) = res;
+		setunrolled(repeater);
+		
+		replace(candidate, res, res);
+	}
 #if is80x86
-  else
-    simple_unroll (candidate, body, inc, te);
+	else
+		simple_unroll (candidate, body, inc, te);
 #endif
-  return;
+	return;
 }
 
-void unroller
-    PROTO_Z ()
+void
+unroller()
 {
-  exp reps = repeat_list;
-  exp candidate;
-  exp labst;
-  exp rb;
-
-
-  while (reps != nilexp) {
-    if (no (reps) == 0 && son (reps) != nilexp &&
-	name (son (reps)) == rep_tag) {
-      /* this is a leaf repeat node */
-      candidate = son (reps);	/* this is the repeat */
-      labst = bro (son (candidate));	/* the repeated statement */
-      rb = bro (son (labst));	/* the repeated statement less label */
-
-      if (name (son (candidate)) == top_tag &&
-	  no (son (labst)) == 1 &&
-	  name (rb) == seq_tag &&
-	  name (bro (son (rb))) == seq_tag) {
+	exp reps = repeat_list;
+	exp candidate;
+	exp labst;
+	exp rb;
+	
+	
+	while (reps != nilexp) {
+		if (no (reps) == 0 && son (reps) != nilexp &&
+			name (son (reps)) == rep_tag) {
+			/* this is a leaf repeat node */
+			candidate = son (reps);	/* this is the repeat */
+			labst = bro (son (candidate));	/* the repeated statement */
+			rb = bro (son (labst));	/* the repeated statement less label */
+			
+			if (name (son (candidate)) == top_tag &&
+				no (son (labst)) == 1 &&
+				name (rb) == seq_tag &&
+				name (bro (son (rb))) == seq_tag) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count		seq_tag
-				0	seq_tag
-
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count		seq_tag
+ *				0	seq_tag
+ 
 */
-	exp final = bro (son (rb));
-	exp body = son (son (rb));
-	exp ass = son (son (final));
-	exp te = bro (son (final));
-	if (name (ass) == ass_tag && name (te) == test_tag) {
+				exp final = bro (son (rb));
+				exp body = son (son (rb));
+				exp ass = son (son (final));
+				exp te = bro (son (final));
+				if (name (ass) == ass_tag && name (te) == test_tag) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count		seq_tag
-				0	seq_tag = final
-				body	0	test_tag = te
-					ass_tag = ass
-
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count		seq_tag
+ *				0	seq_tag = final
+ *				body	0	test_tag = te
+ *					ass_tag = ass
+ 
 */
-	  exp dest = son (ass);
-	  exp val = bro (dest);
-	  if (name (dest) == name_tag && isvar (son (dest)) &&
-	      iscaonly (son (dest)) && shape_size (sh (val)) == 32) {
+					exp dest = son (ass);
+					exp val = bro (dest);
+					if (name (dest) == name_tag && isvar (son (dest)) &&
+						iscaonly (son (dest)) && shape_size (sh (val)) == 32) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count		seq_tag
-				0	seq_tag = final
-				body	0	test_tag = te
-					ass_tag = ass
-					name = dest	val (32)
-					var & ca
-*/
-	    if (name (val) == plus_tag && name (son (val)) == cont_tag &&
-		name (son (son (val))) == name_tag &&
-		son (son (son (val))) == son (dest) &&
-		name (bro (son (val))) == val_tag) {
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count		seq_tag
+ *				0	seq_tag = final
+ *				body	0	test_tag = te
+ *					ass_tag = ass
+ *					name = dest	val (32)
+ *					var & ca
+ */
+						if (name (val) == plus_tag && name (son (val)) == cont_tag &&
+							name (son (son (val))) == name_tag &&
+							son (son (son (val))) == son (dest) &&
+							name (bro (son (val))) == val_tag) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count		seq_tag
-				0	seq_tag = final
-				body	0	test_tag = te
-					ass_tag = ass
-					name = dest	plus_tag =val (32)
-					var & ca	cont_tag	val_tag
-							name_tag -> dest
-*/
-	      exp konst = bro (son (val));
-	      int   nt = (int)test_number (te);
-	      if (name (son (te)) == cont_tag &&
-		  name (son (son (te))) == name_tag &&
-		  pt (te) == labst &&
-		  son (son (son (te))) == son (dest)) {
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count		seq_tag
+ *				0	seq_tag = final
+ *				body	0	test_tag = te
+ *					ass_tag = ass
+ *					name = dest	plus_tag =val (32)
+ *					var & ca	cont_tag	val_tag
+ *							name_tag -> dest
+ */
+							exp konst = bro (son (val));
+							int   nt = (int)test_number (te);
+							if (name (son (te)) == cont_tag &&
+								name (son (son (te))) == name_tag &&
+								pt (te) == labst &&
+								son (son (son (te))) == son (dest)) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count	seq_tag
-			0	seq_tag = final
-			body	0					test_tag(nt, labst) = te
-				ass_tag = ass				cont_tag
-				name = dest	plus_tag =val (32)	name_tag -> dest
-				var & ca	cont_tag val_tag = konst
-						name_tag -> dest
-*/
-		int   count;
-		exp limit = bro(son(te));
-		exp unaliased_limit = nilexp;
-		int limit_is_aliased = 0;
-
-		if (name(limit) == cont_tag &&
-			name(son(limit)) == name_tag &&
-			isvar(son(son(limit)))) {
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count	seq_tag
+ *			0	seq_tag = final
+ *			body	0					test_tag(nt, labst) = te
+ *				ass_tag = ass				cont_tag
+ *				name = dest	plus_tag =val (32)	name_tag -> dest
+ *				var & ca	cont_tag val_tag = konst
+ *						name_tag -> dest
+ */
+								int   count;
+								exp limit = bro(son(te));
+								exp unaliased_limit = nilexp;
+								int limit_is_aliased = 0;
+								
+								if (name(limit) == cont_tag &&
+									name(son(limit)) == name_tag &&
+									isvar(son(son(limit)))) {
 /*
-
-	rep_tag
-	top_tag	labst_tag
-		count	seq_tag
-			0	seq_tag = final
-			body	0					test_tag(nt, labst) = te
-				ass_tag = ass				cont_tag	cont_tag = limit
-				name = dest	plus_tag =val (32)	name_tag -> dest
-				var & ca	cont_tag val_tag = konst
-						name_tag -> dest
-*/
-		  if (iscaonly(son(son(limit))))
-		    unaliased_limit = son(son(limit));
-		  else
-		    limit_is_aliased = 1;
+ *
+ *	rep_tag
+ *	top_tag	labst_tag
+ *		count	seq_tag
+ *			0	seq_tag = final
+ *			body	0					test_tag(nt, labst) = te
+ *				ass_tag = ass				cont_tag	cont_tag = limit
+ *				name = dest	plus_tag =val (32)	name_tag -> dest
+ *				var & ca	cont_tag val_tag = konst
+ *						name_tag -> dest
+ */
+									if (iscaonly(son(son(limit))))
+										unaliased_limit = son(son(limit));
+									else
+										limit_is_aliased = 1;
+								};
+								
+								names_index = 0;
+								allow_double = 1;
+								jumps_out = 0;
+								count = unroll_complex (body, LIMIT, son (dest),
+														limit_is_aliased, unaliased_limit, 1);
+								if (count >= 0) {
+									unroll_trans (candidate, body, ass, te,
+												  limit, nt, dest, konst, reps, UNROLL_BY);
+								};
+							};
+						}
+						else {
+							int count;
+							names_index = 0;
+							allow_double = 0;
+							count = unroll_complex (body, SIMPLE_LIMIT, nilexp,
+													0, nilexp, 1);
+							if (count >= 0) {
+								simple_unroll(candidate, body, ass, te);
+							};
+						};
+					};
+				}
+			};
 		};
-
-		names_index = 0;
-		allow_double = 1;
-		jumps_out = 0;
-		count = unroll_complex (body, LIMIT, son (dest),
-				limit_is_aliased, unaliased_limit, 1);
-		if (count >= 0) {
-		  unroll_trans (candidate, body, ass, te,
-				limit, nt, dest, konst, reps, UNROLL_BY);
-		};
-	      };
-	    }
-	    else {
-	      int count;
-	      names_index = 0;
-	      allow_double = 0;
-	      count = unroll_complex (body, SIMPLE_LIMIT, nilexp,
-				0, nilexp, 1);
-	      if (count >= 0) {
-	        simple_unroll(candidate, body, ass, te);
-	      };
-  	    };
-	  };
-	}
-      };
-    };
-    reps = pt (reps);
-  };
-  return;
+		reps = pt (reps);
+	};
+	return;
 }

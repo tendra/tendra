@@ -1,41 +1,288 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:19  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:06  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.4  1998/03/11  11:03:48  pwe
  * DWARF optimisation info
  *
@@ -81,7 +328,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  1997/03/20  16:09:30  pwe
  * first version
  *
-**********************************************************************/
+ **********************************************************************/
 
 #include "config.h"
 #include "common_types.h"
@@ -103,13 +350,12 @@ Initial version of TenDRA 4.1.2.
 #include "tags.h"
 
 
-static void fail_unimplemented
-    PROTO_N ( (a1, a2) )
-    PROTO_T ( long a1 X long a2 )
+static void
+fail_unimplemented(long a1, long a2)
 {
-  IGNORE fprintf (stderr, "%lx  %lx\n", a1, a2);
-  failer ("unimplemented attribute");
-  return;
+	IGNORE fprintf (stderr, "%lx  %lx\n", a1, a2);
+	failer ("unimplemented attribute");
+	return;
 }
 
 static dg_type needed_types = (dg_type)0;
@@ -117,893 +363,885 @@ static dg_type needed_types = (dg_type)0;
 static char * sep =  ", ";
 
 
-ext_lab dw2_find_type_label
-    PROTO_N ( (t) )
-    PROTO_T ( dg_type t )
+ext_lab
+dw2_find_type_label(dg_type t)
 {
-  if (!(t->outref.u.l)) {
-    if (t->key == DGT_TAGGED) {
-      dg_tag tg = t->data.t_tag;
-      if (tg->done || tg->needed || tg->key == DGK_NONE) {
-	t->outref = tg->outref;
-	return t->outref;
-      }
-      if (tg->key == DGK_TYPE) {
-	dg_type ref_t = tg->p.typ;
-	t->outref = dw2_find_type_label (ref_t);
-	tg->outref = t->outref;
-	tg->done = 1;
-	return t->outref;
-      }
-      if (tg->key == DGK_NAME) {
-	dg_name ref_n = tg->p.nam;
-	if (ref_n->key == DGN_TYPE && ref_n->idnam.id_key == DG_ID_NONE) {
-	  dg_type ref_t = tg->p.nam->data.n_typ.raw;
-	  t->outref = dw2_find_type_label (ref_t);
-	  tg->outref = t->outref;
-	  tg->done = 1;
-	  return t->outref;
+	if (!(t->outref.u.l)) {
+		if (t->key == DGT_TAGGED) {
+			dg_tag tg = t->data.t_tag;
+			if (tg->done || tg->needed || tg->key == DGK_NONE) {
+				t->outref = tg->outref;
+				return t->outref;
+			}
+			if (tg->key == DGK_TYPE) {
+				dg_type ref_t = tg->p.typ;
+				t->outref = dw2_find_type_label (ref_t);
+				tg->outref = t->outref;
+				tg->done = 1;
+				return t->outref;
+			}
+			if (tg->key == DGK_NAME) {
+				dg_name ref_n = tg->p.nam;
+				if (ref_n->key == DGN_TYPE && ref_n->idnam.id_key == DG_ID_NONE) {
+					dg_type ref_t = tg->p.nam->data.n_typ.raw;
+					t->outref = dw2_find_type_label (ref_t);
+					tg->outref = t->outref;
+					tg->done = 1;
+					return t->outref;
+				}
+			}
+			tg->needed = 1;
+			t->outref.u.l = tg->outref.u.l = next_dwarf_label();
+			t->outref.k = tg->outref.k = LAB_D;
+		}
+		else {
+			t->outref.u.l = next_dwarf_label();
+			t->outref.k = LAB_D;
+		}
+		t->type_queue = needed_types;
+		needed_types = t;
 	}
-      }
-      tg->needed = 1;
-      t->outref.u.l = tg->outref.u.l = next_dwarf_label();
-      t->outref.k = tg->outref.k = LAB_D;
-    }
-    else {
-      t->outref.u.l = next_dwarf_label();
-      t->outref.k = LAB_D;
-    }
-    t->type_queue = needed_types;
-    needed_types = t;
-  }
-  return t->outref;
+	return t->outref;
 }
 
 
-static void out_classmem
-    PROTO_N ( (m) )
-    PROTO_T ( dg_classmem m )
+static void
+out_classmem(dg_classmem m)
 {
-  /* within info section */
-  if (m.tg)
-    set_ext_address (m.tg);
-  switch (m.cm_key) {
+	/* within info section */
+	if (m.tg)
+		set_ext_address (m.tg);
+	switch (m.cm_key) {
     case DG_CM_FIELD: {
-      dg_type f = m.d.cm_f.f_typ;
-      exp off = son (m.d.cm_f.f_offset);
-      dg_type base = f;
-      int base_sz = 1;
-      long attr1 = H_TP, attr2;
-      if (m.d.cm_f.fnam[0])
-	attr1 |= H_NM;
-      if (m.d.cm_f.f_pos.file)
-	attr1 |= H_XY;
-      if (name(off) == val_tag)
-	attr1 |= H_LC;
-      if (f->key == DGT_BITF) {
-	attr1 |= H_BF;
-	base = f->data.t_bitf.expanded;
-	base_sz = shape_size (f->data.t_bitf.sha);
-      }
-      if (m.d.cm_f.acc)
-	attr1 |= H_AC;
-      if (m.d.cm_f.discr)
-	attr1 |= H_DS;
+		dg_type f = m.d.cm_f.f_typ;
+		exp off = son (m.d.cm_f.f_offset);
+		dg_type base = f;
+		int base_sz = 1;
+		long attr1 = H_TP, attr2;
+		if (m.d.cm_f.fnam[0])
+			attr1 |= H_NM;
+		if (m.d.cm_f.f_pos.file)
+			attr1 |= H_XY;
+		if (name(off) == val_tag)
+			attr1 |= H_LC;
+		if (f->key == DGT_BITF) {
+			attr1 |= H_BF;
+			base = f->data.t_bitf.expanded;
+			base_sz = shape_size (f->data.t_bitf.sha);
+		}
+		if (m.d.cm_f.acc)
+			attr1 |= H_AC;
+		if (m.d.cm_f.discr)
+			attr1 |= H_DS;
 #ifdef H_DX
-      if (m.d.cm_f.dflt) {
-	if (m.d.cm_f.dflt->span.sp_key == SP_SPAN ||
-	      (m.d.cm_f.dflt->val && dw_is_const (son(m.d.cm_f.dflt->val)) ))
-	  attr1 |= H_DF;
-	else
-	  attr1 |= H_DX;
-      }
+		if (m.d.cm_f.dflt) {
+			if (m.d.cm_f.dflt->span.sp_key == SP_SPAN ||
+				(m.d.cm_f.dflt->val && dw_is_const (son(m.d.cm_f.dflt->val))))
+				attr1 |= H_DF;
+			else
+				attr1 |= H_DX;
+		}
 #else
-      if (m.d.cm_f.dflt)
-	attr1 |= H_DF;
+		if (m.d.cm_f.dflt)
+			attr1 |= H_DF;
 #endif
-
-      attr2 = dw_entry (dwe_member, attr1);
+		
+		attr2 = dw_entry (dwe_member, attr1);
 #ifdef H_DX
-      if (attr2 & ~(H_NM|H_XY|H_AC|H_TP|H_LC|H_BF|H_DS|H_DF|H_DX))
+		if (attr2 & ~(H_NM|H_XY|H_AC|H_TP|H_LC|H_BF|H_DS|H_DF|H_DX))
 #else
-      if (attr2 & ~(H_NM|H_XY|H_AC|H_TP|H_LC|H_BF|H_DS|H_DF))
+			if (attr2 & ~(H_NM|H_XY|H_AC|H_TP|H_LC|H_BF|H_DS|H_DF))
 #endif
-	fail_unimplemented (attr1, attr2);
-      if (attr2 & H_NM)
-	dw_at_string (m.d.cm_f.fnam);
-      if (attr2 & H_XY)
-	dw_at_decl (m.d.cm_f.f_pos);
-      if (attr2 & H_AC)
-	dw_at_data (1, (long)m.d.cm_f.acc);
-      if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (base));
-      if (attr2 & H_LC)
-	dw_locate_offset (((no (off)) & -base_sz) >> 3);
-      if (attr2 & H_BF) {
+				fail_unimplemented (attr1, attr2);
+		if (attr2 & H_NM)
+			dw_at_string (m.d.cm_f.fnam);
+		if (attr2 & H_XY)
+			dw_at_decl (m.d.cm_f.f_pos);
+		if (attr2 & H_AC)
+			dw_at_data (1, (long)m.d.cm_f.acc);
+		if (attr2 & H_TP)
+			dw_at_ext_lab (dw2_find_type_label (base));
+		if (attr2 & H_LC)
+			dw_locate_offset (((no (off)) & -base_sz) >> 3);
+		if (attr2 & H_BF) {
 #if !little_end
-	dw_at_data (1, (long)(no (off) & (base_sz - 1)));
+			dw_at_data (1, (long)(no (off) & (base_sz - 1)));
 #else
-	dw_at_data (1, (long)(base_sz - f->data.t_bitf.bv.bits
-				- (no (off) & (base_sz - 1))));
+			dw_at_data (1, (long)(base_sz - f->data.t_bitf.bv.bits
+								  - (no (off) & (base_sz - 1))));
 #endif
-	dw_at_data (1, (long)f->data.t_bitf.bv.bits);
-      }
-      if (attr2 & H_DS)
-	dw_at_flag (m.d.cm_f.discr);
+			dw_at_data (1, (long)f->data.t_bitf.bv.bits);
+		}
+		if (attr2 & H_DS)
+			dw_at_flag (m.d.cm_f.discr);
 #ifdef H_DX
-      if (attr2 & H_DX)
-	dw_at_flag ((m.d.cm_f.dflt && !(attr2 & H_DF)) ? 1 : 0);
+		if (attr2 & H_DX)
+			dw_at_flag ((m.d.cm_f.dflt && !(attr2 & H_DF)) ? 1 : 0);
 #endif
-      if (attr2 & H_DF)
-	dw_out_default (m.d.cm_f.dflt);
-      break;
+		if (attr2 & H_DF)
+			dw_out_default (m.d.cm_f.dflt);
+		break;
     }
     case DG_CM_FN: {
-      dw2_out_name (m.d.cm_fn.fn, MEMBER_NAME);
-      break;
+		dw2_out_name (m.d.cm_fn.fn, MEMBER_NAME);
+		break;
     }
     case DG_CM_INDIRECT: {
-      long attr1 = (H_TP | H_LC), attr2;
-      if (m.d.cm_ind.nam[0])
-	attr1 |= H_NM;
-      if (m.d.cm_ind.pos.file)
-	attr1 |= H_XY;
-      attr2 = dw_entry (dwe_ind_mem, attr1);
-      if (attr2 & ~(H_NM|H_XY|H_TP|H_LC))
-	fail_unimplemented (attr1, attr2);
-      if (attr2 & H_NM)
-	dw_at_string (m.d.cm_ind.nam);
-      if (attr2 & H_XY)
-	dw_at_decl (m.d.cm_ind.pos);
-      if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (m.d.cm_ind.typ));
-      if (attr2 & H_LC)
-	dw_locate_reloffset (son(m.d.cm_ind.ind_loc));
-      break;
+		long attr1 = (H_TP | H_LC), attr2;
+		if (m.d.cm_ind.nam[0])
+			attr1 |= H_NM;
+		if (m.d.cm_ind.pos.file)
+			attr1 |= H_XY;
+		attr2 = dw_entry (dwe_ind_mem, attr1);
+		if (attr2 & ~(H_NM|H_XY|H_TP|H_LC))
+			fail_unimplemented (attr1, attr2);
+		if (attr2 & H_NM)
+			dw_at_string (m.d.cm_ind.nam);
+		if (attr2 & H_XY)
+			dw_at_decl (m.d.cm_ind.pos);
+		if (attr2 & H_TP)
+			dw_at_ext_lab (dw2_find_type_label (m.d.cm_ind.typ));
+		if (attr2 & H_LC)
+			dw_locate_reloffset (son(m.d.cm_ind.ind_loc));
+		break;
     }
     case DG_CM_STAT: {
-      dw2_out_name (m.d.cm_stat, MEMBER_NAME);
-      break;
+		dw2_out_name (m.d.cm_stat, MEMBER_NAME);
+		break;
     }
-  }
-  return;
+	}
+	return;
 }
 
 
-static void out_class_data
-    PROTO_N ( (cd) )
-    PROTO_T ( class_data * cd )
+static void
+out_class_data(class_data * cd)
 {
-  /* within info section */
-  exp vtable_exp = nilexp;
-  int i;
-  for (i = 0; i < cd->inherits.len; i++) {
-    dg_class_base cb;
-    long attr1 = (H_TP | H_LC), attr2;
-    cb = cd->inherits.array[i];
-    if (cb.pos.file)
-      attr1 |= H_XY;
-    if (cb.acc)
-      attr1 |= H_AC;
-    if (cb.virt)
-      attr1 |= H_VT;
-    attr2 = dw_entry (dwe_inheritce, attr1);
-    if (attr2 & ~(H_XY|H_TP|H_LC|H_AC|H_VT))
-      fail_unimplemented (attr1, attr2);
-    if (attr2 & H_XY)
-      dw_at_decl (cb.pos);
-    if (attr2 & H_TP)
-      dw_at_ext_address (cb.base);
-    if (attr2 & H_LC) {
-      if (cb.location)
-	dw_locate_reloffset (son(cb.location));
-      else {
-	out8(); outn ((long)1); outs(sep);
-	outn ((long)DW_OP_nop); d_outnl();
-      }
-    }
-    if (attr2 & H_AC)
-      dw_at_data (1, (long)cb.acc);
-    if (attr2 & H_VT)
-      dw_at_data (1, (long)cb.virt);
-  }
-  for (i = 0; i < cd->friends.len; i++) {
-    dg_tag f = cd->friends.array[i];
-    IGNORE dw_entry (dwe_friend, (long)0);
-    dw_at_ext_address (f);
-  }
-  if (cd->vt_s) {
-    for (i = 0; i < cd->members.len; i++) {
-      dg_classmem * cm = &(cd->members.array[i]);
-      if (cm->cm_key == DG_CM_STAT && cm->d.cm_stat->key == DGN_OBJECT &&
-	    ((cm->d.cm_stat->mor && cm->d.cm_stat->mor->this_tag == cd->vt_s)
-		|| cm->tg == cd->vt_s))
-	vtable_exp = cm->d.cm_stat->data.n_obj.obtain_val;
-    }
-    for (i = 0; i < cd->members.len; i++) {
-      dg_classmem * cm = &(cd->members.array[i]);
-      if (cm->cm_key == DG_CM_FN && cm->d.cm_fn.fn->key == DGN_PROC &&
-		cm->d.cm_fn.fn->mor && cm->d.cm_fn.fn->mor->virt) {
-	exp a, b, c;
-	if (!vtable_exp || !cm->d.cm_fn.slot ||
-		name(sh(son(cm->d.cm_fn.slot))) != offsethd)
-	  failer ("wrong virtual function data");
-	a = copy (son(vtable_exp));
-	b = copy (son(cm->d.cm_fn.slot));
-	c = f_add_to_ptr (a, b);
-	cm->d.cm_fn.fn->mor->vslot = hold (hold_check (c));
-      }
-    }
-  }
-  for (i = 0; i < cd->members.len; i++) {
-    out_classmem (cd->members.array[i]);
-  }
-  return;
+	/* within info section */
+	exp vtable_exp = nilexp;
+	int i;
+	for (i = 0; i < cd->inherits.len; i++) {
+		dg_class_base cb;
+		long attr1 = (H_TP | H_LC), attr2;
+		cb = cd->inherits.array[i];
+		if (cb.pos.file)
+			attr1 |= H_XY;
+		if (cb.acc)
+			attr1 |= H_AC;
+		if (cb.virt)
+			attr1 |= H_VT;
+		attr2 = dw_entry (dwe_inheritce, attr1);
+		if (attr2 & ~(H_XY|H_TP|H_LC|H_AC|H_VT))
+			fail_unimplemented (attr1, attr2);
+		if (attr2 & H_XY)
+			dw_at_decl (cb.pos);
+		if (attr2 & H_TP)
+			dw_at_ext_address (cb.base);
+		if (attr2 & H_LC) {
+			if (cb.location)
+				dw_locate_reloffset (son(cb.location));
+			else {
+				out8(); outn ((long)1); outs(sep);
+				outn ((long)DW_OP_nop); d_outnl();
+			}
+		}
+		if (attr2 & H_AC)
+			dw_at_data (1, (long)cb.acc);
+		if (attr2 & H_VT)
+			dw_at_data (1, (long)cb.virt);
+	}
+	for (i = 0; i < cd->friends.len; i++) {
+		dg_tag f = cd->friends.array[i];
+		IGNORE dw_entry (dwe_friend, (long)0);
+		dw_at_ext_address (f);
+	}
+	if (cd->vt_s) {
+		for (i = 0; i < cd->members.len; i++) {
+			dg_classmem * cm = &(cd->members.array[i]);
+			if (cm->cm_key == DG_CM_STAT && cm->d.cm_stat->key == DGN_OBJECT &&
+				((cm->d.cm_stat->mor && cm->d.cm_stat->mor->this_tag == cd->vt_s)
+				 || cm->tg == cd->vt_s))
+				vtable_exp = cm->d.cm_stat->data.n_obj.obtain_val;
+		}
+		for (i = 0; i < cd->members.len; i++) {
+			dg_classmem * cm = &(cd->members.array[i]);
+			if (cm->cm_key == DG_CM_FN && cm->d.cm_fn.fn->key == DGN_PROC &&
+				cm->d.cm_fn.fn->mor && cm->d.cm_fn.fn->mor->virt) {
+				exp a, b, c;
+				if (!vtable_exp || !cm->d.cm_fn.slot ||
+					name(sh(son(cm->d.cm_fn.slot))) != offsethd)
+					failer ("wrong virtual function data");
+				a = copy (son(vtable_exp));
+				b = copy (son(cm->d.cm_fn.slot));
+				c = f_add_to_ptr (a, b);
+				cm->d.cm_fn.fn->mor->vslot = hold (hold_check (c));
+			}
+		}
+	}
+	for (i = 0; i < cd->members.len; i++) {
+		out_classmem (cd->members.array[i]);
+	}
+	return;
 }
 
 
-static void out_task_sync_data
-    PROTO_N ( (td) )
-    PROTO_T ( task_data * td )
+static void
+out_task_sync_data(task_data * td)
 {
-  /* within info section */
-  int i;
-  dg_name en = td->entries;
-  while (en) {
-    dw2_out_name (en, GLOBAL_NAME);
-    en = en->next;
-  }
-  for (i = 0; i < td->members.len; i++) {
-    out_classmem (td->members.array[i]);
-  }
-  return;
+	/* within info section */
+	int i;
+	dg_name en = td->entries;
+	while (en) {
+		dw2_out_name (en, GLOBAL_NAME);
+		en = en->next;
+	}
+	for (i = 0; i < td->members.len; i++) {
+		out_classmem (td->members.array[i]);
+	}
+	return;
 }
 
 
 
-static void out_variant_part
-    PROTO_N ( (v) )
-    PROTO_T ( dg_varpart * v )
+static void
+out_variant_part(dg_varpart * v)
 {
-  /* within info section */
-  int i, j;
-  dg_variant * v_el = v->vnts.array;
-  switch (v->v_key) {
+	/* within info section */
+	int i, j;
+	dg_variant * v_el = v->vnts.array;
+	switch (v->v_key) {
     case DG_V_D: {
-      long l = next_dwarf_label();
-      IGNORE dw_entry (dwe_varpart, (long)0);
-      dw_at_address (l);
-      out_dwf_label (l, 1);
-      out_classmem (v->u.d);
-      break;
+		long l = next_dwarf_label();
+		IGNORE dw_entry (dwe_varpart, (long)0);
+		dw_at_address (l);
+		out_dwf_label (l, 1);
+		out_classmem (v->u.d);
+		break;
     }
     case DG_V_S: {
-      IGNORE dw_entry (dwe_varpart, (long)0);
-      dw_at_ext_address (v->u.s);
-      break;
+		IGNORE dw_entry (dwe_varpart, (long)0);
+		dw_at_ext_address (v->u.s);
+		break;
     }
     case DG_V_T: {
-      IGNORE dw_entry (dwe_varpart_t, (long)0);
-      dw_at_ext_lab (dw2_find_type_label (v->u.t));
-      break;
+		IGNORE dw_entry (dwe_varpart_t, (long)0);
+		dw_at_ext_lab (dw2_find_type_label (v->u.t));
+		break;
     }
-  }
-  for (i = 0; i < v->vnts.len; i++) {
-    dg_discrim * d_el = v_el[i].discr.array;
-    dg_classmem * f_el = v_el[i].fields.array;
-    if (v_el[i].discr.len == 0)
-      IGNORE dw_entry (dwe_variant_0, (long)0);
-    else
-    if (v_el[i].discr.len == 1 && no(d_el->lower) == no(d_el->upper)) {
-      IGNORE dw_entry (dwe_variant_1, (long)0);
-      dw_out_const (d_el->lower);
-    }
-    else {
-      long block_end = next_dwarf_label ();
-      int ss = (name(sh(d_el->lower)) & 1);
-      IGNORE dw_entry (dwe_variant_n, (long)0);
-      out16 (); out_dwf_dist_to_label (block_end); d_outnl();
-      for (j = 0; j < v_el[i].discr.len; j++) {
-	out8 ();
-	if (no(d_el[i].lower) == no(d_el[i].upper)) {
-	  outn ((long)DW_DSC_label); outs (sep);
-	  if (ss)
-	    sleb128 ((long)no(d_el[i].lower));
-	  else
-	    uleb128 ((unsigned long)no(d_el[i].lower));
 	}
-	else {
-	  outn ((long)DW_DSC_range); outs (sep);
-	  if (ss) {
-	    sleb128 ((long)no(d_el[i].lower));
-	    outs (sep);
-	    sleb128 ((long)no(d_el[i].upper));
-	  }
-	  else {
-	    uleb128 ((unsigned long)no(d_el[i].lower));
-	    outs (sep);
-	    uleb128 ((unsigned long)no(d_el[i].upper));
-	  }
+	for (i = 0; i < v->vnts.len; i++) {
+		dg_discrim * d_el = v_el[i].discr.array;
+		dg_classmem * f_el = v_el[i].fields.array;
+		if (v_el[i].discr.len == 0)
+			IGNORE dw_entry (dwe_variant_0, (long)0);
+		else
+			if (v_el[i].discr.len == 1 && no(d_el->lower) == no(d_el->upper)) {
+				IGNORE dw_entry (dwe_variant_1, (long)0);
+				dw_out_const (d_el->lower);
+			}
+			else {
+				long block_end = next_dwarf_label ();
+				int ss = (name(sh(d_el->lower)) & 1);
+				IGNORE dw_entry (dwe_variant_n, (long)0);
+				out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+				for (j = 0; j < v_el[i].discr.len; j++) {
+					out8 ();
+					if (no(d_el[i].lower) == no(d_el[i].upper)) {
+						outn ((long)DW_DSC_label); outs (sep);
+						if (ss)
+							sleb128 ((long)no(d_el[i].lower));
+						else
+							uleb128 ((unsigned long)no(d_el[i].lower));
+					}
+					else {
+						outn ((long)DW_DSC_range); outs (sep);
+						if (ss) {
+							sleb128 ((long)no(d_el[i].lower));
+							outs (sep);
+							sleb128 ((long)no(d_el[i].upper));
+						}
+						else {
+							uleb128 ((unsigned long)no(d_el[i].lower));
+							outs (sep);
+							uleb128 ((unsigned long)no(d_el[i].upper));
+						}
+					}
+					d_outnl();
+				}
+				out_dwf_label (block_end, 1);
+			}
+		for (j = 0; j < v_el[i].fields.len; j++) {
+			out_classmem (f_el[j]);
+		}
+		dw_sibling_end ();
 	}
-	d_outnl();
-      }
-      out_dwf_label (block_end, 1);
-    }
-    for (j = 0; j < v_el[i].fields.len; j++) {
-      out_classmem (f_el[j]);
-    }
-    dw_sibling_end ();
-  }
-  dw_sibling_end ();
-  return;
+	dw_sibling_end ();
+	return;
 }
 
 
-static void out_ref_bound
-    PROTO_N ( (tg) )
-    PROTO_T ( dg_tag tg )
+static void
+out_ref_bound(dg_tag tg)
 {
-  dw_at_form (DW_FORM_ref_addr); d_outnl ();
-  dw_at_ext_address (tg);
-  return;
+	dw_at_form (DW_FORM_ref_addr); d_outnl ();
+	dw_at_ext_address (tg);
+	return;
 }
 
 
-void dw_out_dim
-    PROTO_N ( (d) )
-    PROTO_T ( dg_dim d )
+void
+dw_out_dim(dg_dim d)
 {
-  /* within info section */
-  long attr1 = 0, attr2;
-  if (d.d_key == DG_DIM_TYPE) {		/* must be array dimension */
-    if ((d.d_typ->key == DGT_SUBR || d.d_typ->key == DGT_ENUM) &&
-		!(d.d_typ->outref.u.l)) {
-      d.d_typ->outref.u.l = next_dwarf_label();
-      d.d_typ->outref.k = LAB_D;
-      dw_out_type (d.d_typ);
-    }
-    else {
-      attr1 = H_TP;
-      attr2 = dw_entry (dwe_typedef, attr1);
-      if (attr2 != attr1)
-	fail_unimplemented (attr1, attr2);
-      dw_at_ext_lab (dw2_find_type_label (d.d_typ));
-    }
-    return;
-  }
-  if (d.d_typ)
-    attr1 |= (H_TP | H_SZ);
-  if (!d.low_ref || d.lower.tg)
-    attr1 |= H_LB;
-  if (!d.hi_ref || d.upper.tg)
-    attr1 |= (d.hi_cnt ? H_CN : H_UB);
-  attr2 = dw_entry (dwe_subr_type, attr1);
-  if (attr2 & ~(H_TP|H_SZ|H_LB|H_UB|H_CN))
-    fail_unimplemented (attr1, attr2);
-  if (attr2 & H_TP)
-    dw_at_ext_lab (dw2_find_type_label (d.d_typ));
-  if (attr2 & H_SZ)
-    dw_at_udata ((unsigned long)(shape_size (d.sha) >> 3));
-  if (attr2 & H_LB) {
-    if (d.low_ref)
-      out_ref_bound (d.lower.tg);
-    else
-      dw_out_const (son(d.lower.x));
-  }
-  if (attr2 & (H_UB | H_CN)) {
-    if (d.hi_ref)
-      out_ref_bound (d.upper.tg);
-    else
-      dw_out_const (son(d.upper.x));
-  }
-  return;
+	/* within info section */
+	long attr1 = 0, attr2;
+	if (d.d_key == DG_DIM_TYPE) {		/* must be array dimension */
+		if ((d.d_typ->key == DGT_SUBR || d.d_typ->key == DGT_ENUM) &&
+			!(d.d_typ->outref.u.l)) {
+			d.d_typ->outref.u.l = next_dwarf_label();
+			d.d_typ->outref.k = LAB_D;
+			dw_out_type (d.d_typ);
+		}
+		else {
+			attr1 = H_TP;
+			attr2 = dw_entry (dwe_typedef, attr1);
+			if (attr2 != attr1)
+				fail_unimplemented (attr1, attr2);
+			dw_at_ext_lab (dw2_find_type_label (d.d_typ));
+		}
+		return;
+	}
+	if (d.d_typ)
+		attr1 |= (H_TP | H_SZ);
+	if (!d.low_ref || d.lower.tg)
+		attr1 |= H_LB;
+	if (!d.hi_ref || d.upper.tg)
+		attr1 |= (d.hi_cnt ? H_CN : H_UB);
+	attr2 = dw_entry (dwe_subr_type, attr1);
+	if (attr2 & ~(H_TP|H_SZ|H_LB|H_UB|H_CN))
+		fail_unimplemented (attr1, attr2);
+	if (attr2 & H_TP)
+		dw_at_ext_lab (dw2_find_type_label (d.d_typ));
+	if (attr2 & H_SZ)
+		dw_at_udata ((unsigned long)(shape_size (d.sha) >> 3));
+	if (attr2 & H_LB) {
+		if (d.low_ref)
+			out_ref_bound (d.lower.tg);
+		else
+			dw_out_const (son(d.lower.x));
+	}
+	if (attr2 & (H_UB | H_CN)) {
+		if (d.hi_ref)
+			out_ref_bound (d.upper.tg);
+		else
+			dw_out_const (son(d.upper.x));
+	}
+	return;
 }
 
 
-void dw_out_type
-    PROTO_N ( (t) )
-    PROTO_T ( dg_type t )
+void
+dw_out_type(dg_type t)
 {
-  /* within info section */
-  dw_set_ext_lab (t->outref);
-  switch (t->key) {
-
+	/* within info section */
+	dw_set_ext_lab (t->outref);
+	switch (t->key) {
+		
     case DGT_TAGGED: {
-      dg_tag tg = t->data.t_tag;
-      if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
-	failer ("unexpected out_type");
-	outnl_comment ("		ERROR");
-	break;
-      }
-      tg->done = 1;
-      dw2_out_name (tg->p.nam, GLOBAL_NAME);
-      break;
+		dg_tag tg = t->data.t_tag;
+		if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
+			failer ("unexpected out_type");
+			outnl_comment ("		ERROR");
+			break;
+		}
+		tg->done = 1;
+		dw2_out_name (tg->p.nam, GLOBAL_NAME);
+		break;
     }
-
+		
     case DGT_BASIC: {
-      shape sha = t->data.t_bas.b_sh;
-      long encoding;
-      switch (t->data.t_bas.b_key) {
-	case DG_ADR_T:
-	  encoding = DW_ATE_address;
-	  break;
-	case DG_BOOL_T:
-	  encoding = DW_ATE_boolean;
-	  break;
-	case DG_CHAR_T:
-	  encoding = (is_signed (sha) ? DW_ATE_signed_char : DW_ATE_unsigned_char);
-	  break;
-	case DG_INT_T:
-	  encoding = (is_signed (sha) ? DW_ATE_signed : DW_ATE_unsigned);
-	  break;
-	case DG_FLOAT_T:
-	  encoding = (is_floating (name(sha)) ? DW_ATE_float : DW_ATE_complex_float);
-	  break;
-      }
-      IGNORE dw_entry (dwe_base_type, (long)0);
-      dw_at_string (t->data.t_bas.tnam);
-      dw_at_data (1, encoding);
-      dw_at_udata ((unsigned long)(shape_size (sha) >> 3));
-      break;
+		shape sha = t->data.t_bas.b_sh;
+		long encoding;
+		switch (t->data.t_bas.b_key) {
+		case DG_ADR_T:
+			encoding = DW_ATE_address;
+			break;
+		case DG_BOOL_T:
+			encoding = DW_ATE_boolean;
+			break;
+		case DG_CHAR_T:
+			encoding = (is_signed (sha) ? DW_ATE_signed_char : DW_ATE_unsigned_char);
+			break;
+		case DG_INT_T:
+			encoding = (is_signed (sha) ? DW_ATE_signed : DW_ATE_unsigned);
+			break;
+		case DG_FLOAT_T:
+			encoding = (is_floating (name(sha)) ? DW_ATE_float : DW_ATE_complex_float);
+			break;
+		}
+		IGNORE dw_entry (dwe_base_type, (long)0);
+		dw_at_string (t->data.t_bas.tnam);
+		dw_at_data (1, encoding);
+		dw_at_udata ((unsigned long)(shape_size (sha) >> 3));
+		break;
     }
-
+		
     case DGT_QUAL: {
-      abbrev_entry dwe;
-      int flg = 0;
-      switch (t->data.t_qual.q_key) {
-	case DG_PTR_T: {
-	  dwe = dwe_ptr_type;
-	  break;
-	}
-	case DG_HPPTR_T: {
-	  dwe = dwe_hpptr_t;
-	  flg = 1;
-	  break;
-	}
-	case DG_REF_T: {
-	  dwe = dwe_ref_type;
-	  break;
-	}
-	case DG_PACK_T: {
-	  dwe = dwe_pack_type;
-	  break;
-	}
-	case DG_CONST_T: {
-	  dwe = dwe_cnst_type;
-	  break;
-	}
-	case DG_VOL_T: {
-	  dwe = dwe_vol_type;
-	  break;
-	}
-	case DG_ALIAS_T: {
-	  dwe = dwe_als_type;
-	  break;
-	}
-	case DG_CLWID_T: {
-	  dwe = dwe_clwd_type;
-	  break;
-	}
-	case DG_LIM_T: {
-	  dwe = dwe_lim_type;
-	  break;
-	}
-	case N_DG_QUAL_TYPES:
-	  break;	/* dummy */
-      }
-      IGNORE dw_entry (dwe, (long)0);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_qual.typ));
-      if (flg)
-	dw_at_flag (flg);
-      break;
+		abbrev_entry dwe;
+		int flg = 0;
+		switch (t->data.t_qual.q_key) {
+		case DG_PTR_T: {
+			dwe = dwe_ptr_type;
+			break;
+		}
+		case DG_HPPTR_T: {
+			dwe = dwe_hpptr_t;
+			flg = 1;
+			break;
+		}
+		case DG_REF_T: {
+			dwe = dwe_ref_type;
+			break;
+		}
+		case DG_PACK_T: {
+			dwe = dwe_pack_type;
+			break;
+		}
+		case DG_CONST_T: {
+			dwe = dwe_cnst_type;
+			break;
+		}
+		case DG_VOL_T: {
+			dwe = dwe_vol_type;
+			break;
+		}
+		case DG_ALIAS_T: {
+			dwe = dwe_als_type;
+			break;
+		}
+		case DG_CLWID_T: {
+			dwe = dwe_clwd_type;
+			break;
+		}
+		case DG_LIM_T: {
+			dwe = dwe_lim_type;
+			break;
+		}
+		case N_DG_QUAL_TYPES:
+			break;	/* dummy */
+		}
+		IGNORE dw_entry (dwe, (long)0);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_qual.typ));
+		if (flg)
+			dw_at_flag (flg);
+		break;
     }
-
+		
     case DGT_ARRAY: {
-      exp stride_e = son(t->data.t_arr.stride);
-      dg_dim * el = t->data.t_arr.dims.array;
-      int stride_known = (name(stride_e) == val_tag);
-      int size_known = stride_known;
-      unsigned long tot_size = (unsigned long) no(stride_e);
-      int i;
-      for (i = 0; i < t->data.t_arr.dims.len && size_known; i++) {
-	if (el[i].count >= 0)
-	  tot_size *= (unsigned long) el[i].count;
-	else
-	  size_known = 0;
-      }
-
-      IGNORE dw_entry ((size_known ? dwe_arr_type : dwe_arr_dyn), (long)0);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_arr.elem_type));
-      if (stride_known)
-	dw_out_const (stride_e);
-      else
-	dw2_offset_exp (stride_e);
-      dw_at_data (1, (long)(t->data.t_arr.rowm ? DW_ORD_row_major : DW_ORD_col_major));
-      if (size_known)
-	dw_at_udata ((tot_size + 7) >> 3);
-
-      for (i = 0; i < t->data.t_arr.dims.len; i++)
-	dw_out_dim (el[i]);
-      dw_sibling_end ();
-      break;
+		exp stride_e = son(t->data.t_arr.stride);
+		dg_dim * el = t->data.t_arr.dims.array;
+		int stride_known = (name(stride_e) == val_tag);
+		int size_known = stride_known;
+		unsigned long tot_size = (unsigned long) no(stride_e);
+		int i;
+		for (i = 0; i < t->data.t_arr.dims.len && size_known; i++) {
+			if (el[i].count >= 0)
+				tot_size *= (unsigned long) el[i].count;
+			else
+				size_known = 0;
+		}
+		
+		IGNORE dw_entry ((size_known ? dwe_arr_type : dwe_arr_dyn), (long)0);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_arr.elem_type));
+		if (stride_known)
+			dw_out_const (stride_e);
+		else
+			dw2_offset_exp (stride_e);
+		dw_at_data (1, (long)(t->data.t_arr.rowm ? DW_ORD_row_major : DW_ORD_col_major));
+		if (size_known)
+			dw_at_udata ((tot_size + 7) >> 3);
+		
+		for (i = 0; i < t->data.t_arr.dims.len; i++)
+			dw_out_dim (el[i]);
+		dw_sibling_end ();
+		break;
     }
-
+		
     case DGT_SUBR: {
-      dw_out_dim (t->data.t_subr);
-      break;
+		dw_out_dim (t->data.t_subr);
+		break;
     }
-
+		
     case DGT_ENUM: {
-      long attr1 = H_SZ, attr2;
-      int i;
-      dg_enum * el = t->data.t_enum.values.array;
-      if (t->mor && t->mor->refspec)
-	attr1 |= H_SP;
-      if (t->mor && t->mor->isspec)
-	attr1 |= H_DC;
-      if (t->data.t_enum.tnam[0])
-	attr1 |= H_NM;
-      if (t->data.t_enum.tpos.file)
-	attr1 |= H_XY;
-      if (t->mor && t->mor->isnew)
-	attr1 |= H_NW;
-      attr2 = dw_entry (dwe_enum_type, attr1);
-      if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW))
-	fail_unimplemented (attr1, attr2);
-      if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
-      if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
-      if (attr2 & H_NM)
-	dw_at_string (t->data.t_enum.tnam);
-      if (attr2 & H_XY)
-	dw_at_decl (t->data.t_enum.tpos);
-      if (attr2 & H_SZ)
-	dw_at_udata ((unsigned long)(shape_size (sh (son(el[0].value))) >> 3));
-      if (attr2 & H_NW)
-	dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
-
-      for (i = 0; i < t->data.t_enum.values.len; i++) {
-	if (el[i].tg)
-	  set_ext_address (el[i].tg);
-	if (el[i].is_chn) {
-	  IGNORE dw_entry (dwe_enum_char, (long)0);
-	  out8(); uleb128 ((unsigned long)el[i].chn); d_outnl();
-	}
-	else {
-	  IGNORE dw_entry (dwe_enum_tor, (long)0);
-	  dw_at_string (el[i].enam);
-	}
-	dw_out_const (son(el[i].value));
-      }
-      dw_sibling_end ();
-      break;
+		long attr1 = H_SZ, attr2;
+		int i;
+		dg_enum * el = t->data.t_enum.values.array;
+		if (t->mor && t->mor->refspec)
+			attr1 |= H_SP;
+		if (t->mor && t->mor->isspec)
+			attr1 |= H_DC;
+		if (t->data.t_enum.tnam[0])
+			attr1 |= H_NM;
+		if (t->data.t_enum.tpos.file)
+			attr1 |= H_XY;
+		if (t->mor && t->mor->isnew)
+			attr1 |= H_NW;
+		attr2 = dw_entry (dwe_enum_type, attr1);
+		if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW))
+			fail_unimplemented (attr1, attr2);
+		if (attr2 & H_SP)
+			dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+		if (attr2 & H_DC)
+			dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+		if (attr2 & H_NM)
+			dw_at_string (t->data.t_enum.tnam);
+		if (attr2 & H_XY)
+			dw_at_decl (t->data.t_enum.tpos);
+		if (attr2 & H_SZ)
+			dw_at_udata ((unsigned long)(shape_size (sh (son(el[0].value))) >> 3));
+		if (attr2 & H_NW)
+			dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
+		
+		for (i = 0; i < t->data.t_enum.values.len; i++) {
+			if (el[i].tg)
+				set_ext_address (el[i].tg);
+			if (el[i].is_chn) {
+				IGNORE dw_entry (dwe_enum_char, (long)0);
+				out8(); uleb128 ((unsigned long)el[i].chn); d_outnl();
+			}
+			else {
+				IGNORE dw_entry (dwe_enum_tor, (long)0);
+				dw_at_string (el[i].enam);
+			}
+			dw_out_const (son(el[i].value));
+		}
+		dw_sibling_end ();
+		break;
     }
-
+		
     case DGT_STRUCT:
     case DGT_CLASS:
     case DGT_A_TASK:
     case DGT_A_SYNCH: {
-      abbrev_entry dwe;
-      int ada_derived = 0;
-      char* nam;
-      char* gnam = "";
-      long attr1 = 0, attr2;
-      dg_instantn * generic = (dg_instantn *)0;
-      if (t->data.t_struct.is_union)
-	dwe = dwe_union_t;
-      else
-      switch (t->key) {
-	case DGT_STRUCT:
-	  dwe = dwe_struct_t;
-	  break;
-	case DGT_CLASS:
-	  dwe = dwe_class_t;
-	  break;
-	case DGT_A_TASK:
-	  dwe = dwe_task_t;
-	  break;
-	default:
-	  dwe = dwe_synch_t;
-	  break;
-      }
-      if (t->data.t_struct.idnam.id_key == DG_ID_INST) {
-	generic = t->data.t_struct.idnam.idd.instance;
-	if (generic->nam.id_key == DG_ID_NONE ||
-		generic->nam.id_key == DG_ID_ANON)
-	  nam = generic->spec.idd.nam;
-        else {
-	  nam = generic->nam.idd.nam;
-	  gnam = generic->spec.idd.nam;
-	}
-      }
-      else
-	nam = t->data.t_struct.idnam.idd.nam;
-
-      if (t->data.t_struct.tpos.file)
-	attr1 |= H_XY;
-      if (t->mor && t->mor->refspec)
-	attr1 |= H_SP;
-      else {
-	if (nam[0])
-	  attr1 |= H_NM;
-	if (gnam[0])
-	  attr1 |= H_GN;
-      }
-      if (t->mor && t->mor->isspec)
-	attr1 |= H_DC;
-      if (t->mor && t->mor->issep)
-	attr1 |= H_SE;
-      if (t->data.t_struct.sha)
-	attr1 |= H_SZ;
-      if (t->mor && t->mor->elabn)
-	attr1 |= H_EL;
-      if (t->mor && t->mor->isnew)
-	attr1 |= H_NW;
-      if (t->mor && t->mor->aderiv) {
-	attr1 |= H_AD;
-	ada_derived = 1;
-      }
-
-      if (t->key == DGT_CLASS) {
-	if (t->data.t_struct.u.cd->vt_s)
-	  attr1 |= H_VS;
-	if (t->data.t_struct.u.cd->vt_d)
-	  attr1 |= H_VD;
-	if (t->data.t_struct.u.cd->rtti_s)
-	  attr1 |= H_RS;
-	if (t->data.t_struct.u.cd->rtti_d)
-	  attr1 |= H_RD;
-      }
-      else
-      if (t->key != DGT_STRUCT) {
-	if (t->data.t_struct.u.td->cb)
-	  attr1 |= H_CB;
-	if (t->data.t_struct.u.td->id)
-	  attr1 |= H_ID;
-      }
-
-      attr2 = dw_entry (dwe, attr1);
-      if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW|H_EXTN))
-	fail_unimplemented (attr1, attr2);
-      if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
-      if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
-      if (attr2 & H_NM)
-	dw_at_string (nam);
-      if (attr2 & H_XY)
-	dw_at_decl (t->data.t_struct.tpos);
-      if (attr2 & H_SZ)
-	dw_at_udata ((unsigned long)(shape_size (t->data.t_struct.sha) >> 3));
-      if (attr2 & H_NW)
-	dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
-
-      if (attr2 & H_EXTN) {
-	long block_end = next_dwarf_label ();
-	out16 (); out_dwf_dist_to_label (block_end); d_outnl();
-	attr1 &= ~attr2;
-	if (attr1 & H_NW) {
-	  set_attribute (DW_AT_DD_newtype, DW_FORM_flag);
-	  dw_at_flag ((t->mor && t->mor->isnew ? 1 : ada_derived));
-	}
-	if (attr1 & H_AD) {
-	  set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
-	  dw_at_flag (ada_derived);
-	}
-	if (attr1 & H_SE) {
-	  set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
-	  dw_at_flag ((t->mor && t->mor->issep ? 1 : 0));
-	}
-	switch (t->key) {
-	  case DGT_STRUCT: {
-	    fail_unimplemented (attr1, attr1);
-	    break;
-	  }
-	  case DGT_CLASS: {
-	    if (attr1 & ~(H_NW|H_VS|H_VD|H_RS|H_RD|H_EL|H_GN|H_AD))
-	      fail_unimplemented (attr1, attr1);
-	    if (attr1 & H_VS) {
-	      set_attribute (DW_AT_DD_vtable_static, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.cd->vt_s);
-	    }
-	    if (attr1 & H_VD) {
-	      set_attribute (DW_AT_DD_vtable_dynamic, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.cd->vt_d);
-	    }
-	    if (attr1 & H_RS) {
-	      set_attribute (DW_AT_DD_rtti_static, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.cd->rtti_s);
-	    }
-	    if (attr1 & H_RD) {
-	      set_attribute (DW_AT_DD_rtti_dynamic, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.cd->rtti_d);
-	    }
-	    break;
-	  }
-	  case DGT_A_TASK: {
-	    if (attr1 & ~(H_NW|H_ID|H_CB|H_EL|H_GN|H_SE))
-	      fail_unimplemented (attr1, attr1);
-	    if (attr1 & H_ID) {
-	      set_attribute (DW_AT_DD_task_id, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.td->id);
-	    }
-	    if (attr1 & H_CB) {
-	      set_attribute (DW_AT_DD_task_control_block, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.td->cb);
-	    }
-	    break;
-	  }
-	  default: {
-	    if (attr1 & ~(H_NW|H_CB|H_EL|H_GN|H_SE))
-	      fail_unimplemented (attr1, attr1);
-	    if (attr1 & H_CB) {
-	      set_attribute (DW_AT_DD_so_control_block, DW_FORM_ref_addr);
-	      dw_at_ext_address (t->data.t_struct.u.td->cb);
-	    }
-	    break;
-	  }
-	}
-	if (attr1 & H_EL) {
-	  set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
-	  dw_at_ext_address (t->mor->elabn);
-	}
-	if (attr1 & H_GN) {
-	  set_attribute (DW_AT_DD_generic_name, DW_FORM_string);
-	  dw_at_string (gnam);
-	}
-      }
-
-      if (generic)
-	dw2_out_generic (generic->params);
-      switch (t->key) {
-	case DGT_STRUCT: {
-	  int i;
-	  dg_classmem * el = t->data.t_struct.u.fields.array;
-	  for (i = 0; i < t->data.t_struct.u.fields.len; i++)
-	    out_classmem (el[i]);
-	  break;
-	}
-	case DGT_CLASS: {
-	  out_class_data (t->data.t_struct.u.cd);
-	  break;
-	}
-	default: {
-	  out_task_sync_data (t->data.t_struct.u.td);
-	  break;
-	}
-      }
-      if (t->data.t_struct.vpart)
-	out_variant_part (t->data.t_struct.vpart);
-      dw_sibling_end ();
-      break;
+		abbrev_entry dwe;
+		int ada_derived = 0;
+		char* nam;
+		char* gnam = "";
+		long attr1 = 0, attr2;
+		dg_instantn * generic = (dg_instantn *)0;
+		if (t->data.t_struct.is_union)
+			dwe = dwe_union_t;
+		else
+			switch (t->key) {
+			case DGT_STRUCT:
+				dwe = dwe_struct_t;
+				break;
+			case DGT_CLASS:
+				dwe = dwe_class_t;
+				break;
+			case DGT_A_TASK:
+				dwe = dwe_task_t;
+				break;
+			default:
+				dwe = dwe_synch_t;
+				break;
+			}
+		if (t->data.t_struct.idnam.id_key == DG_ID_INST) {
+			generic = t->data.t_struct.idnam.idd.instance;
+			if (generic->nam.id_key == DG_ID_NONE ||
+				generic->nam.id_key == DG_ID_ANON)
+				nam = generic->spec.idd.nam;
+			else {
+				nam = generic->nam.idd.nam;
+				gnam = generic->spec.idd.nam;
+			}
+		}
+		else
+			nam = t->data.t_struct.idnam.idd.nam;
+		
+		if (t->data.t_struct.tpos.file)
+			attr1 |= H_XY;
+		if (t->mor && t->mor->refspec)
+			attr1 |= H_SP;
+		else {
+			if (nam[0])
+				attr1 |= H_NM;
+			if (gnam[0])
+				attr1 |= H_GN;
+		}
+		if (t->mor && t->mor->isspec)
+			attr1 |= H_DC;
+		if (t->mor && t->mor->issep)
+			attr1 |= H_SE;
+		if (t->data.t_struct.sha)
+			attr1 |= H_SZ;
+		if (t->mor && t->mor->elabn)
+			attr1 |= H_EL;
+		if (t->mor && t->mor->isnew)
+			attr1 |= H_NW;
+		if (t->mor && t->mor->aderiv) {
+			attr1 |= H_AD;
+			ada_derived = 1;
+		}
+		
+		if (t->key == DGT_CLASS) {
+			if (t->data.t_struct.u.cd->vt_s)
+				attr1 |= H_VS;
+			if (t->data.t_struct.u.cd->vt_d)
+				attr1 |= H_VD;
+			if (t->data.t_struct.u.cd->rtti_s)
+				attr1 |= H_RS;
+			if (t->data.t_struct.u.cd->rtti_d)
+				attr1 |= H_RD;
+		}
+		else
+			if (t->key != DGT_STRUCT) {
+				if (t->data.t_struct.u.td->cb)
+					attr1 |= H_CB;
+				if (t->data.t_struct.u.td->id)
+					attr1 |= H_ID;
+			}
+		
+		attr2 = dw_entry (dwe, attr1);
+		if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW|H_EXTN))
+			fail_unimplemented (attr1, attr2);
+		if (attr2 & H_SP)
+			dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+		if (attr2 & H_DC)
+			dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+		if (attr2 & H_NM)
+			dw_at_string (nam);
+		if (attr2 & H_XY)
+			dw_at_decl (t->data.t_struct.tpos);
+		if (attr2 & H_SZ)
+			dw_at_udata ((unsigned long)(shape_size (t->data.t_struct.sha) >> 3));
+		if (attr2 & H_NW)
+			dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
+		
+		if (attr2 & H_EXTN) {
+			long block_end = next_dwarf_label ();
+			out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+			attr1 &= ~attr2;
+			if (attr1 & H_NW) {
+				set_attribute (DW_AT_DD_newtype, DW_FORM_flag);
+				dw_at_flag ((t->mor && t->mor->isnew ? 1 : ada_derived));
+			}
+			if (attr1 & H_AD) {
+				set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
+				dw_at_flag (ada_derived);
+			}
+			if (attr1 & H_SE) {
+				set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
+				dw_at_flag ((t->mor && t->mor->issep ? 1 : 0));
+			}
+			switch (t->key) {
+			case DGT_STRUCT: {
+				fail_unimplemented (attr1, attr1);
+				break;
+			}
+			case DGT_CLASS: {
+				if (attr1 & ~(H_NW|H_VS|H_VD|H_RS|H_RD|H_EL|H_GN|H_AD))
+					fail_unimplemented (attr1, attr1);
+				if (attr1 & H_VS) {
+					set_attribute (DW_AT_DD_vtable_static, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.cd->vt_s);
+				}
+				if (attr1 & H_VD) {
+					set_attribute (DW_AT_DD_vtable_dynamic, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.cd->vt_d);
+				}
+				if (attr1 & H_RS) {
+					set_attribute (DW_AT_DD_rtti_static, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.cd->rtti_s);
+				}
+				if (attr1 & H_RD) {
+					set_attribute (DW_AT_DD_rtti_dynamic, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.cd->rtti_d);
+				}
+				break;
+			}
+			case DGT_A_TASK: {
+				if (attr1 & ~(H_NW|H_ID|H_CB|H_EL|H_GN|H_SE))
+					fail_unimplemented (attr1, attr1);
+				if (attr1 & H_ID) {
+					set_attribute (DW_AT_DD_task_id, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.td->id);
+				}
+				if (attr1 & H_CB) {
+					set_attribute (DW_AT_DD_task_control_block, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.td->cb);
+				}
+				break;
+			}
+			default: {
+				if (attr1 & ~(H_NW|H_CB|H_EL|H_GN|H_SE))
+					fail_unimplemented (attr1, attr1);
+				if (attr1 & H_CB) {
+					set_attribute (DW_AT_DD_so_control_block, DW_FORM_ref_addr);
+					dw_at_ext_address (t->data.t_struct.u.td->cb);
+				}
+				break;
+			}
+			}
+			if (attr1 & H_EL) {
+				set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
+				dw_at_ext_address (t->mor->elabn);
+			}
+			if (attr1 & H_GN) {
+				set_attribute (DW_AT_DD_generic_name, DW_FORM_string);
+				dw_at_string (gnam);
+			}
+		}
+		
+		if (generic)
+			dw2_out_generic (generic->params);
+		switch (t->key) {
+		case DGT_STRUCT: {
+			int i;
+			dg_classmem * el = t->data.t_struct.u.fields.array;
+			for (i = 0; i < t->data.t_struct.u.fields.len; i++)
+				out_classmem (el[i]);
+			break;
+		}
+		case DGT_CLASS: {
+			out_class_data (t->data.t_struct.u.cd);
+			break;
+		}
+		default: {
+			out_task_sync_data (t->data.t_struct.u.td);
+			break;
+		}
+		}
+		if (t->data.t_struct.vpart)
+			out_variant_part (t->data.t_struct.vpart);
+		dw_sibling_end ();
+		break;
     }
-
+		
     case DGT_PMEM: {
-      IGNORE dw_entry (dwe_ptrmem_t, (long)0);
-      dw_at_ext_address (t->data.t_pmem.pclass);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_pmem.memtyp));
-      dw_at_udata ((unsigned long)(shape_size (t->data.t_pmem.sha) >> 3));
-      break;
+		IGNORE dw_entry (dwe_ptrmem_t, (long)0);
+		dw_at_ext_address (t->data.t_pmem.pclass);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_pmem.memtyp));
+		dw_at_udata ((unsigned long)(shape_size (t->data.t_pmem.sha) >> 3));
+		break;
     }
-
+		
     case DGT_CONS: {
-      abbrev_entry dwe;
-      long attr1 = (H_TP | H_SZ), attr2 = 0;
-      if (t->data.t_cons.c_key == DG_SET_T)
-	dwe = dwe_set_t;
-      else
-	dwe = dwe_file_t;
-      if (t->mor && t->mor->refspec)
-	attr1 |= H_SP;
-      if (t->mor && t->mor->isspec)
-	attr1 |= H_DC;
-      if (t->data.t_enum.tnam[0])
-      attr2 = dw_entry (dwe, attr1);
-      if (attr2 & ~(H_SP|H_DC|H_TP|H_SZ))
-	fail_unimplemented (attr1, attr2);
-      if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
-      if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
-      if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (t->data.t_cons.typ));
-      if (attr2 & H_SZ)
-	dw_at_udata ((unsigned long)(shape_size (t->data.t_cons.sha) >> 3));
-      break;
+		abbrev_entry dwe;
+		long attr1 = (H_TP | H_SZ), attr2 = 0;
+		if (t->data.t_cons.c_key == DG_SET_T)
+			dwe = dwe_set_t;
+		else
+			dwe = dwe_file_t;
+		if (t->mor && t->mor->refspec)
+			attr1 |= H_SP;
+		if (t->mor && t->mor->isspec)
+			attr1 |= H_DC;
+		if (t->data.t_enum.tnam[0])
+			attr2 = dw_entry (dwe, attr1);
+		if (attr2 & ~(H_SP|H_DC|H_TP|H_SZ))
+			fail_unimplemented (attr1, attr2);
+		if (attr2 & H_SP)
+			dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+		if (attr2 & H_DC)
+			dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+		if (attr2 & H_TP)
+			dw_at_ext_lab (dw2_find_type_label (t->data.t_cons.typ));
+		if (attr2 & H_SZ)
+			dw_at_udata ((unsigned long)(shape_size (t->data.t_cons.sha) >> 3));
+		break;
     }
-
+		
     case DGT_PROC: {
-      int i;
-      dg_param * el = t->data.t_proc.params.array;
-      dg_type res_t = t->data.t_proc.res_type;
-      if (res_t) {
-	IGNORE dw_entry (dwe_proc_type, (long)0);
-	dw_at_ext_lab (dw2_find_type_label (res_t));
-      }
-      else
-	IGNORE dw_entry (dwe_procv_t, (long)0);
-      for (i = 0; i < t->data.t_proc.params.len; i++) {
-	IGNORE dw_entry (dwe_formal, (long)0);
-	dw_at_ext_lab (dw2_find_type_label (el[i].p_typ));
-      }
-      if (t->data.t_proc.prps & f_var_callers)
-	IGNORE dw_entry (dwe_opt_par, (long)0);
-      dw_sibling_end ();
-      break;
+		int i;
+		dg_param * el = t->data.t_proc.params.array;
+		dg_type res_t = t->data.t_proc.res_type;
+		if (res_t) {
+			IGNORE dw_entry (dwe_proc_type, (long)0);
+			dw_at_ext_lab (dw2_find_type_label (res_t));
+		}
+		else
+			IGNORE dw_entry (dwe_procv_t, (long)0);
+		for (i = 0; i < t->data.t_proc.params.len; i++) {
+			IGNORE dw_entry (dwe_formal, (long)0);
+			dw_at_ext_lab (dw2_find_type_label (el[i].p_typ));
+		}
+		if (t->data.t_proc.prps & f_var_callers)
+			IGNORE dw_entry (dwe_opt_par, (long)0);
+		dw_sibling_end ();
+		break;
     }
-
+		
     case DGT_BITF: {
-      failer ("bitfields shouldn't occur here");
-      break;
+		failer ("bitfields shouldn't occur here");
+		break;
     }
-
+		
     case DGT_FIXED: {
-      long attr1 = 0, attr2;
-      if (t->data.t_adanum.delta)
-	attr1 |= H_DF;
-      if (t->data.t_adanum.digits)
-	attr1 |= H_DS;
-      attr2 = dw_entry (dwe_fixpt_t, attr1);
-      if (attr2 & ~(H_DF|H_DS))
-	fail_unimplemented (attr1, attr2);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.small));
-      if (attr2 & H_DF)
-	dw_out_const (son(t->data.t_adanum.delta));
-      if (attr2 & H_DS)
-	dw_out_const (son(t->data.t_adanum.digits));
-      break;
+		long attr1 = 0, attr2;
+		if (t->data.t_adanum.delta)
+			attr1 |= H_DF;
+		if (t->data.t_adanum.digits)
+			attr1 |= H_DS;
+		attr2 = dw_entry (dwe_fixpt_t, attr1);
+		if (attr2 & ~(H_DF|H_DS))
+			fail_unimplemented (attr1, attr2);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
+		dw_out_const (son(t->data.t_adanum.small));
+		if (attr2 & H_DF)
+			dw_out_const (son(t->data.t_adanum.delta));
+		if (attr2 & H_DS)
+			dw_out_const (son(t->data.t_adanum.digits));
+		break;
     }
-
+		
     case DGT_FLDIG: {
-      IGNORE dw_entry (dwe_fldg_t, (long)0);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.digits));
-      break;
+		IGNORE dw_entry (dwe_fldg_t, (long)0);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
+		dw_out_const (son(t->data.t_adanum.digits));
+		break;
     }
-
+		
     case DGT_MOD: {
-      IGNORE dw_entry (dwe_modular_t, (long)0);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.digits));
-      break;
+		IGNORE dw_entry (dwe_modular_t, (long)0);
+		dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
+		dw_out_const (son(t->data.t_adanum.digits));
+		break;
     }
-
+		
     case DGT_STRING: {
-      exp l_e = son(t->data.t_string.length);	/* other fields ignored */
-      if (name(l_e) == val_tag) {
-	IGNORE dw_entry (dwe_stringc_t, (long)0);
-	dw_at_udata ((unsigned long)no(l_e));
-      }
-      else {
-	IGNORE dw_entry (dwe_string_t, (long)0);
-	dw2_locate_exp (l_e, 0, 0);
-	dw_at_udata ((unsigned long)(shape_size (sh(l_e)) >> 3));
-      }
-      break;
+		exp l_e = son(t->data.t_string.length);	/* other fields ignored */
+		if (name(l_e) == val_tag) {
+			IGNORE dw_entry (dwe_stringc_t, (long)0);
+			dw_at_udata ((unsigned long)no(l_e));
+		}
+		else {
+			IGNORE dw_entry (dwe_string_t, (long)0);
+			dw2_locate_exp (l_e, 0, 0);
+			dw_at_udata ((unsigned long)(shape_size (sh(l_e)) >> 3));
+		}
+		break;
     }
-
+		
     case DGT_UNKNOWN: {
-      IGNORE dw_entry (dwe_unknown_t, (long)0);
-      break;
+		IGNORE dw_entry (dwe_unknown_t, (long)0);
+		break;
     }
-
+		
     default:
-      failer ("illegal type");
-  }
-  return;
+		failer ("illegal type");
+	}
+	return;
 }
 
 
-void dw2_out_all_types
-    PROTO_Z ()
+void
+dw2_out_all_types()
 {
-  while (needed_types) {
-    dg_type dt = needed_types;
-    needed_types = needed_types->type_queue;
-    if (dt->key != DGT_TAGGED || !dt->data.t_tag->done)
-      dw_out_type (dt);
-  }
-  return;
+	while (needed_types) {
+		dg_type dt = needed_types;
+		needed_types = needed_types->type_queue;
+		if (dt->key != DGT_TAGGED || !dt->data.t_tag->done)
+			dw_out_type (dt);
+	}
+	return;
 }

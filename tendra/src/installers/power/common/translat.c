@@ -1,68 +1,315 @@
 /*
-    Copyright (c) 1993 Open Software Foundation, Inc.
-
-
-    All Rights Reserved
-
-
-    Permission to use, copy, modify, and distribute this software
-    and its documentation for any purpose and without fee is hereby
-    granted, provided that the above copyright notice appears in all
-    copies and that both the copyright notice and this permission
-    notice appear in supporting documentation.
-
-
-    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
-    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-    PARTICULAR PURPOSE.
-
-
-    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
-    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
-    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    Copyright (c) 1993 Open Software Foundation, Inc.
+ *
+ *
+ *    All Rights Reserved
+ *
+ *
+ *    Permission to use, copy, modify, and distribute this software
+ *    and its documentation for any purpose and without fee is hereby
+ *    granted, provided that the above copyright notice appears in all
+ *    copies and that both the copyright notice and this permission
+ *    notice appear in supporting documentation.
+ *
+ *
+ *    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ *    PARTICULAR PURPOSE.
+ *
+ *
+ *    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+ *    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+ *    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ *    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * $TenDRA$
+ */
 
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ */
 
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:27  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:12  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.2  1998/02/04  15:49:12  release
  * Added OSF copyright message.
  *
@@ -72,7 +319,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.2  1996/10/04  16:04:56  pwe
  * add banners and mod for PWE ownership
  *
-**********************************************************************/
+ **********************************************************************/
 
 
 /*
@@ -198,703 +445,708 @@ bool done_scan = 0;
 /* 
  * Translate the TDF 
  */
-int translate PROTO_N ((infname,outfname)) PROTO_T (char *infname X char *outfname)
+int
+translate(char *infname, char *outfname)
 {
-  /*
-   * Open files.
-   */
-  if (!initreader(infname))
-  {
-    fprintf(stderr, "powertrans: cannot open input file %s\n", infname);
-    return 3;
-  }
-  
-  if (strcmp(outfname, "-") == 0)
-  {
-    /* "-" by convention means stdout */
-    as_file = stdout;
-    setbuf(as_file, 0);			/* to help debugging */
-  }
-  else
-  {
-    as_file = fopen(outfname, "w");
-    if (as_file == (FILE *) 0)
-    {
-      fprintf(stderr, "powertrans: cannot open output file %s\n", outfname);
-      return 3;
-    }
-  }
-
-  /* mark the as output as TDF compiled */
+	/*
+	 * Open files.
+	 */
+	if (!initreader(infname))
+	{
+		fprintf(stderr, "powertrans: cannot open input file %s\n", infname);
+		return 3;
+	}
+	
+	if (strcmp(outfname, "-") == 0)
+	{
+		/* "-" by convention means stdout */
+		as_file = stdout;
+		setbuf(as_file, 0);			/* to help debugging */
+	}
+	else
+	{
+		as_file = fopen(outfname, "w");
+		if (as_file == (FILE *) 0)
+		{
+			fprintf(stderr, "powertrans: cannot open output file %s\n", outfname);
+			return 3;
+		}
+	}
+	
+	/* mark the as output as TDF compiled */
 #ifdef DO_ASSEMBLER_MACROS
-  if (do_macros)
-  {
-    init_macros();
-  }
+	if (do_macros)
+	{
+		init_macros();
+	}
 #endif
-  fprintf(as_file, "L.TDF.translated:\n");
-  fprintf(as_file, "#\tpowertrans version %d.%d\n", target_version, target_revision);
-
-  /* 
-   * Initialise the automatically generated reader modules with 
-   * automatically generated inits.h 
-   */
+	fprintf(as_file, "L.TDF.translated:\n");
+	fprintf(as_file, "#\tpowertrans version %d.%d\n", target_version, target_revision);
+	
+	/* 
+	 * Initialise the automatically generated reader modules with 
+	 * automatically generated inits.h 
+	 */
 #include "inits.h"
-
-  init_flpt();			/* initialise the floating point array */
-  top_def = (dec*)0;		/* top_def starts as nil */
-
-
-
-  /* init nowhere */
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
-
-
-  /* set assembler id prefixes */
-  local_prefix = "S.";		/* S for static */
-  name_prefix = "";
-
-
-  /*
-   * Translate.
-   */
-
-  /* 
-   * Start the TDF reader, which calls back to translate_capsule() below 
-   */
-
-  d_capsule();
-
-  /* check for output errors and close the .s file */
-  if (ferror(as_file) != 0 || fclose(as_file) != 0)
-  {
-    fprintf(stderr, "powertrans: error writing to output file %s\n", outfname);
-    return 4;
-  }
-
-  return good_trans;			/* return 1 for error, 0 for good */
+	
+	init_flpt();			/* initialise the floating point array */
+	top_def = (dec*)0;		/* top_def starts as nil */
+	
+	
+	
+	/* init nowhere */
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
+	
+	
+	/* set assembler id prefixes */
+	local_prefix = "S.";		/* S for static */
+	name_prefix = "";
+	
+	
+	/*
+	 * Translate.
+	 */
+	
+	/* 
+	 * Start the TDF reader, which calls back to translate_capsule() below 
+	 */
+	
+	d_capsule();
+	
+	/* check for output errors and close the .s file */
+	if (ferror(as_file) != 0 || fclose(as_file) != 0)
+	{
+		fprintf(stderr, "powertrans: error writing to output file %s\n", outfname);
+		return 4;
+	}
+	
+	return good_trans;			/* return 1 for error, 0 for good */
 }
 
 
 /*
  * Translate a TDF capsule 
  */
-void translate_capsule PROTO_Z ()
+void
+translate_capsule()
 {
-  int noprocs, noglobals;
-  int procno, globalno;
-  dec *crt_def;
-  space tempregs;
-  int r;
-  bool anydone;
-
-  /*
-   * Do the high level, portable, TDF optimisations 
-   */
-  opt_all_exps();
-
-  /*
-   * Initialise diagnostic information and produce stab for basic types.
-   */
-  if (diagnose)
-  {
-    init_diag();
-  }
-  
-
-  /*
-   * Generate .extern, .globl, .lglobl, .comm, .lcomm.
-   * Also take the opportunity to count proc and global definitions.
-   *
-   * Note that .lglobl is only generated if diagnose is set (from -g).
-   * It requires an updated IBM assembler with fix:
-   * IX23435 Assembler can't create C_HIDEXT class for static names
-   */
-
-  noprocs = 0;
-  noglobals = 0;
-
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    shape s = crt_def->dec_u.dec_val.dec_shape;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
-    char *id;
-
-    noglobals++;
-    /* diag_def needed for find_dd in diagout.c */
-    diag_def=crt_def;
-
-    if (diagnose)
-    {
-      /*
-       * It is safe to fixup all names here.  C static within procs
-       * do not get a diag_descriptor so fixup_name does not change
-       * their names.
-       */
-      fixup_name(son(tg), top_def, crt_def);
-    }
-
-    id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
-
-    FULLCOMMENT4("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
-    FULLCOMMENT4("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=nilexp=%d",
-		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != nilexp);
-    if (son(tg) != nilexp)
-      FULLCOMMENT3("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
-
-    crt_def->dec_u.dec_val.have_def = (son(tg)!=nilexp);
-
-    ASSERT(name(tg) == ident_tag);
-    ASSERT(son(tg) == nilexp || name(sh(tg)) == name(s));
-
-    if (son(tg) == nilexp)
-    {
+	int noprocs, noglobals;
+	int procno, globalno;
+	dec *crt_def;
+	space tempregs;
+	int r;
+	bool anydone;
+	
+	/*
+	 * Do the high level, portable, TDF optimisations 
+	 */
+	opt_all_exps();
+	
+	/*
+	 * Initialise diagnostic information and produce stab for basic types.
+	 */
+	if (diagnose)
+	{
+		init_diag();
+	}
+	
+	
+	/*
+	 * Generate .extern, .globl, .lglobl, .comm, .lcomm.
+	 * Also take the opportunity to count proc and global definitions.
+	 *
+	 * Note that .lglobl is only generated if diagnose is set (from -g).
+	 * It requires an updated IBM assembler with fix:
+	 * IX23435 Assembler can't create C_HIDEXT class for static names
+	 */
+	
+	noprocs = 0;
+	noglobals = 0;
+	
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+	{
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		shape s = crt_def->dec_u.dec_val.dec_shape;
+		bool extnamed = crt_def->dec_u.dec_val.extnamed;
+		char *id;
+		
+		noglobals++;
+		/* diag_def needed for find_dd in diagout.c */
+		diag_def=crt_def;
+		
+		if (diagnose)
+		{
+			/*
+			 * It is safe to fixup all names here.  C static within procs
+			 * do not get a diag_descriptor so fixup_name does not change
+			 * their names.
+			 */
+			fixup_name(son(tg), top_def, crt_def);
+		}
+		
+		id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
+		
+		FULLCOMMENT4("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
+		FULLCOMMENT4("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=nilexp=%d",
+					 name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != nilexp);
+		if (son(tg) != nilexp)
+			FULLCOMMENT3("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
+		
+		crt_def->dec_u.dec_val.have_def = (son(tg)!=nilexp);
+		
+		ASSERT(name(tg) == ident_tag);
+		ASSERT(son(tg) == nilexp || name(sh(tg)) == name(s));
+		
+		if (son(tg) == nilexp)
+		{
 #if 0
-      if (!diagnose && no(tg) == 0)
+			if (!diagnose && no(tg) == 0)
 #else
-      if(no(tg)==0)/* only put out an extern instruction if there is a use */
+				if (no(tg)==0)/* only put out an extern instruction if there is a use */
 #endif
-	 {
-	/* no use of this tag, do nothing */
-      }
-      else if (extnamed)
-      {
-	if (name(s) == prokhd)
-	{
-	  fprintf(as_file, "\t.extern\t%s\n", id);	/* proc descriptor */
-	  fprintf(as_file, "\t.extern\t.%s\n", id);	/* proc entry point */
-	}
-	else
-	{
+				{
+					/* no use of this tag, do nothing */
+				}
+				else if (extnamed)
+				{
+					if (name(s) == prokhd)
+					{
+						fprintf(as_file, "\t.extern\t%s\n", id);	/* proc descriptor */
+						fprintf(as_file, "\t.extern\t.%s\n", id);	/* proc entry point */
+					}
+					else
+					{
 #if 1
-	  if (strcmp(id, "environ") == 0)
-	  {
-	    /*
-	     * Kludge for environ, .extern for .csect, AIX 3.1.5 ld/library bug maybe?
-	     * /lib/syscalls.exp states that environ & errno are specially handled,
-	     * located on the stack at fixed addresses.
-	     */
-	    fprintf(as_file, "\t.extern\t%s[RW]\n", id);
-	    environ_externed=1;
-	  }
-	  else
+						if (strcmp(id, "environ") == 0)
+						{
+							/*
+							 * Kludge for environ, .extern for .csect, AIX 3.1.5 ld/library bug maybe?
+							 * /lib/syscalls.exp states that environ & errno are specially handled,
+							 * located on the stack at fixed addresses.
+							 */
+							fprintf(as_file, "\t.extern\t%s[RW]\n", id);
+							environ_externed=1;
+						}
+						else
 #endif
-	  {
-	    fprintf(as_file, "\t.extern\t%s\n", id);
-	  }
+						{
+							fprintf(as_file, "\t.extern\t%s\n", id);
+						}
+					}
+				}
+				else
+				{
+					long byte_size = ALIGNNEXT(shape_size(sh(son(tg))), 64) >> 3;
+					/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
+					
+					ASSERT(extnamed);
+					fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
+				}
+		}
+		else if (IS_A_PROC(son(tg)))
+		{
+			noprocs++;
+			
+			if (extnamed)
+			{
+				fprintf(as_file, "\t.globl\t%s\n", id);		/* id proc descriptor */
+				fprintf(as_file, "\t.globl\t.%s\n", id);	/* .id entry point */
+			}
+			else if (diagnose)
+			{
+				/* .lglobl is not documented, but avoids dbx and gdb becoming confused */
+				/* +++ always when .lglobl documented */
+				fprintf(as_file, "\t.lglobl\t.%s\n", id);	/* .id entry point */
+			}
+		}
+		else if (is_comm(son(tg)) && (diagnose || extnamed || no(tg) > 0))
+		{
+			/* zero initialiser needed */
+			long size = shape_size(sh(son(tg)));
+			long align = shape_align(sh(son(tg)));
+			long byte_size = ALIGNNEXT(size, 64) >> 3;	
+			/* +++ do we need to round up? */
+			int aligncode = ((align > 32 || size > 32) ? 3 : 2);
+			/* +++ is .lcomm always kept double aligned?
+			 * Otherwise how do we do it? */
+			
+			/* assembler is happy with .comm of size 0, 
+			 * so no need to special case unknown size */
+			
+			if (extnamed)
+			{
+				fprintf(as_file, "\t.comm\t%s,%ld,%d\n", id, byte_size, aligncode);
+				if (diagnose)
+					stab_global(son(tg), id, extnamed);
+			}
+			else
+			{
+				if (diagnose)
+				{
+					char *csect_name = "C.";
+					
+					/*
+					 * assembler is confused if it sees .stabx before any .csect,
+					 * so keep it happy with a useless .csect:
+					 */
+					fprintf(as_file, "\t.csect\t[PR]\n");
+					fprintf(as_file, "\t.lcomm\t%s,%ld,%s\n", id, byte_size, csect_name);
+					stab_bs(csect_name);
+					stab_global(son(tg), id, extnamed);
+					stab_es(csect_name);
+				}
+				else if (no(tg) > 0)			/* used */
+				{
+					fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
+				}
+			}
+			
+			ASSERT((align&63)==0 || align < 64);
+			
+			/* mark the defininition as processed */
+			crt_def->dec_u.dec_val.processed = 1;
+		}
+		else
+		{
+			if (extnamed)
+				fprintf(as_file, "\t.globl\t%s\n", id);
+			else if (diagnose)
+				fprintf(as_file, "\t.lglobl\t%s\n", id);
+			/* to avoid 'warning: global ignored' message from dbx */
+		}
 	}
-      }
-      else
-      {
-	long byte_size = ALIGNNEXT(shape_size(sh(son(tg))), 64) >> 3;
-	/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
-
-	ASSERT(extnamed);
-	fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
-      }
-    }
-    else if (IS_A_PROC(son(tg)))
-    {
-      noprocs++;
-
-      if (extnamed)
-      {
-	fprintf(as_file, "\t.globl\t%s\n", id);		/* id proc descriptor */
-	fprintf(as_file, "\t.globl\t.%s\n", id);	/* .id entry point */
-      }
-      else if (diagnose)
-      {
-	/* .lglobl is not documented, but avoids dbx and gdb becoming confused */
-	/* +++ always when .lglobl documented */
-	fprintf(as_file, "\t.lglobl\t.%s\n", id);	/* .id entry point */
-      }
-    }
-    else if (is_comm(son(tg)) && (diagnose || extnamed || no(tg) > 0))
-    {
-      /* zero initialiser needed */
-      long size = shape_size(sh(son(tg)));
-      long align = shape_align(sh(son(tg)));
-      long byte_size = ALIGNNEXT(size, 64) >> 3;	
-      /* +++ do we need to round up? */
-      int aligncode = ((align > 32 || size > 32) ? 3 : 2);
-      /* +++ is .lcomm always kept double aligned?
-       * Otherwise how do we do it? */
-
-      /* assembler is happy with .comm of size 0, 
-       * so no need to special case unknown size */
-
-      if (extnamed)
-      {
-	fprintf(as_file, "\t.comm\t%s,%ld,%d\n", id, byte_size, aligncode);
-	if (diagnose)
-	  stab_global(son(tg), id, extnamed);
-      }
-      else
-      {
-	if (diagnose)
-	{
-	  char *csect_name = "C.";
-
-	  /*
-	   * assembler is confused if it sees .stabx before any .csect,
-	   * so keep it happy with a useless .csect:
-	   */
-	  fprintf(as_file, "\t.csect\t[PR]\n");
-	  fprintf(as_file, "\t.lcomm\t%s,%ld,%s\n", id, byte_size, csect_name);
-	  stab_bs(csect_name);
-	  stab_global(son(tg), id, extnamed);
-	  stab_es(csect_name);
-	}
-	else if (no(tg) > 0)			/* used */
-	{
-	  fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
-	}
-      }
-
-      ASSERT((align&63)==0 || align < 64);
-
-      /* mark the defininition as processed */
-      crt_def->dec_u.dec_val.processed = 1;
-    }
-    else
-    {
-      if (extnamed)
-	fprintf(as_file, "\t.globl\t%s\n", id);
-      else if (diagnose)
-	fprintf(as_file, "\t.lglobl\t%s\n", id);
-      /* to avoid 'warning: global ignored' message from dbx */
-    }
-  }
-
+	
 #ifdef DO_DYNAMIC_INITIALISATION
-  (void)do__main_extern();
+	(void)do__main_extern();
 #endif
-  if (do_profile)
+	if (do_profile)
 #ifdef TDF_MCOUNT
-    fprintf(as_file, "\t.extern\t.TDF_mcount\n");
+		fprintf(as_file, "\t.extern\t.TDF_mcount\n");
 #else
     fprintf(as_file, "\t.extern\t.mcount\n");
 #endif
-
-
-  /*
-   * Alloc memory for procrecs array, info retained between phases
-   * about procs and how parameters will be stored.
-   */
-  procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
-
-  /*
-   * Alloc memory for main_globals, used to lookup assembler names.
-   */
-  main_globals = (dec**)xcalloc(noglobals, sizeof(dec*));
-
-  /*
-   * Generate .toc entries.
-   * Also take opportunity to setup main_globals.
-   */
-  fprintf(as_file, "\n\t.toc\n");
-
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    /* 
-     * no(tg) is number of uses 
-     * If tg is used in this module, 
-     * generate a .toc entry so it can be addressed 
-     * +++ differentiate proc descriptor/entry point usage 
-     */
-    if (no(tg) > 0 || strcmp(id,"__TDFhandler")==0 
-	|| strcmp(id,"__TDFstacklim")==0)
-    {
-      bool extnamed = crt_def->dec_u.dec_val.extnamed;
-      char *storage_class;
-
-      if (extnamed && son(tg) == nilexp)
-      {
-	/* extern from another module */
-	if (name(crt_def->dec_u.dec_val.dec_shape) == prokhd)
-	  storage_class = "";	/* proc descriptor */
-	else
-	  storage_class = "";	/* unknown data */
-      }
-      else
-      {
-	storage_class = "";		/* this module */
-      }
-#if 1
-      if (strcmp(id, "environ") == 0 && environ_externed )
-      {
-	/* kludge for environ, .extern for .csect, IBM ld/library bug maybe? */
-	storage_class = "[RW]";
-
-      }
-#endif
-      fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s%s\n", id, id, id, storage_class);
-    }
-  }
-
-
-
-  /* number proc defs and setup main_globals */
-  procno = 0;
-  globalno = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-
-    main_globals[globalno] = crt_def;
-    crt_def->dec_u.dec_val.sym_number = globalno;
-    globalno++;
-
-    if (son(tg) != nilexp && IS_A_PROC(son(tg)))
-    {
-      no(son(tg)) = procno;	/* index into procrecs in no(proc) */
-      procno++;
-    }
-  }
-
-  ASSERT(procno==noprocs);
-  ASSERT(globalno==noglobals);
-  total_no_of_globals=globalno;
-  
- /*
-   * Scan to put proc bodies in POWER form,
-   * and calculate register and stack space needs.
-   */
-
-  /*
-   * First work out which t fixed point regs, those not preserved over calls,
-   * can be used.  This needs to be done before scan() which adds idents
-   * so temp reg needs are within available temp reg set.
-   */
-
-  /* initial reg sets */
-  tempregs.fixed = PROC_TREGS;
-  tempregs.flt = PROC_FLT_TREGS;
-
-  /* ensure R_TMP0 not allocatable */
-  tempregs.fixed |= RMASK(R_TMP0);
-
-  /* count t fixed point regs we can use, and set the global maxfix_tregs */
-  maxfix_tregs = 0;
-  for ( r = R_FIRST; r <= R_LAST; r++ )
-  {
-    /* bit clear means allocatable */
-    if (IS_TREG(r) && (tempregs.fixed&RMASK(r)) == 0)
-      maxfix_tregs++;
-  }
-  maxfix_tregs -= REGISTER_SAFETY_NUMBER;
-  
-  COMMENT4("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
-	maxfix_tregs, tempregs.fixed, MAXFLT_TREGS, tempregs.flt);
-
-
-  /*
-   * Scan all the procs, to put the TDF in POWER form,
-   * and do register allocation.
-   */
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-
-    if (son(tg) != nilexp && IS_A_PROC(son(tg)))
-    {
-      procrec *pr = &procrecs[no(son(tg))];
-      exp *st = &son(tg);
-      int freefixed=MAXFIX_SREGS;/* The maximum no of free fixed s regs */
-      int freefloat=MAXFLT_SREGS;/* The maximum no of free float s regs */
-      int r;
-          
-      /* 
-       * SCAN the procedure
-       */
-
-      pr->needsproc = scan(st, &st);
-      set_up_frame_pointer(pr,son(tg));
-      /*
-       * WEIGHTS
-       * estimate usage of tags in body of proc,
-       * calculating the break points for register allocation
-       */
-      if (!(pr->save_all_sregs))
-      {
-	(void) weightsv(UNITWEIGHT, bro(son(son(tg))));      
-      }
-      /* Check to see if we need a frame pointer */
-      if (pr->has_fp)
-      {
-	freefixed--;
-      }
-      if(pr->has_tp)
-      {
-	freefixed--;
-      }
-      /* 
-       * REGALLOC
-       * reg and stack allocation for tags 
-       */
-      pr->spacereqproc = regalloc(bro(son(son(tg))), freefixed, freefloat, 0);
-      /* 
-       * Ensure that the registers that were not allocated get stored
-       */
-      for ( r=freefixed+R_13 ; r <= R_31 ; r++)
-      {
-	pr->spacereqproc.fixdump = pr->spacereqproc.fixdump | RMASK(r);
-      }
-      if (pr->save_all_sregs)
-      {
-	pr->spacereqproc.fixdump = 0xffffe000;
-	pr->spacereqproc.fltdump = 0xffffc000;
-      }
-      set_up_frame_info(pr,son(tg));
-    }
-  }
-  done_scan = 1;
-  
-  /*
-   * Evaluate outer level data initialisers in [RW] section.
-   */
-  anydone = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
-    diag_def=crt_def;/* just in case find_dd is called */
-    FULLCOMMENT4("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==nilexp=%d",
-		 no(tg), isvar(tg), extnamed, son(tg)==nilexp);
-    if (son(tg) != nilexp)
-    {
-      /*
-       * Skip if already processed, eg identified as is_comm() 
-       */
-      if (crt_def->dec_u.dec_val.processed)
-	continue;
-      /*
-       * Skip if zero uses and internal to module 
-       * unless generating diagnostics 
-       */
-      if (!(diagnose || extnamed || no(tg) > 0))
-	continue;
-      /* +++ could do better than making everything except strings [RW] */
-      if ( ! IS_A_PROC(son(tg)) ) 
-	/* put all things in [RW] section */
-      {
-	/* 
-	 * Non proc, which is isvar() [variable] for [RW] section 
+	
+	
+	/*
+	 * Alloc memory for procrecs array, info retained between phases
+	 * about procs and how parameters will be stored.
 	 */
-	long symdef = crt_def->dec_u.dec_val.sym_number;
+	procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
 	
-	/* Check to see if we have made any entries yet */
-	if (!anydone)
+	/*
+	 * Alloc memory for main_globals, used to lookup assembler names.
+	 */
+	main_globals = (dec**)xcalloc(noglobals, sizeof(dec*));
+	
+	/*
+	 * Generate .toc entries.
+	 * Also take opportunity to setup main_globals.
+	 */
+	fprintf(as_file, "\n\t.toc\n");
+	
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
 	{
-	  anydone = 1;
-	  fprintf(as_file, "\n\t.csect\tW.[RW]\n");
-	  if (diagnose)
-	  {
-	    stab_bs("W.[RW]");
-	  }
-	}
-
-	evaluated(son(tg), -symdef - 1);
-
-	if (diagnose)
-	{
-	  stab_global(son(tg), id, extnamed);
-	}
-	fprintf(as_file, "#\t.enddata\t%s\n\n", id);
-
-	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
-      }
-    }
-  }
-  if (diagnose && anydone)
-  {
-    stab_es("W.[RW]"); /* Close the RW section stab */
-  }
-  
-
-
-  /*
-   * Evaluate outer level data initialisers in [RO] section.
-   */
-  anydone = 0;			/* set to 1 after first tag output */
-
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
-    diag_def=crt_def;/* just in case find_dd is called */
-    if (son(tg) != nilexp)
-    {
-      /* skip if already processed, eg identified as is_comm() */
-      if (crt_def->dec_u.dec_val.processed)
-	continue;
-
-      /* 
-       * Skip if zero uses and internal to module unless 
-       * generating diagnostics 
-       */
-      if (!(diagnose || extnamed || no(tg) > 0))
-	continue;
-
-      if (!IS_A_PROC(son(tg)))
-      {
-	/* non proc, which is not isvar() [variable] for [RO] section */
-	long symdef = crt_def->dec_u.dec_val.sym_number;
-
-	if (!anydone)
-	{
-	  anydone = 1;
-	  fprintf(as_file, "\n\t.csect\tR.[RO]\n");
-	  if (diagnose)
-	  {
-	    stab_bs("R.[RO]");
-	  }
-	}
-
-	evaluated(son(tg), symdef + 1);
-
-	if (diagnose)
-	{
-	  stab_global(son(tg), id, extnamed);
-	}
-	fprintf(as_file, "#\t.enddata\t%s\n\n", id);
-
-	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
-      }
-    }
-  }
-
-  if (diagnose && anydone)
-  {
-    stab_es("R.[RO]");
-  }
-  anydone=0;
-  
-  /*
-   * Translate procedures.
-   */
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-  {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
-    
-    if (son(tg) != nilexp)
-    {
-      /* skip if already processed */
-      if (crt_def->dec_u.dec_val.processed)
-	continue;
-
-      /* skip if zero uses and internal to module unless generating diagnostics */
-      if (!(diagnose || extnamed || no(tg) > 0))
-	continue;
-
-      if (IS_A_PROC(son(tg)))
-      {
-	/* translate code for proc */
-	fprintf(as_file, "\n");		/* make proc more visable to reader */
-	diag_def=crt_def;
-	/* switch to correct file */
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL )
-	{
-	  anydone=1;
-	  stab_proc1(son(tg), id, extnamed);
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		char *id = crt_def->dec_u.dec_val.dec_id;
+		/* 
+		 * no(tg) is number of uses 
+		 * If tg is used in this module, 
+		 * generate a .toc entry so it can be addressed 
+		 * +++ differentiate proc descriptor/entry point usage 
+		 */
+		if (no(tg) > 0 || strcmp(id,"__TDFhandler")==0 
+			|| strcmp(id,"__TDFstacklim")==0)
+		{
+			bool extnamed = crt_def->dec_u.dec_val.extnamed;
+			char *storage_class;
+			
+			if (extnamed && son(tg) == nilexp)
+			{
+				/* extern from another module */
+				if (name(crt_def->dec_u.dec_val.dec_shape) == prokhd)
+					storage_class = "";	/* proc descriptor */
+				else
+					storage_class = "";	/* unknown data */
+			}
+			else
+			{
+				storage_class = "";		/* this module */
+			}
+#if 1
+			if (strcmp(id, "environ") == 0 && environ_externed)
+			{
+				/* kludge for environ, .extern for .csect, IBM ld/library bug maybe? */
+				storage_class = "[RW]";
+				
+			}
+#endif
+			fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s%s\n", id, id, id, storage_class);
+		}
 	}
 	
-
-	fprintf(as_file, "#\t.proc\n");
-
-	/* generate descriptor */
-	fprintf(as_file, "\t.csect\t[DS]\n");
-	fprintf(as_file, "%s:\n", id);
-	fprintf(as_file, "\t.long\t.%s,TOC[tc0],0\n", id);
-
-	/* generate code */
-	fprintf(as_file, "\t.csect\t[PR]\n");
-	fprintf(as_file, ".%s:\n", id);
-
-	/* stab proc details */
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+	
+	
+	/* number proc defs and setup main_globals */
+	procno = 0;
+	globalno = 0;
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
 	{
-	  stab_proc2(son(tg), id, extnamed);
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		
+		main_globals[globalno] = crt_def;
+		crt_def->dec_u.dec_val.sym_number = globalno;
+		globalno++;
+		
+		if (son(tg) != nilexp && IS_A_PROC(son(tg)))
+		{
+			no(son(tg)) = procno;	/* index into procrecs in no(proc) */
+			procno++;
+		}
 	}
 	
-	seed_label();		/* reset label sequence */
-	settempregs(son(tg));	/* reset getreg sequence */
-
-	code_here(son(tg), tempregs, nowhere);
-
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+	ASSERT(procno==noprocs);
+	ASSERT(globalno==noglobals);
+	total_no_of_globals=globalno;
+	
+	/*
+	 * Scan to put proc bodies in POWER form,
+	 * and calculate register and stack space needs.
+	 */
+	
+	/*
+	 * First work out which t fixed point regs, those not preserved over calls,
+	 * can be used.  This needs to be done before scan() which adds idents
+	 * so temp reg needs are within available temp reg set.
+	 */
+	
+	/* initial reg sets */
+	tempregs.fixed = PROC_TREGS;
+	tempregs.flt = PROC_FLT_TREGS;
+	
+	/* ensure R_TMP0 not allocatable */
+	tempregs.fixed |= RMASK(R_TMP0);
+	
+	/* count t fixed point regs we can use, and set the global maxfix_tregs */
+	maxfix_tregs = 0;
+	for (r = R_FIRST; r <= R_LAST; r++)
 	{
-	  stab_endproc(son(tg), id, extnamed);
+		/* bit clear means allocatable */
+		if (IS_TREG(r) && (tempregs.fixed&RMASK(r)) == 0)
+			maxfix_tregs++;
+	}
+	maxfix_tregs -= REGISTER_SAFETY_NUMBER;
+	
+	COMMENT4("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
+			 maxfix_tregs, tempregs.fixed, MAXFLT_TREGS, tempregs.flt);
+	
+	
+	/*
+	 * Scan all the procs, to put the TDF in POWER form,
+	 * and do register allocation.
+	 */
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+	{
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		
+		if (son(tg) != nilexp && IS_A_PROC(son(tg)))
+		{
+			procrec *pr = &procrecs[no(son(tg))];
+			exp *st = &son(tg);
+			int freefixed=MAXFIX_SREGS;/* The maximum no of free fixed s regs */
+			int freefloat=MAXFLT_SREGS;/* The maximum no of free float s regs */
+			int r;
+			
+			/* 
+			 * SCAN the procedure
+			 */
+			
+			pr->needsproc = scan(st, &st);
+			set_up_frame_pointer(pr,son(tg));
+			/*
+			 * WEIGHTS
+			 * estimate usage of tags in body of proc,
+			 * calculating the break points for register allocation
+			 */
+			if (!(pr->save_all_sregs))
+			{
+				(void) weightsv(UNITWEIGHT, bro(son(son(tg))));      
+			}
+			/* Check to see if we need a frame pointer */
+			if (pr->has_fp)
+			{
+				freefixed--;
+			}
+			if (pr->has_tp)
+			{
+				freefixed--;
+			}
+			/* 
+			 * REGALLOC
+			 * reg and stack allocation for tags 
+			 */
+			pr->spacereqproc = regalloc(bro(son(son(tg))), freefixed, freefloat, 0);
+			/* 
+			 * Ensure that the registers that were not allocated get stored
+			 */
+			for (r=freefixed+R_13 ; r <= R_31 ; r++)
+			{
+				pr->spacereqproc.fixdump = pr->spacereqproc.fixdump | RMASK(r);
+			}
+			if (pr->save_all_sregs)
+			{
+				pr->spacereqproc.fixdump = 0xffffe000;
+				pr->spacereqproc.fltdump = 0xffffc000;
+			}
+			set_up_frame_info(pr,son(tg));
+		}
+	}
+	done_scan = 1;
+	
+	/*
+	 * Evaluate outer level data initialisers in [RW] section.
+	 */
+	anydone = 0;
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+	{
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		char *id = crt_def->dec_u.dec_val.dec_id;
+		bool extnamed = crt_def->dec_u.dec_val.extnamed;
+		diag_def=crt_def;/* just in case find_dd is called */
+		FULLCOMMENT4("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==nilexp=%d",
+					 no(tg), isvar(tg), extnamed, son(tg)==nilexp);
+		if (son(tg) != nilexp)
+		{
+			/*
+			 * Skip if already processed, eg identified as is_comm() 
+			 */
+			if (crt_def->dec_u.dec_val.processed)
+				continue;
+			/*
+			 * Skip if zero uses and internal to module 
+			 * unless generating diagnostics 
+			 */
+			if (!(diagnose || extnamed || no(tg) > 0))
+				continue;
+			/* +++ could do better than making everything except strings [RW] */
+			if (! IS_A_PROC(son(tg))) 
+				/* put all things in [RW] section */
+			{
+				/* 
+				 * Non proc, which is isvar() [variable] for [RW] section 
+				 */
+				long symdef = crt_def->dec_u.dec_val.sym_number;
+				
+				/* Check to see if we have made any entries yet */
+				if (!anydone)
+				{
+					anydone = 1;
+					fprintf(as_file, "\n\t.csect\tW.[RW]\n");
+					if (diagnose)
+					{
+						stab_bs("W.[RW]");
+					}
+				}
+				
+				evaluated(son(tg), -symdef - 1);
+				
+				if (diagnose)
+				{
+					stab_global(son(tg), id, extnamed);
+				}
+				fprintf(as_file, "#\t.enddata\t%s\n\n", id);
+				
+				/* mark the defininition as processed */
+				crt_def->dec_u.dec_val.processed = 1;
+			}
+		}
+	}
+	if (diagnose && anydone)
+	{
+		stab_es("W.[RW]"); /* Close the RW section stab */
 	}
 	
-	fprintf(as_file, "#\t.end\t%s\n", id);
-
-	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
-      }
-    }
-  }
-  if ( diagnose && anydone )
-  {
-    stab_end_file();/* Ties up any open .bi's with .ei's */
-  }
-
+	
+	
+	/*
+	 * Evaluate outer level data initialisers in [RO] section.
+	 */
+	anydone = 0;			/* set to 1 after first tag output */
+	
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+	{
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		char *id = crt_def->dec_u.dec_val.dec_id;
+		bool extnamed = crt_def->dec_u.dec_val.extnamed;
+		diag_def=crt_def;/* just in case find_dd is called */
+		if (son(tg) != nilexp)
+		{
+			/* skip if already processed, eg identified as is_comm() */
+			if (crt_def->dec_u.dec_val.processed)
+				continue;
+			
+			/* 
+			 * Skip if zero uses and internal to module unless 
+			 * generating diagnostics 
+			 */
+			if (!(diagnose || extnamed || no(tg) > 0))
+				continue;
+			
+			if (!IS_A_PROC(son(tg)))
+			{
+				/* non proc, which is not isvar() [variable] for [RO] section */
+				long symdef = crt_def->dec_u.dec_val.sym_number;
+				
+				if (!anydone)
+				{
+					anydone = 1;
+					fprintf(as_file, "\n\t.csect\tR.[RO]\n");
+					if (diagnose)
+					{
+						stab_bs("R.[RO]");
+					}
+				}
+				
+				evaluated(son(tg), symdef + 1);
+				
+				if (diagnose)
+				{
+					stab_global(son(tg), id, extnamed);
+				}
+				fprintf(as_file, "#\t.enddata\t%s\n\n", id);
+				
+				/* mark the defininition as processed */
+				crt_def->dec_u.dec_val.processed = 1;
+			}
+		}
+	}
+	
+	if (diagnose && anydone)
+	{
+		stab_es("R.[RO]");
+	}
+	anydone=0;
+	
+	/*
+	 * Translate procedures.
+	 */
+	for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+	{
+		exp tg = crt_def->dec_u.dec_val.dec_exp;
+		char *id = crt_def->dec_u.dec_val.dec_id;
+		bool extnamed = crt_def->dec_u.dec_val.extnamed;
+		
+		if (son(tg) != nilexp)
+		{
+			/* skip if already processed */
+			if (crt_def->dec_u.dec_val.processed)
+				continue;
+			
+			/* skip if zero uses and internal to module unless generating diagnostics */
+			if (!(diagnose || extnamed || no(tg) > 0))
+				continue;
+			
+			if (IS_A_PROC(son(tg)))
+			{
+				/* translate code for proc */
+				fprintf(as_file, "\n");		/* make proc more visable to reader */
+				diag_def=crt_def;
+				/* switch to correct file */
+				if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+				{
+					anydone=1;
+					stab_proc1(son(tg), id, extnamed);
+				}
+				
+				
+				fprintf(as_file, "#\t.proc\n");
+				
+				/* generate descriptor */
+				fprintf(as_file, "\t.csect\t[DS]\n");
+				fprintf(as_file, "%s:\n", id);
+				fprintf(as_file, "\t.long\t.%s,TOC[tc0],0\n", id);
+				
+				/* generate code */
+				fprintf(as_file, "\t.csect\t[PR]\n");
+				fprintf(as_file, ".%s:\n", id);
+				
+				/* stab proc details */
+				if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+				{
+					stab_proc2(son(tg), id, extnamed);
+				}
+				
+				seed_label();		/* reset label sequence */
+				settempregs(son(tg));	/* reset getreg sequence */
+				
+				code_here(son(tg), tempregs, nowhere);
+				
+				if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+				{
+					stab_endproc(son(tg), id, extnamed);
+				}
+				
+				fprintf(as_file, "#\t.end\t%s\n", id);
+				
+				/* mark the defininition as processed */
+				crt_def->dec_u.dec_val.processed = 1;
+			}
+		}
+	}
+	if (diagnose && anydone)
+	{
+		stab_end_file();/* Ties up any open .bi's with .ei's */
+	}
+	
 }
 
 
 /* translate a TDF unit */
-void translate_unit PROTO_Z ()
+void
+translate_unit()
 {
-  if (separate_units)
-  {
-    dec *crt_def;
-
-    translate_capsule();
-
-    for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
-    {
-      exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-
-      no(crt_exp) = 0;
-      pt(crt_exp) = nilexp;
-    }
-
-    crt_repeat = nilexp;
-    repeat_list = nilexp;
-  }
-
-  return;
+	if (separate_units)
+	{
+		dec *crt_def;
+		
+		translate_capsule();
+		
+		for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+		{
+			exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
+			
+			no(crt_exp) = 0;
+			pt(crt_exp) = nilexp;
+		}
+		
+		crt_repeat = nilexp;
+		repeat_list = nilexp;
+	}
+	
+	return;
 }
 
 
 /* output an identification of two names */
-void out_rename PROTO_N ((old_nm,nm)) PROTO_T (char *old_nm X char *nm)
+void
+out_rename(char *old_nm, char *nm)
 {
-  /* all link information is known by code production time, so no need to do anything */
+	/* all link information is known by code production time, so no need to do anything */
 }
 
-baseoff find_tg PROTO_N ((n)) PROTO_T (char *n)
+baseoff
+find_tg(char *n)
 {
-  int i;
-  exp tg;
-  for (i = 0; i < total_no_of_globals; i++) {
-    char *id = main_globals[i] -> dec_u.dec_val.dec_id;
-    tg = main_globals[i] -> dec_u.dec_val.dec_exp;
-    if (strcmp(id, n) == 0) return boff(tg);
-  }
-  printf("%s\n", n);
-  fail("Extension name not declared ");
-  tg = main_globals[0] -> dec_u.dec_val.dec_exp;
-  return boff(tg);
+	int i;
+	exp tg;
+	for (i = 0; i < total_no_of_globals; i++) {
+		char *id = main_globals[i] -> dec_u.dec_val.dec_id;
+		tg = main_globals[i] -> dec_u.dec_val.dec_exp;
+		if (strcmp(id, n) == 0) return boff(tg);
+	}
+	printf("%s\n", n);
+	fail("Extension name not declared ");
+	tg = main_globals[0] -> dec_u.dec_val.dec_exp;
+	return boff(tg);
 }

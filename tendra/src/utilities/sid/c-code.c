@@ -1,31 +1,58 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /**** c-code.c --- SID C code ADT routines.
@@ -39,8 +66,228 @@
  *
  **** Change Log:
  * $Log$
- * Revision 1.1  2002/01/26 21:32:11  asmodai
- * Initial version of TenDRA 4.1.2.
+ * Revision 1.2  2002/11/21 22:31:31  nonce
+ * Remove ossg prototypes.  This commit is largely whitespace changes,
+ * but is nonetheless important.  Here's why.
+ *
+ * I.  Background
+ * =========================
+ *
+ *     The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ * conventions, based on the Open Systems Software Group publication "C
+ * Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ * The goal behind ossg prototypes remains admirable: TenDRA should
+ * support platforms that lack ANSI compliant compilers.  The explicit
+ * nature of ossg's prototypes makes macro substition easy.
+ *
+ *     Here's an example of one function:
+ *
+ *     static void uop
+ * 	PROTO_N ( ( op, sha, a, dest, stack ) )
+ * 	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ * 		  shape sha X exp a X where dest X ash stack )
+ *     {
+ *
+ * tendra/src/installers/680x0/common/codec.c
+ *
+ *   The reasons for removing ossg are several, including:
+ *
+ *   0) Variables called 'X' present a problem (besides being a poor
+ * variable name).
+ *
+ *   1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ * prototypes are easily handled by most every compiler these days.
+ *
+ *   2) Although TenDRA emphasizes portability, standards compliance is
+ * the primary goal of the current project.  We should expect no less
+ * from the compiler source code.
+ *
+ *   3) The benefits of complex prototypes are few, given parameter
+ * promotion rules.  (Additionally, packing more types into int-sized
+ * spaces tends to diminish type safety, and greatly complicates
+ * debugging and testing.)
+ *
+ *   4) It would prove impractical to use an OSSG internal style document
+ * in an open source project.
+ *
+ *   5) Quite frankly, ossg prototypes are difficult to read, but that's
+ * certainly a matter of taste and conditioning.
+ *
+ * II.  Changes
+ * =========================
+ *
+ *    This commit touches most every .h and .c file in the tendra source
+ * tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ * was used to automate the following changes:
+ *
+ *    A.  Prototype Conversions.
+ *    --------------------------------------------------
+ *
+ *    The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ * rewritten to ISO-compliant form.  Not every file was touched.  The
+ * files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ * left for hand editing.  These files provide header generation, or have
+ * non-ossg compliant headers to start with.  Scripting around these
+ * would take too much time; a separate hand edit will fix them.
+ *
+ *    B.  Statement Spacing
+ *    --------------------------------------------------
+ *
+ *    Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ * parenthetical lexemes.  (See the quoted example above.)  A simple
+ * text substitution was made for:
+ *
+ *      Before            After
+ * ===================================
+ *
+ *    if ( x )            if (x)
+ *    if(x)               if (x)
+ *    x = 5 ;             x = 5;
+ *    ... x) )            ... x))
+ *
+ * All of these changes are suggested by style(9).  Additional, statement
+ * spacing considerations were made for all of the style(9) keywords:
+ * "if" "while" "for" "return" "switch".
+ *
+ * A few files seem to have too few spaces around operators, e.g.:
+ *
+ *       arg1*arg2
+ *
+ * instead of
+ *
+ *       arg1 * arg2
+ *
+ * These were left for hand edits and later commits, since few files
+ * needed these changes.  (At present, the rmossg.el script takes 1 hour
+ * to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ * needed change would take too much time.)
+ *
+ *    C.  License Information
+ *    --------------------------------------------------
+ *
+ * After useful discussion on IRC, the following license changes were
+ * made:
+ *
+ *    1) Absent support for $License::BSD$ in the repository, license
+ * and copyright information was added to each file.
+ *
+ *    2) Each file begins with:
+ *
+ *    Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *    All rights reserved.
+ *
+ *    Usually, copyright stays with the author of the code; however, I
+ * feel very strongly that this is a group effort, and so the tendra
+ * project should claim any new (c) interest.
+ *
+ *    3) The comment field then shows the bsd license and warranty
+ *
+ *    4) The comment field then shows the Crown Copyright, since our
+ * changes are not yet extensive enough to claim any different.
+ *
+ *    5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *    D.  Comment Formatting
+ *    --------------------------------------------------
+ *
+ * The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *     /*
+ *        Statement statement
+ *        statement
+ *      */
+ *
+ * while style(9) suggests:
+ *
+ *     /*
+ *      * Statement statement
+ *      * statement
+ *      */
+ *
+ * Not every comment in -4.1.2 needed changing.  A parser was written to
+ * identify non-compliant comments.  Note that a few comments do not
+ * follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ * recognize.  These need hand fixing.
+ *
+ *    E.  Indentation
+ *    --------------------------------------------------
+ *
+ *    A elisp tendra-c-mode was created to define how code should be
+ * indented.  The structure follows style(9) in the following regards:
+ *
+ *   (c-set-offset 'substatement-open 0)
+ *   (setq c-indent-tabs-mode t
+ * 	c-indent-level 4
+ * 	c-argdecl-indent t
+ * 	c-tab-always-indent t
+ * 	backward-delete-function nil
+ * 	c-basic-offset 4
+ * 	tab-width 4))
+ *
+ * This means that substatement opening are not indented.  E.g.:
+ *
+ *    if (condition)
+ *    {
+ *
+ * instead of
+ *
+ *    if (condition)
+ *      {
+ *
+ * or even
+ *
+ *    if (condition) {
+ *
+ * Each statement is indented by a tab instead of a spaces.  Set your tab
+ * stop to comply with style(9); see the vim resources in the tendra
+ * tree.  I'll add the emacs mode support shortly.
+ *
+ * No doubt, a function or two escaped change because of unusual
+ * circumstances.  These must be hand fixed as well.
+ *
+ * III.  Things Not Changed
+ * =========================
+ *
+ *     A large number of style(9) deficiencies remain.  These will
+ * require a separate effort.  I decided to stop with the changes noted
+ * above because:
+ *
+ *    0)  The script currently takes hours to run to completion even on
+ * high-end consumer machines.
+ *
+ *    1)  We need to move on and fix other substantive problems.
+ *
+ *    2) The goal of this commit was *just* ossg removal; I took the
+ * opportunity to get other major white-space issues out of the way.
+ *
+ *     I'll also note that despite this commit, a few ossg issues remain.
+ * These include:
+ *
+ *    0) The ossg headers remain.  They contain useful flags needed by
+ * other operations.  Additionally, the BUILD_ERRORS perl script still
+ * generates ossg-compliant headers.  (This is being removed as we change
+ * the build process.)
+ *
+ *    1) A few patches of code check for ossg flags: "if (ossg) etc."
+ * These can be hand removed as well.
+ *
+ *    2) No doubt, a few ossg headers escaped the elisp script.  We can
+ * address these seriatim.
+ *
+ * IV.  Testing
+ * =========================
+ *
+ *     Without a complete build or test suite, it's difficult to
+ * determine if these changes have introduced any bugs.  I've identified
+ * several situations where removal of ossg caused bugs in sid and
+ * calculus operations.  The elisp script avoids these situations; we
+ * will hand edit a few files.
+ *
+ *     As is, the changes should behave properly; the source base builds
+ * the same before and after the rmossg.el script is run.  Nonetheless,
+ * please note that this commit changes over 23,000 PROTO declarations,
+ * and countless line changes.  I'll work closely with any developers
+ * affected by this change.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:42  release
  * First version to be checked into rolling release.
@@ -58,7 +305,7 @@
  * Revision 1.1.1.1  1994/07/25  16:04:17  smf
  * Initial import of SID 1.8 non shared files.
  *
-**/
+ **/
 
 /****************************************************************************/
 
@@ -71,61 +318,56 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-c_code_set_labels PROTO_N ((code))
-		  PROTO_T (CCodeP code)
+c_code_set_labels(CCodeP code)
 {
     CCodeItemP item;
-
+	
     for (item = code->head; item; item = item->next) {
-	if (item->type == CCT_LABEL) {
-	    NameP name = entry_get_name (item->u.ident);
-
-	    if (!name_has_label (name)) {
-		name_set_label (name, c_out_next_label ());
-	    }
-	}
+		if (item->type == CCT_LABEL) {
+			NameP name = entry_get_name (item->u.ident);
+			
+			if (!name_has_label (name)) {
+				name_set_label (name, c_out_next_label ());
+			}
+		}
     }
 }
 
 static void
-c_code_reset_labels PROTO_N ((code))
-		    PROTO_T (CCodeP code)
+c_code_reset_labels(CCodeP code)
 {
     CCodeItemP item;
-
+	
     for (item = code->head; item; item = item->next) {
-	if (item->type == CCT_LABEL) {
-	    NameP name = entry_get_name (item->u.ident);
-
-	    name_reset_label (name);
-	}
+		if (item->type == CCT_LABEL) {
+			NameP name = entry_get_name (item->u.ident);
+			
+			name_reset_label (name);
+		}
     }
 }
 
 static EntryP
-c_code_get_translation PROTO_N ((state, translator, ident, type_ref,
-			      reference_ref, entry_ref))
-		       PROTO_T (SaveRStackP state X
-				TypeBTransP translator X
-				EntryP      ident X
-				EntryP     *type_ref X
-				BoolT      *reference_ref X
-				EntryP     *entry_ref)
+c_code_get_translation(SaveRStackP state,
+					   TypeBTransP translator,
+					   EntryP ident, EntryP *type_ref,
+					   BoolT *reference_ref,
+					   EntryP *entry_ref)
 {
     EntryP entry = btrans_get_translation (translator, ident);
     EntryP stack_entry;
-
+	
     ASSERT (entry);
     stack_entry = rstack_get_translation (state, entry, type_ref,
-					  reference_ref);
+										  reference_ref);
     if ((stack_entry == NIL (EntryP)) && (entry_is_non_local (entry))) {
-	stack_entry    = entry;
-	*type_ref      = entry_get_non_local (entry);
-	*reference_ref = FALSE;
+		stack_entry    = entry;
+		*type_ref      = entry_get_non_local (entry);
+		*reference_ref = FALSE;
     }
     ASSERT (stack_entry);
     if (entry_ref) {
-	*entry_ref = entry;
+		*entry_ref = entry;
     }
     return (stack_entry);
 }
@@ -133,12 +375,10 @@ c_code_get_translation PROTO_N ((state, translator, ident, type_ref,
 /*--------------------------------------------------------------------------*/
 
 CCodeP
-c_code_create PROTO_N ((file, line))
-	      PROTO_T (CStringP file X
-		       unsigned line)
+c_code_create(CStringP file, unsigned line)
 {
     CCodeP code = ALLOCATE (CCodeT);
-
+	
     code->head = NIL (CCodeItemP);
     code->tail = &(code->head);
     code->file = file;
@@ -149,12 +389,10 @@ c_code_create PROTO_N ((file, line))
 }
 
 void
-c_code_append_string PROTO_N ((code, string))
-		     PROTO_T (CCodeP   code X
-			      NStringP string)
+c_code_append_string(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_STRING;
     nstring_assign (&(item->u.string), string);
@@ -163,12 +401,10 @@ c_code_append_string PROTO_N ((code, string))
 }
 
 void
-c_code_append_label PROTO_N ((code, string))
-		    PROTO_T (CCodeP   code X
-			     NStringP string)
+c_code_append_label(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_LABEL;
     nstring_assign (&(item->u.string), string);
@@ -177,12 +413,10 @@ c_code_append_label PROTO_N ((code, string))
 }
 
 void
-c_code_append_identifier PROTO_N ((code, string))
-			 PROTO_T (CCodeP   code X
-				  NStringP string)
+c_code_append_identifier(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_IDENT;
     nstring_assign (&(item->u.string), string);
@@ -191,12 +425,10 @@ c_code_append_identifier PROTO_N ((code, string))
 }
 
 void
-c_code_append_modifiable PROTO_N ((code, string))
-			 PROTO_T (CCodeP   code X
-				  NStringP string)
+c_code_append_modifiable(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_MOD_IDENT;
     nstring_assign (&(item->u.string), string);
@@ -205,12 +437,10 @@ c_code_append_modifiable PROTO_N ((code, string))
 }
 
 void
-c_code_append_reference PROTO_N ((code, string))
-			PROTO_T (CCodeP   code X
-				 NStringP string)
+c_code_append_reference(CCodeP code, NStringP string)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_REF_IDENT;
     nstring_assign (&(item->u.string), string);
@@ -219,11 +449,10 @@ c_code_append_reference PROTO_N ((code, string))
 }
 
 void
-c_code_append_exception PROTO_N ((code))
-			PROTO_T (CCodeP code)
+c_code_append_exception(CCodeP code)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_EXCEPTION;
     *(code->tail) = item;
@@ -231,11 +460,10 @@ c_code_append_exception PROTO_N ((code))
 }
 
 void
-c_code_append_advance PROTO_N ((code))
-		      PROTO_T (CCodeP code)
+c_code_append_advance(CCodeP code)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_ADVANCE;
     *(code->tail) = item;
@@ -243,11 +471,10 @@ c_code_append_advance PROTO_N ((code))
 }
 
 void
-c_code_append_terminal PROTO_N ((code))
-		       PROTO_T (CCodeP code)
+c_code_append_terminal(CCodeP code)
 {
     CCodeItemP item = ALLOCATE (CCodeItemT);
-
+	
     item->next    = NIL (CCodeItemP);
     item->type    = CCT_TERMINAL;
     *(code->tail) = item;
@@ -255,103 +482,99 @@ c_code_append_terminal PROTO_N ((code))
 }
 
 void
-c_code_check PROTO_N ((code, exceptions, param_op, param, result, table))
-	     PROTO_T (CCodeP     code X
-		      BoolT      exceptions X
-		      BoolT      param_op X
-		      TypeTupleP param X
-		      TypeTupleP result X
-		      TableP     table)
+c_code_check(CCodeP code, BoolT exceptions,
+			 BoolT param_op, TypeTupleP param,
+			 TypeTupleP result, TableP table)
 {
     CCodeItemP item;
     EntryP     entry;
-
+	
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_IDENT:
-	    entry         = table_add_name (table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (((param == NIL (TypeTupleP)) ||
-		 (!types_contains (param, entry))) &&
-		((result == NIL (TypeTupleP)) ||
-		 (!types_contains (result, entry)))) {
-		E_bad_id_substitution (c_code_file (code), c_code_line (code),
-				       entry);
-	    } else if (result) {
-		name_used (entry_get_name (entry));
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	    entry         = table_add_name (table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (exceptions) {
-		if ((param == NIL (TypeTupleP)) ||
-		    (!types_mutated (param, entry))) {
-		    E_bad_mod_id_substitution (c_code_file (code),
-					       c_code_line (code), entry);
+		switch (item->type) EXHAUSTIVE {
+		case CCT_IDENT:
+			entry         = table_add_name (table, &(item->u.string));
+			item->u.ident = entry;
+			if (((param == NIL (TypeTupleP)) ||
+				 (!types_contains (param, entry))) &&
+				((result == NIL (TypeTupleP)) ||
+				 (!types_contains (result, entry)))) {
+				E_bad_id_substitution (c_code_file (code), c_code_line (code),
+									   entry);
+			} else if (result) {
+				name_used (entry_get_name (entry));
+			}
+			break;
+		case CCT_MOD_IDENT:
+			entry         = table_add_name (table, &(item->u.string));
+			item->u.ident = entry;
+			if (exceptions) {
+				if ((param == NIL (TypeTupleP)) ||
+					(!types_mutated (param, entry))) {
+					E_bad_mod_id_substitution (c_code_file (code),
+											   c_code_line (code), entry);
+				}
+			} else {
+				E_mod_id_in_assign (c_code_file (code), c_code_line (code),
+									entry);
+			}
+			break;
+		case CCT_REF_IDENT:
+			entry         = table_add_name (table, &(item->u.string));
+			item->u.ident = entry;
+			if (!param_op) {
+				if ((param == NIL (TypeTupleP)) ||
+					(!types_contains (param, entry))) {
+					E_bad_ref_id_substitution (c_code_file (code),
+											   c_code_line (code), entry);
+				}
+			} else {
+				E_ref_id_in_param_op (c_code_file (code), c_code_line (code),
+									  entry);
+			}
+			break;
+		case CCT_LABEL:
+			entry         = table_add_name (table, &(item->u.string));
+			item->u.ident = entry;
+			if ((param == NIL (TypeTupleP)) && (result == NIL (TypeTupleP))) {
+				E_bad_label_substitution (c_code_file (code),
+										  c_code_line (code), entry);
+			}
+			break;
+		case CCT_EXCEPTION:
+			if (!exceptions) {
+				E_bad_exception_substitution (c_code_file (code),
+											  c_code_line (code));
+			}
+			break;
+		case CCT_ADVANCE:
+			if (!exceptions) {
+				E_bad_advance_substitution (c_code_file (code),
+											c_code_line (code));
+			}
+			break;
+		case CCT_TERMINAL:
+			if (!exceptions) {
+				E_bad_terminal_substitution (c_code_file (code),
+											 c_code_line (code));
+			}
+			break;
+		case CCT_STRING:
+			break;
 		}
-	    } else {
-		E_mod_id_in_assign (c_code_file (code), c_code_line (code),
-				    entry);
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    entry         = table_add_name (table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (!param_op) {
-		if ((param == NIL (TypeTupleP)) ||
-		    (!types_contains (param, entry))) {
-		    E_bad_ref_id_substitution (c_code_file (code),
-					       c_code_line (code), entry);
-		}
-	    } else {
-		E_ref_id_in_param_op (c_code_file (code), c_code_line (code),
-				      entry);
-	    }
-	    break;
-	  case CCT_LABEL:
-	    entry         = table_add_name (table, &(item->u.string));
-	    item->u.ident = entry;
-	    if ((param == NIL (TypeTupleP)) && (result == NIL (TypeTupleP))) {
-		E_bad_label_substitution (c_code_file (code),
-					  c_code_line (code), entry);
-	    }
-	    break;
-	  case CCT_EXCEPTION:
-	    if (!exceptions) {
-		E_bad_exception_substitution (c_code_file (code),
-					      c_code_line (code));
-	    }
-	    break;
-	  case CCT_ADVANCE:
-	    if (!exceptions) {
-		E_bad_advance_substitution (c_code_file (code),
-					    c_code_line (code));
-	    }
-	    break;
-	  case CCT_TERMINAL:
-	    if (!exceptions) {
-		E_bad_terminal_substitution (c_code_file (code),
-					     c_code_line (code));
-	    }
-	    break;
-	  case CCT_STRING:
-	    break;
-	}
     }
     if (result) {
-	types_check_used (result, E_code_undefined_result, (GenericP) code);
-	for (item = code->head; item; item = item->next) {
-	    if (item->type == CCT_IDENT) {
-		name_not_used (entry_get_name (item->u.ident));
-	    }
-	}
+		types_check_used (result, E_code_undefined_result, (GenericP) code);
+		for (item = code->head; item; item = item->next) {
+			if (item->type == CCT_IDENT) {
+				name_not_used (entry_get_name (item->u.ident));
+			}
+		}
     }
     if (param) {
-	types_assign (&(code->param), param);
+		types_assign (&(code->param), param);
     }
     if (result) {
-	types_assign (&(code->result), result);
+		types_assign (&(code->result), result);
     }
 }
 
@@ -359,8 +582,7 @@ c_code_check PROTO_N ((code, exceptions, param_op, param, result, table))
 #undef c_code_file
 #endif /* defined (FS_FAST) */
 CStringP
-c_code_file PROTO_N ((code))
-	    PROTO_T (CCodeP code)
+c_code_file(CCodeP code)
 {
     return (code->file);
 }
@@ -372,8 +594,7 @@ c_code_file PROTO_N ((code))
 #undef c_code_line
 #endif /* defined (FS_FAST) */
 unsigned
-c_code_line PROTO_N ((code))
-	    PROTO_T (CCodeP code)
+c_code_line(CCodeP code)
 {
     return (code->line);
 }
@@ -382,43 +603,40 @@ c_code_line PROTO_N ((code))
 #endif /* defined(FS_FAST) */
 
 TypeTupleP
-c_code_param PROTO_N ((code))
-	     PROTO_T (CCodeP code)
+c_code_param(CCodeP code)
 {
     return (&(code->param));
 }
 
 TypeTupleP
-c_code_result PROTO_N ((code))
-	      PROTO_T (CCodeP code)
+c_code_result(CCodeP code)
 {
     return (&(code->result));
 }
 
 void
-c_code_deallocate PROTO_N ((code))
-		  PROTO_T (CCodeP code)
+c_code_deallocate(CCodeP code)
 {
     CCodeItemP item = code->head;
-
+	
     while (item) {
-	CCodeItemP next = item->next;
-
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    nstring_destroy (&(item->u.string));
-	    break;
-	  case CCT_IDENT:
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_LABEL:
-	  case CCT_EXCEPTION:
-	  case CCT_TERMINAL:
-	  case CCT_ADVANCE:
-	    break;
-	}
-	DEALLOCATE (item);
-	item = next;
+		CCodeItemP next = item->next;
+		
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			nstring_destroy (&(item->u.string));
+			break;
+		case CCT_IDENT:
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_LABEL:
+		case CCT_EXCEPTION:
+		case CCT_TERMINAL:
+		case CCT_ADVANCE:
+			break;
+		}
+		DEALLOCATE (item);
+		item = next;
     }
     types_destroy (&(code->param));
     types_destroy (&(code->result));
@@ -426,14 +644,11 @@ c_code_deallocate PROTO_N ((code))
 }
 
 void
-c_output_c_code_action PROTO_N ((info, code, param, result, state,
-				 handler_rule))
-		       PROTO_T (COutputInfoP info X
-				CCodeP       code X
-				TypeTupleP   param X
-				TypeTupleP   result X
-				SaveRStackP  state X
-				RuleP        handler_rule)
+c_output_c_code_action(COutputInfoP info,
+					   CCodeP code, TypeTupleP param,
+					   TypeTupleP result,
+					   SaveRStackP state,
+					   RuleP handler_rule)
 {
     OStreamP    ostream      = c_out_info_ostream (info);
     NStringP    label_prefix = c_out_info_label_prefix (info);
@@ -445,91 +660,89 @@ c_output_c_code_action PROTO_N ((info, code, param, result, state,
     BoolT       stack_reference;
     BoolT       use_cast;
     TypeBTransT translator;
-
+	
     c_code_set_labels (code);
     btrans_init (&translator);
     btrans_add_translations (&translator, &(code->param), param);
     btrans_add_translations (&translator, &(code->result), result);
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream,
-			    name_get_label (entry_get_name (item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    stack_entry = c_code_get_translation (state, &translator,
-						  item->u.ident, &stack_type,
-						  &stack_reference, &entry);
-	    use_cast = (types_contains (param, entry) &&
-			c_out_info_get_casts (info));
-	    if (use_cast) {
-		write_cstring (ostream, "((");
-		c_output_mapped_key (info, stack_type);
-		write_cstring (ostream, ") (");
-	    } else {
-		write_char (ostream, '(');
-	    }
-	    if (stack_reference) {
-		write_char (ostream, '*');
-	    }
-	    c_output_key (info, entry_key (stack_entry), in_prefix);
-	    if (use_cast) {
-		write_cstring (ostream, "))");
-	    } else {
-		write_char (ostream, ')');
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	    stack_entry = c_code_get_translation (state, &translator,
-						  item->u.ident, &stack_type,
-						  &stack_reference,
-						  NIL (EntryP *));
-	    write_char (ostream, '(');
-	    if (stack_reference) {
-		write_char (ostream, '*');
-	    }
-	    c_output_key (info, entry_key (stack_entry), in_prefix);
-	    write_char (ostream, ')');
-	    break;
-	  case CCT_REF_IDENT:
-	    stack_entry = c_code_get_translation (state, &translator,
-						  item->u.ident, &stack_type,
-						  &stack_reference,
-						  NIL (EntryP *));
-	    write_char (ostream, '(');
-	    if (!stack_reference) {
-		write_char (ostream, '&');
-	    }
-	    c_output_key (info, entry_key (stack_entry), in_prefix);
-	    write_char (ostream, ')');
-	    break;
-	  case CCT_EXCEPTION:
-	    write_cstring (ostream, "goto ");
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream, rule_get_handler_label (handler_rule));
-	    break;
-	  case CCT_ADVANCE:
-	    write_cstring (ostream, "ADVANCE_LEXER");
-	    break;
-	  case CCT_TERMINAL:
-	    write_cstring (ostream, "CURRENT_TERMINAL");
-	    break;
-	}
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream,
+							name_get_label (entry_get_name (item->u.ident)));
+			break;
+		case CCT_IDENT:
+			stack_entry = c_code_get_translation (state, &translator,
+												  item->u.ident, &stack_type,
+												  &stack_reference, &entry);
+			use_cast = (types_contains (param, entry) &&
+						c_out_info_get_casts (info));
+			if (use_cast) {
+				write_cstring (ostream, "((");
+				c_output_mapped_key (info, stack_type);
+				write_cstring (ostream, ") (");
+			} else {
+				write_char (ostream, '(');
+			}
+			if (stack_reference) {
+				write_char (ostream, '*');
+			}
+			c_output_key (info, entry_key (stack_entry), in_prefix);
+			if (use_cast) {
+				write_cstring (ostream, "))");
+			} else {
+				write_char (ostream, ')');
+			}
+			break;
+		case CCT_MOD_IDENT:
+			stack_entry = c_code_get_translation (state, &translator,
+												  item->u.ident, &stack_type,
+												  &stack_reference,
+												  NIL (EntryP *));
+			write_char (ostream, '(');
+			if (stack_reference) {
+				write_char (ostream, '*');
+			}
+			c_output_key (info, entry_key (stack_entry), in_prefix);
+			write_char (ostream, ')');
+			break;
+		case CCT_REF_IDENT:
+			stack_entry = c_code_get_translation (state, &translator,
+												  item->u.ident, &stack_type,
+												  &stack_reference,
+												  NIL (EntryP *));
+			write_char (ostream, '(');
+			if (!stack_reference) {
+				write_char (ostream, '&');
+			}
+			c_output_key (info, entry_key (stack_entry), in_prefix);
+			write_char (ostream, ')');
+			break;
+		case CCT_EXCEPTION:
+			write_cstring (ostream, "goto ");
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream, rule_get_handler_label (handler_rule));
+			break;
+		case CCT_ADVANCE:
+			write_cstring (ostream, "ADVANCE_LEXER");
+			break;
+		case CCT_TERMINAL:
+			write_cstring (ostream, "CURRENT_TERMINAL");
+			break;
+		}
     }
     btrans_destroy (&translator);
     c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_basic PROTO_N ((info, code, result, state))
-		      PROTO_T (COutputInfoP info X
-			       CCodeP       code X
-			       TypeTupleP   result X
-			       SaveRStackP  state)
+c_output_c_code_basic(COutputInfoP info, CCodeP code,
+					  TypeTupleP result,
+					  SaveRStackP state)
 {
     OStreamP    ostream      = c_out_info_ostream (info);
     NStringP    label_prefix = c_out_info_label_prefix (info);
@@ -539,49 +752,45 @@ c_output_c_code_basic PROTO_N ((info, code, result, state))
     EntryP      stack_type;
     BoolT       stack_reference;
     TypeBTransT translator;
-
+	
     c_code_set_labels (code);
     btrans_init (&translator);
     btrans_add_translations (&translator, &(code->result), result);
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream,
-			    name_get_label (entry_get_name (item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    stack_entry = c_code_get_translation (state, &translator,
-						  item->u.ident, &stack_type,
-						  &stack_reference,
-						  NIL (EntryP *));
-	    c_output_key (info, entry_key (stack_entry), in_prefix);
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
-	}
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream,
+							name_get_label (entry_get_name (item->u.ident)));
+			break;
+		case CCT_IDENT:
+			stack_entry = c_code_get_translation (state, &translator,
+												  item->u.ident, &stack_type,
+												  &stack_reference,
+												  NIL (EntryP *));
+			c_output_key (info, entry_key (stack_entry), in_prefix);
+			break;
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
+		}
     }
     btrans_destroy (&translator);
     c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_assign PROTO_N ((info, code, type, from, to, from_reference,
-			      to_reference))
-		       PROTO_T (COutputInfoP info X
-				CCodeP       code X
-				EntryP       type X
-				EntryP       from X
-				EntryP       to X
-				BoolT        from_reference X
-				BoolT        to_reference)
+c_output_c_code_assign(COutputInfoP info,
+					   CCodeP code, EntryP type,
+					   EntryP from, EntryP to,
+					   BoolT from_reference,
+					   BoolT to_reference)
 {
     OStreamP   ostream      = c_out_info_ostream (info);
     NStringP   label_prefix = c_out_info_label_prefix (info);
@@ -589,193 +798,189 @@ c_output_c_code_assign PROTO_N ((info, code, type, from, to, from_reference,
     BoolT      is_param;
     BoolT      use_cast;
     CCodeItemP item;
-
+	
     c_code_set_labels (code);
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream,
-			    name_get_label (entry_get_name (item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    is_param = types_contains (&(code->param), item->u.ident);
-	    use_cast = (is_param && c_out_info_get_casts (info));
-	    if (use_cast) {
-		write_cstring (ostream, "((");
-		c_output_mapped_key (info, type);
-		write_cstring (ostream, ") (");
-	    } else {
-		write_char (ostream, '(');
-	    }
-	    if (is_param) {
-		if (from_reference) {
-		    write_char (ostream, '*');
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream,
+							name_get_label (entry_get_name (item->u.ident)));
+			break;
+		case CCT_IDENT:
+			is_param = types_contains (&(code->param), item->u.ident);
+			use_cast = (is_param && c_out_info_get_casts (info));
+			if (use_cast) {
+				write_cstring (ostream, "((");
+				c_output_mapped_key (info, type);
+				write_cstring (ostream, ") (");
+			} else {
+				write_char (ostream, '(');
+			}
+			if (is_param) {
+				if (from_reference) {
+					write_char (ostream, '*');
+				}
+				c_output_key (info, entry_key (from), in_prefix);
+			} else {
+				if (to_reference) {
+					write_char (ostream, '*');
+				}
+				c_output_key (info, entry_key (to), in_prefix);
+			}
+			if (use_cast) {
+				write_cstring (ostream, "))");
+			} else {
+				write_char (ostream, ')');
+			}
+			break;
+		case CCT_REF_IDENT:
+			write_char (ostream, '(');
+			if (!from_reference) {
+				write_char (ostream, '&');
+			}
+			c_output_key (info, entry_key (from), in_prefix);
+			write_char (ostream, ')');
+			break;
+		case CCT_MOD_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key (info, entry_key (from), in_prefix);
-	    } else {
-		if (to_reference) {
-		    write_char (ostream, '*');
-		}
-		c_output_key (info, entry_key (to), in_prefix);
-	    }
-	    if (use_cast) {
-		write_cstring (ostream, "))");
-	    } else {
-		write_char (ostream, ')');
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    write_char (ostream, '(');
-	    if (!from_reference) {
-		write_char (ostream, '&');
-	    }
-	    c_output_key (info, entry_key (from), in_prefix);
-	    write_char (ostream, ')');
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
-	}
     }
     c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_param_assign PROTO_N ((info, code, type, entry))
-			     PROTO_T (COutputInfoP info X
-				      CCodeP       code X
-				      EntryP       type X
-				      EntryP       entry)
+c_output_c_code_param_assign(COutputInfoP info,
+							 CCodeP code,
+							 EntryP type,
+							 EntryP entry)
 {
     OStreamP   ostream      = c_out_info_ostream (info);
     NStringP   label_prefix = c_out_info_label_prefix (info);
     NStringP   in_prefix    = c_out_info_in_prefix (info);
     NStringP   out_prefix   = c_out_info_out_prefix (info);
     CCodeItemP item;
-
+	
     c_code_set_labels (code);
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream,
-			    name_get_label (entry_get_name (item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    if (types_contains (&(code->param), item->u.ident)) {
-		BoolT use_cast = c_out_info_get_casts (info);
-
-		if (use_cast) {
-		    write_cstring (ostream, "((");
-		    c_output_mapped_key (info, type);
-		    write_cstring (ostream, " *) (");
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream,
+							name_get_label (entry_get_name (item->u.ident)));
+			break;
+		case CCT_IDENT:
+			if (types_contains (&(code->param), item->u.ident)) {
+				BoolT use_cast = c_out_info_get_casts (info);
+				
+				if (use_cast) {
+					write_cstring (ostream, "((");
+					c_output_mapped_key (info, type);
+					write_cstring (ostream, " *) (");
+				}
+				c_output_key (info, entry_key (entry), out_prefix);
+				if (use_cast) {
+					write_cstring (ostream, "))");
+				}
+			} else {
+				c_output_key (info, entry_key (entry), in_prefix);
+			}
+			break;
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key (info, entry_key (entry), out_prefix);
-		if (use_cast) {
-		    write_cstring (ostream, "))");
-		}
-	    } else {
-		c_output_key (info, entry_key (entry), in_prefix);
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
-	}
     }
     c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_result_assign PROTO_N ((info, code, type, entry))
-			      PROTO_T (COutputInfoP info X
-				       CCodeP       code X
-				       EntryP       type X
-				       EntryP       entry)
+c_output_c_code_result_assign(COutputInfoP info,
+							  CCodeP code,
+							  EntryP type,
+							  EntryP entry)
 {
     OStreamP   ostream      = c_out_info_ostream (info);
     NStringP   label_prefix = c_out_info_label_prefix (info);
     NStringP   in_prefix    = c_out_info_in_prefix (info);
     NStringP   out_prefix   = c_out_info_out_prefix (info);
     CCodeItemP item;
-
+	
     c_code_set_labels (code);
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring (ostream, label_prefix);
-	    write_unsigned (ostream,
-			    name_get_label (entry_get_name (item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    if (types_contains (&(code->param), item->u.ident)) {
-		BoolT use_cast = c_out_info_get_casts (info);
-
-		if (use_cast) {
-		    write_cstring (ostream, "((");
-		    c_output_mapped_key (info, type);
-		    write_cstring (ostream, ") (");
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+			write_nstring (ostream, label_prefix);
+			write_unsigned (ostream,
+							name_get_label (entry_get_name (item->u.ident)));
+			break;
+		case CCT_IDENT:
+			if (types_contains (&(code->param), item->u.ident)) {
+				BoolT use_cast = c_out_info_get_casts (info);
+				
+				if (use_cast) {
+					write_cstring (ostream, "((");
+					c_output_mapped_key (info, type);
+					write_cstring (ostream, ") (");
+				}
+				c_output_key (info, entry_key (entry), in_prefix);
+				if (use_cast) {
+					write_cstring (ostream, "))");
+				}
+			} else {
+				c_output_key (info, entry_key (entry), out_prefix);
+			}
+			break;
+		case CCT_REF_IDENT:
+			write_cstring (ostream, "(&");
+			c_output_key (info, entry_key (entry), in_prefix);
+			write_char (ostream, ')');
+			break;
+		case CCT_MOD_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key (info, entry_key (entry), in_prefix);
-		if (use_cast) {
-		    write_cstring (ostream, "))");
-		}
-	    } else {
-		c_output_key (info, entry_key (entry), out_prefix);
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    write_cstring (ostream, "(&");
-	    c_output_key (info, entry_key (entry), in_prefix);
-	    write_char (ostream, ')');
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
-	}
     }
     c_code_reset_labels (code);
 }
 
 void
-c_output_c_code PROTO_N ((info, code))
-		PROTO_T (COutputInfoP info X
-			 CCodeP       code)
+c_output_c_code(COutputInfoP info, CCodeP code)
 {
     OStreamP   ostream = c_out_info_ostream (info);
     CCodeItemP item;
-
+	
     for (item = code->head; item; item = item->next) {
-	switch (item->type) EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring (ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	  case CCT_IDENT:
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
-	}
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring (ostream, &(item->u.string));
+			break;
+		case CCT_LABEL:
+		case CCT_IDENT:
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
+		}
     }
 }
 
@@ -784,4 +989,4 @@ c_output_c_code PROTO_N ((info, code))
  * eval: (include::add-path-entry "../os-interface" "../library")
  * eval: (include::add-path-entry "../transforms" "../output" "../generated")
  * end:
-**/
+ **/

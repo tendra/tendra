@@ -1,31 +1,58 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*** capsule.c --- TDF capsule ADT.
@@ -38,8 +65,228 @@
  *
  *** Change Log:
  * $Log$
- * Revision 1.1  2002/01/26 21:32:04  asmodai
- * Initial version of TenDRA 4.1.2.
+ * Revision 1.2  2002/11/21 22:31:25  nonce
+ * Remove ossg prototypes.  This commit is largely whitespace changes,
+ * but is nonetheless important.  Here's why.
+ *
+ * I.  Background
+ * =========================
+ *
+ *     The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ * conventions, based on the Open Systems Software Group publication "C
+ * Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ * The goal behind ossg prototypes remains admirable: TenDRA should
+ * support platforms that lack ANSI compliant compilers.  The explicit
+ * nature of ossg's prototypes makes macro substition easy.
+ *
+ *     Here's an example of one function:
+ *
+ *     static void uop
+ * 	PROTO_N ( ( op, sha, a, dest, stack ) )
+ * 	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ * 		  shape sha X exp a X where dest X ash stack )
+ *     {
+ *
+ * tendra/src/installers/680x0/common/codec.c
+ *
+ *   The reasons for removing ossg are several, including:
+ *
+ *   0) Variables called 'X' present a problem (besides being a poor
+ * variable name).
+ *
+ *   1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ * prototypes are easily handled by most every compiler these days.
+ *
+ *   2) Although TenDRA emphasizes portability, standards compliance is
+ * the primary goal of the current project.  We should expect no less
+ * from the compiler source code.
+ *
+ *   3) The benefits of complex prototypes are few, given parameter
+ * promotion rules.  (Additionally, packing more types into int-sized
+ * spaces tends to diminish type safety, and greatly complicates
+ * debugging and testing.)
+ *
+ *   4) It would prove impractical to use an OSSG internal style document
+ * in an open source project.
+ *
+ *   5) Quite frankly, ossg prototypes are difficult to read, but that's
+ * certainly a matter of taste and conditioning.
+ *
+ * II.  Changes
+ * =========================
+ *
+ *    This commit touches most every .h and .c file in the tendra source
+ * tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ * was used to automate the following changes:
+ *
+ *    A.  Prototype Conversions.
+ *    --------------------------------------------------
+ *
+ *    The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ * rewritten to ISO-compliant form.  Not every file was touched.  The
+ * files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ * left for hand editing.  These files provide header generation, or have
+ * non-ossg compliant headers to start with.  Scripting around these
+ * would take too much time; a separate hand edit will fix them.
+ *
+ *    B.  Statement Spacing
+ *    --------------------------------------------------
+ *
+ *    Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ * parenthetical lexemes.  (See the quoted example above.)  A simple
+ * text substitution was made for:
+ *
+ *      Before            After
+ * ===================================
+ *
+ *    if ( x )            if (x)
+ *    if(x)               if (x)
+ *    x = 5 ;             x = 5;
+ *    ... x) )            ... x))
+ *
+ * All of these changes are suggested by style(9).  Additional, statement
+ * spacing considerations were made for all of the style(9) keywords:
+ * "if" "while" "for" "return" "switch".
+ *
+ * A few files seem to have too few spaces around operators, e.g.:
+ *
+ *       arg1*arg2
+ *
+ * instead of
+ *
+ *       arg1 * arg2
+ *
+ * These were left for hand edits and later commits, since few files
+ * needed these changes.  (At present, the rmossg.el script takes 1 hour
+ * to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ * needed change would take too much time.)
+ *
+ *    C.  License Information
+ *    --------------------------------------------------
+ *
+ * After useful discussion on IRC, the following license changes were
+ * made:
+ *
+ *    1) Absent support for $License::BSD$ in the repository, license
+ * and copyright information was added to each file.
+ *
+ *    2) Each file begins with:
+ *
+ *    Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *    All rights reserved.
+ *
+ *    Usually, copyright stays with the author of the code; however, I
+ * feel very strongly that this is a group effort, and so the tendra
+ * project should claim any new (c) interest.
+ *
+ *    3) The comment field then shows the bsd license and warranty
+ *
+ *    4) The comment field then shows the Crown Copyright, since our
+ * changes are not yet extensive enough to claim any different.
+ *
+ *    5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *    D.  Comment Formatting
+ *    --------------------------------------------------
+ *
+ * The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *     /*
+ *        Statement statement
+ *        statement
+ *      */
+ *
+ * while style(9) suggests:
+ *
+ *     /*
+ *      * Statement statement
+ *      * statement
+ *      */
+ *
+ * Not every comment in -4.1.2 needed changing.  A parser was written to
+ * identify non-compliant comments.  Note that a few comments do not
+ * follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ * recognize.  These need hand fixing.
+ *
+ *    E.  Indentation
+ *    --------------------------------------------------
+ *
+ *    A elisp tendra-c-mode was created to define how code should be
+ * indented.  The structure follows style(9) in the following regards:
+ *
+ *   (c-set-offset 'substatement-open 0)
+ *   (setq c-indent-tabs-mode t
+ * 	c-indent-level 4
+ * 	c-argdecl-indent t
+ * 	c-tab-always-indent t
+ * 	backward-delete-function nil
+ * 	c-basic-offset 4
+ * 	tab-width 4))
+ *
+ * This means that substatement opening are not indented.  E.g.:
+ *
+ *    if (condition)
+ *    {
+ *
+ * instead of
+ *
+ *    if (condition)
+ *      {
+ *
+ * or even
+ *
+ *    if (condition) {
+ *
+ * Each statement is indented by a tab instead of a spaces.  Set your tab
+ * stop to comply with style(9); see the vim resources in the tendra
+ * tree.  I'll add the emacs mode support shortly.
+ *
+ * No doubt, a function or two escaped change because of unusual
+ * circumstances.  These must be hand fixed as well.
+ *
+ * III.  Things Not Changed
+ * =========================
+ *
+ *     A large number of style(9) deficiencies remain.  These will
+ * require a separate effort.  I decided to stop with the changes noted
+ * above because:
+ *
+ *    0)  The script currently takes hours to run to completion even on
+ * high-end consumer machines.
+ *
+ *    1)  We need to move on and fix other substantive problems.
+ *
+ *    2) The goal of this commit was *just* ossg removal; I took the
+ * opportunity to get other major white-space issues out of the way.
+ *
+ *     I'll also note that despite this commit, a few ossg issues remain.
+ * These include:
+ *
+ *    0) The ossg headers remain.  They contain useful flags needed by
+ * other operations.  Additionally, the BUILD_ERRORS perl script still
+ * generates ossg-compliant headers.  (This is being removed as we change
+ * the build process.)
+ *
+ *    1) A few patches of code check for ossg flags: "if (ossg) etc."
+ * These can be hand removed as well.
+ *
+ *    2) No doubt, a few ossg headers escaped the elisp script.  We can
+ * address these seriatim.
+ *
+ * IV.  Testing
+ * =========================
+ *
+ *     Without a complete build or test suite, it's difficult to
+ * determine if these changes have introduced any bugs.  I've identified
+ * several situations where removal of ossg caused bugs in sid and
+ * calculus operations.  The elisp script avoids these situations; we
+ * will hand edit a few files.
+ *
+ *     As is, the changes should behave properly; the source base builds
+ * the same before and after the rmossg.el script is run.  Nonetheless,
+ * please note that this commit changes over 23,000 PROTO declarations,
+ * and countless line changes.  I'll work closely with any developers
+ * affected by this change.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:18  release
  * First version to be checked into rolling release.
@@ -65,7 +312,7 @@
  * Revision 1.1.1.1  1994/07/25  16:03:29  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
-**/
+ **/
 
 /****************************************************************************/
 
@@ -140,124 +387,120 @@ static unsigned   capsule_minor_version = 0;
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_setup_defaults PROTO_Z ()
+capsule_setup_defaults()
 {
     if (capsule_unit_sets == NIL (UnitSetP)) {
-	unsigned i;
-
-	for (i = 0; i < NUM_DEFAULT_UNIT_SETS; i ++) {
-	    nstring_copy_cstring (&(capsule_default_unit_sets [i].name),
-				  capsule_default_unit_set_names [i]);
-	}
-	capsule_num_unit_sets = NUM_DEFAULT_UNIT_SETS;
-	capsule_unit_sets     = capsule_default_unit_sets;
+		unsigned i;
+		
+		for (i = 0; i < NUM_DEFAULT_UNIT_SETS; i ++) {
+			nstring_copy_cstring (&(capsule_default_unit_sets [i].name),
+								  capsule_default_unit_set_names [i]);
+		}
+		capsule_num_unit_sets = NUM_DEFAULT_UNIT_SETS;
+		capsule_unit_sets     = capsule_default_unit_sets;
     }
 }
 
 static void
-capsule_setup PROTO_N ((units))
-	      PROTO_T (UnitTableP  units)
+capsule_setup(UnitTableP units)
 {
     static BoolT need_setup = TRUE;
-
+	
     if (need_setup) {
-	unsigned i;
-
-	capsule_setup_defaults ();
-	for (i = 0; i < capsule_num_unit_sets; i ++) {
-	    NStringP   name = &(capsule_unit_sets [i].name);
-	    UnitEntryP entry;
-
-	    entry = unit_table_add (units, name, i);
-	    capsule_unit_sets [i].entry = entry;
-	    debug_info_u_name (name);
-	}
-	need_setup = FALSE;
+		unsigned i;
+		
+		capsule_setup_defaults ();
+		for (i = 0; i < capsule_num_unit_sets; i ++) {
+			NStringP   name = &(capsule_unit_sets [i].name);
+			UnitEntryP entry;
+			
+			entry = unit_table_add (units, name, i);
+			capsule_unit_sets [i].entry = entry;
+			debug_info_u_name (name);
+		}
+		need_setup = FALSE;
     }
 }
 
 static BoolT
-capsule_read_unit_set_name PROTO_N ((istream, dstring))
-			   PROTO_T (IStreamP istream X
-				    DStringP dstring)
+capsule_read_unit_set_name(IStreamP istream,
+						   DStringP dstring)
 {
     char c;
-
+	
     do {
-	if (!istream_read_char (istream, &c)) {
-	    return (FALSE);
-	}
+		if (!istream_read_char (istream, &c)) {
+			return (FALSE);
+		}
     } while (syntax_is_white_space (c));
     if (c != '"') {
-	E_unit_set_expected_quote (istream);
-	UNREACHED;
+		E_unit_set_expected_quote (istream);
+		UNREACHED;
     }
     dstring_init (dstring);
     while (istream_read_char (istream, &c)) {
-	if (c == '"') {
-	    return (TRUE);
-	} else if (c == '\\') {
-	    switch (istream_read_escaped_char (istream, &c)) EXHAUSTIVE {
-	      case ISTREAM_STAT_READ_CHAR:
-		dstring_append_char (dstring, c);
-		break;
-	      case ISTREAM_STAT_NO_CHAR:
-		break;
-	      case ISTREAM_STAT_SYNTAX_ERROR:
-		E_unit_set_illegal_escape (istream);
-		UNREACHED;
-	    }
-	} else {
-	    dstring_append_char (dstring, c);
-	}
+		if (c == '"') {
+			return (TRUE);
+		} else if (c == '\\') {
+			switch (istream_read_escaped_char (istream, &c)) EXHAUSTIVE {
+			case ISTREAM_STAT_READ_CHAR:
+				dstring_append_char (dstring, c);
+				break;
+			case ISTREAM_STAT_NO_CHAR:
+				break;
+			case ISTREAM_STAT_SYNTAX_ERROR:
+				E_unit_set_illegal_escape (istream);
+				UNREACHED;
+			}
+		} else {
+			dstring_append_char (dstring, c);
+		}
     }
     E_unit_set_eof_in_name (istream);
     UNREACHED;
 }
 
 static void
-capsule_check_unit_sets PROTO_N ((istream))
-			PROTO_T (IStreamP istream)
+capsule_check_unit_sets(IStreamP istream)
 {
     static BoolT    inited    = FALSE;
     static NStringT tld;
     static NStringT tld2;
     BoolT           tld_found = FALSE;
     unsigned        i;
-
+	
     if (!inited) {
-	nstring_copy_cstring (&tld, "tld");
-	nstring_copy_cstring (&tld2, "tld2");
-	inited = TRUE;
+		nstring_copy_cstring (&tld, "tld");
+		nstring_copy_cstring (&tld2, "tld2");
+		inited = TRUE;
     }
     capsule_tld_index  = UINT_MAX;
     capsule_tld2_index = UINT_MAX;
     for (i = 0; i < capsule_num_unit_sets; i ++) {
-	NStringP name = &(capsule_unit_sets [i].name);
-	unsigned j;
-
-	for (j = 0; j < i; j ++) {
-	    if (nstring_equal (name, &(capsule_unit_sets [j].name))) {
-		E_unit_set_duplicate_name (istream_name (istream), name);
-		UNREACHED;
-	    }
-	}
-	if (nstring_equal (name, &tld)) {
-	    capsule_tld_index = i;
-	    tld_found         = TRUE;
-	} else if (nstring_equal (name, &tld2)) {
-	    capsule_tld2_index = i;
-	}
+		NStringP name = &(capsule_unit_sets [i].name);
+		unsigned j;
+		
+		for (j = 0; j < i; j ++) {
+			if (nstring_equal (name, &(capsule_unit_sets [j].name))) {
+				E_unit_set_duplicate_name (istream_name (istream), name);
+				UNREACHED;
+			}
+		}
+		if (nstring_equal (name, &tld)) {
+			capsule_tld_index = i;
+			tld_found         = TRUE;
+		} else if (nstring_equal (name, &tld2)) {
+			capsule_tld2_index = i;
+		}
     }
     if (!tld_found) {
-	E_unit_set_no_tld_name (istream_name (istream));
-	UNREACHED;
+		E_unit_set_no_tld_name (istream_name (istream));
+		UNREACHED;
     }
 }
 
 static void
-capsule_read_unit_set_file_1 PROTO_N ((istream))
-			     PROTO_T (IStreamP istream)
+capsule_read_unit_set_file_1(IStreamP istream)
 {
     UnitSetListEntryP  head          = NIL (UnitSetListEntryP);
     UnitSetListEntryP *tail          = &head;
@@ -265,32 +508,32 @@ capsule_read_unit_set_file_1 PROTO_N ((istream))
     UnitSetListEntryP  entry;
     UnitSetP           unit_sets;
     unsigned           i;
-
+	
     for (;;) {
-	DStringT dstring;
-
-	if (!capsule_read_unit_set_name (istream, &dstring)) {
-	    goto done;
-	}
-	entry       = ALLOCATE (UnitSetListEntryT);
-	entry->next = NIL (UnitSetListEntryP);
-	dstring_to_nstring (&dstring, &(entry->name));
-	*tail       = entry;
-	tail        = &(entry->next);
-	dstring_destroy (&dstring);
-	num_unit_sets ++;
+		DStringT dstring;
+		
+		if (!capsule_read_unit_set_name (istream, &dstring)) {
+			goto done;
+		}
+		entry       = ALLOCATE (UnitSetListEntryT);
+		entry->next = NIL (UnitSetListEntryP);
+		dstring_to_nstring (&dstring, &(entry->name));
+		*tail       = entry;
+		tail        = &(entry->next);
+		dstring_destroy (&dstring);
+		num_unit_sets ++;
     }
   done:
     unit_sets = ALLOCATE_VECTOR (UnitSetT, num_unit_sets);
     i         = 0;
     entry     = head;
     while (entry) {
-	UnitSetListEntryP tmp = entry->next;
-
-	nstring_assign (&(unit_sets [i].name), &(entry->name));
-	DEALLOCATE (entry);
-	entry = tmp;
-	i ++;
+		UnitSetListEntryP tmp = entry->next;
+		
+		nstring_assign (&(unit_sets [i].name), &(entry->name));
+		DEALLOCATE (entry);
+		entry = tmp;
+		i ++;
     }
     capsule_num_unit_sets = num_unit_sets;
     capsule_unit_sets     = unit_sets;
@@ -300,184 +543,177 @@ capsule_read_unit_set_file_1 PROTO_N ((istream))
 /*--------------------------------------------------------------------------*/
 
 static TDFReaderP
-capsule_reader PROTO_N ((capsule))
-	       PROTO_T (CapsuleP capsule)
+capsule_reader(CapsuleP capsule)
 {
     ASSERT (capsule->type == CT_INPUT);
     return (&(capsule->u.reader));
 }
 
 static TDFWriterP
-capsule_writer PROTO_N ((capsule))
-	       PROTO_T (CapsuleP capsule)
+capsule_writer(CapsuleP capsule)
 {
     ASSERT (capsule->type == CT_OUTPUT);
     return (&(capsule->u.writer));
 }
 
 static NStringP
-capsule_magic PROTO_Z ()
+capsule_magic()
 {
     static NStringT const_magic;
     static BoolT    inited = FALSE;
-
+	
     if (!inited) {
-	nstring_copy_cstring (&const_magic, "TDFC");
-	inited = TRUE;
+		nstring_copy_cstring (&const_magic, "TDFC");
+		inited = TRUE;
     }
     return (&const_magic);
 }
-    
+
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_read_header PROTO_N ((capsule))
-    		    PROTO_T (CapsuleP capsule)
+capsule_read_header(CapsuleP capsule)
 {
     TDFReaderP reader      = capsule_reader (capsule);
     NStringP   const_magic = capsule_magic ();
     NStringT   magic;
     unsigned   major;
     unsigned   minor;
-
+	
     nstring_init_length (&magic, (unsigned) 4);
     tdf_read_bytes (reader, &magic);
     if (!nstring_equal (&magic, const_magic)) {
-	E_capsule_bad_magic (capsule, &magic, const_magic);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_capsule_bad_magic (capsule, &magic, const_magic);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     nstring_destroy (&magic);
     major = tdf_read_int (reader);
     minor = tdf_read_int (reader);
     debug_info_r_versions (major, minor);
     if (major < 4) {
-	E_capsule_bad_version (capsule, major);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_capsule_bad_version (capsule, major);
+		THROW (XX_capsule_error);
+		UNREACHED;
     } else if (capsule_major_version == 0) {
-	capsule_major_version = major;
-	capsule_minor_version = minor;
+		capsule_major_version = major;
+		capsule_minor_version = minor;
     } else if (capsule_major_version != major) {
-	E_capsule_version_mismatch (capsule, capsule_major_version, major);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_capsule_version_mismatch (capsule, capsule_major_version, major);
+		THROW (XX_capsule_error);
+		UNREACHED;
     } else if (capsule_minor_version < minor) {
-	capsule_minor_version = minor;
+		capsule_minor_version = minor;
     }
     tdf_read_align (reader);
 }
 
-static UnitEntryP *
-capsule_read_unit_set_names PROTO_N ((capsule, units, num_unit_sets_ref))
-			    PROTO_T (CapsuleP   capsule X
-				     UnitTableP units X
-				     unsigned  *num_unit_sets_ref)
+static *
+capsule_read_unit_set_names(CapsuleP capsule,
+							UnitTableP units,
+							unsigned *num_unit_sets_ref)
 {
     TDFReaderP  reader        = capsule_reader (capsule);
     unsigned    num_unit_sets = tdf_read_int (reader);
     UnitEntryP *units_vec     = ALLOCATE_VECTOR (UnitEntryP, num_unit_sets);
     UnitEntryP  tld_entry     = capsule_unit_sets [capsule_tld_index].entry;
     UnitEntryP  tld2_entry    = ((capsule_tld2_index == UINT_MAX) ?
-				 NIL (UnitEntryP) :
-				 capsule_unit_sets [capsule_tld2_index].entry);
+								 NIL (UnitEntryP) :
+								 capsule_unit_sets [capsule_tld2_index].entry);
     BoolT       has_tld_unit  = FALSE;
     unsigned    i;
-
+	
     debug_info_r_start_unit_decs (num_unit_sets);
     for (i = 0; i < num_unit_sets; i ++) {
-	NStringT   nstring;
-	UnitEntryP entry;
-
-	tdf_read_string (reader, &nstring);
-	if ((entry = unit_table_get (units, &nstring)) != NIL (UnitEntryP)) {
-	    unsigned order = unit_entry_order (entry);
-	    unsigned j;
-
-	    for (j = 0; j < i; j ++) {
-		if (entry == units_vec [j]) {
-		    E_duplicate_unit_set_name (capsule, &nstring);
-		    THROW (XX_capsule_error);
-		    UNREACHED;
-		} else if (order < unit_entry_order (units_vec [j])) {
-		    E_out_of_order_unit_set_name (capsule, &nstring);
-		    THROW (XX_capsule_error);
-		    UNREACHED;
+		NStringT   nstring;
+		UnitEntryP entry;
+		
+		tdf_read_string (reader, &nstring);
+		if ((entry = unit_table_get (units, &nstring)) != NIL (UnitEntryP)) {
+			unsigned order = unit_entry_order (entry);
+			unsigned j;
+			
+			for (j = 0; j < i; j ++) {
+				if (entry == units_vec [j]) {
+					E_duplicate_unit_set_name (capsule, &nstring);
+					THROW (XX_capsule_error);
+					UNREACHED;
+				} else if (order < unit_entry_order (units_vec [j])) {
+					E_out_of_order_unit_set_name (capsule, &nstring);
+					THROW (XX_capsule_error);
+					UNREACHED;
+				}
+			}
+			if (entry == tld2_entry) {
+				E_tld2_unit_set_type_obsolete (capsule);
+			}
+			if ((entry == tld_entry) || (entry == tld2_entry)) {
+				if (has_tld_unit) {
+					E_extra_tld_unit_set (capsule);
+					THROW (XX_capsule_error);
+					UNREACHED;
+				}
+				has_tld_unit = TRUE;
+			}
+			units_vec [i] = entry;
+		} else {
+			E_unknown_unit_set_name (capsule, &nstring);
+			THROW (XX_capsule_error);
+			UNREACHED;
 		}
-	    }
-	    if (entry == tld2_entry) {
-		E_tld2_unit_set_type_obsolete (capsule);
-	    }
-	    if ((entry == tld_entry) || (entry == tld2_entry)) {
-		if (has_tld_unit) {
-		    E_extra_tld_unit_set (capsule);
-		    THROW (XX_capsule_error);
-		    UNREACHED;
-		}
-		has_tld_unit = TRUE;
-	    }
-	    units_vec [i] = entry;
-	} else {
-	    E_unknown_unit_set_name (capsule, &nstring);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	}
-	debug_info_r_unit_dec (&nstring);
-	nstring_destroy (&nstring);
+		debug_info_r_unit_dec (&nstring);
+		nstring_destroy (&nstring);
     }
     if (!has_tld_unit) {
-	E_missing_tld_unit_set (tdf_reader_name (reader));
+		E_missing_tld_unit_set (tdf_reader_name (reader));
     }
     *num_unit_sets_ref = num_unit_sets;
     return (units_vec);
 }
 
 static ShapeDataP
-capsule_read_shapes PROTO_N ((capsule, shapes, num_shapes_ref))
-		    PROTO_T (CapsuleP    capsule X
-			     ShapeTableP shapes X
-			     unsigned   *num_shapes_ref)
+capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
+					unsigned *num_shapes_ref)
 {
     TDFReaderP reader     = capsule_reader (capsule);
     unsigned   num_shapes = tdf_read_int (reader);
     ShapeDataP shapes_vec = ALLOCATE_VECTOR (ShapeDataT, num_shapes);
     unsigned   i;
-
+	
     debug_info_r_start_shapes (num_shapes);
     for (i = 0; i < num_shapes; i ++) {
-	NStringT    nstring;
-	unsigned    num_ids;
-	ShapeEntryP entry;
-	unsigned    j;
-
-	tdf_read_string (reader, &nstring);
-	num_ids = tdf_read_int (reader);
-	entry   = shape_table_add (shapes, &nstring);
-	for (j = 0; j < i; j ++) {
-	    if (entry == shapes_vec [j].entry) {
-		E_duplicate_shape_name (capsule, &nstring);
-		THROW (XX_capsule_error);
-		UNREACHED;
-	    }
-	}
-	debug_info_r_shape (&nstring, num_ids);
-	nstring_destroy (&nstring);
-	shapes_vec [i].entry   = entry;
-	shapes_vec [i].num_ids = num_ids;
-	shapes_vec [i].id_maps = ALLOCATE_VECTOR (unsigned, num_ids);
-	for (j = 0; j < num_ids; j ++) {
-	    shapes_vec [i].id_maps [j] = UINT_MAX;
-	}
+		NStringT    nstring;
+		unsigned    num_ids;
+		ShapeEntryP entry;
+		unsigned    j;
+		
+		tdf_read_string (reader, &nstring);
+		num_ids = tdf_read_int (reader);
+		entry   = shape_table_add (shapes, &nstring);
+		for (j = 0; j < i; j ++) {
+			if (entry == shapes_vec [j].entry) {
+				E_duplicate_shape_name (capsule, &nstring);
+				THROW (XX_capsule_error);
+				UNREACHED;
+			}
+		}
+		debug_info_r_shape (&nstring, num_ids);
+		nstring_destroy (&nstring);
+		shapes_vec [i].entry   = entry;
+		shapes_vec [i].num_ids = num_ids;
+		shapes_vec [i].id_maps = ALLOCATE_VECTOR (unsigned, num_ids);
+		for (j = 0; j < num_ids; j ++) {
+			shapes_vec [i].id_maps [j] = UINT_MAX;
+		}
     }
     *num_shapes_ref = num_shapes;
     return (shapes_vec);
 }
 
-static NameEntryP *
-capsule_read_external_names_1 PROTO_N ((capsule, shape, num_ref))
-			      PROTO_T (CapsuleP   capsule X
-				       ShapeDataP shape X
-				       unsigned  *num_ref)
+static *
+capsule_read_external_names_1(CapsuleP capsule,
+							  ShapeDataP shape,
+							  unsigned *num_ref)
 {
     TDFReaderP  reader         = capsule_reader (capsule);
     unsigned    num_this_shape = tdf_read_int (reader);
@@ -488,62 +724,61 @@ capsule_read_external_names_1 PROTO_N ((capsule, shape, num_ref))
     unsigned   *id_maps        = shape->id_maps;
     NameEntryP *names_vec      = ALLOCATE_VECTOR (NameEntryP, num_this_shape);
     unsigned    i;
-
+	
     debug_info_r_start_shape_names (key, num_this_shape);
     for (i = 0; i < num_this_shape; i ++) {
-	unsigned   id = tdf_read_int (reader);
-	NameKeyT   name;
-	NameEntryP name_entry;
-
-	tdf_read_name (reader, &name);
-	if (id >= num_ids) {
-	    E_name_id_out_of_range (capsule, key, &name, id, num_ids);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	}
-	name_entry = name_table_add (table, &name, entry);
-	if (id_maps [id] != UINT_MAX) {
-	    E_name_id_used_multiple_times (capsule, key, &name, id);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	}
-	names_vec [i] = name_entry;
-	id_maps [id]  = name_entry_id (name_entry);
-	debug_info_r_name (&name, id, id_maps [id],
-			   name_entry_key (name_entry));
-	name_key_destroy (&name);
+		unsigned   id = tdf_read_int (reader);
+		NameKeyT   name;
+		NameEntryP name_entry;
+		
+		tdf_read_name (reader, &name);
+		if (id >= num_ids) {
+			E_name_id_out_of_range (capsule, key, &name, id, num_ids);
+			THROW (XX_capsule_error);
+			UNREACHED;
+		}
+		name_entry = name_table_add (table, &name, entry);
+		if (id_maps [id] != UINT_MAX) {
+			E_name_id_used_multiple_times (capsule, key, &name, id);
+			THROW (XX_capsule_error);
+			UNREACHED;
+		}
+		names_vec [i] = name_entry;
+		id_maps [id]  = name_entry_id (name_entry);
+		debug_info_r_name (&name, id, id_maps [id],
+						   name_entry_key (name_entry));
+		name_key_destroy (&name);
     }
     *num_ref = num_this_shape;
     return (names_vec);
 }
 
 static NameDataP
-capsule_read_external_names PROTO_N ((capsule, num_shapes, shapes_vec))
-			    PROTO_T (CapsuleP   capsule X
-				     unsigned   num_shapes X
-				     ShapeDataP shapes_vec)
+capsule_read_external_names(CapsuleP capsule,
+							unsigned num_shapes,
+							ShapeDataP shapes_vec)
 {
     TDFReaderP reader = capsule_reader (capsule);
     NameDataT *names_vec_vec;
     unsigned   num_names;
     unsigned   i;
-
+	
     if ((num_names = tdf_read_int (reader)) != num_shapes) {
-	E_shape_and_name_count_mismatch (capsule, num_shapes, num_names);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_shape_and_name_count_mismatch (capsule, num_shapes, num_names);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_names (num_names);
     names_vec_vec = ALLOCATE_VECTOR (NameDataT, num_names);
     for (i = 0; i < num_names; i ++) {
-	ShapeDataP  shape = &(shapes_vec [i]);
-	NameEntryP *names_vec;
-	unsigned    num_this_shape;
-
-	names_vec = capsule_read_external_names_1 (capsule, shape,
-						   &num_this_shape);
-	names_vec_vec [i].names_vec = names_vec;
-	names_vec_vec [i].num_names = num_this_shape;
+		ShapeDataP  shape = &(shapes_vec [i]);
+		NameEntryP *names_vec;
+		unsigned    num_this_shape;
+		
+		names_vec = capsule_read_external_names_1 (capsule, shape,
+												   &num_this_shape);
+		names_vec_vec [i].names_vec = names_vec;
+		names_vec_vec [i].num_names = num_this_shape;
     }
     return (names_vec_vec);
 }
@@ -551,141 +786,131 @@ capsule_read_external_names PROTO_N ((capsule, num_shapes, shapes_vec))
 /*--------------------------------------------------------------------------*/
 
 static unsigned
-capsule_get_token_index PROTO_N ((shapes, num_shapes, shapes_vec))
-			PROTO_T (ShapeTableP shapes X
-				 unsigned    num_shapes X
-				 ShapeDataP  shapes_vec)
+capsule_get_token_index(ShapeTableP shapes,
+						unsigned num_shapes,
+						ShapeDataP shapes_vec)
 {
     ShapeEntryP token_entry = shape_table_get_token_entry (shapes);
     unsigned    i;
-
+	
     for (i = 0; i < num_shapes; i ++) {
-	if (shapes_vec [i].entry == token_entry) {
-	    return (i);
-	}
+		if (shapes_vec [i].entry == token_entry) {
+			return (i);
+		}
     }
     return (UINT_MAX);
 }
 
 static unsigned
-capsule_get_tag_index PROTO_N ((shapes, num_shapes, shapes_vec))
-		      PROTO_T (ShapeTableP shapes X
-			       unsigned    num_shapes X
-			       ShapeDataP  shapes_vec)
+capsule_get_tag_index(ShapeTableP shapes,
+					  unsigned num_shapes,
+					  ShapeDataP shapes_vec)
 {
     ShapeEntryP tag_entry = shape_table_get_tag_entry (shapes);
     unsigned    i;
-
+	
     for (i = 0; i < num_shapes; i ++) {
-	if (shapes_vec [i].entry == tag_entry) {
-	    return (i);
-	}
+		if (shapes_vec [i].entry == tag_entry) {
+			return (i);
+		}
     }
     return (UINT_MAX);
 }
 
 static void
-capsule_read_usage PROTO_N ((capsule, entry, need_dec, no_mult, shape_key))
-		   PROTO_T (CapsuleP  capsule X
-			    NameDataP entry X
-			    BoolT     need_dec X
-			    BoolT     no_mult X
-			    NStringP  shape_key)
+capsule_read_usage(CapsuleP capsule, NameDataP entry,
+				   BoolT need_dec, BoolT no_mult,
+				   NStringP shape_key)
 {
     TDFReaderP  reader    = capsule_reader (capsule);
     unsigned    num_names = entry->num_names;
     NameEntryP *names_vec = entry->names_vec;
     unsigned    i;
-
+	
     debug_info_r_start_usages (shape_key, num_names);
     for (i = 0; i < num_names; i ++) {
-	unsigned   use        = tdf_read_int (reader);
-	NameEntryP name_entry = names_vec [i];
-	unsigned   name_use   = name_entry_get_use (name_entry);
-	NameKeyP   key        = name_entry_key (name_entry);
-
-	if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
-	    E_bad_usage (capsule, shape_key, key, use);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	} else if (no_mult && (use & U_MULT)) {
-	    E_illegally_multiply_defined (capsule, shape_key, key);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	} else if (need_dec &&
-		   (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
-		    ((use & (U_MULT | U_DECD)) == U_MULT))) {
-	    E_defined_but_not_declared (capsule, shape_key, key);
-	    THROW (XX_capsule_error);
-	    UNREACHED;
-	}
-	if ((use & U_DEFD) && (name_use & U_DEFD)) {
-	    CapsuleP definition = name_entry_get_definition (name_entry);
-	    CStringP prev_name  = capsule_name (definition);
-
-	    E_multiply_defined (capsule, shape_key, key, prev_name);
-	} else if ((use & U_MULT) && (name_use & U_MULT) &&
-		   (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
-	    name_entry_set_definition (name_entry, NIL (CapsuleP));
-	} else if ((use & U_DEFD) ||
-		   ((use & U_MULT) && (!(name_use & (U_MULT | U_DEFD))))) {
-	    name_entry_set_definition (name_entry, capsule);
-	}
-	debug_info_r_usage (use, name_use, key);
-	name_entry_merge_use (name_entry, use);
+		unsigned   use        = tdf_read_int (reader);
+		NameEntryP name_entry = names_vec [i];
+		unsigned   name_use   = name_entry_get_use (name_entry);
+		NameKeyP   key        = name_entry_key (name_entry);
+		
+		if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
+			E_bad_usage (capsule, shape_key, key, use);
+			THROW (XX_capsule_error);
+			UNREACHED;
+		} else if (no_mult && (use & U_MULT)) {
+			E_illegally_multiply_defined (capsule, shape_key, key);
+			THROW (XX_capsule_error);
+			UNREACHED;
+		} else if (need_dec &&
+				   (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
+					((use & (U_MULT | U_DECD)) == U_MULT))) {
+			E_defined_but_not_declared (capsule, shape_key, key);
+			THROW (XX_capsule_error);
+			UNREACHED;
+		}
+		if ((use & U_DEFD) && (name_use & U_DEFD)) {
+			CapsuleP definition = name_entry_get_definition (name_entry);
+			CStringP prev_name  = capsule_name (definition);
+			
+			E_multiply_defined (capsule, shape_key, key, prev_name);
+		} else if ((use & U_MULT) && (name_use & U_MULT) &&
+				   (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
+			name_entry_set_definition (name_entry, NIL (CapsuleP));
+		} else if ((use & U_DEFD) ||
+				   ((use & U_MULT) && (!(name_use & (U_MULT | U_DEFD))))) {
+			name_entry_set_definition (name_entry, capsule);
+		}
+		debug_info_r_usage (use, name_use, key);
+		name_entry_merge_use (name_entry, use);
     }
 }
 
 static void
-capsule_read_tld_type_0_unit PROTO_N ((capsule, shapes, num_shapes, shapes_vec,
-				       names_vec_vec))
-			     PROTO_T (CapsuleP    capsule X
-				      ShapeTableP shapes X
-				      unsigned    num_shapes X
-				      ShapeDataP  shapes_vec X
-				      NameDataP   names_vec_vec)
+capsule_read_tld_type_0_unit(CapsuleP capsule,
+							 ShapeTableP shapes,
+							 unsigned num_shapes,
+							 ShapeDataP shapes_vec,
+							 NameDataP names_vec_vec)
 {
     unsigned i;
-
+	
     i = capsule_get_token_index (shapes, num_shapes, shapes_vec);
     if (i != UINT_MAX) {
-	NStringP key = shape_entry_key (shapes_vec [i].entry);
-
-	capsule_read_usage (capsule, &(names_vec_vec [i]), FALSE, TRUE, key);
+		NStringP key = shape_entry_key (shapes_vec [i].entry);
+		
+		capsule_read_usage (capsule, &(names_vec_vec [i]), FALSE, TRUE, key);
     }
     i = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
     if (i != UINT_MAX) {
-	NStringP key = shape_entry_key (shapes_vec [i].entry);
-
-	capsule_read_usage (capsule, &(names_vec_vec [i]), TRUE, FALSE, key);
+		NStringP key = shape_entry_key (shapes_vec [i].entry);
+		
+		capsule_read_usage (capsule, &(names_vec_vec [i]), TRUE, FALSE, key);
     }
 }
 
 static void
-capsule_read_tld_type_1_unit PROTO_N ((capsule, shapes, num_shapes, shapes_vec,
-				       names_vec_vec))
-			     PROTO_T (CapsuleP    capsule X
-				      ShapeTableP shapes X
-				      unsigned    num_shapes X
-				      ShapeDataP  shapes_vec X
-				      NameDataP   names_vec_vec)
+capsule_read_tld_type_1_unit(CapsuleP capsule,
+							 ShapeTableP shapes,
+							 unsigned num_shapes,
+							 ShapeDataP shapes_vec,
+							 NameDataP names_vec_vec)
 {
     unsigned i;
     unsigned token = capsule_get_token_index (shapes, num_shapes, shapes_vec);
     unsigned tag   = capsule_get_tag_index (shapes, num_shapes, shapes_vec);
-
+	
     for (i = 0; i < num_shapes; i ++) {
-	NStringP key = shape_entry_key (shapes_vec [i].entry);
-
-	capsule_read_usage (capsule, &(names_vec_vec [i]), i == tag,
-			    i == token, key);
+		NStringP key = shape_entry_key (shapes_vec [i].entry);
+		
+		capsule_read_usage (capsule, &(names_vec_vec [i]), i == tag,
+							i == token, key);
     }
 }
 
 /*--------------------------------------------------------------------------*/
 
-typedef void (*UnitTypeProcP)
-	PROTO_S ((CapsuleP, ShapeTableP, unsigned, ShapeDataP, NameDataP));
+typedef void (*UnitTypeProcP)(CapsuleP, ShapeTableP, unsigned, ShapeDataP, NameDataP);
 
 static UnitTypeProcP capsule_type_jump_table [] = {
     capsule_read_tld_type_0_unit,
@@ -699,29 +924,28 @@ static UnitTypeProcP capsule_type_jump_table [] = {
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_read_tld_unit_header PROTO_N ((capsule, unit_set))
-			     PROTO_T (CapsuleP capsule X
-				      NStringP unit_set)
+capsule_read_tld_unit_header(CapsuleP capsule,
+							 NStringP unit_set)
 {
     TDFReaderP reader = capsule_reader (capsule);
-
+	
     if (tdf_read_int (reader) != 1) {
-	E_too_many_tld_units (capsule);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_too_many_tld_units (capsule);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_units (unit_set, (unsigned) 1);
     debug_info_r_start_unit (unit_set, (unsigned) 1, (unsigned) 1);
     if (tdf_read_int (reader) != 0) {
-	E_too_many_tld_unit_counts (capsule);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_too_many_tld_unit_counts (capsule);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_counts ((unsigned) 0);
     if (tdf_read_int (reader) != 0) {
-	E_too_many_tld_unit_mappings (capsule);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_too_many_tld_unit_mappings (capsule);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_maps ((unsigned) 0);
     capsule_unit_length = tdf_read_int (reader);
@@ -731,167 +955,152 @@ capsule_read_tld_unit_header PROTO_N ((capsule, unit_set))
 }
 
 static void
-capsule_read_tld_unit_trailer PROTO_N ((capsule))
-			      PROTO_T (CapsuleP capsule)
+capsule_read_tld_unit_trailer(CapsuleP capsule)
 {
     TDFReaderP reader  = capsule_reader (capsule);
     unsigned   offset  = tdf_reader_byte (reader);
     unsigned   correct = (capsule_unit_offset + capsule_unit_length);
-
+	
     tdf_read_align (reader);
     if (correct != offset) {
-	E_tld_unit_wrong_size (capsule, correct, offset);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_tld_unit_wrong_size (capsule, correct, offset);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
 }
 
 static void
-capsule_read_tld2_units PROTO_N ((capsule, shapes, num_shapes, shapes_vec,
-				  names_vec_vec))
-			PROTO_T (CapsuleP    capsule X
-				 ShapeTableP shapes X
-				 unsigned    num_shapes X
-				 ShapeDataP  shapes_vec X
-				 NameDataP   names_vec_vec)
+capsule_read_tld2_units(CapsuleP capsule,
+						ShapeTableP shapes,
+						unsigned num_shapes,
+						ShapeDataP shapes_vec,
+						NameDataP names_vec_vec)
 {
     UnitEntryP tld2_entry = capsule_unit_sets [capsule_tld2_index].entry;
     NStringP   key        = unit_entry_key (tld2_entry);
-
+	
     ASSERT (capsule_tld2_index != UINT_MAX);
     capsule_read_tld_unit_header (capsule, key);
     debug_info_r_tld_version ((unsigned) 0);
     capsule_read_tld_type_0_unit (capsule, shapes, num_shapes, shapes_vec,
-				  names_vec_vec);
+								  names_vec_vec);
     capsule_read_tld_unit_trailer (capsule);
 }
 
 static void
-capsule_read_tld_units PROTO_N ((capsule, shapes, num_shapes, shapes_vec,
-				 names_vec_vec))
-		       PROTO_T (CapsuleP    capsule X
-				ShapeTableP shapes X
-				unsigned    num_shapes X
-				ShapeDataP  shapes_vec X
-				NameDataP   names_vec_vec)
+capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
+					   unsigned num_shapes,
+					   ShapeDataP shapes_vec,
+					   NameDataP names_vec_vec)
 {
     TDFReaderP reader    = capsule_reader (capsule);
     UnitEntryP tld_entry = capsule_unit_sets [capsule_tld_index].entry;
     NStringP   key       = unit_entry_key (tld_entry);
     unsigned   unit_type;
-
+	
     capsule_read_tld_unit_header (capsule, key);
     unit_type = tdf_read_int (reader);
     if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
-	E_unknown_tld_unit_type (capsule, unit_type);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_unknown_tld_unit_type (capsule, unit_type);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_tld_version (unit_type);
     (*(capsule_type_jump_table [unit_type])) (capsule, shapes, num_shapes,
-					      shapes_vec, names_vec_vec);
+											  shapes_vec, names_vec_vec);
     capsule_read_tld_unit_trailer (capsule);
 }
 
-static MapEntryP *
-capsule_read_unit_counts PROTO_N ((capsule, num_shapes, shapes_vec, num_counts,
-				   unit_entry, unit, unit_num))
-			 PROTO_T (CapsuleP   capsule X
-				  unsigned   num_shapes X
-				  ShapeDataP shapes_vec X
-				  unsigned   num_counts X
-				  UnitEntryP unit_entry X
-				  UnitP      unit X
-				  unsigned   unit_num)
+static *
+capsule_read_unit_counts(CapsuleP capsule,
+						 unsigned num_shapes,
+						 ShapeDataP shapes_vec,
+						 unsigned num_counts,
+						 UnitEntryP unit_entry,
+						 UnitP unit, unsigned unit_num)
 {
     if ((num_counts != 0) && (num_counts != num_shapes)) {
-	E_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
-				   unit_entry_key (unit_entry));
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
+								   unit_entry_key (unit_entry));
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_counts (num_counts);
     if (num_counts != 0) {
-	TDFReaderP reader  = capsule_reader (capsule);
-	MapTableP  table   = unit_map_table (unit);
-	MapEntryP *entries = ALLOCATE_VECTOR (MapEntryP, num_counts);
-	unsigned   i;
-
-	for (i = 0; i < num_counts; i ++) {
-	    unsigned  count = tdf_read_int (reader);
-	    NStringP  key   = shape_entry_key (shapes_vec [i].entry);
-	    MapEntryP entry = map_table_add (table, key, count);
-
-	    debug_info_r_count (count, key);
-	    entries [i] = entry;
-	}
-	return (entries);
+		TDFReaderP reader  = capsule_reader (capsule);
+		MapTableP  table   = unit_map_table (unit);
+		MapEntryP *entries = ALLOCATE_VECTOR (MapEntryP, num_counts);
+		unsigned   i;
+		
+		for (i = 0; i < num_counts; i ++) {
+			unsigned  count = tdf_read_int (reader);
+			NStringP  key   = shape_entry_key (shapes_vec [i].entry);
+			MapEntryP entry = map_table_add (table, key, count);
+			
+			debug_info_r_count (count, key);
+			entries [i] = entry;
+		}
+		return (entries);
     } else {
-	return (NIL (MapEntryP *));
+		return (NIL (MapEntryP *));
     }
 }
 
 static void
-capsule_read_unit_maps PROTO_N ((capsule, num_counts, shapes_vec, unit_entry,
-				 unit_num, entries))
-		       PROTO_T (CapsuleP   capsule X
-				unsigned   num_counts X
-				ShapeDataP shapes_vec X
-				UnitEntryP unit_entry X
-				unsigned   unit_num X
-				MapEntryP *entries)
+capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
+					   ShapeDataP shapes_vec,
+					   UnitEntryP unit_entry,
+					   unsigned unit_num,
+					   MapEntryP *entries)
 {
     TDFReaderP reader          = capsule_reader (capsule);
     unsigned   num_link_shapes = tdf_read_int (reader);
     unsigned   i;
-
+	
     if (num_link_shapes != num_counts) {
-	E_unit_mapping_num_mismatch (capsule, num_link_shapes, num_counts,
-				     unit_num, unit_entry_key (unit_entry));
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_unit_mapping_num_mismatch (capsule, num_link_shapes, num_counts,
+									 unit_num, unit_entry_key (unit_entry));
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_maps (num_link_shapes);
     for (i = 0; i < num_link_shapes; i ++) {
-	unsigned    num_links   = tdf_read_int (reader);
-	ShapeEntryP shape_entry = (shapes_vec [i].entry);
-	NStringP    key         = shape_entry_key (shape_entry);
-	unsigned    j;
-
-	map_entry_set_num_links (entries [i], num_links);
-	debug_info_r_start_shape_maps (key, num_links);
-	for (j = 0; j < num_links; j ++) {
-	    unsigned  internal = tdf_read_int (reader);
-	    unsigned  external = tdf_read_int (reader);
-	    unsigned  num_ids  = shapes_vec [i].num_ids;
-	    unsigned *id_maps  = shapes_vec [i].id_maps;
-
-	    if (external >= num_ids) {
-		E_id_out_of_range (capsule, external, num_ids, key, unit_num,
-				   unit_entry_key (unit_entry));
-		THROW (XX_capsule_error);
-		UNREACHED;
-	    }
-	    if (id_maps [external] == UINT_MAX) {
-		unsigned id = shape_entry_next_id (shape_entry);
-
-		id_maps [external] = id;
-	    }
-	    debug_info_r_map (internal, external, id_maps [external]);
-	    external = id_maps [external];
-	    map_entry_set_link (entries [i], j, internal, external);
-	}
+		unsigned    num_links   = tdf_read_int (reader);
+		ShapeEntryP shape_entry = (shapes_vec [i].entry);
+		NStringP    key         = shape_entry_key (shape_entry);
+		unsigned    j;
+		
+		map_entry_set_num_links (entries [i], num_links);
+		debug_info_r_start_shape_maps (key, num_links);
+		for (j = 0; j < num_links; j ++) {
+			unsigned  internal = tdf_read_int (reader);
+			unsigned  external = tdf_read_int (reader);
+			unsigned  num_ids  = shapes_vec [i].num_ids;
+			unsigned *id_maps  = shapes_vec [i].id_maps;
+			
+			if (external >= num_ids) {
+				E_id_out_of_range (capsule, external, num_ids, key, unit_num,
+								   unit_entry_key (unit_entry));
+				THROW (XX_capsule_error);
+				UNREACHED;
+			}
+			if (id_maps [external] == UINT_MAX) {
+				unsigned id = shape_entry_next_id (shape_entry);
+				
+				id_maps [external] = id;
+			}
+			debug_info_r_map (internal, external, id_maps [external]);
+			external = id_maps [external];
+			map_entry_set_link (entries [i], j, internal, external);
+		}
     }
 }
 
 static void
-capsule_read_unit PROTO_N ((capsule, num_shapes, shapes_vec, unit_entry,
-			    unit_num))
-		  PROTO_T (CapsuleP   capsule X
-			   unsigned   num_shapes X
-			   ShapeDataP shapes_vec X
-			   UnitEntryP unit_entry X
-			   unsigned   unit_num)
+capsule_read_unit(CapsuleP capsule, unsigned num_shapes,
+				  ShapeDataP shapes_vec,
+				  UnitEntryP unit_entry,
+				  unsigned unit_num)
 {
     TDFReaderP reader     = capsule_reader (capsule);
     unsigned   num_counts = tdf_read_int (reader);
@@ -899,12 +1108,12 @@ capsule_read_unit PROTO_N ((capsule, num_shapes, shapes_vec, unit_entry,
     MapEntryP *entries;
     unsigned   size;
     NStringT   nstring;
-
+	
     entries = capsule_read_unit_counts (capsule, num_shapes, shapes_vec,
-					num_counts, unit_entry, unit,
-					unit_num);
+										num_counts, unit_entry, unit,
+										unit_num);
     capsule_read_unit_maps (capsule, num_counts, shapes_vec, unit_entry,
-			    unit_num, entries);
+							unit_num, entries);
     size = tdf_read_int (reader);
     debug_info_r_unit_body (size);
     nstring_init_length (&nstring, size);
@@ -914,72 +1123,66 @@ capsule_read_unit PROTO_N ((capsule, num_shapes, shapes_vec, unit_entry,
 }
 
 static void
-capsule_read_units PROTO_N ((capsule, num_shapes, shapes_vec, unit_entry))
-		   PROTO_T (CapsuleP   capsule X
-			    unsigned   num_shapes X
-			    ShapeDataP shapes_vec X
-			    UnitEntryP unit_entry)
+capsule_read_units(CapsuleP capsule, unsigned num_shapes,
+				   ShapeDataP shapes_vec,
+				   UnitEntryP unit_entry)
 {
     TDFReaderP reader    = capsule_reader (capsule);
     unsigned   num_units = tdf_read_int (reader);
     unsigned   i;
-
+	
     debug_info_r_start_units (unit_entry_key (unit_entry), num_units);
     for (i = 0; i < num_units; i ++) {
-	debug_info_r_start_unit (unit_entry_key (unit_entry), i + 1,
-				 num_units);
-	capsule_read_unit (capsule, num_shapes, shapes_vec, unit_entry, i);
+		debug_info_r_start_unit (unit_entry_key (unit_entry), i + 1,
+								 num_units);
+		capsule_read_unit (capsule, num_shapes, shapes_vec, unit_entry, i);
     }
 }
 
 static void
-capsule_read_unit_sets PROTO_N ((capsule, num_unit_sets, units_vec, shapes,
-				 num_shapes, shapes_vec, names_vec_vec))
-		       PROTO_T (CapsuleP    capsule X
-				unsigned    num_unit_sets X
-				UnitEntryP *units_vec X
-				ShapeTableP shapes X
-				unsigned    num_shapes X
-				ShapeDataP  shapes_vec X
-				NameDataP   names_vec_vec)
+capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
+					   UnitEntryP *units_vec,
+					   ShapeTableP shapes,
+					   unsigned num_shapes,
+					   ShapeDataP shapes_vec,
+					   NameDataP names_vec_vec)
 {
     TDFReaderP reader       = capsule_reader (capsule);
     UnitEntryP tld_entry    = capsule_unit_sets [capsule_tld_index].entry;
     UnitEntryP tld2_entry   = ((capsule_tld2_index == UINT_MAX) ?
-			       NIL (UnitEntryP) :
-			       capsule_unit_sets [capsule_tld2_index].entry);
+							   NIL (UnitEntryP) :
+							   capsule_unit_sets [capsule_tld2_index].entry);
     unsigned   num_units;
     unsigned   i;
-
+	
     if ((num_units = tdf_read_int (reader)) != num_unit_sets) {
-	E_unit_set_count_mismatch (capsule, num_unit_sets, num_units);
-	THROW (XX_capsule_error);
-	UNREACHED;
+		E_unit_set_count_mismatch (capsule, num_unit_sets, num_units);
+		THROW (XX_capsule_error);
+		UNREACHED;
     }
     debug_info_r_start_unit_sets (num_units);
     for (i = 0; i < num_units; i ++) {
-	if (units_vec [i] == tld_entry) {
-	    capsule_read_tld_units (capsule, shapes, num_shapes, shapes_vec,
-				    names_vec_vec);
-	} else if (units_vec [i] == tld2_entry) {
-	    capsule_read_tld2_units (capsule, shapes, num_shapes, shapes_vec,
-				     names_vec_vec);
-	} else {
-	    capsule_read_units (capsule, num_shapes, shapes_vec,
-				units_vec [i]);
-	}
+		if (units_vec [i] == tld_entry) {
+			capsule_read_tld_units (capsule, shapes, num_shapes, shapes_vec,
+									names_vec_vec);
+		} else if (units_vec [i] == tld2_entry) {
+			capsule_read_tld2_units (capsule, shapes, num_shapes, shapes_vec,
+									 names_vec_vec);
+		} else {
+			capsule_read_units (capsule, num_shapes, shapes_vec,
+								units_vec [i]);
+		}
     }
 }
 
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_write_header PROTO_N ((capsule))
-    		     PROTO_T (CapsuleP capsule)
+capsule_write_header(CapsuleP capsule)
 {
     TDFWriterP writer      = capsule_writer (capsule);
     NStringP   const_magic = capsule_magic ();
-
+	
     tdf_write_bytes (writer, const_magic);
     ASSERT (capsule_major_version >= 4);
     tdf_write_int (writer, capsule_major_version);
@@ -991,30 +1194,28 @@ capsule_write_header PROTO_N ((capsule))
 /*--------------------------------------------------------------------------*/
 
 void
-capsule_read_unit_set_file PROTO_N ((name))
-			   PROTO_T (CStringP name)
+capsule_read_unit_set_file(CStringP name)
 {
     IStreamT istream;
-
+	
     ASSERT (capsule_unit_sets == NIL (UnitSetP));
     if (!istream_open (&istream, name)) {
-	E_cannot_open_unit_set_file (name);
-	UNREACHED;
+		E_cannot_open_unit_set_file (name);
+		UNREACHED;
     }
     capsule_read_unit_set_file_1 (&istream);
     istream_close (&istream);
 }
 
 CapsuleP
-capsule_create_stream_input PROTO_N ((name))
-			    PROTO_T (CStringP name)
+capsule_create_stream_input(CStringP name)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
-
+	
     capsule->type = CT_INPUT;
     if (!tdf_reader_open (capsule_reader (capsule), name)) {
-	DEALLOCATE (capsule);
-	return (NIL (CapsuleP));
+		DEALLOCATE (capsule);
+		return (NIL (CapsuleP));
     }
     capsule->name     = name;
     capsule->complete = FALSE;
@@ -1022,12 +1223,11 @@ capsule_create_stream_input PROTO_N ((name))
 }
 
 CapsuleP
-capsule_create_string_input PROTO_N ((name, contents))
-			    PROTO_T (CStringP name X
-				     NStringP contents)
+capsule_create_string_input(CStringP name,
+							NStringP contents)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
-
+	
     capsule->type     = CT_INPUT;
     tdf_reader_open_string (capsule_reader (capsule), name, contents);
     capsule->name     = name;
@@ -1036,129 +1236,117 @@ capsule_create_string_input PROTO_N ((name, contents))
 }
 
 CapsuleP
-capsule_create_stream_output PROTO_N ((name))
-			     PROTO_T (CStringP name)
+capsule_create_stream_output(CStringP name)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
-
+	
     capsule->type = CT_OUTPUT;
     if (!tdf_writer_open (capsule_writer (capsule), name)) {
-	DEALLOCATE (capsule);
-	return (NIL (CapsuleP));
+		DEALLOCATE (capsule);
+		return (NIL (CapsuleP));
     }
     capsule->name = name;
     return (capsule);
 }
 
 CStringP
-capsule_name PROTO_N ((capsule))
-	     PROTO_T (CapsuleP capsule)
+capsule_name(CapsuleP capsule)
 {
     return (capsule->name);
 }
 
 unsigned
-capsule_byte PROTO_N ((capsule))
-	     PROTO_T (CapsuleP capsule)
+capsule_byte(CapsuleP capsule)
 {
     return (tdf_reader_byte (capsule_reader (capsule)));
 }
 
 void
-capsule_read PROTO_N ((capsule, units, shapes))
-	     PROTO_T (CapsuleP    capsule X
-		      UnitTableP  units X
-		      ShapeTableP shapes)
+capsule_read(CapsuleP capsule, UnitTableP units,
+			 ShapeTableP shapes)
 {
     ASSERT (capsule->type == CT_INPUT);
     capsule_setup (units);
     HANDLE {
-	UnitEntryP *units_vec;
-	unsigned    num_unit_sets;
-	ShapeDataP  shapes_vec;
-	unsigned    num_shapes;
-	NameDataP   names_vec_vec;
-	unsigned    i;
-
-	debug_info_r_start_capsule (capsule_name (capsule));
-	capsule_read_header (capsule);
-	units_vec     = capsule_read_unit_set_names (capsule, units,
-						     &num_unit_sets);
-	shapes_vec    = capsule_read_shapes (capsule, shapes, &num_shapes);
-	names_vec_vec = capsule_read_external_names (capsule, num_shapes,
-						     shapes_vec);
-	capsule_read_unit_sets (capsule, num_unit_sets, units_vec, shapes,
-				num_shapes, shapes_vec, names_vec_vec);
-	tdf_read_eof (capsule_reader (capsule));
-	debug_info_r_end_capsule ();
-	DEALLOCATE (units_vec);
-	for (i = 0; i < num_shapes; i ++) {
-	    DEALLOCATE (shapes_vec [i].id_maps);
-	    DEALLOCATE (names_vec_vec [i].names_vec);
-	}
-	DEALLOCATE (shapes_vec);
-	DEALLOCATE (names_vec_vec);
-	capsule->complete = TRUE;
+		UnitEntryP *units_vec;
+		unsigned    num_unit_sets;
+		ShapeDataP  shapes_vec;
+		unsigned    num_shapes;
+		NameDataP   names_vec_vec;
+		unsigned    i;
+		
+		debug_info_r_start_capsule (capsule_name (capsule));
+		capsule_read_header (capsule);
+		units_vec     = capsule_read_unit_set_names (capsule, units,
+													 &num_unit_sets);
+		shapes_vec    = capsule_read_shapes (capsule, shapes, &num_shapes);
+		names_vec_vec = capsule_read_external_names (capsule, num_shapes,
+													 shapes_vec);
+		capsule_read_unit_sets (capsule, num_unit_sets, units_vec, shapes,
+								num_shapes, shapes_vec, names_vec_vec);
+		tdf_read_eof (capsule_reader (capsule));
+		debug_info_r_end_capsule ();
+		DEALLOCATE (units_vec);
+		for (i = 0; i < num_shapes; i ++) {
+			DEALLOCATE (shapes_vec [i].id_maps);
+			DEALLOCATE (names_vec_vec [i].names_vec);
+		}
+		DEALLOCATE (shapes_vec);
+		DEALLOCATE (names_vec_vec);
+		capsule->complete = TRUE;
     } WITH {
-	ExceptionP exception = EXCEPTION_EXCEPTION ();
-
-	debug_info_r_abort_capsule ();
-	if ((exception != XX_capsule_error) &&
-	    (exception != XX_tdf_read_error)) {
-	    RETHROW ();
-	}
+		ExceptionP exception = EXCEPTION_EXCEPTION ();
+		
+		debug_info_r_abort_capsule ();
+		if ((exception != XX_capsule_error) &&
+			(exception != XX_tdf_read_error)) {
+			RETHROW ();
+		}
     } END_HANDLE
-}
+		  }
 
 void
-capsule_store_contents PROTO_N ((capsule))
-		       PROTO_T (CapsuleP capsule)
+capsule_store_contents(CapsuleP capsule)
 {
     if (capsule->complete) {
-	TDFReaderP reader = capsule_reader (capsule);
-	unsigned   length = tdf_reader_byte (reader);
-
-	nstring_init_length (&(capsule->contents), length);
-	tdf_reader_rewind (reader);
-	tdf_read_bytes (reader, &(capsule->contents));
-	tdf_read_eof (reader);
+		TDFReaderP reader = capsule_reader (capsule);
+		unsigned   length = tdf_reader_byte (reader);
+		
+		nstring_init_length (&(capsule->contents), length);
+		tdf_reader_rewind (reader);
+		tdf_read_bytes (reader, &(capsule->contents));
+		tdf_read_eof (reader);
     }
 }
 
 NStringP
-capsule_contents PROTO_N ((capsule))
-		 PROTO_T (CapsuleP capsule)
+capsule_contents(CapsuleP capsule)
 {
     return (&(capsule->contents));
 }
 
 void
-capsule_set_index PROTO_N ((capsule, i))
-		  PROTO_T (CapsuleP capsule X
-			   unsigned i)
+capsule_set_index(CapsuleP capsule, unsigned i)
 {
     capsule->capsule_index = i;
 }
 
 unsigned
-capsule_get_index PROTO_N ((capsule))
-		  PROTO_T (CapsuleP capsule)
+capsule_get_index(CapsuleP capsule)
 {
     return (capsule->capsule_index);
 }
 
 void
-capsule_write PROTO_N ((capsule, units, shapes))
-	      PROTO_T (CapsuleP    capsule X
-		       UnitTableP  units X
-		       ShapeTableP shapes)
+capsule_write(CapsuleP capsule, UnitTableP units,
+			  ShapeTableP shapes)
 {
     TDFWriterP      writer     = capsule_writer (capsule);
     UnitEntryP      tld_entry  = capsule_unit_sets [capsule_tld_index].entry;
     unsigned        num_shapes = 0;
     UnitSetClosureT unit_set_closure;
     unsigned        i;
-
+	
     debug_info_w_start_capsule (capsule_name (capsule));
     capsule_write_header (capsule);
     unit_set_closure.num_unit_sets = 1;
@@ -1167,9 +1355,9 @@ capsule_write PROTO_N ((capsule, units, shapes))
     debug_info_w_start_unit_decs (unit_set_closure.num_unit_sets);
     tdf_write_int (writer, unit_set_closure.num_unit_sets);
     for (i = 0; i < capsule_num_unit_sets; i ++) {
-	UnitEntryP entry = capsule_unit_sets [i].entry;
-
-	unit_entry_write_unit_set (entry, tld_entry, writer);
+		UnitEntryP entry = capsule_unit_sets [i].entry;
+		
+		unit_entry_write_unit_set (entry, tld_entry, writer);
     }
     shape_table_iter (shapes, shape_entry_do_count, (GenericP) &num_shapes);
     debug_info_w_start_shapes (num_shapes);
@@ -1181,46 +1369,44 @@ capsule_write PROTO_N ((capsule, units, shapes))
     debug_info_w_start_unit_sets (unit_set_closure.num_unit_sets);
     tdf_write_int (writer, unit_set_closure.num_unit_sets);
     for (i = 0; i < capsule_num_unit_sets; i ++) {
-	UnitEntryP entry = capsule_unit_sets [i].entry;
-
-	if (entry == tld_entry) {
-	    unit_entry_write_tld_unit (entry, shapes, writer);
-	} else {
-	    unit_entry_write_units (entry, shapes, num_shapes, writer);
-	}
+		UnitEntryP entry = capsule_unit_sets [i].entry;
+		
+		if (entry == tld_entry) {
+			unit_entry_write_tld_unit (entry, shapes, writer);
+		} else {
+			unit_entry_write_units (entry, shapes, num_shapes, writer);
+		}
     }
     debug_info_w_end_capsule ();
 }
 
 void
-capsule_close PROTO_N ((capsule))
-	      PROTO_T (CapsuleP capsule)
+capsule_close(CapsuleP capsule)
 {
     switch (capsule->type) EXHAUSTIVE {
-      case CT_INPUT:
-	tdf_reader_close (capsule_reader (capsule));
-	break;
-      case CT_OUTPUT:
-	tdf_writer_close (capsule_writer (capsule));
-	break;
+	case CT_INPUT:
+		tdf_reader_close (capsule_reader (capsule));
+		break;
+	case CT_OUTPUT:
+		tdf_writer_close (capsule_writer (capsule));
+		break;
     }
 }
 
 unsigned
-capsule_get_major_version PROTO_Z ()
+capsule_get_major_version()
 {
     return (capsule_major_version);
 }
 
 void
-capsule_set_major_version PROTO_N ((major))
-    			  PROTO_T (unsigned major)
+capsule_set_major_version(unsigned major)
 {
     capsule_major_version = major;
 }
 
 unsigned
-capsule_get_minor_version PROTO_Z ()
+capsule_get_minor_version()
 {
     return (capsule_minor_version);
 }
@@ -1230,4 +1416,4 @@ capsule_get_minor_version PROTO_Z ()
  * eval: (include::add-path-entry "../os-interface" "../library")
  * eval: (include::add-path-entry "../generated")
  * end:
-**/
+ **/

@@ -1,41 +1,288 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:18  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:05  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.2  1998/02/04  10:43:38  release
  * Changes during testing.
  *
@@ -57,14 +304,14 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1.1.1  1995/08/14  14:30:23  pwe
  * transferred from DJCH
  *
-**********************************************************************/
+ **********************************************************************/
 
 /* extra fns for writing DWARF info */
 /* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch
-   */
+ */
 /* LOG 7/9/93 this will only compile with -Ycommon, assuming 32 bit int
-   makes life a lot easier djch. several changes of long to int to
-   get weak prototypes to work */
+ *   makes life a lot easier djch. several changes of long to int to
+ *   get weak prototypes to work */
 /* LOG 25/11/93 removed redundant labbufe djch */
 
 #include "config.h"
@@ -100,8 +347,8 @@ Initial version of TenDRA 4.1.2.
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 
-#define WHOLE_LINE ( 0xffff)	/* this should be in dwarf.h */
-#define WHOLE_SECT ( 0)		/* this should be in dwarf.h */
+#define WHOLE_LINE (0xffff)	/* this should be in dwarf.h */
+#define WHOLE_SECT (0)		/* this should be in dwarf.h */
 
 #if issparc
 #define DWARF_NAME "D"
@@ -114,53 +361,50 @@ static char * nl80x86 = "\n";
 #define outnl()	outs(nl80x86)	/* avoid side effects of 80x86 outnl */
 #endif
 
-void out_dwarf_lab
-    PROTO_N ( (l) )
-    PROTO_T ( H_dwarf_lab *l )
+void
+out_dwarf_lab(H_dwarf_lab *l)
 {
-  if (OUT_FLAG(*l) !=0)
-  {
-    failer("attempt to re_output dwarf label");
-    exit(EXIT_FAILURE);
-  }
-  OUT_FLAG(*l) = (char)1;
-  outs(LAB2CHAR(*l));
-  outc(':');
-  outnl();
+	if (OUT_FLAG(*l) !=0)
+	{
+		failer("attempt to re_output dwarf label");
+		exit(EXIT_FAILURE);
+	}
+	OUT_FLAG(*l) = (char)1;
+	outs(LAB2CHAR(*l));
+	outc(':');
+	outnl();
 }
 
-static void mk_dwarf_label
-    PROTO_N ( (p,x) )
-    PROTO_T ( dwarf_label *p X CONST char *x )
+static void
+mk_dwarf_label(dwarf_label *p, CONST char *x)
 {
-  sprintf(LAB2CHAR(p->beg),"%s%s%s",local_prefix,DWARF_NAME,x);
-  OUT_FLAG(p->beg) = 0;
-  sprintf(LAB2CHAR(p->end),"%s%s%s.e",local_prefix,DWARF_NAME,x);
-  OUT_FLAG(p->end) = 0;
+	sprintf(LAB2CHAR(p->beg),"%s%s%s",local_prefix,DWARF_NAME,x);
+	OUT_FLAG(p->beg) = 0;
+	sprintf(LAB2CHAR(p->end),"%s%s%s.e",local_prefix,DWARF_NAME,x);
+	OUT_FLAG(p->end) = 0;
 }
 
-void next_dwarf_lab
-    PROTO_N ( (p) )
-    PROTO_T ( dwarf_label *p )
+void
+next_dwarf_lab(dwarf_label *p)
 {
-  static unsigned long next_dwarf_lab_no = 0;
-  char num_buf[DWARF_LAB_LEN];
-
-  sprintf(num_buf,"%ld",next_dwarf_lab_no++);
-  mk_dwarf_label(p,num_buf);
+	static unsigned long next_dwarf_lab_no = 0;
+	char num_buf[DWARF_LAB_LEN];
+	
+	sprintf(num_buf,"%ld",next_dwarf_lab_no++);
+	mk_dwarf_label(p,num_buf);
 }
 
-dwarf_type_label * next_dwarf_type_lab
-    PROTO_Z ()
+dwarf_type_label *
+next_dwarf_type_lab()
 {
-  dwarf_type_label * ptr = (dwarf_type_label *)
-    xcalloc(1,sizeof (dwarf_type_label));
-
-  static unsigned long next_dwarf_type_lab_no = 0;
-
-  sprintf(LAB2CHAR(*ptr),"%s%sT%ld",local_prefix,DWARF_NAME,
-	  next_dwarf_type_lab_no++);
-  return ptr;
+	dwarf_type_label * ptr = (dwarf_type_label *)
+		xcalloc(1,sizeof (dwarf_type_label));
+	
+	static unsigned long next_dwarf_type_lab_no = 0;
+	
+	sprintf(LAB2CHAR(*ptr),"%s%sT%ld",local_prefix,DWARF_NAME,
+			next_dwarf_type_lab_no++);
+	return ptr;
 }
 
 #if (is80x86)
@@ -230,227 +474,218 @@ error not yet written
 #endif
 #endif
 
-void dwarf4
-    PROTO_N ( (t) )
-    PROTO_T ( CONST char *t )
+void
+dwarf4(CONST char *t)
 {
-  char outbuf[100];
-
-  sprintf(outbuf,BYTE4_F,t);
-
-  outs(outbuf);
-  outnl();
+	char outbuf[100];
+	
+	sprintf(outbuf,BYTE4_F,t);
+	
+	outs(outbuf);
+	outnl();
 }
 
-void dwarf4n
-    PROTO_N ( (x) )
-    PROTO_T ( int x )
+void
+dwarf4n(int x)
 {
-  char outbuf[100];
-
-  sprintf(outbuf,"%#x",x);
-  dwarf4(outbuf);
+	char outbuf[100];
+	
+	sprintf(outbuf,"%#x",x);
+	dwarf4(outbuf);
 }
 
-void out_dwarf_thing
-    PROTO_N ( (t,cmt) )
-    PROTO_T ( int t X char *cmt )
+void
+out_dwarf_thing(int t, char *cmt)
 {
-  char outbuf[100];
-
-  if (t > 0xffff)
-    failer("value too big for .2byte constant in out_dwarf_thing");
-
-  sprintf(outbuf,BYTE2_CMT_F,t,cmt);
-  outs(outbuf);
-  outnl();
+	char outbuf[100];
+	
+	if (t > 0xffff)
+		failer("value too big for .2byte constant in out_dwarf_thing");
+	
+	sprintf(outbuf,BYTE2_CMT_F,t,cmt);
+	outs(outbuf);
+	outnl();
 }
 
-void out_dwarf_string
-    PROTO_N ( (s) )
-    PROTO_T ( CONST char * CONST s )
+void
+out_dwarf_string(CONST char * CONST s)
 {
-  /* s = null term'ed in core and to be in asm file */
-  char outbuf[100];
-
-  sprintf(outbuf,STRING_F,s);
-  outs(outbuf);
-  outnl();
+	/* s = null term'ed in core and to be in asm file */
+	char outbuf[100];
+	
+	sprintf(outbuf,STRING_F,s);
+	outs(outbuf);
+	outnl();
 }
 
-void dwarf2
-    PROTO_N ( (c) )
-    PROTO_T ( char *c )
+void
+dwarf2(char *c)
 {
-  char outbuf[100];
-
-  sprintf(outbuf,BYTE2_F,c);
-  outs(outbuf);
-  outnl();
+	char outbuf[100];
+	
+	sprintf(outbuf,BYTE2_F,c);
+	outs(outbuf);
+	outnl();
 }
 
-void out_dwarfone
-    PROTO_N ( (t,cmt) )
-    PROTO_T ( int t X char *cmt )
+void
+out_dwarfone(int t, char *cmt)
 {
-  char outbuf[100];
-
-  sprintf(outbuf,BYTE_CMT_F,t,cmt);
-  outs(outbuf);
-  outnl();
+	char outbuf[100];
+	
+	sprintf(outbuf,BYTE_CMT_F,t,cmt);
+	outs(outbuf);
+	outnl();
 }
 
 static dwarf_label 	dwarf_blk_stk[100];
 static unsigned int 	dwarf_blk_stk_ptr=0;
 
-void enter_dwarf_blk
-    PROTO_N ( (four,exclusive,lb) )
-    PROTO_T ( int four X int exclusive X dwarf_label *lb )
+void
+enter_dwarf_blk(int four, int exclusive, dwarf_label *lb)
 {
-				/* switch to debug section, put out begin
-				 label and length expr */
-  char exprbuf[100];
-
-  dwarf_blk_stk[dwarf_blk_stk_ptr++] = *lb;
-				/* the block stack is used for nested
-				 dwarf blocks, not for sibling structure */
-
-  if (four)			/* two byte block are already in debug */
-    GO_DWARF;
-
-  OUT_DWARF_BEG(lb);
-  if (exclusive)
-    sprintf(exprbuf,COMMENT_2(SUB3_F," excl. entry len")
-	    ,lb->end,lb->beg,
-	    four ? "4":"2");
-  else
-    sprintf(exprbuf,COMMENT_2("%s-%s\t"," entry len"),lb->end,lb->beg);
-  if (four)
-    dwarf4(exprbuf);
-  else
-    dwarf2(exprbuf);
+	/* switch to debug section, put out begin
+	 *				 label and length expr */
+	char exprbuf[100];
+	
+	dwarf_blk_stk[dwarf_blk_stk_ptr++] = *lb;
+	/* the block stack is used for nested
+	 *				 dwarf blocks, not for sibling structure */
+	
+	if (four)			/* two byte block are already in debug */
+		GO_DWARF;
+	
+	OUT_DWARF_BEG(lb);
+	if (exclusive)
+		sprintf(exprbuf,COMMENT_2(SUB3_F," excl. entry len")
+				,lb->end,lb->beg,
+				four ? "4":"2");
+	else
+		sprintf(exprbuf,COMMENT_2("%s-%s\t"," entry len"),lb->end,lb->beg);
+	if (four)
+		dwarf4(exprbuf);
+	else
+		dwarf2(exprbuf);
 }
 
-void leave_dwarf_blk1
-    PROTO_N ( (leave) )
-    PROTO_T ( int leave )
+void
+leave_dwarf_blk1(int leave)
 {
-  if (dwarf_blk_stk_ptr == 0)
-    failer("dwarf stack underflow");
-  {
-    dwarf_label *lb = &dwarf_blk_stk[--dwarf_blk_stk_ptr];
-
-    OUT_DWARF_END(lb);
-    if (leave)
-      LEAVE_DWARF;
-  }
+	if (dwarf_blk_stk_ptr == 0)
+		failer("dwarf stack underflow");
+	{
+		dwarf_label *lb = &dwarf_blk_stk[--dwarf_blk_stk_ptr];
+		
+		OUT_DWARF_END(lb);
+		if (leave)
+			LEAVE_DWARF;
+	}
 }
 
-char * current_label_name
-    PROTO_Z ()
+char *
+current_label_name()
 {
-  return LAB2CHAR(dwarf_blk_stk[dwarf_blk_stk_ptr - 1].beg);
+	return LAB2CHAR(dwarf_blk_stk[dwarf_blk_stk_ptr - 1].beg);
 }
 
 
-void new_dwarf_blk2
-    PROTO_Z ()
+void
+new_dwarf_blk2()
 {
-  dwarf_label lb;
-  next_dwarf_lab(&lb);
-
-  enter_dwarf_blk(0,1,&lb);
+	dwarf_label lb;
+	next_dwarf_lab(&lb);
+	
+	enter_dwarf_blk(0,1,&lb);
 }
 
-void new_dwarf_blk4
-    PROTO_Z ()
+void
+new_dwarf_blk4()
 {
-  dwarf_label lb;
-  next_dwarf_lab(&lb);
-
-  enter_dwarf_blk(1,1,&lb);
+	dwarf_label lb;
+	next_dwarf_lab(&lb);
+	
+	enter_dwarf_blk(1,1,&lb);
 }
 
 static dwarf_label text_range;
 static dwarf_label line_range;
 
-void out_diagnose_prelude
-    PROTO_Z ()
+void
+out_diagnose_prelude()
 {
-
-  char exprbuf[100];
-
-  mk_dwarf_label(&text_range,"text");
-  mk_dwarf_label(&line_range,"line");
-
-  outs(TEXT_SEG);
-  outnl();
-  OUT_DWARF_BEG(&text_range);
-  GO_DWARF;
-  LEAVE_DWARF;
-  GO_LINE;
-  LEAVE_LINE;
-
-  GO_LINE;
-  OUT_DWARF_BEG(&line_range);
-  sprintf(exprbuf,"%s-%s",line_range.end,line_range.beg);
-  dwarf4(exprbuf);
-  dwarf4(text_range.beg);
-  LEAVE_LINE;
-  enter_dwarf_comp_unit();
-
+	
+	char exprbuf[100];
+	
+	mk_dwarf_label(&text_range,"text");
+	mk_dwarf_label(&line_range,"line");
+	
+	outs(TEXT_SEG);
+	outnl();
+	OUT_DWARF_BEG(&text_range);
+	GO_DWARF;
+	LEAVE_DWARF;
+	GO_LINE;
+	LEAVE_LINE;
+	
+	GO_LINE;
+	OUT_DWARF_BEG(&line_range);
+	sprintf(exprbuf,"%s-%s",line_range.end,line_range.beg);
+	dwarf4(exprbuf);
+	dwarf4(text_range.beg);
+	LEAVE_LINE;
+	enter_dwarf_comp_unit();
+	
 }
 
-void out_diagnose_postlude
-    PROTO_Z ()
+void
+out_diagnose_postlude()
 {
-  char exprbuf[100];
-
-  leave_dwarf_comp_unit();
-
-  outs(TEXT_SEG);
-  outnl();
-  OUT_DWARF_END(&text_range);
-  GO_LINE;
-  dwarf4n(WHOLE_SECT);			/* line 0 means whole section */
-  dwarf2c(WHOLE_LINE);
-  sprintf(exprbuf,"%s-%s",text_range.end,text_range.beg);
-  dwarf4(exprbuf);
-  OUT_DWARF_END(&line_range);
-  LEAVE_LINE;
+	char exprbuf[100];
+	
+	leave_dwarf_comp_unit();
+	
+	outs(TEXT_SEG);
+	outnl();
+	OUT_DWARF_END(&text_range);
+	GO_LINE;
+	dwarf4n(WHOLE_SECT);			/* line 0 means whole section */
+	dwarf2c(WHOLE_LINE);
+	sprintf(exprbuf,"%s-%s",text_range.end,text_range.beg);
+	dwarf4(exprbuf);
+	OUT_DWARF_END(&line_range);
+	LEAVE_LINE;
 }
 
 static filename main_filename;
 
-void out_dwarf_sourcemark
-    PROTO_N ( (x) )
-    PROTO_T ( CONST sourcemark * CONST x )
+void
+out_dwarf_sourcemark(CONST sourcemark * CONST x)
 {
-  dwarf_label lb;
-
-  if (x->file != main_filename)
-  {
+	dwarf_label lb;
+	
+	if (x->file != main_filename)
+	{
 /*    fprintf(stderr,"Sourcemark for file %s cannot be used\n",
-	    TDFSTRING2CHAR(x->file->file));*/
-    return;
-  }
-
-  next_dwarf_lab(&lb);
-  OUT_DWARF_BEG(&lb);		/* note this label is in TEXT space */
-
-  GO_LINE;
-  dwarf4n((int)x->line_no.nat_val.small_nat);
-  if ((x->char_off.nat_val.small_nat) == 0)
-    out_dwarf_thing(WHOLE_LINE,"no source pos");
-  else
-    out_dwarf_thing((int)x->char_off.nat_val.small_nat,"source pos");
-  {
-    char expr_buf[100];
-
-    sprintf(expr_buf,"%s - %s",LAB2CHAR(lb.beg),LAB2CHAR(text_range.beg));
-    dwarf4(expr_buf);
-  }
-  LEAVE_LINE;
+ *	    TDFSTRING2CHAR(x->file->file));*/
+		return;
+	}
+	
+	next_dwarf_lab(&lb);
+	OUT_DWARF_BEG(&lb);		/* note this label is in TEXT space */
+	
+	GO_LINE;
+	dwarf4n((int)x->line_no.nat_val.small_nat);
+	if ((x->char_off.nat_val.small_nat) == 0)
+		out_dwarf_thing(WHOLE_LINE,"no source pos");
+	else
+		out_dwarf_thing((int)x->char_off.nat_val.small_nat,"source pos");
+	{
+		char expr_buf[100];
+		
+		sprintf(expr_buf,"%s - %s",LAB2CHAR(lb.beg),LAB2CHAR(text_range.beg));
+		dwarf4(expr_buf);
+	}
+	LEAVE_LINE;
 }
 
 static dwarf_label 	dwarf_sib_stk[100];
@@ -463,180 +698,177 @@ static int	 	dwarf_sib_stk_ptr= -1;
 
 /* ((dwarf_sib_stk_ptr) ==0 ? failer("sib stack underflow"), underflow_lab */
 
-void start_sib_chain1
-    PROTO_N ( (d_tag,tag_name) )
-    PROTO_T ( int d_tag X char *tag_name )
+void
+start_sib_chain1(int d_tag, char *tag_name)
 {
-				/* generate new label
-				 enter blk for new label
-				 gen sib label
-				 push sib label
-				 gen sib chain */
-  dwarf_label chain_head;
-  next_dwarf_lab(&chain_head);
-
-  enter_dwarf_entry(&chain_head);
-  next_dwarf_lab(&SIB_PUSH);
-
-  OUT_DWARF_TAG_NAMED(d_tag,tag_name);
-  outs(COMMENT_2("\t"," new sibling chain level "));
-  outn((long)dwarf_sib_stk_ptr);
-  outnl();
-  OUT_DWARF_ATTR(AT_sibling);
-  dwarf4(SIB_TOS.beg);
+	/* generate new label
+	 *				 enter blk for new label
+	 *				 gen sib label
+	 *				 push sib label
+	 *				 gen sib chain */
+	dwarf_label chain_head;
+	next_dwarf_lab(&chain_head);
+	
+	enter_dwarf_entry(&chain_head);
+	next_dwarf_lab(&SIB_PUSH);
+	
+	OUT_DWARF_TAG_NAMED(d_tag,tag_name);
+	outs(COMMENT_2("\t"," new sibling chain level "));
+	outn((long)dwarf_sib_stk_ptr);
+	outnl();
+	OUT_DWARF_ATTR(AT_sibling);
+	dwarf4(SIB_TOS.beg);
 }
 
-void make_next_new_chain
-    PROTO_Z ()
+void
+make_next_new_chain()
 {
-  /* simulate entering next level */
-  next_dwarf_lab(&SIB_PUSH);
+	/* simulate entering next level */
+	next_dwarf_lab(&SIB_PUSH);
 }
 
-void cont_sib_chain1
-    PROTO_N ( (d_tag,tag_name) )
-    PROTO_T ( int d_tag X char *tag_name )
+void
+cont_sib_chain1(int d_tag, char *tag_name)
 {
-				/* enter blk for TOS
-				 gen sib label
-				 setq TOS sib label
-				 gen sib chain */
-  enter_dwarf_entry(&SIB_TOS);
-  next_dwarf_lab(&SIB_TOS);
-  outs(COMMENT_2("\t"," sibling chain level "));
-  outn((long)dwarf_sib_stk_ptr);
-  outnl();
-
-  OUT_DWARF_TAG_NAMED(d_tag,tag_name);
-  OUT_DWARF_ATTR(AT_sibling);
-  dwarf4(SIB_TOS.beg);
+	/* enter blk for TOS
+	 *				 gen sib label
+	 *				 setq TOS sib label
+	 *				 gen sib chain */
+	enter_dwarf_entry(&SIB_TOS);
+	next_dwarf_lab(&SIB_TOS);
+	outs(COMMENT_2("\t"," sibling chain level "));
+	outn((long)dwarf_sib_stk_ptr);
+	outnl();
+	
+	OUT_DWARF_TAG_NAMED(d_tag,tag_name);
+	OUT_DWARF_ATTR(AT_sibling);
+	dwarf4(SIB_TOS.beg);
 }
 
-void end_sib_chain
-    PROTO_Z ()
+void
+end_sib_chain()
 {
-				/* enter blk for TOS
-				   gen dummy blk
-				   pop stack
-				   leave blk */
-  enter_dwarf_entry(&SIB_TOS);
-  outs(COMMENT_2("\t"," end sibling chain level "));
-  outn((long)dwarf_sib_stk_ptr);
-  outnl();
-  leave_dwarf_blk();
-  SIB_POP;
+	/* enter blk for TOS
+	 *				   gen dummy blk
+	 *				   pop stack
+	 *				   leave blk */
+	enter_dwarf_entry(&SIB_TOS);
+	outs(COMMENT_2("\t"," end sibling chain level "));
+	outn((long)dwarf_sib_stk_ptr);
+	outnl();
+	leave_dwarf_blk();
+	SIB_POP;
 }
 
-static void end_toplevel_chain
-    PROTO_Z ()
+static void
+end_toplevel_chain()
 {
-				/* just put out the label */
-  GO_DWARF;
-  OUT_DWARF_BEG(&SIB_TOS);
-  outs(COMMENT_2("\t"," end toplevel chain"));
-  outnl();
-  LEAVE_DWARF;
-  SIB_POP;
+	/* just put out the label */
+	GO_DWARF;
+	OUT_DWARF_BEG(&SIB_TOS);
+	outs(COMMENT_2("\t"," end toplevel chain"));
+	outnl();
+	LEAVE_DWARF;
+	SIB_POP;
 }
 
-				/* HACK to get a filename */
+/* HACK to get a filename */
 static long name_space;
 
 static char *first_filename = (char *) 0;
 
-void dwarf_inspect_filename
-    PROTO_N ( (f) )
-    PROTO_T ( filename f )
+void
+dwarf_inspect_filename(filename f)
 {
-  if (first_filename)
-    return;
-  {
-    char * str = TDFSTRING2CHAR(f->file);
-    char *lastdot = strrchr(str,'.');
-
-    if (!lastdot)
-      return;			/* no dot in name */
-
-    if (lastdot[1] != 'h')
-    {
-      first_filename = (char *) xcalloc(1,strlen(str) + 1);
-				/* +1 for null ending */
-      strcpy(first_filename,str);
-
-      main_filename = f;	/* note this to validate sourcemarks */
-
-      fflush(fpout);
-      {
-	long old_tell = ftell(fpout);
-
-	fseek(fpout,name_space,SEEK_SET);
-	outc('"'); outs(str); outc('"');
-	fseek(fpout,old_tell,SEEK_SET);
-      }
-    }
-  }
+	if (first_filename)
+		return;
+	{
+		char * str = TDFSTRING2CHAR(f->file);
+		char *lastdot = strrchr(str,'.');
+		
+		if (!lastdot)
+			return;			/* no dot in name */
+		
+		if (lastdot[1] != 'h')
+		{
+			first_filename = (char *) xcalloc(1,strlen(str) + 1);
+			/* +1 for null ending */
+			strcpy(first_filename,str);
+			
+			main_filename = f;	/* note this to validate sourcemarks */
+			
+			fflush(fpout);
+			{
+				long old_tell = ftell(fpout);
+				
+				fseek(fpout,name_space,SEEK_SET);
+				outc('"'); outs(str); outc('"');
+				fseek(fpout,old_tell,SEEK_SET);
+			}
+		}
+	}
 }
 
 extern char *crt_filename;
 
-static void maybe_fix_filename
-    PROTO_Z ()
+static void
+maybe_fix_filename()
 {
-  char name_buf[100];
-  char * last_dot;
-
-  if (first_filename)		/* seen a .c already */
-    return;
-
-  if (crt_filename == NULL)
-    name_buf[0] = '\0';
-  else
-    strcpy(name_buf,crt_filename);
-
-  if (strlen(name_buf) > 0)
-  {
-    last_dot = strrchr(name_buf,'.');
-
-    if (last_dot)
-      last_dot[1] = 'c';
-    else
-      strcpy(name_buf,"UNKNOWN_SUFFIX.c");
-  }
-  else
-    strcpy(name_buf,"UNKNOWN_FILE.c");
-
-  fflush(fpout);
-  {
-    long old_tell = ftell(fpout);
-
-    fseek(fpout,name_space,SEEK_SET);
-    outc('"'); outs(name_buf); outc('"');
-    fseek(fpout,old_tell,SEEK_SET);
-  }
+	char name_buf[100];
+	char * last_dot;
+	
+	if (first_filename)		/* seen a .c already */
+		return;
+	
+	if (crt_filename == NULL)
+		name_buf[0] = '\0';
+	else
+		strcpy(name_buf,crt_filename);
+	
+	if (strlen(name_buf) > 0)
+	{
+		last_dot = strrchr(name_buf,'.');
+		
+		if (last_dot)
+			last_dot[1] = 'c';
+		else
+			strcpy(name_buf,"UNKNOWN_SUFFIX.c");
+	}
+	else
+		strcpy(name_buf,"UNKNOWN_FILE.c");
+	
+	fflush(fpout);
+	{
+		long old_tell = ftell(fpout);
+		
+		fseek(fpout,name_space,SEEK_SET);
+		outc('"'); outs(name_buf); outc('"');
+		fseek(fpout,old_tell,SEEK_SET);
+	}
 }
 
-void enter_dwarf_comp_unit
-    PROTO_Z ()
+void
+enter_dwarf_comp_unit()
 {
- start_sib_chain(TAG_compile_unit);
-  OUT_DWARF_ATTR(AT_name);
-  outs(STRING_M);
-  fflush(fpout);
-  name_space = ftell(fpout);
-  outs("                                                                    ");
-  outs("                                                                    ");
-  outnl();
-  OUT_DWARF_ATTR(AT_language);
-  dwarf4n((int)LANG_C89);
-  OUT_DWARF_ATTR(AT_low_pc);
-  dwarf4(LAB2CHAR(text_range.beg));
-  OUT_DWARF_ATTR(AT_high_pc);
-  dwarf4(LAB2CHAR(text_range.end));
-  OUT_DWARF_ATTR(AT_stmt_list);
-  dwarf4(LAB2CHAR(line_range.beg));
-  leave_dwarf_blk();
-
-  make_next_new_chain();
+	start_sib_chain(TAG_compile_unit);
+	OUT_DWARF_ATTR(AT_name);
+	outs(STRING_M);
+	fflush(fpout);
+	name_space = ftell(fpout);
+	outs("                                                                    ");
+	outs("                                                                    ");
+	outnl();
+	OUT_DWARF_ATTR(AT_language);
+	dwarf4n((int)LANG_C89);
+	OUT_DWARF_ATTR(AT_low_pc);
+	dwarf4(LAB2CHAR(text_range.beg));
+	OUT_DWARF_ATTR(AT_high_pc);
+	dwarf4(LAB2CHAR(text_range.end));
+	OUT_DWARF_ATTR(AT_stmt_list);
+	dwarf4(LAB2CHAR(line_range.beg));
+	leave_dwarf_blk();
+	
+	make_next_new_chain();
 }
 
 
@@ -644,145 +876,141 @@ void enter_dwarf_comp_unit
 #include "dwarf_queue.h"
 
 
-void leave_dwarf_comp_unit
-    PROTO_Z ()
+void
+leave_dwarf_comp_unit()
 {
-  dump_type_q();
-  end_sib_chain();		/* end sib chain below comp unit */
-
-  {
-    dwarf_label lb;
-    next_dwarf_lab(&lb);
-
-    enter_dwarf_blk(1,0,&lb);
-    outs(END_UNIT);
-    outnl();
-    leave_dwarf_blk();
-  }
-
-  end_toplevel_chain();		/* sib of comp unit */
-  maybe_fix_filename();
+	dump_type_q();
+	end_sib_chain();		/* end sib chain below comp unit */
+	
+	{
+		dwarf_label lb;
+		next_dwarf_lab(&lb);
+		
+		enter_dwarf_blk(1,0,&lb);
+		outs(END_UNIT);
+		outnl();
+		leave_dwarf_blk();
+	}
+	
+	end_toplevel_chain();		/* sib of comp unit */
+	maybe_fix_filename();
 }
 
-void out_dwarf_name_attr
-    PROTO_N ( (s) )
-    PROTO_T ( CONST char * CONST s )
+void
+out_dwarf_name_attr(CONST char * CONST s)
 {
-  if (*s == 0)
-  {
-    outs(COMMENT_2("\t"," no source name"));
-    outnl();
-    return;
-  }
-  OUT_DWARF_ATTR(AT_name);
-  out_dwarf_string(s);
+	if (*s == 0)
+	{
+		outs(COMMENT_2("\t"," no source name"));
+		outnl();
+		return;
+	}
+	OUT_DWARF_ATTR(AT_name);
+	out_dwarf_string(s);
 }
 
-void out_dwarf_bytesize_attr
-    PROTO_N ( (t) )
-    PROTO_T ( shape t )
+void
+out_dwarf_bytesize_attr(shape t)
 {
-  OUT_DWARF_ATTR(AT_byte_size);
-  dwarf4n((int)(shape_size(t)/8));
+	OUT_DWARF_ATTR(AT_byte_size);
+	dwarf4n((int)(shape_size(t)/8));
 }
 
 
-static void dwarf_out_descriptor
-    PROTO_N ( (x) )
-    PROTO_T ( diag_descriptor *x )
+static void
+dwarf_out_descriptor(diag_descriptor *x)
 {
-  switch(x->key)
-  {
-   case DIAG_ID_KEY:
+	switch (x->key)
+	{
+	case DIAG_ID_KEY:
     {
-      exp acc = x->data.id.access;
-      exp t = son(acc);
+		exp acc = x->data.id.access;
+		exp t = son(acc);
 #ifdef NEWDIAGS
-      if (name(acc) != hold_tag) {
-	failer("access should be in hold");
-	break;
-      };
-      acc = son(acc);
-      if (name(acc) == cont_tag && name(son(acc)) == name_tag && isvar(son(son(acc))))
-	acc = son(acc);
-      if (name(acc) != name_tag) {
-	failer("not name_tag");
-	break;
-      };
-      t = son(acc);
+		if (name(acc) != hold_tag) {
+			failer("access should be in hold");
+			break;
+		};
+		acc = son(acc);
+		if (name(acc) == cont_tag && name(son(acc)) == name_tag && isvar(son(son(acc))))
+			acc = son(acc);
+		if (name(acc) != name_tag) {
+			failer("not name_tag");
+			break;
+		};
+		t = son(acc);
 #endif
-
-      if (!isvar(brog(t)->dec_u.dec_val.dec_exp)
-	  && (name(brog(t)->dec_u.dec_val.dec_shape) == prokhd))
+		
+		if (!isvar(brog(t)->dec_u.dec_val.dec_exp)
+			&& (name(brog(t)->dec_u.dec_val.dec_shape) == prokhd))
 /*	fprintf(stderr,"%s was a proc\n",TDFSTRING2CHAR(x->data.id.nme));*/
-	break;
-      else
-      {
-	if (isparam(t))
-	  failer("out descriptor for parameter variable");
-	if (!brog(t)->dec_u.dec_val.extnamed)
-	  cont_sib_chain(TAG_local_variable);
-	else
-	  cont_sib_chain(TAG_global_variable);
-
-	out_dwarf_name_attr(TDFSTRING2CHAR(x->data.id.nme));
-	out_dwarf_type_attr(x->data.id.new_type);
-	out_dwarf_loc_attr(acc,-1);
-	/* -1 for proc_no, since outside any proc */
-	leave_dwarf_blk();
-      }
-      break;
+			break;
+		else
+		{
+			if (isparam(t))
+				failer("out descriptor for parameter variable");
+			if (!brog(t)->dec_u.dec_val.extnamed)
+				cont_sib_chain(TAG_local_variable);
+			else
+				cont_sib_chain(TAG_global_variable);
+			
+			out_dwarf_name_attr(TDFSTRING2CHAR(x->data.id.nme));
+			out_dwarf_type_attr(x->data.id.new_type);
+			out_dwarf_loc_attr(acc,-1);
+			/* -1 for proc_no, since outside any proc */
+			leave_dwarf_blk();
+		}
+		break;
     }
-   case DIAG_STRUCT_KEY:
-    fprintf(stderr,"Not yet doing desc key %d name %s\n",x->key,
-	    TDFSTRING2CHAR(x->data.id.nme));
-    break;
-   case DIAG_TYPEDEF_KEY:
-    if ((base_type(x->data.typ.new_type))->key == DIAG_TYPE_INITED)
-    {
+	case DIAG_STRUCT_KEY:
+		fprintf(stderr,"Not yet doing desc key %d name %s\n",x->key,
+				TDFSTRING2CHAR(x->data.id.nme));
+		break;
+	case DIAG_TYPEDEF_KEY:
+		if ((base_type(x->data.typ.new_type))->key == DIAG_TYPE_INITED)
+		{
 /*      fprintf(stderr,"No diagtype defn provided for %s... omitting typedef\n",
-	      TDFSTRING2CHAR(x->data.typ.nme)); */
-      break;
-    }
-    cont_sib_chain(TAG_typedef);
-    out_dwarf_name_attr(TDFSTRING2CHAR(x->data.typ.nme));
-    out_dwarf_type_attr(x->data.typ.new_type);
-    leave_dwarf_blk();
-    break;
-   default:
-    failer("Unknown descriptor");
-  }
+ *	      TDFSTRING2CHAR(x->data.typ.nme)); */
+			break;
+		}
+		cont_sib_chain(TAG_typedef);
+		out_dwarf_name_attr(TDFSTRING2CHAR(x->data.typ.nme));
+		out_dwarf_type_attr(x->data.typ.new_type);
+		leave_dwarf_blk();
+		break;
+	default:
+		failer("Unknown descriptor");
+	}
 }
 
 
-void out_dwarf_global_list
-    PROTO_Z ()
+void
+out_dwarf_global_list()
 {
-  int i;
-
+	int i;
+	
 /*  fprintf(stderr,"diagvartab len %d used %d\n",unit_diagvar_tab.len,
-	  unit_diagvar_tab.lastused); */
-  outs(COMMENT_2("\t","\tdumping global list"));
-  outnl();
-  for(i=0;i<unit_diagvar_tab.lastused;i++)
-    dwarf_out_descriptor(&(unit_diagvar_tab.array[i]));
-  dump_type_q();
+ *	  unit_diagvar_tab.lastused); */
+	outs(COMMENT_2("\t","\tdumping global list"));
+	outnl();
+	for (i=0;i<unit_diagvar_tab.lastused;i++)
+		dwarf_out_descriptor(&(unit_diagvar_tab.array[i]));
+	dump_type_q();
 }
 
-void out_dwarf_diag_tags
-    PROTO_Z ()	/* maybe put out unused ones later */
+void
+out_dwarf_diag_tags()	/* maybe put out unused ones later */
 {
-  return;
+	return;
 }
 
 
-dwarf_global *new_dwarf_global
-    PROTO_N ( (d) )
-    PROTO_T ( diag_descriptor * d )
+dwarf_global
+*new_dwarf_global(diag_descriptor * d)
 {
-  dwarf_global * new = (dwarf_global *) xcalloc(1,sizeof(dwarf_global));
-
-  new->desc = d;
-
-  return new;
+	dwarf_global * new = (dwarf_global *) xcalloc(1,sizeof(dwarf_global));
+	
+	new->desc = d;
+	
+	return new;
 }

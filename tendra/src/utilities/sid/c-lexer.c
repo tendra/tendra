@@ -1,31 +1,58 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*** c-lexer.c --- SID C lexical analyser.
@@ -40,8 +67,228 @@
  *
  *** Change Log:
  * $Log$
- * Revision 1.1  2002/01/26 21:32:11  asmodai
- * Initial version of TenDRA 4.1.2.
+ * Revision 1.2  2002/11/21 22:31:31  nonce
+ * Remove ossg prototypes.  This commit is largely whitespace changes,
+ * but is nonetheless important.  Here's why.
+ *
+ * I.  Background
+ * =========================
+ *
+ *     The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ * conventions, based on the Open Systems Software Group publication "C
+ * Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ * The goal behind ossg prototypes remains admirable: TenDRA should
+ * support platforms that lack ANSI compliant compilers.  The explicit
+ * nature of ossg's prototypes makes macro substition easy.
+ *
+ *     Here's an example of one function:
+ *
+ *     static void uop
+ * 	PROTO_N ( ( op, sha, a, dest, stack ) )
+ * 	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ * 		  shape sha X exp a X where dest X ash stack )
+ *     {
+ *
+ * tendra/src/installers/680x0/common/codec.c
+ *
+ *   The reasons for removing ossg are several, including:
+ *
+ *   0) Variables called 'X' present a problem (besides being a poor
+ * variable name).
+ *
+ *   1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ * prototypes are easily handled by most every compiler these days.
+ *
+ *   2) Although TenDRA emphasizes portability, standards compliance is
+ * the primary goal of the current project.  We should expect no less
+ * from the compiler source code.
+ *
+ *   3) The benefits of complex prototypes are few, given parameter
+ * promotion rules.  (Additionally, packing more types into int-sized
+ * spaces tends to diminish type safety, and greatly complicates
+ * debugging and testing.)
+ *
+ *   4) It would prove impractical to use an OSSG internal style document
+ * in an open source project.
+ *
+ *   5) Quite frankly, ossg prototypes are difficult to read, but that's
+ * certainly a matter of taste and conditioning.
+ *
+ * II.  Changes
+ * =========================
+ *
+ *    This commit touches most every .h and .c file in the tendra source
+ * tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ * was used to automate the following changes:
+ *
+ *    A.  Prototype Conversions.
+ *    --------------------------------------------------
+ *
+ *    The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ * rewritten to ISO-compliant form.  Not every file was touched.  The
+ * files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ * left for hand editing.  These files provide header generation, or have
+ * non-ossg compliant headers to start with.  Scripting around these
+ * would take too much time; a separate hand edit will fix them.
+ *
+ *    B.  Statement Spacing
+ *    --------------------------------------------------
+ *
+ *    Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ * parenthetical lexemes.  (See the quoted example above.)  A simple
+ * text substitution was made for:
+ *
+ *      Before            After
+ * ===================================
+ *
+ *    if ( x )            if (x)
+ *    if(x)               if (x)
+ *    x = 5 ;             x = 5;
+ *    ... x) )            ... x))
+ *
+ * All of these changes are suggested by style(9).  Additional, statement
+ * spacing considerations were made for all of the style(9) keywords:
+ * "if" "while" "for" "return" "switch".
+ *
+ * A few files seem to have too few spaces around operators, e.g.:
+ *
+ *       arg1*arg2
+ *
+ * instead of
+ *
+ *       arg1 * arg2
+ *
+ * These were left for hand edits and later commits, since few files
+ * needed these changes.  (At present, the rmossg.el script takes 1 hour
+ * to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ * needed change would take too much time.)
+ *
+ *    C.  License Information
+ *    --------------------------------------------------
+ *
+ * After useful discussion on IRC, the following license changes were
+ * made:
+ *
+ *    1) Absent support for $License::BSD$ in the repository, license
+ * and copyright information was added to each file.
+ *
+ *    2) Each file begins with:
+ *
+ *    Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *    All rights reserved.
+ *
+ *    Usually, copyright stays with the author of the code; however, I
+ * feel very strongly that this is a group effort, and so the tendra
+ * project should claim any new (c) interest.
+ *
+ *    3) The comment field then shows the bsd license and warranty
+ *
+ *    4) The comment field then shows the Crown Copyright, since our
+ * changes are not yet extensive enough to claim any different.
+ *
+ *    5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *    D.  Comment Formatting
+ *    --------------------------------------------------
+ *
+ * The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *     /*
+ *        Statement statement
+ *        statement
+ *      */
+ *
+ * while style(9) suggests:
+ *
+ *     /*
+ *      * Statement statement
+ *      * statement
+ *      */
+ *
+ * Not every comment in -4.1.2 needed changing.  A parser was written to
+ * identify non-compliant comments.  Note that a few comments do not
+ * follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ * recognize.  These need hand fixing.
+ *
+ *    E.  Indentation
+ *    --------------------------------------------------
+ *
+ *    A elisp tendra-c-mode was created to define how code should be
+ * indented.  The structure follows style(9) in the following regards:
+ *
+ *   (c-set-offset 'substatement-open 0)
+ *   (setq c-indent-tabs-mode t
+ * 	c-indent-level 4
+ * 	c-argdecl-indent t
+ * 	c-tab-always-indent t
+ * 	backward-delete-function nil
+ * 	c-basic-offset 4
+ * 	tab-width 4))
+ *
+ * This means that substatement opening are not indented.  E.g.:
+ *
+ *    if (condition)
+ *    {
+ *
+ * instead of
+ *
+ *    if (condition)
+ *      {
+ *
+ * or even
+ *
+ *    if (condition) {
+ *
+ * Each statement is indented by a tab instead of a spaces.  Set your tab
+ * stop to comply with style(9); see the vim resources in the tendra
+ * tree.  I'll add the emacs mode support shortly.
+ *
+ * No doubt, a function or two escaped change because of unusual
+ * circumstances.  These must be hand fixed as well.
+ *
+ * III.  Things Not Changed
+ * =========================
+ *
+ *     A large number of style(9) deficiencies remain.  These will
+ * require a separate effort.  I decided to stop with the changes noted
+ * above because:
+ *
+ *    0)  The script currently takes hours to run to completion even on
+ * high-end consumer machines.
+ *
+ *    1)  We need to move on and fix other substantive problems.
+ *
+ *    2) The goal of this commit was *just* ossg removal; I took the
+ * opportunity to get other major white-space issues out of the way.
+ *
+ *     I'll also note that despite this commit, a few ossg issues remain.
+ * These include:
+ *
+ *    0) The ossg headers remain.  They contain useful flags needed by
+ * other operations.  Additionally, the BUILD_ERRORS perl script still
+ * generates ossg-compliant headers.  (This is being removed as we change
+ * the build process.)
+ *
+ *    1) A few patches of code check for ossg flags: "if (ossg) etc."
+ * These can be hand removed as well.
+ *
+ *    2) No doubt, a few ossg headers escaped the elisp script.  We can
+ * address these seriatim.
+ *
+ * IV.  Testing
+ * =========================
+ *
+ *     Without a complete build or test suite, it's difficult to
+ * determine if these changes have introduced any bugs.  I've identified
+ * several situations where removal of ossg caused bugs in sid and
+ * calculus operations.  The elisp script avoids these situations; we
+ * will hand edit a few files.
+ *
+ *     As is, the changes should behave properly; the source base builds
+ * the same before and after the rmossg.el script is run.  Nonetheless,
+ * please note that this commit changes over 23,000 PROTO declarations,
+ * and countless line changes.  I'll work closely with any developers
+ * affected by this change.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:42  release
  * First version to be checked into rolling release.
@@ -53,7 +300,7 @@
  * Revision 1.1.1.1  1994/07/25  16:04:13  smf
  * Initial import of SID 1.8 non shared files.
  *
-**/
+ **/
 
 /****************************************************************************/
 
@@ -78,370 +325,356 @@
 /*--------------------------------------------------------------------------*/
 
 static BoolT
-c_lexer_skip_bracketed_comment PROTO_N ((istream))
-			       PROTO_T (IStreamP istream)
+c_lexer_skip_bracketed_comment(IStreamP istream)
 {
     char c1;
     char c2;
-
+	
   redo1:
     LEXER_READ_ONE_CHAR (istream, redo1, eof, c1);
   redo2:
     LEXER_READ_ONE_CHAR (istream, redo2, eof, c2);
     for (;;) {
-	if ((c1 == '/') && (c2 == '*')) {
-	    if (!c_lexer_skip_bracketed_comment (istream)) {
-		goto eof;
-	    }
-	  redo3:
-	    LEXER_READ_ONE_CHAR (istream, redo3, eof, c2);
-	} else if ((c1 == '*') && (c2 == '/')) {
-	    return (TRUE);
-	}
-	c1 = c2;
+		if ((c1 == '/') && (c2 == '*')) {
+			if (!c_lexer_skip_bracketed_comment (istream)) {
+				goto eof;
+			}
+		  redo3:
+			LEXER_READ_ONE_CHAR (istream, redo3, eof, c2);
+		} else if ((c1 == '*') && (c2 == '/')) {
+			return (TRUE);
+		}
+		c1 = c2;
       redo4:
-	LEXER_READ_ONE_CHAR (istream, redo4, eof, c2);
+		LEXER_READ_ONE_CHAR (istream, redo4, eof, c2);
     }
   eof:
     return (FALSE);
 }
 
 static char
-c_lexer_skip_white_space PROTO_N ((istream))
-			 PROTO_T (IStreamP istream)
+c_lexer_skip_white_space(IStreamP istream)
 {
     for (;;) {
-	char c;
-
+		char c;
+		
       redo1:
-	switch (c = ISTREAM_READ_CHAR (istream)) {
-	  case '\0':
-	    ISTREAM_HANDLE_NULL (istream, redo1, eof);
-	    break;
-	  case '\n':
-	    istream_inc_line (istream);
-	    break;
-	  case '/':
-	  redo2:
-	    switch (c = ISTREAM_READ_CHAR (istream)) {
-	      case '\0':
-		ISTREAM_HANDLE_NULL (istream, redo2, eof_in_comment);
-		goto illegal_in_comment;
-	      case '\n':
-		istream_inc_line (istream);
-		goto illegal_in_comment;
-	      case '*':
-		if (!c_lexer_skip_bracketed_comment (istream)) {
-		  eof_in_comment:
-		    E_c_eof_in_comment (istream);
-		    return ('\0'); /*FOR EOF*/
+		switch (c = ISTREAM_READ_CHAR (istream)) {
+		case '\0':
+			ISTREAM_HANDLE_NULL (istream, redo1, eof);
+			break;
+		case '\n':
+			istream_inc_line (istream);
+			break;
+		case '/':
+		  redo2:
+			switch (c = ISTREAM_READ_CHAR (istream)) {
+			case '\0':
+				ISTREAM_HANDLE_NULL (istream, redo2, eof_in_comment);
+				goto illegal_in_comment;
+			case '\n':
+				istream_inc_line (istream);
+				goto illegal_in_comment;
+			case '*':
+				if (!c_lexer_skip_bracketed_comment (istream)) {
+				  eof_in_comment:
+					E_c_eof_in_comment (istream);
+					return ('\0'); /*FOR EOF*/
+				}
+				break;
+			case '/':
+				do {
+				  redo3:
+					LEXER_READ_ONE_CHAR (istream, redo3, eof, c);
+				} while (c != '\n');
+				break;
+			default:
+			  illegal_in_comment:
+				E_c_illegal_comment_character (istream, c);
+				break;
+			}
+			break;
+		default:
+			if (!syntax_is_white_space (c)) {
+				return (c);
+			}
+			break;
 		}
-		break;
-	      case '/':
-		do {
-		  redo3:
-		    LEXER_READ_ONE_CHAR (istream, redo3, eof, c);
-		} while (c != '\n');
-		break;
-	      default:
-	      illegal_in_comment:
-		E_c_illegal_comment_character (istream, c);
-		break;
-	    }
-	    break;
-	  default:
-	    if (!syntax_is_white_space (c)) {
-		return (c);
-	    }
-	    break;
-	}
     }
   eof:
     return ('\0'); /*FOR EOF*/
 }
 
 static void
-c_lexer_read_builtin PROTO_N ((istream, token))
-		     PROTO_T (IStreamP istream X
-			      CLexP    token)
+c_lexer_read_builtin(IStreamP istream, CLexP token)
 {
     DStringT dstring;
     CStringP cstring;
-
+	
     dstring_init (&dstring);
     for (;;) {
-	char c;
-
+		char c;
+		
       redo:
-	switch (c = ISTREAM_READ_CHAR (istream)) {
-	  case '\0':
-	    ISTREAM_HANDLE_NULL (istream, redo, eof);
-	    E_c_null_character_in_builtin (istream);
-	    break;
-	  case '\n':
-	    istream_inc_line (istream);
-	    E_c_newline_in_builtin (istream);
-	    goto done;
-	  case '%':
-	    goto done;
-	  default:
-	    dstring_append_char (&dstring, c);
-	    break;
-	}
+		switch (c = ISTREAM_READ_CHAR (istream)) {
+		case '\0':
+			ISTREAM_HANDLE_NULL (istream, redo, eof);
+			E_c_null_character_in_builtin (istream);
+			break;
+		case '\n':
+			istream_inc_line (istream);
+			E_c_newline_in_builtin (istream);
+			goto done;
+		case '%':
+			goto done;
+		default:
+			dstring_append_char (&dstring, c);
+			break;
+		}
     }
   eof:
     E_c_eof_in_builtin (istream);
   done:
     cstring = dstring_destroy_to_cstring (&dstring);
     if (cstring_ci_equal (cstring, "prefixes")) {
-	token->t = C_TOK_BLT_PREFIXES;
+		token->t = C_TOK_BLT_PREFIXES;
     } else if (cstring_ci_equal (cstring, "maps")) {
-	token->t = C_TOK_BLT_MAPS;
+		token->t = C_TOK_BLT_MAPS;
     } else if (cstring_ci_equal (cstring, "assignments")) {
-	token->t = C_TOK_BLT_ASSIGNMENTS;
+		token->t = C_TOK_BLT_ASSIGNMENTS;
     } else if (cstring_ci_equal (cstring, "assign")) {
-	token->t = C_TOK_BLT_ASSIGNMENTS;
+		token->t = C_TOK_BLT_ASSIGNMENTS;
     } else if (cstring_ci_equal (cstring, "terminals")) {
-	token->t = C_TOK_BLT_TERMINALS;
+		token->t = C_TOK_BLT_TERMINALS;
     } else if (cstring_ci_equal (cstring, "header")) {
-	token->t = C_TOK_BLT_HEADER;
+		token->t = C_TOK_BLT_HEADER;
     } else if (cstring_ci_equal (cstring, "actions")) {
-	token->t = C_TOK_BLT_ACTIONS;
+		token->t = C_TOK_BLT_ACTIONS;
     } else if (cstring_ci_equal (cstring, "trailer")) {
-	token->t = C_TOK_BLT_TRAILER;
+		token->t = C_TOK_BLT_TRAILER;
     } else if (cstring_ci_equal (cstring, "result-assignments")) {
-	token->t = C_TOK_BLT_RESULT_ASSIGN;
+		token->t = C_TOK_BLT_RESULT_ASSIGN;
     } else if (cstring_ci_equal (cstring, "result-assign")) {
-	token->t = C_TOK_BLT_RESULT_ASSIGN;
+		token->t = C_TOK_BLT_RESULT_ASSIGN;
     } else if (cstring_ci_equal (cstring, "parameter-assignments")) {
-	token->t = C_TOK_BLT_PARAM_ASSIGN;
+		token->t = C_TOK_BLT_PARAM_ASSIGN;
     } else if (cstring_ci_equal (cstring, "parameter-assign")) {
-	token->t = C_TOK_BLT_PARAM_ASSIGN;
+		token->t = C_TOK_BLT_PARAM_ASSIGN;
     } else if (cstring_ci_equal (cstring, "param-assignments")) {
-	token->t = C_TOK_BLT_PARAM_ASSIGN;
+		token->t = C_TOK_BLT_PARAM_ASSIGN;
     } else if (cstring_ci_equal (cstring, "param-assign")) {
-	token->t = C_TOK_BLT_PARAM_ASSIGN;
+		token->t = C_TOK_BLT_PARAM_ASSIGN;
     } else {
-	E_c_unknown_builtin (istream, cstring);
-	UNREACHED;
+		E_c_unknown_builtin (istream, cstring);
+		UNREACHED;
     }
     DEALLOCATE (cstring);
 }
 
 static void
-c_lexer_read_identifier PROTO_N ((istream, c, token))
-			PROTO_T (IStreamP istream X
-				 char     c X
-				 CLexP    token)
+c_lexer_read_identifier(IStreamP istream,
+						char c, CLexP token)
 {
     BoolT    c_ident = (c != '-');
     DStringT dstring;
-
+	
     dstring_init (&dstring);
     dstring_append_char (&dstring, c);
     for (;;) {
       redo1:
-	switch (c = ISTREAM_PEEK_CHAR (istream)) {
-	  case '\0':
-	    ISTREAM_HANDLE_NULL (istream, redo1, done);
-	    goto done;
-	  default:
-	    if ((syntax_is_letter (c)) || (syntax_is_digit (c)) ||
-		(c == '_') || (c == '-')) {
-	      redo2:
-		LEXER_READ_ONE_CHAR (istream, redo2, done, c);
-		dstring_append_char (&dstring, c);
-		if (c == '-') {
-		    c_ident = FALSE;
+		switch (c = ISTREAM_PEEK_CHAR (istream)) {
+		case '\0':
+			ISTREAM_HANDLE_NULL (istream, redo1, done);
+			goto done;
+		default:
+			if ((syntax_is_letter (c)) || (syntax_is_digit (c)) ||
+				(c == '_') || (c == '-')) {
+			  redo2:
+				LEXER_READ_ONE_CHAR (istream, redo2, done, c);
+				dstring_append_char (&dstring, c);
+				if (c == '-') {
+					c_ident = FALSE;
+				}
+			} else {
+				goto done;
+			}
+			break;
 		}
-	    } else {
-		goto done;
-	    }
-	    break;
-	}
     }
   done:
     if (c_ident) {
-	token->t = C_TOK_C_IDENTIFIER;
+		token->t = C_TOK_C_IDENTIFIER;
     } else {
-	token->t = C_TOK_SID_IDENTIFIER;
+		token->t = C_TOK_SID_IDENTIFIER;
     }
     dstring_to_nstring (&dstring, &(token->u.string));
     dstring_destroy (&dstring);
 }
 
 static void
-c_lexer_read_code_id PROTO_N ((istream, c, nstring))
-		     PROTO_T (IStreamP istream X
-			      char     c X
-			      NStringP nstring)
+c_lexer_read_code_id(IStreamP istream, char c,
+					 NStringP nstring)
 {
     BoolT    numbers_ok = (syntax_is_letter (c) || (c == '_'));
     DStringT dstring;
     char     c1;
-
+	
     dstring_init (&dstring);
     if (numbers_ok) {
-	dstring_append_char (&dstring, c);
+		dstring_append_char (&dstring, c);
     }
     for (;;) {
       redo1:
-	switch (c1 = ISTREAM_PEEK_CHAR (istream)) {
-	  case '\0':
-	    ISTREAM_HANDLE_NULL (istream, redo1, done);
-	    goto done;
-	  default:
-	    if (syntax_is_letter (c1) || (c1 == '_') ||
-		(numbers_ok && syntax_is_digit (c1))) {
-	      redo2:
-		LEXER_READ_ONE_CHAR (istream, redo2, done, c1);
-		dstring_append_char (&dstring, c1);
-		numbers_ok = TRUE;
-	    } else {
-		goto done;
-	    }
-	    break;
-	}
+		switch (c1 = ISTREAM_PEEK_CHAR (istream)) {
+		case '\0':
+			ISTREAM_HANDLE_NULL (istream, redo1, done);
+			goto done;
+		default:
+			if (syntax_is_letter (c1) || (c1 == '_') ||
+				(numbers_ok && syntax_is_digit (c1))) {
+			  redo2:
+				LEXER_READ_ONE_CHAR (istream, redo2, done, c1);
+				dstring_append_char (&dstring, c1);
+				numbers_ok = TRUE;
+			} else {
+				goto done;
+			}
+			break;
+		}
     }
   done:
     if (!numbers_ok) {
-	E_c_expected_at_id (istream, c);
+		E_c_expected_at_id (istream, c);
     }
     dstring_to_nstring (&dstring, nstring);
     dstring_destroy (&dstring);
 }
 
 static void
-c_lexer_flush_string PROTO_N ((dstring, code, force_nl))
-		     PROTO_T (DStringP dstring X
-			      CCodeP   code X
-			      BoolT    force_nl)
+c_lexer_flush_string(DStringP dstring, CCodeP code,
+					 BoolT force_nl)
 {
     NStringT nstring;
-
+	
     if (dstring_length (dstring) > 0) {
-	if (force_nl && (!dstring_last_char_equal (dstring, '\n'))) {
-	    dstring_append_char (dstring, '\n');
-	}
-	dstring_to_nstring (dstring, &nstring);
-	c_code_append_string (code, &nstring);
-	dstring_destroy (dstring);
-	dstring_init (dstring);
+		if (force_nl && (!dstring_last_char_equal (dstring, '\n'))) {
+			dstring_append_char (dstring, '\n');
+		}
+		dstring_to_nstring (dstring, &nstring);
+		c_code_append_string (code, &nstring);
+		dstring_destroy (dstring);
+		dstring_init (dstring);
     } else if (force_nl) {
-	nstring_copy_cstring (&nstring, "\n");
-	c_code_append_string (code, &nstring);
+		nstring_copy_cstring (&nstring, "\n");
+		c_code_append_string (code, &nstring);
     }
 }
 
 static BoolT
-c_lexer_read_at PROTO_N ((istream, dstring, code))
-		PROTO_T (IStreamP istream X
-			 DStringP dstring X
-			 CCodeP   code)
+c_lexer_read_at(IStreamP istream, DStringP dstring,
+				CCodeP code)
 {
     char     c;
     NStringT nstring;
-
+	
   redo:
     switch (c = ISTREAM_READ_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo, error);
-	goto error;
-      case '\n':
-	istream_inc_line (istream);
-	goto error;
-      case '@':
-	dstring_append_char (dstring, c);
-	break;
-      case '}':
-	return (TRUE);
-      case '!':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_code_append_exception (code);
-	break;
-      case '.':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_code_append_terminal (code);
-	break;
-      case '>':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_code_append_advance (code);
-	break;
-      case ':':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_lexer_read_code_id (istream, ':', &nstring);
-	c_code_append_label (code, &nstring);
-	break;
-      case '&':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_lexer_read_code_id (istream, '&', &nstring);
-	c_code_append_reference (code, &nstring);
-	break;
-      case '=':
-	c_lexer_flush_string (dstring, code, FALSE);
-	c_lexer_read_code_id (istream, '=', &nstring);
-	c_code_append_modifiable (code, &nstring);
-	break;
-      default:
-	if (syntax_is_letter (c) || (c == '_')) {
-	    c_lexer_flush_string (dstring, code, FALSE);
-	    c_lexer_read_code_id (istream, c, &nstring);
-	    c_code_append_identifier (code, &nstring);
-	} else {
-	  error:
-	    E_c_illegal_at_char (istream, c);
-	}
-	break;
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo, error);
+		goto error;
+	case '\n':
+		istream_inc_line (istream);
+		goto error;
+	case '@':
+		dstring_append_char (dstring, c);
+		break;
+	case '}':
+		return (TRUE);
+	case '!':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_code_append_exception (code);
+		break;
+	case '.':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_code_append_terminal (code);
+		break;
+	case '>':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_code_append_advance (code);
+		break;
+	case ':':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_lexer_read_code_id (istream, ':', &nstring);
+		c_code_append_label (code, &nstring);
+		break;
+	case '&':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_lexer_read_code_id (istream, '&', &nstring);
+		c_code_append_reference (code, &nstring);
+		break;
+	case '=':
+		c_lexer_flush_string (dstring, code, FALSE);
+		c_lexer_read_code_id (istream, '=', &nstring);
+		c_code_append_modifiable (code, &nstring);
+		break;
+	default:
+		if (syntax_is_letter (c) || (c == '_')) {
+			c_lexer_flush_string (dstring, code, FALSE);
+			c_lexer_read_code_id (istream, c, &nstring);
+			c_code_append_identifier (code, &nstring);
+		} else {
+		  error:
+			E_c_illegal_at_char (istream, c);
+		}
+		break;
     }
     return (FALSE);
 }
-    
+
 static void
-c_lexer_read_code PROTO_N ((istream, token))
-		  PROTO_T (IStreamP istream X
-			   CLexP    token)
+c_lexer_read_code(IStreamP istream, CLexP token)
 {
     CCodeP   code = c_code_create (istream_name (istream),
-				   istream_line (istream));
+								   istream_line (istream));
     DStringT dstring;
     char     c;
-
+	
   redo1:
     switch (ISTREAM_PEEK_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo1, error);
-	goto error;
-      case '{':
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo1, error);
+		goto error;
+	case '{':
       redo2:
-	LEXER_READ_ONE_CHAR (istream, redo2, error, c);
-	UNUSED (c);
-	break;
-      default:
+		LEXER_READ_ONE_CHAR (istream, redo2, error, c);
+		UNUSED (c);
+		break;
+	default:
       error:
-	E_c_code_block_syntax (istream);
-	break;
+		E_c_code_block_syntax (istream);
+		break;
     }
     dstring_init (&dstring);
     for (;;) {
       redo3:
-	switch (c = ISTREAM_READ_CHAR (istream)) {
-	  case '\0':
-	    ISTREAM_HANDLE_NULL (istream, redo3, eof);
-	    dstring_append_char (&dstring, c);
-	    break;
-	  case '\n':
-	    istream_inc_line (istream);
-	    dstring_append_char (&dstring, c);
-	    break;
-	  case '@':
-	    if (c_lexer_read_at (istream, &dstring, code)) {
-		goto done;
-	    }
-	    break;
-	  default:
-	    dstring_append_char (&dstring, c);
-	    break;
-	}
+		switch (c = ISTREAM_READ_CHAR (istream)) {
+		case '\0':
+			ISTREAM_HANDLE_NULL (istream, redo3, eof);
+			dstring_append_char (&dstring, c);
+			break;
+		case '\n':
+			istream_inc_line (istream);
+			dstring_append_char (&dstring, c);
+			break;
+		case '@':
+			if (c_lexer_read_at (istream, &dstring, code)) {
+				goto done;
+			}
+			break;
+		default:
+			dstring_append_char (&dstring, c);
+			break;
+		}
     }
   eof:
     E_c_eof_in_code (istream);
@@ -455,9 +688,7 @@ c_lexer_read_code PROTO_N ((istream, token))
 /*--------------------------------------------------------------------------*/
 
 void
-c_lexer_init PROTO_N ((stream, istream))
-	     PROTO_T (CLexerStreamP stream X
-		      IStreamP      istream)
+c_lexer_init(CLexerStreamP stream, IStreamP istream)
 {
     istream_assign (&(stream->istream), istream);
     c_lexer_next_token (stream);
@@ -467,8 +698,7 @@ c_lexer_init PROTO_N ((stream, istream))
 #undef c_lexer_close
 #endif /* defined (FS_FAST) */
 void
-c_lexer_close PROTO_N ((stream))
-	      PROTO_T (CLexerStreamP stream)
+c_lexer_close(CLexerStreamP stream)
 {
     istream_close (&(stream->istream));
 }
@@ -480,8 +710,7 @@ c_lexer_close PROTO_N ((stream))
 #undef c_lexer_stream_name
 #endif /* defined (FS_FAST) */
 CStringP
-c_lexer_stream_name PROTO_N ((stream))
-		    PROTO_T (CLexerStreamP stream)
+c_lexer_stream_name(CLexerStreamP stream)
 {
     return (istream_name (&(stream->istream)));
 }
@@ -493,8 +722,7 @@ c_lexer_stream_name PROTO_N ((stream))
 #undef c_lexer_stream_line
 #endif /* defined (FS_FAST) */
 unsigned
-c_lexer_stream_line PROTO_N ((stream))
-		    PROTO_T (CLexerStreamP stream)
+c_lexer_stream_line(CLexerStreamP stream)
 {
     return (istream_line (&(stream->istream)));
 }
@@ -506,8 +734,7 @@ c_lexer_stream_line PROTO_N ((stream))
 #undef c_lexer_get_terminal
 #endif /* defined (FS_FAST) */
 CTokenT
-c_lexer_get_terminal PROTO_N ((stream))
-		     PROTO_T (CLexerStreamP stream)
+c_lexer_get_terminal(CLexerStreamP stream)
 {
     return (stream->token.t);
 }
@@ -516,67 +743,66 @@ c_lexer_get_terminal PROTO_N ((stream))
 #endif /* defined (FS_FAST) */
 
 void
-c_lexer_next_token PROTO_N ((stream))
-		   PROTO_T (CLexerStreamP stream)
+c_lexer_next_token(CLexerStreamP stream)
 {
     IStreamP istream = &(stream->istream);
     CLexT    token;
     char     c;
-
+	
   retry:
     switch (c = c_lexer_skip_white_space (istream)) {
-      case '\0': /*FOR EOF*/
-	token.t = C_TOK_EOF;
-	break;
-      case '%':
-	c_lexer_read_builtin (istream, &token);
-	break;
-      case ',':
-	token.t = C_TOK_SEPARATOR;
-	break;
-      case ':':
-	token.t = C_TOK_TYPEMARK;
-	break;
-      case ';':
-	token.t = C_TOK_TERMINATOR;
-	break;
-      case '<':
-	token.t = C_TOK_BEGIN_ACTION;
-	break;
-      case '=':
-	token.t = C_TOK_DEFINE;
-	break;
-      case '>':
-	token.t = C_TOK_END_ACTION;
-	break;
-      case '(':
-	token.t = C_TOK_OPEN_TUPLE;
-	break;
-      case ')':
-	token.t = C_TOK_CLOSE_TUPLE;
-	break;
-      case '&':
-	token.t = C_TOK_REFERENCE;
-	break;
-      case '@':
-	c_lexer_read_code (istream, &token);
-	break;
-      case '-':
-	if ((istream_peek_char (istream, &c)) && (c == '>')) {
-	    (void) istream_read_char (istream, &c);
-	    token.t = C_TOK_ARROW;
-	    break;
-	}
-	c_lexer_read_identifier (istream, '-', &token);
-	break;
-      default:
-	if ((syntax_is_letter (c)) || (c == '_')) {
-	    c_lexer_read_identifier (istream, c, &token);
-	} else {
-	    E_c_illegal_character (istream, c);
-	    goto retry;
-	}
-	break;
+	case '\0': /*FOR EOF*/
+		token.t = C_TOK_EOF;
+		break;
+	case '%':
+		c_lexer_read_builtin (istream, &token);
+		break;
+	case ',':
+		token.t = C_TOK_SEPARATOR;
+		break;
+	case ':':
+		token.t = C_TOK_TYPEMARK;
+		break;
+	case ';':
+		token.t = C_TOK_TERMINATOR;
+		break;
+	case '<':
+		token.t = C_TOK_BEGIN_ACTION;
+		break;
+	case '=':
+		token.t = C_TOK_DEFINE;
+		break;
+	case '>':
+		token.t = C_TOK_END_ACTION;
+		break;
+	case '(':
+		token.t = C_TOK_OPEN_TUPLE;
+		break;
+	case ')':
+		token.t = C_TOK_CLOSE_TUPLE;
+		break;
+	case '&':
+		token.t = C_TOK_REFERENCE;
+		break;
+	case '@':
+		c_lexer_read_code (istream, &token);
+		break;
+	case '-':
+		if ((istream_peek_char (istream, &c)) && (c == '>')) {
+			(void) istream_read_char (istream, &c);
+			token.t = C_TOK_ARROW;
+			break;
+		}
+		c_lexer_read_identifier (istream, '-', &token);
+		break;
+	default:
+		if ((syntax_is_letter (c)) || (c == '_')) {
+			c_lexer_read_identifier (istream, c, &token);
+		} else {
+			E_c_illegal_character (istream, c);
+			goto retry;
+		}
+		break;
     }
     stream->token = token;
 }
@@ -585,11 +811,10 @@ c_lexer_next_token PROTO_N ((stream))
 #undef c_lexer_string_value
 #endif /* defined (FS_FAST) */
 NStringP
-c_lexer_string_value PROTO_N ((stream))
-		     PROTO_T (CLexerStreamP stream)
+c_lexer_string_value(CLexerStreamP stream)
 {
     ASSERT ((stream->token.t == C_TOK_C_IDENTIFIER) ||
-	    (stream->token.t == C_TOK_SID_IDENTIFIER));
+			(stream->token.t == C_TOK_SID_IDENTIFIER));
     return (&(stream->token.u.string));
 }
 #ifdef FS_FAST
@@ -600,8 +825,7 @@ c_lexer_string_value PROTO_N ((stream))
 #undef c_lexer_code_value
 #endif /* defined (FS_FAST) */
 CCodeP
-c_lexer_code_value PROTO_N ((stream))
-		   PROTO_T (CLexerStreamP stream)
+c_lexer_code_value(CLexerStreamP stream)
 {
     ASSERT (stream->token.t == C_TOK_CODE);
     return (stream->token.u.code);
@@ -611,9 +835,8 @@ c_lexer_code_value PROTO_N ((stream))
 #endif /* defined (FS_FAST) */
 
 void
-c_lexer_save_terminal PROTO_N ((stream, error_terminal))
-		      PROTO_T (CLexerStreamP stream X
-			       CTokenT       error_terminal)
+c_lexer_save_terminal(CLexerStreamP stream,
+					  CTokenT error_terminal)
 {
     ASSERT (stream->token.t != error_terminal);
     stream->saved_terminal = stream->token.t;
@@ -621,8 +844,7 @@ c_lexer_save_terminal PROTO_N ((stream, error_terminal))
 }
 
 void
-c_lexer_restore_terminal PROTO_N ((stream))
-			 PROTO_T (CLexerStreamP stream)
+c_lexer_restore_terminal(CLexerStreamP stream)
 {
     stream->token.t = stream->saved_terminal;
 }
@@ -633,4 +855,4 @@ c_lexer_restore_terminal PROTO_N ((stream))
  * eval: (include::add-path-entry "../transforms" "../output")
  * eval: (include::add-path-entry "../c-output" "../generated")
  * end:
-**/
+ **/

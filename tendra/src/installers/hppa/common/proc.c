@@ -1,38 +1,285 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-	(1) Its Recipients shall ensure that this Notice is
-	reproduced upon any copies or amended versions of it;
-
-	(2) Any amended version of it shall be clearly marked to
-	show both the nature of and the organisation responsible
-	for the relevant amendment or amendments;
-
-	(3) Its onward transfer from a recipient to another
-	party shall be deemed to be that party's acceptance of
-	these conditions;
-
-	(4) DERA gives no warranty or assurance as to its
-	quality or suitability for any purpose and DERA accepts
-	no liability whatsoever in relation to any use to which
-	it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *	(1) Its Recipients shall ensure that this Notice is
+ *	reproduced upon any copies or amended versions of it;
+ *
+ *	(2) Any amended version of it shall be clearly marked to
+ *	show both the nature of and the organisation responsible
+ *	for the relevant amendment or amendments;
+ *
+ *	(3) Its onward transfer from a recipient to another
+ *	party shall be deemed to be that party's acceptance of
+ *	these conditions;
+ *
+ *	(4) DERA gives no warranty or assurance as to its
+ *	quality or suitability for any purpose and DERA accepts
+ *	no liability whatsoever in relation to any use to which
+ *	it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 /*
-$Log$
-Revision 1.1  2002/01/26 21:31:21  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:07  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:56:03  release
  * First version to be checked into rolling release.
  *
@@ -140,7 +387,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.1  95/01/11  13:14:46  13:14:46  wfs (William Simmonds)
  * Initial revision
  *
-*/
+ */
 
 
 #define HPPATRANS_CODE
@@ -197,12 +444,12 @@ extern int line;
 extern char export[128];
 extern int firstlab,labno;
 int leaf;
-extern baseoff find_tg PROTO_S ((char* s));
-extern exp find_named_tg PROTO_S ((char *,shape));
-extern shape f_pointer PROTO_S ((alignment));
-extern alignment f_alignment PROTO_S ((shape));
+extern baseoff find_tg(char* s);
+extern exp find_named_tg(char *,shape);
+extern shape f_pointer(alignment);
+extern alignment f_alignment(shape);
 extern shape f_proc;
-extern void do_exception PROTO_S ((int));
+extern void do_exception(int);
 
 int res_label;
 static int untidy_return_label,return_to_label_label;
@@ -211,115 +458,112 @@ static ans procans;
 int RSCOPE_LEVEL,RSCOPE_LABEL;
 
 /*
-*   Temporary space on stack which can be referenced by short instruction
-*   sequences, the space is initialised by each procedure prelude.
+ *   Temporary space on stack which can be referenced by short instruction
+ *   sequences, the space is initialised by each procedure prelude.
  */
-baseoff mem_temp
-    PROTO_N ( (byte_offset) )
-    PROTO_T ( int byte_offset )
+baseoff
+mem_temp(int byte_offset)
 {
-   baseoff b;
-   b = MEM_TEMP_BOFF;
-
-   /* Only 2 words of temporary memory allocated */
-   assert(byte_offset >= 0 && byte_offset < 8);
-
-   b.offset+=byte_offset;
-   return b;
+	baseoff b;
+	b = MEM_TEMP_BOFF;
+	
+	/* Only 2 words of temporary memory allocated */
+	assert(byte_offset >= 0 && byte_offset < 8);
+	
+	b.offset+=byte_offset;
+	return b;
 }
 
 
 
 /* Save callee-saves ("s") registers on the stack. */
-void save_sregs
-    PROTO_Z ()
+void
+save_sregs()
 {
-   if (fixdump==0)
-      return;
-   else
-   {
-      int o=0,r;
-      for(r=16;r<32;r++)
-      {
-	 if (fixdump&(1<<r))
-	 {
-	    st_ir_ins(i_stw,cmplt_,r,fs_,empty_ltrl,o,SP);
-	    o+=4;
-	 }
-      }
-   }
+	if (fixdump==0)
+		return;
+	else
+	{
+		int o=0,r;
+		for (r=16;r<32;r++)
+		{
+			if (fixdump&(1<<r))
+			{
+				st_ir_ins(i_stw,cmplt_,r,fs_,empty_ltrl,o,SP);
+				o+=4;
+			}
+		}
+	}
 }
 
 
 /* Restore the callee-saves ("s") registers saved on the stack. */
-void restore_sregs
-    PROTO_Z ()
+void
+restore_sregs()
 {
-   if (fixdump==0)
-      return;
-   else
-   {
-      int o=0,r;
-      for(r=16;r<32;r++)
-      {
-	 if (fixdump&(1<<r))
-	 {
-	    ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,o,SP,r);
-	    o+=4;
-	 }
-      }
-   }
+	if (fixdump==0)
+		return;
+	else
+	{
+		int o=0,r;
+		for (r=16;r<32;r++)
+		{
+			if (fixdump&(1<<r))
+			{
+				ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,o,SP,r);
+				o+=4;
+			}
+		}
+	}
 }
 
 
 /*
-*   Some (more or less) common code for res_tag, return_to_label and
-*   untidy_return.
+ *   Some (more or less) common code for res_tag, return_to_label and
+ *   untidy_return.
  */
-static void code_for_ret
-    PROTO_N ( (which_ret) )
-    PROTO_T ( int which_ret )
+static void
+code_for_ret(int which_ret)
 {
-   if (which_ret==UNTIDY)
-      rr_ins(i_copy,SP,T2);
-   if (Has_fp)
-      rr_ins(i_copy,FP,SP);
-   else
-   {
-      baseoff b;
-      b.base=(Has_vsp ? EP : SP); b.offset=-(frame_sz>>3);
-      ld_ins(i_lo,0,b,SP);
-   }
-   restore_sregs();
-   if (which_ret!=TO_LAB)
-      ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,-20,SP,RP);
-   extj_reg_ins(i_bv,RP);
-   if (which_ret==UNTIDY)
-      rr_ins(i_copy,T2,SP);
-   else
-      z_ins(i_nop);
+	if (which_ret==UNTIDY)
+		rr_ins(i_copy,SP,T2);
+	if (Has_fp)
+		rr_ins(i_copy,FP,SP);
+	else
+	{
+		baseoff b;
+		b.base=(Has_vsp ? EP : SP); b.offset=-(frame_sz>>3);
+		ld_ins(i_lo,0,b,SP);
+	}
+	restore_sregs();
+	if (which_ret!=TO_LAB)
+		ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,-20,SP,RP);
+	extj_reg_ins(i_bv,RP);
+	if (which_ret==UNTIDY)
+		rr_ins(i_copy,T2,SP);
+	else
+		z_ins(i_nop);
 }
 
 
-static void add_odd_bits
-    PROTO_N ( (r) )
-    PROTO_T ( outofline *r )
+static void
+add_odd_bits(outofline *r)
 {
-   space sp;
-   if (r!=(outofline*)nilexp)
-   {
-      add_odd_bits(r->next);
-      if (r->next==(outofline*)nilexp)
-	 last_odd_bit=1;
-   }
-   else
-      return;
-   outlab("L$$",r->labno);
-   sp=r->sp;
-   clear_all();
-   make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr) : res_label);
-   if (name(sh(r->body))!=bothd)
-      ub_ins(cmplt_,ptno(r->jr));
+	space sp;
+	if (r!=(outofline*)nilexp)
+	{
+		add_odd_bits(r->next);
+		if (r->next==(outofline*)nilexp)
+			last_odd_bit=1;
+	}
+	else
+		return;
+	outlab("L$$",r->labno);
+	sp=r->sp;
+	clear_all();
+	make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr) : res_label);
+	if (name(sh(r->body))!=bothd)
+		ub_ins(cmplt_,ptno(r->jr));
 }
 
 
@@ -332,626 +576,626 @@ static void add_odd_bits
 
 
 /*
-*    Procedure definition
+ *    Procedure definition
  */
-makeans make_proc_tag_code
-    PROTO_N ( (e,sp,dest,exitlab) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans
+make_proc_tag_code(exp e, space sp, where dest,
+				   int exitlab)
 {
-   static int p_lab = 0;
-   procrec *pr=&procrecs[no(e)];
-   needs *ndpr=&pr->needsproc;
-   long pprops=(long) (ndpr->propsneeds);
-   makeans mka;
-   bool is_main=STRCMP(proc_name,"main");
-   bool save_sp;
-
-   set_up_frame(e);
-
-   /*
-   *   Grab the frame size, offsets, etc. of this procedure's frame
-    */
-   leaf = pr->leaf;
-   locals_space = pr->locals_space;
-   max_args = pr->max_args;
-   frame_sz = pr->frame_sz;
-   callees_offset = pr->callees_offset;
-   params_offset = pr->params_offset;
-   locals_offset = pr->locals_offset;
-   callee_sz = pr->callee_sz;
-   simpleans = (pprops & long_result_bit) == 0;
-
-   save_sp = ( ((Has_fp && (No_S || (Uses_crt_env && Has_vcallees)))) ||
-	       (Uses_crt_env && (!leaf || proc_has_checkstack(e)
-				       || Has_checkalloc)));
-
-   if (OPTIM)
-   {
-      lines=BLOCK;
-      pCode = (pIn*) malloc(BLOCK*sizeof(pIn));
-      nLabels=4096;
-      labIntro = (int*) malloc(nLabels*sizeof(int));
-      for(line=0;line<4096;line++)
-	 labIntro[line]=-1;
-      line=0;
-   }
-   odd_bits = (outofline*)0;
-   repeat_level=0;
-
-   mka.lab = exitlab;
-   mka.regmove = NOREG;
-
-   assert(name(e) == proc_tag);	/* procedure definition */
-
-   export[0]=0;
-   outnl();
-   if (is_main)
-   {
-      if (gcc_assembler)
-      {
-	 outs("\t.IMPORT\t__CTOR_LIST__,DATA\n");
-	 outs("\t.IMPORT\t__main,CODE\n");
-      }
-      else
-	 outs("\t.IMPORT\t__TDF_CTOR_LIST__,DATA\n");
-   }
-   if (do_profile)
-   {
-      outs("\t.BSS\n");
-      outs("\t.ALIGN\t4\n");
-      outs("G$");
-      outn(p_lab);
-      outs("\t.BLOCKZ\t4\n");
-   }
-   outs("\t.CODE\n");
-   outs(proc_name);
-   outnl();
-   outs("\t.PROC\n");
-   /*
-   *   Output `CALLINFO' directive (c.f. pp 3-10 - 3-13 of assembly language
-   *   reference manual)
-    */
-   outs("\t.CALLINFO FRAME=");
-		  /* FRAME=frame size - frame marker bytes (if allocated) */
-   if (gcc_assembler)
-   {
-      outn(frame_sz>>3);
-   }
-   else
-   {
-      outn((frame_sz>>3) - (leaf ? 0 : 8<<2));
-   }
-   if (save_sp)
-      outs(",SAVE_SP");
-   outs(",SAVE_RP,ENTRY_GR=3");
-   if (leaf)
-   {
-      outc('\n');
-   }
-   else
-   {
-      outs(",CALLS\n");
-   }
-   outs("\t.ENTRY\n");
-
-   /* store return pointer */
-   st_ir_ins(i_stw,cmplt_,RP,fs_,empty_ltrl,-20,SP);
-
-   if (fixdump != 0)
-   {
-      save_sregs();  /* Save the s-regs on stack. */
-   }
-
-   if (do_profile)
-   {
-      char g[128];
-      baseoff b;
-      b.base=SP;
-      b.offset=-36;
-      st_ins(i_sw,ARG0,b);
-      b.offset-=4;
-      st_ins(i_sw,ARG1,b);
-      b.offset-=4;
-      st_ins(i_sw,ARG2,b);
-      b.offset-=4;
-      st_ins(i_sw,ARG3,b);
-      b.base=0; b.offset=0;
-      sprintf(g,"G$%d",p_lab);
-      set_ins(g,b,ARG2);
-      rr_ins(i_blr,GR0,ARG1);
-      rr_ins(i_copy,RP,ARG0);
-      call_ins(cmplt_,"_mcount",RP,"ARGW0=GR,ARGW1=GR,ARGW2=GR");
-      p_lab++;
-      b.base=SP;
-      b.offset=-36;
-      ld_ins(i_lw,0,b,ARG0);
-      b.offset-=4;
-      ld_ins(i_lw,0,b,ARG1);
-      b.offset-=4;
-      ld_ins(i_lw,0,b,ARG2);
-      b.offset-=4;
-      ld_ins(i_lw,0,b,ARG3);
-   }
-
-   {
-      /*
-      *   Increment the Stack Pointer
-       */
-      int R = SP;
-      if (proc_has_checkstack(e))
-      {
-	 R = T1;
-      }
-      else if (Has_fp)
-      {
-	 rr_ins(i_copy,SP,FP);
-      }
-      else
-      if (save_sp)
-      {
-	 rr_ins(i_copy,SP,T1);
-      }
-      if (Has_vcallees)
-      {
-	 /* Add on callee_sz passed on stack by caller... */
-	 ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,(16<<2),SP,GR1);
-	 rrr_ins(i_add,c_,SP,GR1,R);
-	 /* ...and ensure the stack pointer stays 16 word (64 byte) aligned */
-	 if (SIMM14((frame_sz>>3)+63))
-	 {
-	    ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,(frame_sz>>3)+63,R,R);
-	 }
-	 else
-	 {
-	    ir_ins(i_addil,fs_L,empty_ltrl,(frame_sz>>3)+63,R);
-	    ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,(frame_sz>>3)+63,GR1,R);
-	 }
-	 riir_ins(i_dep,c_,0,31,6,R);
-      }
-      else
-      {
-	 if (SIMM14(frame_sz>>3))
-	 {
-	    ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,frame_sz>>3,SP,R);
-	 }
-	 else
-	 {
-	    ir_ins(i_addil,fs_L,empty_ltrl,frame_sz>>3,SP);
-	    ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,frame_sz>>3,GR1,R);
-	 }
-      }
-   }
-
-   if (save_sp && !Has_fp)
-   {
-      if (proc_has_checkstack(e))
-	 st_ir_ins(i_stw,cmplt_,SP,fs_,empty_ltrl,FP_BOFF.offset,T1);
-      else
-	 st_ir_ins(i_stw,cmplt_,T1,fs_,empty_ltrl,FP_BOFF.offset,SP);
-   }
-
-   if (proc_has_checkstack(e))
-   {
-      baseoff b;
-      exp stl = find_named_tg("__TDFstacklim",
-			      f_pointer(f_alignment(f_proc)));
-      setvar(stl);
-      b = boff(stl);
-      stackerr_lab = new_label();
-      ld_ins(i_lw,1,b,GR1);
-      cj_ins(c_g,T1,GR1,stackerr_lab);
-      if (Has_fp)
-	 rr_ins(i_copy,SP,FP);
-      rr_ins(i_copy,T1,SP);
-   }
-
-   if (PIC_code)
-   {
-      st_ir_ins(i_stw,cmplt_,GR19,fs_,empty_ltrl,-32,SP);
-      if (!leaf && !is_main)
-      {
-	 rr_ins(i_copy,GR19,GR5);
-      }
-   }
-
-   if (is_main)
-   {
-      int n = new_label();
-      int end = new_label();
-      baseoff b;
-      b.base = 0; b.offset = (gcc_assembler ? 0 : 4 );
-      set_ins((gcc_assembler ? "__CTOR_LIST__" : "__TDF_CTOR_LIST__"),b,GR4);
-      b.base = GR4;
-      b.offset = 4;
-      if (gcc_assembler)
-      {
-	 ld_ins(i_lwm,1,b,GR5);
-	 cj_ins(c_eq,GR0,GR5,end);
-	 rrr_ins(i_sh2add,c_,GR5,GR4,GR5);
-	 outlab("L$$",n);
-	 ld_ins(i_lwm,1,b,GR22);
-	 call_millicode( MILLI_DYNCALL, RP, "",0 );
-	 cj_ins(c_l,GR4,GR5,n);
-	 outlab("L$$",end);
-	 if (is_PIC_and_calls)
-	    ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,-32,SP,GR5);
-	 call_ins(cmplt_,"__main",RP,"");
-      }
-      else
-      {
-	 ld_ins(i_lwm,1,b,GR22);
-	 cj_ins(c_eq,GR0,GR22,end);
-	 outlab("L$$",n);
-	 call_millicode( MILLI_DYNCALL, RP, "",0 );
-	 ld_ins(i_lwm,1,b,GR22);
-	 cj_ins(c_neq,GR0,GR22,n);
-	 outlab("L$$",end);
-      }
-   }
-
-   if (Has_vsp)
-      rr_ins(i_copy,SP,EP);
-   if (Has_tos)
-      st_ins(i_sw,SP,SP_BOFF);
-   if ( (Has_fp && (No_S || (Uses_crt_env && Has_vcallees))) )
-      st_ins(i_sw,FP,FP_BOFF);
-
-   if (!simpleans)
-   {
-      /* structure or union result */
-      instore is;
-      /* where to find address of result */
-      is.adval = 0;
-      is.b = LONG_RESULT_BOFF;
-      setinsalt(procans,is);
-      st_ins(i_sw,RET0,is.b);
-   }
-   else if ((pprops & realresult_bit) != 0)
-   {
-      /* real result */
-      freg frg;
-      frg.fr = R_FR4;
-      frg.dble = (pprops & longrealresult_bit) ? 1 : 0;
-      setfregalt(procans,frg);
-   }
-   else if ((pprops & has_result_bit) != 0)
-   {
-      /* fixed register result */
-      setregalt(procans,RET0);
-   }
-   else
-   {
-      /* no result */
-      setregalt(procans,GR0);
-   }
-
-  clear_all();
-  RSCOPE_LEVEL = 0;
-  res_label = 0;
-  untidy_return_label = 0;
-  return_to_label_label = 0;
-  last_odd_bit = 0;
-  doing_odd_bits = 0;
-
-  code_here(son(e),sp,nowhere);	/* Code body of procedure. */
-
-  if (stackerr_lab!=0)
-  {
-     outlab("L$$",stackerr_lab);
-     do_exception(SIGUSR1);
-  }
-  if (aritherr_lab!=0)
-  {
-     outlab("L$$",aritherr_lab);
-     do_exception(SIGFPE);
-  }
-
-  doing_odd_bits = 1;
-  while (odd_bits != (outofline*)0)
-  {
-     outofline *ol = odd_bits;
-     odd_bits = (outofline*)0;
-     last_odd_bit=0;
-     add_odd_bits(ol);
-  }
-
-  if (xdb)
-  {
-     outlab("L$$",res_label);
-     code_for_ret(RES);
-  }
-
-
-  if (OPTIM)
-  {
-     /*
-     *   Jump and "peephole" optimisations
-      */
-     int i,j;
-     char *hit;
-     FILE_POSN Pos;
-     GET_FILE_POSN(outf,Pos);
-     hit = (char*) malloc( (nLabels+8)*sizeof(char) );
-     for(i=0;i<line;i++)
-     {
-	char s[65];
-	int lab,to=0,jump;
-	lab=pCode[i]->lab;
-	if (lab==res_label && lab>0)
-	   to=labIntro[lab-firstlab];
-	else
-	if (lab>NA && lab != res_label && pCode[i]->ins != i_lab)
+	static int p_lab = 0;
+	procrec *pr=&procrecs[no(e)];
+	needs *ndpr=&pr->needsproc;
+	long pprops=(long) (ndpr->propsneeds);
+	makeans mka;
+	bool is_main=STRCMP(proc_name,"main");
+	bool save_sp;
+	
+	set_up_frame(e);
+	
+	/*
+	 *   Grab the frame size, offsets, etc. of this procedure's frame
+	 */
+	leaf = pr->leaf;
+	locals_space = pr->locals_space;
+	max_args = pr->max_args;
+	frame_sz = pr->frame_sz;
+	callees_offset = pr->callees_offset;
+	params_offset = pr->params_offset;
+	locals_offset = pr->locals_offset;
+	callee_sz = pr->callee_sz;
+	simpleans = (pprops & long_result_bit) == 0;
+	
+	save_sp = (((Has_fp && (No_S || (Uses_crt_env && Has_vcallees)))) ||
+			   (Uses_crt_env && (!leaf || proc_has_checkstack(e)
+								 || Has_checkalloc)));
+	
+	if (OPTIM)
 	{
-	   for (j=0;j<nLabels+8;j++)
-	       hit[j]=0;
-	   to=labIntro[lab-firstlab];
-	   while(to+1<line && lab!=res_label && pCode[to+1]->lab>NA
-			   && pCode[to+1]->ins==i_ub && hit[lab-firstlab]==0)
-	   {
-	      hit[lab-firstlab]=1;
-	      lab=pCode[to+1]->lab;
-	      to=labIntro[lab-firstlab];
-	   }
+		lines=BLOCK;
+		pCode = (pIn*) malloc(BLOCK*sizeof(pIn));
+		nLabels=4096;
+		labIntro = (int*) malloc(nLabels*sizeof(int));
+		for (line=0;line<4096;line++)
+			labIntro[line]=-1;
+		line=0;
 	}
-	if (pCode[i]->ins==i_bb)
+	odd_bits = (outofline*)0;
+	repeat_level=0;
+	
+	mka.lab = exitlab;
+	mka.regmove = NOREG;
+	
+	assert(name(e) == proc_tag);	/* procedure definition */
+	
+	export[0]=0;
+	outnl();
+	if (is_main)
 	{
-	   jump = i-to ;
-	   if (SIMM11(jump*4))
-	   {
-	      ins_p cc;
-	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      IGNORE sprintf(s,"\tbb%s,N\t%s,%d,L$$%d\n\tnop",cc,RN(a),b,lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
-	      fprintf(outf,"%s\n",s);
-	   }
-	   else
-	   {
-	      ins_p cc;
-	      int a,b;
-	      if (pCode[i]->cc==bit_is_0)
-		 cc=c_OD;
-	      else
-		 cc=c_EV;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      IGNORE sprintf(s,"\textru%s\t%s,%d,1,0\n\tb\tL$$%d\n\tnop",cc,RN(a),b,lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
-	      fprintf(outf,"%s\n",s);
-	   }
+		if (gcc_assembler)
+		{
+			outs("\t.IMPORT\t__CTOR_LIST__,DATA\n");
+			outs("\t.IMPORT\t__main,CODE\n");
+		}
+		else
+			outs("\t.IMPORT\t__TDF_CTOR_LIST__,DATA\n");
+	}
+	if (do_profile)
+	{
+		outs("\t.BSS\n");
+		outs("\t.ALIGN\t4\n");
+		outs("G$");
+		outn(p_lab);
+		outs("\t.BLOCKZ\t4\n");
+	}
+	outs("\t.CODE\n");
+	outs(proc_name);
+	outnl();
+	outs("\t.PROC\n");
+	/*
+	 *   Output `CALLINFO' directive (c.f. pp 3-10 - 3-13 of assembly language
+	 *   reference manual)
+	 */
+	outs("\t.CALLINFO FRAME=");
+	/* FRAME=frame size - frame marker bytes (if allocated) */
+	if (gcc_assembler)
+	{
+		outn(frame_sz>>3);
 	}
 	else
-	if (pCode[i]->ins==i_ub)
 	{
-	   jump = i-to ;
-	   SET_FILE_POSN(outf,(pCode[i]->fpos));
-#if 0
-	   if (SIMM19(jump*4))
-	   {
-#endif
-	      IGNORE sprintf(s,"\tb\tL$$%d\n\tnop",lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]='\n';
-	      s[64]=0;
-	      fprintf(outf,"%s",s);
-#if 0
-	   }
-	   else
-	   {
-	   }
-#endif
+		outn((frame_sz>>3) - (leaf ? 0 : 8<<2));
+	}
+	if (save_sp)
+		outs(",SAVE_SP");
+	outs(",SAVE_RP,ENTRY_GR=3");
+	if (leaf)
+	{
+		outc('\n');
 	}
 	else
-	if (pCode[i]->ins==i_cj || pCode[i]->ins==i_cij)
 	{
-	   jump = i-to ;
-	   if (SIMM11(jump*4))
-	   {
-	      ins_p cc;
-	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      if (jump<0 && line>i)
-	      {
-	      if (pCode[i]->ins==i_cj)
-		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n",cc,RN(a),RN(b),lab);
-	      else
-		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n",cc,a,RN(b),lab);
-	      }
-	      else
-	      {
-	      if (pCode[i]->ins==i_cj)
-		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n\tnop",cc,RN(a),RN(b),lab);
-	      else
-		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n\tnop",cc,a,RN(b),lab);
-	      }
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
-	      fprintf(outf,"%s\n",s);
-	   }
-	   else
-#if 0
-	   if (SIMM19(jump*4))
-#endif
-	   {
-	      ins_p cc;
-	      int a,b;
-	      cc=opp(pCode[i]->cc);
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      if (pCode[i]->ins==i_cj)
-		 IGNORE sprintf(s,"\tcomclr%s\t%s,%s,0\n\tb\tL$$%d\n\tnop",cc,RN(a),RN(b),lab);
-	      else
-		 IGNORE sprintf(s,"\tcomiclr%s\t%d,%s,0\n\tb\tL$$%d\n\tnop",cc,a,RN(b),lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
-	      fprintf(outf,"%s\n",s);
-	   }
-#if 0
-	   else
-	   {
-	      ins_p cc;
-	      int a,b;
-	      cc=pCode[i]->cc;
-	      SET_FILE_POSN(outf,(pCode[i]->fpos));
-	      a=pCode[i]->op[0];
-	      b=pCode[i]->op[1];
-	      if (pCode[i]->ins==i_cj)
-		 IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,RN(a),RN(b),lab);
-	      else
-		 IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,a,RN(b),lab);
-	      j=(int)strlen(s);
-	      for(;j<63;j++)
-		 s[j]=' ';
-	      s[63]=0;
-	      fprintf(outf,"%s\n",s);
-	   }
-#endif
+		outs(",CALLS\n");
 	}
-     }
-     SET_FILE_POSN(outf,Pos);
-     free(hit);
-  }
-
-
-
-{
-   int i;
-   for(i=0;i<line;i++)
-   {
-      pIn j=pCode[line];
-      free(j);
-   }
-   free(pCode);
-   free(labIntro);
-}
-
-
-   outs("\t.EXIT\n");
-   clear_all();  /* for next proc */
-   return mka;
+	outs("\t.ENTRY\n");
+	
+	/* store return pointer */
+	st_ir_ins(i_stw,cmplt_,RP,fs_,empty_ltrl,-20,SP);
+	
+	if (fixdump != 0)
+	{
+		save_sregs();  /* Save the s-regs on stack. */
+	}
+	
+	if (do_profile)
+	{
+		char g[128];
+		baseoff b;
+		b.base=SP;
+		b.offset=-36;
+		st_ins(i_sw,ARG0,b);
+		b.offset-=4;
+		st_ins(i_sw,ARG1,b);
+		b.offset-=4;
+		st_ins(i_sw,ARG2,b);
+		b.offset-=4;
+		st_ins(i_sw,ARG3,b);
+		b.base=0; b.offset=0;
+		sprintf(g,"G$%d",p_lab);
+		set_ins(g,b,ARG2);
+		rr_ins(i_blr,GR0,ARG1);
+		rr_ins(i_copy,RP,ARG0);
+		call_ins(cmplt_,"_mcount",RP,"ARGW0=GR,ARGW1=GR,ARGW2=GR");
+		p_lab++;
+		b.base=SP;
+		b.offset=-36;
+		ld_ins(i_lw,0,b,ARG0);
+		b.offset-=4;
+		ld_ins(i_lw,0,b,ARG1);
+		b.offset-=4;
+		ld_ins(i_lw,0,b,ARG2);
+		b.offset-=4;
+		ld_ins(i_lw,0,b,ARG3);
+	}
+	
+	{
+		/*
+		 *   Increment the Stack Pointer
+		 */
+		int R = SP;
+		if (proc_has_checkstack(e))
+		{
+			R = T1;
+		}
+		else if (Has_fp)
+		{
+			rr_ins(i_copy,SP,FP);
+		}
+		else
+			if (save_sp)
+			{
+				rr_ins(i_copy,SP,T1);
+			}
+		if (Has_vcallees)
+		{
+			/* Add on callee_sz passed on stack by caller... */
+			ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,(16<<2),SP,GR1);
+			rrr_ins(i_add,c_,SP,GR1,R);
+			/* ...and ensure the stack pointer stays 16 word (64 byte) aligned */
+			if (SIMM14((frame_sz>>3)+63))
+			{
+				ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,(frame_sz>>3)+63,R,R);
+			}
+			else
+			{
+				ir_ins(i_addil,fs_L,empty_ltrl,(frame_sz>>3)+63,R);
+				ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,(frame_sz>>3)+63,GR1,R);
+			}
+			riir_ins(i_dep,c_,0,31,6,R);
+		}
+		else
+		{
+			if (SIMM14(frame_sz>>3))
+			{
+				ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,frame_sz>>3,SP,R);
+			}
+			else
+			{
+				ir_ins(i_addil,fs_L,empty_ltrl,frame_sz>>3,SP);
+				ld_ir_ins(i_ldo,cmplt_,fs_R,empty_ltrl,frame_sz>>3,GR1,R);
+			}
+		}
+	}
+	
+	if (save_sp && !Has_fp)
+	{
+		if (proc_has_checkstack(e))
+			st_ir_ins(i_stw,cmplt_,SP,fs_,empty_ltrl,FP_BOFF.offset,T1);
+		else
+			st_ir_ins(i_stw,cmplt_,T1,fs_,empty_ltrl,FP_BOFF.offset,SP);
+	}
+	
+	if (proc_has_checkstack(e))
+	{
+		baseoff b;
+		exp stl = find_named_tg("__TDFstacklim",
+								f_pointer(f_alignment(f_proc)));
+		setvar(stl);
+		b = boff(stl);
+		stackerr_lab = new_label();
+		ld_ins(i_lw,1,b,GR1);
+		cj_ins(c_g,T1,GR1,stackerr_lab);
+		if (Has_fp)
+			rr_ins(i_copy,SP,FP);
+		rr_ins(i_copy,T1,SP);
+	}
+	
+	if (PIC_code)
+	{
+		st_ir_ins(i_stw,cmplt_,GR19,fs_,empty_ltrl,-32,SP);
+		if (!leaf && !is_main)
+		{
+			rr_ins(i_copy,GR19,GR5);
+		}
+	}
+	
+	if (is_main)
+	{
+		int n = new_label();
+		int end = new_label();
+		baseoff b;
+		b.base = 0; b.offset = (gcc_assembler ? 0 : 4);
+		set_ins((gcc_assembler ? "__CTOR_LIST__" : "__TDF_CTOR_LIST__"),b,GR4);
+		b.base = GR4;
+		b.offset = 4;
+		if (gcc_assembler)
+		{
+			ld_ins(i_lwm,1,b,GR5);
+			cj_ins(c_eq,GR0,GR5,end);
+			rrr_ins(i_sh2add,c_,GR5,GR4,GR5);
+			outlab("L$$",n);
+			ld_ins(i_lwm,1,b,GR22);
+			call_millicode(MILLI_DYNCALL, RP, "",0);
+			cj_ins(c_l,GR4,GR5,n);
+			outlab("L$$",end);
+			if (is_PIC_and_calls)
+				ld_ir_ins(i_ldw,cmplt_,fs_,empty_ltrl,-32,SP,GR5);
+			call_ins(cmplt_,"__main",RP,"");
+		}
+		else
+		{
+			ld_ins(i_lwm,1,b,GR22);
+			cj_ins(c_eq,GR0,GR22,end);
+			outlab("L$$",n);
+			call_millicode(MILLI_DYNCALL, RP, "",0);
+			ld_ins(i_lwm,1,b,GR22);
+			cj_ins(c_neq,GR0,GR22,n);
+			outlab("L$$",end);
+		}
+	}
+	
+	if (Has_vsp)
+		rr_ins(i_copy,SP,EP);
+	if (Has_tos)
+		st_ins(i_sw,SP,SP_BOFF);
+	if ((Has_fp && (No_S || (Uses_crt_env && Has_vcallees))))
+		st_ins(i_sw,FP,FP_BOFF);
+	
+	if (!simpleans)
+	{
+		/* structure or union result */
+		instore is;
+		/* where to find address of result */
+		is.adval = 0;
+		is.b = LONG_RESULT_BOFF;
+		setinsalt(procans,is);
+		st_ins(i_sw,RET0,is.b);
+	}
+	else if ((pprops & realresult_bit) != 0)
+	{
+		/* real result */
+		freg frg;
+		frg.fr = R_FR4;
+		frg.dble = (pprops & longrealresult_bit) ? 1 : 0;
+		setfregalt(procans,frg);
+	}
+	else if ((pprops & has_result_bit) != 0)
+	{
+		/* fixed register result */
+		setregalt(procans,RET0);
+	}
+	else
+	{
+		/* no result */
+		setregalt(procans,GR0);
+	}
+	
+	clear_all();
+	RSCOPE_LEVEL = 0;
+	res_label = 0;
+	untidy_return_label = 0;
+	return_to_label_label = 0;
+	last_odd_bit = 0;
+	doing_odd_bits = 0;
+	
+	code_here(son(e),sp,nowhere);	/* Code body of procedure. */
+	
+	if (stackerr_lab!=0)
+	{
+		outlab("L$$",stackerr_lab);
+		do_exception(SIGUSR1);
+	}
+	if (aritherr_lab!=0)
+	{
+		outlab("L$$",aritherr_lab);
+		do_exception(SIGFPE);
+	}
+	
+	doing_odd_bits = 1;
+	while (odd_bits != (outofline*)0)
+	{
+		outofline *ol = odd_bits;
+		odd_bits = (outofline*)0;
+		last_odd_bit=0;
+		add_odd_bits(ol);
+	}
+	
+	if (xdb)
+	{
+		outlab("L$$",res_label);
+		code_for_ret(RES);
+	}
+	
+	
+	if (OPTIM)
+	{
+		/*
+		 *   Jump and "peephole" optimisations
+		 */
+		int i,j;
+		char *hit;
+		FILE_POSN Pos;
+		GET_FILE_POSN(outf,Pos);
+		hit = (char*) malloc((nLabels+8)*sizeof(char));
+		for (i=0;i<line;i++)
+		{
+			char s[65];
+			int lab,to=0,jump;
+			lab=pCode[i]->lab;
+			if (lab==res_label && lab>0)
+				to=labIntro[lab-firstlab];
+			else
+				if (lab>NA && lab != res_label && pCode[i]->ins != i_lab)
+				{
+					for (j=0;j<nLabels+8;j++)
+						hit[j]=0;
+					to=labIntro[lab-firstlab];
+					while (to+1<line && lab!=res_label && pCode[to+1]->lab>NA
+						   && pCode[to+1]->ins==i_ub && hit[lab-firstlab]==0)
+					{
+						hit[lab-firstlab]=1;
+						lab=pCode[to+1]->lab;
+						to=labIntro[lab-firstlab];
+					}
+				}
+			if (pCode[i]->ins==i_bb)
+			{
+				jump = i-to;
+				if (SIMM11(jump*4))
+				{
+					ins_p cc;
+					int a,b;
+					cc=pCode[i]->cc;
+					SET_FILE_POSN(outf,(pCode[i]->fpos));
+					a=pCode[i]->op[0];
+					b=pCode[i]->op[1];
+					IGNORE sprintf(s,"\tbb%s,N\t%s,%d,L$$%d\n\tnop",cc,RN(a),b,lab);
+					j=(int)strlen(s);
+					for (;j<63;j++)
+						s[j]=' ';
+					s[63]=0;
+					fprintf(outf,"%s\n",s);
+				}
+				else
+				{
+					ins_p cc;
+					int a,b;
+					if (pCode[i]->cc==bit_is_0)
+						cc=c_OD;
+					else
+						cc=c_EV;
+					SET_FILE_POSN(outf,(pCode[i]->fpos));
+					a=pCode[i]->op[0];
+					b=pCode[i]->op[1];
+					IGNORE sprintf(s,"\textru%s\t%s,%d,1,0\n\tb\tL$$%d\n\tnop",cc,RN(a),b,lab);
+					j=(int)strlen(s);
+					for (;j<63;j++)
+						s[j]=' ';
+					s[63]=0;
+					fprintf(outf,"%s\n",s);
+				}
+			}
+			else
+				if (pCode[i]->ins==i_ub)
+				{
+					jump = i-to;
+					SET_FILE_POSN(outf,(pCode[i]->fpos));
+#if 0
+					if (SIMM19(jump*4))
+					{
+#endif
+						IGNORE sprintf(s,"\tb\tL$$%d\n\tnop",lab);
+						j=(int)strlen(s);
+						for (;j<63;j++)
+							s[j]=' ';
+						s[63]='\n';
+						s[64]=0;
+						fprintf(outf,"%s",s);
+#if 0
+					}
+					else
+					{
+					}
+#endif
+				}
+				else
+					if (pCode[i]->ins==i_cj || pCode[i]->ins==i_cij)
+					{
+						jump = i-to;
+						if (SIMM11(jump*4))
+						{
+							ins_p cc;
+							int a,b;
+							cc=pCode[i]->cc;
+							SET_FILE_POSN(outf,(pCode[i]->fpos));
+							a=pCode[i]->op[0];
+							b=pCode[i]->op[1];
+							if (jump<0 && line>i)
+							{
+								if (pCode[i]->ins==i_cj)
+									IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n",cc,RN(a),RN(b),lab);
+								else
+									IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n",cc,a,RN(b),lab);
+							}
+							else
+							{
+								if (pCode[i]->ins==i_cj)
+									IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,L$$%d\n\tnop",cc,RN(a),RN(b),lab);
+								else
+									IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,L$$%d\n\tnop",cc,a,RN(b),lab);
+							}
+							j=(int)strlen(s);
+							for (;j<63;j++)
+								s[j]=' ';
+							s[63]=0;
+							fprintf(outf,"%s\n",s);
+						}
+						else
+#if 0
+							if (SIMM19(jump*4))
+#endif
+							{
+								ins_p cc;
+								int a,b;
+								cc=opp(pCode[i]->cc);
+								SET_FILE_POSN(outf,(pCode[i]->fpos));
+								a=pCode[i]->op[0];
+								b=pCode[i]->op[1];
+								if (pCode[i]->ins==i_cj)
+									IGNORE sprintf(s,"\tcomclr%s\t%s,%s,0\n\tb\tL$$%d\n\tnop",cc,RN(a),RN(b),lab);
+								else
+									IGNORE sprintf(s,"\tcomiclr%s\t%d,%s,0\n\tb\tL$$%d\n\tnop",cc,a,RN(b),lab);
+								j=(int)strlen(s);
+								for (;j<63;j++)
+									s[j]=' ';
+								s[63]=0;
+								fprintf(outf,"%s\n",s);
+							}
+#if 0
+							else
+							{
+								ins_p cc;
+								int a,b;
+								cc=pCode[i]->cc;
+								SET_FILE_POSN(outf,(pCode[i]->fpos));
+								a=pCode[i]->op[0];
+								b=pCode[i]->op[1];
+								if (pCode[i]->ins==i_cj)
+									IGNORE sprintf(s,"\tcomb%s,N\t%s,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,RN(a),RN(b),lab);
+								else
+									IGNORE sprintf(s,"\tcomib%s,N\t%d,%s,.+16\n\tnop\n\tLB\tL$$%d\n",cc,a,RN(b),lab);
+								j=(int)strlen(s);
+								for (;j<63;j++)
+									s[j]=' ';
+								s[63]=0;
+								fprintf(outf,"%s\n",s);
+							}
+#endif
+					}
+		}
+		SET_FILE_POSN(outf,Pos);
+		free(hit);
+	}
+	
+	
+	
+	{
+		int i;
+		for (i=0;i<line;i++)
+		{
+			pIn j=pCode[line];
+			free(j);
+		}
+		free(pCode);
+		free(labIntro);
+	}
+	
+	
+	outs("\t.EXIT\n");
+	clear_all();  /* for next proc */
+	return mka;
 }
 
 
 /*
-*   res_tag, return_to_label or untidy_return
+ *   res_tag, return_to_label or untidy_return
  */
 
-makeans make_res_tag_code
-    PROTO_N ( (e,sp,dest,exitlab) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans
+make_res_tag_code(exp e, space sp, where dest,
+				  int exitlab)
 {
-   makeans mka;
-   int nm,*ret_label;
-   mka.lab = exitlab;
-   mka.regmove = NOREG;
-   if (name(e)==res_tag)
-   {
-      nm=RES;
-      ret_label=&res_label;
-   }
-   else
-   if (name(e)==return_to_label_tag)
-   {
-      nm=TO_LAB;
-      ret_label=&return_to_label_label;
-   }
-   else
-   {
-      nm=UNTIDY;
-      ret_label=&untidy_return_label;
-   }
-   if (nm!=TO_LAB)  /* don't evaluate result if returning to label */
-   {
-      where w;
-      bool cmpd;
-      w.answhere = procans;
-      w.ashwhere = ashof(sh(son(e)));
-      cmpd = (w.ashwhere.ashsize<65 && !simpleans);
-      if (cmpd)
-      {
-	 /*
-	 *   The HP_PA RISC convention states that compound results of 64
-	*    bits are to be returned in the registers RET0 and RET1. We put
-	*    the result into the stack space LONG_RESULT_BOFF and then load
-	 *   into the registers.
-	  */
-	w.answhere.val.instoreans.adval=1;
-      }
-      code_here(son(e),sp,w); /*  Get the result  */
-      if (cmpd)
-      {
-	 instore is;
-	 baseoff b;
-	 is=procans.val.instoreans;
-	 b = is.b;
-	 ld_ins(i_lw,SIGNED,b,RET0);
-	 b.offset+=4;
-	 ld_ins(i_lw,SIGNED,b,RET1);
-      }
-   }
-   if (RSCOPE_LEVEL==0)
-   {
-      if (nm==TO_LAB)
-	 reg_operand_here(son(e),sp,RP);
-      if (*ret_label==0)
-      {
-	 /*
-	 *    Must be the first res_tag, the first return_to_label, or the
-	 *    first untidy_return encountered in this procedure - label
-	  *   and output relevant code sequence
-	   */
-	 *ret_label = new_label();
-	 if (xdb)
-	 {
-	    ub_ins(cmplt_,*ret_label);
-	 }
-	 else
-	 {
-	    outlab("L$$",*ret_label);
-	    code_for_ret(nm);
-	 }
-      }
-      else
-      if (xdb || fixdump)
-	 ub_ins(cmplt_,*ret_label);
-      else
-	 code_for_ret(nm);  /*
-			    *   A very short return sequence - output code
-			    *   each time thus avoiding a jump to *ret_label
-			     */
-   }
-   else
-   {
-      /* inlined result */
-      if (RSCOPE_LABEL == 0)
-	 RSCOPE_LABEL = new_label();
-      if (RSCOPE_LABEL != exitlab)
-	 ub_ins(cmplt_,RSCOPE_LABEL);
-   }
-
-   clear_all();	  /* regs invalid after return. (Not needed for inlining?) */
-
-   return mka;
+	makeans mka;
+	int nm,*ret_label;
+	mka.lab = exitlab;
+	mka.regmove = NOREG;
+	if (name(e)==res_tag)
+	{
+		nm=RES;
+		ret_label=&res_label;
+	}
+	else
+		if (name(e)==return_to_label_tag)
+		{
+			nm=TO_LAB;
+			ret_label=&return_to_label_label;
+		}
+		else
+		{
+			nm=UNTIDY;
+			ret_label=&untidy_return_label;
+		}
+	if (nm!=TO_LAB)  /* don't evaluate result if returning to label */
+	{
+		where w;
+		bool cmpd;
+		w.answhere = procans;
+		w.ashwhere = ashof(sh(son(e)));
+		cmpd = (w.ashwhere.ashsize<65 && !simpleans);
+		if (cmpd)
+		{
+			/*
+			 *   The HP_PA RISC convention states that compound results of 64
+			 *    bits are to be returned in the registers RET0 and RET1. We put
+			 *    the result into the stack space LONG_RESULT_BOFF and then load
+			 *   into the registers.
+			 */
+			w.answhere.val.instoreans.adval=1;
+		}
+		code_here(son(e),sp,w); /*  Get the result  */
+		if (cmpd)
+		{
+			instore is;
+			baseoff b;
+			is=procans.val.instoreans;
+			b = is.b;
+			ld_ins(i_lw,SIGNED,b,RET0);
+			b.offset+=4;
+			ld_ins(i_lw,SIGNED,b,RET1);
+		}
+	}
+	if (RSCOPE_LEVEL==0)
+	{
+		if (nm==TO_LAB)
+			reg_operand_here(son(e),sp,RP);
+		if (*ret_label==0)
+		{
+			/*
+			 *    Must be the first res_tag, the first return_to_label, or the
+			 *    first untidy_return encountered in this procedure - label
+			 *   and output relevant code sequence
+			 */
+			*ret_label = new_label();
+			if (xdb)
+			{
+				ub_ins(cmplt_,*ret_label);
+			}
+			else
+			{
+				outlab("L$$",*ret_label);
+				code_for_ret(nm);
+			}
+		}
+		else
+			if (xdb || fixdump)
+				ub_ins(cmplt_,*ret_label);
+			else
+				code_for_ret(nm);  /*
+									*   A very short return sequence - output code
+									*   each time thus avoiding a jump to *ret_label
+									*/
+	}
+	else
+	{
+		/* inlined result */
+		if (RSCOPE_LABEL == 0)
+			RSCOPE_LABEL = new_label();
+		if (RSCOPE_LABEL != exitlab)
+			ub_ins(cmplt_,RSCOPE_LABEL);
+	}
+	
+	clear_all();	  /* regs invalid after return. (Not needed for inlining?) */
+	
+	return mka;
 }
 
 

@@ -1,68 +1,315 @@
 /*
-    Copyright (c) 1993 Open Software Foundation, Inc.
-
-
-    All Rights Reserved
-
-
-    Permission to use, copy, modify, and distribute this software
-    and its documentation for any purpose and without fee is hereby
-    granted, provided that the above copyright notice appears in all
-    copies and that both the copyright notice and this permission
-    notice appear in supporting documentation.
-
-
-    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
-    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-    PARTICULAR PURPOSE.
-
-
-    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
-    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
-    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    Copyright (c) 1993 Open Software Foundation, Inc.
+ *
+ *
+ *    All Rights Reserved
+ *
+ *
+ *    Permission to use, copy, modify, and distribute this software
+ *    and its documentation for any purpose and without fee is hereby
+ *    granted, provided that the above copyright notice appears in all
+ *    copies and that both the copyright notice and this permission
+ *    notice appear in supporting documentation.
+ *
+ *
+ *    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ *    PARTICULAR PURPOSE.
+ *
+ *
+ *    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+ *    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+ *    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ *    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * $TenDRA$
+ */
 
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ */
 
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:25  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:12  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.2  1998/02/04  15:48:44  release
  * Added OSF copyright message.
  *
@@ -72,7 +319,7 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.2  1996/10/04  16:00:25  pwe
  * add banners and mod for PWE ownership
  *
-**********************************************************************/
+ **********************************************************************/
 
 
 #include "config.h"
@@ -98,153 +345,159 @@ static long nil_access_lab=0;
 static long overflow_lab=0;
 static long stack_overflow_lab=0;
 
-void init_proc_errors PROTO_S ((exp));
-void output_error_labels PROTO_S ((void));
-long get_nil_access_lab PROTO_S ((void));
-long get_overflow_lab PROTO_S ((void));
-long get_stack_overflow_lab PROTO_S ((void));
+void init_proc_errors(exp);
+void output_error_labels(void);
+long get_nil_access_lab(void);
+long get_overflow_lab(void);
+long get_stack_overflow_lab(void);
 
 
-void test_signed PROTO_S ((int,long,long,long));
-void test_unsigned PROTO_S ((int,long,long));
-static long trap_label PROTO_S ((exp));
-static void do_exception PROTO_S ((int));
-static void call_TDFhandler PROTO_S ((void));
+void test_signed(int,long,long,long);
+void test_unsigned(int,long,long);
+static long trap_label(exp);
+static void do_exception(int);
+static void call_TDFhandler(void);
 
 
 /* integer error treatments */
-int abs_error_treatment PROTO_S ((exp,space,where));
-int chvar_error_treatment PROTO_S ((exp,space,where));
-void div_error_treatment PROTO_S ((int,int,exp));
-int minus_error_treatment PROTO_S ((exp,space,where));
-int mult_error_treatment PROTO_S ((exp,space,where));
-int plus_error_treatment PROTO_S ((exp,space,where));
-int neg_error_treatment PROTO_S ((exp,space,where));
-void rem_error_treatment PROTO_S ((int,int,exp));
-void round_error_treatment PROTO_S ((exp *));
+int abs_error_treatment(exp,space,where);
+int chvar_error_treatment(exp,space,where);
+void div_error_treatment(int,int,exp);
+int minus_error_treatment(exp,space,where);
+int mult_error_treatment(exp,space,where);
+int plus_error_treatment(exp,space,where);
+int neg_error_treatment(exp,space,where);
+void rem_error_treatment(int,int,exp);
+void round_error_treatment(exp *);
 
 /* floating error treatments */
-void chfl_error_treatment PROTO_S ((exp,int));
-void do_fmop_error_jump PROTO_S ((exp,int,int));
-void do_fop_error_jump PROTO_S ((exp,int,int,int));
+void chfl_error_treatment(exp,int);
+void do_fmop_error_jump(exp,int,int);
+void do_fop_error_jump(exp,int,int,int);
 
 
 /*
  * init_proc_errors: initialises variables used
  */
-void init_proc_errors PROTO_N ((e)) PROTO_T (exp e)
+void
+init_proc_errors(exp e)
 {
-  /* clear the error code labels */
-  nil_access_lab = 0;
-  overflow_lab = 0;
-  stack_overflow_lab = 0;
-  
-  if (proc_has_checkstack(e))
-  {
-    baseoff b;
-    int cr = next_creg();
-    long err_lab = get_stack_overflow_lab();
-    
-    b = find_tg("__TDFstacklim");
-    ld_ins(i_l,b,R_TMP0);
-    cmp_rr_ins(i_cmp,R_SP,R_TMP0,cr);
-    long_bc_ins(i_blt,cr,err_lab,UNLIKELY_TO_JUMP);
-  }
-  return;
+	/* clear the error code labels */
+	nil_access_lab = 0;
+	overflow_lab = 0;
+	stack_overflow_lab = 0;
+	
+	if (proc_has_checkstack(e))
+	{
+		baseoff b;
+		int cr = next_creg();
+		long err_lab = get_stack_overflow_lab();
+		
+		b = find_tg("__TDFstacklim");
+		ld_ins(i_l,b,R_TMP0);
+		cmp_rr_ins(i_cmp,R_SP,R_TMP0,cr);
+		long_bc_ins(i_blt,cr,err_lab,UNLIKELY_TO_JUMP);
+	}
+	return;
 }
 /*
  * output_error_labels:
  * Sets up the labels at the end of the proc to handle
  * the three error codes
  */
-void output_error_labels PROTO_Z ()
+void
+output_error_labels()
 {
-  if (nil_access_lab != 0)
-  {
-    set_label(nil_access_lab);
-    do_exception(f_nil_access);
-  }
-  if (overflow_lab != 0)
-  {
-    set_label(overflow_lab);
-    do_exception(f_overflow);
-  }
-  if (stack_overflow_lab!=0)
-  {
-    set_label(stack_overflow_lab);
-    rir_ins(i_a,R_SP,p_frame_size,R_SP); /* collapse stack frame */
-    do_exception(f_stack_overflow);
-  }
-  return;
+	if (nil_access_lab != 0)
+	{
+		set_label(nil_access_lab);
+		do_exception(f_nil_access);
+	}
+	if (overflow_lab != 0)
+	{
+		set_label(overflow_lab);
+		do_exception(f_overflow);
+	}
+	if (stack_overflow_lab!=0)
+	{
+		set_label(stack_overflow_lab);
+		rir_ins(i_a,R_SP,p_frame_size,R_SP); /* collapse stack frame */
+		do_exception(f_stack_overflow);
+	}
+	return;
 }
 /*
  * get_nil_access_lab returns the label to jump to
  * when a nil_access error_code is created
  * or sets it if it is un-initialized
  */
-long get_nil_access_lab PROTO_Z ()
+long
+get_nil_access_lab()
 {
-  if (nil_access_lab == 0)
-  {
-    nil_access_lab = new_label();
-  }
-  return nil_access_lab;
+	if (nil_access_lab == 0)
+	{
+		nil_access_lab = new_label();
+	}
+	return nil_access_lab;
 }
 /*
  * get_overflow_lab returns the label to jump to
  * when an overflow error_code is created
  * or sets it if it is un-initialized
  */
-long get_overflow_lab PROTO_Z ()
+long
+get_overflow_lab()
 {
-  if (overflow_lab == 0)
-  {
-    overflow_lab = new_label();
-  }
-  return overflow_lab;
+	if (overflow_lab == 0)
+	{
+		overflow_lab = new_label();
+	}
+	return overflow_lab;
 }
 /*
  * get_stack_overflow_lab returns the label to jump to
  * when a stack_overflow error_code is created
  * or sets it if it is un-initialized
  */
-long get_stack_overflow_lab PROTO_Z ()
+long
+get_stack_overflow_lab()
 {
-  if (stack_overflow_lab == 0)
-  {
-    stack_overflow_lab = new_label();
-  }
-  return stack_overflow_lab;
+	if (stack_overflow_lab == 0)
+	{
+		stack_overflow_lab = new_label();
+	}
+	return stack_overflow_lab;
 }
 /*
  * do_trap is called from make_code and branches to
  * the corresponding error label depending on which
  * error code needs to be invoked
  */
-void do_trap PROTO_N ((e)) PROTO_T (exp e )
+void
+do_trap(exp e)
 {
-  int err_code = no(e);
-  long err_lab;
-  
-  if (err_code == f_nil_access)
-  {
-    err_lab = get_nil_access_lab();
-  }
-  else if (err_code == f_overflow)
-  {
-    err_lab = get_overflow_lab();
-  }
-  else if (err_code == f_stack_overflow)
-  {
-    err_lab = get_stack_overflow_lab();
-  }
-  else
-  {
-    fail("do_trap::Unknown error code");
-  }
-  uncond_ins(i_b,err_lab);
-  clear_all();
-  return;
+	int err_code = no(e);
+	long err_lab;
+	
+	if (err_code == f_nil_access)
+	{
+		err_lab = get_nil_access_lab();
+	}
+	else if (err_code == f_overflow)
+	{
+		err_lab = get_overflow_lab();
+	}
+	else if (err_code == f_stack_overflow)
+	{
+		err_lab = get_stack_overflow_lab();
+	}
+	else
+	{
+		fail("do_trap::Unknown error code");
+	}
+	uncond_ins(i_b,err_lab);
+	clear_all();
+	return;
 }
 
 /*
@@ -252,70 +505,75 @@ void do_trap PROTO_N ((e)) PROTO_T (exp e )
  * between two values and
  * jumps to label if it does not 
  */
-void test_signed PROTO_N ((r,lower,upper,lab)) 
-    PROTO_T (int r X long lower X long upper X long lab)
+void
+test_signed(int r, long lower, long upper,
+			long lab)
 {
-  int creg1=next_creg();
-  int creg2=next_creg();
-  cmp_ri_ins(i_cmp,r,lower,creg1);
-  long_bc_ins(i_blt,creg1,lab,UNLIKELY_TO_JUMP);
-  cmp_ri_ins(i_cmp,r,upper,creg2);
-  long_bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
-  return;
+	int creg1=next_creg();
+	int creg2=next_creg();
+	cmp_ri_ins(i_cmp,r,lower,creg1);
+	long_bc_ins(i_blt,creg1,lab,UNLIKELY_TO_JUMP);
+	cmp_ri_ins(i_cmp,r,upper,creg2);
+	long_bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
+	return;
 }
 /*
  * test_unsigned: tests whether a register is greater than an unsigned number
  */
-void test_unsigned PROTO_N ((r,maxval,lab)) PROTO_T (int r X long maxval X long lab)
+void
+test_unsigned(int r, long maxval, long lab)
 {
-  int creg=next_creg();
-  cmp_ri_ins(i_cmpl,r,maxval,creg);
-  long_bc_ins(i_bgt,creg,lab,UNLIKELY_TO_JUMP);
-  return;
+	int creg=next_creg();
+	cmp_ri_ins(i_cmpl,r,maxval,creg);
+	long_bc_ins(i_bgt,creg,lab,UNLIKELY_TO_JUMP);
+	return;
 }
 
 /*
  * trap_label: Gives a label for the destination of the error
  */
-static long trap_label PROTO_N ((e)) PROTO_T (exp e)
+static long
+trap_label(exp e)
 {
-  if (NO_ERROR_TREATMENT(e))
-  {
-    fail("No error treatment");
-    return 0;
-  }
-  else if (ERROR_TREATMENT_IS_TRAP(e))
-  {
-    return get_overflow_lab();
-  }
-  else
-  {
-    /* Error jump to destination */
-    return no(son(pt(e)));
-  }
+	if (NO_ERROR_TREATMENT(e))
+	{
+		fail("No error treatment");
+		return 0;
+	}
+	else if (ERROR_TREATMENT_IS_TRAP(e))
+	{
+		return get_overflow_lab();
+	}
+	else
+	{
+		/* Error jump to destination */
+		return no(son(pt(e)));
+	}
 }
 /* 
  * Generates a call to the TDFhandler for exceptions
  */
-static void do_exception PROTO_N ((ex)) PROTO_T (int ex)
+static void
+do_exception(int ex)
 {
-  ld_const_ins(ex,R_FIRST_PARAM);/* __TDFhandler takes as its first parameter, the error code */
-  call_TDFhandler();
-  return;
+	ld_const_ins(ex,R_FIRST_PARAM);/* __TDFhandler takes as its first parameter, the error code */
+	call_TDFhandler();
+	return;
 }
-static void call_TDFhandler PROTO_Z ()
+static void
+call_TDFhandler()
 {
-  baseoff b;
-  b = find_tg("__TDFhandler");
-  ld_ins(i_l,b,R_TMP0);
-  
-  b.base = R_TMP0;
-  b.offset = 0;
-  ld_ro_ins(i_l,b,R_TMP0);comment("Jump to error handler");
-  /* We don't come back from calling error handler */
-  mt_ins(i_mtctr,R_TMP0);
-  z_ins(i_bctr);
-  return;
+	baseoff b;
+	b = find_tg("__TDFhandler");
+	ld_ins(i_l,b,R_TMP0);
+	
+	b.base = R_TMP0;
+	b.offset = 0;
+	ld_ro_ins(i_l,b,R_TMP0);comment("Jump to error handler");
+	/* We don't come back from calling error handler */
+	mt_ins(i_mtctr,R_TMP0);
+	z_ins(i_bctr);
+	return;
 }
 
 
@@ -329,148 +587,148 @@ static void call_TDFhandler PROTO_Z ()
 /*
  * ABS
  */
-int abs_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest)
+int
+abs_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
-  int destr = regfrmdest(&dest,sp);
-  long trap = trap_label(e);
-  ans aa;
-  int cr;
-  space nsp;
-  nsp = guardreg(destr,sp);
-  switch(name(sh(e)))
-  {
-   case ucharhd:
-   case uwordhd:
-   case ulonghd:
-    break;
-   case scharhd:	
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0xffffff80,cr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   case swordhd:
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0xffff8000,cr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   case slonghd:
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0x80000000,cr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   default:
-    fail("Unknown Integer shape for abs_tag\n");
-  }
-  rr_ins(i_abs,r,destr);
-  setregalt(aa,destr);
-  return move(aa,dest,nsp.fixed,1);
+	int r = reg_operand(son(e),sp);
+	int destr = regfrmdest(&dest,sp);
+	long trap = trap_label(e);
+	ans aa;
+	int cr;
+	space nsp;
+	nsp = guardreg(destr,sp);
+	switch (name(sh(e)))
+	{
+	case ucharhd:
+	case uwordhd:
+	case ulonghd:
+		break;
+	case scharhd:	
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0xffffff80,cr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	case swordhd:
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0xffff8000,cr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	case slonghd:
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0x80000000,cr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	default:
+		fail("Unknown Integer shape for abs_tag\n");
+	}
+	rr_ins(i_abs,r,destr);
+	setregalt(aa,destr);
+	return move(aa,dest,nsp.fixed,1);
 }
 
 /*
  * CHVAR
  */
-int chvar_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest)
+int
+chvar_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
-  ans aa;
-  int new_shpe = name(sh(e));
-  long trap = trap_label(e);
-  bool sgned = is_signed(sh(son(e)));
-  
-  setregalt(aa,r);
-  switch(new_shpe)		/* switch on the new shape */
-  {
-   case scharhd:
+	int r = reg_operand(son(e),sp);
+	ans aa;
+	int new_shpe = name(sh(e));
+	long trap = trap_label(e);
+	bool sgned = is_signed(sh(son(e)));
+	
+	setregalt(aa,r);
+	switch (new_shpe)		/* switch on the new shape */
+	{
+	case scharhd:
     {
-      if(sgned)
-      {
-	test_signed(r,-128,127,trap);
-      }
-      else
-      {
-	test_unsigned(r,127,trap);
-      }
-      break;
+		if (sgned)
+		{
+			test_signed(r,-128,127,trap);
+		}
+		else
+		{
+			test_unsigned(r,127,trap);
+		}
+		break;
     }
-   case ucharhd:
+	case ucharhd:
     {
-      test_unsigned(r,255,trap);
-    }
-    break;
-   case swordhd:
-    {
-      if(sgned)
-      {
-	test_signed(r,-0x8000,0x7fff,trap);
-      }
-      else
-      {
-	test_unsigned(r,0x7fff,trap);
-      }
+		test_unsigned(r,255,trap);
     }
     break;
-   case uwordhd:
+	case swordhd:
     {
-      test_unsigned(r,0xffff,trap);
+		if (sgned)
+		{
+			test_signed(r,-0x8000,0x7fff,trap);
+		}
+		else
+		{
+			test_unsigned(r,0x7fff,trap);
+		}
     }
     break;
-   case slonghd:
-    if(!sgned)
+	case uwordhd:
     {
-      test_unsigned(r,0x7fffffff,trap);
+		test_unsigned(r,0xffff,trap);
     }
     break;
-   case ulonghd:
-    if(sgned)
-    {
-      test_unsigned(r,0x7fffffff,trap);
-    }
-    break;
-   default:
-    fail("Unknown integer shape in chvar_tag");
-  }
-  return move(aa,dest,sp.fixed,1);
+	case slonghd:
+		if (!sgned)
+		{
+			test_unsigned(r,0x7fffffff,trap);
+		}
+		break;
+	case ulonghd:
+		if (sgned)
+		{
+			test_unsigned(r,0x7fffffff,trap);
+		}
+		break;
+	default:
+		fail("Unknown integer shape in chvar_tag");
+	}
+	return move(aa,dest,sp.fixed,1);
 }
 /*
  * DIV0,DIV1,DIV2
  */
-void div_error_treatment PROTO_N ((l,r,e))
-    PROTO_T (int l X int r X exp e )
+void
+div_error_treatment(int l, int r, exp e)
 {
-  int creg  = next_creg();
-  int creg2 = next_creg();
-  int creg3 = next_creg();
-  
-  long trap = trap_label(e);
-  long lab ;
-  
-  long minus_infinity=0;
-  
-  /* First test for division by zero */
-  cmp_ri_ins(i_cmp,r,0,creg);  
-  long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
-  
-  /* Test for -(infinity)/-1 for signed*/
-  if (is_signed(sh(e)))
-  {
-    lab=new_label();
-    cmp_ri_ins(i_cmp,r,-1,creg2);
-    bc_ins(i_bne,creg2,lab,LIKELY_TO_JUMP);
-    switch(name(sh(e)))
-    {
-     case slonghd:minus_infinity = 0x80000000;break;
-     case swordhd:minus_infinity = 0xffff8000;break;
-     case scharhd:minus_infinity = 0xffffff80;break;
-     default:fail("Should not get here\n");
-    }
-    cmp_ri_ins(i_cmp,l,minus_infinity,creg3);
-    long_bc_ins(i_beq,creg3,trap,UNLIKELY_TO_JUMP);
-    set_label(lab);
-  }
-  return;
+	int creg  = next_creg();
+	int creg2 = next_creg();
+	int creg3 = next_creg();
+	
+	long trap = trap_label(e);
+	long lab;
+	
+	long minus_infinity=0;
+	
+	/* First test for division by zero */
+	cmp_ri_ins(i_cmp,r,0,creg);  
+	long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
+	
+	/* Test for -(infinity)/-1 for signed*/
+	if (is_signed(sh(e)))
+	{
+		lab=new_label();
+		cmp_ri_ins(i_cmp,r,-1,creg2);
+		bc_ins(i_bne,creg2,lab,LIKELY_TO_JUMP);
+		switch (name(sh(e)))
+		{
+		case slonghd:minus_infinity = 0x80000000;break;
+		case swordhd:minus_infinity = 0xffff8000;break;
+		case scharhd:minus_infinity = 0xffffff80;break;
+		default:fail("Should not get here\n");
+		}
+		cmp_ri_ins(i_cmp,l,minus_infinity,creg3);
+		long_bc_ins(i_beq,creg3,trap,UNLIKELY_TO_JUMP);
+		set_label(lab);
+	}
+	return;
 }
 
 
@@ -478,420 +736,422 @@ void div_error_treatment PROTO_N ((l,r,e))
 /*
  * MINUS_TAG
  */
-int minus_error_treatment PROTO_N ((e,sp,dest)) 
-    PROTO_T (exp e X space sp X where dest)
+int
+minus_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
-  int rhs_reg;
-  int destr;
-  long trap = trap_label(e);
-  ans aa;
-  rhs_reg=reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
-  destr=regfrmdest(&dest,sp);
-  setregalt(aa,destr);
-  /* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
-  switch(name(sh(e)))
-  {
-   case slonghd:
+	int lhs_reg=reg_operand(son(e),sp);
+	int rhs_reg;
+	int destr;
+	long trap = trap_label(e);
+	ans aa;
+	rhs_reg=reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
+	destr=regfrmdest(&dest,sp);
+	setregalt(aa,destr);
+	/* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
+	switch (name(sh(e)))
+	{
+	case slonghd:
     {
-      rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
-      mf_ins(i_mcrxr,0);
-      long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
-      break;
+		rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
+		mf_ins(i_mcrxr,0);
+		long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
+		break;
     }
-   case ulonghd:
+	case ulonghd:
     {
-      rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
-      mf_ins(i_mcrxr,0);
-      long_bc_ins(i_bne,0,trap,UNLIKELY_TO_JUMP);
-      break;
+		rrr_ins(i_sfo,rhs_reg,lhs_reg,destr);
+		mf_ins(i_mcrxr,0);
+		long_bc_ins(i_bne,0,trap,UNLIKELY_TO_JUMP);
+		break;
     }
-   case swordhd:
+	case swordhd:
     {
-      rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
-      test_signed(destr,-0x8000,0x7fff,trap);
-      break;
+		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
+		test_signed(destr,-0x8000,0x7fff,trap);
+		break;
     }
-   case uwordhd:
+	case uwordhd:
     {
-      rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
-      test_unsigned(destr,0xffff,trap);
-      break;
+		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
+		test_unsigned(destr,0xffff,trap);
+		break;
     }
-   case scharhd:
+	case scharhd:
     {
-      rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
-      test_signed(destr, -128, 127, trap);
-      break;
+		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
+		test_signed(destr, -128, 127, trap);
+		break;
     }
-   case ucharhd:
+	case ucharhd:
     {
-      rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
-      test_unsigned(destr, 255, trap);
-      break;
+		rrr_ins(i_sf,rhs_reg,lhs_reg,destr);
+		test_unsigned(destr, 255, trap);
+		break;
     }
-   default:
-    fail("NOT integer in minus with o/f");
-  }
-  return move(aa, dest, sp.fixed, 1);
+	default:
+		fail("NOT integer in minus with o/f");
+	}
+	return move(aa, dest, sp.fixed, 1);
 }
 
 /*
  * MULT_TAG
  */
-int mult_error_treatment PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where dest)
+int
+mult_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
-  int rhs_reg;
-  int destr;
-  long trap = trap_label(e);
-  space nsp;
-  ans aa;
-  nsp=guardreg(lhs_reg,sp);
-  rhs_reg=reg_operand(bro(son(e)),nsp);
-  nsp=guardreg(rhs_reg,nsp);
-  destr=regfrmdest(&dest,sp);
-  setregalt(aa,destr);
-  /* Both sides evaluated lhs in lhs_reg,rhs in rhs_reg*/
-  switch(name(sh(e)))
-  {
-   case slonghd:
-    {
-      rrr_ins(i_mulso,lhs_reg,rhs_reg,destr);
-      /* This should set the SO and OV bits of XER both to 1 if there is
-	 an overflow */
-      mf_ins(i_mcrxr,0);
-      long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
-      break;
-    }
-   case ulonghd:
-    {
-      int creg=next_creg();
-      
-      if(architecture==POWERPC_CODE)
-      {
-	/* easy since we have mulhwu */
-	rrr_ins(i_mulhwu,lhs_reg,rhs_reg,R_TMP0);
-      }
-      else
-      {
-	int tmp_reg;
+	int lhs_reg=reg_operand(son(e),sp);
+	int rhs_reg;
+	int destr;
+	long trap = trap_label(e);
 	space nsp;
-	int lab   = new_label();
-	int lab2  = new_label();
-	int creg  = next_creg();
-	int creg2 = next_creg();
-	int creg3 = next_creg();
-	nsp = guardreg(lhs_reg,sp);
-	nsp = guardreg(rhs_reg,nsp);
-	
-	tmp_reg=getreg(nsp.fixed);
-	ld_const_ins(0,tmp_reg);
-	cmp_ri_ins(i_cmp,lhs_reg,0,creg);
-	bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);
-	mov_rr_ins(lhs_reg,tmp_reg);comment(NIL);
-	set_label(lab);
-	cmp_ri_ins(i_cmp,rhs_reg,0,creg2);
-	bc_ins(i_bgt,creg2,lab2,LIKELY_TO_JUMP);
-	rrr_ins(i_a,rhs_reg,tmp_reg,tmp_reg);
-	set_label(lab2);
-	rir_ins(i_sl,tmp_reg,1,tmp_reg);
-	rrr_ins(i_mul,lhs_reg,rhs_reg,R_TMP0);
-	rrr_ins(i_a,R_TMP0,tmp_reg,tmp_reg);
-	cmp_ri_ins(i_cmp,tmp_reg,0,creg3);
-	long_bc_ins(i_bne,creg3,trap,UNLIKELY_TO_JUMP);
-	
-      }
-      
-      cmp_ri_ins(i_cmp,R_TMP0,0,creg);
-      long_bc_ins(i_bne,creg,trap,UNLIKELY_TO_JUMP);
-      rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
-      /* if the high part of the answer is non-zero branch to trap */
-      break;
-    }
-   case swordhd:
+	ans aa;
+	nsp=guardreg(lhs_reg,sp);
+	rhs_reg=reg_operand(bro(son(e)),nsp);
+	nsp=guardreg(rhs_reg,nsp);
+	destr=regfrmdest(&dest,sp);
+	setregalt(aa,destr);
+	/* Both sides evaluated lhs in lhs_reg,rhs in rhs_reg*/
+	switch (name(sh(e)))
+	{
+	case slonghd:
     {
-      rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
-      test_signed(destr,-0x8000,0x7fff,trap);
-      break;
+		rrr_ins(i_mulso,lhs_reg,rhs_reg,destr);
+		/* This should set the SO and OV bits of XER both to 1 if there is
+		 *	 an overflow */
+		mf_ins(i_mcrxr,0);
+		long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
+		break;
     }
-   case uwordhd:
+	case ulonghd:
     {
-      rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
-      test_unsigned(destr,0xffff,trap);
-      break;
+		int creg=next_creg();
+		
+		if (architecture==POWERPC_CODE)
+		{
+			/* easy since we have mulhwu */
+			rrr_ins(i_mulhwu,lhs_reg,rhs_reg,R_TMP0);
+		}
+		else
+		{
+			int tmp_reg;
+			space nsp;
+			int lab   = new_label();
+			int lab2  = new_label();
+			int creg  = next_creg();
+			int creg2 = next_creg();
+			int creg3 = next_creg();
+			nsp = guardreg(lhs_reg,sp);
+			nsp = guardreg(rhs_reg,nsp);
+			
+			tmp_reg=getreg(nsp.fixed);
+			ld_const_ins(0,tmp_reg);
+			cmp_ri_ins(i_cmp,lhs_reg,0,creg);
+			bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);
+			mov_rr_ins(lhs_reg,tmp_reg);comment(NIL);
+			set_label(lab);
+			cmp_ri_ins(i_cmp,rhs_reg,0,creg2);
+			bc_ins(i_bgt,creg2,lab2,LIKELY_TO_JUMP);
+			rrr_ins(i_a,rhs_reg,tmp_reg,tmp_reg);
+			set_label(lab2);
+			rir_ins(i_sl,tmp_reg,1,tmp_reg);
+			rrr_ins(i_mul,lhs_reg,rhs_reg,R_TMP0);
+			rrr_ins(i_a,R_TMP0,tmp_reg,tmp_reg);
+			cmp_ri_ins(i_cmp,tmp_reg,0,creg3);
+			long_bc_ins(i_bne,creg3,trap,UNLIKELY_TO_JUMP);
+			
+		}
+		
+		cmp_ri_ins(i_cmp,R_TMP0,0,creg);
+		long_bc_ins(i_bne,creg,trap,UNLIKELY_TO_JUMP);
+		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
+		/* if the high part of the answer is non-zero branch to trap */
+		break;
     }
-   case scharhd:
+	case swordhd:
     {
-      rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
-      test_signed(destr, -128, 127, trap);
-      break;
+		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
+		test_signed(destr,-0x8000,0x7fff,trap);
+		break;
     }
-   case ucharhd:
+	case uwordhd:
     {
-      rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
-      test_unsigned(destr, 255, trap);
-      break;
+		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
+		test_unsigned(destr,0xffff,trap);
+		break;
     }
-   default:
-    fail("NOT integer in mult with o/f");
-  }
-  return move(aa, dest, nsp.fixed, 1);
+	case scharhd:
+    {
+		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
+		test_signed(destr, -128, 127, trap);
+		break;
+    }
+	case ucharhd:
+    {
+		rrr_ins(i_muls,lhs_reg,rhs_reg,destr);
+		test_unsigned(destr, 255, trap);
+		break;
+    }
+	default:
+		fail("NOT integer in mult with o/f");
+	}
+	return move(aa, dest, nsp.fixed, 1);
 }
 
 /*
  * PLUS_TAG
  */
-int plus_error_treatment PROTO_N ((e,sp,dest)) 
-    PROTO_T (exp e X space sp X where dest )
+int
+plus_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
-  int rhs_reg;
-  int destr;
-  long trap = trap_label(e);
-  ans aa;
-  
-  rhs_reg = reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
-  destr=regfrmdest(&dest,sp);
-  setregalt(aa,destr);
-  switch(name(sh(e)))
-  {
-   case slonghd:
+	int lhs_reg=reg_operand(son(e),sp);
+	int rhs_reg;
+	int destr;
+	long trap = trap_label(e);
+	ans aa;
+	
+	rhs_reg = reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
+	destr=regfrmdest(&dest,sp);
+	setregalt(aa,destr);
+	switch (name(sh(e)))
+	{
+	case slonghd:
     {
-      rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
-      mf_ins(i_mcrxr,0);
-      long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
-      break;
-
+		rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
+		mf_ins(i_mcrxr,0);
+		long_bc_ins(i_bgt,0,trap,UNLIKELY_TO_JUMP);
+		break;
+		
     }
-   case ulonghd:
+	case ulonghd:
     {
-      rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
-      mf_ins(i_mcrxr,0);
-      long_bc_ins(i_beq,0,trap,UNLIKELY_TO_JUMP);
-      break;
+		rrr_ins(i_ao,lhs_reg,rhs_reg,destr);
+		mf_ins(i_mcrxr,0);
+		long_bc_ins(i_beq,0,trap,UNLIKELY_TO_JUMP);
+		break;
     }
-   case swordhd:
+	case swordhd:
     {
-      rrr_ins(i_a,lhs_reg,rhs_reg,destr);
-      test_signed(destr,-0x8000,0x7fff,trap);
-      break;
+		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
+		test_signed(destr,-0x8000,0x7fff,trap);
+		break;
     }
-   case uwordhd:
+	case uwordhd:
     {
-      rrr_ins(i_a,lhs_reg,rhs_reg,destr);
-      test_unsigned(destr,0xffff,trap);
-      break;
+		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
+		test_unsigned(destr,0xffff,trap);
+		break;
     }
-   case scharhd:
+	case scharhd:
     {
-      rrr_ins(i_a,lhs_reg,rhs_reg,destr);
-      test_signed(destr, -128, 127, trap);
-      break;
+		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
+		test_signed(destr, -128, 127, trap);
+		break;
     }
-   case ucharhd:
+	case ucharhd:
     {
-      rrr_ins(i_a,lhs_reg,rhs_reg,destr);
-      test_unsigned(destr, 255, trap);
-      break;
+		rrr_ins(i_a,lhs_reg,rhs_reg,destr);
+		test_unsigned(destr, 255, trap);
+		break;
     }
-   default:
-    fail("NOT integer shape in plus with overflow");
-  }
-  return move(aa, dest, sp.fixed, 0);
+	default:
+		fail("NOT integer shape in plus with overflow");
+	}
+	return move(aa, dest, sp.fixed, 0);
 }
 #if 0
 /* 
  * ROUND
  * This is now done in installl_fns.c 
  */
-void round_error_treatment PROTO_N ((e)) PROTO_T (exp *e)
+void
+round_error_treatment(exp *e)
 {
-  /* float --> int */
-  exp round = *e;
-  exp fl =son(*e);
-  shape fl_shpe = sh(fl);
-  bool trap = ERROR_TREATMENT_IS_TRAP(round);
-  bool lower_strict,upper_strict;
-  exp lower_bound;
-  exp lower_adjustment;
-  exp upper_bound;
-  exp upper_adjustment;
-  exp lower;
-  exp upper;
-  exp test_lower;
-  exp test_upper;
-  exp id;
-  exp lab;
-  exp clear;
-  exp zero1;
-  exp zero2;
-  exp seq1;
-  exp seq2;
-  exp cond;
-  
-  ASSERT(shape_size(sh(round))==32);
-  if (name(sh(round))==ulonghd)
-  {
-    lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)       ,float_tag);
-    upper_bound = me_u3(fl_shpe,me_shint(ulongsh,UINT_MAX),float_tag);
-  }
-  else
-  {
-    lower_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MIN),float_tag);
-    upper_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MAX),float_tag);
-  }
-  switch(round_number(round))
-  {
-   case R2ZERO:/* -1+l < f < 1+u */
+	/* float --> int */
+	exp round = *e;
+	exp fl =son(*e);
+	shape fl_shpe = sh(fl);
+	bool trap = ERROR_TREATMENT_IS_TRAP(round);
+	bool lower_strict,upper_strict;
+	exp lower_bound;
+	exp lower_adjustment;
+	exp upper_bound;
+	exp upper_adjustment;
+	exp lower;
+	exp upper;
+	exp test_lower;
+	exp test_upper;
+	exp id;
+	exp lab;
+	exp clear;
+	exp zero1;
+	exp zero2;
+	exp seq1;
+	exp seq2;
+	exp cond;
+	
+	ASSERT(shape_size(sh(round))==32);
+	if (name(sh(round))==ulonghd)
+	{
+		lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)       ,float_tag);
+		upper_bound = me_u3(fl_shpe,me_shint(ulongsh,UINT_MAX),float_tag);
+	}
+	else
+	{
+		lower_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MIN),float_tag);
+		upper_bound = me_u3(fl_shpe,me_shint(slongsh,INT_MAX),float_tag);
+	}
+	switch (round_number(round))
+	{
+	case R2ZERO:/* -1+l < f < 1+u */
     {
-      lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
-      upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
-      lower_strict = 1;
-      upper_strict = 1;
-      break;
+		lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
+		upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
+		lower_strict = 1;
+		upper_strict = 1;
+		break;
     }
-   case 4:/* round as state is same as round to nearest */
-   case R2NEAR:/* -0.5+l < f < 0.5+u */
+	case 4:/* round as state is same as round to nearest */
+	case R2NEAR:/* -0.5+l < f < 0.5+u */
     {
-      exp minus_one;
-      exp one;
-      exp two;
-      
-      minus_one = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
-      two = me_u3(fl_shpe,me_shint(slongsh,2),float_tag);
-      lower_adjustment = me_b3(fl_shpe,minus_one,two,fdiv_tag);
-      one = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
-      two = me_u3(fl_shpe,me_shint(slongsh,2),float_tag);
-      upper_adjustment = me_b3(fl_shpe,one,two,fdiv_tag);
-      lower_strict = 1;
-      upper_strict = 1;
-      break;
-    }
-    
-   case R2PINF:/* -1 +l < f =< u */
-    {
-      lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
-      upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,0),float_tag);
-      lower_strict = 1;
-      upper_strict = 0;
-      break;
+		exp minus_one;
+		exp one;
+		exp two;
+		
+		minus_one = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
+		two = me_u3(fl_shpe,me_shint(slongsh,2),float_tag);
+		lower_adjustment = me_b3(fl_shpe,minus_one,two,fdiv_tag);
+		one = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
+		two = me_u3(fl_shpe,me_shint(slongsh,2),float_tag);
+		upper_adjustment = me_b3(fl_shpe,one,two,fdiv_tag);
+		lower_strict = 1;
+		upper_strict = 1;
+		break;
     }
     
-   case R2NINF:/* l =< f < 1+u */
+	case R2PINF:/* -1 +l < f =< u */
     {
-      lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,0),float_tag);
-      upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
-      lower_strict = 0;
-      upper_strict = 1;
-      break;
+		lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,-1),float_tag);
+		upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,0),float_tag);
+		lower_strict = 1;
+		upper_strict = 0;
+		break;
     }
-  }
-  
-  lower = me_b3(fl_shpe,lower_bound,lower_adjustment,fplus_tag);
-  upper = me_b3(fl_shpe,upper_bound,upper_adjustment,fplus_tag);
-  
-  id = me_startid(fl_shpe,fl,0);/* start ident */
-  
-  clear = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,clear_tag);
-
-  if(trap)
-  {
-    exp t = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,f_overflow,trap_tag);
-    lab = me_b3(f_bottom,clear,t,labst_tag);
-  }
-  else
-  {
-    exp g = getexp(f_bottom,nilexp,0,nilexp,pt(round),0,0,goto_tag);
-    lab = me_b3(f_bottom,clear,g,labst_tag);
-  }
-  
-
-  test_lower = me_q1(no_nat_option,
-		     lower_strict?f_greater_than:f_greater_than_or_equal,
-		     &lab,
-		     me_obtain(id),
-		     lower,
-		     test_tag);
-  test_upper = me_q1(no_nat_option,
-		     upper_strict?f_less_than:f_less_than_or_equal,
-		     &lab,
-		     me_obtain(id),
-		     upper,
-		     test_tag);
-  zero1 = me_u3(f_top,test_lower,0);
-  seq1 = me_b3(sh(test_upper),zero1,test_upper,seq_tag);
-  cond = me_b3(f_top,seq1,lab,cond_tag);
-  zero2 = me_u3(f_top,cond,0);
-  seq2 = me_b3(fl_shpe,zero2,me_obtain(id),seq_tag);
-  id = me_complete_id(id,seq2);
-  
-  seterrhandle(round,0);
-  
-  setlast(id);
-  bro(id) = round;
-  son(round) = id;
+    
+	case R2NINF:/* l =< f < 1+u */
+    {
+		lower_adjustment = me_u3(fl_shpe,me_shint(slongsh,0),float_tag);
+		upper_adjustment = me_u3(fl_shpe,me_shint(slongsh,1),float_tag);
+		lower_strict = 0;
+		upper_strict = 1;
+		break;
+    }
+	}
+	
+	lower = me_b3(fl_shpe,lower_bound,lower_adjustment,fplus_tag);
+	upper = me_b3(fl_shpe,upper_bound,upper_adjustment,fplus_tag);
+	
+	id = me_startid(fl_shpe,fl,0);/* start ident */
+	
+	clear = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,clear_tag);
+	
+	if (trap)
+	{
+		exp t = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,f_overflow,trap_tag);
+		lab = me_b3(f_bottom,clear,t,labst_tag);
+	}
+	else
+	{
+		exp g = getexp(f_bottom,nilexp,0,nilexp,pt(round),0,0,goto_tag);
+		lab = me_b3(f_bottom,clear,g,labst_tag);
+	}
+	
+	
+	test_lower = me_q1(no_nat_option,
+					   lower_strict?f_greater_than:f_greater_than_or_equal,
+					   &lab,
+					   me_obtain(id),
+					   lower,
+					   test_tag);
+	test_upper = me_q1(no_nat_option,
+					   upper_strict?f_less_than:f_less_than_or_equal,
+					   &lab,
+					   me_obtain(id),
+					   upper,
+					   test_tag);
+	zero1 = me_u3(f_top,test_lower,0);
+	seq1 = me_b3(sh(test_upper),zero1,test_upper,seq_tag);
+	cond = me_b3(f_top,seq1,lab,cond_tag);
+	zero2 = me_u3(f_top,cond,0);
+	seq2 = me_b3(fl_shpe,zero2,me_obtain(id),seq_tag);
+	id = me_complete_id(id,seq2);
+	
+	seterrhandle(round,0);
+	
+	setlast(id);
+	bro(id) = round;
+	son(round) = id;
 }
 #endif
-  
+
 /*
  * NEG
  */
-int neg_error_treatment PROTO_N ((e,sp,dest))
-    PROTO_T (exp e X space sp X where dest )
+int
+neg_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
-  int destr = regfrmdest(&dest,sp);
-  long trap = trap_label(e);
-  ans aa;
-  int cr; 
-  space nsp;
-  nsp = guardreg(destr,sp);
-
-  switch (name(sh(e)))
-  {
-   case ucharhd:
-   case uwordhd:
-   case ulonghd:
-    rr_ins(i_neg_cr,r,destr);
-    long_bc_ins(i_bne,CRF0,trap,LIKELY_TO_JUMP);
-    break;
-   case scharhd:
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0xffffff80,cr);
-    rr_ins(i_neg,r,destr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   case swordhd:
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0xffff8000,cr);
-    rr_ins(i_neg,r,destr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   case slonghd:
-    cr = next_creg();
-    cmp_ri_ins(i_cmp,r,0x80000000,cr);
-    rr_ins(i_neg,r,destr);
-    long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
-    break;
-   default:
-    fail("Unknown Integer shape for neg tag\n");
-  }
-  setregalt(aa,destr);
-  return move(aa,dest,nsp.fixed,1);
+	int r = reg_operand(son(e),sp);
+	int destr = regfrmdest(&dest,sp);
+	long trap = trap_label(e);
+	ans aa;
+	int cr; 
+	space nsp;
+	nsp = guardreg(destr,sp);
+	
+	switch (name(sh(e)))
+	{
+	case ucharhd:
+	case uwordhd:
+	case ulonghd:
+		rr_ins(i_neg_cr,r,destr);
+		long_bc_ins(i_bne,CRF0,trap,LIKELY_TO_JUMP);
+		break;
+	case scharhd:
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0xffffff80,cr);
+		rr_ins(i_neg,r,destr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	case swordhd:
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0xffff8000,cr);
+		rr_ins(i_neg,r,destr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	case slonghd:
+		cr = next_creg();
+		cmp_ri_ins(i_cmp,r,0x80000000,cr);
+		rr_ins(i_neg,r,destr);
+		long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
+		break;
+	default:
+		fail("Unknown Integer shape for neg tag\n");
+	}
+	setregalt(aa,destr);
+	return move(aa,dest,nsp.fixed,1);
 }
 /*
  * REM0,REM1,REM2
  */
-void rem_error_treatment PROTO_N ((l,r,e))
-    PROTO_T (int l X int r X exp e )
+void
+rem_error_treatment(int l, int r, exp e)
 {
-  int creg  = next_creg();
-  long trap = trap_label(e);
-
-  cmp_ri_ins(i_cmp,r,0,creg);  
-  long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
-  return;
+	int creg  = next_creg();
+	long trap = trap_label(e);
+	
+	cmp_ri_ins(i_cmp,r,0,creg);  
+	long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
+	return;
 }
 
 /*****************************/
@@ -899,72 +1159,74 @@ void rem_error_treatment PROTO_N ((l,r,e))
 /* FLOATING error treatments */
 /*                           */
 /*****************************/
-void chfl_error_treatment PROTO_N ((e,f)) PROTO_T (exp e X int f)
+void
+chfl_error_treatment(exp e, int f)
 {
-  long trap = trap_label(e);
-  
-  ASSERT(name(e)==chfl_tag);
-  rrf_ins(i_frsp_cr,f,f);
-  mcrfs_ins(CRF0,0);
-  long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  return;
+	long trap = trap_label(e);
+	
+	ASSERT(name(e)==chfl_tag);
+	rrf_ins(i_frsp_cr,f,f);
+	mcrfs_ins(CRF0,0);
+	long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
+	return;
 }
 
 
-void do_fmop_error_jump PROTO_N ((e,fs,fd)) 
-    PROTO_T (exp e X int fs X int fd )
+void
+do_fmop_error_jump(exp e, int fs, int fd)
 {
-  long trap = trap_label(e);
-  Instruction_P ins;
-
-  switch(name(e))
-  {
-   case fabs_tag:ins=i_fabs;break;
-   case fneg_tag:ins=i_fneg;break;
-   default:fail("Unknown error jump for fmop");break;
-  }
-  rrf_ins(ins,fs,fd);
-  mcrfs_ins(CRF0,0);
-  long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  if(is_single_precision(sh(e)))
-  {
-    rrf_ins(i_frsp,fd,fd);
-    mcrfs_ins(CRF0,0);
-    long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  }
-  return;
+	long trap = trap_label(e);
+	Instruction_P ins;
+	
+	switch (name(e))
+	{
+	case fabs_tag:ins=i_fabs;break;
+	case fneg_tag:ins=i_fneg;break;
+	default:fail("Unknown error jump for fmop");break;
+	}
+	rrf_ins(ins,fs,fd);
+	mcrfs_ins(CRF0,0);
+	long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
+	if (is_single_precision(sh(e)))
+	{
+		rrf_ins(i_frsp,fd,fd);
+		mcrfs_ins(CRF0,0);
+		long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
+	}
+	return;
 }
-void do_fop_error_jump PROTO_N ((e,fs1,fs2,fd)) 
-    PROTO_T (exp e X int fs1 X int fs2 X int fd )
+void
+do_fop_error_jump(exp e, int fs1, int fs2,
+				  int fd)
 {
-  long trap = trap_label(e);
-  Instruction_P ins;
-   
-  switch (name(e))
-  {
-   case fplus_tag: ins = i_fa;break;
-   case fminus_tag:ins = i_fs;break;
-   case fmult_tag: ins = i_fm;break;
-   case fdiv_tag:  ins = i_fd;break;
-   default:fail("Unknown error jump for fop");
-  }
-  rrrf_ins(ins,fs1,fs2,fd);
-  mcrfs_ins(CRF0,0);
-  long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  switch(name(e))
-  {
-    /* div by 0 */
-   case fdiv_tag:
+	long trap = trap_label(e);
+	Instruction_P ins;
+	
+	switch (name(e))
+	{
+	case fplus_tag: ins = i_fa;break;
+	case fminus_tag:ins = i_fs;break;
+	case fmult_tag: ins = i_fm;break;
+	case fdiv_tag:  ins = i_fd;break;
+	default:fail("Unknown error jump for fop");
+	}
+	rrrf_ins(ins,fs1,fs2,fd);
+	mcrfs_ins(CRF0,0);
+	long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
+	switch (name(e))
+	{
+		/* div by 0 */
+	case fdiv_tag:
     {
-      mcrfs_ins(CRF0,1);
-      long_bc_ins(i_bgt,CRF0,trap,UNLIKELY_TO_JUMP);
+		mcrfs_ins(CRF0,1);
+		long_bc_ins(i_bgt,CRF0,trap,UNLIKELY_TO_JUMP);
     }
-  }
-  if(is_single_precision(sh(e)))
-  {
-    rrf_ins(i_frsp,fd,fd);
-    mcrfs_ins(CRF0,0);
-    long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  }
-  return;
+	}
+	if (is_single_precision(sh(e)))
+	{
+		rrf_ins(i_frsp,fd,fd);
+		mcrfs_ins(CRF0,0);
+		long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
+	}
+	return;
 }

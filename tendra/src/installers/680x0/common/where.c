@@ -1,70 +1,317 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:10  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------
+ *$Log$
+ *Revision 1.2  2002/11/21 22:30:45  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.1.1.1  1998/01/17  15:55:50  release
  * First version to be checked into rolling release.
  *
-Revision 1.3  1997/11/09 14:07:59  ma
-Removed issigned function.
-
-Revision 1.2  1997/10/29 10:22:32  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:43:01  ma
-First version.
-
-Revision 1.5  1997/10/13 08:50:19  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:41  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/18 10:09:46  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:43  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:21  ma
-Imported from DRA
-
+ *Revision 1.3  1997/11/09 14:07:59  ma
+ *Removed issigned function.
+ *
+ *Revision 1.2  1997/10/29 10:22:32  ma
+ *Replaced use_alloca with has_alloca.
+ *
+ *Revision 1.1.1.1  1997/10/13 12:43:01  ma
+ *First version.
+ *
+ *Revision 1.5  1997/10/13 08:50:19  ma
+ *Made all pl_tests for general proc & exception handling pass.
+ *
+ *Revision 1.4  1997/09/25 06:45:41  ma
+ *All general_proc tests passed
+ *
+ *Revision 1.3  1997/06/18 10:09:46  ma
+ *Checking in before merging with Input Baseline changes.
+ *
+ *Revision 1.2  1997/04/20 11:30:43  ma
+ *Introduced gcproc.c & general_proc.[ch].
+ *Added cases for apply_general_proc next to apply_proc in all files.
+ *
+ *Revision 1.1.1.1  1997/03/14 07:50:21  ma
+ *Imported from DRA
+ 
  * Revision 1.1.1.1  1996/09/20  10:57:00  john
  *
  * Revision 1.2  1996/07/05  14:30:14  john
@@ -81,8 +328,8 @@ Imported from DRA
  * Revision 1.1  93/02/22  17:17:05  17:17:05  ra (Robert Andrews)
  * Initial revision
  *
---------------------------------------------------------------------------
-*/
+ *--------------------------------------------------------------------------
+ */
 
 
 #include "config.h"
@@ -105,531 +352,521 @@ Imported from DRA
 #define REGISTER_SIZES
 #include "instr_aux.h"
 #include "special_exps.h"
-static int find_where PROTO_S ( ( exp ) ) ;
+static int find_where(exp) ;
 
 /*
-    MACROS
+ *    MACROS
+ *
+ *    These are used as convenient shorthands.
+ */
 
-    These are used as convenient shorthands.
-*/
-
-#define  new_exp( A, B, C, D )	getexp ( A, nilexp, 0, B, nilexp, L0, C, D )
-#define  ptrsh		 	ptr_shape ( slongsh )
+#define  new_exp(A, B, C, D)	getexp (A, nilexp, 0, B, nilexp, L0, C, D)
+#define  ptrsh		 	ptr_shape (slongsh)
 
 
 /*
-    WHAT SORT OF REGISTER SHOULD WE PUT SOMETHING OF A GIVEN SHAPE IN?
+ *    WHAT SORT OF REGISTER SHOULD WE PUT SOMETHING OF A GIVEN SHAPE IN?
+ *
+ *    The shape sha is examined and the appropriate register type -
+ *    Dreg, Areg or Freg is returned.
+ */
 
-    The shape sha is examined and the appropriate register type -
-    Dreg, Areg or Freg is returned.
-*/
-
-int shtype
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+int
+shtype(shape sha)
 {
-    char n = name ( sha ) ;
-    if ( n >= scharhd && n <= ulonghd ) return ( Dreg ) ;
-    if ( n >= shrealhd && n <= doublehd ) return ( Freg ) ;
-    if ( n != bitfhd && n != nofhd && n != cpdhd ) return ( Areg ) ;
-    return ( shape_size ( sha ) <= 32 ? Dreg : Areg ) ;
+    char n = name (sha);
+    if (n >= scharhd && n <= ulonghd) return (Dreg);
+    if (n >= shrealhd && n <= doublehd) return (Freg);
+    if (n != bitfhd && n != nofhd && n != cpdhd) return (Areg);
+    return (shape_size (sha) <= 32 ? Dreg : Areg);
 }
 
 
 /*
-    REGISTERS USED IN OPERAND
+ *    REGISTERS USED IN OPERAND
+ *
+ *    This is a bitmask of all the registers used in an operand.  It is
+ *    built up by find_where.
+ */
 
-    This is a bitmask of all the registers used in an operand.  It is
-    built up by find_where.
-*/
-
-static bitpattern where_regmsk ;
+static bitpattern where_regmsk;
 
 
 /*
-    FIND ADDRESSING TYPE OF A REGISTER INDIRECT WITH DISPLACEMENT
+ *    FIND ADDRESSING TYPE OF A REGISTER INDIRECT WITH DISPLACEMENT
+ *
+ *    The addressing type of a register indirect operand with register
+ *    mask rgs is returned.  This is RegInd if rgs corresponds to an
+ *    A-register, and Other otherwise.
+ */
 
-    The addressing type of a register indirect operand with register
-    mask rgs is returned.  This is RegInd if rgs corresponds to an
-    A-register, and Other otherwise.
-*/
-
-static int find_reg_ind
-    PROTO_N ( ( r ) )
-    PROTO_T ( int r )
+static int
+find_reg_ind(int r)
 {
-    bitpattern rgs = ( bitpattern ) r ;
-    where_regmsk |= rgs ;
+    bitpattern rgs = (bitpattern) r;
+    where_regmsk |= rgs;
     /* If rgs corresponds to an A register, we have an effective address */
-    if ( rgs & areg_msk ) return ( RegInd ) ;
-    return ( Other ) ;
+    if (rgs & areg_msk) return (RegInd);
+    return (Other);
 }
 
 
 /*
-    FIND ADDRESSING TYPE OF AN INDEX OPERAND
+ *    FIND ADDRESSING TYPE OF AN INDEX OPERAND
+ *
+ *    The addressing type of the operand given by e1 indexed by e2 times
+ *    some constant is returned.
+ */
 
-    The addressing type of the operand given by e1 indexed by e2 times
-    some constant is returned.
-*/
-
-static int find_ind
-    PROTO_N ( ( e1, e2 ) )
-    PROTO_T ( exp e1 X exp e2 )
+static int
+find_ind(exp e1, exp e2)
 {
-    int f1 = find_where ( e1 ) ;
-    int f2 = find_where ( e2 ) ;
-    if ( f1 == Other ) return ( Other ) ;
-    if ( f2 == Dreg || f2 == Areg ) return ( EffAddr ) ;
-    return ( Other ) ;
+    int f1 = find_where (e1);
+    int f2 = find_where (e2);
+    if (f1 == Other) return (Other);
+    if (f2 == Dreg || f2 == Areg) return (EffAddr);
+    return (Other);
 }
 
 
 /*
-    FIND ADDRESSING TYPE OF AN OPERAND
+ *    FIND ADDRESSING TYPE OF AN OPERAND
+ *
+ *    The addressing type of the operand e is returned.  Meanwhile the
+ *    bitmask of all the registers used in e is built up in where_regmsk.
+ *    This routine should be compared with operand.
+ */
 
-    The addressing type of the operand e is returned.  Meanwhile the
-    bitmask of all the registers used in e is built up in where_regmsk.
-    This routine should be compared with operand.
-*/
-
-static int find_where
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static int
+find_where(exp e)
 {
-    bitpattern rm ;
-    switch ( name ( e ) ) {
-
+    bitpattern rm;
+    switch (name (e)) {
+		
 	case val_tag :
 	case null_tag :
-	    return ( Value ) ;
-
+	    return (Value);
+		
 	case real_tag :
 	case string_tag :
 	case res_tag :
-	    return ( External ) ;
-
+	    return (External);
+		
 	case regpair_tag :
-	    return ( RegPair ) ;
-
+	    return (RegPair);
+		
 	case apply_general_tag :
 	case tail_call_tag :
 	case apply_tag :
-	    return ( EffAddr ) ;
-
+	    return (EffAddr);
+		
 	case field_tag :
-	    return ( find_where ( son ( e ) ) ) ;
-
+	    return (find_where (son (e)));
+		
 	case ident_tag :
 	case labst_tag : {
-	    switch ( ptno ( e ) ) {
-#ifndef tdf3
-                case par2_pl :
-                case par3_pl :
-#endif
-
-		case par_pl : return ( Parameter ) ;
-		case var_pl : return ( Variable ) ;
-		case reg_pl : {
-		    rm = ( bitpattern ) no ( e ) ;
-		    where_regmsk |= rm ;
-		    /* A register, but what type? */
-		    if ( rm & dreg_msk ) return ( Dreg ) ;
-		    if ( rm & areg_msk ) return ( Areg ) ;
-		    return ( Freg ) ;
-		}
-	    }
-	    break ;
-	}
-
-	case name_tag : {
-	    exp id = son ( e ) ;
-#if 0
-	    if((name(sh(e)) == prokhd) &&
-	       ((son(id) == nilexp) || (name(son(id)) == proc_tag) ||
-		(name(son(id)) == general_proc_tag))){
-	      exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,
-				     0,cont_tag);
-	      /*return find_where(proc_cont);*/
-	      e = proc_cont;
-	      /*return EffAddr;*/
-	      id = son(e);
-/*	      return find_where(e);*/
-	    }
-#endif
-
-	    if ( isglob ( id ) ) return ( External ) ;
-	    switch ( ptno ( id ) ) {
+	    switch (ptno (e)) {
 #ifndef tdf3
 		case par2_pl :
 		case par3_pl :
 #endif
-
-		case par_pl :
-		case var_pl : return ( EffAddr ) ;
+			
+		case par_pl : return (Parameter);
+		case var_pl : return (Variable);
 		case reg_pl : {
-		    rm = ( bitpattern ) no ( id ) ;
-		    where_regmsk |= rm ;
+		    rm = (bitpattern) no (e);
+		    where_regmsk |= rm;
 		    /* A register, but what type? */
-		    if ( rm & dreg_msk ) return ( Dreg ) ;
-		    if ( rm & areg_msk ) return ( Areg ) ;
-		    return ( Freg ) ;
+		    if (rm & dreg_msk) return (Dreg);
+		    if (rm & areg_msk) return (Areg);
+		    return (Freg);
 		}
 	    }
-	    break ;
+	    break;
 	}
-
+		
+	case name_tag : {
+	    exp id = son (e);
+#if 0
+	    if ((name(sh(e)) == prokhd) &&
+			((son(id) == nilexp) || (name(son(id)) == proc_tag) ||
+			 (name(son(id)) == general_proc_tag))){
+			exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,
+								   0,cont_tag);
+			/*return find_where(proc_cont);*/
+			e = proc_cont;
+			/*return EffAddr;*/
+			id = son(e);
+/*	      return find_where(e);*/
+	    }
+#endif
+		
+	    if (isglob (id)) return (External);
+	    switch (ptno (id)) {
+#ifndef tdf3
+		case par2_pl :
+		case par3_pl :
+#endif
+			
+		case par_pl :
+		case var_pl : return (EffAddr);
+		case reg_pl : {
+		    rm = (bitpattern) no (id);
+		    where_regmsk |= rm;
+		    /* A register, but what type? */
+		    if (rm & dreg_msk) return (Dreg);
+		    if (rm & areg_msk) return (Areg);
+		    return (Freg);
+		}
+	    }
+	    break;
+	}
+		
 	case cont_tag :
 	case ass_tag : {
-	    exp r = son ( e ) ;
-	    switch ( name ( r ) ) {
-
+	    exp r = son (e);
+	    switch (name (r)) {
+			
 		case name_tag : {
-		    exp id = son ( r ) ;
-		    long pt_id = ptno ( id ) ;
-		    if ( isvar ( id ) ) return ( find_where ( r ) ) ;
-		    if ( isglob ( id ) ) {
-			if ( name ( sh ( e ) ) == prokhd ) return ( External ) ;
-			return ( Other ) ;
+		    exp id = son (r);
+		    long pt_id = ptno (id);
+		    if (isvar (id)) return (find_where (r));
+		    if (isglob (id)) {
+				if (name (sh (e)) == prokhd) return (External);
+				return (Other);
 		    }
-		    switch ( pt_id ) {
+		    switch (pt_id) {
 #ifndef tdf3
-                        case par2_pl :
-                        case par3_pl :
+			case par2_pl :
+			case par3_pl :
 #endif
-
+				
 			case par_pl :
-			case var_pl : return ( EffAddr ) ;
-			case reg_pl : return ( find_reg_ind ( no ( id ) ) ) ;
+			case var_pl : return (EffAddr);
+			case reg_pl : return (find_reg_ind (no (id)));
 		    }
-		    break ;
+		    break;
 		}
-
+			
 		case cont_tag : {
-		    exp rr = son ( r ) ;
-		    if ( name ( rr ) == name_tag ) {
-			exp id = son ( rr ) ;
-			if ( !isvar ( id ) ) break ;
-			if ( isglob ( id ) ) return ( Other ) ;
-			switch ( ptno ( id ) ) {
+		    exp rr = son (r);
+		    if (name (rr) == name_tag) {
+				exp id = son (rr);
+				if (!isvar (id)) break;
+				if (isglob (id)) return (Other);
+				switch (ptno (id)) {
 #ifndef tdf3
-                            case par2_pl :
-                            case par3_pl :
+				case par2_pl :
+				case par3_pl :
 #endif
-
+					
 			    case par_pl :
-			    case var_pl : return ( EffAddr ) ;
+			    case var_pl : return (EffAddr);
 			    case reg_pl : {
-				return ( find_reg_ind ( no ( id ) ) ) ;
+					return (find_reg_ind (no (id)));
 			    }
-			}
+				}
 		    }
-		    break ;
+		    break;
 		}
-
+			
 		case reff_tag : {
-		    exp rr = son ( r ) ;
-		    switch ( name ( rr ) ) {
-
+		    exp rr = son (r);
+		    switch (name (rr)) {
+				
 			case name_tag : {
-			    exp id = son ( rr ) ;
-			    if ( ptno ( id ) == reg_pl ) {
-				return ( find_reg_ind ( no ( id ) ) ) ;
+			    exp id = son (rr);
+			    if (ptno (id) == reg_pl) {
+					return (find_reg_ind (no (id)));
 			    }
-			    return ( Other ) ;
+			    return (Other);
 			}
-
+				
 			case cont_tag : {
-			    exp id = son ( son ( rr ) ) ;
-			    if ( ptno ( id ) == reg_pl ) {
-				return ( find_reg_ind ( no ( id ) ) ) ;
+			    exp id = son (son (rr));
+			    if (ptno (id) == reg_pl) {
+					return (find_reg_ind (no (id)));
 			    }
-			    return ( Other ) ;
+			    return (Other);
 			}
-
-			case addptr_tag : return ( find_where ( rr ) ) ;
+				
+			case addptr_tag : return (find_where (rr));
 		    }
-		    break ;
+		    break;
 		}
-
+			
 		case addptr_tag : {
-		    exp rr = son ( r ) ;
-		    exp eb = bro ( rr ) ;
-		    exp ec = simple_exp ( cont_tag ) ;
-		    son ( ec ) = rr ;
-		    switch ( name ( eb ) ) {
+		    exp rr = son (r);
+		    exp eb = bro (rr);
+		    exp ec = simple_exp (cont_tag);
+		    son (ec) = rr;
+		    switch (name (eb)) {
 			case name_tag :
-			case cont_tag : return ( find_ind ( eb, ec ) ) ;
+			case cont_tag : return (find_ind (eb, ec));
 			case offset_mult_tag : {
-			    return ( find_ind ( son ( eb ), ec ) ) ;
+			    return (find_ind (son (eb), ec));
 			}
 		    }
-		    break ;
+		    break;
 		}
 	    }
-	    break ;
+	    break;
 	}
-
+		
 	case reff_tag :
 	case dummy_tag : {
-	    exp r = son ( e ) ;
-	    switch ( name ( r ) ) {
-
+	    exp r = son (e);
+	    switch (name (r)) {
+			
 		case ident_tag : {
-		    if ( ptno ( r ) == reg_pl ) {
-			return ( find_reg_ind ( no ( r ) ) ) ;
+		    if (ptno (r) == reg_pl) {
+				return (find_reg_ind (no (r)));
 		    }
-		    break ;
+		    break;
 		}
-
+			
 		case name_tag : {
-		    exp id = son ( r ) ;
-		    if ( isglob ( id ) ) return ( External ) ;
-		    if ( ptno ( r ) == reg_pl ) {
-			return ( find_reg_ind ( no ( id ) ) ) ;
+		    exp id = son (r);
+		    if (isglob (id)) return (External);
+		    if (ptno (r) == reg_pl) {
+				return (find_reg_ind (no (id)));
 		    }
-		    break ;
+		    break;
 		}
-
+			
 		case cont_tag :
 		case ass_tag : {
-		    exp id = son ( son ( r ) ) ;
-		    if ( isglob ( id ) ) return ( External ) ;
-		    if ( ptno ( r ) == reg_pl ) {
-			return ( find_reg_ind ( no ( id ) ) ) ;
+		    exp id = son (son (r));
+		    if (isglob (id)) return (External);
+		    if (ptno (r) == reg_pl) {
+				return (find_reg_ind (no (id)));
 		    }
-		    break ;
+		    break;
 		}
-
-		case addptr_tag : return ( find_where ( r ) ) ;
+			
+		case addptr_tag : return (find_where (r));
 	    }
-	    break ;
+	    break;
 	}
-
+		
 	case addptr_tag : {
-	    exp r = son ( e ) ;
-	    exp eb = bro ( r ) ;
-	    exp ec = simple_exp ( cont_tag ) ;
-	    son ( ec ) = r ;
-	    switch ( name ( eb ) ) {
+	    exp r = son (e);
+	    exp eb = bro (r);
+	    exp ec = simple_exp (cont_tag);
+	    son (ec) = r;
+	    switch (name (eb)) {
 		case name_tag :
-		case cont_tag : return ( find_ind ( eb, ec ) ) ;
+		case cont_tag : return (find_ind (eb, ec));
 		case offset_mult_tag : {
-		    return ( find_ind ( son ( eb ), ec ) ) ;
+		    return (find_ind (son (eb), ec));
 		}
 	    }
-	    break ;
+	    break;
 	}
-
+		
 	case diagnose_tag : {
-	    exp r = son ( e ) ;
-	    return ( find_where ( r ) ) ;
+	    exp r = son (e);
+	    return (find_where (r));
 	}
     }
     /* Allow all other operands through */
-    return ( Other ) ;
+    return (Other);
 }
 
 
 /*
-    CREATE A WHERE
+ *    CREATE A WHERE
+ *
+ *    A where is created from an expression e and an offset d.  The routine
+ *    find_where is used to calculate the wh_is and wh_regs fields.
+ */
 
-    A where is created from an expression e and an offset d.  The routine
-    find_where is used to calculate the wh_is and wh_regs fields.
-*/
-
-where mw
-    PROTO_N ( ( e, d ) )
-    PROTO_T ( exp e X long d )
+where
+mw(exp e, long d)
 {
-  where w ;
+	where w;
 #if 0
-
-  if ((name(e)==name_tag && name(sh(e)) == prokhd) &&
-      !(((son (son(e)) == nilexp || name (son (son(e))) == proc_tag ||
-	  name(son(son(e))) == apply_tag ||
-	  name(son(son(e))) == apply_general_tag)))) {
-    exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,0,cont_tag);
-    e = proc_cont;
-  }
+	
+	if ((name(e)==name_tag && name(sh(e)) == prokhd) &&
+		!(((son (son(e)) == nilexp || name (son (son(e))) == proc_tag ||
+			name(son(son(e))) == apply_tag ||
+			name(son(son(e))) == apply_general_tag)))) {
+		exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,0,cont_tag);
+		e = proc_cont;
+	}
 #endif
-  w.wh_exp = e ;
-  w.wh_off = d ;
-  where_regmsk = 0 ;
-  w.wh_is = find_where ( e ) ;
-  w.wh_regs = where_regmsk ;
-  return ( w ) ;
+	w.wh_exp = e;
+	w.wh_off = d;
+	where_regmsk = 0;
+	w.wh_is = find_where (e);
+	w.wh_regs = where_regmsk;
+	return (w);
 }
 
 
 /*
-    CREATE A WHERE REPRESENTING A NUMBER
+ *    CREATE A WHERE REPRESENTING A NUMBER
+ *
+ *    A where is created corresponding to the integer constant d.
+ */
 
-    A where is created corresponding to the integer constant d.
-*/
-
-where mnw
-    PROTO_N ( ( d ) )
-    PROTO_T ( long d )
+where
+mnw(long d)
 {
-    where w ;
-    w.wh_exp = zeroe ;
-    w.wh_off = d ;
-    w.wh_is = Value ;
-    w.wh_regs = 0 ;
-    return ( w ) ;
+    where w;
+    w.wh_exp = zeroe;
+    w.wh_off = d;
+    w.wh_is = Value;
+    w.wh_regs = 0;
+    return (w);
 }
 
 
 /*
-    CREATE A WHERE REPRESENTING A FLOATING POINT NUMBER
+ *    CREATE A WHERE REPRESENTING A FLOATING POINT NUMBER
+ *
+ *    A where is created corresponding to the floating point number with
+ *    sign sg (+1, 0 or -1), digits v and exponent e.
+ */
 
-    A where is created corresponding to the floating point number with
-    sign sg (+1, 0 or -1), digits v and exponent e.
-*/
-
-where mfw
-    PROTO_N ( ( sg, v, e ) )
-#if ( FBASE == 10 )
-    PROTO_T ( int sg X char *v X int e )
+where
+mfw(int sg, char *v, int e) #else PROTO_T (int sg,
+										   long *v,
+										   int e) #endif
+{
+    where w;
+    int i, lv;
+    long lab = next_lab ();
+    exp fe, ft = simple_exp (internal_tag);
+    long fm = new_flpt ();
+    flt *f = &flptnos [ fm ];
+    f->sign = sg;
+    f->exp = e;
+#if (FBASE == 10)
+    lv = strlen (v);
+    for (i = 0 ; i < lv ; i++) f->mant [i] = v [i] - '0';
 #else
-    PROTO_T ( int sg X long *v X int e )
-#endif
-{
-    where w ;
-    int i, lv ;
-    long lab = next_lab () ;
-    exp fe, ft = simple_exp ( internal_tag ) ;
-    long fm = new_flpt () ;
-    flt *f = &flptnos [ fm ] ;
-    f->sign = sg ;
-    f->exp = e ;
-#if ( FBASE == 10 )
-    lv = strlen ( v ) ;
-    for ( i = 0 ; i < lv ; i++ ) f->mant [i] = v [i] - '0' ;
-#else
-    i = 0 ;
-    while ( v [i] != -1 ) {
-	f->mant [i] = v [i] ;
-	i++ ;
+    i = 0;
+    while (v [i] != -1) {
+		f->mant [i] = v [i];
+		i++;
     }
-    lv = i ;
+    lv = i;
 #endif
-    for ( i = lv ; i < MANT_SIZE ; i++ ) f->mant [i] = 0 ;
-    fe = new_exp ( realsh, nilexp, fm, real_tag ) ;
-    make_constant ( lab, fe ) ;
-    no ( ft ) = lab ;
-    w.wh_exp = ft ;
-    w.wh_off = 0 ;
-    w.wh_is = Value ;
-    w.wh_regs = 0 ;
-    return ( w ) ;
+    for (i = lv ; i < MANT_SIZE ; i++) f->mant [i] = 0;
+    fe = new_exp (realsh, nilexp, fm, real_tag);
+    make_constant (lab, fe);
+    no (ft) = lab;
+    w.wh_exp = ft;
+    w.wh_off = 0;
+    w.wh_is = Value;
+    w.wh_regs = 0;
+    return (w);
 }
 
 
 /*
-    CONSTRUCT A REGISTER PAIR
+ *    CONSTRUCT A REGISTER PAIR
+ *
+ *    A where is created corresponding to the register pair a:b.  Both
+ *    a and b must represent registers.
+ */
 
-    A where is created corresponding to the register pair a:b.  Both
-    a and b must represent registers.
-*/
-
-where regpair
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( where a X where b )
+where
+regpair(where a, where b)
 {
-    where w ;
-    exp ea = a.wh_exp ;
-    exp eb = b.wh_exp ;
-    w.wh_exp = getexp ( realsh, eb, 0, ea, nilexp, 0, 0, regpair_tag ) ;
-    w.wh_off = 0 ;
-    w.wh_is = RegPair ;
-    where_regmsk = 0 ;
-    if ( find_where ( ea ) != Dreg || find_where ( eb ) != Dreg ) {
-	error ( "Illegal register pair" ) ;
+    where w;
+    exp ea = a.wh_exp;
+    exp eb = b.wh_exp;
+    w.wh_exp = getexp (realsh, eb, 0, ea, nilexp, 0, 0, regpair_tag);
+    w.wh_off = 0;
+    w.wh_is = RegPair;
+    where_regmsk = 0;
+    if (find_where (ea) != Dreg || find_where (eb) != Dreg) {
+		error ("Illegal register pair");
     }
-    w.wh_regs = where_regmsk ;
-    return ( w ) ;
+    w.wh_regs = where_regmsk;
+    return (w);
 }
 
 
 /*
-    CONSTANT WHERE'S
+ *    CONSTANT WHERE'S
+ *
+ *    These represent commonly used numerical constants and registers.
+ *    zero is the integer 0.  RW[] is the array of all registers.  A6_4
+ *    represents a position on the stack.  A0_p, A1_p, SP_p and A6_4_p
+ *    represent pointers.  D0_D1 is a register pair.
+ */
 
-    These represent commonly used numerical constants and registers.
-    zero is the integer 0.  RW[] is the array of all registers.  A6_4
-    represents a position on the stack.  A0_p, A1_p, SP_p and A6_4_p
-    represent pointers.  D0_D1 is a register pair.
-*/
-
-where zero ;
-where fzero ;
-where RW [ NO_OF_REGS ] ;
-where A6_4, A0_p, A1_p, SP_p, A6_4_p, D0_D1 ;
-where dummy_double_dest ;
+where zero;
+where fzero;
+where RW [ NO_OF_REGS ];
+where A6_4, A0_p, A1_p, SP_p, A6_4_p, D0_D1;
+where dummy_double_dest;
 where firstlocal;
 
 
 /*
-    CONSTANT EXP'S
+ *    CONSTANT EXP'S
+ *
+ *    These expressions are the wh_exp fields of the where's above.
+ */
 
-    These expressions are the wh_exp fields of the where's above.
-*/
-
-exp zeroe ;
-static exp fzeroe ;
-static exp RE [ NO_OF_REGS ] ;
-static exp E_long, E_float, E_ptr, E_A6_4 ;
+exp zeroe;
+static exp fzeroe;
+static exp RE [ NO_OF_REGS ];
+static exp E_long, E_float, E_ptr, E_A6_4;
 static exp firstlocalid;
 
 /*
-    SET UP CONSTANTS WHERE'S
+ *    SET UP CONSTANTS WHERE'S
+ *
+ *    The constant where's are initialized.
+ */
 
-    The constant where's are initialized.
-*/
-
-void init_wheres
-    PROTO_Z ()
+void
+init_wheres()
 {
-    int i ;
-
+    int i;
+	
     /* Set up the exps corresponding to 0 */
-    zeroe = new_exp ( botsh, nilexp, 0, val_tag ) ;
-    fzeroe = new_exp ( realsh, nilexp, fzero_no, real_tag ) ;
-
+    zeroe = new_exp (botsh, nilexp, 0, val_tag);
+    fzeroe = new_exp (realsh, nilexp, fzero_no, real_tag);
+	
     /* Set up the corresponding wheres */
-    zero = zw ( zeroe ) ;
-    fzero = zw ( fzeroe ) ;
-
+    zero = zw (zeroe);
+    fzero = zw (fzeroe);
+	
     /* Create some dummy exp's */
-    E_long = new_exp ( slongsh, nilexp, 0, val_tag ) ;
-    E_float = new_exp ( realsh, nilexp, 0, real_tag ) ;
-    E_ptr = new_exp ( ptrsh, E_long, 0, cont_tag ) ;
-    E_A6_4 = new_exp ( botsh, E_ptr, 0, ident_tag ) ;
-    ptno ( E_A6_4 ) = var_pl ;
-
+    E_long = new_exp (slongsh, nilexp, 0, val_tag);
+    E_float = new_exp (realsh, nilexp, 0, real_tag);
+    E_ptr = new_exp (ptrsh, E_long, 0, cont_tag);
+    E_A6_4 = new_exp (botsh, E_ptr, 0, ident_tag);
+    ptno (E_A6_4) = var_pl;
+	
     /* Set up the exp's corresponding to the utility registers */
-    for ( i = 0 ; i < NO_OF_REGS ; i++ ) {
-	exp t = E_float ;
-	if ( is_dreg ( i ) ) t = E_long ;
-	if ( is_areg ( i ) ) t = E_ptr ;
-	RE [i] = new_exp ( botsh, t, regmsk ( i ), ident_tag ) ;
-	ptno ( RE [i] ) = reg_pl ;
-	RW [i] = zw ( new_exp ( slongsh, RE [i], 0, name_tag ) ) ;
+    for (i = 0 ; i < NO_OF_REGS ; i++) {
+		exp t = E_float;
+		if (is_dreg (i)) t = E_long;
+		if (is_areg (i)) t = E_ptr;
+		RE [i] = new_exp (botsh, t, regmsk (i), ident_tag);
+		ptno (RE [i]) = reg_pl;
+		RW [i] = zw (new_exp (slongsh, RE [i], 0, name_tag));
     }
-
+	
     /* Set up some pointer where's */
-    A0_p = zw ( new_exp ( ptrsh, A0.wh_exp, 0, cont_tag ) ) ;
-    A1_p = zw ( new_exp ( ptrsh, A1.wh_exp, 0, cont_tag ) ) ;
-    SP_p = zw ( new_exp ( ptrsh, SP.wh_exp, 0, cont_tag ) ) ;
-    A6_4 = zw ( new_exp ( slongsh, E_A6_4, -32, name_tag ) ) ;
-    A6_4_p = zw ( new_exp ( ptrsh, A6_4.wh_exp, 0, cont_tag ) ) ;
-
+    A0_p = zw (new_exp (ptrsh, A0.wh_exp, 0, cont_tag));
+    A1_p = zw (new_exp (ptrsh, A1.wh_exp, 0, cont_tag));
+    SP_p = zw (new_exp (ptrsh, SP.wh_exp, 0, cont_tag));
+    A6_4 = zw (new_exp (slongsh, E_A6_4, -32, name_tag));
+    A6_4_p = zw (new_exp (ptrsh, A6_4.wh_exp, 0, cont_tag));
+	
     /* Set up the register pair D0:D1 */
-    D0_D1 = regpair ( D0, D1 ) ;
-
-    dummy_double_dest = zw(get_dummy_double_dest()) ;
-
+    D0_D1 = regpair (D0, D1);
+	
+    dummy_double_dest = zw(get_dummy_double_dest());
+	
     firstlocalid = new_exp (f_bottom, E_long, 0, ident_tag);
     ptno(firstlocalid) = var_pl;
     firstlocal = zw (new_exp (slongsh, firstlocalid, -32, name_tag));
@@ -637,122 +874,121 @@ void init_wheres
 
 
 /*
-    ARE TWO WHERE'S EQUAL?
+ *    ARE TWO WHERE'S EQUAL?
+ *
+ *    This is actually an auxiliary routine.  eq_where (a, b) is a macro
+ *    defined to be eq_where_a (a, b, 1).  It returns 1 if the where's
+ *    a and b are equal, but 0 otherwise.
+ */
 
-    This is actually an auxiliary routine.  eq_where ( a, b ) is a macro
-    defined to be eq_where_a ( a, b, 1 ).  It returns 1 if the where's
-    a and b are equal, but 0 otherwise.
-*/
-
-bool eq_where_a
-    PROTO_N ( ( wa, wb, first ) )
-    PROTO_T ( where wa X where wb X int first )
+bool
+eq_where_a(where wa, where wb, int first)
 {
-    where sa, sb ;
-    exp a = wa.wh_exp ;
-    exp b = wb.wh_exp ;
-    char na = name ( a ) ;
-    char nb = name ( b ) ;
-
-    if ( wa.wh_off != wb.wh_off ) return ( 0 ) ;
-    if ( a == b ) return ( 1 ) ;
-
-    if ( na == nb ) {
-
-	switch ( na ) {
-
+    where sa, sb;
+    exp a = wa.wh_exp;
+    exp b = wb.wh_exp;
+    char na = name (a);
+    char nb = name (b);
+	
+    if (wa.wh_off != wb.wh_off) return (0);
+    if (a == b) return (1);
+	
+    if (na == nb) {
+		
+		switch (na) {
+			
 	    case val_tag : {
-		return ( no ( a ) == no ( b ) ? 1 : 0 ) ;
+			return (no (a) == no (b) ? 1 : 0);
 	    }
-
+			
 	    case ident_tag : {
-		if ( no ( a ) != no ( b ) ) return ( 0 ) ;
-		return ( ptno ( a ) == ptno ( b ) ? 1 : 0 ) ;
+			if (no (a) != no (b)) return (0);
+			return (ptno (a) == ptno (b) ? 1 : 0);
 	    }
-
+			
 	    case name_tag :
 	    case field_tag :
 	    case reff_tag : {
-		if ( no ( a ) != no ( b ) ) return ( 0 ) ;
-		sa.wh_exp = son ( a ) ;
-		sa.wh_off = 0 ;
-		sb.wh_exp = son ( b ) ;
-		sb.wh_off = 0 ;
-		return ( eq_where_a ( sa, sb, 0 ) ) ;
+			if (no (a) != no (b)) return (0);
+			sa.wh_exp = son (a);
+			sa.wh_off = 0;
+			sb.wh_exp = son (b);
+			sb.wh_off = 0;
+			return (eq_where_a (sa, sb, 0));
 	    }
-
+			
 	    case cont_tag : {
-		sa.wh_exp = son ( a ) ;
-		sa.wh_off = 0 ;
-		sb.wh_exp = son ( b ) ;
-		sb.wh_off = 0 ;
-		return ( eq_where_a ( sa, sb, 0 ) ) ;
+			sa.wh_exp = son (a);
+			sa.wh_off = 0;
+			sb.wh_exp = son (b);
+			sb.wh_off = 0;
+			return (eq_where_a (sa, sb, 0));
 	    }
-
+			
 	    case real_tag : {
-		int i ;
-		bool z = 1 ;
-		flt fa, fb ;
-		fa = flptnos [ no ( a ) ] ;
-		fb = flptnos [ no ( b ) ] ;
-
-		for ( i = 0 ; i < MANT_SIZE ; i++ ) {
-		    if ( fa.mant [i] != fb.mant [i] ) return ( 0 ) ;
-		    if ( fa.mant [i] ) z = 0 ;
-		}
-
-		if ( z ) return ( 1 ) ;
-		if ( fa.exp != fb.exp ) return ( 0 ) ;
-		if ( fa.sign != fb.sign ) return ( 0 ) ;
-		return ( 1 ) ;
+			int i;
+			bool z = 1;
+			flt fa, fb;
+			fa = flptnos [ no (a) ];
+			fb = flptnos [ no (b) ];
+			
+			for (i = 0 ; i < MANT_SIZE ; i++) {
+				if (fa.mant [i] != fb.mant [i]) return (0);
+				if (fa.mant [i]) z = 0;
+			}
+			
+			if (z) return (1);
+			if (fa.exp != fb.exp) return (0);
+			if (fa.sign != fb.sign) return (0);
+			return (1);
 	    }
-	}
-	return ( 0 ) ;
+		}
+		return (0);
     }
-
-    if ( first && na == name_tag && nb == ident_tag ) {
-	if ( no ( a ) ) return ( 0 ) ;
-	sa.wh_exp = son ( a ) ;
-	sa.wh_off = 0 ;
-	return ( eq_where_a ( sa, wb, 0 ) ) ;
+	
+    if (first && na == name_tag && nb == ident_tag) {
+		if (no (a)) return (0);
+		sa.wh_exp = son (a);
+		sa.wh_off = 0;
+		return (eq_where_a (sa, wb, 0));
     }
-
-    if ( first && nb == name_tag && na == ident_tag ) {
-	if ( no ( b ) ) return ( 0 ) ;
-	sb.wh_exp = son ( b ) ;
-	sb.wh_off = 0 ;
-	return ( eq_where_a ( wa, sb, 0 ) ) ;
+	
+    if (first && nb == name_tag && na == ident_tag) {
+		if (no (b)) return (0);
+		sb.wh_exp = son (b);
+		sb.wh_off = 0;
+		return (eq_where_a (wa, sb, 0));
     }
-
-    if ( ( na == cont_tag || na == ass_tag ) &&
-	 name ( son ( a ) ) == name_tag &&
-	 isvar ( son ( son ( a ) ) ) &&
-	 ( nb == ident_tag || nb == name_tag ) ) {
-	if ( no ( son ( a ) ) ) return ( 0 ) ;
-	sa.wh_exp = son ( son ( a ) ) ;
-	sa.wh_off = 0 ;
-	return ( eq_where_a ( sa, wb, 0 ) ) ;
+	
+    if ((na == cont_tag || na == ass_tag) &&
+		name (son (a)) == name_tag &&
+		isvar (son (son (a))) &&
+		(nb == ident_tag || nb == name_tag)) {
+		if (no (son (a))) return (0);
+		sa.wh_exp = son (son (a));
+		sa.wh_off = 0;
+		return (eq_where_a (sa, wb, 0));
     }
-
-    if ( ( nb == cont_tag || nb == ass_tag ) &&
-	 name ( son ( b ) ) == name_tag &&
-	 isvar ( son ( son ( b ) ) ) &&
-	 ( na == ident_tag || na == name_tag ) ) {
-	if ( no ( son ( b ) ) ) return ( 0 ) ;
-	sb.wh_exp = son ( son ( b ) ) ;
-	sb.wh_off = 0 ;
-	return ( eq_where_a ( wa, sb, 0 ) ) ;
+	
+    if ((nb == cont_tag || nb == ass_tag) &&
+		name (son (b)) == name_tag &&
+		isvar (son (son (b))) &&
+		(na == ident_tag || na == name_tag)) {
+		if (no (son (b))) return (0);
+		sb.wh_exp = son (son (b));
+		sb.wh_off = 0;
+		return (eq_where_a (wa, sb, 0));
     }
-
-
-    if ( ( na == ass_tag && nb == cont_tag ) ||
-	 ( nb == ass_tag && na == cont_tag ) ) {
-	sa.wh_exp = son ( a ) ;
-	sa.wh_off = 0 ;
-	sb.wh_exp = son ( b ) ;
-	sb.wh_off = 0 ;
-	return ( eq_where_a ( sa, sb, 0 ) ) ;
+	
+	
+    if ((na == ass_tag && nb == cont_tag) ||
+		(nb == ass_tag && na == cont_tag)) {
+		sa.wh_exp = son (a);
+		sa.wh_off = 0;
+		sb.wh_exp = son (b);
+		sb.wh_off = 0;
+		return (eq_where_a (sa, sb, 0));
     }
-
-    return ( 0 ) ;
+	
+    return (0);
 }

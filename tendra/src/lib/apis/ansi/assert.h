@@ -25,24 +25,51 @@
 #       no liability whatsoever in relation to any use to which
 #       it may be put.
 #
-$PROTECT = "" ;
+$PROTECT = "";
 
 +SUBSET "fail" := {
-+FUNC void __assert_aux ( const char *, const char *, int ) ;
++FUNC void __assert_aux (const char *, const char *, int);
 %%%
 #include <stdio.h>
 #include <stdlib.h>
-/* Provide token definition here */
-#define __assert_aux( E, F, L )\
-    ( fprintf ( stderr, "assertion failed: %s, file %s, line %d\n",\
-		( E ), ( F ), ( L ) ), abort () )
+/*
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * $TenDRA$
+ * Provide token definition here */
+#define __assert_aux(E, F, L)\
+    (fprintf (stderr, "assertion failed: %s, file %s, line %d\n",\
+		(E), (F), (L)), abort ())
 %%%
-} ;
+};
 
 %% #undef assert %%
 
 +IFDEF NDEBUG
-+DEFINE assert.1( e ) %% ((void)0) %% ;
++DEFINE assert.1(e) %% ((void)0) %%;
 +ELSE
-+DEFINE assert.2( e ) %% ((e)?(void)0:__assert_aux(#e,__FILE__,__LINE__)) %% ;
++DEFINE assert.2(e) %% ((e)?(void)0:__assert_aux(#e,__FILE__,__LINE__)) %%;
 +ENDIF

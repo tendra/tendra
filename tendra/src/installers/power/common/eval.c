@@ -1,68 +1,315 @@
 /*
-    Copyright (c) 1993 Open Software Foundation, Inc.
-
-
-    All Rights Reserved
-
-
-    Permission to use, copy, modify, and distribute this software
-    and its documentation for any purpose and without fee is hereby
-    granted, provided that the above copyright notice appears in all
-    copies and that both the copyright notice and this permission
-    notice appear in supporting documentation.
-
-
-    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
-    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-    PARTICULAR PURPOSE.
-
-
-    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
-    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
-    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*/
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    Copyright (c) 1993 Open Software Foundation, Inc.
+ *
+ *
+ *    All Rights Reserved
+ *
+ *
+ *    Permission to use, copy, modify, and distribute this software
+ *    and its documentation for any purpose and without fee is hereby
+ *    granted, provided that the above copyright notice appears in all
+ *    copies and that both the copyright notice and this permission
+ *    notice appear in supporting documentation.
+ *
+ *
+ *    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ *    PARTICULAR PURPOSE.
+ *
+ *
+ *    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+ *    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+ *    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+ *    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * $TenDRA$
+ */
 
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ */
 
 
 
 /**********************************************************************
-$Author$
-$Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:25  asmodai
-Initial version of TenDRA 4.1.2.
-
+ *$Author$
+ *$Date$
+ *$Revision$
+ *$Log$
+ *Revision 1.2  2002/11/21 22:31:12  nonce
+ *Remove ossg prototypes.  This commit is largely whitespace changes,
+ *but is nonetheless important.  Here's why.
+ *
+ *I.  Background
+ *=========================
+ *
+ *    The current TenDRA-4.1.2 source tree uses "ossg" prototype
+ *conventions, based on the Open Systems Software Group publication "C
+ *Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
+ *The goal behind ossg prototypes remains admirable: TenDRA should
+ *support platforms that lack ANSI compliant compilers.  The explicit
+ *nature of ossg's prototypes makes macro substition easy.
+ *
+ *    Here's an example of one function:
+ *
+ *    static void uop
+ *	PROTO_N ( ( op, sha, a, dest, stack ) )
+ *	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
+ *		  shape sha X exp a X where dest X ash stack )
+ *    {
+ *
+ *tendra/src/installers/680x0/common/codec.c
+ *
+ *  The reasons for removing ossg are several, including:
+ *
+ *  0) Variables called 'X' present a problem (besides being a poor
+ *variable name).
+ *
+ *  1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
+ *prototypes are easily handled by most every compiler these days.
+ *
+ *  2) Although TenDRA emphasizes portability, standards compliance is
+ *the primary goal of the current project.  We should expect no less
+ *from the compiler source code.
+ *
+ *  3) The benefits of complex prototypes are few, given parameter
+ *promotion rules.  (Additionally, packing more types into int-sized
+ *spaces tends to diminish type safety, and greatly complicates
+ *debugging and testing.)
+ *
+ *  4) It would prove impractical to use an OSSG internal style document
+ *in an open source project.
+ *
+ *  5) Quite frankly, ossg prototypes are difficult to read, but that's
+ *certainly a matter of taste and conditioning.
+ *
+ *II.  Changes
+ *=========================
+ *
+ *   This commit touches most every .h and .c file in the tendra source
+ *tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
+ *was used to automate the following changes:
+ *
+ *   A.  Prototype Conversions.
+ *   --------------------------------------------------
+ *
+ *   The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
+ *rewritten to ISO-compliant form.  Not every file was touched.  The
+ *files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
+ *left for hand editing.  These files provide header generation, or have
+ *non-ossg compliant headers to start with.  Scripting around these
+ *would take too much time; a separate hand edit will fix them.
+ *
+ *   B.  Statement Spacing
+ *   --------------------------------------------------
+ *
+ *   Most of the code in the TenDRA-4.1.2 used extra spaces to separate
+ *parenthetical lexemes.  (See the quoted example above.)  A simple
+ *text substitution was made for:
+ *
+ *     Before            After
+ *===================================
+ *
+ *   if ( x )            if (x)
+ *   if(x)               if (x)
+ *   x = 5 ;             x = 5;
+ *   ... x) )            ... x))
+ *
+ *All of these changes are suggested by style(9).  Additional, statement
+ *spacing considerations were made for all of the style(9) keywords:
+ *"if" "while" "for" "return" "switch".
+ *
+ *A few files seem to have too few spaces around operators, e.g.:
+ *
+ *      arg1*arg2
+ *
+ *instead of
+ *
+ *      arg1 * arg2
+ *
+ *These were left for hand edits and later commits, since few files
+ *needed these changes.  (At present, the rmossg.el script takes 1 hour
+ *to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
+ *needed change would take too much time.)
+ *
+ *   C.  License Information
+ *   --------------------------------------------------
+ *
+ *After useful discussion on IRC, the following license changes were
+ *made:
+ *
+ *   1) Absent support for $License::BSD$ in the repository, license
+ *and copyright information was added to each file.
+ *
+ *   2) Each file begins with:
+ *
+ *   Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ *   All rights reserved.
+ *
+ *   Usually, copyright stays with the author of the code; however, I
+ *feel very strongly that this is a group effort, and so the tendra
+ *project should claim any new (c) interest.
+ *
+ *   3) The comment field then shows the bsd license and warranty
+ *
+ *   4) The comment field then shows the Crown Copyright, since our
+ *changes are not yet extensive enough to claim any different.
+ *
+ *   5) The comment field then closes with the $TenDRA$ tag.
+ *
+ *   D.  Comment Formatting
+ *   --------------------------------------------------
+ *
+ *The TenDRA-4.1.2 code base tended to use comment in this form:
+ *
+ *    /*
+ *       Statement statement
+ *       statement
+ *     */
+ *
+ *while style(9) suggests:
+ *
+ *    /*
+ *     * Statement statement
+ *     * statement
+ *     */
+ *
+ *Not every comment in -4.1.2 needed changing.  A parser was written to
+ *identify non-compliant comments.  Note that a few comments do not
+ *follow either the TenDRA-4.1.2 style or style(9), or any style I can
+ *recognize.  These need hand fixing.
+ *
+ *   E.  Indentation
+ *   --------------------------------------------------
+ *
+ *   A elisp tendra-c-mode was created to define how code should be
+ *indented.  The structure follows style(9) in the following regards:
+ *
+ *  (c-set-offset 'substatement-open 0)
+ *  (setq c-indent-tabs-mode t
+ *	c-indent-level 4
+ *	c-argdecl-indent t
+ *	c-tab-always-indent t
+ *	backward-delete-function nil
+ *	c-basic-offset 4
+ *	tab-width 4))
+ *
+ *This means that substatement opening are not indented.  E.g.:
+ *
+ *   if (condition)
+ *   {
+ *
+ *instead of
+ *
+ *   if (condition)
+ *     {
+ *
+ *or even
+ *
+ *   if (condition) {
+ *
+ *Each statement is indented by a tab instead of a spaces.  Set your tab
+ *stop to comply with style(9); see the vim resources in the tendra
+ *tree.  I'll add the emacs mode support shortly.
+ *
+ *No doubt, a function or two escaped change because of unusual
+ *circumstances.  These must be hand fixed as well.
+ *
+ *III.  Things Not Changed
+ *=========================
+ *
+ *    A large number of style(9) deficiencies remain.  These will
+ *require a separate effort.  I decided to stop with the changes noted
+ *above because:
+ *
+ *   0)  The script currently takes hours to run to completion even on
+ *high-end consumer machines.
+ *
+ *   1)  We need to move on and fix other substantive problems.
+ *
+ *   2) The goal of this commit was *just* ossg removal; I took the
+ *opportunity to get other major white-space issues out of the way.
+ *
+ *    I'll also note that despite this commit, a few ossg issues remain.
+ *These include:
+ *
+ *   0) The ossg headers remain.  They contain useful flags needed by
+ *other operations.  Additionally, the BUILD_ERRORS perl script still
+ *generates ossg-compliant headers.  (This is being removed as we change
+ *the build process.)
+ *
+ *   1) A few patches of code check for ossg flags: "if (ossg) etc."
+ *These can be hand removed as well.
+ *
+ *   2) No doubt, a few ossg headers escaped the elisp script.  We can
+ *address these seriatim.
+ *
+ *IV.  Testing
+ *=========================
+ *
+ *    Without a complete build or test suite, it's difficult to
+ *determine if these changes have introduced any bugs.  I've identified
+ *several situations where removal of ossg caused bugs in sid and
+ *calculus operations.  The elisp script avoids these situations; we
+ *will hand edit a few files.
+ *
+ *    As is, the changes should behave properly; the source base builds
+ *the same before and after the rmossg.el script is run.  Nonetheless,
+ *please note that this commit changes over 23,000 PROTO declarations,
+ *and countless line changes.  I'll work closely with any developers
+ *affected by this change.
+ *
  * Revision 1.2  1998/02/04  15:48:44  release
  * Added OSF copyright message.
  *
@@ -75,16 +322,16 @@ Initial version of TenDRA 4.1.2.
  * Revision 1.2  1996/10/04  16:00:31  pwe
  * add banners and mod for PWE ownership
  *
-**********************************************************************/
+ **********************************************************************/
 
 
 /*****************************************************************
-		eval.c
-
-	The main procedure defined here is evaluated which outputs
-assembler for data. The parameters are an evaluated exp and an index
-into the table of externals (or 0 meaning anonymous).
-*****************************************************************/
+ *		eval.c
+ *
+ *	The main procedure defined here is evaluated which outputs
+ *assembler for data. The parameters are an evaluated exp and an index
+ *into the table of externals (or 0 meaning anonymous).
+ *****************************************************************/
 
 #include "config.h"
 #include <ctype.h>
@@ -105,7 +352,7 @@ into the table of externals (or 0 meaning anonymous).
 #include "f64.h"
 extern FILE *as_file;
 
-long correct_shape PROTO_S ((long, int));
+long correct_shape(long, int);
 
 /* various pieces of info for outputting data depending on shape */
 static	mm scmm	=	{127,		-128,		"\t.byte\t%ld\n"};
@@ -117,860 +364,872 @@ static	mm uswmm =	{0xffffffff,	0,		"\t.long\t%ld\n"};
 
 
 /* number for anonymous label in data space - L.Dnnn */
-int next_data_lab PROTO_Z ()
+int
+next_data_lab()
 {
-  static int data_lab = 100;
-
-  return ++data_lab;
+	static int data_lab = 100;
+	
+	return ++data_lab;
 }
 
 
 /*************************************************************
-maxmin
-
-finds the data size from the range of an integer shape
-**************************************************************/
-mm maxmin PROTO_N ((s)) PROTO_T (shape s)
+ *maxmin
+ *
+ *finds the data size from the range of an integer shape
+ **************************************************************/
+mm
+maxmin(shape s)
 {
-  switch (name(s))
-  {
-  case scharhd:
-    return scmm;
-  case ucharhd:
-    return uscmm;
-  case swordhd:
-    return shmm;
-  case uwordhd:
-    return ushmm;
-  case slonghd:
-    return swmm;
-  case ulonghd:
-    return uswmm;
-  default:
-    return uswmm;
-  }
-
+	switch (name(s))
+	{
+	case scharhd:
+		return scmm;
+	case ucharhd:
+		return uscmm;
+	case swordhd:
+		return shmm;
+	case uwordhd:
+		return ushmm;
+	case slonghd:
+		return swmm;
+	case ulonghd:
+		return uswmm;
+	default:
+		return uswmm;
+	}
+	
 }
 
 
 /**************************************************************
-outlab
+ *outlab
+ *
+ *outputs the label parameter if non negative else interprets it
+ *to be an index into the externals and outputs the identifier.
+ **************************************************************/
 
-outputs the label parameter if non negative else interprets it
-to be an index into the externals and outputs the identifier.
-**************************************************************/
-
-void outlab PROTO_N ((l)) PROTO_T (int l)
+void
+outlab(int l)
 {
-  fprintf(as_file, "%s", ext_name(l));
+	fprintf(as_file, "%s", ext_name(l));
 }
 
 /* translate time evaluate integer exp 'e' */
-long evalexp PROTO_N ((e)) PROTO_T (exp e)
+long
+evalexp(exp e)
 {
-  switch (name(e))
-  {
-   case null_tag:case top_tag:
-    return 0;
-   case val_tag:
+	switch (name(e))
+	{
+	case null_tag:case top_tag:
+		return 0;
+	case val_tag:
     {
-      /* offsets appear as bits, but are converted to bytes if alignment 
-       is not bits */
-      if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) 
-      {
-	return (no(e)>>3);
-      }
-      return no(e);
+		/* offsets appear as bits, but are converted to bytes if alignment 
+		 *       is not bits */
+		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) 
+		{
+			return (no(e)>>3);
+		}
+		return no(e);
     }
     case env_size_tag :
     {
-      exp tg = son(son(e));
-      procrec *pr = &procrecs[no(son(tg))];
-      return ((pr->frame_size)>>3) + pr->max_callee_bytes;
+		exp tg = son(son(e));
+		procrec *pr = &procrecs[no(son(tg))];
+		return ((pr->frame_size)>>3) + pr->max_callee_bytes;
     }
     case offset_add_tag : {
-      return (evalexp(son(e)) + evalexp(bro(son(e))));
+		return (evalexp(son(e)) + evalexp(bro(son(e))));
     }
     case offset_max_tag : {
-      return (max(evalexp(son(e)),evalexp(bro(son(e)))));
+		return (max(evalexp(son(e)),evalexp(bro(son(e)))));
     }
     case offset_pad_tag : {
-      return (rounder(evalexp(son(e)),shape_align(sh(e))));
+		return (rounder(evalexp(son(e)),shape_align(sh(e))));
     }
     case offset_mult_tag : {
-      return (evalexp(son(e))*evalexp(bro(son(e))));
+		return (evalexp(son(e))*evalexp(bro(son(e))));
     }
     case offset_div_tag :
     case offset_div_by_int_tag : {
-      return (evalexp(son(e))/evalexp(bro(son(e))));
+		return (evalexp(son(e))/evalexp(bro(son(e))));
     }
     case offset_subtract_tag : {
-      return (evalexp(son(e))-evalexp(bro(son(e))));
+		return (evalexp(son(e))-evalexp(bro(son(e))));
     }
     case offset_negate_tag : {
-      return (- evalexp(son(e)));
+		return (- evalexp(son(e)));
     }
-
-    
-   case chvar_tag:
+		
+		
+	case chvar_tag:
     {
-      return correct_shape(evalexp(son(e)),name(sh(e)));
+		return correct_shape(evalexp(son(e)),name(sh(e)));
     }
-   case bitf_to_int_tag:
+	case bitf_to_int_tag:
     {
-      return evalexp(son(e));
+		return evalexp(son(e));
     }
-
-   case int_to_bitf_tag:
+	
+	case int_to_bitf_tag:
     {
-      ash a;
-      unsigned long w = evalexp(son(e));
-
-      a = ashof(sh(e));
-      if (a.ashalign != 1)
-      {
-	fail("should be align 1");
-      }
-      if (a.ashsize != 32)
-      {
-	w &= ((1 << a.ashsize) - 1);
-      }
-      return w;
+		ash a;
+		unsigned long w = evalexp(son(e));
+		
+		a = ashof(sh(e));
+		if (a.ashalign != 1)
+		{
+			fail("should be align 1");
+		}
+		if (a.ashsize != 32)
+		{
+			w &= ((1 << a.ashsize) - 1);
+		}
+		return w;
     }
-   case not_tag:
+	case not_tag:
     {
-      return correct_shape(~evalexp(son(e)),name(sh(e)));
+		return correct_shape(~evalexp(son(e)),name(sh(e)));
     }
-
-   case and_tag:
+	
+	case and_tag:
     {
-      return (evalexp(son(e)) & evalexp(bro(son(e))));
+		return (evalexp(son(e)) & evalexp(bro(son(e))));
     }
-
-   case or_tag:
+	
+	case or_tag:
     {
-      return (evalexp(son(e)) | evalexp(bro(son(e))));
+		return (evalexp(son(e)) | evalexp(bro(son(e))));
     }
-
-   case xor_tag:
+	
+	case xor_tag:
     {
-      return (evalexp(son(e)) ^ evalexp(bro(son(e))));
+		return (evalexp(son(e)) ^ evalexp(bro(son(e))));
     }
-
-   case shr_tag:
+	
+	case shr_tag:
     {
-      bool sgned = is_signed(sh(e));
-      long sl;
-      unsigned long ul;
-      if (sgned)
-      {
-	sl = (long)correct_shape(evalexp(son(e)),name(sh(e)));
-	return ( sl >> evalexp(bro(son(e))) );
-      }
-      else
-      {
-	ul = (unsigned long)correct_shape(evalexp(son(e)),name(sh(e)));
-	return ( ul >> evalexp(bro(son(e))) );
-      }
+		bool sgned = is_signed(sh(e));
+		long sl;
+		unsigned long ul;
+		if (sgned)
+		{
+			sl = (long)correct_shape(evalexp(son(e)),name(sh(e)));
+			return (sl >> evalexp(bro(son(e))));
+		}
+		else
+		{
+			ul = (unsigned long)correct_shape(evalexp(son(e)),name(sh(e)));
+			return (ul >> evalexp(bro(son(e))));
+		}
     }
-
-  case shl_tag:
+	
+	case shl_tag:
     {
-      return correct_shape(evalexp(son(e))<<evalexp(bro(son(e))),name(sh(e)));
+		return correct_shape(evalexp(son(e))<<evalexp(bro(son(e))),name(sh(e)));
     }
-
-  case concatnof_tag:
+	
+	case concatnof_tag:
     {
-      unsigned long w_lhs = evalexp(son(e));
-      unsigned long w_rhs = evalexp(bro(son(e)));
-      ash ash_lhs, ash_rhs;
-      ash_lhs = ashof(sh(son(e)));
-      ash_rhs = ashof(sh(bro(son(e))));
-
-      ASSERT(ash_lhs.ashalign==1 && ash_lhs.ashsize<=32);
-      ASSERT(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
-      ASSERT(ash_lhs.ashsize+ash_rhs.ashsize<=32);
-
-      FULLCOMMENT4("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs)=%d,%d",
-		w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
-
-      if (ash_rhs.ashsize == 32)
-      {
-	/* avoid illegal shift by 32 */
-	ASSERT(w_lhs==0);
-	return w_rhs;
-      }
-      return (w_lhs << ash_rhs.ashsize) | w_rhs;
+		unsigned long w_lhs = evalexp(son(e));
+		unsigned long w_rhs = evalexp(bro(son(e)));
+		ash ash_lhs, ash_rhs;
+		ash_lhs = ashof(sh(son(e)));
+		ash_rhs = ashof(sh(bro(son(e))));
+		
+		ASSERT(ash_lhs.ashalign==1 && ash_lhs.ashsize<=32);
+		ASSERT(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
+		ASSERT(ash_lhs.ashsize+ash_rhs.ashsize<=32);
+		
+		FULLCOMMENT4("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs)=%d,%d",
+					 w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
+		
+		if (ash_rhs.ashsize == 32)
+		{
+			/* avoid illegal shift by 32 */
+			ASSERT(w_lhs==0);
+			return w_rhs;
+		}
+		return (w_lhs << ash_rhs.ashsize) | w_rhs;
     }
-
-  case clear_tag:
+	
+	case clear_tag:
     {
-      ash a;
-
-      a = ashof(sh(e));
-
-      FULLCOMMENT2("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
-      if (a.ashsize > 32)
-	fail("clear for more than 32 bits");
-
-      return 0;
+		ash a;
+		
+		a = ashof(sh(e));
+		
+		FULLCOMMENT2("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
+		if (a.ashsize > 32)
+			fail("clear for more than 32 bits");
+		
+		return 0;
     }
-
-   case env_offset_tag:
-   case general_env_offset_tag:
+	
+	case env_offset_tag:
+	case general_env_offset_tag:
     {
-      return frame_offset(son(e));
+		return frame_offset(son(e));
     }
-
-  default:
-    COMMENT1("tag not in evalexp: %d", name(e));
-    fail("tag not in evalexp");
-    return 0;
-  }
-  /*NOTREACHED*/
+	
+	default:
+		COMMENT1("tag not in evalexp: %d", name(e));
+		fail("tag not in evalexp");
+		return 0;
+	}
+	/*NOTREACHED*/
 }
 
 
 
 struct concbittypet {
-  int			bitposn;
-  int			value_size;
-  unsigned long		value;
+	int			bitposn;
+	int			value_size;
+	unsigned long		value;
 };
 typedef struct concbittypet	concbittype;
 
 
-static concbittype emptyconcbit PROTO_N ((bitposn)) PROTO_T (int bitposn)
+static concbittype
+emptyconcbit(int bitposn)
 {
-  concbittype start;
-
-  start.bitposn = bitposn;
-  start.value_size = 0;
-  start.value = 0;
-
-  return start;
+	concbittype start;
+	
+	start.bitposn = bitposn;
+	start.value_size = 0;
+	start.value = 0;
+	
+	return start;
 }
 
 
-static void outconcbit PROTO_N ((c)) PROTO_T (concbittype c)
+static void
+outconcbit(concbittype c)
 {
-  unsigned long w = c.value;
-  int bytes = (c.value_size + 7) / 8;
-  int i;
-
-  COMMENT2("outconcbit: bits=%d w=%#lx", c.value_size, w);
-
-  if (c.value_size==0)
-    return;			/* avoid .byte with no data */
-
-  ASSERT(c.value_size<=32);
-
-  /* to left end of word */
-  if (c.value_size != 32)
-    w = w << (32-c.value_size);
-
-  /* POWER assembler only permits .long for 32-bit aligned values */
-
-  /* output enough bytes */
-  fprintf(as_file, "\t.byte\t");
-  for (i = 0; i < bytes; i++)
-  {
-    if (i != 0)
-      fprintf(as_file, ",");
-    fprintf(as_file, "%#lx", (w >> 24) & 255);
-    w = w << 8;
-  }
-  fprintf(as_file, "\n");
-  ASSERT(w == 0);
+	unsigned long w = c.value;
+	int bytes = (c.value_size + 7) / 8;
+	int i;
+	
+	COMMENT2("outconcbit: bits=%d w=%#lx", c.value_size, w);
+	
+	if (c.value_size==0)
+		return;			/* avoid .byte with no data */
+	
+	ASSERT(c.value_size<=32);
+	
+	/* to left end of word */
+	if (c.value_size != 32)
+		w = w << (32-c.value_size);
+	
+	/* POWER assembler only permits .long for 32-bit aligned values */
+	
+	/* output enough bytes */
+	fprintf(as_file, "\t.byte\t");
+	for (i = 0; i < bytes; i++)
+	{
+		if (i != 0)
+			fprintf(as_file, ",");
+		fprintf(as_file, "%#lx", (w >> 24) & 255);
+		w = w << 8;
+	}
+	fprintf(as_file, "\n");
+	ASSERT(w == 0);
 }
 /*
-  Output a unary representation of the number val.  val should be 
-  less than or equal to 31 as it represent the number of bits
-  in a bitfield which does not occupy a whole machine word.
-*/
-long unary PROTO_N ((val)) PROTO_T (int val)
+ *  Output a unary representation of the number val.  val should be 
+ *  less than or equal to 31 as it represent the number of bits
+ *  in a bitfield which does not occupy a whole machine word.
+ */
+long
+unary(int val)
 {
-  int loop;
-  long result=0;
-  ASSERT(val <=31);
-  for(loop=0;loop<val;++loop)
-  {
-    result <<=1;
-    result |= 1;
-  }
-  return result;
+	int loop;
+	long result=0;
+	ASSERT(val <=31);
+	for (loop=0;loop<val;++loop)
+	{
+		result <<=1;
+		result |= 1;
+	}
+	return result;
 }
 
 
 
-static concbittype addconcbitaux PROTO_N ((w,size,before)) PROTO_T (unsigned long w X int size X concbittype before)
+static concbittype
+addconcbitaux(unsigned long w, int size, concbittype before)
 {
-  int wordbitposn;			/* 0..32 bit position in current word,
-					 * 0 only at start of bit sequence */
-  
-  if (before.value_size==32 || (before.value_size != 0 && (before.bitposn&31)==0))
-  {
-    ASSERT((before.bitposn&31)==0);
-    wordbitposn = 32;
-  }
-  else
-  {
-    wordbitposn = (before.bitposn&31);
-  }
-  
-  FULLCOMMENT2("addconcbitaux() sz=%d w=%d",
-	       size, w);
-  FULLCOMMENT4("\tbefore=%d(%d) %#x:%d",
-	       before.bitposn, wordbitposn, before.value, before.value_size);
+	int wordbitposn;			/* 0..32 bit position in current word,
+								 * 0 only at start of bit sequence */
+	
+	if (before.value_size==32 || (before.value_size != 0 && (before.bitposn&31)==0))
+	{
+		ASSERT((before.bitposn&31)==0);
+		wordbitposn = 32;
+	}
+	else
+	{
+		wordbitposn = (before.bitposn&31);
+	}
+	
+	FULLCOMMENT2("addconcbitaux() sz=%d w=%d",
+				 size, w);
+	FULLCOMMENT4("\tbefore=%d(%d) %#x:%d",
+				 before.bitposn, wordbitposn, before.value, before.value_size);
 #if 0
-  ASSERT(size>0);		/* no longer have to handle zero for C */
+	ASSERT(size>0);		/* no longer have to handle zero for C */
 #endif
-  ASSERT(size<=32);
-  
-  ASSERT(before.value_size<=32);
-  ASSERT(wordbitposn==0 || before.value_size<=wordbitposn);
-  
-  if (
-      (size == 0 && (wordbitposn != 0 || before.value_size != 0))
-      ||
-      (wordbitposn + size > 32)
-      )
-  {
-    /*
-     * C zero size bitfield, align to word boundary; or
-     * would go over word boundary, so output before and padding.
-     */
-    int pad_bits = 32 - wordbitposn;
-    
+	ASSERT(size<=32);
+	
+	ASSERT(before.value_size<=32);
+	ASSERT(wordbitposn==0 || before.value_size<=wordbitposn);
+	
+	if (
+		(size == 0 && (wordbitposn != 0 || before.value_size != 0))
+		||
+		(wordbitposn + size > 32)
+		)
+	{
+		/*
+		 * C zero size bitfield, align to word boundary; or
+		 * would go over word boundary, so output before and padding.
+		 */
+		int pad_bits = 32 - wordbitposn;
+		
 #if 1
-    ASSERT(pad_bits==0);		/* padding should now be explicit */
-    
-    before.value_size += pad_bits;
-    before.value <<= pad_bits;
+		ASSERT(pad_bits==0);		/* padding should now be explicit */
+		
+		before.value_size += pad_bits;
+		before.value <<= pad_bits;
 #endif
-    
-    outconcbit(before);
-    
-    /* clear before, as it has been output */
-    before.bitposn += pad_bits;
-    before.value_size = 0;
-    before.value = 0;
-    
-    /* should be at word boundary */
-    ASSERT((before.bitposn&31)==0);
-  }
-  
-  if (size == 0)
-    return before;
-  
-  /* add to before */
-  before.bitposn += size;
-  before.value_size += size;
-  if (size == 32)
-    before.value = w;
-  else
-    before.value = (before.value << size) | (w & unary(size));
-  
-  FULLCOMMENT4("\t after=%d(%d) %#x:%d",
-	       before.bitposn, wordbitposn, before.value, before.value_size);
-  
-  ASSERT(before.value_size<=32);
-  
-  return before;
-}
-
-
-static concbittype evalconcbitaux PROTO_N ((e,before)) PROTO_T (exp e X concbittype before)
-{
-  switch (name(e))
-  {
-  case concatnof_tag:
-    {
-      concbittype lhs, rhs;
-      lhs = evalconcbitaux(son(e), before);
-      rhs = evalconcbitaux(bro(son(e)), lhs);
-
-      return rhs;
-    }
-
-  default:
-    {
-      ASSERT(shape_align(sh(e))==1);
-
-      return addconcbitaux(evalexp(e), shape_size(sh(e)), before);
-    }
-  }
-}
-
-
-static void evalconcbit PROTO_N ((e,bitposn)) PROTO_T (exp e X int bitposn)
-{
-  concbittype start;
-  start = emptyconcbit(bitposn);
-
-  outconcbit(evalconcbitaux(e, start));
-}
-
-
-
-static void set_align PROTO_N ((al)) PROTO_T (int al)
-{
-  /* output .align if needed */
-  switch (al)
-  {
-  case 0:
-  case 1:
-  case 8:
-    break;
-
-  case 16:
-    fprintf(as_file, "\t.align\t1\n");
-    break;
-
-  case 32:
-    fprintf(as_file, "\t.align\t2\n");
-    break;
-
-  case 64:
-    fprintf(as_file, "\t.align\t3\n");
-    break;
-
-  default:
-    fail("unexpected alignment");
-  }
-}
-
-
-
-static void evalone PROTO_N ((e,bitposn)) PROTO_T (exp e X int bitposn)
-{
-  ash a;
-
-  a = ashof(sh(e));
-
-  COMMENT4("evalone: name(e)=%d, bitposn=%d, ash=%d,%d", name(e), 
-	   bitposn, a.ashsize, a.ashalign);
-  COMMENT1("evalone no(e)=%d",no(e));
-  
-  set_align(a.ashalign);
-
-  /* align bitposn */
-  if (a.ashalign != 0)
-  {
-    bitposn = (bitposn / a.ashalign) * a.ashalign;
-  }
-  
-  /* generate data initialiser for e */
-  switch (name(e))
-  {
-   case string_tag:
-    {
-      long char_size = props(e);	/* bits width of each output char */
-      long strsize = shape_size(sh(e)) / char_size;
-      unsigned char *st = (unsigned char *)nostr(e);
-      int i;
-      
-      if (char_size != 8 )
-      {
-	/* wide chars, generate a .XXX line for each */
-	for (i = 0; i <strsize; i++)
-	{
-	  unsigned int c;
-	  char *directive;
-	  
-	  switch(char_size)
-	  {
-	   case 16:	
-	    c = ((unsigned short *)st)[i];
-	    directive = ".short";
-	    break;
-	   case 32:	
-	    c = ((unsigned int *)st)[i]; 
-	    directive = ".long";
-	    break;
-	    /* +++ case 64 ??? */
-	   default:	
-	    fail("unexpected wide char data width");
-	  }
-	  fprintf(as_file, "\t%s\t%#x\n", directive, c);
+		
+		outconcbit(before);
+		
+		/* clear before, as it has been output */
+		before.bitposn += pad_bits;
+		before.value_size = 0;
+		before.value = 0;
+		
+		/* should be at word boundary */
+		ASSERT((before.bitposn&31)==0);
 	}
-
-	return;
-      }
-      
-      /* output as ascii where possible for the human reader */
-      while (strsize > 0)
-      {
-	int c = *st;
-
-	if (c >= 32 && c < 127)
-	{
-	  fprintf(as_file, "\t.byte\t\"");
-
-	  for (i = 0; strsize > 0 && i < 48 && c >= 32 && c < 127; i++)
-	  {
-	    if (c != '"')
-	      putc(c, as_file);
-	    else
-	      fprintf(as_file, "\"\"");		/* " represented as "" */
-
-	    st++;
-	    strsize--;
-	    c = *st;
-	  }
-
-	  fprintf(as_file, "\"\n");
-	}
+	
+	if (size == 0)
+		return before;
+	
+	/* add to before */
+	before.bitposn += size;
+	before.value_size += size;
+	if (size == 32)
+		before.value = w;
 	else
+		before.value = (before.value << size) | (w & unary(size));
+	
+	FULLCOMMENT4("\t after=%d(%d) %#x:%d",
+				 before.bitposn, wordbitposn, before.value, before.value_size);
+	
+	ASSERT(before.value_size<=32);
+	
+	return before;
+}
+
+
+static concbittype
+evalconcbitaux(exp e, concbittype before)
+{
+	switch (name(e))
 	{
-	  fprintf(as_file, "\t.byte\t");
-
-	  for (i = 0; strsize > 0 && i < 16 && !(c >= 32 && c < 127); i++)
-	  {
-	    if (i != 0)
-	      fprintf(as_file, ",");
-
-	    fprintf(as_file, "%d", c);
-
-	    st++;
-	    strsize--;
-	    c = *st;
-	  }
-
-	  fprintf(as_file, "\n");
-	}
-      }
-      return;
-    }
-
-  case real_tag:
+	case concatnof_tag:
     {
-      flt *f = flptnos + no(e);
-      r2l v;
-      
-      if (a.ashsize==32) 
-      {
-	v=real2longs_IEEE(f,0);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i1);
-      } 
-      else if (a.ashsize==64) 
-      {
-	v=real2longs_IEEE(f,1);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i2);
-	fprintf(as_file,",");   
-	fprintf(as_file,"%ld",(long)v.i1);
-      } 
-      else 
-      {
-	v=real2longs_IEEE(f,2);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i4);
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i3);
-	fprintf(as_file,",") ;
-	fprintf(as_file,"%ld",(long)v.i2);	
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i1);
-      }
-      fprintf(as_file, "\n") ;
-      return;
+		concbittype lhs, rhs;
+		lhs = evalconcbitaux(son(e), before);
+		rhs = evalconcbitaux(bro(son(e)), lhs);
+		
+		return rhs;
     }
-   case null_tag:case top_tag:
-    no(e) = 0;
-    /* FALLTHROUGH */
-   case val_tag:
+	
+	default:
     {
-      char *asdata;
-      
-      FULLCOMMENT1("evalone() val_tag: %d", val_tag);
-      
-      /* allow 64 bit integers */
-      if (shape_size(sh(e))>32)
-      {
-	flt64 temp;
-	int ov;
-	if (isbigval(e)) 
-	{
-	  temp = flt_to_f64(no(e), 0, &ov);
-	}
-	else 
-	{
-	  temp.big = (is_signed(sh(e)) && no(e)<0)?-1:0;
-	  temp.small = no(e);
-	}
-	fprintf(as_file,"\t.long\t%ld\n",(long)temp.small);
-	fprintf(as_file,"\t.long\t%ld\n",(long)temp.big);
-	return;
-      }
-      /* allow for bitfields */
-      if (a.ashalign == 1)
-      {
-	evalconcbit(e, bitposn);
-	return;
-      }
-
-      if (a.ashalign <= 8)
-      {
-	asdata = ".byte";
-      }
-      else if (a.ashalign <= 16)
-      {
-	asdata = ".short";
-      }
-      else
-      {
-	asdata = ".long";
-      }
-      fprintf(as_file, "\t%s\t%ld\n", asdata, evalexp(e));
-      return;
+		ASSERT(shape_align(sh(e))==1);
+		
+		return addconcbitaux(evalexp(e), shape_size(sh(e)), before);
     }
-  case name_tag:
-    {
-      dec *globdec = brog(son(e));
-      char *nm = globdec->dec_u.dec_val.dec_id;
-
-      ASSERT(isglob(son(e)));
-
-      /* no() is offset */
-      if (no(e) == 0)
-      {
-	fprintf(as_file, "\t.long\t%s\n", nm);
-      }
-      else
-      {
-	fprintf(as_file, "\t.long\t%s+%ld\n", nm, (long)(no(e)/8));
-      }
-
-      return;
-    }
-
-  case compound_tag:
-    {
-      /*
-       * There is a lot of history in the following code, dating from
-       * when tuples were without specified offsets for each field.
-       * Really, this code should be totally rewritten.
-       */
-      int maxalign = a.ashalign;
-      exp off = son(e);
-      exp tup = bro(off);
-      ash tupa;
-      concbittype remainderbits;
-      long last_offset = 0;
-      long last_align = 0;
-      tupa = ashof(sh(tup));
-      remainderbits = emptyconcbit(bitposn);
-
-      /* output elements of aggregate recursively */
-      while (1)
-      {
-	int gap = no(off) - remainderbits.bitposn;
-
-	COMMENT4("evalone compound_tag: gap=%d off=%d ash=%d,%d",
-		gap, no(off), tupa.ashsize, tupa.ashalign);
-
-	/* check that component's alignment matches offset in struct */
-	ASSERT((no(off)/tupa.ashalign)*tupa.ashalign <= no(off));
-
-	/* and is no greater that struct's alignment */
-	ASSERT(tupa.ashalign<=maxalign);
-
-	if (no(off) < last_offset)
-	  fail("eval compound_tag: not ascending order");
-
-	if (last_align <= 1 || tupa.ashalign <= 1 || gap >= tupa.ashalign)
-	{
-	  /* gap can be bigger than 32, but addconcbitaux can only handle <= 32 */
-	  while (gap > 0)
-	  {
-	    remainderbits = addconcbitaux(0, 1, remainderbits);
-	    gap--;
-	  }
 	}
-	else
+}
+
+
+static void
+evalconcbit(exp e, int bitposn)
+{
+	concbittype start;
+	start = emptyconcbit(bitposn);
+	
+	outconcbit(evalconcbitaux(e, start));
+}
+
+
+
+static void
+set_align(int al)
+{
+	/* output .align if needed */
+	switch (al)
 	{
-	  /* alignment will handle gap */
-	  remainderbits.bitposn = ((remainderbits.bitposn + (tupa.ashalign-1)) / tupa.ashalign) * tupa.ashalign;
+	case 0:
+	case 1:
+	case 8:
+		break;
+		
+	case 16:
+		fprintf(as_file, "\t.align\t1\n");
+		break;
+		
+	case 32:
+		fprintf(as_file, "\t.align\t2\n");
+		break;
+		
+	case 64:
+		fprintf(as_file, "\t.align\t3\n");
+		break;
+		
+	default:
+		fail("unexpected alignment");
 	}
+}
 
-	last_offset = no(off);
-	last_align = tupa.ashalign;
 
-	ASSERT(remainderbits.bitposn - bitposn == no(off));
 
-	/* consecutive bitfields must be collected together for .byte */
-	if (tupa.ashalign == 1)
-	{
-	  remainderbits = evalconcbitaux(tup, remainderbits);
-	}
-	else
-	{
-	  /* output final bits from any previous field */
-	  outconcbit(remainderbits);
-	  remainderbits = emptyconcbit(remainderbits.bitposn);
-
-	  evalone(tup, remainderbits.bitposn);
-	  remainderbits.bitposn += tupa.ashsize;
-	}
-
-	if (last(tup))
-	{
-	  /* output final bits from any previous field */
-	  long databits = no(off) + tupa.ashsize;
-	  long trailing_bytes = (a.ashsize-databits) / 8;
-
-	  outconcbit(remainderbits);
-
-	  ASSERT(a.ashsize >= databits);
-
-	  /* pad out trailing unitialised space, eg union */
-	  if (a.ashsize > databits && trailing_bytes > 0)
-	  {
-	    fprintf(as_file, "\t.space\t%d\n", (int)trailing_bytes);
-	  }
-	  return;
-	}
-
-	off = bro(bro(off));
-	ASSERT(!last(off));
-	tup = bro(off);
-
-	tupa = ashof(sh(tup));
-      }
-      /*NOTREACHED*/
-    }
-
-  case nof_tag:
-    {
-      exp s = son(e);
-
-      for (;;)
-      {
-	evalone(s, bitposn);
-	if (last(s))
-	  return;
-	s = bro(s);
-      }
-      /*NOTREACED*/
-    }
-
-  case ncopies_tag:
-    {
-      int n = no(e);
-      ash copya;
-      int bitsize;
-      int i;
-
-      COMMENT1("ncopies_tag: n=%d", n);
-
-      while (name(son(e)) == ncopies_tag)
-      {
-	e = son(e);
-	n *= no(e);
-      }
-
-      e = son(e);
-      copya = ashof(sh(e));
-      if (copya.ashalign != 0)
-	bitsize = (copya.ashsize / copya.ashalign) * copya.ashalign;
-      else
-	bitsize = 0;		/* probably never happen! */
-
-      for (i = 0; i < n; i++)
-      {
-	COMMENT3("ncopies_tag: i=%d n=%d bitposn=%d", i, n, bitposn);
-	evalone(e, bitposn);
-	bitposn += bitsize;
-      }
-      return;
-    }
-
-  case concatnof_tag:
-    {
-      COMMENT2("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
-
-      /* allow for bitfields */
-      if (a.ashalign == 1)
-      {
-	evalconcbit(e, bitposn);
-      }
-      else
-      {
+static void
+evalone(exp e, int bitposn)
+{
 	ash a;
-
-	a = ashof(sh(son(e)));
-	evalone(son(e), bitposn);
-	bitposn += a.ashsize;
-
-	a = ashof(sh(bro(son(e))));
+	
+	a = ashof(sh(e));
+	
+	COMMENT4("evalone: name(e)=%d, bitposn=%d, ash=%d,%d", name(e), 
+			 bitposn, a.ashsize, a.ashalign);
+	COMMENT1("evalone no(e)=%d",no(e));
+	
+	set_align(a.ashalign);
+	
+	/* align bitposn */
 	if (a.ashalign != 0)
-	  bitposn = (bitposn / a.ashalign) * a.ashalign;
-	evalone(bro(son(e)), bitposn);
-      }
-      return;
-    }
-
-  case clear_tag:
+	{
+		bitposn = (bitposn / a.ashalign) * a.ashalign;
+	}
+	
+	/* generate data initialiser for e */
+	switch (name(e))
+	{
+	case string_tag:
     {
-      /* allow for bitfields */
-      if (a.ashalign == 1)
-      {
-	evalconcbit(e, bitposn);
-	return;
-      }
-
-      fprintf(as_file, "\t.space\t%ld\n", (a.ashsize + 7) >> 3);
-      return;
+		long char_size = props(e);	/* bits width of each output char */
+		long strsize = shape_size(sh(e)) / char_size;
+		unsigned char *st = (unsigned char *)nostr(e);
+		int i;
+		
+		if (char_size != 8)
+		{
+			/* wide chars, generate a .XXX line for each */
+			for (i = 0; i <strsize; i++)
+			{
+				unsigned int c;
+				char *directive;
+				
+				switch (char_size)
+				{
+				case 16:	
+					c = ((unsigned short *)st)[i];
+					directive = ".short";
+					break;
+				case 32:	
+					c = ((unsigned int *)st)[i]; 
+					directive = ".long";
+					break;
+					/* +++ case 64 ??? */
+				default:	
+					fail("unexpected wide char data width");
+				}
+				fprintf(as_file, "\t%s\t%#x\n", directive, c);
+			}
+			
+			return;
+		}
+		
+		/* output as ascii where possible for the human reader */
+		while (strsize > 0)
+		{
+			int c = *st;
+			
+			if (c >= 32 && c < 127)
+			{
+				fprintf(as_file, "\t.byte\t\"");
+				
+				for (i = 0; strsize > 0 && i < 48 && c >= 32 && c < 127; i++)
+				{
+					if (c != '"')
+						putc(c, as_file);
+					else
+						fprintf(as_file, "\"\"");		/* " represented as "" */
+					
+					st++;
+					strsize--;
+					c = *st;
+				}
+				
+				fprintf(as_file, "\"\n");
+			}
+			else
+			{
+				fprintf(as_file, "\t.byte\t");
+				
+				for (i = 0; strsize > 0 && i < 16 && !(c >= 32 && c < 127); i++)
+				{
+					if (i != 0)
+						fprintf(as_file, ",");
+					
+					fprintf(as_file, "%d", c);
+					
+					st++;
+					strsize--;
+					c = *st;
+				}
+				
+				fprintf(as_file, "\n");
+			}
+		}
+		return;
     }
-
-   case not_tag:
-   case and_tag:
-   case or_tag:
-   case shl_tag:
-   case shr_tag:
-   case bitf_to_int_tag:
-   case int_to_bitf_tag:
-   case chvar_tag:
+	
+	case real_tag:
+    {
+		flt *f = flptnos + no(e);
+		r2l v;
+		
+		if (a.ashsize==32) 
+		{
+			v=real2longs_IEEE(f,0);
+			fprintf(as_file,"\t.long\t");
+			fprintf(as_file,"%ld",(long)v.i1);
+		} 
+		else if (a.ashsize==64) 
+		{
+			v=real2longs_IEEE(f,1);
+			fprintf(as_file,"\t.long\t");
+			fprintf(as_file,"%ld",(long)v.i2);
+			fprintf(as_file,",");   
+			fprintf(as_file,"%ld",(long)v.i1);
+		} 
+		else 
+		{
+			v=real2longs_IEEE(f,2);
+			fprintf(as_file,"\t.long\t");
+			fprintf(as_file,"%ld",(long)v.i4);
+			fprintf(as_file,",");
+			fprintf(as_file,"%ld",(long)v.i3);
+			fprintf(as_file,",");
+			fprintf(as_file,"%ld",(long)v.i2);	
+			fprintf(as_file,",");
+			fprintf(as_file,"%ld",(long)v.i1);
+		}
+		fprintf(as_file, "\n");
+		return;
+    }
+	case null_tag:case top_tag:
+		no(e) = 0;
+		/* FALLTHROUGH */
+	case val_tag:
+    {
+		char *asdata;
+		
+		FULLCOMMENT1("evalone() val_tag: %d", val_tag);
+		
+		/* allow 64 bit integers */
+		if (shape_size(sh(e))>32)
+		{
+			flt64 temp;
+			int ov;
+			if (isbigval(e)) 
+			{
+				temp = flt_to_f64(no(e), 0, &ov);
+			}
+			else 
+			{
+				temp.big = (is_signed(sh(e)) && no(e)<0)?-1:0;
+				temp.small = no(e);
+			}
+			fprintf(as_file,"\t.long\t%ld\n",(long)temp.small);
+			fprintf(as_file,"\t.long\t%ld\n",(long)temp.big);
+			return;
+		}
+		/* allow for bitfields */
+		if (a.ashalign == 1)
+		{
+			evalconcbit(e, bitposn);
+			return;
+		}
+		
+		if (a.ashalign <= 8)
+		{
+			asdata = ".byte";
+		}
+		else if (a.ashalign <= 16)
+		{
+			asdata = ".short";
+		}
+		else
+		{
+			asdata = ".long";
+		}
+		fprintf(as_file, "\t%s\t%ld\n", asdata, evalexp(e));
+		return;
+    }
+	case name_tag:
+    {
+		dec *globdec = brog(son(e));
+		char *nm = globdec->dec_u.dec_val.dec_id;
+		
+		ASSERT(isglob(son(e)));
+		
+		/* no() is offset */
+		if (no(e) == 0)
+		{
+			fprintf(as_file, "\t.long\t%s\n", nm);
+		}
+		else
+		{
+			fprintf(as_file, "\t.long\t%s+%ld\n", nm, (long)(no(e)/8));
+		}
+		
+		return;
+    }
+	
+	case compound_tag:
+    {
+		/*
+		 * There is a lot of history in the following code, dating from
+		 * when tuples were without specified offsets for each field.
+		 * Really, this code should be totally rewritten.
+		 */
+		int maxalign = a.ashalign;
+		exp off = son(e);
+		exp tup = bro(off);
+		ash tupa;
+		concbittype remainderbits;
+		long last_offset = 0;
+		long last_align = 0;
+		tupa = ashof(sh(tup));
+		remainderbits = emptyconcbit(bitposn);
+		
+		/* output elements of aggregate recursively */
+		while (1)
+		{
+			int gap = no(off) - remainderbits.bitposn;
+			
+			COMMENT4("evalone compound_tag: gap=%d off=%d ash=%d,%d",
+					 gap, no(off), tupa.ashsize, tupa.ashalign);
+			
+			/* check that component's alignment matches offset in struct */
+			ASSERT((no(off)/tupa.ashalign)*tupa.ashalign <= no(off));
+			
+			/* and is no greater that struct's alignment */
+			ASSERT(tupa.ashalign<=maxalign);
+			
+			if (no(off) < last_offset)
+				fail("eval compound_tag: not ascending order");
+			
+			if (last_align <= 1 || tupa.ashalign <= 1 || gap >= tupa.ashalign)
+			{
+				/* gap can be bigger than 32, but addconcbitaux can only handle <= 32 */
+				while (gap > 0)
+				{
+					remainderbits = addconcbitaux(0, 1, remainderbits);
+					gap--;
+				}
+			}
+			else
+			{
+				/* alignment will handle gap */
+				remainderbits.bitposn = ((remainderbits.bitposn + (tupa.ashalign-1)) / tupa.ashalign) * tupa.ashalign;
+			}
+			
+			last_offset = no(off);
+			last_align = tupa.ashalign;
+			
+			ASSERT(remainderbits.bitposn - bitposn == no(off));
+			
+			/* consecutive bitfields must be collected together for .byte */
+			if (tupa.ashalign == 1)
+			{
+				remainderbits = evalconcbitaux(tup, remainderbits);
+			}
+			else
+			{
+				/* output final bits from any previous field */
+				outconcbit(remainderbits);
+				remainderbits = emptyconcbit(remainderbits.bitposn);
+				
+				evalone(tup, remainderbits.bitposn);
+				remainderbits.bitposn += tupa.ashsize;
+			}
+			
+			if (last(tup))
+			{
+				/* output final bits from any previous field */
+				long databits = no(off) + tupa.ashsize;
+				long trailing_bytes = (a.ashsize-databits) / 8;
+				
+				outconcbit(remainderbits);
+				
+				ASSERT(a.ashsize >= databits);
+				
+				/* pad out trailing unitialised space, eg union */
+				if (a.ashsize > databits && trailing_bytes > 0)
+				{
+					fprintf(as_file, "\t.space\t%d\n", (int)trailing_bytes);
+				}
+				return;
+			}
+			
+			off = bro(bro(off));
+			ASSERT(!last(off));
+			tup = bro(off);
+			
+			tupa = ashof(sh(tup));
+		}
+		/*NOTREACHED*/
+    }
+	
+	case nof_tag:
+    {
+		exp s = son(e);
+		
+		for (;;)
+		{
+			evalone(s, bitposn);
+			if (last(s))
+				return;
+			s = bro(s);
+		}
+		/*NOTREACED*/
+    }
+	
+	case ncopies_tag:
+    {
+		int n = no(e);
+		ash copya;
+		int bitsize;
+		int i;
+		
+		COMMENT1("ncopies_tag: n=%d", n);
+		
+		while (name(son(e)) == ncopies_tag)
+		{
+			e = son(e);
+			n *= no(e);
+		}
+		
+		e = son(e);
+		copya = ashof(sh(e));
+		if (copya.ashalign != 0)
+			bitsize = (copya.ashsize / copya.ashalign) * copya.ashalign;
+		else
+			bitsize = 0;		/* probably never happen! */
+		
+		for (i = 0; i < n; i++)
+		{
+			COMMENT3("ncopies_tag: i=%d n=%d bitposn=%d", i, n, bitposn);
+			evalone(e, bitposn);
+			bitposn += bitsize;
+		}
+		return;
+    }
+	
+	case concatnof_tag:
+    {
+		COMMENT2("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
+		
+		/* allow for bitfields */
+		if (a.ashalign == 1)
+		{
+			evalconcbit(e, bitposn);
+		}
+		else
+		{
+			ash a;
+			
+			a = ashof(sh(son(e)));
+			evalone(son(e), bitposn);
+			bitposn += a.ashsize;
+			
+			a = ashof(sh(bro(son(e))));
+			if (a.ashalign != 0)
+				bitposn = (bitposn / a.ashalign) * a.ashalign;
+			evalone(bro(son(e)), bitposn);
+		}
+		return;
+    }
+	
+	case clear_tag:
+    {
+		/* allow for bitfields */
+		if (a.ashalign == 1)
+		{
+			evalconcbit(e, bitposn);
+			return;
+		}
+		
+		fprintf(as_file, "\t.space\t%ld\n", (a.ashsize + 7) >> 3);
+		return;
+    }
+	
+	case not_tag:
+	case and_tag:
+	case or_tag:
+	case shl_tag:
+	case shr_tag:
+	case bitf_to_int_tag:
+	case int_to_bitf_tag:
+	case chvar_tag:
     case env_offset_tag:case env_size_tag:
     case general_env_offset_tag:
     case offset_add_tag : case offset_max_tag :
     case offset_pad_tag : case offset_mult_tag : case offset_div_tag :
     case offset_div_by_int_tag : case offset_subtract_tag : 
     case offset_negate_tag:
-     
+		
     {
-      fprintf(as_file, "\t.long\t%ld\n", evalexp(e));
-      return;
+		fprintf(as_file, "\t.long\t%ld\n", evalexp(e));
+		return;
     }
-   case minptr_tag:
+	case minptr_tag:
     {
-      exp p1 = son(e);
-      exp p2 = bro(p1);
-      if (name(p1)==name_tag && name(p2)==name_tag)
-      {
-	long n = no(p1)-no(p2);
-	char *n1 = brog(son(p1))->dec_u.dec_val.dec_id ;
-	char *n2 = brog(son(p2))->dec_u.dec_val.dec_id ;
-	fprintf(as_file,"\t.long\t(%s-%s)",n1,n2);
-	if(n<0)
-	{
-	  fprintf(as_file,"%ld",n);
-	}
-	else if (n>0)
-	{
-	  fprintf(as_file,"+%ld",n);
-	}
-	fprintf(as_file,"\n");
-      }
-      return;
+		exp p1 = son(e);
+		exp p2 = bro(p1);
+		if (name(p1)==name_tag && name(p2)==name_tag)
+		{
+			long n = no(p1)-no(p2);
+			char *n1 = brog(son(p1))->dec_u.dec_val.dec_id;
+			char *n2 = brog(son(p2))->dec_u.dec_val.dec_id;
+			fprintf(as_file,"\t.long\t(%s-%s)",n1,n2);
+			if (n<0)
+			{
+				fprintf(as_file,"%ld",n);
+			}
+			else if (n>0)
+			{
+				fprintf(as_file,"+%ld",n);
+			}
+			fprintf(as_file,"\n");
+		}
+		return;
     }
-     
-   default:
-    COMMENT1("tag not in evaluated: %d", name(e));
-    fail("illegal constant");
-  }				/* end switch */
+	
+	default:
+		COMMENT1("tag not in evaluated: %d", name(e));
+		fail("illegal constant");
+	}				/* end switch */
 }
 
 
@@ -980,110 +1239,113 @@ static void evalone PROTO_N ((e,bitposn)) PROTO_T (exp e X int bitposn)
  * The result is the instore "address" of the constant.
  * A negative l implies that this is the initialisation of a global variable.
  */
-instore evaluated PROTO_N ((e,l)) PROTO_T (exp e X int l)
+instore
+evaluated(exp e, int l)
 {
-  int lab = (l == 0) ? next_data_lab() : (l < 0) ? l : -l;
-  instore isa;
-  ash a;
-  char *extname = ext_name(lab);
-  a = ashof(sh(e));
-
-
-  isa.adval = 0;
-  isa.b.offset = 0;
-  isa.b.base = lab;
-
-
-  ASSERT(name(e) != clear_tag);	/* +++ history */
-  if (name(e) == clear_tag)	/* uninitialised global */
-  {
-    long byte_size = (a.ashsize + 7) >> 3;
-    bool temp = (l == 0 || (extname[0] == local_prefix[0] && extname[1] == local_prefix[1]));
-
-    if (temp)
-    {
-      fprintf(as_file, "\t.lcomm\t");
-    }
-    else
-    {
-      fprintf(as_file, "\t.comm\t");
-    }
-    outlab(lab);
-    fprintf(as_file, ",%ld\n", byte_size);
-
-    return isa;
-  }
-
-
-  {
-
-    /* align at least to word for speed of access */
-    /* if size greater than 4 bytes, align on double boundry for speed */
-    if (a.ashalign > 32 || a.ashsize > 32)
-      fprintf(as_file, "\t.align\t3\n");
-    else
-      fprintf(as_file, "\t.align\t2\n");
-    fprintf(as_file, "%s:\n", extname);
-
-    evalone(e, 0);
-
-    /* evalone does not always output .space to finish off up to size, so protect next one */
-    set_align(a.ashalign);
-  }
-
-  return isa;
+	int lab = (l == 0) ? next_data_lab() : (l < 0) ? l : -l;
+	instore isa;
+	ash a;
+	char *extname = ext_name(lab);
+	a = ashof(sh(e));
+	
+	
+	isa.adval = 0;
+	isa.b.offset = 0;
+	isa.b.base = lab;
+	
+	
+	ASSERT(name(e) != clear_tag);	/* +++ history */
+	if (name(e) == clear_tag)	/* uninitialised global */
+	{
+		long byte_size = (a.ashsize + 7) >> 3;
+		bool temp = (l == 0 || (extname[0] == local_prefix[0] && extname[1] == local_prefix[1]));
+		
+		if (temp)
+		{
+			fprintf(as_file, "\t.lcomm\t");
+		}
+		else
+		{
+			fprintf(as_file, "\t.comm\t");
+		}
+		outlab(lab);
+		fprintf(as_file, ",%ld\n", byte_size);
+		
+		return isa;
+	}
+	
+	
+	{
+		
+		/* align at least to word for speed of access */
+		/* if size greater than 4 bytes, align on double boundry for speed */
+		if (a.ashalign > 32 || a.ashsize > 32)
+			fprintf(as_file, "\t.align\t3\n");
+		else
+			fprintf(as_file, "\t.align\t2\n");
+		fprintf(as_file, "%s:\n", extname);
+		
+		evalone(e, 0);
+		
+		/* evalone does not always output .space to finish off up to size, so protect next one */
+		set_align(a.ashalign);
+	}
+	
+	return isa;
 }
 
 
-instore evaluated_const PROTO_N ((e)) PROTO_T (exp e)
+instore
+evaluated_const(exp e)
 {
-  instore isa;
-  int lab;
-  char *id;
-
-  /* +++ to share consts */
-
-  /* generate read only data */
-  fprintf(as_file, "\t.csect\t[RO]\n");
-
-  isa = evaluated(e, 0);
-
-  lab = isa.b.base;
-  
-  id = ext_name(lab);
-
-  /* generate .toc entry */
-  fprintf(as_file, "\t.toc\n");
-  fprintf(as_file, "T.%s:\n\t.tc\t%s[TC],%s\n", id, id, id);
-
-  /* reset to default text segment */
-  fprintf(as_file, "\t.csect\t[PR]\n");
-
-  return isa;
+	instore isa;
+	int lab;
+	char *id;
+	
+	/* +++ to share consts */
+	
+	/* generate read only data */
+	fprintf(as_file, "\t.csect\t[RO]\n");
+	
+	isa = evaluated(e, 0);
+	
+	lab = isa.b.base;
+	
+	id = ext_name(lab);
+	
+	/* generate .toc entry */
+	fprintf(as_file, "\t.toc\n");
+	fprintf(as_file, "T.%s:\n\t.tc\t%s[TC],%s\n", id, id, id);
+	
+	/* reset to default text segment */
+	fprintf(as_file, "\t.csect\t[PR]\n");
+	
+	return isa;
 }
-long correct_shape PROTO_N ((n,shpe)) PROTO_T (long n X int shpe)
+long
+correct_shape(long n, int shpe)
 {
-  switch(shpe)
-  {
-   case scharhd:
-    n = n<<24;
-    n = n>>24;
-    return n;
-   case ucharhd:
-    n = n & 0xff;
-    return n;
-   case swordhd:
-    n = n<<16;
-    n = n>>16;
-    return n;
-   case uwordhd:
-    n = n & 0xffff;
-    return n;
-   case slonghd:
-   case ulonghd:
-    return n;
-  }
-  fail("Unknown shape in correct_shape");
-  return 0;
+	switch (shpe)
+	{
+	case scharhd:
+		n = n<<24;
+		n = n>>24;
+		return n;
+	case ucharhd:
+		n = n & 0xff;
+		return n;
+	case swordhd:
+		n = n<<16;
+		n = n>>16;
+		return n;
+	case uwordhd:
+		n = n & 0xffff;
+		return n;
+	case slonghd:
+	case ulonghd:
+		return n;
+	}
+	fail("Unknown shape in correct_shape");
+	return 0;
 }
 
