@@ -64,28 +64,7 @@
  * This file provides the front end to the library construction mode of the
  * TDF linker.
  *
- **** Change Log:
- * $Log$
- * Revision 1.3  2002/11/25 20:18:21  nonce
- * Fixed numerous return types mangled by the ossg removal scripts.
- * Approximately 4 out of 2390 files had unusual function signatures that
- * confused the parser.  These files compiled and worked fine, but
- * generated compiler warnings.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:37:01  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- *
- * Revision 1.2  1994/12/12  11:43:56  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:23  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
- **/
+ **** Change Log:*/
 
 /****************************************************************************/
 
