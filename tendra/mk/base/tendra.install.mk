@@ -2,7 +2,12 @@
 
 
 # Various settings.
+.if defined(USE_PATH_DEV)
 INSTALL_PREFIX=		${INSTALL_DIR}/${VER_TENDRA}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
+.else
+INSTALL_PREFIX=		${INSTALL_DIR}
+.endif
+
 ARGS_CHMOD_BIN=		755
 ARGS_CHMOD_DATA=	644
 
