@@ -70,25 +70,25 @@ REMOVE ?=	${ENV} rm -f
 
 .SUFFIXES: .o .c .sid
 
-.sid.c:
-	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
-	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}
+#.sid.c:
+#	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
+#	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}
 
 .c.o:
 	@${ECHO} Compiling ${.IMPSRC}...
-	${CC} ${CCOPTS} -c ${.IMPSRC}
+	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${OBJ_SDIR}/${.TARGET}
 
 .o:
 	@${ECHO} Linking ${.IMPSRC}...
-	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${LD} ${LDOPTS} -o ${OBJ_SDIR}/${PROG} ${OBJS} ${LIBS}
 
 OBJS=  ${SRCS:S/.c/.o/}
 
 all:
 .if defined(PROG)
 	@${MAKE} _OBJDIR
-	@${MAKE} build-prog
-	@${MAKE} link-prog
+	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} build-prog
+	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} link-prog
 .endif
 
 build-prog: ${PROG}
@@ -100,7 +100,10 @@ link-prog: ${OBJS}
 ${PROG}: ${OBJS}
 
 clean:
-	${REMOVE} ${PROG} ${PROG}.core core ${OBJS}
+.if defined(PROG)
+	cd ${OBJ_SDIR}; \
+		${REMOVE} ${PROG} ${PROG}.core core ${OBJS}
+.endif
 .if defined(CLEAN_EXTRA)
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
