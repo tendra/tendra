@@ -17,7 +17,7 @@ MACH_EXEC=	elf
 
 .if ${TMP_CPU} == "i386"
 MACH_CPU=	80x86
-.elif ${TMP_CPI} == "sparc"
+.elif ${TMP_CPU} == "sparc"
 MACH_CPU=	sparc
 .endif
 
