@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	cygwin32 darwin freebsd linux osf1
+BUILD_TARGETS=	cygwin32 darwin freebsd linux openbsd osf1
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
@@ -53,4 +53,7 @@ BUILD_OS=	darwin
 .include "../config/config.darwin.mk"
 .endif
 
-
+.if make(openbsd)
+BUILD_OS=	openbsd
+.include "../config/config.openbsd.mk"
+.endif
