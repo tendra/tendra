@@ -26,6 +26,7 @@
  * $TenDRA$
  */
 
+#include <ctype.h>
 #include <limits.h>
 #include <string.h>
 #include "fmm.h"
@@ -144,4 +145,16 @@ string_to_unsigned(const char *cp, unsigned *rp)
 	}
 	*rp = result;
 	return (1);
+}
+
+/*
+ * Do a case-insensitive string comparison.
+ */
+int
+string_casecmp(const char *s1, const char *s2)
+{
+	for (; *s1 != '\0'; s1++, s2++)
+		if (tolower((unsigned char)*s1) != tolower((unsigned char)*s2))
+			break;
+	return tolower((unsigned char)*s1) - tolower((unsigned char)*s2);
 }
