@@ -2,7 +2,7 @@
 
 SRC2=	${BASE_DIR}/lib/machines/common/src
 
-TCCOPTS=	-Ysystem
+#TCCOPTS=	-Ysystem
 
 all: crt1.o crti.o crtn.o dwarf.o
 	@${ECHO} all done
@@ -21,3 +21,5 @@ dwarf.o: dwarf.t
 
 dwarf.t: dwarf.p
 	${TNC} dwarf.p dwarf.t
+
+.include "../../../Makefile.inc"

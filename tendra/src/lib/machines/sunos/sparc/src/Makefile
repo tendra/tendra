@@ -2,7 +2,7 @@
 
 SRC2=	${BASE_DIR}/lib/machines/common/src
 
-TCCOPTS=-Ysystem
+#TCCOPTS=-Ysystem
 
 PROG=	dyninit
 SRCS=	dyninit.c
