@@ -31,7 +31,7 @@
 
 
 #ifndef ENCODING_INCLUDED
-#define ENCODING_INCLUDED
+#define	ENCODING_INCLUDED
 
 
 @use all
@@ -41,48 +41,48 @@
 @loop sort.cons
 
 @if cons.params
-#define o_%CN(%
+#define	o_%CN(%
 @loop cons.param
- p%PE,%
+p%PE, %
 @end
-%b )\
+%b%b)\
 @else
-#define o_%CN\
+#define	o_%CN\
 @endif
 @if cons.token
     TOK_APP (\
 @if cons.extends
-	out_extendable_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ),\
+	out_extendable_int ((unsigned long) e_%CN, (unsigned) %SB),\
 @else
-	out_basic_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ),\
+	out_basic_int ((unsigned long) e_%CN, (unsigned) %SB),\
 @endif
-	s_%SN, p0, p1 )
+	s_%SN, p0, p1)
 @else
 @if cons.cond
     TDF_COND (\
 @if cons.extends
-	out_extendable_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ),\
+	out_extendable_int ((unsigned long) e_%CN, (unsigned) %SB),\
 @else
-	out_basic_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ),\
+	out_basic_int ((unsigned long) e_%CN, (unsigned) %SB),\
 @endif
-	s_%SN, p0, p1, p2 )
+	s_%SN, p0, p1, p2)
 @else
     {\
 @if sort.basic
 @if cons.extends
-	out_extendable_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ) ;\
+	out_extendable_int ((unsigned long) e_%CN, (unsigned) %SB);\
 @else
-	out_basic_int ( ( unsigned long ) e_%CN, ( unsigned ) %SB ) ;\
+	out_basic_int ((unsigned long) e_%CN, (unsigned) %SB);\
 @endif
 @endif
 @loop cons.param
 @if param.sort.compound
-	o_%PSN ( p%PE ) ;\
+	o_%PSN (p%PE);\
 @else
-	p%PE ; ASSERT_SORT ( s_%PSN ) ;\
+	p%PE; ASSERT_SORT (s_%PSN);\
 @endif
 @end
-	SET_RSORT ( s_%SN ) ;\
+	SET_RSORT (s_%SN);\
     }
 @endif
 @endif
@@ -95,13 +95,13 @@
 
 @loop sort
 @if sort.option
-#define o_%SN( p )	%40tTDF_OPTION ( p, s_%SSN )
+#define	o_%SN(p)	%40tTDF_OPTION (p, s_%SSN)
 @else
 @if sort.list
-#define o_%SN( p )	%40tTDF_LIST ( p, s_%SSN )
+#define	o_%SN(p)	%40tTDF_LIST (p, s_%SSN)
 @else
 @if sort.slist
-#define o_%SN( p )	%40tTDF_SLIST ( p, s_%SSN )
+#define	o_%SN(p)	%40tTDF_SLIST (p, s_%SSN)
 @endif
 @endif
 @endif

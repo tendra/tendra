@@ -31,12 +31,12 @@
 
 
 #ifndef DECODINGS_INCLUDED
-#define DECODINGS_INCLUDED
+#define	DECODINGS_INCLUDED
 
 @use all
 @loop sort
 @if !sort.builtin
-extern unsigned int d_%SN PROTO_S ( ( int ) ) ;
+extern unsigned int d_%SN(int);
 @endif
 @end
 

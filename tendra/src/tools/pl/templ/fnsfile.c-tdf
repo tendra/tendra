@@ -69,24 +69,24 @@
 @loop sort.cons
 @if cons.simple
 
-void c_%CN
-    PROTO_Z ()
+void
+c_%CN(void)
 {
 @if cons.params
-    skip_term ( lex_ord ) ;
+    skip_term (lex_ord);
     o_%CN (
 @loop cons.param
 @if param.last
-	read_%PSN () ; skip_term ( lex_crd )
+	read_%PSN (); skip_term (lex_crd)
 @else
-	read_%PSN () ; skip_term ( lex_comma ),
+	read_%PSN (); skip_term (lex_comma),
 @endif
 @end
     )
 @else
-    o_%CN ;
+    o_%CN;
 @endif
-    return ;
+    return;
 }
 @endif
 @end
