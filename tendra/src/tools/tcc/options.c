@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -47,7 +80,7 @@
     All input files found by process_options are added to this list.
 */
 
-filename *input_files = null ;
+filename *input_files = null;
 
 
 /*
@@ -56,7 +89,7 @@ filename *input_files = null ;
     This table gives all the command-line options.
 */
 
-optmap main_optmap [] = {
+optmap main_optmap[] = {
     /* Common options */
     { "^-$", "I?$0", "specifies an input file" },
     { "-o+$", "SFN$1", "specifies output file name" },
@@ -171,7 +204,7 @@ optmap main_optmap [] = {
 
     /* End marker */
     { null, null, null }
-} ;
+};
 
 
 /*
@@ -181,7 +214,7 @@ optmap main_optmap [] = {
     in line with Table 4.
 */
 
-optmap environ_optmap [] = {
+optmap environ_optmap[] = {
     /* Options */
     { "\\+FLAG $", "=$1", null },
     { "\\+FLAG_TDFC $", "AOc$1", null },
@@ -284,7 +317,7 @@ optmap environ_optmap [] = {
 
     /* End marker */
     { null, null, null }
-} ;
+};
 
 
 /*
@@ -294,7 +327,7 @@ optmap environ_optmap [] = {
     should be printed.
 */
 
-static boolean debug_options = 0 ;
+static boolean debug_options = 0;
 
 
 /*
@@ -304,9 +337,9 @@ static boolean debug_options = 0 ;
     interpreter.
 */
 
-static boolean xx_bool = 0 ;
-static list *xx_list = null ;
-static char *xx_string = null ;
+static boolean xx_bool = 0;
+static list *xx_list = null;
+static char *xx_string = null;
 
 
 /*
@@ -316,30 +349,30 @@ static char *xx_string = null ;
     value of the string held in xx_string.
 */
 
-static void special_option
-    PROTO_Z ()
+static void
+special_option(void)
 {
-    boolean b = 1 ;
-    char *s = xx_string ;
-    if ( strneq ( s, "no_", 3 ) ) {
-	b = 0 ;
-	s += 3 ;
+    boolean b = 1;
+    char *s = xx_string;
+    if (strneq(s, "no_", 3)) {
+	b = 0;
+	s += 3;
     }
-    if ( streq ( s, "cpp" ) ) {
-	allow_cpp = b ;
-    } else if ( streq ( s, "tnc" ) && !checker ) {
-	allow_notation = b ;
-    } else if ( streq ( s, "pl_tdf" ) && !checker ) {
-	allow_pl_tdf = b ;
-    } else if ( streq ( s, "c_spec" ) || streq ( s, "cpp_spec" ) ) {
-	allow_specs = b ;
-    } else if ( streq ( s, "dump" ) || streq ( s, "cpp_dump" ) ) {
-	allow_specs = b ;
-	if ( dump_opts == null ) dump_opts = "-d=" ;
+    if (streq(s, "cpp")) {
+	allow_cpp = b;
+    } else if (streq(s, "tnc") && !checker) {
+	allow_notation = b;
+    } else if (streq(s, "pl_tdf") && !checker) {
+	allow_pl_tdf = b;
+    } else if (streq(s, "c_spec") || streq(s, "cpp_spec")) {
+	allow_specs = b;
+    } else if (streq(s, "dump") || streq(s, "cpp_dump")) {
+	allow_specs = b;
+	if (dump_opts == null)dump_opts = "-d=";
     } else {
-	error ( WARNING, "Unknown special option, '%s'", s ) ;
+	error(WARNING, "Unknown special option, '%s'", s);
     }
-    return ;
+    return;
 }
 
 
@@ -350,104 +383,103 @@ static void special_option
     the corresponding boolean variable.
 */
 
-static boolean *lookup_bool
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+static boolean *
+lookup_bool(char *s)
 {
-    char a = s [0] ;
-    char b = 0 ;
-    if ( a ) b = s [1] ;
-    switch ( a ) {
-	case 'A' : {
-  	    if ( b == 'A' ) return ( &use_alpha_assembler ) ;
-	    if ( b == 'C' ) return ( &api_checks ) ;
-	    if ( b == 'R' ) return ( &make_archive ) ;
-	    if ( b == 'S' ) return ( &use_assembler ) ;
-	    break ;
+    char a = s[0];
+    char b = 0;
+    if (a) b = s[1];
+    switch (a) {
+	case 'A': {
+  	    if (b == 'A') return(&use_alpha_assembler);
+	    if (b == 'C') return(&api_checks);
+	    if (b == 'R') return(&make_archive);
+	    if (b == 'S') return(&use_assembler);
+	    break;
 	}
-	case 'C' : {
-	    if ( b == 'C' ) return ( &use_system_cc ) ;
-	    if ( b == 'H' ) return ( &checker ) ;
-	    if ( b == 'R' ) return ( &copyright ) ;
-	    if ( b == 'S' ) return ( &allow_specs ) ;
-	    break ;
+	case 'C': {
+	    if (b == 'C') return(&use_system_cc);
+	    if (b == 'H') return(&checker);
+	    if (b == 'R') return(&copyright);
+	    if (b == 'S') return(&allow_specs);
+	    break;
 	}
-	case 'D' : {
-	    if ( b == 'B' ) return ( &debug_options ) ;
-	    if ( b == 'G' ) return ( &flag_diag ) ;
-	    if ( b == 'L' ) return ( &use_dynlink ) ;
-	    if ( b == 'R' ) return ( &dry_run ) ;
-	    break ;
+	case 'D': {
+	    if (b == 'B') return(&debug_options);
+	    if (b == 'G') return(&flag_diag);
+	    if (b == 'L') return(&use_dynlink);
+	    if (b == 'R') return(&dry_run);
+	    break;
 	}
-	case 'H' : {
-	    if ( b == 'L' ) return ( &use_hp_linker ) ;
-	    break ;
+	case 'H': {
+	    if (b == 'L') return(&use_hp_linker);
+	    break;
 	}
-	case 'K' : {
-	    if ( b == 'E' ) return ( &flag_keep_err ) ;
-	    break ;
+	case 'K': {
+	    if (b == 'E') return(&flag_keep_err);
+	    break;
 	}
-	case 'L' : {
-	    if ( b == 'C' ) return ( &case_insensitive ) ;
-	    if ( b == 'S' ) return ( &link_specs ) ;
-	    break ;
+	case 'L': {
+	    if (b == 'C') return(&case_insensitive);
+	    if (b == 'S') return(&link_specs);
+	    break;
 	}
-	case 'M' : {
-	    if ( b == 'A' ) return ( &use_mips_assembler ) ;
-	    if ( b == 'C' ) return ( &make_complex ) ;
-	    if ( b == 'N' ) return ( &make_up_names ) ;
-	    if ( b == 'P' ) return ( &flag_merge_all ) ;
-	    break ;
+	case 'M': {
+	    if (b == 'A') return(&use_mips_assembler);
+	    if (b == 'C') return(&make_complex);
+	    if (b == 'N') return(&make_up_names);
+	    if (b == 'P') return(&flag_merge_all);
+	    break;
 	}
-	case 'N' : {
-	    if ( b == 'E' ) return ( &flag_nepc ) ;
-	    break ;
+	case 'N': {
+	    if (b == 'E') return(&flag_nepc);
+	    break;
 	}
-	case 'O' : {
-	    if ( b == 'N' ) return ( &option_next ) ;
-	    if ( b == 'P' ) return ( &flag_optim ) ;
-	    break ;
+	case 'O': {
+	    if (b == 'N') return(&option_next);
+	    if (b == 'P') return(&flag_optim);
+	    break;
 	}
-	case 'P' : {
-	    if ( b == 'F' ) return ( &flag_prof ) ;
-	    if ( b == 'I' ) return ( &flag_incl ) ;
-	    if ( b == 'L' ) return ( &allow_pl_tdf ) ;
-	    if ( b == 'P' ) return ( &make_pretty ) ;
-	    if ( b == 'R' ) return ( &make_preproc ) ;
-	    break ;
+	case 'P': {
+	    if (b == 'F') return(&flag_prof);
+	    if (b == 'I') return(&flag_incl);
+	    if (b == 'L') return(&allow_pl_tdf);
+	    if (b == 'P') return(&make_pretty);
+	    if (b == 'R') return(&make_preproc);
+	    break;
 	}
-	case 'S' : {
-	    if ( b == 'A' ) return ( &show_api ) ;
-	    if ( b == 'C' ) return ( &use_sparc_cc ) ;
-	    if ( b == 'E' ) return ( &show_errors ) ;
-	    if ( b == 'O' ) return ( &suffix_overrides ) ;
-	    if ( b == 'R' ) return ( &flag_strip ) ;
-	    if ( b == 'T' ) return ( &flag_startup ) ;
-	    break ;
+	case 'S': {
+	    if (b == 'A') return(&show_api);
+	    if (b == 'C') return(&use_sparc_cc);
+	    if (b == 'E') return(&show_errors);
+	    if (b == 'O') return(&suffix_overrides);
+	    if (b == 'R') return(&flag_strip);
+	    if (b == 'T') return(&flag_startup);
+	    break;
 	}
-	case 'T' : {
-	    if ( b == 'C' ) return ( &taciturn ) ;
-	    if ( b == 'I' ) return ( &time_commands ) ;
-	    if ( b == 'N' ) return ( &allow_notation ) ;
-	    if ( b == 'S' ) return ( &make_tspec ) ;
-	    if ( b == 'U' ) return ( &tidy_up ) ;
-	    break ;
+	case 'T': {
+	    if (b == 'C') return(&taciturn);
+	    if (b == 'I') return(&time_commands);
+	    if (b == 'N') return(&allow_notation);
+	    if (b == 'S') return(&make_tspec);
+	    if (b == 'U') return(&tidy_up);
+	    break;
 	}
-	case 'V' : {
-	    if ( b == 'B' ) return ( &verbose ) ;
-	    break ;
+	case 'V': {
+	    if (b == 'B') return(&verbose);
+	    break;
 	}
-	case 'W' : {
-	    if ( b == 'A' ) return ( &warnings ) ;
-	    break ;
+	case 'W': {
+	    if (b == 'A') return(&warnings);
+	    break;
 	}
-	case 'X' : {
-	    if ( b == 'X' ) return ( &xx_bool ) ;
-	    break ;
+	case 'X': {
+	    if (b == 'X') return(&xx_bool);
+	    break;
 	}
     }
-    error ( OPTION, "Unknown boolean identifier, '%c%c'", a, b ) ;
-    return ( null ) ;
+    error(OPTION, "Unknown boolean identifier, '%c%c'", a, b);
+    return(null);
 }
 
 
@@ -459,138 +491,137 @@ static boolean *lookup_bool
     step with Table 4.
 */
 
-static list **lookup_list
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+static list **
+lookup_list(char *s)
 {
-    char a = s [0] ;
-    char b = 0 ;
-    if ( a ) b = s [1] ;
-    switch ( a ) {
-	case 'B' : {
-	    switch ( b ) {
-		case 'B' : return ( &exec_build_arch ) ;
-		case 'C' : return ( &exec_cat ) ;
-		case 'D' : return ( &exec_mkdir ) ;
-		case 'M' : return ( &exec_move ) ;
-		case 'R' : return ( &exec_remove ) ;
-		case 'S' : return ( &exec_split_arch ) ;
-		case 'T' : return ( &exec_touch ) ;
+    char a = s[0];
+    char b = 0;
+    if (a) b = s[1];
+    switch (a) {
+	case 'B': {
+	    switch (b) {
+		case 'B': return(&exec_build_arch);
+		case 'C': return(&exec_cat);
+		case 'D': return(&exec_mkdir);
+		case 'M': return(&exec_move);
+		case 'R': return(&exec_remove);
+		case 'S': return(&exec_split_arch);
+		case 'T': return(&exec_touch);
 	    }
-	    break ;
+	    break;
 	}
-	case 'E' : {
-	    switch ( b ) {
-		case PRODUCE_ID : return ( &exec_produce ) ;
-		case PREPROC_ID : return ( &exec_preproc ) ;
-		case CPP_PRODUCE_ID : return ( &exec_cpp_produce ) ;
-		case CPP_PREPROC_ID : return ( &exec_cpp_preproc ) ;
-		case TDF_LINK_ID : return ( &exec_tdf_link ) ;
-		case TRANSLATE_ID : return ( &exec_translate ) ;
-		case ASSEMBLE_ID : return ( &exec_assemble ) ;
-		case LINK_ID : return ( &exec_link ) ;
-		case PRETTY_ID : return ( &exec_pretty ) ;
-		case NOTATION_ID : return ( &exec_notation ) ;
-		case PL_TDF_ID : return ( &exec_pl_tdf ) ;
-		case ASSEMBLE_MIPS_ID : return ( &exec_assemble_mips ) ;
-		case SPEC_LINK_ID : return ( &exec_spec_link ) ;
-		case CPP_SPEC_LINK_ID : return ( &exec_cpp_spec_link ) ;
-		case CC_ID : return ( &exec_cc ) ;
-	        case DYNLINK_ID : return ( &exec_dynlink );
-	        case DUMP_ANAL_ID : return ( &exec_dump_anal );
-	        case DUMP_LINK_ID : return ( &exec_dump_link );
+	case 'E': {
+	    switch (b) {
+		case PRODUCE_ID: return(&exec_produce);
+		case PREPROC_ID: return(&exec_preproc);
+		case CPP_PRODUCE_ID: return(&exec_cpp_produce);
+		case CPP_PREPROC_ID: return(&exec_cpp_preproc);
+		case TDF_LINK_ID: return(&exec_tdf_link);
+		case TRANSLATE_ID: return(&exec_translate);
+		case ASSEMBLE_ID: return(&exec_assemble);
+		case LINK_ID: return(&exec_link);
+		case PRETTY_ID: return(&exec_pretty);
+		case NOTATION_ID: return(&exec_notation);
+		case PL_TDF_ID: return(&exec_pl_tdf);
+		case ASSEMBLE_MIPS_ID: return(&exec_assemble_mips);
+		case SPEC_LINK_ID: return(&exec_spec_link);
+		case CPP_SPEC_LINK_ID: return(&exec_cpp_spec_link);
+		case CC_ID: return(&exec_cc);
+	        case DYNLINK_ID: return(&exec_dynlink);
+	        case DUMP_ANAL_ID: return(&exec_dump_anal);
+	        case DUMP_LINK_ID: return(&exec_dump_link);
 	    }
-	    error ( OPTION, "Unknown compilation stage, '%c'", b ) ;
-	    return ( null ) ;
+	    error(OPTION, "Unknown compilation stage, '%c'", b);
+	    return(null);
 	}
-	case 'Q' : {
-	    if ( checker ) {
-		switch ( b ) {
-		    case PRODUCE_ID : return ( &opt_produce ) ;
-		    case CPP_PRODUCE_ID : return ( &opt_cpp_produce ) ;
-		    case SPEC_LINK_ID : return ( &opt_spec_link ) ;
-		    case CPP_SPEC_LINK_ID : return ( &opt_cpp_spec_link ) ;
-		    case ARCHIVER_ID : return ( &opt_joiner ) ;
-		    case CC_ID : return ( &opt_cc ) ;
+	case 'Q': {
+	    if (checker) {
+		switch (b) {
+		    case PRODUCE_ID: return(&opt_produce);
+		    case CPP_PRODUCE_ID: return(&opt_cpp_produce);
+		    case SPEC_LINK_ID: return(&opt_spec_link);
+		    case CPP_SPEC_LINK_ID: return(&opt_cpp_spec_link);
+		    case ARCHIVER_ID: return(&opt_joiner);
+		    case CC_ID: return(&opt_cc);
 		}
-		error ( OPTION, "Unknown compilation stage, '%c'", b ) ;
-		return ( null ) ;
+		error(OPTION, "Unknown compilation stage, '%c'", b);
+		return(null);
 	    }
-	    goto case_O ;
+	    goto case_O;
 	}
-	case 'O' :
+	case 'O':
 	case_O :{
-	    switch ( b ) {
-		case PRODUCE_ID : return ( &opt_produce ) ;
-		case PREPROC_ID : return ( &opt_preproc ) ;
-		case CPP_PRODUCE_ID : return ( &opt_cpp_produce ) ;
-		case CPP_PREPROC_ID : return ( &opt_cpp_preproc ) ;
-		case TDF_LINK_ID : return ( &opt_tdf_link ) ;
-		case TRANSLATE_ID : return ( &opt_translate ) ;
-		case ASSEMBLE_ID : return ( &opt_assemble ) ;
-		case DYNLINK_ID : return ( &opt_dynlink ) ;
-		case LINK_ID : return ( &opt_link ) ;
-		case PRETTY_ID : return ( &opt_pretty ) ;
-		case NOTATION_ID : return ( &opt_notation ) ;
-		case PL_TDF_ID : return ( &opt_pl_tdf ) ;
-		case ASSEMBLE_MIPS_ID : return ( &opt_assemble_mips ) ;
-		case SPEC_LINK_ID : return ( &opt_spec_link ) ;
-		case CPP_SPEC_LINK_ID : return ( &opt_cpp_spec_link ) ;
-		case INSTALL_ID : return ( &opt_archive ) ;
-		case ARCHIVER_ID : return ( &opt_joiner ) ;
-		case CC_ID : return ( &opt_cc ) ;
-	        case DUMP_ANAL_ID : return ( &opt_dump_anal );
-	        case DUMP_LINK_ID : return ( &opt_dump_link );
+	    switch (b) {
+		case PRODUCE_ID: return(&opt_produce);
+		case PREPROC_ID: return(&opt_preproc);
+		case CPP_PRODUCE_ID: return(&opt_cpp_produce);
+		case CPP_PREPROC_ID: return(&opt_cpp_preproc);
+		case TDF_LINK_ID: return(&opt_tdf_link);
+		case TRANSLATE_ID: return(&opt_translate);
+		case ASSEMBLE_ID: return(&opt_assemble);
+		case DYNLINK_ID: return(&opt_dynlink);
+		case LINK_ID: return(&opt_link);
+		case PRETTY_ID: return(&opt_pretty);
+		case NOTATION_ID: return(&opt_notation);
+		case PL_TDF_ID: return(&opt_pl_tdf);
+		case ASSEMBLE_MIPS_ID: return(&opt_assemble_mips);
+		case SPEC_LINK_ID: return(&opt_spec_link);
+		case CPP_SPEC_LINK_ID: return(&opt_cpp_spec_link);
+		case INSTALL_ID: return(&opt_archive);
+		case ARCHIVER_ID: return(&opt_joiner);
+		case CC_ID: return(&opt_cc);
+	        case DUMP_ANAL_ID: return(&opt_dump_anal);
+	        case DUMP_LINK_ID: return(&opt_dump_link);
 	    }
-	    error ( OPTION, "Unknown compilation stage, '%c'", b ) ;
-	    return ( null ) ;
+	    error(OPTION, "Unknown compilation stage, '%c'", b);
+	    return(null);
 	}
-	case 'S' : {
-	    switch ( b ) {
-		case 'I' : return ( &std_prod_incldirs ) ;
-		case 'P' : return ( &std_prod_portfile ) ;
-		case 'd' : return ( &std_prod_startdirs ) ;
-		case 's' : return ( &std_prod_startup ) ;
-		case 'i' : return ( &std_cpp_prod_incldirs ) ;
-		case 'D' : return ( &std_cpp_prod_startdirs ) ;
-		case 'S' : return ( &std_cpp_prod_startup ) ;
-		case 'J' : return ( &std_tdf_link_libdirs ) ;
-		case 'j' : return ( &std_tdf_link_libs ) ;
-		case '0' : return ( &std_link_crt0 ) ;
-		case '1' : return ( &std_link_crt1 ) ;
-		case '2' : return ( &std_link_crtn ) ;
-		case '3' : return ( &std_link_crtp_n ) ;
-		case 'L' : return ( &std_link_libdirs ) ;
-		case 'l' : return ( &std_link_libs ) ;
-		case 'c' : return ( &std_link_c_libs ) ;
-		case 'e' : return ( &std_link_entry ) ;
+	case 'S': {
+	    switch (b) {
+		case 'I': return(&std_prod_incldirs);
+		case 'P': return(&std_prod_portfile);
+		case 'd': return(&std_prod_startdirs);
+		case 's': return(&std_prod_startup);
+		case 'i': return(&std_cpp_prod_incldirs);
+		case 'D': return(&std_cpp_prod_startdirs);
+		case 'S': return(&std_cpp_prod_startup);
+		case 'J': return(&std_tdf_link_libdirs);
+		case 'j': return(&std_tdf_link_libs);
+		case '0': return(&std_link_crt0);
+		case '1': return(&std_link_crt1);
+		case '2': return(&std_link_crtn);
+		case '3': return(&std_link_crtp_n);
+		case 'L': return(&std_link_libdirs);
+		case 'l': return(&std_link_libs);
+		case 'c': return(&std_link_c_libs);
+		case 'e': return(&std_link_entry);
 	    }
-	    break ;
+	    break;
 	}
-	case 'U' : {
-	    switch ( b ) {
-		case 'I' : return ( &usr_prod_incldirs ) ;
-		case 's' : return ( &usr_prod_startup ) ;
-		case 'e' : return ( &usr_prod_eoptions ) ;
-		case 'f' : return ( &usr_prod_foptions ) ;
-		case 'P' : return ( &usr_pl_tdf_incldirs ) ;
-		case 'J' : return ( &usr_tdf_link_libdirs ) ;
-		case 'j' : return ( &usr_tdf_link_libs ) ;
-		case 'L' : return ( &usr_link_libdirs ) ;
-		case 'l' : return ( &usr_link_libs ) ;
+	case 'U': {
+	    switch (b) {
+		case 'I': return(&usr_prod_incldirs);
+		case 's': return(&usr_prod_startup);
+		case 'e': return(&usr_prod_eoptions);
+		case 'f': return(&usr_prod_foptions);
+		case 'P': return(&usr_pl_tdf_incldirs);
+		case 'J': return(&usr_tdf_link_libdirs);
+		case 'j': return(&usr_tdf_link_libs);
+		case 'L': return(&usr_link_libdirs);
+		case 'l': return(&usr_link_libs);
 	    }
-	    break ;
+	    break;
 	}
-	case 'X' : {
-	    switch ( b ) {
-		case 'O' : return ( &opt_unknown ) ;
-		case 'X' : return ( &xx_list ) ;
+	case 'X': {
+	    switch (b) {
+		case 'O': return(&opt_unknown);
+		case 'X': return(&xx_list);
 	    }
-	    break ;
+	    break;
 	}
     }
-    error ( OPTION, "Unknown list identifier, '%c%c'", a, b ) ;
-    return ( null ) ;
+    error(OPTION, "Unknown list identifier, '%c%c'", a, b);
+    return(null);
 }
 
 
@@ -601,41 +632,40 @@ static list **lookup_list
     the corresponding string variable.
 */
 
-static char **lookup_string
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+static char **
+lookup_string(char *s)
 {
-    char a = s [0] ;
-    char b = 0 ;
-    if ( a ) b = s [1] ;
-    if ( a == 'N' ) {
-	switch ( b ) {
-	    case INDEP_TDF_KEY : return ( &name_j_file ) ;
-	    case C_SPEC_KEY : return ( &name_k_file ) ;
-	    case CPP_SPEC_KEY : return ( &name_K_file ) ;
-	    case STARTUP_FILE_KEY : return ( &name_h_file ) ;
-	    case PRETTY_TDF_KEY : return ( &name_p_file ) ;
+    char a = s[0];
+    char b = 0;
+    if (a) b = s[1];
+    if (a == 'N') {
+	switch (b) {
+	    case INDEP_TDF_KEY: return(&name_j_file);
+	    case C_SPEC_KEY: return(&name_k_file);
+	    case CPP_SPEC_KEY: return(&name_K_file);
+	    case STARTUP_FILE_KEY: return(&name_h_file);
+	    case PRETTY_TDF_KEY: return(&name_p_file);
 	}
-	error ( OPTION, "Unknown output file specifier, '%c'", b ) ;
-	return ( null ) ;
+	error(OPTION, "Unknown output file specifier, '%c'", b);
+	return(null);
     }
-    if ( a == 'S' ) {
-	int t = find_type ( b, 0 ) ;
-	return ( suffixes + t ) ;
+    if (a == 'S') {
+	int t = find_type(b, 0);
+	return(suffixes + t);
     }
-    if ( a == 'A' && b == 'I' ) return ( &api_info ) ;
-    if ( a == 'A' && b == 'O' ) return ( &api_output ) ;
-    if ( a == 'D' && b == 'O' ) return ( &dump_opts ) ;
-    if ( a == 'E' && b == 'D' ) return ( &environ_dir ) ;
-    if ( a == 'F' && b == 'N' ) return ( &final_name ) ;
-    if ( a == 'M' && b == 'N' ) return ( &machine_name ) ;
-    if ( a == 'P' && b == 'N' ) return ( &progname ) ;
-    if ( a == 'T' && b == 'D' ) return ( &temporary_dir ) ;
-    if ( a == 'V' && b == 'F' ) return ( &version_flag ) ;
-    if ( a == 'W' && b == 'D' ) return ( &workdir ) ;
-    if ( a == 'X' && b == 'X' ) return ( &xx_string ) ;
-    error ( OPTION, "Unknown string identifier, '%c%c'", a, b ) ;
-    return ( null ) ;
+    if (a == 'A' && b == 'I') return(&api_info);
+    if (a == 'A' && b == 'O') return(&api_output);
+    if (a == 'D' && b == 'O') return(&dump_opts);
+    if (a == 'E' && b == 'D') return(&environ_dir);
+    if (a == 'F' && b == 'N') return(&final_name);
+    if (a == 'M' && b == 'N') return(&machine_name);
+    if (a == 'P' && b == 'N') return(&progname);
+    if (a == 'T' && b == 'D') return(&temporary_dir);
+    if (a == 'V' && b == 'F') return(&version_flag);
+    if (a == 'W' && b == 'D') return(&workdir);
+    if (a == 'X' && b == 'X') return(&xx_string);
+    error(OPTION, "Unknown string identifier, '%c%c'", a, b);
+    return(null);
 }
 
 
@@ -646,7 +676,7 @@ static char **lookup_string
     in lookup_proc.
 */
 
-static char *lookup_proc_arg = null ;
+static char *lookup_proc_arg = null;
 
 
 /*
@@ -656,18 +686,18 @@ static char *lookup_proc_arg = null ;
     lookup_proc.
 */
 
-static void add_pragma_aux
-    PROTO_Z ()
+static void
+add_pragma_aux(void)
 {
-    add_pragma ( lookup_proc_arg ) ;
-    return ;
+    add_pragma(lookup_proc_arg);
+    return;
 }
 
-static void add_token_aux
-    PROTO_Z ()
+static void
+add_token_aux(void)
 {
-    add_token ( lookup_proc_arg ) ;
-    return ;
+    add_token(lookup_proc_arg);
+    return;
 }
 
 
@@ -678,24 +708,23 @@ static void add_token_aux
     the corresponding procedure.
 */
 
-typedef void ( *proc ) PROTO_Z () ;
+typedef void	(*proc)(void);
 
-static proc lookup_proc
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+static proc
+lookup_proc(char *s)
 {
-    char a = s [0] ;
-    char b = 0 ;
-    if ( a ) b = s [1] ;
-    if ( a == 'A' && b == 'P' ) return ( add_pragma_aux ) ;
-    if ( a == 'A' && b == 'T' ) return ( add_token_aux ) ;
-    if ( a == 'F' && b == 'E' ) return ( find_envpath ) ;
-    if ( a == 'P' && b == 'V' ) return ( print_version ) ;
-    if ( a == 'S' && b == 'E' ) return ( show_envpath ) ;
-    if ( a == 'S' && b == 'M' ) return ( set_machine ) ;
-    if ( a == 'S' && b == 'P' ) return ( special_option ) ;
-    error ( OPTION, "Unknown procedure identifier, '%c%c'", a, b ) ;
-    return ( null ) ;
+    char a = s[0];
+    char b = 0;
+    if (a) b = s[1];
+    if (a == 'A' && b == 'P') return(add_pragma_aux);
+    if (a == 'A' && b == 'T') return(add_token_aux);
+    if (a == 'F' && b == 'E') return(find_envpath);
+    if (a == 'P' && b == 'V') return(print_version);
+    if (a == 'S' && b == 'E') return(show_envpath);
+    if (a == 'S' && b == 'M') return(set_machine);
+    if (a == 'S' && b == 'P') return(special_option);
+    error(OPTION, "Unknown procedure identifier, '%c%c'", a, b);
+    return(null);
 }
 
 
@@ -720,197 +749,196 @@ static proc lookup_proc
     MATCH AN OPTION
 */
 
-static int match_option
-    PROTO_N ( ( in, out, opt, res ) )
-    PROTO_T ( char *in X char *out X char *opt X args_out *res )
+static int
+match_option(char *in, char *out, char *opt, args_out *res)
 {
-    char *p = in ;
-    char *q = opt ;
+    char *p = in;
+    char *q = opt;
 
-    int i, a, v = 1 ;
-    int go = 1, loop = 1, loopv = -1 ;
-    struct { char *txt ; int len ; } var [ max_var ] ;
+    int i, a, v = 1;
+    int go = 1, loop = 1, loopv = -1;
+    struct { char *txt; int len; } var[max_var];
 
     /* Process input */
-    while ( *p && go ) {
-	if ( *p == '$' ) {
-	    char c = p [1] ;
-	    if ( c ) {
-		int wraps = 0 ;
-		if ( p [2] == '+' && p [3] == '*' ) {
+    while (*p && go) {
+	if (*p == '$') {
+	    char c = p[1];
+	    if (c) {
+		int wraps = 0;
+		if (p[2] == '+' && p[3] == '*') {
 		    /* List of strings with breaks : $c+* */
-		    wraps = 1 ;
-		    p++ ;
+		    wraps = 1;
+		    p++;
 		}
-		if ( p [2] == '*' ) {
+		if (p[2] == '*') {
 		    /* List of strings : $c* */
-		    loop = 0 ;
-		    loopv = v ;
-		    if ( p [3] ) return ( MATCH_IN_ERR ) ;
-		    while ( *q ) {
-			int l = 0 ;
-			var [v].txt = q ;
-			while ( *q && *q != c ) {
-			    l++ ;
-			    q++ ;
+		    loop = 0;
+		    loopv = v;
+		    if (p[3]) return(MATCH_IN_ERR);
+		    while (*q) {
+			int l = 0;
+			var[v].txt = q;
+			while (*q && *q != c) {
+			    l++;
+			    q++;
 			}
-			var [v].len = l ;
-			if ( *q ) {
+			var[v].len = l;
+			if (*q) {
 			    /* Found c */
-			    q++ ;
-			    if ( *q == 0 && wraps ) return ( MATCH_MORE ) ;
+			    q++;
+			    if (*q == 0 && wraps) return(MATCH_MORE);
 			}
-			if ( ++v >= max_var ) return ( MATCH_OPT_ERR ) ;
-			loop++ ;
+			if (++v >= max_var) return(MATCH_OPT_ERR);
+			loop++;
 		    }
-		    go = 0 ;
+		    go = 0;
 		} else {
 		    /* Terminated string : $c */
-		    int l = 0 ;
-		    var [v].txt = q ;
-		    while ( *q != c ) {
-			if ( *q == 0 ) return ( MATCH_FAILED ) ;
-			l++ ;
-			q++ ;
+		    int l = 0;
+		    var[v].txt = q;
+		    while (*q != c) {
+			if (*q == 0) return(MATCH_FAILED);
+			l++;
+			q++;
 		    }
-		    var [v].len = l ;
-		    if ( ++v >= max_var ) return ( MATCH_OPT_ERR ) ;
+		    var[v].len = l;
+		    if (++v >= max_var) return(MATCH_OPT_ERR);
 		}
 	    } else {
 		/* Simple string : $ */
-		int l = ( int ) strlen ( q ) ;
-		var [v].txt = q ;
-		var [v].len = l ;
-		if ( ++v >= max_var ) return ( MATCH_OPT_ERR ) ;
-		go = 0 ;
+		int l = (int)strlen(q);
+		var[v].txt = q;
+		var[v].len = l;
+		if (++v >= max_var) return(MATCH_OPT_ERR);
+		go = 0;
 	    }
-	} else if ( *p == '?' ) {
-	    if ( p [1] == '*' ) {
+	} else if (*p == '?') {
+	    if (p[1] == '*') {
 		/* List of characters : ?* */
-		if ( p [2] ) return ( MATCH_IN_ERR ) ;
-		loop = 0 ;
-		loopv = v ;
-		while ( *q ) {
-		    var [v].txt = q ;
-		    var [v].len = 1 ;
-		    if ( ++v >= max_var ) return ( MATCH_OPT_ERR ) ;
-		    q++ ;
-		    loop++ ;
+		if (p[2]) return(MATCH_IN_ERR);
+		loop = 0;
+		loopv = v;
+		while (*q) {
+		    var[v].txt = q;
+		    var[v].len = 1;
+		    if (++v >= max_var) return(MATCH_OPT_ERR);
+		    q++;
+		    loop++;
 		}
-		go = 0 ;
+		go = 0;
 	    } else {
 		/* Simple character : ? */
-		if ( *q == 0 ) return ( MATCH_FAILED ) ;
-		var [v].txt = q ;
-		var [v].len = 1 ;
-		if ( ++v >= max_var ) return ( MATCH_OPT_ERR ) ;
-		q++ ;
+		if (*q == 0) return(MATCH_FAILED);
+		var[v].txt = q;
+		var[v].len = 1;
+		if (++v >= max_var) return(MATCH_OPT_ERR);
+		q++;
 	    }
-	} else if ( *p == '+' ) {
+	} else if (*p == '+') {
 	    /* Potential break : + */
-	    if ( *q == 0 ) return ( MATCH_MORE ) ;
-	} else if ( *p == '^' ) {
+	    if (*q == 0) return(MATCH_MORE);
+	} else if (*p == '^') {
 	    /* Negated letter */
-	    p++ ;
-	    if ( *p == 0 ) return ( MATCH_IN_ERR ) ;
-	    if ( *p == *q ) return ( MATCH_FAILED ) ;
-	    q++ ;
-	} else if ( *p == '\\' ) {
+	    p++;
+	    if (*p == 0) return(MATCH_IN_ERR);
+	    if (*p == *q) return(MATCH_FAILED);
+	    q++;
+	} else if (*p == '\\') {
 	    /* Escaped letter : \c */
-	    p++ ;
-	    if ( *p == 0 ) return ( MATCH_IN_ERR ) ;
-	    if ( *p != *q ) return ( MATCH_FAILED ) ;
-	    q++ ;
+	    p++;
+	    if (*p == 0) return(MATCH_IN_ERR);
+	    if (*p != *q) return(MATCH_FAILED);
+	    q++;
 	} else {
 	    /* Letter : c */
-	    if ( *p != *q ) return ( MATCH_FAILED ) ;
-	    q++ ;
+	    if (*p != *q) return(MATCH_FAILED);
+	    q++;
 	}
-	p++ ;
+	p++;
     }
 
     /* Check end of option */
-    if ( go && *q ) return ( MATCH_FAILED ) ;
+    if (go && *q) return(MATCH_FAILED);
 
     /* The first variable is the whole option */
-    var [0].txt = opt ;
-    var [0].len = ( int ) strlen ( opt ) ;
+    var[0].txt = opt;
+    var[0].len = (int)strlen(opt);
 
     /* Print output */
-    a = 0 ;
-    for ( i = 0 ; i < loop ; i++ ) {
-	char buff [1000] ;
-	q = buff ;
-	for ( p = out ; *p ; p++ ) {
-	    if ( *p == '$' ) {
+    a = 0;
+    for (i = 0; i < loop; i++) {
+	char buff[1000];
+	q = buff;
+	for (p = out; *p; p++) {
+	    if (*p == '$') {
 		/* Variable */
-		int n ;
-		char c = *( ++p ) ;
-		if ( c == 's' ) {
+		int n;
+		char c = *(++p);
+		if (c == 's') {
 		    /* $s expands to a space */
-		    *( q++ ) = ' ' ;
-		} else if ( c == 'n' ) {
+		    *(q++) = ' ';
+		} else if (c == 'n') {
 		    /* $n expands to a newline */
-		    *( q++ ) = '\n' ;
-		} else if ( c >= '0' && c <= '9' ) {
-		    n = ( c - '0' ) ;
-		    if ( n == loopv ) n += i ;
-		    if ( n < v ) {
-			int l = var [n].len ;
-			IGNORE strncpy ( q, var [n].txt, ( size_t ) l ) ;
-			q += l ;
+		    *(q++) = '\n';
+		} else if (c >= '0' && c <= '9') {
+		    n = (c - '0');
+		    if (n == loopv)n += i;
+		    if (n < v) {
+			int l = var[n].len;
+			IGNORE strncpy(q, var[n].txt,(size_t)l);
+			q += l;
 		    }
-		} else if ( c == 'B' ) {
-		    boolean *b = lookup_bool ( p + 1 ) ;
-		    if ( b == null ) return ( MATCH_OUT_ERR ) ;
-		    IGNORE sprintf ( q, "%d", ( int ) *b ) ;
-		    while ( *q ) q++ ;
-		    p += 2 ;
-		} else if ( c == 'L' ) {
-		    list *pt ;
-		    list **sp = lookup_list ( p + 1 ) ;
-		    if ( sp == null ) return ( MATCH_OUT_ERR ) ;
-		    for ( pt = *sp ; pt ; pt = pt->next ) {
-			int l = ( int ) strlen ( pt->item ) ;
-			IGNORE strncpy ( q, pt->item, ( size_t ) l ) ;
-			q += l ;
-			*( q++ ) = ' ' ;
+		} else if (c == 'B') {
+		    boolean *b = lookup_bool(p + 1);
+		    if (b == null) return(MATCH_OUT_ERR);
+		    IGNORE sprintf(q, "%d",(int)*b);
+		    while (*q)q++;
+		    p += 2;
+		} else if (c == 'L') {
+		    list *pt;
+		    list **sp = lookup_list(p + 1);
+		    if (sp == null) return(MATCH_OUT_ERR);
+		    for (pt = *sp; pt; pt = pt->next) {
+			int l = (int)strlen(pt->item);
+			IGNORE strncpy(q, pt->item,(size_t)l);
+			q += l;
+			*(q++) = ' ';
 		    }
-		    p += 2 ;
-		} else if ( c == 'S' ) {
-		    int l ;
-		    char **sp = lookup_string ( p + 1 ) ;
-		    if ( sp == null ) return ( MATCH_OUT_ERR ) ;
-		    if ( *sp ) {
-			l = ( int ) strlen ( *sp ) ;
-			IGNORE strncpy ( q, *sp, ( size_t ) l ) ;
-			q += l ;
+		    p += 2;
+		} else if (c == 'S') {
+		    int l;
+		    char **sp = lookup_string(p + 1);
+		    if (sp == null) return(MATCH_OUT_ERR);
+		    if (*sp) {
+			l = (int)strlen(*sp);
+			IGNORE strncpy(q, *sp,(size_t)l);
+			q += l;
 		    }
-		    p += 2 ;
+		    p += 2;
 		} else {
-		    return ( MATCH_OUT_ERR ) ;
+		    return(MATCH_OUT_ERR);
 		}
-	    } else if ( *p == '|' ) {
+	    } else if (*p == '|') {
 		/* Multiple output */
-		*q = 0 ;
-		res->argv [a] = string_copy ( buff ) ;
-		if ( ++a >= max_var ) return ( MATCH_OPT_ERR ) ;
-		q = buff ;
-	    } else if ( *p == '\\' ) {
+		*q = 0;
+		res->argv[a] = string_copy(buff);
+		if (++a >= max_var) return(MATCH_OPT_ERR);
+		q = buff;
+	    } else if (*p == '\\') {
 		/* Escaped output character */
-		if ( *( ++p ) == 0 ) return ( MATCH_OUT_ERR ) ;
-		*( q++ ) = *p ;
+		if (*(++p) == 0) return(MATCH_OUT_ERR);
+		*(q++) = *p;
 	    } else {
 		/* Simple output character */
-		*( q++ ) = *p ;
+		*(q++) = *p;
 	    }
 	}
-	*q = 0 ;
-	res->argv [a] = string_copy ( buff ) ;
-	if ( ++a >= max_var ) return ( MATCH_OPT_ERR ) ;
+	*q = 0;
+	res->argv[a] = string_copy(buff);
+	if (++a >= max_var) return(MATCH_OPT_ERR);
     }
-    res->argc = a ;
-    return ( MATCH_OK ) ;
+    res->argc = a;
+    return(MATCH_OK);
 }
 
 
@@ -918,260 +946,259 @@ static int match_option
     INTERPRET AN OPTION COMMAND
 */
 
-static void interpret_cmd
-    PROTO_N ( ( cmd ) )
-    PROTO_T ( char *cmd )
+static void
+interpret_cmd(char *cmd)
 {
-    char c = *cmd ;
+    char c = *cmd;
 
     /* Debugging */
-    if ( debug_options ) error ( OPTION, "Interpreting '%s'", cmd ) ;
+    if (debug_options) error(OPTION, "Interpreting '%s'", cmd);
 
     /* Deal with at-hack */
-    if ( c == '@' ) {
-	char *p = string_copy ( cmd + 1 ), *q ;
-	for ( q = p ; *q ; q++ ) {
-	    if ( *q == '@' ) *q = ' ' ;
+    if (c == '@') {
+	char *p = string_copy(cmd + 1), *q;
+	for (q = p; *q; q++) {
+	    if (*q == '@') *q = ' ';
 	}
-	cmd = p ;
-	c = *p ;
+	cmd = p;
+	c = *p;
     }
 
     /* Deal with empty strings */
-    if ( c == 0 ) return ;
+    if (c == 0) return;
 
     /* Digits set values */
-    if ( c >= '0' && c <= '9' ) {
-	boolean *b = lookup_bool ( cmd + 1 ) ;
-	if ( b == null ) return ;
-	*b = ( boolean ) ( c - '0' ) ;
-	return ;
+    if (c >= '0' && c <= '9') {
+	boolean *b = lookup_bool(cmd + 1);
+	if (b == null) return;
+	*b = (boolean)(c - '0');
+	return;
     }
 
     /* Translations */
-    if ( c == '>' ) c = 'A' ;
-    if ( c == '<' ) c = 'B' ;
-    if ( c == '+' ) c = 'L' ;
+    if (c == '>') c = 'A';
+    if (c == '<') c = 'B';
+    if (c == '+') c = 'L';
 
     /* Deal with list query */
-    if ( c == '?' ) {
-	if ( cmd [1] == ':' ) {
-	    char **sp = lookup_string ( cmd + 2 ) ;
-	    if ( sp == null ) return ;
-	    comment ( 1, "%s=\"%s\"\n", cmd + 4, *sp ) ;
+    if (c == '?') {
+	if (cmd[1] == ':') {
+	    char **sp = lookup_string(cmd + 2);
+	    if (sp == null) return;
+	    comment(1, "%s=\"%s\"\n", cmd + 4, *sp);
 	} else {
-	    list *p ;
-	    list **sp = lookup_list ( cmd + 1 ) ;
-	    if ( sp == null ) return ;
-	    comment ( 1, "%s=\"", cmd + 3 ) ;
-	    for ( p = *sp ; p != null ; p = p->next ) {
-		comment ( 1, "%s", p->item ) ;
-		if ( p->next ) comment ( 1, " " ) ;
+	    list *p;
+	    list **sp = lookup_list(cmd + 1);
+	    if (sp == null) return;
+	    comment(1, "%s=\"", cmd + 3);
+	    for (p = *sp; p != null; p = p->next) {
+		comment(1, "%s", p->item);
+		if (p->next)comment(1, " ");
 	    }
-	    comment ( 1, "\"\n" ) ;
+	    comment(1, "\"\n");
 	}
-	return ;
+	return;
     }
 
     /* Deal with equivalences */
-    if ( c == '=' ) {
-	list *p = make_list ( cmd + 1 ) ;
-	process_options ( p, main_optmap ) ;
-	free_list ( p ) ;
-	return ;
+    if (c == '=') {
+	list *p = make_list(cmd + 1);
+	process_options(p, main_optmap);
+	free_list(p);
+	return;
     }
 
     /* Deal with primitives */
-    switch ( c ) {
+    switch (c) {
 
-	case 'A' : {
+	case 'A': {
 	    /* Change list */
-	    list **sp = lookup_list ( cmd + 1 ) ;
-	    if ( sp == null ) return ;
-	    *sp = add_list ( *sp, make_list ( cmd + 3 ) ) ;
-	    return ;
+	    list **sp = lookup_list(cmd + 1);
+	    if (sp == null) return;
+	    *sp = add_list(*sp, make_list(cmd + 3));
+	    return;
 	}
 
-	case 'B' : {
+	case 'B': {
 	    /* Change list */
-	    list **sp = lookup_list ( cmd + 1 ) ;
-	    if ( sp == null ) return ;
-	    *sp = add_list ( make_list ( cmd + 3 ), *sp ) ;
-	    return ;
+	    list **sp = lookup_list(cmd + 1);
+	    if (sp == null) return;
+	    *sp = add_list(make_list(cmd + 3), *sp);
+	    return;
 	}
 
-	case 'L' : {
+	case 'L': {
 	    /* Change list */
-	    list **sp = lookup_list ( cmd + 1 ) ;
-	    if ( sp == null ) return ;
-	    free_list ( *sp ) ;
-	    *sp = make_list ( cmd + 3 ) ;
-	    return ;
+	    list **sp = lookup_list(cmd + 1);
+	    if (sp == null) return;
+	    free_list(*sp);
+	    *sp = make_list(cmd + 3);
+	    return;
 	}
 
-	case 'C' : {
+	case 'C': {
 	    /* Call */
-	    proc p = lookup_proc ( cmd + 1 ) ;
-	    if ( p == null ) return ;
-	    if ( cmd [3] == ':' ) {
-		lookup_proc_arg = cmd + 4 ;
+	    proc p = lookup_proc(cmd + 1);
+	    if (p == null) return;
+	    if (cmd[3] == ':') {
+		lookup_proc_arg = cmd + 4;
 	    } else {
-		lookup_proc_arg = null ;
+		lookup_proc_arg = null;
 	    }
-	    ( *p ) () ;
-	    return ;
+	   (*p)();
+	    return;
 	}
 
-	case 'D' : {
+	case 'D': {
 	    /* Startup options */
-	    add_to_startup ( cmd + 1 ) ;
-	    return ;
+	    add_to_startup(cmd + 1);
+	    return;
 	}
 
-	case 'E' : {
+	case 'E': {
 	    /* Environment */
-	    read_env ( cmd + 1 ) ;
-	    return ;
+	    read_env(cmd + 1);
+	    return;
 	}
 
-	case 'F' : {
+	case 'F': {
 	    /* Endup options */
-	    add_to_endup ( cmd + 1 ) ;
-	    return ;
+	    add_to_endup(cmd + 1);
+	    return;
 	}
 
-	case 'H' : {
+	case 'H': {
 	    /* Halt */
-	    char stage = cmd [1] ;
-	    set_stage ( find_type ( stage, 0 ), STOP_STAGE ) ;
-	    return ;
+	    char stage = cmd[1];
+	    set_stage(find_type(stage, 0), STOP_STAGE);
+	    return;
 	}
 
-	case 'I' : {
+	case 'I': {
 	    /* Input file */
-	    int t ;
-	    filename *f ;
-	    char stage = cmd [1] ;
-	    char *name = cmd + 2 ;
-	    if ( stage == '?' ) {
-		t = UNKNOWN_TYPE ;
+	    int t;
+	    filename *f;
+	    char stage = cmd[1];
+	    char *name = cmd + 2;
+	    if (stage == '?') {
+		t = UNKNOWN_TYPE;
 	    } else {
-		t = find_type ( stage, 0 ) ;
+		t = find_type(stage, 0);
 	    }
-	    f = find_filename ( name, t ) ;
-	    input_files = add_filename ( input_files, f ) ;
-	    return ;
+	    f = find_filename(name, t);
+	    input_files = add_filename(input_files, f);
+	    return;
 	}
 
-	case 'K' : {
+	case 'K': {
 	    /* Keep */
-	    static int k = KEEP_STAGE ;
-	    char stage = cmd [1] ;
-	    if ( stage == '-' ) {
-		k = DONT_KEEP_STAGE ;
+	    static int k = KEEP_STAGE;
+	    char stage = cmd[1];
+	    if (stage == '-') {
+		k = DONT_KEEP_STAGE;
 	    } else {
-		set_stage ( find_type ( stage, 0 ), k ) ;
-		k = KEEP_STAGE ;
+		set_stage(find_type(stage, 0), k);
+		k = KEEP_STAGE;
 	    }
-	    return ;
+	    return;
 	}
 
-	case 'Q' : {
+	case 'Q': {
 	    /* Query */
-	    char *s ;
-	    optmap *t = main_optmap ;
-	    error ( INFO, "List of recognised options" ) ;
-	    while ( s = t->in, s != null ) {
-		if ( *s == '-' ) {
-		    char d ;
-		    comment ( 0, " " ) ;
-		    while ( d = *( s++ ), d != 0 ) {
-			switch ( d ) {
-			    case '$' : {
-				IGNORE fputs ( "<string>", stderr ) ;
-				break ;
+	    char *s;
+	    optmap *t = main_optmap;
+	    error(INFO, "List of recognised options");
+	    while (s = t->in, s != null) {
+		if (*s == '-') {
+		    char d;
+		    comment(0, " ");
+		    while (d = *(s++), d != 0) {
+			switch (d) {
+			    case '$': {
+				IGNORE fputs("<string>", stderr);
+				break;
 			    }
-			    case '?' : {
-				IGNORE fputs ( "<letter>", stderr ) ;
-				break ;
+			    case '?': {
+				IGNORE fputs("<letter>", stderr);
+				break;
 			    }
-			    case '*' : {
-				IGNORE fputs ( "...", stderr ) ;
-				break ;
+			    case '*': {
+				IGNORE fputs("...", stderr);
+				break;
 			    }
-			    case '+' : {
-				IGNORE fputc ( ' ', stderr ) ;
-				break ;
+			    case '+': {
+				IGNORE fputc(' ', stderr);
+				break;
 			    }
-			    case '\\' : {
-				IGNORE fputc ( *( s++ ), stderr ) ;
-				break ;
+			    case '\\': {
+				IGNORE fputc(*(s++), stderr);
+				break;
 			    }
 			    default : {
-				IGNORE fputc ( d, stderr ) ;
-				break ;
+				IGNORE fputc(d, stderr);
+				break;
 			    }
 			}
 		    }
-		    s = t->explain ;
-		    if ( s == null ) s = "not documented" ;
-		    comment ( 0, " : " ) ;
-		    comment ( 0, s, progname ) ;
-		    comment ( 0, ".\n" ) ;
+		    s = t->explain;
+		    if (s == null) s = "not documented";
+		    comment(0, " : ");
+		    comment(0, s, progname);
+		    comment(0, ".\n");
 		}
-		t++ ;
+		t++;
 	    }
-	    return ;
+	    return;
 	}
 
-	case 'S' : {
+	case 'S': {
 	    /* String */
-	    char **s = lookup_string ( cmd + 1 ) ;
-	    if ( s == null ) return ;
-	    *s = cmd + 3 ;
-	    return ;
+	    char **s = lookup_string(cmd + 1);
+	    if (s == null) return;
+	    *s = cmd + 3;
+	    return;
 	}
 
-	case 'V' : {
-	    if ( cmd [1] == 'B' ) {
-		boolean *b = lookup_bool ( cmd + 2 ) ;
-		if ( b == null ) return ;
-		comment ( 1, "%c%c = %d\n", cmd [2], cmd [3], *b ) ;
-		return ;
-	    } else if ( cmd [1] == 'L' ) {
-		list **sp = lookup_list ( cmd + 2 ), *pt ;
-		if ( sp == null ) return ;
-		comment ( 1, "%c%c =", cmd [2], cmd [3] ) ;
-		for ( pt = *sp ; pt != null ; pt = pt->next ) {
-		    if ( pt->item ) {
-			comment ( 1, " %s", pt->item ) ;
+	case 'V': {
+	    if (cmd[1] == 'B') {
+		boolean *b = lookup_bool(cmd + 2);
+		if (b == null) return;
+		comment(1, "%c%c = %d\n", cmd[2], cmd[3], *b);
+		return;
+	    } else if (cmd[1] == 'L') {
+		list **sp = lookup_list(cmd + 2), *pt;
+		if (sp == null) return;
+		comment(1, "%c%c =", cmd[2], cmd[3]);
+		for (pt = *sp; pt != null; pt = pt->next) {
+		    if (pt->item) {
+			comment(1, " %s", pt->item);
 		    } else {
-			comment ( 1, " (null)" ) ;
+			comment(1, " (null)");
 		    }
 		}
-		comment ( 1, "\n" ) ;
-		return ;
-	    } else if ( cmd [1] == 'S' ) {
-		char **s = lookup_string ( cmd + 2 ) ;
-		if ( s == null ) return ;
-		if ( *s ) {
-		    comment ( 1, "%c%c = %s\n", cmd [2], cmd [3], *s ) ;
+		comment(1, "\n");
+		return;
+	    } else if (cmd[1] == 'S') {
+		char **s = lookup_string(cmd + 2);
+		if (s == null) return;
+		if (*s) {
+		    comment(1, "%c%c = %s\n", cmd[2], cmd[3], *s);
 		} else {
-		    comment ( 1, "%c%c = (null)\n", cmd [2], cmd [3] ) ;
+		    comment(1, "%c%c = (null)\n", cmd[2], cmd[3]);
 		}
-		return ;
+		return;
 	    }
-	    break ;
+	    break;
 	}
 
-	case 'X' : {
+	case 'X': {
 	    /* Error */
-	    error ( WARNING, "%s", cmd + 1 ) ;
-	    return ;
+	    error(WARNING, "%s", cmd + 1);
+	    return;
 	}
     }
-    error ( OPTION, "Syntax error, '%s'", cmd ) ;
-    return ;
+    error(OPTION, "Syntax error, '%s'", cmd);
+    return;
 }
 
 
@@ -1182,71 +1209,70 @@ static void interpret_cmd
     from table tab.
 */
 
-void process_options
-    PROTO_N ( ( opt, tab ) )
-    PROTO_T ( list *opt X optmap *tab )
+void
+process_options(list *opt, optmap *tab)
 {
-    optmap *t ;
-    list *p = opt ;
-    char *arg = null ;
-    int status = MATCH_OK ;
+    optmap *t;
+    list *p = opt;
+    char *arg = null;
+    int status = MATCH_OK;
 
     /* Scan through the options */
-    while ( p != null ) {
-	if ( status == MATCH_MORE ) {
-	    arg = string_concat ( arg, p->item ) ;
+    while (p != null) {
+	if (status == MATCH_MORE) {
+	    arg = string_concat(arg, p->item);
 	} else {
-	    arg = p->item ;
+	    arg = p->item;
 	}
-	status = MATCH_FAILED ;
-	for ( t = tab ; t->in != null ; t++ ) {
-	    args_out res ;
-	    status = match_option ( t->in, t->out, arg, &res ) ;
-	    switch ( status ) {
-		case MATCH_OK : {
+	status = MATCH_FAILED;
+	for (t = tab; t->in != null; t++) {
+	    args_out res;
+	    status = match_option(t->in, t->out, arg, &res);
+	    switch (status) {
+		case MATCH_OK: {
 		    /* Complete option - interpret result */
-		    int a ;
-		    for ( a = 0 ; a < res.argc ; a++ ) {
-			interpret_cmd ( res.argv [a] ) ;
+		    int a;
+		    for (a = 0; a < res.argc; a++) {
+			interpret_cmd(res.argv[a]);
 		    }
-		    goto end_search ;
+		    goto end_search;
 		}
-		case MATCH_MORE : {
+		case MATCH_MORE: {
 		    /* Incomplete option - move on to next option */
-		    goto end_search ;
+		    goto end_search;
 		}
-		case MATCH_FAILED : {
+		case MATCH_FAILED: {
 		    /* Try again */
-		    break ;
+		    break;
 		}
-		case MATCH_IN_ERR : {
+		case MATCH_IN_ERR: {
 		    /* Error in optmap input */
-		    error ( OPTION, "Illegal input '%s'", t->in ) ;
-		    status = MATCH_FAILED ;
-		    break ;
+		    error(OPTION, "Illegal input '%s'", t->in);
+		    status = MATCH_FAILED;
+		    break;
 		}
-		case MATCH_OUT_ERR : {
+		case MATCH_OUT_ERR: {
 		    /* Error in optmap output */
-		    error ( OPTION, "Illegal option '%s'", t->out ) ;
-		    status = MATCH_FAILED ;
-		    break ;
+		    error(OPTION, "Illegal option '%s'", t->out);
+		    status = MATCH_FAILED;
+		    break;
 		}
-		case MATCH_OPT_ERR : {
+		case MATCH_OPT_ERR: {
 		    /* Ran out of space for result */
-		    error ( OPTION, "Too many components, '%s'", arg ) ;
-		    status = MATCH_FAILED ;
-		    break ;
+		    error(OPTION, "Too many components, '%s'", arg);
+		    status = MATCH_FAILED;
+		    break;
 		}
 	    }
 	}
-	error ( OPTION, "Can't interpret '%s'", arg ) ;
-	end_search : p = p->next ;
+	error(OPTION, "Can't interpret '%s'", arg);
+	end_search : p = p->next;
     }
 
     /* Check for incomplete options */
-    if ( status == MATCH_MORE ) {
-	error ( WARNING, "Option '%s' is incomplete", arg ) ;
+    if (status == MATCH_MORE) {
+	error(WARNING, "Option '%s' is incomplete", arg);
     }
 
-    return ;
+    return;
 }
