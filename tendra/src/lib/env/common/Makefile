@@ -1,7 +1,7 @@
 # $TenDRA$
 
 # common directory
-DATA+=	16bit 32bit CVS Goption K-PIC K-ieee K-noieee K-prom \
+DATA+=	16bit 32bit Goption K-PIC K-ieee K-noieee K-prom \
 	Versions Xa Xc Xp Xs Xt Xw aes alloca ansi bsd_extn \
 	building c c++ common compact cose default default.extra \
 	gcc iso longlong makelib motif_1_1 motif_1_2 motif_private \
