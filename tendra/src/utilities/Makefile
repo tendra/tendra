@@ -1,5 +1,5 @@
 # $TenDRA$
 
-SUBDIR= sid lexi calculus make_err make_tdf
+SUBDIR= sid lexi calculus make_tdf
 
 .include "${.CURDIR}/../../mk/base/tendra.subdir.mk"
