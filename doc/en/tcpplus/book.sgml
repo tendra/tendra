@@ -1114,7 +1114,7 @@ multibyte           1
 
         <para>Whether plain <literal>char</literal> is signed or unsigned is
           implementation dependent. By default the implementation is determined
-          by the definition of the -XREF-lib.html#arith <literal>~char</literal>
+          by the definition of the <xref linkend='arithmetic-types'> <literal>~char</literal>
           token, however this can be overridden in the producer either by means
           of the -XREF-#table"&gt;portability table or by the directive:</para>
 <programlisting>
@@ -1518,7 +1518,7 @@ extern <emphasis>string-literal</emphasis> {
 
         <para>It is unspecified what happens if such a directive is used within
           an explicit linkage specification and does not nest correctly. This
-          directive is particularly useful when used in a -XREF-#scope named
+          directive is particularly useful when used in a <xref linkend='scope-directive'> named
           environment associated with an include directory. For example, it can
           be used to express the fact that all the objects declared in headers
           included from that directory have C linkage.</para>
@@ -1666,7 +1666,7 @@ c = 3 ;         // error: not allowed in C++
 
         <para>which can be used to control the implementation of the
           <literal>long long</literal> types. Either they can be mapped to the
-          -XREF-lib.html#arith default representation, which is guaranteed to
+          <xref linkend='arithmetic-types'> default representation, which is guaranteed to
           contain at least 64 bits, or they can be mapped to the corresponding
           <literal>long</literal> types.</para>
 
@@ -1679,7 +1679,7 @@ c = 3 ;         // error: not allowed in C++
           promotion types and arithmetic types to say that if the given value
           does not fit into the standard integral types then the extended types
           are tried. This has not been done, although these rules could be
-          implemented by changing the definitions of the -XREF-lib.html#arith
+          implemented by changing the definitions of the <xref linkend='arithmetic-types'>
           standard tokens used to determine these types. By default, only the
           rules for arithmetic types involving a <literal>long long</literal>
           operand and for <literal>LL</literal> integer literals mention
@@ -2800,7 +2800,7 @@ void e () throw ( int )
         <para>It is intended that this directive will be phased out as these
           checks are assigned controlling directives. It is possible to achieve
           finer control over these checks by enabling their individual error
-          messages -XREF-#low as described above .</para>
+          messages <xref linkend='low-level-directive'> as described above .</para>
       </sect2>
     </sect1>
 
@@ -2829,7 +2829,7 @@ void e () throw ( int )
         on a particular machine, can be linked in later. This mechanism is
         described in detail elsewhere.</para>
 
-      <para>A -XREF-#token summary of the grammar for the <literal>#pragma
+      <para>A <xref linkend='token-directive'> summary of the grammar for the <literal>#pragma
         token</literal> directives accepted by the C++ producer is given as an
         annex.</para>
 
@@ -3494,7 +3494,7 @@ reject -&gt; reject
             members, can have access specifiers; however the access of a
             non-member is always <literal>public</literal>.</para>
 
-          <para>The -XREF-#scope scope (i.e. class, namespace, block etc.) in
+          <para>The <xref linkend='scope-directive'> scope (i.e. class, namespace, block etc.) in
             which an identifier is declared is given by:</para>
 <programlisting>
 <emphasis>scope-identifier</emphasis> :
@@ -3547,7 +3547,7 @@ reject -&gt; reject
             <literal>C</literal> denotes a call to a function identifier;
             <literal>L</literal> (load) denotes other identifier uses. Finally
             <literal>W</literal> denotes implicit type information such as the C
-            producer gleans from its -XREF-pragma.html#weak weak prototype
+            producer gleans from its <xref linkend='weak-function-prototypes'> weak prototype
             analysis.</para>
 
           <para>The various <emphasis>identifier-key</emphasis>s are their
@@ -4322,7 +4322,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
         <title>Sorts</title>
 
         <para>A <emphasis>sort</emphasis> in the symbol table dump corresponds
-          to the sort of a token declared in the -XREF-token.html#spec
+          to the sort of a token declared in the <xref linkend='token-specifcations'>
           <literal>#pragma token</literal> syntax. Expression tokens are
           represented as follows:</para>
 <programlisting>
@@ -4664,7 +4664,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
           dependent, so, for example, an <literal>int</literal> may contain 16,
           32, 64 or some other number of bits. Thus it is necessary to introduce
           a token to stand for each of the built-in arithmetic types (including
-          the -XREF-pragma.html#longlong<literal>long long</literal> types). Each
+          the <xref linkend='extended-ingegral'><literal>long long</literal> types). Each
           integral type is represented by a <literal>VARIETY</literal> token as
           follows:</para>
 
@@ -4986,7 +4986,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
       <sect2 id='integer-literal-types'>
         <title>Integer literal types</title>
 
-        <para>The -XREF-pragma.html#inttype of an integer literal is defined in
+        <para>The <xref linkend='integer-literals'>type of an integer literal is defined in
           terms of the first in a list of possible integral types. The first type
           in which the literal value can be represented gives the type of the
           literal. For small literals it is possible to work out the type
@@ -5281,7 +5281,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
             being treated as non-variable. However the definition of such a
             function uses the <literal>make_proc</literal> construct with a
             variable parameter. This parameter can be referred to within the
-            program using the -XREF-pragma.html#ellipsis<literal>...</literal>
+            program using the <xref linkend='ellipsis-functions'><literal>...</literal>
             expression. The type of this expression is given by the built-in
             token:</para>
 <programlisting>
@@ -7516,18 +7516,18 @@ namespace N {
 
         <orderedlist>
           <listitem>
-            <para>-XREF-pragma.html#implicitImplicit <literal>int</literal> has
+            <para><xref linkend='implicit-int'>Implicit <literal>int</literal> has
               been banned.</para>
           </listitem>
 
           <listitem>
-            <para>-XREF-pragma.html#stringString literals are now
+            <para><xref linkend='string-literals-a'>String literals are now
               <literal>const</literal> , although in simple assignments the
               <literal>const</literal> is implicitly removed.</para>
           </listitem>
 
           <listitem>
-            <para>The scope of a -XREF-pragma.html#forvariable declared in a
+            <para>The scope of a <xref linkend='for-statements'>variable declared in a
               for-init-statement is the <literal>for</literal> statement
               itself.</para>
           </listitem>
@@ -7544,7 +7544,7 @@ namespace N {
           </listitem>
 
           <listitem>
-            <para>The -XREF-pragma.html#templatetemplate compilation model has
+            <para>The <xref linkend='template-compilation'>template compilation model has
               been clarified. The notation for explicit instantiation and
               specialisation has changed.</para>
           </listitem>
@@ -7555,7 +7555,7 @@ namespace N {
           </listitem>
 
           <listitem>
-            <para>-XREF-pragma.html#keywordNew keywords have been
+            <para><xref linkend='keywords'>New keywords have been
               introduced.</para>
           </listitem>
         </orderedlist>
@@ -7655,7 +7655,7 @@ struct _fake_ostream::myfields {
 </programlisting>
 
         <para>will cause the C++ producer to assume that all
-          -XREF-token.html#exptokenised rvalue expressions are constant.</para>
+          <xref linkend='expression-tokens'>tokenised rvalue expressions are constant.</para>
 
         <para>In <literal>streambuf.cc</literal>, if <literal>errno</literal>
           is to be explicitly declared it should have C linkage or be declared in
@@ -7665,7 +7665,7 @@ struct _fake_ostream::myfields {
           instantiations should be prefixed by <literal>template</literal>. The
           corresponding template declarations in <literal>iomanip.h</literal>
           should be declared using
-          -XREF-pragma.html#template<literal>export</literal> (note that the
+          <xref linkend='template-compilation'><literal>export</literal> (note that the
           <literal>__GNUG__</literal> version uses <literal>extern</literal>,
           which may yet win out over <literal>export</literal>).</para>
       </sect2>
@@ -7820,7 +7820,7 @@ ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;
             <literal>args</literal>.</para>
         </note>
 
-        <para>The following -XREF-pragma.html#keywordTenDRA keywords are
+        <para>The following <xref linkend='keywords'>TenDRA keywords are
           defined (with suitable default values for non-TenDRA compilers):</para>
 <programlisting>
 #pragma TenDRA keyword SET for set
@@ -8728,7 +8728,7 @@ typedef unsigned char character ;
           elements of which can be or-ed together to represent combinations of
           type specifiers. Its chief use is when reading a type from the input
           file; the various simple type specifiers are combined to give a value
-          of this type, which is then mapped to an actual -XREF-#typeC++
+          of this type, which is then mapped to an actual <xref linkend='type-directive'>C++
           type.</para>
       </sect2>
 
@@ -8849,7 +8849,7 @@ typedef unsigned char character ;
           (<literal>etype</literal>) is used to represent a C++ enumeration type.
           This consists primarily of an -XREF-#ididentifier giving the
           enumeration name, a -XREF-#cinfoclass information field, a
-          -XREF-#typetype giving the underlying representation of the enumeration
+          <xref linkend='type-directive'>type giving the underlying representation of the enumeration
           type, and a list of -XREF-#ididentifiers giving the enumerators
           comprising the enumeration.</para>
       </sect2>
@@ -8977,7 +8977,7 @@ typedef unsigned char character ;
           class names, functions, variables, class members, macros, keywords etc.
           Each field has appropriate components giving its type, its definition
           or whatever other information is required. For example, the
-          <literal>variable</literal> field has a -XREF-#typetype and two
+          <literal>variable</literal> field has a <xref linkend='type-directive'>type and two
           -XREF-#expexpressions, giving the constructor and destructor values for
           the object.</para>
 
@@ -9133,7 +9133,7 @@ typedef unsigned char character ;
 
         <para>The union type <literal>EXP</literal> (<literal>exp</literal>) is
           used to represent a C++ expression or statement. Each expression has an
-          associated -XREF-#typetype, <literal>type</literal>, but most of the
+          associated <xref linkend='type-directive'>type, <literal>type</literal>, but most of the
           information about an expression is stored in one of the large number of
           fields of the <literal>EXP</literal> union. Most of these fields are
           fairly simple. For example, there are fields corresponding to
@@ -9211,7 +9211,7 @@ PROC ( TYPE T, EXP const : int : n ) ....
           <literal>TOKEN</literal> union is used to represent lists of template
           parameters. Note that a further field, <literal>class</literal>, is
           also required to represent template template parameters. A
-          -XREF-#typetemplate type is represented by a field,
+          <xref linkend='type-directive'>template type is represented by a field,
           <literal>templ</literal>, of the union <literal>TYPE</literal>, which
           comprises a template sort and a sub-type expressed in terms of the
           template parameters.</para>
@@ -9221,7 +9221,7 @@ PROC ( TYPE T, EXP const : int : n ) ....
           template arguments. Each of the parameter sorts listed above has an
           appropriate <literal>value</literal> component which can store a value
           of that sort. Many of the union types in the algebra, including
-          -XREF-#typetypes and -XREF-#expexpressions, have a field of the
+          <xref linkend='type-directive'>types and -XREF-#expexpressions, have a field of the
           form:</para>
 <programlisting>
 token -&gt; {
@@ -9239,7 +9239,7 @@ token -&gt; {
           -XREF-#ididentifier. This identifier has an underlying form giving the
           template identifier and the template arguments. This is expressed as a
           <literal>token</literal> member of the
-          -XREF-#type<literal>TYPE</literal> union (although it is not
+          <xref linkend='type-directive'><literal>TYPE</literal> union (although it is not
           technically a type, this happens to be the most convenient
           representation). Each such form has an associated
           -XREF-#inst<literal>INSTANCE</literal> component which gives further
@@ -9349,7 +9349,7 @@ token -&gt; {
 
         <para>The structure <literal>OPTIONS</literal> is not part of the
           <literal>calculus</literal> type system. It is used to represent the
-          state of the -XREF-pragma.html#lowcompiler options at a particular
+          state of the <xref linkend='low-level-conf'>compiler options at a particular
           point in the input file.</para>
       </sect2>
 
@@ -9404,7 +9404,7 @@ class_union_deriv ( CLASS_TYPE: ct )
         called <literal>class.union</literal>, so all the constraint errors
         arising from this section have names of the form
         <literal>class_union_*</literal>. These error names can be used in the
-        -XREF-pragma.html#lowlow level directives such as:</para>
+        <xref linkend='low-level-conf'>low level directives such as:</para>
 <programlisting>
 #pragma TenDRA++ error &quot;class_union_deriv&quot; <emphasis>allow</emphasis>
 </programlisting>
@@ -9436,12 +9436,12 @@ linkage (at &quot;loc&quot;)&quot;
 
       <para>are therefore constraint errors. The severity associated with
         <literal>link_incompat</literal> can be modified either
-        -XREF-pragma.html#lowdirectly, using the directive:</para>
+        <xref linkend='low-level-conf'>directly, using the directive:</para>
 <programlisting>
 #pragma TenDRA++ option &quot;link_incompat&quot; <emphasis>allow</emphasis>
 </programlisting>
 
-      <para>or -XREF-pragma.html#linkageindirectly using the directive:</para>
+      <para>or <xref linkend='object-linkage'>indirectly using the directive:</para>
 <programlisting>
 #pragma TenDRA incompatible linkage <emphasis>allow</emphasis>
 </programlisting>
@@ -9662,12 +9662,12 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>pragma TenDRA ++<emphasis><subscript>opt</subscript> tendra-directive</emphasis></entry>
-          <entry>-XREF-#tendra# </entry>
+          <entry><xref linkend='tendra-directive'># </entry>
       </row>
 
       <row>
           <entry>pragma <emphasis>token-directive</emphasis></entry>
-          <entry>-XREF-#token# </entry>
+          <entry><xref linkend='token-directive'># </entry>
       </row>
       </tbody>
       </tgroup>
@@ -9693,47 +9693,47 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry><emphasis>scope-directive</emphasis></entry>
-          <entry>-XREF-#scope</entry>
+          <entry><xref linkend='scope-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>low-level-directive</emphasis></entry>
-          <entry>-XREF-#low</entry>
+          <entry><xref linkend='low-level-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>analysis-directive on</emphasis></entry>
-          <entry>-XREF-#analysis</entry>
+          <entry><xref linkend='analysis-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>check-directive allow</emphasis></entry>
-          <entry>-XREF-#check</entry>
+          <entry><xref linkend='check-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>keyword-directive</emphasis></entry>
-          <entry>-XREF-#keyword</entry>
+          <entry><xref linkend='keyword-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>type-directive</emphasis></entry>
-          <entry>-XREF-#type</entry>
+          <entry><xref linkend='type-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>linkage-directive</emphasis></entry>
-          <entry>-XREF-#linkage</entry>
+          <entry><xref linkend='linkage-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>misc-directive</emphasis></entry>
-          <entry>-XREF-#misc</entry>
+          <entry><xref linkend='misc-directive'></entry>
       </row>
 
       <row>
           <entry><emphasis>tendra-token-directive</emphasis></entry>
-          <entry>-XREF-#token1</entry>
+          <entry><xref linkend='tendra-token-directive'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -9813,32 +9813,32 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>begin</entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
 
       <row>
           <entry>begin name environment <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
 
       <row>
           <entry>end</entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
 
       <row>
           <entry>directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
 
       <row>
           <entry>use environment <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
 
       <row>
           <entry>use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></entry>
-          <entry>-XREF-pragma.html#scope</entry>
+          <entry><xref linkend='checking-scopes'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -9860,37 +9860,37 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry>error <emphasis>string-literal allow</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
 
       <row>
           <entry>error <emphasis>string-literal on</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
 
       <row>
           <entry>error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
 
       <row>
           <entry>option <emphasis>string-literal allow</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
 
       <row>
           <entry>option <emphasis>string-literal on</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
 
       <row>
           <entry>option value <emphasis>string-literal integer-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#limits</entry>
+          <entry><xref linkend='implimentation-limits'></entry>
       </row>
 
       <row>
           <entry>use error <emphasis>string-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#low</entry>
+          <entry><xref linkend='low-level-conf'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -9911,77 +9911,77 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>complete initialization analysis</entry>
-          <entry>-XREF-pragma.html#init</entry>
+          <entry><xref linkend='initialiser-expr'></entry>
       </row>
 
       <row>
           <entry>complete struct / union analysis</entry>
-          <entry>-XREF-pragma.html#elab</entry>
+          <entry><xref linkend='elaborated-specifiers'></entry>
       </row>
 
       <row>
           <entry>conversion analysis <emphasis>conversion-spec<subscript>opt</subscript></emphasis></entry>
-          <entry>-XREF-pragma.html#conv</entry>
+          <entry><xref linkend='type-conversations'></entry>
       </row>
 
       <row>
           <entry>discard analysis <emphasis>discard-spec<subscript>opt</subscript></emphasis></entry>
-          <entry>-XREF-pragma.html#discard</entry>
+          <entry><xref linkend='discarded-expressions'></entry>
       </row>
 
       <row>
           <entry>enum switch analysis</entry>
-          <entry>-XREF-pragma.html#switch</entry>
+          <entry><xref linkend='switch-statements'></entry>
       </row>
 
       <row>
           <entry>external function linkage</entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>for initialization block</entry>
-          <entry>-XREF-pragma.html#for</entry>
+          <entry><xref linkend='for-statements'></entry>
       </row>
 
       <row>
           <entry>ignore struct / union / enum tag</entry>
-          <entry>-XREF-pragma.html#elab</entry>
+          <entry><xref linkend='elaborated-specifiers'></entry>
       </row>
 
       <row>
           <entry>implicit export template</entry>
-          <entry>-XREF-pragma.html#template</entry>
+          <entry><xref linkend='template-compilation'></entry>
       </row>
 
       <row>
           <entry>implicit function declaration</entry>
-          <entry>-XREF-pragma.html#impl_func</entry>
+          <entry><xref linkend='implicit-function-decl'></entry>
       </row>
 
       <row>
           <entry>integer operator analysis</entry>
-          <entry>-XREF-pragma.html#exp</entry>
+          <entry><xref linkend='expressions'></entry>
       </row>
 
       <row>
           <entry>integer overflow analysis</entry>
-          <entry>-XREF-pragma.html#exp</entry>
+          <entry><xref linkend='expressions'></entry>
       </row>
 
       <row>
           <entry>nested comment analysis</entry>
-          <entry>-XREF-pragma.html#comment</entry>
+          <entry><xref linkend='comments'></entry>
       </row>
 
       <row>
           <entry>operator precedence analysis</entry>
-          <entry>-XREF-pragma.html#exp</entry>
+          <entry><xref linkend='expressions'></entry>
       </row>
 
       <row>
           <entry>pointer operator analysis</entry>
-          <entry>-XREF-pragma.html#exp</entry>
+          <entry><xref linkend='expressions'></entry>
       </row>
 
       <row>
@@ -9991,22 +9991,22 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry>unify external linkage</entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>variable analysis</entry>
-          <entry>-XREF-pragma.html#variable</entry>
+          <entry><xref linkend='variable-flow-analysis'></entry>
       </row>
 
       <row>
           <entry>variable hiding analysis</entry>
-          <entry>-XREF-pragma.html#hide</entry>
+          <entry><xref linkend='variable-hiding'></entry>
       </row>
 
       <row>
           <entry>weak prototype analysis</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -10134,102 +10134,102 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>ambiguous overload resolution</entry>
-          <entry>-XREF-pragma.html#overload</entry>
+          <entry><xref linkend='overloaded-funct'></entry>
       </row>
 
       <row>
           <entry>assignment as bool</entry>
-          <entry>-XREF-pragma.html#if</entry>
+          <entry><xref linkend='conditional-iteration'></entry>
       </row>
 
       <row>
           <entry>bitfield overflow</entry>
-          <entry>-XREF-pragma.html#bitfield</entry>
+          <entry><xref linkend='bitfield-types-b'></entry>
       </row>
 
       <row>
           <entry>block function static</entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>catch all</entry>
-          <entry>-XREF-pragma.html#catch_all</entry>
+          <entry><xref linkend='other-checks'></entry>
       </row>
 
       <row>
           <entry>character escape overflow</entry>
-          <entry>-XREF-pragma.html#escape</entry>
+          <entry><xref linkend='escape-sequences'></entry>
       </row>
 
       <row>
           <entry>compatible token</entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>complete file includes</entry>
-          <entry>-XREF-pragma.html#include</entry>
+          <entry><xref linkend='inclusion-directives'></entry>
       </row>
 
       <row>
           <entry>conditional declaration</entry>
-          <entry>-XREF-pragma.html#target-if</entry>
+          <entry><xref linkend='target-dep-conditional'></entry>
       </row>
 
       <row>
           <entry>conditional lvalue</entry>
-          <entry>-XREF-pragma.html#lvalue</entry>
+          <entry><xref linkend='lvalue-expressions'></entry>
       </row>
 
       <row>
           <entry>conditional overload resolution <emphasis>overload-spec<subscript>opt</subscript></emphasis></entry>
-          <entry>-XREF-pragma.html#overload</entry>
+          <entry><xref linkend='overloaded-funct'></entry>
       </row>
 
       <row>
           <entry>const conditional</entry>
-          <entry>-XREF-pragma.html#if</entry>
+          <entry><xref linkend='conditional-iteration'></entry>
       </row>
 
       <row>
           <entry>directive as macro argument</entry>
-          <entry>-XREF-pragma.html#macro</entry>
+          <entry><xref linkend='macro-definitions'></entry>
       </row>
 
       <row>
           <entry>dollar as ident</entry>
-          <entry>-XREF-pragma.html#identifier</entry>
+          <entry><xref linkend='identifier-names'></entry>
       </row>
 
       <row>
           <entry>extra ,</entry>
-          <entry>-XREF-pragma.html#elab</entry>
+          <entry><xref linkend='elaborated-specifiers'></entry>
       </row>
 
       <row>
           <entry>extra ;</entry>
-          <entry>-XREF-pragma.html#decl_none</entry>
+          <entry><xref linkend='empty-decl'></entry>
       </row>
 
       <row>
           <entry>extra ; after conditional</entry>
-          <entry>-XREF-pragma.html#if</entry>
+          <entry><xref linkend='conditional-iteration'></entry>
       </row>
 
       <row>
           <entry>extra ...</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>extra bitfield int type</entry>
-          <entry>-XREF-pragma.html#bitfield</entry>
+          <entry><xref linkend='bitfield-types-b'></entry>
       </row>
 
       <row>
           <entry>extra macro definition</entry>
-          <entry>-XREF-pragma.html#macro</entry>
+          <entry><xref linkend='macro-definitions'></entry>
       </row>
 
       <row>
@@ -10239,192 +10239,192 @@ bs = enc_exp ( bs, b ) ;
 
       <row>
           <entry>fall into case</entry>
-          <entry>-XREF-pragma.html#switch</entry>
+          <entry><xref linkend='switch-statements'></entry>
       </row>
 
       <row>
           <entry>forward enum declaration</entry>
-          <entry>-XREF-pragma.html#elab</entry>
+          <entry><xref linkend='elaborated-specifiers'></entry>
       </row>
 
       <row>
           <entry>function pointer as pointer</entry>
-          <entry>-XREF-pragma.html#conv</entry>
+          <entry><xref linkend='type-conversations'></entry>
       </row>
 
       <row>
           <entry>ident ...</entry>
-          <entry>-XREF-pragma.html#ellipsis</entry>
+          <entry><xref linkend='ellipsis-functions'></entry>
       </row>
 
       <row>
           <entry>implicit int type <emphasis>inttype-spec<subscript>opt</subscript></emphasis></entry>
-          <entry>-XREF-pragma.html#implicit</entry>
+          <entry><xref linkend='implicit-int'></entry>
       </row>
 
       <row>
           <entry>implicit token definition</entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>incompatible interface declaration</entry>
-          <entry>-XREF-token.html#spec</entry>
+          <entry><xref linkend='token-specifcations'></entry>
       </row>
 
       <row>
           <entry>incompatible member declaration</entry>
-          <entry>-XREF-token.html#member</entry>
+          <entry><xref linkend='member-tokens'></entry>
       </row>
 
       <row>
           <entry>incompatible linkage</entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>incompatible promoted function argument</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>incompatible type qualifier</entry>
-          <entry>-XREF-pragma.html#compatible</entry>
+          <entry><xref linkend='compat'></entry>
       </row>
 
       <row>
           <entry>incompatible void return</entry>
-          <entry>-XREF-pragma.html#return</entry>
+          <entry><xref linkend='return-statements'></entry>
       </row>
 
       <row>
           <entry>incomplete type as object type</entry>
-          <entry>-XREF-pragma.html#complete</entry>
+          <entry><xref linkend='incomplete-types'></entry>
       </row>
 
       <row>
           <entry>indented # directive</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>indented directive after #</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>initialization of struct / union ( auto )</entry>
-          <entry>-XREF-pragma.html#init</entry>
+          <entry><xref linkend='initialiser-expr'></entry>
       </row>
 
       <row>
           <entry>longlong type</entry>
-          <entry>-XREF-pragma.html#longlong</entry>
+          <entry><xref linkend='extended-ingegral'></entry>
       </row>
 
       <row>
           <entry>no directive / nline after ident</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>no external declaration</entry>
-          <entry>-XREF-pragma.html#empty</entry>
+          <entry><xref linkend='empty-source-files'></entry>
       </row>
 
       <row>
           <entry>no ident after #</entry>
-          <entry>-XREF-pragma.html#macro</entry>
+          <entry><xref linkend='macro-definitions'></entry>
       </row>
 
       <row>
           <entry>no nline after file end</entry>
-          <entry>-XREF-pragma.html#lex</entry>
+          <entry><xref linkend='lexical-analysis'></entry>
       </row>
 
       <row>
           <entry>no token definition</entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>overload resolution</entry>
-          <entry>-XREF-pragma.html#overload</entry>
+          <entry><xref linkend='overloaded-funct'></entry>
       </row>
 
       <row>
           <entry>prototype</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>prototype ( weak )</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>rvalue token as const</entry>
-          <entry>-XREF-token.html#exp</entry>
+          <entry><xref linkend='expression-tokens'></entry>
       </row>
 
       <row>
           <entry>text after directive</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>this lvalue</entry>
-          <entry>-XREF-pragma.html#lvalue</entry>
+          <entry><xref linkend='lvalue-expressions'></entry>
       </row>
 
       <row>
           <entry>unify incompatible string literal</entry>
-          <entry>-XREF-pragma.html#string</entry>
+          <entry><xref linkend='string-literals-a'></entry>
       </row>
 
       <row>
           <entry>unknown directive</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>unknown escape</entry>
-          <entry>-XREF-pragma.html#escape</entry>
+          <entry><xref linkend='escape-sequences'></entry>
       </row>
 
       <row>
           <entry>unknown pragma</entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>unknown struct / union</entry>
-          <entry>-XREF-pragma.html#decl_none</entry>
+          <entry><xref linkend='empty-decl'></entry>
       </row>
 
       <row>
           <entry>unmatched quote</entry>
-          <entry>-XREF-pragma.html#string</entry>
+          <entry><xref linkend='string-literals-a'></entry>
       </row>
 
       <row>
           <entry>unreachable code</entry>
-          <entry>-XREF-pragma.html#reach</entry>
+          <entry><xref linkend='unreached-code-analysis'></entry>
       </row>
 
       <row>
           <entry>variable initialization</entry>
-          <entry>-XREF-pragma.html#init</entry>
+          <entry><xref linkend='initialiser-expr'></entry>
       </row>
 
       <row>
           <entry>weak macro equality</entry>
-          <entry>-XREF-pragma.html#macro</entry>
+          <entry><xref linkend='macro-definitions'></entry>
       </row>
 
       <row>
           <entry>writeable string literal</entry>
-          <entry>-XREF-pragma.html#string</entry>
+          <entry><xref linkend='string-literals-a'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -10502,12 +10502,12 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>keyword <emphasis>identifier</emphasis> for <emphasis>keyword-spec</emphasis></entry>
-          <entry>-XREF-#keyword</entry>
+          <entry><xref linkend='keyword-directive'></entry>
       </row>
 
       <row>
           <entry>undef keyword <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#keyword-spec</entry>
+          <entry><xref linkend='keyword-spec'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -10528,57 +10528,57 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>discard value</entry>
-          <entry>-XREF-pragma.html#discard</entry>
+          <entry><xref linkend='discarded-expressions'></entry>
       </row>
 
       <row>
           <entry>discard variable</entry>
-          <entry>-XREF-pragma.html#variable</entry>
+          <entry><xref linkend='variable-flow-analysis'></entry>
       </row>
 
       <row>
           <entry>exhaustive</entry>
-          <entry>-XREF-pragma.html#switch</entry>
+          <entry><xref linkend='switch-statements'></entry>
       </row>
 
       <row>
           <entry>fall into case</entry>
-          <entry>-XREF-pragma.html#switch</entry>
+          <entry><xref linkend='switch-statements'></entry>
       </row>
 
       <row>
           <entry>keyword <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#keyword</entry>
+          <entry><xref linkend='keywords'></entry>
       </row>
 
       <row>
           <entry>operator <emphasis>operator</emphasis></entry>
-          <entry>-XREF-pragma.html#keyword</entry>
+          <entry><xref linkend='keywords'></entry>
       </row>
 
       <row>
           <entry>set</entry>
-          <entry>-XREF-pragma.html#variable</entry>
+          <entry><xref linkend='variable-flow-analysis'></entry>
       </row>
 
       <row>
           <entry>set reachable</entry>
-          <entry>-XREF-pragma.html#reach</entry>
+          <entry><xref linkend='unreached-code-analysis'></entry>
       </row>
 
       <row>
           <entry>set unreachable</entry>
-          <entry>-XREF-pragma.html#reach</entry>
+          <entry><xref linkend='unreached-code-analysis'></entry>
       </row>
 
       <row>
           <entry>type representation</entry>
-          <entry>-XREF-pragma.html#conv</entry>
+          <entry><xref linkend='type-conversations'></entry>
       </row>
 
       <row>
           <entry>weak</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -10600,82 +10600,82 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>bottom <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-pragma.html#reach</entry>
+          <entry><xref linkend='unreached-code-analysis'></entry>
       </row>
 
       <row>
           <entry>character <emphasis>character-sign</emphasis></entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>character <emphasis>character-literal character-mapping</emphasis></entry>
-          <entry>-XREF-pragma.html#identifier</entry>
+          <entry><xref linkend='identifier-names'></entry>
       </row>
 
       <row>
           <entry>character <emphasis>string-literal character-mapping</emphasis></entry>
-          <entry>-XREF-pragma.html#identifier</entry>
+          <entry><xref linkend='identifier-names'></entry>
       </row>
 
       <row>
           <entry>compute promote <emphasis>identifier</emphasis></entry>
-          <entry>-XREF-lib.html#arith</entry>
+          <entry><xref linkend='arithmetic-types'></entry>
       </row>
 
       <row>
           <entry>escape <emphasis>character-literal character-mapping</emphasis></entry>
-          <entry>-XREF-pragma.html#escape</entry>
+          <entry><xref linkend='escape-sequences'></entry>
       </row>
 
       <row>
           <entry>integer literal <emphasis>literal-spec</emphasis></entry>
-          <entry>-XREF-pragma.html#int</entry>
+          <entry><xref linkend='integer-literals'></entry>
       </row>
 
       <row>
           <entry>promoted <emphasis>type-id</emphasis> : <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-lib.html#arith</entry>
+          <entry><xref linkend='arithmetic-types'></entry>
       </row>
 
       <row>
           <entry>set character literal : <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>set longlong type : <emphasis>longlong-spec</emphasis></entry>
-          <entry>-XREF-pragma.html#longlong</entry>
+          <entry><xref linkend='extended-ingegral'></entry>
       </row>
 
       <row>
           <entry>set ptrdiff_t : <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>set size_t : <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>set wchar_t : <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>set string literal : <emphasis>string-const</emphasis></entry>
-          <entry>-XREF-pragma.html#string</entry>
+          <entry><xref linkend='string-literals-a'></entry>
       </row>
 
       <row>
           <entry>set std namespace : <emphasis>scope-name</emphasis></entry>
-          <entry>-XREF-pragma.html#std</entry>
+          <entry><xref linkend='std-namespace'></entry>
       </row>
 
       <row>
           <entry>type <emphasis>identifier</emphasis> for <emphasis>type-spec</emphasis></entry>
-          <entry>-XREF-#type-spec</entry>
+          <entry><xref linkend='type-spec'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -10980,32 +10980,32 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>bottom</entry>
-          <entry>-XREF-pragma.html#reach</entry>
+          <entry><xref linkend='unreached-code-analysis'></entry>
       </row>
 
       <row>
           <entry>ptrdiff_t</entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>size_t</entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>wchar_t</entry>
-          <entry>-XREF-pragma.html#char</entry>
+          <entry><xref linkend='character-literals'></entry>
       </row>
 
       <row>
           <entry>... printf</entry>
-          <entry>-XREF-pragma.html#printf</entry>
+          <entry><xref linkend='printf-scanf-argument'></entry>
       </row>
 
       <row>
           <entry>... scanf</entry>
-          <entry>-XREF-pragma.html#printf</entry>
+          <entry><xref linkend='printf-scanf-argument'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -11026,27 +11026,27 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>const linkage <emphasis>linkage</emphasis></entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>external linkage <emphasis>string-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>external volatile_t</entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>inline linkage <emphasis>linkage</emphasis></entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
 
       <row>
           <entry>linkage resolution : <emphasis>linkage-spec</emphasis></entry>
-          <entry>-XREF-pragma.html#linkage</entry>
+          <entry><xref linkend='object-linkage'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -11124,82 +11124,82 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>argument <emphasis>type-id</emphasis> as ...</entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis></entry>
-          <entry>-XREF-pragma.html#weak</entry>
+          <entry><xref linkend='weak-function-prototypes'></entry>
       </row>
 
       <row>
           <entry>compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></entry>
-          <entry>-XREF-pragma.html#compatible</entry>
+          <entry><xref linkend='compat'></entry>
       </row>
 
       <row>
           <entry>conversion <emphasis>identifier-list</emphasis> allow</entry>
-          <entry>-XREF-pragma.html#conv</entry>
+          <entry><xref linkend='type-conversations'></entry>
       </row>
 
       <row>
           <entry>declaration block <emphasis>identifier</emphasis> begin</entry>
-          <entry>-XREF-dump.html#scope</entry>
+          <entry><xref linkend='identifier-scopes'></entry>
       </row>
 
       <row>
           <entry>declaration block end</entry>
-          <entry>-XREF-dump.html#scope</entry>
+          <entry><xref linkend='identifier-scopes'></entry>
       </row>
 
       <row>
           <entry>directive <emphasis>directive-spec directive-state</emphasis></entry>
-          <entry>-XREF-pragma.html#ppdir</entry>
+          <entry><xref linkend='preprocessing-directives'></entry>
       </row>
 
       <row>
           <entry>discard <emphasis>expression</emphasis></entry>
-          <entry>-XREF-pragma.html#variable</entry>
+          <entry><xref linkend='variable-flow-analysis'></entry>
       </row>
 
       <row>
           <entry>exhaustive</entry>
-          <entry>-XREF-pragma.html#switch</entry>
+          <entry><xref linkend='switch-statements'></entry>
       </row>
 
       <row>
           <entry>explicit cast <emphasis>cast-spec<subscript>opt</subscript> allow</emphasis></entry>
-          <entry>-XREF-pragma.html#cast</entry>
+          <entry><xref linkend='cast-expressions'></entry>
       </row>
 
       <row>
           <entry>includes depth <emphasis>integer-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#include</entry>
+          <entry><xref linkend='inclusion-directives'></entry>
       </row>
 
       <row>
           <entry>preserve <emphasis>preserve-list</emphasis></entry>
-          <entry>-XREF-pragma.html#static</entry>
+          <entry><xref linkend='static-identifers'></entry>
       </row>
 
       <row>
           <entry>set <emphasis>expression</emphasis></entry>
-          <entry>-XREF-pragma.html#variable</entry>
+          <entry><xref linkend='variable-flow-analysis'></entry>
       </row>
 
       <row>
           <entry>set error limit <emphasis>integer-literal</emphasis></entry>
-          <entry>-XREF-pragma.html#limits</entry>
+          <entry><xref linkend='implimentation-limits'></entry>
       </row>
 
       <row>
           <entry>set name limit <emphasis>integer-literal</emphasis> warning<emphasis><subscript>opt</subscript></emphasis></entry>
-          <entry>-XREF-pragma.html#identifier</entry>
+          <entry><xref linkend='identifier-names'></entry>
       </row>
 
       <row>
           <entry>suspend static <emphasis>identifier-list</emphasis></entry>
-          <entry>-XREF-pragma.html#discard</entry>
+          <entry><xref linkend='discarded-expressions'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -11421,42 +11421,42 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>token <emphasis>token-spec</emphasis></entry>
-          <entry>-XREF-token.html#spec</entry>
+          <entry><xref linkend='token-specifcations'></entry>
       </row>
 
       <row>
           <entry>no_def <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>define <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>ignore <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>interface <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>undef token <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>extend interface <emphasis>header-name</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>implement interface <emphasis>header-name</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -11476,47 +11476,47 @@ bs = enc_exp ( bs, b ) ;
       <tbody>
       <row>
           <entry>token <emphasis>token-spec</emphasis></entry>
-          <entry>-XREF-token.html#spec</entry>
+          <entry><xref linkend='token-specifcations'></entry>
       </row>
 
       <row>
           <entry>no_def <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>define <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>reject <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>interface <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>undef token <emphasis>token-list</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>extend <emphasis>header-name</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>implement <emphasis>header-name</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
 
       <row>
           <entry>member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis></entry>
-          <entry>-XREF-token.html#tokdef</entry>
+          <entry><xref linkend='defining-tokens'></entry>
       </row>
       </tbody>
       </tgroup>
