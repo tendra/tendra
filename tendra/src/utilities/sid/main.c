@@ -606,7 +606,7 @@ msg_uh_TypeTupleP(char ch, void *pp)
 }
 
 static void
-msg_uh_istream_line(char ch, void *pp)
+msg_uh_isline(char ch, void *pp)
 {
 	UNUSED(ch);
 	UNUSED(pp);
@@ -616,7 +616,7 @@ msg_uh_istream_line(char ch, void *pp)
 }
 
 static void
-msg_uh_c_stream_line(char ch, void *pp)
+msg_uh_clexline(char ch, void *pp)
 {
 	UNUSED(ch);
 	UNUSED(pp);
@@ -644,8 +644,8 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	msg_uh_add(MSG_KEY_RuleP, msg_uh_RuleP);
 	msg_uh_add(MSG_KEY_RuleProdsP, msg_uh_RuleProdsP);
 	msg_uh_add(MSG_KEY_TypeTupleP, msg_uh_TypeTupleP);
-	msg_uh_add(MSG_KEY_c_stream_line, msg_uh_c_stream_line);
-	msg_uh_add(MSG_KEY_istream_line, msg_uh_istream_line);
+	msg_uh_add(MSG_GLOB_clexline, msg_uh_clexline);
+	msg_uh_add(MSG_GLOB_isline, msg_uh_isline);
 
 	closure.usage     = 0;
 	closure.arg_list  = main_arglist;
