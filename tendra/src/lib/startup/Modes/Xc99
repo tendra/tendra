@@ -9,7 +9,9 @@
 
 #pragma TenDRA begin
 
-#include "../Literal/ansi.pf"
+#pragma TenDRA longlong type allow
+
+#include "../Literal/c99.pf"
 #include "../Promotion/ansi.pf"
 
 #define __ANDF__ 1
