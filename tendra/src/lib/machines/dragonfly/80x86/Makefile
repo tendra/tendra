@@ -1,4 +1,4 @@
-# $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/Makefile,v 1.13 2004/03/27 18:14:52 stefanf Exp $
+# $TenDRA$
 
 INSTALL_MACHINE=	freebsd/80x86
 
@@ -15,7 +15,7 @@ DATA_INCLUDE+=	include/sys/param.h include/sys/shm.h
 
 # startup
 DATA_STARTUP+=	startup/ansi.h startup/bsd_extn.h startup/cpp.h startup/gcc.h \
-		startup/iso.h startup/posix.h startup/posix1.h \
+		startup/iso.h startup/iso99.h startup/posix.h startup/posix1.h \
 		startup/posix2.h startup/svid3.h startup/system.h \
 		startup/unix95.h startup/xpg3.h startup/xpg4.h 
 
