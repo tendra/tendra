@@ -103,7 +103,7 @@ clean:
 
 # Clean objdir blindly.
 cleandir:
-.if "${_objdir} != ""
+.if "${_objdir}" != ""
 	${REMOVE} ${_objdir}/* 2> /dev/null
 .endif
 
