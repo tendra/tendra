@@ -673,34 +673,34 @@ function out_decl()
 	# Print main types definition
 
 	printc("#ifndef " pre "INCLUDED");
-	printc("#define " pre "INCLUDED\n\n");
+	printc("#define\t" pre "INCLUDED\n\n");
 	printc("/* Error data structure */\n");
 	printc("#ifndef " pre "CONST");
-	printc("#define " pre "CONST");
+	printc("#define\t" pre "CONST");
 	printc("#endif\n");
 	if (props_count < 16) {
-		printc("typedef unsigned " pre "PROPS ;\n");
+		printc("typedef unsigned " pre "PROPS;\n");
 	} else {
-		printc("typedef unsigned long " pre "PROPS ;\n");
+		printc("typedef unsigned long " pre "PROPS;\n");
 	}
 	printc("typedef struct {");
-	printc("    " pre "CONST char *name ;");
-	printc("    " pre "CONST char *signature ;");
-	printc("    int usage ;");
-	printc("    " pre "PROPS props ;");
+	printc("    " pre "CONST char *name;");
+	printc("    " pre "CONST char *signature;");
+	printc("    int usage;");
+	printc("    " pre "PROPS props;");
 
 	for (i = 0; i < key_count; i++) {
-		printc("    " pre "CONST char *key_" keys[i] " ;");
+		printc("    " pre "CONST char *key_" keys[i] ";");
 	}
-	printc("} " pre "DATA ;\n") ;
-	printc("extern " pre "DATA " pre "CATALOG [] ;");
-	printc("extern " pre "CONST char *" pre "NAME ;\n\n");
+	printc("} " pre "DATA;\n");
+	printc("extern " pre "DATA " pre "CATALOG [];");
+	printc("extern " pre "CONST char *" pre "NAME;\n\n");
 
 	# Print type keys
 	printc("/* Error type keys */\n");
 	for (i = 0; i < type_count; i++) {
-		n = code_letter(i) ;
-		printc("#define " pre "KEY_" types[i] " '" n "'");
+		n = code_letter(i);
+		printc("#define\t" pre "KEY_" types[i] "\t'" n "'");
 	}
 	printc("\n");
 
@@ -708,7 +708,7 @@ function out_decl()
 	printc("/* Error usage keys */\n");
 	printc("#ifndef " pre "USE");
 	for (i = 0; i < usage_count; i++) {
-		printc("#define " pre_comp usages[i] " " i);
+		printc("#define\t" pre_comp usages[i] "\t" i);
 	}
 	printc("#endif\n\n");
 
@@ -718,7 +718,7 @@ function out_decl()
 	for (i = 0; i < prop_count; i++) {
 		u = 2 ^ i;
 
-		printc(sprintf("#define %sPROP_%s ( ( %sPROPS ) 0x%x )",
+		printc(sprintf("#define\t%sPROP_%s\t((%sPROPS)0x%x)",
 		    pre, props[i], pre, u));
 	}
 	printc("#endif\n\n");
@@ -735,16 +735,16 @@ function out_decl()
 
 	# Print type checking macros */
 	printc("/* Error type checking */\n");
-	printc("#if defined ( " pre "CHECK ) && defined ( __STDC__ )");
+	printc("#if defined(" pre "CHECK)");
 	for (i = 0; i < type_count; i++) {
-		n = code_letter(i) ;
+		n = code_letter(i);
 		tn = types[i];
-		printc(sprintf("extern %s chk_%s ( %s ) ;", tn, n, tn ));
+		printc(sprintf("extern %s chk_%s(%s);", tn, n, tn ));
 	}
 	printc("#else");
 	for (i = 0; i < type_count; i++) {
-		n = code_letter(i) ;
-		printc("#define chk_" n "( A ) ( A )");
+		n = code_letter(i);
+		printc("#define\tchk_" n "(A)\t(A)");
 	}
 	printc("#endif\n\n");
 
@@ -754,24 +754,23 @@ function out_decl()
 
 	for (i = 0; i < entry_count; i++) {
 		entry = entries[i];
-		endef = "#define "pre entry "(";
+		endef = "#define\t"pre entry "(";
 		pcount = entry_param_count[entry];
 		# Print parameter list
 		if (pcount) {
 			for (arg = 0; arg < pcount; arg++) {
 				if (arg)
-					endef = endef ",";
-				endef = endef " " chr(65 + arg);
+					endef = endef ", ";
+				endef = endef chr(65 + arg);
 			}
-			endef = endef " ";
 		}
 		endef = endef ")\\\n";
-		endef = endef sprintf("\t%sGEN ( %d", pre, i);
+		endef = endef sprintf("\t%sGEN (%d", pre, i);
 		for (arg = 0; arg < pcount; arg++) {
 			an = code_letter(entry_param_types[entry, arg]);
-			endef = endef ", chk_" an " ( " chr(65 + arg) " )";
+			endef = endef ", chk_" an " (" chr(65 + arg) ")";
 		}
-		endef = endef " )\n";
+		endef = endef ")\n";
 		printc(endef);
 	}
 	printc("\n#endif\n#endif");
@@ -788,14 +787,14 @@ function out_defn()
 	pre_comp = rig_from_comp;
 
 	# Print each catalogue entry
-	printc("/* Error catalogue */\n") ;
+	printc("/* Error catalogue */\n");
 	if (d1 == d2) {
-		printc(pre "CONST char *" pre "NAME = \"" d1 "\" ;");
+		printc(pre "CONST char *" pre "NAME = \"" d1 "\";");
 	} else {
-		printc("#ifndef " pre "ALTERNATE") ;
-		printc(pre "CONST char *" pre "NAME = \"" d1 "\" ;");
+		printc("#ifndef " pre "ALTERNATE");
+		printc(pre "CONST char *" pre "NAME = \"" d1 "\";");
 		printc("#else");
-		printc(pre "CONST char *" pre "NAME = \"" d2 "\" ;");
+		printc(pre "CONST char *" pre "NAME = \"" d2 "\";");
 		printc("#endif");
 	}
 	printc("\n" pre "DATA " pre "CATALOG [] = {");
@@ -854,7 +853,7 @@ function out_defn()
 		for (kid = 0; kid < key_count; kid++) {
 			suff = kid == (key_count - 1) ? "" : ",";
 			if (!((entry, kid) in entry_key_msg)) {
-				printc("\tNULL" suff) ;
+				printc("\tNULL" suff);
 	    		} else {
 				msg = entry_key_msg[entry, kid];
 				havealt = (entry, kid) in entry_key_altmsg;
@@ -888,7 +887,7 @@ function out_defn()
 	}
 	printc(tmsg);
 	printc("    }");
-	printc("} ;");
+	printc("};");
 	return;
 }
 
@@ -900,11 +899,11 @@ function out_number()
 	pre = rig_comp_output;
 	pre_db = rig_from_db;
     	printc("#ifndef " pre "NO_INCLUDED");
-    	printc("#define " pre "NO_INCLUDED\n\n");
+    	printc("#define\t" pre "NO_INCLUDED\n\n");
     	printc("/* Error message macros */\n" );
 	for (eid = 0; eid < entry_count; eid++) {
 		entry = entries[eid];
-		printc("#define " pre_db entry " " eid);
+		printc("#define\t" pre_db entry "\t" eid);
     	}
     	printc("\n#endif");
 }
@@ -927,7 +926,7 @@ function out_usage(	pre, pre_comp, uid, us, aux, alt, havealt)
 		}
 		printc("{ \"" us "\", " pre_comp "VALUE_" aux " },");
 		if (havealt) {
-	    		printc("#else" ) ;
+	    		printc("#else" );
 			printc("{ \"" us "\", " pre_comp "VALUE_" alt " },");
 			printc("#endif");
 		}
