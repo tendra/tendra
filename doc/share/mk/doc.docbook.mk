@@ -119,51 +119,49 @@ DVIPSOPTS?=	-t ${PAPERSIZE:L} ${DVIPSFLAGS}
 .endif
 
 
-
-
-
-
 .for _curformat in ${FORMATS}
 
 _cf=${_curformat}
 
-.if ${_cf} == "html-split"
-_docs+= index.html HTML.manifest ln*.html
-CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) 
-CLEANFILES+= HTML.manifest ln*.html ${IMAGES_PNG} PLIST.${_curformat}
-.else
-
 _docs+= ${DOC}.${_curformat}
+CLEANFILES+=	${DOC}.${_curformat}
 
-.if ${_cf} == "html-split.tar"
-CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
-		HTML.manifest ln*.html ${IMAGES_PNG}
-
-.elif ${_cf} == "html.tar"
-CLEANFILES+= ${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
+.if ${_cf} == "html-split"
+_docs+=		index.html HTML.manifest ln*.html
+CLEANFILES+=	$$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
+		HTML.manifest ln*.html ${IMAGES_PNG} PLIST.${_curformat} \
+		${CSS_SHEET}
 
 .elif ${_cf} == "html"
-CLEANFILES+= ${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
+CLEANFILES+=	${IMAGES_PNG} ${CSS_SHEET}
+
+.elif ${_cf} == "html-split.tar"
+CLEANFILES+=	$$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
+		HTML.manifest ln*.html ${IMAGES_PNG} PLIST.${_curformat} \
+		${CSS_SHEET}
+
+.elif ${_cf} == "html.tar"
+CLEANFILES+=	${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
 
 .elif ${_cf} == "txt"
-CLEANFILES+= ${DOC}.html-text
+CLEANFILES+=	${DOC}.html-text
 
 .elif ${_cf} == "dvi"
-CLEANFILES+= ${DOC}.aux ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
+CLEANFILES+=	${DOC}.aux ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
 .elif ${_cf} == "tex"
-CLEANFILES+= ${DOC}.aux ${DOC}.log ${IMAGES_EPS}
+CLEANFILES+=	${DOC}.aux ${DOC}.log ${IMAGES_EPS}
 
 .elif ${_cf} == "ps"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
+CLEANFILES+=	${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
 .elif ${_cf} == "pdf"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES_PDF} jadetex.cfg
+CLEANFILES+=	${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf \
+		${IMAGES_PDF} jadetex.cfg
 
 .elif ${_cf} == "pdb"
-_docs+= ${.CURDIR:T}.pdb
-CLEANFILES+= ${.CURDIR:T}.pdb
-.endif
+_docs+=		${DOC}.pdb
+CLEANFILES+=	${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
 .endif
 
 .endfor
@@ -226,6 +224,8 @@ ${DOC}.html-text: ${SRCS} ${INDEX_SGML} ${HTML_INDEX}
 	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
 
+
+# COMPRESSED TARGETS -----------------------------------------------------
 ${DOC}.html-split.tar: HTML.manifest \
 		       ${LOCAL_IMAGES_PNG} ${CSS_SHEET}
 	${TAR} cf ${.TARGET} $$(${XARGS} < HTML.manifest) \
@@ -236,27 +236,21 @@ ${DOC}.html.tar: ${DOC}.html  \
 	${TAR} cf ${.TARGET} ${DOC}.html \
 		 ${IMAGES_PNG} ${CSS_SHEET:T}
 
+${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${CSS_SHEET}
+	${TAR} cf ${.TARGET} -C ${.CURDIR} ${SRCS} \
+		-C ${.OBJDIR} ${IMAGES} ${CSS_SHEET:T}
+
 
 
 # TXT --------------------------------------------------------------------
 ${DOC}.txt: ${DOC}.html-text
 	${HTML2TXT} ${HTML2TXTOPTS} ${.ALLSRC} > ${.TARGET}
 
+
 # PDB --------------------------------------------------------------------
 
-${DOC}.pdb: ${DOC}.html  ${LOCAL_IMAGES_PNG}
+${DOC}.pdb: ${DOC}.html ${LOCAL_IMAGES_PNG}
 	${HTML2PDB} ${HTML2PDBOPTS} ${DOC}.html ${.TARGET}
-
-${.CURDIR:T}.pdb: ${DOC}.pdb
-	${LN} -f ${.ALLSRC} ${.TARGET}
-
-.if defined(INSTALL_COMPRESSED) && !empty(INSTALL_COMPRESSED)
-.for _curcomp in ${INSTALL_COMPRESSED}
-${.CURDIR:T}.pdb.${_curcomp}: ${DOC}.pdb.${_curcomp}
-	${LN} -f ${.ALLSRC} ${.TARGET}
-.endfor
-.endif
-
 
 
 # RTF --------------------------------------------------------------------
@@ -264,23 +258,22 @@ ${DOC}.rtf: ${SRCS} ${LOCAL_IMAGES_EPS}
 	${JADE} -V rtf-backend ${PRINTOPTS} \
 		${JADEOPTS} -t rtf -o ${.TARGET} ${MASTERDOC}
 
-#
-# This sucks, but there's no way round it.  The PS and PDF formats need
-# to use different image formats, which are chosen at the .tex stage.  So,
-# we need to create a different .tex file depending on our eventual output
-# format, which will then lead on to a different .dvi file as well.
-#
 
+# TEX --------------------------------------------------------------------
 ${DOC}.tex: ${SRCS} ${LOCAL_IMAGES_EPS} ${INDEX_SGML} ${PRINT_INDEX}
 	${JADE} -V tex-backend ${PRINTOPTS} \
 		${JADEOPTS} -t tex -o ${.TARGET} ${MASTERDOC}
 
+
+# PDF / DVI --------------------------------------------------------------
 ${DOC}.tex-pdf: ${SRCS} ${IMAGES_PDF} ${INDEX_SGML} ${PRINT_INDEX}
 	${RM} -f ${.TARGET}
 	${CAT} ${PDFTEX_DEF} > ${.TARGET}
 	${JADE} -V tex-backend ${PRINTOPTS} -ioutput.print.pdf \
 		${JADEOPTS} -t tex -o /dev/stdout ${MASTERDOC} >> ${.TARGET}
 
+
+# DVI --------------------------------------------------------------------
 ${DOC}.dvi: ${DOC}.tex ${LOCAL_IMAGES_EPS}
 	@${ECHO} "==> TeX pass 1/3"
 	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
@@ -289,6 +282,8 @@ ${DOC}.dvi: ${DOC}.tex ${LOCAL_IMAGES_EPS}
 	@${ECHO} "==> TeX pass 3/3"
 	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
 
+
+# PDF --------------------------------------------------------------------
 ${DOC}.pdf: jadetex.cfg ${DOC}.tex-pdf ${IMAGES_PDF}
 	@${ECHO} "==> PDFTeX pass 1/3"
 	-${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
@@ -297,19 +292,18 @@ ${DOC}.pdf: jadetex.cfg ${DOC}.tex-pdf ${IMAGES_PDF}
 	@${ECHO} "==> PDFTeX pass 3/3"
 	${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
 
+
+# PS ---------------------------------------------------------------------
 ${DOC}.ps: ${DOC}.dvi
 	${DVIPS} ${DVIPSOPTS} -o ${.TARGET} ${.ALLSRC}
 
-${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${CSS_SHEET}
-	${TAR} cf ${.TARGET} -C ${.CURDIR} ${SRCS} \
-		-C ${.OBJDIR} ${IMAGES} ${CSS_SHEET:T}
 
+# MISC --------------------------------------------------------------------
 ${CSS_SHEET}:
 	cat ${CSS_FILE} > ${.CURDIR}/${.TARGET} 
 	
 validate:
 	${NSGMLS} -s ${SGMLFLAGS} ${CATALOGS} ${MASTERDOC}
-
 
 jadetex.cfg:
 	${CAT} ${JADETEX_FILE} \
