@@ -43,7 +43,7 @@
 
     <varlistentry>
       <term><option>-F</option><replaceable>switch</replaceable></term>
-    
+
       <listitem>
         <para>This option determines whether <command>sparctrans</command>
           should apply the "for all" optimisation. This is done by
@@ -56,7 +56,7 @@
 
     <varlistentry>
       <term><option>-K</option><replaceable>str</replaceable></term>
-    
+
       <listitem>
         <para>Causes <command>sparctrans</command> to optimise its code for a
           particular processor model, determined by <emphasis>str</emphasis>. At
