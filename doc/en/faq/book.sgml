@@ -1,6 +1,8 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY % trademarks PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN">
+%trademarks;
 ]>
 
 <book>
@@ -23,7 +25,7 @@
       <year>1998</year>
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
-   
+
     <abstract>
       <para>This is the Frequently Asked Questions for TenDRA.</para>
       <para>Please email us at <email>docs@ten15.org</email> if you
@@ -32,6 +34,10 @@
 
     &bookinfo.legalnotice;
 
+    <legalnotice id="trademarks" role="trademarks">
+      &tm-attrib.linux;
+    </legalnotice>
+   
   </bookinfo>
 
   <chapter>
@@ -142,7 +148,7 @@
 
         <answer>
           <para>Famous words, once uttered on the tendra-dev list by asmodai@:
-            <quote>A lot of Linux code requires gmake, we just require this
+            <quote>A lot of &linux; code requires gmake, we just require this
             make.</quote></para>
         </answer>
       </qandaentry>
