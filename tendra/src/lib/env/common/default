@@ -17,7 +17,7 @@
 +TLD			"<TENDRA_BINDIR>/tld"
 +TRANS			"<TENDRA_BINDIR>/trans"
 +DISP			"<TENDRA_BINDIR>/disp"
-+PL_TDF			"<TENDRA_BINDIR>/pl"
++PL_TDF			"<TENDRA_BINDIR>/tpl"
 +TNC			"<TENDRA_BINDIR>/tnc"
 
 +DUMP_ANAL		"<TENDRA_BINDIR>/dump_lint"
