@@ -61,21 +61,6 @@ _REALWORK: fixenv.sed .USE
 . endif
 
 _objdir=	${OBJ_DIR}/${ENVIRONMENT}
-.elif "${STARTUPSUBDIR}" != ""
-#
-# Install startup files in object directory
-#
-_REALWORK: .USE
-	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories into object directory"
-	${CONDCREATE} ${STARTUPSUBDIR:S/^/${OBJ_SDIR}\//g}
-. for startsub in ${STARTUPSUBDIR}
-.  for file in ${:!${ECHO} ${.CURDIR}/${startsub}/*!:T}
-	${INSTALL} -m 644 ${.CURDIR}/${startsub}/${file} \
-		${OBJ_SDIR}/${startsub}/${file}
-.  endfor
-. endfor
-
-_objdir=	${OBJ_SDIR}
 .elif "${SYS_FILES}" || "${TDFLIB}" != ""
 #
 # Build token definition.
