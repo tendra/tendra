@@ -26,3 +26,5 @@
 +CRT1		"<LIB_CRT1>"
 +CRTI		"<LIB_CRTI>"
 +CRTN		"<LIB_CRTN>"
+
++FLAG_AS	"--fatal-warnings"
