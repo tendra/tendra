@@ -30,6 +30,8 @@ $PROTECT = "";
 
 # 7.2.1.1
 
+%% #undef assert %%
+
 +IFDEF NDEBUG
 +DEFINE assert.1(e) %% ((void)0) %%;
 +ELSE
