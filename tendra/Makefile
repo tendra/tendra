@@ -35,16 +35,23 @@ SUBDIR=		src
 	@${EXIT} 1;
 .else
 all:
-. if !exists(${.CURDIR}/obj/_obj_tree_complete)
-.  if "${_objdirs_done}" != "yes"
+. if defined(BOOTSTRAP)
+	@${ECHO} "==> Starting TenDRA build..."
+	@${ECHO} "==> Creating object directory and symbolic links"
+	@${ECHO} "==> Object directory created, bootstrapping build"
+	@cd ${BASE_DIR} && ${MAKE} _objdirs_done=yes obj;
+. else
+.  if !exists(${.CURDIR}/obj/_obj_tree_complete)
+.   if "${_objdirs_done}" != "yes"
 	@${ECHO} "==> Starting TenDRA build..."
 	@${ECHO} "==> Creating object directory and symbolic links"
 	@cd ${BASE_DIR} && ${MAKE} _objdirs_done=yes obj;
 	@${ECHO} "Do not remove this file." > ${OBJ_DIR_INDICATOR};
-	@${ECHO} "==> Object directory created, bootstrapping build"
+	@${ECHO} "==> Object directory created, building"
 	@${ECHO}
 
 _objdirs_done=yes
+.   endif
 .  endif
 . endif
 .endif
