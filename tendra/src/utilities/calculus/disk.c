@@ -73,7 +73,7 @@
  */
 
 static void
-disk_read_enum()
+disk_read_enum(void)
 {
     number n = log2 (DEREF_number (en_order (CRT_ENUM)));
     if (n <= 16) {
@@ -94,7 +94,7 @@ disk_read_enum()
  */
 
 static void
-disk_read_struct()
+disk_read_struct(void)
 {
     LOOP_STRUCTURE_COMPONENT {
 		TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
@@ -111,7 +111,7 @@ disk_read_struct()
  */
 
 static void
-disk_read_union()
+disk_read_union(void)
 {
     output ("    x_ = NULL_%UM ;\n");
     output ("    if (READ_BITS (1) == 1) {\n");
@@ -380,7 +380,7 @@ disk_read_def(char *dir)
  */
 
 static void
-disk_write_enum()
+disk_write_enum(void)
 {
     number n = log2 (DEREF_number (en_order (CRT_ENUM)));
     if (n <= 16) {
@@ -401,7 +401,7 @@ disk_write_enum()
  */
 
 static void
-disk_write_struct()
+disk_write_struct(void)
 {
     LOOP_STRUCTURE_COMPONENT {
 		TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
@@ -418,7 +418,7 @@ disk_write_struct()
  */
 
 static void
-disk_write_union()
+disk_write_union(void)
 {
     int have_ucmp = 0;
     output ("    if (IS_NULL_%UM (x_)) {\n");

@@ -73,7 +73,7 @@
  */
 
 static void
-printer_prim()
+printer_prim(void)
 {
     output ("    print_indent (f_, d_) ;\n");
     output ("    (void) fprintf (f_, \"%%s = \", nm_) ;\n");
@@ -91,7 +91,7 @@ printer_prim()
  */
 
 static void
-printer_enum()
+printer_enum(void)
 {
     output ("    print_indent (f_, d_) ;\n");
     output ("    (void) fprintf (f_, \"%%s = \", nm_) ;\n");
@@ -120,7 +120,7 @@ printer_enum()
  */
 
 static void
-printer_struct()
+printer_struct(void)
 {
     output ("    print_indent (f_, d_) ;\n");
     output ("    (void) fprintf (f_, \"%%s = {\\n\", nm_) ;\n");
@@ -163,7 +163,7 @@ printer_component(char *d)
  */
 
 static void
-printer_union()
+printer_union(void)
 {
     output ("    print_indent (f_, d_) ;\n");
     output ("    if (IS_NULL_%UM (x_)) {\n");

@@ -82,7 +82,7 @@ unsigned long bitmask [ CHAR_BIT ];
  */
 
 void
-init_bitmask()
+init_bitmask(void)
 {
     int i;
     for (i = 0 ; i < CHAR_BIT ; i++) bitmask [i] = MASK (i);
@@ -152,7 +152,7 @@ read_bits(int n)
  */
 
 static unsigned long
-read_int()
+read_int(void)
 {
     unsigned long r = 0, d;
     while (d = read_bits (4), (d & 0x08) == 0) {
@@ -172,7 +172,7 @@ read_int()
  */
 
 static char
-*read_string()
+*read_string(void)
 {
     unsigned long i, n = read_int ();
     char *s = xstr ((long) (n + 1));
@@ -192,7 +192,7 @@ static char
  */
 
 static char
-*read_filename()
+*read_filename(void)
 {
     char *s;
     static char *last_filename = "????";

@@ -236,7 +236,7 @@ print_type_ops_tok(char *op, char *nm, int e)
  */
 
 static void
-print_types_tok()
+print_types_tok(void)
 {
     comment ("Primitive types");
     LOOP_PRIMITIVE {
@@ -303,7 +303,7 @@ print_types_tok()
  */
 
 static void
-print_ptr_tok()
+print_ptr_tok(void)
 {
     comment ("Pointer token specifications");
     output ("%pt PROC {\\\n");
@@ -365,7 +365,7 @@ print_ptr_tok()
  */
 
 static void
-print_list_tok()
+print_list_tok(void)
 {
     comment ("List token specifications");
     output ("%pt PROC {\\\n");
@@ -454,7 +454,7 @@ print_list_tok()
  */
 
 static void
-print_stack_tok()
+print_stack_tok(void)
 {
     comment ("Stack token specifications");
     output ("%pt PROC (\\\n\tTYPE t\\\n");
@@ -489,7 +489,7 @@ print_stack_tok()
  */
 
 static void
-print_vec_tok()
+print_vec_tok(void)
 {
     comment ("Vector token specifications");
     output ("%pt PROC {\\\n");
@@ -544,7 +544,7 @@ print_vec_tok()
  */
 
 static void
-print_vec_ptr_tok()
+print_vec_ptr_tok(void)
 {
     comment ("Vector pointer token specifications");
     output ("%pt PROC {\\\n");
@@ -570,7 +570,7 @@ print_vec_ptr_tok()
  */
 
 static void
-print_size_tok()
+print_size_tok(void)
 {
     comment ("Size token specifications");
     output ("%pt PROC {\\\n");
@@ -590,7 +590,7 @@ print_size_tok()
  */
 
 static void
-print_prim_tok()
+print_prim_tok(void)
 {
     comment ("Definitions for primitive %PN");
     print_simple_tok ("%PN", "%PM", 1, 1);
@@ -605,7 +605,7 @@ print_prim_tok()
  */
 
 static void
-print_enum_tok()
+print_enum_tok(void)
 {
     int lst = DEREF_int (en_lists (CRT_ENUM));
     comment ("Definitions for enumeration %EN");
@@ -622,7 +622,7 @@ print_enum_tok()
  */
 
 static void
-print_struct_tok()
+print_struct_tok(void)
 {
     STRUCTURE_P base = DEREF_ptr (str_base (CRT_STRUCTURE));
 	
@@ -663,7 +663,7 @@ print_struct_tok()
  */
 
 static void
-print_union_tok()
+print_union_tok(void)
 {
     UNION_P base = DEREF_ptr (un_base (CRT_UNION));
 	

@@ -918,7 +918,7 @@ output(char *s, ...)
  */
 
 static void
-print_comment()
+print_comment(void)
 {
     if (first_comment) {
 		/* Print copyright comment, if present */
@@ -996,7 +996,7 @@ open_file(char *dir, char *nm, char *suff)
  */
 
 void
-close_file()
+close_file(void)
 {
     if (output_c_code) output ("#endif\n");
     flush_output ();
