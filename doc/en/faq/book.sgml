@@ -73,8 +73,7 @@
             <ulink url="http://www.info.uni-karlsruhe.de/~andf/">ANDF Home
             Page at the University of Karlsruhe</ulink>, as well as at
             <ulink url="http://www.mca-ltd.com/martin/Ten15/introduction.html">
-            Martin C. Atkins' Personal Retrospective</ulink>.
-          </para>
+            Martin C. Atkins' Personal Retrospective</ulink>.</para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -97,8 +96,7 @@
             our purposes it works well.  Most of the above-mentioned
             alternatives are either lacking in terms of features or maturity.
             We will continue to revise our opinion on this, and if there is
-            reason to change at some point in the future, we will do so.
-          </para>
+            reason to change at some point in the future, we will do so.</para>
         </answer>
       </qandaentry>
 
@@ -116,8 +114,7 @@
             unnecessary added complexity.  Additionally, there are unavoidable
             issues concerning long-time maintenance worries due to
             incompatibilities, which often arise between differing versions of
-            the above-named tools.
-          </para>
+            the above-named tools.</para>
         </answer>
       </qandaentry>
 
@@ -129,8 +126,7 @@
         <answer>
           <para>Famous words, once uttered on the tendra-dev list by asmodai@:
             <quote>A lot of Linux code requires gmake, we just require this
-              make.</quote>
-          </para>
+            make.</quote></para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -147,8 +143,7 @@
         <answer>
           <para>At this point, TenDRA only contains the bare minimum language
             support library, not the full standard C++ library.  See the C++
-            producer documentation for more details.
-          </para>
+            producer documentation for more details.</para>
         </answer>
       </qandaentry>
 
@@ -171,8 +166,7 @@
             list may be a good place to start.  Please consult
             <ulink url="http://www.google.com/">Google</ulink> as well as the
             <ulink url="http://lists.tendra.org/">list archives</ulink> before
-            mailing the list.
-          </para>
+            mailing the list.</para>
         </answer>
       </qandaentry>
 
@@ -184,8 +178,7 @@
         <answer>
           <para>No.  We encourage the use of separate <filename>.s</filename>
             files combined with <filename>.c</filename>/
-            <filename>.h</filename> instead.
-          </para>
+            <filename>.h</filename> instead.</para>
         </answer>
       </qandaentry>
 
@@ -203,31 +196,28 @@
             TenDRA.  It is not enabled by default; you may pass
             <parameter class="option">-Y longlong</parameter> to
             <command>tcc</command> or modify the system description file
-            before building to enable it by default.
-          </para>
+            before building to enable it by default.</para>
         </answer>
       </qandaentry>
 
       <qandaentry>
         <question id="warning">
           <para>My compilation is breaking due to TenDRA complaining about an
-            "Unknown preprocessing directive, '#warning'".
+            "Unknown preprocessing directive, '#warning'".</para>
         </question>
 
         <answer>
           <para>The #warning preprocessing directive is a GNU C extension to
             the ISO C standard and its use, although useful, is discouraged.
             A proper solution would be to wrap its use with the appropriate
-            #define's for singling out supporting compilers.
-          </para>
+            #define's for singling out supporting compilers.</para>
 
           <para>TenDRA supports a pragma which allows you to turn on support
             for #warning's though.  By using the following in your code you
             should be able to use #warning:
             <programlisting>
 #pragma TenDRA directive warning allow
-            </programlisting>
-          </para>
+            </programlisting></para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -257,8 +247,7 @@
             <ulink url="http://www.tendra.org/docs/">TenDRA
             Documentation</ulink>, as well as the
             <ulink url="http://www.tendra.org/docs/faq/#ANDF-TDF">ANDF/TDF
-            </ulinK> FAQ entry.
-          </para>
+            </ulinK> FAQ entry.</para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -278,8 +267,7 @@
             currently being worked on, or up for grabs if anyone were to be
             so-inclined.  General goals include standards conformance, and
             research into interesting developments in the world of compiler
-            technology.
-          </para>
+            technology.</para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -302,8 +290,7 @@
             the <ulink url="http://lists.tendra.org/">mailing lists</ulink> to
             stay up-to-date on current developments.  Let the developers know
             which area you are interested in contributing to via the
-            appropriate list.  We always welcome help!
-          </para>
+            appropriate list.  We always welcome help!</para>
         </answer>
       </qandaentry>
 
@@ -321,8 +308,7 @@
             check out the <ulink url="http://www.tendra.org/tasks/">task
             list</ulink> as well.  From there, open a dialogue on tendra-dev,
             and things should begin to take shape.  We hope to see your
-            contributions soon!
-          </para>
+            contributions soon!</para>
         </answer>
       </qandaentry>
 
@@ -338,8 +324,7 @@
               <parameter class="option">-u</parameter>.  Please refrain from
               submitting uuencoded files, unless the patch is really big, or
               patches generated with <command>diff</command>
-              <parameter class="option">-c</parameter>.
-            </para>
+              <parameter class="option">-c</parameter>.</para>
           </answer>
         </qandaentry>
     </qandaset>
@@ -352,16 +337,14 @@
       <qandaentry>
         <question id="building-release">
           <para>I try to build the release, but I am having problems in the API
-            library building phase.
-          </para>
+            library building phase.</para>
         </question>
         <answer>
           <para>Unfortunately this area is <emphasis>very</emphasis> operating
             system dependent.  It set up so that it works for the operating
             systems listed under supported platforms, but this is not a cast
             iron guarantee that it will work for other versions of the same
-            operating system.
-          </para>
+            operating system.</para>
 
           <para>Some understanding of how the system works is useful in trying
             to work around problems.  The start-up files describing the macros
