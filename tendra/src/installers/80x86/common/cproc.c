@@ -177,6 +177,8 @@ out_pops(int tot_sp, int push_space, int extra,
 #ifdef NEWDWARF
 	int st;
 	long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
+#else
+	UNUSED(dpos);
 #endif
 	tot_sp -= extra;
 	if (no_frame && !stack_aligned_8byte) {

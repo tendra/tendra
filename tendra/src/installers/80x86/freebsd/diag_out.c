@@ -559,6 +559,8 @@ static void
 stab_scope_close(long findex)
 {
     long i;
+
+    UNUSED(findex);
     if (open_label != 0)
     {
 		fprintf (dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld\n", N_LBRAC,

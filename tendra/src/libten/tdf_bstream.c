@@ -70,6 +70,7 @@ tdf_bs_alloc_chunk(struct tdf_bstream *sp)
 {
 	struct tdf_chunk *chp;
 
+	UNUSED(sp);
 	chp = fmm_malloc(sizeof(*chp), memtype_tdfbs);
 	chp->tc_data = fmm_malloc(CHUNK_SIZE, memtype_tdfbs);
 	chp->tc_next = NULL;

@@ -107,6 +107,7 @@ tenapp_signal(int sig)
 void
 tenapp_init(int argc, char *argv[], const char *pdesc, const char *pver)
 {
+	UNUSED(argc);
 	progdesc = pdesc;
 	progvers = pver;
 

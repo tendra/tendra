@@ -3091,6 +3091,10 @@ start_make_general_proc(shape result_shape,
 	procprops prcprops, tagshacc_list caller_intro,
 	tagshacc_list callee_intro)
 {
+	UNUSED(result_shape);
+	UNUSED(caller_intro);
+	UNUSED(callee_intro);
+
 	/* initialise global flags which are used at the end of the
 	 *       reading process in f_make_proc */
 
@@ -3330,6 +3334,11 @@ start_apply_general_proc(shape result_shape,
 	procprops_option prcprops, exp p, otagexp_list caller_params_intro,
 	callees callee_params)
 {
+	UNUSED(result_shape);
+	UNUSED(prcprops);
+	UNUSED(p);
+	UNUSED(caller_params_intro);
+	UNUSED(callee_params);
 	return;
 }
 
@@ -3557,6 +3566,7 @@ f_untidy_return (exp arg)
 alignment
 f_parameter_align(alignment a)
 {
+	UNUSED(a);
 	return (f_var_param_alignment);
 	
 }

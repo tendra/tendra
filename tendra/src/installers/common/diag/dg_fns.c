@@ -629,6 +629,8 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence,
 	}
 	else
 		ans->data.n_obj.obtain_val = nilexp;
+#else
+	UNUSED(obtain_value);
 #endif
 	if (accessibility != DG_ACC_NONE) {
 		extend_dg_name (ans);
@@ -669,6 +671,13 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence,
 		ans->mor->elabn = elaboration;
 		ans->mor->exptns = exceptions;
 	}
+#else
+	UNUSED(obtain_value);
+	UNUSED(accessibility);
+	UNUSED(virtuality);
+	UNUSED(isinline);
+	UNUSED(exceptions);
+	UNUSED(elaboration);
 #endif
 	return ans;
 }
@@ -821,6 +830,8 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence,
 	}
 	else
 		ans->data.n_mod.init = nilexp;
+#else
+	UNUSED(init);
 #endif
 	if (elaboration) {
 		extend_dg_name (ans);
@@ -2123,6 +2134,7 @@ new_dg_list(int n)
 dg_list
 add_dg_list(dg_list list, dg elem, int index)
 {
+	UNUSED(index);
 	if (elem && elem->more == elem) {	/* self ref => copy */
 		dg ans = new_dg_info (elem->key);
 		elem = ans;
@@ -2139,6 +2151,7 @@ add_dg_list(dg_list list, dg elem, int index)
 dg_name_list
 new_dg_name_list(int n)
 {
+	UNUSED(n);
 	return (dg_name)0;
 }
 
@@ -2146,6 +2159,7 @@ dg_name_list
 add_dg_name_list(dg_name_list list, dg_name elem,
 				 int index)
 {
+	UNUSED(index);
 	if (list) {
 		dg_name x = list;
 		while (x->next) x = x->next;
@@ -2312,6 +2326,7 @@ add_dg_discrim_list(dg_discrim_list list,
 dg_constraint_list
 new_dg_constraint_list(int n)
 {
+	UNUSED(n);
 	return (dg_constraint)0;
 }
 
@@ -2320,6 +2335,7 @@ add_dg_constraint_list(dg_constraint_list list,
 					   dg_constraint elem,
 					   int index)
 {
+	UNUSED(index);
 	if (list) {
 		dg_constraint x = list;
 		while (x->next) x = x->next;
@@ -2374,6 +2390,7 @@ init_dg_append()
 dg_append_list
 new_dg_append_list(int n)
 {
+	UNUSED(n);
 	return (dg_append_list)0;
 }
 
@@ -2381,6 +2398,8 @@ dg_append_list
 add_dg_append_list(dg_append_list list, dg_append elem,
 				   int index)
 {
+	UNUSED(elem);
+	UNUSED(index);
 	return list;
 }
 
@@ -2582,6 +2601,7 @@ dg_dim_option no_dg_dim_option;
 dg_dim_option
 yes_dg_dim_option(dg_dim elem)
 {
+	UNUSED(elem);
 	failer ("dg_dim_option not done yet");
 	return no_dg_dim_option;
 }
@@ -2769,6 +2789,8 @@ f_dg_exp(exp body, dg diagnostic)
 {
 #ifdef NEWDIAGS
 	dgf(body) = add_dg_list (add_dg_list (new_dg_list (2), diagnostic, 0), dgf(body), 1);
+#else
+	UNUSED(diagnostic);
 #endif
 	return body;
 }

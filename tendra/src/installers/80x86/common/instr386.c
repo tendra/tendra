@@ -6758,6 +6758,7 @@ decstack(int longs)
 void
 long_jump(exp e)
 {
+	UNUSED(e);
 	ins0(popebp);
 	ins0(ret);
 	return;
@@ -6913,6 +6914,7 @@ checkalloc_stack(where sz, int b)
 void
 special_ins(char * id, exp arg, where dest)
 {
+	UNUSED(dest);
 	if (!strcmp (id, "__trans386_special") && name(arg) == val_tag) {
 		switch (no(arg)) {
 		case 0:

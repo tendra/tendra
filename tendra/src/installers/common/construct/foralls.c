@@ -947,6 +947,7 @@ unaltered(exp e, int assign_alias)
 int
 invariant(exp e, int assing_alias)
 {
+	UNUSED(assing_alias);
 	return ((name(e) == name_tag  )   ||
 			(name(e) == cont_tag && unaltered(son(e), assign_alias) )  ) ;
 }

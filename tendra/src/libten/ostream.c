@@ -215,6 +215,7 @@ ostream_line(OStreamP ostream)
 void
 ostream_unput(OStreamP ostream, unsigned n)
 {
+	UNUSED(n);
 	fseek(ostream->file, -1, SEEK_CUR);
 }
 
