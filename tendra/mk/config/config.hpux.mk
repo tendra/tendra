@@ -3,10 +3,17 @@
 # Platform dependent commands' locations.
 UNAME=		/usr/bin/uname
 
-# SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
+
+# Platform settings.
 PREFIX?=	/usr/local
+MAN_COMPRESS=	yes
+MAN_INSTALL=	yes
 TMP_DIR=	/tmp
+
+
+# SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
+
 
 # GETCONF?=	/usr/bin/getconf
 #get_cpu_type()

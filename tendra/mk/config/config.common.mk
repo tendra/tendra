@@ -10,8 +10,11 @@ HAVE_COMMON_MK=1
 
 config-create:
 .if exists (${SRC_DIR}/config.mk)
-	@echo CONFIG ALREADY EXISTS: ${SRC_DIR}/config.mk
-	@echo If you wish to reconfigure please use make re-config
+	@echo "CONFIG ALREADY EXISTS: ${SRC_DIR}/config.mk"
+	@echo "* You must manually delete config.mk and re-execute"
+	@echo "  make <OS>."
+	@echo "* Type make after deleting config.mk for a list of"
+	@echo "  available targets."
 	@echo
 .else
 	cat ${SRC_DIR}/mk/misc/default.config.mk |\
@@ -29,6 +32,8 @@ config-create:
 	-e "s|@OBJ_PREFIX@|${SRC_DIR}/obj|g" \
 	-e "s|@OBJ_ENV@|lib/env/${ENV_SRC}|g" \
 	-e "s|@MAN_COMPRESS@|${MAN_COMPRESS}|g" \
+	-e "s|@MAN_INSTALL@|${MAN_INSTALL}|g" \
+	-e "s|@PREFIX@|${PREFIX}|g" \
 	> ${SRC_DIR}/config.mk
 	@echo "Config file created! You can find it at: ${SRC_DIR}/config.mk"
 .endif
