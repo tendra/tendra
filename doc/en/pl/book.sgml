@@ -1410,7 +1410,7 @@ Struct Complex (re: Double, im: Double)
   <chapter id='example-pl-tdf'>
     <title>Example PL_TDF programs</title> 
 
-    <sect1 id='sieve-erastothenes'>
+    <example id='sieve-erastothenes'>
       <title>Sieve of Erastothenes</title> 
 
       <programlisting>
@@ -1470,9 +1470,9 @@ Rep (i = 2(Int) )
   
 Keep (main)         /* main will be an external name; so will printf since it is not defined */
       </programlisting>
-    </sect1>
+    </example>
 
-    <sect1 id='example-structures'>
+    <example id='example-structures'>
       <title>Example with structures</title> 
 
       <programlisting>
@@ -1500,9 +1500,9 @@ Proc main = top()
 
 Keep(main)
       </programlisting>
-    </sect1>
+    </example>
 
-    <sect1 id='test-case'>
+    <example id='test-case'>
       <title>Test for case</title> 
 
       <programlisting>
@@ -1538,9 +1538,9 @@ Var i:Int = 0(Int)
  
 Keep (main, test)
       </programlisting>
-    </sect1>
+    </example>
 
-    <sect1 id='high-order-tokens'>
+    <example id='high-order-tokens'>
       <title>Example of use of high-order TOKENs</title> 
 
       <programlisting>
@@ -1568,9 +1568,9 @@ Proc main = top()
 
 Keep (main)
       </programlisting>
-    </sect1>
+    </example>
 
-    <sect1 id='test-long-jumps'>
+    <example id='test-long-jumps'>
       <title>A test for long jumps</title> 
 
       <programlisting>
@@ -1596,7 +1596,7 @@ Labelled{
 
 Keep (main)
       </programlisting>
-    </sect1>
+    </example>
   </chapter>
 
   <chapter id='use-pl-tdf-compiler'>
