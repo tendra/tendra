@@ -48,8 +48,13 @@ TMP_DIR = /var/tmp
 
 # Binary paths
 
-ECHO ?=	/usr/bin/env echo
-ECHODIR ?=	/usr/bin/env echo
+ENV ?=		/usr/bin/env
+
+COPY ?=		${ENV} cp
+ECHO ?=		${ENV} echo
+ECHODIR ?=	${ENV} echo
+MOVE ?=		${ENV} mv
+REMOVE ?=	${ENV} rm -f
 
 # Build infrastructure framework
 
