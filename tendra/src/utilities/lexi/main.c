@@ -72,8 +72,6 @@ static unsigned output_opts = OUTPUT_MAIN;
 static void
 opt_output(char *option, void *closure)
 {
-	unsigned width;
-	
 	UNUSED (closure);
 
 	switch (option[0]) {
