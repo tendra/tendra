@@ -36,6 +36,11 @@ INSTALL_TARGETS+=	install-man
 INSTALL_TARGETS+=	install-wrapper
 .endif
 
+.if defined(SHLIB)
+INSTALL_TARGETS+=	install-shlib
+INSTALL_SUB+=		lib/sys
+.endif
+
 
 
 # Our main target.
@@ -92,6 +97,10 @@ install-man:
 	${MKDIR} -p ${PREFIX}/man/man${i:E}
 	${INSTALL} ${.CURDIR}/${i} ${PREFIX}/man/man${i:E}
 .endfor
+
+# lib/sys: our shared libraries
+install-shlib:
+	${INSTALL} ${.OBJDIR}/${SHLIB} ${INSATALL_PREFIX}/lib/sys
 
 install-dir:
 	for i in ${INSTALL_SUB}; do \
