@@ -6,14 +6,14 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tld-name'>
   <refname>tld</refname>
   <refpurpose>TDF linking and library manipulation
     utility</refpurpose>
 </refnamediv>
 
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tld-synopsis'>
   <cmdsynopsis>
     <command>tld</command>
     <arg choice='opt'><replaceable>mode</replaceable></arg>
@@ -23,7 +23,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='tld-description'>
   <title>DESCRIPTION</title> 
 
   <para>The <emphasis>tld</emphasis> command is used to create and
@@ -46,7 +46,7 @@
     token external names to have the multiple attribute set.</para>
 </refsect1>
 
-<refsect1 id='switches'>
+<refsect1 id='tld-switches'>
   <title>SWITCHES</title> 
 
   <para>The new version of <emphasis>tld</emphasis> accepts both short form
@@ -94,7 +94,7 @@
     parsing.</para>
 </refsect1>
 
-<refsect1 id='externalnames'>
+<refsect1 id='tld-externalnames'>
   <title>EXTERNAL NAMES</title> 
 
   <para>An external name may be either a string or a unique. A unique is
@@ -117,7 +117,7 @@
     character with code <emphasis>NN</emphasis> in hex.</para>
 </refsect1>
 
-<refsect1 id='renamefilesyntax'>
+<refsect1 id='tld-renamefilesyntax'>
   <title>RENAME FILE SYNTAX</title> 
 
   <para>Renaming may be specified either on the command line, or in a file.
@@ -132,7 +132,7 @@
     (if this is necessary).</para>
 </refsect1>
 
-<refsect1 id='unitsetfilesyntax'>
+<refsect1 id='tld-unitsetfilesyntax'>
   <title>UNIT SET FILE SYNTAX</title> 
 
   <para>The file should consist of a sequence of strings enclosed in double
@@ -147,7 +147,7 @@
     <emphasis>tld</emphasis> unit set name.</para>
 </refsect1>
 
-<refsect1 id='errorfilesyntax'>
+<refsect1 id='tld-errorfilesyntax'>
   <title>ERROR FILE SYNTAX</title> 
 
   <para>It is possible to change the error messages that the linker uses.
@@ -173,7 +173,7 @@
     of the current error messages.</para>
 </refsect1>
 
-<refsect1 id='linking'>
+<refsect1 id='tld-linking'>
   <title>LINKING</title> 
 
   <para>In the default mode, <emphasis>tld</emphasis> tries to link
@@ -220,7 +220,7 @@
     <emphasis>capsule.j</emphasis>.</para>
 </refsect1>
 
-<refsect1 id='switches2'>
+<refsect1 id='tld-switches2'>
   <title>Switches</title> 
 
    <para><command>tld</command>accepts the following switches in link 
@@ -354,7 +354,7 @@
     undefined external names.</para>
 </refsect1>
 
-<refsect1 id='libraryconstruction'>
+<refsect1 id='tld-libraryconstruction'>
   <title>LIBRARY CONSTRUCTION</title> 
 
   <para>A TDF library is a sequence of named capsules, with an index. The
@@ -366,7 +366,7 @@
     the <option>--output-file</option> switch is used.</para>
 </refsect1>
 
-<refsect1 id='switches3'>
+<refsect1 id='tld-switches3'>
   <title>Switches</title> 
 
   <para>FIXME: tld</para>
@@ -438,7 +438,7 @@
     stream.</para>
 </refsect1>
 
-<refsect1 id='librarycontents'>
+<refsect1 id='tld-librarycontents'>
   <title>LIBRARY CONTENTS</title> 
 
   <para>When invoked with the <option>-mt</option> switch,
@@ -446,7 +446,7 @@
     library specified on the command line.</para>
 </refsect1>
 
-<refsect1 id='switches4'>
+<refsect1 id='tld-switches4'>
   <title>Switches</title> 
 
   <para><command>tld</command>accepts the following switches in library contents
@@ -492,7 +492,7 @@
     stream.</para>
 </refsect1>
 
-<refsect1 id='libraryextraction'>
+<refsect1 id='tld-libraryextraction'>
   <title>LIBRARY EXTRACTION</title> 
 
   <para>When invoked with the <option>-mx</option> switch,
@@ -510,7 +510,7 @@
     name.</para>
 </refsect1>
 
-<refsect1 id='switches5'>
+<refsect1 id='tld-switches5'>
   <title>Switches</title> 
 
   <para><command>tld</command>accepts the following switches in library
@@ -568,7 +568,7 @@
     stream.</para>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tld-seealso'>
   <title>SEE ALSO</title> 
 
   <para>&man.tendra.tcc;.</para>

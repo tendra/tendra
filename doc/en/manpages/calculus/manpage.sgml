@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='calculus-name'>
   <refname>calculus</refname>
   <refpurpose>algebraic type system tool</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='calculus-synopsis'>
   <cmdsynopsis>
     <command>calculus</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -20,7 +20,7 @@
   </cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1 id='description'>
+<refsect1 id='calculus-description'>
   <title>DESCRIPTION</title>
     <para><command>calculus</command> translates a specification of an algebraic
       type system, <emphasis>input-file</emphasis>, into code representing that
@@ -35,7 +35,7 @@
       this may be changed by means of command-line options.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='calculus-options'>
   <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
@@ -144,6 +144,6 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'><title>SEE ALSO</title>
+<refsect1 id='calculus-seealso'><title>SEE ALSO</title>
 <para>&man.tendra.tcc;.</para>
 </refsect1>

@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='lexi-name'>
   <refname>lexi</refname>
   <refpurpose>lexical analyser tool</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='lexi-synopsis'>
   <cmdsynopsis>
     <command>lexi</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -20,7 +20,7 @@
   </cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1 id='description'>
+<refsect1 id='lexi-description'>
   <title>Description</title>
    <para><command>lexi</command> translates a description of a lexical analyser,
      <emphasis>input-file</emphasis>, into code implementing that analyser.
@@ -28,7 +28,7 @@
      present, or the standard output otherwise.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='lexi-options'>
   <title>Options</title>
   <variablelist>
     <varlistentry>
@@ -81,7 +81,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='lexi-seealso'>
   <title>See Also</title>
   <para>
     <citerefentry>

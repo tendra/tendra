@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tdfc2-name'>
   <refname>tdfc2</refname>
   <refpurpose>C to TDF/ANDF producer</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tdfc2-synopsis'>
   <cmdsynopsis>
     <command>tdfc2</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -21,7 +21,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='tdfc2-description'>
   <title>DESCRIPTION</title> 
 
   <para>In its default action, <command>tdfc2</command> translates the
@@ -61,7 +61,7 @@
     <emphasis>tcc</emphasis>.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='tdfc2-options'>
   <title>OPTIONS</title> 
 
   <para>The command-line options can appear in any order and can be
@@ -370,7 +370,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tdfc2-seealso'>
   <title>SEE ALSO</title> 
 
   <para>&man.tendra.tcc;, &man.tendra.tcpplus;.</para>

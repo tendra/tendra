@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='sid-name'>
   <refname>sid</refname>
   <refpurpose>Syntax Improving Device; parser generator.</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='sid-synopsis'>
   <cmdsynopsis>
     <command>sid</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -19,7 +19,7 @@
   </cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1 id='description'>
+<refsect1 id='sid-description'>
   <title>DESCRIPTION</title> 
 
   <para>The <emphasis>sid</emphasis> command is used to turn descriptions
@@ -31,7 +31,7 @@
     number of files for each language.</para>
 </refsect1>
 
-<refsect1 id='switches'>
+<refsect1 id='sid-switches'>
   <title>SWITCHES</title> 
 
   <para>The new version of <emphasis>sid</emphasis> accepts both short form
@@ -75,7 +75,7 @@
     parsing.</para>
 </refsect1>
 
-<refsect1 id='errorfilesyntax'>
+<refsect1 id='sid-errorfilesyntax'>
   <title>ERROR FILE SYNTAX</title> 
 
   <para>It is possible to change the error messages that
@@ -105,7 +105,7 @@
     of the current error messages.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='sid-options'>
   <title>OPTIONS</title> 
 
   <para><command>sid</command>accepts the following command line options:</para>
@@ -291,7 +291,7 @@
     written to the standard error stream.</para>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='sid-seealso'>
   <title>SEE ALSO</title> 
 
   <para>SID users' guide.</para>

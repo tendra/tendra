@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tchk-name'>
   <refname>tchk</refname>
   <refpurpose>TenDRA static checker</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tchk-synopsis'>
   <cmdsynopsis>
     <command>tchk</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -20,7 +20,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='tchk-description'>
   <title>DESCRIPTION</title> 
 
   <para><command>tchk</command> is the stand-alone TenDRA Static Program
@@ -33,7 +33,7 @@
     be printed using the <option>-query</option> option.</para>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tchk-seealso'>
   <title>SEE ALSO</title> 
   <para>&man.tendra.tcc;.</para>
 </refsect1>

@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tcc-name'>
   <refname>tcc</refname>
   <refpurpose>User interface to the TDF system</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tcc-synopsis'>
   <cmdsynopsis>
     <command>tcc</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -19,7 +19,7 @@
   </cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1 id='description'>
+<refsect1 id='tcc-description'>
   <title>Description</title> 
 
   <para><command>tcc</command> is the user interface to the TDF system. It is
@@ -267,7 +267,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='tcc-options'>
   <title>OPTIONS</title> 
 
   <para>The following options are supported by <command>tcc</command>. All
@@ -1062,7 +1062,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='files'>
+<refsect1 id='tcc-files'>
   <title>FILES</title> 
 
   <variablelist>
@@ -1228,7 +1228,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tcc-seealso'>
   <title>SEE ALSO</title> 
 
   <para>&man.freebsd.as;, &man.freebsd.cc;, &man.tendra.disp;,

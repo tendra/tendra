@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='pl-name'>
   <refname>pl</refname>
   <refpurpose>PL_TDF compiler producing TDF</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='pl-synopsis'>
   <cmdsynopsis>
     <command>pl</command>
     <arg choice='opt'>-v</arg>
@@ -23,7 +23,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='pl-description'>
   <title>DESCRIPTION</title>
   <para>The action of <command>pl</command> is to compile a PL_TDF text in
     <emphasis>infile.pl</emphasis> to a TDF capsule in
@@ -32,7 +32,8 @@
     &man.tendra.tcc;</para> 
 </refsect1>
 
-<refsect1 id='options'><title>OPTIONS</title>
+<refsect1 id='pl-options'>
+  <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
       <term>"<option>-v</option>"</term>
@@ -60,7 +61,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='pl-seealso'>
 <title>SEE ALSO</title>
 <para>&man.tendra.tcc;.</para>
 </refsect1>

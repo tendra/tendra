@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tcpplus-name'>
   <refname>tcpplus</refname>
   <refpurpose>C++ to TDF/ANDF producer</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tcpplus-synopsis'>
   <cmdsynopsis>
     <command>tcpplus</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -21,7 +21,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='tcpplus-description'>
   <title>DESCRIPTION</title> 
 
   <para>In its default action, <command>tcpplus</command> translates the
@@ -61,7 +61,7 @@
     <emphasis>tcc</emphasis>.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='tcpplus-options'>
   <title>OPTIONS</title> 
 
   <para>The command-line options can appear in any order and can be
@@ -372,7 +372,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tcpplus-seealso'>
   <title>SEE ALSO</title> 
   <para>&man.tendra.tcc;, &man.tendra.tdfc;.</para>
 </refsect1>

@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='tspec-name'>
   <refname>tspec</refname>
   <refpurpose>An API specification tool</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='tspec-synopsis'>
   <cmdsynopsis>
     <command>tspec</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -37,7 +37,7 @@
   </cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1 id='description'>
+<refsect1 id='tspec-description'>
   <title>DESCRIPTION</title> 
 
   <para><command>tspec</command> is a tool for translating a form of API
@@ -56,7 +56,7 @@
     output.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='tspec-options'>
   <title>OPTIONS</title> 
 
   <variablelist>
@@ -241,7 +241,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='tspec-seealso'>
   <title>SEE ALSO</title> 
 
   <para>&man.tendra.tcc;, &man.tendra.tdfc;.</para>

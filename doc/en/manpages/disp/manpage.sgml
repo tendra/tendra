@@ -6,12 +6,12 @@
   <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
 </refmeta>
 
-<refnamediv id='name'>
+<refnamediv id='disp-name'>
  <refname>disp</refname>
  <refpurpose>TDF pretty printer</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='synopsis'>
+<refsynopsisdiv id='disp-synopsis'>
   <cmdsynopsis>
     <command>disp</command> 
     <arg choice='opt'><replaceable>options</replaceable></arg>
@@ -21,7 +21,7 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='description'>
+<refsect1 id='disp-description'>
   <title>DESCRIPTION</title> 
   <para><command>disp</command> translates the input TDF capsule, <emphasis>
     input-file</emphasis> into a human-readable form, the layout of
@@ -45,7 +45,7 @@
     <emphasis>tcc</emphasis>.</para>
 </refsect1>
 
-<refsect1 id='options'>
+<refsect1 id='disp-options'>
   <title>OPTIONS</title> 
 
   <variablelist>
@@ -174,7 +174,7 @@
   </variablelist>
 </refsect1>
 
-<refsect1 id='diagnostics'>
+<refsect1 id='disp-diagnostics'>
   <title>DIAGNOSTICS</title> 
   <para>The error reports if the input file is not a legal TDF capsule are
     intended to aid developers writing programs which produce TDF. Thus they
@@ -182,7 +182,7 @@
     position within the input file that the error occurred.</para>
 </refsect1>
 
-<refsect1 id='seealso'>
+<refsect1 id='disp-seealso'>
   <title>SEE ALSO</title> 
 
   <para>&man.tendra.tcc;.</para>
