@@ -8,3 +8,7 @@ all:
 	@echo variable.
 	@echo
 	@/usr/bin/env bmake
+
+clean:
+	@echo Using bmake to clean up build environment...
+	@/usr/bin/env bmake clean
