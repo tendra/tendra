@@ -11,7 +11,7 @@
 HAVE_CONFIG_MK=1
 
 BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux linux netbsd openbsd osf1\
-		qnx solaris sunos tru64
+		qnx solaris sunos tru64 irix
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
@@ -87,3 +87,9 @@ BUILD_OS=	qnx
 BUILD_OS=	sunos
 .include "../config/config.sunos.mk"
 .endif
+
+.if make(irix)
+BUILD_OS=	irix
+.include "../config/config.irix.mk"
+.endif
+
