@@ -98,25 +98,10 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-U</option></term>
-
-      <listitem>
-        <para>Makes <command>disp</command> print the usage information
-          associated with the external tokens and tags and also any linkage
-          information units within the capsule.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-V</option></term>
       <listitem>
-        <para>By default <command>disp</command> attempts to rationalise
-          the TDF it reads. In particular it uses the external token and tag
-          names whenever possible, following the token and tag bindings to
-          find these, and makes up names for those tokens and tags which do
-          not have external names. The <option>-V</option> option makes it
-          not attempt any such rationalisation, but instead to output exactly
-          what it reads.</para>
+        <para>Makes <command>disp</command> print its version number and
+          the version of the TDF specification it supports.</para>
       </listitem>
     </varlistentry>
 
@@ -125,6 +110,13 @@
       <listitem>
         <para>Makes <command>disp</command> issue a warning about every
           token which is used before it is declared.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-a</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -144,16 +136,18 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-h</option></term>
+      <term><option>-i</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-i</option></term>
+      <term><option>-l</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Makes <command>disp</command> print the usage information
+          associated with the external tokens and tags and also any
+          linkage information units within the capsule.</para>
       </listitem>
     </varlistentry>
 
@@ -163,13 +157,6 @@
         <para>Makes <command>disp</command> try to format its output to fit
           into a page width of <emphasis>columns</emphasis>. The
           default page width is 80.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-p</option></term>
-      <listitem>
-        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -186,17 +173,20 @@
     <varlistentry>
       <term><option>-r</option></term>
       <listitem>
-        <para>Makes <command>disp</command> continue after any errors. The
-          use of this flag is not recommended since anything read after an
-          error is likely to be of very little value.</para>
+        <para>By default <command>disp</command> attempts to rationalise
+          the TDF it reads. In particular it uses the external token and tag
+          names whenever possible, following the token and tag bindings to
+          find these, and makes up names for those tokens and tags which
+          do not have external names. The <option>-V</option> option
+          makes it not attempt any such rationalisation, but instead to output
+          exactly what it reads.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
       <term><option>-v</option></term>
       <listitem>
-        <para>Makes <command>disp</command> print its version number and
-          the version of the TDF specification it supports.</para>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 

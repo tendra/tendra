@@ -42,7 +42,7 @@
     &option-cd;
     &option-ce;
     &option-cf;
-    &option-cg;
+    &common-80x86-option-cg;
     &option-ch;
     &option-ci;
 
@@ -60,7 +60,7 @@
 
 
     &option-cm;
-    &option-cn;
+    &common-80x86-option-cn;
     &option-cp;
     &option-cq;
     &option-cr;
@@ -69,16 +69,15 @@
     &option-cw;
     &option-cx;
     &option-cz;
-    &option-a;
-    &option-b;
-    &option-c;
-    &option-d;
-    &option-e;
-    &option-f;
-    &option-g;
-    &option-h;
-    &option-i;
-    &option-k;
+    &common-80x86-option-a;
+    &common-80x86-option-b;
+    &common-80x86-option-c;
+    &common-80x86-option-d;
+    &common-80x86-option-e;
+    &common-80x86-option-f;
+    &common-80x86-option-g;
+    &common-80x86-option-i;
+    &common-80x86-option-j;
 
   </variablelist>
 </refsect1>

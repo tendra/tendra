@@ -31,6 +31,13 @@
 <refsect1 id='lexi-options'>
   <title>Options</title>
   <variablelist>
+   <varlistentry>
+      <term><option>-V</option></term>
+      <listitem>
+        <para>Causes <command>lexi</command> print its version number.</para>
+      </listitem>
+    </varlistentry>
+
     <varlistentry>
       <term><option>-f</option></term>
       <listitem>
@@ -69,13 +76,6 @@
       <listitem>
         <para>Causes <command>lexi</command> to generate code describing the
           lookup table.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-v</option></term>
-      <listitem>
-        <para>Causes <command>lexi</command> print its version number.</para>
       </listitem>
     </varlistentry>
   </variablelist>

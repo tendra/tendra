@@ -16,3 +16,157 @@
   passed to <command>trans386</command> by passing the option <option>-Wt,
   -</option><emphasis>opt</emphasis> to &man.tendra.tcc;.</para>
 '>
+
+
+<!--   G   -->
+<!ENTITY common-80x86-option-cg '
+    <varlistentry>
+      <term><option>-G</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   K   -->
+<!ENTITY common-80x86-option-ck '
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>&trans;</command> to optimise its code for
+        a particular processor model, determined by
+        <emphasis>str</emphasis>. The available values of
+        <emphasis>str</emphasis> are 3 for the 80386, 4 for the 80486
+        and 5 for the Pentium (the default). So <option>-K3</option>
+        means optimise for the 80386 etc.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   N   -->
+<!ENTITY common-80x86-option-cn '
+    <varlistentry>
+      <term><option>-N</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   a   -->
+<!ENTITY common-80x86-option-a '
+    <varlistentry>
+      <term><option>-a</option></term>
+
+      <listitem>
+        <para>Always use a frame pointer. The default is to avoid using a frame
+        pointer whenever possible. The default results in better performance,
+        but in special cases where the stack is to be processed it may be
+        necessary to enforce the use of a frame pointer.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   b   -->
+<!ENTITY common-80x86-option-b '
+    <varlistentry>
+      <term><option>-b</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   c   -->
+<!ENTITY common-80x86-option-c '
+    <varlistentry>
+      <term><option>-c</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   d   -->
+<!ENTITY common-80x86-option-d '
+    <varlistentry>
+      <term><option>-d</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   e   -->
+<!ENTITY common-80x86-option-e '
+    <varlistentry>
+      <term><option>-e</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   f   -->
+<!ENTITY common-80x86-option-f '
+    <varlistentry>
+      <term><option>-f</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   g   -->
+<!ENTITY common-80x86-option-g '
+    <varlistentry>
+      <term><option>-g</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   i   -->
+<!ENTITY common-80x86-option-i '
+    <varlistentry>
+      <term><option>-i</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   j   -->
+<!ENTITY common-80x86-option-j '
+    <varlistentry>
+      <term><option>-j</option></term>
+
+      <listitem>
+        <para>Do not use the .bss segment, always put data into the .data
+        segment even if it is zero. This should very rarely be needed. The
+        default is to use the .bss segment.</para>
+      </listitem>
+    </varlistentry>
+'>

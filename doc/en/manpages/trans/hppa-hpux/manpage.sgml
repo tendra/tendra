@@ -132,6 +132,14 @@
       </listitem>
     </varlistentry>
 
+    <varlistentry>
+      <term><option>-g</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
   </variablelist>
 </refsect1>
 

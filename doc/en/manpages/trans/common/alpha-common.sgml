@@ -10,3 +10,18 @@
     <option>-Wt,-</option><replaceable>opt</replaceable> to
     &man.tendra.tcc;.</para>
 '>
+
+
+<!--   K   -->
+<!ENTITY common-alpha-option-ck '
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>alphatrans</command> to optimise its code
+          for a particular processor model, determined by
+          <emphasis>str</emphasis>. Currently, this option has no
+          effect.</para>
+      </listitem>
+    </varlistentry>
+'>

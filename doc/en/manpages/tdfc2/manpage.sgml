@@ -158,6 +158,15 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-Q</option></term>
+      <listitem>
+        <para>Causes <command>tdfc2</command> to quit immediately without
+          processing its input file. This is useful primarily in version
+          and option queries.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-R</option></term>
       <listitem>
         <para>To be documented.</para>
@@ -187,8 +196,8 @@
     <varlistentry>
       <term><option>-V</option></term>
       <listitem>
-        <para>Causes <command>tdfc2</command> to print the name of each
-          function to the standard output as it is compiled.</para>
+        <para>Causes <command>tdfc2</command> to print its version
+          number.</para>
       </listitem>
     </varlistentry>
 
@@ -335,15 +344,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term>
-      <listitem>
-        <para>Causes <command>tdfc2</command> to quit immediately without
-          processing its input file. This is useful primarily in version and
-          option queries.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-r</option></term>
       <listitem>
         <para>To be documented.</para>
@@ -380,8 +380,8 @@
     <varlistentry>
       <term><option>-v</option></term>
       <listitem>
-        <para>Causes <command>tdfc2</command> to print its version
-          number.</para>
+        <para>Causes <command>tdfc2</command> to print the name of each
+          function to the standard output as it is compiled.</para>
       </listitem>
     </varlistentry>
 

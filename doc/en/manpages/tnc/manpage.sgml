@@ -72,8 +72,7 @@
     <varlistentry>
       <term><option>-V</option></term>
       <listitem>
-        <para>In <emphasis>write</emphasis> mode, specifies that the output
-          should be in the "verbose" form, with no shorthand forms.</para>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -220,7 +219,8 @@
     <varlistentry>
       <term><option>-v</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>In <emphasis>write</emphasis> mode, specifies that the output
+          should be in the "verbose" form, with no shorthand forms.</para>
       </listitem>
     </varlistentry>
 

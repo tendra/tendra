@@ -123,7 +123,7 @@
     the factorisation process. It is probably best not to change this.</para>
 
   <para><option>--help</option>
-    <option>-?</option></para>
+    <option>-h</option></para>
 
   <para>Write an option summary to the standard error.</para>
 
@@ -285,7 +285,7 @@
     defaults to 8. It is only used when indenting output.</para>
 
   <para><option>--version</option>
-    <option>-v</option></para>
+    <option>-V</option></para>
 
   <para>This option causes the version number and supported languages to be
     written to the standard error stream.</para>

@@ -58,6 +58,13 @@
     </varlistentry>
 
     <varlistentry>
+     <term><option>-V</option></term>
+      <listitem>
+         <para>Causes <command>calculus</command> print its version number.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-T</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies a template file which is used to generate an output
@@ -146,13 +153,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term>
-      <listitem>
-        <para>To be documented.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-r</option></term>
        <listitem>
          <para>Indicates to <command>calculus</command> that
@@ -176,7 +176,7 @@
     <varlistentry>
      <term><option>-v</option></term>
       <listitem>
-         <para>Causes <command>calculus</command> print its version number.</para>
+         <para>To be documented.</para>
       </listitem>
     </varlistentry>
 

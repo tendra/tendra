@@ -17,3 +17,18 @@
     <option>-Wt,-</option><replaceable>opt</replaceable> to
     <emphasis>tcc(1)</emphasis>.</para>
 '>
+
+
+<!--   K   -->
+<!ENTITY common-mips-option-ck '
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>mipstrans</command> to optimise its code
+          for a particular processor model, determined by
+          <emphasis>str</emphasis>. At present there are no valid values
+          for <emphasis>str</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+'>

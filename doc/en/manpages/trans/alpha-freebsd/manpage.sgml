@@ -65,18 +65,7 @@
 
 
     &option-ci;
-
-    <varlistentry>
-      <term><option>-K</option><replaceable>str</replaceable></term>
-
-      <listitem>
-        <para>Causes <command>alphatrans</command> to optimise its code for a
-          particular processor model, determined by <emphasis>str</emphasis>.
-          Currently, this option has no effect.</para>
-      </listitem>
-    </varlistentry>
-
-
+    &common-alpha-option-ck;
     &option-cm;
 
     <varlistentry>
@@ -120,14 +109,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-i</option></term>
-
-      <listitem>
-        <para>To be documented.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-s</option></term>
 
       <listitem>
@@ -137,14 +118,6 @@
 
     <varlistentry>
       <term><option>-u</option></term>
-
-      <listitem>
-        <para>To be documented.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-v</option></term>
 
       <listitem>
         <para>To be documented.</para>

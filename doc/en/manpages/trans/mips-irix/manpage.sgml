@@ -37,7 +37,6 @@
   <variablelist>
 
     &option-ca;
-    &option-cb;
     &option-cc;
 
     <varlistentry>
@@ -75,18 +74,7 @@
 
 
     &option-ci;
-
-    <varlistentry>
-      <term><option>-K</option><replaceable>str</replaceable></term>
-
-      <listitem>
-        <para>Causes <command>mipstrans</command> to optimise its code for a
-          particular processor model, determined by <emphasis>str</emphasis>. At
-          present there are no valid values for <emphasis>str</emphasis>.</para>
-      </listitem>
-    </varlistentry>
-
-
+    &common-mips-option-ck;
     &option-cm;
 
     <varlistentry>
