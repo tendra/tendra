@@ -1,6 +1,6 @@
 # $TenDRA$
 
-.SUFFIXES:	.o .c .c-tdf .h-tdf
+.SUFFIXES:	.o .c .j .pl .c-tdf .h-tdf
 
 CC		?=	cc
 CFLAGS		?=	-O -pipe
@@ -17,3 +17,9 @@ ECHODIR		?=	echo
 .c-tdf.c .h-tdf.h:
 	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.IMPSRC} >\
 	${OBJ_DIR}/${.TARGET}
+
+.pl.j:
+	${PL} ${.IMPSRC} ${.TARGET} 
+
+.c.j:
+	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}

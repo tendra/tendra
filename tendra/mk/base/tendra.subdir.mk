@@ -2,6 +2,14 @@
 
 SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
 
+.if exists (${SRC_DIR}/config.mk)
+HAVE_CONF=      yes
+.include "${SRC_DIR}/config.mk"
+.endif
+
+
+.if defined(HAVE_CONF)
+
 .if !defined(PROG)
 
 .MAIN: make-subdir
@@ -9,10 +17,8 @@ SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
 make-subdir: _PROGSUBDIR
 
 clean: _PROGSUBDIR
-
 .endif
 
-.if exists(${SRC_DIR}/config.mk)
 
 _PROGSUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
@@ -26,3 +32,6 @@ _PROGSUBDIR: .USE
 .endif
 
 .endif
+
+.include "tendra.config.mk"
+

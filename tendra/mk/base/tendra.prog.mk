@@ -13,25 +13,21 @@ SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
 HAVE_CONF=      yes
 .endif
 
-MAIN_TARGETS=	config-check obj-dir depend all
+MAIN_TARGETS=	config-check obj-dir make-dir depend all
 
 .MAIN: ${MAIN_TARGETS}
 
 make-subdir: ${MAIN_TARGETS}
 
+
 .if defined(HAVE_CONF)
 
+.if defined(TL)
+.include "tendra.api.mk"
+.endif
+
 .if defined(PROG)
-# this hack strips out any path info from the sourcefiles since the objects
-# are placed into the current working directory!
-
-OBJS+=  ${SRCS:N*.h:R:S/$/.o/g}
-OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.o/g:C/.*\/(.*)$/\1/g}
-
-
-${PROG}: ${OBJS}
-	${CC} ${CFLAGS} ${LDFLAGS} -o ${.TARGET} ${OBJS_NODIR} ${LDDESTDIR} ${LDADD}
-
+.include "tendra.bin.mk"
 .endif
 
 # All our nifty targets.
@@ -41,7 +37,7 @@ all:
 	env MAKEOBJDIR=${OBJ_DIR} ${MAKE} make-all
 
 
-MAKE_ALL=	${PROG}
+MAKE_ALL=	${PROG} ${TL}
 
 make-all: ${MAKE_ALL}
 
@@ -59,7 +55,7 @@ clean:
 
 clean-all:
 .if !empty(CLEANFILES)
-	rm -f ${CLEANFILES}
+	rm -f ${CLEANOPT} ${CLEANFILES}
 .endif
 
 obj-dir:
@@ -72,6 +68,14 @@ obj-dir:
 		${ECHO} "${OBJ_DIR} created for ${.CURDIR}"; \
 	fi
 
+make-dir:
+.if defined(MAKEDIR)
+.for i in ${MAKEDIR}
+	@if ! test -d ${OBJ_DIR}/${i}; then \
+		mkdir -p ${OBJ_DIR}/${i}; \
+	fi
+.endfor
+.endif
 
 .include "tendra.def.mk"
 .include "tendra.sys.mk"
