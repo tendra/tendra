@@ -1427,13 +1427,13 @@ Var j:Int
      N[* i] = 1(Char);
      i = (* i + 1(Int));
      ?(* i &gt;= 10000(Int))            /* NB assertion fails to continue loop */
-    }
+    };
 Rep (i = 2(Int) )
     {
      ?{     ?( *(Char)N[* i] == 1(Char));
         /* if its a prime ... */
         Rep ( j = (* i + * i) )
-        { /*... wipe out composites */
+        { /* ... wipe out composites */
         N[* j] = 0(Char);
         j = (* j + * i);
         ?(* j &gt;= 10000(Int))
@@ -1459,6 +1459,7 @@ Rep (i = 2(Int) )
         i = (* i + 1(Int));
         ?(* i &gt;= 10000(Int))
      };
+ printf[top](s2);
  return(make_top)
 };
  
