@@ -29,27 +29,27 @@
 # EXEC_SUFFIX is used on those platforms where executable names need to
 # have a particular suffix, for example it may be set to ".exe".
 
-CC ?= cc
+CC?= cc
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
-  TCCOPTS =
-  CCOPTS += -W -Wall -ansi -pedantic -Wmissing-prototypes -Wstrict-prototypes
+  TCCOPTS=
+  CCOPTS+= -W -Wall -ansi -pedantic -Wmissing-prototypes -Wstrict-prototypes
 # The Intel C Compiler.
 .elif ${CC} == "icc"
-  TCCOPTS =
-  CCOPTS +=
+  TCCOPTS=
+  CCOPTS+=
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
 .elif ${CC} == "tcc"
-  TCCOPTS = -Ysystem
-  CCOPTS +=
+  TCCOPTS= -Ysystem
+  CCOPTS+=
 .endif
 
-SYS_INCLUDES = "-I/usr/include"
-STRIP = :
-RANLIB = ranlib
+SYS_INCLUDES= "-I/usr/include"
+STRIP= :
+RANLIB= ranlib
 EXEC_SUFFIX=
 
-LD ?= ld
-LDOPTS =
-LIBS = /usr/lib/crt1.o -lc
+LD?= ld
+LDOPTS=
+LIBS= /usr/lib/crt1.o -lc
