@@ -79,27 +79,29 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 	char    **tmp_argv = argv;
 
 	while (tmp_argc) {
+		int is_long = 0;
 		char *option = tmp_argv[0];
 		char c = option[0];
-		
-		if (((c == '-' && option[1] == '-') ||
-			 (c == '+' && option[1] == '+')) && option[2] == '\0') {
+
+		is_long = (c == '-' && option[1] == '-') ||
+			(c == '+' && option[1] == '+');
+		if (is_long && option[2] == '\0') {
 			return (argc - tmp_argc + 1);
-		} else if ((c == '-' && option[1] == '-') ||
-				   (c == '+' && option[1] == '+')) {
+		}
+		if (is_long) {
 			ArgListT *tmp_list = arg_list;
 			ArgListT *chosen = NULL;
 			unsigned matches = 0;
 			char *immediate = NULL;
-			
+
 			while (tmp_list->name != NULL || tmp_list->short_name != '\0') {
 				const char *opt = tmp_list->name;
 				char *arg = option + 2;
-				
+
 				if (opt != NULL) {
 					char optch;
 					char argch;
-					
+
 					do {
 						optch = *opt++;
 						argch = *arg++;
@@ -138,8 +140,7 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					*((BoolP) chosen->closure) = c == '+';
 					break;
 				case AT_PROC_SWITCH:
-					(*chosen->proc) (option, chosen->closure,
-									   c == '-');
+					(*chosen->proc) (option, chosen->closure, c == '-');
 					break;
 				case AT_IMMEDIATE:
 					if (immediate != NULL) {
@@ -215,12 +216,12 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 			MSG_arg_parse_unknown_option (option);
 			UNREACHED;
 		} else if (c == '-' || c == '+') {
-			CStringP opt = &(option [1]);
-			
+			char *opt = &(option [1]);
+
 			while (opt != NULL && *opt != '\0') {
 				ArgListT *tmp_list = arg_list;
 				ArgListT *chosen = NULL;
-				
+
 				while (tmp_list->name != NULL ||
 					   tmp_list->short_name != '\0') {
 					if (tmp_list->short_name == *opt) {
@@ -229,79 +230,74 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					}
 					tmp_list++;
 				}
-				if (chosen) {
-					switch (chosen->type) EXHAUSTIVE {
-					case AT_SWITCH:
-						*((BoolP) chosen->closure) = c == '-';
-						break;
-					case AT_NEG_SWITCH:
-						*((BoolP) chosen->closure) = c == '+';
-						break;
-					case AT_PROC_SWITCH:
-						(*chosen->proc) (opt, chosen->closure,
-										   c == '-');
-						break;
-					case AT_IMMEDIATE:
-						(*chosen->proc) (opt, chosen->closure,
-										   opt + 1);
-						opt = NULL;
-						break;
-					case AT_EITHER:
-						if (opt[1] != '\0') {
-							(*chosen->proc) (opt, chosen->closure,
-											   opt + 1);
-						} else if (tmp_argc > 1) {
-							tmp_argv++;
-							tmp_argc--;
-							(*chosen->proc) (opt, chosen->closure,
-											   tmp_argv[0]);
-						} else {
-							MSG_arg_parse_missing_short_arg (option, opt);
-							UNREACHED;
-						}
-						opt = NULL;
-						break;
-					case AT_FOLLOWING:
-						if (tmp_argc > 1) {
-							tmp_argv++;
-							tmp_argc--;
-							(*chosen->proc) (opt, chosen->closure,
-											   tmp_argv[0]);
-						} else {
-							MSG_arg_parse_missing_short_arg (option, opt);
-							UNREACHED;
-						}
-						break;
-					case AT_EMPTY:
-						(*chosen->proc) (opt, chosen->closure);
-						break;
-					case AT_FOLLOWING2:
-						if (tmp_argc > 2) {
-							tmp_argv += 2;
-							tmp_argc -= 2;
-							(*chosen->proc) (opt, chosen->closure,
-											   tmp_argv[-1], tmp_argv[0]);
-						} else {
-							MSG_arg_parse_missing_short_arg (option, opt);
-							UNREACHED;
-						}
-						break;
-					case AT_FOLLOWING3:
-						if (tmp_argc > 3) {
-							tmp_argv += 3;
-							tmp_argc -= 3;
-							(*chosen->proc) (opt, chosen->closure,
-											   tmp_argv[-2], tmp_argv [-1],
-											   tmp_argv[0]);
-						} else {
-							MSG_arg_parse_missing_short_arg (option, opt);
-							UNREACHED;
-						}
-						break;
-					}
-				} else {
+				if (chosen == NULL || (opt[1] &&
+					chosen->type != AT_IMMEDIATE && chosen->type != AT_EITHER)) {
 					MSG_arg_parse_unknown_short_opt (option, opt);
 					UNREACHED;
+				}
+				switch (chosen->type) EXHAUSTIVE {
+				case AT_SWITCH:
+					*((BoolP) chosen->closure) = c == '-';
+					break;
+				case AT_NEG_SWITCH:
+					*((BoolP) chosen->closure) = c == '+';
+					break;
+				case AT_PROC_SWITCH:
+					(*chosen->proc) (opt, chosen->closure, c == '-');
+					break;
+				case AT_IMMEDIATE:
+					(*chosen->proc) (opt, chosen->closure, opt + 1);
+					opt = NULL;
+					break;
+				case AT_EITHER:
+					if (opt[1] != '\0') {
+						(*chosen->proc) (opt, chosen->closure, opt + 1);
+					} else if (tmp_argc > 1) {
+						tmp_argv++;
+						tmp_argc--;
+						(*chosen->proc) (opt, chosen->closure, tmp_argv[0]);
+					} else {
+						MSG_arg_parse_missing_short_arg (option, opt);
+						UNREACHED;
+					}
+					opt = NULL;
+					break;
+				case AT_FOLLOWING:
+					if (tmp_argc > 1) {
+						tmp_argv++;
+						tmp_argc--;
+						(*chosen->proc) (opt, chosen->closure, tmp_argv[0]);
+					} else {
+						MSG_arg_parse_missing_short_arg (option, opt);
+						UNREACHED;
+					}
+					break;
+				case AT_EMPTY:
+					(*chosen->proc) (opt, chosen->closure);
+					break;
+				case AT_FOLLOWING2:
+					if (tmp_argc > 2) {
+						tmp_argv += 2;
+						tmp_argc -= 2;
+						(*chosen->proc) (opt, chosen->closure,
+										   tmp_argv[-1], tmp_argv[0]);
+					} else {
+						MSG_arg_parse_missing_short_arg (option, opt);
+						UNREACHED;
+					}
+					break;
+				case AT_FOLLOWING3:
+					if (tmp_argc > 3) {
+						tmp_argv += 3;
+						tmp_argc -= 3;
+						(*chosen->proc) (opt, chosen->closure,
+										   tmp_argv[-2], tmp_argv [-1],
+										   tmp_argv[0]);
+					} else {
+						MSG_arg_parse_missing_short_arg (option, opt);
+						UNREACHED;
+					}
+					break;
 				}
 				if (opt) {
 					opt++;
