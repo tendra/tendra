@@ -2,6 +2,20 @@
  * $TenDRA$
 */
 
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_AS1	"-BIN_AS1-"
++BIN_LD		"-BIN_LD-"
+
+
+/* Libraries */
+
++LIB_CRT0	"-LIB_CRT1-"
++LIB_CRTN	"-LIB_CRTN-"
+
+
 +MACHINE		"irix-5.1.1-mips"
 +FLAG			"--1MA"
 +VERSION		"3.17"
