@@ -129,7 +129,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 	}
 
 	/* Other types are simple */
-	output ("\tCOPY_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
+	output ("\t\tCOPY_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
 	return (p + size_type (t, 0));
 }
 
@@ -183,9 +183,9 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 
 	/* Other types are simple */
 	if (is_complex_type (t)) {
-		output ("\tDEREF_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
+		output ("\t\tDEREF_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
 	} else {
-		output ("\t%e = DEREF_%TM (x%u_ + %d);\\\n", nm, t, p);
+		output ("\t\t%e = DEREF_%TM (x%u_ + %d);\\\n", nm, t, p);
 	}
 	return (p + size_type (t, 0));
 }
@@ -1541,12 +1541,12 @@ print_field_c(int sz, int tag, int rng, int al)
 		if (v == NULL) v = "(%CN_)";
 		posn = assign_component (ct, posn, v, 0);
 	}
-	if (al) output ("\tx%u_[%d].ag_tag = 0;\\\n", sz);
+	if (al) output ("\t\tx%u_[%d].ag_tag = 0;\\\n", sz);
 	if (rng && extra_asserts) {
-		output ("\t(%X_%UM) = CHECK_TAG_ETC (x%u_, %d, %d);\\\n",
+		output ("\t\t(%X_%UM) = CHECK_TAG_ETC (x%u_, %d, %d);\\\n",
 		  tag, tag + rng);
 	} else {
-		output ("\t(%X_%UM) = x%u_;\\\n");
+		output ("\t\t(%X_%UM) = x%u_;\\\n");
 	}
 	output ("\t}\n\n");
 	unique++;
