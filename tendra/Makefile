@@ -28,16 +28,25 @@ BUILD_OK=	true
 
 SUBDIR=		src
 
-all:
 .if !exists(Makefile.defs)
 .BEGIN:
 	@${ECHO} "Please run 'makedefs' prior to running (b)make"
 	@${ECHO}
 	@${EXIT} 1;
 .else
-	@${ECHO} Starting TenDRA build...
-	@${ECHO} Bootstrapping from ${BASE_DIR}
+all:
+. if !exists(${.CURDIR}/obj/_obj_tree_complete)
+.  if "${_objdirs_done}" != "yes"
+	@${ECHO} "==> Starting TenDRA build..."
+	@${ECHO} "==> Creating object directory and symbolic links"
+	@cd ${BASE_DIR} && ${MAKE} _objdirs_done=yes obj;
+	@${ECHO} "Do not remove this file." > ${OBJ_DIR_INDICATOR};
+	@${ECHO} "==> Object directory created, bootstrapping build"
 	@${ECHO}
+
+_objdirs_done=yes
+.  endif
+. endif
 .endif
 
 .include "Makefile.inc"
