@@ -63,6 +63,7 @@ ENV ?=		/usr/bin/env
 COPY ?=		${ENV} cp
 ECHO ?=		${ENV} echo
 ECHODIR ?=	${ENV} echo
+EXIT ?=		exit
 INSTALL ?=	${ENV} install
 MKDIR ?=	${ENV} mkdir
 MOVE ?=		${ENV} mv
