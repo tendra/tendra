@@ -141,7 +141,7 @@ bitvec_replace(BitVecP to, BitVecP from)
 void
 bitvec_empty(BitVecP bitvec)
 {
-   (void)memset((GenericP)(bitvec->bits), 0,(SizeT)bitvec_size);
+   (void)memset((GenericP)(bitvec->bits), 0, (SizeT)bitvec_size);
 }
 
 BoolT
@@ -237,7 +237,7 @@ bitvec_equal(BitVecP bitvec1, BitVecP bitvec2)
     unsigned bytes        = bitvec_size;
 
     while (bytes--) {
-	if ((*bitvec1_bits++)!= (*bitvec2_bits++)) {
+	if ((*bitvec1_bits++) != (*bitvec2_bits++)) {
 	    return(FALSE);
 	}
     }

@@ -121,7 +121,7 @@ void
 entry_list_init(EntryListP list)
 {
     list->head = NIL(EntryListEntryP);
-    list->tail = & (list->head);
+    list->tail = &(list->head);
 }
 
 void
@@ -130,7 +130,7 @@ entry_list_copy(EntryListP to, EntryListP from)
     EntryListEntryP ptr;
 
     to->head = NIL(EntryListEntryP);
-    to->tail = & (to->head);
+    to->tail = &(to->head);
     for (ptr = from->head; ptr; ptr = ptr->next) {
 	entry_list_add(to, ptr->entry);
     }
@@ -144,7 +144,7 @@ entry_list_add(EntryListP list, EntryP entry)
     link->next    = NIL(EntryListEntryP);
     link->entry   = entry;
     *(list->tail) = link;
-    list->tail    = & (link->next);
+    list->tail    = &(link->next);
 }
 
 void
@@ -158,7 +158,7 @@ entry_list_add_if_missing(EntryListP list, EntryP entry)
 BoolT
 entry_list_contains(EntryListP list, EntryP entry)
 {
-    return(entry_list_find(list, entry)!= NIL(EntryListEntryP));
+    return(entry_list_find(list, entry) != NIL(EntryListEntryP));
 }
 
 BoolT
@@ -181,7 +181,7 @@ entry_list_intersection(EntryListP to, EntryListP list1, EntryListP list2)
 
     entry_list_init(to);
     for (ptr = list1->head; ptr; ptr = ptr->next) {
-	if (entry_list_find(list2, ptr->entry)!= NIL(EntryListEntryP)) {
+	if (entry_list_find(list2, ptr->entry) != NIL(EntryListEntryP)) {
 	    entry_list_add_if_missing(to, ptr->entry);
 	}
     }
@@ -192,13 +192,13 @@ entry_list_unlink_used(EntryListP to, EntryListP from)
 {
     EntryListEntryP ptr;
 
-    to->tail = & (to->head);
-    while ((ptr = *(to->tail))!= NIL(EntryListEntryP)) {
-	if (entry_list_find(from, ptr->entry)!= NIL(EntryListEntryP)) {
+    to->tail = &(to->head);
+    while ((ptr = *(to->tail)) != NIL(EntryListEntryP)) {
+	if (entry_list_find(from, ptr->entry) != NIL(EntryListEntryP)) {
 	    *(to->tail) = ptr->next;
 	    DEALLOCATE(ptr);
 	} else {
-	    to->tail = & (ptr->next);
+	    to->tail = &(ptr->next);
 	}
     }
 }

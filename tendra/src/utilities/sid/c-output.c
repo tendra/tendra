@@ -181,7 +181,7 @@ c_output_declaration_1(COutputInfoP info, RuleP rule)
     if (rule_is_required(rule)) {
 	write_cstring(ostream, "extern void ");
     } else if (rule_needs_function(rule)) {
-	if (c_out_info_get_split(info)!= 0) {
+	if (c_out_info_get_split(info) != 0) {
 	    write_cstring(ostream, "extern void ");
 	} else {
 	    write_cstring(ostream, "static void ");
@@ -305,15 +305,15 @@ c_output_static_vars(COutputInfoP info, GrammarP grammar, BoolT def)
 	c_output_mapped_key(info, predicate_type);
 	write_char(ostream, ' ');
 	c_output_key(info, entry_key(grammar_get_predicate_id(grammar)),
-		      c_out_info_in_prefix(info));
+		     c_out_info_in_prefix(info));
 	write_char(ostream, ';');
 	write_newline(ostream);
     }
     if (def) {
-	table_iter(table, c_output_static_vars_1,(GenericP)info);
+	table_iter(table, c_output_static_vars_1, (GenericP)info);
 	write_newline(ostream);
     } else {
-	table_iter(table, c_output_static_vars_2,(GenericP)info);
+	table_iter(table, c_output_static_vars_2, (GenericP)info);
     }
 }
 
@@ -414,7 +414,7 @@ c_output_bitvec_cases(COutputInfoP info, BitVecP bitvec, unsigned indent)
     unsigned count    = 0;
 
     do {
-	if (count ++ == 0) {
+	if (count++ == 0) {
 	    c_output_indent(info, indent + C_INDENT_STEP - C_INDENT_FOR_CASE);
 	} else {
 	    write_char(ostream, ' ');
@@ -534,8 +534,7 @@ c_output_basic_extract(COutputInfoP info, CCodeP code, ItemP item, KeyP key,
     c_output_open(info, indent);
     c_output_location(info, c_code_file(code), c_code_line(code));
     c_output_c_code_basic(info, code, item_result(item), state);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     c_output_close(info, indent);
     c_output_key_message (info, "/* END OF EXTRACT: ", key, " */", indent);
 }
@@ -565,8 +564,7 @@ c_output_basic_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
 	    c_output_restore(info, handler_rule, outer_level, code_indent);
 	}
 	c_output_default(info, indent);
-	c_output_jump(info, rule_get_handler_label(handler_rule),
-		       code_indent);
+	c_output_jump(info, rule_get_handler_label(handler_rule), code_indent);
 	c_output_close(info, indent);
     } else {
 	ASSERT(!need_check);
@@ -596,7 +594,7 @@ c_output_tail_call(COutputInfoP info, ItemP item, RuleP handler_rule,
     }
     c_output_restore_non_locals(info, rule, indent, rstack, non_local_stack);
     c_output_tail_decls(info, item_param(item), state, rule_param(rule),
-			 rule_rstack_state(rule), code_indent);
+			rule_rstack_state(rule), code_indent);
     c_output_key_jump(info, key, rule_get_start_label(rule), code_indent);
     if (need_check) {
 	c_output_close(info, indent);
@@ -625,13 +623,13 @@ c_output_rule_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
     rstack_save_state(rstack, &state);
     if ((item_is_inlinable(item)) &&
 	(tail_call || (!(rule_is_being_output(rule) ||
-			(rule_get_call_count(rule) > 1))))) {
+			 (rule_get_call_count(rule) > 1))))) {
 	c_output_key_message (info, "/* BEGINNING OF INLINE: ", key, " */",
 			      indent);
 	if (tail_call) {
 	    c_output_tail_call(info, item, handler_rule, need_check,
-				outer_level, error_terminal, rstack,
-				non_local_stack, &state, indent);
+			       outer_level, error_terminal, rstack,
+			       non_local_stack, &state, indent);
 	    *reachable_ref = FALSE;
 	} else {
 	    unsigned code_indent = (indent + C_INDENT_STEP);
@@ -640,8 +638,8 @@ c_output_rule_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
 	    c_output_open(info, indent);
 	    rstack_push_frame(rstack);
 	    copies = c_output_required_copies(info, rule_param(rule),
-					       item_param(item), rstack,
-					       &state, code_indent, table);
+					      item_param(item), rstack,
+					      &state, code_indent, table);
 	    if (copies) {
 		c_output_open(info, code_indent);
 		code_indent += C_INDENT_STEP;
@@ -649,15 +647,15 @@ c_output_rule_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
 	    rstack_save_state(rstack, &state);
 	    rstack_push_frame(rstack);
 	    rstack_compute_formal_inlining(rstack, rule_param(rule),
-					    item_param(item));
+					   item_param(item));
 	    rstack_compute_formal_inlining(rstack, rule_result(rule),
-					    item_result(item));
+					   item_result(item));
 	    rstack_save_state(rstack, rule_rstack_state(rule));
 	    if (!c_output_rule(info, rule, handler_rule,
-				item_is_tail_call(item)? call_list :
-				rule_call_list(rule), need_check,
-				predicate_id, error_terminal, code_indent,
-				rstack, non_local_stack, table)) {
+			       item_is_tail_call(item)? call_list :
+			       rule_call_list(rule), need_check,
+			       predicate_id, error_terminal, code_indent,
+			       rstack, non_local_stack, table)) {
 		*reachable_ref = FALSE;
 	    }
 	    rstack_pop_frame(rstack);
@@ -698,7 +696,7 @@ c_output_action_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
 
     if (need_check) {
 	c_output_check(info, handler_rule, outer_level, error_terminal,
-			indent);
+		       indent);
     }
     c_output_key_message (info, "/* BEGINNING OF ACTION: ", key, " */",
 			  indent);
@@ -706,17 +704,16 @@ c_output_action_in_alt(COutputInfoP info, ItemP item, RuleP handler_rule,
     rstack_save_state(rstack, &state);
     rstack_push_frame(rstack);
     copies = c_output_required_copies(info, c_code_param(code),
-				       item_param(item), rstack, &state,
-				       indent + C_INDENT_STEP, table);
+				      item_param(item), rstack, &state,
+				      indent + C_INDENT_STEP, table);
     if (copies) {
 	c_output_open(info, indent + C_INDENT_STEP);
     }
     rstack_save_state(rstack, &state);
     c_output_location(info, c_code_file(code), c_code_line(code));
     c_output_c_code_action(info, code, item_param(item),
-			    item_result(item), &state, handler_rule);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+			   item_result(item), &state, handler_rule);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     rstack_pop_frame(rstack);
     if (copies) {
 	c_output_close(info, indent + C_INDENT_STEP);
@@ -736,7 +733,7 @@ c_output_predicate_in_alt(COutputInfoP info, RuleP rule, ItemP item,
     OStreamP ostream = c_out_info_ostream(info);
 
     c_output_action_in_alt(info, item, handler_rule, need_check, outer_level,
-			    error_terminal, rstack, indent, table);
+			   error_terminal, rstack, indent, table);
     c_output_indent(info, indent);
     write_cstring(ostream, "if (!");
     c_output_key(info, entry_key(predicate_id), c_out_info_in_prefix(info));
@@ -749,7 +746,7 @@ c_output_predicate_in_alt(COutputInfoP info, RuleP rule, ItemP item,
 	rule_set_next_label(rule, label);
     } else {
 	c_output_jump(info, rule_get_handler_label(handler_rule),
-		       indent + C_INDENT_STEP);
+		      indent + C_INDENT_STEP);
     }
 }
 
@@ -769,50 +766,50 @@ c_output_alt(COutputInfoP info, AltP alt, RuleP rule, RuleP handler_rule,
 
     rstack_push_frame(rstack);
     rstack_compute_local_renaming(rstack, alt_names(alt), rule_result(rule),
-				   table);
+				  table);
     rstack_save_state(rstack, &state);
     c_output_open(info, indent);
     c_output_alt_names(info, alt_names(alt), rule_result(rule), &state,
-			code_indent);
+		       code_indent);
     for (item = initial; item; item = item_next(item)) {
 	switch (item_type(item))EXHAUSTIVE {
 	  case ET_BASIC:
 	    c_output_basic_in_alt(info, item, handler_rule, need_switch,
-				   need_check, outer_level, error_terminal,
-				   &state, code_indent);
+				  need_check, outer_level, error_terminal,
+				  &state, code_indent);
 	    need_switch = TRUE;
 	    need_check  = FALSE;
 	    break;
 	  case ET_RULE:
 	    need_check  = c_output_rule_in_alt(info, item, handler_rule,
-						call_list, need_check,
-						outer_level, predicate_id,
-						error_terminal, code_indent,
-						rstack, non_local_stack, table,
-						&reachable);
+					       call_list, need_check,
+					       outer_level, predicate_id,
+					       error_terminal, code_indent,
+					       rstack, non_local_stack, table,
+					       &reachable);
 	    need_switch = TRUE;
 	    break;
 	  case ET_PREDICATE:
 	    c_output_predicate_in_alt(info, rule, item, initial, handler_rule,
-				       needed_switch, need_check, outer_level,
-				       predicate_id, error_terminal, rstack,
-				       code_indent, table);
+				      needed_switch, need_check, outer_level,
+				      predicate_id, error_terminal, rstack,
+				      code_indent, table);
 	    need_switch = TRUE;
 	    need_check  = FALSE;
 	    break;
 	  case ET_ACTION:
 	    c_output_action_in_alt(info, item, handler_rule, need_check,
-				    outer_level, error_terminal, rstack,
-				    code_indent, table);
+				   outer_level, error_terminal, rstack,
+				   code_indent, table);
 	    need_check = FALSE;
 	    break;
 	  case ET_RENAME:
 	    if (need_check) {
 		c_output_check(info, handler_rule, outer_level,
-				error_terminal, code_indent);
+			       error_terminal, code_indent);
 	    }
 	    c_output_rename(info, item_param(item), item_result(item),
-			     &state, code_indent);
+			    &state, code_indent);
 	    need_check = FALSE;
 	    break;
 	  case ET_NON_LOCAL:
@@ -825,7 +822,7 @@ c_output_alt(COutputInfoP info, AltP alt, RuleP rule, RuleP handler_rule,
     if (reachable) {
 	if (need_check) {
 	    c_output_check(info, handler_rule, outer_level, error_terminal,
-			    code_indent);
+			   code_indent);
 	}
 	if (item_is_predicate(initial) && (!needed_switch)) {
 	    c_output_jump(info, rule_get_end_label(rule), code_indent);
@@ -865,7 +862,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
     rule_set_end_label(rule, c_out_next_label());
     if (need_check && (predicates || has_non_locals || one_alt)) {
 	c_output_check(info, handler_rule, outer_level, error_terminal,
-			indent);
+		       indent);
 	need_check = FALSE;
     }
     if (outer_level) {
@@ -886,21 +883,21 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	rstack_push_frame(rstack);
 	rstack_push_frame(non_local_stack);
 	c_output_save_non_locals(info, rule, code_indent, rstack,
-				  non_local_stack, handler_rule, table);
+				 non_local_stack, handler_rule, table);
     }
     if (one_alt) {
 	if (!rule_has_empty_alt(rule)) {
 	    AltP alt = rule_alt_head(rule);
 
 	    reachable = c_output_alt(info, alt, rule, handler_rule, call_list,
-				      TRUE, need_check, outer_level,
-				      predicate_id, error_terminal,
-				      code_indent, rstack, non_local_stack,
-				      table);
+				     TRUE, need_check, outer_level,
+				     predicate_id, error_terminal,
+				     code_indent, rstack, non_local_stack,
+				     table);
 	} else {
 	    if (need_check) {
-		c_output_check(info, handler_rule, outer_level,
-				error_terminal, code_indent);
+		c_output_check(info, handler_rule, outer_level, error_terminal,
+			       code_indent);
 	    }
 	    reachable  = TRUE;
 	}
@@ -916,12 +913,12 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 
 		if (item_is_predicate(item)) {
 		   (void)c_output_alt(info, alt, rule, handler_rule,
-					 call_list, FALSE, FALSE, FALSE,
-					 predicate_id, error_terminal,
-					 code_indent, rstack, non_local_stack,
-					 table);
+				      call_list, FALSE, FALSE, FALSE,
+				      predicate_id, error_terminal,
+				      code_indent, rstack, non_local_stack,
+				      table);
 		    c_output_label(info, rule_get_next_label(rule),
-				    code_indent);
+				   code_indent);
 		} else {
 		    non_predicate_alts = TRUE;
 		}
@@ -939,13 +936,13 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 			c_output_default(info, code_indent);
 		    } else {
 			c_output_bitvec_cases(info, alt_first_set(alt),
-					       code_indent);
+					      code_indent);
 		    }
 		    if (c_output_alt(info, alt, rule, handler_rule, call_list,
-				      FALSE, FALSE, FALSE, predicate_id,
-				      error_terminal,
-				      code_indent + C_INDENT_STEP,
-				      rstack, non_local_stack, table)) {
+				     FALSE, FALSE, FALSE, predicate_id,
+				     error_terminal,
+				     code_indent + C_INDENT_STEP, rstack,
+				     non_local_stack, table)) {
 			c_output_break(info, code_indent + C_INDENT_STEP);
 			reachable = TRUE;
 		    }
@@ -954,13 +951,13 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	    if (need_check) {
 		c_output_case(info, error_terminal, code_indent);
 		c_output_restore(info, handler_rule, outer_level,
-				  code_indent + C_INDENT_STEP);
+				 code_indent + C_INDENT_STEP);
 	    }
 	    if ((see_through_alt == NIL(AltP)) && (!full_first_set)) {
 		c_output_default(info, code_indent);
 		if (!rule_has_empty_alt(rule)) {
 		    c_output_jump(info, rule_get_handler_label(handler_rule),
-				   code_indent + C_INDENT_STEP);
+				  code_indent + C_INDENT_STEP);
 		} else {
 		    c_output_break(info, code_indent + C_INDENT_STEP);
 		    reachable = TRUE;
@@ -971,7 +968,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	    ASSERT(!need_check);
 	    if (!rule_has_empty_alt(rule)) {
 		c_output_jump(info, rule_get_handler_label(handler_rule),
-			       code_indent);
+			      code_indent);
 	    }
 	}
     }
@@ -998,9 +995,9 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 		cleanup_handler_rule = rule;
 	    }
 	    if (!c_output_alt(info, handler, rule, cleanup_handler_rule,
-			       call_list, TRUE, FALSE, FALSE, predicate_id,
-			       error_terminal, code_indent, rstack,
-			       non_local_stack, table)) {
+			      call_list, TRUE, FALSE, FALSE, predicate_id,
+			      error_terminal, code_indent, rstack,
+			      non_local_stack, table)) {
 		reachable = FALSE;
 	    }
 	}
@@ -1014,7 +1011,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 	    c_output_label(info, rule_get_handler_label(rule), code_indent);
 	    if (has_non_locals) {
 		c_output_restore_non_locals(info, rule, code_indent, rstack,
-					     non_local_stack);
+					    non_local_stack);
 	    }
 	    if (outer_level) {
 		OStreamP ostream = c_out_info_ostream(info);
@@ -1027,7 +1024,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
 		c_output_return(info, code_indent);
 	    } else {
 		c_output_jump(info, rule_get_handler_label(old_handler_rule),
-			       code_indent);
+			      code_indent);
 	    }
 	    reachable = FALSE;
 	}
@@ -1039,7 +1036,7 @@ c_output_rule(COutputInfoP info, RuleP rule, RuleP handler_rule,
     if (reachable) {
 	if (has_non_locals) {
 	    c_output_restore_non_locals(info, rule, code_indent, rstack,
-					 non_local_stack);
+					non_local_stack);
 	}
 	if (outer_level) {
 	    c_output_result_assign(info, rule_result(rule), code_indent);
@@ -1083,15 +1080,15 @@ c_output_definition_1(COutputInfoP info, RuleP rule, EntryP predicate_id,
     c_out_reset_labels();
     rstack_init(&rstack);
     rstack_push_frame(&rstack);
-    rstack_add_translation(&rstack, predicate_id, predicate_id,
-			    predicate_type, FALSE);
+    rstack_add_translation(&rstack, predicate_id, predicate_id, predicate_type,
+			   FALSE);
     rstack_compute_formal_renaming(&rstack, rule_param(rule));
     rstack_compute_formal_renaming(&rstack, rule_result(rule));
     rstack_save_state(&rstack, rule_rstack_state(rule));
     rstack_init(&non_local_stack);
    (void)c_output_rule(info, rule, rule, rule_call_list(rule), TRUE,
-			  predicate_id, error_terminal, C_INDENT_STEP,
-			  &rstack, &non_local_stack, table);
+		       predicate_id, error_terminal, C_INDENT_STEP, &rstack,
+		       &non_local_stack, table);
     write_char(ostream, '}');
     write_newline(ostream);
     write_newline(ostream);
@@ -1115,10 +1112,10 @@ c_output_definition_1(COutputInfoP info, RuleP rule, EntryP predicate_id,
 	    write_cstring(ostream, "#define __SID_SPLIT");
 	    write_newline(ostream);
 	    c_output_location(info, c_code_file(header),
-			       c_code_line(header));
+			      c_code_line(header));
 	    c_output_c_code(info, header);
 	    c_output_location(info, ostream_name(ostream),
-			       ostream_line(ostream) + 1);
+			      ostream_line(ostream) + 1);
 	    write_newline(ostream);
 	}
     }
@@ -1137,7 +1134,7 @@ c_output_definition(EntryP entry, GenericP gclosure)
 	unsigned     error_terminal = closure->error_terminal;
 
 	c_output_definition_1(info, rule, predicate_id, predicate_type,
-			       error_terminal, table);
+			      error_terminal, table);
     }
 }
 
@@ -1161,34 +1158,32 @@ c_output_parser(COutputInfoP info, GrammarP grammar)
     write_cstring (ostream, "/* BEGINNING OF HEADER */");
     write_newline(ostream);
     write_newline(ostream);
-    if (c_out_info_get_split(info)!= 0) {
+    if (c_out_info_get_split(info) != 0) {
 	write_cstring(ostream, "#define __SID_SPLIT");
 	write_newline(ostream);
     }
     c_output_location(info, c_code_file(header), c_code_line(header));
     c_output_c_code(info, header);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
     if (c_out_info_get_split(info) == 0) {
 	write_cstring (ostream, "/* BEGINNING OF FUNCTION DECLARATIONS */");
 	write_newline(ostream);
 	write_newline(ostream);
-	table_iter(table, c_output_declaration,(GenericP)info);
+	table_iter(table, c_output_declaration, (GenericP)info);
 	write_newline(ostream);
     }
     c_output_static_vars(info, grammar, TRUE);
     write_cstring (ostream, "/* BEGINNING OF FUNCTION DEFINITIONS */");
     write_newline(ostream);
     write_newline(ostream);
-    table_iter(table, c_output_definition,(GenericP) &closure);
+    table_iter(table, c_output_definition, (GenericP) &closure);
     write_cstring (ostream, "/* BEGINNING OF TRAILER */");
     write_newline(ostream);
     write_newline(ostream);
     c_output_location(info, c_code_file(trailer), c_code_line(trailer));
     c_output_c_code(info, trailer);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
     write_cstring (ostream, "/* END OF FILE */");
     write_newline(ostream);
@@ -1208,38 +1203,36 @@ c_output_header(COutputInfoP info, GrammarP grammar)
     write_newline(ostream);
     c_output_location(info, c_code_file(header), c_code_line(header));
     c_output_c_code(info, header);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
     write_cstring (ostream, "/* BEGINNING OF FUNCTION DECLARATIONS */");
     write_newline(ostream);
     write_newline(ostream);
-    if (c_out_info_get_split(info)!= 0) {
+    if (c_out_info_get_split(info) != 0) {
 	write_cstring(ostream, "#ifndef __SID_SPLIT");
 	write_newline(ostream);
-	table_iter(table, c_output_ext_declaration,(GenericP)info);
+	table_iter(table, c_output_ext_declaration, (GenericP)info);
 	write_cstring (ostream, "#else /* __SID_SPLIT */");
 	write_newline(ostream);
-	table_iter(table, c_output_declaration,(GenericP)info);
+	table_iter(table, c_output_declaration, (GenericP)info);
 	c_output_static_vars(info, grammar, FALSE);
 	write_cstring (ostream, "#endif /* __SID_SPLIT */");
 	write_newline(ostream);
     } else {
-	table_iter(table, c_output_ext_declaration,(GenericP)info);
+	table_iter(table, c_output_ext_declaration, (GenericP)info);
     }
     write_newline(ostream);
     write_cstring (ostream, "/* BEGINNING OF TERMINAL DEFINITIONS */");
     write_newline(ostream);
     write_newline(ostream);
-    table_iter(table, c_output_terminal,(GenericP)info);
+    table_iter(table, c_output_terminal, (GenericP)info);
     write_newline(ostream);
     write_cstring (ostream, "/* BEGINNING OF TRAILER */");
     write_newline(ostream);
     write_newline(ostream);
     c_output_location(info, c_code_file(trailer), c_code_line(trailer));
     c_output_c_code(info, trailer);
-    c_output_location(info, ostream_name(ostream),
-		       ostream_line(ostream) + 1);
+    c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
     write_cstring (ostream, "/* END OF FILE */");
     write_newline(ostream);
@@ -1278,7 +1271,7 @@ c_output_key_message(COutputInfoP info, CStringP prefix, KeyP key,
 unsigned
 c_out_next_label(void)
 {
-    return(out_current_label ++);
+    return(out_current_label++);
 }
 
 void

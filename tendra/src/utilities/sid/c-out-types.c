@@ -109,20 +109,19 @@ c_output_param_assign(COutputInfoP info, TypeTupleP inputs)
 	CCodeP code;
 
 	if ((!(ptr->reference)) &&
-	   ((code = type_get_param_assign_code(type))!= NIL(CCodeP))) {
+	    ((code = type_get_param_assign_code(type)) != NIL(CCodeP))) {
 	    KeyP key = entry_key(ptr->type);
 
-	    c_output_key_message (info, "/* BEGINNING OF PARAM ASSIGNMENT: ",
-				  key, " */", C_INDENT_STEP);
+	    c_output_key_message(info, "/* BEGINNING OF PARAM ASSIGNMENT: ",
+				 key, " */", C_INDENT_STEP);
 	    c_output_open(info, C_INDENT_STEP);
-	    c_output_location(info, c_code_file(code),
-			       c_code_line(code));
+	    c_output_location(info, c_code_file(code), c_code_line(code));
 	    c_output_c_code_param_assign(info, code, ptr->type, ptr->name);
 	    c_output_location(info, ostream_name(ostream),
-			       ostream_line(ostream) + 1);
+			      ostream_line(ostream) + 1);
 	    c_output_close(info, C_INDENT_STEP);
-	    c_output_key_message (info, "/* END OF PARAM ASSIGNMENT: ",
-				  key, " */", C_INDENT_STEP);
+	    c_output_key_message(info, "/* END OF PARAM ASSIGNMENT: ",
+				 key, " */", C_INDENT_STEP);
 	}
     }
 }
@@ -141,7 +140,7 @@ c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
     for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	write_cstring(ostream, sep);
 	if ((!(ptr->reference)) &&
-	   (type_get_assign_code(entry_get_type(ptr->type))!=
+	    (type_get_assign_code(entry_get_type(ptr->type)) !=
 	     NIL(GenericP))) {
 	    c_output_key(info, entry_key(ptr->name), out_prefix);
 	} else {
@@ -176,7 +175,7 @@ c_output_non_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
 	if (ptr->reference) {
 	    write_char(ostream, '*');
 	    c_output_key(info, entry_key(ptr->name), in_prefix);
-	} else if (type_get_assign_code(entry_get_type(ptr->type))!=
+	} else if (type_get_assign_code(entry_get_type(ptr->type)) !=
 		   NIL(GenericP)) {
 	    write_char(ostream, '*');
 	    c_output_key(info, entry_key(ptr->name), out_prefix);
@@ -200,7 +199,7 @@ c_output_non_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
     if (specials) {
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	    if ((!(ptr->reference)) &&
-		(type_get_assign_code(entry_get_type(ptr->type))!=
+		(type_get_assign_code(entry_get_type(ptr->type)) !=
 		 NIL(GenericP))) {
 		output_indent(c_out_info_info(info), C_INDENT_STEP);
 		c_output_mapped_key(info, ptr->type);
@@ -265,7 +264,7 @@ c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
 	    if (ptr->reference) {
 		write_char(ostream, '*');
 		c_output_key(info, entry_key(ptr->name), in_prefix);
-	    } else if (type_get_assign_code(entry_get_type(ptr->type))!=
+	    } else if (type_get_assign_code(entry_get_type(ptr->type)) !=
 		       NIL(GenericP)) {
 		write_char(ostream, '*');
 		c_output_key(info, entry_key(ptr->name), out_prefix);
@@ -290,7 +289,7 @@ c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
     if (specials) {
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	    if ((!(ptr->reference)) &&
-		(type_get_assign_code(entry_get_type(ptr->type))!=
+		(type_get_assign_code(entry_get_type(ptr->type)) !=
 		 NIL(GenericP))) {
 		output_indent(c_out_info_info(info), C_INDENT_STEP);
 		c_output_mapped_key(info, ptr->type);
@@ -326,7 +325,7 @@ types_get_entry(EntryP entry, SaveRStackP state, EntryP *type_ref,
     EntryP trans_entry;
 
     trans_entry = rstack_get_translation(state, entry, type_ref,
-					  reference_ref);
+					 reference_ref);
     if ((trans_entry == NIL(EntryP)) && (entry_is_non_local(entry))) {
 	trans_entry    = entry;
 	*type_ref      = entry_get_non_local(entry);
@@ -357,16 +356,16 @@ c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
     BoolT    in_reference;
     BoolT    out_reference;
     EntryP   in_name  = types_get_entry(in_entry, in_state, &in_type,
-					 &in_reference);
+					&in_reference);
     EntryP   out_name = types_get_entry(out_entry, out_state, &out_type,
-					 &out_reference);
+					&out_reference);
 
     ASSERT(in_type == out_type);
     if (in_name != out_name) {
 	TypeP  type = entry_get_type(in_type);
 	CCodeP code;
 
-	if ((code = type_get_assign_code(type))!= NIL(CCodeP)) {
+	if ((code = type_get_assign_code(type)) != NIL(CCodeP)) {
 	    KeyP key = entry_key(in_type);
 
 	    c_output_key_message (info, "/* BEGINNING OF ASSIGNMENT: ", key,
@@ -374,9 +373,9 @@ c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
 	    c_output_open(info, indent);
 	    c_output_location(info, c_code_file(code), c_code_line(code));
 	    c_output_c_code_assign(info, code, in_type, in_name, out_name,
-				    in_reference, out_reference);
+				   in_reference, out_reference);
 	    c_output_location(info, ostream_name(ostream),
-			       ostream_line(ostream) + 1);
+			      ostream_line(ostream) + 1);
 	    c_output_close(info, indent);
 	    c_output_key_message (info, "/* END OF ASSIGNMENT: ", key, " */",
 				  indent);
@@ -419,7 +418,7 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 	    write_cstring(ostream, sep);
 	    c_output_mapped_key(info, ptr->type);
 	    if ((ptr->reference) ||
-		(type_get_assign_code(entry_get_type(ptr->type))!=
+		(type_get_assign_code(entry_get_type(ptr->type)) !=
 		 NIL(GenericP))) {
 		write_cstring(ostream, " *");
 	    }
@@ -466,7 +465,7 @@ c_output_result_assign(COutputInfoP info, TypeTupleP outputs, unsigned indent)
 	TypeP  type = entry_get_type(ptr->type);
 	CCodeP code;
 
-	if ((code = type_get_result_assign_code(type))!= NIL(CCodeP)) {
+	if ((code = type_get_result_assign_code(type)) != NIL(CCodeP)) {
 	    KeyP key = entry_key(ptr->type);
 
 	    c_output_key_message (info, "/* BEGINNING OF RESULT ASSIGNMENT: ",
@@ -475,7 +474,7 @@ c_output_result_assign(COutputInfoP info, TypeTupleP outputs, unsigned indent)
 	    c_output_location(info, c_code_file(code), c_code_line(code));
 	    c_output_c_code_result_assign(info, code, ptr->type, ptr->name);
 	    c_output_location(info, ostream_name(ostream),
-			       ostream_line(ostream) + 1);
+			      ostream_line(ostream) + 1);
 	    c_output_close(info, indent);
 	    c_output_key_message (info, "/* END OF RESULT ASSIGNMENT: ", key,
 				  " */", indent);
@@ -509,7 +508,7 @@ c_output_alt_names(COutputInfoP info, TypeTupleP names, TypeTupleP exclude,
 	    c_output_mapped_key(info, ptr->type);
 	    write_char(ostream, ' ');
 	    c_output_key(info, types_get_key(ptr->name, state, &type,
-					       &reference), in_prefix);
+					     &reference), in_prefix);
 	    ASSERT((type == ptr->type) && (!reference));
 	    write_char(ostream, ';');
 	    write_newline(ostream);
@@ -540,7 +539,7 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 
 	write_cstring(ostream, sep);
 	if ((ptr->reference && (!reference)) ||
-	   ((!ptr->reference) && (!reference) && (code != NIL(CCodeP)))) {
+	    ((!ptr->reference) && (!reference) && (code != NIL(CCodeP)))) {
 	    write_char(ostream, '&');
 	} else if ((!ptr->reference) && reference && (code == NIL(CCodeP))) {
 	    write_char(ostream, '*');
@@ -555,7 +554,7 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 	write_cstring(ostream, sep);
 	write_char(ostream, '&');
 	c_output_key(info, types_get_key(ptr->name, state, &type_entry,
-					   &reference), in_prefix);
+					 &reference), in_prefix);
 	ASSERT((type_entry == ptr->type) && (!reference));
 	sep = ", ";
     }
@@ -571,7 +570,7 @@ c_output_rename(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs,
     while (in_ptr) {
 	ASSERT(out_ptr);
 	c_output_assign(info, in_ptr->name, out_ptr->name, state, state,
-			 indent);
+			indent);
 	in_ptr  = in_ptr->next;
 	out_ptr = out_ptr->next;
     }
@@ -588,7 +587,7 @@ c_output_tail_decls(COutputInfoP info, TypeTupleP inputs, SaveRStackP in_state,
     while (in_ptr) {
 	ASSERT(out_ptr);
 	c_output_assign(info, in_ptr->name, out_ptr->name, in_state,
-			 out_state, indent);
+			out_state, indent);
 	in_ptr  = in_ptr->next;
 	out_ptr = out_ptr->next;
     }
@@ -621,7 +620,7 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
 	    write_newline(ostream);
 	    copies = TRUE;
 	    rstack_add_translation(rstack, aptr->name, entry, aptr->type,
-				    FALSE);
+				   FALSE);
 	    rstack_add_translation(rstack, entry, entry, aptr->type, FALSE);
 	}
 	ptr  = ptr->next;
@@ -637,11 +636,11 @@ c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
 		EntryP type;
 		BoolT  reference;
 		EntryP entry = rstack_get_translation(&state, aptr->name,
-						       &type, &reference);
+						      &type, &reference);
 
 		ASSERT(entry);
 		c_output_assign(info, aptr->name, entry, astate, &state,
-				 indent);
+				indent);
 	    }
 	}
 	ASSERT(aptr == NIL(TypeTupleEntryP));

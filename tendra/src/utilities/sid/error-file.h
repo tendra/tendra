@@ -78,7 +78,7 @@
  *
  *
  ** Function:	void			error_file_parse
- *			PROTO_S ((CStringP name, BoolT must_open))
+ *			(CStringP name, BoolT must_open)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function parses the error file with the specified name.  If must_open

@@ -162,7 +162,7 @@ c_lexer_skip_white_space(IStreamP istream)
 		if (!c_lexer_skip_bracketed_comment(istream)) {
 		  eof_in_comment:
 		    E_c_eof_in_comment(istream);
-		    return ('\0'); /*FOR EOF*/
+		    return('\0'); /*FOR EOF*/
 		}
 		break;
 	      case '/':
@@ -185,7 +185,7 @@ c_lexer_skip_white_space(IStreamP istream)
 	}
     }
   eof:
-    return ('\0'); /*FOR EOF*/
+    return('\0'); /*FOR EOF*/
 }
 
 static void
@@ -289,7 +289,7 @@ c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
     } else {
 	token->t = C_TOK_SID_IDENTIFIER;
     }
-    dstring_to_nstring(&dstring, & (token->u.string));
+    dstring_to_nstring(&dstring, &(token->u.string));
     dstring_destroy(&dstring);
 }
 
@@ -594,7 +594,7 @@ c_lexer_string_value(CLexerStreamP stream)
 {
     ASSERT((stream->token.t == C_TOK_C_IDENTIFIER) ||
 	   (stream->token.t == C_TOK_SID_IDENTIFIER));
-    return(& (stream->token.u.string));
+    return(&(stream->token.u.string));
 }
 #ifdef FS_FAST
 #define c_lexer_string_value(s)	(&((s)->token.u.string))

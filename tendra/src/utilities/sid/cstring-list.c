@@ -94,7 +94,7 @@ void
 cstring_list_init(CStringListP list)
 {
     list->head = NIL(CStringListEntryP);
-    list->tail = & (list->head);
+    list->tail = &(list->head);
 }
 
 void
@@ -105,7 +105,7 @@ cstring_list_append(CStringListP list, CStringP string)
     entry->next   = NIL(CStringListEntryP);
     entry->string = string;
     *(list->tail) = entry;
-    list->tail    = & (entry->next);
+    list->tail    = &(entry->next);
 }
 
 CStringListEntryP

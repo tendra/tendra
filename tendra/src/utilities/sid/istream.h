@@ -316,10 +316,10 @@ extern void			X__istream_fill_buffer(IStreamP);
 /*--------------------------------------------------------------------------*/
 
 #define ISTREAM_READ_CHAR(istream)\
-(((istream) ->read_last = TRUE), (*((istream) ->current) ++))
+(((istream)->read_last = TRUE), (*((istream)->current)++))
 
 #define ISTREAM_PEEK_CHAR(istream)\
-(((istream) ->read_last = FALSE), (*((istream) ->current)))
+(((istream)->read_last = FALSE), (*((istream)->current)))
 
 #define ISTREAM_HANDLE_NULL(istream,redo,eof)\
 { \
@@ -330,7 +330,7 @@ extern void			X__istream_fill_buffer(IStreamP);
 		X__istream_fill_buffer(X___is); \
 		goto redo; \
 	    } else { \
-		X___is->current --; \
+		X___is->current--; \
 		goto eof; \
 	    } \
 	} \
@@ -349,11 +349,11 @@ extern void			X__istream_fill_buffer(IStreamP);
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define istream_init(is)	((is) ->name = NIL(CStringP))
-#define istream_is_open(is)	((is) ->name != NIL(CStringP))
-#define istream_inc_line(is)	((is) ->line ++)
-#define istream_line(is)	((is) ->line)
-#define istream_name(is)	((is) ->name)
+#define istream_init(is)	((is)->name = NIL(CStringP))
+#define istream_is_open(is)	((is)->name != NIL(CStringP))
+#define istream_inc_line(is)	((is)->line++)
+#define istream_line(is)	((is)->line)
+#define istream_name(is)	((is)->name)
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_ISTREAM) */

@@ -117,7 +117,7 @@ write_c_key(OStreamP ostream, CStringP contents, unsigned length)
 		write_char(ostream, c);
 	    } else {
 		write_cstring(ostream, "_X");
-		write_unsigned(ostream,(unsigned)(unsigned char)c);
+		write_unsigned(ostream, (unsigned)(unsigned char)c);
 		write_char(ostream, '_');
 	    }
 	    break;
@@ -165,7 +165,7 @@ c_output_mapped_key(COutputInfoP info, EntryP entry)
 	    NStringP nstring = key_get_string(key);
 
 	    write_c_key(ostream, nstring_contents(nstring),
-			 nstring_length(nstring));
+			nstring_length(nstring));
 	} else {
 	    write_unsigned(ostream, key_get_number(key));
 	}
@@ -183,7 +183,7 @@ c_output_key(COutputInfoP info, KeyP key, NStringP prefix)
 	NStringP nstring = key_get_string(key);
 
 	write_c_key(ostream, nstring_contents(nstring),
-		     nstring_length(nstring));
+		    nstring_length(nstring));
     } else {
 	write_unsigned(ostream, key_get_number(key));
     }
@@ -203,7 +203,7 @@ c_output_label_key(COutputInfoP info, KeyP key, unsigned label)
 	NStringP nstring = key_get_string(key);
 
 	write_c_key(ostream, nstring_contents(nstring),
-		     nstring_length(nstring));
+		    nstring_length(nstring));
     } else {
 	write_unsigned(ostream, key_get_number(key));
     }

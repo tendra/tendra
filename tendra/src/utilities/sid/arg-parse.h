@@ -332,7 +332,7 @@ extern void		write_arg_usage(OStreamP, ArgUsageP);
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL(CStringP), '\0',(ArgTypeT)0, NIL(ArgProcP), NIL(GenericP), \
+{NIL(CStringP), '\0', (ArgTypeT)0, NIL(ArgProcP), NIL(GenericP), \
  UB NIL(CStringP)UE}
 
 #endif /* !defined (H_ARG_PARSE) */

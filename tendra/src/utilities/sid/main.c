@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -140,7 +173,7 @@
 /*--------------------------------------------------------------------------*/
 
 #define USAGE "\
-\tusage: [option ...] in-file ... out-file ...\n\
+\tusage:[option ...]in-file ... out-file ...\n\
 \twhere option is one of:"
 #ifndef VERSION
 #define VERSION "sid: version 1.9#13 (ansi-c, pre-ansi-c, ossg-c, test)"
@@ -156,204 +189,182 @@
 
 typedef struct PhaseListT {
     CStringP			phase;
-    void		      (*proc) PROTO_S ((BoolT));
+    void		     (*proc)(BoolT);
 } PhaseListT, *PhaseListP;
 
 typedef struct LangListT {
     CStringP			language;
-    GenericP		      (*init_proc) PROTO_S ((OutputInfoP,
-						     CStringListP));
-    void		      (*input_proc) PROTO_S ((GenericP, GrammarP));
+    GenericP		     (*init_proc)(OutputInfoP, CStringListP);
+    void		     (*input_proc)(GenericP, GrammarP);
     unsigned			num_input_files;
-    void		      (*output_proc) PROTO_S ((GenericP, GrammarP));
+    void		     (*output_proc)(GenericP, GrammarP);
     unsigned			num_output_files;
 } LangListT, *LangListP;
 
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_phase_all PROTO_N ((enable))
-		      PROTO_T (BoolT enable)
+main_handle_phase_all(BoolT enable)
 {
-    rule_set_inline_singles (enable);
-    rule_set_inline_tail_calls (enable);
-    rule_set_inline_all_basics (enable);
-    rule_set_inline_non_tail_calls (enable);
-    rule_set_multiple_inlining (enable);
+    rule_set_inline_singles(enable);
+    rule_set_inline_tail_calls(enable);
+    rule_set_inline_all_basics(enable);
+    rule_set_inline_non_tail_calls(enable);
+    rule_set_multiple_inlining(enable);
 }
 
 /*--------------------------------------------------------------------------*/
 
 static GenericP
-main_init_c PROTO_N ((out_info, options, ansi, ossg))
-	    PROTO_T (OutputInfoP  out_info X
-		     CStringListP options X
-		     BoolT        ansi X
-		     BoolT        ossg )
+main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
 {
-    COutputInfoP      c_out_info = ALLOCATE (COutputInfoT);
+    COutputInfoP      c_out_info = ALLOCATE(COutputInfoT);
     CStringListEntryP entry;
 
-    c_out_info_init (c_out_info, out_info);
+    c_out_info_init(c_out_info, out_info);
     if (ansi) {
-	c_out_info_set_prototypes (c_out_info, TRUE);
+	c_out_info_set_prototypes(c_out_info, TRUE);
     }
     if (ossg) {
-	c_out_info_set_ossg (c_out_info, TRUE);
+	c_out_info_set_ossg(c_out_info, TRUE);
     }
-    for (entry = cstring_list_head (options); entry;
-	 entry = cstring_list_entry_deallocate (entry)) {
-	CStringP option = cstring_list_entry_string (entry);
+    for (entry = cstring_list_head(options); entry;
+	 entry = cstring_list_entry_deallocate(entry)) {
+	CStringP option = cstring_list_entry_string(entry);
 
-	if (cstring_equal (option, "prototypes") ||
-	    cstring_equal (option, "proto")) {
-	    c_out_info_set_prototypes (c_out_info, TRUE);
-	    c_out_info_set_ossg (c_out_info, FALSE);
-	} else if (cstring_equal (option, "no-prototypes") ||
-		   cstring_equal (option, "no-proto")) {
-	    c_out_info_set_prototypes (c_out_info, FALSE);
-	    c_out_info_set_ossg (c_out_info, FALSE);
-	} else if (cstring_equal (option, "ossg-prototypes") ||
-		   cstring_equal (option, "ossg-proto")) {
-	    c_out_info_set_prototypes (c_out_info, TRUE);
-	    c_out_info_set_ossg (c_out_info, TRUE);
-	} else if (cstring_equal (option, "split")) {
-	    c_out_info_set_split (c_out_info, (unsigned) 5000);
-	} else if (cstring_starts (option, "split=")) {
+	if (cstring_equal(option, "prototypes") ||
+	    cstring_equal(option, "proto")) {
+	    c_out_info_set_prototypes(c_out_info, TRUE);
+	    c_out_info_set_ossg(c_out_info, FALSE);
+	} else if (cstring_equal(option, "no-prototypes") ||
+		   cstring_equal(option, "no-proto")) {
+	    c_out_info_set_prototypes(c_out_info, FALSE);
+	    c_out_info_set_ossg(c_out_info, FALSE);
+	} else if (cstring_equal(option, "ossg-prototypes") ||
+		   cstring_equal(option, "ossg-proto")) {
+	    c_out_info_set_prototypes(c_out_info, TRUE);
+	    c_out_info_set_ossg(c_out_info, TRUE);
+	} else if (cstring_equal(option, "split")) {
+	    c_out_info_set_split(c_out_info, (unsigned)5000);
+	} else if (cstring_starts(option, "split=")) {
 	    unsigned limit;
-	    if (!cstring_to_unsigned (option + 6, &limit)) {
-		E_bad_split_size (option + 6);
+	    if (!cstring_to_unsigned(option + 6, &limit)) {
+		E_bad_split_size(option + 6);
 		UNREACHED;
 	    }
-	    c_out_info_set_split (c_out_info, limit);
-	} else if (cstring_equal (option, "no-split")) {
-	    c_out_info_set_split (c_out_info, (unsigned) 0);
-	} else if (cstring_equal (option, "numeric-ids") ||
-		   cstring_equal (option, "numeric")) {
-	    c_out_info_set_numeric_ids (c_out_info, TRUE);
-	} else if (cstring_equal (option, "no-numeric-ids") ||
-		   cstring_equal (option, "no-numeric")) {
-	    c_out_info_set_numeric_ids (c_out_info, FALSE);
-	} else if (cstring_equal (option, "casts") ||
-		   cstring_equal (option, "cast")) {
-	    c_out_info_set_casts (c_out_info, TRUE);
-	} else if (cstring_equal (option, "no-casts") ||
-		   cstring_equal (option, "no-cast")) {
-	    c_out_info_set_casts (c_out_info, FALSE);
-	} else if (cstring_equal (option, "unreachable-macros") ||
-		   cstring_equal (option, "unreachable-macro")) {
-	    c_out_info_set_unreachable (c_out_info, TRUE);
-	} else if (cstring_equal (option, "unreachable-comments") ||
-		   cstring_equal (option, "unreachable-comment")) {
-	    c_out_info_set_unreachable (c_out_info, FALSE);
-	} else if (cstring_equal (option, "lines") ||
-		   cstring_equal (option, "line")) {
-	    c_out_info_set_lines (c_out_info, TRUE);
-	} else if (cstring_equal (option, "no-lines") ||
-		   cstring_equal (option, "no-line")) {
-	    c_out_info_set_lines (c_out_info, FALSE);
+	    c_out_info_set_split(c_out_info, limit);
+	} else if (cstring_equal(option, "no-split")) {
+	    c_out_info_set_split(c_out_info, (unsigned)0);
+	} else if (cstring_equal(option, "numeric-ids") ||
+		   cstring_equal(option, "numeric")) {
+	    c_out_info_set_numeric_ids(c_out_info, TRUE);
+	} else if (cstring_equal(option, "no-numeric-ids") ||
+		   cstring_equal(option, "no-numeric")) {
+	    c_out_info_set_numeric_ids(c_out_info, FALSE);
+	} else if (cstring_equal(option, "casts") ||
+		   cstring_equal(option, "cast")) {
+	    c_out_info_set_casts(c_out_info, TRUE);
+	} else if (cstring_equal(option, "no-casts") ||
+		   cstring_equal(option, "no-cast")) {
+	    c_out_info_set_casts(c_out_info, FALSE);
+	} else if (cstring_equal(option, "unreachable-macros") ||
+		   cstring_equal(option, "unreachable-macro")) {
+	    c_out_info_set_unreachable(c_out_info, TRUE);
+	} else if (cstring_equal(option, "unreachable-comments") ||
+		   cstring_equal(option, "unreachable-comment")) {
+	    c_out_info_set_unreachable(c_out_info, FALSE);
+	} else if (cstring_equal(option, "lines") ||
+		   cstring_equal(option, "line")) {
+	    c_out_info_set_lines(c_out_info, TRUE);
+	} else if (cstring_equal(option, "no-lines") ||
+		   cstring_equal(option, "no-line")) {
+	    c_out_info_set_lines(c_out_info, FALSE);
 	} else {
-	    CStringP lang ;
-	    lang = (ossg ? "ossg-c" : (ansi ? "ansi-c" : "pre-ansi-c"));
-	    E_bad_language_option (lang, option);
+	    CStringP lang;
+	    lang = (ossg ? "ossg-c" :(ansi ? "ansi-c" : "pre-ansi-c"));
+	    E_bad_language_option(lang, option);
 	}
     }
-    return ((GenericP) c_out_info);
+    return((GenericP)c_out_info);
 }
 
 static GenericP
-main_init_ansi_c PROTO_N ((out_info, options))
-		 PROTO_T (OutputInfoP  out_info X
-			  CStringListP options)
+main_init_ansi_c(OutputInfoP out_info, CStringListP options)
 {
-    return (main_init_c (out_info, options, TRUE, FALSE));
+    return(main_init_c(out_info, options, TRUE, FALSE));
 }
 
 static GenericP
-main_init_pre_ansi_c PROTO_N ((out_info, options))
-		     PROTO_T (OutputInfoP  out_info X
-			      CStringListP options)
+main_init_pre_ansi_c(OutputInfoP out_info, CStringListP options)
 {
-    return (main_init_c (out_info, options, FALSE, FALSE));
+    return(main_init_c(out_info, options, FALSE, FALSE));
 }
 
 static GenericP
-main_init_ossg_c PROTO_N ((out_info, options))
-		 PROTO_T (OutputInfoP  out_info X
-			  CStringListP options)
+main_init_ossg_c(OutputInfoP out_info, CStringListP options)
 {
-    return (main_init_c (out_info, options, TRUE, TRUE));
+    return(main_init_c(out_info, options, TRUE, TRUE));
 }
 
 static void
-main_input_c PROTO_N ((gclosure, grammar))
-	     PROTO_T (GenericP gclosure X
-		      GrammarP grammar)
+main_input_c(GenericP gclosure, GrammarP grammar)
 {
-    COutputInfoP  c_out_info = (COutputInfoP) gclosure;
-    OutputInfoP   out_info   = c_out_info_info (c_out_info);
+    COutputInfoP  c_out_info = (COutputInfoP)gclosure;
+    OutputInfoP   out_info   = c_out_info_info(c_out_info);
     CLexerStreamT clstream;
 
-    c_lexer_init (&clstream, out_info_get_istream (out_info, (unsigned) 1));
+    c_lexer_init(&clstream, out_info_get_istream(out_info, (unsigned)1));
     c_current_stream   = &clstream;
     c_current_out_info = c_out_info;
-    c_current_table    = grammar_table (grammar);
-    c_parse_grammar ();
-    c_lexer_close (&clstream);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    c_current_table    = grammar_table(grammar);
+    c_parse_grammar();
+    c_lexer_close(&clstream);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
-    c_check_grammar (grammar);
+    c_check_grammar(grammar);
 }
 
 static void
-main_output_c PROTO_N ((gclosure, grammar))
-	      PROTO_T (GenericP gclosure X
-		       GrammarP grammar)
+main_output_c(GenericP gclosure, GrammarP grammar)
 {
-    COutputInfoP c_out_info = (COutputInfoP) gclosure;
+    COutputInfoP c_out_info = (COutputInfoP)gclosure;
 
-    grammar_compute_mutations (grammar);
-    out_info_set_current_ostream (c_out_info_info (c_out_info), (unsigned) 0);
-    c_output_parser (c_out_info, grammar);
-    out_info_set_current_ostream (c_out_info_info (c_out_info), (unsigned) 1);
-    c_output_header (c_out_info, grammar);
+    grammar_compute_mutations(grammar);
+    out_info_set_current_ostream(c_out_info_info(c_out_info), (unsigned)0);
+    c_output_parser(c_out_info, grammar);
+    out_info_set_current_ostream(c_out_info_info(c_out_info), (unsigned)1);
+    c_output_header(c_out_info, grammar);
 }
 
 static GenericP
-main_init_test PROTO_N ((info, options))
-	       PROTO_T (OutputInfoP  info X
-			CStringListP options)
+main_init_test(OutputInfoP info, CStringListP options)
 {
     CStringListEntryP entry;
 
-    UNUSED (info);
-    for (entry = cstring_list_head (options); entry;
-	 entry = cstring_list_entry_deallocate (entry)) {
-	CStringP option = cstring_list_entry_string (entry);
+    UNUSED(info);
+    for (entry = cstring_list_head(options); entry;
+	 entry = cstring_list_entry_deallocate(entry)) {
+	CStringP option = cstring_list_entry_string(entry);
 
-	E_bad_language_option ("test", option);
+	E_bad_language_option("test", option);
     }
-    return (NIL (GenericP));
+    return(NIL(GenericP));
 }
 
 static void
-main_input_test PROTO_N ((gclosure, grammar))
-		PROTO_T (GenericP gclosure X
-			 GrammarP grammar)
+main_input_test(GenericP gclosure, GrammarP grammar)
 {
-    UNUSED (gclosure);
-    UNUSED (grammar);
+    UNUSED(gclosure);
+    UNUSED(grammar);
 }
 
 static void
-main_output_test PROTO_N ((gclosure, grammar))
-		 PROTO_T (GenericP gclosure X
-			  GrammarP grammar)
+main_output_test(GenericP gclosure, GrammarP grammar)
 {
-    UNUSED (gclosure);
-    UNUSED (grammar);
+    UNUSED(gclosure);
+    UNUSED(grammar);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -367,96 +378,84 @@ static CStringListT main_language_options;
 
 static OStreamT dump_stream;
 
-static PhaseListT  main_phase_list [] = {
+static PhaseListT  main_phase_list[] = {
     {"singles", rule_set_inline_singles},
     {"tail", rule_set_inline_tail_calls},
     {"basics", rule_set_inline_all_basics},
     {"other", rule_set_inline_non_tail_calls},
     {"multi", rule_set_multiple_inlining},
     {"all", main_handle_phase_all},
-    {NIL (CStringP), NIL (void (*) PROTO_S ((BoolT)))}
+    {NIL(CStringP), NIL(void(*)(BoolT))}
 };
 
-static LangListT main_language_list [] = {
+static LangListT main_language_list[] = {
     {"ansi-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-ansi-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"ossg-c", main_init_ossg_c, main_input_c, 2, main_output_c, 2},
     {"test", main_init_test, main_input_test, 1, main_output_test, 0},
-    {NIL (CStringP), NIL (GenericP (*) PROTO_S ((OutputInfoP, CStringListP))),
-     NIL (void (*) PROTO_S ((GenericP, GrammarP))), 0,
-     NIL (void (*) PROTO_S ((GenericP, GrammarP))), 0}
+    {NIL(CStringP), NIL(GenericP(*)(OutputInfoP, CStringListP)),
+     NIL(void(*)(GenericP, GrammarP)), 0,
+     NIL(void(*)(GenericP, GrammarP)), 0}
 };
 
-static LangListP main_language = &(main_language_list [0]);
+static LangListP main_language = &(main_language_list[0]);
 
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_dump_file PROTO_N ((option, usage, gclosure, dump_file))
-		      PROTO_T (CStringP  option X
-			       ArgUsageP usage X
-			       GenericP  gclosure X
-			       CStringP  dump_file)
+main_handle_dump_file(CStringP option, ArgUsageP usage, GenericP gclosure,
+		      CStringP dump_file)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
-    if (ostream_is_open (&dump_stream)) {
-	E_multiple_dump_files ();
+    if (ostream_is_open(&dump_stream)) {
+	E_multiple_dump_files();
 	UNREACHED;
-    } else if (!ostream_open (&dump_stream, dump_file)) {
-	E_cannot_open_dump_file (dump_file);
+    } else if (!ostream_open(&dump_stream, dump_file)) {
+	E_cannot_open_dump_file(dump_file);
 	UNREACHED;
     }
 }
 
 static void
-main_handle_help PROTO_N ((option, usage, gclosure))
-		 PROTO_T (CStringP  option X
-			  ArgUsageP usage X
-			  GenericP  gclosure)
+main_handle_help(CStringP option, ArgUsageP usage, GenericP gclosure)
 {
-    UNUSED (option);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(gclosure);
     main_did_one_off = TRUE;
-    write_arg_usage (ostream_error, usage);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
+    write_arg_usage(ostream_error, usage);
+    write_newline(ostream_error);
+    ostream_flush(ostream_error);
 }
 
 static void
-main_handle_factor_limit PROTO_N ((option, usage, gclosure, limit_str))
-			 PROTO_T (CStringP  option X
-				  ArgUsageP usage X
-				  GenericP  gclosure X
-				  CStringP  limit_str)
+main_handle_factor_limit(CStringP option, ArgUsageP usage, GenericP gclosure,
+			 CStringP limit_str)
 {
     unsigned limit;
 
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
-    if ((!cstring_to_unsigned (limit_str, &limit)) || (limit == 0)) {
-	E_bad_factor_limit (limit_str);
+    if ((!cstring_to_unsigned(limit_str, &limit)) || (limit == 0)) {
+	E_bad_factor_limit(limit_str);
 	UNREACHED;
     }
-    rule_set_factor_limit (limit);
+    rule_set_factor_limit(limit);
 }
 
 static void
-main_handle_inlining PROTO_N ((option, usage, gclosure, inline_str))
-		     PROTO_T (CStringP  option X
-			      ArgUsageP usage X
-			      GenericP  gclosure X
-			      CStringP  inline_str)
+main_handle_inlining(CStringP option, ArgUsageP usage, GenericP gclosure,
+		     CStringP inline_str)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
     while (*inline_str) {
 	BoolT      enable = TRUE;
@@ -464,126 +463,111 @@ main_handle_inlining PROTO_N ((option, usage, gclosure, inline_str))
 	CStringP   phase;
 	PhaseListP entry;
 
-	if ((syntax_downcase (inline_str [0]) == 'n') &&
-	    (syntax_downcase (inline_str [1]) == 'o')) {
+	if ((syntax_downcase(inline_str[0]) == 'n') &&
+	   (syntax_downcase(inline_str[1]) == 'o')) {
 	    inline_str += 2;
 	    enable = FALSE;
 	}
-	dstring_init (&dstring);
+	dstring_init(&dstring);
 	while ((*inline_str) && (*inline_str != ',')) {
-	    dstring_append_char (&dstring, syntax_downcase (*inline_str ++));
+	    dstring_append_char(&dstring, syntax_downcase(*inline_str++));
 	}
 	if (*inline_str == ',') {
-	    inline_str ++;
+	    inline_str++;
 	}
-	phase = dstring_destroy_to_cstring (&dstring);
-	for (entry = main_phase_list; entry->phase; entry ++) {
-	    if (cstring_equal (phase, entry->phase)) {
+	phase = dstring_destroy_to_cstring(&dstring);
+	for (entry = main_phase_list; entry->phase; entry++) {
+	    if (cstring_equal(phase, entry->phase)) {
 		if (entry->proc) {
-		    (*(entry->proc)) (enable);
+		   (*(entry->proc))(enable);
 		}
 		goto next;
 	    }
 	}
-	E_bad_inlining_phase (phase);
+	E_bad_inlining_phase(phase);
 	UNREACHED;
       next:;
     }
 }
 
 static void
-main_handle_language PROTO_N ((option, usage, gclosure, language_str))
-		     PROTO_T (CStringP  option X
-			      ArgUsageP usage X
-			      GenericP  gclosure X
-			      CStringP  language_str)
+main_handle_language(CStringP option, ArgUsageP usage, GenericP gclosure,
+		     CStringP language_str)
 {
     LangListP entry;
 
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
-    for (entry = main_language_list; entry->language; entry ++) {
-	if (cstring_equal (language_str, entry->language)) {
+    for (entry = main_language_list; entry->language; entry++) {
+	if (cstring_equal(language_str, entry->language)) {
 	    main_language = entry;
 	    return;
 	}
     }
-    E_bad_language (language_str);
+    E_bad_language(language_str);
     UNREACHED;
 }
 
 static void
-main_handle_show_errors PROTO_N ((option, usage, gclosure))
-			PROTO_T (CStringP  option X
-				 ArgUsageP usage X
-				 GenericP  gclosure)
+main_handle_show_errors(CStringP option, ArgUsageP usage, GenericP gclosure)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_one_off = TRUE;
-    write_error_file (ostream_output);
-    ostream_flush (ostream_output);
+    write_error_file(ostream_output);
+    ostream_flush(ostream_output);
 }
 
 static void
-main_handle_switch PROTO_N ((option, usage, gclosure, opt))
-		   PROTO_T (CStringP  option X
-			    ArgUsageP usage X
-			    GenericP  gclosure X
-			    CStringP  opt)
+main_handle_switch(CStringP option, ArgUsageP usage, GenericP gclosure,
+		   CStringP opt)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
-    cstring_list_append (&main_language_options, opt);
+    cstring_list_append(&main_language_options, opt);
 }
 
 static void
-main_handle_tab_width PROTO_N ((option, usage, gclosure, width_str))
-		      PROTO_T (CStringP  option X
-			       ArgUsageP usage X
-			       GenericP  gclosure X
-			       CStringP  width_str)
+main_handle_tab_width(CStringP option, ArgUsageP usage, GenericP gclosure,
+		      CStringP width_str)
 {
     unsigned width;
 
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_other = TRUE;
-    if ((!cstring_to_unsigned (width_str, &width)) || (width == 0)) {
-	E_bad_tab_width (width_str);
+    if ((!cstring_to_unsigned(width_str, &width)) || (width == 0)) {
+	E_bad_tab_width(width_str);
 	UNREACHED;
     }
-    out_info_set_tab_width (main_info_closure, width);
+    out_info_set_tab_width(main_info_closure, width);
 }
 
 static void
-main_handle_version PROTO_N ((option, usage, gclosure))
-		    PROTO_T (CStringP  option X
-			     ArgUsageP usage X
-			     GenericP  gclosure)
+main_handle_version(CStringP option, ArgUsageP usage, GenericP gclosure)
 {
-    UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
     main_did_one_off = TRUE;
-    write_cstring (ostream_error, VERSION);
-    write_cstring (ostream_error, " (Release ");
-    write_cstring (ostream_error, RELEASE);
-    write_cstring (ostream_error, ")");
-    write_cstring (ostream_error, BANNER);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
+    write_cstring(ostream_error, VERSION);
+    write_cstring(ostream_error, " (Release ");
+    write_cstring(ostream_error, RELEASE);
+    write_cstring(ostream_error, ")");
+    write_cstring(ostream_error, BANNER);
+    write_newline(ostream_error);
+    ostream_flush(ostream_error);
 }
 
 /*--------------------------------------------------------------------------*/
 
-static EStringDataT main_description_strings [] = {
+static EStringDataT main_description_strings[] = {
     UB {
 	"description of dump-file",
 	" FILE\n\tCause intermediate grammars to be written to FILE."
@@ -620,42 +604,42 @@ static EStringDataT main_description_strings [] = {
 #pragma TenDRA conversion analysis (pointer-pointer) off
 #endif
 
-static ArgListT main_arglist [] = {
+static ArgListT main_arglist[] = {
     {
 	"dump-file", 'd',			AT_FOLLOWING,
-	(ArgProcP) main_handle_dump_file,	NIL (GenericP),
+	(ArgProcP)main_handle_dump_file,	NIL(GenericP),
 	UB "description of dump-file" UE
     }, {
         "factor-limit", 'f',			AT_FOLLOWING,
-	(ArgProcP) main_handle_factor_limit,	NIL (GenericP),
+	(ArgProcP)main_handle_factor_limit,	NIL(GenericP),
 	UB "description of factor-limit" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP) main_handle_help,		NIL (GenericP),
+	(ArgProcP)main_handle_help,		NIL(GenericP),
 	UB "description of help" UE
     }, {
 	"inline", 'i',				AT_FOLLOWING,
-	(ArgProcP) main_handle_inlining,	NIL (GenericP),
+	(ArgProcP)main_handle_inlining,	NIL(GenericP),
 	UB "description of inlining" UE
     }, {
 	"language", 'l',			AT_FOLLOWING,
-	(ArgProcP) main_handle_language,	NIL (GenericP),
+	(ArgProcP)main_handle_language,	NIL(GenericP),
 	UB "description of language" UE
     }, {
 	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP) main_handle_show_errors,	NIL (GenericP),
+	(ArgProcP)main_handle_show_errors,	NIL(GenericP),
 	UB "description of show-errors" UE
     }, {
 	"switch", 's',				AT_FOLLOWING,
-	(ArgProcP) main_handle_switch,		NIL (GenericP),
+	(ArgProcP)main_handle_switch,		NIL(GenericP),
 	UB "description of switch" UE
     }, {
 	"tab-width", 't',			AT_FOLLOWING,
-	(ArgProcP) main_handle_tab_width,	NIL (GenericP),
+	(ArgProcP)main_handle_tab_width,	NIL(GenericP),
 	UB "description of tab-width" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP) main_handle_version,		NIL (GenericP),
+	(ArgProcP)main_handle_version,		NIL(GenericP),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -667,12 +651,9 @@ static ArgListT main_arglist [] = {
 /*--------------------------------------------------------------------------*/
 
 static void
-main_init PROTO_N ((argc, argv, out_info))
-	  PROTO_T (int         argc X
-		   char      **argv X
-		   OutputInfoP out_info)
+main_init(int argc, char **argv, OutputInfoP out_info)
 {
-    EStringP  usage_estring = error_define_string ("sid usage message", USAGE);
+    EStringP  usage_estring = error_define_string("sid usage message", USAGE);
     ArgUsageT closure;
     CStringP  error_file;
     int       skip;
@@ -680,158 +661,151 @@ main_init PROTO_N ((argc, argv, out_info))
     unsigned  num_infiles;
     unsigned  num_outfiles;
 
-    error_init (argv [0], gen_errors_init_errors);
-    error_intern_strings (main_description_strings);
-    if ((error_file = getenv ("SID_ERROR_FILE")) != NIL (CStringP)) {
-	error_file_parse (error_file, FALSE);
+    error_init(argv[0], gen_errors_init_errors);
+    error_intern_strings(main_description_strings);
+    if ((error_file = getenv("SID_ERROR_FILE")) != NIL(CStringP)) {
+	error_file_parse(error_file, FALSE);
     }
-    closure.usage     = error_string_contents (usage_estring);
+    closure.usage     = error_string_contents(usage_estring);
     closure.arg_list  = main_arglist;
     main_info_closure = out_info;
-    arg_parse_intern_descriptions (main_arglist);
-    skip = arg_parse_arguments (main_arglist, usage_estring, -- argc, ++ argv);
+    arg_parse_intern_descriptions(main_arglist);
+    skip = arg_parse_arguments(main_arglist, usage_estring, --argc, ++argv);
     argc -= skip;
     argv += skip;
     if (main_did_one_off && (!main_did_other) && (argc == 0)) {
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 	UNREACHED;
     }
     num_infiles  = main_language->num_input_files;
     num_outfiles = main_language->num_output_files;
-    if ((unsigned) argc != (num_infiles + num_outfiles)) {
-	E_usage (main_language->language, num_infiles, num_outfiles, &closure);
+    if ((unsigned)argc != (num_infiles + num_outfiles)) {
+	E_usage(main_language->language, num_infiles, num_outfiles, &closure);
 	UNREACHED;
     }
-    out_info_set_num_input_files (out_info, num_infiles);
-    out_info_set_num_output_files (out_info, num_outfiles);
-    for (i = 0; i < num_infiles; i ++) {
-	CStringP  name = argv [i];
-	if (!istream_open (out_info_get_istream (out_info, i), name)) {
-	    E_cannot_open_input_file (name);
+    out_info_set_num_input_files(out_info, num_infiles);
+    out_info_set_num_output_files(out_info, num_outfiles);
+    for (i = 0; i < num_infiles; i++) {
+	CStringP  name = argv[i];
+	if (!istream_open(out_info_get_istream(out_info, i), name)) {
+	    E_cannot_open_input_file(name);
 	    UNREACHED;
 	}
-	out_info_set_infile_name (out_info, i, name);
+	out_info_set_infile_name(out_info, i, name);
     }
-    for (i = 0; i < num_outfiles; i ++) {
-	CStringP  name = argv [num_infiles + i];
-	if (!ostream_open (out_info_get_ostream (out_info, i), name)) {
-	    E_cannot_open_output_file (name);
+    for (i = 0; i < num_outfiles; i++) {
+	CStringP  name = argv[num_infiles + i];
+	if (!ostream_open(out_info_get_ostream(out_info, i), name)) {
+	    E_cannot_open_output_file(name);
 	    UNREACHED;
 	}
-	out_info_set_outfile_name (out_info, i, name);
+	out_info_set_outfile_name(out_info, i, name);
     }
 }
 
 static void
-main_dump_grammar PROTO_N ((dstream, grammar, mesg))
-		  PROTO_T (OStreamP dstream X
-			   GrammarP grammar X
-			   CStringP mesg)
+main_dump_grammar(OStreamP dstream, GrammarP grammar, CStringP mesg)
 {
     if (dstream) {
-	write_cstring (dstream, mesg);
-	write_newline (dstream);
-	write_newline (dstream);
-	write_grammar (dstream, grammar);
+	write_cstring(dstream, mesg);
+	write_newline(dstream);
+	write_newline(dstream);
+	write_grammar(dstream, grammar);
     }
 }
 
 static void
-main_abort_if_errored PROTO_Z ()
+main_abort_if_errored(void)
 {
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-	exit (EXIT_FAILURE);
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
 	UNREACHED;
     }
 }
 
 static void
-main_1 PROTO_N ((out_info, dstream))
-       PROTO_T (OutputInfoP out_info X
-		OStreamP    dstream)
+main_1(OutputInfoP out_info, OStreamP dstream)
 {
     LexerStreamT lstream;
     GrammarT     grammar;
     GenericP     output_closure;
 
-    output_closure = (*(main_language->init_proc)) (out_info,
-						    &main_language_options);
-    grammar_init (&grammar);
-    lexer_init (&lstream, out_info_get_istream (out_info, (unsigned) 0));
+    output_closure = (*(main_language->init_proc))(out_info,
+						   &main_language_options);
+    grammar_init(&grammar);
+    lexer_init(&lstream, out_info_get_istream(out_info, (unsigned)0));
     sid_current_stream  = &lstream;
     sid_current_grammar = &grammar;
-    sid_parse_grammar ();
-    lexer_close (&lstream);
-    main_abort_if_errored ();
-    grammar_check_complete (&grammar);
-    main_abort_if_errored ();
-    (*(main_language->input_proc)) (output_closure, &grammar);
-    main_abort_if_errored ();
-    main_dump_grammar (dstream, &grammar, "Original grammar:");
-    grammar_remove_left_recursion (&grammar);
-    main_dump_grammar (dstream, &grammar, "After left recursion elimination:");
-    main_abort_if_errored ();
-    grammar_compute_first_sets (&grammar);
-    main_abort_if_errored ();
-    grammar_factor (&grammar);
-    main_dump_grammar (dstream, &grammar, "After factorisation:");
-    main_abort_if_errored ();
-    grammar_simplify (&grammar);
-    main_dump_grammar (dstream, &grammar, "After simplification:");
-    grammar_compute_inlining (&grammar);
-    grammar_check_collisions (&grammar);
-    main_dump_grammar (dstream, &grammar, "After everything:");
-    main_abort_if_errored ();
-    grammar_recompute_alt_names (&grammar);
+    sid_parse_grammar();
+    lexer_close(&lstream);
+    main_abort_if_errored();
+    grammar_check_complete(&grammar);
+    main_abort_if_errored();
+   (*(main_language->input_proc))(output_closure, &grammar);
+    main_abort_if_errored();
+    main_dump_grammar(dstream, &grammar, "Original grammar:");
+    grammar_remove_left_recursion(&grammar);
+    main_dump_grammar(dstream, &grammar, "After left recursion elimination:");
+    main_abort_if_errored();
+    grammar_compute_first_sets(&grammar);
+    main_abort_if_errored();
+    grammar_factor(&grammar);
+    main_dump_grammar(dstream, &grammar, "After factorisation:");
+    main_abort_if_errored();
+    grammar_simplify(&grammar);
+    main_dump_grammar(dstream, &grammar, "After simplification:");
+    grammar_compute_inlining(&grammar);
+    grammar_check_collisions(&grammar);
+    main_dump_grammar(dstream, &grammar, "After everything:");
+    main_abort_if_errored();
+    grammar_recompute_alt_names(&grammar);
     if (dstream) {
-	ostream_close (dstream);
+	ostream_close(dstream);
     }
-    (*(main_language->output_proc)) (output_closure, &grammar);
+   (*(main_language->output_proc))(output_closure, &grammar);
 }
 
 /*--------------------------------------------------------------------------*/
 
 int
-main PROTO_N ((argc, argv))
-     PROTO_T (int    argc X
-	      char **argv)
+main(int argc, char **argv)
 {
     HANDLE {
 	OutputInfoT out_info;
 
-	istream_setup ();
-	ostream_setup ();
-	out_info_init (&out_info, argv [0]);
-	ostream_init (&dump_stream);
-	cstring_list_init (&main_language_options);
-	main_init (argc, argv, &out_info);
-	if (ostream_is_open (&dump_stream)) {
-	    main_1 (&out_info, &dump_stream);
+	istream_setup();
+	ostream_setup();
+	out_info_init(&out_info, argv[0]);
+	ostream_init(&dump_stream);
+	cstring_list_init(&main_language_options);
+	main_init(argc, argv, &out_info);
+	if (ostream_is_open(&dump_stream)) {
+	    main_1(&out_info, &dump_stream);
 	} else {
-	    main_1 (&out_info, NIL (OStreamP));
+	    main_1(&out_info, NIL(OStreamP));
 	}
     } WITH {
-	ExceptionP exception = EXCEPTION_EXCEPTION ();
+	ExceptionP exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
-	    E_no_memory ();
+	    E_no_memory();
 	    UNREACHED;
 	} else if (exception == XX_istream_read_error) {
-	    CStringP file = (CStringP) EXCEPTION_VALUE ();
+	    CStringP file = (CStringP)EXCEPTION_VALUE();
 
-	    E_read_error (file);
+	    E_read_error(file);
 	    UNREACHED;
 	} else if (exception == XX_ostream_write_error) {
-	    CStringP file = (CStringP) EXCEPTION_VALUE ();
+	    CStringP file = (CStringP)EXCEPTION_VALUE();
 
-	    E_write_error (file);
+	    E_write_error(file);
 	    UNREACHED;
 	} else {
-	    RETHROW ();
+	    RETHROW();
 	    UNREACHED;
 	}
     } END_HANDLE
-    exit (EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
     UNREACHED;
 }
 

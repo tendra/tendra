@@ -335,11 +335,11 @@ extern void		write_pointer(OStreamP, GenericP);
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define ostream_init(os)	((os) ->name = NIL(CStringP))
-#define ostream_is_open(os)	((os) ->name != NIL(CStringP))
-#define ostream_name(os)	((os) ->name)
-#define ostream_gen_name(os)	((os) ->gen_name)
-#define ostream_line(os)	((os) ->line)
+#define ostream_init(os)	((os)->name = NIL(CStringP))
+#define ostream_is_open(os)	((os)->name != NIL(CStringP))
+#define ostream_name(os)	((os)->name)
+#define ostream_gen_name(os)	((os)->gen_name)
+#define ostream_line(os)	((os)->line)
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_OSTREAM) */

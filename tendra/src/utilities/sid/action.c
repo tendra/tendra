@@ -131,7 +131,7 @@ action_result(ActionP action)
     return(&(action->result));
 }
 #ifdef FS_FAST
-#define action_result(a)	(&((a) ->result))
+#define action_result(a)	(&((a)->result))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST

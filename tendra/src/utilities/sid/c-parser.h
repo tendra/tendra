@@ -66,8 +66,7 @@
 extern CLexerStreamP		c_current_stream;
 extern COutputInfoP		c_current_out_info;
 extern TableP			c_current_table;
-extern void			c_parse_grammar
-	PROTO_S ((void));
+extern void			c_parse_grammar(void);
 
 #endif /* !defined (H_C_PARSER) */
 

@@ -120,7 +120,7 @@ extern void		 rstack_add_translation(RStackP, struct EntryT *,
 						struct EntryT *,
 						struct EntryT *, BoolT);
 extern void		 rstack_save_state(RStackP, SaveRStackP);
-extern struct EntryT	*rstack_get_translation (SaveRStackP, struct EntryT *,
+extern struct EntryT	*rstack_get_translation(SaveRStackP, struct EntryT *,
 						 struct EntryT **, BoolT *);
 extern void		 rstack_apply_for_non_locals(RStackP, SaveRStackP,
 						     void(*)(struct EntryT *,

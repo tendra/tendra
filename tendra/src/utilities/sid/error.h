@@ -120,13 +120,13 @@
  * This is the named string type.
  *
  ** Type:	ErrorProcP
- ** Repr:	void (*) PROTO_S ((OStreamP, ETagP, GenericP))
+ ** Repr:	void (*) (OStreamP, ETagP, GenericP)
  *
  * This is the type of a procedure that is used to display the contents of a
  * tag when reporting an error.
  *
  ** Type:	ErrorInitProcP
- ** Repr:	void (*) PROTO_S ((void))
+ ** Repr:	void (*) (void)
  *
  * This is the type of the procedure that will be called to define all of the
  * error messages for the current program.
@@ -202,7 +202,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			error_init
- *			PROTO_S ((CStringP program, ErrorInitProcP proc))
+ *			(CStringP program, ErrorInitProcP proc)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the error reporting mechanism.  It should only be
@@ -217,7 +217,7 @@
  * initialised before they are used.
  *
  ** Function:	void			error_call_init_proc
- *			PROTO_S ((void))
+ *			(void)
  ** Exceptions:
  *
  * This calls the error initialisation procedure if it has not already been
@@ -226,7 +226,7 @@
  * function is accessed).
  *
  ** Function:	ETagP			error_define_tag
- *			PROTO_S ((CStringP name))
+ *			(CStringP name)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines a tag with the specified name, and returns it.  The
@@ -234,8 +234,8 @@
  * same tag more than once (but the same value will be returned each time).
  *
  ** Function:	ErrorP			error_define_error
- *			PROTO_S ((CStringP name, ESeverityT severity,
- *				  CStringP message, GenericP data))
+ *			(CStringP name, ESeverityT severity,
+ *				  CStringP message, GenericP data)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines an error with the specified name, and returns it.
@@ -248,7 +248,7 @@
  * the program.
  *
  ** Function:	void			error_intern_tags
- *			PROTO_S ((ETagDataP vector))
+ *			(ETagDataP vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name entries in the specified vector into error
@@ -256,7 +256,7 @@
  * This function should only be called once on any vector.
  *
  ** Function:	void			error_intern_errors
- *			PROTO_S ((ErrorDataP vector))
+ *			(ErrorDataP vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name entries in the specified vector into errors.
@@ -264,7 +264,7 @@
  * This function should only be called once on any vector.
  *
  ** Function:	ErrorStatusT		error_redefine_error
- *			PROTO_S ((CStringP name, CStringP message))
+ *			(CStringP name, CStringP message)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the error message for the error with the specified
@@ -276,7 +276,7 @@
  * ``ERROR_STATUS_SUCCESS''.
  *
  ** Function:	ErrorP			error_lookup_error
- *			PROTO_S ((CStringP name))
+ *			(CStringP name)
  ** Exceptions:
  *
  * This function returns the error with the specified name.  If the error does
@@ -285,14 +285,14 @@
  * before they are looked up.
  *
  ** Function:	GenericP		error_data
- *			PROTO_S ((ErrorP error))
+ *			(ErrorP error)
  ** Exceptions:
  *
  * This function returns the data associated with the specified error.
  *
  ** Function:	void			error_report
- *			PROTO_S ((ErrorP error, ErrorProcP proc,
- *				  GenericP closure))
+ *			(ErrorP error, ErrorProcP proc,
+ *				  GenericP closure)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function reports the specified error.  The procedure is used to print
@@ -305,26 +305,26 @@
  * or higher.
  *
  ** Function:	void			error_set_min_report_severity
- *			PROTO_S ((ESeverityT severity))
+ *			(ESeverityT severity)
  ** Exceptions:
  *
  * This function sets the minimum severity of error that should be reported.
  *
  ** Function:	ESeverityT		error_get_min_report_severity
- *			PROTO_S ((void))
+ *			(void)
  ** Exceptions:
  *
  * This function returns the minimum severity of error that will be reported.
  *
  ** Function:	ESeverityT		error_max_reported_severity
- *			PROTO_S ((void))
+ *			(void)
  ** Exceptions:
  *
  * This function returns the severity of the error with the highest severity
  * that has been passed to ``error_report''.
  *
  ** Function:	void			error_set_severity_message
- *			PROTO_S ((ESeverityT severity, CStringP message))
+ *			(ESeverityT severity, CStringP message)
  ** Exceptions:
  *
  * This function sets the message to be displayed when the "${severity}" tag
@@ -332,7 +332,7 @@
  * message. The message should not be modified or deallocated.
  *
  ** Function:	BoolT			error_set_prefix_message
- *			PROTO_S ((CStringP message))
+ *			(CStringP message)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function sets the error message prefix string.  This string is output
@@ -343,7 +343,7 @@
  * was valid, and false if there was an unterminated tag in the message.
  *
  ** Function:	EStringP		error_define_string
- *			PROTO_S ((CStringP name, CStringP contents))
+ *			(CStringP name, CStringP contents)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines a named string with the specified name, and assigns
@@ -351,7 +351,7 @@
  * modified or deallocated.  No tag splitting is performed on the contents.
  *
  ** Function:	void			error_intern_strings
- *			PROTO_S ((EStringDataP vector))
+ *			(EStringDataP vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name and contents entries in the specified vector
@@ -360,7 +360,7 @@
  * vector.
  *
  ** Function:	BoolT			error_redefine_string
- *			PROTO_S ((CStringP name, CStringP contents))
+ *			(CStringP name, CStringP contents)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the contents of the named string with the specified
@@ -368,21 +368,21 @@
  * returns true.
  *
  ** Function:	EStringP		error_lookup_string
- *			PROTO_S ((CStringP name))
+ *			(CStringP name)
  ** Exceptions:
  *
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  *
  ** Function:	CStringP		error_string_contents
- *			PROTO_S ((EStringP estring))
+ *			(EStringP estring)
  ** Exceptions:
  *
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  *
  ** Function:	void			write_error_file
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes out an error file (in the same format as parsed by the

@@ -113,9 +113,8 @@ c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
 	EntryP      type;
 	BoolT       reference;
 	EntryP      translation = rstack_get_translation(non_local_state,
-							  non_local->name,
-							  &type,
-							  &reference);
+							 non_local->name,
+							 &type, &reference);
 	KeyP        key         = entry_key(entry);
 	ActionP     action      = entry_get_action(entry);
 	TypeTupleP  param       = action_param(action);
@@ -137,17 +136,17 @@ c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
 	types_init(&result_args);
 	types_add_name_and_type(&result_args, non_local->name, type, FALSE);
 	copies = c_output_required_copies(info, c_code_param(code),
-					   &args, rstack, &state,
-					   indent + C_INDENT_STEP, table);
+					  &args, rstack, &state,
+					  indent + C_INDENT_STEP, table);
 	if (copies) {
 	    c_output_open(info, indent + C_INDENT_STEP);
 	}
 	rstack_save_state(rstack, &state);
 	c_output_location(info, c_code_file(code), c_code_line(code));
 	c_output_c_code_action(info, code, &args, &result_args, &state,
-				handler_rule);
+			       handler_rule);
 	c_output_location(info, ostream_name(ostream),
-			   ostream_line(ostream) + 1);
+			  ostream_line(ostream) + 1);
 	rstack_pop_frame(rstack);
 	if (copies) {
 	    c_output_close(info, indent + C_INDENT_STEP);
@@ -231,7 +230,7 @@ c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
 	c_output_key(info, entry_key(entry), in_prefix);
 	write_newline(ostream);
 	rstack_add_translation(non_local_stack, non_local->name, entry,
-				non_local->type, FALSE);
+			       non_local->type, FALSE);
 	rstack_add_translation(rstack, entry, entry, non_local->type, FALSE);
     }
     write_newline(ostream);
@@ -242,17 +241,17 @@ c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
 	EntryP type;
 	BoolT  reference;
 	EntryP entry = rstack_get_translation(&non_local_state,
-					       non_local->name, &type,
-					       &reference);
+					      non_local->name, &type,
+					      &reference);
 
 	ASSERT((entry != NIL(EntryP)) && (type == non_local->type) &&
-		(!reference));
+	       (!reference));
 	c_output_assign(info, non_local->name, entry, &state, &state, indent);
     }
     for (non_local = non_locals->head; non_local;
 	 non_local = non_local->next) {
 	c_output_save_non_locals_1(info, non_local, &non_local_state,
-				    rstack, handler_rule, table, indent);
+				   rstack, handler_rule, table, indent);
     }
     rstack_save_state(non_local_stack, rule_non_local_state(rule));
 }
@@ -269,7 +268,7 @@ c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
     closure.state  = &state;
     closure.indent = indent;
     rstack_apply_for_non_locals(non_local_stack, rule_non_local_state(rule),
-				 c_output_restore_non_locals_1,
+				c_output_restore_non_locals_1,
 				(GenericP) &closure);
 }
 

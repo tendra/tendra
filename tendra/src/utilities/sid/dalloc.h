@@ -177,7 +177,7 @@ extern GenericP	X__dalloc_allocate(SizeT, SizeT);
 			     (unsigned)__LINE__))
 
 #define DEALLOCATE(pointer)\
-X__dalloc_deallocate((GenericP)(pointer), __FILE__,(unsigned)__LINE__)
+X__dalloc_deallocate((GenericP)(pointer), __FILE__, (unsigned)__LINE__)
 
 #else
 

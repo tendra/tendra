@@ -161,7 +161,7 @@ c_out_info_program_name(COutputInfoP info)
 CStringP
 c_out_info_source_name(COutputInfoP info)
 {
-    return(out_info_get_infile_name(info->info,(unsigned)0));
+    return(out_info_get_infile_name(info->info, (unsigned)0));
 }
 #ifdef FS_FAST
 #define c_out_info_source_name(o)\
@@ -174,7 +174,7 @@ c_out_info_source_name(COutputInfoP info)
 CStringP
 c_out_info_c_source_name(COutputInfoP info)
 {
-    return(out_info_get_infile_name(info->info,(unsigned)1));
+    return(out_info_get_infile_name(info->info, (unsigned)1));
 }
 #ifdef FS_FAST
 #define c_out_info_c_source_name(o)\
@@ -283,7 +283,7 @@ c_out_info_set_trailer2(COutputInfoP info, CCodeP code)
 NStringP
 c_out_info_type_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_TYPE]));
+    return(&(info->prefixes[CPFX_TYPE]));
 }
 #ifdef FS_FAST
 #define c_out_info_type_prefix(o)	(&((o)->prefixes[CPFX_TYPE]))
@@ -295,7 +295,7 @@ c_out_info_type_prefix(COutputInfoP info)
 NStringP
 c_out_info_fn_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_FN]));
+    return(&(info->prefixes[CPFX_FN]));
 }
 #ifdef FS_FAST
 #define c_out_info_fn_prefix(o)	(&((o)->prefixes[CPFX_FN]))
@@ -307,7 +307,7 @@ c_out_info_fn_prefix(COutputInfoP info)
 NStringP
 c_out_info_in_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_IN]));
+    return(&(info->prefixes[CPFX_IN]));
 }
 #ifdef FS_FAST
 #define c_out_info_in_prefix(o)	(&((o)->prefixes[CPFX_IN]))
@@ -319,7 +319,7 @@ c_out_info_in_prefix(COutputInfoP info)
 NStringP
 c_out_info_out_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_OUT]));
+    return(&(info->prefixes[CPFX_OUT]));
 }
 #ifdef FS_FAST
 #define c_out_info_out_prefix(o)	(&((o)->prefixes[CPFX_OUT]))
@@ -331,7 +331,7 @@ c_out_info_out_prefix(COutputInfoP info)
 NStringP
 c_out_info_label_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_LABEL]));
+    return(&(info->prefixes[CPFX_LABEL]));
 }
 #ifdef FS_FAST
 #define c_out_info_label_prefix(o)	(&((o)->prefixes[CPFX_LABEL]))
@@ -343,7 +343,7 @@ c_out_info_label_prefix(COutputInfoP info)
 NStringP
 c_out_info_terminal_prefix(COutputInfoP info)
 {
-    return(& (info->prefixes[CPFX_TERMINAL]));
+    return(&(info->prefixes[CPFX_TERMINAL]));
 }
 #ifdef FS_FAST
 #define c_out_info_terminal_prefix(o)	(&((o)->prefixes[CPFX_TERMINAL]))
@@ -355,7 +355,7 @@ c_out_info_terminal_prefix(COutputInfoP info)
 NStringP
 c_out_info_prefix(COutputInfoP info, CPrefixT prefix)
 {
-    return(& (info->prefixes[prefix]));
+    return(&(info->prefixes[prefix]));
 }
 #ifdef FS_FAST
 #define c_out_info_prefix(o, i)	(&((o)->prefixes[i]))

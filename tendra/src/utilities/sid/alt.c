@@ -204,8 +204,8 @@ alt_equal(AltP alt1, AltP alt2)
     item2 = alt_item_head(alt2);
     while (item1 && item2) {
 	if ((item_entry(item1) == item_entry(item2)) &&
-	   (types_equal_numbers(item_param(item1), item_param(item2))) &&
-	   (types_equal_numbers(item_result(item1), item_result(item2)))) {
+	    (types_equal_numbers(item_param(item1), item_param(item2))) &&
+	    (types_equal_numbers(item_result(item1), item_result(item2)))) {
 	    item1 = item_next(item1);
 	    item2 = item_next(item2);
 	} else {

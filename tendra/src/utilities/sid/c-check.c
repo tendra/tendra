@@ -108,7 +108,7 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 	  BasicP basic = entry_get_basic(entry);
 
 	  if ((!types_equal_zero_tuple(basic_result(basic))) &&
-	     (basic_get_result_code(basic) == NIL(GenericP))) {
+	      (basic_get_result_code(basic) == NIL(GenericP))) {
 	      E_basic_result_code_not_defined(entry_key(entry));
 	  }
       }
@@ -120,12 +120,12 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 	break;
       case ET_TYPE:
 	type = entry_get_type(entry);
-	if (((type_get_assign_code(type)!= NIL(GenericP)) ||
-	    (type_get_param_assign_code(type)!= NIL(GenericP)) ||
-	    (type_get_result_assign_code(type)!= NIL(GenericP))) &&
-	   ((type_get_assign_code(type) == NIL(GenericP)) ||
-	    (type_get_param_assign_code(type) == NIL(GenericP)) ||
-	    (type_get_result_assign_code(type) == NIL(GenericP)))) {
+	if (((type_get_assign_code(type) != NIL(GenericP)) ||
+	     (type_get_param_assign_code(type) != NIL(GenericP)) ||
+	     (type_get_result_assign_code(type) != NIL(GenericP))) &&
+	    ((type_get_assign_code(type) == NIL(GenericP)) ||
+	     (type_get_param_assign_code(type) == NIL(GenericP)) ||
+	     (type_get_result_assign_code(type) == NIL(GenericP)))) {
 	    E_type_code_not_defined(entry_key(entry));
 	}
 	break;

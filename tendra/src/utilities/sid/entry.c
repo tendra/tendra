@@ -104,7 +104,7 @@ entry_traced(EntryP entry)
     entry->traced = TRUE;
 }
 #ifdef FS_FAST
-#define entry_traced(e)((e) ->traced = TRUE)
+#define entry_traced(e)	((e)->traced = TRUE)
 #endif /* defined (FS_FAST) */
 
 /*--------------------------------------------------------------------------*/
@@ -117,7 +117,7 @@ entry_create_from_string(NStringP key, unsigned number, EntryTypeT type)
     entry->next   = NIL(EntryP);
     key_init_from_string(entry_key(entry), key, number);
     entry->mapped = FALSE;
-    nstring_init(& (entry->mapping));
+    nstring_init(&(entry->mapping));
     entry->type   = type;
     entry->name   = name_create();
     entry->traced = FALSE;
@@ -133,7 +133,7 @@ entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced,
     entry->next   = next;
     key_init_from_number(entry_key(entry), key);
     entry->mapped = FALSE;
-    nstring_init(& (entry->mapping));
+    nstring_init(&(entry->mapping));
     entry->type   = type;
     entry->name   = name_create();
     entry->traced = traced;
@@ -157,7 +157,7 @@ entry_set_basic(EntryP entry, BasicP basic)
 #undef entry_set_rule
 #endif /* defined (FS_FAST) */
 void
-entry_set_rule(EntryP entry, RuleP  rule)
+entry_set_rule(EntryP entry, RuleP rule)
 {
     ASSERT(entry_is_rule(entry));
     entry->u.rule = rule;
@@ -176,14 +176,14 @@ entry_set_action(EntryP entry, ActionP action)
     entry->u.action = action;
 }
 #ifdef FS_FAST
-#define entry_set_action(e, a)	((e) ->u.action = (a))
+#define entry_set_action(e, a)	((e)->u.action = (a))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
 #undef entry_set_type
 #endif /* defined (FS_FAST) */
 void
-entry_set_type(EntryP entry, TypeP  type)
+entry_set_type(EntryP entry, TypeP type)
 {
     ASSERT(entry_is_type(entry));
     entry->u.type = type;
@@ -226,7 +226,7 @@ entry_next_ref(EntryP entry)
     return(&(entry->next));
 }
 #ifdef FS_FAST
-#define entry_next_ref(e)	(&((e) ->next))
+#define entry_next_ref(e)	(&((e)->next))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
@@ -406,9 +406,9 @@ void
 entry_set_mapping(EntryP entry, NStringP mapping)
 {
     if (entry->mapped) {
-	nstring_destroy(& (entry->mapping));
+	nstring_destroy(&(entry->mapping));
     }
-    nstring_assign(& (entry->mapping), mapping);
+    nstring_assign(&(entry->mapping), mapping);
     entry->mapped = TRUE;
 }
 
@@ -416,7 +416,7 @@ NStringP
 entry_get_mapping(EntryP entry)
 {
     if (entry->mapped) {
-	return(& (entry->mapping));
+	return(&(entry->mapping));
     }
     return(NIL(NStringP));
 }

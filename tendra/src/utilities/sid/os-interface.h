@@ -680,13 +680,11 @@ typedef enum {
 # endif /* defined (__GNUC__) */
 
 # ifdef FS_MKDIR
-extern int			mkdir
-	PROTO_S ((CStringP, int));
+extern int	mkdir(CStringP, int);
 # endif /* defined (FS_MKDIR) */
 
 # ifdef FS_ASSERT
-extern void			E_assertion_failed
-	PROTO_S ((CStringP, CStringP, unsigned));
+extern void	E_assertion_failed(CStringP, CStringP, unsigned);
 #  ifdef FS_STDC_HASH
 #   define ASSERT(a) \
 if (!(a)) { \
@@ -731,54 +729,37 @@ typedef PO_SIZE_T_TYPE SizeT, *SizeP;
 typedef unsigned SizeT, *SizeP;
 #  endif /* defined (PO_SIZE_T_TYPE) */
 
-extern NoReturnT		abort
-	PROTO_S ((void));
-extern GenericP			calloc
-	PROTO_S ((SizeT, SizeT));
-extern GenericP			malloc
-	PROTO_S ((SizeT));
-extern NoReturnT		exit
-	PROTO_S ((int));
-extern void			free
-	PROTO_S ((GenericP));
-extern CStringP			getenv
-	PROTO_S ((CStringP));
+extern NoReturnT	abort(void);
+extern GenericP		calloc(SizeT, SizeT);
+extern GenericP		malloc(SizeT);
+extern NoReturnT	exit(int);
+extern void		free(GenericP);
+extern CStringP		getenv(CStringP);
 #  ifndef __GNUC__
-extern int			memcmp
-	PROTO_S ((GenericP, GenericP, SizeT));
+extern int		memcmp(GenericP, GenericP, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern GenericP			memcpy
-	PROTO_S ((GenericP, GenericP, SizeT));
+extern GenericP		memcpy(GenericP, GenericP, SizeT);
 #  endif /* defined (__GNUC__) */
-extern GenericP			memset
-	PROTO_S ((GenericP, int, SizeT));
-extern GenericP			memchr
-	PROTO_S ((GenericP, int, SizeT));
+extern GenericP		memset(GenericP, int, SizeT);
+extern GenericP		memchr(GenericP, int, SizeT);
 #  ifndef __GNUC__
-extern SizeT			strlen
-	PROTO_S ((CStringP));
+extern SizeT		strlen(CStringP);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int			strcmp
-	PROTO_S ((CStringP, CStringP));
+extern int		strcmp(CStringP, CStringP);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern int			strncmp
-	PROTO_S ((CStringP, CStringP, SizeT));
+extern int		strncmp(CStringP, CStringP, SizeT);
 #  endif /* defined (__GNUC__) */
 #  ifndef __GNUC__
-extern CStringP			strcpy
-	PROTO_S ((CStringP, CStringP));
+extern CStringP		strcpy(CStringP, CStringP);
 #  endif /* defined (__GNUC__) */
-extern CStringP			strchr
-	PROTO_S ((CStringP, int));
-extern CStringP			strrchr
-	PROTO_S ((CStringP, int));
-extern int			errno;
+extern CStringP		strchr(CStringP, int);
+extern CStringP		strrchr(CStringP, int);
+extern int		errno;
 #  ifdef FS_STRERROR
-extern CStringP			strerror
-	PROTO_S ((int));
+extern CStringP		strerror(int);
 #  endif /* defined (FS_STRERROR) */
 
 #  include <setjmp.h>
@@ -843,8 +824,8 @@ extern CStringP			strerror
 # endif /* !defined (SEEK_END) */
 
 # ifdef FS_SYS_ERRLIST
-extern int			sys_nerr;
-extern CStringP			sys_errlist [];
+extern int		sys_nerr;
+extern CStringP		sys_errlist[];
 # endif /* defined (FS_SYS_ERRLIST) */
 
 # ifdef X
