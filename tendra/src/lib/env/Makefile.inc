@@ -78,4 +78,4 @@ SED_DEFAULT_LIB= \
 		-e "s|-LIB_PCRT0-|${LIB_PCRT0}|g" \
 		-e "s|-LIB_VALUES_XA-|${LIB_VALUES_XA}|g" \
 		-e "s|-LIB_VALUES_XC-|${LIB_VALUES_XC}|g" \
-		-e "s|-LIB_VALUES_XT-|${LIB_VALUES_XT}|g" \
+		-e "s|-LIB_VALUES_XT-|${LIB_VALUES_XT}|g"
