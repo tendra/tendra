@@ -6,7 +6,7 @@
       <term>"<option>-A</option><replaceable>switch</replaceable>"</term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         inline calls to <emphasis>alloca</emphasis>. This is done by
         default.</para>
       </listitem>
@@ -20,7 +20,7 @@
       <term><option>-B</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         report floating point constants which exceed their range. This is
         always done by default. If this option is switched off such constants
         are replaced by infinity.</para>
@@ -35,7 +35,7 @@
       <term><option>-C</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         apply the "constants out of loops" optimisation. This optimisation is
         performed by default.</para>
       </listitem>
@@ -49,7 +49,7 @@
       <term><option>-D</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         produce Position Independent Code (PIC). This is not done by default.
         This option is not supported on the SCO or FreeBSD platforms, and on
         the Linux platform it is supported only for ELF binary format.</para>
@@ -64,7 +64,7 @@
       <term><option>-E</option></term> 
 
       <listitem>
-        <para>This option disables <command>trans386</command>&39;s constant
+        <para>This option disables <command>&trans;</command>&39;s constant
         overflow checks.</para>
       </listitem>
     </varlistentry>
@@ -77,7 +77,7 @@
       <term><option>-F</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         apply the "strength reduction" optimisation. This optimisation is
         performed by default.</para>
       </listitem>
@@ -91,7 +91,7 @@
       <term><option>-H</option></term> 
 
       <listitem>
-        <para>This option causes <command>trans386</command> to output
+        <para>This option causes <command>&trans;</command> to output
         debugging information in its output file. This will only work if the
         input TDF capsule contains debugging information. On the SCO platform
         the format used by <emphasis>dbxtra</emphasis> and <emphasis
@@ -110,7 +110,7 @@
       <term><option>-I</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         apply the "inlining" optimisation. This optimisation is performed by
         default.</para>
       </listitem>
@@ -124,7 +124,7 @@
       <term><option>-K</option><replaceable>str</replaceable></term> 
 
       <listitem>
-        <para>Causes <command>trans386</command> to optimise its code for a
+        <para>Causes <command>&trans;</command> to optimise its code for a
         particular processor model, determined by <emphasis>str</emphasis>. The available values of 
         <emphasis>str</emphasis> are 3 for the 80386, 4 for the 80486 and 5 for the
         Pentium (the default). So <option>-K3</option> means optimise for the
@@ -140,7 +140,7 @@
       <term><option>-M</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>If this option is on, <command>trans386</command> preserves
+        <para>If this option is on, <command>&trans;</command> preserves
         division by a floating point number rather than replacing it by
         multiplication by the reciprocal of the number. While the latter
         produces faster code, it may lead to rounding errors. By default,
@@ -156,7 +156,7 @@
       <term><option>-P</option></term> 
 
       <listitem>
-        <para>This option causes <command>trans386</command> to output
+        <para>This option causes <command>&trans;</command> to output
         profiling information suitable for use with &man.freebsd.prof; or a
         similar tool (see individual manual pages for details). This option is
         currently not supported on the Solaris platform.</para>
@@ -171,7 +171,7 @@
       <term><option>-Q</option></term> 
 
       <listitem>
-        <para>This option causes <command>trans386</command> to quit before
+        <para>This option causes <command>&trans;</command> to quit before
         processing its input files. This is particularly useful in conjunction
         with <option>-V</option>.</para>
       </listitem>
@@ -185,7 +185,7 @@
       <term><option>-R</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         immediately round every floating point operation to its appropriate
         range. This produces slower code, but is necessary for strict IEEE
         conformance. The default is not to round after every operation.</para>
@@ -200,7 +200,7 @@
       <term><option>-U</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         apply the "loop unrolling" optimisation. This optimisation is performed
         by default.</para>
       </listitem>
@@ -214,7 +214,7 @@
       <term><option>-V</option></term> 
 
       <listitem>
-        <para>This option causes <command>trans386</command> to print its
+        <para>This option causes <command>&trans;</command> to print its
         version number and the version of the TDF specification it
         supports.</para>
       </listitem>
@@ -228,7 +228,7 @@
       <term><option>-W</option><replaceable>switch</replaceable></term> 
 
       <listitem>
-        <para>This option determines whether <command>trans386</command> should
+        <para>This option determines whether <command>&trans;</command> should
         make string literals writable. At present the C producer does not make
         use of this facility, so strings are writable.</para>
       </listitem>
@@ -242,7 +242,7 @@
 
       <listitem>
         <para>This option disables all optimisations. All
-        <command>trans386</command>&39;s optimisations are believed to be valid,
+        <command>&trans;</command>&39;s optimisations are believed to be valid,
         so that any error in optimisation is a genuine bug.</para>
       </listitem>
     </varlistentry>
@@ -255,7 +255,7 @@
       <term><option>-Z</option></term> 
 
       <listitem>
-        <para>This option causes <command>trans386</command> to print the
+        <para>This option causes <command>&trans;</command> to print the
         version number of all the TDF capsules it decodes.</para>
       </listitem>
     </varlistentry>
@@ -299,7 +299,7 @@
 
       <listitem>
         <para>This option is applicable to Linux platforms only. If this option
-        is on, <command>trans386</command> will produce output for an ELF
+        is on, <command>&trans;</command> will produce output for an ELF
         binary format assembler, otherwise a.out binary format is assumed. By
         default this option is on, as appropriate for later versions of
         Linux.</para>
