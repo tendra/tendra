@@ -116,6 +116,15 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="minix"
 			OSVER="MINIX2"
 			;;
+	NetBSD.1*)	#
+			check_cc
+			LD="ld"
+			LDOPTS=
+			LDCRT="/usr/lib/crt0.o"
+			LIBS="-L/usr/lib -lc"
+			OSFAM="netbsd"
+			OSVER="NETBSD1"
+			;;
 	NetBSD.2*)	#
 			check_cc
 			LD="ld"
