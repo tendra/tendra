@@ -137,6 +137,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-help </option><replaceable>subject</replaceable> ...</term>
       <listitem>
         <para>Makes <command>tnc</command> print its help message on the
@@ -200,6 +207,20 @@
           definition and by evaluating constant expressions as far as
           possible. This is equivalent to <option>-expand
           -eval</option>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-u</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
