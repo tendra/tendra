@@ -1,3 +1,0 @@
-+CRT0		"/usr/ccs/lib/crti.o"
-+SYS_LIBC	""
-+FLAG_LD	"-G"

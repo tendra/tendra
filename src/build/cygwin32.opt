@@ -1,2 +1,0 @@
-#!/bin/sh
-CCOPTS="-DFS_DOS"

@@ -1,7 +1,0 @@
-/* tcc environment for ansi */
-
-+INCL			"-Nansi:-INCLDIR-/ansi.api"
-+LIB			"-lansi"
-+FLAG_INSTALL		"-Yansi"
-+API_NAME		"-Aansi"
-+INFO			"ANSI@(X3.159)"

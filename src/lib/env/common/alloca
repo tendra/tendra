@@ -1,3 +1,0 @@
-/* inline alloca */
-
-+FLAG		"-f-INCLDIR-/gcc.api/tdf_alloca.h"

@@ -1,4 +1,0 @@
-/* tcc environment for enabling the C type 'long long'
-
-+COMP_OPTION			"longlong=allow"
-+FLAG				"-Ytdf_ext"
