@@ -9,6 +9,7 @@ CHGRP?=		/usr/bin/chgrp
 CHMOD?=		/bin/chmod
 CHOWN?=		/usr/sbin/chown
 CP?=		/bin/cp
+CP_VERBOSE?=	${CP} -v
 CUT?=		/usr/bin/cut
 DC?=		/usr/bin/dc
 DIRNAME?=	/usr/bin/dirname
