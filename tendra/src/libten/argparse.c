@@ -78,6 +78,7 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 {
 	int       tmp_argc = argc;
 	char    **tmp_argv = argv;
+	BoolT    *closure;
 
 	while (tmp_argc) {
 		int is_long = 0;
@@ -133,18 +134,19 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 				MSG_arg_parse_ambiguous_option (option);
 				UNREACHED;
 			} else {
+				closure = chosen->closure;
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
-					*((BoolT*) chosen->closure) = c == '-';
+					*closure = c == '-';
 					break;
 				case AT_NEG_SWITCH:
-					*((BoolT*) chosen->closure) = c == '+';
+					*closure = c == '+';
 					break;
 				case AT_SET:
-					*((BoolT*)chosen->closure) = TRUE;
+					*closure = TRUE;
 					break;
 				case AT_RESET:
-					*((BoolT*)chosen->closure) = FALSE;
+					*closure = FALSE;
 					break;
 				case AT_PROC_SWITCH:
 					(*chosen->proc) (option, chosen->closure, c == '-');
@@ -242,18 +244,19 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 					MSG_arg_parse_unknown_short_opt (option, opt);
 					UNREACHED;
 				}
+				closure = chosen->closure;
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
-					*((BoolT*) chosen->closure) = c == '-';
+					*closure = c == '-';
 					break;
 				case AT_NEG_SWITCH:
-					*((BoolT*) chosen->closure) = c == '+';
+					*closure = c == '+';
 					break;
 				case AT_SET:
-					*((BoolT*)chosen->closure) = TRUE;
+					*closure = TRUE;
 					break;
 				case AT_RESET:
-					*((BoolT*)chosen->closure) = FALSE;
+					*closure = FALSE;
 					break;
 				case AT_PROC_SWITCH:
 					(*chosen->proc) (opt, chosen->closure, c == '-');
