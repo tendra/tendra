@@ -293,14 +293,14 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NStringT {
-	size_t		length;
-	char *		contents;
+	size_t		ns_length;
+	char *		ns_contents;
 } NStringT, *NStringP;
 
 typedef struct DStringT {
-	size_t		length;
-	size_t		max_length;
-	char *		contents;
+	size_t		ds_length;
+	size_t		ds_max_length;
+	char *		ds_contents;
 } DStringT, *DStringP;
 
 /*--------------------------------------------------------------------------*/
@@ -313,8 +313,6 @@ void	nstring_insert_cstring(NStringP, const char *);
 void	nstring_copy(NStringP, NStringP);
 char *	nstring_to_cstring(NStringP);
 unsigned nstring_hash_value(NStringP);
-size_t	nstring_length(NStringP);
-char *	nstring_contents(NStringP);
 CmpT	nstring_compare(NStringP, NStringP);
 BoolT	nstring_equal(NStringP, NStringP);
 BoolT	nstring_ci_equal(NStringP, NStringP);
@@ -325,7 +323,6 @@ void	nstring_destroy(NStringP);
 void	write_nstring(OStreamP, NStringP);
 
 void	dstring_init(DStringP);
-size_t	dstring_length(DStringP);
 void	dstring_append_char(DStringP, char);
 void	dstring_append_cstring(DStringP, const char *);
 void	dstring_append_nstring(DStringP, NStringP);
@@ -337,10 +334,8 @@ void	dstring_destroy(DStringP);
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_FAST
-#define nstring_length(s) ((s)->length)
-#define nstring_contents(s) ((s)->contents)
-#define dstring_length(s) ((s)->length)
-#endif /* defined (FS_FAST) */
+#define	nstring_length(s)	((s)->ns_length)
+#define	nstring_contents(s)	((s)->ns_contents)
+#define	dstring_length(s)	((s)->ds_length)
 
 #endif /* !defined (H_DSTRING) */

@@ -82,22 +82,22 @@
 void
 nstring_init(NStringP nstring)
 {
-	nstring->length   = 0;
-	nstring->contents = NULL;
+	nstring->ns_length   = 0;
+	nstring->ns_contents = NULL;
 }
 
 void
 nstring_init_length(NStringP nstring, size_t length)
 {
-	nstring->length   = length;
-	nstring->contents = fmm_malloc(length, memtype_str);
+	nstring->ns_length   = length;
+	nstring->ns_contents = fmm_malloc(length, memtype_str);
 }
 
 void
 nstring_assign(NStringP to, NStringP from)
 {
-	to->length     = nstring_length (from);
-	to->contents   = (from->contents);
+	to->ns_length     = nstring_length (from);
+	to->ns_contents   = (from->ns_contents);
 }
 
 void
@@ -106,12 +106,12 @@ nstring_copy_cstring(NStringP nstring, const char *cstring)
 	size_t length = strlen (cstring);
 	
 	if (length > 0) {
-		nstring->length   = length;
-		nstring->contents = fmm_malloc(length, memtype_str);
-		(void) memcpy (nstring->contents, cstring, length);
+		nstring->ns_length   = length;
+		nstring->ns_contents = fmm_malloc(length, memtype_str);
+		(void) memcpy (nstring->ns_contents, cstring, length);
 	} else {
-		nstring->length   = 0;
-		nstring->contents = NULL;
+		nstring->ns_length   = 0;
+		nstring->ns_contents = NULL;
 	}
 }
 
@@ -121,7 +121,7 @@ nstring_insert_cstring(NStringP nstring, const char *cstring)
 	size_t length = nstring_length (nstring);
 	
 	if (length > 0) {
-		(void) memcpy (nstring->contents, cstring, length);
+		(void) memcpy (nstring->ns_contents, cstring, length);
 	}
 }
 
@@ -131,12 +131,12 @@ nstring_copy(NStringP to, NStringP from)
 	size_t length = nstring_length (from);
 	
 	if (length > 0) {
-		to->length   = length;
-		to->contents =  fmm_malloc(length, memtype_str);
-		(void) memcpy (to->contents, from->contents, length);
+		to->ns_length   = length;
+		to->ns_contents =  fmm_malloc(length, memtype_str);
+		(void) memcpy (to->ns_contents, from->ns_contents, length);
 	} else {
-		to->length   = 0;
-		to->contents = NULL;
+		to->ns_length   = 0;
+		to->ns_contents = NULL;
 	}
 }
 
@@ -147,7 +147,7 @@ nstring_to_cstring(NStringP nstring)
 	char *tmp = fmm_malloc(length + 1, memtype_str);
 	
 	if (length > 0) {
-		(void) memcpy (tmp, nstring->contents, length);
+		(void) memcpy (tmp, nstring->ns_contents, length);
 	}
 	tmp [length] = '\0';
 	return (tmp);
@@ -157,7 +157,7 @@ unsigned
 nstring_hash_value(NStringP nstring)
 {
 	unsigned value        = 0;
-	const char *tmp_contents = (nstring->contents);
+	const char *tmp_contents = (nstring->ns_contents);
 	size_t tmp_length   = nstring_length (nstring);
 	
 	while (tmp_length--) {
@@ -165,30 +165,6 @@ nstring_hash_value(NStringP nstring)
 	}
 	return (value);
 }
-
-#ifdef FS_FAST
-#undef nstring_length
-#endif /* defined (FS_FAST) */
-size_t
-nstring_length(NStringP nstring)
-{
-	return (nstring->length);
-}
-#ifdef FS_FAST
-#define nstring_length(s) ((s)->length)
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef nstring_contents
-#endif /* defined (FS_FAST) */
-char *
-nstring_contents(NStringP nstring)
-{
-	return (nstring->contents);
-}
-#ifdef FS_FAST
-#define nstring_contents(s) ((s)->contents)
-#endif /* defined (FS_FAST) */
 
 CmpT
 nstring_compare(NStringP nstring1, NStringP nstring2)
@@ -199,7 +175,7 @@ nstring_compare(NStringP nstring1, NStringP nstring2)
 	if (length > nstring_length (nstring2)) {
 		length = nstring_length (nstring2);
 	}
-	status = memcmp (nstring1->contents, nstring2->contents, length);
+	status = memcmp (nstring1->ns_contents, nstring2->ns_contents, length);
 	if (status < 0) {
 		return (CMP_LT);
 	} else if (status > 0) {
@@ -219,7 +195,7 @@ nstring_equal(NStringP nstring1, NStringP nstring2)
 	size_t length = nstring_length (nstring1);
 	
 	return ((length == nstring_length (nstring2)) &&
-			(memcmp (nstring1->contents, nstring2->contents, length) == 0));
+			(memcmp (nstring1->ns_contents, nstring2->ns_contents, length) == 0));
 }
 
 BoolT
@@ -228,8 +204,8 @@ nstring_ci_equal(NStringP nstring1, NStringP nstring2)
 	size_t length = nstring_length (nstring1);
 	
 	if (length == nstring_length (nstring2)) {
-		const char *tmp1 = (nstring1->contents);
-		const char *tmp2 = (nstring2->contents);
+		const char *tmp1 = (nstring1->ns_contents);
+		const char *tmp2 = (nstring2->ns_contents);
 		char c1;
 		char c2;
 		
@@ -267,7 +243,7 @@ nstring_is_prefix(NStringP nstring1, NStringP nstring2)
 void
 nstring_destroy(NStringP nstring)
 {
-	fmm_free (nstring->contents, memtype_str);
+	fmm_free (nstring->ns_contents, memtype_str);
 }
 
 void
@@ -276,7 +252,7 @@ write_nstring(OStreamP ostream, NStringP nstring)
 	size_t length = nstring_length (nstring);
 	
 	if (length > 0) {
-		write_chars (ostream, nstring->contents, length);
+		write_chars (ostream, nstring->ns_contents, length);
 	}
 }
 
@@ -286,112 +262,100 @@ write_nstring(OStreamP ostream, NStringP nstring)
 void
 dstring_init(DStringP dstring)
 {
-	dstring->length     = 0;
-	dstring->max_length = DSTRING_CHUNK_SIZE;
-	dstring->contents   = fmm_malloc(dstring->max_length, memtype_str);
+	dstring->ds_length     = 0;
+	dstring->ds_max_length = DSTRING_CHUNK_SIZE;
+	dstring->ds_contents   = fmm_malloc(dstring->ds_max_length, memtype_str);
 }
-
-#ifdef FS_FAST
-#undef dstring_length
-#endif /* defined (FS_FAST) */
-size_t
-dstring_length(DStringP dstring)
-{
-	return (dstring->length);
-}
-#ifdef FS_FAST
-#define dstring_length(s) ((s)->length)
-#endif /* defined (FS_FAST) */
 
 void
 dstring_append_char(DStringP dstring, char c)
 {
-	if ((dstring->length) >= (dstring->max_length)) {
+	if ((dstring->ds_length) >= (dstring->ds_max_length)) {
 		char *tmp;
 		
-		dstring->max_length += DSTRING_CHUNK_SIZE;
-		tmp = fmm_malloc(dstring->max_length, memtype_str);
-		(void) memcpy (tmp, dstring->contents, dstring->length);
-		fmm_free (dstring->contents, memtype_str);
-		dstring->contents = tmp;
+		dstring->ds_max_length += DSTRING_CHUNK_SIZE;
+		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
+		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
+		fmm_free (dstring->ds_contents, memtype_str);
+		dstring->ds_contents = tmp;
 	}
-	dstring->contents [dstring->length ++] = c;
+	dstring->ds_contents [dstring->ds_length ++] = c;
 }
 
 void
 dstring_append_cstring(DStringP dstring, const char *cstring)
 {
 	size_t clength = strlen (cstring);
-	size_t length  = (clength + (dstring->length));
+	size_t length  = (clength + (dstring->ds_length));
 	
-	if (length > (dstring->max_length)) {
+	if (length > (dstring->ds_max_length)) {
 		char *tmp;
 		
-		while ((dstring->max_length) < length) {
-			dstring->max_length += DSTRING_CHUNK_SIZE;
+		while ((dstring->ds_max_length) < length) {
+			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = fmm_malloc(dstring->max_length, memtype_str);
-		(void) memcpy (tmp, dstring->contents, dstring->length);
-		fmm_free (dstring->contents, memtype_str);
-		dstring->contents = tmp;
+		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
+		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
+		fmm_free (dstring->ds_contents, memtype_str);
+		dstring->ds_contents = tmp;
 	}
-	(void) memcpy (dstring->contents + dstring->length, cstring, clength);
-	dstring->length = length;
+	(void) memcpy (dstring->ds_contents + dstring->ds_length, cstring, clength);
+	dstring->ds_length = length;
 }
 
 void
 dstring_append_nstring(DStringP dstring, NStringP nstring)
 {
 	size_t nlength = nstring_length (nstring);
-	size_t length  = (nlength + (dstring->length));
+	size_t length  = (nlength + (dstring->ds_length));
 	
-	if (length > (dstring->max_length)) {
+	if (length > (dstring->ds_max_length)) {
 		char *tmp;
 		
-		while ((dstring->max_length) < length) {
-			dstring->max_length += DSTRING_CHUNK_SIZE;
+		while ((dstring->ds_max_length) < length) {
+			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = fmm_malloc(dstring->max_length, memtype_str);
-		(void) memcpy (tmp, dstring->contents, dstring->length);
-		fmm_free (dstring->contents, memtype_str);
-		dstring->contents = tmp;
+		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
+		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
+		fmm_free (dstring->ds_contents, memtype_str);
+		dstring->ds_contents = tmp;
 	}
-	(void) memcpy (dstring->contents + dstring->length,
+	(void) memcpy (dstring->ds_contents + dstring->ds_length,
 				   nstring_contents (nstring), nlength);
-	dstring->length = length;
+	dstring->ds_length = length;
 }
 
 BoolT
 dstring_last_char_equal(DStringP dstring,
 						char c)
 {
-	return ((dstring->length) &&
-			((dstring->contents [dstring->length - 1]) == c));
+	return ((dstring->ds_length) &&
+			((dstring->ds_contents [dstring->ds_length - 1]) == c));
 }
 
 void
 dstring_to_nstring(DStringP dstring, NStringP nstring)
 {
-	if (dstring->length > 0) {
-		nstring->length   = (dstring->length);
- 		nstring->contents = fmm_malloc(dstring->length, memtype_str);
-		(void) memcpy (nstring->contents, dstring->contents,
-					   dstring->length);
+	if (dstring->ds_length > 0) {
+		nstring->ns_length   = (dstring->ds_length);
+ 		nstring->ns_contents = fmm_malloc(dstring->ds_length, memtype_str);
+		(void) memcpy (nstring->ns_contents, dstring->ds_contents,
+					   dstring->ds_length);
 	} else {
-		nstring->length   = 0;
-		nstring->contents = NULL;
+		nstring->ns_length   = 0;
+		nstring->ns_contents = NULL;
 	}
 }
 
 char *
 dstring_to_cstring(DStringP dstring)
 {
-	char *tmp = fmm_malloc(dstring->length + 1, memtype_str);
+	char *tmp = fmm_malloc(dstring->ds_length + 1, memtype_str);
 	
-	if (dstring->length > 0) {
-		(void) memcpy (tmp, dstring->contents, dstring->length);
+	if (dstring->ds_length > 0) {
+		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
 	}
-	tmp [dstring->length] = '\0';
+	tmp [dstring->ds_length] = '\0';
 	return (tmp);
 }
 
@@ -400,22 +364,22 @@ dstring_destroy_to_cstring(DStringP dstring)
 {
 	char *tmp;
 	
-	if ((dstring->length) >= (dstring->max_length)) {
- 		tmp = fmm_malloc(dstring->length + 1, memtype_str);
-		(void) memcpy (tmp, dstring->contents, dstring->length);
-		fmm_free (dstring->contents, memtype_str);
+	if ((dstring->ds_length) >= (dstring->ds_max_length)) {
+ 		tmp = fmm_malloc(dstring->ds_length + 1, memtype_str);
+		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
+		fmm_free (dstring->ds_contents, memtype_str);
 	} else {
-		tmp = (dstring->contents);
+		tmp = (dstring->ds_contents);
 	}
-	tmp [dstring->length] = '\0';
-	dstring->length       = 0;
-	dstring->max_length   = 0;
-	dstring->contents     = NULL;
+	tmp [dstring->ds_length] = '\0';
+	dstring->ds_length       = 0;
+	dstring->ds_max_length   = 0;
+	dstring->ds_contents     = NULL;
 	return (tmp);
 }
 
 void
 dstring_destroy(DStringP dstring)
 {
-	fmm_free (dstring->contents, memtype_str);
+	fmm_free (dstring->ds_contents, memtype_str);
 }
