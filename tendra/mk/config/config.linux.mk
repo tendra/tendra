@@ -17,6 +17,8 @@ MACH_EXEC=	elf
 
 .if ${TMP_CPU} == "i386" || ${TMP_CPU} == "i486" || ${TMP_CPU} == "i586" || ${TMP_CPU} == "i686"
 MACH_CPU=	80x86
+.else
+MACH_CPU=	${TMP_CPU}
 .endif
 
 .include "config.common.mk"
