@@ -2,6 +2,9 @@
 #
 # $Id$
 
+.if !defined(_TENDRA_COMPILER_MK_)
+_TENDRA_COMPILER_MK_=1
+
 # COMPILER INFORMATION
 #
 # These variables give information on the compiler to be used to install
@@ -85,3 +88,5 @@ TPL?=	tpl
 .endif
 
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec
+
+.endif	# !defined(_TENDRA_COMPILER_MK_)

@@ -2,6 +2,9 @@
 #
 # $Id$
 
+.if !defined(_TENDRA_INSTALL_MK_)
+_TENDRA_INSTALL_MK_=1
+
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 
@@ -132,3 +135,5 @@ _MANINSTALL: .USE
 
 # Depending on all not necessary but nice (verify it's not harmful!).
 install: _REALINSTALL _MANINSTALL
+
+.endif	# !defined(_TENDRA_INSTALL_MK_)

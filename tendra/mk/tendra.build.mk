@@ -2,6 +2,9 @@
 #
 # $Id$
 
+.if !defined(_TENDRA_BUILD_MK_)
+_TENDRA_BUILD_MK_=1
+
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.rules.mk>
@@ -165,3 +168,5 @@ _SUBDIR: .USE
 .for target in obj all clean install cleanobj cleandir
 ${target}: _SUBDIR .PHONY
 .endfor
+
+.endif	# !defined(_TENDRA_BUILD_MK_)
