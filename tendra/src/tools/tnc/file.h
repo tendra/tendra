@@ -66,6 +66,7 @@
 extern FILE *input;
 extern FILE *output;
 extern char *input_file;
+extern struct tdf_stream *tdfr;
 
 extern void open_input(char *, int) ;
 extern void open_output(char *) ;

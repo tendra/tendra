@@ -78,6 +78,8 @@
 
 #include "config.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "basic.h"
@@ -97,7 +99,7 @@ long
 de_%SN(void)
 {
 @if sort.extends
-    long n = fetch_extn (%SB%1u);
+    long n = tdf_de_tdfextint (tdfr, %SB%1u);
 @else
     long n = fetch (%SB%0u);
 @endif
@@ -268,10 +270,10 @@ decode(char *str)
 	    }
 	    case '@' : {
 		/* The following text is a bitstream */
-		long p = tdf_int ();
-		p += posn (here);
+		tdf_pos p = tdf_int ();
+		p += tdf_stream_tell (tdfr);
 		decode (str + 1);
-		if (p != posn (here)) {
+		if (p != tdf_stream_tell (tdfr)) {
 		    MSG_bitstream_length_wrong ();
 		}
 		str = skip_sub (str);
@@ -279,7 +281,7 @@ decode(char *str)
 	    }
 	    case '|' : {
 		/* Align input stream */
-		byte_align ();
+		tdf_de_align (tdfr);
 		break;
 	    }
 @loop sort

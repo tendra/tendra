@@ -57,69 +57,16 @@
 
 #include "config.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
-#include "enc_types.h"
-#include "bitstream.h"
 #include "encode.h"
 #include "high.h"
 #include "names.h"
 #include "table.h"
 #include "tdf.h"
 #include "utility.h"
-
-
-/*
- *    ENCODE AN EXTENDED VALUE
- *
- *    The extended value n is encoded in b bits on the bitstream p.
- */
-
-void
-enc_bits_extn(bitstream *p, int b, long n)
-{
-    long m = ((1 << b) - 1);
-    if (n == 0) MSG_FATAL_cant_encode_0_as_extended_value ();
-    while (n > m) {
-		enc_bits (p, b, (long) 0);
-		n -= m;
-    }
-    enc_bits (p, b, n);
-    return;
-}
-
-
-/*
- *    AUXILIARY TDF INTEGER ENCODING ROUTINE
- *
- *    The value n is encoded as a series of octal digits into the
- *    bitstream p.
- */
-
-static void
-enc_tdf_int_aux(bitstream *p, long n)
-{
-    unsigned long m = (unsigned long) n;
-    if (m >= 8) enc_tdf_int_aux (p, (long) (m >> 3));
-    enc_bits (p, 4, (long) (m & 7));
-    return;
-}
-
-
-/*
- *    ENCODE A TDF INTEGER
- *
- *    The value n is encoded as a TDF integer into the bitstream p.
- */
-
-void
-enc_tdf_int(bitstream *p, long n)
-{
-    unsigned long m = (unsigned long) n;
-    if (m >= 8) enc_tdf_int_aux (p, (long) (m >> 3));
-    enc_bits (p, 4, (long) ((m & 7) | 8));
-    return;
-}
 
 
 /*
@@ -131,17 +78,15 @@ enc_tdf_int(bitstream *p, long n)
  */
 
 void
-enc_aligned_string(bitstream *p, char *s,
-				   long n)
+enc_aligned_string(struct tdf_stream *p, char *s, long n)
 {
     long i;
     if (n == -1) n = (long) strlen (s);
-    enc_tdf_int (p, (long) 8);
-    enc_tdf_int (p, n);
-    align_bitstream (p);
+    tdf_en_tdfintl (p, 8);
+    tdf_en_tdfintl (p, (unsigned long)n);
+    tdf_en_align (p);
     for (i = 0 ; i < n ; i++) {
-		long c = (long) s [i];
-		enc_bits (p, 8, c);
+		tdf_en_bits (p, 8, (unsigned char)s[i]);
     }
     return;
 }
@@ -154,35 +99,35 @@ enc_aligned_string(bitstream *p, char *s,
  */
 
 void
-enc_external(bitstream *b, construct *p)
+enc_external(struct tdf_stream *b, construct *p)
 {
     node *e = p->ename;
-    enc_tdf_int (b, p->encoding);
+    tdf_en_tdfintl (b, (unsigned long)p->encoding);
     if (e->cons->encoding) {
 		node *q = e->son;
 		if (q->cons->sortnum == SORT_tdfstring) {
 			node *r = q->bro;
 			if (r == null) {
 				enc_external_bits (b, ENC_string_extern);
-				align_bitstream (b);
+				tdf_en_align (b);
 				enc_aligned_string (b, q->cons->name, q->cons->encoding);
 			} else {
 				enc_external_bits (b, ENC_chain_extern);
-				align_bitstream (b);
+				tdf_en_align (b);
 				enc_aligned_string (b, q->cons->name, q->cons->encoding);
 				enc_node (b, r);
 			}
 		} else {
 			enc_external_bits (b, ENC_unique_extern);
-			align_bitstream (b);
-			enc_tdf_int (b, q->cons->encoding);
+			tdf_en_align (b);
+			tdf_en_tdfintl (b, (unsigned long)q->cons->encoding);
 			for (q = e->son->son ; q ; q = q->bro) {
 				enc_aligned_string (b, q->cons->name, q->cons->encoding);
 			}
 		}
     } else {
 		enc_external_bits (b, ENC_string_extern);
-		align_bitstream (b);
+		tdf_en_align (b);
 		enc_aligned_string (b, p->name, (long) -1);
     }
     return;
@@ -211,7 +156,7 @@ octval(node *p)
  */
 
 void
-enc_node(bitstream *b, node *p)
+enc_node(struct tdf_stream *b, node *p)
 {
     while (p) {
 		construct *q = p->cons;
@@ -219,16 +164,15 @@ enc_node(bitstream *b, node *p)
 
 	    case SORT_tdfbool : {
 			/* Encode a bit */
-			enc_bits (b, 1, q->encoding);
+			tdf_en_bits (b, 1, (unsigned long)q->encoding);
 			break;
 	    }
 
 	    case SORT_bytestream : {
 			/* Encode a bytestream */
-			bitstream *c = new_bitstream ();
+			struct tdf_stream *c = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
 			enc_node (c, p->son);
-			enc_tdf_int (b, bitstream_length (c));
-			join_bitstreams (b, c);
+			(void)tdf_en_bitstream (b, c);
 			break;
 	    }
 
@@ -240,7 +184,7 @@ enc_node(bitstream *b, node *p)
 
 	    case SORT_small_tdfint : {
 			/* Encode a small integer */
-			enc_tdf_int (b, q->encoding);
+			tdf_en_tdfintl (b, (unsigned long)q->encoding);
 			break;
 	    }
 
@@ -248,10 +192,10 @@ enc_node(bitstream *b, node *p)
 			/* Encode a number */
 			char *num = q->name;
 			while (*num) {
-				long d = (long) (*num - '0');
+				unsigned long d = (unsigned char) (*num - '0');
 				num++;
 				if (*num == 0) d |= 8;
-				enc_bits (b, 4, d);
+				tdf_en_bits (b, 4, d);
 			}
 			break;
 	    }
@@ -259,10 +203,10 @@ enc_node(bitstream *b, node *p)
 	    case SORT_option : {
 			/* Encode an optional argument */
 			if (p->son) {
-				enc_bits (b, 1, (long) 1);
+				tdf_en_bits (b, 1, (unsigned long) 1);
 				enc_node (b, p->son);
 			} else {
-				enc_bits (b, 1, (long) 0);
+				tdf_en_bits (b, 1, (unsigned long) 0);
 			}
 			break;
 	    }
@@ -270,7 +214,7 @@ enc_node(bitstream *b, node *p)
 	    case SORT_repeat : {
 			/* Encode a repeated argument */
 			enc_list_start (b);
-			enc_tdf_int (b, q->encoding);
+			tdf_en_tdfintl (b, (unsigned long)q->encoding);
 			if (p->son) enc_node (b, p->son);
 			break;
 	    }
@@ -285,25 +229,20 @@ enc_node(bitstream *b, node *p)
 				r = r->bro->bro;
 				n = r->cons->encoding;
 				r = r->son;
-				enc_tdf_int (b, m);
-				enc_tdf_int (b, n);
+				tdf_en_tdfintl (b, (unsigned long)m);
+				tdf_en_tdfintl (b, (unsigned long)n);
 				for (i = 0 ; i < n ; i++) {
-					enc_bits (b, (int) m, octval (r));
+					tdf_en_bits (b, (unsigned) m, (unsigned long)octval (r));
 					r = r->bro->bro;
 				}
 			} else {
-				enc_tdf_int (b, (long) 8);
-				enc_tdf_int (b, n);
-				for (i = 0 ; i < n ; i++) {
-					long c = (long) q->name [i];
-					enc_bits (b, 8, c);
-				}
+				tdf_en_cstringn (b, (size_t)n, q->name);
 			}
 			break;
 	    }
 
 	    case SORT_unknown : {
-			/* Encode an unknown bitstream */
+			/* Encode an unknown struct tdf_stream */
 			MSG_FATAL_cant_encode_unknown_bitstream ();
 			break;
 	    }
@@ -313,7 +252,7 @@ enc_node(bitstream *b, node *p)
 			long e = q->encoding;
 			enc_al_tag_bits (b, (int) e);
 			if (e == ENC_make_al_tag) {
-				enc_tdf_int (b, p->son->cons->encoding);
+				tdf_en_tdfintl (b, (unsigned long)p->son->cons->encoding);
 			} else {
 				if (p->son) enc_node (b, p->son);
 			}
@@ -325,7 +264,7 @@ enc_node(bitstream *b, node *p)
 			long e = q->encoding;
 			enc_label_bits (b, (int) e);
 			if (e == ENC_make_label) {
-				enc_tdf_int (b, p->son->cons->encoding);
+				tdf_en_tdfintl (b, (unsigned long)p->son->cons->encoding);
 			} else {
 				if (p->son) enc_node (b, p->son);
 			}
@@ -337,7 +276,7 @@ enc_node(bitstream *b, node *p)
 			long e = q->encoding;
 			enc_tag_bits (b, (int) e);
 			if (e == ENC_make_tag) {
-				enc_tdf_int (b, p->son->cons->encoding);
+				tdf_en_tdfintl (b, (unsigned long)p->son->cons->encoding);
 			} else {
 				if (p->son) enc_node (b, p->son);
 			}
@@ -350,33 +289,32 @@ enc_node(bitstream *b, node *p)
 			if (is_high (info->res)) {
 				enc_token_bits (b, ENC_token_apply_token);
 				enc_token_bits (b, ENC_make_tok);
-				enc_tdf_int (b, q->encoding);
-				enc_tdf_int (b, (long) 0);
+				tdf_en_tdfintl (b, (unsigned long)q->encoding);
+				tdf_en_tdfintl (b, (long) 0);
 			} else {
 				enc_token_bits (b, ENC_make_tok);
-				enc_tdf_int (b, q->encoding);
+				tdf_en_tdfintl (b, (unsigned long)q->encoding);
 			}
 			if (p->son) {
 				if (p->son->cons != &token_cons) {
-					bitstream *c = new_bitstream ();
+					struct tdf_stream *c = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
 					enc_node (c, p->son);
-					enc_tdf_int (b, bitstream_length (c));
-					join_bitstreams (b, c);
+					(void)tdf_en_bitstream (b, c);
 				}
 			} else {
-				enc_tdf_int (b, (long) 0);
+				tdf_en_tdfintl (b, (long) 0);
 			}
 			break;
 	    }
 
 	    default : {
 			/* Encode a simple sort */
-			int bits = sort_encoding [ q->sortnum ];
+			unsigned int bits = sort_encoding [ q->sortnum ];
 			int extn = sort_extension [ q->sortnum ];
 			if (extn) {
-				enc_bits_extn (b, bits, q->encoding);
+				tdf_en_tdfextint (b, bits, (unsigned long)q->encoding);
 			} else {
-				enc_bits (b, bits, q->encoding);
+				tdf_en_bits (b, bits, (unsigned long)q->encoding);
 			}
 			if (p->son) enc_node (b, p->son);
 			break;
@@ -393,7 +331,7 @@ enc_node(bitstream *b, node *p)
  */
 
 static void
-enc_sort(bitstream *b, sortname s)
+enc_sort(struct tdf_stream *b, sortname s)
 {
     if (is_high (s)) {
 		int i;
@@ -401,7 +339,7 @@ enc_sort(bitstream *b, sortname s)
 		enc_sort (b, SORT_token);
 		enc_sort (b, h->res);
 		enc_list_start (b);
-		enc_tdf_int (b, (long) h->no_args);
+		tdf_en_tdfintl (b, (unsigned long)h->no_args);
 		for (i = 0 ; i < h->no_args ; i++) {
 			enc_sort (b, h->args [i]);
 		}
@@ -419,11 +357,11 @@ enc_sort(bitstream *b, sortname s)
  */
 
 void
-enc_aldef(bitstream *b, construct *p)
+enc_aldef(struct tdf_stream *b, construct *p)
 {
     al_tag_info *info = get_al_tag_info (p);
     enc_al_tagdef_bits (b, ENC_make_al_tagdef);
-    enc_tdf_int (b, p->encoding);
+    tdf_en_tdfintl (b, (unsigned long)p->encoding);
     enc_node (b, info->def);
     return;
 }
@@ -436,7 +374,7 @@ enc_aldef(bitstream *b, construct *p)
  */
 
 void
-enc_tagdec(bitstream *b, construct *p)
+enc_tagdec(struct tdf_stream *b, construct *p)
 {
     int m = 0;
     tag_info *info = get_tag_info (p);
@@ -446,7 +384,7 @@ enc_tagdec(bitstream *b, construct *p)
 	case 2 : m = ENC_common_tagdec ; break;
     }
     enc_tagdec_bits (b, m);
-    enc_tdf_int (b, p->encoding);
+    tdf_en_tdfintl (b, (unsigned long)p->encoding);
     enc_node (b, info->dec);
     return;
 }
@@ -461,7 +399,7 @@ enc_tagdec(bitstream *b, construct *p)
  */
 
 int
-enc_tagdef(bitstream *b, construct *p)
+enc_tagdef(struct tdf_stream *b, construct *p)
 {
     int n = 0;
     int m = 0;
@@ -475,7 +413,7 @@ enc_tagdef(bitstream *b, construct *p)
     while (d) {
 		/* Can have multiple definitions */
 		enc_tagdef_bits (b, m);
-		enc_tdf_int (b, p->encoding);
+		tdf_en_tdfintl (b, (unsigned long)p->encoding);
 		enc_node (b, d->son);
 		d = d->bro;
 		n++;
@@ -488,7 +426,7 @@ enc_tagdef(bitstream *b, construct *p)
  *    WORK OUT THE NUMBER OF FORMAL ARGUMENTS GIVEN A STRING
  */
 
-static long
+static unsigned long
 no_formals(char *args)
 {
     long n = 0;
@@ -508,15 +446,15 @@ no_formals(char *args)
  */
 
 void
-enc_tokdec(bitstream *b, construct *p)
+enc_tokdec(struct tdf_stream *b, construct *p)
 {
     tok_info *info = get_tok_info (p);
     enc_tokdec_bits (b, ENC_make_tokdec);
-    enc_tdf_int (b, p->encoding);
+    tdf_en_tdfintl (b, (unsigned long)p->encoding);
 
     /* Deal with signature */
     if (info->sig == null) {
-		enc_bits (b, 1, (long) 0);
+		tdf_en_bits (b, 1, (long) 0);
     } else {
 		enc_node (b, info->sig);
     }
@@ -531,7 +469,7 @@ enc_tokdec(bitstream *b, construct *p)
     enc_list_start (b);
     if (info->args) {
 		char *q = info->args;
-		enc_tdf_int (b, no_formals (q));
+		tdf_en_tdfintl (b, no_formals (q));
 		while (*q) {
 			sortname s;
 			q = find_sortname (q, &s);
@@ -539,7 +477,7 @@ enc_tokdec(bitstream *b, construct *p)
 			enc_sort (b, s);
 		}
     } else {
-		enc_tdf_int (b, (long) 0);
+		tdf_en_tdfintl (b, (long) 0);
     }
     return;
 }
@@ -552,16 +490,16 @@ enc_tokdec(bitstream *b, construct *p)
  */
 
 void
-enc_tokdef(bitstream *b, construct *p)
+enc_tokdef(struct tdf_stream *b, construct *p)
 {
-    bitstream *c = new_bitstream ();
+    struct tdf_stream *c = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
     tok_info *info = get_tok_info (p);
     enc_tokdef_bits (b, ENC_make_tokdef);
-    enc_tdf_int (b, p->encoding);
+    tdf_en_tdfintl (b, (unsigned long)p->encoding);
 
     /* Deal with signature */
     if (info->sig == null) {
-		enc_bits (b, 1, (long) 0);
+		tdf_en_bits (b, 1, 0);
     } else {
 		enc_node (b, info->sig);
     }
@@ -576,20 +514,19 @@ enc_tokdef(bitstream *b, construct *p)
     enc_list_start (c);
     if (info->args) {
 		construct **q = info->pars;
-		enc_tdf_int (c, no_formals (info->args));
+		tdf_en_tdfintl (c, no_formals (info->args));
 		while (*q) {
 			tok_info *qinfo = get_tok_info (*q);
 			enc_sort (c, qinfo->res);
-			enc_tdf_int (c, (*q)->encoding);
+			tdf_en_tdfintl (c, (unsigned long)(*q)->encoding);
 			q++;
 		}
     } else {
-		enc_tdf_int (c, (long) 0);
+		tdf_en_tdfintl (c, (long) 0);
     }
 
     /* Encode the token definition */
     enc_node (c, info->def);
-    enc_tdf_int (b, bitstream_length (c));
-    join_bitstreams (b, c);
+    (void)tdf_en_bitstream (b, c);
     return;
 }

@@ -58,6 +58,8 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "ascii.h"
@@ -169,7 +171,7 @@ object
 			} else {
 				/* use_tokdef */
 				long len = tdf_int ();
-				skip_bits (len);
+				tdf_skip_bits (tdfr, len);
 				out_string ("use_tokdef(....)");
 				IGNORE new_word (SIMPLE);
 			}
@@ -220,10 +222,12 @@ object
     if (obj && res_sort (obj) != sort_unknown && !is_foreign (obj)) {
 		/* Known token - decode arguments */
 		if (arg_sorts (obj)) {
-			long p = posn (here);
+			tdf_pos pos;
+
+			pos = tdf_stream_tell (tdfr);
 			if (!ap) w = new_word (VERT_BRACKETS);
 			decode (arg_sorts (obj));
-			if (p + bits != posn (here)) {
+			if (tdf_stream_tell(tdfr) != pos + bits) {
 				if (simple) {
 					SET (t);
 					MSG_token_arguments_length_wrong_token (
@@ -245,7 +249,7 @@ object
 		/* Unknown token - step over arguments */
 		if (!ap) w = new_word (VERT_BRACKETS);
 		out ("....");
-		skip_bits (bits);
+		tdf_skip_bits (tdfr, bits);
     }
     SET (w);
     end_word (w);
@@ -294,33 +298,34 @@ de_make_label(long lab_no)
  */
 
 void
-de_tdfstring_format()
+de_tdfstring_format(void)
 {
-    string s;
+	TDFSTRING ts;
     word *ptr1;
-    long sz = tdf_int ();
-    long n = tdf_int ();
-    if (sz != 8) {
+	size_t n;
+	char *s;
+
+	tdf_de_tdfstring(tdfr, &ts);
+
+    if (ts.size != 8) {
 		char sbuff [100];
-		IGNORE sprintf (sbuff, "make_string_%ld", sz);
+		IGNORE sprintf (sbuff, "make_string_%ld", (long)ts.size);
 		out_string (sbuff);
 		ptr1 = new_word (HORIZ_BRACKETS);
     }
-    if (sz > 8) {
+    if (ts.size > 8) {
 		long i;
-		for (i = 0 ; i < n ; i++) {
-			long v = fetch ((int) sz);
-			out_int (v);
-		}
+		for (i = 0; i < ts.number; i++)
+			out_int (ts.ints.longs[i]);
     } else {
-		s = get_string (n, sz);
-		n = (long) strlen (s);
+		s = tdf_string_format (&ts);
+		n = strlen (s);
 		if (n == 0) {
 			out ("\"\"");
 			return;
 		}
 		while (n) {
-			long m = (n < STRING_WIDTH ? n : STRING_WIDTH);
+			size_t m = (n < STRING_WIDTH ? n : STRING_WIDTH);
 			char *w = xmalloc_nof (char, m + 3);
 			IGNORE memcpy (w + 1, s, (size_t) m);
 			w [0] = QUOTE;
@@ -331,10 +336,12 @@ de_tdfstring_format()
 			s += m;
 		}
     }
-    if (sz != 8) {
+    if (ts.size != 8) {
 		SET (ptr1);
 		end_word (ptr1);
     }
+	if (ts.number)
+		xfree (ts.ints.chars);
     return;
 }
 
@@ -361,7 +368,7 @@ de_solve_fn(char *nm, char *str1, char *str2,
 {
     long i, n;
     word *ptr1, *ptr2;
-    place posn1, posn2;
+	tdf_pos posn1, posn2;
 
     int tempflag = printflag;
 
@@ -373,8 +380,7 @@ de_solve_fn(char *nm, char *str1, char *str2,
     n = tdf_int ();
 
     /* Record the position of A1 */
-    posn1.byte = here.byte;
-    posn1.bit = here.bit;
+    posn1 = tdf_stream_tell (tdfr);
 
     /* Step over A1, ..., An */
     printflag = 0;
@@ -396,19 +402,17 @@ de_solve_fn(char *nm, char *str1, char *str2,
 		ptr2 = new_word (VERT_BRACKETS);
 
 		/* Record the position of Ci */
-		posn2.byte = here.byte;
-		posn2.bit = here.bit;
+		posn2 = tdf_stream_tell (tdfr);
 
 		/* Go back and read Ai */
-		set_place (&posn1);
+		tdf_stream_seek(tdfr, posn1);
 		decode (str1);
 
 		/* Record the position of A(i+1) */
-		posn1.byte = here.byte;
-		posn1.bit = here.bit;
+		posn1 = tdf_stream_tell (tdfr);
 
 		/* Go forward and read Ci */
-		set_place (&posn2);
+		tdf_stream_seek(tdfr, posn2);
 		decode (str3);
 
 		end_word (ptr2);

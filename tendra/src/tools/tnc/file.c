@@ -58,9 +58,10 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
-#include "fetch.h"
 #include "read_types.h"
 #include "analyser.h"
 #include "utility.h"
@@ -83,6 +84,7 @@ static directory *search_path = null;
 
 FILE *input;
 char *input_file = null;
+struct tdf_stream *tdfr;
 
 
 /*
@@ -107,11 +109,11 @@ open_input(char *nm, int search)
     }
     if (input == null) MSG_cant_open_input_file (nm);
     input_file = nm;
-    bits_in_buff = 0;
-    bytes_read = 0;
     crt_line_no = 1;
     line_no = 1;
     looked_ahead = 0;
+	if (!text_input)
+		tdfr = tdf_fstream_createf (input, input_file);
     return;
 }
 

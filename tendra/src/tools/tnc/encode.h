@@ -63,18 +63,16 @@
  *    BASIC ENCODING ROUTINES
  */
 
-extern void enc_bits_extn(bitstream *, int, long) ;
-extern void enc_tdf_int(bitstream *, long) ;
-extern void enc_aligned_string(bitstream *, char *, long) ;
-extern void enc_external(bitstream *, construct *) ;
-extern void enc_aldef(bitstream *, construct *) ;
-extern void enc_tagdec(bitstream *, construct *) ;
-extern int enc_tagdef(bitstream *, construct *) ;
-extern void enc_tokdec(bitstream *, construct *) ;
-extern void enc_tokdef(bitstream *, construct *) ;
-extern void enc_node(bitstream *, node *) ;
+extern void enc_aligned_string(struct tdf_stream *, char *, long) ;
+extern void enc_external(struct tdf_stream *, construct *) ;
+extern void enc_aldef(struct tdf_stream *, construct *) ;
+extern void enc_tagdec(struct tdf_stream *, construct *) ;
+extern int enc_tagdef(struct tdf_stream *, construct *) ;
+extern void enc_tokdec(struct tdf_stream *, construct *) ;
+extern void enc_tokdef(struct tdf_stream *, construct *) ;
+extern void enc_node(struct tdf_stream *, node *) ;
 
-#define enc_list_start(p)	enc_bits (p, 1, (long) 0)
+#define enc_list_start(p)	tdf_en_bits (p, 1, 0)
 
 
 #endif

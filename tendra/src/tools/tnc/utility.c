@@ -62,7 +62,6 @@
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
-#include "fetch.h"
 #include "file.h"
 #include "table.h"
 #include "utility.h"

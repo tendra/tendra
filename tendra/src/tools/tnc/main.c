@@ -60,16 +60,18 @@
 #include "catstdn.h"
 #include "msgcat.h"
 #include "ostream.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 #include "tenapp.h"
 
 #include "release.h"
-#include "fetch.h"
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
 #include "check.h"
 #include "de_types.h"
 #include "de_capsule.h"
+#include "de_unit.h"
 #include "enc_cap.h"
 #include "eval.h"
 #include "file.h"
@@ -342,7 +344,7 @@ msg_uh_where(char ch, void *pp)
 		if (text_input) {
 			write_fmt (msg_stream, ", line %ld", line_no);
 		} else {
-			long b = input_posn ();
+			tdf_pos b = tdf_stream_tell (tdfr);
 			if (capname)
 				write_fmt(msg_stream, ", capsule %s", capname);
 			switch (decode_status) {

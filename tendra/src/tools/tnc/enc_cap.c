@@ -56,9 +56,12 @@
 
 
 #include "config.h"
+
+#include "tdf_types.h"
+#include "tdf_stream.h"
+
+#include "file.h"
 #include "types.h"
-#include "enc_types.h"
-#include "bitstream.h"
 #include "encode.h"
 #include "names.h"
 #include "node.h"
@@ -73,7 +76,7 @@
  *    This is the main bitstream.
  */
 
-static bitstream *crt_bitstream;
+static struct tdf_stream *crt_bitstream;
 
 
 /*
@@ -82,7 +85,7 @@ static bitstream *crt_bitstream;
  *    The number of equation types and variable sorts in the output capsule.
  */
 
-static long eqn_total, var_total;
+static unsigned long eqn_total, var_total;
 
 
 /*
@@ -92,7 +95,7 @@ static long eqn_total, var_total;
  *    definition of the externally named tags and tokens.
  */
 
-static bitstream *tld_bs;
+static struct tdf_stream *tld_bs;
 
 
 /*
@@ -103,10 +106,10 @@ static bitstream *tld_bs;
  *    external names and al_tag_defs are defined.
  */
 
-static long al_tag_total = 0;
-static long al_tag_external = 0;
-static long al_tag_defs = 0;
-static bitstream *al_tag_defs_bs;
+static unsigned long al_tag_total = 0;
+static unsigned long al_tag_external = 0;
+static unsigned long al_tag_defs = 0;
+static struct tdf_stream *al_tag_defs_bs;
 
 
 /*
@@ -123,7 +126,7 @@ enc_al_tag_aux(construct *p)
     al_tag_total++;
     if (p->ename) {
 		al_tag_external++;
-		enc_tdf_int (tld_bs, (long) (info->def ? 5 : 1));
+		tdf_en_tdfintl (tld_bs, (unsigned long)(info->def ? 5 : 1));
     }
     if (info->def == null) return;
     al_tag_defs++;
@@ -156,12 +159,12 @@ enc_al_tag_names(construct *p)
  *    and tag_defs have definitions.
  */
 
-static long tag_total = 0;
-static long tag_external = 0;
-static long tag_decs = 0;
-static long tag_defs = 0;
-static bitstream *tag_decs_bs;
-static bitstream *tag_defs_bs;
+static unsigned long tag_total = 0;
+static unsigned long tag_external = 0;
+static unsigned long tag_decs = 0;
+static unsigned long tag_defs = 0;
+static struct tdf_stream *tag_decs_bs;
+static struct tdf_stream *tag_defs_bs;
 
 
 /*
@@ -178,7 +181,7 @@ enc_tag_aux(construct *p)
     if (info->var == 3) return;
     if (p->ename) {
 		tag_external++;
-		enc_tdf_int (tld_bs, (long) (info->def ? 7 : 3));
+		tdf_en_tdfintl (tld_bs, (unsigned long)(info->def ? 7 : 3));
     }
     tag_decs++;
     enc_tagdec (tag_decs_bs, p);
@@ -214,12 +217,12 @@ enc_tag_names(construct *p)
  *    and tok_defs have definitions.
  */
 
-static long tok_total = 0;
-static long tok_external = 0;
-static long tok_decs = 0;
-static long tok_defs = 0;
-static bitstream *tok_decs_bs;
-static bitstream *tok_defs_bs;
+static unsigned long tok_total = 0;
+static unsigned long tok_external = 0;
+static unsigned long tok_decs = 0;
+static unsigned long tok_defs = 0;
+static struct tdf_stream *tok_decs_bs;
+static struct tdf_stream *tok_defs_bs;
 
 
 /*
@@ -238,9 +241,9 @@ enc_token_aux(construct *p)
     if (p->ename) {
 		tok_external++;
 		if (info->def) {
-			enc_tdf_int (tld_bs, (long) 5);
+			tdf_en_tdfintl (tld_bs, 5);
 		} else {
-			enc_tdf_int (tld_bs, (long) 3);
+			tdf_en_tdfintl (tld_bs, 3);
 		}
     }
     if (info->def == null || !show_tokdefs) {
@@ -280,7 +283,7 @@ enc_token_names(construct *p)
  *    There are lab_total labels.
  */
 
-static long lab_total = 0;
+static unsigned long lab_total = 0;
 
 
 /*
@@ -308,40 +311,40 @@ enc_label_aux(construct *p)
  */
 
 static void
-enc_links(bitstream *p, long ntok, long nalign,
-		  long ntag)
+enc_links(struct tdf_stream *p, unsigned long ntok, unsigned long nalign,
+		  unsigned long ntag)
 {
-    long i;
-    enc_tdf_int (p, var_total);
-    if (tok_total) enc_tdf_int (p, ntok);
-    if (al_tag_total) enc_tdf_int (p, nalign);
-    if (tag_total) enc_tdf_int (p, ntag);
-    enc_tdf_int (p, var_total);
+    unsigned long i;
+    tdf_en_tdfintl (p, var_total);
+    if (tok_total) tdf_en_tdfintl (p, ntok);
+    if (al_tag_total) tdf_en_tdfintl (p, nalign);
+    if (tag_total) tdf_en_tdfintl (p, ntag);
+    tdf_en_tdfintl (p, var_total);
 
     /* Token links */
     if (tok_total) {
-		enc_tdf_int (p, ntok);
+		tdf_en_tdfintl (p, ntok);
 		for (i = 0 ; i < ntok ; i++) {
-			enc_tdf_int (p, i);
-			enc_tdf_int (p, i);
+			tdf_en_tdfintl (p, i);
+			tdf_en_tdfintl (p, i);
 		}
     }
 
     /* Alignment tag links */
     if (al_tag_total) {
-		enc_tdf_int (p, nalign);
+		tdf_en_tdfintl (p, nalign);
 		for (i = 0 ; i < nalign ; i++) {
-			enc_tdf_int (p, i);
-			enc_tdf_int (p, i);
+			tdf_en_tdfintl (p, i);
+			tdf_en_tdfintl (p, i);
 		}
     }
 
     /* Tag links */
     if (tag_total) {
-		enc_tdf_int (p, ntag);
+		tdf_en_tdfintl (p, ntag);
 		for (i = 0 ; i < ntag ; i++) {
-			enc_tdf_int (p, i);
-			enc_tdf_int (p, i);
+			tdf_en_tdfintl (p, i);
+			tdf_en_tdfintl (p, i);
 		}
     }
     return;
@@ -369,56 +372,56 @@ enc_links(bitstream *p, long ntok, long nalign,
  */
 
 static void
-enc_equation(bitstream *p, long ne, bitstream *q,
+enc_equation(struct tdf_stream *p, unsigned long ne, struct tdf_stream *q,
 			 int t)
 {
-    long n;
-    bitstream *u;
+    unsigned long n;
+    struct tdf_stream *u;
 
     if (ne == 0) {
 		/* There are no sets of equations */
-		enc_tdf_int (p, (long) 0);
+		tdf_en_tdfintl (p, 0);
 		return;
     }
 
     /* There is one set of equations */
-    enc_tdf_int (p, (long) 1);
-    u = new_bitstream ();
+    tdf_en_tdfintl (p, 1);
+    u = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
 
     /* Encode the links */
     switch (t) {
 	case EQN_VERS : {
 	    enc_links (p, (long) 0, (long) 0, (long) 0);
-	    enc_tdf_int (u, ne);
+	    tdf_en_tdfintl (u, ne);
 	    break;
 	}
 	case EQN_TLD : {
-	    enc_tdf_int (p, (long) 0);
-	    enc_tdf_int (p, (long) 0);
+	    tdf_en_tdfintl (p, 0);
+	    tdf_en_tdfintl (p, 0);
 	    break;
 	}
 	case EQN_TOKDEC : {
-	    enc_links (p, tok_total, (long) 0, (long) 0);
-	    enc_tdf_int (u, ne);
+	    enc_links (p, tok_total, (long) 0, (unsigned long) 0);
+	    tdf_en_tdfintl (u, ne);
 	    break;
 	}
 	default : {
 	    enc_links (p, tok_total, al_tag_total, tag_total);
-	    enc_tdf_int (u, lab_total);
-	    enc_tdf_int (u, ne);
+	    tdf_en_tdfintl (u, lab_total);
+	    tdf_en_tdfintl (u, ne);
 	    break;
 	}
     }
 
     /* Append the body to the links */
-    join_bitstreams (u, q);
-    align_bitstream (u);
+    (void)tdf_en_stream (u, q);
+    tdf_en_align (u);
 
     /* Precede links and body by their length in bytes */
-    n = bitstream_length (u);
-    enc_tdf_int (p, (long) (n / BYTESIZE));
-    align_bitstream (p);
-    join_bitstreams (p, u);
+    n = u->ts_pos;
+    tdf_en_tdfintl (p, n / BYTESIZE);
+    tdf_en_align (p);
+    (void)tdf_en_stream (p, u);
     return;
 }
 
@@ -430,8 +433,8 @@ enc_equation(bitstream *p, long ne, bitstream *q,
  */
 
 static char *magic_number = VERSION_capsule;
-long version_major = VERSION_major;
-long version_minor = VERSION_minor;
+unsigned long version_major = VERSION_major;
+unsigned long version_minor = VERSION_minor;
 
 
 /*
@@ -443,10 +446,10 @@ long version_minor = VERSION_minor;
 void
 enc_capsule()
 {
-    long n;
-    bitstream *vers_bs;
+    unsigned long n;
+    struct tdf_stream *vers_bs;
     char *m = magic_number;
-    bitstream *p = new_bitstream ();
+    struct tdf_stream *p = tdf_bs_create (output, TDFS_MODE_WRITE, NULL);
 
     /* Map to lowest applicable version number */
     if (version_major == 4) {
@@ -454,15 +457,15 @@ enc_capsule()
     }
 
     /* Initialize the equation bitstreams */
-    tld_bs = new_bitstream ();
-    tok_decs_bs = new_bitstream ();
-    tok_defs_bs = new_bitstream ();
-    al_tag_defs_bs = new_bitstream ();
-    tag_decs_bs = new_bitstream ();
-    tag_defs_bs = new_bitstream ();
+    tld_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+    tok_decs_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+    tok_defs_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+    al_tag_defs_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+    tag_decs_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
+    tag_defs_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
 
     /* Analyse all the tags, tokens etc */
-    enc_tdf_int (tld_bs, (long) 1);
+    tdf_en_tdfintl (tld_bs, 1);
     apply_to_all (enc_label_aux, SORT_label);
     apply_to_all (enc_token_aux, SORT_token);
     apply_to_all (enc_al_tag_aux, SORT_al_tag);
@@ -482,13 +485,13 @@ enc_capsule()
     if (al_tag_defs) eqn_total++;
     if (tag_decs) eqn_total++;
     if (tag_defs) eqn_total++;
-    while (n = (long) *(m++), n != 0) {
-		enc_bits (p, 8, n);
+    while (n = (unsigned char) *(m++), n != 0) {
+		tdf_en_bits (p, 8, n);
     }
-    enc_tdf_int (p, version_major);
-    enc_tdf_int (p, version_minor);
-    align_bitstream (p);
-    enc_tdf_int (p, eqn_total);
+    tdf_en_tdfintl (p, version_major);
+    tdf_en_tdfintl (p, version_minor);
+    tdf_en_align (p);
+    tdf_en_tdfintl (p, eqn_total);
     enc_aligned_string (p, LINK_tld_props, (long) -1);
     enc_aligned_string (p, LINK_version_props, (long) -1);
     if (tok_decs) {
@@ -518,43 +521,43 @@ enc_capsule()
     if (tok_total) var_total++;
     if (al_tag_total) var_total++;
     if (tag_total) var_total++;
-    enc_tdf_int (p, var_total);
+    tdf_en_tdfintl (p, var_total);
     if (tok_total) {
 		enc_aligned_string (p, LINK_token, (long) -1);
-		enc_tdf_int (p, tok_total);
+		tdf_en_tdfintl (p, tok_total);
     }
     if (al_tag_total) {
 		enc_aligned_string (p, LINK_al_tag, (long) -1);
-		enc_tdf_int (p, al_tag_total);
+		tdf_en_tdfintl (p, al_tag_total);
     }
     if (tag_total) {
 		enc_aligned_string (p, LINK_tag, (long) -1);
-		enc_tdf_int (p, tag_total);
+		tdf_en_tdfintl (p, tag_total);
     }
 
     /* Output external names */
-    enc_tdf_int (p, var_total);
+    tdf_en_tdfintl (p, var_total);
     crt_bitstream = p;
     if (tok_total) {
-		enc_tdf_int (p, tok_external);
+		tdf_en_tdfintl (p, tok_external);
 		apply_to_all (enc_token_names, SORT_token);
     }
     if (al_tag_total) {
-		enc_tdf_int (p, al_tag_external);
+		tdf_en_tdfintl (p, al_tag_external);
 		apply_to_all (enc_al_tag_names, SORT_al_tag);
     }
     if (tag_total) {
-		enc_tdf_int (p, tag_external);
+		tdf_en_tdfintl (p, tag_external);
 		apply_to_all (enc_tag_names, SORT_tag);
     }
 
     /* Output equations */
-    enc_tdf_int (p, eqn_total);
+    tdf_en_tdfintl (p, eqn_total);
     enc_equation (p, (long) 1, tld_bs, EQN_TLD);
-    vers_bs = new_bitstream ();
+    vers_bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
     enc_version_bits (vers_bs, ENC_make_version);
-    enc_tdf_int (vers_bs, version_major);
-    enc_tdf_int (vers_bs, version_minor);
+    tdf_en_tdfintl (vers_bs, version_major);
+    tdf_en_tdfintl (vers_bs, version_minor);
     enc_equation (p, (long) 1, vers_bs, EQN_VERS);
     if (tok_decs) enc_equation (p, tok_decs, tok_decs_bs, EQN_TOKDEC);
     if (tok_defs) enc_equation (p, tok_defs, tok_defs_bs, EQN_TOKDEF);
@@ -563,8 +566,6 @@ enc_capsule()
     }
     if (tag_decs) enc_equation (p, tag_decs, tag_decs_bs, EQN_TAGDEC);
     if (tag_defs) enc_equation (p, tag_defs, tag_defs_bs, EQN_TAGDEF);
-
-    /* Send bitstream to output file */
-    print_bitstream (p);
+    tdf_stream_destroy (p);
     return;
 }

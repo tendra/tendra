@@ -65,24 +65,19 @@
  *    This file contains the low level file reading and writing routines.
  */
 
+struct tdf_stream;
+
+extern struct tdf_stream *tdfr;
 extern FILE *pp_file;
-extern place here;
 extern int printflag;
 extern int column;
 extern int maximum;
 extern int lastc;
-extern int read_error;
 extern BoolT dump;
 
 extern void open_files(char *, char *) ;
-extern long fetch(int) ;
-extern void byte_align(void) ;
-extern void set_place(place *) ;
-extern void skip_bits(long) ;
 extern void init_spaces(int) ;
 extern void spaces(int) ;
-
-#define posn(X)	((X).byte * BYTESIZE + (X).bit)
 
 
 #endif

@@ -91,19 +91,18 @@ extern node *de_%SN (void);
 @endif
 @end
 
-#ifdef ENC_TYPES_INCLUDED
+struct tdf_stream;
 @loop sort
 @if sort.basic
 @if sort.special
-extern void enc_%SN_bits (bitstream *, int);
+extern void enc_%SN_bits (struct tdf_stream *, int);
 @else
 @if sort.edge
-extern void enc_%SN_bits (bitstream *, int);
+extern void enc_%SN_bits (struct tdf_stream *, int);
 @endif
 @endif
 @endif
 @end
-#endif
 
 @loop sort
 @if sort.basic

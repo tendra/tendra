@@ -5,8 +5,8 @@ CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
 
 PROG = tnc
 
-SRCS=	alignment.c analyser.c bitstream.c check.c de_capsule.c \
-	de_unit.c decode.c enc_cap.c encode.c eval.c fetch.c \
+SRCS=	alignment.c analyser.c check.c de_capsule.c \
+	de_unit.c decode.c enc_cap.c encode.c eval.c \
 	file.c help.c high.c main.c node.c read.c read_cap.c \
 	shape.c table.c tdf.c utility.c write.c
 

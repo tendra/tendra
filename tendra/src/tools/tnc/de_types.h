@@ -81,7 +81,7 @@ typedef struct {
  */
 
 typedef struct {
-    long max_no;
+    unsigned long max_no;
     long sz;
     construct **table;
 } binding;

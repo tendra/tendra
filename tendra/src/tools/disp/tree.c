@@ -57,6 +57,7 @@
 
 #include "config.h"
 #include "fmm.h"
+#include "tdf_types.h"
 
 #include "types.h"
 #include "ascii.h"

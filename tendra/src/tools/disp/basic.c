@@ -58,6 +58,8 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "ascii.h"
 #include "types.h"
@@ -69,129 +71,85 @@
 #include "tree.h"
 
 
-/*
- *    READ AN EXTENDED NUMBER FROM THE INPUT FILE
- *
- *    This routine reads n bits.  If these are nonzero they give the result.
- *    Otherwise the result is (2^n - 1) plus the next extended number.
- */
-
-long
-fetch_extn(int n)
+TDFINTL
+tdf_int(void)
 {
-    long r = 0, s;
-    while (s = fetch (n), s == 0) r += ((1 << n) - 1);
-    return (r + s);
+	return tdf_de_tdfintl(tdfr);
 }
 
-
-/*
- *    READ A TDF INTEGER FROM THE INPUT FILE
- *
- *    This routine reads a TDF integer from the input file, returning
- *    the result as a long.  Any overflow is ignored.  A TDF integer
- *    is encoded as a series of 4 bit chunks, the least significant
- *    three of which represent an octal digit, and the most significant
- *    of which is a flag which is set to mark the last digit.
- */
-
-long
-tdf_int()
-{
-    long dig;
-    long num = 0;
-    if (read_error) return (0);
-    do {
-		dig = fetch (4);
-		num = 8 * num + (dig & 7);
-    } while (!(dig & 8));
-    return (num);
-}
-
-
-/*
- *    BUFFER FOR LARGE TDF INTEGERS
- *
- *    Larger TDF integers are stored as strings of octal digits.  This
- *    buffer is used to hold them temporarily.  tdf_int_digits gives
- *    the number of octal digits read.
- */
 
 int tdf_int_digits;
-static char tdf_int_buff [1000];
 
 
 /*
  *    READ A TDF INTEGER AS A STRING OF OCTAL DIGITS
  *
- *    A TDF integer is read into the buffer tdf_int_buff, with its length being
+ *    A TDF integer is read into the buffer, with its length being
  *    recorded in tdf_int_digits.
  */
 
-char
-*tdf_int_str()
+char *
+tdf_int_str(void)
 {
-    long dig;
-    int i = 0;
-    int reported = 0;
-    if (read_error) {
-		/* allow for recovery */
-		tdf_int_digits = 1;
-		return ("0");
-    }
-    do {
-		dig = fetch (4);
-		if (i < 1000) {
-			tdf_int_buff [i] = charact (dig & 7);
-			i++;
-		} else {
-			if (!reported) MSG_numeric_overflow ();
-			reported = 1;
-		}
-    } while (!(dig & 8));
-    tdf_int_buff [i] = 0;
-    tdf_int_digits = i;
-    return (tdf_int_buff);
+	ByteT *bp;
+
+	bp = tdf_de_tdfintstr (tdfr);
+	tdf_int_digits = tdfr->ts_tdfintlen;
+	return (char*)bp;
 }
 
 
 /*
- *    READ AN 8-BIT STRING
+ * Format TDFSTRING
  *
- *    Only strings consisting of 8-bit characters are actually dealt with
- *    at the moment.  This routine decodes such a string of length n,
- *    translating any unprintable characters into escape sequences.
+ * Only strings consisting of 8-bit characters are actually dealt with
+ * at the moment.  This routine decodes such a string,
+ * translating any unprintable characters into escape sequences.
  */
 
-string
-get_string(long n, long sz)
+char *
+tdf_string_format(TDFSTRING *sp)
 {
-    long i;
-    string s;
-    char buff [5000];
-    char *p = buff;
-    for (i = 0 ; i < n ; i++) {
-		int c = (int) fetch ((int) sz);
+	TDFINTL i, n;
+	int c;
+	char *s, *p;
+
+	n = 0;
+	for (i = 0 ; i < sp->number ; i++) {
+		c = sp->ints.chars[i];
 		if (printable (c)) {
-			if (c == SLASH || c == QUOTE) *(p++) = SLASH;
-			*(p++) = (char) c;
+			if (c == SLASH || c == QUOTE)
+				n++;
+			n++;
 		} else {
-			*(p++) = SLASH;
-			if (c == NEWLINE) {
-				*(p++) = 'n';
-			} else if (c == TAB) {
-				*(p++) = 't';
+			n++;
+			if (c == NEWLINE || c == TAB) {
+				n++;
 			} else {
-				*(p++) = charact (c / 64);
-				*(p++) = charact ((c % 64) / 8);
-				*(p++) = charact (c % 8);
+				n += 3;
+			}
+		}
+	}
+	p = s = xmalloc (n + 1);
+	for (i = 0 ; i < sp->number ; i++) {
+		c = sp->ints.chars[i];
+		if (printable (c)) {
+			if (c == SLASH || c == QUOTE) *p++ = SLASH;
+			*p++ = (char) c;
+		} else {
+			*p++ = SLASH;
+			if (c == NEWLINE) {
+				*p++ = 'n';
+			} else if (c == TAB) {
+				*p++ = 't';
+			} else {
+				*p++ = charact (c / 64);
+				*p++ = charact ((c % 64) / 8);
+				*p++ = charact (c % 8);
 			}
 		}
     }
-    *(p++) = 0;
-    n = (int) (p - buff);
-    s = xmalloc_nof (char, n);
-    IGNORE memcpy (s, buff, (size_t) n);
+    *p++ = 0;
     return (s);
 }
 
@@ -205,18 +163,20 @@ get_string(long n, long sz)
  *    or the string is too long, it is deemed to be unprintable.
  */
 
-string
-de_tdfstring()
+char *
+de_tdfstring(void)
 {
-    string s;
-    long sz = tdf_int ();
-    long n = tdf_int ();
-    if (sz == 8 && n < 1000) {
-		s = get_string (n, sz);
+	TDFSTRING ts;
+	char *s;
+
+	tdf_de_tdfstring(tdfr, &ts);
+    if (ts.size == 8 && ts.number < 1000) {
+		s = tdf_string_format (&ts);
     } else {
-		skip_bits ((long) (n * sz));
 		s = "<UNPRINTABLE>";
     }
+	if (ts.number)
+		xfree (ts.ints.chars);
     return (s);
 }
 
@@ -228,20 +188,20 @@ de_tdfstring()
  *    couple of alignments.  This is used by de_extern_name.
  */
 
-string
-de_tdfstring_align()
+char *
+de_tdfstring_align(void)
 {
-    string s;
-    long sz = tdf_int ();
-    long n = tdf_int ();
-    byte_align ();
-    if (sz == 8 && n < 1000) {
-		s = get_string (n, sz);
+	TDFIDENT ti;
+	char *s;
+
+	tdf_de_tdfident(tdfr, &ti);
+    if (ti.size == 8 && ti.number < 1000) {
+		s = tdf_string_format (&ti);
     } else {
-		skip_bits ((long) (n * sz));
 		s = "<UNPRINTABLE>";
     }
-    byte_align ();
+	if (ti.number)
+		xfree (ti.ints.chars);
     return (s);
 }
 
@@ -278,7 +238,7 @@ de_extern_name()
 {
     external e;
     long n = de_external ();
-    byte_align ();
+	tdf_de_align (tdfr);
     switch (n) {
 	case external_string_extern : {
 	    e.simple = 1;
@@ -415,9 +375,9 @@ de_sort_name(int expand)
 		long i;
 		string nm;
 #if string_ext
-		long n = fetch_extn (string_bits);
+		long n = tdf_de_tdfextint (tdfr, string_bits);
 #else
-		long n = fetch (string_bits);
+		long n = tdf_de_bits(tdfr, string_bits);
 #endif
 		if (n != string_make_string) {
 			MSG_unknown_foreign_sort ();

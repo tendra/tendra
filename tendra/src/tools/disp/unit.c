@@ -58,6 +58,8 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "basic.h"
@@ -225,11 +227,12 @@ de_tokdec_aux()
 static void
 de_tokdef_aux()
 {
+	tdf_pos end;
     long t;
     sortid s;
     char *args;
     object *obj;
-    long end, m;
+    long m;
     word *w = new_word (HORIZ_NONE);
 
     /* Find definition type */
@@ -252,7 +255,7 @@ de_tokdef_aux()
 
     /* Read definition length and work out end */
     end = tdf_int ();
-    end += posn (here);
+    end += tdf_stream_tell (tdfr); 
 
     /* Find definition type */
     IGNORE de_token_defn ();
@@ -312,19 +315,19 @@ de_tokdef_aux()
     /* Main definition body */
     out ("Definition :");
     if (skipping || is_foreign (obj)) {
-		long bits = end - posn (here);
+		tdf_pos bits = end - tdf_stream_tell (tdfr);
 		out ("....");
 		if (bits < 0) {
 			MSG_token_definition_size_wrong ();
 		} else {
-			skip_bits (bits);
+			tdf_skip_bits (tdfr, bits);
 		}
     } else {
 		char buff [2];
 		buff [0] = s.decode;
 		buff [1] = 0;
 		decode (buff);
-		if (posn (here) != end) {
+		if (tdf_stream_tell (tdfr) != end) {
 			MSG_token_definition_size_wrong ();
 		}
     }
@@ -668,7 +671,7 @@ de_usage(long v)
 		blank_lines = 2;
 		total += total_ext;
     }
-    free (p);
+    xfree (p);
     return;
 }
 
@@ -868,9 +871,7 @@ de_linkinfo_props()
  *    These variables are used to store the last version number read so
  *    that duplicate version numbers can be suppressed.
  */
-
-static long last_major = -1;
-static long last_minor = -1;
+static struct tdf_version lastver = {-1, -1};
 
 
 /*
@@ -882,20 +883,20 @@ static long last_minor = -1;
 void
 de_make_version(char *s)
 {
-    long v1 = tdf_int ();
-    long v2 = tdf_int ();
-    if (v1 != last_major || v2 != last_minor || dumb_mode) {
+    struct tdf_version v;
+
+    tdf_de_make_version (tdfr, &v);
+    if (v.major != lastver.major || v.minor != v.minor || dumb_mode) {
 		word *w;
 		out_string (s);
 		w = new_word (HORIZ_BRACKETS);
-		out_int (v1);
-		out_int (v2);
+		out_int (v.major);
+		out_int (v.minor);
 		end_word (w);
-		last_major = v1;
-		last_minor = v2;
+		lastver = v;
     }
-    if (v1 != version_major || v2 > version_minor) {
-		MSG_illegal_version_number (v1, v2, version_major, version_minor);
+    if (v.major != version_major || v.minor > version_minor) {
+		MSG_illegal_version_number (v.major, v.minor, version_major, version_minor);
     }
     return;
 }
@@ -934,17 +935,10 @@ de_version_props()
 void
 de_magic(char *s)
 {
-    int i, n = (int) strlen (s);
-    for (i = 0 ; i < n ; i++) {
-		long c = fetch (8);
-		if (c != (long) s [i]) {
-			MSG_bad_magic_number (s);
-			exit (EXIT_FAILURE);
-		}
-    }
+	tdf_de_magic (tdfr, s);
     de_make_version (s);
-    last_major = -1;
-    last_minor = -1;
-    byte_align ();
+    lastver.major = -1;
+    lastver.minor = -1;
+	tdf_de_align (tdfr);
     return;
 }

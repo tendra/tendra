@@ -58,12 +58,14 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "de_types.h"
 #include "de_unit.h"
 #include "decode.h"
-#include "fetch.h"
+#include "file.h"
 #include "names.h"
 #include "node.h"
 #include "table.h"
@@ -100,7 +102,7 @@ boolean extract_tokdecs = 0;
  *    given by al_tag_var, tag_var, tok_var respectively.
  */
 
-static long no_var;
+static unsigned long no_var;
 static var_sort *vars;
 long al_tag_var, tag_var, tok_var;
 
@@ -137,7 +139,7 @@ static binding
 *new_binding()
 {
     binding *b;
-    long i, n = no_var;
+    unsigned long i, n = no_var;
     if (n == 0) return (null);
     if (spare_binding) {
 		b = spare_binding;
@@ -177,12 +179,12 @@ free_binding(binding *b)
  */
 
 static void
-set_binding_size(binding *bt, long v, long n)
+set_binding_size(binding *bt, unsigned long v, long n)
 {
     binding *b;
     construct **p;
     long i, m = n + 10;
-    if (v < 0 || v >= no_var)
+    if (v >= no_var)
 		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
     b->max_no = n;
@@ -207,9 +209,9 @@ set_binding_size(binding *bt, long v, long n)
 static void
 complete_binding(binding *b)
 {
-    long v;
+    unsigned long v;
     for (v = 0 ; v < no_var ; v++) {
-		long i;
+		unsigned long i;
 		binding *bv = b + v;
 		sortname s = vars [v].sortnum;
 		for (i = 0 ; i < bv->max_no ; i++) {
@@ -245,13 +247,13 @@ complete_binding(binding *b)
  */
 
 static void
-set_binding(binding *bt, long v, long n, construct *p)
+set_binding(binding *bt, unsigned long v, unsigned long n, construct *p)
 {
     binding *b;
-    if (v < 0 || v >= no_var)
+    if (v >= no_var)
 		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
-    if (n >= b->max_no || n < 0)
+    if (n >= b->max_no)
 		MSG_FATAL_object_number_too_big (n, vars [v].name);
     if (b->table [n])
 		MSG_FATAL_object_already_bound (n, vars [v].name);
@@ -267,13 +269,13 @@ set_binding(binding *bt, long v, long n, construct *p)
  */
 
 construct
-*find_binding(binding *bt, long v, long n)
+*find_binding(binding *bt, unsigned long v, unsigned long n)
 {
     binding *b;
-    if (v < 0 || v >= no_var)
+    if (v >= no_var)
 		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
-    if (n >= b->max_no || n < 0)
+    if (n >= b->max_no)
 		MSG_FATAL_object_number_too_big (n, vars [v].name);
     return (b->table [n]);
 }
@@ -289,16 +291,11 @@ construct
 char
 *de_aligned_string()
 {
-    char *p;
-    long i, n = tdf_int ();
-    if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
-    n = tdf_int ();
-    byte_align ();
-    p = xalloc (n + 1);
-    for (i = 0 ; i < n ; i++) p [i] = (char) fetch (8) /* LINT */;
-    p [n] = 0;
-    byte_align ();
-    return (p);
+	TDFIDENT ts;
+
+	tdf_de_tdfident (tdfr, &ts);
+    if (ts.size != 8) MSG_FATAL_only_8bit_strings_allowed ();
+    return (ts.ints.chars);
 }
 
 
@@ -324,11 +321,11 @@ typedef void (*equation_func)(void) ;
 static void
 de_equation(equation_func f)
 {
-    long i, n;
+    unsigned long i, n;
     binding *old_binding = null;
 
     /* Read new bindings */
-    n = tdf_int ();
+    n = tdf_de_tdfintl (tdfr);
     if (n) {
 		if (n != no_var) MSG_FATAL_number_of_local_variables_wrong ();
 		old_binding = crt_binding;
@@ -337,35 +334,35 @@ de_equation(equation_func f)
 			long sz = tdf_int ();
 			set_binding_size (crt_binding, i, sz);
 		}
-		n = tdf_int ();
+		n = tdf_de_tdfintl (tdfr);
 		if (n != no_var) MSG_FATAL_number_of_linkage_units_wrong ();
 		for (i = 0 ; i < n ; i++) {
 			long j, no_links = tdf_int ();
 			for (j = 0 ; j < no_links ; j++) {
-				long inner = tdf_int ();
-				long outer = tdf_int ();
+				unsigned long inner = tdf_de_tdfintl (tdfr);
+				unsigned long outer = tdf_de_tdfintl (tdfr);
 				construct *p = find_binding (old_binding, i, outer);
 				set_binding (crt_binding, i, inner, p);
 			}
 		}
 		complete_binding (crt_binding);
     } else {
-		n = tdf_int ();
+		n = tdf_de_tdfintl (tdfr);
 		if (n) MSG_FATAL_number_of_linkage_units_wrong ();
     }
 
     /* Read the actual equation */
-    n = BYTESIZE * tdf_int ();
-    byte_align ();
+    n = BYTESIZE * tdf_de_tdfintl (tdfr);
+    tdf_de_align (tdfr);
     if (f == null) {
-		input_skip (n);
+		tdf_skip_bits (tdfr, n);
     } else {
-		long end_posn = input_posn () + n;
+		tdf_pos end_posn = tdf_stream_tell (tdfr) + n;
 		decode_status = 2;
 		(*f) ();
-		byte_align ();
+		tdf_de_align (tdfr);
 		decode_status = 1;
-		if (input_posn () != end_posn) MSG_FATAL_unit_length_wrong ();
+		if (tdf_stream_tell (tdfr) != end_posn) MSG_FATAL_unit_length_wrong ();
     }
 
     /* Restore the old bindings */
@@ -386,8 +383,8 @@ de_equation(equation_func f)
 void
 de_capsule()
 {
-    long i, n;
-    long no_eqn;
+    unsigned long i, n;
+    unsigned long no_eqn;
     char **eqns;
 
     /* Reset variables */
@@ -399,15 +396,15 @@ de_capsule()
     decode_status = 0;
 
     /* Read magic number */
-    de_magic (MAGIC_NUMBER);
+    de_magic (tdf_cap_magic);
 
     /* Read equation names */
-    no_eqn = tdf_int ();
+    no_eqn = tdf_de_tdfintl (tdfr);
     eqns = xalloc (sizeof (char *) * no_eqn);
     for (i = 0 ; i < no_eqn ; i++) eqns [i] = de_aligned_string ();
 
     /* Read variable sort names */
-    no_var = tdf_int ();
+    no_var = tdf_de_tdfintl (tdfr);
     vars = xalloc (sizeof (var_sort) * no_var);
     crt_binding = new_binding ();
     for (i = 0 ; i < no_var ; i++) {
@@ -441,9 +438,9 @@ de_capsule()
 		if (extract_tokdecs && i != tok_var) reject = 1;
 		for (j = 0 ; j < no_links ; j++) {
 			construct *p, *q;
-			long id = tdf_int ();
+			unsigned long id = tdf_de_tdfintl (tdfr);
 			n = de_external_bits ();
-			byte_align ();
+			tdf_de_align (tdfr);
 			p = make_construct (si);
 			if (extract_tokdecs) {
 				(sort_count [ si ])--;
@@ -580,11 +577,11 @@ de_capsule()
 
 			/* Skip pass */
 			if (skip_pass) {
-				long old_posn = input_posn ();
+				tdf_pos old_posn = tdf_stream_tell (tdfr);
 				in_skip_pass = 1;
 				for (j = 0 ; j < no_units ; j++) de_equation (f);
 				in_skip_pass = 0;
-				input_goto (old_posn);
+				tdf_stream_seek (tdfr, old_posn);
 			}
 
 			/* Main pass */
@@ -615,36 +612,28 @@ char *capname = null;
 void
 de_library()
 {
-    long old_posn;
+    tdf_pos old_posn;
     long i, no_cap;
     boolean old_extract = extract_tokdecs;
 
-    de_magic (MAGIC_LINK_NUMBER);
+    de_magic (tdf_lib_magic);
     IGNORE tdf_int ();
     no_cap = tdf_int ();
-    old_posn = input_posn ();
+    old_posn = tdf_stream_tell (tdfr);
 
     /* First pass - extract all token declaration */
     extract_tokdecs = 1;
     for (i = 0 ; i < no_cap ; i++) {
-		long end_posn;
-		long j, n;
+		tdf_pos end_posn;
+		long n;
 		decode_status = 0;
-		n = tdf_int ();
-		if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
-		n = tdf_int ();
-		byte_align ();
-		capname = xalloc (n + 1);
-		for (j = 0 ; j < n ; j++) {
-			capname [j] = (char) fetch (8) ; /* LINT */
-		}
-		capname [n] = 0;
+		capname = de_aligned_string ();
 		n = BYTESIZE * tdf_int ();
-		byte_align ();
-		end_posn = input_posn () + n;
+		tdf_de_align (tdfr);
+		end_posn = tdf_stream_tell (tdfr) + n;
 		de_capsule ();
-		byte_align ();
-		if (input_posn () != end_posn)
+		tdf_de_align (tdfr);
+		if (tdf_stream_tell (tdfr) != end_posn)
 			MSG_FATAL_capsule_length_wrong ();
 		capname = null;
     }
@@ -652,26 +641,18 @@ de_library()
     /* Second pass - if the first pass didn't do everything */
     extract_tokdecs = old_extract;
     if (extract_tokdecs) return;
-    input_goto (old_posn);
+    tdf_stream_seek (tdfr, old_posn);
     for (i = 0 ; i < no_cap ; i++) {
-		long end_posn;
-		long j, n;
+		tdf_pos end_posn;
+		long n;
 		decode_status = 0;
-		n = tdf_int ();
-		if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
-		n = tdf_int ();
-		byte_align ();
-		capname = xalloc (n + 1);
-		for (j = 0 ; j < n ; j++) {
-			capname [j] = (char) fetch (8) ; /* LINT */
-		}
-		capname [n] = 0;
+		capname = de_aligned_string ();
 		n = BYTESIZE * tdf_int ();
-		byte_align ();
-		end_posn = input_posn () + n;
+		tdf_de_align (tdfr);
+		end_posn = tdf_stream_tell (tdfr) + n;
 		de_capsule ();
-		byte_align ();
-		if (input_posn () != end_posn)
+		tdf_de_align (tdfr);
+		if (tdf_stream_tell (tdfr) != end_posn)
 			MSG_FATAL_capsule_length_wrong ();
 		capname = null;
     }

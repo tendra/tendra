@@ -61,6 +61,8 @@
 #include "msgcat.h"
 #include "ostream.h"
 #include "tenapp.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "release.h"
 #include "types.h"
@@ -147,10 +149,13 @@ opt_help(char *option, void *closure)
 static void
 msg_uh_tdfoff(char ch, void *pp)
 {
+	tdf_pos pos;
+
 	UNUSED(ch);
 	UNUSED(pp);
+	pos = tdf_stream_tell (tdfr);
 	write_fmt(msg_stream, "byte %lu, bit %d: ",
-		(unsigned long)here.byte, here.bit);
+		(unsigned long)tdf_pos_offset(pos), tdf_pos_bit(pos));
 }
 
 
@@ -189,7 +194,7 @@ main(int argc, char **argv)
     if (dump) {
 		long f;
 		int bits = 0, n = 1;
-		while (f = fetch (1), !read_error) {
+		while (f =  tdf_de_bits (tdfr, 1), !tdf_stream_eof (tdfr)) {
 			if (n == 1) IGNORE fprintf (pp_file, "%d :\t", bits / 8);
 			IGNORE fputc ((f ? '1' : '0'), pp_file);
 			if (n == 64) {

@@ -69,7 +69,7 @@ extern void de_tagdef(void) ;
 extern void de_tokdec(void) ;
 extern void de_tokdef(void) ;
 extern void de_version(void) ;
-extern void de_magic(char *) ;
+extern void de_magic(const char *) ;
 extern void de_token_defn(construct *, node *) ;
 extern construct *find_label(long) ;
 extern int have_version;

@@ -58,25 +58,14 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "ascii.h"
 #include "file.h"
 #include "pretty.h"
 #include "tree.h"
-
-
-/*
- *    MACRO DEFINITIONS
- *
- *    BUFFSIZE gives the size of the input buffer.  HI_MASK and LO_MASK
- *    are bit masks used to extract bits 8-15 and 0-7 respectively from
- *    an integer.
- */
-
-#define BUFFSIZE	((size_t) 1024)
-#define HI_MASK		((unsigned) 0xff00)
-#define LO_MASK		((unsigned) 0x00ff)
 
 
 /*
@@ -87,20 +76,8 @@
  *    inbuffer.
  */
 
+struct tdf_stream *tdfr;
 FILE *pp_file;
-static FILE *tdf_file;
-static char inbuffer [ BUFFSIZE ];
-static int ib_ptr, ib_size;
-
-
-/*
- *    POSITION IN INPUT FILE
- *
- *    The current position in the input file is recorded by means of a
- *    place.
- */
-
-place here;
 
 
 /*
@@ -109,15 +86,13 @@ place here;
  *    printflag is used to switch the printing on or off.  The present
  *    column number in the output file is given by column.  The maximum
  *    value attained by column is recorded in maximum.  The last character
- *    output is held in lastc.  The flag read_error is used to indicate
- *    that an error has occurred in reading the input file.
+ *    output is held in lastc.
  */
 
 int printflag = 1;
 int column;
 int maximum;
 int lastc = 0;
-int read_error = 0;
 BoolT dump = FALSE;
 
 
@@ -131,149 +106,13 @@ BoolT dump = FALSE;
 void
 open_files(char *name1, char *name2)
 {
-    tdf_file = fopen (name1, "rb");
-    if (tdf_file == null) MSG_cant_open_input_file (name1);
+	tdfr = tdf_fstream_create (name1);
+    if (tdfr == null) MSG_cant_open_input_file (name1);
     if (name2) {
 		pp_file = fopen (name2, "w");
 		if (pp_file == null) MSG_cant_open_output_file (name2);
     } else {
 		pp_file = stdout;
-    }
-    here.byte = 0;
-    here.bit = 0;
-    ib_size = 0;
-    return;
-}
-
-
-/*
- *    READ THE NEXT BYTE FROM THE INPUT FILE
- *
- *    This routine reads the next byte from the input file, putting it
- *    into the worksp field of here.
- */
-
-static void
-next_byte()
-{
-    if (read_error) {
-		here.worksp = 0xff;
-    } else {
-		/* refill input buffer if required */
-		if (ib_size == 0) {
-			ib_ptr = 0;
-			ib_size = (int) fread (inbuffer, 1, BUFFSIZE, tdf_file);
-			if (ib_size == 0) {
-				/* if we have reached the end of the file... */
-				read_error = 1;
-				if (!dump) {
-					out ("<reading error>");
-					MSG_reading_error ();
-				}
-			}
-		}
-		/* get the next character */
-		if (read_error) {
-			here.worksp = 0xff;
-		} else {
-			char c = inbuffer [ ib_ptr++ ];
-			here.worksp = (unsigned) (c & 0xff);
-			ib_size--;
-		}
-    }
-    return;
-}
-
-
-/*
- *    FETCH THE NEXT n BITS FROM THE INPUT FILE
- *
- *    This routine reads the next n bits from the input file and returns
- *    them as an integer.  n will rarely be as much as 8, so there is
- *    no problem with overflow.
- */
-
-long
-fetch(int n)
-{
-    int m;
-    unsigned a = 0;
-    while (n) {
-		/* read the next byte if necessary */
-		if (here.bit == 0) next_byte ();
-		/* m = number of bits we need from this byte */
-		m = BYTESIZE - here.bit;
-		if (n < m) m = n;
-		/* extract m bytes from here.worksp */
-		here.worksp <<= m;
-		a = (a << m) + ((here.worksp & HI_MASK) >> BYTESIZE);
-		here.worksp &= LO_MASK;
-		n -= m;
-		here.bit += m;
-		if (here.bit == BYTESIZE) {
-			here.bit = 0;
-			here.byte++;
-		}
-    }
-    return ((long) a);
-}
-
-
-/*
- *    ALIGN INPUT FILE TO AN 8 BIT BOUNDARY
- *
- *    Bits are read from the input file until it is on an 8 bit boundary.
- */
-
-void
-byte_align()
-{
-    while (!(here.bit == 0 || here.bit == BYTESIZE)) {
-		IGNORE fetch (1);
-    }
-    return;
-}
-
-
-/*
- *    GO TO A GIVEN PLACE IN THE INPUT FILE
- *
- *    The current position is set to the position indicated by the place p.
- */
-
-void
-set_place(place *p)
-{
-    int s;
-    here.byte = p->byte;
-    here.bit = 0;
-    s = fseek (tdf_file, here.byte, SEEK_SET);
-    if (s) MSG_internal_file_seek_error ();
-    ib_size = 0;
-    IGNORE fetch (p->bit);
-    return;
-}
-
-
-/*
- *    SKIP THE NEXT n BITS IN THE INPUT FILE
- *
- *    If n is small, the next n bits are read but discarded.  Otherwise
- *    set_place is used.
- */
-
-void
-skip_bits(long n)
-{
-    if (read_error) return;
-    if (n <= 4 * BYTESIZE) {
-		IGNORE fetch ((int) n);
-    } else {
-		place p;
-		long b = posn (here) + n;
-		p.byte = b / BYTESIZE;
-		p.bit = (int) (b % BYTESIZE);
-		set_place (&p);
     }
     return;
 }

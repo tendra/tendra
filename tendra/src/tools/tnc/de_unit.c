@@ -59,13 +59,15 @@
 #include "cstring.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "check.h"
 #include "de_types.h"
 #include "de_capsule.h"
 #include "decode.h"
-#include "fetch.h"
+#include "file.h"
 #include "high.h"
 #include "node.h"
 #include "table.h"
@@ -395,8 +397,8 @@ de_token_defn(construct *p, node *sig)
     construct **old_pars = info->pars;
 
     /* Find the end of the definition */
-    long end_posn = tdf_int ();
-    end_posn += input_posn ();
+    tdf_pos end_posn = tdf_de_tdfintl (tdfr);
+    end_posn += tdf_stream_tell (tdfr);
 
     /* Find the definition type */
     IGNORE de_token_defn_bits ();
@@ -438,8 +440,8 @@ de_token_defn(construct *p, node *sig)
 
     /* Decode the actual definition */
     if (in_skip_pass) {
-		long bits = end_posn - input_posn ();
-		input_skip (bits);
+		tdf_pos bits = end_posn - tdf_stream_tell (tdfr);
+		tdf_skip_bits (tdfr, bits);
     } else {
 		char buff [2];
 		buff [0] = sort_letters [rs];
@@ -455,10 +457,10 @@ de_token_defn(construct *p, node *sig)
 			info->def = d;
 		}
 		if (rs == SORT_unknown) {
-			long bits = end_posn - input_posn ();
-			input_skip (bits);
+			tdf_pos bits = end_posn - tdf_stream_tell (tdfr);
+			tdf_skip_bits (tdfr, bits);
 		}
-		if (input_posn () != end_posn)
+		if (tdf_stream_tell (tdfr) != end_posn)
 			MSG_FATAL_token_definition_length_wrong (p->name);
 		if (info->pars) {
 			/* Mark the formal arguments as unused */
@@ -525,10 +527,11 @@ int have_version = 0;
 static void
 de_version_number()
 {
-    long v1 = tdf_int ();
-    long v2 = tdf_int ();
-    if (v1 != VERSION_major || v2 > VERSION_minor)
-		MSG_FATAL_illegal_version_number (v1, v2);
+	struct tdf_version v;
+
+	tdf_de_make_version (tdfr, &v);
+    if (v.major != VERSION_major || v.minor > VERSION_minor)
+		MSG_FATAL_illegal_version_number (v.major, v.minor);
     have_version = 1;
     return;
 }
@@ -562,15 +565,10 @@ de_version()
  */
 
 void
-de_magic(char *m)
+de_magic(const char *m)
 {
-    int i, n = (int) strlen (m);
-    for (i = 0 ; i < n ; i++) {
-		long c = fetch (8);
-		if (c != (long) m [i])
-			MSG_FATAL_bad_magic_number ();
-    }
+	tdf_de_magic (tdfr, m);
     de_version_number ();
-    byte_align ();
+    tdf_de_align (tdfr);
     return;
 }

@@ -58,6 +58,8 @@
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "basic.h"
@@ -271,9 +273,9 @@ de_equation(equation_func f)
 
     /* Read the unit body */
     n = BYTESIZE * tdf_int ();
-    byte_align ();
+	tdf_de_align (tdfr);
     if (f == null) {
-		skip_bits (n);
+		tdf_skip_bits (tdfr, n);
 		if (dumb_mode) {
 			out ("(skipped)");
 			blank_line ();
@@ -281,10 +283,10 @@ de_equation(equation_func f)
 		}
 		total++;
     } else {
-		long end = posn (here) + n;
+		tdf_pos end = tdf_stream_tell (tdfr) + n;
 		(*f) ();
-		byte_align ();
-		if (posn (here) != end) MSG_unit_length_wrong ();
+		tdf_de_align (tdfr);
+		if (tdf_stream_tell (tdfr) != end) MSG_unit_length_wrong ();
     }
 
     /* Restore old bindings */
@@ -415,12 +417,11 @@ de_capsule()
 		total = 0;
 		if (f == de_tokdef_props && no_units) {
 			/* Skip pass */
-			place pl;
+			tdf_pos pl;
 			int old_pf = printflag;
 			if (!show_skip) printflag = 0;
 			skipping = 1;
-			pl.byte = here.byte;
-			pl.bit = here.bit;
+			pl = tdf_stream_tell (tdfr);
 			if (printflag && (dumb_mode || f)) {
 				if (title && !show_stuff) {
 					out_string (title);
@@ -442,7 +443,7 @@ de_capsule()
 				blank_lines = 2;
 			}
 			total = 0;
-			set_place (&pl);
+			tdf_stream_seek(tdfr, pl);
 			skipping = 0;
 			printflag = old_pf;
 		}

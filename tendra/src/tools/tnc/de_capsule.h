@@ -82,7 +82,6 @@ extern construct *find_binding(binding *, long, long) ;
 
 extern char *capname;
 extern int decode_status;
-extern int have_version;
 
 extern void de_capsule(void) ;
 extern void de_library(void) ;

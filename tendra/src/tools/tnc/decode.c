@@ -59,6 +59,8 @@
 #include "cstring.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "check.h"
@@ -67,28 +69,13 @@
 #include "de_unit.h"
 #include "decode.h"
 #include "eval.h"
-#include "fetch.h"
+#include "file.h"
 #include "high.h"
 #include "node.h"
 #include "shape.h"
 #include "table.h"
 #include "tdf.h"
 #include "utility.h"
-
-
-/*
- *    DECODE AN EXTENDED VALUE
- *
- *    An extended n bit encoding is decoded.
- */
-
-long
-fetch_extn(int n)
-{
-    long r = 0, s;
-    while (s = fetch (n), s == 0) r += ((1 << n) - 1);
-    return (r + s);
-}
 
 
 /*
@@ -100,12 +87,7 @@ fetch_extn(int n)
 long
 tdf_int()
 {
-    long d, n = 0;
-    do {
-		d = fetch (4);
-		n = 8 * n + (d & 7);
-    } while (!(d & 8));
-    return (n);
+	return (long)tdf_de_tdfintl (tdfr);
 }
 
 
@@ -189,12 +171,12 @@ construct
 				MSG_token_undeclared (t->name);
 				args = "F";
 			}
-			bits += input_posn ();
+			bits += tdf_stream_tell (tdfr);
 			p->son->son = de_node (args);
-			bits -= input_posn ();
+			bits -= tdf_stream_tell (tdfr);
 			if (bits < 0)
 				MSG_FATAL_token_arguments_length_wrong (t->name);
-			input_skip (bits);
+			tdf_skip_bits (tdfr, bits);
 		} else {
 			/* No argument - can deduce token sort */
 			info->res = s;
@@ -212,9 +194,9 @@ construct
 		}
 		if (info->args) {
 			/* Decode arguments */
-			long end_posn = input_posn () + bits;
+			tdf_pos end_posn = tdf_stream_tell (tdfr) + bits;
 			p->son->son = de_node (info->args);
-			if (input_posn () != end_posn)
+			if (tdf_stream_tell (tdfr) != end_posn)
 				MSG_FATAL_token_arguments_length_wrong (t->name);
 		} else {
 			/* No arguments */
@@ -288,17 +270,17 @@ node
 
 	    case '|' : {
 			/* Align input stream */
-			byte_align ();
+			tdf_de_align (tdfr);
 			p = null;
 			break;
 	    }
 
 	    case 'i' : {
 			/* Decode an integer as a string of octal digits */
-			long d, n = 0;
+			unsigned long d, n = 0;
 			char buff [1000];
 			do {
-				d = fetch (4);
+				d = tdf_de_bits (tdfr, 4);
 				buff [n] = (char) ('0' + (d & 7));
 				n++;
 			} while (!(d & 8));
@@ -324,10 +306,10 @@ node
 
 	    case '$' : {
 			/* Decode a string */
-			long i, n = tdf_int ();
+			unsigned long i, n = tdf_de_tdfintl (tdfr);
 			if (n == 8) {
 				char *s;
-				n = tdf_int ();
+				n = tdf_de_tdfintl (tdfr);
 				s = xalloc (n + 1);
 				p = new_node ();
 				p->cons = new_construct ();
@@ -336,23 +318,23 @@ node
 				p->cons->name = s;
 				p->cons->next = null;
 				for (i = 0 ; i < n ; i++) {
-					s [i] = (char) fetch (8) ; /* LINT */
+					s [i] = (char) tdf_de_bits (tdfr, 8) ; /* LINT */
 				}
 				s [n] = 0;
 			} else {
-				long m;
+				unsigned long m;
 				node *px;
 				p = new_node ();
 				p->cons = &string_cons;
 				p->son = make_int (n);
-				m = tdf_int ();
+				m = tdf_de_tdfintl (tdfr);
 				px = new_node ();
 				px->cons = new_construct ();
 				px->cons->sortnum = SORT_repeat;
 				px->cons->encoding = m;
 				p->son->bro->bro = px;
 				for (i = 0 ; i < m ; i++) {
-					long v = fetch ((int) n);
+					long v = tdf_de_bits (tdfr, n);
 					if (i == 0) {
 						px->son = make_int (v);
 						px = px->son;
@@ -368,10 +350,10 @@ node
 	    case '=' : {
 			/* Decode an aligned string */
 			char *s;
-			long i, n = tdf_int ();
+			unsigned long i, n = tdf_de_tdfintl (tdfr);
 			if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
-			n = tdf_int ();
-			byte_align ();
+			n = tdf_de_tdfintl (tdfr);
+			tdf_de_align (tdfr);
 			s = xalloc (n + 1);
 			p = new_node ();
 			p->cons = new_construct ();
@@ -380,10 +362,10 @@ node
 			p->cons->name = s;
 			p->cons->next = null;
 			for (i = 0 ; i < n ; i++) {
-				s [i] = (char) fetch (8) ; /* LINT */
+				s [i] = (char) tdf_de_bits (tdfr, 8) ; /* LINT */
 			}
 			s [n] = 0;
-			byte_align ();
+			tdf_de_align (tdfr);
 			break;
 	    }
 
@@ -435,14 +417,14 @@ node
 
 	    case '@' : {
 			/* The following text is a bitstream */
-			long len, pos;
+			tdf_pos len, pos;
 			str += 2;
-			len = tdf_int ();
-			pos = input_posn ();
+			len = tdf_de_tdfintl (tdfr);
+			pos = tdf_stream_tell (tdfr);
 			p = new_node ();
 			p->cons = &bytestream_cons;
 			p->son = de_node (str);
-			if (len + pos != input_posn ())
+			if (len + pos != tdf_stream_tell (tdfr))
 				MSG_FATAL_conditional_length_wrong ();
 			str = skip_text (str);
 			break;

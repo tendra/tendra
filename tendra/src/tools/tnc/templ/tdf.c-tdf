@@ -68,15 +68,17 @@
 
 #include "config.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "types.h"
 #include "de_types.h"
-#include "enc_types.h"
 #include "check.h"
 #include "decode.h"
 #include "de_capsule.h"
 #include "de_unit.h"
 #include "encode.h"
+#include "file.h"
 #include "node.h"
 #include "read.h"
 #include "shape.h"
@@ -177,9 +179,9 @@ de_%SN(void)
 @endif
 {
 @if sort.extends
-    long n = fetch_extn (%SB%1u);
+    long n = (long)tdf_de_tdfextint (tdfr, %SB%1u);
 @else
-    long n = fetch (%SB%0u);
+    long n = tdf_de_bits (tdfr, %SB%0u);
 @endif
 
 @if sort.special
@@ -260,12 +262,12 @@ de_%SN(void)
 /* ENCODE A %ST */
 
 void
-enc_%SN_bits(bitstream *p, int n)
+enc_%SN_bits(struct tdf_stream *p, int n)
 {
 @if sort.extends
-    enc_bits_extn (p, %SB, (long) n);
+    tdf_en_tdfextint (p, %SB, (unsigned long) n);
 @else
-    enc_bits (p, %SB, (long) n);
+    tdf_en_bits (p, %SB, (unsigned) n);
 @endif
     return;
 }
@@ -276,12 +278,12 @@ enc_%SN_bits(bitstream *p, int n)
 /* ENCODE A %ST */
 
 void
-enc_%SN_bits(bitstream *p, int n)
+enc_%SN_bits(struct tdf_stream *p, int n)
 {
 @if sort.extends
-    enc_bits_extn (p, %SB, (long) n);
+    tdf_en_tdfextint (p, %SB, (unsigned long) n);
 @else
-    enc_bits (p, %SB, (long) n);
+    tdf_en_bits (p, %SB, (unsigned int) n);
 @endif
     return;
 }

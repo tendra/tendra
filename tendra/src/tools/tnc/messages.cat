@@ -309,12 +309,6 @@ FATAL_conditional_length_wrong()
 	KEY(STD) "Conditional length wrong"where
 }
 
-FATAL_cant_encode_0_as_extended_value()
-{
-	USAGE: FATAL
-	KEY(STD) "Can't encode 0 as an extended value"
-}
-
 FATAL_cant_encode_unknown_bitstream()
 {
 	USAGE: FATAL
