@@ -21,8 +21,6 @@ PS2EPS?=	${PREFIX}/bin/ps2epsi
 PIC2PS?=	${GROFF} -p -S -Wall -mtty-char -man 
 TGIF?=		/usr/X11R6/bin/tgif
 
-LOCAL_IMAGES_LIB=	
-
 IMAGES_PNG=	${IMAGES_OBJ:R:S/$/.png/g}
 IMAGES_EPS=	${IMAGES_OBJ:R:S/$/.eps/g}
 IMAGES_PDF=	${IMAGES_OBJ:R:S/$/.pdf/g}

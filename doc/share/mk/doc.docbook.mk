@@ -5,58 +5,71 @@ DOCBOOKSUFFIX?= sgml
 
 MASTERDOC?=	${.CURDIR}/${DOC}.${DOCBOOKSUFFIX}
 
-.if ${MACHINE_ARCH} != "i386"
-OPENJADE=	yes
-.endif
+# general variables
+PREFIX?=	/usr/local
 
-.if defined(OPENJADE)
+
+# openjade settings
 JADE?=		${PREFIX}/bin/openjade
 JADECATALOG?=	${PREFIX}/share/sgml/openjade/catalog
 NSGMLS?=	${PREFIX}/bin/onsgmls
 JADEFLAGS+=	-V openjade
 SX?=		${PREFIX}/bin/osx
-.else
-JADE?=		${PREFIX}/bin/jade
-JADECATALOG?=	${PREFIX}/share/sgml/jade/catalog
-NSGMLS?=	${PREFIX}/bin/nsgmls
-SX?=		${PREFIX}/bin/sx
-.endif
-
 DSLHTML?=	${DOC_PREFIX}/share/sgml/default.dsl
 DSLPRINT?=	${DOC_PREFIX}/share/sgml/default.dsl
 DSLPGP?=	${DOC_PREFIX}/share/sgml/pgp.dsl
 FREEBSDCATALOG=	${DOC_PREFIX}/share/sgml/catalog
 LANGUAGECATALOG=${DOC_PREFIX}/${LANGCODE}/share/sgml/catalog
-
 ISO8879CATALOG=	${PREFIX}/share/sgml/iso8879/catalog
-
 DOCBOOKCATALOG=	${PREFIX}/share/sgml/docbook/catalog
-
 DSSSLCATALOG=	${PREFIX}/share/sgml/docbook/dsssl/modular/catalog
 COLLATEINDEX=	${PREFIX}/share/sgml/docbook/dsssl/modular/bin/collateindex.pl
-
-
-IMAGES_LIB?=
-
 CATALOGS=	-c ${LANGUAGECATALOG} -c ${FREEBSDCATALOG} \
 		-c ${DSSSLCATALOG} -c ${ISO8879CATALOG} \
 		-c ${DOCBOOKCATALOG} -c ${JADECATALOG} \
 		${EXTRA_CATALOGS:S/^/-c /g}
-# XXX: this a hack#, fix later.
-#SGMLFLAGS+=	-D ${CANONICALOBJDIR}
-SGMLFLAGS+=	-D ${.CURDIR}
-
+CSS_FILE?=	${DOC_PREFIX}/share/misc/docbook.css
+CSS_SHEET?=	${CSS_FILE:T}
+PDFTEX_DEF?=	${DOC_PREFIX}/share/web2c/pdftex.def
 JADEOPTS=	${JADEFLAGS} ${SGMLFLAGS} ${CATALOGS}
-
 KNOWN_FORMATS=	html html.tar html-split html-split.tar \
 		txt rtf ps pdf tex dvi tar pdb
-
-CSS_SHEET?=	${DOC_PREFIX}/share/misc/docbook.css
-PDFTEX_DEF?=	${DOC_PREFIX}/share/web2c/pdftex.def
-
 HTMLOPTS?=	-ioutput.html -d ${DSLHTML} ${HTMLFLAGS}
-
 PRINTOPTS?=	-ioutput.print -d ${DSLPRINT} ${PRINTFLAGS}
+# XXX: this a hack#, fix later.
+SGMLFLAGS+=	-D ${.CURDIR}
+
+
+# binaries
+TAR?=		tar
+XARGS?=		xargs
+TEX?=		tex
+LATEX?=		latex
+PDFTEX?=	pdftex
+TIDY?=		tidy
+TIDYOPTS?=	-i -m -raw -preserve -f /dev/null ${TIDYFLAGS}
+DVIPS?=		dvips
+GZIP?=	-9
+GZIP_CMD?=	gzip -qf ${GZIP}
+BZIP2?=	-9
+BZIP2_CMD?=	bzip2 -qf ${BZIP2}
+ZIP?=	-9
+ZIP_CMD?=	zip -j ${ZIP}
+RM?=		rm
+
+# html-> text conversion
+HTML2TXTOPTS?=	-dump ${HTML2TXTFLAGS}
+HTML2PDB?=	iSiloBSD
+HTML2PDBOPTS?=	-y -d0 -Idef ${HTML2PDBFLAGS}
+
+.if exists(${PREFIX}/bin/elinks)
+HTML2TXT?=	elinks
+.else
+HTML2TXT?=	links
+.endif
+
+
+
 
 .if defined(BOOK_OUTPUT)
 NICE_HEADERS=1
@@ -66,107 +79,41 @@ JUSTIFY=1
 #WITH_FOOTNOTES=1
 #GEN_INDEX=1
 .endif
+
 .if defined(JUSTIFY)
 TEXCMDS+=	\RequirePackage{url}
 PRINTOPTS+=	-ioutput.print.justify
 .endif
+
 .if defined(TWO_SIDE)
 PRINTOPTS+=	-V %two-side% -ioutput.print.twoside
 TEXCMDS+=	\def\PageTwoSide{1}
 .endif
+
 .if defined(NICE_HEADERS)
 PRINTOPTS+=    -ioutput.print.niceheaders
 .endif
+
 .if defined(MIN_SECT_LABELS)
 PRINTOPTS+=    -V minimal-section-labels
 .endif
+
 .if defined(TRACE)
 TEXCMDS+=	\tracingstats=${TRACE}
 .endif
+
 .if defined(RLE)
 PNMTOPSFLAGS+=	-rle
 .endif
 
-PERL?=		/usr/bin/perl
-PKG_CREATE?=	/usr/sbin/pkg_create
-SORT?=		/usr/bin/sort
-TAR?=		/usr/bin/tar
-TOUCH?=		/usr/bin/touch
-XARGS?=		/usr/bin/xargs
 
-TEX?=		${PREFIX}/bin/tex
-LATEX?=		${PREFIX}/bin/latex
-PDFTEX?=	${PREFIX}/bin/pdftex
-GROFF?=		groff
-TIDY?=		${PREFIX}/bin/tidy
-TIDYOPTS?=	-i -m -raw -preserve -f /dev/null ${TIDYFLAGS}
-.if exists(${PREFIX}/bin/elinks)
-HTML2TXT?=	${PREFIX}/bin/elinks
-.else
-HTML2TXT?=	${PREFIX}/bin/links
-.endif
-HTML2TXTOPTS?=	-dump ${HTML2TXTFLAGS}
-HTML2PDB?=	${PREFIX}/bin/iSiloBSD
-HTML2PDBOPTS?=	-y -d0 -Idef ${HTML2PDBFLAGS}
-DVIPS?=		${PREFIX}/bin/dvips
 .if defined(PAPERSIZE)
 DVIPSOPTS?=	-t ${PAPERSIZE:L} ${DVIPSFLAGS}
 .endif
 
-GZIP?=	-9
-GZIP_CMD?=	gzip -qf ${GZIP}
-BZIP2?=	-9
-BZIP2_CMD?=	bzip2 -qf ${BZIP2}
-ZIP?=	-9
-ZIP_CMD?=	${PREFIX}/bin/zip -j ${ZIP}
 
-# ------------------------------------------------------------------------
-#
-# Look at ${FORMATS} and work out which documents need to be generated.
-# It is assumed that the HTML transformation will always create a file
-# called index.html, and that for every other transformation the name
-# of the generated file is ${DOC}.format.
-#
-# ${_docs} will be set to a list of all documents that must be made
-# up to date.
-#
-# ${CLEANFILES} is a list of files that should be removed by the "clean"
-# target. ${COMPRESS_EXT:S/^/${DOC}.${_cf}.&/ takes the COMPRESS_EXT
-# var, and prepends the filename to each listed extension, building a
-# second list of files with the compressed extensions added.
-#
 
-# Note: ".for _curformat in ${KNOWN_FORMATS}" is used several times in
-# this file. I know they could have been rolled together in to one, much
-# larger, loop. However, that would have made things more complicated
-# for a newcomer to this file to unravel and understand, and a syntax
-# error in the loop would have affected the entire
-# build/compress/install process, instead of just one of them, making it
-# more difficult to debug.
-#
 
-# Note: It is the aim of this file that *all* the targets be available,
-# not just those appropriate to the current ${FORMATS} and
-# ${INSTALL_COMPRESSED} values.
-#
-# For example, if FORMATS=html and INSTALL_COMPRESSED=gz you could still
-# type
-#
-#     make book.rtf.bz2
-#
-# and it will do the right thing. Or
-#
-#     make install-rtf.bz2
-#
-# for that matter. But don't expect "make clean" to work if the FORMATS
-# and INSTALL_COMPRESSED variables are wrong.
-#
-
-.if ${.OBJDIR} != ${.CURDIR}
-LOCAL_CSS_SHEET= ${.OBJDIR}/${CSS_SHEET:T}
-.else
-LOCAL_CSS_SHEET= ${CSS_SHEET:T}
-.endif
 
 .for _curformat in ${FORMATS}
 _cf=${_curformat}
@@ -176,7 +123,6 @@ _docs+= index.html HTML.manifest ln*.html
 CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
 		HTML.manifest ln*.html ${IMAGES_PNG}
 CLEANFILES+= PLIST.${_curformat}
-
 .else
 _docs+= ${DOC}.${_curformat}
 CLEANFILES+= ${DOC}.${_curformat}
@@ -185,9 +131,12 @@ CLEANFILES+= PLIST.${_curformat}
 .if ${_cf} == "html-split.tar"
 CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
 		HTML.manifest ln*.html ${IMAGES_PNG}
-
 .elif ${_cf} == "html.tar"
-CLEANFILES+= ${DOC}.html ${IMAGES_PNG}
+
+CLEANFILES+= ${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
+
+.elif ${_cf} == "html"
+CLEANFILES+= ${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
 
 .elif ${_cf} == "txt"
 CLEANFILES+= ${DOC}.html-text
@@ -207,45 +156,11 @@ CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES
 .elif ${_cf} == "pdb"
 _docs+= ${.CURDIR:T}.pdb
 CLEANFILES+= ${.CURDIR:T}.pdb
-
 .endif
-.endif
-
-.if (${LOCAL_CSS_SHEET} != ${CSS_SHEET}) && \
-    (${_cf} == "html-split" || ${_cf} == "html-split.tar" || \
-     ${_cf} == "html" || ${_cf} == "html.tar" || ${_cf} == "txt")
-CLEANFILES+= ${LOCAL_CSS_SHEET} ${IMAGES_PNG}
 .endif
 
 .endfor
 
-
-#
-# Build a list of install-${format}.${compress_format} targets to be
-# by "make install". Also, add ${DOC}.${format}.${compress_format} to
-# ${_docs} and ${CLEANFILES} so they get built/cleaned by "all" and
-# "clean".
-#
-
-.if defined(INSTALL_COMPRESSED) && !empty(INSTALL_COMPRESSED)
-.for _curformat in ${FORMATS}
-_cf=${_curformat}
-.for _curcomp in ${INSTALL_COMPRESSED}
-
-.if ${_cf} != "html-split" && ${_cf} != "html"
-_curinst+= install-${_curformat}.${_curcomp}
-_docs+= ${DOC}.${_curformat}.${_curcomp}
-CLEANFILES+= ${DOC}.${_curformat}.${_curcomp}
-
-.if  ${_cf} == "pdb"
-_docs+= ${.CURDIR:T}.${_curformat}.${_curcomp}
-CLEANFILES+= ${.CURDIR:T}.${_curformat}.${_curcomp}
-
-.endif
-.endif
-.endfor
-.endfor
-.endif
 
 #
 # Index generation
@@ -262,33 +177,38 @@ INDEX_SGML?=		index.sgml
 CLEANFILES+= 		${HTML_SPLIT_INDEX} ${HTML_INDEX} ${PRINT_INDEX}
 .endif
 
-.MAIN: all
+
+
 
 all: ${_docs}
 
-# HTML-SPLIT -------------------------------------------------------------
 
-index.html HTML.manifest: ${SRCS} ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
-			  ${INDEX_SGML} ${HTML_SPLIT_INDEX} ${LOCAL_CSS_SHEET}
+# HTML-SPLIT -------------------------------------------------------------
+index.html HTML.manifest: ${SRCS} ${LOCAL_IMAGES_PNG} \
+			  ${INDEX_SGML} ${HTML_SPLIT_INDEX} ${CSS_SHEET}
 	${JADE} -V html-manifest ${HTMLOPTS} -ioutput.html.images \
 		${JADEOPTS} -t sgml ${MASTERDOC}
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} $$(${XARGS} < HTML.manifest)
+	-${TIDY} ${TIDYOPTS} $$(${XARGS} < HTML.manifest)
 .endif
 
-# HTML -------------------------------------------------------------------
 
-${DOC}.html: ${SRCS} ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
-	     ${INDEX_SGML} ${HTML_INDEX} ${LOCAL_CSS_SHEET}
+
+# HTML -------------------------------------------------------------------
+${DOC}.html: ${SRCS} ${LOCAL_IMAGES_PNG} \
+	     ${INDEX_SGML} ${HTML_INDEX} ${CSS_SHEET}
 	${JADE} -V nochunks ${HTMLOPTS} -ioutput.html.images \
 		${JADEOPTS} -t sgml ${MASTERDOC} > ${.TARGET} || \
 		(${RM} -f ${.TARGET} && false)
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} ${.TARGET}
+	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
 
-# HTML-TEXT --------------------------------------------------------------
 
+
+# HTML-TEXT --------------------------------------------------------------
 # Special target to produce HTML with no images in it.
 ${DOC}.html-text: ${SRCS} ${INDEX_SGML} ${HTML_INDEX}
 	${JADE} -V nochunks ${HTMLOPTS} \
@@ -296,26 +216,28 @@ ${DOC}.html-text: ${SRCS} ${INDEX_SGML} ${HTML_INDEX}
 		(${RM} -f ${.TARGET} && false)
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} ${.TARGET}
+	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
 
-${DOC}.html-split.tar: HTML.manifest ${LOCAL_IMAGES_LIB} \
-		       ${LOCAL_IMAGES_PNG} ${LOCAL_CSS_SHEET}
+${DOC}.html-split.tar: HTML.manifest \
+		       ${LOCAL_IMAGES_PNG} ${CSS_SHEET}
 	${TAR} cf ${.TARGET} $$(${XARGS} < HTML.manifest) \
-		${LOCAL_IMAGES_LIB} ${IMAGES_PNG} ${CSS_SHEET:T}
+		${IMAGES_PNG} ${CSS_SHEET:T}
 
-${DOC}.html.tar: ${DOC}.html ${LOCAL_IMAGES_LIB} \
-		 ${LOCAL_IMAGES_PNG} ${LOCAL_CSS_SHEET}
+${DOC}.html.tar: ${DOC}.html  \
+		 ${LOCAL_IMAGES_PNG} ${CSS_SHEET}
 	${TAR} cf ${.TARGET} ${DOC}.html \
-		${LOCAL_IMAGES_LIB} ${IMAGES_PNG} ${CSS_SHEET:T}
+		 ${IMAGES_PNG} ${CSS_SHEET:T}
+
+
 
 # TXT --------------------------------------------------------------------
-
 ${DOC}.txt: ${DOC}.html-text
 	${HTML2TXT} ${HTML2TXTOPTS} ${.ALLSRC} > ${.TARGET}
 
 # PDB --------------------------------------------------------------------
 
-${DOC}.pdb: ${DOC}.html ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG}
+${DOC}.pdb: ${DOC}.html  ${LOCAL_IMAGES_PNG}
 	${HTML2PDB} ${HTML2PDBOPTS} ${DOC}.html ${.TARGET}
 
 ${.CURDIR:T}.pdb: ${DOC}.pdb
@@ -328,8 +250,9 @@ ${.CURDIR:T}.pdb.${_curcomp}: ${DOC}.pdb.${_curcomp}
 .endfor
 .endif
 
-# RTF --------------------------------------------------------------------
 
+
+# RTF --------------------------------------------------------------------
 ${DOC}.rtf: ${SRCS} ${LOCAL_IMAGES_EPS}
 	${JADE} -V rtf-backend ${PRINTOPTS} \
 		${JADEOPTS} -t rtf -o ${.TARGET} ${MASTERDOC}
@@ -370,34 +293,15 @@ ${DOC}.pdf: ${DOC}.tex-pdf ${IMAGES_PDF}
 ${DOC}.ps: ${DOC}.dvi
 	${DVIPS} ${DVIPSOPTS} -o ${.TARGET} ${.ALLSRC}
 
-${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${LOCAL_CSS_SHEET}
+${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${CSS_SHEET}
 	${TAR} cf ${.TARGET} -C ${.CURDIR} ${SRCS} \
 		-C ${.OBJDIR} ${IMAGES} ${CSS_SHEET:T}
 
+${CSS_SHEET}:
+	cat ${CSS_FILE} > ${.CURDIR}/${.TARGET} 
+	
 
 
 
-# ------------------------------------------------------------------------
-#
-# Validation targets
-#
-
-#
-# Lets you quickly check that the document conforms to the DTD without
-# having to convert it to any other formats
-#
-
-lint validate:
+validate:
 	${NSGMLS} -s ${SGMLFLAGS} ${CATALOGS} ${MASTERDOC}
-
-
-# style sheet
-.if ${LOCAL_CSS_SHEET} != ${CSS_SHEET}
-${LOCAL_CSS_SHEET}: ${CSS_SHEET}
-	${RM} -f ${.TARGET}
-	${CAT} ${.ALLSRC} > ${.TARGET}
-.if defined(CSS_SHEET_ADDITIONS)
-	${CAT} ${.CURDIR}/${CSS_SHEET_ADDITIONS} >> ${.TARGET}
-.endif
-.endif
-
