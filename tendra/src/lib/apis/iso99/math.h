@@ -343,3 +343,27 @@
 +FUNC double remquo(double, double, int *);
 +FUNC float remquof(float, float, int *);
 +FUNC long double remquol(long double, long double, int *);
+
+# 7.12.11.1
+
++FUNC double copysign(double, double);
++FUNC float copysignf(float, float);
++FUNC long double copysignl(long double, long double);
+
+# 7.12.11.2
+
++FUNC double nan(const char *);
++FUNC float nanf(const char *);
++FUNC long double nanl(const char *);
+
+# 7.12.11.3
+
++FUNC double nextafter(double, double);
++FUNC float nextafterf(float, float);
++FUNC long double nextafterl(long double, long double);
+
+# 7.12.11.4
+
++FUNC double nexttoward(double, double);
++FUNC float nexttowardf(float, float);
++FUNC long double nexttowardl(long double, long double);
