@@ -9,7 +9,7 @@ _TENDRA_FUNCTIONS_MK_=1
 CONDCREATE=     @Condcreate() {                                      \
                         for dir in $${*}; do                         \
                                 if ${TEST} ! -e $${dir}; then        \
-                                        echo "\# Creating $${dir}/"; \
+                                        ${ECHO} "\# Creating $${dir}/"; \
                                         ${MKDIR} -p $${dir};         \
                                 fi;                                  \
                         done;                                        \
