@@ -1,8 +1,6 @@
 # $TenDRA$
 
-.if exists(../Makefile.inc)
 .include "../Makefile.inc"
-.endif
 
 .PATH :	${.CURDIR}/images ${.CURDIR}/../images
 
