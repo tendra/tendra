@@ -1,0 +1,48 @@
+/* $TenDRA$ */
+/* default environment for -MACH- */
+
++TDFC			"-OBJDIR-/producers/c/tdfc2"
++TDFCPP			"-OBJDIR-/producers/c/tdfc2 -E"
++SPEC_LINK		"-OBJDIR-/producers/c/tdfc2 -S"
++TCPPLUS		"-OBJDIR-/producers/cpp/tcpplus"
++TCPPLUSPP		"-OBJDIR-/producers/cpp/tcpplus -E"
++CPP_SPEC_LINK		"-OBJDIR-/producers/cpp/tcpplus -S"
++TLD			"-OBJDIR-/tools/tld/tld"
++TRANS			"-OBJDIR-/installers/80x86/freebsd/trans"
++DISP			"-OBJDIR-/tools/disp/disp"
++PL_TDF			"-OBJDIR-/tools/pl/pl"
++TNC			"-OBJDIR-/tools/tnc/tnc"
+
++DUMP_ANAL		"-BINDIR-/dump_lint"
++DUMP_LINK		"-BINDIR-/dump_linker"
+
++AS			"/bin/as"
++AS1			"/bin/as"
++LD			"/bin/ld"
++DYN_LINK		"-LIBDIR-/sys/dyninit"
++CC			"/bin/cc"
+
++INCL			"-Nansi:-INCLDIR-/ansi.api"
++STARTUP_DIR		"-I-OBJDIR-/lib/startup/Bounds.ansi -I-OBJDIR-/lib/startup/Modes"
++STARTUP		"-f-OBJDIR-/lib/startup/Modes/Xc"
++STARTUP_CPP_DIR	"-I-OBJDIR-/lib/startup/Bounds.ansi -I-OBJDIR-/lib/startup/Modes.cpp"
++STARTUP_CPP		"-f-OBJDIR-/lib/startup/Modes.cpp/Xc"
++PORTABILITY		"-OBJDIR-/lib/startup/Bounds.ansi/default.pf"
++LINK			"-L-LIBDIR-"
++LIB			"-lansi"
+
++CRT0			"/lib/crt0.o"
++CRT1			""
++CRTN			""
++SYS_LIB		""
++SYS_LIBC		"-lc"
++LINK_ENTRY		""
+
++API_NAME		"-Aansi"
++API			"-R-INCLDIR-/ansi.d"
++ENVDIR			"-OBJDIR-/lib/env/freebsd/common/80x86/"
++INFO			"ANSI@(X3.159)"
++TEMP			"-TMPDIR-"
++VERSION		""
+
+/* Extra information */
