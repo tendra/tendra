@@ -440,8 +440,7 @@ main(int argc, char **argv)
 				print_set (commands, 1);
 				if (file == null) {
 					hash_elem *e = sort_hash (subsets);
-					print_makefile (api, e, 0);
-					print_makefile (api, e, 1);
+					print_makefile (api, e);
 				}
 			} else {
 				if (show_index == 1) {

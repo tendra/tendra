@@ -119,11 +119,10 @@
 /*
  *    OUTPUT MAKEFILES
  *
- *    These macros give the location of the output makefiles.
+ *    This macro give the location of the output makefile.
  */
 
 #define MAKEFILE		"%s/%s.api/Makefile"
-#define MAKEFILE_API		"%s/%s.api/M_%s"
 
 
 /*
