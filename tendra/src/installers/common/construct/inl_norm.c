@@ -156,7 +156,8 @@ normalised_inlining()
 		}
 		my_def = my_def -> def_next;
 	}
-	
+	if (proc_count == 0)
+		return;
 	/* allocate
 	 *     a matrix, uses, to hold uses[i, j] - i calls j
 	 *     a vector, to_dec, to hold dec* (number -> dec)
