@@ -101,17 +101,17 @@ typedef struct CapsuleT {
     } u;
     NStringT			contents;
     unsigned			capsule_index;
-    CStringP			name;
+    char *				name;
     BoolT			complete;
 } CapsuleT, *CapsuleP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			capsule_read_unit_set_file(CStringP);
-extern CapsuleP			capsule_create_stream_input(CStringP);
-extern CapsuleP			capsule_create_string_input(CStringP, NStringP);
-extern CapsuleP			capsule_create_stream_output(CStringP);
-extern CStringP			capsule_name(CapsuleP);
+extern void			capsule_read_unit_set_file(char *);
+extern CapsuleP			capsule_create_stream_input(char *);
+extern CapsuleP			capsule_create_string_input(char *, NStringP);
+extern CapsuleP			capsule_create_stream_output(char *);
+extern char *			capsule_name(CapsuleP);
 extern unsigned			capsule_byte(CapsuleP);
 extern void			capsule_read(CapsuleP, UnitTableP, ShapeTableP);
 extern void			capsule_store_contents(CapsuleP);

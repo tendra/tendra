@@ -71,9 +71,9 @@
  * This file requires that two external functions are provided:
  *
  *	extern void			E_exception_unhandled
- *			PROTO_S ((ExceptionP, CStringP, unsigned));
+ *			PROTO_S ((ExceptionP, char *, unsigned));
  *	extern void			E_exception_corrupt_handler
- *			PROTO_S ((CStringP, unsigned));
+ *			PROTO_S ((char *, unsigned));
  *
  * The first of these functions will be called if there is an unhandled
  * exception.  The exception will be given as an argument, along with the name
@@ -117,7 +117,7 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	CStringP		exception_name
+ ** Function:	char *		exception_name
  *			PROTO_S ((ExceptionP exception))
  *
  * This function returns the name of the specified exception.  The return
@@ -243,19 +243,19 @@
 
 /*--------------------------------------------------------------------------*/
 
-typedef CStringP		ExceptionP;
+typedef char *		ExceptionP;
 
 typedef struct {
-    CStringP			exception;
+    char *				exception;
     GenericP			data;
     unsigned			line;
-    CStringP			file;
+    char *				file;
 } ThrowDataT, *ThrowDataP;
 
 typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
     unsigned			magic_start;
-    CStringP			file;
+    char *				file;
     unsigned			line;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
     struct HandlerT	       *next;
@@ -267,7 +267,7 @@ typedef struct HandlerT {
 
 /*--------------------------------------------------------------------------*/
 
-extern	CStringP		exception_name(ExceptionP);
+extern	char *exception_name(ExceptionP);
 
 /*--------------------------------------------------------------------------*/
 

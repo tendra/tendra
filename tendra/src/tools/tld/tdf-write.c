@@ -91,7 +91,7 @@ tdf_write_nibble(TDFWriterP writer, unsigned nibble)
 /*--------------------------------------------------------------------------*/
 
 BoolT
-tdf_writer_open(TDFWriterP writer, CStringP name)
+tdf_writer_open(TDFWriterP writer, char *name)
 {
     writer->new_byte = TRUE;
     if (!bostream_open (&(writer->bostream), name)) {
@@ -100,7 +100,7 @@ tdf_writer_open(TDFWriterP writer, CStringP name)
     return (TRUE);
 }
 
-CStringP
+char *
 tdf_writer_name(TDFWriterP writer)
 {
     return (bostream_name (&(writer->bostream)));
@@ -138,8 +138,8 @@ tdf_write_align(TDFWriterP writer)
 void
 tdf_write_bytes(TDFWriterP writer, NStringP nstring)
 {
-    unsigned length   = nstring_length (nstring);
-    CStringP contents = nstring_contents (nstring);
+    unsigned length = nstring_length (nstring);
+    char *contents = nstring_contents (nstring);
 
     tdf_write_align (writer);
     bostream_write_chars (&(writer->bostream), length, contents);

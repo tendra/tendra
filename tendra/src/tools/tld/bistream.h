@@ -82,7 +82,7 @@
  * This function initialises the specified bistream not to read from any file.
  *
  ** Function:	BoolT			bistream_open
- *			PROTO_S ((BIStreamP bistream, CStringP name))
+ *			PROTO_S ((BIStreamP bistream, char *name))
  ** Exceptions:
  *
  * This function initialises the specified bistream to read from the file with
@@ -106,7 +106,7 @@
  *
  ** Function:	unsigned		bistream_read_chars
  *			PROTO_S ((BIStreamP bistream, unsigned length,
- *				  CStringP chars))
+ *				  char *chars))
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next length characters from the specified bistream.
@@ -140,7 +140,7 @@
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  *
- ** Function:	CStringP		bistream_name
+ ** Function:	char *		bistream_name
  *			PROTO_S ((BIStreamP bistream))
  ** Exceptions:
  *
@@ -162,7 +162,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_bistream_read_error (CStringP name)
+ ** Exception:	XX_bistream_read_error (char *name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -183,7 +183,7 @@
 typedef struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
-    CStringP			name;
+    char *				name;
 } BIStreamT, *BIStreamP;
 
 /*--------------------------------------------------------------------------*/
@@ -193,14 +193,14 @@ extern ExceptionP		XX_bistream_read_error;
 /*--------------------------------------------------------------------------*/
 
 extern void			bistream_init(BIStreamP);
-extern BoolT			bistream_open(BIStreamP, CStringP);
+extern BoolT			bistream_open(BIStreamP, char *);
 extern void			bistream_assign(BIStreamP, BIStreamP);
 extern BoolT			bistream_is_open(BIStreamP);
-extern unsigned			bistream_read_chars(BIStreamP, unsigned, CStringP);
+extern unsigned			bistream_read_chars(BIStreamP, unsigned, char *);
 extern unsigned			bistream_read_bytes(BIStreamP, unsigned, ByteP);
 extern BoolT			bistream_read_byte(BIStreamP, ByteT *);
 extern unsigned			bistream_byte(BIStreamP);
-extern CStringP			bistream_name(BIStreamP);
+extern char *			bistream_name(BIStreamP);
 extern void			bistream_rewind(BIStreamP);
 extern void			bistream_close(BIStreamP);
 

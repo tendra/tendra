@@ -173,7 +173,7 @@ static void
 lexer_read_builtin(IStreamP istream, LexP token)
 {
 	DStringT dstring;
-	CStringP cstring;
+	char *cstring;
 	
 	dstring_init (&dstring);
 	for (;;) {
@@ -272,7 +272,7 @@ lexer_close(LexerStreamP stream)
 #ifdef FS_FAST
 #undef lexer_stream_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 lexer_stream_name(LexerStreamP stream)
 {
 	return (istream_name (&(stream->istream)));

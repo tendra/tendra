@@ -123,7 +123,7 @@ typedef struct CLexerStreamT {
 
 void	c_lexer_init(CLexerStreamP, IStreamP);
 void	c_lexer_close(CLexerStreamP);
-CStringP c_lexer_stream_name(CLexerStreamP);
+char *	c_lexer_stream_name(CLexerStreamP);
 unsigned c_lexer_stream_line(CLexerStreamP);
 CTokenT	c_lexer_get_terminal(CLexerStreamP);
 void	c_lexer_next_token(CLexerStreamP);

@@ -108,7 +108,7 @@ static ModeT	mode = MODE_LINKER;
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_all(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_all(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -117,7 +117,7 @@ main_handle_all(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_all_hide_defd(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_all_hide_defd(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -126,7 +126,7 @@ main_handle_all_hide_defd(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_basename(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_basename(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -135,8 +135,8 @@ main_handle_basename(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_debug_file(CStringP option, GenericP gclosure,
-					   CStringP debug_file)
+main_handle_debug_file(char *option, GenericP gclosure,
+					   char *debug_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -145,8 +145,8 @@ main_handle_debug_file(CStringP option, GenericP gclosure,
 }
 
 static void
-main_handle_hide(CStringP option, GenericP gclosure, CStringP shape,
-				 CStringP name)
+main_handle_hide(char *option, GenericP gclosure, char *shape,
+				 char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -155,8 +155,8 @@ main_handle_hide(CStringP option, GenericP gclosure, CStringP shape,
 }
 
 static void
-main_handle_hide_defined(CStringP option, GenericP gclosure,
-						 CStringP shape)
+main_handle_hide_defined(char *option, GenericP gclosure,
+						 char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -165,7 +165,7 @@ main_handle_hide_defined(CStringP option, GenericP gclosure,
 }
 
 static void
-main_handle_index(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_index(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -174,7 +174,7 @@ main_handle_index(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_info(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_info(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -183,8 +183,8 @@ main_handle_info(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_keep(CStringP option, GenericP gclosure, CStringP shape,
-				 CStringP name)
+main_handle_keep(char *option, GenericP gclosure, char *shape,
+				 char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -193,7 +193,7 @@ main_handle_keep(CStringP option, GenericP gclosure, CStringP shape,
 }
 
 static void
-main_handle_keep_all(CStringP option, GenericP gclosure, CStringP shape)
+main_handle_keep_all(char *option, GenericP gclosure, char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -202,9 +202,9 @@ main_handle_keep_all(CStringP option, GenericP gclosure, CStringP shape)
 }
 
 static void
-main_handle_library_file(CStringP option,
+main_handle_library_file(char *option,
 						 GenericP gclosure,
-						 CStringP library_file)
+						 char *library_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -213,7 +213,7 @@ main_handle_library_file(CStringP option,
 }
 
 static void
-main_handle_match_base(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_match_base(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -222,8 +222,8 @@ main_handle_match_base(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_output_file(CStringP option, GenericP gclosure,
-						CStringP output_file)
+main_handle_output_file(char *option, GenericP gclosure,
+						char *output_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -232,8 +232,8 @@ main_handle_output_file(CStringP option, GenericP gclosure,
 }
 
 static void
-main_handle_library_path(CStringP option, GenericP gclosure,
-						 CStringP directory)
+main_handle_library_path(char *option, GenericP gclosure,
+						 char *directory)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -242,9 +242,9 @@ main_handle_library_path(CStringP option, GenericP gclosure,
 }
 
 static void
-main_handle_rename(CStringP option,
-				   GenericP gclosure, CStringP shape,
-				   CStringP from, CStringP to)
+main_handle_rename(char *option,
+				   GenericP gclosure, char *shape,
+				   char *from, char *to)
 {
     UNUSED (option);
     UNUSED (usage);
@@ -254,9 +254,9 @@ main_handle_rename(CStringP option,
 }
 
 static void
-main_handle_rename_file(CStringP option,
+main_handle_rename_file(char *option,
 						GenericP gclosure,
-						CStringP name)
+						char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -265,7 +265,7 @@ main_handle_rename_file(CStringP option,
 }
 
 static void
-main_handle_size(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_size(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -274,9 +274,9 @@ main_handle_size(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_suppress(CStringP option,
-					 GenericP gclosure, CStringP shape,
-					 CStringP name)
+main_handle_suppress(char *option,
+					 GenericP gclosure, char *shape,
+					 char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -285,9 +285,9 @@ main_handle_suppress(CStringP option,
 }
 
 static void
-main_handle_suppress_all(CStringP option,
+main_handle_suppress_all(char *option,
 						 GenericP gclosure,
-						 CStringP shape)
+						 char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -296,7 +296,7 @@ main_handle_suppress_all(CStringP option,
 }
 
 static void
-main_handle_suppress_mult(CStringP option,
+main_handle_suppress_mult(char *option,
 						  GenericP gclosure,
 						  BoolT enable)
 {
@@ -307,7 +307,7 @@ main_handle_suppress_mult(CStringP option,
 }
 
 static void
-main_handle_tdf_version(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_tdf_version(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -316,7 +316,7 @@ main_handle_tdf_version(CStringP option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_unit_file(CStringP option, GenericP gclosure, CStringP unit_file)
+main_handle_unit_file(char *option, GenericP gclosure, char *unit_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -325,7 +325,7 @@ main_handle_unit_file(CStringP option, GenericP gclosure, CStringP unit_file)
 }
 
 static void
-main_handle_version(CStringP option, GenericP gclosure)
+main_handle_version(char *option, GenericP gclosure)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -334,7 +334,7 @@ main_handle_version(CStringP option, GenericP gclosure)
 }
 
 static void
-main_handle_warning(CStringP option, GenericP gclosure, BoolT enable)
+main_handle_warning(char *option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -612,11 +612,11 @@ main_init(int argc, char **argv)
 		break;
 	case MODE_CONTENTS:
 		arg_list = main_contents_arg_list;
-		arg_data_init (&main_arg_data, NIL (CStringP));
+		arg_data_init (&main_arg_data, NULL);
 		break;
 	case MODE_EXTRACT:
 		arg_list = main_extract_arg_list;
-		arg_data_init (&main_arg_data, NIL (CStringP));
+		arg_data_init (&main_arg_data, NULL);
 		break;
 	case MODE_LINKER:
 		arg_list = main_linker_arg_list;
@@ -670,12 +670,12 @@ main(int argc, char **argv)
 			UNREACHED;
 		} else if ((exception == XX_istream_read_error) ||
 				   (exception == XX_bistream_read_error)) {
-			CStringP file = (CStringP) EXCEPTION_VALUE ();
+			char *file = (char *) EXCEPTION_VALUE ();
 
 			MSG_file_read_error (file);
 			UNREACHED;
 		} else if (exception == XX_bostream_write_error) {
-			CStringP file = (CStringP) EXCEPTION_VALUE ();
+			char *file = (char *) EXCEPTION_VALUE ();
 
 			MSG_file_write_error (file);
 			UNREACHED;

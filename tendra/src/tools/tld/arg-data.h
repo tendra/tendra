@@ -115,8 +115,8 @@ typedef struct ArgDataT {
     BoolT			content_size;
     BoolT			content_version;
     OStreamT			debug_file;
-    CStringP			default_output_file;
-    CStringP			output_file;
+    char *				default_output_file;
+    char *				output_file;
     unsigned			num_library_files;
     unsigned			num_library_paths;
     union {
@@ -125,13 +125,13 @@ typedef struct ArgDataT {
 			CStringListT	path;
 		} list;
 		struct {
-			CStringP	       *file;
-			CStringP	       *path;
+			char **			file;
+			char **			path;
 		} vector;
     } library;
-    CStringP			unit_file;
+    char *				unit_file;
     unsigned			num_files;
-    CStringP		       *files;
+    char **				files;
 } ArgDataT, *ArgDataP;
 
 /*--------------------------------------------------------------------------*/
@@ -141,22 +141,22 @@ extern void			shape_control_iter(ShapeControlP, void (*) (NStringP, BoolT, NameK
 extern void			rename_control_iter(RenameControlP, void (*) (NStringP, NameKeyPairListP,
 																  GenericP), GenericP);
 
-extern void			arg_data_init(ArgDataP, CStringP);
+extern void			arg_data_init(ArgDataP, char *);
 extern void			arg_data_set_all_hide_defd(ArgDataP, BoolT);
 extern BoolT			arg_data_get_all_hide_defd(ArgDataP);
 extern void			arg_data_set_suppress_mult(ArgDataP, BoolT);
 extern BoolT			arg_data_get_suppress_mult(ArgDataP);
-extern void			arg_data_add_hide(ArgDataP, CStringP, CStringP);
-extern void			arg_data_add_hide_defined(ArgDataP, CStringP);
+extern void			arg_data_add_hide(ArgDataP, char *, char *);
+extern void			arg_data_add_hide_defined(ArgDataP, char *);
 extern ShapeControlP		arg_data_get_hides(ArgDataP);
-extern void			arg_data_add_keep(ArgDataP, CStringP, CStringP);
-extern void			arg_data_add_keep_all(ArgDataP, CStringP);
+extern void			arg_data_add_keep(ArgDataP, char *, char *);
+extern void			arg_data_add_keep_all(ArgDataP, char *);
 extern ShapeControlP		arg_data_get_keeps(ArgDataP);
-extern void			arg_data_add_suppress(ArgDataP, CStringP, CStringP);
-extern void			arg_data_add_suppress_all(ArgDataP, CStringP);
+extern void			arg_data_add_suppress(ArgDataP, char *, char *);
+extern void			arg_data_add_suppress_all(ArgDataP, char *);
 extern ShapeControlP		arg_data_get_suppresses(ArgDataP);
 extern void			arg_data_add_rename(ArgDataP, NStringP, NameKeyP, NameKeyP);
-extern void			arg_data_parse_rename(ArgDataP, CStringP, CStringP, CStringP);
+extern void			arg_data_parse_rename(ArgDataP, char *, char *, char *);
 extern RenameControlP		arg_data_get_renames(ArgDataP);
 extern void			arg_data_set_extract_all(ArgDataP, BoolT);
 extern BoolT			arg_data_get_extract_all(ArgDataP);
@@ -170,21 +170,21 @@ extern void			arg_data_set_content_size(ArgDataP, BoolT);
 extern BoolT			arg_data_get_content_size(ArgDataP);
 extern void			arg_data_set_content_version(ArgDataP, BoolT);
 extern BoolT			arg_data_get_content_version(ArgDataP);
-extern void			arg_data_set_debug_file(ArgDataP, CStringP);
+extern void			arg_data_set_debug_file(ArgDataP, char *);
 extern OStreamP			arg_data_get_debug_file(ArgDataP);
-extern void			arg_data_set_output_file(ArgDataP, CStringP);
-extern CStringP			arg_data_get_output_file(ArgDataP);
-extern void			arg_data_add_library_file(ArgDataP, CStringP);
-extern void			arg_data_add_library_path(ArgDataP, CStringP);
+extern void			arg_data_set_output_file(ArgDataP, char *);
+extern char *			arg_data_get_output_file(ArgDataP);
+extern void			arg_data_add_library_file(ArgDataP, char *);
+extern void			arg_data_add_library_path(ArgDataP, char *);
 extern void			arg_data_vector_libraries(ArgDataP);
 extern unsigned			arg_data_num_library_files(ArgDataP);
 extern unsigned			arg_data_num_library_paths(ArgDataP);
-extern CStringP		       *arg_data_library_files(ArgDataP);
-extern CStringP		       *arg_data_library_paths(ArgDataP);
-extern void			arg_data_set_unit_file(ArgDataP, CStringP);
-extern void			arg_data_set_files(ArgDataP, int, CStringP *);
+extern char *		       *arg_data_library_files(ArgDataP);
+extern char *		       *arg_data_library_paths(ArgDataP);
+extern void			arg_data_set_unit_file(ArgDataP, char *);
+extern void			arg_data_set_files(ArgDataP, int, char * *);
 extern unsigned			arg_data_get_num_files(ArgDataP);
-extern CStringP		       *arg_data_get_files(ArgDataP);
+extern char *		       *arg_data_get_files(ArgDataP);
 
 #endif /* !defined (H_ARG_DATA) */
 

@@ -76,7 +76,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern void			rename_file_parse(CStringP, ArgDataP);
+extern void			rename_file_parse(char *, ArgDataP);
 
 #endif /* !defined (H_RENAME_FILE) */
 

@@ -94,10 +94,10 @@ typedef struct TDFReaderT {
     union {
 		BIStreamT		bistream;
 		struct {
-			CStringP		contents;
-			CStringP		current;
-			CStringP		limit;
-			CStringP            name;
+			char *			contents;
+			char *			current;
+			char *			limit;
+			char *			name;
 			unsigned		byte;
 		} string;
     } u;
@@ -111,9 +111,9 @@ extern ExceptionP		XX_tdf_read_error;
 
 /*--------------------------------------------------------------------------*/
 
-extern BoolT			tdf_reader_open(TDFReaderP, CStringP);
-extern void			tdf_reader_open_string(TDFReaderP, CStringP, NStringP);
-extern CStringP			tdf_reader_name(TDFReaderP);
+extern BoolT			tdf_reader_open(TDFReaderP, char *);
+extern void			tdf_reader_open_string(TDFReaderP, char *, NStringP);
+extern char *			tdf_reader_name(TDFReaderP);
 extern unsigned			tdf_reader_byte(TDFReaderP);
 extern unsigned			tdf_read_int(TDFReaderP);
 extern void			tdf_read_align(TDFReaderP);

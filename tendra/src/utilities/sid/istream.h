@@ -176,7 +176,7 @@
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  *
- ** Function:	CStringP		istream_name
+ ** Function:	char *		istream_name
  *			PROTO_S ((IStreamP istream))
  ** Exceptions:
  *

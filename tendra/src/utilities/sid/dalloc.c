@@ -82,7 +82,7 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct DallocDataT {
-	CStringP		file;
+	char *			file;
 	unsigned		line;
 	size_t			size;
 	int				magic;
@@ -104,7 +104,7 @@ static size_t dalloc_data_size = ALIGN (sizeof (DallocDataT));
 
 GenericP
 X__dalloc_allocate(size_t size, size_t length,
-				   CStringP file, unsigned line)
+				   char *file, unsigned line)
 {
 	GenericP tmp;
 	
@@ -134,7 +134,7 @@ X__dalloc_allocate(size_t size, size_t length,
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
+X__dalloc_deallocate(GenericP ptr, char *file, unsigned line)
 {
 	if (ptr) {
 		ByteP         pointer = (ByteP) ptr;
@@ -160,7 +160,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 #else
 
 GenericP
-X__dalloc_allocate(size_t size, size_t length, CStringP file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 {
 	GenericP tmp;
 	
@@ -188,7 +188,7 @@ X__dalloc_allocate(size_t size, size_t length, CStringP file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, CStringP file,
+X__dalloc_deallocate(GenericP ptr, char *file,
 					 unsigned line)
 {
 	if (ptr) {

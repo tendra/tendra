@@ -422,7 +422,7 @@ rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
 /*--------------------------------------------------------------------------*/
 
 void
-rename_file_parse(CStringP name, ArgDataP arg_data)
+rename_file_parse(char *name, ArgDataP arg_data)
 {
     IStreamT istream;
 

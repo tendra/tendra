@@ -132,7 +132,7 @@ linker_read_capsules(ArgDataP arg_data, UnitTableP units,
 					 ShapeTableP shapes)
 {
     unsigned  num_input_files = arg_data_get_num_files (arg_data);
-    CStringP *input_files     = arg_data_get_files (arg_data);
+    char **input_files = arg_data_get_files (arg_data);
     unsigned  i;
 
     for (i = 0; i < num_input_files; i ++) {
@@ -152,8 +152,8 @@ linker_read_capsules(ArgDataP arg_data, UnitTableP units,
 static void
 linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
-    CStringP   *files     = arg_data_library_files (arg_data);
-    CStringP   *paths     = arg_data_library_paths (arg_data);
+    char **files = arg_data_library_files (arg_data);
+    char **paths = arg_data_library_paths (arg_data);
     unsigned    num_files = arg_data_num_library_files (arg_data);
     unsigned    num_paths = arg_data_num_library_paths (arg_data);
     unsigned    i;
@@ -165,7 +165,7 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 			unsigned j;
 
 			for (j = 0; j < num_paths; j ++) {
-				CStringP name = file_name_expand (paths [j], files [i], "tl");
+				char *name = file_name_expand (paths [j], files [i], "tl");
 
 				if ((library = library_create_stream_input (name)) !=
 					NIL (LibraryP)) {
@@ -325,7 +325,7 @@ static void
 linker_write_capsule(ArgDataP arg_data, UnitTableP units,
 					 ShapeTableP shapes)
 {
-    CStringP output_file = arg_data_get_output_file (arg_data);
+    char *output_file = arg_data_get_output_file (arg_data);
     CapsuleP capsule;
 
     if ((capsule = capsule_create_stream_output (output_file)) !=

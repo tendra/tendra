@@ -1255,8 +1255,8 @@ c_output_location(COutputInfoP info, const char *file, unsigned line)
 }
 
 void
-c_output_key_message(COutputInfoP info, CStringP prefix,
-					 KeyP key, CStringP suffix,
+c_output_key_message(COutputInfoP info, char *prefix,
+					 KeyP key, char *suffix,
 					 unsigned indent)
 {
 	if (c_out_info_get_lines (info)) {

@@ -80,11 +80,11 @@ ExceptionP XX_bistream_read_error = EXCEPTION ("error reading from binary stream
 void
 bistream_init(BIStreamP bistream)
 {
-    bistream->name = NIL (CStringP);
+    bistream->name = NULL;
 }
 
 BoolT
-bistream_open(BIStreamP bistream, CStringP name)
+bistream_open(BIStreamP bistream, char *name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bistream->file = fopen (name, "rb")) == NIL (FILE *)) {
@@ -111,18 +111,18 @@ bistream_assign(BIStreamP to, BIStreamP from)
 BoolT
 bistream_is_open(BIStreamP bistream)
 {
-    return (bistream->name != NIL (CStringP));
+    return (bistream->name != NULL);
 }
 
 unsigned
 bistream_read_chars(BIStreamP bistream, unsigned length,
-					CStringP chars)
+					char *chars)
 {
     unsigned bytes_read = (unsigned) fread ((GenericP) chars, sizeof (char),
 											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {
-		CStringP name = string_copy (bistream->name);
+		char *name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
@@ -139,7 +139,7 @@ bistream_read_bytes(BIStreamP bistream, unsigned length,
 											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {
-		CStringP name = string_copy (bistream->name);
+		char *name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
@@ -155,7 +155,7 @@ bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
 
     if (byte == EOF) {
 		if (ferror (bistream->file)) {
-			CStringP name = string_copy (bistream->name);
+			char *name = string_copy (bistream->name);
 
 			THROW_VALUE (XX_bistream_read_error, name);
 			UNREACHED;
@@ -174,7 +174,7 @@ bistream_byte(BIStreamP bistream)
     return (bistream->bytes);
 }
 
-CStringP
+char *
 bistream_name(BIStreamP bistream)
 {
     return (bistream->name);

@@ -77,7 +77,7 @@
 /*--------------------------------------------------------------------------*/
 
 static BoolT
-name_key_parse_hex_char(CStringP name, char *c_ref)
+name_key_parse_hex_char(char *name, char *c_ref)
 {
     char result;
     char c;
@@ -98,10 +98,10 @@ name_key_parse_hex_char(CStringP name, char *c_ref)
 }
 
 static BoolT
-name_key_parse_escaped(CStringP *name_ref,
+name_key_parse_escaped(char **name_ref,
 					   char *c_ref)
 {
-    CStringP name = (*name_ref);
+    char *name = (*name_ref);
 
     switch ((*++ name)) {
 	case 'x': case 'X':
@@ -138,10 +138,10 @@ name_key_parse_escaped(CStringP *name_ref,
 
 static BoolT
 name_key_parse_cstring_unique(NameKeyP key,
-							  CStringP name)
+							  char *name)
 {
     unsigned length   = 1;
-    CStringP tmp_name = name;
+    char *tmp_name = name;
     NStringP components;
     unsigned i;
 
@@ -197,7 +197,7 @@ name_key_parse_cstring_unique(NameKeyP key,
 
 static BoolT
 name_key_parse_cstring_string(NameKeyP key,
-							  CStringP name)
+							  char *name)
 {
     DStringT dstring;
     NStringT nstring;
@@ -229,7 +229,7 @@ static void
 write_name_key_1(OStreamP ostream, NStringP nstring)
 {
     unsigned length = nstring_length (nstring);
-    CStringP bytes  = nstring_contents (nstring);
+    char *bytes = nstring_contents (nstring);
 
     while (length --) {
 		switch (*bytes) {
@@ -261,7 +261,7 @@ name_key_init_unique(NameKeyP key, unsigned components)
 }
 
 BoolT
-name_key_parse_cstring(NameKeyP key, CStringP name)
+name_key_parse_cstring(NameKeyP key, char *name)
 {
     if (*name == '[') {
 		return (name_key_parse_cstring_unique (key, name));

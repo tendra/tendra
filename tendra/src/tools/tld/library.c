@@ -233,8 +233,8 @@ library_read_version_0(LibraryP library, ShapeTableP shapes)
 static void
 library_extract_1(LibCapsuleP capsule, BoolT use_basename)
 {
-    CStringP   old_name = lib_capsule_name (capsule);
-    CStringP   name     = old_name;
+    char *old_name = lib_capsule_name (capsule);
+    char *name = old_name;
     NStringP   contents = lib_capsule_contents (capsule);
     TDFWriterT writer;
 
@@ -340,21 +340,21 @@ library_write_header(LibraryP library)
 
 /*--------------------------------------------------------------------------*/
 
-CStringP
+char *
 lib_capsule_name(LibCapsuleP capsule)
 {
     return (capsule->name);
 }
 
-CStringP
+char *
 lib_capsule_full_name(LibCapsuleP capsule)
 {
-    CStringP lib_name   = library_name (capsule->library);
+    char *lib_name = library_name (capsule->library);
     unsigned lib_length = strlen (lib_name);
-    CStringP name       = lib_capsule_name (capsule);
+    char *name = lib_capsule_name (capsule);
     unsigned length     = strlen (name);
-    CStringP full_name  = ALLOCATE_VECTOR (char, lib_length + length + 3);
-    CStringP tmp        = full_name;
+    char *full_name = ALLOCATE_VECTOR (char, lib_length + length + 3);
+    char *tmp = full_name;
 
     (void) memcpy ((GenericP) tmp, (GenericP) lib_name, (size_t) lib_length);
     tmp += lib_length;
@@ -401,7 +401,7 @@ write_lib_capsule_full_name(OStreamP ostream,
 /*--------------------------------------------------------------------------*/
 
 LibraryP
-library_create_stream_input(CStringP name)
+library_create_stream_input(char *name)
 {
     LibraryP library = ALLOCATE (LibraryT);
 
@@ -416,7 +416,7 @@ library_create_stream_input(CStringP name)
 }
 
 LibraryP
-library_create_stream_output(CStringP name)
+library_create_stream_output(char *name)
 {
     LibraryP library = ALLOCATE (LibraryT);
 
@@ -430,7 +430,7 @@ library_create_stream_output(CStringP name)
     return (library);
 }
 
-CStringP
+char *
 library_name(LibraryP library)
 {
     return (library->name);
@@ -513,7 +513,7 @@ library_extract_all(LibraryP library, BoolT use_basename)
 void
 library_extract(LibraryP library, BoolT use_basename,
 				BoolT match_basename, unsigned num_files,
-				CStringP *files)
+				char **files)
 {
     ShapeTableP shapes = shape_table_create ();
 
@@ -526,10 +526,10 @@ library_extract(LibraryP library, BoolT use_basename,
 			unsigned j;
 
 			for (j = 0; j < library->num_capsules; j ++) {
-				LibCapsuleP capsule   = &(library->capsules [j]);
-				CStringP    file_name = (files [i]);
-				CStringP    lib_name  = lib_capsule_name (capsule);
-				CStringP    base_name = NIL (CStringP);
+				LibCapsuleP capsule = &(library->capsules [j]);
+				char *file_name = (files [i]);
+				char *lib_name  = lib_capsule_name (capsule);
+				char *base_name = NULL;
 
 				if (match_basename) {
 					base_name = file_name_basename (lib_name);
@@ -595,10 +595,10 @@ library_write(LibraryP library, ShapeTableP shapes,
     debug_info_w_start_capsules (num_capsules);
     tdf_write_int (writer, num_capsules);
     for (i = 0; i < num_capsules; i ++) {
-		CapsuleP capsule  = capsules [i];
-		CStringP name     = capsule_name (capsule);
+		CapsuleP capsule = capsules [i];
+		char *name = capsule_name (capsule);
 		NStringP contents = capsule_contents (capsule);
-		unsigned length   = nstring_length (contents);
+		unsigned length = nstring_length (contents);
 		NStringT nstring;
 
 		debug_info_w_capsule (name, length);

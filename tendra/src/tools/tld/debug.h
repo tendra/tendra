@@ -82,7 +82,7 @@ extern void			debug_set_file(OStreamP);
 
 extern void			debug_info_u_name(NStringP);
 
-extern void			debug_info_r_start_capsule(CStringP);
+extern void			debug_info_r_start_capsule(char *);
 extern void			debug_info_r_versions(unsigned, unsigned);
 extern void			debug_info_r_start_unit_decs(unsigned);
 extern void			debug_info_r_unit_dec(NStringP);
@@ -106,7 +106,7 @@ extern void			debug_info_r_usage(unsigned, unsigned, NameKeyP);
 extern void			debug_info_r_end_capsule(void);
 extern void			debug_info_r_abort_capsule(void);
 
-extern void			debug_info_w_start_capsule(CStringP);
+extern void			debug_info_w_start_capsule(char *);
 extern void			debug_info_w_versions(unsigned, unsigned);
 extern void			debug_info_w_start_unit_decs(unsigned);
 extern void			debug_info_w_unit_dec(NStringP);
@@ -129,30 +129,30 @@ extern void			debug_info_w_start_usages(NStringP);
 extern void			debug_info_w_usage(unsigned, NameKeyP);
 extern void			debug_info_w_end_capsule(void);
 
-extern void			debug_info_r_start_library(CStringP);
+extern void			debug_info_r_start_library(char *);
 extern void			debug_info_r_lib_versions(unsigned, unsigned);
 extern void			debug_info_r_library_version(unsigned);
 extern void			debug_info_r_start_capsules(unsigned);
 extern void			debug_info_r_capsule(NStringP, unsigned);
 extern void			debug_info_r_start_index(unsigned);
 extern void			debug_info_r_start_shape_index(NStringP, unsigned);
-extern void			debug_info_r_index_entry(NameKeyP, unsigned, unsigned, NameKeyP, CStringP);
+extern void			debug_info_r_index_entry(NameKeyP, unsigned, unsigned, NameKeyP, char *);
 extern void			debug_info_r_end_library(void);
 extern void			debug_info_r_abort_library(void);
 
-extern void			debug_info_w_start_library(CStringP);
+extern void			debug_info_w_start_library(char *);
 extern void			debug_info_w_lib_versions(unsigned, unsigned);
 extern void			debug_info_w_library_version(unsigned);
 extern void			debug_info_w_start_capsules(unsigned);
-extern void			debug_info_w_capsule(CStringP, unsigned);
+extern void			debug_info_w_capsule(char *, unsigned);
 extern void			debug_info_w_start_index(unsigned);
 extern void			debug_info_w_start_shape_index(NStringP, unsigned);
-extern void			debug_info_w_index_entry(NameKeyP, unsigned, CStringP, unsigned);
+extern void			debug_info_w_index_entry(NameKeyP, unsigned, char *, unsigned);
 extern void			debug_info_w_end_library(void);
 
 extern void			debug_info_l_not_needed(NameKeyP, NStringP, unsigned);
 extern void			debug_info_l_not_found(NameKeyP, NStringP, unsigned);
-extern void			debug_info_l_found(NameKeyP, NStringP, unsigned, CStringP);
+extern void			debug_info_l_found(NameKeyP, NStringP, unsigned, char *);
 extern void			debug_info_l_hide(NStringP, NameKeyP);
 extern void			debug_info_l_keep(NStringP, NameKeyP);
 extern void			debug_info_l_suppress(NStringP, NameKeyP);

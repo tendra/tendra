@@ -164,7 +164,6 @@ typedef unsigned char ByteT, *ByteP;
 
 typedef const char *ccp;
 
-typedef char *CStringP;		/* may be removed */
 typedef void *pointer;		/* to be removed */
 typedef pointer gen_ptr;	/* to be removed */
 typedef pointer GenericP;	/* to be removed */

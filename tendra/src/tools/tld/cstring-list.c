@@ -81,7 +81,7 @@ cstring_list_init(CStringListP list)
 }
 
 void
-cstring_list_append(CStringListP list, CStringP string)
+cstring_list_append(CStringListP list, char *string)
 {
     CStringListEntryP entry = ALLOCATE (CStringListEntryT);
 
@@ -92,7 +92,7 @@ cstring_list_append(CStringListP list, CStringP string)
 }
 
 BoolT
-cstring_list_contains(CStringListP list, CStringP string)
+cstring_list_contains(CStringListP list, char *string)
 {
     CStringListEntryP entry = list->head;
     while (entry != NIL (CStringListEntryP)) {
@@ -110,7 +110,7 @@ cstring_list_head(CStringListP list)
     return (list->head);
 }
 
-CStringP
+char *
 cstring_list_entry_string(CStringListEntryP entry)
 {
     return (entry->string);

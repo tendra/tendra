@@ -111,7 +111,7 @@ typedef struct NameDataT {
 
 /*--------------------------------------------------------------------------*/
 
-static CStringP capsule_default_unit_set_names [NUM_DEFAULT_UNIT_SETS] = {
+static char *capsule_default_unit_set_names [NUM_DEFAULT_UNIT_SETS] = {
     "tld",
     "tld2",
     "versions",
@@ -603,7 +603,7 @@ capsule_read_usage(CapsuleP capsule, NameDataP entry,
 		}
 		if ((use & U_DEFD) && (name_use & U_DEFD)) {
 			CapsuleP definition = name_entry_get_definition (name_entry);
-			CStringP prev_name  = capsule_name (definition);
+			char *prev_name = capsule_name (definition);
 
 			MSG_multiply_defined (capsule, shape_key, key, prev_name);
 		} else if ((use & U_MULT) && (name_use & U_MULT) &&
@@ -948,7 +948,7 @@ capsule_write_header(CapsuleP capsule)
 /*--------------------------------------------------------------------------*/
 
 void
-capsule_read_unit_set_file(CStringP name)
+capsule_read_unit_set_file(char *name)
 {
     IStreamT istream;
 
@@ -962,7 +962,7 @@ capsule_read_unit_set_file(CStringP name)
 }
 
 CapsuleP
-capsule_create_stream_input(CStringP name)
+capsule_create_stream_input(char *name)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
 
@@ -977,7 +977,7 @@ capsule_create_stream_input(CStringP name)
 }
 
 CapsuleP
-capsule_create_string_input(CStringP name,
+capsule_create_string_input(char *name,
 							NStringP contents)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
@@ -990,7 +990,7 @@ capsule_create_string_input(CStringP name,
 }
 
 CapsuleP
-capsule_create_stream_output(CStringP name)
+capsule_create_stream_output(char *name)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
 
@@ -1003,7 +1003,7 @@ capsule_create_stream_output(CStringP name)
     return (capsule);
 }
 
-CStringP
+char *
 capsule_name(CapsuleP capsule)
 {
     return (capsule->name);

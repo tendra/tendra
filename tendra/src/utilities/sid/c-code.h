@@ -104,14 +104,14 @@ typedef struct CCodeT {
 	CCodeItemP			head;
 	CCodeItemP		       *tail;
 	unsigned			line;
-	CStringP			file;
+	char *				file;
 	TypeTupleT			param;
 	TypeTupleT			result;
 } CCodeT, *CCodeP;
 
 /*--------------------------------------------------------------------------*/
 
-CCodeP	c_code_create(CStringP, unsigned);
+CCodeP	c_code_create(char *, unsigned);
 void	c_code_append_string(CCodeP, NStringP);
 void	c_code_append_label(CCodeP, NStringP);
 void	c_code_append_identifier(CCodeP, NStringP);
@@ -121,7 +121,7 @@ void	c_code_append_exception(CCodeP);
 void	c_code_append_advance(CCodeP);
 void	c_code_append_terminal(CCodeP);
 void	c_code_check(CCodeP, BoolT, BoolT, TypeTupleP, TypeTupleP, TableP);
-CStringP c_code_file(CCodeP);
+char *	c_code_file(CCodeP);
 unsigned c_code_line(CCodeP);
 TypeTupleP c_code_param(CCodeP);
 TypeTupleP c_code_result(CCodeP);

@@ -84,7 +84,7 @@ extract_main(ArgDataP arg_data)
     BoolT     extract_base = arg_data_get_extract_basename (arg_data);
     BoolT     match_base   = arg_data_get_extract_match_base (arg_data);
     unsigned  num_files    = arg_data_get_num_files (arg_data);
-    CStringP *files        = arg_data_get_files (arg_data);
+    char **files = arg_data_get_files (arg_data);
     LibraryP  library;
 
     if (extract_all && (num_files > 1)) {

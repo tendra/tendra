@@ -128,7 +128,7 @@ c_code_get_translation(SaveRStackP state, TypeBTransP translator,
 /*--------------------------------------------------------------------------*/
 
 CCodeP
-c_code_create(CStringP file, unsigned line)
+c_code_create(char *file, unsigned line)
 {
 	CCodeP code = ALLOCATE (CCodeT);
 	
@@ -340,7 +340,7 @@ c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
 #ifdef FS_FAST
 #undef c_code_file
 #endif /* defined (FS_FAST) */
-CStringP
+char*
 c_code_file(CCodeP code)
 {
 	return (code->file);

@@ -124,7 +124,7 @@ typedef struct NameKeyPairListT {
 
 extern void			name_key_init_string(NameKeyP, NStringP);
 extern void			name_key_init_unique(NameKeyP, unsigned);
-extern BoolT			name_key_parse_cstring(NameKeyP, CStringP);
+extern BoolT			name_key_parse_cstring(NameKeyP, char *);
 extern void			name_key_set_component(NameKeyP, unsigned, NStringP);
 extern NameKeyTypeT		name_key_type(NameKeyP);
 extern NStringP			name_key_string(NameKeyP);

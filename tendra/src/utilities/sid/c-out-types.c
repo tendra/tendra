@@ -115,7 +115,7 @@ c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
 	OStreamP        ostream    = c_out_info_ostream (info);
 	NStringP        in_prefix  = c_out_info_in_prefix (info);
 	NStringP        out_prefix = c_out_info_out_prefix (info);
-	CStringP        sep        = "";
+	char *sep = "";
 	TypeTupleEntryP ptr;
 	
 	write_char (ostream, '(');
@@ -218,7 +218,7 @@ c_output_ansi_type_defn(COutputInfoP info,
 	OStreamP        ostream    = c_out_info_ostream (info);
 	NStringP        in_prefix  = c_out_info_in_prefix (info);
 	NStringP        out_prefix = c_out_info_out_prefix (info);
-	CStringP        sep        = "";
+	char *sep = "";
 	BoolT           specials   = FALSE;
 	TypeTupleEntryP ptr;
 	BoolT           ossg       = c_out_info_get_ossg (info);
@@ -391,7 +391,7 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs,
 	OStreamP ostream = c_out_info_ostream (info);
 	
 	if (c_out_info_get_prototypes (info)) {
-		CStringP        sep  = "";
+		char *sep  = "";
 		TypeTupleEntryP ptr;
 		BoolT           ossg = c_out_info_get_ossg (info);
 		
@@ -516,7 +516,7 @@ c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
 {
 	OStreamP        ostream   = c_out_info_ostream (info);
 	NStringP        in_prefix = c_out_info_in_prefix (info);
-	CStringP        sep       = "";
+	char *sep = "";
 	TypeTupleEntryP ptr;
 	
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {

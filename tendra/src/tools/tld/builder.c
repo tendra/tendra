@@ -87,7 +87,7 @@ builder_read_libraries(ArgDataP arg_data,
 		       unsigned *num_capsules_ref)
 {
     unsigned  num_lib_files   = arg_data_num_library_files (arg_data);
-    CStringP *lib_files       = arg_data_library_files (arg_data);
+    char **lib_files = arg_data_library_files (arg_data);
     LibraryP *libraries       = ALLOCATE_VECTOR (LibraryP, num_lib_files);
     unsigned  num_capsules    = 0;
     unsigned  i;
@@ -118,7 +118,7 @@ builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
 					 unsigned capsule_index,
 					 UnitTableP units, ShapeTableP shapes)
 {
-    CStringP name = capsule_name (capsule);
+    char *name = capsule_name (capsule);
     unsigned i;
 
     for (i = 0; i < capsule_index; i ++) {
@@ -138,7 +138,7 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 		      ShapeTableP shapes, unsigned *num_capsules_ref)
 {
     unsigned  num_input_files = arg_data_get_num_files (arg_data);
-    CStringP *input_files     = arg_data_get_files (arg_data);
+    char **input_files = arg_data_get_files (arg_data);
     unsigned  capsule_index   = 0;
     unsigned  num_libraries;
     LibraryP *libraries;
@@ -159,7 +159,7 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 
 			for (j = 0; j < num_lib_capsules; j ++) {
 				LibCapsuleP lib_capsule = library_get_capsule (library, j);
-				CStringP    name        = lib_capsule_name (lib_capsule);
+				char *name = lib_capsule_name (lib_capsule);
 				NStringP    contents    = lib_capsule_contents (lib_capsule);
 				CapsuleP    capsule;
 
@@ -241,7 +241,7 @@ builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
 					  unsigned num_capsules,
 					  CapsuleP *capsules)
 {
-    CStringP output_file = arg_data_get_output_file (arg_data);
+    char *output_file = arg_data_get_output_file (arg_data);
     LibraryP library;
 
     if ((library = library_create_stream_output (output_file)) !=

@@ -84,7 +84,7 @@ contents_main(ArgDataP arg_data)
     BoolT     content_size    = arg_data_get_content_size (arg_data);
     BoolT     content_version = arg_data_get_content_version (arg_data);
     unsigned  num_files       = arg_data_get_num_files (arg_data);
-    CStringP *files           = arg_data_get_files (arg_data);
+    char **files = arg_data_get_files (arg_data);
     LibraryP  library;
 
     if (num_files != 1) {

@@ -162,13 +162,13 @@ ostream_is_open(OStreamP ostream)
 void
 ostream_buffer(OStreamP ostream)
 {
-	(void)setvbuf(ostream->file, NIL (CStringP), _IOFBF, (size_t) BUFSIZ);
+	(void)setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
 }
 
 void
 ostream_unbuffer(OStreamP ostream)
 {
-	(void)setvbuf(ostream->file, NIL (CStringP), _IONBF, (size_t)0);
+	(void)setvbuf(ostream->file, NULL, _IONBF, (size_t)0);
 }
 
 void

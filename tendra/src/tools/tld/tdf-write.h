@@ -85,8 +85,8 @@ typedef struct TDFWriterT {
 
 /*--------------------------------------------------------------------------*/
 
-extern BoolT			tdf_writer_open(TDFWriterP, CStringP);
-extern CStringP			tdf_writer_name(TDFWriterP);
+extern BoolT			tdf_writer_open(TDFWriterP, char *);
+extern char*			tdf_writer_name(TDFWriterP);
 extern void			tdf_write_int(TDFWriterP, unsigned);
 extern void			tdf_write_align(TDFWriterP);
 extern void			tdf_write_bytes(TDFWriterP, NStringP);

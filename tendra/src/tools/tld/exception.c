@@ -72,8 +72,8 @@
 #include "msgcat.h"
 
 #if 0
-extern void			MSG_exception_unhandled(ExceptionP, CStringP, unsigned);
-extern void			MSG_exception_corrupt_handler(CStringP, unsigned);
+extern void			MSG_exception_unhandled(ExceptionP, char *, unsigned);
+extern void			MSG_exception_corrupt_handler(char *, unsigned);
 #endif
 
 /*--------------------------------------------------------------------------*/
@@ -120,7 +120,7 @@ X__exception_throw()
     UNREACHED;
 }
 
-CStringP
+char *
 exception_name(ExceptionP exc)
 {
     return (exc);

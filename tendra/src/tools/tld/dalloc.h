@@ -73,10 +73,10 @@
  * be provided:
  *
  *	void				E_dalloc_multi_deallocate
- *			PROTO_S ((GenericP, CStringP, unsigned, CStringP,
+ *			PROTO_S ((GenericP, char *, unsigned, char *,
  *				  unsigned));
  *	void				E_dalloc_corrupt_block
- *			PROTO_S ((GenericP, CStringP, unsigned));
+ *			PROTO_S ((GenericP, char *, unsigned));
  *
  * The first function will be called if a block is deallocated more than once.
  * It takes the block's address, and the file and line number of the
@@ -134,10 +134,10 @@ extern ExceptionP		XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-extern void			E_dalloc_multi_deallocate(GenericP, CStringP, unsigned, CStringP, unsigned);
-extern void			E_dalloc_corrupt_block(GenericP, CStringP, unsigned);
-extern GenericP			X__dalloc_allocate(size_t, size_t, CStringP, unsigned);
-extern void			X__dalloc_deallocate(GenericP, CStringP, unsigned);
+extern void			E_dalloc_multi_deallocate(GenericP, char *, unsigned, char *, unsigned);
+extern void			E_dalloc_corrupt_block(GenericP, char *, unsigned);
+extern GenericP			X__dalloc_allocate(size_t, size_t, char *, unsigned);
+extern void			X__dalloc_deallocate(GenericP, char *, unsigned);
 
 #else
 

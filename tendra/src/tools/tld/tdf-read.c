@@ -113,7 +113,7 @@ tdf_read_nibble(TDFReaderP reader)
 /*--------------------------------------------------------------------------*/
 
 BoolT
-tdf_reader_open(TDFReaderP reader, CStringP name)
+tdf_reader_open(TDFReaderP reader, char *name)
 {
     reader->type     = RT_STREAM;
     reader->new_byte = TRUE;
@@ -125,9 +125,9 @@ tdf_reader_open(TDFReaderP reader, CStringP name)
 
 void
 tdf_reader_open_string(TDFReaderP reader,
-					   CStringP name, NStringP bytes)
+					   char *name, NStringP bytes)
 {
-    CStringP contents = nstring_contents (bytes);
+    char *contents = nstring_contents (bytes);
     unsigned length   = nstring_length (bytes);
 
     reader->type              = RT_STRING;
@@ -139,7 +139,7 @@ tdf_reader_open_string(TDFReaderP reader,
     reader->u.string.byte     = 0;
 }
 
-CStringP
+char *
 tdf_reader_name(TDFReaderP reader)
 {
     switch (reader->type) EXHAUSTIVE {
@@ -195,7 +195,7 @@ void
 tdf_read_bytes(TDFReaderP reader, NStringP nstring)
 {
     unsigned length   = nstring_length (nstring);
-    CStringP contents = nstring_contents (nstring);
+    char *contents = nstring_contents (nstring);
 
     tdf_read_align (reader);
     switch (reader->type) EXHAUSTIVE {

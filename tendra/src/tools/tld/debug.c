@@ -104,7 +104,7 @@ debug_info_u_name(NStringP name)
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_r_start_capsule(CStringP name)
+debug_info_r_start_capsule(char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Reading capsule '");
@@ -391,7 +391,7 @@ debug_info_r_abort_capsule()
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_w_start_capsule(CStringP name)
+debug_info_w_start_capsule(char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Writing capsule '");
@@ -654,7 +654,7 @@ debug_info_w_end_capsule()
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_r_start_library(CStringP name)
+debug_info_r_start_library(char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Reading library '");
@@ -740,7 +740,7 @@ debug_info_r_start_shape_index(NStringP shape,
 void
 debug_info_r_index_entry(NameKeyP name, unsigned use,
 						 unsigned name_use,
-						 NameKeyP key, CStringP cap_name)
+						 NameKeyP key, char *cap_name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "        ");
@@ -779,7 +779,7 @@ debug_info_r_abort_library()
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_w_start_library(CStringP name)
+debug_info_w_start_library(char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Writing library '");
@@ -825,7 +825,7 @@ debug_info_w_start_capsules(unsigned num_capsules)
 }
 
 void
-debug_info_w_capsule(CStringP name, unsigned length)
+debug_info_w_capsule(char *name, unsigned length)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      Saved '");
@@ -864,7 +864,7 @@ debug_info_w_start_shape_index(NStringP shape,
 
 void
 debug_info_w_index_entry(NameKeyP key, unsigned use,
-						 CStringP cap_name,
+						 char *cap_name,
 						 unsigned cap_index)
 {
     if (debug_file) {
@@ -926,7 +926,7 @@ debug_info_l_not_found(NameKeyP key, NStringP shape_key,
 
 void
 debug_info_l_found(NameKeyP key, NStringP shape_key,
-				   unsigned use, CStringP name)
+				   unsigned use, char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Definition found for ");

@@ -94,7 +94,7 @@ struct LibraryT;
 
 typedef struct LibCapsuleT {
     struct LibraryT	       *library;
-    CStringP			name;
+    char *				name;
     NStringT			contents;
     BoolT			loaded;
 } LibCapsuleT, *LibCapsuleP;
@@ -105,7 +105,7 @@ typedef struct LibraryT {
 		TDFReaderT		reader;
 		TDFWriterT		writer;
     } u;
-    CStringP			name;
+    char *				name;
     unsigned			num_capsules;
     LibCapsuleP			capsules;
     unsigned			major;
@@ -115,23 +115,23 @@ typedef struct LibraryT {
 
 /*--------------------------------------------------------------------------*/
 
-extern CStringP			lib_capsule_name(LibCapsuleP);
-extern CStringP			lib_capsule_full_name(LibCapsuleP);
+extern char *			lib_capsule_name(LibCapsuleP);
+extern char *			lib_capsule_full_name(LibCapsuleP);
 extern NStringP			lib_capsule_contents(LibCapsuleP);
 extern BoolT			lib_capsule_is_loaded(LibCapsuleP);
 extern void			lib_capsule_loaded(LibCapsuleP);
 
 extern void			write_lib_capsule_full_name(OStreamP, LibCapsuleP);
 
-extern LibraryP			library_create_stream_input(CStringP);
-extern LibraryP			library_create_stream_output(CStringP);
-extern CStringP			library_name(LibraryP);
+extern LibraryP			library_create_stream_input(char *);
+extern LibraryP			library_create_stream_output(char *);
+extern char *			library_name(LibraryP);
 extern unsigned			library_num_capsules(LibraryP);
 extern LibCapsuleP		library_get_capsule(LibraryP, unsigned);
 extern unsigned			library_byte(LibraryP);
 extern void			library_content(LibraryP, BoolT, BoolT, BoolT);
 extern void			library_extract_all(LibraryP, BoolT);
-extern void			library_extract(LibraryP, BoolT, BoolT, unsigned, CStringP *);
+extern void			library_extract(LibraryP, BoolT, BoolT, unsigned, char **);
 extern void			library_read(LibraryP, ShapeTableP);
 extern void			library_write(LibraryP, ShapeTableP, unsigned, CapsuleP *);
 extern void			library_close(LibraryP);

@@ -69,23 +69,23 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	CStringP		file_name_basename
- *			PROTO_S ((CStringP path))
+ ** Function:	char *		file_name_basename
+ *			PROTO_S ((char *path))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the file name
  * component of the specifed path.
  *
- ** Function:	CStringP		file_name_dirname
- *			PROTO_S ((CStringP path))
+ ** Function:	char *		file_name_dirname
+ *			PROTO_S ((char *path))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the directory name
  * component of the specifed path.
  *
- ** Function:	CStringP		file_name_expand
- *			PROTO_S ((CStringP dir, CStringP name,
- *				  CStringP suffix))
+ ** Function:	char *		file_name_expand
+ *			PROTO_S ((char *dir, char *name,
+ *				  char *suffix))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the path name
@@ -93,21 +93,21 @@
  * suffix is non nil, it is also appended to the path name, following the
  * suffix seperator character.
  *
- ** Function:	CStringP		file_name_is_basename
- *			PROTO_S ((CStringP path))
+ ** Function:	char *		file_name_is_basename
+ *			PROTO_S ((char *path))
  ** Exceptions:
  *
  * This function returns true if the specified path has no directory
  * component.
  *
- ** Function:	CStringP		file_name_is_absolute
- *			PROTO_S ((CStringP path))
+ ** Function:	char *		file_name_is_absolute
+ *			PROTO_S ((char *path))
  ** Exceptions:
  *
  * This function returns true if the specified path is an absolute path name.
  *
  ** Function:	void			file_name_populate
- *			PROTO_S ((CStringP path))
+ *			PROTO_S ((char *path))
  ** Exceptions:
  *
  * This function tries to create all of the directories on the specified path.
@@ -127,11 +127,11 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern CStringP			file_name_basename(CStringP);
-extern CStringP			file_name_dirname(CStringP);
-extern CStringP			file_name_expand(CStringP, CStringP, CStringP);
-extern BoolT			file_name_is_basename(CStringP);
-extern BoolT			file_name_is_absolute(CStringP);
-extern void			file_name_populate(CStringP);
+extern char *			file_name_basename(char *);
+extern char *			file_name_dirname(char *);
+extern char *			file_name_expand(char *, char *, char *);
+extern BoolT			file_name_is_basename(char *);
+extern BoolT			file_name_is_absolute(char *);
+extern void			file_name_populate(char *);
 
 #endif /* !defined (H_FILE_NAME) */

@@ -87,7 +87,7 @@ tdf_int_size(unsigned value)
 void
 write_usage(OStreamP ostream, unsigned use)
 {
-    CStringP sep = "";
+    char *sep = "";
 
     write_char (ostream, '{');
     if (use & U_DEFD) {

@@ -69,21 +69,21 @@
 /*--------------------------------------------------------------------------*/
 
 void
-out_info_init(OutputInfoP info, CStringP prog)
+out_info_init(OutputInfoP info, char *prog)
 {
 	info->prog_name       = prog;
 	info->current_ostream = NIL (OStreamP);
 	info->istreams        = NIL (IStreamP);
 	info->ostreams        = NIL (OStreamP);
-	info->input_names     = NIL (CStringP *);
-	info->output_names    = NIL (CStringP *);
+	info->input_names     = NULL;
+	info->output_names    = NULL;
 	info->tab_width       = 8;
 }
 
 #ifdef FS_FAST
 #undef out_info_get_prog_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 out_info_get_prog_name(OutputInfoP info)
 {
 	return (info->prog_name);
@@ -116,7 +116,7 @@ out_info_set_num_input_files(OutputInfoP info,
 							 unsigned size)
 {
 	info->istreams    = ALLOCATE_VECTOR (IStreamT, size);
-	info->input_names = ALLOCATE_VECTOR (CStringP, size);
+	info->input_names = ALLOCATE_VECTOR (char *, size);
 }
 
 void
@@ -124,7 +124,7 @@ out_info_set_num_output_files(OutputInfoP info,
 							  unsigned size)
 {
 	info->ostreams     = ALLOCATE_VECTOR (OStreamT, size);
-	info->output_names = ALLOCATE_VECTOR (CStringP, size);
+	info->output_names = ALLOCATE_VECTOR (char *, size);
 }
 
 #ifdef FS_FAST
@@ -156,7 +156,7 @@ out_info_get_ostream(OutputInfoP info, unsigned i)
 #endif /* defined (FS_FAST) */
 void
 out_info_set_infile_name(OutputInfoP info,
-						 unsigned i, CStringP name)
+						 unsigned i, char *name)
 {
 	info->input_names [i] = name;
 }
@@ -167,7 +167,7 @@ out_info_set_infile_name(OutputInfoP info,
 #ifdef FS_FAST
 #undef out_info_get_infile_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 out_info_get_infile_name(OutputInfoP info,
 						 unsigned i)
 {
@@ -182,7 +182,7 @@ out_info_get_infile_name(OutputInfoP info,
 #endif /* defined (FS_FAST) */
 void
 out_info_set_outfile_name(OutputInfoP info,
-						  unsigned i, CStringP name)
+						  unsigned i, char *name)
 {
 	info->output_names [i] = name;
 }
@@ -193,7 +193,7 @@ out_info_set_outfile_name(OutputInfoP info,
 #ifdef FS_FAST
 #undef out_info_get_outfile_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 out_info_get_outfile_name(OutputInfoP info,
 						  unsigned i)
 {

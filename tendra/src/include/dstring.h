@@ -132,7 +132,7 @@
  * This function copies the specified from nstring into the specified to
  * nstring.
  *
- ** Function:	CStringP		nstring_to_cstring
+ ** Function:	char* nstring_to_cstring
  *			(NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
@@ -155,7 +155,7 @@
  *
  * This function returns the length of the specified nstring.
  *
- ** Function:	CStringP		nstring_contents
+ ** Function:	char* nstring_contents
  *			(NStringP nstring)
  ** Exceptions:
  *
@@ -257,14 +257,14 @@
  * This function copies the content of the specified dstring into the
  * specified nstring.
  *
- ** Functions:	CStringP		dstring_to_cstring
+ ** Functions:	char* dstring_to_cstring
  *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function copies the content of the specified dstring into a
  * dynamically allocated cstring, and returns it.
  *
- ** Function:	CStringP		dstring_destroy_to_cstring
+ ** Function:	char* dstring_destroy_to_cstring
  *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *

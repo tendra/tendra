@@ -82,7 +82,7 @@
  * This function initialises the specified bostream not to write to any file.
  *
  ** Function:	BoolT			bostream_open
- *			PROTO_S ((BOStreamP bostream, CStringP name))
+ *			PROTO_S ((BOStreamP bostream, char *name))
  ** Exceptions:
  *
  * This function initialises the specified bostream to write to the file with
@@ -106,7 +106,7 @@
  *
  ** Function:	void			bostream_write_chars
  *			PROTO_S ((BOStreamP bostream, unsigned length,
- *				  CStringP chars))
+ *				  char *chars))
  ** Exceptions:	XX_bostream_write_error
  *
  * This function writes the length characters in the chars vector to the
@@ -126,7 +126,7 @@
  *
  * This function writes the byte to the specified bostream.
  *
- ** Function:	CStringP		bostream_name
+ ** Function:	char *		bostream_name
  *			PROTO_S ((BOStreamP bostream))
  ** Exceptions:
  *
@@ -142,7 +142,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_bostream_write_error (CStringP name)
+ ** Exception:	XX_bostream_write_error (char *name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file that the write error occured on.  The copy
@@ -162,7 +162,7 @@
 
 typedef struct BOStreamT {
     FILE		       *file;
-    CStringP			name;
+    char *			name;
 } BOStreamT, *BOStreamP;
 
 /*--------------------------------------------------------------------------*/
@@ -172,13 +172,13 @@ extern ExceptionP		XX_bostream_write_error;
 /*--------------------------------------------------------------------------*/
 
 extern void			bostream_init(BOStreamP);
-extern BoolT			bostream_open(BOStreamP, CStringP);
+extern BoolT			bostream_open(BOStreamP, char *);
 extern void			bostream_assign(BOStreamP, BOStreamP);
 extern BoolT			bostream_is_open(BOStreamP);
-extern void			bostream_write_chars(BOStreamP, unsigned, CStringP);
+extern void			bostream_write_chars(BOStreamP, unsigned, char *);
 extern void			bostream_write_bytes(BOStreamP, unsigned, ByteP);
 extern void			bostream_write_byte(BOStreamP, ByteT);
-extern CStringP			bostream_name(BOStreamP);
+extern char *			bostream_name(BOStreamP);
 extern void			bostream_close(BOStreamP);
 
 #endif /* !defined (H_BOSTREAM) */

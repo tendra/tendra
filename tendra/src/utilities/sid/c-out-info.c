@@ -119,7 +119,7 @@ c_out_info_ostream(COutputInfoP info)
 #ifdef FS_FAST
 #undef c_out_info_program_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 c_out_info_program_name(COutputInfoP info)
 {
 	return (out_info_get_prog_name (info->info));
@@ -131,7 +131,7 @@ c_out_info_program_name(COutputInfoP info)
 #ifdef FS_FAST
 #undef c_out_info_source_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 c_out_info_source_name(COutputInfoP info)
 {
 	return (out_info_get_infile_name (info->info, (unsigned) 0));
@@ -144,7 +144,7 @@ c_out_info_source_name(COutputInfoP info)
 #ifdef FS_FAST
 #undef c_out_info_c_source_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 c_out_info_c_source_name(COutputInfoP info)
 {
 	return (out_info_get_infile_name (info->info, (unsigned) 1));

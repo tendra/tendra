@@ -155,10 +155,10 @@ istream_setup(void)
 void
 istream_init(IStreamP istream)
 {
-	istream->name = NIL (CStringP);
+	istream->name = NULL;
 }
 #ifdef FS_FAST
-#define istream_init(is) ((is)->name = NIL (CStringP))
+#define istream_init(is) ((is)->name = NULL)
 #endif /* defined (FS_FAST) */
 
 BoolT
@@ -194,10 +194,10 @@ istream_assign(IStreamP to, IStreamP from)
 BoolT
 istream_is_open(IStreamP istream)
 {
-	return (istream->name != NIL (CStringP));
+	return (istream->name != NULL);
 }
 #ifdef FS_FAST
-#define istream_is_open(is) ((is)->name != NIL (CStringP))
+#define istream_is_open(is) ((is)->name != NULL)
 #endif /* defined (FS_FAST) */
 
 BoolT
@@ -312,7 +312,7 @@ istream_line(IStreamP istream)
 #ifdef FS_FAST
 #undef istream_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 istream_name(IStreamP istream)
 {
 	return (istream->name);
