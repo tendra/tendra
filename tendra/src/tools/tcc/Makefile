@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS+= -I${.CURDIR}
+CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include
 .PATH : ${.CURDIR}
 
 PROG = tcc

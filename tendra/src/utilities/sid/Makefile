@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS+= -I. -I${.CURDIR}
+CFLAGS+= -I. -I${.CURDIR} -I${SRC_DIR}/src/include
 
 PROG=	sid
 
