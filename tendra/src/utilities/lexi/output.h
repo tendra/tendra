@@ -64,8 +64,18 @@
 */
 
 extern FILE *lex_output ;
-extern void output_all PROTO_S ( ( void ) ) ;
-extern void output_keyword PROTO_S ( ( void ) ) ;
+extern void output_all PROTO_S ( ( unsigned ) ) ;
+
+
+/*
+    OUTPUT OPTIONS
+*/
+
+#define OUTPUT_MACROS		( ( unsigned ) 0x01 )
+#define OUTPUT_TABLE		( ( unsigned ) 0x02 )
+#define OUTPUT_FUNCTIONS	( ( unsigned ) 0x04 )
+#define OUTPUT_MAIN		( ( unsigned ) 0x07 )
+#define OUTPUT_KEYWORDS		( ( unsigned ) 0x08 )
 
 
 #endif

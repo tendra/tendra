@@ -103,6 +103,7 @@ static char *char_lit
     static char buff [10] ;
     switch ( c ) {
 	case '\n' : return ( "'\\n'" ) ;
+	case '\r' : return ( "'\\r'" ) ;
 	case '\t' : return ( "'\\t'" ) ;
 	case '\v' : return ( "'\\v'" ) ;
 	case '\f' : return ( "'\\f'" ) ;
@@ -164,10 +165,12 @@ static int output_pass
     if ( cases || classes ) {
 	int w1 = ( n == 0 && !in_pre_pass ) ;
 	int w2 = ( n == 0 && in_pre_pass ) ;
+	if ( classes || w1 ) {
+	    output_indent ( d ) ;
+	    fprintf_v ( out, "lookup_type t%d ;\n", n ) ;
+	}
 	output_indent ( d ) ;
-	fprintf_v ( out, "int c%d = %s ()", n, read_name ) ;
-	if ( classes || w1 ) fprintf_v ( out, ", t%d", n ) ;
-	fputs_v ( " ;\n", out ) ;
+	fprintf_v ( out, "int c%d = %s () ;\n", n, read_name ) ;
 	if ( w1 ) {
 	    output_indent ( d ) ;
 	    fputs_v ( "t0 = lookup_char ( c0 ) ;\n", out ) ;
@@ -337,86 +340,118 @@ static void output_comment
     This routine is the entry point for the main output routine.
 */
 
-void output_all
-    PROTO_Z ()
+static void output_main
+    PROTO_N ( ( opts ) )
+    PROTO_T ( unsigned opts )
 {
     int c, n ;
+    int no ;
 
-    /* Initial comment */
-    output_comment () ;
+    CONST char *hex ;
+    CONST char *type ;
 
     /* Character look-up table */
-    fputs_v ( "/* LOOKUP TABLE */\n\n", out ) ;
-    fprintf_v ( out, "static unsigned %s lookup_tab [257] = {\n",
-		( no_groups >= 8 ? "short" : "char" ) ) ;
-    for ( c = 0 ; c <= 256 ; c++ ) {
-	unsigned int m = 0 ;
-	letter a = ( c == 256 ? EOF_LETTER : ( letter ) c ) ;
-	if ( in_group ( white_space, a ) ) m = 1 ;
-	for ( n = 0 ; n < no_groups ; n++ ) {
-	    if ( in_group ( groups [n].defn, a ) ) {
-		m |= ( unsigned int ) ( 1 << ( n + 1 ) ) ;
-	    }
-	}
-	if ( ( c % 8 ) == 0 ) fputs_v ( "    ", out ) ;
-	fprintf_v ( out, "0x%04x", m ) ;
-	if ( c != 256 ) {
-	    if ( ( c % 8 ) == 7 ) {
-		fputs_v ( ",\n", out ) ;
-	    } else {
-		fputs_v ( ", ", out ) ;
-	    }
+    if ( no_groups >= 16 ) {
+   	type = "unsigned long" ;
+	hex = "0x%08lxUL" ;
+	no = 2 ;
+    } else if ( no_groups >= 8 ) {
+	type = "unsigned short" ;
+	hex = "ox%04lx" ;
+	no = 4 ;
+    } else {
+	type = "unsigned char" ;
+	hex = "0x%02lx" ;
+	no = 8 ;
+    }
+    if ( opts & OUTPUT_MACROS ) {
+	fputs_v ( "/* LOOKUP TABLE */\n\n", out ) ;
+	fprintf_v ( out, "typedef %s lookup_type ;\n", type ) ;
+	if ( opts & OUTPUT_TABLE ) {
+           fprintf_v ( out, "\nstatic " ) ;
+	} else {
+           fprintf_v ( out, "extern lookup_type lookup_tab [] ;\n\n" ) ;
 	}
     }
-    fputs_v ( "\n} ;\n\n", out ) ;
+    if ( opts & OUTPUT_TABLE ) {
+	fprintf_v ( out, "lookup_type lookup_tab [257] = {\n" ) ;
+	for ( c = 0 ; c <= 256 ; c++ ) {
+  	    unsigned long m = 0 ;
+	    letter a = ( c == 256 ? EOF_LETTER : ( letter ) c ) ;
+	    if ( in_group ( white_space, a ) ) m = 1 ;
+	    for ( n = 0 ; n < no_groups ; n++ ) {
+       		if ( in_group ( groups [n].defn, a ) ) {
+            	    m |= ( unsigned long ) ( 1 << ( n + 1 ) ) ;
+		}
+	    }
+	    if ( ( c % no ) == 0 ) fputs_v ( "    ", out ) ;
+	    fprintf_v ( out, hex, m ) ;
+	    if ( c != 256 ) {
+		if ( ( c % no ) == no - 1 ) {
+		    fputs_v ( ",\n", out ) ;
+		} else {
+		    fputs_v ( ", ", out ) ;
+		}
+	    }
+	}
+	fputs_v ( "\n} ;\n\n", out ) ;
+    }
 
     /* Macros for accessing table */
-    fputs_v ( "#ifndef LEX_EOF\n", out ) ;
-    fputs_v ( "#define LEX_EOF\t\t\t256\n", out ) ;
-    fputs_v ( "#endif\n\n", out ) ;
-    fputs_v ( "#define lookup_char( C )\t", out ) ;
-    fputs_v ( "( ( int ) lookup_tab [ ( C ) ] )\n", out ) ;
-    fputs_v ( "#define is_white( T )\t\t( ( T ) & 0x0001 )\n", out ) ;
-    for ( n = 0 ; n < no_groups ; n++ ) {
-	char *gnm = groups [n].name ;
-	unsigned int m = ( unsigned int ) ( 1 << ( n + 1 ) ) ;
-	fprintf_v ( out, "#define is_%s( T )\t", gnm ) ;
-	if ( ( int ) strlen ( gnm ) < 8 ) fputc_v ( '\t', out ) ;
-	fprintf_v ( out, "( ( T ) & 0x%04x )\n", m ) ;
+    if ( opts & OUTPUT_MACROS ) {
+	fputs_v ( "#ifndef LEX_EOF\n", out ) ;
+	fputs_v ( "#define LEX_EOF\t\t\t256\n", out ) ;
+	fputs_v ( "#endif\n\n", out ) ;
+	fputs_v ( "#define lookup_char( C )\t", out ) ;
+	fputs_v ( "( lookup_tab [ ( C ) ] )\n", out ) ;
+	for ( n = 0 ; n <= no_groups ; n++ ) {
+	    CONST char *gnm = "white" ;
+	    unsigned long m = ( unsigned long ) ( 1 << n ) ;
+	    if ( n > 0 ) gnm = groups [ n - 1].name ;
+	    fprintf_v ( out, "#define is_%s( T )\t", gnm ) ;
+	    if ( ( int ) strlen ( gnm ) < 8 ) fputc_v ( '\t', out ) ;
+	    fputs_v ( "( ( T ) & ", out ) ;
+	    fprintf_v ( out, hex, m ) ;
+	    fputs_v ( " )\n", out ) ;
+	}
+	fputs_v ( "\n", out ) ;
+	fputs_v ( "#ifndef PROTO_Z\n", out ) ;
+	fputs_v ( "#ifdef __STDC__\n", out ) ;
+	fputs_v ( "#define PROTO_Z()\t\t( void )\n", out ) ;
+	fputs_v ( "#else\n", out ) ;
+	fputs_v ( "#define PROTO_Z()\t\t()\n", out ) ;
+	fputs_v ( "#endif\n", out ) ;
+	fputs_v ( "#endif\n\n\n", out ) ;
     }
-    fputs_v ( "\n", out ) ;
-    fputs_v ( "#ifndef PROTO_Z\n", out ) ;
-    fputs_v ( "#ifdef __STDC__\n", out ) ;
-    fputs_v ( "#define PROTO_Z()\t\t( void )\n", out ) ;
-    fputs_v ( "#else\n", out ) ;
-    fputs_v ( "#define PROTO_Z()\t\t()\n", out ) ;
-    fputs_v ( "#endif\n", out ) ;
-    fputs_v ( "#endif\n\n\n", out ) ;
 
     /* Lexical pre-pass */
-    if ( pre_pass->next ) {
-	in_pre_pass = 1 ;
-	fputs_v ( "/* PRE-PASS ANALYSER */\n\n", out ) ;
-	fputs_v ( "static int read_char_aux PROTO_Z ()\n", out ) ;
-	fputs_v ( "{\n", out ) ;
-	fputs_v ( "    start : {\n", out ) ;
-	IGNORE output_pass ( pre_pass, 0, 2 ) ;
-	fputs_v ( "\treturn ( c0 ) ;\n", out ) ;
-	fputs_v ( "    }\n", out ) ;
-	fputs_v ( "}\n\n\n", out ) ;
-	read_name = "read_char_aux" ;
+    if ( opts & OUTPUT_FUNCTIONS ) {
+	if ( pre_pass->next ) {
+	    in_pre_pass = 1 ;
+	    fputs_v ( "/* PRE-PASS ANALYSER */\n\n", out ) ;
+	    fputs_v ( "static int read_char_aux PROTO_Z ()\n", out ) ;
+	    fputs_v ( "{\n", out ) ;
+	    fputs_v ( "    start : {\n", out ) ;
+	    IGNORE output_pass ( pre_pass, 0, 2 ) ;
+	    fputs_v ( "\treturn ( c0 ) ;\n", out ) ;
+	    fputs_v ( "    }\n", out ) ;
+	    fputs_v ( "}\n\n\n", out ) ;
+	    read_name = "read_char_aux" ;
+	}
     }
 
     /* Main pass */
-    in_pre_pass = 0 ;
-    fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
-    fputs_v ( "int read_token PROTO_Z ()\n", out ) ;
-    fputs_v ( "{\n", out ) ;
-    fputs_v ( "    start : {\n", out ) ;
-    IGNORE output_pass ( main_pass, 0, 2 ) ;
-    fputs_v ( "\treturn ( unknown_token ( c0 ) ) ;\n", out ) ;
-    fputs_v ( "    }\n", out ) ;
-    fputs_v ( "}\n", out ) ;
+    if ( opts & OUTPUT_FUNCTIONS ) {
+	in_pre_pass = 0 ;
+	fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
+	fputs_v ( "int read_token PROTO_Z ()\n", out ) ;
+	fputs_v ( "{\n", out ) ;
+	fputs_v ( "    start : {\n", out ) ;
+	IGNORE output_pass ( main_pass, 0, 2 ) ;
+	fputs_v ( "\treturn ( unknown_token ( c0 ) ) ;\n", out ) ;
+	fputs_v ( "    }\n", out ) ;
+	fputs_v ( "}\n", out ) ;
+    }
     return ;
 }
 
@@ -445,11 +480,10 @@ static void output_word
     This routine outputs code to generate all keywords.
 */
 
-void output_keyword
+static void output_keyword
     PROTO_Z ()
 {
     keyword *p, *q ;
-    output_comment () ;
     fputs_v ( "/* KEYWORDS */\n\n", out ) ;
     for ( p = keywords ; p != NULL ; p = p->next ) {
 	if ( p->done == 0 ) {
@@ -471,6 +505,26 @@ void output_keyword
 		}
 	    }
 	}
+    }
+    return ;
+}
+
+
+/*
+    MAIN OUTPUT ROUTINE
+
+    This routine is the entry point for the main output routine.
+*/
+
+void output_all
+    PROTO_N ( ( opts ) )
+    PROTO_T ( unsigned opts )
+{
+    output_comment () ;
+    if ( opts & OUTPUT_KEYWORDS ) {
+	output_keyword () ;
+    } else {
+	output_main ( opts ) ;
     }
     return ;
 }

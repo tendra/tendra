@@ -65,6 +65,10 @@ into code implementing that analyser.  This is output into the
 .\" ----------------------------------------------------------------------
 .SH OPTIONS
 .\" ----------------------------------------------------------------------
+.IP \fB-f\fR
+Causes \fBlexi\fR to generate code describing any functions specified
+in the input.
+.\" ----------------------------------------------------------------------
 .IP \fB-k\fR
 Causes \fBlexi\fR to generate code describing any keywords specified
 in the input.
@@ -72,6 +76,13 @@ in the input.
 .IP \fB-l\fIstring\fR
 Causes \fBlexi\fR to use \fIstring\fR as a prefix for its generated
 lexical tokens.  The default is \fIlex_\fR.
+.\" ----------------------------------------------------------------------
+.IP \fB-m\fR
+Causes \fBlexi\fR to generate code describing any macros specified
+in the input.
+.\" ----------------------------------------------------------------------
+.IP \fB-t\fR
+Causes \fBlexi\fR to generate code describing the lookup table.
 .\" ----------------------------------------------------------------------
 .IP \fB-v\fR
 Causes \fBlexi\fR print its version number.

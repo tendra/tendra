@@ -75,26 +75,44 @@ int main
     PROTO_T ( int argc X char **argv )
 {
     int a ;
-    int key = 0 ;
     int too_many = 0 ;
     char *input = NULL ;
     char *output = NULL ;
+    unsigned opts = OUTPUT_MAIN
 
     /* Process arguments */
-    set_progname ( argv [0], "1.1" ) ;
+    set_progname ( argv [0], "1.2" ) ;
     for ( a = 1 ; a < argc ; a++ ) {
 	char *arg = argv [a] ;
 	if ( arg [0] == '-' && arg [1] ) {
 	    int known = 0 ;
 	    switch ( arg [1] ) {
+		case 'f' : {
+		    if ( arg [2] ) break ;
+		    opts = OUTPUT_FUNCTIONS ;
+		    known = 1 ;
+		    break ;
+		}
 		case 'k' : {
 		    if ( arg [2] ) break ;
-		    key = 1 ;
+		    opts = OUTPUT_KEYWORDS ;
 		    known = 1 ;
 		    break ;
 		}
 		case 'l' : {
 		    sid_prefix = arg + 2 ;
+		    known = 1 ;
+		    break ;
+		}
+		case 'm' : {
+		    if ( arg [2] ) break ;
+		    opts = OUTPUT_MACROS ;
+		    known = 1 ;
+		    break ;
+		}
+		case 't' : {
+		    if ( arg [2] ) break ;
+		    opts = OUTPUT_TABLE ;
 		    known = 1 ;
 		    break ;
 		}
@@ -138,11 +156,7 @@ int main
 		error ( ERROR_FATAL, "Can't open output file, %s", output ) ;
 	    }
 	}
-	if ( key ) {
-	    output_keyword () ;
-	} else {
-	    output_all () ;
-	}
+	output_all ( opts ) ;
 	if ( output ) fclose_v ( lex_output ) ;
     } else {
 	error ( ERROR_FATAL, "Terminating due to previous errors" ) ;
