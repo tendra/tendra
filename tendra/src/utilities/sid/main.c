@@ -492,7 +492,7 @@ static ArgListT main_arglist [] = {
 		(ArgProcP) main_handle_factor_limit,	NIL (GenericP),
 		MID_description_of_factor_limit
 	}, {
-		"help", '?',				AT_EMPTY,
+		"help", 'h',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
 		MID_description_of_help
 	}, {
@@ -512,7 +512,7 @@ static ArgListT main_arglist [] = {
 		(ArgProcP) main_handle_tab_width,	NIL (GenericP),
 		MID_description_of_tab_width
 	}, {
-		"version", 'v',				AT_EMPTY,
+		"version", 'V',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
 		MID_description_of_version
 	}, ARG_PARSE_END_LIST
