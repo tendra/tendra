@@ -47,7 +47,7 @@
 #pragma TenDRA longlong type allow
 #pragma integer literal decimal unsigned long long *:unsigned long long
 #pragma integer literal octal unsigned long long *:unsigned long long
-#pragma integer literal hexadecimal long long *:unsigned long long
+#pragma integer literal hexadecimal unsigned long long *:unsigned long long
 
 #pragma integer literal decimal long long llint_max:long long | **:l_ll
 #pragma integer literal octal long long llint_max:long long | **:l_ll
