@@ -25,10 +25,18 @@
 # $TenDRA$
 #
 
-$UNIQUE = 1;
-$VERSION ="1.0";
-+BASE_API;
+# 7.10 [refers to 5.2.4.2.1]
 
-+IMPLEMENT "ansi", "dummy/sys.h";
-+IMPLEMENT "iso99", "ctype.h";
-+IMPLEMENT "iso99", "limits.h";
++CONST int	CHAR_BIT;
++CONST int	CHAR_MIN, CHAR_MAX;
++CONST int	SHRT_MIN, SHRT_MAX;
++CONST int	INT_MIN, INT_MAX;
++CONST long int LONG_MIN, LONG_MAX;
++CONST long long int LLONG_MIN, LLONG_MAX;
++CONST int	SCHAR_MIN, SCHAR_MAX;
++CONST int	UCHAR_MAX;
++CONST int	USHRT_MAX;
++CONST unsigned int UINT_MAX;
++CONST unsigned long int ULONG_MAX;
++CONST unsigned long long int ULLONG_MAX;
++CONST int	MB_LEN_MAX;
