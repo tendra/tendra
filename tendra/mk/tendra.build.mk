@@ -5,7 +5,6 @@
 .include <tendra.base.mk>
 
 # Do some pretty-printing.
-PARTIMP=	${.IMPSRC:C/^${BASE_DIR}\///1}
 WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 
 # The main target is synthetised based upon actual needs.
@@ -13,22 +12,7 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .MAIN: all
 .endif
 
-# Implied rules.
-
-.SUFFIXES: .o .c .sid .j .pl
-
-.c.o:
-	@${ECHO} "# Compiling ${PARTIMP}"
-	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${.TARGET}
-
-.pl.j:
-	@${ECHO} "# Transforming ${PARTIMP}"
-	${TPL} ${.IMPSRC} ${.TARGET}
-
-.sid.c:
-	@${ECHO} "# Transforming ${PARTIMP} and ${PARTIMP:S/.sid/.act/}"
-	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET} \
-		${.TARGET:S/.c/.h/}
+.include <tendra.rules.mk>
 
 # Do it all. Real workers, mutually exclusive, follow.
 
