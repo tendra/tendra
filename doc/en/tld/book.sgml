@@ -28,14 +28,6 @@
       <para>Please email us at <email>docs@ten15.org</email> if you see any errors.</para>
     </abstract>
 
-    <copyright>
-      <year>2002</year>
-      <year>2003</year>
-      <year>2004</year>
-      <holder>TenDRA Documentation Team</holder>
-    </copyright>
-
-
     <legalnotice id='legalnotice'>
       <para>Extensions to this document from the original
         <ulink url='ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2-doc.tar.gz'>TenDRA-4.1.2-doc.tar.gz</ulink>
