@@ -43,6 +43,9 @@
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
 
+.if !defined(_TENDRA_BASE_MK_)
+_TENDRA_BASE_MK_=1
+
 BASE_DIR=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
@@ -77,3 +80,5 @@ INSTALL?=	${ENV} install
 MKDIR?=		${ENV} mkdir
 MOVE?=		${ENV} mv
 REMOVE?=	${ENV} rm -f
+
+.endif	# !defined(_TENDRA_BASE_MK_)
