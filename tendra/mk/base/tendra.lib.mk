@@ -10,6 +10,5 @@ OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.o/g:C/.*\/(.*)$/\1/g}
 CLEANFILES+= ${LIB}
 
 ${LIB}: ${OBJS}
-	@echo ${OBJS}
-	${AR} cr ${.TARGET} ${.IMPSRC}
+	${AR} cr ${.TARGET} ${.ALLSRC}
 	${RANLIB} ${.TARGET}
