@@ -2102,6 +2102,10 @@ init_object(IDENTIFIER id, EXP e)
 		} else {
 			/* Allow for tentative definitions */
 			if (ds & dspec_defn) chk = LANGUAGE_CPP;
+			/* They are only allowed at file scope */
+			if (ds & dspec_auto) chk = 1;
+			/* Arrays with internal linkage must have a complete type */
+			if (ds & dspec_static) chk = 1;
 		}
 		
 		/* Can only spot incomplete arrays at this stage */
