@@ -7,4 +7,5 @@ DATA=	K-P5 K-PIC K-frame K-i386 K-i486 K-noframe \
 	default.extra
 
 .include "../../../Makefile.inc"
+
 .include "../../../../../../mk/base/tendra.prog.mk"
