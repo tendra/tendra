@@ -104,7 +104,7 @@ gen_calculus(unsigned sz)
 {
 	calculus *p;
 	unsigned n = sz;
-	ASSERT (array_size (free_calculus_array) == calculus_GEN_MAX);
+	ASSERT (ARRAY_SIZE (free_calculus_array) == calculus_GEN_MAX);
 	ASSERT (n != 0);
 
 	if (n < calculus_GEN_MAX) {

@@ -210,6 +210,7 @@ typedef __volatile__ void NoReturnT;
 
 #define streq(X, Y)		(strcmp ((X), (Y)) == 0)
 #define strneq(X, Y, Z)	(strncmp ((X), (Y), (size_t) (Z)) == 0)
+#define	ARRAY_SIZE(A)	((int) sizeof (A) / (int) sizeof (*(A)))
 
 /*
  * These defines should go away in future
