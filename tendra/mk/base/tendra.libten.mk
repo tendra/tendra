@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CAT_STD?=	${SRC_PREFIX}/libten/catstd.cat
+CAT_STD?=	${SRC_DIR}/src/libten/catstd.cat
 
 # Added flags
 LDFLAGS+=       -L${OBJ_PREFIX}/libten
