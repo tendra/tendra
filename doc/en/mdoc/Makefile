@@ -47,11 +47,12 @@ MAN_TRANS=	680x0-sunos.trans.1 \
 		mips.irix.trans.1 \
 		mips.ultrix.trans.1 \
 		power.aix.trans.1 \
+		ppc601.aix.trans.1 \
 		sparc.solaris.trans.1 \
 		sparc.sunos.trans.1
 
 
-MAN_TRANS_SGML=	80x86-common.sgml alpha-common.sgml common.sgml \
+MAN_TRANS_SGML=	680x0-common.sgml 80x86-common.sgml alpha-common.sgml common.sgml \
 		hppa-common.sgml mips-common.sgml options.sgml \
 		power-common.sgml ppc601-common.sgml sparc-common.sgml
 

@@ -9,6 +9,10 @@ echo "%man;"
 
 
 case $1 in
+	*680x0*)
+		echo "<!ENTITY % ref.man.680x0-common SYSTEM \"tmp/680x0-common.sgml_tmp\"> %ref.man.680x0-common;"
+		echo "<!ENTITY trans \"hptrans\">"
+	;;
 	*80x86*)
 		echo "<!ENTITY % ref.man.80x86-common SYSTEM \"tmp/80x86-common.sgml_tmp\"> %ref.man.80x86-common;"
 		echo "<!ENTITY trans \"trans386\">"
@@ -29,11 +33,8 @@ case $1 in
 		echo "<!ENTITY % ref.man.power-common SYSTEM \"tmp/power-common.sgml_tmp\"> %ref.man.power-common;"
 		echo "<!ENTITY trans \"powertrans\">"
 	;;
-	*680x0*)
-		echo "<!ENTITY % ref.man.power-common SYSTEM \"tmp/power-common.sgml_tmp\"> %ref.man.power-common;"
-		echo "<!ENTITY trans \"powertrans\">"
-	;;
 	*ppc601*)
+		echo "<!ENTITY % ref.man.power-common SYSTEM \"tmp/power-common.sgml_tmp\"> %ref.man.power-common;"
 		echo "<!ENTITY % ref.man.ppc601-common SYSTEM \"tmp/ppc601-common.sgml_tmp\"> %ref.man.ppc601-common;"
 		echo "<!ENTITY trans \"powertrans\">"
 	;;

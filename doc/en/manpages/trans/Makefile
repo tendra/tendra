@@ -29,9 +29,11 @@ SUBDIR+=	alpha-freebsd \
 		alpha-osf1
 
 # power
-SUBDIR+=	680x0-sunos \
-		power-aix
+SUBDIR+=	power-aix \
+		ppc601-aix
 
+# 680x0
+SUBDIR+=	680x0-sunos
 
 # mips
 SUBDIR+=	mips-irix \

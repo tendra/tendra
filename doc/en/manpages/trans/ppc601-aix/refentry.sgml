@@ -5,7 +5,7 @@
 <!ENTITY % common-includes SYSTEM "../common/options.sgml">
 %common-includes;
 
-<!ENTITY % common-power-includes SYSTEM "../common/680x0-common.sgml">
+<!ENTITY % common-power-includes SYSTEM "../common/power-common.sgml">
 %common-power-includes;
 
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
@@ -14,6 +14,6 @@
 
 <!-- $TenDRA$ -->
 
-<refentry id="man-trans-680x0-sunos">
+<refentry id="man-trans-ppc601-aix">
   &manpage;
 </refentry>

@@ -16,6 +16,7 @@
 <!ENTITY ref.man.tcpplus SYSTEM "../manpages/tcpplus/manpage.sgml">
 <!ENTITY ref.man.tdfc2 SYSTEM "../manpages/tdfc2/manpage.sgml">
 
+<!ENTITY % ref.man.680x0-common SYSTEM "../manpages/trans/common/680x0-common.sgml"> %ref.man.680x0-common;
 <!ENTITY % ref.man.80x86-common SYSTEM "../manpages/trans/common/80x86-common.sgml"> %ref.man.80x86-common;
 <!ENTITY % ref.man.alpha-common SYSTEM "../manpages/trans/common/alpha-common.sgml"> %ref.man.alpha-common;
 <!ENTITY % ref.man.common SYSTEM "../manpages/trans/common/common.sgml"> %ref.man.common;
@@ -23,7 +24,6 @@
 <!ENTITY % ref.man.mips-common SYSTEM "../manpages/trans/common/mips-common.sgml"> %ref.man.mips-common;
 <!ENTITY % ref.man.options SYSTEM "../manpages/trans/common/options.sgml"> %ref.man.options;
 <!ENTITY % ref.man.power-common SYSTEM "../manpages/trans/common/power-common.sgml"> %ref.man.power-common;
-<!ENTITY % ref.man.ppc601-common SYSTEM "../manpages/trans/common/ppc601-common.sgml"> %ref.man.ppc601-common;
 <!ENTITY % ref.man.sparc-common SYSTEM "../manpages/trans/common/sparc-common.sgml"> %ref.man.sparc-common;
 
 <!ENTITY ref.man.680x0-sunos-trans SYSTEM "../manpages/trans/680x0-sunos/manpage.sgml">
@@ -161,6 +161,10 @@
   <chapter>
     <title>Installers</title>
 
+    <refentry id=ref.man.680x0-sunox-trans>
+      &ref.man.680x0-sunos-trans;
+    </refentry>
+
     <refentry id=ref.man.80x86-cygwin32-trans>
       &ref.man.80x86-cygwin32-trans;
     </refentry>
@@ -215,10 +219,6 @@
 
     <refentry id=ref.man.power-aix-trans>
       &ref.man.power-aix-trans;
-    </refentry>
-
-    <refentry id=ref.man.680x0-sunos-trans>
-      &ref.man.680x0-sunos-trans;
     </refentry>
 
     <refentry id=ref.man.sparc-solaris-trans>
