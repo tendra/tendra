@@ -27,3 +27,5 @@ vtable.j: vtable.p
 
 clobber: clean
 	${REMOVE} ${SYS_FILES}
+
+.include "../../Makefile.inc"
