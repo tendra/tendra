@@ -55,10 +55,10 @@
  */
 
 
-extern int oddunary PROTO_S ((exp, exp, exp *));
-extern int oddtest PROTO_S ((exp, exp *, exp *, exp *));
-extern int last_statement PROTO_S ((exp, exp *));
-extern int is_maxlike PROTO_S ((exp, exp *));
-extern int is_minlike PROTO_S ((exp, exp *));
-extern int is_abslike PROTO_S ((exp, exp *));
-extern int is_fabs PROTO_S ((exp, exp *));
+extern int oddunary(exp, exp, exp *);
+extern int oddtest(exp, exp *, exp *, exp *);
+extern int last_statement(exp, exp *);
+extern int is_maxlike(exp, exp *);
+extern int is_minlike(exp, exp *);
+extern int is_abslike(exp, exp *);
+extern int is_fabs(exp, exp *);
