@@ -100,7 +100,7 @@ install-man:
 
 # lib/sys: our shared libraries
 install-shlib:
-	${INSTALL} ${.OBJDIR}/${SHLIB} ${INSATALL_PREFIX}/lib/sys
+	${INSTALL} ${.OBJDIR}/${SHLIB} ${INSTALL_PREFIX}/lib/sys
 
 install-dir:
 	for i in ${INSTALL_SUB}; do \
