@@ -24,3 +24,43 @@
 #
 # $TenDRA$
 #
+
+# 7.20.1.1
+
++FUNC double atof(const char *);
+
+# 7.20.2.1
+
++FUNC int rand(void);
+
+# 7.20.2.2
+
++FUNC void srand(unsigned int);
+
+# 7.20.3.2
+
++FUNC void free(void *);
+
+# 7.20.4.1
+
++FUNC void abort(void);
+
+# 7.20.4.2
+
++FUNC int atexit(void (*)(void));
+
+# 7.20.4.3
+
++FUNC void exit(int);
+
+# 7.20.4.4
+
++FUNC void _Exit(int);
+
+# 7.20.4.5
+
++FUNC char *getenv(const char *);
+
+# 7.20.4.6
+
++FUNC int system(const char *);
