@@ -10,11 +10,15 @@
 .MAIN: all
 .endif
 
-.SUFFIXES: .o .c .sid
+.SUFFIXES: .o .c .sid .j .pl
 
 .c.o:
 	@${ECHO} Compiling ${.IMPSRC}...
 	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${OBJ_SDIR}/${.TARGET}
+
+.pl.j:
+	@${ECHO} Transforming ${.IMPSRC}
+	${PL} ${.IMPSRC} ${OBJ_SDIR}/${.TARGET}
 
 .sid.c:
 	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
