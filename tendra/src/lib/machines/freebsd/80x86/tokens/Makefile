@@ -6,8 +6,6 @@ TDFLIB=		target_tok.tl
 CAPSULES=	dep_toks.j map_toks.j except_toks.t var_toks.t
 PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
-.PATH:	${SRC2}
-
 basic : sys.j
 	@${ECHO} all done
 
@@ -34,3 +32,5 @@ clobber : clean
 
 #.include "../Makefile.inc"
 .include "../../../Makefile.inc"
+
+.PATH:	${SRC2} ${OBJ_SDIR}
