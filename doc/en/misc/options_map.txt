@@ -36,11 +36,11 @@ disp		tools/disp/main.c		  A     D E                           S T   V W        
 lexi		utilities/lexi/main.c		                                            V                             f   h     k l m             t
                                                                                                                               + 
 
-mkerr		utilities/make_err/main.c	                                                                      d       h           n             u v 
-[missing]
+mkerr		utilities/mkerr/main.c	                                                                              d       h           n             u v 
+
 
 make_tdf	utilities/make_tdf/main.c	                                            V                                 h
-[missing]
+
 
 pl		tools/pl/main.c			                  I                         V                               g h               p             
                                                                                                                             + +
