@@ -180,8 +180,8 @@ int dump_anon_class = 0;
  *    This is a sequence of characters giving the type of identifier.
  */
 
-static char
-*dump_key(IDENTIFIER id, int def)
+static CONST char*
+dump_key(IDENTIFIER id, int def)
 {
     CONST char *key = NULL;
     if (do_dump && !IS_NULL_id (id)) {

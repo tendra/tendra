@@ -65,228 +65,11 @@
  *
  *** Change Log:
  * $Log$
- * Revision 1.2  2002/11/21 22:31:25  nonce
- * Remove ossg prototypes.  This commit is largely whitespace changes,
- * but is nonetheless important.  Here's why.
- *
- * I.  Background
- * =========================
- *
- *     The current TenDRA-4.1.2 source tree uses "ossg" prototype
- * conventions, based on the Open Systems Software Group publication "C
- * Coding Standards", DRA/CIS(SE2)/WI/94/57/2.0 (OSSG internal document).
- * The goal behind ossg prototypes remains admirable: TenDRA should
- * support platforms that lack ANSI compliant compilers.  The explicit
- * nature of ossg's prototypes makes macro substition easy.
- *
- *     Here's an example of one function:
- *
- *     static void uop
- * 	PROTO_N ( ( op, sha, a, dest, stack ) )
- * 	PROTO_T ( void ( *op ) PROTO_S ( ( shape, where, where ) ) X
- * 		  shape sha X exp a X where dest X ash stack )
- *     {
- *
- * tendra/src/installers/680x0/common/codec.c
- *
- *   The reasons for removing ossg are several, including:
- *
- *   0) Variables called 'X' present a problem (besides being a poor
- * variable name).
- *
- *   1) Few platforms lack ANSI-compliant compilers.  ISO-compliant
- * prototypes are easily handled by most every compiler these days.
- *
- *   2) Although TenDRA emphasizes portability, standards compliance is
- * the primary goal of the current project.  We should expect no less
- * from the compiler source code.
- *
- *   3) The benefits of complex prototypes are few, given parameter
- * promotion rules.  (Additionally, packing more types into int-sized
- * spaces tends to diminish type safety, and greatly complicates
- * debugging and testing.)
- *
- *   4) It would prove impractical to use an OSSG internal style document
- * in an open source project.
- *
- *   5) Quite frankly, ossg prototypes are difficult to read, but that's
- * certainly a matter of taste and conditioning.
- *
- * II.  Changes
- * =========================
- *
- *    This commit touches most every .h and .c file in the tendra source
- * tree.  An emacs lisp script (http://www.tendra.org/~nonce/tendra/rmossg.el)
- * was used to automate the following changes:
- *
- *    A.  Prototype Conversions.
- *    --------------------------------------------------
- *
- *    The PROTO_S, PROTO_Z, PROTO_N, PROTO_T, and PROTO_V macros were
- * rewritten to ISO-compliant form.  Not every file was touched.  The
- * files named ossg.h, ossg_api.h, code.c, coder.c and ossg_std.h were
- * left for hand editing.  These files provide header generation, or have
- * non-ossg compliant headers to start with.  Scripting around these
- * would take too much time; a separate hand edit will fix them.
- *
- *    B.  Statement Spacing
- *    --------------------------------------------------
- *
- *    Most of the code in the TenDRA-4.1.2 used extra spaces to separate
- * parenthetical lexemes.  (See the quoted example above.)  A simple
- * text substitution was made for:
- *
- *      Before            After
- * ===================================
- *
- *    if ( x )            if (x)
- *    if(x)               if (x)
- *    x = 5 ;             x = 5;
- *    ... x) )            ... x))
- *
- * All of these changes are suggested by style(9).  Additional, statement
- * spacing considerations were made for all of the style(9) keywords:
- * "if" "while" "for" "return" "switch".
- *
- * A few files seem to have too few spaces around operators, e.g.:
- *
- *       arg1*arg2
- *
- * instead of
- *
- *       arg1 * arg2
- *
- * These were left for hand edits and later commits, since few files
- * needed these changes.  (At present, the rmossg.el script takes 1 hour
- * to run on a 2GHz P4, using a ramdisk.  Screening for the 1% that
- * needed change would take too much time.)
- *
- *    C.  License Information
- *    --------------------------------------------------
- *
- * After useful discussion on IRC, the following license changes were
- * made:
- *
- *    1) Absent support for $License::BSD$ in the repository, license
- * and copyright information was added to each file.
- *
- *    2) Each file begins with:
- *
- *    Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
- *    All rights reserved.
- *
- *    Usually, copyright stays with the author of the code; however, I
- * feel very strongly that this is a group effort, and so the tendra
- * project should claim any new (c) interest.
- *
- *    3) The comment field then shows the bsd license and warranty
- *
- *    4) The comment field then shows the Crown Copyright, since our
- * changes are not yet extensive enough to claim any different.
- *
- *    5) The comment field then closes with the $TenDRA$ tag.
- *
- *    D.  Comment Formatting
- *    --------------------------------------------------
- *
- * The TenDRA-4.1.2 code base tended to use comment in this form:
- *
- *     /*
- *        Statement statement
- *        statement
- *      */
- *
- * while style(9) suggests:
- *
- *     /*
- *      * Statement statement
- *      * statement
- *      */
- *
- * Not every comment in -4.1.2 needed changing.  A parser was written to
- * identify non-compliant comments.  Note that a few comments do not
- * follow either the TenDRA-4.1.2 style or style(9), or any style I can
- * recognize.  These need hand fixing.
- *
- *    E.  Indentation
- *    --------------------------------------------------
- *
- *    A elisp tendra-c-mode was created to define how code should be
- * indented.  The structure follows style(9) in the following regards:
- *
- *   (c-set-offset 'substatement-open 0)
- *   (setq c-indent-tabs-mode t
- * 	c-indent-level 4
- * 	c-argdecl-indent t
- * 	c-tab-always-indent t
- * 	backward-delete-function nil
- * 	c-basic-offset 4
- * 	tab-width 4))
- *
- * This means that substatement opening are not indented.  E.g.:
- *
- *    if (condition)
- *    {
- *
- * instead of
- *
- *    if (condition)
- *      {
- *
- * or even
- *
- *    if (condition) {
- *
- * Each statement is indented by a tab instead of a spaces.  Set your tab
- * stop to comply with style(9); see the vim resources in the tendra
- * tree.  I'll add the emacs mode support shortly.
- *
- * No doubt, a function or two escaped change because of unusual
- * circumstances.  These must be hand fixed as well.
- *
- * III.  Things Not Changed
- * =========================
- *
- *     A large number of style(9) deficiencies remain.  These will
- * require a separate effort.  I decided to stop with the changes noted
- * above because:
- *
- *    0)  The script currently takes hours to run to completion even on
- * high-end consumer machines.
- *
- *    1)  We need to move on and fix other substantive problems.
- *
- *    2) The goal of this commit was *just* ossg removal; I took the
- * opportunity to get other major white-space issues out of the way.
- *
- *     I'll also note that despite this commit, a few ossg issues remain.
- * These include:
- *
- *    0) The ossg headers remain.  They contain useful flags needed by
- * other operations.  Additionally, the BUILD_ERRORS perl script still
- * generates ossg-compliant headers.  (This is being removed as we change
- * the build process.)
- *
- *    1) A few patches of code check for ossg flags: "if (ossg) etc."
- * These can be hand removed as well.
- *
- *    2) No doubt, a few ossg headers escaped the elisp script.  We can
- * address these seriatim.
- *
- * IV.  Testing
- * =========================
- *
- *     Without a complete build or test suite, it's difficult to
- * determine if these changes have introduced any bugs.  I've identified
- * several situations where removal of ossg caused bugs in sid and
- * calculus operations.  The elisp script avoids these situations; we
- * will hand edit a few files.
- *
- *     As is, the changes should behave properly; the source base builds
- * the same before and after the rmossg.el script is run.  Nonetheless,
- * please note that this commit changes over 23,000 PROTO declarations,
- * and countless line changes.  I'll work closely with any developers
- * affected by this change.
+ * Revision 1.3  2002/11/25 20:18:21  nonce
+ * Fixed numerous return types mangled by the ossg removal scripts.
+ * Approximately 4 out of 2390 files had unusual function signatures that
+ * confused the parser.  These files compiled and worked fine, but
+ * generated compiler warnings.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:18  release
  * First version to be checked into rolling release.
@@ -608,7 +391,7 @@ capsule_read_header(CapsuleP capsule)
     tdf_read_align (reader);
 }
 
-static *
+static UnitEntryP*
 capsule_read_unit_set_names(CapsuleP capsule,
 							UnitTableP units,
 							unsigned *num_unit_sets_ref)
@@ -673,7 +456,7 @@ capsule_read_unit_set_names(CapsuleP capsule,
 
 static ShapeDataP
 capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
-					unsigned *num_shapes_ref)
+		    unsigned *num_shapes_ref)
 {
     TDFReaderP reader     = capsule_reader (capsule);
     unsigned   num_shapes = tdf_read_int (reader);
@@ -710,7 +493,7 @@ capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
     return (shapes_vec);
 }
 
-static *
+static NameEntryP*
 capsule_read_external_names_1(CapsuleP capsule,
 							  ShapeDataP shape,
 							  unsigned *num_ref)
@@ -1011,13 +794,13 @@ capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
     capsule_read_tld_unit_trailer (capsule);
 }
 
-static *
+static MapEntryP*
 capsule_read_unit_counts(CapsuleP capsule,
-						 unsigned num_shapes,
-						 ShapeDataP shapes_vec,
-						 unsigned num_counts,
-						 UnitEntryP unit_entry,
-						 UnitP unit, unsigned unit_num)
+			 unsigned num_shapes,
+			 ShapeDataP shapes_vec,
+			 unsigned num_counts,
+			 UnitEntryP unit_entry,
+			 UnitP unit, unsigned unit_num)
 {
     if ((num_counts != 0) && (num_counts != num_shapes)) {
 		E_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
@@ -1110,10 +893,11 @@ capsule_read_unit(CapsuleP capsule, unsigned num_shapes,
     NStringT   nstring;
 	
     entries = capsule_read_unit_counts (capsule, num_shapes, shapes_vec,
-										num_counts, unit_entry, unit,
-										unit_num);
+					num_counts, unit_entry, unit,
+					unit_num);
+    
     capsule_read_unit_maps (capsule, num_counts, shapes_vec, unit_entry,
-							unit_num, entries);
+			    unit_num, entries);
     size = tdf_read_int (reader);
     debug_info_r_unit_body (size);
     nstring_init_length (&nstring, size);
@@ -1134,8 +918,9 @@ capsule_read_units(CapsuleP capsule, unsigned num_shapes,
     debug_info_r_start_units (unit_entry_key (unit_entry), num_units);
     for (i = 0; i < num_units; i ++) {
 		debug_info_r_start_unit (unit_entry_key (unit_entry), i + 1,
-								 num_units);
-		capsule_read_unit (capsule, num_shapes, shapes_vec, unit_entry, i);
+					 num_units);
+		capsule_read_unit (capsule, num_shapes, shapes_vec,
+				   unit_entry, i);
     }
 }
 

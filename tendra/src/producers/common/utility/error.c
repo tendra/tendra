@@ -369,8 +369,8 @@ PROTO_Z ()
  *    sev.  It also updates the internal flags.
  */
 
-static char
-*error_header(int sev)
+static CONST char*
+error_header(int sev)
 {
     CONST char *msg;
     switch (sev) {
