@@ -58,6 +58,8 @@
 #ifndef OBJECT_INCLUDED
 #define OBJECT_INCLUDED
 
+#include <time.h>
+
 
 /*
  *    FORWARD STRUCTURE DECLARATIONS
