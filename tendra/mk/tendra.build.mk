@@ -86,8 +86,9 @@ OBJS=  ${SRCS:S/.c/.o/}
 
 all:
 .if defined(PROG)
-	${MAKE} build-prog
-	${MAKE} link-prog
+	@${MAKE} _OBJDIR
+	@${MAKE} build-prog
+	@${MAKE} link-prog
 .endif
 
 build-prog: ${PROG}
@@ -104,11 +105,11 @@ clean:
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
 
-obj:
-	@if ! test -d ${OBJ_SDIR}/; then\
-		mkdir -p ${OBJ_SDIR};\
-		${ECHO} ${OBJ_SDIR} created for ${.CURDIR};\
-	fi
+_OBJDIR:
+.if !exists(${OBJ_SDIR})
+	@mkdir -p ${OBJ_SDIR}
+	@${ECHODIR} ${OBJ_SDIR} created for ${.CURDIR}
+.endif
 
 _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
