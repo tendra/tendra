@@ -322,7 +322,7 @@ print_assert_decs(void)
     These functions are delivered to a special file.
 */
 
-void
+static void
 print_assert_fns(void)
 {
     /* Assertion printing */
@@ -1760,7 +1760,7 @@ print_map_args(char *d)
     For each union in the calculus there is an operations file.
 */
 
-void
+static void
 print_union_ops_c(char *dir, char *un)
 {
     int sz = 1;
