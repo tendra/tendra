@@ -25,6 +25,8 @@
 #pragma TenDRA keyword __inline for inline
 #endif
 
+#define __asm__(exp)	/* nil */
+
 #ifndef __signed
 #define __signed	signed
 #endif
