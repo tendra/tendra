@@ -7,8 +7,8 @@ all:
 	@echo installed in place specified by your PATH environment
 	@echo variable.
 	@echo
-	@/usr/bin/env bmake
+	@/usr/bin/env bmake -r
 
 clean:
 	@echo Using bmake to clean up build environment...
-	@/usr/bin/env bmake clean
+	@/usr/bin/env bmake -r clean
