@@ -57,7 +57,7 @@
   Digital Equipment Corp.  <ulink url='http://www.dec.com'>http://www.dec.com</ulink></para>">
 <!ENTITY alpha "<trademark class='registered'>Alpha</trademark>">
 <!ENTITY ultrix "<trademark class='registered'>Ultrix</trademark>">
-
+<!ENTITY digital.unix "<trademark class='registered'>Digital Unix</trademark">
 
 <!ENTITY tm-attrib.freebsd "<para>FreeBSD is a registered trademark of
   Wind River Systems, Inc.  This is expected to change soon.  <ulink url='http://www.freebsd.org/'>http://www.freebsd.org/</ulink></para>">
@@ -84,6 +84,7 @@
   trademarks of MIPS Technologies, Inc. in the United States and other
   countries.  <ulink url='htp://www.mips.com/'>http://www.mips.com/</ulink></para>">
 <!ENTITY mips "<trademark class='registered'>MIPS</trademark>">
+<!ENTITY mipspro "<trademark>MIPSpro</trademark>">
 
 
 <!ENTITY tm-attrib.netbsd "<para>NetBSD is a registered trademark of The NetBSD
