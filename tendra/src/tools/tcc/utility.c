@@ -332,7 +332,7 @@ hash(char *key, int tblsize, int keysize)
     }
 
     if (!key) {
-	error(FATAL, "hash operation requested on empty key\n");
+	error(FATAL, "hash operation requested on empty key");
     }
 
     while (*key && !is_whitespace(*key) && i < keysize) {
@@ -435,7 +435,6 @@ find_path_subst(char *var)
 	char *ret;
 	char **subs;
 	int i = 0;
-	subs = PATH_SUBS;
 
 	i = 0;
 	subs = PATH_SUBS;
@@ -443,7 +442,7 @@ find_path_subst(char *var)
 	    if (!strcmp(var, *subs)) {
 		if (env_paths[i] == NULL){
 		    error(FATAL, "The env variable <%s> is null.\n"
-			  "Check your environment or edit your env files.\n",
+			  "Check your environment or edit your env files",
 			  PATH_SUBS[i]);
 		}
 		return env_paths[i];
@@ -453,7 +452,7 @@ find_path_subst(char *var)
 	}
         if (!*subs)
 	    error(WARNING,
-		  "Expected command line option -y%s=[value]; trying environment\n",
+		  "Expected command line option -y%s=[value]; trying environment",
 		  var);
 	ret = getenv(var);
 

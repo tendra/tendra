@@ -569,7 +569,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 
 	default : {
 	    /* Other types */
-	    error(ERR_INTERNAL, "Unknown type identifier, '%d'\n", i);
+	    error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
 	    break;
 	}
     }

@@ -1146,7 +1146,7 @@ interpret_cmd(char *cmd)
 		 */
 #if FS_STAT
 		if (stat (val, &sb) == -1) {
-		    error(SERIOUS, "interpret_cmd: %s %s\n",
+		    error(SERIOUS, "interpret_cmd: %s %s",
 			val, strerror(errno));
 		}
 #endif
