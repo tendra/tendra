@@ -137,6 +137,20 @@ install:
 		done)
 .endfor
 .endif
+.if defined(MACHSUBDIR)
+.if !exists(${MACH_BASE}/include)
+	${MKDIR} -p ${MACH_BASE}/include
+.endif
+.if !exists(${MACH_BASE}/startup)
+	${MKDIR} -p ${MACH_BASE}/startup
+.endif
+	(cd ${MACHSUBDIR}/include && for file in *; do\
+		${INSTALL} -m 644 $$file ${MACH_BASE}/include/$$file;\
+	done)
+	(cd ${MACHSUBDIR}/startup && for file in *; do\
+		${INSTALL} -m 644 $$file ${MACH_BASE}/startup/$$file;\
+	done)
+.endif #MACHSUBDIR
 
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
