@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,30 +52,30 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------*/
 
 
 /*
-    CONFIGURATION FILE
-
-    This file contains the basic information required by all files and
-    the macros controlling the selection of target-dependent optimizations.
-*/
+ *    CONFIGURATION FILE
+ *
+ *    This file contains the basic information required by all files and
+ *    the macros controlling the selection of target-dependent optimizations.
+ */
 
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
 
 /*
-    DEFINE BASIC TYPES
-*/
+ *    DEFINE BASIC TYPES
+ */
 
 #include "ossg_api.h"
 #include "ossg.h"
@@ -84,39 +84,39 @@ $Header$
 #define FS_LITTLE_ENDIAN 0
 #endif
 
-typedef unsigned long bitpattern ;
+typedef unsigned long bitpattern;
 
 #define null NULL
 
 
 /*
-    SHOULD WE USE ALLOCA?
-*/
+ *    SHOULD WE USE ALLOCA?
+ */
 
 #define NO_ALLOCA
 
 
 /*
-    DECLARE ERROR REPORTING FUNCTIONS
+ *    DECLARE ERROR REPORTING FUNCTIONS
+ *
+ *    These functions are defined in utility.c.
+ */
 
-    These functions are defined in utility.c.
-*/
-
-extern void error PROTO_W ( ( char *, ... ) ) ;
-extern void warning PROTO_W ( ( char *, ... ) ) ;
+extern void error(char *, ...);
+extern void warning(char *, ...);
 
 #ifdef EBUG
-#define  debug_warning( X ) 	warning ( X )
+#define  debug_warning(X) 	warning (X)
 #else
-#define  debug_warning( X )
+#define  debug_warning(X)
 #endif
 
 
 /*
-   DEFINE MACHINE TYPE
-   
-   It's a 68000, it isn't anything else.
-*/
+ *   DEFINE MACHINE TYPE
+ *   
+ *   It's a 68000, it isn't anything else.
+ */
 
 #define  SUN
 #define  is68000		1
@@ -130,8 +130,8 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 
 
 /*
-    DEFINE COMPILATION OPTIONS
-*/
+ *    DEFINE COMPILATION OPTIONS
+ */
 
 #define  check_shape		1	/* Check shape-correctness */
 #define  convert_floats		1	/* Convert floating constants */
@@ -163,10 +163,10 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 #define  remove_unused_counters	0	/* for foralls optimisation */
 #define  remove_unused_index_counters\
 				0	/* for foralls optimisation */
-#define  good_index_factor( f )	0	/* for foralls optimisation */
-#define  good_pointer_factor( f )\
-				( ( f ) != 1 && ( f ) != 2 &&\
-				  ( f ) != 4 && ( f ) != 8 )
+#define  good_index_factor(f)	0	/* for foralls optimisation */
+#define  good_pointer_factor(f)\
+				((f) != 1 && (f) != 2 &&\
+				  (f) != 4 && (f) != 8)
 #define  jump_table_density	10	/* for cases optimisation */
 #define  non_default_entries	4	/* for cases optimisation */
 #define  non_default_destinations\
@@ -175,11 +175,11 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 
 
 /*
-    HACKS FOR CROSS-COMPILATION
-
-    Some routines are target-dependent and may not work properly when
-    cross-compiling.  This section should take care of this.
-*/
+ *    HACKS FOR CROSS-COMPILATION
+ *
+ *    Some routines are target-dependent and may not work properly when
+ *    cross-compiling.  This section should take care of this.
+ */
 
 #ifdef CROSS_COMPILE
 #undef   convert_floats
@@ -192,11 +192,11 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 
 
 /*
-    EXTRA TAGS
-
-    These are target-specific tags.  Strictly speaking they belong in
-    tags.h.
-*/
+ *    EXTRA TAGS
+ *
+ *    These are target-specific tags.  Strictly speaking they belong in
+ *    tags.h.
+ */
 
 #define  dummy_tag		100
 #define  internal_tag		101
@@ -204,10 +204,10 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 
 
 /*
-    LONG INTEGER LITERALS
-
-    Some compilers don't understand 0L etc.
-*/
+ *    LONG INTEGER LITERALS
+ *
+ *    Some compilers don't understand 0L etc.
+ */
 
 #ifdef __STDC__
 #define  L0			0L
@@ -228,23 +228,23 @@ extern void warning PROTO_W ( ( char *, ... ) ) ;
 #define  L21474836478		21474836478L
 #define  L_1			-1L
 #else
-#define  L0			( ( long ) 0 )
-#define  L1			( ( long ) 1 )
-#define  L2			( ( long ) 2 )
-#define  L3			( ( long ) 3 )
-#define  L4			( ( long ) 4 )
-#define  L5			( ( long ) 5 )
-#define  L6			( ( long ) 6 )
-#define  L7			( ( long ) 7 )
-#define  L8			( ( long ) 8 )
-#define  L9			( ( long ) 9 )
-#define  L10			( ( long ) 10 )
-#define  L16			( ( long ) 16 )
-#define  L32			( ( long ) 32 )
-#define  L64			( ( long ) 64 )
-#define  L65536			( ( long ) 65536 )
-#define  L21474836478		( ( long ) 21474836478 )
-#define  L_1			( ( long ) -1 )
+#define  L0			((long) 0)
+#define  L1			((long) 1)
+#define  L2			((long) 2)
+#define  L3			((long) 3)
+#define  L4			((long) 4)
+#define  L5			((long) 5)
+#define  L6			((long) 6)
+#define  L7			((long) 7)
+#define  L8			((long) 8)
+#define  L9			((long) 9)
+#define  L10			((long) 10)
+#define  L16			((long) 16)
+#define  L32			((long) 32)
+#define  L64			((long) 64)
+#define  L65536			((long) 65536)
+#define  L21474836478		((long) 21474836478)
+#define  L_1			((long) -1)
 #endif
 
 #define HAS_MAGIC		1

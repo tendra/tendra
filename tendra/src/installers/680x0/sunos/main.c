@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,14 +52,14 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 /*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ *			    VERSION INFORMATION
+ *			    ===================
+ *
+ *--------------------------------------------------------------------------
+ *$Header$
+ *--------------------------------------------------------------------------*/
 
 #include "config.h"
 #include "release.h"
@@ -92,99 +92,99 @@ $Header$
 #include "xdb_basics.h"
 #include "xdb_output.h"
 #endif
-extern int errors ;
-extern int max_errors ;
+extern int errors;
+extern int max_errors;
 
 
 /*
-    PROGRAM NAME AND VERSION NUMBER
-*/
+ *    PROGRAM NAME AND VERSION NUMBER
+ */
 
-char *progname = "hptrans" ;
-static char *version_str = "Version: 0.6" ;
-static char *revision = REVISION_STRING ;
-static char *revdate = DATE_STRING ;
-int normal_version = 1 ;
+char *progname = "hptrans";
+static char *version_str = "Version: 0.6";
+static char *revision = REVISION_STRING;
+static char *revdate = DATE_STRING;
+int normal_version = 1;
 
 
 /*
-    EXTRA COMPILATION FLAGS
-*/
+ *    EXTRA COMPILATION FLAGS
+ */
 
-int do_peephole = 1 ;
-int do_pic = 0 ;
-static int do_quit = 0 ;
-static int do_sep_units = 0 ;
-static int ignore_errors = 0 ;
+int do_peephole = 1;
+int do_pic = 0;
+static int do_quit = 0;
+static int do_sep_units = 0;
+static int ignore_errors = 0;
 #ifdef EBUG
-int optimize = 0 ;
+int optimize = 0;
 #else
-static int optimize = 1 ;
+static int optimize = 1;
 #endif
-static int report_version = 0 ;
-static int report_tdf_versions = 0 ;
-static int show_options = 0 ;
-static int dummy_option = 0 ;
+static int report_version = 0;
+static int report_tdf_versions = 0;
+static int show_options = 0;
+static int dummy_option = 0;
 
 #ifdef EBUG
 
-int do_test = 0 ;
-int seek_label = 0 ;
-int seek_extern = 0 ;
-int seek_label_no ;
-char *seek_extern_id ;
+int do_test = 0;
+int seek_label = 0;
+int seek_extern = 0;
+int seek_label_no;
+char *seek_extern_id;
 
-int seek_line = 0 ;
-int seek_line_no ;
-static char *seek_line_id ;
+int seek_line = 0;
+int seek_line_no;
+static char *seek_line_id;
 
 #endif
 
-int diag_override ;
-static int diag_stab_override = 0 ;
-static int diag_xdb_new_override = 0 ;
-static int diag_xdb_old_override = 0 ;
+int diag_override;
+static int diag_stab_override = 0;
+static int diag_xdb_new_override = 0;
+static int diag_xdb_old_override = 0;
 
 
 
 /*
-    VARIABLE SIZES AND ALIGNMENTS
-*/
+ *    VARIABLE SIZES AND ALIGNMENTS
+ */
 
-alignment MAX_BF_SIZE ;
-
-
-/*
-    MAXIMUM EXPONENT FOR FLOATING-POINT NUMBERS
-*/
-
-int target_dbl_maxexp = 1024 ;
+alignment MAX_BF_SIZE;
 
 
 /*
-    OPTIONS
+ *    MAXIMUM EXPONENT FOR FLOATING-POINT NUMBERS
+ */
 
-    There are two types of options.  Firstly, for certain key words,
-    key, the option "-key" enables, and the option "-no_key" disables,
-    the corresponding action.  Some of these options take an additional
-    argument in their positive form, i.e. "-key arg".  Secondly, single
-    letter options are used as shorthand for some of the options of the
-    first type.
+int target_dbl_maxexp = 1024;
 
-    Each entry in this table gives a key word, key, followed by the
-    single letter option for "-key" (or 0 is there isn't one) and
-    the single letter option for "-no_key".  There is also a pointer
-    to the boolean changed by this option and, if the option takes a
-    qualifying string, a pointer to the string thus set.
-*/
+
+/*
+ *    OPTIONS
+ *
+ *    There are two types of options.  Firstly, for certain key words,
+ *    key, the option "-key" enables, and the option "-no_key" disables,
+ *    the corresponding action.  Some of these options take an additional
+ *    argument in their positive form, i.e. "-key arg".  Secondly, single
+ *    letter options are used as shorthand for some of the options of the
+ *    first type.
+ *
+ *    Each entry in this table gives a key word, key, followed by the
+ *    single letter option for "-key" (or 0 is there isn't one) and
+ *    the single letter option for "-no_key".  There is also a pointer
+ *    to the boolean changed by this option and, if the option takes a
+ *    qualifying string, a pointer to the string thus set.
+ */
 
 struct {
-    char *opt ;
-    char on ;
-    char off ;
-    char sw ;
-    int *flag ;
-    char **value ;
+    char *opt;
+    char on;
+    char off;
+    char sw;
+    int *flag;
+    char **value;
 } options [] = {
     { "alloca", 0, 0, 'A', &do_alloca, null },
     { "cc", 'c', 'g', 0, &cc_conventions, null },
@@ -221,240 +221,239 @@ struct {
     { "unroll", 0, 0, 'U', &do_unroll, null },
     { "version", 'V', 0, 0, &report_version, null },
     { "write_strings", 0, 0, 'W', &dummy_option, null }
-} ;
+};
 
 
 /*
-    MAIN ROUTINE
+ *    MAIN ROUTINE
+ *
+ *    This routine processes the command-line arguments, calls the
+ *    initialization routines, and then calls the main processing
+ *    routines.
+ */
 
-    This routine processes the command-line arguments, calls the
-    initialization routines, and then calls the main processing
-    routines.
-*/
-
-int main
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char **argv )
+int
+main(int argc, char **argv)
 {
-    int a ;
-    char **p = null ;
-    char *input = null ;
-    char *output = null ;
+    int a;
+    char **p = null;
+    char *input = null;
+    char *output = null;
 
     /* Set up program name */
-    progname = basename ( argv [0] ) ;
+    progname = basename (argv [0]);
 
     /* Set default options */
-    diagnose = 0 ;
-    do_alloca = 1 ;
-    do_foralls = 1 ;
-    do_inlining = 1 ;
-    do_loopconsts = 1 ;
-    do_profile = 0 ;
-    do_special_fns = 1 ;
-    do_unroll = 1 ;
-    extra_checks = 1 ;
-    redo_structfns = 0 ;
+    diagnose = 0;
+    do_alloca = 1;
+    do_foralls = 1;
+    do_inlining = 1;
+    do_loopconsts = 1;
+    do_profile = 0;
+    do_special_fns = 1;
+    do_unroll = 1;
+    extra_checks = 1;
+    redo_structfns = 0;
 
     /* Process arguments */
-    for ( a = 1 ; a < argc ; a++ ) {
-	if ( p ) {
-	    /* Set extra part of two part options */
-	    *p = argv [a] ;
-	    p = null ;
-	} else if ( argv [a][0] == '-' && argv [a][1] ) {
-	    /* Search option table */
-	    bool found = 0 ;
-	    char *s = argv [a] + 1 ;
-	    int i, n = array_size ( options ) ;
-	    if ( ( s [1] == '0' || s [1] == '1' ) && s [2] == 0 ) {
-		for ( i = 0 ; !found && i < n ; i++ ) {
-		    if ( *s == options [i].sw ) {
-			*( options [i].flag ) = ( s [1] - '0' ) ;
-			p = options [i].value ;
-			found = 1 ;
-		    }
+    for (a = 1; a < argc; a++) {
+		if (p) {
+			/* Set extra part of two part options */
+			*p = argv [a];
+			p = null;
+		} else if (argv [a][0] == '-' && argv [a][1]) {
+			/* Search option table */
+			bool found = 0;
+			char *s = argv [a] + 1;
+			int i, n = array_size (options);
+			if ((s [1] == '0' || s [1] == '1') && s [2] == 0) {
+				for (i = 0; !found && i < n; i++) {
+					if (*s == options [i].sw) {
+						*(options [i].flag) = (s [1] - '0');
+						p = options [i].value;
+						found = 1;
+					}
+				}
+			} else if (s [1]) {
+				bool b = 1;
+				if (strncmp (s, "no_", 3) == 0) {
+					s += 3;
+					b = 0;
+				}
+				for (i = 0; !found && i < n; i++) {
+					if (eq (s, options [i].opt)) {
+						*(options [i].flag) = b;
+						if (b) p = options [i].value;
+						found = 1;
+					}
+				}
+			} else {
+				for (i = 0; !found && i < n; i++) {
+					if (*s == options [i].on) {
+						*(options [i].flag) = 1;
+						p = options [i].value;
+						found = 1;
+					} else if (*s == options [i].off) {
+						*(options [i].flag) = 0;
+						found = 1;
+					}
+				}
+			}
+			if (!found) warning ("Unknown option, %s", argv [a]);
+		} else {
+			/* Set up input and output files */
+			if (input == null) {
+				input = argv [a];
+			} else if (output == null) {
+				output = argv [a];
+			} else {
+				error ("Too many arguments");
+				exit (EXIT_FAILURE);
+			}
 		}
-	    } else if ( s [1] ) {
-		bool b = 1 ;
-		if ( strncmp ( s, "no_", 3 ) == 0 ) {
-		    s += 3 ;
-		    b = 0 ;
-		}
-		for ( i = 0 ; !found && i < n ; i++ ) {
-		    if ( eq ( s, options [i].opt ) ) {
-			*( options [i].flag ) = b ;
-			if ( b ) p = options [i].value ;
-			found = 1 ;
-		    }
-		}
-	    } else {
-		for ( i = 0 ; !found && i < n ; i++ ) {
-		    if ( *s == options [i].on ) {
-			*( options [i].flag ) = 1 ;
-			p = options [i].value ;
-			found = 1 ;
-		    } else if ( *s == options [i].off ) {
-			*( options [i].flag ) = 0 ;
-			found = 1 ;
-		    }
-		}
-	    }
-	    if ( !found ) warning ( "Unknown option, %s", argv [a] ) ;
-	} else {
-	    /* Set up input and output files */
-	    if ( input == null ) {
-		input = argv [a] ;
-	    } else if ( output == null ) {
-		output = argv [a] ;
-	    } else {
-		error ( "Too many arguments" ) ;
-		exit ( EXIT_FAILURE ) ;
-	    }
-	}
     }
 
 #ifdef EBUG
     /* Deal with debugging options */
-    if ( seek_extern ) {
-	if ( is_local ( seek_extern_id ) ) {
-	    seek_label = 1 ;
-	    seek_label_no = atoi ( seek_extern_id + 1 ) ;
-	}
+    if (seek_extern) {
+		if (is_local (seek_extern_id)) {
+			seek_label = 1;
+			seek_label_no = atoi (seek_extern_id + 1);
+		}
     }
-    if ( seek_line ) seek_line_no = atoi ( seek_line_id ) ;
+    if (seek_line) seek_line_no = atoi (seek_line_id);
 #endif
 
     /* Report version if required */
-    if ( report_version ) {
+    if (report_version) {
 #ifdef NEXT
-	char *machine = "NeXT" ;
+		char *machine = "NeXT";
 #else
 #ifdef SUN
-	char *machine = "Sun/3" ;
+		char *machine = "Sun/3";
 #else
-	char *machine = "HP" ;
+		char *machine = "HP";
 #endif
 #endif
-	fprintf(stderr, "DRA TDF translator (TDF version %d.%d)\n",
-		MAJOR_VERSION, MINOR_VERSION);
-	fprintf(stderr, "reader %d.%d: ", reader_version,
-		reader_revision);
-	fprintf(stderr, "construct %d.%d: ", construct_version,
-		construct_revision);
-	fprintf(stderr, "target %d.%d.%d: \n", target_version,
-		target_revision,target_patchlevel);
-	fprintf(stderr, "system %s",machine);
+		fprintf(stderr, "DRA TDF translator (TDF version %d.%d)\n",
+				MAJOR_VERSION, MINOR_VERSION);
+		fprintf(stderr, "reader %d.%d: ", reader_version,
+				reader_revision);
+		fprintf(stderr, "construct %d.%d: ", construct_version,
+				construct_revision);
+		fprintf(stderr, "target %d.%d.%d: \n", target_version,
+				target_revision,target_patchlevel);
+		fprintf(stderr, "system %s",machine);
 #ifdef __DATE__
-	fprintf(stderr," : installer compilation %s\n", __DATE__);
+		fprintf(stderr," : installer compilation %s\n", __DATE__);
 #endif
-	fprintf(stderr,"release: %s\n",RELEASE);
-	fprintf ( stderr, ".\n" ) ;
+		fprintf(stderr,"release: %s\n",RELEASE);
+		fprintf (stderr, ".\n");
 #ifdef EBUG
-	fprintf ( stderr, "Last revised %s.\n", revdate ) ;
+		fprintf (stderr, "Last revised %s.\n", revdate);
 #endif
     }
-    if ( report_tdf_versions ) report_versions = 1 ;
+    if (report_tdf_versions) report_versions = 1;
 
     /* Check on diagnostics */
-    if ( !have_diagnostics && diagnose ) {
-	error ( "Diagnostics not supported" ) ;
-	diagnose = 0 ;
+    if (!have_diagnostics && diagnose) {
+		error ("Diagnostics not supported");
+		diagnose = 0;
     }
 
 #if have_diagnostics
-    diag_override = DIAG_UNKNOWN ;
-    if ( diag_stab_override ) diag_override = DIAG_STAB ;
-    if ( diag_xdb_new_override ) diag_override = DIAG_XDB_NEW ;
-    if ( diag_xdb_old_override ) diag_override = DIAG_XDB_OLD ;
+    diag_override = DIAG_UNKNOWN;
+    if (diag_stab_override) diag_override = DIAG_STAB;
+    if (diag_xdb_new_override) diag_override = DIAG_XDB_NEW;
+    if (diag_xdb_old_override) diag_override = DIAG_XDB_OLD;
 #endif
 
     /* Switch off optimizations if required */
-    if ( diagnose || !optimize ) {
-	do_inlining = 0 ;
-	do_loopconsts = 0 ;
-	do_foralls = 0 ;
-	do_peephole = 0 ;
-	do_unroll = 0 ;
+    if (diagnose || !optimize) {
+		do_inlining = 0;
+		do_loopconsts = 0;
+		do_foralls = 0;
+		do_peephole = 0;
+		do_unroll = 0;
     }
 
     /* Show options if necessary */
-    if ( show_options ) {
-	int i, n = array_size ( options ) ;
-	for ( i = 0 ; i < n ; i++ ) {
-	    bool b = *( options [i].flag ) ;
-	    char **pv = options [i].value ;
-	    printf ( "%s = %s", options [i].opt, ( b ? "True" : "False" ) ) ;
-	    if ( pv && b ) printf ( " (%s)", *pv ) ;
-	    printf ( "\n" ) ;
-	}
+    if (show_options) {
+		int i, n = array_size (options);
+		for (i = 0; i < n; i++) {
+			bool b = *(options [i].flag);
+			char **pv = options [i].value;
+			printf ("%s = %s", options [i].opt, (b ? "True" : "False"));
+			if (pv && b) printf (" (%s)", *pv);
+			printf ("\n");
+		}
     }
 
     /* Check on separate units */
-    if ( do_sep_units ) {
-	separate_units = 1 ;
+    if (do_sep_units) {
+		separate_units = 1;
 #if 0
-	current_alloc_size = first_alloc_size ;
+		current_alloc_size = first_alloc_size;
 #endif
     }
 
-    do_pic = 0 ; /* TODO */
+    do_pic = 0; /* TODO */
 
     /* Other options */
-    if ( do_pic ) PIC_code = 1 ;
-    if ( !extra_checks ) target_dbl_maxexp = 16384 ;
-    if ( do_quit ) exit ( EXIT_SUCCESS ) ;
+    if (do_pic) PIC_code = 1;
+    if (!extra_checks) target_dbl_maxexp = 16384;
+    if (do_quit) exit (EXIT_SUCCESS);
 
     /* Open input file */
-    if ( input == null ) {
-	error ( "Not enough arguments" ) ;
-	exit ( EXIT_FAILURE ) ;
+    if (input == null) {
+		error ("Not enough arguments");
+		exit (EXIT_FAILURE);
     }
-    if ( !initreader ( input ) ) {
-	exit ( EXIT_FAILURE ) ;
+    if (!initreader (input)) {
+		exit (EXIT_FAILURE);
     }
-    /*open_input ( input ) ;*/
+    /*open_input (input) ;*/
 
     /* Set up alignment rules */
-    double_align = DBL_ALIGN ;
-    param_align = PARAM_ALIGN ;
-    stack_align = STACK_ALIGN ;
+    double_align = DBL_ALIGN;
+    param_align = PARAM_ALIGN;
+    stack_align = STACK_ALIGN;
 
-    MAX_BF_SIZE = ( cc_conventions ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC ) ;
+    MAX_BF_SIZE = (cc_conventions ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
     /* Call initialization routines */
-    top_def = null ;
-    init_flpt () ;
-    init_instructions () ;
+    top_def = null;
+    init_flpt ();
+    init_instructions ();
 #include "inits.h"
-    init_weights () ;
-    init_wheres () ;
+    init_weights ();
+    init_wheres ();
 
     /* Decode, optimize and process the input TDF */
-    open_output ( output ) ;
-    asm_comment ;
-    outs ( " TDF to 680x0, " ) ;
-    outs ( version_str ) ;
-    outs ( ", " ) ;
-    outs ( revision ) ;
-    outnl () ;
-    init_output () ;
-    area ( ptext ) ;
+    open_output (output);
+    asm_comment;
+    outs (" TDF to 680x0, ");
+    outs (version_str);
+    outs (", ");
+    outs (revision);
+    outnl ();
+    init_output ();
+    area (ptext);
 #if have_diagnostics
-    if ( diagnose ) diag_prologue () ;
+    if (diagnose) diag_prologue ();
 #endif
-    d_capsule () ;
+    d_capsule ();
 #if have_diagnostics
-    if ( diagnose ) diag_epilogue () ;
+    if (diagnose) diag_epilogue ();
 #endif
 #ifdef asm_version
-    if ( normal_version ) {
-	asm_version ;
+    if (normal_version) {
+		asm_version;
     } else {
-	asm_version_aux ;
+		asm_version_aux;
     }
-    outnl () ;
+    outnl ();
 #endif
-    if ( errors && !ignore_errors ) exit ( EXIT_FAILURE ) ;
-    return ( 0 ) ;
+    if (errors && !ignore_errors) exit (EXIT_FAILURE);
+    return (0);
 }
