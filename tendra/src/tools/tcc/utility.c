@@ -425,9 +425,7 @@ find_path_subst (char *var)
 	char *ret;
 	char **subs;
 	int i = 0;
-	subs = PATH_SUBS;
 
-	i = 0;
 	subs = PATH_SUBS;
 	while (*subs){
 		if (!strcmp (var, *subs)) {
