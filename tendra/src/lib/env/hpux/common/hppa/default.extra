@@ -4,6 +4,6 @@
 
 +MACHINE		"hpux-*-hppa"
 +FLAG			"--1HL"
-+LD			"/bin/ld -x -u main"
++LD			"<BIN_LD> -x -u main"
 +CRT1			"<TENDRA_LIBDIR>/sys/dyn_begin.o"
 +CRTN			"<TENDRA_LIBDIR>/sys/dyn_end.o"

@@ -2,6 +2,6 @@
  * $TenDRA$
 */
 
-+AS		"/usr/bin/as"
-+AS1		"/usr/lib/as1 -O1 -g2 -pic2"
++AS		"<BIN_AS>"
++AS1		"<BIN_AS1> -O1 -g2 -pic2"
 <LINK		"-L<TENDRA_LIBDIR>/diag"

@@ -3,7 +3,7 @@
  */
 
 +MACHINE	"netbsd-*-80x86"
-+AS		"/usr/bin/as"
-+LD		"/usr/bin/ld -e start -dc -dp"
-+CC		"/usr/bin/cc"
-+CRT0		"/usr/lib/crt0.o"
++AS		"<BIN_AS>"
++LD		"<BIN_LD> -e start -dc -dp"
++CC		"<BIN_CC>"
++CRT0		"<LIB_CRT0>"

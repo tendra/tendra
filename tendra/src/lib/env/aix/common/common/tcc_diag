@@ -2,5 +2,5 @@
  * $TenDRA$
 */
 
->SYS_LIB        "-lg -bexport:/usr/lib/libg.exp"
+>SYS_LIB        "-lg -bexport:<LIBG_EXP>"
 <LINK		"-L<TENDRA_LIBDIR>/diag"

@@ -2,7 +2,7 @@
  * $TenDRA$
 */
 
-<SYS_LINK	"-L/lib/profiled -L/usr/lib/profiled"
+<SYS_LINK    "-L/lib/profiled -L/usr/lib/profiled"
 +FLAG_TRANS	"-P"
-+CRT0		"/lib/mcrt0.o"
++CRT0		"<LIB_MCRT0>"
 +LINE_START	"#pragma@preserve@*"

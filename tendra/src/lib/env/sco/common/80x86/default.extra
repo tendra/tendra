@@ -3,7 +3,7 @@
 */
 
 +MACHINE		"sco-*-80x86"
-+LD			"/bin/ld -x"
-+CRT0			"/lib/crt1.o"
-+CRTN			"/lib/crtn.o"
++LD			"<BIN_LD> -x"
++CRT0			"<LIB_CRT1>"
++CRTN			"<LIB_CRTN>"
 +SYS_LIBC		"-lintl -lc"

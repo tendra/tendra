@@ -2,4 +2,4 @@
  * $TenDRA$
 */
 
-+LD			"/bin/ld"
++LD			"<BIN_LD>"

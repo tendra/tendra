@@ -4,4 +4,4 @@
 
 +STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xt"
 +STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xt"
-+CRT1			"/usr/ccs/lib/values-Xt.o"
++CRT1			"<LIB_VALUES_XT>"

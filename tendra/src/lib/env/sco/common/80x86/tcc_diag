@@ -2,7 +2,7 @@
  * $TenDRA$
 */
 
-+LD		"/bin/ld"
-+CRT0		"/lib/crt1.o"
-+CRTN		"/lib/crtn.o"
++LD		"<BIN_LD>"
++CRT0		"<LIB_CRT1>"
++CRTN		"<LIB_CRTN>"
 <LINK		"-L<TENDRA_LIBDIR>/diag"

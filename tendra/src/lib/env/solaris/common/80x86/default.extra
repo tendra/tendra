@@ -4,8 +4,8 @@
 
 +MACHINE		"solaris-*-80x86"
 +FLAG			"--2SC"
-+AS			"/usr/ccs/bin/as"
-+LD			"/usr/ccs/bin/ld"
-+CRT0			"<TENDRA_LIBDIR>/sys/crt1.o <TENDRA_LIBDIR>/sys/crti.o"
-+CRT1			"/usr/ccs/lib/values-Xc.o"
-+CRTN			"<TENDRA_LIBDIR>/sys/crtn.o"
++AS			"<BIN_AS>"
++LD			"<BIN_LD>"
++CRT0			"<LIB_CRT1> <LIB_CRTI>"
++CRT1			"<LIB_VALUES_XC>"
++CRTN			"<LIB_CRTN>"

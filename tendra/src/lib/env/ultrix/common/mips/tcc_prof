@@ -4,6 +4,6 @@
 
 <SYS_LINK       	"-L/usr/lib/cmplrs/cc/"
 +FLAG_TRANS		"-P"
-+CRT0			"/usr/lib/cmplrs/cc/mcrt0.o"
++CRT0			"<LIB_MCRT0>"
 +SYS_LIBC		"-lprof1 -lc"
 +LINE_START		"#pragma@preserve@*"

@@ -2,6 +2,6 @@
  * $TenDRA$
 */
 
-+LD			"/bin/ld"
++LD			"<BIN_LD>"
 +CRT1			"<TENDRA_LIBDIR>/sys/dyn_begin.o /usr/lib/end.o"
 <LINK			"-L<TENDRA_LIBDIR>/diag"

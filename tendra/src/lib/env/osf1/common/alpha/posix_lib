@@ -2,5 +2,5 @@
  * $TenDRA$
 */
 
-+CRT0		"/usr/lib/cmplrs/cc/pcrt0.o"
++CRT0		"<LIB_PCRT0>"
 >SYS_LIB	"-lcP"

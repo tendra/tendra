@@ -2,6 +2,6 @@
  * $TenDRA$
 */
 
-+CRT0		"/lib/mcrt0.o"
++CRT0		"<LIB_MCRT0>"
 +SYS_LIBC	"-lprof1"
 +LINE_START	"#pragma@preserve@*"

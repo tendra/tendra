@@ -4,7 +4,7 @@
 
 +MACHINE		"linux-1.2.8-80x86"
 +TRANS			"<TENDRA_BINDIR>/trans -k0"
-+AS			"/usr/bin/as"
-+LD			"/usr/bin/ld -m486"
-+CC			"/usr/bin/cc"
-+CRT0			"/usr/lib/crt0.o"
++AS			"<BIN_AS>"
++LD			"<BIN_LD> -m486"
++CC			"<BIN_CC>"
++CRT0			"<LIB_CRT0>"

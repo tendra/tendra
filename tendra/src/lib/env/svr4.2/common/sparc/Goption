@@ -2,6 +2,6 @@
  * $TenDRA$
 */
 
-+CRT0		"/usr/ccs/lib/crti.o"
++CRT0		"<LIB_CRTI>"
 +SYS_LIBC	""
 +FLAG_LD	"-G"

@@ -3,8 +3,8 @@
 */
 
 +MACHINE		"solaris-*-sparc"
-+AS			"/usr/ccs/bin/as"
-+LD			"/usr/ccs/bin/ld"
++AS			"<BIN_AS>"
++LD			"<BIN_LD>"
 +CRT0			"<TENDRA_LIBDIR>/sys/crt1.o <TENDRA_LIBDIR>/sys/crti.o"
-+CRT1			"/usr/ccs/lib/values-Xc.o"
-+CRTN			"<TENDRA_LIBDIR>/sys/crtn.o"
++CRT1			"<LIB_VALUES_XC>"
++CRTN			"<LIB_CRTN>"

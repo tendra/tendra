@@ -3,6 +3,6 @@
  * $TenDRA$
  */
 
-+CRT0		"/usr/lib/crt0.o"
++CRT0		"<LIB_CRT0>"
 <LINK		"-L<TENDRA_LIBDIR>/diag"
 >SYS_LIB	"-static -lg"

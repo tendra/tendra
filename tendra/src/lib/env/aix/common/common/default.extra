@@ -2,7 +2,12 @@
  * $TenDRA$
 */
 
++BIN_LD			-LD-
++LIBG_EXP		-LIBG_EXP-
++LIB_MCRT0		-LIB_MCRT0-
+
+
 +MACHINE		"aix-*-*"
 +FLAG			"--2DL"
-+LD			"/bin/ld -H512 -T512 -bhalt:4"
++LD			"<BIN_LD> -H512 -T512 -bhalt:4"
 +CRT1			"<TENDRA_LIBDIR>/sys/TDFpower.o"

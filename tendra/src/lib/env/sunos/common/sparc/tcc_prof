@@ -2,8 +2,8 @@
  * $TenDRA$
 */
 
-+LD			"/bin/ld -dc -dp -X"
++LD			"<BIN_LD> -dc -dp -X"
 +SYS_LIBC		"-lc_p"
 +FLAG_TRANS		"-P"
-+CRT0			"/usr/lib/mcrt0.o"
++CRT0			"<LIB_MCRT0>"
 +LINE_START		"#pragma@preserve@*"

@@ -3,9 +3,9 @@
 */
 
 +FLAG_TRANS		"-k0"
-+AS			"/usr/i486-linuxaout/bin/as"
-+LD			"/usr/i486-linuxaout/bin/ld -m i386linux"
-+CRT0			"/usr/i486-linuxaout/lib/crt0.o"
++AS			"<BIN_AS>"
++LD			"<BIN_LD> -m i386linux"
++CRT0			"<LIB_CRT0>"
 +CRT1			""
 +CRTN			""
 <SYS_LIB		"-ltdfaout"
