@@ -150,7 +150,7 @@ read_char(void)
 		c = _read_char();       /* Ignore any \r */
 	} while (c == '\r');
 	return (c);
-}             
+}
 
 
 /*
