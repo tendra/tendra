@@ -108,6 +108,10 @@ static void ParseFoldLF(Buffer, int);
  *	(e.g., not a backslash or a space. */
 static int ParseSkipEmptyLines(Buffer);
 
+#ifdef NEED_FGETLN
+extern char *fgetln(FILE *, size_t *);
+#endif /* NEED_FGETLN */
+
 static IFile *
 new_ifile(name, stream)
     const char *name;
