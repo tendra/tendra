@@ -113,9 +113,13 @@ For example:
 will configure the build to use gcc as the compiler.  Follow this up with
 executing make (or bmake if called like that):
 
-	$ make
+	$ make -DBOOTSTRAP
 
 When compilation is done follow up with:
+
+	$ make
+
+And when all is done use the following to install:
 
 	$ make install
 
