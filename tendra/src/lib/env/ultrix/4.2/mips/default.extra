@@ -2,6 +2,19 @@
  * $TenDRA$
 */
 
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_AS11_31	"-BIN_AS11_31-"
+
+
+/* Libraries */
+
++LIB_MRT0       "-LIB_MCRT0-"
++LIB_PCRT0      "-LIB_PCRT0-"
+
+
 +MACHINE		"ultrix-4.2-mips"
 +VERSION		"2.10"
 +FLAG			"--1MA"
