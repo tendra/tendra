@@ -1,15 +1,10 @@
 # $TenDRA$
-#
-# This include is only for building the libraries.
 
-.PATH : ${.OBJDIR}.api
+DEPEND_SRC=	${API}
+OBJ_TMP=	${OBJ_DIR:C/${API}//}
 
-TCC_OPTS+=	-Fj \
-		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/building \
-		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/32bit
+${API}:
+	${TSPEC} -w -v -O${OBJ_TMP} -S${OBJ_TMP} -I${.CURDIR}/.. ${API}
 
-TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
-		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/default-build \
-		-I/usr/include \
-		-I. \
-		-I..
+.include "../../../mk/base/tendra.prog.mk"
+
