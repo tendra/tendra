@@ -1,6 +1,6 @@
 # $Id$
 
-SRC2=	${.CURDIR}/../../..//common/tokens
+SRC2=	${.CURDIR}/../../../common/tokens
 
 #TCC=	tcc
 #TLD=	tld

@@ -1,6 +1,6 @@
 # $Id$
 
-SRC2=	${.CURDIR}/../../..//common/tokens
+SRC2=	${.CURDIR}/../../../common/tokens
 
 TDFLIB=		target_tok.tl
 CAPSULES=	dep_toks.j map_toks.j except_toks.t var_toks.t
