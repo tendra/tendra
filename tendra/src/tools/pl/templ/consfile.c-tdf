@@ -36,7 +36,7 @@ Constructs constructs [] = {
 @if cons.simple
 @if cons.eq.xor
 { "%CN", %SN_t, c_%CN }
-} ;
+};
 @else
 { "%CN", %SN_t, c_%CN },
 @endif
