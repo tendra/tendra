@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -49,8 +82,8 @@
     the name of the program, which is used in error reports.
 */
 
-int exit_status = EXIT_SUCCESS ;
-char *progname = PROGNAME_TCC ;
+int exit_status = EXIT_SUCCESS;
+char *progname = PROGNAME_TCC;
 
 
 /*
@@ -61,62 +94,62 @@ char *progname = PROGNAME_TCC ;
     (see utility.h).
 */
 
-void error
-    PROTO_V ( ( int e, char *s, ... ) ) /* VARARGS */
+void
+error(int e, char *s, ...) /* VARARGS */
 {
-    va_list args ;
-    char *errtype = null ;
+    va_list args;
+    char *errtype = null;
 #if FS_STDARG
-    va_start ( args, s ) ;
+    va_start(args, s);
 #else
-    int e ;
-    char *s ;
-    va_start ( args ) ;
-    e = va_arg ( args, int ) ;
-    s = va_arg ( args, char * ) ;
+    int e;
+    char *s;
+    va_start(args);
+    e = va_arg(args, int);
+    s = va_arg(args, char *);
 #endif
-    switch ( e ) {
-	case FATAL : {
-	    exit_status = EXIT_FAILURE ;
-	    errtype = "Fatal" ;
-	    break ;
+    switch (e) {
+	case FATAL: {
+	    exit_status = EXIT_FAILURE;
+	    errtype = "Fatal";
+	    break;
 	}
-	case INTERNAL : {
-	    exit_status = EXIT_FAILURE ;
-	    errtype = "Internal" ;
-	    break ;
+	case INTERNAL: {
+	    exit_status = EXIT_FAILURE;
+	    errtype = "Internal";
+	    break;
 	}
-	case SERIOUS : {
-	    exit_status = EXIT_FAILURE ;
-	    errtype = "Error" ;
-	    break ;
+	case SERIOUS: {
+	    exit_status = EXIT_FAILURE;
+	    errtype = "Error";
+	    break;
 	}
-	case OPTION : {
-	    exit_status = EXIT_FAILURE ;
-	    errtype = "Option interpreter" ;
-	    break ;
+	case OPTION: {
+	    exit_status = EXIT_FAILURE;
+	    errtype = "Option interpreter";
+	    break;
 	}
-	case WARNING : {
-	    if ( !warnings ) {
-		va_end ( args ) ;
-		return ;
+	case WARNING: {
+	    if (!warnings) {
+		va_end(args);
+		return;
 	    }
-	    errtype = "Warning" ;
-	    break ;
+	    errtype = "Warning";
+	    break;
 	}
-	case INFO : {
-	    errtype = "Information" ;
-	    break ;
+	case INFO: {
+	    errtype = "Information";
+	    break;
 	}
     }
-    if ( checker ) progname = PROGNAME_TCHK ;
-    IGNORE fprintf ( stderr, "%s: ", progname ) ;
-    if ( errtype ) IGNORE fprintf ( stderr, "%s: ", errtype ) ;
-    IGNORE vfprintf ( stderr, s, args ) ;
-    IGNORE fprintf ( stderr, ".\n" ) ;
-    va_end ( args ) ;
-    if ( e == FATAL ) main_end () ;
-    return ;
+    if (checker) progname = PROGNAME_TCHK;
+    IGNORE fprintf(stderr, "%s: ", progname);
+    if (errtype) IGNORE fprintf(stderr, "%s: ", errtype);
+    IGNORE vfprintf(stderr, s, args);
+    IGNORE fprintf(stderr, ".\n");
+    va_end(args);
+    if (e == FATAL) main_end();
+    return;
 }
 
 
@@ -127,26 +160,26 @@ void error
     may be followed by any number of arguments) to the standard output.
 */
 
-void comment
-    PROTO_V ( ( int e, char *s, ... ) ) /* VARARGS */
+void
+comment(int e, char *s, ...) /* VARARGS */
 {
-    FILE *f ;
-    va_list args ;
+    FILE *f;
+    va_list args;
 #if FS_STDARG
-    va_start ( args, s ) ;
+    va_start(args, s);
 #else
-    int e ;
-    char *s ;
-    va_start ( args ) ;
-    e = va_arg ( args, int ) ;
-    s = va_arg ( args, char * ) ;
+    int e;
+    char *s;
+    va_start(args);
+    e = va_arg(args, int);
+    s = va_arg(args, char *);
 #endif
-    f = ( e ? stdout : stderr ) ;
-    IGNORE fflush ( f ) ;
-    IGNORE vfprintf ( f, s, args ) ;
-    IGNORE fflush ( f ) ;
-    va_end ( args ) ;
-    return ;
+    f = (e ? stdout : stderr);
+    IGNORE fflush(f);
+    IGNORE vfprintf(f, s, args);
+    IGNORE fflush(f);
+    va_end(args);
+    return;
 }
 
 
@@ -157,13 +190,12 @@ void comment
     the result.
 */
 
-pointer xalloc
-    PROTO_N ( ( sz ) )
-    PROTO_T ( int sz )
+pointer
+xalloc(int sz)
 {
-    pointer p = ( pointer ) malloc ( ( size_t ) sz ) ;
-    if ( p == null ) error ( FATAL, "Memory allocation error" ) ;
-    return ( p ) ;
+    pointer p = (pointer)malloc((size_t)sz);
+    if (p == null) error(FATAL, "Memory allocation error");
+    return(p);
 }
 
 
@@ -175,15 +207,14 @@ pointer xalloc
 
 */
 
-pointer xrealloc
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( pointer p X int sz )
+pointer
+xrealloc(pointer p, int sz)
 {
-    pointer q ;
-    if ( p == null ) return ( xalloc ( sz ) ) ;
-    q = ( pointer ) realloc ( p, ( size_t ) sz ) ;
-    if ( q == null ) error ( FATAL, "Memory reallocation error" ) ;
-    return ( q ) ;
+    pointer q;
+    if (p == null) return(xalloc(sz));
+    q = (pointer)realloc(p,(size_t)sz);
+    if (q == null) error(FATAL, "Memory reallocation error");
+    return(q);
 }
 
 
@@ -194,27 +225,26 @@ pointer xrealloc
     memory allocation routines.
 */
 
-static char *string_alloc
-    PROTO_N ( ( n ) )
-    PROTO_T ( int n )
+static char *
+string_alloc(int n)
 {
-    char *r ;
-    if ( n >= 1000 ) {
+    char *r;
+    if (n >= 1000) {
 	/* Long strings are allocated space by alloc_nof */
-	r = alloc_nof ( char, n ) ;
+	r = alloc_nof(char, n);
     } else {
 	/* Short strings are allocated space from a buffer */
-	static int no_free = 0 ;
-	static char *free_chars = null ;
-	if ( n >= no_free ) {
-	    no_free = 4000 ;
-	    free_chars = alloc_nof ( char, no_free ) ;
+	static int no_free = 0;
+	static char *free_chars = null;
+	if (n >= no_free) {
+	    no_free = 4000;
+	    free_chars = alloc_nof(char, no_free);
 	}
-	r = free_chars ;
-	no_free -= n ;
-	free_chars += n ;
+	r = free_chars;
+	no_free -= n;
+	free_chars += n;
     }
-    return ( r ) ;
+    return(r);
 }
 
 
@@ -225,14 +255,13 @@ static char *string_alloc
     the string into this space.  This copy is returned.
 */
 
-char *string_copy
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+char *
+string_copy(char *s)
 {
-    int n = ( int ) strlen ( s ) ;
-    char *r = string_alloc ( n + 1 ) ;
-    IGNORE strcpy ( r, s ) ;
-    return ( r ) ;
+    int n = (int)strlen(s);
+    char *r = string_alloc(n + 1);
+    IGNORE strcpy(r, s);
+    return(r);
 }
 
 
@@ -244,16 +273,15 @@ char *string_copy
     This copy is returned.
 */
 
-char *string_concat
-    PROTO_N ( ( s, t ) )
-    PROTO_T ( char *s X char *t )
+char *
+string_concat(char *s, char *t)
 {
-    int n = ( int ) strlen ( s ) ;
-    int m = ( int ) strlen ( t ) ;
-    char *r = string_alloc ( n + m + 1 ) ;
-    IGNORE strcpy ( r, s ) ;
-    IGNORE strcpy ( r + n, t ) ;
-    return ( r ) ;
+    int n = (int)strlen(s);
+    int m = (int)strlen(t);
+    char *r = string_alloc(n + m + 1);
+    IGNORE strcpy(r, s);
+    IGNORE strcpy(r + n, t);
+    return(r);
 }
 
 
@@ -264,4 +292,4 @@ char *string_concat
     (see utility.h) which is used as a scratch work area.
 */
 
-char *buffer ;
+char *buffer;
