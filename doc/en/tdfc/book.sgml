@@ -5591,7 +5591,7 @@ return ( 0 );
       <tbody>
       <row>
           <entry>begin</entry>
-          <entry> -XREF-tdfc5.html#13==&gt;</entry>
+          <entry><xref linkend='scoping-check'></entry>
       </row>
 
       <row>
@@ -5601,12 +5601,12 @@ return ( 0 );
 
       <row>
           <entry>declaration block <emphasis>identifier</emphasis> begin</entry>
-          <entry> -XREF-tdfc21.html#6==&gt;</entry>
+          <entry><xref linkend='abstract-api-headers'></entry>
       </row>
 
       <row>
           <entry>declaration block end</entry>
-          <entry> -XREF-tdfc21.html#6==&gt;</entry>
+          <entry><xref linkend='abstract-api-headers'></entry>
       </row>
 
       <row>
@@ -5621,7 +5621,7 @@ return ( 0 );
 
       <row>
           <entry>end</entry>
-          <entry> -XREF-tdfc5.html#13==&gt;</entry>
+          <entry><xref linkend='scoping-check'></entry>
       </row>
 
       <row>
@@ -5631,7 +5631,7 @@ return ( 0 );
 
       <row>
           <entry><emphasis>function_pars</emphasis></entry>
-          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+          <entry><xref linkend='funct-param'></entry>
       </row>
 
       <row>
@@ -5684,77 +5684,77 @@ return ( 0 );
       <tbody>
       <row>
           <entry>complete struct/union analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc11.html#4==&gt;</entry>
+          <entry><xref linkend='incomplete-struct'></entry>
       </row>
 
       <row>
           <entry>conversion <emphasis>conv_list</emphasis> allow</entry>
-          <entry> -XREF-tdfc22.html#2==&gt;</entry>
+          <entry><xref linkend='user-def-conv'></entry>
       </row>
 
       <row>
           <entry>conversion analysis <emphasis>conversion_spec</emphasis></entry>
-          <entry> -XREF-tdfc6.html#2==&gt;</entry>
+          <entry><xref linkend='type-conv'></entry>
       </row>
 
       <row>
           <entry>discard analysis <emphasis>discard_spec</emphasis></entry>
-          <entry> -XREF-tdfc8.html#36==&gt;</entry>
+          <entry><xref linkend='discard-analysis'></entry>
       </row>
 
       <row>
           <entry>enum switch analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc11.html#2==&gt;</entry>
+          <entry><xref linkend='enum-cont-switch-state'></entry>
       </row>
 
       <row>
           <entry>fall into case <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc8.html#6==&gt;</entry>
+          <entry><xref linkend='case-fall-through'></entry>
       </row>
 
       <row>
           <entry>function pointer as pointer <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+          <entry><xref linkend='point-point-conv'></entry>
       </row>
 
       <row>
           <entry>integer operator analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc7.html#18==&gt;</entry>
+          <entry><xref linkend='int-operator-checks'></entry>
       </row>
 
       <row>
           <entry>integer overflow analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+          <entry><xref linkend='int-overflow-checks'></entry>
       </row>
 
       <row>
           <entry>nested comment analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc10.html#45==&gt;</entry>
+          <entry><xref linkend='nested-comments'></entry>
       </row>
 
       <row>
           <entry>operator precedence analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc8.html#15==&gt;</entry>
+          <entry><xref linkend='operator-precedence'></entry>
       </row>
 
       <row>
           <entry>unreachable code <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+          <entry><xref linkend='unreachable-code'></entry>
       </row>
 
       <row>
           <entry>variable analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+          <entry><xref linkend='unreachable-code'></entry>
       </row>
 
       <row>
           <entry>variable hiding analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc11.html#6==&gt;</entry>
+          <entry><xref linkend='variable-shadowing'></entry>
       </row>
 
       <row>
           <entry>weak prototype analysis <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+          <entry><xref linkend='type-check-proto'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -5784,72 +5784,72 @@ return ( 0 );
 
       <row>
           <entry>( int-int )</entry>
-          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+          <entry><xref linkend='int-int-conversions'></entry>
       </row>
 
       <row>
           <entry>( int-int explicit )</entry>
-          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+          <entry><xref linkend='int-int-conversions'></entry>
       </row>
 
       <row>
           <entry>( int-int implicit )</entry>
-          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+          <entry><xref linkend='int-int-conversions'></entry>
       </row>
 
       <row>
           <entry>( int-enum implicit)</entry>
-          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+          <entry><xref linkend='int-int-conversions'></entry>
       </row>
 
       <row>
           <entry>(enum-int implicit)</entry>
-          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+          <entry><xref linkend='int-int-conversions'></entry>
       </row>
 
       <row>
           <entry>( int-pointer )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>( int-pointer explicit )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>(int-pointer implicit )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-int )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-int explicit )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-int implicit )</entry>
-          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+          <entry><xref linkend='point-int-int-int-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-pointer )</entry>
-          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+          <entry><xref linkend='point-point-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-pointer explicit )</entry>
-          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+          <entry><xref linkend='point-point-conv'></entry>
       </row>
 
       <row>
           <entry>( pointer-pointer implicit )</entry>
-          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+          <entry><xref linkend='point-point-conv'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -5879,17 +5879,17 @@ return ( 0 );
 
       <row>
           <entry>( function return )</entry>
-          <entry> -XREF-tdfc8.html#38==&gt;</entry>
+          <entry><xref linkend='dicard-funct'></entry>
       </row>
 
       <row>
           <entry>( static )</entry>
-          <entry> -XREF-tdfc8.html#42==&gt;</entry>
+          <entry><xref linkend='unused-static-var'></entry>
       </row>
 
       <row>
           <entry>( value )</entry>
-          <entry> -XREF-tdfc8.html#40==&gt;</entry>
+          <entry><xref linkend='discard-computed'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -5913,17 +5913,17 @@ return ( 0 );
       <tbody>
       <row>
           <entry>argument <emphasis>type_name</emphasis> as <emphasis>type_name</emphasis></entry>
-          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+          <entry><xref linkend='funct-param'></entry>
       </row>
 
       <row>
           <entry>argument <emphasis>type_name</emphasis> as ...</entry>
-          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+          <entry><xref linkend='funct-param'></entry>
       </row>
 
       <row>
           <entry>extra ... <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+          <entry><xref linkend='funct-param'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -5947,47 +5947,47 @@ return ( 0 );
       <tbody>
       <row>
           <entry>discard value</entry>
-          <entry> -XREF-tdfc8.html#44==&gt;</entry>
+          <entry><xref linkend='dicard-funct-compute'></entry>
       </row>
 
       <row>
           <entry>discard variable</entry>
-          <entry> -XREF-tdfc8.html#26==&gt;</entry>
+          <entry><xref linkend='discarding-var'></entry>
       </row>
 
       <row>
           <entry>exhaustive</entry>
-          <entry> -XREF-tdfc8.html#32==&gt;</entry>
+          <entry><xref linkend='exhaustive-switch-state'></entry>
       </row>
 
       <row>
           <entry>fall into case</entry>
-          <entry> -XREF-tdfc8.html#6==&gt;</entry>
+          <entry><xref linkend='case-fall-through'></entry>
       </row>
 
       <row>
           <entry>set</entry>
-          <entry> -XREF-tdfc8.html#29==&gt;</entry>
+          <entry><xref linkend='setting-var'></entry>
       </row>
 
       <row>
           <entry>set reachable</entry>
-          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+          <entry><xref linkend='unreachable-code'></entry>
       </row>
 
       <row>
           <entry>set unreachable</entry>
-          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+          <entry><xref linkend='unreachable-code'></entry>
       </row>
 
       <row>
           <entry>type representation</entry>
-          <entry> -XREF-tdfc7.html#4==&gt;</entry>
+          <entry><xref linkend='int-int-conv-checks'></entry>
       </row>
 
       <row>
           <entry>weak</entry>
-          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+          <entry><xref linkend='type-check-proto'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6010,17 +6010,17 @@ return ( 0 );
       <tbody>
       <row>
           <entry>bottom</entry>
-          <entry> -XREF-tdfc8.html#34==&gt;</entry>
+          <entry><xref linkend='non-returning-funct'></entry>
       </row>
 
       <row>
           <entry>... printf</entry>
-          <entry> -XREF-tdfc6.html#23==&gt;</entry>
+          <entry><xref linkend='check-printf-strings'></entry>
       </row>
 
       <row>
           <entry>... scanf</entry>
-          <entry> -XREF-tdfc6.html#23==&gt;</entry>
+          <entry><xref linkend='check-printf-strings'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6043,17 +6043,17 @@ return ( 0 );
       <tbody>
       <row>
           <entry>implicit function declaration <emphasis>state</emphasis></entry>
-          <entry> -XREF-tdfc6.html#30==&gt;</entry>
+          <entry><xref linkend='implicit-funct-decl'></entry>
       </row>
 
       <row>
           <entry>incompatible interface declaration <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc21.html#1==&gt;</entry>
+          <entry><xref linkend='redclaring-obj-apis'></entry>
       </row>
 
       <row>
           <entry>incompatible void return <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#25==&gt;</entry>
+          <entry><xref linkend='funct-return-checking'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6076,27 +6076,27 @@ return ( 0 );
       <tbody>
       <row>
           <entry>discard <emphasis>identifier</emphasis> <emphasis>separator</emphasis></entry>
-          <entry> -XREF-tdfc8.html#26==&gt;</entry>
+          <entry><xref linkend='discarding-var'></entry>
       </row>
 
       <row>
           <entry>preserve <emphasis>identifier_list</emphasis></entry>
-          <entry> -XREF-tdfc8.html#46==&gt;</entry>
+          <entry><xref linkend='preserving-unised'></entry>
       </row>
 
       <row>
           <entry>set identifier <emphasis>separator</emphasis></entry>
-          <entry> -XREF-tdfc8.html#29==&gt;</entry>
+          <entry><xref linkend='setting-var'></entry>
       </row>
 
       <row>
           <entry>suspend static <emphasis>identifier_list</emphasis></entry>
-          <entry> -XREF-tdfc8.html#46==&gt;</entry>
+          <entry><xref linkend='preserving-unised'></entry>
       </row>
 
       <row>
           <entry>exhaustive</entry>
-          <entry> -XREF-tdfc8.html#32==&gt;</entry>
+          <entry><xref linkend='exhaustive-switch-state'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6175,272 +6175,272 @@ return ( 0 );
       <tbody>
       <row>
           <entry>++</entry>
-          <entry> -XREF-tdfc10.html#56==&gt;</entry>
+          <entry><xref linkend='compat-with-cpp'></entry>
       </row>
 
       <row>
           <entry>assignment as bool <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc8.html#11==&gt;</entry>
+          <entry><xref linkend='use-assignments-cont'></entry>
       </row>
 
       <row>
           <entry>bitfield overflow <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+          <entry><xref linkend='int-overflow-checks'></entry>
       </row>
 
       <row>
           <entry>block function static <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#15==&gt;</entry>
+          <entry><xref linkend='static-block-level'></entry>
       </row>
 
       <row>
           <entry>character <emphasis>set_sign</emphasis></entry>
-          <entry> -XREF-tdfc10.html#9==&gt;</entry>
+          <entry><xref linkend='bitfield-types'></entry>
       </row>
 
       <row>
           <entry>character escape overflow <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+          <entry><xref linkend='int-overflow-checks'></entry>
       </row>
 
       <row>
           <entry>compatible type : char * == void * : <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+          <entry><xref linkend='point-point-conv'></entry>
       </row>
 
       <row>
           <entry>conditional lvalue <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc10.html#29==&gt;</entry>
+          <entry><xref linkend='conditional-lvalues'></entry>
       </row>
 
       <row>
           <entry>const conditional <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc8.html#13==&gt;</entry>
+          <entry><xref linkend='constant-cont-exp'></entry>
       </row>
 
       <row>
           <entry>dollar as ident <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc10.html#39==&gt;</entry>
+          <entry><xref linkend='identifier-names'></entry>
       </row>
 
       <row>
           <entry>directive <emphasis>pp_directive pp_spec</emphasis></entry>
-          <entry> -XREF-tdfc9.html#1==&gt;</entry>
+          <entry><xref linkend='preprocessor-directives'></entry>
       </row>
 
       <row>
           <entry>directive as macro argument <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#11==&gt;</entry>
+          <entry><xref linkend='macro-arguments'></entry>
       </row>
 
       <row>
           <entry>external volatile_t</entry>
-          <entry> -XREF-tdfc10.html#23==&gt;</entry>
+          <entry><xref linkend='external-vol'></entry>
       </row>
 
       <row>
           <entry>extra ; <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#54==&gt;</entry>
+          <entry><xref linkend='extra-semicolons'></entry>
       </row>
 
       <row>
           <entry>extra ; after conditional <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc8.html#9==&gt;</entry>
+          <entry><xref linkend='empty-statements'></entry>
       </row>
 
       <row>
           <entry>extra , <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#52==&gt;</entry>
+          <entry><xref linkend='extra-commas'></entry>
       </row>
 
       <row>
           <entry>extra bitfield int type <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#9==&gt;</entry>
+          <entry><xref linkend='bitfield-types'></entry>
       </row>
 
       <row>
           <entry>extra macro definition <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc9.html#9==&gt;</entry>
+          <entry><xref linkend='multiple-macro'></entry>
       </row>
 
       <row>
           <entry>extra type definition <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#13==&gt;</entry>
+          <entry><xref linkend='extra-type-def'></entry>
       </row>
 
       <row>
           <entry>forward enum declaration <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc10.html#19==&gt;</entry>
+          <entry><xref linkend='forward-enumeration'></entry>
       </row>
 
       <row>
           <entry>floating point equality <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc11.html#8==&gt;</entry>
+          <entry><xref linkend='floating-point-equal'></entry>
       </row>
 
       <row>
           <entry>ident ... <emphasis>permit</emphasis> </entry>
-          <entry>-XREF-tdfc10.html#27==&gt;</entry>
+          <entry><xref linkend='ellipsis-funct-calls'></entry>
       </row>
 
       <row>
           <entry>ignore struct/union/enum tag <emphasis>status</emphasis></entry>
-          <entry> -XREF-tdfc10.html#31==&gt;</entry>
+          <entry><xref linkend='unifying-tag-name-space'></entry>
       </row>
 
       <row>
           <entry>implicit int type for external declaration <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#7==&gt;</entry>
+          <entry><xref linkend='implicit-int'></entry>
       </row>
 
       <row>
           <entry>implicit int type for function return <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#7==&gt;</entry>
+          <entry><xref linkend='implicit-int'></entry>
       </row>
 
       <row>
           <entry>includes depth <emphasis>integral_constant</emphasis></entry>
-          <entry> -XREF-tdfc9.html#17==&gt;</entry>
+          <entry><xref linkend='include-depth'></entry>
       </row>
 
       <row>
           <entry>incompatible linkage <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#5==&gt;</entry>
+          <entry><xref linkend='identifier-linkage'></entry>
       </row>
 
       <row>
           <entry>incompatible promoted function argument <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc6.html#37==&gt;</entry>
+          <entry><xref linkend='impat-promo-funct'></entry>
       </row>
 
       <row>
           <entry>incompatible type qualifier <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc6.html#39==&gt;</entry>
+          <entry><xref linkend='incompat-type-qual'></entry>
       </row>
 
       <row>
           <entry>incomplete type as object type <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#17==&gt;</entry>
+          <entry><xref linkend='incomplete-array'></entry>
       </row>
 
       <row>
           <entry>indented # directive <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#7==&gt;</entry>
+          <entry><xref linkend='indented-preprocessing'></entry>
       </row>
 
       <row>
           <entry>initialization of struct/union (auto) <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#33==&gt;</entry>
+          <entry><xref linkend='init-compound-types'></entry>
       </row>
 
       <row>
           <entry>linkage resolution : <emphasis>linkage_spec</emphasis></entry>
-          <entry> -XREF-tdfc10.html#1==&gt;</entry>
+          <entry><xref linkend='resolving-linkage'></entry>
       </row>
 
       <row>
           <entry>longlong type <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc7.html#24==&gt;</entry>
+          <entry><xref linkend='support-bit-int'></entry>
       </row>
 
       <row>
           <entry>no directive/nline after ident <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#21==&gt;</entry>
+          <entry><xref linkend='text-after'></entry>
       </row>
 
       <row>
           <entry>no external declaration <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#50==&gt;</entry>
+          <entry><xref linkend='empty-src'></entry>
       </row>
 
       <row>
           <entry>no ident after # <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#11==&gt;</entry>
+          <entry><xref linkend='macro-arguments'></entry>
       </row>
 
       <row>
           <entry>no nline after file end <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#23==&gt;</entry>
+          <entry><xref linkend='new-line-end'></entry>
       </row>
 
       <row>
           <entry>prototype <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#17==&gt;</entry>
+          <entry><xref linkend='funct-type-check'></entry>
       </row>
 
       <row>
           <entry>prototype (weak) <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+          <entry><xref linkend='type-check-proto'></entry>
       </row>
 
       <row>
           <entry>set longlong type : <emphasis>type_name</emphasis></entry>
-          <entry> -XREF-tdfc7.html#24==&gt;</entry>
+          <entry><xref linkend='support-bit-int'></entry>
       </row>
 
       <row>
           <entry>set name limit <emphasis>integer_constant</emphasis></entry>
-          <entry> -XREF-tdfc10.html#25==&gt;</entry>
+          <entry><xref linkend='identifier-name-length'></entry>
       </row>
 
       <row>
           <entry>set size_t : <emphasis>type_name</emphasis></entry>
-          <entry>-XREF-tdfc7.html#10==&gt;</entry>
+          <entry><xref linkend='abstract-api-types'></entry>
       </row>
 
       <row>
           <entry>text after directive <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#19==&gt;</entry>
+          <entry><xref linkend='text-after-endif'></entry>
       </row>
 
       <row>
           <entry>unify external linkage <emphasis>status</emphasis></entry>
-          <entry> -XREF-tdfc10.html#1==&gt;</entry>
+          <entry><xref linkend='resolving-linkage'></entry>
       </row>
 
       <row>
           <entry>unify incompatible string literal <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#43==&gt;</entry>
+          <entry><xref linkend='concat-char'></entry>
       </row>
 
       <row>
           <entry>unknown escape <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#36==&gt;</entry>
+          <entry><xref linkend='escape-seq'></entry>
       </row>
 
       <row>
           <entry>unknown pragma <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#1==&gt;</entry>
+          <entry><xref linkend='preprocessor-directives'></entry>
       </row>
 
       <row>
           <entry>unknown struct/union <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc10.html#21==&gt;</entry>
+          <entry><xref linkend='untagged-compound'></entry>
       </row>
 
       <row>
           <entry>unknown directive <emphasis>permit</emphasis></entry>
-          <entry>-XREF-tdfc9.html#1==&gt;</entry>
+          <entry><xref linkend='preprocessor-directives'></entry>
       </row>
 
       <row>
           <entry>unmatched quote <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#15==&gt;</entry>
+          <entry><xref linkend='unmatched-quotes'></entry>
       </row>
 
       <row>
           <entry>variable initialization <emphasis>dallow</emphasis></entry>
-          <entry> -XREF-tdfc10.html#35==&gt;</entry>
+          <entry><xref linkend='var-init'></entry>
       </row>
 
       <row>
           <entry>weak macro equality <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc9.html#9==&gt;</entry>
+          <entry><xref linkend='multiple-macro'></entry>
       </row>
 
       <row>
           <entry>writeable string literal <emphasis>permit</emphasis></entry>
-          <entry> -XREF-tdfc10.html#41==&gt;</entry>
+          <entry><xref linkend='writable-string-lit'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6714,7 +6714,7 @@ return ( 0 );
       <tbody>
       <row>
           <entry>ARITHMETIC</entry>
-          <entry> -XREF-tdfc20.html#13==&gt;</entry>
+          <entry><xref linkend='arithmetic-type-tok'></entry>
       </row>
 
       <row>
@@ -6724,52 +6724,52 @@ return ( 0 );
 
       <row>
           <entry>EXP</entry>
-          <entry> -XREF-tdfc20.html#3==&gt;</entry>
+          <entry><xref linkend='expression-tokens'></entry>
       </row>
 
       <row>
           <entry>FUNC</entry>
-          <entry> -XREF-tdfc20.html#24==&gt;</entry>
+          <entry><xref linkend='funct-prod-tok'></entry>
       </row>
 
       <row>
           <entry>MEMBER</entry>
-          <entry> -XREF-tdfc20.html#19==&gt;</entry>
+          <entry><xref linkend='selector-tok'></entry>
       </row>
 
       <row>
           <entry>NAT</entry>
-          <entry> -XREF-tdfc20.html#3==&gt;</entry>
+          <entry><xref linkend='expression-tokens'></entry>
       </row>
 
       <row>
           <entry>PROC</entry>
-          <entry> -XREF-tdfc20.html#22==&gt;</entry>
+          <entry><xref linkend='general-prod-tok'></entry>
       </row>
 
       <row>
           <entry>STATEMENT</entry>
-          <entry> -XREF-tdfc20.html#6==&gt;</entry>
+          <entry><xref linkend='statement-tokens'></entry>
       </row>
 
       <row>
           <entry>STRUCT</entry>
-          <entry> -XREF-tdfc20.html#16==&gt;</entry>
+          <entry><xref linkend='compound-type-tok'></entry>
       </row>
 
       <row>
           <entry>TYPE</entry>
-          <entry> -XREF-tdfc20.html#9==&gt;</entry>
+          <entry><xref linkend='general-type-tok'></entry>
       </row>
 
       <row>
           <entry>UNION</entry>
-          <entry> -XREF-tdfc20.html#16==&gt;</entry>
+          <entry><xref linkend='compound-type-tok'></entry>
       </row>
 
       <row>
           <entry>VARIETY</entry>
-          <entry> -XREF-tdfc20.html#11==&gt;</entry>
+          <entry><xref linkend='integral-type-tok'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6822,7 +6822,7 @@ return ( 0 );
 
       <row>
           <entry>promote</entry>
-          <entry> -XREF-tdfc22.html#4==&gt;</entry>
+          <entry><xref linkend='specifying-int-pro'></entry>
       </row>
       </tbody>
       </tgroup>
@@ -6844,7 +6844,7 @@ return ( 0 );
       <tbody>
       <row>
           <entry>integer literal <emphasis>lit_class_type_list</emphasis></entry>
-          <entry> -XREF-tdfc17.html#2==&gt;</entry>
+          <entry><xref linkend='spec-int-lit-types'></entry>
       </row>
       </tbody>
       </tgroup>
