@@ -431,8 +431,7 @@ String format = "Result = %d\n"
         </programlisting>
 
         <para>the tag &lt;ident&gt;, format, could be used straightforwardly
-          as the first parameter of printf - see -XREF-pl5.html#0Section 4
-          (Example PL_TDF programs).</para>
+          as the first parameter of printf - <xref linkend='example-pl-tdf' ></para>
       </sect2>
 
       <sect2 id='altagdef'>
@@ -528,7 +527,7 @@ Struct Complex (re: Double, im: Double)
         <para>A &lt;Simple_Proc&gt; produces a make_proc with the obvious
           operands. The scope of the tag names introduced by
           &lt;Parametername&gt; and &lt;Varparname&gt; is the
-          &lt;ClosedExp&gt; (see -XREF-#86section 3.3).</para>
+          &lt;ClosedExp&gt; <xref linkend='control-struct-decl'>.</para>
 
         <para>A &lt;General_Proc&gt; produces a make_general_proc with formal
           caller parameters given by &lt;For_callers&gt; and the formal callee
@@ -735,7 +734,7 @@ Struct Complex (re: Double, im: Double)
 &lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;
           </programlisting>
 
-          <para>For &lt;ClosedExp&gt;, see -XREF-#86section 3.3.</para>
+          <para>For &lt;ClosedExp&gt;, see <xref linkend='control-struct-decl'></para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
@@ -777,7 +776,7 @@ Struct Complex (re: Double, im: Double)
 &lt;ExpTerm&gt; ::= &lt;Assertion&gt;
           </programlisting>
 
-          <para>For &lt;Assertion&gt;, see -XREF-#89section 3.3.1</para>
+          <para>For &lt;Assertion&gt;, see <xref linkend='conditionalexp-assertion'></para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
@@ -856,7 +855,7 @@ Struct Complex (re: Double, im: Double)
           </programlisting>
 
           <para>Produces a make_proc. For &lt;Proc_defn&gt;, see
-            -XREF-#12section 3.1.7</para>
+            <xref linkend='procdef'></para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )
@@ -1189,7 +1188,7 @@ Struct Complex (re: Double, im: Double)
         </programlisting>
 
         <para>This produces a use_tokdef. For &lt;Tok_Defn&gt; see
-          -XREF-#3section 3.1.2. The critical use of this construction is to
+          <xref linkend='tokdef'>. The critical use of this construction is to
           provide an actual TOKEN parameter to a token application where the
           &lt;Tok_Defn&gt; contains uses of tags or labels local to a
           procedure.</para>
@@ -1398,7 +1397,7 @@ Struct Complex (re: Double, im: Double)
           make_value(&lt;Shape&gt;) as the initialisation to the variable.
           Using this form of variable definition also has the advantage of
           allowing one to use the simple form of the contents operation ( * in
-          -XREF-#26section 3.2.7 ).</para>
+          <xref linkend='exp'> ).</para>
 
           <programlisting>
 &lt;Local_Defn&gt; ::= Let &lt;ident&gt; &lt;Access&gt;-Opt = &lt;Exp&gt; &lt;ClosedExp&gt;
