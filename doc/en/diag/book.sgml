@@ -39,7 +39,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title> 
 
     <para>The TDF diagnostic information is intended to convey all that
@@ -52,7 +52,7 @@
       has only been tested with TDF produced from C programs. There are known
       to be certain deficiencies relative to other languages (in particular to
       FORTRAN). A later version will correct these deficiencies. The changes
-      already envisaged are detailed in <xref linkend='proposedchanges'>, and would
+      already envisaged are detailed in <xref linkend='proposed-changes'>, and would
       have minimal (if any) impact on C producers.</para>
 
     <para>The diagnostic system introduces one new type of TDF linkable entities,
@@ -61,7 +61,7 @@
     <para>Much of the actual annotation of procedure bodies is currently done by
       reserved <literal>TOKEN</literal>s, which installers recognize specially.
       These <literal>TOKEN</literal>s are described in
-      <xref linkend='reserveddiagnostictokens'>.</para>
+      <xref linkend='reserved-diag-tokens'>.</para>
 
     <para>There is a resemblance between the TDF diagnostic information and Unix
       International's DWARF format. DWARF has similar aims to the TDF
@@ -73,7 +73,7 @@
 
   </preface>
 
-  <chapter>
+  <chapter id='diag-sorts'>
     <title>Diagnostic SORTs</title> 
     <itemizedlist>
       <listitem>
@@ -99,7 +99,7 @@
       </listitem>
     </itemizedlist>
 
-    <sect1>
+    <sect1 id='diag-desc'>
       <title>DIAG_DESCRIPTOR</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>2</member> <member>Is
@@ -109,7 +109,7 @@
       <para><literal>DIAG_DESCRIPTOR</literal>s are used to associate names in the
         source program with diagnostic items.</para>
 
-      <sect2>
+      <sect2 id='diag-desc-id'>
         <title>diag_desc_id</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -132,7 +132,7 @@ type:        DIAG_TYPE
           EQUIVALENCE might be implemented this way).</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-desc-struct'>
         <title>diag_desc_struct</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>2</member>
@@ -155,7 +155,7 @@ new_type:    DIAG_TYPE
 </para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-desc-typedef'>
         <title>diag_desc_typedef</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>3</member>
@@ -178,7 +178,7 @@ new_type:    DIAG_TYPE
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-unit'>
       <title>DIAG_UNIT</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>0</member> <member>Is
@@ -191,7 +191,7 @@ new_type:    DIAG_TYPE
         used to contain descriptions of items outside procedure bodies (e.g.
         global variables, global type definitions).</para>
 
-      <sect2>
+      <sect2 id='build-diag-unit'>
         <title>build_diag_unit</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>0</member>
@@ -211,7 +211,7 @@ descriptors: SLIST(DIAG_DESCRIPTOR)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-tag'>
       <title>DIAG_TAG</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>1</member> <member>Is
@@ -227,7 +227,7 @@ descriptors: SLIST(DIAG_DESCRIPTOR)
         <literal>DIAG_TYPE</literal> associated with that number by
         <emphasis>make_diag_tagdef</emphasis>.</para>
 
-      <sect2>
+      <sect2 id='make-diag-tag'>
         <title>make_diag_tag</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -243,7 +243,7 @@ num:     TDFINT
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-tagdef'>
       <title>DIAG_TAGDEF</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>1</member> <member>Is
@@ -253,7 +253,7 @@ num:     TDFINT
       <para><literal>DIAG_TAGDEF</literal>s associate <literal>DIAG_TAG</literal>s
         with <literal>DIAG_TYPE</literal> s.</para>
 
-      <sect2>
+      <sect2 id='make-diag-tagdef'>
         <title>make_diag_tagdef</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -271,7 +271,7 @@ dtype:       DIAG_TYPE
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-type-unit'>
       <title>DIAG_TYPE_UNIT</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>0</member> <member>Is
@@ -282,7 +282,7 @@ dtype:       DIAG_TYPE
       <para>A <literal>DIAG_TYPE_UNIT</literal> is a TDF unit containing
         <literal>DIAG_TAGDEF</literal>s.</para>
 
-      <sect2>
+      <sect2 id='build-diagtype-unit'>
         <title>build_diagtype_unit</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>0</member>
@@ -302,7 +302,7 @@ tagdefs: SLIST(DIAG_TAGDEF)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-type'>
       <title>DIAG_TYPE</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>4</member> <member>Is
@@ -314,7 +314,7 @@ tagdefs: SLIST(DIAG_TAGDEF)
       <para><literal>DIAG_TYPE</literal>s are used to provide diagnostic
         information about data types.</para>
 
-      <sect2>
+      <sect2 id='diag-type-apply-token'>
         <title>diag_type_apply_token</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -334,7 +334,7 @@ token_args:  BITSTREAM
           of its parameters, in the order specified.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-array'>
         <title>diag_array</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>2</member>
@@ -360,7 +360,7 @@ index_type:  DIAG_TYPE
           multi-dimensional array primitive.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-bitfield'>
         <title>diag_bitfield</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>3</member>
@@ -376,7 +376,7 @@ number_of_bits:  NAT
           will have <literal>DIAG_TYPE</literal> <emphasis>type</emphasis>.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-enum'>
         <title>diag_enum</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>4</member>
@@ -394,7 +394,7 @@ values:      LIST(ENUM_VALUES)
           a string containing zero characters this signifies no source tag.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-floating-var'>
         <title>diag_floating_variety</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>5</member>
@@ -409,7 +409,7 @@ var:     FLOATING_VARIETY
           <literal>FLOATING_VARIETY</literal> <emphasis>var</emphasis>.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-loc'>
         <title>diag_loc</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>6</member>
@@ -428,7 +428,7 @@ qualifier:   DIAG_TQ
           location).</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-proc'>
         <title>diag_proc</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>7</member>
@@ -448,7 +448,7 @@ result_type: DIAG_TYPE
           <emphasis>vartag</emphasis> present.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-ptr'>
         <title>diag_ptr</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>8</member>
@@ -466,7 +466,7 @@ qualifier:   DIAG_TQ
           pointed to.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-struct'>
         <title>diag_struct</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>9</member>
@@ -485,7 +485,7 @@ fields:      LIST(DIAG_FIELD)
           computed.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-type-null'>
         <title>diag_type_null</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>10</member>
@@ -498,7 +498,7 @@ fields:      LIST(DIAG_FIELD)
         <para>A null <literal>DIAG_TYPE</literal>.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-union'>
         <title>diag_union</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>11</member>
@@ -517,7 +517,7 @@ fields:      LIST(DIAG_FIELD)
           computed.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-variety'>
         <title>diag_variety</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>12</member>
@@ -532,7 +532,7 @@ var:     VARIETY
           <literal>VARIETY</literal> <emphasis>var</emphasis>.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='use-diag-tag'>
         <title>use_diag_tag</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>3</member>
@@ -549,13 +549,13 @@ dtag:        DIAG_TAG
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='enum-values'>
       <title>ENUM_VALUES</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>0</member> <member>Is
         coding extendable:</member> <member>no</member>
       </simplelist>
-      <sect2>
+      <sect2 id='make-enum-values'>
         <title>make_enum_values_list</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>0</member>
@@ -577,13 +577,13 @@ src_name:    TDFSTRING(k, n)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-field'>
       <title>DIAG_FIELD</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>0</member> <member>Is
         coding extendable:</member> <member>no</member>
       </simplelist>
-      <sect2>
+      <sect2 id='make-diag-field'>
         <title>make_diag_field</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>0</member>
@@ -607,7 +607,7 @@ field_type:  DIAG_TYPE
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-tq'>
       <title>DIAG_TQ</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>2</member> <member>Is
@@ -619,7 +619,7 @@ field_type:  DIAG_TYPE
         constructed from <emphasis>diag_tq_null</emphasis> and the various
         <emphasis>add_diag_XXX</emphasis> operations.</para>
 
-      <sect2>
+      <sect2 id='add-diag-const'>
         <title>add_diag_const</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -634,7 +634,7 @@ qual:        DIAG_TQ
           <emphasis>const</emphasis> in the ANSI C sense.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='add-diag-volatile'>
         <title>add_diag_volatile</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>2</member>
@@ -649,7 +649,7 @@ qual:        DIAG_TQ
           <emphasis>volatile</emphasis> in the ANSI C sense.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='diag-tq-null'>
         <title>diag_tq_null</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>3</member>
@@ -664,7 +664,7 @@ qual:        DIAG_TQ
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='filename'>
       <title>FILENAME</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>2</member> <member>Is
@@ -677,7 +677,7 @@ qual:        DIAG_TQ
         producing a <literal>CAPSULE</literal>. They can be tokenised for
         abbreviation.</para>
 
-      <sect2>
+      <sect2 id='filename-apply-tok'>
         <title>filename_apply_token</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -697,7 +697,7 @@ token_args:  BITSTREAM
           of its parameters, in the order specified.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='make-filename'>
         <title>make_filename</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>2</member>
@@ -718,7 +718,7 @@ file:        TDFSTRING(k2, n2)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='sourcemark'>
       <title>SOURCEMARK</title> 
       <simplelist type="horiz" columns="2">
         <member>Number of encoding bits:</member> <member>1</member> <member>Is
@@ -730,7 +730,7 @@ file:        TDFSTRING(k2, n2)
         can be described by one or two numbers within a
         <literal>FILENAME</literal>.</para>
 
-      <sect2>
+      <sect2 id='make-sourcemark'>
         <title>make_sourcemark</title> 
         <simplelist type="horiz" columns="2">
           <member>Encoding number:</member> <member>1</member>
@@ -754,7 +754,7 @@ char_offset: NAT
     </sect1>
   </chapter>
 
-  <chapter id='reserveddiagnostictokens'>
+  <chapter id='reserved-diag-tokens'>
     <title>Reserved diagnostic TOKENs</title> 
 
     <para>Reserved <literal>TOKEN</literal>s were used for diagnostic extensions to
@@ -762,7 +762,7 @@ char_offset: NAT
       an existing <literal>UNIT</literal>. All other parts of the diagnostic
       system occur in other <literal>UNIT</literal>s.</para>
 
-    <sect1>
+    <sect1 id='exp-to-source'>
       <title>~exp_to_source</title> 
 
     <programlisting>
@@ -779,7 +779,7 @@ to:      SOURCEMARK
 
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-id-source'>
       <title>~diag_id_source</title> 
 
       <programlisting>
@@ -797,7 +797,7 @@ type:        DIAG_TYPE
 
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-type-scope'>
       <title>~diag_type_scope</title> 
 
       <programlisting>
@@ -813,7 +813,7 @@ type:        DIAG_TYPE
 
     </sect1>
 
-    <sect1>
+    <sect1 id='diag-tag-scope'>
       <title>~diag_tag_scope</title> 
 
       <programlisting>
@@ -828,7 +828,7 @@ type:        DIAG_TYPE
     </sect1>
   </chapter>
 
-  <chapter id='proposedchanges'>
+  <chapter id='proposed-changes'>
     <title>Proposed changes</title> 
 
     <para>It is thought likely that the new TDF entities described above will
@@ -839,14 +839,14 @@ type:        DIAG_TYPE
       the installer cannot be expected to spot all of them and generate new
       diagnostic info.</para>
 
-    <sect1>
+    <sect1 id='lang-features'>
       <title>Language features currently missing</title> 
 
       <para>The following sections list some of the language features known not to
         be supported by the current specification. It is not intended to be
         exhaustive.</para>
 
-      <sect2>
+      <sect2 id='data-types'>
         <title>Data types</title> 
         <itemizedlist>
           <listitem>
@@ -857,7 +857,7 @@ type:        DIAG_TYPE
           </listitem>
         </itemizedlist>
       </sect2>
-      <sect2>
+      <sect2 id='cpp-req'>
         <title>C++ requirements</title> 
         <itemizedlist>
           <listitem>
@@ -879,7 +879,7 @@ type:        DIAG_TYPE
           </listitem>
         </itemizedlist>
       </sect2>
-      <sect2>
+      <sect2 id='fortran-req'>
         <title>FORTRAN requirements</title> 
         <itemizedlist>
           <listitem>
@@ -898,7 +898,7 @@ type:        DIAG_TYPE
           </listitem>
         </itemizedlist>
       </sect2>
-      <sect2>
+      <sect2 id='other-req'>
         <title>Other requirements</title> 
         <itemizedlist>
           <listitem>
@@ -950,9 +950,9 @@ type:        DIAG_TYPE
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='areas-abstraction'>
       <title>Areas for further abstraction</title> 
-      <sect2>
+      <sect2 id='comp-related'>
         <title>Compilation related</title> 
 
         <para>How a running program has been created from several components is of
@@ -962,7 +962,7 @@ type:        DIAG_TYPE
           full name of any of the source files.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='c-related'>
         <title>C related</title> 
 
         <para>At present there is no defined link between the fundamental C types
@@ -973,7 +973,7 @@ type:        DIAG_TYPE
           names which form part of the C producer language interface.</para>
 
       </sect2>
-      <sect2>
+      <sect2 id='naming-types'>
         <title>Naming of types</title> 
 
         <para>At present various <literal>DIAG_TYPE</literal>s have names, some
@@ -983,7 +983,7 @@ type:        DIAG_TYPE
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='postscript-andf-de'>
       <title>Postscript - ANDF-DE</title> 
 
       <para>As this section makes clear, the TDF Diagnostic Specification was only
@@ -997,3 +997,4 @@ type:        DIAG_TYPE
     </sect1>
   </chapter>
 </book>
+

@@ -42,7 +42,7 @@
 
   </bookinfo>
 
-<preface>
+<preface id='intro'>
 <title>Introduction</title>
 
 <para>This document is designed as a technical overview of the TenDRA C++ to TDF/ANDF producer. It is divided into two broad areas; descriptions of the -XREF-public interfaces of the producer, and an overview of the producer -XREF-source code.</para>
@@ -85,7 +85,7 @@
 
 
 
-<chapter>
+<chapter id='interface-desc'>
 <title>Interface Descriptions</title>
 
 
@@ -100,7 +100,7 @@
 <para>The mapping from C++ to TDF implemented by the C++ producer is largely straightforward. There are however target dependencies arising within the language itself which require special handling. These are represented by certain -XREF-lib.html standard tokens which the producer requires to be defined on the target machine. These tokens are also used to describe the interface between the producer and the run-time system. Note that the C++ producer is primarily concerned with the C++ language, not with the standard C++ library. An example implementation of those library components which are required as an integral part of the language (memory allocation, exception handling, run-time type information etc.) is provided. Otherwise, libraries should be obtained from third parties. A number of hints on -XREF-std.html integrating such libraries with the C++ producer are given.</para>
 
 
-<sect1>
+<sect1 id='invocation'>
 <title>Invocation</title>
 
 <para>In this section it is described how the C++ to TDF producer, <literal>tcpplus</literal>, fits into the overall compilation scheme controlled by the TenDRA compiler front-end, <literal>tcc</literal>, or the TenDRA checker front-end, <literal>tchk</literal>. While it is possible to use <literal>tcpplus</literal> as a stand-alone program, it is recommended that it should be invoked via <literal>tcc</literal> or <literal>tchk</literal>. The <literal>tcc</literal> users' guide should be consulted for more details.</para>
@@ -110,7 +110,7 @@
 <para>Most of the command-line option handling for <literal>tcpplus</literal> is done by <literal>tcc</literal> and <literal>tchk</literal>, however it is possible to pass the option <emphasis>opt</emphasis> directly to <literal>tcpplus</literal> using the option <literal>-Wx,</literal><emphasis>opt</emphasis> to <literal>tcc</literal> or <literal>tchk</literal>. Similarly <literal>-Wg,</literal><emphasis>opt</emphasis> and <literal>-WS,</literal><emphasis>opt</emphasis> can be used to pass options to the C++ preprocessor and the C++ spec linker (both of which are actually <literal>tcpplus</literal> invoked with different options) respectively.</para>
 
 
-<sect2>
+<sect2 id='compilation-scheme'>
 <title>Compilation scheme</title>
 
 <para>The overall compilation scheme controlled by <literal>tcc</literal>, as it relates to the C++ producer, can be represented as follows:</para>
@@ -135,7 +135,7 @@
 
 </sect2>
 
-<sect2>
+<sect2 id='producer-options'>
 <title>Producer options</title>
 
 <para>this should be XREF'd to the tcpplus manpage</para>
@@ -144,7 +144,7 @@
 </sect1>
 
 
-<sect1>
+<sect1 id='configuration'>
 <title>Configuration</title>
 
 
@@ -163,7 +163,7 @@
 <para>Within the description of the <literal>#pragma</literal> syntax, <emphasis>on</emphasis> stands for <literal>on</literal>, <literal>off</literal> or <literal>warning</literal>, <emphasis>allow</emphasis> stands for <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal>, <emphasis>string-literal</emphasis> is any string literal, <emphasis>integer-literal</emphasis> is any integer literal, <emphasis>identifier</emphasis> is any simple, unqualified identifier name, and <emphasis>type-id</emphasis> is any type identifier. Other syntactic items are described in the text. A -XREF-pragma1.html complete grammar for the <literal>#pragma</literal> directives accepted by the C++ producer is given as an annex.</para>
 
 
-<sect2>
+<sect2 id='port-tables'>
 <title>Portability tables</title>
 
 <para>Certain very basic configuration information is read from a file called a portability table, which may be specified to the producer using a -XREF-man.html#table <literal>-n</literal> option. This information includes the minimum sizes of the basic integral types, the -XREF-#char sign of plain <literal>char</literal>, and whether signed types can be assumed to be symmetric (for example, [-127,127]) or maximum (for example, [-128,127]).</para>
@@ -188,7 +188,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='low-level-conf'>
 <title>Low level configuration</title>
 
 <para>The simplest level of configuration is to reset the severity level of a particular error message using:</para>
@@ -229,7 +229,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='checking-scopes'>
 <title>Checking scopes</title>
 
 <para>Most compiler options are scoped. A checking scope may be defined by enclosing a list of declarations within:</para>
@@ -281,7 +281,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='implimentation-limits'>
 <title>Implementation limits</title>
 
 <para>This table gives the default implementation limits imposed by the C++ producer for the various implementation quantities listed in Annex B of the ISO C++ standard, together with the minimum limits allowed in ISO C and C++. A default limit of <emphasis>none</emphasis> means that the quantity is limited only by the size of the host machine (either <literal>ULONG_MAX</literal> or until it runs out of memory). A limit of <emphasis>target</emphasis> means that while no limits is imposed by the C++ front-end, particular target machines may impose such limits.</para>
@@ -582,7 +582,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='lexical-analysis'>
 <title>Lexical analysis</title>
 
 <para>During lexical analysis, a source file which is not empty should end in a newline character. It is possible to relax this constraint using the directive:</para>
@@ -594,7 +594,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='keywords'>
 <title>Keywords</title>
 
 <para>In several places in this section it is described how to introduce keywords for TenDRA language extensions. By default, no such extra keywords are defined. There are also low-level directives for defining and undefining keywords. The directive:</para>
@@ -625,7 +625,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='comments'>
 <title>Comments</title>
 
 <para>C-style comments do not nest. The directive:</para>
@@ -638,7 +638,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='identifier-names'>
 <title>Identifier names</title>
 
 <para>During lexical analysis, each character in the source file has an associated look-up value which is used to determine whether the character can be used in an identifier name, is a white space character etc. These values are stored in a simple look-up table. It is possible to set the look-up value using:</para>
@@ -684,7 +684,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='integer-literals'>
 <title>Integer literals</title>
 
 <para>The rules for finding the type of an integer literal can be described using directives of the form:</para>
@@ -741,7 +741,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='character-literals'>
 <title>Character literals and built-in types</title>
 
 <para>By default, a simple character literal has type <literal>int</literal> in C and type <literal>char</literal> in C++. The type of such literals can be controlled using the directive:</para>
@@ -781,7 +781,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='string-literals-a'>
 <title>String literals</title>
 
 <para>By default, character string literals have type <literal>char [n]</literal> in C and older dialects of C++, but type <literal>const char [n]</literal> in ISO C++. Similarly wide string literals have type <literal>wchar_t [n]</literal> or <literal>const wchar_t [n]</literal>. Whether string literals are <literal>const</literal> or not can be controlled using the two directives:</para>
@@ -816,7 +816,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='escape-sequences'>
 <title>Escape sequences</title>
 
 <para>By default, if the character following the <literal>\</literal> in an escape sequence is not one of those listed in the ISO C or C++ standards then an error is given. This behaviour, which is left unspecified by the standards, can be controlled by the directive:</para>
@@ -852,7 +852,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='preprocessing-directives'>
 <title>Preprocessing directives</title>
 
 <para>Non-standard preprocessing directives can be controlled using the directives:</para>
@@ -908,7 +908,7 @@ multibyte           1
 
 </sect2>
 
-<sect2>
+<sect2 id='target-dep-conditional'>
 <title>Target dependent conditional inclusion</title>
 
 <para>One of the effects of trying to compile code in a target independent manner is that it is not always possible to completely evaluate the condition in a <literal>#if</literal> directive. Thus the conditional inclusion needs to be preserved until the installer phase. This can only be done if the target dependent <literal>#if</literal> is more structured than is normally required for preprocessing directives. There are two cases; in the first, where the <literal>#if</literal> appears in a statement, it is treated as if it were a <literal>if</literal> statement with braces including its branches; that is:</para>
@@ -941,7 +941,7 @@ if ( cond ) {
 
 </sect2>
 
-<sect2>
+<sect2 id='inclusion-directives'>
 <title>File inclusion directives</title>
 
 <para>There is a maximum depth of nested <literal>#include</literal> directives allowed by the C++ producer. This depth is given by the <literal>include_depth</literal> implementation quantity -XREF-#limits mentioned above . Its value is fairly small in order to detect recursive inclusions. The maximum depth can be set using:</para>
@@ -958,7 +958,7 @@ if ( cond ) {
 
 </sect2>
 
-<sect2>
+<sect2 id='macro-definitions'>
 <title>Macro definitions</title>
 
 <para>By default, multiple consistent definitions of a macro are allowed. This behaviour can be controlled using the directive:</para>
@@ -989,7 +989,7 @@ if ( cond ) {
 
 </sect2>
 
-<sect2>
+<sect2 id='empty-source-files'>
 <title>Empty source files</title>
 
 <para>ISO C requires that a translation unit should contain at least one declaration. C++ and older dialects of C allow translation units which contain no declarations. This behaviour can be controlled using the directive:</para>
@@ -1001,7 +1001,7 @@ if ( cond ) {
 
 </sect2>
 
-<sect2>
+<sect2 id='std-namespace'>
 <title>The <literal>std</literal> namespace</title>
 
 <para>Several classes declared in the <literal>std</literal> namespace arise naturally as part of the C++ language specification. These are as follows:</para>
@@ -1025,7 +1025,7 @@ std::bad_exception  // used in exception specifications
 
 </sect2>
 
-<sect2>
+<sect2 id='object-linkage'>
 <title>Object linkage</title>
 
 <para>If an object is declared with both external and internal linkage in the same translation unit then, by default, an error is given. This behaviour can be changed using the directive:</para>
@@ -1125,7 +1125,7 @@ int ( *pf ) ( int ) = f ;       // error
 </sect2>
 
 
-<sect2>
+<sect2 id='static-identifers'>
 <title>Static identifiers</title>
 
 <para>By default, objects and functions with internal linkage are mapped to tags without external names in the output TDF capsule. Thus such names are not available to the installer and it needs to make up internal names to represent such objects in its output. This is not desirable in such operations as profiling, where a meaningful internal name is needed to make sense of the output. The directive:</para>
@@ -1144,7 +1144,7 @@ int ( *pf ) ( int ) = f ;       // error
 
 </sect2>
 
-<sect2>
+<sect2 id='empty-decl'>
 <title>Empty declarations</title>
 
 <para>ISO C++ requires every declaration or member declaration to introduce one or more names into the program. The directive:</para>
@@ -1163,7 +1163,7 @@ int ( *pf ) ( int ) = f ;       // error
 
 </sect2>
 
-<sect2>
+<sect2 id='implicit-int'>
 <title>Implicit <literal>int</literal></title>
 
 <para>The C &quot;implicit <literal>int</literal>&quot; rule, whereby a type of <literal>int</literal> is inferred in a list of type or declaration specifiers which does not contain a type name, has been removed in ISO C++, although it was supported in older dialects of C++. This check is controlled by the directive:</para>
@@ -1206,7 +1206,7 @@ c = 3 ;         // error: not allowed in C++
 
 </sect2>
 
-<sect2>
+<sect2 id='extended-ingegral'>
 <title>Extended integral types</title>
 
 <para>The <literal>long long</literal> integral types are not part of ISO C or C++ by default, however support for them can be enabled using the directive:</para>
@@ -1230,7 +1230,7 @@ c = 3 ;         // error: not allowed in C++
 
 </sect2>
 
-<sect2>
+<sect2 id='bitfield-types-b'>
 <title>Bitfield types</title>
 
 <para>The C++ rules on bitfield types differ slightly from the C rules. Firstly any integral or enumeration type is allowed in a bitfield, and secondly the bitfield width may exceed the underlying type size (the extra bits being treated as padding). These properties can be controlled using the directives:</para>
@@ -1245,7 +1245,7 @@ c = 3 ;         // error: not allowed in C++
 </sect2>
 
 
-<sect2>
+<sect2 id='elaborated-specifiers'>
 <title>Elaborated type specifiers</title>
 
 <para>In elaborated type specifiers, the class key (<literal>class</literal>, <literal>struct</literal>, <literal>union</literal> or <literal>enum</literal>) should agree with any previous declaration of the type (except that <literal>class</literal> and <literal>struct</literal> are interchangeable). This requirement can be relaxed using the directive:</para>
@@ -1280,7 +1280,7 @@ c = 3 ;         // error: not allowed in C++
 
 </sect2>
 
-<sect2>
+<sect2 id='implicit-function-decl'>
 <title>Implicit function declarations</title>
 
 <para>C, but not C++, allows calls to undeclared functions, the function being declared implicitly. It is possible to enable support for implicit function declarations using the directive:</para>
@@ -1293,7 +1293,7 @@ c = 3 ;         // error: not allowed in C++
 
 </sect2>
 
-<sect2>
+<sect2 id='weak-function-prototypes'>
 <title>Weak function prototypes</title>
 
 <para>The C producer supports a concept, weak prototypes, whereby type checking can be applied to the arguments of a non-prototype function. This checking can be enabled using the directive:</para>
@@ -1331,7 +1331,7 @@ c = 3 ;         // error: not allowed in C++
 
 </sect2>
 
-<sect2>
+<sect2 id='printf-scanf-argument'>
 <title><literal>printf</literal> and <literal>scanf</literal> argument checking</title>
 
 <para>The C producer includes a number of checks that the arguments in a call to a function in the <literal>printf</literal> or <literal>scanf</literal> families match the given format string. The check is implemented by using the directives:</para>
@@ -1367,7 +1367,7 @@ int sprintf ( char *, __printf_string, ... ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='decl'>
 <title>Type declarations</title>
 
 <para>C does not allow multiple definitions of a <literal>typedef</literal> name, whereas C++ allows multiple consistent definitions. This behaviour can be controlled using the directive:</para>
@@ -1378,7 +1378,7 @@ int sprintf ( char *, __printf_string, ... ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='compat'>
 <title>Type compatibility</title>
 
 <para>The directive:</para>
@@ -1401,7 +1401,7 @@ int sprintf ( char *, __printf_string, ... ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='incomplete-types'>
 <title>Incomplete types</title>
 
 <para>Some dialects of C allow incomplete arrays as member types. These are generally used as a place-holder at the end of a structure to allow for the allocation of an arbitrarily sized array. Support for this feature can be enabled using the directive:</para>
@@ -1412,7 +1412,7 @@ int sprintf ( char *, __printf_string, ... ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='type-conversations'>
 <title>Type conversions</title>
 
 <para>There are a number of directives which allow various classes of type conversion to be checked. The directives:</para>
@@ -1555,7 +1555,7 @@ s b = a ;       // maps to conv ( a )
 
 </sect2>
 
-<sect2>
+<sect2 id='cast-expressions'>
 <title>Cast expressions</title>
 
 <para>ISO C++ introduces the constructs <literal>static_cast</literal>, <literal>const_cast</literal> and <literal>reinterpret_cast</literal>, which can be used in various contexts where an old style explicit cast would previously have been used. By default, an explicit cast can perform any combination of the conversions performed by these three constructs. To aid migration to the new style casts the directives:</para>
@@ -1587,7 +1587,7 @@ s b = a ;       // maps to conv ( a )
 
 </sect2>
 
-<sect2>
+<sect2 id='ellipsis-funct'>
 <title>Ellipsis functions</title>
 
 <para>The directive:</para>
@@ -1600,7 +1600,7 @@ s b = a ;       // maps to conv ( a )
 
 </sect2>
 
-<sect2>
+<sect2 id='overloaded-funct'>
 <title>Overloaded functions</title>
 
 <para>Older dialects of C++ did not report ambiguous overloaded function resolutions, but instead resolved the call to the first of the most viable candidates to be declared. This behaviour can be controlled using the directive:</para>
@@ -1649,7 +1649,7 @@ int a = f ( sizeof ( int ) ) ;  // which f?
 
 </sect2>
 
-<sect2>
+<sect2 id='expressions'>
 <title>Expressions</title>
 
 <para>The directive:</para>
@@ -1720,7 +1720,7 @@ char *p = 1 - 1 ;   // valid, but weird
 
 </sect2>
 
-<sect2>
+<sect2 id='initialiser-expr'>
 <title>Initialiser expressions</title>
 
 <para>C, but not C++, only allows constant expressions in static initialisers. The directive:</para>
@@ -1747,7 +1747,7 @@ char *p = 1 - 1 ;   // valid, but weird
 
 </sect2>
 
-<sect2>
+<sect2 id='lvalue-expressions'>
 <title>Lvalue expressions</title>
 
 <para>C++ defines the results of several operations to be lvalues, whereas they are rvalues in C. The directive:</para>
@@ -1770,7 +1770,7 @@ char *p = 1 - 1 ;   // valid, but weird
 
 </sect2>
 
-<sect2>
+<sect2 id='discarded-expressions'>
 <title>Discarded expressions</title>
 
 <para>The directive:</para>
@@ -1813,7 +1813,7 @@ char *p = 1 - 1 ;   // valid, but weird
 
 </sect2>
 
-<sect2>
+<sect2 id='conditional-iteration'>
 <title>Conditional and iteration statements</title>
 
 <para>The directive:</para>
@@ -1859,7 +1859,7 @@ for ( init ; cond ; step ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='switch-statements'>
 <title>Switch statements</title>
 
 <para>A <literal>switch</literal> statement is said to be exhaustive if its control statement is guaranteed to take one of the values of its <literal>case</literal> labels, or if it has a <literal>default</literal> label. The TenDRA C and C++ producers allow a <literal>switch</literal> statement to be asserted to be exhaustive using the syntax:</para>
@@ -1911,7 +1911,7 @@ enum bool { false = 0, true = 1 } ;
 
 </sect2>
 
-<sect2>
+<sect2 id='for-statements'>
 <title>For statements</title>
 
 <para>In ISO C++ the scope of a variable declared in a for-init-statement is the body of the <literal>for</literal> statement; in older dialects it extended to the end of the enclosing block. So:</para>
@@ -1933,7 +1933,7 @@ return i ;  // OK in older dialects, error in ISO C++
 
 </sect2>
 
-<sect2>
+<sect2 id='return-statements'>
 <title>Return statements</title>
 
 <para>In C, but not in C++, it is possible to have a <literal>return</literal> statement without an expression in a function which does not return <literal>void</literal>. It is possible to enable this behaviour using the directive:</para>
@@ -1946,7 +1946,7 @@ return i ;  // OK in older dialects, error in ISO C++
 
 </sect2>
 
-<sect2>
+<sect2 id='unreached-code-analysis'>
 <title>Unreached code analysis</title>
 
 <para>The directive:</para>
@@ -1981,7 +1981,7 @@ __bottom abort ( void ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='variable-flow-analysis'>
 <title>Variable flow analysis</title>
 
 <para>The directive:</para>
@@ -2059,7 +2059,7 @@ DISCARD ( <emphasis>expression</emphasis> )
 
 </sect2>
 
-<sect2>
+<sect2 id='variable-hiding'>
 <title>Variable hiding</title>
 
 <para>The directive:</para>
@@ -2072,7 +2072,7 @@ DISCARD ( <emphasis>expression</emphasis> )
 
 </sect2>
 
-<sect2>
+<sect2 id='exception-analysis'>
 <title>Exception analysis</title>
 
 <para>The ISO C++ rules do not require exception specifications to be checked statically. This is to facilitate the integration of large systems where a single change in an exception specification could have ramifications throughout the system. However it is often useful to apply such checks, which can be enabled using the directive:</para>
@@ -2099,7 +2099,7 @@ void e () throw ( int )
 
 </sect2>
 
-<sect2>
+<sect2 id='template-compilation'>
 <title>Template compilation</title>
 
 <para>The C++ producer makes the distinction between exported templates, which may be used in one module and defined in another, and non-exported templates, which must be defined in every module in which they are used. As in the ISO C++ standard, the <literal>export</literal> keyword is used to distinguish between the two cases. In the past, different compilers have had different template compilation models; either all templates were exported or no templates were exported. The latter is easily emulated - if the <literal>export</literal> keyword is not used then no templates will be exported. To emulate the former behaviour the directive:</para>
@@ -2120,7 +2120,7 @@ void e () throw ( int )
 
 </sect2>
 
-<sect2>
+<sect2 id='other-checks'>
 <title>Other checks</title>
 
 <para>Several checks of varying utility have been implemented in the C++ producer but do not as yet have individual directives controlling their use. These can be enabled <emphasis>en masse</emphasis> using the directive:</para>
@@ -2135,7 +2135,7 @@ void e () throw ( int )
 
 </sect1>
 
-<sect1>
+<sect1 id='token-syntax'>
 <title>Token syntax</title>
 
 <para>The C and C++ producers allow place-holders for various categories of syntactic classes to be expressed using directives of the form:</para>
@@ -2154,7 +2154,7 @@ void e () throw ( int )
 
 <para>A -XREF-#token summary of the grammar for the <literal>#pragma token</literal> directives accepted by the C++ producer is given as an annex.</para>
 
-<sect2>
+<sect2 id='token-specifcations'>
 <title>Token specifications</title>
 
 <para>A token specification is divided into two components, a <emphasis>token-introduction</emphasis> giving the token sort, and a <emphasis>token-identification</emphasis> giving the internal and external token names:</para>
@@ -2183,7 +2183,7 @@ void e () throw ( int )
 
 <para>The <literal>TAG</literal> qualifier is used to indicate that the internal name lies in the C tag namespace. This only makes sense for structure and union types. The external token name can be given by any sequence of preprocessing tokens. These tokens are not macro expanded. If no external name is given then the internal name is used. The special external name <literal>-</literal> is used to indicate that the token does not have an associated external name, and hence is local to the current translation unit. Such a local token must be defined. White space in the external name (other than at the start or end) is used to indicate that a TDF unique name should be used. The white space serves as a separator for the unique name components.</para>
 
-<sect3>
+<sect3 id='expression-tokens'>
 <title>Expression tokens</title>
 
 <para>Expression tokens are specified as follows:</para>
@@ -2215,7 +2215,7 @@ void e () throw ( int )
 
 </sect3>
 
-<sect3>
+<sect3 id='statement-tokens'>
 <title>Statement tokens</title>
 
 <para>Statement tokens are specified as follows:</para>
@@ -2229,7 +2229,7 @@ void e () throw ( int )
 
 </sect3>
 
-<sect3>
+<sect3 id='type-tokens'>
 <title>Type tokens</title>
 
 <para>Type tokens are specified as follows:</para>
@@ -2260,7 +2260,7 @@ void e () throw ( int )
 
 </sect3>
 
-<sect3>
+<sect3 id='member-tokens'>
 <title>Member tokens</title>
 
 <para>Member tokens are specified as follows:</para>
@@ -2290,7 +2290,7 @@ void e () throw ( int )
 
 </sect3>
 
-<sect3>
+<sect3 id='procedure-tokens'>
 <title>Procedure tokens</title>
 
 <para>Procedure, or high-level, tokens are specified in one of three ways:</para>
@@ -2385,7 +2385,7 @@ PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :
 
 </sect2>
 
-<sect2>
+<sect2 id='token-arguments'>
 <title>Token arguments</title>
 
 <para>As mentioned above, the program parameters for a <literal>PROC</literal> token are those specified in the program itself. These arguments are expressed as a comma-separated list enclosed in brackets, the form of each argument being determined by the corresponding program parameter.</para>
@@ -2409,7 +2409,7 @@ PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :
 
 </sect2>
 
-<sect2>
+<sect2 id='defining-tokens'>
 <title>Defining tokens</title>
 
 <para>Given a token specification of a syntactic object and a normal language definition of the same object (including macro definitions if the token lies in the macro namespace), the producers attempt to unify the two by defining the TDF token in terms of the given definition. Whether the token specification occurs before or after the language definition is immaterial. Unification also takes place in situations where, for example, two types are known to be compatible. Multiple consistent explicit token definitions are allowed by default when allowed by the language; this is controlled by the directive:</para>
@@ -2540,14 +2540,14 @@ reject -&gt; reject
 </sect1>
 
 
-<sect1>
+<sect1 id='symbol-table-dump'>
 <title>Symbol table dump</title>
 
 <para>The symbol table dump provides a method whereby third party tools can interface with the C and C++ producers. The producer outputs information on the identifiers declared within a source file, their uses etc. into a file which can then be post-processed by a separate tool. Any error messages and warnings can also be included in this file, allowing more sophisticated error presentation tools to be written.</para>
 
 <para>The file to be used as the symbol table output file, plus details of what information is to be included in the dump file can be specified using the -XREF-man.html#dump <literal>-d</literal> command-line option. The format of the dump file is described below; a -XREF-dump1.html summary of the syntax is given as an annex.</para>
 
-<sect2>
+<sect2 id='lexical-elements'>
 <title>Lexical elements</title>
 
 <para>A symbol table dump file consists of a sequence of characters giving information on identifiers, errors etc. arising from a translation unit. The fundamental lexical tokens are a <emphasis>number</emphasis>, consisting of a sequence of decimal digits, and a <emphasis>string</emphasis>, consisting of a sequence of characters enclosed in angle braces. A <emphasis>string</emphasis> can have one of two forms:</para>
@@ -2564,7 +2564,7 @@ reject -&gt; reject
 
 </sect2>
 
-<sect2>
+<sect2 id='overall-syntax'>
 <title>Overall syntax</title>
 
 <para>A symbol table dump file takes the form of a list of commands of various kinds conveying information on the analysed file. This can be represented as follows:</para>
@@ -2604,7 +2604,7 @@ reject -&gt; reject
 
 </sect2>
 
-<sect2>
+<sect2 id='file-locations'>
 <title>File locations</title>
 
 <para>A location within a source file can be specified using three <emphasis>number</emphasis>s and two <emphasis>string</emphasis>s. These give respectively, the column number, the line number taking <literal>#line</literal> directives into account, the line number not taking <literal>#line</literal> directives into account, the file name taking <literal>#line</literal> directives into account, and the file name not taking <literal>#line</literal> directives into account. Any or all of the trailing elements can be replaced by <literal>*</literal> to indicate that they have not changed relative to the last <emphasis>location</emphasis> given. Note that for the two line numbers, unchanged means that the difference of the line numbers, taking <literal>#line</literal> directives into account or not, is unchanged. Thus:</para>
@@ -2623,12 +2623,12 @@ reject -&gt; reject
 
 </sect2>
 
-<sect2>
+<sect2 id='identifers'>
 <title>Identifiers</title>
 
 <para>Each identifier is represented in the symbol table dump by a unique number. The same number always represents the same identifier.</para>
 
-<sect3>
+<sect3 id='indentifer-names'>
 <title>Identifier names</title>
 
 <para>The number representing an identifier is introduced in the first declaration or use of that identifier and thereafter the number alone is used to denote the identifier:</para>
@@ -2676,7 +2676,7 @@ reject -&gt; reject
 
 </sect3>
 
-<sect3>
+<sect3 id='identifer-uses'>
 <title>Identifier uses</title>
 
 <para>Each declaration or use of an identifier is represented by a command of the form:</para>
@@ -2905,7 +2905,7 @@ reject -&gt; reject
 
 </sect3>
 
-<sect3>
+<sect3 id='identifier-scopes'>
 <title>Identifier scopes</title>
 
 <para>Each identifier belongs to a scope, called its parent scope, in which it is declared. For example, the parent of a member of a class is the class itself. This information is expressed in an identifier declaration using a <emphasis>scope-identifier</emphasis>. In addition to the obvious scopes such as classes and namespaces, there are other scopes such as blocks in function definitions. It is possible to introduce dummy identifiers to name such scopes. The parent of such a dummy identifier will be the enclosing scope identifier, so these dummy identifiers naturally represent the block structure. The parent of the top-level block in a function definition can be considered to be the function itself.</para>
@@ -2945,7 +2945,7 @@ reject -&gt; reject
 
 </sect3>
 
-<sect3>
+<sect3 id='other-identifier-info'>
 <title>Other identifier information</title>
 
 <para>Other information associated with an identifier may be expressed using other dump commands. For example:</para>
@@ -3017,7 +3017,7 @@ reject -&gt; reject
 </sect3>
 </sect2>
 
-<sect2>
+<sect2 id='types'>
 <title>Types</title>
 
 <para>The -XREF-built-in built-in types are represented in the symbol table dump as follows:</para>
@@ -3299,7 +3299,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='sorts'>
 <title>Sorts</title>
 
 <para>A <emphasis>sort</emphasis> in the symbol table dump corresponds to the sort of a token declared in the -XREF-token.html#spec <literal>#pragma token</literal> syntax. Expression tokens are represented as follows:</para>
@@ -3383,7 +3383,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='token-applications'>
 <title>Token applications</title>
 
 <para>Given an identifier representing a <literal>PROC</literal> token or a template, an application of that token or an instance of that template can be represented using:</para>
@@ -3432,7 +3432,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='errors'>
 <title>Errors</title>
 
 <para>Each error in the C++ -XREF-error.html error catalogue is represented by a number. These numbers happen to correspond to the position of the error within the catalogue, but in general this need not be the case. The first use of each error introduces the error number by associating it with a <emphasis>string</emphasis> giving the error name. This has the form <literal>cpp.</literal><emphasis>error</emphasis> where <emphasis>error</emphasis> gives an error name from the C++ (<literal>cpp</literal>) error catalogue. Thus:</para>
@@ -3485,7 +3485,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='file-inclusions'>
 <title>File inclusions</title>
 
 <para>It is possible to include information on header files within the symbol table dump. Firstly a number is associated with each directory on the <literal>#include</literal> search path:</para>
@@ -3523,7 +3523,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='string-literals-b'>
 <title>String literals</title>
 
 <para>It is possible to dump information on string literals to the symbol table dump file using the commands:</para>
@@ -3542,7 +3542,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect1>
 
-<sect1>
+<sect1 id='intermodule-analysis'>
 <title>Intermodule analysis</title>
 
 <warning>
@@ -3559,7 +3559,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect1>
 
-<sect1>
+<sect1 id='implementation-details'>
 <title>Implementation Details</title>
 
 <para>This section describes various of the implementation details of the C++ producer TDF output. In particular it describes the standard TDF tokens used to represent the target dependent aspects of the language and to provide links into the run-time system. Many of these tokens are common to the C and C++ producers. Those which are unique to the C++ producer have names of the form <literal>~cpp.*</literal>. Note that the description is in terms of TDF tokens, not the internal tokens introduced by the -XREF-token.html<literal>#pragma token</literal> syntax.</para>
@@ -3567,7 +3567,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 <para>There are two levels of implementation in the run-time system. The actual interface between the producer and the run-time system is given by the standard tokens. The provided implementation defines these tokens in a way appropriate to itself. An alternative implementation would have to define the tokens differently. It is intended that the standard tokens are sufficiently generic to allow a variety of implementations to hook into the producer output in the manner they require.</para>
 
 
-<sect2>
+<sect2 id='arithmetic-types'>
 <title>Arithmetic types</title>
 
 <para>The representations of the basic arithmetic types are target dependent, so, for example, an <literal>int</literal> may contain 16, 32, 64 or some other number of bits. Thus it is necessary to introduce a token to stand for each of the built-in arithmetic types (including the -XREF-pragma.html#longlong<literal>long long</literal> types). Each integral type is represented by a <literal>VARIETY</literal> token as follows:</para>
@@ -3817,7 +3817,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='integer-literal-types'>
 <title>Integer literal types</title>
 
 <para>The -XREF-pragma.html#inttype of an integer literal is defined in terms of the first in a list of possible integral types. The first type in which the literal value can be represented gives the type of the literal. For small literals it is possible to work out the type exactly, however for larger literals the result is target dependent. For example, the literal <literal>50000</literal> will have type <literal>int</literal> on machines in which <literal>50000</literal> fits into an <literal>int</literal>, and <literal>long</literal> otherwise. This target dependent mapping is given by a series of tokens of the form:</para>
@@ -3909,7 +3909,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='bitfield-types-a'>
 <title>Bitfield types</title>
 
 <para>The sign of a plain bitfield type, declared without using <literal>signed</literal> or <literal>unsigned</literal>, is left unspecified in C and C++. The token:</para>
@@ -3926,7 +3926,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='generic-pointers'>
 <title>Generic pointers</title>
 
 <para>TDF has no concept of a generic pointer type, so tokens are used to defer the representation of <literal>void *</literal> and the basic operations on it to the target machine. The fundamental token is:</para>
@@ -3961,7 +3961,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='undefined-conversions'>
 <title>Undefined conversions</title>
 
 <para>Several conversions in C and C++ can only be represented by undefined TDF. For example, converting a pointer to an integer can only be represented in TDF by forming a union of the pointer and integer shapes, putting the pointer into the union and pulling the integer out. Such conversions are tokenised. Undefined conversions not mentioned below may be performed by combining those given with the standard, well-defined, conversions.</para>
@@ -4000,7 +4000,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='integer-division'>
 <title>Integer division</title>
 
 <para>The precise form of the integer division and remainder operations in C and C++ is left unspecified with respect to the sign of the result if either operand is negative. The tokens:</para>
@@ -4014,21 +4014,21 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='calling-conventions'>
 <title>Calling conventions</title>
 
 <para>The function calling conventions used by the C++ producer are essentially the same as those used by the C producer with one exception. That is to say, all types except arrays are passed by value (note that individual installers may modify these conventions to conform to their own ABIs).</para>
 
 <para>The exception concerns classes with a non-trivial constructor, destructor or assignment operator. These classes are passed as function arguments by taking a reference to a copy of the object (although it is often possible to eliminate the copy and pass a reference to the object directly). They are passed as function return values by adding an extra parameter to the start of the function parameters giving a reference to a location into which the return value should be copied.</para>
 
-<sect3>
+<sect3 id='member-functions'>
 <title>Member functions</title>
 
 <para>Non-static member functions are implemented in the obvious fashion, by passing a pointer to the object the method is being applied to as the first argument (or the second argument if the method has an extra argument for its return value).</para>
 
 </sect3>
 
-<sect3>
+<sect3 id='ellipsis-functions'>
 <title>Ellipsis functions</title>
 
 <para>Calls to functions declared with ellipses are via the <literal>apply_proc</literal> TDF construct, with all the arguments being treated as non-variable. However the definition of such a function uses the <literal>make_proc</literal> construct with a variable parameter. This parameter can be referred to within the program using the -XREF-pragma.html#ellipsis<literal>...</literal> expression. The type of this expression is given by the built-in token:</para>
@@ -4046,7 +4046,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 </sect3>
 </sect2>
 
-<sect2>
+<sect2 id='pointers-to-data-mem'>
 <title>Pointers to data members</title>
 
 <para>The representation of, and operations on, pointers to data members are represented by tokens to allow for a variety of implementations. It is assumed that all pointers to data members (as opposed to pointers to function members) are represented by the same shape:</para>
@@ -4102,7 +4102,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 </sect2>
 
-<sect2>
+<sect2 id='pointers-to-funct-mem'>
 <title>Pointers to function members</title>
 
 <para>As with pointers to data members, pointers to function members and the operations on them are represented by tokens to allow for a range of implementations. All pointers to function members are represented by the same shape:</para>
@@ -4195,7 +4195,7 @@ struct PTR_MEM_FUNC {
 
 </sect2>
 
-<sect2>
+<sect2 id='class-layout'>
 <title>Class layout</title>
 
 <para>Consider a class with no base classes:</para>
@@ -4263,7 +4263,7 @@ class A {
 
 </sect2>
 
-<sect2>
+<sect2 id='derived-class-layout'>
 <title>Derived class layout</title>
 
 <para>The description of the implementation of derived classes will be given in terms of the example class hierarchy given by:</para>
@@ -4287,7 +4287,7 @@ class D : public B, public C {
 
 <para>or, as a directed acyclic graph:</para>
 
-      <figure id="class-layout">
+      <figure id="class-layouta">
         <title>Class Layout</title>
         <mediaobject>
           <imageobject>
@@ -4296,7 +4296,7 @@ class D : public B, public C {
         </mediaobject>
       </figure>
 
-<sect3>
+<sect3 id='single-inheritance'>
 <title>Single inheritance</title>
 
 <para>The layout of class <emphasis>A</emphasis> is given by:</para>
@@ -4342,7 +4342,7 @@ class D : public B, public C {
 
 </sect3>
 
-<sect3>
+<sect3 id='multiple-inheritance'>
 <title>Multiple inheritance</title>
 
 <para>Class <emphasis>D</emphasis> is more complex because of the presence of multiple inheritance. <emphasis>D</emphasis> inherits all the members of <emphasis>B</emphasis>, including those which <emphasis>B</emphasis> inherits from <emphasis>A</emphasis>, plus all the members of <emphasis>C</emphasis>, including those which <emphasis>C</emphasis> inherits from <emphasis>A</emphasis>. It also inherits all of the virtual member functions from <emphasis>B</emphasis> and <emphasis>C</emphasis>, some of which may be overridden in <emphasis>D</emphasis>, extended by any additional virtual functions declared in <emphasis>D</emphasis>. This may be represented as follows:</para>
@@ -4363,7 +4363,7 @@ class D : public B, public C {
 
 </sect3>
 
-<sect3>
+<sect3 id='virtual-inheritance'>
 <title>Virtual inheritance</title>
 
 <para>Virtual inheritance introduces a further complication. Now consider the class hierarchy given by:</para>
@@ -4448,7 +4448,7 @@ class D : public B, public C {
 <para>Note that there is a single <emphasis>A</emphasis> sub-object of <emphasis>D</emphasis> referenced by the <emphasis>ptr A</emphasis> fields in both the <emphasis>B</emphasis> and <emphasis>C</emphasis> sub-objects. The elimination of <emphasis>vtbl D::B</emphasis> is as above.</para>
 </sect3>
 
-<sect2>
+<sect2 id='const-and-destructors'>
 <title>Constructors and destructors</title>
 
 <para>The implementation of constructors and destructors, whether explicitly or implicitly defined, is slightly more complex than that of other member functions. For example, the constructors need to set up the internal <emphasis>vptr</emphasis> and <emphasis>ptr</emphasis> fields mentioned above.</para>
@@ -4538,7 +4538,7 @@ delete this ;
 
 </sect2>
 
-<sect2>
+<sect2 id='virt-funct-tables'>
 <title>Virtual function tables</title>
 
 <para>The virtual functions in a polymorphic class are given in its virtual function table in the following order: firstly those virtual functions inherited from its direct base classes (which may be overridden in the derived class) followed by those first declared in the derived class in the order in which they are declared. Note that this can result in virtual functions inherited from virtual base classes appearing more than once. The virtual functions are numbered from 1 (this is slightly more convenient than numbering from 0 in the default implementation).</para>
@@ -4581,7 +4581,7 @@ delete this ;
 
 <para>Note that the discussion above applies to both simple virtual function tables, such as <emphasis>vtbl B</emphasis> above, and to those arising from base classes, such as <emphasis>vtbl B::A</emphasis>. -XREF-overrideWe are now in a position to precisely determine when <emphasis>vtbl B::A</emphasis> is an initial segment of <emphasis>vtbl B</emphasis> and hence can be eliminated. Firstly, <emphasis>A</emphasis> must be the first direct base class of <emphasis>B</emphasis> and cannot be virtual. This is to ensure both that there are no virtual functions in <emphasis>vtbl B</emphasis> before those inherited from <emphasis>A</emphasis>, and that the corresponding base class conversion is trivial so that the pointers to function members of <emphasis>B</emphasis> comprising the virtual function table can be equally regarded as pointers to function members of <emphasis>A</emphasis>. The second requirement is that if a virtual function for <emphasis>A</emphasis>, <emphasis>f</emphasis>, is overridden in <emphasis>B</emphasis> then the return type for <emphasis>B::f</emphasis> cannot differ from the return type for <emphasis>A::f</emphasis> by a non-trivial conversion (recall that ISO C++ allows the return types to differ by a base class conversion). In the non-trivial conversion case the function entered in <emphasis>vtbl B::A</emphasis> needs to be, not <emphasis>B::f</emphasis> as in <emphasis>vtbl B</emphasis>, but a stub function which calls <emphasis>B::f</emphasis> and converts its return value to the return type of <emphasis>A::f</emphasis>.</para>
 
-<sect3>
+<sect3 id='calling-virt-funct'>
 <title>>Calling virtual functions</title>
 
 <para>The virtual function call mechanism is implemented using the token:</para>
@@ -4602,7 +4602,7 @@ delete this ;
 </sect3>
 </sect2>
 
-<sect2>
+<sect2 id='run-time-type-info'>
 <title>Run-time type information</title>
 
 <para>Each C++ type can be associated with a run-time type information structure giving information about that type. These type information structures have shape given by the token:</para>
@@ -4822,7 +4822,7 @@ delete this ;
         </mediaobject>
       </figure>
 
-<sect3>
+<sect3 id='defining-info-struct'>
 <title>Defining run-time type information structures</title>
 
 <para>For built-in types, the run-time type information structure may be referenced by the token:</para>
@@ -4933,7 +4933,7 @@ delete this ;
 
 </sect3>
 
-<sect3>
+<sect3 id='accessing-run-info'>
 <title>Accessing run-time type information</title>
 
 <para>The primary means of accessing the run-time type information for an object is using the <literal>typeid</literal> construct. In cases where the operand type can be determined statically, the address of the corresponding type information structure is returned. In other cases the token:</para>
@@ -4955,7 +4955,7 @@ delete this ;
 </sect3>
 </sect2>
 
-<sect2>
+<sect2 id='dynamic-init'>
 <title>Dynamic initialisation</title>
 
 <para>The dynamic initialisation of variables with static storage duration in C++ is implemented by means of the TDF <literal>initial_value</literal> construct. However in order for the producer to maintain control over the order of initialisation, rather than each variable being initialised separately using <literal>initial_value</literal>, a single expression is created which initialises all the variables in a module, and this initialiser expression is used to initialise a single dummy variable using <literal>initial_value</literal>. Note that, while this enables the variables within a single module to be initialised in the order in which they are defined, the order of initialisation between different modules is unspecified.</para>
@@ -4990,7 +4990,7 @@ delete this ;
 
 </sect2>
 
-<sect2>
+<sect2 id='exception-handling'>
 <title>Exception handling</title>
 
 <para>Conceptually, exception handling can be described in terms of the following diagram:</para>
@@ -5010,7 +5010,7 @@ delete this ;
 
 <para>Note that this description is purely conceptual. There is no need for exception handling to be implemented by a stack in this way (although the default implementation uses a similar technique). It does however serve to illustrate the various stages which must exist in any implementation.</para>
 
-<sect3>
+<sect3 id='try-blocks'>
 <title>Try blocks</title>
 
 <para>At the start of a <literal>try</literal> block a variable of shape:</para>
@@ -5070,7 +5070,7 @@ delete this ;
 
 </sect3>
 
-<sect3>
+<sect3 id='throwing-an-exception'>
 <title>Throwing an exception</title>
 
 <para>When a <literal>throw</literal> expression with an argument is encountered a number of steps performed. Firstly, space is allocated to hold the exception value using the token:</para>
@@ -5097,7 +5097,7 @@ delete this ;
 
 </sect3>
 
-<sect3>
+<sect3 id='handling-an-exception'>
 <title>Handling an exception</title>
 
 <para>The exception manager proceeds to find an exception in the manner described above, unwinding the stack and calling destructors for local variables. When a <literal>try</literal> block is popped from the stack a TDF <literal>long_jump</literal> is applied to transfer control to its list of handlers. For each handler in turn it is checked whether the handler can catch the current exception. For <literal>...</literal> handlers this is always true; for other handlers it is checked using the token:</para>
@@ -5180,7 +5180,7 @@ variable (
 
 </sect3>
 
-<sect3>
+<sect3 id='exception-spec'>
 <title>Exception specifications</title>
 
 <para>If a function is declared with an exception specification then extra code needs to be generated in the function definition to catch any unexpected exceptions thrown by the function and to call <literal>std::unexpected</literal> . Since this is a potentially high overhead for small functions, this extra code is not generated if it can be proved that such unexpected exceptions can never be thrown (the analysis is essentially the same as that in the -XREF-pragma.html#exceptionexception analysis check).</para>
@@ -5197,7 +5197,7 @@ variable (
 </sect2>
 
 
-<sect2>
+<sect2 id='mangled-indentifer-names'>
 <title>Mangled identifier names</title>
 
 <para>In a similar fashion to other C++ compilers, the C++ producer needs a method of mapping C++ identifiers to a form suitable for further processing, namely TDF tag names. This mangled name contains an encoding of the identifier name, its parent namespace or class and its type. Identifiers with C linkage are not mangled. The producer contains a built-in -XREF-man.html#unmanglename unmangler which performs the reverse operation of transforming the mangled form of an identifier name back to the underlying identifier. This can be useful when analysing system linker errors.</para>
@@ -5216,7 +5216,7 @@ extern &quot;C&quot; int errno ;
 
 <para>As described above, the mangled form of an identifier has three components; the identifier name, the identifier namespace and the identifier type. Two underscores (<literal>__</literal>) are used to separate the name component from the namespace and type components. The mangling scheme used is based on that described in the ARM. The description below is not complete; the mangling and unmangling routines themselves should be consulted for a complete description.</para>
 
-<sect3>
+<sect3 id='mangling-identifer-names'>
 <title>Mangling identifier names</title>
 
 <para>Simple identifier names are mapped to themselves. Unicode characters of the forms <literal>\u</literal><emphasis>xxxx</emphasis> and <literal>\U</literal><emphasis>xxxxxxxx</emphasis> are mapped to <literal>__k</literal><emphasis>xxxx</emphasis> and <literal>__K</literal><emphasis>xxxxxxxx</emphasis> respectively, where the hex digits are output in their canonical lower-case form. Constructors are mapped to <literal>__ct</literal> and destructors to <literal>__dt</literal>. Conversions functions are mapped to <literal>__op</literal><emphasis>type</emphasis> where <emphasis>type</emphasis> is the mangled form of the conversion type. Overloaded operator functions, <literal>operator@</literal>, are mapped as follows:</para>
@@ -5406,14 +5406,14 @@ extern &quot;C&quot; int errno ;
 
 </sect3>
 
-<sect3>
+<sect3 id='mangling-namespace-names'>
 <title>Mangling namespace names</title>
 
 <para>The global namespace is mapped to an empty string. Simple namespace and class names are mapped as above, but are preceded by a series of decimal digits giving the length of the mangled name. Nested namespaces and classes are represented by a sequence of such namespace names, preceded by the number of elements in the sequence. This takes the form <literal>Q</literal><emphasis>digit</emphasis> if there are less than 10 elements, or <literal>Q_</literal><emphasis>digits</emphasis><literal>_</literal> if there are more than 10. Note that members of anonymous classes or namespaces are local to their translation unit, and so do not have external tag names.</para>
 
 </sect3>
 
-<sect3>
+<sect3 id='mangling-types'>
 <title>Mangling types</title>
 
 <para>The mangling of types is essentially similar to that used in the -XREF-dump.htmlsymbol table dump format. The type used in the mangled name for an identifier ignores the return type for a function and ignores the most significant bound for an array.</para>
@@ -5426,14 +5426,14 @@ extern &quot;C&quot; int errno ;
 
 </sect3>
 
-<sect3>
+<sect3 id='other-mangled-names'>
 <title>Other mangled names</title>
 
 <para>The -XREF-#vtablevirtual function table for a class, when this is a variable with external linkage, is named <literal>__vt__</literal><emphasis>type</emphasis> , where <emphasis>type</emphasis> is the mangled form of the class name. The virtual function table for a base class is named <literal>__vt__</literal><emphasis>base</emphasis> where <emphasis>base</emphasis> is a sequence of mangled class names specifying the base class. The -XREF-#rttirun-time type information structure for a type, when this is a variable with external linkage, is named <literal>__ti__</literal><emphasis>type</emphasis>, where <emphasis>type</emphasis> is the mangled form of the type name.</para>
 
 </sect3>
 
-<sect3>
+<sect3 id='mangled-name-examples'>
 <title>Mangled name examples</title>
 
 <para>The following gives some examples of the name mangling scheme:</para>
@@ -5466,14 +5466,14 @@ namespace N {
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='standard-lib'>
 <title>Standard library</title>
 
 <para>At present the default implementation contains only a very small fraction of the ISO C++ library, namely those headers - <literal>&lt;exception&gt;</literal>, <literal>&lt;new&gt;</literal> and <literal>&lt;typeinfo&gt;</literal> - which are an integral part of the language specification. These headers are also those which require the most cooperation between the producer and the library implementation, as described in the -XREF-lib.htmlprevious section.</para>
 
 <para>It is suggested that if further library components are required then they be acquired from third parties. It should be noted however that such libraries may require -XREF-#portingsome effort to be ported to an ISO compliant compiler; for example, some information on porting the <literal>libio</literal> component of <literal>libg++</literal>, which contains some very compiler-dependent code, are -XREF-#libiogiven below. Libraries compiled with other C++ compilers may not link correctly with modules compiled using <literal>tcc</literal>.</para>
 
-<sect2>
+<sect2 id='common-porting-prob'>
 <title>Common porting problems</title>
 
 <para>Experience in porting pre-ISO C++ programs has shown that the following new ISO C++ features tend to cause the most problems:</para>
@@ -5511,7 +5511,7 @@ namespace N {
 
 </sect2>
 
-<sect2>
+<sect2 id='porting-libio'>
 <title>Porting <literal>libio</literal></title>
 
 <para>Perhaps the library component which is most likely to be required is <literal>&lt;iostream&gt;</literal>. A readily available freeware implementation of a pre-ISO (i.e. non-template) <literal>&lt;iostream&gt;</literal> package is given by the <literal>libio</literal> component of <literal>libg++</literal>. This section describes some of the problems encountered in porting this package (version 2.7.1).</para>
@@ -5582,7 +5582,7 @@ struct _fake_ostream::myfields {
 </sect1>
 </chapter>
 
-<chapter>
+<chapter id='program-overview'>
 <title>Program Overview</title>
 
 <para>The C++ producer is a large program (over 200000 lines, including automatically generated code) written in C. A description of the -XREF-style.html#language coding conventions used, the -XREF-style.html#api API observed and the basic organisation of the -XREF-style.html#src source code are described in the first section.</para>
@@ -5596,12 +5596,12 @@ struct _fake_ostream::myfields {
 <para>The program itself is well commented, so no lower level program documentation has been provided. When performing development work the producer should be compiled with the <literal>DEBUG</literal> macro defined. This enables the <literal>calculus</literal> run-time checks, along with other assertions, and makes available the debugging routines, <literal>DEBUG_</literal><emphasis>type</emphasis>, which can be used to print an object from the internal type system.</para>
 
 
-<sect1>
+<sect1 id='source-code-org-style'>
 <title>Source Code Organisation / Style Guide</title>
 
 <para>This section describes the basic organisation of the source code for the C++ producer. This includes the coding conventions applied, the application programming interface (API) observed and the division of the code into separate modules.</para>
 
-<sect2>
+<sect2 id='coding-standard'>
 <title>C coding standard</title>
 
 <para>The C++ producer is written in a subset of C which is compatible with C++ (it compiles with most C compilers, but also bootstraps itself). It has been written to conform to the local (OSSG) -XREF-index.html#cstyleC coding standard; most of the conformance checking being automated by use of a -XREF-pragma.html#usruser-defined compilation profile, <literal>ossg_std.h</literal>. The standard macros described in the coding standard are defined in the standard header <literal>ossg.h</literal>. This is included from the header <literal>config.h</literal> which is included by all source files. The default definitions for these macros, set according to the value of <literal>__STDC__</literal> and other compiler-defined macros, should be correct, but they can be overridden by defining the <literal>FS_*</literal> macros, described in the header, as command-line options.</para>
@@ -5700,7 +5700,7 @@ ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='api-usage-target-dep'>
 <title>API usage and target dependencies</title>
 
 <para>Most of the API features used in the C++ producer are to be found in the ISO C API, with just a couple of extensions from POSIX required. These POSIX features can be disabled with minimal loss of functionality by defining the macro <literal>FS_POSIX</literal> to be false.</para>
@@ -5785,7 +5785,7 @@ stat::st_mtime
 
 </sect2>
 
-<sect2>
+<sect2 id='source-code-modules'>
 <title>Source code modules</title>
 
 <para>For convenience, the source code is divided between a number of directories:</para>
@@ -6297,13 +6297,13 @@ stat::st_mtime
 
 </sect1>
 
-<sect1>
+<sect1 id='type-system'>
 <title>Type System</title>
 
 <para>This section describes the type system used in the C++ producer. Unless otherwise stated the types are declared using the -XREF-../utilities/calc.html<literal>calculus</literal> tool as part of the algebra, <literal>c_class.alg</literal>. The design of this type algebra was clearly largely based on the concepts underlying the C++ language; however TDF provided an important influence, not merely as the intended target language, but also because of its clear presentation of essential language features.</para>
 
 
-<sect2>
+<sect2 id='primitive-types'>
 <title>Primitive types</title>
 
 <para>The primitive types used within the algebra <literal>c_class</literal> are defined as follows:</para>
@@ -6327,56 +6327,56 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='cv-spec'>
 <title><literal>CV_SPEC</literal></title>
 
 <para>The enumeration type <literal>CV_SPEC</literal> (short name <literal>cv</literal>) is used to represent a C++ type qualifier. It takes the form of a bitfield, the elements of which can be or-ed together to represent combinations of type qualifiers. The cv-qualifiers are represented by <literal>cv_const</literal> and <literal>cv_volatile</literal> in the obvious manner. The value <literal>cv_lvalue</literal> is used as a qualifier to indicate whether a type is an lvalue or an rvalue. Other values are used in function types to represent the function language linkage.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='builtin-type'>
 <title><literal>BUILTIN_TYPE</literal></title>
 
 <para>The enumeration type <literal>BUILTIN_TYPE</literal> (<literal>ntype</literal>) is used to represent the built-in C++ types (<literal>char</literal>, <literal>float</literal>, <literal>void</literal> etc.). It is used chiefly as an index into tables of type information.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='base-type'>
 <title><literal>BASE_TYPE</literal></title>
 
 <para>The enumeration type <literal>BASE_TYPE</literal> (<literal>btype</literal>) is used to represent a C++ simple type specifier such as <literal>signed</literal>, <literal>short</literal> or <literal>int</literal>. It takes the form of a bitfield, the elements of which can be or-ed together to represent combinations of type specifiers. Its chief use is when reading a type from the input file; the various simple type specifiers are combined to give a value of this type, which is then mapped to an actual -XREF-#typeC++ type.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='int-type'>
 <title><literal>INT_TYPE</literal></title>
 
 <para>The union type <literal>INT_TYPE</literal> (<literal>itype</literal>) is used to represent an integral or bitfield C++ type. The basic integral types are given by the <literal>basic</literal> field. Bitfield types are represented by the <literal>bitfield</literal> field. There are also fields representing target dependent integral promotion, arithmetic and integer literal types, plus <literal>VARIETY</literal> tokens. Only one <literal>INT_TYPE</literal> object is created for each integral type.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='float-type'>
 <title><literal>FLOAT_TYPE</literal></title>
 
 <para>The union type <literal>FLOAT_TYPE</literal> (<literal>ftype</literal>) is used to represent a floating point C++ type. The basic floating point types are given by the <literal>basic</literal> field. There are also fields representing target dependent argument promotion and arithmetic types, plus <literal>FLOAT</literal> tokens. Only one <literal>FLOAT_TYPE</literal> object is created for each floating point type.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='class-info'>
 <title><literal>CLASS_INFO</literal></title>
 
 <para>The enumeration type <literal>CLASS_INFO</literal> (<literal>cinfo</literal>) is used to represent information relating to a class or enumeration definition. It takes the form of a bitfield, the elements of which can be or-ed together to represent various combinations of properties.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='class-usage'>
 <title><literal>CLASS_USAGE</literal></title>
 
 <para>The enumeration type <literal>CLASS_USAGE</literal> (<literal>cusage</literal>) is used to represent information relating to the way a class is used. It takes the form of a bitfield, the elements of which can be or-ed together to represent various combinations of properties.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='class-type'>
 <title><literal>CLASS_TYPE</literal></title>
 
 <para>The union type <literal>CLASS_TYPE</literal> (<literal>ctype</literal>) is used to represent a C++ class or union. The main components are an -XREF-#ididentifier giving the class name, -XREF-#cinfoclass information and -XREF-#cusageclass usage fields, a -XREF-#nspacenamespace giving the class members, a -XREF-#graphgraph representing the base class structure, and a -XREF-#virtvirtual function table. Only one <literal>CLASS_TYPE</literal> object is created for each class or union.</para>
@@ -6387,7 +6387,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='graph'>
 <title><literal>GRAPH</literal></title>
 
 <para>The union type <literal>GRAPH</literal> (<literal>graph</literal>) is used to represent a directed acyclic graph arising from the base classes of a class. Each node of the graph has a <literal>head</literal> which is a -XREF-#ctypeclass type, and several <literal>tails</literal> which give the base class graphs for that class. Each node has pointers, <literal>top</literal>, to the top of the graph (i.e. the most derived class), and <literal>up</literal>, to the node of which the current node is a direct base. Each node also has an <literal>access</literal> field which gives information on the base access, whether it is virtual or not, and so on, in the form of a -XREF-#dspec<literal>DECL_SPEC</literal>. Virtual bases are handled by the <literal>equal</literal> field which defines an equivalence relation on the graph which identifies equivalent virtual bases.</para>
@@ -6395,21 +6395,21 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='virtual'>
 <title><literal>VIRTUAL</literal></title>
 
 <para>The union type <literal>VIRTUAL</literal> (<literal>virt</literal>) is used to represent the virtual functions declared in a class. The <literal>table</literal> field is used to represent a virtual function table, and consists primarily of a list of <literal>VIRTUAL</literal> objects giving the virtual functions for the associated class. These virtual functions are of four kinds, each represented by a union field. A virtual function first declared in a class is represented by the <literal>simple</literal> field; a virtual function in a class which overrides an inherited virtual function is represented by the <literal>override</literal> field; an inherited, non-overridden virtual function which is not overridden in a base class is represented by the <literal>inherit</literal> field; a inherited, non-overridden virtual function which is overridden in some base class is represented by the <literal>complex</literal> field.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='enum-type'>
 <title><literal>ENUM_TYPE</literal></title>
 
 <para>The union type <literal>ENUM_TYPE</literal> (<literal>etype</literal>) is used to represent a C++ enumeration type. This consists primarily of an -XREF-#ididentifier giving the enumeration name, a -XREF-#cinfoclass information field, a -XREF-#typetype giving the underlying representation of the enumeration type, and a list of -XREF-#ididentifiers giving the enumerators comprising the enumeration.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='type'>
 <title><literal>TYPE</literal></title>
 
 <para>The union type <literal>TYPE</literal> (<literal>type</literal>) is used to represent a C++ type. Every type has an associated -XREF-#cvtype qualifier, <literal>qual</literal>, which determines whether the type is <literal>const</literal>, <literal>volatile</literal> or an lvalue. A type may also have an associated -XREF-#ididentifier, <literal>name</literal>, giving the corresponding type name (the null identifier being used for unnamed types). The other type components are determined by the union tag. Each of the type constructs above has a corresponding field in the <literal>TYPE</literal> union: <literal>integer</literal> for -XREF-#itypeintegral types, <literal>floating</literal> for -XREF-#ftypefloating point types, <literal>bitfield</literal> for -XREF-#itypebitfield types, <literal>compound</literal> for -XREF-#ctypeclass or union types, and <literal>enumerate</literal> for -XREF-#etypeenumeration types. There are also fields <literal>top</literal> and <literal>bottom</literal> corresponding to <literal>void</literal> and bottom (the type used to represent values which never return).</para>
@@ -6418,14 +6418,14 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='decl-spec'>
 <title><literal>DECL_SPEC</literal></title>
 
 <para>The enumeration type <literal>DECL_SPEC</literal> (<literal>dspec</literal>) is used to represent information on the declaration and usage of an identifier. It takes the form of a bitfield, the elements of which can be or-ed together to represent various combinations of properties. The 32 bits in this bitfield (the maximum which can be represented portably) are a significant restriction. This means that the same member of <literal>DECL_SPEC</literal> is often used to mean different things in different contexts. This can prove confusing on occasions.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='hashid'>
 <title><literal>HASHID</literal></title>
 
 <para>The union type <literal>HASHID</literal> (<literal>hashid</literal>) is used to represent a C++ identifier name. The simplest form of identifier name, <literal>name</literal>, consists of just a string of characters, such as <literal>foo</literal>. Extended identifier names, <literal>ename</literal>, are similar, but may contain Unicode characters. There are however other forms of identifier name in C++: conversion function names (<literal>conv</literal> ) such as <literal>operator int</literal>, overloaded operator names (<literal>op</literal>) such as <literal>operator+</literal>, constructor names (<literal>constr</literal>), and destructor names (<literal>destr</literal>). There are also names which are used for anonymous identifiers (<literal>anon</literal>).</para>
@@ -6437,14 +6437,14 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='qualifier'>
 <title><literal>QUALIFIER</literal></title>
 
 <para>The enumeration type <literal>QUALIFIER</literal> (<literal>qual</literal>) is used to represent the various ways in which an identifier name can be qualified. For example, <literal>::A::a</literal> is represented by <literal>qual_full</literal>. The value <literal>qual_mark</literal> is used in the representation of function identifier expressions to indicate that overload resolution has been performed.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='identifer'>
 <title><literal>IDENTIFIER</literal></title>
 
 <para>The union type <literal>IDENTIFIER</literal> (<literal>id</literal>) is used to represent the various kinds of C++ identifiers. Every identifier has an associated -XREF-#hashididentifier name, a parent -XREF-#nspacenamespace, a -XREF-#dspecdeclaration information field, and a -XREF-#loclocation for its declaration or definition. Each identifier also has an <literal>alias</literal> field which is normally used to represent the aliasing which can occur in inheritance or <literal>using</literal> declarations.</para>
@@ -6455,7 +6455,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='member'>
 <title><literal>MEMBER</literal></title>
 
 <para>The union type <literal>MEMBER</literal> (<literal>member</literal>) is used to represent a member of a -XREF-#nspacenamespace. Each member contains two identifiers, <literal>id</literal> and <literal>alt</literal>. The <literal>id</literal> field gives the meaning associated with a particular name in this namespace; the <literal>alt</literal> field is used to represent a type name which may be hidden by a non-type name.</para>
@@ -6465,7 +6465,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='namespace'>
 <title><literal>NAMESPACE</literal></title>
 
 <para>The union type <literal>NAMESPACE</literal> (<literal>nspace</literal>) is used to represent the set of identifiers declared in a particular scope. For example, the members declared in a C++ class or namespace, the parameters declared in a function declarator and the local variables declared in a block all form scopes. The various kinds of scope are distinguished as different fields of the union, but there are basically two categories. The first, such as function blocks, which have relatively small numbers of elements, store their members as a simple linked lists. The second, such as classes, which have larger numbers of elements, store their members in hash tables. In both cases the elements are stored using the -XREF-#member<literal>MEMBER</literal> type.</para>
@@ -6474,7 +6474,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='nat'>
 <title><literal>NAT</literal></title>
 
 <para>The union type <literal>NAT</literal> (<literal>nat</literal>) is used to represent an integer constant expression. Values are represented as lists of 16 bit 'digits'. Values which fit into a single digit are represented by the <literal>small</literal> field; larger values by the <literal>large</literal> field. Negated values can be represented by the <literal>neg</literal> field. Folding of integer constant expressions is performed in the producer, however the result can only be represented as described above if its value is target independent. Target dependent values are represented by the <literal>calc</literal> field which contains an -XREF-#expexpression describing how to calculate the value. The <literal>token</literal> field is used to represent <literal>NAT</literal> tokens.</para>
@@ -6483,7 +6483,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='float'>
 <title><literal>FLOAT</literal></title>
 
 <para>The union type <literal>FLOAT</literal> (<literal>flt</literal>) is used to represent a floating point constant expression. There is only one field, <literal>simple</literal> , which corresponds to a floating point literal. No folding of floating point constant expressions is attempted in the producer (it is virtually impossible to do so in a target independent manner).</para>
@@ -6493,7 +6493,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='string'>
 <title><literal>STRING</literal></title>
 
 <para>The union type <literal>STRING</literal> (<literal>str</literal>) is used to represent a string constant expression. There is only one field, <literal>simple</literal>, which corresponds to a character string literal, however the <literal>kind</literal> field can be used to modify the interpretation put on the characters appearing in the <literal>text</literal> field. By default, each character in <literal>text</literal> corresponds to a single character in the literal; however an alternative representation, in which <literal>text</literal> consists of a sequence of multibyte characters - one control character plus four value characters - is used in more complex cases.</para>
@@ -6504,7 +6504,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='ntext'>
 <title><literal>NTEST</literal></title>
 
 <para>The enumeration type <literal>NTEST</literal> (<literal>ntest</literal>) is used to represent the various C++ relational operators (<literal>==</literal>, <literal>!=</literal>, <literal>&gt;</literal> etc.). The values correspond to the encoding of the TDF <literal>NTEST</literal> sort, which facilitates code generation. The values also have the property that the values for complementary operators (such as <literal>&lt;</literal> and <literal>&gt;=</literal>) always add up to the same value, <literal>ntest_negate</literal>, allowing operators to be complemented in a straightforward manner.</para>
@@ -6512,7 +6512,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='rmode'>
 <title><literal>RMODE</literal></title>
 
 <para>The enumeration type <literal>RMODE</literal> (<literal>rmode</literal>) is used to represent the various C++ rounding modes (towards zero, towards smaller etc.). The values correspond to the encoding of the TDF <literal>RMODE</literal> sort, which facilitates code generation.</para>
@@ -6520,7 +6520,7 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='exp'>
 <title><literal>EXP</literal></title>
 
 <para>The union type <literal>EXP</literal> (<literal>exp</literal>) is used to represent a C++ expression or statement. Each expression has an associated -XREF-#typetype, <literal>type</literal>, but most of the information about an expression is stored in one of the large number of fields of the <literal>EXP</literal> union. Most of these fields are fairly simple. For example, there are fields corresponding to -XREF-#natinteger literals, -XREF-#fltfloating point literals, -XREF-#strstring literals and -XREF-#ididentifiers. Composite expressions are formed in the normal way; for example, there are various binary operators comprising two argument expressions. The <literal>EXP</literal> fields corresponding to statements are slightly more complex. They each have a <literal>parent</literal> field which points to the enclosing statement. A couple of cases bear additional discussion.</para>
@@ -6531,14 +6531,14 @@ typedef unsigned char character ;
 
 </sect2>
 
-<sect2>
+<sect2 id='offset'>
 <title><literal>OFFSET</literal></title>
 
 <para>The union type <literal>OFFSET</literal> (<literal>off</literal>) is used to represent an offset expression. This is used as an adjunct to the normal -XREF-#expexpression representation. The <literal>OFFSET</literal> union has fields corresponding to a type offset (used in pointer arithmetic), the offset of a member of a class and the offset of a base class. There are also simple operations on offsets, such as multiplication by an expression.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='token'>
 <title><literal>TOKEN</literal></title>
 
 <para>The union type <literal>TOKEN</literal> (<literal>tok</literal>) is used to represent one of a number of different categories within the C++ language. It corresponds to the sort of a token declared using the -XREF-token.html<literal>#pragma token</literal> syntax. Thus there are fields corresponding to expression, statement, integer constant, type, function, member and procedure tokens. The similarities between <literal>PROC</literal> tokens and templates have been remarked above; for example, the parameters of the template:</para>
@@ -6575,14 +6575,14 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='instance'>
 <title><literal>INSTANCE</literal></title>
 
 <para>The union type <literal>INSTANCE</literal> (<literal>inst</literal>) is used to represent a particular instance of a template or token. Each -XREF-#toktemplate sort has an associated list of all the instances of that template, which is used to ensure that the same template applied with the same arguments always has the same value. Information on partial or explicit specialisations and usage information are stored as part of the corresponding <literal>INSTANCE</literal>. Each template instance identifier has a link back to its corresponding <literal>INSTANCE</literal> via its -XREF-#form<literal>form</literal> component.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='error'>
 <title><literal>ERROR</literal></title>
 
 <para>The union type <literal>ERROR</literal> (<literal>err</literal>) is used to represent an error arising during the compilation of a C++ program. Errors are first class objects within the producer and can be passed to and from procedures. Each error has an associated <literal>severity</literal> (serious, warning, none etc.). Simple errors are represented by the <literal>simple</literal> field, which consists of an index, <literal>number</literal>, into the error catalogue, plus a variable length list of error arguments. Errors can be combined into composite errors using the <literal>compound</literal> field, which represents the join of two errors - <literal>head</literal> followed by <literal>tail</literal>.</para>
@@ -6592,7 +6592,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='variable'>
 <title><literal>VARIABLE</literal></title>
 
 <para>The structure type <literal>VARIABLE</literal> (<literal>var</literal>) is used to represent a variable state and is used in the variable analysis checks.</para>
@@ -6600,7 +6600,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='location'>
 <title><literal>LOCATION</literal></title>
 
 <para>The structure type <literal>LOCATION</literal> (<literal>loc</literal>) is used to represent a location in an input file. It comprises a pointer to an -XREF-#posninput file position, <literal>posn</literal>, modified by a line number, taking <literal>#line</literal> directives into account, <literal>line</literal>. Note that character positions within the line are not currently recorded.</para>
@@ -6608,7 +6608,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='position'>
 <title><literal>POSITION</literal></title>
 
 <para>The structure type <literal>POSITION</literal> (<literal>posn</literal>) is used to represent a position in an input file. It consists of two file names, <literal>file</literal> taking <literal>#line</literal> directives into account, and <literal>input</literal> giving the actual file name, plus a line number offset, <literal>offset</literal>, which gives the difference between the line number taking <literal>#line</literal> directives into account and the actual line number. Other information stored includes the datestamp on the input file, <literal>datestamp</literal>, and a pointer to a -XREF-#locfile location which, for files included using <literal>#include</literal>, gives the location the file was included from.</para>
@@ -6616,7 +6616,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='bitstream'>
 <title><literal>BITSTREAM</literal></title>
 
 <para>The structure <literal>BITSTREAM</literal> is not part of the <literal>calculus</literal> type system. It is used to represent a sequence of bits such as is used, for example, in the encoding of TDF.</para>
@@ -6624,7 +6624,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='buffer'>
 <title><literal>BUFFER</literal></title>
 
 <para>The structure <literal>BUFFER</literal> is not part of the <literal>calculus</literal> type system. It is used to represent a sequence of characters.</para>
@@ -6632,7 +6632,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='options'>
 <title><literal>OPTIONS</literal></title>
 
 <para>The structure <literal>OPTIONS</literal> is not part of the <literal>calculus</literal> type system. It is used to represent the state of the -XREF-pragma.html#lowcompiler options at a particular point in the input file.</para>
@@ -6640,7 +6640,7 @@ token -&gt; {
 
 </sect2>
 
-<sect2>
+<sect2 id='pptoken'>
 <title><literal>PPTOKEN</literal></title>
 
 <para>The structure <literal>PPTOKEN</literal> is not part of the <literal>calculus</literal> type system. It is used to represent a linked list of preprocessing tokens. Each token has an associated <literal>sid</literal> lexical token number, <literal>tok</literal>, plus additional data dependent on the token type. Each token also records a pointer to the current -XREF-#opt<literal>OPTIONS</literal> value.</para>
@@ -6649,7 +6649,7 @@ token -&gt; {
 </sect1>
 
 
-<sect1>
+<sect1 id='error-catalogue'>
 <title>Error catalogue</title>
 
 <para>This section describes the error catalogue which lies at the heart of the C++ producer's error reporting routines. The full -XREF-error1.htmlerror catalogue syntax is given as an annex. A typical entry in the catalogue is as follows:</para>
@@ -6734,7 +6734,7 @@ ERROR ERR_class_union_deriv ( CLASS_TYPE ) ;
 
 </sect1>
 
-<sect1>
+<sect1 id='parsing-cpp'>
 <title>Parsing C++</title>
 
 <para>The parser used in the C++ producer is generated using the -XREF-../utilities/sid.html<literal>sid</literal> tool. Because of the large size of the generated code (1.3MB), the <literal>sid</literal> output is run through a simple program, <literal>sidsplit</literal>, which splits the output into a number of more manageable modules. It also transforms the code to use the -XREF-style.html#language<literal>PROTO</literal> macros used in the rest of the program.</para>
@@ -6763,7 +6763,7 @@ int A::B::c = 0 ;
 
 </sect1>
 
-<sect1>
+<sect1 id='tdf-generation'>
 <title>TDF generation</title>
 
 <para>The TDF encoding as a bitstream is expressed as a series of macros generated by the <literal>make_tdf</literal> tool from the TDF specification database. Note that the version of the TDF database used contains a couple of corrections from the standard version:</para>

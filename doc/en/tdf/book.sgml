@@ -50,7 +50,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
     
     <para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not
@@ -125,7 +125,7 @@
       TDF. It is intended for readers who are aware of the general background
       to TDF but require more detailed information.</para>
     
-    <simplesect>
+    <simplesect id='intro-major'>
       <title>Major changes from Issue 3.1</title>
       
       <para>A new <literal>SORT</literal> for <literal>STRING</literal> is
@@ -171,7 +171,7 @@
         <emphasis>token_definition</emphasis>.</para>
     </simplesect>
 
-    <simplesect>
+    <simplesect id='intro-notes-revision'>
       <title>Notes on Revision 1</title>
       
       <para>This Revision 1 of Issue 4.0 incorporates a number of corrections
@@ -232,7 +232,7 @@
     </simplesect>
   </preface>
   
-  <chapter>
+  <chapter id='struct-tdf'>
     <title>Structure of TDF</title>
     
     <para>Each piece of TDF program is classified as being of a particular
@@ -253,7 +253,7 @@
       parsed tree it is structured according to this syntax. When it is
       constructed and read it is in terms of this syntax.</para>
     
-    <sect1>
+    <sect1 id='overall-struct'>
       <title>The Overall Structure</title>
       
       <para>A separable piece of TDF is called a <literal>CAPSULE</literal>. A
@@ -399,7 +399,7 @@
       
     </sect1>
     
-    <sect1>
+    <sect1 id='tokens'>
     <title>Tokens</title>
     
     <para>Tokens are used (applied) in the TDF at the point where substitutions are to be made. Token definitions provide the substitutions and usually reside on the target machine and are linked in there.</para>
@@ -440,14 +440,14 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='tags'>
     <title>Tags</title>
     
     <para>Tags are used to identify the actual program components. They can be declared or defined. A declaration gives the <literal>SHAPE</literal> of a tag (a <literal>SHAPE</literal> is the TDF analogue of a type). A definition gives an <literal>EXP</literal> for the tag (an <literal>EXP</literal> describes how the value is to be made up).</para>
     
     </sect1>
     
-    <sect1>
+    <sect1 id='extending-format'>
     <title>Extending the format</title>
     
     <para>TDF can be extended for two major reasons.</para>
@@ -474,7 +474,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id='desc-struct'>
     <title>Describing the Structure</title>
     
     <para>The following examples show how TDF constructs are described in this document. The first is the construct -XREF-spec8.html#M282<emphasis>floating</emphasis>:</para>
@@ -573,12 +573,12 @@
     <para>There may be a requirement that a component of a construct should start on a byte boundary in the encoding. This is denoted by inserting -XREF-M13<literal>BYTE_ALIGN</literal> before the component <literal>SORT</literal>.</para>
   </chapter>
   
-  <chapter>
+  <chapter id='inst-behavior'>
     <title>Installer Behaviour</title>
     
     <para> </para>
     
-    <sect1>
+    <sect1 id='def-terms'>
     <title>Definition of terms</title>
     
     <para>In this document the behaviour of TDF installers is described in a precise manner. Certain words are used with very specific meanings. These are:</para>
@@ -603,7 +603,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='prop-inst'>
     <title>Properties of Installers</title>
     
     <para>All installers must implement all of the constructions of TDF. There are some constructions where the installers may impose limits on the ranges of values which are implemented. In these cases the description of the installer must specify these limits.</para>
@@ -618,11 +618,11 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id='spec-tdf-constructs'>
     <title>Specification of TDF Constructs</title>
     <para> </para>
     
-    <sect1>
+    <sect1 id='access-b'>
     <title>ACCESS</title>
     
     <simplelist type='horiz' columns='2'>
@@ -637,7 +637,7 @@
     <para>An <literal>ACCESS</literal> acts like a set of the values <emphasis>constant</emphasis>, <emphasis>long_jump_access</emphasis>, <emphasis>no_other_read</emphasis>, <emphasis>no_other_write</emphasis>, <emphasis>register</emphasis>, <emphasis>out_par</emphasis>, <emphasis>used_as_volatile</emphasis>, and <emphasis>visible</emphasis>. <emphasis>standard_access</emphasis> acts like the empty set. <emphasis>add_accesses</emphasis> is the set union operation.</para>
     
     
-    <sect2>
+    <sect2 id='access-apply-token'>
     <title>access_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -656,7 +656,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='access-cond'>
     <title>access_cond</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -673,7 +673,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='add-accesses'>
     <title>add_accesses</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -688,7 +688,7 @@
     <para>A construction qualified with <emphasis>add_accesses</emphasis> has both <literal>ACCESS</literal> properties <emphasis>a1</emphasis> and <emphasis>a2</emphasis>. This operation is associative and commutative. </para>
     
     </sect2>
-    <sect2>
+    <sect2 id='constant'>
     <title>constant</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>4</member>
@@ -703,7 +703,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='long-jump-access'>
     <title>long_jump_access</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>5</member>
@@ -716,7 +716,7 @@
     <para>An object must also have this property if it is to have a defined value when a <emphasis>long_jump</emphasis> returns to the procedure declaring the object.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='no-other-read'>
     
     <title>no_other_read</title>
     <simplelist type='horiz' columns='2'>
@@ -735,7 +735,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='no-other-write'>
     <title>no_other_write</title>
     <simplelist type='horiz' columns='2'>
     
@@ -753,7 +753,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='out-par'>
     <title>out_par</title>
     <simplelist type='horiz' columns='2'>
     
@@ -769,7 +769,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='preserve'>
     <title>preserve</title>
     <simplelist type='horiz' columns='2'>
     
@@ -785,7 +785,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='register'>
     <title>register</title>
     <simplelist type='horiz' columns='2'>
     
@@ -801,7 +801,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='standard-access'>
     <title>standard_access</title>
     <simplelist type='horiz' columns='2'>
     
@@ -817,7 +817,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='used-as-volatile'>
     <title>used_as_volatile</title>
     <simplelist type='horiz' columns='2'>
     
@@ -833,7 +833,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='visible'>
     <title>visible</title>
     <simplelist type='horiz' columns='2'>
     
@@ -852,7 +852,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='al-tag'>
     <title>AL_TAG</title>
     
     <simplelist type='horiz' columns='2'>
@@ -866,7 +866,7 @@
     
     <para><emphasis>For example, the following equation has a circular form</emphasis> <emphasis>x = alignment(pointer(alignment(x))) and it or a similar equation might occur in TDF. But since</emphasis> <emphasis>alignment</emphasis>(<emphasis>pointer</emphasis>(<emphasis>x</emphasis>)) is {<emphasis>pointer</emphasis>}, this reduces to <emphasis>x</emphasis> = {<emphasis>pointer</emphasis>}.</para>
     
-    <sect2>
+    <sect2 id='al-tag-apply-token'>
     <title>al_tag_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -883,7 +883,7 @@
     <para>If there is a definition for <emphasis>token_value</emphasis> in the <literal>CAPSULE</literal> then <emphasis>token_args</emphasis> is a <literal>BITSTREAM</literal> encoding of the <literal>SORT</literal>s of its parameters, in the order specified.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='make-al-tag'>
     <title>make_al_tag</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -899,7 +899,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='al-tagdef'>
     <title>AL_TAGDEF</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>1</member>
@@ -909,7 +909,7 @@
     <para>An <literal>AL_TAGDEF</literal> gives the definition of an <literal>AL_TAG</literal> for incorporation into a <literal>AL_TAGDEF_PROPS</literal>.</para>
     
     
-    <sect2>
+    <sect2 id='make-al-tagdef'>
     <title>make_al_tagdef</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -933,7 +933,7 @@
     </sect1>
     
     
-    <sect1>
+    <sect1 id='al-tagdef-props'>
     <title>AL_TAGDEF_PROPS</title>
     
     <simplelist type='horiz' columns='2'>
@@ -942,7 +942,7 @@
     <member>Unit identification:</member><member><emphasis>aldef</emphasis></member>
     </simplelist>
     
-    <sect2>
+    <sect2 id='make-al-tagdefs'>
     <title>make_al_tagdefs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -960,7 +960,7 @@
     </sect1>
     
     
-    <sect1>
+    <sect1 id='alignment-a'>
     <title>ALIGNMENT</title>
     
     <simplelist type='horiz' columns='2'>
@@ -983,7 +983,7 @@
     <para>In the specification the phrase &quot;<emphasis>a</emphasis> will include <emphasis>b</emphasis>&quot; where <emphasis>a</emphasis> and <emphasis>b</emphasis> are <literal>ALIGNMENT</literal>s, means that the set <emphasis>b</emphasis> will be a subset of <emphasis>a</emphasis> (or equal to <emphasis>a</emphasis>).</para>
     
     
-    <sect2>
+    <sect2 id='alignment-apply-token'>
     <title>alignment_apply_token</title>
     
     <simplelist type='horiz' columns='2'>
@@ -1002,7 +1002,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='alignment-cond'>
     <title>alignment_cond</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1019,7 +1019,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='alignment-b'>
     <title>alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1066,7 +1066,7 @@
     </itemizedlist>
     
     </sect2>
-    <sect2>
+    <sect2 id='alloca-alignment'>
     
     <title>alloca_alignment</title>
     <simplelist type='horiz' columns='2'>
@@ -1081,7 +1081,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='callees-alignment'>
     <title>callees_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>5</member>
@@ -1097,7 +1097,7 @@
     <para>Delivers the <literal>base ALIGNMENT</literal> of <literal>OFFSET</literal>s from a frame-pointer to a <literal>CALLEE</literal> parameter. Values of such <literal>OFFSET</literal>s can only be produced by <emphasis>env_offset</emphasis> applied to <literal>CALLEE</literal> parameters, or offset arithmetic operations applied to existing <literal>OFFSET</literal>s.</para>
     </sect2>
     
-    <sect2>
+    <sect2 id='callers-alignment'>
     <title>callers_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>6</member>
@@ -1113,7 +1113,7 @@
     <para>Delivers the <literal>base ALIGNMENT</literal> of <literal>OFFSET</literal>s from a frame-pointer to a <literal>CALLER</literal> parameter. Values of such <literal>OFFSET</literal>s can only be produced by <emphasis>env_offset</emphasis> applied to <literal>CALLER</literal> parameters, or offset arithmetic operations applied to existing <literal>OFFSET</literal>s.</para>
     </sect2>
     
-    <sect2>
+    <sect2 id='code-alignment'>
     <title>code_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>7</member>
@@ -1127,7 +1127,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='locals-alignment'>
     <title>locals_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>8</member>
@@ -1140,7 +1140,7 @@
     <para>Delivers the <literal>base ALIGNMENT</literal> of <literal>OFFSET</literal>s from a frame-pointer to a value defined by <emphasis>variable</emphasis> or <emphasis>identify</emphasis>. Values of such <literal>OFFSET</literal>s can only be produced by <emphasis>env_offset</emphasis> applied to <literal>TAG</literal>s so defined, or offset arithmetic operations applied to existing <literal>OFFSET</literal>s. </para>
     </sect2>
     
-    <sect2>
+    <sect2 id='obtain-al-tag'>
     <title>obtain_al_tag</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>9</member>
@@ -1155,7 +1155,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='parameter-alignment'>
     <title>parameter_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>10</member>
@@ -1169,7 +1169,7 @@
     <para>Delivers the <literal>ALIGNMENT</literal> of a parameter of a procedure of <literal>SHAPE</literal> <emphasis>sha</emphasis>. </para>
     
     </sect2>
-    <sect2>
+    <sect2 id='unite-alignments'>
     
     <title>unite_alignments</title>
     <simplelist type='horiz' columns='2'>
@@ -1186,7 +1186,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='var-param-alignment'>
     <title>var_param_alignment</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>12</member>
@@ -1202,7 +1202,7 @@
     </sect1>
     
     
-    <sect1>
+    <sect1 id='bitfield-variety'>
     <title>BITFIELD_VARIETY</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>2</member>
@@ -1213,7 +1213,7 @@
     
     <para>There is no limit on the size of bitfield values in TDF, but an installer may specify limits. See -XREF-spec10.html#66Representing bitfields and -XREF-spec10.html#68Permitted limits.</para>
     
-    <sect2>
+    <sect2 id='bfvar-apply-token'>
     <title>bfvar_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1231,7 +1231,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bfvar-cond'>
     <title>bfvar_cond</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1247,7 +1247,7 @@
     <para><emphasis>control</emphasis> is evaluated. It will be a constant at install time under the constant evaluation rules. If it is non-zero, <emphasis>e1</emphasis> is installed at this point and <emphasis>e2</emphasis> is ignored and never processed. If <emphasis>control</emphasis> is zero then <emphasis>e2</emphasis> is installed at this point and <emphasis>e1</emphasis> is ignored and never processed.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='bfvar-bits'>
     <title>bfvar_bits</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1265,7 +1265,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='bitstream'>
     <title>BITSTREAM</title>
     
     <para>A <literal>BITSTREAM</literal> consists of an encoding of any number of bits. This encoding is such that any program reading TDF can determine how to skip over it. To read it meaningfully extra knowledge of what it represents may be needed. </para>
@@ -1276,7 +1276,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='bool'>
     <title>BOOL</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>3</member>
@@ -1285,7 +1285,7 @@
     
     <para>A <literal>BOOL</literal> is a piece of TDF which can take two values, <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
     
-    <sect2>
+    <sect2 id='bool-apply-token'>
     <title>bool_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1303,7 +1303,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bool-cond'>
     <title>bool_cond</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1320,7 +1320,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='false'>
     <title>false</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1334,7 +1334,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='true'>
     <title>true</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>4</member>
@@ -1350,7 +1350,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='bytestream'>
     <title>BYTESTREAM</title>
     
     <para>A <literal>BYTESTREAM</literal> is analogous to a <literal>BITSTREAM</literal>, but is encoded to permit fast copying. </para>
@@ -1359,7 +1359,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='callees'>
     <title>CALLEES</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1370,7 +1370,7 @@
     <para>This is an auxilliary <literal>SORT</literal> used in calling procedures by <emphasis>apply_general_proc</emphasis> and <emphasis>tail_call</emphasis> to provide their actual callee parameters.</para>
     
     
-    <sect2>
+    <sect2 id='make-callee-list'>
     <title>make_callee_list</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1385,7 +1385,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='make-dynamic-callees'>
     <title>make_dynamic_callees</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1404,7 +1404,7 @@
     <para>The call involved (i.e. <emphasis>apply_general_proc</emphasis> or <emphasis>tail_call</emphasis>) must have a <emphasis>var_callees</emphasis> <literal>PROCPROPS</literal>.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='same-callees'>
     <title>same_callees</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1420,7 +1420,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='capsule'>
     <title>CAPSULE</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>0</member>
@@ -1430,7 +1430,7 @@
     <para>A <literal>CAPSULE</literal> is an independent piece of TDF. There is only one construction, <emphasis>make_capsule</emphasis>.</para>
     
     
-    <sect2>
+    <sect2 id='make-capsule'>
     <title>make_capsule</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>0</member>
@@ -1463,7 +1463,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='capsule-link'>
     <title>CAPSULE_LINK</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>0</member>
@@ -1472,7 +1472,7 @@
     
     <para>An auxiliary <literal>SORT</literal> which gives the number of linkable entities of a given kind at <literal>CAPSULE</literal> level. It is used only in <emphasis>make_capsule</emphasis>.</para>
     
-    <sect2>
+    <sect2 id='make-capsule-link'>
     <title>make_capsule_link</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>0</member>
@@ -1490,7 +1490,7 @@
     </sect1>
     
     
-    <sect1>
+    <sect1 id='caselim'>
     <title>CASELIM</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>0</member>
@@ -1499,7 +1499,7 @@
     
     <para>An auxiliary <literal>SORT</literal> which provides lower and upper bounds and the <literal>LABEL</literal> destination for the <emphasis>case</emphasis> construction.</para>
     
-    <sect2>
+    <sect2 id='make-caselim'>
     <title>make_caselim</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>0</member>
@@ -1519,7 +1519,7 @@
     </sect1>
     
     
-    <sect1>
+    <sect1 id='error-code'>
     <title>ERROR_CODE</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>2</member>
@@ -1527,7 +1527,7 @@
     </simplelist>
     
     
-    <sect2>
+    <sect2 id='nil-access'>
     <title>nil_access</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1541,7 +1541,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='overflow'>
     <title>overflow</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1555,7 +1555,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='stack-overflow'>
     <title>stack_overflow</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1570,7 +1570,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='error-treament'>
     <title>ERROR_TREATMENT</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>3</member>
@@ -1582,7 +1582,7 @@
     <para>It is expected that additional <literal>ERROR_TREATMENT</literal>s will be needed.</para>
     
     
-    <sect2>
+    <sect2 id='errt-apply-token'>
     <title>errt_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1599,7 +1599,7 @@
     <para>If there is a definition for <emphasis>token_value</emphasis> in the <literal>CAPSULE</literal> then <emphasis>token_args</emphasis> is a <literal>BITSTREAM</literal> encoding of the <literal>SORT</literal>s of its parameters, in the order specified.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='errt-cond'>
     <title>errt_cond</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>2</member>
@@ -1616,7 +1616,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='continue'>
     <title>continue</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -1629,7 +1629,7 @@
     <para>If an operation with a <emphasis>continue</emphasis> <literal>ERROR_TREATMENT</literal> causes an error, some value of the correct <literal>SHAPE</literal> shall be delivered. This value shall have the same properties as is specified in <emphasis>make_value</emphasis>. </para>
     
     </sect2>
-    <sect2>
+    <sect2 id='error-jump'>
     <title>error_jump</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>4</member>
@@ -1648,7 +1648,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='trap'>
     <title>trap</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>5</member>
@@ -1664,7 +1664,7 @@
     <para>The observations on canonical ordering in <emphasis>error_jump</emphasis> apply equally here.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='wrap'>
     <title>wrap</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>6</member>
@@ -1677,7 +1677,7 @@
     <para><emphasis>wrap</emphasis> is an <literal>ERROR_TREATMENT</literal> which will only be used in constructions with integer operands and delivering <literal>EXP</literal> <literal>INTEGER</literal>(<emphasis>v</emphasis>) where either the lower bound of <emphasis>v</emphasis> is zero or the construction is not one of <emphasis>mult, power, div0, div1, div2, rem0, rem1, rem2</emphasis>. The result will be evaluated and any bits in the result lying outside the representing <literal>VARIETY</literal> will be discarded (see -XREF-spec10.html#51Representing integers).</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='impossible'>
     <title>impossible</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>7</member>
@@ -1694,7 +1694,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='exp'>
     <title>EXP</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>7</member>
@@ -1703,7 +1703,7 @@
     
     <para><literal>EXP</literal>s are pieces of TDF which are translated into program. <literal>EXP</literal> is by far the richest <literal>SORT</literal>. There are few primitive <literal>EXP</literal>s: most of the constructions take arguments which are a mixture of <literal>EXP</literal>s and other <literal>SORT</literal>s. There are constructs delivering <literal>EXP</literal>s that correspond to the declarations, program structure, procedure calls, assignments, pointer manipulation, arithmetic operations, tests etc. of programming languages.</para>
     
-    <sect2>
+    <sect2 id='exp-apply-token'>
     <title>exp_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -1722,7 +1722,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='exp-cond'>
     <title>exp_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1741,7 +1741,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='abs'>
     <title>abs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1761,7 +1761,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='add-to-ptr'>
     <title>add_to_ptr</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1787,7 +1787,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='and'>
     <title>and</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1807,7 +1807,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='apply-proc'>
     <title>apply_proc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1839,7 +1839,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='apple-general-proc'>
     <title>apply_general_proc</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>7</member>
@@ -1888,7 +1888,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='assign'>
     <title>assign</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1918,7 +1918,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='assign-with-mode'>
     <title>assign_with_mode</title>
     <simplelist type='horiz' columns='2'>
     
@@ -1949,7 +1949,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bitfield-assign'>
     <title>bitfield_assign</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>10</member>
@@ -1971,7 +1971,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bitfield-assign-with-mode'>
     <title>bitfield_assign_with_mode</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>11</member>
@@ -1996,7 +1996,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bitfield-contents'>
     <title>bitfield_contents</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2019,7 +2019,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bitfield-contents-with-mode'>
     <title>bitfield_contents_with_mode</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2045,7 +2045,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='case'>
     <title>case</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2068,7 +2068,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='change-bitfield-to-int'>
     <title>change_bitfield_to_int</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2088,7 +2088,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='change-floating-variety'>
     <title>change_floating_variety</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2113,7 +2113,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='change-variety'>
     <title>change_variety</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2134,7 +2134,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='change-int-to-bitfield'>
     <title>change_int_to_bitfield</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2154,7 +2154,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='complex-conjugate'>
     <title>complex_conjugate</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2173,7 +2173,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='component'>
     <title>component</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2196,7 +2196,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='contact-nof'>
     <title>concat_nof</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2214,7 +2214,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='conditional'>
     <title>conditional</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2241,7 +2241,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='contents'>
     <title>contents</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>23</member>
@@ -2268,7 +2268,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='contents-with-mode'>
     <title>contents_with_mode</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>24</member>
@@ -2296,7 +2296,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='current-env'>
     <title>current_env</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>25</member>
@@ -2319,7 +2319,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='div-zero'>
     <title>div0</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>26</member>
@@ -2346,7 +2346,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='div-one'>
     <title>div1</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>27</member>
@@ -2373,7 +2373,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='div-two'>
     <title>div2</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>28</member>
@@ -2400,7 +2400,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='env-offset'>
     <title>env_offset</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>29</member>
@@ -2428,7 +2428,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='env-size'>
     <title>env_size</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2447,7 +2447,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='fail-installer'>
     <title>fail_installer</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2464,7 +2464,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='float-int'>
     <title>float_int</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2487,7 +2487,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-abs'>
     <title>floating_abs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2511,7 +2511,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-div'>
     <title>floating_div</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2534,7 +2534,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-minus'>
     <title>floating_minus</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2557,7 +2557,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-maximum'>
     <title>floating_maximum</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2580,7 +2580,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-minimum'>
     <title>floating_minimum</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2603,7 +2603,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-mult'>
     <title>floating_mult</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2630,7 +2630,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-negate'>
     <title>floating_negate</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2652,7 +2652,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-plus'>
     <title>floating_plus</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2678,7 +2678,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-power'>
     <title>floating_power</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>41</member>
@@ -2700,7 +2700,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating-test'>
     <title>floating_test</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2732,7 +2732,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='goto'>
     <title>goto</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2749,7 +2749,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='goto-local-lv'>
     <title>goto_local_lv</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2768,7 +2768,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='identify'>
     <title>identify</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2796,7 +2796,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='ignorable'>
     <title>ignorable</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2813,7 +2813,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='imaginary-part'>
     <title>imaginary_part</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2830,7 +2830,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='initial-value'>
     <title>initial_value</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>48</member>
@@ -2853,7 +2853,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='integer-test'>
     <title>integer_test</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2878,7 +2878,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='labelled'>
     <title>labelled</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2907,7 +2907,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='last-local'>
     <title>last_local</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2932,7 +2932,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='local-alloc'>
     <title>local_alloc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2967,7 +2967,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='local-alloc-check'>
     <title>local_alloc_check</title>
     <simplelist type='horiz' columns='2'>
     
@@ -2986,7 +2986,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='local-free'>
     <title>local_free</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3006,7 +3006,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='local-free-all'>
     <title>local_free_all</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3026,7 +3026,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='long-jump'>
     <title>long_jump</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3050,7 +3050,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-complex'>
     <title>make_complex</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3071,7 +3071,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-compound'>
     <title>make_compound</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3101,7 +3101,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-floating'>
     <title>make_floating</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3133,7 +3133,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-general-proc'>
     <title>make_general_proc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3176,7 +3176,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-int'>
     <title>make_int</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3194,7 +3194,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-local-lv'>
     <title>make_local_lv</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3211,7 +3211,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-nof'>
     <title>make_nof</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3230,7 +3230,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-nof-int'>
     <title>make_nof_int</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3248,7 +3248,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-null-local-lv'>
     <title>make_null_local_lv</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3266,7 +3266,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-null-proc'>
     <title>make_null_proc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3284,7 +3284,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-null-ptr'>
     <title>make_null_ptr</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3305,7 +3305,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-proc'>
     <title>make_proc</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>68</member>
@@ -3340,7 +3340,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-stack-limit'>
     <title>make_stack_limit</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3368,7 +3368,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-top'>
     <title>make_top</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3384,7 +3384,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-value'>
     <title>make_value</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3407,7 +3407,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='maximum'>
     <title>maximum</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3425,7 +3425,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='minimum'>
     <title>minimum</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3443,7 +3443,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='minus'>
     <title>minus</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3464,7 +3464,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='move-some'>
     <title>move_some</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3494,7 +3494,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='mult'>
     <title>mult</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3515,7 +3515,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='n-copies'>
     <title>n_copies</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3535,7 +3535,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='negate'>
     <title>negate</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3555,7 +3555,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not'>
     <title>not</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3574,7 +3574,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='obtain-tag'>
     <title>obtain_tag</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3591,7 +3591,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-add'>
     <title>offset_add</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3613,7 +3613,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-div'>
     <title>offset_div</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3634,7 +3634,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-div-by-int'>
     <title>offset_div_by_int</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3658,7 +3658,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-max'>
     <title>offset_max</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3680,7 +3680,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-mult'>
     <title>offset_mult</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3700,7 +3700,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-negate'>
     <title>offset_negate</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3719,7 +3719,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-pad'>
     <title>offset_pad</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3741,7 +3741,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-subtrat'>
     <title>offset_subtract</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3763,7 +3763,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-test'>
     <title>offset_test</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3792,7 +3792,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset-zero'>
     <title>offset_zero</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3811,7 +3811,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='or'>
     <title>or</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3831,7 +3831,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='plus'>
     <title>plus</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3852,7 +3852,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='pointer-test'>
     <title>pointer_test</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3883,7 +3883,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='power'>
     <title>power</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>93</member>
@@ -3903,7 +3903,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='proc-test'>
     <title>proc_test</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3930,7 +3930,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='profile'>
     <title>profile</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3949,7 +3949,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='real-part'>
     <title>real_part</title>
     <simplelist type='horiz' columns='2'>
     
@@ -3966,7 +3966,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rem-zero'>
     <title>rem0</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4002,7 +4002,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rem-one'>
     <title>rem1</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4030,7 +4030,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rem-two'>
     <title>rem2</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4058,7 +4058,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='repeat'>
     <title>repeat</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>100</member>
@@ -4080,7 +4080,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='return'>
     <title>return</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>101</member>
@@ -4100,7 +4100,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='return-to-label'>
     <title>return_to_label</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>102</member>
@@ -4118,7 +4118,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='round-with-mode'>
     <title>round_with_mode</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>103</member>
@@ -4141,7 +4141,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rotate-left'>
     <title>rotate_left</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4163,7 +4163,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rotate-right'>
     <title>rotate_right</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4185,7 +4185,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='sequence'>
     <title>sequence</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4209,7 +4209,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='set-stack-limit'>
     <title>set_stack_limit</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4230,7 +4230,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='shape-offset'>
     <title>shape_offset</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4253,7 +4253,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='shift-left'>
     <title>shift_left</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4278,7 +4278,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='shift-right'>
     <title>shift_right</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4300,7 +4300,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='subtract-ptrs'>
     <title>subtract_ptrs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4320,7 +4320,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='tail-call'>
     <title>tail_call</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4345,7 +4345,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='untidy-return'>
     <title>untidy_return</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4364,7 +4364,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='variable'>
     <title>variable</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4394,7 +4394,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='xor'>
     <title>xor</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4416,7 +4416,7 @@
     
     
     
-    <sect1>
+    <sect1 id='external'>
     <title>EXTERNAL</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4428,7 +4428,7 @@
     
     
     
-    <sect2>
+    <sect2 id='string-extern'>
     <title>string_extern</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4445,7 +4445,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='unique-extern'>
     <title>unique_extern</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4462,7 +4462,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='chain-extern'>
     <title>chain_extern</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4483,7 +4483,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='extern-link'>
     <title>EXTERN_LINK</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4495,7 +4495,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-extern-link'>
     <title>make_extern_link</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4515,7 +4515,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='floating-variety'>
     <title>FLOATING_VARIETY</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4527,7 +4527,7 @@
     
     
     
-    <sect2>
+    <sect2 id='flvar-apply-token'>
     <title>flvar_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4546,7 +4546,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='flvar-cond'>
     <title>flvar_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4565,7 +4565,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='flvar-params'>
     <title>flvar_parms</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4599,7 +4599,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='complex-parms'>
     <title>complex_parms</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4619,7 +4619,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='float-of-complex'>
     <title>float_of_complex</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4638,7 +4638,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='complex-of-float'>
     <title>complex_of_float</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4660,7 +4660,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='group'>
     <title>GROUP</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4672,7 +4672,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-group'>
     <title>make_group</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4692,7 +4692,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='label'>
     <title>LABEL</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4704,7 +4704,7 @@
     
     
     
-    <sect2>
+    <sect2 id='label-apply-token'>
     <title>label_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4724,7 +4724,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-label'>
     <title>make_label</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4744,7 +4744,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='link'>
     <title>LINK</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4754,7 +4754,7 @@
     </simplelist>
     <para>A <literal>LINK</literal> expresses the connection between two variables of the same <literal>SORT</literal>.</para>
     
-    <sect2>
+    <sect2 id='make-link'>
     <title>make_link</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4775,7 +4775,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='linkextern'>
     <title>LINKEXTERN</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4787,7 +4787,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-linkextern'>
     <title>make_linkextern</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4808,7 +4808,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='links'>
     <title>LINKS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4818,7 +4818,7 @@
     </simplelist>
     
     
-    <sect2>
+    <sect2 id='make-links'>
     <title>make_links</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4837,7 +4837,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='nat'>
     <title>NAT</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4850,7 +4850,7 @@
     
     
     
-    <sect2>
+    <sect2 id='nat-apply-token'>
     <title>nat_apply_token</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -4869,7 +4869,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='nat-cond'>
     <title>nat_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4888,7 +4888,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='computed-nat'>
     <title>computed_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4905,7 +4905,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='error-val'>
     <title>error_val</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4922,7 +4922,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-nat'>
     <title>make_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4941,7 +4941,7 @@
     
     </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='ntest'>
     
     <title>NTEST</title>
     <simplelist type='horiz' columns='2'>
@@ -4954,7 +4954,7 @@
     
     
     
-    <sect2>
+    <sect2 id='ntest-apply-token'>
     <title>ntest_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4974,7 +4974,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='ntest-cond'>
     <title>ntest_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -4993,7 +4993,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='equal'>
     <title>equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5009,7 +5009,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='greater-than'>
     <title>greater_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5025,7 +5025,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='greater-than-or-equal'>
     <title>greater_than_or_equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5041,7 +5041,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='less-than'>
     <title>less_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5057,7 +5057,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='less-than-or-equal'>
     <title>less_than_or_equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5073,7 +5073,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-equal'>
     <title>not_equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5089,7 +5089,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-greater-than'>
     <title>not_greater_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5105,7 +5105,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-greater-than-or-equal'>
     <title>not_greater_than_or_equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5121,7 +5121,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-less-than'>
     <title>not_less_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5137,7 +5137,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-less-than-or-equal'>
     <title>not_less_than_or_equal</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5153,7 +5153,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='less-than-or-greater-than'>
     <title>less_than_or_greater_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5169,7 +5169,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-less-than-and-not-greater-than'>
     <title>not_less_than_and_not_greater_than</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5185,7 +5185,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='comparable'>
     <title>comparable</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5203,7 +5203,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='not-comparable'>
     <title>not_comparable</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5222,7 +5222,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='otagexp'>
     <title>OTAGEXP</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5233,7 +5233,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-otagexp'>
     <title>make_otagexp</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5252,7 +5252,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='procprops'>
     <title>PROCPROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5264,7 +5264,7 @@
     
     
     
-    <sect2>
+    <sect2 id='prcprops-apply-token'>
     <title>procprops_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5284,7 +5284,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='procprops-cond'>
     <title>procprops_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5303,7 +5303,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='add-procprops'>
     <title>add_procprops</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5321,7 +5321,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='check-stack'>
     <title>check_stack</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5337,7 +5337,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='inline'>
     <title>inline</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5353,7 +5353,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='nd-long-jump-dest'>
     <title>no_long_jump_dest</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5369,7 +5369,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='untidy'>
     <title>untidy</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5385,7 +5385,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='var-callees'>
     <title>var_callees</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5401,7 +5401,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='var-callers'>
     <title>var_callers</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5420,7 +5420,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='props'>
     <title>PROPS</title>
     
     <para>A <literal>PROPS</literal> is an assemblage of program information. This standard offers various ways of constructing a <literal>PROPS</literal> - i.e. it defines kinds of information which it is useful to express. These are: </para>
@@ -5460,7 +5460,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='rounding-mode'>
     <title>ROUNDING_MODE</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5472,7 +5472,7 @@
     
     
     
-    <sect2>
+    <sect2 id='rounding-mode-apply-token'>
     <title>rounding_mode_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5492,7 +5492,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='rounding-mode-cond'>
     <title>rounding_mode_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5511,7 +5511,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='round-as-state'>
     <title>round_as_state</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5527,7 +5527,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='to-nearest'>
     <title>to_nearest</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5543,7 +5543,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='twoard-larger'>
     <title>toward_larger</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5559,7 +5559,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='twoard-smaller'>
     <title>toward_smaller</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5575,7 +5575,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='twoard-zero'>
     <title>toward_zero</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5594,7 +5594,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='shape'>
     <title>SHAPE</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5608,7 +5608,7 @@
     
     
     
-    <sect2>
+    <sect2 id='shape-apply-token'>
     <title>shape_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5628,7 +5628,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='shape-cond'>
     <title>shape_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5647,7 +5647,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bitfield'>
     <title>bitfield</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5670,7 +5670,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='bottom'>
     <title>bottom</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5688,7 +5688,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='compound'>
     <title>compound</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5709,7 +5709,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='floating'>
     <title>floating</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5730,7 +5730,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='integer'>
     <title>integer</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5759,7 +5759,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='nof'>
     <title>nof</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5777,7 +5777,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='offset'>
     <title>offset</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5803,7 +5803,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='pointer'>
     <title>pointer</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5820,7 +5820,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='proc'>
     <title>proc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5836,7 +5836,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='top'>
     <title>top</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5855,7 +5855,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='signed-nat'>
     <title>SIGNED_NAT</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5867,7 +5867,7 @@
     
     
     
-    <sect2>
+    <sect2 id='signed-nat-apply-token'>
     <title>signed_nat_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5887,7 +5887,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='signed-nat-cond'>
     <title>signed_nat_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5906,7 +5906,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='computed-signed-nat'>
     <title>computed_signed_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5923,7 +5923,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-signed-nat'>
     <title>make_signed_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5941,7 +5941,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='snat-from-nat'>
     <title>snat_from_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5962,7 +5962,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='sortname'>
     <title>SORTNAME</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5974,7 +5974,7 @@
     
     
     
-    <sect2>
+    <sect2 id='access-a'>
     <title>access</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5985,7 +5985,7 @@
     -&gt; SORTNAME
     </programlisting>
     
-    <sect2>
+    <sect2 id='aal-tag'>
     <title>Aal_tag</title>
     <simplelist type='horiz' columns='2'>
     
@@ -5997,7 +5997,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='alignment-sort'>
     <title>alignment_sort</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>3</member>
@@ -6008,7 +6008,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='abitfield-variety'>
     <title>Abitfield_variety</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6020,7 +6020,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='abool'>
     <title>Abool</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6032,7 +6032,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='aerror-treatment'>
     <title>Aerror_treatment</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6044,7 +6044,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='aexp'>
     <title>Aexp</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6060,7 +6060,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='afloating-variety'>
     <title>Afloating_variety</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6072,7 +6072,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='foreign-sort'>
     <title>foreign_sort</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6089,7 +6089,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='alabel'>
     <title>Alabel</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6101,7 +6101,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='anat'>
     <title>Anat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6113,7 +6113,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='antest'>
     <title>Antest</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6125,7 +6125,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='aprocprops'>
     <title>Aprocprops</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6137,7 +6137,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='arounding-mode'>
     <title>Arounding_mode</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6149,7 +6149,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='ashape'>
     <title>Ashape</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6161,7 +6161,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='asigned-nat'>
     <title>Asigned_nat</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6173,7 +6173,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='astring'>
     <title>Astring</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6185,7 +6185,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='atag'>
     <title>Atag</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6200,7 +6200,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='atransfer-mode'>
     <title>Atransfer_mode</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6212,7 +6212,7 @@
     </programlisting>
     
     </sect2>
-    <sect2>
+    <sect2 id='atoken'>
     <title>Atoken</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6230,7 +6230,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='variety-a'>
     <title>variety</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6245,7 +6245,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='string'>
     <title>STRING</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6255,7 +6255,7 @@
     
     
     
-    <sect2>
+    <sect2 id='string-apply-token'>
     <title>string_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6275,7 +6275,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='string-cond'>
     <title>string_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6294,7 +6294,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='concat-string'>
     <title>concat_string</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6312,7 +6312,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-string'>
     <title>make_string</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6332,7 +6332,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tag'>
     <title>TAG</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6344,7 +6344,7 @@
     
     
     
-    <sect2>
+    <sect2 id='tag-apply-token'>
     <title>tag_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6364,7 +6364,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-tag'>
     <title>make_tag</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6383,7 +6383,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagacc'>
     <title>TAGACC</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6395,7 +6395,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-tagacc'>
     <title>make_tagacc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6416,7 +6416,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagdec'>
     <title>TAGDEC</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6428,7 +6428,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-id-tagdec'>
     <title>make_id_tagdec</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6454,7 +6454,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-var-tagdec'>
     <title>make_var_tagdec</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6480,7 +6480,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='common-tagdec'>
     <title>common_tagdec</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6525,7 +6525,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagdec-props'>
     <title>TAGDEC_PROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6534,7 +6534,7 @@
     <member>Unit identification:</member><member><emphasis>tagdec</emphasis></member>
     </simplelist>
     
-    <sect2>
+    <sect2 id='make-tagdecs'>
     <title>make_tagdecs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6553,7 +6553,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagdef'>
     <title>TAGDEF</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6566,7 +6566,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-id-tagdef'>
     <title>make_id_tagdef</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>1</member>
@@ -6592,7 +6592,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-var-tagdef'>
     <title>make_var_tagdef</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6620,7 +6620,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='common-tagdef'>
     <title>common_tagdef</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6675,7 +6675,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagdef-props'>
     <title>TAGDEF_PROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6686,7 +6686,7 @@
     </simplelist>
     
     
-    <sect2>
+    <sect2 id='make-tagdefs'>
     <title>make_tagdefs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6707,7 +6707,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tagshacc'>
     <title>TAGSHACC</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6717,7 +6717,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-tagshacc'>
     <title>make_tagshacc</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6737,7 +6737,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tdfbool'>
     <title>TDFBOOL</title>
     
     <para>A <literal>TDFBOOL</literal> is the TDF encoding of a boolean. See -XREF-spec11.html#4Fundamental encoding. </para>
@@ -6745,7 +6745,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='tdfident'>
     <title>TDFIDENT</title>
     
     <para>A <literal>TDFIDENT</literal>(<emphasis>k</emphasis>, <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis> unsigned integers of size <emphasis>k</emphasis> bits. <emphasis>k</emphasis> will be a multiple of 8. See -XREF-spec11.html#4Fundamental encoding. </para>
@@ -6756,7 +6756,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='tdfint'>
     <title>TDFINT</title>
     
     <para>A <literal>TDFINT</literal> is the TDF encoding of an unbounded unsigned integer constant. See -XREF-spec11.html#4Fundamental encoding. </para>
@@ -6765,7 +6765,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='tdfstring'>
     <title>TDFSTRING</title>
     
     <para>A <literal>TDFSTRING</literal>(<emphasis>k</emphasis>, <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis> unsigned integers of size <emphasis>k</emphasis> bits. See -XREF-spec11.html#4Fundamental encoding. </para>
@@ -6775,7 +6775,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='tokdec'>
     <title>TOKDEC</title>
     <simplelist type='horiz' columns='2'>
     <member>Number of encoding bits:</member><member>1</member>
@@ -6785,7 +6785,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-tokdec'>
     <title>make_tokdec</title>
     
     <simplelist type='horiz' columns='2'>
@@ -6808,7 +6808,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tokdec-props'>
     <title>TOKDEC_PROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6818,7 +6818,7 @@
     </simplelist>
     
     
-    <sect2>
+    <sect2 id='make-tokdecs'>
     <title>make_tokdecs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6834,7 +6834,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tokdef'>
     <title>TOKDEF</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6846,7 +6846,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-tokedef'>
     <title>make_tokdef</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6871,7 +6871,7 @@
     
     </sect2>
     
-    <sect1>
+    <sect1 id='tokdef-props'>
     <title>TOKDEF_PROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6881,7 +6881,7 @@
     
     </simplelist>
     
-    <sect2>
+    <sect2 id='make-tokedefs'>
     <title>make_tokdefs</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6902,7 +6902,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='token'>
     <title>TOKEN</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6915,7 +6915,7 @@
     
     
     
-    <sect2>
+    <sect2 id='token-apply-token'>
     <title>token_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6935,7 +6935,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='make-tok'>
     <title>make_tok</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6952,7 +6952,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='use-tokdef'>
     <title>use_tokdef</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6972,7 +6972,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='token-defn'>
     <title>TOKEN_DEFN</title>
     <simplelist type='horiz' columns='2'>
     
@@ -6983,7 +6983,7 @@
     <para>An auxiliary <literal>SORT</literal> used in <emphasis>make_tokdef</emphasis> and <emphasis>use_tokdef</emphasis>.</para>
     
     
-    <sect2>
+    <sect2 id='token-definition'>
     <title>token_definition</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7022,7 +7022,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tokformals'>
     <title>TOKFORMALS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7032,7 +7032,7 @@
     </simplelist>
     
     
-    <sect2>
+    <sect2 id='make-tokformals'>
     <title>make_tokformals</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7053,7 +7053,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='transfer-mode'>
     <title>TRANSFER_MODE</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7067,7 +7067,7 @@
     
     
     
-    <sect2>
+    <sect2 id='transfer-mode-apply-token'>
     <title>transfer_mode_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7087,7 +7087,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='transfer-mode-cond'>
     <title>transfer_mode_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7106,7 +7106,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='add-modes'>
     <title>add_modes</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7124,7 +7124,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='overlap'>
     <title>overlap</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7142,7 +7142,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='standard-transfer-mode'>
     <title>standard_transfer_mode</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7158,7 +7158,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='trap-on-nil'>
     <title>trap_on_nil</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7174,7 +7174,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='volatile'>
     <title>volatile</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7192,7 +7192,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='complete'>
     <title>complete</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7212,7 +7212,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='unique'>
     <title>UNIQUE</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7226,7 +7226,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-unique'>
     <title>make_unique</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7246,7 +7246,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='unit'>
     <title>UNIT</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7258,7 +7258,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-unit'>
     <title>make_unit</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7286,7 +7286,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='variety-b'>
     <title>VARIETY</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7300,7 +7300,7 @@
     
     
     
-    <sect2>
+    <sect2 id='var-apply-token'>
     <title>var_apply_token</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7320,7 +7320,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='var-cond'>
     <title>var_cond</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7339,7 +7339,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='var-limits'>
     <title>var_limits</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7356,7 +7356,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='var-width'>
     <title>var_width</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7377,7 +7377,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='version-props'>
     <title>VERSION_PROPS</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7389,7 +7389,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-versions'>
     <title>make_versions</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7409,7 +7409,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='version'>
     <title>VERSION</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7419,7 +7419,7 @@
     
     
     
-    <sect2>
+    <sect2 id='make-version'>
     <title>make_version</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7441,7 +7441,7 @@
     
     
     </sect2>
-    <sect2>
+    <sect2 id='user-info'>
     <title>user_info</title>
     <simplelist type='horiz' columns='2'>
     
@@ -7461,11 +7461,11 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id='supplementary-unit'>
     <title>Supplementary UNIT</title>
     <para> </para>
     
-    <sect1>
+    <sect1 id='linkinfo-props'>
     <title>LINKINFO_PROPS</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7476,7 +7476,7 @@
     
     <para>This is an additional <literal>UNIT</literal> which gives extra information about linking.</para>
     
-    <sect2>
+    <sect2 id='make-linkinfos'>
     <title>make_linkinfos</title>
     <simplelist type='horiz' columns='2'>
     <member>Encoding number:</member><member>0</member>
@@ -7492,7 +7492,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='linkinfo'>
     <title>LINKINFO</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7500,7 +7500,7 @@
     <member>Is coding extendable:</member><member>yes</member>
     </simplelist>
     
-    <sect2>
+    <sect2 id='static-name-def'>
     <title>static_name_def</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7520,7 +7520,7 @@
     <para>This construction is likely to be needed for profiling, so that useful names appear for statically defined objects. It may also be needed when C++ is translated into C, in order to identify global initialisers.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='make-comment'>
     <title>make_comment</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7535,7 +7535,7 @@
     <para><emphasis>n</emphasis> shall be incorporated into the object file as a comment, if this facility exists. Otherwise the construct is ignored.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='make-weak-defn'>
     <title>make_weak_defn</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7551,7 +7551,7 @@
     <para><emphasis>namer</emphasis> and <emphasis>val</emphasis> will be <emphasis>obtain_tag</emphasis> constructions which refer to <literal>TAG</literal>s which are defined with <emphasis>make_id_tagdef</emphasis>, <emphasis>make_var_tagdef</emphasis> or <emphasis>common_tagdef</emphasis>. They shall be made synonymous.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='make-weak-symbol'>
     <title>make_weak_symbol</title>
     
     <simplelist type='horiz' columns='2'>
@@ -7571,12 +7571,12 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id='notes'>
     <title>Notes</title>
     
     <para> </para>
     
-    <sect1>
+    <sect1 id='binding'>
     <title>Binding</title>
     
     <para>The following constructions introduce <literal>TAG</literal>s: <emphasis>identify</emphasis>, <emphasis>variable</emphasis>, <emphasis>make_proc</emphasis>, <emphasis>make_general_proc</emphasis>, <emphasis>make_id_tagdec</emphasis>, <emphasis>make_var_tagdec</emphasis>, <emphasis>common_tagdec</emphasis>.</para>
@@ -7600,7 +7600,7 @@
     <para>Each of the values introduced in a <literal>UNIT</literal> will be named by a different <literal>TAG</literal>, and the labelling constructions will use different labels, so no visibility rules are needed. The set of <literal>TAG</literal>s and <literal>LABEL</literal>s used in a simple <literal>UNIT</literal> are considered separately from those in another simple <literal>UNIT</literal>, so no question of visibility arises. The compound and link <literal>UNIT</literal>s provide a method of relating the items in one simple <literal>UNIT</literal> to those in another, but this is through the intermediary of another set of <literal>TAG</literal>s and <literal>TOKEN</literal>s at the <literal>CAPSULE</literal> level.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='character-codes'>
     <title>Character codes</title>
     
     <para>TDF does not have a concept of characters. It transmits integers of various sizes. So if a producer wishes to communicate characters to an installer, it will usually have to do so by encoding them in some way as integers.</para>
@@ -7616,7 +7616,7 @@
     <para>Here TDF gives rise to the need for extra standards, especially in the specification of globally named unique <literal>TOKEN</literal>s.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='constant-evaluation'>
     <title>Constant evaluation</title>
     
     <para>Some constructions require an <literal>EXP</literal> argument which is &quot;constant at install time&quot;. For an <literal>EXP</literal> to satisfy this condition it must be constructed according to the following rules after substitution of token definitions and selection of <emphasis>exp_cond</emphasis> branches.</para>
@@ -7636,12 +7636,12 @@
     <para>Note specifically that a constant <literal>EXP</literal> forming the defining value of a <literal>TAGDEF</literal> construct may contain <emphasis>env_offset</emphasis> and/or <emphasis>env_size</emphasis>.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='division-modulus'>
     <title>Division and modulus</title>
     
     <para>Two classes of division (D) and remainder (M) construct are defined. The two classes have the same definition if both operands have the same sign. Neither is defined if the second argument is zero.</para>
     
-    <sect2>
+    <sect2 id='class-one'>
     <title>Class 1</title>
     
     <programlisting>
@@ -7657,7 +7657,7 @@
     </programlisting>
     </sect2>
     
-    <sect2>
+    <sect2 id='class-two'>
     <title>Class 2</title>
     
     <programlisting>
@@ -7675,13 +7675,13 @@
     </sect2>
     
     </sect1>
-    <sect1>
+    <sect1 id='equality-of-exps'>
     <title>Equality of EXPs</title>
     
     <para>A definition of equality of <literal>EXP</literal>s would be a considerable part of a formal specification of TDF, and is not given here.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='equality-of-shapes'>
     <title>Equality of SHAPEs</title>
     
     <para>Equality of <literal>SHAPE</literal>s is defined recursively:</para>
@@ -7708,13 +7708,13 @@
     </itemizedlist>
     
     </sect1>
-    <sect1>
+    <sect1 id='equality-of-align'>
     <title>Equality of ALIGNMENTs</title>
     
     <para>Two <literal>ALIGNMENT</literal>s are equal if and only if they are equal sets.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='exceptions-and-jumps'>
     <title>Exceptions and jumps</title>
     
     <para>TDF allows simply for labels and jumps within a procedure, by means of the <emphasis>conditional</emphasis>, <emphasis>labelled</emphasis> and <emphasis>repeat</emphasis> constructions, and the <emphasis>goto</emphasis>, <emphasis>case</emphasis> and various <emphasis>test</emphasis> constructions. But there are two more complex jumping situations.</para>
@@ -7738,7 +7738,7 @@
     <para>These tokens are specified in more detail in the companion document, -XREF-register.htmlTDF Token Register.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='procedures'>
     <title>Procedures</title>
     
     <para>The <emphasis>var_intro</emphasis> of a <emphasis>make_proc</emphasis>, if present, may be used under one of two different circumstances. In one circumstance, the <literal>POINTER TAG</literal> provided by the <emphasis>var_intro</emphasis> is used to access the actual <emphasis>var_param</emphasis> of an <emphasis>apply_proc</emphasis>. If this is the case, all uses of <emphasis>apply_proc</emphasis> which have the effect of calling this procedure will have the <emphasis>var_param</emphasis> option present, and they will all have precisely the same number of <emphasis>params</emphasis> as <emphasis>params_intro</emphasis> in the <emphasis>make_proc</emphasis>. The body of the <emphasis>make_proc</emphasis> can access elements of the <emphasis>var_param</emphasis> by using <literal>OFFSET</literal> arithmetic relative to the <literal>POINTER TAG</literal>. This provides a method of supplying a variable number of parameters, by composing them into a compound value which is supplied as the <emphasis>var_param</emphasis>.</para>
@@ -7760,7 +7760,7 @@
     <para>-XREF-S392</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='frames'>
     <title>Frames</title>
     
     <para>TDF states that while a particular procedure activation is current, it is possible to create a <literal>POINTER</literal>, by using <emphasis>current_env</emphasis>, which gives access to all the declared variables and identifications of the activation which are alive and which have been marked as <emphasis>visible</emphasis>. The construction <emphasis>env_offset</emphasis> gives the <literal>OFFSET</literal> of one of these relative to such a <literal>POINTER</literal>. These constructions may serve for several purposes.</para>
@@ -7780,7 +7780,7 @@
     <para>Accordingly, because of the constraints on <emphasis>add_to_ptr</emphasis>, an <literal>OFFSET</literal> produced by <emphasis>env_offset</emphasis> can only be added to a <literal>POINTER</literal> produced by <emphasis>current_env</emphasis>. It is a further constraint that such an <literal>OFFSET</literal> will only be added to a <literal>POINTER</literal> produced from <emphasis>current_env</emphasis> used on the procedure which declared the <literal>TAG</literal>.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='lifetimes'>
     <title>Lifetimes</title>
     
     <para><literal>TAG</literal>s are bound to values during the evaluation of <literal>EXP</literal>s, which are specified by the construction which introduces the <literal>TAG</literal>. The evaluation of these <literal>EXP</literal>s is called the lifetime of the activation of the <literal>TAG</literal>.</para>
@@ -7790,7 +7790,7 @@
     <para>A similar concept applies to <literal>LABEL</literal>s.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='alloca'>
     <title>Alloca</title>
     
     <para>The constructions involving <emphasis>alloca</emphasis> (<emphasis>last_local</emphasis>, <emphasis>local_alloc</emphasis>, <emphasis>local_free</emphasis>, <emphasis>local_free_all</emphasis>) as well as the <emphasis>untidy_return</emphasis> construction imply a stack-like implementation which is related to procedure calls. They may be implemented using the same stack as the procedure frames, if there is such a stack, or it may be more convenient to implement them separately. However note that if the <emphasis>alloca</emphasis> mechanism is implemented as a stack, this may be an upward or a downward growing stack.</para>
@@ -7818,7 +7818,7 @@
     </note>
     
     </sect1>
-    <sect1>
+    <sect1 id='memory-model'>
     <title>Memory Model</title>
     
     <para>The layout of data in memory is entirely determined by the calculation of <literal>OFFSET</literal>s relative to <literal>POINTER</literal>s. That is, it is determined by <literal>OFFSET</literal> arithmetic and the <emphasis>add_to_ptr</emphasis> construction.</para>
@@ -7856,7 +7856,7 @@
     </itemizedlist>
     
     
-    <sect2>
+    <sect2 id='simple-model'>
     <title>Simple model</title>
     
     <para>An example of the representation of <literal>OFFSET</literal> arithmetic is given below. This is not a definition, but only an example. In order to make this clear a machine with bit addressing is hypothesized. This machine is referred to as the simple model.</para>
@@ -7923,7 +7923,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='comparision-of-pointers-and-offsets'>
     <title>Comparison of pointers and offsets</title>
     
     <para>Two <literal>POINTER</literal>s to the same <literal>ALIGNMENT</literal>, <emphasis>a</emphasis>, are equal if and only if the result of <emphasis>subtract_ptrs</emphasis> applied to them is equal to <emphasis>offset_zero</emphasis>(<emphasis>a</emphasis>).</para>
@@ -7932,14 +7932,14 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='circular-types-in-lang'>
     <title>Circular types in languages</title>
     
     <para>It is assumed that circular types in programming languages will always involve the <literal>SHAPE</literal>s <literal>PROC</literal> or <literal>POINTER</literal>(<emphasis>x</emphasis>) on the circular path in their TDF representation. Since the <literal>ALIGNMENT</literal> of <literal>POINTER</literal> is {<emphasis>pointer</emphasis>} and does not involve the <literal>ALIGNMENT</literal> of the thing pointed at, circular <literal>SHAPE</literal>s are not needed. The circularity is always broken in <literal>ALIGNMENT</literal> (or <literal>PROC</literal>).</para>
     
     </sect2>
     
-    <sect2>
+    <sect2 id='special-alignments'>
     <title>Special alignments</title>
     
     <para>There are seven special <literal>ALIGNMENT</literal>s. One of these is <emphasis>code_alignment</emphasis>, the <literal>ALIGNMENT</literal> of the <literal>POINTER</literal> delivered by <emphasis>make_local_lv</emphasis>.</para>
@@ -7962,7 +7962,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='atomic-assignment'>
     <title>Atomic assignment</title>
     
     <para>At least one <literal>VARIETY</literal> shall exist such that <emphasis>assign</emphasis> and <emphasis>assign_with_mode</emphasis> are atomic operations. This <literal>VARIETY</literal> shall be specified as part of the installer specification. It shall be capable of representing the numbers 0 to 127.</para>
@@ -7972,7 +7972,7 @@
     </note>
     </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='order-of-eval'>
     <title>Order of evaluation</title>
     
     <para>The order of evaluation is specified in certain constructions in terms of equivalent effect with a canonical order of evaluation. These constructions are <emphasis>conditional</emphasis>, <emphasis>identify</emphasis>, <emphasis>labelled</emphasis>, <emphasis>repeat</emphasis>, <emphasis>sequence</emphasis> and <emphasis>variable</emphasis>. Let these be called the order-specifying constructions.</para>
@@ -7985,7 +7985,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='orig-pointers'>
     <title>Original pointers</title>
     
     <para>Certain constructions are specified as producing original pointers. They allocate space to hold values and produce pointers indicating that new space. All other pointer values are derived pointers, which are produced from original pointers by a sequence of <emphasis>add_to_ptr</emphasis> operations. Counting original pointers as being derived from themselves, every pointer is derived from just one original pointer.</para>
@@ -8018,7 +8018,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='overlapping'>
     <title>Overlapping</title>
     
     <para>In the case of <emphasis>move_some</emphasis>, or <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis> in which <emphasis>arg2</emphasis> is a <emphasis>contents</emphasis> or <emphasis>contents_with_mode</emphasis>, it is possible that the source and destination of the transfer might overlap.</para>
@@ -8030,7 +8030,7 @@
     <para>Otherwise the effect is undefined.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='incomplete-assignment'>
     <title>Incomplete assignment</title>
     
     <para>If the <emphasis>arg2</emphasis> component of an <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis> operation is left by means of a jump, the question arises as to what value is in the destination of the transfer.</para>
@@ -8039,9 +8039,8 @@
     
     
     </sect1>
-    <sect1>
-    <title>
-    Representing integers</title>
+    <sect1 id='representing-integers'>
+    <title>Representing integers</title>
     
     <para>Integer <literal>VARIETY</literal>s shall be represented by a range of integers which includes those specified by the given bounds. This representation shall be twos-complement.</para>
     
@@ -8063,7 +8062,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='overflow-and-integers'>
     <title>Overflow and Integers</title>
     
     <para>It is necessary first to define what overflow means for integer operations and second to specify what happens when it occurs. The intention of TDF is to permit the simplest possible implementation of common constructions on all common machines while allowing precise effects to be achieved, if necessary at extra cost.</para>
@@ -8084,7 +8083,7 @@
     
     
     </sect1>
-    <sect1>
+    <sect1 id='representing-floating-point'>
     <title>Representing floating point</title>
     
     <para><literal>FLOATING_VARIETY</literal>s shall be implemented by a representation which has at least the properties specified.</para>
@@ -8112,7 +8111,7 @@
     <para>There shall be at least two <literal>FLOATING_VARIETY</literal>s, one occupying the same number of bytes and having the same alignment as a <literal>VARIETY</literal> representation, and one occupying twice as many bytes.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='floating-point-errors'>
     <title>Floating point errors</title>
     
     <para>The only permitted <literal>ERROR_TREATMENT</literal>s for operations delivering <literal>FLOATING_VARIETY</literal>s are <emphasis>impossible, error_jump</emphasis> and <emphasis>trap</emphasis> (overflow).</para>
@@ -8124,13 +8123,13 @@
     <para>If an <emphasis>error_jump</emphasis> or <emphasis>trap</emphasis> is taken as the result of a floating point error the operations to test what kind of error it was are outside the TDF definition (at present).</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='rounding-floating-point'>
     <title>Rounding and floating point</title>
     
     <para>Each machine has a rounding state which shall be one of <emphasis>to_nearest</emphasis>, <emphasis>toward_larger</emphasis>, <emphasis>toward_smaller</emphasis>, <emphasis>toward_zero</emphasis>. For each operation delivering a <literal>FLOATING_VARIETY</literal>, except for <emphasis>make_floating</emphasis>, any rounding necessary shall be performed according to the rounding state.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='floating-point-accuracy'>
     <title>Floating point accuracy</title>
     
     <para>While it is understood that most implementations will use IEEE floating arithmetic operations, there are machines which use other formats and operations. It is intended that they should not be excluded from having TDF implementations.</para>
@@ -8139,7 +8138,7 @@
     
     <para>Let <emphasis>@</emphasis> be some primitive dyadic arithmetic operator and <emphasis>@'</emphasis> be its TDF floating-point implementation. Let <emphasis>F</emphasis> be some non-complex <literal>FLOATING_VARIETY</literal> and <emphasis>F'</emphasis> be a representational variety of <emphasis>F</emphasis>.</para>
     
-    <sect2>
+    <sect2 id='condition-one'>
     <title>Condition 1</title>
     
     <para>If <emphasis>a</emphasis>, <emphasis>b</emphasis> and <emphasis>a @ b</emphasis> can all be represented exactly in <emphasis>F</emphasis>, then they will also be represented exactly in <emphasis>F'</emphasis>. Extending the '-notation in the obvious manner:</para>
@@ -8156,7 +8155,7 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='condition-two'>
     <title>Condition 2</title>
     
     <para>The operator <emphasis>@'</emphasis> is monotonic in the sense apposite to the operator <emphasis>@</emphasis>. For example, consider the operator +; if <emphasis>x</emphasis> is any number and <emphasis>a</emphasis> and <emphasis>b</emphasis> are as above:</para>
@@ -8182,7 +8181,7 @@
     </sect2>
     
     </sect1>
-    <sect1>
+    <sect1 id='representing-bitfields'>
     <title>Representing bitfields</title>
     
     <para><literal>BITFIELD_VARIETY</literal>s specify a number of bits and shall be represented by exactly that number of bits in twos-complement notation. Producers may expect them to be packed as closely as possible.</para>
@@ -8223,13 +8222,13 @@
     <para>where the comparisons are in the sense of <emphasis>offset_test</emphasis>, + is <emphasis>offset_add</emphasis> and <emphasis>sz</emphasis> is <emphasis>shape_offset</emphasis>.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='permitted-limits'>
     <title>Permitted limits</title>
     
     <para>An installer may specify limits on the sizes of some of the data <literal>SHAPE</literal>s which it implements. In each case there is a minimum set of limits such that all installers shall implement at least the specified <literal>SHAPE</literal>s. Part of the description of an installer shall be the limits it imposes. Installers are encouraged not to impose limits if possible, though it is not expected that this will be feasible for floating point numbers.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='least-upper-bound'>
     <title>Least Upper Bound</title>
     
     <para>The LUB of two <literal>SHAPE</literal>s, <emphasis>a</emphasis> and <emphasis>b</emphasis> is defined as follows:</para>
@@ -8250,7 +8249,7 @@
     </itemizedlist>
     
     </sect1>
-    <sect1>
+    <sect1 id='read-only-areas'>
     <title>Read-only areas</title>
     
     <para>Consider three scenarios in increasingly static order:</para>
@@ -8272,7 +8271,7 @@
     <para>This TDF specification takes the attitude that the use of read-only areas is a property of how TDF is used - a part of the installation process - and there should not be TDF constructions to say that some values in a <literal>CAPSULE</literal> are read-only. Such constructions could not be sufficiently general.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='tag-token-signatures'>
     <title>Tag and Token signatures</title>
     
     <para>In a TDF program there will usually be references to <literal>TAG</literal>s which are not defined in TDF; their definitions are intended to be supplied by a host system in system specific libraries.</para>
@@ -8288,7 +8287,7 @@
     <para>Similar considerations apply to <literal>TOKEN</literal>s; although token names are totally internal to TDF, it would allow one to check that a token declared in one <literal>CAPSULE</literal> has the same &quot;type&quot; as its definition in another.</para>
     
     </sect1>
-    <sect1>
+    <sect1 id='dynamic-init'>
     <title>Dynamic initialisation</title>
     
     <para>The dynamic initialisation of global variables is required for languages like C++. Previous to version 4.0, the only initialisations permissable were load-time ones; in particular no procedure calls were allowed in forming the initialising value. Version 4.0 introduces the constructor <emphasis>initial_value</emphasis> to remedy this situation.</para>
@@ -8300,14 +8299,14 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id='bit-encoding-tdf'>
     <title>The bit encoding of TDF</title>
     
     <para>This is a description of the encoding used for TDF.</para>
     
     <para>-XREF-#1Section 8.1 defines the basic level of encoding, in which integers consisting of a specified number of bits are appended to the sequence of bytes. -XREF-#4Section 8.2 defines the second level of encoding, in which fundamental kinds of value are encoded in terms of integers of specified numbers of bits. -XREF-#17Section 8.4 defines the third level, in which TDF is encoded using the previously defined concepts.</para>
     
-    <sect1>
+    <sect1 id='bet-basic-encoding'>
     <title>The Basic Encoding</title>
     
     <para>TDF consists of a sequence of 8-bit bytes used to encode integers of a varying number of bits, from 1 to 32. These integers will be called basic integers.</para>
@@ -8322,31 +8321,31 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='bet-findamental-encodings'>
     <title>Fundamental encodings</title>
     
     <para>This section describes the encoding of <literal>TDFINT</literal>, <literal>TDFBOOL</literal>, <literal>TDFSTRING</literal>, <literal>TDFIDENT</literal>, <literal>BITSTREAM</literal>, <literal>BYTESTREAM</literal>, <literal>BYTE_ALIGN</literal> and extendable integers.</para>
     
-    <sect2>
+    <sect2 id='bet-tdfint'>
     <title>TDFINT</title>
     
     <para><literal>TDFINT</literal> encodes non-negative integers of unbounded size. The encoding uses octal digits encoded in 4-bit basic integers. The most significant octal digit is encoded first, the least significant last. For all digits except the last the 4-bit integer is the value of the octal digit. For the last digit the 4-bit integer is the value of the octal digit plus 8.</para>
     
     </sect2>
-    <sect2>
+    <sect2 id='bet-tdfbool'>
     <title>TDFBOOL</title>
     
     <para><literal>TDFBOOL</literal> encodes a boolean, true or false. The encoding uses a 1-bit basic integer, with 1 encoding true and 0 encoding false.</para>
     </sect2>
     
-    <sect2>
+    <sect2 id='bet-tdfstring'>
     <title>TDFSTRING</title>
     
     <para><literal>TDFSTRING</literal> encodes a sequence containing <emphasis>n</emphasis> non-negative integers, each of <emphasis>k</emphasis> bits. The encoding consists of, first a <literal>TDFINT</literal> giving the number of bits, second a <literal>TDFINT</literal> giving the number of integers, which may be zero. Thirdly it contains <emphasis>n</emphasis> <emphasis>k</emphasis>-bit basic integers, giving the sequence of integers required, the first integer being first in this sequence.</para>
     
     </sect2>
     
-    <sect2>
+    <sect2 id='bet-tdfident'>
     <title>TDFIDENT</title>
     
     <para><literal>TDFIDENT</literal> also encodes a sequence containing <emphasis>n</emphasis> non-negative integers. These integers will all consist of the same number of bits, which will be a multiple of 8. It is a property of the encoding of the other constructions that TDFIDENTS will start on either bit 7 or bit 3 of a byte and end on bit 7 or bit 3 of a byte. It thus has some alignment properties which are useful to permit fast copying of sections of TDF.</para>
@@ -8360,14 +8359,14 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='bet-bitstream'>
     <title>BITSTREAM</title>
     
     <para>It can be useful to be able to skip a TDF construction without reading through it. <literal>BITSTREAM</literal> provides a means of doing this.</para>
     
     <para>A <literal>BITSTREAM</literal> encoding of <emphasis>X</emphasis> consists of a <literal>TDFINT</literal> giving the number of bits of encoding which are occupied by the <emphasis>X</emphasis>. Hence to skip over a <literal>BITSTREAM</literal> while decoding, one should read the <literal>TDFINT</literal> and then advance the bit index by that number of bits. To read the contents of a <literal>BITSTREAM</literal> encoding of <emphasis>X</emphasis>, one should read and ignore a <literal>TDFINT</literal> and then decode an <emphasis>X</emphasis>. There will be no spare bits at the end of the <emphasis>X</emphasis>, so reading can continue directly.</para>
     
-    <sect2>
+    <sect2 id='bet-bytestream'>
     <title>BYTESTREAM</title>
     
     <para>It can be useful to be able to skip a TDF construction without reading through it. <literal>BYTESTREAM</literal> provides a means of doing this while remaining byte aligned, so facilitating copying the TDF. A <literal>BYTESTREAM</literal> will always start when the bit position is 3 or 7.</para>
@@ -8378,14 +8377,14 @@
     
     </sect2>
     
-    <sect2>
+    <sect2 id='bet-byte-align'>
     <title>BYTE_ALIGN</title>
     
     <para><literal>BYTE_ALIGN</literal> leaves the bit position alone if it is 7, and otherwise moves to bit 7 of the next byte.</para>
     
     </sect2>
     
-    <sect2>
+    <sect2 id='bet-extendable-int-encoding'>
     <title>Extendable integer encoding</title>
     
     <para><emphasis>d</emphasis>-bit extendable integer encoding enables an integer greater than zero to be encoded given <emphasis>d</emphasis>, a number of bits.</para>
@@ -8397,7 +8396,7 @@
     </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='bet-tdf-encoding'>
     <title>The TDF encoding</title>
     
     <para>The descriptions of SORTS and constructors contain encoding information which is interpreted as follows to define the TDF encoding.</para>
@@ -8449,7 +8448,7 @@
     
     </sect1>
     
-    <sect1>
+    <sect1 id='bet-file-formats'>
     <title>File Formats</title>
     
     <para>There may be various kinds of files which contain TDF bitstream information. Each will start with a 4-byte &quot;magic-number&quot; identifying the kind of file followed by two <literal>TDFINT</literal>s giving the major and minor version numbers of the TDF involved.</para>
@@ -8467,3 +8466,8 @@
     </note>
   </chapter>
 </book>
+
+
+
+
+

@@ -43,7 +43,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
     <para>This document describes how to use the <literal>sid</literal> parser
@@ -153,10 +153,10 @@
       but will not output a parser.</para>
   </preface>
 
-  <chapter>
+  <chapter id='grammars'>
     <title>Grammars</title>
 
-    <sect1>
+    <sect1 id='parsing'>
       <title>Parsing</title>
 
       <para>There are two phases in traditional language recognition that are
@@ -187,7 +187,7 @@
         to recover from errors).</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='content-free-grammers'>
       <title>Context free grammars</title>
 
       <para>This section provides a brief introduction to grammars. It is not
@@ -228,7 +228,7 @@ list-of-integers = {
         alternative source for more information.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='sid-grammers'>
       <title>sid Grammars</title>
 
       <para><literal>sid</literal> grammars are based upon a subset of context
@@ -283,7 +283,7 @@ list-of-integers = {
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='overview'>
     <title>Overview</title>
 
     <para><literal>sid</literal> takes the input grammar and applies several
@@ -291,7 +291,7 @@ list-of-integers = {
       transformations allow the language descriptions to be written in a
       slightly more natural form than would otherwise be necessary.</para>
 
-    <sect1>
+    <sect1 id='left-recurs-elimination'>
       <title>Left recursion elimination</title>
 
       <para>The first transformation is to eliminate any left recursive
@@ -352,7 +352,7 @@ Xji = Bjk Xki, Yji
         are not met.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='factoring'>
       <title>Factoring</title>
 
       <para>The second major transformation is to factor the grammar. It is
@@ -412,7 +412,7 @@ X1 = {
         non-local variables then an error will occur.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='optimisations'>
       <title>Optimisations</title>
 
       <para>After these two transformations, <literal>sid</literal> performs
@@ -428,7 +428,7 @@ X1 = {
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='invocation'>
     <title>Invocation</title>
 
     <para><literal>sid</literal> should be invoked in the following
@@ -442,7 +442,7 @@ sid <emphasis>options input-files output-files</emphasis>
     <para>INSERT MANPAGE XREF HERE</para>
   </chapter>
 
-  <chapter>
+  <chapter id='grammar-file'>
     <title>sid grammar file</title>
 
     <para>The <literal>sid</literal> grammar file should always be the first
@@ -455,7 +455,7 @@ sid <emphasis>options input-files output-files</emphasis>
       entry points. They must appear in that order. The sections are detailed
       below, after the lexical conventions.</para>
 
-    <sect1>
+    <sect1 id='lexical-conventions-a'>
       <title>Lexical conventions</title>
 
       <para>Almost all non-printable characters (but definitely space, tab,
@@ -504,7 +504,7 @@ expression  mult-expr   plus_expr   expr-1
       <para>All other characters are illegal.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='type-decl-sect'>
       <title>The type declaration section</title>
 
       <para>The first section is the type declaration section. This begins
@@ -526,7 +526,7 @@ StringT ;
         types declared here must be used in the grammar.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='term-decl-sect'>
       <title>The terminal declaration section</title>
 
       <para>After the type declaration section comes the terminal declaration
@@ -581,7 +581,7 @@ terminal2 : () -&gt; ( :StringT ) ;
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='rule-def-sect'>
       <title>The rule definition section</title>
 
       <para>The rule definition section follows the terminal declaration
@@ -883,7 +883,7 @@ rule1 [
         be used to build a stack automatically for example).</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='grammar-entry-points-sect'>
       <title>The grammar entry points section</title>
 
       <para>The final section lists the entry points to the grammar. It begins
@@ -900,7 +900,7 @@ rule1 [
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='c-info-file'>
     <title>The C information file</title>
 
     <para>The grammar specification itself is not sufficient to produce a
@@ -1071,7 +1071,7 @@ rule1 [
       appear.  Unlike the <literal>sid</literal> grammar file, not all
       sections are mandatory.</para>
 
-    <sect1>
+    <sect1 id='lexical-conventions-b'>
       <title>Lexical conventions</title>
 
       <para>The lexical conventions of the C information file are very similar
@@ -1208,7 +1208,7 @@ rule1 [
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='prefixes-section'>
       <title>The prefixes section</title>
 
       <para>The first section in the C information file is the prefix
@@ -1230,7 +1230,7 @@ terminal    = ZB ;
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='maps-section'>
       <title>The maps section</title>
 
       <para>The section that follows the prefixes section is the maps section.
@@ -1260,7 +1260,7 @@ calculator  -&gt; calculator ;
 
     </sect1>
 
-    <sect1>
+    <sect1 id='header-section'>
       <title>The header section</title>
 
       <para>After the maps section comes the header section. This begins with
@@ -1287,7 +1287,7 @@ extern void syntax_error () ;
 
     </sect1>
 
-    <sect1>
+    <sect1 id='assignments-sect'>
       <title>The assignments section</title>
 
       <para>The assignments section follows the header section. This section
@@ -1319,7 +1319,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
         defined).</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='parameter-assignments-sect'>
       <title>The parameter assignments section</title>
 
       <para>The parameter assignments section is very similar to the
@@ -1356,7 +1356,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='result-assignments-sect'>
       <title>The result assignments section</title>
 
       <para>The result assignments section is very similar to the assignments
@@ -1382,7 +1382,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='terminal-result-ext-sect'>
       <title>The terminal result extraction section</title>
 
       <para>The terminal result extraction section follows the reference
@@ -1413,7 +1413,7 @@ string : () -&gt; ( s ) = @{
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='action-def-section'>
       <title>The action definition section</title>
 
       <para>The action definition section follows the terminal result
@@ -1485,7 +1485,7 @@ exit ( EXIT_FAILURE ) ;
         in actions definitions, then define them in the header block.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='trailer-sect'>
       <title>The trailer section</title>
 
       <para>After the action definition section comes the trailer section.
@@ -1508,7 +1508,7 @@ exit ( EXIT_FAILURE ) ;
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='predicates'>
     <title>Predicates</title>
 
     <para>Predicates provide the user with a mechanism for altering the
@@ -1579,7 +1579,7 @@ rule = {
       evaluate to false, then an exception is raised.</para>
   </chapter>
 
-  <chapter>
+  <chapter id='error-handling'>
     <title>Error handling</title>
 
     <para>If the input given to the parser is valid, then the parser will not
@@ -1598,7 +1598,7 @@ rule = {
       <literal>longjmp</literal>) for error recovery.</para>
   </chapter>
 
-  <chapter>
+  <chapter id='call-references'>
     <title>Call by reference</title>
 
     <para>The default behaviour of <literal>sid</literal> is to do argument
@@ -1621,7 +1621,7 @@ rule = {
       by reference argument to an action that mutates its parameters).</para>
   </chapter>
 
-  <chapter>
+  <chapter id='calling-entry-points'>
     <title>Calling entry points</title>
 
     <para>When calling a function that implements an entry point rule, it
@@ -1652,7 +1652,7 @@ rule1 ( a, b, &amp;c, &amp;d ) ;
     </programlisting>
   </chapter>
 
-  <chapter>
+  <chapter id='understanding-error-messages'>
     <title>Understanding error messages</title>
 
     <para>This section tries to explain what some of the error messages that
@@ -1660,10 +1660,10 @@ rule1 ( a, b, &amp;c, &amp;d ) ;
       contain descriptions of messages like &quot;type 'some type' is
       unknown&quot;, as these should be self-explanatory.</para>
 
-    <sect1>
+    <sect1 id='left-recurs-elimination-err'>
       <title>Left recursion elimination errors</title>
 
-      <simplesect>
+      <simplesect id='parameter-result'>
         <title>The parameter or result types of the left recursive calls in
           the following productions do not match:
           <emphasis>PRODUCTIONS</emphasis></title>
@@ -1688,7 +1688,7 @@ rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='exception-handlers'>
         <title>The exception handlers in the left recursion involving the
           following productions do not match:
           <emphasis>PRODUCTIONS</emphasis></title>
@@ -1721,7 +1721,7 @@ rule2 = {
           that the exception handlers occur at the correct place.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='argument-names'>
         <title>The argument names of the left recursive calls in the following
           productions do not match: <emphasis>PRODUCTIONS</emphasis></title>
 
@@ -1740,7 +1740,7 @@ rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='non-local-name'>
         <title>A non-local name in the rule '<emphasis>RULE</emphasis>' is not
           in scope in the rule '<emphasis>RULE</emphasis>' in the left
           recursive cycle involving the following productions:
@@ -1772,7 +1772,7 @@ rule1 [
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='declares-productions'>
         <title>The rule '<emphasis>RULE</emphasis>' declares non-local names
           in the left recursive cycle with more than one entry point involving
           the following productions: <emphasis>PRODUCTIONS</emphasis></title>
@@ -1806,7 +1806,7 @@ rule2 = {
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='cycle-term-recursive'>
         <title>No cycle termination for the left recursive set involving the
           following rules: <emphasis>RULES</emphasis></title>
 
@@ -1837,11 +1837,11 @@ rule3 = {
       </simplesect>
     </sect1>
 
-    <sect1>
+    <sect1 id='first-set-computation-errors'>
       <title>First set computation errors</title>
         <para> </para>
 
-      <simplesect>
+      <simplesect id='cannot-compute'>
         <title>Cannot compute first set for
           <emphasis>PRODUCTION</emphasis></title>
 
@@ -1863,7 +1863,7 @@ rule1 = {
           the call is not the leftmost item in the alternative.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='predicate-production'>
         <title>Can see through to predicate '<emphasis>PREDICATE</emphasis>'
           in production <emphasis>PRODUCTION</emphasis></title>
 
@@ -1881,7 +1881,7 @@ rule1 = {
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='rule-production'>
         <title>Can see through to predicates in rule
           '<emphasis>RULE</emphasis>' in production
           <emphasis>PRODUCTION</emphasis></title>
@@ -1907,7 +1907,7 @@ rule2 = {
         </programlisting>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='see-through-alt-a'>
         <title>The rule '<emphasis>RULE</emphasis>' has all terminals in its
           first set and has a redundant see-through alternative</title>
 
@@ -1919,10 +1919,10 @@ rule2 = {
       </simplesect>
     </sect1>
 
-    <sect1>
+    <sect1 id='factoring-errors'>
       <title>Factoring errors</title>
 
-      <simplesect>
+      <simplesect id='too-many-prod'>
         <title>Too many productions (<emphasis>NUMBER</emphasis>) created
           during factorisation</title>
 
@@ -1933,7 +1933,7 @@ rule2 = {
           lot.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='exception-hand-matchs'>
         <title>The rule '<emphasis>RULE</emphasis>' cannot be expanded into
           '<emphasis>RULE</emphasis>' as the exception handlers don't
           match</title>
@@ -1946,7 +1946,7 @@ rule2 = {
           fail.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='non-local-name-def'>
         <title>The rule '<emphasis>RULE</emphasis>' cannot be expanded into
           '<emphasis>RULE</emphasis>' as it contains non-local name
           definitions</title>
@@ -1959,10 +1959,10 @@ rule2 = {
       </simplesect>
     </sect1>
 
-    <sect1>
+    <sect1 id='checking-errors'>
       <title>Checking errors</title>
 
-      <simplesect>
+      <simplesect id='collision-terminal'>
         <title>Collision of terminal(s) <emphasis>TERMINALS</emphasis> in rule
           '<emphasis>RULE</emphasis>'</title>
 
@@ -1983,7 +1983,7 @@ rule1 = {
           occurring, this error will be produced.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='collision-predicate'>
         <title>Collision of predicate '<emphasis>PREDICATE</emphasis>' in rule
           '<emphasis>RULE</emphasis>'</title>
 
@@ -2006,7 +2006,7 @@ rule1 = {
           produced.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='terminals'>
         <title>The terminal(s) <emphasis>TERMINALS</emphasis> can start rule
           '<emphasis>RULE</emphasis>' which is see-through, and the same
           terminal(s) may appear in the following situations:
@@ -2036,7 +2036,7 @@ rule2 = {
           call is highlighted.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='predicates-start-rule'>
         <title>The predicate(s) <emphasis>PREDICATES</emphasis> can start rule
           '<emphasis>RULE</emphasis>' which is see-through and the same
           predicate(s) may appear in the following situations:
@@ -2067,7 +2067,7 @@ rule2 = {
           call is highlighted.</para>
       </simplesect>
 
-      <simplesect>
+      <simplesect id='see-through-alt-b'>
         <title>The rule '<emphasis>RULE</emphasis>' contains more than one
           see-through alternative</title>
 
@@ -2086,7 +2086,7 @@ rule1 = {
     </sect1>
   </chapter>
 
-  <glossary>
+  <glossary id='glossary'>
     <title>Glossary</title>
 
     <para>This section describes some of the terms used in the sid

@@ -51,7 +51,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title> 
 
     <para>PL_TDF is a language in the lineage of Wirth's PL360 and its later
@@ -80,9 +80,9 @@
       TDF.</para>
   </preface>
 
-  <chapter>
+  <chapter id='notation'>
     <title>Notation</title> 
-    <sect1>
+    <sect1 id='syntax-desc'>
       <title>Syntax description</title> 
 
       <para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
@@ -136,7 +136,7 @@
         brackets form an anonymous non-terminal.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='lexical-units'>
       <title>Lexical Units</title> 
 
       <para>The terminal symbols ( ), [ ], and { } always occur as parenthetic
@@ -189,7 +189,7 @@
         be used to form names for TAGs, TOKENs, AL_TAGs and LABELs.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='pre-processing'>
       <title>Pre-processing</title> 
 
       <para>At the moment there is only one pre-processing directive. A line
@@ -203,7 +203,7 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='language'>
     <title>The Language</title> 
 
     <para>The basic philosophy of PL_TDF is to provide the "glue" constructors
@@ -271,7 +271,7 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
     <para>The principle of "no use before declaration" also applies to
       &lt;ident&gt; names given to TAGs.</para>
 
-    <sect1>
+    <sect1 id='program'>
       <title>Program</title> 
 
       <para>The root expansion of a PL_TDF program is given by
@@ -305,7 +305,7 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
 
       <para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
 
-      <sect2>
+      <sect2 id='tokdec'>
         <title>Tokdec</title> 
 
         <para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:</para>
@@ -324,7 +324,7 @@ assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
           &lt;x-token&gt; where x is given by the &lt;ResultSort&gt;.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tokdef'>
         <title>Tokdef</title> 
 
         <para>A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
@@ -365,7 +365,7 @@ exp_apply_token( token_apply_token(x, ()), L)
           as a parameter of a token application.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tagdec'>
         <title>Tagdec</title> 
 
         <para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:</para>
@@ -387,7 +387,7 @@ exp_apply_token( token_apply_token(x, ()), L)
           various shorthand operations on TAG &lt;ident&gt;s.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tagdef'>
         <title>Tagdef</title> 
 
         <para>A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
@@ -432,7 +432,7 @@ String format = "Result = %d\n"
           (Example PL_TDF programs).</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='altagdef'>
         <title>Altagdef</title> 
 
         <para>An &lt;Altagdef&gt; defines an &lt;ident&gt; as an
@@ -447,7 +447,7 @@ String format = "Result = %d\n"
           expansion of &lt;Alignment&gt;.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='structdef'>
         <title>Structdef</title> 
 
         <para> A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
@@ -486,7 +486,7 @@ Struct Complex (re: Double, im: Double)
           start of the structure.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='procdef'>
         <title>Procdef</title> 
 
         <para>A &lt;Procdef&gt; defines a TAG to be a procedure; it is simply
@@ -536,7 +536,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='first-class-sort-exp'>
       <title>First-class SORT expansions</title> 
 
       <para>All of the first-class sorts have similar expansions for native
@@ -577,7 +577,7 @@ Struct Complex (re: Double, im: Double)
         expansion required by the SORT given by the &lt;TokDecPar&gt; of the
         TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
 
-      <sect2>
+      <sect2 id='access'>
         <title>Access</title> 
 
         <programlisting>
@@ -590,7 +590,7 @@ Struct Complex (re: Double, im: Double)
           standard ones.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='al-tag'>
         <title>Al_tag</title> 
 
         <programlisting>
@@ -607,7 +607,7 @@ Struct Complex (re: Double, im: Double)
           be declared as the name for an AL_TAG.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='alignment'>
         <title>Alignment</title> 
 
         <programlisting>
@@ -633,7 +633,7 @@ Struct Complex (re: Double, im: Double)
           ALIGNMENT.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='bitfield-variety'>
         <title>Bitfield_variety</title> 
 
         <programlisting>
@@ -655,7 +655,7 @@ Struct Complex (re: Double, im: Double)
           Signed.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='bool'>
         <title>Bool</title> 
 
         <programlisting>
@@ -668,7 +668,7 @@ Struct Complex (re: Double, im: Double)
           ones.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='error-treatment'>
         <title>Error_treatment</title> 
 
         <programlisting>
@@ -696,7 +696,7 @@ Struct Complex (re: Double, im: Double)
         <para>Produces trap with the &lt;Error_code&gt;s as arguments.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='exp'>
         <title>Exp</title> 
 
         <programlisting>
@@ -717,7 +717,7 @@ Struct Complex (re: Double, im: Double)
         <para>The further expansions of &lt;Exp&gt; are all
           &lt;ExpTerm&gt;s</para>
 
-        <sect3>
+        <sect3 id='expterm'>
           <title>ExpTerm</title> 
 
           <programlisting>
@@ -871,7 +871,7 @@ Struct Complex (re: Double, im: Double)
         </sect3>
       </sect2>
 
-      <sect2>
+      <sect2 id='floating-variety'>
         <title>Floating_variety</title> 
 
         <programlisting>
@@ -896,7 +896,7 @@ Struct Complex (re: Double, im: Double)
         <para>An IEEE 64 bit floating variety.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='label'>
         <title>Label</title> 
 
         <programlisting>
@@ -913,7 +913,7 @@ Struct Complex (re: Double, im: Double)
           the current procedure.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='nat'>
         <title>Nat</title> 
 
         <programlisting>
@@ -937,7 +937,7 @@ Struct Complex (re: Double, im: Double)
         <para>Produces a make_nat on the ASCII value of the character.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='ntest'>
         <title>Ntest</title> 
 
         <programlisting>
@@ -1015,7 +1015,7 @@ Struct Complex (re: Double, im: Double)
         <para>Produces greater_than_or_equal.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rounding-mode'>
         <title>Rounding_mode</title> 
 
         <programlisting>
@@ -1029,7 +1029,7 @@ Struct Complex (re: Double, im: Double)
           the standard ones.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='shape'>
         <title>Shape</title> 
 
         <programlisting>
@@ -1086,7 +1086,7 @@ Struct Complex (re: Double, im: Double)
         <para>The SHAPE pointer(alignment(&lt;Shape&gt;)).</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='signed-nat'>
         <title>Signed_Nat</title> 
 
         <programlisting>
@@ -1128,7 +1128,7 @@ Struct Complex (re: Double, im: Double)
           &lt;Nat&gt;.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='string'>
         <title>String</title> 
         
         <programlisting>
@@ -1146,7 +1146,7 @@ Struct Complex (re: Double, im: Double)
         <para>Produces a make_string.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tag'>
         <title>Tag</title> 
 
         <programlisting>
@@ -1163,7 +1163,7 @@ Struct Complex (re: Double, im: Double)
           as a TAG either globally or locally.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='token'>
         <title>Token</title> 
 
         <para>TOKEN is rather a limited first-class sort. There is no
@@ -1192,7 +1192,7 @@ Struct Complex (re: Double, im: Double)
           procedure.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='transfer-mode'>
         <title>Transfer_mode</title> 
 
         <programlisting>
@@ -1205,7 +1205,7 @@ Struct Complex (re: Double, im: Double)
           the standard expansions.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='variety'>
         <title>Variety</title> 
 
         <programlisting>
@@ -1234,7 +1234,7 @@ Struct Complex (re: Double, im: Double)
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='control-struct-decl'>
       <title>Control structure and local declarations</title> 
 
       <para>The control and declaration structure is given by
@@ -1261,7 +1261,7 @@ Struct Complex (re: Double, im: Double)
       <para>The effect of these, together with the expansion of
         &lt;Assertion&gt; is given below.</para>
 
-      <sect2>
+      <sect2 id='conditionalexp-assertion'>
         <title>ConditionalExp and Assertion</title> 
 
         <programlisting>
@@ -1337,7 +1337,7 @@ Struct Complex (re: Double, im: Double)
           L.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='repeatexp'>
         <title>RepeatExp</title> 
 
         <programlisting>
@@ -1353,7 +1353,7 @@ Struct Complex (re: Double, im: Double)
           make_top.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='labelledxp'>
         <title>LabelledExp</title> 
 
         <programlisting>
@@ -1370,7 +1370,7 @@ Struct Complex (re: Double, im: Double)
           is the &lt;LabelledExp&gt;.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='local-defn'>
         <title>Local_Defn</title> 
 
         <para>A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for
@@ -1407,10 +1407,10 @@ Struct Complex (re: Double, im: Double)
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='example-pl-tdf'>
     <title>Example PL_TDF programs</title> 
 
-    <sect1>
+    <sect1 id='sieve-erastothenes'>
       <title>Sieve of Erastothenes</title> 
 
       <programlisting>
@@ -1472,7 +1472,7 @@ Keep (main)         /* main will be an external name; so will printf since it is
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='example-structures'>
       <title>Example with structures</title> 
 
       <programlisting>
@@ -1502,7 +1502,7 @@ Keep(main)
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='test-case'>
       <title>Test for case</title> 
 
       <programlisting>
@@ -1540,7 +1540,7 @@ Keep (main, test)
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='high-order-tokens'>
       <title>Example of use of high-order TOKENs</title> 
 
       <programlisting>
@@ -1570,7 +1570,7 @@ Keep (main)
       </programlisting>
     </sect1>
 
-    <sect1>
+    <sect1 id='test-long-jumps'>
       <title>A test for long jumps</title> 
 
       <programlisting>
@@ -1599,7 +1599,7 @@ Keep (main)
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='use-pl-tdf-compiler'>
     <title>Use of the PL_TDF compiler</title> 
 
     <para>INSERT XREF TO MANPAGE HERE</para>
@@ -1627,3 +1627,5 @@ Keep (main)
       system.</para>
   </chapter>
 </book>
+
+

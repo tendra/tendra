@@ -51,7 +51,7 @@
   </bookinfo>
 
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
     <para> This memo is intended to be a fairly detailed commentary on the
@@ -76,7 +76,7 @@
       the TenDRA team.</para>
   </preface>
 
-  <chapter>
+  <chapter id='sorts-tokens'>
     <title>SORTs and TOKENs</title>
 
     <para> In the syntax of language like C or Pascal, we find various
@@ -130,7 +130,7 @@
       than having to give syntax to provide the syntax for the new
       construction in a language.</para>
 
-    <sect1>
+    <sect1 id='token-first-class-sorts'>
       <title>Token applications and first-class SORTs</title>
 
       <para> A new construction is introduced by the SORT TOKEN; the
@@ -281,7 +281,7 @@
         allow fast copying.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='token-def-decl'>
       <title>Token definitions and declarations</title>
 
       <para>Thus the <emphasis>token_args</emphasis> parameter of
@@ -372,7 +372,7 @@
 -&gt; TOKEN
 </programlisting>
     </sect1>
-    <sect1>
+    <sect1 id='simple-token'>
       <title>A simple use of a TOKEN</title>
       <para>
         The crucial use of TOKENs in TDF is to provide abstractions of APIs
@@ -391,7 +391,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
 )
 </programlisting>
     </sect1>
-    <sect1>
+    <sect1 id='second-class-sorts'>
       <title>Second class SORTs</title>
       <para>
         Second class SORTs (given in table 2 on page 11) cannot be
@@ -586,7 +586,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
 
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='capsules-units'>
     <title>CAPSULEs and UNITs</title>
     <para>
       A CAPSULE is typically the result of a single compilation - one could
@@ -600,7 +600,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
       to be run. For example, the translator could produce assembly code
       with external identifiers which will be supplied by some system
       library.</para>
-    <sect1>
+    <sect1 id='make-capsule-name-spaces'>
       <title>make_capsule and name-spaces</title>
       <para>
         The only constructor for a CAPSULE is make_capsule. Its basic
@@ -654,7 +654,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         there are 5 CAPSULE "tag" names used within the CAPSULE, namely 0,
         1, 2, 3 and 4; similarly there are 6 "token" names and 7 "al_tag"
         names.</para>
-      <sect2>
+      <sect2 id='external-linkages'>
         <title>External linkages</title>
         <para>
           The context of usage will always determine when and how an
@@ -686,7 +686,7 @@ make_linkextern (4, string_extern("printf"))
           be used to linkage external to the CAPSULE; any name required
           outside the CAPSULE would have to be linked like this.</para>
       </sect2>
-      <sect2>
+      <sect2 id='units'>
         <title>UNITs</title>
         <para>
           This name "printf", of course, does not necessarily mean the C
@@ -724,7 +724,7 @@ make_linkextern (4, string_extern("printf"))
           "tagdefs" UNIT is like a set of global definitions of
           identifiers.</para>
       </sect2>
-      <sect2>
+      <sect2 id='make-unit'>
         <title>make_unit</title>
         <para>
           Now we come to the construction of UNITs using make_unit, as in
@@ -756,7 +756,7 @@ make_linkextern (4, string_extern("printf"))
           will use a new number from the "tag" name-space; there is no
           hiding or reuse of names within a UNIT.</para>
       </sect2>
-      <sect2>
+      <sect2 id='link'>
         <title>LINK</title>
         <para>
           Connections between the CAPSULE name-spaces and the UNIT
@@ -782,7 +782,7 @@ make_link(42, 4)
           derived from some UNIT name-space.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='def-decl'>
       <title>Definitions and declarations</title>
       <para>
         The encoding in the <emphasis>properties</emphasis>:BYTSTREAM
@@ -880,7 +880,7 @@ make_link(42, 4)
         those themselves involved in initial_values, but after any constant
         initialisations. The order of evaluation of different
         initial_values is arbitrary.</para>
-      <sect2>
+      <sect2 id='scopes-linking'>
         <title>Scopes and linking</title>
         <para>
           Only names introduced by AL_TAGDEFS, TAGDEFS, TAGDECs, TOKDECs
@@ -942,7 +942,7 @@ make_link(42, 4)
           each CAPSULE involved if the system linker did not provide
           suitable C++ linking.</para>
       </sect2>
-      <sect2>
+      <sect2 id='decl-definition'>
         <title>Declaration and definition
         <emphasis>signatures</emphasis></title>
         <para>
@@ -964,7 +964,7 @@ make_link(42, 4)
           of a TOKEN may not have any familiar analogue in most HLLs, but
           the principle remains the same.</para>
       </sect2>
-      <sect2>
+      <sect2 id='string'>
         <title>STRING</title>
         <para>
           The SORT STRING is used in various constructs other than
@@ -994,7 +994,7 @@ make_link(42, 4)
       </sect2>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='shapes-align-offets'>
     <title>SHAPEs, ALIGNMENTs and OFFSETs</title>
     <para>
       In most languages there is some notion of the type of a value. This
@@ -1007,7 +1007,7 @@ make_link(42, 4)
       cannot say, for example, that a pointer is 32 bits long; the size of
       pointers has to be abstracted so that translations to particular
       architectures can choose the size that is apposite for the platform.</para>
-    <sect1>
+    <sect1 id='shapes'>
       <title>Shapes</title>
       <para>
         There are ten different basic constructors for the SORT SHAPE from
@@ -1029,7 +1029,7 @@ make_link(42, 4)
         are more for the benefit of translator writers than for the user. A
         tool for testing the SHAPE correctness of a TDF program would be
         useful but has yet to be written.</para>
-      <sect2>
+      <sect2 id='top-bottom-lub'>
         <title>TOP, BOTTOM, LUB</title>
         <para>
           Two of the SHAPE constructions are rather specialised; these are
@@ -1049,7 +1049,7 @@ make_link(42, 4)
           this operation is associative, commutative and idempotent, we can
           speak quite unambiguously of the LUB of several SHAPEs.</para>
       </sect2>
-      <sect2>
+      <sect2 id='integer'>
         <title>INTEGER</title>
         <para>
           Integer values in TDF have shape INTEGER(v) where v is of SORT
@@ -1083,7 +1083,7 @@ width:  NAT
 -&gt; VARIETY
 </programlisting>
       </sect2>
-      <sect2>
+      <sect2 id='floating-complex'>
         <title>FLOATING and complex</title>
         <para>
           Similarly, floating point and complex numbers have shape FLOATING
@@ -1118,7 +1118,7 @@ maximum_exponent::  NAT
           numbers, transforming the complex operations into floating point
           operations on the fields.</para>
       </sect2>
-      <sect2>
+      <sect2 id='bitfield'>
         <title>BITFIELD</title>
         <para>
           A number of contiguous bits have shape BITFIELD, qualified by a
@@ -1127,14 +1127,14 @@ maximum_exponent::  NAT
           integers. Current translators put a maximum of 32 or 64 on the
           number of bits.</para>
       </sect2>
-      <sect2>
+      <sect2 id='proc'>
         <title>PROC</title>
         <para>
           The representational SHAPEs of procedure values is given by PROC
           with constructor proc . I shall return to this in the description
           of the operations which use it.</para>
       </sect2>
-      <sect2>
+      <sect2 id='non-primitive-shapes'>
         <title>Non-primitive SHAPEs</title>
         <para>
           The construction of the other four SHAPEs involves either
@@ -1144,7 +1144,7 @@ maximum_exponent::  NAT
           alignments and offsets.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='alignments'>
       <title>Alignments</title>
       <para>
         In most processor architectures there are limitations on how one
@@ -1184,7 +1184,7 @@ maximum_exponent::  NAT
         containing the alignment of a float while that of a C union of an
         int and this structure is a pair of the alignments of an int and a
         float.</para>
-      <sect2>
+      <sect2 id='alignment-const'>
         <title>ALIGNMENT constructors</title>
         <para>
           The TDF abstraction of an alignment has SORT ALIGNMENT. The
@@ -1211,7 +1211,7 @@ maximum_exponent::  NAT
           boundary. The constructor, parameter_alignment, gives the
           ALIGNMENT of a parameter of given SHAPE.</para>
       </sect2>
-      <sect2>
+      <sect2 id='special-alignments'>
         <title>Special alignments</title>
         <para>
           There are several other special ALIGNMENTs.</para>
@@ -1248,7 +1248,7 @@ maximum_exponent::  NAT
           procedure which can be of arbitrary length (see
           -XREF-guide7.html#12section 5.1.1 on page 27).</para>
       </sect2>
-      <sect2>
+      <sect2 id='al-tag-make-al-tagdef'>
         <title>AL_TAG, make_al_tagdef</title>
         <para>
           Alignments can also be named as AL_TAGs using make_al_tagdef.
@@ -1263,7 +1263,7 @@ maximum_exponent::  NAT
           is set-union.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='pointer-offset-shapes'>
       <title>Pointer and offset SHAPEs</title>
       <para>
         A pointer value must have a form which reflects the alignment of
@@ -1272,7 +1272,7 @@ maximum_exponent::  NAT
         TDF SHAPE for a pointer is POINTER qualified by the ALIGNMENT of
         the object pointed to. The constructor pointer uses this alignment
         to make a POINTER SHAPE.</para>
-      <sect2>
+      <sect2 id='offset'>
         <title>OFFSET</title>
         <para>
           Expressions which give sizes or offsets in TDF have an OFFSET
@@ -1306,7 +1306,7 @@ maximum_exponent::  NAT
           constant.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='compound-shapes'>
       <title>Compound SHAPEs</title>
       <para>
         The alignments of compound SHAPEs (i.e. those arising from the
@@ -1334,7 +1334,7 @@ maximum_exponent::  NAT
       <para>
         The <emphasis>sz</emphasis> parameter gives the minimum size which
         can accommodate the SHAPE.</para>
-      <sect2>
+      <sect2 id='offset-arith-compound-shapes'>
         <title>Offset arithmetic with compound shapes</title>
         <para>
           The constructors offset_add , offset_zero and shape_offset are
@@ -1370,7 +1370,7 @@ maximum_exponent::  NAT
           examples of the use of OFFSETs to access and create structures,
           see -XREF-guide14.html#0section 12 on page 53.</para>
       </sect2>
-      <sect2>
+      <sect2 id='offset-mult'>
         <title>offset_mult</title>
         <para>
           In C, all structures have size known at translate-time. This
@@ -1392,7 +1392,7 @@ maximum_exponent::  NAT
           and using add_to_ptr with a pointer expression giving the base of
           the array with the resulting OFFSET.</para>
       </sect2>
-      <sect2>
+      <sect2 id='offset-ordering-rep'>
         <title>OFFSET ordering and representation</title>
         <para>
           There is an ordering defined on OFFSETs with the same alignment
@@ -1450,7 +1450,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           13 on page 56.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='bitfield-align'>
       <title>BITFIELD alignments</title>
       <para>
         Even in standard machines, one finds that the size of a pointer may
@@ -1491,7 +1491,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         39.).</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='procedures-locals'>
     <title>Procedures and Locals</title>
     <para>
       All procedures in TDF are essentially global; the only values which
@@ -1530,7 +1530,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       using an apply_general_proc. This allows simple implementations of
       Ada out_parameters, or more generally, multiple results of
       procedures.</para>
-    <sect1>
+    <sect1 id='make-proc-apply-proc'>
       <title>make_proc and apply_proc</title>
       <para>
         The make_proc constructor has signature:</para>
@@ -1622,7 +1622,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         The SHAPE of the result of the call is given by
         <emphasis>result_shape</emphasis> which must be identical to the
         <emphasis>result_shape</emphasis> of the make_proc.</para>
-      <sect2>
+      <sect2 id='vartag'>
         <title><emphasis>vartag</emphasis>,
         <emphasis>varparam</emphasis></title>
         <para>
@@ -1653,7 +1653,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           the fields individually as extra actual parameters.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='make-general-proc'>
       <title>make_general_proc and apply_general_proc</title>
       <para>
         A make_general_proc has signature:</para>
@@ -1736,7 +1736,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       <para>
         make_proc(S, L, empty, B) = make_general_proc(S, var_callers, L,
         empty, B)</para>
-      <sect2>
+      <sect2 id='tail-call'>
         <title>tail_call</title>
         <para>
           Often the result of a procedure, <emphasis>f</emphasis>, is
@@ -1784,7 +1784,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           However an implementation is expected to conserve stack by using
           the same space for the call of p as the current procedure.</para>
       </sect2>
-      <sect2>
+      <sect2 id='procprops'>
         <title>PROCPROPS</title>
         <para>
           The presence of var_callees (or var_callers) means that the
@@ -1820,9 +1820,9 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           (see -XREF-guide8.html#31section 6.3 on page 35) will be raised.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='defining-using-locals'>
       <title>Defining and using locals</title>
-      <sect2>
+      <sect2 id='identify-variable'>
         <title>identify, variable</title>
         <para>
           Local definitions within the <emphasis>body</emphasis> of a
@@ -1872,7 +1872,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           argument could be provided by make_value which will produce some
           value with SHAPE given by its parameter.</para>
       </sect2>
-      <sect2>
+      <sect2 id='access'>
         <title>ACCESS</title>
         <para>
           The ACCESS SORT given in tag declarations is a way of describing
@@ -1881,7 +1881,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           properties of the tag with respect to the model for locals and
           the other which gives "hints" on how the value will be used. Any
           of these can be combined using add_access.</para>
-        <sect3>
+        <sect3 id='locals-model'>
           <title>Locals model</title>
           <para>
             At the moment there are just three possibilities in the first
@@ -1931,7 +1931,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
             necessarily have to generate a pointer value if it can be
             subsumed by the operations available.</para>
         </sect3>
-        <sect3>
+        <sect3 id='access-hints'>
           <title>Access "hints"</title>
           <para>
             A variable tag with ACCESS constant is a write-once value; once
@@ -1951,7 +1951,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
             for example.</para>
         </sect3>
       </sect2>
-      <sect2>
+      <sect2 id='current-env-env-offet'>
         <title>current_env, env_offset</title>
         <para>
           The constructor current_env gives a pointer to the current
@@ -2017,7 +2017,7 @@ add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t
           the value given by current_env becomes meaningless once the
           procedure in which it is invoked is exited.</para>
       </sect2>
-      <sect2>
+      <sect2 id='local-alloc-local-free'>
         <title>local_alloc, local_free_all, last_local</title>
         <para>
           The size of stack frame produced by variable and identify
@@ -2075,7 +2075,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           procedure it can be structured in an arbitrarily complicated way.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='heap-storage'>
       <title>Heap storage</title>
       <para>
         At the moment, there are no explicit constructors of creating
@@ -2086,11 +2086,11 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
         procedures like malloc.</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='control-flow-proc'>
     <title>Control Flow within procedures</title>
-    <sect1>
+    <sect1 id='unconditional-flow'>
       <title>Unconditional flow</title>
-      <sect2>
+      <sect2 id='sequence'>
         <title>sequence</title>
         <para>
           To perform a sequential set of operations in TDF, one uses the
@@ -2117,9 +2117,9 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           (S7.14) .</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='conditional-flow'>
       <title>Conditional flow</title>
-      <sect2>
+      <sect2 id='labelled-make-label'>
         <title>labelled, make_label</title>
         <para>
           All simple changes of flow of control within a TDF procedure are
@@ -2152,7 +2152,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           next; if this is required the appropriate EXP must end with an
           explicit goto.</para>
       </sect2>
-      <sect2>
+      <sect2 id='goto-make-local-lv'>
         <title>goto, make_local_lv, goto_local_lv, long_jump,
         return_to_label</title>
         <para>
@@ -2182,7 +2182,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           procedure. Usually this value would be passed as parameter of the
           call to provide an alternative exit to the procedure.</para>
       </sect2>
-      <sect2>
+      <sect2 id='integer-test-ntest'>
         <title>integer_test, NTEST</title>
         <para>
           Conditional branching is provided by the various _test
@@ -2212,7 +2212,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           the use of NaNs (in the IEEE sense) as operands may give
           different results.</para>
       </sect2>
-      <sect2>
+      <sect2 id='case'>
         <title>case</title>
         <para>
           There are only two other ways of changing flow of control using
@@ -2245,7 +2245,7 @@ upper:  SIGNED_NAT
           branches are taken, its SHAPE is TOP and execution carries on
           normally.</para>
       </sect2>
-      <sect2>
+      <sect2 id='conditional-repeat'>
         <title>conditional, repeat</title>
         <para>
           Besides labelled, two other constructors, conditional and repeat,
@@ -2315,7 +2315,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
           require no special constructions.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='exceptional-flow'>
       <title>Exceptional flow</title>
       <para>
         A further way of changing the flow of control in a TDF program is
@@ -2350,7 +2350,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
         translation of C.</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='values-variables-assign'>
     <title>Values, variables and assignments.</title>
     <para>
       TAGs in TDF fulfil the role played by identifiers in most programming
@@ -2365,7 +2365,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
       other hand, v was a TAG introduced by a variable definition, then the
       value bound to v is a pointer to fixed space in the procedure frame
       (i.e. the left-hand value in C).</para>
-    <sect1>
+    <sect1 id='contents'>
       <title>contents</title>
       <para>
         In order to get the contents of this space (the right-hand value in
@@ -2389,7 +2389,7 @@ contents(shape(v), obtain_tag(v))
         would allow one, for example, to pick out the first field of a
         structure from a pointer to it.</para>
     </sect1>
-    <sect1>
+    <sect1 id='assign'>
       <title>assign</title>
       <para>
         A simple assignment in TDF is done using assign:</para>
@@ -2437,7 +2437,7 @@ assign(obtain_tag(v), lhs).
         translators and other tools (see -XREF-guide13.html#0section 11 on
         page 48).</para>
     </sect1>
-    <sect1>
+    <sect1 id='transfer-mode-oper'>
       <title>TRANSFER_MODE operations</title>
       <para>
         The TRANSFER_MODE operations allow one to do assignment and
@@ -2491,7 +2491,7 @@ assign(obtain_tag(v), lhs).
         TRANSFER_MODE is also possible with the same meaning as in
         move_some.</para>
     </sect1>
-    <sect1>
+    <sect1 id='assining-extracting-bit'>
       <title>Assigning and extracting bitfields</title>
       <para>
         Since pointers to bits are forbidden, two special operations are
@@ -2557,7 +2557,7 @@ assign(obtain_tag(v), lhs).
 </programlisting>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='operations'>
     <title>Operations</title>
     <para>
       Most of the arithmetic operations of TDF have familiar analogues in
@@ -2568,7 +2568,7 @@ assign(obtain_tag(v), lhs).
       their desired operation in languages and their implementation on
       processors. Before delving into the details of error handling, it is
       worthwhile revisiting the SHAPEs and ranges in arithmetic VARIETYs.</para>
-    <sect1>
+    <sect1 id='variety-overflow'>
       <title>VARIETY and overflow</title>
       <para>
         An INTEGER VARIETY, for example, is defined by some range of signed
@@ -2609,7 +2609,7 @@ assign(obtain_tag(v), lhs).
         exceeded in arithmetic operations, so facilities are provided to
         either to ignore it , to allow one to jump to a label , or to obey
         a TDF exception handler if it happens.</para>
-      <sect2>
+      <sect2 id='error-treatment'>
         <title>ERROR_TREATMENT</title>
         <para>
           Taking integer addition as an example, plus has signature:</para>
@@ -2651,7 +2651,7 @@ assign(obtain_tag(v), lhs).
           ERROR_CODE overflow if overflow occurs.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='division-remainder'>
       <title>Division and remainder</title>
       <para>
         The various constructors in involving integer division (e.g. div1,
@@ -2681,7 +2681,7 @@ assign(obtain_tag(v), lhs).
         pairwise consistent. The precise definition of the divide
         operations is given in (S7.4).</para>
     </sect1>
-    <sect1>
+    <sect1 id='change-variety'>
       <title>change_variety</title>
       <para>
         Conversions between the various INTEGER varieties are provided for
@@ -2697,7 +2697,7 @@ assign(obtain_tag(v), lhs).
         representational variety of <emphasis>r</emphasis>, then the
         ERROR_TREATMENT <emphasis>ov_err</emphasis> will be invoked.</para>
     </sect1>
-    <sect1>
+    <sect1 id='and-or-not-xor'>
       <title>and, or, not, xor</title>
       <para>
         The standard logical operations, and, not, or and xor are provided
@@ -2705,7 +2705,7 @@ assign(obtain_tag(v), lhs).
         be represented in twos-complement the result of these operations
         are well defined.</para>
     </sect1>
-    <sect1>
+    <sect1 id='floating-point-oper'>
       <title>Floating-point operations, ROUNDING_MODE</title>
       <para>
         All of the floating-point (including complex) operations include
@@ -2732,7 +2732,7 @@ assign(obtain_tag(v), lhs).
         to all the other FLOATING constructors except for those explicitly
         excluded (eg floating_abs, floating_max etc.)</para>
     </sect1>
-    <sect1>
+    <sect1 id='change-bitfield-to-int'>
       <title>change_bitfield_to_int, change_int_to_bitfield</title>
       <para>
         There are two bit-field operation, change_bitfield_to_int and
@@ -2740,7 +2740,7 @@ assign(obtain_tag(v), lhs).
         integers. If the varieties do not fit the result is undefined; the
         producer can always get it right.</para>
     </sect1>
-    <sect1>
+    <sect1 id='make-compound-make-nof'>
       <title>make_compound, make_nof, n_copies</title>
       <para>
         There is one operation to make values of COMPOUND SHAPE,
@@ -2767,7 +2767,7 @@ assign(obtain_tag(v), lhs).
         Again, they only occur in C as constants in global definitions.</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='constants'>
     <title>Constants</title>
     <para>
       The representation of constants clearly has peculiar difficulties in
@@ -2805,7 +2805,7 @@ assign(obtain_tag(v), lhs).
       and addresses of globals. This corresponds very roughly to the kind
       of initialisations of globals that are permissible in C; for a more
       precise definition, see (S7.3).</para>
-    <sect1>
+    <sect1 id='cond-constructors'>
       <title>_cond constructors</title>
       <para>
         Another place where translate-time evaluation of constants is
@@ -2832,7 +2832,7 @@ assign(obtain_tag(v), lhs).
 
 </programlisting>
     </sect1>
-    <sect1>
+    <sect1 id='primitive-const-const'>
       <title>Primitive constant constructors</title>
       <para>
         Integer constants are constructed using make_int:</para>
@@ -2905,7 +2905,7 @@ assign(obtain_tag(v), lhs).
         but they can be assigned and used in tests in the normal way.</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='tokens-apis'>
     <title>Tokens and APIs</title>
     <para>
       All of the examples of the use of TOKENs so far given have really
@@ -2913,7 +2913,7 @@ assign(obtain_tag(v), lhs).
       OFFSETS for fields of structures. However, the real justification for
       TOKENs are their use as abstractions for things defined in libraries
       or application program interfaces (APIs).</para>
-    <sect1>
+    <sect1 id='application-prog-inter'>
       <title>Application programming interfaces</title>
       <para>
         APIs usually do not give complete language definitions of the
@@ -2974,7 +2974,7 @@ shape_apply_token(make_tok(T_FILE), ())
         interface of an API expressed as TOKENs to give both generality and
         flexibility across different platforms.</para>
     </sect1>
-    <sect1>
+    <sect1 id='linking-to-apis'>
       <title>Linking to APIs</title>
       <para>
         In general, each API requires platform-dependent definitions to be
@@ -2999,7 +2999,7 @@ shape_apply_token(make_tok(T_FILE), ())
         which defines the TOKEN T_FILE as the SHAPE for FILE, together with
         definitions for the TOKENs for putc, stdin, etc., in terms of
         identifiers which will be found in the library libc.a.</para>
-      <sect2>
+      <sect2 id='target-ind-head'>
         <title>Target independent headers, unique_extern</title>
         <para>
           Any producer which uses an API will use system independent
@@ -3042,7 +3042,7 @@ shape_apply_token(make_tok(T_FILE), ())
           cause no problems, so we may as well allow them.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='lang-prog-inter'>
       <title>Language programming interfaces</title>
       <para>
         So far, I have been speaking as though a TOKENised API could only
@@ -3092,7 +3092,7 @@ shape_apply_token(make_tok(T_FILE), ())
         of core TDF.</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='tdf-transformations'>
     <title>TDF transformations</title>
     <para>
       TDF to TDF transformations form the basis of most of the tools of
@@ -3158,7 +3158,7 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
       procedure inlining and loop unrolling. Often these target independent
       transformations can be profitably done in terms of the TOKENs of an
       LPI; loop unrolling is an obvious example.</para>
-    <sect1>
+    <sect1 id='transformations-def'>
       <title>Transformations as definitions</title>
       <para>
         As well being a vehicle for expressing optimisation, TDF
@@ -3267,7 +3267,7 @@ If F is any non order-specifying
         E<emphasis>1</emphasis>), ... , assign(add_to_ptr(obtain_tag(nt),
         D<emphasis>n</emphasis>), E<emphasis>n</emphasis>) ), contents(S,
         obtain_tag(nt)) ) )</para>
-      <sect2>
+      <sect2 id='examples-f-trans'>
         <title>Examples of transformations</title>
         <para>
           Any of these transformations may be performed by the TDF
@@ -3340,7 +3340,7 @@ make_top()
 )
 </programlisting>
       </sect2>
-      <sect2>
+      <sect2 id='prog-undef-values'>
         <title>Programs with undefined values</title>
         <para>
           The definitions of most of the constructors in the TDF
@@ -3355,7 +3355,7 @@ make_top()
       </sect2>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='tdf-expansions-offsets'>
     <title>TDF expansions of offsets</title>
     <para>
       Consider the C structure defined by:</para>
@@ -3446,7 +3446,7 @@ offset_pad(alignment(SH_mystruct), S_c)
       have to produce less obvious TDF, perhaps by re-ordering the fields,
       padding the offsets by later alignments or taking maxima of the sizes
       of the fields.</para>
-    <sect1>
+    <sect1 id='bitfield-offsets'>
       <title>Bitfield offsets</title>
       <para>
         Bitfield offsets are governed by rather stricter rules. In order to
@@ -3569,7 +3569,7 @@ offset_add(~Bitfield_offset_pad(M, b, S), size(bitfield(bfvar_bits(b, N))) )
         where size(X) = offset_pad(alignment(X), shape_offset(X))</para>
     </sect1>
   </chapter>
-  <chapter>
+  <chapter id='models-tdf-algebra'>
     <title>Models of the TDF algebra</title>
     <para>
       TDF is a multi-sorted abstract algebra. Any implementation of TDF is
@@ -3612,7 +3612,7 @@ REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(
       two sets of mappings for disparate architectures; the first gives a
       more or less standard meaning to ALIGNMENTs but the second may be
       less familiar.</para>
-    <sect1>
+    <sect1 id='model-standard-architecture'>
       <title>Model for a 32-bit standard architecture</title>
       <para>
         Almost all current architectures use a "flat-store" model of
@@ -3622,7 +3622,7 @@ REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(
         constraints for the efficient access of different kinds of data
         objects - usually one finds that 32-bit integers are most
         efficiently accessed if they start at 32 bit boundaries and so on.</para>
-      <sect2>
+      <sect2 id='alignment-model-a'>
         <title>Alignment model</title>
         <para>
           The representation of ALIGNMENT in a typical standard
@@ -3657,7 +3657,7 @@ REPR[ A ... B ]= REPR[ A ] xb3  REPR[ B }
           example the mapping of xc8 must be idempotent, commutative and
           associative, which is true for Max.</para>
       </sect2>
-      <sect2>
+      <sect2 id='offset-pointer-model-a'>
         <title>Offset and pointer model</title>
         <para>
           Most standard architectures use byte addressing; to address bits
@@ -3675,7 +3675,7 @@ REPR[ A ... B ]= REPR[ A ] xb3  REPR[ B }
           A value with SHAPE OFFSET(A, B) where REPR(B) = 1 is represented
           by a 32-bit <emphasis>bit</emphasis>-offset.</para>
       </sect2>
-      <sect2>
+      <sect2 id='size-model-a'>
         <title>Size model</title>
         <para>
           In principle, the representation of a SHAPE is a pair of an
@@ -3736,7 +3736,7 @@ REPR[offset_mult(X, E) ] = REPR[ X ] * REPR[ E ]
           allowed in the next model considered.</para>
       </sect2>
     </sect1>
-    <sect1>
+    <sect1 id='model-mach-iapx'>
       <title>Model for machines like the iAPX-432</title>
       <para>
         The iAPX-432 does not have a linear model of store. The address of
@@ -3754,7 +3754,7 @@ REPR[offset_mult(X, E) ] = REPR[ X ] * REPR[ E ]
         complications already covered in the first model. Also assume that
         instruction blocks are just scalar blocks and that block addresses
         are aligned on 32-bit boundaries.</para>
-      <sect2>
+      <sect2 id='alignment-model-b'>
         <title>Alignment model</title>
         <para>
           An ALIGNMENT is represented by a pair consisting of an integer,
@@ -3784,7 +3784,7 @@ REPR[ A xc8  B ] = (s: Max(REPR[ A ].s, REPR[ B ].s), b: REPR[ A ].b xda  REPR[ 
 REPR[ A ... B ] = (REPR[ A ].s xb3  REPR[ B ].s) xd9  (REPR[ A ].b xda  &yuml; REPR[ B ].b)
 </programlisting>
       </sect2>
-      <sect2>
+      <sect2 id='offset-pointer-model-b'>
         <title>Offset and pointer model</title>
         <para>
           A value with SHAPE POINTER A where &yuml; REPR[ A ].b is
@@ -3816,7 +3816,7 @@ sd: scalar_displacement, ad: address_displacement )
 ( sd: scalar_displacement, ad: address_displacement )
 </programlisting>
       </sect2>
-      <sect2>
+      <sect2 id='size-model-b'>
         <title>Size model</title>
         <para>
           The sizes given by shape_offset are now:</para>
@@ -3832,7 +3832,7 @@ REPR[ shape_offset(nof(N, S)) ]
 REPR[ shape_offset(top) ] = 0
 </programlisting>
       </sect2>
-      <sect2>
+      <sect2 id='offset-arithmetic'>
         <title>Offset arithmetic</title>
         <para>
           The other OFFSET constructors are given by:</para>
@@ -3901,4 +3901,9 @@ REPR [ {pointer} ... {long_variety} ] = TRUE
     </sect1>
   </chapter>
 </book>
+
+
+
+
+
 

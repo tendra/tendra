@@ -50,7 +50,7 @@
 
   </bookinfo>
 
-<preface>
+<preface id='intro'>
 <title>Introduction</title>
 
 <para>TDF is the name of the technology developed at DRA which has been adopted by the Open Software Foundation (OSF), Unix System Laboratories (USL), the European Community's Esprit Programme and others as their Architecture Neutral Distribution Format (ANDF). To date much of the discussion surrounding it has centred on the question, &quot;How do you distribute portable software?&quot;. This paper concentrates on the more difficult question, &quot;How do you write portable software in the first place?&quot; and shows how TDF can be a valuable tool to aid the writing of portable software. Most of the discussion centres on programs written in C and is Unix specific. This is because most of the experience of TDF to date has been in connection with C in a Unix environment, and not because of any inbuilt bias in TDF.</para>
@@ -60,18 +60,18 @@
 <para>The discussion is divided into two sections. Firstly some of the problems involved in writing portable programs are considered. The intention is not only to catalogue what these problems are, but to introduce ways of looking at them which will be important in the second section. This deals with the TDF approach to portability.</para>
 </preface>
 
-<chapter>
+<chapter id='port'>
 <title>Portability</title>
 
 <para>We start by examining some of the problems involved in the writing of portable programs. Although the discussion is very general, and makes no mention of TDF, many of the ideas introduced are of importance in the second half of the paper, which deals with TDF.</para>
 
 
-<sect1>
+<sect1 id='port-prog'>
 <title>Portable Programs</title>
 
 <para> </para>
 
-<sect2>
+<sect2 id='def-pre-disc'>
 <title>Definitions and Preliminary Discussion</title>
 
 <para>Let us firstly say what we mean by a portable program. A program is portable to a number of machines if it can be compiled to give the same functionality on all those machines. Note that this does not mean that exactly the same source code is used on all the machines. One could envisage a program written in, say, 68020 assembly code for a certain machine which has been translated into 80386 assembly code for some other machine to give a program with exactly equivalent functionality. This would, under our definition, be a program which is portable to these two machines. At the other end of the scale, the C program:</para>
@@ -92,7 +92,7 @@ int main ()
 
 </sect2>
 
-<sect2>
+<sect2 id='sep-comb-code'>
 <title>Separation and Combination of Code</title>
 
 <para>So why is the second example above more portable (in the sense of more easily ported to a new machine) than the first? The first, obvious, point to be made is that it is written in a high-level language, C, rather than the low-level languages, 68020 and 80386 assembly codes, used in the first example. By using a high-level language we have abstracted out the details of the processor to be used and expressed the program in an architecture neutral form. It is one of the jobs of the compiler on the target machine to transform this high-level representation into the appropriate machine dependent low-level representation.</para>
@@ -126,7 +126,7 @@ extern int fputs ( const char *, FILE * ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='app-prog-int'>
 <title>Application Programming Interfaces</title>
 
 <para>As we have seen, the separation of the target dependent sections of a program into the system headers and system libraries greatly facilitates the construction of portable programs. What has been done is to define an interface between the main program and the existing operating system on the target machine in abstract terms. The program should then be portable to any machine which implements this interface correctly.</para>
@@ -149,7 +149,7 @@ int fputs ( const char *s, FILE *f ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='comp-phases'>
 <title>Compilation Phases</title>
 
 <para>The general plan for how to write the extreme example of a portable program, namely one which contains no target dependent code, is now clear. It is shown in the compilation diagram in Fig. 1 which represents the traditional compilation process. This diagram is divided into four sections. The left half of the diagram represents the actual program and the right half the associated API. The top half of the diagram represents target independent material - things which only need to be done once - and the bottom half target dependent material - things which need to be done on every target machine.</para>
@@ -174,12 +174,12 @@ int fputs ( const char *s, FILE *f ) ;
 
 </sect1>
 
-<sect1>
+<sect1 id='port-prob'>
 <title>Portability Problems</title>
 
 <para>We have set out a scheme whereby it should be possible to write portable programs with a minimum of difficulties. So why, in reality, does it cause so many problems? Recall that we are still primarily concerned with programs which contain no target dependent code, although most of the points raised apply by extension to all programs.</para>
 
-<sect2>
+<sect2 id='prog-prob'>
 <title>Programming Problems</title>
 
 <para>A first, obvious class of problems concern the program itself. It is to be assumed that as many bugs as possible have been eliminated by testing and debugging on at least one platform before a program is considered as a candidate for being a portable program. But for even the most self-contained program, working on one platform is no guarantee of working on another. The program may use undefined behaviour - using uninitialised values or dereferencing null pointers, for example - or have built-in assumptions about the target machine - whether it is big-endian or little-endian, or what the sizes of the basic integer types are, for example. This latter point is going to become increasingly important over the next couple of years as 64-bit architectures begin to be introduced. How many existing programs implicitly assume a 32-bit architecture?</para>
@@ -189,7 +189,7 @@ int fputs ( const char *s, FILE *f ) ;
 <para>Most compilers will pick up some of the grosser programming errors, particularly by type checking (including procedure arguments if prototypes are used). Some of the subtler errors can be detected using the <literal>-Wall</literal> option to the Free Software Foundation's GNU C Compiler (<literal>gcc</literal>) or separate program checking tools such as <literal>lint</literal>, for example, but this remains a very difficult area.</para>
 
 </sect2>
-<sect2>
+<sect2 id='trans-prob'>
 <title>Code Transformation Problems</title>
 
 <para>We now move on from programming problems to compilation problems. As we mentioned above, compilation may be regarded as a series of phases of two types : combination and transformation. Transformation of code - translating a program in one form into an equivalent program in another form - may lead to a variety of problems. The code may be transformed wrongly, so that the equivalence is broken (a compiler bug), or in an unexpected manner (differing compiler interpretations), or not at all, because it is not recognised as legitimate code (a compiler limitation). The latter two problems are most likely when the input is a high level language, with complex syntax and semantics.</para>
@@ -202,7 +202,7 @@ int fputs ( const char *s, FILE *f ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='code-comb-prob'>
 <title>Code Combination Problems</title>
 
 <para>If code transformation problems may be regarded as a time consuming irritation, involving the rewriting of sections of code or using a different compiler, the second class of problems, those concerned with the combination of code, are far more serious.</para>
@@ -288,14 +288,14 @@ int open ( char *nm )
 <para>So code combination problems are primarily namespace problems. The task of combining the program with the API implementation on a given platform is complicated by the fact that, because the system headers and system libraries contain things other than the API implementation, or even because of the particular implementation chosen, the various namespaces in which the program is expected to operate become &quot;polluted&quot;.</para>
 </sect2>
 
-<sect2>
+<sect2 id='api-prob'>
 <title>API Problems</title>
 
 <para>We have said that the API defines the interface between the program and the standard library provided with the operating system on the target machine. There are three main problems concerned with APIs. The first, how to choose the API in the first place, is discussed separately. Here we deal with the compilation aspects : how to check that the program conforms to its API, and what to do about incorrect API implementations on the target machine(s).</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='api-check'>
 <title>API Checking</title>
 
 <para>The problem of whether or not a program conforms to its API - not using any objects from the operating system other than those specified in the API, and not making any unwarranted assumptions about these objects - is one which does not always receive sufficient attention, mostly because the necessary checking tools do not exist (or at least are not widely available). Compiling the program on a number of API compliant machines merely checks the program against the system headers for these machines. For a genuine portability check we need to check against the abstract API description, thereby in effect checking against all possible implementations.</para>
@@ -346,14 +346,14 @@ int main ()
 
 <para>the ANSI standard specifies that the type <literal>div_t</literal> is a structure containing two fields, <literal>quot</literal> and <literal>rem</literal>, of type <literal>int</literal>, but it does not specify which order these fields appear in, or indeed if there are other fields. Therefore the initialisation of <literal>d</literal> is not portable. Again, the type <literal>time_t</literal> is used to represent times in seconds since a certain fixed date. On most systems this is implemented as <literal>long</literal>, so it is tempting to use <literal>( t &amp; 1 )</literal> to determine for a <literal>time_t</literal> <literal>t</literal> whether this number of seconds is odd or even. But ANSI actually says that <literal>time_t</literal> is an arithmetic, not an integer, type, so it would be possible for it to be implemented as <literal>double</literal>. But in this case <literal>( t &amp; 1 )</literal> is not even type correct, so it is not a portable way of finding out whether <literal>t</literal> is odd or even.</para>
 
-<sect3>
+<sect3 id='api-imp-err'>
 <title>API Implementation Errors</title>
 
 <para>Undoubtedly the problem which causes the writer of portable programs the greatest headache (and heartache) is that of incorrect API implementations. However carefully you have chosen your API and checked that your program conforms to it, you are still reliant on someone (usually the system vendor) having implemented this API correctly on the target machine. Machines which do not implement the API at all do not enter the equation (they are not suitable target machines), what causes problems is incorrect implementations. As the implementation may be divided into two parts - system headers and system libraries - we shall similarly divide our discussion. Inevitably the choice of examples is personal; anyone who has ever attempted to port a program to a new machine is likely to have their own favourite examples.</para>
 
 </sect3>
 
-<sect3>
+<sect3 id='sys-header-prob-a'>
 <title>System Header Problems</title>
 
 <para>Some header problems are immediately apparent because they are syntactic and cause the program to fail to compile. For example, values may not be defined or be defined in the wrong place (not in the header prescribed by the API).</para>
@@ -414,7 +414,7 @@ typedef int size_t ; /* ??? */
 
 </sect3>
 
-<sect3>
+<sect3 id='sys-lib-prob-a'>
 <title>System Library Problems</title>
 
 <para>The system header problems just discussed are primarily syntactic problems. By contrast, system library problems are primarily semantic - the provided library routines do not behave in the way specified by the API. This makes them harder to detect. For example, consider the routine:</para>
@@ -470,12 +470,12 @@ return ;
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='api-port'>
 <title>APIs and Portability</title>
 
 <para>We now return to our discussion of the general issues involved in portability to more closely examine the role of the API.</para>
 
-<sect2>
+<sect2 id='targ-dep-code'>
 <title>Target Dependent Code</title>
 
 <para>So far we have been considering programs which contain no conditional compilation, in which the API forms the basis of the separation of the target independent code (the whole program) and the target dependent code (the API implementation). But a glance at most large C programs will reveal that they do contain conditional compilation. The code is scattered with <literal>#if</literal>'s and <literal>#ifdef</literal>'s which, in effect, cause the pre-processor to construct slightly different programs on different target machines. So here we do not have a clean division between the target independent and the target dependent code - there are small sections of target dependent code spread throughout the program.</para>
@@ -535,7 +535,7 @@ int main ()
 
 </sect2>
 
-<sect2>
+<sect2 id='making-api-exp'>
 <title>Making APIs Explicit</title>
 
 <para>As we have said, every program has an API even if it is implicit rather than explicit. Every system header included, every type or value used from it, and every library routine used, adds to the system-defined component of the API, and every conditional compilation adds to the user-defined component. What making the API explicit does is to encapsulate the set of requirements that the program has of the target machine (including requirements like, I need to know whether or not the target machine is big-endian, as well as, I need <literal>fputs</literal> to be implemented as in the ANSI standard). By making these requirements explicit it is made absolutely clear what is needed on a target machine if a program is to be ported to it. If the requirements are not explicit this can only be found by trial and error. This is what we meant earlier by saying that a program without an explicit API is only portable by accident.</para>
@@ -544,7 +544,7 @@ int main ()
 
 </sect2>
 
-<sect2>
+<sect2 id='choosing-api'>
 <title>Choosing an API</title>
 
 <para>So how does one go about choosing an API? In a sense the user-defined component is easier to specify than the system-defined component because it is less tied to particular implementation models. What is required is to abstract out what exactly needs to be done in a target dependent manner and to decide how best to separate it out. The most difficult problem is how to make the implementation of this API as simple as possible for the person performing the compilation, if necessary providing a number of alternative implementations to choose between and a simple method of making this choice (for example, the <literal>config.h</literal> file above). With the system-defined component the question is more likely to be, how do the various target machines I have in mind implement what I want to do? The abstraction of this is usually to choose a standard and widely implemented API, such as POSIX, which provides all the necessary functionality.</para>
@@ -569,7 +569,7 @@ typedef struct direct dir_entry ;
 
 </sect2>
 
-<sect2>
+<sect2 id='alt-prog-ver-a'>
 <title>Alternative Program Versions</title>
 
 <para>Another reason for introducing conditional compilation which relates to APIs is the desire to combine several programs, or versions of programs, on a single source tree. There are several cases to be distinguished between. The reuse of code between genuinely different programs does not really enter the argument : any given program will only use one route through the source tree, so there is no real conditional compilation per se in the program. What is more interesting is the use of conditional compilation to combine several versions of the same program on the same source tree to provide additional or alternative features.</para>
@@ -583,7 +583,7 @@ typedef struct direct dir_entry ;
 
 </chapter>
 
-<chapter>
+<chapter id='namespaces-apis'>
 <title>Namespaces and APIs</title>
 
 <para>Namespace problems are amongst the most difficult faced by standard defining bodies (for example, the ANSI and POSIX committees) and they often go to great lengths to specify which names should, and should not, appear when certain headers are included. (The position is set out in D. F. Prosser, <emphasis>Header and name space rules for UNIX systems</emphasis> (private communication), USL, 1993.)</para>
@@ -634,13 +634,13 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
 
 </chapter>
 
-<chapter>
+<chapter id='tdf'>
 <title>TDF</title>
 
 <para>Having discussed many of the problems involved with writing portable programs, we now eventually turn to TDF. Firstly a brief technical overview is given, indicating those features of TDF which facilitate the separation of program. Secondly the TDF compilation scheme is described. It is shown how the features of TDF are exploited to aid in the separation of target independent and target dependent code which we have indicated as characterising portable programs. Finally, the various constituents of this scheme are considered individually, and their particular roles are described in more detail.</para>
 
 
-<sect1>
+<sect1 id='features-tdf'>
 <title>Features of TDF</title>
 
 <para>It is not the purpose of this paper to explain the exact specification of TDF - this is described elsewhere (see [6] and [4]) - but rather to show how its general design features make it suitable as an aid to writing portable programs.</para>
@@ -650,7 +650,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
 <para>The translation of a capsule to and from the corresponding syntax tree is totally unambiguous, also TDF has a &quot;universal&quot; semantic interpretation as defined in the TDF specification.</para>
 
 
-<sect2>
+<sect2 id='capsule-structure'>
 <title>Capsule Structure</title>
 
 <para>A TDF capsule consists of a number of units of various types. These are embedded in a general linkage scheme (see Fig. 2). Each unit contains a number of variable objects of various sorts (for example, tags and tokens) which are potentially visible to other units. Within the unit body each variable object is identified by a unique number. The linking is via a set of variable objects which are global to the entire capsule. These may in turn be associated with external names. For example, in Fig. 2, the fourth variable of the first unit is identified with the first variable of the third unit, and both are associated with the fourth external name.</para>
@@ -668,7 +668,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
 
 </sect2>
 
-<sect2>
+<sect2 id='tokens'>
 <title>Tokens</title>
 
 <para>So, the combination of program at this high level is straightforward. But TDF also provides another mechanism which allows for the combination of program at the syntax tree level, namely <literal>tokens</literal>. Virtually any node of the TDF tree may be a token : a place holder which stands for a subtree. Before the TDF can be decoded fully the definition of this token must be provided. The token definition is then macro substituted for the token in the decoding process to form the complete tree (see Fig. 3).</para>
@@ -698,7 +698,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
 
 </sect2>
 
-<sect1>
+<sect1 id='tdf-compilation-phases'>
 <title>TDF Compilation Phases</title>
 
 <para>We have seen how one of the great strengths of TDF is the fact that it facilitates the separation and combination of program. We now demonstrate how this is applied in the TDF compilation strategy. This section is designed only to give an outline of this scheme. The various constituent phases are discussed in more detail later.</para>
@@ -719,7 +719,7 @@ str[a-z][0-9a-z_A-Z]+               (stdlib.h)
       </figure>
 
 
-<sect2>
+<sect2 id='api-desc-tr'>
 <title>API Description (Top Right)</title>
 
 <para>The method used for this separation is the token mechanism. Firstly the syntactic element of the API is described in the form of a set of target independent headers. Whereas the target dependent, system headers contain the actual implementation of the API on a particular machine, the target independent headers express to the producer what is actually in the API, and which may therefore be assumed to be common to all compliant target machines. For example, in the target independent headers for the ANSI standard, there will be a file <literal>stdio.h</literal> containing the lines:</para>
@@ -742,7 +742,7 @@ int fputs ( const char *, FILE * ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='api-desc-tl'>
 <title>Production (Top Left)</title>
 
 <para>Now the producer can compile the program using these target independent headers. As will be seen from the &quot;Hello world&quot; example, these headers contain sufficient information to check that the program is syntactically correct. The produced, target independent, TDF will contain tokens corresponding to the various uses of <literal>stdout</literal>, <literal>fputs</literal> and so on, but these tokens will be left undefined. In fact there will be other undefined tokens in the TDF. The basic C types, <literal>int</literal> and <literal>char</literal> are used in the program, and their implementations may vary between target machines. Thus these types must also be represented by tokens. However these tokens are implicit in the producer rather than explicit in the target independent headers.</para>
@@ -750,7 +750,7 @@ int fputs ( const char *, FILE * ) ;
 <para>Note also that because the information in the target independent headers describes abstractly the contents of the API and not some particular implementation of it, the producer is in effect checking the program against the API itself.</para>
 
 </sect2>
-<sect2>
+<sect2 id='api-impl-br'>
 <title>API Implementation (Bottom Right)</title>
 
 <para>Before the TDF output by the producer can be decoded fully it needs to have had the definitions of the tokens it has left undefined provided. These definitions will be potentially different on all target machines and reflect the implementation of the API on that machine.</para>
@@ -767,14 +767,14 @@ int fputs ( const char *, FILE * ) ;
 
 </sect2>
 
-<sect2>
+<sect2 id='installation-bl'>
 <title>Installation (Bottom Left)</title>
 
 <para>The installation phase is now straightforward. The target independent TDF representing the program contains various undefined tokens (corresponding to objects in the API), and the definitions for these tokens on the particular target machine (reflecting the API implementation) are to be found in the local TDF libraries. It is a natural matter to link these to form a complete, target dependent, TDF capsule. The rest of the installation consists of a straightforward translation phase (TDF -&gt; target) to produce a binary object file, and linking with the system libraries to form a final executable. Linking with the system libraries will resolve any tags left undefined in the TDF.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='illustrated-example'>
 <title>Illustrated Example</title>
 
 <para>In order to help clarify exactly what is happening where, Fig. 6 shows a simple example superimposed on the TDF compilation diagram.</para>
@@ -799,12 +799,12 @@ FILE f ;
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='aspects-tdf-system'>
 <title>Aspects of the TDF System</title>
 
 <para>Let us now consider in more detail some of the components of the TDF system and how they fit into the compilation scheme.</para>
 
-<sect2>
+<sect2 id='c-tdf-producer'>
 <title>The C to TDF Producer</title>
 
 <para>Above it was emphasised how the design of the compilation strategy aids the representation of program in a target independent manner, but this is not enough in itself. The C -&gt; TDF producer must represent everything symbolically; it cannot make assumptions about the target machine. For example, the line of C containing the initialisation:</para>
@@ -842,7 +842,7 @@ struct tag {
 
 </sect2>
 
-<sect2>
+<sect2 id='c-tdf-mappings'>
 <title>C to TDF Mappings</title>
 
 <para>The nature of the C -&gt; TDF transformation implemented by the producer is worth considering, although not all the features described in this section are fully implemented in the current (October 1993) producer. Although it is only indirectly related to questions of portability, this mapping does illustrate some of the problems the producer has in trying to represent program in an architecture neutral manner.</para>
@@ -863,7 +863,7 @@ struct tag {
 
 </sect2>
 
-<sect2>
+<sect2 id='tdf-linking'>
 <title>TDF Linking</title>
 
 <para>We now move from considering the components of the producer to those of the installer. The first phase of the installation - linking in the TDF libraries containing the token definitions describing the local implementation of the API - is performed by a general utility program, the TDF linker (or builder). This is a very simple program which is used to combine a number of TDF capsules and libraries into a single capsule. As has been emphasised previously, the capsule structure means that this is a very natural operation, but, as will be seen from the previous discussion (particularly section 2.2.3), such combinatorial phases are very prone to namespace problems.</para>
@@ -880,7 +880,7 @@ struct tag {
 
 </sect2>
 
-<sect2>
+<sect2 id='tdf-installers'>
 <title>The TDF Installers</title>
 
 <para>The TDF installer on a given machine typically consists of four phases: TDF linking, which has already been discussed, translating TDF to assembly source code, translating assembly source code to a binary object file, and linking binary object files with the system libraries to form the final executable. The latter two phases are currently implemented by the system assembler and linker, and so are identical to the traditional compilation scheme.</para>
@@ -900,17 +900,17 @@ struct tag {
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='tdf-apis'>
 <title>TDF and APIs</title>
 
 <para>What the discussion above has emphasised is that the ability to describe APIs abstractly as target independent headers underpins the entire TDF approach to portability. We now consider this in more detail.</para>
 
-<sect2>
+<sect2 id='api-desc'>
 <title>API Description</title>
 
 <para>The process of transforming an API specification into its description in terms of <literal>#pragma token</literal> directives is a time-consuming but often fascinating task. In this section we discuss some of the issues arising from the process of describing an API in this way.</para>
 
-<sect3>
+<sect3 id='desc-process'>
 <title>The Description Process</title>
 
 <para>As may be observed from the example given in section 3.2.1, the <literal>#pragma token</literal> syntax is not necessarily intuitively obvious. It is designed to be a low-level description of tokens which is capable of expressing many complex token specifications. Most APIs are however specified in C-like terms, so an alternative syntax, closer to C, has been developed in order to facilitate their description. This is then transformed into the corresponding <literal>#pragma token</literal> directives by a specification tool called <literal>tspec</literal> (see [2]), which also applies a number of checks to the input and generates the unique token names. For example, the description leading to the example above was:</para>
@@ -940,7 +940,7 @@ EXP rvalue : t : va_arg # ansi.stdarg.va_arg
 
 </sect3>
 
-<sect3>
+<sect3 id='resolving-conflicts'>
 <title>Resolving Conflicts</title>
 
 <para>Another consideration during the description process is to try to integrate the various API descriptions. For example, POSIX extends ANSI, so it makes sense to have the target independent POSIX headers include the corresponding ANSI headers and just add the new objects introduced by POSIX. This does present problems with APIs which are basically compatible but have a small number of incompatibilities, whether deliberate or accidental. As an example of an &quot;accidental&quot; incompatibility, XPG3 is an extension of POSIX, but whereas POSIX declares <literal>malloc</literal> by means of the prototype:</para>
@@ -966,7 +966,7 @@ size_t s ;
 
 </sect3>
 
-<sect3>
+<sect3 id='benifits-api-desc'>
 <title>The Benefits of API Description</title>
 
 <para>The description process is potentially of great benefit to bodies involved in API specification. While the specification itself stays on paper the only real existence of the API is through its implementations. Giving the specification a concrete form means not only does it start to be seen as an object in its own right, rather than some fuzzy document underlying the real implementations, but also any omissions, insufficient specifications (where what is written down does not reflect what the writer actually meant) or built-in assumptions are more apparent. It may also be able to help show up the kind of over-specialisation discussed above. The concrete representation also becomes an object which both applications and implementations can be automatically checked against. As has been mentioned previously, the production phase of the compilation involves checking the program against the abstract API description, and the library building phase checks the syntactic aspect of the implementation against it.</para>
@@ -977,7 +977,7 @@ size_t s ;
 
 </sect2>
 
-<sect2>
+<sect2 id='tdf-lib-building'>
 <title>TDF Library Building</title>
 
 <para>As we have said, two of the primary problems with writing portable programs are dealing with API implementation errors on the target machines - objects not being defined, or being defined in the wrong place, or being implemented incorrectly - and namespace problems - particularly those introduced by the system headers. The most interesting contrast between the traditional compilation scheme (Fig. 1) and the TDF scheme (Fig. 5) is that in the former the program comes directly into contact with the &quot;real world&quot; of messy system headers and incorrectly implemented APIs, whereas in the latter there is an &quot;ideal world&quot; layer interposed. This consists of the target independent headers, which describe all the syntactic features of the API where they are meant to be, and with no extraneous material to clutter up the namespaces (like <literal>index</literal> and the macro <literal>st_atime</literal> in the examples given in section 2.2.3), and the TDF libraries, which can be combined &quot;cleanly&quot; with the program without any namespace problems. All the unpleasantness has been shifted to the interface between this &quot;ideal world&quot; and the &quot;real world&quot;; that is to say, the TDF library building.</para>
@@ -988,7 +988,7 @@ size_t s ;
 
 <para>To show how this might be done, we reconsider the examples of API implementation errors given in section 2.2.4.2. As before we may divide our discussion between system header problems and system library problems. Recall however the important distinction, that whereas previously the programmer was trying to deal with these problems in a way which would work on all machines (top left of the compilation diagrams), now the person building the TDF libraries is trying to deal with implementation problems for a particular API on a particular machine (bottom right).</para>
 
-<sect3>
+<sect3 id='sys-header-prob-b'>
 <title>System Header Problems</title>
 
 <para>Values which are defined in the wrong place, such as <literal>SEEK_SET</literal> in the example given, present no difficulties. The library builder will look where it expects to find them and report that they are undefined. To define these values it is merely a matter of telling the library builder where they are actually defined (in <literal>unistd.h</literal> rather than <literal>stdio.h</literal>).</para>
@@ -1001,7 +1001,7 @@ size_t s ;
 
 </sect3>
 
-<sect3>
+<sect3 id='sys-lib-prob-b'>
 <title>System Library Problems</title>
 
 <para>Errors in the system libraries will not be detected by the TDF library builder because they are semantic errors, whereas the library building process is only checking syntax. The only realistic ways of detecting semantic problems is by means of test suites, such as the Plum-Hall or CVSA library tests for ANSI and VSX for XPG3, or by detailed knowledge of particular API implementations born of personal experience. However it may be possible to build workarounds for problems identified in these tests into the TDF libraries.</para>
@@ -1028,7 +1028,7 @@ static void *__realloc ( void *p, size_t s )
 
 </sect3>
 
-<sect3>
+<sect3 id='tdf-lib-builders'>
 <title>TDF Library Builders</title>
 
 <para>The discussion above shows how the TDF libraries are an extra layer which lies on top of the existing system API implementation, and how this extra layer can be exploited to provide corrections and workarounds to various implementation problems. The expertise of particular API implementation problems on particular machines can be captured once and for all in the TDF libraries, rather than being spread piecemeal over all the programs which use that API implementation. But being able to encapsulate this expertise in this way makes it a marketable quantity. One could envisage a market in TDF libraries: ranging from libraries closely reflecting the actual API implementation to top of the range libraries with many corrections and workarounds built in.</para>
@@ -1043,12 +1043,12 @@ static void *__realloc ( void *p, size_t s )
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='tdf-cond-compilation'>
 <title>TDF and Conditional Compilation</title>
 
 <para>So far our discussion of the TDF approach to portability has been confined to the simplest case, where the program itself contains no target dependent code. We now turn to programs which contain conditional compilation. As we have seen, many of the reasons why it is necessary to introduce conditional compilation into the traditional compilation process either do not arise or are seen to be distinct phases in the TDF compilation process. The use of a single front-end (the producer) virtually eliminates problems of compiler limitations and differing interpretations and reduces compiler bug problems, so it is not necessary to introduce conditionally compiled workarounds for these. Also API implementation problems, another prime reason for introducing conditional compilation in the traditional scheme, are seen to be isolated in the TDF library building process, thereby allowing the programmer to work in an idealised world one step removed from the real API implementations. However the most important reason for introducing conditional compilation is where things, for reasons of efficiency or whatever, are genuinely different on different machines. It is this we now consider.</para>
 
-<sect2>
+<sect2 id='user-defined-apis'>
 <title>User-Defined APIs</title>
 
 <para>The things which are done genuinely differently on different machines have previously been characterised as comprising the user-defined component of the API. So the real issue in this case is how to use the TDF API description and representation methods within one's own programs. A very simple worked example is given below (in section 3.5.2), for more detailed examples see [8].</para>
@@ -1095,7 +1095,7 @@ int main ()
 
 </sect2>
 
-<sect2>
+<sect2 id='user-defined-tokens-example'>
 <title>User Defined Tokens - Example</title>
 
 <para>As an example of how to define a simple token consider the following example. We have a simple program which prints &quot;hello&quot; in some language, the language being target dependent. Our first task is choose an API. We choose ANSI C extended by a tokenised object <literal>hello</literal> of type <literal>char *</literal> which gives the message to be printed. This object will be an rvalue (i.e. it cannot be assigned to). For convenience this token is declared in a header file, <literal>tokens.h</literal> say. This particular case is simple enough to encode by hand; it takes the form:</para>
@@ -1173,7 +1173,7 @@ tcc -Fj -not_ansi tokens.c
 
 </sect2>
 
-<sect2>
+<sect2 id='conditional-comp-tdf'>
 <title>Conditional Compilation within TDF</title>
 
 <para>Although tokens are the main method used to deal with target dependencies, TDF does have built-in conditional compilation constructs. For most TDF sorts <literal>X</literal> (for example, exp, shape or variety) there is a construct <literal>X_cond</literal> which takes an exp and two <literal>X</literal>'s and gives an <literal>X</literal>. The exp argument will evaluate to an integer constant at install time. If this is true (nonzero), the result of the construct is the first <literal>X</literal> argument and the second is ignored; otherwise the result is the second <literal>X</literal> argument and the first is ignored. By ignored we mean completely ignored - the argument is stepped over and not decoded. In particular any tokens in the definition of this argument are not expanded, so it does not matter if they are undefined.</para>
@@ -1212,7 +1212,7 @@ int main ()
 <para>The latter approach of a fully abstracted user-defined API may be more time consuming in the short run, but this may well be offset by the increased ease of porting. Also there is no reason why a user-defined API, once specified, should not serve more than one program. Similar programs are likely to require the same abstractions of target dependent constructs. Because the API is a concrete object, it can be reused in this way in a very simple fashion. One could envisage libraries of private APIs being built up in this way.</para>
 
 </sect2>
-<sect2>
+<sect2 id='alt-prog-ver-b'>
 <title>Alternative Program Versions</title>
 
 <para>Consider again the program described in section 2.3.4 which has optional features for displaying its output graphically depending on the boolean value <literal>HAVE_X_WINDOWS</literal>. By making <literal>HAVE_X_WINDOWS</literal> part of the user-defined API as a tokenised integer and using:</para>
@@ -1227,7 +1227,7 @@ int main ()
 </sect1>
 </chapter>
 
-<chapter>
+<chapter id='conclusions'>
 <title>Conclusions</title>
 
 <para>The philosophy underlying the whole TDF approach to portability is that of separation or isolation. This separation of the various components of the compilation system means that to a large extent they can be considered independently. The separation is only possible because the definition of TDF has mechanisms which facilitate it - primarily the token mechanism, but also the capsule linkage scheme.</para>

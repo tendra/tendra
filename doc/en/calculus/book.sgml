@@ -43,7 +43,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
     <para>This document describes a tool, <literal>calculus</literal>, which
@@ -81,7 +81,7 @@
       -XREF-#DiskOutputdisk reading and writing routines described below are
       an example of this.</para>
 
-    <simplesect>
+    <simplesect id='intro-using-calculus'>
       <title>Using calculus</title>
 
       <para>The general form for invoking <literal>calculus</literal> is
@@ -120,7 +120,7 @@ calculus [ options ] input .... [ output ]
         suitable for this form of checking.</para>
     </simplesect>
 
-    <simplesect>
+    <simplesect id='example-program'>
       <title>Example program</title>
 
       <para>The program <literal>calculus</literal> itself was written using a
@@ -131,7 +131,7 @@ calculus [ options ] input .... [ output ]
     </simplesect>
   </preface>
 
-  <chapter>
+  <chapter id='input-syntax'>
     <title>Input syntax</title>
 
     <para></para>
@@ -170,7 +170,7 @@ item :
       strings. C style comments may be used anywhere in the input. White space
       is not significant.</para>
 
-    <sect1>
+    <sect1 id='primitives'>
       <title>Primitives</title>
 
       <para>Primitives form the basic components from which the other types
@@ -212,7 +212,7 @@ string
         used in the output routines.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='identities'>
       <title>Identities</title>
 
       <para>Identities are used to associate a name with a particular type in
@@ -227,7 +227,7 @@ identity :
       <para>where the definition type, <emphasis>type</emphasis>, is as</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='enumerations'>
       <title>Enumerations</title>
 
       <para>Enumerations are used to define types which can only take
@@ -282,7 +282,7 @@ enumerator-list :
         that</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='structures'>
       <title>Structures</title>
 
       <para>Structures are used to build up composite types from other types
@@ -340,7 +340,7 @@ component-initialiser :
         in terms of themselves.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='unions'>
       <title>Unions</title>
 
       <para>Unions are used to build up types which can hold a variety of
@@ -455,7 +455,7 @@ extended-type :
         function as a parameter.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='type-constructors'>
       <title>Type constructors</title>
 
       <para>The types derived from the algebra may be described as
@@ -481,7 +481,7 @@ type :
 
     </sect1>
 
-    <sect1>
+    <sect1 id='relations-algerbras'>
       <title>Relations between algebras</title>
 
       <para>As -XREF-#Optionsmentioned above, more than one input algebra may
@@ -517,7 +517,7 @@ import :
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='output-type-system-spec'>
     <title>Output type system specification</title>
 
     <para>In this section we document the basic output of
@@ -543,7 +543,7 @@ import :
       <emphasis>union</emphasis><literal>_map.h</literal> and
       <emphasis>union</emphasis><literal>_hdr.h</literal>.</para>
 
-    <sect1>
+    <sect1 id='ver-info'>
       <title>Version information</title>
 
       <para>Certain basic information about the input algebra is included in
@@ -559,7 +559,7 @@ import :
         statements or the C implementation is included.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='basic-typos'>
       <title>Basic types</title>
 
       <para>Six abstract type operators, each taking a type as argument
@@ -625,7 +625,7 @@ void dummy_destroy_name () ;
         the destructors and so on are implementation dependent.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-sizes'>
       <title>Operations on sizes</title>
 
       <para>The <literal>SIZE</literal> type constructor is used to represent
@@ -670,7 +670,7 @@ SIZE ( t ) SCALE ( SIZE ( t ), INT_TYPE itype ) ;
       <para>for any type <emphasis>t</emphasis> and any integral type</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-pointers'>
       <title>Operations on pointers</title>
 
       <para>The <literal>PTR</literal> type constructor is used to represent a
@@ -678,7 +678,7 @@ SIZE ( t ) SCALE ( SIZE ( t ), INT_TYPE itype ) ;
         emphasised that this construct is not in general implemented by means
         of the C pointer construct.</para>
 
-      <sect2>
+      <sect2 id='simple-pointer-const'>
         <title>Simple pointer constructs</title>
 
         <para>There are several simple operations on pointers, given as</para>
@@ -701,7 +701,7 @@ PTR ( t ) STEP_ptr ( PTR ( t ), SIZE ( t ) ) ;
           pointer.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='unique-pointers'>
         <title>Unique pointers</title>
 
         <para>There are also constructs for generating and destroying
@@ -717,7 +717,7 @@ void DESTROY_UNIQ_ptr ( PTR ( t ) ) ;
           undefined.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='pointer-destruction'>
         <title>Pointer construction and destruction</title>
 
         <para>The constructs:</para>
@@ -731,7 +731,7 @@ void DESTROY_ptr ( PTR ( t ), SIZE ( t ) ) ;
           given</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='assignment-constructs'>
         <title>Assignment and dereference constructs</title>
 
         <para>The constructs for assigning and dereferencing pointers have one
@@ -784,13 +784,13 @@ STATEMENT DEREF_vec_ptr ( PTR ( VEC_PTR ( t ) ), lvalue VEC_PTR ( t ) ) ;
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-lists'>
       <title>Operations on lists</title>
 
       <para>The <literal>LIST</literal> type constructor is used to represent
         a</para>
 
-      <sect2>
+      <sect2 id='simple-constructs'>
         <title>Simple list constructs</title>
 
         <para>There are several simple list constructs:</para>
@@ -818,7 +818,7 @@ LIST ( t ) APPEND_list ( LIST ( t ), LIST ( t ) ) ;
           reversed. One list can be appended to another.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='unique-lists'>
         <title>Unique lists</title>
 
         <para>There are also constructs for generating and destroying
@@ -834,7 +834,7 @@ void DESTROY_UNIQ_list ( LIST ( t ) ) ;
           undefined.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='list-destruction'>
         <title>List construction and destruction</title>
 
         <para>For each type <emphasis>t</emphasis> there are operations for
@@ -883,7 +883,7 @@ STATEMENT DESTROY_list ( LIST ( t ), SIZE ( t ) ) ;
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-stacks'>
       <title>Operations on stacks</title>
 
       <para>The <literal>STACK</literal> type constructor is used to represent
@@ -921,7 +921,7 @@ STACK ( t ) STACK_list ( LIST ( t ) ) ;
       <para>for explicitly converting between lists and stacks.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-vectors'>
       <title>Operations on vectors</title>
 
       <para>The <literal>VEC</literal> type constructor is used to represent
@@ -961,7 +961,7 @@ t ) ) ;
         for</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-vector-pointers'>
       <title>Operations on vector pointers</title>
 
       <para>The <literal>VEC_PTR</literal> type constructor is used to
@@ -979,7 +979,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
         normal pointer.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-primitives'>
       <title>Operations on primitives</title>
 
       <para>Each primitive specified within the algebra maps onto a
@@ -990,7 +990,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
         the stack push and pop operations.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-identities'>
       <title>Operations on identities</title>
 
       <para>Each identity specified within the algebra maps onto a
@@ -998,7 +998,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
         on identities.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-enumerations'>
       <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an
@@ -1029,7 +1029,7 @@ unsigned long ORDER_enum ;
         enumeration.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-structures'>
       <title>Operations on structures</title>
 
       <para>Each structure specified within the algebra maps onto a
@@ -1081,7 +1081,7 @@ PTR ( btype ) CONVERT_struct_base ( PTR ( t ) ) ;
         <emphasis>btype</emphasis> respectively.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='oper-unions'>
       <title>Operations on unions</title>
 
       <para>Each union specified within the algebra maps onto an opaque type
@@ -1105,7 +1105,7 @@ int EQ_union ( t, t ) ;
         <emphasis>t</emphasis> may be compared against this distinguished
         value, or against each other.</para>
 
-      <sect2>
+      <sect2 id='union-oper'>
         <title>Union construction operations</title>
 
         <para>Most of the output for the union type <emphasis>t</emphasis> is
@@ -1182,7 +1182,7 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
           those with initialiser strings.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='union-field-sets'>
         <title>Union field sets</title>
 
         <para>Recall that -XREF-#InputUniona number of union field identifiers
@@ -1226,7 +1226,7 @@ unsigned int union_field_etc_tag ;
           <literal>_etc_tag</literal>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='inheritance-unions'>
         <title>Inheritance in unions</title>
 
         <para>Inheritance in unions is handled as follows: if
@@ -1242,7 +1242,7 @@ btype CONVERT_union_base ( t ) ;
           <emphasis>btype</emphasis> respectively.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='output-maps'>
         <title>-XREF-OutputUnionMapsUnion maps</title>
 
         <para>For each map, <emphasis>map</emphasis>, on the union
@@ -1309,10 +1309,10 @@ DECONS_union_field ( comp, ...., name_union ) ;
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='impl-details'>
     <title>Implementation details</title>
 
-    <sect1>
+    <sect1 id='impl-types'>
       <title>Implementation of types</title>
 
       <para>The C implementation of the type system
@@ -1432,7 +1432,7 @@ typedef struct {
       <para>All size types are implemented as <literal>int</literal>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='support-routines'>
       <title>Support routines</title>
 
       <para>The implementation requires the user to provide certain support
@@ -1480,7 +1480,7 @@ name_VEC empty_name_vec ;
         -XREF-#Example<literal>calculus</literal> program itself.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='run-time-checking'>
       <title>Run-time checking</title>
 
       <para>The type checking facilities supported by
@@ -1506,7 +1506,7 @@ name_VEC empty_name_vec ;
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='disk-read-write'>
     <title>Disk reading and writing</title>
 
     <para>One of the facilities which the -XREF-#COutputTypeshomogeneous
@@ -1533,7 +1533,7 @@ name_VEC empty_name_vec ;
       defined in order to make these available for the disk reading and
       writing routines to use.</para>
 
-    <sect1>
+    <sect1 id='disk-write'>
       <title>Disk writing routines</title>
 
       <para>The disk writing routines output in
@@ -1612,7 +1612,7 @@ void WRITE_ALIAS ( unsigned int ) ;
         differently by the disk reading and writing routines.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='disk-read'>
       <title>Disk reading routines</title>
 
       <para>The disk reading routines output in <literal>read_def.h</literal>
@@ -1640,7 +1640,7 @@ unsigned int READ_ALIAS ( void ) ;
         overridden by means of macros as before.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='obj-printing'>
       <title>Object printing routines</title>
 
       <para>The object printing routines output in</para>
@@ -1705,7 +1705,7 @@ void DEBUG_type ( t * ) ;
         the</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='aliasing'>
       <title>Aliasing</title>
 
       <para>An important feature of the disk reading and writing routines,
@@ -1798,7 +1798,7 @@ name *find_name_alias ( unsigned int ) ;
         -XREF-#Example<literal>calculus</literal> program itself.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='application-calculus'>
       <title>Application to calculus</title>
 
       <para>As -XREF-#Examplementioned above, the <literal>calculus</literal>
@@ -1822,7 +1822,7 @@ name *find_name_alias ( unsigned int ) ;
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='template-files'>
     <title>Template files</title>
 
     <para>It is possible to use <literal>calculus</literal> to generate an
@@ -2003,3 +2003,7 @@ union %UN (%UM) = {
     </programlisting>
   </chapter>
 </book>
+
+
+
+

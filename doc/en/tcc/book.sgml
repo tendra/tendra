@@ -42,7 +42,7 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
       <para>Like most compilation systems, the TDF C system consists
@@ -76,7 +76,7 @@
         with the <option>-query</option> option.</para>
   </preface>
 
-  <chapter>
+  <chapter id='tdf-compilation-strategy'>
     <title>The TDF Compilation Strategy</title>
 
       <figure id="trad-scheme">
@@ -104,7 +104,7 @@
       </figure>
   </chapter>
 
-  <chapter>
+  <chapter id='overall-design-tcc'>
     <title>The Overall Design of tcc</title>
 
     <para>Having discussed the compilation strategy
@@ -122,7 +122,7 @@
         </mediaobject>
       </figure>
 
-    <sect1>
+    <sect1 id='specifying-api'>
       <title>Specifying the API</title>
 
       <para>As we have seen, the API plays a far more concrete role in
@@ -143,7 +143,7 @@
         section 4.3).</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='main-compilation-path'>
       <title>The Main Compilation Path</title>
 
       <para>Once the API has been specified, the actual compilation
@@ -286,7 +286,7 @@
         a very direct manner.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='input-file-types'>
       <title>Input File Types</title>
 
       <para>This compilation path may be joined at any point, and
@@ -349,7 +349,7 @@
         <command>.c</command>) file.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='intermediate-output-files'>
       <title>Intermediate and Output Files</title>
 
       <para>During the compilation, <command>tcc</command> makes up
@@ -474,7 +474,7 @@
       </figure>
     </sect1>
 
-    <sect1>
+    <sect1 id='other-compilation-paths'>
       <title>Other Compilation Paths</title>
 
       <para>So far we have been discussing the main
@@ -489,7 +489,7 @@
         by means of command-line options. Let us consider those paths
         in this diagram which have not so far been mentioned.</para>
 
-      <sect2>
+      <sect2 id='preprocessing'>
         <title>Preprocessing</title>
 
         <para>The first paths to be considered involve preprocessed C
@@ -513,7 +513,7 @@
           further in section 5.6.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tdf-archives'>
         <title>TDF Archives</title>
 
         <para>The second new file type introduced in Fig. 4 is the TDF
@@ -541,7 +541,7 @@
           they are not part of TDF proper.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='tdf-noation'>
         <title>TDF Notation</title>
 
         <para>TDF has the form of an abstract syntax tree which is
@@ -600,7 +600,7 @@
           further discussed in section 5.7.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='merging-tdf-capsules'>
         <title>Merging TDF Capsules</title>
 
         <para>The final unexplored path in Fig. 4 is the ability to
@@ -703,7 +703,7 @@
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='finding-out-tcc'>
       <title>Finding out what tcc is doing</title>
 
       <para>With so many different file types and alternative
@@ -753,7 +753,7 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='environments'>
     <title>tcc Environments</title>
 
     <para>In addition to command-line options, there is a second
@@ -860,7 +860,7 @@
         </screen>
       </para>
   
-    <sect1>
+    <sect1 id='environment-search-path'>
       <title>The Environment Search Path</title>
   
       <para>The command-line option
@@ -882,7 +882,7 @@
         the environment cannot be found, then a warning is issued.</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='default-environment'>
       <title>The Default Environment: Configuring tcc</title>
   
       <para>The most important environment is the
@@ -924,7 +924,7 @@
         in this case (see section 5.3.4 for more details).</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='using-environments-specify-apies'>
       <title>Using Environments to Specify APIs</title>
   
       <para>Another important use of environments concerns their use in
@@ -991,7 +991,7 @@
         the use of <option>-Yansi</option> is recommended.</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='using-environments-to-impl-tcc-opt'>
       <title>Using Environments to Implement tcc Options</title>
   
       <para>Another use to which environments are put is to implement
@@ -1019,7 +1019,7 @@
         issue a warning to that effect.</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='user-defined-environments'>
       <title>User-Defined Environments</title>
   
       <para>The <command>tcc</command> user can also set up and use
@@ -1031,10 +1031,10 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='components-tdf-system'>
     <title>The Components of the TDF System</title>
 
-    <sect1>
+    <sect1 id='c-tdf-proceduer'>
       <title>The C to TDF Producer</title>
 
       <para>We now turn to the individual components of the TDF
@@ -1058,7 +1058,7 @@
         <command>.i</command> file) into a output target independent
         TDF capsule (a <command>.j</command> file).<para>
 
-      <sect2>
+      <sect2 id='incl-file-dir'>
         <title>Include File Directories</title>
 
         <para>The most important producer options are those which tell
@@ -1084,7 +1084,7 @@
           confusion.</para>
         </sect2>
 
-        <sect2>
+        <sect2 id='startup-files-end-files'>
           <title>Start-up Files and End-up Files</title>
 
           <para>The producer has a useful feature of start-up and
@@ -1149,7 +1149,7 @@
             to prove useful in normal use.</para>
         </sect2>
 
-        <sect2>
+        <sect2 id='compilation-modes-and-port'>
           <title>Compilation Modes and Portability Tables</title>
 
           <para>We have already described how one aspect of the
@@ -1234,7 +1234,7 @@
             case no portability table is specified to the
             producer.</para>
 
-        <sect2>
+        <sect2 id='desc-compilation-modes'>
           <title>Description of Compilation Modes</title>
 
           <para>Let us briefly describe the compilation modes
@@ -1385,7 +1385,7 @@
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='tdf-linker'>
       <title>The TDF Linker</title>
 
       <para>The next component of the system to be considered is the
@@ -1404,7 +1404,7 @@
         (<command>.j</command> files) into a single target independent
         capsule.  Let us consider these two cases separately.</para>
 
-      <sect2>
+      <sect2 id='linker-tdf-lib'>
         <title>The Linker and TDF Libraries</title>
 
         <para>In the main TDF linking phase, combining target
@@ -1448,7 +1448,7 @@
             <option>-l</option> and <option>-L</option> forms.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='combining-tdf-capsules'>
         <title>Combining TDF Capsules</title>
 
         <para>The second use of <command>tld</command> is to combine
@@ -1478,7 +1478,7 @@
           <command>tld</command> for more selective name hiding, see
           below.</para>
 
-      <sect2>
+      <sect2 id='constructing-tdf-lib'>
         <title>Constructing TDF Libraries</title>
 
         <para>There is a final use of the TDF linker supported by
@@ -1505,7 +1505,7 @@
           combined into a TDF library, <command>a.tl</command>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='useful-tld-opt'>
         <title>Useful tld Options</title>
 
         <para><command>tld</command> has a number of options which may
@@ -1522,7 +1522,7 @@
       </sect2>
     </sect1>
         
-    <sect1>
+    <sect1 id='tdf-target-translator'>
       <title>The TDF to Target Translator</title>
 
       <para>The next compilation tool to be considered is the TDF
@@ -1593,7 +1593,7 @@
         translators are also updated to support new operating systems
         releases when this is necessary.</para>
 
-      <sect2>
+      <sect2 id='opt-affecting-translator'>
         <title>tcc Options Affecting the Translator</title>
 
         <para>A number of <command>tcc</command> command-line options
@@ -1643,7 +1643,7 @@
           for others it requires an option to be passed to the
           translator.</para>
 
-      <sect2>
+      <sect2 id='useful-trans-opt'>
         <title>Useful trans Options</title>
 
         <para>For further specifying the behaviour of
@@ -1671,7 +1671,7 @@
           dependent, options.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='optimisation-tdf-trans'>
        <title>Optimisation in TDF Translators</title>
 
         <para>As has been mentioned, the TDF translator is the main
@@ -1688,7 +1688,7 @@
           necessary.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='mips-trans-asm'>
         <title>The Mips Translator and Assembler</title>
 
         <para>As has been mentioned, the TDF --&gt; Mips translator, <command>mipstrans</command>
@@ -1755,7 +1755,7 @@
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='system-asm'>
       <title>The System Assembler</title>
 
       <para>The system assembler is the stage in the
@@ -1773,7 +1773,7 @@
         command-line option.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='system-linker'>
       <title>The System Linker</title>
 
       <para>The final stage in the main <command>tcc</command>
@@ -1790,7 +1790,7 @@
         by <command>tcc</command> environments, and those which are
         controlled by command-line options.</para>
 
-      <sect2>
+      <sect2 id='system-link-tcc-env'>
         <title>The System Linker and tcc Environments</title>
 
         <para>The general form of <command>tcc</command>'s calls to
@@ -1849,7 +1849,7 @@
           at present this has not been done.</para>
       </sect2>
   
-      <sect2>
+      <sect2 id='effect-command-line-opt'>
         <title>The Effect of Command-Line Options on the
           System Linker</title>
         
@@ -1909,7 +1909,7 @@
       </sect2>
     </sect1>
   
-    <sect1>
+    <sect1 id='c-preprocessor'>
       <title>The C Preprocessor</title>
 
       <para>The TDF C preprocessor, <command>tdfcpp</command>, is
@@ -1935,7 +1935,7 @@
         preprocessors.</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='tdf-pretty-printer'>
       <title>The TDF Pretty Printer</title>
   
       <para>The TDF pretty printer, <command>disp</command>, and the TDF
@@ -1982,7 +1982,7 @@
         fully documented in [4].</para>
     </sect1>
   
-    <sect1>
+    <sect1 id='tdf-archiver'>
       <title>The TDF Archiver</title>
     
       <para>A TDF archive is a <command>tcc</command>-specific form
@@ -2074,7 +2074,7 @@
     <para>In this section we draw together a number of miscellaneous
       topics not so far covered.</para>
 
-    <sect1>
+    <sect1 id='intermodular-checks'>
       <title>Intermodular Checks</title>
 
       <para>All of the extra compiler checks described in section
@@ -2128,7 +2128,7 @@
         <option>-im0</option>.<para>
     </sect1>
 
-    <sect1>
+    <sect1 id='debugging-profiling'>
       <title>Debugging and Profiling</title>
 
       <para><command>tcc</command> supports options for both symbolic
@@ -2173,7 +2173,7 @@
         <option>-p</option>, depending on the target machine.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='system-environment'>
       <title>The System Environment</title>
 
       <para>In section 4.3 we discussed how <command>tcc</command>
@@ -2214,7 +2214,7 @@
         also potential problems involved with its use. It should
         therefore be used with care.</para>
 
-    <sect1>
+    <sect1 id='temporary-directory'>
       <title>The Temporary Directory</title>
 
       <para>As we have said, <command>tcc</command> creates a
@@ -2265,7 +2265,7 @@
         <command>TEMP</command>, the better.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='tcc-option-interpreter'>
       <title>The tcc Option Interpreter</title>
 
       <para>All <command>tcc</command> command-line options and
@@ -2292,11 +2292,11 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='tcc-reference-guide'>
 
   <title>tcc Reference Guide</title>
 
-    <sect1>
+    <sect1 id='input-output-files'>
       <title>Input and Output Files</title>
 
       <para><command>tcc</command> identifies the file type of the
@@ -2453,7 +2453,7 @@
         name to <command>b.j</command>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='compilation-phases'>
       <title>Compilation Phases</title>
 
       <para>The various compilation phases under the control of
@@ -2602,7 +2602,7 @@
         <command>tld</command> executable an option of the form
         <option>-EL: /usr/local/bin/tld</option> may be used.</para>
 
-    <sect1>
+    <sect1 id='command-line-opt'>
       <title>Command-line Options</title>
 
       <para>The following options are accepted by
@@ -2671,7 +2671,7 @@
 
     </sect1>
 
-    <sect1>
+    <sect1 id='compilation-modes'>
       <title>Compilation Modes</title>
 
       <para>The built-in compilation modes are as follows:
@@ -2712,7 +2712,7 @@
         <command>tcc</command>, and so on.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='supported-apis'>
       <title>Supported APIs</title>
 
       <para>The following standard APIs are supported in the form of
@@ -2863,7 +2863,7 @@
         <command>tcc</command>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='environment-identifiers'>
       <title>Environment Identifiers</title>
 
       <para>The following <command>tcc</command> environment
@@ -3057,7 +3057,7 @@
         <command>&lt;</command> or <command>&gt;</command>.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='standard-environments'>
       <title>Standard Environments</title>
 
       <para>In addition to the environments implementing the supported
