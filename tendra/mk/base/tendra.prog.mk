@@ -27,6 +27,10 @@ make-subdir: ${MAIN_TARGETS}
 
 .if defined(HAVE_CONF)
 
+.if defined(USE_LIBTEN)
+.include "tendra.libten.mk"
+.endif
+
 .if defined(TL)
 .include "tendra.api.mk"
 .endif

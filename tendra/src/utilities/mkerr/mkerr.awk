@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!@BIN_AWK@ -f
 
 #
 #  Copyright (c) 2003-2004, Boris Popov

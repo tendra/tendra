@@ -8,7 +8,7 @@ LEXI=		${OBJ_PREFIX}/utilities/lexi/lexi
 SID=		${OBJ_PREFIX}/utilities/sid/sid
 CALCULUS=	${OBJ_PREFIX}/utilities/calculus/calculus
 MAKE_TDF=	${OBJ_PREFIX}/utilities/make_tdf/make_tdf
-MKERR=		${BIN_AWK} -f ${SRC_DIR}/src/utilities/mkerr/mkerr.awk --
+MKERR=		${OBJ_PREFIX}/utilities/mkerr/mkerr
 TLD=		${OBJ_PREFIX}/tools/tld/tld
 DISP=		${OBJ_PREFIX}/tools/disp/disp
 PL=		${OBJ_PREFIX}/tools/pl/pl
@@ -20,8 +20,8 @@ def:
 	@${BIN_ECHO} "lexi:     ${LEXI}"
 	@${BIN_ECHO} "sid:      ${SID}"
 	@${BIN_ECHO} "calculus: ${CALCULUS}"
-	@${BIN_ECHO} "make_err: ${MAKE_ERR}"
 	@${BIN_ECHO} "make_tdf: ${MAKE_TDF}"
+	@${BIN_ECHO} "mkerr:    ${MKERR}"
 	@${BIN_ECHO} "tld:      ${TLD}"
 	@${BIN_ECHO} "disp:     ${DISP}"
 	@${BIN_ECHO} "pl:       ${PL}"

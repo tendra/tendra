@@ -8,8 +8,11 @@ CFLAGS	+= -I${.OBJDIR} -I${SRC_DIR}/src/include
 
 DEPEND_SRC= catstd.c
 
+# mkerr needs to be used from the src/* directory, due to it being built after
+# libten.
+
 catstd.c catstd.h: catstd.cat
-	${BIN_AWK} -f ${.CURDIR}/../utilities/mkerr/mkerr.awk -- -n catstdn.h \
+	${BIN_AWK} -f ${SRC_DIR}/utilities/mkerr/mkerr.awk -- -n catstdn.h \
 		-c ${.OBJDIR}/catstd.c \
 		-l ${.OBJDIR}/catstd.h ${.CURDIR}/catstd.cat
 		
