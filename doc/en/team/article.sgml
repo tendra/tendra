@@ -42,35 +42,39 @@
           <row>
             <entry valign="top">Munish Chopra</entry>
             <entry valign="top"><email>chopra@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Documentation, platform support, web content and other
+              all-around tasks.</entry>
           </row>
           <row>
             <entry valign="top">Stefan Farfeleder</entry>
             <entry valign="top"><email>stefanf@ten15.org</email></entry>
-            <entry>Stefan plans to concentrate on the C producer in terms of
-              bug fixes and C99 functionality, new APIs (mainly C99 and
-              SUSv3), as well as the Alpha installer.</entry>
+            <entry>C producer in terms of bug fixes and C99 functionality, new
+              APIs (mainly C99 and SUSv3), as well as the Alpha
+              installer.</entry>
           </row>
           <row>
             <entry valign="top">Samuel J. Greear</entry>
             <entry valign="top"><email>sjg@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Making FreeBSD TenDRA-friendly.</entry>
           </row>
           <row>
             <entry valign="top">Amos B. Haven</entry>
             <entry valign="top"><email>nonce@ten15.org</email></entry>
-            <entry>Amos aims to look at SSA transformations, data flow,
-              dynamic slicing, and related areas. </entry>
+            <entry>SSA transformations, data flow, dynamic slicing, and
+              related areas.</entry>
           </row>
           <row>
             <entry valign="top">Boris Popov</entry>
             <entry valign="top"><email>bp@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Code cleanup, libten, extensible support for qualifiers in
+              the producers, inline assembly support in the
+              installers.</entry>
           </row>
           <row>
             <entry valign="top">Amar Takhar</entry>
             <entry valign="top"><email>verm@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Build system, documentation, platform support, web site,
+              and a number of other areas.</entry>
           </row>
         </tbody>
       </tgroup>
