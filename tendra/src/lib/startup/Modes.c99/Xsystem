@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+    $TenDRA$
 */
 /*
     COMPILATION MODE APPLIED TO SYSTEM HEADERS
@@ -38,7 +40,7 @@
 
 #pragma TenDRA begin name environment NO_CHECKS
 #pragma TenDRA no external declaration allow
-#pragma TenDRA assignment as bool allow
+#pragma TenDRA assignment as _Bool allow
 #pragma TenDRA complete struct/union analysis off
 #pragma TenDRA const conditional allow
 #pragma TenDRA conversion analysis off
