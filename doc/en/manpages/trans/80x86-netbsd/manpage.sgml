@@ -1,0 +1,81 @@
+<refmeta>
+  <refentrytitle>trans386</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-80x86-netbsd-name'>
+  <refname>trans386</refname>
+  <refpurpose>Translator for 80386, 80486 and Pentium on NetBSD</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-80x86-netbsd-synopsis'>
+  <cmdsynopsis>
+    <command>trans386</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-80x86-netbsd-description'>
+  <title>DESCRIPTION</title>
+
+  &common-80x86-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-80x86-netbsd-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    &option-cd;
+    &option-ce;
+    &option-cf;
+    &option-ch;
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+    
+      <listitem>
+        <para>Causes <command>trans386</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>. The
+          available values of <emphasis>str</emphasis> are 3 for the 80386, 4 for
+          the 80486 (the default) and 5 for the Pentium. So <option>-K3</option>
+          means optimise for the 80386 etc.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+    &option-a;
+    &option-h;
+    &option-k;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-80x86-netbsd-see-also'>
+  <title>SEE ALSO</title>
+
+    <para>&man.freebsd.as;,&man.freebsd.prof;, &man.tendra.tcc;.</para>
+
+</refsect1>

@@ -1,0 +1,134 @@
+<refmeta>
+  <refentrytitle>mipstrans</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-mips-ultrix-name'>
+  <refname>mipstrans</refname>
+  <refpurpose>MIPS TDF Translator on Ultrix</refpurpose>
+
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-mips-ultrix-synopsis'>
+  <cmdsynopsis>
+    <command>mipstrans</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>infop.Gop.H</replaceable></arg>
+    <arg choice='opt'><replaceable>op.s</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-mips-ultrix-description'>
+  <title>DESCRIPTION</title>
+
+  &mips-common-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-mips-ultrix-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+
+    <varlistentry>
+      <term><option>-D</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>This option determines whether <command>mipstrans</command>
+          should produce Position Independent Code (PIC). This is done by default
+          in the IRIX version and not at all in the ULTRIX version.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-ce;
+
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>This option determines whether <command>mipstrans</command>
+          should apply the "for all" optimisation. This is done by
+          default.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-H</option></term>
+
+      <listitem>
+        <para>This option causes <command>mipstrans</command> to output
+          debugging information in its output file. This will only work if the
+          input TDF capsule contains debugging information. The diagnostic format
+          used is as used by the native compilers.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>mipstrans</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>. At
+          present there are no valid values for <emphasis>str</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-cm;
+
+    <varlistentry>
+      <term><option>-P</option></term>
+
+      <listitem>
+        <para>This option causes <command>mipstrans</command> to output
+          profiling information suitable for use with &man.freebsd.prof; or a
+          similar tool (see individual manual pages for details). This option is
+          untested at present, and should not be used.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-cq;
+    &option-cr;
+
+    <varlistentry>
+      <term><option>-S</option></term>
+
+      <listitem>
+        <para>This option will produce assembly code in the optional .s
+          file.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+
+
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-mips-ultrix-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;, &man.freebsd.prof;, &man.tendra.tcc;.</para>
+
+</refsect1>

@@ -1,0 +1,16 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY sparc-common-desc '
+  <para>The code production portion of the TDF compiler is under the control of
+    a TDF translator, which translates a TDF capsule into an assembly source
+    file. There are separate TDF translators for each target architecture. This
+    manual page describes the translators which produce SPARC assembly code.
+    There are two versions, one for SunOS, and one for Solaris</para>
+
+  <para>It is recommended that <command>sparctrans</command> should not be
+    invoked directly, but via the user interface &man.tendra.tcc;. The option
+    <emphasis>-</emphasis><emphasis>opt</emphasis> can be passed to
+    <command>sparctrans</command> by passing the option
+    <option>-Wt,-</option><replaceable>opt</replaceable> to
+    &man.tendra.tcc;.</para>
+'>

@@ -1,0 +1,128 @@
+<refmeta>
+  <refentrytitle>hppatrans</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-hppa-hpux-name'>
+  <refname>hppatrans</refname>
+  <refpurpose>TDF to HP PA-RISC translator on HP-UX</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-hppa-hpux-synopsis'>
+  <cmdsynopsis>
+    <command>hppatrans</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-hppa-hpux-description'>
+  <title>DESCRIPTION</title>
+  &hppa-common-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-hppa-hpux-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+
+    <varlistentry>
+      <term><option>-D</option><replaceable>switch</replaceable>&nbsp;<option>-d</option><replaceable>
+      switch</replaceable></term>
+    
+      <listitem>
+        <para>These options cause hppatrans to output <emphasis>Position
+          Independent Code</emphasis> (PIC). The <option>-D</option> flag
+          emulates cc's <emphasis>+Z</emphasis> flag, <option>-d</option>
+          emulates cc's <emphasis>+z</emphasis> flag. Neither option has yet been
+          tested.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-ce;
+
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>This option determines whether hppatrans should apply the "for
+          all" optimisation. This is done by default.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-H</option>&nbsp;<option>-h</option></term>
+
+      <listitem>
+        <para>The <option>-H</option> flag causes hppatrans to output
+          <emphasis>xdb</emphasis> compatible debugging information in its output
+          file. This option is only available if the header file
+          <emphasis>hpux_symtab.h</emphasis> was included whilst compiling
+          hppatrans. (hpux_symtab.h is available by anonymous FTP - see the
+          release notes for further information.) Please note well that there is
+          a known bug in the <option>-H</option> option. The bug sometimes
+          prohibits <emphasis>xdb</emphasis> reading selective diagnostic
+          information from a suite of two or more modules linked together.</para>
+
+        <para>The <option>-h</option> flag causes hppatrans to output
+          <emphasis>gdb</emphasis> compatible, i.e. <emphasis>stabs</emphasis>,
+          debugging information in its output file. The <option>-h</option> flag
+          is believed to be valid - any error is a genuine bug.</para>
+
+        <para>The -H and -h options will only work if the input TDF capsule
+          contains debugging information.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-I</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>This option determines whether hppatrans applies the "inlining"
+          optimisation. This is done by default.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes hppatrans to optimise its code for a particular processor
+          model, determined by <emphasis>str</emphasis>. At present there are no
+          valid values for <emphasis>str</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-hppa-hpux-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.tendra.tcc;,&man.freebsd.cc; and xdb.</para>
+
+</refsect1>

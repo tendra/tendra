@@ -1,0 +1,18 @@
+<!DOCTYPE refentry PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY manpage SYSTEM "manpage.sgml">
+
+<!ENTITY % common-includes SYSTEM "../common/options.sgml">
+%common-includes;
+
+<!ENTITY % common-80x86-includes SYSTEM "../common/80x86-common.sgml">
+%common-80x86-includes;
+
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man;
+]>
+
+<!-- $TenDRA$ -->
+
+<refentry id="man-trans-80x86-linux">
+  &manpage;
+</refentry>

@@ -1,0 +1,18 @@
+<!DOCTYPE refentry PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY manpage SYSTEM "manpage.sgml">
+
+<!ENTITY % common-includes SYSTEM "../common/options.sgml">
+%common-includes;
+
+<!ENTITY % common-sparc-includes SYSTEM "../common/sparc-common.sgml">
+%common-sparc-includes;
+
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man;
+]>
+
+<!-- $TenDRA$ -->
+
+<refentry id="man-trans-sparc-solaris">
+  &manpage;
+</refentry>

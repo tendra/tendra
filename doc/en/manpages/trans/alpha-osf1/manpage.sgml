@@ -1,0 +1,123 @@
+<refmeta>
+  <refentrytitle>alphatrans</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-alpha-osf1-name'>
+  <refname>alphatrans</refname>
+  <refpurpose>TDF to DEC Alpha translator on OSF/1</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-alpha-osf1-synopsis'>
+  <cmdsynopsis>
+    <command>alphatrans</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'>
+    <replaceable>input-filebinary-assembler-filesymbol-table-file</replaceable></arg>
+    <arg choice='opt'><replaceable>symbolic-assembler-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-alpha-osf1-description'>
+  <title>DESCRIPTION</title>
+
+  &alpha-common-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-alpha-osf1-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    &option-cd;
+    &option-ce;
+
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term>
+  
+      <listitem>
+        <para>This option determines whether or not
+          <command>alphatrans</command> applies the "for all" optimisation. This 
+          is not done by default.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term><option>-H</option></term>
+      
+      <listitem>
+        <para>This option causes <command>alphatrans</command> to output
+          debugging information. This will only work if the input TDF capsule
+          contains debugging information.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>alphatrans</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>.
+          Currently, this option has no effect.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-cm;
+
+    <varlistentry>
+      <term><option>-P</option></term>
+
+      <listitem>
+        <para>This option causes <command>alphatrans</command> to output
+          profiling information suitable for use with &man.freebsd.prof; or a
+          similar tool (see individual manual pages for details). This is not
+          fully implemented on the current version of
+          <command>alphatrans</command>.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cr;
+
+    <varlistentry>
+      <term><option>-S</option></term>
+  
+      <listitem>
+        <para>When this option is present <command>alphatrans</command> will   
+          produce a symbolic assembler file in addition to its normal outputs. In
+          this case the name of the symbolic assembler file must be present on
+          the command line.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-alpha-osf1-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;, &man.freebsd.prof;, &man.tendra.tcc;</para>
+
+</refsect1>

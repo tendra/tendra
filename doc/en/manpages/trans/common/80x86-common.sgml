@@ -1,0 +1,18 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY common-80x86-desc '
+  <para>The code production portion of the TDF compiler is under the control of
+  a TDF translator, which translates a TDF capsule into an assembly source
+  file. There are separate TDF translators for each target architecture. This
+  manual page describes the installer for the 80x86 architecture.</para>
+
+  <para>The basic action of the TDF translator, <command>trans386</command>, is
+  to translate a TDF capsule, <emphasis>input-file</emphasis>, into
+  an assembly source file, <emphasis>output-file</emphasis>.</para>
+
+  <para>It is recommended that <command>trans386</command> should not be
+  invoked directly, but via the user interface &man.tendra.tcc;. The option
+  <emphasis>-</emphasis><emphasis>opt</emphasis> can be
+  passed to <command>trans386</command> by passing the option <option>-Wt,
+  -</option><emphasis>opt</emphasis> to &man.tendra.tcc;.</para>
+'>

@@ -1,0 +1,12 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY alpha-common-desc '
+  <para><command>alphatrans</command> compiles a target dependent TDF capsule
+    into an AXP assembler file.</para>
+
+  <para>It is recommended that <command>alphatrans</command> not be invoked
+    directly, but via the user interface &man.tendra.tcc;. Alpha specific options
+    may be passed to <command>alphatrans</command> by passing the option
+    <option>-Wt,-</option><replaceable>opt</replaceable> to
+    &man.tendra.tcc;.</para>
+'>

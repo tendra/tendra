@@ -1,0 +1,16 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY power-common-desc '
+  <para>The code production portion of the TDF compiler is under the control of
+    a TDF translator, which translates a TDF capsule into an assembly source
+    file. There are separate TDF translators for each target architecture. This
+    manual page describes the translator which produces assembly code common to
+    the rs6000 and the POWERPc.</para>
+
+  <para>It is recommended that <command>powertrans</command> is not invoked
+    directly, but via the user interface <emphasis>tcc</emphasis>(1tdf). The
+    option <emphasis>-</emphasis><emphasis>opt</emphasis> can be passed to
+    <command>powertrans</command> by passing the option
+    <option>-Wt,-</option><replaceable>opt</replaceable> to
+    <emphasis>tcc</emphasis>.</para>
+'>

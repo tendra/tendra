@@ -1,0 +1,107 @@
+<refmeta>
+  <refentrytitle>trans386</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-80x86-cygwin32-name'>
+  <refname>trans386</refname>
+  <refpurpose>Translator for 80386, 80486 and Pentium on Cygwin</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-80x86-cygwin32-synopsis'>
+  <cmdsynopsis>
+    <command>trans386</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-80x86-cygwin32-description'>
+  <title>DESCRIPTION</title>
+
+  &common-80x86-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-80x86-cygwin32-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    <varlistentry>
+      <term><option>-D</option><replaceable>switch</replaceable></term>
+    
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+          produce Position Independent Code (PIC). This is not done by default.
+          This option is not supported on the SCO platform, and on the Linux
+          platform it is supported only for ELF binary format.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-ce;
+    &option-cf;
+
+    <varlistentry>
+      <term><option>-H</option></term>
+    
+      <listitem>
+        <para>This option causes <command>trans386</command> to output
+          debugging information in its output file. This will only work if the 
+          input TDF capsule contains debugging information. On the SCO platform
+          the format used by <emphasis>dbxtra</emphasis> and
+          <emphasis>codeview</emphasis> is supported. On the SVR4.2 platform
+          Dwarf 1 is supported, which is used by <emphasis>debug</emphasis>. On
+          the Solaris and Linux platforms, <emphasis>stabs</emphasis> is
+          supported. The GNU debugger <emphasis>gdb</emphasis> may be used on all
+          platforms.</para>
+      </listitem>
+    </varlistentry>
+
+
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+    
+      <listitem>
+        <para>Causes <command>trans386</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>. The 
+          available values of <emphasis>str</emphasis> are 3 for the 80386, 4 for
+          the 80486 (the default) and 5 for the Pentium. So <option>-K3</option>
+          means optimise for the 80386 etc.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+    &option-a;
+    &option-h;
+    &option-k;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-80x86-cygwin32-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;,&man.freebsd.prof;, &man.tendra.tcc;.</para>
+
+</refsect1>

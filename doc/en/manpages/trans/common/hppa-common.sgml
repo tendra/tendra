@@ -1,0 +1,13 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY hppa-common-desc '
+  <para>The code production portion of the TDF compiler is under the control of
+    a TDF translator, which translates a TDF capsule into an assembly source
+    file. There are separate TDF translators for each target architecture. This
+    manual page describes the translator which produces assembly code for the HP
+    PA-RISC machines. It is recommended that hppatrans not be invoked directly,
+    but via the user interface &man.tendra.tcc;. The option
+    <emphasis>-</emphasis><emphasis>opt</emphasis> can be passed to hppatrans by
+    passing the option <option>-Wt,-</option><replaceable>opt</replaceable> to
+    &man.tendra.tcc;.</para>
+'>

@@ -1,0 +1,86 @@
+<refmeta>
+  <refentrytitle>sparctrans</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-sparc-solaris-name'>
+  <refname>sparctrans</refname>
+  <refpurpose>SPARC TDF translator on Solaris</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-sparc-solaris-synopsis'>
+  <cmdsynopsis>
+    <command>sparctrans</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-sparc-solaris-description'>
+  <title>DESCRIPTION</title>
+
+  &sparc-common-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-sparc-solaris-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    &option-cd;
+    &option-ce;
+
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term>
+    
+      <listitem>
+        <para>This option determines whether <command>sparctrans</command>
+          should apply the "for all" optimisation. This is done by
+          default.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-ch;
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+    
+      <listitem>
+        <para>Causes <command>sparctrans</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>. At
+          present there are no valid values for <emphasis>str</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-sparc-solaris-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;,<emphasis>&man.freebsd.prof;</emphasis>,
+
+</refsect1>

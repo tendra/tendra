@@ -1,0 +1,308 @@
+<!-- $TenDRA$ -->
+
+<!--   A   -->
+<!ENTITY option-ca '
+    <varlistentry>
+      <term>"<option>-A</option><replaceable>switch</replaceable>"</term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        inline calls to <emphasis>alloca</emphasis>. This is done by
+        default.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   B   -->
+<!ENTITY option-cb '
+    <varlistentry>
+      <term><option>-B</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        report floating point constants which exceed their range. This is
+        always done by default. If this option is switched off such constants
+        are replaced by infinity.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   C   -->
+<!ENTITY option-cc '
+    <varlistentry>
+      <term><option>-C</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        apply the "constants out of loops" optimisation. This optimisation is
+        performed by default.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   D   -->
+<!ENTITY option-cd '
+    <varlistentry>
+      <term><option>-D</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        produce Position Independent Code (PIC). This is not done by default.
+        This option is not supported on the SCO or FreeBSD platforms, and on
+        the Linux platform it is supported only for ELF binary format.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   E   -->
+<!ENTITY option-ce '
+    <varlistentry>
+      <term><option>-E</option></term> 
+
+      <listitem>
+        <para>This option disables <command>trans386</command>&39;s constant
+        overflow checks.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   F   -->
+<!ENTITY option-cf '
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        apply the "strength reduction" optimisation. This optimisation is
+        performed by default.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   H   -->
+<!ENTITY option-ch '
+    <varlistentry>
+      <term><option>-H</option></term> 
+
+      <listitem>
+        <para>This option causes <command>trans386</command> to output
+        debugging information in its output file. This will only work if the
+        input TDF capsule contains debugging information. On the SCO platform
+        the format used by <emphasis>dbxtra</emphasis> and <emphasis
+       >codeview</emphasis> is supported. On the SVR4.2 platform
+        Dwarf 1 is supported, which is used by <emphasis>debug</emphasis>. On the Solaris, FreeBSD, and Linux platforms,
+        <emphasis>stabs</emphasis> is supported. The GNU debugger
+        <emphasis>gdb</emphasis> may be used on all platforms.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--    I   -->
+<!ENTITY option-ci '
+    <varlistentry>
+      <term><option>-I</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        apply the "inlining" optimisation. This optimisation is performed by
+        default.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   K   -->
+<!ENTITY option-ck '
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term> 
+
+      <listitem>
+        <para>Causes <command>trans386</command> to optimise its code for a
+        particular processor model, determined by <emphasis>str</emphasis>. The available values of 
+        <emphasis>str</emphasis> are 3 for the 80386, 4 for the 80486 and 5 for the
+        Pentium (the default). So <option>-K3</option> means optimise for the
+        80386 etc.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   M   -->
+<!ENTITY option-cm '
+    <varlistentry>
+      <term><option>-M</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>If this option is on, <command>trans386</command> preserves
+        division by a floating point number rather than replacing it by
+        multiplication by the reciprocal of the number. While the latter
+        produces faster code, it may lead to rounding errors. By default,
+        division by constants is preserved.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   P   -->
+<!ENTITY option-cp '
+    <varlistentry>
+      <term><option>-P</option></term> 
+
+      <listitem>
+        <para>This option causes <command>trans386</command> to output
+        profiling information suitable for use with &man.freebsd.prof; or a
+        similar tool (see individual manual pages for details). This option is
+        currently not supported on the Solaris platform.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   Q   -->
+<!ENTITY option-cq '
+    <varlistentry>
+      <term><option>-Q</option></term> 
+
+      <listitem>
+        <para>This option causes <command>trans386</command> to quit before
+        processing its input files. This is particularly useful in conjunction
+        with <option>-V</option>.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   R   -->
+<!ENTITY option-cr '
+    <varlistentry>
+      <term><option>-R</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        immediately round every floating point operation to its appropriate
+        range. This produces slower code, but is necessary for strict IEEE
+        conformance. The default is not to round after every operation.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   U   -->
+<!ENTITY option-cu '
+    <varlistentry>
+      <term><option>-U</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        apply the "loop unrolling" optimisation. This optimisation is performed
+        by default.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   V   -->
+<!ENTITY option-cv '
+    <varlistentry>
+      <term><option>-V</option></term> 
+
+      <listitem>
+        <para>This option causes <command>trans386</command> to print its
+        version number and the version of the TDF specification it
+        supports.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   W   -->
+<!ENTITY option-cw '
+    <varlistentry>
+      <term><option>-W</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option determines whether <command>trans386</command> should
+        make string literals writable. At present the C producer does not make
+        use of this facility, so strings are writable.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!ENTITY option-cx '
+    <varlistentry>
+      <term><option>-X</option></term> 
+
+      <listitem>
+        <para>This option disables all optimisations. All
+        <command>trans386</command>&39;s optimisations are believed to be valid,
+        so that any error in optimisation is a genuine bug.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   Z   -->
+<!ENTITY option-cz '
+    <varlistentry>
+      <term><option>-Z</option></term> 
+
+      <listitem>
+        <para>This option causes <command>trans386</command> to print the
+        version number of all the TDF capsules it decodes.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   a   -->
+<!ENTITY option-a '
+    <varlistentry>
+      <term><option>-a</option></term> 
+
+      <listitem>
+        <para>Always use a frame pointer. The default is to avoid using a frame
+        pointer whenever possible. The default results in better performance,
+        but in special cases where the stack is to be processed it may be
+        necessary to enforce the use of a frame pointer.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   h   -->
+<!ENTITY option-h '
+    <varlistentry>
+      <term><option>-h</option></term> 
+
+      <listitem>
+        <para>Do not use the .bss segment, always put data into the .data
+        segment even if it is zero. This should very rarely be needed. The
+        default is to use the .bss segment.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+
+<!--   k   -->
+<!ENTITY option-k '
+    <varlistentry>
+      <term><option>-k</option><replaceable>switch</replaceable></term> 
+
+      <listitem>
+        <para>This option is applicable to Linux platforms only. If this option
+        is on, <command>trans386</command> will produce output for an ELF
+        binary format assembler, otherwise a.out binary format is assumed. By
+        default this option is on, as appropriate for later versions of
+        Linux.</para>
+      </listitem>
+    </varlistentry>
+'>

@@ -1,0 +1,19 @@
+<!-- $TenDRA$ -->
+
+<!ENTITY mips-common-desc '
+  <para>The code production portion of the TDF compiler is under the control of
+    a TDF translator, which translates a TDF capsule,<emphasis>inf</emphasis>,
+    into assembly files. There are separate TDF translators for each target
+    architecture. This manual page describes the translators which produce MIPS
+    code. There are two versions, one for IRIX, and one for ULTRIX. Both produce
+    .G and .H files required by as1, but may also optionally give .s assembly
+    files using <option>-S</option>. Note that full run-time diagnostic
+    information cannot be transmitted through the MIPS assembler, as(1).</para>
+
+  <para>It is recommended that <command>mipstrans</command> is not invoked
+    directly, but via the user interface &man.tendra.tcc;. The option
+    <emphasis>-</emphasis><emphasis>opt</emphasis> can be passed to
+    <command>mipstrans</command> by passing the option
+    <option>-Wt,-</option><replaceable>opt</replaceable> to
+    <emphasis>tcc(1)</emphasis>.</para>
+'>

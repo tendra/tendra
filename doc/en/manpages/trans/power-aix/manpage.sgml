@@ -1,0 +1,96 @@
+<refmeta>
+  <refentrytitle>powertrans</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-power-aix-name'>
+  <refname>powertrans</refname>
+  <refpurpose>POWER TDF Translator on AIX</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-power-aix-synopsis'>
+  <cmdsynopsis>
+    <command>powertrans</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-power-aix-description'>
+  <title>DESCRIPTION</title>
+
+  &power-common-desc;
+
+</refsect1>
+
+
+
+<refsect1 id='trans-power-aix-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    &option-ce;
+
+    <varlistentry>
+      <term><option>-F</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>This option determines whether <command>powertrans</command>
+          should apply the "for all" optimisation. This is done by
+          default.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-H</option></term>
+
+      <listitem>
+        <para>This option causes <command>powertrans</command> to output
+          debugging information in its output file. This will only work if the
+          input TDF capsule contains debugging information.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-ci;
+
+    <varlistentry>
+      <term><option>-K</option><replaceable>str</replaceable></term>
+
+      <listitem>
+        <para>Causes <command>powertrans</command> to optimise its code for a
+          particular processor model, determined by <emphasis>str</emphasis>.
+          Currently "P" is supported for the POWERPc and "R" for the
+          rs6000.</para>
+      </listitem>
+    </varlistentry>
+
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-power-aix-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;, &man.freebsd.prof;, &man.tendra.tcc;.</para>
+
+</refsect1>

@@ -1,0 +1,69 @@
+<refmeta>
+  <refentrytitle>trans386</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+
+<refnamediv id='trans-80x86-svr4.2-name'>
+  <refname>trans386</refname>
+  <refpurpose>Translator for 80386, 80486 and Pentium on SVR 4.2</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv id='trans-80x86-svr4.2-synopsis'>
+  <cmdsynopsis>
+    <command>trans386</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-fileoutput-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='trans-80x86-svr4.2-description'>
+  <title>DESCRIPTION</title>
+
+  &common-80x86-desc;
+
+</refsect1>
+
+
+<refsect1 id='trans-common-80x86-options'>
+  <title>OPTIONS</title>
+
+  <variablelist>
+
+    &option-ca;
+    &option-cb;
+    &option-cc;
+    &option-cd;
+    &option-ce;
+    &option-cf;
+    &option-ch;
+    &option-ci;
+    &option-ck;
+    &option-cm;
+    &option-cp;
+    &option-cq;
+    &option-cr;
+    &option-cu;
+    &option-cv;
+    &option-cw;
+    &option-cx;
+    &option-cz;
+    &option-a;
+    &option-h;
+    &option-k;
+
+  </variablelist>
+</refsect1>
+
+
+<refsect1 id='trans-80x86-svr4.2-see-also'>
+  <title>SEE ALSO</title>
+
+  <para>&man.freebsd.as;,&man.freebsd.prof;, &man.tendra.tcc;.</para>
+
+</refsect1>
