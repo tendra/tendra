@@ -90,7 +90,7 @@ main(int argc, char **argv)
 		if (arg[0] == '-' && arg[1]) {
 			int known = 0;
 			switch (arg[1]) {
-			case 'v' : {
+			case 'V' : {
 				if (arg[2]) break;
 				tenapp_report_version ();
 				known = 1;
