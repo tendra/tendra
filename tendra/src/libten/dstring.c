@@ -334,8 +334,6 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 	size_t length  = nlength + dstring->ds_length;
 	
 	if (length > dstring->ds_max_length) {
-		char *tmp;
-		
 		while (dstring->ds_max_length < length) {
 			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
