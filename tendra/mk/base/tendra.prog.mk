@@ -71,7 +71,12 @@ clean:
 
 clean-all:
 .if !empty(CLEANFILES)
-	rm -f ${CLEANOPT} ${CLEANFILES}
+	@if [ -d "${OBJ_DIR}" ]; then \
+		echo rm -f ${CLEANOPT} ${CLEANFILES}; \
+	else \
+		echo "WARNING: Object directory ${OBJ_DIR} does not exist!"; \
+	fi
+
 .endif
 
 obj-dir:
