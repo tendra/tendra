@@ -58,6 +58,7 @@
 #include <limits.h>
 
 #include "config.h"
+#include "producer.h"
 #include "system.h"
 #include "c_types.h"
 #include "loc_ext.h"

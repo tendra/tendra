@@ -55,8 +55,8 @@
  */
 
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef PRODUCER_INCLUDED
+#define PRODUCER_INCLUDED
 
 
 /*
@@ -69,7 +69,6 @@
  */
 
 #include "ossg_api.h"
-#include "ossg.h"
 #include "language.h"
 
 
@@ -80,9 +79,6 @@
  *    can be placed here.
  */
 
-#define streq(A, B)	(strcmp ((A), (B)) == 0)
-#define array_size(A)	((int) sizeof (A) / (int) sizeof (*(A)))
-#define NIL(A)	((A *) NULL)
 #define NULL_gen_ptr	((gen_ptr) NULL)
 
 #define fclose_v	IGNORE fclose

@@ -56,6 +56,7 @@
 
 
 #include "config.h"
+#include "producer.h"
 #include <stdarg.h>
 #include <limits.h>
 #include "system.h"

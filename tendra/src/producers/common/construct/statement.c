@@ -56,6 +56,7 @@
 
 
 #include "config.h"
+#include "producer.h"
 #include "c_types.h"
 #include "etype_ops.h"
 #include "exp_ops.h"

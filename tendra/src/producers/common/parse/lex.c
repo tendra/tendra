@@ -56,6 +56,7 @@
 
 
 #include "config.h"
+#include "producer.h"
 #include <limits.h>
 #if FS_MULTIBYTE
 #include <locale.h>
