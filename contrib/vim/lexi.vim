@@ -38,7 +38,7 @@ syn region lexiString	start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=lexiSpecial
 
 " KEYWORDS
 
-syn keyword lexiKeyword	GROUP KEYWORD TOKEN
+syn keyword lexiKeyword	ELSE IF GROUP KEYWORD MAPPING TOKEN white
 
 " IDENTIFIERS
 
