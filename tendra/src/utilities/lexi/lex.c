@@ -165,7 +165,8 @@ static int read_identifier
     PROTO_N ( ( a, sid ) )
     PROTO_T ( int a X int sid )
 {
-    int c = a, cl ;
+    int c = a ;
+    lookup_type cl ;
     int e = ( sid ? '-' : 'x' ) ;
     char *t = token_buff ;
     do {
