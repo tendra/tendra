@@ -1236,7 +1236,7 @@ begin_spec()
 			return;
 		}
 		f = output_file [ OUTPUT_SPEC ];
-		bs = start_bitstream (f, NULL_gen_ptr);
+		bs = start_bitstream (f, NULL);
 		
 		/* Write file identifier */
 		ENC_BITS (bs, BYTE_SIZE, ascii_T);

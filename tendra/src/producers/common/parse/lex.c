@@ -2025,7 +2025,7 @@ init_lex(void)
     start_preproc_if ();
     preproc_loc = crt_loc;
     have_syntax_error = 0;
-    if (do_header) dump_start (&crt_loc, NIL (INCL_DIR));
+    if (do_header) dump_start (&crt_loc, NULL);
 	
     /* Deal with first start-up file */
     open_startup ();
@@ -2035,7 +2035,7 @@ init_lex(void)
     crt_loc.line--;
 	
     /* Initialise the parser */
-    init_parser (NIL (PPTOKEN));
+    init_parser (NULL);
     return;
 }
 

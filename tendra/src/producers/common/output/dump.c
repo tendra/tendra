@@ -1730,7 +1730,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 		ERROR e1 = DEREF_err (err_compound_head (e));
 		ERROR e2 = DEREF_err (err_compound_tail (e));
 		if (!dump_error (e1, loc, sev, 1)) return (0);
-		if (!dump_error (e2, NIL (LOCATION), sev, cnt)) return (0);
+		if (!dump_error (e2, NULL, sev, cnt)) return (0);
     }
     return (1);
 }

@@ -1187,10 +1187,10 @@ init_option(int level)
     /* Set up default compilation modes */
     s = ustrlit ("__DEFAULT__");
     nm = lookup_name (s, hash (s), 0, lex_identifier);
-    p1 = new_option (nm, NIL (OPTIONS), 0);
+    p1 = new_option (nm, NULL, 0);
     s = ustrlit ("__ALL__");
     nm = lookup_name (s, hash (s), 0, lex_identifier);
-    p2 = new_option (nm, NIL (OPTIONS), 1);
+    p2 = new_option (nm, NULL, 1);
 	
     /* Bring option into scope */
     if (level == 1) p1 = p2;

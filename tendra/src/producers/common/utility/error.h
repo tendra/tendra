@@ -99,8 +99,8 @@ extern ERROR set_prefix(ERROR);
 extern void restore_prefix(ERROR);
 
 #define report(A, B)		print_error (&(A), (B))
-#define fail(A)		print_error (NIL (LOCATION), (A))
-#define KILL_err		NIL (ERROR)
+#define fail(A)		print_error (NULL, (A))
+#define KILL_err		NULL
 
 
 /*

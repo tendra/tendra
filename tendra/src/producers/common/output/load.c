@@ -236,11 +236,11 @@ load_loc(BITSTREAM *bs)
 			unsigned long off = DE_INT (bs);
 			if (DE_BOOL (bs)) {
 				STAT_TYPE fstr;
-				BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
+				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				de_tdfstring (bs, bf);
 				file = xustrcpy (bf->start);
 				if (DE_BOOL (bs)) {
-					bf = clear_buffer (&token_buff, NIL (FILE));
+					bf = clear_buffer (&token_buff, NULL);
 					de_tdfstring (bs, bf);
 					input = xustrcpy (bf->start);
 				} else {
@@ -293,7 +293,7 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 				string s;
 				int ext = 0;
 				unsigned long h;
-				BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
+				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				de_tdfstring (bs, bf);
 				s = bf->start;
 				h = hash (s);
@@ -1855,7 +1855,7 @@ read_spec()
     char buff [20];
     const char *msg = NULL;
     NAMESPACE gns = NULL_nspace;
-    BITSTREAM *bs = start_bitstream (input_file, NULL_gen_ptr);
+    BITSTREAM *bs = start_bitstream (input_file, NULL);
     unsigned c1 = DE_BITS (bs, BYTE_SIZE);
     unsigned c2 = DE_BITS (bs, BYTE_SIZE);
     unsigned c3 = DE_BITS (bs, BYTE_SIZE);

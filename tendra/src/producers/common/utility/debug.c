@@ -1231,7 +1231,7 @@ DEBUG_loc(LOCATION *loc)
 {
     BUFFER *bf = clear_buffer (&print_buff, DEBUG_file);
     debugging++;
-    IGNORE print_loc (loc, NIL (LOCATION), bf, 0);
+    IGNORE print_loc (loc, NULL, bf, 0);
     debugging--;
     bfputc (bf, '\n');
     output_buffer (bf, 1);

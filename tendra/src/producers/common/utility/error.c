@@ -131,7 +131,7 @@ set_progname(const char *prog, const char *vers)
 string
 report_version(int vers)
 {
-    BUFFER *bf = clear_buffer (&print_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&print_buff, NULL);
     bfprintf (bf, "%x: Version %x", progname, progvers);
     if (vers) {
 		char buff [20];
@@ -454,7 +454,7 @@ static void
 print_location(LOCATION *loc, FILE *f)
 {
     BUFFER *bf = clear_buffer (&print_buff, f);
-    IGNORE print_loc (loc, NIL (LOCATION), bf, 0);
+    IGNORE print_loc (loc, NULL, bf, 0);
     output_buffer (bf, 0);
     return;
 }
@@ -1253,9 +1253,9 @@ install_error(LOCATION *loc, ERROR e)
 		int sev = DEREF_int (err_severity (e));
 		if (sev > ERROR_WARNING) {
 			string s;
-			BUFFER *bf = clear_buffer (&print_buff, NIL (FILE));
+			BUFFER *bf = clear_buffer (&print_buff, NULL);
 			if (loc) {
-				IGNORE print_loc (loc, NIL (LOCATION), bf, 0);
+				IGNORE print_loc (loc, NULL, bf, 0);
 				bfprintf (bf, ": ");
 			}
 			print_error_body (e, loc, bf);
@@ -1284,7 +1284,7 @@ error(int sev, const char *s, ...) /* VARARGS */
     va_start (args, s);
     if (sev > error_threshold) {
 		FILE *f = error_file;
-		print_error_start (f, NIL (LOCATION), sev);
+		print_error_start (f, NULL, sev);
 		vfprintf_v (f, s, args);
 		fputs_v (MESSAGE_END, f);
 		print_error_end (f, sev);

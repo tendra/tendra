@@ -1878,7 +1878,7 @@ bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds, int type, int force,
 				if (IS_id_function_etc (id)) {
 					/* Template function */
 					allow_templ_dargs = 0;
-					*pid = parse_id_template (id, NIL (PPTOKEN), 0);
+					*pid = parse_id_template (id, NULL, 0);
 					allow_templ_dargs = 1;
 					crt_templ_qualifier = 1;
 					t = bind_specialise (pid, t, ds, type, 2, init);

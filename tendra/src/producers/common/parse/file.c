@@ -256,7 +256,7 @@ normalise_pathname(string s)
     string p = s;
     int depth = 0;
     int changed = 0;
-    BUFFER *bf = clear_buffer (&incl_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&incl_buff, NULL);
     while (c = *(p++), c != 0) {
 		if (c == char_slash) {
 			if (p [0] == char_dot) {
@@ -1061,7 +1061,7 @@ static string
 add_pathname(string d, string f, int up)
 {
     if (d) {
-		BUFFER *bf = clear_buffer (&incl_buff, NIL (FILE));
+		BUFFER *bf = clear_buffer (&incl_buff, NULL);
 		bfputs (bf, d);
 		if (up) {
 			/* Remove file component */

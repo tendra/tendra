@@ -80,7 +80,6 @@
 
 #define streq(A, B)	(strcmp ((A), (B)) == 0)
 #define array_size(A)	((int) sizeof (A) / (int) sizeof (*(A)))
-#define NIL(A)	((A *) NULL)
 
 
 #endif

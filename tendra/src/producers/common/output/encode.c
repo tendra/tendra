@@ -167,7 +167,7 @@ static BITSTREAM
     if (bs->file) {
 		dump_bitstream (bs);
     } else {
-		BITSTREAM *ps = start_bitstream (NIL (FILE), bs->link);
+		BITSTREAM *ps = start_bitstream (NULL, bs->link);
 		ps->prev = bs;
 		bs = ps;
     }

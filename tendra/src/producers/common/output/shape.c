@@ -236,7 +236,7 @@ static BITSTREAM
 				/* Introduce token for value */
 				BITSTREAM *ts;
 				m = capsule_no (NULL_string, VAR_token);
-				ts = enc_tokdef_start (m, "E", NIL (ulong), 1);
+				ts = enc_tokdef_start (m, "E", NULL, 1);
 				if (sort == 3) {
 					/* Force constant evaluation */
 					ENC_make_int (ts);
@@ -474,7 +474,7 @@ BITSTREAM
 		
 		/* Encode expression */
 		n = capsule_no (NULL_string, VAR_token);
-		ts = enc_tokdef_start (n, "E", NIL (ulong), 1);
+		ts = enc_tokdef_start (n, "E", NULL, 1);
 		ENC_make_floating (ts);
 		ts = enc_flvar (ts, t);
 		ENC_to_nearest (ts);
@@ -832,8 +832,8 @@ static BITSTREAM
 			}
 			tok = capsule_no (s, VAR_token);
 			COPY_ulong (itype_ntok (it), tok);
-			ts = enc_tokdef_start (tok, "Z", NIL (ulong), 1);
-			us = start_bitstream (NIL (FILE), ts->link);
+			ts = enc_tokdef_start (tok, "Z", NULL, 1);
+			us = start_bitstream (NULL, ts->link);
 			switch (tag) {
 			case itype_promote_tag : {
 				/* Promoted integral types */
@@ -920,7 +920,7 @@ BITSTREAM
 				/* Integral token parameters */
 				BITSTREAM *ts;
 				bs = enc_special (bs, TOK_convert);
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 				ts = enc_var_no (ts, it, 0);
 				bs = enc_bitstream (bs, ts);
 				return (bs);
@@ -942,7 +942,7 @@ BITSTREAM
 				BITSTREAM *ts;
 				NAT n = DEREF_nat (itype_bitfield_size (it));
 				BASE_TYPE bt = DEREF_btype (itype_bitfield_rep (it));
-				ts = enc_tokdef_start (tok, "U", NIL (ulong), 1);
+				ts = enc_tokdef_start (tok, "U", NULL, 1);
 				ENC_bfvar_bits (ts);
 				if (bt & btype_signed) {
 					ENC_true (ts);
@@ -951,7 +951,7 @@ BITSTREAM
 				} else {
 					BITSTREAM *us;
 					ts = enc_special (ts, TOK_bitf_sign);
-					us = start_bitstream (NIL (FILE), ts->link);
+					us = start_bitstream (NULL, ts->link);
 					us = enc_var_no (us, it, 0);
 					ts = enc_bitstream (ts, us);
 				}
@@ -960,9 +960,9 @@ BITSTREAM
 			} else {
 				/* Integral types */
 				BITSTREAM *ts, *us;
-				ts = enc_tokdef_start (tok, "V", NIL (ulong), 1);
+				ts = enc_tokdef_start (tok, "V", NULL, 1);
 				ts = enc_special (ts, TOK_convert);
-				us = start_bitstream (NIL (FILE), ts->link);
+				us = start_bitstream (NULL, ts->link);
 				us = enc_var_no (us, it, 0);
 				ts = enc_bitstream (ts, us);
 				enc_tokdef_end (tok, ts);
@@ -1036,8 +1036,8 @@ static BITSTREAM
 			}
 			tok = capsule_no (s, VAR_token);
 			COPY_ulong (ftype_ntok (ft), tok);
-			ts = enc_tokdef_start (tok, "Z", NIL (ulong), 1);
-			us = start_bitstream (NIL (FILE), ts->link);
+			ts = enc_tokdef_start (tok, "Z", NULL, 1);
+			us = start_bitstream (NULL, ts->link);
 			switch (tag) {
 			case ftype_arg_promote_tag : {
 				/* Promoted floating types */
@@ -1108,7 +1108,7 @@ BITSTREAM
 				/* Floating point token parameters */
 				BITSTREAM *ts;
 				bs = enc_special (bs, TOK_convert);
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 				ts = enc_flvar_no (ts, ft);
 				bs = enc_bitstream (bs, ts);
 				return (bs);
@@ -1124,9 +1124,9 @@ BITSTREAM
 			}
 			tok = capsule_no (s, VAR_token);
 			COPY_ulong (ftype_ftok (ft), tok);
-			ts = enc_tokdef_start (tok, "F", NIL (ulong), 1);
+			ts = enc_tokdef_start (tok, "F", NULL, 1);
 			ts = enc_special (ts, TOK_convert);
-			us = start_bitstream (NIL (FILE), ts->link);
+			us = start_bitstream (NULL, ts->link);
 			us = enc_flvar_no (us, ft);
 			ts = enc_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
@@ -1393,7 +1393,7 @@ BITSTREAM
 		if (EQ_type (t, type_char)) {
 			bs = enc_special (bs, TOK_char_offset);
 		} else {
-			BITSTREAM *ts = start_bitstream (NIL (FILE), bs->link);
+			BITSTREAM *ts = start_bitstream (NULL, bs->link);
 			bs = enc_special (bs, TOK_shape_offset);
 			ts = enc_shape (ts, t);
 			bs = enc_bitstream (bs, ts);
@@ -1490,7 +1490,7 @@ BITSTREAM
 	    TYPE s = DEREF_type (exp_type (a));
 	    s = DEREF_type (type_ptr_mem_sub (s));
 	    bs = enc_special (bs, TOK_pm_offset);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ts = enc_exp (ts, a);
 	    ts = enc_alignment (ts, s);
 	    bs = enc_bitstream (bs, ts);
@@ -1572,7 +1572,7 @@ BITSTREAM
 		if (n == 1) {
 			BITSTREAM *ts;
 			bs = enc_special (bs, TOK_extra_offset);
-			ts = start_bitstream (NIL (FILE), bs->link);
+			ts = start_bitstream (NULL, bs->link);
 			ts = enc_alignment (ts, t);
 			ts = enc_offset (ts, off);
 			bs = enc_bitstream (bs, ts);

@@ -926,10 +926,10 @@ define_special(int t)
 	    bs = enc_variety (bs, c);
 	    bs = enc_param (bs, 0, sorts, pars);
 	    bs = enc_make_int (bs, c, ARITH_uchar);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ENC_false (ts);
 	    bs = enc_bitstream (bs, ts);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ENC_true (ts);
 	    bs = enc_bitstream (bs, ts);
 	    break;
@@ -963,7 +963,7 @@ define_special(int t)
 	    BITSTREAM *ts;
 	    TYPE c = type_char;
 	    bs = enc_special (bs, TOK_comp_off);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ENC_offset_add (ts);
 	    ENC_offset_zero (ts);
 	    ts = enc_alignment (ts, c);
@@ -1023,19 +1023,19 @@ define_special(int t)
 	    BITSTREAM *ts, *us;
 	    TYPE c = type_char;
 	    bs = enc_special (bs, TOK_ptr_to_ptr);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ts = enc_alignment (ts, c);
 	    ts = enc_param (ts, 0, sorts, pars);
 	    ENC_add_to_ptr (ts);
 	    ts = enc_special (ts, TOK_ptr_to_ptr);
-	    us = start_bitstream (NIL (FILE), ts->link);
+	    us = start_bitstream (NULL, ts->link);
 	    us = enc_param (us, 0, sorts, pars);
 	    us = enc_alignment (us, c);
 	    us = enc_param (us, 1, sorts, pars);
 	    ts = enc_bitstream (ts, us);
 	    ENC_offset_negate (ts);
 	    ts = enc_special (ts, TOK_extra_offset);
-	    us = start_bitstream (NIL (FILE), ts->link);
+	    us = start_bitstream (NULL, ts->link);
 	    us = enc_alignment (us, c);
 	    us = enc_param (us, 2, sorts, pars);
 	    ts = enc_bitstream (ts, us);
@@ -1046,7 +1046,7 @@ define_special(int t)
 	case TOK_destr_cast : {
 	    BITSTREAM *ts;
 	    bs = enc_special (bs, TOK_ptr_to_ptr);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ts = enc_param (ts, 0, sorts, pars);
 	    ts = enc_special (ts, TOK_empty_align);
 	    ts = enc_param (ts, 1, sorts, pars);
@@ -1061,7 +1061,7 @@ define_special(int t)
 	    bs = enc_ntest (bs, ntest_not_eq);
 	    bs = enc_param (bs, 1, sorts, pars);
 	    bs = enc_special (bs, TOK_destr_ptr);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ts = enc_param (ts, 0, sorts, pars);
 	    bs = enc_bitstream (bs, ts);
 	    ENC_make_null_ptr (bs);
@@ -1199,7 +1199,7 @@ BITSTREAM
 				OPTION opt = option (OPT_token_undef);
 				option (OPT_token_undef) = OPTION_ON;
 				err = ERR_token_undef (id);
-				e = install_error (NIL (LOCATION), err);
+				e = install_error (NULL, err);
 				option (OPT_token_undef) = opt;
 				bs = enc_exp (bs, e);
 				break;
@@ -1232,7 +1232,7 @@ BITSTREAM
     if (IS_NULL_list (args)) {
 		ENC_LEN_SMALL (bs, 0);
     } else {
-		BITSTREAM *ts = start_bitstream (NIL (FILE), bs->link);
+		BITSTREAM *ts = start_bitstream (NULL, bs->link);
 		while (!IS_NULL_list (args)) {
 			TOKEN tok = DEREF_tok (HEAD_list (args));
 			ts = enc_tokdef_body (ts, id, tok);
@@ -1258,9 +1258,9 @@ BITSTREAM
     if (len) {
 		BITSTREAM *ts, *us;
 		bs = enc_special (bs, TOK_asm_sequence);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_special (ts, TOK_asm);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
 		us = enc_strlit (us, op);
 		ts = enc_bitstream (ts, us);
 		bs = enc_bitstream (bs, ts);

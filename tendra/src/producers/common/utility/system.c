@@ -148,7 +148,7 @@ static struct tm
 {
     if (!have_crt_time) {
 		const char *s1, *s2;
-		time_t t = time (NIL (time_t));
+		time_t t = time (NULL);
 		if (t == (time_t) -1) {
 			/* Use a (seemingly) random date if time fails */
 			struct tm *st = &crt_time_str;

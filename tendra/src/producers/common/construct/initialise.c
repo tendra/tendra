@@ -1880,7 +1880,7 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
     }
     bad_crt_loc++;
     loc = crt_loc;
-    IGNORE clear_buffer (&field_buff, NIL (FILE));
+    IGNORE clear_buffer (&field_buff, NULL);
     e = init_aggr_aux (t, cv_none, &args, 2, id, err);
     crt_loc = loc;
     bad_crt_loc--;

@@ -157,7 +157,7 @@ static BITSTREAM
     bs = enc_ntest (bs, tst);
     ENC_make_label (bs, lab);
     bs = enc_special (bs, TOK_except_catch);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ts = enc_rtti_type (ts, t, lex_typeid);
     bs = enc_bitstream (bs, ts);
     bs = enc_make_int (bs, type_sint, 0);
@@ -199,7 +199,7 @@ BITSTREAM
     /* Encode the try block body */
     ENC_SEQUENCE (bs, seq);
     bs = enc_special (bs, TOK_try_begin);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ENC_obtain_tag (ts);
     ENC_make_tag (ts, n);
     ENC_current_env (ts);
@@ -221,7 +221,7 @@ BITSTREAM
 {
     BITSTREAM *ts;
     bs = enc_special (bs, TOK_try_end);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ENC_obtain_tag (ts);
     ENC_make_tag (ts, n);
     bs = enc_bitstream (bs, ts);
@@ -325,7 +325,7 @@ BITSTREAM
     } else {
 		BITSTREAM *ts;
 		bs = enc_special (bs, TOK_except_bad);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_make_snat (ts, 0);
 		bs = enc_bitstream (bs, ts);
     }
@@ -358,10 +358,10 @@ BITSTREAM
 		
 		/* Allocate space for exception value */
 		bs = enc_special (bs, TOK_from_ptr_void);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_alignment (ts, t);
 		ts = enc_special (ts, TOK_except_alloc);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
 		us = enc_exp (us, b);
 		ts = enc_bitstream (ts, us);
 		bs = enc_bitstream (bs, ts);
@@ -372,9 +372,9 @@ BITSTREAM
 		
 		/* Throw the exception */
 		bs = enc_special (bs, TOK_except_throw);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_special (ts, TOK_to_ptr_void);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
 		us = enc_alignment (us, t);
 		us = enc_exp (us, c);
 		ts = enc_bitstream (ts, us);
@@ -403,7 +403,7 @@ BITSTREAM
 BITSTREAM
 *enc_thrown(BITSTREAM *bs, TYPE t)
 {
-    BITSTREAM *ts = start_bitstream (NIL (FILE), bs->link);
+    BITSTREAM *ts = start_bitstream (NULL, bs->link);
     bs = enc_special (bs, TOK_from_ptr_void);
     ts = enc_alignment (ts, t);
     ts = enc_special (ts, TOK_except_value);
@@ -522,7 +522,7 @@ BITSTREAM
 			}
 		}
 		bs = enc_special (bs, TOK_except_bad);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_make_snat (ts, have_bad);
 		bs = enc_bitstream (bs, ts);
     }

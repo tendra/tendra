@@ -304,7 +304,7 @@ static BITSTREAM
     /* Define base structure */
     ts = enc_tagdef_start (NULL_id, n, NULL_type, 1);
     ts = enc_special (ts, TOK_baseid_make);
-    us = start_bitstream (NIL (FILE), ts->link);
+    us = start_bitstream (NULL, ts->link);
     us = enc_rtti_type (us, t, lex_typeid);
     if (m == LINK_NONE) {
 		ENC_offset_zero (us);
@@ -349,7 +349,7 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 		BITSTREAM *bs, *ts;
 		LIST (TYPE) p = NULL_list (TYPE);
 		LIST (GRAPH) br = NULL_list (GRAPH);
-		BUFFER *bf = clear_buffer (&print_buff, NIL (FILE));
+		BUFFER *bf = clear_buffer (&print_buff, NULL);
 		print_uniq_anon++;
 		IGNORE print_type (t, bf, 0);
 		print_uniq_anon--;
@@ -450,7 +450,7 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 		}
 		bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
 		bs = enc_special (bs, TOK_typeid_make);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_make_snat (ts, c);
 		ts = enc_buffer (ts, bf);
 		ts = enc_rtti_bases (ts, br, p, sz);
@@ -508,7 +508,7 @@ BITSTREAM
 	    /* Built-in types */
 	    BITSTREAM *ts;
 	    bs = enc_special (bs, TOK_typeid_basic);
-	    ts = start_bitstream (NIL (FILE), bs->link);
+	    ts = start_bitstream (NULL, bs->link);
 	    ts = enc_arith (ts, t, 1);
 	    bs = enc_bitstream (bs, ts);
 	    return (bs);
@@ -635,7 +635,7 @@ BITSTREAM
 				}
 				
 				/* Find the run-time type information */
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 				if (op == lex_typeid) {
 					bs = enc_special (bs, TOK_typeid_ref);
 				} else {
@@ -699,7 +699,7 @@ BITSTREAM
 	
     /* Convert to result type */
     bs = enc_special (bs, TOK_from_ptr_void);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     t = DEREF_type (type_ptr_etc_sub (t));
     ts = enc_alignment (ts, t);
 	
@@ -713,7 +713,7 @@ BITSTREAM
 	
     /* Encode main token */
     ts = enc_special (ts, TOK_dynam_cast);
-    us = start_bitstream (NIL (FILE), ts->link);
+    us = start_bitstream (NULL, ts->link);
 	
     /* Encode address of virtual function table */
     s = DEREF_type (type_ptr_etc_sub (s));
@@ -744,7 +744,7 @@ BITSTREAM
 		ENC_make_label (ts, lab);
 		ENC_SEQ_SMALL (ts, 1);
 		ts = enc_special (ts, TOK_pv_test);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
 		ENC_contents (us);
 		us = enc_special (us, TOK_ptr_void);
 		ENC_obtain_tag (us);
@@ -840,7 +840,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		n = capsule_no (NULL_string, VAR_tag);
 		enc_tagdec (NULL_id, n, f, 0);
 		bs = enc_tagdef_start (NULL_id, n, f, 0);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ENC_make_proc (bs);
 		bs = enc_shape (bs, r1);
 		ENC_LIST (bs, np);
@@ -926,7 +926,7 @@ BITSTREAM
 {
     BITSTREAM *ts;
     bs = enc_special (bs, TOK_vtab_type);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ENC_make_nat (ts);
     ENC_INT (ts, n + VIRTUAL_EXTRA);
     bs = enc_bitstream (bs, ts);
@@ -957,7 +957,7 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
     /* Output start of table */
     bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
     bs = enc_special (bs, TOK_vtab_make);
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ENC_obtain_tag (ts);
     r = link_no (ts, rtti, VAR_tag);
     ENC_make_tag (ts, r);
@@ -1005,7 +1005,7 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 		
 		/* Output pointer to member function */
 		ts = enc_special (ts, TOK_pmf_make);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
 		if (ds & dspec_pure) {
 			/* Pure virtual function */
 			us = enc_special (us, TOK_vtab_pure);
@@ -1276,7 +1276,7 @@ static BITSTREAM
     if (tag == type_bitfield_tag) {
 		/* Use token for bitfields */
 		bs = enc_special (bs, TOK_pad);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
     } else {
 		ts = bs;
     }
@@ -1414,7 +1414,7 @@ compile_class(CLASS_TYPE ct)
 				m = capsule_name (m, &s, VAR_token);
 			}
 			COPY_ulong (graph_base_off (gs), m);
-			bs = enc_tokdef_start (m, "E", NIL (ulong), 1);
+			bs = enc_tokdef_start (m, "E", NULL, 1);
 			if (pm == LINK_NONE) {
 				/* First base class */
 				ENC_offset_zero (bs);
@@ -1458,7 +1458,7 @@ compile_class(CLASS_TYPE ct)
 		}
 		
 		/* Scan through data members */
-		ts = start_bitstream (NIL (FILE), tokdef_unit->link);
+		ts = start_bitstream (NULL, tokdef_unit->link);
 		ns = DEREF_nspace (ctype_member (ct));
 		if (output_order) macc = dspec_public;
 		do {
@@ -1505,7 +1505,7 @@ compile_class(CLASS_TYPE ct)
 							string s = mangle_name (mid, VAR_token, 0);
 							m = capsule_name (m, &s, VAR_token);
 						}
-						bs = enc_tokdef_start (m, "E", NIL (ulong), 1);
+						bs = enc_tokdef_start (m, "E", NULL, 1);
 						if (pm == LINK_NONE) {
 							/* First member */
 							if (IS_type_bitfield (t)) {
@@ -1555,7 +1555,7 @@ compile_class(CLASS_TYPE ct)
 				m = capsule_name (m, &s, VAR_token);
 			}
 			size_dummy_vtab = DEREF_ulong (virt_no (vt));
-			bs = enc_tokdef_start (m, "E", NIL (ulong), 1);
+			bs = enc_tokdef_start (m, "E", NULL, 1);
 			if (pm == LINK_NONE) {
 				ENC_offset_zero (bs);
 				bs = enc_alignment (bs, t);
@@ -1582,7 +1582,7 @@ compile_class(CLASS_TYPE ct)
 				string s = mangle_vtable ("~cpp.virt.", gs);
 				m = capsule_name (m, &s, VAR_token);
 			}
-			bs = enc_tokdef_start (m, "E", NIL (ulong), 1);
+			bs = enc_tokdef_start (m, "E", NULL, 1);
 			ENC_offset_pad (bs);
 			bs = enc_al_ctype (bs, cs);
 			ENC_offset_add (bs);
@@ -1611,7 +1611,7 @@ compile_class(CLASS_TYPE ct)
 				string s = mangle_typeid ("~cpp.off.", ct);
 				m = capsule_name (m, &s, VAR_token);
 			}
-			bs = enc_tokdef_start (m, "E", NIL (ulong), 1);
+			bs = enc_tokdef_start (m, "E", NULL, 1);
 			bs = enc_special (bs, TOK_comp_off);
 			if (ci & cinfo_union) {
 				/* Complete union definition */
@@ -1633,7 +1633,7 @@ compile_class(CLASS_TYPE ct)
 				string s = mangle_typeid ("~cpp.sh.", ct);
 				n = capsule_name (n, &s, VAR_token);
 			}
-			bs = enc_tokdef_start (n, "S", NIL (ulong), 1);
+			bs = enc_tokdef_start (n, "S", NULL, 1);
 			ENC_compound (bs);
 			bs = enc_exp_token (bs, m);
 			enc_tokdef_end (n, bs);
@@ -1818,7 +1818,7 @@ compile_base(GRAPH gr, int ptr)
     }
 	
     /* Define the token */
-    bs = enc_tokdef_start (n, "E", NIL (ulong), 1);
+    bs = enc_tokdef_start (n, "E", NULL, 1);
     ENC_offset_add (bs);
     m = compile_base (g1, 0);
     bs = enc_exp_token (bs, m);
@@ -2007,7 +2007,7 @@ static BITSTREAM
 		LIST (GRAPH) br = DEREF_list (graph_tails (gr));
 		LIST (GRAPH) bv = DEREF_list (ctype_vbase (ct));
 		NAMESPACE ns = DEREF_nspace (ctype_member (ct));
-		BITSTREAM *ts = start_bitstream (NIL (FILE), bs->link);
+		BITSTREAM *ts = start_bitstream (NULL, bs->link);
 		
 		/* Scan through direct base classes */
 		while (!IS_NULL_list (br)) {
@@ -2128,7 +2128,7 @@ BITSTREAM
 		if (output_all) s = mangle_typeid ("~cpp.null.", ct);
 		n = capsule_no (s, VAR_token);
 		COPY_ulong (ctype_null_exp (ct), n);
-		ts = enc_tokdef_start (n, "E", NIL (ulong), 1);
+		ts = enc_tokdef_start (n, "E", NULL, 1);
 		ts = enc_null_class_aux (ts, ct, 1);
 		enc_tokdef_end (n, ts);
     }
@@ -2324,7 +2324,7 @@ static BITSTREAM
 		if (npids > 2) npids = 2;
 		ENC_LIST_SMALL (bs, npids);
 		bs = enc_special (bs, TOK_to_ptr_void);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		ts = enc_al_ctype (ts, ct);
 		ENC_obtain_tag (ts);
 		ENC_make_tag (ts, m);

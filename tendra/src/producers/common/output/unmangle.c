@@ -1162,7 +1162,7 @@ unmangle_name(string s, BUFFER *bf)
 			character c;
 			int ext = 0;
 			unsigned long h;
-			BUFFER *tf = clear_buffer (&token_buff, NIL (FILE));
+			BUFFER *tf = clear_buffer (&token_buff, NULL);
 			while (c = *s, c != 0) {
 				if (c == MANGLE_sep && s [1] == MANGLE_sep) {
 					c = s [2];

@@ -1529,7 +1529,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
     }
 	
     /* Deal with the complex case */
-    bf = clear_buffer (&mangle_buff, NIL (FILE));
+    bf = clear_buffer (&mangle_buff, NULL);
     if (pre) bfputs (bf, pre);
     bfputs (bf, s);
     if (v == VAR_token) {
@@ -1596,7 +1596,7 @@ mangle_common(string s, IDENTIFIER id)
 {
     string t = NULL;
     if (s) {
-		BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+		BUFFER *bf = clear_buffer (&mangle_buff, NULL);
 		bfprintf (bf, "__v_");
 		if (!IS_NULL_id (id)) {
 			int copy = 0;
@@ -1628,7 +1628,7 @@ string
 mangle_vtable(const char *pre, GRAPH gr)
 {
     string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
     name_buff.posn = name_buff.start;
     bfputs (bf, ustrlit (pre));
     mangle_graph (bf, gr);
@@ -1651,7 +1651,7 @@ string
 mangle_typeid(const char *pre, CLASS_TYPE ct)
 {
     string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
     name_buff.posn = name_buff.start;
     bfputs (bf, ustrlit (pre));
     mangle_ctype (bf, ct, -2);
@@ -1674,7 +1674,7 @@ string
 mangle_tname(const char *pre, TYPE t)
 {
     string s;
-    BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
     name_buff.posn = name_buff.start;
     bfputs (bf, ustrlit (pre));
     mangle_type (bf, t, 2, 1);
@@ -1775,7 +1775,7 @@ mangle_diag(IDENTIFIER id, int q)
     TYPE t = NULL_type;
     HASHID nm = DEREF_hashid (id_name (id));
     unsigned tag = TAG_hashid (nm);
-    BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&mangle_buff, NULL);
     name_buff.posn = name_buff.start;
     if (q) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));

@@ -127,7 +127,7 @@ static BITSTREAM
 		n = capsule_no (NULL_string, VAR_token);
 		COPY_ulong (posn_tok (posn), n);
 		if (!output_date) date = 0;
-		ts = enc_tokdef_start (n, "P", NIL (ulong), 0);
+		ts = enc_tokdef_start (n, "P", NULL, 0);
 		ENC_make_filename (ts);
 		ENC_make_nat (ts);
 		ENC_INT (ts, date);
@@ -204,7 +204,7 @@ BITSTREAM
 static BITSTREAM
 *enc_diag_tagdef_start(ulong n)
 {
-    BITSTREAM *bs = start_bitstream (NIL (FILE), diagtype_unit->link);
+    BITSTREAM *bs = start_bitstream (NULL, diagtype_unit->link);
     record_usage (n, VAR_diagtag, USAGE_DEFN);
     ENC_make_diag_tagdef (bs);
     n = link_no (bs, n, VAR_diagtag);
@@ -371,7 +371,7 @@ enc_diag_class(CLASS_TYPE ct, int def)
 		
 		/* Encode diagnostic tag definition */
 		bs = enc_diag_tagdef_start (n);
-		ts = start_bitstream (NIL (FILE), bs->link);
+		ts = start_bitstream (NULL, bs->link);
 		if (ci & cinfo_union) {
 			ENC_diag_union (bs);
 		} else {
@@ -781,7 +781,7 @@ enc_diag_id(IDENTIFIER id, int def)
 	case id_type_alias_tag : {
 	    /* Typedef names */
 	    t = DEREF_type (id_class_name_etc_defn (id));
-	    bs = start_bitstream (NIL (FILE), diagdef_unit->link);
+	    bs = start_bitstream (NULL, diagdef_unit->link);
 	    ENC_diag_desc_typedef (bs);
 	    bs = enc_diag_name (bs, id, 1);
 	    bs = enc_diag_loc (bs, id_loc (id));
@@ -803,7 +803,7 @@ enc_diag_id(IDENTIFIER id, int def)
 	    goto diag_label;
 	}
 		diag_label : {
-			bs = start_bitstream (NIL (FILE), diagdef_unit->link);
+			bs = start_bitstream (NULL, diagdef_unit->link);
 			ENC_diag_desc_id (bs);
 			bs = enc_diag_name (bs, id, 1);
 			bs = enc_diag_loc (bs, id_loc (id));
@@ -839,7 +839,7 @@ enc_diag_init(const char *s, ulong n, TYPE t)
 		if (u) n = capsule_name (n, &u, VAR_tag);
     }
     if (output_diag && !output_new_diag) {
-		BITSTREAM *bs = start_bitstream (NIL (FILE), diagdef_unit->link);
+		BITSTREAM *bs = start_bitstream (NULL, diagdef_unit->link);
 		ENC_diag_desc_id (bs);
 		bs = enc_ustring (bs, ustrlit (s));
 		bs = enc_diag_loc (bs, NULL_ptr (LOCATION));
@@ -918,7 +918,7 @@ BITSTREAM
 		bs = join_bitstreams (bs, ts);
     } else {
 		IDENTIFIER pid = DEREF_id (HEAD_list (p));
-		BITSTREAM *us = start_bitstream (NIL (FILE), bs->link);
+		BITSTREAM *us = start_bitstream (NULL, bs->link);
 		us = enc_diag_params (us, TAIL_list (p), ts, e);
 		bs = enc_diag_local (bs, pid, us);
     }
@@ -968,7 +968,7 @@ BITSTREAM
     if (output_diag) {
 		bs = enc_diag_start (bs);
 		*pbs = bs;
-		bs = start_bitstream (NIL (FILE), bs->link);
+		bs = start_bitstream (NULL, bs->link);
     }
     return (bs);
 }

@@ -389,7 +389,7 @@ quote_tok_list(PPTOKEN *toks, int esc, int quote)
     int escaped = 0;
     PPTOKEN *ptr_tok;
     character qo = (character) quote;
-    BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
+    BUFFER *bf = clear_buffer (&token_buff, NULL);
 	
     /* Scan through tokens */
     for (ptr_tok = toks; ptr_tok != NULL; ptr_tok = ptr_tok->next) {
@@ -945,7 +945,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 			int t = defn->tok;
 			if (t == lex_builtin_Hline) {
 				/* Construct an integer literal for __LINE__ */
-				BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
+				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				bfprintf (bf, "%lu", loc.line);
 				bfputc (bf, 0);
 				this_tok = new_pptok ();
@@ -961,7 +961,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 				/* Construct a string literal for __FILE__ */
 				character c;
 				string fn = DEREF_string (posn_file (crt_loc.posn));
-				BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
+				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				if (DEREF_int (posn_quote_file (crt_loc.posn))) {
 					while (c = *(fn++), c != 0) {
 						if (c == char_quote || c == char_backslash) {
@@ -1396,7 +1396,7 @@ expand_toks(PPTOKEN *toks, TOKEN_LOC *locs, int complete)
 PPTOKEN*
 expand_tok_list(PPTOKEN *toks)
 {
-    return (expand_toks (toks, NIL (TOKEN_LOC), 1));
+    return (expand_toks (toks, NULL, 1));
 }
 
 

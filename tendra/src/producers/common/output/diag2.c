@@ -165,7 +165,7 @@ static BITSTREAM
 		n = capsule_no (NULL_string, VAR_token);
 		COPY_ulong (posn_tok (posn), n);
 		if (!output_date) date = 0;
-		ts = enc_tokdef_start (n, "Q", NIL (ulong), 0);
+		ts = enc_tokdef_start (n, "Q", NULL, 0);
 		ENC_make_dg_filename (ts);
 		ENC_make_nat (ts);
 		ENC_INT (ts, date);
@@ -183,7 +183,7 @@ static BITSTREAM
 				ts = enc_ustring (ts, dn);
 			} else {
 				string en = ustrlit (find_cwd ());
-				BUFFER *bf = clear_buffer (&incl_buff, NIL (FILE));
+				BUFFER *bf = clear_buffer (&incl_buff, NULL);
 				bfprintf (bf, "%s/%s", en, dn);
 				ts = enc_ustring (ts, bf->start);
 			}
@@ -326,7 +326,7 @@ static BITSTREAM
     ENC_LIST (bs, n);
     d = dir_path;
     while (d != NULL) {
-		BUFFER *bf = clear_buffer (&incl_buff, NIL (FILE));
+		BUFFER *bf = clear_buffer (&incl_buff, NULL);
 		ENC_make_string (bs);
 		bfprintf (bf, "-I%s", d->path);
 		bs = enc_ustring (bs, bf->start);
@@ -584,7 +584,7 @@ BITSTREAM
 	    default : {
 			/* Other cases */
 			BUFFER *bf;
-			bf = clear_buffer (&mangle_buff, NIL (FILE));
+			bf = clear_buffer (&mangle_buff, NULL);
 			IGNORE print_hashid (nm, 0, 0, bf, 0);
 			s = bf->start;
 			break;
@@ -999,7 +999,7 @@ enc_dg_id(IDENTIFIER id, int def)
     }
 	
     /* Add the identifier to the namespace */
-    bs = start_bitstream (NIL (FILE), diagcomp_unit->link);
+    bs = start_bitstream (NULL, diagcomp_unit->link);
     ENC_dg_name_append (bs);
     n = link_no (bs, n, VAR_dgtag);
     ENC_make_dg_tag (bs, n);
@@ -1045,7 +1045,7 @@ enc_dg_basetype(TYPE t, int def)
 		IDENTIFIER gid = DEREF_id (nspace_name (global_namespace));
 		ulong m = DEREF_ulong (id_no (gid));
 		record_usage (n, VAR_dgtag, USAGE_DEFN);
-		bs = start_bitstream (NIL (FILE), diagcomp_unit->link);
+		bs = start_bitstream (NULL, diagcomp_unit->link);
 		ENC_dg_name_append (bs);
 		m = link_no (bs, m, VAR_dgtag);
 		ENC_make_dg_tag (bs, m);
@@ -1102,7 +1102,7 @@ enc_dg_basetype(TYPE t, int def)
 			bs = enc_dg_name (bs, NULL_id, NULL_type);
 		} else {
 			int sp = 0;
-			BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
+			BUFFER *bf = clear_buffer (&mangle_buff, NULL);
 			ENC_dg_external_idname (bs);
 			ENC_make_string (bs);
 			if (cv) sp = print_cv (cv, bf, sp);
@@ -1177,7 +1177,7 @@ static BITSTREAM
 		us = ts;
     } else {
 		ts = enc_special (ts, spec);
-		us = start_bitstream (NIL (FILE), ts->link);
+		us = start_bitstream (NULL, ts->link);
     }
     if (tok == LINK_NONE) {
 		us = enc_add_ptr (us, NULL_exp, m, off, 1);
@@ -1306,7 +1306,7 @@ static BITSTREAM
 				VIRTUAL vt = DEREF_virt (ctype_virt (ct));
 				ulong n = virtual_no (id, vt);
 				ENC_ON (bs);
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 				bs = enc_special (bs, TOK_vtab_off);
 				ts = enc_make_snat (ts, (int) n);
 				bs = enc_bitstream (bs, ts);
@@ -1561,7 +1561,7 @@ static BITSTREAM
     vtags [1] = LINK_NONE;
     vtags [2] = LINK_NONE;
     vtags [3] = LINK_NONE;
-    ts = start_bitstream (NIL (FILE), bs->link);
+    ts = start_bitstream (NULL, bs->link);
     ts = enc_dg_namespace (ts, ns, &m, cs);
 #if LANGUAGE_CPP
     if (!IS_NULL_ctype (cs)) {
@@ -1986,7 +1986,7 @@ BITSTREAM
 				BITSTREAM *ts;
 				unsigned m = 0;
 				PTR (LOCATION) start_loc = block_loc (e, 0);
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 				ts = enc_dg_namespace (ts, ns, &m, NULL_ctype);
 				if (blk > 1) m++;
 				if (m != 1) {

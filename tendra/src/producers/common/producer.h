@@ -79,8 +79,6 @@
  *    can be placed here.
  */
 
-#define NULL_gen_ptr	((gen_ptr) NULL)
-
 #define fclose_v	IGNORE fclose
 #define fflush_v	IGNORE fflush
 #define fprintf_v	IGNORE fprintf

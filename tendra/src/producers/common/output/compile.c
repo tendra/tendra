@@ -555,7 +555,7 @@ static BITSTREAM
 			ENC_pointer (bs);
 			bs = enc_alignment (bs, pt);
 			if (ts == NULL) {
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 			}
 			ENC_identify (ts);
 			ts = enc_access (ts, ds);
@@ -572,7 +572,7 @@ static BITSTREAM
 			TYPE pu = arg_promote_type (pt, KILL_err);
 			bs = enc_shape (bs, pu);
 			if (ts == NULL) {
-				ts = start_bitstream (NIL (FILE), bs->link);
+				ts = start_bitstream (NULL, bs->link);
 			}
 			ENC_variable (ts);
 			ts = enc_access (ts, ds);
@@ -630,7 +630,7 @@ static BITSTREAM
 	
     /* Encode function body */
     seq += stmt_length (e);
-    if (diag) bs = start_bitstream (NIL (FILE), bs->link);
+    if (diag) bs = start_bitstream (NULL, bs->link);
 #if LANGUAGE_CPP
     if (throws) bs = enc_try_func (bs, post);
 #endif
@@ -678,7 +678,7 @@ BITSTREAM
 				  TYPE t, int var)
 {
     unsigned use = USAGE_DECL;
-    BITSTREAM *bs = start_bitstream (NIL (FILE), tagdec_unit->link);
+    BITSTREAM *bs = start_bitstream (NULL, tagdec_unit->link);
     ulong m = link_no (bs, n, VAR_tag);
     if (var == 0) {
 		ENC_make_id_tagdec (bs);
@@ -746,7 +746,7 @@ BITSTREAM
 				  TYPE t, int var)
 {
     unsigned use = USAGE_DEFN;
-    BITSTREAM *bs = start_bitstream (NIL (FILE), tagdef_unit->link);
+    BITSTREAM *bs = start_bitstream (NULL, tagdef_unit->link);
     ulong m = link_no (bs, n, VAR_tag);
     if (var == 0) {
 		ENC_make_id_tagdef (bs);
@@ -968,7 +968,7 @@ enc_dynamic_init()
 			ulong n;
 			BITSTREAM *ts;
 			bs = enc_special (bs, TOK_destr_global);
-			ts = start_bitstream (NIL (FILE), bs->link);
+			ts = start_bitstream (NULL, bs->link);
 			n = link_no (ts, m2, VAR_tag);
 			ENC_obtain_tag (ts);
 			ENC_make_tag (ts, n);
@@ -1064,7 +1064,7 @@ BITSTREAM
     BITSTREAM *bs;
     if (d) enc_tokdec (n, sorts);
     record_usage (n, VAR_token, USAGE_DEFN);
-    bs = start_bitstream (NIL (FILE), tokdef_unit->link);
+    bs = start_bitstream (NULL, tokdef_unit->link);
     ENC_token_definition (bs);
     res = *(sorts++);
     bs = enc_sort (bs, (int) res);
@@ -1147,7 +1147,7 @@ enc_tokdef(IDENTIFIER id, int def)
     }
 	
     /* Construct token sort */
-    bf = clear_buffer (&mangle_buff, NIL (FILE));
+    bf = clear_buffer (&mangle_buff, NULL);
     bfputc (bf, r);
     if (tag == tok_func_tag) {
 		/* Function token */

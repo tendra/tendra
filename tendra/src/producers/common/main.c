@@ -836,7 +836,7 @@ init_main()
     init_option (check_level);
     if (output_diag) record_location = 1;
     init_dump (dump_name, dump_opt);
-    if (do_header) dump_start (&crt_loc, NIL (INCL_DIR));
+    if (do_header) dump_start (&crt_loc, NULL);
 	
     /* Initialise macros and keywords */
     init_char ();
