@@ -63,7 +63,7 @@
 +TYPEDEF _XmCascadeButtonRec XmCascadeButtonRec;
 
 /* 
-  this (and the following typedef) are obsolete and kept for compatability only 
+  this (and the following typedef) are obsolete and kept for compatibility only 
 */
 
 +FIELD (struct) _XmCascadeButtonWidgetRec := {

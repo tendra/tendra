@@ -36,6 +36,9 @@
 $Header$
 --------------------------------------------------------------------------
 $Log$
+Revision 1.2  2002/01/27 10:25:12  asmodai
+Fix spelling of compatible and derived words.
+
 Revision 1.1  2002/01/26 21:31:20  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -57,7 +60,7 @@ Initial version of TenDRA 4.1.2.
  * (iv) Debugging of Exception Handling and Diagnostics.
  *
  * Revision 5.11  1995/11/08  10:23:50  wfs
- * Minor changes for compatability with original "hpux_symtab.h" file +
+ * Minor changes for compatibility with original "hpux_symtab.h" file +
  * extra warning messages.
  *
  * Revision 5.10  1995/11/03  13:24:28  wfs

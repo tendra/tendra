@@ -395,7 +395,7 @@
 +CONST String XmRKeySym ;
 +CONST String XmRKeySymTable ;
 +CONST String XmRLabelType ;
-+CONST String XmRLongBoolean;  /* compatability */
++CONST String XmRLongBoolean;  /* compatibility */
 +CONST String XmRMenuWidget ;
 +CONST String XmRMnemonic ;
 +CONST String XmRNavigationType ;

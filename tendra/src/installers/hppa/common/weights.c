@@ -30,6 +30,9 @@
 
 /*
 $Log$
+Revision 1.2  2002/01/27 10:25:12  asmodai
+Fix spelling of compatible and derived words.
+
 Revision 1.1  2002/01/26 21:31:22  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -48,10 +51,10 @@ Initial version of TenDRA 4.1.2.
  * Preperation for August 25 Glue release
  *
  * Revision 3.4  1995/08/25  10:41:19  wfs
- * A few refinements necessary for 3.1 and 4.0 compatability.
+ * A few refinements necessary for 3.1 and 4.0 compatibility.
  *
  * Revision 3.4  1995/08/25  10:41:19  wfs
- * A few refinements necessary for 3.1 and 4.0 compatability.
+ * A few refinements necessary for 3.1 and 4.0 compatibility.
  *
  * Revision 3.1  95/04/10  16:28:41  16:28:41  wfs (William Simmonds)
  * Apr95 tape version.
