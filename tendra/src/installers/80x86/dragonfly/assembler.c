@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/assembler.c */
+/* dragonfly/assembler.c */
 
 #include "config.h"
 #include "common_types.h"

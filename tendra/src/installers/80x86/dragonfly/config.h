@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/config.h */
+/* dragonfly/config.h */
 
 #ifndef config_key
 #define config_key 1
@@ -56,7 +56,7 @@
 #define issco 0
 #define issol86 0
 #define islinux 0
-#define isfreebsd 1
+#define isdragonfly 1
 #define remove_struct_ref 1
 
 #define has_setcc 1
