@@ -862,18 +862,8 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 	case exp_float_lit_tag : {
 	    /* Check for floating-point literals */
 	    FLOAT f = DEREF_flt (exp_float_lit_flt (a));
-	    NAT n = round_float_lit (f, crt_round_mode);
-	    if (!IS_NULL_nat (n) && IS_nat_small (n)) {
-			unsigned v = DEREF_unsigned (nat_small_value (n));
-			if (v < 2) {
-				v = BOOL_VALUE (v);
-				e = make_bool_exp (v, exp_float_lit_tag);
-				return (e);
-			}
-	    }
-	    MAKE_exp_test (type_bool, ntest_not_eq, a, e);
-	    MAKE_nat_calc (e, n);
-	    MAKE_exp_int_lit (type_bool, n, exp_test_tag, e);
+	    unsigned v = BOOL_VALUE (!is_zero_float (f));
+	    e = make_bool_exp (v, exp_float_lit_tag);
 	    return (e);
 	}
 	case exp_contents_tag : {
