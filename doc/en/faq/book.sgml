@@ -1,0 +1,133 @@
+<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+
+<book>
+  <bookinfo>
+    <title>TenDRA Frequently Asked Questions</title>
+    <pubdate>$TenDRA$</pubdate>
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+    <copyright>
+      <year>2002</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+    <copyright>
+      <year>1997</year>
+      <year>1998</year>
+      <holder>Defence Evaluation and Research Agency (DERA)</holder>
+    </copyright>
+    <abstract>
+    <para>This is the Frequently Asked Questions for TenDRA, starting with
+      version 4.1.2.</para>
+    <para>Please email us at <email>docs@tendra.org</email> if you see any
+      errors or omissions</para>
+    </abstract>
+  </bookinfo>
+
+  <chapter>
+    <title>Misc Questions</title> 
+
+    <qandaset>
+      <qandaentry>
+
+        <question id="try-compile-cplusplus">
+          <para>Compiling simple C++ programs does not work.</para>
+        </question>
+        <answer>
+          <para>This release only contains the bare minimum language support
+            library, not the fully standard C++ library. See the C++
+            producer documentation for more details.
+          </para>
+        </answer>
+
+      </qandaentry>
+    </qandaset>
+
+  </chapter>
+
+  <chapter>
+    <title>Build Problems</title> 
+
+    <qandaset>
+      <qandaentry>
+
+        <question id="building-release">
+          <para>I try to build the release, but I am having problems in the API
+            library building phase.
+          </para>
+        </question>
+        <answer>
+          <para>Unfortunately this area is <emphasis>very</emphasis> operating
+            system dependent. It set up so that it works for the operating
+            systems listed under supported platforms, but this is not a
+            cast iron guarantee that it will work for other versions of the
+            same operating system.
+          </para>
+
+          <para>Some understanding of how the system works is useful in trying
+            to work around problems. The start-up files describing the
+            macros needed to nagivate the system headers for a particular
+            API are found in: 
+            <filename class="directory">src/lib/machines/&lt;os&gt;/&lt;cpu&gt;/startup/&lt;api&gt;.h</filename>
+            where &lt;os&gt; is the operating system name, &lt;cpu&gt; is
+            the CPU type, and &lt;api&gt; is the API name. A set of
+            replacement system headers, which are checked before the real
+            system headers, are found in: 
+            <filename class="directory">src/lib/machines/&lt;os&gt;/lt;cpu&gt;/include</filename>
+            These are also used with the -Ysystem option to tcc,
+            modifications which are specific to library building, should be
+            enclosed in:</para>
+
+          <programlisting>
+#ifdef __BUILDING_LIBS
+.....
+#endif
+          </programlisting>
+
+          <para>Good places to look for inspiration on how to customise these
+            files for your particular system include looking to see how
+            I've done things in similar circumstances. Often a problem
+            crops up on more than one machine; I may have a workround which
+            works on another platform which you can steal.</para>
+
+          <para>If you don't intend to re-distribute the TenDRA source code you
+            also have an option which, for copyright reasons, is not
+            available to us. You can copy the system header into the
+            include directory above and make minor corrections directly.</para>
+
+          <para>If all else fails you can tell the library building to ignore
+            the header. Find the source file which is failing to compile.
+            This should contain lines like:</para>
+
+          <programlisting>
+<![CDATA[
+#define __BUILDING_TDF_<API>_<HEADER>
+#ifndef __WRONG_<API>
+#ifndef __WRONG_<API>_<HEADER>
+....
+#endif /* __WRONG_<API> */
+#endif /* __WRONG_<API>_<HEADER> */
+]]>
+          </programlisting>
+
+          <para>If you insert the line:</para>
+
+          <programlisting>
+<![CDATA[
+#define __WRONG_<API>_<HEADER>
+]]>
+</programlisting>
+
+          <para>in the corresponding API start-up file:</para>
+
+          <programlisting>
+src/lib/machines/<literal>&lt;os&gt;</literal>/&lt;cpu&gt;/startup/&lt;api&gt;.h
+          </programlisting>
+
+          <para>then the library builder will ignore this header. You will get
+            a compile-time error ("token not defined") if you subsequently
+            try to use one of the features from this header.</para>
+        </answer>
+
+      </qandaentry>
+    </qandaset>
+  </chapter>
+</book>
