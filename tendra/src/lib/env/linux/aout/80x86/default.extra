@@ -2,6 +2,20 @@
  * $TenDRA$
 */
 
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_LD		"-BIN_LD-"
++BIN_CC		"-BIN_CC-"
+
+
+/* Libraries */
+
++LIB_CRT0	"-LIB_CRT0-"
++LIB_GCRT0	"-LIB_GCRT0-"
+
+
 +MACHINE		"linux-1.2.8-80x86"
 +TRANS			"<TENDRA_BINDIR>/trans -k0"
 +AS			"<BIN_AS>"
