@@ -4069,7 +4069,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 ~cpp.pm.null : () -&gt; EXP pm
 </programlisting>
 
-<para>The other fundamental operation on a pointer to data member is to turn it back into an offset expression which can be added to a pointer to a class to access a member of that class in a <literal>.*</literal> or <literal>-&gt*</literal> operation. This is done by the token:</para>
+<para>The other fundamental operation on a pointer to data member is to turn it back into an offset expression which can be added to a pointer to a class to access a member of that class in a <literal>.*</literal> or <literal>-&gt;*</literal> operation. This is done by the token:</para>
 
 <programlisting>
 ~cpp.pm.offset : ( EXP pm, ALIGNMENT a ) -&gt; EXP OFFSET ( a, a )
@@ -5090,7 +5090,7 @@ delete this ;
 <para>A <literal>throw</literal> expression without an argument results in a call to the token:</para>
 
 <programlisting>
-~cpp.except.rethrow : () -&gt EXP BOTTOM
+~cpp.except.rethrow : () -&gt; EXP BOTTOM
 </programlisting>
 
 <para>which re-invokes the exception manager with the current exception. If there is no current exception then the implementation should call <literal>std::terminate</literal>.</para>
@@ -6544,7 +6544,7 @@ typedef unsigned char character ;
 <para>The union type <literal>TOKEN</literal> (<literal>tok</literal>) is used to represent one of a number of different categories within the C++ language. It corresponds to the sort of a token declared using the -XREF-token.html<literal>#pragma token</literal> syntax. Thus there are fields corresponding to expression, statement, integer constant, type, function, member and procedure tokens. The similarities between <literal>PROC</literal> tokens and templates have been remarked above; for example, the parameters of the template:</para>
 
 <programlisting>
-template &lt; class T, int n &gt class A {
+template &lt; class T, int n &gt; class A {
   T a [n] ;
   // ....
 } ;
