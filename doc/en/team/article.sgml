@@ -22,7 +22,7 @@
     </abstract>
   </articleinfo>
 
-  <sect1 id="team"> 
+  <sect1 id="team">
   <title>Current TenDRA Developers</title>
     <informaltable frame="none">
       <tgroup cols="4" align="left">
@@ -58,7 +58,7 @@
             <entry valign="top">Amar Takhar</entry>
             <entry valign="top"><email>verm@ten15.org</email></entry>
             <entry>...</entry>
-            <entry>...</entry>           
+            <entry>...</entry>
           </row>
         </tbody>
       </tgroup>
@@ -82,7 +82,7 @@
             <entry valign="top">Jeroen Ruigrok van der Werven</entry>
             <entry>Jeroen left on August 20, 2003 to focus on other aspects of
               ANDF technology. Thanks for the hard work, we'll miss you
-              asmo!</entry> 
+              asmo!</entry>
           </row>
         </tbody>
       </tgroup>
