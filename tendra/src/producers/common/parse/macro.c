@@ -1134,6 +1134,15 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 			*(lc)->toks = NULL;
 		}
 		
+		/* According to C99, an invocation 'MACRO()' should be
+		 * interpreted as having a single empty argument if MACRO
+		 * was defined with one parameter. */
+		if (no_pars == 1 && no_args == 0) {
+			report (crt_loc, ERR_cpp_replace_arg_empty (0, macro));
+			arg_array [1] = NULL;
+			no_args = 1;
+		}
+
 		/* Check that argument and parameter lists match */
 		if (no_pars != no_args && (!va_macro || no_pars > no_args)) {
 			ERROR err;
