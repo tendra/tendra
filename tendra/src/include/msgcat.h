@@ -133,6 +133,12 @@ extern const char *crt_file_name;
  * compilers even if it is not on the main compilation path.
  */
 
+
+#ifdef DEBUG
+# define ASSERTS		1
+# define RUNTIME		1
+#endif
+
 #ifdef ASSERTS
 
 int is_true(int);
@@ -142,10 +148,22 @@ void assertion(const char *, const char *, int);
 			    assertion (#A, __FILE__, __LINE__)
 # define FAIL(A)	assertion (#A, __FILE__, __LINE__)
 #else
-# define ASSERT(A)	/* empty */
-# define FAIL(A)	/* empty */
+# if FS_LINT
+#  define ASSERT(A)	/* empty */
+#  define FAIL(A)	/* empty */
+# else
+#  define ASSERT(A)	(IGNORE 0)
+#  define FAIL(A)	(IGNORE 0)
+# endif
 #endif
 
-#define FAIL_COMPILER	ERROR [!]
+#ifndef __FILE__
+#define	__FILE__	"unknown"
+#endif
+
+#ifndef __LINE__
+#define	__LINE__	1
+#endif
+
 
 #endif /* !MSGCAT_H */
