@@ -12,7 +12,7 @@ DEPEND_SRC= catstd.c
 # libten.
 
 catstd.c catstd.h: catstd.cat
-	${BIN_AWK} -f ${SRC_DIR}/utilities/mkerr/mkerr.awk -- -n catstdn.h \
+	${BIN_AWK} -f ${SRC_DIR}/src/utilities/mkerr/mkerr.awk -- -n catstdn.h \
 		-c ${.OBJDIR}/catstd.c \
 		-l ${.OBJDIR}/catstd.h ${.CURDIR}/catstd.cat
 		
