@@ -58,8 +58,8 @@
 #ifndef __CROSS_CONFIG_INCLUDED
 #define __CROSS_CONFIG_INCLUDED
 
-#ifndef __LANGUAGE_C__
-#define __LANGUAGE_C__	1
+#ifndef LANGUAGE_C
+#define LANGUAGE_C	1
 #endif
 
 #ifndef __alpha
