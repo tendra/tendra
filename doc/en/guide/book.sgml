@@ -1,6 +1,8 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc;
 ]>
 
 <book>
@@ -65,7 +67,7 @@
       document.</para>
 
     <para>Throughout this document, references like (S5.1) are headings in the
-      -XREF-../tdf/spec1.htmlTDF specification, Issue 4.0. I use the term
+      &doc.tdf;. I use the term
       "compiling" or "producing" to mean the production of TDF from some source
       language and "translating" to mean making a program for some specific
       platform from TDF.</para>
@@ -139,7 +141,7 @@
         "first-class" SORTs given in table 1 on page 8. Each of these have an
         appropriate _apply_token constructor (e.g. exp_apply_token ) give the
         expansion. Most of these also have _cond constructors (e.g.see exp_cond
-        in -XREF-guide11.html#1section 9.1 on page 43) which allows translate
+        in <xref linkend='cond-constructors'>) which allows translate
         time conditional expansion of the SORT.</para>
 
       <table frame="all" id='first-class-sorts'>
@@ -357,7 +359,7 @@
       <para>The TDFINT <emphasis>tk</emphasis> will be the integer
         representation of the formal parameter expressed as a TOKEN whose result
         sort is <emphasis>sn</emphasis> (see more about name representation in
-        -XREF-guide5.html#2section 3.1 on page 13). To use the parameter in the
+        <xref linkend='make-capsule-name-spaces'>). To use the parameter in the
         body of the TOKEN_DEFN, one simply uses the _apply_token appropriate to
         <emphasis>sn</emphasis>.Note that sn may be a TOKEN but the
         <emphasis>result_sort</emphasis> may not.</para>
@@ -384,7 +386,7 @@
         to encapsulate the TOKEN_DEFN.</para>
 
       <para>The significance of the signature parameter is discussed in
-        -XREF-guide5.html#37section 3.2.2 on page 18.</para>
+        <xref linkend='decl-definition'>.</para>
 
       <para>Often, one wishes a token without giving its definition - the
         definition could, for example, be platform-dependent. A TOKDEC introduces
@@ -420,7 +422,7 @@
       <title>A simple use of a TOKEN</title> 
 
       <para>The crucial use of TOKENs in TDF is to provide abstractions of APIs
-        (see -XREF-guide12.html#0section 10 on page 45) but they are also used as
+        (see <xref linkend='tokens-apis'>) but they are also used as
         shorthand for commonly occurring constructions. For example, given the
         TDF constructor plus, mentioned above, we could define a plus with only
         two EXP parameters more suitable to C by using the wrap constructor as
@@ -747,7 +749,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
 
       <para>Each CAPSULE has its own name-space, distinct from all other
         CAPSULEs' name-spaces and also from the name-spaces of its component
-        UNITs (see -XREF-#11section 3.1.2 on page 14). There are several
+        UNITs (see <xref linkend='units'>). There are several
         different kinds of names in TDF and each name-space is further subdivided
         into one for each kind of name. The number of different kinds of names is
         potentially unlimited but only three are used in core-TDF, namely "tag",
@@ -881,7 +883,7 @@ make_linkextern (4, string_extern("printf"))
         <para>Just in the same way as with
           <emphasis>external_linkage</emphasis>, the numbers in local_vars
           correspond (in the same order) to the spaces indicated in
-          <emphasis>capsule_linking</emphasis> in -XREF-#2section 3.1 on page 13.
+          <emphasis>capsule_linking</emphasis> in <xref linkend='make-capsule-name-spaces'>.
           With our example,the first element of <emphasis>local_vars</emphasis>
           gives the number of "tag" names local to the UNIT, the second gives the
           number of "token" names local to the UNIT etc. These will include all
@@ -968,7 +970,7 @@ make_link(42, 4)
         of an obtain_tag(<emphasis>t</emphasis>) in an EXP. Note that t is not a
         variable; the value of obtain_tag(<emphasis>t</emphasis>) will be
         invariant. The <emphasis>signature</emphasis> parameter gives a STRING
-        (see -XREF-#39section 3.2.3 on page 18) which may be used as an name for
+        (see <xref linkend='string'>) which may be used as an name for
         the tag, external to TDF and also as a check introduced by the producer
         that a tagdef and its corresponding tagdec have the same notion of the
         language-specific type of the tag.</para>
@@ -993,8 +995,8 @@ make_link(42, 4)
   
           <footnote>
             <para>There is a similar distinction between tags introduced to be
-            locals of a procedure using identify and variable (see <xref linkend=
-            'identify-variable'>)</para>
+              locals of a procedure using identify and variable (see 
+              <xref linkend='identify-variable'>)</para>
         </footnote>
         There can only be one make_var_tagdef of a given tag in a program, but
         there may be more than one common_tagdef, possibly with different
@@ -1003,12 +1005,11 @@ make_link(42, 4)
       </para>
 
       <para>The ACCESS parameter gives various properties required for the tag
-        being defined and is discussed in -XREF-guide7.html#40section 5.3.2 on
-        page 30.</para>
+        being defined and is discussed in <xref linkend='access'>.</para>
 
       <para>The initialisation EXPs of TAGDEFs will be evaluated before the
         "main" program is started. An initialiation EXP must either be a constant
-        (in the sense of -XREF-guide11.html#0section 9 on page 43) or reduce to
+        (in the sense of <xref linkend='constants'>) or reduce to
         (either directly or by token or _cond expansions) to an
         initial_value:</para>
 <programlisting>
@@ -1048,7 +1049,7 @@ make_link(42, 4)
           declaration). The <emphasis>acc</emphasis> field will define certain
           properties of the tag not implicit in its SHAPE; I shall return to the
           kinds of properties envisaged in discussing local declarations in
-          -XREF-guide7.html#34section 5.3 on page 30.</para>
+          <xref linkend='defining-using-locals'>.</para>
 
         <para>Most program will appear in the "tagdefs" UNITs - they will
           include the definitions of the procedures of the program which in turn
@@ -1388,8 +1389,7 @@ maximum_exponent::  NAT
 
         <para>The final special alignment is var_param_alignment. This
           describes the alignment of a special kind of parameter to a procedure
-          which can be of arbitrary length (see -XREF-guide7.html#12section 5.1.1
-          on page 27).</para>
+          which can be of arbitrary length (see <xref linkend='vartag'>.</para>
       </sect2>
 
       <sect2 id='al-tag-make-al-tagdef'>
@@ -1506,14 +1506,14 @@ maximum_exponent::  NAT
         <para>The various rules for the ALIGNMENT qualifiers of the OFFSETs
           give the required SHAPE; these rules also ensure that offset arithmetic
           can be implemented simply using integer arithmetic for standard
-          architectures (see -XREF-guide15.html#2section 13.1 on page 56). Note
+          architectures (see <xref linkend='model-standard-architecture'>). Note
           that the OFFSET computed here is the minimum size for the SHAPE. This
           would not in general be the same as the difference between successive
           elements of an array of these structures which would have SHAPE
           OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>) as produced by
           offset_pad(<emphasis>x</emphasis>, <emphasis>sz</emphasis>). For
           examples of the use of OFFSETs to access and create structures, see
-          -XREF-guide14.html#0section 12 on page 53.</para>
+          <xref linkend='tdf-expansions-offsets'>.</para>
       </sect2>
 
       <sect2 id='offset-mult'>
@@ -1589,8 +1589,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           who knows what similar strange machines will appear in future; the
           basic conflicts between security, integrity and flexibility that the
           iAPX-432 sought to resolve are still with us. For more on the modelling
-          of pointers and offsets see -XREF-guide15.html#0section 13 on page
-          56.</para>
+          of pointers and offsets see <xref linkend='models-tdf-algebra'>.</para>
       </sect2>
     </sect1>
 
@@ -1640,8 +1639,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         OFFSET({x, b}, b) where b is the alignment given by a 1 bit alignment. To
         access the boolean, the producer would use the elements of this pair as
         arguements to bitfield_assign and bitfield_contents
-        (-XREF-guide9.html#16Assigning and extracting bitfields on page
-        39.).</para>
+        (<xref linkend='assining-extracting-bit'>).</para>
     </sect1>
   </chapter>
 
@@ -1731,7 +1729,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         pointer to the integer parameter. I shall return to the meaning of
         <emphasis>opt_access</emphasis> and the ramifications of the scope and
         extent of TAGs involved in conjunction with local declarations in
-        -XREF-#35section 5.3.1 on page 30.</para>
+        <xref linkend='identify-variable'>.</para>
 
       <para>Procedures, whether defined by make_proc or make_general_proc, will
         usually terminate and deliver its result with a return:</para>
@@ -1843,8 +1841,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         <emphasis>body</emphasis> only; it indicates that none of the labels
         within <emphasis>body</emphasis> will be the target of a long_jump
         construct. The other properties should also be given consistently at all
-        calls of the procedure; theu are discussed in -XREF-#24section 5.2.2 on
-        page 29.</para>
+        calls of the procedure; theu are discussed in <xref linkend='procprops'>.</para>
 
       <para>A procedure, <emphasis>p</emphasis>, constructed by
         make_general_proc is called using apply_general_proc:</para>
@@ -1893,8 +1890,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         for the call The final method allows one to construct a dynamically sized
         set of CALLEES; make_dynamic_callees takes a pointer and a size
         (expressed as an OFFSET) to make the CALLEES; this will be used in
-        conjunction with a var_callees PROCPROPS (see -XREF-#24section 5.2.2 on
-        page 29).</para>
+        conjunction with a var_callees PROCPROPS (see <xref linkend='procprops'>).</para>
 
       <para>Some procedures can be expressed using either make_proc or
         make_general_proc. For example:</para>
@@ -1966,8 +1962,9 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           procedure as in return, but the lifetime of the local space of the
           procedure is extended (in practice this is performed by not returning
           the stack to its original value at the call). A procedure containing an
-          untidy_return is a generalisation of a local_alloc(see -XREF-#60section
-          5.3.4 on page 32). For example the procedure could do some complicated
+          untidy_return is a generalisation of a local_alloc(see 
+          <xref linkend='local-alloc-local-free'>).
+          For example the procedure could do some complicated
           local allocation (a triangular array, say) and untidily return a
           pointer to it so that the space is still valid in the calling
           procedure. The space will remain valid for the lifetime of the calling
@@ -1982,7 +1979,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           requirements of the procedure will be checked on entry to see that they
           do not exceed the limits imposed by set_stack_limit; if they are
           exceeded a TDF exception with ERROR_CODE stack_overflow (see
-          -XREF-guide8.html#31section 6.3 on page 35) will be raised.</para>
+          <xref linkend='exceptional-flow'>) will be raised.</para>
       </sect2>
     </sect1>
 
@@ -2069,7 +2066,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
             value bound to the TAG. The principal way that this could happen
             within TDF is by the combined use of env_offset to give the offset
             and current_env to give a pointer to the current frame (see
-            -XREF-#57section 5.3.3 on page 31).</para>
+            <xref linkend='current-env-env-offet'>).</para>
 
           <para>The out_par ACCESS is only applicable to caller parameters of
             procedures; it indicates that the value of the TAG concerned will
@@ -2275,7 +2272,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           there is no observable difference other than in time or space. This
           applies anywhere I say "something is evaluated and then ...". We find
           this kind of statement in definitions of local variables in
-          -XREF-guide7.html#34section 5.3 on page 30, and in the controlling
+          <xref linkend='defining-using-locals'>, and in the controlling
           parts of the conditional constructions below.</para>
 
         <para>For a more precise discussion of allowable reorderings see
@@ -2487,11 +2484,11 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
       <para>A further way of changing the flow of control in a TDF program is
         by means of exceptions. TDF exceptions currently arise from three sources
         - overflow in arithmetic operations with trap ERROR_TREATMENT(see
-        -XREF-guide10.html#6section 8.1.1 on page 40) , an attempt to access a
+        <xref linkend='error-treatment'>) , an attempt to access a
         value via a nil pointer using assign_with_mode, contents_with_mode or
-        move_some(see -XREF-guide9.html#8section 7.3 on page 38) or a stack
+        move_some(see <xref linkend='transfer-mode-oper'>) or a stack
         overflow on procedure entry with PROCPROPS check_stack(see
-        -XREF-guide7.html#24section 5.2.2 on page 29) or a
+        <xref linkend='procprops'>) or a
         local_alloc_check.</para>
 
       <para>Each of these exceptions have an ERROR_CODE ascribed to them,
@@ -2601,8 +2598,7 @@ assign(obtain_tag(v), lhs).
 </programlisting>
 
       <para>Equivalences like this are widely used for transforming TDF in
-        translators and other tools (see -XREF-guide13.html#0section 11 on page
-        48).</para>
+        translators and other tools (see <xref linkend='tdf-transformations'>).</para>
     </sect1>
 
     <sect1 id='transfer-mode-oper'>
@@ -2705,7 +2701,7 @@ assign(obtain_tag(v), lhs).
         varieties used by a translator, the onus is on the translator writer to
         provide standard tokens which can be used by a producer to achieve both
         optimum packing of bitfields and minimum alignments for COMPOUNDs
-        containing them(see -XREF-guide14.html#12Bitfield offsets on page 54).
+        containing them(see <xref linkend='bitfield-offsets'>).
         These tokens would allow one to construct an offset of the form OFFSET(x,
         b) (where b is some bitfield alignment and x is the `minimum' alignment
         which could contain it) in a manner analogous to the normal padding
@@ -2814,7 +2810,7 @@ assign(obtain_tag(v), lhs).
           overflows.</para>
 
         <para>The ERROR_TREATMENT, trap(overflow) will raise a TDF
-          exception(see -XREF-guide8.html#31section 6.3 on page 35)with
+          exception(see <xref linkend='exceptional-flow'>)with
           ERROR_CODE overflow if overflow occurs.</para>
       </sect2>
     </sect1>
@@ -2934,7 +2930,8 @@ assign(obtain_tag(v), lhs).
         being an offset_zero.</para>
 
       <para>Constant sized array values may be constructed using make_nof,
-        make_nof_int (see -XREF-#36section 8.7 on page 42), and n_copies. Again,
+        make_nof_int (see <xref linkend='make-compound-make-nof'>), and
+        n_copies. Again,
         they only occur in C as constants in global definitions.</para>
     </sect1>
   </chapter>
@@ -3908,7 +3905,7 @@ REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(
 
     <para>Any mapping has to preserve the equivalences of the abstract algebra,
       such as those exemplified by the transformations {A} - {Z} in
-      -XREF-guide13.html#4section 11.1 on page 48. Similarly, the mappings of any
+      <xref linkend='transformations-def'>. Similarly, the mappings of any
       predicates on the constructions, such as those giving "well-formed"
       conditions, must be satisfied in terms of the mapped
       representations.</para>
