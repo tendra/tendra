@@ -373,7 +373,7 @@ values:      LIST(ENUM_VALUES)
 
         <para>An enumeration to be stored in an object of type
           <emphasis>base_type</emphasis>. If <emphasis>enum_name</emphasis> is
-          a string contining zero characters this signifies no source tag.</para>
+          a string containing zero characters this signifies no source tag.</para>
 
       </sect2>
       <sect2>
@@ -462,7 +462,7 @@ fields:      LIST(DIAG_FIELD)
         </programlisting>
 
         <para>Describes a structure. If <emphasis>src_name</emphasis> is a string
-          contining zero characters this signifies no source tag for the whole
+          containing zero characters this signifies no source tag for the whole
           structure. <emphasis>tdf_shape</emphasis> allows the total size to be
           computed.</para>
 
@@ -494,7 +494,7 @@ fields:      LIST(DIAG_FIELD)
         </programlisting>
 
         <para>Describes a union. If <emphasis>src_name</emphasis> is a string
-          contining zero characters this signifies no source tag for the whole
+          containing zero characters this signifies no source tag for the whole
           union. <emphasis>tdf_shape</emphasis> allows the total size to be
           computed.</para>
 
