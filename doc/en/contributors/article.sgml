@@ -23,18 +23,18 @@
   <sect1 id="donors">
     <title>The donors</title>
 
-    <para>The donors list holds the list of individuals and organizations who
-      thank very much for their donation of resources, such as bandwidth,
-      processing power, and/or hardware.  Without your donations we could not
-      have pulled off a lot of what we do now.  Thank you.</para>
+    <para>The donors list holds the names of individuals and organizations
+      whom we thank very much for their donation of resources, such as
+      bandwidth, processing power, and/or hardware.  Without your donations we
+      could not have pulled off a lot of what we do now.  Thank you.</para>
 
     <itemizedlist>
       <listitem>
         <para><emphasis>Contributors to our infrastructure:</emphasis></para>
 
         <para>The following individuals and organizations allowed us to set up
-          an infrastructure permitting the TenDRA Project to make their
-          software available to the world.</para>
+          an infrastructure permitting the TenDRA Project to make its software
+          available to the world.</para>
 
         <itemizedlist>
           <listitem>
