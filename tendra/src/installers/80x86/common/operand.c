@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "common_types.h"
 #include "tags.h"
 #include "basicread.h"
@@ -284,7 +286,7 @@ first_reg(int r)
 	t.regno = 1;
 	t.fr_no = 0;
 	if (r == 0)
-		failer (BAD_REGISTER);
+		MSG_fatal_illegal_register();
 	else {
 		while (!(t.regno & r)) {
 			t.regno = t.regno << 1;
@@ -336,8 +338,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 		};
 		default: {
-			failer (BAD_OPND);
-			return;
+			MSG_fatal_illegal_operand();
 		};
 		};
 	};
@@ -383,8 +384,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 		};
 		default: {		/* doesnt happen */
-			failer (BAD_OPND);
-			return;
+			MSG_fatal_illegal_operand();
 		};
 		};
 	};
@@ -400,18 +400,16 @@ operand(int le, where wh, int b, int addr)
 			if (!isvar (son (ref))) {
 				exp ident = son (ref);
 				if (ptno (ident) != reg_pl && off != 0) {
-					failer (BAD_OPND);
+					MSG_fatal_illegal_operand();
 				};
 				if (isglob (ident)) {
 					if (name (sh (w)) != prokhd)
-						failer (BAD_OPND);
+						MSG_fatal_illegal_operand();
+
+					if (PIC_code)
+						proc_extn (ident, no(ref));
 					else
-					{
-						if (PIC_code)
-							proc_extn (ident, no(ref));
-						else
-							extn (ident, no (ref), b);
-					};
+						extn (ident, no (ref), b);
 					return;
 				};
 				switch (ptno (ident)) {
@@ -419,10 +417,8 @@ operand(int le, where wh, int b, int addr)
 					ind_reg (no (ident), no (ref), off, ref, b);
 					return;
 				};
-				default: {
-					failer (BAD_OPND);
-					return;
-				};
+				default:
+					MSG_fatal_illegal_operand();
 				};
 			}
 			else {			/* variable */
@@ -454,10 +450,8 @@ operand(int le, where wh, int b, int addr)
 					regn (ni, noff, ref, le);
 					return;
 				};
-				default: {		/* doesnt happen */
-					failer (BAD_OPND);
-					return;
-				};
+				default:		/* doesnt happen */
+					MSG_fatal_illegal_operand();
 				};
 			};
 		};				/* end of cont(name) */
@@ -465,14 +459,13 @@ operand(int le, where wh, int b, int addr)
 		if (s == cont_tag && name (son (ref)) == name_tag &&
 			isvar (son (son (ref)))) {
 			exp ident = son (son (ref));
-			if (ptno (ident) != reg_pl && off != 0) {
-				failer (BAD_OPND);
-			};
+			if (ptno (ident) != reg_pl && off != 0)
+				MSG_fatal_illegal_operand();
 			if (isglob (ident)) {
 				if (name (sh (w)) != prokhd)
-					failer (BAD_OPND);
-				else
-					extn (ident, no (son (ref)), b);
+					MSG_fatal_illegal_operand();
+
+				extn (ident, no (son (ref)), b);
 				return;
 			};
 			switch (ptno (ident)) {
@@ -480,10 +473,8 @@ operand(int le, where wh, int b, int addr)
 				ind_reg (no (ident), no (son (ref)), off, ref, b);
 				return;
 			};
-			default: {
-				failer (BAD_OPND);
-				return;
-			};
+			default:
+				MSG_fatal_illegal_operand();
 			};
 		};				/* end of cont(cont(var)) */
 
@@ -501,10 +492,8 @@ operand(int le, where wh, int b, int addr)
 					ind_reg (no (son (et)), no (et), (no (ref) + off), et, b);
 					return;
 				};
-				default: {
-					failer (BAD_OPND);
-					return;
-				};
+				default:
+					MSG_fatal_illegal_operand();
 				};
 			};			/* end of cont(reff(name)) */
 
@@ -515,10 +504,8 @@ operand(int le, where wh, int b, int addr)
 							 (no (ref) + off), son (et), b);
 					return;
 				};
-				default: {
-					failer (BAD_OPND);
-					return;
-				};
+				default:
+					MSG_fatal_illegal_operand();
 				};
 			};			/* end of cont(ref(cont())) */
 
@@ -529,7 +516,7 @@ operand(int le, where wh, int b, int addr)
 				operand (le, new_w, b, 0);
 				return;
 			};			/* end of cont(reff(addptr())) */
-			failer (BAD_OPND);
+			MSG_fatal_illegal_operand();
 		};				/* end of cont(reff()) */
 
 		if (s == addptr_tag) {
@@ -571,10 +558,8 @@ operand(int le, where wh, int b, int addr)
 				ind_reg (no (son (se)), no (son (se)), no (w), se, b);
 				return;
 			};
-			default: {
-				failer (BAD_OPND);
-				return;
-			};
+			default:
+				MSG_fatal_illegal_operand();
 			};
 		};				/* end of reff(name)  */
 
@@ -589,10 +574,8 @@ operand(int le, where wh, int b, int addr)
 						 no (w), son (se), b);
 				return;
 			};
-			default: {
-				failer (BAD_OPND);
-				return;
-			};
+			default:
+				MSG_fatal_illegal_operand();
 			};
 		};				/* end of reff(cont()) */
 
@@ -706,7 +689,5 @@ operand(int le, where wh, int b, int addr)
 		};
 	};
 
-	failer (BAD_OPND);
-
-	return;
+	MSG_fatal_illegal_operand();
 }

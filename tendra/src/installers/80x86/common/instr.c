@@ -60,6 +60,7 @@
  */
 #include "config.h"
 #include "fmm.h"
+#include "msgcat.h"
 
 #include "common_types.h"
 #include "out.h"
@@ -340,8 +341,7 @@ regn(int regs, int rdisp, exp ldname, int le)
 			return;
 		};
 		if (fstack_pos > 16) {
-			failer (BAD_FSTACK);
-			exit(EXIT_FAILURE);
+			MSG_fatal_fp_stack_too_large(fstack_pos);
 		};
 		outs (fl_reg_name[fstack_pos - z]);
 		/* variables held in the floating point registers have to be addressed
@@ -757,7 +757,7 @@ jump(exp jr, int with_fl_reg)
 	int  good_fs = fstack_pos;
 	int  good_sd = stack_dec;
 	if (fs_dest < first_fl_reg)
-		failer (FSTACK_UNSET);
+		MSG_fatal_fp_stack_level_not_set();
 	if (with_fl_reg) {		/* jumping with a floating value */
 		/* clear off any unwanted stack registers */
 		while (fstack_pos > (fs_dest + 1))
@@ -849,7 +849,7 @@ static char
 			return (je);
 
 		default:
-			failer (BAD_TESTNO);
+			MSG_fatal_bad_test_number(test_no);
 		};
 	};
 
@@ -873,7 +873,7 @@ static char
 			return (je);
 
 		default:
-			failer (BAD_TESTNO);
+			MSG_fatal_bad_test_number(test_no);
 		};
 	}
 	else {
@@ -897,7 +897,7 @@ static char
 			return (je);
 
 		default:
-			failer (BAD_TESTNO);
+			MSG_fatal_bad_test_number(test_no);
 		};
 	};
 	return ((char *) 0);
@@ -928,7 +928,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 	int  good_fs = fstack_pos;
 	int  good_fpucon = fpucon;
 	if (fs_dest < first_fl_reg)
-		failer (FSTACK_UNSET);
+		MSG_fatal_fp_stack_level_not_set();
 	if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon
 		|| cmp_64hilab >= 0) {
 		/* floating point stack or call stack need attention */
@@ -1034,7 +1034,7 @@ jmp_overflow(exp jr, int sg, int inv)
 	int  good_fs = fstack_pos;
 	int  good_fpucon = fpucon;
 	if (fs_dest < first_fl_reg)
-		failer (FSTACK_UNSET);
+		MSG_fatal_fp_stack_level_not_set();
 	if (fstack_pos > fs_dest || sonno(jr) != stack_dec || fpucon != normal_fpucon) {
 		/* floating point stack or call stack need attention */
 		int  nl = next_lab ();

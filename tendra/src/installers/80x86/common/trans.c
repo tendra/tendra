@@ -440,15 +440,11 @@ main(int argc, char **argv)
 		outfname = argv[1];
 
 		/* initiate the output file */
-		if (!outinit (outfname)) {
-			failer (CANT_OPEN);
-			return (1);
-		};
+		if (!outinit (outfname))
+			MSG_cant_open_output_file(outfname);
 
-		if (!initreader (argv[0])) {
-			failer (CANT_READ);
-			return (1);
-		};
+		if (!initreader (argv[0]))
+			MSG_file_read_error(argv[0]);
 
 		init_all();
 

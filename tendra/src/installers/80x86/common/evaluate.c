@@ -57,6 +57,7 @@
 
 #include "config.h"
 #include "common_types.h"
+#include "msgcat.h"
 
 #include "tags.h"
 #include "basicread.h"
@@ -231,7 +232,7 @@ evalexp(exp e)
 		break;
 	}
 	}
-	failer(BAD_VAL);
+	MSG_fatal_illegal_eval_tag(name(e));
 	return (0);
 }
 

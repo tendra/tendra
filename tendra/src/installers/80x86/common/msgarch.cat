@@ -28,6 +28,84 @@
 
 ENTRIES:
 
+fatal_bad_operation(ccp: where)
+{
+	USAGE: FATAL
+	KEY(STD) where ": bad operation"
+}
+
+fatal_bad_test_number(int: number)
+{
+	USAGE: FATAL
+	KEY(STD) "Bad test number: "number
+}
+
+fatal_cant_return_struct()
+{
+	USAGE: FATAL
+	KEY(STD) "Can't apply return to struct"
+}
+
+fatal_cant_get_struct_from_proc()
+{
+	USAGE: FATAL
+	KEY(STD) "Can't get struct result from procedure"
+}
+
+fatal_fp_stack_level_not_set()
+{
+	USAGE: FATAL
+	KEY(STD) "Floating point stack level not set"
+}
+
+fatal_fp_stack_too_large(int: size)
+{
+	USAGE: FATAL
+	KEY(STD) "Floating point stack too large: "size
+}
+
+fatal_illegal_bit_operand()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal bit operand"
+}
+
+fatal_illegal_eval_tag(int: tag)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal tag for evaluate: "tag
+}
+
+fatal_illegal_fp_operation(int: opname)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal floating point operation: "opname
+}
+
+fatal_illegal_operand()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal operand"
+}
+
+fatal_illegal_postlude()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal postlude"
+}
+
+fatal_illegal_register()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal register"
+}
+
+fatal_invalid_reg_size(int: size)
+{
+	USAGE: FATAL
+	KEY(STD) "Invalid register size '"size"'"
+}
+
 getopt_invalid_argument(ccp: opt, ccp: arg)
 {
 	USAGE: FATAL

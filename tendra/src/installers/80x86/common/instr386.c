@@ -59,6 +59,8 @@
  *   Define 80386 instructions such as add, sub etc.
  */
 #include "config.h"
+#include "msgcat.h"
+
 #include "common_types.h"
 #include "operand.h"
 #include "instr.h"
@@ -5273,7 +5275,7 @@ divit(shape sha, where bottom, where top,
 			ins1 (idivw, 16, d);
 			break;
 		case 64:
-			failer(BADOP);
+			MSG_fatal_bad_operation("divit()");
 		default:
 			move(slongsh, reg0, reg1);
 			ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5538,7 +5540,7 @@ remit(shape sha, where bottom, where top,
 			ins1 (idivw, 16, d);
 			break;
 		case 64:
-			failer(BADOP);
+			MSG_fatal_bad_operation("remit()");
 		default:
 			move(slongsh, reg0, reg1);
 			ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5788,7 +5790,7 @@ bit_pos_cont(exp e, int nbits)
 		return (0);
 	};
 
-	failer (BAD_BIT_OPND);
+	MSG_fatal_illegal_bit_operand();
 	return (0);
 
 }
@@ -5810,7 +5812,7 @@ bit_pos(exp e, int nbits)
 	if (name (e) == ident_tag)
 		return (0);
 
-	failer (BAD_BIT_OPND);
+	MSG_fatal_illegal_bit_operand();
 	return (0);
 }
 
@@ -6035,10 +6037,12 @@ fopm(shape sha, unsigned char op, int rev,
 			son(wh.where_exp) = hold;
 			return;
 		default:
-			failer (BAD_FLOP);
+			MSG_fatal_illegal_fp_operation(op);
+#if 0 /* this error is fatal, isn't it ? */
 			end_contop ();
 			son(wh.where_exp) = hold;
 			return;
+#endif
 		};
 	};
 
@@ -6070,10 +6074,12 @@ fopm(shape sha, unsigned char op, int rev,
 		son(wh.where_exp) = hold;
 		return;
     default:
-		failer (BAD_FLOP);
+		MSG_fatal_illegal_fp_operation(op);
+#if 0
 		end_contop ();
 		son(wh.where_exp) = hold;
 		return;
+#endif
 	};
 }
 
@@ -6140,8 +6146,7 @@ fopr(unsigned char op, int rev, where wh,
 		};
 		break;
     default:
-		failer (BAD_FLOP);
-		break;
+		MSG_fatal_illegal_fp_operation(op);
 	};
 
 	return;
@@ -6348,7 +6353,7 @@ fl_multop(unsigned char op, shape sha, exp arglist,
 		case fmult_tag:
 			ins0("fmulp %st,%st(1)"); break;
 		default:
-			failer (BAD_FLOP); break;
+			MSG_fatal_illegal_fp_operation(op);
 		};
 		pop_fl;
 		if (last(arg2)) break;
@@ -6903,7 +6908,7 @@ special_ins(char * id, exp arg, where dest)
 			return;
 		};
 	}
-	failer (BADOP);
+	MSG_fatal_bad_operation("special_ins()");
 }
 
 void

@@ -60,6 +60,8 @@
  */
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "common_types.h"
 #include "basicread.h"
 #include "flags.h"
@@ -77,6 +79,7 @@
 /* All variables initialised */
 
 FILE * fpout;	/* init by outinit */
+static char *out_fname;
 
 #ifdef NEWDWARF
 long instr_count = -1;
@@ -88,6 +91,7 @@ long instr_count = -1;
 int
 outinit(char *intermed)
 {
+	out_fname = intermed;
 	fpout = fopen (intermed, "w");
 	return (fpout != (FILE *) 0);
 }
@@ -96,34 +100,27 @@ void
 outc(char c)
 {
 	int   st = fputc (c, fpout);
-	if (st == EOF) {
-		failer (BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	};
+	if (st == EOF)
+		MSG_file_write_error(out_fname);
 }
 
 void
 outs(char *s)
 {
 	int   st = fputs (s, fpout);
-	if (st == EOF) {
-		failer (BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	};
+
+	if (st == EOF)
+		MSG_file_write_error(out_fname);
 }
-
-
-
 
 void
 outnl()
 {
 
 	int   st = fputs ("\n", fpout);
-	if (st == EOF) {
-		failer (BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	};
+
+	if (st == EOF)
+		MSG_file_write_error(out_fname);
 
 #ifdef NEWDWARF
 	instr_count = -1;
@@ -133,26 +130,20 @@ outnl()
 	return;
 }
 
-
-
 void
 outn(long n)
 {
 	int   st = fprintf (fpout, "%ld", n);
-	if (st == EOF) {
-		failer (BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	};
 
+	if (st == EOF)
+		MSG_file_write_error(out_fname);
 }
 
 void
 outhex(int n)
 {
 	int   st = fprintf (fpout, "0x%x", (unsigned int)n);
-	if (st == EOF) {
-		failer (BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	};
 
+	if (st == EOF)
+		MSG_file_write_error(out_fname);
 }

@@ -63,6 +63,7 @@
 
 #include "config.h"
 #include "fmm.h"
+#include "msgcat.h"
 
 #include <limits.h>
 
@@ -444,7 +445,7 @@ alloc_reg_big(int rs, shape sha, int br, int byteuse)
 	default:
 		SET(mask);
 		SET(i);
-		failer (WRONG_REGSIZE);
+		MSG_fatal_invalid_reg_size(nr);
 	}
 
 	while ((rs & mask) != 0 && i > 0) {
@@ -501,7 +502,7 @@ alloc_reg_small(int rs, shape sha, int br, int byteuse)
 	default:
 		SET(mask);
 		SET(i);
-		failer (WRONG_REGSIZE);
+		MSG_fatal_invalid_reg_size(nr);
 	}
 
 	while ((rs & mask) != 0 && i > 0) {
@@ -1770,7 +1771,7 @@ coder(where dest, ash stack, exp e)
 				} else
 					move (sh (e), reg0, temp_dest);
 			} else
-				failer(STRUCT_RES);  /* compound result */
+				MSG_fatal_cant_get_struct_from_proc();	/* compound result */
 		}
 
 		if (postlude != nilexp) {
@@ -1785,7 +1786,7 @@ coder(where dest, ash stack, exp e)
 					n--;
 				}
 				if (name(a) != caller_tag)
-					failer(BAD_POSTLUDE);
+					MSG_fatal_illegal_postlude();
 				no(postlude) = no(a) + stack_dec - post_offset;
 				ptno(postlude) = callstack_pl;
 				postlude = bro(son(postlude));
@@ -2118,7 +2119,7 @@ coder(where dest, ash stack, exp e)
 				stack_dec = old_stack_dec;
 				return;
 			}
-			failer(STRUCT_RETURN);
+			MSG_fatal_cant_return_struct();
 			return;
 		}
 	}
@@ -2223,7 +2224,7 @@ coder(where dest, ash stack, exp e)
 	}
 	default:
 		if (!is_a (name (e))) {
-			failer (BADOP);
+			MSG_fatal_bad_operation("coder()");
 			return;
 		}
 
