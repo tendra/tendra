@@ -168,25 +168,25 @@ output_pass(character *p, int n, int d)
 	int w1 = (n == 0 && !in_pre_pass);
 	int w2 = (n == 0 && in_pre_pass);
 	output_indent(d);
-	fprintf_v(out, "int c%d = %s ()", n, read_name);
+	fprintf_v(out, "int c%d = %s()", n, read_name);
 	if (classes || w1)fprintf_v(out, ", t%d", n);
-	fputs_v(" ;\n", out);
+	fputs_v(";\n", out);
 	if (w1) {
 	    output_indent(d);
-	    fputs_v("t0 = lookup_char ( c0 ) ;\n", out);
+	    fputs_v("t0 = lookup_char(c0);\n", out);
 	    output_indent(d);
-	    fputs_v("if ( is_white ( t0 ) ) goto start ;\n", out);
+	    fputs_v("if (is_white(t0)) goto start;\n", out);
 	}
 	if (w2) {
 	    output_indent(d);
-	    fputs_v("restart : {\n", out);
+	    fputs_v("restart: {\n", out);
 	    d++;
 	}
 
 	if (cases > 4) {
 	    /* Small number of cases */
 	    output_indent(d);
-	    fprintf_v(out, "switch ( c%d ) {\n", n);
+	    fprintf_v(out, "switch (c%d) {\n", n);
 	    for (q = p->next; q != NULL; q = q->opt) {
 		letter c = q->ch;
 		if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
@@ -194,7 +194,7 @@ output_pass(character *p, int n, int d)
 		    fprintf_v(out, "case %s: {\n", char_lit(c));
 		    if (output_pass(q, n + 1, d + 2) == 0) {
 			output_indent(d + 2);
-			fputs_v("break ;\n", out);
+			fputs_v("break;\n", out);
 		    }
 		    output_indent(d + 1);
 		    fputs_v("}\n", out);
@@ -210,7 +210,7 @@ output_pass(character *p, int n, int d)
 		if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
 		    output_indent(d);
 		    if (started)fputs_v("} else ", out);
-		    fprintf_v(out, "if ( c%d == %s ) {\n",
+		    fprintf_v(out, "if (c%d == %s) {\n",
 				n, char_lit(c));
 		    IGNORE output_pass(q, n + 1, d + 1);
 		    started = 1;
@@ -227,7 +227,7 @@ output_pass(character *p, int n, int d)
 	    int started = 0;
 	    if (!w1) {
 		output_indent(d);
-		fprintf_v(out, "t%d = lookup_char ( c%d ) ;\n", n, n);
+		fprintf_v(out, "t%d = lookup_char(c%d);\n", n, n);
 	    }
 	    for (q = p->next; q != NULL; q = q->opt) {
 		letter c = q->ch;
@@ -241,7 +241,7 @@ output_pass(character *p, int n, int d)
 		    }
 		    output_indent(d);
 		    if (started)fputs_v("} else ", out);
-		    fprintf_v(out, "if ( is_%s ( t%d ) ) {\n", gnm, n);
+		    fprintf_v(out, "if (is_%s(t%d)) {\n", gnm, n);
 		    IGNORE output_pass(q, n + 1, d + 1);
 		    started = 1;
 		}
@@ -256,7 +256,7 @@ output_pass(character *p, int n, int d)
 	}
 	if (n) {
 	    output_indent(d);
-	    fprintf_v(out, "unread_char ( c%d ) ;\n", n);
+	    fprintf_v(out, "unread_char(c%d);\n", n);
 	}
     }
 
@@ -278,35 +278,35 @@ output_pass(character *p, int n, int d)
 		}
 		if (cond) {
 		    output_indent(d);
-		    fprintf_v(out, "if ( %s ) {\n", cond);
+		    fprintf_v(out, "if (%s) {\n", cond);
 		    output_indent(d + 1);
-		    fprintf_v(out, "c0 = %s ;\n", str);
+		    fprintf_v(out, "c0 = %s;\n", str);
 		    output_indent(d + 1);
-		    fputs_v("goto restart ;\n", out);
+		    fputs_v("goto restart;\n", out);
 		    output_indent(d);
 		    fputs_v("}\n", out);
 		} else {
 		    output_indent(d);
-		    fprintf_v(out, "c0 = %s ;\n", str);
+		    fprintf_v(out, "c0 = %s;\n", str);
 		    output_indent(d);
-		    fputs_v("goto restart ;\n", out);
+		    fputs_v("goto restart;\n", out);
 		}
 	    } else {
 		output_indent(d);
-		if (cond)fprintf_v(out, "if ( %s ) ", cond);
-		fputs_v("goto start ;\n", out);
+		if (cond)fprintf_v(out, "if (%s) ", cond);
+		fputs_v("goto start;\n", out);
 	    }
 	} else {
 	    output_indent(d);
-	    if (cond)fprintf_v(out, "if ( %s ) ", cond);
-	    fprintf_v(out, "return ( %s", ret);
+	    if (cond)fprintf_v(out, "if (%s) ", cond);
+	    fprintf_v(out, "return(%s", ret);
 	    if (args) {
 		int i;
-		fputs_v(" ( c0", out);
+		fputs_v("(c0", out);
 		for (i = 1; i < n; i++)fprintf_v(out, ", c%d", i);
-		fputs_v(" )", out);
+		fputs_v(")", out);
 	    }
-	    fputs_v(" ) ;\n", out);
+	    fputs_v(");\n", out);
 	}
     }
     return((ret && (cond == NULL))? 1 : 0);
@@ -327,9 +327,9 @@ output_comment(void)
 	/* Print copyright comment, if present */
 	fprintf_v(out, "%s\n\n", first_comment);
     }
-    fputs_v ( "/*\n    AUTOMATICALLY GENERATED", out ) ;
+    fputs_v ( "/*\n *  AUTOMATICALLY GENERATED", out ) ;
     fprintf_v ( out, " BY %s VERSION %s", progname, progvers ) ;
-    fputs_v ( "\n*/\n\n\n", out ) ;
+    fputs_v ( "\n */\n\n\n", out ) ;
     return;
 }
 
@@ -350,7 +350,7 @@ output_all(void)
 
     /* Character look-up table */
     fputs_v ( "/* LOOKUP TABLE */\n\n", out ) ;
-    fprintf_v(out, "static unsigned %s lookup_tab [257] = {\n",
+    fprintf_v(out, "static unsigned %s lookup_tab[257] = {\n",
 		(no_groups >= 8 ? "short" : "char"));
     for (c = 0; c <= 256; c++) {
 	unsigned int m = 0;
@@ -371,21 +371,21 @@ output_all(void)
 	    }
 	}
     }
-    fputs_v("\n} ;\n\n", out);
+    fputs_v("\n};\n\n", out);
 
     /* Macros for accessing table */
     fputs_v("#ifndef LEX_EOF\n", out);
-    fputs_v("#define LEX_EOF\t\t\t256\n", out);
+    fputs_v("#define LEX_EOF\t\t256\n", out);
     fputs_v("#endif\n\n", out);
-    fputs_v("#define lookup_char( C )\t", out);
-    fputs_v("( ( int ) lookup_tab [ ( C ) ] )\n", out);
-    fputs_v("#define is_white( T )\t\t( ( T ) & 0x0001 )\n", out);
+    fputs_v("#define lookup_char(C)\t", out);
+    fputs_v("((int)lookup_tab[(C)] )\n", out);
+    fputs_v("#define is_white(T)\t((T) & 0x0001)\n", out);
     for (n = 0; n < no_groups; n++) {
 	char *gnm = groups [n].name;
 	unsigned int m = (unsigned int)(1 << (n + 1));
-	fprintf_v(out, "#define is_%s( T )\t", gnm);
-	if ((int)strlen(gnm) < 8)fputc_v('\t', out);
-	fprintf_v(out, "( ( T ) & 0x%04x )\n", m);
+	fprintf_v(out, "#define is_%s(T)\t", gnm);
+	/*if ((int)strlen(gnm) < 8)fputc_v('\t', out);*/
+	fprintf_v(out, "((T) & 0x%04x)\n", m);
     }
     fputs_v("\n\n", out);
 
@@ -395,9 +395,9 @@ output_all(void)
 	fputs_v ( "/* PRE-PASS ANALYSER */\n\n", out ) ;
 	fputs_v("static int read_char_aux(void)\n", out);
 	fputs_v("{\n", out);
-	fputs_v("    start : {\n", out);
+	fputs_v("    start: {\n", out);
 	IGNORE output_pass(pre_pass, 0, 2);
-	fputs_v("\treturn ( c0 ) ;\n", out);
+	fputs_v("\treturn(c0);\n", out);
 	fputs_v("    }\n", out);
 	fputs_v("}\n\n\n", out);
 	read_name = "read_char_aux";
@@ -408,9 +408,9 @@ output_all(void)
     fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
     fputs_v("int read_token(void)\n", out);
     fputs_v("{\n", out);
-    fputs_v("    start : {\n", out);
+    fputs_v("    start: {\n", out);
     IGNORE output_pass(main_pass, 0, 2);
-    fputs_v("\treturn ( unknown_token ( c0 ) ) ;\n", out);
+    fputs_v("\treturn(unknown_token(c0));\n", out);
     fputs_v("    }\n", out);
     fputs_v("}\n", out);
     return;
@@ -426,9 +426,9 @@ output_all(void)
 static void
 output_word(keyword *p)
 {
-    fprintf_v(out, "MAKE_KEYWORD ( \"%s\", %s", p->name, p->defn);
-    if (p->args)fputs_v(" ()", out);
-    fputs_v(" ) ;\n", out);
+    fprintf_v(out, "MAKE_KEYWORD(\"%s\", %s", p->name, p->defn);
+    if (p->args)fputs_v("()", out);
+    fputs_v(");\n", out);
     p->done = 1;
     return;
 }
@@ -450,7 +450,7 @@ output_keyword(void)
 	if (p->done == 0) {
 	    char *cond = p->cond;
 	    if (cond) {
-		fprintf_v(out, "if ( %s ) {\n    ", cond);
+		fprintf_v(out, "if (%s) {\n    ", cond);
 		output_word(p);
 		for (q = p->next; q != NULL; q = q->next) {
 		    if (q->cond && streq(q->cond, cond)) {
