@@ -84,11 +84,11 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 	int i;
 	hashtable* ht;
 	optmap *t;
-	ht = malloc (sizeof (hashtable));
+	ht = malloc (sizeof(*ht));
 	ht->tblsize = tblsize;
 	ht->keysize = keysize;
 	ht->hashfcn = hashfcn;
-	ht->node = malloc(sizeof (htnode*) * tblsize);
+	ht->node = malloc(tblsize * sizeof(*ht->node));
 	for (i = 0; i < tblsize; i++)
 	{
 		ht->node[i] = NULL;
@@ -159,7 +159,7 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 	/* Case 1.  Node was not found; push */
 	if (hn == NULL)
 	{
-		hn = malloc (sizeof (htnode));
+		hn = malloc (sizeof(*hn));
 		hn->flag = flag;
 		hn->key  = key;
 		hn->val  = val;

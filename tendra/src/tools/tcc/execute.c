@@ -135,7 +135,7 @@ cmd_string(char *s)
 {
     if (cmd_no >= command_size) {
 		command_size += 1000;
-		command = xrealloc (command, command_size * sizeof (char *));
+		command = xrealloc (command, command_size * sizeof(*command));
     }
     command [ cmd_no ] = s;
     if (s == null) {

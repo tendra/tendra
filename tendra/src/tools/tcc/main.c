@@ -138,7 +138,7 @@ static void
 main_start(char *prog, char **envp)
 {
     environment = envp;
-    buffer = xalloc (buffer_size * sizeof (char));
+    buffer = xalloc (buffer_size * sizeof(*buffer));
     progname = find_basename (prog);
     initialise_options ();
     return;

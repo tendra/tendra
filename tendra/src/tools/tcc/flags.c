@@ -540,7 +540,7 @@ initialise_options(void)
     if (checker) allow_specs = 1;
 
     /* allocate space for cmd line env args */
-    env_paths = (char**) xalloc (PATH_SUBS_elems * sizeof(PATH_SUBS[0]));
+    env_paths = xalloc (PATH_SUBS_elems * sizeof(*env_paths));
 
 	/* Here, we should set these to sane defaults.  For now, just NULL */
     for (i=0; i < PATH_SUBS_elems; i++) {

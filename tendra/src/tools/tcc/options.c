@@ -1378,8 +1378,7 @@ process_options(list *opt, optmap *tab, int fast)
 						interpret_cmd (res.argv[a]);
 					}
 					else {
-						ordered_node* dn =
-							(ordered_node*) xalloc(sizeof(ordered_node));
+						ordered_node* dn = xalloc(sizeof(*dn));
 						dn->rank = t->rank;
 						dn->cmd  = res.argv[a];
 						accum = insert_inorder(dn, accum);
