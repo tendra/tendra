@@ -82,13 +82,7 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include "cross_config.h"
 extern int currentfile;
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#include <sym.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#include CROSS_INCLUDE/sym.h>
-#endif
+#include "archsyms.h"
 
 
 int  *symnos;

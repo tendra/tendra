@@ -111,11 +111,7 @@ alphadiags.c,v
 #include "symbol.h"
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 extern FILE * as_file;
 extern bool last_param PROTO_S ((exp e));

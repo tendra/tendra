@@ -69,11 +69,7 @@ static char vcid[] = "$Id$";
 /* type definitions for translator produced debugging 
    information to be incorporated into a .T file  */
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 /**/
 
@@ -166,7 +162,7 @@ void makesymtab
 /**************  set up new symbolic header  **********************/
 
 
-  symhdrout.magic = magicSym;	/* defined in symconst.h */
+  symhdrout.magic = magicSym;	/* defined in archsyms.h */
   symhdrout.vstamp = MAJOR_ASSEMBLER_VERSION*256+MINOR_ASSEMBLER_VERSION;
   symhdrout.ilineMax = 0;
   symhdrout.cbLine = 0;
@@ -291,7 +287,7 @@ void makesymtab
     fdrtab.caux=count;
     fdrtab.rfdBase=0;
     fdrtab.crfd=0;
-    fdrtab.lang=langC;	/* C ,see symconst.h  */
+    fdrtab.lang=langC;	/* C ,see archsyms.h  */
     fdrtab.fMerge=0;	/* 1 for .h files I think */
     fdrtab.fReadin=0;
     fdrtab.fBigendian=0;

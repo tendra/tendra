@@ -78,9 +78,9 @@ char* string ... identifier of symbol
 
 long value ...  value required in symbol table
 
-short symtype ... symbol type as given in sym.h
+short symtype ... symbol type as given in archsyms.h
 
-short symclass ... symbol class as given in sym.h
+short symclass ... symbol class as given in archsyms.h
 
 type s ... typeof the symbol (except for stFile, stEnd etc) - this is
 converted to an AUXU which is added to the auxillary table. Structs and

@@ -111,11 +111,7 @@ static char vcid[] = "$Id$";
 #include "scheduler.h"
 #endif
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 procrec * procrecs;
 dec ** main_globals;

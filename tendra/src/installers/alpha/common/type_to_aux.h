@@ -58,7 +58,7 @@
 extern long add_type_to_aux PROTO_S ( ( diag_type, long ) ) ;
 
 /*
-converts a TDF shape into an AUXU (see sym.h) and adds it to the auxillary
+converts a TDF shape into an AUXU (see archsyms.h) and adds it to the auxillary
 table for the file number given as parameter as required by the MIPS
 (and alpha, hopefully) symbol table.
 */

@@ -91,11 +91,7 @@ static char vcid[] = "$Id$";
 #include "pseudo.h"
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 
 static char *currentfile="";	/* The current source file (.c) */

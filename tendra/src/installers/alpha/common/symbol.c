@@ -84,11 +84,7 @@ static char vcid[] = "nil";
 #include "cross_config.h"
 extern  char diagnose;
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 
 /* Procedures to accumulate symbol table records for MIPS translator 

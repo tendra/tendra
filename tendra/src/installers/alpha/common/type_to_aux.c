@@ -60,7 +60,7 @@
 
   contains procedure 
   long add_type_to_aux (diag_type s, long ind) which converts a TDF 
-  shape into an AUXU (see sym.h) and adds it to the auxillary table 
+  shape into an AUXU (see archsyms.h) and adds it to the auxillary table 
   for the file number given as parameter as required by the MIPS 
   (and alpha) symbol table(s).  If the entry generated is greater 
   than 1 AUXU in length the index corresponding to the first entry 
@@ -83,11 +83,7 @@
 #include "type_to_aux.h"
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "archsyms.h"
 
 
 extern long find_aux PROTO_S ((diag_type e));
