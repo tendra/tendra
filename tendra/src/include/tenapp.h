@@ -48,6 +48,8 @@ void tenapp_exit2(int);
 void tenapp_init(int, char *[], const char *, const char *);
 void set_progname(const char *);
 void tenapp_report_version(void);
+void tenapp_signal(int);
+
 
 #endif /* !defined(TEN_TENAPP_H) */
 

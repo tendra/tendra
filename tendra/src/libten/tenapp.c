@@ -87,7 +87,7 @@ struct fmm_type *memtype_app;
 
 static struct exit_handler *exit_list;
 
-static void
+void
 tenapp_signal(int sig)
 {
 	signal(SIGINT, SIG_IGN);
