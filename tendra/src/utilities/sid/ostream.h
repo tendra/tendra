@@ -96,20 +96,20 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			ostream_setup
- *			PROTO_S ((void))
+ *			(void)
  ** Exceptions:
  *
  * This function initialises the output stream facility.  It should be called
  * before any other ostream manipulation function.
  *
  ** Function:	void			ostream_init
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:
  *
  * This function initialises the specified ostream not to write to any file.
  *
  ** Function:	BoolT			ostream_open
- *			PROTO_S ((OStreamP ostream, CStringP name))
+ *			(OStreamP ostream, CStringP name)
  ** Exceptions:
  *
  * This function initialises the specified ostream to write to the file with
@@ -119,46 +119,46 @@
  * closed.  The initial buffering state of the ostream is fully buffered.
  *
  ** Function:	BoolT			ostream_is_open
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:
  *
  * This function returns true if the specified ostream is writing to a file,
  * and false otherwise.
  *
  ** Function:	void			ostream_buffer
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:
  *
  * This function sets the buffering state of the specified ostream to fully
  * buffered.
  *
  ** Function:	void			ostream_unbuffer
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  *
  * This function sets the buffering state of the specified ostream to
  * unbuffered.
  *
  ** Function:	void			ostream_close
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function closes the specified ostream.
  *
  ** Function:	void			ostream_flush
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function flushes the ostream's output buffer.
  *
  ** Function:	CStringP		ostream_name
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:
  *
  * This function returns the name of the file that the specified ostream is
  * writing to.  The return value should not be modified or deallocated.
  *
  ** Function:	unsigned		ostream_line
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:
  *
  * This function returns one more than the number of newlines that have been
@@ -166,31 +166,31 @@
  * is not open.
  *
  ** Function:	void			write_newline
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a newline to the specified ostream.
  *
  ** Function:	void			write_tab
- *			PROTO_S ((OStreamP ostream))
+ *			(OStreamP ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a tab to the specified ostream.
  *
  ** Function:	void			write_byte
- *			PROTO_S ((OStreamP ostream, ByteT c))
+ *			(OStreamP ostream, ByteT c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified byte to the specified ostream.
  *
  ** Function:	void			write_char
- *			PROTO_S ((OStreamP ostream, char c))
+ *			(OStreamP ostream, char c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified character to the specified ostream.
  *
  ** Function:	void			write_escaped_char
- *			PROTO_S ((OStreamP ostream, char c))
+ *			(OStreamP ostream, char c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified character to the specified ostream.
@@ -198,43 +198,43 @@
  * `pretty-print' non-printing characters.
  *
  ** Function:	void			write_int
- *			PROTO_S ((OStreamP ostream, int i))
+ *			(OStreamP ostream, int i)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified integer to the specified ostream.
  *
  ** Function:	void			write_unsigned
- *			PROTO_S ((OStreamP ostream, unsigned i))
+ *			(OStreamP ostream, unsigned i)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified unsigned integer to the specified
  * ostream.
  *
  ** Function:	void			write_cstring
- *			PROTO_S ((OStreamP ostream, CStringP cstring))
+ *			(OStreamP ostream, CStringP cstring)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified C string to the specified ostream.
  *
  ** Function:	void			write_bytes
- *			PROTO_S ((OStreamP ostream, ByteP bytes,
- *				  unsigned length))
+ *			(OStreamP ostream, ByteP bytes,
+ *				  unsigned length)
  ** Exceptions: XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of bytes (of the specified
  * length) to the specified ostream.
  *
  ** Function:	void			write_chars
- *			PROTO_S ((OStreamP ostream, CStringP chars,
- *				  unsigned length))
+ *			(OStreamP ostream, CStringP chars,
+ *				  unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of characters (of the specified
  * length) to the specified ostream.
  *
  ** Function:	void			write_escaped_chars
- *			PROTO_S ((OStreamP ostream, CStringP chars,
- *				  unsigned length))
+ *			(OStreamP ostream, CStringP chars,
+ *				  unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of characters (of the specified
@@ -242,7 +242,7 @@
  * function, in that it will `pretty-print' non-printing characters.
  *
  ** Function:	void			write_system_error
- *			PROTO_S ((OStreamP ostream));
+ *			(OStreamP ostream);
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a string containing a description of the current
@@ -250,7 +250,7 @@
  * ostream.
  *
  ** Function:	void			write_pointer
- *			PROTO_S ((OStreamP ostream, GenericP pointer));
+ *			(OStreamP ostream, GenericP pointer);
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a string containing the address of the object pointed

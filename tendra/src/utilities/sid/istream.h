@@ -99,20 +99,20 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			istream_setup
- *			PROTO_S ((void))
+ *			(void)
  ** Exceptions:
  *
  * This function initialises the input stream facility.  It should be called
  * before any other istream manipulation function.
  *
  ** Function:	void			istream_init
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  ** Exceptions:
  *
  * This function initialises the specified istream not to read from any file.
  *
  ** Function:	BoolT			istream_open
- *			PROTO_S ((IStreamP istream, CStringP name))
+ *			(IStreamP istream, CStringP name)
  ** Exceptions: XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function initialises the specified istream to read from the file with
@@ -122,20 +122,20 @@
  * true.
  *
  ** Function:	void			istream_assign
- *			PROTO_S ((IStreamP to, IStreamP from))
+ *			(IStreamP to, IStreamP from)
  ** Exceptions:
  *
  * This function assigns the from istream to the to istream.  The from istream
  * should not be used again.
  *
  ** Function:	BoolT			istream_is_open
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  *
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  *
  ** Function:	BoolT			istream_read_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ *			(IStreamP istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (and
@@ -145,7 +145,7 @@
  * read is a newline, then the istream's line count is incremented.
  *
  ** Function:	BoolT			istream_peek_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ *			(IStreamP istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (but does
@@ -154,7 +154,7 @@
  * true.  If the end of file is reached, the function returns false.
  *
  ** Function:	IStreamStatusT		istream_read_escaped_char
- *			PROTO_S ((IStreamP istream, char *c_ref))
+ *			(IStreamP istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads a character sequence from the specified istream, and
@@ -168,7 +168,7 @@
  * for each newline.
  *
  ** Function:	void			istream_inc_line
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  ** Exceptions:
  *
  * This function increments the specified istream's line counter.  It should
@@ -176,21 +176,21 @@
  * ``ISTREAM_READ_CHAR'' macro.
  *
  ** Function:	unsigned		istream_line
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  ** Exceptions:
  *
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  *
  ** Function:	CStringP		istream_name
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  ** Exceptions:
  *
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  *
  ** Function:	void			istream_close
- *			PROTO_S ((IStreamP istream))
+ *			(IStreamP istream)
  ** Exceptions:
  *
  * This function closes the specified istream.

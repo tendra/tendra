@@ -77,9 +77,9 @@
  * This file requires that two external functions are provided:
  *
  *	extern void			E_exception_unhandled
- *			PROTO_S ((ExceptionP, CStringP, unsigned));
+ *			(ExceptionP, CStringP, unsigned);
  *	extern void			E_exception_corrupt_handler
- *			PROTO_S ((CStringP, unsigned));
+ *			(CStringP, unsigned);
  *
  * The first of these functions will be called if there is an unhandled
  * exception.  The exception will be given as an argument, along with the name
@@ -124,7 +124,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	CStringP		exception_name
- *			PROTO_S ((ExceptionP exception))
+ *			(ExceptionP exception)
  *
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.

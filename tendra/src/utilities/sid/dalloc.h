@@ -79,10 +79,10 @@
  * be provided:
  *
  *	void				E_dalloc_multi_deallocate
- *			PROTO_S ((GenericP, CStringP, unsigned, CStringP,
- *				  unsigned));
+ *			(GenericP, CStringP, unsigned, CStringP,
+ *				  unsigned);
  *	void				E_dalloc_corrupt_block
- *			PROTO_S ((GenericP, CStringP, unsigned));
+ *			(GenericP, CStringP, unsigned);
  *
  * The first function will be called if a block is deallocated more than once.
  * It takes the block's address, and the file and line number of the

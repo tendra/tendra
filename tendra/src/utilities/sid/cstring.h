@@ -86,14 +86,14 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	CStringP		cstring_duplicate
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified
  * cstring.
  *
  ** Function:	CStringP		cstring_duplicate_prefix
- *			PROTO_S ((CStringP cstring, unsigned prefix))
+ *			(CStringP cstring, unsigned prefix)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified prefix
@@ -101,7 +101,7 @@
  * length, then only the cstring is used.
  *
  ** Function:	unsigned		cstring_hash_value
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring)
  ** Exceptions:
  *
  * This function returns the hash value associated with the specified
@@ -109,27 +109,27 @@
  * with the same content.
  *
  ** Function:	unsigned		cstring_length
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring)
  ** Exceptions:
  *
  * This function returns the length of the specified cstring.
  *
  ** Function:	BoolT			cstring_equal
- *			PROTO_S ((CStringP cstring1, CStringP cstring2))
+ *			(CStringP cstring1, CStringP cstring2)
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content, and false otherwise.
  *
  ** Function:	BoolT			cstring_ci_equal
- *			PROTO_S ((CStringP cstring1, CStringP cstring2))
+ *			(CStringP cstring1, CStringP cstring2)
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  *
  ** Function:	BoolT			cstring_to_unsigned
- *			PROTO_S ((CStringP cstring, unsigned *num_ref))
+ *			(CStringP cstring, unsigned *num_ref)
  ** Exceptions:
  *
  * This function parses an unsigned number in cstring.  If there is a valid
@@ -139,21 +139,21 @@
  * big.
  *
  ** Function:	BoolT			cstring_contains
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c)
  ** Exceptions:
  *
  * This function returns true if the specified cstring contains the character
  * c, and false if it doesn't.
  *
  ** Function:	CStringP		cstring_find
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c)
  ** Exceptions:
  *
  * This function returns a pointer to the first occurrence of the specified
  * character in the specified cstring, or nil if there is no occurrence.
  *
  ** Function:	CStringP		cstring_find_reverse
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c)
  ** Exceptions:
  *
  * This function returns a pointer to the last occurrence of the specified

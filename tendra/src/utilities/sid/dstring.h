@@ -98,48 +98,48 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			nstring_init
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:
  *
  * This function initialises the specified nstring to be an empty nstring.
  *
  ** Function:	void			nstring_init_length
- *			PROTO_S ((NStringP nstring, unsigned length))
+ *			(NStringP nstring, unsigned length)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified nstring to be an nstring of the
  * specified length.  The initial contents are unspecified.
  *
  ** Function:	void			nstring_assign
- *			PROTO_S ((NStringP to, NStringP from))
+ *			(NStringP to, NStringP from)
  ** Exceptions:
  *
  * This function assigns the from nstring to the to nstring.  The from nstring
  * should not be used afterwards, without reinitialising it.
  *
  ** Function:	void			nstring_copy_cstring
- *			PROTO_S ((NStringP nstring, CStringP cstring))
+ *			(NStringP nstring, CStringP cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified nstring from the content of the
  * specified cstring.
  *
  ** Function:	void			nstring_insert_cstring
- *			PROTO_S ((NStringP nstring, CStringP cstring))
+ *			(NStringP nstring, CStringP cstring)
  ** Exceptions:
  *
  * This function inserts the specified cstring into the specified nstring.
  * Sufficient characters are copied to fill up the nstring.
  *
  ** Function:	void			nstring_copy
- *			PROTO_S ((NStringP to, NStringP from))
+ *			(NStringP to, NStringP from)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function copies the specified from nstring into the specified to
  * nstring.
  *
  ** Function:	CStringP		nstring_to_cstring
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated cstring copy of the specified
@@ -148,7 +148,7 @@
  * still be part of it).
  *
  ** Function:	unsigned		nstring_hash_value
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:
  *
  * This function returns the hash value associated with the specified nstring.
@@ -156,19 +156,19 @@
  * content.
  *
  ** Function:	unsigned		nstring_length
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:
  *
  * This function returns the length of the specified nstring.
  *
  ** Function:	CStringP		nstring_contents
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:
  *
  * This function returns the contents of the specified nstring.
  *
  ** Function:	CmpT			nstring_compare
- *			PROTO_S ((NStringP nstring1, NStringP nstring2))
+ *			(NStringP nstring1, NStringP nstring2)
  ** Exceptions:
  *
  * This function returns ``CMP_LT'', ``CMP_EQ'', or ``CMP_GT'', depending on
@@ -176,80 +176,80 @@
  * or greater than the content of nstring2.
  *
  ** Function:	BoolT			nstring_equal
- *			PROTO_S ((NStringP nstring1, NStringP nstring2))
+ *			(NStringP nstring1, NStringP nstring2)
  ** Exceptions:
  *
  * This function returns true if the specified nstrings have the same content,
  * and false otherwise.
  *
  ** Function:	BoolT			nstring_ci_equal
- *			PROTO_S ((NStringP nstring1, NStringP nstring2))
+ *			(NStringP nstring1, NStringP nstring2)
  ** Exceptions:
  *
  * This function returns true if the specified nstrings have the same content
  * (ignoring differences in case), and false otherwise.
  *
  ** Function:	BoolT			nstring_contains
- *			PROTO_S ((NStringP nstring, char c))
+ *			(NStringP nstring, char c)
  ** Exceptions:
  *
  * This function returns true if the specified nstring contains the specified
  * character, and false otherwise.
  *
  ** Function:	BoolT			nstring_is_prefix
- *			PROTO_S ((NStringP nstring1, NStringP nstring2))
+ *			(NStringP nstring1, NStringP nstring2)
  ** Exceptions:
  *
  * This function returns true if the second nstring is a prefix of the first
  * nstring, and false otherwise.
  *
  ** Function:	void			nstring_destroy
- *			PROTO_S ((NStringP nstring))
+ *			(NStringP nstring)
  ** Exceptions:
  *
  * This function deallocates the contents of the specified nstring.
  *
  ** Function:	void			write_nstring
- *			PROTO_S ((OStreamP stream, NStringP nstring))
+ *			(OStreamP stream, NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the content of the specified nstring to the specified
  * ostream.
  *
  ** Function:	void			dstring_init
- *			PROTO_S ((DStringP dstring))
+ *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified dstring to be an empty dstring.
  *
  ** Function:	unsigned		dstring_length
- *			PROTO_S ((DStringP dstring))
+ *			(DStringP dstring)
  ** Exceptions:
  *
  * This function returns the length of the specified dstring.
  *
  ** Function:	void			dstring_append_char
- *			PROTO_S ((DStringP dstring, char c))
+ *			(DStringP dstring, char c)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified character to the specified dstring.
  *
  ** Function:	void			dstring_append_cstring
- *			PROTO_S ((DStringP dstring, CStringP cstring)
+ *			(DStringP dstring, CStringP cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the content of the specified cstring to the specified
  * dstring.
  *
  ** Function:	void			dstring_append_nstring
- *			PROTO_S ((DStringP dstring, NStringP nstring)
+ *			(DStringP dstring, NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the content of the specified nstring to the specified
  * dstring.
  *
  ** Function:	BoolT			dstring_last_char_equal
- *			PROTO_S ((DStringP dstring, char c))
+ *			(DStringP dstring, char c)
  ** Exceptions:
  *
  * This function returns true if the last character of the specified dstring
@@ -257,21 +257,21 @@
  * dstring is empty, then false is always returned.
  *
  ** Function:	void			dstring_to_nstring
- *			PROTO_S ((DStringP dstring, NStringP nstring_ref))
+ *			(DStringP dstring, NStringP nstring_ref)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function copies the content of the specified dstring into the
  * specified nstring.
  *
  ** Functions:	CStringP		dstring_to_cstring
- *			PROTO_S ((DStringP dstring))
+ *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function copies the content of the specified dstring into a
  * dynamically allocated cstring, and returns it.
  *
  ** Function:	CStringP		dstring_destroy_to_cstring
- *			PROTO_S ((DStringP dstring))
+ *			(DStringP dstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function does the equivalent of a call to ``dstring_to_cstring''
@@ -281,7 +281,7 @@
  * reallocated).
  *
  ** Function:	void			dstring_destroy
- *			PROTO_S ((DStringP dstring))
+ *			(DStringP dstring)
  ** Exceptions:
  *
  * This function deallocates the contents of the specified dstring.
