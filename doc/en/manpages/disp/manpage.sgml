@@ -121,13 +121,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-d</option></term>
-      <listitem>
-        <para>To be documented.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-g</option></term>
       <listitem>
         <para>Makes <command>disp</command> print any diagnostic

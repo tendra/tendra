@@ -30,8 +30,8 @@ trans		sparc/common/sparctrans.c         A B C D E F   H I J K   M N O P Q R   T
 calculus	utilities/calculus/main.c	  A       E                             T   V                   a   c d e       i     l m n o p   r   t   v w x   z 
                                                                                                                     +   +             + + +                       + 
 
-disp		tools/disp/main.c		  A     D E                           S T   V W                 a     d     g h i         n     q r       v   x 
-                                                                                                                +     +         +                 +       +   +
+disp		tools/disp/main.c		  A     D E                           S T   V W                 a           g h i         n     q r       v   x 
+                                                                                                                +               +                 +       +   +
 
 lexi		utilities/lexi/main.c		                                            V                             f         k l m             t
  
