@@ -253,8 +253,7 @@ disk_read_def(char *dir)
 			output ("/* Disk reading routine for %TT */\n\n", t);
 			output ("#ifndef READ_%TI\n\n", t);
 			output ("static %TT READ_%TI\n", t, t);
-			output (
-				"()\n");
+			output ("()\n");
 			output ("{\n");
 			output ("    %TT x_ ;\n", t);
 			
@@ -530,9 +529,8 @@ disk_write_def(char *dir)
 			output ("/* Disk writing routine for %TT */\n\n", t);
 			output ("#ifndef WRITE_%TI\n\n", t);
 			output ("static void WRITE_%TI\n", t);
-			output (
-				"(%TT x_)\n", t) ; output ("
-{\n");
+			output ("(%TT x_)\n", t);
+		       	output ("{\n");
 			
 			/* Function body */
 			switch (tag) {

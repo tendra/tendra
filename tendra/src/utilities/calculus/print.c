@@ -345,9 +345,8 @@ print_action(char *dir)
 	
     comment ("Printing indentation routine");
     output ("static void print_indent\n");
-    output (
-		"(FILE *f, int d)\n") ; output ("
-{\n");
+    output ("(FILE *f, int d)\n");
+    output ("{\n");
     output ("    int i = print_indent_step * d ;\n");
     output ("    while (i--) (void) fputc (' ', f) ;\n");
     output ("    return ;\n");
@@ -364,10 +363,9 @@ print_action(char *dir)
 			output ("/* Printing routines for %TT */\n\n", t);
 			output ("#ifndef PRINT_%TI\n\n", t);
 			output ("static void PRINT_%TI\n", t);
-			output (
-				"(FILE *f_, %TT x_ X", t) ; output (" char *nm_,
- int d_)\n") ; output ("
-{\n");
+			output ("(FILE *f_, %TT x_ X", t);
+			output (" char *nm_, int d_)\n");
+			output ("{\n");
 
 	    /* Function body */
 	    switch (tag) {
@@ -451,9 +449,8 @@ print_action(char *dir)
 		char *star = (is_struct ? "*" : "");
 		output ("#ifdef DEBUG\n\n");
 		output ("void DEBUG_%TI\n", t);
-		output (
-"(%TT %sx_)\n", t, star) ; output ("
-{\n    ");
+			    output ("(%TT %sx_)\n", t, star);
+			    output ("{\n    ");
 		if (is_struct) output ("if (x_) ");
 		output ("PRINT_%TI (stdout, %sx_, ", t, star);
 		output ("\"%TI\", 0) ;\n", t);
