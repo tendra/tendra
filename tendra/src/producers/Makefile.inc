@@ -68,7 +68,8 @@ CLEANFILES+=	assert_def.h c_class.h ctype_ops.h err_ops.h etype_ops.h \
 		id_ops.h inst_ops.h itype_ops.h member_ops.h nat_ops.h \
 		nspace_ops.h off_ops.h str_ops.h tok_ops.h type_ops.h virt_ops.h
 
-CLEANFILES+=	c_class.h errors1.h errors2.h errors3.h opts.h tdf1.h
+CLEANFILES+=	bits.h c_class.h err_ext.h errors1.h errors2.h errors3.h \
+		loc_ext.h opts.h tdf1.h
 
 CLEANFILES+=	psyntax.h psyntax1.c psyntax2.c psyntax3.c syntax.h syntax1.c \
 		syntax2.c syntax3.c syntax4.c syntax5.c syntax6.c syntax7.c
