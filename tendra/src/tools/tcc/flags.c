@@ -1,3 +1,4 @@
+$TenDRA$
 /*
     		 Crown Copyright (c) 1997
     
@@ -59,7 +60,7 @@ char *name_j_file = TDF_COMPLEX_NAME ;
 char *name_k_file = C_SPEC_COMPLEX_NAME ;
 char *name_K_file = CPP_SPEC_COMPLEX_NAME ;
 char *name_p_file = TOKDEF_NAME ;
-char *temporary_dir = "/usr/tmp" ;
+char *temporary_dir = "/tmp" ;
 char *tokdef_output = null ;
 char *version_flag = "" ;
 
