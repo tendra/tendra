@@ -1167,8 +1167,8 @@ more_flpts()
 	/* extend the floating point array */
 	int  i;
 	tot_flpts += extra_flpts;
-	flptnos = (flt *) xrealloc ((void*)(CH flptnos),
-								TOSZ (tot_flpts * (int)sizeof (flt)));
+	flptnos = (flt *) xrealloc ((void*)flptnos,
+								(size_t) (tot_flpts * (int)sizeof (flt)));
 	for (i = tot_flpts - extra_flpts + 1; i < tot_flpts; ++i)
 		flptnos[i].exp = i - 1;
 	flptfree = tot_flpts - 1;
