@@ -50,7 +50,6 @@ STARTUP=	src/lib/startup
 TOOLS=		src/tools
 UTILITIES=	src/utilities
 
-PREFIX?=	/usr/local
 PUBLIC_BIN=	${PREFIX}/bin
 INSTALL_DIR=	${PREFIX}/lib/TenDRA
 COMMON_DIR=	${INSTALL_DIR}/lib

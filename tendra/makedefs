@@ -156,8 +156,13 @@ esac
 
 check_hostarch
 
+if [ -z "${PREFIX}" ]; then
+	PREFIX=/usr/local;
+fi
+
 echo "Setting Makefile.defs environment to the following:"
 echo
+echo "PREFIX:		${PREFIX}"
 echo "CC:		$CC"
 echo "LD:		$LD"
 echo "LDOPTS:		$LDOPTS"
@@ -168,6 +173,7 @@ echo "OSVER:		$OSVER"
 echo "BLDARCH:	$BLDARCH ($HOSTARCH)"
 
 cat > Makefile.defs <<EOF
+PREFIX=${PREFIX}
 CC?=$CC
 LD?=$LD
 LDOPTS=$LDOPTS
