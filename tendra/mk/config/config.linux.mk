@@ -4,7 +4,7 @@
 UNAME=		/bin/uname
 
 # SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
-PREFIX=		/usr/local
+PREFIX?=	/usr/local
 TMP_DIR=	/tmp
 SRC_ENV=	${BUILD_OS}/${MACH_EXEC}/${MACH_CPU}
 
