@@ -60,6 +60,88 @@
 <para>The discussion is divided into two sections. Firstly some of the problems involved in writing portable programs are considered. The intention is not only to catalogue what these problems are, but to introduce ways of looking at them which will be important in the second section. This deals with the TDF approach to portability.</para>
 </preface>
 
+<bibliography>
+<title>Bibliography</title>
+
+<biblioentry>
+<title>tcc User's Guide</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>tspec - An API Specification Tool</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>The C to TDF Producer</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>A Guide to the TDF Specification</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>TDF Facts and Figures</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>TDF Specification</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>The 80386/80486 TDF Installer</title>
+<copyright>
+<year>1992</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title> Guide to Porting using TDF</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+<biblioentry>
+<title>The TDF Notation Compiler</title>
+<copyright>
+<year>1993</year>
+</copyright>
+<corpauthor>DRA</corpauthor>
+</biblioentry>
+
+</bibliography>
+
+
+
+
+
+
 <chapter id='port'>
 <title>Portability</title>
 
