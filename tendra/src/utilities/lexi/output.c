@@ -406,7 +406,7 @@ output_all(void)
     /* Main pass */
     in_pre_pass = 0;
     fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
-    fputs_v("int read_token(void)\n", out);
+    fputs_v("int\nread_token(void)\n", out);
     fputs_v("{\n", out);
     fputs_v("    start: {\n", out);
     IGNORE output_pass(main_pass, 0, 2);
