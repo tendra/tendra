@@ -1,0 +1,248 @@
+<refmeta>
+  <refentrytitle>tspec</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>tspec</refname>
+  <refpurpose>An API specification tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>tspec</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>api</replaceable></arg>
+  </cmdsynopsis>
+
+  <cmdsynopsis>
+    <command>tspec</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>apiheader</replaceable></arg>
+  </cmdsynopsis>
+
+  <cmdsynopsis>
+    <command>tspec</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>apiheadersubset</replaceable></arg>
+  </cmdsynopsis>
+
+  <cmdsynopsis>
+    <command>tspec</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'>-l <replaceable>file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title> 
+
+  <para><command>tspec</command> is a tool for translating a form of API
+    (Application Programming Interface) description into the
+    <emphasis>#pragma</emphasis> headers used by &man.tendra.tcc; to
+    represent such APIs. It is more fully documented in <userinput>tspec - An
+    API Specification Tool</userinput>.</para>
+
+  <para>There are two basic forms of command-line. The first specifies that
+    <command>tspec</command> should process the whole of the API description
+    <emphasis>api</emphasis>, or just one header from it,
+    <emphasis>header</emphasis>, or just a subset of that header,
+    <emphasis>subset</emphasis>, writing its output to the standard output
+    directory. The second (using the <option>-l</option> option) specifies
+    that it should process a single file, writing the output to the standard
+    output.</para>
+</refsect1>
+
+<refsect1 id='options'>
+  <title>OPTIONS</title> 
+
+  <variablelist>
+    <varlistentry>
+      <term>"<option>-C</option><replaceable>file</replaceable>"</term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to insert the contents of
+          <emphasis>file</emphasis> as a copyright message at the start of
+          each output file. This can also be specified using the
+          <emphasis>TSPEC_COPYRIGHT</emphasis> environmental variable. The
+          order of precedence for this and other similar options is, built-in
+          values lowest, environmental variables next, and command-line
+          options highest.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-I</option><replaceable>dir</replaceable></term> 
+      <listitem>
+        <para>Add the colon-separated list of directories
+          <emphasis>dir</emphasis> to the list of directories searched for
+          input files. Input directories can also be specified using the
+          <emphasis>TSPEC_INPUT</emphasis> environmental variable.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-O</option><replaceable>dir</replaceable></term> 
+      <listitem>
+        <para>Specifies that the directory <emphasis>dir</emphasis> should
+          be used as a base for the include output files. This can also be
+          specified using the <emphasis>TSPEC_INCL_OUTPUT</emphasis> or the
+          <emphasis>TSPEC_OUTPUT</emphasis> environmental variable. In the
+          latter case it is given by
+          <emphasis>${TSPEC_OUTPUT}/include</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-S</option><replaceable>dir</replaceable></term> 
+      <listitem>
+        <para>Specifies that the directory <emphasis>dir</emphasis> should
+          be used as a base for the source output files. This can also be
+          specified using the <emphasis>TSPEC_SRC_OUTPUT</emphasis> or the
+          <emphasis>TSPEC_OUTPUT</emphasis> environmental variable. In the
+          latter case it is given by
+          <emphasis>${TSPEC_OUTPUT}/src</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-V</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to print the program's
+          version, as well as the TenDRA release.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-a</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to check all headers in an
+          API at once, as opposed to separately (as with the
+          <option>-s</option> option).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-c</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to only check the input
+          files, not to generate any output files.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-e</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to only run its preprocessor
+          phase, writing the output to the standard output.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-f</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to ignore date stamps when
+          deciding whether it is necessary to update an output file, and to
+          force it to be updated.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-i</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to print an index of all the
+          objects specified in the input files to the standard output. This
+          index is designed to be used as a quick guide to the contents of an
+          API.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-l</option></term> 
+      <listitem>
+        <para>Specifies local input mode (see above).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-m</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to print an index intended
+          for machine processing of all the objects specified in the input
+          files to the standard output. This index is suitable for processing
+          with text processing tools such as &man.freebsd.awk;.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-n</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to update any output files
+          which are younger than the <command>tspec</command> executable.
+          This is useful primarily in development work on
+          <command>tspec</command>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-p</option></term> 
+      <listitem>
+        <para>Indicates to <command>tspec</command> that its input has
+          already been preprocessed (i.e. that it is the output of a previous
+          <option>-e</option> option).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-r</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to only produce output for
+          implemented, as opposed to used, objects.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-s</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to check each header in an
+          API separately, as opposed to all at once (as with the
+          <option>-a</option> option).</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-t</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to allow long long type
+          specifiers.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-u</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to generate unique token
+          names for the objects in its input files.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term> 
+      <listitem>
+        <para>Causes <command>tspec</command> to enter verbose mode, in
+          which it reports on the output files it creates. If two
+          <option>-v</option> options are given then <command>tspec</command>
+          enters very verbose mode, in which it gives more information on its
+          activities.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='seealso'>
+  <title>SEE ALSO</title> 
+
+  <para>&man.tendra.tcc;, &man.tendra.tdfc;.</para>
+</refsect1>
