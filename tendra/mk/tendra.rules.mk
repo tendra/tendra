@@ -17,6 +17,15 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 	@${ECHO} "# Compiling ${PARTIMP}"
 	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${.TARGET}
 
+.c.j:
+	@${ECHO} "# Compiling ${PARTIMP}"
+	${TCC} -Fj -yTENDRA_BASEDIR=${OBJ_DIR}/src\
+		-Y${OBJ_DIR}/src/lib/env/bootstrap\
+		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
+		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
+		-o ${.TARGET} ${.IMPSRC}
+#-Ilib/TenDRA/machines/<OSFAM>/<OSVER>/<BLDARCH>/include
+
 .pl.j:
 	@${ECHO} "# Transforming ${PARTIMP}"
 	${TPL} ${.IMPSRC} ${.TARGET}
