@@ -36,7 +36,7 @@ tcc-special:
 
 
 SED_OPTS=	\
-		-e "s|-TENDRA_BASEDIR-|${PREFIX}/lib/TenDRA/${TENDRA_VER}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}/|g" \
+		-e "s|-TENDRA_BASEDIR-|${PREFIX}/lib/TenDRA/${TENDRA_VER}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}|g" \
 		-e "s|-TENDRA_VERSION-|${TENDRA_VER}|g" \
 		-e "s|-BIN_RUN-|${.TARGET}|g"
 
