@@ -51,7 +51,7 @@
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
- * $TenDRA: tendra/src/lib/machines/dragonfly/80x86/include/stdarg.h,v 1.7 2004/05/02 01:29:30 stefanf Exp $
+ * $TenDRA$
  */
 
 #ifndef _STDARG_H
@@ -80,22 +80,22 @@ typedef char *va_list ;
 /*
     TOKEN DECLARATIONS
 
-    The tokens __va_t, __va_start, va_arg and va_end are as in the
+    The tokens __va_t, __va_start_ten15, va_arg and va_end are as in the
     ansi:stdarg header.  The only difference is that va_list is defined
     as its implementation type, rather than being a tokenised type.
 */
 
 #pragma token TYPE __va_t # ~__va_t
-#pragma token PROC ( EXP rvalue : __va_t : ) EXP rvalue : va_list : __va_start # ansi.stdarg.__va_start
+#pragma token PROC ( EXP rvalue : __va_t : ) EXP rvalue : va_list : __va_start_ten15 # ansi.stdarg.__va_start_ten15
 #pragma token PROC ( EXP lvalue : va_list : e , TYPE t ) EXP rvalue : t : va_arg # ansi.stdarg.va_arg
 #pragma token PROC ( EXP lvalue : va_list : ) EXP rvalue : void : va_end # ansi.stdarg.va_end
-#pragma interface __va_t __va_start va_arg va_end
+#pragma interface __va_t __va_start_ten15 va_arg va_end
 
 
 /*
     DEFINITION OF VA_START
 
-    How va_start is defined in terms of __va_start depends on whether
+    How va_start is defined in terms of __va_start_ten15 depends on whether
     this is stdarg.h or varargs.h.
 */
 
@@ -104,14 +104,13 @@ typedef char *va_list ;
 #ifdef __HACKED_VARARGS
 #define va_alist		...
 #define va_dcl
-#define va_start( l )		( ( void ) ( l = __va_start ( ... ) ) )
+#define va_start( l )		( ( void ) ( l = __va_start ( l ) ) )
 #else
-#define va_start( l, i )	( ( void ) ( l = __va_start ( ... ) ) )
+#define va_start( l, i )	( ( void ) ( l = __va_start ( l, i) ) )
 #endif
 
 
 #else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
-
 
 /*
     IMPLEMENTATION OF STDARG
