@@ -53,7 +53,7 @@
         <answer>
           <para><acronym>ANDF</acronym> stands for
         <emphasis>Architectural Neutral Distribution Format</emphasis>,
-        a format designed to improve portability and distribtution of
+        a format designed to improve portability and distribution of
         software. <acronym>TDF</acronym> stands for <emphasis>Ten15
         Distribution Format</emphasis> (though it has more recently
         become known just as the <emphasis>TenDRA Distribution
@@ -232,7 +232,7 @@
         technology for instance. Another point of motivation is the fact
         that TenDRA is a <ulink
         url="http://www.tendra.org/licenses/BSDL.txt">BSD-licensed</ulink>
-        compiler, which we consider an asset. Finally, everone has their
+        compiler, which we consider an asset. Finally, everyone has their
         own reasons, but the above is a fair representation of interests
         shared by all developers.
           </para>
@@ -335,14 +335,14 @@
 
           <para>Some understanding of how the system works is useful in trying
             to work around problems. The start-up files describing the
-            macros needed to nagivate the system headers for a particular
+            macros needed to navigate the system headers for a particular
             API are found in:
             <filename class="directory">src/lib/machines/&lt;os&gt;/&lt;cpu&gt;/startup/&lt;api&gt;.h</filename>
             where &lt;os&gt; is the operating system name, &lt;cpu&gt; is
             the CPU type, and &lt;api&gt; is the API name. A set of
             replacement system headers, which are checked before the real
-            system headers, are found in:
-            <filename class="directory">src/lib/machines/&lt;os&gt;/lt;cpu&gt;/include</filename>
+            system headers, can be found in:
+            <filename class="directory">src/lib/machines/&lt;os&gt;/&lt;cpu&gt;/include</filename>
             These are also used with the -Ysystem option to tcc,
             modifications which are specific to library building, should be
             enclosed in:</para>
@@ -353,11 +353,12 @@
 #endif
           </programlisting>
 
-          <para>Good places to look for inspiration on how to customise these
-            files for your particular system include looking to see how
-            I've done things in similar circumstances. Often a problem
-            crops up on more than one machine; I may have a workround which
-            works on another platform which you can steal.</para>
+          <para>A good way to look for inspiration on how to customise these
+            files for your particular system is to check how it was done
+            for other systems in similar circumstances. Often a problem crops
+            up on more than one machine - there may be already a workaround
+            implemented for another platform which you can use as a
+            reference.</para>
 
           <para>If you don't intend to re-distribute the TenDRA source code you
             also have an option which, for copyright reasons, is not
