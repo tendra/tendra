@@ -305,43 +305,43 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 	switch_label : {
 		switch (DSPEC_STORAGE (st)) {
 			
-	    case DSPEC_STORAGE (dspec_none) : {
+		case DSPEC_STORAGE (dspec_none) : {
 			/* No storage class given */
 			break;
-	    }
+		}
 			
-	    case DSPEC_STORAGE (dspec_auto) :
-	    case DSPEC_STORAGE (dspec_register) : {
+		case DSPEC_STORAGE (dspec_auto) :
+		case DSPEC_STORAGE (dspec_register) : {
 			/* Deal with auto and register */
 			switch (loc) {
-		    case CONTEXT_OBJECT : {
+			case CONTEXT_OBJECT : {
 				/* Objects declared in a block are alright */
 				if (!in_function_defn) goto bad_auto_lab;
 				break;
-		    }
-		    case CONTEXT_FUNCTION : {
+			}
+			case CONTEXT_FUNCTION : {
 				/* Functions can't be auto */
 				if (!in_function_defn) goto bad_auto_lab;
 				report (crt_loc, ERR_dcl_stc_auto_func (st));
 				st = dspec_none;
 				break;
-		    }
-		    case CONTEXT_PARAMETER :
-		    case CONTEXT_WEAK_PARAM : {
+			}
+			case CONTEXT_PARAMETER :
+			case CONTEXT_WEAK_PARAM : {
 				/* Function parameters are alright */
 				if (st == dspec_auto) {
 					/* Can't have auto parameters in C */
 					report (crt_loc, ERR_dcl_stc_auto_par ());
 				}
 				break;
-		    }
-		    case CONTEXT_TEMPL_PARAM : {
+			}
+			case CONTEXT_TEMPL_PARAM : {
 				/* Template parameters can't have storage class */
 				report (crt_loc, ERR_temp_param_dcl_stc (st));
 				st = dspec_none;
 				break;
-		    }
-		    default :
+			}
+			default :
 				bad_auto_lab : {
 					/* Anything outside a block can't be auto */
 					report (crt_loc, ERR_dcl_stc_auto_bad (st));
@@ -350,33 +350,33 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 				}
 			}
 			break;
-	    }
+		}
 			
-	    case DSPEC_STORAGE (dspec_static) : {
+		case DSPEC_STORAGE (dspec_static) : {
 			/* Deal with static */
 			switch (loc) {
-		    case CONTEXT_PARAMETER :
-		    case CONTEXT_WEAK_PARAM : {
+			case CONTEXT_PARAMETER :
+			case CONTEXT_WEAK_PARAM : {
 				/* Function parameters can't be static */
 				report (crt_loc, ERR_dcl_stc_param (st));
 				st = dspec_none;
 				break;
-		    }
-		    case CONTEXT_TEMPL_PARAM : {
+			}
+			case CONTEXT_TEMPL_PARAM : {
 				/* Template parameters can't have storage class */
 				report (crt_loc, ERR_temp_param_dcl_stc (st));
 				st = dspec_none;
 				break;
-		    }
+			}
 			}
 			break;
-	    }
+		}
 			
-	    case DSPEC_STORAGE (dspec_extern) : {
+		case DSPEC_STORAGE (dspec_extern) : {
 			/* Deal with extern */
 			switch (loc) {
-		    case CONTEXT_OBJECT :
-		    case CONTEXT_FUNCTION : {
+			case CONTEXT_OBJECT :
+			case CONTEXT_FUNCTION : {
 				/* Objects and functions can be extern */
 				if (!IS_NULL_id (id)) {
 					switch (TAG_id (id)) {
@@ -392,31 +392,31 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 					}
 				}
 				break;
-		    }
-		    case CONTEXT_PARAMETER :
-		    case CONTEXT_WEAK_PARAM : {
+			}
+			case CONTEXT_PARAMETER :
+			case CONTEXT_WEAK_PARAM : {
 				/* Function parameters can't be extern */
 				report (crt_loc, ERR_dcl_stc_param (st));
 				st = dspec_none;
 				break;
-		    }
-		    case CONTEXT_TEMPL_PARAM : {
+			}
+			case CONTEXT_TEMPL_PARAM : {
 				/* Template parameters can't have storage class */
 				report (crt_loc, ERR_temp_param_dcl_stc (st));
 				st = dspec_none;
 				break;
-		    }
-		    default : {
+			}
+			default : {
 				/* Class members can't be extern */
 				report (crt_loc, ERR_dcl_stc_ext_mem ());
 				st = dspec_none;
 				break;
-		    }
+			}
 			}
 			break;
-	    }
+		}
 			
-	    case DSPEC_STORAGE (dspec_mutable) : {
+		case DSPEC_STORAGE (dspec_mutable) : {
 			/* Deal with mutable */
 			if (loc != CONTEXT_MEMBER) {
 				/* Only data members can be mutable */
@@ -424,9 +424,9 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 				st = dspec_none;
 			}
 			break;
-	    }
+		}
 			
-	    default : {
+		default : {
 			/* More than one storage class - select one */
 			DECL_SPEC nst = dspec_static;
 			while (!(st & nst)) {
@@ -436,7 +436,7 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 			report (crt_loc, ERR_dcl_stc_dup (st, nst));
 			st = nst;
 			goto switch_label;
-	    }
+		}
 		}
 	}
 	return (st);
@@ -670,18 +670,18 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 {
 	if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
-	    case id_variable_tag :
-	    case id_parameter_tag :
-	    case id_stat_member_tag :
-	    case id_weak_param_tag : {
+		case id_variable_tag :
+		case id_parameter_tag :
+		case id_stat_member_tag :
+		case id_weak_param_tag : {
 			/* Objects */
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			st = (ds & (dspec_storage | dspec_language));
 			break;
-	    }
-	    case id_function_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
+		}
+		case id_function_tag :
+		case id_mem_func_tag :
+		case id_stat_mem_func_tag : {
 			/* Functions */
 			DECL_SPEC ds;
 #if LANGUAGE_CPP
@@ -699,7 +699,7 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 			ds = DEREF_dspec (id_storage (id));
 			st = (ds & (dspec_storage | dspec_language));
 			break;
-	    }
+		}
 		}
 	}
 	return (st);
@@ -725,31 +725,31 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 	case id_class_alias_tag :
 	case id_enum_alias_tag :
 	case id_type_alias_tag : {
-	    /* Can define local types */
-	    local_def = 0;
-	    break;
+		/* Can define local types */
+		local_def = 0;
+		break;
 	}
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Member function */
-	    DECL_SPEC ds = DEREF_dspec (id_storage (id));
-	    if (ds & dspec_implicit) {
+		/* Member function */
+		DECL_SPEC ds = DEREF_dspec (id_storage (id));
+		if (ds & dspec_implicit) {
 			/* Ignore implicit constructors etc */
 			return;
-	    }
-	    if (!def && !is_templ_nspace (ns)) {
+		}
+		if (!def && !is_templ_nspace (ns)) {
 			/* Can't even redeclare in this case */
 			report (crt_loc, ERR_class_mfct_redecl (id));
 			return;
-	    }
-	    func = 1;
-	    break;
+		}
+		func = 1;
+		break;
 	}
 	case id_undef_tag : {
-	    /* Report undeclared members */
-	    HASHID nm = DEREF_hashid (id_name (id));
-	    report (crt_loc, ERR_lookup_qual_undef (nm, ns));
-	    return;
+		/* Report undeclared members */
+		HASHID nm = DEREF_hashid (id_name (id));
+		report (crt_loc, ERR_lookup_qual_undef (nm, ns));
+		return;
 	}
 	}
 	
@@ -1151,28 +1151,28 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 #if LANGUAGE_CPP
 	switch (it) {
 	case hashid_constr_tag : {
-	    t = check_constr (t, id, ns);
-	    ds &= ~dspec_empty;
-	    ds |= dspec_main;
-	    break;
+		t = check_constr (t, id, ns);
+		ds &= ~dspec_empty;
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_destr_tag : {
-	    t = check_destr (t, id, ns);
-	    ds &= ~dspec_empty;
-	    ds |= dspec_main;
-	    break;
+		t = check_destr (t, id, ns);
+		ds &= ~dspec_empty;
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_op_tag : {
-	    int cl = IS_nspace_ctype (ns);
-	    t = check_operator (t, id, cl, &allocator);
-	    if (!allocator) ds |= dspec_ignore;
-	    break;
+		int cl = IS_nspace_ctype (ns);
+		t = check_operator (t, id, cl, &allocator);
+		if (!allocator) ds |= dspec_ignore;
+		break;
 	}
 	case hashid_conv_tag : {
-	    t = check_conv (t, id);
-	    ds &= ~dspec_empty;
-	    chk = 0;
-	    break;
+		t = check_conv (t, id);
+		ds &= ~dspec_empty;
+		chk = 0;
+		break;
 	}
 	}
 #endif
@@ -1775,21 +1775,21 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 {
 	switch (tag) {
 	case hashid_constr_tag : {
-	    /* Set constructor */
-	    COPY_id (ctype_constr (ct), id);
-	    break;
+		/* Set constructor */
+		COPY_id (ctype_constr (ct), id);
+		break;
 	}
 	case hashid_destr_tag : {
-	    /* Set destructor */
-	    COPY_id (ctype_destr (ct), id);
-	    break;
+		/* Set destructor */
+		COPY_id (ctype_destr (ct), id);
+		break;
 	}
 	case hashid_conv_tag : {
-	    /* Maintain list of conversion functions */
-	    HASHID nm = DEREF_hashid (id_name (id));
-	    LIST (IDENTIFIER) conv = DEREF_list (ctype_conv (ct));
-	    LIST (IDENTIFIER) p = conv;
-	    while (!IS_NULL_list (p)) {
+		/* Maintain list of conversion functions */
+		HASHID nm = DEREF_hashid (id_name (id));
+		LIST (IDENTIFIER) conv = DEREF_list (ctype_conv (ct));
+		LIST (IDENTIFIER) p = conv;
+		while (!IS_NULL_list (p)) {
 			IDENTIFIER pid = DEREF_id (HEAD_list (p));
 			HASHID pnm = DEREF_hashid (id_name (pid));
 			if (EQ_hashid (nm, pnm)) {
@@ -1805,10 +1805,10 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 				return;
 			}
 			p = TAIL_list (p);
-	    }
-	    CONS_id (id, conv, conv);
-	    COPY_list (ctype_conv (ct), conv);
-	    break;
+		}
+		CONS_id (id, conv, conv);
+		COPY_list (ctype_conv (ct), conv);
+		break;
 	}
 	}
 	return;
@@ -1889,27 +1889,27 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	it = TAG_hashid (nm);
 	switch (it) {
 	case hashid_constr_tag : {
-	    t = check_constr (t, id, ns);
-	    ds &= ~dspec_empty;
-	    ds |= dspec_main;
-	    break;
+		t = check_constr (t, id, ns);
+		ds &= ~dspec_empty;
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_destr_tag : {
-	    t = check_destr (t, id, ns);
-	    ds &= ~dspec_empty;
-	    ds |= dspec_main;
-	    break;
+		t = check_destr (t, id, ns);
+		ds &= ~dspec_empty;
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_op_tag : {
-	    t = check_operator (t, id, 1, &allocator);
-	    if (!allocator) ds |= dspec_ignore;
-	    break;
+		t = check_operator (t, id, 1, &allocator);
+		if (!allocator) ds |= dspec_ignore;
+		break;
 	}
 	case hashid_conv_tag : {
-	    t = check_conv (t, id);
-	    ds &= ~dspec_empty;
-	    chk = 0;
-	    break;
+		t = check_conv (t, id);
+		ds &= ~dspec_empty;
+		chk = 0;
+		break;
 	}
 	}
 	
@@ -1952,30 +1952,30 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		}
 	} else if (st == dspec_static) {
 		switch (it) {
-	    case hashid_constr_tag : {
+		case hashid_constr_tag : {
 			/* Constructors can't be static */
 			report (crt_loc, ERR_class_ctor_static ());
 			st = dspec_none;
 			break;
-	    }
-	    case hashid_destr_tag : {
+		}
+		case hashid_destr_tag : {
 			/* Destructors can't be static */
 			report (crt_loc, ERR_class_dtor_static ());
 			st = dspec_none;
 			break;
-	    }
-	    case hashid_op_tag : {
+		}
+		case hashid_op_tag : {
 			/* Overloaded operators can't be static */
 			report (crt_loc, ERR_over_oper_static ());
 			st = dspec_none;
 			break;
-	    }
-	    case hashid_conv_tag : {
+		}
+		case hashid_conv_tag : {
 			/* Conversion functions can't be static */
 			report (crt_loc, ERR_class_conv_fct_mem ());
 			st = dspec_none;
 			break;
-	    }
+		}
 		}
 	}
 	
@@ -2233,25 +2233,25 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 	it = TAG_hashid (nm);
 	switch (it) {
 	case hashid_constr_tag : {
-	    t = check_constr (t, id, ns);
-	    ds |= dspec_main;
-	    break;
+		t = check_constr (t, id, ns);
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_destr_tag : {
-	    t = check_destr (t, id, ns);
-	    ds |= dspec_main;
-	    break;
+		t = check_destr (t, id, ns);
+		ds |= dspec_main;
+		break;
 	}
 	case hashid_op_tag : {
-	    int cl = IS_nspace_ctype (ns);
-	    t = check_operator (t, id, cl, &allocator);
-	    if (!allocator) ds |= dspec_ignore;
-	    break;
+		int cl = IS_nspace_ctype (ns);
+		t = check_operator (t, id, cl, &allocator);
+		if (!allocator) ds |= dspec_ignore;
+		break;
 	}
 	case hashid_conv_tag : {
-	    t = check_conv (t, id);
-	    chk = 0;
-	    break;
+		t = check_conv (t, id);
+		chk = 0;
+		break;
 	}
 	}
 	
@@ -2494,17 +2494,17 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	/* Check for type definitions */
 	switch (td) {
 	case TYPE_DECL_NONE : {
-	    report (crt_loc, ERR_dcl_dcl_empty ());
-	    tid = NULL_id;
-	    break;
+		report (crt_loc, ERR_dcl_dcl_empty ());
+		tid = NULL_id;
+		break;
 	}
 	case TYPE_DECL_ANON : {
-	    report (crt_loc, ERR_dcl_dcl_anon ());
-	    break;
+		report (crt_loc, ERR_dcl_dcl_anon ());
+		break;
 	}
 	case TYPE_DECL_OVER_ELAB : {
-	    report (crt_loc, ERR_dcl_type_elab_qual (key));
-	    break;
+		report (crt_loc, ERR_dcl_type_elab_qual (key));
+		break;
 	}
 	}
 	return (tid);
@@ -2680,17 +2680,17 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	/* Check for type definitions */
 	switch (td) {
 	case TYPE_DECL_NONE : {
-	    report (crt_loc, ERR_class_mem_empty ());
-	    tid = NULL_id;
-	    break;
+		report (crt_loc, ERR_class_mem_empty ());
+		tid = NULL_id;
+		break;
 	}
 	case TYPE_DECL_ANON : {
-	    report (crt_loc, ERR_class_mem_anon ());
-	    break;
+		report (crt_loc, ERR_class_mem_anon ());
+		break;
 	}
 	case TYPE_DECL_OVER_ELAB : {
-	    report (crt_loc, ERR_dcl_type_elab_qual (key));
-	    break;
+		report (crt_loc, ERR_dcl_type_elab_qual (key));
+		break;
 	}
 	}
 	return (tid);
