@@ -367,12 +367,6 @@ static void main_handle_linker_help (char *, void *);
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef __TenDRA__
-/* Some conversions to ArgProcP are slightly suspect */
-#pragma TenDRA begin
-#pragma TenDRA conversion analysis (pointer-pointer) off
-#endif
-
 /*
  * Top level options
  */
@@ -439,10 +433,6 @@ static ArgListT main_linker_arg_list[] = {
 	AP_OPT_PROC_SW	(warning,		'w', "warnings", main_handle_warning),
 	AP_OPT_EOL
 };
-
-#ifdef __TenDRA__
-#pragma TenDRA end
-#endif
 
 static void
 main_handle_root_help(char *option, void *closure)
