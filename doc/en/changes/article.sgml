@@ -18,7 +18,7 @@
     </copyright>
 
     <abstract>
-      <para>This article outlines major changes to the TenDRA
+      <para>This article outlines significant changes to the TenDRA
         codebase between releases. For on-going and future work, please
         see the <ulink url="/tasks/">task list</ulink> for further
         information.</para>
@@ -61,6 +61,10 @@
               imports of updated and/or new utilities.</entry>
           </row>
           <row>
+            <entry>Enhancement</entry>
+            <entry>New features.</entry>
+          </row>
+          <row>
             <entry>OS support</entry>
             <entry>Changes in the operating systems supported, such as added
               support for NetBSD and OpenBSD.</entry>
@@ -89,6 +93,310 @@
         </thead>
         <tbody>
           <row>
+            <entry>20040619</entry>
+            <entry>Codebase</entry>
+            <entry>All tools and utilities (except tcc) now use the new
+              command line option parser provided by libten. Long
+              options using a single dash now require a double dash.</entry>
+          </row>
+          <row>
+            <entry>20040608</entry>
+            <entry>Codebase</entry>
+            <entry>Converted tnc to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040602</entry>
+            <entry>API</entry>
+            <entry>Implemented placemarkers as described in ISO/IEC
+              9899:1999.</entry>
+          </row>
+          <row>
+            <entry>20040602</entry>
+            <entry>Bugfix</entry>
+            <entry>Concatenation of empty macro arguments fixed to
+              conform to C99.</entry>
+          </row>
+          <row>
+            <entry>20040602</entry>
+            <entry>Enhancement</entry>
+            <entry>The producers can now print dependency information
+              usable for make(1) by using the new option -i. Passing -iM
+              causes all headers to be printed, while passing -iMM
+              causes only the headers between double quotes to be
+              printed. At the moment this requires -Wp,-iM -E (-Wg,-iM
+              -E for C++ files) to be passed to tcc.</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Codebase</entry>
+            <entry>Retired the CONST macro; we require C90 compilers for
+              TenDRA.</entry>
+          </row>
+          <row>
+            <entry>20040528</entry>
+            <entry>API</entry>
+            <entry>Initial support for the C99 function specifier
+              <emphasis>inline</emphasis>.</entry>
+          </row>
+	  <row>
+	    <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The sid option -? has been moved to -h (help), and the
+              -v option has been moved to -V (version).</entry>
+	  </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The make_tdf option -v has been moved to -V
+              (version).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The lexi option -v has been moved to -V (version).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The calculus option -v has been moved to -V
+              (version), and the -q option has been moved to -v
+              (verbose).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The tspec option -C (copyright) has been removed.</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The tnc options -v and -V have been swapped. The -v
+              option now enables verbose mode, while the -V option
+              reports version.</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The pl option -v has been moved to -p (PrettyPrint).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The disp option -h has been moved to -a (alignment
+              spacing). The option -V has been moved to -r (don't
+              rationalise output). The option -U has been moved to -l
+              (print usage/linkage information). The option -v has been
+              moved to -V (version). The option -p has been moved to -v
+              (verbose).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The producer options -v and -V have been swapped. The
+              -v option now enables verbose mode, while the -V option
+              reports version. The option -? has been deleted as it is
+              identical to -h (help).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The 80x86 trans option -h has been moved to -j (do
+              not use .bss segment).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The alpha trans options -v and -i have been removed,
+              as they are identical to -V (version).</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The hppa trans option -h has been moved to -g
+              (similar to GCC's -g). The option -? has been removed.</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The mips trans option -B on ULTRIX has been removed,
+              as it is identical to -F. The option -Q now exits
+              indicating success rather than failure for both IRIX and
+              ULTRIX.</entry>
+          </row>
+          <row>
+            <entry>20040525</entry>
+            <entry>Behaviour</entry>
+            <entry>The aix trans option -D has been added as a
+              placeholder.</entry>
+          </row>
+          <row>
+            <entry>20040523</entry>
+            <entry>Behaviour</entry>
+            <entry>Eliminate the need to pass -Ytdf_ext in addition to
+              -Yc99 for some expressions with long long operands.</entry>
+          </row>
+          <row>
+            <entry>20040514</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>tspec</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040512</entry>
+            <entry>API</entry>
+            <entry>Initial support for the C99
+              <emphasis>_Bool</emphasis> type.</entry>
+          </row>
+          <row>
+            <entry>20040501</entry>
+            <entry>Codebase</entry>
+            <entry>Added startup files for the ISO99 API.</entry>
+          </row>
+          <row>
+            <entry>20040421</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>tcc</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040410</entry>
+            <entry>API</entry>
+            <entry>Reimplemented C99's &lt;stddef.h&gt;,
+              &lt;signal.h&gt;, &lt;stdio.h&gt;, and
+              &lt;wctype.h&gt;. Implemented &lt;stdint.h&gt; and
+              &lt;wchar.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040407</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>disp</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040405</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's &lt;fenv.h&gt;, &lt;time.h&gt;, and
+              &lt;stdarg.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040405</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>tld</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040401</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's &lt;errno.h&gt;, &lt;stddef.h&gt;,
+              and &lt;wctype.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040331</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>sid</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040331</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>pl</emphasis> to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040330</entry>
+            <entry>Bugfix</entry>
+            <entry>Report constraint violations in the C producer for
+              incomplete arrays inside functions and incomplete arrays with
+              internal linkage.</entry>
+          </row>
+          <row>
+            <entry>20040328</entry>
+            <entry>Build</entry>
+            <entry>Add IRIX support.</entry>
+          </row>
+          <row>
+            <entry>20040328</entry>
+            <entry>Build</entry>
+            <entry>Instead of installing into
+              ${INSTALL_DIR}/${VER_TENDRA}/${MACH_OS}/${MACH_VERS}/${MACH_CPU},
+              TenDRA now installs into ${INSTALL_DIR} (defaults to
+              ${PREFIX}/lib/TenDRA) for the toolchain files/programs. A
+              new option in config.mk, USE_PATH_DEV, can be set to
+              return to the previous behaviour.</entry>
+          </row>
+          <row>
+            <entry>20040328</entry>
+            <entry>Build</entry>
+            <entry>Added a new version of tendra.version.mk which holds
+              all version information for TenDRA.</entry>
+          </row>
+          <row>
+            <entry>20040327</entry>
+            <entry>OS Support</entry>
+            <entry>Split support for FreeBSD into 4.x and 5.x.</entry>
+          </row>
+          <row>
+            <entry>20040323</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's &lt;float.h&gt; and finish
+              &lt;signal.h&gt;, &lt;stdio.h&gt;, and &lt;stdlib.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040323</entry>
+            <entry>Build</entry>
+            <entry>Introduce the SRC_MACHINES variable, which
+              similarly to SRC_ENV holds the path to files in
+              src/lib/machines. This will allow for adding additional
+              subdirectories for different OS versions.</entry>
+          </row>
+          <row>
+            <entry>20040322</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's &lt;iso646.h&gt; and
+              &lt;setjmp.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040322</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed conversion from floating constant to bool in
+              the producers.</entry>
+          </row>
+          <row>
+            <entry>20040319</entry>
+            <entry>Codebase</entry>
+            <entry>Removed the now obsolete
+              <emphasis>make_err</emphasis> utility.</entry>
+          </row>
+          <row>
+            <entry>20040319</entry>
+            <entry>Build</entry>
+            <entry>Our <emphasis>bmake</emphasis> now has noBuiltin set
+              to true, so that it doesn't look for a sys.mk on the
+              system. A new -R switch restores the previous behaviour.</entry>
+          </row>
+          <row>
+            <entry>20040314</entry>
+            <entry>Codebase</entry>
+            <entry>Converted <emphasis>make_tdf</emphasis> to the libten
+              platform.</entry>
+          </row>
+          <row>
+            <entry>20040314</entry>
+            <entry>Build</entry>
+            <entry>Switched to the <emphasis>mkerr</emphasis> utility,
+              obsoleting <emphasis>mk_err</emphasis>.</entry>
+          </row>
+          <row>
+            <entry>20040311</entry>
+            <entry>Codebase</entry>
+            <entry>Converted calculus to the libten platform.</entry>
+          </row>
+          <row>
+            <entry>20040308</entry>
+            <entry>Behaviour</entry>
+            <entry>Dropped support for OSSG prototypes in code generated
+              by lexi.</entry>
+          </row>
+          <row>
+            <entry>20040308</entry>
+            <entry>Codebase</entry>
+            <entry>Converted lexi to the libten platform.</entry>
+          </row>
+          <row>
             <entry>20040307</entry>
             <entry>Codebase</entry>
             <entry>Added AWK-based mkerr utility. This is fully compatible
@@ -102,10 +410,77 @@
               utilities.</entry>
           </row>
           <row>
+            <entry>20040302</entry>
+            <entry>API</entry>
+            <entry>Completed C99's &lt;string.h&gt; and added
+              &lt;assert.h&gt;.</entry>
+          </row>
+          <row>
+            <entry>20040302</entry>
+            <entry>Enhancement</entry>
+            <entry>The tspec tool now understands the C99
+              <emphasis>restrict</emphasis> qualifier.</entry>
+          </row>
+          <row>
+            <entry>20040302</entry>
+            <entry>Behaviour</entry>
+            <entry>The tspec tool now strips spaces before semicolons in
+              generated files.</entry>
+          </row>
+          <row>
+            <entry>20040302</entry>
+            <entry>Codebase</entry>
+            <entry>Removed support for pre-ANSI compilers, as well as
+              OSSG remnants.</entry>
+          </row>
+          <row>
+            <entry>20040211</entry>
+            <entry>API</entry>
+            <entry>Support for the C99 type qualifier
+              <emphasis>restrict</emphasis> added.</entry>
+          </row>
+          <row>
+            <entry>20040211</entry>
+            <entry>API</entry>
+            <entry>The C producers for statements are now C99 compliant,
+              allowing the first triplet of for(;;) to be a
+              declaration.</entry>
+          </row>
+          <row>
+            <entry>20040125</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's variadic macros (ISO/IEC 9899:1999
+              calls them "macros with a variable number of arguments").</entry>
+          </row>
+          <row>
+            <entry>20040125</entry>
+            <entry>API</entry>
+            <entry>Implemented C99 constraint 6.10.3#3, which enforces
+              whitespace between a macro identifier and the replacement
+              list.</entry>
+          </row>
+          <row>
+            <entry>20040124</entry>
+            <entry>Bugfix</entry>
+            <entry>Parse llint_max correctly, which is used in
+              Literal/{ansi,c99}.pf.</entry>
+          </row>
+          <row>
+            <entry>20040123</entry>
+            <entry>Bugfix</entry>
+            <entry>Fixed null pointer constants in C by properly
+              recognising (void *)0 as one.</entry>
+          </row>
+          <row>
             <entry>20040107</entry>
             <entry>Build</entry>
             <entry>The SunOS/Solaris target bas been split into two separate
               targets.</entry>
+          </row>
+          <row>
+            <entry>20040101</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's <emphasis>__func__</emphasis>.</entry>
           </row>
           <row>
             <entry>20030829</entry>
@@ -222,7 +597,7 @@
           </row>
           <row>
             <entry>20021214</entry>
-            <entry>src/tools/tcc</entry>
+            <entry>Enhancement</entry>
             <entry>tcc now has a -vt flag to dump verbose information about
               each step in the toolchain, including the argv given to each
               stage. Additionally, tcc now has a -ve flag to dump very verbose
@@ -242,7 +617,7 @@
           </row>
           <row>
             <entry>20021201</entry>
-            <entry>src/tools/tcc</entry>
+            <entry>Behaviour</entry>
             <entry>Added -y option to tcc used to modify the relative location
               of the environment files specified by -Y arguments. Added
               -no_shuffle options to tcc to turn off command line argument
