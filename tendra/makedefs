@@ -128,8 +128,8 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.2*)	#
 			check_cc
 			LD="ld"
-			LDOPTS=
-			LDCRT="/usr/lib/crt0.o"
+			LDOPTS="--dynamic-linker /libexec/ld.elf_so"
+			LDCRT="/usr/lib/crt0.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
 			OSFAM="netbsd"
 			OSVER="NETBSD2"
