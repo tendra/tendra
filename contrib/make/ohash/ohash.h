@@ -42,6 +42,10 @@
 #include <sys/types.h>
 #endif
 
+#if defined(__CYGWIN__)
+typedef __uint32_t uint32_t;
+#endif
+
 typedef uint32_t hv_type;
 
 /* Open hashing support. 
