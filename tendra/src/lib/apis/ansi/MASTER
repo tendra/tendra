@@ -52,36 +52,30 @@
 #       it may be put.
 #
 # $Id$
+#
+# This specification represents the ANSI C standard (X3.159).
+#
 
-+SUBSET "xpg3_ranges" := {
-    # These are shared by ansi:float.h and xpg3:limits.h
-    +SUBSET "xpg4_ranges" := {
-        # These are shared by ansi:float.h and xpg4:limits.h
-        +EXP int DBL_DIG ;
-        +EXP double DBL_MAX ;
-        +EXP int FLT_DIG ;
-        +EXP float FLT_MAX ;
-    } ;
-    +EXP double DBL_MIN ;
-    +EXP float FLT_MIN ;
-} ;
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
 
-+EXP double DBL_EPSILON ;
-+EXP int DBL_MANT_DIG, DBL_MAX_10_EXP, DBL_MAX_EXP ;
-+EXP int DBL_MIN_10_EXP, DBL_MIN_EXP ;
-
-+EXP float FLT_EPSILON ;
-+EXP int FLT_MANT_DIG, FLT_MAX_10_EXP, FLT_MAX_EXP ;
-+EXP int FLT_MIN_10_EXP, FLT_MIN_EXP ;
-+CONST int FLT_RADIX ;
-+EXP int FLT_ROUNDS ;
-
-+EXP int LDBL_DIG ;
-+EXP long double LDBL_EPSILON ;
-+EXP int LDBL_MANT_DIG ;
-+EXP long double LDBL_MAX ;
-+EXP int LDBL_MAX_10_EXP, LDBL_MAX_EXP ;
-+EXP long double LDBL_MIN ;
-+EXP int LDBL_MIN_10_EXP, LDBL_MIN_EXP ;
++IMPLEMENT "dummy", "nonesuch.h" ;
++IMPLEMENT "ansi", "dummy/sys.h" ;
++IMPLEMENT "ansi", "assert.h" ;
++IMPLEMENT "ansi", "ctype.h" ;
++IMPLEMENT "ansi", "errno.h" ;
++IMPLEMENT "ansi", "float.h" ;
++IMPLEMENT "ansi", "limits.h" ;
++IMPLEMENT "ansi", "locale.h" ;
++IMPLEMENT "ansi", "math.h" ;
++IMPLEMENT "ansi", "setjmp.h" ;
++IMPLEMENT "ansi", "signal.h" ;
++IMPLEMENT "ansi", "stdarg.h" ;
++IMPLEMENT "ansi", "stddef.h" ;
++IMPLEMENT "ansi", "stdio.h" ;
++IMPLEMENT "ansi", "stdlib.h" ;
++IMPLEMENT "ansi", "string.h" ;
++IMPLEMENT "ansi", "time.h" ;
 
 # vim:set filetype=tspec:
