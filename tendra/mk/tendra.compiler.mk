@@ -33,8 +33,8 @@ CC?= cc
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
   TCCOPTS=
-  CCOPTS+= -W -Wall -ansi -pedantic -Wmissing-prototypes -Wstrict-prototypes\
-  	-fno-builtin
+  WARNS= -W -Wall -Wmissing-prototypes -Wstrict-prototypes
+  CCOPTS+= -ansi -pedantic -fno-builtin ${WARNS}
 # The Intel C Compiler.
 .elif ${CC} == "icc"
   TCCOPTS=
