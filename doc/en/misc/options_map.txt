@@ -21,8 +21,8 @@ trans		mips/irix/main.c                  A   C D E F   H I   K   M     P Q R S  
 trans           mips/ultrix/main.c                A B C D E F   H I   K   M     P Q R S   U V W X   Z                 d e             l
                                                                                                                       + +             +
 
-trans		power/aix/powertrans.c            A B C   E F   H I   K   M   O P Q R     U V W X   Z 	 	    c                                                 
-                                                                              +                                     +
+trans		power/aix/powertrans.c            A B C D E F   H I   K   M   O P Q R     U V W X   Z 	 	    c                                                 
+                                                        !                     +                                     +
 
 trans		sparc/common/sparctrans.c         A B C D E F   H I J K   M N O P Q R   T U V W X   Z 		a   c       g   i     l     n       r   t u             
                                                                     ?       + +         ?                       +   +       +   +     +     +       +   + +
@@ -62,6 +62,7 @@ tspec		tools/tspec/main.c		                  I           O       S     V        
 
 LEGEND
 ~~~~~~
+* !: this option doesn't exist in the man page
 * ?: need to go digging in the code to figure this out
 * [missing]: man page for this is not in CVS
 * options that only have placeholders (the actual description of the option in the man page is missing) are distinguished by a '+' underneath them
