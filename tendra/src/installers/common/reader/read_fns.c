@@ -1605,57 +1605,99 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 	return res;
 }
 
+static void
+allocate_unit(int no_of_tokens, int no_of_tags,
+			  int no_of_als, int no_of_diagtags,
+			  int no_of_dgtags)
+{
+	int i;
+
+	unit_no_of_tokens = no_of_tokens;
+	unit_ind_tokens = xmalloc(unit_no_of_tokens * sizeof(*unit_ind_tokens));
+	for (i = 0; i < no_of_tokens; i++)
+		unit_ind_tokens[i] = NULL;
+
+	unit_no_of_tags = no_of_tags;
+	unit_ind_tags = xmalloc(unit_no_of_tags * sizeof(*unit_ind_tags));
+	for (i = 0; i < no_of_tags; i++)
+		unit_ind_tags[i] = NULL;
+	
+	unit_no_of_als = no_of_als;
+	unit_ind_als = xmalloc(unit_no_of_als * sizeof(*unit_ind_als));
+	for (i = 0; i < no_of_als; i++)
+		unit_ind_als[i] = NULL;
+
+	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+	unit_ind_diagtags = xmalloc(unit_no_of_diagtags *
+							sizeof(*unit_ind_diagtags));
+	for (i = 0; i < no_of_diagtags; i++)
+		unit_ind_diagtags[i] = NULL;
+
+	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+	unit_ind_dgtags = xmalloc(unit_no_of_dgtags * sizeof(*unit_ind_dgtags));
+	for (i = 0; i < no_of_dgtags; i++)
+		unit_ind_dgtags[i] = NULL;
+}
+
+static void
+setup_ind_tokens(void)
+{
+	int i, j;
+
+	for (i = 0, j = 0; i < unit_no_of_tokens; ++i) {
+		if (unit_ind_tokens[i] == NULL)
+			unit_ind_tokens[i] = &unit_toktab[j++];
+	}
+}
+
+static void
+setup_ind_tags(void)
+{
+	int i, j;
+
+	for (i = 0, j = 0; i < unit_no_of_tags; ++i) {
+		if (unit_ind_tags[i] == NULL)
+			unit_ind_tags[i] = &unit_tagtab[j++];
+	}
+}
+
+static void
+setup_ind_als(void)
+{
+	int i, j;
+
+	for (i = 0, j = 0; i < unit_no_of_als; ++i) {
+		if (unit_ind_als[i] == NULL)
+			unit_ind_als[i] = &unit_altab[j++];
+	}
+}
+
+static void
+setup_ind_dgtags(void)
+{
+	int i, j;
+
+	/* NEW DIAGS */
+	for (i = 0, j = 0; i < unit_no_of_dgtags; ++i) {
+		if (unit_ind_dgtags[i] == NULL)
+			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
+	}
+}
 
 void
 start_make_tokdec_unit(int no_of_tokens, int no_of_tags,
 					   int no_of_als, int no_of_diagtags,
 					   int no_of_dgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 	return;
 }
 
 tokdec_unit
 f_make_tokdec_unit()
 {
-	int i;
-	int j = 0;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
+	setup_ind_tokens();
 	start_bytestream();
 	IGNORE d_tokdec_list();
 	end_bytestream();
@@ -1667,70 +1709,19 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags,
 					   int no_of_als, int no_of_diagtags,
 					   int no_of_dgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
-	return;
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 }
 
 tokdef_unit
 f_make_tokdef_unit()
 {
-	int i;
-	int j = 0;
 	int no_of_labels;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-	{
-		if (unit_ind_dgtags[i] == (dgtag_struct *)0)
-			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-	};
+
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_als();
+	setup_ind_dgtags();
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
@@ -1748,70 +1739,19 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags,
 					   int no_of_als, int no_of_diagtags,
 					   int no_of_dgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
-	return;
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 }
 
 tagdec_unit
 f_make_tagdec_unit()
 {
-	int i;
-	int j = 0;
 	int no_of_labels;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-	{
-		if (unit_ind_dgtags[i] == (dgtag_struct *)0)
-			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-	};
+
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_als();
+	setup_ind_dgtags();
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
@@ -1835,63 +1775,17 @@ start_make_versions_unit(int no_of_tokens,
 						 int no_of_als, int no_of_diagtags,
 						 int no_of_dgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
-	return;
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 }
 
 version_props
 f_make_versions_unit()
 {
-	int i;
-	int j = 0;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	};
+
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_als();
 	start_bytestream();
 	IGNORE d_version_list();
 	end_bytestream();
@@ -1911,45 +1805,13 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
 					   int no_of_als, int no_of_diagtags,
 					   int no_of_dgtags)
 {
-	int i;
-	
-	if (separate_units)
-	{
+	if (separate_units)	{
 		++crt_tagdef_unit_no;
 		set_large_alloc();
-	};
+	}
 	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
-	return;
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 }
 
 
@@ -1958,32 +1820,12 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags,
 tagdef_unit
 f_make_tagdef_unit()
 {
-	int i;
-	int j = 0;
 	int no_of_labels;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_tags; ++i)
-	{
-		if (unit_ind_tags[i] == (dec*)0)
-			unit_ind_tags[i] = &unit_tagtab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-	{
-		if (unit_ind_dgtags[i] == (dgtag_struct *)0)
-			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-	};
+
+	setup_ind_tokens();
+	setup_ind_tags();
+	setup_ind_als();
+	setup_ind_dgtags();
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
@@ -2009,58 +1851,17 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags,
 					  int no_of_als, int no_of_diagtags,
 					  int no_of_dgtags)
 {
-	int i;
-	
-	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-											  sizeof(tok_define *));
-	for (i = 0; i < unit_no_of_tokens; ++i)
-		unit_ind_tokens[i] = (tok_define*)0;
-	
-	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-									 sizeof(dec *));
-	for (i = 0; i < unit_no_of_tags; ++i)
-		unit_ind_tags[i] = (dec*)0;
-	
-	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-									  sizeof(aldef *));
-	for (i = 0; i < unit_no_of_als; ++i)
-		unit_ind_als[i] = (aldef*)0;
-	
-	unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-	unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-												 sizeof(diag_tagdef *));
-	for (i = 0; i < unit_no_of_diagtags; ++i)
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
-	
-	unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-	unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-												sizeof(dgtag_struct *));
-	for (i = 0; i < unit_no_of_dgtags; ++i)
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
-	
-	return;
+	allocate_unit(no_of_tokens, no_of_tags, no_of_als, no_of_diagtags,
+				  no_of_dgtags);
 }
 
 aldef_unit
 f_make_aldef_unit()
 {
-	int i;
-	int j = 0;
 	int no_of_labels;
-	for (i = 0; i < unit_no_of_tokens; ++i)
-	{
-		if (unit_ind_tokens[i] == (tok_define*)0)
-			unit_ind_tokens[i] = &unit_toktab[j++];
-	};
-	j = 0;
-	for (i = 0; i < unit_no_of_als; ++i)
-	{
-		if (unit_ind_als[i] == (aldef*)0)
-			unit_ind_als[i] = &unit_altab[j++];
-	};
+
+	setup_ind_tokens();
+	setup_ind_als();
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
