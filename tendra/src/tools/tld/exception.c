@@ -69,9 +69,10 @@
 /****************************************************************************/
 
 #include "exception.h"
+#include "msgcat.h"
 
-extern void			E_exception_unhandled(ExceptionP, CStringP, unsigned);
-extern void			E_exception_corrupt_handler(CStringP, unsigned);
+//extern void			MSG_exception_unhandled(ExceptionP, CStringP, unsigned);
+//extern void			MSG_exception_corrupt_handler(CStringP, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
@@ -91,7 +92,7 @@ X__exception_throw()
 		UNREACHED;
     } else if (stack == NIL (HandlerP)) {
 		failing = TRUE;
-		E_exception_unhandled (X__exception_throw_data.exception,
+		MSG_exception_unhandled (X__exception_throw_data.exception,
 							   X__exception_throw_data.file,
 							   X__exception_throw_data.line);
 		abort ();
@@ -108,7 +109,7 @@ X__exception_throw()
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
 		(stack->next == stack)) {
 		failing = TRUE;
-		E_exception_corrupt_handler (stack->file, stack->line);
+		MSG_exception_corrupt_handler (stack->file, stack->line);
 		abort ();
 		UNREACHED;
     }

@@ -237,7 +237,9 @@
 #ifndef H_EXCEPTION
 #define H_EXCEPTION
 
-#include "os-interface.h"
+#include <setjmp.h>
+
+#include "config.h"
 
 /*--------------------------------------------------------------------------*/
 

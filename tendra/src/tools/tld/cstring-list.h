@@ -125,7 +125,7 @@
 #ifndef H_CSTRING_LIST
 #define H_CSTRING_LIST
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "dalloc.h"
 

@@ -122,7 +122,7 @@
 #ifndef H_FILE_NAME
 #define H_FILE_NAME
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 
 /*--------------------------------------------------------------------------*/

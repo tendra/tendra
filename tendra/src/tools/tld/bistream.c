@@ -119,10 +119,10 @@ bistream_read_chars(BIStreamP bistream, unsigned length,
 					CStringP chars)
 {
     unsigned bytes_read = (unsigned) fread ((GenericP) chars, sizeof (char),
-											(SizeT) length, bistream->file);
+											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {
-		CStringP name = cstring_duplicate (bistream->name);
+		CStringP name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
@@ -136,10 +136,10 @@ bistream_read_bytes(BIStreamP bistream, unsigned length,
 					ByteP bytes)
 {
     unsigned bytes_read = (unsigned) fread ((GenericP) bytes, sizeof (ByteT),
-											(SizeT) length, bistream->file);
+											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {
-		CStringP name = cstring_duplicate (bistream->name);
+		CStringP name = string_copy (bistream->name);
 
 		THROW_VALUE (XX_bistream_read_error, name);
 		UNREACHED;
@@ -155,7 +155,7 @@ bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
 
     if (byte == EOF) {
 		if (ferror (bistream->file)) {
-			CStringP name = cstring_duplicate (bistream->name);
+			CStringP name = string_copy (bistream->name);
 
 			THROW_VALUE (XX_bistream_read_error, name);
 			UNREACHED;

@@ -70,7 +70,7 @@
 #ifndef H_ARG_DATA
 #define H_ARG_DATA
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "cstring-list.h"
 #include "dalloc.h"

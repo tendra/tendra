@@ -70,56 +70,32 @@
 
 /****************************************************************************/
 
-#include "os-interface.h"
+#include "config.h"
 #include "release.h"
 #include "arg-data.h"
 #include "arg-parse.h"
 #include "builder.h"
 #include "contents.h"
 #include "debug.h"
-#include "error.h"
-#include "error-file.h"
 #include "exception.h"
 #include "extract.h"
-#include "gen-errors.h"
+#include "istream.h"
+#include "msgcat.h"
+#include "catstdn.h"
 #include "linker.h"
 #include "rename-file.h"
+#include "tenapp.h"
 
 #include "solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 
-#define USAGE "\
-\tusage: [mode] [option ...] file ...\n\
-\twhere mode is one of: '-mc' (create library), '-ml' (link capsules),\n\
-\t'-mt' (library table of contents) or '-mx' (extract from library),\n\
-\tand option (for the current mode - default '-ml') is one of:"
-#ifndef VERSION
-#define VERSION "tld version 4.0#7"
-#endif /* !defined (VERSION) */
-#ifndef RELEASE
-#define RELEASE "LOCAL"
-#endif /* !defined (RELEASE) */
-#ifndef BANNER
-#define BANNER ""
-#endif /* !defined (BANNER) */
-
-/*--------------------------------------------------------------------------*/
-
-#ifdef FS_NO_ENUM
-typedef int ModeT, *ModeP;
-#define MODE_BUILDER		(0)
-#define MODE_CONTENTS		(1)
-#define MODE_EXTRACT		(2)
-#define MODE_LINKER		(3)
-#else
 typedef enum {
     MODE_BUILDER,
     MODE_CONTENTS,
     MODE_EXTRACT,
     MODE_LINKER
 } ModeT, *ModeP;
-#endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 
@@ -128,18 +104,6 @@ static BoolT    main_used_other   = FALSE;
 static ArgDataT main_arg_data;
 
 /*--------------------------------------------------------------------------*/
-
-static void
-main_print_version()
-{
-    write_cstring (ostream_error, VERSION);
-    write_cstring (ostream_error, " (");
-    write_cstring (ostream_error, RELEASE);
-    write_cstring (ostream_error, ")");
-    write_cstring (ostream_error, BANNER);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
-}
 
 static void
 main_handle_all(CStringP option, ArgUsageP usage,
@@ -195,9 +159,7 @@ main_handle_help(CStringP option, ArgUsageP usage,
     UNUSED (option);
     UNUSED (gclosure);
     main_used_one_off = TRUE;
-    write_arg_usage (ostream_error, usage);
-    write_newline (ostream_error);
-    ostream_flush (ostream_error);
+    MSG_arg_usage(usage);
 }
 
 static void
@@ -244,11 +206,7 @@ main_handle_info(CStringP option, ArgUsageP usage,
     UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
-    if (enable) {
-		error_set_min_report_severity (ERROR_SEVERITY_INFORMATION);
-    } else {
-		error_set_min_report_severity (ERROR_SEVERITY_ERROR);
-    }
+    msg_sev_set(MSG_SEV_INFO, enable);
 }
 
 static void
@@ -356,7 +314,7 @@ main_handle_show_errors(CStringP option, ArgUsageP usage,
     UNUSED (usage);
     UNUSED (gclosure);
     main_used_one_off = TRUE;
-    write_error_file (ostream_output);
+/*    write_error_file (ostream_output); */ /* delete this fn */
     ostream_flush (ostream_output);
 }
 
@@ -441,7 +399,7 @@ main_handle_version(CStringP option, ArgUsageP usage,
     UNUSED (usage);
     UNUSED (gclosure);
     main_used_one_off = TRUE;
-    main_print_version ();
+	tenapp_report_version();
 }
 
 static void
@@ -452,105 +410,10 @@ main_handle_warning(CStringP option, ArgUsageP usage,
     UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
-    if (enable) {
-		error_set_min_report_severity (ERROR_SEVERITY_WARNING);
-    } else {
-		error_set_min_report_severity (ERROR_SEVERITY_ERROR);
-    }
+    msg_sev_set(MSG_SEV_WARNING, enable);
 }
 
 /*--------------------------------------------------------------------------*/
-
-static EStringDataT main_description_strings [] = {
-    UB {
-		"description of all",
-		"\n\tEnable/disable extraction of all capsules."
-    } UE, UB {
-		"description of all-hide-defined",
-		"\n\tEnable/disable hiding of all external names of any shape that have a definition."
-    } UE, UB {
-		"description of basename",
-		"\n\tEnable/disable extraction of capsules to their basename."
-    } UE, UB {
-		"description of debug-file",
-		" FILE\n\tWrite debugging output to FILE."
-    } UE, UB {
-		"description of help",
-		"\n\tDisplay an option summary for the current mode."
-    } UE, UB {
-		"description of hide",
-		" SHAPE NAME\n\tHide the external SHAPE NAME."
-    } UE, UB {
-		"description of hide-defined",
-		" SHAPE\n\tHide all external SHAPE names that have a definition."
-    } UE, UB {
-		"description of include-library",
-		" LIBRARY\n\tInclude the contents of LIBRARY in the output library."
-    } UE, UB {
-		"description of index",
-		"\n\tEnable/disable the display of the library index as well as the capsule names."
-    } UE, UB {
-		"description of info",
-		"\n\tEnable/disable informational messages."
-    } UE, UB {
-		"description of keep",
-		" SHAPE NAME\n\tEnsure that external SHAPE NAME is not hidden."
-    } UE, UB {
-		"description of keep-all",
-		" SHAPE\n\tEnsure that no external SHAPE is hidden."
-    } UE, UB {
-		"description of library-file",
-		" FILE\n\tUse FILE as a TDF library."
-    } UE, UB {
-		"description of l",
-		"FILE\n\tUse FILE as a TDF library."
-    } UE, UB {
-		"description of match-basename",
-		"\n\tEnable/disable matching capsules by their basename"
-    } UE, UB {
-		"description of output-file",
-		" FILE\n\tWrite output to FILE (default 'library.tl')."
-    } UE, UB {
-		"description of path",
-		" DIRECTORY\n\tAppend DIRECTORY to library search path."
-    } UE, UB {
-		"description of L",
-		"DIRECTORY\n\tAppend DIRECTORY to library search path."
-    } UE, UB {
-		"description of rename",
-		" SHAPE FROM TO\n\tRename SHAPE FROM to TO."
-    } UE, UB {
-		"description of rename-file",
-		" FILE\n\tParse FILE as a rename file."
-    } UE, UB {
-		"description of size",
-		"\n\tEnable/disable the display of the size of library capsules as well as their names."
-    } UE, UB {
-		"description of show-errors",
-		"\n\tDisplay the current error table on the standard output."
-    } UE, UB {
-		"description of suppress",
-		" SHAPE NAME\n\tDo not try to find a definition for SHAPE NAME."
-    } UE, UB {
-		"description of suppress-all",
-		" SHAPE\n\tDo not try to find a definition for any SHAPE."
-    } UE, UB {
-		"description of suppress-mult",
-		"\n\tEnable/disable the suppression of multiple definitions as library definitions."
-    } UE, UB {
-		"description of tdf-version",
-		"\n\tEnable/disable the display of the version of a TDF library."
-    } UE, UB {
-		"description of unit-file",
-		" FILE\n\tRead unit set names from FILE."
-    } UE, UB {
-		"description of version",
-		"\n\tDisplay the version number on the standard error."
-    } UE, UB {
-		"description of warning",
-		"\n\tEnable/disable warning messages."
-    } UE, ERROR_END_STRING_LIST
-};
 
 #ifdef __TenDRA__
 /* Some conversions to ArgProcP are slightly suspect */
@@ -562,43 +425,43 @@ static ArgListT main_builder_arg_list [] = {
     {
 		"debug-file", 'd',			AT_FOLLOWING,
 		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		UB "description of debug-file" UE
+		MID_description_of_debug_file
     }, {
 		"help", '?',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
-		UB "description of help" UE
+		MID_description_of_help
     }, {
 		"include-library", 'i',			AT_FOLLOWING,
 		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		UB "description of include-library" UE
+		MID_description_of_include_library
     }, {
 		"output-file", 'o',			AT_FOLLOWING,
 		(ArgProcP) main_handle_output_file,	NIL (GenericP),
-		UB "description of output-file" UE
+		MID_description_of_output_file
     }, {
 		"show-errors", 'e',			AT_EMPTY,
 		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		UB "description of show-errors" UE
+		MID_description_of_show_errors
     }, {
 		"suppress", 's',			AT_FOLLOWING2,
 		(ArgProcP) main_handle_suppress,	NIL (GenericP),
-		UB "description of suppress" UE
+		MID_description_of_suppress
     }, {
 		"suppress-all", 'S',			AT_FOLLOWING,
 		(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
-		UB "description of suppress-all" UE
+		MID_description_of_suppress_all
     }, {
 		"suppress-mult", 'M',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
-		UB "description of suppress-mult" UE
+		MID_description_of_suppress_mult
     }, {
 		"unit-file", 'u',			AT_FOLLOWING,
 		(ArgProcP) main_handle_unit_file,	NIL (GenericP),
-		UB "description of unit-file" UE
+		MID_description_of_unit_file
     }, {
 		"version", 'v',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
-		UB "description of version" UE
+		MID_description_of_version
     }, ARG_PARSE_END_LIST
 };
 
@@ -606,31 +469,31 @@ static ArgListT main_contents_arg_list [] = {
     {
 		"debug-file", 'd',			AT_FOLLOWING,
 		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		UB "description of debug-file" UE
+		MID_description_of_debug_file
     }, {
 		"help", '?',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
-		UB "description of help" UE
+		MID_description_of_help
     }, {
 		"index", 'i',				AT_PROC_SWITCH,
 		(ArgProcP) main_handle_index,		NIL (GenericP),
-		UB "description of index" UE
+		MID_description_of_index
     }, {
 		"show-errors", 'e',			AT_EMPTY,
 		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		UB "description of show-errors" UE
+		MID_description_of_show_errors
     }, {
 		"size", 's',				AT_PROC_SWITCH,
 		(ArgProcP) main_handle_size,		NIL (GenericP),
-		UB "description of size" UE
+		MID_description_of_size
     }, {
 		"tdf-version", 't',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_tdf_version,	NIL (GenericP),
-		UB "description of tdf-version" UE
+		MID_description_of_tdf_version
     }, {
 		"version", 'v',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
-		UB "description of version" UE
+		MID_description_of_version
     }, ARG_PARSE_END_LIST
 };
 
@@ -638,35 +501,35 @@ static ArgListT main_extract_arg_list [] = {
     {
 		"all", 'a',				AT_PROC_SWITCH,
 		(ArgProcP) main_handle_all,		NIL (GenericP),
-		UB "description of all" UE
+		MID_description_of_all
     }, {
 		"basename", 'b',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_basename,	NIL (GenericP),
-		UB "description of basename" UE
+		MID_description_of_basename
     }, {
 		"debug-file", 'd',			AT_FOLLOWING,
 		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		UB "description of debug-file" UE
+		MID_description_of_debug_file
     }, {
 		"show-errors", 'e',			AT_EMPTY,
 		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		UB "description of show-errors" UE
+		MID_description_of_show_errors
     }, {
 		"help", '?',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
-		UB "description of help" UE
+		MID_description_of_help
     }, {
 		"info", 'i',				AT_PROC_SWITCH,
 		(ArgProcP) main_handle_info,		NIL (GenericP),
-		UB "description of info" UE
+		MID_description_of_info
     }, {
 		"match-basename", 'm',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_match_base,	NIL (GenericP),
-		UB "description of match-basename" UE
+		MID_description_of_match_basename
     }, {
 		"version", 'v',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
-		UB "description of version" UE
+		MID_description_of_version
     }, ARG_PARSE_END_LIST
 };
 
@@ -674,87 +537,87 @@ static ArgListT main_linker_arg_list [] = {
     {
 		"all-hide-defined", 'a',		AT_PROC_SWITCH,
 		(ArgProcP) main_handle_all_hide_defd,	NIL (GenericP),
-		UB "description of all-hide-defined" UE
+		MID_description_of_all_hide_defined
     }, {
 		"debug-file", 'd',			AT_FOLLOWING,
 		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		UB "description of debug-file" UE
+		MID_description_of_debug_file
     }, {
 		"help", '?',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
-		UB "description of help" UE
+		MID_description_of_help
     }, {
 		"hide", 'h',				AT_FOLLOWING2,
 		(ArgProcP) main_handle_hide,		NIL (GenericP),
-		UB "description of hide" UE
+		MID_description_of_hide
     }, {
 		"hide-defined", 'H',			AT_FOLLOWING,
 		(ArgProcP) main_handle_hide_defined,	NIL (GenericP),
-		UB "description of hide-defined" UE
+		MID_description_of_hide_defined
     }, {
 		"keep", 'k',				AT_FOLLOWING2,
 		(ArgProcP) main_handle_keep,		NIL (GenericP),
-		UB "description of keep" UE
+		MID_description_of_keep
     }, {
 		"keep-all", 'K',			AT_FOLLOWING,
 		(ArgProcP) main_handle_keep_all,	NIL (GenericP),
-		UB "description of keep-all" UE
+		MID_description_of_keep_all
     }, {
 		"library", '\0',			AT_FOLLOWING,
 		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		UB "description of library-file" UE
+		MID_description_of_library_file
     }, {
 		NIL (CStringP), 'l',			AT_EITHER,
 		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		UB "description of l" UE
+		MID_description_of_l
     }, {
 		"output-file", 'o',			AT_FOLLOWING,
 		(ArgProcP) main_handle_output_file,	NIL (GenericP),
-		UB "description of output-file" UE
+		MID_description_of_output_file
     }, {
 		"path", '\0',				AT_FOLLOWING,
 		(ArgProcP) main_handle_library_path,	NIL (GenericP),
-		UB "description of path" UE
+		MID_description_of_path
     }, {
 		NIL (CStringP), 'L',			AT_EITHER,
 		(ArgProcP) main_handle_library_path,	NIL (GenericP),
-		UB "description of L" UE
+		MID_description_of_L
     }, {
 		"rename", 'r',				AT_FOLLOWING3,
 		(ArgProcP) main_handle_rename,		NIL (GenericP),
-		UB "description of rename" UE
+		MID_description_of_rename
     }, {
 		"rename-file", 'R',			AT_FOLLOWING,
 		(ArgProcP) main_handle_rename_file,	NIL (GenericP),
-		UB "description of rename-file" UE
+		MID_description_of_rename_file
     }, {
 		"show-errors", 'e',			AT_EMPTY,
 		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		UB "description of show-errors" UE
+		MID_description_of_show_errors
     }, {
 		"suppress", 's',			AT_FOLLOWING2,
 		(ArgProcP) main_handle_suppress,	NIL (GenericP),
-		UB "description of suppress" UE
+		MID_description_of_suppress
     }, {
 		"suppress-all", 'S',			AT_FOLLOWING,
 		(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
-		UB "description of suppress-all" UE
+		MID_description_of_suppress_all
     }, {
 		"suppress-mult", 'M',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
-		UB "description of suppress-mult" UE
+		MID_description_of_suppress_mult
     }, {
 		"unit-file", 'u',			AT_FOLLOWING,
 		(ArgProcP) main_handle_unit_file,	NIL (GenericP),
-		UB "description of unit-file" UE
+		MID_description_of_unit_file
     }, {
 		"version", 'v',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
-		UB "description of version" UE
+		MID_description_of_version
     }, {
 		"warnings", 'w',			AT_PROC_SWITCH,
 		(ArgProcP) main_handle_warning,		NIL (GenericP),
-		UB "description of warning" UE
+		MID_description_of_warning
     }, ARG_PARSE_END_LIST
 };
 
@@ -764,20 +627,102 @@ static ArgListT main_linker_arg_list [] = {
 
 /*--------------------------------------------------------------------------*/
 
+/*
+ * Handlers for tld specific message objects
+ */
+static void
+msg_uh_ArgUsageP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_arg_usage((ArgUsageP)pp);
+}
+
+static void
+msg_uh_NStringP(char ch, void *pp)
+{
+	NStringP nstring = (NStringP)pp;
+
+	UNUSED(ch);
+	msg_append_nstring(nstring->ns_contents, nstring_length(nstring));
+}
+
+static void
+msg_uh_NameKeyP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_name_key(msg_stream, (NameKeyP)pp);
+}
+
+static void
+msg_uh_capsule_offset(char ch, void *pp)
+{
+	CapsuleP capsule = pp;
+
+	UNUSED(ch);
+	write_fmt(msg_stream, "%s: %lu: ", capsule_name(capsule),
+		(unsigned long)capsule_byte(capsule));
+}
+
+static void
+msg_uh_library_offset(char ch, void *pp)
+{
+	LibraryP lib = pp;
+
+	UNUSED(ch);
+	write_fmt(msg_stream, "%s: %lu: ", library_name(lib),
+		(unsigned long)library_byte(lib));
+}
+
+static void
+msg_uh_istream_line(char ch, void *pp)
+{
+	IStreamP is = pp;
+
+	UNUSED(ch);
+	write_fmt(msg_stream, "%s: %lu: ", istream_name(is),
+		(unsigned long)istream_line(is));
+}
+
+static void
+msg_uh_tdfr_offset(char ch, void *pp)
+{
+	TDFReaderP tdfr = pp;
+
+	UNUSED(ch);
+	write_fmt(msg_stream, "%s: %lu: ", tdf_reader_name(tdfr),
+		(unsigned long)tdf_reader_byte(tdfr));
+}
+
+static void
+msg_uh_ExceptionName(char ch, void *pp)
+{
+	UNUSED(ch);
+	msg_append_string(exception_name((ExceptionP)pp));
+}
+
+static void
+msg_uh_libcapfullname(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_lib_capsule_full_name(msg_stream, (LibCapsuleP)pp);
+}
+
 static ModeT
 main_init(int argc, char **argv)
 {
-    EStringP  usage_estring = error_define_string ("tld usage message", USAGE);
     ModeT     mode          = MODE_LINKER;
     ArgListP  arg_list      = main_linker_arg_list;
-    CStringP  error_file;
     int       skip;
 
-    error_init (argv [0], gen_errors_init_errors);
-    error_intern_strings (main_description_strings);
-    if ((error_file = getenv ("TLD_ERROR_FILE")) != NIL (CStringP)) {
-		error_file_parse (error_file, FALSE);
-    }
+	msg_uh_add(MSG_KEY_ArgUsageP, msg_uh_ArgUsageP);
+	msg_uh_add(MSG_KEY_NStringP, msg_uh_NStringP);
+	msg_uh_add(MSG_KEY_NameKeyP, msg_uh_NameKeyP);
+	msg_uh_add(MSG_KEY_capsule_offset, msg_uh_capsule_offset);
+	msg_uh_add(MSG_KEY_library_offset, msg_uh_library_offset);
+	msg_uh_add(MSG_KEY_istream_line, msg_uh_istream_line);
+	msg_uh_add(MSG_KEY_tdfr_offset, msg_uh_tdfr_offset);
+	msg_uh_add(MSG_KEY_ExceptionName, msg_uh_ExceptionName);
+	msg_uh_add(MSG_KEY_libcapfullname, msg_uh_libcapfullname);
     argc --;
     argv ++;
   retry:
@@ -807,25 +752,24 @@ main_init(int argc, char **argv)
 		case 'v':
 			main_used_one_off = TRUE;
 			main_used_other   = FALSE;
-			main_print_version ();
+			tenapp_report_version();
 			goto retry;
 		default:
-			E_bad_mode (argv [0][2]);
+			MSG_bad_mode (argv [0][2]);
 			UNREACHED;
 		}
     } else {
       linker_case:
 		arg_data_init (&main_arg_data, "capsule.j");
     }
-    arg_parse_intern_descriptions (arg_list);
-    skip = arg_parse_arguments (arg_list, usage_estring, argc, argv);
+    skip = arg_parse_arguments (arg_list, MID_tld_usage_message, argc, argv);
     argc -= skip;
     argv += skip;
     if (main_used_one_off && (!main_used_other) && (argc == 0)) {
 		exit (EXIT_SUCCESS);
 		UNREACHED;
     } else if (argc == 0) {
-		E_missing_files ();
+		MSG_missing_files ();
 		UNREACHED;
     }
     arg_data_set_files (&main_arg_data, argc, argv);
@@ -841,7 +785,9 @@ main(int argc, char **argv)
 {
     HANDLE {
 		istream_setup ();
-		ostream_setup ();
+		tenapp_init(argc, argv, "TDF linker", "4.0#8");
+		msg_sev_set(MSG_SEV_WARNING, 0);
+
 		switch (main_init (argc, argv)) EXHAUSTIVE {
 		case MODE_BUILDER:
 			builder_main (&main_arg_data);
@@ -860,19 +806,18 @@ main(int argc, char **argv)
 		ExceptionP exception = EXCEPTION_EXCEPTION ();
 
 		if (exception == XX_dalloc_no_memory) {
-			E_no_memory ();
+			MSG_no_memory ();
 			UNREACHED;
 		} else if ((exception == XX_istream_read_error) ||
 				   (exception == XX_bistream_read_error)) {
 			CStringP file = (CStringP) EXCEPTION_VALUE ();
 
-			E_read_error (file);
+			MSG_file_read_error (file);
 			UNREACHED;
-		} else if ((exception == XX_ostream_write_error) ||
-				   (exception == XX_bostream_write_error)) {
+		} else if (exception == XX_bostream_write_error) {
 			CStringP file = (CStringP) EXCEPTION_VALUE ();
 
-			E_write_error (file);
+			MSG_file_write_error (file);
 			UNREACHED;
 		} else {
 			RETHROW ();

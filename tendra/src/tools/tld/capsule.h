@@ -70,7 +70,7 @@
 #ifndef H_CAPSULE
 #define H_CAPSULE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "shape-table.h"

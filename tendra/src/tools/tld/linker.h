@@ -70,7 +70,7 @@
 #ifndef H_LINKER
 #define H_LINKER
 
-#include "os-interface.h"
+#include "config.h"
 #include "arg-data.h"
 
 /*--------------------------------------------------------------------------*/

@@ -69,9 +69,9 @@
 /****************************************************************************/
 
 #include "extract.h"
-#include "error.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "library.h"
+#include "tenapp.h"
 
 #include "solve-cycles.h"
 
@@ -88,10 +88,10 @@ extract_main(ArgDataP arg_data)
     LibraryP  library;
 
     if (extract_all && (num_files > 1)) {
-		E_all_specified_with_capsules ();
+		MSG_all_specified_with_capsules ();
 		UNREACHED;
     } else  if ((!extract_all) && (num_files == 1)) {
-		E_no_capsules_specified ();
+		MSG_no_capsules_specified ();
 		UNREACHED;
     }
     if ((library = library_create_stream_input (files [0])) !=
@@ -106,12 +106,9 @@ extract_main(ArgDataP arg_data)
 		}
 		library_close (library);
     } else {
-		E_cannot_open_input_file (files [0]);
+		MSG_cant_open_input_file (files [0]);
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*

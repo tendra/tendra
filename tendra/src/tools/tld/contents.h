@@ -70,7 +70,7 @@
 #ifndef H_CONTENTS
 #define H_CONTENTS
 
-#include "os-interface.h"
+#include "config.h"
 #include "arg-data.h"
 
 /*--------------------------------------------------------------------------*/

@@ -66,12 +66,13 @@
  *** Change Log:*/
 
 /****************************************************************************/
+#include <limits.h>
 
 #include "capsule.h"
 #include "debug.h"
 #include "dstring.h"
 #include "exception.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "istream.h"
 #include "name-key.h"
 #include "library.h"
@@ -185,7 +186,7 @@ capsule_read_unit_set_name(IStreamP istream,
 		}
     } while (syntax_is_white_space (c));
     if (c != '"') {
-		E_unit_set_expected_quote (istream);
+		MSG_unit_set_expected_quote (istream);
 		UNREACHED;
     }
     dstring_init (dstring);
@@ -200,14 +201,14 @@ capsule_read_unit_set_name(IStreamP istream,
 			case ISTREAM_STAT_NO_CHAR:
 				break;
 			case ISTREAM_STAT_SYNTAX_ERROR:
-				E_unit_set_illegal_escape (istream);
+				MSG_unit_set_illegal_escape (istream);
 				UNREACHED;
 			}
 		} else {
 			dstring_append_char (dstring, c);
 		}
     }
-    E_unit_set_eof_in_name (istream);
+    MSG_unit_set_eof_in_name (istream);
     UNREACHED;
 }
 
@@ -233,7 +234,7 @@ capsule_check_unit_sets(IStreamP istream)
 
 		for (j = 0; j < i; j ++) {
 			if (nstring_equal (name, &(capsule_unit_sets [j].name))) {
-				E_unit_set_duplicate_name (istream_name (istream), name);
+				MSG_unit_set_duplicate_name (istream_name (istream), name);
 				UNREACHED;
 			}
 		}
@@ -245,7 +246,7 @@ capsule_check_unit_sets(IStreamP istream)
 		}
     }
     if (!tld_found) {
-		E_unit_set_no_tld_name (istream_name (istream));
+		MSG_unit_set_no_tld_name (istream_name (istream));
 		UNREACHED;
     }
 }
@@ -334,7 +335,7 @@ capsule_read_header(CapsuleP capsule)
     nstring_init_length (&magic, (unsigned) 4);
     tdf_read_bytes (reader, &magic);
     if (!nstring_equal (&magic, const_magic)) {
-		E_capsule_bad_magic (capsule, &magic, const_magic);
+		MSG_capsule_bad_magic (capsule, &magic, const_magic);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -343,14 +344,14 @@ capsule_read_header(CapsuleP capsule)
     minor = tdf_read_int (reader);
     debug_info_r_versions (major, minor);
     if (major < 4) {
-		E_capsule_bad_version (capsule, major);
+		MSG_capsule_bad_version (capsule, major);
 		THROW (XX_capsule_error);
 		UNREACHED;
     } else if (capsule_major_version == 0) {
 		capsule_major_version = major;
 		capsule_minor_version = minor;
     } else if (capsule_major_version != major) {
-		E_capsule_version_mismatch (capsule, capsule_major_version, major);
+		MSG_capsule_version_mismatch (capsule, capsule_major_version, major);
 		THROW (XX_capsule_error);
 		UNREACHED;
     } else if (capsule_minor_version < minor) {
@@ -386,21 +387,21 @@ capsule_read_unit_set_names(CapsuleP capsule,
 
 			for (j = 0; j < i; j ++) {
 				if (entry == units_vec [j]) {
-					E_duplicate_unit_set_name (capsule, &nstring);
+					MSG_duplicate_unit_set_name (capsule, &nstring);
 					THROW (XX_capsule_error);
 					UNREACHED;
 				} else if (order < unit_entry_order (units_vec [j])) {
-					E_out_of_order_unit_set_name (capsule, &nstring);
+					MSG_out_of_order_unit_set_name (capsule, &nstring);
 					THROW (XX_capsule_error);
 					UNREACHED;
 				}
 			}
 			if (entry == tld2_entry) {
-				E_tld2_unit_set_type_obsolete (capsule);
+				MSG_tld2_unit_set_type_obsolete (capsule);
 			}
 			if ((entry == tld_entry) || (entry == tld2_entry)) {
 				if (has_tld_unit) {
-					E_extra_tld_unit_set (capsule);
+					MSG_extra_tld_unit_set (capsule);
 					THROW (XX_capsule_error);
 					UNREACHED;
 				}
@@ -408,7 +409,7 @@ capsule_read_unit_set_names(CapsuleP capsule,
 			}
 			units_vec [i] = entry;
 		} else {
-			E_unknown_unit_set_name (capsule, &nstring);
+			MSG_unknown_unit_set_name (capsule, &nstring);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		}
@@ -416,7 +417,7 @@ capsule_read_unit_set_names(CapsuleP capsule,
 		nstring_destroy (&nstring);
     }
     if (!has_tld_unit) {
-		E_missing_tld_unit_set (tdf_reader_name (reader));
+		MSG_missing_tld_unit_set (tdf_reader_name (reader));
     }
     *num_unit_sets_ref = num_unit_sets;
     return (units_vec);
@@ -443,7 +444,7 @@ capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
 		entry   = shape_table_add (shapes, &nstring);
 		for (j = 0; j < i; j ++) {
 			if (entry == shapes_vec [j].entry) {
-				E_duplicate_shape_name (capsule, &nstring);
+				MSG_duplicate_shape_name (capsule, &nstring);
 				THROW (XX_capsule_error);
 				UNREACHED;
 			}
@@ -484,13 +485,13 @@ capsule_read_external_names_1(CapsuleP capsule,
 
 		tdf_read_name (reader, &name);
 		if (id >= num_ids) {
-			E_name_id_out_of_range (capsule, key, &name, id, num_ids);
+			MSG_name_id_out_of_range (capsule, key, &name, id, num_ids);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		}
 		name_entry = name_table_add (table, &name, entry);
 		if (id_maps [id] != UINT_MAX) {
-			E_name_id_used_multiple_times (capsule, key, &name, id);
+			MSG_name_id_used_multiple_times (capsule, key, &name, id);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		}
@@ -515,7 +516,7 @@ capsule_read_external_names(CapsuleP capsule,
     unsigned   i;
 
     if ((num_names = tdf_read_int (reader)) != num_shapes) {
-		E_shape_and_name_count_mismatch (capsule, num_shapes, num_names);
+		MSG_shape_and_name_count_mismatch (capsule, num_shapes, num_names);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -586,17 +587,17 @@ capsule_read_usage(CapsuleP capsule, NameDataP entry,
 		NameKeyP   key        = name_entry_key (name_entry);
 
 		if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
-			E_bad_usage (capsule, shape_key, key, use);
+			MSG_bad_usage (capsule, shape_key, key, use);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		} else if (no_mult && (use & U_MULT)) {
-			E_illegally_multiply_defined (capsule, shape_key, key);
+			MSG_illegally_multiply_defined (capsule, shape_key, key);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		} else if (need_dec &&
 				   (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
 					((use & (U_MULT | U_DECD)) == U_MULT))) {
-			E_defined_but_not_declared (capsule, shape_key, key);
+			MSG_defined_but_not_declared (capsule, shape_key, key);
 			THROW (XX_capsule_error);
 			UNREACHED;
 		}
@@ -604,7 +605,7 @@ capsule_read_usage(CapsuleP capsule, NameDataP entry,
 			CapsuleP definition = name_entry_get_definition (name_entry);
 			CStringP prev_name  = capsule_name (definition);
 
-			E_multiply_defined (capsule, shape_key, key, prev_name);
+			MSG_multiply_defined (capsule, shape_key, key, prev_name);
 		} else if ((use & U_MULT) && (name_use & U_MULT) &&
 				   (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
 			name_entry_set_definition (name_entry, NIL (CapsuleP));
@@ -681,20 +682,20 @@ capsule_read_tld_unit_header(CapsuleP capsule,
     TDFReaderP reader = capsule_reader (capsule);
 
     if (tdf_read_int (reader) != 1) {
-		E_too_many_tld_units (capsule);
+		MSG_too_many_tld_units (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
     debug_info_r_start_units (unit_set, (unsigned) 1);
     debug_info_r_start_unit (unit_set, (unsigned) 1, (unsigned) 1);
     if (tdf_read_int (reader) != 0) {
-		E_too_many_tld_unit_counts (capsule);
+		MSG_too_many_tld_unit_counts (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
     debug_info_r_start_counts ((unsigned) 0);
     if (tdf_read_int (reader) != 0) {
-		E_too_many_tld_unit_mappings (capsule);
+		MSG_too_many_tld_unit_mappings (capsule);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -714,7 +715,7 @@ capsule_read_tld_unit_trailer(CapsuleP capsule)
 
     tdf_read_align (reader);
     if (correct != offset) {
-		E_tld_unit_wrong_size (capsule, correct, offset);
+		MSG_tld_unit_wrong_size (capsule, correct, offset);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -752,7 +753,7 @@ capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
     capsule_read_tld_unit_header (capsule, key);
     unit_type = tdf_read_int (reader);
     if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
-		E_unknown_tld_unit_type (capsule, unit_type);
+		MSG_unknown_tld_unit_type (capsule, unit_type);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -771,7 +772,7 @@ capsule_read_unit_counts(CapsuleP capsule,
 			 UnitP unit, unsigned unit_num)
 {
     if ((num_counts != 0) && (num_counts != num_shapes)) {
-		E_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
+		MSG_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
 								   unit_entry_key (unit_entry));
 		THROW (XX_capsule_error);
 		UNREACHED;
@@ -809,7 +810,7 @@ capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
     unsigned   i;
 
     if (num_link_shapes != num_counts) {
-		E_unit_mapping_num_mismatch (capsule, num_link_shapes, num_counts,
+		MSG_unit_mapping_num_mismatch (capsule, num_link_shapes, num_counts,
 									 unit_num, unit_entry_key (unit_entry));
 		THROW (XX_capsule_error);
 		UNREACHED;
@@ -830,7 +831,7 @@ capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
 			unsigned *id_maps  = shapes_vec [i].id_maps;
 
 			if (external >= num_ids) {
-				E_id_out_of_range (capsule, external, num_ids, key, unit_num,
+				MSG_id_out_of_range (capsule, external, num_ids, key, unit_num,
 								   unit_entry_key (unit_entry));
 				THROW (XX_capsule_error);
 				UNREACHED;
@@ -909,7 +910,7 @@ capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
     unsigned   i;
 
     if ((num_units = tdf_read_int (reader)) != num_unit_sets) {
-		E_unit_set_count_mismatch (capsule, num_unit_sets, num_units);
+		MSG_unit_set_count_mismatch (capsule, num_unit_sets, num_units);
 		THROW (XX_capsule_error);
 		UNREACHED;
     }
@@ -953,7 +954,7 @@ capsule_read_unit_set_file(CStringP name)
 
     ASSERT (capsule_unit_sets == NIL (UnitSetP));
     if (!istream_open (&istream, name)) {
-		E_cannot_open_unit_set_file (name);
+		MSG_cant_open_unit_set_file (name);
 		UNREACHED;
     }
     capsule_read_unit_set_file_1 (&istream);

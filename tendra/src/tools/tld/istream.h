@@ -241,7 +241,7 @@
 #ifndef H_ISTREAM
 #define H_ISTREAM
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "exception.h"
 

@@ -70,7 +70,7 @@
 #ifndef H_EXTRACT
 #define H_EXTRACT
 
-#include "os-interface.h"
+#include "config.h"
 #include "arg-data.h"
 
 /*--------------------------------------------------------------------------*/

@@ -69,6 +69,7 @@
 /****************************************************************************/
 
 #include "dalloc.h"
+#include "msgcat.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -87,13 +88,13 @@ ExceptionP XX_dalloc_no_memory = EXCEPTION ("cannot allocate memory");
 typedef struct DallocDataT {
     CStringP			file;
     unsigned			line;
-    SizeT			size;
+    size_t			size;
     int				magic;
 } DallocDataT, *DallocDataP;
 
 /*--------------------------------------------------------------------------*/
 
-static SizeT dalloc_data_size = ALIGN (sizeof (DallocDataT));
+static size_t dalloc_data_size = ALIGN (sizeof (DallocDataT));
 
 /*--------------------------------------------------------------------------*/
 
@@ -106,7 +107,7 @@ static SizeT dalloc_data_size = ALIGN (sizeof (DallocDataT));
 /*--------------------------------------------------------------------------*/
 
 GenericP
-X__dalloc_allocate(SizeT size, SizeT length,
+X__dalloc_allocate(size_t size, size_t length,
 				   CStringP file, unsigned line)
 {
     GenericP tmp;
@@ -115,7 +116,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
     if (length == 0) {
 		tmp = NIL (GenericP);
     } else {
-		SizeT        real_size = (((size) * length) + dalloc_data_size);
+		size_t        real_size = (((size) * length) + dalloc_data_size);
 		vm_address_t address;
 		DallocDataP  data;
 		ByteP        base;
@@ -148,11 +149,11 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
 		kern_return_t result;
 
 		if (data->magic == 0) {
-			E_dalloc_multi_deallocate (ptr, file, line, data->file,
+			MSG_dalloc_multi_deallocate (ptr, file, line, data->file,
 									   data->line);
 			UNREACHED;
 		} else if (data->magic != DALLOC_MAGIC) {
-			E_dalloc_corrupt_block (ptr, file, line);
+			MSG_dalloc_corrupt_block (ptr, file, line);
 			UNREACHED;
 		}
 		data->magic = 0;
@@ -164,7 +165,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
 #else
 
 GenericP
-X__dalloc_allocate(SizeT size, SizeT length,
+X__dalloc_allocate(size_t size, size_t length,
 				   CStringP file, unsigned line)
 {
     GenericP tmp;
@@ -173,7 +174,7 @@ X__dalloc_allocate(SizeT size, SizeT length,
     if (length == 0) {
 		tmp = NIL (GenericP);
     } else {
-		SizeT       real_size = ((size * length) + dalloc_data_size);
+		size_t       real_size = ((size * length) + dalloc_data_size);
 		ByteP       base;
 		DallocDataP data;
 
@@ -201,11 +202,11 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
 		DallocDataP data    = (DallocDataP) (pointer - dalloc_data_size);
 
 		if (data->magic == 0) {
-			E_dalloc_multi_deallocate (ptr, file, line, data->file,
+			MSG_dalloc_multi_deallocate (ptr, file, line, data->file,
 									   data->line);
 			UNREACHED;
 		} else if (data->magic != DALLOC_MAGIC) {
-			E_dalloc_corrupt_block (ptr, file, line);
+			MSG_dalloc_corrupt_block (ptr, file, line);
 			UNREACHED;
 		}
 		data->magic = 0;
@@ -218,7 +219,7 @@ X__dalloc_deallocate(GenericP ptr, CStringP file,
 #else
 
 GenericP
-X__dalloc_allocate(SizeT size, SizeT length)
+X__dalloc_allocate(size_t size, size_t length)
 {
     GenericP tmp;
 

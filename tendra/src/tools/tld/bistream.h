@@ -175,7 +175,7 @@
 #ifndef H_BISTREAM
 #define H_BISTREAM
 
-#include "os-interface.h"
+#include "config.h"
 #include "exception.h"
 
 /*--------------------------------------------------------------------------*/

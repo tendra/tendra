@@ -68,9 +68,11 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "shape-entry.h"
 #include "debug.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "unit-table.h"
 
 #include "solve-cycles.h"
@@ -120,7 +122,7 @@ unsigned
 shape_entry_next_id(ShapeEntryP entry)
 {
     if (entry->id_count == UINT_MAX) {
-		E_too_many_ids ();
+		MSG_too_many_ids ();
     }
     return (entry->id_count ++);
 }

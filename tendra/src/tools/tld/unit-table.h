@@ -70,7 +70,7 @@
 #ifndef H_UNIT_TABLE
 #define H_UNIT_TABLE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "unit-entry.h"

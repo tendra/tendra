@@ -155,7 +155,7 @@
 #ifndef H_BOSTREAM
 #define H_BOSTREAM
 
-#include "os-interface.h"
+#include "config.h"
 #include "exception.h"
 
 /*--------------------------------------------------------------------------*/

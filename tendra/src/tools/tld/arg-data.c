@@ -70,7 +70,7 @@
 
 #include "arg-data.h"
 #include "capsule.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 
 #include "solve-cycles.h"
 
@@ -114,7 +114,7 @@ shape_control_entry_add_name(ShapeControlEntryP entry,
     if (name_key_parse_cstring (&key, name)) {
 		name_key_list_add (&(entry->names), &key);
     } else {
-		E_illegal_external_name (name);
+		MSG_illegal_external_name (name);
     }
 }
 
@@ -167,11 +167,11 @@ rename_control_entry_parse_pair(RenameControlEntryP entry,
     NameKeyT to_key;
 
     if (!name_key_parse_cstring (&from_key, from)) {
-		E_illegal_external_name (from);
+		MSG_illegal_external_name (from);
     } else if (!name_key_parse_cstring (&to_key, to)) {
-		E_illegal_external_name (to);
+		MSG_illegal_external_name (to);
     } else if (!name_key_pair_list_add (&(entry->names), &from_key, &to_key)) {
-		E_multiply_renamed_name (shape, &from_key);
+		MSG_multiply_renamed_name (shape, &from_key);
 		name_key_destroy (&from_key);
 		name_key_destroy (&to_key);
     }
@@ -340,7 +340,7 @@ arg_data_add_rename(ArgDataP arg_data, NStringP shape,
     entry = rename_control_find (&(arg_data->renames), shape);
     names = rename_control_entry_names (entry);
     if (!name_key_pair_list_add (names, from, to)) {
-		E_multiply_renamed_name (shape, from);
+		MSG_multiply_renamed_name (shape, from);
 		name_key_destroy (from);
 		name_key_destroy (to);
     }
@@ -448,11 +448,11 @@ arg_data_set_debug_file(ArgDataP arg_data,
 						CStringP debug_file)
 {
     if (ostream_is_open (&(arg_data->debug_file))) {
-		E_tld_multiple_debug_files ();
+		MSG_tld_multiple_debug_files ();
 		UNREACHED;
     }
     if (!ostream_open (&(arg_data->debug_file), debug_file)) {
-		E_tld_cannot_open_debug_file (debug_file);
+		MSG_tld_cannot_open_debug_file (debug_file);
 		UNREACHED;
     }
 }
@@ -468,7 +468,7 @@ arg_data_set_output_file(ArgDataP arg_data,
 						 CStringP output_file)
 {
     if (arg_data->output_file) {
-		E_tld_multiple_output_files ();
+		MSG_tld_multiple_output_files ();
 		UNREACHED;
     }
     arg_data->output_file = output_file;
@@ -554,7 +554,7 @@ arg_data_set_unit_file(ArgDataP arg_data,
 					   CStringP unit_file)
 {
     if (arg_data->unit_file) {
-		E_tld_multiple_unit_files ();
+		MSG_tld_multiple_unit_files ();
 		UNREACHED;
     }
     arg_data->unit_file = unit_file;

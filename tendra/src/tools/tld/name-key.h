@@ -70,7 +70,7 @@
 #ifndef H_NAME_KEY
 #define H_NAME_KEY
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "dstring.h"
 #include "ostream.h"

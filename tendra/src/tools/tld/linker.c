@@ -70,12 +70,12 @@
 #include "linker.h"
 #include "capsule.h"
 #include "debug.h"
-#include "error.h"
 #include "file-name.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "library.h"
 #include "shape-table.h"
 #include "tdf.h"
+#include "tenapp.h"
 #include "unit-table.h"
 
 #include "solve-cycles.h"
@@ -124,10 +124,7 @@ linker_rename(ArgDataP arg_data, ShapeTableP shapes,
     closure.lib_shapes = lib_shapes;
     rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
 						 (GenericP) &closure);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -146,13 +143,10 @@ linker_read_capsules(ArgDataP arg_data, UnitTableP units,
 			capsule_read (capsule, units, shapes);
 			capsule_close (capsule);
 		} else {
-			E_cannot_open_input_file (input_files [i]);
+			MSG_cant_open_input_file (input_files [i]);
 		}
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -180,11 +174,11 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 					DEALLOCATE (name);
 				}
 			}
-			E_cannot_open_library_file (files [i]);
+			MSG_cant_open_library_file (files [i]);
 		} else {
 			if ((library = library_create_stream_input (files [i])) ==
 				NIL (LibraryP)) {
-				E_cannot_open_library_file (files [i]);
+				MSG_cant_open_library_file (files [i]);
 			}
 		}
       found:
@@ -193,10 +187,7 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 			library_close (library);
 		}
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -234,10 +225,7 @@ linker_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
     }
     shape_control_iter (arg_data_get_suppresses (arg_data), linker_suppress_1,
 						(GenericP) lib_shapes);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -255,10 +243,7 @@ linker_resolve_undefined(UnitTableP units,
 		shape_table_iter (shapes, shape_entry_resolve_undefined,
 						  (GenericP) &closure);
     } while (closure.did_define);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -269,7 +254,7 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
     ShapeEntryP entry  = shape_table_get (shapes, shape);
 
     if (entry == NIL (ShapeEntryP)) {
-		E_cannot_hide_shape (shape);
+		MSG_cant_hide_shape (shape);
     } else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
@@ -282,12 +267,12 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
 			NameEntryP name_entry = name_table_get (table, key);
 
 			if (name_entry == NIL (NameEntryP)) {
-				E_cannot_hide (shape, key);
+				MSG_cant_hide (shape, key);
 			} else if (name_entry_get_use (name_entry) & U_DEFD) {
 				debug_info_l_hide (shape, key);
 				name_entry_hide (name_entry);
 			} else {
-				E_cannot_hide_undefined (shape, key);
+				MSG_cant_hide_undefined (shape, key);
 			}
 		}
     }
@@ -301,7 +286,7 @@ linker_keep(NStringP shape, BoolT all, NameKeyListP names,
     ShapeEntryP entry  = shape_table_get (shapes, shape);
 
     if (entry == NIL (ShapeEntryP)) {
-		E_cannot_keep_shape (shape);
+		MSG_cant_keep_shape (shape);
     } else {
 		NameTableP        table = shape_entry_name_table (entry);
 		NameKeyListEntryP name  = name_key_list_head (names);
@@ -314,7 +299,7 @@ linker_keep(NStringP shape, BoolT all, NameKeyListP names,
 			NameEntryP name_entry = name_table_get (table, key);
 
 			if (name_entry == NIL (NameEntryP)) {
-				E_cannot_keep (shape, key);
+				MSG_cant_keep (shape, key);
 			} else {
 				debug_info_l_keep (shape, key);
 				name_entry_unhide (name_entry);
@@ -333,10 +318,7 @@ linker_hide_and_keep(ArgDataP arg_data, ShapeTableP shapes)
 						(GenericP) shapes);
     shape_control_iter (arg_data_get_keeps (arg_data), linker_keep,
 						(GenericP) shapes);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -351,13 +333,10 @@ linker_write_capsule(ArgDataP arg_data, UnitTableP units,
 		capsule_write (capsule, units, shapes);
 		capsule_close (capsule);
     } else {
-		E_cannot_open_output_file (output_file);
+		MSG_cant_open_output_file (output_file);
 		UNREACHED;
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,40 +63,25 @@
  *
  * This file implements the command line argument parsing routines specified
  * in "arg-parse.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
 #include "arg-parse.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 
 /*--------------------------------------------------------------------------*/
 
-void
-arg_parse_intern_descriptions(ArgListP arg_list)
-{
-    while ((arg_list->name != NIL (CStringP)) ||
-		   (arg_list->short_name != '\0')) {
-		EStringP estring = error_lookup_string (arg_list->u.name);
-
-		ASSERT (estring != NIL (EStringP));
-		arg_list->u.message = estring;
-		arg_list ++;
-    }
-}
-
 int
-arg_parse_arguments(ArgListP arg_list, EStringP usage,
-					int argc, char **argv)
+arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 {
-    int       tmp_argc = argc;
-    char    **tmp_argv = argv;
-    ArgUsageT closure;
-
-    closure.usage    = error_string_contents (usage);
-    closure.arg_list = arg_list;
-    while (tmp_argc) {
+	int       tmp_argc = argc;
+	char    **tmp_argv = argv;
+	ArgUsageT closure;
+  	
+	closure.usage = usageid;
+	closure.arg_list = arg_list;
+	while (tmp_argc) {
 		CStringP option = (tmp_argv [0]);
 		char     c      = (option [0]);
 
@@ -143,10 +128,10 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 				tmp_list ++;
 			}
 			if (matches == 0) {
-				E_arg_parse_unknown_option (option, &closure);
+				MSG_arg_parse_unknown_option (option, &closure);
 				UNREACHED;
 			} else if (matches > 1) {
-				E_arg_parse_ambiguous_option (option, &closure);
+				MSG_arg_parse_ambiguous_option (option, &closure);
 				UNREACHED;
 			} else {
 				switch (chosen->type) EXHAUSTIVE {
@@ -165,7 +150,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 						(*(chosen->proc)) (option, &closure, chosen->closure,
 										   immediate);
 					} else {
-						E_arg_parse_unknown_option (option, &closure);
+						MSG_arg_parse_unknown_option (option, &closure);
 						UNREACHED;
 					}
 					break;
@@ -176,26 +161,26 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 											   chosen->closure, immediate);
 						} else if (tmp_argc > 1) {
 							tmp_argv ++;
-							tmp_argc --;
+							tmp_argc--;
 							(*(chosen->proc)) (option, &closure,
 											   chosen->closure, tmp_argv [0]);
 						} else {
-							E_arg_parse_missing_argument (option, &closure);
+							MSG_arg_parse_missing_argument (option, &closure);
 							UNREACHED;
 						}
 					} else {
-						E_arg_parse_unknown_option (option, &closure);
+						MSG_arg_parse_unknown_option (option, &closure);
 						UNREACHED;
 					}
 					break;
 				case AT_FOLLOWING:
 					if (tmp_argc > 1) {
-						tmp_argv ++;
-						tmp_argc --;
+						tmp_argv++;
+						tmp_argc--;
 						(*(chosen->proc)) (option, &closure, chosen->closure,
 										   tmp_argv [0]);
 					} else {
-						E_arg_parse_missing_argument (option, &closure);
+						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
 					}
 					break;
@@ -209,7 +194,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 						(*(chosen->proc)) (option, &closure, chosen->closure,
 										   tmp_argv [-1], tmp_argv [0]);
 					} else {
-						E_arg_parse_missing_argument (option, &closure);
+						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
 					}
 					break;
@@ -221,7 +206,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 										   tmp_argv [-2], tmp_argv [-1],
 										   tmp_argv [0]);
 					} else {
-						E_arg_parse_missing_argument (option, &closure);
+						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
 					}
 					break;
@@ -231,7 +216,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 				   ((c == '+') && (option [1] == '-')) ||
 				   ((c == '-') && (option [1] == '\0')) ||
 				   ((c == '+') && (option [1] == '\0'))) {
-			E_arg_parse_unknown_option (option, &closure);
+			MSG_arg_parse_unknown_option (option, &closure);
 			UNREACHED;
 		} else if ((c == '-') || (c == '+')) {
 			CStringP opt = &(option [1]);
@@ -271,11 +256,11 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 											   opt + 1);
 						} else if (tmp_argc > 1) {
 							tmp_argv ++;
-							tmp_argc --;
+							tmp_argc--;
 							(*(chosen->proc)) (opt, &closure, chosen->closure,
 											   tmp_argv [0]);
 						} else {
-							E_arg_parse_missing_short_arg (option, opt,
+							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
 							UNREACHED;
 						}
@@ -283,12 +268,12 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 						break;
 					case AT_FOLLOWING:
 						if (tmp_argc > 1) {
-							tmp_argv ++;
-							tmp_argc --;
+							tmp_argv++;
+							tmp_argc--;
 							(*(chosen->proc)) (opt, &closure, chosen->closure,
 											   tmp_argv [0]);
 						} else {
-							E_arg_parse_missing_short_arg (option, opt,
+							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
 							UNREACHED;
 						}
@@ -303,7 +288,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 							(*(chosen->proc)) (opt, &closure, chosen->closure,
 											   tmp_argv [-1], tmp_argv [0]);
 						} else {
-							E_arg_parse_missing_short_arg (option, opt,
+							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
 							UNREACHED;
 						}
@@ -316,14 +301,14 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 											   tmp_argv [-2], tmp_argv [-1],
 											   tmp_argv [0]);
 						} else {
-							E_arg_parse_missing_short_arg (option, opt,
+							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
 							UNREACHED;
 						}
 						break;
 					}
 				} else {
-					E_arg_parse_unknown_short_opt (option, opt, &closure);
+					MSG_arg_parse_unknown_short_opt (option, opt, &closure);
 					UNREACHED;
 				}
 				if (opt) {
@@ -334,40 +319,33 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			return (argc - tmp_argc);
 		}
 		tmp_argv ++;
-		tmp_argc --;
+		tmp_argc--;
     }
     return (argc);
 }
 
 void
-write_arg_usage(OStreamP ostream, ArgUsageP closure)
+write_arg_usage(ArgUsageP closure)
 {
-    CStringP usage    = (closure->usage);
-    ArgListP arg_list = (closure->arg_list);
-
-    write_cstring (ostream, usage);
-    while ((arg_list->name != NIL (CStringP)) ||
+	ArgListP arg_list = (closure->arg_list);
+	
+	msg_append_string (msg_get_raw (closure->usage));
+	while ((arg_list->name != NIL (CStringP)) ||
 		   (arg_list->short_name != '\0')) {
-		CStringP desc = error_string_contents (arg_list->u.message);
-
+		const char * desc = msg_get_raw (arg_list->msgid);
+		
 		if (arg_list->name) {
-			write_newline (ostream);
-			write_cstring (ostream, "    {--|++}");
-			write_cstring (ostream, arg_list->name);
-			write_cstring (ostream, desc);
+			msg_append_newline();
+			msg_append_string("    {--|++}");
+			msg_append_string(arg_list->name);
+			msg_append_string(desc);
 		}
 		if (arg_list->short_name != '\0') {
-			write_newline (ostream);
-			write_cstring (ostream, "    {-|+}");
-			write_char (ostream, arg_list->short_name);
-			write_cstring (ostream, desc);
+			msg_append_newline();
+			msg_append_string("    {-|+}");
+			msg_append_char(arg_list->short_name);
+			msg_append_string(desc);
 		}
 		arg_list ++;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

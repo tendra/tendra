@@ -79,10 +79,11 @@
 
 #include "rename-file.h"
 #include "dstring.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "istream.h"
 #include "nstring-list.h"
 #include "syntax.h"
+#include "tenapp.h"
 
 #include "solve-cycles.h"
 
@@ -171,7 +172,7 @@ rename_file_read_unique(IStreamP istream,
 			break;
 		case '\n':
 			istream_inc_line (istream);
-			E_rename_unexpected_newline (istream);
+			MSG_rename_unexpected_newline (istream);
 			break;
 		case ']':
 			dstring_to_nstring (&dstring, &nstring);
@@ -187,7 +188,7 @@ rename_file_read_unique(IStreamP istream,
 			token->tag = RTOK_NAME;
 			return;
 		case '[':
-			E_rename_illegal_char (istream, c);
+			MSG_rename_illegal_char (istream, c);
 			break;
 		case '.':
 			dstring_to_nstring (&dstring, &nstring);
@@ -202,7 +203,7 @@ rename_file_read_unique(IStreamP istream,
 				dstring_append_char (&dstring, c);
 				break;
 			case ISTREAM_STAT_SYNTAX_ERROR:
-				E_rename_illegal_escape (istream);
+				MSG_rename_illegal_escape (istream);
 				break;
 			case ISTREAM_STAT_NO_CHAR:
 				/*NOTHING*/
@@ -215,7 +216,7 @@ rename_file_read_unique(IStreamP istream,
 		}
     }
   eof:
-    E_rename_unexpected_eof (istream);
+    MSG_rename_unexpected_eof (istream);
     dstring_destroy (&dstring);
     for (entry = nstring_list_head (&list); entry;
 		 entry = nstring_list_entry_deallocate (entry)) {
@@ -241,7 +242,7 @@ rename_file_read_shape(IStreamP istream, RenameTokenP token)
 			break;
 		case '\n':
 			istream_inc_line (istream);
-			E_rename_unexpected_newline (istream);
+			MSG_rename_unexpected_newline (istream);
 			break;
 		case '\'':
 			dstring_to_nstring (&dstring, &(token->u.shape));
@@ -254,7 +255,7 @@ rename_file_read_shape(IStreamP istream, RenameTokenP token)
 				dstring_append_char (&dstring, c);
 				break;
 			case ISTREAM_STAT_SYNTAX_ERROR:
-				E_rename_illegal_escape (istream);
+				MSG_rename_illegal_escape (istream);
 				break;
 			case ISTREAM_STAT_NO_CHAR:
 				/*NOTHING*/
@@ -267,7 +268,7 @@ rename_file_read_shape(IStreamP istream, RenameTokenP token)
 		}
     }
   eof:
-    E_rename_unexpected_eof (istream);
+    MSG_rename_unexpected_eof (istream);
     dstring_destroy (&dstring);
     token->tag = RTOK_EOF;
 }
@@ -291,7 +292,7 @@ rename_file_read_string(IStreamP istream,
 			break;
 		case '\n':
 			istream_inc_line (istream);
-			E_rename_unexpected_newline (istream);
+			MSG_rename_unexpected_newline (istream);
 			break;
 		case '"':
 			dstring_to_nstring (&dstring, &nstring);
@@ -300,7 +301,7 @@ rename_file_read_string(IStreamP istream,
 			token->tag = RTOK_NAME;
 			return;
 		case '[': case ']': case '.':
-			E_rename_illegal_char (istream, c);
+			MSG_rename_illegal_char (istream, c);
 			break;
 		case '\\':
 			switch (istream_read_escaped_char (istream, &c)) EXHAUSTIVE {
@@ -308,7 +309,7 @@ rename_file_read_string(IStreamP istream,
 				dstring_append_char (&dstring, c);
 				break;
 			case ISTREAM_STAT_SYNTAX_ERROR:
-				E_rename_illegal_escape (istream);
+				MSG_rename_illegal_escape (istream);
 				break;
 			case ISTREAM_STAT_NO_CHAR:
 				/*NOTHING*/
@@ -321,7 +322,7 @@ rename_file_read_string(IStreamP istream,
 		}
     }
   eof:
-    E_rename_unexpected_eof (istream);
+    MSG_rename_unexpected_eof (istream);
     dstring_destroy (&dstring);
     token->tag = RTOK_EOF;
 }
@@ -347,7 +348,7 @@ rename_file_next_token(IStreamP istream, RenameTokenP token)
 			token->tag = RTOK_SEMI;
 			break;
 		default:
-			E_rename_illegal_char (istream, c);
+			MSG_rename_illegal_char (istream, c);
 			goto again;
 		}
     } else {
@@ -367,7 +368,7 @@ rename_file_parse_names(IStreamP istream,
 		name_key_assign (&name, &(token->u.name));
 		rename_file_next_token (istream, token);
 		if (token->tag != RTOK_NAME) {
-			E_rename_expected_name (istream);
+			MSG_rename_expected_name (istream);
 			name_key_destroy (&name);
 			if (token->tag != RTOK_SEMI) {
 				return;
@@ -380,7 +381,7 @@ rename_file_parse_names(IStreamP istream,
 			arg_data_add_rename (arg_data, shape, &name, &to_name);
 			rename_file_next_token (istream, token);
 			if (token->tag != RTOK_SEMI) {
-				E_rename_expected_semi (istream);
+				MSG_rename_expected_semi (istream);
 			} else {
 				rename_file_next_token (istream, token);
 			}
@@ -409,7 +410,7 @@ rename_file_parse_1(IStreamP istream, ArgDataP arg_data)
 			FALL_THROUGH;
 		default:
 			if (need_error) {
-				E_rename_expected_shape (istream);
+				MSG_rename_expected_shape (istream);
 				need_error = FALSE;
 			}
 			rename_file_next_token (istream, &token);
@@ -429,12 +430,9 @@ rename_file_parse(CStringP name, ArgDataP arg_data)
 		rename_file_parse_1 (&istream, arg_data);
 		istream_close (&istream);
     } else {
-		E_cannot_open_rename_file (name);
+		MSG_cant_open_rename_file (name);
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*

@@ -332,11 +332,11 @@ istream_close(IStreamP istream)
 void
 X__istream_fill_buffer(IStreamP istream)
 {
-    SizeT bytes = fread ((GenericP) (istream->buffer), sizeof (char),
-						 (SizeT) (ISTREAM_BUFSIZE - 1), istream->file);
+    size_t bytes = fread ((GenericP) (istream->buffer), sizeof (char),
+						 (size_t) (ISTREAM_BUFSIZE - 1), istream->file);
 
-    if ((bytes == (SizeT) 0) && (ferror (istream->file))) {
-		CStringP name = cstring_duplicate (istream->name);
+    if ((bytes == (size_t) 0) && (ferror (istream->file))) {
+		CStringP name = string_copy (istream->name);
 
 		THROW_VALUE (XX_istream_read_error, name);
 		UNREACHED;

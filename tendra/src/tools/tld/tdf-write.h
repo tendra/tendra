@@ -70,7 +70,7 @@
 #ifndef H_TDF_WRITE
 #define H_TDF_WRITE
 
-#include "os-interface.h"
+#include "config.h"
 #include "bostream.h"
 #include "dstring.h"
 #include "name-key.h"

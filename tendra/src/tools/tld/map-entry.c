@@ -69,6 +69,7 @@
 /****************************************************************************/
 
 #include "map-entry.h"
+#include "msgcat.h"
 #include "shape-table.h"
 
 #include "solve-cycles.h"

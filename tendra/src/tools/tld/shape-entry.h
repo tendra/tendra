@@ -70,7 +70,7 @@
 #ifndef H_SHAPE_ENTRY
 #define H_SHAPE_ENTRY
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "map-table.h"

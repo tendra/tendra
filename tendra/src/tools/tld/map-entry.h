@@ -70,7 +70,7 @@
 #ifndef H_MAP_ENTRY
 #define H_MAP_ENTRY
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 

@@ -70,7 +70,7 @@
 #ifndef H_SHAPE_TABLE
 #define H_SHAPE_TABLE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "shape-entry.h"

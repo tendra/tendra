@@ -70,7 +70,7 @@
 #ifndef H_TDF
 #define H_TDF
 
-#include "os-interface.h"
+#include "config.h"
 #include "ostream.h"
 
 /*--------------------------------------------------------------------------*/

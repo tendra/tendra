@@ -70,7 +70,7 @@
 #ifndef H_TDF_READ
 #define H_TDF_READ
 
-#include "os-interface.h"
+#include "config.h"
 #include "bistream.h"
 #include "dstring.h"
 #include "exception.h"

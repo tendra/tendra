@@ -70,7 +70,7 @@
 #ifndef H_NAME_ENTRY
 #define H_NAME_ENTRY
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "name-key.h"
 

@@ -125,7 +125,7 @@
 #ifndef H_NSTRING_LIST
 #define H_NSTRING_LIST
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 

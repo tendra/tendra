@@ -192,7 +192,7 @@
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
  *		NIL (GenericP),
- *		UB "option description name" UE
+ *		{ "option description name" }
  *	    }, ARG_PARSE_END_LIST
  *	};
  *
@@ -245,33 +245,19 @@
  ** Exceptions:
  *
  * This macro should be used to terminate an option list.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
 #ifndef H_ARG_PARSE
 #define H_ARG_PARSE
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
-#include "error.h"
 #include "ostream.h"
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int ArgTypeT, *ArgTypeP;
-#define AT_SWITCH	(0)
-#define AT_NEG_SWITCH	(1)
-#define AT_PROC_SWITCH	(2)
-#define AT_IMMEDIATE	(3)
-#define AT_EITHER	(4)
-#define AT_FOLLOWING	(5)
-#define AT_EMPTY	(6)
-#define AT_FOLLOWING2	(7)
-#define AT_FOLLOWING3	(8)
-#else
 typedef enum {
     AT_SWITCH,
     AT_NEG_SWITCH,
@@ -283,11 +269,10 @@ typedef enum {
     AT_FOLLOWING2,
     AT_FOLLOWING3
 } ArgTypeT, *ArgTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 struct ArgListT;
 typedef struct ArgUsageT {
-    CStringP			usage;
+    int			usage;
     struct ArgListT	       *arg_list;
 } ArgUsageT, *ArgUsageP;
 
@@ -299,29 +284,19 @@ typedef struct ArgListT {
     ArgTypeT			type;
     ArgProcP			proc;
     GenericP			closure;
-    UNION {
-		CStringP		name;
-		EStringP		message;
-    } u;
+    int			msgid;
 } ArgListT, *ArgListP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			arg_parse_intern_descriptions(ArgListP);
-extern int			arg_parse_arguments(ArgListP, EStringP, int, char **);
+int	arg_parse_arguments(ArgListP, int, int, char **);
 
-extern void			write_arg_usage(OStreamP, ArgUsageP);
+void	write_arg_usage(ArgUsageP);
 
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
- UB NIL (CStringP) UE}
+	{NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
+	0}
 
 #endif /* !defined (H_ARG_PARSE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

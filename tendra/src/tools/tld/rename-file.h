@@ -70,7 +70,7 @@
 #ifndef H_RENAME_FILE
 #define H_RENAME_FILE
 
-#include "os-interface.h"
+#include "config.h"
 #include "arg-data.h"
 #include "cstring.h"
 

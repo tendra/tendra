@@ -70,7 +70,7 @@
 #ifndef H_DEBUG
 #define H_DEBUG
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "dstring.h"
 #include "name-key.h"

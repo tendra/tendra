@@ -68,7 +68,7 @@
 /****************************************************************************/
 
 #include "tdf-write.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "ostream.h"
 
 #include "solve-cycles.h"

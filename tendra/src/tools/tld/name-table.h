@@ -70,7 +70,7 @@
 #ifndef H_NAME_TABLE
 #define H_NAME_TABLE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "name-entry.h"

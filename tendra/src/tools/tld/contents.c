@@ -69,8 +69,9 @@
 /****************************************************************************/
 
 #include "contents.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "library.h"
+#include "tenapp.h"
 
 #include "solve-cycles.h"
 
@@ -87,7 +88,7 @@ contents_main(ArgDataP arg_data)
     LibraryP  library;
 
     if (num_files != 1) {
-		E_too_many_library_files ();
+		MSG_too_many_library_files ();
 		UNREACHED;
     }
     if ((library = library_create_stream_input (files [0])) !=
@@ -96,12 +97,9 @@ contents_main(ArgDataP arg_data)
 						 content_version);
 		library_close (library);
     } else {
-		E_cannot_open_input_file (files [0]);
+		MSG_cant_open_input_file (files [0]);
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*

@@ -67,8 +67,10 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "tdf-read.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "ostream.h"
 
 #include "solve-cycles.h"
@@ -89,7 +91,7 @@ tdf_read_nibble(TDFReaderP reader)
 				reader->new_byte = FALSE;
 				return (((unsigned) reader->byte >> 4) & 0xF);
 			}
-			E_unexpected_eof_in_tdf (reader);
+			MSG_unexpected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		case RT_STRING:
@@ -99,7 +101,7 @@ tdf_read_nibble(TDFReaderP reader)
 				reader->u.string.byte ++;
 				return (((unsigned) reader->byte >> 4) & 0xF);
 			}
-			E_unexpected_eof_in_tdf (reader);
+			MSG_unexpected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
@@ -171,7 +173,7 @@ tdf_read_int(TDFReaderP reader)
 		unsigned nibble = tdf_read_nibble (reader);
 
 		if (value > limit) {
-			E_tdf_integer_too_big_in_tdf (reader);
+			MSG_tdf_integer_too_big_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
@@ -200,14 +202,14 @@ tdf_read_bytes(TDFReaderP reader, NStringP nstring)
 	case RT_STREAM:
 		if (bistream_read_chars (&(reader->u.bistream), length, contents) !=
 			length) {
-			E_unexpected_eof_in_tdf (reader);
+			MSG_unexpected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
 		break;
 	case RT_STRING:
 		if ((reader->u.string.current + length) > reader->u.string.limit) {
-			E_unexpected_eof_in_tdf (reader);
+			MSG_unexpected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
@@ -225,7 +227,7 @@ tdf_read_string(TDFReaderP reader, NStringP nstring)
     unsigned length;
 
     if (size != 8) {
-		E_unsupported_char_size_in_tdf (reader, size);
+		MSG_unsupported_char_size_in_tdf (reader, size);
 		THROW (XX_tdf_read_error);
 		UNREACHED;
     }
@@ -257,7 +259,7 @@ tdf_read_name(TDFReaderP reader, NameKeyP name)
 		}
 		break;
 	default:
-		E_bad_name_type_in_tdf (reader, type);
+		MSG_bad_name_type_in_tdf (reader, type);
 		THROW (XX_tdf_read_error);
 		UNREACHED;
     }
@@ -271,14 +273,14 @@ tdf_read_eof(TDFReaderP reader)
     switch (reader->type) EXHAUSTIVE {
 	case RT_STREAM:
 		if (bistream_read_byte (&(reader->u.bistream), &byte)) {
-			E_expected_eof_in_tdf (reader);
+			MSG_expected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}
 		break;
 	case RT_STRING:
 		if (reader->u.string.current < reader->u.string.limit) {
-			E_expected_eof_in_tdf (reader);
+			MSG_expected_eof_in_tdf (reader);
 			THROW (XX_tdf_read_error);
 			UNREACHED;
 		}

@@ -70,7 +70,7 @@
 #ifndef H_BUILDER
 #define H_BUILDER
 
-#include "os-interface.h"
+#include "config.h"
 #include "arg-data.h"
 
 /*--------------------------------------------------------------------------*/

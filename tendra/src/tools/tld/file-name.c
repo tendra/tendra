@@ -76,24 +76,24 @@
 CStringP
 file_name_basename(CStringP path)
 {
-    CStringP last = cstring_find_reverse (path, '/');
+    CStringP last = strrchr (path, '/');
 
     if (last) {
-		return (cstring_duplicate (last + 1));
+		return (string_copy (last + 1));
     } else {
-		return (cstring_duplicate (path));
+		return (string_copy (path));
     }
 }
 
 CStringP
 file_name_dirname(CStringP path)
 {
-    CStringP last = cstring_find_reverse (path, '/');
+    CStringP last = strrchr (path, '/');
 
     if (last) {
-		return (cstring_duplicate_prefix (path, (unsigned) (last - path)));
+		return (string_ncopy (path, (unsigned) (last - path)));
     } else {
-		return (cstring_duplicate (path));
+		return (string_copy (path));
     }
 }
 
@@ -101,9 +101,9 @@ CStringP
 file_name_expand(CStringP dir, CStringP name,
 				 CStringP suffix)
 {
-    unsigned dir_length  = cstring_length (dir);
-    unsigned name_length = cstring_length (name);
-    unsigned suf_length  = (suffix ? (cstring_length (suffix)) : 0);
+    unsigned dir_length  = strlen (dir);
+    unsigned name_length = strlen (name);
+    unsigned suf_length  = (suffix ? (strlen (suffix)) : 0);
     unsigned suf_extra   = (unsigned) (suffix ? 1 : 0);
     unsigned extra;
     unsigned length;
@@ -119,19 +119,19 @@ file_name_expand(CStringP dir, CStringP name,
     path   = ALLOCATE_VECTOR (char, length);
     tmp    = path;
     if (dir_length > 0) {
-		(void) memcpy ((GenericP) tmp, (GenericP) dir, (SizeT) dir_length);
+		(void) memcpy ((GenericP) tmp, (GenericP) dir, (size_t) dir_length);
 		tmp += dir_length;
 		if (dir [dir_length - 1] != '/') {
 			tmp [0] = '/';
 			tmp ++;
 		}
     }
-    (void) memcpy ((GenericP) tmp, (GenericP) name, (SizeT) name_length);
+    (void) memcpy ((GenericP) tmp, (GenericP) name, (size_t) name_length);
     tmp += name_length;
     if (suffix) {
 		tmp [0] = '.';
 		tmp ++;
-		(void) memcpy ((GenericP) tmp, (GenericP) suffix, (SizeT) suf_length);
+		(void) memcpy ((GenericP) tmp, (GenericP) suffix, (size_t) suf_length);
 		tmp += suf_length;
     }
     tmp [0] = '\0';
@@ -141,7 +141,7 @@ file_name_expand(CStringP dir, CStringP name,
 BoolT
 file_name_is_basename(CStringP path)
 {
-    return (!cstring_contains (path, '/'));
+    return (strchr (path, '/') == NULL);
 }
 
 BoolT

@@ -70,7 +70,7 @@
 #ifndef H_LIBRARY
 #define H_LIBRARY
 
-#include "os-interface.h"
+#include "config.h"
 #include "capsule.h"
 #include "dalloc.h"
 #include "shape-table.h"

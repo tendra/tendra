@@ -71,10 +71,10 @@
 #include "builder.h"
 #include "capsule.h"
 #include "debug.h"
-#include "error.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "library.h"
 #include "shape-table.h"
+#include "tenapp.h"
 #include "unit-table.h"
 
 #include "solve-cycles.h"
@@ -105,7 +105,7 @@ builder_read_libraries(ArgDataP arg_data,
 			shape_table_deallocate (lib_shapes);
 		} else {
 			libraries [i] = NIL (LibraryP);
-			E_cannot_open_input_file (lib_files [i]);
+			MSG_cant_open_input_file (lib_files [i]);
 		}
     }
     *num_libs_ref = num_lib_files;
@@ -123,7 +123,7 @@ builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
 
     for (i = 0; i < capsule_index; i ++) {
 		if (cstring_equal (name, capsule_name (capsules [i]))) {
-			E_duplicate_capsule_name (name);
+			MSG_duplicate_capsule_name (name);
 		}
     }
     capsule_set_index (capsule, capsule_index);
@@ -180,13 +180,11 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 								  shapes);
 			capsule_index ++;
 		} else {
-			E_cannot_open_input_file (input_files [i]);
+			MSG_cant_open_input_file (input_files [i]);
 		}
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
+
     *num_capsules_ref = num_capsules;
     return (capsules);
 }
@@ -195,10 +193,7 @@ static void
 builder_check_multi_defs(ShapeTableP shapes)
 {
     shape_table_iter (shapes, shape_entry_check_multi_defs, NIL (GenericP));
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -237,10 +232,8 @@ builder_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
     }
     shape_control_iter (arg_data_get_suppresses (arg_data), builder_suppress_1,
 						(GenericP) lib_shapes);
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
+
 }
 
 static void
@@ -256,13 +249,10 @@ builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
 		library_write (library, shapes, num_capsules, capsules);
 		library_close (library);
     } else {
-		E_cannot_open_output_file (output_file);
+		MSG_cant_open_output_file (output_file);
 		UNREACHED;
     }
-    if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-    }
+    tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/

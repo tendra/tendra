@@ -117,10 +117,10 @@ bostream_write_chars(BOStreamP bostream, unsigned length,
 					 CStringP chars)
 {
     unsigned bytes_read = (unsigned) fwrite ((GenericP) chars, sizeof (char),
-											 (SizeT) length, bostream->file);
+											 (size_t) length, bostream->file);
 
     if ((bytes_read != length) && (ferror (bostream->file))) {
-		CStringP name = cstring_duplicate (bostream->name);
+		CStringP name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
@@ -132,10 +132,10 @@ bostream_write_bytes(BOStreamP bostream, unsigned length,
 					 ByteP bytes)
 {
     unsigned bytes_read = (unsigned) fwrite ((GenericP) bytes, sizeof (ByteT),
-											 (SizeT) length, bostream->file);
+											 (size_t) length, bostream->file);
 
     if ((bytes_read != length) && (ferror (bostream->file))) {
-		CStringP name = cstring_duplicate (bostream->name);
+		CStringP name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
@@ -147,7 +147,7 @@ bostream_write_byte(BOStreamP bostream, ByteT byte)
 {
     if ((fputc ((int) byte, bostream->file) == EOF) &&
 		(ferror (bostream->file))) {
-		CStringP name = cstring_duplicate (bostream->name);
+		CStringP name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;
@@ -164,7 +164,7 @@ void
 bostream_close(BOStreamP bostream)
 {
     if (fclose (bostream->file)) {
-		CStringP name = cstring_duplicate (bostream->name);
+		CStringP name = string_copy (bostream->name);
 
 		THROW_VALUE (XX_bostream_write_error, name);
 		UNREACHED;

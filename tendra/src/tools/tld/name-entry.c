@@ -71,7 +71,7 @@
 #include "name-entry.h"
 #include "capsule.h"
 #include "debug.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "library.h"
 #include "name-table.h"
 #include "ostream.h"
@@ -157,7 +157,7 @@ name_entry_resolve_renames(NameEntryP entry,
 		return (name_entry_get_indirect (entry));
 	case NT_INDIRECT_CYCLING:
 		if (report) {
-			E_rename_cycle (shape, name_entry_key (entry));
+			MSG_rename_cycle (shape, name_entry_key (entry));
 		}
 		return (NIL (NameEntryP));
 	case NT_INDIRECT:
@@ -371,7 +371,7 @@ name_entry_check_multi_defs(NameEntryP entry,
 
     if ((name_entry_get_use (entry) & U_MULT) &&
 		(name_entry_get_definition (entry) == NIL (CapsuleP))) {
-		E_no_single_definition (shape_name, name_entry_key (entry));
+		MSG_no_single_definition (shape_name, name_entry_key (entry));
     }
 }
 
@@ -460,7 +460,7 @@ name_entry_resolve_undefined(NameEntryP entry,
 			}
 		}
     }
-    E_no_definition_found (shape_key, key);
+    MSG_no_definition_found (shape_key, key);
     debug_info_l_not_found (key, shape_key, use);
     return (FALSE);
 }
