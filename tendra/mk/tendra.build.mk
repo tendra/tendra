@@ -45,7 +45,7 @@ _REALWORK: fixenv.sed .USE
 	sed -f fixenv.sed ${.CURDIR}/${entry} > ${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
-	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/lib/env/default
+	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
 . endif
 
 _objdir=	${OBJ_DIR}/${ENVIRONMENT}
