@@ -60,40 +60,7 @@
 /**********************************************************************
  *$Author$
  *$Date$
- *$Revision$
- *$Log$
- *Revision 1.3  2002/12/18 06:28:09  nonce
- *Added elf support for freebsd.  At present, the freebsd a.out asm
- *improperly issues '.align' arguments.  So, in the interim, elf output
- *is the default.
- *
- *The patches are largely based on R. Nordier's port patches.
- *
- * Revision 1.2  1998/03/16  11:25:20  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/10/10  18:24:51  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.4  1996/02/08  13:45:10  pwe
- * Linux elf v aout option
- *
- * Revision 1.3  1995/10/09  15:13:58  pwe
- * dynamic initialisation etc
- *
- * Revision 1.2  1995/01/30  12:55:55  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:00:36  jmf
- * Initial revision
- *
- **********************************************************************/
+ *$Revision$*/
 
 #ifndef assembler_key
 #define assembler_key 1
