@@ -40,4 +40,7 @@ SED_INSTALL_OPTS= -e "s%-BINDIR-%<TENDRA_BINDIR>%g" \
                   -e "s%-TMPDIR-%<TENDRA_TMPDIR>%g" \
                   -e "s%-ENVDIR-%<TENDRA_ENVDIR>%g" \
                   -e "s%-AS-%${AS}%g" \
-                  -e "s%-LD-%${LD}%g"
+                  -e "s%-LD-%${LD}%g" \
+		  -e "s%-CRT0-%${CRT0}%g" \
+		  -e "s%-CRT1-%${CRT1}%g" \
+		  -e "s%-CRTN-%${CRTN}%g" 
