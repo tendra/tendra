@@ -1032,6 +1032,7 @@ complex-type : () -> ( t ) = @{
 <btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned; @};
 <btype_float> : () -> ( bt ) = @{ @bt = btype_float; @};
 <btype_double> : () -> ( bt ) = @{ @bt = btype_double; @};
+<btype_bool> : () -> ( bt ) = @{ @bt = btype_bool; @};
 <btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t; @};
 <btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t; @};
 <btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t; @};

@@ -168,7 +168,7 @@ union; unsigned; void; volatile; while;
 restrict;
 
 /* C++ keywords */
-asm; !bool; !catch; !class; !const-cast; !delete; !dynamic-cast;
+asm; bool; !catch; !class; !const-cast; !delete; !dynamic-cast;
 !explicit; !export; !false; !friend; inline; !mutable; !namespace;
 !new; !operator; !private; !protected; !public; !reinterpret-cast;
 !static-cast; !template; !this; !throw; !true; !try; !typeid;
@@ -1610,6 +1610,7 @@ cv-qualifier-seq-opt : () -> ( cv : CV ) = {
 <btype_unsigned> : () -> ( :BTYPE );
 <btype_float> : () -> ( :BTYPE );
 <btype_double> : () -> ( :BTYPE );
+<btype_bool> : () -> ( :BTYPE );
 <btype_wchar_t> : () -> ( :BTYPE );
 <btype_size_t> : () -> ( :BTYPE );
 <btype_ptrdiff_t> : () -> ( :BTYPE );
@@ -1635,6 +1636,7 @@ base-type-specifier : () -> ( bt : BTYPE ) = {
     ||	unsigned; bt = <btype_unsigned>;
     ||	float; bt = <btype_float>;
     ||	double; bt = <btype_double>;
+    ||	bool; bt = <btype_bool>;
     ||	wchar-t; bt = <btype_wchar_t>;
     ||	size-t; bt = <btype_size_t>;
     ||	ptrdiff-t; bt = <btype_ptrdiff_t>;
