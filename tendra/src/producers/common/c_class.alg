@@ -669,7 +669,7 @@ enum DECL_SPEC (dspec) = {
  *    TYPE REPRESENTING A HASH TABLE ENTRY
  *
  *    Identifier names are represented by a hash table entry.  There are
- *    several different types of names (simp1e strings, destructor names and
+ *    several different types of names (simple strings, destructor names and
  *    so on).  Each hash table entry contains, in effect, a built-in namespace
  *    member indicating the underlying meaning of this name.  It also contains
  *    the hash value for this entry.
