@@ -96,7 +96,7 @@ static LIST		varstoprint;	/* list of variables to print */
 int			maxJobs;	/* -j argument */
 static int		maxLocal;	/* -L argument */
 bool 		compatMake;	/* -B argument */
-bool 		debug;		/* -d flag */
+int 		debug;		/* -d flag */
 bool 		noExecute;	/* -n flag */
 bool 		keepgoing;	/* -k flag */
 bool 		queryFlag;	/* -q flag */
