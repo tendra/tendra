@@ -55,7 +55,7 @@ typedef char *va_list ;
 */
 
 #pragma token TYPE __va_t # ~__va_t
-#pragma token PROC ( EXP rvalue : __va_t : ) EXP rvalue : va_list : __va_start # ansi.stdarg.__va_start
+#pragma token PROC ( EXP lvalue : va_list : , EXP lvalue : __va_t : ) EXP rvalue : va_list : __va_start # ansi.stdarg.__va_start
 #pragma token PROC ( EXP lvalue : va_list : e , TYPE t ) EXP rvalue : t : va_arg # ansi.stdarg.va_arg
 #pragma token PROC ( EXP lvalue : va_list : ) EXP rvalue : void : va_end # ansi.stdarg.va_end
 #pragma interface __va_t __va_start va_arg va_end
@@ -106,5 +106,7 @@ typedef char *va_list ;
 
 #endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
 
+typedef char *__va_list;
+#define _MACHINE_STDARG_H_
 
 #endif /* _STDARG_H */
