@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -34,220 +61,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:28  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.3  1998/03/11  11:03:57  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/11  16:56:43  pwe
- * corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.41  1997/12/04  19:54:21  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.40  1997/11/06  09:29:06  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.39  1997/10/23  09:33:06  pwe
- * prep extra_diags
- *
- * Revision 1.38  1997/10/10  18:32:44  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.37  1997/08/23  13:54:19  pwe
- * initial ANDF-DE
- *
- * Revision 1.36  1997/05/05  07:51:17  pwe
- * correct offset_mult (val * val)
- *
- * Revision 1.35  1997/03/26  13:04:36  pwe
- * general proc compatibility
- *
- * Revision 1.34  1997/02/18  11:48:08  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.33  1996/11/04  12:55:14  pwe
- * protect callee regs from caller call
- *
- * Revision 1.32  1996/10/03  08:51:16  pwe
- * PIC global/large offset, and PIC case guardregs
- *
- * Revision 1.31  1996/09/18  12:03:52  pwe
- * fixed PIC_code
- *
- * Revision 1.30  1996/09/10  16:24:26  pwe
- * patch to prevent ass spin on tight loop
- *
- * Revision 1.29  1996/09/09  12:32:43  pwe
- * protect result during postlude
- *
- * Revision 1.28  1996/09/06  16:50:18  pwe
- * fix outpar doubles for postlude
- *
- * Revision 1.27  1996/09/04  15:47:51  pwe
- * name change to avoid cc confusion
- *
- * Revision 1.26  1996/08/30  17:00:17  pwe
- * ensure space available for struct return
- *
- * Revision 1.25  1996/08/28  11:47:45  pwe
- * correct postlude with calls
- *
- * Revision 1.24  1996/06/19  15:38:26  john
- * Changed env_offset
- *
- * Revision 1.23  1996/06/17  16:12:08  john
- * Fix to offset_mult optimisation
- *
- * Revision 1.22  1996/02/29  17:39:38  john
- * Fix to shift op
- *
- * Revision 1.21  1995/12/15  10:25:51  john
- * Changed current_env
- *
- * Revision 1.20  1995/11/23  12:47:32  john
- * Fix for general procs
- *
- * Revision 1.19  1995/11/17  16:21:03  john
- * Fix to general proc call
- *
- * Revision 1.18  1995/11/10  10:11:42  john
- * Fixed scan of prof_tag
- *
- * Revision 1.17  1995/11/09  17:24:51  john
- * the result of inlining a function is no longer stored in
- * a t reg.
- *
- * Revision 1.16  1995/11/07  09:41:34  john
- * Changed parameter passing for general procs
- *
- * Revision 1.15  1995/10/31  12:47:26  john
- * Change to needs for dynamic callees
- *
- * Revision 1.14  1995/10/27  10:50:49  john
- * Fix to general procs
- *
- * Revision 1.13  1995/09/25  16:35:06  john
- * Fix for outpar
- *
- * Revision 1.12  1995/09/19  14:32:01  john
- * Added trap_tag
- *
- * Revision 1.11  1995/09/13  16:36:59  john
- * Added special_tag to scan
- *
- * Revision 1.10  1995/08/31  15:57:14  john
- * Fixed diagnostic bug & added fmax_tag
- *
- * Revision 1.9  1995/08/22  15:28:54  john
- * Change to compound_tag
- *
- * Revision 1.8  1995/08/04  15:46:12  john
- * Fix to maxneeds
- *
- * Revision 1.7  1995/07/17  16:44:16  john
- * New case
- *
- * Revision 1.6  1995/07/14  16:32:43  john
- * Various changes for new spec
- *
- * Revision 1.5  1995/06/21  14:29:21  john
- * Reformatting
- *
- * Revision 1.4  1995/06/14  15:35:11  john
- * Added support for give_stack_limit and set_stack_limit constructs.
- *
- * Revision 1.3  1995/05/26  12:59:59  john
- * Changes for new spec
- *
- * Revision 1.2  1995/04/20  08:06:12  john
- * Changed function definition
- *
- * Revision 1.1.1.1  1995/03/13  10:19:03  john
- * Entered into CVS
- *
- * Revision 1.12  1995/01/23  08:51:03  john
- * Modified case for allocating ident to t-reg.
- *
- * Revision 1.11  1994/12/21  12:09:38  djch
- * Added max_tag and min_tag, corrected offset_max_tag
- *
- * Revision 1.10  1994/12/20  14:46:25  djch
- * fixes to get the new cond scanning code working.
- *
- * Revision 1.9  1994/12/05  11:28:42  djch
- * To fix CR94_013:DR116.plum_err, added scan_cond from Ian's MIPS.
- *
- * Revision 1.8  1994/12/01  13:12:04  djch
- * Force envoffset'd idents to the stack.
- * Consider returning bottom as returning void.
- * Scan movecont with simplified version of apply_tag (for now)
- * Added goto_lv_tag and abs_tag
- *
- * Revision 1.7  1994/07/06  13:49:25  djch
- * After scan *e may not be the exp it was before, so use *(ptr_position(ste))
- * instead of *e.
- *
- * Revision 1.6  1994/06/22  09:53:21  djch
- * added div0 and rem0
- *
- * Revision 1.5  1994/05/24  08:10:23  djch
- * Moved addptr to call likediv, since it is not commutative..
- *
- * Revision 1.4  1994/05/19  08:20:43  djch
- * fixed chase not to distribute into exp with shape bottom (avoid field(goto))
- *
- * Revision 1.3  1994/05/13  13:05:10  djch
- * Incorporates improvements from expt version
- * moved declaratiosn inside long_double code.
- * removed two wrong parts of test to optimise test_tags
- * added decrements to keep ways there accurate
- * removed swap for val on lhs, added optimization for x &2^n ==0 -> x<<k is -ve
- * one fix from mips in neg_tag moving
- *
- * Revision 1.2  1994/05/03  15:08:59  djch
- * ifdefed out rscope_tag
- *
- * Revision 1.9  93/11/19  16:30:46  16:30:46  ra (Robert Andrews)
- * Declare long_to_al.
- * 
- * Revision 1.8  93/09/27  14:51:19  14:51:19  ra (Robert Andrews)
- * A number of changes to allow for long doubles.
- * 
- * Revision 1.7  93/08/27  11:34:07  11:34:07  ra (Robert Andrews)
- * A number of lint-like changes.  Use of pset and pnset to set properties.
- * 
- * Revision 1.6  93/08/18  11:16:20  11:16:20  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.5  93/08/13  14:42:02  14:42:02  ra (Robert Andrews)
- * Removed a couple of comments.  Fixed maxtup to deal with the case when
- * the compound initialiser does not consist entirely of constants (doesn't
- * arise from C).
- * 
- * Revision 1.4  93/07/12  15:17:15  15:17:15  ra (Robert Andrews)
- * Some of the needs cases were nonsense.  offset_mult is like mult, not div.
- * offset_add etc should use likediv, not divneeds.
- * 
- * Revision 1.3  93/07/05  18:22:38  18:22:38  ra (Robert Andrews)
- * The test for return top was wrong - it should be checking the shape,
- * not looking for a return ( make_top ).
- * 
- * Revision 1.2  93/06/29  14:29:05  14:29:05  ra (Robert Andrews)
- * The ( x / fp_const ) -> ( 1.0 / fp_const ) * x optimisation only applies
- * if FBASE is 10.
- * 
- * Revision 1.1  93/06/24  14:58:54  14:58:54  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
