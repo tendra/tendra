@@ -35,124 +35,87 @@
       <tgroup cols='2'>
         <tbody>
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.0</para>
-            </entry>
+            <entry><literal>sid</literal> 1.0</entry>
 
-            <entry>
-              <para>this was the first version of <literal>sid</literal> to
+            <entry>this was the first version of <literal>sid</literal> to
                 support attribute grammars. The output language was
-                C.</para>
+                C.
             </entry>
           </row>
 
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.1</para>
-            </entry>
+            <entry><literal>sid</literal> 1.1</entry>
 
-            <entry>
-              <para>this was a bug fix version of <literal>sid</literal>
-                1.0.</para>
-            </entry>
+            <entry>this was a bug fix version of <literal>sid</literal>
+              1.0.</entry>
           </row>
 
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.2</para>
-            </entry>
+            <entry><literal>sid</literal> 1.2</entry>
             
-            <entry>
-              <para>this version of <literal>sid</literal> added predicates,
+            <entry>this version of <literal>sid</literal> added predicates,
                 exception handling, improved inlining options, and a grammar
-                test pseudo-language.</para>
-            </entry>
+                test pseudo-language.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.3</para>
-            </entry>
+            <entry><literal>sid</literal> 1.3</entry>
             
-            <entry>
-              <para>this version of <literal>sid</literal> added anonymous
+            <entry>this version of <literal>sid</literal> added anonymous
                 rules, and a better syntax for the C specific
-                information.</para>
-            </entry>
+                information.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.4</para>
-            </entry>
+            <entry><literal>sid</literal> 1.4</entry>
             
-            <entry>
-              <para>this was a bug fix version of <literal>sid</literal>
-                1.3.</para>
-            </entry>
+            <entry>this was a bug fix version of <literal>sid</literal>
+                1.3.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.5</para>
-            </entry>
+            <entry><literal>sid</literal> 1.5</entry>
             
-            <entry>
-              <para>this was a bug fix version of <literal>sid</literal> 1.4.
+            <entry>this was a bug fix version of <literal>sid</literal> 1.4.
                 The command line option syntax changed in this release as
-                well.</para>
-            </entry>
+                well.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.6</para>
-            </entry>
-            <entry>
-              <para>this version of <literal>sid</literal> changed the input
+            <entry><literal>sid</literal> 1.6</entry>
+
+            <entry>this version of <literal>sid</literal> changed the input
                 syntax, added scoped rules, and removed basics (replacing them
                 with terminal symbols). It also added a stricter ISO C
-                language.</para>
-            </entry>
+                language.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.7</para>
-            </entry>
+            <entry><literal>sid</literal> 1.7</entry>
             
-            <entry>
-              <para>The syntax of the actions file changed slightly in this
-                version. The error messages and recovery from syntax errors were
-                also improved in this version. This version also added explicit
-                call by reference support (rather than the inconsistent function
-                call semantics of earlier versions). The command line options
-                changed in this version, to support language specific options,
-                and the <literal>strict-ansi-c</literal> language was dropped.
-                Non-local variables were also added.</para>
-            </entry>
+            <entry>The syntax of the actions file changed slightly in this
+                version. The error messages and recovery from syntax errors
+                were also improved in this version. This version also added
+                explicit call by reference support (rather than the
+                inconsistent function call semantics of earlier versions). The
+                command line options changed in this version, to support
+                language specific options, and the
+                <literal>strict-ansi-c</literal> language was dropped.
+                Non-local variables were also added.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.8</para>
-            </entry>
+            <entry><literal>sid</literal> 1.8</entry>
             
-            <entry>
-              <para>Initialisers were added for non-local variables. Assignment
-                was added.</para>
-            </entry>
+            <entry>Initialisers were added for non-local variables. Assignment
+                was added.</entry>
           </row>
           
           <row>
-            <entry>
-              <para><literal>sid</literal> 1.9</para>
-            </entry>
+            <entry><literal>sid</literal> 1.9</entry>
             
-            <entry>
-              <para>this was a bug fix version of <literal>sid</literal>
-                1.8.</para>
-            </entry>
+            <entry>this was a bug fix version of <literal>sid</literal>
+                1.8.</entry>
           </row>
         </tbody>
       </tgroup>
@@ -1115,120 +1078,89 @@ rule1 [
           <tbody>
           
             <row>
-              <entry>
-                <para><literal>@@</literal></para>
-              </entry>
+              <entry><literal>@@</literal></entry>
 
-              <entry>
-                <para>This substitutes the <literal>@</literal> character
-                  itself.</para>
-              </entry>
+              <entry>This substitutes the <literal>@</literal> character
+                  itself.</entry>
             </row>
             
             <row>
-              <entry>
-                <para><literal>@:</literal><emphasis>label</emphasis></para>
-              </entry>
+              <entry><literal>@:</literal><emphasis>label</emphasis></entry>
 
-              <entry>
-                <para>This form marks a label, which will be substituted for
-                  in the output code. This is necessary, because an action may
-                  be inlined into the same function more than once. If this
-                  happens, then without doing label substitution there would
-                  be two identical labels in the same scope. With label
-                  substitution, this problem is avoided. In general, all
-                  references to a label within an action should be prefixed
-                  with <literal>@:</literal>.  This substitution may not be
-                  used in header and trailer code blocks.</para>
-              </entry>
+              <entry>This form marks a label, which will be substituted for in
+                the output code. This is necessary, because an action may be
+                inlined into the same function more than once. If this
+                happens, then without doing label substitution there would be
+                two identical labels in the same scope. With label
+                substitution, this problem is avoided. In general, all
+                references to a label within an action should be prefixed with
+                <literal>@:</literal>.  This substitution may not be used in
+                header and trailer code blocks.</entry>
             </row>
             
             <row>
-              <entry>
-                <para><literal>@</literal><emphasis>identifier</emphasis></para>
+              <entry><literal>@</literal><emphasis>identifier</emphasis>
               </entry>
 
-              <entry>
-                <para>This form marks a parameter or result identifier
-                  substitution. If parameter and result identifiers are not
-                  prefixed with an <literal>@</literal> character, then they
-                  will not be substituted. It is an error if the identifier is
-                  not a parameter or a result. Header and trailer code blocks
-                  have no parameters or results, so it is always an error to
-                  use identifier substitution in them. It is an error if any
-                  of the result identifiers are not substituted at least
-                  once.</para><para>Result identifiers may be assigned to
-                  using this form of identifier substitution, but parameter
-                  identifiers may not be (nor may there address be taken -
-                  they are immutable). To try to prevent this, parameters that
-                  are substituted may be cast to their own type, which makes
-                  them unmodifiable in ISO C (see the notes on the
-                  -XREF-#casts<literal>casts</literal> language specific
-                  option).</para>
-              </entry>
+              <entry>This form marks a parameter or result identifier
+                substitution.  If parameter and result identifiers are not
+                prefixed with an <literal>@</literal> character, then they
+                will not be substituted.  It is an error if the identifier is
+                not a parameter or a result.  Header and trailer code blocks
+                have no parameters or results, so it is always an error to use
+                identifier substitution in them. It is an error if any of the
+                result identifiers are not substituted at least once.  Result
+                identifiers may be assigned to using this form of identifier
+                substitution, but parameter identifiers may not be (nor may
+                there address be taken - they are immutable).  To try to
+                prevent this, parameters that are substituted may be cast to
+                their own type, which makes them unmodifiable in ISO C (see
+                the notes on the -XREF-#casts<literal>casts</literal> language
+                specific option).</entry>
             </row>
             
             <row>
-              <entry>
-                <para><literal>@&amp;</literal><emphasis>identifier</emphasis>
-                  </para>
+              <entry><literal>@&amp;</literal><emphasis>identifier</emphasis>
               </entry>
 
-              <entry>
-                <para>This form marks a parameter identifier whose address is
-                  to be substituted, but whose contents will not be modified.
-                  The effects of modifying the identifier are undefined. It is
-                  an error to use this in parameter assignment operator
-                  definitions.</para>
-              </entry>
+              <entry>This form marks a parameter identifier whose address is
+                to be substituted, but whose contents will not be modified.
+                The effects of modifying the identifier are undefined. It is
+                an error to use this in parameter assignment operator
+                definitions.</entry>
             </row>
             <row>
               <entry>
-                <para><literal>@=</literal><emphasis>identifier</emphasis></para>
-              </entry>
+                <literal>@=</literal><emphasis>identifier</emphasis></entry>
               
-              <entry>
-                <para>This form marks a parameter identifier that will be
-                  modified. For this to be useful, the parameter should be a
-                  call by reference parameter, so that the effect of the
-                  modification will be propagated. This substitution is only
-                  valid in actions (assignment operators are not allowed to
-                  modify their parameters).</para>
-              </entry>
+              <entry>This form marks a parameter identifier that will be
+                modified. For this to be useful, the parameter should be a
+                call by reference parameter, so that the effect of the
+                modification will be propagated. This substitution is only
+                valid in actions (assignment operators are not allowed to
+                modify their parameters).</entry>
             </row>
             <row>
-              <entry>
-                <para><literal>@!</literal></para>
-              </entry>
+              <entry><literal>@!</literal></entry>
               
-              <entry>
-                <para>This form marks an exception raise. In the generated
-                  code, a jump to the current exception handler will be
-                  substituted.  This substitution is only valid in
-                  actions.</para>
-              </entry>
+              <entry>This form marks an exception raise. In the generated
+                code, a jump to the current exception handler will be
+                substituted.  This substitution is only valid in
+                actions.</entry>
             </row>
+
             <row>
-              <entry>
-                <para><literal>@.</literal></para>
-              </entry>
+              <entry><literal>@.</literal></entry>
               
-              <entry>
-                <para>This form marks an attempt to access the current
-                  terminal.  This substitution is only valid in
-                  actions.</para>
-              </entry>
+              <entry>This form marks an attempt to access the current
+                terminal.  This substitution is only valid in actions.</entry>
             </row>
+
             <row>
-              <entry>
-                <para><literal>@&gt;</literal></para>
-              </entry>
+              <entry><literal>@&gt;</literal></entry>
               
-              <entry>
-                <para>This form marks an attempt to advance the lexical
-                  analyser.  This substitution is only valid in
-                  actions.</para>
-              </entry>
+              <entry>This form marks an attempt to advance the lexical
+                analyser.  This substitution is only valid in actions.</entry>
             </row>
           </tbody>
         </tgroup>
