@@ -33,6 +33,7 @@
 
 #include <sys/param.h>
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "defines.h"
 #include "memory.h"
