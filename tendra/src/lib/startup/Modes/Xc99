@@ -55,6 +55,8 @@
 #pragma TenDRA extra , allow
 /* 6.7.3 */
 #pragma TenDRA keyword restrict for keyword restrict
+/* 6.7.4 */
+#pragma TenDRA keyword inline for inline
 /* 6.8.5.3 */
 #pragma TenDRA error "stmt_for_decl" off
 /* 6.8.6.4#1 */
