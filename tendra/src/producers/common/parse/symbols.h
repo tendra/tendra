@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+  $TenDRA$
 */
 
 
@@ -539,5 +541,8 @@ LEX_TOKEN ( lex_zzzzzz, "<dummy>", TOK_NONE )
 
 #define FIRST_COMPLEX_TOKEN	lex_unknown
 #define LAST_COMPLEX_TOKEN	lex_hash_Hpragma
+
+#define FIRST_OMP_DIRECTIVE	lex_omp
+#define LAST_OMP_DIRECTIVE	lex_omp_copyprivate
 
 #endif /* FIRST_TOKEN */
