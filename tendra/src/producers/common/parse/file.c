@@ -283,7 +283,6 @@ normalise_pathname(string s)
 				}
 			} else if (p [0] == char_slash) {
 				/* Have '//' */
-				p++;
 				changed = 1;
 			} else {
 				bfputc (bf, (int) c);
