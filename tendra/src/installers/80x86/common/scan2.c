@@ -35,6 +35,9 @@ $Author$
 $Date$
 $Revision$
 $Log$
+Revision 1.2  2002/01/27 08:58:31  asmodai
+Fix spelling of precede and derived words.
+
 Revision 1.1  2002/01/26 21:31:12  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -69,7 +72,7 @@ Initial version of TenDRA 4.1.2.
  * PIC oddities for AVS
  *
  * Revision 1.21  1996/01/31  12:24:26  pwe
- * is_crc v is_opnd  &  end_contop must not preceed move_reg
+ * is_crc v is_opnd  &  end_contop must not precede move_reg
  *
  * Revision 1.20  1996/01/22  14:31:09  pwe
  * PIC const*const, contop top_tag & linux 64-bit ints

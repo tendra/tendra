@@ -194,7 +194,7 @@ static PPTOKEN *skip_template
     SKIP A SET OF TEMPLATE ARGUMENTS
 
     This routine skips a set of arguments for the template id.  It is
-    entered with the current token equal to the template name preceeding
+    entered with the current token equal to the template name preceding
     the initial '<' if started is false, and equal to the initial '<'
     otherwise.  After skipping the current token is either still the
     template name or the token following the template arguments, depending

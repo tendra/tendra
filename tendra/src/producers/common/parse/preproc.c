@@ -1044,7 +1044,7 @@ int read_include
     CHECK THAT TWO PREPROCESSING TOKENS ARE EQUAL
 
     This routine checks whether the lists of preprocessing tokens p and q
-    are identical.  It returns 2 if they are equal including preceeding
+    are identical.  It returns 2 if they are equal including preceding
     white spaces, 1 if they are otherwise equal, and 0 otherwise.
 */
 

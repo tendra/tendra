@@ -35,6 +35,9 @@ $Author$
 $Date$
 $Revision$
 $Log$
+Revision 1.2  2002/01/27 08:58:31  asmodai
+Fix spelling of precede and derived words.
+
 Revision 1.1  2002/01/26 21:31:11  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -120,7 +123,7 @@ Initial version of TenDRA 4.1.2.
  * move char/bitfield
  *
  * Revision 1.31  1996/01/31  12:24:19  pwe
- * is_crc v is_opnd  &  end_contop must not preceed move_reg
+ * is_crc v is_opnd  &  end_contop must not precede move_reg
  *
  * Revision 1.30  1996/01/18  16:09:56  pwe
  * longc_mult invalidates reg0

@@ -785,7 +785,7 @@ nat-declarator-list : () -> ( c : COMMAND ) = {
     TYPE COMMANDS
 
     These rules describe the type commands.  These comprise a list of
-    identifiers, each preceeded by an optional type command key.
+    identifiers, each preceded by an optional type command key.
 */
 
 <key_int> : () -> ( :TYPE_KEY ) ;
