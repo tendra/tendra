@@ -3,7 +3,7 @@
 
 
 # Section 1 manpages
-MAN1=	680x0.sunos.trans.1 \
+MAN=	680x0.sunos.trans.1 \
 	80x86.cygwin32.trans.1 \
 	80x86.freebsd.trans.1 \
 	80x86.linux.trans.1 \

@@ -1,7 +1,7 @@
 # $TenDRA$
 
 
-DEPEND_SRC=	${MAN1} ${MAN5}
+DEPEND_SRC=	${MAN} ${MAN1} ${MAN5}
 
 SED_OPTS=	-e "s/@TENDRA_VERSION@/${VER_TENDRA}/g"
 
@@ -170,4 +170,4 @@ tccenv.5:
 		| ${BIN_SED} ${SED_OPTS} -e "s/@PROGRAM_VERSION@//g" \
 		> ${.OBJDIR}/${.TARGET}
 
-CLEANFILES=	${MAN1} ${MAN5}
+CLEANFILES=	${MAN} ${MAN1} ${MAN5}
