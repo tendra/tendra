@@ -4,6 +4,10 @@
 # since this will always be common for all os's i moved it to it's own
 # file.
 
+# bug: sometimes this file included twice
+.if !defined(HAVE_COMMON_MK)
+HAVE_COMMON_MK=1
+
 config-create:
 .if exists (${SRC_DIR}/config.mk)
 	@echo CONFIG ALREADY EXISTS ${SRC_DIR}/config.mk
@@ -23,4 +27,6 @@ config-create:
 	-e "s|@SRC_DIR@|${SRC_DIR}|g" \
 	> ${SRC_DIR}/config.mk
 	@echo "config file created! you can find it at: ${SRC_DIR}/config.mk"
+.endif
+
 .endif
