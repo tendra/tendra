@@ -343,9 +343,9 @@ main(int argc, char **argv)
 		case 'i':
 			print_inlines = 1;
 			break;
-        case 'j':
-            no_bss = 1;
-            break;
+		case 'j':
+			no_bss = 1;
+			break;
 #if islinux
 		case 'k':
 			set_linux_format (s[2] == '1');

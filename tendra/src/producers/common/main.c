@@ -479,11 +479,11 @@ process_args(int argc, char **argv)
 					break;
 				}
 					
-                case 'Q' : {
-                    /* Quit immediately */
-                    quit_immediately = 1;
-                    break;
-                }
+				case 'Q' : {
+					/* Quit immediately */
+					quit_immediately = 1;
+					break;
+				}
 
 				case 'R' : {
 					/* Reverse order of files */
@@ -510,9 +510,9 @@ process_args(int argc, char **argv)
 				}
 					
 				case 'V' : {
-                    /* Print version number */
-                    string v = report_version (1);
-                    fprintf_v (error_file, "%s\n\n", strlit (v));
+					/* Print version number */
+					string v = report_version (1);
+					fprintf_v (error_file, "%s\n\n", strlit (v));
 					break;
 				}
 					
@@ -696,8 +696,8 @@ process_args(int argc, char **argv)
 				}
 					
 				case 'v' : {
-                    /* Switch on verbose mode */
-                    verbose = 1;
+					/* Switch on verbose mode */
+					verbose = 1;
 					break;
 				}
 					

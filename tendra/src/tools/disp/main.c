@@ -113,7 +113,7 @@ main(int argc, char **argv)
 					case 'd' : dflag = 0 ; break;
 					case 'g' : diagnostics = 1 ; break;
 					case 'i' : /* Compatibility */ break;
-                    case 'l' : show_usage = 1 ; break;
+					case 'l' : show_usage = 1 ; break;
 					case 'q' : quickflag = 1 ; break;
 					case 'r' : dumb_mode = 1 ; break;
 					case 'v' : progress = 1 ; break;
@@ -129,10 +129,10 @@ main(int argc, char **argv)
 					case 'S' : skip_pass = 0 ; break;
 					case 'T' : show_skip = 1 ; break;
 					case 'V' : {
-                        tenapp_report_version ();
-                        MSG_TDF_version(version_major, version_minor);
-                        break;
-                    }
+						tenapp_report_version ();
+						MSG_TDF_version(version_major, version_minor);
+						break;
+					}
 					case 'W' : warn_undeclared = 1 ; break;
 					}
 				}

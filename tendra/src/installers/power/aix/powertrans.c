@@ -178,7 +178,7 @@ int main PROTO_N ((argc,argv)) PROTO_T (int argc X char **argv)
      case 'A' : do_alloca = GET_0_1 ; break ;
      case 'B' : flpt_const_overflow_fail = GET_0_1; break;	
      case 'C' : do_loopconsts = GET_0_1; break ;
-	 case 'D' : fprintf(stderr, "%s : not implemented, %s\n",
+     case 'D' : fprintf(stderr, "%s : not implemented, %s\n",
 						powertrans, arg); break;
      case 'E' : extra_checks = 0 ; break ;
      case 'F' : do_foralls = GET_0_1 ; break ;
