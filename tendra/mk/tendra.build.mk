@@ -79,9 +79,14 @@ OBJS=  ${SRCS:S/.c/.o/}
 all:
 .if defined(PROG)
 	${MAKE} build-prog
+	${MAKE} link-prog
 .endif
 
 build-prog: ${PROG}
+
+link-prog: ${OBJS}
+	@${ECHO} Linking ${PROG}...
+	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
 
 ${PROG}: ${OBJS}
 
