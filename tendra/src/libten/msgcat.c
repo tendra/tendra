@@ -221,7 +221,7 @@ msg_get(int n, va_list args)
 	size_t i, pcount, aid;
 	const char *sig, *s;
 	char ch;
-	int sev, ph;
+	int sev;
 
 	if (msg_stream == NULL)
 		msg_init();
@@ -425,7 +425,6 @@ msg_print(int n, ...)
 {
 	MSG_DATA *mp;
 	va_list ap;
-	char *cp;
 
 	va_start(ap, n);
 	mp = msg_get(n, ap);
