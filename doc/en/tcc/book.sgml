@@ -1,6 +1,9 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY tcc.manpage SYSTEM "../manpages/tcc/manpage.sgml">
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man;
 ]>
 
 <book>
@@ -2077,8 +2080,8 @@
     <sect1 id='intermodular-checks'>
       <title>Intermodular Checks</title>
 
-      <para>All of the extra compiler checks described in section
-        -XREF-5.1.3 refer to a single C source file, however
+      <para>All of the extra compiler checks described in <xref linkend='compilation-modes-and-port'>
+         refer to a single C source file, however
         <command>tcc</command> also has support for a number of
         intermodular checks. These checks are enabled by means of the
         <option>-im</option> command-line option. This causes the
@@ -2612,15 +2615,14 @@
         where two-part or multi-part options can be split over more
         than one command-line argument.</para>
 
-    <para>INSERT MAN PAGE XREF HERE!</para>
+    <para>Please see the <xref linkend='tcc-manpage'> manpage for a complete list of
+      command-line options.</para>
      
       <para>The following two tables list the producer and archiver
       options which can be passed using the <option>-Wc,
       </option><option>opt</option> and <option>-WJ,</option><option>
       opt</option> options, respectively.
      
-    <para>INSERT MAN PAGE XREF HERE!</para>
-
     <table frame="all" id='archiver-options'>
       <title>Archiver Options</title>
         <tgroup cols="2">
@@ -3157,4 +3159,12 @@
 
     </sect1>
   </chapter>
+
+  <chapter id='manpages'>
+    <title>Manual Pages</title>
+      <refentry id='tcc-manpage'>
+        &tcc.manpage;
+      </refentry>
+  </chapter>
+
 </book>
