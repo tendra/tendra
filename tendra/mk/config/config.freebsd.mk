@@ -13,13 +13,17 @@ TMP_DIR=	/tmp
 
 # SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
-# SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
-SRC_MACHINES=	${BUILD_OS}/${MACH_CPU}
 
 TMP_CPU!=	${UNAME} -p
 MACH_OS!=	${UNAME}
 MACH_VERS!=	${UNAME} -r
 
+# SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
+.if ${MACH_VERS:R} == "5"
+SRC_MACHINES=	${BUILD_OS}/5/${MACH_CPU}
+.else
+SRC_MACHINES=	${BUILD_OS}/4/${MACH_CPU}
+.endif
 
 # Not sure of the best way to get the exec type, suggestions?
 MACH_EXEC=	elf
