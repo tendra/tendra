@@ -58,11 +58,11 @@ revisions.
 compiler technology.  If you are not well versed in compilers, I'd
 recommend getting a bucket of sand, making an ingot of super pure
 silicon, wafering the ingot, and etching CMOS circuits onto the
-wafers.  Then, use lowe voltage power to drive a state machine etched
+wafers.  Then, use low voltage power to drive a state machine etched
 onto the chips.  I'd recommend a register based machine, but you can
 use stacks for simplicity.  Now you're ready to create an instruction
 set architecture on paper.  After settling on the ISA, make some
-microcode to control your simple state machine, and fab a few
+microcode to control your simple state machine, and Mab a few
 prototypes.  Then you're ready to write some machine code.  After
 wasting years of your life writing machine code, abstract the
 code-writing process into a series of formal steps, borrowing heavily
@@ -74,6 +74,201 @@ code. You'll get the idea.
 
 |=-----------------------------------------------------------------------=|
 
+0.  Lessons from History
+
+                   "And you may ask yourself: Well...How did I get here?"
+                   -- D. Byrne
+
+These section looks briefly at trends in computer architecture, and
+the demands they place on compiler writings.
+
+
+    A.  The Rise of Pipelining
+
+    From the 1960s computer architecture has stressed the creation of
+execution pipelines to increase efficiency.  The early IBM 7094, for
+example used a two-stage pipeline of fetch and execute.  With multiple
+stages, overlapping instructions were possible.  Modern RISC machines
+add more stages.  The theoretical DLX, for example, used by Hennessy
+and Patterson use five stages:
+
+        -- Instruction Fetch (IF)
+        -- Instruction Decode (ID)
+        -- Execute (EX)
+        -- Memory Access (MEM)
+        -- Writeback (WB)
+
+Finer granularity in stages allows for more overlapping, thus:
+
+       1    2    3     4    5    6    7
+     :    :    :    :     :    :    :    :
+     :    :    :    :     :    :    :    :
+     +----+----+----+-----+----+    :    :
+     | IF | ID | EX | MEM | WB |    :    :
+     +----+----+----+-----+----+----+    :
+	  | IF | ID | EX | MEM | WB |    :
+	  +----+----+----+-----+----+----+
+	       | IF | ID | EX | MEM | WB |
+	       +----+----+----+-----+----+
+ 
+So, before a single instruction can complete, another one is started
+down the pipeline.  The development of pipeline technologies prompted
+the study of types of data hazards.  This yielded the familiar et of
+hazard types:
+
+       1) structural, which happen because of hardware
+          limitations that do not support instruction overlap
+
+       2) data hazards, which occur when on instruction needs
+          the output of another (as yet) incomplete instruction
+
+       3) control hazards, which occur because of branch
+          handling.
+
+In order to keep the pipeline full, and to possibly detect and avoid
+hazards, compiler writers focused on instruction reordering.
+Pipelining has thus become a mainstay of compiler technologies.  It's
+become so ubiquitous that it's even studied in introductory computer
+science courses.
+
+
+    B.  The Rise of Fine Grained Parallelism
+
+    Not every process can be pipelined.  Some operations, for example,
+take several cycles to complete.  (Floating point math operations take
+anywhere from 4 cycles (for multiplication) to 60 cycles or more (for
+division).  Although this varies greatly with hardware, the general
+point holds true: different instructions take different amounts of
+time.
+
+    As a result, not every piece of code can be pipelined.  A 5-stage
+pipeline is not able to speed up multiple sequential floating point
+operations, for example, since these typically take more cycles than
+there are stages in a pipeline.  Computer engineers have noted this as
+a source of many bottlenecks, and therefore introduced (also in the
+1960s) parallel functional units.  Thus, a CPU might have 4 floating
+point units, so that multiple operations can take place at once.
+
+    With x functional units on a taking y cycles to complete, an
+architecture could provide x/y output.  This gave rise to what is
+known as "fine-grained parallelism".  
+
+    There are a few problems with fine-grained parallel architectures.
+Seymour Cray's work in the 1960s on the Control Data 6600 machines
+discovered that pipelining was roughly equivalent to parallelism.
+Moreover, complex control hardware was needed to manage the units
+(e.g., Tomasulo's algorithm; see:
+
+    http://www.dcs.ed.ac.uk/home/hase/projects/tomasulo/
+
+and similar pages.)
+
+
+    C. The Rise of Vector Instruction Machines
+
+    The problem with pipeline machines was the cost of stalls.  If a
+pipeline could not be kept full, the cost (particularly on deeply
+pipelined architectures) could be significant.  The super computers of
+the 1970s had specialized hardware to 'look ahead' in instruction
+streams to try and detect hazards.  The complicated the IF stage, and
+required additional hardware.
+
+    As a result, computer engineers next looks to vector instruction
+machines as a way to simplify IF.  Vector instructions operation on
+two quantities in memory using fixed sized vector registers.  Combined
+with vector chaining (where the partial output of one vector operation
+is delivered to another waiting vector), vector instructions greatly
+simplified issuance.
+
+    But vector operations also came at a cost.  With additional
+processor state, context switches became expensive.  Instruction
+decode also became complex, given the large number of vector
+instructions available.  Additionally, vector instructions complicated
+cache management: their either prematurely evicted cache, or by-passed
+cache altogether.  (E.g., the Cray machines often used no cache in
+vector architectures, favoring numerous scalar temporary registers.)
+
+    The growth of vector machines created a tremendous need for
+compilers that recognized 'vectorizable code'.  Quite understandably,
+software writers were reluctant to write explicit vectorizable code.
+(E.g., most Fortran 90 coders will actually use a Fortran 77 subset,
+to be safe, and make more portable code.)  Thus, it became the job of
+compiler writes to identify loop structures that were the equivalent
+of a vector instruction.
+
+    The gave rise to the tremendous field of data dependence analysis.
+Work in this area continues today.  It's a mature field, but one with
+frequent innovations.
+
+
+    D.  The Rise of Superscalar and VLIW Processors
+
+    Vector machines were useful, but they complicated instruction set
+design.  So, engineers returned to the original pipeline model, and
+created two new innovations: superscalar architectures and VLIW
+processors.  They are different, but have the same general idea: issue
+instructions FAST.
+
+    In a superscalar machine, hardware looks ahead to find
+instructions that are ready for execution.  Sometimes, instructions
+are even issued out of order (OOI).  VLIW processors issue multiple
+instructions in the same cycle.  With 'wide instructions', multiple
+parallel units are used.
+
+    In VLIW machines, the task of the compiler writer is to pack
+instructions tightly into each cycle, so that parallel functional
+units are kept busy.  In a very basic sense, the compiler does the job
+of the superscalar logic.  VLIW machines typically do not need
+complicated look ahead hardware.
+
+    The rise of these architectures has complicated the life of
+compiler writers.  Since programmers do not typically write in
+machine language, the compiler must identify data dependence
+relations.
+
+
+    E.  Lessons Learned
+
+    History suggests the following tensions are at work:
+
+    -- Programmers don't care about the hardware as much as we'd like.
+       They typically write in a high level language for efficiency.
+       With many exceptions (e.g., PFC) these languages do not expose
+       features of the hardware.  The current direction of these
+       languages seems to be to hide more details.  E.g., the trend in
+       C is towards ANSI portability.
+
+    -- The hardware is capable of out of order execution, yielding
+       impressive speedups.  Some hardware supports OOI; however, the
+       trend seems to be to have the compiler writers do this part of
+       the job.  Data dependence analysis is key.
+
+    -- Even programs that provide explicit representation of
+       parallelism cannot guarantee optimal use of parallel hardware.
+       Smart compilation is needed.
+
+    Given the multitude of hardware, even within an architecture
+family, an efficient, rich data representation is needed.  The lessons
+learned in parallel fortran (PFC) suggest that internal data
+representations are essential.  (This is perhaps a lesson that is
+being re-learned by gcc's rtl.)
+
+    Tendra uses a rather unique data representation format: the
+Architecture Neutral Distribution Format (XANDF).  This andf
+representation is as rich as any other uniform common language.
+However, the andf format is also extensible in two explicit ways.
+First, SORTs can be extended (as one might expect of a representation
+that is agnostic about data format.)  Second, linkable entities and
+units can be created to supply more information downstream to the code
+generators ('installers' in TenDRA-speak.)
+
+    Given the trends in hardware design, and the need to support a
+growing number of architectures, it seems prudent to adopt and perhaps
+extend the andf format.  It remains to be seen how much data
+dependence can be expression in TenDRA.  These notes explore data
+dependence in great detail, to help guide investigation and
+experimentation.
+
 I.  Dependence Analysis
 
     True enough, in its purest form, dependency testing presents an
@@ -82,7 +277,7 @@ positions in array references can refer to arbitrary values, unknown
 until runtime.  But in many cases, subscripts are simple form
 polynomials of induction variables.  In such cases, subscripts
 references are amenable to compile time analysis.  The key, of course,
-is to structure an analysis of subscripts that recognizes and avoid
+is to structure an analysis of subscripts that recognizes and avoids
 nonlinearity.
 
     Below, we examine a few techniques.
@@ -289,6 +484,8 @@ VI. Register Use Management
 VII. Cache Use Management
 
      A.  Locality, Blocking, etc.
+
+
 
 
 
