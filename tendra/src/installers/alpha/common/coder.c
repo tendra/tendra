@@ -3851,10 +3851,10 @@ tailrecurse:
 	start_new_capsule(false);
 	if (as_file){
 #if !DO_SCHEDULE
-	  fprintf (as_file, "\t.rdata\n$$%d:\n", veclab);
+	  fprintf (as_file, "\t" RDATA_INSTR "\n$$%d:\n", veclab);
 #else
 	  outline = (char*)xcalloc(30,sizeof(char));
-	  sprintf (outline, "\t.rdata\n$$%d:\n", veclab);
+	  sprintf (outline, "\t" RDATA_INSTR "\n$$%d:\n", veclab);
 #endif
 	}
 #if DO_SCHEDULE

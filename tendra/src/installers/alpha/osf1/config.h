@@ -138,6 +138,7 @@
 
 #define HAS_MAGIC 1
 
+#define RDATA_INSTR ".rdata"
 #define SDATA_INSTR ".sdata"
 #define VERSION_INSTR ".verstamp %d %d"
 

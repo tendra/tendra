@@ -138,6 +138,7 @@
 
 #define HAS_MAGIC 1
 
+#define RDATA_INSTR ".section .rodata"
 #define SDATA_INSTR ".section .sdata"
 #define VERSION_INSTR ".version \"%d %d\""
 
