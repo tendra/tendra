@@ -1,4 +1,4 @@
-# $TenDRA$
+# $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/Makefile,v 1.12 2004/03/27 18:10:42 stefanf Exp $
 
 INSTALL_MACHINE=	freebsd/80x86
 

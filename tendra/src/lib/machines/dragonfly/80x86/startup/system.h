@@ -1,5 +1,5 @@
 /*
- * $TenDRA$
+ * $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/startup/system.h,v 1.2 2003/10/20 12:10:30 stefanf Exp $
  */
 
 #ifndef __TDF_SYS_INCLUDED

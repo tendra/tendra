@@ -51,7 +51,7 @@
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
- * $TenDRA$
+ * $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/include/stdarg.h,v 1.5 2003/08/24 22:52:53 nonce Exp $
  */
 
 #ifndef _STDARG_H

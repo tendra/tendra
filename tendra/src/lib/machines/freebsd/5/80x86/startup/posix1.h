@@ -1,5 +1,5 @@
 /*
- * $TenDRA$
+ * $TenDRA: tendra/src/lib/machines/freebsd/5/80x86/startup/posix1.h,v 1.2 2004/01/24 13:36:15 stefanf Exp $
  */
 
 #include "ansi.h"
