@@ -63,7 +63,7 @@
  *    DECLARATIONS FOR PRETTY PRINTING OUTPUT ROUTINES
  */
 
-extern void print_action(char *) ;
+extern void print_action(char *);
 
 
 #endif

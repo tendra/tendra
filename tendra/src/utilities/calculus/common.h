@@ -64,19 +64,19 @@
  */
 
 extern ALGEBRA_DEFN *algebra;
-extern void new_algebra(void) ;
-extern ALGEBRA_DEFN *find_algebra(char *) ;
-extern TYPE_P find_type(ALGEBRA_DEFN *, char *) ;
-extern TYPE_P register_type(TYPE_P) ;
-extern int is_identity_type(TYPE_P) ;
-extern TYPE_P compound_type(unsigned, TYPE_P, int) ;
-extern void check_types(void) ;
-extern void import_type(char *, char *) ;
-extern void import_algebra(char *) ;
-extern int size_type(TYPE_P, int) ;
-extern char *name_type(TYPE_P) ;
-extern char *name_aux_type(TYPE_P) ;
-extern int is_complex_type(TYPE_P) ;
+extern void new_algebra(void);
+extern ALGEBRA_DEFN *find_algebra(char *);
+extern TYPE_P find_type(ALGEBRA_DEFN *, char *);
+extern TYPE_P register_type(TYPE_P);
+extern int is_identity_type(TYPE_P);
+extern TYPE_P compound_type(unsigned, TYPE_P, int);
+extern void check_types(void);
+extern void import_type(char *, char *);
+extern void import_algebra(char *);
+extern int size_type(TYPE_P, int);
+extern char *name_type(TYPE_P);
+extern char *name_aux_type(TYPE_P);
+extern int is_complex_type(TYPE_P);
 
 
 /*

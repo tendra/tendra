@@ -103,10 +103,10 @@ static NAME
 *find_name(int n, char *a, char *b, char *c)
 {
     NAME *p;
-    for (p = all_names ; p != NULL ; p = p->next) {
+    for (p = all_names; p != NULL; p = p->next) {
 		if (p->type == n && streq (p->text [0], a) &&
 			streq (p->text [1], b) && streq (p->text [2], c)) {
-			return (p) ;;
+			return (p);
 		}
     }
     return (NULL);

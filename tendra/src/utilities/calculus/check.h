@@ -96,7 +96,7 @@ typedef struct NAME_tag {
  *    DECLARATIONS FOR NAME CHECKING ROUTINES
  */
 
-extern void check_names(int) ;
+extern void check_names(int);
 
 
 #endif

@@ -83,7 +83,7 @@ log2(number n)
 {
     number r;
     number m;
-    for (r = 0, m = 1 ; n > m && m ; r++, m *= 2) /* empty */;
+    for (r = 0, m = 1; n > m && m; r++, m *= 2) /* empty */;
     return (r);
 }
 
@@ -162,7 +162,7 @@ output_char(int c)
 static void
 output_string(CONST char *s)
 {
-    for (; *s ; s++) output_char (*s);
+    for (; *s; s++) output_char (*s);
     return;
 }
 
@@ -970,7 +970,7 @@ open_file(char *dir, char *nm, char *suff)
 		char *tok = "";
 		if (output_c_code == 2) tok = "_TOK";
 		sprintf_v (buff, "%s%s%s_INCLUDED", nm, suff, tok);
-		for (p = buff ; *p ; p++) {
+		for (p = buff; *p; p++) {
 			char c = *p;
 			if (isalpha (c)) {
 				if (islower (c)) c = (char) toupper (c);

@@ -90,7 +90,7 @@ extern LIST (TYPE_P) crt_type;
  */
 
 #define LOOP_LIST(X, Y)\
-    for ((X) = (Y) ; !IS_NULL_list (X) ; (X) = TAIL_list (X))
+    for ((X) = (Y); !IS_NULL_list (X); (X) = TAIL_list (X))
 
 #define LOOP_ENUM\
     LOOP_LIST (crt_en, algebra->enumerations)
@@ -166,11 +166,11 @@ extern int have_varargs;
 extern int output_c_code;
 extern int verbose_output;
 extern FILE *output_file;
-extern void flush_output(void) ;
-extern void open_file(char *, char *, char *) ;
-extern void close_file(void) ;
-extern void output_type(TYPE_P) ;
-extern number log2(number) ;
+extern void flush_output(void);
+extern void open_file(char *, char *, char *);
+extern void close_file(void);
+extern void output_type(TYPE_P);
+extern number log2(number);
 
 #if FS_STDARG
 extern void output (char *, ...);

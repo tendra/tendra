@@ -82,8 +82,8 @@
  */
 
 extern unsigned long bitmask [];
-extern void init_bitmask(void) ;
-extern void read_file(char *) ;
+extern void init_bitmask(void);
+extern void read_file(char *);
 
 
 #endif

@@ -143,12 +143,12 @@ static int *pending = pending_buff;
  *    in this file.
  */
 
-static int read_char(void) ;
-static int read_comment(void) ;
-static int read_hex(int) ;
-static int read_identifier(int) ;
-static int read_number(int) ;
-static int read_string(void) ;
+static int read_char(void);
+static int read_comment(void);
+static int read_hex(int);
+static int read_identifier(int);
+static int read_number(int);
+static int read_string(void);
 
 #define get_comment(A, B)	read_comment ()
 #define get_hex(A, B, C)	read_hex (C)

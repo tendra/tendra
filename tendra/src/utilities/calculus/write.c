@@ -141,7 +141,7 @@ write_string(char *s)
 {
     unsigned long i, n = (unsigned long) strlen (s);
     write_int (n);
-    for (i = 0 ; i < n ; i++) {
+    for (i = 0; i < n; i++) {
 		write_bits (8, (unsigned long) s [i]);
     }
     return;

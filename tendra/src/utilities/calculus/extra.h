@@ -89,7 +89,7 @@
 
 #if calculus_IMPLEMENTATION
 
-extern calculus *add_calculus_list(calculus *, calculus *, int) ;
+extern calculus *add_calculus_list(calculus *, calculus *, int);
 
 #define ADD_list(X, Y, Z)	add_calculus_list ((X), (Y), (Z))
 

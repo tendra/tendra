@@ -628,7 +628,7 @@ print_struct_tok(void)
 	
     comment ("Definitions for structure %SN");
     LOOP_STRUCTURE_COMPONENT {
-		output ("%pt PROC (%xr : PTR (%SN) :) ") ;
+		output ("%pt PROC (%xr : PTR (%SN) :) ");
 		output ("%xr : PTR (%CT) : %SM_%CN #\n");
 		output ("%pi %SM_%CN\n\n");
     }

@@ -63,7 +63,7 @@
  *    DECLARATIONS FOR DISK OUTPUT ROUTINES
  */
 
-extern void disk_action(char *) ;
+extern void disk_action(char *);
 
 
 #endif

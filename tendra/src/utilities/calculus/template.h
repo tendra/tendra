@@ -63,7 +63,7 @@
  *    DECLARATIONS FOR TEMPLATE OUTPUT ROUTINES
  */
 
-extern void template_file(char *, char *) ;
+extern void template_file(char *, char *);
 extern int token_cond;
 
 

@@ -85,7 +85,7 @@ void
 init_bitmask(void)
 {
     int i;
-    for (i = 0 ; i < CHAR_BIT ; i++) bitmask [i] = MASK (i);
+    for (i = 0; i < CHAR_BIT; i++) bitmask [i] = MASK (i);
     return;
 }
 
@@ -176,7 +176,7 @@ static char
 {
     unsigned long i, n = read_int ();
     char *s = xstr ((long) (n + 1));
-    for (i = 0 ; i < n ; i++) {
+    for (i = 0; i < n; i++) {
 		s [i] = (char) read_bits (8);
     }
     s [n] = 0;

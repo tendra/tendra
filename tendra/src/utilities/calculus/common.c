@@ -124,7 +124,7 @@ ALGEBRA_DEFN
 *find_algebra(char *nm)
 {
     ALGEBRA_LIST *p;
-    for (p = all_algebras ; p != NULL ; p = p->next) {
+    for (p = all_algebras; p != NULL; p = p->next) {
 		if (streq (p->alg.name, nm)) return (&(p->alg));
     }
     return (NULL);
@@ -584,14 +584,14 @@ size_type(TYPE_P t, int depth)
 	    break;
 	}
 		
-	case type_primitive_tag : sz = SIZE_PRIM ; break;
-	case type_enumeration_tag : sz = SIZE_ENUM ; break;
-	case type_onion_tag : sz = SIZE_UNION ; break;
-	case type_ptr_tag : sz = SIZE_PTR ; break;
-	case type_list_tag : sz = SIZE_LIST ; break;
-	case type_stack_tag : sz = SIZE_STACK ; break;
-	case type_vec_tag : sz = SIZE_VEC ; break;
-	case type_vec_ptr_tag : sz = SIZE_VEC_PTR ; break;
+	case type_primitive_tag : sz = SIZE_PRIM; break;
+	case type_enumeration_tag : sz = SIZE_ENUM; break;
+	case type_onion_tag : sz = SIZE_UNION; break;
+	case type_ptr_tag : sz = SIZE_PTR; break;
+	case type_list_tag : sz = SIZE_LIST; break;
+	case type_stack_tag : sz = SIZE_STACK; break;
+	case type_vec_tag : sz = SIZE_VEC; break;
+	case type_vec_ptr_tag : sz = SIZE_VEC_PTR; break;
 		
 	default : {
 	    error (ERROR_SERIOUS, "Can't take size of type %s",

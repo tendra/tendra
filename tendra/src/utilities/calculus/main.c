@@ -137,7 +137,7 @@ main(int argc, char **argv)
 	
     /* Scan arguments */
     set_progname (argv [0], "1.2");
-    for (a = 1 ; a < argc ; a++) {
+    for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
 		if (arg [0] != '-') {
 			last_arg = a;
@@ -147,7 +147,7 @@ main(int argc, char **argv)
     if (no_args == 1) last_arg = 0;
 	
     /* Process arguments */
-    for (a = 1 ; a < argc ; a++) {
+    for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
 		if (arg [0] == '-') {
 			int known;
@@ -183,30 +183,30 @@ main(int argc, char **argv)
 				known = 1;
 				switch (arg [1]) {
 					/* Input flags */
-				case 'r' : text = 0 ; break;
-				case 'i' : text = 1 ; break;
+				case 'r' : text = 0; break;
+				case 'i' : text = 1; break;
 					
 					/* Output flags */
-				case 'c' : act = ACTION_C ; break;
-				case 'd' : act = ACTION_DISK ; break;
-				case 'l' : act = ACTION_LIST ; break;
-				case 'o' : act = ACTION_PRETTY ; break;
-				case 'p' : act = ACTION_PRINT ; break;
-				case 't' : act = ACTION_TOKEN ; break;
-				case 'w' : act = ACTION_WRITE ; break;
+				case 'c' : act = ACTION_C; break;
+				case 'd' : act = ACTION_DISK; break;
+				case 'l' : act = ACTION_LIST; break;
+				case 'o' : act = ACTION_PRETTY; break;
+				case 'p' : act = ACTION_PRINT; break;
+				case 't' : act = ACTION_TOKEN; break;
+				case 'w' : act = ACTION_WRITE; break;
 					
 					/* Output options */
-				case 'a' : extra_asserts = 1 ; break;
-				case 'e' : extra_headers = 1 ; break;
-				case 'm' : map_proto = 0 ; break;
-				case 'n' : const_tokens = 0 ; break;
-				case 'x' : allow_vec = 0 ; break;
-				case 'z' : allow_stack = 0 ; break;
+				case 'a' : extra_asserts = 1; break;
+				case 'e' : extra_headers = 1; break;
+				case 'm' : map_proto = 0; break;
+				case 'n' : const_tokens = 0; break;
+				case 'x' : allow_vec = 0; break;
+				case 'z' : allow_stack = 0; break;
 					
 					/* Other options */
-				case 'q' : verbose_output = 0 ; break;
-				case 'v' : report_version () ; break;
-				default : known = 0 ; break;
+				case 'q' : verbose_output = 0; break;
+				case 'v' : report_version (); break;
+				default : known = 0; break;
 				}
 			}
 			if (!known) {
@@ -241,14 +241,14 @@ main(int argc, char **argv)
     if (exit_status == EXIT_SUCCESS) {
 		char *out = (last_arg ? argv [ last_arg ] : ".");
 		switch (act) {
-	    case ACTION_C : main_action_c (out) ; break;
-	    case ACTION_TOKEN : main_action_tok (out) ; break;
-	    case ACTION_DISK : disk_action (out) ; break;
-	    case ACTION_PRETTY : pretty_file (out) ; break;
-	    case ACTION_PRINT : print_action (out) ; break;
-	    case ACTION_WRITE : write_file (out) ; break;
-	    case ACTION_LIST : list_action (out) ; break;
-	    case ACTION_TEMPL : template_file (in, out) ; break;
+	    case ACTION_C : main_action_c (out); break;
+	    case ACTION_TOKEN : main_action_tok (out); break;
+	    case ACTION_DISK : disk_action (out); break;
+	    case ACTION_PRETTY : pretty_file (out); break;
+	    case ACTION_PRINT : print_action (out); break;
+	    case ACTION_WRITE : write_file (out); break;
+	    case ACTION_LIST : list_action (out); break;
+	    case ACTION_TEMPL : template_file (in, out); break;
 		}
     } else {
 		error (ERROR_FATAL, "No output generated due to previous errors");
