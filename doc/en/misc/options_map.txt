@@ -48,10 +48,7 @@ pl		tools/pl/main.c			                  I                         V             
 sid		utilities/sid/main.c		                                            V                     b   d e f   h i     l             s t 
 
 
-tcpplus		producers/common/main.c	        - A     D E F   H I       M N O   Q R S U V W X    Z            a b c d e f g h   j     m n o     r s t u v w x   z 
-                                                                          +   +     +                             +                               +           +
-
-tdfc2 		producers/common/main.c	        - A     D E F   H I       M N O   Q R S U V W X    Z            a b c d e f g h   j     m n o     r s t u v w x   z 
+tcpplus/tdfc2	producers/common/main.c	        - A     D E F   H I       M N O   Q R S U V W X    Z            a b c d e f g h i j     m n o     r s t u v w x   z 
                                                                           +   +     +                             +                               +           +
 
 tnc		tools/tnc/main.c		                  I     L                 V                         c d e f   h       l     o p q r   t u v w 
