@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,116 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.3  1998/03/16  11:25:38  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.2  1998/03/11  11:04:04  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/12/05  10:39:13  pwe
- * system identification
- *
- * Revision 1.4  1997/10/10  18:33:26  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.3  1997/04/17  12:00:19  pwe
- * dwarf2 support
- *
- * Revision 1.2  1997/04/01  17:17:37  pwe
- * diagnose pl_tests
- *
- * Revision 1.1  1997/03/24  17:09:53  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.13  1996/08/23  12:07:53  pwe
- * treat complex parameter as struct
- *
- * Revision 1.12  1996/08/15  15:34:48  pwe
- * mod for PWE ownership
- *
- * Revision 1.11  1996/04/16  10:53:36  john
- * Changed comment
- *
- * Revision 1.10  1996/01/25  16:09:58  john
- * Removed shape check
- *
- * Revision 1.9  1995/12/15  10:11:55  john
- * Added promote_pars
- *
- * Revision 1.8  1995/09/20  12:29:53  john
- * Change to common flag
- *
- * Revision 1.7  1995/09/13  11:00:40  john
- * added HAS_MAGIC flag
- *
- * Revision 1.6  1995/09/13  08:17:49  john
- * *** empty log message ***
- *
- * Revision 1.5  1995/07/20  15:39:40  john
- * added definition of diagnose_registers
- *
- * Revision 1.4  1995/07/14  16:30:06  john
- * Added new flag
- *
- * Revision 1.3  1995/06/27  08:47:05  john
- * Added has_rotate definition
- *
- * Revision 1.2  1995/05/26  12:57:09  john
- * New option: has_bitfield_ops
- *
- * Revision 1.1.1.1  1995/03/13  10:18:30  john
- * Entered into CVS
- *
- * Revision 1.7  1995/01/10  09:34:46  john
- * Added definition of value_of_null
- *
- * Revision 1.6  1995/01/10  09:34:03  john
- * Added configuration macros for case transform code.
- *
- * Revision 1.5  1994/10/26  13:49:55  djch
- * now use good_pointer_factor for bettere speed
- *
- * Revision 1.4  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.3  1994/07/04  08:35:10  djch
- * added target_system name. added div0_implemented and
- * remove_unused_index_counters
- *
- * Revision 1.2  1994/05/24  12:03:52  djch
- * Added parameters for the new foralls.c - initial values form pdh
- *
- * Revision 1.1  1994/05/03  14:50:09  djch
- * Initial revision
- *
- * Revision 1.5  94/02/21  16:10:35  16:10:35  ra (Robert Andrews)
- * Move compiler stuff into compiler.h.
- * 
- * Revision 1.4  93/09/27  14:40:48  14:40:48  ra (Robert Andrews)
- * Make use_long_double and target_dbl_maxexp depend on the value of
- * SYSV_ABI.  Introduce use_link_stuff to control output of System V
- * .ident and .weak directives.
- * 
- * Revision 1.3  93/08/18  11:09:18  11:09:18  ra (Robert Andrews)
- * Changed method of specifying UNIX_SV and SOLARIS versions (just define
- * these macros).
- * 
- * Revision 1.2  93/07/08  18:18:57  18:18:57  ra (Robert Andrews)
- * Added keep_PIC_vars, necessary for position independent code.
- * 
- * Revision 1.1  93/06/24  14:58:06  14:58:06  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #ifndef CONFIG_INCLUDED
