@@ -3,7 +3,7 @@
 <!--   A   -->
 <!ENTITY option-ca '
     <varlistentry>
-      <term>"<option>-A</option><replaceable>switch</replaceable>"</term> 
+      <term><option>-A</option><replaceable>switch</replaceable></term> 
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
