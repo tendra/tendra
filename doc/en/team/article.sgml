@@ -29,13 +29,12 @@
   <sect1 id="team">
   <title>Current TenDRA Developers</title>
     <informaltable frame="none">
-      <tgroup cols="4" align="left">
+      <tgroup cols="3" align="left">
       <colspec colnum="1" colwidth="170px">
         <thead>
           <row>
             <entry>Developer</entry>
             <entry>Contact</entry>
-            <entry>Description</entry>
             <entry>Area of Focus</entry>
           </row>
         </thead>
@@ -44,36 +43,30 @@
             <entry valign="top">Munish Chopra</entry>
             <entry valign="top"><email>chopra@ten15.org</email></entry>
             <entry>...</entry>
-            <entry>...</entry>
           </row>
           <row>
             <entry valign="top">Stefan Farfeleder</entry>
             <entry valign="top"><email>stefanf@ten15.org</email></entry>
-            <entry>...</entry>
             <entry>...</entry>
           </row>
           <row>
             <entry valign="top">Samuel J. Greear</entry>
             <entry valign="top"><email>sjg@ten15.org</email></entry>
             <entry>...</entry>
-            <entry>...</entry>
           </row>
           <row>
             <entry valign="top">Amos B. Haven</entry>
             <entry valign="top"><email>nonce@ten15.org</email></entry>
-            <entry>...</entry>
             <entry>...</entry>
           </row>
           <row>
             <entry valign="top">Boris Popov</entry>
             <entry valign="top"><email>bp@ten15.org</email></entry>
             <entry>...</entry>
-            <entry>...</entry>
           </row>
           <row>
             <entry valign="top">Amar Takhar</entry>
             <entry valign="top"><email>verm@ten15.org</email></entry>
-            <entry>...</entry>
             <entry>...</entry>
           </row>
         </tbody>
