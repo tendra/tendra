@@ -63,6 +63,7 @@
 
 #include "config.h"
 #include "types.h"
+#include "capsule.h"
 #include "basic.h"
 #include "binding.h"
 #include "file.h"
