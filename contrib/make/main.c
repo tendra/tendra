@@ -109,7 +109,7 @@ bool 		checkEnvFirst;	/* -e flag */
 
 static void		MainParseArgs(int, char **);
 static char *		chdir_verify_path(char *);
-static int		ReadMakefile(void *, void *);
+static bool		ReadMakefile(void *, void *);
 static void		add_dirpath(Lst, const char *);
 static void		usage(void);
 static void		posixParseOptLetter(int);
