@@ -4,8 +4,8 @@
 .include "../Makefile.inc"
 .endif
 
-DOC?= article
+DOC?=	article
 
-SRCS=   article.sgml
+SRCS=	article.sgml
 
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"
