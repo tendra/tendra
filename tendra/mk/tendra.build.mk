@@ -39,6 +39,10 @@ ${API}:
 ${PROG}: ${OBJS}
 	@${ECHO} Linking ${PROG}...
 	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LDCRT} ${LIBS}
+.if defined(WRAPPER)
+	@${ECHO} Adjusting paths for ${WRAPPER}...
+	sed s'/@@MACH_BASE@@/${MACH_BASE:S/\//\\\//g}/g' ${WRAPPER} ${OBJ_SDIR}/${WRAPPER}
+.endif
 
 clean:
 .if defined(PROG)
@@ -71,11 +75,14 @@ install:
 .if !exists(PUBLIC_BIN)
 	${MKDIR} -p ${PUBLIC_BIN}
 .endif
+.if defined(WRAPPER)
+	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG}.sh ${PUBLIC_BIN}/${PROG}
+.endif
 .if !exists(${MACH_BASE}/bin)
 	${MKDIR} -p ${MACH_BASE}/bin
 .endif
-		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
-.endif
+	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
+.endif # PROG
 
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
