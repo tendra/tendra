@@ -51,7 +51,7 @@
   </bookinfo>
 
   <preface id='intro'>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not
       bitwise compatible with earlier versions.</para>
@@ -126,7 +126,7 @@
       TDF but require more detailed information.</para>
 
     <simplesect id='intro-major'>
-      <title>Major changes from Issue 3.1</title> 
+      <title>Major changes from Issue 3.1</title>
 
       <para>A new <literal>SORT</literal> for <literal>STRING</literal> is
         introduced having the same relationship to <literal>TDFSTRING</literal>
@@ -145,7 +145,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>x</emphasis>:       SHAPE
 -&gt; TAGDEC
- 
+
 </programlisting>
 
       <para>A new <literal>EXP</literal> constructor,
@@ -171,7 +171,7 @@
     </simplesect>
 
     <simplesect id='intro-notes-revision'>
-      <title>Notes on Revision 1</title> 
+      <title>Notes on Revision 1</title>
 
       <para>This Revision 1 of Issue 4.0 incorporates a number of corrections
         which have arisen where inconsistency or impracticability became evident
@@ -228,7 +228,7 @@
   </preface>
 
   <chapter id='struct-tdf'>
-    <title>Structure of TDF</title> 
+    <title>Structure of TDF</title>
 
     <para>Each piece of TDF program is classified as being of a particular
       <literal>SORT</literal>. Some pieces of TDF are <literal>LABEL</literal>s,
@@ -248,7 +248,7 @@
       syntax.</para>
 
     <sect1 id='overall-struct'>
-      <title>The Overall Structure</title> 
+      <title>The Overall Structure</title>
 
       <para>A separable piece of TDF is called a <literal>CAPSULE</literal>. A
         producer generates a <literal>CAPSULE</literal>; the TDF linker links
@@ -285,7 +285,7 @@
         is not necessary for each kind to be present.</para>
 
       <figure id="capsule4">
-        <title>Capsule 4</title> 
+        <title>Capsule 4</title>
 
         <mediaobject>
           <imageobject><imagedata fileref="capsule4" scale="100" format=
@@ -377,7 +377,7 @@
         tags.</para>
 
       <figure id="capsule1">
-        <title>Capsule 1</title> 
+        <title>Capsule 1</title>
 
         <mediaobject>
           <imageobject><imagedata fileref="capsule1" scale="100" format=
@@ -394,7 +394,7 @@
         capsule level tags.</para>
 
       <figure id="capsule2">
-        <title>Capsule 2</title> 
+        <title>Capsule 2</title>
 
         <mediaobject>
           <imageobject><imagedata fileref="capsule2" scale="100" format=
@@ -410,7 +410,7 @@
         level is used, which may or may not have an external link.</para>
 
       <figure id="capsule3">
-        <title>Capsule 3</title> 
+        <title>Capsule 3</title>
 
         <mediaobject>
           <imageobject><imagedata fileref="capsule3" scale="100" format=
@@ -461,7 +461,7 @@
     </sect1>
 
     <sect1 id='tokens'>
-      <title>Tokens</title> 
+      <title>Tokens</title>
 
       <para>Tokens are used (applied) in the TDF at the point where
         substitutions are to be made. Token definitions provide the substitutions
@@ -473,7 +473,7 @@
         written here in a C-like notation, consider the following.</para>
 <programlisting>
    <emphasis>EXP ptr_add (EXP par0, EXP par1, SHAPE par2) { add_to_ptr( par0, offset_mult( offset_pad( alignment(par2), shape_offset(par2)), par1)) }</emphasis>
-   
+  
 </programlisting>
 
       <para>This defines the token, <emphasis>ptr_add</emphasis>, to produce
@@ -490,7 +490,7 @@
       <para>A typical use of this token is:</para>
 <programlisting>
    <emphasis>ptr_add( obtain_tag(tag41), contents(integer(~signed_int), obtain_tag(tag62)), integer(~char))</emphasis>
-   
+  
 </programlisting>
 
       <para>The effect of this use is to produce the TDF of the definition with
@@ -516,7 +516,7 @@
     </sect1>
 
     <sect1 id='tags'>
-      <title>Tags</title> 
+      <title>Tags</title>
 
       <para>Tags are used to identify the actual program components. They can
         be declared or defined. A declaration gives the <literal>SHAPE</literal>
@@ -526,7 +526,7 @@
     </sect1>
 
     <sect1 id='extending-format'>
-      <title>Extending the format</title> 
+      <title>Extending the format</title>
 
       <para>TDF can be extended for two major reasons.</para>
 
@@ -595,7 +595,7 @@
   </chapter>
 
   <chapter id='desc-struct'>
-    <title>Describing the Structure</title> 
+    <title>Describing the Structure</title>
 
     <para>The following examples show how TDF constructs are described in this
       document. The first is the construct
@@ -603,16 +603,16 @@
 <programlisting>
    <emphasis>fv</emphasis>:      FLOATING_VARIETY
   -&gt; SHAPE
-   
+  
 </programlisting>
-    c 
+    c
 
     <para>The constructs' arguments (one in this case) precede the
       &quot;<emphasis>-&gt;</emphasis>&quot; and the result follows it. Each
       argument is shown as follows:</para>
 <programlisting>
    <emphasis>name</emphasis>:        SORT
-   
+  
 </programlisting>
 
     <para>The name standing before the colon is for use in the accompanying
@@ -638,7 +638,7 @@
    <emphasis>flpt_err</emphasis>:     ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
     <para>it also supplies additional information about those
@@ -653,7 +653,7 @@
 <emphasis>params</emphasis>:      LIST(EXP)
 <emphasis>var_param</emphasis>:   OPTION(EXP)
 -&gt; EXP <emphasis>result_shape</emphasis>
-   
+  
 </programlisting>
 
     <para><emphasis>var_param</emphasis> is an optional argument to the
@@ -674,7 +674,7 @@
 <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>branches</emphasis>:    LIST(CASELIM)
 -&gt; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
-   
+  
 </programlisting>
 
     <para>If <emphasis>exhaustive</emphasis> is true, the resulting
@@ -768,10 +768,10 @@
   </chapter>
 
   <chapter id='inst-behavior'>
-    <title>Installer Behaviour</title> 
+    <title>Installer Behaviour</title>
 
     <sect1 id='def-terms'>
-      <title>Definition of terms</title> 
+      <title>Definition of terms</title>
 
       <para>In this document the behaviour of TDF installers is described in a
         precise manner. Certain words are used with very specific meanings. These
@@ -818,7 +818,7 @@
     </sect1>
 
     <sect1 id='prop-inst'>
-      <title>Properties of Installers</title> 
+      <title>Properties of Installers</title>
 
       <para>All installers must implement all of the constructions of TDF.
         There are some constructions where the installers may impose limits on
@@ -847,10 +847,10 @@
   </chapter>
 
   <chapter id='spec-tdf-constructs'>
-    <title>Specification of TDF Constructs</title> 
+    <title>Specification of TDF Constructs</title>
 
     <sect1 id='access-b'>
-      <title>ACCESS</title> 
+      <title>ACCESS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>4</member> <member>Is
@@ -875,7 +875,7 @@
         <emphasis>add_accesses</emphasis> is the set union operation.</para>
 
       <sect2 id='access-apply-token'>
-        <title>access_apply_token</title> 
+        <title>access_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -884,7 +884,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -903,7 +903,7 @@
       </sect2>
 
       <sect2 id='access-cond'>
-        <title>access_cond</title> 
+        <title>access_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -913,7 +913,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM ACCESS
 <emphasis>e2</emphasis>:      BITSTREAM ACCESS
 -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -926,7 +926,7 @@
       </sect2>
 
       <sect2 id='add-accesses'>
-        <title>add_accesses</title> 
+        <title>add_accesses</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -935,7 +935,7 @@
    <emphasis>a1</emphasis>:      ACCESS
 <emphasis>a2</emphasis>:      ACCESS
 -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>A construction qualified with <emphasis>add_accesses</emphasis>
@@ -945,14 +945,14 @@
       </sect2>
 
       <sect2 id='constant'>
-        <title>constant</title> 
+        <title>constant</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>Only a variable (not an identity) may be qualified with
@@ -962,14 +962,14 @@
       </sect2>
 
       <sect2 id='long-jump-access'>
-        <title>long_jump_access</title> 
+        <title>long_jump_access</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>An object must also have this property if it is to have a defined
@@ -978,14 +978,14 @@
       </sect2>
 
       <sect2 id='no-other-read'>
-        <title>no_other_read</title> 
+        <title>no_other_read</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>This property refers to a <literal>POINTER</literal>,
@@ -1007,14 +1007,14 @@
       </sect2>
 
       <sect2 id='no-other-write'>
-        <title>no_other_write</title> 
+        <title>no_other_write</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>This property refers to a <literal>POINTER</literal>,
@@ -1036,14 +1036,14 @@
       </sect2>
 
       <sect2 id='out-par'>
-        <title>out_par</title> 
+        <title>out_par</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>An object qualified by <emphasis>out_par</emphasis> will be an
@@ -1054,14 +1054,14 @@
       </sect2>
 
       <sect2 id='preserve'>
-        <title>preserve</title> 
+        <title>preserve</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>This property refers to a global object. It says that the object
@@ -1071,14 +1071,14 @@
       </sect2>
 
       <sect2 id='register'>
-        <title>register</title> 
+        <title>register</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>Indicates that an object with this property is frequently used.
@@ -1086,14 +1086,14 @@
       </sect2>
 
       <sect2 id='standard-access'>
-        <title>standard_access</title> 
+        <title>standard_access</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>An object qualified as having
@@ -1102,14 +1102,14 @@
       </sect2>
 
       <sect2 id='used-as-volatile'>
-        <title>used_as_volatile</title> 
+        <title>used_as_volatile</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>An object qualified as having
@@ -1120,14 +1120,14 @@
       </sect2>
 
       <sect2 id='visible'>
-        <title>visible</title> 
+        <title>visible</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
    -&gt; ACCESS
-   
+  
 </programlisting>
 
         <para>An object qualified as <emphasis>visible</emphasis> may be
@@ -1138,7 +1138,7 @@
     </sect1>
 
     <sect1 id='al-tag'>
-      <title>AL_TAG</title> 
+      <title>AL_TAG</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -1159,7 +1159,7 @@
         = {<emphasis>pointer</emphasis>}.</para>
 
       <sect2 id='al-tag-apply-token'>
-        <title>al_tag_apply_token</title> 
+        <title>al_tag_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -1168,7 +1168,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; AL_TAG
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1182,7 +1182,7 @@
       </sect2>
 
       <sect2 id='make-al-tag'>
-        <title>make_al_tag</title> 
+        <title>make_al_tag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1190,7 +1190,7 @@
 <programlisting>
    <emphasis>al_tagno</emphasis>:    TDFINT
 -&gt; AL_TAG
-   
+  
 </programlisting>
 
         <para><emphasis>make_al_tag</emphasis> constructs an
@@ -1200,7 +1200,7 @@
     </sect1>
 
     <sect1 id='al-tagdef'>
-      <title>AL_TAGDEF</title> 
+      <title>AL_TAGDEF</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -1212,7 +1212,7 @@
         <literal>AL_TAGDEF_PROPS</literal>.</para>
 
       <sect2 id='make-al-tagdef'>
-        <title>make_al_tagdef</title> 
+        <title>make_al_tagdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1221,7 +1221,7 @@
    <emphasis>t</emphasis>:       TDFINT
 <emphasis>a</emphasis>:       ALIGNMENT
 -&gt; AL_TAGDEF
-   
+  
 </programlisting>
 
         <para>The <literal>AL_TAG</literal> identified by
@@ -1249,7 +1249,7 @@
     </sect1>
 
     <sect1 id='al-tagdef-props'>
-      <title>AL_TAGDEF_PROPS</title> 
+      <title>AL_TAGDEF_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -1258,7 +1258,7 @@
       </simplelist>
 
       <sect2 id='make-al-tagdefs'>
-        <title>make_al_tagdefs</title> 
+        <title>make_al_tagdefs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -1267,7 +1267,7 @@
    <emphasis>no_labels</emphasis>:   TDFINT
 <emphasis>tds</emphasis>:     SLIST(AL_TAGDEF)
 -&gt; AL_TAGDEF_PROPS
-   
+  
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -1278,7 +1278,7 @@
     </sect1>
 
     <sect1 id='alignment-a'>
-      <title>ALIGNMENT</title> 
+      <title>ALIGNMENT</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>4</member> <member>Is
@@ -1341,7 +1341,7 @@
         equal to <emphasis>a</emphasis>).</para>
 
       <sect2 id='alignment-apply-token'>
-        <title>alignment_apply_token</title> 
+        <title>alignment_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1350,7 +1350,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1364,7 +1364,7 @@
       </sect2>
 
       <sect2 id='alignment-cond'>
-        <title>alignment_cond</title> 
+        <title>alignment_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -1374,7 +1374,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM ALIGNMENT
 <emphasis>e2</emphasis>:      BITSTREAM ALIGNMENT
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1387,7 +1387,7 @@
       </sect2>
 
       <sect2 id='alignment-b'>
-        <title>alignment</title> 
+        <title>alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -1395,7 +1395,7 @@
 <programlisting>
    <emphasis>sha</emphasis>:     SHAPE
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>The <emphasis>alignment</emphasis> construct is defined as
@@ -1472,14 +1472,14 @@
       </sect2>
 
       <sect2 id='alloca-alignment'>
-        <title>alloca_alignment</title> 
+        <title>alloca_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> of
@@ -1488,7 +1488,7 @@
       </sect2>
 
       <sect2 id='callees-alignment'>
-        <title>callees_alignment</title> 
+        <title>callees_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -1496,7 +1496,7 @@
 <programlisting>
    <emphasis>var</emphasis>:     BOOL
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>If <emphasis>var</emphasis> is <emphasis>true</emphasis> the
@@ -1517,7 +1517,7 @@
       </sect2>
 
       <sect2 id='callers-alignment'>
-        <title>callers_alignment</title> 
+        <title>callers_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
@@ -1525,7 +1525,7 @@
 <programlisting>
    <emphasis>var</emphasis>:     BOOL
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>If <emphasis>var</emphasis> is <emphasis>true</emphasis> the
@@ -1546,14 +1546,14 @@
       </sect2>
 
       <sect2 id='code-alignment'>
-        <title>code_alignment</title> 
+        <title>code_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>Delivers {<emphasis>code</emphasis>}, the
@@ -1562,14 +1562,14 @@
       </sect2>
 
       <sect2 id='locals-alignment'>
-        <title>locals_alignment</title> 
+        <title>locals_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>base ALIGNMENT</literal> of
@@ -1582,7 +1582,7 @@
       </sect2>
 
       <sect2 id='obtain-al-tag'>
-        <title>obtain_al_tag</title> 
+        <title>obtain_al_tag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
@@ -1590,7 +1590,7 @@
 <programlisting>
    <emphasis>at</emphasis>:      AL_TAG
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para><emphasis>obtain_al_tag</emphasis> produces the
@@ -1599,7 +1599,7 @@
       </sect2>
 
       <sect2 id='parameter-alignment'>
-        <title>parameter_alignment</title> 
+        <title>parameter_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
@@ -1607,7 +1607,7 @@
 <programlisting>
    <emphasis>sha</emphasis>:     SHAPE
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> of a parameter of a
@@ -1615,7 +1615,7 @@
       </sect2>
 
       <sect2 id='unite-alignments'>
-        <title>unite_alignments</title> 
+        <title>unite_alignments</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
@@ -1624,7 +1624,7 @@
    <emphasis>a1</emphasis>:      ALIGNMENT
 <emphasis>a2</emphasis>:      ALIGNMENT
 -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para><emphasis>unite_alignments</emphasis> produces the alignment at
@@ -1635,14 +1635,14 @@
       </sect2>
 
       <sect2 id='var-param-alignment'>
-        <title>var_param_alignment</title> 
+        <title>var_param_alignment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
    -&gt; ALIGNMENT
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ALIGNMENT</literal> used in the
@@ -1652,7 +1652,7 @@
     </sect1>
 
     <sect1 id='bitfield-variety'>
-      <title>BITFIELD_VARIETY</title> 
+      <title>BITFIELD_VARIETY</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -1668,7 +1668,7 @@
         bitfields and -XREF-spec10.html#68Permitted limits.</para>
 
       <sect2 id='bfvar-apply-token'>
-        <title>bfvar_apply_token</title> 
+        <title>bfvar_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1677,7 +1677,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; BITFIELD_VARIETY
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1691,7 +1691,7 @@
       </sect2>
 
       <sect2 id='bfvar-cond'>
-        <title>bfvar_cond</title> 
+        <title>bfvar_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -1701,7 +1701,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM BITFIELD_VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM BITFIELD_VARIETY
 -&gt; BITFIELD_VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1714,7 +1714,7 @@
       </sect2>
 
       <sect2 id='bfvar-bits'>
-        <title>bfvar_bits</title> 
+        <title>bfvar_bits</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -1723,7 +1723,7 @@
    <emphasis>issigned</emphasis>:    BOOL
 <emphasis>bits</emphasis>:        NAT
 -&gt; BITFIELD_VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>bfvar_bits</emphasis> constructs a
@@ -1736,7 +1736,7 @@
     </sect1>
 
     <sect1 id='bitstream'>
-      <title>BITSTREAM</title> 
+      <title>BITSTREAM</title>
 
       <para>A <literal>BITSTREAM</literal> consists of an encoding of any
         number of bits. This encoding is such that any program reading TDF can
@@ -1752,7 +1752,7 @@
     </sect1>
 
     <sect1 id='bool'>
-      <title>BOOL</title> 
+      <title>BOOL</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -1763,7 +1763,7 @@
         values, <emphasis>true</emphasis> or <emphasis>false</emphasis>.</para>
 
       <sect2 id='bool-apply-token'>
-        <title>bool_apply_token</title> 
+        <title>bool_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1772,7 +1772,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; BOOL
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -1786,7 +1786,7 @@
       </sect2>
 
       <sect2 id='bool-cond'>
-        <title>bool_cond</title> 
+        <title>bool_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -1796,7 +1796,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM BOOL
 <emphasis>e2</emphasis>:      BITSTREAM BOOL
 -&gt; BOOL
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -1809,14 +1809,14 @@
       </sect2>
 
       <sect2 id='false'>
-        <title>false</title> 
+        <title>false</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; BOOL
-   
+  
 </programlisting>
 
         <para><emphasis>false</emphasis> produces a false
@@ -1824,14 +1824,14 @@
       </sect2>
 
       <sect2 id='true'>
-        <title>true</title> 
+        <title>true</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; BOOL
-   
+  
 </programlisting>
 
         <para><emphasis>true</emphasis> produces a true
@@ -1840,7 +1840,7 @@
     </sect1>
 
     <sect1 id='bytestream'>
-      <title>BYTESTREAM</title> 
+      <title>BYTESTREAM</title>
 
       <para>A <literal>BYTESTREAM</literal> is analogous to a
         <literal>BITSTREAM</literal>, but is encoded to permit fast
@@ -1850,7 +1850,7 @@
     </sect1>
 
     <sect1 id='callees'>
-      <title>CALLEES</title> 
+      <title>CALLEES</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -1863,7 +1863,7 @@
         parameters.</para>
 
       <sect2 id='make-callee-list'>
-        <title>make_callee_list</title> 
+        <title>make_callee_list</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -1871,7 +1871,7 @@
 <programlisting>
    <emphasis>args</emphasis>:        LIST(EXP)
 -&gt; CALLEES
-   
+  
 </programlisting>
 
         <para>The list of <literal>EXP</literal>s <emphasis>args</emphasis> are
@@ -1880,7 +1880,7 @@
       </sect2>
 
       <sect2 id='make-dynamic-callees'>
-        <title>make_dynamic_callees</title> 
+        <title>make_dynamic_callees</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -1889,7 +1889,7 @@
    <emphasis>ptr</emphasis>:     EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>sze</emphasis>:     EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 -&gt; CALLEES
-   
+  
 </programlisting>
 
         <para>The value of size <emphasis>sze</emphasis> pointed at by
@@ -1922,14 +1922,14 @@
       </sect2>
 
       <sect2 id='same-callees'>
-        <title>same_callees</title> 
+        <title>same_callees</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; CALLEES
-   
+  
 </programlisting>
 
         <para>The callee parameters of the call are the same as those of the
@@ -1938,7 +1938,7 @@
     </sect1>
 
     <sect1 id='capsule'>
-      <title>CAPSULE</title> 
+      <title>CAPSULE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -1949,7 +1949,7 @@
         is only one construction, <emphasis>make_capsule</emphasis>.</para>
 
       <sect2 id='make-capsule'>
-        <title>make_capsule</title> 
+        <title>make_capsule</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -1960,7 +1960,7 @@
 <emphasis>ext_linkage</emphasis>: SLIST(EXTERN_LINK)
 <emphasis>groups</emphasis>:      SLIST(GROUP)
 -&gt; CAPSULE
-   
+  
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> brings together
@@ -2016,7 +2016,7 @@
     </sect1>
 
     <sect1 id='capsule-link'>
-      <title>CAPSULE_LINK</title> 
+      <title>CAPSULE_LINK</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -2028,7 +2028,7 @@
         is used only in <emphasis>make_capsule</emphasis>.</para>
 
       <sect2 id='make-capsule-link'>
-        <title>make_capsule_link</title> 
+        <title>make_capsule_link</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -2037,7 +2037,7 @@
    <emphasis>sn</emphasis>:      TDFIDENT
 <emphasis>n</emphasis>:       TDFINT
 -&gt; CAPSULE_LINK
-   
+  
 </programlisting>
 
         <para><emphasis>n</emphasis> is the number of
@@ -2049,7 +2049,7 @@
     </sect1>
 
     <sect1 id='caselim'>
-      <title>CASELIM</title> 
+      <title>CASELIM</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -2061,7 +2061,7 @@
         <emphasis>case</emphasis> construction.</para>
 
       <sect2 id='make-caselim'>
-        <title>make_caselim</title> 
+        <title>make_caselim</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -2071,7 +2071,7 @@
 <emphasis>lower</emphasis>:       SIGNED_NAT
 <emphasis>upper</emphasis>:       SIGNED_NAT
 -&gt; CASELIM
-   
+  
 </programlisting>
 
         <para>Makes a triple of destination and limits. The
@@ -2084,7 +2084,7 @@
     </sect1>
 
     <sect1 id='error-code'>
-      <title>ERROR_CODE</title> 
+      <title>ERROR_CODE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -2092,14 +2092,14 @@
       </simplelist>
 
       <sect2 id='nil-access'>
-        <title>nil_access</title> 
+        <title>nil_access</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_CODE
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from an
@@ -2109,14 +2109,14 @@
       </sect2>
 
       <sect2 id='overflow'>
-        <title>overflow</title> 
+        <title>overflow</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_CODE
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from a
@@ -2126,14 +2126,14 @@
       </sect2>
 
       <sect2 id='stack-overflow'>
-        <title>stack_overflow</title> 
+        <title>stack_overflow</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_CODE
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>ERROR_CODE</literal> arising from a stack
@@ -2143,7 +2143,7 @@
     </sect1>
 
     <sect1 id='error-treament'>
-      <title>ERROR_TREATMENT</title> 
+      <title>ERROR_TREATMENT</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -2157,7 +2157,7 @@
         will be needed.</para>
 
       <sect2 id='errt-apply-token'>
-        <title>errt_apply_token</title> 
+        <title>errt_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -2166,7 +2166,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -2180,7 +2180,7 @@
       </sect2>
 
       <sect2 id='errt-cond'>
-        <title>errt_cond</title> 
+        <title>errt_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -2190,7 +2190,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM ERROR_TREATMENT
 <emphasis>e2</emphasis>:      BITSTREAM ERROR_TREATMENT
 -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -2203,14 +2203,14 @@
       </sect2>
 
       <sect2 id='continue'>
-        <title>continue</title> 
+        <title>continue</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para>If an operation with a <emphasis>continue</emphasis>
@@ -2221,7 +2221,7 @@
       </sect2>
 
       <sect2 id='error-jump'>
-        <title>error_jump</title> 
+        <title>error_jump</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -2229,7 +2229,7 @@
 <programlisting>
    <emphasis>lab</emphasis>:     LABEL
 -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para><emphasis>error_jump</emphasis> produces an
@@ -2250,7 +2250,7 @@
       </sect2>
 
       <sect2 id='trap'>
-        <title>trap</title> 
+        <title>trap</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -2258,7 +2258,7 @@
 <programlisting>
    <emphasis>trap_list</emphasis>:   LIST(ERROR_CODE)
 -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para>The list of <literal>ERROR_CODES</literal> in
@@ -2273,14 +2273,14 @@
       </sect2>
 
       <sect2 id='wrap'>
-        <title>wrap</title> 
+        <title>wrap</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para><emphasis>wrap</emphasis> is an
@@ -2296,14 +2296,14 @@
       </sect2>
 
       <sect2 id='impossible'>
-        <title>impossible</title> 
+        <title>impossible</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; ERROR_TREATMENT
-   
+  
 </programlisting>
 
         <para><emphasis>impossible</emphasis> is an
@@ -2316,7 +2316,7 @@
     </sect1>
 
     <sect1 id='exp'>
-      <title>EXP</title> 
+      <title>EXP</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>7</member> <member>Is
@@ -2334,7 +2334,7 @@
         languages.</para>
 
       <sect2 id='exp-apply-token'>
-        <title>exp_apply_token</title> 
+        <title>exp_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -2343,7 +2343,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; EXP <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -2357,7 +2357,7 @@
       </sect2>
 
       <sect2 id='exp-cond'>
-        <title>exp_cond</title> 
+        <title>exp_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -2367,7 +2367,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM EXP <emphasis>x</emphasis>
 <emphasis>e2</emphasis>:      BITSTREAM EXP <emphasis>y</emphasis>
 -&gt; EXP (<emphasis>control</emphasis> ? <emphasis>x</emphasis> : <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -2380,7 +2380,7 @@
       </sect2>
 
       <sect2 id='abs'>
-        <title>abs</title> 
+        <title>abs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -2389,7 +2389,7 @@
    <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The absolute value of the result produced by
@@ -2402,7 +2402,7 @@
       </sect2>
 
       <sect2 id='add-to-ptr'>
-        <title>add_to_ptr</title> 
+        <title>add_to_ptr</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -2411,7 +2411,7 @@
    <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 -&gt; EXP POINTER(<emphasis>z</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated, giving
@@ -2446,7 +2446,7 @@
       </sect2>
 
       <sect2 id='and'>
-        <title>and</title> 
+        <title>and</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -2455,7 +2455,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -2468,7 +2468,7 @@
       </sect2>
 
       <sect2 id='apply-proc'>
-        <title>apply_proc</title> 
+        <title>apply_proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
@@ -2479,7 +2479,7 @@
 <emphasis>params</emphasis>:      LIST(EXP)
 <emphasis>var_param</emphasis>:   OPTION(EXP)
 -&gt; EXP <emphasis>result_shape</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>p, params</emphasis> and <emphasis>var_param</emphasis>
@@ -2526,7 +2526,7 @@
       </sect2>
 
       <sect2 id='apple-general-proc'>
-        <title>apply_general_proc</title> 
+        <title>apply_general_proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
@@ -2539,7 +2539,7 @@
 <emphasis>callee_pars</emphasis>: CALLEES
 <emphasis>postlude</emphasis>:    EXP TOP
 -&gt; EXP <emphasis>result_shape</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>p</emphasis>, <emphasis>callers_intro</emphasis> and
@@ -2649,7 +2649,7 @@
       </sect2>
 
       <sect2 id='assign'>
-        <title>assign</title> 
+        <title>assign</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
@@ -2658,7 +2658,7 @@
    <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP <emphasis>y</emphasis>
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The value produced by <emphasis>arg2</emphasis> will be put in
@@ -2686,7 +2686,7 @@
       </sect2>
 
       <sect2 id='assign-with-mode'>
-        <title>assign_with_mode</title> 
+        <title>assign_with_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
@@ -2696,7 +2696,7 @@
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP <emphasis>y</emphasis>
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The value produced by <emphasis>arg2</emphasis> will be put in
@@ -2727,7 +2727,7 @@
       </sect2>
 
       <sect2 id='bitfield-assign'>
-        <title>bitfield_assign</title> 
+        <title>bitfield_assign</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
@@ -2737,7 +2737,7 @@
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 <emphasis>arg3</emphasis>:        EXP BITFIELD(<emphasis>v</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The value delivered by <emphasis>arg3</emphasis> is assigned at a
@@ -2754,7 +2754,7 @@
       </sect2>
 
       <sect2 id='bitfield-assign-with-mode'>
-        <title>bitfield_assign_with_mode</title> 
+        <title>bitfield_assign_with_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
@@ -2765,7 +2765,7 @@
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 <emphasis>arg3</emphasis>:        EXP BITFIELD(<emphasis>v</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The value delivered by <emphasis>arg3</emphasis> is assigned at a
@@ -2788,7 +2788,7 @@
       </sect2>
 
       <sect2 id='bitfield-contents'>
-        <title>bitfield_contents</title> 
+        <title>bitfield_contents</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
@@ -2798,7 +2798,7 @@
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 -&gt; EXP BITFIELD(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The bitfield of <literal>BITFIELD_VARIETY</literal>
@@ -2816,7 +2816,7 @@
       </sect2>
 
       <sect2 id='bitfield-contents-with-mode'>
-        <title>bitfield_contents_with_mode</title> 
+        <title>bitfield_contents_with_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>13</member>
@@ -2827,7 +2827,7 @@
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 -&gt; EXP BITFIELD(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The bitfield of <literal>BITFIELD_VARIETY</literal>
@@ -2852,7 +2852,7 @@
       </sect2>
 
       <sect2 id='case'>
-        <title>case</title> 
+        <title>case</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>14</member>
@@ -2862,7 +2862,7 @@
 <emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>branches</emphasis>:    LIST(CASELIM)
 -&gt; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated to produce an integer
@@ -2885,7 +2885,7 @@
       </sect2>
 
       <sect2 id='change-bitfield-to-int'>
-        <title>change_bitfield_to_int</title> 
+        <title>change_bitfield_to_int</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>15</member>
@@ -2894,7 +2894,7 @@
    <emphasis>v</emphasis>:       VARIETY
 <emphasis>arg1</emphasis>:        EXP BITFIELD(<emphasis>bv</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and converted to a
@@ -2905,7 +2905,7 @@
       </sect2>
 
       <sect2 id='change-floating-variety'>
-        <title>change_floating_variety</title> 
+        <title>change_floating_variety</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>16</member>
@@ -2915,7 +2915,7 @@
 <emphasis>r</emphasis>:       FLOATING_VARIETY
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>r</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce floating
@@ -2933,7 +2933,7 @@
       </sect2>
 
       <sect2 id='change-variety'>
-        <title>change_variety</title> 
+        <title>change_variety</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>17</member>
@@ -2943,7 +2943,7 @@
 <emphasis>r</emphasis>:       VARIETY
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>r</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce an
@@ -2958,7 +2958,7 @@
       </sect2>
 
       <sect2 id='change-int-to-bitfield'>
-        <title>change_int_to_bitfield</title> 
+        <title>change_int_to_bitfield</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>18</member>
@@ -2967,7 +2967,7 @@
    <emphasis>bv</emphasis>:      BITFIELD_VARIETY
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP BITFIELD(<emphasis>bv</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and converted to a
@@ -2978,7 +2978,7 @@
       </sect2>
 
       <sect2 id='complex-conjugate'>
-        <title>complex_conjugate</title> 
+        <title>complex_conjugate</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>19</member>
@@ -2986,7 +2986,7 @@
 <programlisting>
    <emphasis>c</emphasis>:       EXP FLOATING(<emphasis>cv</emphasis>)
 -&gt; EXP FLOATING(<emphasis>cv</emphasis>)
-   
+  
 </programlisting>
 
         <para>Delivers the complex conjugate of <emphasis>c</emphasis>.</para>
@@ -2996,7 +2996,7 @@
       </sect2>
 
       <sect2 id='component'>
-        <title>component</title> 
+        <title>component</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>20</member>
@@ -3006,7 +3006,7 @@
 <emphasis>arg1</emphasis>:        EXP COMPOUND(EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>))
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>alignment</emphasis>(<emphasis>sha</emphasis>))
 -&gt; EXP <emphasis>sha</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a
@@ -3025,7 +3025,7 @@
       </sect2>
 
       <sect2 id='contact-nof'>
-        <title>concat_nof</title> 
+        <title>concat_nof</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>21</member>
@@ -3034,7 +3034,7 @@
    <emphasis>arg1</emphasis>:        EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
 <emphasis>arg2</emphasis>:        EXP NOF(<emphasis>m</emphasis>, <emphasis>s</emphasis>)
 -&gt; EXP NOF(<emphasis>n</emphasis>+<emphasis>m</emphasis>, <emphasis>s</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3044,7 +3044,7 @@
       </sect2>
 
       <sect2 id='conditional'>
-        <title>conditional</title> 
+        <title>conditional</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>22</member>
@@ -3054,7 +3054,7 @@
 <emphasis>first</emphasis>:       EXP <emphasis>x</emphasis>
 <emphasis>alt</emphasis>:     EXP <emphasis>z</emphasis>
 -&gt; EXP (<emphasis>x</emphasis> LUB <emphasis>z</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>first</emphasis> is evaluated. If
@@ -3085,7 +3085,7 @@
       </sect2>
 
       <sect2 id='contents'>
-        <title>contents</title> 
+        <title>contents</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>23</member>
@@ -3094,7 +3094,7 @@
    <emphasis>s</emphasis>:       SHAPE
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 -&gt; EXP <emphasis>s</emphasis>
-   
+  
 </programlisting>
 
         <para>A value of <literal>SHAPE</literal> <emphasis>s</emphasis> will
@@ -3120,7 +3120,7 @@
       </sect2>
 
       <sect2 id='contents-with-mode'>
-        <title>contents_with_mode</title> 
+        <title>contents_with_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>24</member>
@@ -3130,7 +3130,7 @@
 <emphasis>s</emphasis>:       SHAPE
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 -&gt; EXP <emphasis>s</emphasis>
-   
+  
 </programlisting>
 
         <para>A value of <literal>SHAPE</literal> <emphasis>s</emphasis> will
@@ -3158,14 +3158,14 @@
       </sect2>
 
       <sect2 id='current-env'>
-        <title>current_env</title> 
+        <title>current_env</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>25</member>
         </simplelist>
 <programlisting>
    -&gt; EXP POINTER(<emphasis>fa</emphasis>)
-   
+  
 </programlisting>
 
         <para>A value of <literal>SHAPE
@@ -3209,7 +3209,7 @@
       </sect2>
 
       <sect2 id='div-zero'>
-        <title>div0</title> 
+        <title>div0</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>26</member>
@@ -3220,7 +3220,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3249,7 +3249,7 @@
       </sect2>
 
       <sect2 id='div-one'>
-        <title>div1</title> 
+        <title>div1</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>27</member>
@@ -3260,7 +3260,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3286,7 +3286,7 @@
       </sect2>
 
       <sect2 id='div-two'>
-        <title>div2</title> 
+        <title>div2</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>28</member>
@@ -3297,7 +3297,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3324,7 +3324,7 @@
       </sect2>
 
       <sect2 id='env-offset'>
-        <title>env_offset</title> 
+        <title>env_offset</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>29</member>
@@ -3334,7 +3334,7 @@
 <emphasis>y</emphasis>:       ALIGNMENT
 <emphasis>t</emphasis>:       TAG <emphasis>x</emphasis>
 -&gt; EXP OFFSET(<emphasis>fa</emphasis>, <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>t</emphasis> will be the tag of a
@@ -3379,7 +3379,7 @@
       </sect2>
 
       <sect2 id='env-size'>
-        <title>env_size</title> 
+        <title>env_size</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>30</member>
@@ -3387,7 +3387,7 @@
 <programlisting>
    <emphasis>proctag</emphasis>: TAG PROC
 -&gt; EXP OFFSET(<emphasis>locals_alignment</emphasis>, {})
-   
+  
 </programlisting>
 
         <para>Delivers an <literal>OFFSET</literal> of a space sufficient to
@@ -3403,7 +3403,7 @@
       </sect2>
 
       <sect2 id='fail-installer'>
-        <title>fail_installer</title> 
+        <title>fail_installer</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>31</member>
@@ -3411,7 +3411,7 @@
 <programlisting>
    <emphasis>message</emphasis>: STRING<emphasis>(k, n)</emphasis>
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para>Any attempt to use this operation to produce code will result in
@@ -3421,7 +3421,7 @@
       </sect2>
 
       <sect2 id='float-int'>
-        <title>float_int</title> 
+        <title>float_int</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>32</member>
@@ -3431,7 +3431,7 @@
 <emphasis>f</emphasis>:       FLOATING_VARIETY
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce an integer
@@ -3448,7 +3448,7 @@
       </sect2>
 
       <sect2 id='floating-abs'>
-        <title>floating_abs</title> 
+        <title>floating_abs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>33</member>
@@ -3457,7 +3457,7 @@
    <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce a
@@ -3477,7 +3477,7 @@
       </sect2>
 
       <sect2 id='floating-div'>
-        <title>floating_div</title> 
+        <title>floating_div</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>34</member>
@@ -3487,7 +3487,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3506,7 +3506,7 @@
       </sect2>
 
       <sect2 id='floating-minus'>
-        <title>floating_minus</title> 
+        <title>floating_minus</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>35</member>
@@ -3516,7 +3516,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3535,7 +3535,7 @@
       </sect2>
 
       <sect2 id='floating-maximum'>
-        <title>floating_maximum</title> 
+        <title>floating_maximum</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>36</member>
@@ -3545,7 +3545,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para>The maximum of the values delivered by <emphasis>arg1</emphasis>
@@ -3559,7 +3559,7 @@
       </sect2>
 
       <sect2 id='floating-minimum'>
-        <title>floating_minimum</title> 
+        <title>floating_minimum</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>37</member>
@@ -3569,7 +3569,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para>The minimum of the values delivered by <emphasis>arg1</emphasis>
@@ -3583,7 +3583,7 @@
       </sect2>
 
       <sect2 id='floating-mult'>
-        <title>floating_mult</title> 
+        <title>floating_mult</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>38</member>
@@ -3592,7 +3592,7 @@
    <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        LIST(EXP)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments, <emphasis>arg1</emphasis>, are evaluated producing
@@ -3622,7 +3622,7 @@
       </sect2>
 
       <sect2 id='floating-negate'>
-        <title>floating_negate</title> 
+        <title>floating_negate</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>39</member>
@@ -3631,7 +3631,7 @@
    <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce a
@@ -3648,7 +3648,7 @@
       </sect2>
 
       <sect2 id='floating-plus'>
-        <title>floating_plus</title> 
+        <title>floating_plus</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>40</member>
@@ -3657,7 +3657,7 @@
    <emphasis>flpt_err</emphasis>:    ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        LIST(EXP)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments, <emphasis>arg1</emphasis>, are evaluated producing
@@ -3685,7 +3685,7 @@
       </sect2>
 
       <sect2 id='floating-power'>
-        <title>floating_power</title> 
+        <title>floating_power</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>41</member>
@@ -3695,7 +3695,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para>The result of <emphasis>arg1</emphasis> is raised to the power
@@ -3709,7 +3709,7 @@
       </sect2>
 
       <sect2 id='floating-test'>
-        <title>floating_test</title> 
+        <title>floating_test</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>42</member>
@@ -3722,7 +3722,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3752,7 +3752,7 @@
       </sect2>
 
       <sect2 id='goto'>
-        <title>goto</title> 
+        <title>goto</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>43</member>
@@ -3760,7 +3760,7 @@
 <programlisting>
    <emphasis>dest</emphasis>:        LABEL
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para>Control passes to the <literal>EXP</literal> labelled
@@ -3769,7 +3769,7 @@
       </sect2>
 
       <sect2 id='goto-local-lv'>
-        <title>goto_local_lv</title> 
+        <title>goto_local_lv</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>44</member>
@@ -3777,7 +3777,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>{code</emphasis>})
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated. The label from which the
@@ -3793,7 +3793,7 @@
       </sect2>
 
       <sect2 id='identify'>
-        <title>identify</title> 
+        <title>identify</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>45</member>
@@ -3804,7 +3804,7 @@
 <emphasis>definition</emphasis>:  EXP <emphasis>x</emphasis>
 <emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
 -&gt; EXP <emphasis>y</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>definition</emphasis> is evaluated to produce a value,
@@ -3843,7 +3843,7 @@
       </sect2>
 
       <sect2 id='ignorable'>
-        <title>ignorable</title> 
+        <title>ignorable</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>46</member>
@@ -3851,7 +3851,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
 -&gt; EXP <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>If the result of this construction is discarded,
@@ -3861,7 +3861,7 @@
       </sect2>
 
       <sect2 id='imaginary-part'>
-        <title>imaginary_part</title> 
+        <title>imaginary_part</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>47</member>
@@ -3869,7 +3869,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP <emphasis>c</emphasis>
 -&gt; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex. Delivers the imaginary
@@ -3877,7 +3877,7 @@
       </sect2>
 
       <sect2 id='initial-value'>
-        <title>initial_value</title> 
+        <title>initial_value</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>48</member>
@@ -3885,7 +3885,7 @@
 <programlisting>
    <emphasis>init</emphasis>:        EXP <emphasis>s</emphasis>
 -&gt; EXP <emphasis>s</emphasis>
-   
+  
 </programlisting>
 
         <para>Any tag used as an argument of an <emphasis>obtain_tag</emphasis>
@@ -3908,7 +3908,7 @@
       </sect2>
 
       <sect2 id='integer-test'>
-        <title>integer_test</title> 
+        <title>integer_test</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>49</member>
@@ -3920,7 +3920,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -3941,7 +3941,7 @@
       </sect2>
 
       <sect2 id='labelled'>
-        <title>labelled</title> 
+        <title>labelled</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>50</member>
@@ -3951,7 +3951,7 @@
 <emphasis>starter</emphasis>: EXP <emphasis>x</emphasis>
 <emphasis>places</emphasis>:      LIST(EXP)
 -&gt; EXP <emphasis>w</emphasis>
-   
+  
 </programlisting>
 
         <para>The lists <emphasis>labs_intro</emphasis> and
@@ -3994,7 +3994,7 @@
       </sect2>
 
       <sect2 id='last-local'>
-        <title>last_local</title> 
+        <title>last_local</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>51</member>
@@ -4002,7 +4002,7 @@
 <programlisting>
    <emphasis>x</emphasis>:       EXP OFFSET(<emphasis>y</emphasis>, <emphasis>z</emphasis>)
 -&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-   
+  
 </programlisting>
 
         <para>If the last use of <emphasis>local_alloc</emphasis> in the
@@ -4035,7 +4035,7 @@
       </sect2>
 
       <sect2 id='local-alloc'>
-        <title>local_alloc</title> 
+        <title>local_alloc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>52</member>
@@ -4043,7 +4043,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-   
+  
 </programlisting>
 
         <para>The <emphasis>arg1</emphasis> expression is evaluated and space
@@ -4090,7 +4090,7 @@
       </sect2>
 
       <sect2 id='local-alloc-check'>
-        <title>local_alloc_check</title> 
+        <title>local_alloc_check</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>53</member>
@@ -4098,7 +4098,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP POINTER(<emphasis>alloca_alignment</emphasis>)
-   
+  
 </programlisting>
 
         <para>If the <literal>OFFSET</literal> <emphasis>arg1</emphasis> can be
@@ -4111,7 +4111,7 @@
       </sect2>
 
       <sect2 id='local-free'>
-        <title>local_free</title> 
+        <title>local_free</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>54</member>
@@ -4120,7 +4120,7 @@
    <emphasis>a</emphasis>:       EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>p</emphasis>:       EXP POINTER(<emphasis>alloca_alignment</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The <literal>POINTER</literal>, <emphasis>p</emphasis>, will be
@@ -4138,14 +4138,14 @@
       </sect2>
 
       <sect2 id='local-free-all'>
-        <title>local_free_all</title> 
+        <title>local_free_all</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>55</member>
         </simplelist>
 <programlisting>
    -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>Every space allocated by <emphasis>local_alloc</emphasis> within
@@ -4162,7 +4162,7 @@
       </sect2>
 
       <sect2 id='long-jump'>
-        <title>long_jump</title> 
+        <title>long_jump</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>56</member>
@@ -4171,7 +4171,7 @@
    <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>fa</emphasis>)
 <emphasis>arg2</emphasis>:        EXP POINTER({<emphasis>code</emphasis>})
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> will be a pointer produced by an
@@ -4193,7 +4193,7 @@
       </sect2>
 
       <sect2 id='make-complex'>
-        <title>make_complex</title> 
+        <title>make_complex</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>57</member>
@@ -4203,7 +4203,7 @@
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 <emphasis>arg2</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP FLOATING(<emphasis>c</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex and derived from the same
@@ -4215,7 +4215,7 @@
       </sect2>
 
       <sect2 id='make-compound'>
-        <title>make_compound</title> 
+        <title>make_compound</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>58</member>
@@ -4224,7 +4224,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>base</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        LIST(EXP)
 -&gt; EXP COMPOUND(<emphasis>arg1</emphasis>)
-   
+  
 </programlisting>
 
         <para>Let the <emphasis>i</emphasis>th component
@@ -4269,7 +4269,7 @@
       </sect2>
 
       <sect2 id='make-floating'>
-        <title>make_floating</title> 
+        <title>make_floating</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>59</member>
@@ -4282,7 +4282,7 @@
 <emphasis>base</emphasis>:        NAT
 <emphasis>exponent</emphasis>:    SIGNED_NAT
 -&gt; EXP FLOATING(<emphasis>f</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>f</emphasis> will not be complex.</para>
@@ -4313,7 +4313,7 @@
       </sect2>
 
       <sect2 id='make-general-proc'>
-        <title>make_general_proc</title> 
+        <title>make_general_proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>60</member>
@@ -4325,7 +4325,7 @@
 <emphasis>callee_intro</emphasis>:    LIST(TAGSHACC)
 <emphasis>body</emphasis>:        EXP BOTTOM
 -&gt; EXP PROC
-   
+  
 </programlisting>
 
         <para>Evaluation of <emphasis>make_general_proc</emphasis> delivers a
@@ -4405,7 +4405,7 @@
       </sect2>
 
       <sect2 id='make-int'>
-        <title>make_int</title> 
+        <title>make_int</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>61</member>
@@ -4414,7 +4414,7 @@
    <emphasis>v</emphasis>:       VARIETY
 <emphasis>value</emphasis>:       SIGNED_NAT
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>An integer value is delivered of which the value is given by
@@ -4425,7 +4425,7 @@
       </sect2>
 
       <sect2 id='make-local-lv'>
-        <title>make_local_lv</title> 
+        <title>make_local_lv</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>62</member>
@@ -4433,7 +4433,7 @@
 <programlisting>
    <emphasis>lab</emphasis>:     LABEL
 -&gt; EXP POINTER(<emphasis>{code</emphasis>})
-   
+  
 </programlisting>
 
         <para>A
@@ -4446,7 +4446,7 @@
       </sect2>
 
       <sect2 id='make-nof'>
-        <title>make_nof</title> 
+        <title>make_nof</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>63</member>
@@ -4454,7 +4454,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        LIST(EXP)
 -&gt; EXP NOF(<emphasis>n</emphasis>, <emphasis>s</emphasis>)
-   
+  
 </programlisting>
 
         <para>Creates an array of <emphasis>n</emphasis> values of
@@ -4466,7 +4466,7 @@
       </sect2>
 
       <sect2 id='make-nof-int'>
-        <title>make_nof_int</title> 
+        <title>make_nof_int</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>64</member>
@@ -4475,7 +4475,7 @@
    <emphasis>v</emphasis>:       VARIETY
 <emphasis>str</emphasis>:     STRING<emphasis>(k, n)</emphasis>
 -&gt; EXP NOF(<emphasis>n</emphasis>, INTEGER(<emphasis>v</emphasis>))
-   
+  
 </programlisting>
 
         <para>An <literal>NOF INTEGER</literal> is delivered. The conversions
@@ -4485,14 +4485,14 @@
       </sect2>
 
       <sect2 id='make-null-local-lv'>
-        <title>make_null_local_lv</title> 
+        <title>make_null_local_lv</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>65</member>
         </simplelist>
 <programlisting>
    -&gt; EXP POINTER({<emphasis>code</emphasis>})
-   
+  
 </programlisting>
 
         <para>Makes a null
@@ -4507,14 +4507,14 @@
       </sect2>
 
       <sect2 id='make-null-proc'>
-        <title>make_null_proc</title> 
+        <title>make_null_proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>66</member>
         </simplelist>
 <programlisting>
    -&gt; EXP PROC
-   
+  
 </programlisting>
 
         <para>A null <literal>PROC</literal> is created and delivered. The null
@@ -4527,7 +4527,7 @@
       </sect2>
 
       <sect2 id='make-null-ptr'>
-        <title>make_null_ptr</title> 
+        <title>make_null_ptr</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>67</member>
@@ -4535,7 +4535,7 @@
 <programlisting>
    <emphasis>a</emphasis>:       ALIGNMENT
 -&gt; EXP POINTER(<emphasis>a</emphasis>)
-   
+  
 </programlisting>
 
         <para>A null <literal>POINTER</literal>(<emphasis>a</emphasis>) is
@@ -4551,7 +4551,7 @@
       </sect2>
 
       <sect2 id='make-proc'>
-        <title>make_proc</title> 
+        <title>make_proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>68</member>
@@ -4562,7 +4562,7 @@
 <emphasis>var_intro</emphasis>:   OPTION(TAGACC)
 <emphasis>body</emphasis>:        EXP BOTTOM
 -&gt; EXP PROC
-   
+  
 </programlisting>
 
         <para>Evaluation of <emphasis>make_proc</emphasis> delivers a
@@ -4632,7 +4632,7 @@
       </sect2>
 
       <sect2 id='make-stack-limit'>
-        <title>make_stack_limit</title> 
+        <title>make_stack_limit</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>116</member>
@@ -4642,7 +4642,7 @@
 <emphasis>frame_size</emphasis>:  EXP OFFSET(<emphasis>locals_alignment</emphasis>, <emphasis>x</emphasis>)
 <emphasis>alloc_size</emphasis>:  EXP OFFSET(<emphasis>alloca_alignment</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP POINTER(<emphasis>fb</emphasis>)
-   
+  
 </programlisting>
 
         <para>This creates a POINTER suitable for use with
@@ -4677,14 +4677,14 @@
       </sect2>
 
       <sect2 id='make-top'>
-        <title>make_top</title> 
+        <title>make_top</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>69</member>
         </simplelist>
 <programlisting>
    -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>make_top</emphasis> delivers a value of <literal>SHAPE
@@ -4692,7 +4692,7 @@
       </sect2>
 
       <sect2 id='make-value'>
-        <title>make_value</title> 
+        <title>make_value</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>70</member>
@@ -4700,7 +4700,7 @@
 <programlisting>
    <emphasis>s</emphasis>:       SHAPE
 -&gt; EXP <emphasis>s</emphasis>
-   
+  
 </programlisting>
 
         <para>This <literal>EXP</literal> creates some value with the
@@ -4725,7 +4725,7 @@
       </sect2>
 
       <sect2 id='maximum'>
-        <title>maximum</title> 
+        <title>maximum</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>71</member>
@@ -4734,7 +4734,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments will be evaluated and the maximum of the values
@@ -4742,7 +4742,7 @@
       </sect2>
 
       <sect2 id='minimum'>
-        <title>minimum</title> 
+        <title>minimum</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>72</member>
@@ -4751,7 +4751,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments will be evaluated and the minimum of the values
@@ -4759,7 +4759,7 @@
       </sect2>
 
       <sect2 id='minus'>
-        <title>minus</title> 
+        <title>minus</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>73</member>
@@ -4769,7 +4769,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -4787,7 +4787,7 @@
       </sect2>
 
       <sect2 id='move-some'>
-        <title>move_some</title> 
+        <title>move_some</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>74</member>
@@ -4798,7 +4798,7 @@
 <emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>y</emphasis>)
 <emphasis>arg3</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The arguments are evaluated to produce <emphasis>p1</emphasis>,
@@ -4828,7 +4828,7 @@
       </sect2>
 
       <sect2 id='mult'>
-        <title>mult</title> 
+        <title>mult</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>75</member>
@@ -4838,7 +4838,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -4856,7 +4856,7 @@
       </sect2>
 
       <sect2 id='n-copies'>
-        <title>n_copies</title> 
+        <title>n_copies</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>76</member>
@@ -4865,7 +4865,7 @@
    <emphasis>n</emphasis>:       NAT
 <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
 -&gt; EXP NOF(<emphasis>n</emphasis>, <emphasis>x</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and an
@@ -4878,7 +4878,7 @@
       </sect2>
 
       <sect2 id='negate'>
-        <title>negate</title> 
+        <title>negate</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>77</member>
@@ -4887,7 +4887,7 @@
    <emphasis>ov_err</emphasis>:      ERROR_TREATMENT
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated and will produce an
@@ -4902,7 +4902,7 @@
       </sect2>
 
       <sect2 id='not'>
-        <title>not</title> 
+        <title>not</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>78</member>
@@ -4910,7 +4910,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The argument is evaluated producing an integer value, of
@@ -4924,7 +4924,7 @@
       </sect2>
 
       <sect2 id='obtain-tag'>
-        <title>obtain_tag</title> 
+        <title>obtain_tag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>79</member>
@@ -4932,7 +4932,7 @@
 <programlisting>
    <emphasis>t</emphasis>:       TAG <emphasis>x</emphasis>
 -&gt; EXP <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>The value with which the <literal>TAG</literal>
@@ -4942,7 +4942,7 @@
       </sect2>
 
       <sect2 id='offset-add'>
-        <title>offset_add</title> 
+        <title>offset_add</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>80</member>
@@ -4951,7 +4951,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
 -&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>t</emphasis>)
-   
+  
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s. The result
@@ -4969,7 +4969,7 @@
       </sect2>
 
       <sect2 id='offset-div'>
-        <title>offset_div</title> 
+        <title>offset_div</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>81</member>
@@ -4979,7 +4979,7 @@
 <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s,
@@ -4994,7 +4994,7 @@
       </sect2>
 
       <sect2 id='offset-div-by-int'>
-        <title>offset_div_by_int</title> 
+        <title>offset_div_by_int</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>82</member>
@@ -5003,7 +5003,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-   
+  
 </programlisting>
 
         <para>The result is the <literal>OFFSET</literal> produced by
@@ -5022,7 +5022,7 @@
       </sect2>
 
       <sect2 id='offset-max'>
-        <title>offset_max</title> 
+        <title>offset_max</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>83</member>
@@ -5031,7 +5031,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para>The two arguments deliver <literal>OFFSET</literal>s. The result
@@ -5049,7 +5049,7 @@
       </sect2>
 
       <sect2 id='offset-mult'>
-        <title>offset_mult</title> 
+        <title>offset_mult</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>84</member>
@@ -5058,7 +5058,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-   
+  
 </programlisting>
 
         <para>The first argument gives an <literal>OFFSET</literal>,
@@ -5072,7 +5072,7 @@
       </sect2>
 
       <sect2 id='offset-negate'>
-        <title>offset_negate</title> 
+        <title>offset_negate</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>85</member>
@@ -5080,7 +5080,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
 -&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>x</emphasis>)
-   
+  
 </programlisting>
 
         <para>The inverse of the argument is delivered.</para>
@@ -5090,7 +5090,7 @@
       </sect2>
 
       <sect2 id='offset-pad'>
-        <title>offset_pad</title> 
+        <title>offset_pad</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>86</member>
@@ -5099,7 +5099,7 @@
    <emphasis>a</emphasis>:       ALIGNMENT
 <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
 -&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>z</emphasis>, <emphasis>a</emphasis>), <emphasis>a</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated giving
@@ -5123,7 +5123,7 @@
       </sect2>
 
       <sect2 id='offset-subtrat'>
-        <title>offset_subtract</title> 
+        <title>offset_subtract</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>87</member>
@@ -5132,7 +5132,7 @@
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>z</emphasis>)
 -&gt; EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para>The two arguments deliver offsets, <emphasis>p</emphasis> and
@@ -5151,7 +5151,7 @@
       </sect2>
 
       <sect2 id='offset-test'>
-        <title>offset_test</title> 
+        <title>offset_test</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>88</member>
@@ -5163,7 +5163,7 @@
 <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5191,7 +5191,7 @@
       </sect2>
 
       <sect2 id='offset-zero'>
-        <title>offset_zero</title> 
+        <title>offset_zero</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>89</member>
@@ -5199,7 +5199,7 @@
 <programlisting>
    <emphasis>a</emphasis>:       ALIGNMENT
 -&gt; EXP OFFSET(<emphasis>a</emphasis>, <emphasis>a</emphasis>)
-   
+  
 </programlisting>
 
         <para>A zero offset of <literal>SHAPE
@@ -5214,7 +5214,7 @@
       </sect2>
 
       <sect2 id='or'>
-        <title>or</title> 
+        <title>or</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>90</member>
@@ -5223,7 +5223,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -5237,7 +5237,7 @@
       </sect2>
 
       <sect2 id='plus'>
-        <title>plus</title> 
+        <title>plus</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>91</member>
@@ -5247,7 +5247,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5265,7 +5265,7 @@
       </sect2>
 
       <sect2 id='pointer-test'>
-        <title>pointer_test</title> 
+        <title>pointer_test</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>92</member>
@@ -5277,7 +5277,7 @@
 <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 <emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5309,7 +5309,7 @@
       </sect2>
 
       <sect2 id='power'>
-        <title>power</title> 
+        <title>power</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>93</member>
@@ -5319,7 +5319,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg2</emphasis> will be non-negative. The result is the
@@ -5333,7 +5333,7 @@
       </sect2>
 
       <sect2 id='proc-test'>
-        <title>proc_test</title> 
+        <title>proc_test</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>94</member>
@@ -5345,7 +5345,7 @@
 <emphasis>arg1</emphasis>:        EXP PROC
 <emphasis>arg2</emphasis>:        EXP PROC
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5372,7 +5372,7 @@
       </sect2>
 
       <sect2 id='profile'>
-        <title>profile</title> 
+        <title>profile</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>95</member>
@@ -5380,7 +5380,7 @@
 <programlisting>
    <emphasis>uses</emphasis>:        NAT
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para>The integer <emphasis>uses</emphasis> gives the number of times
@@ -5391,7 +5391,7 @@
       </sect2>
 
       <sect2 id='real-part'>
-        <title>real_part</title> 
+        <title>real_part</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>96</member>
@@ -5399,7 +5399,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP <emphasis>c</emphasis>
 -&gt; EXP FLOATING (<emphasis>float_of_complex(c)</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>c</emphasis> will be complex. Delivers the real part of
@@ -5407,7 +5407,7 @@
       </sect2>
 
       <sect2 id='rem-zero'>
-        <title>rem0</title> 
+        <title>rem0</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>97</member>
@@ -5418,7 +5418,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5434,7 +5434,7 @@
         <para>The following equivalence shall hold:</para>
 <programlisting>
    <emphasis>x = plus(mult(div0(x, y), y), rem0(x, y))</emphasis>
-   
+  
 </programlisting>
 
         <para>if all the <literal>ERROR_TREATMENT</literal>s are
@@ -5460,7 +5460,7 @@
       </sect2>
 
       <sect2 id='rem-one'>
-        <title>rem1</title> 
+        <title>rem1</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>98</member>
@@ -5471,7 +5471,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5500,7 +5500,7 @@
       </sect2>
 
       <sect2 id='rem-two'>
-        <title>rem2</title> 
+        <title>rem2</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>99</member>
@@ -5511,7 +5511,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5540,7 +5540,7 @@
       </sect2>
 
       <sect2 id='repeat'>
-        <title>repeat</title> 
+        <title>repeat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>100</member>
@@ -5550,7 +5550,7 @@
 <emphasis>start</emphasis>:       EXP TOP
 <emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
 -&gt; EXP <emphasis>y</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>start</emphasis> is evaluated. Then
@@ -5573,7 +5573,7 @@
       </sect2>
 
       <sect2 id='return'>
-        <title>return</title> 
+        <title>return</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>101</member>
@@ -5581,7 +5581,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a value,
@@ -5601,7 +5601,7 @@
       </sect2>
 
       <sect2 id='return-to-label'>
-        <title>return_to_label</title> 
+        <title>return_to_label</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>102</member>
@@ -5609,7 +5609,7 @@
 <programlisting>
    <emphasis>lab_val</emphasis>: EXP POINTER <emphasis>code_alignment</emphasis>
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>lab_val</emphasis> will be a label value in the calling
@@ -5621,7 +5621,7 @@
       </sect2>
 
       <sect2 id='round-with-mode'>
-        <title>round_with_mode</title> 
+        <title>round_with_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>103</member>
@@ -5632,7 +5632,7 @@
 <emphasis>r</emphasis>:       VARIETY
 <emphasis>arg1</emphasis>:        EXP FLOATING(<emphasis>f</emphasis>)
 -&gt; EXP INTEGER(<emphasis>r</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg</emphasis> is evaluated to produce a floating point
@@ -5650,7 +5650,7 @@
       </sect2>
 
       <sect2 id='rotate-left'>
-        <title>rotate_left</title> 
+        <title>rotate_left</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>104</member>
@@ -5659,7 +5659,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The value delivered by <emphasis>arg1</emphasis> is rotated left
@@ -5674,7 +5674,7 @@
       </sect2>
 
       <sect2 id='rotate-right'>
-        <title>rotate_right</title> 
+        <title>rotate_right</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>105</member>
@@ -5683,7 +5683,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The value delivered by <emphasis>arg1</emphasis> is rotated right
@@ -5698,7 +5698,7 @@
       </sect2>
 
       <sect2 id='sequence'>
-        <title>sequence</title> 
+        <title>sequence</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>106</member>
@@ -5707,7 +5707,7 @@
    <emphasis>statements</emphasis>:  LIST(EXP)
 <emphasis>result</emphasis>:      EXP <emphasis>x</emphasis>
 -&gt; EXP <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>The statements are evaluated in the same order as the list,
@@ -5733,7 +5733,7 @@
       </sect2>
 
       <sect2 id='set-stack-limit'>
-        <title>set_stack_limit</title> 
+        <title>set_stack_limit</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>107</member>
@@ -5741,7 +5741,7 @@
 <programlisting>
    <emphasis>lim</emphasis>:     EXP POINTER({<emphasis>locals_alignment, alloca_alignment}</emphasis>)
 -&gt; EXP TOP
-   
+  
 </programlisting>
 
         <para><emphasis>set_stack_limit</emphasis> sets the limits of remaining
@@ -5768,7 +5768,7 @@
       </sect2>
 
       <sect2 id='shape-offset'>
-        <title>shape_offset</title> 
+        <title>shape_offset</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>108</member>
@@ -5776,7 +5776,7 @@
 <programlisting>
    <emphasis>s</emphasis>:       SHAPE
 -&gt; EXP OFFSET(<emphasis>alignment</emphasis>(<emphasis>s</emphasis>), {})
-   
+  
 </programlisting>
 
         <para>This construction delivers the This construction delivers the
@@ -5806,7 +5806,7 @@
       </sect2>
 
       <sect2 id='shift-left'>
-        <title>shift_left</title> 
+        <title>shift_left</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>109</member>
@@ -5816,7 +5816,7 @@
 <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5840,7 +5840,7 @@
       </sect2>
 
       <sect2 id='shift-right'>
-        <title>shift_right</title> 
+        <title>shift_right</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>110</member>
@@ -5849,7 +5849,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>w</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5868,7 +5868,7 @@
       </sect2>
 
       <sect2 id='subtract-ptrs'>
-        <title>subtract_ptrs</title> 
+        <title>subtract_ptrs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>111</member>
@@ -5877,7 +5877,7 @@
    <emphasis>arg1</emphasis>:        EXP POINTER(<emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP POINTER(<emphasis>x</emphasis>)
 -&gt; EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> and <emphasis>arg2</emphasis> are
@@ -5894,7 +5894,7 @@
       </sect2>
 
       <sect2 id='tail-call'>
-        <title>tail_call</title> 
+        <title>tail_call</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>112</member>
@@ -5904,7 +5904,7 @@
 <emphasis>p</emphasis>:       EXP PROC
 <emphasis>callee_pars</emphasis>: CALLEES
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>p</emphasis> is called in the sense of
@@ -5932,7 +5932,7 @@
       </sect2>
 
       <sect2 id='untidy-return'>
-        <title>untidy_return</title> 
+        <title>untidy_return</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>113</member>
@@ -5940,7 +5940,7 @@
 <programlisting>
    <emphasis>arg1</emphasis>:        EXP <emphasis>x</emphasis>
 -&gt; EXP BOTTOM
-   
+  
 </programlisting>
 
         <para><emphasis>arg1</emphasis> is evaluated to produce a value,
@@ -5957,7 +5957,7 @@
       </sect2>
 
       <sect2 id='variable'>
-        <title>variable</title> 
+        <title>variable</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>114</member>
@@ -5968,7 +5968,7 @@
 <emphasis>init</emphasis>:        EXP <emphasis>x</emphasis>
 <emphasis>body</emphasis>:        EXP <emphasis>y</emphasis>
 -&gt; EXP <emphasis>y</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>init</emphasis> is evaluated to produce a value,
@@ -6015,7 +6015,7 @@
       </sect2>
 
       <sect2 id='xor'>
-        <title>xor</title> 
+        <title>xor</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>115</member>
@@ -6024,7 +6024,7 @@
    <emphasis>arg1</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:        EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; EXP INTEGER(<emphasis>v</emphasis>)
-   
+  
 </programlisting>
 
         <para>The arguments are evaluated producing integer values of the same
@@ -6039,7 +6039,7 @@
     </sect1>
 
     <sect1 id='external'>
-      <title>EXTERNAL</title> 
+      <title>EXTERNAL</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -6052,7 +6052,7 @@
         <literal>CAPSULE</literal>.</para>
 
       <sect2 id='string-extern'>
-        <title>string_extern</title> 
+        <title>string_extern</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6060,7 +6060,7 @@
 <programlisting>
    <emphasis>s</emphasis>:       BYTE_ALIGN TDFIDENT(<emphasis>n</emphasis>)
 -&gt; EXTERNAL
-   
+  
 </programlisting>
 
         <para><emphasis>string_extern</emphasis> produces an
@@ -6069,7 +6069,7 @@
       </sect2>
 
       <sect2 id='unique-extern'>
-        <title>unique_extern</title> 
+        <title>unique_extern</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6077,7 +6077,7 @@
 <programlisting>
    <emphasis>u</emphasis>:       BYTE_ALIGN UNIQUE
 -&gt; EXTERNAL
-   
+  
 </programlisting>
 
         <para><emphasis>unique_extern</emphasis> produces an
@@ -6086,7 +6086,7 @@
       </sect2>
 
       <sect2 id='chain-extern'>
-        <title>chain_extern</title> 
+        <title>chain_extern</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -6095,7 +6095,7 @@
    <emphasis>s</emphasis>:       BYTE_ALIGN TDFIDENT
 <emphasis>prev</emphasis>:        TDFINT
 -&gt; EXTERNAL
-   
+  
 </programlisting>
 
         <para>This construct is redundant and should not be used.</para>
@@ -6103,7 +6103,7 @@
     </sect1>
 
     <sect1 id='extern-link'>
-      <title>EXTERN_LINK</title> 
+      <title>EXTERN_LINK</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -6114,7 +6114,7 @@
         <literal>LINKEXTERN</literal>.</para>
 
       <sect2 id='make-extern-link'>
-        <title>make_extern_link</title> 
+        <title>make_extern_link</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6122,7 +6122,7 @@
 <programlisting>
    <emphasis>el</emphasis>:      SLIST(LINKEXTERN)
 -&gt; EXTERN_LINK
-   
+  
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> requires a
@@ -6134,7 +6134,7 @@
     </sect1>
 
     <sect1 id='floating-variety'>
-      <title>FLOATING_VARIETY</title> 
+      <title>FLOATING_VARIETY</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -6144,7 +6144,7 @@
       <para>These describe kinds of floating point number.</para>
 
       <sect2 id='flvar-apply-token'>
-        <title>flvar_apply_token</title> 
+        <title>flvar_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6153,7 +6153,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6166,7 +6166,7 @@
       </sect2>
 
       <sect2 id='flvar-cond'>
-        <title>flvar_cond</title> 
+        <title>flvar_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6176,7 +6176,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM FLOATING_VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM FLOATING_VARIETY
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6189,7 +6189,7 @@
       </sect2>
 
       <sect2 id='flvar-params'>
-        <title>flvar_parms</title> 
+        <title>flvar_parms</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -6200,7 +6200,7 @@
 <emphasis>min_exponent</emphasis>:    NAT
 <emphasis>max_exponent</emphasis>:    NAT
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>base</emphasis> is the base with respect to which the
@@ -6241,7 +6241,7 @@
       </sect2>
 
       <sect2 id='complex-parms'>
-        <title>complex_parms</title> 
+        <title>complex_parms</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -6252,7 +6252,7 @@
 <emphasis>min_exponent</emphasis>:    NAT
 <emphasis>max_exponent</emphasis>:    NAT
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para>A <literal>FLOATING_VARIETY</literal> described by
@@ -6263,7 +6263,7 @@
       </sect2>
 
       <sect2 id='float-of-complex'>
-        <title>float_of_complex</title> 
+        <title>float_of_complex</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -6271,7 +6271,7 @@
 <programlisting>
    <emphasis>csh</emphasis>:     SHAPE
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>csh</emphasis> will be a complex
@@ -6283,7 +6283,7 @@
       </sect2>
 
       <sect2 id='complex-of-float'>
-        <title>complex_of_float</title> 
+        <title>complex_of_float</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
@@ -6291,7 +6291,7 @@
 <programlisting>
    <emphasis>fsh</emphasis>:     SHAPE
 -&gt; FLOATING_VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>fsh</emphasis> will be a floating
@@ -6304,7 +6304,7 @@
     </sect1>
 
     <sect1 id='group'>
-      <title>GROUP</title> 
+      <title>GROUP</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -6315,7 +6315,7 @@
         with the same unit identification.</para>
 
       <sect2 id='make-group'>
-        <title>make_group</title> 
+        <title>make_group</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6323,7 +6323,7 @@
 <programlisting>
    <emphasis>us</emphasis>:      SLIST(UNIT)
 -&gt; GROUP
-   
+  
 </programlisting>
 
         <para><emphasis>make_capsule</emphasis> contains a list of
@@ -6334,7 +6334,7 @@
     </sect1>
 
     <sect1 id='label'>
-      <title>LABEL</title> 
+      <title>LABEL</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -6346,7 +6346,7 @@
         the control to the labelled construction.</para>
 
       <sect2 id='label-apply-token'>
-        <title>label_apply_token</title> 
+        <title>label_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6355,7 +6355,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; LABEL <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6368,7 +6368,7 @@
       </sect2>
 
       <sect2 id='make-label'>
-        <title>make_label</title> 
+        <title>make_label</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6376,7 +6376,7 @@
 <programlisting>
    <emphasis>labelno</emphasis>: TDFINT
 -&gt; LABEL
-   
+  
 </programlisting>
 
         <para>Labels are represented in TDF by integers, but they are not
@@ -6387,7 +6387,7 @@
     </sect1>
 
     <sect1 id='link'>
-      <title>LINK</title> 
+      <title>LINK</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -6398,7 +6398,7 @@
         variables of the same <literal>SORT</literal>.</para>
 
       <sect2 id='make-link'>
-        <title>make_link</title> 
+        <title>make_link</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6407,7 +6407,7 @@
    <emphasis>unit_name</emphasis>:   TDFINT
 <emphasis>capsule_name</emphasis>:    TDFINT
 -&gt; LINK
-   
+  
 </programlisting>
 
         <para>A <literal>LINK</literal> defines a linkable entity declared
@@ -6423,7 +6423,7 @@
     </sect1>
 
     <sect1 id='linkextern'>
-      <title>LINKEXTERN</title> 
+      <title>LINKEXTERN</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -6436,7 +6436,7 @@
         outside.</para>
 
       <sect2 id='make-linkextern'>
-        <title>make_linkextern</title> 
+        <title>make_linkextern</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6445,7 +6445,7 @@
    <emphasis>internal</emphasis>:    TDFINT
 <emphasis>ext</emphasis>:     EXTERNAL
 -&gt; LINKEXTERN
-   
+  
 </programlisting>
 
         <para><emphasis>make_linkextern</emphasis> produces a
@@ -6460,7 +6460,7 @@
     </sect1>
 
     <sect1 id='links'>
-      <title>LINKS</title> 
+      <title>LINKS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -6468,7 +6468,7 @@
       </simplelist>
 
       <sect2 id='make-links'>
-        <title>make_links</title> 
+        <title>make_links</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6476,7 +6476,7 @@
 <programlisting>
    <emphasis>ls</emphasis>:      SLIST(LINK)
 -&gt; LINKS
-   
+  
 </programlisting>
 
         <para><emphasis>make_unit</emphasis> uses a
@@ -6489,7 +6489,7 @@
     </sect1>
 
     <sect1 id='nat'>
-      <title>NAT</title> 
+      <title>NAT</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -6499,7 +6499,7 @@
       <para>These are non-negative integers of unlimited size.</para>
 
       <sect2 id='nat-apply-token'>
-        <title>nat_apply_token</title> 
+        <title>nat_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6508,7 +6508,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; NAT
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6521,7 +6521,7 @@
       </sect2>
 
       <sect2 id='nat-cond'>
-        <title>nat_cond</title> 
+        <title>nat_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6531,7 +6531,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM NAT
 <emphasis>e2</emphasis>:      BITSTREAM NAT
 -&gt; NAT
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6544,7 +6544,7 @@
       </sect2>
 
       <sect2 id='computed-nat'>
-        <title>computed_nat</title> 
+        <title>computed_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -6552,7 +6552,7 @@
 <programlisting>
    <emphasis>arg</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; NAT
-   
+  
 </programlisting>
 
         <para><emphasis>arg</emphasis> will be an install-time non-negative
@@ -6560,7 +6560,7 @@
       </sect2>
 
       <sect2 id='error-val'>
-        <title>error_val</title> 
+        <title>error_val</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -6568,7 +6568,7 @@
 <programlisting>
    <emphasis>err</emphasis>:     ERROR_CODE
 -&gt; NAT
-   
+  
 </programlisting>
 
         <para>Gives the <literal>NAT</literal> corresponding to the
@@ -6578,7 +6578,7 @@
       </sect2>
 
       <sect2 id='make-nat'>
-        <title>make_nat</title> 
+        <title>make_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -6586,7 +6586,7 @@
 <programlisting>
    <emphasis>n</emphasis>:       TDFINT
 -&gt; NAT
-   
+  
 </programlisting>
 
         <para><emphasis>n</emphasis> is a non-negative integer of unbounded
@@ -6595,7 +6595,7 @@
     </sect1>
 
     <sect1 id='ntest'>
-      <title>NTEST</title> 
+      <title>NTEST</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>4</member> <member>Is
@@ -6609,7 +6609,7 @@
         defined (e.g. in IEEE floating point).</para>
 
       <sect2 id='ntest-apply-token'>
-        <title>ntest_apply_token</title> 
+        <title>ntest_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6618,7 +6618,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6631,7 +6631,7 @@
       </sect2>
 
       <sect2 id='ntest-cond'>
-        <title>ntest_cond</title> 
+        <title>ntest_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6641,7 +6641,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM NTEST
 <emphasis>e2</emphasis>:      BITSTREAM NTEST
 -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6654,14 +6654,14 @@
       </sect2>
 
       <sect2 id='equal'>
-        <title>equal</title> 
+        <title>equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;equal&quot; test. quot;equalSignifies
@@ -6669,14 +6669,14 @@
       </sect2>
 
       <sect2 id='greater-than'>
-        <title>greater_than</title> 
+        <title>greater_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;greater than&quot; test. quot;greater
@@ -6684,14 +6684,14 @@
       </sect2>
 
       <sect2 id='greater-than-or-equal'>
-        <title>greater_than_or_equal</title> 
+        <title>greater_than_or_equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;greater than or equal&quot; test.
@@ -6700,14 +6700,14 @@
       </sect2>
 
       <sect2 id='less-than'>
-        <title>less_than</title> 
+        <title>less_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;less than&quot; test. quot;less
@@ -6715,14 +6715,14 @@
       </sect2>
 
       <sect2 id='less-than-or-equal'>
-        <title>less_than_or_equal</title> 
+        <title>less_than_or_equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;less than or equal&quot; test.
@@ -6731,14 +6731,14 @@
       </sect2>
 
       <sect2 id='not-equal'>
-        <title>not_equal</title> 
+        <title>not_equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not equal&quot; test. quot;not
@@ -6746,14 +6746,14 @@
       </sect2>
 
       <sect2 id='not-greater-than'>
-        <title>not_greater_than</title> 
+        <title>not_greater_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not greater than&quot; test. quot;not
@@ -6762,14 +6762,14 @@
       </sect2>
 
       <sect2 id='not-greater-than-or-equal'>
-        <title>not_greater_than_or_equal</title> 
+        <title>not_greater_than_or_equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not (greater than or equal)&quot; test.
@@ -6778,14 +6778,14 @@
       </sect2>
 
       <sect2 id='not-less-than'>
-        <title>not_less_than</title> 
+        <title>not_less_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not less than&quot; test. quot;not less
@@ -6793,14 +6793,14 @@
       </sect2>
 
       <sect2 id='not-less-than-or-equal'>
-        <title>not_less_than_or_equal</title> 
+        <title>not_less_than_or_equal</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not (less than or equal)&quot; test.
@@ -6809,14 +6809,14 @@
       </sect2>
 
       <sect2 id='less-than-or-greater-than'>
-        <title>less_than_or_greater_than</title> 
+        <title>less_than_or_greater_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;less than or greater than&quot; test.
@@ -6825,14 +6825,14 @@
       </sect2>
 
       <sect2 id='not-less-than-and-not-greater-than'>
-        <title>not_less_than_and_not_greater_than</title> 
+        <title>not_less_than_and_not_greater_than</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>14</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not less than and not greater
@@ -6841,14 +6841,14 @@
       </sect2>
 
       <sect2 id='comparable'>
-        <title>comparable</title> 
+        <title>comparable</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>15</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;comparable&quot; test.
@@ -6860,14 +6860,14 @@
       </sect2>
 
       <sect2 id='not-comparable'>
-        <title>not_comparable</title> 
+        <title>not_comparable</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>16</member>
         </simplelist>
 <programlisting>
    -&gt; NTEST
-   
+  
 </programlisting>
 
         <para>Signifies Signifies &quot;not comparable&quot; test. quot;not
@@ -6878,7 +6878,7 @@
       </sect2>
 
       <sect2 id='otagexp'>
-        <title>OTAGEXP</title> 
+        <title>OTAGEXP</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Number of encoding bits:</member><member>0</member>
@@ -6890,7 +6890,7 @@
       </sect2>
 
       <sect2 id='make-otagexp'>
-        <title>make_otagexp</title> 
+        <title>make_otagexp</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -6899,7 +6899,7 @@
    <emphasis>tgopt</emphasis>:       OPTION(TAG <emphasis>x</emphasis>)
 <emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
 -&gt; OTAGEXP
-   
+  
 </programlisting>
 
         <para><emphasis>e</emphasis> is evaluated and its value is the actual
@@ -6911,7 +6911,7 @@
     </sect1>
 
     <sect1 id='procprops'>
-      <title>PROCPROPS</title> 
+      <title>PROCPROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>4</member> <member>Is
@@ -6922,7 +6922,7 @@
         procedure definitions and calls.</para>
 
       <sect2 id='prcprops-apply-token'>
-        <title>procprops_apply_token</title> 
+        <title>procprops_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -6931,7 +6931,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -6944,7 +6944,7 @@
       </sect2>
 
       <sect2 id='procprops-cond'>
-        <title>procprops_cond</title> 
+        <title>procprops_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -6954,7 +6954,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM PROCPROPS
 <emphasis>e2</emphasis>:      BITSTREAM PROCPROPS
 -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -6967,7 +6967,7 @@
       </sect2>
 
       <sect2 id='add-procprops'>
-        <title>add_procprops</title> 
+        <title>add_procprops</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -6976,7 +6976,7 @@
    <emphasis>arg1</emphasis>:        PROCPROPS
 <emphasis>arg2</emphasis>:        PROCPROPS
 -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>Delivers the join of <emphasis>arg1</emphasis> and
@@ -6984,14 +6984,14 @@
       </sect2>
 
       <sect2 id='check-stack'>
-        <title>check_stack</title> 
+        <title>check_stack</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The procedure body is required to check for stack
@@ -6999,14 +6999,14 @@
       </sect2>
 
       <sect2 id='inline'>
-        <title>inline</title> 
+        <title>inline</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The procedure body is a good candidate for inlining at its
@@ -7014,14 +7014,14 @@
       </sect2>
 
       <sect2 id='nd-long-jump-dest'>
-        <title>no_long_jump_dest</title> 
+        <title>no_long_jump_dest</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The procedure body will contain no label which is the destination
@@ -7029,14 +7029,14 @@
       </sect2>
 
       <sect2 id='untidy'>
-        <title>untidy</title> 
+        <title>untidy</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>The procedure body may be exited using an
@@ -7044,14 +7044,14 @@
       </sect2>
 
       <sect2 id='var-callees'>
-        <title>var_callees</title> 
+        <title>var_callees</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>Applications of the procedure may have different numbers of
@@ -7059,14 +7059,14 @@
       </sect2>
 
       <sect2 id='var-callers'>
-        <title>var_callers</title> 
+        <title>var_callers</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
         </simplelist>
 <programlisting>
    -&gt; PROCPROPS
-   
+  
 </programlisting>
 
         <para>Applications of the procedure may have different numbers of
@@ -7075,7 +7075,7 @@
     </sect1>
 
     <sect1 id='props'>
-      <title>PROPS</title> 
+      <title>PROPS</title>
 
       <para>A <literal>PROPS</literal> is an assemblage of program information.
         This standard offers various ways of constructing a
@@ -7136,7 +7136,7 @@
     </sect1>
 
     <sect1 id='rounding-mode'>
-      <title>ROUNDING_MODE</title> 
+      <title>ROUNDING_MODE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -7147,7 +7147,7 @@
         be performed in floating point arithmetic.</para>
 
       <sect2 id='rounding-mode-apply-token'>
-        <title>rounding_mode_apply_token</title> 
+        <title>rounding_mode_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -7156,7 +7156,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7169,7 +7169,7 @@
       </sect2>
 
       <sect2 id='rounding-mode-cond'>
-        <title>rounding_mode_cond</title> 
+        <title>rounding_mode_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -7179,7 +7179,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM ROUNDING_MODE
 <emphasis>e2</emphasis>:      BITSTREAM ROUNDING_MODE
 -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7192,28 +7192,28 @@
       </sect2>
 
       <sect2 id='round-as-state'>
-        <title>round_as_state</title> 
+        <title>round_as_state</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>Round as specified by the current state of the machine.</para>
       </sect2>
 
       <sect2 id='to-nearest'>
-        <title>to_nearest</title> 
+        <title>to_nearest</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>Signifies rounding to nearest. The effect when the number lies
@@ -7221,42 +7221,42 @@
       </sect2>
 
       <sect2 id='twoard-larger'>
-        <title>toward_larger</title> 
+        <title>toward_larger</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>Signifies rounding toward next largest.</para>
       </sect2>
 
       <sect2 id='twoard-smaller'>
-        <title>toward_smaller</title> 
+        <title>toward_smaller</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>Signifies rounding toward next smallest.</para>
       </sect2>
 
       <sect2 id='twoard-zero'>
-        <title>toward_zero</title> 
+        <title>toward_zero</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; ROUNDING_MODE
-   
+  
 </programlisting>
 
         <para>Signifies rounding toward zero.</para>
@@ -7264,7 +7264,7 @@
     </sect1>
 
     <sect1 id='shape'>
-      <title>SHAPE</title> 
+      <title>SHAPE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>4</member> <member>Is
@@ -7280,7 +7280,7 @@
         <literal>SHAPE</literal>s.</para>
 
       <sect2 id='shape-apply-token'>
-        <title>shape_apply_token</title> 
+        <title>shape_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -7289,7 +7289,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7302,7 +7302,7 @@
       </sect2>
 
       <sect2 id='shape-cond'>
-        <title>shape_cond</title> 
+        <title>shape_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -7312,7 +7312,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM SHAPE
 <emphasis>e2</emphasis>:      BITSTREAM SHAPE
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7325,7 +7325,7 @@
       </sect2>
 
       <sect2 id='bitfield'>
-        <title>bitfield</title> 
+        <title>bitfield</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -7333,7 +7333,7 @@
 <programlisting>
    <emphasis>bf_var</emphasis>:      BITFIELD_VARIETY
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>A <literal>BITFIELD</literal> is used to represent a pattern of
@@ -7353,14 +7353,14 @@
       </sect2>
 
       <sect2 id='bottom'>
-        <title>bottom</title> 
+        <title>bottom</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para><literal>BOTTOM</literal> is the <literal>SHAPE</literal> which
@@ -7374,7 +7374,7 @@
       </sect2>
 
       <sect2 id='compound'>
-        <title>compound</title> 
+        <title>compound</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -7382,7 +7382,7 @@
 <programlisting>
    <emphasis>sz</emphasis>:      EXP OFFSET(<emphasis>x</emphasis>, y)
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The <literal>SHAPE</literal> constructor
@@ -7402,7 +7402,7 @@
       </sect2>
 
       <sect2 id='floating'>
-        <title>floating</title> 
+        <title>floating</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
@@ -7410,7 +7410,7 @@
 <programlisting>
    <emphasis>fv</emphasis>:      FLOATING_VARIETY
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>Most of the floating point arithmetic operations,
@@ -7429,7 +7429,7 @@
       </sect2>
 
       <sect2 id='integer'>
-        <title>integer</title> 
+        <title>integer</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
@@ -7437,7 +7437,7 @@
 <programlisting>
    <emphasis>var</emphasis>:     VARIETY
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The different kinds of <literal>INTEGER</literal> are
@@ -7456,7 +7456,7 @@
           <literal>SHAPE</literal>s were:</para>
 <programlisting>
    INTEGER(0, 60000)  <emphasis>and</emphasis>  INTEGER(0, 30000)
-   
+  
 </programlisting>
 
         <para>would be undefined. The reason is that without knowledge of the
@@ -7480,7 +7480,7 @@
       </sect2>
 
       <sect2 id='nof'>
-        <title>nof</title> 
+        <title>nof</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
@@ -7489,7 +7489,7 @@
    <emphasis>n</emphasis>:       NAT
 <emphasis>s</emphasis>:       SHAPE
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The <literal>NOF</literal> constructor describes the
@@ -7499,7 +7499,7 @@
       </sect2>
 
       <sect2 id='offset'>
-        <title>offset</title> 
+        <title>offset</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
@@ -7508,7 +7508,7 @@
    <emphasis>arg1</emphasis>:        ALIGNMENT
 <emphasis>arg2</emphasis>:        ALIGNMENT
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>The <literal>SHAPE</literal> constructor
@@ -7539,7 +7539,7 @@
       </sect2>
 
       <sect2 id='pointer'>
-        <title>pointer</title> 
+        <title>pointer</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
@@ -7547,7 +7547,7 @@
 <programlisting>
    <emphasis>arg</emphasis>:     ALIGNMENT
 -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para>A <literal>POINTER</literal> is a value which points to space
@@ -7559,14 +7559,14 @@
       </sect2>
 
       <sect2 id='proc'>
-        <title>proc</title> 
+        <title>proc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
    -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para><literal>PROC</literal> is the <literal>SHAPE</literal> which
@@ -7574,14 +7574,14 @@
       </sect2>
 
       <sect2 id='top'>
-        <title>top</title> 
+        <title>top</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
    -&gt; SHAPE
-   
+  
 </programlisting>
 
         <para><literal>TOP</literal> is the <literal>SHAPE</literal> which
@@ -7592,7 +7592,7 @@
     </sect1>
 
     <sect1 id='signed-nat'>
-      <title>SIGNED_NAT</title> 
+      <title>SIGNED_NAT</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -7602,7 +7602,7 @@
       <para>These are positive or negative integers of unbounded size.</para>
 
       <sect2 id='signed-nat-apply-token'>
-        <title>signed_nat_apply_token</title> 
+        <title>signed_nat_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -7611,7 +7611,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; SIGNED_NAT
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -7624,7 +7624,7 @@
       </sect2>
 
       <sect2 id='signed-nat-cond'>
-        <title>signed_nat_cond</title> 
+        <title>signed_nat_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -7634,7 +7634,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM SIGNED_NAT
 <emphasis>e2</emphasis>:      BITSTREAM SIGNED_NAT
 -&gt; SIGNED_NAT
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -7647,7 +7647,7 @@
       </sect2>
 
       <sect2 id='computed-signed-nat'>
-        <title>computed_signed_nat</title> 
+        <title>computed_signed_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -7655,7 +7655,7 @@
 <programlisting>
    <emphasis>arg</emphasis>:     EXP INTEGER(<emphasis>v</emphasis>)
 -&gt; SIGNED_NAT
-   
+  
 </programlisting>
 
         <para><emphasis>arg</emphasis> will be an install-time constant. The
@@ -7663,7 +7663,7 @@
       </sect2>
 
       <sect2 id='make-signed-nat'>
-        <title>make_signed_nat</title> 
+        <title>make_signed_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -7672,7 +7672,7 @@
    <emphasis>neg</emphasis>:     TDFBOOL
 <emphasis>n</emphasis>:       TDFINT
 -&gt; SIGNED_NAT
-   
+  
 </programlisting>
 
         <para><emphasis>n</emphasis> is a non-negative integer of unbounded
@@ -7681,7 +7681,7 @@
       </sect2>
 
       <sect2 id='snat-from-nat'>
-        <title>snat_from_nat</title> 
+        <title>snat_from_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
@@ -7690,7 +7690,7 @@
    <emphasis>neg</emphasis>:     BOOL
 <emphasis>n</emphasis>:       NAT
 -&gt; SIGNED_NAT
-   
+  
 </programlisting>
 
         <para>The result is negated if and only if <emphasis>neg</emphasis> is
@@ -7699,7 +7699,7 @@
     </sect1>
 
     <sect1 id='sortname'>
-      <title>SORTNAME</title> 
+      <title>SORTNAME</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>5</member> <member>Is
@@ -7710,105 +7710,105 @@
         parameters of <literal>TOKEN</literal> definitions.</para>
 
       <sect2 id='access-a'>
-        <title>access</title> 
+        <title>access</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='aal-tag'>
-        <title>Aal_tag</title> 
+        <title>Aal_tag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='alignment-sort'>
-        <title>alignment_sort</title> 
+        <title>alignment_sort</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='abitfield-variety'>
-        <title>Abitfield_variety</title> 
+        <title>Abitfield_variety</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='abool'>
-        <title>Abool</title> 
+        <title>Abool</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='aerror-treatment'>
-        <title>Aerror_treatment</title> 
+        <title>Aerror_treatment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='aexp'>
-        <title>Aexp</title> 
+        <title>Aexp</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
 
         <para>The <literal>SORT</literal> of <literal>EXP</literal>.</para>
       </sect2>
 
       <sect2 id='afloating-variety'>
-        <title>Afloating_variety</title> 
+        <title>Afloating_variety</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='foreign-sort'>
-        <title>foreign_sort</title> 
+        <title>foreign_sort</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>9</member>
@@ -7816,7 +7816,7 @@
 <programlisting>
    <emphasis>foreign_name</emphasis>:    STRING<emphasis>(k, n)</emphasis>
 -&gt; SORTNAME
-   
+  
 </programlisting>
 
         <para>This <literal>SORT</literal> enables unanticipated kinds of
@@ -7824,129 +7824,129 @@
       </sect2>
 
       <sect2 id='alabel'>
-        <title>Alabel</title> 
+        <title>Alabel</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>10</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='anat'>
-        <title>Anat</title> 
+        <title>Anat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>11</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='antest'>
-        <title>Antest</title> 
+        <title>Antest</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>12</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='aprocprops'>
-        <title>Aprocprops</title> 
+        <title>Aprocprops</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>13</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='arounding-mode'>
-        <title>Arounding_mode</title> 
+        <title>Arounding_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>14</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='ashape'>
-        <title>Ashape</title> 
+        <title>Ashape</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>15</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='asigned-nat'>
-        <title>Asigned_nat</title> 
+        <title>Asigned_nat</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>16</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='astring'>
-        <title>Astring</title> 
+        <title>Astring</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>17</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='atag'>
-        <title>Atag</title> 
+        <title>Atag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>18</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
 
         <para>The <literal>SORT</literal> of <literal>TAG</literal>.</para>
       </sect2>
 
       <sect2 id='atransfer-mode'>
-        <title>Atransfer_mode</title> 
+        <title>Atransfer_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>19</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='atoken'>
-        <title>Atoken</title> 
+        <title>Atoken</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>20</member>
@@ -7955,7 +7955,7 @@
    <emphasis>result</emphasis>:      SORTNAME
 <emphasis>params</emphasis>:      LIST(SORTNAME)
 -&gt; SORTNAME
-   
+  
 </programlisting>
 
         <para>The <literal>SORTNAME</literal> of a <literal>TOKEN</literal>.
@@ -7963,20 +7963,20 @@
       </sect2>
 
       <sect2 id='variety-a'>
-        <title>variety</title> 
+        <title>variety</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>21</member>
         </simplelist>
 <programlisting>
    -&gt; SORTNAME
-   
+  
 </programlisting>
       </sect2>
     </sect1>
 
     <sect1 id='string'>
-      <title>STRING</title> 
+      <title>STRING</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -7984,7 +7984,7 @@
       </simplelist>
 
       <sect2 id='string-apply-token'>
-        <title>string_apply_token</title> 
+        <title>string_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -7993,7 +7993,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; STRING<emphasis>(k, n)</emphasis>
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8006,7 +8006,7 @@
       </sect2>
 
       <sect2 id='string-cond'>
-        <title>string_cond</title> 
+        <title>string_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -8016,7 +8016,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM STRING
 <emphasis>e2</emphasis>:      BITSTREAM STRING
 -&gt; STRING<emphasis>(k, n)</emphasis>
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -8029,7 +8029,7 @@
       </sect2>
 
       <sect2 id='concat-string'>
-        <title>concat_string</title> 
+        <title>concat_string</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -8038,7 +8038,7 @@
    <emphasis>arg1</emphasis>:        STRING<emphasis>(k, n)</emphasis>
 <emphasis>arg2</emphasis>:        STRING<emphasis>(k, m)</emphasis>
 -&gt; STRING<emphasis>(k, n+m)</emphasis>
-   
+  
 </programlisting>
 
         <para>Gives a <literal>STRING</literal> which is the concatenation of
@@ -8046,7 +8046,7 @@
       </sect2>
 
       <sect2 id='make-string'>
-        <title>make_string</title> 
+        <title>make_string</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -8054,7 +8054,7 @@
 <programlisting>
    <emphasis>arg</emphasis>:     TDFSTRING<emphasis>(k, n)</emphasis>
 -&gt; STRING<emphasis>(k, n)</emphasis>
-   
+  
 </programlisting>
 
         <para>Delivers the <literal>STRING</literal> identical to the
@@ -8063,7 +8063,7 @@
     </sect1>
 
     <sect1 id='tag'>
-      <title>TAG</title> 
+      <title>TAG</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -8075,7 +8075,7 @@
         program.</para>
 
       <sect2 id='tag-apply-token'>
-        <title>tag_apply_token</title> 
+        <title>tag_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -8084,7 +8084,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; TAG <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8097,7 +8097,7 @@
       </sect2>
 
       <sect2 id='make-tag'>
-        <title>make_tag</title> 
+        <title>make_tag</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8105,7 +8105,7 @@
 <programlisting>
    <emphasis>tagno</emphasis>:       TDFINT
 -&gt; TAG <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
         <para><emphasis>make_tag</emphasis> produces a <literal>TAG</literal>
@@ -8114,7 +8114,7 @@
     </sect1>
 
     <sect1 id='tagacc'>
-      <title>TAGACC</title> 
+      <title>TAGACC</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8126,7 +8126,7 @@
         <emphasis>make_proc</emphasis>.</para>
 
       <sect2 id='make-tagacc'>
-        <title>make_tagacc</title> 
+        <title>make_tagacc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8135,7 +8135,7 @@
    <emphasis>tg</emphasis>:      TAG POINTER <emphasis>var_param_alignment</emphasis>
 <emphasis>acc</emphasis>:     OPTION(ACCESS)
 -&gt; TAGACC
-   
+  
 </programlisting>
 
         <para>Constructs the pair for <emphasis>make_proc</emphasis>.</para>
@@ -8143,7 +8143,7 @@
     </sect1>
 
     <sect1 id='tagdec'>
-      <title>TAGDEC</title> 
+      <title>TAGDEC</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -8154,7 +8154,7 @@
         incorporation into a <literal>TAGDEC_PROPS.</literal></para>
 
       <sect2 id='make-id-tagdec'>
-        <title>make_id_tagdec</title> 
+        <title>make_id_tagdec</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8165,7 +8165,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>x</emphasis>:       SHAPE
 -&gt; TAGDEC
-   
+  
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8191,7 +8191,7 @@
       </sect2>
 
       <sect2 id='make-var-tagdec'>
-        <title>make_var_tagdec</title> 
+        <title>make_var_tagdec</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -8202,7 +8202,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>x</emphasis>:       SHAPE
 -&gt; TAGDEC
-   
+  
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8230,7 +8230,7 @@
       </sect2>
 
       <sect2 id='common-tagdec'>
-        <title>common_tagdec</title> 
+        <title>common_tagdec</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -8241,7 +8241,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>x</emphasis>:       SHAPE
 -&gt; TAGDEC
-   
+  
 </programlisting>
 
         <para>A <literal>TAGDEC</literal> announcing that the
@@ -8310,7 +8310,7 @@
     </sect1>
 
     <sect1 id='tagdec-props'>
-      <title>TAGDEC_PROPS</title> 
+      <title>TAGDEC_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8319,7 +8319,7 @@
       </simplelist>
 
       <sect2 id='make-tagdecs'>
-        <title>make_tagdecs</title> 
+        <title>make_tagdecs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8328,7 +8328,7 @@
    <emphasis>no_labels</emphasis>:   TDFINT
 <emphasis>tds</emphasis>:     SLIST(TAGDEC)
 -&gt; TAGDEC_PROPS
-   
+  
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8340,7 +8340,7 @@
     </sect1>
 
     <sect1 id='tagdef'>
-      <title>TAGDEF</title> 
+      <title>TAGDEF</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -8352,7 +8352,7 @@
         <literal>TAGDEF_PROPS</literal>.</para>
 
       <sect2 id='make-id-tagdef'>
-        <title>make_id_tagdef</title> 
+        <title>make_id_tagdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8362,7 +8362,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
 -&gt; TAGDEF
-   
+  
 </programlisting>
 
         <para><emphasis>make_id_tagdef</emphasis> produces a
@@ -8394,7 +8394,7 @@
       </sect2>
 
       <sect2 id='make-var-tagdef'>
-        <title>make_var_tagdef</title> 
+        <title>make_var_tagdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -8405,7 +8405,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
 -&gt; TAGDEF
-   
+  
 </programlisting>
 
         <para><emphasis>make_var_tagdef</emphasis> produces a
@@ -8440,7 +8440,7 @@
       </sect2>
 
       <sect2 id='common-tagdef'>
-        <title>common_tagdef</title> 
+        <title>common_tagdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -8451,7 +8451,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>e</emphasis>:       EXP <emphasis>x</emphasis>
 -&gt; TAGDEF
-   
+  
 </programlisting>
 
         <para><emphasis>common_tagdef</emphasis> produces a
@@ -8548,7 +8548,7 @@
     </sect1>
 
     <sect1 id='tagdef-props'>
-      <title>TAGDEF_PROPS</title> 
+      <title>TAGDEF_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8557,7 +8557,7 @@
       </simplelist>
 
       <sect2 id='make-tagdefs'>
-        <title>make_tagdefs</title> 
+        <title>make_tagdefs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8566,7 +8566,7 @@
    <emphasis>no_labels</emphasis>:   TDFINT
 <emphasis>tds</emphasis>:     SLIST(TAGDEF)
 -&gt; TAGDEF_PROPS
-   
+  
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8578,7 +8578,7 @@
     </sect1>
 
     <sect1 id='tagshacc'>
-      <title>TAGSHACC</title> 
+      <title>TAGSHACC</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8586,7 +8586,7 @@
       </simplelist>
 
       <sect2 id='make-tagshacc'>
-        <title>make_tagshacc</title> 
+        <title>make_tagshacc</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8596,7 +8596,7 @@
 <emphasis>opt_access</emphasis>:  OPTION(ACCESS)
 <emphasis>tg_intro</emphasis>:    TAG
 -&gt; TAGSHACC
-   
+  
 </programlisting>
 
         <para>This is an auxiliary construction to make the elements of
@@ -8606,14 +8606,14 @@
     </sect1>
 
     <sect1 id='tdfbool'>
-      <title>TDFBOOL</title> 
+      <title>TDFBOOL</title>
 
       <para>A <literal>TDFBOOL</literal> is the TDF encoding of a boolean. See
         -XREF-spec11.html#4Fundamental encoding.</para>
     </sect1>
 
     <sect1 id='tdfident'>
-      <title>TDFIDENT</title> 
+      <title>TDFIDENT</title>
 
       <para>A <literal>TDFIDENT</literal>(<emphasis>k</emphasis>,
         <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis>
@@ -8626,7 +8626,7 @@
     </sect1>
 
     <sect1 id='tdfint'>
-      <title>TDFINT</title> 
+      <title>TDFINT</title>
 
       <para>A <literal>TDFINT</literal> is the TDF encoding of an unbounded
         unsigned integer constant. See -XREF-spec11.html#4Fundamental
@@ -8634,7 +8634,7 @@
     </sect1>
 
     <sect1 id='tdfstring'>
-      <title>TDFSTRING</title> 
+      <title>TDFSTRING</title>
 
       <para>A <literal>TDFSTRING</literal>(<emphasis>k</emphasis>,
         <emphasis>n</emphasis>) encodes a sequence of <emphasis>n</emphasis>
@@ -8643,7 +8643,7 @@
     </sect1>
 
     <sect1 id='tokdec'>
-      <title>TOKDEC</title> 
+      <title>TOKDEC</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -8654,7 +8654,7 @@
         incorporation into a <literal>UNIT</literal>.</para>
 
       <sect2 id='make-tokdec'>
-        <title>make_tokdec</title> 
+        <title>make_tokdec</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8664,7 +8664,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>s</emphasis>:       SORTNAME
 -&gt; TOKDEC
-   
+  
 </programlisting>
 
         <para>The sort of the token <emphasis>tok</emphasis> is declared to be
@@ -8684,7 +8684,7 @@
     </sect1>
 
     <sect1 id='tokdec-props'>
-      <title>TOKDEC_PROPS</title> 
+      <title>TOKDEC_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8693,7 +8693,7 @@
       </simplelist>
 
       <sect2 id='make-tokdecs'>
-        <title>make_tokdecs</title> 
+        <title>make_tokdecs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8701,7 +8701,7 @@
 <programlisting>
    <emphasis>tds</emphasis>:     SLIST(TOKDEC)
 -&gt; TOKDEC_PROPS
-   
+  
 </programlisting>
 
         <para><emphasis>tds</emphasis> is a list of <literal>TOKDEC</literal>s
@@ -8710,7 +8710,7 @@
     </sect1>
 
     <sect1 id='tokdef'>
-      <title>TOKDEF</title> 
+      <title>TOKDEF</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -8722,7 +8722,7 @@
         <literal>TOKDEF_PROPS</literal>.</para>
 
       <sect2 id='make-tokedef'>
-        <title>make_tokdef</title> 
+        <title>make_tokdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8732,7 +8732,7 @@
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>def</emphasis>:     BITSTREAM TOKEN_DEFN
 -&gt; TOKDEF
-   
+  
 </programlisting>
 
         <para>A <literal>TOKDEF</literal> is constructed which defines the
@@ -8764,7 +8764,7 @@
     </sect1>
 
     <sect1 id='tokdef-props'>
-      <title>TOKDEF_PROPS</title> 
+      <title>TOKDEF_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8773,7 +8773,7 @@
       </simplelist>
 
       <sect2 id='make-tokedefs'>
-        <title>make_tokdefs</title> 
+        <title>make_tokdefs</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8782,7 +8782,7 @@
    <emphasis>no_labels</emphasis>:   TDFINT
 <emphasis>tds</emphasis>:     SLIST(TOKDEF)
 -&gt; TOKDEF_PROPS
-   
+  
 </programlisting>
 
         <para><emphasis>no_labels</emphasis> is the number of local
@@ -8793,7 +8793,7 @@
     </sect1>
 
     <sect1 id='token'>
-      <title>TOKEN</title> 
+      <title>TOKEN</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -8805,7 +8805,7 @@
         time. They are represented by <literal>TDFINT</literal>s.</para>
 
       <sect2 id='token-apply-token'>
-        <title>token_apply_token</title> 
+        <title>token_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8814,7 +8814,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; TOKEN
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -8827,7 +8827,7 @@
       </sect2>
 
       <sect2 id='make-tok'>
-        <title>make_tok</title> 
+        <title>make_tok</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -8835,7 +8835,7 @@
 <programlisting>
    <emphasis>tokno</emphasis>:       TDFINT
 -&gt; TOKEN
-   
+  
 </programlisting>
 
         <para><emphasis>make_tok</emphasis> constructs a
@@ -8844,7 +8844,7 @@
       </sect2>
 
       <sect2 id='use-tokdef'>
-        <title>use_tokdef</title> 
+        <title>use_tokdef</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -8852,7 +8852,7 @@
 <programlisting>
    <emphasis>tdef</emphasis>:        BITSTREAM TOKEN_DEFN
 -&gt; TOKEN
-   
+  
 </programlisting>
 
         <para><emphasis>tdef</emphasis> is used to supply the definition, as in
@@ -8863,7 +8863,7 @@
     </sect1>
 
     <sect1 id='token-defn'>
-      <title>TOKEN_DEFN</title> 
+      <title>TOKEN_DEFN</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -8875,7 +8875,7 @@
         <emphasis>use_tokdef</emphasis>.</para>
 
       <sect2 id='token-definition'>
-        <title>token_definition</title> 
+        <title>token_definition</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -8885,7 +8885,7 @@
 <emphasis>tok_params</emphasis>:  LIST(TOKFORMALS)
 <emphasis>body</emphasis>:        <emphasis>result_sort</emphasis>
 -&gt; TOKEN_DEFN
-   
+  
 </programlisting>
 
         <para>Makes a token definition. <emphasis>result_sort</emphasis> is the
@@ -8951,7 +8951,7 @@
     </sect1>
 
     <sect1 id='tokformals'>
-      <title>TOKFORMALS</title> 
+      <title>TOKFORMALS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -8959,7 +8959,7 @@
       </simplelist>
 
       <sect2 id='make-tokformals'>
-        <title>make_tokformals</title> 
+        <title>make_tokformals</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -8968,7 +8968,7 @@
    <emphasis>sn</emphasis>:      SORTNAME
 <emphasis>tk</emphasis>:      TDFINT
 -&gt; TOKFORMALS
-   
+  
 </programlisting>
 
         <para>An auxiliary construction to make up the elements of the lists in
@@ -8977,7 +8977,7 @@
     </sect1>
 
     <sect1 id='transfer-mode'>
-      <title>TRANSFER_MODE</title> 
+      <title>TRANSFER_MODE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>3</member> <member>Is
@@ -8996,7 +8996,7 @@
         <emphasis>add_modes</emphasis> acts like set union.</para>
 
       <sect2 id='transfer-mode-apply-token'>
-        <title>transfer_mode_apply_token</title> 
+        <title>transfer_mode_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -9005,7 +9005,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments encoded in the
@@ -9024,7 +9024,7 @@
       </sect2>
 
       <sect2 id='transfer-mode-cond'>
-        <title>transfer_mode_cond</title> 
+        <title>transfer_mode_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -9034,7 +9034,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM TRANSFER_MODE
 <emphasis>e2</emphasis>:      BITSTREAM TRANSFER_MODE
 -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para><emphasis>control</emphasis> is evaluated. It will be a constant
@@ -9047,7 +9047,7 @@
       </sect2>
 
       <sect2 id='add-modes'>
-        <title>add_modes</title> 
+        <title>add_modes</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -9056,7 +9056,7 @@
    <emphasis>md1</emphasis>:     TRANSFER_MODE
 <emphasis>md2</emphasis>:     TRANSFER_MODE
 -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>A construction qualified by <emphasis>add_modes</emphasis> has
@@ -9068,14 +9068,14 @@
       </sect2>
 
       <sect2 id='overlap'>
-        <title>overlap</title> 
+        <title>overlap</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
         </simplelist>
 <programlisting>
    -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>If <emphasis>overlap</emphasis> is used to qualify a
@@ -9091,14 +9091,14 @@
       </sect2>
 
       <sect2 id='standard-transfer-mode'>
-        <title>standard_transfer_mode</title> 
+        <title>standard_transfer_mode</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>5</member>
         </simplelist>
 <programlisting>
    -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>This <literal>TRANSFER_MODE</literal> implies no special
@@ -9106,14 +9106,14 @@
       </sect2>
 
       <sect2 id='trap-on-nil'>
-        <title>trap_on_nil</title> 
+        <title>trap_on_nil</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>6</member>
         </simplelist>
 <programlisting>
    -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>If <emphasis>trap_on_nil</emphasis> is used to qualify a
@@ -9125,14 +9125,14 @@
       </sect2>
 
       <sect2 id='volatile'>
-        <title>volatile</title> 
+        <title>volatile</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>7</member>
         </simplelist>
 <programlisting>
    -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>If <emphasis>volatile</emphasis> is used to qualify a
@@ -9145,14 +9145,14 @@
       </sect2>
 
       <sect2 id='complete'>
-        <title>complete</title> 
+        <title>complete</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>8</member>
         </simplelist>
 <programlisting>
    -&gt; TRANSFER_MODE
-   
+  
 </programlisting>
 
         <para>A transfer qualified with complete shall leave the destination
@@ -9162,7 +9162,7 @@
     </sect1>
 
     <sect1 id='unique'>
-      <title>UNIQUE</title> 
+      <title>UNIQUE</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -9176,7 +9176,7 @@
         values.</para>
 
       <sect2 id='make-unique'>
-        <title>make_unique</title> 
+        <title>make_unique</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -9184,7 +9184,7 @@
 <programlisting>
    <emphasis>text</emphasis>:        SLIST(TDFIDENT)
 -&gt; UNIQUE
-   
+  
 </programlisting>
 
         <para>Two <literal>UNIQUE</literal> values are equal if and only if
@@ -9193,7 +9193,7 @@
     </sect1>
 
     <sect1 id='unit'>
-      <title>UNIT</title> 
+      <title>UNIT</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -9207,7 +9207,7 @@
         <literal>CAPSULE</literal>.</para>
 
       <sect2 id='make-unit'>
-        <title>make_unit</title> 
+        <title>make_unit</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -9217,7 +9217,7 @@
 <emphasis>lks</emphasis>:     SLIST(LINKS)
 <emphasis>properties</emphasis>:  BYTESTREAM PROPS
 -&gt; UNIT
-   
+  
 </programlisting>
 
         <para><emphasis>local_vars</emphasis> gives the number of linkable
@@ -9242,7 +9242,7 @@
     </sect1>
 
     <sect1 id='variety-b'>
-      <title>VARIETY</title> 
+      <title>VARIETY</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -9260,7 +9260,7 @@
         integers.</para>
 
       <sect2 id='var-apply-token'>
-        <title>var_apply_token</title> 
+        <title>var_apply_token</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -9269,7 +9269,7 @@
    <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; VARIETY
-   
+  
 </programlisting>
 
         <para>The token is applied to the arguments to give a
@@ -9282,7 +9282,7 @@
       </sect2>
 
       <sect2 id='var-cond'>
-        <title>var_cond</title> 
+        <title>var_cond</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -9292,7 +9292,7 @@
 <emphasis>e1</emphasis>:      BITSTREAM VARIETY
 <emphasis>e2</emphasis>:      BITSTREAM VARIETY
 -&gt; VARIETY
-   
+  
 </programlisting>
 
         <para>The <emphasis>control</emphasis> is evaluated. It will be a
@@ -9305,7 +9305,7 @@
       </sect2>
 
       <sect2 id='var-limits'>
-        <title>var_limits</title> 
+        <title>var_limits</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -9314,7 +9314,7 @@
    <emphasis>lower_bound</emphasis>: SIGNED_NAT
 <emphasis>upper_bound</emphasis>: SIGNED_NAT
 -&gt; VARIETY
-   
+  
 </programlisting>
 
         <para><emphasis>lower_bound</emphasis> is the lower limit (inclusive)
@@ -9324,7 +9324,7 @@
       </sect2>
 
       <sect2 id='var-width'>
-        <title>var_width</title> 
+        <title>var_width</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -9333,7 +9333,7 @@
    <emphasis>signed_width</emphasis>:    BOOL
 <emphasis>width</emphasis>:       NAT
 -&gt; VARIETY
-   
+  
 </programlisting>
 
         <para>If <emphasis>signed_width</emphasis> is <emphasis>true</emphasis>
@@ -9347,7 +9347,7 @@
     </sect1>
 
     <sect1 id='version-props'>
-      <title>VERSION_PROPS</title> 
+      <title>VERSION_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>0</member> <member>Is
@@ -9359,7 +9359,7 @@
         numbers and user information.</para>
 
       <sect2 id='make-versions'>
-        <title>make_versions</title> 
+        <title>make_versions</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -9367,7 +9367,7 @@
 <programlisting>
    <emphasis>version_info</emphasis>:    SLIST(VERSION)
 -&gt; VERSION_PROPS
-   
+  
 </programlisting>
 
         <para>Contains version information.</para>
@@ -9375,7 +9375,7 @@
     </sect1>
 
     <sect1 id='version'>
-      <title>VERSION</title> 
+      <title>VERSION</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>1</member> <member>Is
@@ -9383,7 +9383,7 @@
       </simplelist>
 
       <sect2 id='make-version'>
-        <title>make_version</title> 
+        <title>make_version</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -9392,7 +9392,7 @@
    <emphasis>major_version</emphasis>:   TDFINT
 <emphasis>minor_version</emphasis>:   TDFINT
 -&gt; VERSION
-   
+  
 </programlisting>
 
         <para>The major and minor version numbers of the TDF used. An increase
@@ -9409,7 +9409,7 @@
       </sect2>
 
       <sect2 id='user-info'>
-        <title>user_info</title> 
+        <title>user_info</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>2</member>
@@ -9417,7 +9417,7 @@
 <programlisting>
    <emphasis>information</emphasis>: STRING(<emphasis>k, n</emphasis>)
 -&gt; VERSION
-   
+  
 </programlisting>
 
         <para>This is (usually character) information included in the TDF for
@@ -9430,10 +9430,10 @@
   </chapter>
 
   <chapter id='supplementary-unit'>
-    <title>Supplementary UNIT</title> 
+    <title>Supplementary UNIT</title>
 
     <sect1 id='linkinfo-props'>
-      <title>LINKINFO_PROPS</title> 
+      <title>LINKINFO_PROPS</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member> <member>0</member> <member>Is
@@ -9445,7 +9445,7 @@
         information about linking.</para>
 
       <sect2 id='make-linkinfos'>
-        <title>make_linkinfos</title> 
+        <title>make_linkinfos</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>0</member>
@@ -9454,7 +9454,7 @@
    <emphasis>no_labels</emphasis>:   TDFINT
 <emphasis>tds</emphasis>:     SLIST(LINKINFO)
 -&gt; LINKINFO_PROPS
-   
+  
 </programlisting>
 
         <para>Makes the <literal>UNIT</literal>.</para>
@@ -9462,7 +9462,7 @@
     </sect1>
 
     <sect1 id='linkinfo'>
-      <title>LINKINFO</title> 
+      <title>LINKINFO</title>
 
       <simplelist type='horiz' columns='2'>
         <member>Number of encoding bits:</member><member>2</member> <member>Is
@@ -9470,7 +9470,7 @@
       </simplelist>
 
       <sect2 id='static-name-def'>
-        <title>static_name_def</title> 
+        <title>static_name_def</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>1</member>
@@ -9479,7 +9479,7 @@
    <emphasis>assexp</emphasis>:      EXP POINTER <emphasis>x</emphasis>
 <emphasis>id</emphasis>:      TDFSTRING<emphasis>(k, n)</emphasis>
 -&gt; LINKINFO
-   
+  
 </programlisting>
 
         <para><emphasis>assexp</emphasis> will be an
@@ -9501,7 +9501,7 @@
       </sect2>
 
       <sect2 id='make-comment'>
-        <title>make_comment</title> 
+        <title>make_comment</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member> <member>2</member>
@@ -9509,7 +9509,7 @@
 <programlisting>
    <emphasis>n</emphasis>:       TDFSTRING<emphasis>(k, n)</emphasis>
 -&gt; LINKINFO
-   
+  
 </programlisting>
 
         <para><emphasis>n</emphasis> shall be incorporated into the object file
@@ -9518,7 +9518,7 @@
       </sect2>
 
       <sect2 id='make-weak-defn'>
-        <title>make_weak_defn</title> 
+        <title>make_weak_defn</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>3</member>
@@ -9527,7 +9527,7 @@
    <emphasis>namer</emphasis>:       EXP POINTER <emphasis>x</emphasis>
 <emphasis>val</emphasis>:     EXP POINTER <emphasis>y</emphasis>
 -&gt; LINKINFO
-   
+  
 </programlisting>
 
         <para><emphasis>namer</emphasis> and <emphasis>val</emphasis> will be
@@ -9540,7 +9540,7 @@
       </sect2>
 
       <sect2 id='make-weak-symbol'>
-        <title>make_weak_symbol</title> 
+        <title>make_weak_symbol</title>
 
         <simplelist type='horiz' columns='2'>
           <member>Encoding number:</member><member>4</member>
@@ -9549,7 +9549,7 @@
    <emphasis>id</emphasis>:      TDFSTRING<emphasis>(k, n)</emphasis>
 <emphasis>val</emphasis>:     EXP POINTER <emphasis>x</emphasis>
 -&gt; LINKINFO
-   
+  
 </programlisting>
 
         <para><emphasis>val</emphasis> will be an
@@ -9567,10 +9567,10 @@
   </chapter>
 
   <chapter id='notes'>
-    <title>Notes</title> 
+    <title>Notes</title>
 
     <sect1 id='binding'>
-      <title>Binding</title> 
+      <title>Binding</title>
 
       <para>The following constructions introduce <literal>TAG</literal>s:
         <emphasis>identify</emphasis>, <emphasis>variable</emphasis>,
@@ -9647,7 +9647,7 @@
     </sect1>
 
     <sect1 id='character-codes'>
-      <title>Character codes</title> 
+      <title>Character codes</title>
 
       <para>TDF does not have a concept of characters. It transmits integers of
         various sizes. So if a producer wishes to communicate characters to an
@@ -9691,7 +9691,7 @@
     </sect1>
 
     <sect1 id='constant-evaluation'>
-      <title>Constant evaluation</title> 
+      <title>Constant evaluation</title>
 
       <para>Some constructions require an <literal>EXP</literal> argument which
         is &quot;constant at install time&quot;. For an <literal>EXP</literal> to
@@ -9737,17 +9737,17 @@
     </sect1>
 
     <sect1 id='division-modulus'>
-      <title>Division and modulus</title> 
+      <title>Division and modulus</title>
 
       <para>Two classes of division (D) and remainder (M) construct are
         defined. The two classes have the same definition if both operands have
         the same sign. Neither is defined if the second argument is zero.</para>
 
       <sect2 id='class-one'>
-        <title>Class 1</title> 
+        <title>Class 1</title>
 <programlisting>
    <emphasis>p</emphasis> D1 <emphasis>q</emphasis> = <emphasis>n</emphasis>
-   
+  
 </programlisting>
 
         <para>where:</para>
@@ -9755,15 +9755,15 @@
    <emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M1 <emphasis>q</emphasis>)
 sign(<emphasis>p</emphasis> M1 <emphasis>q</emphasis>) = sign(<emphasis>q</emphasis>)
 0 &lt;= |<emphasis>p</emphasis> M1 <emphasis>q</emphasis>| &lt; |<emphasis>q</emphasis>|
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='class-two'>
-        <title>Class 2</title> 
+        <title>Class 2</title>
 <programlisting>
    <emphasis>p</emphasis> D2 <emphasis>q</emphasis> = <emphasis>n</emphasis>
-   
+  
 </programlisting>
 
         <para>where:</para>
@@ -9771,13 +9771,13 @@ sign(<emphasis>p</emphasis> M1 <emphasis>q</emphasis>) = sign(<emphasis>q</empha
    <emphasis>p</emphasis> = <emphasis>n</emphasis>*<emphasis>q</emphasis> + (<emphasis>p</emphasis> M2 <emphasis>q</emphasis>)
 sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</emphasis>)
 0 &lt;= |<emphasis>p</emphasis> M2 <emphasis>q</emphasis>| &lt; |<emphasis>q</emphasis>|
-   
+  
 </programlisting>
       </sect2>
     </sect1>
 
     <sect1 id='equality-of-exps'>
-      <title>Equality of EXPs</title> 
+      <title>Equality of EXPs</title>
 
       <para>A definition of equality of <literal>EXP</literal>s would be a
         considerable part of a formal specification of TDF, and is not given
@@ -9785,7 +9785,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='equality-of-shapes'>
-      <title>Equality of SHAPEs</title> 
+      <title>Equality of SHAPEs</title>
 
       <para>Equality of <literal>SHAPE</literal>s is defined
         recursively:</para>
@@ -9828,14 +9828,14 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='equality-of-align'>
-      <title>Equality of ALIGNMENTs</title> 
+      <title>Equality of ALIGNMENTs</title>
 
       <para>Two <literal>ALIGNMENT</literal>s are equal if and only if they are
         equal sets.</para>
     </sect1>
 
     <sect1 id='exceptions-and-jumps'>
-      <title>Exceptions and jumps</title> 
+      <title>Exceptions and jumps</title>
 
       <para>TDF allows simply for labels and jumps within a procedure, by means
         of the <emphasis>conditional</emphasis>, <emphasis>labelled</emphasis>
@@ -9922,7 +9922,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='procedures'>
-      <title>Procedures</title> 
+      <title>Procedures</title>
 
       <para>The <emphasis>var_intro</emphasis> of a
         <emphasis>make_proc</emphasis>, if present, may be used under one of two
@@ -10020,7 +10020,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='frames'>
-      <title>Frames</title> 
+      <title>Frames</title>
 
       <para>TDF states that while a particular procedure activation is current,
         it is possible to create a <literal>POINTER</literal>, by using
@@ -10084,7 +10084,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='lifetimes'>
-      <title>Lifetimes</title> 
+      <title>Lifetimes</title>
 
       <para><literal>TAG</literal>s are bound to values during the evaluation
         of <literal>EXP</literal>s, which are specified by the construction which
@@ -10102,7 +10102,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='alloca'>
-      <title>Alloca</title> 
+      <title>Alloca</title>
 
       <para>The constructions involving <emphasis>alloca</emphasis>
         (<emphasis>last_local</emphasis>, <emphasis>local_alloc</emphasis>,
@@ -10184,7 +10184,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='memory-model'>
-      <title>Memory Model</title> 
+      <title>Memory Model</title>
 
       <para>The layout of data in memory is entirely determined by the
         calculation of <literal>OFFSET</literal>s relative to
@@ -10269,7 +10269,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </itemizedlist>
 
       <sect2 id='simple-model'>
-        <title>Simple model</title> 
+        <title>Simple model</title>
 
         <para>An example of the representation of <literal>OFFSET</literal>
           arithmetic is given below. This is not a definition, but only an
@@ -10350,7 +10350,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
    <emphasis>arg1</emphasis>:        EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>y</emphasis>)
 -&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>), <emphasis>y</emphasis>)
-   
+  
 </programlisting>
 
         <para>The <literal>SHAPE</literal>s could have been chosen to
@@ -10360,7 +10360,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
 <emphasis>arg2</emphasis>:        EXP OFFSET(<emphasis>z</emphasis>, <emphasis>t</emphasis>)
 -&gt; EXP OFFSET(<emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>, <emphasis>z</emphasis>),
 <emphasis>intersect_alignments</emphasis>(<emphasis>y</emphasis>, <emphasis>t</emphasis>))
-   
+  
 </programlisting>
 
         <para>where <emphasis>unite_alignments</emphasis> is set union and
@@ -10381,7 +10381,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='comparision-of-pointers-and-offsets'>
-        <title>Comparison of pointers and offsets</title> 
+        <title>Comparison of pointers and offsets</title>
 
         <para>Two <literal>POINTER</literal>s to the same
           <literal>ALIGNMENT</literal>, <emphasis>a</emphasis>, are equal if and
@@ -10396,7 +10396,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='circular-types-in-lang'>
-        <title>Circular types in languages</title> 
+        <title>Circular types in languages</title>
 
         <para>It is assumed that circular types in programming languages will
           always involve the <literal>SHAPE</literal>s <literal>PROC</literal> or
@@ -10410,7 +10410,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='special-alignments'>
-        <title>Special alignments</title> 
+        <title>Special alignments</title>
 
         <para>There are seven special <literal>ALIGNMENT</literal>s. One of
           these is <emphasis>code_alignment</emphasis>, the
@@ -10448,7 +10448,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           representations. However it is necessary that</para>
 <programlisting>
    <emphasis>alignment</emphasis>(POINTER(<emphasis>A</emphasis>))={<emphasis>pointer</emphasis>}
-   
+  
 </programlisting>
 
         <para>for any <literal>ALIGNMENT</literal>
@@ -10456,7 +10456,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='atomic-assignment'>
-        <title>Atomic assignment</title> 
+        <title>Atomic assignment</title>
 
         <para>At least one <literal>VARIETY</literal> shall exist such that
           <emphasis>assign</emphasis> and <emphasis>assign_with_mode</emphasis>
@@ -10475,7 +10475,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='order-of-eval'>
-      <title>Order of evaluation</title> 
+      <title>Order of evaluation</title>
 
       <para>The order of evaluation is specified in certain constructions in
         terms of equivalent effect with a canonical order of evaluation. These
@@ -10514,7 +10514,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='orig-pointers'>
-      <title>Original pointers</title> 
+      <title>Original pointers</title>
 
       <para>Certain constructions are specified as producing original pointers.
         They allocate space to hold values and produce pointers indicating that
@@ -10538,13 +10538,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       <para>Note that:</para>
 <programlisting>
    <emphasis>add_to_ptr(p, offset_add(q, r))</emphasis>
-   
+  
 </programlisting>
 
       <para>is equivalent to:</para>
 <programlisting>
    <emphasis>add_to_ptr(add_to_ptr(p, q), r)</emphasis>
-   
+  
 </programlisting>
 
       <para>In the case that <emphasis>p</emphasis> is the result of
@@ -10552,7 +10552,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         of <emphasis>env_offset</emphasis>:</para>
 <programlisting>
    <emphasis>add_to_ptr(p, q)</emphasis>
-   
+  
 </programlisting>
 
       <para>is defined to be an original pointer. For any such expression
@@ -10563,7 +10563,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='overlapping'>
-      <title>Overlapping</title> 
+      <title>Overlapping</title>
 
       <para>In the case of <emphasis>move_some</emphasis>, or
         <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis> in
@@ -10585,7 +10585,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='incomplete-assignment'>
-      <title>Incomplete assignment</title> 
+      <title>Incomplete assignment</title>
 
       <para>If the <emphasis>arg2</emphasis> component of an
         <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis>
@@ -10601,7 +10601,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='representing-integers'>
-      <title>Representing integers</title> 
+      <title>Representing integers</title>
 
       <para>Integer <literal>VARIETY</literal>s shall be represented by a range
         of integers which includes those specified by the given bounds. This
@@ -10655,7 +10655,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='overflow-and-integers'>
-      <title>Overflow and Integers</title> 
+      <title>Overflow and Integers</title>
 
       <para>It is necessary first to define what overflow means for integer
         operations and second to specify what happens when it occurs. The
@@ -10704,7 +10704,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='representing-floating-point'>
-      <title>Representing floating point</title> 
+      <title>Representing floating point</title>
 
       <para><literal>FLOATING_VARIETY</literal>s shall be implemented by a
         representation which has at least the properties specified.</para>
@@ -10746,7 +10746,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='floating-point-errors'>
-      <title>Floating point errors</title> 
+      <title>Floating point errors</title>
 
       <para>The only permitted <literal>ERROR_TREATMENT</literal>s for
         operations delivering <literal>FLOATING_VARIETY</literal>s are
@@ -10769,7 +10769,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='rounding-floating-point'>
-      <title>Rounding and floating point</title> 
+      <title>Rounding and floating point</title>
 
       <para>Each machine has a rounding state which shall be one of
         <emphasis>to_nearest</emphasis>, <emphasis>toward_larger</emphasis>,
@@ -10780,7 +10780,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='floating-point-accuracy'>
-      <title>Floating point accuracy</title> 
+      <title>Floating point accuracy</title>
 
       <para>While it is understood that most implementations will use IEEE
         floating arithmetic operations, there are machines which use other
@@ -10800,7 +10800,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         representational variety of <emphasis>F</emphasis>.</para>
 
       <sect2 id='condition-one'>
-        <title>Condition 1</title> 
+        <title>Condition 1</title>
 
         <para>If <emphasis>a</emphasis>, <emphasis>b</emphasis> and <emphasis>a
           @ b</emphasis> can all be represented exactly in
@@ -10809,19 +10809,19 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           manner:</para>
 <programlisting>
    <emphasis>(a @ b)' = (a' @' b')</emphasis>
-   
+  
 </programlisting>
 
         <para>This equality will also hold using the TDF equality test,
           i.e.:</para>
 <programlisting>
    <emphasis>(a @ b)' =' (a' @' b')</emphasis>
-   
+  
 </programlisting>
       </sect2>
 
       <sect2 id='condition-two'>
-        <title>Condition 2</title> 
+        <title>Condition 2</title>
 
         <para>The operator <emphasis>@'</emphasis> is monotonic in the sense
           apposite to the operator <emphasis>@</emphasis>. For example, consider
@@ -10829,13 +10829,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
           <emphasis>a</emphasis> and <emphasis>b</emphasis> are as above:</para>
 <programlisting>
    <emphasis>(x &gt; b) =&gt; ((a' +' x') &gt;= (a + b)')</emphasis>
-   
+  
 </programlisting>
 
         <para>and:</para>
 <programlisting>
    <emphasis>(x &lt; b) =&gt; ((a' +' x') &lt;= (a + b)')</emphasis>
-   
+  
 </programlisting>
 
         <para>and so on, reflecting the weakening of the ordering after the
@@ -10872,7 +10872,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='representing-bitfields'>
-      <title>Representing bitfields</title> 
+      <title>Representing bitfields</title>
 
       <para><literal>BITFIELD_VARIETY</literal>s specify a number of bits and
         shall be represented by exactly that number of bits in twos-complement
@@ -10899,13 +10899,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         constraint applies to:</para>
 <programlisting>
    <emphasis>x</emphasis>: <emphasis>offset</emphasis>(<emphasis>p</emphasis>, <emphasis>b</emphasis>)
-   
+  
 </programlisting>
 
       <para>and to:</para>
 <programlisting>
    <emphasis>sh = bitfield</emphasis>(<emphasis>bfvar_bits(s, n)</emphasis>)
-   
+  
 </programlisting>
 
       <para>where <emphasis>alignment(sh)</emphasis> is included in
@@ -10918,13 +10918,13 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         <emphasis>q</emphasis>.</para>
 <programlisting>
    <emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis>) &lt;= <emphasis>x</emphasis>
-   
+  
 </programlisting>
 
       <para>and:</para>
 <programlisting>
    <emphasis>offset_pad</emphasis>(<emphasis>b, r</emphasis> + <emphasis>sz</emphasis>(<emphasis>v</emphasis>)) &gt;= <emphasis>offset_pad</emphasis>( <emphasis>b</emphasis>, <emphasis>x</emphasis> + <emphasis>sz</emphasis>(<emphasis>sh</emphasis>))
-   
+  
 </programlisting>
 
       <para>where the comparisons are in the sense of
@@ -10933,7 +10933,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='permitted-limits'>
-      <title>Permitted limits</title> 
+      <title>Permitted limits</title>
 
       <para>An installer may specify limits on the sizes of some of the data
         <literal>SHAPE</literal>s which it implements. In each case there is a
@@ -10945,7 +10945,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='least-upper-bound'>
-      <title>Least Upper Bound</title> 
+      <title>Least Upper Bound</title>
 
       <para>The LUB of two <literal>SHAPE</literal>s, <emphasis>a</emphasis>
         and <emphasis>b</emphasis> is defined as follows:</para>
@@ -10973,7 +10973,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='read-only-areas'>
-      <title>Read-only areas</title> 
+      <title>Read-only areas</title>
 
       <para>Consider three scenarios in increasingly static order:</para>
 
@@ -11009,7 +11009,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='tag-token-signatures'>
-      <title>Tag and Token signatures</title> 
+      <title>Tag and Token signatures</title>
 
       <para>In a TDF program there will usually be references to
         <literal>TAG</literal>s which are not defined in TDF; their definitions
@@ -11050,7 +11050,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='dynamic-init'>
-      <title>Dynamic initialisation</title> 
+      <title>Dynamic initialisation</title>
 
       <para>The dynamic initialisation of global variables is required for
         languages like C++. Previous to version 4.0, the only initialisations
@@ -11076,7 +11076,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
   </chapter>
 
   <chapter id='bit-encoding-tdf'>
-    <title>The bit encoding of TDF</title> 
+    <title>The bit encoding of TDF</title>
 
     <para>This is a description of the encoding used for TDF.</para>
 
@@ -11089,7 +11089,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       concepts.</para>
 
     <sect1 id='bet-basic-encoding'>
-      <title>The Basic Encoding</title> 
+      <title>The Basic Encoding</title>
 
       <para>TDF consists of a sequence of 8-bit bytes used to encode integers
         of a varying number of bits, from 1 to 32. These integers will be called
@@ -11131,7 +11131,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='bet-findamental-encodings'>
-      <title>Fundamental encodings</title> 
+      <title>Fundamental encodings</title>
 
       <para>This section describes the encoding of <literal>TDFINT</literal>,
         <literal>TDFBOOL</literal>, <literal>TDFSTRING</literal>,
@@ -11140,7 +11140,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         extendable integers.</para>
 
       <sect2 id='bet-tdfint'>
-        <title>TDFINT</title> 
+        <title>TDFINT</title>
 
         <para><literal>TDFINT</literal> encodes non-negative integers of
           unbounded size. The encoding uses octal digits encoded in 4-bit basic
@@ -11151,7 +11151,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='bet-tdfbool'>
-        <title>TDFBOOL</title> 
+        <title>TDFBOOL</title>
 
         <para><literal>TDFBOOL</literal> encodes a boolean, true or false. The
           encoding uses a 1-bit basic integer, with 1 encoding true and 0
@@ -11159,7 +11159,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='bet-tdfstring'>
-        <title>TDFSTRING</title> 
+        <title>TDFSTRING</title>
 
         <para><literal>TDFSTRING</literal> encodes a sequence containing
           <emphasis>n</emphasis> non-negative integers, each of
@@ -11173,7 +11173,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='bet-tdfident'>
-        <title>TDFIDENT</title> 
+        <title>TDFIDENT</title>
 
         <para><literal>TDFIDENT</literal> also encodes a sequence containing
           <emphasis>n</emphasis> non-negative integers. These integers will all
@@ -11197,7 +11197,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='bet-bitstream'>
-      <title>BITSTREAM</title> 
+      <title>BITSTREAM</title>
 
       <para>It can be useful to be able to skip a TDF construction without
         reading through it. <literal>BITSTREAM</literal> provides a means of
@@ -11215,7 +11215,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
         reading can continue directly.</para>
 
       <sect2 id='bet-bytestream'>
-        <title>BYTESTREAM</title> 
+        <title>BYTESTREAM</title>
 
         <para>It can be useful to be able to skip a TDF construction without
           reading through it. <literal>BYTESTREAM</literal> provides a means of
@@ -11244,14 +11244,14 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
       </sect2>
 
       <sect2 id='bet-byte-align'>
-        <title>BYTE_ALIGN</title> 
+        <title>BYTE_ALIGN</title>
 
         <para><literal>BYTE_ALIGN</literal> leaves the bit position alone if it
           is 7, and otherwise moves to bit 7 of the next byte.</para>
       </sect2>
 
       <sect2 id='bet-extendable-int-encoding'>
-        <title>Extendable integer encoding</title> 
+        <title>Extendable integer encoding</title>
 
         <para><emphasis>d</emphasis>-bit extendable integer encoding enables an
           integer greater than zero to be encoded given <emphasis>d</emphasis>, a
@@ -11270,7 +11270,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='bet-tdf-encoding'>
-      <title>The TDF encoding</title> 
+      <title>The TDF encoding</title>
 
       <para>The descriptions of SORTS and constructors contain encoding
         information which is interpreted as follows to define the TDF
@@ -11408,7 +11408,7 @@ sign(<emphasis>p</emphasis> M2 <emphasis>q</emphasis>) = sign(<emphasis>p</empha
     </sect1>
 
     <sect1 id='bet-file-formats'>
-      <title>File Formats</title> 
+      <title>File Formats</title>
 
       <para>There may be various kinds of files which contain TDF bitstream
         information. Each will start with a 4-byte &quot;magic-number&quot;
