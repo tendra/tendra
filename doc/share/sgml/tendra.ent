@@ -4,3 +4,8 @@
      $TenDRA$
 -->
 
+<!ENTITY unix "<trademark class='registered'>UNIX</trademark>">
+<!ENTITY java "<trademark class='registered'>Java</trademark>">
+
+<!ENTITY rel.current CDATA "5.0.0">
+<!ENTITY rel.current.date CDATA "">
