@@ -1,0 +1,9 @@
+/* 
+ * $TenDRA$
+ */
+
++MACHINE	"freebsd-*-alpha"
++AS		"/usr/bin/as"
++LD		"/usr/bin/ld -e start -dc -dp"
++CC		"/usr/bin/cc"
++CRT0		"/usr/lib/crt0.o"

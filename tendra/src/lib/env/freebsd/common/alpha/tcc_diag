@@ -1,0 +1,8 @@
+/*
+ * TCC ENVIRONMENT : DIAGNOSTICS FOR FreeBSD 
+ * $TenDRA$
+ */
+
++CRT0		"/usr/lib/crt0.o"
+<LINK		"-L<TENDRA_LIBDIR>/diag"
+>SYS_LIB	"-static -lg"
