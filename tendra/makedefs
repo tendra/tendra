@@ -31,10 +31,11 @@
 # The purpose of this script is to determine the host on which we are
 # compiling TenDRA and provide sane compilation defaults.
 
-. ./makedefs.funcs
-
+HOSTARCH=`/usr/bin/env uname -m`
 SYSTEM=`/usr/bin/env uname -s`
 VERSION=`/usr/bin/env uname -r`
+
+. ./makedefs.funcs
 
 if [ -f Makefile.defs ]; then
 	echo "NOTICE: old Makefile.defs file found, overwriting..."
@@ -69,6 +70,14 @@ case "${SYSTEM}.${VERSION}" in
 			check_cc
 			OSVER="FREEBSD5"
 			;;
+	NetBSD.2*)	#
+			check_cc
+			OSVER="NETBSD2"
+			;;
+	OpenBSD.3*)	#
+			check_cc
+			OSVER="OPENBSD3"
+			;;
 	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
 			# software package.
 			if [ "x$CC" = "x" ]; then
@@ -89,13 +98,17 @@ case "${SYSTEM}.${VERSION}" in
 			;;
 esac
 
+check_hostarch
+
 echo "Setting Makefile.defs environment to the following:"
 echo
-echo "CC:	$CC"
-echo "OSVER:	$OSVER"
+echo "CC:		$CC"
+echo "OSVER:		$OSVER"
+echo "BLDARCH:	$BLDARCH ($HOSTARCH)"
 
 cat > Makefile.defs <<EOF
 CC?=$CC
 OSVER=$OSVER
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+BLDARCH=$BLDARCH
 EOF

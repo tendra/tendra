@@ -7,3 +7,29 @@ check_cc()
 		CC="cc"
 	fi
 }
+
+check_hostarch()
+{
+	case "$HOSTARCH" in
+		i386)		# Intel 80386
+				BLDARCH="80x86"
+				;;
+		i486)		# Intel 80486
+				BLDARCH="80x86"
+				;;
+		i586)		# Intel 80586 (Pentium, Pentium MMX)
+				BLDARCH="80x86"
+				;;
+		i686)		# Intel 80686 (Pentium Pro, Pentium II,
+				# Pentium III, Pentium 4, AMD Athlon)
+				BLDARCH="80x86"
+				;;
+		sparc64)	# SPARC 64 bit
+				BLDARCH="sparc"
+				;;
+		*)		echo "Unknown architecture..."
+				echo "Please provide uname -m details to the TenDRA Project"
+				echo
+				;;
+	esac
+}
