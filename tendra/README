@@ -78,37 +78,35 @@ from the TenDRA web site:
 INSTALLATION INFORMATION
 ------------------------
 
-The main source archive, TenDRA-4.1.2.tar.gz, can be extracted using:
+The main source archive can be extracted using:
 
-	gzip -dc TenDRA-4.1.2.tar.gz | tar xvf -
+pax.bz2:	bzip2 -dc TenDRA-<version|date>.pax.bz2 | pax -rv
+pax.gz:		gzip -dc TenDRA-<version|date>.pax.gz | pax -rv
+tar.bz2:	bzip2 -dc TenDRA-<version|date>.tar.bz2 | tar xvf -
+tar.gz:		gzip -dc TenDRA-<version|date>.tar.gz | tar xvf -
 
-to give a directory, TenDRA-4.1.2, containing the release source.  If
-you also want to install the release documentation you will also need to
+to give a directory, TenDRA-<version|date>, containing the release source.
+If you also want to install the release documentation you will also need to
 download TenDRA-4.1.2-doc.tar.gz and extract this as above.  The
 documentation is extracted into the subdirectory TenDRA-4.1.2/doc.
 
-The release is installed by running the shell script INSTALL found in
+The release is installed by running the shell script 'makedefs' found in
 the main source directory.  The default configuration installs the
 public executables into /usr/local/bin, the private executables,
 libraries, configuration files etc. into /usr/local/lib/TenDRA, and
-the manual pages into /usr/local/man. It also assumes that the source
-has been installed in /usr/local/src/TenDRA-4.1.2.  These locations
-may be changed by editing the INSTALL script (which is fully commented).
+the manual pages into /usr/local/man.  This location and other options  may
+be changed by passing along variables to the 'makedefs' script (which is
+fully commented).
+For example:
 
-Note that the installation script makes no distinction between build
-and installation due to the large degree of interdependence between
-the various tools.  If a separate build phase is required then the
-system should be installed into a local directory and then re-installed
-into its permanent location.
+	$ CC=gcc ./makedefs
 
-Other installation details, such as which compiler to use, can be
-specified using command-line options to INSTALL, or by editing the
-script.  For example:
+will configure the build to use gcc as the compiler.  Follow this up with
+executing make:
 
-	INSTALL -gcc
+	$ make
 
-will install the release using gcc as the compiler.  After this the
-work directory can be removed, and:
+After this the work directory can be removed, and:
 
 	INSTALL -tcc
 
@@ -284,17 +282,12 @@ compiler generator tools:
 
     make_err		is used to manage the producer error catalogue;
 
-    make_mf		is a simple makefile generator;
-
     make_tdf		is used to generate TDF encoding and decoding
 			routines from the TDF specification;
 
     shared		contains code common to a number of tools;
 
     sid			is a parser generator (yacc is not used);
-
-    tuname		is a uname-like utility used in the installation
-			process.
 
 The lib directory is divided into a number of subdirectories:
 
