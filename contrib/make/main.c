@@ -686,7 +686,7 @@ main(argc, argv)
 		Lst_Init(&sysMkPath);
 		Dir_Expand(_PATH_DEFSYSMK, sysIncPath, &sysMkPath);
 		if (Lst_IsEmpty(&sysMkPath))
-			Fatal("make: no system rules (%s).", _PATH_DEFSYSMK);
+			Error("make: no system rules (%s).", _PATH_DEFSYSMK);
 		ln = Lst_Find(&sysMkPath, ReadMakefile, NULL);
 		if (ln != NULL)
 			Fatal("make: cannot open %s.", (char *)Lst_Datum(ln));
