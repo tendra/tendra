@@ -1,0 +1,66 @@
+<refmeta>
+  <refentrytitle>pl</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>pl</refname>
+  <refpurpose>PL_TDF compiler producing TDF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>pl</command>
+    <arg choice='opt'>-v</arg>
+    <arg choice='opt'>-I<replaceable> path</replaceable></arg>
+    <arg choice='opt'>-V</arg>
+    <arg choice='plain'><replaceable>infile.pl</replaceable></arg>
+    <arg choice='plain'><replaceable>outfile.j</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title>
+  <para>The action of <command>pl</command> is to compile a PL_TDF text in
+    <emphasis>infile.pl</emphasis> to a TDF capsule in
+    <emphasis>outfile.j</emphasis>. (See <emphasis>PL_TDF Definition</emphasis>).  
+    The resulting .j file is suitable for linking and translation by 
+    &man.tendra.tcc;</para> 
+</refsect1>
+
+<refsect1 id='options'><title>OPTIONS</title>
+  <variablelist>
+    <varlistentry>
+      <term>"<option>-v</option>"</term>
+      <listitem>
+        <para>This option produces a "pretty print" of the TDF capsule on the
+          standard output.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-I&nbsp;path</option></term>
+      <listitem>
+        <para>Gives the search path for any #include files in the PL_TDF
+          text.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-V</option></term>
+      <listitem>
+        <para>This option causes <command>pl</command> to print its version
+          number and the version of the TDF specification it supports.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='seealso'>
+<title>SEE ALSO</title>
+<para>&man.tendra.tcc;.</para>
+</refsect1>
