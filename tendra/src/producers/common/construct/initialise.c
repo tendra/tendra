@@ -2002,8 +2002,8 @@ destroy_general(TYPE t, IDENTIFIER id)
  *
  *    This routine initialises the object given by id to the value e.  Note
  *    that e can be the null expression, indicating that no initialiser is
- *    given.  The routine 1 if the object is defined, 2 if it is tentatively
- *    defined, and 0 if it is just declared (see dump_declare).
+ *    given.  The routine returns 1 if the object is defined, 2 if it is
+ *    tentatively defined, and 0 if it is just declared (see dump_declare).
  */
 
 int
