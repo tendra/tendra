@@ -5,9 +5,6 @@ DOCBOOKSUFFIX?= sgml
 
 MASTERDOC?=	${.CURDIR}/${DOC}.${DOCBOOKSUFFIX}
 
-# Which stylesheet type to use.  'dsssl' or 'xsl'
-STYLESHEET_TYPE?=	dsssl
-
 .if ${MACHINE_ARCH} != "i386"
 OPENJADE=	yes
 .endif
@@ -33,19 +30,11 @@ LANGUAGECATALOG=${DOC_PREFIX}/${LANGCODE}/share/sgml/catalog
 
 ISO8879CATALOG=	${PREFIX}/share/sgml/iso8879/catalog
 
-.if ${STYLESHEET_TYPE} == "dsssl"
 DOCBOOKCATALOG=	${PREFIX}/share/sgml/docbook/catalog
-.elif ${STYLESHEET_TYPE} == "xsl"
-DOCBOOKCATALOG= ${PREFIX}/share/xml/docbook/catalog
-.endif
 
 DSSSLCATALOG=	${PREFIX}/share/sgml/docbook/dsssl/modular/catalog
 COLLATEINDEX=	${PREFIX}/share/sgml/docbook/dsssl/modular/bin/collateindex.pl
 
-XSLTPROC?=	${PREFIX}/bin/xsltproc
-XSLHTML?=	${DOC_PREFIX}/share/xsl/freebsd-html.xsl
-XSLHTMLCHUNK?=	${DOC_PREFIX}/share/xsl/freebsd-html-chunk.xsl
-XSLFO?=		${DOC_PREFIX}/share/xsl/freebsd-fo.xsl
 
 IMAGES_LIB?=
 
@@ -277,50 +266,23 @@ CLEANFILES+= 		${HTML_SPLIT_INDEX} ${HTML_INDEX} ${PRINT_INDEX}
 
 all: ${_docs}
 
-# XML --------------------------------------------------------------------
-
-# sx generates a lot of (spurious) errors of the form "reference to
-# internal SDATA entity ...".  So dump the errors to separate file, and
-# grep for any other errors to show them to the user.
-#
-# Better approaches to handling this would be most welcome
-
-${DOC}.xml: ${SRCS}
-	echo '<!DOCTYPE book SYSTEM "/usr/local/share/xml/docbook/4.1.2/docbookx.dtd">' > ${DOC}.xml
-	${SX} -xlower -xndata ${MASTERDOC} 2> .sxerr | tail -n +2 >> ${DOC}.xml 
-	@-grep -v 'reference to internal SDATA entity' .sxerr
-
 # HTML-SPLIT -------------------------------------------------------------
 
-.if ${STYLESHEET_TYPE} == "dsssl"
 index.html HTML.manifest: ${SRCS} ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
 			  ${INDEX_SGML} ${HTML_SPLIT_INDEX} ${LOCAL_CSS_SHEET}
 	${JADE} -V html-manifest ${HTMLOPTS} -ioutput.html.images \
 		${JADEOPTS} -t sgml ${MASTERDOC}
-.elif ${STYLESHEET_TYPE} == "xsl"
-index.html: ${DOC}.xml ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
-	${INDEX_SGML} ${HTML_SPLIT_INDEX} ${LOCAL_CSS_SHEET}
-	${XSLTPROC} --param freebsd.output.html.images "'1'" ${XSLHTMLCHUNK} \
-		${DOC}.xml
-.endif
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} $$(${XARGS} < HTML.manifest)
 .endif
 
 # HTML -------------------------------------------------------------------
 
-.if ${STYLESHEET_TYPE} == "dsssl"
 ${DOC}.html: ${SRCS} ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
 	     ${INDEX_SGML} ${HTML_INDEX} ${LOCAL_CSS_SHEET}
 	${JADE} -V nochunks ${HTMLOPTS} -ioutput.html.images \
 		${JADEOPTS} -t sgml ${MASTERDOC} > ${.TARGET} || \
 		(${RM} -f ${.TARGET} && false)
-.elif ${STYLESHEET_TYPE} == "xsl"
-${DOC}.html: ${DOC}.xml ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
-	${INDEX_SGML} ${LOCAL_CSS_SHEET}     
-	${XSLTPROC} --param freebsd.output.html.images "'1'" ${XSLHTML} \
-		${DOC}.xml > ${.TARGET}
-.endif
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
@@ -328,16 +290,10 @@ ${DOC}.html: ${DOC}.xml ${LOCAL_IMAGES_LIB} ${LOCAL_IMAGES_PNG} \
 # HTML-TEXT --------------------------------------------------------------
 
 # Special target to produce HTML with no images in it.
-.if ${STYLESHEET_TYPE} == "dsssl"
 ${DOC}.html-text: ${SRCS} ${INDEX_SGML} ${HTML_INDEX}
 	${JADE} -V nochunks ${HTMLOPTS} \
 		${JADEOPTS} -t sgml ${MASTERDOC} > ${.TARGET} || \
 		(${RM} -f ${.TARGET} && false)
-.elif ${STYLESHEET_TYPE} == "xsl"
-${DOC}.html-text: ${DOC}.xml ${INDEX_SGML} ${HTML_INDEX}
-	${XSLTPROC} --param freebsd.output.html.images "'0'" ${XSLHTML} \
-		${DOC}.xml > ${.TARGET}
-.endif
 .if !defined(NO_TIDY)
 	-${TIDY} ${TIDYOPTS} ${.TARGET}
 .endif
