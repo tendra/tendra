@@ -6,3 +6,7 @@ NO_OBJDIR=	yes
 API=	cpp
 
 .include "../Makefile.inc"
+
+.if exists (${OBJ_DIR}.api/Makefile)
+.include "${OBJ_DIR}.api/Makefile"
+.endif

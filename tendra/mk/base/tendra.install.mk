@@ -34,10 +34,6 @@ INSTALL_TARGETS+=	install-startup
 
 .if defined(API)
 INSTALL_TARGETS+=	install-api
-INSTALL_SUB+=		lib/include/${API}.api lib/include/shared/${API}.api
-.if defined(API_SUBDIR)
-INSTALL_SUB+=		${API_SUBDIR:C/^/lib\/include\/${API}.api\//}
-.endif
 .endif
 
 .if defined(INSTALL_ENV)
@@ -114,27 +110,16 @@ install-startup:
 
 # lib/apis: our api files.
 install-api:
-.for i in ${API}.api shared/${API}.api
-	cd ${OBJ_PREFIX}/lib/apis/${i}; \
-	for i in *.h; do \
-		${BIN_CP} ${OBJ_PREFIX}/lib/apis/${i}/$$i \
-			${INSTALL_PREFIX}/lib/include/${i}/$$i; \
-		${BIN_CHMOD} ${ARGS_CHMOD_DATA} \
-			${INSTALL_PREFIX}/lib/include/${i}/$$i; \
+	@echo HELLO ${OBJ_DIR}.api/Makefile
+	@echo dirs: ${DIRS}
+	@echo headers: ${HEADERS}
+	for i in ${DIRS}; do \
+		${BIN_MKDIR} -p ${INSTALL_PREFIX}/lib/include/$${i}; \
 	done
-.endfor
-.if defined (API_SUBDIR)
-.for i in ${API_SUBDIR}
-	cd ${.OBJDIR}.api/${i}; \
-	for i in *.h; do \
-		${BIN_CP} ${.OBJDIR}.api/${i}/$$i \
-			${INSTALL_PREFIX}/lib/include/${API}.api/${i}/$$i; \
-		${BIN_CHMOD} ${ARGS_CHMOD_DATA} \
-			${INSTALL_PREFIX}/lib/include/${API}.api/${i}/$$i; \
+	for i in ${HEADERS}; do \
+	${BIN_CP} ${OBJ_PREFIX}/lib/apis/$${i} ${INSTALL_PREFIX}/lib/include/$${i}; \
+	${BIN_CHMOD} ${ARGS_CHMOD_DATA} ${INSTALL_PREFIX}/lib/include/$${i}; \
 	done
-.endfor
-.endif
-
 
 # lib/apis/lib lib/apis/lib/diag: our tl files.
 install-tl:

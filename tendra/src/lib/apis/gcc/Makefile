@@ -4,6 +4,9 @@
 NO_OBJDIR=yes
 
 API=		gcc
-API_SUBDIR=	sys
 
 .include "../Makefile.inc"
+
+.if exists (${OBJ_DIR}.api/Makefile)
+.include "${OBJ_DIR}.api/Makefile"
+.endif

@@ -4,7 +4,10 @@
 NO_OBJDIR=	yes
 
 API=		unix95
-API_SUBDIR=	sys arpa netinet sys
 
 
 .include "../Makefile.inc"
+
+.if exists (${OBJ_DIR}.api/Makefile)
+.include "${OBJ_DIR}.api/Makefile"
+.endif

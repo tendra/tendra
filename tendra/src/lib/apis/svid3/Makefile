@@ -4,7 +4,10 @@
 NO_OBJDIR=	yes
 
 API=		svid3
-API_SUBDIR=	sys rpc
 
 
 .include "../Makefile.inc"
+
+.if exists (${OBJ_DIR}.api/Makefile)
+.include "${OBJ_DIR}.api/Makefile"
+.endif
