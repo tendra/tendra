@@ -2,7 +2,7 @@
 
 # Standard variables
 
-TCCOPTS=-Yc++
+TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
 CCOPTS=${TCCOPTS} ${MACHOPTS}
 
 # Dependencies and construction rules
@@ -26,59 +26,59 @@ all: ${EXTRA} ${NAME}
 extra: ${EXTRA}
 	@${ECHO} done
 
-baseinfo.o: ${SRC}/baseinfo.cc ${SRC}/implement.h ${SRC}/interface.h
-	${MAIN_CC} ${SRC}/baseinfo.cc
+baseinfo.o: baseinfo.cc
+	${TCC} ${TCCOPTS} -c baseinfo.cc
 
-cmath.o: ${SRC}/cmath.cc
-	${MAIN_CC} ${SRC}/cmath.cc
+cmath.o: cmath.cc
+	${TCC} ${TCCOPTS} -c cmath.cc
 
-cstring.o: ${SRC}/cstring.cc
-	${MAIN_CC} ${SRC}/cstring.cc
+cstring.o: cstring.cc
+	${TCC} ${TCCOPTS} -c cstring.cc
 
-cwchar.o: ${SRC}/cwchar.cc
-	${MAIN_CC} ${SRC}/cwchar.cc
+cwchar.o: cwchar.cc
+	${TCC} ${TCCOPTS} -c cwchar.cc
 
-exception.o: ${SRC}/exception.cc ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/exception.cc
+exception.o: exception.cc
+	${TCC} ${TCCOPTS} -c exception.cc
 
-new.o: ${SRC}/new.cc ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new.cc
+new.o: new.cc
+	${TCC} ${TCCOPTS} -c new.cc
 
-new1.o: ${SRC}/new1.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new1.cc
+new1.o: new1.cc
+	${TCC} ${TCCOPTS} -c new1.cc
 
-new2.o: ${SRC}/new2.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new2.cc
+new2.o: new2.cc
+	${TCC} ${TCCOPTS} -c new2.cc
 
-new3.o: ${SRC}/new3.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new3.cc
+new3.o: new3.cc
+	${TCC} ${TCCOPTS} -c new3.cc
 
-new4.o: ${SRC}/new4.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new4.cc
+new4.o: new4.cc
+	${TCC} ${TCCOPTS} -c new4.cc
 
-new5.o: ${SRC}/new5.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new5.cc
+new5.o: new5.cc
+	${TCC} ${TCCOPTS} -c new5.cc
 
-new6.o: ${SRC}/new6.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new6.cc
+new6.o: new6.cc
+	${TCC} ${TCCOPTS} -c new6.cc
 
-new7.o: ${SRC}/new7.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new7.cc
+new7.o: new7.cc
+	${TCC} ${TCCOPTS} -c new7.cc
 
-new8.o: ${SRC}/new8.cc ${SRC}/news.h ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/new8.cc
+new8.o: new8.cc
+	${TCC} ${TCCOPTS} -c new8.cc
 
-pure.o: ${SRC}/pure.cc ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/pure.cc
+pure.o: pure.cc
+	${TCC} ${TCCOPTS} -c pure.cc
 
-term.o: ${SRC}/term.cc ${SRC}/implement.h
-	${MAIN_CC} ${SRC}/term.cc
+term.o: term.cc
+	${TCC} ${TCCOPTS} -c term.cc
 
-typeinfo.o: ${SRC}/typeinfo.cc ${SRC}/implement.h ${SRC}/interface.h
-	${MAIN_CC} ${SRC}/typeinfo.cc
+typeinfo.o: typeinfo.cc
+	${TCC} ${TCCOPTS} -c typeinfo.cc
 
-what.o: ${SRC}/what.cc
-	${MAIN_CC} ${SRC}/what.cc
+what.o: what.cc
+	${TCC} ${TCCOPTS} -c what.cc
 
 clobber : clean ${EXTRA_CLOBBER}
 	${REMOVE} ${NAME}
