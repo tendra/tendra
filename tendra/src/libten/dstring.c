@@ -70,6 +70,7 @@
 #include <string.h>
 
 #include "dstring.h"
+#include "fmm.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -89,7 +90,7 @@ void
 nstring_init_length(NStringP nstring, size_t length)
 {
 	nstring->length   = length;
-	nstring->contents = ALLOCATE_VECTOR (char, length);
+	nstring->contents = fmm_malloc(length, memtype_str);
 }
 
 void
@@ -106,7 +107,7 @@ nstring_copy_cstring(NStringP nstring, const char *cstring)
 	
 	if (length > 0) {
 		nstring->length   = length;
-		nstring->contents = ALLOCATE_VECTOR (char, length);
+		nstring->contents = fmm_malloc(length, memtype_str);
 		(void) memcpy (nstring->contents, cstring, length);
 	} else {
 		nstring->length   = 0;
@@ -131,7 +132,7 @@ nstring_copy(NStringP to, NStringP from)
 	
 	if (length > 0) {
 		to->length   = length;
-		to->contents = ALLOCATE_VECTOR (char, length);
+		to->contents =  fmm_malloc(length, memtype_str);
 		(void) memcpy (to->contents, from->contents, length);
 	} else {
 		to->length   = 0;
@@ -143,7 +144,7 @@ char *
 nstring_to_cstring(NStringP nstring)
 {
 	size_t length = nstring_length (nstring);
-	char *tmp    = ALLOCATE_VECTOR (char, length + 1);
+	char *tmp = fmm_malloc(length + 1, memtype_str);
 	
 	if (length > 0) {
 		(void) memcpy (tmp, nstring->contents, length);
@@ -266,7 +267,7 @@ nstring_is_prefix(NStringP nstring1, NStringP nstring2)
 void
 nstring_destroy(NStringP nstring)
 {
-	DEALLOCATE (nstring->contents);
+	fmm_free (nstring->contents, memtype_str);
 }
 
 void
@@ -287,7 +288,7 @@ dstring_init(DStringP dstring)
 {
 	dstring->length     = 0;
 	dstring->max_length = DSTRING_CHUNK_SIZE;
-	dstring->contents   = ALLOCATE_VECTOR (char, dstring->max_length);
+	dstring->contents   = fmm_malloc(dstring->max_length, memtype_str);
 }
 
 #ifdef FS_FAST
@@ -309,9 +310,9 @@ dstring_append_char(DStringP dstring, char c)
 		char *tmp;
 		
 		dstring->max_length += DSTRING_CHUNK_SIZE;
-		tmp                  = ALLOCATE_VECTOR (char, dstring->max_length);
+		tmp = fmm_malloc(dstring->max_length, memtype_str);
 		(void) memcpy (tmp, dstring->contents, dstring->length);
-		DEALLOCATE (dstring->contents);
+		fmm_free (dstring->contents, memtype_str);
 		dstring->contents = tmp;
 	}
 	dstring->contents [dstring->length ++] = c;
@@ -329,9 +330,9 @@ dstring_append_cstring(DStringP dstring, const char *cstring)
 		while ((dstring->max_length) < length) {
 			dstring->max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = ALLOCATE_VECTOR (char, dstring->max_length);
+		tmp = fmm_malloc(dstring->max_length, memtype_str);
 		(void) memcpy (tmp, dstring->contents, dstring->length);
-		DEALLOCATE (dstring->contents);
+		fmm_free (dstring->contents, memtype_str);
 		dstring->contents = tmp;
 	}
 	(void) memcpy (dstring->contents + dstring->length, cstring, clength);
@@ -350,9 +351,9 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 		while ((dstring->max_length) < length) {
 			dstring->max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = ALLOCATE_VECTOR (char, dstring->max_length);
+		tmp = fmm_malloc(dstring->max_length, memtype_str);
 		(void) memcpy (tmp, dstring->contents, dstring->length);
-		DEALLOCATE (dstring->contents);
+		fmm_free (dstring->contents, memtype_str);
 		dstring->contents = tmp;
 	}
 	(void) memcpy (dstring->contents + dstring->length,
@@ -373,7 +374,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 {
 	if (dstring->length > 0) {
 		nstring->length   = (dstring->length);
-		nstring->contents = ALLOCATE_VECTOR (char, dstring->length);
+ 		nstring->contents = fmm_malloc(dstring->length, memtype_str);
 		(void) memcpy (nstring->contents, dstring->contents,
 					   dstring->length);
 	} else {
@@ -385,7 +386,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 char *
 dstring_to_cstring(DStringP dstring)
 {
-	char *tmp = ALLOCATE_VECTOR (char, dstring->length + 1);
+	char *tmp = fmm_malloc(dstring->length + 1, memtype_str);
 	
 	if (dstring->length > 0) {
 		(void) memcpy (tmp, dstring->contents, dstring->length);
@@ -400,9 +401,9 @@ dstring_destroy_to_cstring(DStringP dstring)
 	char *tmp;
 	
 	if ((dstring->length) >= (dstring->max_length)) {
-		tmp = ALLOCATE_VECTOR (char, (dstring->length) + 1);
+ 		tmp = fmm_malloc(dstring->length + 1, memtype_str);
 		(void) memcpy (tmp, dstring->contents, dstring->length);
-		DEALLOCATE (dstring->contents);
+		fmm_free (dstring->contents, memtype_str);
 	} else {
 		tmp = (dstring->contents);
 	}
@@ -416,5 +417,5 @@ dstring_destroy_to_cstring(DStringP dstring)
 void
 dstring_destroy(DStringP dstring)
 {
-	DEALLOCATE (dstring->contents);
+	fmm_free (dstring->contents, memtype_str);
 }
