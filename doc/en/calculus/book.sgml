@@ -559,7 +559,7 @@ import :
         statements or the C implementation is included.</para>
     </sect1>
 
-    <sect1 id='basic-typos'>
+    <sect1 id='basic-types'>
       <title>Basic types</title>
 
       <para>Six abstract type operators, each taking a type as argument
