@@ -1,7 +1,7 @@
 # $TenDRA$
 
 CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
-.PATH : ${.CURDIR} ${.CURDIR}/../shared
+.PATH : ${.CURDIR}
 
 PROG = lexi
 
