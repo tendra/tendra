@@ -53,8 +53,7 @@
     the TDF capsule, <emphasis>output-file</emphasis>.</para>
 
   <para>It is recommended that <command>tdfc2</command> is invoked via
-    &man.tendra.tcc;. The <option>-Yc++</option> option is required to enable
-    the C capabilities. Files with a <markup>.c</markup> suffix are
+    &man.tendra.tcc;. Files with a <markup>.c</markup> suffix are
     recognised as C source files. Options can be passed directly to
     <command>tdfc2</command> using the
     <option>-Wc,</option><replaceable>opt</replaceable> option to
