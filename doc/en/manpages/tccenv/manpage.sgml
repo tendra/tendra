@@ -11,7 +11,7 @@
   <refpurpose>Environments for tcc</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id='tcc-synopsis'>
+<refsynopsisdiv id='tccenv-synopsis'>
   <cmdsynopsis>
     <command>none</command>
   </cmdsynopsis>
