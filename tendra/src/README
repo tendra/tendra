@@ -61,9 +61,9 @@ DOWNLOADING INFORMATION
 
 The TenDRA 4.1.2 release is available via the Web site:
 
-	http://alph.dera.gov.uk/TenDRA/
+	http://ftp.tendra.org/pub/source/
 
-or by FTP from alph.dera.gov.uk, in the directory /pub/TenDRA.  It consists
+or by FTP from ftp.tendra.org, in the directory /pub/source.  It consists
 of the gzipped tar archive:
 
 	TenDRA-4.1.2.tar.gz
@@ -84,6 +84,10 @@ The main source archive, TenDRA-4.1.2.tar.gz, can be extracted using:
 
 	gzip -d TenDRA-4.1.2.tar.gz
 	tar xvf TenDRA-4.1.2.tar
+
+or with newer tar utilities:
+
+	tar xvfz TenDRA-4.1.2.tar.gz
 
 to give a directory, TenDRA-4.1.2, containing the release source.  If
 you also want to install the release documentation you will also need to
