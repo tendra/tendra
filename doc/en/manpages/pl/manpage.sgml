@@ -52,6 +52,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-g</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-v</option></term>
       <listitem>
         <para>This option produces a "pretty print" of the TDF capsule on the
