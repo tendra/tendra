@@ -23,7 +23,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- 
  *  		 Crown Copyright (c) 1997
  *  
  *  This TenDRA(r) Computer Program is subject to Copyright
@@ -50,8 +49,6 @@
  *      quality or suitability for any purpose and DERA accepts
  *      no liability whatsoever in relation to any use to which
  *      it may be put.
- *
- * $TenDRA$
  *
  * $TenDRA$
  */
