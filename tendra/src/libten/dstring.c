@@ -77,8 +77,25 @@
 
 #define DSTRING_CHUNK_SIZE 32
 
+struct fmm_type *memtype_nstr;
+struct fmm_type *memtype_dstr;
+
 /*** Functions for manipulating nstrings.
  **/
+
+/*
+ * Allocate n characters for a nstring.
+ */
+static char*
+nstring_alloc(size_t n)
+{
+	char *s;
+
+	if (memtype_nstr == NULL)
+		memtype_nstr = fmm_type_add ("NStrings", "Character strings");
+	s = fmm_malloc (n, memtype_nstr);
+	return s;
+}
 
 void
 nstring_init(NStringP nstring)
@@ -91,7 +108,7 @@ void
 nstring_init_length(NStringP nstring, size_t length)
 {
 	nstring->ns_length   = length;
-	nstring->ns_contents = fmm_malloc(length, memtype_str);
+	nstring->ns_contents = nstring_alloc (length);
 }
 
 void
@@ -108,7 +125,7 @@ nstring_copy_cstring(NStringP nstring, const char *cstring)
 	
 	if (length > 0) {
 		nstring->ns_length   = length;
-		nstring->ns_contents = fmm_malloc(length, memtype_str);
+		nstring->ns_contents = nstring_alloc (length);
 		(void) memcpy (nstring->ns_contents, cstring, length);
 	} else {
 		nstring->ns_length   = 0;
@@ -133,7 +150,7 @@ nstring_copy(NStringP to, NStringP from)
 	
 	if (length > 0) {
 		to->ns_length   = length;
-		to->ns_contents =  fmm_malloc(length, memtype_str);
+		to->ns_contents =  nstring_alloc(length);
 		(void) memcpy (to->ns_contents, from->ns_contents, length);
 	} else {
 		to->ns_length   = 0;
@@ -145,7 +162,7 @@ char *
 nstring_to_cstring(NStringP nstring)
 {
 	size_t length = nstring_length (nstring);
-	char *tmp = fmm_malloc(length + 1, memtype_str);
+	char *tmp = string_alloc(length + 1);
 	
 	if (length > 0) {
 		(void) memcpy (tmp, nstring->ns_contents, length);
@@ -244,7 +261,7 @@ nstring_is_prefix(NStringP nstring1, NStringP nstring2)
 void
 nstring_destroy(NStringP nstring)
 {
-	fmm_free (nstring->ns_contents, memtype_str);
+	fmm_free (nstring->ns_contents, memtype_nstr);
 }
 
 void
@@ -260,25 +277,35 @@ write_nstring(OStreamP ostream, NStringP nstring)
 /*** Functions for manipulating dstrings.
  **/
 
+/*
+ * Allocate n characters for a dstring.
+ */
+static char*
+dstring_alloc(size_t n)
+{
+	char *s;
+
+	if (memtype_dstr == NULL)
+		memtype_dstr = fmm_type_add ("DStrings", "Binary strings");
+	s = fmm_malloc (n, memtype_dstr);
+	return s;
+}
+
 void
 dstring_init(DStringP dstring)
 {
 	dstring->ds_length     = 0;
 	dstring->ds_max_length = DSTRING_CHUNK_SIZE;
-	dstring->ds_contents   = fmm_malloc(dstring->ds_max_length, memtype_str);
+	dstring->ds_contents   = dstring_alloc (dstring->ds_max_length);
 }
 
 void
 dstring_append_char(DStringP dstring, char c)
 {
 	if ((dstring->ds_length) >= (dstring->ds_max_length)) {
-		char *tmp;
-		
 		dstring->ds_max_length += DSTRING_CHUNK_SIZE;
-		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
-		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
-		fmm_free (dstring->ds_contents, memtype_str);
-		dstring->ds_contents = tmp;
+		dstring->ds_contents = fmm_realloc (dstring->ds_contents,
+			dstring->ds_max_length, memtype_dstr);
 	}
 	dstring->ds_contents[dstring->ds_length++] = c;
 }
@@ -290,15 +317,11 @@ dstring_append_cstring(DStringP dstring, const char *cstring)
 	size_t length  = (clength + (dstring->ds_length));
 	
 	if (length > (dstring->ds_max_length)) {
-		char *tmp;
-		
 		while ((dstring->ds_max_length) < length) {
 			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
-		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
-		fmm_free (dstring->ds_contents, memtype_str);
-		dstring->ds_contents = tmp;
+		dstring->ds_contents = fmm_realloc (dstring->ds_contents,
+			dstring->ds_max_length, memtype_dstr);
 	}
 	(void) memcpy (dstring->ds_contents + dstring->ds_length, cstring, clength);
 	dstring->ds_length = length;
@@ -316,10 +339,8 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 		while (dstring->ds_max_length < length) {
 			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
-		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
-		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
-		fmm_free (dstring->ds_contents, memtype_str);
-		dstring->ds_contents = tmp;
+		dstring->ds_contents = fmm_realloc (dstring->ds_contents,
+			dstring->ds_max_length, memtype_dstr);
 	}
 	(void) memcpy (dstring->ds_contents + dstring->ds_length,
 				   nstring_contents (nstring), nlength);
@@ -338,7 +359,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 {
 	if (dstring->ds_length > 0) {
 		nstring->ns_length   = dstring->ds_length;
- 		nstring->ns_contents = fmm_malloc(dstring->ds_length, memtype_str);
+ 		nstring->ns_contents = nstring_alloc(dstring->ds_length);
 		(void) memcpy (nstring->ns_contents, dstring->ds_contents,
 					   dstring->ds_length);
 	} else {
@@ -350,7 +371,7 @@ dstring_to_nstring(DStringP dstring, NStringP nstring)
 char *
 dstring_to_cstring(DStringP dstring)
 {
-	char *tmp = fmm_malloc(dstring->ds_length + 1, memtype_str);
+	char *tmp = string_alloc(dstring->ds_length + 1);
 	
 	if (dstring->ds_length > 0) {
 		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
@@ -365,9 +386,7 @@ dstring_destroy_to_cstring(DStringP dstring)
 	char *tmp;
 	
 	if (dstring->ds_length >= dstring->ds_max_length) {
- 		tmp = fmm_malloc(dstring->ds_length + 1, memtype_str);
-		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
-		fmm_free (dstring->ds_contents, memtype_str);
+ 		tmp = dstring_to_cstring (dstring);
 	} else {
 		tmp = dstring->ds_contents;
 	}
@@ -381,5 +400,5 @@ dstring_destroy_to_cstring(DStringP dstring)
 void
 dstring_destroy(DStringP dstring)
 {
-	fmm_free (dstring->ds_contents, memtype_str);
+	fmm_free (dstring->ds_contents, memtype_dstr);
 }
