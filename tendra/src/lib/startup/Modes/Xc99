@@ -32,6 +32,8 @@
 
 /* Implicit function declarations are not allowed in C99 anymore. */ 
 #pragma TenDRA implicit function declaration off
+/* No implicit int for K&R-style function parameters. */
+#pragma TenDRA implicit int type for function argument disallow
 /* Implicit int type for functions lacking a return type was removed in C99. */
 #pragma TenDRA implicit int type for function return disallow
 /* C99 allows the same type qualifier to occur multiple times. */
