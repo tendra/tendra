@@ -8,4 +8,6 @@ MACHSUBDIR:= ${OSFAM}/${BLDARCH}
 SUBDIR=	${MACHSUBDIR}/src
 .endif
 
+SUBDIR+= ${MACHSUBDIR}/tokens
+
 .include "Makefile.inc"
