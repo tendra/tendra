@@ -52,10 +52,10 @@
 
   </bookinfo>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
 
-    <simplesect>
+    <simplesect id='intro-background'>
       <title>Background</title>
 
       <para>TDF is an interface used for architecture neutral and programming
@@ -73,12 +73,12 @@
         included along with TDF itself as interface between TDF tools.</para>
       
       <para>This first revision includes additional tokens for accessing
-        variable parameter lists (see <xref linkend="acc-var-param">), and a C
+        variable parameter lists (see <xref linkend='accessing-var-parm'>), and a C
         mapping token to support the optional type <emphasis>long long
         int</emphasis>.</para>
     </simplesect>
   
-    <simplesect>
+    <simplesect id='intro-token-reg-obj'>
       <title>Token Register Objectives</title>
       
       <para>As TDF tokens may be used to represent any piece of TDF, they may be
@@ -121,12 +121,12 @@
         </listitem>
       </orderedlist>
       
-      <para>These classes are discussed separately, in <xref linkend="ch02">
-        to <xref linkend="ch06"> below.</para>
+      <para>These classes are discussed separately, in <xref linkend='target-dep-tok'>
+        to <xref linkend='app-prog-int'> below.</para>
     </simplesect>
   </preface>
   
-  <chapter id="ch01">
+  <chapter id='naming-scheme'>
     <title>Naming scheme</title>
     
     <para>A flat name space will suffice for TDF token names if producer
@@ -144,7 +144,7 @@
     
     <para>For API tokens, the prefix will consist of a sequence of simple
       names, each followed by a dot, where the first simple name is the name
-      of the API as listed or referred to in <xref linkend="ch06">.</para>
+      of the API as listed or referred to in <xref linkend='app-prog-int'>.</para>
     
     <para>The prefix for producer specific and target dependency tokens will
       begin and end with characters that distinguish them from the above
@@ -157,14 +157,14 @@
     <simplelist type='horiz' columns='2'>
       <member><literal>~</literal></member>
   
-      <member>TDF interface tokens as specified in <xref linkend="ch04">
+      <member>TDF interface tokens as specified in <xref linkend='tdf-int-tok'>
         below, and also LPI tokens specific to DRA's C producer.</member>
   
       <member><literal>.~</literal></member>
       
       <member>Registered target dependency tokens as specified in
-        <xref linkend="ch02"> below, and basic mapping tokens specified in
-        <xref linkend="ch03">.</member>
+        <xref linkend='target-dep-tok'> below, and basic mapping tokens specified in
+        <xref linkend='basic-map-tok'>.</member>
 
       <member><literal>~cpp.</literal></member>
 
@@ -177,7 +177,7 @@
     </simplelist>
   </chapter>
   
-  <chapter id="ch02">
+  <chapter id='target-dep-tok'>
     <title>Target dependency tokens</title>
     
     <para>Target dependency tokens provide a common interface to simple
@@ -185,7 +185,7 @@
       be expressed within TDF, but the detail will be architecture specific.
       Every installer should have associated with it, a capsule containing the
       installer specific definitions of all the tokens specificed within this
-      <xref linkend="ch03">.</para>
+      <xref linkend='basic-map-tok'>.</para>
     
     <para>Some of these tokens provide information about the integer and
       floating point variety representations supported by an installer, in a
@@ -199,7 +199,7 @@
       definitions, which can provide a more appropriate interface for
       applications.</para>
     
-    <sect1>
+    <sect1 id='int-variety-rep'>
       <title>Integer variety representations</title>
       
       <para>Since TDF specifies integer representations to be twos-complement,
@@ -209,7 +209,7 @@
         representation can easily be determined from the number of
         bits.</para>
       
-      <sect2>
+      <sect2 id='rep-var-width'>
         <title><literal>.~rep_var_width</literal></title>
         
         <programlisting>
@@ -231,7 +231,7 @@
           <emphasis>w</emphasis>) will be 0.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-atomic-width'>
         <title><literal>.~rep_atomic_width</literal></title>
         
         <programlisting>
@@ -248,7 +248,7 @@
       </sect2>
     </sect1>
     
-    <sect1 id="float-var-rep">
+    <sect1 id='float-var-rep'>
       <title>Floating variety representations</title>
       
       <para>Floating point representations are much more diverse than
@@ -262,7 +262,7 @@
         1 and using <emphasis>.~rep_fv_width</emphasis> to test for the
         sequence end.</para>
       
-      <sect2>
+      <sect2 id='rep-fv'>
         <title><literal>.~rep_fv</literal></title>
         
         <programlisting>
@@ -277,7 +277,7 @@
           range.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-width'>
         <title><literal>.~rep_fv_width</literal></title>
         
         <programlisting>
@@ -298,7 +298,7 @@
           0.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-radix'>
         <title><literal>.~rep_fv_radix</literal></title>
         
         <programlisting>
@@ -315,7 +315,7 @@
           supported floating point representations.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-mantissa'>
         <title><literal>.~rep_fv_mantissa</literal></title>
       
         <programlisting>
@@ -334,7 +334,7 @@
       
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-min-exp'>
         <title><literal>.~rep_fv_min_exp</literal></title>
         
         <programlisting>
@@ -353,7 +353,7 @@
           supported floating point representations.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-max-exp'>
         <title><literal>.~rep_fv_max_exp</literal></title>
         
         <programlisting>
@@ -372,7 +372,7 @@
           supported floating point representations.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-epsilon'>
         <title><literal>.~rep_fv_epsilon</literal></title>
         
         <programlisting>
@@ -390,7 +390,7 @@
           supported floating point representations.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-min-val'>
         <title><literal>.~rep_fv_min_val</literal></title>
         
         <programlisting>
@@ -408,7 +408,7 @@
           supported floating point representations.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='rep-fv-max-val'>
         <title><literal>.~rep_fv_max_val</literal></title>
         
         <programlisting>
@@ -426,10 +426,10 @@
       </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='non-num-rep'>
       <title>Non-numeric representations</title>
       
-      <sect2>
+      <sect2 id='ptr-width'>
         <title><literal>.~ptr_width</literal></title>
       
         <programlisting>
@@ -447,7 +447,7 @@
         <emphasis>.~int_to_ptr</emphasis> (q.v.).</para>
     </sect2>
 
-    <sect2>
+    <sect2 id='best-div'>
       <title><literal>.~best_div</literal></title>
       
       <programlisting>
@@ -460,7 +460,7 @@
         class is valid but must be used consistently.</para>
     </sect2>
 
-    <sect2>
+    <sect2 id='little-endian'>
       <title><literal>.~little_endian</literal></title>
       
       <programlisting>
@@ -477,7 +477,7 @@
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id='common-conv-routines'>
       <title>Common conversion routines</title>
       
       <para>This subsection contains a set of conversion routines between
@@ -489,7 +489,7 @@
         can simply be achieved by assignment via a common union, which will
         ensure the required alignment consistency.</para>
       
-      <sect2>
+      <sect2 id='ptr-to-ptr'>
         <title><literal>.~ptr_to_ptr</literal></title>
         
         <programlisting>
@@ -513,7 +513,7 @@
           pointer with alignment <emphasis>a1</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='ptr-to-int'>
         <title><literal>.~ptr_to_int</literal></title>
         
         <programlisting>
@@ -530,7 +530,7 @@
           <emphasis>a</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='int-to-ptr'>
         <title><literal>.~int_to_ptr</literal></title>
         
         <programlisting>
@@ -557,7 +557,7 @@
           same pointer <emphasis>p</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='f-to-ptr'>
         <title><literal>.~f_to_ptr</literal></title>
         
         <programlisting>
@@ -571,7 +571,7 @@
           with <emphasis>.~ptr_to_f</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='ptr-to-f'>
         <title><literal>.~ptr_to_f</literal></title>
         
         <programlisting>
@@ -589,7 +589,7 @@
     </sect1>
   </chapter>
   
-  <chapter id="ch03">
+  <chapter id='basic-map-tok'>
     <title>Basic mapping tokens</title>
     
     <para>Basic mapping tokens provide target specific detail for specific
@@ -606,12 +606,12 @@
     
     <para>Every operating system variant of an installer should have
       associated with it, a capsule containing the definitions of all the
-      tokens specificed within this <xref linkend="ch03">.</para>
+      tokens specificed within this <xref linkend='basic-map-tok'>.</para>
     
-    <sect1 id="c-map-tokens">
+    <sect1 id='c-map-tok'>
       <title>C mapping tokens</title>
       
-      <sect2>
+      <sect2 id='char-width'>
         <title><literal>.~char_width</literal></title>
         
         <programlisting>
@@ -623,7 +623,7 @@
           that corresponds to the C type <emphasis>char</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='short-width'>
         <title><literal>.~short_width</literal></title>
       
         <programlisting>
@@ -636,7 +636,7 @@
           <emphasis>short int</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='int-width'>
         <title><literal>.~int_width</literal></title>
         
         <programlisting>
@@ -648,7 +648,7 @@
           that corresponds to the C type <emphasis>int</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='long-width'>
         <title><literal>.~long_width</literal></title>
         
         <programlisting>
@@ -660,7 +660,7 @@
           that corresponds to the C type <emphasis>long int</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='longlong-width'>
         <title><literal>.~longlong_width</literal></title>
         
         <programlisting>
@@ -673,7 +673,7 @@
           <emphasis>long long int</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='size-t-width'>
         <title><literal>.~size_t_width</literal></title>
         
         <programlisting>
@@ -689,7 +689,7 @@
           <emphasis>.~long_width</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='fl-rep'>
         <title><literal>.~fl_rep</literal></title>
         
         <programlisting>
@@ -701,7 +701,7 @@
           to be used for values of C type <emphasis>float</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='dbl-rep'>
         <title><literal>.~dbl_rep</literal></title>
         
         <programlisting>
@@ -713,7 +713,7 @@
           values of C type <emphasis>double</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='ldbl-rep'>
         <title><literal>.~ldbl_rep</literal></title>
         
         <programlisting>
@@ -725,7 +725,7 @@
           values of C type <emphasis>long double</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='pv-align'>
         <title><literal>.~pv_align</literal></title>
         
         <programlisting>
@@ -742,7 +742,7 @@
           <emphasis>.~char_width</emphasis>))).</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='min-struct-rep'>
         <title><literal>.~min_struct_rep</literal></title>
         
         <programlisting>
@@ -759,7 +759,7 @@
           <emphasis>.~long_width</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='char-is-signed'>
         <title><literal>.~char_is_signed</literal></title>
         
         <programlisting>
@@ -772,7 +772,7 @@
           unsigned.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='bitfield-is-signed'>
         <title><literal>.~bitfield_is_signed</literal></title>
         
         <programlisting>
@@ -785,10 +785,10 @@
       </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='fortran-map-tok'>
       <title>Fortran mapping tokens</title>
       
-      <sect2>
+      <sect2 id='f-char-width'>
         <title><literal>.~F_char_width</literal></title>
         
         <programlisting>
@@ -804,7 +804,7 @@
           as <emphasis>.~char_width</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='f-int-width'>
         <title><literal>.~F_int_width</literal></title>
         
         <programlisting>
@@ -820,7 +820,7 @@
           <emphasis>.~int_width</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='f-fl-rep'>
         <title><literal>.~F_fl_rep</literal></title>
         
         <programlisting>
@@ -838,7 +838,7 @@
           <emphasis>.~F_fl_rep</emphasis> will be 0.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='f-dbl-rep'>
         <title><literal>.~F_dbl_rep</literal></title>
         
         <programlisting>
@@ -858,7 +858,7 @@
     </sect1>
   </chapter>
   
-  <chapter id="ch04">
+  <chapter id='tdf-int-tok'>
     <title>TDF Interface tokens</title>
     
     <para>A very few specifically named tokens are referred to within the TDF
@@ -869,10 +869,10 @@
     <para>Similarly, a few tokens are specified within the TDF Diagnostic
       Specification.</para>
     
-    <sect1>
+    <sect1 id='exception-handling'>
       <title>Exception handling</title>
       
-      <sect2>
+      <sect2 id='throw'>
         <title><literal>~Throw</literal></title>
         
         <programlisting>
@@ -899,7 +899,7 @@
           within the producer specific LPI.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='set-signal-handler'>
         <title><literal>~Set_signal_handler</literal></title>
         
         <programlisting>
@@ -920,7 +920,7 @@
           limit.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='sync-handle'>
         <title><literal>~Sync_handle</literal>r</title>
         
         <programlisting>
@@ -940,7 +940,7 @@
       </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='tdf-diag-spec'>
       <title>TDF Diagnostic Specification</title>
       
       <para>&doc.diag; is a
@@ -951,7 +951,7 @@
         therefore not included as part of standard TDF. Its use for other than
         DRA's C producer has not been considered.</para>
       
-      <sect2>
+      <sect2 id='exp-to-source'>
         <title><literal>~exp_to_source, ~diag_id_scope, ~diag_type_scope, ~diag_tag_scope</literal></title>
         
         <programlisting>
@@ -971,13 +971,13 @@
       </sect2>
     </sect1>
 
-    <sect1 id="acc-var-param">
+    <sect1 id='accessing-var-parm'>
       <title>Accessing variable parameter lists</title>
       
       <para>Installers should provide token definitions for the tokens listed
         in this section.</para>
       
-      <sect2>
+      <sect2 id='va-list'>
         <title><literal>~va_list</literal></title>
         
         <programlisting>
@@ -990,7 +990,7 @@
           <emphasis>make_proc</emphasis>.</para>
       </sect2>
       
-      <sect2>
+      <sect2 id='va-start'>
         <title><literal>~__va_start</literal></title>
         
         <programlisting>
@@ -1009,7 +1009,7 @@
           in the make_proc params_intro list.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='va-arg'>
         <title><literal>~va_arg</literal></title>
         
         <programlisting>
@@ -1027,7 +1027,7 @@
           parameters.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='va-end'>
         <title><literal>~va_end</literal></title>
       
         <programlisting>
@@ -1041,7 +1041,7 @@
           be made of <emphasis>v</emphasis>.</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='next-caller-offset'>
         <title><literal>~next_caller_offset</literal></title>
         
         <programlisting>
@@ -1078,7 +1078,7 @@
           <emphasis>current_env</emphasis>).</para>
       </sect2>
 
-      <sect2>
+      <sect2 id='next-callee-offset'>
         <title><literal>~next_callee_offset</literal></title>
         
         <programlisting>
@@ -1116,7 +1116,7 @@
     </sect1>
   </chapter>
   
-  <chapter id="ch05">
+  <chapter id='lang-prog-int'>
     <title>Language Programming Interfaces</title>
     
     <para>A Language Programming Interface (LPI) is here defined to mean a set
@@ -1128,14 +1128,14 @@
       appropriate producer itself. Before an application can be installed on
       some target platform, the appropriate LPI token definitions must have
       been built for that platform. In this sense, the LPI can be considered
-      as a primitive API, which is discussed in <xref linkend="ch06">.</para>
+      as a primitive API, which is discussed in <xref linkend='app-prog-int'>.</para>
     
     <para>The process by which the LPI token definition library or capsule is
       generated for any specific platform will vary according to the LPI, and
       responsibility for defining that process will also lie with the
       appropriate producer. Some LPIs, such as that associated with DRA's C
       producer, can be fully defined by architecture neutral TDF, using the
-      tokens specified in <xref linkend="ch02"> and <xref linkend="ch03"> to
+      tokens specified in <xref linkend='target-dep-tok'> and <xref linkend='basic-map-tok'> to
       encapsulate any target dependencies.  When that is the case, the
       generation process can be fully automated. For other LPIs the process
       may be much less automated. In some cases where the source language
@@ -1144,7 +1144,7 @@
     
     <para>Generally, the individual LPI tokens do not need to be specified in
       the token registry, provided they follow a registered naming scheme to
-      ensure uniqueness (see <xref linkend="ch01">). In exceptional
+      ensure uniqueness (see <xref linkend='naming-scheme'>). In exceptional
       circumstances it may be necessary for some TDF tool to recognise
       individual LPI tokens explicitly by name. This will be the case when
       experimenting with potential extensions to TDF, in the field of
@@ -1158,14 +1158,14 @@
       the register for all cases where significant advantage could be taken by
       an installer only if it recognises the token by name.</para>
     
-    <sect1>
+    <sect1 id='dra-c-lpi'>
       <title>The DRA C LPI</title>
       
       <para>DRA's C producer LPI is defined by an architecture neutral token
         definition capsule provided with the producer. Target specific detail is
         included only by use of the target dependency tokens and C mapping
-        tokens specified in <xref linkend="ch02"> and
-        <xref linkend="c-map-tokens"> respectively.  Target specific versions
+        tokens specified in <xref linkend='target-dep-tok'> and
+        <xref linkend='c-map-tok'> respectively.  Target specific versions
         of this capsule are obtained by transformation, using the
         `preprocessing' action of the TDF tool <emphasis>tnc</emphasis>, with
         definitions of the target dependency and C mapping tokens that are
@@ -1176,10 +1176,10 @@
       
       <para>The DRA C LPI does not include standard library features, for which
         the C language requires header files. The standard C library is one
-        example of an API, discussed in <xref linkend="ch06">.</para>
+        example of an API, discussed in <xref linkend='app-prog-int'>.</para>
     </sect1>
     
-    <sect1>
+    <sect1 id='dra-cpp-lpi'>
       <title>The DRA C++ LPI</title>
       
       <para>The DRA C++ LPI extends the DRA C LPI adding tokens for target
@@ -1187,7 +1187,7 @@
         are treated as an API.</para>
     </sect1>
 
-    <sect1>
+    <sect1 id='etnoteam-fortran-lpi'>
       <title>The Etnoteam Fortran LPI</title>
       
       <para>The details in this subsection are provisional, subject to
@@ -1243,7 +1243,7 @@
     </sect1>
   </chapter>
   
-  <chapter id="ch06">
+  <chapter id='app-prog-int'>
     <title>Application Programming Interfaces</title>
   
     <para>Application Programming Interfaces are typically specified with a C
@@ -1282,12 +1282,12 @@
       than could be achieved by normal token expansion, for example by
       inlining standard function calls.</para>
     
-    <sect1>
+    <sect1 id='ansi-c-stand-func'>
       <title>ANSI C standard functions</title>
     
       <para>The set of tokens implied below all have the form:</para>
       
-      <sect2>
+      <sect2 id='ansi-header-funct'>
         <title><literal>ansi.header.function</literal></title>
         
         <programlisting>
@@ -1314,10 +1314,10 @@
       </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id='common-exceptional-cases'>
       <title>Common exceptional cases</title>
     
-      <sect2>
+      <sect2 id='ansi-setjmp-setjmp'>
         <title><literal>ansi.setjmp.setjmp</literal></title>
         
         <programlisting>
@@ -1331,7 +1331,7 @@
           declared within &lt;setjmp.h&gt;.</para>
     </sect2>
 
-    <sect2>
+    <sect2 id='ansi-setjmp-longjmp'>
       <title><literal>ansi.setjmp.longjmp</literal></title>
       
       <programlisting>
@@ -1346,7 +1346,7 @@
         The result shape may be either TOP or BOTTOM.</para>
     </sect2>
 
-    <sect2>
+    <sect2 id='alloca'>
       <title><literal>~alloca</literal></title>
     
       <programlisting>
@@ -1359,7 +1359,7 @@
         specified function <emphasis>alloca</emphasis>.</para>
     </sect2>
 
-    <sect2>
+    <sect2 id='ansi-stdarg-va-list'>
       <title><literal>ansi.stdarg.va_list, ansi.stdarg.__va_start,
         ansi.stdarg.va_arg, ansi.stdarg.va_end</literal></title>
       
