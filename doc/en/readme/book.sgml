@@ -82,21 +82,21 @@
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id="install">
     <title>Installation</title>
 
-    <para>blah</para>
+    <para>Documentation to be completed.</para>
 
     <sect1>
       <title>Requirements</title>
 
-      <para>blah</para>
+      <para>Documentation to be completed.</para>
     </sect1>
 
     <sect1>
       <title>OS Specific Information</title>
 
-      <para>blah</para>
+      <para>Documentation to be completed.</para>
     </sect1>
   </chapter>
 
@@ -104,7 +104,7 @@
   <chapter>
     <title>Known Installation Problems</title>
 
-    <para>none? :)</para>
+    <para>Documentation to be completed.</para>
   </chapter>
 
   <chapter>
@@ -113,24 +113,24 @@
     <sect1>
       <title>Toplevel Directory</title>
 
-      <para>blah</para>
+      <para>Documentation to be completed.</para>
 
       <sect2>
         <title>mk</title>
 
-        <para>blah</para>
+        <para>Documentation to be completed.</para>
       </sect2>
 
       <sect2>
         <title>obj</title>
 
-        <para>blah</para>
+        <para>Documentation to be completed.</para>
       </sect2>
 
       <sect2>
         <title>regression</title>
 
-        <para>blah</para>
+        <para>Documentation to be completed.</para>
       </sect2>
 
       <sect2>
