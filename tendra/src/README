@@ -1,3 +1,5 @@
+$TenDRA$
+
 TENDRA 4.1.2 RELEASE INFORMATION
 ================================
 
@@ -5,7 +7,7 @@ TENDRA 4.1.2 RELEASE INFORMATION
 COPYRIGHT INFORMATION
 ---------------------
 
-Please read the file COPYRIGHT for the DERA copyright notice.  In addition,
+Please read the file COPYRIGHT for the copyright notices.  In addition,
 the power installer (src/installers/power and its subdirectories) are
 subject to the following copyright notice:
 
