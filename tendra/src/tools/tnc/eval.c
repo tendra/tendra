@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+
 #include "types.h"
 #include "eval.h"
 #include "node.h"
@@ -253,7 +256,7 @@ static char
     for (i = 0 ; i < n / 3 ; i++) {
 		buff [ i + 1 ] = '0';
     }
-    return (string_copy (buff, (int) (i + 1)));
+    return (string_ncopy (buff, (int) (i + 1)));
 }
 
 
@@ -268,7 +271,7 @@ static char
 *minus_one(char *val)
 {
     int i, n = (int) strlen (val);
-    char *res = string_copy (val, n);
+    char *res = string_ncopy (val, n);
     for (i = n - 1 ; i >= 0 ; i--) {
 		char c = res [i];
 		if (c != '0') {
@@ -840,7 +843,7 @@ eval_all()
     long i;
     unsigned long m = 0;
     var_max = BYTESIZE * (long) sizeof (long);
-    var_mask = alloc_nof (unsigned long, var_max + 1);
+    var_mask = xalloc (sizeof (unsigned long) * (var_max + 1));
     var_mask [0] = 0;
     for (i = 1 ; i <= var_max ; i++) {
 		m = 2 * m + 1;

@@ -63,37 +63,10 @@
  *    ERROR REPORTING ROUTINES
  */
 
-extern boolean is_fatal;
-extern int exit_status;
 extern boolean text_input, text_output;
-extern void fatal_error PROTO_W ((char *, ...));
-extern void input_error PROTO_W ((char *, ...));
-extern void warning PROTO_W ((char *, ...));
 
 
-/*
- *    MEMORY ALLOCATION ROUTINES
- */
-
-extern pointer xalloc(int) ;
-extern pointer xrealloc(pointer, int) ;
-extern char *string_copy(char *, int) ;
 extern char *temp_copy(char *) ;
-
-
-/*
- *    MACROS FOR ADDRESSING MEMORY ALLOCATION ROUTINES
- */
-
-#define alloc_nof(TYPE, NO)\
-    ((TYPE *) xalloc (((int) (NO) * (int) sizeof (TYPE))))
-
-#define realloc_nof(PTR, TYPE, NO)\
-    ((TYPE *) xrealloc ((pointer) (PTR),\
-      ((int) (NO) * (int) sizeof (TYPE))))
-
-#define string_copy_aux(STR)\
-    string_copy ((STR), (int) strlen (STR))
 
 
 /*

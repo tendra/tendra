@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "high.h"
 #include "table.h"
@@ -87,13 +91,12 @@ high_sort
     int c;
     high_sort *p;
     if (find_high_sort (q->name) != SORT_unknown) {
-		is_fatal = 0;
-		input_error ("Sort %s already defined", q->name);
+		MSG_sort_already_defined (q->name);
     }
     c = crt_high_sort++;
     if (c >= total_high_sort) {
 		total_high_sort += 100;
-		high_sorts = realloc_nof (high_sorts, high_sort, total_high_sort);
+		high_sorts = xrealloc (high_sorts, sizeof (high_sort) * total_high_sort);
     }
     p = high_sorts + c;
     p->name = q->name;
@@ -124,7 +127,7 @@ set_high_sort(char *nm, tok_info *info)
 		h.args = null;
     } else {
 		int i = 0;
-		h.args = alloc_nof (sortname, strlen (q));
+		h.args = xalloc (sizeof (sortname) * strlen (q));
 		while (*q) {
 			sortname s;
 			q = find_sortname (q, &s);
@@ -183,8 +186,7 @@ find_high_sort(char *nm)
     construct *q = search_cons_hash (nm, SORT_sortname);
     if (q) {
 		if (get_char_info (q)) {
-			is_fatal = 0;
-			input_error ("Illegal sort name, %s", nm);
+			MSG_illegal_sort_name (nm);
 		}
 		return ((sortname) q->encoding);
     }
@@ -219,7 +221,7 @@ char
 		}
     }
     *a = 0;
-    return (string_copy_aux (abuff));
+    return (string_copy (abuff));
 }
 
 

@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "types.h"
 #include "enc_types.h"
 #include "file.h"
@@ -106,9 +108,9 @@ bitstream
     unsigned i;
     bitstream *p;
     if (free_bitstreams == null) {
-		p = alloc_nof (bitstream, 1);
+		p = xalloc (sizeof (*p));
 		p->length = BITSTREAM_SIZE;
-		p->source = alloc_nof (byte, BITSTREAM_SIZE + 10);
+		p->source = xmalloc_nof (byte, BITSTREAM_SIZE + 10);
     } else {
 		p = free_bitstreams;
 		free_bitstreams = p->next;

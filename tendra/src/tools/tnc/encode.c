@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "enc_types.h"
 #include "bitstream.h"
@@ -77,7 +79,7 @@ void
 enc_bits_extn(bitstream *p, int b, long n)
 {
     long m = ((1 << b) - 1);
-    if (n == 0) fatal_error ("Can't encode 0 as an extended value");
+    if (n == 0) MSG_FATAL_cant_encode_0_as_extended_value ();
     while (n > m) {
 		enc_bits (p, b, (long) 0);
 		n -= m;
@@ -302,7 +304,7 @@ enc_node(bitstream *b, node *p)
 
 	    case SORT_unknown : {
 			/* Encode an unknown bitstream */
-			fatal_error ("Can't encode unknown bitstream");
+			MSG_FATAL_cant_encode_unknown_bitstream ();
 			break;
 	    }
 

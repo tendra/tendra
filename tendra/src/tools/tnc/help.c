@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -165,8 +167,7 @@ help_args(char *str, boolean num)
 	    }
 
 	    case 'F' : {
-			is_fatal = 0;
-			input_error ("Foreign sorts not supported");
+			MSG_foreign_sorts_not_supported ();
 			break;
 	    }
 
@@ -274,7 +275,6 @@ help(char *nm)
     }
 
     /* Unknown construct */
-    is_fatal = 0;
-    input_error ("Unknown construct, %s", nm);
+    MSG_unknown_construct (nm);
     return;
 }

@@ -58,6 +58,17 @@
 #ifndef TYPES_INCLUDED
 #define TYPES_INCLUDED
 
+/*
+ *    MAGIC NUMBERS
+ *
+ *    These macros give the magic numbers for TDF capsules and libraries.
+ */
+
+#define MAGIC_NUMBER		"TDFC"
+#define MAGIC_LINK_NUMBER	"TDFL"
+
+#define hash_size		31
+
 
 /*
  *    ELEMENTARY TYPES
@@ -65,14 +76,7 @@
  *    The types boolean, byte and pointer are defined.
  */
 
-typedef char boolean;
 typedef unsigned char byte;
-#if FS_PTR_VOID
-typedef void *pointer;
-#else
-typedef char *pointer;
-#endif
-
 
 /*
  *    FORWARD STRUCTURE DECLARATION

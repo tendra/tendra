@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "check.h"
 #include "de_types.h"
@@ -91,18 +95,17 @@ set_up_labels(long n)
     long i;
     static long lno = 0;
     max_lab_no = n;
-    labels = alloc_nof (construct, n);
+    labels = xalloc (sizeof (construct) * n);
     for (i = 0 ; i < n ; i++) {
-		char *nm = alloc_nof (char, 32);
+		char *nm = xalloc (32);
 		IGNORE sprintf (nm, "~~label_%ld", lno);
 		labels [i].sortnum = SORT_label;
 		labels [i].encoding = lno++;
 		labels [i].name = nm;
 		labels [i].alias = null;
 		labels [i].next = null;
-		if (add_to_var_hash (labels + i, SORT_label)) {
-			input_error ("Label %s already defined", nm);
-		}
+		if (add_to_var_hash (labels + i, SORT_label))
+			MSG_FATAL_label_already_defined (nm);
     }
     return;
 }
@@ -117,10 +120,8 @@ set_up_labels(long n)
 construct
 *find_label(long n)
 {
-    if (n < 0 || n >= max_lab_no) {
-		input_error ("Label number %ld too big", n);
-		return (null);
-    }
+    if (n < 0 || n >= max_lab_no)
+		MSG_FATAL_label_number_too_big (n);
     return (labels + n);
 }
 
@@ -144,8 +145,8 @@ de_sortname(boolean expand)
 		de_list_start ();
 		m = tdf_int ();
 		h.no_args = (int) m;
-		h.args = alloc_nof (sortname, m);
-		h.name = alloc_nof (char, 32);
+		h.args = xalloc (sizeof (sortname) * m);
+		h.name = xalloc (32);
 		IGNORE sprintf (h.name, "~~sort_%d", made_up_sorts++);
 		for (i = 0 ; i < m ; i++) {
 			h.args [i] = de_sortname (1);
@@ -155,7 +156,7 @@ de_sortname(boolean expand)
 		return (hp->id);
     }
     if (n == SORT_foreign) {
-		warning ("Foreign sorts not supported");
+		MSG_foreign_sorts_not_supported ();
 		IGNORE de_node ("X");
 		return (SORT_unknown);
     }
@@ -192,11 +193,8 @@ de_aldef()
 		/* Decode the definition (an alignment) */
 		d = completion (de_alignment ());
 		if (info->def) {
-			if (!eq_node (info->def, d)) {
-				is_fatal = 0;
-				input_error ("Alignment tag %s defined inconsistently",
-							 p->name);
-			}
+			if (!eq_node (info->def, d))
+				MSG_alignment_tag_defined_inconsistently (p->name);
 			free_node (d);
 		} else {
 			info->def = d;
@@ -245,10 +243,8 @@ de_tagdec()
 		d = completion (de_node ("?[u]?[X]S"));
 		info->var = is_var;
 		if (info->dec) {
-			if (!eq_node (info->dec, d)) {
-				is_fatal = 0;
-				input_error ("Tag %s declared inconsistently", p->name);
-			}
+			if (!eq_node (info->dec, d))
+				MSG_tag_declared_inconsistently (p->name);
 			free_node (d);
 		} else {
 			info->dec = d;
@@ -291,9 +287,8 @@ de_tagdef()
 		t = tdf_int ();
 		p = find_binding (crt_binding, tag_var, t);
 		info = get_tag_info (p);
-		if (info->dec == null) {
-			input_error ("Tag %s defined but not declared", p->name);
-		}
+		if (info->dec == null)
+			MSG_FATAL_tag_defined_but_not_declared (p->name);
 		set_tag_type (p, is_var);
 
 		/* Added signature in 4.0 */
@@ -305,10 +300,8 @@ de_tagdef()
 				while (dp->bro) dp = dp->bro;
 				dp->bro = d;
 			} else {
-				if (!eq_node (info->def, d)) {
-					is_fatal = 0;
-					input_error ("Tag %s defined inconsistently", p->name);
-				}
+				if (!eq_node (info->def, d))
+					MSG_tag_defined_inconsistently (p->name);
 				free_node (d);
 			}
 		} else {
@@ -371,14 +364,13 @@ de_tokdec()
 					}
 				}
 				*a = 0;
-				args = string_copy_aux (abuff);
+				args = string_copy (abuff);
 			}
 		} else {
 			args = null;
 		}
-		if (is_high (rs)) {
-			input_error ("Token %s has high-level result sort", p->name);
-		}
+		if (is_high (rs))
+			MSG_FATAL_token_has_high_level_result_sort (p->name);
 		set_token_sort (p, rs, args, sig);
 		info->dec = 1;
     }
@@ -419,7 +411,7 @@ de_token_defn(construct *p, node *sig)
 		long j;
 		char abuff [100], *a = abuff;
 		if (!in_skip_pass) {
-			info->pars = alloc_nof (construct *, m + 1);
+			info->pars = xalloc (sizeof (construct *) * (m + 1));
 		}
 		for (j = 0 ; j < m ; j++) {
 			/* Decode the token arguments */
@@ -436,12 +428,11 @@ de_token_defn(construct *p, node *sig)
 			if (!in_skip_pass) info->pars [j] = q;
 		}
 		*a = 0;
-		args = string_copy_aux (abuff);
+		args = string_copy (abuff);
 		if (!in_skip_pass) info->pars [j] = null;
     }
-    if (is_high (rs)) {
-		input_error ("Token %s has high-level result sort", p->name);
-    }
+    if (is_high (rs))
+		MSG_FATAL_token_has_high_level_result_sort (p->name);
     set_token_sort (p, rs, args, sig);
     info->dec = 1;
 
@@ -456,9 +447,7 @@ de_token_defn(construct *p, node *sig)
 		d = completion (de_node (buff));
 		if (info->def) {
 			if (!eq_node (info->def, d)) {
-				is_fatal = 0;
-				input_error ("Token %s defined inconsistently",
-							 p->name);
+				MSG_token_defined_inconsistently (p->name);
 			}
 			free_node (d);
 			info->pars = old_pars;
@@ -469,9 +458,8 @@ de_token_defn(construct *p, node *sig)
 			long bits = end_posn - input_posn ();
 			input_skip (bits);
 		}
-		if (input_posn () != end_posn) {
-			input_error ("Token %s definition length wrong", p->name);
-		}
+		if (input_posn () != end_posn)
+			MSG_FATAL_token_definition_length_wrong (p->name);
 		if (info->pars) {
 			/* Mark the formal arguments as unused */
 			construct **ps;
@@ -539,9 +527,8 @@ de_version_number()
 {
     long v1 = tdf_int ();
     long v2 = tdf_int ();
-    if (v1 != VERSION_major || v2 > VERSION_minor) {
-		input_error ("Illegal version number, %ld.%ld", v1, v2);
-    }
+    if (v1 != VERSION_major || v2 > VERSION_minor)
+		MSG_FATAL_illegal_version_number (v1, v2);
     have_version = 1;
     return;
 }
@@ -580,10 +567,8 @@ de_magic(char *m)
     int i, n = (int) strlen (m);
     for (i = 0 ; i < n ; i++) {
 		long c = fetch (8);
-		if (c != (long) m [i]) {
-			input_error ("Bad magic number");
-			return;
-		}
+		if (c != (long) m [i])
+			MSG_FATAL_bad_magic_number ();
     }
     de_version_number ();
     byte_align ();

@@ -71,7 +71,7 @@ extern node *de_var_sort(long) ;
 
 #define tdf_bool()		fetch (1)
 #define de_list_start()\
-	if (fetch (1)) input_error ("Illegal LIST value")
+	if (fetch (1)) MSG_FATAL_illegal_LIST_value ()
 
 
 #endif

@@ -10,6 +10,8 @@ SRCS=	alignment.c analyser.c bitstream.c check.c de_capsule.c \
 	file.c help.c high.c main.c node.c read.c read_cap.c \
 	shape.c table.c tdf.c utility.c write.c
 
+USE_LIBTEN=yes
+
 DEPEND_SRC=	tdf.c tdf.h check_exp.h
 
 CLEANFILES+=	tdf.c tdf.h check_exp.h

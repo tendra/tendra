@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "node.h"
 #include "table.h"
@@ -84,7 +87,7 @@ node
     node *p = free_nodes;
     if (p == null) {
 		int i, m = 1000;
-		p = alloc_nof (node, m);
+		p = xalloc (sizeof (*p) * m);
 		for (i = 0 ; i < m - 1 ; i++) {
 			(p + i)->bro = p + (i + 1);
 			(p + i)->son = null;
@@ -287,7 +290,7 @@ construct
     construct *p = free_constructs;
     if (p == null) {
 		int i, m = 100;
-		p = alloc_nof (construct, m);
+		p = xalloc (sizeof (*p) * m);
 		for (i = 0 ; i < m - 1 ; i++) (p + i)->next = p + (i + 1);
 		(p + (m - 1))->next = null;
 		free_constructs = p;
@@ -398,8 +401,7 @@ set_token_sort(construct *p, sortname rs,
 			if (info->args) error = 1;
 		}
 		if (error) {
-			is_fatal = 0;
-			input_error ("Token %s declared inconsistently", p->name);
+			MSG_token_declared_inconsistently (p->name);
 		}
     }
     info->res = rs;
@@ -422,8 +424,7 @@ set_tag_type(construct *p, int is_var)
     tag_info *info = get_tag_info (p);
     if (info->var != 3) {
 		if (info->var != is_var) {
-			is_fatal = 0;
-			input_error ("Tag %s declared inconsistently", p->name);
+			MSG_tag_declared_inconsistently (p->name);
 		}
     }
 #if 0
@@ -478,8 +479,8 @@ char
 		}
 		s++;
     }
-    fatal_error ("Illegal decoding string");
-    return (s);
+    MSG_FATAL_illegal_decoding_string ();
+    return (NULL);	/* not reached */
 }
 
 

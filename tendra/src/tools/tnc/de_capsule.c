@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "de_types.h"
 #include "de_unit.h"
@@ -142,7 +145,7 @@ static binding
 		for (i = 0 ; i < n ; i++) b [i].max_no = 0;
 		return (b);
     }
-    b = alloc_nof (binding, n);
+    b = xalloc (sizeof (*b) * n);
     for (i = 0 ; i < n ; i++) {
 		b [i].max_no = 0;
 		b [i].sz = 0;
@@ -179,14 +182,12 @@ set_binding_size(binding *bt, long v, long n)
     binding *b;
     construct **p;
     long i, m = n + 10;
-    if (v < 0 || v >= no_var) {
-		input_error ("Illegal binding sort");
-		return;
-    }
+    if (v < 0 || v >= no_var)
+		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
     b->max_no = n;
     if (b->sz < m) {
-		p = realloc_nof (b->table, construct *, m);
+		p = xrealloc (b->table, sizeof (construct *) * m);
 		b->sz = m;
 		b->table = p;
     } else {
@@ -222,12 +223,11 @@ complete_binding(binding *b)
 				} else {
 					/* Make up an internal name */
 					long n = p->encoding;
-					char *nm = alloc_nof (char, 32);
+					char *nm = xalloc (32);
 					IGNORE sprintf (nm, "~~%s_%ld", vars [v].name, n);
 					p->name = nm;
-					if (add_to_var_hash (p, s)) {
-						input_error ("%s has already been defined", nm);
-					}
+					if (add_to_var_hash (p, s))
+						MSG_FATAL_var_already_defined (nm);
 				}
 				bv->table [i] = p;
 			}
@@ -248,19 +248,13 @@ static void
 set_binding(binding *bt, long v, long n, construct *p)
 {
     binding *b;
-    if (v < 0 || v >= no_var) {
-		input_error ("Illegal binding sort");
-		return;
-    }
+    if (v < 0 || v >= no_var)
+		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
-    if (n >= b->max_no || n < 0) {
-		input_error ("Object number %ld (%s) too big", n, vars [v].name);
-		return;
-    }
-    if (b->table [n]) {
-		input_error ("Object %ld (%s) already bound", n, vars [v].name);
-		return;
-    }
+    if (n >= b->max_no || n < 0)
+		MSG_FATAL_object_number_too_big (n, vars [v].name);
+    if (b->table [n])
+		MSG_FATAL_object_already_bound (n, vars [v].name);
     b->table [n] = p;
     return;
 }
@@ -276,15 +270,11 @@ construct
 *find_binding(binding *bt, long v, long n)
 {
     binding *b;
-    if (v < 0 || v >= no_var) {
-		input_error ("Illegal binding sort");
-		return (null);
-    }
+    if (v < 0 || v >= no_var)
+		MSG_FATAL_illegal_binding_sort ();
     b = bt + v;
-    if (n >= b->max_no || n < 0) {
-		input_error ("Object number %ld (%s) too big", n, vars [v].name);
-		return (null);
-    }
+    if (n >= b->max_no || n < 0)
+		MSG_FATAL_object_number_too_big (n, vars [v].name);
     return (b->table [n]);
 }
 
@@ -301,10 +291,10 @@ char
 {
     char *p;
     long i, n = tdf_int ();
-    if (n != 8) input_error ("Only 8-bit strings allowed");
+    if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
     n = tdf_int ();
     byte_align ();
-    p = alloc_nof (char, n + 1);
+    p = xalloc (n + 1);
     for (i = 0 ; i < n ; i++) p [i] = (char) fetch (8) /* LINT */;
     p [n] = 0;
     byte_align ();
@@ -340,7 +330,7 @@ de_equation(equation_func f)
     /* Read new bindings */
     n = tdf_int ();
     if (n) {
-		if (n != no_var) input_error ("Number of local variables wrong");
+		if (n != no_var) MSG_FATAL_number_of_local_variables_wrong ();
 		old_binding = crt_binding;
 		crt_binding = new_binding ();
 		for (i = 0 ; i < n ; i++) {
@@ -348,7 +338,7 @@ de_equation(equation_func f)
 			set_binding_size (crt_binding, i, sz);
 		}
 		n = tdf_int ();
-		if (n != no_var) input_error ("Number of linkage units wrong");
+		if (n != no_var) MSG_FATAL_number_of_linkage_units_wrong ();
 		for (i = 0 ; i < n ; i++) {
 			long j, no_links = tdf_int ();
 			for (j = 0 ; j < no_links ; j++) {
@@ -361,7 +351,7 @@ de_equation(equation_func f)
 		complete_binding (crt_binding);
     } else {
 		n = tdf_int ();
-		if (n) input_error ("Number of linkage units wrong");
+		if (n) MSG_FATAL_number_of_linkage_units_wrong ();
     }
 
     /* Read the actual equation */
@@ -375,7 +365,7 @@ de_equation(equation_func f)
 		(*f) ();
 		byte_align ();
 		decode_status = 1;
-		if (input_posn () != end_posn) input_error ("Unit length wrong");
+		if (input_posn () != end_posn) MSG_FATAL_unit_length_wrong ();
     }
 
     /* Restore the old bindings */
@@ -413,12 +403,12 @@ de_capsule()
 
     /* Read equation names */
     no_eqn = tdf_int ();
-    eqns = alloc_nof (char *, no_eqn);
+    eqns = xalloc (sizeof (char *) * no_eqn);
     for (i = 0 ; i < no_eqn ; i++) eqns [i] = de_aligned_string ();
 
     /* Read variable sort names */
     no_var = tdf_int ();
-    vars = alloc_nof (var_sort, no_var);
+    vars = xalloc (sizeof (var_sort) * no_var);
     crt_binding = new_binding ();
     for (i = 0 ; i < no_var ; i++) {
 		char *s = de_aligned_string ();
@@ -442,7 +432,7 @@ de_capsule()
     /* Read external names */
     decode_status = 1;
     n = tdf_int ();
-    if (n != no_var) input_error ("Number of variable sorts wrong");
+    if (n != no_var) MSG_FATAL_number_of_variable_sorts_wrong ();
     for (i = 0 ; i < no_var ; i++) {
 		static int un = 0;
 		sortname si = vars [i].sortnum;
@@ -487,7 +477,7 @@ de_capsule()
 						}
 					} else {
 						/* Make up internal name */
-						p->name = alloc_nof (char, 32);
+						p->name = xalloc (32);
 						IGNORE sprintf (p->name, "~~extern_%d", un++);
 						if (!is_local_name (nm)) {
 							p->ename = new_node ();
@@ -503,7 +493,7 @@ de_capsule()
 					free_node (nu);
 				} else {
 					/* Make up internal name */
-					p->name = alloc_nof (char, 32);
+					p->name = xalloc (32);
 					IGNORE sprintf (p->name, "~~extern_%d", un++);
 					p->ename = new_node ();
 					p->ename->cons = &true_cons;
@@ -516,14 +506,14 @@ de_capsule()
 					free_node (nc);
 				} else {
 					/* Make up internal name */
-					p->name = alloc_nof (char, 32);
+					p->name = xalloc (32);
 					IGNORE sprintf (p->name, "~~extern_%d", un++);
 					p->ename = new_node ();
 					p->ename->cons = &true_cons;
 					p->ename->son = nc;
 				}
 			} else {
-				input_error ("Illegal EXTERN value, %ld", n);
+				MSG_FATAL_illegal_EXTERN_value (n);
 			}
 
 			/* Add construct to tables */
@@ -555,7 +545,7 @@ de_capsule()
 
     /* Read the equations */
     n = tdf_int ();
-    if (n != no_eqn) input_error ("Number of equations wrong");
+    if (n != no_eqn) MSG_FATAL_number_of_equations_wrong ();
     for (i = 0 ; i < no_eqn ; i++) {
 		char *eq = eqns [i];
 		long j, no_units = tdf_int ();
@@ -641,10 +631,10 @@ de_library()
 		long j, n;
 		decode_status = 0;
 		n = tdf_int ();
-		if (n != 8) input_error ("Only 8-bit strings allowed");
+		if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
 		n = tdf_int ();
 		byte_align ();
-		capname = alloc_nof (char, n + 1);
+		capname = xalloc (n + 1);
 		for (j = 0 ; j < n ; j++) {
 			capname [j] = (char) fetch (8) ; /* LINT */
 		}
@@ -654,9 +644,8 @@ de_library()
 		end_posn = input_posn () + n;
 		de_capsule ();
 		byte_align ();
-		if (input_posn () != end_posn) {
-			input_error ("Capsule length wrong");
-		}
+		if (input_posn () != end_posn)
+			MSG_FATAL_capsule_length_wrong ();
 		capname = null;
     }
 
@@ -669,10 +658,10 @@ de_library()
 		long j, n;
 		decode_status = 0;
 		n = tdf_int ();
-		if (n != 8) input_error ("Only 8-bit strings allowed");
+		if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
 		n = tdf_int ();
 		byte_align ();
-		capname = alloc_nof (char, n + 1);
+		capname = xalloc (n + 1);
 		for (j = 0 ; j < n ; j++) {
 			capname [j] = (char) fetch (8) ; /* LINT */
 		}
@@ -682,9 +671,8 @@ de_library()
 		end_posn = input_posn () + n;
 		de_capsule ();
 		byte_align ();
-		if (input_posn () != end_posn) {
-			input_error ("Capsule length wrong");
-		}
+		if (input_posn () != end_posn)
+			MSG_FATAL_capsule_length_wrong ();
 		capname = null;
     }
     return;

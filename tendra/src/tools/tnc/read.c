@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -104,10 +107,8 @@ read_token(node *p, sortname s)
     }
 
     /* Read token identifier */
-    if (word_type != INPUT_WORD) {
-		input_error ("Token identifier expected");
-		return;
-    }
+    if (word_type != INPUT_WORD)
+		MSG_FATAL_token_identifier_expected ();
 
     /* Check bracket (2) */
     if (func_input) {
@@ -124,27 +125,21 @@ read_token(node *p, sortname s)
 
     /* Look up token */
     v = search_var_hash (wtemp, SORT_token);
-    if (v == null) {
-		input_error ("Token %s not declared", wtemp);
-		return;
-    }
+    if (v == null)
+		MSG_FATAL_token_not_declared (wtemp);
     info = get_tok_info (v);
     rs = info->res;
     ra = info->args;
-    if (rs == SORT_unknown) {
-		input_error ("Token %s not declared", wtemp);
-		return;
-    }
+    if (rs == SORT_unknown)
+		MSG_FATAL_token_not_declared (wtemp);
     if (is_high (rs)) {
 		high_sort *h = high_sorts + high_no (rs);
 		rs = h->res;
 		ra = find_decode_string (h);
     }
-    if (rs != s) {
-		input_error ("Token %s returns %s, not %s", wtemp,
+    if (rs != s)
+		MSG_FATAL_token_returns_wrong_sort (wtemp,
 					 sort_name (rs), sort_name (s));
-		return;
-    }
     adjust_token (v);
 
     /* Decode arguments */
@@ -156,15 +151,12 @@ read_token(node *p, sortname s)
     if (in_brackets) {
 		read_word ();
 		if (word_type != INPUT_CLOSE) {
-			is_fatal = 0;
-			input_error ("End of token %s construct expected", v->name);
+			MSG_end_of_token_construct_expected (v->name);
 			looked_ahead = 1;
 		}
     } else {
 		if (p->son->son) {
-			is_fatal = 0;
-			input_error ("Token %s construct should be in brackets",
-						 v->name);
+			MSG_token_construct_should_be_in_brackets (v->name);
 		}
     }
     if (do_check) IGNORE set_token_args (info->pars, p->son->son, 0);
@@ -190,17 +182,13 @@ static node
 
     /* Read token identifier */
     read_word ();
-    if (word_type != INPUT_WORD) {
-		input_error ("Token identifier expected");
-		return (null);
-    }
+    if (word_type != INPUT_WORD)
+		MSG_FATAL_token_identifier_expected ();
 
     /* Look up token */
     v = search_var_hash (word, SORT_token);
-    if (v == null) {
-		input_error ("Token %s not declared", word);
-		return (null);
-    }
+    if (v == null)
+		MSG_FATAL_token_not_declared (word);
     info = get_tok_info (v);
 
     /* Check consistency */
@@ -215,9 +203,8 @@ static node
     } else if (h->id == info->res) {
 		if (info->args == null) ok = 1;
     }
-    if (!ok) {
-		input_error ("Token %s has incorrect sort", v->name);
-    }
+    if (!ok)
+		MSG_FATAL_token_has_incorrect_sort (v->name);
 
     /* Return the construct */
     p = new_node ();
@@ -279,7 +266,7 @@ static construct
     if (intro_var) {
 		if (v == null) {
 			v = make_construct (s);
-			v->name = string_copy_aux (nm);
+			v->name = string_copy (nm);
 			/* Don't add to hash table yet */
 			if (s == SORT_tag) {
 				tag_info *info = get_tag_info (v);
@@ -288,16 +275,14 @@ static construct
 				intro_visible = 0;
 			}
 		} else {
-			input_error ("%s %s already in scope", sort_name (s), nm);
+			MSG_FATAL_object_already_in_scope (sort_name (s), nm);
 		}
     } else {
 		if (v == null) {
-			if (!dont_check) {
-				is_fatal = 0;
-				input_error ("%s %s not in scope", sort_name (s), nm);
-			}
+			if (!dont_check)
+				MSG_object_not_in_scope (sort_name (s), nm);
 			v = make_construct (s);
-			v->name = string_copy_aux (nm);
+			v->name = string_copy (nm);
 			IGNORE add_to_var_hash (v, s);
 		}
     }
@@ -317,9 +302,8 @@ node
     node *p;
     construct *v;
     read_word ();
-    if (word_type != INPUT_WORD) {
-		input_error ("%s identifier expected", sort_name (s));
-    }
+    if (word_type != INPUT_WORD)
+		MSG_FATAL_sort_identifier_expected (sort_name (s));
     v = search_var_sort (word, s);
     p = new_node ();
     p->cons = v;
@@ -346,8 +330,7 @@ read_seq_node(node *p)
     }
     q->bro = null;
     if (q->cons->encoding == 0) {
-		is_fatal = 0;
-		input_error ("exp expected");
+		MSG_exp_expected ();
 		return;
     }
     (q->cons->encoding)--;
@@ -439,7 +422,7 @@ static node
 			p->cons = new_construct ();
 			p->cons->sortnum = SORT_tdfstring;
 			p->cons->encoding = word_length;
-			p->cons->name = string_copy (word, (int) word_length);
+			p->cons->name = string_ncopy (word, (int) word_length);
 			p->cons->next = null;
 			return (p);
 		} else {
@@ -460,20 +443,19 @@ static node
 				}
 			}
 			if (is_multibyte) {
-				if (!allow_multibyte) {
-					input_error ("Multibyte strings not allowed here");
-				}
+				if (!allow_multibyte)
+					MSG_FATAL_multibyte_strings_not_allowed_here ();
 				p = new_node ();
 				p->cons = &string_cons;
 				p->son = read_node ("i*[i]");
 				read_word ();
 				if (word_type != INPUT_CLOSE) {
-					input_error ("End of multibyte string expected");
+					MSG_end_of_multibyte_string_expected ();
 				}
 				return (p);
 			}
 		}
-		if (strict) input_error ("String expected");
+		if (strict) MSG_FATAL_string_expected ();
 		return (null);
     }
 
@@ -491,14 +473,13 @@ static node
 			p->cons->encoding = (long) octal_to_ulong (word);
 		} else {
 			p->cons->sortnum = SORT_tdfint;
-			p->cons->name = string_copy_aux (word);
+			p->cons->name = string_copy(word);
 		}
 
 		switch (s) {
 	    case SORT_tdfint : {
 			if (negate) {
-				is_fatal = 0;
-				input_error ("Negative nat");
+				MSG_negative_nat ();
 			}
 			return (p);
 	    }
@@ -511,8 +492,7 @@ static node
 	    case SORT_nat : {
 			node *q = new_node ();
 			if (negate) {
-				is_fatal = 0;
-				input_error ("Negative nat");
+				MSG_negative_nat ();
 			}
 			q->cons = cons_no (SORT_nat, ENC_make_nat);
 			q->son = p;
@@ -527,7 +507,7 @@ static node
 			return (q);
 	    }
 	    default : {
-			if (strict) input_error ("%s expected", sort_name (s));
+			if (strict) MSG_FATAL_name_expected (sort_name (s));
 			return (null);
 	    }
 		}
@@ -541,7 +521,7 @@ static node
 			p->cons = new_construct ();
 			p->cons->sortnum = SORT_tdfstring;
 			p->cons->encoding = word_length;
-			p->cons->name = string_copy (word, (int) word_length);
+			p->cons->name = string_ncopy (word, (int) word_length);
 			p->cons->next = null;
 			q = new_node ();
 			q->cons = cons_no (SORT_string, ENC_make_string);
@@ -552,7 +532,7 @@ static node
 
     /* That was the last chance for numbers */
     if (fn == null) {
-		if (strict) input_error ("Number expected");
+		if (strict) MSG_FATAL_number_expected ();
 		return (null);
     }
 
@@ -564,7 +544,7 @@ static node
 
     /* The next word should be the identifier */
     if (word_type != INPUT_WORD) {
-		if (strict) input_error ("%s expected", sort_name (s));
+		if (strict) MSG_FATAL_name_expected (sort_name (s));
 		return (null);
     }
 
@@ -588,7 +568,7 @@ static node
 		p->son = read_node ("i*[i]");
 		read_word ();
 		if (word_type != INPUT_CLOSE) {
-			input_error ("End of multibyte string expected");
+			MSG_end_of_multibyte_string_expected ();
 		}
 		q = new_node ();
 		q->cons = cons_no (SORT_string, ENC_make_string);
@@ -615,7 +595,7 @@ static node
 			char *ra = info->args;
 			if (rs == SORT_unknown) {
 				if (do_check_tag) goto check_lab;
-				input_error ("Token %s not declared", wtemp);
+				MSG_FATAL_token_not_declared (wtemp);
 			}
 			if (is_high (rs)) {
 				high_sort *h = high_sorts + high_no (rs);
@@ -625,7 +605,7 @@ static node
 			if (rs != s) {
 				if (do_check_tag) goto check_lab;
 				if (!strict) return (null);
-				input_error ("Token %s returns %s, not %s", wtemp,
+				MSG_FATAL_token_returns_wrong_sort (wtemp,
 							 sort_name (rs), sort_name (s));
 			}
 			adjust_token (cons);
@@ -653,7 +633,7 @@ static node
 				ps = null;
 			} else {
 				if (strict) {
-					input_error ("Illegal %s, %s", sort_name (s), wtemp);
+					MSG_FATAL_illegal_sort (sort_name (s), wtemp);
 				}
 				return (null);
 			}
@@ -664,14 +644,12 @@ static node
     if (in_brackets) {
 		read_word ();
 		if (word_type != INPUT_CLOSE) {
-			is_fatal = 0;
-			input_error ("End of %s construct expected", cons->name);
+			MSG_end_of_construct_expected (cons->name);
 			looked_ahead = 1;
 		}
     } else {
 		if (ps) {
-			is_fatal = 0;
-			input_error ("%s construct should be in brackets", cons->name);
+			MSG_construct_should_be_in_brackets (cons->name);
 		}
     }
     return (p);
@@ -718,7 +696,7 @@ adjust_scope(node *p, int end)
 					remove_var_hash (u->name, s);
 				} else {
 					if (add_to_var_hash (u, s)) {
-						input_error ("%s %s already in scope",
+						MSG_FATAL_object_already_in_scope (
 									 sort_name (s), u->name);
 					}
 					if (do_check && s == SORT_tag) {
@@ -769,14 +747,12 @@ check_comma()
 		read_word ();
 		looked_ahead = 1;
 		if (word_type == INPUT_CLOSE) {
-			is_fatal = 0;
-			input_error ("Badly placed comma");
+			MSG_badly_placed_comma ();
 		}
 		return;
     }
     if (word_type != INPUT_CLOSE) {
-		is_fatal = 0;
-		input_error ("Comma or close bracket expected");
+		MSG_comma_or_close_bracket_expected ();
     }
     looked_ahead = 1;
     return;
@@ -841,9 +817,9 @@ node
 				sr = skip_text (str);
 			}
 			if (cr == '*' || cr == '!') {
-				input_error ("Sorry, lists of lists not implemented");
+				MSG_FATAL_lists_of_lists_not_implemented ();
 			} else if (cr == '?') {
-				input_error ("Sorry, lists of options not implemented");
+				MSG_FATAL_lists_of_options_not_implemented ();
 			}
 			p = new_node ();
 			p->cons = new_construct ();
@@ -905,9 +881,9 @@ node
 			str += 2;
 			co = *str;
 			if (co == '*' || co == '!') {
-				input_error ("Sorry, optional lists not implemented");
+				MSG_FATAL_optional_lists_not_implemented ();
 			} else if (co == '?') {
-				input_error ("Sorry, optional options not implemented");
+				MSG_FATAL_optional_options_not_implemented ();
 			}
 			intro_visible = 0;
 			store_position (&store);

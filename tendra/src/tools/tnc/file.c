@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "fetch.h"
 #include "read_types.h"
@@ -102,7 +105,7 @@ open_input(char *nm, int search)
 			d = d->next;
 		}
     }
-    if (input == null) fatal_error ("Can't open input file, %s", nm);
+    if (input == null) MSG_cant_open_input_file (nm);
     input_file = nm;
     bits_in_buff = 0;
     bytes_read = 0;
@@ -122,7 +125,7 @@ open_input(char *nm, int search)
 void
 add_directory(char *nm)
 {
-    directory *d = alloc_nof (directory, 1);
+    directory *d = xalloc (sizeof (*d));
     d->dirname = nm;
     d->next = null;
     if (search_path == null) {
@@ -156,11 +159,11 @@ open_output(char *nm)
 {
     static char *opened = null;
     if (opened) {
-		warning ("Multiple output files given, using %s", opened);
+		MSG_multiple_output_files_given (opened);
 		return;
     }
     output = fopen (nm, (text_output ? "w" : "wb"));
-    if (output == null) fatal_error ("Can't open output file, %s", nm);
+    if (output == null) MSG_cant_open_output_file (nm);
     opened = nm;
     return;
 }

@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "check.h"
 #include "de_types.h"
@@ -132,12 +136,11 @@ construct
     } else if (n == ENC_use_tokdef) {
 		char *nm;
 		t = make_construct (SORT_token);
-		nm = alloc_nof (char, 32);
+		nm = xalloc (32);
 		IGNORE sprintf (nm, "~~token_%ld", t->encoding);
 		t->name = nm;
-		if (add_to_var_hash (t, SORT_token)) {
-			input_error ("%s has already been defined", nm);
-		}
+		if (add_to_var_hash (t, SORT_token))
+			MSG_FATAL_var_already_defined (nm);
 		de_token_defn (t, (node *) null);
 		info = get_tok_info (t);
 		p->son = new_node ();
@@ -183,16 +186,14 @@ construct
 			} else if (streq (t->name, "~diag_tag_scope")) {
 				args = "x$F";
 			} else {
-				warning ("Token %s undeclared", t->name);
+				MSG_token_undeclared (t->name);
 				args = "F";
 			}
 			bits += input_posn ();
 			p->son->son = de_node (args);
 			bits -= input_posn ();
-			if (bits < 0) {
-				input_error ("Token %s, arguments length wrong", t->name);
-				return (t);
-			}
+			if (bits < 0)
+				MSG_FATAL_token_arguments_length_wrong (t->name);
 			input_skip (bits);
 		} else {
 			/* No argument - can deduce token sort */
@@ -203,27 +204,22 @@ construct
 		/* Known token */
 		if (s == SORT_token) {
 			/* Must be high level */
-			if (!is_high (info->res)) {
-				input_error ("Sort error in token %s", t->name);
-			}
+			if (!is_high (info->res))
+				MSG_FATAL_sort_error_in_token (t->name);
 		} else if (info->res != s) {
 			/* Result sort must match */
-			input_error ("Sort error in token %s", t->name);
+			MSG_FATAL_sort_error_in_token (t->name);
 		}
 		if (info->args) {
 			/* Decode arguments */
 			long end_posn = input_posn () + bits;
 			p->son->son = de_node (info->args);
-			if (input_posn () != end_posn) {
-				input_error ("Token %s, arguments length wrong", t->name);
-				return (t);
-			}
+			if (input_posn () != end_posn)
+				MSG_FATAL_token_arguments_length_wrong (t->name);
 		} else {
 			/* No arguments */
-			if (bits) {
-				input_error ("Token %s, arguments length wrong", t->name);
-				return (t);
-			}
+			if (bits)
+				MSG_FATAL_token_arguments_length_wrong (t->name);
 		}
 		info->dec = 1;
     }
@@ -314,7 +310,7 @@ node
 				p->cons->encoding = (long) octal_to_ulong (buff);
 			} else {
 				p->cons->sortnum = SORT_tdfint;
-				p->cons->name = string_copy_aux (buff);
+				p->cons->name = string_copy (buff);
 			}
 			break;
 	    }
@@ -332,7 +328,7 @@ node
 			if (n == 8) {
 				char *s;
 				n = tdf_int ();
-				s = alloc_nof (char, n + 1);
+				s = xalloc (n + 1);
 				p = new_node ();
 				p->cons = new_construct ();
 				p->cons->sortnum = SORT_tdfstring;
@@ -373,10 +369,10 @@ node
 			/* Decode an aligned string */
 			char *s;
 			long i, n = tdf_int ();
-			if (n != 8) input_error ("Only 8-bit strings allowed");
+			if (n != 8) MSG_FATAL_only_8bit_strings_allowed ();
 			n = tdf_int ();
 			byte_align ();
-			s = alloc_nof (char, n + 1);
+			s = xalloc (n + 1);
 			p = new_node ();
 			p->cons = new_construct ();
 			p->cons->sortnum = SORT_tdfstring;
@@ -446,9 +442,8 @@ node
 			p = new_node ();
 			p->cons = &bytestream_cons;
 			p->son = de_node (str);
-			if (len + pos != input_posn ()) {
-				input_error ("Conditional length wrong");
-			}
+			if (len + pos != input_posn ())
+				MSG_FATAL_conditional_length_wrong ();
 			str = skip_text (str);
 			break;
 	    }

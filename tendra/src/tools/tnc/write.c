@@ -451,6 +451,7 @@ print_tagdef(construct *p)
 	case 0 : instr = MAKE_ID_TAGDEF ; break;
 	case 1 : instr = MAKE_VAR_TAGDEF ; break;
 	case 2 : instr = COMMON_TAGDEF ; break;
+	default: instr = "UNKNOWN TAGDEF";
     }
     while (d) {
 		/* Can have multiple definitions */

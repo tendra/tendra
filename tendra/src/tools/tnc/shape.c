@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "alignment.h"
 #include "check.h"
@@ -556,8 +558,7 @@ node
 	}
 
 	default : {
-	    is_fatal = 0;
-	    input_error ("Shouldn't be checking %s's", sort_name (s));
+	    MSG_shouldnt_be_checking_shape (sort_name (s));
 	    break;
 	}
     }
@@ -582,12 +583,10 @@ node
     if (!ok) {
 		/* Definitely not compatible */
 		if (tg == 2) return (sh_top);
-		is_fatal = 0;
 		if (tg) {
-			input_error ("Shape of tag %s does not match declaration",
-						 checking);
+			MSG_shape_doesnt_match_declaration (checking);
 		} else {
-			input_error ("Shape incompatibility in %s", checking);
+			MSG_shape_incompatibility_in (checking);
 		}
 		return (null);
     }
@@ -644,9 +643,7 @@ node
 			IGNORE sprintf (tbuff, "%s (%s)", nm, p->son->cons->name);
 			nm = tbuff;
 		}
-		is_fatal = 0;
-		input_error ("%s argument to %s should be of %s shape",
-					 nm, checking, c->name);
+		MSG_argument_should_be_of_shape (nm, checking, c->name);
 		return (null);
     }
     return (normalize (s));
@@ -717,11 +714,8 @@ node
 {
     node *q, *r;
     if (p->cons->encoding == 0) {
-		if (nz) {
-			is_fatal = 0;
-			input_error ("Repeated statement in %s cannot be empty",
-						 checking);
-		}
+		if (nz)
+			MSG_repeated_statement_cant_be_empty (checking);
 		return (null);
     }
     q = p->son;
@@ -952,8 +946,7 @@ static node
 				IGNORE set_token_args (info->pars, prev, 0);
 				info->depth--;
 			} else {
-				is_fatal = 0;
-				input_error ("Nested expansion of token %s", tok->name);
+				MSG_nested_expansion_of_token (tok->name);
 				q = copy_node (p);
 				info->depth++;
 			}

@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "file.h"
 #include "types.h"
 #include "utility.h"
@@ -106,10 +108,8 @@ fetch(int n)
 		if (bits_in_buff == 0) {
 			int c = getc (input);
 			bytes_read++;
-			if (c == EOF) {
-				input_error ("Premature end of file");
-				c = 0xff;
-			}
+			if (c == EOF)
+				MSG_FATAL_premature_end_of_file ();
 			bits_in_buff = BYTESIZE;
 			input_buff = (unsigned long) (c & 0xff);
 		}
@@ -151,7 +151,7 @@ input_goto(long n)
     bits_in_buff = 0;
     if (fseek (input, bytes_read, SEEK_SET)) {
 		bits_in_buff = (unsigned) b;
-		input_error ("Illegal seek command");
+		MSG_illegal_seek_command ();
 		return;
     }
     if (b) IGNORE fetch (b);

@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -71,7 +73,6 @@
  *    any errors were likely to have been) is also saved.
  */
 
-long crt_line_no = 1;
 long line_no = 1;
 
 
@@ -169,8 +170,7 @@ read_word()
 			/* Comments go to the end of the line */
 			while (c = getc (input), c != '\n') {
 				if (c == EOF) {
-					is_fatal = 0;
-					input_error ("End of file in comment");
+					MSG_end_of_file_in_comment ();
 					word_type = INPUT_EOF;
 					pending = EOF;
 					return;
@@ -230,8 +230,7 @@ read_word()
 			escaped = 0;
 			c = getc (input);
 			if (c == '\n') {
-				is_fatal = 0;
-				input_error ("New line in string");
+				MSG_new_line_in_string ();
 				crt_line_no++;
 				line_no = crt_line_no;
 				ignore = 1;
@@ -251,29 +250,25 @@ read_word()
 					int e = (c - '0');
 					c = getc (input);
 					if (!octal_digit (c)) {
-						is_fatal = 0;
-						input_error ("Invalid escape sequence");
+						MSG_invalid_escape_sequence ();
 						c = '0';
 					}
 					e = 8 * e + (c - '0');
 					c = getc (input);
 					if (!octal_digit (c)) {
-						is_fatal = 0;
-						input_error ("Invalid escape sequence");
+						MSG_invalid_escape_sequence ();
 						c = '0';
 					}
 					e = 8 * e + (c - '0');
 					c = e;
 					if (c >= 256) {
-						is_fatal = 0;
-						input_error ("Invalid escape sequence");
+						MSG_invalid_escape_sequence ();
 						c = 0;
 					}
 				}
 			}
 			if (c == EOF) {
-				is_fatal = 0;
-				input_error ("End of file in string");
+				MSG_end_of_file_in_string ();
 				word_type = INPUT_EOF;
 				pending = EOF;
 				return;
@@ -285,8 +280,7 @@ read_word()
 		c = getc (input);
 		if (c == '\n') crt_line_no++;
 		if (!terminator (c)) {
-			is_fatal = 0;
-			input_error ("Terminator character expected");
+			MSG_terminator_character_expected ();
 		}
 		pending = c;
 #endif
@@ -306,8 +300,7 @@ read_word()
 		} while (alphanum (c));
 		*p = 0;
 		if (!terminator (c)) {
-			is_fatal = 0;
-			input_error ("Terminator character expected");
+			MSG_terminator_character_expected ();
 		}
 		pending = c;
 		word = word_buff;
@@ -320,8 +313,7 @@ read_word()
 		c = getc (input);
 		if (c == '\n') crt_line_no++;
 		if (!terminator (c)) {
-			is_fatal = 0;
-			input_error ("Terminator character expected");
+			MSG_terminator_character_expected ();
 		}
 		pending = c;
 		word = "|" ;
@@ -372,8 +364,7 @@ read_word()
 			if (c == '\n') crt_line_no++;
 		}
     } else if (!dec_digit (c)) {
-		is_fatal = 0;
-		input_error ("Illegal character, %c", (unsigned char) c);
+		MSG_illegal_character ((unsigned char)c);
 		pending = 0;
 		read_word ();
 		return;
@@ -395,13 +386,11 @@ read_word()
 		} else if (c >= 'a' && c <= 'f') {
 			n = 10 + (unsigned) (c - 'a');
 		} else {
-			is_fatal = 0;
-			input_error ("Illegal digit, %c", (unsigned char) c);
+			MSG_illegal_digit ((char) c);
 			n = 0;
 		}
 		if (n >= base) {
-			is_fatal = 0;
-			input_error ("Illegal digit, %c", (unsigned char) c);
+			MSG_illegal_digit ((char) c);
 			n = 0;
 		}
 		if (really_analyse) {
@@ -455,7 +444,7 @@ skip_words()
 	    case INPUT_OPEN : level++ ; break;
 	    case INPUT_CLOSE : level-- ; break;
 	    case INPUT_EOF : {
-			input_error ("Unexpected end of file");
+			MSG_unexpected_end_of_file ();
 			return (n);
 	    }
 		}
@@ -496,7 +485,7 @@ set_position(position *p)
     pending = p->pending;
     looked_ahead = p->ahead;
     if (fseek (input, p->posn, SEEK_SET)) {
-		fatal_error ("Illegal seek command");
+		MSG_illegal_seek_command ();
     }
     return;
 }

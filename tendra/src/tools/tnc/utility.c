@@ -56,11 +56,9 @@
 
 
 #include "config.h"
-#if FS_STDARG
-#include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
+#include "cstring.h"
+#include "fmm.h"
+
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -69,10 +67,6 @@
 #include "table.h"
 #include "utility.h"
 #include "write.h"
-extern char *progname;
-extern char *capname;
-extern int decode_status;
-extern int have_version;
 
 
 /*
@@ -84,202 +78,6 @@ extern int have_version;
 
 boolean text_input = 1;
 boolean text_output = 0;
-
-
-/*
- *    EXIT STATUS
- *
- *    The overall exit status of the program.
- */
-
-int exit_status = EXIT_SUCCESS;
-
-
-/*
- *    REPORT A FATAL ERROR
- *
- *    The error s is reported and the program exits.
- */
-
-void
-fatal_error(char *s, ...) /* VARARGS */
-{
-    va_list args;
-#if FS_STDARG
-    va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
-    if (progname) IGNORE fprintf (stderr, "%s: ", progname);
-    IGNORE fprintf (stderr, "Error: ");
-    IGNORE vfprintf (stderr, s, args);
-    IGNORE fprintf (stderr, ".\n");
-    va_end (args);
-    exit (EXIT_FAILURE);
-}
-
-
-/*
- *    IS AN INPUT ERROR FATAL?
- *
- *    Not all input errors cause an immediate exit.  These should set
- *    is_fatal to false before calling input_error.
- */
-
-boolean is_fatal = 1;
-
-
-/*
- *    REPORT AN INPUT ERROR
- *
- *    The input error s is reported and the program exits.
- */
-
-void
-input_error(char *s, ...) /* VARARGS */
-{
-    va_list args;
-#if FS_STDARG
-    va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
-    if (progname) IGNORE fprintf (stderr, "%s: ", progname);
-    IGNORE fprintf (stderr, "Error: ");
-    IGNORE vfprintf (stderr, s, args);
-    if (input_file) {
-		IGNORE fprintf (stderr, ", %s", input_file);
-		if (text_input) {
-			IGNORE fprintf (stderr, ", line %ld", line_no);
-		} else {
-			long b = input_posn ();
-			if (capname) {
-				IGNORE fprintf (stderr, ", capsule %s", capname);
-			}
-			switch (decode_status) {
-			case 0 : {
-				IGNORE fprintf (stderr, " (at outermost level)");
-				break;
-			}
-			case 1 : {
-				IGNORE fprintf (stderr, " (in linking information)");
-				break;
-			}
-			case 2 : {
-				IGNORE fprintf (stderr, " (in unit body)");
-				break;
-			}
-			}
-			IGNORE fprintf (stderr, ", byte %ld, bit %ld", b / 8, b % 8);
-			if (decode_status == 0) {
-				IGNORE fprintf (stderr, " (Illegal TDF capsule?)");
-			}
-			if (decode_status >= 1 && !have_version) {
-				IGNORE fprintf (stderr, " (TDF version error?)");
-			}
-		}
-    }
-    IGNORE fprintf (stderr, ".\n");
-    va_end (args);
-    if (is_fatal) {
-		if (text_output) {
-			sort_all ();
-			print_capsule ();
-			IGNORE fputs ("# TERMINATED ON INPUT ERROR\n", output);
-		}
-		exit (EXIT_FAILURE);
-    }
-    is_fatal = 1;
-    exit_status = EXIT_FAILURE;
-    return;
-}
-
-
-/*
- *    ISSUE A WARNING
- *
- *    The warning message s is printed.
- */
-
-void
-warning(char *s, ...) /* VARARGS */
-{
-    va_list args;
-#if FS_STDARG
-    va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
-    if (progname) IGNORE fprintf (stderr, "%s: ", progname);
-    IGNORE fprintf (stderr, "Warning: ");
-    IGNORE vfprintf (stderr, s, args);
-    IGNORE fprintf (stderr, ".\n");
-    va_end (args);
-    return;
-}
-
-
-/*
- *    ALLOCATE A SECTION OF MEMORY
- *
- *    This routine allocates n bytes of memory.
- */
-
-pointer
-xalloc(int n)
-{
-    pointer ptr;
-    if (n == 0) return (null);
-    ptr = (pointer) malloc ((size_t) n);
-    if (ptr == null) {
-		if (!text_input && decode_status == 0) {
-			fatal_error ("Memory allocation error (Illegal TDF capsule?)");
-		}
-		fatal_error ("Memory allocation error");
-    }
-    return (ptr);
-}
-
-
-/*
- *    REALLOCATE A SECTION OF MEMORY
- *
- *    This routine reallocates n bytes of memory for the pointer p.
- */
-
-pointer
-xrealloc(pointer p, int n)
-{
-    pointer ptr;
-    if (n == 0) return (null);
-    if (p == null) return (xalloc (n));
-    ptr = (pointer) realloc (p, (size_t) n);
-    if (ptr == null) fatal_error ("Memory allocation error");
-    return (ptr);
-}
-
-
-/*
- *    MAKE A COPY OF A STRING
- *
- *    This routine makes a permanent copy of the string s of length n.
- */
-
-char
-*string_copy(char *s, int n)
-{
-    int m = (n + 1) * (int) sizeof (char);
-    char *p = (char *) xalloc (m);
-    IGNORE strncpy (p, s, (size_t) n);
-    p [n] = 0;
-    return (p);
-}
 
 
 /*
@@ -298,8 +96,7 @@ char
 		bufflen = n + 100;
 		buff = (char *) xrealloc ((pointer) buff, bufflen);
     }
-    IGNORE strcpy (buff, s);
-    return (buff);
+    return (strcpy (buff, s));
 }
 
 
@@ -320,7 +117,7 @@ char
 		buff [ --i ] = (char) ('0' + (n & 7));
 		n >>= 3;
     }
-    return (string_copy (buff + i, 99 - i));
+    return (string_ncopy (buff + i, 99 - i));
 }
 
 

@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -116,29 +120,23 @@ static construct
     } else {
 		if (word_type == INPUT_OPEN) {
 			read_word ();
-			if (word_type != INPUT_WORD) {
-				input_error ("External expected");
-				return (null);
-			}
+			if (word_type != INPUT_WORD)
+				MSG_FATAL_external_expected ();
 			if (streq (word, MAKE_STRING_EXTERN)) {
 				estate = 1;
 			} else if (streq (word, MAKE_UNIQUE_EXTERN)) {
 				estate = 2;
 			} else if (streq (word, MAKE_CHAIN_EXTERN)) {
 				estate = 3;
-			} else {
-				input_error ("Illegal external, %s", word);
-				return (null);
-			}
+			} else
+				MSG_FATAL_illegal_external (word);
 		}
     }
 
     if (estate) {
 		/* There is an external name */
-		if (local) {
-			is_fatal = 0;
-			input_error ("Can't have external name with local");
-		}
+		if (local)
+			MSG_cant_have_external_name_with_local ();
 		e = new_node ();
 		e->cons = &true_cons;
 		if (estate == 1) {
@@ -150,15 +148,13 @@ static construct
 		}
 		read_word ();
 		if (word_type != INPUT_CLOSE) {
-			is_fatal = 0;
-			input_error ("End of external construct expected");
+			MSG_end_of_external_construct_expected ();
 			looked_ahead = 1;
 		}
 		read_word ();
 		if (func_input) {
 			if (word_type != INPUT_COMMA) {
-				is_fatal = 0;
-				input_error ("Comma expected");
+				MSG_comma_expected ();
 				looked_ahead = 1;
 			}
 			read_word ();
@@ -173,31 +169,25 @@ static construct
     }
 
     /* Check internal name */
-    if (word_type != INPUT_WORD) input_error ("Identifier expected");
+    if (word_type != INPUT_WORD) MSG_FATAL_identifier_expected ();
     p = search_var_hash (word, s);
     if (p == null) {
 		/* New object */
 		p = make_construct (s);
-		p->name = string_copy_aux (word);
+		p->name = string_copy (word);
 		p->ename = e;
 		IGNORE add_to_var_hash (p, s);
     } else {
 		/* Existing object : check consistency */
 		if (local) {
-			if (p->ename) {
-				is_fatal = 0;
-				input_error ("Object %s previously declared global", word);
-			}
+			if (p->ename)
+				MSG_object_previously_declared_global (word);
 		} else {
 			if (p->ename) {
-				if (e->son) {
-					is_fatal = 0;
-					input_error ("External name of object %s given twice",
-								 word);
-				}
+				if (e->son)
+					MSG_external_name_of_object_given_twice (word);
 			} else {
-				is_fatal = 0;
-				input_error ("Object %s previously declared local", word);
+				MSG_object_previously_declared_local (word);
 			}
 		}
     }
@@ -237,8 +227,7 @@ read_aldef(boolean local)
     if (func_input) {
 		read_word ();
 		if (word_type != INPUT_COMMA) {
-			is_fatal = 0;
-			input_error ("Comma expected");
+			MSG_comma_expected ();
 			looked_ahead = 1;
 		}
     }
@@ -247,9 +236,7 @@ read_aldef(boolean local)
     d = completion (read_node ("a"));
     if (info->def) {
 		if (!eq_node (info->def, d)) {
-			is_fatal = 0;
-			input_error ("Alignment tag %s defined inconsistently",
-						 p->name);
+			MSG_alignment_tag_defined_inconsistently (p->name);
 		}
 		free_node (d);
     } else {
@@ -278,8 +265,7 @@ read_tagdec(boolean local, int is_var)
     if (func_input) {
 		read_word ();
 		if (word_type != INPUT_COMMA) {
-			is_fatal = 0;
-			input_error ("Comma expected");
+			MSG_comma_expected ();
 			looked_ahead = 1;
 		}
     }
@@ -288,10 +274,8 @@ read_tagdec(boolean local, int is_var)
     d = completion (read_node ("?[u]?[X]S"));
     info->var = (boolean) is_var;
     if (info->dec) {
-		if (!eq_node (info->dec, d)) {
-			is_fatal = 0;
-			input_error ("Tag %s declared inconsistently", p->name);
-		}
+		if (!eq_node (info->dec, d))
+			MSG_tag_declared_inconsistently (p->name);
 		free_node (d);
     } else {
 		info->dec = d;
@@ -315,18 +299,15 @@ read_tagdef(boolean local, int is_var)
     tag_info *info = get_tag_info (p);
 
     /* Set the tag type */
-    if (info->dec == null && !do_check) {
-		is_fatal = 0;
-		input_error ("Tag %s defined but not declared", word);
-    }
+    if (info->dec == null && !do_check)
+		MSG_tag_defined_but_not_declared (word);
     set_tag_type (p, is_var);
 
     /* Check comma */
     if (func_input) {
 		read_word ();
 		if (word_type != INPUT_COMMA) {
-			is_fatal = 0;
-			input_error ("Comma expected");
+			MSG_comma_expected ();
 			looked_ahead = 1;
 		}
     }
@@ -340,10 +321,8 @@ read_tagdef(boolean local, int is_var)
 			while (dp->bro) dp = dp->bro;
 			dp->bro = d;
 		} else {
-			if (!eq_node (info->def, d)) {
-				is_fatal = 0;
-				input_error ("Tag %s defined inconsistently", p->name);
-			}
+			if (!eq_node (info->def, d))
+				MSG_tag_defined_inconsistently (p->name);
 			free_node (d);
 		}
     } else {
@@ -365,18 +344,15 @@ read_sortname()
 {
     sortname s;
     if (word_type != INPUT_WORD) {
-		is_fatal = 0;
-		input_error ("Sort name expected");
+		MSG_sort_name_expected ();
 		return (SORT_unknown);
     }
     s = find_high_sort (word);
     if (s == SORT_unknown) {
-		is_fatal = 0;
-		input_error ("Illegal sort name, %s", word);
+		MSG_illegal_sort_name (word);
     } else {
 		if (s > SORT_max && s < SORT_no) {
-			is_fatal = 0;
-			input_error ("Bad sort name, %s", word);
+			MSG_bad_sort_name (word);
 		}
     }
     return (s);
@@ -398,8 +374,7 @@ read_toksort(tok_info *info, boolean def)
     if (func_input) {
 		read_word ();
 		if (word_type != INPUT_COMMA) {
-			is_fatal = 0;
-			input_error ("Comma expected");
+			MSG_comma_expected ();
 			looked_ahead = 1;
 		}
     }
@@ -433,15 +408,13 @@ read_toksort(tok_info *info, boolean def)
 				/* Read formal argument */
 				construct *q;
 				read_word ();
-				if (word_type != INPUT_WORD) {
-					input_error ("Token identifier expected");
-				}
+				if (word_type != INPUT_WORD)
+					MSG_FATAL_token_identifier_expected ();
 				q = search_var_hash (word, SORT_token);
-				if (q) {
-					input_error ("Token %s already declared", word);
-				}
+				if (q)
+					MSG_FATAL_token_already_declared (word);
 				q = make_construct (SORT_token);
-				q->name = string_copy_aux (word);
+				q->name = string_copy (word);
 				IGNORE add_to_var_hash (q, SORT_token);
 				set_token_sort (q, s, (char *) null, (node *) null);
 				*(c++) = q;
@@ -452,8 +425,7 @@ read_toksort(tok_info *info, boolean def)
 				if (word_type == INPUT_CLOSE) {
 					looked_ahead = 1;
 				} else if (word_type != INPUT_COMMA) {
-					is_fatal = 0;
-					input_error ("Comma or close bracket expected");
+					MSG_comma_or_close_bracket_expected ();
 					looked_ahead = 1;
 				}
 			}
@@ -462,11 +434,11 @@ read_toksort(tok_info *info, boolean def)
 		*a = 0;
 		if (*arg_buff) {
 			/* Store argument string */
-			info->args = string_copy_aux (arg_buff);
+			info->args = string_copy (arg_buff);
 			if (def) {
 				/* Store formal arguments */
 				int i, n = no_args;
-				info->pars = alloc_nof (construct *, n + 1);
+				info->pars = xalloc (sizeof (construct *) * (n + 1));
 				for (i = 0 ; i < n ; i++) info->pars [i] = cons_buff [i];
 				info->pars [n] = null;
 			}
@@ -474,8 +446,7 @@ read_toksort(tok_info *info, boolean def)
 		read_word ();
 		if (func_input) {
 			if (word_type != INPUT_ARROW) {
-				is_fatal = 0;
-				input_error ("Arrow (->) expected");
+				MSG_arrow_expected ();
 				looked_ahead = 1;
 			}
 			read_word ();
@@ -485,7 +456,7 @@ read_toksort(tok_info *info, boolean def)
     /* Read result sort */
     info->res = read_sortname ();
     if (is_high (info->res)) {
-		input_error ("Tokens cannot return high-level sorts");
+		MSG_FATAL_tokens_cant_return_high_level_sorts ();
     }
     return;
 }
@@ -540,8 +511,7 @@ read_tokdef(boolean local)
     if (func_input) {
 		read_word ();
 		if (word_type != INPUT_COMMA) {
-			is_fatal = 0;
-			input_error ("Comma expected");
+			MSG_comma_expected ();
 			looked_ahead = 1;
 		}
     }
@@ -563,8 +533,7 @@ read_tokdef(boolean local)
     d = completion (d);
     if (info->def) {
 		if (!eq_node (info->def, d)) {
-			is_fatal = 0;
-			input_error ("Token %s defined inconsistently", p->name);
+			MSG_token_defined_inconsistently (p->name);
 		}
 		free_node (d);
 		info->pars = old_pars;
@@ -588,15 +557,13 @@ read_sortdef(boolean local)
     tok_info store;
 
     /* The local quantifier should not be used */
-    if (local) {
-		is_fatal = 0;
-		input_error ("Can't have local here");
-    }
+    if (local)
+		MSG_cant_have_local_here ();
 
     /* Read the sort name */
     read_word ();
-    if (word_type != INPUT_WORD) input_error ("Identifier expected");
-    nm = string_copy_aux (word);
+    if (word_type != INPUT_WORD) MSG_FATAL_identifier_expected ();
+    nm = string_copy (word);
 
     /* Get sort definition */
     read_toksort (&store, 0);
@@ -625,11 +592,10 @@ sub_file(int ftype, int ex)
     read_word ();
     allow_multibyte = 1;
     if (word_type != INPUT_STRING) {
-		is_fatal = 0;
-		input_error ("File name expected");
+		MSG_file_name_expected ();
 		return;
     }
-    new_name = string_copy_aux (word);
+    new_name = string_copy (word);
 
     /* Save the position in the existing file */
     store_position (&store);
@@ -670,11 +636,11 @@ read_capsule()
     int starter;
     read_word ();
     if (word_type == INPUT_OPEN) {
-		if (func_input) warning ("Switching input form");
+		if (func_input) MSG_switching_input_form ();
 		func_input = 0;
 		starter = INPUT_OPEN;
     } else {
-		if (!func_input) warning ("Switching input form");
+		if (!func_input) MSG_switching_input_form ();
 		func_input = 1;
 		starter = INPUT_WORD;
     }
@@ -686,18 +652,16 @@ read_capsule()
 		boolean local = 0;
 		if (!func_input) {
 			read_word ();
-			if (word_type != INPUT_WORD) {
-				input_error ("Construct name expected");
-			}
+			if (word_type != INPUT_WORD)
+				MSG_FATAL_construct_name_expected ();
 		}
 
 		/* Check for the local qualifier */
 		if (streq (word, LOCAL_DECL)) {
 			local = 1;
 			read_word ();
-			if (word_type != INPUT_WORD) {
-				input_error ("Construct name expected");
-			}
+			if (word_type != INPUT_WORD)
+				MSG_FATAL_construct_name_expected ();
 		}
 
 		/* For functional input, expect an open bracket */
@@ -705,8 +669,7 @@ read_capsule()
 			wtemp = temp_copy (word);
 			read_word ();
 			if (word_type != INPUT_OPEN) {
-				is_fatal = 0;
-				input_error ("Open bracket expected");
+				MSG_open_bracket_expected ();
 				looked_ahead = 1;
 			}
 		} else {
@@ -734,10 +697,8 @@ read_capsule()
 
 			{
 				/* Include constructs */
-				if (local) {
-					is_fatal = 0;
-					input_error ("Can't have local here");
-				}
+				if (local)
+					MSG_cant_have_local_here ();
 				test_cmd (INCLUDE_TEXT, sub_file (0, 0))
 					test_cmd (INCLUDE_CODE, sub_file (1, 0))
 					test_cmd (USE_CODE, sub_file (1, 1))
@@ -745,29 +706,25 @@ read_capsule()
 					test_cmd (USE_LIB, sub_file (2, 1))
 					{
 						/* Illegal construct */
-						input_error ("Illegal construct name, %s", wtemp);
+						MSG_FATAL_illegal_construct_name (wtemp);
 					}
 			}
 
 		/* End of construct */
 		read_word ();
 		if (word_type != INPUT_CLOSE) {
-			is_fatal = 0;
-			input_error ("End of %s construct expected", cmd);
+			MSG_end_of_construct_expected (cmd);
 			looked_ahead = 1;
 		}
 		if (func_input) {
 			read_word ();
 			if (word_type != INPUT_SEMICOLON) {
-				is_fatal = 0;
-				input_error ("End of %s construct expected", cmd);
+				MSG_end_of_construct_expected (cmd);
 				looked_ahead = 1;
 			}
 		}
     }
-    if (word_type != INPUT_EOF) {
-		is_fatal = 0;
-		input_error ("Start of construct expected");
-    }
+    if (word_type != INPUT_EOF)
+		MSG_start_of_construct_expected ();
     return;
 }

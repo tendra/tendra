@@ -56,7 +56,12 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "release.h"
+#include "fetch.h"
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
@@ -74,16 +79,6 @@
 #include "table.h"
 #include "utility.h"
 #include "write.h"
-
-
-/*
- *    PROGRAM VERSION
- *
- *    The program name and version number are given.
- */
-
-char *progname = "tnc";
-static char *version = "Version: 1.9";
 
 
 /*
@@ -122,6 +117,40 @@ output_option(char *arg, boolean t)
 }
 
 
+static void
+msg_uh_where(char ch, void *pp)
+{
+	UNUSED(ch);
+	UNUSED(pp);
+    if (input_file) {
+		write_fmt (msg_stream, ", %s", input_file);
+		if (text_input) {
+			write_fmt (msg_stream, ", line %ld", line_no);
+		} else {
+			long b = input_posn ();
+			if (capname)
+				write_fmt(msg_stream, ", capsule %s", capname);
+			switch (decode_status) {
+			case 0:
+				write_fmt (msg_stream, " (at outermost level)");
+				break;
+			case 1:
+				write_fmt (msg_stream, " (in linking information)");
+				break;
+			case 2 :
+				write_fmt (msg_stream, " (in unit body)");
+				break;
+			}
+			write_fmt (msg_stream, ", byte %ld, bit %ld", b / 8, b % 8);
+			if (decode_status == 0)
+				write_fmt (msg_stream, " (Illegal TDF capsule?)");
+			if (decode_status >= 1 && !have_version)
+				write_fmt (msg_stream, " (TDF version error?)");
+		}
+    }
+}
+
+
 /*
  *    MAIN ROUTINE
  *
@@ -140,6 +169,9 @@ main(int argc, char **argv)
     boolean output_next = 0;
     void (*input_fn)(void) ;
     void (*output_fn)(void) ;
+
+	tenapp_init(argc, argv, "TDF notation compiler", "1.9");
+	msg_uh_add(MSG_GLOB_where, msg_uh_where);
 
     /* Default action : read text, encode TDF capsule */
     input_fn = read_capsule;
@@ -164,7 +196,7 @@ main(int argc, char **argv)
 			case 'h' : {
 				/* Help option */
 				if (streq (arg, "-help")) {
-					if (status) warning ("Too many arguments");
+					if (status) MSG_getopt_too_many_arguments ();
 					a++;
 					if (a == argc) {
 						help ("all");
@@ -324,19 +356,14 @@ main(int argc, char **argv)
 			}
 			case 'V' : {
 				if (arg [2] == 0 || streq (arg, "-version")) {
-					char *vn = version;
-					char *rn = RELEASE;
-					int v1 = VERSION_major;
-					int v2 = VERSION_minor;
-					IGNORE fprintf (stderr, "%s: %s", progname, vn);
-					IGNORE fprintf (stderr, " (TDF %d.%d)", v1, v2);
-					IGNORE fprintf (stderr, " (release %s)\n", rn);
+					tenapp_report_version ();
+					MSG_TDF_version(VERSION_major, VERSION_minor);
 					known = 1;
 				}
 				break;
 			}
 			}
-			if (!known) warning ("Unknown option, %s", arg);
+			if (!known) MSG_getopt_unknown_option (arg);
 
 		} else {
 			/* Initialize input and output files */
@@ -345,7 +372,7 @@ main(int argc, char **argv)
 			} else if (status == 1) {
 				open_output (arg);
 			} else {
-				warning ("Too many arguments");
+				MSG_getopt_too_many_arguments ();
 			}
 			status++;
 		}
@@ -355,7 +382,7 @@ main(int argc, char **argv)
     if (lib_input && input_fn == de_capsule) input_fn = de_library;
 
     /* Perform the appropriate actions */
-    if (status == 0) fatal_error ("Not enough arguments");
+    if (status == 0) MSG_getopt_not_enough_arguments ();
     (*input_fn) ();
     if (exit_status == EXIT_SUCCESS || text_output) {
 		if (expand) expand_all ();

@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "alignment.h"
 #include "eval.h"
@@ -180,8 +182,7 @@ chk_tag(node *p, node *a, int intro)
 	    default : {
 			if (text_input) {
 				char *nm = a->son->cons->name;
-				is_fatal = 0;
-				input_error ("Tag %s used but not declared", nm);
+				MSG_tag_used_but_not_declared (nm);
 			}
 			p->shape = null;
 			break;
@@ -342,8 +343,7 @@ check_tagdef(construct *p)
 			q->bro->bro = df->shape;
 			info->dec->bro = completion (q);
 		} else {
-			is_fatal = 0;
-			input_error ("Can't deduce shape of %s from definition", nm);
+			MSG_cant_deduce_shape_from_definition (nm);
 		}
     } else {
 		if (dc->cons->sortnum == SORT_completion) dc = dc->son;

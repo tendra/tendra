@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "check.h"
 #include "node.h"
@@ -109,9 +111,7 @@ node
     if (s == SORT_shape) {
 		switch (p->cons->encoding) {
 	    case ENC_bottom : {
-			is_fatal = 0;
-			input_error ("Can't have alignment of bottom in %s",
-						 checking);
+			MSG_cant_have_alignment_of_bottom_in (checking);
 			return (null);
 	    }
 	    case ENC_offset : return (copy_node (al_offset));

@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "help.h"
 #include "high.h"
@@ -128,7 +131,7 @@ void
 new_sort(sortname s, int sz)
 {
     int i;
-    construct *p = alloc_nof (construct, sz);
+    construct *p = xalloc (sizeof (*p) * sz);
     for (i = 0 ; i < sz ; i++) {
 		(p + i)->sortnum = s;
 		(p + i)->encoding = i;
@@ -156,9 +159,8 @@ new_cons(char *nm, sortname s, int n, char *args)
 {
     construct *p = cons_no (s, n);
     p->name = nm;
-    if (add_to_cons_hash (p, s)) {
-		fatal_error ("Construct %s already defined", nm);
-    }
+    if (add_to_cons_hash (p, s))
+		MSG_FATAL_construct_already_defined (nm);
     get_char_info (p) = args;
     return;
 }
@@ -173,7 +175,7 @@ new_cons(char *nm, sortname s, int n, char *args)
 static node
 *de_dummy()
 {
-    fatal_error ("Invalid decode function");
+    MSG_FATAL_invalid_decode_function ();
     return (null);
 }
 
@@ -187,7 +189,7 @@ static node
 static node
 *read_dummy(long n)
 {
-    fatal_error ("Invalid read function");
+    MSG_FATAL_invalid_read_function ();
     UNUSED (n);
     return (null);
 }
@@ -205,20 +207,20 @@ init_tables()
     int i;
 
     /* Allocate tables */
-    cons_table = alloc_nof (construct *, SORT_no);
-    cons_sizes = alloc_nof (int, SORT_no);
-    cons_hash_tables = alloc_nof (construct *, SORT_no * hash_size);
-    var_table = alloc_nof (construct *, SORT_no);
-    var_hash_tables = alloc_nof (construct *, SORT_no * hash_size);
-    sort_count = alloc_nof (long, SORT_no);
-    sort_letters = alloc_nof (char, SORT_no + 1);
-    sort_encoding = alloc_nof (int, SORT_no);
-    sort_extension = alloc_nof (int, SORT_no);
-    sort_tokens = alloc_nof (long, SORT_no);
-    sort_conds = alloc_nof (long, SORT_no);
-    sort_removed = alloc_nof (long, SORT_no);
-    sort_decode = alloc_nof (decode_func, SORT_no);
-    sort_read = alloc_nof (read_func, SORT_no);
+    cons_table = xalloc (sizeof (construct *) * SORT_no);
+    cons_sizes = xalloc (sizeof (int) * SORT_no);
+    cons_hash_tables = xalloc (sizeof (construct *) * SORT_no * hash_size);
+    var_table = xalloc (sizeof (construct *) * SORT_no);
+    var_hash_tables = xalloc (sizeof (construct *) * SORT_no * hash_size);
+    sort_count = xalloc (sizeof (long) * SORT_no);
+    sort_letters = xalloc (sizeof (char) * (SORT_no + 1));
+    sort_encoding = xalloc (sizeof (int) * SORT_no);
+    sort_extension = xalloc (sizeof (int) * SORT_no);
+    sort_tokens = xalloc (sizeof (long) * SORT_no);
+    sort_conds = xalloc (sizeof (long) * SORT_no);
+    sort_removed = xalloc (sizeof (long) * SORT_no);
+    sort_decode = xalloc (sizeof (decode_func) * SORT_no);
+    sort_read = xalloc (sizeof (read_func) * SORT_no);
 
     /* Clear out tables */
     for (i = 0 ; i < SORT_no ; i++) {

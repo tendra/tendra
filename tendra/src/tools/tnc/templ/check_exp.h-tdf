@@ -97,9 +97,8 @@ check_exp_fn(node *exp)
     if (m == ENC_labelled) {
 	node *placelabs_intro = sub0 (exp);
 	node *places = sub2 (exp);
-	if (placelabs_intro->cons->encoding != places->cons->encoding) {
-	    input_error ("Labels don't match exps in labelled");
-	}
+	if (placelabs_intro->cons->encoding != places->cons->encoding)
+	    MSG_FATAL_labels_dont_match_exps ();
     }
     if (do_check) {
 	if (exp->shape) return;
