@@ -81,9 +81,9 @@
 </biblioentry>
 </bibliography>
 
-  <preface>
+  <preface id='intro'>
     <title>Introduction</title>
-      <simplesect>
+      <simplesect id='intro-background'>
         <title>Background</title>
         <para>The C program static checker was originally developed as a programming tool to aid the construction of portable programs using the Application Programming Interface (API) model of software portability; the principle underlying this approach being: 
         </para>
@@ -94,8 +94,8 @@
         <para>This approach gave the tool an unusually powerful basis for static checking of C programs and a large amount of development work has resulted in the production of the TenDRA C static checker (tchk). The terms, TenDRA C checker and tchk are used interchangably in this document.</para>
      </simplesect>
 
-     <simplesect>
-     <title>1.2 The C static checker</title>
+     <simplesect id='intro-c-static-checker'>
+     <title>The C static checker</title>
 
     <para>The C static checker is a powerful and flexible tool which can perform a number of static checks on C programs, including:</para>
 
@@ -148,8 +148,8 @@ several built-in checking environments plus support for user-defined checking pr
 </itemizedlist>
 </simplesect>
 
-<simplesect>
-<title>1.3 About this document
+<simplesect id='intro-about'>
+<title>About this document</title>
 
 <para>This document is designed as a reference manual detailing the features of the C static checker. It contains eleven chapters (including this introduction) and nine annexes.</para>
 
@@ -199,12 +199,12 @@ several built-in checking environments plus support for user-defined checking pr
 
 
 
-<chapter>
+<chapter id='config-checker'>
 <title>Configuring the Checker</title>
 
 <para>There are several methods available for configuring the checker most of which are selected by using the relevant command line option. More detailed customisation may require special #pragma statements to be incorporated into the source code to be analysed (this commonly takes the form of a startup file). The configuration options generally act independently of one another and unless explicitly forbidden in the descriptions below, they may be combined in any way.</para>
 
-<sect1>
+<sect1 id='built-in-checking'>
 <title>Built-in checking profiles</title>
 <para>Six standard checking profiles are provided with the tool and are held as a set of startup files which are automatically included in each C source file. A brief description of each profile is given below, for a complete descriptions see Annex A.</para>
 
@@ -242,13 +242,13 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <para>There are also two "add-on" checking profiles, called <literal>nepc</literal> (no extra portability checks) and <literal>not_ansi</literal>, which may be used to complement any base mode. The "add-on" modes may alter the status of checks set in the base mode. The <literal>nepc</literal> mode switches off many of the checks relating to portability issues and may be specified by passing the <literal>-nepc</literal> command line option to tchk. The <literal>not_ansi</literal> mode supports a raft of non-ISO features and is specified using the <literal>-not_ansi</literal> command line flag.</para>
 
 </sect1>
-<sect1>
+<sect1 id='minimum-int-ranges'>
 <title>Minimum integer ranges</title>
 
 <para>By default the checker assumes that all integer ranges conform to the minimum ranges prescribed by the ISO C standard, i.e. char contain at least 8 bits, short and int contain at least 16 bits and long contains at least 32 bits. If the -Y32bit flag is passed to the checker it assumes that integers conform to the minimum ranges commonly found on most 32 bit machines, i.e. int contains at least 32 bits and int is strictly larger than short so that the integral promotion of unsigned short is int under the ISO C standard integer promotion rules.</para>
 </sect1>
 
-<sect1>
+<sect1 id='api-spec'>
 <title>API selection</title>
 
 <para>By default, programs are checked against the standard ISO C API as specified in the ISO C standard Chapter 7. Other APIs are specified by passing the -Yapi-name flag to the tchk, where api-name <emphasis>is one of the API designators listed below</emphasis>. APIs fall into two categories: base APIs and extension APIs. If more than one base API is specified to tchk, only the last one is used for checking; the others are ignored. Additional extension APIs, however, may be used in addition to any suitable base API.</para>
@@ -328,14 +328,14 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <para>system+ System headers as last resort API. Search the system headers only for those objects for which no declaration or definition can be found within the base API.</para>
 </sect1>
 
-<sect1>
+<sect1 id='individual-cmd-line-checking'>
 <title>Individual command line checking options</title>
 
 <para>Some of the checks available can be controlled using a command line option of the form -Xopt,opt,..., where the various opt options give a comma-separated list of commands. These commands have the form test=status, where test is the name of the check, and status is either check (apply check and give an error if it fails), warn (apply check and give a warning if it fails) or dont (do not apply check). The names of checks can be found with their descriptions in -XREF-Chapters 3 - 8; for example the check for implicit function declarations described in -XREF-3.4.1 may be switched on using <literal>-X:implicit_func=check</literal>.</para>
 
 </sect1>
 
-<sect1>
+<sect1 id='const-custom-check'>
 
 <title>Construct a customised checking environment</title>
 <para>The individual checks performed by the C static checker are generally controlled by #pragma directives. The reason for this is that the ISO standard places no restrictions on the syntax following a #pragma preprocessing directive, and most compilers/checkers can be configured to ignore any unknown #pragma directives they encounter.</para>
@@ -351,7 +351,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 
 </sect1>
 
-<sect1>
+<sect1 id='scoping-check'>
 <title>Scoping checking profiles</title>
 
 <para>Almost all the available checks are scoped (exceptions will be mentioned in the description of the check). A new checking scope may be started by inserting the pragma:</para>
@@ -426,12 +426,12 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 </chapter>
 
 
-<chapter>
+<chapter id='type-check'>
 <title>Type checking</title>
 
 <para>Type checking is relevant to two main areas of C. It ensures that all declarations referring to the same object are consistent (clearly a pre-requisite for a well-defined program). It is also the key to determining when an undefined or unexpected value has been produced due to the type conversions which arise from certain operations in C. Conversions may be explicit (conversion is specified by a cast) or implicit. Generally explicit conversions may be regarded more leniently since the programmer was obviously aware of the conversion, whereas the implications of an implicit conversion may not have been considered.</para>
 
-<sect1>
+<sect1 id='type-conv'>
 <title>Type conversions</title>
 
 <para>The only types which may be interconverted legally are integral types, floating point types and pointer types. Even if these rules are observed, the results of some conversions can be surprising and may vary on different machines. The checker can detect three categories of conversion: integer to integer conversions, pointer to integer and integer to pointer conversions, and pointer to pointer conversions.</para>
@@ -448,7 +448,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 
 <para>Due to the serious nature of implicit pointer to integer, implicit pointer to pointer conversions and undefined explicit pointer to pointer conversions, such conversions are flagged as errors by default. These conversion checks are not controlled by the global conversion analysis pragma above, but must be controlled by the relevant individual pragmas given in sections -XREF-3.2.2 and -XREF-3.2.3.</para>
 
-<sect2>
+<sect2 id='int-int-conversions'>
 <title>Integer to integer conversions</title>
 
 <para>All integer to integer conversions are allowed in C, however some can result in a loss of accuracy and so may be usefully detected. For example, conversions from int to long never result in a loss of accuracy, but conversions from long to int may. The detection of these shortening conversions is controlled by:</para>
@@ -484,7 +484,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 
 
 </sect2>
-<sect2>
+<sect2 id='point-int-int-int-conv'>
 <title>Pointer to integer and integer to pointer conversions</title>
 
 <para>Integer to pointer and pointer to integer conversions are generally unportable and should always be specified by means of an explicit cast. The exception is that the integer zero and null pointers are deemed to be inter-convertible. As in the integer to integer conversion case, explicit and implicit pointer to integer and integer to pointer conversions may be controlled separately using:</para>
@@ -508,7 +508,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <para>where <emphasis>status</emphasis> may be <literal>on</literal>, <literal>warning</literal> or <literal>off</literal> as before and <literal>pointer-int</literal> may be substituted for <literal>int-pointer</literal>.</para>
 
 </sect2>
-<sect2>
+<sect2 id='point-point-conv'>
 <title>Pointer to pointer conversions</title>
 
 <para>A ccording to the ISO C standard, section 6.3.4, the only legal pointer to pointer conversions are explicit conversions between:</para>
@@ -556,8 +556,11 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <para>where <emphasis>permit</emphasis> is <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as before.</para>
 
 </sect2>
-<sect2>
-<title>Example: 64-bit portability issues</title>
+<sect2 id='sixtyfour-bit-port'>
+<title>64-bit portability issues</title>
+
+<example id='ex-port-issues'>
+<title>64-bit portability issues</title>
 
 <para>64-bit machines form the "next frontier" of program portability. Most of the problems involved in 64-bit portability are type conversion problems. The assumptions that were safe on a 32-bit machine are not necessarily true on a 64-bit machine - int may not be the same size as long, pointers may not be the same size as int, and so on. This example illustrates the way in which the checker's conversion analysis tests can detect potential 64-bit portability problems.</para>
 
@@ -586,10 +589,11 @@ int main ()
 <para>This appears to be fairly simple - the offset of 2U scaled by -2 cancels out the offset in s + 4, so the program just prints "hello there". Indeed, this is what happens on most machines. When ported to a particular 64-bit machine, however, it core dumps. The fairly subtle reason is that the composite offset, scale * offset, is actually calculated as an unsigned int by the ISO C arithmetic conversion rules. So the answer is not -4. Strictly speaking it is undefined, but on virtually all machines it will be UINT_MAX - 3. The fact that adding this offset to string is equivalent to adding -4 is only true on machines on which pointers have the same size as unsigned int. If a pointer contains 64 bits and an unsigned int contains 32 bits, the result is 232 bytes out.</para>
 
 <para>So the error occurs because of the failure to spot that the offset being added to string is unsigned. All mixed integer type arithmetic involves some argument conversion. In the case above, scale is converted to an unsigned int and that is multiplied by offset to give an unsigned int result. If the implicit int-&gt;int conversion checks (-XREF-3.2.1 ) are enabled, this conversion is detected and the problem may be avoided.</para>
+</example>
 
 </sect2>
 </sect1>
-<sect1>
+<sect1 id='funct-type-check'>
 <title>Function type checking</title>
 
 <para>The importance of function type checking in C lies in the conversions which can result from type mismatches between the arguments in a function call and the parameter types assumed by its definition or between the specified type of the function return and the values returned within the function definition. Until the introduction of function prototypes into ISO standard C, there was little scope for detecting the correct typing of functions. Traditional C allows for absolutely no type checking of function arguments, so that totally bizarre functions, such as:</para>
@@ -611,7 +615,7 @@ int f ( n ) int n ; {
 <para>Even if prototypes are not supported the checker has a facility, described below, for detecting incorrectly typed functions.</para>
 
 
-<sect2>
+<sect2 id='type-check-proto'>
 <title>Type checking non-prototyped functions</title>
 
 <para>The checker offers a method for applying prototype-like checks to traditionally defined functions, by introducing the concept of " weak" prototypes. A weak prototype contains function parameter type information, but has none of the automatic argument conversions associated with a normal prototype. Instead weak prototypes imply the usual argument promotion passing rules for non-prototyped functions. The type information required for a weak prototype can be obtained in three ways:</para>
@@ -766,7 +770,7 @@ void g () {
 <para>This section ends with two examples which demonstrate some of the less obvious consequences of weak prototype analysis.</para>
 
 
-<example>
+<example id='obscure-type-mismatch'>
 <title>An obscure type mismatch</title>
 
 <para>As stated above, the promotion and conversion rules for weak prototypes are precisely those for traditionally declared and defined functions. Consider the program:</para>
@@ -800,7 +804,7 @@ void f <emphasis>WEAK</emphasis> ( long );
 
 </example>
 
-<example>
+<example id='weak-proto-checks'>
 <title>Weak prototype checks in defined programs</title>
 
 <para>In most cases a program which fails to compile with the weak prototype analysis enabled is undefined. ISO standard C does however contain an anomalous rule on equivalence of representation. For example, in:</para>
@@ -830,7 +834,7 @@ void g () {
 </example>
 
 </sect2>
-<sect2>
+<sect2 id='check-printf-strings'>
 <title>Checking printf strings</title>
 
 <para>Normally functions which take a variable number of arguments offer only limited scope for type checking. For example, given the prototype:</para>
@@ -888,7 +892,7 @@ typedef const char *PSTRING;
 
 </sect2>
 
-<sect2>
+<sect2 id='funct-return-checking'>
 
 <title>Function return checking</title>
 
@@ -925,12 +929,12 @@ int f ( int c )
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='overriding-type-check'>
 <title>Overriding type checking</title>
 
 <para>There are several commonly used features of C, some of which are even allowed by the ISO C standard, which can circumvent or hinder the type-checking of a program. The checker may be configured either to enforce the absence of these features or to support them with or without a warning, as described below.</para>
 
-<sect2>
+<sect2 id='implicit-funct-decl'>
 <title>Implicit Function Declarations</title>
 
 <para>The ISO C standard states that any undeclared function is implicitly assumed to return int. For example, in ISO C:</para>
@@ -963,14 +967,14 @@ extern int g ();
 <para>This test assumes an added significance in API checking. If a programmer wishes to check that a certain program uses nothing outside the POSIX API, then implicitly declared functions are a potential danger area. A function from outside POSIX could be used without being detected because it has been implicitly declared. Therefore, the detection of implicitly declared functions is vital to rigorous API checking.</para>
 
 </sect2>
-<sect2>
+<sect2 id='funct-param'>
 <title>Function Parameters</title>
 
 <para>Many systems pass function arguments of differing types in the same way and programs are sometimes written to take advantage of this feature. The checker has a number of options to resolve type mismatches which may arise in this way and would otherwise be flagged as errors:</para>
 
 <orderedlist>
 <listitem>
-<formalpara>
+<formalpara id='type-type-compat'>
 <title>Type-type compatibility</title>
 <para>When comparing function prototypes for compatibility, the function parameter types must be compared. If the parameter types would otherwise be incompatible, they are treated as compatible if they have previously been introduced with a type-type param ter compatibility pragma i.e.</para>
 </formalpara>
@@ -983,7 +987,7 @@ extern int g ();
 </listitem>
 
 <listitem>
-<formalpara>
+<formalpara id='type-ellipsis-compat'>
 <title>Type-ellipsis compatibility</title>
 <para>Two function prototypes with different numbers of arguments are compatible if:</para>
 </formalpara>
@@ -1021,7 +1025,7 @@ extern int g ();
 </orderedlist>
 
 </sect2>
-<sect2>
+<sect2 id='impat-promo-funct'>
 <title>Incompatible promoted function arguments</title>
 
 <para>Mixing the use of prototypes with old-fashioned function definitions can result in incorrect code. For example, in the program below the function argument promotion rules are applied to the definition of f, making it incompatible with the earlier prototype (a is converted to the integer promotion of char, i.e. int).</para>
@@ -1041,7 +1045,7 @@ int f(a)char a;{
 
 
 </sect2>
-<sect2>
+<sect2 id='incompat-type-qual'>
 <title>Incompatible type qualifiers</title>
 <para>The declarations</para>
 
@@ -1065,13 +1069,13 @@ int a;
 </chapter>
 
 
-<chapter>
+<chapter id='integral-types'>
 <title>Integral Types</title>
 <para>The checks described in the previous chapter involved the detection of conversions which could result in undefined values. Certain conversions involving integral types, however, are defined in the ISO C standard and so might be considered safe and unlikely to cause problems. This unfortunately is not the case: some of these conversions may still result in a change in value; the actual size of each integral type is implementation-dependent; and the "old-style" integer conversion rules which predate the ISO standard are still in common use. The checker provides support for both ISO and traditional integer promotion rules. The set of rules used may be specified independently of the two integral range scenarios, 16 bit(default) and 32 bit, described in section -XREF-2.1.2.</para>
 
 <para>The means of specifying and alternative sets of promotion rules, their interaction with the conversion checks described in section -XREF-3.2 and the additional checks which may be performed on integers and integer operations are described in the remainder of this chapter.</para>
 
-<sect1>
+<sect1 id='int-promotion-rules'>
 <title>Integer promotion rules</title>
 
 <para><literal>The ISO C standard rules</literal> may be summarised as follows: long integral types promote to themselves; other integral types promote to whichever of int or unsigned int they fit into. In full the promotions are:</para>
@@ -1147,7 +1151,7 @@ int a;
 
 </sect1>
 
-<sect1>
+<sect1 id='arithmetic-oper'>
 <title>Arithmetic operations on integer types</title>
 
 <para><literal>The ISO C standard rules</literal> for calculating the type of an arithmetic operation involving two integer types is as follows - work out the integer promotions of the types of the two operands, then:</para>
@@ -1174,7 +1178,7 @@ int a;
 
 </sect1>
 
-<sect1>
+<sect1 id='int-int-conv-checks'>
 <title>Interaction with the integer conversion checks</title>
 
 <para>A simple-minded implementation of the integer conversion checks described in 3.2 would interact badly with these rules. Consider, for example, adding two values of type char:</para>
@@ -1218,12 +1222,12 @@ TYPE ( int, char ) a ;
 </programlisting>
 
 </sect1>
-<sect1>
+<sect1 id='target-dep-int-types'>
 <title>Target dependent integral types</title>
 
 <para>Since the checker uses only information about the minimum guaranteed ranges of integral types, integer values for which the actual type of the values is unknown may arise. Integer values of undetermined type generally arise in one of two ways: through the use of integer literals and from API types which are not completely specified.</para>
 
-<sect2>
+<sect2 id='int-literals'>
 <title>Integer literals</title>
 
 <para><literal>The ISO C rules</literal> on the type of integer literals are set out as follows. For each class of integer literals a list of types is given. The type of an integer literal is then the first type in the appropriate list which is large enough to contain the value of the integer literal. The class of the integer literal depends on whether it is decimal, hexadecimal or octal, and whether it is qualified by U (or u) or L (or l) or both. The rules may be summarised as follows:</para>
@@ -1259,7 +1263,7 @@ int f ( int n ) {
 <para>the type of 0xff00 is target dependent, since it does not fit into the minimal range for int specified by the ISO C standard (this is detected by the integer overflow analysis described in section 4.6). The arithmetic conversions resulting from the &amp; operation is detected by the checker's conversion analysis. Note that if the -Y32bit option is specified to tchk, an int is assumed to contain at least 32 bits. In this case, 0xff00 fits into the type int, and so this is the type of the integer literal. No invalid integer conversions is then detected.</para>
 
 </sect2>
-<sect2>
+<sect2 id='abstract-api-types'>
 <title>Abstract API types</title>
 
 <para>Target dependent integral types also occur in API specifications and may be encountered when checking against one of the implementation-independent APIs provided with the checker. The commonest example of this is size_t, which is stated by the ISO C standard to be a target dependent unsigned integral type, and which arises naturally within the language as the type of a sizeof expression.</para>
@@ -1285,7 +1289,7 @@ int main() {
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='int-overflow-checks'>
 <title>Integer overflow checks</title>
 
 <para>Given the complexity of the rules governing the types of integers and results of integer operations, as well as the variation of integral ranges with machine architecture, it is hardly surprising that unexpected results of integer operations are at the root of many programming problems. These problems can often be hard to track down and may suddenly appear in an application which was previously considered "safe", when it is moved to a new system. Since the checker supports the concept of a guaranteed minimum size of an integer it is able to detect many potential problems involving integer constants. The pragma:</para>
@@ -1316,7 +1320,7 @@ int main() {
 
 </sect1>
 
-<sect1>
+<sect1 id='int-operator-checks'>
 <title>Integer operator checks</title>
 
 <para>The results of some integer operations are undefined by the ISO C standard for certain argument types. Others are implementation-defined or simply likely to produce unexpected results.In the default mode such operations are processed silently, however a set of checks on operations involving integer constants may be controlled using:</para>
@@ -1349,7 +1353,7 @@ int main() {
 </itemizedlist>
 
 </sect1>
-<sect1>
+<sect1 id='support-bit-int'>
 <title>Support for 64 bit integer types (long long)</title>
 
 <para>Although the use of long long to specify a 64 bit integer type is not supported by the ISO C standard it is becoming increasingly popular as in programming use. By default, tchk does not support the use of long long but the checker can be configured to support the long long type to different degrees using the following pragmas:</para>
@@ -1405,13 +1409,13 @@ int main() {
 </chapter>
 
 
-<chapter>
+<chapter id='data-flow-var-analysis'>
 
 <title>Data Flow and Variable Analysis</title>
 
 <para>The checker has a number of features which can be used to help track down potential programming errors relating to the use of variables within a source file and the flow of control through the program. Examples of this are detecting sections of unused code, flagging expressions that depend upon the order of evaluation where the order is not defined, checking for unused static variables, etc.</para>
 
-<sect1>
+<sect1 id='unreachable-code'>
 <title>Unreachable code analysis</title>
 
 <para>Consider the following function definition:</para>
@@ -1482,7 +1486,7 @@ int f ( int c ){
 
 
 </sect1>
-<sect1>
+<sect1 id='case-fall-through'>
 <title>Case fall through</title>
 
 <para>Another flow analysis check concerns fall through in case statements. For example, in:</para>
@@ -1543,11 +1547,11 @@ void f ( int n ){
 
 </sect1>
 
-<sect1>
+<sect1 id='unusual-flow-cond'>
 <title>Unusual flow in conditional statements</title>
 <para>The following three checks are designed to detect possible errors in conditional statements.</para>
 
-<sect2>
+<sect2 id='empty-statements'>
 <title>Empty if statements</title>
 
 <para>Consider the following C statements:</para>
@@ -1566,7 +1570,7 @@ var2 = 0 ;
 <para>with the usual <literal>allow</literal> (this is the default setting), <literal>warning</literal> and <literal>disallow</literal> options for <emphasis>permit</emphasis>.</para>
 
 </sect2>
-<sect2>
+<sect2 id='use-assignments-cont'>
 <title>Use of assignments as control expressions</title>
 
 <para>Using the C assignment operator, `=', when the equality operator `==' was intended is an extremely common problem. The pragma:</para>
@@ -1584,7 +1588,7 @@ if( var = 1 ) { ...
 <para>The options for <emphasis>permit</emphasis> are <literal>allow</literal>, <literal>warning</literal> and <literal>disallow</literal>. The default setting allows assignments to be used as control statements without raising an error.</para>
 
 </sect2>
-<sect2>
+<sect2 id='constant-cont-exp'>
 <title>Constant control expressions</title>
 
 <para>Statements with constant control expressions are not really conditional at all since the value of the control statement can be evaluated statically. Although this feature is sometimes used in loops, relying on a break, goto or return statement to end the loop, it may be useful to detect all constant control expressions to check that they are deliberate. The check for statically constant control expressions is controlled using:</para>
@@ -1599,7 +1603,7 @@ if( var = 1 ) { ...
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='operator-precedence'>
 <title>Operator precedence</title>
 
 <para>The ISO C standard section 6.3, provides a set of rules governing the order in which operators within expressions should be applied. These rules are said to specify the operator precedence and are summarised in the table over the page. Operators on the same line have the same precedence and the rows are in order of decreasing precedence. Note that the unary +, -, * and &amp; operators have higher precedence than the binary forms and thus appear higher in the table.</para>
@@ -1626,7 +1630,7 @@ else { ...
 
 <parA>which in general will give a different result</para>
 
-<table frame='all'>
+<table frame='all' id='iso-c-rules'>
 <title>ISO C Rules for Operator Precedence</title>
 <tgroup cols='2'>
 <thead>
@@ -1730,7 +1734,7 @@ else { ...
 
 </sect1>
 
-<sect1>
+<sect1 id='var-analysis'>
 <title>Variable analysis</title>
 
 <para>The variable analysis checks are controlled by:</para>
@@ -1745,7 +1749,7 @@ else { ...
 
 <para>The variable analysis is concerned with the evaluation of expressions and the use of local variables, including function arguments. Occasionally it may not be possible to statically perform a full analysis on an expression or variable and in these cases the messages produced indicate that there may be a problem. If a full analysis is possible a definite error or warning is produced. The individual checks are listed in sections 5.6.1 to 5.6.6 and section 5.7 describes the source annotations which can be used to fine-tune the variable analysis.</para>
 
-<sect2>
+<sect2 id='order-evaluation'>
 <title>Order of evaluation</title>
 
 <para>The ISO C standard specifies certain points in the expression syntax at which all prior expressions encountered are guaranteed to have been evaluated. These positions are called sequence points and occur:</parA>
@@ -1778,7 +1782,7 @@ var = i + arr[ i++ ] ;
 <para>may evaluate to different values on different machines, depending on which argument of the + operator is evaluated first. The checker can detect expressions which depend on the order of evaluation of sub-expressions between sequence points and these are flagged as errors or warnings when the variable analysis is enabled.</para>
 
 </sect2>
-<sect2>
+<sect2 id='mod-between-seq'>
 <title>Modification between sequence points</title>
 
 <para>The ISO C standard states that if an object is modified more than once, or is modified and accessed other than to determine the new value, between two sequence points, then the behaviour is undefined. Thus the result of:</para>
@@ -1790,13 +1794,13 @@ var = arr[i++] + i++ ;
 <para>is undefined, since the value of i is being incremented twice between sequence points. This behaviour is detected by the variable analysis.</para>
 
 </sect2>
-<sect2>
+<sect2 id='operand-sizeof'>
 <title>Operand of sizeof operator</title>
 
 <para>According to the ISO C standard, section 6.3.3.4, the operand of the sizeof operator is not itself evaluated. If the operand has any side-effects these will not occur. When the variable analysis is enabled, the checker detects the use of expressions with side-effects in the operand of the sizeof operator.</para>
 
 </sect2>
-<sect2>
+<sect2 id='unused-var'>
 <title>Unused variables</title>
 
 <para>As part of the variable analysis, a simple test applied to each local variable at the end of its scope to determine whether it has been used in that scope. For example, in:</para>
@@ -1812,7 +1816,7 @@ int f ( int n )
 <para>both the function argument n and the local variable r are unused.</para>
 
 </sect2>
-<sect2>
+<sect2 id='values-set-used'>
 <title>Values set and not used</title>
 
 <para>This is a more complex test since it is applied to every instance of setting the variable. For example, in:</para>
@@ -1857,7 +1861,7 @@ int f ( int n )
 <para>the initial value of r is overwritten regardless of the result of the conditional, and hence is unused.</para>
 
 </sect2>
-<sect2>
+<sect2 id='variable-not-used'>
 <title>Variable which has not been set is used</title>
 
 <para>This test also requires some flow analysis, for example in:</para>
@@ -1892,12 +1896,12 @@ int f ( int n )
 
 </sect2>
 </sect1>
-<sect1>
+<sect1 id='overriding-var-analysis'>
 <title>Overriding the variable analysis</title>
 
 <para>Although many of the problems discovered by the variable analysis are genuine mistakes, some may be as the result of deliberate decisions by the program writer. In this case, more information needs to be provided to the checker to convey the programmer's intentions. Four constructs are provided for this purpose: the discard variable, the set variable, the exhaustive switch and the non-returning function.</para>
 
-<sect2>
+<sect2 id='discarding-var'>
 <title>Discarding variables</title>
 
 <para>Actively discarding a variable counts as a use of that variable in the variable analysis, and so can be used to suppress messages concerning unused variables and values assigned to variables. There are two distinct methods to indicate that the variable x is to be discarded. The first uses a pragma:</para>
@@ -1951,7 +1955,7 @@ void f ( void ) {
 <para>which is intended to print both messages ten times, the two uses of i as a loop counter are independent - they could have been implemented with different variables. By discarding i after the first loop, the second loop can be analysed separately. In this way, the error of failing to reset i to 0 can be detected.</para>
 
 </sect2>
-<sect2>
+<sect2 id='setting-var'>
 <title>Setting variables</title>
 
 <para>In addition to discarding variables, it is also possible to set them. In deliberately setting a variable, the programmer is telling the checker to assume that some value will always have been assigned to the variable by that point, so that any "variable used without being set" errors can be suppressed. This construct is particularly useful in programs with complex flow control, to help out the variable analysis. For example, in:</para>
@@ -1992,7 +1996,7 @@ SET ( r );
 </note>
 
 </sect2>
-<sect2>
+<sect2 id='exhaustive-switch-state'>
 <title>Exhaustive switch statements</title>
 
 <para>A special case of a flow control construct which may be used to set the value of a variable is a switch statement. Consider the program:</para>
@@ -2046,7 +2050,7 @@ switch ( n ) EXHAUSTIVE {
 </programlisting>
 
 </sect2>
-<sect2>
+<sect2 id='non-returning-funct'>
 <title>Non-returning functions</title>
 <para>Consider a modified version of the program above, in which calls to f with an argument other than 1, 2 or 3 cause an error message to be printed:</para>
 
@@ -2115,7 +2119,7 @@ int f ( int n )
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='discard-analysis'>
 <title>Discard Analysis</title>
 
 <para>A couple of examples of what might be termed "discard analysis" have already been described - discarded (unused) local variables and discarded (unused) assignments to local variables (see section 5.6.4 and 5.6.5). The checker can perform three more types of discard analysis: discarded function returns, discarded computations and unused static variables and procedures. These three tests may be controlled as a group using:</para>
@@ -2138,7 +2142,7 @@ int f ( int n )
 
 <para>Detailed descriptions of the individual checks follow in sections 5.8.1 - 5.8.3. Section 5.9 describes the facilities for fine-tuning the discard analysis.</para>
 
-<sect2>
+<sect2 id='dicard-funct'>
 <title>Discarded function returns</title>
 
 <para>Functions which return a value which is not used form the commonest instances of discarded values. For example, in:</para>
@@ -2155,7 +2159,7 @@ int main ()
 <para>the function, puts, returns an int value, indicating whether an error has occurred, which is ignored.</para>
 
 </sect2>
-<sect2>
+<sect2 id='discard-computed'>
 <title>Discarded computed values</title>
 
 <para>A rarer instance of a discarded object, and one which is almost always an error, is where a value is computed but not used. For example, in:</para>
@@ -2173,7 +2177,7 @@ int f ( int n ) {
 <para>the value r == 5 is computed but not used. This is actually because it is a misprint for r = 5.</para>
 
 </sect2>
-<sect2>
+<sect2 id='unused-static-var'>
 <title>Unused static variables and procedures</title>
 
 <para>The final example of discarded values, which perhaps more properly belongs with the variable analysis tests mentioned above, is for static objects which are unused in the source module in which they are defined. Of course this means that they are unused in the entire program. Such objects can usually be removed.</para>
@@ -2181,12 +2185,12 @@ int f ( int n ) {
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='overrid-discard'>
 <title>Overriding the discard analysis</title>
 
 <para>As with the variable analysis, certain constructs may be used to provide the checker with extra information about a program, to convey the programmer's intentions more clearly.</para>
 
-<sect2>
+<sect2 id='dicard-funct-compute'>
 <title>Discarding function returns and computed values</title>
 
 <para>Unwanted function returns and, more rarely, discarded computed values, may be actively ignored to indicate to the discard analysis that the value is being discarded deliberately. This can be done using the traditional method of casting the value to void:</para>
@@ -2218,7 +2222,7 @@ IGNORE puts ( "hello" );
 </programlisting>
 
 </sect2>
-<sect2>
+<sect2 id='preserving-unised'>
 <title>Preserving unused statics</title>
 
 <para>Occasionally unused static values are introduced deliberately into programs. The fact that the static variables or procedures x, y and z are deliberately unused may be indicated by introducing the pragma:</para>
@@ -2234,13 +2238,13 @@ IGNORE puts ( "hello" );
 </chapter>
 
 
-<chapter>
+<chapter id='preprocessing-checks'>
 <title>Preprocessing checks</title>
 
 <para>This chapter describes tchk's capabilities for checking the preprocessing constructs that arise in C.</para>
 
 
-<sect1>
+<sect1 id='preprocessor-directives'>
 <title>Preprocessor directives</title>
 
 <para>By default, the TenDRA C checker understands those preprocessor directives specified by the ISO C standard, section 6.8, i.e. #if, #ifdef, #ifndef, #elif, #else, #endif, #error, #line and #pragma. As has been mentioned, #pragma statements play a significant role in the checker. While any recognised #pragma statements are processed, all unknown pragma statements are ignored by default. The check to detect unknown pragma statements is controlled by:</para>
@@ -2280,7 +2284,7 @@ IGNORE puts ( "hello" );
 <para><literal>Disallow</literal> and <literal>warning</literal> variants are also available.</para>
 
 </sect1>
-<sect1>
+<sect1 id='indented-preprocessing'>
 <title>Indented Preprocessing Directives</title>
 
 <para>The ISO C standard allows white space to occur before the # in a preprocessing directive, and between the # and the directive name. Many older preprocessors have problems with such directives. The checker's treatment of such directives can be set using:</para>
@@ -2299,7 +2303,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='multiple-macro'>
 <title>Multiple macro definitions</title>
 
 
@@ -2328,7 +2332,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='macro-arguments'>
 <title>Macro arguments</title>
 
 <para>According to the ISO C standard, section -XREF-6.8.3, if a macro argument contains a sequence of preprocessing tokens that would otherwise act as a preprocessing directive, the behaviour is undefined. Tchk allows preprocessing directives in macro arguments by default. The check to detect such macro arguments is controlled by:</para>
@@ -2349,7 +2353,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='unmatched-quotes'>
 <title>Unmatched quotes</title>
 
 <para>The ISO C standard, section -XREF-6.1, states that if a ` or " character matches the category of preprocessing tokens described as "single non-whitespace-characters that do not lexically match the other preprocessing token categories", then the behaviour is undefined. For example:</para>
@@ -2368,7 +2372,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='include-depth'>
 <title>Include depth</title>
 
 <para>Most preprocessors set a maximum depth for #include directives (which may be limited by the maximum number of files which can be open on the host system). By default, the checker supports a depth equal to this maximum number. However, a smaller maximum depth can be set using:</para>
@@ -2382,7 +2386,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='text-after-endif'>
 <title>Text after #endif</title>
 
 <para>The ISO C standard, section 6.8, specifies that #endif and #else preprocessor directives do not take any arguments, but should be followed by a newline. In the default checking mode, tchk raises an error when #endif or #else statements are not directly followed by a new line. This behaviour may be modified using:</para>
@@ -2395,7 +2399,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='text-after'>
 <title>Text after #</title>
 
 <para>The ISO C standard specifies that a # occuring outside of a macro replacement list must be followed by a new line or by a preprocessing directive and this is enforced by the checker in default mode . The check is controlled by:</para>
@@ -2408,7 +2412,7 @@ IGNORE puts ( "hello" );
 
 </sect1>
 
-<sect1>
+<sect1 id='new-line-end'>
 <title>New line at end of file</title>
 
 <para>The ISO C standard, section 5.1.1.2, states that source files must end with new lines. Files which do not end in new lines are flagged as errors by the checker in default mode. The behaviour can be modified using:</para>
@@ -2423,13 +2427,13 @@ IGNORE puts ( "hello" );
 
 </chapter>
 
-<chapter>
+<chapter id='dialect-features'>
 <title>Dialect Features</title>
 
 <para>This chapter describes the capabilities of the TenDRA C checker for enforcing the ISO C standard as well as features for detecting areas left undefined by the standard. It also lists the non-ISO dialect features supported by the checker in order to provide compatibility with older versions of C and allow the use of third-party source which may contain non-standard constructs.</para>
 
 
-<sect1>
+<sect1 id='resolving-linkage'>
 <title>Resolving linkage problems</title>
 
 <para>Often the way that identifier names are resolved can alter the semantics of a program. For example, in:</para>
@@ -2503,7 +2507,7 @@ static int g ()
 
 </sect1>
 
-<sect1>
+<sect1 id='identifier-linkage'>
 <title>Identifier linkage</title>
 
 <para>The ISO C standard, section 6.1.2.2, states that "if, within a translation unit, an identifier appears with both internal and external linkage, the behaviour is undefined". By default, the checker silently declares the variable with external linkage. The check to detect variables which are redeclared with incompatible linkage is controlled using:</para>
@@ -2515,7 +2519,7 @@ static int g ()
 
 </sect1>
 
-<sect1>
+<sect1 id='implicit-int'>
 <title>Implicit integer types</title>
 
 <para>Older C dialects allow external variables to be specified without a type, the type int being inferred. Thus, for example:</para>
@@ -2557,7 +2561,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='bitfield-types'>
 <title>Bitfield types</title>
 
 <para>The ISO C standard only allows signed int, unsigned int and their equivalent types as type specifiers in bitfields. Using the default checking profile, tchk raises errors for other integral types used as type specifiers in bitfields.This behaviour may be modified using the pragma:</para>
@@ -2579,7 +2583,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='extra-type-def'>
 <title>Extra type definitions</title>
 
 <para>In accordence with the ISO C standard, in default mode tchk does not allow a type to be defined more than once using a typedef. The pragma:</para>
@@ -2592,7 +2596,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='static-block-level'>
 <title>Static block level functions</title>
 
 <para>The ISO C standard (Section 6.5.1) states that the declaration of an identifier for a function that has block scope shall have no explicit storage-class specifier other than extern. By default, tchk raises an error for declarations which do not conform to this rule. The behaviour can be modified using:</para>
@@ -2605,7 +2609,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='incomplete-array'>
 <title>Incomplete array element types</title>
 
 <para>The ISO C standard (Section 6.1.2.5) states that an incomplete type e.g an undefined structure or union type, is not an object type and that array elements must be of object type. The default behaviour of the checker causes errors when incomplete types are used to specify array element types. The pragma:</para>
@@ -2618,7 +2622,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='forward-enumeration'>
 <title>Forward enumeration declarations</title>
 
 <para>The ISO C Standard (Section 6.5.2.3) states that the first introduction of an enumeration tag shall declare the constants associated with that tag. This rule is enforced by the checker in default mode, however it can be relaxed using the pragma:</para>
@@ -2631,7 +2635,7 @@ f ( int n ) {
 
 </sect1>
     
-<sect1>
+<sect1 id='untagged-compound'>
 <title>Untagged compound types</title>
 
 <para>The ISO C standard states that a declaration must declare at least a declarator, a tag or the members of an enumeration. The checker detects such declarations and, by default, raises an error. The severity of the errors can be altered by:</para>
@@ -2650,7 +2654,7 @@ struct {int i; int j;};
 
 </sect1>
     
-<sect1>
+<sect1 id='external-vol'>
 <title>External volatility</title>
 
 <para>The inclusion of the pragma:</para>
@@ -2663,7 +2667,7 @@ struct {int i; int j;};
 
 </sect1>
     
-<sect1>
+<sect1 id='identifier-name-length'>
 <title>Identifier name length</title>
 
 <para>Under the ISO C standard rules on identifier name length, an implementation is only required to treat the first 31 characters of an internal name and the first 6 characters of an external name as significant. The TenDRA C checker provides a facility for users to specify the maximum number of characters allowed in an identifier name, to prevent unexpected results when the application is moved to a new implementation. The limit is set using:</para>
@@ -2676,7 +2680,7 @@ struct {int i; int j;};
 
 </sect1>
     
-<sect1>
+<sect1 id='ellipsis-funct-calls'>
 <title>Ellipsis in function calls</title>
 
 <para>An ellipsis is not an identifier and should not be used in a function call, even if, as in the program below, the function prototype contains an ellipsis:</para>
@@ -2701,7 +2705,7 @@ int main() {
 
 </sect1>
     
-<sect1>
+<sect1 id='conditional-lvalues'>
 <title>Conditional lvalues</title>
 
 <para>The ? operator cannot normally be used to define an lvalue, so that for example, the program:</para>
@@ -2731,7 +2735,7 @@ void f (int n,struct s *s1,struct s *s2) {
 
 </sect1>
     
-<sect1>
+<sect1 id='unifying-tag-name-space'>
 <title>Unifying the tag name space</title>
 
 <para>Each object in the tag name space is associated with a classification (struct, union or enum) of the type to which it refers. If such a tag is used, it must be preceded by the correct classification, otherwise the checker produces an error by default. However, the pragma:</para>
@@ -2744,7 +2748,7 @@ void f (int n,struct s *s1,struct s *s2) {
 
 </sect1>
     
-<sect1>
+<sect1 id='init-compound-types'>
 <title>Initialisation of compound types</title>
 
 <para>Many older C dialects do not allow the initialisation of automatic variables of compound type. Thus, for example:</para>
@@ -2768,7 +2772,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='var-init'>
 <title>Variable initialisation</title>
 
 <para>The ISO C standard (Section 6.5.7) states that all expressions in an initialiser for an object that has static storage duration or in an initialiser-list for an object that has aggregate or union type shall be constant expressions. The pragma:</para>
@@ -2781,7 +2785,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='escape-seq'>
 <title>Escape sequences</title>
 
 <para>The ISO C standard specifies a small set of escape sequences in strings, for example \n as newline. Unknown escape sequences lead to an error in the default mode , however the severity of the error may be altered using:</para>
@@ -2794,7 +2798,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='identifier-names'>
 <title>$ in identifier names</title>
 
 <para>The ISO C standard (Section 6.1) states that the use of the character $ in identifier names is illegal. The pragma:</para>
@@ -2808,7 +2812,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='writable-string-lit'>
 <title>Writeable string literals</title>
 
 <para>The ISO C standard, section 6.1.4, states that "if the program attempts to modify a string literal of either form, the behaviour is undefined". Assignments to string literals of the form:</para>
@@ -2833,7 +2837,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='concat-char'>
 <title>Concatenation of character string literals and wide character string literals</title>
 
 <para>The ISO C standard, section 6.1.4, states that if a character string literal is adjacent to a wide character string literal, the behaviour is undefined. By default, this is flagged as an error by the checker. If the pragma:</para>
@@ -2846,7 +2850,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='nested-comments'>
 <title>Nested comments</title>
 
 <para>The occurence of the `/*' characters inside a C comment, i.e. text surrounded by the `/*' and `*/' symbols, is usually a mistake and can lead to the termination of a comment unexpectedly. By default such nested comments are processed silently, however an error or warning can be produced by setting:</para>
@@ -2860,7 +2864,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='empty-src'>
 <title>Empty source files</title>
 
 <para>The ISO standard states that each source file should contain at least one declaration or definition. Source files which contain no external declarations or definitions are flagged as errors by the checker in default mode. The severity of the error may be altered using:</para>
@@ -2873,7 +2877,7 @@ void f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='extra-commas'>
 <title>Extra commas</title>
 
 <para>The ISO C standard does not allow extra commas in enumeration type declarations e.g.</para>
@@ -2892,7 +2896,7 @@ enum e = {red, orange, yellow,};
 
 </sect1>
     
-<sect1>
+<sect1 id='extra-semicolons'>
 <title>Extra semicolons</title>
 
 <para>Some dialects of C allow extra semicolons at the external declaration and definition level in contravention of the ISO C standard. For example, the program:</para>
@@ -2913,7 +2917,7 @@ int f () {
 
 </sect1>
     
-<sect1>
+<sect1 id='compat-with-cpp'>
 <title>Compatibility with C++ to TDF producer</title>
 
 <para>In the interests of compatibility between the C checker and the new C++ checker, all pragmas beginning:</para>
@@ -2927,12 +2931,12 @@ int f () {
 </sect1>
 </chapter>
 
-<chapter>
+<chapter id='common-errors'>
 <title>Common Errors</title>
 
 <para>Tchk is capable of performing a number of checks for common programming mistakes. This chapter describes these checks and controlling pragmas.</para>
 
-<sect1>
+<sect1 id='enum-cont-switch-state'>
 
 <title>Enumerations controlling switch statements</title>
 
@@ -2946,7 +2950,7 @@ int f () {
 
 </sect1>
 
-<sect1>
+<sect1 id='incomplete-struct'>
 <title>Incomplete structures and unions</title>
 
 <para>ISO C allows for structures or unions to be declared but not defined, provided they are not used in a context where it is necessary to know the complete structure. For example:</para>
@@ -2980,7 +2984,7 @@ struct tag {
 
 </sect1>
 
-<sect1>
+<sect1 id='variable-shadowing'>
 <title>Variable shadowing</title>
 
 <para>It is quite legal in C to have a variable in an inner scope, with the same name as a variable in an outer scope. These variables are distinct and whilst in the inner scope, the declaration in the outer scope is not visible - it is "shadowed" by the local variable of the same name. Confusion can arise if this was not what the programmer intended. The checker can therefore be configured to detect shadowing in three cases: a local variable shadowing a global variable; a local variable shadowing a local variable with a wider scope and a local variable shadowing a typedef name, by using:</parA>
@@ -2993,7 +2997,7 @@ struct tag {
 
 </sect1>
 
-<sect1>
+<sect1 id='floating-point-equal'>
 <title>Floating point equality</title>
 
 <para>Due to the rounding errors that occur in the handling of floating point values, comparison for equality between two floating point values is a hazardous and unpredictable operation. Tests for equality of two floating point numbers are controlled by:</para>
@@ -3007,7 +3011,7 @@ struct tag {
 </sect1>
 </chapter>
 
-<chapter>
+<chapter id='symbol-table-dump'>
 <title>Symbol Table Dump</title>
 
 <para>Tchk produces an extra output file, called a dump output file, for each translation unit processed. This file is in the form given by the symbol table output specification in Annex E, and contains information about the objects declared, defined or used within an application. Each object encountered during processing is assigned a unique reference number allowing uses of the object to be traced back to the declaration and definition of the object.</para>
@@ -3046,14 +3050,14 @@ struct tag {
 
 <para>The dump information is currently used for four main purposes: detecting included header files from which nothing is used within the translation unit; production of lint-like error output; API usage analysis and type checking between translation units.</para>
 
-<sect1>
+<sect1 id='unused-headers'>
 <title>Unused headers</title>
 
 <para>Header files which are included but from which nothing is used within the other source files comprising the translation unit, might just as well not have been included. Tchk can detect top level include files which are unnecessary, by analysing the dump output for the file. This check is enabled by passing the <literal>-Wd,-H</literal> command line flag to tchk. Errors are written to stderr in a simple ascii form by default, or to the unified dump file in dump format if the <literal>-D</literal> command line option is used.</para>
 
 </sect1>
 
-<sect1>
+<sect1 id='error-processing'>
 <title>Error processing</title>
 
 <para>By default the error messages generated by the checker are written in a simple ascii form to stderr. If instead, the errors are written to the dump file using the <literal>-sym:e</literal> option mentioned above, an alternative lint-like error output may be generated by processing the dump files. The lint-like errors are enabled by passing the <literal>-Ycompact</literal> flag to tchk.</para>
@@ -3061,7 +3065,7 @@ struct tag {
 
 </sect1>
 
-<sect1>
+<sect1 id='api-usage-anal'>
 <title>API usage analysis</title>
 
 <para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.<para>
@@ -3069,7 +3073,7 @@ struct tag {
 
 </sect1>
 
-<sect1>
+<sect1 id='intermodular-checks'>
 <title>Intermodular checks</title>
 
 <para>All the checks discussed in earlier chapters have been concerned with a single source file. However, tchk also contains a linking phase in which it is able to perform intermodular checks (i.e. checks between source files). In the linking phase, the dumps file generated from each translation unit processed are combined into a single dump file containing information on all external objects within the application, and type consistency checks are applied to ensure that the definitions and declarations of each object are consistent and external objects and functions have at most one definition.</para>
@@ -3111,7 +3115,7 @@ void f WEAK ( int ) ;
 </chapter>
 
 
-<chapter>
+<chapter id='conditional-compilations'>
 <title>Conditional Compilation</title>
 
 <para>Tchk generally treats conditional compilation in the same way as other compilers and checkers. For example, consider:</para>
@@ -3151,10 +3155,10 @@ return ( 0 );
 
 </chapter>
 
-<appendix>
+<appendix id='compilation-modes'>
 <title>Compilation Modes</title>
 
-<sect1>
+<sect1 id='base-modes'>
 <title>Base modes</title>
 
 <para>The Xs, Xp, Xw, Xc, Xa and Xt modes are mutually incompatible and should not be used together. All other built-in mode combinations are allowed and, of course, any built-in mode can be combined with user-defined modes as described in section -XREF-2.2.</para>
@@ -3162,7 +3166,7 @@ return ( 0 );
 <para>Checks marked with E are enabled to produce an error and checks marked with W are enabled to produce a warning. A blank entry implies that the check is disabled.</para>
 
 
-<table frame=all>
+<table frame=all id='t-base-modes'>
 <title>Base Modes</title>
 <tgroup cols=7>
 <thead>
@@ -3528,7 +3532,7 @@ return ( 0 );
 
 </sect1>
 
-<sect1>
+<sect1 id='nepc-not-ansi'>
 
 <title>nepc and not_ansi modes</title>
 
@@ -3592,10 +3596,10 @@ return ( 0 );
 
 </appendix>
 
-<appendix>
+<appendix id='command-line-opts-port'>
 <title>Command Line Options for Portability Checking</title>
 
-<table frame=all>
+<table frame=all id='t-base-modes-b'>
 <title>Base Modes</title>
 <tgroup cols=3>
 <thead>
@@ -3714,10 +3718,10 @@ return ( 0 );
 
 </appendix>
 
-<appendix>
+<appendix id='integral-type-spec'>
 <title>Integral Type Specification</title>
 
-<sect1>
+<sect1 id='spec-int-lit-types'>
 <title>Specifying integer literal types</title>
 
 <para>The integer literal pragmas are used to define the method of computing the type of an integer literal. Integer literals cannot be used in a program unless the class to which they belong has been described using an integer literal pragma. Each built-in checking mode includes some integer literal pragmas describing the semantics appropriate for that mode. If these built-in modes are inappropriate, then the user must describe the semantics using the pragma below:</para>
@@ -3800,7 +3804,7 @@ return ( 0 );
 
 </sect1>
 
-<sect1>
+<sect1 id='port-table'>
 <title>The Portability Table</title>
 
 <para>The portability table is used by the checker to describe the minimum assumptions about the representation of the integral types. It contains information on the minimum integer sizes and the minimum range of values that can be represented by each integer type.</para>
@@ -3808,7 +3812,7 @@ return ( 0 );
 <para>Two built-in portability tables are provided. The default reflects the minimal requirements laid down in the ISO C standard. The 32-bit portability table (specified by the passing the -Y32bit option to tchk) reflects the implementation on most modern 32 bit machines. These tables are shown below.</para>
 
 
-<table frame=all>
+<table frame=all id='iso-ansi-min-req'>
 <title>ISO/ANSI Minimum Requirements Portability Table (default)</title>
 <tgroup cols=2>
 <thead>
@@ -3875,7 +3879,7 @@ return ( 0 );
 </table>
 
 
-<table frame=all>
+<table frame=all id='port-tbl-opt'>
 <title>32 bit Portability table (specified by -Y32bit option)</title>
 <tgroup cols=2>
 <thead>
@@ -3963,7 +3967,7 @@ return ( 0 );
 </appendix>
 
 
-<appendix>
+<appendix id='sum-pragma-statements'>
 <title>Summary of the pragma statements</title>
 
 <orderedlist>
@@ -4343,10 +4347,10 @@ integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_l
 </appendix>
 
 
-<appendix>
+<appendix id='dump-format-spec'>
 <title>Dump format specification</title>
 
-<sect1>
+<sect1 id='basics'>
 <title>Basics</title>
 
 <para>digit :</para>
@@ -4389,7 +4393,7 @@ one of 0 1 2 3 4 5 6 7 8 9
 
 </sect1>
 
-<sect1>
+<sect1 id='dump-commands'>
 <title>Dump commands</title>
 
 
@@ -4421,7 +4425,7 @@ command-list :
 </sect1>
 
 
-<sect1>
+<sect1 id='api-info'>
 <title>API information</title>
 
 <para>api-info :</para>
@@ -4431,7 +4435,7 @@ command-list :
 </programlisting>
 </sect1>
 
-<sect1>
+<sect1 id='base-def'>
 <title>Base definitions</title>
 
 <para>virtual :</para>
@@ -4472,7 +4476,7 @@ command-list :
 </sect1>
 
 
-<sect1>
+<sect1 id='error-commands'>
 <title>Error commands</title>
 
 <para>error-command :</para>
@@ -4516,7 +4520,7 @@ command-list :
 </sect1>
 
 
-<sect1>
+<sect1 id='file-commands'>
 <title>File commands</title>
 
 <para>file-command :</para>
@@ -4539,7 +4543,7 @@ number
 </programlisting>
 </sect1>
 
-<sect1>
+<sect1 id='ident-commands'>
 <title>Identifier commands</title>
 
 <para>identifier-command :</para>
@@ -4623,7 +4627,7 @@ P   <emphasis>private</emphasis>
 
 </sect1>
 
-<sect1>
+<sect1 id='scope-commands'>
 <title>Scope commands</title>
 
 <para>scope-command :</para>
@@ -4654,7 +4658,7 @@ identifier
 </sect1>
 
 
-<sect1>
+<sect1 id='string-command'>
 <title>String command</title>
 
 <para>string-command :</para>
@@ -4667,7 +4671,7 @@ AL location string  <emphasis>wide string literal</emphasis>
 </sect1>
 
 
-<sect1>
+<sect1 id='templates'>
 <Title>Templates</title>
 
 <para>specialisation-info :</para>
@@ -4683,7 +4687,7 @@ identifier-key identifier token-application specialisation-info
 </sect1>
 
 
-<sect1>
+<sect1 id='token-sort-info'>
 <title>Token sort information</title>
 
 <para>sort :</para>
@@ -4752,7 +4756,7 @@ T identifier , token-argument-list :
 </programlisting>
 </sect1>
 
-<sect1>
+<sect1 id='type-info'>
 <title>Type information</title>
 
 <para>type-info :</para>
@@ -4857,10 +4861,10 @@ token-application
 </sect1>
 </appendix>
 
-<appendix>
+<appendix id='token-syntax-a'>
 <title>The Token Syntax</title>
 
-<sect1>
+<sect1 id='intro-c'>
 <title>Introduction</title>
 
 <para>The token syntax is used to introduce references to program constructs such as types, expressions etc. that can be defined in other compilation modules. This can be thought of as a generalisation of function prototyping which is used to introduce references to functions defined elsewhere. The references introduced by the token syntax are called tokens because they are tokens for the program constructs that they reference. The token syntax is said to specify a token interface.</para>
@@ -4886,7 +4890,7 @@ fprintf(stderr,&quot;hello world\n&quot;);
 
 </sect1>
 
-<sect1>
+<sect1 id='program-construction'>
 <title>Program construction using TDF</title>
 
 <para>Traditional program construction using the C language has two phases: compilation and linking.</para>
@@ -4916,7 +4920,7 @@ fprintf(stderr,&quot;hello world\n&quot;);
 
 </sect1>
 
-<sect1>
+<sect1 id='token-syntax-b'>
 <title>The token syntax</title>
 
 <para>The token syntax is an extension to the ISO C standard language to allow the use of tokens to represent program constructs. Tokens can be used either in place of, or as well as, the definitions required by a program. In the latter case, the tokens exist merely to enforce correct definitions and usage of the objects they reference. However it should be noted that the presence of a token introduction can alter the semantics of a program (examples are given in -XREF-#3F.5 Expression tokens). The semantics have been altered to force programs to respect token interfaces where they would otherwise fail to do so.</para>
@@ -4935,7 +4939,7 @@ fprintf(stderr,&quot;hello world\n&quot;);
 
 </sect1>
 
-<sect1>
+<sect1 id='token-ident'>
 <title>Token identification</title>
 
 <para>The syntax for the token-identification is as follows:</para>
@@ -4980,7 +4984,7 @@ TAG
 
 </sect1>
 
-<sect1>
+<sect1 id='expression-tokens'>
 <title>Expression tokens</title>
 
 <para>There are various properties associated with expression tokens which are used to determine the operations that may be performed upon them.</para>
@@ -5133,7 +5137,7 @@ extern int _x;
 
 </sect1>
 
-<sect1>
+<sect1 id='statement-tokens'>
 <title>Statement tokens</title>
 
 <para>The syntax for introducing a statement token is simply:</para>
@@ -5170,7 +5174,7 @@ int f(int x) { init_globs return g(x);}
 
 </sect1>
 
-<sect1>
+<sect1 id='type-tokens'>
 <title>Type tokens</title>
 
 <para>Type tokens are used to introduce references to types. The ISO C standard, section 6.1.2.5, identifies the following classification of types:</para>
@@ -5247,7 +5251,7 @@ type-token:
 	UNION
 </programlisting>
 
-<sect2>
+<sect2 id='general-type-tok'>
 <title>General type tokens</title>
 
 <para>The most general type token introduction is TYPE. This introduces a type of unknown classification which can be defined to be any C type. Only a few generic operations can be applied to such type tokens, since the semantics must be defined for all possible substituted types. Assignment and function argument passing are effectively generic operations, apart from the treatment of array types. For example, according to the ISO C standard, even assignment is not permitted if the left operand has array type and we might therefore expect assignment of general token types to be illegal. Tokens introduced using the TYPE token introduction can thus be regarded as representing non-array types with extensions to represent array types provided by applying non-array semantics as described below.</para>
@@ -5271,7 +5275,7 @@ typedef t_t arr_type[n];/*introduces array type */
 
 </sect2>
 
-<sect2>
+<sect2 id='integral-type-tok'>
 <title>Integral type tokens</title>
 
 <para>The token introduction VARIETY is used to introduce a token representing an integral type. A token introduced in this way can only be defined as an integral type and can be used wherever an integral type is valid.</para>
@@ -5300,14 +5304,14 @@ short g(void) {
 
 </sect2>
 
-<sect2>
+<sect2 id='arithmetic-type-tok'>
 <title>Arithmetic type tokens</title>
 
 <para>The token introduction ARITHMETIC introduces an arithmetic type token. In theory, such tokens can be defined by any arithmetic type, but the current implementation of the compiler only permits them to be defined by integral types. These type tokens are thus exactly equivalent to the integral type tokens introduced using the token introduction VARIETY.</para>
 
 </sect2>
 
-<sect2>
+<sect2 id='compound-type-tok'>
 <title>Compound type tokens</title>
 
 <para>For the purposes of this document, a compound type is a type describing objects which have components that are accessible via member selectors. All structure and union types are thus compound types, but, unlike structure and union types in C, compound types do not necessarily have an ordering on their member selectors. In particular, this means that some objects of compound type cannot be initialised with an <emphasis>initialiser-list</emphasis> (see ISO C standard section 6.5.7).</para>
@@ -5334,7 +5338,7 @@ void f() {
 
 </sect2>
 
-<sect2>
+<sect2 id='type-token-compat'>
 <title>Type token compatibility, definitions etc.</title>
 
 <para>A type represented by an undefined type token is incompatible (ISO C standard section 6.1.3.6) with all other types except for itself. A type represented by a defined type token is compatible with everything that is compatible with its definition.</para>
@@ -5380,7 +5384,7 @@ typedef int arr[4*sizeof(int)];
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='selector-tok'>
 <title>Selector tokens</title>
 
 <para>The use of selector tokens is the primary method of adding member selectors to compound type tokens. (The only other method is to define the compound type token to be a particular structure or union type.) The introduction of new selector tokens can occur at any point in a program and they can thus be used to add new member selectors to existing compound types.</para>
@@ -5481,7 +5485,7 @@ typedef struct {int x; struct {char y; int z;} s; } s_t;
 
 </sect1>
 
-<sect1>
+<sect1 id='procedure-tok'>
 <title>Procedure tokens</title>
 
 <para>Consider the macro SWAP defined below:</para>
@@ -5501,7 +5505,7 @@ typedef struct {int x; struct {char y; int z;} s; } s_t;
 
 <para>There are three methods of introducing procedure tokens. These are described in the sections below.</para>
 
-<sect2>
+<sect2 id='general-prod-tok'>
 <title>General procedure tokens</title>
 
 <para>The syntax for introducing a general procedure token is:</para>
@@ -5577,7 +5581,7 @@ char f(char **c_ptr_ptr){
 <para>Currently PROC tokens cannot be passed as program parameters.</para>
 
 </sect2>
-<sect2>
+<sect2 id='simple-prod-tok'>
 <title>Simple procedure tokens</title>
 
 <para>In cases where there is a direct, one-to-one correspondence between the bound token dependencies and the program parameters a simpler form of procedure token introduction is available.</para>
@@ -5595,7 +5599,7 @@ char f(char **c_ptr_ptr){
 <para>The <emphasis>simple-token</emphasis> syntax is similar to the <emphasis>bound-token</emphasis> syntax, but it also introduces a program parameter for each bound token. The bound token introduced by the <emphasis>simple-token</emphasis> syntax is defined as though it had been introduced with the <emphasis>bound-token</emphasis> syntax. If the final identifier is omitted, then no name space can be specified, the bound token is not identified and in effect there is a local hidden identifier.</para>
 
 </sect2>
-<sect2>
+<sect2 id='funct-prod-tok'>
 <title>Function procedure tokens</title>
 
 <para>One of the commonest uses of simple procedure tokens is to represent function in-lining. In this case, the procedure token represents the in-lining of the function, with the function parameters being the program arguments of the procedure token call, and the program construct resulting from the call of the procedure token being the corresponding in-lining of the function. This is a direct parallel to the use of macros to represent functions.</para>
@@ -5628,7 +5632,7 @@ EXP rvalue:
 <para>will remove the procedure token but not the underlying function.</para>
 
 </sect2>
-<sect2>
+<sect2 id='defining-prod'>
 <title>Defining procedure tokens</title>
 
 <para>All procedure tokens are defined by the same mechanism. Since simple and function procedure tokens can be transformed into general procedure tokens, the definition will be explained in terms of general procedure tokens.</para>
@@ -5680,7 +5684,7 @@ void f(int x, int y) {
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id='tokens-apis'>
 <title>Tokens and APIs</title>
 
 <para>In -XREF-Chapter 1 we mentioned that one of the main problems in writing portable software is the lack of separation between specification and implementation of APIs. The TenDRA technology uses the token syntax described in the previous sections to provide an abstract description of an API specification. Collections of tokens representing APIs are called &quot;interfaces&quot;. Tchk can compile programs with these interfaces in order to check applications against API specifications independently of any particular implementation that may be present on the developer's machine.</para>
@@ -5777,10 +5781,10 @@ dot-list:
 </sect1>
 </appendix>
 
-<appendix>
+<appendix id='api-checking'>
 <title>API checking</title>
 
-<sect1>
+<sect1 id='intro-d'>
 <title>Introduction</title>
 
 <para>The token syntax described in the previous annex provides the means of describing an API specification independently of any particular implementation of the API. Every object in the API specification is described using the appropriate #pragma token statement. These statements are arranged in TenDRA header files corresponding to the headers comprising the API. Each API consists of a separate set of header files. For example, if the ANSI API is used, the statement:</para>
@@ -5795,7 +5799,7 @@ dot-list:
 
 </sect1>
 
-<sect1>
+<sect1 id='specifying-apis'>
 <title>Specifying APIs to tcc</title>
 
 <para>The API against which a program is to be checked is specified to tchk by means of a command-line option of the form -Yapi where api is the API name. For example, ANSI X3.159 is specified by -Yansi (this is the default API) and POSIX 1003.1 is specified by -Yposix (for a full list of the supported APIs see -XREF-Chapter 2).</para>
@@ -5813,7 +5817,7 @@ tcc: Information: API is X11 Release 5 Xlib plus POSIX (1003.1).
 </programlisting>
 
 </sect1>
-<sect1>
+<sect1 id='api-check-examples'>
 <title>API Checking Examples</title>
 
 <para>As an example of the TenDRA compiler's API checking capacities, consider the following program which prints the names and inode numbers of all the files in the current directory:</para>
@@ -5889,7 +5893,7 @@ int main ()
 
 </sect1>
 
-<sect1>
+<sect1 id='redclaring-obj-apis'>
 <title>Redeclaring Objects in APIs</title>
 
 <para>Of course, it is possible to redeclare the functions declared in the TenDRA API descriptions within the program, provided they are consistent. However, what constitutes a consistent redeclaration in the fully abstract TenDRA machine is not as straightforward as it might seem; an interesting example is malloc in the ANSI API. This is defined by the prototype:</para>
@@ -5916,7 +5920,7 @@ void *malloc ();
 
 </sect1>
 
-<sect1>
+<sect1 id='def-obj-apis'>
 <title>Defining Objects in APIs</title>
 
 <para>Since the program API is meant to define the interface between what the program defines and what the target machine defines, the TenDRA compiler normally raises an error if any attempt is made to define an object from the API in the program itself. A subtle example of this is given by compiling the program:</para>
@@ -5991,7 +5995,7 @@ struct lconv {
 
 </sect1>
 
-<sect1>
+<sect1 id='step-outside-apis'>
 <title>Stepping Outside an API</title>
 
 <para>Using the TenDRA compiler to check a program against a standard API will only be effective if the appropriate API description is available to the program being tested (just as a program can only be compiled on a conventional machine if the program API is implemented on that machine). What can be done for a program whose API are not supported depends on the degree to which the program API differs from an existing TenDRA API description. If the program API is POSIX with a small extension, say, then it may be possible to express that extension to the TenDRA compiler. For large unsupported program APIs it may be possible to use the system headers on a particular machine to allow for partial program checking (see section -XREF-H.7).</para>
@@ -6024,7 +6028,7 @@ typedef struct {
 
 </sect1>
 
-<sect1>
+<sect1 id='using-sys-headers'>
 <title>Using the System Headers</title>
 
 <para>One possibility if a program API is not supported by the TenDRA compiler is to use the set of system headers on the particular machine on which tcc happens to be running. Of course, this means that the API checking facilities of the TenDRA compiler will not be effective, but it is possible that the other program checking aspects will be of use.</para>
@@ -6061,7 +6065,7 @@ typedef struct {
 <para>Even a separation, such as compiling some modules of a program using a TenDRA API description and others using the system headers, can lead to problems in the intermodular linking phase (see Chapter 9). There will almost certainly be type inconsistency errors since the TenDRA headers and the system headers will have different representations of the same object.</para>
 
 </sect1>
-<sect1>
+<sect1 id='abstract-api-headers'>
 <title>Abstract API headers and API usage analysis</title>
 
 <para>The abstract standard headers provided with the tool are the basis for the API usage analysis checking on dump files described in Chapter 9. The declarations in each abstract header file are enclosed by the following pragmas:</para>
@@ -6087,17 +6091,17 @@ SEH position    ref_no
 </sect1>
 </appendix>
 
-<appendix>
+<appendix id='spec-conv-tok-syntax'>
 <title>Specifying conversions using the token syntax</title>
 
-<sect1>
+<sect1 id='intro-a'>
 <title>Introduction</title>
 
 <para>The token syntax described in Annex F can be used to fine-tune the conversion analysis and integer range checks described in section 3.2.2 and chapter 4 respectively.</para>
 
 </sect1>
 
-<sect1>
+<sect1 id='user-def-conv'>
 <title>User-defined conversions</title>
 
 <para>In the example:</para>
@@ -6129,12 +6133,12 @@ void f(void){
 
 </sect1>
 
-<sect1>
+<sect1 id='specifying-int-pro'>
 <title>Specifying integer promotions</title>
 
 <para>Whenever an integral type is used, e.g. in a call to a traditionally defined function, its promotion must be computed. If no promotion type has been specified, the compiler will raise an error. Although programs will generally use the default rules provided in the built-in compilation modes, the TenDRA compiler also allows programmers to specify their own set of integer promotion rules. Such promotions can be split into two categories: literal promotions and computed promotions.</para>
 
-<sect2>
+<sect2 id='literal-prom'>
 <title>Literal promotions</title>
 
 <para>The promoted type is supplied directly using the pragma:</para>
@@ -6146,7 +6150,7 @@ void f(void){
 <para>The second type-name specifies the promoted type of the first type-name. Both types must be integral types.</para>
 
 </sect2>
-<sect2>
+<sect2 id='computed-prom'>
 <title>Computed promotions</title>
 
 <para>The pragma:</para>
@@ -6167,3 +6171,8 @@ void f(void){
 </sect1>
 </appendix>
 </book>
+
+
+
+
+
