@@ -282,6 +282,9 @@ msg_get(int n, va_list args)
 		msg_append_string(": ");
 	}
 
+	pp = NULL;
+	pcount = 0;
+	aid = 0;
 	/*
 	 * At first, move argument values from stack to array.
 	 */
