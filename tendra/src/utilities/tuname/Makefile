@@ -14,9 +14,6 @@ LIBS =
 
 .include "../../../mk/tendra.compiler.mk"
 
-REMOVE = rm -f
-MOVE = mv
-COPY = cp
 SHELL = /bin/sh
 
 # Dependencies and construction rules
