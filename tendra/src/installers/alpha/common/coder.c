@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -33,189 +60,7 @@
 #ifndef lint
 static char vcid[] = "$Id$";
 #endif /* lint */
-/*
-$Log$
-Revision 1.1  2002/01/26 21:31:14  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.2  1998/02/04  10:43:30  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.46  1997/09/05  12:22:14  john
- * Changed case behaviour
- *
- * Revision 1.45  1996/11/27  17:56:27  john
- * Changed case behaviour
- *
- * Revision 1.44  1996/03/18  17:00:17  john
- * Fix to rem operation
- *
- * Revision 1.43  1996/03/15  10:29:39  john
- * Fix to char & short ops
- *
- * Revision 1.42  1996/02/29  17:35:49  john
- * Fix to remainder op
- *
- * Revision 1.41  1996/02/19  09:25:05  john
- * change to register
- *
- * Revision 1.40  1996/02/15  09:49:16  john
- * Some changes to general proc handling
- *
- * Revision 1.39  1996/01/23  16:48:40  john
- * Fixed vararg handling for general procs
- *
- * Revision 1.38  1996/01/17  09:30:14  john
- * Various fixes
- *
- * Revision 1.37  1995/12/04  09:12:17  john
- * Fix to varparams & alloca
- *
- * Revision 1.36  1995/11/14  15:20:53  john
- * Fixes to general procs
- *
- * Revision 1.35  1995/11/13  12:10:15  john
- * Fixes to arithmetic
- *
- * Revision 1.34  1995/10/27  16:17:00  john
- * Change to general procs
- *
- * Revision 1.33  1995/10/27  12:07:40  john
- * Fix to same_callees
- *
- * Revision 1.32  1995/10/24  09:27:53  john
- * Fixes to large numbers
- *
- * Revision 1.31  1995/10/19  16:36:13  john
- * Fix to error treatments
- *
- * Revision 1.30  1995/10/18  09:28:40  john
- * Fix to round_tag
- *
- * Revision 1.29  1995/09/29  15:27:04  john
- * Some changes for vcallers
- *
- * Revision 1.28  1995/09/22  16:02:04  john
- * Minor fix
- *
- * Revision 1.27  1995/09/21  15:40:43  john
- * Various improvements to error handling
- *
- * Revision 1.26  1995/09/15  16:21:15  john
- * New exception handling
- *
- * Revision 1.25  1995/09/13  15:45:29  john
- * Cleared out some old code
- *
- * Revision 1.24  1995/09/13  08:22:10  john
- * Addition for exception handling
- *
- * Revision 1.23  1995/09/07  12:27:46  john
- * Changes to general procs
- *
- * Revision 1.22  1995/09/04  16:13:00  john
- * Fix to general procs
- *
- * Revision 1.21  1995/09/01  09:08:56  john
- * Fix to mult_tag
- *
- * Revision 1.20  1995/08/31  15:41:46  john
- * Added fmax_tag & fixed some limits bugs
- *
- * Revision 1.19  1995/08/30  16:13:14  john
- * Various fixes to error treatments
- *
- * Revision 1.18  1995/08/23  16:05:06  john
- * Corrected comment
- *
- * Revision 1.17  1995/08/21  13:37:28  john
- * Changed handling of caller_tag
- *
- * Revision 1.16  1995/08/21  10:44:11  john
- * Added trap_tag
- *
- * Revision 1.15  1995/08/21  08:43:28  john
- * Changed include files
- *
- * Revision 1.14  1995/08/04  15:49:40  john
- * Fixed parameters of tail call and added new error jumps
- *
- * Revision 1.13  1995/07/27  09:24:39  john
- * Changed general procs, repositioned $fp
- *
- * Revision 1.12  1995/07/04  09:07:43  john
- * Fixed tail call
- *
- * Revision 1.11  1995/06/30  07:58:34  john
- * Fixed bug in tail_call, callee parameters were being passed the wrong
- * way round.
- *
- * Revision 1.10  1995/06/28  10:19:37  john
- * Fix to shr_tag
- *
- * Revision 1.9  1995/06/21  14:24:51  john
- * Reformatting
- *
- * Revision 1.8  1995/06/15  09:43:44  john
- * Added code for stack error handling
- *
- * Revision 1.7  1995/06/15  08:34:41  john
- * Some reformatting and additions for new error treatment
- *
- * Revision 1.6  1995/05/25  15:33:02  john
- * Cosmetic changes
- *
- * Revision 1.5  1995/05/23  10:53:53  john
- * Reformatting + additions for spec 3.1
- *
- * Revision 1.4  1995/04/10  14:14:50  john
- * Added new division code.  Not fully tested in this version
- *
- * Revision 1.3  1995/03/29  14:01:08  john
- * Changes to keep tcheck happy
- *
- * Revision 1.2  1995/03/29  10:29:33  john
- * Added code to detect and handle IEEE denormals
- *
- * Revision 1.1.1.1  1995/03/23  10:39:03  john
- * Entered into CVS
- *
- * Revision 1.51  1995/03/23  10:00:47  john
- * Various changes for AVS test suite
- *
- * Revision 1.50  1995/03/16  09:43:41  john
- * Removed bitfield operations, fixed local_free_tag and changed
- * chvar_tag
- *
- * Revision 1.49  1995/03/09  14:08:55  john
- * Introduced code to use the scheduler, and fixed a bug in test_tag
- *
- * Revision 1.48  1995/02/09  17:17:29  john
- * Fix to rep_tag and local_free_tag
- *
- * Revision 1.47  1995/02/06  16:45:11  john
- * Fix to case_tag
- *
- * Revision 1.46  1995/01/26  13:30:54  john
- * Modified error jump handling, and did some reformating
- *
- * Revision 1.45  1995/01/23  09:18:45  john
- * First attempt at implementing error jumps
- *
- * Revision 1.44  1995/01/18  11:49:03  john
- * Fixed errors in abslike_tag and case_tag, and added overflow check to
- * div_tag
- *
- * Revision 1.43  1995/01/17  10:30:44  john
- * Changed implementation of absbool_tag
- *
- * Revision 1.42  1995/01/10  09:42:23  john
- * Minor reformating and removal of dead code.
- *
-*/
+/**/
 
 /* 
    coder.c
