@@ -154,8 +154,6 @@ enomem(size)
 /*
  * esetenv --
  *	change environment, die on error.
- * XXX: this needs to be wrapped for systems which do not support setenv(),
- * like HP-UX.
  */
 void
 esetenv(name, value)

@@ -30,7 +30,7 @@ OBJ_OHASH=	ohash/ohash_create_entry.o ohash/ohash_delete.o \
 		ohash/ohash_qlookup.o ohash/ohash_qlookupi.o
 
 # generate
-OBJ_GEN=	generate.o stats.o memory.o
+OBJ_GEN=	generate.o stats.o memory.o util.o
 
 # make
 # var.c, varmodifiers.c, varname.c require generate to compile
