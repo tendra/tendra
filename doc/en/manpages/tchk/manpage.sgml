@@ -1,0 +1,39 @@
+<refmeta>
+  <refentrytitle>tchk</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>tchk</refname>
+  <refpurpose>TenDRA static checker</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>tchk</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>files</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title> 
+
+  <para><command>tchk</command> is the stand-alone TenDRA Static Program
+    Checker. It is more fully documented in the <userinput>TCheck - The
+    TenDRA Static Checker</userinput>.</para>
+
+  <para><command>tchk</command> is equivalent to <emphasis>tcc</emphasis>
+    <option>-ch</option> except that it does not allow all the options
+    allowed by &man.tendra.tcc;. A complete list of the options allowed can
+    be printed using the <option>-query</option> option.</para>
+</refsect1>
+
+<refsect1 id='seealso'>
+  <title>SEE ALSO</title> 
+  <para>&man.tendra.tcc;.</para>
+</refsect1>
