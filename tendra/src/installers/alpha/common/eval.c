@@ -1030,9 +1030,9 @@ evaluated(exp e, int l)
       outass(outlab(lab));
 #endif	
 #if !DO_SCHEDULE
-      (void)fprintf (as_file, " %d\n", size);
+      (void)fprintf (as_file, ", %d\n", size);
 #else
-      sprintf(outline," %d\n",size);
+      sprintf(outline,", %d\n",size);
       outass(outline);
 #endif
     }
