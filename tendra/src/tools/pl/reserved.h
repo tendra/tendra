@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #define no_of_terminals 103
 
 /* note that the table is sorted into alphabetical order */

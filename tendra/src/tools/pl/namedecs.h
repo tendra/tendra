@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef NAMEDECS_INCLUDED
 #define NAMEDECS_INCLUDED
 

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #include "config.h"
 #include "fmm.h"
 #include "msgcat.h"

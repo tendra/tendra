@@ -55,11 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
-
 #include "config.h"
 #include "cstring.h"
 #include "defs.h"

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef ERRORS_INCLUDED
 #define ERRORS_INCLUDED
 

@@ -55,10 +55,6 @@
  */
 
 
-/**********************************************************************
- *$Author$
- *$Date$
- *$Revision$*/
 #ifndef UNITS_INCLUDED
 #define UNITS_INCLUDED
 
