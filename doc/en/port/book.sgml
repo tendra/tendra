@@ -3,6 +3,8 @@
 %bookinfo;
 <!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
 %doc
+<!ENTITY % trademarks PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN">
+%trademarks;
 ]>
 
 <book>
@@ -42,6 +44,10 @@
 
     &bookinfo.legalnotice-crown;
 
+    <legalnotice id="trademarks" role="trademarks">
+      &tm-attrib.mips;
+      &tm-attrib.opengroup;
+    </legalnotice>
   </bookinfo>
 
   <preface id='intro'>
@@ -989,14 +995,14 @@ int main ()
 }
 </programlisting>
 
-        <para>which prints a message if the target machine is a mips. What is
+        <para>which prints a message if the target machine is a &mips;. What is
           the API of this program? Basically it is the same as in the &quot;Hello
           world&quot; example discussed in sections 2.1.1 and 2.1.2, but if we
           wish the API to fully describe the interface between the program and
           the target machine, we must also say that whether or not the macro
           <literal>mips</literal> is defined is part of the API. Like the rest of
           the API, this has a semantic aspect as well as a syntactic - in this
-          case that <literal>mips</literal> is only defined on mips machines.
+          case that <literal>mips</literal> is only defined on &mips; machines.
           Where it differs is in its implementation. Whereas the main part of the
           API is implemented in the system headers and the system libraries, the
           implementation of either defining, or not defining,
@@ -1021,7 +1027,7 @@ int main ()
           partially the responsibility of the programmer and the person
           performing the compilation. The programmer specifies the user-defined
           component of the API, and the person compiling the program either
-          implements this API (as in the mips example above) or chooses between a
+          implements this API (as in the &mips; example above) or chooses between a
           number of alternative implementations provided by the programmer (as in
           the example below).</para>
 
@@ -2120,7 +2126,7 @@ EXP rvalue : t : va_arg # ansi.stdarg.va_arg
             current status (October 1993) is that ANSI (X3.159), POSIX (1003.1),
             XPG3 (X/Open Portability Guide 3) and SVID (System V Interface
             Definition, 3rd Edition) have been described and extensively tested.
-            POSIX2 (1003.2), XPG4, AES (Revision A), X11 (Release 5) and Motif
+            POSIX2 (1003.2), XPG4, AES (Revision A), X11 (Release 5) and &motif;
             (Version 1.1) have been described, but not yet extensively
             tested.</para>
 
@@ -2753,7 +2759,7 @@ tcc -Fj -not_ansi tokens.c
           compilation, what is actually intended is, is this macro defined at
           install time? This distinction is necessitated by the splitting of the
           TDF compilation into production and installation - it does not exist in
-          the traditional compilation scheme. For example, in the mips example in
+          the traditional compilation scheme. For example, in the &mips; example in
           section 2.3, whether or not <literal>mips</literal> is defined is
           intended to be an installer property, rather than what it is
           interpreted as, a producer property. The choice of the conditional
@@ -2931,5 +2937,3 @@ int main ()
 
 
 </book>
-
-
