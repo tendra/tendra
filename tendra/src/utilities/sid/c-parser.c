@@ -1,10 +1,10 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/sid/c-parser.sid
+ *	c-parser.sid
  * and
- *	/u/g/release/Source/src/utilities/sid/c-parser.act
+ *	c-parser.act
  * by:
- *	sid
+ *	./obj/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -75,30 +75,30 @@ TableP			c_current_table;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZR132 PROTO_S ((void));
-static void ZR139 PROTO_S ((void));
-static void ZR92 PROTO_S ((void));
-static void ZR119 PROTO_S ((void));
-static void ZR148 PROTO_S ((void));
-static void ZR107 PROTO_S ((void));
-static void ZR172 PROTO_S ((void));
-static void ZR146 PROTO_S ((void));
-static void ZR127 PROTO_S ((void));
-static void ZR82 PROTO_S ((void));
-static void ZR84 PROTO_S ((void));
-extern void c_parse_grammar PROTO_S ((void));
-static void ZR110 PROTO_S ((void));
-static void ZR112 PROTO_S ((void));
-static void ZR134 PROTO_S ((void));
-static void ZR101 PROTO_S ((void));
-static void ZR141 PROTO_S ((void));
-static void ZR90 PROTO_S ((void));
-static void ZR99 PROTO_S ((void));
-static void ZR117 PROTO_S ((void));
-static void ZR116 PROTO_S ((void));
-static void ZR125 PROTO_S ((void));
-static void ZR121 PROTO_S ((void));
-static void ZR124 PROTO_S ((void));
+static void ZR132 (void);
+static void ZR139 (void);
+static void ZR92 (void);
+static void ZR119 (void);
+static void ZR148 (void);
+static void ZR107 (void);
+static void ZR172 (void);
+static void ZR146 (void);
+static void ZR127 (void);
+static void ZR82 (void);
+static void ZR84 (void);
+extern void c_parse_grammar (void);
+static void ZR110 (void);
+static void ZR112 (void);
+static void ZR134 (void);
+static void ZR101 (void);
+static void ZR141 (void);
+static void ZR90 (void);
+static void ZR99 (void);
+static void ZR117 (void);
+static void ZR116 (void);
+static void ZR125 (void);
+static void ZR121 (void);
+static void ZR124 (void);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -107,7 +107,7 @@ static BoolT ZI0;
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZR132 PROTO_Z ()
+ZR132 (void)
 {
   ZL2_132:;
     switch (CURRENT_TERMINAL) {
@@ -137,7 +137,7 @@ ZR132 PROTO_Z ()
 }
 
 static void
-ZR139 PROTO_Z ()
+ZR139 (void)
 {
   ZL2_139:;
     switch (CURRENT_TERMINAL) {
@@ -167,7 +167,7 @@ ZR139 PROTO_Z ()
 }
 
 static void
-ZR92 PROTO_Z ()
+ZR92 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -308,7 +308,7 @@ ZR92 PROTO_Z ()
 }
 
 static void
-ZR119 PROTO_Z ()
+ZR119 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -472,7 +472,7 @@ ZR119 PROTO_Z ()
 }
 
 static void
-ZR148 PROTO_Z ()
+ZR148 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -700,7 +700,7 @@ ZR148 PROTO_Z ()
 }
 
 static void
-ZR107 PROTO_Z ()
+ZR107 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -758,7 +758,7 @@ ZR107 PROTO_Z ()
 }
 
 static void
-ZR172 PROTO_Z ()
+ZR172 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -785,7 +785,7 @@ ZR172 PROTO_Z ()
 }
 
 static void
-ZR146 PROTO_Z ()
+ZR146 (void)
 {
   ZL2_146:;
     switch (CURRENT_TERMINAL) {
@@ -815,7 +815,7 @@ ZR146 PROTO_Z ()
 }
 
 static void
-ZR127 PROTO_Z ()
+ZR127 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -979,7 +979,7 @@ ZR127 PROTO_Z ()
 }
 
 static void
-ZR82 PROTO_Z ()
+ZR82 (void)
 {
   ZL2_82:;
     switch (CURRENT_TERMINAL) {
@@ -1009,7 +1009,7 @@ ZR82 PROTO_Z ()
 }
 
 static void
-ZR84 PROTO_Z ()
+ZR84 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1150,7 +1150,7 @@ ZR84 PROTO_Z ()
 }
 
 void
-c_parse_grammar PROTO_Z ()
+c_parse_grammar (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1523,7 +1523,7 @@ c_parse_grammar PROTO_Z ()
 }
 
 static void
-ZR110 PROTO_Z ()
+ZR110 (void)
 {
     switch (CURRENT_TERMINAL) {
       case 9:
@@ -1547,7 +1547,7 @@ ZR110 PROTO_Z ()
 }
 
 static void
-ZR112 PROTO_Z ()
+ZR112 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1618,7 +1618,7 @@ ZR112 PROTO_Z ()
 }
 
 static void
-ZR134 PROTO_Z ()
+ZR134 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1781,7 +1781,7 @@ ZR134 PROTO_Z ()
 }
 
 static void
-ZR101 PROTO_Z ()
+ZR101 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1961,7 +1961,7 @@ ZR101 PROTO_Z ()
 }
 
 static void
-ZR141 PROTO_Z ()
+ZR141 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2126,7 +2126,7 @@ ZR141 PROTO_Z ()
 }
 
 static void
-ZR90 PROTO_Z ()
+ZR90 (void)
 {
   ZL2_90:;
     switch (CURRENT_TERMINAL) {
@@ -2156,7 +2156,7 @@ ZR90 PROTO_Z ()
 }
 
 static void
-ZR99 PROTO_Z ()
+ZR99 (void)
 {
     switch (CURRENT_TERMINAL) {
       case 11:
@@ -2198,7 +2198,7 @@ ZR99 PROTO_Z ()
 }
 
 static void
-ZR117 PROTO_Z ()
+ZR117 (void)
 {
   ZL2_117:;
     switch (CURRENT_TERMINAL) {
@@ -2228,7 +2228,7 @@ ZR117 PROTO_Z ()
 }
 
 static void
-ZR116 PROTO_Z ()
+ZR116 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2255,7 +2255,7 @@ ZR116 PROTO_Z ()
 }
 
 static void
-ZR125 PROTO_Z ()
+ZR125 (void)
 {
   ZL2_125:;
     switch (CURRENT_TERMINAL) {
@@ -2285,7 +2285,7 @@ ZR125 PROTO_Z ()
 }
 
 static void
-ZR121 PROTO_Z ()
+ZR121 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2312,7 +2312,7 @@ ZR121 PROTO_Z ()
 }
 
 static void
-ZR124 PROTO_Z ()
+ZR124 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;

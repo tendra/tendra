@@ -1,10 +1,10 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/sid/c-parser.sid
+ *	c-parser.sid
  * and
- *	/u/g/release/Source/src/utilities/sid/c-parser.act
+ *	c-parser.act
  * by:
- *	sid
+ *	./obj/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -43,7 +43,7 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void c_parse_grammar PROTO_S ((void));
+extern void c_parse_grammar (void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
