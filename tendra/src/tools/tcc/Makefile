@@ -3,7 +3,7 @@
 # Standard variables
 
 TCCOPTS=	-Yxpg4 -Xs
-CCOPTS=		${TCCOPTS} -I${SRC}
+CCOPTS=		${TCCOPTS} -I${.CURDIR}
 LIBS=
 
 # Dependencies and construction rules
