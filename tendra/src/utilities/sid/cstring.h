@@ -204,7 +204,7 @@ extern CStringP			cstring_find_basename(CStringP);
 #ifdef FS_FAST
 #define cstring_length(s)		((unsigned)strlen(s))
 #define cstring_equal(s1, s2)		(strcmp((s1), (s2)) == 0)
-#define cstring_contains(s, c)		(strchr((s), (c))!= NIL(CStringP))
+#define cstring_contains(s, c)		(strchr((s), (c)) != NIL(CStringP))
 #define cstring_find(s, c)		(strchr((s), (c)))
 #define cstring_find_reverse(s, c)	(strrchr((s), (c)))
 #endif /* defined (FS_FAST) */

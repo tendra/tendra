@@ -119,7 +119,7 @@ action_param(ActionP action)
     return(&(action->param));
 }
 #ifdef FS_FAST
-#define action_param(a)	(&((a) ->param))
+#define action_param(a)	(&((a)->param))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
@@ -131,7 +131,7 @@ action_result(ActionP action)
     return(&(action->result));
 }
 #ifdef FS_FAST
-#define action_result(a)	(&((a)->result))
+#define action_result(a)	(&((a) ->result))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
@@ -155,12 +155,12 @@ action_set_code(ActionP action, GenericP code)
     action->code = code;
 }
 #ifdef FS_FAST
-#define action_set_code(a, c)	((a) ->code = (c))
+#define action_set_code(a, c)	((a)->code = (c))
 #endif /* defined (FS_FAST) */
 
 void
 action_iter_for_table(ActionP action, BoolT full,
-		      void (*proc)KW_WEAK_PROTOTYPE(EntryP, GenericP),
+		      void(*proc)KW_WEAK_PROTOTYPE(EntryP, GenericP),
 		      GenericP closure)
 {
     if (full) {

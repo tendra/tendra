@@ -327,7 +327,6 @@ typedef struct ArgListT {
 
 extern void		arg_parse_intern_descriptions(ArgListP);
 extern int		arg_parse_arguments(ArgListP, EStringP, int, char **);
-
 extern void		write_arg_usage(OStreamP, ArgUsageP);
 
 /*--------------------------------------------------------------------------*/

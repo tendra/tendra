@@ -91,11 +91,7 @@ static SizeT dalloc_data_size = ALIGN (sizeof (DallocDataT));
 /*--------------------------------------------------------------------------*/
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length, file, line))
-		   PROTO_T (SizeT    size X
-			    SizeT    length X
-			    CStringP file X
-			    unsigned line)
+X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 {
     GenericP tmp;
 
@@ -125,10 +121,7 @@ X__dalloc_allocate PROTO_N ((size, length, file, line))
 }
 
 void
-X__dalloc_deallocate PROTO_N ((ptr, file, line))
-		     PROTO_T (GenericP ptr X
-			      CStringP file X
-			      unsigned line)
+X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 {
     if (ptr) {
 	ByteP         pointer = (ByteP) ptr;
@@ -154,11 +147,7 @@ X__dalloc_deallocate PROTO_N ((ptr, file, line))
 #else
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length, file, line))
-		   PROTO_T (SizeT    size X
-			    SizeT    length X
-			    CStringP file X
-			    unsigned line)
+X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 {
     GenericP tmp;
 
@@ -186,10 +175,7 @@ X__dalloc_allocate PROTO_N ((size, length, file, line))
 }
 
 void
-X__dalloc_deallocate PROTO_N ((ptr, file, line))
-		     PROTO_T (GenericP ptr X
-			      CStringP file X
-			      unsigned line)
+X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 {
     if (ptr) {
 	ByteP       pointer = (ByteP) ptr;
@@ -213,9 +199,7 @@ X__dalloc_deallocate PROTO_N ((ptr, file, line))
 #else
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length))
-		   PROTO_T (SizeT size X
-			    SizeT length)
+X__dalloc_allocate(SizeT size, SizeT length)
 {
     GenericP tmp;
 

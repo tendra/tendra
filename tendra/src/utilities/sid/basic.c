@@ -122,7 +122,7 @@ basic_terminal(BasicP basic)
     return(basic->terminal);
 }
 #ifdef FS_FAST
-#define basic_terminal(b)	((b) ->terminal)
+#define basic_terminal(b)	((b)->terminal)
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
@@ -146,7 +146,7 @@ basic_get_result_code(BasicP basic)
     return(basic->result_code);
 }
 #ifdef FS_FAST
-#define basic_get_result_code(b)	((b) ->result_code)
+#define basic_get_result_code(b)	((b)->result_code)
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
@@ -170,12 +170,12 @@ basic_get_ignored(BasicP basic)
     return(basic->ignored);
 }
 #ifdef FS_FAST
-#define basic_get_ignored(b)	((b) ->ignored)
+#define basic_get_ignored(b)	((b)->ignored)
 #endif /* defined (FS_FAST) */
 
 void
 basic_iter_for_table(BasicP basic, BoolT full,
-		     void (*proc)KW_WEAK_PROTOTYPE(EntryP, GenericP),
+		     void(*proc)KW_WEAK_PROTOTYPE(EntryP, GenericP),
 		     GenericP closure)
 {
     if (full) {
@@ -206,7 +206,7 @@ write_basics(OStreamP ostream, BasicClosureP closure)
 	} else if (num_bits == 2) {
 	    write_cstring(ostream, " & ");
 	}
-	num_bits --;
+	num_bits--;
 	(void)bitvec_next_bit(bitvec, &terminal);
     }
 }

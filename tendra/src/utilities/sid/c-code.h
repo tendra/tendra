@@ -168,15 +168,17 @@ extern void		c_output_c_code_basic(COutputInfoP, CCodeP, TypeTupleP,
 					      SaveRStackP);
 extern void		c_output_c_code_assign(COutputInfoP, CCodeP, EntryP,
 					       EntryP, EntryP, BoolT, BoolT);
-extern void		c_output_c_code_param_assign(COutputInfoP, CCodeP, EntryP, EntryP);
-extern void		c_output_c_code_result_assign(COutputInfoP, CCodeP, EntryP, EntryP);
+extern void		c_output_c_code_param_assign(COutputInfoP, CCodeP,
+						     EntryP, EntryP);
+extern void		c_output_c_code_result_assign(COutputInfoP, CCodeP,
+						      EntryP, EntryP);
 extern void		c_output_c_code(COutputInfoP, CCodeP);
 
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define c_code_file(c)	((c) ->file)
-#define c_code_line(c)	((c) ->line)
+#define c_code_file(c)	((c)->file)
+#define c_code_line(c)	((c)->line)
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_C_CODE) */

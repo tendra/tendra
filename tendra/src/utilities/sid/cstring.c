@@ -103,7 +103,7 @@ cstring_duplicate(CStringP cstring)
     unsigned length = cstring_length(cstring);
     CStringP tmp    = ALLOCATE_VECTOR(char, length + 1);
 
-   (void)strcpy(tmp, cstring);
+  (void)strcpy(tmp, cstring);
     return(tmp);
 }
 
@@ -121,7 +121,7 @@ cstring_duplicate_prefix(CStringP cstring, unsigned prefix)
 	CStringP tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
 	(void)memcpy((GenericP)tmp,(GenericP)cstring,(SizeT)prefix);
-	tmp [prefix] = '\0';
+	tmp[prefix] = '\0';
 	return(tmp);
     }
 }
@@ -186,7 +186,7 @@ cstring_to_unsigned(CStringP cstring, unsigned *num_ref)
 	int value = syntax_value(*cstring);
 
 	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
-	   (((UINT_MAX - (unsigned)value) / (unsigned)10) < number)) {
+	  (((UINT_MAX - (unsigned)value) / (unsigned)10) < number)) {
 	    return(FALSE);
 	}
 	number *= (unsigned)10;
@@ -211,7 +211,7 @@ cstring_contains(CStringP cstring, char c)
     return(strchr(cstring, c)!= NIL(CStringP));
 }
 #ifdef FS_FAST
-#define cstring_contains(s, c)	(strchr((s), (c))!= NIL(CStringP))
+#define cstring_contains(s, c)	(strchr((s), (c)) != NIL(CStringP))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST
