@@ -63,39 +63,7 @@
  *
  * This file implements the TDF capsule routines used by the TDF linker.
  *
- *** Change Log:
- * $Log$
- * Revision 1.3  2002/11/25 20:18:21  nonce
- * Fixed numerous return types mangled by the ossg removal scripts.
- * Approximately 4 out of 2390 files had unusual function signatures that
- * confused the parser.  These files compiled and worked fine, but
- * generated compiler warnings.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/11/05  14:40:06  smf
- * capsule.c:
- * 	- Added "dgcompunit" for DDCI work (TDF 4.1).
- *
- * Revision 1.4  1995/09/22  08:39:10  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.3  1995/07/07  15:32:15  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:46:13  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:29  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
- **/
+ *** Change Log:*/
 
 /****************************************************************************/
 
