@@ -34,6 +34,9 @@ DEFAULT_BUILD=	${OBJ_ENV}/${SRC_ENV}/default-build
 
 .include "${SRC_DIR}/mk/def/def.@MACH_OS_LCASE@.mk"
 
+.if exists (${SRC_DIR}/mk/config/config.@MACH_CPU@.mk)
+.include "${SRC_DIR}/mk/config/config.@MACH_CPU@.mk"
+.endif
 .if exists (${SRC_DIR}/mk/config/config.@MACH_OS_LCASE@.@MACH_CPU@.mk)
 .include "${SRC_DIR}/mk/config/config.@MACH_OS_LCASE@.@MACH_CPU@.mk"
 .endif
