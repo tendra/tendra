@@ -45,3 +45,28 @@ MACH_DIR = ${INSTALL_DIR}/machines
 MAN_DIR = /usr/local/man
 WORK_DIR = ${BASE_DIR}/work
 TMP_DIR = /var/tmp
+
+# Binary paths
+
+ECHO ?=	/usr/bin/env echo
+ECHODIR ?=	/usr/bin/env echo
+
+# Build infrastructure framework
+
+.if !target(.MAIN)
+.MAIN: all
+.endif
+
+_SUBDIR: .USE
+.if defined(SUBDIR) && !empty(SUBDIR)
+.for entry in ${SUBDIR}
+		@${ECHODIR} "Entering ${DIRPREFIX}${entry}"
+		@${ECHODIR} "	Executing ${entry}: ${MAKE} ${.TARGET}"
+		@cd ${.CURDIR}/${entry}; \
+			${MAKE} ${.TARGET} DIRPREFIX=${DIRPREFIX}${entry}/
+.endfor
+.endif
+
+.for target in all clean
+${target}: _SUBDIR
+.endfor
