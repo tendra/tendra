@@ -1,12 +1,12 @@
 # $TenDRA$
 #
-# this will check to see if config.mk exists in the parent TenDRA directory.
-# if it dosn't it will spit out a notice to ask the user to supply make <os>
-# for now there is no sanity checking on the results to make sure that everything
-# is ok, it's just assumed (we can add this later)
+# This will check to see if config.mk exists in the parent TenDRA directory.
+# If it doesn't it will spit out a notice to ask the user to supply make <os>.
+# For now there is no sanity checking on the results to make sure that
+# everything is ok, it's just assumed (we can add this later).
 #
 
-# bug: sometimes this file included twice
+# XXX: sometimes this file is included twice
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 

@@ -1,6 +1,6 @@
 # $TenDRA$
 
-# this hack strips out any path info from the sourcefiles since the objects
+# This hack strips out any path info from the sourcefiles since the objects
 # are placed into the current working directory!
 
 OBJS+=  ${SRCS:N*.h:R:S/$/.o/g}

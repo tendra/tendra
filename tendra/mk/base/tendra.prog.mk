@@ -2,7 +2,7 @@
 
 CFLAGS+=${COPTS} ${DEBUG_FLAGS}
 
-# calculate our object directory and obj prefix.
+# Calculate our object directory and obj prefix.
 OBJ_DIR=        ${.CURDIR:C/(.*)\/src(.*)/\1\/obj\2/}
 OBJ_PREFIX=     ${.CURDIR:C/(.*)\/src(.*)/\1\/obj/}
 
