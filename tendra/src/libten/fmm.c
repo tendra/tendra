@@ -384,7 +384,7 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 
 	newaddr = fmm_malloc(size, ftp);
 	/* Copy over original contents */
-	memcpy(newaddr, addr, size);
+	memcpy(newaddr, addr, allocsize);
 	fmm_free(addr, ftp);
 	return newaddr;
 }
