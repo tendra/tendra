@@ -3,7 +3,7 @@
 <!--   A   -->
 <!ENTITY option-ca '
     <varlistentry>
-      <term><option>-A</option><replaceable>switch</replaceable></term> 
+      <term><option>-A</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -17,7 +17,7 @@
 <!--   B   -->
 <!ENTITY option-cb '
     <varlistentry>
-      <term><option>-B</option><replaceable>switch</replaceable></term> 
+      <term><option>-B</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -32,7 +32,7 @@
 <!--   C   -->
 <!ENTITY option-cc '
     <varlistentry>
-      <term><option>-C</option><replaceable>switch</replaceable></term> 
+      <term><option>-C</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -46,7 +46,7 @@
 <!--   D   -->
 <!ENTITY option-cd '
     <varlistentry>
-      <term><option>-D</option><replaceable>switch</replaceable></term> 
+      <term><option>-D</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -61,7 +61,7 @@
 <!--   E   -->
 <!ENTITY option-ce '
     <varlistentry>
-      <term><option>-E</option></term> 
+      <term><option>-E</option></term>
 
       <listitem>
         <para>This option disables <command>&trans;</command>&39;s constant
@@ -74,7 +74,7 @@
 <!--   F   -->
 <!ENTITY option-cf '
     <varlistentry>
-      <term><option>-F</option><replaceable>switch</replaceable></term> 
+      <term><option>-F</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -88,7 +88,7 @@
 <!--   H   -->
 <!ENTITY option-ch '
     <varlistentry>
-      <term><option>-H</option></term> 
+      <term><option>-H</option></term>
 
       <listitem>
         <para>This option causes <command>&trans;</command> to output
@@ -107,7 +107,7 @@
 <!--    I   -->
 <!ENTITY option-ci '
     <varlistentry>
-      <term><option>-I</option><replaceable>switch</replaceable></term> 
+      <term><option>-I</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -121,11 +121,11 @@
 <!--   K   -->
 <!ENTITY option-ck '
     <varlistentry>
-      <term><option>-K</option><replaceable>str</replaceable></term> 
+      <term><option>-K</option><replaceable>str</replaceable></term>
 
       <listitem>
         <para>Causes <command>&trans;</command> to optimise its code for a
-        particular processor model, determined by <emphasis>str</emphasis>. The available values of 
+        particular processor model, determined by <emphasis>str</emphasis>. The available values of
         <emphasis>str</emphasis> are 3 for the 80386, 4 for the 80486 and 5 for the
         Pentium (the default). So <option>-K3</option> means optimise for the
         80386 etc.</para>
@@ -137,7 +137,7 @@
 <!--   M   -->
 <!ENTITY option-cm '
     <varlistentry>
-      <term><option>-M</option><replaceable>switch</replaceable></term> 
+      <term><option>-M</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>If this option is on, <command>&trans;</command> preserves
@@ -153,7 +153,7 @@
 <!--   P   -->
 <!ENTITY option-cp '
     <varlistentry>
-      <term><option>-P</option></term> 
+      <term><option>-P</option></term>
 
       <listitem>
         <para>This option causes <command>&trans;</command> to output
@@ -168,7 +168,7 @@
 <!--   Q   -->
 <!ENTITY option-cq '
     <varlistentry>
-      <term><option>-Q</option></term> 
+      <term><option>-Q</option></term>
 
       <listitem>
         <para>This option causes <command>&trans;</command> to quit before
@@ -182,7 +182,7 @@
 <!--   R   -->
 <!ENTITY option-cr '
     <varlistentry>
-      <term><option>-R</option><replaceable>switch</replaceable></term> 
+      <term><option>-R</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -197,7 +197,7 @@
 <!--   U   -->
 <!ENTITY option-cu '
     <varlistentry>
-      <term><option>-U</option><replaceable>switch</replaceable></term> 
+      <term><option>-U</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -211,7 +211,7 @@
 <!--   V   -->
 <!ENTITY option-cv '
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
 
       <listitem>
         <para>This option causes <command>&trans;</command> to print its
@@ -225,7 +225,7 @@
 <!--   W   -->
 <!ENTITY option-cw '
     <varlistentry>
-      <term><option>-W</option><replaceable>switch</replaceable></term> 
+      <term><option>-W</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option determines whether <command>&trans;</command> should
@@ -238,7 +238,7 @@
 
 <!ENTITY option-cx '
     <varlistentry>
-      <term><option>-X</option></term> 
+      <term><option>-X</option></term>
 
       <listitem>
         <para>This option disables all optimisations. All
@@ -252,7 +252,7 @@
 <!--   Z   -->
 <!ENTITY option-cz '
     <varlistentry>
-      <term><option>-Z</option></term> 
+      <term><option>-Z</option></term>
 
       <listitem>
         <para>This option causes <command>&trans;</command> to print the
@@ -265,7 +265,7 @@
 <!--   a   -->
 <!ENTITY option-a '
     <varlistentry>
-      <term><option>-a</option></term> 
+      <term><option>-a</option></term>
 
       <listitem>
         <para>Always use a frame pointer. The default is to avoid using a frame
@@ -280,7 +280,7 @@
 <!--   h   -->
 <!ENTITY option-h '
     <varlistentry>
-      <term><option>-h</option></term> 
+      <term><option>-h</option></term>
 
       <listitem>
         <para>Do not use the .bss segment, always put data into the .data
@@ -295,7 +295,7 @@
 <!--   k   -->
 <!ENTITY option-k '
     <varlistentry>
-      <term><option>-k</option><replaceable>switch</replaceable></term> 
+      <term><option>-k</option><replaceable>switch</replaceable></term>
 
       <listitem>
         <para>This option is applicable to Linux platforms only. If this option
