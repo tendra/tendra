@@ -78,6 +78,7 @@
 
 <!ENTITY tm-attrib.linux "<para>Linux is a registered trademark of
   Linus Torvalds in the United States.</para>">
+<!ENTITY linux "<trademark class='registered'>Linux</trademark>">
 
 
 <!ENTITY tm-attrib.mips "<para>MIPS and R4000 are registered
