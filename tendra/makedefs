@@ -30,3 +30,21 @@
 # This script is inspired by Postfix' makedefs script.
 # The purpose of this script is to determine the host on which we are
 # compiling TenDRA and provide sane compilation defaults.
+
+SYSTEM=`/usr/bin/env uname -s`
+VERSION=`/usr/bin/env uname -r`
+
+case "${SYSTEM}.${VERSION}" in
+	DragonFly.1*)	# Use the system supplied GCC for CC.
+			# System definition is __DragonFly__
+			;;
+	FreeBSD.4*)	# Use the system supplied GCC for CC.
+			# System definition is __FreeBSD__
+			;;
+	FreeBSD.5*)	# Use the system supplied GCC for CC.
+			# System definition is __FreeBSD__
+			;;
+	*)		echo "unknown ${SYSTEM} and ${VERSION} combination"
+			echo "please report to the developers..."
+			;;
+esac
