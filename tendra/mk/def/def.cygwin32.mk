@@ -7,65 +7,80 @@
 # gcrt is for profiling support (gprof).
 # mcrt is for profiling support (prof).
 
-CRT0?=          
-CRT1?=		
-CRTI?=		
-CRTN?=		
-GCRT0?=         
-GCRT1?=		
-MCRT0?=         
 
-AR?=		/bin/ar
-AS?=		/bin/as
-AWK?=		/bin/awk
-BASENAME?=	/bin/basename
-CAT?=		/bin/cat
-CC=		gcc
-CHGRP?=		/bin/chgrp
-CHMOD?=		/bin/chmod
-CHOWN?=		/bin/chown
-CP?=		/bin/cp
-CP_ARGS?=	
-CUT?=		/bin/cut
-DC?=		/bin/dc
-DIRNAME?=	/bin/dirname
-ECHO?=		/bin/echo
-EGREP?=		/bin/egrep
-FALSE?=		/bin/false
-FILE?=		/bin/file
-FIND?=		/bin/find
-GREP?=		/bin/grep
-GTAR?=		/bin/tar
-GUNZIP?=    	/bin/gunzip
-GUNZIP_ARGS?=	-f
-GZCAT?=		/bin/gzcat
-GZIP?=		/bin/gzip
-GZIP_ARGS?=	-nf -9
-HEAD?=		/bin/head
-ID?=		/bin/id
-LDCONFIG?=	NO/sbin/ldconfig
-LN?=		/bin/ln
-LS?=		/bin/ls
-MKDIR?=		/bin/mkdir
-MKDIR_ARGS?=	-p
-MTREE?=		NO/usr/sbin/mtree
-MV?=		/bin/mv
-PATCH?=		GNU/usr/bin/patch
-PAX?=		NO/bin/pax
-PERL?=		/bin/perl
-RANLIB?=	/bin/ranlib
-RM?=		/bin/rm
-RMDIR?=		/bin/rmdir
-SED?=		/bin/sed
-SETENV?=	/bin/env
-SH?=		/bin/sh
-SORT?=		/bin/sort
-SU?=		/bin/su
-TAIL?=		/bin/tail
-TEST?=		/bin/test
-TOUCH?=		/bin/touch
-TR?=		/bin/tr
-TRUE?=		/bin/true
-TYPE?=		type				# Shell builtin
-WC?=		/bin/wc
+# Libraries
+
+LIB_CRT0?=	
+LIB_CRT1?=	
+LIB_CRTI?=	
+LIB_CRTN?=	
+LIB_GCRT0?=	
+LIB_GCRT1?=	
+LIB_MCRT0?=	
+LIB_AOUT_CRT0?=	/usr/i486-linuxaout/lib/crt0.o
+LIB_CRT0?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib/crt0.o
+
+
+# Arguments
+
+ARGS_CP?=	
+ARGS_GUNZIP?=	-f
+ARGS_GZIP?=	-nf -9
+ARGS_MKDIR?=	-p
+
+
+# Binaries
+
+BIN_AR?=	/bin/ar
+BIN_AS?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/bin/as
+BIN_AWK?=	/bin/awk
+BIN_BASENAME?=	/bin/basename
+BIN_CAT?=	/bin/cat
+BIN_CC?=	/gnuwin32/b18/H-i386-cygwin32/bin/gcc
+BIN_CHGRP?=	/bin/chgrp
+BIN_CHMOD?=	/bin/chmod
+BIN_CHOWN?=	/bin/chown
+BIN_CP?=	/bin/cp
+BIN_CUT?=	/bin/cut
+BIN_DC?=	/bin/dc
+BIN_DIRNAME?=	/bin/dirname
+BIN_ECHO?=	/bin/echo
+BIN_EGREP?=	/bin/egrep
+BIN_FALSE?=	/bin/false
+BIN_FILE?=	/bin/file
+BIN_FIND?=	/bin/find
+BIN_GREP?=	/bin/grep
+BIN_GTAR?=	/bin/tar
+BIN_GUNZIP?=    /bin/gunzip
+BIN_GZCAT?=	/bin/gzcat
+BIN_GZIP?=	/bin/gzip
+BIN_HEAD?=	/bin/head
+BIN_ID?=	/bin/id
+BIN_LD?=	/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/bin/ld
+BIN_LDCONFIG?=	echo		# non existant
+BIN_LN?=	/bin/ln
+BIN_LS?=	/bin/ls
+BIN_MKDIR?=	/bin/mkdir
+BIN_MTREE?=	echo		# non existant.
+BIN_MV?=	/bin/mv
+BIN_PATCH?=	/usr/bin/patch
+BIN_PAX?=	echo		# non existant.
+BIN_PERL?=	/bin/perl
+BIN_RANLIB?=	/bin/ranlib
+BIN_RM?=	/bin/rm
+BIN_RMDIR?=	/bin/rmdir
+BIN_SED?=	/bin/sed
+BIN_RMDIR?=	/bin/rmdir
+BIN_SED?=	/bin/sed
+BIN_SETENV?=	/bin/env
+BIN_SH?=	/bin/sh
+BIN_SORT?=	/bin/sort
+BIN_SU?=	/bin/su
+BIN_TAIL?=	/bin/tail
+BIN_TEST?=	/bin/test
+BIN_TOUCH?=	/bin/touch
+BIN_TR?=	/bin/tr
+BIN_TRUE?=	/bin/true
+BIN_TYPE?=	type		# Shell builtin
+BIN_WC?=	/bin/wc
 XARGS?=		/bin/xargs
