@@ -331,6 +331,9 @@ ${DOC}.html-text: ${DOC}.xml ${INDEX_SGML} ${HTML_INDEX}
 	${XSLTPROC} --param freebsd.output.html.images "'0'" ${XSLHTML} \
 		${DOC}.xml > ${.TARGET}
 .endif
+.if !defined(NO_TIDY)
+	-${TIDY} ${TIDYOPTS} ${.TARGET}
+.endif
 
 ${DOC}.html-split.tar: HTML.manifest ${LOCAL_IMAGES_LIB} \
 		       ${LOCAL_IMAGES_PNG} ${LOCAL_CSS_SHEET}
