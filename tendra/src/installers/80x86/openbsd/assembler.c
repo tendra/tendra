@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/assembler.c */
+/* openbsd/assembler.c */
 
 #include "config.h"
 #include "common_types.h"

@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/diag_config.h */
+/* openbsd/diag_config.h */
 
 #ifndef diag_config_key
 #define diag_config_key

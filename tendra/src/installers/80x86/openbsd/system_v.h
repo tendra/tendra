@@ -1,3 +1,3 @@
-/* freebsd/system_v.h */
+/* openbsd/system_v.h */
 
-#define target_system "FreeBSD"
+#define target_system "OpenBSD"
