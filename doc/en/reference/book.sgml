@@ -1,0 +1,138 @@
+<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
+<!ENTITY ref.man.pl SYSTEM "../manpages/pl/manpage.sgml">
+<!ENTITY ref.man.tchk SYSTEM "../manpages/tchk/manpage.sgml">
+<!ENTITY ref.man.tnc SYSTEM "../manpages/tnc/manpage.sgml">
+<!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
+<!ENTITY ref.man.tcc SYSTEM "../manpages/tcc/manpage.sgml">
+<!ENTITY ref.man.tld SYSTEM "../manpages/tld/manpage.sgml">
+<!ENTITY ref.man.tspec SYSTEM "../manpages/tspec/manpage.sgml">
+<!ENTITY ref.man.calculus SYSTEM "../manpages/calculus/manpage.sgml">
+<!ENTITY ref.man.lexi SYSTEM "../manpages/lexi/manpage.sgml">
+<!ENTITY ref.man.sid SYSTEM "../manpages/sid/manpage.sgml">
+<!ENTITY ref.man.tccenv SYSTEM "../manpages/tccenv/manpage.sgml">
+<!ENTITY ref.man.tcpplus SYSTEM "../manpages/tcpplus/manpage.sgml">
+<!ENTITY ref.man.tdfc2 SYSTEM "../manpages/tdfc2/manpage.sgml">
+
+
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man
+]>
+
+<book>
+  <bookinfo>
+    <title>TenDRA Manpage Reference</title>
+    
+    <pubdate>$TenDRA$</pubdate>
+    
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+
+    <copyright>
+      <year>2002</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+      <holder>Defence Evaluation and Research Agency (DERA)</holder>
+    </copyright>
+
+    <abstract>
+      <para>Please email us at <email>docs@ten15.org</email> if you see any
+        errors</para>
+    </abstract>
+  </bookinfo>
+
+  <preface>
+    <title>Introduction</title>
+    <para>some type of description here.</para>
+  </preface>
+
+
+  <chapter>
+  <title>Tools</title>
+
+    <refentry id="man-disp">
+      &ref.man.disp;
+    </refentry>
+
+
+    <refentry id=ref-man-pl>
+      &ref.man.pl;
+    </refentry>
+
+    <refentry id=ref-man-tcc>
+      &ref.man.tcc;
+    </refentry>
+
+    <refentry id=ref-man-tchk>
+      &ref.man.tchk;
+    </refentry>
+
+    <refentry id=ref-man-tld>
+      &ref.man.tld;
+    </refentry>
+
+    <refentry id=ref-man-tnc>
+      &ref.man.tnc;
+    </refentry>
+
+    <refentry id=ref-man-tspec>
+      &ref.man.tspec;
+    </refentry>
+
+  </chapter>
+
+
+
+  <chapter>
+  <title>Utilities</title>
+
+    <refentry id=ref-man-calculus>
+      &ref.man.calculus;
+    </refentry>
+
+    <refentry id=ref-man-lexi>
+      &ref.man.lexi;
+    </refentry>
+
+    <refentry id=ref-man-sid>
+      &ref.man.sid;
+    </refentry>
+
+  </chapter>
+
+
+  <chapter>
+  <title>Producers</title>
+
+    <refentry id=ref-man-tcpplus>
+      &ref.man.tcpplus;
+    </refentry>
+
+    <refentry id=ref-man-tdfc2>
+      &ref.man.tdfc2;
+    </refentry>
+
+  </chapter>
+
+
+  <chapter>
+    <title>Installers</title>
+
+    <para>not complete yet.</para>
+
+  </chapter>
+
+
+  <chapter>
+
+  <title>Orphans</title>
+
+    <refentry id=ref-man-tccenv>
+      &ref.man.tccenv;
+    </refentry>
+
+  </chapter>
+
+</book>
