@@ -1,4 +1,6 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY trans "trans">
+
 <!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
 <!ENTITY ref.man.pl SYSTEM "../manpages/pl/manpage.sgml">
 <!ENTITY ref.man.tchk SYSTEM "../manpages/tchk/manpage.sgml">
