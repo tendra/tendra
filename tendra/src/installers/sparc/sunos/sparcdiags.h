@@ -52,36 +52,26 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 
-extern void init_stab PROTO_S ( ( void ) ) ;
-extern void init_stab_aux PROTO_S ( ( void ) ) ;
-extern void stab_collect_files PROTO_S ( ( filename ) ) ;
-extern void stab_tagdefs PROTO_S ( ( void ) ) ;
-extern void stab_typedefs PROTO_S ( ( void ) ) ;
-extern void stab_begin PROTO_S ( ( diag_info *, int, exp ) ) ;
-extern void stab_end PROTO_S ( ( diag_info *, exp ) ) ;
-extern void stab_file PROTO_S ( ( long, bool ) ) ;
-extern void stab_global PROTO_S ( ( diag_descriptor *, exp, char *, bool ) ) ;
-extern void stab_local PROTO_S ( ( char *, diag_type, exp, long, long ) ) ;
-extern void stab_proc PROTO_S ( ( diag_descriptor *, exp, char *, bool ) ) ;
-extern void stab_types PROTO_S ( ( void ) ) ;
-extern void stabd PROTO_S ( ( long, long, int ) ) ;
-extern long currentfile ;
+extern void init_stab(void);
+extern void init_stab_aux(void);
+extern void stab_collect_files(filename);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
+extern void stab_begin(diag_info *, int, exp);
+extern void stab_end(diag_info *, exp);
+extern void stab_file(long, bool);
+extern void stab_global(diag_descriptor *, exp, char *, bool);
+extern void stab_local(char *, diag_type, exp, long, long);
+extern void stab_proc(diag_descriptor *, exp, char *, bool);
+extern void stab_types(void);
+extern void stabd(long, long, int);
+
+extern long currentfile;
 
 #endif /* SPARCDDECS_INCLUDED */
