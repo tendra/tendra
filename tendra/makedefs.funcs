@@ -1,4 +1,5 @@
 # $Id$
+# ex:filetype=sh
 
 # Check if the CC environment variable is set.
 check_cc()
