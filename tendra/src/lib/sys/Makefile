@@ -6,7 +6,6 @@
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
-		-Ydefault.extra
 
 DEPEND_SRC=	sys.j 
 

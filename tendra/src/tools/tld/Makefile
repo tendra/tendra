@@ -20,7 +20,7 @@ ERRORFILES=	arg-data.e arg-parse.e builder.e capsule.e contents.e error-file.e \
 		rename-file.e shape-entry.e tdf-read.e
 
 gen-errors.c:
-	${PERL} -w ${.CURDIR}/errors/BUILD_ERRORS -o ${.OBJDIR}/gen-errors \
+	${BIN_PERL} -w ${.CURDIR}/errors/BUILD_ERRORS -o ${.OBJDIR}/gen-errors \
 	${ERRORFILES:S|^|${.CURDIR}/errors/|}
 
 CLEANFILES+=	gen-errors.c gen-errors.h

@@ -33,7 +33,7 @@ TOKEN_OBJ=	${TOKEN:R:S/$/.j/g}
 DEPEND_SRC=	${DATA} sys_toks.j
 
 ${DATA}:
-	@${CP} ${CP_ARGS} -R ${.CURDIR}/${.TARGET} ${OBJ_DIR}/${.TARGET}
+	@${BIN_CP} ${ARGS_CP} -R ${.CURDIR}/${.TARGET} ${OBJ_DIR}/${.TARGET}
 
 sys_toks.j: ${TOKEN_OBJ}
 	${TLD} -o tokens/${.TARGET} ${TOKEN_OBJ}

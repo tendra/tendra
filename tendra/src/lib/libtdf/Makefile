@@ -1,8 +1,8 @@
+
 # $TenDRA$
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
 		-Y${DEFAULT_BUILD} \
-		-Ydefault.extra \
 		-Ypl_tdf \
 		-jtarget_tok \
 		-J${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/tokens \

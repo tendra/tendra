@@ -4,7 +4,6 @@
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
-		-Ydefault.extra \
 		-J${OBJ_PREFIX}/lib/apis/lib/posix \
 		-J${OBJ_PREFIX}/lib/apis/lib/ansi
 

@@ -21,7 +21,7 @@ ERRORFILES=	arg-parse.e c-check.e c-code.e c-lexer.e c-parser.e \
 		table.e types.e
 
 gen-errors.c:
-	${PERL} -w ${.CURDIR}/errors/BUILD_ERRORS -o ${.OBJDIR}/gen-errors \
+	${BIN_PERL} -w ${.CURDIR}/errors/BUILD_ERRORS -o ${.OBJDIR}/gen-errors \
 	${ERRORFILES:S|^|${.CURDIR}/errors/|}
 
 CLEANFILES+=    gen-errors.c gen-errors.h

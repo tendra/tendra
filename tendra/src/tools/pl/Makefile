@@ -21,7 +21,7 @@ syntax.c: syntax.sid syntax.act
 
 consfile.c: consfile.c-tdf
 	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.IMPSRC} |\
-	${SORT} > ${OBJ_DIR}/${.TARGET}
+	${BIN_SORT} > ${OBJ_DIR}/${.TARGET}
 
 CLEANFILES+=	syntax.c syntax.h consfile.c consfile.h decodings.c decodings.h encodings.h enc_nos.h fnsfile.c
 
