@@ -75,7 +75,7 @@ ALGEBRA c_class (1.1) :
     PRIMITIVE TYPES
 
     These are the primitive types from which the algebra is built.  int,
-    unsigned and string are self-explanitory.  BITSTREAM_P represents a
+    unsigned and string are self-explanatory.  BITSTREAM_P represents a
     series of bits, and is used to hold any compiled code.  PPTOKEN_P
     represents a list of preprocessing tokens, and is used in macro
     definitions etc.

@@ -60,7 +60,7 @@
 /*
     TYPES
 
-    The types are fairly self-explanitory.  There are types for each of
+    The types are fairly self-explanatory.  There are types for each of
     the concepts in the syntax, plus list types for most of them.
 */
 

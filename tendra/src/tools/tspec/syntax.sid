@@ -59,7 +59,7 @@
 /*
  *  TYPES
  *
- *  The types are fairly self-explanitory.  Note that distinctions are
+ *  The types are fairly self-explanatory.  Note that distinctions are
  *  made in the parser type system which do not exist in the underlying
  *  program.
  */

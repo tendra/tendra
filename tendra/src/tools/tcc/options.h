@@ -63,7 +63,7 @@
  *    TYPE REPRESENTING AN OPTION
  *
  *    An option consists of an input pattern, in, an output command, out,
- *    and some explanitory text, explain.
+ *    and some explanatory text, explain.
  */
 
 typedef struct {
