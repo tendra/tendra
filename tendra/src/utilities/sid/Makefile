@@ -12,12 +12,13 @@ LIBS=
 # Dependencies and construction rules
 
 PROG=		${.CURDIR:T}
-CCOPTS=		${TCCOPTS} -I${.CURDIR}
-SRCS=		action.c alt.c arg-parse.c basic.c bitvec.c c-check.c\
+CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${OBJ_SDIR}
+SRCS=		gen-errors.c\
+		action.c alt.c arg-parse.c basic.c bitvec.c c-check.c\
 		c-code.c c-lexer.c c-out-info.c c-out-key.c c-out-nl.c\
 		c-out-types.c c-output.c c-parser.c cstring-list.c cstring.c\
 		dalloc.c dstring.c entry-list.c entry.c error-file.c error.c\
-		exception.c gen-errors.c grammar.c istream.c item.c key.c\
+		exception.c grammar.c istream.c item.c key.c\
 		lexer.c main.c name.c non-local.c ostream.c output.c parser.c\
 		rstack.c rule-check.c rule-factor.c rule-firsts.c rule-lre.c\
 		rule-mutate.c rule-names.c rule-simp.c rule-tail.c rule.c\
