@@ -15,7 +15,7 @@ TMP_DIR=	/tmp
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
 
 MACH_CPU!=	${UNAME} -p
-MACH_OS!=	Solaris
+MACH_OS=	Solaris
 MACH_VERS!=	${UNAME} -r
 
 
