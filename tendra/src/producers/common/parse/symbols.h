@@ -273,7 +273,11 @@
  */
 	
 	LEX_TOKEN (lex_asm, "asm", TOK_ASM)
+#if LANGUAGE_CPP
 	LEX_TOKEN (lex_bool, "bool", TOK_SIMPLE_TYPE)
+#else
+	LEX_TOKEN (lex_bool, "_Bool", TOK_SIMPLE_TYPE)
+#endif
 	LEX_TOKEN (lex_catch, "catch", TOK_STATEMENT)
 	LEX_TOKEN (lex_class, "class", TOK_TYPE_KEY)
 	LEX_TOKEN (lex_const_Hcast, "const_cast", TOK_EXP)
