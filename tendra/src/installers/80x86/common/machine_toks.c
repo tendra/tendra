@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/machine_toks.c */
-
-
-
 #include "config.h"
 
 int
@@ -72,6 +68,6 @@ machine_toks(char * s)
 		return 1;
 	if (!strcmp(s, "JMFinline"))
 		return 1;
-	
+
 	return 0;
 }

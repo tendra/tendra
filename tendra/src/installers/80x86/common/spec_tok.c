@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/spec_tok.c */
-
-
-
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -87,19 +83,19 @@ special_token(token t, bitstream pars, int sortcode,
 {
 	tokval tkv;
 	UNUSED(sortcode);
-	
+
 	if (t -> tok_name == (char*)0) {
 		SET(tkv); /* call looks at done to see if result is meaningful */
 		return tkv;
 	};
-	
+
 	if (!strcmp(t -> tok_name, "JMFprofile"))  {
 		nat n;
 		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		n = d_nat();
-		
+
 		set_place(old_place);
 		tkv.tk_exp = f_profile(n);
 		*done = 1;
@@ -118,10 +114,10 @@ special_token(token t, bitstream pars, int sortcode,
 			name(bro(son(s))) == seq_tag &&
 			name(son(son(bro(son(s))))) == apply_tag)
 			settoinline(son(son(bro(son(s)))));
-		
-		
+
+
 		s = hold_check(s);
-		
+
 		set_place(old_place);
 		tkv.tk_exp = s;
 		*done = 1;
@@ -134,7 +130,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
-		
+
 		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
 		*done = 1;
@@ -147,7 +143,7 @@ special_token(token t, bitstream pars, int sortcode,
 		set_place(pars);
 		arg1 = hold_check(d_exp());
 		arg2 = hold_check(d_exp());
-		
+
 		set_place(old_place);
 		tkv.tk_exp = me_b2(arg1, arg2, rem0_tag);
 		*done = 1;
@@ -225,7 +221,7 @@ special_token(token t, bitstream pars, int sortcode,
 		has_alloca = 1;
 		return tkv;
 	};
-	
+
 	if (!strcmp(t -> tok_name, "~exp_to_source") ||
 		!strcmp(t -> tok_name, "~diag_id_scope") ||
 		!strcmp(t -> tok_name, "~diag_type_scope") ||
@@ -234,19 +230,19 @@ special_token(token t, bitstream pars, int sortcode,
 		|| !strcmp(t -> tok_name, "~dg_exp")
 #endif
 		)  {
-		
+
 		tdf_pos old_place;
 		old_place = keep_place();
 		set_place(pars);
 		tkv.tk_exp = hold_check(d_exp());
 		*done = 1;
-		
+
 		if (!diagnose)
         {
 			set_place(old_place);
 			return tkv;
         };
-		
+
 		if (!strcmp(t -> tok_name, "~exp_to_source"))
 		{
 #ifdef NEWDIAGS
@@ -265,7 +261,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place(old_place);
 			return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_id_scope"))
 		{
 #ifdef NEWDIAGS
@@ -281,7 +277,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place(old_place);
 			return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_type_scope"))
 		{
 #ifdef NEWDIAGS
@@ -297,7 +293,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place(old_place);
 			return tkv;
 		};
-		
+
 		if (!strcmp(t -> tok_name, "~diag_tag_scope"))
 		{
 #ifndef NEWDIAGS
@@ -311,7 +307,7 @@ special_token(token t, bitstream pars, int sortcode,
 			set_place(old_place);
 			return tkv;
 		};
-		
+
 #ifdef NEWDIAGS
 		if (!strcmp(t -> tok_name, "~dg_exp"))
 		{
@@ -320,9 +316,9 @@ special_token(token t, bitstream pars, int sortcode,
 			return tkv;
 		};
 #endif
-		
+
 	};
-	
+
 	if (!strncmp(t -> tok_name, "~asm", 4)) {
 		int prp;
 		exp arg1;
@@ -356,7 +352,7 @@ special_token(token t, bitstream pars, int sortcode,
 		*done = 1;
 		return tkv;
 	}
-	
+
 	SET(tkv); /* call looks at done to see if result is meaningful */
 	return tkv;
 }

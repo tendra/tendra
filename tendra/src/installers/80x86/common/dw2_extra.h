@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -65,27 +65,27 @@
 
 #ifdef NEWDWARF
 
-extern long dw2_start_fde(long proc_start, long fblab);
-extern void dw2_fde_entry(long dwl0, long dwl1, long dwl2, 
-						  long dwl3, long dwl4, long dwl8, int space);
-extern void dw2_untidy_return (void);
-extern long dw2_prep_fde_restore_args(int untidy);
-extern void dw2_fde_restore_args(long dwl0, long dwl1, long dwl2, 
-								 long dwl3, long dwl4, int space);
-extern void dw2_after_fde_exit(long here);
-extern void dw2_track_push(void);
-extern void dw2_track_pop(void);
-extern void dw2_track_sp(void);
-extern void dw2_complete_fde(void);
-
-extern void dw2_start_extra_bit(exp body);
-extern void dw2_end_extra_bit(exp body);
-
-
 extern int dw_ignore_used_regassn;
-extern void dw_init_regassn(int reg, int x);
-extern void dw_used_regassn(int reg, int x);
-extern void dw_close_regassn(int reg, int x);
+
+long dw2_start_fde(long proc_start, long fblab);
+void dw2_fde_entry(long dwl0, long dwl1, long dwl2,
+					long dwl3, long dwl4, long dwl8, int space);
+void dw2_untidy_return (void);
+long dw2_prep_fde_restore_args(int untidy);
+void dw2_fde_restore_args(long dwl0, long dwl1, long dwl2,
+							long dwl3, long dwl4, int space);
+void dw2_after_fde_exit(long here);
+void dw2_track_push(void);
+void dw2_track_pop(void);
+void dw2_track_sp(void);
+void dw2_complete_fde(void);
+
+void dw2_start_extra_bit(exp body);
+void dw2_end_extra_bit(exp body);
+
+void dw_init_regassn(int reg, int x);
+void dw_used_regassn(int reg, int x);
+void dw_close_regassn(int reg, int x);
 
 
 #endif

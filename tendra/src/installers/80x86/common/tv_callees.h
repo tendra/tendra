@@ -52,15 +52,12 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-/* 80x86/tv_callees.h */
+ */
 
 
 #ifndef tvcallee_key
 #define tvcallee_key 1
 
-extern void transform_var_callees(void);
+void transform_var_callees(void);
 
 #endif

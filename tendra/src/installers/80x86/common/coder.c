@@ -170,7 +170,7 @@ int proc_has_asm = 0;	/* init by cproc */
 
 /* PROCEDURES */
 
-void 
+void
 clean_stack(void)
 {
 	if (no_frame && not_in_params && not_in_postlude && stack_dec != 0)
@@ -179,7 +179,7 @@ clean_stack(void)
 
 
 /* is this a pushable proc argument ? */
-static int 
+static int
 push_arg(exp e)
 {
 	shape sha = sh(e);
@@ -194,7 +194,7 @@ push_arg(exp e)
 	return (1);
 }
 
-static void 
+static void
 code_push(ash stack, exp t)
 {
 	int n = (int)name(t);
@@ -210,7 +210,7 @@ code_push(ash stack, exp t)
 /*
  * produce the code for proc params in order from last to first
  */
-static void 
+static void
 code_pars(ash stack, exp t)
 {
 	int tsize = shape_size(sh(t));
@@ -227,7 +227,7 @@ code_pars(ash stack, exp t)
 }
 
 /* stack parameters ready for apply_proc */
-static int 
+static int
 procargs(ash stack, exp arg, int has_checkstack)
 {
 	int use_push = 1;
@@ -307,7 +307,7 @@ procargs(ash stack, exp arg, int has_checkstack)
  * Stack dynamic or same callees
  * %edx and %ecx don't need to be preserved
  */
-static int 
+static int
 push_cees(exp src, exp siz, int vc, ash stack)
 {
 	int old_regsinuse = regsinuse;
@@ -409,7 +409,7 @@ int bits_in[16] = {		/* number of bits in the index */
 /*
  * Allocate registers ebx esi edi, providing br registers are left.
  */
-static regu 
+static regu
 alloc_reg_big(int rs, shape sha, int br, int byteuse)
 {
 	regu ru;
@@ -467,7 +467,7 @@ alloc_reg_big(int rs, shape sha, int br, int byteuse)
  * Allocate registers ecx edx ebx esi edi if at least
  * br registers are available
  */
-static regu 
+static regu
 alloc_reg_small(int rs, shape sha, int br, int byteuse)
 {
 	int sz, nr, mask, i, reg_left;
@@ -524,7 +524,7 @@ alloc_reg_small(int rs, shape sha, int br, int byteuse)
 /*
  * Allocate floating point registers, if at least br are available
  */
-static regu 
+static regu
 alloc_fl_small(int rs, int br)
 {
 	int mask, i, reg_left;
@@ -557,7 +557,7 @@ alloc_fl_small(int rs, int br)
 }
 
 /* allocate all registers */
-static regu 
+static regu
 alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
 {
 	if (name (sha) >= shrealhd && name (sha) <= doublehd) {
@@ -597,7 +597,7 @@ alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
  *     dcl_new - 1 if this is a new declaration. 0 if it renaming an
  *              existing value, and the old one is being reused.
  */
-static dcl 
+static dcl
 alloc_regable(dcl dc, exp def, exp e, int big_reg)
 {
 	where alt;
@@ -640,7 +640,7 @@ alloc_regable(dcl dc, exp def, exp e, int big_reg)
 	return (dc);
 }
 
-static dcl 
+static dcl
 def_where(exp e, exp def, ash stack)
 {
 	int big_reg = has_intnl_call(e);
@@ -748,7 +748,7 @@ def_where(exp e, exp def, ash stack)
  *    jr	is the jump record for the end of the construction.
  *    stack	is the initial stack ash
  */
-static void 
+static void
 solve(exp s, exp l, where dest, exp jr, ash stack)
 {
 	while (!last (l)) {		/* not the last branch */
@@ -800,7 +800,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
  * caser produces the code for the case construction e, putting the
  * result into dest.
  */
-static void 
+static void
 caser(exp arg, int exhaustive, exp case_exp)
 {
 	exp t = arg;
@@ -863,7 +863,7 @@ caser(exp arg, int exhaustive, exp case_exp)
  * the construction to be processed, dest is where the result is to go,
  * stack is the ash for the current stack.
  */
-static ash 
+static ash
 stack_room(ash stack, where dest, int off)
 {
 	if (name(dest.where_exp) == ident_tag) {
@@ -879,10 +879,10 @@ stack_room(ash stack, where dest, int off)
 
 
 #ifdef NEWDIAGS
-static void 
+static void
 coder1(where dest, ash stack, exp e)
 #else
-void 
+void
 coder(where dest, ash stack, exp e)
 #endif
 {
@@ -2255,7 +2255,7 @@ struct coder_args {
 	exp e;
 };
 
-static void 
+static void
 coder2(void *args)
 {
 	struct coder_args * x = (struct coder_args *) args;
@@ -2263,7 +2263,7 @@ coder2(void *args)
 	return;
 }
 
-static dg_where 
+static dg_where
 dg_where_dest(exp e)
 {
 	dg_where w;
@@ -2307,14 +2307,14 @@ dg_where_dest(exp e)
 	return w;
 }
 
-static dg_where 
+static dg_where
 contop_where(exp id)
 {
 	return (dg_where_dest (bro(son(id))));
 }
 
 
-dg_where 
+dg_where
 find_diag_res(void *args)
 {
 	struct coder_args * x = (struct coder_args *) args;
@@ -2350,7 +2350,7 @@ find_diag_res(void *args)
 	return w;
 }
 
-void 
+void
 coder(where dest, ash stack, exp e)
 {
 	dg_info d;
@@ -2460,14 +2460,14 @@ coder(where dest, ash stack, exp e)
 
 
 
-static void 
+static void
 done_arg(void *args)
 {
 	UNUSED (args);
 	return;
 }
 
-void 
+void
 diag_arg(where dest, ash stack, exp e)
 {
 	if (dgf(e)) {

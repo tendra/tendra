@@ -52,10 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-/* 80x86/tv_callees.c */
+ */
 
 
 #include "config.h"
@@ -70,16 +67,14 @@
 #include "tv_callees.h"
 
 
-void 
+/*
+ * Transform caller arguments of general procs with variable callees,
+ * to appear like a structure whose address is another callee.
+ * This enables consistent coding without demanding a separate
+ * register for caller argument addressing.	Also, record need for env_size.
+ */
+void
 transform_var_callees(void)
-				/* Transforms caller arguments of general
-				   procs with variable callees, to appear
-				   like a structure whose address is
-				   another callee. This enables consistent
-				   coding without demanding a separate
-				   register for caller argument addressing.
-					Also, record need for env_size.
-				*/
 {
   dec * my_def = top_def;
   while (my_def != (dec *) 0) {

@@ -55,16 +55,9 @@
  */
 
 
-/* 80x86/out.c */
-
-
-
-/*******************************************************************
- *                                out.c
- *
- *   defines the low level output routines
-
-*******************************************************************/
+/*
+ * Define the low level output routines.
+ */
 
 #include "config.h"
 #include "common_types.h"
@@ -125,13 +118,13 @@ outs(char *s)
 void
 outnl()
 {
-	
+
 	int   st = fputs ("\n", fpout);
 	if (st == EOF) {
 		failer (BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	};
-	
+
 #ifdef NEWDWARF
 	instr_count = -1;
 #endif
@@ -150,7 +143,7 @@ outn(long n)
 		failer (BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	};
-	
+
 }
 
 void
@@ -161,5 +154,5 @@ outhex(int n)
 		failer (BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	};
-	
+
 }

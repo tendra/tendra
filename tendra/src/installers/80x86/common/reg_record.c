@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/reg_record.c */
-
-
-
 #include "config.h"
 #include "common_types.h"
 #include "operand.h"
@@ -135,19 +131,19 @@ inval(exp d, exp r)
 	if ((name (r) == name_tag && !isvar (son (r))) ||
 		name (r) == cont_tag)
 		return (eq_where (mw (d, 0), mw (r, 0)));
-	
+
 	if (name (r) == reff_tag)
 		return (inval (d, son (r)));
-	
+
 	if (name (r) == addptr_tag) {
 		if (name (bro (son (r))) == offset_mult_tag)
 			return (inval (d, son (r)) || inval (d, son (bro (son (r)))));
 		return (inval (d, son (r)) || inval (d, bro (son (r))));
 	};
-	
+
 	if (name (r) == ident_tag)
 		return (inval (d, son (r)) || inval (d, bro (son (r))));
-	
+
 	return (0);
 }
 
@@ -181,7 +177,7 @@ equiv_reg(where w, int sz)
 	int   i;
 	where res;
 	res.where_exp = nilexp;
-	
+
 	if (w.where_off != 0)
 		return (res);
 	for (i = 0; i < no_fixed_regs; i++) {
@@ -217,7 +213,7 @@ is_aliased(exp dest)
 	if (name (dest) != cont_tag &&
 		name (dest) != ass_tag)
 		return (0);
-	
+
 	if (name (son (dest)) == name_tag &&
 		isvar (son (son (dest))) &&
 		iscaonly (son (son (dest))))
@@ -249,10 +245,10 @@ invalidate_dest(where dest)
 	int  regno;
 	where weq;
 	int   i;
-	
+
 	/* this repeats the condition state check at start of move,
 	 *	   in case contop has reset it */
-	
+
 	if ((cond1_set && (eq_where (dest, cond1) ||
 					   invalidates (dest.where_exp, cond1.where_exp))) ||
 		(cond2_set &&
@@ -262,7 +258,7 @@ invalidate_dest(where dest)
 		cond1_set = 0;
 		cond2_set = 0;
 	};
-	
+
 	if (is_aliased (dest.where_exp)) {
 		for (i = 0; i < no_fixed_regs; ++i) {
 			regcell * pr = &crt_reg_record[i];
@@ -310,13 +306,13 @@ invalidate_dest(where dest)
 			};
 		};
 	};
-	
+
 	if (regmask) {
 		regno = get_regno (regmask);
 		if (regno < no_fixed_regs)
 			crt_reg_record[regno].regcell_key = 4;
 	};
-	
+
 	if (regmask || d == nilexp) {
 		for (i = 0; i < no_fixed_regs; ++i) {
 			regcell * pr = &crt_reg_record[i];

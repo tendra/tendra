@@ -52,11 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-/* 80x86/weights.c */
-
+ */
 
 
 #include "config.h"
@@ -144,7 +140,7 @@ weights zeros, moveregs, cmpregs, divregs, applyregs;
 
 /* PROCEDURES */
 
-static int 
+static int
 no_side_aux(exp e)
 {
   exp arg;
@@ -162,7 +158,7 @@ no_side_aux(exp e)
 
 /* test for guaranteed no side effect */
 /* simple assignment is permitted */
-int 
+int
 no_side(exp e)
 {
   return ((is_a (name (e)) || name (e) == test_tag || name (e) == ass_tag ||
@@ -171,7 +167,7 @@ no_side(exp e)
 }
 
 /* add two weight vectors */
-weights 
+weights
 add_weights(weights w1, weights w2)
 {
   weights r;
@@ -188,7 +184,7 @@ add_weights(weights w1, weights w2)
   return (r);
 }
 
-void 
+void
 init_weights(void)
 {
 		/* initialisation of constants */
@@ -215,7 +211,7 @@ init_weights(void)
   return;
 }
 
-void 
+void
 markcall(explist *el)
 {
   explist * t = el;
@@ -229,7 +225,7 @@ markcall(explist *el)
    of currently active declarations, to
    show that there is a call, movc3 etc.
    within their scope */
-void 
+void
 markmove(explist *el)
 {
   explist * t = el;
@@ -240,7 +236,7 @@ markmove(explist *el)
 }
 
 /* mark to show reg1 may be needed */
-void 
+void
 markreg1(explist *el)
 {
   explist * t = el;
@@ -254,7 +250,7 @@ markreg1(explist *el)
 /* work out weights for a declaration and
    set up the break point to put in the no
    field of the declaration */
-wp 
+wp
 max_weights(int size, float locp, weights ws, int isfl)
 {
   int  k = (size + 31) / 32;
@@ -313,7 +309,7 @@ max_weights(int size, float locp, weights ws, int isfl)
 
 
 /* see if we must use movc3?? */
-weights 
+weights
 try_mc3(exp e, weights ws, explist *el)
 {
   int  sz = shape_size(sh(e));
@@ -327,7 +323,7 @@ try_mc3(exp e, weights ws, explist *el)
 
 /* work out the weights for a list of exp.
    usemc3 is 1 if movc3 may be used. */
-weights 
+weights
 add_wlist(exp re, int usemc3, explist *el)
 {
   weights wl1, wl2;
@@ -352,7 +348,7 @@ add_wlist(exp re, int usemc3, explist *el)
 
 
 /* can the value defined by e be put in a register */
-int 
+int
 regable(exp e)
 {
   unsigned char  n;
@@ -365,7 +361,7 @@ regable(exp e)
   return (1);
 }
 
-int 
+int
 isflsh(shape s)
 {
   unsigned char  n = name (s);
@@ -382,7 +378,7 @@ isflsh(shape s)
    declaration. After the scan the break
    point is put into the no of the
    declaration */
-weights 
+weights
 weightsv(exp e, explist *el)
 {
   unsigned char  n = name (e);
@@ -594,7 +590,7 @@ weightsv(exp e, explist *el)
   };
 }
 
-void 
+void
 comp_weights(exp e)
 {
   scale = 1.0;

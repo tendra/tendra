@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -55,50 +55,48 @@
  */
 
 
-/* 80x86/assembler.h */
-
 
 #ifndef assembler_key
 #define assembler_key 1
 
 
-extern  void outbyte(void);
-extern  void outshort(void);
-extern  void outlong(void);
+void outbyte(void);
+void outshort(void);
+void outlong(void);
 
-extern  void align_label(int f, exp jr);
-extern  void eval_postlude(char *s, exp c);
-extern  void out_readonly_section(void);
-extern  void out_dot_comm(char *id, shape sha);
-extern  void out_dot_lcomm(char *id, shape sha);
-extern  void out_bss(char *id, shape sha);
+void align_label(int f, exp jr);
+void eval_postlude(char *s, exp c);
+void out_readonly_section(void);
+void out_dot_comm(char *id, shape sha);
+void out_dot_lcomm(char *id, shape sha);
+void out_bss(char *id, shape sha);
 
-extern  void pic_prelude(void);
+void pic_prelude(void);
 
-extern  void out_switch_jump(int tab, where a, int min);
-extern  void out_switch_table(int tab, int min, int max,
-							  int *v, int absent);
+void out_switch_jump(int tab, where a, int min);
+void out_switch_table(int tab, int min, int max,
+					  int *v, int absent);
 
-extern  void proc_size(char *s);
-extern  void proc_type(char *s);
-extern  void dot_align(int n);
-extern  void outend(void);
+void proc_size(char *s);
+void proc_type(char *s);
+void dot_align(int n);
+void outend(void);
 
-extern  void outopenbr(void);
-extern  void outclosebr(void);
-extern  void outdivsym(void);
+void outopenbr(void);
+void outclosebr(void);
+void outdivsym(void);
 
-extern void out_initialiser(char *id);
+void out_initialiser(char *id);
 
 #if islinux || isfreebsd
 #if islinux
-extern void set_linux_format(int elf); /* machine.c */
+void set_linux_format(int elf); /* machine.c */
 #endif
 #if isfreebsd
-extern void set_freebsd_format (int elf); /* machine.c */
-#endif  
-extern void out_main_prelude(void);
-extern void out_main_postlude(void);
+void set_freebsd_format (int elf); /* machine.c */
+#endif
+void out_main_prelude(void);
+void out_main_postlude(void);
 #endif
 
 

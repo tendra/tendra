@@ -55,21 +55,9 @@
  */
 
 
-/* 80x86/instr.c */
-
-
-
-/**********************************************************************
- *                           instr.c
- *
- *
- *   defines the general routines for outputting instructions and labels:
-
-
-
-**********************************************************************/
-
-
+/*
+ * General routines for outputting instructions and labels.
+ */
 #include "config.h"
 #include "fmm.h"
 
@@ -180,9 +168,9 @@ outreal(exp e)
 	flt * f = &flptnos[no(e)];
 	int sw = name(sh(e)) - shrealhd;
 	r2l longs;
-	
+
 	longs = real2longs_IEEE(f, sw);
-	
+
 	switch (sw) {
     case 0:
 		outhex(longs.i1);
@@ -203,7 +191,7 @@ outreal(exp e)
 		outnl();
 		break;
 	};
-	
+
 	return;
 }
 
@@ -324,7 +312,7 @@ get_reg_no(int regs)
 {
 	frr fr;
 	/* find the registers associated with the bit pattern regs */
-	
+
 	fr = first_reg (regs);
 	if (regs == REG_FLSTACK || fr.fr_no == (fstack_pos))
 		return (fstack_pos);
@@ -342,10 +330,10 @@ regn(int regs, int rdisp, exp ldname, int le)
 	char **rn;
 	UNUSED(rdisp);
 	z = get_reg_no (regs);
-	
+
 	if (name (ldname) == name_tag && islastuse(ldname))
 		regsinuse = regsinuse & ~regs;
-	
+
 	if (z >= first_fl_reg) {
 		if (z == first_fl_reg) {
 			outs (fl_reg_name[0]);
@@ -361,7 +349,7 @@ regn(int regs, int rdisp, exp ldname, int le)
 		 *       stack as well as a register bank */
 		return;
 	};
-	
+
 	switch (le) {
     case 8:
 		rn = reg_name_byte;
@@ -385,7 +373,7 @@ ind_reg(int regs, int rdisp, int offset, exp ldname,
 {
 	if (regs == 128)
 		offset += extra_stack;
-	
+
 	if (offset == 0) {
 		outs ("(");
 		regn (regs, rdisp, ldname, 32);
@@ -428,9 +416,9 @@ void
 extn(exp id, int off, int b)
 {
 	dec * et;
-	
+
 	et = brog (id);
-	
+
 	if (PIC_code)
 	{
 		char * got;
@@ -451,7 +439,7 @@ extn(exp id, int off, int b)
 			outs(")");
 		return;
 	};
-	
+
 	if (off == 0)
 		outs (et -> dec_u.dec_val.dec_id);
 	else {
@@ -518,7 +506,7 @@ proc_extn(exp id, int off)
 		outs ("$");
 		extn (id, off, 1);
 	};
-	
+
 	return;
 }
 
@@ -548,7 +536,7 @@ set_lv_label(exp e)
 	punner l;
 	l.e = e;
 	min_rfree |= 0x78;  /* save all callee registers */
-	
+
 	outs(local_prefix);
 	outs("V");
 	outn((long)l.i);
@@ -714,7 +702,7 @@ simple_set_label(int labno)
 		exit(EXIT_FAILURE);
 	};
 #endif
-	
+
 	cond1_set = 0;
 	cond2_set = 0;
 	outs(local_prefix);
@@ -782,15 +770,15 @@ jump(exp jr, int with_fl_reg)
 			discard_fstack ();
 		fstack_pos = good_fs;
 	};
-	
+
 	if (sonno(jr) > stack_dec) {
 		add(slongsh, mw (zeroe, (sonno(jr)-stack_dec) / 8), sp, sp);
 		stack_dec = sonno(jr);
 	}
-	
+
 	reset_fpucon();
 	stack_dec = good_sd;
-	
+
 #ifndef NEWDIAGS
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
@@ -820,70 +808,70 @@ static char
 		switch (test_no) {
 		case 1:
 			return (jne);
-			
+
 		case 2:
 			return (jne);
-			
+
 		case 3:
 			return (jpe);
-			
+
 		case 4:
 			return (jpe);
-			
+
 		case 5:
 			return (jpe);
-			
+
 		case 6:
 			return (jpo);
-			
+
 		case 7:
 			return (jpo);
-			
+
 		case 8:
 			return (jpo);
-			
+
 		case 9:
 			return (je);
-			
+
 		case 10:
 			return (je);
-			
+
 		case 11:
 			return (jne);
-			
+
 		case 12:
 			return (je);
-			
+
 		case 13:
 			return (jne);
-			
+
 		case 14:
 			return (je);
-			
+
 		default:
 			failer (BAD_TESTNO);
 		};
 	};
-	
+
 	if (sg) {
 		switch (test_no) {
 		case 1:
 			return (sg<0 ? xse : jle);
 		case 2:
 			return (sg<0 ? js : jl);
-			
+
 		case 3:
 			return (sg<0 ? jns : jge);
-			
+
 		case 4:
 			return (sg<0 ? xnse : jg);
-			
+
 		case 5:
 			return (jne);
-			
+
 		case 6:
 			return (je);
-			
+
 		default:
 			failer (BAD_TESTNO);
 		};
@@ -892,22 +880,22 @@ static char
 		switch (test_no) {
 		case 1:
 			return (jbe);
-			
+
 		case 2:
 			return (jb);
-			
+
 		case 3:
 			return (jae);
-			
+
 		case 4:
 			return (ja);
-			
+
 		case 5:
 			return (jne);
-			
+
 		case 6:
 			return (je);
-			
+
 		default:
 			failer (BAD_TESTNO);
 		};
@@ -924,7 +912,7 @@ simple_branch(char *j, int labno)
 	outs(local_prefix);
 	outn ((long)labno);
 	outnl ();
-	
+
 }
 
 
@@ -949,7 +937,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 						   (shnm < shrealhd || shnm > doublehd))
 			? (int)int_inverse_ntest[test_no]
 			: (int)real_inverse_ntest[test_no];
-		
+
 		char* cj = out_branch ((cmp_64hilab >= 0 ? 0 : sg), inv_test_no, shnm);
 		if (*cj == 'j') {
 			simple_branch (cj, nl);
@@ -965,7 +953,7 @@ branch(int test_no, exp jr, int sg, int shnm)
 				simple_branch (js, nl);
 				simple_branch (je, nl);
 			}
-		
+
 		if (cmp_64hilab >= 0) {
 			int nl2 = ptno (jr);
 			if (shnm != s64hd)
@@ -981,13 +969,13 @@ branch(int test_no, exp jr, int sg, int shnm)
 		}
 		else
 			jump (jr, 0);
-		
+
 		fstack_pos = good_fs;
 		fpucon = good_fpucon;
 		simplest_set_lab (nl);
 		return;
 	};
-	
+
 	{
 		char* cj = out_branch (sg, test_no, shnm);
 		if (*cj == 'j') {
@@ -1024,7 +1012,7 @@ setcc(int test_no, int sg, int shnm)
 		setcc (test_no, sg, slonghd);
 		simplest_set_lab (nl);
 	}
-	
+
 	b = out_branch (sg, test_no, shnm);
 	if (*b != 'j')
 		failer(NO_SETCC);
@@ -1172,7 +1160,7 @@ mult_op(int inc, where rmain, where rind,
 		outn ((long)sc);
 	};
 	outs ("),");
-	
+
 	if (inmem (dest)) {
 		operand (32, reg0, 1, 0);
 		outnl ();
@@ -1209,22 +1197,22 @@ caseins(int sz, exp arg, int min, int max,
 		absent = (exhaustive) ? -1 : next_lab ();
 		need_label_flag=1;
 	}
-	
+
 	tab = next_lab ();
 	a = mw (arg, 0);
-	
+
 	if (inmem (mw (arg, 0)) || sz != 32) {
 		if (!in_eax)
 			change_var (slongsh, a, reg0);
 		a = reg0;
 	}
-	
+
 	/* the switch jump */
 	out_switch_jump(tab, a, min);
-	
+
 	/* table of offsets */
 	out_switch_table(tab, min, max, v, absent);
-	
+
 	if (!exhaustive && need_label_flag==1) {
 		/*  label for default of switch; continue here */
 		outs(local_prefix);

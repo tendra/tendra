@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/is_worth.c */
-
-
-
 #include "config.h"
 #include "common_types.h"
 #include "tags.h"
@@ -75,17 +71,17 @@ is_worth(exp c)
 	/* decide if constant c is worth declaring
 	 *				   separately */
 	unsigned char cnam = name (c);
-	
+
 	if (name(sh(c)) == realhd && cnam == cont_tag &&
 		name(son(c)) == name_tag && isvar(son(son(c))) &&
 		isglob(son(son(c))))
 		return 1;
-	
+
 	if (cnam == cont_tag && name(son(c)) == name_tag &&
 		!isvar(son(son(c)))) {
 		return 1;
 	}
-	
+
 	return ((!is_o (cnam) && cnam != clear_tag &&
 			 cnam != int_to_bitf_tag && cnam != bitf_to_int_tag) ||
 			/* ignore simple things unless ... */
@@ -95,9 +91,9 @@ is_worth(exp c)
 				(isloadparam(son(c)) || isparam(son(c))) &&
 				!isvar(son(c)) &&
 				shape_size(sh(c)) <= 32
-				
+
 				&& name(sh(c)) != shrealhd
-				
+
 				)
 			||  (cnam == cont_tag && name(son(c)) == name_tag &&
 				 isvar(son(son(c))) && isglob(son(son(c))) &&

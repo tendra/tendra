@@ -251,7 +251,7 @@ name_to_loc(exp e)
 		case reg_pl: {
 			int z = get_reg_no (no(id));
 			l.key = L_INREG;
-			l.reg = (z >= first_fl_reg ? 100 + z - first_fl_reg : 
+			l.reg = (z >= first_fl_reg ? 100 + z - first_fl_reg :
 					 (int)dwarfreg[z]);
 			break;
 		};
@@ -270,7 +270,7 @@ find_loc(exp e)
 {
 	loc_s l;
 	switch (name (e)) {
-		
+
     case name_tag : {
 		if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
 							   !(brog(son(e))->dec_u.dec_val.extnamed))) {
@@ -283,7 +283,7 @@ find_loc(exp e)
 			extra_deref--;
 		return name_to_loc (e);
     }
-		
+
     case cont_tag :
     case contvol_tag : {
 		if (name(son(e)) == name_tag) {
@@ -307,7 +307,7 @@ find_loc(exp e)
 			l.key = L_INDIRECT;
 		break;
     }
-		
+
     case reff_tag : {
 		l = find_loc (son(e));
 		if (l.key == L_GLOB || l.key == L_REGOFF)
@@ -322,12 +322,12 @@ find_loc(exp e)
 				l.key = L_INDIRECT;
 		break;
     }
-		
+
     case chvar_tag : {
 		l = find_loc (son(e));
 		break;
     }
-		
+
     default:
 		failer ("unimplemented location condition");
 		SET (l);
@@ -522,7 +522,7 @@ dw2_locate_exp(exp e, int locate_const, int cx)
 	}
 	if (no_location)
 		length = 0;
-	
+
 	if (within_loclist) {
 		out16 ();
 		outn ((long)length); outnl();
@@ -941,7 +941,7 @@ dw2_start_fde(long proc_start, long fblab)
 	out32 (); out_dwf_label (cie_pointer, 0); d_outnl ();
 	out32 (); out_dwf_label (proc_start, 0); d_outnl ();
 	out32 (); out_dwf_labdiff (proc_start, proc_end); d_outnl ();
-	
+
 	if (callee_size >= 0) {
 		unsigned long pop_bytes = 4;
 		int n = (remove_struct_ref && has_struct_res(crt_proc_exp)) ? 32 : 0;
@@ -969,7 +969,7 @@ dw2_start_fde(long proc_start, long fblab)
 		}
 		d_outnl ();
 	}
-	
+
 	if (!no_frame) {
 		short_advance (proc_start, fblab);
 		out8 (); outn ((long)DW_CFA_def_cfa);
@@ -979,13 +979,13 @@ dw2_start_fde(long proc_start, long fblab)
 		out8 (); outn ((long)DW_CFA_offset + dwarfreg[6]); /* %ebp */
 		outsep (); uleb128 ((unsigned long)1); d_outnl ();
 	}
-	
+
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
 	hold_pos = ftell (fpout);
 	outs (sp50); outs (sp50); outs (sp50); outs (sp50); outs (sp50); outs (sp50); outs (sp50);
 	d_outnl ();
-	
+
 	exit_section ();
 	return hold_pos;
 }
@@ -1085,7 +1085,7 @@ dw2_prep_fde_restore_args(int untidy)
 	out8 (); outn ((long)DW_CFA_restore + dwarfreg[4]); d_outnl ();
 	out8 (); outn ((long)DW_CFA_restore + dwarfreg[5]); d_outnl ();
 	out8 (); outn ((long)DW_CFA_restore + dwarfreg[6]); d_outnl ();
-	
+
 	if (!no_frame) {	/* %ebp restored, return address pushed */
 		out8 (); outn ((long)DW_CFA_def_cfa);
 		outsep (); uleb128 ((unsigned long)dw_sp);

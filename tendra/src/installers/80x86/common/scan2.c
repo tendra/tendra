@@ -55,13 +55,8 @@
  */
 
 
-/* 80x86/scan2.c */
-
-
-
-/**********************************************************************
- *                            scan2.c
- *     Defines the scan through a program which
+/*
+ *     Define the scan through a program which
  *     reorganises it so that all arguments of
  *     operations are 80386 operands.
  *     80386 specific.
@@ -72,9 +67,7 @@
  *     the brother. This is to allow exps to be represented by indices
  *     into arrays and to allow the arrays to be realloced, which
  *     invalidates the use of &son(to) and &bro(to).
-
-**********************************************************************/
-
+ */
 
 #include "config.h"
 #include "common_types.h"
@@ -303,12 +296,12 @@ ap_argsc(int sto, exp to, exp e)
 	exp p, a, q;
 	int  k;
 	int do1 = 1;
-	
+
 	if (name (son (e)) == reff_tag)
 		q = son (son (e));
 	else
 		q = son (e);		/* q must be addptr - all addptrs processed here */
-	
+
 	if ((frame_al_of_ptr(sh(son(q))) & al_includes_vcallees) &&
 		(frame_al1_of_offset(sh(bro(son(q)))) & al_includes_caller_args)) {
 		/* env_offset to arg requires indirection from
@@ -320,31 +313,31 @@ ap_argsc(int sto, exp to, exp e)
 		son(c) = r;
 		son(q) = c;
 	}
-	
+
 	p = son (q);
 	a = bro (p);
-	
+
 	if (name (p) == name_tag && isvar (son (p)) && isglob (son (p)))
 		do1 = 0;
-	
+
 	if (do1)
 		cca_reg (1, e, 1, q);
-	
+
 	if (name (a) == offset_mult_tag && name (bro (son (a))) == val_tag &&
 		(k = no (bro (son (a))), k == 8 || k == 16 || k == 32 || k == 64))
 		cca_reg (1, e, 1, bro (son (q)));
 	else
 		cca_reg (1, e, 0, son (q));
-	
+
 	if (do1) {
 		cca (sto, to, 1, son (e));
 		cca (sto, to, 1, bro (son (son (e))));
 	}
 	else
 		cca (sto, to, 1, son (e));
-	
+
 	return;
-	
+
 }
 
 
@@ -365,16 +358,16 @@ static int
 cont_arg(int sto, exp to, exp e, int usereg0)
 {
 	unsigned char  n = name (son (e));
-	
-	
+
+
     if (n == name_tag && isvar (son (son (e))))
 		return usereg0;
-	
+
     if (n == cont_tag && usereg0 && shape_size(sh(e)) <= 32) {
 		cont_arg(sto, to, son(e), 1);
 		return 0;
     }
-	
+
     if (n == reff_tag) {
 		exp s = son (son (e));
 		if (name (s) == name_tag)  {
@@ -383,31 +376,31 @@ cont_arg(int sto, exp to, exp e, int usereg0)
 			if (!PIC_code && isglob(son(s)) && isvar(son(s)))
 				return 0;
 		};
-		
+
 		if (name(s) == cont_tag && usereg0 && shape_size(sh(e)) <= 32) {
 			cont_arg(sto, to, s, 1);
 			return 0;
 		}
-		
+
 		if (name (s) == addptr_tag) {
 			ap_argsc (sto, to, e);
 			return 0;
 		}
     };
-	
-	
+
+
     if (n == addptr_tag) {
 		ap_argsc (sto, to, e);
 		return 0;
     };
-	
+
 	if (n == reff_tag)
 		cca_reg (1, e, 1, son (e));
 	else
 		cca_reg (1, e, 1, e);
-	
+
 	cca (sto, to, 1, son (e));
-	
+
 	return 0;
 }
 
@@ -523,7 +516,7 @@ is_indable(exp e)
 	unsigned char  s = name (e);
 	if (s == name_tag)
 		return (1);
-	
+
 	if (s == cont_tag) {
 		unsigned char  t = name (son (e));
 		return ((t == name_tag && isvar (son (son (e)))) ||
@@ -531,9 +524,9 @@ is_indable(exp e)
 				 isvar (son (son (son (e))))) ||
 				(t == reff_tag && is_direct (son (son (e)))));
 	};
-	
+
 	return ((s == reff_tag && is_direct (son (e))) ||
-			
+
 			s == addptr_tag);
 }
 
@@ -729,7 +722,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		scanargs (1, e, 1);
 		return (0);
 	};
-	
+
     case labst_tag:
 	{
 		IGNORE scan2 (0, son (e), bro (son (e)), 1);
@@ -747,7 +740,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		IGNORE scan2 (0, son (e), bro (son (e)), 1);
 		return (0);
 	};
-	
+
     case local_free_tag:
     case long_jump_tag:
     case return_to_label_tag:
@@ -755,7 +748,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		all_assable (sto, to, e);
 		return (0);
 	};
-	
+
     case offset_add_tag:
     case offset_subtract_tag:
 	{
@@ -767,7 +760,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		return 0;
 		/* all arguments except possibly one must be operands */
 	};
-	
+
     case offset_mult_tag:
     case alloca_tag:
     case minus_tag:
@@ -808,7 +801,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		IGNORE all_opnd (sto, to, e, ur);
 		return 0;
 	};
-	
+
     case test_tag:
     case absbool_tag:
 	{
@@ -820,7 +813,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		/* all arguments except possibly one must be operands */
 		return 0;
 	};
-	
+
     case mod_tag:
     case rem2_tag:
     case rem0_tag:
@@ -844,7 +837,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		return 0;
 		/* all arguments except possibly the first must be operands */
 	};
-	
+
     case shl_tag:
     case shr_tag:
     case rotl_tag:
@@ -855,7 +848,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		return 0;
 		/* all arguments except possibly the first must be operands */
 	};
-	
+
     case offset_div_by_int_tag:
 	{
 		if (name(sh(bro(son(e)))) != slonghd &&  name(sh(bro(son(e)))) != ulonghd) {
@@ -868,7 +861,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 		return 0;
 		/* all arguments except possibly the first must be operands */
 	};
-	
+
     case fplus_tag:
     case fminus_tag:
     case fmult_tag:
@@ -1065,7 +1058,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 			ap_argsc (sto, to, e);
 			return (0);
 		};
-		
+
 		cca_reg (sto, to, 1, e);
 		return (0);
 	};
@@ -1083,12 +1076,12 @@ scan2(int sto, exp to, exp e, int usereg0)
 		proc_has_asm = 1;
 		return (0);
 	};
-	
+
     case name_tag:
 		if (!is_opnd (e)) {
 			return 0;
 		}
-		
+
 		/* DELIBERATE FALL THROUGH */
     default:
 		return (usereg0);

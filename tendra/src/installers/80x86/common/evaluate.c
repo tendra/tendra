@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/evaluate.c */
-
-
-
 #include "config.h"
 #include "common_types.h"
 
@@ -153,23 +149,23 @@ evalexp(exp e)
 	{
 		return (evalexp (son (e)) ^ evalexp (bro (son (e))));
 	}
-	
+
     case shr_tag:
 	{
 		return (evalexp (son (e)) >> evalexp (bro (son (e))));
 	}
-	
+
     case shl_tag:
 	{
 		return (evalexp (son (e)) << evalexp (bro (son (e))));
 	}
-	
+
     case concatnof_tag:
 	{
 		long  wd = evalexp (son (e));
 		return (wd | (evalexp (bro (son (e))) << shape_size(sh(son(e)))));
 	}
-	
+
     case clear_tag:
 	{
 		if (shape_size(sh(e)) <= 32)
@@ -247,7 +243,7 @@ evalval(exp e)
 	int e_size = shape_size(sh(e));
 	unsigned char  n = name (e);
 	int ov;
-	
+
 	if (n == val_tag) {
 		int k = (name(sh(e)) == offsethd && al2(sh(e)) != 1)
 			? no(e)/8 : no(e);
@@ -284,12 +280,12 @@ evalval(exp e)
 		};
 		return;
 	};
-	
+
 	if (n == real_tag) {
 		outreal (e);
 		return;
 	};
-	
+
 	if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
 		outopenbr();
 		outs (brog (son (son (e))) -> dec_u.dec_val.dec_id);
@@ -298,7 +294,7 @@ evalval(exp e)
 		outclosebr();
 		return;
 	};
-	
+
 	if (n == name_tag) {
 		if (no (e) != 0) {
 			outopenbr();
@@ -311,7 +307,7 @@ evalval(exp e)
 			outs (brog (son (e)) -> dec_u.dec_val.dec_id);
 		return;
 	};
-	
+
 	{
 		int k = evalexp (e);
 		switch (e_size) {
@@ -340,7 +336,7 @@ clear_out(int n, int isconst, int al)
 {
 	if (n == 0)
 		return;
-	
+
 	if (isconst) {
 		while (al >= 32 && n >= 4) {
 			outlong();
@@ -360,7 +356,7 @@ clear_out(int n, int isconst, int al)
 		outn ((long)n);
 		outnl ();
 	};
-	
+
 	return;
 }
 
@@ -370,7 +366,7 @@ evalaux(exp e, int isconst, int al)
 {
 	int e_size = shape_size(sh(e));
 	unsigned char  n = name (e);
-	
+
 	if (n == compound_tag) {		/* output components in turn */
 		int work = 0;
 		exp offe;
@@ -378,12 +374,12 @@ evalaux(exp e, int isconst, int al)
 		int bits_left = 0;
 		int crt_off = 0;
 		int off, offn, sz, nx, i;
-		
+
 		if (son(e) == nilexp)
 			return;
-		
+
 		offe = son(e);
-		
+
 		while (1)
 		{
 			off = no(offe);
@@ -398,7 +394,7 @@ evalaux(exp e, int isconst, int al)
 				work = 0;
 				bits_left = 0;
 			};
-			
+
 			if (off < crt_off)
 				failer(CPD_ORDER);
 			if (off >= (crt_off + 8))
@@ -406,7 +402,7 @@ evalaux(exp e, int isconst, int al)
 				clear_out((off-crt_off)/8, isconst, al);
 				crt_off = off & -8;
 			};
-			
+
 			if (name(sh(val)) != bitfhd)
 			{
 				evalaux(val, isconst, (crt_off + al) & 56);
@@ -447,7 +443,7 @@ evalaux(exp e, int isconst, int al)
 					work = nx >> bits_left;
 				};
 			};
-			
+
 			if (last(val))   /* CLEAR OUT SHAPE size_shape(e) - crt_off */
 			{
 				if (bits_left)
@@ -464,7 +460,7 @@ evalaux(exp e, int isconst, int al)
 			offe = bro(val);
 		};
 	};
-	
+
 	if (n == string_tag) {
 		char *s = nostr(e);
 		int  goon;
@@ -480,7 +476,7 @@ evalaux(exp e, int isconst, int al)
 			case 32:outlong(); break;
 			case 64:outlong(); break;
 			};
-			
+
 			for (j = i; goon && j < i + 10; ++j) {
 				switch (props(e))
 				{
@@ -504,14 +500,14 @@ evalaux(exp e, int isconst, int al)
 		};
 		return;
 	};
-	
+
 	if (n == res_tag) {
 		int  nb;
 		nb = shape_size(sh(son(e))) / 8;
 		clear_out (nb, isconst, shape_align(sh(son(e))));
 		return;
 	};
-	
+
 	if (n == ncopies_tag) {
 		int  m = no (e);
 		int  sz, i;
@@ -530,7 +526,7 @@ evalaux(exp e, int isconst, int al)
 		}
 		return;
 	};
-	
+
 	if (n == nof_tag)
 	{
 		exp t = son(e);
@@ -545,27 +541,27 @@ evalaux(exp e, int isconst, int al)
 			dot_align((shape_align(sh(t))<=8) ? 1 : shape_align(sh(t))/8);
 		};
 	};
-	
+
 	if (n == concatnof_tag) {
 		evalaux (son (e), isconst, al);
 		evalaux (bro (son (e)), isconst, (al +shape_size(son(e))) & 63);
 		return;
 	};
-	
+
 	if (n == clear_tag)
 	{
 		int sz = shape_size (sh (e)) / 8;
 		clear_out (sz, isconst, al);
 		return;
 	};
-	
+
 	if (n == chvar_tag && shape_size(sh(e)) == shape_size(sh(son(e)))) {
 		sh(son(e)) = sh(e);
 		evalaux(son(e), isconst, al);
 		return;
 	};
-	
-	
+
+
 	outsize(e_size);
 	evalval(e);
 	outnl();
@@ -580,48 +576,47 @@ evaluate(exp c, int cname, char *s, int isconst,
 		 int global, diag_global * diag_props)
 {
 	int al = shape_align(sh(c));
-	
+
 	if (global && cname == -1) {
 		outs (".globl ");
 		outs (s);
 		outnl ();
 	};
-	
+
 	if (name(sh(c)) == realhd ||
         (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
 		shape_size(sh(c)) >= 512)
 		al = 64;
-	
+
 	if (al <= 8)
 		dot_align(4);
 	else
 		dot_align(al/8);
-	
+
 	if (diag_props)
 #ifdef NEWDWARF
 		DIAG_VAL_BEGIN (diag_props, global, cname, s);
 #else
     diag_val_begin(diag_props, global, cname, s);
 #endif
-	
+
 	if (cname == -1) {
 		outs (s);
-	}
-	else {
+	} else {
 		outs(local_prefix);
 		outn ((long)cname);
 	};
-	
+
 	outs (":");
 	outnl();
-	
+
 	evalaux (c, isconst, al);
-	
+
 	if (global)
 		eval_postlude(s, c);
-	
+
 	outnl ();
-	
+
 	if (diag_props) {
 #ifdef NEWDWARF
 		DIAG_VAL_END (diag_props);
@@ -629,6 +624,6 @@ evaluate(exp c, int cname, char *s, int isconst,
 		diag_val_end(diag_props);
 #endif
 	}
-	
+
 	return;
 }

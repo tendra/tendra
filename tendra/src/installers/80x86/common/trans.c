@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/trans.c */
-
-
-
 #include "config.h"
 #include "argparse.h"
 #include "catstdn.h"
@@ -374,7 +370,7 @@ main(int argc, char **argv)
 {
 	int optcnt;
 	char *outfname;
-	
+
 	tenapp_init(argc, argv, "TDF to 80x86/Pentium translator", "1.0");
 	/* defaults */
 	do_inlining = 1;		/* inline */

@@ -747,7 +747,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 
 		/*
 		 * set the label which says how much the stack was decreased, in case
-		 * frame pointer addressing is used 
+		 * frame pointer addressing is used
 		 */
 		outs (".set ");
 		outs(local_prefix);

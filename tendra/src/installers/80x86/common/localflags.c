@@ -55,9 +55,6 @@
  */
 
 
-/* 80x86/localflags.c */
-
-
 #include "config.h"
 #include "common_types.h"
 

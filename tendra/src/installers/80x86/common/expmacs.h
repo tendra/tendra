@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,9 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-/* 80x86/expmacs.h */
 
 
 #ifndef expmacs_key
@@ -101,7 +98,7 @@
 
 /* error handling macros */
 #define errhandle(x) ((x)->propsf & 0x7)
-#define optop(x) ((int)errhandle(x) <= 2) 
+#define optop(x) ((int)errhandle(x) <= 2)
 #define seterrhandle(x,e) (x)->propsf= (prop)(((x)->propsf & 0xf8) | (e))
 
 /* properties of constructions with EXCEPTIONS */
@@ -209,7 +206,7 @@
 /* parameter used for output (needs only to be in memory for 80x86) */
 #define setoutpar(x) setvis(x)
 #define isoutpar(x) isvis(x)
-#define clearoutpar(x) 
+#define clearoutpar(x)
 
 /* properties of PROC_TAG construction */
 
@@ -358,5 +355,3 @@
 #define size8 (8)
 
 #endif
-
-

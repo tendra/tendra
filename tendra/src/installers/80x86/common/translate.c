@@ -96,7 +96,7 @@
 
 static exp delayed_const_list = nilexp;
 
-static int 
+static int
 const_ready(exp e)
 {
 	unsigned char n = name (e);
@@ -116,7 +116,7 @@ const_ready(exp e)
 	return (const_ready(e));
 }
 
-static void 
+static void
 eval_if_ready(exp t, int now)
 {
 	if (now || const_ready(son(t))) {
@@ -169,7 +169,7 @@ eval_if_ready(exp t, int now)
 
 /* PROCEDURES */
 
-void 
+void
 make_code(dec *my_def)
 {
 	exp tg = my_def->dec_u.dec_val.dec_exp;
@@ -316,7 +316,7 @@ make_code(dec *my_def)
 	return;
 }
 
-void 
+void
 mark_unaliased(exp e)
 {
 	exp p = pt (e);
@@ -343,7 +343,7 @@ mark_unaliased(exp e)
 }
 
 
-void 
+void
 translate_capsule(void)
 {
 	dec * my_def;
@@ -471,13 +471,13 @@ translate_capsule(void)
 
 }
 
-void 
+void
 translate_tagdef(void)
 {
 	return;
 }
 
-void 
+void
 translate_unit(void)
 {
 	return;

@@ -55,10 +55,6 @@
  */
 
 
-/* 80x86/inlinechoice.c */
-
-
-
 #include "config.h"
 #include "common_types.h"
 #include "installglob.h"
@@ -104,68 +100,68 @@ static int
 complexity(exp e, int count, int newdecs)
 {
     unsigned char n = name (e);
-	
+
     last_new_decs = newdecs;
-	
+
     if (count < 0)
 		return (-1);
     if (newdecs > crit_decs)
 		return (-2);
     if (son (e) == nilexp)
 		return (count);
-	
+
     switch (n) {
-		
+
 	case apply_tag : {
 	    if (newdecs > crit_decsatapp)
 			return (-3);
 	    return (sbl (son (e),  (count - apply_cost),
 					 (newdecs + 1)));
 	}
-		
+
 	case rep_tag : {
 	    return (complexity (bro (son (e)),  (count - 1),
 							(newdecs + 1)
 					));
 	}
-		
+
 	case res_tag : {
 	    return (complexity (son (e),  (count + 1),
 							newdecs));
 	}
-		
+
 	case ident_tag : {
 	    return (sbl (son (e),  (count - 1),
 					 (newdecs + 1)));
 	}
-		
+
 	case top_tag :
 	case clear_tag :
 	case val_tag : {
 	    return (count);
 	}
-		
+
 	case case_tag : {
 	    return (complexity (son (e),  (count - 1),
 							newdecs));
 	}
-		
+
 	case name_tag :
 	case string_tag :
 	case env_offset_tag : {
 	    return (count - 1);
 	}
-		
+
 	case labst_tag : {
 	    return (complexity (bro (son (e)), count, newdecs));
 	}
-		
+
 	case solve_tag :
 	case seq_tag :
 	case cond_tag : {
 	    return (sbl (son (e), count, newdecs));
 	}
-		
+
 	default : {
 	    return (sbl (son (e),  (count - 1), newdecs));
 	}
@@ -182,32 +178,32 @@ int
 inlinechoice(exp t, exp def, int total_uses)
 {
 	int res;
-	
+
 	exp apars;
 	exp fpars;
-	
+
 	int newdecs = 0;
 	int no_actuals;
 	int max_complexity;
-	
+
 	int nparam;
 	CONST  int CONST_BONUS_UNIT = 16;
 	int const_param_bonus;
 	int adjusted_max_complexity;
-	
+
 	shape shdef = pt(def) /* Oh, yes it is! */;
-	
+
 	if (!eq_shape(sh(father(t)), shdef)) {
 		/* shape required by application is different from definition */
 		return 1;
 	}
-	
+
 	nparam = 0;
 	const_param_bonus = 0;
-	
-	
+
+
 	max_complexity = (crit_inline / total_uses);
-	
+
 #if issparc
 	{
 #define QQQ 2
@@ -223,17 +219,17 @@ inlinechoice(exp t, exp def, int total_uses)
 #undef QQQ
 	}
 #endif
-	
+
 	if (max_complexity < 15) {
 		max_complexity = 15;
 	} else if (max_complexity > 120) {
 		max_complexity = 120;
 	}
-	
+
 	apars = bro(t); /* only uses are applications */
 	no_actuals = last(t);		/* if so then apars is apply_tag... */
 	fpars = son(def);
-	
+
 	for (;;) {
 		if (name(fpars)!=ident_tag || !isparam(fpars)) {
 			/* first beyond formals */
@@ -243,7 +239,7 @@ inlinechoice(exp t, exp def, int total_uses)
 			break;
 		}
 		nparam++;
-		
+
 		switch (name(apars)) {
 		case val_tag: case real_tag: case string_tag: case name_tag:
 			break;
@@ -258,14 +254,14 @@ inlinechoice(exp t, exp def, int total_uses)
 		case val_tag : {
 			int n = no (apars);
 			if (isbigval(apars)) break;
-			
+
 			/* Simple constant param. Increase desire to
 			 *	   inline since a constant may cause further
 			 *	   optimisation, eg strength reduction (mul
 			 *	   to shift) or dead code savings */
-			
+
 #define IS_POW2(c)	((c) != 0 && ((c) & ((c) - 1)) == 0)
-			
+
 			if (0) {
 				/* needs a register - poor */
 				const_param_bonus += CONST_BONUS_UNIT / 4;
@@ -278,18 +274,18 @@ inlinechoice(exp t, exp def, int total_uses)
 			}
 			break;
 		}
-			
+
 #undef IS_POW2
-			
+
 		case real_tag :
 			/* reals not that useful */
 			const_param_bonus += CONST_BONUS_UNIT / 4;
 			break;
-			
+
 		case string_tag :
 		case name_tag :
 			break;
-			
+
 		case cont_tag :
 			if (name (son (apars)) == name_tag &&
 				isvar (son (son (apars))) &&
@@ -297,7 +293,7 @@ inlinechoice(exp t, exp def, int total_uses)
 				break;
 			}
 			/* FALL THROUGH */
-			
+
 		default : {
 			newdecs++;
 			break;
@@ -307,9 +303,9 @@ inlinechoice(exp t, exp def, int total_uses)
 		if (last(apars)) break;
 		apars = bro(apars);
 	}
-	
+
 	adjusted_max_complexity = max_complexity;
-	
+
 	/* increase to up to 3 times (average around 2) according
 	 *     to const params */
 	if (nparam != 0) {
@@ -317,19 +313,16 @@ inlinechoice(exp t, exp def, int total_uses)
 			(2 * max_complexity * const_param_bonus) /
 			(CONST_BONUS_UNIT * nparam);
 	}
-	
+
 	/* increase by number of instructions saved for call */
     adjusted_max_complexity += nparam - newdecs + 1;
-	
+
 	if ((complexity (fpars,  adjusted_max_complexity, newdecs)) >= 0)
 		res = 2;
 	else if (newdecs == 0)
 		res = 0;
 	else
 		res = 1;
-	
-	
-	return res;
-	
-}
 
+	return res;
+}

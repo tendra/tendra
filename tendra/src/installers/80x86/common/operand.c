@@ -55,21 +55,6 @@
  */
 
 
-/* 80x86/operand.c */
-
-
-
-/*********************************************************************
- *                              operand.c
- *
- *  operand outputs a 80386 operand, given a "where" and the number of
- *  bits the operand occupies.
-
-
-
-*********************************************************************/
-
-
 #include "config.h"
 #include "common_types.h"
 #include "tags.h"
@@ -129,11 +114,11 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 {
 	unsigned char  na;
 	unsigned char  nb;
-	
+
   rept:
 	na = name(a);
 	nb = name(b);
-	
+
 	if (a == b)
 		return (1);
 	if (na == nb) {		/* same kind of operation "equal names" */
@@ -199,22 +184,22 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 			int is_zero = 1;
 			fa = flptnos[no (a)];
 			fb = flptnos[no (b)];
-			
+
 			for (i = 0; i < MANT_SIZE && (fa.mant)[i] == (fb.mant)[i];
 				 i++) {
 				if ((fa.mant)[i] != 0)
 					is_zero = 0;
 			};
-			
+
 			return (i == MANT_SIZE &&
 					(is_zero || (fa.exp == fb.exp &&
 								 fa.sign == fb.sign)));
-			
+
 		};
 		return (0);
 	};				/* end equal names */
-	
-	
+
+
 	if (na == name_tag && nb == ident_tag && first) {
 		if (overlap ? (no (a) & -32) != 0 : no (a) != 0)
 			return (0);
@@ -229,7 +214,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		first = 0;
 		goto rept;
 	};
-	
+
 	if (na == cont_tag && name(son(a)) == name_tag &&
 		isvar(son(son(a))) && nb == ident_tag && first) {
 		if (overlap ? (no (son(a)) & -32) != 0 : no (son(a)) != 0)
@@ -246,7 +231,7 @@ eq_where_exp(exp a, exp b, int first, int overlap)
 		first = 0;
 		goto rept;
 	};
-	
+
 	if ((na == cont_tag || na == ass_tag) &&
 		name (son (a)) == name_tag &&
 		isvar (son (son (a))) && nb == name_tag && !isvar (son (b))) {
@@ -331,7 +316,7 @@ operand(int le, where wh, int b, int addr)
 	exp w = wh.where_exp;
 	int  off = wh.where_off;
 	unsigned char  n = name (w);
-	
+
 	if (n == val_tag && !isbigval(w)) {		/* integer constant */
 		int  k = no (w) + off;
 		if (name(sh(w)) == offsethd && al2(sh(w)) != 1)
@@ -339,7 +324,7 @@ operand(int le, where wh, int b, int addr)
 		int_operand (k, le);
 		return;
 	};
-	
+
 	if (n == ident_tag || n == labst_tag) {/* can only be dest */
 		switch (ptno (w)) {
 		case local_pl: {
@@ -356,26 +341,26 @@ operand(int le, where wh, int b, int addr)
 		};
 		};
 	};
-	
+
 	if (n == name_tag) {
 		exp ident = son (w);
 		int  noff = no (w) + off;
 		int  ni = no (ident);
-		
+
 		if (isglob (ident)) {
 			if (name (sh (w)) == prokhd)	/* special treatment for procedures */
 			{
 				const_extn (ident, noff);
 				return;
 			};
-			
+
 			if (isvar (ident))
 				const_extn (ident, noff);
 			else
 				extn (ident, noff, b);
 			return;
 		};
-		
+
 		switch (ptno (ident)) {
 		case local_pl: {		/* local so relative to stack pointer or fp */
 			rel_sp ((ni + noff - stack_dec) / 8, b);
@@ -403,7 +388,7 @@ operand(int le, where wh, int b, int addr)
 		};
 		};
 	};
-	
+
 	if (n == cont_tag || n == ass_tag) {
 		exp ref = son (w);
 		unsigned char  s = name (ref);
@@ -441,11 +426,11 @@ operand(int le, where wh, int b, int addr)
 				};
 			}
 			else {			/* variable */
-				
+
 				exp ident = son (ref);
 				int  noff = no (ref) + off;
 				int  ni = no (ident);
-				
+
 				if (isglob (ident)) {
 					extn (ident, noff, b);
 					return;
@@ -476,7 +461,7 @@ operand(int le, where wh, int b, int addr)
 				};
 			};
 		};				/* end of cont(name) */
-		
+
 		if (s == cont_tag && name (son (ref)) == name_tag &&
 			isvar (son (son (ref)))) {
 			exp ident = son (son (ref));
@@ -501,8 +486,8 @@ operand(int le, where wh, int b, int addr)
 			};
 			};
 		};				/* end of cont(cont(var)) */
-		
-		
+
+
 		if (s == reff_tag) {
 			exp et = son (ref);
 			unsigned char  t = name (et);
@@ -522,7 +507,7 @@ operand(int le, where wh, int b, int addr)
 				};
 				};
 			};			/* end of cont(reff(name)) */
-			
+
 			if (t == cont_tag) {
 				switch (ptno (son (son (et)))) {
 				case reg_pl: {
@@ -536,7 +521,7 @@ operand(int le, where wh, int b, int addr)
 				};
 				};
 			};			/* end of cont(ref(cont())) */
-			
+
 			if (t == addptr_tag) {
 				where new_w;
 				new_w.where_exp = et;
@@ -546,7 +531,7 @@ operand(int le, where wh, int b, int addr)
 			};			/* end of cont(reff(addptr())) */
 			failer (BAD_OPND);
 		};				/* end of cont(reff()) */
-		
+
 		if (s == addptr_tag) {
 			exp u = bro (son (ref));
 			exp c = getexp (f_bottom, nilexp, 0, son (ref), nilexp,
@@ -560,7 +545,7 @@ operand(int le, where wh, int b, int addr)
 				index_opnd (wc, wu, 1);
 				return;
 			};			/* end of cont(addptr(-, name)) */
-			
+
 			if (name (u) == offset_mult_tag) {
 				int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
 				wu.where_exp = son (u);
@@ -568,11 +553,11 @@ operand(int le, where wh, int b, int addr)
 				return;
 			};			/* end of cont(addptr(-, mult)) */
 		};				/* end of cont(addptr()) */
-		
-		
+
+
 	};				/* end of cont */
-	
-	
+
+
 	if (n == reff_tag) {
 		exp se = son (w);
 		unsigned char  s = name (se);
@@ -592,7 +577,7 @@ operand(int le, where wh, int b, int addr)
 			};
 			};
 		};				/* end of reff(name)  */
-		
+
 		if (s == cont_tag) {
 			if (isglob (son (son (se)))) {
 				extn (son (son (se)), no (w), b);
@@ -610,7 +595,7 @@ operand(int le, where wh, int b, int addr)
 			};
 			};
 		};				/* end of reff(cont()) */
-		
+
 		if (s == addptr_tag) {
 			where ww;
 			ww.where_exp = se;
@@ -619,7 +604,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 		};				/* end of reff(addptr()) */
 	};				/* end of reff() */
-	
+
 	if (n == addptr_tag) {
 		exp u = bro (son (w));
 		exp c = getexp (f_bottom, nilexp, 0, son (w), nilexp, 0, 0, cont_tag);
@@ -632,7 +617,7 @@ operand(int le, where wh, int b, int addr)
 			index_opnd (wc, wu, 1);
 			return;
 		};				/* end of addptr(-, name)  */
-		
+
 		if (name (u) == offset_mult_tag) {
 			int  k = no (bro (son (u)))/8;	/* cannot be bitfield */
 			wu.where_exp = son (u);
@@ -640,7 +625,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 		};				/* end of addptr(-, mult) */
 	};				/* end of addptr() */
-	
+
 	if (n == real_tag || n == val_tag || n == string_tag ||
 		n == proc_tag || n == general_proc_tag) {
 		int  ln;
@@ -655,32 +640,32 @@ operand(int le, where wh, int b, int addr)
 		const_intnl (0, no (const_list), off);
 		return;
 	};
-	
+
 	if (n == res_tag) {
 		const_intnl (0, no (w), off);
 		return;
 	};
-	
+
 	if (n == null_tag) {
 		int_operand (no(w), le);
 		return;
 	};
-	
+
 	if (n == field_tag) {
 		operand (le, mw (son (w), off + no (w)), b, addr);
 		return;
 	};
-	
+
 	if (n == make_lv_tag) {
 		label_operand(w);
 		return;
 	};
-	
+
 	if (n == current_env_tag) {
 		outbp();
 		return;
 	};
-	
+
 	if (n == env_offset_tag) {
 		if (name(son(w))==0) {	/* must be caller arg with var_callees */
 			int_operand(no(son(w))/8, le);
@@ -690,18 +675,18 @@ operand(int le, where wh, int b, int addr)
 		envoff_operand(son(w), no(w));
 		return;
 	};
-	
+
 	if (n == env_size_tag) {
 		outs("$");
 		envsize_operand(son(son(w)));
 		return;
 	};
-	
+
 	if (n == local_free_all_tag) {
 		ldisp();
 		return;
 	};
-	
+
 	if (n == clear_tag) {
 		/* any legal operand will do! */
 		if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
@@ -720,9 +705,8 @@ operand(int le, where wh, int b, int addr)
 			return;
 		};
 	};
-	
+
 	failer (BAD_OPND);
-	
+
 	return;
 }
-

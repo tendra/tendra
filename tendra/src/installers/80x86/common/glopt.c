@@ -55,11 +55,6 @@
  */
 
 
-/* 80x86/glopt.c */
-
-
-
-
 #include "config.h"
 #include "common_types.h"
 #include "tags.h"
@@ -86,7 +81,7 @@ glopt(dec * dp)
 		exp t = pt(i);
 		if (t == nilexp)
 			return;
-		
+
 		while (1)
 		{
 			if (!last(t) && !last(bro(t)) && last(bro(bro(t))) &&
@@ -95,7 +90,7 @@ glopt(dec * dp)
 			{
 				exp dest = bro(t);
 				exp source = bro(dest);
-				
+
 				if (name(source) == name_tag && isglob(son(source)) &&
 					isvar(son(source)) && no(son(source)) == 1)
 				{
@@ -125,9 +120,9 @@ glopt(dec * dp)
 								exp n2 = getexp(sh(dest), nilexp, 0, idsc, n1,
 												0, 0, name_tag);
 								exp_list el;
-								
+
 								pt(idsc) = n2;
-								
+
 								q = f_assign(n1, f_contents(sha, source));
 								el.start = q;
 								el.end = q;
@@ -144,20 +139,20 @@ glopt(dec * dp)
 					};
 				};
 			};
-			
+
 			if (pt(t) == nilexp)
 				return;
 			t = pt(t);
 		};
 	};
-	
+
 	if (!writable_strings && !strcmp(dp -> dec_u.dec_val.dec_id, "strlen"))
 	{
 		exp i = dp -> dec_u.dec_val.dec_exp;
 		exp t = pt(i);
 		if (t == nilexp)
 			return;
-		
+
 		while (1)
 		{
 			if (!last(t) && last(bro(t)) &&
@@ -165,7 +160,7 @@ glopt(dec * dp)
 				son(bro(bro(t))) == t)
 			{
 				exp st = bro(t);
-				
+
 				if (name(st) == name_tag && isglob(son(st)) &&
 					isvar(son(st)) && no(son(st)) == 1)
 				{
@@ -195,14 +190,14 @@ glopt(dec * dp)
 					};
 				};
 			};
-			
+
 			if (pt(t) == nilexp)
 				return;
 			t = pt(t);
 		};
 	};
-	
-	
-	
+
+
+
 	return;
 }
