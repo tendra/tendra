@@ -17,7 +17,7 @@
 ?AS1			"Auxiliary assembler executable - Mips and Alpha only (AS1)"
 ?DYN_LINK		"Dynamic-initialisation linker executable (DYN_LINK)"
 ?CPP_SPEC_LINK		"C++ spec linker executable (CPP_SPEC_LINK)"
-?DUMP_ANAL		"TenDRA dump file anlayser (DUMP_ANAL)"
+?DUMP_ANAL		"TenDRA dump file analyser (DUMP_ANAL)"
 ?DUMP_LINK		"TenDRA dump file linker (DUMP_LINK)"
 ?CC			"System compiler executable (CC)"
 
