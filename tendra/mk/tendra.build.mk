@@ -50,6 +50,21 @@ _REALWORK: fixenv.sed .USE
 . endif
 
 _objdir=	${OBJ_DIR}/${ENVIRONMENT}
+.elif "${STARTUPSUBDIR}" != ""
+#
+# Install startup files in object directory
+#
+_REALWORK: .USE
+	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories into object directory"
+	${CONDCREATE} ${STARTUPSUBDIR:S/^/${OBJ_SDIR}\//g}
+. for startsub in ${STARTUPSUBDIR}
+.  for file in ${:!${ECHO} ${.CURDIR}/${startsub}/*!:T}
+	${INSTALL} -m 644 ${.CURDIR}/${startsub}/${file} \
+		${OBJ_SDIR}/${startsub}/${file}
+.  endfor
+. endfor
+
+_objdir=	${OBJ_SDIR}
 .elif "${PROG}" != ""
 #
 # Build a program.
@@ -69,23 +84,6 @@ _REALWORK: ${PROG} .USE
 		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
 		${.CURDIR}/${WRAPPER} > ${WRAPPER}
 . endif
-
-.elif "${STARTUPSUBDIR}" != ""
-#
-# Install startup files in object directory
-#
-_REALWORK: .USE
-	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories into object directory"
-	${CONDCREATE} ${STARTUPSUBDIR:S/^/${OBJ_SDIR}\//g}
-. for startsub in ${STARTUPSUBDIR}
-	@${ECHO} "Dir is: ${.CURDIR}"
-.  for file in ${:!${ECHO} ${.CURDIR}/${startsub}/*!:T}
-	${INSTALL} -m 644 ${.CURDIR}/${startsub}/${file} \
-		${OBJ_SDIR}/${startsub}/${file}
-.  endfor
-. endfor
-
-_objdir=	${OBJ_SDIR}
 
 CLEAN_EXTRA+=	${PROG} ${PROG}.core core ${OBJS}
 _objdir=	${OBJ_SDIR}
