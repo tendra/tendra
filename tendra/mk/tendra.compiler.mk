@@ -29,7 +29,6 @@
 # EXEC_SUFFIX is used on those platforms where executable names need to
 # have a particular suffix, for example it may be set to ".exe".
 
-CC?= cc
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
   TCCOPTS=
