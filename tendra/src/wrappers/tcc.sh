@@ -19,7 +19,7 @@ OPTS_DEFAULT="-yTENDRA_BASEDIR=${TENDRA_BASEDIR} -Y${TENDRA_BASEDIR}/env/default
 # Execute tcc with our compiled options.
 
 if [ -n "$DEBUG" ]; then
-	${TCC_BIN} ${OPTS_DEFAULT} ${@+"$@"}
-else
 	-BIN_ECHO- ${TCC_BIN} ${OPTS_DEFAULT} ${@+"$@"}
+else
+	${TCC_BIN} ${OPTS_DEFAULT} ${@+"$@"}
 fi;
