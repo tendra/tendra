@@ -3045,6 +3045,9 @@ cmp(shape sha, where from, where min, int nt,
 	exp hold_min = son(min.where_exp);
 	sz = shape_size(sha);
 	
+	if (sha == f_top)
+		return 1;
+
 	if (cond1_set &&
 		(eq_where (min, zero) || (name(min.where_exp) == null_tag && no(min.where_exp) == 0)) &&
 		(is_signed (sha) || nt >= 5) &&
