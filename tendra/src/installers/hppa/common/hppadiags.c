@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *	(1) Its Recipients shall ensure that this Notice is
  *	reproduced upon any copies or amended versions of it;
- *    
+ *
  *	(2) Any amended version of it shall be clearly marked to
  *	show both the nature of and the organisation responsible
  *	for the relevant amendment or amendments;
- *    
+ *
  *	(3) Its onward transfer from a recipient to another
  *	party shall be deemed to be that party's acceptance of
  *	these conditions;
- *    
+ *
  *	(4) DERA gives no warranty or assurance as to its
  *	quality or suitability for any purpose and DERA accepts
  *	no liability whatsoever in relation to any use to which
@@ -53,15 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define HPPATRANS_CODE
@@ -110,15 +101,15 @@
 
 
 
-extern bool last_param(exp) ;
+extern bool last_param(exp);
 
 
 /*
  *    FORWARD DECLARATIONS
  */
 
-static void stab_scope_open(long) ;
-static void stab_scope_close(long) ;
+static void stab_scope_open(long);
+static void stab_scope_close(long);
 
 #ifdef _SYMTAB_INCLUDED
 static int last_lno = 0;
@@ -204,7 +195,7 @@ static DNTTPOINTER NIL;
 
 /* Information about previously defined types. */
 
-typedef struct { int sz; DNTTPOINTER p; } type_info_t; 
+typedef struct { int sz; DNTTPOINTER p; } type_info_t;
 
 static type_info_t *type_info;
 static int no_type_info = 0;
@@ -222,13 +213,13 @@ static int no_type_info = 0;
  *    GET THE NEXT TYPE NUMBER
  */
 
-static long next_typen 
-PROTO_Z ()
+static long
+next_typen(void)
 {
     if (typeno >= no_type_info) {
 		int i, n = no_type_info, m = n + 100;
 		type_info = (type_info_t*) xrealloc (type_info, m * sizeof (type_info_t));
-		for (i = n ; i < m ; i++) type_info [i].sz = 0;
+		for (i = n; i < m; i++) type_info [i].sz = 0;
 		no_type_info = m;
     }
     return (typeno++);
@@ -278,7 +269,7 @@ static VTPOINTER   vt_next = VTNIL;
 
 struct vt_entry_t { long findex;
 	VTPOINTER vtp;
-	struct vt_entry_t *prev; }; 
+	struct vt_entry_t *prev; };
 
 typedef struct vt_entry_t *vt_entry;
 
@@ -294,9 +285,9 @@ is_vt_entry(long findex)
 			return current->vtp;
 		else
 			current = current->prev;
-	}   
+	}
 	return VTNIL;
-}    
+}
 
 #define EXTENSION_BIT(p) ((p)&(1<<31))
 
@@ -312,11 +303,11 @@ output_LNTT(union dnttentry e)
 	{
 		fprintf(LNTT_,"\t.WORD\t%lu,%lu,%lu",e.dgeneric.word[0], e.dgeneric.word[1], e.dgeneric.word[2]);
 	}
-	
+
 	switch (kind)
 	{
 	case K_MODULE:
-	case K_WITH: 
+	case K_WITH:
 	case K_FPARAM:
 	case K_SVAR:
 	case K_DVAR:
@@ -360,7 +351,7 @@ output_LNTT(union dnttentry e)
 		}
 		else
 		{
-			fprintf(LNTT_,",%lu,%s,%s",e.dgeneric.word[6], (char*)e.dgeneric.word[7],(char*)e.dgeneric.word[8]);         
+			fprintf(LNTT_,",%lu,%s,%s",e.dgeneric.word[6], (char*)e.dgeneric.word[7],(char*)e.dgeneric.word[8]);
 		}
 	}
 	default:
@@ -420,12 +411,12 @@ make_DNTTP_IMMEDIATE(BASETYPE type, ...)
 	{
 		p.dntti.bitlength = 32;
 		break;
-	} 
+	}
 	case T_BOOLEAN:
 	{
 		p.dntti.bitlength = 1;
 		break;
-	} 
+	}
 	case T_CHAR:
 	case T_INT:
 	case T_UNS_INT:
@@ -436,15 +427,14 @@ make_DNTTP_IMMEDIATE(BASETYPE type, ...)
 	{
 		p.dntti.bitlength = va_arg(ap,BITS);
 		break;
-	} 
+	}
 	}
 	return p;
 }
 
 
-void make_vtentry
-PROTO_T ((e X record X findex))
-    PROTO_T (char *e X int record X long findex)
+void
+make_vtentry(char *e, int record, long findex)
 {
 	int len = 0;
 	fprintf(VT_,"\t.STRINGZ\t\"");
@@ -525,7 +515,7 @@ make_sltentry(SLTTYPE sltdesc, ...)
 		break;
 	}
 	}
-	slt_next++; 
+	slt_next++;
 }
 
 
@@ -798,7 +788,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_MEMENUM:
 	{
 		e.dmember.extension = 0;
-		e.dmember.kind = K_MEMENUM;  
+		e.dmember.kind = K_MEMENUM;
 		e.dmember.unused = 0;
 		e.dmember.name = va_arg(ap,VTPOINTER);
 		e.dmember.value = va_arg(ap,unsigned long);
@@ -812,7 +802,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_SET:
 	{
 		e.dset.extension = 0;
-		e.dset.kind = K_SET;  
+		e.dset.kind = K_SET;
 		e.dset.declaration = va_arg(ap,BITS);
 		e.dset.unused = 0;
 		e.dset.subtype = va_arg(ap,DNTTPOINTER);
@@ -824,7 +814,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_SUBRANGE:
 	{
 		e.dsubr.extension = 0;
-		e.dsubr.kind = K_SUBRANGE;  
+		e.dsubr.kind = K_SUBRANGE;
 		e.dsubr.dyn_low = va_arg(ap,BITS);
 		e.dsubr.dyn_high = va_arg(ap,BITS);
 		e.dsubr.unused = 0;
@@ -840,7 +830,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_ARRAY:
 	{
 		e.darray.extension = 0;
-		e.darray.kind = K_ARRAY;  
+		e.darray.kind = K_ARRAY;
 		e.darray.declaration = va_arg(ap,BITS);
 		e.darray.dyn_low = va_arg(ap,BITS);
 		e.darray.dyn_high = va_arg(ap,BITS);
@@ -861,7 +851,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_STRUCT:
 	{
 		e.dstruct.extension = 0;
-		e.dstruct.kind = K_STRUCT;  
+		e.dstruct.kind = K_STRUCT;
 		e.dstruct.declaration = va_arg(ap,BITS);
 		e.dstruct.unused = 0;
 		e.dstruct.firstfield = va_arg(ap,DNTTPOINTER);
@@ -876,7 +866,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_UNION:
 	{
 		e.dunion.extension = 0;
-		e.dunion.kind = K_UNION;  
+		e.dunion.kind = K_UNION;
 		e.dunion.unused = 0;
 		e.dunion.firstfield = va_arg(ap,DNTTPOINTER);
 		e.dunion.bitlength = va_arg(ap,unsigned long);
@@ -887,7 +877,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_FIELD:
 	{
 		e.dfield.extension = 0;
-		e.dfield.kind = K_FIELD;  
+		e.dfield.kind = K_FIELD;
 		e.dfield.unused = 0;
 		e.dfield.name = va_arg(ap,VTPOINTER);
 		e.dfield.bitoffset = va_arg(ap,unsigned long);
@@ -901,7 +891,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_VARIANT:
 	{
 		e.dvariant.extension = 0;
-		e.dvariant.kind = K_VARIANT;  
+		e.dvariant.kind = K_VARIANT;
 		e.dvariant.unused = 0;
 		e.dvariant.lowvarvalue = va_arg(ap,long);
 		e.dvariant.hivarvalue = va_arg(ap,long);
@@ -915,7 +905,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_FILE:
 	{
 		e.dfile.extension = 0;
-		e.dfile.kind = K_FILE;  
+		e.dfile.kind = K_FILE;
 		e.dfile.ispacked = va_arg(ap,BITS);
 		e.dfile.unused = 0;
 		e.dfile.bitlength = va_arg(ap,unsigned long);
@@ -930,7 +920,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_FUNCTYPE:
 	{
 		e.dfunctype.extension = 0;
-		e.dfunctype.kind = K_FUNCTYPE;  
+		e.dfunctype.kind = K_FUNCTYPE;
 		e.dfunctype.varargs = va_arg(ap,BITS);
 		e.dfunctype.info = va_arg(ap,BITS);
 		e.dfunctype.unused = 0;
@@ -946,7 +936,7 @@ make_dnttentry(KINDTYPE kind, ...)
 	case K_COBSTRUCT:
 	{
 		e.dcobstruct.extension = 0;
-		e.dcobstruct.kind = K_COBSTRUCT;  
+		e.dcobstruct.kind = K_COBSTRUCT;
 		e.dcobstruct.hasoccurs = va_arg(ap,BITS);
 		e.dcobstruct.istable = va_arg(ap,BITS);
 		e.dcobstruct.unused = 0;
@@ -1039,7 +1029,7 @@ output_DEBUG()
     while (c = fgetc (f), c != EOF)  outc (c);
     fclose(GNTT_);
     remove(GNTT_name);
-	
+
     fprintf(outf,"\n\t.SPACE\t$DEBUG$\n");
     fprintf(outf,"\t.SUBSPA\t$HEADER$\n");
 #if USE_XT
@@ -1088,7 +1078,7 @@ static long
 find_file(char * f)
 {
     long i;
-    for (i = 0 ; i < nofds ; i++) {
+    for (i = 0; i < nofds; i++) {
 		if (strcmp (f, fds [i]->file.ints.chars) == 0) return (i);
     }
     return (0);
@@ -1148,33 +1138,33 @@ stabd(long findex, long lno, int seg)
 stab_begin(diag_info * d, int proc_no, exp e)
 {
     exp x;
-	
+
     if (d->key == DIAG_INFO_SOURCE) {
 		sourcemark *s = &d->data.source.beg;
 		long f = find_file (s->file->file.ints.chars);
 		stabd (f, (long) s->line_no.nat_val.small_nat ,N_SLINE);
 		return;
     }
-	
+
     if (d->key != DIAG_INFO_ID) {
 		/* not implemented */
 		return;
     }
-	
+
     x = d->data.id_scope.access;
     /* MIPS */
     if (isglob (son (x)) || no (son (x)) == 1) return;
-	
+
     mark_scope (e);
-	
+
     if (props (e) & 0x80) {
 		stab_scope_open (currentfile);
 		stabd (currentfile, (long) (currentlno + 1), N_SLINE);
     }
-	
+
     stab_local (d->data.id_scope.nme.ints.chars, d->data.id_scope.typ,
 				x, 0, currentfile);
-	
+
     if (last_param (son (x))) {
 		stabd (currentfile, (long) (currentlno + 1),N_SLINE);
     }
@@ -1228,28 +1218,28 @@ init_stab()
 		stab_types();
 		tmpnam(VT_name);
 		VT_ = fopen (VT_name, "w+");
-		if (VT_ == NULL) 
+		if (VT_ == NULL)
 		{
 			fail ("Can't open temporary diagnostics file");
 			exit (EXIT_FAILURE);
 		}
 		tmpnam(SLT_name);
 		SLT_ = fopen (SLT_name, "w+");
-		if (SLT_ == NULL) 
+		if (SLT_ == NULL)
 		{
 			fail ("Can't open temporary diagnostics file");
 			exit (EXIT_FAILURE);
 		}
 		tmpnam(LNTT_name);
 		LNTT_ = fopen (LNTT_name, "w+");
-		if (LNTT_ == NULL) 
+		if (LNTT_ == NULL)
 		{
 			fail ("Can't open temporary diagnostics file");
 			exit (EXIT_FAILURE);
 		}
 		tmpnam(GNTT_name);
 		GNTT_ = fopen (GNTT_name, "w+");
-		if (GNTT_ == NULL) 
+		if (GNTT_ == NULL)
 		{
 			fail ("Can't open temporary diagnostics file");
 			exit (EXIT_FAILURE);
@@ -1282,7 +1272,7 @@ init_stab_aux()
     int c;
     FILE *f;
     int i, j = 0;
-    for (i = 0 ; i < nofds ; i++) {
+    for (i = 0; i < nofds; i++) {
 		char *s = fds [i]->file.ints.chars;
 		int n = (int) strlen (s);
 		if (n && s [ n - 1 ] != 'h') j = i;
@@ -1329,7 +1319,7 @@ stab_file(long findex, bool internal)
     if (findex == currentfile || findex < 0 || findex >= szfds) {
 		return;
     }
-	
+
     if (gdb)
 		fprintf(dg_file,"\t.file\t\"%s\"\n",fds[ findex ]->file.ints.chars);
     if (internal)
@@ -1340,8 +1330,8 @@ stab_file(long findex, bool internal)
 #ifdef _SYMTAB_INCLUDED
 			SLTPOINTER slt_prev = slt_next;
 			VTPOINTER entry = is_vt_entry(findex);
-			make_sltentry(SLT_SRCFILE, currentlno, lntt_next); 
-			make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev); 
+			make_sltentry(SLT_SRCFILE, currentlno, lntt_next);
+			make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev);
 			if (entry==VTNIL)
 				make_vtentry(fds[ findex ]->file.ints.chars,1,findex);
 #endif
@@ -1359,11 +1349,11 @@ stab_file(long findex, bool internal)
 #ifdef _SYMTAB_INCLUDED
 			SLTPOINTER slt_prev = slt_next;
 			VTPOINTER entry = is_vt_entry(findex);
-			make_sltentry(SLT_SRCFILE, currentlno, lntt_next); 
-			make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev); 
+			make_sltentry(SLT_SRCFILE, currentlno, lntt_next);
+			make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev);
 			slt_prev =  slt_next;
-			make_sltentry(SLT_MODULE, 1, lntt_next); 
-			make_dnttentry(K_MODULE, VTNIL, VTNIL, slt_prev); 
+			make_sltentry(SLT_MODULE, 1, lntt_next);
+			make_dnttentry(K_MODULE, VTNIL, VTNIL, slt_prev);
 			if (entry==VTNIL)
 				make_vtentry(fds[ findex ]->file.ints.chars,1,findex);
 #endif
@@ -1419,7 +1409,7 @@ stab_scope_close(long findex)
 	if (bracket_level>MAX_LEX_LEVEL)
 		return;
 	/* nb. don't need to output bracket level */
-	if (xdb) 
+	if (xdb)
 	{
 #ifdef _SYMTAB_INCLUDED
 		SLTPOINTER slt_prev = slt_next;
@@ -1434,7 +1424,7 @@ stab_scope_close(long findex)
 			fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
 					last_proc_lab);
 			last_LBRAC_stab = BB_id;
-		} 
+		}
 		BE_id++;
 		fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BE%ld-%s\n",N_RBRAC,BE_id,
 				last_proc_lab);
@@ -1448,7 +1438,7 @@ stab_scope_close(long findex)
  *    DEPTH COUNT FOR STAB TYPES
  */
 
-/* static int max_depth = 64 ; */
+/* static int max_depth = 64; */
 static int depth_now = 0;
 
 
@@ -1480,7 +1470,7 @@ out_sh_type(shape s)
 #ifdef _SYMTAB_INCLUDED
 
 
-struct outed_t { diag_type dt; struct outed_t *prev; }; 
+struct outed_t { diag_type dt; struct outed_t *prev; };
 typedef struct outed_t *outed;
 
 static outed uo;
@@ -1501,12 +1491,12 @@ undo_outed(diag_type dt)
 static DNTTPOINTER
 traverse_diag_type(diag_type dt)
 {
-    if (dt->been_outed) 
+    if (dt->been_outed)
     {
 		last_type_sz = get_stab_size(dt->been_outed);
 		return pos;
     }
-	
+
 #if 0
     if (depth_now >= max_depth)
     {
@@ -1514,7 +1504,7 @@ traverse_diag_type(diag_type dt)
     }
     depth_now++;
 #endif
-	
+
     switch (dt->key)
 	{
 	case DIAG_TYPE_PTR:
@@ -1544,7 +1534,7 @@ traverse_diag_type(diag_type dt)
 		set_stab_size(non);
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_ARRAY:
 	{
 		long lwb = no(dt->data.array.lower_b);
@@ -1563,7 +1553,7 @@ traverse_diag_type(diag_type dt)
 		return pos;
 		break;
 	}
-	
+
 	case DIAG_TYPE_STRUCT:
 	case DIAG_TYPE_UNION:
 	{
@@ -1577,7 +1567,7 @@ traverse_diag_type(diag_type dt)
 		{
 			fields = dt->data.t_struct.fields;
 			s = dt->data.t_struct.tdf_shape;
-		} 
+		}
 		else
 		{
 			fields = dt->data.t_union.fields;
@@ -1601,7 +1591,7 @@ traverse_diag_type(diag_type dt)
 		set_stab_size(non);
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_FLOAT:
 	case DIAG_TYPE_VARIETY:
 	{
@@ -1617,7 +1607,7 @@ traverse_diag_type(diag_type dt)
 		dt->been_outed = out_sh_type(sha);
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_PROC:
 	{
 		diag_type result_type = dt->data.proc.result_type;
@@ -1632,31 +1622,31 @@ traverse_diag_type(diag_type dt)
 		set_stab_size (non2);
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_LOC:
 	{
 		return traverse_diag_type (dt->data.loc.object);
 	}
-	
+
 	case DIAG_TYPE_NULL:
 	{
 		last_type_sz = 0;
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_BITFIELD:
 	{
 		long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat;
 		last_type_sz = sz;
 		return pos;
 	}
-	
+
 	case DIAG_TYPE_ENUM:
 	{
 		traverse_diag_type(dt->data.t_enum.base_type);
 		return pos;
 	}
-	
+
 	default:
 	{
 		last_type_sz = 0;
@@ -1674,13 +1664,13 @@ pos_of_dnttpointer(diag_type dt)
 	int t = typeno;
 	pos = lntt_next;
 	uo = (struct outed_t*) malloc(sizeof(struct outed_t));
-	uo->prev = (struct outed_t*) 0; 
+	uo->prev = (struct outed_t*) 0;
 	f = uo;
 	traverse_diag_type(dt);
 	while (f->prev)
 	{
 		p = f->prev;
-		free(f);  
+		free(f);
 		p->dt->been_outed = 0;
 		f = p;
 	}
@@ -1701,13 +1691,13 @@ pos_of_dnttpointer(diag_type dt)
 static DNTTPOINTER
 out_dt_shape(diag_type dt)
 {
-    if (dt->been_outed) 
+    if (dt->been_outed)
     {
 		last_type_sz = get_stab_size(dt->been_outed);
 		if (xdb)
 		{
 #ifdef _SYMTAB_INCLUDED
-			return type_info[dt->been_outed].p; 
+			return type_info[dt->been_outed].p;
 #endif
 		}
 		else
@@ -1716,7 +1706,7 @@ out_dt_shape(diag_type dt)
 		}
 		return NIL;
     }
-	
+
 #if 0
     if (depth_now >= max_depth)
     {
@@ -1726,7 +1716,7 @@ out_dt_shape(diag_type dt)
     }
     depth_now++;
 #endif
-	
+
     switch (dt->key)
 	{
 	case DIAG_TYPE_PTR:
@@ -1758,7 +1748,7 @@ out_dt_shape(diag_type dt)
 				if (xdb)
 				{
 #ifdef _SYMTAB_INCLUDED
-					p = type_info[non].p;  
+					p = type_info[non].p;
 #endif
 				}
 				else
@@ -1790,7 +1780,7 @@ out_dt_shape(diag_type dt)
 		set_stab_size(non);
 		return p;
 	}
-	
+
 	case DIAG_TYPE_ARRAY:
 	{
 		DNTTPOINTER indextype,elemtype,p=NIL;
@@ -1823,7 +1813,7 @@ out_dt_shape(diag_type dt)
 			unsigned long arraylength = (upb-lwb+1)<<2;
 			unsigned long elemlength = last_type_sz>>3;
 			p = make_dnttentry(K_ARRAY, 0, 0, 0, 1, 1, 0, 0, arraylength, indextype, elemtype, elemlength);
-			type_info[non].p = p; 
+			type_info[non].p = p;
 #endif
 		}
 		last_type_sz *= (upb-lwb+1);
@@ -1831,7 +1821,7 @@ out_dt_shape(diag_type dt)
 		return p;
 		break;
 	}
-	
+
 	case DIAG_TYPE_STRUCT:
 	case DIAG_TYPE_UNION:
 	{
@@ -1844,7 +1834,7 @@ out_dt_shape(diag_type dt)
 #ifdef _SYMTAB_INCLUDED
 		if (xdb)
 			p = pos_of_dnttpointer(dt);
-#endif           
+#endif
 		dt->been_outed = non;
 		if (dt->key == DIAG_TYPE_STRUCT)
 		{
@@ -1853,8 +1843,8 @@ out_dt_shape(diag_type dt)
 			su = 's';
 #ifdef _SYMTAB_INCLUDED
 			p.word-=2;
-#endif           
-		} 
+#endif
+		}
 		else
 		{
 			fields = dt->data.t_union.fields;
@@ -1862,13 +1852,13 @@ out_dt_shape(diag_type dt)
 			su = 'u';
 #ifdef _SYMTAB_INCLUDED
 			p.word--;
-#endif           
+#endif
 		}
 		if (xdb)
 		{
 #ifdef _SYMTAB_INCLUDED
 			DNTTPOINTER lastfield = NIL;
-			type_info[non].p = p; 
+			type_info[non].p = p;
 			for (i=0;i<fields->lastused;i++)
 			{
 				diag_field f = (fields->array)[i];
@@ -1877,12 +1867,12 @@ out_dt_shape(diag_type dt)
 				lastfield = make_dnttentry(K_FIELD, vt_next, bitoffset, type, last_type_sz, lastfield);
 				make_vtentry(f->field_name.ints.chars,0,0);
 			}
-			
+
 			if (lntt_next.word != p.word)
 			{
 				fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables\n");
 			}
-			
+
 			if (dt->key == DIAG_TYPE_STRUCT)
 			{
 				make_dnttentry(K_STRUCT, 0, lastfield, NIL, NIL, shape_size(s));
@@ -1915,7 +1905,7 @@ out_dt_shape(diag_type dt)
 		set_stab_size(non);
 		return p;
 	}
-	
+
 	case DIAG_TYPE_FLOAT:
 	case DIAG_TYPE_VARIETY:
 	{
@@ -1941,7 +1931,7 @@ out_dt_shape(diag_type dt)
 		}
 		return NIL;
 	}
-	
+
 	case DIAG_TYPE_PROC:
 	{
 		diag_type result_type = dt->data.proc.result_type;
@@ -1966,13 +1956,13 @@ out_dt_shape(diag_type dt)
 		set_stab_size (non2);
 		return p;
 	}
-	
+
 	case DIAG_TYPE_LOC:
 	{
 		/* +++ use qualifier which gives "const"/"volatile" */
 		return out_dt_shape (dt->data.loc.object);
 	}
-	
+
 	case DIAG_TYPE_NULL:
 	{
 		if (gdb)
@@ -1980,7 +1970,7 @@ out_dt_shape(diag_type dt)
 		last_type_sz = 0;
 		return NIL;
 	}
-	
+
 	case DIAG_TYPE_BITFIELD:
 	{
 		long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat;
@@ -1988,7 +1978,7 @@ out_dt_shape(diag_type dt)
 		if (xdb)
 		{
 #ifdef _SYMTAB_INCLUDED
-			
+
 			return type_info[STAB_SLONG].p;
 #endif
 		}
@@ -1998,13 +1988,13 @@ out_dt_shape(diag_type dt)
 		}
 		return NIL;
 	}
-	
+
 	case DIAG_TYPE_ENUM:
 	{
 #if 1
 		/*  Currently tdfc (August 95) does not generate DIAG_TYPE_ENUM.
-		 *	       Enable and test this when DIAG_TYPE_ENUM is generated.  */      
-		
+		 *	       Enable and test this when DIAG_TYPE_ENUM is generated.  */
+
 		/*
 		 * TypeDef:	e EnumList ;		"Enumerated type (default size, 32 bits)"
 		 * EnumList:	Enum | EnumList Enum
@@ -2050,7 +2040,7 @@ out_dt_shape(diag_type dt)
 				make_vtentry(CSTRING(enumarr[i]->nme),0,0);
 			}
 #endif
-		} 
+		}
 		else
 		{
 			fprintf(dg_file,"e");
@@ -2073,7 +2063,7 @@ out_dt_shape(diag_type dt)
 #endif
 		break;
 	}
-	
+
 	default:
 	{
 		if (gdb)
@@ -2095,7 +2085,7 @@ stab_global(exp global, char * id, bool ext)
 {
 	char *nm;
 	diag_descriptor *dd = find_dd (global);
-	
+
 	if (dd==NULL)
 		return;
 	nm = dd->data.id.nme.ints.chars;
@@ -2137,17 +2127,17 @@ stab_proc(exp proc, char * id, bool public)
 	if (dd == NULL)
 		return;
 	stabd (find_file (dd->data.id.whence.file->file.ints.chars)	,
-		   (long) dd->data.id.whence.line_no.nat_val.small_nat 
+		   (long) dd->data.id.whence.line_no.nat_val.small_nat
 		   ,0);
 	nm = id;
 	if (gdb)
 		fprintf (dg_file, "\t.stabs\t\"%s:%c",nm, (public ? 'F' : 'f'));
 	OUT_DT_SHAPE (dd->data.id.new_type->data.proc.result_type);
-	
+
 	if (gdb)
 		fprintf (dg_file,"\",0x24,0,%ld,%s\n",currentlno,id);
-	
-	last_proc_lab = id;		/* id is passed from translate_capsule, 
+
+	last_proc_lab = id;		/* id is passed from translate_capsule,
 							 *				 so stays in scope while needed */
 	if (xdb)
 	{
@@ -2157,13 +2147,13 @@ stab_proc(exp proc, char * id, bool public)
 		BITS varargs;
 		VTPOINTER entry = is_vt_entry(currentfile);
 		slt_prev = slt_next;
-		make_sltentry(SLT_SRCFILE, 1, lntt_next); 
-		make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev); 
+		make_sltentry(SLT_SRCFILE, 1, lntt_next);
+		make_dnttentry(K_SRCFILE, LANG_C, (entry==VTNIL ? vt_next : entry), slt_prev);
 		if (entry==VTNIL)
 			make_vtentry(fds[ currentfile ]->file.ints.chars,1,currentfile);
-		
+
 		slt_prev = slt_next;
-		make_sltentry(SLT_FUNCTION, currentlno, lntt_next); 
+		make_sltentry(SLT_FUNCTION, currentlno, lntt_next);
 		retval = make_DNTTP_IMMEDIATE(T_INT);
 		varargs = (BITS) dd->data.id.new_type->data.proc.opt_args;
 		if (strcmp(nm,"main")==0)
@@ -2185,13 +2175,13 @@ stab_proc(exp proc, char * id, bool public)
 						   (ADDRESS)hiaddr);
 			make_vtentry(nm,0,0);
 		}
-		
+
 		slt_prev = slt_next;
 		make_sltentry(SLT_BEGIN, (BITS)currentlno, lntt_next);
 		make_dnttentry(K_BEGIN, slt_prev);
 #endif
 	}
-	
+
 	return;
 }
 
@@ -2222,7 +2212,7 @@ stab_local(char *nm, diag_type dt, exp ldid,
     exp id = son (ldid);
     disp += boff(id).offset;
   again:
-    if (name(id) == ident_tag) 
+    if (name(id) == ident_tag)
     {
 		if ((props(id) & defer_bit) == 0)
 		{
@@ -2243,7 +2233,7 @@ stab_local(char *nm, diag_type dt, exp ldid,
 				else
 				{
 					fprintf(dg_file, "\t.stabs\t\"%s:p", nm);
-					OUT_DT_SHAPE (dt) ;  
+					OUT_DT_SHAPE (dt);
 					fprintf(dg_file, "\",0xa0,0,%d,%ld\n",
 #if 0
 							shape_size (sh (son (id))) / 8,
@@ -2259,8 +2249,8 @@ stab_local(char *nm, diag_type dt, exp ldid,
 				if (xdb)
 				{
 #ifdef _SYMTAB_INCLUDED
-					make_dnttentry(K_DVAR, 0, 0, 0, vt_next, disp, 
-								   OUT_DT_SHAPE(dt),                           
+					make_dnttentry(K_DVAR, 0, 0, 0, vt_next, disp,
+								   OUT_DT_SHAPE(dt),
 								   0);
 					make_vtentry(nm,0,0);
 #endif
@@ -2296,7 +2286,7 @@ stab_local(char *nm, diag_type dt, exp ldid,
 					sn = son(sn);
 					break;
 				}
-				case cont_tag: 
+				case cont_tag:
 				{
 					sn = son(sn);
 					break;
@@ -2392,8 +2382,8 @@ stab_tagdefs()
     diag_tagdef **di = unit_ind_diagtags;
     unsigned int n = unit_no_of_diagtags;
     int i;
-	
-    for (i = 0 ; i < n ; i++)
+
+    for (i = 0; i < n; i++)
     {
 		diag_type d = di [i]->d_type;
 		switch (d->key)
@@ -2407,7 +2397,7 @@ stab_tagdefs()
 			} else {
 				nme = d->data.t_union.nme.ints.chars;
 			}
-			
+
 			if (nme && *nme)
 			{
 				if (gdb)
@@ -2416,13 +2406,13 @@ stab_tagdefs()
 			else
 				if (d->key == DIAG_TYPE_STRUCT)
 				{
-/*		   static int s_count = 0 ; gcc complains */
+/*		   static int s_count = 0; gcc complains */
 					if (gdb)
 						fprintf (dg_file, "\t.stabs\t\"s:");
 				}
 				else
 				{
-/*		   static int u_count = 0 ; gcc complains */
+/*		   static int u_count = 0; gcc complains */
 					if (gdb)
 						fprintf (dg_file, "\t.stabs\t\"u:");
 				}
@@ -2461,7 +2451,7 @@ stab_typedefs()
 {
     diag_descriptor *di = unit_diagvar_tab.array;
     int i, n = unit_diagvar_tab.lastused;
-    for (i = 0 ; i < n ; i++) {
+    for (i = 0; i < n; i++) {
 		if (di [i].key == DIAG_TYPEDEF_KEY)
 		{
 			long non = next_typen ();
