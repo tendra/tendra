@@ -1,7 +1,10 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
-<!ENTITY tcc.manpage SYSTEM "../manpages/tcc/manpage.sgml">
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc
+<!ENTITY tcc.manpage SYSTEM 
+"../manpages/tcc/manpage.sgml">
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man;
 ]>
@@ -3166,5 +3169,30 @@
         &tcc.manpage;
       </refentry>
   </chapter>
+
+  <chapter id='revision'>
+    <title>Revision History</title>
+
+    <para>This chapter describes revisions to this document.</para>
+
+    <para>Only major changes are listed in the revision history.  Please see
+      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/tcc/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/tcc/book.sgml</ulink>
+      for a complete list of changes.</para>
+
+    <note><para>CVS revision numbers are located behind the date in the format
+      <literal>r</literal><emphasis>XX</emphasis></para></note>
+
+    <para>
+    <revhistory>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>2003/07/30 r1.1</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Converted to SGML from the &doc.original;.</revremark>
+      </revision>
+    </revhistory>
+  </para>
+  </chapter>
+
 
 </book>

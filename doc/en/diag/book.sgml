@@ -1,6 +1,8 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY % doc PUBLIC "-//FreeBSD//ENTITIES DocBook Document Entities//EN">
+%doc
 ]>
 
 <book>
@@ -996,5 +998,36 @@ type:        DIAG_TYPE
 
     </sect1>
   </chapter>
-</book>
+  <chapter id='revision'>
+    <title>Revision History</title>
 
+    <para>This chapter describes revisions to this document.</para>
+
+    <para>Only major changes are listed in the revision history.  Please see
+      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/diag/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/diag/book.sgml</ulink>
+      for a complete list of changes.</para>
+
+    <note><para>CVS revision numbers are located behind the date in the format
+      <literal>r</literal><emphasis>XX</emphasis></para></note>
+
+    <para>
+    <revhistory>
+      <revision>
+        <revnumber>1.1</revnumber>
+        <date>2004/01/04 r1.4</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Cross references were fixed.</revremark>
+      </revision>
+
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>2002/10/07 r1.1</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Converted to SGML from the &doc.original;.</revremark>
+      </revision>
+    </revhistory>
+  </para>
+  </chapter>
+
+
+</book>

@@ -2811,4 +2811,30 @@ $(PTR:S/^/\$(/:S/$/))
       that test whether a variable is defined or not.</para>
   </chapter>
 
+  <chapter id='revision'>
+    <title>Revision History</title>
+
+    <para>This chapter describes revisions to this document.</para>
+
+    <para>Only major changes are listed in the revision history.  Please see
+      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/make/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/make/book.sgml</ulink>
+      for a complete list of changes.</para>
+
+    <note><para>CVS revision numbers are located behind the date in the format
+      <literal>r</literal><emphasis>XX</emphasis></para></note>
+
+    <para>
+    <revhistory>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>2003/01/31 r1.1</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Converted to SGML.  You can find the original documentation with the 
+          original PMake, it's named tutorial.ms and is written 
+          in troff.</revremark>
+      </revision>
+    </revhistory>
+  </para>
+  </chapter>
+
 </book>

@@ -4217,6 +4217,37 @@ REPR [ {pointer} ... {long_variety} ] = TRUE
       </sect2>
     </sect1>
   </chapter>
+
+  <chapter id='revision'>
+    <title>Revision History</title>
+
+    <para>This chapter describes revisions to this document.</para>
+
+    <para>Only major changes are listed in the revision history.  Please see
+      <ulink url="http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/guide/book.sgml">http://cvsweb.ten15.org/cgi/cvsweb.cgi/doc/en/guide/book.sgml</ulink>
+      for a complete list of changes.</para>
+
+    <note><para>CVS revision numbers are located behind the date in the format
+      <literal>r</literal><emphasis>XX</emphasis></para></note>
+
+    <para>
+    <revhistory>
+      <revision>
+        <revnumber>1.1</revnumber>
+        <date>2004/03/08 r1.13</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Cross references were fixed.</revremark>
+      </revision>
+
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>2003/07/30 r1.1</date>
+        <authorinitials>verm</authorinitials>
+        <revremark>Converted to SGML from the &doc.original;.</revremark>
+      </revision>
+    </revhistory>
+  </para>
+  </chapter>
+
+
 </book>
-
-
