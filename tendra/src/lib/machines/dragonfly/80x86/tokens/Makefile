@@ -1,4 +1,4 @@
-# $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/tokens/Makefile,v 1.8 2004/03/27 18:14:53 stefanf Exp $
+# $TenDRA$
 
 .PATH : ${.CURDIR} ${OBJ_DIR} . ${.CURDIR}/../../../../common/tokens ${.CURDIR}/../../../../common/src
 

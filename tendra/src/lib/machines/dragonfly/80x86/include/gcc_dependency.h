@@ -1,5 +1,5 @@
 /*
- *  $TenDRA: tendra/src/lib/machines/freebsd/4/80x86/include/gcc_dependency.h,v 1.1 2003/02/18 07:35:09 asmodai Exp $
+ *  $TenDRA: tendra/src/lib/machines/dragonfly/80x86/include/gcc_dependency.h,v 1.2 2004/03/27 18:14:52 stefanf Exp $
  */
 #ifndef		__FREEBSD_GCC_DEPENDENCY_H__
 #define		__FREEBSD_GCC_DEPENDENCY_H__

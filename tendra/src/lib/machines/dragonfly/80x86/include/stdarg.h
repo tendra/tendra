@@ -51,7 +51,7 @@
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
- * $TenDRA$
+ * $TenDRA: tendra/src/lib/machines/dragonfly/80x86/include/stdarg.h,v 1.7 2004/05/02 01:29:30 stefanf Exp $
  */
 
 #ifndef _STDARG_H
