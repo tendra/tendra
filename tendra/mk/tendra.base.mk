@@ -61,8 +61,13 @@ MACH_DIR=	${INSTALL_DIR}/machines
 MACH_BASE=	${MACH_DIR}/${OSFAM}/${BLDARCH}
 #MACH_BASE=	${MACH_DIR}/${OSFAM}/${MACH_VERS}/${BLDARCH}
 MAN_DIR=	${PREFIX}/man
+.if defined(BOOTSTRAP)
+OBJ_DIR=	${BASE_DIR}/bootstrap
+OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+.else
 OBJ_DIR=	${BASE_DIR}/obj
 OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+.endif
 TMP_DIR=	/var/tmp
 
 # If this file exists then the object tree is complete
