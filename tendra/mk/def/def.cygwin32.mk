@@ -49,7 +49,6 @@ MV?=		/bin/mv
 PATCH?=		GNU/usr/bin/patch
 PAX?=		NO/bin/pax
 PERL?=		/bin/perl
-PKGLOCALEDIR?=	share
 RANLIB?=	/bin/ranlib
 RM?=		/bin/rm
 RMDIR?=		/bin/rmdir
