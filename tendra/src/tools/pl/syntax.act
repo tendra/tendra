@@ -200,7 +200,7 @@ static void do_procprops
 
 static int defaultlab = -1;
 static TDF g_lablist;
-int do_pp = 0;
+BoolT do_pp = FALSE;
 
 static void success
     PROTO_Z ()
@@ -275,7 +275,7 @@ unsigned long MINOR_NO = minor_version;
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-extern int do_pp;
+extern BoolT do_pp;
 extern int search_for_toks;
 extern unsigned long MAJOR_NO ;
 extern unsigned long MINOR_NO ;

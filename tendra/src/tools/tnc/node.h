@@ -63,7 +63,7 @@
  *    PROCEDURES FOR MANIPULATING NODES
  */
 
-extern boolean dont_check;
+extern BoolT dont_check;
 extern node *new_node(void) ;
 extern void free_node(node *) ;
 extern node *completion(node *) ;

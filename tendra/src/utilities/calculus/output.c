@@ -116,8 +116,8 @@ int unique = 0;
 
 OStreamT *output_file = NULL;
 static OStreamT *output_file_old = NULL;
-int verbose_output = 1;
-int const_tokens = 1;
+BoolT verbose_output = TRUE;
+BoolT const_tokens = TRUE;
 int have_varargs = 1;
 
 #define	out	output_file

@@ -64,9 +64,9 @@
  */
 
 extern void print_capsule(void) ;
-extern boolean verbose;
+extern BoolT verbose;
 extern boolean print_shapes;
-extern boolean func_output;
+extern BoolT func_output;
 
 
 #endif

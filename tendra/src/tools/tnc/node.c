@@ -239,7 +239,7 @@ eq_cons_list(construct *ap, construct *aq)
  *    This should be set to 1 to suppress the check in eq_node.
  */
 
-boolean dont_check = 0;
+BoolT dont_check = 0;
 
 
 /*

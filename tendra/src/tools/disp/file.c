@@ -118,7 +118,7 @@ int column;
 int maximum;
 int lastc = 0;
 int read_error = 0;
-int dump = 0;
+BoolT dump = FALSE;
 
 
 /*
@@ -133,8 +133,7 @@ open_files(char *name1, char *name2)
 {
     tdf_file = fopen (name1, "rb");
     if (tdf_file == null) MSG_cant_open_input_file (name1);
-    if (name2 == null) dflag = 0;
-    if (dflag) {
+    if (name2) {
 		pp_file = fopen (name2, "w");
 		if (pp_file == null) MSG_cant_open_output_file (name2);
     } else {

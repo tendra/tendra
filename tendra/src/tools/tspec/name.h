@@ -177,12 +177,12 @@ extern char *block_name(char *, char *, char *);
  *    These are standard flags which are set by command line options.
  */
 
-extern boolean allow_long_long;
-extern boolean force_output;
-extern boolean local_input;
-extern boolean restrict_depth;
-extern boolean restrict_use;
-extern boolean unique_names;
+extern BoolT allow_long_long;
+extern BoolT force_output;
+extern BoolT local_input;
+extern BoolT restrict_depth;
+extern BoolT restrict_use;
+extern BoolT unique_names;
 extern int verbose;
 
 

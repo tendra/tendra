@@ -729,3 +729,151 @@ switching_input_form()
 	KEY(STD) "Switching input form"
 }
 
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tnc [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_check()
+{
+	USAGE: NONE
+	KEY(STD) "Apply extra checks for input data."
+}
+
+description_of_cv()
+{
+	USAGE: NONE
+	KEY(STD) "Apply extra checks for input data and write possible messages
+			  to output stream."
+}
+
+description_of_decode()
+{
+	USAGE: NONE
+	KEY(STD) "Set decode mode.  Treat input file as TDF capsule."
+}
+
+description_of_dont_check()
+{
+	USAGE: NONE
+	KEY(STD) "Do not check consistency of multiple tag or token definitions."
+}
+
+description_of_encode()
+{
+	USAGE: NONE
+	KEY(STD) "Set encode mode.  Output a TDF capsule."
+}
+
+description_of_eval()
+{
+	USAGE: NONE
+	KEY(STD) "Simplify input by evaluating constant expressions."
+}
+
+description_of_expand()
+{
+	USAGE: NONE
+	KEY(STD) "Expand input by replacing all applications of defined tokens
+			  by the token definition."
+}
+
+description_of_func()
+{
+	USAGE: NONE
+	KEY(STD) "Shortcut for --funcin --funcout."
+}
+
+description_of_funcin()
+{
+	USAGE: NONE
+	KEY(STD) "Assume input file are in the functional form."
+}
+
+description_of_funcout()
+{
+	USAGE: NONE
+	KEY(STD) "Output data in the functional form."
+}
+
+description_of_include()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Add DIRECTORY to the search path for included files."
+}
+
+description_of_lib()
+{
+	USAGE: NONE
+	KEY(STD) "Treat input capsule as TDF library."
+}
+
+description_of_lprefix()
+{
+	USAGE: NONE
+	KEY(STD) "PREFIX Treat external identifiers started with PREFIX as local."
+}
+
+description_of_no()
+{
+	USAGE: NONE
+	KEY(STD) "NAME Remove constructs NAME from output.  NAME are one of
+			 tokdecs, tokdefs, aldecs, aldefs, tagdecs or tagdefs."
+}
+
+description_of_only()
+{
+	USAGE: NONE
+	KEY(STD) "NAME Output only constructs NAME from output.  See --no for
+			  definition of NAME."
+}
+
+description_of_outfile()
+{
+	USAGE: NONE
+	KEY(STD) "FILE Output to FILE."
+}
+
+description_of_print()
+{
+	USAGE: NONE
+	KEY(STD) "Set decode and write modes."
+}
+
+description_of_read()
+{
+	USAGE: NONE
+	KEY(STD) "Set read mode.  Treat input file as TDF text."
+}
+
+description_of_subject()
+{
+	USAGE: NONE
+	KEY(STD) "SUBJECT Display notation of TDF SUBJECT."
+}
+
+description_of_tsimp()
+{
+	USAGE: NONE
+	KEY(STD) "Shortcut for --expand --eval."
+}
+
+description_of_unsorted()
+{
+	USAGE: NONE
+	KEY(STD) "Do not sort user defined tags or tokens."
+}
+
+description_of_verbose()
+{
+	USAGE: NONE
+	KEY(STD) "Output full forms in the write mode."
+}
+
+description_of_write()
+{
+	USAGE: NONE
+	KEY(STD) "Set write mode.  Output TDF text."
+}

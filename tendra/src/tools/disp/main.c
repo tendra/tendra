@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
 #include "msgcat.h"
 #include "ostream.h"
 #include "tenapp.h"
@@ -72,6 +74,75 @@
 #include "tree.h"
 #include "unit.h"
 
+static void
+opt_decode_all(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	diagnostics = TRUE;
+	show_usage = TRUE;
+	versions = 1;
+}
+
+static void
+opt_version(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	tenapp_report_version ();
+	MSG_TDF_version(version_major, version_minor);
+}
+
+static void
+opt_pagewidth(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	maxcol = atoi (value);
+}
+
+static void
+opt_null(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+}
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EMPTY	(decode_all,	'A', NULL, opt_decode_all),
+	AP_OPT_SET		(bin_dump,		'D', NULL, &dump),
+	AP_OPT_SET		(num_ext_toks,	'E', NULL, &show_stuff),
+	AP_OPT_SET		(show_skip,		'T', NULL, &show_skip),
+	AP_OPT_EMPTY	(version,		'V', NULL, opt_version),
+	AP_OPT_SET		(warn_undecl,	'W', NULL, &warn_undeclared),
+	AP_OPT_RESET	(no_dots,		'a', NULL, &helpflag),
+	AP_OPT_SET		(diagunits,		'g', NULL, &diagnostics),
+	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
+	AP_OPT_EMPTY	(compat,		'i', NULL, opt_null),
+	AP_OPT_SET		(show_usage,	'l', NULL, &show_usage),
+	AP_OPT_EITHER	(pagewidth,		'n', NULL, opt_pagewidth),
+	AP_OPT_SET		(quick,			'q', NULL, &quickflag),
+	AP_OPT_SET		(dumb_mode,		'r', NULL, &dumb_mode),
+	AP_OPT_SET		(progress,		'v', NULL, &progress),
+	AP_OPT_RESET	(noversions,	'x', NULL, &versions),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
 
 static void
 msg_uh_tdfoff(char ch, void *pp)
@@ -90,85 +161,29 @@ msg_uh_tdfoff(char ch, void *pp)
 int
 main(int argc, char **argv)
 {
-    char c;
-    int input, output;
-    int a, b, stage = 1;
+	char *input, *output;
+	int optcnt;
 
     tenapp_init(argc, argv, "TDF pretty printer", "1.5");
     msg_uh_add(MSG_GLOB_tdfoff, msg_uh_tdfoff);
 
-    /* Read the arguments */
-    for (a = 1 ; a < argc ; a++) {
-		if (argv [a][0] == '-') {
-			b = 1;
-			if (argv [a][1] == 'n') {
-				maxcol = 0;
-				while (c = argv [a][ ++b ], is_digit (c)) {
-					maxcol = 10 * maxcol + digit (c);
-				}
-			} else {
-				while (c = argv [a][ b++ ], c != 0) {
-					switch (c) {
-					case 'a' : helpflag = 0 ; break;
-					case 'd' : dflag = 0 ; break;
-					case 'g' : diagnostics = 1 ; break;
-					case 'i' : /* Compatibility */ break;
-					case 'l' : show_usage = 1 ; break;
-					case 'q' : quickflag = 1 ; break;
-					case 'r' : dumb_mode = 1 ; break;
-					case 'v' : progress = 1 ; break;
-					case 'x' : versions = 0 ; break;
-					case 'A' : {
-						diagnostics = 1;
-						show_usage = 1;
-						versions = 1;
-						break;
-					}
-					case 'D' : dump = 1 ; break;
-					case 'E' : show_stuff = 1 ; break;
-					case 'S' : skip_pass = 0 ; break;
-					case 'T' : show_skip = 1 ; break;
-					case 'V' : {
-						tenapp_report_version ();
-						MSG_TDF_version(version_major, version_minor);
-						break;
-					}
-					case 'W' : warn_undeclared = 1 ; break;
-					}
-				}
-			}
-		} else {
-			/* Handle files */
-			switch (stage) {
-			case 1  : input = a ; stage = 2 ; break;
-			case 2  : output = a ; stage = 3 ; break;
-			default : stage = 4 ; break;
-			}
-		}
-    }
+	output = NULL;
+	argc--;
+	argv++;
+	optcnt = arg_parse_arguments (cmdl_opts, argc, argv);
+	argc -= optcnt;
+	argv += optcnt;
+
+	if (argc < 1)
+		MSG_getopt_not_enough_arguments ();
+	input = *argv++;
+	if (argc > 2)
+		MSG_getopt_too_many_arguments ();
+	if (argc == 2)
+		output = *argv;
 
     /* Open the files */
-    switch (stage) {
-	case 1 : {
-	    MSG_getopt_not_enough_arguments ();
-	    break;
-	}
-	case 2 : {
-	    SET (input);
-	    open_files (argv [ input ], (char *) null);
-	    break;
-	}
-	case 3 : {
-	    SET (input);
-	    SET (output);
-	    open_files (argv [ input ], argv [ output ]);
-	    break;
-	}
-	default : {
-	    MSG_getopt_too_many_arguments ();
-	    break;
-	}
-    }
+	open_files (input, output);
 
     /* Perform binary dump if required */
     if (dump) {

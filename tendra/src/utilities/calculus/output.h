@@ -162,10 +162,10 @@ struct OStreamT;
  */
 
 extern int unique;
-extern int const_tokens;
+extern BoolT const_tokens;
 extern int have_varargs;
 extern int output_c_code;
-extern int verbose_output;
+extern BoolT verbose_output;
 extern struct OStreamT *output_file;
 extern void flush_output(void);
 extern void open_file(char *, char *, char *);

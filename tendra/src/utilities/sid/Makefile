@@ -4,7 +4,7 @@ CFLAGS+= -I. -I${.CURDIR} -I${SRC_DIR}/src/include
 
 PROG=	sid
 
-SRCS=	action.c alt.c arg-parse.c basic.c bitvec.c c-check.c \
+SRCS=	action.c alt.c basic.c bitvec.c c-check.c \
 	c-code.c c-lexer.c c-out-info.c c-out-key.c c-out-nl.c c-out-types.c \
 	c-output.c c-parser.c cstring-list.c dalloc.c entry-list.c entry.c \
 	grammar.c istream.c item.c key.c lexer.c main.c name.c non-local.c \
@@ -15,9 +15,6 @@ SRCS=	action.c alt.c arg-parse.c basic.c bitvec.c c-check.c \
 USE_LIBTEN=	yes
 
 CAT_EXTRA=	${.CURDIR}/parser.cat
-CAT_PRODS=	-n ${.OBJDIR}/catstdn.h
-
-CLEANFILES+=	catstdn.h
 
 SID_OPTS= -l iso-c -s no-lines -s numeric-ids
 

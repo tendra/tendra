@@ -71,10 +71,9 @@
 
 extern void pretty_tree(void) ;
 extern int helpflag;
-extern int dflag;
 extern int maxcol;
-extern int progress;
-extern int quickflag;
+extern BoolT progress;
+extern BoolT quickflag;
 
 
 #endif

@@ -35,8 +35,7 @@ TYPES:
 	istream_line,	/* "filename: line: " */
 	tdfr_offset,
 	ExceptionName,
-	libcapfullname,
-	ArgUsageP
+	libcapfullname
 
 	
 ENTRIES:
@@ -48,10 +47,10 @@ cant_open_library_file(ccp: s)
 	KEY(STD) "Can't open library file, '"s"': "strerror
 }
 
-bad_mode(char: mode)
+bad_mode(ccp: mode)
 {
 	USAGE: FATAL
-	KEY(STD) "illegal mode character '"mode"'; should be one of
+	KEY(STD) "illegal mode option '"mode"'; should be one of
 		  'c', 'l', 't' or 'x'"
 }
 
@@ -101,42 +100,6 @@ tld_multiple_unit_files()
 {
 	USAGE: FATAL
 	KEY(STD) "more than one unit set file specified"
-}
-
-arg_parse_unknown_option(ccp: option, ArgUsageP: up)
-{
-	USAGE: FATAL
-	KEY(STD) "unknown option '"option"'\n"up
-}
-
-arg_parse_ambiguous_option(ccp: option, ArgUsageP: up)
-{
-	USAGE: FATAL
-	KEY(STD) "ambiguous option '"option"'\n"up
-}
-
-arg_parse_missing_argument(ccp: option, ArgUsageP: up)
-{
-	USAGE: FATAL
-	KEY(STD) "missing argument for option '"option"'\n"up
-}
-
-arg_parse_missing_short_arg(ccp: option, ccp: location, ArgUsageP: up)
-{
-	USAGE: FATAL
-	KEY(STD) "missing argument for option '"option"' at '"location"'\n"up
-}
-
-arg_parse_unknown_short_opt(ccp: option, ccp: location, ArgUsageP: up)
-{
-	USAGE: FATAL
-	KEY(STD) "unknown short option '"option"' at '"location"'\n"up
-}
-
-arg_usage(ArgUsageP: up)
-{
-	USAGE: NONE
-	KEY(STD) up
 }
 
 duplicate_capsule_name(ccp: name)
@@ -648,196 +611,196 @@ expected_eof_in_tdf(tdfr_offset: toff)
 /*
  * Next block describes usage message for options.
  */
+description_of_mode()
+{
+	USAGE: NONE
+	KEY(STD) "MODE Select operation mode, where MODE is one of
+			 \n  c  create library
+			 \n  l  link capsules (default)
+			 \n  t  library table of contents
+			 \n  x  extract from library"
+}
+
 description_of_all()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable extraction of all capsules."
+	KEY(STD) "Enable/disable extraction of all capsules."
 }
 
 description_of_all_hide_defined()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable hiding of all external names of any shape
+	KEY(STD) "Enable/disable hiding of all external names of any shape
 		  that have a definition."
 }
 
 description_of_basename()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable extraction of capsules to their basename."
+	KEY(STD) "Enable/disable extraction of capsules to their basename."
 }
 
 description_of_debug_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tWrite debugging output to FILE."
-}
-
-description_of_help()
-{
-	USAGE: NONE
-	KEY(STD) "\n\tDisplay an option summary for the current mode."
+	KEY(STD) "FILE Write debugging output to FILE."
 }
 
 description_of_hide()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE NAME\n\tHide the external SHAPE NAME."
+	KEY(STD) "SHAPE NAME Hide the external SHAPE NAME."
 }
 
 description_of_hide_defined()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE\n\tHide all external SHAPE names that have a
-		  definition."
+	KEY(STD) "SHAPE Hide all external SHAPE names that have a definition."
 }
 
 description_of_include_library()
 {
 	USAGE: NONE
-	KEY(STD) " LIBRARY\n\tInclude the contents of LIBRARY in the output
-		  library."
+	KEY(STD) "LIBRARY Include the contents of LIBRARY in the output library."
 }
 
 description_of_index()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable the display of the library index as well
+	KEY(STD) "Enable/disable the display of the library index as well
 		  as the capsule names."
 }
 
 description_of_info()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable informational messages."
+	KEY(STD) "Enable/disable informational messages."
 }
 
 description_of_keep()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE NAME\n\tEnsure that external SHAPE NAME is not hidden."
+	KEY(STD) "SHAPE NAME Ensure that external SHAPE NAME is not hidden."
 }
 
 description_of_keep_all()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE\n\tEnsure that no external SHAPE is hidden."
+	KEY(STD) "SHAPE Ensure that no external SHAPE is hidden."
 }
 
 description_of_library_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tUse FILE as a TDF library."
-}
-
-description_of_l()
-{
-	USAGE: NONE
-	KEY(STD) "FILE\n\tUse FILE as a TDF library."
+	KEY(STD) "FILE Use FILE as a TDF library."
 }
 
 description_of_match_basename()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable matching capsules by their basename"
+	KEY(STD) "Enable/disable matching capsules by their basename."
 }
 
 description_of_output_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tWrite output to FILE (default 'library.tl')."
+	KEY(STD) "FILE Write output to FILE (default 'library.tl')."
 }
 
 description_of_path()
 {
 	USAGE: NONE
-	KEY(STD) " DIRECTORY\n\tAppend DIRECTORY to library search path."
-}
-
-description_of_L()
-{
-	USAGE: NONE
-	KEY(STD) "DIRECTORY\n\tAppend DIRECTORY to library search path."
+	KEY(STD) "DIRECTORY Append DIRECTORY to library search path."
 }
 
 description_of_rename()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE FROM TO\n\tRename SHAPE FROM to TO."
+	KEY(STD) "SHAPE FROM TO Rename SHAPE FROM to TO."
 }
 
 description_of_rename_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tParse FILE as a rename file."
+	KEY(STD) "FILE Parse FILE as a rename file."
 }
 
 description_of_size()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable the display of the size of library capsules
+	KEY(STD) "Enable/disable the display of the size of library capsules
 		  as well as their names."
-}
-
-description_of_show_errors()
-{
-	USAGE: NONE
-	KEY(STD) "\n\tDisplay the current error table on the standard output."
 }
 
 description_of_suppress()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE NAME\n\tDo not try to find a definition for SHAPE NAME."
+	KEY(STD) "SHAPE NAME Do not try to find a definition for SHAPE NAME."
 }
 
 description_of_suppress_all()
 {
 	USAGE: NONE
-	KEY(STD) " SHAPE\n\tDo not try to find a definition for any SHAPE."
+	KEY(STD) "SHAPE Do not try to find a definition for any SHAPE."
 }
 
 description_of_suppress_mult()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable the suppression of multiple definitions
+	KEY(STD) "Enable/disable the suppression of multiple definitions
 		  as library definitions."
 }
 
 description_of_tdf_version()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable the display of the version of a TDF
-		  library."
+	KEY(STD) "Enable/disable the display of the version of a TDF library."
 }
 
 description_of_unit_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tRead unit set names from FILE."
-}
-
-description_of_version()
-{
-	USAGE: NONE
-	KEY(STD) "\n\tDisplay the version number on the standard error."
+	KEY(STD) "FILE Read unit set names from FILE."
 }
 
 description_of_warning()
 {
 	USAGE: NONE
-	KEY(STD) "\n\tEnable/disable warning messages."
+	KEY(STD) "Enable/disable warning messages."
 }
 
-tld_usage_message()
+root_usage()
 {
 	USAGE: NONE
-	KEY(STD)
-	"Usage: [mode] [option ...] file ...
-	\nwhere mode is one of:
-	\n\t'-mc' (create library),
-	\n\t'-ml' (link capsules),
-	\n\t'-mt' (library table of contents) or
-	\n\t'-mx' (extract from library),
-	\nand option (for the current mode - default '-ml') is one of:"
+	KEY(STD) "Usage: tld -m{c|l|t|x} [options ...] files ...
+			 \nwhere options are:"
 }
+
+builder_usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tld -mc [options ...] files ...
+			 \nwhere options are:"
+}
+
+linker_usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tld [-ml] [options ...] files ...
+			 \nwhere options are:"
+}
+
+contents_usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tld -mt [options ...] files ...
+			 \nwhere options are:"
+}
+
+extract_usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tld -mx [options ...] files ...
+			 \nwhere options are:"
+}
+

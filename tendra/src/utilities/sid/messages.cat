@@ -47,39 +47,6 @@ GLOBALS:
 
 ENTRIES:
 
-arg_parse_missing_argument(ccp: option, ArgUsageP: usage)
-{
-	USAGE: FATAL
-	KEY(STD) "missing argument for option '"option"'\n"usage
-}
-
-arg_parse_unknown_option(ccp: option, ArgUsageP: usage)
-{
-	USAGE: FATAL
-	KEY(STD) "unknown option '"option"'\n"usage
-}
-
-arg_parse_missing_short_arg(ccp: option, ccp: option_location,
-	ArgUsageP: usage)
-{
-	USAGE: FATAL
-	KEY(STD) "missing argument for option '"option"' at
-		  '"option_location"'\n"usage
-}
-
-arg_parse_ambiguous_option(ccp: option, ArgUsageP: usage)
-{
-	USAGE: FATAL
-	KEY(STD) "ambiguous option '"option"'\n"usage
-}
-
-arg_parse_unknown_short_opt(ccp: option, ccp: option_location, ArgUsageP: usage)
-{
-	USAGE: FATAL
-	KEY(STD) "unknown short option '"option"' at
-		  '"option_location"'\n"usage
-}
-
 /* c-check.c */
 basic_result_code_not_defined(KeyP: basic_name)
 {
@@ -813,70 +780,58 @@ cannot_open_dump_file(ccp: file_name)
 }
 
 usage(ccp: language_name, unsigned: number_input_files,
-		unsigned: number_output_files, ArgUsageP: usage)
+		unsigned: number_output_files)
 {
 	USAGE: FATAL
 	KEY(STD) "language '"language_name"' requires "number_input_files
-		 " input files and "number_output_files" output files\n"usage
+		 " input files and "number_output_files" output files"
 }
 
 
 description_of_dump_file()
 {
 	USAGE: NONE
-	KEY(STD) "FILE\n\tCause intermediate grammars to be written to FILE."
-}
-
-description_of_help()
-{
-	USAGE: NONE
-	KEY(STD) "\n\tDisplay an option summary for the current mode."
+	KEY(STD) "FILE Cause intermediate grammars to be written to FILE."
 }
 
 description_of_factor_limit()
 {
 	USAGE: NONE
-	KEY(STD) "NUMBER\n\tSet the maximum number of rules to be generated
+	KEY(STD) "NUMBER Set the maximum NUMBER of rules to be generated
 		  during factorisation."
 }
 
 description_of_inlining()
 {
 	USAGE: NONE
-	KEY(STD) "INLINES\n\tSet which classes of rule are inlined.
-		 \n\tShould be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER',
-		  'MULTI', or 'ALL'."
+	KEY(STD) "CLASS Set which classes of rule are inlined.
+		 \nCLASS should be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER',
+		  'MULTI' or 'ALL'."
 }
 
 description_of_language()
 {
 	USAGE: NONE
-	KEY(STD) "LANGUAGE\n\tSet the language for the output parser."
+	KEY(STD) "LANG Set the language LANG for the output parser."
 }
 
 description_of_switch()
 {
 	USAGE: NONE
-	KEY(STD) "OPTION\n\tPass OPTION to language specific option parser."
+	KEY(STD) "OPTION Pass OPTION to language specific option parser."
 }
 
 description_of_tab_width()
 {
 	USAGE: NONE
-	KEY(STD) "NUMBER\n\tSet the number of spaces in a tab character."
-}
-
-description_of_version()
-{
-	USAGE: NONE
-	KEY(STD) "\n\tDisplay the version number on the standard error."
+	KEY(STD) "NUMBER Set the NUMBER of spaces in a tab character."
 }
 
 sid_usage_message()
 {
 	USAGE: NONE
 	KEY(STD) "Usage: sid [options ...] in-file ... out-file ...
-		  \nwhere option is one of:"
+		  \nwhere options are:"
 }
 
 /* rule-check.c */

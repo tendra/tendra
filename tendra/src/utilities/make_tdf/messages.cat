@@ -160,3 +160,11 @@ syntax_error()
 	USAGE: ERROR
 	KEY(STD) iline"Syntax error"
 }
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: make_tdf [options] input template output
+			 \nwhere options are:"
+}
+

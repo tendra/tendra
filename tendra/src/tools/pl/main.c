@@ -56,70 +56,74 @@
 
 
 #include "config.h"
-#include "release.h"
+#include "argparse.h"
+#include "catstdn.h"
 #include "msgcat.h"
+#include "tenapp.h"
+
+#include "release.h"
 #include "namedecs.h"
 #include "lex.h"
 #include "includes.h"
 #include "syntax.h"
-#include "tenapp.h"
 #include "units.h"
 
-static char *pl_usage = "pl [-p] [-Ipath] [-g] [-V] infile.pl outfile.j";
+static BoolT diag = FALSE;
+
+static void
+opt_include(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	add_include (value);
+}
+
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EITHER	(include,		'I', NULL, opt_include),
+	AP_OPT_EMPTY	(version,		'V', NULL, arg_std_version),
+	AP_OPT_SET		(diag,			'g', NULL, &diag),
+	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
+	AP_OPT_SET		(diag,			'p', NULL, &do_pp),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
 
 int
 main(int argc, char **argv)
 {
-    int i;
-    int ok = 1;
-    int diag = 0;
-    char *in = NULL;
-    char *out = NULL;
+    char *in, *out;
+	int optcnt;
 
     tenapp_init(argc, argv, "PL-TDF compiler", "5.0");
     init_includes ();
-    for (i = 1 ; i < argc; i++) {
-		char *a = argv [i];
-		if (a [0] == '-') {
-			switch (a [1]) {
-			case 'g' : {
-				if (a [2]) ok = 0;
-				diag = 1;
-				break;
-			}
-			case 'I' : {
-				add_include (a + 2);
-				break;
-			}
-			case 'p' : {
-				if (a [2]) ok = 0;
-				do_pp = 1;
-				break;
-			}
-			case 'V' : {
-				tenapp_report_version ();
-				break;
-			}
-			default : {
-				ok = 0;
-				break;
-			}
-			}
-		} else {
-			if (in == NULL) {
-				in = a;
-			} else if (out == NULL) {
-				out = a;
-			} else {
-				ok = 0;
-			}
-		}
-    }
-    if (in == NULL || out == NULL) ok = 0;
-    if (!ok) {
-		IGNORE fprintf (stderr, "Error: Usage = %s\n", pl_usage);
-		exit (EXIT_FAILURE);
-    }
+	argc--;
+	argv++;
+	optcnt = arg_parse_arguments (cmdl_opts, argc, argv);
+	argc -= optcnt;
+	argv += optcnt;
+
+	if (argc < 2)
+		MSG_getopt_not_enough_arguments ();
+	in = *argv++;
+	if (argc > 2)
+		MSG_getopt_too_many_arguments ();
+	if (argc == 2)
+		out = *argv;
+
     in_file = fopen (in, "r");
     file_name = in;
     if (in_file == NULL) {

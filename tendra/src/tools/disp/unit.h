@@ -84,8 +84,8 @@ extern void de_tld_unit(void) ;
 extern void de_make_version(char *) ;
 extern void de_magic(char *) ;
 extern long max_lab_no;
-extern int show_usage;
-extern int diagnostics;
+extern BoolT show_usage;
+extern BoolT diagnostics;
 extern int versions;
 
 

@@ -66,10 +66,9 @@
  *    that of the capsule.
  */
 
-extern int dumb_mode;
-extern int show_stuff;
-extern int skip_pass;
-extern int show_skip;
+extern BoolT dumb_mode;
+extern BoolT show_stuff;
+extern BoolT show_skip;
 extern int skipping;
 
 extern string *eqn_types;

@@ -74,7 +74,7 @@ extern void de_make_label(long) ;
 void de_case_fn(char *, char *, char *) ;
 void de_mk_proc_fn(char *, char *, char *, char *) ;
 void de_solve_fn(char *, char *, char *, char *, int) ;
-extern int warn_undeclared;
+extern BoolT warn_undeclared;
 
 #define de_case(X)		de_case_fn (X, "bx", "ss")
 #define de_labelled(X)	de_solve_fn (X, "l", "x", "x", 1)

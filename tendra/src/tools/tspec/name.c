@@ -74,12 +74,12 @@
  *    action of the program.
  */
 
-boolean allow_long_long = 0;
-boolean force_output = 0;
-boolean local_input = 0;
-boolean restrict_depth = 1;
-boolean restrict_use = 0;
-boolean unique_names = 0;
+BoolT allow_long_long = 0;
+BoolT force_output = 0;
+BoolT local_input = 0;
+BoolT restrict_depth = 1;
+BoolT restrict_use = 0;
+BoolT unique_names = 0;
 int verbose = 0;
 
 

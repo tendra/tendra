@@ -280,3 +280,22 @@ assertion_failed(ccp: assertion)
 	USAGE: FATAL
 	KEY(STD) "Assertion "assertion" failed"
 }
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: pl [options] input output
+			 \nwhere options are:"
+}
+
+description_of_diag()
+{
+	USAGE: NONE
+	KEY(STD) "This option described elsewhere."
+}
+
+description_of_include()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Add DIRECTORY to the includes search path."
+}

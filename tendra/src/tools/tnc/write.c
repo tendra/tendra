@@ -78,9 +78,9 @@
  *    (default) or c-like.
  */
 
-boolean verbose = 0;
+BoolT verbose = 0;
 boolean print_shapes = 0;
-boolean func_output = 0;
+BoolT func_output = 0;
 
 
 /*

@@ -129,7 +129,7 @@ extern construct *removals;
  *    TABLE UTILITY ROUTINES
  */
 
-extern boolean order_names;
+extern BoolT order_names;
 typedef void (*apply_func)(construct *) ;
 extern char *sort_name(sortname) ;
 extern void sort_table(construct **, sortname) ;

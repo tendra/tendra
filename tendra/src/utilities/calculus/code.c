@@ -76,9 +76,9 @@
  *    prototypes.
  */
 
-int extra_asserts = 0;
-int extra_headers = 0;
-int map_proto = 1;
+BoolT extra_asserts = FALSE;
+BoolT extra_headers = FALSE;
+BoolT map_proto = TRUE;
 static char *check_null;
 
 

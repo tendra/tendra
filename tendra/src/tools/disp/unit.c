@@ -582,8 +582,8 @@ de_al_tagdef_props()
  *    These flags control the output of the various non-core units.
  */
 
-int show_usage = 0;
-int diagnostics = 0;
+BoolT show_usage = FALSE;
+BoolT diagnostics = FALSE;
 int versions = 1;
 
 

@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
 #include "cstring.h"
 #include "msgcat.h"
 #include "ostream.h"
@@ -75,6 +77,16 @@
 #include "utility.h"
 
 extern void tspec_on_message(MSG_DATA *);
+
+static BoolT check_only = 0;
+static BoolT preproc_input = 0;
+static BoolT separate_files = 0;
+static FILE *preproc_file = NULL;
+
+static int show_index = 0;
+
+static char *dir = ".";
+static char *progfile;
 
 /*
  *    SIGNAL HANDLER
@@ -148,6 +160,121 @@ implement(object *p, int depth)
 }
 
 static void
+opt_include(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	dir = string_printf ("%s:%s", dir, value);
+}
+
+static void
+opt_nowarns(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	msg_sev_set (MSG_SEV_WARNING, 0);
+}
+
+static void
+opt_outidir(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	output_incl_dir = value;
+	output_incl_len = (int) strlen (value) + 1;
+}
+
+static void
+opt_outsdir(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	output_src_dir = value;
+	output_src_len = (int) strlen (value) + 1;
+}
+
+static void
+opt_preprocess(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	preproc_file = stdout;
+}
+
+static void
+opt_progtstamp(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	progdate = date_stamp (progfile);
+}
+
+static void
+opt_show_index(char *option, void *closure)
+{
+	UNUSED(closure);
+
+	switch (option[0]) {
+	case 'i': show_index = 1; break;
+	case 'm': show_index = 2; break;
+	}
+}
+
+static void
+opt_verbose(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	verbose++;
+}
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EITHER	(include,		'I', NULL, opt_include),
+	AP_OPT_EITHER	(outidir,		'O', NULL, opt_outidir),
+	AP_OPT_EITHER	(outsdir,		'S', NULL, opt_outsdir),
+	AP_OPT_EMPTY	(version,		'V', NULL, arg_std_version),
+	AP_OPT_RESET	(atonce,		'a', NULL, &separate_files),
+	AP_OPT_SET		(separate,		's', NULL, &separate_files),
+	AP_OPT_SET		(check_only,	'c', NULL, &check_only),
+	AP_OPT_RESET	(restrict_depth,'d', NULL, &restrict_depth),
+	AP_OPT_EMPTY	(preprocess,	'e', NULL, opt_preprocess),
+	AP_OPT_SET		(force_output,	'f', NULL, &force_output),
+	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
+	AP_OPT_EMPTY	(docindex,		'i', NULL, opt_show_index),
+	AP_OPT_SET		(local_input,	'l', NULL, &local_input),
+	AP_OPT_EMPTY	(machindex,		'm', NULL, opt_show_index),
+	AP_OPT_EMPTY	(progtstamp,	'n', NULL, opt_progtstamp),
+	AP_OPT_SET		(preproc_input,	'p', NULL, &preproc_input),
+	AP_OPT_SET		(restrict_use,	'r', NULL, &restrict_use),
+	AP_OPT_SET		(allow_longlong,'r', NULL, &allow_long_long),
+	AP_OPT_SET		(unique_names,	'u', NULL, &unique_names),
+	AP_OPT_EMPTY	(verbose,		'v', NULL, opt_verbose),
+	AP_OPT_EMPTY	(nowarns,		'w', NULL, opt_nowarns),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
+
+
+static void
 msg_uh_fileline(char ch, void *pp)
 {
 	UNUSED(ch);
@@ -167,18 +294,12 @@ msg_uh_fileline(char ch, void *pp)
 int
 main(int argc, char **argv)
 {
-    int a;
-    char *env;
-    char *dir = ".";
+    int optcnt, targc;
+    char *env, **targv;
     char *api = null;
     char *file = null;
     char *subset = null;
     object *commands = null;
-    FILE *preproc_file = null;
-    int show_index = 0;
-    boolean check_only = 0;
-    boolean preproc_input = 0;
-    boolean separate_files = 0;
 
     /* Initialisation */
     tenapp_init (argc, argv, "An API specification tool", "2.9");
@@ -186,6 +307,8 @@ main(int argc, char **argv)
     msg_uh_add(MSG_GLOB_fileline, msg_uh_fileline);
     msg_on_message = tspec_on_message;
 
+	targc = argc;
+	targv = argv;
     line_no = 1;
     filename = "built-in definitions";
     init_hash ();
@@ -214,63 +337,22 @@ main(int argc, char **argv)
 		output_src_len = (int) strlen (output_src_dir) + 1;
     }
 
-    /* Process options */
-    for (a = 1; a < argc; a++) {
-		char *arg = argv [a];
-		line_no = a;
-		if (arg [0] == '-') {
-			if (arg [1] == 'I') {
-				dir = string_printf ("%s:%s", dir, arg + 2);
-			} else if (arg [1] == 'O') {
-				output_incl_dir = arg + 2;
-				output_incl_len = (int) strlen (arg + 2) + 1;
-			} else if (arg [1] == 'S') {
-				output_src_dir = arg + 2;
-				output_src_len = (int) strlen (arg + 2) + 1;
-			} else {
-				char *s;
-				for (s = arg + 1; *s; s++) {
-					switch (*s) {
-					case 'a' : separate_files = 0; break;
-					case 'c' : check_only = 1; break;
-					case 'd' : restrict_depth = 0; break;
-					case 'e' : preproc_file = stdout; break;
-					case 'f' : force_output = 1; break;
-					case 'i' : show_index = 1; break;
-					case 'l' : local_input = 1; break;
-					case 'm' : show_index = 2; break;
-					case 'n' : progdate = date_stamp (argv [0]); break;
-					case 'p' : preproc_input = 1; break;
-					case 'r' : restrict_use = 1; break;
-					case 's' : separate_files = 1; break;
-					case 't' : allow_long_long = 1; break;
-					case 'u' : unique_names = 1; break;
-					case 'v' : verbose++; break;
-					case 'w' : msg_sev_set (MSG_SEV_WARNING, 0); break;
-					case 'V' : {
-						tenapp_report_version ();
-						break;
-					}
-					default : {
-						MSG_getopt_unknown_option (s);
-						break;
-					}
-					}
-				}
-			}
-		} else {
-			if (api == null) {
-				api = arg;
-			} else if (file == null) {
-				file = arg;
-			} else if (subset == null) {
-				subset = arg;
-			} else {
-				MSG_getopt_too_many_arguments ();
-			}
-		}
-    }
-    if (local_input) {
+	progfile = argv[0];
+	optcnt = arg_parse_arguments (cmdl_opts, --argc, ++argv);
+	argc -= optcnt;
+	argv += optcnt;
+	if (argc < 1)
+		MSG_getopt_not_enough_arguments ();
+	if (argc > 3)
+			MSG_getopt_too_many_arguments ();
+	api = *argv++;
+	if (argc > 1) {
+		file = *argv++;
+		if (argc > 2)
+			subset = *argv;
+	}
+
+	if (local_input) {
 		if (subset) MSG_getopt_too_many_arguments ();
 		subset = file;
 		file = api;
@@ -314,9 +396,9 @@ main(int argc, char **argv)
 		int n;
 		hash_elem *e;
 		char *s = buffer;
-		IGNORE sprintf (s, "%s ", argv [0]);
-		for (a = 1; a < argc; a++) {
-			char *arg = argv [a];
+		IGNORE sprintf (s, "%s ", targv [0]);
+		for (optcnt = 1; optcnt < targc; optcnt++) {
+			char *arg = targv [optcnt];
 			if (arg [0] == '-') {
 				s = s + strlen (s);
 				IGNORE sprintf (s, "%s ", arg);

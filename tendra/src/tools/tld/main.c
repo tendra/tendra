@@ -71,9 +71,10 @@
 /****************************************************************************/
 
 #include "config.h"
+#include "argparse.h"
+
 #include "release.h"
 #include "arg-data.h"
-#include "arg-parse.h"
 #include "builder.h"
 #include "contents.h"
 #include "debug.h"
@@ -95,138 +96,106 @@ typedef enum {
     MODE_CONTENTS,
     MODE_EXTRACT,
     MODE_LINKER
-} ModeT, *ModeP;
+} ModeT;
 
 /*--------------------------------------------------------------------------*/
 
 static BoolT    main_used_one_off = FALSE;
 static BoolT    main_used_other   = FALSE;
 static ArgDataT main_arg_data;
+static ModeT	mode = MODE_LINKER;
 
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_all(CStringP option, ArgUsageP usage,
-				GenericP gclosure, BoolT enable)
+main_handle_all(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_extract_all (&main_arg_data, enable);
 }
 
 static void
-main_handle_all_hide_defd(CStringP option,
-						  ArgUsageP usage,
-						  GenericP gclosure,
-						  BoolT enable)
+main_handle_all_hide_defd(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_all_hide_defd (&main_arg_data, enable);
 }
 
 static void
-main_handle_basename(CStringP option, ArgUsageP usage,
-					 GenericP gclosure, BoolT enable)
+main_handle_basename(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_extract_basename (&main_arg_data, enable);
 }
 
 static void
-main_handle_debug_file(CStringP option, ArgUsageP usage,
-					   GenericP gclosure,
+main_handle_debug_file(CStringP option, GenericP gclosure,
 					   CStringP debug_file)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_debug_file (&main_arg_data, debug_file);
 }
 
 static void
-main_handle_help(CStringP option, ArgUsageP usage,
-				 GenericP gclosure)
-{
-    UNUSED (option);
-    UNUSED (gclosure);
-    main_used_one_off = TRUE;
-    MSG_arg_usage(usage);
-}
-
-static void
-main_handle_hide(CStringP option, ArgUsageP usage,
-				 GenericP gclosure, CStringP shape,
+main_handle_hide(CStringP option, GenericP gclosure, CStringP shape,
 				 CStringP name)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_hide (&main_arg_data, shape, name);
 }
 
 static void
-main_handle_hide_defined(CStringP option,
-						 ArgUsageP usage,
-						 GenericP gclosure,
+main_handle_hide_defined(CStringP option, GenericP gclosure,
 						 CStringP shape)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_hide_defined (&main_arg_data, shape);
 }
 
 static void
-main_handle_index(CStringP option, ArgUsageP usage,
-				  GenericP gclosure, BoolT enable)
+main_handle_index(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_content_index (&main_arg_data, enable);
 }
 
 static void
-main_handle_info(CStringP option, ArgUsageP usage,
-				 GenericP gclosure, BoolT enable)
+main_handle_info(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     msg_sev_set(MSG_SEV_INFO, enable);
 }
 
 static void
-main_handle_keep(CStringP option, ArgUsageP usage,
-				 GenericP gclosure, CStringP shape,
+main_handle_keep(CStringP option, GenericP gclosure, CStringP shape,
 				 CStringP name)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_keep (&main_arg_data, shape, name);
 }
 
 static void
-main_handle_keep_all(CStringP option, ArgUsageP usage,
-					 GenericP gclosure, CStringP shape)
+main_handle_keep_all(CStringP option, GenericP gclosure, CStringP shape)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_keep_all (&main_arg_data, shape);
@@ -234,56 +203,46 @@ main_handle_keep_all(CStringP option, ArgUsageP usage,
 
 static void
 main_handle_library_file(CStringP option,
-						 ArgUsageP usage,
 						 GenericP gclosure,
 						 CStringP library_file)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_library_file (&main_arg_data, library_file);
 }
 
 static void
-main_handle_match_base(CStringP option, ArgUsageP usage,
-					   GenericP gclosure,
-					   BoolT enable)
+main_handle_match_base(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_extract_match_base (&main_arg_data, enable);
 }
 
 static void
-main_handle_output_file(CStringP option, ArgUsageP usage,
-						GenericP gclosure,
+main_handle_output_file(CStringP option, GenericP gclosure,
 						CStringP output_file)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_output_file (&main_arg_data, output_file);
 }
 
 static void
-main_handle_library_path(CStringP option,
-						 ArgUsageP usage,
-						 GenericP gclosure,
+main_handle_library_path(CStringP option, GenericP gclosure,
 						 CStringP directory)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_library_path (&main_arg_data, directory);
 }
 
 static void
-main_handle_rename(CStringP option, ArgUsageP usage,
+main_handle_rename(CStringP option,
 				   GenericP gclosure, CStringP shape,
 				   CStringP from, CStringP to)
 {
@@ -295,47 +254,31 @@ main_handle_rename(CStringP option, ArgUsageP usage,
 }
 
 static void
-main_handle_rename_file(CStringP option, ArgUsageP usage,
+main_handle_rename_file(CStringP option,
 						GenericP gclosure,
 						CStringP name)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     rename_file_parse (name, &main_arg_data);
 }
 
 static void
-main_handle_show_errors(CStringP option, ArgUsageP usage,
-						GenericP gclosure)
+main_handle_size(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
-    UNUSED (gclosure);
-    main_used_one_off = TRUE;
-/*    write_error_file (ostream_output); */ /* delete this fn */
-    ostream_flush (ostream_output);
-}
-
-static void
-main_handle_size(CStringP option, ArgUsageP usage,
-				 GenericP gclosure, BoolT enable)
-{
-    UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_content_size (&main_arg_data, enable);
 }
 
 static void
-main_handle_suppress(CStringP option, ArgUsageP usage,
+main_handle_suppress(CStringP option,
 					 GenericP gclosure, CStringP shape,
 					 CStringP name)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_suppress (&main_arg_data, shape, name);
@@ -343,12 +286,10 @@ main_handle_suppress(CStringP option, ArgUsageP usage,
 
 static void
 main_handle_suppress_all(CStringP option,
-						 ArgUsageP usage,
 						 GenericP gclosure,
 						 CStringP shape)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_add_suppress_all (&main_arg_data, shape);
@@ -356,62 +297,74 @@ main_handle_suppress_all(CStringP option,
 
 static void
 main_handle_suppress_mult(CStringP option,
-						  ArgUsageP usage,
 						  GenericP gclosure,
 						  BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_suppress_mult (&main_arg_data, enable);
 }
 
 static void
-main_handle_tdf_version(CStringP option, ArgUsageP usage,
-						GenericP gclosure,
-						BoolT enable)
+main_handle_tdf_version(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_content_version (&main_arg_data, enable);
 }
 
 static void
-main_handle_unit_file(CStringP option, ArgUsageP usage,
-					  GenericP gclosure,
-					  CStringP unit_file)
+main_handle_unit_file(CStringP option, GenericP gclosure, CStringP unit_file)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_set_unit_file (&main_arg_data, unit_file);
 }
 
 static void
-main_handle_version(CStringP option, ArgUsageP usage,
-					GenericP gclosure)
+main_handle_version(CStringP option, GenericP gclosure)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_one_off = TRUE;
 	tenapp_report_version();
 }
 
 static void
-main_handle_warning(CStringP option, ArgUsageP usage,
-					GenericP gclosure, BoolT enable)
+main_handle_warning(CStringP option, GenericP gclosure, BoolT enable)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     msg_sev_set(MSG_SEV_WARNING, enable);
 }
+
+static void
+main_handle_mode(char *option, void *closure)
+{
+	UNUSED(closure);
+
+	if (option[2])
+		MSG_bad_mode (option);
+	switch (option[1]) {
+	case 'c': mode = MODE_BUILDER; break;
+	case 't': mode = MODE_CONTENTS;	break;
+	case 'x': mode = MODE_EXTRACT; break;
+	case 'l': break;
+	default:
+		MSG_bad_mode (option);
+		UNREACHED;
+	}
+}
+
+static void main_handle_root_help (char *, void *);
+static void main_handle_builder_help (char *, void *);
+static void main_handle_contents_help (char *, void *);
+static void main_handle_extract_help (char *, void *);
+static void main_handle_linker_help (char *, void *);
 
 /*--------------------------------------------------------------------------*/
 
@@ -421,222 +374,138 @@ main_handle_warning(CStringP option, ArgUsageP usage,
 #pragma TenDRA conversion analysis (pointer-pointer) off
 #endif
 
-static ArgListT main_builder_arg_list [] = {
-    {
-		"debug-file", 'd',			AT_FOLLOWING,
-		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		MID_description_of_debug_file
-    }, {
-		"help", '?',				AT_EMPTY,
-		(ArgProcP) main_handle_help,		NIL (GenericP),
-		MID_description_of_help
-    }, {
-		"include-library", 'i',			AT_FOLLOWING,
-		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		MID_description_of_include_library
-    }, {
-		"output-file", 'o',			AT_FOLLOWING,
-		(ArgProcP) main_handle_output_file,	NIL (GenericP),
-		MID_description_of_output_file
-    }, {
-		"show-errors", 'e',			AT_EMPTY,
-		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		MID_description_of_show_errors
-    }, {
-		"suppress", 's',			AT_FOLLOWING2,
-		(ArgProcP) main_handle_suppress,	NIL (GenericP),
-		MID_description_of_suppress
-    }, {
-		"suppress-all", 'S',			AT_FOLLOWING,
-		(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
-		MID_description_of_suppress_all
-    }, {
-		"suppress-mult", 'M',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
-		MID_description_of_suppress_mult
-    }, {
-		"unit-file", 'u',			AT_FOLLOWING,
-		(ArgProcP) main_handle_unit_file,	NIL (GenericP),
-		MID_description_of_unit_file
-    }, {
-		"version", 'v',				AT_EMPTY,
-		(ArgProcP) main_handle_version,		NIL (GenericP),
-		MID_description_of_version
-    }, ARG_PARSE_END_LIST
+/*
+ * Top level options
+ */
+static ArgListT main_opts[] = {
+	AP_OPT_EMPTY	(help,		'h', NULL, main_handle_root_help),
+	AP_OPT_IMMEDIATE(mode,		'm', NULL, main_handle_mode),
+	AP_OPT_EMPTY	(version,	'V', NULL, main_handle_version),
+	AP_OPT_EOL
 };
 
-static ArgListT main_contents_arg_list [] = {
-    {
-		"debug-file", 'd',			AT_FOLLOWING,
-		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		MID_description_of_debug_file
-    }, {
-		"help", '?',				AT_EMPTY,
-		(ArgProcP) main_handle_help,		NIL (GenericP),
-		MID_description_of_help
-    }, {
-		"index", 'i',				AT_PROC_SWITCH,
-		(ArgProcP) main_handle_index,		NIL (GenericP),
-		MID_description_of_index
-    }, {
-		"show-errors", 'e',			AT_EMPTY,
-		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		MID_description_of_show_errors
-    }, {
-		"size", 's',				AT_PROC_SWITCH,
-		(ArgProcP) main_handle_size,		NIL (GenericP),
-		MID_description_of_size
-    }, {
-		"tdf-version", 't',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_tdf_version,	NIL (GenericP),
-		MID_description_of_tdf_version
-    }, {
-		"version", 'v',				AT_EMPTY,
-		(ArgProcP) main_handle_version,		NIL (GenericP),
-		MID_description_of_version
-    }, ARG_PARSE_END_LIST
+static ArgListT main_builder_arg_list[] = {
+    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_EMPTY	(help,			'h', "help", main_handle_builder_help),
+	AP_OPT_FOLLOWING(include_library,'i',"include-library", main_handle_library_file),
+	AP_OPT_FOLLOWING(output_file,	'o', "output-file",main_handle_output_file),
+	AP_OPT_FOLLOWING2(suppress,		's', "suppress", main_handle_suppress),
+	AP_OPT_FOLLOWING(suppress_all,	'S', "suppress-all", main_handle_suppress_all),
+	AP_OPT_PROC_SW	(suppress_mult,	'M', "suppress-mult", main_handle_suppress_mult),
+    AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
+	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_EOL
 };
 
-static ArgListT main_extract_arg_list [] = {
-    {
-		"all", 'a',				AT_PROC_SWITCH,
-		(ArgProcP) main_handle_all,		NIL (GenericP),
-		MID_description_of_all
-    }, {
-		"basename", 'b',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_basename,	NIL (GenericP),
-		MID_description_of_basename
-    }, {
-		"debug-file", 'd',			AT_FOLLOWING,
-		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		MID_description_of_debug_file
-    }, {
-		"show-errors", 'e',			AT_EMPTY,
-		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		MID_description_of_show_errors
-    }, {
-		"help", '?',				AT_EMPTY,
-		(ArgProcP) main_handle_help,		NIL (GenericP),
-		MID_description_of_help
-    }, {
-		"info", 'i',				AT_PROC_SWITCH,
-		(ArgProcP) main_handle_info,		NIL (GenericP),
-		MID_description_of_info
-    }, {
-		"match-basename", 'm',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_match_base,	NIL (GenericP),
-		MID_description_of_match_basename
-    }, {
-		"version", 'v',				AT_EMPTY,
-		(ArgProcP) main_handle_version,		NIL (GenericP),
-		MID_description_of_version
-    }, ARG_PARSE_END_LIST
+static ArgListT main_contents_arg_list[] = {
+    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_EMPTY	(help,			'h', "help", main_handle_contents_help),
+	AP_OPT_PROC_SW	(index,			'i', "index", main_handle_index),
+	AP_OPT_PROC_SW	(size,			's', "size", main_handle_size),
+	AP_OPT_PROC_SW	(tdf_version,	't', "tdf-version", main_handle_tdf_version),
+	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_EOL
 };
 
-static ArgListT main_linker_arg_list [] = {
-    {
-		"all-hide-defined", 'a',		AT_PROC_SWITCH,
-		(ArgProcP) main_handle_all_hide_defd,	NIL (GenericP),
-		MID_description_of_all_hide_defined
-    }, {
-		"debug-file", 'd',			AT_FOLLOWING,
-		(ArgProcP) main_handle_debug_file,	NIL (GenericP),
-		MID_description_of_debug_file
-    }, {
-		"help", '?',				AT_EMPTY,
-		(ArgProcP) main_handle_help,		NIL (GenericP),
-		MID_description_of_help
-    }, {
-		"hide", 'h',				AT_FOLLOWING2,
-		(ArgProcP) main_handle_hide,		NIL (GenericP),
-		MID_description_of_hide
-    }, {
-		"hide-defined", 'H',			AT_FOLLOWING,
-		(ArgProcP) main_handle_hide_defined,	NIL (GenericP),
-		MID_description_of_hide_defined
-    }, {
-		"keep", 'k',				AT_FOLLOWING2,
-		(ArgProcP) main_handle_keep,		NIL (GenericP),
-		MID_description_of_keep
-    }, {
-		"keep-all", 'K',			AT_FOLLOWING,
-		(ArgProcP) main_handle_keep_all,	NIL (GenericP),
-		MID_description_of_keep_all
-    }, {
-		"library", '\0',			AT_FOLLOWING,
-		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		MID_description_of_library_file
-    }, {
-		NIL (CStringP), 'l',			AT_EITHER,
-		(ArgProcP) main_handle_library_file,	NIL (GenericP),
-		MID_description_of_l
-    }, {
-		"output-file", 'o',			AT_FOLLOWING,
-		(ArgProcP) main_handle_output_file,	NIL (GenericP),
-		MID_description_of_output_file
-    }, {
-		"path", '\0',				AT_FOLLOWING,
-		(ArgProcP) main_handle_library_path,	NIL (GenericP),
-		MID_description_of_path
-    }, {
-		NIL (CStringP), 'L',			AT_EITHER,
-		(ArgProcP) main_handle_library_path,	NIL (GenericP),
-		MID_description_of_L
-    }, {
-		"rename", 'r',				AT_FOLLOWING3,
-		(ArgProcP) main_handle_rename,		NIL (GenericP),
-		MID_description_of_rename
-    }, {
-		"rename-file", 'R',			AT_FOLLOWING,
-		(ArgProcP) main_handle_rename_file,	NIL (GenericP),
-		MID_description_of_rename_file
-    }, {
-		"show-errors", 'e',			AT_EMPTY,
-		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		MID_description_of_show_errors
-    }, {
-		"suppress", 's',			AT_FOLLOWING2,
-		(ArgProcP) main_handle_suppress,	NIL (GenericP),
-		MID_description_of_suppress
-    }, {
-		"suppress-all", 'S',			AT_FOLLOWING,
-		(ArgProcP) main_handle_suppress_all,	NIL (GenericP),
-		MID_description_of_suppress_all
-    }, {
-		"suppress-mult", 'M',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_suppress_mult,	NIL (GenericP),
-		MID_description_of_suppress_mult
-    }, {
-		"unit-file", 'u',			AT_FOLLOWING,
-		(ArgProcP) main_handle_unit_file,	NIL (GenericP),
-		MID_description_of_unit_file
-    }, {
-		"version", 'v',				AT_EMPTY,
-		(ArgProcP) main_handle_version,		NIL (GenericP),
-		MID_description_of_version
-    }, {
-		"warnings", 'w',			AT_PROC_SWITCH,
-		(ArgProcP) main_handle_warning,		NIL (GenericP),
-		MID_description_of_warning
-    }, ARG_PARSE_END_LIST
+static ArgListT main_extract_arg_list[] = {
+	AP_OPT_PROC_SW	(all,			'a', "all", main_handle_all),
+	AP_OPT_PROC_SW	(basename,		'b', "basename", main_handle_basename),
+    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_EMPTY	(help,			'h', "help", main_handle_extract_help),
+	AP_OPT_PROC_SW	(info,			'i', "info", main_handle_info),
+	AP_OPT_PROC_SW	(match_basename,'m', "match-basename", main_handle_match_base),
+	AP_OPT_EMPTY	(version,	'V', NULL, main_handle_version),
+	AP_OPT_EOL
+};
+
+static ArgListT main_linker_arg_list[] = {
+	AP_OPT_PROC_SW	(all_hide_defined,'a', "all-hide-defined",
+		main_handle_all_hide_defd),
+    AP_OPT_FOLLOWING(debug_file,	'd', "debug-file", main_handle_debug_file),
+	AP_OPT_EMPTY	(help,			'\0', "help", main_handle_linker_help),
+	AP_OPT_FOLLOWING2(hide,			'h', "hide", main_handle_hide),
+	AP_OPT_FOLLOWING(hide_defined,	'H', "hide-defined", main_handle_hide_defined),
+	AP_OPT_FOLLOWING2(keep,			'k', "keep", main_handle_keep),
+	AP_OPT_FOLLOWING(keep_all,		'K', "keep-all", main_handle_keep_all),
+	AP_OPT_EITHER	(library_file,	'l', "library", main_handle_library_file),
+	AP_OPT_FOLLOWING(output_file,	'o', "output-file", main_handle_output_file),
+   	AP_OPT_EITHER	(path,			'L', "path", main_handle_library_path),
+	AP_OPTION('r', "rename", AT_FOLLOWING3,
+		main_handle_rename, NULL, MID_description_of_rename),
+	AP_OPT_FOLLOWING(rename_file,	'R', "rename-file", main_handle_rename_file),
+	AP_OPT_FOLLOWING2(suppress,		's', "suppress", main_handle_suppress),
+	AP_OPT_FOLLOWING(suppress_all,	'S', "suppress-all", main_handle_suppress_all),
+	AP_OPT_PROC_SW	(suppress_mult,	'M', "suppress-mult", main_handle_suppress_mult),
+	AP_OPT_FOLLOWING(unit_file,		'u', "unit-file", main_handle_unit_file),
+	AP_OPT_EMPTY	(version,		'V', NULL, main_handle_version),
+	AP_OPT_PROC_SW	(warning,		'w', "warnings", main_handle_warning),
+	AP_OPT_EOL
 };
 
 #ifdef __TenDRA__
 #pragma TenDRA end
 #endif
 
+static void
+main_handle_root_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_root_usage ();
+	arg_print_usage (main_opts);
+	msg_append_newline ();
+}
+
+static void
+main_handle_builder_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_builder_usage ();
+	arg_print_usage (main_builder_arg_list);
+	msg_append_newline ();
+}
+
+static void
+main_handle_contents_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_builder_usage ();
+	arg_print_usage (main_contents_arg_list);
+	msg_append_newline ();
+}
+
+static void
+main_handle_extract_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_extract_usage ();
+	arg_print_usage (main_extract_arg_list);
+	msg_append_newline ();
+}
+
+static void
+main_handle_linker_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_linker_usage ();
+	arg_print_usage (main_linker_arg_list);
+	msg_append_newline ();
+}
+
 /*--------------------------------------------------------------------------*/
 
 /*
  * Handlers for tld specific message objects
  */
-static void
-msg_uh_ArgUsageP(char ch, void *pp)
-{
-	UNUSED(ch);
-	write_arg_usage((ArgUsageP)pp);
-}
-
 static void
 msg_uh_NStringP(char ch, void *pp)
 {
@@ -710,11 +579,9 @@ msg_uh_libcapfullname(char ch, void *pp)
 static ModeT
 main_init(int argc, char **argv)
 {
-    ModeT     mode          = MODE_LINKER;
-    ArgListP  arg_list      = main_linker_arg_list;
+    ArgListT *arg_list;
     int       skip;
 
-	msg_uh_add(MSG_KEY_ArgUsageP, msg_uh_ArgUsageP);
 	msg_uh_add(MSG_KEY_NStringP, msg_uh_NStringP);
 	msg_uh_add(MSG_KEY_NameKeyP, msg_uh_NameKeyP);
 	msg_uh_add(MSG_KEY_capsule_offset, msg_uh_capsule_offset);
@@ -723,46 +590,39 @@ main_init(int argc, char **argv)
 	msg_uh_add(MSG_KEY_tdfr_offset, msg_uh_tdfr_offset);
 	msg_uh_add(MSG_KEY_ExceptionName, msg_uh_ExceptionName);
 	msg_uh_add(MSG_KEY_libcapfullname, msg_uh_libcapfullname);
-    argc --;
-    argv ++;
-  retry:
-    if ((argc > 0) && (argv [0][0] == '-') && (argv [0][1] == 'm')) {
-		char c = argv [0][2];
-
-		argc --;
-		argv ++;
-		switch (c) {
-		case 'c':
-			mode     = MODE_BUILDER;
-			arg_list = main_builder_arg_list;
-			arg_data_init (&main_arg_data, "library.tl");
+    argc--;
+    argv++;
+	if (argc <= 0)
+		main_handle_root_help (NULL, NULL);
+    if (argv[0][0] == '-') {
+		switch (argv[0][1]) {
+		case 'h':
+		case 'm':
+		case 'V':
+			skip = arg_parse_arguments (main_opts, 1, argv);
+			argc -= skip;
+			argv += skip;
 			break;
-		case 't':
-			mode     = MODE_CONTENTS;
-			arg_list = main_contents_arg_list;
-			arg_data_init (&main_arg_data, NIL (CStringP));
-			break;
-		case 'x':
-			mode     = MODE_EXTRACT;
-			arg_list = main_extract_arg_list;
-			arg_data_init (&main_arg_data, NIL (CStringP));
-			break;
-		case 'l':
-			goto linker_case;
-		case 'v':
-			main_used_one_off = TRUE;
-			main_used_other   = FALSE;
-			tenapp_report_version();
-			goto retry;
-		default:
-			MSG_bad_mode (argv [0][2]);
-			UNREACHED;
 		}
-    } else {
-      linker_case:
+	}
+	switch (mode) {
+	case MODE_BUILDER:
+		arg_list = main_builder_arg_list;
+		arg_data_init (&main_arg_data, "library.tl");
+		break;
+	case MODE_CONTENTS:
+		arg_list = main_contents_arg_list;
+		arg_data_init (&main_arg_data, NIL (CStringP));
+		break;
+	case MODE_EXTRACT:
+		arg_list = main_extract_arg_list;
+		arg_data_init (&main_arg_data, NIL (CStringP));
+		break;
+	case MODE_LINKER:
+		arg_list = main_linker_arg_list;
 		arg_data_init (&main_arg_data, "capsule.j");
     }
-    skip = arg_parse_arguments (arg_list, MID_tld_usage_message, argc, argv);
+    skip = arg_parse_arguments (arg_list, argc, argv);
     argc -= skip;
     argv += skip;
     if (main_used_one_off && (!main_used_other) && (argc == 0)) {

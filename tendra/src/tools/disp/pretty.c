@@ -77,10 +77,9 @@ static void expression(word *, int, int, int, int, int) ;
  *    of the output.  These are documented elsewhere.
  */
 
-int helpflag = 1;
-int dflag = 1;
-int progress = 0;
-int quickflag = 0;
+BoolT helpflag = TRUE;
+BoolT progress = FALSE;
+BoolT quickflag = FALSE;
 
 
 /*

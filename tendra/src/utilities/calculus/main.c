@@ -56,20 +56,23 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "read.h"
 #include "calculus.h"
+#include "catstdn.h"
 #include "check.h"
 #include "code.h"
 #include "common.h"
 #include "disk.h"
 #include "lex.h"
-#include "msgcat.h"
 #include "output.h"
-#include "ostream.h"
 #include "pretty.h"
 #include "print.h"
 #include "template.h"
-#include "tenapp.h"
 #include "token.h"
 #include "write.h"
 
@@ -89,6 +92,12 @@
 #define ACTION_WRITE		5
 #define ACTION_LIST		6
 #define ACTION_TEMPL		7
+
+static char *input = NULL;
+static char *alg_value = NULL;
+static int need_alg = 1;
+static int action = ACTION_C;
+static BoolT text = 1;
 
 
 /*
@@ -119,6 +128,95 @@ list_action(char *nm)
 }
 
 
+static void
+opt_algebra(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	alg_value = value;
+}
+
+static void
+opt_etypes(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	if (need_alg) new_algebra ();
+	process_file (value, 0);
+	need_alg = 0;
+}
+
+static void
+opt_template(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	/* Template file */
+	if (action == ACTION_TOKEN) token_cond = 1;
+	input = value;
+	action = ACTION_TEMPL;
+}
+
+static void
+opt_action(char *option, void *closure)
+{
+	UNUSED(closure);
+
+	/* Output flags */
+	switch (option[0]) {
+	case 'c': action = ACTION_C; break;
+	case 'd': action = ACTION_DISK; break;
+	case 'l': action = ACTION_LIST; break;
+	case 'o': action = ACTION_PRETTY; break;
+	case 'p': action = ACTION_PRINT; break;
+	case 't': action = ACTION_TOKEN; break;
+	case 'w': action = ACTION_WRITE; break;
+	}
+}
+
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EITHER	(algebra,	'A', NULL, opt_algebra),
+	AP_OPT_EITHER	(etypes,	'E', NULL, opt_etypes),
+	AP_OPT_EITHER	(template,	'T', NULL, opt_template),
+	AP_OPT_EMPTY	(version, 	'V', NULL, arg_std_version),
+	AP_OPT_SET		(assertions,'a', NULL, &extra_asserts),
+	AP_OPT_EMPTY	(genc,		'c', NULL, &opt_action),
+	AP_OPT_EMPTY	(gendisk,	'd', NULL, &opt_action),
+	AP_OPT_SET		(extheaders,'e', NULL, &extra_headers),
+	AP_OPT_EMPTY	(help,		'h', "help", opt_help),
+	AP_OPT_SET		(intext,	'i', NULL, &text),
+	AP_OPT_EMPTY	(genlist,	'l', NULL, &opt_action),
+	AP_OPT_RESET	(nomproto,	'm', NULL, &map_proto),
+	AP_OPT_RESET	(noconsttok,'n', NULL, &const_tokens),
+	AP_OPT_EMPTY	(genpretty,	'o', NULL, &opt_action),
+	AP_OPT_EMPTY	(genprint,	'p', NULL, &opt_action),
+	AP_OPT_RESET	(inbin,		'r', NULL, &text),
+	AP_OPT_EMPTY	(gentoken,	't', NULL, &opt_action),
+	AP_OPT_RESET	(noverbose,	'v', NULL, &verbose_output),
+	AP_OPT_EMPTY	(genwrite,	'w', NULL, &opt_action),
+	AP_OPT_RESET	(novector,	'x', NULL, &allow_vec),
+	AP_OPT_RESET	(nostack,	'z', NULL, &allow_stack),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
+
+
 /*
  *    MAIN ROUTINE
  *
@@ -129,115 +227,44 @@ list_action(char *nm)
 int
 main(int argc, char **argv)
 {
-    int a;
-    int text = 1;
-    int no_args = 0;
-    int last_arg = 0;
-    int need_alg = 1;
-    char *in = NULL;
-    char *alg = NULL;
-    int act = ACTION_C;
+	char *out;
+	int optcnt, had_alg;
 
     /* Scan arguments */
     tenapp_init(argc, argv, "Algebraic type system tool", "1.3");
-    for (a = 1; a < argc; a++) {
-		char *arg = argv [a];
-		if (arg [0] != '-') {
-			last_arg = a;
-			no_args++;
+	argc--;
+	argv++;
+	had_alg = 0;
+	for (; argc > 0; argv++, argc--) {
+		optcnt = arg_parse_arguments (cmdl_opts, argc, argv);
+		argc -= optcnt;
+		argv += optcnt;
+		if (argc == 1 && had_alg)
+			break;
+		if (argc <= 0)
+			MSG_getopt_not_enough_arguments ();
+		if (need_alg)
+			new_algebra ();
+		if (text) {
+			process_file (*argv, 1);
+		} else {
+			read_file (*argv);
 		}
-    }
-    if (no_args == 1) last_arg = 0;
-
-    /* Process arguments */
-    for (a = 1; a < argc; a++) {
-		char *arg = argv [a];
-		if (arg [0] == '-') {
-			int known;
-			if (arg [1] && arg [2]) {
-				/* Multi-character options */
-				known = 0;
-				switch (arg [1]) {
-				case 'A' : {
-					/* Output algebra name */
-					alg = arg + 2;
-					known = 1;
-					break;
-				}
-				case 'E' : {
-					/* File containing extra types */
-					if (need_alg) new_algebra ();
-					process_file (arg + 2, 0);
-					need_alg = 0;
-					known = 1;
-					break;
-				}
-				case 'T' : {
-					/* Template file */
-					if (act == ACTION_TOKEN) token_cond = 1;
-					in = arg + 2;
-					act = ACTION_TEMPL;
-					known = 1;
-					break;
-				}
-				case 'V' : {
-					tenapp_report_version ();
-					break;
-				}
-				}
-			} else {
-				/* Single character options */
-				known = 1;
-				switch (arg [1]) {
-					/* Input flags */
-				case 'r' : text = 0; break;
-				case 'i' : text = 1; break;
-
-					/* Output flags */
-				case 'c' : act = ACTION_C; break;
-				case 'd' : act = ACTION_DISK; break;
-				case 'l' : act = ACTION_LIST; break;
-				case 'o' : act = ACTION_PRETTY; break;
-				case 'p' : act = ACTION_PRINT; break;
-				case 't' : act = ACTION_TOKEN; break;
-				case 'w' : act = ACTION_WRITE; break;
-
-					/* Output options */
-				case 'a' : extra_asserts = 1; break;
-				case 'e' : extra_headers = 1; break;
-				case 'm' : map_proto = 0; break;
-				case 'n' : const_tokens = 0; break;
-				case 'x' : allow_vec = 0; break;
-				case 'z' : allow_stack = 0; break;
-
-					/* Other options */
-				case 'v' : verbose_output = 0; break;
-				default : known = 0; break;
-				}
-			}
-			if (!known) {
-				MSG_getopt_unknown_option(arg);
-			}
-		} else if (a != last_arg) {
-			if (need_alg) new_algebra ();
-			if (text) {
-				process_file (arg, 1);
-			} else {
-				read_file (arg);
-			}
-			check_types ();
-			check_names (0);
-			need_alg = 1;
-		}
-    }
-    if (no_args == 0) MSG_getopt_not_enough_arguments ();
+		check_types ();
+		check_names (0);
+		need_alg = 1;
+		had_alg = 1;
+	}
+	if (argc > 1)
+		MSG_getopt_too_many_arguments ();
+	out = (argc == 1 ? *argv : ".");
     if (!need_alg) MSG_badly_placed_E_option ();
 
     /* Look up output algebra */
-    if (alg) {
-		ALGEBRA_DEFN *al = find_algebra (alg);
+    if (alg_value) {
+		ALGEBRA_DEFN *al = find_algebra (alg_value);
 		if (al == NULL) {
-			MSG_algebra_not_defined(alg);
+			MSG_algebra_not_defined(alg_value);
 		} else {
 			algebra = al;
 		}
@@ -245,8 +272,7 @@ main(int argc, char **argv)
 
     /* Generate output */
     if (exit_status == EXIT_SUCCESS) {
-		char *out = (last_arg ? argv [ last_arg ] : ".");
-		switch (act) {
+		switch (action) {
 	    case ACTION_C : main_action_c (out); break;
 	    case ACTION_TOKEN : main_action_tok (out); break;
 	    case ACTION_DISK : disk_action (out); break;
@@ -254,7 +280,7 @@ main(int argc, char **argv)
 	    case ACTION_PRINT : print_action (out); break;
 	    case ACTION_WRITE : write_file (out); break;
 	    case ACTION_LIST : list_action (out); break;
-	    case ACTION_TEMPL : template_file (in, out); break;
+	    case ACTION_TEMPL : template_file (input, out); break;
 		}
     } else {
 		MSG_no_output_generated_due_errors ();

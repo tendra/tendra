@@ -78,8 +78,8 @@
  *    number of tags and tokens etc will be output.
  */
 
-int dumb_mode = 0;
-int show_stuff = 0;
+BoolT dumb_mode = FALSE;
+BoolT show_stuff = FALSE;
 
 
 /*
@@ -88,13 +88,11 @@ int show_stuff = 0;
  *    Tokens may be defined recursively without the necessary previous
  *    declarations to make this simple.  Thus the token definitions are
  *    given a preliminary pass to extract the declaration information.
- *    This feature can be switch on and off using the skip_pass flag.
  *    If show_skip is true the information read on the skip pass is
  *    displayed.  skipping is true iff we are in the skip pass.
  */
 
-int skip_pass = 1;
-int show_skip = 0;
+BoolT show_skip = 0;
 int skipping = 0;
 
 

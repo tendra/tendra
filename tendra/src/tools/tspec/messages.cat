@@ -415,3 +415,127 @@ unknown_integer_variable(ccp: name)
 	USAGE: ERROR
 	KEY(STD) fileline"Unknown integer variable, '"name"'"
 }
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tspec [options] {api [header [subset]] | -l file}
+			 \nwhere options are:"
+}
+
+description_of_allow_longlong()
+{
+	USAGE: NONE
+	KEY(STD) "Allow long long type specifiers."
+}
+
+description_of_atonce()
+{
+	USAGE: NONE
+	KEY(STD) "Check all headers in an API at once."
+}
+
+description_of_check_only()
+{
+	USAGE: NONE
+	KEY(STD) "Process input files but do not generate any output."
+}
+
+description_of_docindex()
+{
+	USAGE: NONE
+	KEY(STD) "Print a human readable index of all the objects specified in
+			  the input files to the standard output."
+}
+
+description_of_force_output()
+{
+	USAGE: NONE
+	KEY(STD) "Always update output files."
+}
+
+description_of_include()
+{
+	USAGE: NONE
+	KEY(STD) "DIR[:DIR] Add directory DIR to the search path of input files.
+			  Multiple directories can be specified via colon."
+}
+
+description_of_local_input()
+{
+	USAGE: NONE
+	KEY(STD) "Set local input mode."
+}
+
+description_of_machindex()
+{
+	USAGE: NONE
+	KEY(STD) "Print an index intended for machine processing of all
+			  the objects specified in the input files to the standard output."
+}
+
+description_of_nowarns()
+{
+	USAGE: NONE
+	KEY(STD) "Disable generation of warning messages."
+}
+
+description_of_outidir()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Place include output files into DIRECTORY."
+}
+
+description_of_outsdir()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Place source output files into DIRECTORY."
+}
+
+description_of_preprocess()
+{
+	USAGE: NONE
+	KEY(STD) "Only preprocess input files."
+}
+
+description_of_preproc_input()
+{
+	USAGE: NONE
+	KEY(STD) "Assume that input files are already preprocessed."
+}
+
+description_of_progtstamp()
+{
+	USAGE: NONE
+	KEY(STD) "Update output files that are newer than tspec itself."
+}
+
+description_of_restrict_depth()
+{
+	USAGE: NONE
+	KEY(STD) "This option documented elsewhere."
+}
+
+description_of_restrict_use()
+{
+	USAGE: NONE
+	KEY(STD) "Produce output only for implemented objects."
+}
+
+description_of_separate()
+{
+	USAGE: NONE
+	KEY(STD) "Check each header in an API separately."
+}
+
+description_of_unique_names()
+{
+	USAGE: NONE
+	KEY(STD) "Generate unique token names for objects."
+}
+
+description_of_verbose()
+{
+	USAGE: NONE
+	KEY(STD) "Increase report verbosity."
+}

@@ -56,15 +56,38 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "spec_ops.h"
 #include "input.h"
 #include "lex.h"
-#include "msgcat.h"
 #include "output.h"
 #include "syntax.h"
-#include "tenapp.h"
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EMPTY	(version, 	'V', NULL, arg_std_version),
+	AP_OPT_EMPTY	(help,		'h', "help", opt_help),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+	tenapp_exit();
+}
 
 
 /*
@@ -77,44 +100,30 @@
 int
 main(int argc, char **argv)
 {
-	int a;
-	int too_many = 0;
+	int optcnt;
 	char *input = NULL;
 	char *templ = NULL;
 	char *output = NULL;
 	
 	/* Process arguments */
 	tenapp_init(argc, argv, "TDF encoder/decoder generator", "2.0");
-	for (a = 1; a < argc; a++) {
-		char *arg = argv[a];
-		if (arg[0] == '-' && arg[1]) {
-			int known = 0;
-			switch (arg[1]) {
-			case 'V' : {
-				if (arg[2]) break;
-				tenapp_report_version ();
-				known = 1;
-				break;
-			}
-			}
-			if (!known) {
-				MSG_getopt_unknown_option (arg);
-			}
-		} else {
-			if (input == NULL) {
-				input = arg;
-			} else if (templ == NULL) {
-				templ = arg;
-			} else if (output == NULL) {
-				output = arg;
-			} else {
-				too_many = 1;
-			}
+	argc--;
+	argv++;
+	optcnt = arg_parse_arguments (cmdl_opts, argc, argv);
+	argc -= optcnt;
+	argv += optcnt;
+	if (argc > 3)
+		MSG_too_many_arguments ();
+
+	for (; argc > 0; argc--, argv++) {
+		if (input == NULL) {
+			input = *argv;
+		} else if (templ == NULL) {
+			templ = *argv;
+		} else if (output == NULL) {
+			output = *argv;
 		}
 	}
-	
-	/* Check arguments */
-	if (too_many) MSG_too_many_arguments ();
 	
 	/* Process the input */
 	builtin_sorts ();

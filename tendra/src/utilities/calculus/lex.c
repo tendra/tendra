@@ -72,8 +72,8 @@
  */
 
 int new_format = 1;
-int allow_stack = 1;
-int allow_vec = 1;
+BoolT allow_stack = TRUE;
+BoolT allow_vec = TRUE;
 
 
 /*

@@ -83,7 +83,7 @@ long line_no = 1;
  *    or c-like.
  */
 
-boolean func_input = 0;
+BoolT func_input = 0;
 
 
 /*

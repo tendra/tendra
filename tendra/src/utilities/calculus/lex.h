@@ -66,8 +66,8 @@
 extern void process_file(char *, int);
 extern int read_token(void);
 extern int new_format;
-extern int allow_stack;
-extern int allow_vec;
+extern BoolT allow_stack;
+extern BoolT allow_vec;
 extern char token_buff [];
 extern char *first_comment;
 extern number token_value;

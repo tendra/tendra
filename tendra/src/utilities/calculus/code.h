@@ -63,9 +63,9 @@
  *    DECLARATIONS FOR MAIN C OUTPUT ROUTINES
  */
 
-extern int extra_asserts;
-extern int extra_headers;
-extern int map_proto;
+extern BoolT extra_asserts;
+extern BoolT extra_headers;
+extern BoolT map_proto;
 extern void main_action_c(char *);
 extern void print_deref(TYPE_P, char *, char *);
 extern void print_proto(void);

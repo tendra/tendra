@@ -117,3 +117,41 @@ bad_mapping_string(ccp: str)
 	USAGE: FATAL
 	KEY(STD) iline"Bad mapping string, '"str"'"
 }
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: lexi [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_functions()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for functions."
+}
+
+description_of_keywords()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for keywords."
+}
+
+description_of_macros()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for macros."
+}
+
+description_of_prefix()
+{
+	USAGE: NONE
+	KEY(STD) "STRING Use STRING as prefix for tokens."
+}
+
+description_of_table()
+{
+	USAGE: NONE
+	KEY(STD) "Generate lookup table."
+}
+

@@ -56,12 +56,74 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
+#include "catstdn.h"
 #include "char.h"
 #include "lex.h"
-#include "msgcat.h"
 #include "output.h"
 #include "syntax.h"
-#include "tenapp.h"
+
+
+static unsigned output_opts = OUTPUT_MAIN;
+
+static void
+opt_output(char *option, void *closure)
+{
+	unsigned width;
+	
+	UNUSED (closure);
+
+	switch (option[0]) {
+	case 'f':
+		output_opts |= OUTPUT_FUNCTIONS;
+		break;
+	case 'k':
+		output_opts |= OUTPUT_KEYWORDS;
+		break;
+	case 'm':
+		output_opts |= OUTPUT_MACROS;
+		break;
+	case 't':
+		output_opts |= OUTPUT_TABLE;
+		break;
+	}
+}
+
+static void
+opt_prefix(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	sid_prefix = value;
+}
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EMPTY	(version, 	'V', NULL, arg_std_version),
+	AP_OPT_EMPTY	(functions,	'f', NULL, opt_output),
+	AP_OPT_EMPTY	(help,		'h', "help", opt_help),
+	AP_OPT_EMPTY	(keywords,	'k', NULL, opt_output),
+	AP_OPT_EITHER	(prefix,	'l', NULL, opt_prefix),
+	AP_OPT_EMPTY	(macros,	'm', NULL, opt_output),
+	AP_OPT_EMPTY	(table,		't', NULL, opt_output),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
 
 
 /*
@@ -75,72 +137,25 @@ int
 main(int argc, char **argv)
 {
     OStreamT lex_ostream;
-    int a;
-    int too_many = 0;
+    int optcnt;
     char *input = NULL;
     char *output = NULL;
-    unsigned opts = OUTPUT_MAIN;
 
     /* Process arguments */
     tenapp_init(argc, argv, "Lexical analyser", "1.3");
-    for (a = 1 ; a < argc ; a++) {
-		char *arg = argv [a];
-		if (arg [0] == '-' && arg [1]) {
-			int known = 0;
-			switch (arg [1]) {
-			case 'V' : {
-				if (arg [2]) break;
-				tenapp_report_version();
-				known = 1;
-				break;
-			}
-			case 'f' : {
-				if (arg [2]) break;
-				opts = OUTPUT_FUNCTIONS;
-				known = 1;
-				break;
-			}
-			case 'k' : {
-				if (arg [2]) break;
-				opts = OUTPUT_KEYWORDS;
-				known = 1;
-				break;
-			}
-			case 'l' : {
-				sid_prefix = arg + 2;
-				known = 1;
-				break;
-			}
-			case 'm' : {
-				if (arg [2]) break;
-				opts = OUTPUT_MACROS;
-				known = 1;
-				break;
-			}
-			case 't' : {
-				if (arg [2]) break;
-				opts = OUTPUT_TABLE;
-				known = 1;
-				break;
-			}
-			}
-			if (!known) {
-				MSG_getopt_unknown_option(arg);
-			}
-		} else {
-			if (input == NULL) {
-				input = arg;
-			} else if (output == NULL) {
-				output = arg;
-			} else {
-				too_many = 1;
-			}
-		}
-    }
+	argc--;
+	argv++;
+	optcnt = arg_parse_arguments (cmdl_opts, argc, argv);
+	argc -= optcnt;
+	argv += optcnt;
 
-    /* Check arguments */
-    if (input == NULL) MSG_getopt_not_enough_arguments();
-    if (too_many) MSG_getopt_too_many_arguments();
+	if (argc < 1)
+		MSG_getopt_not_enough_arguments ();
+	input = *argv++;
+	if (argc > 2)
+		MSG_getopt_too_many_arguments ();
+	if (argc == 2)
+		output = *argv;
 
     /* Process input file */
     process_file (input);
@@ -157,7 +172,7 @@ main(int argc, char **argv)
 				MSG_cant_open_input_file(output);
 			}
 		}
-		output_all (opts);
+		output_all (output_opts);
 		if (output) ostream_close(lex_output);
     } else {
 		MSG_had_errors();

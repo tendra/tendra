@@ -83,27 +83,28 @@
 /****************************************************************************/
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
+#include "cstring.h"
+#include "tenapp.h"
+#include "ostream.h"
+
 #include "release.h"
-#include "arg-parse.h"
 #include "basic.h"
 #include "c-check.h"
 #include "c-lexer.h"
 #include "c-output.h"
 #include "c-parser.h"
-#include "catstdn.h"
-#include "cstring.h"
 #include "cstring-list.h"
 #include "dstring.h"
 #include "msgcat.h"
 #include "grammar.h"
 #include "istream.h"
 #include "lexer.h"
-#include "ostream.h"
 #include "output.h"
 #include "parser.h"
 #include "rule.h"
 #include "syntax.h"
-#include "tenapp.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -324,12 +325,9 @@ static LangListP main_language = &(main_language_list [0]);
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_dump_file(CStringP option, ArgUsageP usage,
-					  GenericP gclosure,
-					  CStringP dump_file)
+main_handle_dump_file(CStringP option, GenericP gclosure, CStringP dump_file)
 {
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	if (ostream_is_open (&dump_stream)) {
@@ -342,27 +340,12 @@ main_handle_dump_file(CStringP option, ArgUsageP usage,
 }
 
 static void
-main_handle_help(CStringP option, ArgUsageP usage,
-				 GenericP gclosure)
-{
-	UNUSED (option);
-	UNUSED (gclosure);
-	main_did_one_off = TRUE;
-	write_arg_usage (usage);
-	write_newline (ostream_error);
-	ostream_flush (ostream_error);
-}
-
-static void
-main_handle_factor_limit(CStringP option,
-						 ArgUsageP usage,
-						 GenericP gclosure,
+main_handle_factor_limit(CStringP option, GenericP gclosure,
 						 CStringP limit_str)
 {
 	unsigned limit;
 	
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	if ((!string_to_unsigned (limit_str, &limit)) || (limit == 0)) {
@@ -373,11 +356,9 @@ main_handle_factor_limit(CStringP option,
 }
 
 static void
-main_handle_inlining(CStringP option, ArgUsageP usage,
-					 GenericP gclosure, CStringP inline_str)
+main_handle_inlining(CStringP option, GenericP gclosure, CStringP inline_str)
 {
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	while (*inline_str) {
@@ -414,13 +395,11 @@ main_handle_inlining(CStringP option, ArgUsageP usage,
 }
 
 static void
-main_handle_language(CStringP option, ArgUsageP usage,
-					 GenericP gclosure, CStringP language_str)
+main_handle_language(CStringP option, GenericP gclosure, CStringP language_str)
 {
 	LangListP entry;
 	
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	for (entry = main_language_list; entry->language; entry ++) {
@@ -434,25 +413,20 @@ main_handle_language(CStringP option, ArgUsageP usage,
 }
 
 static void
-main_handle_switch (CStringP option, ArgUsageP usage,
-				    GenericP gclosure, CStringP opt)
+main_handle_switch (CStringP option, GenericP gclosure, CStringP opt)
 {
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	cstring_list_append (&main_language_options, opt);
 }
 
 static void
-main_handle_tab_width(CStringP option, ArgUsageP usage,
-					  GenericP gclosure,
-					  CStringP width_str)
+main_handle_tab_width(CStringP option, GenericP gclosure, CStringP width_str)
 {
 	unsigned width;
 	
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	if ((!string_to_unsigned (width_str, &width)) || (width == 0)) {
@@ -463,16 +437,15 @@ main_handle_tab_width(CStringP option, ArgUsageP usage,
 }
 
 static void
-main_handle_version(CStringP option, ArgUsageP usage,
-					GenericP gclosure)
+main_handle_version(CStringP option, GenericP gclosure)
 {
 	UNUSED (option);
-	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_one_off = TRUE;
 	tenapp_report_version ();
 }
 
+static void main_handle_help(CStringP, GenericP);
 /*--------------------------------------------------------------------------*/
 
 
@@ -483,57 +456,39 @@ main_handle_version(CStringP option, ArgUsageP usage,
 #endif
 
 static ArgListT main_arglist [] = {
-	{
-		"dump-file", 'd',			AT_FOLLOWING,
-		(ArgProcP) main_handle_dump_file,	NIL (GenericP),
-		MID_description_of_dump_file
-	}, {
-		"factor-limit", 'f',			AT_FOLLOWING,
-		(ArgProcP) main_handle_factor_limit,	NIL (GenericP),
-		MID_description_of_factor_limit
-	}, {
-		"help", 'h',				AT_EMPTY,
-		(ArgProcP) main_handle_help,		NIL (GenericP),
-		MID_description_of_help
-	}, {
-		"inline", 'i',				AT_FOLLOWING,
-		(ArgProcP) main_handle_inlining,	NIL (GenericP),
-		MID_description_of_inlining
-	}, {
-		"language", 'l',			AT_FOLLOWING,
-		(ArgProcP) main_handle_language,	NIL (GenericP),
-		MID_description_of_language
-	}, {
-		"switch", 's',				AT_FOLLOWING,
-		(ArgProcP) main_handle_switch,		NIL (GenericP),
-		MID_description_of_switch
-	}, {
-		"tab-width", 't',			AT_FOLLOWING,
-		(ArgProcP) main_handle_tab_width,	NIL (GenericP),
-		MID_description_of_tab_width
-	}, {
-		"version", 'V',				AT_EMPTY,
-		(ArgProcP) main_handle_version,		NIL (GenericP),
-		MID_description_of_version
-	}, ARG_PARSE_END_LIST
+	AP_OPT_FOLLOWING(dump_file,	'd', "dump-file", main_handle_dump_file),
+	AP_OPT_FOLLOWING(factor_limit, 'f',	"factor-limit", main_handle_factor_limit),
+	AP_OPT_EMPTY	(help,		'h', "help", main_handle_help),
+	AP_OPT_FOLLOWING(inlining,	'i', "inline", main_handle_inlining),
+	AP_OPT_FOLLOWING(language,	'l', "language", main_handle_language),
+	AP_OPT_FOLLOWING(switch,	's', "switch", main_handle_switch),
+	AP_OPT_FOLLOWING(tab_width,	't', "tab-width", main_handle_tab_width),
+	AP_OPT_EMPTY	(version,	'V', "version", main_handle_version),
+	AP_OPT_EOL
 };
 
 #ifdef __TenDRA__
 #pragma TenDRA end
 #endif
 
+static void
+main_handle_help(CStringP option, GenericP gclosure)
+{
+	UNUSED (option);
+	UNUSED (gclosure);
+	main_did_one_off = TRUE;
+	MSG_sid_usage_message ();
+	arg_print_usage (main_arglist);
+	write_newline (ostream_error);
+	ostream_flush (ostream_error);
+}
+
+
 /*--------------------------------------------------------------------------*/
 
 /*
  * Handlers for sid specific message objects
  */
-static void
-msg_uh_ArgUsageP(char ch, void *pp)
-{
-	UNUSED(ch);
-	write_arg_usage((ArgUsageP)pp);
-}
-
 static void
 msg_uh_NStringP(char ch, void *pp)
 {
@@ -628,13 +583,11 @@ msg_uh_clexline(char ch, void *pp)
 static void
 main_init(int argc, char **argv, OutputInfoP out_info)
 {
-	ArgUsageT closure;
 	int       skip;
 	unsigned  i;
 	unsigned  num_infiles;
 	unsigned  num_outfiles;
 	
-	msg_uh_add(MSG_KEY_ArgUsageP, msg_uh_ArgUsageP);
 	msg_uh_add(MSG_KEY_NStringP, msg_uh_NStringP);
 	msg_uh_add(MSG_KEY_KeyP, msg_uh_KeyP);
 	msg_uh_add(MSG_KEY_BasicClosureP, msg_uh_BasicClosureP);
@@ -647,11 +600,8 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	msg_uh_add(MSG_GLOB_clexline, msg_uh_clexline);
 	msg_uh_add(MSG_GLOB_isline, msg_uh_isline);
 
-	closure.usage     = 0;
-	closure.arg_list  = main_arglist;
 	main_info_closure = out_info;
-	skip = arg_parse_arguments (main_arglist, MID_sid_usage_message,
-		 --argc, ++argv);
+	skip = arg_parse_arguments (main_arglist, --argc, ++argv);
 	argc -= skip;
 	argv += skip;
 	if (main_did_one_off && (!main_did_other) && (argc == 0)) {
@@ -661,7 +611,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	num_infiles  = main_language->num_input_files;
 	num_outfiles = main_language->num_output_files;
 	if ((unsigned) argc != (num_infiles + num_outfiles)) {
-		MSG_usage (main_language->language, num_infiles, num_outfiles, &closure);
+		MSG_usage (main_language->language, num_infiles, num_outfiles);
 		UNREACHED;
 	}
 	out_info_set_num_input_files (out_info, num_infiles);

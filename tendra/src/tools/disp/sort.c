@@ -75,7 +75,7 @@
  *    WARN ABOUT UNDECLARED TOKENS
  */
 
-int warn_undeclared = 0;
+BoolT warn_undeclared = FALSE;
 
 
 /*

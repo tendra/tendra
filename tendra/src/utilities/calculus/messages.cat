@@ -292,3 +292,124 @@ cant_find_alias(unsigned: alias)
 	USAGE: FATAL
 	KEY(STD) iline"Can't find alias "alias
 }
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: calculus [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_algebra()
+{
+	USAGE: NONE
+	KEY(STD) "ALGEBRA Use ALGEBRA for output."
+}
+
+description_of_assertions()
+{
+	USAGE: NONE
+	KEY(STD) "Enable generation of extra assertions."
+}
+
+description_of_genc()
+{
+	USAGE: NONE
+	KEY(STD) "Generate C code."
+}
+
+description_of_gendisk()
+{
+	USAGE: NONE
+	KEY(STD) "Generate disk reading/writing routines."
+}
+
+description_of_genlist()
+{
+	USAGE: NONE
+	KEY(STD) "Generate a list of all types in the algebra."
+}
+
+description_of_genpretty()
+{
+	USAGE: NONE
+	KEY(STD) "Generate pretty-print of the algebra."
+}
+
+description_of_genprint()
+{
+	USAGE: NONE
+	KEY(STD) "Generate debug printing routines."
+}
+
+description_of_gentoken()
+{
+	USAGE: NONE
+	KEY(STD) "Generate token code."
+}
+
+description_of_genwrite()
+{
+	USAGE: NONE
+	KEY(STD) "Output current algebra."
+}
+
+description_of_extheaders()
+{
+	USAGE: NONE
+	KEY(STD) "Generate additional #include statements."
+}
+
+description_of_etypes()
+{
+	USAGE: NONE
+	KEY(STD) "FILE Load extra types from FILE."
+}
+
+description_of_inbin()
+{
+	USAGE: NONE
+	KEY(STD) "Input is a binary file."
+}
+
+description_of_intext()
+{
+	USAGE: NONE
+	KEY(STD) "Input is a text file."
+}
+
+description_of_noconsttok()
+{
+	USAGE: NONE
+	KEY(STD) "Do not generate 'const' for const expressions."
+}
+
+description_of_nomproto()
+{
+	USAGE: NONE
+	KEY(STD) "Do not generate union map prototypes."
+}
+
+description_of_novector()
+{
+	USAGE: NONE
+	KEY(STD) "Suppress vectors operations support."
+}
+
+description_of_noverbose()
+{
+	USAGE: NONE
+	KEY(STD) "Disable verbose mode."
+}
+
+description_of_nostack()
+{
+	USAGE: NONE
+	KEY(STD) "Suppress stack operations support."
+}
+
+description_of_template()
+{
+	USAGE: NONE
+	KEY(STD) "FILE Load template from FILE."
+}

@@ -72,7 +72,7 @@ extern int column;
 extern int maximum;
 extern int lastc;
 extern int read_error;
-extern int dump;
+extern BoolT dump;
 
 extern void open_files(char *, char *) ;
 extern long fetch(int) ;

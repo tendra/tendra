@@ -248,3 +248,47 @@ getopt_too_many_arguments()
 	USAGE: FATAL
 	KEY(STD) "Too many arguments"
 }
+
+arg_parse_missing_argument(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"'"
+}
+
+arg_parse_unknown_option(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown option '"option"'"
+}
+
+arg_parse_missing_short_arg(ccp: option, ccp: option_location)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"' at
+		  '"option_location"'"
+}
+
+arg_parse_ambiguous_option(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "ambiguous option '"option"'"
+}
+
+arg_parse_unknown_short_opt(ccp: option, ccp: option_location)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown short option '"option"' at '"option_location"'"
+}
+
+description_of_help()
+{
+	USAGE: NONE
+	KEY(STD) "Print this message"
+}
+
+description_of_version()
+{
+	USAGE: NONE
+	KEY(STD) "Report program version"
+}
+

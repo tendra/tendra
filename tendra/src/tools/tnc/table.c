@@ -485,7 +485,7 @@ sort_table(construct **tab, sortname s)
  *    tables.
  */
 
-boolean order_names = 1;
+BoolT order_names = 1;
 
 
 /*

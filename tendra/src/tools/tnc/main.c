@@ -56,6 +56,12 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "msgcat.h"
 #include "ostream.h"
 #include "tenapp.h"
@@ -80,6 +86,16 @@
 #include "utility.h"
 #include "write.h"
 
+
+static BoolT do_not_process = 0;
+static BoolT expand = 0;
+static BoolT evaluate = 0;
+static BoolT lib_input = 0;
+
+static char *out_file = NULL;
+
+static void (*input_fn)(void);
+static void (*output_fn)(void);
 
 /*
  *    PROCESS AN OUTPUT OPTION
@@ -116,6 +132,209 @@ output_option(char *arg, boolean t)
     return (1);
 }
 
+static void
+opt_check(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	/* Switch on shape checking */
+	init_shapes ();
+	do_check = 1;
+}
+
+static void
+opt_cv(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	init_shapes ();
+	do_check = 1;
+	print_shapes = 1;
+}
+
+static void
+opt_decode(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	input_fn = de_capsule;
+	text_input = 0;
+}
+
+static void
+opt_encode(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	output_fn = enc_capsule;
+	text_output = 0;
+}
+
+static void
+opt_func(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	func_input = 1;
+	func_output = 1;
+}
+
+static void
+opt_print(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	/* Pretty printer mode */
+	input_fn = de_capsule;
+	output_fn = print_capsule;
+	text_input = 0;
+	text_output = 1;
+}
+
+static void
+opt_read(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	input_fn = read_capsule;
+	text_input = 1;
+}
+
+static void
+opt_write(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	output_fn = print_capsule;
+	text_output = 1;
+}
+
+static void
+opt_tsimp(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	evaluate = 1;
+	expand = 1;
+}
+
+static void
+opt_subject(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	help (value);
+	do_not_process = TRUE;
+}
+
+static void
+opt_include(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	add_directory (value);
+}
+
+static void
+opt_lprefix(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	local_prefix = value;
+}
+
+static void
+opt_outfile(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	out_file = value;
+}
+
+static void
+opt_version(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	tenapp_report_version ();
+	MSG_TDF_version(VERSION_major, VERSION_minor);
+}
+
+static void
+opt_no(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	if (!output_option (value, 0))
+		MSG_getopt_unknown_option (value);
+}
+
+static void
+opt_only(char *option, void *closure, char *value)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	if (!output_option (value, 1))
+		MSG_getopt_unknown_option (value);
+}
+
+static void opt_help(char *option, void *closure);
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_EITHER	(include,		'I', NULL, opt_include),
+	AP_OPT_EITHER	(lprefix,		'L', NULL, opt_lprefix),
+	AP_OPT_EITHER	(subject,		'S', NULL, opt_subject),
+	AP_OPT_EMPTY	(version,		'V', NULL, opt_version),
+	AP_OPT_EMPTY	(check,			'c', "check", opt_check),
+	AP_OPT_EMPTY	(cv,			'\0', "cv", opt_cv),
+	AP_OPT_EMPTY	(decode,		'd', "decode", opt_decode),
+	AP_OPT_EMPTY	(encode,		'e', "encode", opt_encode),
+	AP_OPT_SET		(eval,			'\0', "eval", &evaluate),
+	AP_OPT_SET		(expand,		'\0', "expand", &expand),
+	AP_OPT_SET		(funcin,		'\0', "funcin", &func_input),
+	AP_OPT_SET		(funcout,		'\0', "funcout", &func_output),
+	AP_OPT_EMPTY	(func,			'f', "func", opt_func),
+	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
+	AP_OPT_SET		(lib,			'l', "lib", &lib_input),
+	AP_OPT_FOLLOWING(no,			'\0', "no", opt_no),
+	AP_OPT_FOLLOWING(only,			'\0', "only", opt_only),
+	AP_OPT_EITHER	(outfile,		'o', NULL, opt_outfile),
+	AP_OPT_EMPTY	(print,			'p', "print", opt_print),
+	AP_OPT_SET		(dont_check,	'q', NULL, &dont_check),
+	AP_OPT_EMPTY	(read,			'r', "read", opt_read),
+	AP_OPT_EMPTY	(tsimp,			't', "tsimp", opt_tsimp),
+	AP_OPT_RESET	(unsorted,		'u', "unsorted", &order_names),
+	AP_OPT_SET		(verbose,		'v', NULL, &verbose),
+	AP_OPT_EMPTY	(write,			'w', "write", opt_write),
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
 
 static void
 msg_uh_where(char ch, void *pp)
@@ -161,14 +380,7 @@ msg_uh_where(char ch, void *pp)
 int
 main(int argc, char **argv)
 {
-    int a;
-    int status = 0;
-    boolean expand = 0;
-    boolean evaluate = 0;
-    boolean lib_input = 0;
-    boolean output_next = 0;
-    void (*input_fn)(void) ;
-    void (*output_fn)(void) ;
+    int optcnt;
 
 	tenapp_init(argc, argv, "TDF notation compiler", "1.9");
 	msg_uh_add(MSG_GLOB_where, msg_uh_where);
@@ -180,209 +392,29 @@ main(int argc, char **argv)
     text_output = 0;
 
     /* Initialize internal tables */
-    output = stdout;
     init_tables ();
     init_constructs ();
 
-    /* Scan arguments */
-    for (a = 1 ; a < argc ; a++) {
-		char *arg = argv [a];
-		if (output_next) {
-			open_output (arg);
-			output_next = 0;
-		} else if (*arg == '-') {
-			boolean known = 0;
-			switch (arg [1]) {
-			case 'h' : {
-				/* Help option */
-				if (streq (arg, "-help")) {
-					if (status) MSG_getopt_too_many_arguments ();
-					a++;
-					if (a == argc) {
-						help ("all");
-					} else {
-						while (a < argc) {
-							help (argv [a]);
-							a++;
-						}
-					}
-					exit (exit_status);
-				}
-				break;
-			}
-			case 'd' : {
-				if (arg [2] == 0 || streq (arg, "-decode")) {
-					/* Decode mode */
-					input_fn = de_capsule;
-					text_input = 0;
-					known = 1;
-				}
-				break;
-			}
-			case 'e' : {
-				if (arg [2] == 0 || streq (arg, "-encode")) {
-					/* Encode mode */
-					output_fn = enc_capsule;
-					text_output = 0;
-					known = 1;
-				} else if (streq (arg, "-eval")) {
-					evaluate = 1;
-					known = 1;
-				} else if (streq (arg, "-expand")) {
-					expand = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'r' : {
-				if (arg [2] == 0 || streq (arg, "-read")) {
-					/* Read mode */
-					input_fn = read_capsule;
-					text_input = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'w' : {
-				if (arg [2] == 0 || streq (arg, "-write")) {
-					/* Write mode */
-					output_fn = print_capsule;
-					text_output = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'p' : {
-				if (arg [2] == 0 || streq (arg, "-print")) {
-					/* Pretty printer mode */
-					input_fn = de_capsule;
-					output_fn = print_capsule;
-					text_input = 0;
-					text_output = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 't' : {
-				if (arg [2] == 0 || streq (arg, "-tsimp")) {
-					/* Expand token definitions */
-					evaluate = 1;
-					expand = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'c' : {
-				if (arg [2] == 0 || streq (arg, "-check")) {
-					/* Switch on shape checking */
-					init_shapes ();
-					do_check = 1;
-					known = 1;
-				} else if (streq (arg, "-cv")) {
-					init_shapes ();
-					do_check = 1;
-					print_shapes = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'l' : {
-				if (arg [2] == 0 || streq (arg, "-lib")) {
-					lib_input = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'f' : {
-				if (arg [2] == 0 || streq (arg, "-func")) {
-					/* Check on form of input and output */
-					func_input = 1;
-					func_output = 1;
-					known = 1;
-				} else if (streq (arg, "-func_out")) {
-					func_output = 1;
-					known = 1;
-				} else if (streq (arg, "-func_in")) {
-					func_input = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'n' : {
-				if (strncmp (arg, "-no_", 4) == 0) {
-					known = output_option (arg + 4, 0);
-				}
-				break;
-			}
-			case 'o' : {
-				if (arg [2] == 0) {
-					output_next = 1;
-					known = 1;
-				} else if (strncmp (arg, "-only_", 6) == 0) {
-					known = output_option (arg + 6, 1);
-				}
-				break;
-			}
-			case 'q' : {
-				if (arg [2] == 0) {
-					dont_check = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'u' : {
-				if (arg [2] == 0 || streq (arg, "-unsorted")) {
-					order_names = 0;
-					known = 1;
-				}
-				break;
-			}
-			case 'v' : {
-				if (arg [2] == 0) {
-					verbose = 1;
-					known = 1;
-				}
-				break;
-			}
-			case 'I' : {
-				add_directory (arg + 2);
-				known = 1;
-				break;
-			}
-			case 'L' : {
-				local_prefix = arg + 2;
-				known = 1;
-				break;
-			}
-			case 'V' : {
-				if (arg [2] == 0 || streq (arg, "-version")) {
-					tenapp_report_version ();
-					MSG_TDF_version(VERSION_major, VERSION_minor);
-					known = 1;
-				}
-				break;
-			}
-			}
-			if (!known) MSG_getopt_unknown_option (arg);
-
-		} else {
-			/* Initialize input and output files */
-			if (status == 0) {
-				open_input (arg, 0);
-			} else if (status == 1) {
-				open_output (arg);
-			} else {
-				MSG_getopt_too_many_arguments ();
-			}
-			status++;
-		}
-    }
+	optcnt = arg_parse_arguments (cmdl_opts, --argc, ++argv);
+	if (do_not_process)
+		return (exit_status);
+	argc -= optcnt;
+	argv += optcnt;
+	if (argc < 1)
+		MSG_getopt_not_enough_arguments ();
+	open_input (*argv++, 0);
+	if (argc == 2) {
+		if (out_file)
+			MSG_getopt_too_many_arguments ();
+		else
+			open_output (*argv);
+	} else
+		output = stdout;
 
     /* Check on library input */
     if (lib_input && input_fn == de_capsule) input_fn = de_library;
 
     /* Perform the appropriate actions */
-    if (status == 0) MSG_getopt_not_enough_arguments ();
     (*input_fn) ();
     if (exit_status == EXIT_SUCCESS || text_output) {
 		if (expand) expand_all ();
