@@ -1,4 +1,7 @@
-<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+<!DOCTYPE ARTICLE PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
+%bookinfo;
+]>
 
 <article>
   <articleinfo>
@@ -10,9 +13,7 @@
 
     <copyright>
       <year>2003</year>
-
       <year>2004</year>
-
       <holder>TenDRA Documentation Team</holder>
     </copyright>
 
@@ -20,6 +21,9 @@
       <para>This article lists the present and past members of the TenDRA
         development team.</para>
     </abstract>
+
+    &bookinfo.legalnotice;
+
   </articleinfo>
 
   <sect1 id="team">

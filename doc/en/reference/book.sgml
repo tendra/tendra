@@ -17,6 +17,8 @@
 
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man
+<!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
+%bookinfo;
 ]>
 
 <book>
@@ -29,10 +31,13 @@
 
     <copyright>
       <year>2002</year>
+      <year>2003</year>
+      <year>2004</year>
       <holder>TenDRA Documentation Team</holder>
     </copyright>
 
     <copyright>
+      <year>1997</year>
       <year>1998</year>
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
@@ -41,6 +46,9 @@
       <para>Please email us at <email>docs@ten15.org</email> if you see any
         errors</para>
     </abstract>
+
+    &bookinfo.legalnotice;
+
   </bookinfo>
 
   <preface>

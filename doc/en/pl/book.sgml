@@ -1,4 +1,7 @@
-<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
+<!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
+%bookinfo;
+]>
 
 <book>
   <bookinfo>
@@ -10,17 +13,14 @@
 
     <copyright>
       <year>2002</year>
-
       <year>2003</year>
-
+      <year>2004</year>
       <holder>TenDRA Documentation Team</holder>
     </copyright>
 
     <copyright>
       <year>1997</year>
-
       <year>1998</year>
-
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
 
@@ -28,6 +28,27 @@
       <para>Please email us at <email>docs@ten15.org</email> if you see any
         errors</para>
     </abstract>
+
+    <copyright>
+      <year>2002</year>
+      <year>2003</year>
+      <year>2004</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+
+    <legalnotice id='legalnotice'>
+      <para>Extensions to this document from the original
+        <ulink url='ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2-doc.tar.gz'>TenDRA-4.1.2-doc.tar.gz</ulink>
+        source distribution are covered by the <link linkend='legal-bsdl'>BSDL</link>,
+        while all prior modifications remain under the
+        <link linkend='legal-crown'>Crown Copyright</link>.</para>
+    </legalnotice>
+
+    &bookinfo.legalnotice;
+
+    &bookinfo.legalnotice-crown;
+
   </bookinfo>
 
   <preface>

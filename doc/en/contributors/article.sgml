@@ -1,7 +1,8 @@
 <!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN" [
 <!ENTITY individual SYSTEM "individual.sgml">
 <!ENTITY organisation SYSTEM "organisation.sgml">
-
+<!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
+%bookinfo;
 ]>
 
 <article>
@@ -14,7 +15,7 @@
 
     <copyright>
       <year>2003</year>
-
+      <year>2004</year>
       <holder>TenDRA Documentation Team</holder>
     </copyright>
 
@@ -22,6 +23,9 @@
       <para>This article lists the individual and organisation contributions
         to the TenDRA Project.</para>
     </abstract>
+
+    &bookinfo.legalnotice;
+
   </articleinfo>
 
 
