@@ -30,213 +30,352 @@
   </bookinfo>
 
   <preface>
-  <title>Introduction</title>
-  
-  <para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not bitwise compatible with earlier versions.</para>
-  
-  
-  <para>TDF is a porting technology and, as a result, it is a central part of a shrink-wrapping, distribution and installation technology. TDF has been chosen by the Open Software Foundation as the basis of its Architecture Neutral Distribution Format. It was developed by the United Kingdom's Defence Research Agency (DRA). TDF is not UNIX specific, although most of the implementation has been done on UNIX.</para>
-  
-  <para>Software vendors, when they port their programs to several platforms, usually wish to take advantage of the particular features of each platform. That is, they wish the versions of their programs on each platform to be functionally equivalent, but not necessarily algorithmically identical. TDF is intended for porting in this sense. It is designed so that a program in its TDF form can be systematically modified when it arrives at the target platform to achieve the intended functionality and to use the algorithms and data structures which are appropriate and efficient for the target machine. A fully efficient program, specialised to each target, is a necessity if independent software vendors are to take-up a porting technology.</para>
-  
-  <para>These modifications are systematic because, on the source machine, programmers work with generalised declarations of the APIs they are using. The declarations express the requirements of the APIs without giving their implementation. The declarations are specified in terms of TDF's &quot;tokens&quot;, and the TDF which is produced contains uses of these tokens. On each target machine the tokens are used as the basis for suitable substitutions and alterations.</para>
-  
-  <para>Using TDF for porting places extra requirements on software vendors and API designers. Software vendors must write their programs scrupulously in terms of APIs and nothing more. API designers need to produce an interface which can be specialised to efficient data structures and constructions on all relevant machines.</para>
-  
-  <para>TDF is neutral with respect to the set of languages which has been considered. The design of C, C++, Fortran and Pascal is quite conventional, in the sense that they are sufficiently similar for TDF constructions to be devised to represent them all. These TDF constructions can be chosen so that they are, in most cases, close to the language constructions. Other languages, such as Lisp, are likely to need a few extensions. To express novel language features TDF will probably have to be more seriously extended. But the time to do so is when the feature in question has achieved sufficient stability. Tokens can be used to express the constructs until the time is right. For example, there is a lack of consensus about the best constructions for parallel languages, so that at present TDF would either have to use low level constructions for parallelism or back what might turn out to be the wrong system. In other words it is not yet the time to make generalisations for parallelism as an intrinsic part of TDF.</para>
-  
-  <para>TDF is neutral with respect to machine architectures. In designing TDF, the aim has been to retain the information which is needed to produce and optimise the machine code, while discarding identifier and syntactic information. So TDF has constructions which are closely related to typical language features and it has an abstract model of memory. We expect that programs expressed in the considered languages can be translated into code which is as efficient as that produced by native compilers for those languages.</para>
-  
-  <para>Because of these porting features TDF supports shrink-wrapping, distribution and installation. Installation does not have to be left to the end-user; the production of executables can be done anywhere in the chain from software vendor, through dealer and network manager to the end-user.</para>
-  
-  <para>This document provides English language specifications for each construct in the TDF format and some general notes on various aspects of TDF. It is intended for readers who are aware of the general background to TDF but require more detailed information.</para>
-  
-  <simplesect>
-  <title>Major changes from Issue 3.1</title>
-  
-  <para>A new <literal>SORT</literal> for <literal>STRING</literal> is introduced having the same relationship to <literal>TDFSTRING</literal> as <literal>BOOL</literal> has to <literal>TDFBOOL</literal>. This is used in place of <literal>TDFSTRING</literal> in various 3.1 constructions.</para>
-  
-  <para>They are also used in modified tag and token definitions and declarations to provide extra consistency checks in the use of these tags or tokens, and also may be used as names external to the TDF system. For example, the signature of <emphasis>make_id_tagdec</emphasis> is now:</para>
-  
-  <programlisting>
-  <emphasis>t_intro</emphasis>: TDFINT
-  <emphasis>acc</emphasis>:     OPTION(ACCESS)
-  <emphasis>signature</emphasis>:   OPTION(STRING)
-  <emphasis>x</emphasis>:       SHAPE
-  -&gt; TAGDEC
-  </programlisting>
-  
-  <para>A new <literal>EXP</literal> constructor, <emphasis>initial_value</emphasis>, is introduced to allow dynamic initialisation of global tags.</para>
-  
-  <para>These changes arise mainly from requirements of C++, but are clearly applicable elsewhere.</para>
-  
-  <para>Magic numbers are introduced at the start of files containing TDF bitstream information.</para>
-  
-  <para>The version 3.1 constructor <emphasis>set_stack_limit</emphasis> has had to be modified in the light of experience with platforms with ABIs which require upward-growing stacks or use disjoint frame stacks and alloca stacks.</para>
-  
-  <para>Various other minor changes have been made to elucidate some rather pathological cases, e.g. <emphasis>make_nof</emphasis> must have at least one element. Also there are some cosmetic changes to improve consistency, e.g. the order of the arguments of <emphasis>token</emphasis> are now consistent with <emphasis>token_definition</emphasis>.</para>
-  
-  </simplesect>
-  <simplesect>
-  <title>Notes on Revision 1</title>
-  
-  <para>This Revision 1 of Issue 4.0 incorporates a number of corrections which have arisen where inconsistency or impracticability became evident when validating the OSF Research Institute's AVS (ANDF Validation Suite). Apart from minor textual corrections, the changes are:</para>
-  
-  <itemizedlist>
-  <listitem>
-  <para>Use of installer-defined <literal>TOKEN</literal>s for accessing variable parameter lists - see the companion document -XREF-register.htmlTDF Token Register (Revision 1).</para>
-  </listitem>
-  <listitem>
-  <para>Tolerance of overflow necessary to allow simple implementation of complex multiply and divide.</para>
-  </listitem>
-  <listitem>
-  <para>Modified constraints on the arguments of <emphasis>shift_left</emphasis>, <emphasis>shift_right</emphasis>, <emphasis>rotate_left</emphasis>, <emphasis>rotate_right</emphasis>, <emphasis>make_dynamic_callees</emphasis>, <emphasis>make_var_tagdec</emphasis>, <emphasis>make_tokdec</emphasis>, <emphasis>make_tokdef</emphasis>, and <emphasis>user_info</emphasis>.</para>
-  </listitem>
-  <listitem>
-  <para>Modified constant evaluation constraints with respect to <emphasis>env_size</emphasis> and <emphasis>env_offset</emphasis>.</para>
-  </listitem>
-  <listitem>
-  <para><emphasis>chain_extern</emphasis> no longer supported.</para>
-  </listitem>
-  </itemizedlist>
-  
-  <para>Changes under consideration but not included in Issue 4.0:</para>
-  
-  <itemizedlist>
-  <listitem>
-  <para>Tokenisation of the various LIST constructs.</para>
-  </listitem>
-  <listitem>
-  <para>Inclusion of the specification of run-time diagnostic information in the main specification. This is currently given as an appendix, as it it is less mature than the main specification.</para>
-  </listitem>
-  </itemizedlist>
-  
-  </simplesect>
+    <title>Introduction</title>
+    
+    <para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not
+      bitwise compatible with earlier versions.</para>
+    
+    <para>TDF is a porting technology and, as a result, it is a central part
+      of a shrink-wrapping, distribution and installation technology. TDF has
+      been chosen by the Open Software Foundation as the basis of its
+      Architecture Neutral Distribution Format. It was developed by the United
+      Kingdom's Defence Research Agency (DRA). TDF is not UNIX specific,
+      although most of the implementation has been done on UNIX.</para>
+    
+    <para>Software vendors, when they port their programs to several
+      platforms, usually wish to take advantage of the particular features of
+      each platform. That is, they wish the versions of their programs on each
+      platform to be functionally equivalent, but not necessarily
+      algorithmically identical. TDF is intended for porting in this sense. It
+      is designed so that a program in its TDF form can be systematically
+      modified when it arrives at the target platform to achieve the intended
+      functionality and to use the algorithms and data structures which are
+      appropriate and efficient for the target machine. A fully efficient
+      program, specialised to each target, is a necessity if independent
+      software vendors are to take-up a porting technology.</para>
+    
+    <para>These modifications are systematic because, on the source machine,
+      programmers work with generalised declarations of the APIs they are
+      using.  The declarations express the requirements of the APIs without
+      giving their implementation. The declarations are specified in terms of
+      TDF's &quot;tokens&quot;, and the TDF which is produced contains uses of
+      these tokens. On each target machine the tokens are used as the basis
+      for suitable substitutions and alterations.</para>
+    
+    <para>Using TDF for porting places extra requirements on software vendors
+      and API designers. Software vendors must write their programs
+      scrupulously in terms of APIs and nothing more. API designers need to
+      produce an interface which can be specialised to efficient data
+      structures and constructions on all relevant machines.</para>
+    
+    <para>TDF is neutral with respect to the set of languages which has been
+      considered. The design of C, C++, Fortran and Pascal is quite
+      conventional, in the sense that they are sufficiently similar for TDF
+      constructions to be devised to represent them all. These TDF
+      constructions can be chosen so that they are, in most cases, close to
+      the language constructions. Other languages, such as Lisp, are likely to
+      need a few extensions. To express novel language features TDF will
+      probably have to be more seriously extended. But the time to do so is
+      when the feature in question has achieved sufficient stability. Tokens
+      can be used to express the constructs until the time is right. For
+      example, there is a lack of consensus about the best constructions for
+      parallel languages, so that at present TDF would either have to use low
+      level constructions for parallelism or back what might turn out to be
+      the wrong system. In other words it is not yet the time to make
+      generalisations for parallelism as an intrinsic part of TDF.</para>
+    
+    <para>TDF is neutral with respect to machine architectures. In designing
+      TDF, the aim has been to retain the information which is needed to
+      produce and optimise the machine code, while discarding identifier and
+      syntactic information. So TDF has constructions which are closely
+      related to typical language features and it has an abstract model of
+      memory. We expect that programs expressed in the considered languages
+      can be translated into code which is as efficient as that produced by
+      native compilers for those languages.</para>
+    
+    <para>Because of these porting features TDF supports shrink-wrapping,
+      distribution and installation. Installation does not have to be left to
+      the end-user; the production of executables can be done anywhere in the
+      chain from software vendor, through dealer and network manager to the
+      end-user.</para>
+    
+    <para>This document provides English language specifications for each
+      construct in the TDF format and some general notes on various aspects of
+      TDF. It is intended for readers who are aware of the general background
+      to TDF but require more detailed information.</para>
+    
+    <simplesect>
+      <title>Major changes from Issue 3.1</title>
+      
+      <para>A new <literal>SORT</literal> for <literal>STRING</literal> is
+        introduced having the same relationship to
+        <literal>TDFSTRING</literal> as <literal>BOOL</literal> has to
+        <literal>TDFBOOL</literal>. This is used in place of
+        <literal>TDFSTRING</literal> in various 3.1 constructions.</para>
+      
+      <para>They are also used in modified tag and token definitions and
+        declarations to provide extra consistency checks in the use of these
+        tags or tokens, and also may be used as names external to the TDF
+        system. For example, the signature of
+        <emphasis>make_id_tagdec</emphasis> is now:</para>
+      
+      <programlisting>
+<emphasis>t_intro</emphasis>: TDFINT
+<emphasis>acc</emphasis>:     OPTION(ACCESS)
+<emphasis>signature</emphasis>:   OPTION(STRING)
+<emphasis>x</emphasis>:       SHAPE
+-&gt; TAGDEC
+      </programlisting>
+      
+      <para>A new <literal>EXP</literal> constructor,
+      <emphasis>initial_value</emphasis>, is introduced to allow dynamic
+      initialisation of global tags.</para>
+      
+      <para>These changes arise mainly from requirements of C++, but are
+      clearly applicable elsewhere.</para>
+      
+      <para>Magic numbers are introduced at the start of files containing TDF
+      bitstream information.</para>
+      
+      <para>The version 3.1 constructor <emphasis>set_stack_limit</emphasis>
+      has had to be modified in the light of experience with platforms with
+      ABIs which require upward-growing stacks or use disjoint frame stacks
+      and alloca stacks.</para>
+      
+      <para>Various other minor changes have been made to elucidate some
+        rather pathological cases, e.g. <emphasis>make_nof</emphasis> must
+        have at least one element. Also there are some cosmetic changes to
+        improve consistency, e.g. the order of the arguments of
+        <emphasis>token</emphasis> are now consistent with
+        <emphasis>token_definition</emphasis>.</para>
+    </simplesect>
+
+    <simplesect>
+      <title>Notes on Revision 1</title>
+      
+      <para>This Revision 1 of Issue 4.0 incorporates a number of corrections
+        which have arisen where inconsistency or impracticability became
+        evident when validating the OSF Research Institute's AVS (ANDF
+        Validation Suite). Apart from minor textual corrections, the changes
+        are:</para>
+      
+      <itemizedlist>
+        <listitem>
+          <para>Use of installer-defined <literal>TOKEN</literal>s for
+            accessing variable parameter lists - see the companion document
+            -XREF-register.htmlTDF Token Register (Revision 1).</para>
+        </listitem>
+
+        <listitem>
+          <para>Tolerance of overflow necessary to allow simple implementation
+            of complex multiply and divide.</para>
+        </listitem>
+
+        <listitem>
+          <para>Modified constraints on the arguments of
+            <emphasis>shift_left</emphasis>, <emphasis>shift_right</emphasis>,
+            <emphasis>rotate_left</emphasis>,
+            <emphasis>rotate_right</emphasis>,
+            <emphasis>make_dynamic_callees</emphasis>,
+            <emphasis>make_var_tagdec</emphasis>,
+            <emphasis>make_tokdec</emphasis>,
+            <emphasis>make_tokdef</emphasis>, and
+            <emphasis>user_info</emphasis>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Modified constant evaluation constraints with respect to
+            <emphasis>env_size</emphasis> and
+            <emphasis>env_offset</emphasis>.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis>chain_extern</emphasis> no longer supported.</para>
+        </listitem>
+      </itemizedlist>
+      
+      <para>Changes under consideration but not included in Issue 4.0:</para>
+      
+      <itemizedlist>
+        <listitem>
+          <para>Tokenisation of the various LIST constructs.</para>
+        </listitem>
+
+        <listitem>
+          <para>Inclusion of the specification of run-time diagnostic
+            information in the main specification. This is currently given as
+            an appendix, as it it is less mature than the main
+            specification.</para>
+        </listitem>
+      </itemizedlist>
+    </simplesect>
   </preface>
   
   <chapter>
     <title>Structure of TDF</title>
     
-    <para>Each piece of TDF program is classified as being of a particular <literal>SORT</literal>. Some pieces of TDF are <literal>LABEL</literal>s, some are <literal>TAG</literal>s, some are <literal>ERROR_TREATMENT</literal>s and so on (to list some of the more transparently named <literal>SORT</literal>s). The <literal>SORT</literal>s of the arguments and result of each construct of the TDF format are specified. For instance, <emphasis>plus</emphasis> is defined to have three arguments - an <literal>ERROR_TREATMENT</literal> and two <literal>EXP</literal>s (short for &quot;expression&quot;) - and to produce an <literal>EXP</literal>; <emphasis>goto</emphasis> has a single <literal>LABEL</literal> argument and produces an <literal>EXP</literal>. The specification of the <literal>SORT</literal>s of the arguments and results of each construct constitutes the syntax of the TDF format. When TDF is represented as a parsed tree it is structured according to this syntax. When it is constructed and read it is in terms of this syntax.</para>
+    <para>Each piece of TDF program is classified as being of a particular
+      <literal>SORT</literal>. Some pieces of TDF are
+      <literal>LABEL</literal>s, some are <literal>TAG</literal>s, some are
+      <literal>ERROR_TREATMENT</literal>s and so on (to list some of the more
+      transparently named <literal>SORT</literal>s). The
+      <literal>SORT</literal>s of the arguments and result of each construct
+      of the TDF format are specified. For instance, <emphasis>plus</emphasis>
+      is defined to have three arguments - an
+      <literal>ERROR_TREATMENT</literal> and two <literal>EXP</literal>s
+      (short for &quot;expression&quot;) - and to produce an
+      <literal>EXP</literal>; <emphasis>goto</emphasis> has a single
+      <literal>LABEL</literal> argument and produces an
+      <literal>EXP</literal>. The specification of the
+      <literal>SORT</literal>s of the arguments and results of each construct
+      constitutes the syntax of the TDF format. When TDF is represented as a
+      parsed tree it is structured according to this syntax. When it is
+      constructed and read it is in terms of this syntax.</para>
     
     <sect1>
-    <title>The Overall Structure</title>
-    
-    <para>A separable piece of TDF is called a <literal>CAPSULE</literal>. A producer generates a <literal>CAPSULE</literal>; the TDF linker links <literal>CAPSULE</literal>s together to form a <literal>CAPSULE</literal>; and the final translation process turns a <literal>CAPSULE</literal> into an object file.</para>
-    
-    <para>The structure of capsules is designed so that the process of linking two or more capsules consists almost entirely of copying large byte-aligned sections of the source files into the destination file, without changing or even examining these sections. Only a small amount of interface information has to be modified and this is made easily accessible. The translation process only requires an extra indirection to account for this interface information, so it is also fast. The description of TDF at the capsule level is almost all about the organisation of the interface information.</para>
-    
-    <para>There are three major kinds of entity which are used inside a capsule to name its constituents. The first are called tags; they are used to name the procedures, functions, values and variables which are the components of the program. The second are called tokens; they identify pieces of TDF which can be used for substitution - a little like macros. The third are the alignment tags, used to name alignments so that circular types can be described. Because these internal names are used for linking pieces of TDF together, they are collectively called <emphasis>linkable entities</emphasis>. The interface information relates these linkable entities to each other and to the world outside the capsule.</para>
-    
-    <para>The most important part of a capsule, the part which contains the real information, consists of a sequence of groups of units. Each group contains units of the same kind, and all the units of the same kind are in the same group. The groups always occur in the same order, though it is not necessary for each kind to be present.</para>
-    
-          <figure id="capsule4">
-            <title>Capsule 4</title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="capsule4" scale="100" format="PNG">
-              </imageobject>
-            </mediaobject>
-          </figure>
-    
-    <para>The order is as follows:</para>
-    
-    <itemizedlist>
-    <listitem>
-    <para><emphasis>tld</emphasis> unit. Every capsule has exactly one tld unit. It gives information to the TDF linker about those items in the capsule which are visible externally.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>versions</emphasis> unit. These units contain information about the versions of TDF used. Every capsule will have at least one such unit.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>tokdec</emphasis> units. These units contain declarations for tokens. They bear the same relationship to the following tokdef units that C declarations do to C definitions. However, they are not necessary for the translator, and the current ANSI C producer does not provide them by default.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>tokdef</emphasis> units. These units contain definitions of tokens.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>aldef</emphasis> units. These units give the definitions of alignment tags.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>diagtype</emphasis> units. These units give diagnostic information about types.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>tagdec</emphasis> units. These units contain declarations of tags, which identify values, procedures and run-time objects in the program. The declarations give information about the size, alignment and other properties of the values. They bear the same relationship to the following tagdef units that C declarations do to C definitions.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>diagdef</emphasis> units. These units give diagnostic information about the values and procedures defined in the capsule.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>tagdef</emphasis> units. These units contain the definitions of tags, and so describe the procedures and the values they manipulate.</para>
-    </listitem>
-    <listitem>
-    <para><emphasis>linkinfo</emphasis> units. These units give information about the linking of objects.</para>
-    </listitem>
-    </itemizedlist>
-    
-    <para>This organisation is imposed to help installers, by ensuring that the information needed to process a unit has been provided before that unit arrives. For example, the token definitions occur before any tag definition, so that, during translation, the tokens may be expanded as the tag definitions are being read (in a capsule which is ready for translation all tokens used must be defined, but this need not apply to an arbitrary capsule).</para>
-    
-    <para>The tags and tokens in a capsule have to be related to the outside world. For example, there might be a tag standing for <emphasis>printf</emphasis>, used in the appropriate way inside the capsule. When an object file is produced from the capsule the identifier <emphasis>printf</emphasis> must occur in it, so that the system linker can associate it with the correct library procedure. In order to do this, the capsule has a table of tags at the capsule level, and a set of external links which provide external names for some of these tags.</para>
-    
-    
-          <figure id="capsule1">
-            <title>Capsule 1</title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="capsule1" scale="100" format="PNG">
-              </imageobject>
-            </mediaobject>
-          </figure>
-    
-    <para>In just the same way, there are tables of tokens and alignment tags at the capsule level, and external links for these as well.</para>
-    
-    <para>The tags used inside a unit have to be related to these capsule tags, so that they can be properly named. A similar mechanism is used, with a table of tags at the unit level, and links between these and the capsule level tags.</para>
-    
-          <figure id="capsule2">
-            <title>Capsule 2</title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="capsule2" scale="100" format="PNG">
-              </imageobject>
-            </mediaobject>
-          </figure>
-    
-    <para>Again the same technique is used for tokens and alignment tags.</para>
-    
-    <para>It is also necessary for a tag used in one unit to refer to the same thing as a tag in another unit. To do this a tag at the capsule level is used, which may or may not have an external link.</para>
-    
-          <figure id="capsule3">
-            <title>Capsule 3</title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="capsule3" scale="100" format="PNG">
-              </imageobject>
-            </mediaobject>
-          </figure>
-    
-    <para>The same technique is used for tokens and alignment tags.</para>
-    
-    <para>So when the TDF linker is joining two capsules, it has to perform the following tasks:</para>
-    
-    <itemizedlist>
-    <listitem>
-    <para>It creates new sets of capsule level tags, tokens and alignment tags by identifying those which have the same external name, and otherwise creating different entries.</para>
-    </listitem>
-    <listitem>
-    <para>It similarly joins the external links, suppressing any names which are no longer to be external.</para>
-    </listitem>
-    <listitem>
-    <para>It produces new link tables for the units, so that the entities used inside the units are linked to the new positions in the capsule level tables.</para>
-    </listitem>
-    <listitem>
-    <para>It re-organises the units so that the correct order is achieved.</para>
-    </listitem>
-    </itemizedlist>
-    
-    <para>This can be done without looking into the interior of the units (except for the <emphasis>tld</emphasis> unit), simply copying the units into their new place.</para>
-    
-    <para>During the process of installation the values associated with the linkable entities can be accessed by indexing into an array followed by one indirection. These are the kinds of object which in a programming language are referred to by using identifiers, which involves using hash tables for access. This is an example of a general principle of the design of TDF; speed is required in the linking and installing processes, if necessary at the expense of time in the production of TDF.</para>
-    
+      <title>The Overall Structure</title>
+      
+      <para>A separable piece of TDF is called a <literal>CAPSULE</literal>. A
+        producer generates a <literal>CAPSULE</literal>; the TDF linker links
+        <literal>CAPSULE</literal>s together to form a
+        <literal>CAPSULE</literal>; and the final translation process turns a
+        <literal>CAPSULE</literal> into an object file.</para>
+      
+      <para>The structure of capsules is designed so that the process of
+        linking two or more capsules consists almost entirely of copying large
+        byte-aligned sections of the source files into the destination file,
+        without changing or even examining these sections. Only a small amount
+        of interface information has to be modified and this is made easily
+        accessible. The translation process only requires an extra indirection
+        to account for this interface information, so it is also fast. The
+        description of TDF at the capsule level is almost all about the
+        organisation of the interface information.</para>
+      
+      <para>There are three major kinds of entity which are used inside a
+        capsule to name its constituents. The first are called tags; they are
+        used to name the procedures, functions, values and variables which are
+        the components of the program. The second are called tokens; they
+        identify pieces of TDF which can be used for substitution - a little
+        like macros. The third are the alignment tags, used to name alignments
+        so that circular types can be described. Because these internal names
+        are used for linking pieces of TDF together, they are collectively
+        called <emphasis>linkable entities</emphasis>. The interface
+        information relates these linkable entities to each other and to the
+        world outside the capsule.</para>
+      
+      <para>The most important part of a capsule, the part which contains the
+        real information, consists of a sequence of groups of units. Each
+        group contains units of the same kind, and all the units of the same
+        kind are in the same group. The groups always occur in the same order,
+        though it is not necessary for each kind to be present.</para>
+      
+            <figure id="capsule4">
+              <title>Capsule 4</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="capsule4" scale="100" format="PNG">
+                </imageobject>
+              </mediaobject>
+            </figure>
+      
+      <para>The order is as follows:</para>
+      
+      <itemizedlist>
+        <listitem>
+        <para><emphasis>tld</emphasis> unit. Every capsule has exactly one tld unit. It gives information to the TDF linker about those items in the capsule which are visible externally.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>versions</emphasis> unit. These units contain information about the versions of TDF used. Every capsule will have at least one such unit.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>tokdec</emphasis> units. These units contain declarations for tokens. They bear the same relationship to the following tokdef units that C declarations do to C definitions. However, they are not necessary for the translator, and the current ANSI C producer does not provide them by default.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>tokdef</emphasis> units. These units contain definitions of tokens.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>aldef</emphasis> units. These units give the definitions of alignment tags.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>diagtype</emphasis> units. These units give diagnostic information about types.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>tagdec</emphasis> units. These units contain declarations of tags, which identify values, procedures and run-time objects in the program. The declarations give information about the size, alignment and other properties of the values. They bear the same relationship to the following tagdef units that C declarations do to C definitions.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>diagdef</emphasis> units. These units give diagnostic information about the values and procedures defined in the capsule.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>tagdef</emphasis> units. These units contain the definitions of tags, and so describe the procedures and the values they manipulate.</para>
+        </listitem>
+        <listitem>
+        <para><emphasis>linkinfo</emphasis> units. These units give information about the linking of objects.</para>
+        </listitem>
+      </itemizedlist>
+      
+      <para>This organisation is imposed to help installers, by ensuring that the information needed to process a unit has been provided before that unit arrives. For example, the token definitions occur before any tag definition, so that, during translation, the tokens may be expanded as the tag definitions are being read (in a capsule which is ready for translation all tokens used must be defined, but this need not apply to an arbitrary capsule).</para>
+      
+      <para>The tags and tokens in a capsule have to be related to the outside world. For example, there might be a tag standing for <emphasis>printf</emphasis>, used in the appropriate way inside the capsule. When an object file is produced from the capsule the identifier <emphasis>printf</emphasis> must occur in it, so that the system linker can associate it with the correct library procedure. In order to do this, the capsule has a table of tags at the capsule level, and a set of external links which provide external names for some of these tags.</para>
+      
+      
+            <figure id="capsule1">
+              <title>Capsule 1</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="capsule1" scale="100" format="PNG">
+                </imageobject>
+              </mediaobject>
+            </figure>
+      
+      <para>In just the same way, there are tables of tokens and alignment tags at the capsule level, and external links for these as well.</para>
+      
+      <para>The tags used inside a unit have to be related to these capsule tags, so that they can be properly named. A similar mechanism is used, with a table of tags at the unit level, and links between these and the capsule level tags.</para>
+      
+            <figure id="capsule2">
+              <title>Capsule 2</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="capsule2" scale="100" format="PNG">
+                </imageobject>
+              </mediaobject>
+            </figure>
+      
+      <para>Again the same technique is used for tokens and alignment tags.</para>
+      
+      <para>It is also necessary for a tag used in one unit to refer to the same thing as a tag in another unit. To do this a tag at the capsule level is used, which may or may not have an external link.</para>
+      
+            <figure id="capsule3">
+              <title>Capsule 3</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="capsule3" scale="100" format="PNG">
+                </imageobject>
+              </mediaobject>
+            </figure>
+      
+      <para>The same technique is used for tokens and alignment tags.</para>
+      
+      <para>So when the TDF linker is joining two capsules, it has to perform the following tasks:</para>
+      
+      <itemizedlist>
+      <listitem>
+      <para>It creates new sets of capsule level tags, tokens and alignment tags by identifying those which have the same external name, and otherwise creating different entries.</para>
+      </listitem>
+      <listitem>
+      <para>It similarly joins the external links, suppressing any names which are no longer to be external.</para>
+      </listitem>
+      <listitem>
+      <para>It produces new link tables for the units, so that the entities used inside the units are linked to the new positions in the capsule level tables.</para>
+      </listitem>
+      <listitem>
+      <para>It re-organises the units so that the correct order is achieved.</para>
+      </listitem>
+      </itemizedlist>
+      
+      <para>This can be done without looking into the interior of the units (except for the <emphasis>tld</emphasis> unit), simply copying the units into their new place.</para>
+      
+      <para>During the process of installation the values associated with the linkable entities can be accessed by indexing into an array followed by one indirection. These are the kinds of object which in a programming language are referred to by using identifiers, which involves using hash tables for access. This is an example of a general principle of the design of TDF; speed is required in the linking and installing processes, if necessary at the expense of time in the production of TDF.</para>
+      
     </sect1>
     
     <sect1>
