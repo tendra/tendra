@@ -914,7 +914,7 @@ operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
   if (INT64_lt(src2, zero_int64) && !negate_ins(&ins, &src2)) {
     use_at = 1;
   }
-  if (!use_at && !INT64_lt(src2, make_INT64(0, 256))) {
+  if (INT64_lt(src2, zero_int64) || !INT64_lt(src2, make_INT64(0, 256))) {
     use_at = 1;
   }
   /* The GNU assembler can't cope with an immediate operand in a div*
