@@ -32,7 +32,7 @@ SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
 #        fi
 #}
 
-MACH_CPU!=	hppa # Be lame for now and hardwire it, until above works.
+MACH_CPU=	hppa # Be lame for now and hardwire it, until above works.
 MACH_OS!=	${UNAME}
 MACH_VERS!=	${UNAME} -r
 
