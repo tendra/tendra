@@ -73,6 +73,14 @@ _REALWORK: .USE
 . endfor
 
 _objdir=	${OBJ_SDIR}
+.elif "${SYS_FILES}" || "${TDFLIB}" != ""
+#
+# Build token definition.
+#
+_REALWORK: .USE
+	@${ECHO} "# Building ${TDFLIB} token definition"
+
+_objdir=        ${OBJ_SDIR}
 .elif "${PROG}" != ""
 #
 # Build a program.
