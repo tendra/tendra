@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2004, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -285,11 +285,11 @@ extern void clear_calculus_alias (void);
 #ifndef GEN_calculus
 #define	GEN_calculus(A, B)			gen_calculus ((unsigned)(A))
 #endif
-#define	TYPEID_ptr			((unsigned)0)
-#define	TYPEID_list			((unsigned)1)
-#define	TYPEID_stack			((unsigned)2)
-#define	TYPEID_type				((unsigned)3)
-#define	TYPEID_cmd				((unsigned)4)
+#define	TYPEID_ptr			0u
+#define	TYPEID_list			1u
+#define	TYPEID_stack			2u
+#define	TYPEID_type				3u
+#define	TYPEID_cmd				4u
 
 
 /* Definitions for pointers */
@@ -302,7 +302,7 @@ extern void clear_calculus_alias (void);
 #define	MAKE_ptr(A)			GEN_calculus ((A), TYPEID_ptr)
 #define	DESTROY_ptr(A, B)		destroy_calculus ((A), (unsigned)(B))
 #define	UNIQ_ptr(A)			GEN_calculus ( 1, TYPEID_ptr )
-#define	DESTROY_UNIQ_ptr(A)		destroy_calculus ((A), (unsigned)1)
+#define	DESTROY_UNIQ_ptr(A)		destroy_calculus ((A), 1u)
 #ifdef calculus_IO_ROUTINES
 #define	VOIDSTAR_ptr(A)			((void *)(A))
 #endif
@@ -329,7 +329,7 @@ extern void clear_calculus_alias (void);
 		calculus *x2_ = CHECK_NULL (C);\
 		(A) = x2_[1].ag_ptr;\
 		(B) = x2_->ag_ptr;\
-		(D) (x2_, (unsigned)2);\
+		(D) (x2_, 2u);\
 	}
 
 #define	PUSH_ptr(A, B)\
@@ -347,7 +347,7 @@ extern void clear_calculus_alias (void);
 		calculus *x4_ = CHECK_NULL (*r4_);\
 		(A) = x4_[1].ag_ptr;\
 		*r4_ = x4_->ag_ptr;\
-		destroy_calculus (x4_, (unsigned)2);\
+		destroy_calculus (x4_, 2u);\
 	}
 
 
@@ -366,7 +366,7 @@ extern void clear_calculus_alias (void);
 #define	IS_NULL_list(A)			((A) == 0)
 #define	EQ_list(A, B)			((A) == (B))
 #define	UNIQ_list(A)			GEN_calculus ( 1, TYPEID_list )
-#define	DESTROY_UNIQ_list(A)		destroy_calculus ((A), (unsigned) 1)
+#define	DESTROY_UNIQ_list(A)		destroy_calculus ((A), 1u)
 #ifdef calculus_IO_ROUTINES
 #define	VOIDSTAR_list(A)		((void *) (A))
 #endif
@@ -398,7 +398,7 @@ extern void clear_calculus_alias (void);
 		calculus *x7_ = CHECK_NULL (C);\
 		(A) = x7_[1].ag_ptr;\
 		(B) = x7_->ag_ptr;\
-		(D) (x7_, (unsigned) 2);\
+		(D) (x7_, 2u);\
 	}
 
 #define	PUSH_list(A, B)\
@@ -416,7 +416,7 @@ extern void clear_calculus_alias (void);
 		calculus *x9_ = CHECK_NULL (*r9_);\
 		(A) = x9_[1].ag_ptr;\
 		*r9_ = x9_->ag_ptr;\
-		destroy_calculus (x9_, (unsigned) 2);\
+		destroy_calculus (x9_, 2u);\
 	}
 
 
@@ -450,7 +450,7 @@ extern void clear_calculus_alias (void);
 		calculus *x12_ = CHECK_NULL (C);\
 		(A) = x12_[1].ag_ptr;\
 		(B) = x12_->ag_ptr;\
-		(D) (x12_, (unsigned) 2);\
+		(D) (x12_, 2u);\
 	}
 
 #define	PUSH_stack(A, B)\
@@ -468,7 +468,7 @@ extern void clear_calculus_alias (void);
 		calculus *x14_ = CHECK_NULL (*r14_);\
 		(A) = x14_[1].ag_ptr;\
 		*r14_ = x14_->ag_ptr;\
-		destroy_calculus (x14_, (unsigned) 2);\
+		destroy_calculus (x14_, 2u);\
 	}
 
 
@@ -503,7 +503,7 @@ extern void clear_calculus_alias (void);
 		calculus *x17_ = CHECK_NULL (C);\
 		(A) = DEREF_int (x17_ + 1);\
 		(B) = x17_->ag_ptr;\
-		(D) (x17_, (unsigned)2);\
+		(D) (x17_, 2u);\
 	}
 
 #define	PUSH_int(A, B)\
@@ -521,7 +521,7 @@ extern void clear_calculus_alias (void);
 		calculus *x19_ = CHECK_NULL (*r19_);\
 		(A) = DEREF_int (x19_ + 1);\
 		*r19_ = x19_->ag_ptr;\
-		destroy_calculus (x19_, (unsigned)2);\
+		destroy_calculus (x19_, 2u);\
 	}
 
 
@@ -551,7 +551,7 @@ extern void clear_calculus_alias (void);
 		calculus *x22_ = CHECK_NULL (C);\
 		(A) = DEREF_number (x22_ + 1);\
 		(B) = x22_->ag_ptr;\
-		(D) (x22_, (unsigned)2);\
+		(D) (x22_, 2u);\
 	}
 
 #define	PUSH_number(A, B)\
@@ -569,7 +569,7 @@ extern void clear_calculus_alias (void);
 		calculus *x24_ = CHECK_NULL (*r24_);\
 		(A) = DEREF_number (x24_ + 1);\
 		*r24_ = x24_->ag_ptr;\
-		destroy_calculus (x24_, (unsigned)2);\
+		destroy_calculus (x24_, 2u);\
 	}
 
 
@@ -599,7 +599,7 @@ extern void clear_calculus_alias (void);
 		calculus *x27_ = CHECK_NULL (C);\
 		(A) = DEREF_string (x27_ + 1);\
 		(B) = x27_->ag_ptr;\
-		(D) (x27_, (unsigned)2);\
+		(D) (x27_, 2u);\
 	}
 
 #define	PUSH_string(A, B)\
@@ -617,7 +617,7 @@ extern void clear_calculus_alias (void);
 		calculus *x29_ = CHECK_NULL (*r29_);\
 		(A) = DEREF_string (x29_ + 1);\
 		*r29_ = x29_->ag_ptr;\
-		destroy_calculus (x29_, (unsigned)2);\
+		destroy_calculus (x29_, 2u);\
 	}
 
 
@@ -639,44 +639,44 @@ extern void clear_calculus_alias (void);
 		calculus *x30_ = CHECK_NULL (A);\
 		ALGEBRA_DEFN y30_;\
 		y30_ = (B);\
-	COPY_string (x30_ + 0, y30_.name);\
-	COPY_int (x30_ + 1, y30_.major_no);\
-	COPY_int (x30_ + 2, y30_.minor_no);\
-	COPY_list (x30_ + 3, y30_.primitives);\
-	COPY_list (x30_ + 4, y30_.identities);\
-	COPY_list (x30_ + 5, y30_.enumerations);\
-	COPY_list (x30_ + 6, y30_.structures);\
-	COPY_list (x30_ + 7, y30_.unions);\
-	COPY_list (x30_ + 8, y30_.types);\
+		COPY_string (x30_ + 0, y30_.name);\
+		COPY_int (x30_ + 1, y30_.major_no);\
+		COPY_int (x30_ + 2, y30_.minor_no);\
+		COPY_list (x30_ + 3, y30_.primitives);\
+		COPY_list (x30_ + 4, y30_.identities);\
+		COPY_list (x30_ + 5, y30_.enumerations);\
+		COPY_list (x30_ + 6, y30_.structures);\
+		COPY_list (x30_ + 7, y30_.unions);\
+		COPY_list (x30_ + 8, y30_.types);\
 	}
 
 #define	DEREF_alg(A, B)\
 	{\
 		calculus *x31_ = CHECK_NULL (A);\
 		ALGEBRA_DEFN *y31_ = &(B);\
-	y31_->name = DEREF_string (x31_ + 0);\
-	y31_->major_no = DEREF_int (x31_ + 1);\
-	y31_->minor_no = DEREF_int (x31_ + 2);\
-	y31_->primitives = DEREF_list (x31_ + 3);\
-	y31_->identities = DEREF_list (x31_ + 4);\
-	y31_->enumerations = DEREF_list (x31_ + 5);\
-	y31_->structures = DEREF_list (x31_ + 6);\
-	y31_->unions = DEREF_list (x31_ + 7);\
-	y31_->types = DEREF_list (x31_ + 8);\
+		y31_->name = DEREF_string (x31_ + 0);\
+		y31_->major_no = DEREF_int (x31_ + 1);\
+		y31_->minor_no = DEREF_int (x31_ + 2);\
+		y31_->primitives = DEREF_list (x31_ + 3);\
+		y31_->identities = DEREF_list (x31_ + 4);\
+		y31_->enumerations = DEREF_list (x31_ + 5);\
+		y31_->structures = DEREF_list (x31_ + 6);\
+		y31_->unions = DEREF_list (x31_ + 7);\
+		y31_->types = DEREF_list (x31_ + 8);\
 	}
 
 #define	MAKE_alg(name_, major_no_, minor_no_, primitives_, identities_, enumerations_, structures_, unions_, types_, alg_)\
 	{\
 		calculus *x32_ = CHECK_NULL (alg_);\
-	COPY_string (x32_ + 0, (name_));\
-	COPY_int (x32_ + 1, (major_no_));\
-	COPY_int (x32_ + 2, (minor_no_));\
-	COPY_list (x32_ + 3, (primitives_));\
-	COPY_list (x32_ + 4, (identities_));\
-	COPY_list (x32_ + 5, (enumerations_));\
-	COPY_list (x32_ + 6, (structures_));\
-	COPY_list (x32_ + 7, (unions_));\
-	COPY_list (x32_ + 8, (types_));\
+		COPY_string (x32_ + 0, (name_));\
+		COPY_int (x32_ + 1, (major_no_));\
+		COPY_int (x32_ + 2, (minor_no_));\
+		COPY_list (x32_ + 3, (primitives_));\
+		COPY_list (x32_ + 4, (identities_));\
+		COPY_list (x32_ + 5, (enumerations_));\
+		COPY_list (x32_ + 6, (structures_));\
+		COPY_list (x32_ + 7, (unions_));\
+		COPY_list (x32_ + 8, (types_));\
 	}
 
 #define	CONS_alg(A, B, C)\
@@ -699,7 +699,7 @@ extern void clear_calculus_alias (void);
 		calculus *x35_ = CHECK_NULL (C);\
 		DEREF_alg (x35_ + 1, (A));\
 		(B) = x35_->ag_ptr;\
-		(D) (x35_, (unsigned)10);\
+		(D) (x35_, 10u);\
 	}
 
 #define	PUSH_alg(A, B)\
@@ -717,7 +717,7 @@ extern void clear_calculus_alias (void);
 		calculus *x37_ = CHECK_NULL (*r37_);\
 		DEREF_alg (x37_ + 1, (A));\
 		*r37_ = x37_->ag_ptr;\
-		destroy_calculus (x37_, (unsigned)10);\
+		destroy_calculus (x37_, 10u);\
 	}
 
 
@@ -735,32 +735,32 @@ extern void clear_calculus_alias (void);
 		calculus *x38_ = CHECK_NULL (A);\
 		CLASS_ID y38_;\
 		y38_ = (B);\
-	COPY_string (x38_ + 0, y38_.name);\
-	COPY_string (x38_ + 1, y38_.name_aux);\
-	COPY_int (x38_ + 2, y38_.flag);\
-	COPY_string (x38_ + 3, y38_.file);\
-	COPY_int (x38_ + 4, y38_.line);\
+		COPY_string (x38_ + 0, y38_.name);\
+		COPY_string (x38_ + 1, y38_.name_aux);\
+		COPY_int (x38_ + 2, y38_.flag);\
+		COPY_string (x38_ + 3, y38_.file);\
+		COPY_int (x38_ + 4, y38_.line);\
 	}
 
 #define	DEREF_cid(A, B)\
 	{\
 		calculus *x39_ = CHECK_NULL (A);\
 		CLASS_ID *y39_ = &(B);\
-	y39_->name = DEREF_string (x39_ + 0);\
-	y39_->name_aux = DEREF_string (x39_ + 1);\
-	y39_->flag = DEREF_int (x39_ + 2);\
-	y39_->file = DEREF_string (x39_ + 3);\
-	y39_->line = DEREF_int (x39_ + 4);\
+		y39_->name = DEREF_string (x39_ + 0);\
+		y39_->name_aux = DEREF_string (x39_ + 1);\
+		y39_->flag = DEREF_int (x39_ + 2);\
+		y39_->file = DEREF_string (x39_ + 3);\
+		y39_->line = DEREF_int (x39_ + 4);\
 	}
 
 #define	MAKE_cid(name_, name_aux_, flag_, file_, line_, cid_)\
 	{\
 		calculus *x40_ = CHECK_NULL (cid_);\
-	COPY_string (x40_ + 0, (name_));\
-	COPY_string (x40_ + 1, (name_aux_));\
-	COPY_int (x40_ + 2, (flag_));\
-	COPY_string (x40_ + 3, (file_));\
-	COPY_int (x40_ + 4, (line_));\
+		COPY_string (x40_ + 0, (name_));\
+		COPY_string (x40_ + 1, (name_aux_));\
+		COPY_int (x40_ + 2, (flag_));\
+		COPY_string (x40_ + 3, (file_));\
+		COPY_int (x40_ + 4, (line_));\
 	}
 
 #define	CONS_cid(A, B, C)\
@@ -783,7 +783,7 @@ extern void clear_calculus_alias (void);
 		calculus *x43_ = CHECK_NULL (C);\
 		DEREF_cid (x43_ + 1, (A));\
 		(B) = x43_->ag_ptr;\
-		(D) (x43_, (unsigned)6);\
+		(D) (x43_, 6u);\
 	}
 
 #define	PUSH_cid(A, B)\
@@ -801,7 +801,7 @@ extern void clear_calculus_alias (void);
 		calculus *x45_ = CHECK_NULL (*r45_);\
 		DEREF_cid (x45_ + 1, (A));\
 		*r45_ = x45_->ag_ptr;\
-		destroy_calculus (x45_, (unsigned)6);\
+		destroy_calculus (x45_, 6u);\
 	}
 
 
@@ -816,23 +816,23 @@ extern void clear_calculus_alias (void);
 		calculus *x46_ = CHECK_NULL (A);\
 		PRIMITIVE y46_;\
 		y46_ = (B);\
-	COPY_ptr (x46_ + 0, y46_.id);\
-	COPY_string (x46_ + 1, y46_.defn);\
+		COPY_ptr (x46_ + 0, y46_.id);\
+		COPY_string (x46_ + 1, y46_.defn);\
 	}
 
 #define	DEREF_prim(A, B)\
 	{\
 		calculus *x47_ = CHECK_NULL (A);\
 		PRIMITIVE *y47_ = &(B);\
-	y47_->id = DEREF_ptr (x47_ + 0);\
-	y47_->defn = DEREF_string (x47_ + 1);\
+		y47_->id = DEREF_ptr (x47_ + 0);\
+		y47_->defn = DEREF_string (x47_ + 1);\
 	}
 
 #define	MAKE_prim(id_, defn_, prim_)\
 	{\
 		calculus *x48_ = CHECK_NULL (prim_);\
-	COPY_ptr (x48_ + 0, (id_));\
-	COPY_string (x48_ + 1, (defn_));\
+		COPY_ptr (x48_ + 0, (id_));\
+		COPY_string (x48_ + 1, (defn_));\
 	}
 
 #define	CONS_prim(A, B, C)\
@@ -855,7 +855,7 @@ extern void clear_calculus_alias (void);
 		calculus *x51_ = CHECK_NULL (C);\
 		DEREF_prim (x51_ + 1, (A));\
 		(B) = x51_->ag_ptr;\
-		(D) (x51_, (unsigned)3);\
+		(D) (x51_, 3u);\
 	}
 
 #define	PUSH_prim(A, B)\
@@ -873,7 +873,7 @@ extern void clear_calculus_alias (void);
 		calculus *x53_ = CHECK_NULL (*r53_);\
 		DEREF_prim (x53_ + 1, (A));\
 		*r53_ = x53_->ag_ptr;\
-		destroy_calculus (x53_, (unsigned)3);\
+		destroy_calculus (x53_, 3u);\
 	}
 
 
@@ -888,23 +888,23 @@ extern void clear_calculus_alias (void);
 		calculus *x54_ = CHECK_NULL (A);\
 		ECONST y54_;\
 		y54_ = (B);\
-	COPY_string (x54_ + 0, y54_.name);\
-	COPY_number (x54_ + 1, y54_.value);\
+		COPY_string (x54_ + 0, y54_.name);\
+		COPY_number (x54_ + 1, y54_.value);\
 	}
 
 #define	DEREF_ec(A, B)\
 	{\
 		calculus *x55_ = CHECK_NULL (A);\
 		ECONST *y55_ = &(B);\
-	y55_->name = DEREF_string (x55_ + 0);\
-	y55_->value = DEREF_number (x55_ + 1);\
+		y55_->name = DEREF_string (x55_ + 0);\
+		y55_->value = DEREF_number (x55_ + 1);\
 	}
 
 #define	MAKE_ec(name_, value_, ec_)\
 	{\
 		calculus *x56_ = CHECK_NULL (ec_);\
-	COPY_string (x56_ + 0, (name_));\
-	COPY_number (x56_ + 1, (value_));\
+		COPY_string (x56_ + 0, (name_));\
+		COPY_number (x56_ + 1, (value_));\
 	}
 
 #define	CONS_ec(A, B, C)\
@@ -927,7 +927,7 @@ extern void clear_calculus_alias (void);
 		calculus *x59_ = CHECK_NULL (C);\
 		DEREF_ec (x59_ + 1, (A));\
 		(B) = x59_->ag_ptr;\
-		(D) (x59_, (unsigned)3);\
+		(D) (x59_, 3u);\
 	}
 
 #define	PUSH_ec(A, B)\
@@ -945,7 +945,7 @@ extern void clear_calculus_alias (void);
 		calculus *x61_ = CHECK_NULL (*r61_);\
 		DEREF_ec (x61_ + 1, (A));\
 		*r61_ = x61_->ag_ptr;\
-		destroy_calculus (x61_, (unsigned)3);\
+		destroy_calculus (x61_, 3u);\
 	}
 
 
@@ -962,29 +962,29 @@ extern void clear_calculus_alias (void);
 		calculus *x62_ = CHECK_NULL (A);\
 		ENUM y62_;\
 		y62_ = (B);\
-	COPY_ptr (x62_ + 0, y62_.id);\
-	COPY_list (x62_ + 1, y62_.consts);\
-	COPY_number (x62_ + 2, y62_.order);\
-	COPY_int (x62_ + 3, y62_.lists);\
+		COPY_ptr (x62_ + 0, y62_.id);\
+		COPY_list (x62_ + 1, y62_.consts);\
+		COPY_number (x62_ + 2, y62_.order);\
+		COPY_int (x62_ + 3, y62_.lists);\
 	}
 
 #define	DEREF_en(A, B)\
 	{\
 		calculus *x63_ = CHECK_NULL (A);\
 		ENUM *y63_ = &(B);\
-	y63_->id = DEREF_ptr (x63_ + 0);\
-	y63_->consts = DEREF_list (x63_ + 1);\
-	y63_->order = DEREF_number (x63_ + 2);\
-	y63_->lists = DEREF_int (x63_ + 3);\
+		y63_->id = DEREF_ptr (x63_ + 0);\
+		y63_->consts = DEREF_list (x63_ + 1);\
+		y63_->order = DEREF_number (x63_ + 2);\
+		y63_->lists = DEREF_int (x63_ + 3);\
 	}
 
 #define	MAKE_en(id_, consts_, order_, lists_, en_)\
 	{\
 		calculus *x64_ = CHECK_NULL (en_);\
-	COPY_ptr (x64_ + 0, (id_));\
-	COPY_list (x64_ + 1, (consts_));\
-	COPY_number (x64_ + 2, (order_));\
-	COPY_int (x64_ + 3, (lists_));\
+		COPY_ptr (x64_ + 0, (id_));\
+		COPY_list (x64_ + 1, (consts_));\
+		COPY_number (x64_ + 2, (order_));\
+		COPY_int (x64_ + 3, (lists_));\
 	}
 
 #define	CONS_en(A, B, C)\
@@ -1007,7 +1007,7 @@ extern void clear_calculus_alias (void);
 		calculus *x67_ = CHECK_NULL (C);\
 		DEREF_en (x67_ + 1, (A));\
 		(B) = x67_->ag_ptr;\
-		(D) (x67_, (unsigned)5);\
+		(D) (x67_, 5u);\
 	}
 
 #define	PUSH_en(A, B)\
@@ -1025,7 +1025,7 @@ extern void clear_calculus_alias (void);
 		calculus *x69_ = CHECK_NULL (*r69_);\
 		DEREF_en (x69_ + 1, (A));\
 		*r69_ = x69_->ag_ptr;\
-		destroy_calculus (x69_, (unsigned)5);\
+		destroy_calculus (x69_, 5u);\
 	}
 
 
@@ -1040,23 +1040,23 @@ extern void clear_calculus_alias (void);
 		calculus *x70_ = CHECK_NULL (A);\
 		IDENTITY y70_;\
 		y70_ = (B);\
-	COPY_ptr (x70_ + 0, y70_.id);\
-	COPY_ptr (x70_ + 1, y70_.defn);\
+		COPY_ptr (x70_ + 0, y70_.id);\
+		COPY_ptr (x70_ + 1, y70_.defn);\
 	}
 
 #define	DEREF_ident(A, B)\
 	{\
 		calculus *x71_ = CHECK_NULL (A);\
 		IDENTITY *y71_ = &(B);\
-	y71_->id = DEREF_ptr (x71_ + 0);\
-	y71_->defn = DEREF_ptr (x71_ + 1);\
+		y71_->id = DEREF_ptr (x71_ + 0);\
+		y71_->defn = DEREF_ptr (x71_ + 1);\
 	}
 
 #define	MAKE_ident(id_, defn_, ident_)\
 	{\
 		calculus *x72_ = CHECK_NULL (ident_);\
-	COPY_ptr (x72_ + 0, (id_));\
-	COPY_ptr (x72_ + 1, (defn_));\
+		COPY_ptr (x72_ + 0, (id_));\
+		COPY_ptr (x72_ + 1, (defn_));\
 	}
 
 #define	CONS_ident(A, B, C)\
@@ -1079,7 +1079,7 @@ extern void clear_calculus_alias (void);
 		calculus *x75_ = CHECK_NULL (C);\
 		DEREF_ident (x75_ + 1, (A));\
 		(B) = x75_->ag_ptr;\
-		(D) (x75_, (unsigned)3);\
+		(D) (x75_, 3u);\
 	}
 
 #define	PUSH_ident(A, B)\
@@ -1097,7 +1097,7 @@ extern void clear_calculus_alias (void);
 		calculus *x77_ = CHECK_NULL (*r77_);\
 		DEREF_ident (x77_ + 1, (A));\
 		*r77_ = x77_->ag_ptr;\
-		destroy_calculus (x77_, (unsigned)3);\
+		destroy_calculus (x77_, 3u);\
 	}
 
 
@@ -1113,26 +1113,26 @@ extern void clear_calculus_alias (void);
 		calculus *x78_ = CHECK_NULL (A);\
 		COMPONENT y78_;\
 		y78_ = (B);\
-	COPY_string (x78_ + 0, y78_.name);\
-	COPY_ptr (x78_ + 1, y78_.type);\
-	COPY_string (x78_ + 2, y78_.value);\
+		COPY_string (x78_ + 0, y78_.name);\
+		COPY_ptr (x78_ + 1, y78_.type);\
+		COPY_string (x78_ + 2, y78_.value);\
 	}
 
 #define	DEREF_cmp(A, B)\
 	{\
 		calculus *x79_ = CHECK_NULL (A);\
 		COMPONENT *y79_ = &(B);\
-	y79_->name = DEREF_string (x79_ + 0);\
-	y79_->type = DEREF_ptr (x79_ + 1);\
-	y79_->value = DEREF_string (x79_ + 2);\
+		y79_->name = DEREF_string (x79_ + 0);\
+		y79_->type = DEREF_ptr (x79_ + 1);\
+		y79_->value = DEREF_string (x79_ + 2);\
 	}
 
 #define	MAKE_cmp(name_, type_, value_, cmp_)\
 	{\
 		calculus *x80_ = CHECK_NULL (cmp_);\
-	COPY_string (x80_ + 0, (name_));\
-	COPY_ptr (x80_ + 1, (type_));\
-	COPY_string (x80_ + 2, (value_));\
+		COPY_string (x80_ + 0, (name_));\
+		COPY_ptr (x80_ + 1, (type_));\
+		COPY_string (x80_ + 2, (value_));\
 	}
 
 #define	CONS_cmp(A, B, C)\
@@ -1155,7 +1155,7 @@ extern void clear_calculus_alias (void);
 		calculus *x83_ = CHECK_NULL (C);\
 		DEREF_cmp (x83_ + 1, (A));\
 		(B) = x83_->ag_ptr;\
-		(D) (x83_, (unsigned)4);\
+		(D) (x83_, 4u);\
 	}
 
 #define	PUSH_cmp(A, B)\
@@ -1173,7 +1173,7 @@ extern void clear_calculus_alias (void);
 		calculus *x85_ = CHECK_NULL (*r85_);\
 		DEREF_cmp (x85_ + 1, (A));\
 		*r85_ = x85_->ag_ptr;\
-		destroy_calculus (x85_, (unsigned)4);\
+		destroy_calculus (x85_, 4u);\
 	}
 
 
@@ -1190,29 +1190,29 @@ extern void clear_calculus_alias (void);
 		calculus *x86_ = CHECK_NULL (A);\
 		STRUCTURE y86_;\
 		y86_ = (B);\
-	COPY_ptr (x86_ + 0, y86_.id);\
-	COPY_ptr (x86_ + 1, y86_.base);\
-	COPY_list (x86_ + 2, y86_.defn);\
-	COPY_int (x86_ + 3, y86_.output);\
+		COPY_ptr (x86_ + 0, y86_.id);\
+		COPY_ptr (x86_ + 1, y86_.base);\
+		COPY_list (x86_ + 2, y86_.defn);\
+		COPY_int (x86_ + 3, y86_.output);\
 	}
 
 #define	DEREF_str(A, B)\
 	{\
 		calculus *x87_ = CHECK_NULL (A);\
 		STRUCTURE *y87_ = &(B);\
-	y87_->id = DEREF_ptr (x87_ + 0);\
-	y87_->base = DEREF_ptr (x87_ + 1);\
-	y87_->defn = DEREF_list (x87_ + 2);\
-	y87_->output = DEREF_int (x87_ + 3);\
+		y87_->id = DEREF_ptr (x87_ + 0);\
+		y87_->base = DEREF_ptr (x87_ + 1);\
+		y87_->defn = DEREF_list (x87_ + 2);\
+		y87_->output = DEREF_int (x87_ + 3);\
 	}
 
 #define	MAKE_str(id_, base_, defn_, output_, str_)\
 	{\
 		calculus *x88_ = CHECK_NULL (str_);\
-	COPY_ptr (x88_ + 0, (id_));\
-	COPY_ptr (x88_ + 1, (base_));\
-	COPY_list (x88_ + 2, (defn_));\
-	COPY_int (x88_ + 3, (output_));\
+		COPY_ptr (x88_ + 0, (id_));\
+		COPY_ptr (x88_ + 1, (base_));\
+		COPY_list (x88_ + 2, (defn_));\
+		COPY_int (x88_ + 3, (output_));\
 	}
 
 #define	CONS_str(A, B, C)\
@@ -1235,7 +1235,7 @@ extern void clear_calculus_alias (void);
 		calculus *x91_ = CHECK_NULL (C);\
 		DEREF_str (x91_ + 1, (A));\
 		(B) = x91_->ag_ptr;\
-		(D) (x91_, (unsigned)5);\
+		(D) (x91_, 5u);\
 	}
 
 #define	PUSH_str(A, B)\
@@ -1253,7 +1253,7 @@ extern void clear_calculus_alias (void);
 		calculus *x93_ = CHECK_NULL (*r93_);\
 		DEREF_str (x93_ + 1, (A));\
 		*r93_ = x93_->ag_ptr;\
-		destroy_calculus (x93_, (unsigned)5);\
+		destroy_calculus (x93_, 5u);\
 	}
 
 
@@ -1272,35 +1272,35 @@ extern void clear_calculus_alias (void);
 		calculus *x94_ = CHECK_NULL (A);\
 		FIELD y94_;\
 		y94_ = (B);\
-	COPY_string (x94_ + 0, y94_.name);\
-	COPY_int (x94_ + 1, y94_.tag);\
-	COPY_int (x94_ + 2, y94_.flag);\
-	COPY_int (x94_ + 3, y94_.set);\
-	COPY_ptr (x94_ + 4, y94_.base);\
-	COPY_list (x94_ + 5, y94_.defn);\
+		COPY_string (x94_ + 0, y94_.name);\
+		COPY_int (x94_ + 1, y94_.tag);\
+		COPY_int (x94_ + 2, y94_.flag);\
+		COPY_int (x94_ + 3, y94_.set);\
+		COPY_ptr (x94_ + 4, y94_.base);\
+		COPY_list (x94_ + 5, y94_.defn);\
 	}
 
 #define	DEREF_fld(A, B)\
 	{\
 		calculus *x95_ = CHECK_NULL (A);\
 		FIELD *y95_ = &(B);\
-	y95_->name = DEREF_string (x95_ + 0);\
-	y95_->tag = DEREF_int (x95_ + 1);\
-	y95_->flag = DEREF_int (x95_ + 2);\
-	y95_->set = DEREF_int (x95_ + 3);\
-	y95_->base = DEREF_ptr (x95_ + 4);\
-	y95_->defn = DEREF_list (x95_ + 5);\
+		y95_->name = DEREF_string (x95_ + 0);\
+		y95_->tag = DEREF_int (x95_ + 1);\
+		y95_->flag = DEREF_int (x95_ + 2);\
+		y95_->set = DEREF_int (x95_ + 3);\
+		y95_->base = DEREF_ptr (x95_ + 4);\
+		y95_->defn = DEREF_list (x95_ + 5);\
 	}
 
 #define	MAKE_fld(name_, tag_, flag_, set_, base_, defn_, fld_)\
 	{\
 		calculus *x96_ = CHECK_NULL (fld_);\
-	COPY_string (x96_ + 0, (name_));\
-	COPY_int (x96_ + 1, (tag_));\
-	COPY_int (x96_ + 2, (flag_));\
-	COPY_int (x96_ + 3, (set_));\
-	COPY_ptr (x96_ + 4, (base_));\
-	COPY_list (x96_ + 5, (defn_));\
+		COPY_string (x96_ + 0, (name_));\
+		COPY_int (x96_ + 1, (tag_));\
+		COPY_int (x96_ + 2, (flag_));\
+		COPY_int (x96_ + 3, (set_));\
+		COPY_ptr (x96_ + 4, (base_));\
+		COPY_list (x96_ + 5, (defn_));\
 	}
 
 #define	CONS_fld(A, B, C)\
@@ -1323,7 +1323,7 @@ extern void clear_calculus_alias (void);
 		calculus *x99_ = CHECK_NULL (C);\
 		DEREF_fld (x99_ + 1, (A));\
 		(B) = x99_->ag_ptr;\
-		(D) (x99_, (unsigned)7);\
+		(D) (x99_, 7u);\
 	}
 
 #define	PUSH_fld(A, B)\
@@ -1341,7 +1341,7 @@ extern void clear_calculus_alias (void);
 		calculus *x101_ = CHECK_NULL (*r101_);\
 		DEREF_fld (x101_ + 1, (A));\
 		*r101_ = x101_->ag_ptr;\
-		destroy_calculus (x101_, (unsigned)7);\
+		destroy_calculus (x101_, 7u);\
 	}
 
 
@@ -1356,23 +1356,23 @@ extern void clear_calculus_alias (void);
 		calculus *x102_ = CHECK_NULL (A);\
 		ARGUMENT y102_;\
 		y102_ = (B);\
-	COPY_string (x102_ + 0, y102_.name);\
-	COPY_ptr (x102_ + 1, y102_.type);\
+		COPY_string (x102_ + 0, y102_.name);\
+		COPY_ptr (x102_ + 1, y102_.type);\
 	}
 
 #define	DEREF_arg(A, B)\
 	{\
 		calculus *x103_ = CHECK_NULL (A);\
 		ARGUMENT *y103_ = &(B);\
-	y103_->name = DEREF_string (x103_ + 0);\
-	y103_->type = DEREF_ptr (x103_ + 1);\
+		y103_->name = DEREF_string (x103_ + 0);\
+		y103_->type = DEREF_ptr (x103_ + 1);\
 	}
 
 #define	MAKE_arg(name_, type_, arg_)\
 	{\
 		calculus *x104_ = CHECK_NULL (arg_);\
-	COPY_string (x104_ + 0, (name_));\
-	COPY_ptr (x104_ + 1, (type_));\
+		COPY_string (x104_ + 0, (name_));\
+		COPY_ptr (x104_ + 1, (type_));\
 	}
 
 #define	CONS_arg(A, B, C)\
@@ -1395,7 +1395,7 @@ extern void clear_calculus_alias (void);
 		calculus *x107_ = CHECK_NULL (C);\
 		DEREF_arg (x107_ + 1, (A));\
 		(B) = x107_->ag_ptr;\
-		(D) (x107_, (unsigned)3);\
+		(D) (x107_, 3u);\
 	}
 
 #define	PUSH_arg(A, B)\
@@ -1413,7 +1413,7 @@ extern void clear_calculus_alias (void);
 		calculus *x109_ = CHECK_NULL (*r109_);\
 		DEREF_arg (x109_ + 1, (A));\
 		*r109_ = x109_->ag_ptr;\
-		destroy_calculus (x109_, (unsigned)3);\
+		destroy_calculus (x109_, 3u);\
 	}
 
 
@@ -1430,29 +1430,29 @@ extern void clear_calculus_alias (void);
 		calculus *x110_ = CHECK_NULL (A);\
 		MAP y110_;\
 		y110_ = (B);\
-	COPY_string (x110_ + 0, y110_.name);\
-	COPY_int (x110_ + 1, y110_.flag);\
-	COPY_ptr (x110_ + 2, y110_.ret_type);\
-	COPY_list (x110_ + 3, y110_.args);\
+		COPY_string (x110_ + 0, y110_.name);\
+		COPY_int (x110_ + 1, y110_.flag);\
+		COPY_ptr (x110_ + 2, y110_.ret_type);\
+		COPY_list (x110_ + 3, y110_.args);\
 	}
 
 #define	DEREF_map(A, B)\
 	{\
 		calculus *x111_ = CHECK_NULL (A);\
 		MAP *y111_ = &(B);\
-	y111_->name = DEREF_string (x111_ + 0);\
-	y111_->flag = DEREF_int (x111_ + 1);\
-	y111_->ret_type = DEREF_ptr (x111_ + 2);\
-	y111_->args = DEREF_list (x111_ + 3);\
+		y111_->name = DEREF_string (x111_ + 0);\
+		y111_->flag = DEREF_int (x111_ + 1);\
+		y111_->ret_type = DEREF_ptr (x111_ + 2);\
+		y111_->args = DEREF_list (x111_ + 3);\
 	}
 
 #define	MAKE_map(name_, flag_, ret_type_, args_, map_)\
 	{\
 		calculus *x112_ = CHECK_NULL (map_);\
-	COPY_string (x112_ + 0, (name_));\
-	COPY_int (x112_ + 1, (flag_));\
-	COPY_ptr (x112_ + 2, (ret_type_));\
-	COPY_list (x112_ + 3, (args_));\
+		COPY_string (x112_ + 0, (name_));\
+		COPY_int (x112_ + 1, (flag_));\
+		COPY_ptr (x112_ + 2, (ret_type_));\
+		COPY_list (x112_ + 3, (args_));\
 	}
 
 #define	CONS_map(A, B, C)\
@@ -1475,7 +1475,7 @@ extern void clear_calculus_alias (void);
 		calculus *x115_ = CHECK_NULL (C);\
 		DEREF_map (x115_ + 1, (A));\
 		(B) = x115_->ag_ptr;\
-		(D) (x115_, (unsigned)5);\
+		(D) (x115_, 5u);\
 	}
 
 #define	PUSH_map(A, B)\
@@ -1493,7 +1493,7 @@ extern void clear_calculus_alias (void);
 		calculus *x117_ = CHECK_NULL (*r117_);\
 		DEREF_map (x117_ + 1, (A));\
 		*r117_ = x117_->ag_ptr;\
-		destroy_calculus (x117_, (unsigned)5);\
+		destroy_calculus (x117_, 5u);\
 	}
 
 
@@ -1512,35 +1512,35 @@ extern void clear_calculus_alias (void);
 		calculus *x118_ = CHECK_NULL (A);\
 		UNION y118_;\
 		y118_ = (B);\
-	COPY_ptr (x118_ + 0, y118_.id);\
-	COPY_ptr (x118_ + 1, y118_.base);\
-	COPY_list (x118_ + 2, y118_.s_defn);\
-	COPY_list (x118_ + 3, y118_.u_defn);\
-	COPY_list (x118_ + 4, y118_.map);\
-	COPY_int (x118_ + 5, y118_.no_fields);\
+		COPY_ptr (x118_ + 0, y118_.id);\
+		COPY_ptr (x118_ + 1, y118_.base);\
+		COPY_list (x118_ + 2, y118_.s_defn);\
+		COPY_list (x118_ + 3, y118_.u_defn);\
+		COPY_list (x118_ + 4, y118_.map);\
+		COPY_int (x118_ + 5, y118_.no_fields);\
 	}
 
 #define	DEREF_un(A, B)\
 	{\
 		calculus *x119_ = CHECK_NULL (A);\
 		UNION *y119_ = &(B);\
-	y119_->id = DEREF_ptr (x119_ + 0);\
-	y119_->base = DEREF_ptr (x119_ + 1);\
-	y119_->s_defn = DEREF_list (x119_ + 2);\
-	y119_->u_defn = DEREF_list (x119_ + 3);\
-	y119_->map = DEREF_list (x119_ + 4);\
-	y119_->no_fields = DEREF_int (x119_ + 5);\
+		y119_->id = DEREF_ptr (x119_ + 0);\
+		y119_->base = DEREF_ptr (x119_ + 1);\
+		y119_->s_defn = DEREF_list (x119_ + 2);\
+		y119_->u_defn = DEREF_list (x119_ + 3);\
+		y119_->map = DEREF_list (x119_ + 4);\
+		y119_->no_fields = DEREF_int (x119_ + 5);\
 	}
 
 #define	MAKE_un(id_, base_, s_defn_, u_defn_, map_, no_fields_, un_)\
 	{\
 		calculus *x120_ = CHECK_NULL (un_);\
-	COPY_ptr (x120_ + 0, (id_));\
-	COPY_ptr (x120_ + 1, (base_));\
-	COPY_list (x120_ + 2, (s_defn_));\
-	COPY_list (x120_ + 3, (u_defn_));\
-	COPY_list (x120_ + 4, (map_));\
-	COPY_int (x120_ + 5, (no_fields_));\
+		COPY_ptr (x120_ + 0, (id_));\
+		COPY_ptr (x120_ + 1, (base_));\
+		COPY_list (x120_ + 2, (s_defn_));\
+		COPY_list (x120_ + 3, (u_defn_));\
+		COPY_list (x120_ + 4, (map_));\
+		COPY_int (x120_ + 5, (no_fields_));\
 	}
 
 #define	CONS_un(A, B, C)\
@@ -1563,7 +1563,7 @@ extern void clear_calculus_alias (void);
 		calculus *x123_ = CHECK_NULL (C);\
 		DEREF_un (x123_ + 1, (A));\
 		(B) = x123_->ag_ptr;\
-		(D) (x123_, (unsigned)7);\
+		(D) (x123_, 7u);\
 	}
 
 #define	PUSH_un(A, B)\
@@ -1581,13 +1581,13 @@ extern void clear_calculus_alias (void);
 		calculus *x125_ = CHECK_NULL (*r125_);\
 		DEREF_un (x125_ + 1, (A));\
 		*r125_ = x125_->ag_ptr;\
-		destroy_calculus (x125_, (unsigned)7);\
+		destroy_calculus (x125_, 7u);\
 	}
 
 
 /* Definitions for union TYPE */
 
-#define	ORDER_type				((unsigned) 12)
+#define	ORDER_type				12u
 #define	SIZE_type				1
 #define	NULL_type				((TYPE) 0)
 #define	IS_NULL_type(A)			((A) == 0)
@@ -1616,7 +1616,7 @@ extern void clear_calculus_alias (void);
 		calculus *x128_ = CHECK_NULL (C);\
 		(A) = DEREF_type (x128_ + 1);\
 		(B) = x128_->ag_ptr;\
-		(D) (x128_, (unsigned)2);\
+		(D) (x128_, 2u);\
 	}
 
 #define	PUSH_type(A, B)\
@@ -1634,13 +1634,13 @@ extern void clear_calculus_alias (void);
 		calculus *x130_ = CHECK_NULL (*r130_);\
 		(A) = DEREF_type (x130_ + 1);\
 		*r130_ = x130_->ag_ptr;\
-		destroy_calculus (x130_, (unsigned)2);\
+		destroy_calculus (x130_, 2u);\
 	}
 
 
 /* Definitions for union COMMAND */
 
-#define	ORDER_cmd				((unsigned) 4)
+#define	ORDER_cmd				4u
 #define	SIZE_cmd				1
 #define	NULL_cmd				((COMMAND) 0)
 #define	IS_NULL_cmd(A)			((A) == 0)
@@ -1669,7 +1669,7 @@ extern void clear_calculus_alias (void);
 		calculus *x133_ = CHECK_NULL (C);\
 		(A) = DEREF_cmd (x133_ + 1);\
 		(B) = x133_->ag_ptr;\
-		(D) (x133_, (unsigned)2);\
+		(D) (x133_, 2u);\
 	}
 
 #define	PUSH_cmd(A, B)\
@@ -1687,7 +1687,7 @@ extern void clear_calculus_alias (void);
 		calculus *x135_ = CHECK_NULL (*r135_);\
 		(A) = DEREF_cmd (x135_ + 1);\
 		*r135_ = x135_->ag_ptr;\
-		destroy_calculus (x135_, (unsigned)2);\
+		destroy_calculus (x135_, 2u);\
 	}
 
 
