@@ -181,6 +181,24 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 	return ht;
 }
 
+int
+key_match(char *key, char *keyfield)
+{
+	int i;
+	if (!key || !keyfield)
+		return 0;
+	/* advance pointers past command chars */
+	while (key && !is_alphanum(*key))
+		key++;
+	while (keyfield && !is_alphanum(*keyfield))
+		keyfield++;
+	for (i=0; i < strlen(key); i++)
+		if (key[i] != keyfield[i]) {
+			return 0;
+		}
+	return 1;
+}
+
 htnode *
 lookup_table (hashtable *ht, char *key)
 {
@@ -205,23 +223,6 @@ lookup_table (hashtable *ht, char *key)
 		hn->flag |= READ;	
 	}
 	return hn;
-}
-
-int key_match(char *key, char*keyfield)
-{
-	int i;
-	if (!key || !keyfield)
-		return 0;
-	/* advance pointers past command chars */
-	while(key && !is_alphanum(*key))
-		key++;
-	while(keyfield && !is_alphanum(*keyfield))
-		keyfield++;
-	for (i=0; i < strlen(key); i++)
-		if (key[i] != keyfield[i]) {
-			return 0;
-		}
-	return 1;
 }
 
 htnode*
