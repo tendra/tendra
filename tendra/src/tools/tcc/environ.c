@@ -55,6 +55,10 @@
  */
 
 
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -66,57 +70,58 @@
 
 
 /*
- *    THE CURRENT ENVIRONMENTS PATH
+ *  THE CURRENT ENVIRONMENTS PATH
  *
- *    The environment path is a colon-separated list of directories which
- *    are searched for tcc environments.
+ *  The environment path is a colon-separated list of directories which
+ *  are searched for tcc environments.
  */
 
 static char *envpath = ".";
 
 
 /*
- *    UPDATE THE ENVIRONMENTS PATH
+ *  UPDATE THE ENVIRONMENTS PATH
  *
- *    This routine initialises and updates the environments path.  This is
- *    given by the contents of the system variable TCCENV, plus the default
- *    directory (environ_dir), plus the current directory.
+ *  This routine initialises and updates the environments path.  This is
+ *  given by the contents of the system variable TCCENV, plus the default
+ *  directory (environ_dir), plus the current directory.
  */
 
 void
 find_envpath()
 {
-    char *p = buffer;
-    char *tcc_env = getenv (TCCENV_VAR);
-    if (tcc_env) {
+	char *p = buffer;
+	char *tcc_env = getenv (TCCENV_VAR);
+	if (tcc_env) {
 		IGNORE sprintf (p, "%s:", tcc_env);
 		p += strlen (p);
-    }
-    IGNORE sprintf (p, "%s:.", environ_dir);
-    if (!streq (buffer, envpath)) envpath = string_copy (buffer);
-    return;
+	}
+	IGNORE sprintf (p, "%s:.", environ_dir);
+	if (!streq (buffer, envpath))
+		envpath = string_copy (buffer);
+	return;
 }
 
 
 /*
- *    PRINT THE ENVIRONMENTS PATH
+ *  PRINT THE ENVIRONMENTS PATH
  *
- *    This routine prints the environment path.
+ *  This routine prints the environment path.
  */
 
 void
 show_envpath()
 {
-    find_envpath ();
-    error (INFO, "Environment path is '%s'", envpath);
-    return;
+	find_envpath ();
+	error (INFO, "Environment path is '%s'", envpath);
+	return;
 }
 
 
 /*
- *    CHARACTER TYPES
+ *  CHARACTER TYPES
  *
- *    These macros identify various character types.
+ *  These macros identify various character types.
  */
 
 #define is_alphanum(X)	(((X) >= 'A' && (X) <= 'Z') ||\
@@ -128,95 +133,163 @@ show_envpath()
 
 
 /*
- *    READ AN ENVIRONMENT - AUXILIARY ROUTINE
+ *  READ AN ENVIRONMENT - AUXILIARY ROUTINE
  *
- *    This routine reads the environment named nm, returning zero if it
- *    is successful.  A return value of 1 indicates that the environment
- *    could not be found, otherwise 2 is returned.
+ *  This routine reads the environment named nm, returning zero if it
+ *  is successful.  A return value of 1 indicates that the environment
+ *  could not be found, otherwise 2 is returned.
  */
 
 int
 read_env_aux(char *nm)
 {
-    /* Find the environment */
-    FILE *f;
-    char *p, *q;
-    if (*nm == 0) {
+	/* Find the environment */
+	FILE *f;
+	char *p, *q, *s;
+	char *tmp;
+	int  count;
+	int  line_num;
+	
+	if (*nm == 0) {
 		return (1);
-    } else if (*nm == '/') {
+	} else if (*nm == '/') {
 		f = fopen (nm, "r");
-    } else {
+	} else {
 		p = envpath;
 		do {
 			q = buffer;
-			while (*p && *p != ':') *(q++) = *(p++);
+			while (*p && *p != ':') {
+				*(q++) = *(p++);
+			}
 			*(q++) = '/';
 			IGNORE strcpy (q, nm);
 			f = fopen (buffer, "r");
 		} while (f == null && *(p++));
-    }
-    if (f == null) return (1);
+	}
+	if (f == null)
+		return (1);
 	
-    /* Read the environment one line at a time */
-    while (fgets (buffer, buffer_size, f) != null) {
+	line_num = 0;
+	/* Read the environment one line at a time */
+	while (fgets (buffer, buffer_size, f) != null) {
 		char c = *buffer;
+		line_num++;
 		if (c == '<' || c == '>' || c == '+' || c == '?') {
 			/* Only process lines beginning with these characters */
 			char *sp;
 			list dummy;
-			char line [1000];
+			char line [MAX_LINE];
+			char sbuff [MAX_LINE];
+			
 			line [0] = c;
+			count = 1;
 			p = buffer + 1;
 			q = line + 1;
-			while (c = *(p++), is_alphanum (c)) *(q++) = c;
+			while (c = *(p++), is_alphanum (c)) {
+				if (++count >= MAX_LINE)
+					error (FATAL,
+						   "Exceeded maximum buffer space of %d in %s,"
+						   " line %d\n", MAX_LINE, nm, line_num);
+				*(q++) = c;
+			}	
 			sp = q;
 			*(q++) = 0;
+			count++;
 			if (!is_whitespace (c)) {
-				error (WARNING, "Illegal environmental variable, '%s'",
-					   line);
+				error (WARNING,
+					   "Illegal environmental variable, '%s' in %s, line %d",
+					   line, nm, line_num);
+			}	  
+			while (c = *(p++), is_whitespace (c)) {
+				if (++count >= MAX_LINE)
+					error (FATAL,
+						   "Exceeded maximum buffer space of %d in %s,"
+						   " line %d\n", MAX_LINE, nm, line_num);			   
 			}
-			while (c = *(p++), is_whitespace (c)) /* empty */;
 			if (!is_quote (c)) {
-				error (WARNING, "Illegal environmental value for '%s'",
-					   line);
+				error (WARNING,
+					   "Illegal environmental value for '%s' in %s, line %d",
+					   line, nm, line_num);
 			}
 			while (c = *(p++), !is_quote (c)) {
-				if (c == '\\') c = *(p++);
+				if (++count >= MAX_LINE)
+					error (FATAL,
+						   "Exceeded maximum buffer space of %d in %s,"
+						   " line %d\n", MAX_LINE, nm, line_num);
+				if (c == '\\')
+					c = *(p++);
 				if (c == 0 || is_newline (c)) {
-					error (WARNING, "Illegal environmental value for '%s'",
-						   line);
+					error (WARNING,
+						   "Illegal environmental value for '%s' in %s,"
+						   " line %d",
+						   line, nm, line_num);
 					break;
 				}
-				*(q++) = c;
+				switch (c) {
+				case '<':
+					s = sbuff;
+					while ((c = *(p++)) != '>') {
+						if (++count >= MAX_LINE) {
+							error (FATAL,
+								   "Unmatched '<' in env file %s, line %d\n",
+								   nm, line_num);
+						}
+						*(s++) = c;
+					}
+					*s++ = '\0';
+					tmp = find_path_subst(sbuff);
+					if (tmp == NULL){
+						error (FATAL,
+							   "[tccenv (cite)]: undefined env variable "
+							   "<%s> in %s, line %d.\n"
+							   "Check your environment or "
+							   "edit your env files.\n",
+							   sbuff, nm, line_num);
+					}
+					while ((c = *tmp++) != NULL && count < MAX_LINE) {
+						count++;
+						*q++ = c;
+					}
+					continue;
+				default:
+					*(q++) = c;
+					count++;
+				}
 			}
-			while (c = *(p++), is_whitespace (c)) /* empty */;
+			while (c = *(p++), is_whitespace (c)) {
+				if (++count >= MAX_LINE)
+					error (FATAL, "Exceeded maximum line length of %d chars"
+						   " in %s, line %d", MAX_LINE, nm, line_num);
+			}
 			if (!is_newline (c)) {
-				error (WARNING, "Illegal environmental value for '%s'",
-					   line);
+				error (WARNING, "Illegal environmental value for '%s' in"
+					   " %s, line %d\n", line, nm, line_num);
 			}
 			*sp = ' ';
 			*q = 0;
 			dummy.item = string_copy (line);
 			dummy.next = null;
-			process_options (&dummy, environ_optmap);
+			process_options (&dummy, environ_optmap, 1);
 		}
-    }
-    IGNORE fclose (f);
-    return (0);
+	}
+	IGNORE fclose (f);
+	return (0);
 }
 
 
 /*
- *    READ AN ENVIRONMENT
+ *  READ AN ENVIRONMENT
  *
- *    This routine reads the environment named nm, reporting an error if
- *    it is unsuccessful.
+ *  This routine reads the environment named nm, reporting an error if
+ *  it is unsuccessful.
  */
 
 void
 read_env(char *nm)
 {
-    int e = read_env_aux (nm);
-    if (e == 1) error (WARNING, "Can't find environment, '%s'", nm);
-    return;
+	int e;
+	e = read_env_aux(nm);
+	if (e == 1)
+		error (WARNING, "Can't find environment, '%s'", nm);
+	return;
 }

@@ -61,6 +61,7 @@
 #else
 #include <varargs.h>
 #endif
+
 #include "list.h"
 #include "flags.h"
 #include "main.h"
@@ -209,6 +210,54 @@ xrealloc(pointer p, int sz)
     q = (pointer) realloc (p, (size_t) sz);
     if (q == null) error (FATAL, "Memory reallocation error");
     return (q);
+}
+
+/*
+ *  Takes in a substitution variable as an argument, and returns its
+ *  corresponding value.  This routine is used by the env substitution
+ *  function (see format_path) to map variables to paths.
+ *
+ *  For example, input is "<TCCDIR_BASE>", and return value
+ *  is "/usr/local/share/".  Variable lookup is prioritized:
+ *
+ *     a)  command line args have highest priority,
+ *     b)  environment variables are used next,
+ *     c)  for a select group of variables, sane defaults are
+ *          used.
+ */
+char*
+find_path_subst (char *var)
+{
+	char *ret;
+	char **subs;
+	int i = 0;
+	subs = PATH_SUBS;
+
+	i = 0;
+	subs = PATH_SUBS;
+	while (*subs){
+		if (!strcmp (var, *subs)) {
+			if (env_paths[i] == NULL){
+				error (FATAL, "The env variable <%s> is null.\n"
+					   "Check your environment or edit your env files.\n",
+					   PATH_SUBS[i]);
+			}
+ 			return env_paths[i];
+		}
+		i++;
+		subs++;
+	}
+	if (!*subs)
+		error
+			(WARNING,
+			 "Expected command line option -y%s=[value]; trying environment\n",
+			 var);
+	ret = getenv (var);
+
+	/* Perhaps this should not be fatal? */
+	if (!ret)
+		error (FATAL, "Unknown environment variable ", var);
+	return ret;
 }
 
 

@@ -87,7 +87,9 @@ char *name_p_file = TOKDEF_NAME;
 char *temporary_dir = "/tmp";
 char *tokdef_output = null;
 char *version_flag = "";
+char *dev_null = null;
 
+char **env_paths = NULL;
 
 /*
  *    INTERNAL OPTIONS
@@ -111,6 +113,8 @@ boolean time_commands = 0;
 boolean verbose = 0;
 boolean warnings = 1;
 
+ /* Should the cmd line args should be rank sorted, or taken as is? */
+boolean no_shuffle = 0;
 
 /*
  *    COMPILATION CONTROL OPTIONS
@@ -495,6 +499,8 @@ initialise_options()
 {
     /* Initialise executables */
     list *p;
+    int sz;
+    int i;
     exec_produce = make_list ("builtin/undef C_producer");
     exec_preproc = make_list ("builtin/undef C_preprocessor");
     exec_cpp_produce = make_list ("builtin/undef C++_producer");
@@ -528,6 +534,15 @@ initialise_options()
 		add_to_endup (p->item);
     }
     if (checker) allow_specs = 1;
+	
+    /* allocate space for cmd line env args */
+    sz = (sizeof(PATH_SUBS));
+    env_paths = (char**) xalloc (sz);
+
+	/* Here, we should set these to sane defaults.  For now, just NULL */
+    for (i=0; i < sz; i++) {
+		env_paths[i] = NULL;
+	}
     return;
 }
 

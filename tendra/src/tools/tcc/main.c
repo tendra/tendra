@@ -160,12 +160,14 @@ main_start(char *prog, char **envp)
     environment = envp;
     buffer = alloc_nof (char, buffer_size);
     progname = find_basename (prog);
+	/*
     IGNORE signal (SIGINT, handler);
     IGNORE signal (SIGSEGV, handler);
     IGNORE signal (SIGTERM, handler);
 #ifdef SIGFPE
     IGNORE signal (SIGFPE, handler);
 #endif
+	*/
     initialise_options ();
     return;
 }
@@ -241,7 +243,7 @@ main(int argc, char **argv)
     s = getenv (TCCOPT_VAR);
     if (s != null) {
     	opts = make_list (s);
-        process_options (opts, main_optmap);
+        process_options (opts, main_optmap, 0);
         free_list (opts);
         opts = null;
     }
@@ -250,7 +252,7 @@ main(int argc, char **argv)
     for (a = argc - 1 ; a >= 1 ; a--) {
 		opts = insert_item (argv [a], opts);
     }
-    process_options (opts, main_optmap);
+    process_options (opts, main_optmap, 0);
     update_options ();
     free_list (opts);
 	

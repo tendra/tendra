@@ -58,7 +58,7 @@
 #ifndef OPTIONS_INCLUDED
 #define OPTIONS_INCLUDED
 
-
+#include "list.h"
 /*
  *    TYPE REPRESENTING AN OPTION
  *
@@ -70,6 +70,7 @@ typedef struct {
     char *in;
     char *out;
     char *explain;
+	int  rank;
 } optmap;
 
 
@@ -84,7 +85,7 @@ typedef struct {
 
 typedef struct {
     int argc;
-    char *argv [ max_var ];
+    char *argv[max_var];
 } args_out;
 
 
@@ -106,8 +107,7 @@ extern optmap environ_optmap [];
  *    and input files.
  */
 
-extern void process_options(list *, optmap *) ;
-
+extern void process_options(list *, optmap *, int);
 
 /*
  *    THE LIST OF ALL INPUT FILES

@@ -56,7 +56,7 @@
 
 
 #ifndef RELEASE
-#define RELEASE		"TenDRA-4.1.2"
+#define RELEASE		"TenDRA-5.0.0"
 #endif
 
 char tendra_release [] = RELEASE;

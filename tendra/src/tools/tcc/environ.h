@@ -71,4 +71,9 @@ extern void find_envpath(void) ;
 extern void show_envpath(void) ;
 
 
+/*
+ *  Use variable substitution for each env line read in
+ */
+#define ENVIRONSUB
+
 #endif

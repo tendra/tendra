@@ -82,7 +82,8 @@ extern pointer xalloc(int) ;
 extern pointer xrealloc(pointer, int) ;
 extern char *string_copy(char *) ;
 extern char *string_concat(char *, char *) ;
-
+extern char* find_path_subst(char*);
+/*extern char* format_path(char *); */
 
 /*
  *    ERROR VARIABLES
@@ -92,6 +93,26 @@ extern char *string_concat(char *, char *) ;
 
 extern int exit_status;
 extern char *progname;
+
+/*
+ *  Substitution variables.  This is table 5.
+ *
+ */
+static char *PATH_SUBS[] = {
+	"TENDRA_MACHDIR",
+	"TENDRA_BINDIR",
+	"TENDRA_ENVDIR",
+	"TENDRA_LIBDIR",
+	"TENDRA_INCLDIR",
+	"TENDRA_STARTUPDIR",
+	"TENDRA_TMPDIR",
+	"TENDRA_BASEDIR",
+	NULL
+};
+
+
+
+
 
 
 /*

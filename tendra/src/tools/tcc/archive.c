@@ -768,7 +768,7 @@ split_archive(char *arch, filename **ret)
 		}
 		*ret = output;
 		if (opts) {
-			process_options (opts, main_optmap);
+			process_options (opts, main_optmap, 0);
 			opt_archive = add_list (opt_archive, opts);
 		}
 		if (emsg) return (1);

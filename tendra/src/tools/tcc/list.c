@@ -136,7 +136,7 @@ list
  */
 
 list
-*add_item(list *p, char *s)
+*add_item(list *p, void *s)
 {
     list *q, *r;
     q = new_list ();
@@ -157,12 +157,49 @@ list
  */
 
 list
-*insert_item(char *s, list *p)
+*insert_item(void *s, list *p)
 {
     list *q = new_list ();
     q->item = s;
     q->next = p;
     return (q);
+}
+
+/*
+ *  Insert a command item in ascending order, based on their rank.
+ *  Items with a lower rank value are executed first.
+ *
+ */
+
+list*
+insert_inorder(ordered_node* indata, list *inlst)
+{
+	list *head = inlst;
+	list *curr = inlst;
+	list *newlst  = new_list();
+	list *prev = newlst;
+	list *tmp = inlst;
+	
+	newlst->item = indata;
+	newlst->next = NULL;
+
+	if (inlst == NULL){
+		return newlst;
+	}
+
+	if (indata->rank < ((ordered_node*)curr->item)->rank){
+		newlst->next = inlst;
+		return newlst;
+	}
+
+	while (curr != NULL &&
+		   ((ordered_node*)curr->item)->rank <= indata->rank) {
+		prev = curr;
+		curr = curr->next;
+	}
+	prev->next = newlst;
+	newlst->next = curr;
+	return head;
 }
 
 
@@ -174,7 +211,7 @@ list
  */
 
 list
-*make_list(char *s)
+*make_list(void *s)
 {
     list *r = null;
     char *p = string_copy (s);
