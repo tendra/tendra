@@ -303,8 +303,7 @@ set_proc_token(LIST (IDENTIFIER) p)
  */
 
 TOKEN
-cont_proc_token(TOKEN prev, LIST (IDENTIFIER) p,
-				LIST (IDENTIFIER) q)
+cont_proc_token(TOKEN prev, LIST (IDENTIFIER) p, LIST (IDENTIFIER) q)
 {
     if (!IS_NULL_tok (prev)) {
 		unsigned n;
@@ -428,8 +427,7 @@ tok_member(IDENTIFIER id, TYPE t, int force)
  */
 
 IDENTIFIER
-prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt,
-			   LIST (IDENTIFIER) p)
+prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt, LIST (IDENTIFIER) p)
 {
     /* Look up member identifier */
     IDENTIFIER tid = id;
@@ -1017,8 +1015,7 @@ expand_templ_type(TYPE t, int rec)
  */
 
 LIST (TYPE)
-expand_exceptions(LIST (TYPE) p, int rec,
-				  int *changed)
+expand_exceptions(LIST (TYPE) p, int rec, int *changed)
 {
     LIST (TYPE) q = NULL_list (TYPE);
     if (EQ_list (p, univ_type_set)) {
@@ -1651,8 +1648,7 @@ expand_type(TYPE t, int rec)
  */
 
 EXP
-apply_exp_token(IDENTIFIER id, LIST (TOKEN) args,
-				int rec)
+apply_exp_token(IDENTIFIER id, LIST (TOKEN) args, int rec)
 {
     EXP e;
     int is_proc = 0;
@@ -1809,8 +1805,7 @@ key_type_token(int lex, LIST (TOKEN) args)
  */
 
 TYPE
-apply_type_token(IDENTIFIER id, LIST (TOKEN) args,
-				 IDENTIFIER tid)
+apply_type_token(IDENTIFIER id, LIST (TOKEN) args, IDENTIFIER tid)
 {
     TYPE t;
     int pt = in_proc_token;
@@ -2096,8 +2091,7 @@ eq_tok(TOKEN a, TOKEN b)
  */
 
 static IDENTIFIER
-declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns,
-			  IDENTIFIER ext)
+declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns, IDENTIFIER ext)
 {
     HASHID nm = DEREF_hashid (id_name (id));
     MEMBER mem = search_member (ns, nm, 1);
@@ -2151,8 +2145,7 @@ declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns,
  */
 
 IDENTIFIER
-make_token_decl(TOKEN tok, int tag, IDENTIFIER id,
-				IDENTIFIER ext)
+make_token_decl(TOKEN tok, int tag, IDENTIFIER id, IDENTIFIER ext)
 {
     int tq;
     HASHID nm;

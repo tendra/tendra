@@ -243,8 +243,8 @@ check_usage(IDENTIFIER id, EXP blk, int anon)
  */
 
 static void
-check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns,
-				  EXP blk, int anon, int chk)
+check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns, EXP blk, int anon,
+				  int chk)
 {
     DECL_SPEC ds = DEREF_dspec (id_storage (id));
     if (!(ds & dspec_done)) {
@@ -382,8 +382,7 @@ define_tentative(IDENTIFIER id, int anon)
  */
 
 unsigned long
-check_identifier(IDENTIFIER id, NAMESPACE ns,
-				 EXP blk, int anon, int chk)
+check_identifier(IDENTIFIER id, NAMESPACE ns, EXP blk, int anon, int chk)
 {
     unsigned long n = 1;
     if (spec_unit) spec_unit = save_id (spec_unit, id, ns);
@@ -588,8 +587,7 @@ check_identifier(IDENTIFIER id, NAMESPACE ns,
  */
 
 unsigned long
-check_namespace(NAMESPACE ns, EXP blk, int anon,
-				int chk)
+check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
 {
     unsigned long n = 0;
     if (!IS_NULL_nspace (ns)) {
@@ -922,8 +920,7 @@ static LIST (IDENTIFIER) crt_flow_assign = NULL_list (IDENTIFIER);
  */
 
 static void
-start_variable(IDENTIFIER id, DECL_SPEC ds,
-			   VAR_INFO use)
+start_variable(IDENTIFIER id, DECL_SPEC ds, VAR_INFO use)
 {
     VARIABLE var;
     use |= (va_variable | va_done | va_used_this);
@@ -1311,8 +1308,7 @@ mark_vars(VAR_LIST va, VAR_INFO use)
  */
 
 static VAR_INFO
-flow_goto_stmt(IDENTIFIER lab, VAR_INFO use,
-			   int cond)
+flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 {
     if (!(use & va_unreached)) {
 		VAR_INFO ds = DEREF_dspec (id_storage (lab));
@@ -1341,8 +1337,7 @@ flow_goto_stmt(IDENTIFIER lab, VAR_INFO use,
  */
 
 static VAR_INFO
-flow_label_stmt(IDENTIFIER lab, VAR_INFO use,
-				int flow)
+flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
 {
     EXP e = DEREF_exp (id_label_stmt (lab));
     VAR_INFO ds = DEREF_dspec (id_storage (lab));
@@ -1428,8 +1423,7 @@ flow_terminate(VAR_INFO use, int ret)
  */
 
 static VAR_INFO
-flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use,
-			int flow)
+flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use, int flow)
 {
     VAR_LIST va;
     VAR_INFO ua, ub;
@@ -1626,8 +1620,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
  */
 
 static VAR_INFO
-flow_exp_list(LIST (EXP) p, VAR_INFO use,
-			  int fn)
+flow_exp_list(LIST (EXP) p, VAR_INFO use, int fn)
 {
     while (!IS_NULL_list (p)) {
 		EXP a = DEREF_exp (HEAD_list (p));
@@ -2302,8 +2295,7 @@ flow_do_stmt(EXP e, VAR_INFO use, int flow)
  */
 
 static VAR_INFO
-flow_solve_stmt(EXP e, LIST (IDENTIFIER) p,
-				VAR_INFO use, int flow)
+flow_solve_stmt(EXP e, LIST (IDENTIFIER) p, VAR_INFO use, int flow)
 {
     if (!IS_NULL_list (p)) {
 		/* Scan through variables */

@@ -629,8 +629,7 @@ add_token_literal(IDENTIFIER id, unsigned sev)
  */
 
 TYPE
-find_literal_type(NAT lit, int base, int suff,
-				  string num, int *fit)
+find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 {
     TYPE t;
     int tok;
@@ -1201,8 +1200,7 @@ round_float_lit(FLOAT f, RMODE mode)
  */
 
 unsigned long
-eval_unicode(int c, unsigned n, int *pc, string *ps,
-			 ERROR *err)
+eval_unicode(int c, unsigned n, int *pc, string *ps, ERROR *err)
 {
     string r = *ps;
     unsigned long u;
@@ -1258,8 +1256,7 @@ get_multi_char(string s, int *pc)
  */
 
 void
-add_multi_char(string s, unsigned long n,
-			   int ch)
+add_multi_char(string s, unsigned long n, int ch)
 {
     int i;
     s [0] = (character) ch;
@@ -1280,8 +1277,7 @@ add_multi_char(string s, unsigned long n,
  */
 
 static void
-make_multi_string(string s, string t, unsigned long n,
-				  unsigned k)
+make_multi_string(string s, string t, unsigned long n, unsigned k)
 {
     if (k & STRING_MULTI) {
 		n *= MULTI_WIDTH;

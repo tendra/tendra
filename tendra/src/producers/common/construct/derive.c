@@ -192,8 +192,7 @@ is_subgraph(GRAPH gr, GRAPH gs)
  */
 
 static GRAPH
-copy_graph(GRAPH gr, OFFSET off, DECL_SPEC acc,
-		   int virt, int indir, int templ)
+copy_graph(GRAPH gr, OFFSET off, DECL_SPEC acc, int virt, int indir, int templ)
 {
     OFFSET offa;
     DECL_SPEC as;
@@ -526,8 +525,7 @@ end_base_class(CLASS_TYPE ct, int ok)
  */
 
 void
-add_base_class(IDENTIFIER bid, DECL_SPEC acc,
-			   int virt)
+add_base_class(IDENTIFIER bid, DECL_SPEC acc, int virt)
 {
     GRAPH gt;
     int ok = 1;
@@ -686,8 +684,7 @@ add_base_class(IDENTIFIER bid, DECL_SPEC acc,
  */
 
 GRAPH
-find_base_class(CLASS_TYPE ct, CLASS_TYPE cs,
-				int def)
+find_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 {
     unsigned nt, ns;
     complete_class (ct, 1);
@@ -714,8 +711,7 @@ find_base_class(CLASS_TYPE ct, CLASS_TYPE cs,
  */
 
 CLASS_TYPE
-compare_base_class(CLASS_TYPE ct, CLASS_TYPE cs,
-				   int def)
+compare_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 {
     unsigned nt, ns;
     complete_class (ct, 1);
@@ -854,8 +850,7 @@ min_base_class(GRAPH gr)
  */
 
 GRAPH
-direct_base_class(CLASS_TYPE ct, CLASS_TYPE cs,
-				  ERROR *err)
+direct_base_class(CLASS_TYPE ct, CLASS_TYPE cs, ERROR *err)
 {
     GRAPH gt = NULL_graph;
     GRAPH gr = DEREF_graph (ctype_base (ct));
@@ -963,8 +958,7 @@ expand_graph(GRAPH gr, int rec)
  */
 
 static IDENTIFIER
-inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off,
-		   IDENTIFIER id, int prev)
+inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off, IDENTIFIER id, int prev)
 {
     HASHID nm;
     DECL_SPEC ds;
@@ -1090,8 +1084,8 @@ typedef struct {
  */
 
 static IDENTIFIER
-resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems,
-			   TYPE form, int dominate)
+resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems, TYPE form,
+			   int dominate)
 {
     IDENTIFIER id = NULL_id;
     LIST (IDENTIFIER) ambig = NULL_list (IDENTIFIER);
@@ -1199,8 +1193,8 @@ resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems,
  */
 
 static void
-search_base(GRAPH gr, HASHID nm, MEMBER_LOOKUP *mems,
-			CLASS_TYPE cs, int type, int depth)
+search_base(GRAPH gr, HASHID nm, MEMBER_LOOKUP *mems, CLASS_TYPE cs, int type,
+			int depth)
 {
     LIST (GRAPH) br;
     LIST (GRAPH) gres = NULL_list (GRAPH);
@@ -1262,8 +1256,7 @@ search_base(GRAPH gr, HASHID nm, MEMBER_LOOKUP *mems,
  */
 
 IDENTIFIER
-search_base_field(NAMESPACE ns, HASHID nm,
-				  int type, int dominate)
+search_base_field(NAMESPACE ns, HASHID nm, int type, int dominate)
 {
     GRAPH gr;
     IDENTIFIER id;
@@ -1293,8 +1286,7 @@ search_base_field(NAMESPACE ns, HASHID nm,
  */
 
 IDENTIFIER
-search_field(NAMESPACE ns, HASHID nm, int create,
-			 int type)
+search_field(NAMESPACE ns, HASHID nm, int create, int type)
 {
     /* Search main class */
     IDENTIFIER id;

@@ -386,8 +386,7 @@ link_no(BITSTREAM *bs, ulong n, int v)
  */
 
 ulong
-unit_no(BITSTREAM *bs, IDENTIFIER id, int v,
-		int def)
+unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 {
     ulong n;
     if (IS_NULL_id (id)) {

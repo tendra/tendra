@@ -267,8 +267,7 @@ make_postfix_exp(int op, EXP a)
  */
 
 static EXP
-make_preinc_exp(TYPE t, EXP a, EXP b, OFFSET off,
-				int op)
+make_preinc_exp(TYPE t, EXP a, EXP b, OFFSET off, int op)
 {
     EXP e;
 #if LANGUAGE_C

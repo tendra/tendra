@@ -1460,8 +1460,7 @@ dump_override(IDENTIFIER id, IDENTIFIER fid)
  */
 
 void
-dump_alias(IDENTIFIER id, IDENTIFIER cid,
-		   LOCATION *loc)
+dump_alias(IDENTIFIER id, IDENTIFIER cid, LOCATION *loc)
 {
     ulong n = DEREF_ulong (id_dump (cid));
     COPY_ulong (id_dump (id), n);
@@ -1508,8 +1507,7 @@ static char *err_output = NULL;
  */
 
 int
-dump_error(ERROR e, LOCATION *loc, int sev,
-		   int cnt)
+dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 {
     if (IS_err_simple (e)) {
 		/* Simple error message */
@@ -1782,8 +1780,7 @@ dump_destr(IDENTIFIER id, LOCATION *loc)
  */
 
 void
-dump_declare(IDENTIFIER id, LOCATION *loc,
-			 int def)
+dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 {
     FILE *f = dump_file;
     CONST char *key = dump_key (id, def);
@@ -1929,8 +1926,7 @@ dump_declare(IDENTIFIER id, LOCATION *loc,
  */
 
 void
-dump_undefine(IDENTIFIER id, LOCATION *loc,
-			  int def)
+dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 {
     FILE *f = dump_file;
     CONST char *key = dump_key (id, def);
@@ -2120,8 +2116,7 @@ dump_promote(INT_TYPE it, INT_TYPE ip)
  */
 
 void
-dump_begin_scope(IDENTIFIER id, NAMESPACE ns,
-				 NAMESPACE pns, LOCATION *loc)
+dump_begin_scope(IDENTIFIER id, NAMESPACE ns, NAMESPACE pns, LOCATION *loc)
 {
     FILE *f = dump_file;
     if (!IS_NULL_nspace (ns) && f) {
@@ -2166,8 +2161,7 @@ dump_begin_scope(IDENTIFIER id, NAMESPACE ns,
  */
 
 void
-dump_end_scope(IDENTIFIER id, NAMESPACE ns,
-			   LOCATION *loc)
+dump_end_scope(IDENTIFIER id, NAMESPACE ns, LOCATION *loc)
 {
     FILE *f = dump_file;
     if (!IS_NULL_nspace (ns) && f) {
@@ -2267,8 +2261,7 @@ dump_end(LOCATION *loc)
  */
 
 void
-dump_include(LOCATION *loc, string nm, int st,
-			 int q)
+dump_include(LOCATION *loc, string nm, int st, int q)
 {
     FILE *f = dump_file;
     if (f) {

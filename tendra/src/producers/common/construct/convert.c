@@ -491,8 +491,7 @@ check_qualifier(TYPE t, TYPE s, int safe)
  */
 
 TYPE
-ptr_common_type(TYPE t, TYPE s, int base,
-				int *suspect)
+ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 {
     CV_SPEC qt, qs;
     TYPE r = NULL_type;
@@ -769,8 +768,7 @@ convert_arith(TYPE t, EXP e, int op, int n)
  */
 
 EXP
-convert_ptr_common(TYPE t, EXP e, int op,
-				   int n)
+convert_ptr_common(TYPE t, EXP e, int op, int n)
 {
     TYPE s = DEREF_type (exp_type (e));
     if (!EQ_type (t, s)) {
@@ -795,8 +793,7 @@ convert_ptr_common(TYPE t, EXP e, int op,
  */
 
 EXP
-convert_ptr_mem_common(TYPE t, EXP e, int op,
-					   int n)
+convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 {
     TYPE s = DEREF_type (exp_type (e));
     if (!EQ_type (t, s)) {
@@ -1430,8 +1427,7 @@ convert_none(EXP a)
  */
 
 static unsigned
-overload_convert_seq(TYPE t, IDENTIFIER id,
-					 CONVERSION *p)
+overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 {
     /* Check arguments */
     TYPE fn;
@@ -1485,8 +1481,7 @@ overload_convert_seq(TYPE t, IDENTIFIER id,
  */
 
 static unsigned
-ref_convert_seq(CONVERSION *p, EXP e, int bind,
-				int std)
+ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 {
     unsigned conv;
     TYPE t = DEREF_type (type_ref_sub (p->to));
@@ -1589,8 +1584,7 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind,
  */
 
 unsigned
-std_convert_seq(CONVERSION *p, EXP e, int bind,
-				int ref)
+std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 {
     CV_SPEC qs;
     int str = 0;
@@ -1942,8 +1936,7 @@ std_convert_seq(CONVERSION *p, EXP e, int bind,
  */
 
 unsigned
-convert_seq(CONVERSION *p, EXP e, int bind,
-			int ref)
+convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 {
     int match = 0;
     unsigned conv;

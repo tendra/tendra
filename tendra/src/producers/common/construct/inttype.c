@@ -1037,8 +1037,7 @@ find_itype_sign(BASE_TYPE bt)
  */
 
 static unsigned
-find_itype_size(INT_TYPE it, unsigned *mbits,
-				BASE_TYPE *sign)
+find_itype_size(INT_TYPE it, unsigned *mbits, BASE_TYPE *sign)
 {
     unsigned sz;
     it = expand_itype (it);
@@ -1164,8 +1163,7 @@ find_type_size(TYPE t, unsigned *mbits, BASE_TYPE *sign)
  */
 
 static INT_TYPE
-make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns,
-		   BUILTIN_TYPE nt)
+make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns, BUILTIN_TYPE nt)
 {
     INT_TYPE it;
     int c = builtin_cast (nu, ns);

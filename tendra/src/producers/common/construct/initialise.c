@@ -361,8 +361,7 @@ static DECL_SPEC temp_storage = dspec_auto;
  */
 
 EXP
-make_temporary(TYPE t, EXP e, EXP d, int ref,
-			   ERROR *err)
+make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 {
     LOCATION loc;
     DECL_SPEC ds;
@@ -840,8 +839,7 @@ is_null_exp(EXP e)
  */
 
 EXP
-init_empty(TYPE t, CV_SPEC cv, int force,
-		   ERROR *err)
+init_empty(TYPE t, CV_SPEC cv, int force, ERROR *err)
 {
     EXP e = NULL_exp;
     switch (TAG_type (t)) {
@@ -955,8 +953,7 @@ is_char_array(TYPE t)
  */
 
 static EXP
-pad_array(EXP e, NAT m, TYPE t, NAT n, int pad,
-		  ERROR *err)
+pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 {
     EXP a;
     int eq;
@@ -1035,8 +1032,7 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad,
  */
 
 EXP
-init_array(TYPE t, CV_SPEC cv, EXP e, int arr,
-		   ERROR *err)
+init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 {
     TYPE r = DEREF_type (exp_type (e));
     NAT n = DEREF_nat (type_array_size (t));
@@ -1437,8 +1433,8 @@ get_aggr_elem(LIST (EXP) p, unsigned *ptag)
  */
 
 static EXP
-init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r,
-			  int start, IDENTIFIER id, ERROR *err)
+init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
+			  ERROR *err)
 {
     EXP e;
     LIST (EXP) p = *r;
@@ -1873,8 +1869,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r,
  */
 
 EXP
-init_aggregate(TYPE t, EXP e, IDENTIFIER id,
-			   ERROR *err)
+init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 {
     LOCATION loc;
     LIST (EXP) args = DEREF_list (exp_aggregate_args (e));
@@ -1901,8 +1896,7 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id,
  */
 
 EXP
-init_general(TYPE t, EXP e, IDENTIFIER id,
-			 int tentative)
+init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 {
     /* Check the initialiser */
     ERROR err = NULL_err;

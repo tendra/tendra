@@ -457,8 +457,7 @@ find_destr_id(IDENTIFIER cid)
 #if LANGUAGE_CPP
 
 static void
-check_destr_id(IDENTIFIER cid, HASHID nm,
-			   int d)
+check_destr_id(IDENTIFIER cid, HASHID nm, int d)
 {
     if (d <= 2) {
 		HASHID cnm = DEREF_hashid (id_name (cid));

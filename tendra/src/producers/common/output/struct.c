@@ -231,8 +231,7 @@ static BITSTREAM
  */
 
 static BITSTREAM
-*enc_rtti_bases(BITSTREAM *bs, LIST (GRAPH) br,
-				LIST (TYPE) pt, NAT sz)
+*enc_rtti_bases(BITSTREAM *bs, LIST (GRAPH) br, LIST (TYPE) pt, NAT sz)
 {
     TYPE t;
     ulong n, m;
@@ -944,8 +943,7 @@ BITSTREAM
  */
 
 static void
-enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct,
-				GRAPH gr, int inherited,
+enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 				ulong rtti)
 {
     ulong r;

@@ -219,8 +219,7 @@ eq_offset(OFFSET a, OFFSET b, int co)
  */
 
 static int
-eq_exp_list(LIST (EXP) p, LIST (EXP) q,
-			int co)
+eq_exp_list(LIST (EXP) p, LIST (EXP) q, int co)
 {
     unsigned np = LENGTH_list (p);
     unsigned nq = LENGTH_list (q);
@@ -873,8 +872,7 @@ eq_token(TOKEN a, TOKEN b)
  */
 
 int
-eq_token_args(IDENTIFIER ia, IDENTIFIER ib,
-			  LIST (TOKEN) pa, LIST (TOKEN) pb)
+eq_token_args(IDENTIFIER ia, IDENTIFIER ib, LIST (TOKEN) pa, LIST (TOKEN) pb)
 {
     if (!EQ_id (ia, ib)) {
 		/* Check that tokens are the same */
@@ -909,8 +907,7 @@ eq_token_args(IDENTIFIER ia, IDENTIFIER ib,
  */
 
 static int
-is_const_token(IDENTIFIER id, LIST (TOKEN) args,
-			   int c)
+is_const_token(IDENTIFIER id, LIST (TOKEN) args, int c)
 {
     TOKEN tok = DEREF_tok (id_token_sort (id));
     if (IS_tok_proc (tok)) {

@@ -217,8 +217,7 @@ from_type_set(LIST (TYPE) p, TYPE t)
  */
 
 int
-eq_type_set(LIST (TYPE) p, LIST (TYPE) q,
-			int eq)
+eq_type_set(LIST (TYPE) p, LIST (TYPE) q, int eq)
 {
     unsigned n, m;
     LIST (TYPE) r;
@@ -922,8 +921,7 @@ end_try_blocks(IDENTIFIER id)
  */
 
 IDENTIFIER
-make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				 int n)
+make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int n)
 {
     /* Declare id as a local variable */
     EXP e;

@@ -302,8 +302,7 @@ inherit_base_tables(LIST (GRAPH) br)
  */
 
 static VIRTUAL
-make_virt_table(CLASS_TYPE ct, CLASS_INFO cj,
-				int bases)
+make_virt_table(CLASS_TYPE ct, CLASS_INFO cj, int bases)
 {
     VIRTUAL vt = NULL_virt;
     VIRTUAL vs = NULL_virt;
@@ -522,8 +521,7 @@ virtual_return (TYPE s, TYPE t, GRAPH *pgr)
  */
 
 LIST (VIRTUAL)
-overrides_virtual(CLASS_TYPE ct, HASHID nm,
-				  TYPE t, IDENTIFIER *pid)
+overrides_virtual(CLASS_TYPE ct, HASHID nm, TYPE t, IDENTIFIER *pid)
 {
     LIST (VIRTUAL) res = NULL_list (VIRTUAL);
     VIRTUAL vt = DEREF_virt (ctype_virt (ct));
@@ -574,8 +572,7 @@ overrides_virtual(CLASS_TYPE ct, HASHID nm,
  */
 
 VIRTUAL
-find_overrider(CLASS_TYPE ct, IDENTIFIER id,
-			   GRAPH gr, GRAPH *pgr)
+find_overrider(CLASS_TYPE ct, IDENTIFIER id, GRAPH gr, GRAPH *pgr)
 {
     HASHID nm = DEREF_hashid (id_name (id));
     unsigned nt = TAG_hashid (nm);
@@ -664,8 +661,7 @@ virtual_start(GRAPH gr)
  */
 
 static VIRTUAL
-override_virtual(IDENTIFIER id, VIRTUAL vq,
-				 GRAPH gs)
+override_virtual(IDENTIFIER id, VIRTUAL vq, GRAPH gs)
 {
     GRAPH gt;
     VIRTUAL vp;
@@ -730,8 +726,7 @@ override_virtual(IDENTIFIER id, VIRTUAL vq,
  */
 
 void
-add_virtual(CLASS_TYPE ct, IDENTIFIER id,
-			LIST (VIRTUAL) r)
+add_virtual(CLASS_TYPE ct, IDENTIFIER id, LIST (VIRTUAL) r)
 {
     VIRTUAL vf;
     unsigned long n;

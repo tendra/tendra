@@ -658,8 +658,7 @@ add_constr_args(EXP e, CLASS_TYPE ct, int v)
  */
 
 static EXP
-call_constr(IDENTIFIER id, EXP *pb, int n,
-			int v, CLASS_TYPE ct)
+call_constr(IDENTIFIER id, EXP *pb, int n, int v, CLASS_TYPE ct)
 {
     /* Create argument list */
     TYPE t;
@@ -719,8 +718,7 @@ call_constr(IDENTIFIER id, EXP *pb, int n,
  */
 
 EXP
-init_default(TYPE t, EXP *pa, int n, int v,
-			 ERROR *err)
+init_default(TYPE t, EXP *pa, int n, int v, ERROR *err)
 {
     CV_SPEC cv;
     EXP e = NULL_exp;
@@ -785,8 +783,7 @@ init_default(TYPE t, EXP *pa, int n, int v,
  */
 
 static void
-constr_error(ERROR err, IDENTIFIER id, IDENTIFIER fn,
-			 int n)
+constr_error(ERROR err, IDENTIFIER id, IDENTIFIER fn, int n)
 {
     ERROR err1;
     ERROR err2 = ERR_dcl_init_decl (id, NULL_string);
@@ -813,8 +810,7 @@ constr_error(ERROR err, IDENTIFIER id, IDENTIFIER fn,
  */
 
 static EXP
-init_empty_base(GRAPH gr, IDENTIFIER fn, int n,
-				int m)
+init_empty_base(GRAPH gr, IDENTIFIER fn, int n, int m)
 {
     EXP e = NULL_exp;
     ERROR err = NULL_err;
@@ -851,8 +847,7 @@ init_empty_base(GRAPH gr, IDENTIFIER fn, int n,
  */
 
 static EXP
-init_empty_mem(IDENTIFIER id, IDENTIFIER fn,
-			   int n, int m)
+init_empty_mem(IDENTIFIER id, IDENTIFIER fn, int n, int m)
 {
     EXP e = NULL_exp;
     ERROR err = NULL_err;
@@ -1020,8 +1015,7 @@ destr_init(TYPE t, EXP e)
  */
 
 static EXP
-make_constr(NAMESPACE cns, IDENTIFIER fn,
-			int n, int m)
+make_constr(NAMESPACE cns, IDENTIFIER fn, int n, int m)
 {
     EXP r;
     int usr = 0;
@@ -1526,8 +1520,7 @@ compare_base(GRAPH gr, GRAPH gs)
  */
 
 static int
-compare_mem(NAMESPACE ns, IDENTIFIER mid,
-			IDENTIFIER pid)
+compare_mem(NAMESPACE ns, IDENTIFIER mid, IDENTIFIER pid)
 {
     MEMBER mem;
     if (EQ_id (mid, pid)) return (0);
@@ -1689,8 +1682,7 @@ ctor_field(NAMESPACE cns, IDENTIFIER id, GRAPH *pgr)
  */
 
 void
-ctor_initialise(NAMESPACE cns, IDENTIFIER id,
-				EXP init)
+ctor_initialise(NAMESPACE cns, IDENTIFIER id, EXP init)
 {
     TYPE t;
     int n = 0;
@@ -1789,8 +1781,7 @@ ctor_initialise(NAMESPACE cns, IDENTIFIER id,
  */
 
 IDENTIFIER
-make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1,
-				  IDENTIFIER id2, BASE_TYPE b2)
+make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1, IDENTIFIER id2, BASE_TYPE b2)
 {
     HASHID nm;
     int create = 0;
@@ -1888,8 +1879,7 @@ make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1,
  */
 
 static LIST (TYPE)
-add_constr_except(LIST (TYPE) p, CLASS_TYPE ct,
-				  int n)
+add_constr_except(LIST (TYPE) p, CLASS_TYPE ct, int n)
 {
     IDENTIFIER id = find_constr (ct, n, KILL_err);
     if (!IS_NULL_id (id) && IS_id_mem_func (id)) {
@@ -1974,8 +1964,7 @@ constr_except(CLASS_TYPE ct, int n)
  */
 
 CLASS_INFO
-implicit_decl(CLASS_TYPE ct, CLASS_INFO ci,
-			  DECL_SPEC cds)
+implicit_decl(CLASS_TYPE ct, CLASS_INFO ci, DECL_SPEC cds)
 {
     TYPE t;
     HASHID nm;
@@ -2331,8 +2320,7 @@ remove_explicit(CANDIDATE_LIST *p, unsigned m)
  */
 
 static IDENTIFIER
-constr_candidates(CANDIDATE_LIST *p, TYPE t,
-				  unsigned cast)
+constr_candidates(CANDIDATE_LIST *p, TYPE t, unsigned cast)
 {
     /* Search for constructor candidates */
     IDENTIFIER cid;
@@ -2365,8 +2353,7 @@ constr_candidates(CANDIDATE_LIST *p, TYPE t,
  */
 
 IDENTIFIER
-conv_candidates(CANDIDATE_LIST *p, TYPE t,
-				TYPE s, unsigned cast)
+conv_candidates(CANDIDATE_LIST *p, TYPE t, TYPE s, unsigned cast)
 {
     /* Add constructors */
     IDENTIFIER cid = NULL_id;
@@ -2426,8 +2413,7 @@ conv_candidates(CANDIDATE_LIST *p, TYPE t,
  */
 
 static void
-gen_candidates(CANDIDATE_LIST *p, TYPE t,
-			   unsigned kind)
+gen_candidates(CANDIDATE_LIST *p, TYPE t, unsigned kind)
 {
     if (IS_type_compound (t)) {
 		LIST (IDENTIFIER) conv;
@@ -2596,8 +2582,7 @@ apply_constr(IDENTIFIER id, LIST (EXP) args)
  */
 
 EXP
-convert_constr(TYPE t, LIST (EXP) args,
-			   ERROR *err, unsigned cast)
+convert_constr(TYPE t, LIST (EXP) args, ERROR *err, unsigned cast)
 {
     EXP e;
     IDENTIFIER cid;
@@ -2715,8 +2700,7 @@ convert_constr(TYPE t, LIST (EXP) args,
  */
 
 EXP
-convert_conv_aux(TYPE t, EXP a, ERROR *err,
-				 unsigned cast)
+convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     IDENTIFIER cid;
     CANDIDATE_LIST *p;

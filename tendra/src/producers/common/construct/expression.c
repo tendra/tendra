@@ -1794,8 +1794,7 @@ make_equality_exp(int op, EXP a, EXP b)
  */
 
 static EXP
-make_bit_exp(int op, unsigned tag, EXP a,
-			 EXP b)
+make_bit_exp(int op, unsigned tag, EXP a, EXP b)
 {
     EXP e;
     TYPE ta, tb;
@@ -1928,8 +1927,7 @@ make_or_exp(EXP a, EXP b)
  */
 
 static EXP
-make_logic_exp(int op, unsigned tag, EXP a,
-			   EXP b)
+make_logic_exp(int op, unsigned tag, EXP a, EXP b)
 {
     EXP e;
     TYPE ta, tb;

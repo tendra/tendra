@@ -533,8 +533,7 @@ isoC90_to_ansiC89(BUFFER *bf, CONST char *s)
  */
 
 static void
-print_error_start(FILE *f, LOCATION *loc,
-				  int sev)
+print_error_start(FILE *f, LOCATION *loc, int sev)
 {
     CONST char *msg = error_header (sev);
     if (loc) {
@@ -1370,8 +1369,7 @@ commentary(IDENTIFIER id)
 #ifdef ASSERTS
 
 void
-assertion(CONST char *s, CONST char *file,
-		  int line)
+assertion(CONST char *s, CONST char *file, int line)
 {
     FILE *f = error_file;
     PRINT_HEADER (HEADER_ASSERT, &crt_loc, f);

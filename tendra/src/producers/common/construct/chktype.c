@@ -1075,8 +1075,7 @@ eq_type_offset(TYPE s, TYPE t)
 #if LANGUAGE_C
 
 static TYPE
-func_composite(TYPE s, TYPE t, int eq, ERROR *err,
-			   int mk)
+func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 {
     TYPE rs, rt;
     CV_SPEC qs, qt;
@@ -1291,8 +1290,7 @@ func_composite(TYPE s, TYPE t, int eq, ERROR *err,
  */
 
 TYPE
-type_composite(TYPE s, TYPE t, int qual, int depth,
-			   ERROR *err, int mk)
+type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 {
     TYPE r = s;
     int eq = 1;
@@ -1559,8 +1557,7 @@ type_composite(TYPE s, TYPE t, int qual, int depth,
  */
 
 TYPE
-check_compatible(TYPE s, TYPE t, int qual,
-				 ERROR *err, int mk)
+check_compatible(TYPE s, TYPE t, int qual, ERROR *err, int mk)
 {
     TYPE r;
     force_tokdef++;

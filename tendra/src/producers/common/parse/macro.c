@@ -684,8 +684,7 @@ static PPTOKEN *expand_toks(PPTOKEN *, TOKEN_LOC *, int);
  */
 
 PPTOKEN*
-recognise_strings(PPTOKEN *defn, HASHID macro,
-				   int act)
+recognise_strings(PPTOKEN *defn, HASHID macro, int act)
 {
     PPTOKEN *this_tok = defn;
     PPTOKEN *last_tok = defn;
@@ -867,8 +866,7 @@ process_concat(PPTOKEN *defn, HASHID macro)
  */
 
 PPTOKEN*
-expand_macro(HASHID macro, TOKEN_LOC *locs,
-			  int complete)
+expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 {
     LOCATION loc;
     int state = 0;
@@ -1265,8 +1263,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs,
  */
 
 static PPTOKEN*
-expand_toks(PPTOKEN *toks, TOKEN_LOC *locs,
-			 int complete)
+expand_toks(PPTOKEN *toks, TOKEN_LOC *locs, int complete)
 {
     PPTOKEN *ptr_tok;
     unsigned long sp = 0;

@@ -873,8 +873,7 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
  */
 
 static TYPE
-load_ctype(BITSTREAM *bs, IDENTIFIER def,
-		   CLASS_TYPE *pct)
+load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 {
     TYPE t = NULL_type;
     if (!IS_NULL_id (def)) {
@@ -953,8 +952,7 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def,
  */
 
 static TYPE
-load_etype(BITSTREAM *bs, IDENTIFIER def,
-		   ENUM_TYPE *pet)
+load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 {
     TYPE t = NULL_type;
     if (!IS_NULL_id (def)) {
@@ -1008,8 +1006,7 @@ load_etype(BITSTREAM *bs, IDENTIFIER def,
  */
 
 static LIST (IDENTIFIER)
-load_param_list(BITSTREAM *bs, NAMESPACE ns,
-				unsigned tag)
+load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 {
     LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
     while (DE_BOOL (bs)) {

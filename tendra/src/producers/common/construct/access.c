@@ -130,8 +130,7 @@ join_access(DECL_SPEC a, DECL_SPEC b)
  */
 
 void
-adjust_access(IDENTIFIER id, DECL_SPEC acc,
-			  int expl)
+adjust_access(IDENTIFIER id, DECL_SPEC acc, int expl)
 {
     DECL_SPEC ds = DEREF_dspec (id_storage (id));
     DECL_SPEC pacc = (ds & dspec_access);
@@ -196,8 +195,7 @@ access_decl(IDENTIFIER id)
  */
 
 void
-friend_function(CLASS_TYPE cs, IDENTIFIER id,
-				int expl)
+friend_function(CLASS_TYPE cs, IDENTIFIER id, int expl)
 {
     if (!IS_NULL_ctype (cs)) {
 		IDENTIFIER cid;
@@ -244,8 +242,7 @@ friend_function(CLASS_TYPE cs, IDENTIFIER id,
  */
 
 void
-friend_class(CLASS_TYPE cs, IDENTIFIER cid,
-			 int expl)
+friend_class(CLASS_TYPE cs, IDENTIFIER cid, int expl)
 {
     if (!IS_NULL_ctype (cs)) {
 		ERROR err;
@@ -325,8 +322,7 @@ ACCESS_LIST crt_access_list = {
  */
 
 static DECL_SPEC
-find_access(IDENTIFIER *pid, NAMESPACE ns,
-			DECL_SPEC acc, int base)
+find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 {
     NAMESPACE cns;
     CLASS_TYPE ct;
@@ -461,8 +457,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns,
  */
 
 static int
-compare_access(DECL_SPEC ok, DECL_SPEC ds,
-			   unsigned tag, int mem)
+compare_access(DECL_SPEC ok, DECL_SPEC ds, unsigned tag, int mem)
 {
     int ret = 0;
     DECL_SPEC acc = (ds & dspec_access);
@@ -500,8 +495,7 @@ compare_access(DECL_SPEC ok, DECL_SPEC ds,
  */
 
 static int
-inherit_access(IDENTIFIER id, IDENTIFIER pid,
-			   int mem)
+inherit_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 {
     /* Find inheritance base class */
     unsigned tag = TAG_id (pid);
@@ -549,8 +543,7 @@ inherit_access(IDENTIFIER id, IDENTIFIER pid,
  */
 
 static int
-do_member_access(IDENTIFIER id, IDENTIFIER pid,
-				 int mem)
+do_member_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 {
     int ret = 0;
     NAMESPACE pns = DEREF_nspace (id_parent (pid));
@@ -621,8 +614,7 @@ do_base_access(IDENTIFIER id, GRAPH gr)
  */
 
 static int
-clear_id_access(IDENTIFIER id, LIST (IDENTIFIER) p,
-				LIST (int) r)
+clear_id_access(IDENTIFIER id, LIST (IDENTIFIER) p, LIST (int) r)
 {
     int ret = 0;
     if (!IS_NULL_list (p)) {

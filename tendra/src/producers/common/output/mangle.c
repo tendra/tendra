@@ -252,8 +252,7 @@ static BUFFER name_buff = NULL_buff;
  */
 
 static void
-mangle_number(BUFFER *bf, unsigned long n,
-			  int e)
+mangle_number(BUFFER *bf, unsigned long n, int e)
 {
     if (n < 10) {
 		int d = '0' + (int) n;
@@ -339,8 +338,7 @@ mangle_nspace(BUFFER *bf, NAMESPACE ns, int d)
  */
 
 static void
-mangle_exp_op(BUFFER *bf, int op, EXP a, EXP b,
-			  int n, int rec)
+mangle_exp_op(BUFFER *bf, int op, EXP a, EXP b, int n, int rec)
 {
     string s = mangle_op (op);
     bfputc (bf, MANGLE_op);
@@ -1178,8 +1176,7 @@ mangle_token_args(BUFFER *bf, LIST (TOKEN) args)
  */
 
 static void
-mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args,
-			 int d, int force)
+mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args, int d, int force)
 {
     IDENTIFIER alt;
     DECL_SPEC ds = DEREF_dspec (id_storage (id));

@@ -562,8 +562,7 @@ unmangle_nat(string *ps)
  */
 
 static IDENTIFIER
-unmangle_nspace(string *ps, NAMESPACE ns,
-				int var)
+unmangle_nspace(string *ps, NAMESPACE ns, int var)
 {
     string s = *ps;
     character c = *s;
@@ -893,8 +892,7 @@ unmangle_func(string *ps, CV_SPEC cv, int ret)
  */
 
 static TYPE
-unmangle_type(string *ps, CV_SPEC cv, BASE_TYPE bt,
-			  int ret)
+unmangle_type(string *ps, CV_SPEC cv, BASE_TYPE bt, int ret)
 {
     TYPE t;
     string s = *ps;

@@ -470,8 +470,7 @@ update_namespace()
  */
 
 NAMESPACE
-make_namespace(IDENTIFIER id, unsigned tag,
-			   int sz)
+make_namespace(IDENTIFIER id, unsigned tag, int sz)
 {
     NAMESPACE ns;
     NAMESPACE pns;
@@ -513,8 +512,7 @@ make_namespace(IDENTIFIER id, unsigned tag,
  */
 
 int
-use_namespace(NAMESPACE ns, NAMESPACE cns,
-			  NAMESPACE nt)
+use_namespace(NAMESPACE ns, NAMESPACE cns, NAMESPACE nt)
 {
     if (!EQ_nspace (cns, ns)) {
 		LIST (NAMESPACE) p = DEREF_list (nspace_use (cns));
@@ -1082,8 +1080,7 @@ remove_nested_nspace(NAMESPACE ns)
  */
 
 void
-begin_declarator(IDENTIFIER id, QUALIFIER idtype,
-				 NAMESPACE qns, int scan)
+begin_declarator(IDENTIFIER id, QUALIFIER idtype, NAMESPACE qns, int scan)
 {
     NAMESPACE ns = NULL_nspace;
     if (idtype != qual_none) {
@@ -1466,8 +1463,7 @@ type_member(MEMBER mem, int type)
  */
 
 static int
-already_found_id(IDENTIFIER id, IDENTIFIER pid,
-				 LIST (IDENTIFIER) pids)
+already_found_id(IDENTIFIER id, IDENTIFIER pid, LIST (IDENTIFIER) pids)
 {
     if (IS_id_function_etc (id)) {
 		/* Exclude functions */
@@ -1504,8 +1500,7 @@ already_found_id(IDENTIFIER id, IDENTIFIER pid,
  */
 
 IDENTIFIER
-search_id(NAMESPACE ns, HASHID nm, int create,
-		  int type)
+search_id(NAMESPACE ns, HASHID nm, int create, int type)
 {
     IDENTIFIER id;
     MEMBER mem = search_member (ns, nm, create);
@@ -1535,8 +1530,8 @@ search_id(NAMESPACE ns, HASHID nm, int create,
  */
 
 static IDENTIFIER
-search_nspace(NAMESPACE ns, HASHID nm, NAMESPACE rns,
-			  int qual, int create, int type)
+search_nspace(NAMESPACE ns, HASHID nm, NAMESPACE rns, int qual, int create,
+			  int type)
 {
     IDENTIFIER id;
     LIST (NAMESPACE) uns;
@@ -1677,8 +1672,7 @@ find_id(HASHID nm)
  */
 
 IDENTIFIER
-find_qual_id(NAMESPACE ns, HASHID nm, int create,
-			 int type)
+find_qual_id(NAMESPACE ns, HASHID nm, int create, int type)
 {
     IDENTIFIER id;
     if (IS_NULL_nspace (ns)) {

@@ -148,8 +148,7 @@ CV_SPEC cv_extern = cv_none;
  */
 
 DECL_SPEC
-complete_dspec(DECL_SPEC ds, BASE_TYPE bt,
-			   TYPE t, CV_SPEC cv)
+complete_dspec(DECL_SPEC ds, BASE_TYPE bt, TYPE t, CV_SPEC cv)
 {
     DECL_SPEC key = (ds & dspec_nonempty);
 #if LANGUAGE_C
@@ -185,8 +184,7 @@ complete_dspec(DECL_SPEC ds, BASE_TYPE bt,
  */
 
 static DECL_SPEC
-check_inferred_type(DECL_SPEC ds, TYPE *p,
-					int mem)
+check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 {
     int infer;
     TYPE t = *p;
@@ -231,8 +229,7 @@ check_inferred_type(DECL_SPEC ds, TYPE *p,
  */
 
 static DECL_SPEC
-check_func_type(DECL_SPEC ds, TYPE t, int def,
-				int chk, int mem)
+check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 {
     int empty = 0;
     ERROR err = NULL_err;
@@ -513,8 +510,7 @@ check_func_spec(DECL_SPEC ds, int loc)
  */
 
 static IDENTIFIER
-make_type_decl(NAMESPACE ns, DECL_SPEC ds,
-			   TYPE t, MEMBER mem, IDENTIFIER id)
+make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 {
     int reported = 0;
     IDENTIFIER old_id;
@@ -666,8 +662,7 @@ typedef_special(IDENTIFIER id, TYPE t)
  */
 
 static DECL_SPEC
-find_storage(IDENTIFIER id, DECL_SPEC st,
-			 TYPE t)
+find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 {
     if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
@@ -716,8 +711,7 @@ find_storage(IDENTIFIER id, DECL_SPEC st,
  */
 
 void
-check_decl_nspace(IDENTIFIER id, NAMESPACE ns,
-				  int def, NAMESPACE cns)
+check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 {
     int func = 0;
     int local_def = really_in_function_defn;
@@ -787,8 +781,7 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns,
  */
 
 void
-check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-			   int tentative)
+check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 {
     unsigned tag = TAG_type (t);
     if (tag == type_top_tag || tag == type_bottom_tag) {
@@ -837,8 +830,7 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
  */
 
 IDENTIFIER
-make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				 int def)
+make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
     ERROR err;
     MEMBER mem;
@@ -1053,8 +1045,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
  */
 
 IDENTIFIER
-make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-			   int def)
+make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
     ERROR err;
     MEMBER mem;
@@ -1373,8 +1364,7 @@ check_par_decl(TYPE t, IDENTIFIER id, int loc)
  */
 
 IDENTIFIER
-make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				int loc)
+make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 {
     ERROR err;
     DECL_SPEC st, rs;
@@ -1563,8 +1553,7 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
  */
 
 IDENTIFIER
-make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				 int sm)
+make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 {
     ERROR err;
     HASHID nm;
@@ -1778,8 +1767,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
  */
 
 void
-special_func_mem(CLASS_TYPE ct, IDENTIFIER id,
-				 unsigned tag, IDENTIFIER prev)
+special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 {
     switch (tag) {
 	case hashid_constr_tag : {
@@ -1835,8 +1823,7 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id,
 #if LANGUAGE_CPP
 
 IDENTIFIER
-make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				   int def)
+make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
     ERROR err;
     MEMBER mem;
@@ -2122,8 +2109,7 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
 #if LANGUAGE_CPP
 
 IDENTIFIER
-make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-				 int def, int chum)
+make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 {
     ERROR err;
     MEMBER mem;
@@ -2720,8 +2706,8 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
  */
 
 IDENTIFIER
-empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt,
-		   TYPE t, CV_SPEC cv, int tok, int mem)
+empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
+		   int mem)
 {
     /* Check for empty declarations */
     IDENTIFIER id;

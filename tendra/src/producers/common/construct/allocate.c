@@ -200,8 +200,7 @@ set_bad_alloc(TYPE t)
  */
 
 TYPE
-check_allocator(TYPE t, IDENTIFIER id, int mem,
-				int templ)
+check_allocator(TYPE t, IDENTIFIER id, int mem, int templ)
 {
     if (IS_type_templ (t)) {
 		/* Allow for template types */
@@ -365,8 +364,7 @@ recheck_allocator(IDENTIFIER id, int alloc)
  */
 
 static IDENTIFIER
-resolve_delete(IDENTIFIER id, IDENTIFIER pid,
-			   int mem)
+resolve_delete(IDENTIFIER id, IDENTIFIER pid, int mem)
 {
     int eq = 0;
     IDENTIFIER rid;
@@ -566,8 +564,7 @@ make_templ_delete(int op, int b, EXP a)
  */
 
 static EXP
-placement_delete(int op, int b, EXP a, IDENTIFIER pid,
-				 LIST (EXP) place)
+placement_delete(int op, int b, EXP a, IDENTIFIER pid, LIST (EXP) place)
 {
     int i;
     EXP e, c;
@@ -822,8 +819,7 @@ make_new_array_dim(EXP e)
  */
 
 static EXP
-make_templ_new(TYPE t, EXP d, TYPE p, int b,
-			   LIST (EXP) place, EXP init)
+make_templ_new(TYPE t, EXP d, TYPE p, int b, LIST (EXP) place, EXP init)
 {
     EXP e;
     int op = (b ? lex_new_Hfull : lex_new);
@@ -846,8 +842,7 @@ make_templ_new(TYPE t, EXP d, TYPE p, int b,
  */
 
 EXP
-make_new_exp(TYPE t, int n, int b, LIST (EXP) place,
-			 EXP init)
+make_new_exp(TYPE t, int n, int b, LIST (EXP) place, EXP init)
 {
     EXP e;
     EXP sz;

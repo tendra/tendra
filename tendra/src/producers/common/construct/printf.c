@@ -105,8 +105,7 @@
  */
 
 static unsigned long
-read_width(STRING str, unsigned long c, int *pc,
-		   unsigned *pn)
+read_width(STRING str, unsigned long c, int *pc, unsigned *pn)
 {
     unsigned n = 0;
     unsigned m = 0;
@@ -172,8 +171,7 @@ read_arg_no(STRING str, unsigned margs)
  */
 
 static BUILTIN_TYPE
-check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m,
-			 unsigned flags)
+check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 {
     switch (m) {
 	case ntype_sshort : {
@@ -246,8 +244,7 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m,
  */
 
 static LIST (TYPE)
-set_printf_arg(LIST (TYPE) p, unsigned n,
-			   TYPE t, int *state)
+set_printf_arg(LIST (TYPE) p, unsigned n, TYPE t, int *state)
 {
     if (n == 0) {
 		/* Simple case */
@@ -322,8 +319,7 @@ static TYPE type_wint_t = NULL_type;
  */
 
 static LIST (TYPE)
-add_printf_arg(STRING str, LIST (TYPE) p,
-			   unsigned margs, int *state)
+add_printf_arg(STRING str, LIST (TYPE) p, unsigned margs, int *state)
 {
     unsigned flag;
     character s [8];
@@ -523,8 +519,7 @@ add_printf_arg(STRING str, LIST (TYPE) p,
  */
 
 static LIST (TYPE)
-add_scanf_arg(STRING str, LIST (TYPE) p,
-			  unsigned margs, int *state)
+add_scanf_arg(STRING str, LIST (TYPE) p, unsigned margs, int *state)
 {
     character s [8];
     string r = s;
@@ -671,8 +666,7 @@ add_scanf_arg(STRING str, LIST (TYPE) p,
  */
 
 LIST (TYPE)
-find_printf_args(STRING str, unsigned margs,
-				 int pf)
+find_printf_args(STRING str, unsigned margs, int pf)
 {
     int state = 0;
     unsigned long c;

@@ -323,8 +323,7 @@ find_previous(TYPE t, IDENTIFIER id)
  */
 
 IDENTIFIER
-unify_extern(IDENTIFIER id, TYPE t, NAMESPACE ns,
-			 LIST (IDENTIFIER) p)
+unify_extern(IDENTIFIER id, TYPE t, NAMESPACE ns, LIST (IDENTIFIER) p)
 {
     IDENTIFIER pid = NULL_id;
     HASHID nm = DEREF_hashid (id_name (id));
@@ -407,8 +406,7 @@ unify_extern(IDENTIFIER id, TYPE t, NAMESPACE ns,
  */
 
 IDENTIFIER
-unify_previous(IDENTIFIER id, TYPE t, IDENTIFIER pid,
-			   int def)
+unify_previous(IDENTIFIER id, TYPE t, IDENTIFIER pid, int def)
 {
     /* Unify external linkage */
     if (IS_NULL_id (pid)) {
@@ -570,8 +568,7 @@ overload_error(IDENTIFIER id, ERROR err, int reason)
  */
 
 IDENTIFIER
-redecl_id(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-		  int reason, int def)
+redecl_id(DECL_SPEC ds, TYPE t, IDENTIFIER id, int reason, int def)
 {
     TYPE s;
     DECL_SPEC ln;
@@ -793,8 +790,7 @@ redecl_id(DECL_SPEC ds, TYPE t, IDENTIFIER id,
  */
 
 IDENTIFIER
-redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id,
-			unsigned tag, IDENTIFIER *over,
+redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag, IDENTIFIER *over,
 			int def)
 {
     int reason = 0;
@@ -920,8 +916,7 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id,
  */
 
 IDENTIFIER
-redecl_inherit(IDENTIFIER id, QUALIFIER qual,
-			   int mem, int fn)
+redecl_inherit(IDENTIFIER id, QUALIFIER qual, int mem, int fn)
 {
     if (!IS_NULL_id (id)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -1157,8 +1152,7 @@ copy_id(IDENTIFIER id, int type)
  */
 
 IDENTIFIER
-alias_id(IDENTIFIER id, NAMESPACE ns, IDENTIFIER fn,
-		 int rec)
+alias_id(IDENTIFIER id, NAMESPACE ns, IDENTIFIER fn, int rec)
 {
     IDENTIFIER cid = copy_id (id, 1);
     if (!EQ_id (cid, id)) {
@@ -1235,8 +1229,7 @@ remove_functions(IDENTIFIER id)
  */
 
 static int
-compare_functions(IDENTIFIER id, IDENTIFIER over,
-				  int mem)
+compare_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 {
     TYPE t = DEREF_type (id_function_etc_type (id));
     TYPE s = DEREF_type (id_function_etc_type (over));
@@ -1323,8 +1316,7 @@ mark_functions(IDENTIFIER id, int mem)
  */
 
 IDENTIFIER
-hide_functions(IDENTIFIER id, IDENTIFIER over,
-			   int mem)
+hide_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 {
     if (!IS_NULL_id (over)) {
 		int marked = 0;
@@ -1770,8 +1762,7 @@ is_anon_member(IDENTIFIER id)
  */
 
 static IDENTIFIER
-redecl_anon_member(IDENTIFIER id, CLASS_TYPE ct,
-				   DECL_SPEC ds, IDENTIFIER obj)
+redecl_anon_member(IDENTIFIER id, CLASS_TYPE ct, DECL_SPEC ds, IDENTIFIER obj)
 {
     IDENTIFIER pid = NULL_id;
     HASHID nm = DEREF_hashid (id_name (id));
@@ -1847,8 +1838,7 @@ redecl_anon_member(IDENTIFIER id, CLASS_TYPE ct,
  */
 
 int
-redecl_anon_union(CLASS_TYPE ct, DECL_SPEC ds,
-				  IDENTIFIER obj)
+redecl_anon_union(CLASS_TYPE ct, DECL_SPEC ds, IDENTIFIER obj)
 {
     int ok = 0;
     MEMBER mem;

@@ -443,8 +443,7 @@ check_id_name(IDENTIFIER id, int loc)
  */
 
 IDENTIFIER
-declare_func(DECL_SPEC ds, IDENTIFIER id,
-			 TYPE ret, TYPE *p, int ell,
+declare_func(DECL_SPEC ds, IDENTIFIER id, TYPE ret, TYPE *p, int ell,
 			 LIST (TYPE) ex)
 {
     /* Save certain information */
@@ -674,8 +673,7 @@ static LIST (IDENTIFIER) ambig_meanings = NULL_list (IDENTIFIER);
  */
 
 static unsigned
-list_ambiguous(IDENTIFIER id, unsigned n,
-			   ERROR *err, int type, int rec)
+list_ambiguous(IDENTIFIER id, unsigned n, ERROR *err, int type, int rec)
 {
     if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
@@ -739,8 +737,7 @@ list_ambiguous(IDENTIFIER id, unsigned n,
  */
 
 IDENTIFIER
-report_ambiguous(IDENTIFIER id, int type,
-				 int rec, int force)
+report_ambiguous(IDENTIFIER id, int type, int rec, int force)
 {
     ERROR err, err2;
     LIST (IDENTIFIER) p;

@@ -929,8 +929,7 @@ set_incl_depth(unsigned long n)
  */
 
 int
-already_included(string nm, STAT_TYPE *fs,
-				 int st)
+already_included(string nm, STAT_TYPE *fs, int st)
 {
     INCL_FILE *p = included_files;
     while (p != NULL) {

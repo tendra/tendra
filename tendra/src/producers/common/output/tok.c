@@ -582,8 +582,7 @@ check_sort(TOKEN tok, CONST char *s, int prog)
  */
 
 IDENTIFIER
-resolve_token(IDENTIFIER id, CONST char *s,
-			  int prog)
+resolve_token(IDENTIFIER id, CONST char *s, int prog)
 {
     int ok = 0;
     IDENTIFIER rid = NULL_id;

@@ -1261,8 +1261,7 @@ static int use_type_name = 1;
  */
 
 TYPE
-complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv,
-				  int infer)
+complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 {
     /* Deal with named types */
     if (!IS_NULL_type (t)) {
@@ -1334,8 +1333,7 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv,
  */
 
 TYPE
-empty_complete_pre_type(BASE_TYPE bt, TYPE t,
-						CV_SPEC cv, int infer)
+empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 {
     /* Check for elaborated type declarations */
     if (!IS_NULL_type (t) && IS_type_pre (t)) {
@@ -1425,8 +1423,7 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
  */
 
 TYPE
-check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt,
-					NAT n, int zero)
+check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 {
     INT_TYPE bf;
     TYPE p = NULL_type;
@@ -1530,8 +1527,7 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt,
  */
 
 TYPE
-make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e,
-				   int zero)
+make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e, int zero)
 {
     ERROR err = NULL_err;
     NAT n = make_nat_exp (e, &err);

@@ -2251,8 +2251,7 @@ begin_switch_stmt(EXP cont)
  */
 
 IDENTIFIER
-find_case(LIST (NAT) p, LIST (IDENTIFIER) q,
-		  NAT n)
+find_case(LIST (NAT) p, LIST (IDENTIFIER) q, NAT n)
 {
     while (!IS_NULL_list (p)) {
 		NAT m = DEREF_nat (HEAD_list (p));

@@ -184,8 +184,7 @@ op_token(EXP e, int lex)
  */
 
 EXP
-apply_unary(int op, EXP a, TYPE t1, TYPE t2,
-			int cpy)
+apply_unary(int op, EXP a, TYPE t1, TYPE t2, int cpy)
 {
     EXP e;
     if (cpy) {
@@ -396,8 +395,7 @@ apply_unary(int op, EXP a, TYPE t1, TYPE t2,
  */
 
 EXP
-apply_binary(int op, EXP a, EXP b, TYPE t1,
-			 TYPE t2, int cpy)
+apply_binary(int op, EXP a, EXP b, TYPE t1, TYPE t2, int cpy)
 {
     EXP e;
     if (cpy) {
@@ -552,8 +550,7 @@ apply_binary(int op, EXP a, EXP b, TYPE t1,
  */
 
 EXP
-apply_nary(int op, LIST (EXP) p, TYPE t1,
-		   TYPE t2, int cpy)
+apply_nary(int op, LIST (EXP) p, TYPE t1, TYPE t2, int cpy)
 {
     EXP e;
     suppress_quality++;
@@ -779,8 +776,7 @@ int overload_warn = 1;
  */
 
 TYPE
-check_operator(TYPE t, IDENTIFIER id, int mem,
-			   int *alloc)
+check_operator(TYPE t, IDENTIFIER id, int mem, int *alloc)
 {
     int op;
     int ell;
@@ -1017,8 +1013,7 @@ unary_builtin(HASHID nm, TYPE a, TYPE r)
  */
 
 static IDENTIFIER
-binary_builtin(HASHID nm, TYPE a, TYPE b,
-			   TYPE r)
+binary_builtin(HASHID nm, TYPE a, TYPE b, TYPE r)
 {
     LIST (TYPE) p;
     IDENTIFIER id = binary_free;
@@ -1052,8 +1047,7 @@ binary_builtin(HASHID nm, TYPE a, TYPE b,
  */
 
 static IDENTIFIER
-nary_builtin(HASHID nm, TYPE a, LIST (TYPE) p,
-			 TYPE r)
+nary_builtin(HASHID nm, TYPE a, LIST (TYPE) p, TYPE r)
 {
     IDENTIFIER id = nary_free;
     if (IS_NULL_id (id)) {
@@ -1088,8 +1082,7 @@ nary_builtin(HASHID nm, TYPE a, LIST (TYPE) p,
  */
 
 static HASHID
-overload_candidates(CANDIDATE_LIST *p, int op,
-					TYPE t, TYPE s)
+overload_candidates(CANDIDATE_LIST *p, int op, TYPE t, TYPE s)
 {
     /* Look up 'operator op' (non-standard) */
     HASHID nm = lookup_op (op);
@@ -1508,8 +1501,7 @@ filter_ptr(LIST (TYPE) pa, int fn)
  */
 
 static TYPE
-find_builtin_ret(TYPE ta, TYPE tb, int rtype,
-				 TYPE tc)
+find_builtin_ret(TYPE ta, TYPE tb, int rtype, TYPE tc)
 {
     switch (rtype) {
 	case RTYPE_ARG_1 : {
@@ -1558,8 +1550,7 @@ find_builtin_ret(TYPE ta, TYPE tb, int rtype,
  */
 
 static int
-check_builtin_args(TYPE ta, TYPE tb, int otype,
-				   TYPE *pt)
+check_builtin_args(TYPE ta, TYPE tb, int otype, TYPE *pt)
 {
     int ok = 1;
     switch (otype) {
@@ -1653,8 +1644,7 @@ check_builtin_args(TYPE ta, TYPE tb, int otype,
  */
 
 static void
-add_unary_builtin(CANDIDATE_LIST *p, HASHID nm,
-				  LIST (TYPE) pa, int rtype)
+add_unary_builtin(CANDIDATE_LIST *p, HASHID nm, LIST (TYPE) pa, int rtype)
 {
     while (!IS_NULL_list (pa)) {
 		TYPE ta = DEREF_type (HEAD_list (pa));
@@ -1681,8 +1671,7 @@ add_unary_builtin(CANDIDATE_LIST *p, HASHID nm,
  */
 
 static void
-add_binary_builtin(CANDIDATE_LIST *p, HASHID nm,
-				   LIST (TYPE) pa, LIST (TYPE) pb,
+add_binary_builtin(CANDIDATE_LIST *p, HASHID nm, LIST (TYPE) pa, LIST (TYPE) pb,
 				   int rtype, int otype)
 {
     while (!IS_NULL_list (pa)) {

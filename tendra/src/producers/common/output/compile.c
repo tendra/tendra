@@ -719,8 +719,7 @@ enc_tagdec_end(BITSTREAM *bs)
  */
 
 void
-enc_tagdec(IDENTIFIER id, ulong n, TYPE t,
-		   int var)
+enc_tagdec(IDENTIFIER id, ulong n, TYPE t, int var)
 {
     unsigned u = find_usage (n, VAR_tag);
     if (!(u & USAGE_DECL)) {
@@ -792,8 +791,7 @@ enc_tagdef_end(BITSTREAM *bs)
  */
 
 ulong
-make_tagdef(IDENTIFIER id, TYPE t, EXP e,
-			EXP d, int var)
+make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 {
     ulong n;
     int fn = 0;
@@ -1252,8 +1250,7 @@ enc_tokdef(IDENTIFIER id, int def)
  */
 
 static int
-need_variable(DECL_SPEC ds, TYPE t, EXP e,
-			  ulong n)
+need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 {
     if (ds & dspec_temp) {
 		/* Temporary variables */

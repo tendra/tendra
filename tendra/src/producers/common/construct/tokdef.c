@@ -566,8 +566,7 @@ define_field_tokens(IDENTIFIER id, TYPE t)
  */
 
 static int
-match_type_token(BASE_TYPE bt, unsigned ca,
-				 TYPE t)
+match_type_token(BASE_TYPE bt, unsigned ca, TYPE t)
 {
     int ok = 1;
     if (bt & btype_star) {
@@ -779,8 +778,7 @@ define_templ_token(IDENTIFIER id, IDENTIFIER tid)
  */
 
 int
-define_mem_token(IDENTIFIER id, OFFSET off,
-				 TYPE t, int ext)
+define_mem_token(IDENTIFIER id, OFFSET off, TYPE t, int ext)
 {
     if (!IS_NULL_off (off)) {
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -951,8 +949,7 @@ expand_member_type(IDENTIFIER id)
  */
 
 static int
-parse_token(IDENTIFIER id, TYPE t, int fn,
-			int mac, LIST (IDENTIFIER) pids)
+parse_token(IDENTIFIER id, TYPE t, int fn, int mac, LIST (IDENTIFIER) pids)
 {
     int def;
     TOKEN tok = NULL_tok;
@@ -1176,8 +1173,7 @@ static STACK (IDENTIFIER) token_class_stack = NULL_stack (IDENTIFIER);
  */
 
 int
-save_token_args(LIST (IDENTIFIER) pids,
-				LIST (TOKEN) args)
+save_token_args(LIST (IDENTIFIER) pids, LIST (TOKEN) args)
 {
     int depth = 1;
     LIST (IDENTIFIER) bids = pids;
@@ -1296,8 +1292,7 @@ save_token_args(LIST (IDENTIFIER) pids,
  */
 
 void
-restore_token_args(LIST (IDENTIFIER) pids,
-				   int depth)
+restore_token_args(LIST (IDENTIFIER) pids, int depth)
 {
     LIST (IDENTIFIER) bids = pids;
     if (!IS_NULL_list (bids)) {
@@ -1376,8 +1371,7 @@ restore_token_args(LIST (IDENTIFIER) pids,
  */
 
 int
-merge_token_args(LIST (IDENTIFIER) pids,
-				 int depth, int qual)
+merge_token_args(LIST (IDENTIFIER) pids, int depth, int qual)
 {
     int ok = 1;
     LIST (IDENTIFIER) bids = pids;
@@ -1564,8 +1558,7 @@ is_bound_tok(TOKEN tok, int def)
  */
 
 LIST (TOKEN)
-make_token_args(IDENTIFIER id, LIST (IDENTIFIER) pids,
-				ERROR *err)
+make_token_args(IDENTIFIER id, LIST (IDENTIFIER) pids, ERROR *err)
 {
     LIST (TOKEN) args = NULL_list (TOKEN);
     while (!IS_NULL_list (pids)) {

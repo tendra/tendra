@@ -170,8 +170,7 @@ print_unary(EXP a, int op, BUFFER *bf, int sp)
  */
 
 static int
-print_binary(EXP a, EXP b, int op, BUFFER *bf,
-			 int sp)
+print_binary(EXP a, EXP b, int op, BUFFER *bf, int sp)
 {
     sp = print_exp (a, 1, bf, sp);
     sp = print_lex (op, bf, sp);
@@ -188,8 +187,7 @@ print_binary(EXP a, EXP b, int op, BUFFER *bf,
  */
 
 static int
-print_cast(TYPE t, EXP a, int op, BUFFER *bf,
-		   int sp)
+print_cast(TYPE t, EXP a, int op, BUFFER *bf, int sp)
 {
     sp = print_lex (op, bf, sp);
     sp = print_lex (lex_less, bf, sp);
@@ -208,8 +206,7 @@ print_cast(TYPE t, EXP a, int op, BUFFER *bf,
  */
 
 static int
-print_exp_list(LIST (EXP) p, BUFFER *bf,
-			   int sp)
+print_exp_list(LIST (EXP) p, BUFFER *bf, int sp)
 {
     sp = print_lex (lex_open_Hround, bf, sp);
     if (IS_NULL_list (p)) {
@@ -235,8 +232,7 @@ print_exp_list(LIST (EXP) p, BUFFER *bf,
  */
 
 int
-print_exp_aux(EXP e, int paren, BUFFER *bf,
-			  int sp)
+print_exp_aux(EXP e, int paren, BUFFER *bf, int sp)
 {
     if (!IS_NULL_exp (e)) {
 		ASSERT (ORDER_exp == 88);
@@ -558,8 +554,7 @@ print_exp_aux(EXP e, int paren, BUFFER *bf,
  */
 
 static void
-print_indent(int indent, CONST char *text,
-			 FILE *f)
+print_indent(int indent, CONST char *text, FILE *f)
 {
     while (indent > 1) {
 		fputc_v ('\t', f);

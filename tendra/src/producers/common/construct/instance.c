@@ -139,8 +139,8 @@ add_template_args(LIST (TOKEN) p, LIST (TOKEN) q)
  */
 
 static IDENTIFIER
-inst_func_deduce(IDENTIFIER id, LIST (IDENTIFIER) pids,
-				 LIST (TOKEN) args, int d)
+inst_func_deduce(IDENTIFIER id, LIST (IDENTIFIER) pids, LIST (TOKEN) args,
+				 int d)
 {
     IDENTIFIER fid = DEREF_id (id_alias (id));
     TYPE form = DEREF_type (id_function_etc_form (fid));
@@ -341,8 +341,7 @@ deduce_param(TYPE t, TYPE s, LIST (IDENTIFIER) pids)
  */
 
 IDENTIFIER
-deduce_args(IDENTIFIER id, LIST (EXP) args,
-			int qual, int force, int create,
+deduce_args(IDENTIFIER id, LIST (EXP) args, int qual, int force, int create,
 			ERROR *err)
 {
     IDENTIFIER rid = NULL_id;
@@ -645,8 +644,7 @@ find_templ_apps(IDENTIFIER tid)
  */
 
 static IDENTIFIER
-find_instance(IDENTIFIER tid, TOKEN tok, LIST (TOKEN) args,
-			  int def)
+find_instance(IDENTIFIER tid, TOKEN tok, LIST (TOKEN) args, int def)
 {
     INSTANCE apps;
     int fs = force_tokdef;
@@ -694,8 +692,7 @@ find_instance(IDENTIFIER tid, TOKEN tok, LIST (TOKEN) args,
  */
 
 static void
-valid_template_args(IDENTIFIER id, TOKEN sort,
-					LIST (TOKEN) args)
+valid_template_args(IDENTIFIER id, TOKEN sort, LIST (TOKEN) args)
 {
     LIST (IDENTIFIER) pids = DEREF_list (tok_templ_pids (sort));
     while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
@@ -971,8 +968,7 @@ specialise_form(TYPE form, IDENTIFIER mid)
  */
 
 static IDENTIFIER
-find_copied_member(IDENTIFIER cid, IDENTIFIER id,
-				   int res, int type)
+find_copied_member(IDENTIFIER cid, IDENTIFIER id, int res, int type)
 {
     if (type != 2) {
 		int undef = 0;
@@ -1104,8 +1100,7 @@ report_instance(TYPE form)
  */
 
 IDENTIFIER
-instance_func(IDENTIFIER id, LIST (TOKEN) args,
-			  int func, int def)
+instance_func(IDENTIFIER id, LIST (TOKEN) args, int func, int def)
 {
     int d = 0;
     IDENTIFIER tid;
@@ -1214,8 +1209,7 @@ instance_func(IDENTIFIER id, LIST (TOKEN) args,
  */
 
 IDENTIFIER
-instance_type(IDENTIFIER id, LIST (TOKEN) args,
-			  int type, int def)
+instance_type(IDENTIFIER id, LIST (TOKEN) args, int type, int def)
 {
     int d = 0;
     int undef = 0;
@@ -1418,8 +1412,7 @@ complete_class(CLASS_TYPE ct, int def)
  */
 
 static void
-check_spec_args(LIST (IDENTIFIER) pids,
-				TYPE form)
+check_spec_args(LIST (IDENTIFIER) pids, TYPE form)
 {
     LIST (TOKEN) args = DEREF_list (type_token_args (form));
     while (!IS_NULL_list (args)) {
@@ -1447,8 +1440,7 @@ check_spec_args(LIST (IDENTIFIER) pids,
  */
 
 static INSTANCE
-check_specialise(IDENTIFIER tid, INSTANCE spec,
-				 int type)
+check_specialise(IDENTIFIER tid, INSTANCE spec, int type)
 {
     INSTANCE apps;
     ERROR merr = NULL_err;
@@ -1547,8 +1539,7 @@ check_specialise(IDENTIFIER tid, INSTANCE spec,
  */
 
 static void
-adjust_func_templ(IDENTIFIER id, DECL_SPEC ds,
-				  TYPE form)
+adjust_func_templ(IDENTIFIER id, DECL_SPEC ds, TYPE form)
 {
     if (!IS_NULL_type (form)) {
 		DECL_SPEC pds;
@@ -1604,8 +1595,7 @@ adjust_func_templ(IDENTIFIER id, DECL_SPEC ds,
  */
 
 static int
-bind_templ_spec(IDENTIFIER *pid, TYPE t, TYPE form,
-				int type, int expl)
+bind_templ_spec(IDENTIFIER *pid, TYPE t, TYPE form, int type, int expl)
 {
     int def = 0;
     if (expl) {
@@ -1712,8 +1702,8 @@ int bound_specialise = 0;
  */
 
 TYPE
-bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds,
-				int type, int force, int init)
+bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds, int type, int force,
+				int init)
 {
     IDENTIFIER id = *pid;
     if (!IS_NULL_id (id)) {
@@ -2157,8 +2147,7 @@ define_template(IDENTIFIER id, int expl)
  */
 
 static int
-bind_template(IDENTIFIER tid, IDENTIFIER id,
-			  IDENTIFIER sid, EXP e, int bound)
+bind_template(IDENTIFIER tid, IDENTIFIER id, IDENTIFIER sid, EXP e, int bound)
 {
     if (IS_NULL_id (tid)) {
 		/* Binding complete - copy definition */
@@ -2284,8 +2273,7 @@ bind_template(IDENTIFIER tid, IDENTIFIER id,
  */
 
 DECL_SPEC
-define_templ_member(IDENTIFIER id, IDENTIFIER tid,
-					TYPE form, EXP e)
+define_templ_member(IDENTIFIER id, IDENTIFIER tid, TYPE form, EXP e)
 {
     ERROR perr;
     DECL_SPEC ds;
@@ -2423,8 +2411,7 @@ copy_template(IDENTIFIER id, int force)
  */
 
 static void
-copy_template_list(LIST (IDENTIFIER) p,
-				   int force)
+copy_template_list(LIST (IDENTIFIER) p, int force)
 {
     if (!IS_NULL_list (p)) {
 		IDENTIFIER id;

@@ -295,8 +295,7 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
  */
 
 static void
-check_weak_args(IDENTIFIER id, LIST (EXP) args,
-				unsigned n)
+check_weak_args(IDENTIFIER id, LIST (EXP) args, unsigned n)
 {
     TYPE fn = DEREF_type (id_function_etc_type (id));
     if (IS_type_func (fn)) {
@@ -385,8 +384,7 @@ check_weak_args(IDENTIFIER id, LIST (EXP) args,
  */
 
 static void
-check_printf_args(IDENTIFIER id, LIST (TYPE) p,
-				  LIST (EXP) args, unsigned n,
+check_printf_args(IDENTIFIER id, LIST (TYPE) p, LIST (EXP) args, unsigned n,
 				  int pf)
 {
     unsigned np = LENGTH_list (p) + (n - 1);
@@ -448,8 +446,7 @@ check_printf_args(IDENTIFIER id, LIST (TYPE) p,
  */
 
 static LIST (EXP)
-cast_args(IDENTIFIER id, TYPE fn, GRAPH gr,
-		  LIST (EXP) args, TYPE *pr, int mem)
+cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST (EXP) args, TYPE *pr, int mem)
 {
     int ell;
     TYPE ret;
@@ -811,8 +808,7 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr,
  */
 
 EXP
-apply_func_id(IDENTIFIER id, QUALIFIER qual,
-			  GRAPH gr, LIST (EXP) args)
+apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST (EXP) args)
 {
     EXP e;
     TYPE fn;
@@ -1010,8 +1006,7 @@ apply_func_exp(EXP a, LIST (EXP) args)
  */
 
 static EXP
-call_func_templ(EXP a, LIST (EXP) args,
-				int is_paren)
+call_func_templ(EXP a, LIST (EXP) args, int is_paren)
 {
     EXP e;
     TYPE ret = type_templ_param;
@@ -1316,8 +1311,7 @@ check_inline_return (EXP e, TYPE ret)
  */
 
 EXP
-check_inline(IDENTIFIER id, LIST (EXP) args,
-			 TYPE ret)
+check_inline(IDENTIFIER id, LIST (EXP) args, TYPE ret)
 {
     while (!IS_NULL_list (args)) {
 		/* Check argument list */
@@ -1520,8 +1514,7 @@ func_linkage(CV_SPEC cv)
  */
 
 TYPE
-make_func_type(TYPE r, int ell, CV_SPEC cv,
-			   LIST (TYPE) ex)
+make_func_type(TYPE r, int ell, CV_SPEC cv, LIST (TYPE) ex)
 {
     int no_param = 0;
     TYPE t = NULL_type;
@@ -1623,8 +1616,7 @@ make_func_type(TYPE r, int ell, CV_SPEC cv,
  */
 
 void
-member_func_type(CLASS_TYPE ct, unsigned itag,
-				 TYPE t)
+member_func_type(CLASS_TYPE ct, unsigned itag, TYPE t)
 {
     unsigned tag = TAG_type (t);
     while (tag == type_templ_tag) {
@@ -2020,8 +2012,7 @@ redecl_func_dargs(TYPE s, TYPE t)
  */
 
 TYPE
-redecl_func_type(IDENTIFIER id, TYPE s, TYPE t,
-				 int def, int dargs)
+redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 {
     TYPE fs = s;
     TYPE ft = t;

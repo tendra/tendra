@@ -311,8 +311,7 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
  */
 
 static EXP
-apply_field_op(int op, EXP a, NAMESPACE ns,
-			   IDENTIFIER fld, int templ)
+apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 {
     EXP e;
     GRAPH gr;
@@ -507,8 +506,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns,
  */
 
 EXP
-end_field_exp(int op, EXP a, TYPE t, NAMESPACE ns,
-			  IDENTIFIER fld, int templ)
+end_field_exp(int op, EXP a, TYPE t, NAMESPACE ns, IDENTIFIER fld, int templ)
 {
     EXP e;
     QUALIFIER cq = crt_id_qualifier;
@@ -989,8 +987,7 @@ offset_nspace(TYPE t)
  */
 
 OFFSET
-offset_member(TYPE t, IDENTIFIER id, TYPE *pt,
-			  NAMESPACE ns, int adjust)
+offset_member(TYPE t, IDENTIFIER id, TYPE *pt, NAMESPACE ns, int adjust)
 {
     if (!IS_NULL_nspace (ns)) {
 		GRAPH gr;

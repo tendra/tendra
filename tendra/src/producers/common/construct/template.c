@@ -389,8 +389,7 @@ templ_param_type(IDENTIFIER id, TYPE t)
  */
 
 static int
-define_templ_param(IDENTIFIER id, TOKEN arg,
-				   IDENTIFIER tid, int def)
+define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 {
     int ok = 1;
     TOKEN sort = DEREF_tok (id_token_sort (id));
@@ -551,8 +550,7 @@ int allow_templ_dargs = 1;
  */
 
 static LIST (TOKEN)
-check_templ_args(TOKEN tok, LIST (TOKEN) args,
-				 IDENTIFIER tid)
+check_templ_args(TOKEN tok, LIST (TOKEN) args, IDENTIFIER tid)
 {
     int s;
     int reported = 0;
@@ -628,8 +626,7 @@ check_templ_args(TOKEN tok, LIST (TOKEN) args,
  */
 
 void
-check_deduced_args(IDENTIFIER tid, LIST (IDENTIFIER) pids,
-				   LIST (TOKEN) args)
+check_deduced_args(IDENTIFIER tid, LIST (IDENTIFIER) pids, LIST (TOKEN) args)
 {
     while (!IS_NULL_list (pids) && !IS_NULL_list (args)) {
 		IDENTIFIER pid = DEREF_id (HEAD_list (pids));
@@ -683,8 +680,7 @@ match_template_args(TOKEN tok, LIST (TOKEN) args)
  */
 
 static IDENTIFIER
-apply_func_templ(IDENTIFIER id, LIST (TOKEN) args,
-				 int def)
+apply_func_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 {
     int force = 0;
     IDENTIFIER tid = NULL_id;
@@ -763,8 +759,7 @@ apply_typedef_templ(IDENTIFIER id, LIST (TOKEN) args)
  */
 
 static IDENTIFIER
-apply_type_templ(IDENTIFIER id, LIST (TOKEN) args,
-				 int def)
+apply_type_templ(IDENTIFIER id, LIST (TOKEN) args, int def)
 {
     if (IS_id_class_name (id)) {
 		/* Class template */
@@ -810,8 +805,7 @@ apply_type_templ(IDENTIFIER id, LIST (TOKEN) args,
  */
 
 IDENTIFIER
-apply_template(IDENTIFIER id, LIST (TOKEN) args,
-			   int def, int force)
+apply_template(IDENTIFIER id, LIST (TOKEN) args, int def, int force)
 {
     DECL_SPEC ds = DEREF_dspec (id_storage (id));
     if (ds & dspec_template) {
@@ -846,8 +840,7 @@ apply_template(IDENTIFIER id, LIST (TOKEN) args,
  */
 
 IDENTIFIER
-parse_id_template(IDENTIFIER id, PPTOKEN *p,
-				  int def)
+parse_id_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
     LIST (TOKEN) args = parse_template_args (p);
     id = apply_template (id, args, def, 1);
@@ -863,8 +856,7 @@ parse_id_template(IDENTIFIER id, PPTOKEN *p,
  */
 
 IDENTIFIER
-parse_type_template(IDENTIFIER id, PPTOKEN *p,
-					int def)
+parse_type_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
     LIST (TOKEN) args = parse_template_args (p);
     id = apply_type_templ (id, args, def);
@@ -1706,8 +1698,7 @@ static LIST (IDENTIFIER) dummy_types = NULL_list (IDENTIFIER);
  */
 
 static TYPE
-make_dummy_type(NAMESPACE ns, IDENTIFIER id,
-				BASE_TYPE bt, LIST (TOKEN) args)
+make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST (TOKEN) args)
 {
     TYPE t;
     HASHID nm = DEREF_hashid (id_name (id));
@@ -1906,8 +1897,7 @@ is_templ_nspace(NAMESPACE ns)
  */
 
 TYPE
-check_typename(NAMESPACE ns, IDENTIFIER id,
-			   BASE_TYPE key)
+check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 {
     TYPE s = NULL_type;
     if (in_template_decl) {
@@ -2024,8 +2014,7 @@ static LIST (IDENTIFIER) non_typenames = NULL_list (IDENTIFIER);
  */
 
 TYPE
-find_typename(IDENTIFIER id, LIST (TOKEN) args,
-			  BASE_TYPE bt, int type)
+find_typename(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE bt, int type)
 {
     TYPE t = NULL_type;
     NAMESPACE ns = DEREF_nspace (id_parent (id));
@@ -2177,8 +2166,7 @@ restore_templ_params(LIST (IDENTIFIER) ps)
  */
 
 int
-eq_template(TYPE s, TYPE t, int def, int mq,
-			int rf)
+eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 {
     TOKEN as = DEREF_tok (type_templ_sort (s));
     TOKEN at = DEREF_tok (type_templ_sort (t));
@@ -2391,8 +2379,7 @@ depends_on_param(IDENTIFIER id, LIST (IDENTIFIER) pids)
  */
 
 static int
-depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids,
-			  int use)
+depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids, int use)
 {
     if (!IS_NULL_id (id)) {
 		NAMESPACE ns;
@@ -2468,8 +2455,7 @@ depends_on_id(IDENTIFIER id, LIST (IDENTIFIER) pids,
  */
 
 int
-depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids,
-				int use, int next)
+depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids, int use, int next)
 {
     while (!IS_NULL_list (args)) {
 		TOKEN tok = DEREF_tok (HEAD_list (args));
@@ -2526,8 +2512,7 @@ depends_on_args(LIST (TOKEN) args, LIST (IDENTIFIER) pids,
  */
 
 int
-depends_on_nat(NAT n, LIST (IDENTIFIER) pids,
-			   int use)
+depends_on_nat(NAT n, LIST (IDENTIFIER) pids, int use)
 {
     if (!IS_NULL_nat (n)) {
 		switch (TAG_nat (n)) {
@@ -2556,8 +2541,7 @@ depends_on_nat(NAT n, LIST (IDENTIFIER) pids,
  */
 
 static int
-depends_on_exp_list(LIST (EXP) p, LIST (IDENTIFIER) pids,
-					int use)
+depends_on_exp_list(LIST (EXP) p, LIST (IDENTIFIER) pids, int use)
 {
     while (!IS_NULL_list (p)) {
 		EXP a = DEREF_exp (HEAD_list (p));
@@ -2577,8 +2561,7 @@ depends_on_exp_list(LIST (EXP) p, LIST (IDENTIFIER) pids,
  */
 
 int
-depends_on_exp(EXP e, LIST (IDENTIFIER) pids,
-			   int use)
+depends_on_exp(EXP e, LIST (IDENTIFIER) pids, int use)
 {
     if (!IS_NULL_exp (e)) {
 		unsigned tag = TAG_exp (e);
@@ -2882,8 +2865,7 @@ depends_on_exp(EXP e, LIST (IDENTIFIER) pids,
  */
 
 int
-depends_on_off(OFFSET off, LIST (IDENTIFIER) pids,
-			   int use)
+depends_on_off(OFFSET off, LIST (IDENTIFIER) pids, int use)
 {
     if (!IS_NULL_off (off)) {
 		ASSERT (ORDER_off == 13);

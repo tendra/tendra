@@ -211,8 +211,7 @@ rank_float_float(TYPE t, TYPE s)
  */
 
 EXP
-cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast,
-			 int rank)
+cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 {
     EXP e;
     int opt;
@@ -375,8 +374,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast,
  */
 
 EXP
-cast_int_float(TYPE t, EXP a, ERROR *err,
-			   unsigned cast)
+cast_int_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     EXP e;
     int opt;
@@ -414,8 +412,7 @@ cast_int_float(TYPE t, EXP a, ERROR *err,
  */
 
 static EXP
-cast_float_int(TYPE t, EXP a, ERROR *err,
-			   unsigned cast)
+cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     EXP e;
     int opt;
@@ -470,8 +467,7 @@ cast_float_int(TYPE t, EXP a, ERROR *err,
  */
 
 EXP
-cast_float_float(TYPE t, EXP a, ERROR *err,
-				 unsigned cast)
+cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     EXP e;
     int opt;
@@ -553,8 +549,7 @@ cast_templ_type(TYPE t, EXP a, unsigned cast)
  */
 
 void
-cast_away_const(unsigned qual, ERROR *err,
-				unsigned cast)
+cast_away_const(unsigned qual, ERROR *err, unsigned cast)
 {
     if (!(cast & CAST_CONST)) {
 		CV_SPEC cv = cv_none;
@@ -613,8 +608,7 @@ make_base_cast(TYPE t, EXP a, OFFSET off)
  */
 
 EXP
-cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast,
-			 int safe, int force)
+cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 {
     EXP e;
     int opt;
@@ -950,8 +944,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast,
  */
 
 static EXP
-cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast,
-			 int nptr)
+cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 {
     EXP e;
     int opt;
@@ -1023,8 +1016,7 @@ cast_ptr_int(TYPE t, EXP a, ERROR *err, unsigned cast)
  */
 
 EXP
-cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err,
-					 unsigned cast, int safe,
+cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					 int force)
 {
     EXP e;
@@ -1202,8 +1194,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err,
  */
 
 static EXP
-cast_int_ptr_mem(TYPE t, EXP a, ERROR *err,
-				 unsigned cast, int nptr)
+cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 {
     EXP e;
     TYPE s;
@@ -1233,8 +1224,7 @@ cast_int_ptr_mem(TYPE t, EXP a, ERROR *err,
  */
 
 static EXP
-cast_ptr_mem_int(TYPE t, EXP a, ERROR *err,
-				 unsigned cast)
+cast_ptr_mem_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     if (IS_exp_null (a)) {
 		if (cast & CAST_STATIC) {
@@ -1258,8 +1248,7 @@ cast_ptr_mem_int(TYPE t, EXP a, ERROR *err,
  */
 
 static EXP
-cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err,
-				 unsigned cast)
+cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 {
     TYPE s = DEREF_type (exp_type (a));
     TYPE p = DEREF_type (type_ptr_mem_sub (s));
@@ -1289,8 +1278,7 @@ cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err,
  */
 
 EXP
-cast_class_class(TYPE t, EXP a, ERROR *err,
-				 unsigned cast, int ref)
+cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 {
     EXP e = NULL_exp;
     TYPE s = DEREF_type (exp_type (a));
@@ -1930,8 +1918,7 @@ allow_conversion(IDENTIFIER id)
  */
 
 EXP
-cast_token(TYPE t, EXP a, ERROR *err, ERROR err2,
-		   unsigned cast)
+cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 {
     EXP e = NULL_exp;
     int sev = ERROR_NONE;

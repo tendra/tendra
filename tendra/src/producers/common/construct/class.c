@@ -164,8 +164,8 @@ is_local_nspace(NAMESPACE ns)
  */
 
 IDENTIFIER
-make_class(NAMESPACE ns, HASHID nm, BASE_TYPE key,
-		   DECL_SPEC bds, TYPE q, TYPE prev)
+make_class(NAMESPACE ns, HASHID nm, BASE_TYPE key, DECL_SPEC bds, TYPE q,
+		   TYPE prev)
 {
     TYPE t;
     IDENTIFIER id;
@@ -520,8 +520,7 @@ check_key(IDENTIFIER id, BASE_TYPE key)
  */
 
 TYPE
-make_dummy_class(IDENTIFIER id, LIST (TOKEN) args,
-				 BASE_TYPE key)
+make_dummy_class(IDENTIFIER id, LIST (TOKEN) args, BASE_TYPE key)
 {
     TYPE t, s;
     CLASS_TYPE ct;
@@ -708,8 +707,7 @@ extract_templ_qual(TYPE t)
  */
 
 static IDENTIFIER
-declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key,
-			 TYPE q, int def, int force)
+declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def, int force)
 {
     TYPE t = NULL_type;
     MEMBER mem = search_member (ns, nm, 1);
@@ -969,8 +967,7 @@ defining_class(CLASS_TYPE ct)
  */
 
 IDENTIFIER
-begin_class_defn(IDENTIFIER id, BASE_TYPE key,
-				 CLASS_INFO ci, TYPE q)
+begin_class_defn(IDENTIFIER id, BASE_TYPE key, CLASS_INFO ci, TYPE q)
 {
     TYPE t;
     DECL_SPEC ds;
@@ -1185,8 +1182,7 @@ end_class_defn(IDENTIFIER id)
  */
 
 CLASS_INFO
-check_class_info(CLASS_INFO ci, CLASS_INFO cj,
-				 int base, DECL_SPEC acc)
+check_class_info(CLASS_INFO ci, CLASS_INFO cj, int base, DECL_SPEC acc)
 {
     if (!(cj & cinfo_pod)) ci &= ~cinfo_pod;
     if (!(cj & cinfo_trivial_constr)) ci &= ~cinfo_trivial_constr;
@@ -1253,8 +1249,7 @@ check_trivial_class(CLASS_TYPE ct)
  */
 
 CLASS_INFO
-check_member_type(CLASS_TYPE ct, CLASS_INFO ci,
-				  TYPE t, int ptr)
+check_member_type(CLASS_TYPE ct, CLASS_INFO ci, TYPE t, int ptr)
 {
     if (!ptr) {
 		/* Check for const members */
@@ -1615,8 +1610,7 @@ end_enum_defn(IDENTIFIER id)
  */
 
 IDENTIFIER
-make_enumerator(IDENTIFIER eid, IDENTIFIER id,
-				EXP val)
+make_enumerator(IDENTIFIER eid, IDENTIFIER id, EXP val)
 {
     NAT n;
     EXP e;
@@ -1807,8 +1801,7 @@ int found_elaborate_type = 0;
  */
 
 IDENTIFIER
-find_elaborate_type(IDENTIFIER id, BASE_TYPE key,
-					TYPE q, DECL_SPEC mode)
+find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 {
     ERROR err;
     LOCATION loc;
@@ -1935,8 +1928,7 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key,
  */
 
 IDENTIFIER
-make_typedef(NAMESPACE ns, HASHID nm, TYPE t,
-			 DECL_SPEC ds)
+make_typedef(NAMESPACE ns, HASHID nm, TYPE t, DECL_SPEC ds)
 {
     TYPE s;
     unsigned tag;
@@ -2035,8 +2027,7 @@ make_typedef(NAMESPACE ns, HASHID nm, TYPE t,
  */
 
 IDENTIFIER
-find_copied(IDENTIFIER cid, IDENTIFIER id,
-			int res)
+find_copied(IDENTIFIER cid, IDENTIFIER id, int res)
 {
     HASHID nm;
     MEMBER mem;
@@ -2152,8 +2143,7 @@ copy_class(TYPE t, DECL_SPEC ds)
  */
 
 static void
-copy_specs(IDENTIFIER sid, IDENTIFIER tid,
-		   int type)
+copy_specs(IDENTIFIER sid, IDENTIFIER tid, int type)
 {
     TYPE s, t;
     if (type) {
@@ -2191,8 +2181,7 @@ copy_specs(IDENTIFIER sid, IDENTIFIER tid,
  */
 
 static IDENTIFIER
-copy_nested(IDENTIFIER tid, TYPE t, TYPE q,
-			LOCATION *ploc)
+copy_nested(IDENTIFIER tid, TYPE t, TYPE q, LOCATION *ploc)
 {
     IDENTIFIER id = tid;
     switch (TAG_type (t)) {
@@ -2290,8 +2279,8 @@ copy_nested(IDENTIFIER tid, TYPE t, TYPE q,
  */
 
 static IDENTIFIER
-copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns,
-			CLASS_TYPE ct, LOCATION *ploc)
+copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
+			LOCATION *ploc)
 {
     TYPE form;
     IDENTIFIER tid = NULL_id;
@@ -2637,8 +2626,7 @@ copy_friend_func(IDENTIFIER id)
  */
 
 void
-copy_members(CLASS_TYPE ct, CLASS_TYPE cs,
-			 CLASS_INFO ci, int def)
+copy_members(CLASS_TYPE ct, CLASS_TYPE cs, CLASS_INFO ci, int def)
 {
     CLASS_INFO ck = DEREF_cinfo (ctype_info (cs));
     CLASS_INFO cj = DEREF_cinfo (ctype_info (ct));

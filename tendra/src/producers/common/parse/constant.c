@@ -1649,8 +1649,7 @@ eval_char_nat(EXP a, unsigned *k)
  */
 
 static EXP
-make_char_nat(TYPE t, unsigned tag, int d,
-			  unsigned kind, NAT n)
+make_char_nat(TYPE t, unsigned tag, int d, unsigned kind, NAT n)
 {
     int neg = (tag == exp_minus_tag ? 1 : 0);
     if (IS_nat_neg (n)) {

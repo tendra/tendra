@@ -119,8 +119,7 @@ CANDIDATE_LIST candidates = { NULL, 0, 0, NULL, 0 };
  */
 
 static void
-add_candidate(CANDIDATE_LIST *p, IDENTIFIER id,
-			  IDENTIFIER bid, int kind)
+add_candidate(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER bid, int kind)
 {
     CANDIDATE *q = p->elem;
     unsigned n = p->size;
@@ -154,8 +153,7 @@ add_candidate(CANDIDATE_LIST *p, IDENTIFIER id,
  */
 
 void
-add_candidates(CANDIDATE_LIST *p, IDENTIFIER id,
-			   int over, int kind)
+add_candidates(CANDIDATE_LIST *p, IDENTIFIER id, int over, int kind)
 {
     unsigned tag = TAG_id (id);
     switch (tag) {
@@ -200,8 +198,7 @@ add_candidates(CANDIDATE_LIST *p, IDENTIFIER id,
  */
 
 static IDENTIFIER
-koenig_id(CANDIDATE_LIST *p, IDENTIFIER id,
-		  IDENTIFIER cid, int kind)
+koenig_id(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER cid, int kind)
 {
     if (!IS_NULL_id (cid)) {
 		NAMESPACE cns = DEREF_nspace (id_parent (cid));
@@ -243,8 +240,7 @@ koenig_id(CANDIDATE_LIST *p, IDENTIFIER id,
  */
 
 static IDENTIFIER
-koenig_class(CANDIDATE_LIST *p, IDENTIFIER id,
-			 CLASS_TYPE ct, int kind)
+koenig_class(CANDIDATE_LIST *p, IDENTIFIER id, CLASS_TYPE ct, int kind)
 {
     TYPE form = DEREF_type (ctype_form (ct));
     if (IS_NULL_type (form)) {
@@ -273,8 +269,7 @@ koenig_class(CANDIDATE_LIST *p, IDENTIFIER id,
  */
 
 static IDENTIFIER
-koenig_token(CANDIDATE_LIST *p, IDENTIFIER id,
-			 TOKEN tok, int kind)
+koenig_token(CANDIDATE_LIST *p, IDENTIFIER id, TOKEN tok, int kind)
 {
     if (!IS_NULL_tok (tok)) {
 		ASSERT (ORDER_tok == 10);
@@ -303,8 +298,7 @@ koenig_token(CANDIDATE_LIST *p, IDENTIFIER id,
  */
 
 IDENTIFIER
-koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id,
-				  TYPE t, int kind)
+koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id, TYPE t, int kind)
 {
     if (!IS_NULL_type (t)) {
 		ASSERT (ORDER_type == 18);
@@ -453,8 +447,7 @@ swap_candidates(CANDIDATE_LIST *p, unsigned n)
  */
 
 ERROR
-list_candidates(ERROR err, CANDIDATE_LIST *p,
-				unsigned rank)
+list_candidates(ERROR err, CANDIDATE_LIST *p, unsigned rank)
 {
     if (!IS_NULL_err (err)) {
 		ERROR err2 = ERR_over_match_viable_list ();
@@ -608,8 +601,7 @@ int match_this = 0;
  */
 
 static unsigned
-viable_candidate(CANDIDATE *r, LIST (EXP) args,
-				 TYPE ret)
+viable_candidate(CANDIDATE *r, LIST (EXP) args, TYPE ret)
 {
     TYPE rtype;
     int bind = 0;
@@ -804,8 +796,7 @@ compare_funcs(IDENTIFIER rid, IDENTIFIER sid)
  */
 
 static int
-compare_candidates(CANDIDATE *r, CANDIDATE *s,
-				   LIST (EXP) args, TYPE ret)
+compare_candidates(CANDIDATE *r, CANDIDATE *s, LIST (EXP) args, TYPE ret)
 {
     int res = 0;
     CONVERSION *cr = r->convs;
@@ -1271,8 +1262,7 @@ static AMBIG_FUNCTION *all_ambig_funcs = NULL;
  */
 
 static IDENTIFIER
-previous_ambig_func(LIST (IDENTIFIER) p,
-					LIST (TYPE) q, QUALIFIER qual)
+previous_ambig_func(LIST (IDENTIFIER) p, LIST (TYPE) q, QUALIFIER qual)
 {
     AMBIG_FUNCTION *f = all_ambig_funcs;
     if (f) {
@@ -1328,9 +1318,8 @@ previous_ambig_func(LIST (IDENTIFIER) p,
  */
 
 IDENTIFIER
-make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id,
-				LIST (EXP) args, QUALIFIER qual,
-				ERROR *err)
+make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST (EXP) args,
+				QUALIFIER qual, ERROR *err)
 {
     EXP res;
     TYPE fn;
@@ -1593,8 +1582,7 @@ is_template_func(IDENTIFIER id)
  */
 
 IDENTIFIER
-resolve_call(IDENTIFIER id, LIST (EXP) args,
-			 QUALIFIER qual, int dep)
+resolve_call(IDENTIFIER id, LIST (EXP) args, QUALIFIER qual, int dep)
 {
     /* Build up candidate list */
     unsigned sz;
@@ -1707,8 +1695,7 @@ resolve_call(IDENTIFIER id, LIST (EXP) args,
  */
 
 static IDENTIFIER
-resolve_ambig_func(LIST (IDENTIFIER) ids,
-				   int depth)
+resolve_ambig_func(LIST (IDENTIFIER) ids, int depth)
 {
     if (!IS_NULL_list (ids)) {
 		int cmp;
@@ -1771,8 +1758,7 @@ resolve_ambig_func(LIST (IDENTIFIER) ids,
  */
 
 IDENTIFIER
-resolve_func(IDENTIFIER id, TYPE t, int templ,
-			 int res, LIST (IDENTIFIER) pids,
+resolve_func(IDENTIFIER id, TYPE t, int templ, int res, LIST (IDENTIFIER) pids,
 			 int *peq)
 {
     int best = 2;
@@ -1925,8 +1911,7 @@ resolve_func(IDENTIFIER id, TYPE t, int templ,
  */
 
 static EXP
-make_resolved_exp(IDENTIFIER id, QUALIFIER q,
-				  EXP b, int addr, int paren)
+make_resolved_exp(IDENTIFIER id, QUALIFIER q, EXP b, int addr, int paren)
 {
     EXP e;
     TYPE fn = DEREF_type (id_function_etc_type (id));
@@ -1963,8 +1948,8 @@ make_resolved_exp(IDENTIFIER id, QUALIFIER q,
  */
 
 EXP
-resolve_cast(TYPE t, EXP e, ERROR *err, int use,
-			 int rescan, LIST (IDENTIFIER) pids)
+resolve_cast(TYPE t, EXP e, ERROR *err, int use, int rescan,
+			 LIST (IDENTIFIER) pids)
 {
     /* Check for identifier expressions */
     EXP a = e;

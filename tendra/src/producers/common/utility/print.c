@@ -346,8 +346,7 @@ print_linkage(CV_SPEC n, BUFFER *bf, int sp)
  */
 
 int
-print_loc(LOCATION *p, LOCATION *q, BUFFER *bf,
-		  int sp)
+print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 {
     string fn;
     unsigned long ln;
@@ -392,8 +391,7 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf,
  */
 
 int
-print_hashid(HASHID p, int sep, int anon,
-			 BUFFER *bf, int sp)
+print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 {
     unsigned tag;
     if (IS_NULL_hashid (p)) return (sp);
@@ -493,8 +491,7 @@ print_hashid(HASHID p, int sep, int anon,
  */
 
 int
-print_id_short(IDENTIFIER id, QUALIFIER qual,
-			   BUFFER *bf, int sp)
+print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 {
     if (!IS_NULL_id (id)) {
 		int sep = 0;
@@ -569,8 +566,7 @@ print_id_short(IDENTIFIER id, QUALIFIER qual,
  */
 
 int
-print_id_long(IDENTIFIER id, QUALIFIER qual,
-			  BUFFER *bf, int sp)
+print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 {
     if (!IS_NULL_id (id)) {
 		int prt = 1;
@@ -796,8 +792,7 @@ print_id_long(IDENTIFIER id, QUALIFIER qual,
  */
 
 int
-print_nspace(NAMESPACE ns, QUALIFIER qual,
-			 int pre, BUFFER *bf, int sp)
+print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 {
     if (!IS_NULL_nspace (ns)) {
 		IDENTIFIER id = DEREF_id (nspace_name (ns));
@@ -866,8 +861,7 @@ print_nspace(NAMESPACE ns, QUALIFIER qual,
  */
 
 int
-print_graph(GRAPH gr, int sep, BUFFER *bf,
-			int sp)
+print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 {
     if (!IS_NULL_graph (gr)) {
 		CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
@@ -1154,8 +1148,7 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
  */
 
 void
-print_char(unsigned long c, int ch, int q,
-		   BUFFER *bf)
+print_char(unsigned long c, int ch, int q, BUFFER *bf)
 {
     char buff [20];
     if (ch == CHAR_SIMPLE) {
@@ -1398,8 +1391,7 @@ print_tok_value(TOKEN tok, BUFFER *bf, int sp)
  */
 
 int
-print_token(IDENTIFIER id, QUALIFIER qual,
-			LIST (TOKEN) args, BUFFER *bf,
+print_token(IDENTIFIER id, QUALIFIER qual, LIST (TOKEN) args, BUFFER *bf,
 			int sp)
 {
     int open_bracket = 0;
@@ -1451,8 +1443,7 @@ print_token(IDENTIFIER id, QUALIFIER qual,
  */
 
 int
-print_sort(TOKEN tok, int arg, BUFFER *bf,
-		   int sp)
+print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 {
     unsigned tag;
     if (IS_NULL_tok (tok)) return (sp);
@@ -1827,8 +1818,7 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
  */
 
 int
-print_ctype(CLASS_TYPE ct, QUALIFIER qual,
-			int key, BUFFER *bf, int sp)
+print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 {
     if (!IS_NULL_ctype (ct)) {
 		TYPE t = DEREF_type (ctype_form (ct));
@@ -1856,8 +1846,7 @@ print_ctype(CLASS_TYPE ct, QUALIFIER qual,
  */
 
 int
-print_etype(ENUM_TYPE et, int key, BUFFER *bf,
-			int sp)
+print_etype(ENUM_TYPE et, int key, BUFFER *bf, int sp)
 {
     if (!IS_NULL_etype (et)) {
 		IDENTIFIER id = DEREF_id (etype_name (et));
@@ -2264,8 +2253,7 @@ print_type(TYPE t, BUFFER *bf, int sp)
  */
 
 int
-print_type_list(LIST (TYPE) p, BUFFER *bf,
-				int sp)
+print_type_list(LIST (TYPE) p, BUFFER *bf, int sp)
 {
     if (sp) bfputc (bf, ' ');
     bfputc (bf, '(');
@@ -2387,8 +2375,7 @@ find_buffer_line(unsigned long n, unsigned long m)
  */
 
 static string
-find_buffer_loc(string fn, unsigned long ln,
-				unsigned long n)
+find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 {
     if (input_start && !bad_crt_loc) {
 		PTR (POSITION) pm = crt_loc.posn;
@@ -2418,8 +2405,7 @@ find_buffer_loc(string fn, unsigned long ln,
  */
 
 void
-print_source(LOCATION *loc, int lines, int full,
-			 CONST char *pre, FILE *f)
+print_source(LOCATION *loc, int lines, int full, CONST char *pre, FILE *f)
 {
     PTR (POSITION) pn = loc->posn;
     if (lines > 0 && !IS_NULL_ptr (pn)) {

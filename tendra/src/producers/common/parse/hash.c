@@ -234,8 +234,7 @@ init_hashid(HASHID nm, int tok)
  */
 
 HASHID
-lookup_name(string s, unsigned long h, int ext,
-			int tok)
+lookup_name(string s, unsigned long h, int ext, int tok)
 {
     unsigned tag;
     unsigned long len;

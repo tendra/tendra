@@ -533,8 +533,7 @@ LIST (EXP) all_try_blocks = NULL_list (EXP);
  */
 
 static LIST (IDENTIFIER)
-jump_over_stmt(LIST (IDENTIFIER) ids, EXP e,
-			   IDENTIFIER lab, int force)
+jump_over_stmt(LIST (IDENTIFIER) ids, EXP e, IDENTIFIER lab, int force)
 {
     switch (TAG_exp (e)) {
 		
