@@ -443,7 +443,7 @@ lex_abort ()
 lex_phases_eof ()
 {
     USAGE:	eof_nline
-    KEY (ISO)	"2.1" | "5.1.1.2"
+    KEY (ISO)	"2.1" | "5.1.1.2, 5.1.1.2"
     KEY (STD)	"File does not end in newline character"
 }
 
@@ -465,7 +465,7 @@ lex_phases_str_eof ()
 
 lex_charset_len ( cint: c, unsigned: n )
 {
-    KEY (ISO)	"2.2" | "5.2.1"
+    KEY (ISO)	"2.2" | "5.2.1, 6.4.3"
     KEY (STD)	"Universal character '\\"c"' should be followed by "n"
 		 hexadecimal digits"
 }
@@ -490,7 +490,7 @@ lex_charset_bad ( ucint: c )
 lex_trigraph_replace ( cint: c1, cint: c2 )
 {
     USAGE:	trigraph
-    KEY (ISO)	"2.3" | "5.2.1.1"
+    KEY (ISO)	"2.3" | "5.2.1.1, 5.1.1.2"
     KEY (STD)	"Trigraph '??"c1"' replaced by '"c2"'"
 }
 
@@ -502,7 +502,7 @@ lex_trigraph_replace ( cint: c1, cint: c2 )
 
 lex_pptoken_unknown ( cint: c )
 {
-    KEY (ISO)	"2.4" | "6.1"
+    KEY (ISO)	"2.4" | "6.1, 6.4"
     KEY (STD)	"Illegal character, '"c"'"
 }
 
@@ -520,7 +520,7 @@ lex_pptoken_unicode ( ucint: c )
 lex_digraph_replace ( LEX: lex1, LEX: lex2 )
 {
     USAGE:	digraph
-    KEY (ISO)	"2.5" | "Amendment 1"
+    KEY (ISO)	"2.5" | "Amendment 1, 6.4.6"
     KEY (STD)	"Digraph '"lex1"' replaced by '"lex2"'"
 }
 
@@ -545,7 +545,7 @@ lex_digraph_iso ( HASHID: lex1, LEX: lex2 )
 lex_comment_nest ()
 {
     USAGE:	nest_comment
-    KEY (ISO)	"2.7" | "6.1.9"
+    KEY (ISO)	"2.7" | "6.1.9, 6.4.9"
     KEY (STD)	"'/*' in comment"
 }
 
@@ -570,7 +570,7 @@ lex_comment_nest ()
 lex_name_limit ( HASHID: nm, ulong: m, ulong: n )
 {
     USAGE:	name_limit
-    KEY (ISO)	"2.10" | "6.1.2"
+    KEY (ISO)	"2.10" | "6.1.2, 6.4.2"
     KEY (STD)	"Length of identifier '"nm"' ("m") exceeds "n
 }
 
@@ -587,7 +587,7 @@ lex_name_extendid ( ucint: c )
 
 lex_key_word ( LEX: lex )
 {
-    KEY (ISO)	"2.11" | "6.1.1"
+    KEY (ISO)	"2.11" | "6.1.1, 6.4.1"
     KEY (STD)	"'"lex"' is now a keyword"
 }
 
@@ -612,7 +612,7 @@ lex_key_reserve ( HASHID: nm )
 lex_op_old_assign ( cint: c1, cint: c2 )
 {
     USAGE:	none
-    KEY (ISO)	"2.12" | "6.1.5"
+    KEY (ISO)	"2.12" | "6.1.5, 6.4.6"
     KEY (STD)	"Old style assignment operator '="c1"', assuming '= "c2"'"
 }
 
@@ -624,7 +624,7 @@ lex_op_old_assign ( cint: c1, cint: c2 )
 
 lex_literal_bad ( string: num )
 {
-    KEY (ISO)	"2.13" | "6.1.3"
+    KEY (ISO)	"2.13" | "6.1.3, 6.4.4"
     KEY (STD)	"Can't convert '"num"' to a number"
 }
 
@@ -636,7 +636,7 @@ lex_literal_bad ( string: num )
 
 lex_icon_octal ( string: num )
 {
-    KEY (ISO)	"2.13.1" | "6.1.3.2"
+    KEY (ISO)	"2.13.1" | "6.1.3.2, 6.4.4.1"
     KEY (STD)	"Illegal octal digits in '"num"'"
 }
 
@@ -659,13 +659,13 @@ lex_icon_llong ( string: num )
 
 lex_ccon_multibyte ()
 {
-    KEY (ISO)	"2.13.2" | "5.2.1.2"
+    KEY (ISO)	"2.13.2" | "5.2.1.2, 5.2.1.2"
     KEY (STD)	"Invalid multibyte character"
 }
 
 lex_ccon_empty ()
 {
-    KEY (ISO)	"2.13.2" | "6.1.3.4"
+    KEY (ISO)	"2.13.2" | "6.1.3.4, 6.4.4.4"
     KEY (STD)	"Empty character literal"
 }
 
@@ -701,7 +701,7 @@ lex_ccon_large ()
 
 lex_fcon_large ( FLOAT: f )
 {
-    KEY (ISO)	"2.13.3" | "6.1.3.1"
+    KEY (ISO)	"2.13.3" | "6.1.3.1, 6.4.4.2"
     KEY (STD)	"Floating point literal '"f"' too large"
 }
 
@@ -713,7 +713,7 @@ lex_fcon_large ( FLOAT: f )
 
 lex_string_nl ( unsigned: n, plural: s )
 {
-    KEY (ISO)	"2.13.4" | "6.1.4"
+    KEY (ISO)	"2.13.4" | "6.1.4, 6.4.5"
     KEY (STD)	n" newline character"s" in string literal"
 }
 
@@ -754,7 +754,7 @@ lex_string_concat ()
 
 basic_odr_decl ( IDENTIFIER: id, PTR_LOC: loc )
 {
-    KEY (ISO)	"3.2" | "6.5"
+    KEY (ISO)	"3.2" | "6.5, 6.7"
     KEY (STD)	"'"id"' has already been declared (at "loc")"
 }
 
@@ -772,7 +772,7 @@ basic_odr_typedef ( IDENTIFIER: id, PTR_LOC: loc )
 
 basic_odr_def ( IDENTIFIER: id, PTR_LOC: loc )
 {
-    KEY (ISO)	"3.2" | "6.7"
+    KEY (ISO)	"3.2" | "6.7, 6.9"
     KEY (STD)	"'"id"' has already been defined (at "loc")"
 }
 
@@ -806,13 +806,13 @@ basic_odr_redundant ( LONG_ID: id )
 basic_odr_tentative ( IDENTIFIER: id, PTR_LOC: loc )
 {
     USAGE:	wall
-    KEY (ISO)	"3.2" | "6.7.2"
+    KEY (ISO)	"3.2" | "6.7.2, 6.9.2"
     KEY (STD)	"Multiple definition of '"id"' (see "loc")"
 }
 
 basic_odr_def_type ( LONG_ID: id, PTR_LOC: loc )
 {
-    KEY (ISO)	"3.2" | "6.5.2.3"
+    KEY (ISO)	"3.2" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"The type '"id"' has already been defined (at "loc")"
 }
 
@@ -831,7 +831,7 @@ basic_odr_def_type ( LONG_ID: id, PTR_LOC: loc )
 basic_scope_pdecl_param ( LONG_ID: id )
 {
     USAGE:	wall
-    KEY (ISO)	"3.3.1" | "6.1.2.1"
+    KEY (ISO)	"3.3.1" | "6.1.2.1, 6.2.1"
     KEY (STD)	"The type '"id"' has function parameter scope - it is only
 		 in scope in this declaration"
 }
@@ -875,7 +875,7 @@ basic_scope_pdecl_param ( LONG_ID: id )
 basic_scope_hide ( HASHID: nm, PTR_LOC: loc )
 {
     USAGE:	decl_hide
-    KEY (ISO)	"3.3.7" | "6.1.2.1"
+    KEY (ISO)	"3.3.7" | "6.1.2.1, 6.2.1"
     KEY (STD)	"Declaration of '"nm"' hides a previous declaration
 		 (at "loc")"
 }
@@ -894,7 +894,7 @@ basic_scope_hide_mem ( HASHID: nm, IDENTIFIER: id )
 
 lookup_ambig_id ( IDENTIFIER: id )
 {
-    KEY (ISO)	"3.4" | "6.3.1"
+    KEY (ISO)	"3.4" | "6.3.1, 6.5.1"
     KEY (STD)	"The name '"id"' is ambiguous"
 }
 
@@ -917,7 +917,7 @@ lookup_ambig_list ()
 
 lookup_unqual_undef ( HASHID: nm )
 {
-    KEY (ISO)	"3.4.1" | "6.3.1"
+    KEY (ISO)	"3.4.1" | "6.3.1, 6.5.1"
     KEY (STD)	"The identifier '"nm"' hasn't been declared in this scope"
 }
 
@@ -940,7 +940,7 @@ lookup_unqual_vis ( IDENTIFIER: id )
 
 lookup_qual_undef ( HASHID: nm, NAMESPACE: ns )
 {
-    KEY (ISO)	"3.4.3" | "6.5.2.1"
+    KEY (ISO)	"3.4.3" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"The member '"nm"' of '"ns"' hasn't been declared"
 }
 
@@ -974,7 +974,7 @@ lookup_qual_decl ( IDENTIFIER: id, NAMESPACE: ns )
 
 lookup_elab_alias ( BASE_TYPE: bt, IDENTIFIER: id )
 {
-    KEY (ISO)	"3.4.4" | "6.5.2.3"
+    KEY (ISO)	"3.4.4" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"'typedef' name used in '"bt" "id"'"
 }
 
@@ -1015,7 +1015,7 @@ lookup_classref_ambig ( IDENTIFIER: id )
 
 basic_link_mem_extern ( LONG_ID: id )
 {
-    KEY (ISO)	"3.5" | "6.1.2.2"
+    KEY (ISO)	"3.5" | "6.1.2.2, 6.2.2"
     KEY (STD)	"The member '"id"' has external linkage"
 }
 
@@ -1029,13 +1029,13 @@ basic_link_none ( TYPE: t, LONG_ID: id )
 basic_link_qual ( CV_SPEC: cv1, CV_SPEC: cv2 )
 {
     USAGE:	type_qual_incompat
-    KEY (ISO)	"3.5" | "6.5.3"
+    KEY (ISO)	"3.5" | "6.5.3, 6.7.3"
     KEY (STD)	"The type qualifiers '"cv1"' and '"cv2"' are incompatible"
 }
 
 basic_link_incompat ( TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"3.5" | "6.1.2.6"
+    KEY (ISO)	"3.5" | "6.1.2.6, 6.2.7"
     KEY (STD)	"The types '"t1"' and '"t2"' are incompatible"
 }
 
@@ -1073,7 +1073,7 @@ basic_link_unmatch ( TYPE: t, IDENTIFIER: id )
 
 basic_start_main_over ( IDENTIFIER: id )
 {
-    KEY (ISO)	"3.6.1" | "5.1.2.2"
+    KEY (ISO)	"3.6.1" | "5.1.2.2, 5.1.2.2.1"
     KEY (STD)	"Can't overload '"id"'"
 }
 
@@ -1231,7 +1231,7 @@ basic_stc_dealloc_over ( IDENTIFIER: id )
 
 basic_types_def_incompl ( IDENTIFIER: id )
 {
-    KEY (ISO)	"3.9" | "6.5"
+    KEY (ISO)	"3.9" | "6.5, 6.7"
     KEY (STD)	"The defined object '"id"' must have complete object type"
 }
 
@@ -1242,7 +1242,7 @@ basic_types_par_incompl ( IDENTIFIER: id )
 
 basic_types_tent_incompl ( IDENTIFIER: id )
 {
-    KEY (ISO)	"3.9" | "6.7.2"
+    KEY (ISO)	"3.9" | "6.7.2, 6.9.2"
     KEY (STD)	"The implicitly defined object '"id"' must have complete
 		 object type"
 }
@@ -1250,7 +1250,7 @@ basic_types_tent_incompl ( IDENTIFIER: id )
 basic_types_obj_func ( TYPE: t )
 {
     USAGE:	whatever
-    KEY (ISO)	"3.9" | "6.1.2.5"
+    KEY (ISO)	"3.9" | "6.1.2.5, 6.2.5"
     KEY (STD)	"The function type '"t"' is not an object type"
 }
 
@@ -1292,7 +1292,7 @@ basic_types_obj_void ( TYPE: t )
 
 basic_fund_void_decl ( IDENTIFIER: id, TYPE: t )
 {
-    KEY (ISO)	"3.9.1" | "6.1.2.5"
+    KEY (ISO)	"3.9.1" | "6.1.2.5, 6.2.5"
     KEY (STD)	"The object '"id"' declared to have type '"t"'"
 }
 
@@ -1327,7 +1327,7 @@ basic_fund_void_exp ( TYPE: t )
 basic_lval_not ()
 {
     USAGE:	whatever
-    KEY (ISO)	"3.10" | "6.2.2.1"
+    KEY (ISO)	"3.10" | "6.2.2.1, 6.3.2.1"
     KEY (STD)	"Expression is not an lvalue"
 }
 
@@ -1376,7 +1376,7 @@ basic_lval_mod_member ( TYPE: t )
 
 conv_lval_incompl ()
 {
-    KEY (ISO)	"4.1" | "6.2.2.1"
+    KEY (ISO)	"4.1" | "6.2.2.1, 6.3.2.1"
     KEY (STD)	"Can't perform lvalue conversion on an incomplete type"
 }
 
@@ -1389,7 +1389,7 @@ conv_lval_incompl ()
 conv_array_string ()
 {
     USAGE:	const_string
-    KEY (ISO)	"4.2" | "6.1.4"
+    KEY (ISO)	"4.2" | "6.1.4, 6.4.5"
     KEY (STD)	"Conversion of string literal to non-'const' type"
 }
 
@@ -1414,7 +1414,7 @@ conv_array_str_mod ()
 conv_qual_cast ( CV_SPEC: cv )
 {
     USAGE:	type_qual_incompat
-    KEY (ISO)	"4.4" | "6.3.16.1"
+    KEY (ISO)	"4.4" | "6.3.16.1, 6.5.16.1"
     KEY (STD)	"Conversion casts away '"cv"'-ness"
 }
 
@@ -1446,7 +1446,7 @@ conv_qual_multi ()
 conv_integral_cast ( TYPE: t1, TYPE: t2 )
 {
     USAGE:	whatever
-    KEY (ISO)	"4.7" | "6.2.1"
+    KEY (ISO)	"4.7" | "6.2.1, 6.3.1"
     KEY (STD)	"Integral conversion from '"t1"' to '"t2"'"
 }
 
@@ -1459,7 +1459,7 @@ conv_integral_cast ( TYPE: t1, TYPE: t2 )
 conv_double_cast ( TYPE: t1, TYPE: t2 )
 {
     USAGE:	whatever
-    KEY (ISO)	"4.8" | "6.2.1"
+    KEY (ISO)	"4.8" | "6.2.1, 6.3.1"
     KEY (STD)	"Floating point conversion from '"t1"' to '"t2"'"
 }
 
@@ -1472,7 +1472,7 @@ conv_double_cast ( TYPE: t1, TYPE: t2 )
 conv_fpint_trunc ( TYPE: t1, TYPE: t2 )
 {
     USAGE:	whatever
-    KEY (ISO)	"4.9" | "6.2.1"
+    KEY (ISO)	"4.9" | "6.2.1, 6.3.1"
     KEY (STD)	"Floating point truncation from '"t1"' to '"t2"'"
 }
 
@@ -1497,13 +1497,13 @@ conv_fpint_large ( FLOAT: f )
 conv_ptr_null_complex ()
 {
     USAGE:	ptr_operator
-    KEY (ISO)	"4.10" | "6.2.2.3"
+    KEY (ISO)	"4.10" | "6.2.2.3, 6.3.2.3"
     KEY (STD)	"Complex null pointer constant"
 }
 
 conv_ptr_nonzero ( TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"4.10" | "6.3.4"
+    KEY (ISO)	"4.10" | "6.3.4, 6.5.4"
     KEY (STD)	"Conversion of nonzero value of type '"t1"' to type '"t2"'"
 }
 
@@ -1583,7 +1583,7 @@ conv_mem_common ()
 
 conv_bool_cast ( TYPE: t )
 {
-    KEY (ISO)	"4.12" | "6.3"
+    KEY (ISO)	"4.12" | "6.3, 6.5"
     KEY (STD)	"Can't convert expression of type '"t"' to a boolean"
 }
 
@@ -1602,7 +1602,7 @@ conv_bool_assign ()
 expr_paren_left ( LEX: op1, LEX: op2 )
 {
     USAGE:	paren
-    KEY (ISO)	"5" | "6.3"
+    KEY (ISO)	"5" | "6.3, 6.5"
     KEY (STD)	"Operator precedence is '( a "op1" b ) "op2" c'"
 }
 
@@ -1626,7 +1626,7 @@ expr_convert_op ( unsigned: n, LEX: op )
 
 expr_prim_this ()
 {
-    KEY (ISO)	"5.1" | "6.3.1"
+    KEY (ISO)	"5.1" | "6.3.1, 6.5.1"
     KEY (STD)	"'this' is only in scope in non-static member functions"
 }
 
@@ -1654,7 +1654,7 @@ expr_prim_type ( LONG_ID: id )
 
 expr_sub_ptr_op ( TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.2.1" | "6.3.2.1"
+    KEY (ISO)	"5.2.1" | "6.3.2.1, 6.5.2.1"
     KEY (STD)	"One operand of '[]' should have pointer type, not
 		 '"t1"' and '"t2"'"
 }
@@ -1685,7 +1685,7 @@ expr_sub_incompl ()
 expr_call_func ( LONG_ID: id )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.2.2" | "6.3.2.2"
+    KEY (ISO)	"5.2.2" | "6.3.2.2, 6.5.2.2"
     KEY (STD)	"In call of function '"id"'"
 }
 
@@ -1772,7 +1772,7 @@ expr_call_ell_exp ()
 
 expr_type_conv_incompl ()
 {
-    KEY (ISO)	"5.2.3" | "6.3.4"
+    KEY (ISO)	"5.2.3" | "6.3.4, 6.5.4"
     KEY (STD)	"Complete object type required in type conversion"
 }
 
@@ -1828,7 +1828,7 @@ expr_pseudo_args ( HASHID: nm )
 
 expr_ref_arrow_op ( TYPE: t, string: key )
 {
-    KEY (ISO)	"5.2.5" | "6.3.2.3"
+    KEY (ISO)	"5.2.5" | "6.3.2.3, 6.5.2.3"
     KEY (STD)	"First operand of '->' should have type pointer to "key",
 		 not '"t"'"
 }
@@ -1890,7 +1890,7 @@ expr_ref_type ( IDENTIFIER: id )
 expr_post_incr_mod ( LEX: op )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.2.6" | "6.3.2.4"
+    KEY (ISO)	"5.2.6" | "6.3.2.4, 6.5.2.4"
     KEY (STD)	"Operand of postfix '"op"' should be modifiable"
 }
 
@@ -1925,7 +1925,7 @@ expr_post_incr_bool_dec ( LEX: op, TYPE: t )
 
 expr_cast_dynam_typedef ()
 {
-    KEY (ISO)	"5.2.7" | "6.3.4"
+    KEY (ISO)	"5.2.7" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'dynamic_cast' expression"
 }
 
@@ -2001,7 +2001,7 @@ expr_typeid_vtable ( LEX: op )
 
 expr_cast_stat_typedef ()
 {
-    KEY (ISO)	"5.2.9" | "6.3.4"
+    KEY (ISO)	"5.2.9" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'static_cast' expression"
 }
 
@@ -2040,7 +2040,7 @@ expr_cast_stat_func ( TYPE: t )
 
 expr_cast_reint_typedef ()
 {
-    KEY (ISO)	"5.2.10" | "6.3.4"
+    KEY (ISO)	"5.2.10" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'reinterpret_cast' expression"
 }
 
@@ -2088,7 +2088,7 @@ expr_cast_reint_mem_func ( TYPE: t1, TYPE: t2 )
 
 expr_cast_const_typedef ()
 {
-    KEY (ISO)	"5.2.11" | "6.3.4"
+    KEY (ISO)	"5.2.11" | "6.3.4, 6.5.4"
     KEY (STD)	"Can't define a type in a 'const_cast' expression"
 }
 
@@ -2112,7 +2112,7 @@ expr_cast_const_bad ()
 
 expr_unary_op_indir_op ( TYPE: t )
 {
-    KEY (ISO)	"5.3.1" | "6.3.3.2"
+    KEY (ISO)	"5.3.1" | "6.3.3.2, 6.5.3.2"
     KEY (STD)	"Operand of unary '*' should have pointer type, not '"t"'"
 }
 
@@ -2181,7 +2181,7 @@ expr_unary_op_ref_unqual ()
 
 expr_unary_op_uplus_op ( LEX: op, TYPE: t )
 {
-    KEY (ISO)	"5.3.1" | "6.3.3.3"
+    KEY (ISO)	"5.3.1" | "6.3.3.3, 6.5.3.3"
     KEY (STD)	"Operand of unary '"op"' should have arithmetic or pointer
 		 type, not '"t"'"
 }
@@ -2212,7 +2212,7 @@ expr_unary_op_not_op ()
 expr_pre_incr_mod ( LEX: op )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.3.2" | "6.3.3.1"
+    KEY (ISO)	"5.3.2" | "6.3.3.1, 6.5.3.1"
     KEY (STD)	"Operand of prefix '"op"' should be modifiable"
 }
 
@@ -2247,7 +2247,7 @@ expr_pre_incr_bool_dec ( LEX: op, TYPE: t )
 
 expr_sizeof_func ( LEX: op )
 {
-    KEY (ISO)	"5.3.3" | "6.3.3.4"
+    KEY (ISO)	"5.3.3" | "6.3.3.4, 6.5.3.4"
     KEY (STD)	"Can't apply '"op"' to a function type"
 }
 
@@ -2375,7 +2375,7 @@ expr_delete_array ( LEX: op )
 expr_cast_expl_used ()
 {
     USAGE:	cast_explicit
-    KEY (ISO)	"5.4" | "6.3.4"
+    KEY (ISO)	"5.4" | "6.3.4, 6.5.4"
     KEY (STD)	"Explicit cast expression"
 }
 
@@ -2478,7 +2478,7 @@ expr_mptr_oper_paren ()
 
 expr_mul_mul_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.6" | "6.3.5"
+    KEY (ISO)	"5.6" | "6.3.5, 6.5.5"
     KEY (STD)	"Operands of binary '"op"' should be arithmetic, not
 		 '"t1"' and '"t2"'"
 }
@@ -2509,7 +2509,7 @@ expr_mul_div_neg ( LEX: op, NAT: n )
 
 expr_add_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.7" | "6.3.6"
+    KEY (ISO)	"5.7" | "6.3.6, 6.5.6"
     KEY (STD)	"Can't perform binary '"op"' on operands of types '"t1"'
 		 and '"t2"'"
 }
@@ -2546,7 +2546,7 @@ expr_add_different ()
 
 expr_shift_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.8" | "6.3.7"
+    KEY (ISO)	"5.8" | "6.3.7, 6.5.7"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"' and '"t2"'"
 }
 
@@ -2586,7 +2586,7 @@ expr_shift_op2_big ( LEX: op, NAT: n, TYPE: t )
 
 expr_rel_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.9" | "6.3.8"
+    KEY (ISO)	"5.9" | "6.3.8, 6.5.8"
     KEY (STD)	"Can't perform '"op"' on operands of types '"t1"' and '"t2"'"
 }
 
@@ -2644,7 +2644,7 @@ expr_rel_null ( LEX: op )
 
 expr_eq_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.10" | "6.3.9"
+    KEY (ISO)	"5.10" | "6.3.9, 6.5.9"
     KEY (STD)	"Can't perform '"op"' on operands of types '"t1"' and '"t2"'"
 }
 
@@ -2681,7 +2681,7 @@ expr_eq_float ( LEX: op )
 
 expr_bit_and_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.11" | "6.3.10"
+    KEY (ISO)	"5.11" | "6.3.10, 6.5.10"
     KEY (STD)	"Operands of binary '"op"' should be integral, not
 		 '"t1"' and '"t2"'"
 }
@@ -2694,7 +2694,7 @@ expr_bit_and_op ( LEX: op, TYPE: t1, TYPE: t2 )
 
 expr_xor_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.12" | "6.3.11"
+    KEY (ISO)	"5.12" | "6.3.11, 6.5.11"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"'
 		 and '"t2"'"
 }
@@ -2707,7 +2707,7 @@ expr_xor_op ( LEX: op, TYPE: t1, TYPE: t2 )
 
 expr_or_op ( LEX: op, TYPE: t1, TYPE: t2 )
 {
-    KEY (ISO)	"5.13" | "6.3.12"
+    KEY (ISO)	"5.13" | "6.3.12, 6.5.12"
     KEY (STD)	"Operands of '"op"' should be integral, not '"t1"'
 		 and '"t2"'"
 }
@@ -2721,7 +2721,7 @@ expr_or_op ( LEX: op, TYPE: t1, TYPE: t2 )
 expr_log_and_op ( LEX: op )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.14" | "6.3.13"
+    KEY (ISO)	"5.14" | "6.3.13, 6.5.13"
     KEY (STD)	"Operands of '"op"' are converted to booleans"
 }
 
@@ -2734,7 +2734,7 @@ expr_log_and_op ( LEX: op )
 expr_log_or_op ( LEX: op )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.15" | "6.3.14"
+    KEY (ISO)	"5.15" | "6.3.14, 6.5.14"
     KEY (STD)	"Operands of '"op"' are converted to booleans"
 }
 
@@ -2747,7 +2747,7 @@ expr_log_or_op ( LEX: op )
 expr_cond_bool ()
 {
     USAGE:	whatever
-    KEY (ISO)	"5.16" | "6.3.15"
+    KEY (ISO)	"5.16" | "6.3.15, 6.5.15"
     KEY (STD)	"The condition of '?:' is converted to a boolean"
 }
 
@@ -2797,7 +2797,7 @@ expr_cond_mptr ()
 expr_ass_mod ( LEX: op )
 {
     USAGE:	whatever
-    KEY (ISO)	"5.17" | "6.3.16"
+    KEY (ISO)	"5.17" | "6.3.16, 6.5.16"
     KEY (STD)	"Left operand of '"op"' should be modifiable"
 }
 
@@ -2838,7 +2838,7 @@ expr_ass_twice ( IDENTIFIER: id )
 expr_const_bad ()
 {
     USAGE:	whatever
-    KEY (ISO)	"5.19" | "6.4"
+    KEY (ISO)	"5.19" | "6.4, 6.6"
     KEY (STD)	"Illegal integer constant expression"
 }
 
@@ -2872,7 +2872,7 @@ expr_const_off_dim ()
 stmt_stmt_unreach ()
 {
     USAGE:	reached
-    KEY (ISO)	"6" | "6.6"
+    KEY (ISO)	"6" | "6.6, 6.8"
     KEY (STD)	"Statement not reached"
 }
 
@@ -2890,7 +2890,7 @@ stmt_stmt_empty ( LEX: op )
 
 stmt_label_redef ( IDENTIFIER: lab, LONG_ID: fn, PTR_LOC: loc )
 {
-    KEY (ISO)	"6.1" | "6.6.1"
+    KEY (ISO)	"6.1" | "6.6.1, 6.8.1"
     KEY (STD)	"Label '"lab"' already defined in function '"fn"' (at "loc")"
 }
 
@@ -2925,7 +2925,7 @@ stmt_label_fall ( LEX: op )
 stmt_expr_discard_func ()
 {
     USAGE:	discard_func
-    KEY (ISO)	"6.2" | "6.6.3"
+    KEY (ISO)	"6.2" | "6.6.3, 6.8.3"
     KEY (STD)	"Discarded function return"
 }
 
@@ -2955,7 +2955,7 @@ stmt_expr_incompl ()
 
 stmt_select_type ( TYPE: t )
 {
-    KEY (ISO)	"6.4" | "6.6.4"
+    KEY (ISO)	"6.4" | "6.6.4, 6.8.4"
     KEY (STD)	"Invalid type for condition declaration, '"t"'"
 }
 
@@ -2973,7 +2973,7 @@ stmt_select_typedef ()
 stmt_if_cond ()
 {
     USAGE:	whatever
-    KEY (ISO)	"6.4.1" | "6.6.4.1"
+    KEY (ISO)	"6.4.1" | "6.6.4.1, 6.8.4.1"
     KEY (STD)	"Condition of an 'if' statement is converted to a boolean"
 }
 
@@ -2997,7 +2997,7 @@ stmt_if_no_else ()
 
 stmt_switch_control ( TYPE: t )
 {
-    KEY (ISO)	"6.4.2" | "6.6.4.2"
+    KEY (ISO)	"6.4.2" | "6.6.4.2, 6.8.4.2"
     KEY (STD)	"Control expression of a 'switch' statement should have
 		 integral type, not '"t"'"
 }
@@ -3090,7 +3090,7 @@ stmt_switch_case_extra ( NAT: n, TYPE: t )
 stmt_while_cond ()
 {
     USAGE:	whatever
-    KEY (ISO)	"6.5.1" | "6.6.5.1"
+    KEY (ISO)	"6.5.1" | "6.6.5.1, 6.8.5.1"
     KEY (STD)	"Condition of a 'while' statement is converted to a boolean"
 }
 
@@ -3109,7 +3109,7 @@ stmt_while_const ()
 stmt_do_cond ()
 {
     USAGE:	whatever
-    KEY (ISO)	"6.5.2" | "6.6.5.2"
+    KEY (ISO)	"6.5.2" | "6.6.5.2, 6.8.5.2"
     KEY (STD)	"Condition of a 'do' statement is converted to a boolean"
 }
 
@@ -3128,7 +3128,7 @@ stmt_do_const ()
 stmt_for_cond ()
 {
     USAGE:	whatever
-    KEY (ISO)	"6.5.3" | "6.6.5.3"
+    KEY (ISO)	"6.5.3" | "6.6.5.3, 6.8.5.3"
     KEY (STD)	"Condition of a 'for' statement is converted to a boolean"
 }
 
@@ -3158,7 +3158,7 @@ stmt_for_init ( IDENTIFIER: id )
 
 stmt_break_bad ()
 {
-    KEY (ISO)	"6.6.1" | "6.6.6.3"
+    KEY (ISO)	"6.6.1" | "6.6.6.3, 6.8.6.3"
     KEY (STD)	"'break' should be inside an iteration or 'switch' statement"
 }
 
@@ -3170,7 +3170,7 @@ stmt_break_bad ()
 
 stmt_cont_bad ()
 {
-    KEY (ISO)	"6.6.2" | "6.6.6.2"
+    KEY (ISO)	"6.6.2" | "6.6.6.2, 6.8.6.2"
     KEY (STD)	"'continue' should be inside an iteration statement"
 }
 
@@ -3183,7 +3183,7 @@ stmt_cont_bad ()
 stmt_return_void ( IDENTIFIER: id, TYPE: t )
 {
     USAGE:	func_ret_void
-    KEY (ISO)	"6.6.3" | "6.6.6.4"
+    KEY (ISO)	"6.6.3" | "6.6.6.4, 6.8.6.4"
     KEY (STD)	"'return' with no value in function '"id"' which
 		 returns '"t"'"
 }
@@ -3224,7 +3224,7 @@ stmt_return_auto ( LONG_ID: id, LEX: op )
 
 stmt_goto_undef ( IDENTIFIER: lab, LONG_ID: fn )
 {
-    KEY (ISO)	"6.6.4" | "6.6.6.1"
+    KEY (ISO)	"6.6.4" | "6.6.6.1, 6.8.6.1"
     KEY (STD)	"Label '"lab"' used but not defined in function '"fn"'"
 }
 
@@ -3242,13 +3242,14 @@ stmt_goto_case ( LEX: op )
 stmt_dcl_start ()
 {
     USAGE:	c_error
-    KEY (ISO)	"6.7" | "6.6.2"
+    KEY (ISO)	"6.7" | "6.6.2, -"
     KEY (STD)	"Declaration statement should be at start of block"
 }
 
 stmt_dcl_bypass_lab ( IDENTIFIER: lab, IDENTIFIER: id )
 {
     USAGE:	error | variable
+    KEY (ISO)	"6.7" | "6.6.2, 6.8.2"
     KEY (STD)	"Jump to label '"lab"' bypasses initialization of '"id"'"
 }
 
@@ -3297,14 +3298,14 @@ stmt_dcl_reset ( LONG_ID: id )
 dcl_dcl_none ()
 {
     USAGE:	decl_none
-    KEY (ISO)	"7" | "6.7"
+    KEY (ISO)	"7" | "6.7, 6.9"
     KEY (STD)	"No declarations in translation unit"
 }
 
 dcl_dcl_empty ()
 {
     USAGE:	decl_empty
-    KEY (ISO)	"7" | "6.5"
+    KEY (ISO)	"7" | "6.5, 6.7"
     KEY (STD)	"Every declaration must introduce a name"
 }
 
@@ -3340,7 +3341,7 @@ dcl_dcl_ds_func ()
 
 dcl_spec_dup ( DECL_SPEC: ds )
 {
-    KEY (ISO)	"7.1" | "6.5.1"
+    KEY (ISO)	"7.1" | "6.5.1, 6.7.1"
     KEY (STD)	"Duplicate declaration specifier, '"ds" "ds"'"
 }
 
@@ -3358,7 +3359,7 @@ dcl_spec_order ( DECL_SPEC: ds )
 
 dcl_stc_dup ( DECL_SPEC: ds1, DECL_SPEC: ds2 )
 {
-    KEY (ISO)	"7.1.1" | "6.5.1"
+    KEY (ISO)	"7.1.1" | "6.5.1, 6.7.1"
     KEY (STD)	"Multiple storage class specifiers '"ds1"', assuming '"ds2"'"
 }
 
@@ -3371,7 +3372,7 @@ dcl_stc_stat_block ()
 dcl_stc_bad ( DECL_SPEC: ds )
 {
     USAGE:	cpp_error
-    KEY (ISO)	"7.1.1" | "6.7"
+    KEY (ISO)	"7.1.1" | "6.7, 6.9"
     KEY (STD)	"Storage class specifier '"ds"' must be applied to an object"
 }
 
@@ -3414,7 +3415,7 @@ dcl_stc_mut_const ( LONG_ID: id )
 
 dcl_stc_param ( DECL_SPEC: ds )
 {
-    KEY (ISO)	"7.1.1" | "6.7.1"
+    KEY (ISO)	"7.1.1" | "6.7.1, 6.9.1"
     KEY (STD)	"Can't apply '"ds"' to a function parameter"
 }
 
@@ -3427,7 +3428,7 @@ dcl_stc_auto_par ()
 dcl_stc_internal ( LONG_ID: id, PTR_LOC: loc )
 {
     USAGE:	link_incompat
-    KEY (ISO)	"7.1.1" | "6.1.2.2"
+    KEY (ISO)	"7.1.1" | "6.1.2.2, 6.2.2"
     KEY (STD)	"'"id"' previously declared with internal linkage (at "loc")"
 }
 
@@ -3445,7 +3446,7 @@ dcl_stc_external ( LONG_ID: id, PTR_LOC: loc )
 
 dcl_fct_spec_inline_bad ()
 {
-    KEY (ISO)	"7.1.2" | "6.5.1"
+    KEY (ISO)	"7.1.2" | "6.5.1, 6.7.4"
     KEY (STD)	"The specifier 'inline' can only applied to function
 		 declarations"
 }
@@ -3490,7 +3491,7 @@ dcl_fct_spec_inline_call ( LONG_ID: id )
 
 dcl_typedef_func ()
 {
-    KEY (ISO)	"7.1.3" | "6.5.1"
+    KEY (ISO)	"7.1.3" | "6.5.1, 6.7.1"
     KEY (STD)	"Can't apply 'typedef' to a function definition"
 }
 
@@ -3542,7 +3543,7 @@ dcl_friend_class ()
 dcl_type_infer ( TYPE: t )
 {
     USAGE:	whatever
-    KEY (ISO)	"7.1.5" | "6.5.2"
+    KEY (ISO)	"7.1.5" | "6.5.2, 6.7.2"
     KEY (STD)	"Type '"t"' inferred"
 }
 
@@ -3560,7 +3561,7 @@ dcl_type_qual ()
 
 dcl_type_cv_dup ( CV_SPEC: cv )
 {
-    KEY (ISO)	"7.1.5" | "6.5.3"
+    KEY (ISO)	"7.1.5" | "6.5.3, -"
     KEY (STD)	"Duplicate type qualifier, '"cv" "cv"'"
 }
 
@@ -3579,7 +3580,7 @@ dcl_type_type_cv ( LONG_ID: id, CV_SPEC: cv )
 dcl_type_cv_unused ( CV_SPEC: cv )
 {
     USAGE:	cpp_error
-    KEY (ISO)	"7.1.5.1" | "6.5.3"
+    KEY (ISO)	"7.1.5.1" | "6.5.3, 6.7.3"
     KEY (STD)	"Type specifier(s) '"cv"' not used"
 }
 
@@ -3591,7 +3592,7 @@ dcl_type_cv_unused ( CV_SPEC: cv )
 
 dcl_type_simple_dup ( BASE_TYPE: bt )
 {
-    KEY (ISO)	"7.1.5.2" | "6.5.2"
+    KEY (ISO)	"7.1.5.2" | "6.5.2, 6.7.2"
     KEY (STD)	"Duplicate type specifier, '"bt" "bt"'"
 }
 
@@ -3630,7 +3631,7 @@ dcl_type_simple_undef ( IDENTIFIER: id )
 dcl_type_elab_bad ( BASE_TYPE: bt1, BASE_TYPE: bt2, IDENTIFIER: id, PTR_LOC: loc )
 {
     USAGE:	type_tag_ignore
-    KEY (ISO)	"7.1.5.3" | "6.5.2.3"
+    KEY (ISO)	"7.1.5.3" | "6.5.2.3, 6.7.2.3"
     KEY (STD)	"Inconsistent key '"bt1"' used for '"bt2" "id"' (see "loc")"
 }
 
@@ -3648,7 +3649,7 @@ dcl_type_elab_qual ( BASE_TYPE: bt )
 dcl_enum_none ()
 {
     USAGE:	c_error
-    KEY (ISO)	"7.2" | "6.5.2.2"
+    KEY (ISO)	"7.2" | "6.5.2.2, 6.7.2.2"
     KEY (STD)	"No enumerators in enumeration type"
 }
 
@@ -3715,7 +3716,7 @@ dcl_nspace_unnamed_static ()
 
 dcl_nspace_memdef_scope ( LONG_ID: id )
 {
-    KEY (ISO)	"7.3.1.2" | "6.5.7"
+    KEY (ISO)	"7.3.1.2" | "6.5.7, 6.7.8"
     KEY (STD)	"'"id"' can only be defined in an enclosing namespace scope"
 }
 
@@ -3824,7 +3825,7 @@ dcl_nspace_udir_dup ( NAMESPACE: ns )
 dcl_asm_ti ()
 {
     USAGE:	wall
-    KEY (ISO)	"7.4" | "Annex G"
+    KEY (ISO)	"7.4" | "Annex G, Annex J"
     KEY (STD)	"'asm' declarations are not portable"
 }
 
@@ -3907,7 +3908,7 @@ dcl_link_redecl ( HASHID: nm, PTR_LOC: loc )
 
 dcl_meaning_id ( QUALIFIER: qual, IDENTIFIER: id )
 {
-    KEY (ISO)	"8.3" | "6.5.4"
+    KEY (ISO)	"8.3" | "6.5.4, 6.7.5"
     KEY (STD)	"The identifier '"qual id"' can't be used in this context"
 }
 
@@ -4008,7 +4009,7 @@ dcl_mptr_ref ()
 
 dcl_array_void ( TYPE: t )
 {
-    KEY (ISO)	"8.3.4" | "6.1.2.5"
+    KEY (ISO)	"8.3.4" | "6.1.2.5, 6.2.5"
     KEY (STD)	"Can't have arrays of '"t"'"
 }
 
@@ -4040,12 +4041,13 @@ dcl_array_func ()
 
 dcl_array_dim_const ()
 {
-    KEY (ISO)	"8.3.4" | "6.5.4.2"
+    KEY (ISO)	"8.3.4" | "6.5.4.2, -"
     KEY (STD)	"Array bound should be an integer constant expression"
 }
 
 dcl_array_dim_zero ()
 {
+    KEY (ISO)	"8.3.4" | "6.5.4.2, 6.7.5.2"
     KEY (STD)	"Array bound can't be zero"
 }
 
@@ -4062,7 +4064,7 @@ dcl_array_dim_neg ( NAT: n )
 
 dcl_fct_par_void ( IDENTIFIER: id, TYPE: t )
 {
-    KEY (ISO)	"8.3.5" | "6.5.4.3"
+    KEY (ISO)	"8.3.5" | "6.5.4.3, 6.7.5.3"
     KEY (STD)	"Parameter '"id"' declared to have type '"t"'"
 }
 
@@ -4164,13 +4166,13 @@ dcl_fct_compat_prom ( TYPE: t )
 
 dcl_fct_qual ( CV_SPEC: cv, LONG_ID: id )
 {
-    KEY (ISO)	"8.3.5" | "6.5.3"
+    KEY (ISO)	"8.3.5" | "6.5.3, 6.7.3"
     KEY (STD)	"'"cv"' qualifier for function type '"id"'"
 }
 
 dcl_fct_ret ()
 {
-    KEY (ISO)	"8.3.5" | "6.7.1"
+    KEY (ISO)	"8.3.5" | "6.7.1, 6.9.1"
     KEY (STD)	"Function return type should be a complete object type or
 		 'void'"
 }
@@ -4231,7 +4233,7 @@ dcl_fct_par_order ()
 
 dcl_fct_default_bad ()
 {
-    KEY (ISO)	"8.3.6" | "6.7.1"
+    KEY (ISO)	"8.3.6" | "6.7.1, 6.9.1"
     KEY (STD)	"Can only have default arguments in a function declaration"
 }
 
@@ -4275,7 +4277,7 @@ dcl_fct_default_weak ( IDENTIFIER: id )
 
 dcl_fct_def_scope ()
 {
-    KEY (ISO)	"8.4" | "6.7.1"
+    KEY (ISO)	"8.4" | "6.7.1, 6.9.1"
     KEY (STD)	"A function can only be defined in namespace or class scope"
 }
 
@@ -4294,7 +4296,7 @@ dcl_fct_def_comment ( LONG_ID: id )
 dcl_init_decl ( IDENTIFIER: id, string: s )
 {
     USAGE:	whatever
-    KEY (ISO)	"8.5" | "6.5.7"
+    KEY (ISO)	"8.5" | "6.5.7, 6.7.8"
     KEY (STD)	"In initialization of '"id s"'"
 }
 
@@ -4356,7 +4358,7 @@ dcl_init_dynamic ()
 
 dcl_init_aggr_array_bad ()
 {
-    KEY (ISO)	"8.5.1" | "6.5.7"
+    KEY (ISO)	"8.5.1" | "6.5.7, 6.7.8"
     KEY (STD)	"Bad array initializer"
 }
 
@@ -4426,7 +4428,7 @@ dcl_init_aggr_auto ( IDENTIFIER: id )
 
 dcl_init_string_char ()
 {
-    KEY (ISO)	"8.5.2" | "6.5.7"
+    KEY (ISO)	"8.5.2" | "6.5.7, 6.7.8"
     KEY (STD)	"Can only initialize character arrays with string literals"
 }
 
@@ -4456,7 +4458,7 @@ dcl_init_string_zero ( TYPE: t )
 
 dcl_init_ref_none ()
 {
-    KEY (ISO)	"8.5.3" | "6.5.7"
+    KEY (ISO)	"8.5.3" | "6.5.7, 6.7.8"
     KEY (STD)	"References should be initialized"
 }
 
@@ -4497,7 +4499,7 @@ dcl_init_ref_tmp ( TYPE: t )
 class_none ()
 {
     USAGE:	c_error
-    KEY (ISO)	"9" | "6.5.2.1"
+    KEY (ISO)	"9" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"No members in class definition"
 }
 
@@ -4516,7 +4518,7 @@ class_none ()
 class_mem_empty ()
 {
     USAGE:	decl_empty
-    KEY (ISO)	"9.2" | "6.5.2.1"
+    KEY (ISO)	"9.2" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"Every member declaration must introduce a name"
 }
 
@@ -4701,7 +4703,7 @@ class_static_data_anon ( IDENTIFIER: id )
 
 class_union_deriv ( CLASS_TYPE: ct )
 {
-    KEY (ISO)	"9.5" | "6.5.2.1"
+    KEY (ISO)	"9.5" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"The union '"ct"' can't have base classes"
 }
 
@@ -4759,7 +4761,7 @@ class_union_anon_mem ()
 
 class_bit_base ( TYPE: t )
 {
-    KEY (ISO)	"9.6" | "6.5.2.1"
+    KEY (ISO)	"9.6" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"Bitfield base type should be integral, not '"t"'"
 }
 
@@ -4837,7 +4839,7 @@ class_bit_mptr ()
 class_local_func ( LONG_ID: id )
 {
     USAGE:	none
-    KEY (ISO)	"9.8" | "6.5.2.1"
+    KEY (ISO)	"9.8" | "6.5.2.1, 6.7.2.1"
     KEY (STD)	"Member function '"id"' of a local class should be
 		 defined in that class"
 }
@@ -6783,7 +6785,7 @@ except_spec_call ( LONG_ID: id, TYPE: t )
 cpp_bad ()
 {
     USAGE:	ppdir_id
-    KEY (ISO)	"16" | "6.8"
+    KEY (ISO)	"16" | "6.8, 6.10"
     KEY (STD)	"Bad preprocessing directive"
 }
 
@@ -6830,7 +6832,7 @@ cpp_old ( LEX: dir )
 
 cpp_cond_if_match ( LEX: dir1, LEX: dir2 )
 {
-    KEY (ISO)	"16.1" | "6.8.1"
+    KEY (ISO)	"16.1" | "6.8.1, 6.10.1"
     KEY (STD)	"'#"dir1"' without matching '#"dir2"'"
 }
 
@@ -6885,7 +6887,7 @@ cpp_cond_if_jump_into ()
 
 cpp_cond_if_macro ( HASHID: nm )
 {
-    KEY (ISO)   "16.1" | "6.8.1"
+    KEY (ISO)   "16.1" | "6.8.1, 6.10.1"
     KEY (STD)	"Can't define macro '"nm"' in a target dependent '#if'
 		 statement"
 }
@@ -6903,7 +6905,7 @@ cpp_cond_endif_end ( LEX: dir )
 
 cpp_include_bad ()
 {
-    KEY (ISO)	"16.2" | "6.8.2"
+    KEY (ISO)	"16.2" | "6.8.2, 6.10.2"
     KEY (STD)	"Illegal header name"
 }
 
@@ -6971,7 +6973,7 @@ cpp_include_date ()
 
 cpp_replace_id ( LEX: dir )
 {
-    KEY (ISO)	"16.3" | "6.8.3"
+    KEY (ISO)	"16.3" | "6.8.3, 6.10.3"
     KEY (STD)	"Macro identifier expected after '#"dir"'"
 }
 
@@ -7058,7 +7060,7 @@ cpp_replace_arg_number ( HASHID: nm, unsigned: n, plural: s, unsigned: m )
 cpp_stringize_par ( HASHID: nm )
 {
     USAGE:	hash_ident
-    KEY (ISO)	"16.3.2" | "6.8.3.2"
+    KEY (ISO)	"16.3.2" | "6.8.3.2, 6.10.3.2"
     KEY (STD)	"'#' should be followed by a parameter for macro '"nm"'"
 }
 
@@ -7081,7 +7083,7 @@ cpp_stringize_old ( HASHID: par, HASHID: nm )
 
 cpp_concat_place ( HASHID: nm )
 {
-    KEY (ISO)	"16.3.3" | "6.8.3.3"
+    KEY (ISO)	"16.3.3" | "6.8.3.3, 6.10.3.3"
     KEY (STD)	"Badly placed '##' operator in macro '"nm"'"
 }
 
@@ -7099,7 +7101,7 @@ cpp_concat_bad ( HASHID: nm )
 cpp_rescan_recursive ( HASHID: nm )
 {
     USAGE:	wall
-    KEY (ISO)	"16.3.4" | "6.8.3.4"
+    KEY (ISO)	"16.3.4" | "6.8.3.4, 6.10.3.4"
     KEY (STD)	"Macro '"nm"' used recursively"
 }
 
@@ -7111,7 +7113,7 @@ cpp_rescan_recursive ( HASHID: nm )
 
 cpp_scope_id ( LEX: dir )
 {
-    KEY (ISO)	"16.3.5" | "6.8.3.5"
+    KEY (ISO)	"16.3.5" | "6.8.3.5, 6.10.3.5"
     KEY (STD)	"Macro identifier expected after '#"dir"'"
 }
 
@@ -7129,7 +7131,7 @@ cpp_scope_undef ( HASHID: nm )
 
 cpp_line_bad ( LEX: dir )
 {
-    KEY (ISO)	"16.4" | "6.8.4"
+    KEY (ISO)	"16.4" | "6.8.4, 6.10.4"
     KEY (STD)	"Line number expected after '#"dir"'"
 }
 
@@ -7151,7 +7153,7 @@ cpp_line_range ( LEX: dir )
 
 cpp_error_msg ( string: str )
 {
-    KEY (ISO)	"16.5" | "6.8.5"
+    KEY (ISO)	"16.5" | "6.8.5, 6.10.5"
     KEY (STD)	str
 }
 
@@ -7164,7 +7166,7 @@ cpp_error_msg ( string: str )
 cpp_pragma_unknown ( LEX: dir )
 {
     USAGE:	pragma_unknown
-    KEY (ISO)	"16.6" | "6.8.6"
+    KEY (ISO)	"16.6" | "6.8.6, 6.10.6"
     KEY (STD)	"Unknown '#"dir"' directive"
 }
 
@@ -7177,7 +7179,7 @@ cpp_pragma_unknown ( LEX: dir )
 cpp_null ()
 {
     USAGE:	wall
-    KEY (ISO)	"16.7" | "6.8.7"
+    KEY (ISO)	"16.7" | "6.8.7, 6.10.7"
     KEY (STD)	"Null preprocessing directive"
 }
 
@@ -7189,7 +7191,7 @@ cpp_null ()
 
 cpp_predef_bad ( HASHID: nm, LEX: dir )
 {
-    KEY (ISO)	"16.8" | "6.8.8"
+    KEY (ISO)	"16.8" | "6.8.8, 6.10.8"
     KEY (STD)	"Identifier '"nm"' subject of '#"dir"' directive"
 }
 
@@ -7312,7 +7314,7 @@ printf_arg_mix ()
 
 limits_max ( string: s, ulong: m, ulong: n )
 {
-    KEY (ISO)	"Annex B" | "5.2.4.1"
+    KEY (ISO)	"Annex B" | "5.2.4.1, 5.2.4.1"
     KEY (STD)	"Value for '"s"' ("m") exceeds implementation limit ("n")"
 }
 
