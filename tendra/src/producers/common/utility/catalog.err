@@ -179,6 +179,7 @@ USAGE:
     func_linkage = error,
     func_id = error,
     func_proto = none,
+    func_ret_missing = error | wall,
     func_ret_void = error | wall,
     func_token_undef = wall,
     func_weak = none,
@@ -1110,7 +1111,7 @@ basic_start_main_addr ( IDENTIFIER: id )
 
 basic_start_main_fall ( IDENTIFIER: id, TYPE: t )
 {
-    USAGE:	wall | func_ret_void
+    USAGE:	wall | func_ret_missing
     KEY (STD)	"Implicit 'return 0' in function '"id"' which returns '"t"'"
 }
 
@@ -3207,7 +3208,7 @@ stmt_return_conv ()
 
 stmt_return_fall ( IDENTIFIER: id, TYPE: t )
 {
-    USAGE:	func_ret_void
+    USAGE:	func_ret_missing
     KEY (STD)	"Fall out of function '"id"' which returns '"t"'"
 }
 
