@@ -10,7 +10,7 @@
 
 # Libraries
 
-.if ${MACH_EXEC} = "elf"
+.if ${MACH_EXEC} == "elf"
 LIB_CRT0?=		/usr/lib/crt0.o
 LIB_CRT1?=		/usr/lib/crt1.o
 LIB_CRTI?=		/usr/lib/crti.o
@@ -22,7 +22,7 @@ LIB_GCRT1?=		/usr/lib/gcrt1.o
 MCRT0?=?=		/usr/lib/Mcrt1.o
 .endif
 
-.if ${MACH_EXEC} = "aout"
+.if ${MACH_EXEC} == "aout"
 LIB_CRT0?=	/usr/i486-linuxaout/lib/crt0.o
 LIB_CRT1?=	/usr/lib/crt1.o
 LIB_CRTI?=	/usr/lib/crti.o
@@ -43,12 +43,12 @@ ARGS_MKDIR?=	-p
 
 # Binaries
 
-.if ${MACH_EXEC} = "elf"
+.if ${MACH_EXEC} == "elf"
 BIN_LD?=	/usr/bin/ld
 BIN_AS?=	/usr/bin/as
 .endif
 
-.if ${MACH_EXEC} = "aout"
+.if ${MACH_EXEC} == "aout"
 BIN_AS?=	/usr/i486-linuxaout/bin/as
 BIN_LD?=	/usr/i486-linuxaout/bin/ld
 .endif

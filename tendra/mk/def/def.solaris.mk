@@ -11,7 +11,7 @@
 # Libraries
 
 
-.if ${MACH_CPU} = "80x86"
+.if ${MACH_CPU} == "80x86"
 LIB_CRT0?=	
 LIB_CRT1?=	
 LIB_CRTI?=	
@@ -27,7 +27,7 @@ LIB_VALUES_XT?=	/usr/ccs/lib/values-Xt.o
 .endif
 
 
-.if ${MACH_CPU} = "sparc"
+.if ${MACH_CPU} == "sparc"
 LIB_CRT0?=	
 LIB_CRT1?=	
 LIB_CRTI?=	

@@ -10,7 +10,7 @@
 
 # Libraries
 
-.if ${MACH_CPU} = "680x0"
+.if ${MACH_CPU} == "680x0"
 LIB_CRT0?=	/usr/lib/crt0.o
 LIB_CRT1?=	
 LIB_CRTI?=	
@@ -21,7 +21,7 @@ LIB_MCRT0?=
 LIB_FCRT1?=	/usr/lib/Fcrt1.o
 .endif
 
-.if ${MACH_CPU} = "sparc"
+.if ${MACH_CPU} == "sparc"
 LIB_CRT0?=	
 LIB_CRT1?=	
 LIB_CRTI?=	
@@ -41,12 +41,12 @@ ARGS_MKDIR?=	-p
 
 # Binaries
 
-.if ${MACH_CPU} = "680x0"
+.if ${MACH_CPU} == "680x0"
 BIN_GAS         /usr/local/bin/gas
 BIN_LD          /bin/ld
 .endif
 
-.if ${MACH_CPU} = "sparc"
+.if ${MACH_CPU} == "sparc"
 BIN_AS          /bin/as
 BIN_LD          /bin/ld
 .endif
