@@ -117,7 +117,7 @@ statement-name : () -> ( :IDENTIFIER );
 !full-name-star : () -> ( :IDENTIFIER );
 
 /* Literals */
-!char-lit ; !wchar-lit ; !string-lit ; !wstring-lit ; !integer-lit;
+!char-lit; !wchar-lit; !string-lit; !wstring-lit; !integer-lit;
 
 /* Literal expressions */
 char-exp : () -> ( :EXP );
@@ -140,71 +140,71 @@ integer-exp : () -> ( :EXP );
 !hash-pragma;
 
 /* End of file markers */
-!newline ; !eof;
+!newline; !eof;
 
 /* Symbols */
-!and-1 ; !and-eq-1 ; !arrow ; !assign ; !backslash ; close-brace-1;
-close-round ; !close-square-1 ; colon ; comma ; !compl-1 ; div ; !div-eq;
-dot ; ellipsis ; eq ; !greater ; !greater-eq ; hash-1 ; !hash-hash-1;
-!less ; !less-eq ; !logical-and-1 ; !logical-or-1 ; !lshift ; !lshift-eq;
-minus ; !minus-eq ; !minus-minus ; !not-1 ; !not-eq-1 ; open-brace-1;
-open-round ; !open-square-1 ; or-1 ; !or-eq-1 ; plus ; !plus-eq;
-!plus-plus ; question ; !rem ; !rem-eq ; !rshift ; !rshift-eq;
-semicolon ; star ; !star-eq ; !xor-1 ; !xor-eq-1 ; !arrow-star;
-colon-colon ; !dot-star ; !abs ; !max ; !min;
+!and-1; !and-eq-1; !arrow; !assign; !backslash; close-brace-1;
+close-round; !close-square-1; colon; comma; !compl-1; div; !div-eq;
+dot; ellipsis; eq; !greater; !greater-eq; hash-1; !hash-hash-1;
+!less; !less-eq; !logical-and-1; !logical-or-1; !lshift; !lshift-eq;
+minus; !minus-eq; !minus-minus; !not-1; !not-eq-1; open-brace-1;
+open-round; !open-square-1; or-1; !or-eq-1; plus; !plus-eq;
+!plus-plus; question; !rem; !rem-eq; !rshift; !rshift-eq;
+semicolon; star; !star-eq; !xor-1; !xor-eq-1; !arrow-star;
+colon-colon; !dot-star; !abs; !max; !min;
 
 /* Digraphs */
-!close-brace-2 ; !close-square-2 ; !hash-2 ; !hash-hash-2;
-!open-brace-2 ; !open-square-2;
+!close-brace-2; !close-square-2; !hash-2; !hash-hash-2;
+!open-brace-2; !open-square-2;
 
 /* C keywords */
-auto ; !break ; case ; !char ; const ; !continue ; !default ; !do;
-!double ; !else ; enum ; !extern ; !float ; for ; !goto ; !if ; int;
-long ; !register ; return ; !short ; signed ; !sizeof ; static ; struct;
-switch ; !typedef ; union ; unsigned ; void ; volatile ; !while;
+auto; !break; case; !char; const; !continue; !default; !do;
+!double; !else; enum; !extern; !float; for; !goto; !if; int;
+long; !register; return; !short; signed; !sizeof; static; struct;
+switch; !typedef; union; unsigned; void; volatile; !while;
 
 /* C++ keywords */
-asm ; bool ; catch ; !class ; const-cast ; !delete ; !dynamic-cast;
-explicit ; export ; !false ; !friend ; inline ; !mutable ; namespace;
-!new ; operator ; private ; protected ; public ; reinterpret-cast;
-static-cast ; template ; this ; throw ; !true ; !try ; !typeid;
-!typename ; !using ; !virtual ; wchar-t;
+asm; bool; catch; !class; const-cast; !delete; !dynamic-cast;
+explicit; export; !false; !friend; inline; !mutable; namespace;
+!new; operator; private; protected; public; reinterpret-cast;
+static-cast; template; this; throw; !true; !try; !typeid;
+!typename; !using; !virtual; wchar-t;
 
 /* ISO keywords */
-!and-2 ; !and-eq-2 ; !compl-2 ; !logical-and-2 ; !logical-or-2;
-!not-2 ; !not-eq-2 ; !or-2 ; !or-eq-2 ; !xor-2 ; !xor-eq-2;
+!and-2; !and-eq-2; !compl-2; !logical-and-2; !logical-or-2;
+!not-2; !not-eq-2; !or-2; !or-eq-2; !xor-2; !xor-eq-2;
 
 /* TenDRA keywords */
-accept ; after ; !alignof ; all ; allow ; ambiguous ; analysis;
-argument ; arith-cap ; !array ; as ; assert ; assignment ; begin;
-bitfield ; block ; bottom ; cast ; character ; class-cap ; code;
-comment ; compatible ; complete ; compute ; conditional ; conversion;
-decimal ; decl ; define ; !define-cap ; !defined ; definition ; depth;
-directive ; directory ; disallow ; discard ; dollar ; either ; !elif;
-ellipsis-exp ; end ; !endif ; environment ; equality ; error ; escape;
-exhaustive ; exp-cap ; !explain ; !extend ; external ; extra ; fall;
-file ; float-cap ; forward ; func-cap ; function ; hexadecimal ; hiding;
-ident ; identif ; !ifdef ; !ifndef ; ignore ; !implement ; implicit;
-import ; !include ; includes ; include-next ; incompatible ; incomplete;
-indented ; initialization ; integer ; interface ; internal ; into;
-int-cap ; keyword ; limit ; !line ; linkage ; lit ; longlong ; lvalue;
-macro ; !main ; member ; member-cap ; name ; nat-cap ; nested ; nline;
-no ; no-def ; object ; octal ; of ; off ; on ; option ; overflow;
-overload ; pointer ; postpone ; pragma ; precedence ; preserve ; printf;
-proc-cap ; promote ; promoted ; prototype ; ptrdiff-t ; qualifier;
-quote ; reachable ; !reference ; reject ; representation ; reset;
-resolution ; rvalue ; scalar-cap ; scanf ; set ; size-t ; !size-t-2;
-!sort ; std ; stmt-cap ; string ; struct-cap ; suspend ; tag ; tag-cap;
-!tendra ; text ; !this-name ; token ; type ; type-cap ; !typeof;
-un-known ; unassert ; undef ; unify ; union-cap ; unmatched ; unpostpone;
-unreachable ; !unused ; use ; value ; variable ; variety-cap;
-volatile-t ; !vtable ; warning ; weak ; writeable ; !zzzz;
+accept; after; !alignof; all; allow; ambiguous; analysis;
+argument; arith-cap; !array; as; assert; assignment; begin;
+bitfield; block; bottom; cast; character; class-cap; code;
+comment; compatible; complete; compute; conditional; conversion;
+decimal; decl; define; !define-cap; !defined; definition; depth;
+directive; directory; disallow; discard; dollar; either; !elif;
+ellipsis-exp; end; !endif; environment; equality; error; escape;
+exhaustive; exp-cap; !explain; !extend; external; extra; fall;
+file; float-cap; forward; func-cap; function; hexadecimal; hiding;
+ident; identif; !ifdef; !ifndef; ignore; !implement; implicit;
+import; !include; includes; include-next; incompatible; incomplete;
+indented; initialization; integer; interface; internal; into;
+int-cap; keyword; limit; !line; linkage; lit; longlong; lvalue;
+macro; !main; member; member-cap; name; nat-cap; nested; nline;
+no; no-def; object; octal; of; off; on; option; overflow;
+overload; pointer; postpone; pragma; precedence; preserve; printf;
+proc-cap; promote; promoted; prototype; ptrdiff-t; qualifier;
+quote; reachable; !reference; reject; representation; reset;
+resolution; rvalue; scalar-cap; scanf; set; size-t; !size-t-2;
+!sort; std; stmt-cap; string; struct-cap; suspend; tag; tag-cap;
+!tendra; text; !this-name; token; type; type-cap; !typeof;
+un-known; unassert; undef; unify; union-cap; unmatched; unpostpone;
+unreachable; !unused; use; value; variable; variety-cap;
+volatile-t; !vtable; warning; weak; writeable; !zzzz;
 
 /* Miscellaneous symbols */
-!array-op ; !builtin-file ; !builtin-line ; !close-template ; !cond-op;
-!delete-full ; !delete-array ; !delete-array-full ; !func-op ; !hash-op;
-!hash-hash-op ; !inset-start ; !inset-end ; !macro-arg ; !new-full;
-!new-array ; !new-array-full ; !open-init ; !open-template ; !zzzzzz;
+!array-op; !builtin-file; !builtin-line; !close-template; !cond-op;
+!delete-full; !delete-array; !delete-array-full; !func-op; !hash-op;
+!hash-hash-op; !inset-start; !inset-end; !macro-arg; !new-full;
+!new-array; !new-array-full; !open-init; !open-template; !zzzzzz;
 
 
 /*
@@ -218,11 +218,11 @@ volatile-t ; !vtable ; warning ; weak ; writeable ; !zzzz;
 
 %productions%
 
-close-brace =	{ close-brace-1 ; };
-open-brace =	{ open-brace-1 ; };
-hash =		{ hash-1 ; };
-or =		{ or-1 ; };
-ellipsis-aux =	{ ellipsis ; || ellipsis-exp ; };
+close-brace =	{ close-brace-1; };
+open-brace =	{ open-brace-1; };
+hash =		{ hash-1; };
+or =		{ or-1; };
+ellipsis-aux =	{ ellipsis; || ellipsis-exp; };
 
 
 /*
@@ -290,49 +290,49 @@ string-literal : () -> ( e : EXP ) = {
 token-introduction : () -> ( :TOKEN );
 
 tag-opt : () -> ( t : BOOL ) = {
-	tag-cap ; t = <bool_true>;
+	tag-cap; t = <bool_true>;
     ||	t = <bool_false>;
 };
 
 bound-tok-param : () -> ( id : IDENTIFIER ) = {
 	tok = token-introduction;
-	t = tag-opt ; tid = any-identifier;
+	t = tag-opt; tid = any-identifier;
 	id = <token_param> ( tok, t, tid );
 };
 
 bound-tok-pars : () -> ( p : LIST-ID ) = {
 	id = bound-tok-param;
 	{
-		comma ; q = bound-tok-pars;
-	    ||	comma ; <error_comma> ; q = <list_id_null>;
+		comma; q = bound-tok-pars;
+	    ||	comma; <error_comma>; q = <list_id_null>;
 	    ||	q = <list_id_null>;
 	};
 	p = <list_id_cons> ( id, q );
 };
 
 prog-tok-param : ( r : LIST-ID ) -> ( id : IDENTIFIER ) = {
-	exp-cap ; tid = any-identifier;
+	exp-cap; tid = any-identifier;
 	id = <token_exp_par> ( tid, r );
     ||
-	stmt-cap ; tid = any-identifier;
+	stmt-cap; tid = any-identifier;
 	id = <token_stmt_par> ( tid, r );
     ||
-	type-cap ; t = <parse_type>;
+	type-cap; t = <parse_type>;
 	id = <token_type_par> ( t, r );
     ||
 	member-cap;
-	t = <parse_type> ; colon ; tid = any-identifier;
+	t = <parse_type>; colon; tid = any-identifier;
 	id = <token_member_par> ( t, tid, r );
     ||
-	proc-cap ; tid = any-identifier;
+	proc-cap; tid = any-identifier;
 	id = <token_proc_par> ( tid, r );
 };
 
 prog-tok-pars : ( r : LIST-ID ) -> ( p : LIST-ID ) = {
 	a = prog-tok-param ( r );
 	{
-		comma ; q = prog-tok-pars ( r );
-	    ||	comma ; <error_comma> ; q = <list_id_null>;
+		comma; q = prog-tok-pars ( r );
+	    ||	comma; <error_comma>; q = <list_id_null>;
 	    ||	q = <list_id_null>;
 	};
 	p = <list_id_cons> ( a, q );
@@ -351,8 +351,8 @@ simple-tok-param : () -> ( id : IDENTIFIER ) = {
 simple-tok-pars : () -> ( p : LIST-ID ) = {
 	id = simple-tok-param;
 	{
-		comma ; q = simple-tok-pars;
-	    ||	comma ; <error_comma> ; q = <list_id_null>;
+		comma; q = simple-tok-pars;
+	    ||	comma; <error_comma>; q = <list_id_null>;
 	    ||	q = <list_id_null>;
 	};
 	p = <list_id_cons> ( id, q );
@@ -398,16 +398,16 @@ simple-tok-pars : () -> ( p : LIST-ID ) = {
 <access_public> : () -> ( :ACCESS );
 
 exp-storage : () -> ( b : BOOL, c : BOOL ) = {
-	lvalue ; b = <bool_true> ; c = <bool_false>;
-    ||	rvalue ; b = <bool_false> ; c = <bool_false>;
-    ||	const ; b = <bool_false> ; c = <bool_true>;
-    ||	b = <bool_false> ; c = <bool_false>;
+	lvalue; b = <bool_true>; c = <bool_false>;
+    ||	rvalue; b = <bool_false>; c = <bool_false>;
+    ||	const; b = <bool_false>; c = <bool_true>;
+    ||	b = <bool_false>; c = <bool_false>;
 };
 
 access-specifier-opt : () -> ( a : ACCESS ) = {
-	private ; a = <access_private>;
-    ||	protected ; a = <access_protected>;
-    ||	public ; a = <access_public>;
+	private; a = <access_private>;
+    ||	protected; a = <access_protected>;
+    ||	public; a = <access_public>;
     ||	a = <access_public>;
 };
 
@@ -427,10 +427,10 @@ token-introduction : () -> ( tok : TOKEN ) = {
 	variety-cap;
 	tok = <token_variety>;
     ||
-	variety-cap ; signed;
+	variety-cap; signed;
 	tok = <token_signed>;
     ||
-	variety-cap ; unsigned;
+	variety-cap; unsigned;
 	tok = <token_unsigned>;
     ||
 	float-cap;
@@ -451,18 +451,18 @@ token-introduction : () -> ( tok : TOKEN ) = {
 	union-cap;
 	tok = <token_union>;
     ||
-	exp-cap ; ( b, c ) = exp-storage ; colon;
-	t = <parse_type> ; colon;
+	exp-cap; ( b, c ) = exp-storage; colon;
+	t = <parse_type>; colon;
 	tok = <token_exp> ( b, c, t );
     ||
-	member-cap ; a = access-specifier-opt;
-	t = <parse_mem_type> ; colon ; s = <parse_type> ; colon;
+	member-cap; a = access-specifier-opt;
+	t = <parse_mem_type>; colon; s = <parse_type>; colon;
 	tok = <token_member> ( a, t, s );
     ||
-	func-cap ; t = <parse_func_type> ; colon;
+	func-cap; t = <parse_func_type>; colon;
 	tok = <token_func> ( t );
     ||
-	proc-cap ; open-brace;
+	proc-cap; open-brace;
 	a = <token_proc_begin>;
 	{
 		p0 = bound-tok-pars;
@@ -480,7 +480,7 @@ token-introduction : () -> ( tok : TOKEN ) = {
 	r = token-introduction;
 	tok = <token_proc_end> ( b, r );
     ||
-	proc-cap ; open-round;
+	proc-cap; open-round;
 	a = <token_proc_begin>;
 	{
 		p = simple-tok-pars;
@@ -493,18 +493,18 @@ token-introduction : () -> ( tok : TOKEN ) = {
 };
 
 token-rule : () -> () = {
-	token ; tok = token-introduction;
+	token; tok = token-introduction;
 	<rescan_tag_line>;
 	{
-		t = tag-opt ; <rescan_id> ; a = any-identifier;
+		t = tag-opt; <rescan_id>; a = any-identifier;
 	    ||
 		? = <is_operator>;
-		a = <parse_operator> ; t = <bool_false>;
+		a = <parse_operator>; t = <bool_false>;
 	};
-	hash ; <rescan_id>;
+	hash; <rescan_id>;
 	{
 		b = any-identifier;
-	    ||	minus ; b = <id_anon>;
+	    ||	minus; b = <id_anon>;
 	    ||	b = a;
 	};
 	<token_decl> ( tok, t, a, b );
@@ -532,17 +532,17 @@ token-id : () -> ( id : IDENTIFIER ) = {
 	nm = any-identifier;
 	id = <token_name> ( nm );
     ||
-	tag-cap ; <rescan_id> ; nm = any-identifier;
+	tag-cap; <rescan_id>; nm = any-identifier;
 	id = <token_tag> ( nm );
     ||
 	? = <is_operator>;
 	nm = <parse_operator>;
 	id = <token_name> ( nm );
     ||
-	nm = token-id ; dot ; <rescan_id> ; mem = any-identifier;
+	nm = token-id; dot; <rescan_id>; mem = any-identifier;
 	id = <token_selector> ( nm, mem );
     ||
-	hash ; <rescan_id> ; nm = any-identifier;
+	hash; <rescan_id>; nm = any-identifier;
 	id = <token_extern> ( nm );
 };
 
@@ -557,11 +557,11 @@ token-id-list : ( i : LEX ) -> () = {
 };
 
 interface-command : () -> ( i : LEX ) = {
-	define ; i = <interface_define>;
-    ||	no-def ; i = <interface_no_def>;
-    ||	reject ; i = <interface_ignore>;
-    ||	interface ; i = <interface_crt>;
-    ||	undef ; token ; i = <interface_undef>;
+	define; i = <interface_define>;
+    ||	no-def; i = <interface_no_def>;
+    ||	reject; i = <interface_ignore>;
+    ||	interface; i = <interface_crt>;
+    ||	undef; token; i = <interface_undef>;
 };
 
 interface-rule : () -> () = {
@@ -587,8 +587,8 @@ interface-rule : () -> () = {
 
 tokdef-rule : () -> () = {
 	<tokdef_start>;
-	member ; definition;
-	t = <parse_type> ; colon ; id = any-identifier;
+	member; definition;
+	t = <parse_type>; colon; id = any-identifier;
 	<tokdef_end>;
 	<token_member_def> ( t, id );
 };
@@ -646,25 +646,25 @@ suspend-list : () -> () = {
 };
 
 identifier-rule : () -> () = {
-	accept ; conversion ; <rescan_line> ; conversion-list;
+	accept; conversion; <rescan_line>; conversion-list;
     ||
-	conversion ; <rescan_allow_line> ; conversion-list ; allow;
+	conversion; <rescan_allow_line>; conversion-list; allow;
     ||
-	initialization ; <rescan_id> ; id = any-identifier ; allow;
+	initialization; <rescan_id>; id = any-identifier; allow;
 	<id_init> ( id );
     ||
-	postpone ; <rescan_line>;
-	a = <lex_postpone> ; postpone-list ( a );
+	postpone; <rescan_line>;
+	a = <lex_postpone>; postpone-list ( a );
     ||
-	preserve ; <rescan_line> ; preserve-list;
+	preserve; <rescan_line>; preserve-list;
     ||
-	preserve ; star;
+	preserve; star;
 	<id_preserve_all>;
     ||
-	suspend ; static ; <rescan_line> ; suspend-list;
+	suspend; static; <rescan_line>; suspend-list;
     ||
-	unpostpone ; <rescan_line>;
-	a = <lex_unpostpone> ; postpone-list ( a );
+	unpostpone; <rescan_line>;
+	a = <lex_unpostpone>; postpone-list ( a );
 };
 
 
@@ -683,36 +683,36 @@ identifier-rule : () -> () = {
 <opt_warning> : () -> ( :NUMBER );
 
 error-state : () -> ( e : STATE ) = {
-	on ; e = <error_on>;
-    ||	off ; e = <error_off>;
-    ||	warning ; e = <error_warning>;
+	on; e = <error_on>;
+    ||	off; e = <error_off>;
+    ||	warning; e = <error_warning>;
 };
 
 allow-state : () -> ( e : STATE ) = {
-	allow ; e = <error_off>;
-    ||	disallow ; e = <error_on>;
-    ||	warning ; e = <error_warning>;
+	allow; e = <error_off>;
+    ||	disallow; e = <error_on>;
+    ||	warning; e = <error_warning>;
 };
 
 option-state : () -> ( e : STATE ) = {
-	on ; e = <error_on>;
-    ||	off ; e = <error_off>;
-    ||	allow ; e = <error_off>;
-    ||	disallow ; e = <error_on>;
-    ||	warning ; e = <error_warning>;
+	on; e = <error_on>;
+    ||	off; e = <error_off>;
+    ||	allow; e = <error_off>;
+    ||	disallow; e = <error_on>;
+    ||	warning; e = <error_warning>;
 };
 
 warning-opt : () -> ( e : STATE ) = {
-	warning ; e = <error_warning>;
+	warning; e = <error_warning>;
     ||	e = <error_on>;
 };
 
 error-severity : () -> ( e : NUMBER ) = {
-	on ; e = <opt_on>;
-    ||	off ; e = <opt_off>;
-    ||	allow ; e = <opt_off>;
-    ||	disallow ; e = <opt_on>;
-    ||	warning ; e = <opt_warning>;
+	on; e = <opt_on>;
+    ||	off; e = <opt_off>;
+    ||	allow; e = <opt_off>;
+    ||	disallow; e = <opt_on>;
+    ||	warning; e = <opt_warning>;
 };
 
 
@@ -742,33 +742,33 @@ error-severity : () -> ( e : NUMBER ) = {
 <literal_range> : () -> ();
 
 literal-base : () -> ( b : NUMBER ) = {
-	octal ; b = <base_octal>;
-    ||	decimal ; b = <base_decimal>;
-    ||	hexadecimal ; b = <base_hexadecimal>;
+	octal; b = <base_octal>;
+    ||	decimal; b = <base_decimal>;
+    ||	hexadecimal; b = <base_hexadecimal>;
 };
 
 literal-suffix : () -> ( s : NUMBER ) = {
 	s = <suffix_none>;
-    ||	unsigned ; s = <suffix_u>;
-    ||	long ; s = <suffix_l>;
-    ||	unsigned ; long ; s = <suffix_ul>;
-    ||	long ; long ; s = <suffix_ll>;
-    ||	unsigned ; long ; long ; s = <suffix_ull>;
+    ||	unsigned; s = <suffix_u>;
+    ||	long; s = <suffix_l>;
+    ||	unsigned; long; s = <suffix_ul>;
+    ||	long; long; s = <suffix_ll>;
+    ||	unsigned; long; long; s = <suffix_ull>;
 };
 
 literal-item : () -> () = {
-	colon ; t = <parse_type>;
+	colon; t = <parse_type>;
 	<literal_type> ( t );
     ||
-	star ; <rescan_keyword>;
+	star; <rescan_keyword>;
 	{
 		a = allow-state;
 	    ||	a = <error_off>;
 	};
-	colon ; <rescan_id> ; id = any-identifier;
+	colon; <rescan_id>; id = any-identifier;
 	<literal_token> ( id, a );
     ||
-	star ; star ; <rescan_keyword>;
+	star; star; <rescan_keyword>;
 	{
 		a = allow-state;
 	    ||	a = <error_on>;
@@ -778,20 +778,20 @@ literal-item : () -> () = {
 };
 
 literal-item-list : () -> () = {
-	e = integer-literal ; <literal_integer> ( e );
-	literal-item ; or ; literal-item-list;
+	e = integer-literal; <literal_integer> ( e );
+	literal-item; or; literal-item-list;
     ||
-	question ; <literal_range>;
-	literal-item ; or ; literal-item-list;
+	question; <literal_range>;
+	literal-item; or; literal-item-list;
     ||
-	star ; <literal_infinity>;
+	star; <literal_infinity>;
 	literal-item;
 };
 
 literal-rule : () -> () = {
-	integer ; lit;
+	integer; lit;
 	<literal_set>;
-	b = literal-base ; s = literal-suffix;
+	b = literal-base; s = literal-suffix;
 	<literal_begin> ( b, s );
 	<rescan_line>;
 	literal-item-list;
@@ -822,30 +822,30 @@ literal-rule : () -> () = {
 <keyword_undef> : ( :IDENTIFIER ) -> ();
 
 keyword-id : () -> ( id : IDENTIFIER ) = {
-	keyword ; <rescan_id> ; id = any-identifier;
+	keyword; <rescan_id>; id = any-identifier;
 };
 
 keyword-spec : () -> ( t : LEX ) = {
-	asm ; t = <lex_asm>;
-    ||	discard ; value ; t = <lex_discard>;
-    ||	discard ; variable ; t = <lex_unused>;
-    ||	exhaustive ; t = <lex_exhaustive>;
-    ||	fall ; into ; case ; t = <lex_fall>;
-    ||	inline ; t = <lex_inline>;
-    ||	set ; t = <lex_set>;
-    ||	set ; reachable ; t = <lex_reachable>;
-    ||	set ; unreachable ; t = <lex_unreachable>;
-    ||	type ; representation ; t = <lex_representation>;
-    ||	weak ; t = <lex_weak>;
-    ||	id = keyword-id ; t = <keyword_spec> ( id );
-    ||	operator ; t = <lex_symbol> ; plus;
+	asm; t = <lex_asm>;
+    ||	discard; value; t = <lex_discard>;
+    ||	discard; variable; t = <lex_unused>;
+    ||	exhaustive; t = <lex_exhaustive>;
+    ||	fall; into; case; t = <lex_fall>;
+    ||	inline; t = <lex_inline>;
+    ||	set; t = <lex_set>;
+    ||	set; reachable; t = <lex_reachable>;
+    ||	set; unreachable; t = <lex_unreachable>;
+    ||	type; representation; t = <lex_representation>;
+    ||	weak; t = <lex_weak>;
+    ||	id = keyword-id; t = <keyword_spec> ( id );
+    ||	operator; t = <lex_symbol>; plus;
 };
 
 keyword-rule : () -> () = {
-	id = keyword-id ; for ; t = keyword-spec;
+	id = keyword-id; for; t = keyword-spec;
 	<keyword_define> ( id, t );
     ||
-	undef ; id = keyword-id;
+	undef; id = keyword-id;
 	<keyword_undef> ( id );
 };
 
@@ -892,15 +892,15 @@ keyword-rule : () -> () = {
 <cv_const> : () -> ( :CV );
 
 type-spec : () -> () = {
-	argument ; <rescan_as_line>;
-	t = <parse_type> ; as ; s = <parse_type>;
+	argument; <rescan_as_line>;
+	t = <parse_type>; as; s = <parse_type>;
 	<type_argument> ( t, s );
     ||
-	argument ; <rescan_as_line>;
-	t = <parse_type> ; as ; ellipsis-aux;
+	argument; <rescan_as_line>;
+	t = <parse_type>; as; ellipsis-aux;
 	<type_ellipsis> ( t );
     ||
-	bottom ; <rescan_id>;
+	bottom; <rescan_id>;
 	<declarator_start>;
 	id = any-identifier;
 	t = <type_bottom>;
@@ -908,72 +908,72 @@ type-spec : () -> () = {
     ||
 	character;
 	{
-		signed ; bt = <btype_signed>;
-	    ||	unsigned ; bt = <btype_unsigned>;
-	    ||	either ; bt = <btype_none>;
+		signed; bt = <btype_signed>;
+	    ||	unsigned; bt = <btype_unsigned>;
+	    ||	either; bt = <btype_none>;
 	};
 	<type_char_sign> ( bt );
     ||
-	compatible ; type ; colon ; <rescan_line>;
-	t = <parse_type> ; eq ; s = <parse_type> ; colon;
-	<rescan_keyword> ; e = allow-state;
+	compatible; type; colon; <rescan_line>;
+	t = <parse_type>; eq; s = <parse_type>; colon;
+	<rescan_keyword>; e = allow-state;
 	<type_compatible> ( t, s, e );
     ||
-	compute ; promote ; <rescan_id>;
+	compute; promote; <rescan_id>;
 	id = any-identifier;
 	<type_compute> ( id );
     ||
-	promoted ; <rescan_line>;
-	t = <parse_type> ; colon ; s = <parse_type>;
+	promoted; <rescan_line>;
+	t = <parse_type>; colon; s = <parse_type>;
 	<type_promote> ( t, s );
     ||
 	set;
 	{
-		ptrdiff-t ; bt = <btype_ptrdiff_t>;
-	    ||	size-t ; bt = <btype_size_t>;
-	    ||	wchar-t ; bt = <btype_wchar_t>;
+		ptrdiff-t; bt = <btype_ptrdiff_t>;
+	    ||	size-t; bt = <btype_size_t>;
+	    ||	wchar-t; bt = <btype_wchar_t>;
 	};
-	colon ; <rescan_line> ; t = <parse_type>;
+	colon; <rescan_line>; t = <parse_type>;
 	<type_builtin> ( bt, t );
     ||
-	set ; character ; lit;
-	colon ; <rescan_line> ; t = <parse_type>;
+	set; character; lit;
+	colon; <rescan_line>; t = <parse_type>;
 	<type_char_lit> ( t );
     ||
-	set ; longlong ; type ; colon ; long;
+	set; longlong; type; colon; long;
 	{
-		long ; b = <bool_true>;
+		long; b = <bool_true>;
 	    ||	b = <bool_false>;
 	};
 	<type_long_long> ( b );
     ||
-	set ; string ; lit ; colon;
+	set; string; lit; colon;
 	{
 		cv = <cv_const>;
-	    ||	no ; cv = <cv_none>;
+	    ||	no; cv = <cv_none>;
 	};
 	const;
 	<type_string_lit> ( cv );
     ||
-	set ; std ; namespace ; colon ; <rescan_id>;
+	set; std; namespace; colon; <rescan_id>;
 	{
 		id = any-identifier;
-	    ||	colon-colon ; id = <id_none>;
+	    ||	colon-colon; id = <id_none>;
 	};
 	<nspace_std> ( id );
     ||
-	type ; <rescan_id>;
+	type; <rescan_id>;
 	<declarator_start>;
-	id = any-identifier ; for;
+	id = any-identifier; for;
 	{
-		bottom ; t = <type_bottom>;
-	    ||	ellipsis-aux ; printf ; t = <type_printf>;
-	    ||	ellipsis-aux ; scanf ; t = <type_scanf>;
-	    ||	ellipsis-aux ; wchar-t ; printf ; t = <type_wprintf>;
-	    ||	ellipsis-aux ; wchar-t ; scanf ; t = <type_wscanf>;
-	    ||	ptrdiff-t ; t = <type_ptrdiff_t>;
-	    ||	size-t ; t = <type_size_t>;
-	    ||	wchar-t ; t = <type_wchar_t>;
+		bottom; t = <type_bottom>;
+	    ||	ellipsis-aux; printf; t = <type_printf>;
+	    ||	ellipsis-aux; scanf; t = <type_scanf>;
+	    ||	ellipsis-aux; wchar-t; printf; t = <type_wprintf>;
+	    ||	ellipsis-aux; wchar-t; scanf; t = <type_wscanf>;
+	    ||	ptrdiff-t; t = <type_ptrdiff_t>;
+	    ||	size-t; t = <type_size_t>;
+	    ||	wchar-t; t = <type_wchar_t>;
 	};
 	<type_special> ( id, t );
 };
@@ -1116,124 +1116,124 @@ type-spec : () -> () = {
 conversion-spec : () -> ( n : NUMBER ) = {
 	n = <opt_conv>;
     ||
-	open-round ; int ; minus ; int ; close-round;
+	open-round; int; minus; int; close-round;
 	n = <opt_conv_int_int>;
     ||
-	open-round ; int ; minus ; int ; explicit ; close-round;
+	open-round; int; minus; int; explicit; close-round;
 	n = <opt_conv_int_int_expl>;
     ||
-	open-round ; int ; minus ; int ; implicit ; close-round;
+	open-round; int; minus; int; implicit; close-round;
 	n = <opt_conv_int_int_impl>;
     ||
-	open-round ; int ; minus ; enum ; implicit ; close-round;
+	open-round; int; minus; enum; implicit; close-round;
 	n = <opt_conv_int_enum>;
     ||
-	open-round ; int ; minus ; pointer ; close-round;
+	open-round; int; minus; pointer; close-round;
 	n = <opt_conv_int_ptr>;
     ||
-	open-round ; int ; minus ; pointer ; explicit ; close-round;
+	open-round; int; minus; pointer; explicit; close-round;
 	n = <opt_conv_int_ptr_expl>;
     ||
-	open-round ; int ; minus ; pointer ; implicit ; close-round;
+	open-round; int; minus; pointer; implicit; close-round;
 	n = <opt_conv_int_ptr_impl>;
     ||
-	open-round ; pointer ; minus ; int ; close-round;
+	open-round; pointer; minus; int; close-round;
 	n = <opt_conv_int_ptr>;
     ||
-	open-round ; pointer ; minus ; int ; explicit ; close-round;
+	open-round; pointer; minus; int; explicit; close-round;
 	n = <opt_conv_int_ptr_expl>;
     ||
-	open-round ; pointer ; minus ; int ; implicit ; close-round;
+	open-round; pointer; minus; int; implicit; close-round;
 	n = <opt_conv_int_ptr_impl>;
     ||
-	open-round ; pointer ; minus ; pointer ; close-round;
+	open-round; pointer; minus; pointer; close-round;
 	n = <opt_conv_ptr_ptr>;
     ||
-	open-round ; pointer ; minus ; pointer ; explicit ; close-round;
+	open-round; pointer; minus; pointer; explicit; close-round;
 	n = <opt_conv_ptr_ptr_expl>;
     ||
-	open-round ; pointer ; minus ; pointer ; implicit ; close-round;
+	open-round; pointer; minus; pointer; implicit; close-round;
 	n = <opt_conv_ptr_ptr_impl>;
     ||
-	open-round ; void ; star ; minus ; pointer ; implicit ; close-round;
+	open-round; void; star; minus; pointer; implicit; close-round;
 	n = <opt_conv_ptr_void_ptr>;
     ||
-	open-round ; pointer ; minus ; void ; star ; implicit ; close-round;
+	open-round; pointer; minus; void; star; implicit; close-round;
 	n = <opt_conv_ptr_ptr_void>;
 };
 
 discard-spec : () -> ( n : NUMBER ) = {
 	n = <opt_discard>;
     ||
-	open-round ; function ; return ; close-round;
+	open-round; function; return; close-round;
 	n = <opt_discard_func>;
     ||
-	open-round ; static ; close-round;
+	open-round; static; close-round;
 	n = <opt_discard_static>;
     ||
-	open-round ; value ; close-round;
+	open-round; value; close-round;
 	n = <opt_discard_value>;
 };
 
 analysis-spec : () -> ( n : NUMBER ) = {
-	complete ; initialization ; analysis;
+	complete; initialization; analysis;
 	n = <opt_init_aggregate>;
     ||
-	complete ; struct ; div ; union ; analysis;
+	complete; struct; div; union; analysis;
 	n = <opt_complete_struct>;
     ||
-	conversion ; analysis;
+	conversion; analysis;
 	n = conversion-spec;
     ||
-	discard ; analysis;
+	discard; analysis;
 	n = discard-spec;
     ||
-	enum ; switch ; analysis;
+	enum; switch; analysis;
 	n = <opt_enum_switch>;
     ||
-	external ; function ; linkage;
+	external; function; linkage;
 	n = <opt_func_linkage>;
     ||
-	for ; initialization ; block;
+	for; initialization; block;
 	n = <opt_for_scope>;
     ||
-	ignore ; struct ; div ; union ; div ; enum ; tag;
+	ignore; struct; div; union; div; enum; tag;
 	n = <opt_type_tag_ignore>;
     ||
-	implicit ; export ; template;
+	implicit; export; template;
 	n = <opt_templ_export>;
     ||
-	implicit ; function ; decl;
+	implicit; function; decl;
 	n = <opt_func_impl>;
     ||
-	integer ; operator ; analysis;
+	integer; operator; analysis;
 	n = <opt_int_operator>;
     ||
-	integer ; overflow ; analysis;
+	integer; overflow; analysis;
 	n = <opt_int_overflow>;
     ||
-	nested ; comment ; analysis;
+	nested; comment; analysis;
 	n = <opt_nest_comment>;
     ||
-	operator ; precedence ; analysis;
+	operator; precedence; analysis;
 	n = <opt_paren>;
     ||
-	pointer ; operator ; analysis;
+	pointer; operator; analysis;
 	n = <opt_ptr_operator>;
     ||
-	throw ; analysis;
+	throw; analysis;
 	n = <opt_throw_bad>;
     ||
-	unify ; external ; linkage;
+	unify; external; linkage;
 	n = <opt_decl_unify>;
     ||
-	variable ; analysis;
+	variable; analysis;
 	n = <opt_variable>;
     ||
-	variable ; hiding ; analysis;
+	variable; hiding; analysis;
 	n = <opt_decl_hide>;
     ||
-	weak ; prototype ; analysis;
+	weak; prototype; analysis;
 	n = <opt_weak>;
 };
 
@@ -1246,16 +1246,16 @@ analysis-spec : () -> ( n : NUMBER ) = {
  */
 
 implicit-spec : () -> ( n : NUMBER ) = {
-	for ; external ; decl;
+	for; external; decl;
 	n = <opt_dspec_none>;
     ||
-	for ; function ; argument;
+	for; function; argument;
 	n = <opt_param_impl>;
     ||
-	for ; function ; return;
+	for; function; return;
 	n = <opt_dspec_none_func>;
     ||
-	for ; const ; div ; volatile;
+	for; const; div; volatile;
 	n = <opt_infer_int_cv>;
     ||
 	n = <opt_infer_int>;
@@ -1270,182 +1270,182 @@ implicit-spec : () -> ( n : NUMBER ) = {
  */
 
 check-spec : () -> ( n : NUMBER ) = {
-	ambiguous ; overload ; resolution;
+	ambiguous; overload; resolution;
 	n = <opt_overload_ambig>;
     ||
-	assignment ; as ; bool;
+	assignment; as; bool;
 	n = <opt_bool_assign>;
     ||
-	bitfield ; overflow;
+	bitfield; overflow;
 	n = <opt_bitf_overflow>;
     ||
-	block ; function ; static;
+	block; function; static;
 	n = <opt_func_block>;
     ||
-	catch ; all;
+	catch; all;
 	n = <opt_wall>;
     ||
-	character ; escape ; overflow;
+	character; escape; overflow;
 	n = <opt_escape_overflow>;
     ||
-	compatible ; token;
+	compatible; token;
 	n = <opt_token_redef>;
     ||
-	complete ; file ; includes;
+	complete; file; includes;
 	n = <opt_include_full>;
     ||
-	conditional ; decl;
+	conditional; decl;
 	n = <opt_decl_cond>;
     ||
-	conditional ; lvalue;
+	conditional; lvalue;
 	n = <opt_cond_lvalue>;
     ||
-	const ; conditional;
+	const; conditional;
 	n = <opt_const_cond>;
     ||
-	directive ; as ; macro ; argument;
+	directive; as; macro; argument;
 	n = <opt_macro_arg_dir>;
     ||
-	dollar ; as ; ident;
+	dollar; as; ident;
 	n = <opt_dollar_ident>;
     ||
-	extra ; comma;
+	extra; comma;
 	n = <opt_comma_extra>;
     ||
-	extra ; ellipsis-aux;
+	extra; ellipsis-aux;
 	n = <opt_ellipsis_extra>;
     ||
-	extra ; semicolon;
+	extra; semicolon;
 	n = <opt_semicolon_extra>;
     ||
-	extra ; semicolon ; after ; conditional;
+	extra; semicolon; after; conditional;
 	n = <opt_empty_body>;
     ||
-	extra ; bitfield ; int ; type;
+	extra; bitfield; int; type;
 	n = <opt_bitf_type>;
     ||
-	extra ; macro ; definition;
+	extra; macro; definition;
 	n = <opt_macro_redef>;
     ||
-	extra ; type ; definition;
+	extra; type; definition;
 	n = <opt_type_redef>;
     ||
-	fall ; into ; case;
+	fall; into; case;
 	n = <opt_case_fall>;
     ||
-	forward ; enum ; decl;
+	forward; enum; decl;
 	n = <opt_enum_decl>;
     ||
-	function ; pointer ; as ; pointer;
+	function; pointer; as; pointer;
 	n = <opt_conv_ptr_func>;
     ||
-	ident ; ellipsis-aux;
+	ident; ellipsis-aux;
 	n = <opt_ellipsis_ident>;
     ||
-	ident ; as ; ellipsis-aux;
+	ident; as; ellipsis-aux;
 	n = <opt_ellipsis_ident>;
     ||
-	implicit ; int ; type;
+	implicit; int; type;
 	n = implicit-spec;
     ||
-	implicit ; token ; definition;
+	implicit; token; definition;
 	n = <opt_func_token_undef>;
     ||
-	incompatible ; interface ; decl;
+	incompatible; interface; decl;
 	n = <opt_interf_incompat>;
     ||
-	incompatible ; linkage;
+	incompatible; linkage;
 	n = <opt_link_incompat>;
     ||
-	incompatible ; member ; decl;
+	incompatible; member; decl;
 	n = <opt_member_incompat>;
     ||
-	incompatible ; promoted ; function ; argument;
+	incompatible; promoted; function; argument;
 	n = <opt_func_incompat>;
     ||
-	incompatible ; type ; qualifier;
+	incompatible; type; qualifier;
 	n = <opt_type_qual_incompat>;
     ||
-	incompatible ; void ; return;
+	incompatible; void; return;
 	n = <opt_func_ret_void>;
     ||
-	incomplete ; type ; as ; object ; type;
+	incomplete; type; as; object; type;
 	n = <opt_type_obj_incompl>;
     ||
-	indented ; hash ; directive;
+	indented; hash; directive;
 	n = <opt_ppdir_indent>;
     ||
-	indented ; directive ; after ; hash;
+	indented; directive; after; hash;
 	n = <opt_ppdir_indent_dir>;
     ||
-	initialization ; of ; struct ; div ; union;
-	open-round ; auto ; close-round;
+	initialization; of; struct; div; union;
+	open-round; auto; close-round;
 	n = <opt_init_struct>;
     ||
-	longlong ; type;
+	longlong; type;
 	n = <opt_longlong>;
     ||
-	no ; directive ; div ; nline ; after ; ident;
+	no; directive; div; nline; after; ident;
 	n = <opt_ppdir_id>;
     ||
-	no ; external ; decl;
+	no; external; decl;
 	n = <opt_decl_none>;
     ||
-	no ; ident ; after ; hash;
+	no; ident; after; hash;
 	n = <opt_hash_ident>;
     ||
-	no ; nline ; after ; file ; end;
+	no; nline; after; file; end;
 	n = <opt_eof_nline>;
     ||
-	no ; token ; definition;
+	no; token; definition;
 	n = <opt_token_undef>;
     ||
-	overload ; resolution;
+	overload; resolution;
 	n = <opt_overload_res>;
     ||
 	prototype;
 	n = <opt_func_proto>;
     ||
-	prototype ; open-round ; weak ; close-round;
+	prototype; open-round; weak; close-round;
 	n = <opt_func_weak>;
     ||
-	rvalue ; token ; as ; const;
+	rvalue; token; as; const;
 	n = <opt_token_const>;
     ||
-	text ; after ; directive;
+	text; after; directive;
 	n = <opt_ppdir_text>;
     ||
-	this ; lvalue;
+	this; lvalue;
 	n = <opt_this_lvalue>;
     ||
-	unify ; incompatible ; string ; lit;
+	unify; incompatible; string; lit;
 	n = <opt_concat_string>;
     ||
-	un-known ; directive;
+	un-known; directive;
 	n = <opt_ppdir_unknown>;
     ||
-	un-known ; escape;
+	un-known; escape;
 	n = <opt_escape_unknown>;
     ||
-	un-known ; pragma;
+	un-known; pragma;
 	n = <opt_pragma_unknown>;
     ||
-	un-known ; struct ; div ; union;
+	un-known; struct; div; union;
 	n = <opt_decl_struct_anon>;
     ||
-	unmatched ; quote;
+	unmatched; quote;
 	n = <opt_unmatched>;
     ||
-	unreachable ; code;
+	unreachable; code;
 	n = <opt_reached>;
     ||
-	variable ; initialization;
+	variable; initialization;
 	n = <opt_init_dynamic>;
     ||
-	weak ; macro ; equality;
+	weak; macro; equality;
 	n = <opt_macro_weak>;
     ||
-	writeable ; string ; lit;
+	writeable; string; lit;
 	n = <opt_const_string>;
 };
 
@@ -1458,14 +1458,14 @@ check-spec : () -> ( n : NUMBER ) = {
  */
 
 directive-spec : () -> ( n : NUMBER, m : NUMBER ) = {
-	assert ; ( n, m ) = <opt_ppdir_assert>;
-    ||	file ; ( n, m ) = <opt_ppdir_file>;
-    ||	ident ; ( n, m ) = <opt_ppdir_ident>;
-    ||	import ; ( n, m ) = <opt_ppdir_import>;
-    ||	include-next ; ( n, m ) = <opt_ppdir_import>;
-    ||	unassert ; ( n, m ) = <opt_ppdir_unassert>;
-    ||	warning ; ( n, m ) = <opt_ppdir_warning>;
-    ||	weak ; ( n, m ) = <opt_ppdir_weak>;
+	assert; ( n, m ) = <opt_ppdir_assert>;
+    ||	file; ( n, m ) = <opt_ppdir_file>;
+    ||	ident; ( n, m ) = <opt_ppdir_ident>;
+    ||	import; ( n, m ) = <opt_ppdir_import>;
+    ||	include-next; ( n, m ) = <opt_ppdir_import>;
+    ||	unassert; ( n, m ) = <opt_ppdir_unassert>;
+    ||	warning; ( n, m ) = <opt_ppdir_warning>;
+    ||	weak; ( n, m ) = <opt_ppdir_weak>;
 };
 
 directive-state : () -> ( e : STATE, i : STATE ) = {
@@ -1474,12 +1474,12 @@ directive-state : () -> ( e : STATE, i : STATE ) = {
 	i = <error_on>;
     ||
 	{
-		open-round ; ignore ; close-round ; a = <error_on>;
+		open-round; ignore; close-round; a = <error_on>;
 	    ||	a = <error_off>;
 	};
 	{
-		allow ; b = <error_off>;
-	    ||	warning ; b = <error_warning>;
+		allow; b = <error_off>;
+	    ||	warning; b = <error_warning>;
 	};
 	e = b;
 	i = a;
@@ -1494,8 +1494,8 @@ directive-state : () -> ( e : STATE, i : STATE ) = {
  */
 
 linkage-descr : () -> ( i : STATE ) = {
-	internal ; i = <error_on>;
-    ||	external ; i = <error_off>;
+	internal; i = <error_on>;
+    ||	external; i = <error_off>;
 };
 
 linkage-state : () -> ( e : STATE, i : STATE ) = {
@@ -1507,8 +1507,8 @@ linkage-state : () -> ( e : STATE, i : STATE ) = {
 	i = linkage-descr;
 	close-round;
 	{
-		on ; b = <error_off>;
-	    ||	warning ; b = <error_warning>;
+		on; b = <error_off>;
+	    ||	warning; b = <error_warning>;
 	};
 	e = b;
 };
@@ -1523,8 +1523,8 @@ linkage-state : () -> ( e : STATE, i : STATE ) = {
 
 complete-state : () -> ( i : STATE ) = {
 	i = <error_on>;
-    ||	open-round ; complete ; close-round ; i = <error_on>;
-    ||	open-round ; incomplete ; close-round ; i = <error_off>;
+    ||	open-round; complete; close-round; i = <error_on>;
+    ||	open-round; incomplete; close-round; i = <error_off>;
 };
 
 
@@ -1542,15 +1542,15 @@ complete-state : () -> ( i : STATE ) = {
 <cast_join> : ( :VALUE, :VALUE ) -> ( :VALUE );
 
 cast-command : () -> ( c : VALUE ) = {
-	static-cast ; c = <cast_static>;
-    ||	reinterpret-cast ; c = <cast_reinterp>;
-    ||	const-cast ; c = <cast_const>;
+	static-cast; c = <cast_static>;
+    ||	reinterpret-cast; c = <cast_reinterp>;
+    ||	const-cast; c = <cast_const>;
 };
 
 cast-state : () -> ( c : VALUE ) = {
 	c = cast-command;
     ||
-	a = cast-command ; or ; b = cast-state;
+	a = cast-command; or; b = cast-state;
 	c = <cast_join> ( a, b );
 };
 
@@ -1570,34 +1570,34 @@ cast-state : () -> ( c : VALUE ) = {
 <analysis_linkage> : ( :LINKAGE ) -> ();
 
 option-number : () -> ( n : NUMBER ) = {
-	option ; s = string-literal;
+	option; s = string-literal;
 	n = <option_number> ( s );
 };
 
 option-rule : () -> () = {
-	n = option-number ; e = option-state;
+	n = option-number; e = option-state;
 	<analysis_state> ( n, e );
     ||
-	n = analysis-spec ; e = error-state;
+	n = analysis-spec; e = error-state;
 	<analysis_state> ( n, e );
     ||
-	n = check-spec ; e = allow-state;
+	n = check-spec; e = allow-state;
 	<analysis_state> ( n, e );
     ||
-	conditional ; overload ; resolution;
-	i = complete-state ; e = allow-state;
+	conditional; overload; resolution;
+	i = complete-state; e = allow-state;
 	n = <opt_overload_dep>;
 	m = <opt_overload_strict>;
 	<analysis_state> ( n, e );
 	<analysis_state> ( m, i );
     ||
-	directive ; ( n, m ) = directive-spec ; ( e, i ) = directive-state;
+	directive; ( n, m ) = directive-spec; ( e, i ) = directive-state;
 	<analysis_state> ( n, e );
 	<analysis_state> ( m, i );
     ||
-	explicit ; cast;
+	explicit; cast;
 	{
-		as ; c = cast-state;
+		as; c = cast-state;
 	    ||	c = <cast_explicit>;
 	};
 	e = allow-state;
@@ -1606,7 +1606,7 @@ option-rule : () -> () = {
 	<analysis_state> ( n, e );
 	<analysis_value> ( m, c );
     ||
-	set ; name ; limit;
+	set; name; limit;
 	e = integer-literal;
 	i = warning-opt;
 	n = <opt_val_name_limit>;
@@ -1614,13 +1614,13 @@ option-rule : () -> () = {
 	<analysis_exp> ( n, e );
 	<analysis_state> ( m, i );
     ||
-	linkage ; resolution ; colon ; ( e, i ) = linkage-state;
+	linkage; resolution; colon; ( e, i ) = linkage-state;
 	n = <opt_link_resolve>;
 	m = <opt_link_internal>;
 	<analysis_state> ( n, e );
 	<analysis_state> ( m, i );
     ||
-	external ; linkage ; e = string-literal;
+	external; linkage; e = string-literal;
 	a = <linkage_string> ( e );
 	<analysis_linkage> ( a );
     ||
@@ -1633,15 +1633,15 @@ option-rule : () -> () = {
 	e = <error_on>;
 	<analysis_state> ( n, e );
     ||
-	inline ; linkage ; e = linkage-descr;
+	inline; linkage; e = linkage-descr;
 	n = <opt_inline_internal>;
 	<analysis_state> ( n, e );
     ||
-	const ; linkage ; e = linkage-descr;
+	const; linkage; e = linkage-descr;
 	n = <opt_const_internal>;
 	<analysis_state> ( n, e );
     ||
-	accept ; ellipsis-aux ; identif;
+	accept; ellipsis-aux; identif;
 	n = <opt_ellipsis_ident>;
 	e = <error_off>;
 	<analysis_state> ( n, e );
@@ -1658,23 +1658,23 @@ option-rule : () -> () = {
 <option_value_number> : ( :EXP ) -> ( :NUMBER );
 
 option-value-number : () -> ( n : NUMBER ) = {
-	option ; value ; s = string-literal;
+	option; value; s = string-literal;
 	n = <option_value_number> ( s );
 };
 
 value-spec : () -> ( n : NUMBER ) = {
-	includes ; depth;
+	includes; depth;
 	n = <opt_val_include_depth>;
     ||
-	set ; error ; limit;
+	set; error; limit;
 	n = <opt_val_maximum_error>;
 };
 
 value-rule : () -> () = {
-	n = option-value-number ; e = integer-literal;
+	n = option-value-number; e = integer-literal;
 	<analysis_exp> ( n, e );
     ||
-	n = value-spec ; e = integer-literal;
+	n = value-spec; e = integer-literal;
 	<analysis_exp> ( n, e );
 };
 
@@ -1697,18 +1697,18 @@ character-rule : () -> () = {
 	    ||	a = string-literal;
 	};
 	{
-		as ; b = character-literal;
+		as; b = character-literal;
 		<char_set> ( a, b );
 		allow;
 	    ||
-		disallow ; b = <exp_none>;
+		disallow; b = <exp_none>;
 		<char_set> ( a, b );
 	};
     ||
-	escape ; a = character-literal;
+	escape; a = character-literal;
 	{
-		as ; b = character-literal ; allow;
-	    ||	disallow ; b = <exp_none>;
+		as; b = character-literal; allow;
+	    ||	disallow; b = <exp_none>;
 	};
 	<escape_set> ( a, b );
 };
@@ -1726,18 +1726,18 @@ character-rule : () -> () = {
 <error_use> : ( :NUMBER ) -> ();
 
 error-number : () -> ( n : NUMBER ) = {
-	error ; s = string-literal;
+	error; s = string-literal;
 	n = <error_number> ( s );
 };
 
 error-rule : () -> () = {
-	n = error-number ; e = error-severity;
+	n = error-number; e = error-severity;
 	<error_state> ( n, e );
     ||
-	n = error-number ; as ; e = option-number;
+	n = error-number; as; e = option-number;
 	<error_state> ( n, e );
     ||
-	use ; n = error-number;
+	use; n = error-number;
 	<error_use> ( n );
 };
 
@@ -1758,19 +1758,19 @@ error-rule : () -> () = {
 <decl_block_end> : () -> ();
 
 scope-rule : () -> () = {
-	begin ; id = <id_none>;
+	begin; id = <id_none>;
 	<check_begin> ( id );
     ||
-	begin ; name ; environment ; <rescan_id> ; id = any-identifier;
+	begin; name; environment; <rescan_id>; id = any-identifier;
 	<check_begin> ( id );
     ||
-	directory ; <rescan_id> ; dir = any-identifier;
-	use ; environment ; <rescan_id> ; id = any-identifier;
+	directory; <rescan_id>; dir = any-identifier;
+	use; environment; <rescan_id>; id = any-identifier;
 	<check_directory> ( dir, id );
     ||
-	use ; environment ; <rescan_id> ; id = any-identifier;
+	use; environment; <rescan_id>; id = any-identifier;
 	{
-		reset ; e = allow-state;
+		reset; e = allow-state;
 	    ||	e = <error_on>;
 	};
 	<check_use> ( id, e );
@@ -1778,10 +1778,10 @@ scope-rule : () -> () = {
 	end;
 	<check_end>;
     ||
-	decl ; block ; <rescan_id> ; id = any-identifier ; begin;
+	decl; block; <rescan_id>; id = any-identifier; begin;
 	<decl_block_begin> ( id );
     ||
-	decl ; block ; end;
+	decl; block; end;
 	<decl_block_end>;
 };
 

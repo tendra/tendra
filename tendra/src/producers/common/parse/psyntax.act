@@ -503,21 +503,21 @@ complex-type : () -> ( t ) = @{
  *    whenever there is a choice, otherwise the actions are very dull.
  */
 
-<lex_asm> : () -> ( t ) = @{ @t = lex_asm ; @};
-<lex_discard> : () -> ( t ) = @{ @t = lex_discard ; @};
-<lex_exhaustive> : () -> ( t ) = @{ @t = lex_exhaustive ; @};
-<lex_fall> : () -> ( t ) = @{ @t = lex_fall ; @};
-<lex_inline> : () -> ( t ) = @{ @t = lex_inline ; @};
-<lex_none> : () -> ( t ) = @{ @t = lex_ignore_token ; @};
-<lex_postpone> : () -> ( t ) = @{ @t = lex_postpone ; @};
-<lex_pragma> : () -> ( t ) = @{ @t = lex_hash_Hpragma ; @};
-<lex_reachable> : () -> ( t ) = @{ @t = lex_reachable ; @};
-<lex_representation> : () -> ( t ) = @{ @t = lex_representation ; @};
-<lex_set> : () -> ( t ) = @{ @t = lex_set ; @};
-<lex_unpostpone> : () -> ( t ) = @{ @t = lex_unpostpone ; @};
-<lex_unreachable> : () -> ( t ) = @{ @t = lex_unreachable ; @};
-<lex_unused> : () -> ( t ) = @{ @t = lex_unused ; @};
-<lex_weak> : () -> ( t ) = @{ @t = lex_weak ; @};
+<lex_asm> : () -> ( t ) = @{ @t = lex_asm; @};
+<lex_discard> : () -> ( t ) = @{ @t = lex_discard; @};
+<lex_exhaustive> : () -> ( t ) = @{ @t = lex_exhaustive; @};
+<lex_fall> : () -> ( t ) = @{ @t = lex_fall; @};
+<lex_inline> : () -> ( t ) = @{ @t = lex_inline; @};
+<lex_none> : () -> ( t ) = @{ @t = lex_ignore_token; @};
+<lex_postpone> : () -> ( t ) = @{ @t = lex_postpone; @};
+<lex_pragma> : () -> ( t ) = @{ @t = lex_hash_Hpragma; @};
+<lex_reachable> : () -> ( t ) = @{ @t = lex_reachable; @};
+<lex_representation> : () -> ( t ) = @{ @t = lex_representation; @};
+<lex_set> : () -> ( t ) = @{ @t = lex_set; @};
+<lex_unpostpone> : () -> ( t ) = @{ @t = lex_unpostpone; @};
+<lex_unreachable> : () -> ( t ) = @{ @t = lex_unreachable; @};
+<lex_unused> : () -> ( t ) = @{ @t = lex_unused; @};
+<lex_weak> : () -> ( t ) = @{ @t = lex_weak; @};
 
 <lex_symbol> : () -> ( t ) = @{
     @t = crt_lex_token;
@@ -557,8 +557,8 @@ complex-type : () -> ( t ) = @{
  *    volatile type qualifiers.
  */
 
-<cv_none> : () -> ( cv ) = @{ @cv = cv_none ; @};
-<cv_const> : () -> ( cv ) = @{ @cv = cv_const ; @};
+<cv_none> : () -> ( cv ) = @{ @cv = cv_none; @};
+<cv_const> : () -> ( cv ) = @{ @cv = cv_const; @};
 
 
 /*
@@ -568,12 +568,12 @@ complex-type : () -> ( t ) = @{
  *    and so on.  This is a simple map onto the calculus type BTYPE.
  */
 
-<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed ; @};
-<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned ; @};
-<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t ; @};
-<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t ; @};
-<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t ; @};
-<btype_none> : () -> ( bt ) = @{ @bt = btype_none ; @};
+<btype_signed> : () -> ( bt ) = @{ @bt = btype_signed; @};
+<btype_unsigned> : () -> ( bt ) = @{ @bt = btype_unsigned; @};
+<btype_wchar_t> : () -> ( bt ) = @{ @bt = btype_wchar_t; @};
+<btype_size_t> : () -> ( bt ) = @{ @bt = btype_size_t; @};
+<btype_ptrdiff_t> : () -> ( bt ) = @{ @bt = btype_ptrdiff_t; @};
+<btype_none> : () -> ( bt ) = @{ @bt = btype_none; @};
 
 
 /*
@@ -583,9 +583,9 @@ complex-type : () -> ( t ) = @{
  *    public.
  */
 
-<access_private> : () -> ( a ) = @{ @a = dspec_private ; @};
-<access_protected> : () -> ( a ) = @{ @a = dspec_protected ; @};
-<access_public> : () -> ( a ) = @{ @a = dspec_public ; @};
+<access_private> : () -> ( a ) = @{ @a = dspec_private; @};
+<access_protected> : () -> ( a ) = @{ @a = dspec_protected; @};
+<access_public> : () -> ( a ) = @{ @a = dspec_public; @};
 
 
 /*
@@ -800,11 +800,11 @@ complex-type : () -> ( t ) = @{
     preserve_id ( @id, lex_suspend );
 @};
 
-<interface_define> : () -> ( i ) = @{ @i = lex_define ; @};
-<interface_no_def> : () -> ( i ) = @{ @i = lex_no_Hdef ; @};
-<interface_ignore> : () -> ( i ) = @{ @i = lex_ignore ; @};
-<interface_crt> : () -> ( i ) = @{ @i = crt_interface ; @};
-<interface_undef> : () -> ( i ) = @{ @i = lex_undef ; @};
+<interface_define> : () -> ( i ) = @{ @i = lex_define; @};
+<interface_no_def> : () -> ( i ) = @{ @i = lex_no_Hdef; @};
+<interface_ignore> : () -> ( i ) = @{ @i = lex_ignore; @};
+<interface_crt> : () -> ( i ) = @{ @i = crt_interface; @};
+<interface_undef> : () -> ( i ) = @{ @i = lex_undef; @};
 
 
 /*
@@ -814,16 +814,16 @@ complex-type : () -> ( t ) = @{
  *    directives concerned with defining integer literal types.
  */
 
-<base_octal> : () -> ( b ) = @{ @b = BASE_OCTAL ; @};
-<base_decimal> : () -> ( b ) = @{ @b = BASE_DECIMAL ; @};
-<base_hexadecimal> : () -> ( b ) = @{ @b = BASE_HEXADECIMAL ; @};
+<base_octal> : () -> ( b ) = @{ @b = BASE_OCTAL; @};
+<base_decimal> : () -> ( b ) = @{ @b = BASE_DECIMAL; @};
+<base_hexadecimal> : () -> ( b ) = @{ @b = BASE_HEXADECIMAL; @};
 
-<suffix_none> : () -> ( s ) = @{ @s = SUFFIX_NONE ; @};
-<suffix_u> : () -> ( s ) = @{ @s = SUFFIX_U ; @};
-<suffix_l> : () -> ( s ) = @{ @s = SUFFIX_L ; @};
-<suffix_ul> : () -> ( s ) = @{ @s = SUFFIX_UL ; @};
-<suffix_ll> : () -> ( s ) = @{ @s = SUFFIX_LL ; @};
-<suffix_ull> : () -> ( s ) = @{ @s = SUFFIX_ULL ; @};
+<suffix_none> : () -> ( s ) = @{ @s = SUFFIX_NONE; @};
+<suffix_u> : () -> ( s ) = @{ @s = SUFFIX_U; @};
+<suffix_l> : () -> ( s ) = @{ @s = SUFFIX_L; @};
+<suffix_ul> : () -> ( s ) = @{ @s = SUFFIX_UL; @};
+<suffix_ll> : () -> ( s ) = @{ @s = SUFFIX_LL; @};
+<suffix_ull> : () -> ( s ) = @{ @s = SUFFIX_ULL; @};
 
 <literal_set> : () -> () = @{
     pragma_number = 1;
@@ -921,9 +921,9 @@ complex-type : () -> ( t ) = @{
     }
 @};
 
-<error_on> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_ON ; @};
-<error_off> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_OFF ; @};
-<error_warning> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_WARN ; @};
+<error_on> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_ON; @};
+<error_off> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_OFF; @};
+<error_warning> : () -> ( e ) = @{ @e = ( unsigned ) OPTION_WARN; @};
 
 <error_state> : ( n, e ) -> () = @{
     set_error_sev ( @n, @e );
@@ -993,14 +993,14 @@ complex-type : () -> ( t ) = @{
     set_std_namespace ( @id );
 @};
 
-<type_bottom> : () -> ( t ) = @{ @t = type_bottom ; @};
-<type_printf> : () -> ( t ) = @{ @t = type_printf ; @};
-<type_scanf> : () -> ( t ) = @{ @t = type_scanf ; @};
-<type_wprintf> : () -> ( t ) = @{ @t = type_wprintf ; @};
-<type_wscanf> : () -> ( t ) = @{ @t = type_wscanf ; @};
-<type_ptrdiff_t> : () -> ( t ) = @{ @t = type_ptrdiff_t ; @};
-<type_size_t> : () -> ( t ) = @{ @t = type_size_t ; @};
-<type_wchar_t> : () -> ( t ) = @{ @t = type_wchar_t ; @};
+<type_bottom> : () -> ( t ) = @{ @t = type_bottom; @};
+<type_printf> : () -> ( t ) = @{ @t = type_printf; @};
+<type_scanf> : () -> ( t ) = @{ @t = type_scanf; @};
+<type_wprintf> : () -> ( t ) = @{ @t = type_wprintf; @};
+<type_wscanf> : () -> ( t ) = @{ @t = type_wscanf; @};
+<type_ptrdiff_t> : () -> ( t ) = @{ @t = type_ptrdiff_t; @};
+<type_size_t> : () -> ( t ) = @{ @t = type_size_t; @};
+<type_wchar_t> : () -> ( t ) = @{ @t = type_wchar_t; @};
 
 
 /*
@@ -1046,11 +1046,11 @@ complex-type : () -> ( t ) = @{
  *    directives concerned with explicit casts.
  */
 
-<cast_static> : () -> ( c ) = @{ @c = CAST_STATIC ; @};
-<cast_reinterp> : () -> ( c ) = @{ @c = CAST_REINTERP ; @};
-<cast_const> : () -> ( c ) = @{ @c = CAST_CONST ; @};
-<cast_explicit> : () -> ( c ) = @{ @c = CAST_EXPLICIT ; @};
-<cast_join> : ( a, b ) -> ( c ) = @{ @c = ( @a | @b ) ; @};
+<cast_static> : () -> ( c ) = @{ @c = CAST_STATIC; @};
+<cast_reinterp> : () -> ( c ) = @{ @c = CAST_REINTERP; @};
+<cast_const> : () -> ( c ) = @{ @c = CAST_CONST; @};
+<cast_explicit> : () -> ( c ) = @{ @c = CAST_EXPLICIT; @};
+<cast_join> : ( a, b ) -> ( c ) = @{ @c = ( @a | @b ); @};
 
 
 /*
@@ -1076,120 +1076,120 @@ complex-type : () -> ( t ) = @{
     set_link_opt ( @a );
 @};
 
-<opt_on> : () -> ( n ) = @{ @n = OPT_error ; @};
-<opt_off> : () -> ( n ) = @{ @n = OPT_none ; @};
-<opt_warning> : () -> ( n ) = @{ @n = OPT_warning ; @};
-<opt_bitf_overflow> : () -> ( n ) = @{ @n = OPT_bitf_overflow ; @};
-<opt_bitf_type> : () -> ( n ) = @{ @n = OPT_bitf_type ; @};
-<opt_bool_assign> : () -> ( n ) = @{ @n = OPT_bool_assign ; @};
-<opt_case_fall> : () -> ( n ) = @{ @n = OPT_case_fall ; @};
-<opt_cast_explicit> : () -> ( n ) = @{ @n = OPT_cast_explicit ; @};
-<opt_comma_extra> : () -> ( n ) = @{ @n = OPT_comma_extra ; @};
-<opt_complete_struct> : () -> ( n ) = @{ @n = OPT_complete_struct ; @};
-<opt_concat_string> : () -> ( n ) = @{ @n = OPT_concat_string ; @};
-<opt_cond_lvalue> : () -> ( n ) = @{ @n = OPT_cond_lvalue ; @};
-<opt_const_cond> : () -> ( n ) = @{ @n = OPT_const_cond ; @};
-<opt_const_internal> : () -> ( n ) = @{ @n = OPT_const_internal ; @};
-<opt_const_string> : () -> ( n ) = @{ @n = OPT_const_string ; @};
-<opt_conv> : () -> ( n ) = @{ @n = OPT_conv ; @};
-<opt_conv_int_enum> : () -> ( n ) = @{ @n = OPT_conv_int_enum ; @};
-<opt_conv_int_int> : () -> ( n ) = @{ @n = OPT_conv_int_int ; @};
-<opt_conv_int_int_expl> : () -> ( n ) = @{ @n = OPT_conv_int_int_expl ; @};
-<opt_conv_int_int_impl> : () -> ( n ) = @{ @n = OPT_conv_int_int_impl ; @};
-<opt_conv_int_ptr> : () -> ( n ) = @{ @n = OPT_conv_int_ptr ; @};
-<opt_conv_int_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_expl ; @};
-<opt_conv_int_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_impl ; @};
-<opt_conv_ptr_func> : () -> ( n ) = @{ @n = OPT_conv_ptr_func ; @};
-<opt_conv_ptr_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr ; @};
-<opt_conv_ptr_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_expl ; @};
-<opt_conv_ptr_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_impl ; @};
-<opt_conv_ptr_ptr_void> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_void ; @};
-<opt_conv_ptr_void_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_void_ptr ; @};
-<opt_decl_cond> : () -> ( n ) = @{ @n = OPT_decl_cond ; @};
-<opt_decl_hide> : () -> ( n ) = @{ @n = OPT_decl_hide ; @};
-<opt_decl_none> : () -> ( n ) = @{ @n = OPT_decl_none ; @};
-<opt_decl_struct_anon> : () -> ( n ) = @{ @n = OPT_decl_struct_anon ; @};
-<opt_decl_unify> : () -> ( n ) = @{ @n = OPT_decl_unify ; @};
-<opt_decl_volatile> : () -> ( n ) = @{ @n = OPT_decl_volatile ; @};
-<opt_discard> : () -> ( n ) = @{ @n = OPT_discard ; @};
-<opt_discard_func> : () -> ( n ) = @{ @n = OPT_discard_func ; @};
-<opt_discard_static> : () -> ( n ) = @{ @n = OPT_discard_static ; @};
-<opt_discard_value> : () -> ( n ) = @{ @n = OPT_discard_value ; @};
-<opt_dollar_ident> : () -> ( n ) = @{ @n = OPT_dollar_ident ; @};
-<opt_dspec_none> : () -> ( n ) = @{ @n = OPT_dspec_none ; @};
-<opt_dspec_none_func> : () -> ( n ) = @{ @n = OPT_dspec_none_func ; @};
-<opt_ellipsis_extra> : () -> ( n ) = @{ @n = OPT_ellipsis_extra ; @};
-<opt_ellipsis_ident> : () -> ( n ) = @{ @n = OPT_ellipsis_ident ; @};
-<opt_empty_body> : () -> ( n ) = @{ @n = OPT_empty_body ; @};
-<opt_enum_decl> : () -> ( n ) = @{ @n = OPT_enum_decl ; @};
-<opt_enum_switch> : () -> ( n ) = @{ @n = OPT_enum_switch ; @};
-<opt_eof_nline> : () -> ( n ) = @{ @n = OPT_eof_nline ; @};
-<opt_escape_overflow> : () -> ( n ) = @{ @n = OPT_escape_overflow ; @};
-<opt_escape_unknown> : () -> ( n ) = @{ @n = OPT_escape_unknown ; @};
-<opt_for_scope> : () -> ( n ) = @{ @n = OPT_for_scope ; @};
-<opt_func_block> : () -> ( n ) = @{ @n = OPT_func_block ; @};
-<opt_func_impl> : () -> ( n ) = @{ @n = OPT_func_impl ; @};
-<opt_func_incompat> : () -> ( n ) = @{ @n = OPT_func_incompat ; @};
-<opt_func_linkage> : () -> ( n ) = @{ @n = OPT_func_linkage ; @};
-<opt_func_proto> : () -> ( n ) = @{ @n = OPT_func_proto ; @};
-<opt_func_ret_void> : () -> ( n ) = @{ @n = OPT_func_ret_void ; @};
-<opt_func_token_undef> : () -> ( n ) = @{ @n = OPT_func_token_undef ; @};
-<opt_func_weak> : () -> ( n ) = @{ @n = OPT_func_weak ; @};
-<opt_hash_ident> : () -> ( n ) = @{ @n = OPT_hash_ident ; @};
-<opt_infer_int> : () -> ( n ) = @{ @n = OPT_infer_int ; @};
-<opt_infer_int_cv> : () -> ( n ) = @{ @n = OPT_infer_int_cv ; @};
-<opt_include_full> : () -> ( n ) = @{ @n = OPT_include_full ; @};
-<opt_init_aggregate> : () -> ( n ) = @{ @n = OPT_init_aggregate ; @};
-<opt_init_dynamic> : () -> ( n ) = @{ @n = OPT_init_dynamic ; @};
-<opt_init_struct> : () -> ( n ) = @{ @n = OPT_init_struct ; @};
-<opt_inline_internal> : () -> ( n ) = @{ @n = OPT_inline_internal ; @};
-<opt_interf_incompat> : () -> ( n ) = @{ @n = OPT_interf_incompat ; @};
-<opt_int_operator> : () -> ( n ) = @{ @n = OPT_int_operator ; @};
-<opt_int_overflow> : () -> ( n ) = @{ @n = OPT_int_overflow ; @};
-<opt_link_incompat> : () -> ( n ) = @{ @n = OPT_link_incompat ; @};
-<opt_link_internal> : () -> ( n ) = @{ @n = OPT_link_internal ; @};
-<opt_link_resolve> : () -> ( n ) = @{ @n = OPT_link_resolve ; @};
-<opt_longlong> : () -> ( n ) = @{ @n = OPT_longlong ; @};
-<opt_macro_arg_dir> : () -> ( n ) = @{ @n = OPT_macro_arg_dir ; @};
-<opt_macro_redef> : () -> ( n ) = @{ @n = OPT_macro_redef ; @};
-<opt_macro_weak> : () -> ( n ) = @{ @n = OPT_macro_weak ; @};
-<opt_member_incompat> : () -> ( n ) = @{ @n = OPT_member_incompat ; @};
-<opt_name_limit> : () -> ( n ) = @{ @n = OPT_name_limit ; @};
-<opt_nest_comment> : () -> ( n ) = @{ @n = OPT_nest_comment ; @};
-<opt_overload_ambig> : () -> ( n ) = @{ @n = OPT_overload_ambig ; @};
-<opt_overload_dep> : () -> ( n ) = @{ @n = OPT_overload_dep ; @};
-<opt_overload_res> : () -> ( n ) = @{ @n = OPT_overload_res ; @};
-<opt_overload_strict> : () -> ( n ) = @{ @n = OPT_overload_strict ; @};
-<opt_param_impl> : () -> ( n ) = @{ @n = OPT_param_impl ; @};
-<opt_paren> : () -> ( n ) = @{ @n = OPT_paren ; @};
-<opt_ppdir_id> : () -> ( n ) = @{ @n = OPT_ppdir_id ; @};
-<opt_ppdir_indent> : () -> ( n ) = @{ @n = OPT_ppdir_indent ; @};
-<opt_ppdir_indent_dir> : () -> ( n ) = @{ @n = OPT_ppdir_indent_dir ; @};
-<opt_ppdir_text> : () -> ( n ) = @{ @n = OPT_ppdir_text ; @};
-<opt_ppdir_unknown> : () -> ( n ) = @{ @n = OPT_ppdir_unknown ; @};
-<opt_pragma_unknown> : () -> ( n ) = @{ @n = OPT_pragma_unknown ; @};
-<opt_ptr_operator> : () -> ( n ) = @{ @n = OPT_ptr_operator ; @};
-<opt_reached> : () -> ( n ) = @{ @n = OPT_reached ; @};
-<opt_semicolon_extra> : () -> ( n ) = @{ @n = OPT_semicolon_extra ; @};
-<opt_templ_export> : () -> ( n ) = @{ @n = OPT_templ_export ; @};
-<opt_this_lvalue> : () -> ( n ) = @{ @n = OPT_this_lvalue ; @};
-<opt_throw_bad> : () -> ( n ) = @{ @n = OPT_throw_bad ; @};
-<opt_token_const> : () -> ( n ) = @{ @n = OPT_token_const ; @};
-<opt_token_redef> : () -> ( n ) = @{ @n = OPT_token_redef ; @};
-<opt_token_undef> : () -> ( n ) = @{ @n = OPT_token_undef ; @};
-<opt_type_obj_incompl> : () -> ( n ) = @{ @n = OPT_type_obj_incompl ; @};
-<opt_type_qual_incompat> : () -> ( n ) = @{ @n = OPT_type_qual_incompat ; @};
-<opt_type_redef> : () -> ( n ) = @{ @n = OPT_type_redef ; @};
-<opt_type_tag_ignore> : () -> ( n ) = @{ @n = OPT_type_tag_ignore ; @};
-<opt_unmatched> : () -> ( n ) = @{ @n = OPT_unmatched ; @};
-<opt_variable> : () -> ( n ) = @{ @n = OPT_variable ; @};
-<opt_wall> : () -> ( n ) = @{ @n = OPT_wall ; @};
-<opt_weak> : () -> ( n ) = @{ @n = OPT_weak ; @};
+<opt_on> : () -> ( n ) = @{ @n = OPT_error; @};
+<opt_off> : () -> ( n ) = @{ @n = OPT_none; @};
+<opt_warning> : () -> ( n ) = @{ @n = OPT_warning; @};
+<opt_bitf_overflow> : () -> ( n ) = @{ @n = OPT_bitf_overflow; @};
+<opt_bitf_type> : () -> ( n ) = @{ @n = OPT_bitf_type; @};
+<opt_bool_assign> : () -> ( n ) = @{ @n = OPT_bool_assign; @};
+<opt_case_fall> : () -> ( n ) = @{ @n = OPT_case_fall; @};
+<opt_cast_explicit> : () -> ( n ) = @{ @n = OPT_cast_explicit; @};
+<opt_comma_extra> : () -> ( n ) = @{ @n = OPT_comma_extra; @};
+<opt_complete_struct> : () -> ( n ) = @{ @n = OPT_complete_struct; @};
+<opt_concat_string> : () -> ( n ) = @{ @n = OPT_concat_string; @};
+<opt_cond_lvalue> : () -> ( n ) = @{ @n = OPT_cond_lvalue; @};
+<opt_const_cond> : () -> ( n ) = @{ @n = OPT_const_cond; @};
+<opt_const_internal> : () -> ( n ) = @{ @n = OPT_const_internal; @};
+<opt_const_string> : () -> ( n ) = @{ @n = OPT_const_string; @};
+<opt_conv> : () -> ( n ) = @{ @n = OPT_conv; @};
+<opt_conv_int_enum> : () -> ( n ) = @{ @n = OPT_conv_int_enum; @};
+<opt_conv_int_int> : () -> ( n ) = @{ @n = OPT_conv_int_int; @};
+<opt_conv_int_int_expl> : () -> ( n ) = @{ @n = OPT_conv_int_int_expl; @};
+<opt_conv_int_int_impl> : () -> ( n ) = @{ @n = OPT_conv_int_int_impl; @};
+<opt_conv_int_ptr> : () -> ( n ) = @{ @n = OPT_conv_int_ptr; @};
+<opt_conv_int_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_expl; @};
+<opt_conv_int_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_int_ptr_impl; @};
+<opt_conv_ptr_func> : () -> ( n ) = @{ @n = OPT_conv_ptr_func; @};
+<opt_conv_ptr_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr; @};
+<opt_conv_ptr_ptr_expl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_expl; @};
+<opt_conv_ptr_ptr_impl> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_impl; @};
+<opt_conv_ptr_ptr_void> : () -> ( n ) = @{ @n = OPT_conv_ptr_ptr_void; @};
+<opt_conv_ptr_void_ptr> : () -> ( n ) = @{ @n = OPT_conv_ptr_void_ptr; @};
+<opt_decl_cond> : () -> ( n ) = @{ @n = OPT_decl_cond; @};
+<opt_decl_hide> : () -> ( n ) = @{ @n = OPT_decl_hide; @};
+<opt_decl_none> : () -> ( n ) = @{ @n = OPT_decl_none; @};
+<opt_decl_struct_anon> : () -> ( n ) = @{ @n = OPT_decl_struct_anon; @};
+<opt_decl_unify> : () -> ( n ) = @{ @n = OPT_decl_unify; @};
+<opt_decl_volatile> : () -> ( n ) = @{ @n = OPT_decl_volatile; @};
+<opt_discard> : () -> ( n ) = @{ @n = OPT_discard; @};
+<opt_discard_func> : () -> ( n ) = @{ @n = OPT_discard_func; @};
+<opt_discard_static> : () -> ( n ) = @{ @n = OPT_discard_static; @};
+<opt_discard_value> : () -> ( n ) = @{ @n = OPT_discard_value; @};
+<opt_dollar_ident> : () -> ( n ) = @{ @n = OPT_dollar_ident; @};
+<opt_dspec_none> : () -> ( n ) = @{ @n = OPT_dspec_none; @};
+<opt_dspec_none_func> : () -> ( n ) = @{ @n = OPT_dspec_none_func; @};
+<opt_ellipsis_extra> : () -> ( n ) = @{ @n = OPT_ellipsis_extra; @};
+<opt_ellipsis_ident> : () -> ( n ) = @{ @n = OPT_ellipsis_ident; @};
+<opt_empty_body> : () -> ( n ) = @{ @n = OPT_empty_body; @};
+<opt_enum_decl> : () -> ( n ) = @{ @n = OPT_enum_decl; @};
+<opt_enum_switch> : () -> ( n ) = @{ @n = OPT_enum_switch; @};
+<opt_eof_nline> : () -> ( n ) = @{ @n = OPT_eof_nline; @};
+<opt_escape_overflow> : () -> ( n ) = @{ @n = OPT_escape_overflow; @};
+<opt_escape_unknown> : () -> ( n ) = @{ @n = OPT_escape_unknown; @};
+<opt_for_scope> : () -> ( n ) = @{ @n = OPT_for_scope; @};
+<opt_func_block> : () -> ( n ) = @{ @n = OPT_func_block; @};
+<opt_func_impl> : () -> ( n ) = @{ @n = OPT_func_impl; @};
+<opt_func_incompat> : () -> ( n ) = @{ @n = OPT_func_incompat; @};
+<opt_func_linkage> : () -> ( n ) = @{ @n = OPT_func_linkage; @};
+<opt_func_proto> : () -> ( n ) = @{ @n = OPT_func_proto; @};
+<opt_func_ret_void> : () -> ( n ) = @{ @n = OPT_func_ret_void; @};
+<opt_func_token_undef> : () -> ( n ) = @{ @n = OPT_func_token_undef; @};
+<opt_func_weak> : () -> ( n ) = @{ @n = OPT_func_weak; @};
+<opt_hash_ident> : () -> ( n ) = @{ @n = OPT_hash_ident; @};
+<opt_infer_int> : () -> ( n ) = @{ @n = OPT_infer_int; @};
+<opt_infer_int_cv> : () -> ( n ) = @{ @n = OPT_infer_int_cv; @};
+<opt_include_full> : () -> ( n ) = @{ @n = OPT_include_full; @};
+<opt_init_aggregate> : () -> ( n ) = @{ @n = OPT_init_aggregate; @};
+<opt_init_dynamic> : () -> ( n ) = @{ @n = OPT_init_dynamic; @};
+<opt_init_struct> : () -> ( n ) = @{ @n = OPT_init_struct; @};
+<opt_inline_internal> : () -> ( n ) = @{ @n = OPT_inline_internal; @};
+<opt_interf_incompat> : () -> ( n ) = @{ @n = OPT_interf_incompat; @};
+<opt_int_operator> : () -> ( n ) = @{ @n = OPT_int_operator; @};
+<opt_int_overflow> : () -> ( n ) = @{ @n = OPT_int_overflow; @};
+<opt_link_incompat> : () -> ( n ) = @{ @n = OPT_link_incompat; @};
+<opt_link_internal> : () -> ( n ) = @{ @n = OPT_link_internal; @};
+<opt_link_resolve> : () -> ( n ) = @{ @n = OPT_link_resolve; @};
+<opt_longlong> : () -> ( n ) = @{ @n = OPT_longlong; @};
+<opt_macro_arg_dir> : () -> ( n ) = @{ @n = OPT_macro_arg_dir; @};
+<opt_macro_redef> : () -> ( n ) = @{ @n = OPT_macro_redef; @};
+<opt_macro_weak> : () -> ( n ) = @{ @n = OPT_macro_weak; @};
+<opt_member_incompat> : () -> ( n ) = @{ @n = OPT_member_incompat; @};
+<opt_name_limit> : () -> ( n ) = @{ @n = OPT_name_limit; @};
+<opt_nest_comment> : () -> ( n ) = @{ @n = OPT_nest_comment; @};
+<opt_overload_ambig> : () -> ( n ) = @{ @n = OPT_overload_ambig; @};
+<opt_overload_dep> : () -> ( n ) = @{ @n = OPT_overload_dep; @};
+<opt_overload_res> : () -> ( n ) = @{ @n = OPT_overload_res; @};
+<opt_overload_strict> : () -> ( n ) = @{ @n = OPT_overload_strict; @};
+<opt_param_impl> : () -> ( n ) = @{ @n = OPT_param_impl; @};
+<opt_paren> : () -> ( n ) = @{ @n = OPT_paren; @};
+<opt_ppdir_id> : () -> ( n ) = @{ @n = OPT_ppdir_id; @};
+<opt_ppdir_indent> : () -> ( n ) = @{ @n = OPT_ppdir_indent; @};
+<opt_ppdir_indent_dir> : () -> ( n ) = @{ @n = OPT_ppdir_indent_dir; @};
+<opt_ppdir_text> : () -> ( n ) = @{ @n = OPT_ppdir_text; @};
+<opt_ppdir_unknown> : () -> ( n ) = @{ @n = OPT_ppdir_unknown; @};
+<opt_pragma_unknown> : () -> ( n ) = @{ @n = OPT_pragma_unknown; @};
+<opt_ptr_operator> : () -> ( n ) = @{ @n = OPT_ptr_operator; @};
+<opt_reached> : () -> ( n ) = @{ @n = OPT_reached; @};
+<opt_semicolon_extra> : () -> ( n ) = @{ @n = OPT_semicolon_extra; @};
+<opt_templ_export> : () -> ( n ) = @{ @n = OPT_templ_export; @};
+<opt_this_lvalue> : () -> ( n ) = @{ @n = OPT_this_lvalue; @};
+<opt_throw_bad> : () -> ( n ) = @{ @n = OPT_throw_bad; @};
+<opt_token_const> : () -> ( n ) = @{ @n = OPT_token_const; @};
+<opt_token_redef> : () -> ( n ) = @{ @n = OPT_token_redef; @};
+<opt_token_undef> : () -> ( n ) = @{ @n = OPT_token_undef; @};
+<opt_type_obj_incompl> : () -> ( n ) = @{ @n = OPT_type_obj_incompl; @};
+<opt_type_qual_incompat> : () -> ( n ) = @{ @n = OPT_type_qual_incompat; @};
+<opt_type_redef> : () -> ( n ) = @{ @n = OPT_type_redef; @};
+<opt_type_tag_ignore> : () -> ( n ) = @{ @n = OPT_type_tag_ignore; @};
+<opt_unmatched> : () -> ( n ) = @{ @n = OPT_unmatched; @};
+<opt_variable> : () -> ( n ) = @{ @n = OPT_variable; @};
+<opt_wall> : () -> ( n ) = @{ @n = OPT_wall; @};
+<opt_weak> : () -> ( n ) = @{ @n = OPT_weak; @};
 
-<opt_val_cast_explicit> : () -> ( n ) = @{ @n = OPT_VAL_cast_explicit ; @};
-<opt_val_include_depth> : () -> ( n ) = @{ @n = OPT_VAL_include_depth ; @};
-<opt_val_maximum_error> : () -> ( n ) = @{ @n = OPT_VAL_maximum_error ; @};
-<opt_val_name_limit> : () -> ( n ) = @{ @n = OPT_VAL_name_limit ; @};
+<opt_val_cast_explicit> : () -> ( n ) = @{ @n = OPT_VAL_cast_explicit; @};
+<opt_val_include_depth> : () -> ( n ) = @{ @n = OPT_VAL_include_depth; @};
+<opt_val_maximum_error> : () -> ( n ) = @{ @n = OPT_VAL_maximum_error; @};
+<opt_val_name_limit> : () -> ( n ) = @{ @n = OPT_VAL_name_limit; @};
 
 <opt_ppdir_assert> : () -> ( n, m ) = @{
     @n = OPT_ppdir_assert;
@@ -1255,8 +1255,8 @@ complex-type : () -> ( t ) = @{
  *    BOOL.
  */
 
-<bool_false> : () -> ( b ) = @{ @b = 0 ; @};
-<bool_true> : () -> ( b ) = @{ @b = 1 ; @};
+<bool_false> : () -> ( b ) = @{ @b = 0; @};
+<bool_true> : () -> ( b ) = @{ @b = 1; @};
 
 
 /*
