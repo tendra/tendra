@@ -166,6 +166,9 @@ posixParseOptLetter(c)
 	case 'r':
 		noBuiltins = true;
 		break;
+	case 'R':
+		noBuiltins = false;
+		break;
 	case 's':
 		beSilent = true;
 		break;
@@ -202,11 +205,11 @@ MainParseArgs(argc, argv)
 
 	optind = 1;	/* since we're called more than once */
 #ifdef REMOTE
-# define OPTFLAGS "BD:I:L:PSV:d:ef:ij:km:nqrst"
+# define OPTFLAGS "BD:I:L:PSV:d:ef:ij:km:nqRrst"
 #else
-# define OPTFLAGS "BD:I:PSV:d:ef:ij:km:nqrst"
+# define OPTFLAGS "BD:I:PSV:d:ef:ij:km:nqRrst"
 #endif
-# define OPTLETTERS "BPSiknqrst"
+# define OPTLETTERS "BPSiknqRrst"
 rearg:	while ((c = getopt(argc, argv, OPTFLAGS)) != -1) {
 		switch (c) {
 		case 'D':
@@ -599,7 +602,7 @@ main(argc, argv)
 	keepgoing = false;		/* Stop on error */
 	allPrecious = false;		/* Remove targets when interrupted */
 	queryFlag = false;		/* This is not just a check-run */
-	noBuiltins = false;		/* Read the built-in rules */
+	noBuiltins = true;		/* Don't Read the built-in rules */
 	touchFlag = false;		/* Actually update targets */
 	usePipes = true;		/* Catch child output in pipes */
 	debug = 0;			/* No debug verbosity, please. */
@@ -861,7 +864,7 @@ static void
 usage()
 {
 	(void)fprintf(stderr,
-"usage: make [-Beiknqrst] [-D variable] [-d flags] [-f makefile ]\n\
+"usage: make [-BeiknqRrst] [-D variable] [-d flags] [-f makefile ]\n\
 	    [-I directory] [-j max_jobs] [-m directory] [-V variable]\n\
 	    [variable=value] [target ...]\n");
 	exit(2);

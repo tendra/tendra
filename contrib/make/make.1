@@ -187,8 +187,16 @@ is used too.
 .It Fl q
 Do not execute commands, but exit with status 0 if the specified targets 
 are up-to-date, and 1 otherwise.
+.It Fl R
+Use the built-in rules specified in the system makefile.
+.Pp
+Note: This differs from traditional PMake implimentations which provide a warning when no sys.mk rules are available.
+.Pp
 .It Fl r
 Do not use the built-in rules specified in the system makefile.
+.Pp
+Note: -r is the default and remains for backwards compatability only.
+.Pp
 .It Fl S
 Stop processing when an error is encountered.  Default
 behavior. This is needed to negate the
