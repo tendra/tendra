@@ -52,6 +52,32 @@
 
   <variablelist>
     <varlistentry>
+      <term><option>-I</option><replaceable>dir</replaceable></term>
+      <listitem>
+        <para>Adds the directory <emphasis>dir</emphasis> to the search
+          path used by <command>tnc</command> to find included files in
+          <emphasis>read</emphasis> mode.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-L</option><replaceable>prefix</replaceable></term>
+      <listitem>
+        <para>Causes <command>tnc</command> to treat any external
+          identifiers starting with <emphasis>prefix</emphasis> to be treated
+          as if they were declare <emphasis>local</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-V</option></term>
+      <listitem>
+        <para>In <emphasis>write</emphasis> mode, specifies that the output
+          should be in the "verbose" form, with no shorthand forms.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-c</option> or <option>-cv</option> or <option>-check</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should apply extra
@@ -120,30 +146,12 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-I</option><replaceable>dir</replaceable></term>
-      <listitem>
-        <para>Adds the directory <emphasis>dir</emphasis> to the search
-          path used by <command>tnc</command> to find included files in
-          <emphasis>read</emphasis> mode.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-l</option> or <option>-lib</option></term>
       <listitem>
         <para>In <emphasis>decode</emphasis> mode, specifies that
           <emphasis>input-file</emphasis> is not a TDF capsule, but a TDF
           library. All the capsules comprising the library are
           decoded.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-L</option><replaceable>prefix</replaceable></term>
-      <listitem>
-        <para>Causes <command>tnc</command> to treat any external
-          identifiers starting with <emphasis>prefix</emphasis> to be treated
-          as if they were declare <emphasis>local</emphasis>.</para>
       </listitem>
     </varlistentry>
 
@@ -192,14 +200,6 @@
           definition and by evaluating constant expressions as far as
           possible. This is equivalent to <option>-expand
           -eval</option>.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-V</option></term>
-      <listitem>
-        <para>In <emphasis>write</emphasis> mode, specifies that the output
-          should be in the "verbose" form, with no shorthand forms.</para>
       </listitem>
     </varlistentry>
 
