@@ -75,7 +75,8 @@ extern IDENTIFIER make_friend_decl(DECL_SPEC, TYPE, IDENTIFIER, int, int);
 
 extern void check_obj_decl(DECL_SPEC, TYPE, IDENTIFIER, int);
 extern void check_par_decl(TYPE, IDENTIFIER, int);
-extern void check_mem_decl(DECL_SPEC, TYPE, IDENTIFIER);
+extern ERROR check_flex_mem(TYPE t);
+extern void check_mem_decl(DECL_SPEC, TYPE, IDENTIFIER, CLASS_INFO);
 extern void special_func_mem(CLASS_TYPE, IDENTIFIER, unsigned, IDENTIFIER);
 extern DECL_SPEC complete_dspec(DECL_SPEC, BASE_TYPE, TYPE, CV_SPEC);
 extern void check_decl_nspace(IDENTIFIER, NAMESPACE, int, NAMESPACE);

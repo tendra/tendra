@@ -2352,7 +2352,7 @@ copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
 			TYPE t = DEREF_type (id_member_type (tid));
 			MAKE_off_member (tid, off);
 			COPY_off (id_member_off (tid), off);
-			check_mem_decl (ds, t, tid);
+			check_mem_decl (ds, t, tid, ci);
 			ci = check_member_type (ct, ci, t, 0);
 			if (acc != dspec_public) ci |= cinfo_private;
 			def = 1;
@@ -2363,7 +2363,7 @@ copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
 			/* Static data members */
 			EXP dummy;
 			TYPE t = DEREF_type (id_stat_member_type (tid));
-			check_mem_decl (ds, t, tid);
+			check_mem_decl (ds, t, tid, ci);
 			MAKE_type_instance (cv_none, id, dspec_none, form);
 			COPY_id (type_name (form), tid);
 			MAKE_exp_paren (form, NULL_exp, dummy);

@@ -1707,6 +1707,12 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				pads++;
 			}
 
+			/* Check flexible array members */
+			if (sid == DEREF_id (ctype_flex_mem (ct))) {
+				ERROR ferr = ERR_dcl_init_flex_mem ();
+				serr = concat_error (ferr, serr);
+			}
+
 			/* Report any errors for this field */
 			if (!IS_NULL_err (serr)) {
 				ERROR ferr = ERR_dcl_init_decl (id, bf->start);

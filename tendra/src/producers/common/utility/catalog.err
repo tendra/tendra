@@ -172,6 +172,7 @@ USAGE:
     eof_nline = error,
     escape_overflow = error,
     escape_unknown = error,
+    flex_array_member = error,
     for_scope = on,
     func_block = error,
     func_impl = error | wall,
@@ -4077,6 +4078,12 @@ dcl_array_func ()
     KEY (STD)	"Can't have arrays of functions"
 }
 
+dcl_array_flex_mem ()
+{
+    KEY (ISO)	"-" | "-, 6.7.2.1"
+    KEY (STD)	"Can't have arrays of structs with a flexible array member"
+}
+
 dcl_array_dim_const ()
 {
     KEY (ISO)	"8.3.4" | "6.5.4.2, -"
@@ -4351,6 +4358,11 @@ dcl_init_incompl ()
 dcl_init_func ( LONG_ID: id )
 {
     KEY (STD)	"Can't initialize the function '"id"'"
+}
+
+dcl_init_flex_mem ( )
+{
+    KEY (STD)	"Can't initialize a flexible array member"
 }
 
 dcl_init_bad ()
@@ -4636,6 +4648,30 @@ class_mem_const ( CLASS_TYPE: ct )
 {
     USAGE:	whatever
     KEY (STD)	"'"ct"' has a non-static 'const' member"
+}
+
+class_mem_flex ( TYPE: t )
+{
+    USAGE:	whatever
+    KEY (ISO)	"-" | "-, 6.7.2.1"
+    KEY (STD)	"'"t"' has a flexible array member"
+}
+
+class_mem_flex_first ()
+{
+    KEY (STD)   "Flexible array members may only occur in structs with
+		 at least one other named member"
+}
+
+class_mem_flex_not_last ( IDENTIFIER: id1, IDENTIFIER: id2 )
+{
+    KEY (STD)   "Member '"id1"' follows flexible array member '"id2"' which
+		 must be the last member"
+}
+
+class_mem_flex_nested ()
+{
+    KEY (STD)   "Can't nest structs with flexible array members"
 }
 
 

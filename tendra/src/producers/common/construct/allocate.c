@@ -1264,7 +1264,18 @@ sizeof_exp(TYPE t)
 	if (IS_NULL_nat (sz)) {
 		/* Calculate size if it is not obvious */
 		OFFSET off;
-		MAKE_off_type (t, off);
+		IDENTIFIER fid = NULL_id;
+		if (IS_type_compound (t)) {
+			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+			fid = DEREF_id (ctype_flex_mem (ct));
+		}
+		if (!IS_NULL_id (fid)) {
+			/* The size of a struct with a flexible array member is the
+			 * offset to its last member */
+			MAKE_off_member (fid, off);
+		} else {
+			MAKE_off_type (t, off);
+		}
 		MAKE_exp_offset_size (type_size_t, off, type_char, 1, e);
 		MAKE_nat_calc (e, sz);
 	}

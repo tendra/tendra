@@ -1490,17 +1490,62 @@ weak_param_decl(IDENTIFIER id)
 }
 
 
+/**
+ *    LOOK FOR A FLEXIBLE ARRAY MEMBER
+ *
+ *    This routine recursively checks whether the type t contains a struct
+ *    with a flexible array member.  If one is found the function returns
+ *    an error.
+ */
+
+ERROR
+check_flex_mem(TYPE t)
+{
+	ERROR err = NULL_err;
+	if (IS_type_compound (t)) {
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+
+		if (!IS_NULL_id (DEREF_id (ctype_flex_mem (ct)))) {
+			err = ERR_class_mem_flex (t);
+		} else {
+			NAMESPACE ns = DEREF_nspace (ctype_member (ct));
+			MEMBER mem = DEREF_member (nspace_ctype_first (ns));
+			mem = next_data_member (mem, 2);
+			while (!IS_NULL_member (mem)) {
+				IDENTIFIER id = DEREF_id (member_id (mem));
+				TYPE s = DEREF_type (id_member_type (id));
+
+				err = check_flex_mem (s);
+				if (!IS_NULL_err (err)) break;
+
+				mem = DEREF_member (member_next (mem));
+				mem = next_data_member (mem, 2);
+			}
+		}
+	}
+	return (err);
+}
+
+
 /*
  *    CHECK A MEMBER DECLARATION
  *
  *    This routine checks the declaration of the class member id with type
- *    t and declaration specifiers ds.
+ *    t and declaration specifiers ds.  ci is the class information for the
+ *    class the member is added to.
  */
 
 void
-check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
+check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, CLASS_INFO ci)
 {
+	int allow_flex_mem = (option (OPT_flex_array_member) != OPTION_DISALLOW);
 	unsigned tag = TAG_type (t);
+	IDENTIFIER mid = DEREF_id (ctype_flex_mem (crt_class));
+	if (!IS_NULL_id (mid)) {
+		/* Member after flexible array member */
+		ERROR err = ERR_class_mem_flex_not_last (id, mid);
+		report (crt_loc, err);
+	}
 	if (ds & dspec_mutable) {
 		/* Can't apply mutable to a const member */
 		CV_SPEC qual = find_cv_qual (t);
@@ -1525,9 +1570,27 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 			/* References don't need checking */
 			/* EMPTY */
 		} else {
-			/* Other members should have complete type */
 			ERROR err = check_complete (t);
+			if (!IS_NULL_err (err) && tag == type_array_tag) {
+				if ((ci & cinfo_struct) && allow_flex_mem) {
+					/* Flexible array member */
+					NAMESPACE ns = DEREF_nspace (ctype_member (crt_class));
+					MEMBER m = DEREF_member (nspace_ctype_first (ns));
+					m = next_data_member (m, 0);
+					if (!IS_NULL_member (m) && DEREF_id (member_id (m)) != id) {
+						/* Found another member */
+						COPY_id (ctype_flex_mem (crt_class), id);
+						destroy_error (err, 1);
+						err = NULL_err;
+					} else {
+						/* First member */
+						ERROR err2 = ERR_class_mem_flex_first ();
+						err = concat_error (err, err2);
+					}
+				}
+			}
 			if (!IS_NULL_err (err)) {
+				/* Other members should have complete type */
 				ERROR err2 = ERR_class_mem_incompl_mem (id);
 				err = concat_error (err, err2);
 				report (crt_loc, err);
@@ -1538,6 +1601,16 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 					ERROR err2 = ERR_class_abstract_mem (id);
 					err = concat_error (err, err2);
 					report (crt_loc, err);
+				}
+				/* A struct with a flexible array member can't be a member
+				 * of a struct */
+				if (ci & cinfo_struct) {
+					err = check_flex_mem (t);
+					if (!IS_NULL_err (err)) {
+						ERROR err2 = ERR_class_mem_flex_nested ();
+						err = concat_error (err, err2);
+						report (crt_loc, err);
+					}
 				}
 			}
 		}
@@ -1742,7 +1815,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		COPY_member (member_next (mem_old), mem);
 	}
 	set_member (mem, id);
-	check_mem_decl (ds, t, id);
+	check_mem_decl (ds, t, id, ci);
 	is_redeclared = 0;
 
 	/* Adjust class information */

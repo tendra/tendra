@@ -76,6 +76,7 @@
 #include "constant.h"
 #include "convert.h"
 #include "chktype.h"
+#include "declare.h"
 #include "function.h"
 #include "identifier.h"
 #include "inttype.h"
@@ -797,6 +798,13 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 					if (!IS_NULL_err (err)) {
 						/* Can't have array of abstract */
 						ERROR err2 = ERR_dcl_array_abstract ();
+						err = concat_error (err, err2);
+						report (crt_loc, err);
+					}
+					err = check_flex_mem (t);
+					if (!IS_NULL_err (err)) {
+						/* Can't have array of struct with flexible member */
+						ERROR err2 = ERR_dcl_array_flex_mem ();
 						err = concat_error (err, err2);
 						report (crt_loc, err);
 					}

@@ -394,6 +394,7 @@ union CLASS_TYPE (ctype) = {
     LIST IDENTIFIER nest = "NULL_list ( IDENTIFIER )";
     ulong_type tok1 = "LINK_NONE";
     ulong_type tok2 = "LINK_NONE";
+    IDENTIFIER flex_mem = "NULL_id";
 } + {
     basic -> {
 	/* empty */
