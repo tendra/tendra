@@ -1,20 +1,21 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY trans "trans">
 
-<!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
-<!ENTITY ref.man.pl SYSTEM "../manpages/pl/manpage.sgml">
-<!ENTITY ref.man.tchk SYSTEM "../manpages/tchk/manpage.sgml">
-<!ENTITY ref.man.tnc SYSTEM "../manpages/tnc/manpage.sgml">
-<!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
-<!ENTITY ref.man.tcc SYSTEM "../manpages/tcc/manpage.sgml">
-<!ENTITY ref.man.tld SYSTEM "../manpages/tld/manpage.sgml">
-<!ENTITY ref.man.tspec SYSTEM "../manpages/tspec/manpage.sgml">
 <!ENTITY ref.man.calculus SYSTEM "../manpages/calculus/manpage.sgml">
+<!ENTITY ref.man.disp SYSTEM "../manpages/disp/manpage.sgml">
 <!ENTITY ref.man.lexi SYSTEM "../manpages/lexi/manpage.sgml">
+<!ENTITY ref.man.maketdf SYSTEM "../manpages/make_tdf/manpage.sgml">
+<!ENTITY ref.man.mkerr SYSTEM "../manpages/mkerr/manpage.sgml">
+<!ENTITY ref.man.pl SYSTEM "../manpages/pl/manpage.sgml">
 <!ENTITY ref.man.sid SYSTEM "../manpages/sid/manpage.sgml">
+<!ENTITY ref.man.tcc SYSTEM "../manpages/tcc/manpage.sgml">
 <!ENTITY ref.man.tccenv SYSTEM "../manpages/tccenv/manpage.sgml">
+<!ENTITY ref.man.tchk SYSTEM "../manpages/tchk/manpage.sgml">
 <!ENTITY ref.man.tcpplus SYSTEM "../manpages/tcpplus/manpage.sgml">
 <!ENTITY ref.man.tdfc2 SYSTEM "../manpages/tdfc2/manpage.sgml">
+<!ENTITY ref.man.tld SYSTEM "../manpages/tld/manpage.sgml">
+<!ENTITY ref.man.tnc SYSTEM "../manpages/tnc/manpage.sgml">
+<!ENTITY ref.man.tspec SYSTEM "../manpages/tspec/manpage.sgml">
 
 <!ENTITY % ref.man.680x0-common SYSTEM "../manpages/trans/common/680x0-common.sgml"> %ref.man.680x0-common;
 <!ENTITY % ref.man.80x86-common SYSTEM "../manpages/trans/common/80x86-common.sgml"> %ref.man.80x86-common;
@@ -93,7 +94,7 @@
   <chapter>
   <title>Tools</title>
 
-    <refentry id="man-disp">
+    <refentry id=ref-man-disp>
       &ref.man.disp;
     </refentry>
 
@@ -131,6 +132,14 @@
 
     <refentry id=ref-man-calculus>
       &ref.man.calculus;
+    </refentry>
+
+    <refentry id=ref-man-maketdf>
+      &ref.man.maketdf;
+    </refentry>
+
+    <refentry id=ref-man-mkerr>
+      &ref.man.mkerr;
     </refentry>
 
     <refentry id=ref-man-lexi>
