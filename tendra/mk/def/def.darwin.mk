@@ -30,6 +30,7 @@ ARGS_MKDIR?=	-p
 # Binaries
 
 BIN_AWK?=	/usr/bin/awk
+BIN_AS?=	/usr/bin/as
 BIN_BASENAME?=	/usr/bin/basename
 BIN_CAT?=	/bin/cat
 BIN_CHGRP?=	/usr/bin/chgrp
