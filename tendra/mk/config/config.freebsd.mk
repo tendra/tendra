@@ -17,6 +17,8 @@ MACH_EXEC=	elf
 
 .if ${TMP_CPU} == "i386"
 MACH_CPU=	80x86
+.elif ${TMP_CPU} == "alpha"
+MACH_CPU=	alpha
 .endif
 
 # No longer needed
