@@ -59,6 +59,7 @@
 #define TEN_MSGCAT_H
 
 #include <ctype.h>
+#include <stddef.h>
 
 #define	MSGCAT_MAXPARAMS	10
 
