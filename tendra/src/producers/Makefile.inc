@@ -53,11 +53,11 @@ errors1.h:: catalog.err
 	${MAKE_ERR} ${.CURDIR}/../common/utility/catalog.err ${.OBJDIR}/errors1.h
 
 errors2.h:: catalog.err extra.err
-	${CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
+	${BIN_CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
 	${MAKE_ERR} > ${.OBJDIR}/errors2.h
 
 errors3.h:: catalog.err extra.err
-	${CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
+	${BIN_CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
 	${MAKE_ERR} -d > ${.OBJDIR}/errors3.h
 
 opts.h:: catalog.err
