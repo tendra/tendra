@@ -8,7 +8,7 @@ TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
 		-J${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/tokens \
 		-J${OBJ_PREFIX}/lib/apis/lib/ansi
 
-LIB=	libtdf.a
+SHLIB=	libtdf.a
 
 SRCS=	version.c INT64.c
 

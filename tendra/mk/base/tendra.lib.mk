@@ -7,8 +7,8 @@ OBJS+=  ${SRCS:N*.h:R:S/$/.o/g}
 OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.o/g:C/.*\/(.*)$/\1/g}
 
 # add the library to the cleanfiles.
-CLEANFILES+= ${LIB}
+CLEANFILES+= ${SHLIB}
 
-${LIB}: ${OBJS}
+${SHLIB}: ${OBJS}
 	${AR} cr ${.TARGET} ${.ALLSRC}
 	${RANLIB} ${.TARGET}

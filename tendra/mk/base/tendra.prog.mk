@@ -35,7 +35,7 @@ make-subdir: ${MAIN_TARGETS}
 .include "tendra.bin.mk"
 .endif
 
-.if defined(LIB)
+.if defined(SHLIB)
 .include "tendra.lib.mk"
 .endif
 
@@ -46,7 +46,7 @@ all:
 	env MAKEOBJDIR=${OBJ_DIR} ${MAKE} make-all
 
 
-MAKE_ALL=	${PROG} ${TL} ${LIB}
+MAKE_ALL=	${PROG} ${TL} ${SHLIB}
 
 make-all: ${MAKE_ALL}
 
