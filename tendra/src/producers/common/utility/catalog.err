@@ -2067,6 +2067,13 @@ expr_cast_reint_func_ptr ( TYPE: t1, TYPE: t2 )
 		 pointer '"t2"'"
 }
 
+expr_cast_reint_func_ptr2 ( TYPE: t1, TYPE: t2 )
+{
+    USAGE:	conv_ptr_func
+    KEY (STD)	"Can't convert non-function pointer '"t1"' to function
+		 pointer '"t2"'"
+}
+
 expr_cast_reint_mem_func ( TYPE: t1, TYPE: t2 )
 {
     KEY (STD)	"Pointer to member function '"t1"' converted to pointer
