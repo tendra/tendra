@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.tendra.org/>
+ * Copyright (c) 2002, 2003, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,12 +63,12 @@
     DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
 */
 
-extern void process_file PROTO_S ( ( char * ) ) ;
-extern int read_token PROTO_S ( ( void ) ) ;
-extern char token_buff [] ;
-extern int crt_lex_token ;
-extern int saved_lex_token ;
-extern char *first_comment ;
+extern void process_file (char *);
+extern int read_token (void);
+extern char token_buff [];
+extern int crt_lex_token;
+extern int saved_lex_token;
+extern char *first_comment;
 
 
 /*
@@ -77,9 +77,9 @@ extern char *first_comment ;
 
 #define CURRENT_TERMINAL	crt_lex_token
 #define ADVANCE_LEXER		crt_lex_token = read_token ()
-#define SAVE_LEXER( T )         ( saved_lex_token = crt_lex_token,\
-                                  crt_lex_token = ( T ) )
-#define RESTORE_LEXER           ( crt_lex_token = saved_lex_token )
+#define SAVE_LEXER(T)         (saved_lex_token = crt_lex_token,\
+                                  crt_lex_token = (T))
+#define RESTORE_LEXER           (crt_lex_token = saved_lex_token)
 
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.tendra.org/>
+ * Copyright (c) 2002, 2003, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,89 +60,89 @@
 
 
 /*
-    TYPE REPRESENTING A CHARACTER
+ *    TYPE REPRESENTING A CHARACTER
+ *
+ *    A character consists of a single letter (which may have associated
+ *    data) plus pointers to the next character and to a list of alternative
+ *    characters.
+ */
 
-    A character consists of a single letter (which may have associated
-    data) plus pointers to the next character and to a list of alternative
-    characters.
-*/
-
-typedef unsigned int letter ;
+typedef unsigned int letter;
 
 typedef struct character_tag {
-    letter ch ;
-    char *defn ;
-    char *args ;
-    char *cond ;
-    struct character_tag *opt ;
-    struct character_tag *next ;
-} character ;
+    letter ch;
+    char *defn;
+    char *args;
+    char *cond;
+    struct character_tag *opt;
+    struct character_tag *next;
+} character;
 
 
 /*
-    TYPE REPRESENTING A CHARACTER GROUP
-
-    A character group is a named array of letters.
-*/
+ *    TYPE REPRESENTING A CHARACTER GROUP
+ *
+ *    A character group is a named array of letters.
+ */
 
 typedef struct {
-    char *name ;
-    letter *defn ;
-} char_group ;
+    char *name;
+    letter *defn;
+} char_group;
 
 
 /*
-    TYPE REPRESENTING A KEYWORD
-
-    A keyword consists of a name plus some associated data.  All keywords
-    are formed into a list using the next field.  done is a flag used in
-    the output routines.
-*/
+ *    TYPE REPRESENTING A KEYWORD
+ *
+ *    A keyword consists of a name plus some associated data.  All keywords
+ *    are formed into a list using the next field.  done is a flag used in
+ *    the output routines.
+ */
 
 typedef struct keyword_tag {
-    char *name ;
-    char *defn ;
-    char *args ;
-    char *cond ;
-    int done ;
-    struct keyword_tag *next ;
-} keyword ;
+    char *name;
+    char *defn;
+    char *args;
+    char *cond;
+    int done;
+    struct keyword_tag *next;
+} keyword;
 
 
 /*
-    PARAMETERS
-*/
+ *    PARAMETERS
+ */
 
 #define MAX_GROUPS		31
 
 
 /*
-    SPECIAL LETTERS
-*/
+ *    SPECIAL LETTERS
+ */
 
-#define SIMPLE_LETTER		( ( letter ) 0x0100 )
-#define EOF_LETTER		( ( letter ) 0x0100 )
-#define LAST_LETTER		( ( letter ) 0x0101 )
-#define WHITE_LETTER		( ( letter ) 0x0102 )
-#define GROUP_LETTER		( ( letter ) 0x0103 )
+#define SIMPLE_LETTER		((letter) 0x0100)
+#define EOF_LETTER		((letter) 0x0100)
+#define LAST_LETTER		((letter) 0x0101)
+#define WHITE_LETTER		((letter) 0x0102)
+#define GROUP_LETTER		((letter) 0x0103)
 
 
 /*
-    DECLARATIONS FOR CHARACTER ROUTINES
-*/
+ *    DECLARATIONS FOR CHARACTER ROUTINES
+ */
 
-extern letter *white_space ;
-extern character *pre_pass ;
-extern character *main_pass ;
-extern char_group groups [] ;
-extern int no_groups ;
-extern keyword *keywords ;
-extern void add_char PROTO_S ( ( character *, letter *, char ** ) ) ;
-extern void make_group PROTO_S ( ( char *, letter * ) ) ;
-extern int in_group PROTO_S ( ( letter *, letter ) ) ;
-extern letter *make_string PROTO_S ( ( char * ) ) ;
-extern letter find_escape PROTO_S ( ( int ) ) ;
-extern void add_keyword PROTO_S ( ( char *, char ** ) ) ;
+extern letter *white_space;
+extern character *pre_pass;
+extern character *main_pass;
+extern char_group groups [];
+extern int no_groups;
+extern keyword *keywords;
+extern void add_char (character *, letter *, char **);
+extern void make_group (char *, letter *);
+extern int in_group (letter *, letter);
+extern letter *make_string (char *);
+extern letter find_escape (int);
+extern void add_keyword (char *, char **);
 
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.tendra.org/>
+ * Copyright (c) 2002, 2003, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,468 +63,469 @@
 
 
 /*
-    OUTPUT FILE
+ *    OUTPUT FILE
+ *
+ *    This variable gives the main output file.  out is used within this file
+ *    as a shorthand for lex_output.
+ */
 
-    This variable gives the main output file.  out is used within this file
-    as a shorthand for lex_output.
-*/
-
-FILE *lex_output ;
+FILE *lex_output;
 #define out lex_output
 
 
 /*
-    OUTPUT INDENTATION
+ *    OUTPUT INDENTATION
+ *
+ *    This routine outputs an indentation of d.
+ */
 
-    This routine outputs an indentation of d.
-*/
-
-static void output_indent
-    PROTO_N ( ( d ) )
-    PROTO_T ( int d )
+static void
+output_indent(int d)
 {
-    int n = 4 * d ;
-    for ( ; n >= 8 ; n -= 8 ) fputc_v ( '\t', out ) ;
-    for ( ; n ; n-- ) fputc_v ( ' ', out ) ;
-    return ;
+    int n = 4 * d;
+    for (; n >= 8 ; n -= 8) fputc_v ('\t', out);
+    for (; n ; n--) fputc_v (' ', out);
+    return;
 }
 
 
 /*
-    FIND A CHARACTER LITERAL
+ *    FIND A CHARACTER LITERAL
+ *
+ *    This routine finds the character literal corresponding to c.
+ */
 
-    This routine finds the character literal corresponding to c.
-*/
-
-static char *char_lit
-    PROTO_N ( ( c ) )
-    PROTO_T ( letter c )
+static char*
+char_lit(letter c)
 {
-    static char buff [10] ;
-    switch ( c ) {
-	case '\n' : return ( "'\\n'" ) ;
-	case '\r' : return ( "'\\r'" ) ;
-	case '\t' : return ( "'\\t'" ) ;
-	case '\v' : return ( "'\\v'" ) ;
-	case '\f' : return ( "'\\f'" ) ;
-	case '\\' : return ( "'\\\\'" ) ;
-	case '\'' : return ( "'\\''" ) ;
+    static char buff [10];
+    switch (c) {
+	case '\n':
+		return ("'\\n'");
+	case '\r':
+		return ("'\\r'");
+	case '\t':
+		return ("'\\t'");
+	case '\v':
+		return ("'\\v'");
+	case '\f':
+		return ("'\\f'");
+	case '\\':
+		return ("'\\\\'");
+	case '\'':
+		return ("'\\''");
     }
-    if ( c == EOF_LETTER ) return ( "LEX_EOF" ) ;
-    if ( c > 127 ) return ( "'?'" ) ;
-    sprintf_v ( buff, "'%c'", ( char ) c ) ;
-    return ( buff ) ;
+    if (c == EOF_LETTER) return ("LEX_EOF");
+    if (c > 127) return ("'?'");
+    sprintf_v (buff, "'%c'", (char) c);
+    return (buff);
 }
 
 
 /*
-    OUTPUT OPTIONS
+ *    OUTPUT OPTIONS
+ *
+ *    The flag in_pre_pass is used to indicate the preliminary pass to
+ *    output_pass.  read_name gives the name of the character reading
+ *    function used in the output routines.
+ */
 
-    The flag in_pre_pass is used to indicate the preliminary pass to
-    output_pass.  read_name gives the name of the character reading
-    function used in the output routines.
-*/
-
-static int in_pre_pass = 0 ;
-static char *read_name = "read_char" ;
+static int in_pre_pass = 0;
+static char *read_name = "read_char";
 
 
 /*
-    OUTPUT PASS INFORMATION
+ *    OUTPUT PASS INFORMATION
+ *
+ *    This routine outputs code for the lexical pass indicated by p.  n
+ *    gives the depth of recursion and d gives the indentation.
+ */
 
-    This routine outputs code for the lexical pass indicated by p.  n
-    gives the depth of recursion and d gives the indentation.
-*/
-
-static int output_pass
-    PROTO_N ( ( p, n, d ) )
-    PROTO_T ( character *p X int n X int d )
+static int
+output_pass(character *p, int n, int d)
 {
-    character *q ;
-    int cases = 0 ;
-    int classes = 0 ;
-    char *ret = NULL ;
-    char *args = NULL ;
-    char *cond = NULL ;
-
+    character *q;
+    int cases = 0;
+    int classes = 0;
+    char *ret = NULL;
+    char *args = NULL;
+    char *cond = NULL;
+	
     /* First pass */
-    for ( q = p->next ; q != NULL ; q = q->opt ) {
-	letter c = q->ch ;
-	if ( c == LAST_LETTER ) {
-	    ret = q->defn ;
-	    args = q->args ;
-	    cond = q->cond ;
-	} else if ( c <= SIMPLE_LETTER ) {
-	    cases++ ;
-	} else {
-	    classes++ ;
-	}
+    for (q = p->next ; q != NULL ; q = q->opt) {
+		letter c = q->ch;
+		if (c == LAST_LETTER) {
+			ret = q->defn;
+			args = q->args;
+			cond = q->cond;
+		} else if (c <= SIMPLE_LETTER) {
+			cases++;
+		} else {
+			classes++;
+		}
     }
-
+	
     /* Deal with cases */
-    if ( cases || classes ) {
-	int w1 = ( n == 0 && !in_pre_pass ) ;
-	int w2 = ( n == 0 && in_pre_pass ) ;
-	if ( classes || w1 ) {
-	    output_indent ( d ) ;
-	    fprintf_v ( out, "lookup_type t%d ;\n", n ) ;
-	}
-	output_indent ( d ) ;
-	fprintf_v ( out, "int c%d = %s () ;\n", n, read_name ) ;
-	if ( w1 ) {
-	    output_indent ( d ) ;
-	    fputs_v ( "t0 = lookup_char ( c0 ) ;\n", out ) ;
-	    output_indent ( d ) ;
-	    fputs_v ( "if ( is_white ( t0 ) ) goto start ;\n", out ) ;
-	}
-	if ( w2 ) {
-	    output_indent ( d ) ;
-	    fputs_v ( "restart : {\n", out ) ;
-	    d++ ;
-	}
-
-	if ( cases > 4 ) {
-	    /* Small number of cases */
-	    output_indent ( d ) ;
-	    fprintf_v ( out, "switch ( c%d ) {\n", n ) ;
-	    for ( q = p->next ; q != NULL ; q = q->opt ) {
-		letter c = q->ch ;
-		if ( c != LAST_LETTER && c <= SIMPLE_LETTER ) {
-		    output_indent ( d + 1 ) ;
-		    fprintf_v ( out, "case %s : {\n", char_lit ( c ) ) ;
-		    if ( output_pass ( q, n + 1, d + 2 ) == 0 ) {
-			output_indent ( d + 2 ) ;
-			fputs_v ( "break ;\n", out ) ;
-		    }
-		    output_indent ( d + 1 ) ;
-		    fputs_v ( "}\n", out ) ;
+    if (cases || classes) {
+		int w1 = (n == 0 && !in_pre_pass);
+		int w2 = (n == 0 && in_pre_pass);
+		if (classes || w1) {
+			output_indent (d);
+			fprintf_v (out, "lookup_type t%d ;\n", n);
 		}
-	    }
-	    output_indent ( d ) ;
-	    fputs_v ( "}\n", out ) ;
-	} else {
-	    /* Large number of cases */
-	    int started = 0 ;
-	    for ( q = p->next ; q != NULL ; q = q->opt ) {
-		letter c = q->ch ;
-		if ( c != LAST_LETTER && c <= SIMPLE_LETTER ) {
-		    output_indent ( d ) ;
-		    if ( started ) fputs_v ( "} else ", out ) ;
-		    fprintf_v ( out, "if ( c%d == %s ) {\n",
-				n, char_lit ( c ) ) ;
-		    IGNORE output_pass ( q, n + 1, d + 1 ) ;
-		    started = 1 ;
+		output_indent (d);
+		fprintf_v (out, "int c%d = %s () ;\n", n, read_name);
+		if (w1) {
+			output_indent (d);
+			fputs_v ("t0 = lookup_char (c0) ;\n", out);
+			output_indent (d);
+			fputs_v ("if (is_white (t0)) goto start ;\n", out);
 		}
-	    }
-	    if ( started ) {
-		output_indent ( d ) ;
-		fputs_v ( "}\n", out ) ;
-	    }
-	}
-
-	if ( classes ) {
-	    /* Complex cases */
-	    int started = 0 ;
-	    if ( !w1 ) {
-		output_indent ( d ) ;
-		fprintf_v ( out, "t%d = lookup_char ( c%d ) ;\n", n, n ) ;
-	    }
-	    for ( q = p->next ; q != NULL ; q = q->opt ) {
-		letter c = q->ch ;
-		if ( c != LAST_LETTER && c > SIMPLE_LETTER ) {
-		    char *gnm ;
-		    if ( c == WHITE_LETTER ) {
-			gnm = "white" ;
-		    } else {
-			int g = ( int ) ( c - GROUP_LETTER ) ;
-			gnm = groups [g].name ;
-		    }
-		    output_indent ( d ) ;
-		    if ( started ) fputs_v ( "} else ", out ) ;
-		    fprintf_v ( out, "if ( is_%s ( t%d ) ) {\n", gnm, n ) ;
-		    IGNORE output_pass ( q, n + 1, d + 1 ) ;
-		    started = 1 ;
+		if (w2) {
+			output_indent (d);
+			fputs_v ("restart : {\n", out);
+			d++;
 		}
-	    }
-	    output_indent ( d ) ;
-	    fputs_v ( "}\n", out ) ;
-	}
-	if ( w2 ) {
-	    d-- ;
-	    output_indent ( d ) ;
-	    fputs_v ( "}\n", out ) ;
-	}
-	if ( n ) {
-	    output_indent ( d ) ;
-	    fprintf_v ( out, "unread_char ( c%d ) ;\n", n ) ;
-	}
+		
+		if (cases > 4) {
+			/* Small number of cases */
+			output_indent (d);
+			fprintf_v (out, "switch (c%d) {\n", n);
+			for (q = p->next ; q != NULL ; q = q->opt) {
+				letter c = q->ch;
+				if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
+					output_indent (d + 1);
+					fprintf_v (out, "case %s : {\n", char_lit (c));
+					if (output_pass (q, n + 1, d + 2) == 0) {
+						output_indent (d + 2);
+						fputs_v ("break ;\n", out);
+					}
+					output_indent (d + 1);
+					fputs_v ("}\n", out);
+				}
+			}
+			output_indent (d);
+			fputs_v ("}\n", out);
+		} else {
+			/* Large number of cases */
+			int started = 0;
+			for (q = p->next ; q != NULL ; q = q->opt) {
+				letter c = q->ch;
+				if (c != LAST_LETTER && c <= SIMPLE_LETTER) {
+					output_indent (d);
+					if (started) fputs_v ("} else ", out);
+					fprintf_v (out, "if (c%d == %s) {\n",
+							   n, char_lit (c));
+					IGNORE output_pass (q, n + 1, d + 1);
+					started = 1;
+				}
+			}
+			if (started) {
+				output_indent (d);
+				fputs_v ("}\n", out);
+			}
+		}
+		
+		if (classes) {
+			/* Complex cases */
+			int started = 0;
+			if (!w1) {
+				output_indent (d);
+				fprintf_v (out, "t%d = lookup_char (c%d) ;\n", n, n);
+			}
+			for (q = p->next ; q != NULL ; q = q->opt) {
+				letter c = q->ch;
+				if (c != LAST_LETTER && c > SIMPLE_LETTER) {
+					char *gnm;
+					if (c == WHITE_LETTER) {
+						gnm = "white";
+					} else {
+						int g = (int) (c - GROUP_LETTER);
+						gnm = groups [g].name;
+					}
+					output_indent (d);
+					if (started) fputs_v ("} else ", out);
+					fprintf_v (out, "if (is_%s (t%d)) {\n", gnm, n);
+					IGNORE output_pass (q, n + 1, d + 1);
+					started = 1;
+				}
+			}
+			output_indent (d);
+			fputs_v ("}\n", out);
+		}
+		if (w2) {
+			d--;
+			output_indent (d);
+			fputs_v ("}\n", out);
+		}
+		if (n) {
+			output_indent (d);
+			fprintf_v (out, "unread_char (c%d) ;\n", n);
+		}
     }
-
+	
     /* Deal with return */
-    if ( ret ) {
-	if ( in_pre_pass ) {
-	    int m = *ret ;
-	    if ( m ) {
-		char *str ;
-		if ( m == '\\' ) {
-		    str = char_lit ( find_escape ( ret [1] ) ) ;
-		    m = ret [2] ;
+    if (ret) {
+		if (in_pre_pass) {
+			int m = *ret;
+			if (m) {
+				char *str;
+				if (m == '\\') {
+					str = char_lit (find_escape (ret [1]));
+					m = ret [2];
+				} else {
+					str = char_lit ((letter) m);
+					m = ret [1];
+				}
+				if (m) {
+					error (ERROR_SERIOUS, "Bad mapping string, '%s'", ret);
+				}
+				if (cond) {
+					output_indent (d);
+					fprintf_v (out, "if (%s) {\n", cond);
+					output_indent (d + 1);
+					fprintf_v (out, "c0 = %s ;\n", str);
+					output_indent (d + 1);
+					fputs_v ("goto restart ;\n", out);
+					output_indent (d);
+					fputs_v ("}\n", out);
+				} else {
+					output_indent (d);
+					fprintf_v (out, "c0 = %s ;\n", str);
+					output_indent (d);
+					fputs_v ("goto restart ;\n", out);
+				}
+			} else {
+				output_indent (d);
+				if (cond) fprintf_v (out, "if (%s) ", cond);
+				fputs_v ("goto start ;\n", out);
+			}
 		} else {
-		    str = char_lit ( ( letter ) m ) ;
-		    m = ret [1] ;
+			output_indent (d);
+			if (cond) fprintf_v (out, "if (%s) ", cond);
+			fprintf_v (out, "return (%s", ret);
+			if (args) {
+				int i;
+				fputs_v (" (c0", out);
+				for (i = 1 ; i < n ; i++) fprintf_v (out, ", c%d", i);
+				fputs_v (")", out);
+			}
+			fputs_v (") ;\n", out);
 		}
-		if ( m ) {
-		    error ( ERROR_SERIOUS, "Bad mapping string, '%s'", ret ) ;
-		}
-		if ( cond ) {
-		    output_indent ( d ) ;
-		    fprintf_v ( out, "if ( %s ) {\n", cond ) ;
-		    output_indent ( d + 1 ) ;
-		    fprintf_v ( out, "c0 = %s ;\n", str ) ;
-		    output_indent ( d + 1 ) ;
-		    fputs_v ( "goto restart ;\n", out ) ;
-		    output_indent ( d ) ;
-		    fputs_v ( "}\n", out ) ;
-		} else {
-		    output_indent ( d ) ;
-		    fprintf_v ( out, "c0 = %s ;\n", str ) ;
-		    output_indent ( d ) ;
-		    fputs_v ( "goto restart ;\n", out ) ;
-		}
-	    } else {
-		output_indent ( d ) ;
-		if ( cond ) fprintf_v ( out, "if ( %s ) ", cond ) ;
-		fputs_v ( "goto start ;\n", out ) ;
-	    }
-	} else {
-	    output_indent ( d ) ;
-	    if ( cond ) fprintf_v ( out, "if ( %s ) ", cond ) ;
-	    fprintf_v ( out, "return ( %s", ret ) ;
-	    if ( args ) {
-		int i ;
-		fputs_v ( " ( c0", out ) ;
-		for ( i = 1 ; i < n ; i++ ) fprintf_v ( out, ", c%d", i ) ;
-		fputs_v ( " )", out ) ;
-	    }
-	    fputs_v ( " ) ;\n", out ) ;
-	}
     }
-    return ( ( ret && ( cond == NULL ) ) ? 1 : 0 ) ;
+    return ((ret && (cond == NULL)) ? 1 : 0);
 }
 
 
 /*
-    OUTPUT INITIAL COMMENT
+ *    OUTPUT INITIAL COMMENT
+ *
+ *    This routine outputs a comment stating that the file is automatically
+ *    generated.
+ */
 
-    This routine outputs a comment stating that the file is automatically
-    generated.
-*/
-
-static void output_comment
-    PROTO_Z ()
+static void
+output_comment()
 {
-    if ( first_comment ) {
-	/* Print copyright comment, if present */
-	fprintf_v ( out, "%s\n\n", first_comment ) ;
+    if (first_comment) {
+		/* Print copyright comment, if present */
+		fprintf_v (out, "%s\n\n", first_comment);
     }
-    fputs_v ( "/*\n    AUTOMATICALLY GENERATED", out ) ;
-    fprintf_v ( out, " BY %s VERSION %s", progname, progvers ) ;
-    fputs_v ( "\n*/\n\n\n", out ) ;
-    return ;
+    fputs_v ("/*\n    AUTOMATICALLY GENERATED", out);
+    fprintf_v (out, " BY %s VERSION %s", progname, progvers);
+    fputs_v ("\n*/\n\n\n", out);
+    return;
 }
 
 
 /*
-    MAIN OUTPUT ROUTINE
+ *    MAIN OUTPUT ROUTINE
+ *
+ *    This routine is the entry point for the main output routine.
+ */
 
-    This routine is the entry point for the main output routine.
-*/
-
-static void output_main
-    PROTO_N ( ( opts ) )
-    PROTO_T ( unsigned opts )
+static void
+output_main(unsigned opts)
 {
-    int c, n ;
-    int no ;
-
-    CONST char *hex ;
-    CONST char *type ;
-
+    int c, n;
+    int no;
+	
+    CONST char *hex;
+    CONST char *type;
+	
     /* Character look-up table */
-    if ( no_groups >= 16 ) {
-   	type = "unsigned long" ;
-	hex = "0x%08lxUL" ;
-	no = 2 ;
-    } else if ( no_groups >= 8 ) {
-	type = "unsigned short" ;
-	hex = "ox%04lx" ;
-	no = 4 ;
+    if (no_groups >= 16) {
+		type = "unsigned long";
+		hex = "0x%08lxUL";
+		no = 2;
+    } else if (no_groups >= 8) {
+		type = "unsigned short";
+		hex = "ox%04lx";
+		no = 4;
     } else {
-	type = "unsigned char" ;
-	hex = "0x%02lx" ;
-	no = 8 ;
+		type = "unsigned char";
+		hex = "0x%02lx";
+		no = 8;
     }
-    if ( opts & OUTPUT_MACROS ) {
-	fputs_v ( "/* LOOKUP TABLE */\n\n", out ) ;
-	fprintf_v ( out, "typedef %s lookup_type ;\n", type ) ;
-	if ( opts & OUTPUT_TABLE ) {
-           fprintf_v ( out, "\nstatic " ) ;
-	} else {
-           fprintf_v ( out, "extern lookup_type lookup_tab [] ;\n\n" ) ;
-	}
-    }
-    if ( opts & OUTPUT_TABLE ) {
-	fprintf_v ( out, "lookup_type lookup_tab [257] = {\n" ) ;
-	for ( c = 0 ; c <= 256 ; c++ ) {
-  	    unsigned long m = 0 ;
-	    letter a = ( c == 256 ? EOF_LETTER : ( letter ) c ) ;
-	    if ( in_group ( white_space, a ) ) m = 1 ;
-	    for ( n = 0 ; n < no_groups ; n++ ) {
-       		if ( in_group ( groups [n].defn, a ) ) {
-            	    m |= ( unsigned long ) ( 1 << ( n + 1 ) ) ;
-		}
-	    }
-	    if ( ( c % no ) == 0 ) fputs_v ( "    ", out ) ;
-	    fprintf_v ( out, hex, m ) ;
-	    if ( c != 256 ) {
-		if ( ( c % no ) == no - 1 ) {
-		    fputs_v ( ",\n", out ) ;
+    if (opts & OUTPUT_MACROS) {
+		fputs_v ("/* LOOKUP TABLE */\n\n", out);
+		fprintf_v (out, "typedef %s lookup_type ;\n", type);
+		if (opts & OUTPUT_TABLE) {
+			fprintf_v (out, "\nstatic ");
 		} else {
-		    fputs_v ( ", ", out ) ;
+			fprintf_v (out, "extern lookup_type lookup_tab [] ;\n\n");
 		}
-	    }
-	}
-	fputs_v ( "\n} ;\n\n", out ) ;
     }
-
+    if (opts & OUTPUT_TABLE) {
+		fprintf_v (out, "lookup_type lookup_tab [257] = {\n");
+		for (c = 0 ; c <= 256 ; c++) {
+			unsigned long m = 0;
+			letter a = (c == 256 ? EOF_LETTER : (letter) c);
+			if (in_group (white_space, a)) m = 1;
+			for (n = 0 ; n < no_groups ; n++) {
+				if (in_group (groups [n].defn, a)) {
+            	    m |= (unsigned long) (1 << (n + 1));
+				}
+			}
+			if ((c % no) == 0) fputs_v ("    ", out);
+			fprintf_v (out, hex, m);
+			if (c != 256) {
+				if ((c % no) == no - 1) {
+					fputs_v (",\n", out);
+				} else {
+					fputs_v (", ", out);
+				}
+			}
+		}
+		fputs_v ("\n} ;\n\n", out);
+    }
+	
     /* Macros for accessing table */
-    if ( opts & OUTPUT_MACROS ) {
-	fputs_v ( "#ifndef LEX_EOF\n", out ) ;
-	fputs_v ( "#define LEX_EOF\t\t\t256\n", out ) ;
-	fputs_v ( "#endif\n\n", out ) ;
-	fputs_v ( "#define lookup_char( C )\t", out ) ;
-	fputs_v ( "( lookup_tab [ ( C ) ] )\n", out ) ;
-	for ( n = 0 ; n <= no_groups ; n++ ) {
-	    CONST char *gnm = "white" ;
-	    unsigned long m = ( unsigned long ) ( 1 << n ) ;
-	    if ( n > 0 ) gnm = groups [ n - 1].name ;
-	    fprintf_v ( out, "#define is_%s( T )\t", gnm ) ;
-	    if ( ( int ) strlen ( gnm ) < 8 ) fputc_v ( '\t', out ) ;
-	    fputs_v ( "( ( T ) & ", out ) ;
-	    fprintf_v ( out, hex, m ) ;
-	    fputs_v ( " )\n", out ) ;
-	}
-	fputs_v ( "\n", out ) ;
-	fputs_v ( "#ifndef PROTO_Z\n", out ) ;
-	fputs_v ( "#ifdef __STDC__\n", out ) ;
-	fputs_v ( "#define PROTO_Z()\t\t( void )\n", out ) ;
-	fputs_v ( "#else\n", out ) ;
-	fputs_v ( "#define PROTO_Z()\t\t()\n", out ) ;
-	fputs_v ( "#endif\n", out ) ;
-	fputs_v ( "#endif\n\n\n", out ) ;
+    if (opts & OUTPUT_MACROS) {
+		fputs_v ("#ifndef LEX_EOF\n", out);
+		fputs_v ("#define LEX_EOF\t\t\t256\n", out);
+		fputs_v ("#endif\n\n", out);
+		fputs_v ("#define lookup_char(C)\t", out);
+		fputs_v ("(lookup_tab [ (C) ])\n", out);
+		for (n = 0 ; n <= no_groups ; n++) {
+			CONST char *gnm = "white";
+			unsigned long m = (unsigned long) (1 << n);
+			if (n > 0) gnm = groups [ n - 1].name;
+			fprintf_v (out, "#define is_%s(T)\t", gnm);
+			if ((int) strlen (gnm) < 8) fputc_v ('\t', out);
+			fputs_v ("((T) & ", out);
+			fprintf_v (out, hex, m);
+			fputs_v (")\n", out);
+		}
+		fputs_v ("\n", out);
+		fputs_v ("#ifndef PROTO_Z\n", out);
+		fputs_v ("#ifdef __STDC__\n", out);
+		fputs_v ("#define PROTO_Z()\t\t(void)\n", out);
+		fputs_v ("#else\n", out);
+		fputs_v ("#define PROTO_Z()\t\t()\n", out);
+		fputs_v ("#endif\n", out);
+		fputs_v ("#endif\n\n\n", out);
     }
-
+	
     /* Lexical pre-pass */
-    if ( opts & OUTPUT_FUNCTIONS ) {
-	if ( pre_pass->next ) {
-	    in_pre_pass = 1 ;
-	    fputs_v ( "/* PRE-PASS ANALYSER */\n\n", out ) ;
-	    fputs_v ( "static int read_char_aux PROTO_Z ()\n", out ) ;
-	    fputs_v ( "{\n", out ) ;
-	    fputs_v ( "    start : {\n", out ) ;
-	    IGNORE output_pass ( pre_pass, 0, 2 ) ;
-	    fputs_v ( "\treturn ( c0 ) ;\n", out ) ;
-	    fputs_v ( "    }\n", out ) ;
-	    fputs_v ( "}\n\n\n", out ) ;
-	    read_name = "read_char_aux" ;
-	}
+    if (opts & OUTPUT_FUNCTIONS) {
+		if (pre_pass->next) {
+			in_pre_pass = 1;
+			fputs_v ("/* PRE-PASS ANALYSER */\n\n", out);
+			fputs_v ("static int read_char_aux PROTO_Z ()\n", out);
+			fputs_v ("{\n", out);
+			fputs_v ("    start : {\n", out);
+			IGNORE output_pass (pre_pass, 0, 2);
+			fputs_v ("\treturn (c0) ;\n", out);
+			fputs_v ("    }\n", out);
+			fputs_v ("}\n\n\n", out);
+			read_name = "read_char_aux";
+		}
     }
-
+	
     /* Main pass */
-    if ( opts & OUTPUT_FUNCTIONS ) {
-	in_pre_pass = 0 ;
-	fputs_v ( "/* MAIN PASS ANALYSER */\n\n", out ) ;
-	fputs_v ( "int read_token PROTO_Z ()\n", out ) ;
-	fputs_v ( "{\n", out ) ;
-	fputs_v ( "    start : {\n", out ) ;
-	IGNORE output_pass ( main_pass, 0, 2 ) ;
-	fputs_v ( "\treturn ( unknown_token ( c0 ) ) ;\n", out ) ;
-	fputs_v ( "    }\n", out ) ;
-	fputs_v ( "}\n", out ) ;
+    if (opts & OUTPUT_FUNCTIONS) {
+		in_pre_pass = 0;
+		fputs_v ("/* MAIN PASS ANALYSER */\n\n", out);
+		fputs_v ("int read_token PROTO_Z ()\n", out);
+		fputs_v ("{\n", out);
+		fputs_v ("    start : {\n", out);
+		IGNORE output_pass (main_pass, 0, 2);
+		fputs_v ("\treturn (unknown_token (c0)) ;\n", out);
+		fputs_v ("    }\n", out);
+		fputs_v ("}\n", out);
     }
-    return ;
+    return;
 }
 
 
 /*
-    OUTPUT CODE FOR A SINGLE KEYWORD
+ *    OUTPUT CODE FOR A SINGLE KEYWORD
+ *
+ *    This routine outputs code for the keyword p.
+ */
 
-    This routine outputs code for the keyword p.
-*/
-
-static void output_word
-    PROTO_N ( ( p ) )
-    PROTO_T ( keyword *p )
+static void
+output_word(keyword *p)
 {
-    fprintf_v ( out, "MAKE_KEYWORD ( \"%s\", %s", p->name, p->defn ) ;
-    if ( p->args ) fputs_v ( " ()", out ) ;
-    fputs_v ( " ) ;\n", out ) ;
-    p->done = 1 ;
-    return ;
+    fprintf_v (out, "MAKE_KEYWORD (\"%s\", %s", p->name, p->defn);
+    if (p->args) fputs_v (" ()", out);
+    fputs_v (") ;\n", out);
+    p->done = 1;
+    return;
 }
 
 
 /*
-    KEYWORD OUTPUT ROUTINE
+ *    KEYWORD OUTPUT ROUTINE
+ *
+ *    This routine outputs code to generate all keywords.
+ */
 
-    This routine outputs code to generate all keywords.
-*/
-
-static void output_keyword
-    PROTO_Z ()
+static void
+output_keyword()
 {
-    keyword *p, *q ;
-    fputs_v ( "/* KEYWORDS */\n\n", out ) ;
-    for ( p = keywords ; p != NULL ; p = p->next ) {
-	if ( p->done == 0 ) {
-	    char *cond = p->cond ;
-	    if ( cond ) {
-		fprintf_v ( out, "if ( %s ) {\n    ", cond ) ;
-		output_word ( p ) ;
-		for ( q = p->next ; q != NULL ; q = q->next ) {
-		    if ( q->cond && streq ( q->cond, cond ) ) {
-			fputs_v ( "    ", out ) ;
-			output_word ( q ) ;
-		    }
+    keyword *p, *q;
+    fputs_v ("/* KEYWORDS */\n\n", out);
+    for (p = keywords ; p != NULL ; p = p->next) {
+		if (p->done == 0) {
+			char *cond = p->cond;
+			if (cond) {
+				fprintf_v (out, "if (%s) {\n    ", cond);
+				output_word (p);
+				for (q = p->next ; q != NULL ; q = q->next) {
+					if (q->cond && streq (q->cond, cond)) {
+						fputs_v ("    ", out);
+						output_word (q);
+					}
+				}
+				fputs_v ("}\n", out);
+			} else {
+				output_word (p);
+				for (q = p->next ; q != NULL ; q = q->next) {
+					if (q->cond == NULL) output_word (q);
+				}
+			}
 		}
-		fputs_v ( "}\n", out ) ;
-	    } else {
-		output_word ( p ) ;
-		for ( q = p->next ; q != NULL ; q = q->next ) {
-		    if ( q->cond == NULL ) output_word ( q ) ;
-		}
-	    }
-	}
     }
-    return ;
+    return;
 }
 
 
 /*
-    MAIN OUTPUT ROUTINE
+ *    MAIN OUTPUT ROUTINE
+ *
+ *    This routine is the entry point for the main output routine.
+ */
 
-    This routine is the entry point for the main output routine.
-*/
-
-void output_all
-    PROTO_N ( ( opts ) )
-    PROTO_T ( unsigned opts )
+void
+output_all(unsigned opts)
 {
-    output_comment () ;
-    if ( opts & OUTPUT_KEYWORDS ) {
-	output_keyword () ;
+    output_comment ();
+    if (opts & OUTPUT_KEYWORDS) {
+		output_keyword ();
     } else {
-	output_main ( opts ) ;
+		output_main (opts);
     }
-    return ;
+    return;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.tendra.org/>
+ * Copyright (c) 2002, 2003, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,232 +63,230 @@
 
 
 /*
-    INPUT FILE
+ *    INPUT FILE
+ *
+ *    This is the file from which the lexical routine read their input.
+ */
 
-    This is the file from which the lexical routine read their input.
-*/
-
-static FILE *lex_input ;
-
-
-/*
-    PENDING BUFFER
-
-    Pending characters are dealt with by means of this buffer.  pending
-    is set to the start of the buffer to indicate that there are no
-    characters pending, otherwise the pending characters are stored in
-    the buffer.  The buffer may need increasing in size if the look-ahead
-    required by the lexical analyser increases.
-*/
-
-static int pending_buff [12] = { '?' } ;
-static int *pending = pending_buff ;
+static FILE *lex_input;
 
 
 /*
-    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
+ *    PENDING BUFFER
+ *
+ *    Pending characters are dealt with by means of this buffer.  pending
+ *    is set to the start of the buffer to indicate that there are no
+ *    characters pending, otherwise the pending characters are stored in
+ *    the buffer.  The buffer may need increasing in size if the look-ahead
+ *    required by the lexical analyser increases.
+ */
 
-    These macros give the mappings between the actions used in the
-    automatically generated lexical analyser and the routines defined
-    in this file.
-*/
-
-static int read_char PROTO_S ( ( void ) ) ;
-static int read_comment PROTO_S ( ( void ) ) ;
-static int read_identifier PROTO_S ( ( int, int ) ) ;
-static int read_string PROTO_S ( ( void ) ) ;
-
-#define get_comment( A, B )	read_comment ()
-#define get_identifier( A )	read_identifier ( ( A ), 0 )
-#define get_sid_ident( A, B )	read_identifier ( ( B ), 1 )
-#define get_string( A )		read_string ()
-#define unknown_token( A )	lex_unknown
-#define unread_char( A )	*( ++pending ) = ( A )
+static int pending_buff [12] = { '?' };
+static int *pending = pending_buff;
 
 
 /*
-    AUTOMATICALLY GENERATED SECTION
+ *    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
+ *
+ *    These macros give the mappings between the actions used in the
+ *    automatically generated lexical analyser and the routines defined
+ *    in this file.
+ */
 
-    The main body of the lexical analyser is automatically generated.
-*/
+static int read_char(void);
+static int read_comment(void);
+static int read_identifier(int, int);
+static int read_string(void);
+
+#define get_comment(A, B)	read_comment ()
+#define get_identifier(A)	read_identifier ((A), 0)
+#define get_sid_ident(A, B)	read_identifier ((B), 1)
+#define get_string(A)		read_string ()
+#define unknown_token(A)	lex_unknown
+#define unread_char(A)	*(++pending) = (A)
+
+
+/*
+ *    AUTOMATICALLY GENERATED SECTION
+ *
+ *    The main body of the lexical analyser is automatically generated.
+ */
 
 #include "lexer.h"
 
 
 /*
-    GET THE NEXT CHARACTER
+ *    GET THE NEXT CHARACTER
+ *
+ *    This routine reads the next character, either from the pending buffer
+ *    or from the input file.
+ */
 
-    This routine reads the next character, either from the pending buffer
-    or from the input file.
-*/
-
-static int read_char
-    PROTO_Z ()
+static int
+read_char()
 {
-    int c ;
-    if ( pending != pending_buff ) {
-	c = *( pending-- ) ;
+    int c;
+    if (pending != pending_buff) {
+		c = *(pending--);
     } else {
-	c = fgetc ( lex_input ) ;
-	if ( c == '\n' ) crt_line_no++ ;
-	if ( c == EOF ) return ( LEX_EOF ) ;
-	c &= 0xff ;
+		c = fgetc (lex_input);
+		if (c == '\n') crt_line_no++;
+		if (c == EOF) return (LEX_EOF);
+		c &= 0xff;
     }
-    return ( c ) ;
+    return (c);
 }
 
 
 /*
-    TOKEN BUFFER
+ *    TOKEN BUFFER
+ *
+ *    This buffer is used by read_token to hold the values of identifiers
+ *    and strings.
+ */
 
-    This buffer is used by read_token to hold the values of identifiers
-    and strings.
-*/
-
-char token_buff [2000] ;
-static char *token_end = token_buff + sizeof ( token_buff ) ;
-char *first_comment = NULL ;
+char token_buff [2000];
+static char *token_end = token_buff + sizeof (token_buff);
+char *first_comment = NULL;
 
 
 /*
-    READ AN IDENTIFIER
+ *    READ AN IDENTIFIER
+ *
+ *    This routine reads an identifier beginning with a, returning the
+ *    corresponding lexical token.  Keywords are dealt with locally.
+ *    The sid flag indicates whether a sid-style identifier is expected.
+ */
 
-    This routine reads an identifier beginning with a, returning the
-    corresponding lexical token.  Keywords are dealt with locally.
-    The sid flag indicates whether a sid-style identifier is expected.
-*/
-
-static int read_identifier
-    PROTO_N ( ( a, sid ) )
-    PROTO_T ( int a X int sid )
+static int
+read_identifier(int a, int sid)
 {
-    int c = a ;
-    lookup_type cl ;
-    int e = ( sid ? '-' : 'x' ) ;
-    char *t = token_buff ;
+    int c = a;
+    lookup_type cl;
+    int e = (sid ? '-' : 'x');
+    char *t = token_buff;
     do {
-	*( t++ ) = ( char ) c ;
-	if ( t == token_end ) error ( ERROR_FATAL, "Buffer overflow" ) ;
-	c = read_char () ;
-	cl = lookup_char ( c ) ;
-    } while ( is_alphanum ( cl ) || c == e ) ;
-    *t = 0 ;
-    unread_char ( c ) ;
-
+		*(t++) = (char) c;
+		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		c = read_char ();
+		cl = lookup_char (c);
+    } while (is_alphanum (cl) || c == e);
+    *t = 0;
+    unread_char (c);
+	
     /* Deal with keywords */
-    if ( sid ) return ( lex_sid_Hidentifier ) ;
-    t = token_buff ;
-#define MAKE_KEYWORD( A, B )\
-    if ( streq ( t, ( A ) ) ) return ( B ) ;
+    if (sid) return (lex_sid_Hidentifier);
+    t = token_buff;
+#define MAKE_KEYWORD(A, B)\
+    if (streq (t, (A))) return (B);
 #include "keyword.h"
-    return ( lex_identifier ) ;
+    return (lex_identifier);
 }
 
 
 /*
-    READ A STRING
+ *    READ A STRING
+ *
+ *    This routine reads a string.  It is entered after the initial
+ *    quote has been read.
+ */
 
-    This routine reads a string.  It is entered after the initial
-    quote has been read.
-*/
-
-static int read_string
-    PROTO_Z ()
+static int
+read_string()
 {
-    int c ;
-    int escaped = 0 ;
-    char *t = token_buff ;
-    while ( c = read_char (), ( c != '"' || escaped ) ) {
-	if ( c == '\n' || c == LEX_EOF ) {
-	    error ( ERROR_SERIOUS, "Unexpected end of string" ) ;
-	    break ;
-	}
-	*( t++ ) = ( char ) c ;
-	if ( t == token_end ) error ( ERROR_FATAL, "Buffer overflow" ) ;
-	if ( escaped ) {
-	    escaped = 0 ;
-	} else {
-	    if ( c == '\\' ) escaped = 1 ;
-	}
+    int c;
+    int escaped = 0;
+    char *t = token_buff;
+    while (c = read_char (), (c != '"' || escaped)) {
+		if (c == '\n' || c == LEX_EOF) {
+			error (ERROR_SERIOUS, "Unexpected end of string");
+			break;
+		}
+		*(t++) = (char) c;
+		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		if (escaped) {
+			escaped = 0;
+		} else {
+			if (c == '\\') escaped = 1;
+		}
     }
-    *t = 0 ;
-    return ( lex_string ) ;
+    *t = 0;
+    return (lex_string);
 }
 
 
 /*
-    READ A COMMENT
+ *    READ A COMMENT
+ *
+ *    This routine reads a C style comment, returning the lexical token
+ *    immediately following.  It is entered after the first two characters
+ *    have been read.
+ */
 
-    This routine reads a C style comment, returning the lexical token
-    immediately following.  It is entered after the first two characters
-    have been read.
-*/
-
-static int read_comment
-    PROTO_Z ()
+static int
+read_comment()
 {
-    int state = 0 ;
-    char *t = token_buff ;
-    *( t++ ) = '/' ;
-    *( t++ ) = '*' ;
-    while ( state != 2 ) {
-	int c = read_char () ;
-	if ( c == LEX_EOF ) {
-	    error ( ERROR_SERIOUS, "End of file in comment" ) ;
-	    return ( lex_eof ) ;
-	}
-	if ( c == '*' ) {
-	    state = 1 ;
-	} else if ( state == 1 && c == '/' ) {
-	    state = 2 ;
-	} else {
-	    state = 0 ;
-	}
-	*( t++ ) = ( char ) c ;
-	if ( t == token_end ) t = token_buff + 2 ;
+    int state = 0;
+    char *t = token_buff;
+    *(t++) = '/';
+    *(t++) = '*';
+    while (state != 2) {
+		int c = read_char ();
+		if (c == LEX_EOF) {
+			error (ERROR_SERIOUS, "End of file in comment");
+			return (lex_eof);
+		}
+		if (c == '*') {
+			state = 1;
+		} else if (state == 1 && c == '/') {
+			state = 2;
+		} else {
+			state = 0;
+		}
+		*(t++) = (char) c;
+		if (t == token_end) t = token_buff + 2;
     }
-    *t = 0 ;
-    if ( first_comment == NULL ) first_comment = xstrcpy ( token_buff ) ;
-    return ( read_token () ) ;
+    *t = 0;
+    if (first_comment == NULL) first_comment = xstrcpy (token_buff);
+    return (read_token ());
 }
 
 
 /*
-    CURRENT TOKEN
+ *    CURRENT TOKEN
+ *
+ *    These variables are used by the parser to hold the current and former
+ *    lexical tokens.
+ */
 
-    These variables are used by the parser to hold the current and former
-    lexical tokens.
-*/
-
-int crt_lex_token ;
-int saved_lex_token ;
+int crt_lex_token;
+int saved_lex_token;
 
 
 /*
-    PROCESS FILE
+ *    PROCESS FILE
+ *
+ *    This routine processes the input file nm.
+ */
 
-    This routine processes the input file nm.
-*/
-
-void process_file
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+void
+process_file(char *nm)
 {
-    crt_line_no = 1 ;
-    if ( nm == NULL || streq ( nm, "-" ) ) {
-	crt_file_name = "<stdin>" ;
-	lex_input = stdin ;
-	nm = NULL ;
+    crt_line_no = 1;
+    if (nm == NULL || streq (nm, "-")) {
+		crt_file_name = "<stdin>";
+		lex_input = stdin;
+		nm = NULL;
     } else {
-	crt_file_name = nm ;
-	lex_input = fopen ( nm, "r" ) ;
-	if ( lex_input == NULL ) {
-	    error ( ERROR_SERIOUS, "Can't open input file, '%s'", nm ) ;
-	    return ;
-	}
+		crt_file_name = nm;
+		lex_input = fopen (nm, "r");
+		if (lex_input == NULL) {
+			error (ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			return;
+		}
     }
-    ADVANCE_LEXER ;
-    read_lex () ;
-    if ( nm ) fclose_v ( lex_input ) ;
-    return ;
+    ADVANCE_LEXER;
+    read_lex ();
+    if (nm) fclose_v (lex_input);
+    return;
 }

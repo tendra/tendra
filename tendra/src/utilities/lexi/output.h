@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.tendra.org/>
+ * Copyright (c) 2002, 2003, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,8 +63,8 @@
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern FILE *lex_output ;
-extern void output_all PROTO_S ( ( unsigned ) ) ;
+extern FILE *lex_output;
+extern void output_all (unsigned);
 
 
 /*
