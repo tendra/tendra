@@ -522,5 +522,4 @@ dump_env(void)
 			printf("\t%s = %s\n", hn->key, hn->val);
 		}
 	}
-
 }
