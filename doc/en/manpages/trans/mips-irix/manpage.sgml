@@ -42,9 +42,9 @@
 
     <varlistentry>
       <term><option>-D</option><replaceable>switch</replaceable></term>
-    
+
       <listitem>
-        <para>This option determines whether <command>mipstrans</command> 
+        <para>This option determines whether <command>mipstrans</command>
           should produce Position Independent Code (PIC). This is done by default
           in the IRIX version and not at all in the ULTRIX version.</para>
       </listitem>

@@ -41,7 +41,7 @@
     <varlistentry>
       <term><option>-D</option><replaceable>switch</replaceable>&nbsp;<option>-d</option><replaceable>
       switch</replaceable></term>
-    
+
       <listitem>
         <para>These options cause hppatrans to output <emphasis>Position
           Independent Code</emphasis> (PIC). The <option>-D</option> flag
