@@ -28,7 +28,7 @@
 $PROTECT = "";
 
 +SUBSET "fail" := {
-+FUNC void __assert_aux (const char *, const char *, int);
++FUNC void __assert_aux (const char *, const char *, const char *, int);
 %%%
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,9 +60,12 @@ $PROTECT = "";
  *
  * $TenDRA$
  * Provide token definition here */
-#define __assert_aux(E, F, L)\
-    (fprintf (stderr, "assertion failed: %s, file %s, line %d\n",\
-		(E), (F), (L)), abort ())
+#define __assert_aux(E, FNC, F, L)					\
+	((((FNC) != NULL) ?						\
+	    fprintf (stderr, "assertion failed: %s, function %s, "	\
+		"file %s, line %d\n", (E), (FNC), (F), (L))		\
+	  : fprintf (stderr, "assertion failed: %s, file %s, "		\
+		"line %d\n", (E), (F), (L))), abort ())
 %%%
 };
 
@@ -71,5 +74,6 @@ $PROTECT = "";
 +IFDEF NDEBUG
 +DEFINE assert.1(e) %% ((void)0) %%;
 +ELSE
-+DEFINE assert.2(e) %% ((e)?(void)0:__assert_aux(#e,__FILE__,__LINE__)) %%;
++DEFINE assert.2(e) %% ((e) ? (void)0 : __assert_aux(#e, 0, __FILE__, \
+	__LINE__)) %%;
 +ENDIF
