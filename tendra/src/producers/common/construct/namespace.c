@@ -464,7 +464,7 @@ update_namespace()
 /*
  *    CREATE A NAMESPACE
  *
- *    This routine creates a namespace named id of type tag.  If tag is
+ *    This routine creates a namespace named id of type tag.  If tag
  *    indicates a small namespace then sz will be zero.  Otherwise sz gives
  *    the size of hash table to be created.
  */
