@@ -41,7 +41,7 @@ ${PROG}: ${OBJS}
 	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LDCRT} ${LIBS}
 .if defined(WRAPPER)
 	@${ECHO} Adjusting paths for ${WRAPPER}...
-	sed s'/@@MACH_BASE@@/${MACH_BASE:S/\//\\\//g}/g' ${WRAPPER} ${OBJ_SDIR}/${WRAPPER}
+	sed s'/@@MACH_BASE@@/${MACH_BASE:S/\//\\\//g}/g' ${BASE_DIR}/${TOOLS}/${PROG}/${WRAPPER} > ${OBJ_SDIR}/${WRAPPER}
 .endif
 
 clean:
