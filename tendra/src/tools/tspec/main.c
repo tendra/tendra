@@ -56,6 +56,11 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include <signal.h>
 #include "release.h"
 #include "object.h"
@@ -69,6 +74,7 @@
 #include "print.h"
 #include "utility.h"
 
+extern void tspec_on_message(MSG_DATA *);
 
 /*
  *    SIGNAL HANDLER
@@ -77,18 +83,12 @@
  */
 
 static void
-handler(int sig)
+exit_handler(void)
 {
-    char *s;
     hash_elem *e;
-    IGNORE signal (SIGINT, SIG_IGN);
-    switch (sig) {
-	case SIGINT : s = "interrupt"; break;
-	case SIGSEGV : s = "segmentation violation"; break;
-	case SIGTERM : s = "termination signal"; break;
-	default : s = "unknown signal"; break;
-    }
-    error (ERR_SERIOUS, "Caught %s", s);
+
+    if (exit_status == 0)
+	return;
     e = sort_hash (files);
     while (e) {
 		object *p = e->obj;
@@ -101,7 +101,6 @@ handler(int sig)
 		}
 		e = e->next;
     }
-    exit (exit_status);
 }
 
 
@@ -121,7 +120,7 @@ separate(object *p)
     IGNORE sprintf (exec, "%s %s", i->api, i->file);
     if (verbose > 1) IGNORE printf ("Executing '%s' ...\n", buffer);
     if (system (buffer)) {
-		error (ERR_SERIOUS, "Separate compilation of %s failed", p->name);
+		MSG_separate_compilation_failed (p->name);
     }
     return;
 }
@@ -146,6 +145,15 @@ implement(object *p, int depth)
 		}
     }
     return;
+}
+
+static void
+msg_uh_fileline(char ch, void *pp)
+{
+	UNUSED(ch);
+	UNUSED(pp);
+	if (filename)
+		write_fmt(msg_stream, "%s: %d: ", filename, line_no);
 }
 
 
@@ -173,15 +181,17 @@ main(int argc, char **argv)
     boolean separate_files = 0;
 
     /* Initialisation */
+    tenapp_init (argc, argv, "An API specification tool", "2.9");
+    tenapp_add_eh (exit_handler);
+    msg_uh_add(MSG_GLOB_fileline, msg_uh_fileline);
+    msg_on_message = tspec_on_message;
+
     line_no = 1;
     filename = "built-in definitions";
     init_hash ();
     init_keywords ();
     init_types ();
     filename = "command line";
-    IGNORE signal (SIGINT, handler);
-    IGNORE signal (SIGSEGV, handler);
-    IGNORE signal (SIGTERM, handler);
 
     /* Read system variables */
     env = getenv (INPUT_ENV);
@@ -240,14 +250,13 @@ main(int argc, char **argv)
 					case 't' : allow_long_long = 1; break;
 					case 'u' : unique_names = 1; break;
 					case 'v' : verbose++; break;
-					case 'w' : warnings = 0; break;
+					case 'w' : msg_sev_set (MSG_SEV_WARNING, 0); break;
 					case 'V' : {
-						IGNORE printf ("Version: %s (release %s)\n",
-									   progvers, RELEASE);
+						tenapp_report_version ();
 						break;
 					}
 					default : {
-						error (ERR_WARNING, "Unknown option, -%c", *s);
+						MSG_getopt_unknown_option (s);
 						break;
 					}
 					}
@@ -261,27 +270,27 @@ main(int argc, char **argv)
 			} else if (subset == null) {
 				subset = arg;
 			} else {
-				error (ERR_WARNING, "Too many arguments");
+				MSG_getopt_too_many_arguments ();
 			}
 		}
     }
     if (local_input) {
-		if (subset) error (ERR_WARNING, "Too many arguments");
+		if (subset) MSG_getopt_too_many_arguments ();
 		subset = file;
 		file = api;
 		api = LOCAL_API;
     }
-    if (api == null) error (ERR_FATAL, "Not enough arguments");
+    if (api == null) MSG_getopt_not_enough_arguments ();
     input_dir = string_printf ("%s:%s", dir, input_dir);
 
     if (preproc_input) {
 		/* Open preprocessed input */
-		if (file != null) error (ERR_WARNING, "Too many arguments");
+		if (file != null) MSG_getopt_not_enough_arguments ();
 		preproc_file = fopen (api, "r");
 		filename = api;
 		line_no = 1;
 		if (preproc_file == null) {
-			error (ERR_FATAL, "Can't open input file");
+			MSG_cant_open_input_file (api);
 		}
     } else {
 		/* Find the temporary file */
@@ -289,7 +298,7 @@ main(int argc, char **argv)
 		if (preproc_file == null) {
 			preproc_file = tmpfile ();
 			if (preproc_file == null) {
-				error (ERR_FATAL, "Can't open temporary file");
+				MSG_cant_open_temporary_file ();
 			}
 		}
 		/* Do the preprocessing */
@@ -297,7 +306,7 @@ main(int argc, char **argv)
 		n = no_errors;
 		if (n) {
 			filename = null;
-			error (ERR_FATAL, "%d error(s) in preprocessor phase", n);
+			MSG_errors_in_preprocessor_phase (n);
 		}
 		if (preproc_file == stdout) exit (exit_status);
 		filename = "temporary file";
@@ -327,7 +336,7 @@ main(int argc, char **argv)
 		}
 		n = no_errors;
 		if (n) {
-			error (ERR_FATAL, "%d error(s) in separate compilation", n);
+			MSG_errors_in_separate_compilation (n);
 		}
 		exit (exit_status);
     }
@@ -340,7 +349,7 @@ main(int argc, char **argv)
     read_spec (&commands);
     if (no_errors) {
 		filename = null;
-		error (ERR_FATAL, "%d error(s) in analyser phase", no_errors);
+		MSG_errors_in_analyser_phase (no_errors);
     }
 
     /* Perform the output */

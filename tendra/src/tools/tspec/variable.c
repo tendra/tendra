@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -222,7 +224,7 @@ set_string(char *v, char *s)
 	    break;
 	}
     }
-    if (!known) error (ERR_SERIOUS, "Unknown string variable, '%s'", v);
+    if (!known) MSG_unknown_string_variable (v);
     return;
 }
 
@@ -269,6 +271,6 @@ set_integer(char *v, int n)
 	    break;
 	}
     }
-    if (!known) error (ERR_SERIOUS, "Unknown integer variable, '%s'", v);
+    if (!known) MSG_unknown_integer_variable (v);
     return;
 }

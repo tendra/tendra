@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -221,7 +225,7 @@ print_head(FILE *output, type *t, int sp, int tok)
 	}
 	default : {
 	    /* Unknown types */
-	    error (ERR_INTERNAL, "Unknown type identifier, '%d'", t->id);
+	    MSG_unknown_type_identifier (t->id);
 	    break;
 	}
     }
@@ -274,7 +278,7 @@ print_tail(FILE *output, type *t, int tok)
 	    if (s) {
 			OUTS (output, " (");
 			while (s) {
-				print_type (output, s->u.subtype, null_str, tok);
+				print_type (output, s->u.subtype, NULL, tok);
 				s = s->v.next;
 				if (s) OUTS (output, ", ");
 			}
@@ -563,7 +567,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 
 	default : {
 	    /* Other types */
-	    error (ERR_INTERNAL, "Unknown type identifier, '%d'\n", i);
+	    MSG_unknown_type_identifier (i);
 	    break;
 	}
     }
@@ -593,7 +597,7 @@ print_token(FILE *output, object *p, char *tnm)
 			OUTS (output, "const : ");
 			t = t->u.subtype;
 	    }
-	    print_type (output, t, null_str, 1);
+	    print_type (output, t, NULL, 1);
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -645,9 +649,9 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Field selectors */
 	    field *f = p->u.u_field;
 	    OUTS (output, "#pragma token MEMBER ");
-	    print_type (output, f->ftype, null_str, 1);
+	    print_type (output, f->ftype, NULL, 1);
 	    OUTS (output, " : ");
-	    print_type (output, f->stype, null_str, 1);
+	    print_type (output, f->stype, NULL, 1);
 	    OUT (output, " : %s # %s\n", f->fname, tnm);
 	    break;
 	}
@@ -656,7 +660,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Functions */
 	    type *t = p->u.u_type;
 	    OUTS (output, "#pragma token FUNC ");
-	    print_type (output, t, null_str, 1);
+	    print_type (output, t, NULL, 1);
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -669,13 +673,13 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Print the macro arguments */
 	    while (s && s != type_none ) {
 			OUTS (output, "EXP ");
-			print_type (output, s->u.subtype, null_str, 1);
+			print_type (output, s->u.subtype, NULL, 1);
 			s = s->v.next;
 			OUTS (output, (s ? " : , " : " : "));
 	    }
 	    /* Print the macro result */
 	    OUTS (output, ") EXP ");
-	    print_type (output, t->u.subtype, null_str, 1);
+	    print_type (output, t->u.subtype, NULL, 1);
 	    OUT (output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -695,7 +699,7 @@ print_token(FILE *output, object *p, char *tnm)
 			OUTS (output, "#pragma token PROC (");
 			while (s && s != type_none) {
 				OUTS (output, "EXP ");
-				print_type (output, s->u.subtype, null_str, 1);
+				print_type (output, s->u.subtype, NULL, 1);
 				s = s->v.next;
 				OUTS (output, (s ? " : , " : " : "));
 			}
@@ -722,7 +726,7 @@ print_token(FILE *output, object *p, char *tnm)
 
 	default : {
 	    /* Unknown objects */
-	    error (ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+	    MSG_unknown_object_type (p->objtype);
 	    break;
 	}
     }
@@ -935,7 +939,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 
 	default : {
 	    /* Unknown objects */
-	    error (ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+	    MSG_unknown_object_type (p->objtype);
 	    nm = null;
 	    break;
 	}
@@ -1109,8 +1113,7 @@ print_object(FILE *output, object *input, int pass)
 
 	    default : {
 			/* Unknown objects */
-			char *err = "Unknown object type, '%d'";
-			error (ERR_INTERNAL, err, p->objtype);
+			MSG_unknown_object_type (p->objtype);
 			break;
 	    }
 		}
@@ -1218,7 +1221,7 @@ print_set(object *input, int pass)
 			output = fopen (nm, "w");
 			q->u.u_file = output;
 			if (output == null) {
-				error (ERR_SERIOUS, "Can't open output file, %s", nm);
+				MSG_cant_open_output_file (nm);
 				return;
 			}
 		}
@@ -1234,15 +1237,14 @@ print_set(object *input, int pass)
 				if (copyright_text == null) {
 					FILE *f = fopen (copyright, "r");
 					if (f == null) {
-						char *err = "Can't open copyright file, %s";
-						error (ERR_SERIOUS, err, copyright);
+						MSG_cant_open_copyright_file (copyright);
 						copyright_text = "";
 					} else {
 						int c, j = 0;
 						while (c = getc (f), c != EOF) {
 							buffer [j] = (char) c;
 							if (++j >= buffsize) {
-								error (ERR_SERIOUS, "Copyright too long");
+								MSG_copyright_too_long ();
 								break;
 							}
 						}
@@ -1256,12 +1258,12 @@ print_set(object *input, int pass)
 
 			/* Find the version number */
 			if (v == null && i->subset) {
-				char *a = subset_name (i->api, i->file, null_str);
+				char *a = subset_name (i->api, i->file, NULL);
 				object *ap = make_subset (a);
 				v = ap->u.u_info->version;
 			}
 			if (v == null && i->file) {
-				char *a = subset_name (i->api, null_str, null_str);
+				char *a = subset_name (i->api, NULL, NULL);
 				object *ap = make_subset (a);
 				v = ap->u.u_info->version;
 			}
@@ -1341,7 +1343,7 @@ print_set(object *input, int pass)
 				char *w1, *w2;
 				int n = output_incl_len;
 				m = macro_name (DEFINE_PREFIX, i->api, i->file, i->subset);
-				w1 = macro_name (WRONG_PREFIX, i->api, null_str, null_str);
+				w1 = macro_name (WRONG_PREFIX, i->api, NULL, NULL);
 				w2 = macro_name (WRONG_PREFIX, i->api, i->file, i->subset);
 				s = i->incl + n;
 				OUTS (output, "/* AUTOMATICALLY GENERATED BY ");

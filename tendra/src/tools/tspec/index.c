@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -315,7 +318,7 @@ stack_if (object *p)
 {
     if (if_stack_index == if_stack_sz) {
 		if_stack_sz += 16;
-		if_stack = realloc_nof (if_stack, object *, if_stack_sz);
+		if_stack = xrealloc (if_stack, sizeof (*p) * if_stack_sz);
     }
     if_stack [if_stack_index] = p;
     if_stack_index++;
@@ -426,13 +429,13 @@ print_item_m(object *p, char *u, char *a, type *e)
     switch (q->objtype) {
 
 	case OBJ_CONST : {
-	    print_st ("const", q->u.u_type, null_str);
+	    print_st ("const", q->u.u_type, NULL);
 	    break;
 	}
 
 	case OBJ_ENUMVAL : {
 	    print_field ("enum_member");
-	    print_type (stdout, e, null_str, 0);
+	    print_type (stdout, e, NULL, 0);
 	    print_field_sep ();
 	    if (q->u.u_str) {
 			print_value (q->u.u_str);
@@ -445,7 +448,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_EXP : {
 	    type *t = q->u.u_type;
 	    char *s = (t->id == TYPE_LVALUE ? "lvalue" : "rvalue");
-	    print_st (s, t, null_str);
+	    print_st (s, t, NULL);
 	    break;
 	}
 
@@ -455,7 +458,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    if (t->id == TYPE_PROC) {
 			print_sit ("func", "extern", t, nm);
 	    } else {
-			print_st ("extern", t, null_str);
+			print_st ("extern", t, NULL);
 	    }
 	    break;
 	}
@@ -487,9 +490,9 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_FIELD : {
 	    field *f = q->u.u_field;
 	    print_field ("member");
-	    print_type (stdout, f->stype, null_str, 0);
+	    print_type (stdout, f->stype, NULL, 0);
 	    print_field_sep ();
-	    print_type (stdout, f->ftype, null_str, 0);
+	    print_type (stdout, f->ftype, NULL, 0);
 	    print_no_value ();
 	    break;
 	}
@@ -512,7 +515,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_STATEMENT : {
 	    type *t = q->u.u_type;
 	    if (t) {
-			print_sit ("statement", "param", t, null_str);
+			print_sit ("statement", "param", t, NULL);
 	    } else {
 			print_s ("statement");
 	    }
@@ -531,7 +534,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    switch (i) {
 
 		case TYPE_DEFINED : {
-		    print_st ("typedef", t->v.next, null_str);
+		    print_st ("typedef", t->v.next, NULL);
 		    break;
 		}
 
@@ -557,7 +560,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 
 		case TYPE_PROMOTE : {
 		    print_field ("promotion");
-		    print_type (stdout, t->v.next, null_str, 0);
+		    print_type (stdout, t->v.next, NULL, 0);
 		    print_field_sep ();
 		    print_no_value ();
 		    break;
@@ -605,7 +608,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 		}
 
 		default : {
-		    error (ERR_INTERNAL, "Unknown type identifier, '%d'", i);
+		    MSG_unknown_type_identifier (i);
 		    break;
 		}
 	    }
@@ -613,7 +616,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	}
 
 	default : {
-	    error (ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+	    MSG_unknown_object_type (q->objtype);
 	    break;
 	}
     }
@@ -647,21 +650,21 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 	case OBJ_CONST : {
 	    IGNORE printf ("%s is a constant expression of type ", nm);
-	    print_type (stdout, q->u.u_type, null_str, 0);
+	    print_type (stdout, q->u.u_type, NULL, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
 
 	case OBJ_ENUMVAL : {
 	    IGNORE printf ("%s is a member of the enumeration type ", nm);
-	    print_type (stdout, e, null_str, 0);
+	    print_type (stdout, e, NULL, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
 
 	case OBJ_EXP : {
 	    IGNORE printf ("%s is an expression of type ", nm);
-	    print_type (stdout, q->u.u_type, null_str, 0);
+	    print_type (stdout, q->u.u_type, NULL, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
@@ -675,7 +678,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 			print_type (stdout, t, nm, 0);
 	    } else {
 			IGNORE printf ("expression with type ");
-			print_type (stdout, t, null_str, 0);
+			print_type (stdout, t, NULL, 0);
 	    }
 	    IGNORE printf ("\n\n");
 	    break;
@@ -709,9 +712,9 @@ print_item_h(object *p, char *u, char *a, type *e)
 	case OBJ_FIELD : {
 	    field *f = q->u.u_field;
 	    IGNORE printf ("%s is a field selector of ", f->fname);
-	    print_type (stdout, f->stype, null_str, 0);
+	    print_type (stdout, f->stype, NULL, 0);
 	    IGNORE printf (" of type ");
-	    print_type (stdout, f->ftype, null_str, 0);
+	    print_type (stdout, f->ftype, NULL, 0);
 	    IGNORE printf ("\n\n");
 	    break;
 	}
@@ -740,7 +743,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf ("%s is a statement", nm);
 	    if (t) {
 			IGNORE printf (" with arguments");
-			print_type (stdout, t, null_str, 0);
+			print_type (stdout, t, NULL, 0);
 	    }
 	    IGNORE printf ("\n\n");
 	    break;
@@ -754,12 +757,12 @@ print_item_h(object *p, char *u, char *a, type *e)
 	case OBJ_TYPE : {
 	    type *t = q->u.u_type;
 	    int i = t->id;
-	    print_type (stdout, t, null_str, 0);
+	    print_type (stdout, t, NULL, 0);
 	    switch (i) {
 
 		case TYPE_DEFINED : {
 		    IGNORE printf (" is a type defined to be ");
-		    print_type (stdout, t->v.next, null_str, 0);
+		    print_type (stdout, t->v.next, NULL, 0);
 		    IGNORE printf ("\n\n");
 		    break;
 		}
@@ -786,7 +789,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 		case TYPE_PROMOTE : {
 		    IGNORE printf (" is the integral promotion of ");
-		    print_type (stdout, t->v.next, null_str, 0);
+		    print_type (stdout, t->v.next, NULL, 0);
 		    IGNORE printf ("\n\n");
 		    break;
 		}
@@ -843,7 +846,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 		default : {
 		    IGNORE printf (" is a type\n\n");
-		    error (ERR_INTERNAL, "Unknown type identifier, '%d'", i);
+		    MSG_unknown_type_identifier (i);
 		    break;
 		}
 	    }
@@ -851,7 +854,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	}
 
 	default : {
-	    error (ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+	    MSG_unknown_object_type (q->objtype);
 	    break;
 	}
     }

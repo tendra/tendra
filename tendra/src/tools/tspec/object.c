@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -74,7 +77,7 @@ object *
 make_object(char *nm, int t)
 {
     object *p;
-    alloc_variable (p, object, 1000);
+    p = xalloc (sizeof (*p));
     p->name = nm;
     p->objtype = t;
     p->next = null;
@@ -149,7 +152,7 @@ info *
 make_info(char *api, char *file, char *subset)
 {
     info *p;
-    alloc_variable (p, info, 100);
+    p = xalloc (sizeof (*p));
     p->api = api;
     p->file = file;
     p->subset = subset;

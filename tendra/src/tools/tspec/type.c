@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "object.h"
 #include "hash.h"
 #include "type.h"
@@ -120,7 +123,7 @@ static type *
 new_type(void)
 {
     type *t;
-    alloc_variable (t, type, 1000);
+    t = xalloc (sizeof (*t));
     t->state = 0;
     return (t);
 }
@@ -219,7 +222,7 @@ basic_type(unsigned n)
 	    } else if (n == BTYPE_VOID) {
 			t = type_void;
 	    } else {
-			error (ERR_SERIOUS, "Invalid type specifier");
+			MSG_invalid_type_specifier ();
 			t = type_int;
 	    }
 	    break;
@@ -241,7 +244,7 @@ special_type(char *s)
     if (streq (s, "bottom")) return (type_bottom);
     if (streq (s, "printf")) return (type_printf);
     if (streq (s, "scanf")) return (type_scanf);
-    error (ERR_SERIOUS, "Unknown special type '%s'", s);
+    MSG_unknown_special_type (s);
     return (type_int);
 }
 
@@ -283,13 +286,12 @@ find_type(char *nm, int vers, int id, int force)
     p = search_hash (h, nm, vers);
     if (p == null) {
 		if (force == 0) return (null);
-		error (ERR_SERIOUS, "%s '%s' not defined", h->name, nm);
+		MSG_type_not_defined (h->name, nm);
 		return (make_type (nm, vers, id));
     }
     t = p->u.u_type;
     if (id != TYPE_GENERIC && id != t->id) {
-		char *err = "%s '%s' used inconsistently (see %s, line %d)";
-		error (ERR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
+		MSG_type_used_inconsistently (h->name, nm, p->filename, p->line_no);
     }
     return (t);
 }
@@ -345,7 +347,7 @@ make_field(char *nm, int vers, type *s, type *t)
     char *n;
     field *r;
     object *p = make_object (nm, OBJ_FIELD);
-    alloc_variable (r, field, 1000);
+    r = xalloc (sizeof (*r));
     r->obj = p;
     r->stype = s;
     r->ftype = t;
@@ -387,16 +389,16 @@ check_type_aux(type *t, int obj, int c, int ret)
     switch (t->id) {
 	case TYPE_VOID : {
 	    if ((obj || c) && !ret) {
-			error (ERR_SERIOUS, "The type 'void' is incomplete");
+			MSG_type_void_is_incomplete ();
 	    }
 	    break;
 	}
 	case TYPE_ARRAY : {
 	    if (c && t->v.str [0] == 0) {
-			error (ERR_SERIOUS, "Incomplete array type");
+			MSG_incomplete_array_type ();
 	    }
 	    if (ret) {
-			error (ERR_SERIOUS, "A function can't return an array");
+			MSG_function_cant_return_an_array ();
 	    }
 	    t->u.subtype = check_type_aux (t->u.subtype, 1, 1, 0);
 	    break;
@@ -411,7 +413,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 				break;
 		    }
 		    default : {
-				error (ERR_SERIOUS, "Non-integral bitfield type");
+				MSG_non_integral_bitfield_type ();
 				break;
 		    }
 			}
@@ -436,7 +438,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 	    break;
 	}
 	case TYPE_PROC : {
-	    if (obj) error (ERR_SERIOUS, "Object type expected");
+	    if (obj) MSG_object_type_expected ();
 	    t->u.subtype = check_type_aux (t->u.subtype, 1, 1, 1);
 	    if (t->v.next && t->v.next->v.next == null) {
 			/* Check for '(void)' */
@@ -483,7 +485,7 @@ check_type(type *t, int id)
 	    }
 	    case OBJ_FUNC : {
 			if (t->id != TYPE_PROC) {
-				error (ERR_SERIOUS, "Function type expected");
+				MSG_function_type_expected ();
 			}
 			t = check_type_aux (t, 0, 0, 0);
 			break;

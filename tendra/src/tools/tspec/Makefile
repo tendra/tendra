@@ -9,6 +9,7 @@ SRCS=	hash.c index.c lex.c main.c makefile.c name.c \
 	object.c print.c syntax.c type.c utility.c \
 	variable.c
 
+USE_LIBTEN=	yes
 
 DEPEND_SRC=	syntax.c keyword.h lexer.h
 

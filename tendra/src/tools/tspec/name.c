@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "cstring.h"
+
 #include <ctype.h>
 #include "object.h"
 #include "hash.h"

@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -103,7 +106,7 @@ print_makefile(char *api, hash_elem *f, int whole)
     create_dir (nm);
     output = fopen (nm, "w");
     if (output == null) {
-		error (ERR_SERIOUS, "Can't open output file, %s", nm);
+		MSG_cant_open_output_file (nm);
 		return;
     }
 

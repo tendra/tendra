@@ -66,15 +66,10 @@
  *    and system calls.
  */
 
-extern void error(int, char *, ...);
-extern pointer xalloc(int);
-extern pointer xrealloc(pointer, int);
-extern char *string_copy(char *);
-extern char *string_concat(char *, char *);
-extern char *string_printf(char *, ...);
-extern void create_dir(char *);
-extern void check_name(char *);
-extern time_t date_stamp(char *);
+char *string_printf(char *, ...);
+void  create_dir(char *);
+void  check_name(char *);
+time_t date_stamp(char *);
 
 
 /*
@@ -93,65 +88,10 @@ extern char *buffer;
  *    These variables are concerned with error reporting.
  */
 
-extern int exit_status;
 extern int no_errors;
-extern int warnings;
-extern char *progname;
-extern char *progvers;
 extern time_t progdate;
 extern char *filename;
 extern int line_no;
-
-
-/*
- *    ERROR TYPES
- *
- *    These values give the severity levels for the error reporting
- *    routine, error.
- */
-
-#define ERR_FATAL		0
-#define ERR_INTERNAL		1
-#define ERR_SERIOUS		2
-#define ERR_WARNING		3
-#define ERR_INFO		4
-
-
-/*
- *    UTILITY MACROS
- *
- *    These macros give convenient shorthands for various constructs.
- */
-
-#define alloc_size(T, N)\
-	((int) (N) * (int) sizeof (T))
-
-#define alloc_nof(T, N)\
-	(T *) xalloc (alloc_size (T, N))
-
-#define realloc_nof(P, T, N)\
-	(T *) xrealloc ((pointer) (P), alloc_size (T, N))
-
-#define array_size(A)\
-	((int) sizeof (A) / (int) sizeof (A [0]))
-
-
-/*
- *    GENERAL ALLOCATION ROUTINE
- *
- *    This routine allocates a variable V of type T, allocating N at a time.
- */
-
-#define alloc_variable(V, T, N)\
-    {\
-	static int no_free = 0;\
-	static T *free_list = null;\
-	if (no_free == 0) {\
-	    no_free = N;\
-	    free_list = alloc_nof (T, N);\
-	}\
-	V = free_list + (--no_free);\
-    }
 
 
 #endif

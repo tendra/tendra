@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include <stdarg.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -82,11 +86,7 @@ char *buffer = null;
  *    and line_no give the current file position.
  */
 
-int exit_status = EXIT_SUCCESS;
 int no_errors = 0;
-int warnings = 1;
-char *progname = "tspec";
-char *progvers = "2.9";
 time_t progdate = 0;
 char *filename = null;
 int line_no = 1;
@@ -101,154 +101,25 @@ int line_no = 1;
  */
 
 void
-error(int e, char *s, ...) /* VARARGS */
+tspec_on_message(MSG_DATA *mp)
 {
-    va_list args;
-    char *errtype = null;
-    boolean show_line = 1;
-    va_start (args, s);
-    switch (e) {
-	case ERR_FATAL : {
+    switch (mp->usage) {
+	case MSG_SEV_FATAL : {
 	    exit_status = EXIT_FAILURE;
-	    errtype = "Fatal";
 	    no_errors++;
 	    break;
 	}
-	case ERR_INTERNAL : {
+	case MSG_SEV_INTERNAL : {
 	    exit_status = EXIT_FAILURE;
-	    errtype = "Internal";
 	    no_errors++;
 	    break;
 	}
-	case ERR_SERIOUS : {
+	case MSG_SEV_ERROR : {
 	    exit_status = EXIT_FAILURE;
-	    errtype = "Error";
 	    no_errors++;
 	    break;
 	}
-	case ERR_WARNING : {
-	    if (!warnings) {
-			va_end (args);
-			return;
-	    }
-	    errtype = "Warning";
-	    break;
-	}
-	case ERR_INFO : {
-	    errtype = "Info";
-	    show_line = 0;
-	    break;
-	}
     }
-    if (progname) IGNORE fprintf (stderr, "%s: ", progname);
-    if (errtype) IGNORE fprintf (stderr, "%s: ", errtype);
-    IGNORE vfprintf (stderr, s, args);
-    if (filename && show_line) {
-		IGNORE fprintf (stderr, ", %s, line %d", filename, line_no);
-    }
-    IGNORE fprintf (stderr, ".\n");
-    va_end (args);
-    if (e == ERR_FATAL) exit (exit_status);
-    return;
-}
-
-
-/*
- *    ALLOCATE A BLOCK OF MEMORY
- *
- *    This routine allocates a block of memory of size sz and returns
- *    the result.
- */
-
-pointer
-xalloc(int sz)
-{
-    pointer p = malloc ((size_t) sz);
-    if (p == null) error (ERR_FATAL, "Memory allocation error");
-    return (p);
-}
-
-
-/*
- *    REALLOCATE A BLOCK OF MEMORY
- *
- *    This routine reallocates the block of memory p to have size sz.
- *    xrealloc (null, sz) is equivalent to xalloc (sz).
- */
-
-pointer
-xrealloc(pointer p, int sz)
-{
-    pointer q;
-    if (p == null) return (xalloc (sz));
-    q = (pointer) realloc (p, (size_t) sz);
-    if (q == null) error (ERR_FATAL, "Memory reallocation error");
-    return (q);
-}
-
-
-/*
- *    ALLOCATE SPACE FOR A STRING
- *
- *    This routine allocates space for a string of size n.
- */
-
-static char *
-string_alloc(int n)
-{
-    char *r;
-    if (n >= 1000) {
-		/* Long strings are allocated space by alloc_nof */
-		r = alloc_nof (char, n);
-    } else {
-		/* Short strings are allocated space from a buffer */
-		static int no_free = 0;
-		static char *free_chars = null;
-		if (n >= no_free) {
-			no_free = 1000;
-			free_chars = alloc_nof (char, no_free);
-		}
-		r = free_chars;
-		no_free -= n;
-		free_chars += n;
-    }
-    return (r);
-}
-
-
-/*
- *    COPY A STRING
- *
- *    This routine allocates space for a copy of the string s and copies
- *    the string into this space.  This copy is returned.
- */
-
-char *
-string_copy(char *s)
-{
-    int n = (int) strlen (s);
-    char *r = string_alloc (n + 1);
-    IGNORE strcpy (r, s);
-    return (r);
-}
-
-
-/*
- *    CONCATENATE TWO STRINGS
- *
- *    This routine allocates space for the concatenation of the strings
- *    s and t.
- */
-
-char *
-string_concat(char *s, char *t)
-{
-    int n = (int) strlen (s);
-    int m = (int) strlen (t);
-    char *r = string_alloc (n + m + 1);
-    IGNORE strcpy (r, s);
-    IGNORE strcpy (r + n, t);
-    return (r);
 }
 
 
@@ -304,14 +175,14 @@ create_dir(char *nm)
     if (stat (dir, &st) == 0) return;
 #ifdef ENOENT
     if (errno != ENOENT) {
-		error (ERR_SERIOUS, "Illegal directory, %s", dir);
+		MSG_illegal_directory (dir);
 		return;
     }
 #endif
     create_dir (dir);
     if (verbose) IGNORE printf ("Creating directory, %s ...\n", dir);
     if (mkdir (dir, DIRMODE)) {
-		error (ERR_SERIOUS, "Can't create directory, %s", dir);
+		MSG_cant_create_directory (dir);
 		return;
     }
     return;
@@ -340,8 +211,7 @@ check_name(char *nm)
     }
     if (i > n) n = i;
     if (n > 14) {
-		char *err = "The filename %s contains a component of length %d";
-		error (ERR_WARNING, err, nm, n);
+		MSG_path_component_too_long (nm, n);
     }
     return;
 }
