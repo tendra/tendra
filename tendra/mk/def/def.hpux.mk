@@ -1,0 +1,52 @@
+# $TenDRA$
+#
+# Binary / variable definitions for the HP-UX operating system.
+
+AWK?=		/usr/bin/awk
+BASENAME?=	/bin/basename
+CAT?=		/bin/cat
+CHGRP?=		/bin/chgrp
+CHMOD?=		/bin/chmod
+CHOWN?=		/bin/chown
+CP?=		/bin/cp
+CP_VERBOSE?=	
+CUT?=		/bin/cut
+DC?=		/bin/dc
+DIRNAME?=	/bin/dirname
+ECHO?=		/bin/echo
+EGREP?=		/bin/egrep
+FALSE?=		/bin/false
+FILE?=		/bin/file
+FIND?=		/bin/find
+GREP?=		/bin/grep
+GTAR?=		/usr/bin/tar
+GUNZIP_CMD?=	/usr/bin/gunzip -f
+GZCAT?=		# Not a system utility, available through external package.
+GZIP?=		-9
+GZIP_CMD?=	# Not a system utility, available through external package.
+HEAD?=		/bin/head
+ID?=		/bin/id
+LDCONFIG?=	
+LN?=		/bin/ln
+LS?=		/bin/ls
+MKDIR?=		/bin/mkdir -p
+MTREE?=		
+MV?=		/bin/mv
+PATCH?=		/bin/patch
+PAX?=		/usr/bin/pax
+PERL?=		/usr/bin/perl
+RM?=		/bin/rm
+RMDIR?=		/bin/rmdir
+SED?=		/usr/bin/sed
+SETENV?=	/usr/bin/env
+SH?=		/bin/sh
+SORT?=		/usr/bin/sort
+SU?=		/usr/bin/su
+TAIL?=		/usr/bin/tail
+TEST?=		/bin/test
+TOUCH?=		/usr/bin/touch
+TR?=		/usr/bin/tr
+TRUE?=		/usr/bin/true
+TYPE?=		type				# Shell builtin
+WC?=		/usr/bin/wc
+XARGS?=		/usr/bin/xargs
