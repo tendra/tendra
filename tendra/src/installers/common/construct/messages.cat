@@ -26,3 +26,11 @@
  *
  * $TenDRA$
  */
+
+ENTRIES:
+
+fatal_tdf_illegal_code(tdf_stream: sp, long: code, ccp: construct)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Illegal code "code" for '"construct"'"
+}

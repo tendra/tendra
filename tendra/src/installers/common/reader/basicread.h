@@ -121,6 +121,7 @@ extern char * crt_flnm;
 
 extern int crt_charno;
 
+extern struct tdf_stream *tdfr;
 
 
 #endif

@@ -60,7 +60,6 @@
 
 
 
-#define ILLEGAL_CODE_linkinfo "illegal code for linkinfo"
 #define ILLEGAL_STATIC "illegal static name"
 #define INCOMPATIBLE_U "translator -U is incompatible with named statics"
 
