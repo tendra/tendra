@@ -85,71 +85,13 @@ function printc(str)
 	print str > outfilename;
 }
 
-function lex_get_char()
-{
-	while (1) {
-		if (linepos > linelen) {
-			if ((getline < srcfile) <= 0) {
-				lex_eof = 1;
-				return 0;
-			}
-			lineno++;
-			linepos = 1;
-			sub(/[ 	]+$/, "");	# remove trailing whitespace
-			linelen = length();
-			if (incomment) {
-				comment = comment "\n";
-				continue;
-			}
-			sub(/^[ 	]+/, "");	# remove leading whitespace
-			linelen = length();
-			ch = " ";
-			return 1;
-		}
-		ch = substr($0, linepos, 1);
-		linepos++;
-		if (linepos <= linelen)
-			nextch = substr($0, linepos, 1);
-		else
-			nextch = "";
-		if (incomment) {
-			if (ch == "*" && nextch == "/") {
-				comment = comment "*/\n";
-				incomment = 0;
-				if (!have1st_comment) {
-					first_comment = comment;
-					have1st_comment = 1;
-				}
-				ch = " ";	# treat comments as single whitespace
-				nextch = " ";
-				linepos++;
-				return 1;
-			}
-			comment = comment ch;
-			continue;
-		}
-		if (!instring && (ch == "/" && nextch == "*")) {
-			if (incomment)
-				errsrc("Nested comments not allowed.");
-			comment = "/*";
-			incomment = 1;
-			continue;
-		}
-		if (ch == "\"") {
-			instring = instring ? 0 : 1;
-		}
-		return 1;
-	}
-}
-
 function lex_reset()
 {
 	lex_eof = 0;
 	lineno = 0;
-	linepos = 1;
+	linepos = 0;
 	linelen = 0;
 	ch = " ";
-	instring = 0;
 	ttUnknown = 0;
 	ttIdent = 1;
 	ttString = 2;
@@ -203,76 +145,118 @@ function lex_get_token(expected)
 	}
 	lex_tt = ttUnkown;
 	lex_token = "";
-	while (ch ~ /[	 ]/)
-		if (!lex_get_char()) {
-			if (expected != "")
-				err_unexpected_eof();
-			return 0;
+	lex_state = 0;	# 0 - whitespace, 1 - string
+	texttoken = 1;
+	incomment = 0;
+	while (1) {
+		if (++linepos > linelen) {
+			if ((getline < srcfile) <= 0) {
+				if (expected != "")
+					err_unexpected_eof();
+				if (incomment)
+					errsrc("End of file in comment");
+				if (lex_state == 1)
+					errsrc("End of file in string");
+				lex_eof = 1;
+				return 0;
+			}
+			lineno++;
+			linepos = 0;
+			sub(/[ 	]+$/, "");	# remove trailing whitespace
+			if (incomment) {
+				linelen = length();
+				comment = comment "\n";
+				continue;
+			}
+			sub(/^[ 	]+/, "");	# remove leading whitespace
+			linelen = length();
+			ch = " ";
+			ch2 = " ";
+		} else {
+			ch = substr($0, linepos, 1);
+			ch2 = substr($0, linepos, 2);
 		}
-	if (ch == "\"") {
-		lex_tt = ttString;
-		for (;;) {
-			if (!lex_get_char())
-				errsrc("Unterminated string constant");
-			if (ch == "\"")
+		if (lex_state == 0) {	# skipping through whitespaces
+			if (incomment) {
+				therest = substr($0, linepos);
+				tok_end = match(therest, /\*\//);
+				if (tok_end == 0) {
+					if (match(therest, /\/\*/))
+						errsrc("Nested comments not allowed.");
+					comment = comment therest;
+					linepos = linelen;
+					continue;
+				}
+				linepos += tok_end;
+				incomment = 0;
+				if (!have1st_comment) {
+					comment = comment substr(therest, 1, tok_end - 1);
+					comment = comment "*/\n";
+					first_comment = comment;
+					have1st_comment = 1;
+				}
+			} else if (ch2 == "/*") {
+				comment = "/*";
+				incomment = 1;
+				linepos++;
+			} else if (ch == "\"") {
+				lex_state = 1;
+				continue;
+			} else if (ch ~ /[A-Za-z_]/) {
+				therest = substr($0, linepos);
+				tok_end = match(therest, /[^A-Za-z0-9_]/);
+				if (tok_end == 0) {
+					lex_token = therest;
+					linepos = linelen;
+				} else {
+					lex_token = substr(therest, 1, tok_end - 1);
+					linepos += tok_end - 2;
+				}
 				break;
-			lex_token = lex_token ch;
+			} else if (ch !~ /[	 ]/) {
+				texttoken = 0;	# single symbol token
+				break;
+			}
+			continue;
 		}
-		lex_get_char();
-	} else if (ch ~ /[A-Za-z_]/) {
-		for (;;) {
-			lex_token = lex_token ch;
-			if (!lex_get_char())
-				break;
-			if (ch !~ /[A-Za-z0-9_]/)
-				break;
+		# collect string
+		if (ch == "\"") {
+			lex_tt = ttString;
+			break;
 		}
+		lex_token = lex_token ch;
+	} # while (1)
+	if (lex_tt != ttUnknown) {
+	} else if (texttoken) {
 		if (lex_token in lex_keywords) {
 			lex_tt = lex_keywords[lex_token];
 		} else
 			lex_tt = ttIdent;
 	} else if (ch == "|") {
 		lex_tt = ttOr;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == ":") {
 		lex_tt = ttColon;
-		lex_token = ch;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == ",") {
 		lex_tt = ttComma;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == "{") {
 		lex_tt = ttOpenBrace;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == "}") {
 		lex_tt = ttCloseBrace;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == "(") {
 		lex_tt = ttOpenRound;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == ")") {
 		lex_tt = ttCloseRound;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == "=") {
 		lex_tt = ttEqual;
-		lex_token = ch;
-		lex_get_char();
 	} else if (ch == "-") {
-		if (!lex_get_char() || ch != ">")
+		if (ch2 != "->")
 			errsrc("'>' expected, but '" ch "' found.");
+		linepos++;
 		lex_tt = ttArrow;
 		lex_token = "->";
-		lex_get_char();
 	} else
-		errsrc("Lexer error.");
-	if (expected != ""  && expected != lex_tt)
+		errsrc("Unexpected symbol '" ch "'");
+	if (expected != "" && expected != lex_tt)
 		errsrc("Unexpected token (" lex_tt " != " expected ").");	# todo: elaborate more
 	return 1;
 }
@@ -351,7 +335,8 @@ function process_types()
 {
 	for (;;) {
 		lex_get_token(ttIdent);
-		types[type_count++] = lex_token;
+		types[type_count] = lex_token;
+		types_hash[lex_token] = type_count++;
 		debug(1, "Collect type: " lex_token);
 		lex_get_token();
 		if (lex_tt != ttComma) {
@@ -363,10 +348,9 @@ function process_types()
 
 function lookup_type(atype,    i)
 {
-	for (i = 0; i < type_count; i++) {
-		if (atype == types[i])
-			return i;
-	}
+	i = types_hash[atype];
+	if (i != "")
+		return i;
 	return -1;
 }
 
@@ -399,7 +383,6 @@ function process_globals()
 function lookup_global(aname,    i)
 {
 	for (i = 0; i < global_count; i++) {
-		debug(1, "Checking global: " globals_name[i]);
 		if (aname == globals_name[i])
 			return i;
 	}
@@ -427,10 +410,9 @@ function process_properties()
 
 function lookup_key(akey,     i)
 {
-	for (i = 0; i < key_count; i++) {
-		if (akey == keys[i])
-			return i;
-	}
+	i = keys_hash[akey];
+	if (i != "")
+		return i;
 	errsrc("Unknown key '" akey "'");
 }
 
@@ -441,7 +423,8 @@ function process_keys()
 {
 	for (;;) {
 		lex_get_token(ttIdent);
-		keys[key_count++] = lex_token;
+		keys[key_count] = lex_token;
+		keys_hash[lex_token] = key_count++;
 		debug(1, "Key: " lex_token);
 		lex_get_token();
 		if (lex_tt != ttComma) {
@@ -449,6 +432,17 @@ function process_keys()
 			break;
 		}
 	}
+}
+
+function lookup_usage(usage,     i)
+{
+	i = usages_hash[usage];
+	if (i != "")
+		return i;
+	i = usages_alt_hash[usage];
+	if (i != "")
+		return i;
+	return -1;
 }
 
 #
@@ -459,18 +453,17 @@ function process_usages()
 	for (;;) {
 		lex_get_token(ttIdent);
 		usages[usage_count] = lex_token;
+		usages_hash[lex_token] = usage_count;
 		usages_aux[usage_count] = lex_token;
-		debug(1, "Usage: " lex_token);
 		lex_get_token();
 		if (lex_tt == ttEqual) {
 			lex_get_token(ttIdent);
 			usages_aux[usage_count] = lex_token;
-			debug(1, "Usage2: " lex_token);
 			lex_get_token();
 			if (lex_tt == ttOr) {
 				lex_get_token(ttIdent);
 				usages_alt[usage_count] = lex_token;
-				debug(1, "Usage3: " lex_token);
+				usages_alt_hash[lex_token] = usage_count;
 				lex_get_token();	# lookup next
 			}
 		}
@@ -484,12 +477,9 @@ function process_usages()
 
 function entry_lookup_param(entry, pname,    i)
 {
-	pcount = entry_param_count[entry];
-
-	for (i = 0; i < pcount; i++) {
-		if (pname == entry_param_names[entry, i])
-			return i;
-	}
+	i = entry_param_hash[entry, pname];
+	if (i != "")
+		return i;
 	i = lookup_global(pname);
 	if (i >= 0)
 		return chr(i + 97);	# 'a'
@@ -511,7 +501,9 @@ function process_entry_body(entry)
 				alt = 0;
 				for (;;alt++) {
 					lex_get_token(ttIdent);
-					debug(2, "Entry usage: " entry ":" lex_token);
+					usageid = lookup_usage(lex_token);
+					if (usageid < 0)
+						errsrc("Unknown usage '" lex_token "' .");
 					if (alt)
 						entry_usage_alt[entry] = lex_token;
 					else {
@@ -528,7 +520,6 @@ function process_entry_body(entry)
 				prcount = 0;
 				for (;;) {
 					lex_get_token(ttIdent);
-					debug(2, "Entry property: " lex_token);
 					entry_props[entry, prcount++] = lex_token;
 					lex_get_token();
 					if (lex_tt != ttComma) {
@@ -539,13 +530,12 @@ function process_entry_body(entry)
 				entry_prcount[entry] = prcount;
 			} else
 				errsrc("Unexpected keyword " kwname ".");
-		} else  if (lex_tt == ttOpenRound) {
+		} else if (lex_tt == ttOpenRound) {
 			if (kw != ttKW_KEY)
-				err_syntax();
+				errsrc("'KEY' expected");
 			lex_get_token(ttIdent);
 			keyid = lookup_key(lex_token);
 			entry_key[entry, lex_token] = 1;
-			debug(2, "Entry key: " lex_token);
 			lex_get_token(ttCloseRound);
 			lex_get_token();
 			if (lex_tt != ttIdent && lex_tt != ttString) {
@@ -558,13 +548,11 @@ function process_entry_body(entry)
 			alt = 0;
 			for (;;) {
 				if (lex_tt == ttString) {
-					debug(3, "String: \"" lex_token "\"");
 					if (alt == 0)
 						msg = msg lex_token;
 					else
 						altmsg = altmsg lex_token;
 				} else if (lex_tt == ttIdent) {
-					debug(3, "Param ref name: " lex_token);
 					pn = entry_lookup_param(entry, lex_token);
 					if (alt == 0)
 						msg = msg "%" pn;
@@ -572,7 +560,6 @@ function process_entry_body(entry)
 						altmsg = altmsg "%" pn;
 				} else if (lex_tt == ttOr) {
 					alt = 1;
-					debug(3, "switch to alternate");
 				} else {
 					lex_unget_token();
 					break;
@@ -608,12 +595,12 @@ function process_entries()
 				lex_get_token(ttColon);
 				lex_get_token(ttIdent);
 				pname = lex_token;
-				debug(3, "Param: " ptype ":" pname);
 				typeno = lookup_type(ptype);
 				if (typeno < 0)
 					errsrc("Undeclared type '" ptype "' .");
 				entry_param_types[entry, pcount] = typeno;
 				entry_param_names[entry, pcount] = pname;
+				entry_param_hash[entry, pname] = pcount;
 				pcount++;
 				lex_get_token();
 				if (lex_tt == ttCloseRound) {
@@ -638,10 +625,7 @@ function process_catalog()
 			break;
 		tt = lex_tt;
 		kw = lex_token;
-		if (!lex_get_token())
-			err_syntax();
-		if (lex_tt != ttColon)
-			err_syntax();
+		lex_get_token(ttColon);
 		if (tt == ttKW_DBNAME) {
 			process_database();
 		} else if (tt == ttKW_RIG) {
