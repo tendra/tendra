@@ -306,16 +306,10 @@ main(int argc, char **argv)
 				break;
 			}
 			case 'v' : {
-				if (arg [2] == 0 || streq (arg, "-version")) {
-					char *vn = version;
-					char *rn = RELEASE;
-					int v1 = VERSION_major;
-					int v2 = VERSION_minor;
-					IGNORE fprintf (stderr, "%s: %s", progname, vn);
-					IGNORE fprintf (stderr, " (TDF %d.%d)", v1, v2);
-					IGNORE fprintf (stderr, " (release %s)\n", rn);
-					known = 1;
-				}
+                if (arg [2] == 0) {
+                    verbose = 1;
+                    known = 1;
+                }
 				break;
 			}
 			case 'I' : {
@@ -329,10 +323,16 @@ main(int argc, char **argv)
 				break;
 			}
 			case 'V' : {
-				if (arg [2] == 0) {
-					verbose = 1;
-					known = 1;
-				}
+                if (arg [2] == 0 || streq (arg, "-version")) {
+                    char *vn = version;
+                    char *rn = RELEASE;
+                    int v1 = VERSION_major;
+                    int v2 = VERSION_minor;
+                    IGNORE fprintf (stderr, "%s: %s", progname, vn);
+                    IGNORE fprintf (stderr, " (TDF %d.%d)", v1, v2);
+                    IGNORE fprintf (stderr, " (release %s)\n", rn);
+                    known = 1;
+                }
 				break;
 			}
 			}
