@@ -116,7 +116,7 @@
     <varlistentry>
       <term><option>-a</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Do not print indentation dots.</para>
       </listitem>
     </varlistentry>
 
@@ -131,14 +131,14 @@
     <varlistentry>
       <term><option>-h</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Prints a summary of all options.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
       <term><option>-i</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Does nothing, included for compatibility.</para>
       </listitem>
     </varlistentry>
 
@@ -186,14 +186,14 @@
     <varlistentry>
       <term><option>-v</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Report number of columns in the output.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
       <term><option>-x</option></term>
       <listitem>
-        <para>To be documented.</para>
+        <para>Do not decode version properties.</para>
       </listitem>
     </varlistentry>
   </variablelist>

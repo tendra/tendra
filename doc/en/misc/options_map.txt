@@ -31,7 +31,7 @@ calculus	utilities/calculus/main.c	  A       E                             T   V
                                                                                                                     +   +     +       + + +                       + 
 
 disp		tools/disp/main.c		  A     D E                           S T   V W                 a           g h i         n     q r       v   x 
-                                                                                                                +             + +                 +       +   +
+
 
 lexi		utilities/lexi/main.c		                                            V                             f   h     k l m             t
                                                                                                                               + 
