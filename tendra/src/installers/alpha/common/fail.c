@@ -74,9 +74,8 @@ static char vcid[] = "$Id$";
 #include "fail.h"
 #include "pseudo.h"
 
-void alphafail
-    PROTO_N ( ( reason,message,extra_info ) )
-    PROTO_T ( fail_conditions reason X char *message X char *extra_info )
+void
+alphafail(fail_conditions reason, char *message, char *extra_info)
 {
   int fatal=0;
   static int warnings=0;

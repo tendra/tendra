@@ -101,9 +101,8 @@ static char *currentfile="";	/* The current source file (.c) */
   file identifying the place in the original source to look
   when debugging.
 */
-void output_symbolic_diagnostic
-    PROTO_N ( ( outfile,inf ) )
-    PROTO_T ( FILE *outfile X diag_info *inf )
+void
+output_symbolic_diagnostic(FILE *outfile, diag_info *inf)
 {
   sourcemark *source;
   char * fname;

@@ -79,16 +79,15 @@ static char vcid[] = "$Id$";
 #define crit_decsatapp 5
 #define apply_cost      3
 
-static int  complexity PROTO_S ((exp e, int count, int newdecs));
+static int  complexity(exp e, int count, int newdecs);
 static int last_new_decs = -999;
 
 /*
     APPLY COMPLEXITY TO A LIST OF EXPRESSIONS
 */
 
-int sbl
-    PROTO_N ( ( e,count,newdecs ) )
-    PROTO_T ( exp e X int count X int newdecs )
+int
+sbl(exp e, int count, int newdecs)
 {
   int c = complexity ( e, count, newdecs ) ;
   if ( c < 0 ) return ( c ) ;
@@ -108,9 +107,8 @@ int sbl
 */
 
 
-static int complexity
-    PROTO_N ( ( e,count,newdecs ) )
-    PROTO_T ( exp e X int count X int newdecs )
+static int
+complexity(exp e, int count, int newdecs)
 {
   unsigned char n = name ( e ) ;
   
@@ -190,9 +188,8 @@ static int complexity
 #define REJ_ONCE (1)
 #define OK_ONCE  (2)
         
-int inlinechoice
-    PROTO_N ( ( t,def,total_uses ) )
-    PROTO_T ( exp t X exp def X int total_uses )
+int
+inlinechoice(exp t, exp def, int total_uses)
 {
   /* delivers 0 if no uses of this proc can be inlined.
      delivers 1 if this use cannot be inlined

@@ -95,9 +95,8 @@ spacereq zerospace = {
   0, 0, 0
 };
 
-spacereq maxspace
-    PROTO_N ( (a,b) )
-    PROTO_T ( spacereq a X spacereq b )
+spacereq
+maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
@@ -117,9 +116,8 @@ static int spareparregs = 0;
   fixed and floating s regs available. These are initialised at 
   the outer level but may be reduced by usage in paralloc 
 */
-spacereq regalloc
-    PROTO_N ( ( e, freefixed, freefloat, stack ) )
-    PROTO_T ( exp e X int freefixed X int freefloat X int stack )
+spacereq
+regalloc(exp e, int freefixed, int freefloat, int stack)
 {
   int   n = name (e);
   exp s = son (e);

@@ -62,14 +62,14 @@
 #include "archsyms.h"
 #include "common_types.h"
 
-void init_table_space PROTO_S ((int, int));
+void init_table_space(int, int);
     /* parameters - number of files to be translated and total number of
        procedures. Sets up tables for symbol table etc storage	*/
 
-int get_sym_index PROTO_S ((int));
+int get_sym_index(int);
     /* returns the index into the symbol table for the given file	*/
 
-int add_dense_no PROTO_S ((int, int));
+int add_dense_no(int, int);
     /* returns a dense number (index into dense number table) corresponding
        to the parameters filenum and symbol table index */
 
@@ -94,22 +94,22 @@ long filenum ... index for the file
 */
 
 
-int new_lsym PROTO_S ((char *,int,int,int,diag_type,int));
+int new_lsym(char *, int, int, int, diag_type, int);
 /* adds symbol to local symbol table */
 
-int new_lsym_d PROTO_S ((char *,int,int,int,diag_type,int));
+int new_lsym_d(char *, int, int, int, diag_type, int);
 /* adds symbol to local symbol table and returns its dense number */
 
-int new_esym PROTO_S ((char *,int,int,int,diag_type,int));
+int new_esym(char *, int, int, int, diag_type, int);
 /* adds symbol to external symbol table */
 
-int new_esym_d PROTO_S ((char *,int,int,int,diag_type,int));
+int new_esym_d(char *, int, int, int, diag_type, int);
 /* adds symbol to external symbol table and returns its dense number */
 
 
 /* procedure to make the symbol table file given its name */
 
-void output_symtab PROTO_S ((char*));
+void output_symtab(char *);
 
-int add_aux PROTO_S ((AUXU,int));
+int add_aux(AUXU, int);
 

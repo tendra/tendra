@@ -66,17 +66,17 @@
 #include "common_types.h"
 #include "cross.h"
 
-extern int  next_data_lab PROTO_S ((void));
+extern int  next_data_lab(void);
 
-extern int  next_dlab_sym PROTO_S ((void));
+extern int  next_dlab_sym(void);
 extern int data_lab;
 
-extern mm maxmin PROTO_S ((shape));
+extern mm maxmin(shape);
 
 
-extern instore evaluated PROTO_S ((exp,int));
+extern instore evaluated(exp, int);
 
-extern void  outfloat PROTO_S ((exp,int,ash));
+extern void  outfloat(exp, int, ash);
 
 
 extern char fltrepr[];

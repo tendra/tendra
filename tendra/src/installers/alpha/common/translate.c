@@ -120,9 +120,8 @@ int main_globals_index;
   return the appropriate storage class based on the size parameter.
   The size is given in bytes.
 */
-char *storage_class
-    PROTO_N ( ( size ) )
-    PROTO_T ( int size )
+char *
+storage_class(int size)
 {
   switch(size){
     case 1:{
@@ -144,9 +143,8 @@ char *storage_class
 }
 
 
-ash ashof
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+ash
+ashof(shape s)
 {
   ash a;
   a.ashsize = shape_size(s);
@@ -159,9 +157,8 @@ ash ashof
   various identifiers reserved by the alpha
   assembler
 */
-static bool not_reserved
-    PROTO_N ( ( id ) )
-    PROTO_T ( char *id )
+static bool
+not_reserved(char *id)
 {
 
   if (!strcmp (id, "edata"))
@@ -187,18 +184,16 @@ static bool not_reserved
 
 
 /* return true if sha has an exposed nof component, false otherwise */
-bool varsize
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+bool
+varsize(shape sha)
 {
   return (name(sha)==nofhd);
 }
 
 static int current_symno;
 
-static void add_odd_bits
-    PROTO_N ( ( r ) )
-    PROTO_T ( outofline *r )
+static void
+add_odd_bits(outofline *r)
 {
   space sp;
   if (r != (outofline*)nilexp) {
@@ -219,9 +214,8 @@ static void add_odd_bits
   return;
 }
 
-void code_it
-    PROTO_N ( ( my_def ) )
-    PROTO_T ( dec *my_def )
+void
+code_it(dec *my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
@@ -374,9 +368,8 @@ void code_it
   return;
 }
 
-static void mark_unaliased
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static void
+mark_unaliased(exp e)
 {
   exp p = pt (e);
   bool ca = 1;
@@ -394,9 +387,8 @@ static void mark_unaliased
 /*
   Return the tag with name 'name'
 */
-baseoff find_tag
-    PROTO_N ( ( name ) )
-    PROTO_T ( char *name )
+baseoff
+find_tag(char *name)
 {
   int i;
   for(i=0; i<main_globals_index; i++){
@@ -410,8 +402,8 @@ baseoff find_tag
 }
 
 
-void translate_capsule
-    PROTO_Z ()
+void
+translate_capsule(void)
 {
   dec * my_def;
   int noprocs;
@@ -721,8 +713,8 @@ void translate_capsule
   return;
 }
 
-void translate_unit
-    PROTO_Z ()
+void
+translate_unit(void)
 {
   if (separate_units){
     dec * my_def;
@@ -740,8 +732,8 @@ void translate_unit
   return;
 }
 
-void translate_tagdef
-    PROTO_Z ()
+void
+translate_tagdef(void)
 {
   return;
 }

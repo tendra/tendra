@@ -68,6 +68,6 @@ $Id$
 #ifndef TRANSLATE_H
 #define TRANSLATE_H 1
 
-extern baseoff find_tag PROTO_S ((char *));
+extern baseoff find_tag(char *);
 
 #endif /* TRANSLATE_H */

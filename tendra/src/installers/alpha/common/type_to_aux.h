@@ -55,7 +55,7 @@
  */
 
 /* 	$Id$	 */
-extern long add_type_to_aux PROTO_S ( ( diag_type, long ) ) ;
+extern long add_type_to_aux(diag_type, long);
 
 /*
 converts a TDF shape into an AUXU (see archsyms.h) and adds it to the auxillary

@@ -128,9 +128,8 @@ int esymindex = 0;
 int extind=0;	
 
 
-void init_table_space
-    PROTO_N ( ( noofiles,noprocs ) )
-    PROTO_T ( int noofiles X int noprocs )
+void
+init_table_space(int noofiles, int noprocs)
 {
   int ind=0;
   AUXU nilaux;
@@ -189,9 +188,8 @@ void init_table_space
 }
   
 
-void add_proc
-    PROTO_N ( ( sympos,filenum ) )
-    PROTO_T ( int sympos X int filenum )
+void
+add_proc(int sympos, int filenum)
 {
   static int symcount=0;
   pSYMFDR fdrlist=file_desc_table+filenum;
@@ -206,9 +204,8 @@ void add_proc
 
 /*********************  STRING procedures  ********************/
 
-int add_string
-    PROTO_N ( ( str,list ) )
-    PROTO_T ( char *str X STRINGS *list )
+int
+add_string(char *str, STRINGS *list)
 {
   int stringind=list->usage;
   int length = strlen(str)+1;
@@ -231,9 +228,8 @@ int add_string
 }
 
 
-int add_to_loc_strings
-    PROTO_N ( ( locstr,index ) )
-    PROTO_T ( char *locstr X int index )
+int
+add_to_loc_strings(char *locstr, int index)
 {
   stringsize+=strlen(locstr)+1;
   nostrings++;
@@ -242,9 +238,8 @@ int add_to_loc_strings
 
 
 
-int add_to_ext_strings
-    PROTO_N ( ( extstr ) )
-    PROTO_T ( char *extstr )
+int
+add_to_ext_strings(char *extstr)
 {
   int posind=extind;
   add_string(extstr, extstrings);
@@ -256,9 +251,8 @@ int add_to_ext_strings
 /******************  DENSE NUMBERS  ********************/
 
 
-int add_dense_no
-    PROTO_N ( ( rfd,index ) )
-    PROTO_T ( int rfd X int index )
+int
+add_dense_no(int rfd, int index)
 {
   DNR* curr_dense;
   DENSETAB* denseptr= densenos;
@@ -280,9 +274,8 @@ int add_dense_no
   return (densind-1);
 }
 
-DNR * get_dense_ptr
-    PROTO_N ( ( densind ) )
-    PROTO_T ( int densind )
+DNR *
+get_dense_ptr(int densind)
 {
   DENSETAB* denseptr = densenos;
   int densecount=denseptr->num;
@@ -296,9 +289,8 @@ DNR * get_dense_ptr
 
 /********************  SYMBOL PROCEDURES  ********************/
 
-int get_sym_index
-    PROTO_N ( ( ind ) )
-    PROTO_T ( int ind )
+int
+get_sym_index(int ind)
 {
   LSYMS* lsymlist=local_symbols+ind;
   int lsymindex = lsymlist->noofsyms;
@@ -309,9 +301,8 @@ int get_sym_index
   return (lsymindex);
 }	
 
-SYMR * get_sym_ptr
-    PROTO_N ( ( ind,symind ) )
-    PROTO_T ( int ind X int symind )
+SYMR *
+get_sym_ptr(int ind, int symind)
 {
   LSYMS* lsymlist=local_symbols+ind;
   int symcount=lsymlist->noofsyms;
@@ -324,9 +315,8 @@ SYMR * get_sym_ptr
 
 
 
-int add_lsym
-    PROTO_N ( ( ind,newsym ) )
-    PROTO_T ( int ind X SYMR *newsym )
+int
+add_lsym(int ind, SYMR *newsym)
 {
   LSYMS* lsymlist=local_symbols+ind;
   int lsymindex = lsymlist->noofsyms;
@@ -348,9 +338,8 @@ int add_lsym
 }
 
 
-int add_esym
-    PROTO_N ( ( ind,newsym ) )
-    PROTO_T ( int ind X SYMR *newsym )
+int
+add_esym(int ind, SYMR *newsym)
 {
   if (esymlist->noofsyms==SYMTABSIZE){
     esymlist->nextsyms=(ESYMS*)xcalloc(1,sizeof(ESYMS));
@@ -366,11 +355,10 @@ int add_esym
   return(esymindex-1);
 }	
 
-AUXU* get_aux_ptr PROTO_S ((int, int));
+AUXU *get_aux_ptr(int, int);
 
-int new_lsym
-    PROTO_N ( ( chars,value,symtype,symclass,s,filenum ) )
-    PROTO_T ( char *chars X int value X int symtype X int symclass X diag_type s X int filenum )
+int
+new_lsym(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
   SYMR newsym;
   AUXU nilaux;
@@ -465,9 +453,8 @@ int new_lsym
 }
 
 
-int new_lsym_d
-    PROTO_N ( ( chars,value,symtype,symclass,s,filenum ) )
-    PROTO_T ( char *chars X int value X int symtype X int symclass X diag_type s X int filenum )
+int
+new_lsym_d(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
   return(add_dense_no(filenum,new_lsym (chars, value, symtype, symclass,s, 
 					filenum)));
@@ -475,9 +462,8 @@ int new_lsym_d
 }
 
 
-int new_esym
-    PROTO_N ( ( chars,value,symtype,symclass,s,filenum ) )
-    PROTO_T ( char *chars X int value X int symtype X int symclass X diag_type s X int filenum )
+int
+new_esym(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
   SYMR newsym;
   int strind=add_to_ext_strings(chars);
@@ -500,9 +486,8 @@ int new_esym
 }
 
 
-int new_esym_d
-    PROTO_N ( ( chars,value,symtype,symclass,s,filenum ) )
-    PROTO_T ( char *chars X int value X int symtype X int symclass X diag_type s X int filenum )
+int
+new_esym_d(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
   return(add_dense_no(0x7fffffff,new_esym(chars, value, symtype, symclass, s
 					  , filenum)));
@@ -511,9 +496,8 @@ int new_esym_d
 
 /********************* Auxillary information  ********************/
 
-AUXU * get_aux_ptr
-    PROTO_N ( ( index,auxind ) )
-    PROTO_T ( int index X int auxind )
+AUXU *
+get_aux_ptr(int index, int auxind)
 {
   AUXTAB* auxdata;
   int auxcount;
@@ -527,9 +511,8 @@ AUXU * get_aux_ptr
 }
 
 
-int add_aux
-    PROTO_N ( ( auxent,index ) )
-    PROTO_T ( AUXU auxent X int index )
+int
+add_aux(AUXU auxent, int index)
 {
   AUXTAB* auxdata;
   int auxind;
@@ -554,9 +537,8 @@ int add_aux
 }
 
 
-int add_st_aux
-    PROTO_N ( ( ind ) )
-    PROTO_T ( int ind )
+int
+add_st_aux(int ind)
 {
   AUXU straux;
   AUXU maxaux;
@@ -569,9 +551,8 @@ int add_st_aux
   return indaux;
 }
 	
-int add_un_aux
-    PROTO_N ( ( ind ) )
-    PROTO_T ( int ind )
+int
+add_un_aux(int ind)
 {
   AUXU uniaux;
   AUXU maxaux;
@@ -585,9 +566,8 @@ int add_un_aux
 }
 
 
-void output_symtab
-    PROTO_N ( ( symfilename ) )
-    PROTO_T ( char *symfilename )
+void
+output_symtab(char *symfilename)
 {
   /* end all the files */
   int i;

@@ -69,23 +69,23 @@
 #include "cross.h"
 
 
-extern void setnoreorder PROTO_S ((void));
-extern void setreorder PROTO_S ((void));
-extern void setnomove PROTO_S ((void));
-extern void setmove PROTO_S ((void));
-extern void setvolatile PROTO_S ((void));
-extern void setnovolatile PROTO_S ((void));
-extern void setnoat PROTO_S ((void));
-extern void setat PROTO_S ((void));
-extern void comment PROTO_S ((char *mess));
-extern void setframe PROTO_S ((int32,int32));
-extern void set_text_section PROTO_S ((void));
-extern void setmask PROTO_S ((int mask, int disp));
-extern void setfmask PROTO_S ((int mask, int disp));
-extern void set_file PROTO_S ((char *,int));
-extern void setprologue PROTO_S ((int));
-extern void set_align PROTO_S ((int));
-extern void set_lineno PROTO_S ((int,int));
+extern void setnoreorder(void);
+extern void setreorder(void);
+extern void setnomove(void);
+extern void setmove(void);
+extern void setvolatile(void);
+extern void setnovolatile(void);
+extern void setnoat(void);
+extern void setat(void);
+extern void comment(char *mess);
+extern void setframe(int32, int32);
+extern void set_text_section(void);
+extern void setmask(int mask, int disp);
+extern void setfmask(int mask, int disp);
+extern void set_file(char *, int);
+extern void setprologue(int);
+extern void set_align(int);
+extern void set_lineno(int, int);
 
 
 #endif

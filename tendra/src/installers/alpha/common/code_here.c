@@ -94,9 +94,8 @@ static char vcid[] = "$Id$";
   that has been allocated into a fixpnt register and if so return 
   it or else 100.
 */
-int   regofval
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int
+regofval(exp e)
 {
   exp decx = son (e);
   if (name (e) == name_tag && name (decx) == ident_tag) {/* ident tag */
@@ -121,9 +120,8 @@ int   regofval
 /*
   add code to return 31 if fval is 0.0
 */
-int   fregofval
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int
+fregofval(exp e)
 {
   exp decx = son (e);
   if (name (e) == name_tag && name (decx) == ident_tag) {
@@ -154,9 +152,8 @@ int   fregofval
   The procedure code_here calls make_code and ensures that
   any internal exit labels are tied up after the call.
 */
-int   code_here
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+int
+code_here(exp e, space sp, where dest)
 {
   makeans mka;
 #if DO_SCHEDULE && ENCAPSULATE_LABELS
@@ -184,9 +181,8 @@ ash ash64 = {
 };
 
 
-int reg_operand
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+int
+reg_operand(exp e, space sp)
 {
   
   int   x = regofval (e);
@@ -243,9 +239,8 @@ int reg_operand
 }
 
 
-int   freg_operand
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+int
+freg_operand(exp e, space sp)
 {
   
   int   x = fregofval (e);

@@ -66,6 +66,6 @@
 #include "procrectypes.h"
 
   
-extern bool vascan PROTO_S ((exp *));
-extern  needs scan PROTO_S ((exp *,exp **));
-extern exp * ptr_position PROTO_S ((exp e));
+extern bool vascan(exp *);
+extern  needs scan(exp *, exp **);
+extern exp *ptr_position(exp e);

@@ -73,8 +73,8 @@ typedef enum {FILE_OPEN,
 	      MISC,
 	      INTERNAL
 	      } fail_conditions;
-extern void alphafail PROTO_S ((fail_conditions,char *,char *));
-extern void failer PROTO_S ((char *));
+extern void alphafail(fail_conditions, char *, char *);
+extern void failer(char *);
   
 #define alphawarn(X) fprintf(stderr,"alphatrans: warning!: %s\n",X);
 

@@ -75,9 +75,9 @@ extern int arg_stack_space;
 extern int stack_top;
 extern long notbranch[6];
 
-extern bool last_param PROTO_S ((exp));
-extern makeans make_code PROTO_S ((exp e, space sp, where dest, int exitlab));
-extern int bitsin PROTO_S ((int));
+extern bool last_param(exp);
+extern makeans make_code(exp e, space sp, where dest, int exitlab);
+extern int bitsin(int);
 
 
 typedef struct _postl {

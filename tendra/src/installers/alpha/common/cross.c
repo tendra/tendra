@@ -83,9 +83,8 @@ static char vcid[] = "$Id$";
 
 #if FS_64_BIT
 
-INT64 flt64_to_INT64
-    PROTO_N ( ( arg ) )
-    PROTO_T ( flt64 arg )
+INT64
+flt64_to_INT64(flt64 arg)
 {
   INT64 res;
   res = arg.small+((long)arg.big<<32);
@@ -93,9 +92,8 @@ INT64 flt64_to_INT64
 }
 
 
-INT64 exp_to_INT64
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+INT64
+exp_to_INT64(exp e)
 {
   if(isbigval(e)){
     return flt64_to_INT64(exp_to_f64(e));
@@ -116,9 +114,8 @@ INT64 exp_to_INT64
   range of the machine it is output in hexadecimal representation;
   otherwise it is output as a decimal.
 */
-void out_INT64
-    PROTO_N ( ( val ) )
-    PROTO_T ( INT64 val )
+void
+out_INT64(INT64 val)
 {
   if(isquad(val)){
     outhex(high_INT64(val));
@@ -147,9 +144,8 @@ void out_INT64
 
 /*******************************************************************/
 
-INT64 INT64_mult
-    PROTO_N ( ( arg1,arg2,sgned ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 X bool sgned )
+INT64
+INT64_mult(INT64 arg1, INT64 arg2, bool sgned)
 {
   int ov;
   flpt farg1;
@@ -172,9 +168,8 @@ INT64 INT64_mult
 }
 
 
-INT64 INT64_divide
-    PROTO_N ( ( arg1,arg2,sgned ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 X bool sgned )
+INT64
+INT64_divide(INT64 arg1, INT64 arg2, bool sgned)
 {
   flpt farg1;
   flpt farg2;
@@ -199,9 +194,8 @@ INT64 INT64_divide
 }
 
 
-INT64 INT64_add
-    PROTO_N ( ( arg1,arg2,sgned ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 X bool sgned )
+INT64
+INT64_add(INT64 arg1, INT64 arg2, bool sgned)
 {
   flpt farg1;
   flpt farg2;
@@ -224,9 +218,8 @@ INT64 INT64_add
 }
 
 
-INT64 INT64_subtract
-    PROTO_N ( ( arg1,arg2,sgned ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 X bool sgned )
+INT64
+INT64_subtract(INT64 arg1, INT64 arg2, bool sgned)
 {
   flpt farg1;
   flpt farg2;
@@ -249,17 +242,15 @@ INT64 INT64_subtract
 }  
 
 
-INT64 INT64_increment
-    PROTO_N ( ( arg ) )
-    PROTO_T ( INT64 arg )
+INT64
+INT64_increment(INT64 arg)
 {
   INT64 inc_64=make_INT64(0U,1);
   return INT64_add(arg,inc_64,1);
 }
 
-INT64 INT64_decrement
-    PROTO_N ( ( arg ) )
-    PROTO_T ( INT64 arg )
+INT64
+INT64_decrement(INT64 arg)
 {
   INT64 dec_64=make_INT64(0U,1);
   return INT64_subtract(arg,dec_64,1);
@@ -278,9 +269,8 @@ INT64 INT64_decrement
 
 /*******************************************************************/
 
-INT64 INT64_or
-    PROTO_N ( ( arg1,arg2 ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 )
+INT64
+INT64_or(INT64 arg1, INT64 arg2)
 {
   INT64 res;
   low_INT64(res)=low_INT64(arg1)|low_INT64(arg2);
@@ -288,9 +278,8 @@ INT64 INT64_or
   return res;
 }
 
-INT64 INT64_and
-    PROTO_N ( ( arg1,arg2 ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 )
+INT64
+INT64_and(INT64 arg1, INT64 arg2)
 {
   INT64 res;
   low_INT64(res)=low_INT64(arg1)&low_INT64(arg2);
@@ -298,9 +287,8 @@ INT64 INT64_and
   return res;
 }
 
-INT64 INT64_not
-    PROTO_N ( ( arg ) )
-    PROTO_T ( INT64 arg )
+INT64
+INT64_not(INT64 arg)
 {
   INT64 res;
   low_INT64(res) = ~low_INT64(arg);
@@ -320,9 +308,8 @@ INT64 INT64_not
 
 /*******************************************************************/
 
-INT64 INT64_shift_left
-    PROTO_N ( ( arg,shift,sgned ) )
-    PROTO_T ( INT64 arg X int shift X int sgned )
+INT64
+INT64_shift_left(INT64 arg, int shift, int sgned)
 {
   INT64 multiplier;
   if(shift<=31){
@@ -338,9 +325,8 @@ INT64 INT64_shift_left
 
 
 
-INT64 INT64_shift_right
-    PROTO_N ( ( arg,shift,sgned ) )
-    PROTO_T ( INT64 arg X int shift X int sgned )
+INT64
+INT64_shift_right(INT64 arg, int shift, int sgned)
 {
   INT64 divisor;
   if(shift<=31){
@@ -365,17 +351,15 @@ INT64 INT64_shift_right
 */
 
 /*******************************************************************/
-bool INT64_eq
-    PROTO_N ( ( arg1,arg2 ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 )
+bool
+INT64_eq(INT64 arg1, INT64 arg2)
 {
   return (low_INT64(arg1)==low_INT64(arg2))&&
     (high_INT64(arg1)==high_INT64(arg2));
 }
 
-bool INT64_leq
-    PROTO_N ( ( arg1,arg2 ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 )
+bool
+INT64_leq(INT64 arg1, INT64 arg2)
 {
   /*
      test arg1<arg2
@@ -385,9 +369,8 @@ bool INT64_leq
 	   (low_INT64(arg1)<=low_INT64(arg2))));
 }
 
-bool INT64_lt
-    PROTO_N ( ( arg1,arg2 ) )
-    PROTO_T ( INT64 arg1 X INT64 arg2 )
+bool
+INT64_lt(INT64 arg1, INT64 arg2)
 {
   return ((high_INT64(arg1)<high_INT64(arg2))||
 	  ((high_INT64(arg1)==high_INT64(arg2))&&
@@ -402,9 +385,8 @@ bool INT64_lt
 /*
    This function constructs an INT64 variable from two INT32
 */
-INT64 make_INT64
-    PROTO_N ( ( big,small ) )
-    PROTO_T ( INT32 big X UINT32 small )
+INT64
+make_INT64(INT32 big, UINT32 small)
 {
   INT64 res;
   high_INT64(res)=big;

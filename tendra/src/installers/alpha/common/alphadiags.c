@@ -121,24 +121,22 @@ int szfds = 0;
 
 
 #if 0
-void collect_files
-    PROTO_N ( ( f ) )
-    PROTO_T ( filename f )
+void
+collect_files(filename f)
 {
   return;
 }
 
-void OUTPUT_DIAG_TAGS
-  PROTO_Z ()
+void
+OUTPUT_DIAG_TAGS(void)
 {
   return;
 }
 #endif
 
 
-void collect_files
-    PROTO_N ( ( f ) )
-    PROTO_T ( filename f )
+void
+collect_files(filename f)
 {
   if (nofds>=szfds) {
     fds = (filename*)xrealloc(fds, (size_t)(szfds+=5)*sizeof(filename));
@@ -146,9 +144,8 @@ void collect_files
   fds[nofds++] = f;
 }
 
-int find_file
-    PROTO_N ( ( f ) )
-    PROTO_T ( filename f )
+int
+find_file(filename f)
 {
   int i;
   for(i=0; i<nofds; i++) {
@@ -160,8 +157,8 @@ int find_file
 
 
 /* produce symnos for all text files in compilation */
-void symnosforfiles
-    PROTO_Z ()
+void
+symnosforfiles(void)
 {
   int   i;
   file_dnos = (int *) xcalloc (nofds, sizeof (int));
@@ -173,9 +170,8 @@ void symnosforfiles
 }
 
 /* used for testing whether o/p worked */
-static  void x
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static void
+x(int i)
 {
   if (i == EOF) {
     failer ("can't output");
@@ -186,9 +182,8 @@ static  void x
 
 
 /* output .file directive for file i */
-void stab_file
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+void
+stab_file(int i)
 {
   int l;
   if (currentfile == i)
@@ -210,9 +205,8 @@ void stab_file
 
 int currentlno = -1;		/* the last line number output */
 
-void stabd
-    PROTO_N ( ( findex,lno ) )
-    PROTO_T ( int findex X int lno )
+void
+stabd(int findex, int lno)
 {
   if (findex==currentfile && lno==currentlno) return;
   stab_file (findex);
@@ -225,9 +219,8 @@ void stabd
 static char *lexlev = "0";	/* historic !!! */
 
 
-void diagbr_open
-    PROTO_N ( ( findex ) )
-    PROTO_T ( int findex )
+void
+diagbr_open(int findex)
 {
   int symno;
   stab_file (findex);
@@ -240,9 +233,8 @@ void diagbr_open
   out_ent (symno, ibgnb, 0);
 }
 
-void diagbr_close
-    PROTO_N ( ( findex ) )
-    PROTO_T ( int findex )
+void
+diagbr_close(int findex)
 {
   int symno;
   stab_file (findex);
@@ -265,9 +257,8 @@ void diagbr_close
    none are used by stab_local. I don't even know whether the MIPS dbx can 
    actually use them. 
 */
-void stab_local
-    PROTO_N ( ( nm,dt,ldid,disp,findex ) )
-    PROTO_T ( char *nm X diag_type dt X exp ldid X int disp X int findex )
+void
+stab_local(char *nm, diag_type dt, exp ldid, int disp, int findex)
 {
  
   int fs = frame_size >> 3;
@@ -330,9 +321,8 @@ again:
   }
 }
 
-void output_diag
-    PROTO_N ( ( d, proc_no, e ) )
-    PROTO_T ( diag_info *d X int proc_no X exp e )
+void
+output_diag(diag_info *d, int proc_no, exp e)
 {
   exp x;
   if (d->key == DIAG_INFO_SOURCE) {
@@ -360,9 +350,8 @@ void output_diag
 }
 
 
-void output_end_scope
-    PROTO_N ( ( d,e ) )
-    PROTO_T ( diag_info *d X exp e )
+void
+output_end_scope(diag_info *d, exp e)
 {
   if (d->key == DIAG_INFO_SOURCE) {
     sourcemark * s = & d->data.source.end;
@@ -399,9 +388,8 @@ static tsym * ats = (tsym *) 0;
    used to accumulate all the type reprs arising 
    from shapes in the program by calling addtsym .... 
 */
-void addtsym
-    PROTO_N ( ( n,v,st,sc,s ) )
-    PROTO_T ( char *n X int v X int st X int sc X diag_type s )
+void
+addtsym(char *n, int v, int st, int sc, diag_type s)
 {
   tsym * a;
   if (nexttsym >= notsyms) {
@@ -430,9 +418,8 @@ shauxt * shaux = (shauxt *) 0;
    used to remember all the indexes into the auxilliary 
    symbol table for all the shapes in the program 
 */
-bool eq_sutype
-    PROTO_N ( ( a,b ) )
-    PROTO_T ( diag_type a X diag_type b )
+bool
+eq_sutype(diag_type a, diag_type b)
 {
   
   diag_field_list  fa;
@@ -459,9 +446,8 @@ bool eq_sutype
 /* 
    finds the index into the auxilliary table for type s 
 */
-int find_aux
-    PROTO_N ( ( s ) )
-    PROTO_T ( diag_type s )
+int
+find_aux(diag_type s)
 {
   int   i;
   for (i = 0; i < nextshaux; i++) {
@@ -475,9 +461,8 @@ int find_aux
 /* 
    remembers ind as index into aux table for shape s 
 */
-static void addaux
-    PROTO_N ( ( s,ind ) )
-    PROTO_T ( diag_type s X int ind )
+static void
+addaux(diag_type s, int ind)
 {
 
   shauxt * x;
@@ -494,8 +479,8 @@ static diag_tagdef ** su_diags = (diag_tagdef**)0;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 
-void OUTPUT_DIAG_TAGS
-    PROTO_Z ()
+void
+OUTPUT_DIAG_TAGS(void)
 {
   /*collects structs & unions */ 
   diag_tagdef ** di = unit_ind_diagtags;
@@ -531,8 +516,8 @@ void OUTPUT_DIAG_TAGS
 /* 
    outputs symbol table info for all struct & union  in program 
 */
-void stab_types
-    PROTO_Z ()
+void
+stab_types(void)
 {
   int i;
   int firsts = get_sym_index (mainfile);

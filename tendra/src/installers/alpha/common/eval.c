@@ -124,16 +124,16 @@ long  G_number = 64;		/* to give choice of .sdata or data */
 int   data_lab = 33;
 
 /* anonymous label in data space - $$n in assember o/p */
-int next_data_lab
-    PROTO_Z ()
+int
+next_data_lab(void)
 {
   return data_lab++;
 }
 
 
 /* as above-but also gives it a symno for .G output */
-int next_dlab_sym
-    PROTO_Z ()
+int
+next_dlab_sym(void)
 {	
   symnofordata (data_lab);
   return data_lab++;
@@ -175,9 +175,8 @@ mm s64mm = {
 
    finds the data size from the range of an integer shape
 */
-mm maxmin
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+mm
+maxmin(shape s)
 {
   switch (name (s)) {
   case scharhd: 
@@ -208,9 +207,8 @@ mm maxmin
   to be an index into the externals and outputs the identifier.
 */
 
-char *outlab
-    PROTO_N ( ( l ) )
-    PROTO_T ( int l )
+char *
+outlab(int l)
 {
 #if DO_SCHEDULE
   char * res = (char*)xcalloc(20,sizeof(char));
@@ -237,9 +235,8 @@ char *outlab
 
 char  fltrepr[120];
 
-void output_data_records
-    PROTO_N ( ( strng,str,size ) )
-    PROTO_T ( char *strng X char *str X int size )
+void
+output_data_records(char *strng, char *str, int size)
 {
   int pos = 0;
   Assert(size>0);
@@ -259,9 +256,8 @@ void output_data_records
 /*
    This function outputs an IEEE format floating point number
 */
-void outfloat
-    PROTO_N ( ( e,rep,a ) )
-    PROTO_T ( exp e X int rep X ash a )
+void
+outfloat(exp e, int rep, ash a)
 {
   INT64 val;
 #if DO_SCHEDULE
@@ -337,9 +333,8 @@ void outfloat
 /*
   evaluate the exp 'e' and return the resulting value
 */
-INT64 evalexp
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+INT64
+evalexp(exp e)
 {
   
   switch (name(e)) {
@@ -444,9 +439,8 @@ INT64 evalexp
   alignment of the last value to be output is retained and, 
   if it differs from the current one, a new alignment is set.
 */
-void oneval
-    PROTO_N ( ( val,al,rep ) )
-    PROTO_T ( INT64 val X int al X int rep )
+void
+oneval(INT64 val, int al, int rep)
 {
   char *store_type;
   char * outline = (char*)NULL;
@@ -497,9 +491,8 @@ void oneval
 }
 
 
-INT64 bits_list
-    PROTO_N ( ( val ) )
-    PROTO_T ( int val )
+INT64
+bits_list(int val)
 {
   int loop;
   INT64 result=make_INT64(0,0);
@@ -521,9 +514,8 @@ INT64 bits_list
 /*
   Outputs the expression 'e', rep times.
 */
-void evalone
-    PROTO_N ( ( e,rep ) )
-    PROTO_T ( exp e X int rep )
+void
+evalone(exp e, int rep)
 {
   ash a;
   int overflow;
@@ -1008,9 +1000,8 @@ void evalone
   The result is the instore "address" of the constant. A negative 
   l implies that this is the initialisation of a global variable.
 */
-instore evaluated
-    PROTO_N ( ( e,l ) )
-    PROTO_T ( exp e X int l )
+instore
+evaluated(exp e, int l)
 {
   
   int   lab = (l == 0) ? next_dlab_sym () 

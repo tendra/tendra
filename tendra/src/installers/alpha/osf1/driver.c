@@ -113,8 +113,8 @@ bool do_extern_adds = FALSE;
 static int infoopt = FALSE;	/* set if the -V option has been invoked */
 static bool produce_symbolic_assembler = FALSE;
 
-void printinfo
-    PROTO_Z ()
+void 
+printinfo(void)
 {
   (void)fprintf(stderr,"DRA TDF DEC Alpha/OSF1 translator %d.%d.%d:(TDF version %d.%d)\n",
 		target_version,target_revision,target_patchlevel,
@@ -127,18 +127,16 @@ void printinfo
   return;
 }
 
-void out_rename
-    PROTO_N ( ( oldid,newid ) )
-    PROTO_T ( char *oldid X char *newid )
+void 
+out_rename(char *oldid, char *newid)
 {
   UNUSED(oldid);
   UNUSED(newid);
   return;
 }
 
-int get_switch
-    PROTO_N ( ( option,range_max ) )
-    PROTO_T ( char option X int range_max )
+int 
+get_switch(char option, int range_max)
 {
   int val = option - '0';
   if (val>=0 && val <= range_max){
@@ -156,9 +154,8 @@ int get_switch
 /*
   Reads and processes a command line option.
 */
-void process_flag
-    PROTO_N ( ( option ) )
-    PROTO_T ( char *option )
+void 
+process_flag(char *option)
 {
   switch(option[1]){
    case 'A':
@@ -275,9 +272,8 @@ int minorno = 11;
 
 #define MIN_COMMAND_LINE_ARGS 4
 
-int main
-    PROTO_N ( ( argc,argv ) )
-    PROTO_T ( int argc X char *argv[] )
+int 
+main(int argc, char *argv[])
 {
   int i;
   int num_flags=0;

@@ -64,18 +64,17 @@
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
 extern filename *fds;
-extern void collect_files PROTO_S ((filename f));
-extern void stab_file PROTO_S ((int i));	/* symtab entry for file 
+extern void collect_files(filename f);
+extern void stab_file(int i);	/* symtab entry for file 
 					   source file i */
-extern void stabd PROTO_S ((int findex, int lno));/*.. entry for linenos */
-extern void diagbr_open PROTO_S ((int findex));/* .. entry for open scope */
-extern void diagbr_close PROTO_S ((int findex));/* entry for close scope */
-extern void stab_local PROTO_S((char *nm,diag_type dt,exp id,int disp,
-			      int findex));
+extern void stabd(int findex, int lno);/* .. entry for linenos */
+extern void diagbr_open(int findex);/* .. entry for open scope */
+extern void diagbr_close(int findex);/* entry for close scope */
+extern void stab_local(char *nm, diag_type dt, exp id, int disp, int findex);
  /* entry for local */
-extern void stab_types PROTO_S ((void)); /* aux entries for types */
+extern void stab_types(void); /* aux entries for types */
 extern int currentlno;
-extern int find_file PROTO_S ((filename));
+extern int find_file(filename);
 
-extern int find_aux PROTO_S ((diag_type s /* struct or union shape */ ));
-extern void symnosforfiles PROTO_S ((void));
+extern int find_aux(diag_type s /* struct or union shape */);
+extern void symnosforfiles(void);

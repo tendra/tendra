@@ -87,9 +87,8 @@ int callee_size;
 
 #define min(x,y)        (x>y)?y:x
 
-void setframe_flags
-    PROTO_N ( ( e,leaf ) )
-    PROTO_T ( exp e X bool leaf )
+void
+setframe_flags(exp e, bool leaf)
 {
    /* e is proc_tag */
   No_S = (!leaf && (name(e) != general_proc_tag || !proc_has_nolongj(e))
@@ -113,9 +112,8 @@ void setframe_flags
   sets up the size of the frame, and the positions in which to 
   save the registers.
 */
-void setframe_info
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+void
+setframe_info(exp e)
 {
   procrec * pr = & procrecs[no(e)];			 
   needs * ndpr = & pr->needsproc;
@@ -173,9 +171,8 @@ void setframe_info
   return;
 }	
 
-int frame_offset
-    PROTO_N ( ( id ) )
-    PROTO_T ( exp id )
+int
+frame_offset(exp id)
 {
   exp p;
   procrec * pr;

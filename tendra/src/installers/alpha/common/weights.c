@@ -125,11 +125,10 @@ weights zeroweights =
 }
 };
 
-weights weightsv PROTO_S ((double scale, exp e));
+weights weightsv(double scale, exp e);
 
-weights add_weights
-    PROTO_N ( ( w1,w2 ) )
-    PROTO_T ( weights *w1 X weights *w2 )
+weights
+add_weights(weights *w1, weights *w2)
 {
   /* sum of weights*/
   weights r;
@@ -157,9 +156,8 @@ weights add_weights
    the source of all non-zero weights. NB
    loc may be negative since using a s-reg
    will involve a dump and restore  */
-wp max_weights
-    PROTO_N ( ( loc, ws, fix ) )
-    PROTO_T ( double loc X weights * ws X bool fix )
+wp
+max_weights(double loc, weights *ws, bool fix)
 {
 
   long  bk = wfixno + 1;
@@ -240,9 +238,8 @@ wp max_weights
   return res;
 }
 
-weights mult_weights
-    PROTO_N ( ( m,ws ) )
-    PROTO_T ( double m X weights *ws )
+weights
+mult_weights(double m, weights *ws)
 {
   /* multiply weights by scalar - non
      overflowing */
@@ -262,9 +259,8 @@ weights mult_weights
   return (res);
 }
 
-weights add_wlist
-    PROTO_N ( ( scale, re ) )
-    PROTO_T ( double scale X exp re )
+weights
+add_wlist(double scale, exp re)
 {
   weights w, w1;
   exp r = re;
@@ -299,9 +295,8 @@ weights add_wlist
    procedure reg_alloc in reg_alloc.c finally determines the 
    actual choice of s reg and recodes the number field of an ident. 
 */
-weights weightsv
-    PROTO_N ( ( scale, e ) )
-    PROTO_T ( double scale X exp e )
+weights
+weightsv(double scale, exp e)
 {
  unsigned char  n;
  tailrecurse: 

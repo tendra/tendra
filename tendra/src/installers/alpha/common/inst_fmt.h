@@ -76,34 +76,34 @@
 #define IMMEDIATE_MAX	255
 #define IMMEDIATE_MIN	-128
 
-extern char *outass PROTO_S ((char *));
-extern void load_store PROTO_S ((instruction,int,baseoff));
-extern void load_store_immediate PROTO_S ((instruction,int,INT64));
-extern void load_store_label PROTO_S ((instruction,int,int));
-extern void integer_branch PROTO_S ((instruction,int,int));
-extern void integer_jump PROTO_S ((instruction,int,int,int));
-extern void integer_jump_external PROTO_S ((instruction,int,baseoff));
-extern void integer_jump_fn PROTO_S ((instruction,int,exp,space));
-extern void operate_fmt PROTO_S ((instruction,int,int,int));
-extern void operate_fmt_immediate PROTO_S ((instruction,int,int,int));
-extern void operate_fmt_big_immediate PROTO_S ((instruction,int,INT64,int));
-extern void float_load_store PROTO_S ((instruction,int,baseoff));
-extern void float_branch PROTO_S ((instruction,int,int));
-extern void float_op PROTO_S ((instruction,int,int,int));
-extern void float_convert PROTO_S ((instruction,int,int));
-extern void float_load_store_immediate PROTO_S ((instruction,int,char*));
-extern void call_pal PROTO_S ((instruction, instruction));
-extern void fetch PROTO_S ((instruction,baseoff));
-extern void no_parameter_instructions PROTO_S ((instruction));
-extern void single_parameter_instructions PROTO_S ((instruction,int));
-extern void memory_fmt PROTO_S ((instruction,int,int));
-extern void operate_fmt PROTO_S ((instruction,int,int,int));
+extern char *outass(char *);
+extern void load_store(instruction, int, baseoff);
+extern void load_store_immediate(instruction, int, INT64);
+extern void load_store_label(instruction, int, int);
+extern void integer_branch(instruction, int, int);
+extern void integer_jump(instruction, int, int, int);
+extern void integer_jump_external(instruction, int, baseoff);
+extern void integer_jump_fn(instruction, int, exp, space);
+extern void operate_fmt(instruction, int, int, int);
+extern void operate_fmt_immediate(instruction, int, int, int);
+extern void operate_fmt_big_immediate(instruction, int, INT64, int);
+extern void float_load_store(instruction, int, baseoff);
+extern void float_branch(instruction, int, int);
+extern void float_op(instruction, int, int, int);
+extern void float_convert(instruction, int, int);
+extern void float_load_store_immediate(instruction, int, char *);
+extern void call_pal(instruction, instruction);
+extern void fetch(instruction, baseoff);
+extern void no_parameter_instructions(instruction);
+extern void single_parameter_instructions(instruction, int);
+extern void memory_fmt(instruction, int, int);
+extern void operate_fmt(instruction, int, int, int);
 #if DO_SCHEDULE
-extern void out_code PROTO_S ((Instruction_data));
-extern void add_instruction PROTO_S ((Instruction));
-extern Instruction_data get_new_ins_data PROTO_S ((void));
-extern void output_instruction PROTO_S ((Class,char*,char*));
-extern void output_data PROTO_S ((char*,char*));
+extern void out_code(Instruction_data);
+extern void add_instruction(Instruction);
+extern Instruction_data get_new_ins_data(void);
+extern void output_instruction(Class, char *, char *);
+extern void output_data(char *, char *);
 
 typedef struct String_dat
 {

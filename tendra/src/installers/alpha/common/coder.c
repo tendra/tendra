@@ -121,7 +121,7 @@ static char vcid[] = "$Id$";
 
 int fscopefile;	/* file of current proc */
 
-/*extern void add_odd_bits PROTO_S ((outofline*));*/
+/*extern void add_odd_bits(outofline *); */
 
 ans procans;
 int rscope_level;
@@ -173,9 +173,8 @@ operate_fmt_immediate(i_addl,X,0,X);\
   Return TRUE if the floating point number is zero and FALSE
   otherwise.
 */
-static bool is_fzero
-    PROTO_N ( ( fnum ) )
-    PROTO_T ( flt fnum )
+static bool
+is_fzero(flt fnum)
 {
   int i;
   for(i=0;(i<MANT_SIZE) && (fnum.mant[i]==0);++i);
@@ -187,9 +186,8 @@ static bool is_fzero
 /*
   Functions to handle the 'trap' exception handling mechanism
 */
-static int trap_label
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+static int
+trap_label(exp e)
 {
   if (error_treatment_is_trap(e)){
     if (aritherr_lab == 0) aritherr_lab = new_label();
@@ -198,9 +196,8 @@ static int trap_label
   else return no(son(pt(e)));
 }
 
-static void do_exception
-    PROTO_N ( ( ex ) )
-    PROTO_T ( int ex )
+static void
+do_exception(int ex)
 {
   baseoff b;
 
@@ -223,9 +220,8 @@ static void do_exception
   value and,if it does, convert to signed by adding the 
   appropriate constant.
 */
-static void fix_unsigned
-    PROTO_N ( ( fr,sp,name ) )
-    PROTO_T ( freg fr X space sp X int name )
+static void
+fix_unsigned(freg fr, space sp, int name)
 {
   space nsp;
   int ftmp;
@@ -275,9 +271,8 @@ static void fix_unsigned
 }
 
 
-INT64 unsigned_rep
-    PROTO_N ( ( val, dest_shape ) )
-    PROTO_T ( INT64 val X shape dest_shape )
+INT64
+unsigned_rep(INT64 val, shape dest_shape)
 {
   switch(name (dest_shape)){
     case ucharhd: return val & 0xff;
@@ -293,8 +288,8 @@ INT64 unsigned_rep
 /*
   Inserts global pointer reference.
 */
-static void set_global_pointer
-    PROTO_Z ()
+static void
+set_global_pointer(void)
 {
   baseoff a;
   a.offset = 0;
@@ -311,9 +306,8 @@ static void set_global_pointer
   umax64/b and then performing an umulh of this with the source 
   register.
 */
-static void divide_by_constant
-    PROTO_N ( ( src,m,target,sp ) )
-    PROTO_T ( int src X INT64 m X int target X space sp )
+static void
+divide_by_constant(int src, INT64 m, int target, space sp)
 {
   space newsp;
   int rtmp;
@@ -341,9 +335,8 @@ static void divide_by_constant
 /* 
    Output log2(x) rounding up.
 */
-int log2
-    PROTO_N ( ( val ) )
-    PROTO_T ( INT64 val )
+int
+log2(INT64 val)
 {
   int res = 0;
   int absval = abs(val);
@@ -373,9 +366,8 @@ int log2
   1/m = 1/(2^n) * (2^x/b).  Then return the values of n and x
   required.  If successfull, return TRUE, otherwise, return FALSE.
 */
-bool calculate_shift_for_division
-    PROTO_N ( ( m,n,x,is_quad ) )
-    PROTO_T ( INT64 m X int *n X int *x X bool is_quad )
+bool
+calculate_shift_for_division(INT64 m, int *n, int *x, bool is_quad)
 {
   INT64 val = m;
   INT64 r;
@@ -427,9 +419,8 @@ bool calculate_shift_for_division
   umax64/b and then performing an umulh of this with the source 
   register.  The code produced makes use of the AT register.
 */
-static void divide_by_constant
-    PROTO_N ( ( div,lhs,valexp,r_dest,nsp ) )
-    PROTO_T ( exp div X exp lhs X exp valexp X int r_dest X space nsp )
+static void
+divide_by_constant(exp div, exp lhs, exp valexp, int r_dest, space nsp)
 {
   INT64 m = zero_int64;	
   INT64 divres;
@@ -566,9 +557,8 @@ static void divide_by_constant
   register reg from shape src_shape to shape dest_shape. 
   Returns TRUE if any code is produced and FALSE otherwise.
 */
-static bool convert_shapes
-    PROTO_N ( ( dest_shape,src_shape,reg,dreg ) )
-    PROTO_T ( int dest_shape X int src_shape X int reg X int dreg )
+static bool
+convert_shapes(int dest_shape, int src_shape, int reg, int dreg)
 {
   if(reg<32 && dreg<32){
     switch(dest_shape){
@@ -649,9 +639,8 @@ static bool convert_shapes
   underflow,overflow,division by zero, and invalid operation.
 */
 #if 0
-static void check_exception
-    PROTO_N ( ( e,sp ) )
-    PROTO_T ( exp e X space sp )
+static void
+check_exception(exp e, space sp)
 {
   long trap;
   int r1,r2;
@@ -689,9 +678,8 @@ static void check_exception
 
 #define PLUS_INFINITY 3
 
-void set_up_rounding_mode
-    PROTO_N ( ( val ) )
-    PROTO_T ( int val )
+void
+set_up_rounding_mode(int val)
 {
   return;
 }
@@ -701,9 +689,8 @@ void set_up_rounding_mode
   This function returns the appropriate branch instruction 
   for the test represented by 'i'
 */
-static instruction sbranches
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+sbranches(int i)
 {
   switch (i) {
     case  1: 
@@ -725,9 +712,8 @@ static instruction sbranches
 }
 
   
-void testunsigned
-    PROTO_N ( ( r,max,lab,sp ) )
-    PROTO_T ( int r X long max X int lab X space sp )
+void
+testunsigned(int r, long max, int lab, space sp)
 {
   int rtmp = getreg(sp.fixed);
   operate_fmt_immediate(i_cmpule,r,max,rtmp);
@@ -737,9 +723,8 @@ void testunsigned
 
   
 
-static bool fdouble_comparisons
-    PROTO_N ( ( ins,i ) )
-    PROTO_T ( instruction *ins X int i )
+static bool
+fdouble_comparisons(instruction *ins, int i)
 {
   bool rev = FALSE;
   switch(i){
@@ -780,9 +765,8 @@ static bool fdouble_comparisons
   carry out the inverse of the required test.  In these cases, the
   return value is TRUE, otherwise it is FALSE.
 */
-static bool comparisons
-    PROTO_N ( ( ins,s,i ) )
-    PROTO_T ( instruction *ins X shape s X int i )
+static bool
+comparisons(instruction *ins, shape s, int i)
 {
   bool rev=FALSE;
   if((is_signed(s))){
@@ -849,9 +833,8 @@ static bool comparisons
 /*
   conditional moves
 */
-static instruction condmove
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+condmove(int i)
 {
   switch(i){
     case 1:
@@ -872,9 +855,8 @@ static instruction condmove
   return i_cmovle;
 }
 /*
-static instruction fcondmove
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fcondmove(int i)
 {
   switch(i){
    case 1:
@@ -896,9 +878,8 @@ static instruction fcondmove
 */
 
 
-static bool compares
-    PROTO_N ( ( ins,s,i ) )
-    PROTO_T ( instruction *ins X shape s X int i )
+static bool
+compares(instruction *ins, shape s, int i)
 {
   bool rev=FALSE;
   if (is_signed(s)){
@@ -952,9 +933,8 @@ static bool compares
 }
 
 /*
-static instruction fbranches
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fbranches(int i)
 {
   switch (i) {
     case  1: 
@@ -974,9 +954,8 @@ static instruction fbranches
   }
 }
 
-static instruction fdbranches
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fdbranches(int i)
 {
   switch (i) {
    case  1: 
@@ -1004,9 +983,8 @@ long  notbranch[6] = {
 /*
   count the number of bits set in b.
 */
-int bitsin
-    PROTO_N ( ( b ) )
-    PROTO_T ( int32 b )
+int
+bitsin(int32 b)
 {
   int   n = 0;
   int32  mask = 1;
@@ -1038,9 +1016,8 @@ int bitsin
 /*
   Without overlap (destination < source)
 */
-void move_dlts
-    PROTO_N ( ( dest,src,sizereg,movereg,bytemove,sp ) )
-    PROTO_T ( int dest X int src X int sizereg X int movereg X int bytemove X space sp )
+void
+move_dlts(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
 
   int qword_lab,lword_lab,word_lab,byte_lab,endlab;
@@ -1117,9 +1094,8 @@ void move_dlts
 /*
   With overlap (destination > src)
 */
-void move_dgts
-    PROTO_N ( ( dest,src,sizereg,movereg,bytemove,sp ) )
-    PROTO_T ( int dest X int src X int sizereg X int movereg X int bytemove X space sp )
+void
+move_dgts(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
   int qword_lab,lword_lab,word_lab,byte_lab,endlab;
   int rtest = getreg(sp.fixed);
@@ -1201,8 +1177,8 @@ void move_dgts
 
 
      
-static void reset_tos
-    PROTO_Z ()
+static void
+reset_tos(void)
 {
   if (Has_tos) { 
     baseoff b;
@@ -1219,9 +1195,8 @@ static void reset_tos
   This function finds the last test in the sequence e which is 
   a branch to second, if any exists, otherwise it returns nil.
 */
-static exp testlast
-    PROTO_N ( ( e, second ) )
-    PROTO_T ( exp e X exp second )
+static exp
+testlast(exp e, exp second)
 {
   if (name (e) == test_tag && pt (e) == second) {
     return (e);
@@ -1251,9 +1226,8 @@ static exp testlast
 }
 
 
-bool last_param
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+last_param(exp e)
 {
   bool res=0;
   if (isparam(e)){
@@ -1268,9 +1242,8 @@ bool last_param
 }
 
 
-void test_unsigned
-    PROTO_N ( ( reg,upper,trap ) )
-    PROTO_T ( int reg X unsigned long upper X unsigned trap )
+void
+test_unsigned(int reg, unsigned long upper, unsigned trap)
 {
   setnoat();
   operate_fmt_big_immediate(i_cmpule,reg,upper,AT);
@@ -1279,9 +1252,8 @@ void test_unsigned
   return;
 }
 
-void test_signed
-    PROTO_N ( ( reg,lower,upper,trap ) )
-    PROTO_T ( int reg X long lower X long upper X int trap )
+void
+test_signed(int reg, long lower, long upper, int trap)
 {
   setnoat();
   operate_fmt_big_immediate(i_cmplt,reg,lower,AT);
@@ -1293,9 +1265,8 @@ void test_signed
 }
 
 
-void test_signed_and_trap
-    PROTO_N ( ( reg,lower,upper,except ) )
-    PROTO_T ( int reg X long lower X long upper X int except )
+void
+test_signed_and_trap(int reg, long lower, long upper, int except)
 {
   int ok_lab = new_label();
   int jump_label = new_label();
@@ -1313,9 +1284,8 @@ void test_signed_and_trap
   return;
 }
 
-void test_unsigned_and_trap
-    PROTO_N ( ( reg,upper,except ) )
-    PROTO_T ( int reg X unsigned long upper X unsigned except )
+void
+test_unsigned_and_trap(int reg, unsigned long upper, unsigned except)
 {
   int ok_lab = new_label();
   setnoat();
@@ -1335,9 +1305,8 @@ void test_unsigned_and_trap
   If the final destination is in a register then that register is 
   returned, otherwise a new register is selected from the pool.
 */
-int regfrmdest
-    PROTO_N ( ( dest, sp ) )
-    PROTO_T ( where *dest X space sp )
+int
+regfrmdest(where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
     case inreg :{
@@ -1350,9 +1319,8 @@ int regfrmdest
 }	
 
 
-freg fregfrmdest
-    PROTO_N ( ( dest,sp ) )
-    PROTO_T ( where *dest X space sp )
+freg
+fregfrmdest(where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
     case infreg : {
@@ -1374,9 +1342,8 @@ freg fregfrmdest
   23,24,25,27(PV), and 28(AT) which have to be protected if in use.
   Returns result register.
 */
-static int divide_using_div
-    PROTO_N ( ( div,dividend,divisor,dest,sp,div_ins ) )
-    PROTO_T ( exp div X exp dividend X exp divisor X where dest X space sp X instruction div_ins )
+static int
+divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instruction div_ins)
 {
   int r_result;
   space newsp;
@@ -1551,9 +1518,8 @@ static int proc_has_vararg;
 /*
   Process a parameter list 
 */
-space do_callers
-    PROTO_N ( ( list,sp,sizecallers ) )
-    PROTO_T ( exp list X space sp X int *sizecallers )
+space
+do_callers(exp list, space sp, int *sizecallers)
 {
   int disp;
   int spar;
@@ -1652,9 +1618,8 @@ space do_callers
 }
 
 
-void load_reg
-    PROTO_N ( ( e,r,sp ) )
-    PROTO_T ( exp e X int r X space sp )
+void
+load_reg(exp e, int r, space sp)
 {
   where w;
   w.ashwhere = ashof(sh(e));
@@ -1667,9 +1632,8 @@ void load_reg
 
 static postlude_chain * old_postludes;
 
-void update_plc
-    PROTO_N ( ( chain,ma ) )
-    PROTO_T ( postlude_chain *chain X int ma )
+void
+update_plc(postlude_chain *chain, int ma)
 {
   while(chain) {
     exp pl = chain->postlude;
@@ -1686,9 +1650,8 @@ void update_plc
 /*
   This function finds the caller_tag corresponding to a caller_name tag
 */
-exp find_ote
-    PROTO_N ( ( name,n ) )
-    PROTO_T ( exp name X int n )
+exp
+find_ote(exp name, int n)
 {
   exp dad = father(name);
   while(name(dad) != apply_general_tag) {
@@ -1709,9 +1672,8 @@ exp find_ote
   This function produces code for expression e, evaluating 
   its result into dest.
 */
-makeans make_code
-    PROTO_N ( ( e,sp,dest,exitlab ) )
-    PROTO_T ( exp e X space sp X where dest X int exitlab )
+makeans
+make_code(exp e, space sp, where dest, int exitlab)
 {
   INT64  constval;
   makeans mka;

@@ -83,18 +83,16 @@ static char vcid[] = "$Id$";
 
 regpeep regexps[64];		
 
-bool eq_size
-    PROTO_N ( ( as, bs ) )
-    PROTO_T ( shape as X shape bs )
+bool
+eq_size(shape as, shape bs)
 {
   return (shape_size(as) == shape_size(bs));
 }
 
-bool sim_exp PROTO_S ((exp a, exp b));
+bool sim_exp(exp a, exp b);
 
-bool eq_sze
-    PROTO_N ( ( as, bs ) )
-    PROTO_T ( shape as X shape bs )
+bool
+eq_sze(shape as, shape bs)
 {
   if (is_floating(name(as))) return(name(as)==name(bs));
   if (is_floating(name(bs))) return 0;
@@ -104,9 +102,8 @@ bool eq_sze
 #define is_volatile(X) ((X<9)||(X>15))
 
 
-bool sim_explist
-    PROTO_N ( ( al, bl ) )
-    PROTO_T ( exp al X exp bl )
+bool
+sim_explist(exp al, exp bl)
 {
   if (al == nilexp && bl == nilexp)
     return (1);
@@ -123,9 +120,8 @@ bool sim_explist
 
 
 
-bool sim_exp
-    PROTO_N ( ( a,b ) )
-    PROTO_T ( exp a X exp b )
+bool
+sim_exp(exp a, exp b)
 {
   /* basically eq_exp except equal shapes
      requirement  is weakened to equal sizes
@@ -146,8 +142,8 @@ bool sim_exp
   return (0);
 }
 
-void clear_all
-    PROTO_Z ()
+void
+clear_all(void)
 {
   /* forget all register - exp associations 
    */
@@ -168,9 +164,8 @@ void clear_all
 
 
 
-void clear_reg
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+void
+clear_reg(int i)
 {
   /* forget reg i - exp association */
   i = abs (i);
@@ -181,9 +176,8 @@ void clear_reg
   }
 }
 
-void clear_freg
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+void
+clear_freg(int i)
 {
   i=abs(i)+32;
   if(i<64)
@@ -195,9 +189,8 @@ void clear_freg
 
 
 
-ans iskept
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+ans
+iskept(exp e)
 {
   /* find if e has already been evaluated
      into a register */
@@ -274,9 +267,8 @@ ans iskept
   return aa;
 }
 
-void keepexp
-    PROTO_N ( ( e, loc ) )
-    PROTO_T ( exp e X ans loc )
+void
+keepexp(exp e, ans loc)
 {
   /* set up exp - address association */
   int   pos;
@@ -310,9 +302,8 @@ void keepexp
   regexps[pos].iscont = 0;
 }	
 
-void keepcont
-    PROTO_N ( ( e, reg ) )
-    PROTO_T ( exp e X int reg )
+void
+keepcont(exp e, int reg)
 {
   /* set up cont(e)-reg association */
   freg fr;
@@ -340,9 +331,8 @@ void keepcont
 
 }
 
-void keepreg
-    PROTO_N ( ( e, reg ) )
-    PROTO_T ( exp e X int reg )
+void
+keepreg(exp e, int reg)
 {
   /* set up e-reg association */
   freg fr;
@@ -369,11 +359,10 @@ void keepreg
   regexps[z].iscont = 0;
 }
 
-bool couldeffect PROTO_S ((exp e, exp z));
+bool couldeffect(exp e, exp z);
 
-bool couldbe
-    PROTO_N ( ( e, lhs ) )
-    PROTO_T ( exp e X exp lhs )
+bool
+couldbe(exp e, exp lhs)
 {
   /* could e be lhs? */ 			
   int   ne = name (e);
@@ -411,9 +400,8 @@ bool couldbe
 
 }
 
-bool couldeffect
-    PROTO_N ( ( e, z ) )
-    PROTO_T ( exp e X exp z )
+bool
+couldeffect(exp e, exp z)
 {
   /* could alteration to z effect e? */
   int   ne = name (e);
@@ -448,9 +436,8 @@ bool couldeffect
 
 
 
-bool dependson
-    PROTO_N ( ( e, isc, z ) )
-    PROTO_T ( exp e X bool isc X exp z )
+bool
+dependson(exp e, bool isc, exp z)
 {
   /* does e depend on z */
   if (e == nilexp) {
@@ -493,9 +480,8 @@ bool dependson
 
 
 
-void clear_dep_reg
-    PROTO_N ( ( lhs ) )
-    PROTO_T ( exp lhs )
+void
+clear_dep_reg(exp lhs)
 {
   /* remove association of any register
      which depends on lhs */

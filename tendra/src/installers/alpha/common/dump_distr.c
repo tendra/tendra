@@ -1,32 +1,58 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
-
+ * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
 
 /* 	$Id$	 */
 
@@ -57,9 +83,8 @@ static  space zsp = {
   0, 0
 };				/* long fixed, long flt */
 
-void maxsp
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( space *a X space b )
+void
+maxsp(space *a, space b)
 {
   a -> fixed |= b.fixed;
   a -> flt |= b.flt;
@@ -71,9 +96,8 @@ void maxsp
    which s-regs are used for the parameters of current proc; 
    incpars says dont ignore pars in registers 
 */
-space suses
-    PROTO_N ( ( e, pars, incpars ) )
-    PROTO_T ( exp e X space *pars X int incpars )
+space
+suses(exp e, space *pars, int incpars)
 {
 
   space ans;
@@ -177,16 +201,14 @@ space suses
   return ans;
 }
 
-bool sameregs
-    PROTO_N ( ( a,b ) )
-    PROTO_T ( space *a X space *b )
+bool
+sameregs(space *a, space *b)
 {
   return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
 }
 
-space remd
-    PROTO_N ( ( tobd,dmpd ) )
-    PROTO_T ( space *tobd X space *dmpd )
+space
+remd(space *tobd, space *dmpd)
 {
   /* any regs left out of tobd after dmpd has been done */
   space ans;
@@ -204,9 +226,8 @@ space remd
    via pt; delivers bool to say whether all sregs have been 
    dumped 
 */
-bool placedump
-    PROTO_N ( ( pe, dmpd, tobd, nds ) )
-    PROTO_T ( exp *pe X space *dmpd X space *tobd X space *nds )
+bool
+placedump(exp *pe, space *dmpd, space *tobd, space *nds)
 {
   exp e = *pe;
   exp dflt = getexp(nilexp, nilexp, 1, nilexp,nilexp, 0, nds->flt & ~dmpd->flt, dump_tag);
@@ -227,9 +248,8 @@ bool placedump
    beforeb is space up to end of tests; second only use beforeb;
    otherwise nilexp 
 */
-exp goodcond
-    PROTO_N ( ( first, second, beforeb, pars ) )
-    PROTO_T ( exp first X exp second X space *beforeb X space *pars )
+exp
+goodcond(exp first, exp second, space *beforeb, space *pars)
 {
   exp t;
   space nds;
@@ -257,9 +277,8 @@ exp goodcond
   return nilexp;
 }
 
-bool alljumps
-    PROTO_N ( ( e, slv, nol ) )
-    PROTO_T ( exp e X exp slv X int *nol )
+bool
+alljumps(exp e, exp slv, int *nol)
 {
   /* all all branches to labsts of slove_tag slv in e ? */
   recurse:
@@ -298,9 +317,8 @@ bool alljumps
    
 
 
-bool goodsolve
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+goodsolve(exp e)
 {
   exp m = bro(son(e));
   int nol;
@@ -317,9 +335,8 @@ static int  notfregs;
  /* use to make sure of enough t-regs which are not par regs; I reuse any
     par registers whose pars are put in s-regs as t-regs  */
 
-void pushdumps
-    PROTO_N ( ( pe, dmpd, tobd, pars ) )
-    PROTO_T ( exp *pe X space *dmpd X space *tobd X space *pars )
+void
+pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
 {
   /* tries to delay the dumps of the s-regs as late as possible 
      ; pe is the place in the tree to insert any dump found
@@ -504,9 +521,8 @@ void pushdumps
 }
 
 
-void dump_opt
-    PROTO_N ( ( rscope, tobd, pars ) )
-    PROTO_T ( exp rscope X space *tobd X space *pars )
+void
+dump_opt(exp rscope, space *tobd, space *pars)
 {
   /* rscope is proc-tag exp;  tobd is set of s-regs to be dumped; 
      pars is subset of tobd which will be used as  parameters of 

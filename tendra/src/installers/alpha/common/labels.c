@@ -84,16 +84,15 @@ static char vcid[] = "$Id$";
 
 int   last_label = 31;
 
-int   new_label
-    PROTO_Z ()
+int
+new_label(void)
 {
         last_label++;
   return last_label;
 }
 
-void set_label
-    PROTO_N ( ( l ) )
-    PROTO_T ( int l )
+void
+set_label(int l)
 {
 #if DO_SCHEDULE
   Instruction new_ins = getinst();
@@ -131,9 +130,8 @@ void set_label
   return;
 }
 
-void set_label_no_clear
-    PROTO_N ( ( l ) )
-    PROTO_T ( int l )
+void
+set_label_no_clear(int l)
 {
   if (as_file)
     fprintf (as_file, "$%d:\n", l);

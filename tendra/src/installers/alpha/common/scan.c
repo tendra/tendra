@@ -113,7 +113,7 @@ static bool rscope_level = 0;
 static bool nonevis = 1;
 static int callerfortr;
 
-needs scan PROTO_S ((exp *,exp **));
+needs scan(exp *, exp **);
 
 /*
   identifies integer varieties which require more work to manipulate
@@ -152,9 +152,8 @@ needs scan PROTO_S ((exp *,exp **));
   exp. This is used to stop a procedure requiring more than the 
   available number of registers.
 */
-void cca
-    PROTO_N ( ( to, x ) )
-    PROTO_T ( exp **to X exp *x )
+void
+cca(exp **to, exp *x)
 {
 
   if (name((**to))==diagnose_tag){
@@ -228,9 +227,8 @@ needs zeroneeds = {
   Calculate the number of registers required to move a data item of 
   shape s to/from memory.  Worst case values.
 */
-needs shapeneeds
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+needs
+shapeneeds(shape s)
 {
   if(is_floating(name(s))){
     return onefloat;
@@ -253,9 +251,8 @@ needs shapeneeds
   }
 }
 
-static void make_bitfield_offset
-    PROTO_N ( ( e,pe,spe,sha ) )
-    PROTO_T ( exp e X exp pe X int spe X shape sha )
+static void
+make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 {
   exp omul;
   exp val8;
@@ -276,9 +273,8 @@ static void make_bitfield_offset
   return;
 }
 
-bool complex
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+complex(exp e)
 {
   /* these are basically the expressions
      which cannot be accessed by a simple
@@ -294,9 +290,8 @@ bool complex
   }
 }
 
-int scan_cond
-    PROTO_N ( ( e,outer_id ) )
-    PROTO_T ( exp *e X exp outer_id )
+int
+scan_cond(exp *e, exp outer_id)
 {
   exp ste = *e;
   exp first = son (ste);
@@ -432,9 +427,8 @@ int scan_cond
    does the scan on commutative and associative operations and 
    may perform various transformations allowed by these properties 
 */
-needs likeplus
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp *e X exp **at )
+needs
+likeplus(exp *e, exp **at)
 {
   needs a1;
   needs a2;
@@ -498,9 +492,8 @@ needs likeplus
 }
 
 
-needs likediv
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp *e X exp **at )
+needs
+likediv(exp *e, exp **at)
 {
   /* scan non-commutative fix pt operation 
    */
@@ -529,9 +522,8 @@ needs likediv
   return l;
 }
 
-needs fpop
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp *e X exp **at )
+needs
+fpop(exp *e, exp **at)
 {
   /* scans diadic floating point operation  */
   needs l;
@@ -579,9 +571,8 @@ needs fpop
   Calculates a needs value. Each element of which is the 
   maximum of the corresponding elements in the two parameter needs
 */
-needs maxneeds
-    PROTO_N ( ( a, b ) )
-    PROTO_T ( needs a X needs b )
+needs
+maxneeds(needs a, needs b)
 {
   needs an;
   an.fixneeds = max (a.fixneeds, b.fixneeds);
@@ -597,9 +588,8 @@ needs maxneeds
    declarations required by a component expression will
    replace the component expression 
 */
-needs maxtup
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp e X exp **at )
+needs
+maxtup(exp e, exp **at)
 {
   exp * stat = &son(e);
   needs an;
@@ -616,9 +606,8 @@ needs maxtup
    finds if usedname is only used in cont operation or as result 
    of ident i.e. value of name is unchanged over its scope 
 */
-bool unchanged
-    PROTO_N ( ( usedname, ident ) )
-    PROTO_T ( exp usedname X exp ident )
+bool
+unchanged(exp usedname, exp ident)
 {
   exp uses = pt (usedname);
   while (uses != nilexp) {
@@ -644,9 +633,8 @@ bool unchanged
    a ni ) This will be compiled later using set instructions instead
    of branches 
 */
-exp absbool
-    PROTO_N ( ( id ) )
-    PROTO_T ( exp id )
+exp
+absbool(exp id)
 {
   if (isvar (id) && name (son (id)) == val_tag && no (son (id)) == 0
       && no (id) == 2 /* name initially 0 only used twice */ ) {
@@ -682,9 +670,8 @@ exp absbool
 }
  
 
-exp * ptr_position
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+exp *
+ptr_position(exp e)
 {
   exp * a;
   exp dad = father(e);
@@ -699,9 +686,8 @@ exp * ptr_position
   return a;
 }
 
-bool chase
-    PROTO_N ( ( sel, e ) )
-    PROTO_T ( exp sel X exp *e )
+bool
+chase(exp sel, exp *e)
 {
   /* distribute selection throughout compound expressions */
   bool b = 0;
@@ -755,9 +741,8 @@ bool chase
 
 
 /* check for C style varargs */
-bool vascan
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp *e )
+bool
+vascan(exp *e)
 {
   bool result = FALSE;
   exp tr;
@@ -800,9 +785,8 @@ bool in_vcallers_proc;
   registers in evaluating the LHS of operations in which the RHS
   contains a division.
 */
-needs scan
-    PROTO_N ( ( e, at ) )
-    PROTO_T ( exp *e X exp **at )
+needs
+scan(exp *e, exp **at)
 {
   /*  e is the expression to be scanned, at
       is the place to put any new decs . NB order of recursive

@@ -97,9 +97,8 @@ int locals_offset; /* the offset in bits of start of current locals */
 int frame_size;	/* the size of the current stack frame in bits */
 
 
-baseoff boff
-    PROTO_N ( ( id ) )
-    PROTO_T ( exp id )
+baseoff
+boff(exp id)
 {
   baseoff an;
   if (isglob (id)) {		/* globals */
@@ -155,11 +154,10 @@ baseoff boff
     locate differs from locate1 only in that it looks to 
     see if e has already been evaluated somehow 
 */
-where locate PROTO_S ((exp e, space sp, shape s, int dreg));
+where locate(exp e, space sp, shape s, int dreg);
 
-where locate1
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg )
+where
+locate1(exp e, space sp, shape s, int dreg)
 {
   /* finds the address of e using shape s;
      sp gives available t-regs for any inner
@@ -604,9 +602,8 @@ where locate1
   }
 }
 
-where locate
-    PROTO_N ( ( e, sp, s, dreg ) )
-    PROTO_T ( exp e X space sp X shape s X int dreg )
+where
+locate(exp e, space sp, shape s, int dreg)
 {
   ans ak;
   where w;

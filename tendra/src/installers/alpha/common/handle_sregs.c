@@ -92,9 +92,8 @@ int  fixdone;			/* the fixeds which have already been
 int  fltdone;			/* the floats which have already been
 				   dumped */
 
-baseoff dump_baseoff
-    PROTO_N ( ( dstart ) )
-    PROTO_T ( int dstart )
+baseoff
+dump_baseoff(int dstart)
 {
   baseoff b;
   b.base = Has_vcallees?local_reg:(Has_fp?FP:SP);
@@ -113,9 +112,8 @@ baseoff dump_baseoff
 /*
 ** Dump registers to the stack.
 */
-void dump_sregs
-    PROTO_N ( ( fdi, fldi ) )
-    PROTO_T ( unsigned int fdi X unsigned int fldi )
+void
+dump_sregs(unsigned int fdi, unsigned int fldi)
 {
   unsigned int mask = 1<<31;
   int  ds=dumpstart-8;
@@ -159,9 +157,8 @@ void dump_sregs
 /*
   restore registers from stack.
 */
-void restore_sregs
-    PROTO_N ( ( fd, fld ) )
-    PROTO_T ( unsigned int fd X unsigned int fld )
+void
+restore_sregs(unsigned int fd, unsigned int fld)
 {
   unsigned int mask = 1<<31;
   int ds=dumpstart-8;
