@@ -25,6 +25,12 @@
 	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}\
 		${.TARGET:S/.c/.h/}
 
+.if defined(PROG)
+.if !defined(MAN)
+MAN=    ${PROG}.1
+.endif  # !defined(MAN)
+.endif
+
 all:
 .if defined(API)
 	@${MAKE} _OBJDIR
@@ -78,7 +84,7 @@ clean: .PHONY
 cleandir: .PHONY
 	${REMOVE} -r ${OBJ_SDIR}
 
-install:
+install: _instmanpages
 .if defined(API)
 .if !exists(${INSTALL_DIR}/lib/building/${API}.api)
 	${MKDIR} -p ${INSTALL_DIR}/lib/building/${API}.api
@@ -173,6 +179,16 @@ _SUBDIR: .USE
 		@${ECHODIR} "..Executing within ${entry}: ${MAKE} ${.TARGET}"
 		@cd ${.CURDIR}/${entry}; \
 			${MAKE} ${.TARGET} DIRPREFIX=${DIRPREFIX}${entry}/
+.endfor
+.endif
+
+_instmanpages: .USE
+.if defined(MAN)
+.for M in ${MAN:O:u}
+.if !exists(${MAN_DIR}/man${M:T:E})
+	${MKDIR} -p ${MAN_DIR}/man${M:T:E}
+.endif
+	${INSTALL} -m 444 ${M} ${MAN_DIR}/man${M:T:E}/${M}
 .endfor
 .endif
 
