@@ -95,7 +95,7 @@ echo "CC:	$CC"
 echo "OSVER:	$OSVER"
 
 cat > Makefile.defs <<EOF
-CC=$CC
+CC?=$CC
 OSVER=$OSVER
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 EOF
