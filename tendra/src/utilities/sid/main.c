@@ -647,7 +647,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	msg_uh_add(MSG_KEY_c_stream_line, msg_uh_c_stream_line);
 	msg_uh_add(MSG_KEY_istream_line, msg_uh_istream_line);
 
-	closure.usage     = NULL;
+	closure.usage     = 0;
 	closure.arg_list  = main_arglist;
 	main_info_closure = out_info;
 	skip = arg_parse_arguments (main_arglist, MID_sid_usage_message,
