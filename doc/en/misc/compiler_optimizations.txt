@@ -58,7 +58,7 @@ revisions.
 compiler technology.  If you are not well versed in compilers, I'd
 recommend getting a bucket of sand, making an ingot of super pure
 silicon, wafering the ingot, and etching CMOS circuits onto the
-wafers.  Then, use lower voltage power to drive a state machine etched
+wafers.  Then, use lowe voltage power to drive a state machine etched
 onto the chips.  I'd recommend a register based machine, but you can
 use stacks for simplicity.  Now you're ready to create an instruction
 set architecture on paper.  After settling on the ISA, make some
@@ -67,7 +67,7 @@ prototypes.  Then you're ready to write some machine code.  After
 wasting years of your life writing machine code, abstract the
 code-writing process into a series of formal steps, borrowing heavily
 from linguistics along the way.  Make higher level languages, and
-tools to translation your ambiguous expressions into machine
+tools to translate your ambiguous expressions into machine
 code. You'll get the idea.
 
    The rest should be easy.
@@ -76,14 +76,77 @@ code. You'll get the idea.
 
 I.  Dependence Analysis
 
+    True enough, in its purest form, dependency testing presents an
+undecidable problem.  One cannot dispute that.  Subscripted array
+positions in array references can refer to arbitrary values, unknown
+until runtime.  But in many cases, subscripts are simple form
+polynomials of induction variables.  In such cases, subscripts
+references are amenable to compile time analysis.  The key, of course,
+is to structure an analysis of subscripts that recognizes and avoid
+nonlinearity.
+
+    Below, we examine a few techniques.
+
     A.  In General
 
         1.  Subscript Partitioning
 
+    References for further reading:
+        http://nr.stic.gov.tw/ejournal/ProceedingA/v23n6/751-765.pdf
+        http://www.eecg.toronto.edu/~tsa/jasmine/adcp.html
+
         2.  Merging Direction Vectors
 
     B.  Single-Subscript Dependency
- 
+
+    Compiler writers use the term 'subscript' to refer to not one
+subscript, but a pair of array references.  Since dependency testing
+is concerned with relations between references, this makes sense.
+Consider the following loop:
+
+        DO i
+          DO j
+            DO k
+               Array(i,j) = Array(i,k) * const;    // S_1
+            OD
+          OD
+        OD
+
+In performing dependency analysis of statement S_1, we say that the
+first subscript of Array contains just i, while the second subscript
+of Array contains both j and k.  (That is, in any dependency analysis,
+we have to consider the values of j and k when looking at the second
+subscript.)
+
+    Subscript pairs are classified by the number of variables they
+contain.  Some subscript pairs contain zero variables (or more
+precisely, no variables that change within the loop structure).  These
+'ZIV' subscripts include array constant references and references
+using known variables.  Thus, the expression "Array(5) = Array(4) * x"
+is a ZIV expression.
+
+    If the subscript pair contains only one variable, the pair is
+classified as a SIV expression.  Similarly, if multiple index
+variables occur, the subscript pair is called MIV type.  Consider:
+
+        DO i
+          DO j
+            DO k
+               Array(3, i + 4, k) = Array(x, i, j) * const;    // S_1
+            OD
+          OD
+        OD
+
+In the expression S_1, the first subscript pair (the 3 and x) are
+clearly ZIV types, since they don't use inductive loop variables.  The
+second subscript pair (the 'i+4', and i pair) are SIV, since they both
+use 'i', a loop variable.  The third pair is a MIV, since two loop
+indices are used.
+
+    Properly classifying expression subscripts is not merely an
+academic undertaking.  There are numerous optimizations available,
+once you know what type of subscript pairs are being used.
+
         1.  ZIV Test
 
         2.  SIV Test
@@ -186,6 +249,10 @@ VI. Register Use Management
         1.  Data Dependence 
 
         2.  Loop-Carried & Loop-Independent Reuse
+
+    References for further reading:
+
+        http://nr.stic.gov.tw/ejournal/ProceedingA/v23n6/751-765.pdf
 
     B.  Scalar Replacement
 
