@@ -134,8 +134,6 @@ calculus [ options ] input .... [ output ]
   <chapter id='input-syntax'>
     <title>Input syntax</title>
 
-    <para></para>
-
     <programlisting>
 algebra :
   ALGEBRA identifier version<subscript>opt</subscript> : item-list<subscript>opt</subscript>
