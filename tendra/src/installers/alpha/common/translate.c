@@ -321,9 +321,9 @@ code_it(dec *my_def)
 	  if (as_file){
 #if DO_SCHEDULE
 	    outline = (char*)xcalloc(80,sizeof(char));
-	    sprintf(outline,"\t.comm\t%s %ld\n",id,(size==0)?4:size);
+	    sprintf(outline,"\t.comm\t%s, %ld\n",id,(size==0)?4:size);
 #else	
-	    fprintf (as_file, "\t.comm\t%s %ld\n", id, size==0?4:size);
+	    fprintf (as_file, "\t.comm\t%s, %ld\n", id, size==0?4:size);
 #endif
 	  }
 	  output_instruction(class_null,outline,
