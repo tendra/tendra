@@ -24,7 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- *               Crown Copyright (c) 1997
+ *  		 Crown Copyright (c) 1997
  *
  *  This TenDRA(r) Computer Program is subject to Copyright
  *  owned by the United Kingdom Secretary of State for Defence
@@ -55,51 +55,47 @@
  */
 
 /*
-    AUTOMATICALLY GENERATED FROM ALGEBRA calculus (VERSION 1.2)
-    BY calculus (VERSION 1.2)
-*/
+ *    AUTOMATICALLY GENERATED FROM ALGEBRA calculus (VERSION 1.2)
+ *    BY calculus (VERSION 1.3)
+ */
 
 #ifndef ASSERT_DEF_H_INCLUDED
-#define ASSERT_DEF_H_INCLUDED
+#define	ASSERT_DEF_H_INCLUDED
 
 /* Assertion function definitions */
 
 #ifndef assert_calculus
-static void assert_calculus
-    PROTO_N ( ( s, fn, ln ) )
-    PROTO_T ( CONST_S char *s X CONST_S char *fn X int ln )
+static void
+assert_calculus(const char *s, const char *fn, int ln)
 {
-    ( void ) fprintf ( stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln ) ;
-    abort () ;
+	(void)fprintf(stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln);
+	abort();
 }
 #endif
 
-calculus *check_null_calculus
-    PROTO_N ( ( p, fn, ln ) )
-    PROTO_T ( calculus *p X CONST_S char *fn X int ln )
+calculus *
+check_null_calculus(calculus *p, const char *fn, int ln)
 {
-    if ( p == NULL ) assert_calculus ( "Null pointer", fn, ln ) ;
-    return ( p ) ;
+	if (p == NULL) assert_calculus ("Null pointer", fn, ln);
+	return (p);
 }
 
-calculus *check_tag_calculus
-    PROTO_N ( ( p, t, fn, ln ) )
-    PROTO_T ( calculus *p X unsigned t X CONST_S char *fn X int ln )
+calculus *
+check_tag_calculus(calculus *p, unsigned t, const char *fn, int ln)
 {
-    p = check_null_calculus ( p, fn, ln ) ;
-    if ( p->ag_tag != t ) assert_calculus ( "Union tag", fn, ln ) ;
-    return ( p ) ;
+	p = check_null_calculus(p, fn, ln);
+	if (p->ag_tag != t) assert_calculus("Union tag", fn, ln);
+	return (p);
 }
 
-calculus *check_tag_etc_calculus
-    PROTO_N ( ( p, tl, tb, fn, ln ) )
-    PROTO_T ( calculus *p X unsigned tl X unsigned tb X CONST_S char *fn X int ln )
+calculus *
+check_tag_etc_calculus(calculus *p, unsigned tl, unsigned tb , const char *fn, int ln)
 {
-    p = check_null_calculus ( p, fn, ln ) ;
-    if ( p->ag_tag < tl || p->ag_tag >= tb ) {
-	assert_calculus ( "Union tag", fn, ln ) ;
-    }
-    return ( p ) ;
+	p = check_null_calculus (p, fn, ln);
+	if (p->ag_tag < tl || p->ag_tag >= tb) {
+		assert_calculus("Union tag", fn, ln);
+	}
+	return (p);
 }
 
 #endif
