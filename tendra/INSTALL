@@ -1,7 +1,6 @@
 # $TenDRA$
 
-Only one target exists
+A number of build targets exist.
 
-# make freebsd
-
-Should get you going.
+Running make and following the instructions should
+get you going.
