@@ -12,5 +12,3 @@ SRCS=	assembler.c diag_out.c machine.c
 .include "${.CURDIR}/../../Makefile.inc"
 
 .include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
-
-CFLAGS+=-g
