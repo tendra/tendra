@@ -78,7 +78,7 @@
       management system can be applied to all the types within the system. It
       also opens the possibility of writing operations which apply to all
       types within the system in a straightforward manner. The
-      -XREF-#DiskOutputdisk reading and writing routines described below are
+      <xref linkend='disk-read-write'> disk reading and writing routines described below are
       an example of this.</para>
 
     <simplesect id='intro-using-calculus'>
@@ -97,25 +97,26 @@ calculus [ options ] input .... [ output ]
         This directory must already exist. If no <emphasis>output</emphasis>
         argument is given then the current working directory is assumed. Note
         that several <emphasis>input</emphasis> files can be given. Unless
-        -XREF-#Moduleotherwise specified it is the last file which is used to
+        <xref linkend='relations-algerbras'> otherwise specified it is the last file which is used to
         generate the output.</para>
 
-      <para>The form in which the -XREF-#TextInputinput type systems are
+      <para>The form in which the <xref linkend='input-syntax'>input type systems are
         expressed is described below. The form of the output depends on
         <emphasis>options</emphasis>. By default, the C implementation of the
         type system is output. If the <literal>-t</literal> option is passed
         to <literal>calculus</literal> then
-        -XREF-../tcpplus/token.html<literal>#pragma token</literal> statements
+        <ulink url="http://www.ten15.org/docs/tcpplus/#token-syntax">l<literal>#pragma token</literal></ulink>
+        statements
         describing the type system specification are output.  This
-        -XREF-#TokenOutputspecification is given below, with some of the more
-        important -XREF-#COutputimplementation details being described in the
+        <xref linkend='output-type-system-spec'>specification is given below, with some of the more
+        important <xref linkend='impl-details'>implementation details being described in the
         following section.</para>
 
       <para>Note that it is necessary to check any program written using
         <literal>calculus</literal> against the <literal>#pragma
         token</literal> version of the specification in order to get the full
         benefits of the rigorous type checking provided by the tool.  Some
-        sections of the program (if only the -XREF-#COutputSupportbasic
+        sections of the program (if only the <xref linkend='support-routines'>basic
         functions) may be dependent upon the implementation, and so not be
         suitable for this form of checking.</para>
     </simplesect>
@@ -329,7 +330,7 @@ component-initialiser :
   = string
       </programlisting>
 
-      <para>The optional -XREF-#OutputStructcomponent initialiser strings
+      <para>The optional <xref linkend='oper-structures'>component initialiser strings
         are</para>
 
       <para>Structures are the only algebra construct which prevent the input
@@ -392,7 +393,7 @@ field-identifier-list :
       </programlisting>
 
       <para>The optional one or two hashes which may be used to qualify a list
-        of field identifiers are used to indicate -XREF-#DiskAliasaliasing in
+        of field identifiers are used to indicate <xref linkend='aliasing'>aliasing in
         the disk reading and writing routines. The
         <emphasis>base-field</emphasis> case is a notational convenience which
         allows one field in a union to inherit all the components of another
@@ -445,11 +446,11 @@ extended-type :
   quoted-type
       </programlisting>
 
-      <para>In addition to the -XREF-#InputTypetypes derived from the
+      <para>In addition to the <xref linkend='type-constructors'>types derived from the
         algebra</para>
 
       <para>A map may be qualified by means of a hash. This means that the
-        associated function also takes a -XREF-#OutputUnionMapsdestructor
+        associated function also takes a <xref linkend='output-maps'>destructor
         function as a parameter.</para>
     </sect1>
 
@@ -482,7 +483,7 @@ type :
     <sect1 id='relations-algerbras'>
       <title>Relations between algebras</title>
 
-      <para>As -XREF-#Optionsmentioned above, more than one input algebra may
+      <para>As <xref linkend='intro-using-calculus'>mentioned above, more than one input algebra may
         be specified to <literal>calculus</literal>. Each is processed
         separately, and output is generated for only one. By default this is
         the last algebra processed, however a specific algebra can be
@@ -525,7 +526,7 @@ import :
       which implements these tokens.</para>
 
     <para>In this section the description given will be at the level of the
-      output specification. The more important details of the -XREF-#COutputC
+      output specification. The more important details of the <xref linkend='impl-details'> C
       implementation are given in the following section.</para>
 
     <para>The output is split among several header files in the specified
@@ -628,7 +629,7 @@ void dummy_destroy_name () ;
 
       <para>The <literal>SIZE</literal> type constructor is used to represent
         a multiple of the size of a type. It is used, for example, in the
-        -XREF-#OutputPtrpointer stepping construct <literal>STEP_ptr</literal>
+        <xref linkend='oper-pointers'>pointer stepping construct <literal>STEP_ptr</literal>
         to specify the number of units the pointer is to be increased by.
         Having a separate abstract type for the size of each type greatly
         increases the scope for type checking of memory allocation, and other,
@@ -644,7 +645,7 @@ SIZE ( t ) SIZE_type ;
       <para>where <emphasis>t</emphasis> denotes the type itself, and</para>
 
       <para>For the five other type constructors
-        -XREF-#OutputBasicdescribed</para>
+        <xref linkend='basic-types'>described</para>
 
       <programlisting>
 SIZE ( PTR ( t ) ) SIZE_ptr ( TYPE t ) ;
@@ -904,7 +905,7 @@ STATEMENT POP_type ( lvalue t, lvalue STACK ( t ) ) ;
 
       <para>where <emphasis>type</emphasis> is the short type name. There are
         also generic constructs, such as <literal>PUSH_ptr</literal> for
-        pushing any pointer type, similar to the -XREF-#OutputListgeneric list
+        pushing any pointer type, similar to the <xref linkend='oper-lists'> generic list
         constructors above.</para>
 
       <para>Stacks are in fact just modified lists with pushing corresponding
@@ -1000,9 +1001,9 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
       <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an
-        unsigned integral type in the output file. The -XREF-#OutputPrimbasic
+        unsigned integral type in the output file. The <xref linkend='oper-primitives'>basic
         operations listed above are always generated unless it has been
-        indicated that -XREF-#InputEnumno lists of this type will be formed,
+        indicated that <xref linkend='enumerations'> no lists of this type will be formed,
         when <literal>CONS_</literal><emphasis>type</emphasis> and the other
         list and stack operators are suppressed. In addition each enumerator
         which is a member of this enumeration maps onto a constant
@@ -1032,7 +1033,7 @@ unsigned long ORDER_enum ;
 
       <para>Each structure specified within the algebra maps onto a
         <literal>typedef</literal> defining the type to be the C structure
-        with the given components. In addition to the -XREF-#OutputPrimbasic
+        with the given components. In addition to the <xref linkend='oper-primitives'> basic
         operations listed above there are also field selectors defined.</para>
 
       <para>Suppose that <emphasis>t</emphasis> is a structure type with short
@@ -1083,7 +1084,7 @@ PTR ( btype ) CONVERT_struct_base ( PTR ( t ) ) ;
       <title>Operations on unions</title>
 
       <para>Each union specified within the algebra maps onto an opaque type
-        in the output file. In addition to the -XREF-#OutputPrimbasic
+        in the output file. In addition to the <xref linkend='oper-primitives'> basic
         operations listed above there are a number of other constructs output
         into <emphasis>name</emphasis><literal>.h</literal>, namely:</para>
 
@@ -1167,7 +1168,7 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
           of <emphasis>field</emphasis>, both the shared components and the
           unshared components, which do not have a component initialiser
           string in the definition. The union component are initialised either
-          using the -XREF-#OutputStructinitialiser string or the given
+          using the <xref linkend='oper-structures'> initialiser string or the given
           operation argument.</para>
 
         <para><literal>DECONS_</literal><emphasis>union_field</emphasis>
@@ -1183,7 +1184,7 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
       <sect2 id='union-field-sets'>
         <title>Union field sets</title>
 
-        <para>Recall that -XREF-#InputUniona number of union field identifiers
+        <para>Recall that <xref linkend='unions'> a number of union field identifiers
           may be associated with the same set of components. In this case
           these fields form a union field set named after the first element of
           the set. There are operations:</para>
@@ -1241,7 +1242,7 @@ btype CONVERT_union_base ( t ) ;
       </sect2>
 
       <sect2 id='output-maps'>
-        <title>-XREF-OutputUnionMapsUnion maps</title>
+        <title>Union maps</title>
 
         <para>For each map, <emphasis>map</emphasis>, on the union
           <emphasis>t</emphasis>, we have declared in
@@ -1255,7 +1256,7 @@ map_ret map_union ( t, map_par, .... ) ;
         <para>where <emphasis>map_ret</emphasis> is the map return type and
           <emphasis>map_par</emphasis> ranges over the map parameter types.
           This is except for maps with destructors (i.e. those qualified by a
-          -XREF-#InputUnionhash symbol) which have the form:</para>
+          <xref linkend='unions'> hash symbol) which have the form:</para>
 
         <programlisting>
 map_ret map_union ( t, DESTROYER, map_par, .... ) ;
@@ -1314,7 +1315,7 @@ DECONS_union_field ( comp, ...., name_union ) ;
       <title>Implementation of types</title>
 
       <para>The C implementation of the type system
-        -XREF-#TokenOutputspecified above is based on a single type,
+        <xref linkend='output-type-system-spec'> specified above is based on a single type,
         <emphasis>name</emphasis>, with the same name as the input algebra.
         This is defined as follows:</para>
 
@@ -1347,13 +1348,13 @@ typedef union name_tag {
       </figure>
 
       <para>Primitive types are implemented by a <literal>typedef</literal>
-        defining the type in terms of its -XREF-#OutputPrimgiven definition. A
+        defining the type in terms of its <xref linkend='oper-primitives'> given definition. A
         primitive type can be packed into a single cell using the appropriate
         <literal>ag_prim_</literal><emphasis>type</emphasis> field of the
         union.</para>
 
       <para>Identity types are implemented by a <literal>typedef</literal>
-        defining the type as being equal to another -XREF-#OutputIdenttype
+        defining the type as being equal to another <xref linkend='oper-identities'> type
         from the algebra.</para>
 
       <para>Enumeration types are all implemented as <literal>unsigned
@@ -1364,7 +1365,7 @@ typedef union name_tag {
 
       <para>Structure types are implemented by a <literal>typedef</literal>
         defining the type to be the C structure with the
-        -XREF-#OutputStructgiven components. A structure type may be packed
+        <xref linkend='oper-structures'> given components. A structure type may be packed
         into a block of cells by packing each of the components in
         turn.</para>
 
@@ -1449,7 +1450,7 @@ void dummy_destroy_name ( name *, unsigned int ) ;
         <literal>destroy_</literal><emphasis>name</emphasis> deallocates the
         given block, and
         <literal>dummy_destroy_</literal><emphasis>name</emphasis> has
-        -XREF-#OutputBasicno effect. The precise details of how the memory
+        <xref linkend='oper-structures'> no effect. The precise details of how the memory
         management is to be handled are left to the user.</para>
 
       <para>Certain generic list functions must also be provided,
@@ -1475,7 +1476,7 @@ name_VEC empty_name_vec ;
       <para>needs to be defined.</para>
 
       <para>Examples of these support routines can be found in the
-        -XREF-#Example<literal>calculus</literal> program itself.</para>
+        <xref linkend='example-program'> <literal>calculus</literal> program itself.</para>
     </sect1>
 
     <sect1 id='run-time-checking'>
@@ -1507,7 +1508,7 @@ name_VEC empty_name_vec ;
   <chapter id='disk-read-write'>
     <title>Disk reading and writing</title>
 
-    <para>One of the facilities which the -XREF-#COutputTypeshomogeneous
+    <para>One of the facilities which the <xref linkend='impl-types'> homogeneous
       implementation of the type system described above allows for is the
       addition of persistence. Persistence in this context means allowing
       objects to be written to, and read from, disk. Also discussed in this
@@ -1573,7 +1574,7 @@ VEC_PTR ( t ) -&gt; vptr_type
         the algebra definition. This can be done by means of a command-line
         option of the form <literal>-E</literal><emphasis>input</emphasis>
         where <emphasis>input</emphasis> is a file containing a list of the
-        extra types required. In the notation -XREF-#TextInputused above the
+        extra types required. In the notation <xref linkend='input-syntax'> used above the
         syntax for <emphasis>input</emphasis> is given by:</para>
 
       <programlisting>
@@ -1633,7 +1634,7 @@ unsigned int READ_ALIAS ( void ) ;
       </programlisting>
 
       <para>for reading a number of bits from disk, reading a vector dimension
-        and reading an -XREF-#DiskAliasobject alias. The
+        and reading an <xref linkend='aliasing'> object alias. The
         <literal>READ_</literal><emphasis>type</emphasis> functions may be
         overridden by means of macros as before.</para>
     </sect1>
@@ -1724,7 +1725,7 @@ void DEBUG_type ( t * ) ;
         this same object.</para>
 
       <para>The objects on which aliasing can be specified are the
-        -XREF-#InputUnionunion fields. A union field may be qualified by one
+        <xref linkend='unions'> union fields. A union field may be qualified by one
         or two hash symbols to signify that objects of that type should be
         aliased.</para>
 
@@ -1793,17 +1794,17 @@ name *find_name_alias ( unsigned int ) ;
       <para>giving the next alias number to be assigned, and routines for
         adding an alias to the list of all aliases, and looking up an alias in
         this list. Example implementations of these routines are given in the
-        -XREF-#Example<literal>calculus</literal> program itself.</para>
+        <xref linkend='example-program'> <literal>calculus</literal> program itself.</para>
     </sect1>
 
     <sect1 id='application-calculus'>
       <title>Application to calculus</title>
 
-      <para>As -XREF-#Examplementioned above, the <literal>calculus</literal>
+      <para>As mentioned above, the <literal>calculus</literal>
         program itself is an example of its own application. It therefore
         contains routines for reading and writing a representation of an
         algebra to and from disk, and for pretty-printing the contents of an
-        algebra. These may be accessed using the -XREF-#Optionscommand-line
+        algebra. These may be accessed using the <xref linkend='intro-using-calculus'> command-line
         options mentioned above.</para>
 
       <para>If the <literal>-w</literal> command-line option is specified to
