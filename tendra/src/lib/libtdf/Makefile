@@ -7,6 +7,7 @@ TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
 		-jtarget_tok \
 		-J${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/tokens \
 		-J${OBJ_PREFIX}/lib/apis/lib/ansi
+TCC_OPTS+=	${LIBTDF_CFLAGS}
 
 SHLIB=	libtdf.a
 
