@@ -1453,7 +1453,7 @@ EXP
 make_relation_exp(int op, EXP a, EXP b)
 {
     EXP e;
-    NTEST tst;
+    NTEST tst = make_ntest (op);
     TYPE ta, tb;
     unsigned ca, cb;
 	
@@ -1501,7 +1501,6 @@ make_relation_exp(int op, EXP a, EXP b)
 		if (IS_exp_int_lit (a)) {
 			/* Allow for constant evaluation */
 			if (IS_exp_int_lit (b)) {
-				tst = make_ntest (op);
 				e = make_compare_nat (tst, a, b);
 				return (e);
 			}
@@ -1528,7 +1527,6 @@ make_relation_exp(int op, EXP a, EXP b)
 		}
 		
 		/* Construct the result */
-		tst = make_ntest (op);
 		MAKE_exp_compare (type_bool, tst, a, b, e);
 		return (e);
     }
@@ -1555,7 +1553,6 @@ make_relation_exp(int op, EXP a, EXP b)
 			}
 			a = convert_ptr_common (t, a, op, 1);
 			b = convert_ptr_common (t, b, op, 2);
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1568,7 +1565,6 @@ make_relation_exp(int op, EXP a, EXP b)
 			} else {
 				report (crt_loc, ERR_expr_rel_null (op));
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1582,7 +1578,6 @@ make_relation_exp(int op, EXP a, EXP b)
 			} else {
 				report (crt_loc, ERR_expr_rel_null (op));
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1592,7 +1587,6 @@ make_relation_exp(int op, EXP a, EXP b)
     if (!IS_TYPE_ERROR (ca) && !IS_TYPE_ERROR (cb)) {
 		report (crt_loc, ERR_expr_rel_op (op, ta, tb));
     }
-    tst = make_ntest (op);
     MAKE_exp_test (type_bool, tst, b, e);
     return (e);
 }
@@ -1608,7 +1602,7 @@ EXP
 make_equality_exp(int op, EXP a, EXP b)
 {
     EXP e;
-    NTEST tst;
+    NTEST tst = make_ntest (op);
     TYPE ta, tb;
     unsigned ca, cb;
 	
@@ -1655,7 +1649,6 @@ make_equality_exp(int op, EXP a, EXP b)
 		}
 		a = convert_arith (t, a, op, 1);
 		b = convert_arith (t, b, op, 2);
-		tst = make_ntest (op);
 		if (IS_exp_int_lit (a) && IS_exp_int_lit (b)) {
 			e = make_compare_nat (tst, a, b);
 		} else {
@@ -1688,7 +1681,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				a = b;
 				b = c;
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1699,7 +1691,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				report (crt_loc, ERR_expr_eq_nonzero (op, ta, tb));
 				b = make_null_ptr (NULL_exp, ta);
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1711,7 +1702,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				report (crt_loc, ERR_expr_eq_nonzero (op, tb, ta));
 				a = make_null_ptr (NULL_exp, tb);
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, b, a, e);
 			return (e);
 		}
@@ -1743,7 +1733,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				a = b;
 				b = c;
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1754,7 +1743,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				report (crt_loc, ERR_expr_eq_nonzero (op, ta, tb));
 				b = make_null_ptr (NULL_exp, ta);
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
@@ -1766,7 +1754,6 @@ make_equality_exp(int op, EXP a, EXP b)
 				report (crt_loc, ERR_expr_eq_nonzero (op, tb, ta));
 				a = make_null_ptr (NULL_exp, tb);
 			}
-			tst = make_ntest (op);
 			MAKE_exp_compare (type_bool, tst, b, a, e);
 			return (e);
 		}
@@ -1777,7 +1764,6 @@ make_equality_exp(int op, EXP a, EXP b)
     if (!IS_TYPE_ERROR (ca) && !IS_TYPE_ERROR (cb)) {
 		report (crt_loc, ERR_expr_eq_op (op, ta, tb));
     }
-    tst = make_ntest (op);
     MAKE_exp_compare (type_bool, tst, a, b, e);
     return (e);
 }
