@@ -5,9 +5,9 @@
 AWK?=		/bin/awk
 BASENAME?=	/bin/basename
 CAT?=		/bin/cat
+CHGRP?=		/bin/chgrp
 CHMOD?=		/bin/chmod
 CHOWN?=		/bin/chown
-CHGRP?=		/bin/chgrp
 CP?=		/bin/cp
 CUT?=		/bin/cut
 DC?=		/bin/dc
