@@ -45,17 +45,17 @@
 
     <varlistentry>
       <term><option>-F</option><replaceable>switch</replaceable></term>
-  
+
       <listitem>
         <para>This option determines whether or not
-          <command>alphatrans</command> applies the "for all" optimisation. This 
+          <command>alphatrans</command> applies the "for all" optimisation. This
           is not done by default.</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><option>-H</option></term>
-      
+
       <listitem>
         <para>This option causes <command>alphatrans</command> to output
           debugging information. This will only work if the input TDF capsule
@@ -95,9 +95,9 @@
 
     <varlistentry>
       <term><option>-S</option></term>
-  
+
       <listitem>
-        <para>When this option is present <command>alphatrans</command> will   
+        <para>When this option is present <command>alphatrans</command> will
           produce a symbolic assembler file in addition to its normal outputs. In
           this case the name of the symbolic assembler file must be present on
           the command line.</para>
