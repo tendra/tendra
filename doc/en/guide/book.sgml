@@ -2,172 +2,180 @@
 
 <book>
   <bookinfo>
-    <title>TDF Guide</title> 
+    <title>TDF Guide</title>
+
     <pubdate>$TenDRA$</pubdate>
+
     <corpauthor>The TenDRA Documentation Team</corpauthor>
+
     <copyright>
       <year>2002</year>
+
+      <year>2003</year>
+
       <holder>TenDRA Documentation Team</holder>
     </copyright>
+
     <copyright>
       <year>1997</year>
+
       <year>1998</year>
+
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
+
     <abstract>
-      <para>
-        Please email us at <email>docs@tendra.org</email> if you see any errors 
-        or omissions.</para>
+      <para> Please email us at <email>docs@tendra.org</email> if you see any
+        errors or omissions.</para>
     </abstract>
   </bookinfo>
 
 
   <preface>
-    <title>Introduction</title> 
-    <para>
-      This memo is intended to be a fairly detailed commentary on the
+    <title>Introduction</title>
+
+    <para> This memo is intended to be a fairly detailed commentary on the
       specification of TDF, a kind of Talmud to the Torah. If it conflicts
-      with the specification document, it is wrong. The aim is elucidate
-      the various constructions of TDF, giving examples of usages both from
-      the point of view of a producer of TDF and how it is used to
-      construct programs on particular platforms using various installers
-      or translators. In addition, some attempt is made to give the reasons
-      why the particular constructions have been chosen. Most of the
-      commentary is a distillation of questions and answers raised by
-      people trying to learn TDF from the specification document.</para>
-    <para>
-      Throughout this document, references like (S5.1) are headings in the
-      -XREF-../tdf/spec1.htmlTDF specification, Issue 4.0. I use the term
+      with the specification document, it is wrong. The aim is elucidate the
+      various constructions of TDF, giving examples of usages both from the
+      point of view of a producer of TDF and how it is used to construct
+      programs on particular platforms using various installers or
+      translators. In addition, some attempt is made to give the reasons why
+      the particular constructions have been chosen. Most of the commentary is
+      a distillation of questions and answers raised by people trying to learn
+      TDF from the specification document.</para>
+
+    <para> Throughout this document, references like (S5.1) are headings in
+      the -XREF-../tdf/spec1.htmlTDF specification, Issue 4.0. I use the term
       "compiling" or "producing" to mean the production of TDF from some
       source language and "translating" to mean making a program for some
       specific platform from TDF.</para>
-    <para>
-      I use the first person where I am expressing my own opinions or
+
+    <para> I use the first person where I am expressing my own opinions or
       preferences; these should not be taken as official opinions of DRA or
       the TenDRA team.</para>
   </preface>
+
   <chapter>
-    <title>SORTs and TOKENs</title> 
-    <para>
-      In the syntax of language like C or Pascal, we find various syntactic
-      units like &lt;Expression&gt;, &lt;Identifier&gt; etc. A SORT bears
-      the same relation to TDF as these syntactic units bear to the
+    <title>SORTs and TOKENs</title>
+
+    <para> In the syntax of language like C or Pascal, we find various
+      syntactic units like &lt;Expression&gt;, &lt;Identifier&gt; etc. A SORT
+      bears the same relation to TDF as these syntactic units bear to the
       language; roughly speaking, the syntactic unit &lt;Expression&gt;
       corresponds to the SORT EXP and &lt;Identifier&gt; to TAG . However,
       instead of using BNF to compose syntactic units from others, TDF uses
-      explicit constructors to compose its SORTs; each constructor uses
-      other pieces of TDF of specified SORTs to make a piece of its result
-      SORT. For example, the constructor plus uses an ERROR_TREATMENT and
-      two EXPs to make another EXP.</para>
-    <para>
-      At the moment, there are 58 different SORTS, from ACCESS to VARIETY
+      explicit constructors to compose its SORTs; each constructor uses other
+      pieces of TDF of specified SORTs to make a piece of its result SORT. For
+      example, the constructor plus uses an ERROR_TREATMENT and two EXPs to
+      make another EXP.</para>
+
+    <para> At the moment, there are 58 different SORTS, from ACCESS to VARIETY
       given in tables 1 and 2. Some of these have familiar analogues in
-      standard language construction as with EXP and TAG above. Others will
-      be less familiar since TDF must concern itself with issues not
-      normally addressed in language definitions. For example, the process
-      of linking together TDF programs is at the root of the architecture
-      neutrality of TDF and so must form an integral part of its
-      definition. On the other hand, TDF is not meant to be a language
-      readily accessible to the human reader or writer; computers handle it
-      much more easily. Thus a great many choices have been made in the
-      definition which would be intolerable in a standard language
-      definition for the human programmer but which, paradoxically enough,
-      make it much simpler for a computer to produce and analyse TDF</para>
-    <para>
-      The SORTs and constructors in effect form a multi-sorted algebra.
+      standard language construction as with EXP and TAG above. Others will be
+      less familiar since TDF must concern itself with issues not normally
+      addressed in language definitions. For example, the process of linking
+      together TDF programs is at the root of the architecture neutrality of
+      TDF and so must form an integral part of its definition. On the other
+      hand, TDF is not meant to be a language readily accessible to the human
+      reader or writer; computers handle it much more easily. Thus a great
+      many choices have been made in the definition which would be intolerable
+      in a standard language definition for the human programmer but which,
+      paradoxically enough, make it much simpler for a computer to produce and
+      analyse TDF</para>
+
+    <para> The SORTs and constructors in effect form a multi-sorted algebra.
       There were two principal reasons for choosing this algebraic form of
       definition. First, it is easy to extend - a new operation on existing
       constructs simply requires a new constructor. Secondly, the algebraic
       form is highly amenable to the automatic construction of programs.
-      Large parts of both TDF producers and TDF translators have been
-      created by automatic transformation of the text of the specification
-      document itself, by extracting the algebraic signature and
-      constructing C program which can read or produce TDF. To this extent,
-      one can regard the specification document as a formal description of
-      the free algebra of TDF SORTs and constructors. Of course, most of
-      the interesting parts of the definition of TDF lies in the
-      equivalences of parts of TDF, so this formality only covers the easy
-      bit.</para>
-    <para>
-      Another distinction between the TDF definition and language syntactic
-      description is that TDF is to some extent conscious of its own SORTs
-      so that it can specify a new construction of a given SORT. The
+      Large parts of both TDF producers and TDF translators have been created
+      by automatic transformation of the text of the specification document
+      itself, by extracting the algebraic signature and constructing C program
+      which can read or produce TDF. To this extent, one can regard the
+      specification document as a formal description of the free algebra of
+      TDF SORTs and constructors. Of course, most of the interesting parts of
+      the definition of TDF lies in the equivalences of parts of TDF, so this
+      formality only covers the easy bit.</para>
+
+    <para> Another distinction between the TDF definition and language
+      syntactic description is that TDF is to some extent conscious of its own
+      SORTs so that it can specify a new construction of a given SORT. The
       analogy in normal languages would be that one could define a new
       construction with new syntax and say this is an example of an
-      &lt;Expression&gt;, for example; I don't know of any standard
-      language which permits this, although those of you with a historical
-      bent might remember Algol-N which made a valiant attempt at it. Of
-      course, the algebraic method of description makes it much easier to
-      specify, rather than having to give syntax to provide the syntax for
-      the new construction in a language.</para>
-    <sect1>
-      <title>Token applications and first-class SORTs</title> 
-      <para>
-        A new construction is introduced by the SORT TOKEN; the
-        constructors involving TOKENs allow one to give an expansion for
-        the TOKEN in terms of other pieces of TDF, possibly including
-        parameters. We can encapsulate a (possibly parameterised) fragment
-        of TDF of a suitable SORT by giving it a TOKEN as identification.
-        Not all of the SORTs are available for this kind of encapsulation -
-        only those which have a SORTNAME constructor (from access to
-        variety). These are the "first-class" SORTs given in table 1 on
-        page 8. Each of these have an appropriate _apply_token constructor
-        (e.g. exp_apply_token ) give the expansion. Most of these also have
-        _cond constructors (e.g.see exp_cond in -XREF-guide11.html#1section
-        9.1 on page 43) which allows translate time conditional expansion
-        of the SORT.</para>
+      &lt;Expression&gt;, for example; I don't know of any standard language
+      which permits this, although those of you with a historical bent might
+      remember Algol-N which made a valiant attempt at it. Of course, the
+      algebraic method of description makes it much easier to specify, rather
+      than having to give syntax to provide the syntax for the new
+      construction in a language.</para>
 
+    <sect1>
+      <title>Token applications and first-class SORTs</title>
+
+      <para> A new construction is introduced by the SORT TOKEN; the
+        constructors involving TOKENs allow one to give an expansion for the
+        TOKEN in terms of other pieces of TDF, possibly including parameters.
+        We can encapsulate a (possibly parameterised) fragment of TDF of a
+        suitable SORT by giving it a TOKEN as identification.  Not all of the
+        SORTs are available for this kind of encapsulation - only those which
+        have a SORTNAME constructor (from access to variety). These are the
+        "first-class" SORTs given in table 1 on page 8. Each of these have an
+        appropriate _apply_token constructor (e.g. exp_apply_token ) give the
+        expansion. Most of these also have _cond constructors (e.g.see
+        exp_cond in -XREF-guide11.html#1section 9.1 on page 43) which allows
+        translate time conditional expansion of the SORT.</para>
 
 <para>FIGURE - first class SORTs gtable6.png</para>
-      <para>
-        Every TOKEN has a result SORT, i.e. the SORT of its resulting
-        expansion and before it can be expanded, one must have its
-        parameter SORTs. Thus, you can regard a TOKEN as having a type
-        defined by its result and parameter SORTs and the _apply_token as
-        the operator which expands the encapsulation and substitutes the
-        parameters.</para>
-      <para>
-        However, if we look at the signature of exp_apply_token:</para>
+
+      <para> Every TOKEN has a result SORT, i.e. the SORT of its resulting
+        expansion and before it can be expanded, one must have its parameter
+        SORTs. Thus, you can regard a TOKEN as having a type defined by its
+        result and parameter SORTs and the _apply_token as the operator which
+        expands the encapsulation and substitutes the parameters.</para>
+
+      <para> However, if we look at the signature of exp_apply_token:</para>
+
 <programlisting>
-<emphasis>token_value</emphasis>: TOKEN 
+<emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
 -&gt; EXP <emphasis>x</emphasis>
 </programlisting>
-      <para>
-        we are confronted by the mysterious BITSTREAM where one might
+
+      <para>we are confronted by the mysterious BITSTREAM where one might
         expect to find the actual parameters of the TOKEN.</para>
-      <para>
-        To explain BITSTREAMs requires a diversion into the bit-encoding of
-        TDF. Constructors for a particular SORT are represented in a number
+
+      <para>To explain BITSTREAMs requires a diversion into the bit-encoding
+        of TDF. Constructors for a particular SORT are represented in a number
         of bits depending on the number of constructors for that SORT; the
         context will determine the SORT required, so no more bits are
-        required. Thus since there is only one constructor for UNITs, no
-        bits are required to represent make_unit; there are about 120
-        different constructors for EXPs so 7 bits are required to cover all
-        the EXPs. The parameters of each constructor have known SORTs and
-        so their representations are just concatenated after the
-        representation of the constructor -XREF-footnote70"
-        href="footnote.html#70*. While this is a very compact
-        representation, it suffers from the defect that one must decode it
-        even just to skip over it. This is very irksome is some
-        applications, notably the TDF linker which is not interested
-        detailed expansions. Similarly, in translators there are places
-        where one wishes to skip over a token application without knowledge
-        of the SORTs of its parameters. Thus a BITSTREAM is just an
-        encoding of some TDF, preceded by the number of bits it occupies.
-        Applications can then skip over BITSTREAMs trivially. Similar
-        considerations apply to BYTESTREAMs used elsewhere; here the
-        encoding is preceded by the number of bytes in the encoding and is
-        aligned to a byte boundary to allow fast copying.</para>
+        required. Thus since there is only one constructor for UNITs, no bits
+        are required to represent make_unit; there are about 120 different
+        constructors for EXPs so 7 bits are required to cover all the EXPs.
+        The parameters of each constructor have known SORTs and so their
+        representations are just concatenated after the representation of the
+        constructor -XREF-footnote70" href="footnote.html#70*. While this is a
+        very compact representation, it suffers from the defect that one must
+        decode it even just to skip over it. This is very irksome is some
+        applications, notably the TDF linker which is not interested detailed
+        expansions. Similarly, in translators there are places where one
+        wishes to skip over a token application without knowledge of the SORTs
+        of its parameters. Thus a BITSTREAM is just an encoding of some TDF,
+        preceded by the number of bits it occupies.  Applications can then
+        skip over BITSTREAMs trivially. Similar considerations apply to
+        BYTESTREAMs used elsewhere; here the encoding is preceded by the
+        number of bytes in the encoding and is aligned to a byte boundary to
+        allow fast copying.</para>
     </sect1>
+
     <sect1>
-      <title>Token definitions and declarations</title> 
-      <para>
-        Thus the <emphasis>token_args</emphasis> parameter of
+      <title>Token definitions and declarations</title>
+
+      <para>Thus the <emphasis>token_args</emphasis> parameter of
         exp_apply_token is just the BITSTREAM formed from the actual
         parameters in the sequence described by the definition of the
-        <emphasis>token_valu</emphasis><emphasis>e</emphasis> parameter.
-        This will be given in a TOKEN_DEFN somewhere with constructor
+        <emphasis>token_valu</emphasis><emphasis>e</emphasis> parameter.  This
+        will be given in a TOKEN_DEFN somewhere with constructor
         token_definition:</para>
 <programlisting>
 <emphasis>result_sort</emphasis>: SORTNAME
@@ -175,35 +183,34 @@
 <emphasis>body</emphasis>:    <emphasis>result_sort</emphasis>
 -&gt; TOKEN_DEFN
 </programlisting>
-      <para>
-        The <emphasis>result_sort</emphasis> is the SORT of the
+      <para>The <emphasis>result_sort</emphasis> is the SORT of the
         construction of <emphasis>body</emphasis>; e.g. if
         <emphasis>result_sort</emphasis> is formed from exp then
         <emphasis>body</emphasis> would be constructed using the EXP
-        constructors and one would use exp_apply_token to give the
-        expansion. The list <emphasis>tok_params</emphasis> gives the
-        formal parameters of the definition in terms of TOKFORMALS
-        constructed using make_tok_formals:</para>
+        constructors and one would use exp_apply_token to give the expansion.
+        The list <emphasis>tok_params</emphasis> gives the formal parameters
+        of the definition in terms of TOKFORMALS constructed using
+        make_tok_formals:</para>
+
 <programlisting>
 <emphasis>sn</emphasis>:  SORTNAME
 <emphasis>tk</emphasis>:  TDFINT
 -&gt; TOKFORMALS
 </programlisting>
-      <para>
-        The TDFINT <emphasis>tk</emphasis> will be the integer
+
+      <para>The TDFINT <emphasis>tk</emphasis> will be the integer
         representation of the formal parameter expressed as a TOKEN whose
         result sort is <emphasis>sn</emphasis> (see more about name
-        representation in -XREF-guide5.html#2section 3.1 on page 13). To
-        use the parameter in the body of the TOKEN_DEFN, one simply uses
-        the _apply_token appropriate to <emphasis>sn</emphasis>.Note that
-        sn may be a TOKEN but the <emphasis>result_sort</emphasis> may not.</para>
-      <para>
-        Hence the BITSTREAM
-        <emphasis>param_sorts</emphasis>(<emphasis>token_value</emphasis>)
-        in the actual parameter of exp_apply_token above is simply formed
-        by the catenation of constructions of the SORTs given by the
-        SORTNAMEs in the <emphasis>tok_params</emphasis> of the TOKEN being
-        expanded.</para>
+        representation in -XREF-guide5.html#2section 3.1 on page 13). To use
+        the parameter in the body of the TOKEN_DEFN, one simply uses the
+        _apply_token appropriate to <emphasis>sn</emphasis>.Note that sn may
+        be a TOKEN but the <emphasis>result_sort</emphasis> may not.</para>
+
+      <para>Hence the BITSTREAM
+        <emphasis>param_sorts</emphasis>(<emphasis>token_value</emphasis>) in
+        the actual parameter of exp_apply_token above is simply formed by the
+        catenation of constructions of the SORTs given by the SORTNAMEs in the
+        <emphasis>tok_params</emphasis> of the TOKEN being expanded.</para>
       <para>
         Usually one gives a name to a TOKEN_DEFN using to form a TOKDEF
         using make_tokdef :</para>
@@ -253,7 +260,7 @@
 </programlisting>
     </sect1>
     <sect1>
-      <title>A simple use of a TOKEN</title> 
+      <title>A simple use of a TOKEN</title>
       <para>
         The crucial use of TOKENs in TDF is to provide abstractions of APIs
         (see -XREF-guide12.html#0section 10 on page 45) but they are also
@@ -263,8 +270,8 @@
         using the wrap constructor as the ERROR_TREATMENT:</para>
 <programlisting>
 make_tokdef (C_plus, empty,
-  token_definition( 
-exp(), 
+  token_definition(
+exp(),
 (make_tokformals(exp(), l), make_tokformals(exp(), r)),
 plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
   )
@@ -272,7 +279,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
 </programlisting>
     </sect1>
     <sect1>
-      <title>Second class SORTs</title> 
+      <title>Second class SORTs</title>
       <para>
         Second class SORTs (given in table 2 on page 11) cannot be
         TOKENised. These are the "syntactic units" of TDF which the user
@@ -294,7 +301,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
     </sect1>
   </chapter>
   <chapter>
-    <title>CAPSULEs and UNITs</title> 
+    <title>CAPSULEs and UNITs</title>
     <para>
       A CAPSULE is typically the result of a single compilation - one could
       regard it as being the TDF analogue of a Unix .o file. Just as with
@@ -308,7 +315,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
       with external identifiers which will be supplied by some system
       library.</para>
     <sect1>
-      <title>make_capsule and name-spaces</title> 
+      <title>make_capsule and name-spaces</title>
       <para>
         The only constructor for a CAPSULE is make_capsule. Its basic
         function is to compose together UNITs which contain the
@@ -316,7 +323,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         make_capsule looks rather daunting and is probable best represented
         graphically.</para>
       <figure id="make-capsule">
-        <title>make_capsule Signature</title> 
+        <title>make_capsule Signature</title>
         <mediaobject>
           <imageobject>
             <imagedata fileref="guide2" scale="100" format="PNG">
@@ -353,8 +360,8 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         the "tag", "token" and "al_tag" name-spaces for the CAPSULE. Thus
         if:</para>
 <programlisting>
-<emphasis>capsule_linking</emphasis> = (make_capsule_link("tag", 5), 
-  make_capsule_link("token", 6), 
+<emphasis>capsule_linking</emphasis> = (make_capsule_link("tag", 5),
+  make_capsule_link("token", 6),
   make_capsule_link("al_tag", 7))
 </programlisting>
       <para>
@@ -362,7 +369,7 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         1, 2, 3 and 4; similarly there are 6 "token" names and 7 "al_tag"
         names.</para>
       <sect2>
-        <title>External linkages</title> 
+        <title>External linkages</title>
         <para>
           The context of usage will always determine when and how an
           integer is to be interpreted as a name in a particular
@@ -394,7 +401,7 @@ make_linkextern (4, string_extern("printf"))
           outside the CAPSULE would have to be linked like this.</para>
       </sect2>
       <sect2>
-        <title>UNITs</title> 
+        <title>UNITs</title>
         <para>
           This name "printf", of course, does not necessarily mean the C
           procedure in the system library. This depends both on the system
@@ -432,12 +439,12 @@ make_linkextern (4, string_extern("printf"))
           identifiers.</para>
       </sect2>
       <sect2>
-        <title>make_unit</title> 
+        <title>make_unit</title>
         <para>
           Now we come to the construction of UNITs using make_unit, as in
           the diagram below</para>
         <figure id="make-quit">
-          <title>make_quit Diagram</title> 
+          <title>make_quit Diagram</title>
           <mediaobject>
             <imageobject>
               <imagedata fileref="guide1" scale="100" format="PNG">
@@ -464,7 +471,7 @@ make_linkextern (4, string_extern("printf"))
           hiding or reuse of names within a UNIT.</para>
       </sect2>
       <sect2>
-        <title>LINK</title> 
+        <title>LINK</title>
         <para>
           Connections between the CAPSULE name-spaces and the UNIT
           name-spaces are made by LINKs in the <emphasis>lks</emphasis>
@@ -490,7 +497,7 @@ make_link(42, 4)
       </sect2>
     </sect1>
     <sect1>
-      <title>Definitions and declarations</title> 
+      <title>Definitions and declarations</title>
       <para>
         The encoding in the <emphasis>properties</emphasis>:BYTSTREAM
         parameter of a UNIT is a PROPS , for which there are five
@@ -530,7 +537,7 @@ make_link(42, 4)
         There are three constructors for TAGDEFs, each with slightly
         different properties. The simplest is make_id_tagdef:</para>
 <programlisting>
-<emphasis>t</emphasis>:   TDFINT  
+<emphasis>t</emphasis>:   TDFINT
 <emphasis>signature</emphasis>:   OPTION(STRING)
 <emphasis>e</emphasis>:   EXP <emphasis>x</emphasis>
 -&gt; TAGDEF
@@ -588,7 +595,7 @@ make_link(42, 4)
         initialisations. The order of evaluation of different
         initial_values is arbitrary.</para>
       <sect2>
-        <title>Scopes and linking</title> 
+        <title>Scopes and linking</title>
         <para>
           Only names introduced by AL_TAGDEFS, TAGDEFS, TAGDECs, TOKDECs
           and TOKDEFs can be used in other UNITs (and then, only via the
@@ -651,7 +658,7 @@ make_link(42, 4)
       </sect2>
       <sect2>
         <title>Declaration and definition
-        <emphasis>signatures</emphasis></title> 
+        <emphasis>signatures</emphasis></title>
         <para>
           The <emphasis>signature</emphasis> arguments of TAGDEFs and
           TAGDECs are designed to allow a measure of cross-UNIT checking
@@ -672,7 +679,7 @@ make_link(42, 4)
           the principle remains the same.</para>
       </sect2>
       <sect2>
-        <title>STRING</title> 
+        <title>STRING</title>
         <para>
           The SORT STRING is used in various constructs other than
           declarations and definitions. It is a first-class SORT with
@@ -702,7 +709,7 @@ make_link(42, 4)
     </sect1>
   </chapter>
   <chapter>
-    <title>SHAPEs, ALIGNMENTs and OFFSETs</title> 
+    <title>SHAPEs, ALIGNMENTs and OFFSETs</title>
     <para>
       In most languages there is some notion of the type of a value. This
       is often an uncomfortable mix of a definition of a representation for
@@ -715,7 +722,7 @@ make_link(42, 4)
       pointers has to be abstracted so that translations to particular
       architectures can choose the size that is apposite for the platform.</para>
     <sect1>
-      <title>Shapes</title> 
+      <title>Shapes</title>
       <para>
         There are ten different basic constructors for the SORT SHAPE from
         bitfield to top as shown in table 3. SHAPEs arising from those
@@ -737,7 +744,7 @@ make_link(42, 4)
         tool for testing the SHAPE correctness of a TDF program would be
         useful but has yet to be written.</para>
       <sect2>
-        <title>TOP, BOTTOM, LUB</title> 
+        <title>TOP, BOTTOM, LUB</title>
         <para>
           Two of the SHAPE constructions are rather specialised; these are
           TOP and BOTTOM. The result of any expression with a TOP shape
@@ -757,7 +764,7 @@ make_link(42, 4)
           speak quite unambiguously of the LUB of several SHAPEs.</para>
       </sect2>
       <sect2>
-        <title>INTEGER</title> 
+        <title>INTEGER</title>
         <para>
           Integer values in TDF have shape INTEGER(v) where v is of SORT
           VARIETY. The constructor for this SHAPE is integer with a VARIETY
@@ -791,7 +798,7 @@ width:  NAT
 </programlisting>
       </sect2>
       <sect2>
-        <title>FLOATING and complex</title> 
+        <title>FLOATING and complex</title>
         <para>
           Similarly, floating point and complex numbers have shape FLOATING
           qualified by a FLOATING_VARIETY.</para>
@@ -826,7 +833,7 @@ maximum_exponent::  NAT
           operations on the fields.</para>
       </sect2>
       <sect2>
-        <title>BITFIELD</title> 
+        <title>BITFIELD</title>
         <para>
           A number of contiguous bits have shape BITFIELD, qualified by a
           BITFIELD_VARIETY (S3.4) which gives the number of bits involved
@@ -835,14 +842,14 @@ maximum_exponent::  NAT
           number of bits.</para>
       </sect2>
       <sect2>
-        <title>PROC</title> 
+        <title>PROC</title>
         <para>
           The representational SHAPEs of procedure values is given by PROC
           with constructor proc . I shall return to this in the description
           of the operations which use it.</para>
       </sect2>
       <sect2>
-        <title>Non-primitive SHAPEs</title> 
+        <title>Non-primitive SHAPEs</title>
         <para>
           The construction of the other four SHAPEs involves either
           existing SHAPEs or the alignments of existing SHAPEs. These are
@@ -852,7 +859,7 @@ maximum_exponent::  NAT
       </sect2>
     </sect1>
     <sect1>
-      <title>Alignments</title> 
+      <title>Alignments</title>
       <para>
         In most processor architectures there are limitations on how one
         can address particular kinds of objects in convenient ways. These
@@ -892,7 +899,7 @@ maximum_exponent::  NAT
         int and this structure is a pair of the alignments of an int and a
         float.</para>
       <sect2>
-        <title>ALIGNMENT constructors</title> 
+        <title>ALIGNMENT constructors</title>
         <para>
           The TDF abstraction of an alignment has SORT ALIGNMENT. The
           constructor, unite_alignments, gives the set-union of its
@@ -919,7 +926,7 @@ maximum_exponent::  NAT
           ALIGNMENT of a parameter of given SHAPE.</para>
       </sect2>
       <sect2>
-        <title>Special alignments</title> 
+        <title>Special alignments</title>
         <para>
           There are several other special ALIGNMENTs.</para>
         <para>
@@ -956,7 +963,7 @@ maximum_exponent::  NAT
           -XREF-guide7.html#12section 5.1.1 on page 27).</para>
       </sect2>
       <sect2>
-        <title>AL_TAG, make_al_tagdef</title> 
+        <title>AL_TAG, make_al_tagdef</title>
         <para>
           Alignments can also be named as AL_TAGs using make_al_tagdef.
           There is no corresponding make_al_tagdec since AL_TAGs are
@@ -971,7 +978,7 @@ maximum_exponent::  NAT
       </sect2>
     </sect1>
     <sect1>
-      <title>Pointer and offset SHAPEs</title> 
+      <title>Pointer and offset SHAPEs</title>
       <para>
         A pointer value must have a form which reflects the alignment of
         the object that it points to; for example, in the MIPs processor,
@@ -980,7 +987,7 @@ maximum_exponent::  NAT
         the object pointed to. The constructor pointer uses this alignment
         to make a POINTER SHAPE.</para>
       <sect2>
-        <title>OFFSET</title> 
+        <title>OFFSET</title>
         <para>
           Expressions which give sizes or offsets in TDF have an OFFSET
           SHAPE. These are always described as the difference between two
@@ -1014,7 +1021,7 @@ maximum_exponent::  NAT
       </sect2>
     </sect1>
     <sect1>
-      <title>Compound SHAPEs</title> 
+      <title>Compound SHAPEs</title>
       <para>
         The alignments of compound SHAPEs (i.e. those arising from the
         constructors compound and nof) are derived from the constructions
@@ -1042,7 +1049,7 @@ maximum_exponent::  NAT
         The <emphasis>sz</emphasis> parameter gives the minimum size which
         can accommodate the SHAPE.</para>
       <sect2>
-        <title>Offset arithmetic with compound shapes</title> 
+        <title>Offset arithmetic with compound shapes</title>
         <para>
           The constructors offset_add , offset_zero and shape_offset are
           used together with offset_pad to implement (<emphasis>inter
@@ -1078,7 +1085,7 @@ maximum_exponent::  NAT
           see -XREF-guide14.html#0section 12 on page 53.</para>
       </sect2>
       <sect2>
-        <title>offset_mult</title> 
+        <title>offset_mult</title>
         <para>
           In C, all structures have size known at translate-time. This
           means that OFFSETs for all field selections of structures and
@@ -1100,7 +1107,7 @@ maximum_exponent::  NAT
           the array with the resulting OFFSET.</para>
       </sect2>
       <sect2>
-        <title>OFFSET ordering and representation</title> 
+        <title>OFFSET ordering and representation</title>
         <para>
           There is an ordering defined on OFFSETs with the same alignment
           qualifiers, as given by offset_test and offset_max having
@@ -1158,7 +1165,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       </sect2>
     </sect1>
     <sect1>
-      <title>BITFIELD alignments</title> 
+      <title>BITFIELD alignments</title>
       <para>
         Even in standard machines, one finds that the size of a pointer may
         depend on the alignment of the data pointed at. Most machines do
@@ -1199,7 +1206,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
     </sect1>
   </chapter>
   <chapter>
-    <title>Procedures and Locals</title> 
+    <title>Procedures and Locals</title>
     <para>
       All procedures in TDF are essentially global; the only values which
       are accessible from the body of a procedure are those which are
@@ -1238,7 +1245,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       Ada out_parameters, or more generally, multiple results of
       procedures.</para>
     <sect1>
-      <title>make_proc and apply_proc</title> 
+      <title>make_proc and apply_proc</title>
       <para>
         The make_proc constructor has signature:</para>
 <programlisting>
@@ -1331,7 +1338,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         <emphasis>result_shape</emphasis> of the make_proc.</para>
       <sect2>
         <title><emphasis>vartag</emphasis>,
-        <emphasis>varparam</emphasis></title> 
+        <emphasis>varparam</emphasis></title>
         <para>
           U se of the <emphasis>var_intro</emphasis> OPTION in make_proc
           and the corresponding <emphasis>varparam</emphasis> in apply_proc
@@ -1361,7 +1368,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       </sect2>
     </sect1>
     <sect1>
-      <title>make_general_proc and apply_general_proc</title> 
+      <title>make_general_proc and apply_general_proc</title>
       <para>
         A make_general_proc has signature:</para>
 <programlisting>
@@ -1444,7 +1451,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         make_proc(S, L, empty, B) = make_general_proc(S, var_callers, L,
         empty, B)</para>
       <sect2>
-        <title>tail_call</title> 
+        <title>tail_call</title>
         <para>
           Often the result of a procedure, <emphasis>f</emphasis>, is
           simply given by the call of another (or the same) procedure,
@@ -1492,7 +1499,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           the same space for the call of p as the current procedure.</para>
       </sect2>
       <sect2>
-        <title>PROCPROPS</title> 
+        <title>PROCPROPS</title>
         <para>
           The presence of var_callees (or var_callers) means that the
           procedure can be called with more actual callee (or caller)
@@ -1528,9 +1535,9 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
       </sect2>
     </sect1>
     <sect1>
-      <title>Defining and using locals</title> 
+      <title>Defining and using locals</title>
       <sect2>
-        <title>identify, variable</title> 
+        <title>identify, variable</title>
         <para>
           Local definitions within the <emphasis>body</emphasis> of a
           procedure are given by two EXP constructors which permit one to
@@ -1580,7 +1587,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           value with SHAPE given by its parameter.</para>
       </sect2>
       <sect2>
-        <title>ACCESS</title> 
+        <title>ACCESS</title>
         <para>
           The ACCESS SORT given in tag declarations is a way of describing
           a list of properties to be associated with the tag. They are
@@ -1589,7 +1596,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           the other which gives "hints" on how the value will be used. Any
           of these can be combined using add_access.</para>
         <sect3>
-          <title>Locals model</title> 
+          <title>Locals model</title>
           <para>
             At the moment there are just three possibilities in the first
             class of ACCESS constructors. They are standard_access (the
@@ -1639,7 +1646,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
             subsumed by the operations available.</para>
         </sect3>
         <sect3>
-          <title>Access "hints"</title> 
+          <title>Access "hints"</title>
           <para>
             A variable tag with ACCESS constant is a write-once value; once
             it is initialised the variable will always contain the
@@ -1659,7 +1666,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         </sect3>
       </sect2>
       <sect2>
-        <title>current_env, env_offset</title> 
+        <title>current_env, env_offset</title>
         <para>
           The constructor current_env gives a pointer to the current
           procedure frame of SHAPE POINTER(<emphasis>fa</emphasis>) where
@@ -1696,7 +1703,7 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
           env_offset. They are effectively defined by the following
           identities:</para>
 <programlisting>
-If TAG t is derived from a variable definition 
+If TAG t is derived from a variable definition
 add_to_ptr(current_env(), env_offset(locals_alignment, A, t)) = obtain_tag(t)
 if TAG t is derived from an identify definition:
 contents(S, add_to_ptr(current_env(), env_offset(locals_alignment, A, t))) = obtain_tag(t)
@@ -1725,7 +1732,7 @@ add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t
           procedure in which it is invoked is exited.</para>
       </sect2>
       <sect2>
-        <title>local_alloc, local_free_all, last_local</title> 
+        <title>local_alloc, local_free_all, last_local</title>
         <para>
           The size of stack frame produced by variable and identify
           definitions is a translate-time constant since the frame is
@@ -1783,7 +1790,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
       </sect2>
     </sect1>
     <sect1>
-      <title>Heap storage</title> 
+      <title>Heap storage</title>
       <para>
         At the moment, there are no explicit constructors of creating
         dynamic off-stack storage in TDF. Any off-stack storage
@@ -1794,11 +1801,11 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
     </sect1>
   </chapter>
   <chapter>
-    <title>Control Flow within procedures</title> 
+    <title>Control Flow within procedures</title>
     <sect1>
-      <title>Unconditional flow</title> 
+      <title>Unconditional flow</title>
       <sect2>
-        <title>sequence</title> 
+        <title>sequence</title>
         <para>
           To perform a sequential set of operations in TDF, one uses the
           constructor sequence:</para>
@@ -1825,9 +1832,9 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
       </sect2>
     </sect1>
     <sect1>
-      <title>Conditional flow</title> 
+      <title>Conditional flow</title>
       <sect2>
-        <title>labelled, make_label</title> 
+        <title>labelled, make_label</title>
         <para>
           All simple changes of flow of control within a TDF procedure are
           done by jumps or branches to LABELs, mirroring what actually
@@ -1861,7 +1868,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
       </sect2>
       <sect2>
         <title>goto, make_local_lv, goto_local_lv, long_jump,
-        return_to_label</title> 
+        return_to_label</title>
         <para>
           The unconditional goto is the simplest method of jumping. In
           common with all the methods of jumping using LABELs, its LABEL
@@ -1890,7 +1897,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           call to provide an alternative exit to the procedure.</para>
       </sect2>
       <sect2>
-        <title>integer_test, NTEST</title> 
+        <title>integer_test, NTEST</title>
         <para>
           Conditional branching is provided by the various _test
           constructors, one for each primitive SHAPE except BITFIELD. I
@@ -1920,7 +1927,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           different results.</para>
       </sect2>
       <sect2>
-        <title>case</title> 
+        <title>case</title>
         <para>
           There are only two other ways of changing flow of control using
           LABELs. One arises in ERROR_TREATMENTs which will be dealt with
@@ -1953,7 +1960,7 @@ upper:  SIGNED_NAT
           normally.</para>
       </sect2>
       <sect2>
-        <title>conditional, repeat</title> 
+        <title>conditional, repeat</title>
         <para>
           Besides labelled, two other constructors, conditional and repeat,
           introduce LABELs which can be used with the various jump
@@ -2023,7 +2030,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
       </sect2>
     </sect1>
     <sect1>
-      <title>Exceptional flow</title> 
+      <title>Exceptional flow</title>
       <para>
         A further way of changing the flow of control in a TDF program is
         by means of exceptions. TDF exceptions currently arise from three
@@ -2058,7 +2065,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
     </sect1>
   </chapter>
   <chapter>
-    <title>Values, variables and assignments.</title> 
+    <title>Values, variables and assignments.</title>
     <para>
       TAGs in TDF fulfil the role played by identifiers in most programming
       languages. One can apply obtain_tag to find the value bound to the
@@ -2073,7 +2080,7 @@ labelled((<emphasis>repeat_label_intro</emphasis>), sequence((<emphasis>start</e
       value bound to v is a pointer to fixed space in the procedure frame
       (i.e. the left-hand value in C).</para>
     <sect1>
-      <title>contents</title> 
+      <title>contents</title>
       <para>
         In order to get the contents of this space (the right-hand value in
         C), one must apply the contents operator to the pointer:</para>
@@ -2097,7 +2104,7 @@ contents(shape(v), obtain_tag(v))
         structure from a pointer to it.</para>
     </sect1>
     <sect1>
-      <title>assign</title> 
+      <title>assign</title>
       <para>
         A simple assignment in TDF is done using assign:</para>
 <programlisting>
@@ -2120,7 +2127,7 @@ contents(shape(v), obtain_tag(v))
         that if the result of (v = exp) was required, it would probably be
         expressed as:</para>
 <programlisting>
-identify(empty, newtag, exp, 
+identify(empty, newtag, exp,
 sequence((assign(obtain_tag(v), obtain_tag(newtag))), obtain_tag(newtag)))
 </programlisting>
       <para>
@@ -2145,7 +2152,7 @@ assign(obtain_tag(v), lhs).
         page 48).</para>
     </sect1>
     <sect1>
-      <title>TRANSFER_MODE operations</title> 
+      <title>TRANSFER_MODE operations</title>
       <para>
         The TRANSFER_MODE operations allow one to do assignment and
         contents operations with various qualifiers to control how the
@@ -2199,7 +2206,7 @@ assign(obtain_tag(v), lhs).
         move_some.</para>
     </sect1>
     <sect1>
-      <title>Assigning and extracting bitfields</title> 
+      <title>Assigning and extracting bitfields</title>
       <para>
         Since pointers to bits are forbidden, two special operations are
         provided to extract and assign bitfields. These require the use of
@@ -2265,7 +2272,7 @@ assign(obtain_tag(v), lhs).
     </sect1>
   </chapter>
   <chapter>
-    <title>Operations</title> 
+    <title>Operations</title>
     <para>
       Most of the arithmetic operations of TDF have familiar analogues in
       standard languages and processors. They differ principally in how
@@ -2276,7 +2283,7 @@ assign(obtain_tag(v), lhs).
       processors. Before delving into the details of error handling, it is
       worthwhile revisiting the SHAPEs and ranges in arithmetic VARIETYs.</para>
     <sect1>
-      <title>VARIETY and overflow</title> 
+      <title>VARIETY and overflow</title>
       <para>
         An INTEGER VARIETY, for example, is defined by some range of signed
         natural numbers. A translator will fit this range into some
@@ -2317,7 +2324,7 @@ assign(obtain_tag(v), lhs).
         either to ignore it , to allow one to jump to a label , or to obey
         a TDF exception handler if it happens.</para>
       <sect2>
-        <title>ERROR_TREATMENT</title> 
+        <title>ERROR_TREATMENT</title>
         <para>
           Taking integer addition as an example, plus has signature:</para>
 <programlisting>
@@ -2359,7 +2366,7 @@ assign(obtain_tag(v), lhs).
       </sect2>
     </sect1>
     <sect1>
-      <title>Division and remainder</title> 
+      <title>Division and remainder</title>
       <para>
         The various constructors in involving integer division (e.g. div1,
         rem1) have two ERROR_TREATMENT parameters, one for overflow and one
@@ -2389,7 +2396,7 @@ assign(obtain_tag(v), lhs).
         operations is given in (S7.4).</para>
     </sect1>
     <sect1>
-      <title>change_variety</title> 
+      <title>change_variety</title>
       <para>
         Conversions between the various INTEGER varieties are provided for
         by change_variety:</para>
@@ -2405,7 +2412,7 @@ assign(obtain_tag(v), lhs).
         ERROR_TREATMENT <emphasis>ov_err</emphasis> will be invoked.</para>
     </sect1>
     <sect1>
-      <title>and, or, not, xor</title> 
+      <title>and, or, not, xor</title>
       <para>
         The standard logical operations, and, not, or and xor are provided
         for all integer varieties. Since integer varieties are defined to
@@ -2413,7 +2420,7 @@ assign(obtain_tag(v), lhs).
         are well defined.</para>
     </sect1>
     <sect1>
-      <title>Floating-point operations, ROUNDING_MODE</title> 
+      <title>Floating-point operations, ROUNDING_MODE</title>
       <para>
         All of the floating-point (including complex) operations include
         ERROR-TREATMENTs. If the result of a floating-point operation
@@ -2440,7 +2447,7 @@ assign(obtain_tag(v), lhs).
         excluded (eg floating_abs, floating_max etc.)</para>
     </sect1>
     <sect1>
-      <title>change_bitfield_to_int, change_int_to_bitfield</title> 
+      <title>change_bitfield_to_int, change_int_to_bitfield</title>
       <para>
         There are two bit-field operation, change_bitfield_to_int and
         change_int_to_bitfield to transform between bit-fields and
@@ -2448,7 +2455,7 @@ assign(obtain_tag(v), lhs).
         producer can always get it right.</para>
     </sect1>
     <sect1>
-      <title>make_compound, make_nof, n_copies</title> 
+      <title>make_compound, make_nof, n_copies</title>
       <para>
         There is one operation to make values of COMPOUND SHAPE,
         make_compound:</para>
@@ -2475,7 +2482,7 @@ assign(obtain_tag(v), lhs).
     </sect1>
   </chapter>
   <chapter>
-    <title>Constants</title> 
+    <title>Constants</title>
     <para>
       The representation of constants clearly has peculiar difficulties in
       any architecture neutral format. Leaving aside any problems of how
@@ -2513,7 +2520,7 @@ assign(obtain_tag(v), lhs).
       of initialisations of globals that are permissible in C; for a more
       precise definition, see (S7.3).</para>
     <sect1>
-      <title>_cond constructors</title> 
+      <title>_cond constructors</title>
       <para>
         Another place where translate-time evaluation of constants is
         mandated is in the various _cond constructors which give a kind of
@@ -2540,7 +2547,7 @@ assign(obtain_tag(v), lhs).
 </programlisting>
     </sect1>
     <sect1>
-      <title>Primitive constant constructors</title> 
+      <title>Primitive constant constructors</title>
       <para>
         Integer constants are constructed using make_int:</para>
 <programlisting>
@@ -2613,7 +2620,7 @@ assign(obtain_tag(v), lhs).
     </sect1>
   </chapter>
   <chapter>
-    <title>Tokens and APIs</title> 
+    <title>Tokens and APIs</title>
     <para>
       All of the examples of the use of TOKENs so far given have really
       been as abbreviations for commonly used constructs, e.g. the EXP
@@ -2621,7 +2628,7 @@ assign(obtain_tag(v), lhs).
       TOKENs are their use as abstractions for things defined in libraries
       or application program interfaces (APIs).</para>
     <sect1>
-      <title>Application programming interfaces</title> 
+      <title>Application programming interfaces</title>
       <para>
         APIs usually do not give complete language definitions of the
         operations and values that they contain; generally, they are
@@ -2682,14 +2689,14 @@ shape_apply_token(make_tok(T_FILE), ())
         flexibility across different platforms.</para>
     </sect1>
     <sect1>
-      <title>Linking to APIs</title> 
+      <title>Linking to APIs</title>
       <para>
         In general, each API requires platform-dependent definitions to be
         supplied by a combination of TDF linking and system linking for
         that platform. This is illustrated in the following diagram giving
         the various phases involved in producing a runnable program.</para>
       <figure id="compile-phase">
-        <title>Compile Phase</title> 
+        <title>Compile Phase</title>
         <mediaobject>
           <imageobject>
             <imagedata fileref="guide3" scale="100" format="PNG">
@@ -2707,7 +2714,7 @@ shape_apply_token(make_tok(T_FILE), ())
         definitions for the TOKENs for putc, stdin, etc., in terms of
         identifiers which will be found in the library libc.a.</para>
       <sect2>
-        <title>Target independent headers, unique_extern</title> 
+        <title>Target independent headers, unique_extern</title>
         <para>
           Any producer which uses an API will use system independent
           information to give the common interface TOKENs for this API. In
@@ -2750,7 +2757,7 @@ shape_apply_token(make_tok(T_FILE), ())
       </sect2>
     </sect1>
     <sect1>
-      <title>Language programming interfaces</title> 
+      <title>Language programming interfaces</title>
       <para>
         So far, I have been speaking as though a TOKENised API could only
         be some library interface, built on top of some language, like
@@ -2800,7 +2807,7 @@ shape_apply_token(make_tok(T_FILE), ())
     </sect1>
   </chapter>
   <chapter>
-    <title>TDF transformations</title> 
+    <title>TDF transformations</title>
     <para>
       TDF to TDF transformations form the basis of most of the tools of
       TDF, including translators. TDF has a rich set of easily performed
@@ -2848,7 +2855,7 @@ identify(empty, new_tag, e1, assign(obtain_tag(new_tag), e2))
       construction, F(X), say, where X is some inner EXP, can be replaced
       by:</para>
 <programlisting>
-identify(empty, new_tag, X, F(obtain_tag(new_tag))). 
+identify(empty, new_tag, X, F(obtain_tag(new_tag))).
 </programlisting>
     <para>
       This includes the extraction of expressions which are constant over a
@@ -2866,7 +2873,7 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
       transformations can be profitably done in terms of the TOKENs of an
       LPI; loop unrolling is an obvious example.</para>
     <sect1>
-      <title>Transformations as definitions</title> 
+      <title>Transformations as definitions</title>
       <para>
         As well being a vehicle for expressing optimisation, TDF
         transformations can be used as the basis for defining TDF. In
@@ -2975,7 +2982,7 @@ If F is any non order-specifying
         D<emphasis>n</emphasis>), E<emphasis>n</emphasis>) ), contents(S,
         obtain_tag(nt)) ) )</para>
       <sect2>
-        <title>Examples of transformations</title> 
+        <title>Examples of transformations</title>
         <para>
           Any of these transformations may be performed by the TDF
           translators. The most important is probably {A} which allows one
@@ -2987,13 +2994,13 @@ If F is any non order-specifying
           evaluation of operands. For example, mult(et, exp1, exp2) could
           be expanded by applications of {A} to either:</para>
 <programlisting>
-identify(empty, t1, exp1, 
+identify(empty, t1, exp1,
 identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))) )
 </programlisting>
         <para>
           or:</para>
 <programlisting>
-identify(empty, t2, exp2, 
+identify(empty, t2, exp2,
 identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))) )
 </programlisting>
         <para>
@@ -3019,8 +3026,8 @@ identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))) )
           In-lining such a procedure by {U} would have a form like:</para>
 <programlisting>
 variable(empty, nt, make_shape(TOP),
-labelled( (L), 
-... sequence((assign(obtain_tag(nt), make_top())), 
+labelled( (L),
+... sequence((assign(obtain_tag(nt), make_top())),
 goto(L)) ...
 contents(TOP, obtain_tag(nt))
 )
@@ -3030,7 +3037,7 @@ contents(TOP, obtain_tag(nt))
           The rules {V}, {W} and {X} allow this to be replaced by:</para>
 <programlisting>
 variable(empty, nt, make_top(),
-labelled( (L), 
+labelled( (L),
 ... sequence((obtain_tag(nt)), goto(L)) ...
 sequence((obtain_tag(nt)), make_top())
 )
@@ -3041,14 +3048,14 @@ sequence((obtain_tag(nt)), make_top())
           sequences by {F}. Sucessive applications of {C} and {B} then
           give:</para>
 <programlisting>
-labelled( (L), 
+labelled( (L),
 ... goto(L) ...
 make_top()
 )
 </programlisting>
       </sect2>
       <sect2>
-        <title>Programs with undefined values</title> 
+        <title>Programs with undefined values</title>
         <para>
           The definitions of most of the constructors in the TDF
           specification are predicated by some conditions; if these
@@ -3063,7 +3070,7 @@ make_top()
     </sect1>
   </chapter>
   <chapter>
-    <title>TDF expansions of offsets</title> 
+    <title>TDF expansions of offsets</title>
     <para>
       Consider the C structure defined by:</para>
 <programlisting>
@@ -3074,7 +3081,7 @@ make_top()
       and double, the SHAPE of <emphasis>mystruct</emphasis> is constructed
       by:</para>
 <programlisting>
-SH_mystruct = compound(S_c) 
+SH_mystruct = compound(S_c)
 where:
 S_c = offset_add(O_c, shape_offset(sh_char))
 where:
@@ -3101,7 +3108,7 @@ mystruct s;
       would translate to something like:</para>
 <programlisting>
 variable(empty, tag_s, make_value(compound(S_c)),
-sequence( ... 
+sequence( ...
 assign(add_to_ptr(obtain_tag(tag_s), O_d), 1.0)
 ...
 )
@@ -3154,7 +3161,7 @@ offset_pad(alignment(SH_mystruct), S_c)
       padding the offsets by later alignments or taking maxima of the sizes
       of the fields.</para>
     <sect1>
-      <title>Bitfield offsets</title> 
+      <title>Bitfield offsets</title>
       <para>
         Bitfield offsets are governed by rather stricter rules. In order to
         extract or assign a bitfield, we have to find an integer variety
@@ -3225,7 +3232,7 @@ offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
 <emphasis>n</emphasis>:   NAT
 <emphasis>issigned</emphasis>:    BOOL
 <emphasis>sh</emphasis>:  SHAPE
--&gt; EXP OFFSET(alignment(<emphasis>sh</emphasis>) xc8  A, bfvar_bits(<emphasis>issigned</emphasis>, 
+-&gt; EXP OFFSET(alignment(<emphasis>sh</emphasis>) xc8  A, bfvar_bits(<emphasis>issigned</emphasis>,
 <emphasis>n</emphasis>))
 </programlisting>
       <para>
@@ -3277,7 +3284,7 @@ offset_add(~Bitfield_offset_pad(M, b, S), size(bitfield(bfvar_bits(b, N))) )
     </sect1>
   </chapter>
   <chapter>
-    <title>Models of the TDF algebra</title> 
+    <title>Models of the TDF algebra</title>
     <para>
       TDF is a multi-sorted abstract algebra. Any implementation of TDF is
       a model of this algebra, formed by a mapping of the algebra into a
@@ -3320,7 +3327,7 @@ REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(
       more or less standard meaning to ALIGNMENTs but the second may be
       less familiar.</para>
     <sect1>
-      <title>Model for a 32-bit standard architecture</title> 
+      <title>Model for a 32-bit standard architecture</title>
       <para>
         Almost all current architectures use a "flat-store" model of
         memory. There is no enforced segregation of one kind of data from
@@ -3330,7 +3337,7 @@ REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(
         objects - usually one finds that 32-bit integers are most
         efficiently accessed if they start at 32 bit boundaries and so on.</para>
       <sect2>
-        <title>Alignment model</title> 
+        <title>Alignment model</title>
         <para>
           The representation of ALIGNMENT in a typical standard
           architecture is a single integer where:</para>
@@ -3365,7 +3372,7 @@ REPR[ A ... B ]= REPR[ A ] xb3  REPR[ B }
           associative, which is true for Max.</para>
       </sect2>
       <sect2>
-        <title>Offset and pointer model</title> 
+        <title>Offset and pointer model</title>
         <para>
           Most standard architectures use byte addressing; to address bits
           requires more complication. Hence, a value with SHAPE POINTER(A)
@@ -3383,7 +3390,7 @@ REPR[ A ... B ]= REPR[ A ] xb3  REPR[ B }
           by a 32-bit <emphasis>bit</emphasis>-offset.</para>
       </sect2>
       <sect2>
-        <title>Size model</title> 
+        <title>Size model</title>
         <para>
           In principle, the representation of a SHAPE is a pair of an
           ALIGNMENT and a size, given by shape_offset applied to the SHAPE.
@@ -3409,14 +3416,14 @@ alignment(S), shape_offset(S)) ]
 <programlisting>
 REPR [ offset_zero(A) ] = 0             for all A
 
-REPR[offset_pad(A, X:OFFSET(C,D)) 
+REPR[offset_pad(A, X:OFFSET(C,D))
 = ((REPR[X] + REPR[A]-1)/(REPR[A]))*REPR[A]/8
   if REPR[A] xb9  1 xd9  REPR[D ] =1
 Otherwise :
-REPR[offset_pad(A, X:OFFSET(C,D)) 
+REPR[offset_pad(A, X:OFFSET(C,D))
   = ((REPR[X] + REPR[A]-1)/(REPR[A]))*REPR[A]
 
-REPR[ offset_add(X:OFFSET(A,B), Y:OFFSET(C,D) )] 
+REPR[ offset_add(X:OFFSET(A,B), Y:OFFSET(C,D) )]
   = REPR[ X ] *8+ REPR[ Y ]
   if REPR[B] xb9 1 xd9  REPR[D ] =1
 Otherwise:
@@ -3444,7 +3451,7 @@ REPR[offset_mult(X, E) ] = REPR[ X ] * REPR[ E ]
       </sect2>
     </sect1>
     <sect1>
-      <title>Model for machines like the iAPX-432</title> 
+      <title>Model for machines like the iAPX-432</title>
       <para>
         The iAPX-432 does not have a linear model of store. The address of
         a word in store is a pair consisting of a block-address and a
@@ -3462,7 +3469,7 @@ REPR[offset_mult(X, E) ] = REPR[ X ] * REPR[ E ]
         instruction blocks are just scalar blocks and that block addresses
         are aligned on 32-bit boundaries.</para>
       <sect2>
-        <title>Alignment model</title> 
+        <title>Alignment model</title>
         <para>
           An ALIGNMENT is represented by a pair consisting of an integer,
           giving the natural alignments for scalar data, and boolean to
@@ -3492,7 +3499,7 @@ REPR[ A ... B ] = (REPR[ A ].s xb3  REPR[ B ].s) xd9  (REPR[ A ].b xda  &yuml; R
 </programlisting>
       </sect2>
       <sect2>
-        <title>Offset and pointer model</title> 
+        <title>Offset and pointer model</title>
         <para>
           A value with SHAPE POINTER A where &yuml; REPR[ A ].b is
           represented by a pair consisting of a block-address of a scalar
@@ -3524,7 +3531,7 @@ sd: scalar_displacement, ad: address_displacement )
 </programlisting>
       </sect2>
       <sect2>
-        <title>Size model</title> 
+        <title>Size model</title>
         <para>
           The sizes given by shape_offset are now:</para>
 <programlisting>
@@ -3534,13 +3541,13 @@ REPR[ shape_offset(pointer(A)) ] = ( REPR[ A ].b ) ? (sd: 64, ad: 64) : (sd: 32,
 REPR[ shape_offset(offset(A, B)) ] = (REPR[ A ].b) ? 64 : 32)
 REPR[ shape_offset(proc) ] = (sd: 32, ad: 32)
 REPR[ shape_offset(compound(E)) ] = REPR[ E ]
-REPR[ shape_offset(nof(N, S)) ] 
+REPR[ shape_offset(nof(N, S)) ]
 = N* REPR[ offset_pad(alignment(S)), shape_offset(S)) ]
 REPR[ shape_offset(top) ] = 0
 </programlisting>
       </sect2>
       <sect2>
-        <title>Offset arithmetic</title> 
+        <title>Offset arithmetic</title>
         <para>
           The other OFFSET constructors are given by:</para>
 <programlisting>
@@ -3564,11 +3571,11 @@ if REPR[ C ].b
 REPR[ offset_pad(A, Y: OFFSET(C, D)) ]
 = ( sd: (REPR[Y]+REPR[A].s-1)/REPR[A].s, ad: 0)
 if REPR[ A ].b xd9  &yuml; REPR[ C ].b
-REPR[ offset_max(X: OFFSET(A,B), Y: OFFSET(C, D)) ] 
+REPR[ offset_max(X: OFFSET(A,B), Y: OFFSET(C, D)) ]
 = Max(REPR[ X ], REPR[ Y ])
 if &yuml; REPR[ A ].b xd9  &yuml; REPR[ C ].b
 REPR[ offset_max(X: OFFSET(A,B), Y: OFFSET(C, D)) ]
-= ( sd: Max(REPR[ X ].sd, REPR[ Y ].sd), 
+= ( sd: Max(REPR[ X ].sd, REPR[ Y ].sd),
 ad: Max(REPR[ X ].a, REPR[ Y ].ad) )
 if REPR[ A ].b xd9  REPR[ C ].b
 REPR[ offset_max(X: OFFSET(A,B), Y: OFFSET(C, D)) ]
@@ -3578,7 +3585,7 @@ REPR[ offset_max(X: OFFSET(A,B), Y: OFFSET(C, D)) ]
 = ( sd: Max(REPR[Y ].sd, REPR[ X]), ad: REPR[Y ].ad )
 if REPR[C ].b xd9  &yuml; REPR[ A ].b
 
-REPR[ offset_subtract(X: OFFSET(A,B), Y: OFFSET(C, D)) ] 
+REPR[ offset_subtract(X: OFFSET(A,B), Y: OFFSET(C, D)) ]
 = REPR[ X ]- REPR[ Y ]
 if &yuml; REPR[ A ].b xd9  &yuml; REPR[ C ].b
 REPR[ offset_subtract(X: OFFSET(A,B), Y: OFFSET(C, D)) ]

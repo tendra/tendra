@@ -3,847 +3,1312 @@
 <book>
   <bookinfo>
     <title>TDF Token Register</title>
+
     <pubdate>$TenDRA$</pubdate>
+
     <corpauthor>The TenDRA Documentation Team</corpauthor>
+
     <copyright>
       <year>2002</year>
+
+      <year>2003</year>
+
       <holder>TenDRA Documentation Team</holder>
     </copyright>
+
     <copyright>
       <year>1997</year>
+
       <year>1998</year>
+      
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
+
     <abstract>
       <para>Please email us at <email>docs@tendra.org</email> if you see any errors</para>
+
     </abstract>
   </bookinfo>
 
-<preface>
-<title>Introduction</title>
+  <preface>
+    <title>Introduction</title>
 
-<simplesect>
-<title>Background</title>
+    <simplesect>
+      <title>Background</title>
 
-<para>TDF is an interface used for architecture neutral and programming language neutral representation of program. It is used both within portable language specific compilation systems, and for architecture neutral distribution of compiled programs. For full details see -XREF-spec1.htmlTDF Specification, Issue 4.0 (Revision 1).</para>
+      <para>TDF is an interface used for architecture neutral and programming
+        language neutral representation of program. It is used both within
+        portable language specific compilation systems, and for architecture
+        neutral distribution of compiled programs. For full details see
+        -XREF-spec1.htmlTDF Specification, Issue 4.0 (Revision 1).</para>
 
-<para>TDF tokens offer a general encapsulation and expansion mechanism which allows any implementation detail to be delayed to the most appropriate stage of program translation. This provides a means for encapsulating any target dependencies in a neutral form, with specific implementations defined through standard TDF features. This raises a natural opportunity for well understood sets of TDF tokens to be included along with TDF itself as interface between TDF tools.</para>
+      <para>TDF tokens offer a general encapsulation and expansion mechanism
+        which allows any implementation detail to be delayed to the most
+        appropriate stage of program translation. This provides a means for
+        encapsulating any target dependencies in a neutral form, with specific
+        implementations defined through standard TDF features. This raises a
+        natural opportunity for well understood sets of TDF tokens to be
+        included along with TDF itself as interface between TDF tools.</para>
+      
+      <para>This first revision includes additional tokens for accessing
+        variable parameter lists (see -XREF-#S17section 5.3), and a C mapping
+        token to support the optional type <emphasis>long long
+        int</emphasis>.</para>
+    </simplesect>
+  
+    <simplesect>
+      <title>Token Register Objectives</title>
+      
+      <para>As TDF tokens may be used to represent any piece of TDF, they may be
+        used to supplement any TDF interface between software tools. However,
+        that raises the issue of control authority for such an interface. In
+        many cases, the interfaces may be considered to `belong' to a particular
+        tool.  In other cases, the names and specifications of tokens need to be
+        recorded for common use.</para>
+      
+      <para>This token register is used to record the names and specifications
+        of tokens which may need to be assumed by more than one software tool.
+        It also defines a naming scheme which should be used consistently to
+        avoid ambiguity between tokens.</para>
+      
+      <para>Five classes of tokens are identified:</para>
+      
+      <orderedlist>
+        <listitem>
+          <para>target dependency tokens, which are concerned with describing
+            target architecture or translator detail;</para>
+        </listitem>
 
-<para>This first revision includes additional tokens for accessing variable parameter lists (see -XREF-#S17section 5.3), and a C mapping token to support the optional type <emphasis>long long int</emphasis>.</para>
+        <listitem>
+          <para>basic mapping tokens, which relate general language features to
+            architecture detail;</para>
+        </listitem>
 
-</simplesect>
+        <listitem>
+          <para>TDF interface tokens, which may be required to complete the
+            specification of some TDF constructs;</para>
+        </listitem>
 
-<simplesect>
-<title>Token Register Objectives</title>
+        <listitem>
+          <para>language programming interfaces (LPI) which may be specific to a
+            particular producer;</para>
+        </listitem>
 
-<para>As TDF tokens may be used to represent any piece of TDF, they may be used to supplement any TDF interface between software tools. However, that raises the issue of control authority for such an interface. In many cases, the interfaces may be considered to `belong' to a particular tool. In other cases, the names and specifications of tokens need to be recorded for common use.</para>
+        <listitem>
+          <para>application programming interfaces (API).</para>
+        </listitem>
+      </orderedlist>
+      
+      <para>These classes are discussed separately, in sections -XREF-#S63 to
+        -XREF-#S217 below.</para>
+    </simplesect>
+  </preface>
+  
+  <chapter>
+    <title>Naming scheme</title>
+    
+    <para>A flat name space will suffice for TDF token names if producer
+      writers adopt the simple constraints described here. TDF has separate
+      provision for a hierarchic unique naming scheme, but that was intended
+      for a specific purpose that has not yet been realised.</para>
+    
+    <para>External names for program or application specific tokens should be
+      confined to `simple names', which we define to mean that they consist
+      only of letters, digits and underscore, the characters allowed in C
+      identifiers. Normally there will be very few such external names, as
+      tokens internal to a single capsule do not require to be named. All
+      other token names will consist of some controlled prefix followed by a
+      simple name, with the prefix identifying the control authority.</para>
+    
+    <para>For API tokens, the prefix will consist of a sequence of simple
+      names, each followed by a dot, where the first simple name is the name
+      of the API as listed or referred to in section -XREF-#S217.</para>
+    
+    <para>The prefix for producer specific and target dependency tokens will
+      begin and end with characters that distinguish them from the above
+      cases.  However, common tools such as DISP, TNC and PL-TDF assume that
+      token names contain only letters, digits, underscore, dot, and/or
+      twiddle.</para>
+    
+    <para>The following prefixes are currently reserved:</para>
+    
+    <simplelist type='horiz' columns='2'>
+      <member><literal>~</literal></member>
+  
+      <member>TDF interface tokens as specified in section -XREF-#S145 below, and also LPI tokens specific to DRA's C producer.</member>
+  
+      <member><literal>.~</literal></member>
+      
+      <member>Registered target dependency tokens as specified in section -XREF-#S63 below, and basic mapping tokens specified in section -XREF-#S114.</member>
 
-<para>This token register is used to record the names and specifications of tokens which may need to be assumed by more than one software tool. It also defines a naming scheme which should be used consistently to avoid ambiguity between tokens.</para>
+      <member><literal>~cpp.</literal></member>
 
-<para>Five classes of tokens are identified:</para>
+      <member>LPI tokens specific to DRA's C++ producer, other than those it shares with the C producer.</member>
 
-<orderedlist>
-<listitem>
-<para>target dependency tokens, which are concerned with describing target architecture or translator detail;</para>
-</listitem>
-<listitem>
-<para>basic mapping tokens, which relate general language features to architecture detail;</para>
-</listitem>
-<listitem>
-<para>TDF interface tokens, which may be required to complete the specification of some TDF constructs;</para>
-</listitem>
-<listitem>
-<para>language programming interfaces (LPI) which may be specific to a particular producer;</para>
-</listitem>
-<listitem>
-<para>application programming interfaces (API).</para>
-</listitem>
-</orderedlist>
+      <member>.Et~</member>
 
-<para>These classes are discussed separately, in sections -XREF-#S63 to -XREF-#S217 below.</para>
-</preface>
-
-<chapter>
-<title>Naming scheme</title>
-
-<para>A flat name space will suffice for TDF token names if producer writers adopt the simple constraints described here. TDF has separate provision for a hierarchic unique naming scheme, but that was intended for a specific purpose that has not yet been realised.</para>
-
-<para>External names for program or application specific tokens should be confined to `simple names', which we define to mean that they consist only of letters, digits and underscore, the characters allowed in C identifiers. Normally there will be very few such external names, as tokens internal to a single capsule do not require to be named. All other token names will consist of some controlled prefix followed by a simple name, with the prefix identifying the control authority.</para>
-
-<para>For API tokens, the prefix will consist of a sequence of simple names, each followed by a dot, where the first simple name is the name of the API as listed or referred to in section -XREF-#S217.</para>
-
-<para>The prefix for producer specific and target dependency tokens will begin and end with characters that distinguish them from the above cases. However, common tools such as DISP, TNC and PL-TDF assume that token names contain only letters, digits, underscore, dot, and/or twiddle.</para>
-
-<para>The following prefixes are currently reserved:</para>
-
-<simplelist type='horiz' columns='2'>
-<member><literal>~</literal></member>
-<member>TDF interface tokens as specified in section -XREF-#S145 below, and also LPI tokens specific to DRA's C producer.</member>
-<member><literal>.~</literal></member>
-<member>Registered target dependency tokens as specified in section -XREF-#S63 below, and basic mapping tokens specified in section -XREF-#S114.</member>
-<member><literal>~cpp.</literal></member>
-<member>LPI tokens specific to DRA's C++ producer, other than those it shares with the C producer.</member>
-<member>.Et~</member>
-<member>LPI tokens specific to Etnoteam's Fortran77 producer.</member>
-</simplelist>
-
-</chapter>
-
-<chapter>
-<title>Target dependency tokens</title>
-
-<para>Target dependency tokens provide a common interface to simple constructs where the required detail for any specific architecture can be expressed within TDF, but the detail will be architecture specific. Every installer should have associated with it, a capsule containing the installer specific definitions of all the tokens specificed within this section -XREF-#S63.</para>
-
-<para>Some of these tokens provide information about the integer and floating point variety representations supported by an installer, in a form that may be used by TDF analysis tools for architecture specific analysis, or by library generation tools when generating an architecture specific version of a library. Other target dependency tokens provide commonly required conversion routines.</para>
-
-<para>It is recommended that these tokens should not be used directly within application programs. They are designed for use within LPI definitions, which can provide a more appropriate interface for applications.</para>
-
-<sect1>
-<title>Integer variety representations</title>
-
-<para>Since TDF specifies integer representations to be twos-complement, the number of bits required to store an integer variety representation fully specifies that representation. The minimum or maximum signed or unsigned integer that can be represented within any variety representation can easily be determined from the number of bits.</para>
-
-<sect2>
-<title><literal>.~rep_var_width</literal></title>
-
-<programlisting>
+      <member>LPI tokens specific to Etnoteam's Fortran77 producer.</member>
+    </simplelist>
+  </chapter>
+  
+  <chapter>
+    <title>Target dependency tokens</title>
+    
+    <para>Target dependency tokens provide a common interface to simple constructs where the required detail for any specific architecture can be expressed within TDF, but the detail will be architecture specific. Every installer should have associated with it, a capsule containing the installer specific definitions of all the tokens specificed within this section -XREF-#S63.</para>
+    
+    <para>Some of these tokens provide information about the integer and floating point variety representations supported by an installer, in a form that may be used by TDF analysis tools for architecture specific analysis, or by library generation tools when generating an architecture specific version of a library. Other target dependency tokens provide commonly required conversion routines.</para>
+    
+    <para>It is recommended that these tokens should not be used directly within application programs. They are designed for use within LPI definitions, which can provide a more appropriate interface for applications.</para>
+    
+    <sect1>
+      <title>Integer variety representations</title>
+      
+      <para>Since TDF specifies integer representations to be twos-complement, the number of bits required to store an integer variety representation fully specifies that representation. The minimum or maximum signed or unsigned integer that can be represented within any variety representation can easily be determined from the number of bits.</para>
+      
+      <sect2>
+        <title><literal>.~rep_var_width</literal></title>
+        
+        <programlisting>
 <emphasis>w</emphasis>:   NAT
 -&gt; NAT
-</programlisting>
+        </programlisting>
+        
+        <para>If <emphasis>w</emphasis> lies within the range of <literal>VARIETY</literal> sizes supported by the associated installer, <emphasis>rep_var_width</emphasis>(<emphasis>w</emphasis>) will be the number of bits required to store values of <literal>VARIETY</literal> <emphasis>var_width</emphasis>( <emphasis>b</emphasis>,<emphasis>w</emphasis>), for any <literal>BOOL</literal> <emphasis>b</emphasis>.</para>
+        
+        <para>If <emphasis>w</emphasis> is outside the range of
+          <literal>VARIETY</literal> sizes supported by the associated
+          installer, <emphasis>rep_var_width</emphasis>(
+          <emphasis>w</emphasis>) will be 0.</para>
+      </sect2>
 
-<para>If <emphasis>w</emphasis> lies within the range of <literal>VARIETY</literal> sizes supported by the associated installer, <emphasis>rep_var_width</emphasis>(<emphasis>w</emphasis>) will be the number of bits required to store values of <literal>VARIETY</literal> <emphasis>var_width</emphasis>( <emphasis>b</emphasis>,<emphasis>w</emphasis>), for any <literal>BOOL</literal> <emphasis>b</emphasis>.</para>
-
-<para>If <emphasis>w</emphasis> is outside the range of <literal>VARIETY</literal> sizes supported by the associated installer, <emphasis>rep_var_width</emphasis>(<emphasis>w</emphasis>) will be 0.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_atomic_width</literal></title>
-
-<programlisting>
+      <sect2>
+        <title><literal>.~rep_atomic_width</literal></title>
+        
+        <programlisting>
 -&gt; NAT
-</programlisting>
-
-<para><emphasis>.~rep_atomic_width</emphasis> will be the number of bits required to store values of some <literal>VARIETY</literal> <emphasis>v</emphasis> such that <emphasis>assign</emphasis> and <emphasis>assign_with_mode</emphasis> are atomic operations if the value assigned has <literal>SHAPE</literal> <emphasis>integer</emphasis>(<emphasis>v</emphasis>). The TDF specification guarantees existence of such a number.</para>
-
-</sect2>
-</sect1>
-
-<sect1>
-<title>Floating variety representations</title>
-
-<para>Floating point representations are much more diverse than integers, but we may assume that each installer will support a finite set of distinct representations. For convenience in distinguishing between these representations within architecture specific TDF, the set of distinct representations supported by any specific installer are stated to be ordered into a sequence of non-decreasing memory size. An analysis tool can easily count through this sequence to determine the properties of all supported representations, starting at 1 and using <emphasis>.~rep_fv_width</emphasis> to test for the sequence end.</para>
-
-<sect2>
-<title><literal>.~rep_fv</literal></title>
-
-<programlisting>
+        </programlisting>
+        
+        <para><emphasis>.~rep_atomic_width</emphasis> will be the number of
+          bits required to store values of some <literal>VARIETY</literal>
+          <emphasis>v</emphasis> such that <emphasis>assign</emphasis> and
+          <emphasis>assign_with_mode</emphasis> are atomic operations if the
+          value assigned has <literal>SHAPE</literal>
+          <emphasis>integer</emphasis>(<emphasis>v</emphasis>). The TDF
+          specification guarantees existence of such a number.</para>
+      </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>Floating variety representations</title>
+      
+      <para>Floating point representations are much more diverse than
+        integers, but we may assume that each installer will support a finite
+        set of distinct representations. For convenience in distinguishing
+        between these representations within architecture specific TDF, the
+        set of distinct representations supported by any specific installer
+        are stated to be ordered into a sequence of non-decreasing memory
+        size. An analysis tool can easily count through this sequence to
+        determine the properties of all supported representations, starting at
+        1 and using <emphasis>.~rep_fv_width</emphasis> to test for the
+        sequence end.</para>
+      
+      <sect2>
+        <title><literal>.~rep_fv</literal></title>
+        
+        <programlisting>
 <emphasis>n</emphasis>:   NAT
 -&gt; FLOATING_VARIETY
-</programlisting>
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>) will be
+          the <literal>FLOATING_VARIETY</literal> whose representation is the
+          <emphasis>n</emphasis>th of the sequence of supported floating point
+          representations. <emphasis>n</emphasis> will lie within this
+          range.</para>
+      </sect2>
 
-<para><emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>) will be the <literal>FLOATING_VARIETY</literal> whose representation is the <emphasis>n</emphasis>th of the sequence of supported floating point representations. <emphasis>n</emphasis> will lie within this range.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_width</literal></title>
-
-<programlisting>
+      <sect2>
+        <title><literal>.~rep_fv_width</literal></title>
+        
+        <programlisting>
 <emphasis>n</emphasis>:   NAT
 -&gt; NAT
-</programlisting>
+        </programlisting>
+        
+        <para>If <emphasis>n</emphasis> lies within the sequence range of
+          supported floating point representations,
+          <emphasis>.~rep_fv_width</emphasis>(<emphasis>n</emphasis>) will be
+          the number of bits required to store values of
+          <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+        
+        <para>If <emphasis>n</emphasis> is outside the sequence range of
+          supported floating point representations,
+          <emphasis>.~rep_fv_width</emphasis>(<emphasis>n</emphasis>) will be
+          0.</para>
+      </sect2>
 
-<para>If <emphasis>n</emphasis> lies within the sequence range of supported floating point representations, <emphasis>.~rep_fv_width</emphasis>(<emphasis>n</emphasis>) will be the number of bits required to store values of <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
-
-<para>If <emphasis>n</emphasis> is outside the sequence range of supported floating point representations, <emphasis>.~rep_fv_width</emphasis>(<emphasis>n</emphasis>) will be 0.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_radix</literal></title>
-
-<programlisting>
+      <sect2>
+        <title><literal>.~rep_fv_radix</literal></title>
+        
+        <programlisting>
 <emphasis>n</emphasis>:   NAT
 -&gt; NAT
-</programlisting>
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>) will
+          be the radix used in the representation of values of
+          <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+          supported floating point representations.</para>
+      </sect2>
 
-<para><emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>) will be the radix used in the representation of values of <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_mantissa</literal></title>
-
-<programlisting>
+      <sect2>
+        <title><literal>.~rep_fv_mantissa</literal></title>
+      
+        <programlisting>
 <emphasis>n</emphasis>:   NAT
 -&gt; NAT
-</programlisting>
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_mantissa</emphasis>(<emphasis>n</emphasis>)
+          will be the number of base
+          <emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>) digits
+          in the mantissa representation of values of
+          <literal>FLOATING_VARIETY</literal>
+          <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
+      
+      </sect2>
 
-<para><emphasis>.~rep_fv_mantissa</emphasis>(<emphasis>n</emphasis>) will be the number of base <emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>) digits in the mantissa representation of values of <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+      <sect2>
+        <title><literal>.~rep_fv_min_exp</literal></title>
+        
+        <programlisting>
+        <emphasis>n</emphasis>:   NAT
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_min_exp</emphasis>(<emphasis>n</emphasis>)
+        will be the maximum integer <emphasis>m</emphasis> such that
+        (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>-m</emphasis>
+        is exactly representable (though not necessarily normalised) by the
+        <literal>FLOATING_VARIETY</literal>
+        <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+        supported floating point representations.</para>
+        
+      </sect2>
 
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
+      <sect2>
+        <title><literal>.~rep_fv_max_exp</literal></title>
+        
+        <programlisting>
+        <emphasis>n</emphasis>:   NAT
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_max_exp</emphasis>(<emphasis>n</emphasis>)
+        will be the maximum integer <emphasis>m</emphasis> such that
+        (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>m</emphasis>
+        is exactly representable by the <literal>FLOATING_VARIETY</literal>
+        <emphasis>.~rep_fv</emphasis>( <emphasis>n</emphasis>).</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+      supported floating point representations.</para>
+      </sect2>
 
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_min_exp</literal></title>
+      <sect2>
+        <title><literal>.~rep_fv_epsilon</literal></title>
+        
+        <programlisting>
+        <emphasis>n</emphasis>:   NAT
+        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_epsilon</emphasis>(<emphasis>n</emphasis>)
+        will be the smallest strictly positive real <emphasis>x</emphasis>
+        such that (1.0 + <emphasis>x</emphasis>) is exactly representable by
+        the <literal>FLOATING_VARIETY</literal>
+        <emphasis>.~rep_fv(n)</emphasis>.</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
+      </sect2>
 
-<programlisting>
-<emphasis>n</emphasis>:   NAT
+      <sect2>
+        <title><literal>.~rep_fv_min_val</literal></title>
+        
+        <programlisting>
+        <emphasis>n</emphasis>:   NAT
+        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_min_val</emphasis>(<emphasis>n</emphasis>)
+        will be the smallest strictly positive real number that is exactly
+        representable (though not necessarily normalised)) by the
+        <literal>FLOATING_VARIETY</literal>
+        <emphasis>.~rep_fv(n)</emphasis>.</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~rep_fv_max_val</literal></title>
+        
+        <programlisting>
+        <emphasis>n</emphasis>:   NAT
+        -&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~rep_fv_max_val</emphasis>(<emphasis>n</emphasis>)
+        will be the largest real number that is exactly representable by the
+        <literal>FLOATING_VARIETY</literal>
+        <emphasis>.~rep_fv(n)</emphasis>.</para>
+        
+        <para><emphasis>n</emphasis> will lie within the sequence range of
+      supported floating point representations.</para>
+      
+      </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>Non-numeric representations</title>
+      
+      <para> </para>
+      
+      <sect2>
+      <title><literal>.~ptr_width</literal></title>
+      
+      <programlisting>
+      -&gt; NAT
+      </programlisting>
+      
+      <para><emphasis>.~ptr_width</emphasis> will be the minimum
+    <emphasis>.~rep_var_width</emphasis>(<emphasis>w</emphasis>) for any
+    <emphasis>w</emphasis> such that any pointer to any alignment may be
+    converted to an integer of <literal>VARIETY</literal>
+    <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,<emphasis>w</emphasis>),
+    for some <literal>BOOL</literal> <emphasis>b</emphasis>, and back again
+    without loss of information, using the conversions
+    <emphasis>.~ptr_to_int</emphasis> and <emphasis>.~int_to_ptr</emphasis>
+    (q.v.).</para>
+    
+    </sect2>
+
+    <sect2>
+      <title><literal>.~best_div</literal></title>
+      
+      <programlisting>
+      -&gt; NAT
+      </programlisting>
+      
+      <para><emphasis>.~best_div</emphasis> is 1 or 2 to indicate preference
+    for class 1 or class 2 division and modulus (as defined in the TDF
+    Specification). This token would be used in situations where either class
+    is valid but must be used consistently.</para>
+    
+    </sect2>
+
+    <sect2>
+      <title><literal>.~little_endian</literal></title>
+      
+      <programlisting>
+      -&gt; BOOL
+      </programlisting>
+      
+      <para><emphasis>.~little_endian</emphasis> is a property of the
+      relationship between different variety representations and arrays. If an
+      array of a smaller variety can be mapped onto a larger variety, and
+      <emphasis>.~little_endian</emphasis> is true, then smaller indices of
+      the smaller variety array map onto smaller ranges of the larger variety.
+      If <emphasis>.~little_endian</emphasis> is false, no such assertion can
+      be made.</para>
+      
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Common conversion routines</title>
+      
+      <para>This subsection contains a set of conversion routines between
+      values of different shapes, that are not required to have any specific
+      meaning apart from reversability. If the storage space requirements for
+      the two shapes are identical, the conversion can usually be achieved
+      without change of representation. When that is the case, and if the two
+      shapes can be stored at a common alignment, the conversion can simply be
+      achieved by assignment via a common union, which will ensure the
+      required alignment consistency.</para>
+      
+      <sect2>
+        <title><literal>.~ptr_to_ptr</literal></title>
+        
+        <programlisting>
+        <emphasis>a1</emphasis>:  ALIGNMENT
+        <emphasis>a2</emphasis>:  ALIGNMENT
+        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a1</emphasis>)
+        -&gt; EXP POINTER(<emphasis>a2</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~ptr_to_ptr</emphasis> converts pointers from one pointer shape to another.</para>
+        
+        <para>If <emphasis>p</emphasis> is any pointer with alignment
+      <emphasis>a1</emphasis>, then <emphasis>.~ptr_to_ptr</emphasis>
+      (<emphasis>a2</emphasis>, <emphasis>a1</emphasis>,
+      <emphasis>.~ptr_to_ptr</emphasis>(<emphasis>a1</emphasis>,
+      <emphasis>a2</emphasis>, <emphasis>p</emphasis>)) shall result in the
+      same pointer <emphasis>p</emphasis>, provided that the number of bits
+      required to store a pointer with alignment <emphasis>a2</emphasis> is
+      not less than that required to store a pointer with alignment
+      <emphasis>a1</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~ptr_to_int</literal></title>
+        
+        <programlisting>
+        <emphasis>a</emphasis>:   ALIGNMENT
+        <emphasis>v</emphasis>:   VARIETY
+        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
+        -&gt; EXP INTEGER(<emphasis>v</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~ptr_to_int</emphasis> converts a pointer to an
+      integer. The result is undefined if the <literal>VARIETY</literal> v is
+      insufficient to distinguish between all possible distinct pointers
+      <emphasis>p</emphasis> of alignment <emphasis>a</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~int_to_ptr</literal></title>
+        
+        <programlisting>
+        <emphasis>v</emphasis>:   VARIETY
+        <emphasis>a</emphasis>:   ALIGNMENT
+        <emphasis>i</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
+        -&gt; EXP POINTER(<emphasis>a</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~int_to_ptr</emphasis> converts an integer to a
+        pointer. The result is undefined unless the integer i was obtained
+        without modification from some pointer using
+        <emphasis>.~ptr_to_int</emphasis> with the same variety and alignment
+        arguments.</para>
+        
+        <para>If <emphasis>p</emphasis> is any pointer with alignment
+      <emphasis>a</emphasis>, and <emphasis>v</emphasis> is
+      <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,
+      <emphasis>.~ptr_width</emphasis>) for some <literal>BOOL</literal>
+      <emphasis>b</emphasis>, then
+      <emphasis>.~int_to_ptr</emphasis>(<emphasis>v</emphasis>,
+      <emphasis>a</emphasis>, <emphasis>.~ptr_to_int</emphasis>
+      (<emphasis>a</emphasis>, <emphasis>v</emphasis>,
+      <emphasis>p</emphasis>)) shall result in the same pointer
+      <emphasis>p</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title>
+        <literal>.~f_to_ptr</literal></title>
+        
+        <programlisting>
+        <emphasis>a</emphasis>:   ALIGNMENT
+        <emphasis>fn</emphasis>:  EXP PROC
+        -&gt; EXP POINTER(<emphasis>a</emphasis>)
+        </programlisting>
+        
+        <para><emphasis>.~f_to_ptr</emphasis> converts a procedure to a
+      pointer. The result is undefined except as required for consistency with
+      <emphasis>.~ptr_to_f</emphasis>.</para>
+      </sect2>
+
+      <sect2>
+        <title><literal>.~ptr_to_f</literal></title>
+        
+        <programlisting>
+        <emphasis>a</emphasis>:   ALIGNMENT
+        <emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
+        -&gt; EXP PROC
+        </programlisting>
+        
+        <para><emphasis>.~ptr_to_f</emphasis> converts a pointer to a procedure. The result is undefined unless the pointer p was obtained without modification from some procedure <emphasis>f</emphasis> using <emphasis>.~f_to_ptr</emphasis>(<emphasis>a</emphasis>, <emphasis>f</emphasis>). The same procedure <emphasis>f</emphasis> is delivered.</para>
+      </sect2>
+    </sect1>
+  </chapter>
+  
+  <chapter>
+    <title>Basic mapping tokens</title>
+    
+    <para>Basic mapping tokens provide target specific detail for specific
+    language features that are defined to be target dependent. This detail
+    need not be fixed for a particular target architecture, but needs to
+    provide compatibility with any external library with which an application
+    program is to be linked.</para>
+    
+    <para>Tokens specific to the C and Fortran language families are included.
+    Like the target dependency tokens, it is again recommended that these
+    tokens should not be used directly within application programs. They are
+    designed for use within LPI definitions, which can provide a more
+    appropriate interface for applications.</para>
+    
+    <para>Every operating system variant of an installer should have
+    associated with it, a capsule containing the definitions of all the tokens
+    specificed within this section -XREF-#S114.</para>
+    
+    <sect1>
+      <title>C mapping tokens</title>
+      
+      <sect2>
+        <title><literal>.~char_width</literal></title>
+        
+        <programlisting>
 -&gt; NAT
-</programlisting>
+        </programlisting>
+        
+        <para><emphasis>.~char_width</emphasis> is the number of bits required
+      to store values of the representation <literal>VARIETY</literal> that
+      corresponds to the C type <emphasis>char</emphasis>.</para>
+      
+      </sect2>
 
-<para><emphasis>.~rep_fv_min_exp</emphasis>(<emphasis>n</emphasis>) will be the maximum integer <emphasis>m</emphasis> such that (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>-m</emphasis> is exactly representable (though not necessarily normalised) by the <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>(<emphasis>n</emphasis>).</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_max_exp</literal></title>
-
-<programlisting>
-<emphasis>n</emphasis>:   NAT
+      <sect2>
+        <title><literal>.~short_width</literal></title>
+      
+        <programlisting>
 -&gt; NAT
-</programlisting>
-
-<para><emphasis>.~rep_fv_max_exp</emphasis>(<emphasis>n</emphasis>) will be the maximum integer <emphasis>m</emphasis> such that (<emphasis>.~rep_fv_radix</emphasis>(<emphasis>n</emphasis>))<emphasis>m</emphasis> is exactly representable by the <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv</emphasis>( <emphasis>n</emphasis>).</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_epsilon</literal></title>
-
-<programlisting>
-<emphasis>n</emphasis>:   NAT
--&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
-</programlisting>
-
-<para><emphasis>.~rep_fv_epsilon</emphasis>(<emphasis>n</emphasis>) will be the smallest strictly positive real <emphasis>x</emphasis> such that (1.0 + <emphasis>x</emphasis>) is exactly representable by the <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv(n)</emphasis>.</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_min_val</literal></title>
-
-<programlisting>
-<emphasis>n</emphasis>:   NAT
--&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
-</programlisting>
-
-<para><emphasis>.~rep_fv_min_val</emphasis>(<emphasis>n</emphasis>) will be the smallest strictly positive real number that is exactly representable (though not necessarily normalised)) by the <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv(n)</emphasis>.</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~rep_fv_max_val</literal></title>
-
-<programlisting>
-<emphasis>n</emphasis>:   NAT
--&gt; EXP FLOATING .~rep_fv(<emphasis>n</emphasis>)
-</programlisting>
-
-<para><emphasis>.~rep_fv_max_val</emphasis>(<emphasis>n</emphasis>) will be the largest real number that is exactly representable by the <literal>FLOATING_VARIETY</literal> <emphasis>.~rep_fv(n)</emphasis>.</para>
-
-<para><emphasis>n</emphasis> will lie within the sequence range of supported floating point representations.</para>
-
-</sect2>
-</sect1>
-
-<sect1>
-<title>Non-numeric representations</title>
-
-<para> </para>
-
-<sect2>
-<title><literal>.~ptr_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~ptr_width</emphasis> will be the minimum <emphasis>.~rep_var_width</emphasis>(<emphasis>w</emphasis>) for any <emphasis>w</emphasis> such that any pointer to any alignment may be converted to an integer of <literal>VARIETY</literal> <emphasis>var_width</emphasis>(<emphasis>b</emphasis>,<emphasis>w</emphasis>), for some <literal>BOOL</literal> <emphasis>b</emphasis>, and back again without loss of information, using the conversions <emphasis>.~ptr_to_int</emphasis> and <emphasis>.~int_to_ptr</emphasis> (q.v.).</para>
-
-</sect2>
-<sect2>
-<title><literal>.~best_div</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~best_div</emphasis> is 1 or 2 to indicate preference for class 1 or class 2 division and modulus (as defined in the TDF Specification). This token would be used in situations where either class is valid but must be used consistently.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~little_endian</literal></title>
-
-<programlisting>
--&gt; BOOL
-</programlisting>
-
-<para><emphasis>.~little_endian</emphasis> is a property of the relationship between different variety representations and arrays. If an array of a smaller variety can be mapped onto a larger variety, and <emphasis>.~little_endian</emphasis> is true, then smaller indices of the smaller variety array map onto smaller ranges of the larger variety. If <emphasis>.~little_endian</emphasis> is false, no such assertion can be made.</para>
-
-</sect2>
-</sect1>
-<sect1>
-<title>Common conversion routines</title>
-
-<para>This subsection contains a set of conversion routines between values of different shapes, that are not required to have any specific meaning apart from reversability. If the storage space requirements for the two shapes are identical, the conversion can usually be achieved without change of representation. When that is the case, and if the two shapes can be stored at a common alignment, the conversion can simply be achieved by assignment via a common union, which will ensure the required alignment consistency.</para>
-
-<sect2>
-<title><literal>.~ptr_to_ptr</literal></title>
-
-<programlisting>
-<emphasis>a1</emphasis>:  ALIGNMENT
-<emphasis>a2</emphasis>:  ALIGNMENT
-<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a1</emphasis>)
--&gt; EXP POINTER(<emphasis>a2</emphasis>)
-</programlisting>
-
-<para><emphasis>.~ptr_to_ptr</emphasis> converts pointers from one pointer shape to another.</para>
-
-<para>If <emphasis>p</emphasis> is any pointer with alignment <emphasis>a1</emphasis>, then <emphasis>.~ptr_to_ptr</emphasis> (<emphasis>a2</emphasis>, <emphasis>a1</emphasis>, <emphasis>.~ptr_to_ptr</emphasis>(<emphasis>a1</emphasis>, <emphasis>a2</emphasis>, <emphasis>p</emphasis>)) shall result in the same pointer <emphasis>p</emphasis>, provided that the number of bits required to store a pointer with alignment <emphasis>a2</emphasis> is not less than that required to store a pointer with alignment <emphasis>a1</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~ptr_to_int</literal></title>
-
-<programlisting>
-<emphasis>a</emphasis>:   ALIGNMENT
-<emphasis>v</emphasis>:   VARIETY
-<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
-</programlisting>
-
-<para><emphasis>.~ptr_to_int</emphasis> converts a pointer to an integer. The result is undefined if the <literal>VARIETY</literal> v is insufficient to distinguish between all possible distinct pointers <emphasis>p</emphasis> of alignment <emphasis>a</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~int_to_ptr</literal></title>
-
-<programlisting>
-<emphasis>v</emphasis>:   VARIETY
-<emphasis>a</emphasis>:   ALIGNMENT
-<emphasis>i</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP POINTER(<emphasis>a</emphasis>)
-</programlisting>
-
-<para><emphasis>.~int_to_ptr</emphasis> converts an integer to a pointer. The result is undefined unless the integer i was obtained without modification from some pointer using <emphasis>.~ptr_to_int</emphasis> with the same variety and alignment arguments.</para>
-
-<para>If <emphasis>p</emphasis> is any pointer with alignment <emphasis>a</emphasis>, and <emphasis>v</emphasis> is <emphasis>var_width</emphasis>(<emphasis>b</emphasis>, <emphasis>.~ptr_width</emphasis>) for some <literal>BOOL</literal> <emphasis>b</emphasis>, then <emphasis>.~int_to_ptr</emphasis>(<emphasis>v</emphasis>, <emphasis>a</emphasis>, <emphasis>.~ptr_to_int</emphasis> (<emphasis>a</emphasis>, <emphasis>v</emphasis>, <emphasis>p</emphasis>)) shall result in the same pointer <emphasis>p</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title>
-<literal>.~f_to_ptr</literal></title>
-
-<programlisting>
-<emphasis>a</emphasis>:   ALIGNMENT
-<emphasis>fn</emphasis>:  EXP PROC
--&gt; EXP POINTER(<emphasis>a</emphasis>)
-</programlisting>
-
-<para><emphasis>.~f_to_ptr</emphasis> converts a procedure to a pointer. The result is undefined except as required for consistency with <emphasis>.~ptr_to_f</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~ptr_to_f</literal></title>
-
-<programlisting>
-<emphasis>a</emphasis>:   ALIGNMENT
-<emphasis>p</emphasis>:   EXP POINTER(<emphasis>a</emphasis>)
--&gt; EXP PROC
-</programlisting>
-
-<para><emphasis>.~ptr_to_f</emphasis> converts a pointer to a procedure. The result is undefined unless the pointer p was obtained without modification from some procedure <emphasis>f</emphasis> using <emphasis>.~f_to_ptr</emphasis>(<emphasis>a</emphasis>, <emphasis>f</emphasis>). The same procedure <emphasis>f</emphasis> is delivered.</para>
-
-</sect2>
-</sect1>
-</chapter>
-
-<chapter>
-<title>Basic mapping tokens</title>
-
-<para>Basic mapping tokens provide target specific detail for specific language features that are defined to be target dependent. This detail need not be fixed for a particular target architecture, but needs to provide compatibility with any external library with which an application program is to be linked.</para>
-
-<para>Tokens specific to the C and Fortran language families are included. Like the target dependency tokens, it is again recommended that these tokens should not be used directly within application programs. They are designed for use within LPI definitions, which can provide a more appropriate interface for applications.</para>
-
-<para>Every operating system variant of an installer should have associated with it, a capsule containing the definitions of all the tokens specificed within this section -XREF-#S114.</para>
-
-<sect1>
-<title>C mapping tokens</title>
-
-<sect2>
-<title><literal>.~char_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~char_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>char</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~short_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~short_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>short int</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~int_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~int_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>int</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~long_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~long_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>long int</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~longlong_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~longlong_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>long long int</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~size_t_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~size_t_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the C type <emphasis>size_t</emphasis>. It will be the same as one of <emphasis>.~short_width</emphasis>, <emphasis>.~int_width</emphasis>, or <emphasis>.~long_width</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~fl_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~fl_rep</emphasis> is the sequence number (see subsection -XREF-#S83.2) of the floating point representation to be used for values of C type <emphasis>float</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~dbl_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~dbl_rep</emphasis> is the sequence number (see subsection 3.2) of the floating point representation to be used for values of C type <emphasis>double</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~ldbl_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~ldbl_rep</emphasis> is the sequence number (see subsection 3.2) of the floating point representation to be used for values of C type <emphasis>long double</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~pv_align</literal></title>
-
-<programlisting>
--&gt; ALIGNMENT
-</programlisting>
-
-<para><emphasis>.~pv_align</emphasis> is the common alignment for all pointers that can be represented by the C generic pointer type <emphasis>void*</emphasis>. For architecture independence, this would have to be a union of several alignments, but for many installers it can be simplified to <emphasis>alignment</emphasis>(<emphasis>integer</emphasis>(<emphasis>var_width</emphasis>(<emphasis>false</emphasis>, <emphasis>.~char_width</emphasis>))).</para>
-
-</sect2>
-<sect2>
-<title><literal>.~min_struct_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~min_struct_rep</emphasis> is the number of bits required to store values of the smallest C integral type which share the same alignment properties as a structured value whose members are all of that same integral type. It will be the same as one of <emphasis>.~char_width</emphasis>, <emphasis>.~short_width</emphasis>, <emphasis>.~int_width</emphasis>, or <emphasis>.~long_width</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~char_is_signed</literal></title>
-
-<programlisting>
--&gt; BOOL
-</programlisting>
-
-<para><emphasis>.~char_is_signed</emphasis> is <emphasis>true</emphasis> if the C type <emphasis>char</emphasis> is treated as signed, or <emphasis>false</emphasis> if it is unsigned.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~bitfield_is_signed</literal></title>
-
-<programlisting>
--&gt; BOOL
-</programlisting>
-
-<para><emphasis>.~bitfield_is_signed</emphasis> is <emphasis>true</emphasis> if bitfield members of structures in C are treated as signed, or <emphasis>false</emphasis> if unsigned.</para>
-
-</sect2>
-</sect1>
-
-<sect1>
-<title>Fortran mapping tokens</title>
-
-<para> </para>
-<sect2>
-<title><literal>.~F_char_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~F_char_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the Fortran77 type <emphasis>CHARACTER</emphasis>.</para>
-
-<para>In most cases, <emphasis>.~F_char_width</emphasis> is the same as <emphasis>.~char_width</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~F_int_width</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~F_int_width</emphasis> is the number of bits required to store values of the representation <literal>VARIETY</literal> that corresponds to the Fortran77 type <emphasis>INTEGER</emphasis>.</para>
-
-<para>In most cases, <emphasis>.~F_int_width</emphasis> is the same as <emphasis>.~int_width</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~F_fl_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~F_fl_rep</emphasis> is the sequence number (see subsection -XREF-#S83.2) of the floating point representation to be used for values of Fortran77 type <emphasis>REAL</emphasis>, with the constraint that <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis> ) = <emphasis>.~F_int_width</emphasis>.</para>
-
-<para>If this constraint cannot be met, <emphasis>.~F_fl_rep</emphasis> will be 0.</para>
-
-</sect2>
-<sect2>
-<title><literal>.~F_dbl_rep</literal></title>
-
-<programlisting>
--&gt; NAT
-</programlisting>
-
-<para><emphasis>.~F_dbl_rep</emphasis> is the sequence number (see subsection 3.2) of the floating point representation to be used for values of Fortran77 type <emphasis>DOUBLE PRECISION</emphasis>, with the constraint that <emphasis>.~rep_fv_width</emphasis>( <emphasis>.~F_dbl_rep</emphasis>) = 2 * <emphasis>.~F_int_width</emphasis>.</para>
-
-<para>If this constraint cannot be met, <emphasis>.~F_dbl_rep</emphasis> will be 0.</para>
-
-
-</sect2>
-</sect1>
-</chapter>
-
-<chapter>
-<title>TDF Interface tokens</title>
-
-<para>A very few specifically named tokens are referred to within the TDF specification, which are required to complete the ability to use certain TDF constructs. Responsibility for providing appropriate definitions for these tokens is indicated with the specifications below.</para>
-
-<para>Similarly, a few tokens are specified within the TDF Diagnostic Specification.</para>
-
-<sect1>
-<title>Exception handling</title>
-
-<para> </para>
-<sect2>
-<title><literal>~Throw</literal></title>
-
-<programlisting>
-<emphasis>n</emphasis>:   NAT
--&gt; EXP BOTTOM
-</programlisting>
-
-<para>The <literal>EXP</literal> <emphasis>e</emphasis> defined as the body of this token will be evaluated on occurrence of any error whose <literal>ERROR_TREATMENT</literal> is <emphasis>trap</emphasis>. The type of error can be determined within <emphasis>e</emphasis> from the NAT <emphasis>n</emphasis>, which will be <emphasis>error_val(ec)</emphasis> for some <literal>ERROR_CODE</literal> <emphasis>ec</emphasis>. The token definition body <emphasis>e</emphasis> will typically consist of a <emphasis>long_jump</emphasis> to some previously set exception handler.</para>
-
-<para>Exception handling using <emphasis>trap</emphasis> and ~<emphasis>Throw</emphasis> will usually be determined by producers for languages that specify their own exception handling semantics. Responsibility for the <emphasis>~Throw</emphasis> token definition will therefore normally rest with producers, by including this token within the producer specific LPI.</para>
-
-</sect2>
-<sect2>
-<title><literal>~Set_signal_handler</literal></title>
-
-<programlisting>
--&gt; EXP OFFSET (locals_alignment, locals_alignment)
-</programlisting>
-
-<para><emphasis>~Set_signal_handler</emphasis> must be applied before any use of the <literal>ERROR_TREATMENT</literal> <emphasis>trap</emphasis>, to indicate the need for exception trapping. Responsibility for the <emphasis>~Set_signal_handler</emphasis> token definition will rest with installers. Responsibility for applying it will normally rest with producers.</para>
-
-<para>The resulting offset value will contain the amount of space beyond any stack limit, which must be reserved for use when handling a <emphasis>stack_overflow</emphasis> trap raised by exceeding that limit.</para>
-
-</sect2>
-<sect2>
-<title><literal>~Sync_handle</literal>r</title>
-
-<programlisting>
--&gt; EXP TOP
-</programlisting>
-
-<para><emphasis>~Sync_handler</emphasis> delays subsequent processing until any pending exceptions have been raised, as necessary to synchronise exception handler modification. It must be applied immediately prior to any action that modifies the effect of <emphasis>~Throw</emphasis>, such as assignment to a variable holding an exception handler as <emphasis>long_jump</emphasis> destination Responsibility for the <emphasis>~Sync_handler</emphasis> token definition will rest with installers. Responsibility for applying it will normally rest with producers.</para>
-
-</sect2>
-</sect1>
-
-<sect1>
-<title>TDF Diagnostic Specification</title>
-
-<para>The -XREF-../diag/diag1.htmlTDF Diagnostic Specification is a separate document which describes an extension to TDF, optionally used to provide program diagnostic information that can be transformed by installers to the form required by popular platform-specific debuggers. This extension cannot be considered fully developed and is therefore not included as part of standard TDF. Its use for other than DRA's C producer has not been considered.</para>
-
-<sect2>
-<title><literal>~exp_to_source, ~diag_id_scope, ~diag_type_scope, ~diag_tag_scope</literal></title>
-
-<programlisting>
-<emphasis>bdy</emphasis>: EXP
+        </programlisting>
+      
+        <para><emphasis>.~short_width</emphasis> is the number of bits
+      required to store values of the representation
+      <literal>VARIETY</literal> that corresponds to the C type
+      <emphasis>short int</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~int_width</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~int_width</emphasis> is the number of bits required
+      to store values of the representation <literal>VARIETY</literal> that
+      corresponds to the C type <emphasis>int</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~long_width</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~long_width</emphasis> is the number of bits required
+      to store values of the representation <literal>VARIETY</literal> that
+      corresponds to the C type <emphasis>long int</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~longlong_width</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~longlong_width</emphasis> is the number of bits
+      required to store values of the representation
+      <literal>VARIETY</literal> that corresponds to the C type <emphasis>long
+      long int</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~size_t_width</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~size_t_width</emphasis> is the number of bits
+      required to store values of the representation
+      <literal>VARIETY</literal> that corresponds to the C type
+      <emphasis>size_t</emphasis>. It will be the same as one of
+      <emphasis>.~short_width</emphasis>, <emphasis>.~int_width</emphasis>, or
+      <emphasis>.~long_width</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~fl_rep</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~fl_rep</emphasis> is the sequence number (see
+      subsection -XREF-#S83.2) of the floating point representation to be used
+      for values of C type <emphasis>float</emphasis>.</para>
+      
+      </sect2>
+
+      <sect2>
+        <title><literal>.~dbl_rep</literal></title>
+        
+        <programlisting>
+        -&gt; NAT
+        </programlisting>
+        
+        <para><emphasis>.~dbl_rep</emphasis> is the sequence number (see
+      subsection 3.2) of the floating point representation to be used for
+      values of C type <emphasis>double</emphasis>.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>.~ldbl_rep</literal></title>
+      
+      <programlisting>
+      -&gt; NAT
+      </programlisting>
+      
+      <para><emphasis>.~ldbl_rep</emphasis> is the sequence number (see
+      subsection 3.2) of the floating point representation to be used for
+      values of C type <emphasis>long double</emphasis>.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>.~pv_align</literal></title>
+      
+      <programlisting>
+      -&gt; ALIGNMENT
+      </programlisting>
+      
+      <para><emphasis>.~pv_align</emphasis> is the common alignment for all
+      pointers that can be represented by the C generic pointer type
+      <emphasis>void*</emphasis>. For architecture independence, this would
+      have to be a union of several alignments, but for many installers it can
+      be simplified to
+      <emphasis>alignment</emphasis>(<emphasis>integer</emphasis>(<emphasis>var_width</emphasis>(<emphasis>false</emphasis>,
+      <emphasis>.~char_width</emphasis>))).</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>.~min_struct_rep</literal></title>
+      
+      <programlisting>
+      -&gt; NAT
+      </programlisting>
+      
+      <para><emphasis>.~min_struct_rep</emphasis> is the number of bits
+      required to store values of the smallest C integral type which share the
+      same alignment properties as a structured value whose members are all of
+      that same integral type. It will be the same as one of
+      <emphasis>.~char_width</emphasis>, <emphasis>.~short_width</emphasis>,
+      <emphasis>.~int_width</emphasis>, or
+      <emphasis>.~long_width</emphasis>.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>.~char_is_signed</literal></title>
+      
+      <programlisting>
+      -&gt; BOOL
+      </programlisting>
+      
+      <para><emphasis>.~char_is_signed</emphasis> is <emphasis>true</emphasis>
+      if the C type <emphasis>char</emphasis> is treated as signed, or
+      <emphasis>false</emphasis> if it is unsigned.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>.~bitfield_is_signed</literal></title>
+      
+      <programlisting>
+      -&gt; BOOL
+      </programlisting>
+      
+      <para><emphasis>.~bitfield_is_signed</emphasis> is
+      <emphasis>true</emphasis> if bitfield members of structures in C are
+      treated as signed, or <emphasis>false</emphasis> if unsigned.</para>
+      
+      </sect2>
+    </sect1>
+    
+    <sect1>
+    <title>Fortran mapping tokens</title>
+    
+    <para> </para>
+    <sect2>
+    <title><literal>.~F_char_width</literal></title>
+    
+    <programlisting>
+    -&gt; NAT
+    </programlisting>
+    
+    <para><emphasis>.~F_char_width</emphasis> is the number of bits required
+    to store values of the representation <literal>VARIETY</literal> that
+    corresponds to the Fortran77 type <emphasis>CHARACTER</emphasis>.</para>
+    
+    <para>In most cases, <emphasis>.~F_char_width</emphasis> is the same as
+    <emphasis>.~char_width</emphasis>.</para>
+    
+    </sect2>
+    <sect2>
+    <title><literal>.~F_int_width</literal></title>
+    
+    <programlisting>
+    -&gt; NAT
+    </programlisting>
+    
+    <para><emphasis>.~F_int_width</emphasis> is the number of bits required to
+    store values of the representation <literal>VARIETY</literal> that
+    corresponds to the Fortran77 type <emphasis>INTEGER</emphasis>.</para>
+    
+    <para>In most cases, <emphasis>.~F_int_width</emphasis> is the same as
+    <emphasis>.~int_width</emphasis>.</para>
+    
+    </sect2>
+    <sect2>
+    <title><literal>.~F_fl_rep</literal></title>
+    
+    <programlisting>
+    -&gt; NAT
+    </programlisting>
+    
+    <para><emphasis>.~F_fl_rep</emphasis> is the sequence number (see
+    subsection -XREF-#S83.2) of the floating point representation to be used
+    for values of Fortran77 type <emphasis>REAL</emphasis>, with the
+    constraint that
+    <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis> ) =
+    <emphasis>.~F_int_width</emphasis>.</para>
+    
+    <para>If this constraint cannot be met, <emphasis>.~F_fl_rep</emphasis>
+    will be 0.</para>
+    
+    </sect2>
+    <sect2>
+    <title><literal>.~F_dbl_rep</literal></title>
+    
+    <programlisting>
+    -&gt; NAT
+    </programlisting>
+    
+    <para><emphasis>.~F_dbl_rep</emphasis> is the sequence number (see
+    subsection 3.2) of the floating point representation to be used for values
+    of Fortran77 type <emphasis>DOUBLE PRECISION</emphasis>, with the
+    constraint that <emphasis>.~rep_fv_width</emphasis>(
+    <emphasis>.~F_dbl_rep</emphasis>) = 2 *
+    <emphasis>.~F_int_width</emphasis>.</para>
+    
+    <para>If this constraint cannot be met, <emphasis>.~F_dbl_rep</emphasis>
+    will be 0.</para>
+    
+    
+    </sect2>
+    </sect1>
+  </chapter>
+  
+  <chapter>
+    <title>TDF Interface tokens</title>
+    
+    <para>A very few specifically named tokens are referred to within the TDF
+    specification, which are required to complete the ability to use certain
+    TDF constructs. Responsibility for providing appropriate definitions for
+    these tokens is indicated with the specifications below.</para>
+    
+    <para>Similarly, a few tokens are specified within the TDF Diagnostic
+    Specification.</para>
+    
+    <sect1>
+      <title>Exception handling</title>
+      
+      <para> </para>
+      <sect2>
+      <title><literal>~Throw</literal></title>
+      
+      <programlisting>
+      <emphasis>n</emphasis>:   NAT
+      -&gt; EXP BOTTOM
+      </programlisting>
+      
+      <para>The <literal>EXP</literal> <emphasis>e</emphasis> defined as the
+      body of this token will be evaluated on occurrence of any error whose
+      <literal>ERROR_TREATMENT</literal> is <emphasis>trap</emphasis>. The
+      type of error can be determined within <emphasis>e</emphasis> from the
+      NAT <emphasis>n</emphasis>, which will be
+      <emphasis>error_val(ec)</emphasis> for some
+      <literal>ERROR_CODE</literal> <emphasis>ec</emphasis>. The token
+      definition body <emphasis>e</emphasis> will typically consist of a
+      <emphasis>long_jump</emphasis> to some previously set exception
+      handler.</para>
+      
+      <para>Exception handling using <emphasis>trap</emphasis> and
+      ~<emphasis>Throw</emphasis> will usually be determined by producers for
+      languages that specify their own exception handling semantics.
+      Responsibility for the <emphasis>~Throw</emphasis> token definition will
+      therefore normally rest with producers, by including this token within
+      the producer specific LPI.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~Set_signal_handler</literal></title>
+      
+      <programlisting>
+      -&gt; EXP OFFSET (locals_alignment, locals_alignment)
+      </programlisting>
+      
+      <para><emphasis>~Set_signal_handler</emphasis> must be applied before
+      any use of the <literal>ERROR_TREATMENT</literal>
+      <emphasis>trap</emphasis>, to indicate the need for exception trapping.
+      Responsibility for the <emphasis>~Set_signal_handler</emphasis> token
+      definition will rest with installers. Responsibility for applying it
+      will normally rest with producers.</para>
+      
+      <para>The resulting offset value will contain the amount of space beyond
+      any stack limit, which must be reserved for use when handling a
+      <emphasis>stack_overflow</emphasis> trap raised by exceeding that
+      limit.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~Sync_handle</literal>r</title>
+      
+      <programlisting>
+      -&gt; EXP TOP
+      </programlisting>
+      
+      <para><emphasis>~Sync_handler</emphasis> delays subsequent processing
+      until any pending exceptions have been raised, as necessary to
+      synchronise exception handler modification. It must be applied
+      immediately prior to any action that modifies the effect of
+      <emphasis>~Throw</emphasis>, such as assignment to a variable holding an
+      exception handler as <emphasis>long_jump</emphasis> destination
+      Responsibility for the <emphasis>~Sync_handler</emphasis> token
+      definition will rest with installers. Responsibility for applying it
+      will normally rest with producers.</para>
+      
+      </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>TDF Diagnostic Specification</title>
+      
+      <para>The -XREF-../diag/diag1.htmlTDF Diagnostic Specification is a
+      separate document which describes an extension to TDF, optionally used
+      to provide program diagnostic information that can be transformed by
+      installers to the form required by popular platform-specific debuggers.
+      This extension cannot be considered fully developed and is therefore not
+      included as part of standard TDF. Its use for other than DRA's C
+      producer has not been considered.</para>
+      
+      <sect2>
+      <title><literal>~exp_to_source, ~diag_id_scope, ~diag_type_scope, ~diag_tag_scope</literal></title>
+      
+      <programlisting>
+      <emphasis>bdy</emphasis>: EXP
+      ... :    ...
+      -&gt; EXP
+      </programlisting>
+      
+      <para>Each of these four tokens has several arguments of which the
+        first, <emphasis>bdy</emphasis>, is an <literal>EXP</literal>. In each
+        case the default definition body, when no diagnostic information is
+        required, is simply <emphasis>bdy</emphasis>. Note that this
+        description is quite sufficient to enable installers to ignore any
+        diagnostic information that may be included in produced TDF, without
+        needing any further knowledge of the TDF Diagnostic
+        Specification.</para>
+      
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Accessing variable parameter lists</title>
+      
+      <para>Installers should provide token definitions for the tokens listed
+        in this section.</para>
+      
+      <sect2>
+      <title><literal>~va_list</literal></title>
+      
+      <programlisting>
+      -&gt; SHAPE
+      </programlisting>
+      
+      <para>This is the <literal>SHAPE</literal> of a variable capable of
+      holding state information used for stepping through the anonymous
+      parameters of a procedure created by
+      <emphasis>make_proc</emphasis>.</para>
+      
+      </sect2>
+      
+      <sect2>
+      <title><literal>~__va_start</literal></title>
+      
+      <programlisting>
+      <emphasis>p</emphasis>:   EXP POINTER var_param_alignment
+      -&gt; EXP ~va_list
+      </programlisting>
+      
+      <para>If <emphasis>t</emphasis> is the <literal>TAG</literal> introduced
+      by <emphasis>var_intro</emphasis> <literal>OPTION(TAGACC)</literal> in
+      <emphasis>make_proc</emphasis>, then the token application
+      <emphasis>~__va_start(obtain_tag(t))</emphasis> will provide the initial
+      value for a local variable to be used for stepping through the anonymous
+      parameters of the procedure, starting with the first actual parameter
+      (if any) that does not have a corresponding entry in the make_proc
+      params_intro list.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~va_arg</literal></title>
+      
+      <programlisting>
+      <emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
+      <emphasis>s</emphasis>:   SHAPE
+      -&gt; EXP <emphasis>s</emphasis>
+      </programlisting>
+      
+      <para>If <emphasis>v</emphasis> is the variable initialised by
+      <emphasis>~__va_start</emphasis> (see above), then successive token
+      applications <emphasis>~va_arg(v,s)</emphasis> will deliver the
+      anonymous parameter values in turn. The successive
+      <literal>SHAPE</literal>s <emphasis>s</emphasis> must be the appropriate
+      <literal>SHAPE</literal>s for the successive parameters.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~va_end</literal></title>
+      
+      <programlisting>
+      <emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
+      -&gt; EXP TOP
+      </programlisting>
+      
+      <para>If <emphasis>v</emphasis> is a variable initialised by
+      <emphasis>~__va_start</emphasis>, the token application
+      <emphasis>~va_end(v)</emphasis> indicates that no further use will be
+      made of <emphasis>v</emphasis>.</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~next_caller_offset</literal></title>
+      
+      <programlisting>
+      <emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
+      <emphasis>s1</emphasis>:  SHAPE
+      <emphasis>s2</emphasis>:  SHAPE
+      -&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
+      </programlisting>
+      
+      <para><emphasis>~next_caller_offset</emphasis> is used to provide access
+      to successive elements of the <emphasis>caller_params</emphasis> of an
+      <emphasis>apply_general_proc</emphasis>, by delivering successive
+      <literal>OFFSET</literal>s of their positions relative to the
+      environment pointer created by that procedure application. Both the
+      <emphasis>apply_general_proc</emphasis> and associated
+      <emphasis>make_general_proc</emphasis> will include
+      <literal>PROCPROPS</literal> <emphasis>var_callers</emphasis>.</para>
+      
+      <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for
+      a <emphasis>caller_params</emphasis> element of <literal>SHAPE</literal>
+      <emphasis>s1</emphasis>, and will be derived either from
+      <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced
+      by <emphasis>caller_intro</emphasis> of the
+      <emphasis>make_general_proc</emphasis> , or from a previous application
+      of <emphasis>~next_caller_offset</emphasis>. <emphasis>s2</emphasis>
+      will be the <literal>SHAPE</literal> of the subsequent
+      <emphasis>caller_params</emphasis> element, whose
+      <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will
+      include the set union of <literal>ALIGNMENT</literal>s appropriate to
+      the <emphasis>make_general_proc</emphasis> (as specified by
+      <emphasis>current_env</emphasis>).</para>
+      
+      </sect2>
+      <sect2>
+      <title><literal>~next_callee_offset</literal></title>
+      
+      <programlisting>
+      <emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
+      <emphasis>s1</emphasis>:  SHAPE
+      <emphasis>s2</emphasis>:  SHAPE
+      -&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
+      </programlisting>
+      
+      <para><emphasis>~next_callee_offset</emphasis> is used to provide access
+      to successive elements of the <literal>CALLEES</literal> of an
+      <emphasis>apply_general_proc</emphasis> or
+      <emphasis>tail_call</emphasis>, by delivering successive
+      <literal>OFFSET</literal>s of their positions relative to the
+      environment pointer created by that procedure application. Both the
+      procedure application and associated
+      <emphasis>make_general_proc</emphasis> will include
+      <literal>PROCPROPS</literal> <emphasis>var_callees</emphasis>.</para>
+      
+      <para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for
+      a <literal>CALLEES</literal> element of <literal>SHAPE</literal>
+      <emphasis>s1</emphasis>, and will be derived either from
+      <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced
+      by <emphasis>callee_intro</emphasis> of the
+      <emphasis>make_general_proc</emphasis>, or from a previous application
+      of <emphasis>~next_callee_offset</emphasis>. <emphasis>s2</emphasis>
+      will be the <literal>SHAPE</literal> of the subsequent
+      <literal>CALLEES</literal> element, whose <literal>OFFSET</literal> is
+      delivered. <emphasis>fa</emphasis> will include the set union of
+      <literal>ALIGNMENT</literal>s appropriate to the
+      <emphasis>make_general_proc</emphasis> (as specified by
+      <emphasis>current_env</emphasis> ).</para>
+      
+      </sect2>
+    </sect1>
+  </chapter>
+  
+  <chapter>
+    <title>Language Programming Interfaces</title>
+    
+    <para>A Language Programming Interface (LPI) is here defined to mean a set
+      of tokens, usually specific to a particular producer, which will
+      encapsulate language features at a higher level than basic TDF
+      constructs, more convenient for the producer to produce.</para>
+    
+    <para>Responsibility for the specification of individual LPIs lies with the
+      appropriate producer itself. Before an application can be installed on
+      some target platform, the appropriate LPI token definitions must have
+      been built for that platform. In this sense, the LPI can be considered
+      as a primitive API, which is discussed in section -XREF-#S217.</para>
+    
+    <para>The process by which the LPI token definition library or capsule is
+      generated for any specific platform will vary according to the LPI, and
+      responsibility for defining that process will also lie with the
+      appropriate producer. Some LPIs, such as that associated with DRA's C
+      producer, can be fully defined by architecture neutral TDF, using the
+      tokens specified in sections -XREF-#S63 and -XREF-#S114 to encapsulate
+      any target dependencies.  When that is the case, the generation process
+      can be fully automated. For other LPIs the process may be much less
+      automated. In some cases where the source language implies a complex
+      run-time system, this might even require a small amount of new code to
+      be written for each platform.</para>
+    
+    <para>Generally, the individual LPI tokens do not need to be specified in
+      the token registry, provided they follow a registered naming scheme to
+      ensure uniqueness (see section -XREF-#S52). In exceptional circumstances
+      it may be necessary for some TDF tool to recognise individual LPI tokens
+      explicitly by name. This will be the case when experimenting with
+      potential extensions to TDF, in the field of parallelism for example. In
+      other cases a TDF installer or other tool may recognise an LPI token by
+      name rather than its definition by choice, for some unspecified
+      advantage. We make a pragmatic choice in such cases whether to include
+      such token specifications in the token registry. For widely used
+      producers, we can assume availability of the LPI token specifcations, or
+      standard definitions, separately from the token register, but we should
+      expect any such tokens to be specified within the register for all cases
+      where significant advantage could be taken by an installer only if it
+      recognises the token by name.</para>
+    
+    <sect1>
+      <title>The DRA C LPI</title>
+      
+      <para>DRA's C producer LPI is defined by an architecture neutral token
+        definition capsule provided with the producer. Target specific detail is
+        included only by use of the target dependency tokens and C mapping
+        tokens specified in sections -XREF-#S63 and -XREF-#S124.1 respectively.
+        Target specific versions of this capsule are obtained by transformation,
+        using the `preprocessing' action of the TDF tool
+        <emphasis>tnc</emphasis>, with definitions of the target dependency and
+        C mapping tokens that are provided with the target installer. No special
+        treatment is required for any of the C LPI tokens, though translation
+        time can be slightly improved in a few cases if the names are recognised
+        and standard token definition exercised explicitly within some
+        installers.</para>
+      
+      <para>The DRA C LPI does not include standard library features, for which
+        the C language requires header files. The standard C library is one
+        example of an API, discussed in section -XREF-#S217.</para>
+    </sect1>
+    
+    <sect1>
+      <title>The DRA C++ LPI</title>
+      
+      <para>The DRA C++ LPI extends the DRA C LPI adding tokens for target
+        specific C++ features not found in C. Again, standard library features
+        are treated as an API.</para>
+    </sect1>
+
+    <sect1>
+      <title>The Etnoteam Fortran LPI</title>
+      
+      <para>The details in this subsection are provisional, subject to
+        confirmation of argument and result <literal>SORT</literal>s, and
+        development of model token definitions.</para>
+      
+      <para>The following tokens are named here in case any installers may be
+        able to produce better code than could be achieved by normal token
+        expansion. In particular, some installers may be able to inline
+        standard function calls.</para>
+      
+      <simplelist type='horiz' columns='2'>
+        <member>
+          <emphasis>.Et~SQRT</emphasis>
+        </member>
+        <member>square root of any floating variety, including complex.</member>
+        <member><emphasis>.Et~<literal>EXP</literal></emphasis></member><member>exponential (<emphasis>e ** x</emphasis>) of any floating variety, including complex.</member>
+        <member><emphasis>.Et~LOG</emphasis></member><member>(natural) logarithm of any floating variety, including complex.</member>
+        <member><emphasis>.Et~LOG_10</emphasis></member><member>base 10 logarithm of any floating variety, including complex.</member>
+        <member><emphasis>.Et~LOG_2</emphasis></member><member>base 2 logarithm of any floating variety, including complex.</member>
+        <member><emphasis>.Et~SIN</emphasis></member><member>sine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~COS</emphasis></member><member>cosine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~TAN</emphasis></member><member>tangent of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ASIN</emphasis></member><member>inverse sine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ACOS</emphasis></member><member>inverse cosine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ATAN</emphasis></member><member>inverse (one argument) tangent of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ATAN2</emphasis></member><member>inverse (two arguments) tangent of any floating variety, excluding complex.</member>
+        <member><emphasis>.Et~SINH</emphasis></member><member>hyperbolic sine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~COSH</emphasis></member><member>hyperbolic cosine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~TANH</emphasis></member><member>hyperbolic tangent of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ASINH</emphasis></member><member>inverse hyperbolic sine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ACOSH</emphasis></member><member>inverse hyperbolic cosine of any floating variety, including complex.</member>
+        <member><emphasis>.Et~ATANH</emphasis></member><member>inverse hyperbolic tangent of any floating variety, including complex.</member>
+        <member><emphasis>.Et~MOD</emphasis></member><member>floating point remainder of any floating variety, excluding complex.</member>
+      </simplelist>
+    </sect1>
+  </chapter>
+  
+  <chapter>
+    <title>Application Programming Interfaces</title>
+  
+    <para>Application Programming Interfaces are typically specified with a C
+      mapping, which define the required contents for C header files which a
+      portable C program must include by name to gain access to target
+      specific implementations of an API library. The TDF approach to API
+      specification includes using a #pragma token syntax within architecture
+      neutral C header files, such that all implementation dependencies are
+      encapsulated by API specific tokens. These API tokens are the TDF
+      representation of the API.  Both the API library and API token
+      definitions are required before a TDF program using the API can be
+      installed on any particular platform.</para>
+    
+    <para>Platform specific definitions for API tokens are produced
+      automatically, with few exceptions, for any platform with a conformant
+      implementation of the API. This is achieved by a token library building
+      process which analyses the architecture neutral header files for the API
+      concerned, together with the platform specific header files that provide
+      normal (non-TDF) C access to the API. The few exceptions occur where the
+      platform specific header files have been written to make use of specific
+      C compiler built-in features, typically recognised by identifiers with a
+      prefix such as `<emphasis>__builtin_</emphasis>'. Such cases are very
+      likely to require explicit recognition of the corresponding token name
+      in TDF installers.</para>
+    
+    <para>Generally, API token names and specifications are not detailed in
+      this token register. The token specifications are clearly dependent on
+      the associated API specifications. Authority for controlling the actual
+      API token names, and the relationship between API tokens and the various
+      API standardisation authorities, remain separate subjects of
+      discussion.</para>
+    
+    <para>Names and specifications are given or implied below for those API
+      tokens which frequently require built-in support from installers, and
+      for other cases where an installer may be able to produce better code
+      than could be achieved by normal token expansion, for example by
+      inlining standard function calls.</para>
+    
+    <sect1>
+      <title>ANSI C standard functions</title>
+    
+      <para>The set of tokens implied below all have the form:</para>
+      
+      <sect2>
+        <title><literal>ansi.header.function</literal></title>
+        
+        <programlisting>
 ... :    ...
 -&gt; EXP
-</programlisting>
-
-<para>Each of these four tokens has several arguments of which the first, <emphasis>bdy</emphasis>, is an <literal>EXP</literal>. In each case the default definition body, when no diagnostic information is required, is simply <emphasis>bdy</emphasis>. Note that this description is quite sufficient to enable installers to ignore any diagnostic information that may be included in produced TDF, without needing any further knowledge of the TDF Diagnostic Specification.</para>
-
-</sect2>
-<sect1>
-<title>Accessing variable parameter lists</title>
-
-<para>Installers should provide token definitions for the tokens listed in this section.</para>
-
-<sect2>
-<title><literal>~va_list</literal></title>
-
-<programlisting>
--&gt; SHAPE
-</programlisting>
-
-<para>This is the <literal>SHAPE</literal> of a variable capable of holding state information used for stepping through the anonymous parameters of a procedure created by <emphasis>make_proc</emphasis>.</para>
-
-</sect2>
-
-<sect2>
-<title><literal>~__va_start</literal></title>
-
-<programlisting>
-<emphasis>p</emphasis>:   EXP POINTER var_param_alignment
--&gt; EXP ~va_list
-</programlisting>
-
-<para>If <emphasis>t</emphasis> is the <literal>TAG</literal> introduced by <emphasis>var_intro</emphasis> <literal>OPTION(TAGACC)</literal> in <emphasis>make_proc</emphasis>, then the token application <emphasis>~__va_start(obtain_tag(t))</emphasis> will provide the initial value for a local variable to be used for stepping through the anonymous parameters of the procedure, starting with the first actual parameter (if any) that does not have a corresponding entry in the make_proc params_intro list.</para>
-
-</sect2>
-<sect2>
-<title><literal>~va_arg</literal></title>
-
-<programlisting>
-<emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
-<emphasis>s</emphasis>:   SHAPE
--&gt; EXP <emphasis>s</emphasis>
-</programlisting>
-
-<para>If <emphasis>v</emphasis> is the variable initialised by <emphasis>~__va_start</emphasis> (see above), then successive token applications <emphasis>~va_arg(v,s)</emphasis> will deliver the anonymous parameter values in turn. The successive <literal>SHAPE</literal>s <emphasis>s</emphasis> must be the appropriate <literal>SHAPE</literal>s for the successive parameters.</para>
-
-</sect2>
-<sect2>
-<title><literal>~va_end</literal></title>
-
-<programlisting>
-<emphasis>v</emphasis>:   EXP POINTER (alignment(~va_list))
--&gt; EXP TOP
-</programlisting>
-
-<para>If <emphasis>v</emphasis> is a variable initialised by <emphasis>~__va_start</emphasis>, the token application <emphasis>~va_end(v)</emphasis> indicates that no further use will be made of <emphasis>v</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>~next_caller_offset</literal></title>
-
-<programlisting>
-<emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
-<emphasis>s1</emphasis>:  SHAPE
-<emphasis>s2</emphasis>:  SHAPE
--&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
-</programlisting>
-
-<para><emphasis>~next_caller_offset</emphasis> is used to provide access to successive elements of the <emphasis>caller_params</emphasis> of an <emphasis>apply_general_proc</emphasis>, by delivering successive <literal>OFFSET</literal>s of their positions relative to the environment pointer created by that procedure application. Both the <emphasis>apply_general_proc</emphasis> and associated <emphasis>make_general_proc</emphasis> will include <literal>PROCPROPS</literal> <emphasis>var_callers</emphasis>.</para>
-
-<para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for a <emphasis>caller_params</emphasis> element of <literal>SHAPE</literal> <emphasis>s1</emphasis>, and will be derived either from <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced by <emphasis>caller_intro</emphasis> of the <emphasis>make_general_proc</emphasis> , or from a previous application of <emphasis>~next_caller_offset</emphasis>. <emphasis>s2</emphasis> will be the <literal>SHAPE</literal> of the subsequent <emphasis>caller_params</emphasis> element, whose <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will include the set union of <literal>ALIGNMENT</literal>s appropriate to the <emphasis>make_general_proc</emphasis> (as specified by <emphasis>current_env</emphasis>).</para>
-
-</sect2>
-<sect2>
-<title><literal>~next_callee_offset</literal></title>
-
-<programlisting>
-<emphasis>o1</emphasis>:  EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s1</emphasis>))
-<emphasis>s1</emphasis>:  SHAPE
-<emphasis>s2</emphasis>:  SHAPE
--&gt; EXP OFFSET (<emphasis>fa</emphasis>,parameter_alignment(<emphasis>s2</emphasis>))
-</programlisting>
-
-<para><emphasis>~next_callee_offset</emphasis> is used to provide access to successive elements of the <literal>CALLEES</literal> of an <emphasis>apply_general_proc</emphasis> or <emphasis>tail_call</emphasis>, by delivering successive <literal>OFFSET</literal>s of their positions relative to the environment pointer created by that procedure application. Both the procedure application and associated <emphasis>make_general_proc</emphasis> will include <literal>PROCPROPS</literal> <emphasis>var_callees</emphasis>.</para>
-
-<para><emphasis>o1</emphasis> will be the <literal>OFFSET</literal> for a <literal>CALLEES</literal> element of <literal>SHAPE</literal> <emphasis>s1</emphasis>, and will be derived either from <emphasis>env_offset</emphasis> for a <literal>TAG</literal> introduced by <emphasis>callee_intro</emphasis> of the <emphasis>make_general_proc</emphasis>, or from a previous application of <emphasis>~next_callee_offset</emphasis>. <emphasis>s2</emphasis> will be the <literal>SHAPE</literal> of the subsequent <literal>CALLEES</literal> element, whose <literal>OFFSET</literal> is delivered. <emphasis>fa</emphasis> will include the set union of <literal>ALIGNMENT</literal>s appropriate to the <emphasis>make_general_proc</emphasis> (as specified by <emphasis>current_env</emphasis> ).</para>
-
-</sect2>
-</sect1>
-</chapter>
-
-<chapter>
-<title>Language Programming Interfaces</title>
-
-<para>A Language Programming Interface (LPI) is here defined to mean a set of tokens, usually specific to a particular producer, which will encapsulate language features at a higher level than basic TDF constructs, more convenient for the producer to produce.</para>
-
-<para>Responsibility for the specification of individual LPIs lies with the appropriate producer itself. Before an application can be installed on some target platform, the appropriate LPI token definitions must have been built for that platform. In this sense, the LPI can be considered as a primitive API, which is discussed in section -XREF-#S217.</para>
-
-<para>The process by which the LPI token definition library or capsule is generated for any specific platform will vary according to the LPI, and responsibility for defining that process will also lie with the appropriate producer. Some LPIs, such as that associated with DRA's C producer, can be fully defined by architecture neutral TDF, using the tokens specified in sections -XREF-#S63 and -XREF-#S114 to encapsulate any target dependencies. When that is the case, the generation process can be fully automated. For other LPIs the process may be much less automated. In some cases where the source language implies a complex run-time system, this might even require a small amount of new code to be written for each platform.</para>
-
-<para>Generally, the individual LPI tokens do not need to be specified in the token registry, provided they follow a registered naming scheme to ensure uniqueness (see section -XREF-#S52). In exceptional circumstances it may be necessary for some TDF tool to recognise individual LPI tokens explicitly by name. This will be the case when experimenting with potential extensions to TDF, in the field of parallelism for example. In other cases a TDF installer or other tool may recognise an LPI token by name rather than its definition by choice, for some unspecified advantage. We make a pragmatic choice in such cases whether to include such token specifications in the token registry. For widely used producers, we can assume availability of the LPI token specifcations, or standard definitions, separately from the token register, but we should expect any such tokens to be specified within the register for all cases where significant advantage could be taken by an installer only if it recognises the token by name.</para>
-
-<sect1>
-<title>The DRA C LPI</title>
-
-<para>DRA's C producer LPI is defined by an architecture neutral token definition capsule provided with the producer. Target specific detail is included only by use of the target dependency tokens and C mapping tokens specified in sections -XREF-#S63 and -XREF-#S124.1 respectively. Target specific versions of this capsule are obtained by transformation, using the `preprocessing' action of the TDF tool <emphasis>tnc</emphasis>, with definitions of the target dependency and C mapping tokens that are provided with the target installer. No special treatment is required for any of the C LPI tokens, though translation time can be slightly improved in a few cases if the names are recognised and standard token definition exercised explicitly within some installers.</para>
-
-<para>The DRA C LPI does not include standard library features, for which the C language requires header files. The standard C library is one example of an API, discussed in section -XREF-#S217.</para>
-
-</sect1>
-
-<sect1>
-<title>The DRA C++ LPI</title>
-
-<para>The DRA C++ LPI extends the DRA C LPI adding tokens for target specific C++ features not found in C. Again, standard library features are treated as an API.</para>
-
-</sect1>
-<sect1>
-<title>The Etnoteam Fortran LPI</title>
-
-<para>The details in this subsection are provisional, subject to confirmation of argument and result <literal>SORT</literal>s, and development of model token definitions.</para>
-
-<para>The following tokens are named here in case any installers may be able to produce better code than could be achieved by normal token expansion. In particular, some installers may be able to inline standard function calls.</para>
-
-<simplelist type='horiz' columns='2'>
-<member><emphasis>.Et~SQRT</emphasis></member><member>square root of any floating variety, including complex.</member>
-<member><emphasis>.Et~<literal>EXP</literal></emphasis></member><member>exponential (<emphasis>e ** x</emphasis>) of any floating variety, including complex.</member>
-<member><emphasis>.Et~LOG</emphasis></member><member>(natural) logarithm of any floating variety, including complex.</member>
-<member><emphasis>.Et~LOG_10</emphasis></member><member>base 10 logarithm of any floating variety, including complex.</member>
-<member><emphasis>.Et~LOG_2</emphasis></member><member>base 2 logarithm of any floating variety, including complex.</member>
-<member><emphasis>.Et~SIN</emphasis></member><member>sine of any floating variety, including complex.</member>
-<member><emphasis>.Et~COS</emphasis></member><member>cosine of any floating variety, including complex.</member>
-<member><emphasis>.Et~TAN</emphasis></member><member>tangent of any floating variety, including complex.</member>
-<member><emphasis>.Et~ASIN</emphasis></member><member>inverse sine of any floating variety, including complex.</member>
-<member><emphasis>.Et~ACOS</emphasis></member><member>inverse cosine of any floating variety, including complex.</member>
-<member><emphasis>.Et~ATAN</emphasis></member><member>inverse (one argument) tangent of any floating variety, including complex.</member>
-<member><emphasis>.Et~ATAN2</emphasis></member><member>inverse (two arguments) tangent of any floating variety, excluding complex.</member>
-<member><emphasis>.Et~SINH</emphasis></member><member>hyperbolic sine of any floating variety, including complex.</member>
-<member><emphasis>.Et~COSH</emphasis></member><member>hyperbolic cosine of any floating variety, including complex.</member>
-<member><emphasis>.Et~TANH</emphasis></member><member>hyperbolic tangent of any floating variety, including complex.</member>
-<member><emphasis>.Et~ASINH</emphasis></member><member>inverse hyperbolic sine of any floating variety, including complex.</member>
-<member><emphasis>.Et~ACOSH</emphasis></member><member>inverse hyperbolic cosine of any floating variety, including complex.</member>
-<member><emphasis>.Et~ATANH</emphasis></member><member>inverse hyperbolic tangent of any floating variety, including complex.</member>
-<member><emphasis>.Et~MOD</emphasis></member><member>floating point remainder of any floating variety, excluding complex.</member>
-</simplelist>
-
-
-</sect1>
-</chapter>
-
-<chapter>
-<title>Application Programming Interfaces</title>
-
-<para>Application Programming Interfaces are typically specified with a C mapping, which define the required contents for C header files which a portable C program must include by name to gain access to target specific implementations of an API library. The TDF approach to API specification includes using a #pragma token syntax within architecture neutral C header files, such that all implementation dependencies are encapsulated by API specific tokens. These API tokens are the TDF representation of the API. Both the API library and API token definitions are required before a TDF program using the API can be installed on any particular platform.</para>
-
-<para>Platform specific definitions for API tokens are produced automatically, with few exceptions, for any platform with a conformant implementation of the API. This is achieved by a token library building process which analyses the architecture neutral header files for the API concerned, together with the platform specific header files that provide normal (non-TDF) C access to the API. The few exceptions occur where the platform specific header files have been written to make use of specific C compiler built-in features, typically recognised by identifiers with a prefix such as `<emphasis>__builtin_</emphasis>'. Such cases are very likely to require explicit recognition of the corresponding token name in TDF installers.</para>
-
-<para>Generally, API token names and specifications are not detailed in this token register. The token specifications are clearly dependent on the associated API specifications. Authority for controlling the actual API token names, and the relationship between API tokens and the various API standardisation authorities, remain separate subjects of discussion.</para>
-
-<para>Names and specifications are given or implied below for those API tokens which frequently require built-in support from installers, and for other cases where an installer may be able to produce better code than could be achieved by normal token expansion, for example by inlining standard function calls.</para>
-
-<sect1>
-<title>ANSI C standard functions</title>
-
-<para>The set of tokens implied below all have the form:</para>
-
-<sect2>
-<title><literal>ansi.header.function</literal></title>
-
-<programlisting>
-... :    ...
--&gt; EXP
-</programlisting>
-
-<para>Tokens are defined for all cases where <emphasis>header</emphasis> is ctype or string or math or stdlib, and <emphasis>function</emphasis> is the name of a non-ellipsis function specified in the ANSI C standard library, declared within the corresponding header &lt;<emphasis>header</emphasis>.h&gt;. (Note that ellipsis functions, such as <emphasis>printf</emphasis>, cannot be represented as tokens since they may take a variable number of arguments.)</para>
-
-<para>These tokens have arguments all of <literal>SORT</literal> <literal>EXP</literal>, whose number and shape, and token result shape, all correspond to the implementation shape of the named ANSI C standard library function parameters and result. For the few cases where the function is specified not to return (e.g. <emphasis>ansi.stdlib.abort</emphasis>), the result shape may be either <literal>TOP</literal> or <literal>BOTTOM</literal>.</para>
-
-</sect2>
-</sect1>
-
-<sect1>
-<title>Common exceptional cases</title>
-
-<para> </para>
-
-<sect2>
-<title><literal>ansi.setjmp.setjmp</literal></title>
-
-<programlisting>
+        </programlisting>
+        
+        <para>Tokens are defined for all cases where
+          <emphasis>header</emphasis> is ctype or string or math or stdlib,
+          and <emphasis>function</emphasis> is the name of a non-ellipsis
+          function specified in the ANSI C standard library, declared within
+          the corresponding header &lt;<emphasis>header</emphasis>.h&gt;.
+          (Note that ellipsis functions, such as <emphasis>printf</emphasis>,
+          cannot be represented as tokens since they may take a variable
+          number of arguments.)</para>
+        
+        <para>These tokens have arguments all of <literal>SORT</literal>
+          <literal>EXP</literal>, whose number and shape, and token result
+          shape, all correspond to the implementation shape of the named ANSI
+          C standard library function parameters and result. For the few cases
+          where the function is specified not to return (e.g.
+          <emphasis>ansi.stdlib.abort</emphasis>), the result shape may be
+          either <literal>TOP</literal> or <literal>BOTTOM</literal>.</para>
+      </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>Common exceptional cases</title>
+    
+      <para> </para>
+      
+      <sect2>
+        <title><literal>ansi.setjmp.setjmp</literal></title>
+        
+        <programlisting>
 <emphasis>jb</emphasis>:  EXP
 -&gt; EXP
-</programlisting>
+        </programlisting>
+        
+        <para><emphasis>ansi.setjmp.setjmp</emphasis> is a token which has the
+          semantics and argument and result implementation shapes
+          corresponding to the ANSI C macro <emphasis>setjmp</emphasis>
+          declared within &lt;setjmp.h&gt;.</para>
+    </sect2>
 
-<para><emphasis>ansi.setjmp.setjmp</emphasis> is a token which has the semantics and argument and result implementation shapes corresponding to the ANSI C macro <emphasis>setjmp</emphasis> declared within &lt;setjmp.h&gt;.</para>
-
-</sect2>
-<sect2>
-<title><literal>ansi.setjmp.longjmp</literal></title>
-
-<programlisting>
+    <sect2>
+      <title><literal>ansi.setjmp.longjmp</literal></title>
+      
+      <programlisting>
 <emphasis>jb</emphasis>:  EXP
 <emphasis>v</emphasis>:   EXP
 -&gt; EXP
-</programlisting>
+      </programlisting>
+      
+      <para><emphasis>ansi.setjmp.longjmp</emphasis> is a token which has the
+        semantics and argument implementation shapes corresponding to the ANSI
+        C macro <emphasis>longjmp</emphasis> declared within &lt;setjmp.h&gt;.
+        The result shape may be either TOP or BOTTOM.</para>
+    </sect2>
 
-<para><emphasis>ansi.setjmp.longjmp</emphasis> is a token which has the semantics and argument implementation shapes corresponding to the ANSI C macro <emphasis>longjmp</emphasis> declared within &lt;setjmp.h&gt;. The result shape may be either TOP or BOTTOM.</para>
-
-</sect2>
-<sect2>
-<title><literal>~alloca</literal></title>
-
-<programlisting>
+    <sect2>
+      <title><literal>~alloca</literal></title>
+    
+      <programlisting>
 <emphasis>i</emphasis>:   EXP
 -&gt; EXP
-</programlisting>
+      </programlisting>
+    
+      <para><emphasis>~alloca</emphasis> is a token which has the semantics
+        and argument and result implementation shapes corresponding to the BSD
+        specified function <emphasis>alloca</emphasis>.</para>
+    </sect2>
 
-<para><emphasis>~alloca</emphasis> is a token which has the semantics and argument and result implementation shapes corresponding to the BSD specified function <emphasis>alloca</emphasis>.</para>
-
-</sect2>
-<sect2>
-<title><literal>ansi.stdarg.va_list, ansi.stdarg.__va_start, ansi.stdarg.va_arg, ansi.stdarg.va_end</literal></title>
-
-<para>These four tokens are identical to the Interface Tokens <emphasis>~va_list</emphasis>, <emphasis>~__va_start</emphasis>, <emphasis>~va_arg</emphasis> and <emphasis>~va_end</emphasis> respectively.</para>
-
-</sect2>
-</sect1>
-</chapter>
+    <sect2>
+      <title><literal>ansi.stdarg.va_list, ansi.stdarg.__va_start,
+        ansi.stdarg.va_arg, ansi.stdarg.va_end</literal></title>
+      
+      <para>These four tokens are identical to the Interface Tokens
+        <emphasis>~va_list</emphasis>, <emphasis>~__va_start</emphasis>,
+        <emphasis>~va_arg</emphasis> and <emphasis>~va_end</emphasis>
+        respectively.</para>
+      </sect2>
+    </sect1>
+  </chapter>
+</book>
