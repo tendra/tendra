@@ -3530,7 +3530,7 @@ return ( 0 );
 
 <sect1>
 
-<title>A.2 nepc and not_ansi modes</title>
+<title>nepc and not_ansi modes</title>
 
 <para>These modes modify the base environment.</para>
 
@@ -3590,7 +3590,9 @@ return ( 0 );
 
 </sect1>
 
-<sect1>
+</appendix>
+
+<appendix>
 <title>Command Line Options for Portability Checking</title>
 
 <table frame=all>
@@ -3608,14 +3610,2560 @@ return ( 0 );
 
 <row>
 <entry>Weak Prototype Analysis</entry>
-<entry>3.3.1</entry>
-<entry>-X:weak_proto=status</entry>
+<entry>-XREF-3.3.1</entry>
+<entry>-X:weak_proto=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Implicit Function Declaration</entry>
+<entry>-XREF-3.4</entry>
+<entry>-X:implicit_func=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Printf String Checking</entry>
+<entry>-XREF-3.2.2</entry>
+<entry>-X:printf=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Incompatible Void Returns</entry>
+<entry>-XREF-3.2.2</entry>
+<entry>-X:void_ret=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Unreachable Code</entry>
+<entry>-XREF-5.2</entry>
+<entry>-X:unreached=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Case Fall Through</entry>
+<entry>-XREF-5.3</entry>
+<entry>-X:fall_thru=stat</entry>
+</row>
+
+<row>
+<entry>Conversion Analysis</entry>
+<entry>-XREF-3.2</entry>
+<entry>-X:convert_all=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Integer-Integer Conversion</entry>
+<entry>-XREF-3.2.1</entry>
+<entry>-X:convert_int=<emphasis>status</emphasis>
+  -X:convert_int_implicit=<emphasis>status</emphasis>
+  -Xconvert_int_implicit=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Integer-Pointer Conversion</entry>
+<entry>-XREF-3.2.2</entry>
+<entry>-X:convert_int_ptr=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Pointer-Pointer Conversion</entry>
+<entry>-XREF-3.2.3</entry>
+<entry>-X:convert_ptr=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Complete Struct/Union Analysis</entry>
+<entry>-XREF-8.3</entry>
+<entry>-X:complete_struct=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Variable Analysis</entry>
+<entry>-XREF-5.6</entry>
+<entry>-X:variable=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Discard Analysis</entry>
+<entry>-XREF-5.8</entry>
+<entry>-X:discard_all=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Discarded Function Returns</entry>
+<entry>-XREF-5.8.1</entry>
+<entry>-X:discard_func_ret=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Discarded Values</entry>
+<entry>-XREF-5.8.2</entry>
+<entry>-X:discard_value=<emphasis>status</emphasis></entry>
+</row>
+
+<row>
+<entry>Unused Statics</entry>
+<entry>-XREF-5.8.2</entry>
+<entry>-X:unused_static=<emphasis>status</emphasis></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<note><para><emphasis>status</emphasis> can be one of <emphasis>check</emphasis>, <emphasis>warn</emphasis> or <emphasis>dont</emphasis>.</para></note>
+
+
+</appendix>
+
+<appendix>
+<title>Integral Type Specification</title>
+
+<sect1>
+<title>Specifying integer literal types</title>
+
+<para>The integer literal pragmas are used to define the method of computing the type of an integer literal. Integer literals cannot be used in a program unless the class to which they belong has been described using an integer literal pragma. Each built-in checking mode includes some integer literal pragmas describing the semantics appropriate for that mode. If these built-in modes are inappropriate, then the user must describe the semantics using the pragma below:</para>
+
+<programlisting>
+#pragma integer literal <emphasis>literal_class lit_class_type_list</emphasis>
+</programlisting>
+
+<para>The <emphasis>literal_class</emphasis> identifies the type of literal integer involved. The possibilities are:</para>
+
+<itemizedlist>
+<listitem><para><literal>decimal</literal></para></listitem>
+
+<listitem><para><literal>octal</literal></para></listitem>
+
+<listitem><para><literal>hexadecimal</literal></para></listitem>
+</itemizedlist>
+
+<para>Each of these types can optionally be followed by <literal>unsigned</literal> and/or <literal>long</literal> to specify an unsigned and/or long type respectively.</para>
+
+<para>The values of the integer literals of any particular class are divided into contiguous sub-ranges specified by the <literal>lit_class_type_list</literal> which takes the form below:</para>
+
+<programlisting>
+<emphasis>lit_class_type_list</emphasis>
+*<emphasis>int_type_spec</emphasis>
+<emphasis>integer_constant int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis>
+<emphasis>int_type_spec</emphasis> :
+: <emphasis>type_name</emphasis>
+* warning<subscript><emphasis>opt</emphasis></subscript> : <emphasis>identifier</emphasis>
+** :
+</programlisting>
+
+<para>The first integer constant, i1 say, identifies the range [0,i1], the second, i2 say, identifies the range [i1+1,i2]. The symbol * specifies the unlimited range upwards from the last integer constant. Each integer constant must be strictly greater than its predecessor.</para>
+
+<para>Associated with each sub-range is an <emphasis>int_type_spec</emphasis> which is either a type, a procedure token identifier with an optional warning (see G.9)or a failure. For each sub-range:</para>
+
+<itemizedlist>
+<listitem><para>If the <emphasis>int_type_spec</emphasis> is a type name, then it must be an integral type and specifies the type associated with literals in that sub-range.</para></listitem>
+
+<listitem>
+<para>If the <literal>int_type_spec</literal> is an identifier, then the type of integer is computed by a procedure token of that name which takes the integer value as a parameter and delivers its type. The procedure token must have been declared previously as</para>
+
+<programlisting>
+#pragma token PROC ( VARIETY ) VARIETY
+</programlisting>
+<para>Since the type of the integer is computed by a procedure token which may be implemented differently on different targets, there is the option of producing a warning whenever the token is applied.</para>
+</listitem>
+
+<listitem><para>If the <emphasis>int_type_spec</emphasis> is **, then any integer literal lying in the associated sub-range will cause the checker to raise an error.</para></listitem>
+</itemizedlist>
+
+<para>For example:</para>
+
+<programlisting>
+#pragma integer literal decimal 0x7fff : int | 0x7fffffff : long | * : unsigned long
+</programlisting>
+
+<para>divides unsuffixed decimal literals into three ranges: literals in the range [0, 0x7fff] are of type int, integer literals in the range [0x7fff, 0x7fffffff] are of type long and the remainder are of type unsigned long.</para>
+
+<para>There are four pre-defined procedure tokens supplied with the compiler which are used in the startup files to provide the default specification for integer literals:</para>
+
+<itemizedlist>
+
+<listitem>
+<para><literal>~lit_int</literal> is the external identification of a token that returns the integer type according to the rules of ISO C for an unsuffixed decimal;</para>
+</listitem>
+
+<listitem>
+<para><literal>~lit_hex</literal> is the external identification of a token that returns the integer type according to the rules of ISO C for an unsuffixed hexadecimal;</para>
+</listitem>
+
+<listitem>
+<para><literal>~lit_unsigned</literal> is the external identification of a token that returns the integer type according to the rules of ISO C for integers suffixed by U only;</para>
+</listitem>
+
+<listitem>
+<para><literal>~lit_long</literal> is the external identification of a token that returns the integer type according to the rules of ISO C for integers suffixed by L only.</para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>The Portability Table</title>
+
+<para>The portability table is used by the checker to describe the minimum assumptions about the representation of the integral types. It contains information on the minimum integer sizes and the minimum range of values that can be represented by each integer type.</para>
+
+<para>Two built-in portability tables are provided. The default reflects the minimal requirements laid down in the ISO C standard. The 32-bit portability table (specified by the passing the -Y32bit option to tchk) reflects the implementation on most modern 32 bit machines. These tables are shown below.</para>
+
+
+<table frame=all>
+<title>ISO/ANSI Minimum Requirements Portability Table (default)</title>
+<tgroup cols=2>
+<thead>
+<row>
+<entry>.</entry>
+<entry>.</entry>
+</row>
+</thead>
+
+<tbody>
+
+<row>
+<entry>char_bits</entry>
+<entry>8</entry>
+</row>
+
+<row>
+<entry>short_bits</entry>
+<entry>16</entry>
+</row>
+
+<row>
+<entry>int_bits</entry>
+<entry>16</entry>
+</row>
+
+<row>
+<entry>long_bits</entry>
+<entry>32</entry>
+</row>
+
+<row>
+<entry>signed_range</entry>
+<entry>symmetric</entry>
+</row>
+
+<row>
+<entry>char_type</entry>
+<entry>either</entry>
+</row>
+
+<row>
+<entry>ptr_int</entry>
+<entry>none</entry>
+</row>
+
+<row>
+<entry>ptr_fn</entry>
+<entry>yes</entry>
+</row>
+
+<row>
+<entry>non_prototype_checks</entry>
+<entry>yes</entry>
+</row>
+
+<row>
+<entry>multibyte</entry>
+<entry>0</entry>
 </row>
 
 </tbody>
 </tgroup>
 </table>
 
+
+<table frame=all>
+<title>32 bit Portability table (specified by -Y32bit option)</title>
+<tgroup cols=2>
+<thead>
+<row>
+<entry>.</entry>
+<entry>.</entry>
+</row>
+</thead>
+
+<tbody>
+
+<row>
+<entry>char_bits</entry>
+<entry>8</entry>
+</row>
+
+<row>
+<entry>short_bits</entry>
+<entry>16</entry>
+</row>
+
+<row>
+<entry>int_bits</entry>
+<entry>16</entry>
+</row>
+
+<row>
+<entry>long_bits</entry>
+<entry>32</entry>
+</row>
+
+<row>
+<entry>signed_range</entry>
+<entry>symmetric</entry>
+</row>
+
+<row>
+<entry>char_type</entry>
+<entry>either</entry>
+</row>
+
+<row>
+<entry>ptr_int</entry>
+<entry>none</entry>
+</row>
+
+<row>
+<entry>ptr_fn</entry>
+<entry>yes</entry>
+</row>
+
+<row>
+<entry>non_prototype_checks</entry>
+<entry>yes</entry>
+</row>
+
+<row>
+<entry>multibyte</entry>
+<entry>0</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+<para>The decimal integer associated with each of <emphasis>char_bits</emphasis>, <emphasis>short_bits</emphasis> , <emphasis>int_bits</emphasis> and <emphasis>long_bits</emphasis> gives the minimum number of bits in the representation of each integer type on all target machines. For example, if <emphasis>int_bits</emphasis> is set to 32 the compiler will perform its checks in the knowledge that the program will not be used on a machine whose int types are represented by 16 bits although they might be represented by 32 or 64 bits.</para>
+
+<para>The minimum integer ranges are deduced from the minimum integer sizes as follows. Suppose b is the minimum number of bits that will be used to represent a certain integral type, then:</para>
+
+<itemizedlist>
+<listitem>
+<para>For unsigned integer types the minimum range is [0, 2<superscript>b</superscript>-1];</para>
+</listitem>
+
+<listitem>
+<para>For signed integer types if <literal>signed_range</literal> is maximum the minimum range is [-2<superscript>b-1</superscript>, 2<superscript>b-1</superscript>-1]. Otherwise, if <emphasis>signed_range</emphasis> is symmetric the minimum range is [-(2<superscript>b-1</superscript>-1), 2<superscript>b-1</superscript>-1];</para>
+</listitem>
+
+<listitem>
+<para>For the type char which is not specified as signed or unsigned, if <emphasis>char_type</emphasis> is signed then char is treated as signed, if <emphasis>char_type</emphasis> is unsigned then char is treated as unsigned, and if <emphasis>char_type</emphasis> is either, the minimum range of char is the intersection of the minimum ranges of signed char and unsigned char.</para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+</appendix>
+
+
+<appendix>
+<title>Summary of the pragma statements</title>
+
+<orderedlist>
+<listitem>
+<para><emphasis>pragma_syntax</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+#pragma TenDRA <emphasis>tendra_pragma</emphasis>
+#pragma token <emphasis>token_pragma</emphasis>
+#pragma <emphasis>token_operation</emphasis>
+#pragma <emphasis>integer_pragma</emphasis>
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>tendra_pragma</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+begin -XREF-tdfc5.html#13==&gt;
+begin <emphasis>name</emphasis> environment <emphasis>identifier</emphasis> 
+declaration block <emphasis>identifier</emphasis> begin -XREF-tdfc21.html#6==&gt;
+declaration block end -XREF-tdfc21.html#6==&gt;
+directory <emphasis>name</emphasis> use environment <emphasis>identifier</emphasis>
+use environment <emphasis>identifier</emphasis>
+end -XREF-tdfc5.html#13==&gt;
+<emphasis>analysis_spec</emphasis>
+<emphasis>function_pars</emphasis> -XREF-tdfc6.html#32==&gt;
+keyword <emphasis>identifier</emphasis> for <emphasis>keyword_spec</emphasis>
+type <emphasis>identifier</emphasis> for <emphasis>type_spec</emphasis>
+<emphasis>check_pragma</emphasis>
+<emphasis>variable_pragma</emphasis>
+<emphasis>dialect_pragma</emphasis>
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>analysis_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+complete struct/union analysis <emphasis>state</emphasis> -XREF-tdfc11.html#4==&gt; 
+conversion <emphasis>conv_list</emphasis> allow -XREF-tdfc22.html#2==&gt;
+conversion analysis <emphasis>conversion_spec</emphasis> -XREF-tdfc6.html#2==&gt;
+discard analysis <emphasis>discard_spec</emphasis> -XREF-tdfc8.html#36==&gt;
+enum switch analysis <emphasis>state</emphasis> -XREF-tdfc11.html#2==&gt;
+fall into case <emphasis>permit</emphasis> -XREF-tdfc8.html#6==&gt;
+function pointer as pointer <emphasis>permit</emphasis> -XREF-tdfc6.html#11==&gt;
+integer operator analysis <emphasis>state</emphasis> -XREF-tdfc7.html#18==&gt;
+integer overflow analysis <emphasis>state</emphasis> -XREF-tdfc7.html#14==&gt;
+nested comment analysis <emphasis>state</emphasis> -XREF-tdfc10.html#45==&gt;
+operator precedence analysis <emphasis>state</emphasis> -XREF-tdfc8.html#15==&gt;
+unreachable code <emphasis>permit</emphasis> -XREF-tdfc8.html#2==&gt;
+variable analysis <emphasis>state</emphasis> -XREF-tdfc8.html#2==&gt;
+variable hiding analysis <emphasis>state</emphasis> -XREF-tdfc11.html#6==&gt;
+weak prototype analysis <emphasis>state</emphasis> -XREF-tdfc6.html#20==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>conversion_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>empty</emphasis>
+( int-int ) -XREF-tdfc6.html#5==&gt;
+( int-int explicit ) -XREF-tdfc6.html#5==&gt;
+( int-int implicit ) -XREF-tdfc6.html#5==&gt;
+( int-enum implicit) -XREF-tdfc6.html#5==&gt;
+(enum-int implicit) -XREF-tdfc6.html#5==&gt;
+( int-pointer ) -XREF-tdfc6.html#8==&gt;
+( int-pointer explicit ) -XREF-tdfc6.html#8==&gt;
+(int-pointer implicit ) -XREF-tdfc6.html#8==&gt;
+( pointer-int ) -XREF-tdfc6.html#8==&gt;
+( pointer-int explicit ) -XREF-tdfc6.html#8==&gt;
+( pointer-int implicit ) -XREF-tdfc6.html#8==&gt;
+( pointer-pointer ) -XREF-tdfc6.html#11==&gt;
+( pointer-pointer explicit ) -XREF-tdfc6.html#11==&gt;
+( pointer-pointer implicit ) -XREF-tdfc6.html#11==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>discard_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>empty</emphasis>
+( function return ) -XREF-tdfc8.html#38==&gt;
+( static ) -XREF-tdfc8.html#42==&gt;
+( value ) -XREF-tdfc8.html#40==&gt;
+
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>function_pars</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+argument <emphasis>type_name</emphasis> as <emphasis>type_name</emphasis> -XREF-tdfc6.html#32==&gt;
+argument <emphasis>type_name</emphasis> as ... -XREF-tdfc6.html#32==&gt;
+extra ... <emphasis>permit</emphasis> -XREF-tdfc6.html#32==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>keyword_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+discard value -XREF-tdfc8.html#44==&gt;
+discard variable -XREF-tdfc8.html#26==&gt;
+exhaustive -XREF-tdfc8.html#32==&gt;
+fall into case -XREF-tdfc8.html#6==&gt;
+set -XREF-tdfc8.html#29==&gt;
+set reachable -XREF-tdfc8.html#2==&gt;
+set unreachable -XREF-tdfc8.html#2==&gt;
+type representation -XREF-tdfc7.html#4==&gt;
+weak -XREF-tdfc6.html#20==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>type_spec:</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+bottom -XREF-tdfc8.html#34==&gt;
+... printf -XREF-tdfc6.html#23==&gt;
+... scanf -XREF-tdfc6.html#23==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>check_pragma</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+implicit function declaration <emphasis>state</emphasis> -XREF-tdfc6.html#30==&gt;
+incompatible interface declaration <emphasis>permit</emphasis> -XREF-tdfc21.html#1==&gt;
+incompatible void return <emphasis>permit</emphasis> -XREF-tdfc6.html#25==&gt;
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><<emphasis>variable_pragma</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+discard <emphasis>identifier</emphasis> <emphasis>separator</emphasis> -XREF-tdfc8.html#26==&gt; 
+preserve <emphasis>identifier_list</emphasis> -XREF-tdfc8.html#46==&gt;
+set identifier <emphasis>separator</emphasis> -XREF-tdfc8.html#29==&gt;
+suspend static <emphasis>identifier_list</emphasis> -XREF-tdfc8.html#46==&gt;
+exhaustive -XREF-tdfc8.html#32==&gt;
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>separator</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+;
+,
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>identifier_list</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>identifier</emphasis>
+<emphasis>identifier</emphasis> <emphasis>identifier_list</emphasis>
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>dialect_pragma</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+++ -XREF-tdfc10.html#56==&gt;
+assignment as bool <emphasis>permit</emphasis> -XREF-tdfc8.html#11==&gt;
+bitfield overflow <emphasis>permit</emphasis> -XREF-tdfc7.html#14==&gt;
+block function static <emphasis>permit</emphasis> -XREF-tdfc10.html#15==&gt;
+character <emphasis>set_sign</emphasis> -XREF-tdfc10.html#9==&gt;
+character escape overflow <emphasis>permit</emphasis> -XREF-tdfc7.html#14==&gt;
+compatible type : char * == void * : <emphasis>permit</emphasis> -XREF-tdfc6.html#11==&gt; 
+conditional lvalue <emphasis>dallow</emphasis> -XREF-tdfc10.html#29==&gt;
+const conditional <emphasis>permit</emphasis> -XREF-tdfc8.html#13==&gt;
+dollar as ident <emphasis>dallow</emphasis> -XREF-tdfc10.html#39==&gt;
+directive <emphasis>pp_directive pp_spec</emphasis> -XREF-tdfc9.html#1==&gt;
+directive as macro argument <emphasis>permit</emphasis> -XREF-tdfc9.html#11==&gt;
+external volatile_t -XREF-tdfc10.html#23==&gt;
+extra ; <emphasis>permit</emphasis> -XREF-tdfc10.html#54==&gt;
+extra ; after conditional <emphasis>permit</emphasis> -XREF-tdfc8.html#9==&gt;
+extra , <emphasis>permit</emphasis> -XREF-tdfc10.html#52==&gt;
+extra bitfield int type <emphasis>permit</emphasis> -XREF-tdfc10.html#9==&gt;
+extra macro definition <emphasis>dallow</emphasis> -XREF-tdfc9.html#9==&gt;
+extra type definition <emphasis>permit</emphasis> -XREF-tdfc10.html#13==&gt;
+forward enum declaration <emphasis>dallow</emphasis> -XREF-tdfc10.html#19==&gt;
+floating point equality <emphasis>permit</emphasis> -XREF-tdfc11.html#8==&gt;
+ident ... <emphasis>permit</emphasis> -XREF-tdfc10.html#27==&gt;
+ignore struct/union/enum tag <emphasis>status</emphasis> -XREF-tdfc10.html#31==&gt; 
+implicit int type for external declaration <emphasis>permit</emphasis> -XREF-tdfc10.html#7==&gt;
+implicit int type for function return <emphasis>permit</emphasis> -XREF-tdfc10.html#7==&gt; 
+includes depth <emphasis>integral_constant</emphasis> -XREF-tdfc9.html#17==&gt;
+incompatible linkage <emphasis>permit</emphasis> -XREF-tdfc10.html#5==&gt;
+incompatible promoted function argument <emphasis>dallow</emphasis> -XREF-tdfc6.html#37==&gt;
+incompatible type qualifier <emphasis>dallow</emphasis> -XREF-tdfc6.html#39==&gt;
+incomplete type as object type <emphasis>permit</emphasis> -XREF-tdfc10.html#17==&gt; 
+indented # directive <emphasis>permit</emphasis> -XREF-tdfc9.html#7==&gt;
+initialization of struct/union (auto) <emphasis>permit</emphasis> -XREF-tdfc10.html#33==&gt; 
+linkage resolution : <emphasis>linkage_spec</emphasis> -XREF-tdfc10.html#1==&gt;
+longlong type <emphasis>permit</emphasis> -XREF-tdfc7.html#24==&gt;
+no directive/nline after ident <emphasis>permit</emphasis> -XREF-tdfc9.html#21==&gt; 
+no external declaration <emphasis>permit</emphasis> -XREF-tdfc10.html#50==&gt;
+no ident after # <emphasis>permit</emphasis> -XREF-tdfc9.html#11==&gt;
+no nline after file end <emphasis>permit</emphasis> -XREF-tdfc9.html#23==&gt;
+prototype <emphasis>permit</emphasis> -XREF-tdfc6.html#17==&gt;
+prototype (weak) <emphasis>permit</emphasis> -XREF-tdfc6.html#20==&gt;
+set longlong type : <emphasis>type_name</emphasis> -XREF-tdfc7.html#24==&gt;
+set name limit <emphasis>integer_constant</emphasis> -XREF-tdfc10.html#25==&gt;
+set size_t : <emphasis>type_name</emphasis> <emphasis>-XREF-tdfc7.html#10==&gt;</emphasis>
+text after directive <emphasis>permit</emphasis> -XREF-tdfc9.html#19==&gt;
+unify external linkage <emphasis>status</emphasis> -XREF-tdfc10.html#1==&gt;
+unify incompatible string literal <emphasis>permit</emphasis> -XREF-tdfc10.html#43==&gt; 
+unknown escape <emphasis>permit</emphasis> -XREF-tdfc10.html#36==&gt;
+unknown pragma <emphasis>permit</emphasis> -XREF-tdfc9.html#1==&gt;
+unknown struct/union <emphasis>dallow</emphasis> -XREF-tdfc10.html#21==&gt;
+unknown directive <emphasis>permit</emphasis> -XREF-tdfc9.html#1==&gt;
+unmatched quote <emphasis>permit</emphasis> -XREF-tdfc9.html#15==&gt;
+variable initialization <emphasis>dallow</emphasis> -XREF-tdfc10.html#35==&gt;
+weak macro equality <emphasis>permit</emphasis> -XREF-tdfc9.html#9==&gt;
+writeable string literal <emphasis>permit</emphasis> -XREF-tdfc10.html#41==&gt;
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>set_sign</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+signed
+unsign
+either
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>pp_directive</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+file
+ident
+assert
+unassert
+weak
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>pp_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+allow
+warning
+(ignore) allow
+(ignore) warning
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>linkage_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+(internal) on
+(internal) warning
+(external) on
+(external) warning
+off
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>state</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+on
+warning
+off
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>permit</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+allow
+warning
+disallow
+</programlisting>
+</listitem>
+
+<listitem>
+<para><emphasis>dallow</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+allow
+disallow
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>token_pragma</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+ARITHMETIC -XREF-tdfc20.html#13==&gt;
+DEFINE MEMBER
+EXP -XREF-tdfc20.html#3==&gt;
+FUNC -XREF-tdfc20.html#24==&gt;
+MEMBER -XREF-tdfc20.html#19==&gt;
+NAT -XREF-tdfc20.html#3==&gt;
+PROC -XREF-tdfc20.html#22==&gt;
+STATEMENT -XREF-tdfc20.html#6==&gt;
+STRUCT -XREF-tdfc20.html#16==&gt;
+TYPE -XREF-tdfc20.html#9==&gt;
+UNION -XREF-tdfc20.html#16==&gt;
+VARIETY -XREF-tdfc20.html#11==&gt;
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>token_operation</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+define
+no_def
+extend
+ignore
+implement
+interface
+promote -XREF-tdfc22.html#4==&gt;
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>integer_pragma:</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+integer literal <emphasis>lit_class_type_list</emphasis> -XREF-tdfc17.html#2==&gt;
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>lit_class_type_list:</emphasis></para>
+
+<programlisting linenumbering='unnumbered'>
+*<emphasis>int_type_spec</emphasis>
+integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis>
+</programlisting>
+</listitem>
+
+
+<listitem>
+<para><emphasis>int_type_spec</emphasis>:</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>type_name</emphasis>
+*warning<subscript><emphasis>opt</emphasis></subscript> : <emphasis>identifier</emphasis>
+** :
+</programlisting>
+</listitem>
+</orderedlist>
+</appendix>
+
+
+<appendix>
+<title>Dump format specification</title>
+
+<sect1>
+<title>Basics</title>
+
+<para>digit :</para>
+
+<programlisting linenumbering='unnumbered'>
+one of 0 1 2 3 4 5 6 7 8 9
+</programlisting>
+
+
+<para>digit-sequence :</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>   digit</emphasis>
+<emphasis>   digit-sequence</emphasis>
+</programlisting>
+
+<para>number :</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>   digit-sequence</emphasis>
+</programlisting>
+
+<para>string :</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>   &lt;characters&gt;</emphasis>
+<emphasis>   &amp;digit-sequence&lt;characters&gt;</emphasis>
+</programlisting>
+
+<para>location :</para>
+
+<programlisting linenumbering='unnumbered'>
+<emphasis>   number number number string string</emphasis>
+<emphasis>   number number number string *</emphasis>
+<emphasis>   number number number *</emphasis>
+<emphasis>   number number *</emphasis>
+<emphasis>   number *</emphasis>
+<emphasis>   *</emphasis>
+</programlisting>
+
 </sect1>
 
+<sect1>
+<title>Dump commands</title>
+
+
+<para>dump-file :</para>
+
+<programlisting>
+<emphasis>command-list</emphasis><emphasis>opt</emphasis>
+command-list :
+<emphasis>   command</emphasis>
+<emphasis>   command command-list</emphasis>
+</programlisting>
+
+<para>command :</para>
+
+<programlisting>
+<emphasis>   B base-definition  </emphasis> <emphasis>base class graph</emphasis>
+<emphasis>   error-command</emphasis>
+<emphasis>   file-command</emphasis>
+<emphasis>   I identifier-command   </emphasis> <emphasis>implicit declarations etc.</emphasis>
+<emphasis>   identifier-command</emphasis>
+<emphasis>   scope-command</emphasis>
+<emphasis>   O identifier identifier</emphasis> <emphasis>overriding virtual function</emphasis>
+<emphasis>   P type : type  </emphasis> <emphasis>promotion type specifier</emphasis>
+<emphasis>   string-command</emphasis>
+<emphasis>   V number number string </emphasis> <emphasis>version number</emphasis>
+<emphasis>   X api-info </emphasis> <emphasis>external token name</emphasis>
+<emphasis>   Z template-info</emphasis>    <emphasis>template instance</emphasis>
+</programlisting>
+</sect1>
+
+
+<sect1>
+<title>API information</title>
+
+<para>api-info :</para>
+
+<programlisting>
+<emphasis>   identifier key identifier string</emphasis>
+</programlisting>
+</sect1>
+
+<sect1>
+<title>Base definitions</title>
+
+<para>virtual :</para>
+<programlisting>
+<emphasis>   V</emphasis>
+</programlisting>
+
+<para>base-class :</para>
+<programlisting>
+<emphasis>   number = virtual</emphasis><emphasis>opt</emphasis> <emphasis>access</emphasis><emphasis>opt</emphasis> <emphasis>type-name
+</emphasis>
+<emphasis>   number :</emphasis>
+</programlisting>
+
+
+<para>base-list :</para>
+<programlisting>
+<emphasis>   base-graph</emphasis>
+<emphasis>   base-graph base-list</emphasis>
+</programlisting>
+
+<para>base-graph :</para>
+<programlisting>
+<emphasis>   base-class</emphasis>
+<emphasis>   base-class ( base-list )</emphasis>
+</programlisting>
+
+<para>base-definition :</para>
+<programlisting>
+<emphasis>   identifier-key number base-graph</emphasis>
+</programlisting>
+
+<para>base-number :</para>
+<programlisting>
+<emphasis>   number : type-name</emphasis>
+</programlisting>
+
+</sect1>
+
+
+<sect1>
+<title>Error commands</title>
+
+<para>error-command :</para>
+<programlisting>
+<emphasis>   EA error-argument  </emphasis> <emphasis>error argument</emphasis>
+<emphasis>   EC error-info  </emphasis> <emphasis>continuation error</emphasis>
+<emphasis>   EF location error-info </emphasis> <emphasis>fatal error</emphasis>
+<emphasis>   EI location error-info </emphasis> <emphasis>internal error</emphasis>
+<emphasis>   ES location error-info </emphasis> <emphasis>serious error</emphasis>
+<emphasis>   EW location error-info </emphasis> <emphasis>warning</emphasis>
+</programlisting>
+
+<para>error-info :</para>
+<programlisting>
+<emphasis>   error-name number number</emphasis>
+</programlisting>
+
+
+<para>error-name :</para>
+<programlisting>
+<emphasis>   number = string</emphasis>
+<emphasis>   number</emphasis>
+</programlisting>
+
+<para>error-argument :</para>
+
+<programlisting>
+<emphasis>   B base-number</emphasis>
+<emphasis>   C scope-identifier</emphasis>
+<emphasis>   E exp</emphasis>
+<emphasis>   H hashid</emphasis>
+<emphasis>   I identifier</emphasis>
+<emphasis>   L location</emphasis>
+<emphasis>   N nat</emphasis>
+<emphasis>   S string</emphasis>
+<emphasis>   T type</emphasis>
+<emphasis>   V number</emphasis>
+<emphasis>   V -number</emphasis>
+</programlisting>
+
+</sect1>
+
+
+<sect1>
+<title>File commands</title>
+
+<para>file-command :</para>
+<programlisting>
+<emphasis>   FD number = string stringopt   </emphasis> <emphasis>inclusion directory</emphasis>
+<emphasis>   FE location</emphasis> <emphasis>file end</emphasis>
+<emphasis>   FIA location string</emphasis> <emphasis>file include with &lt;&gt;</emphasis>
+<emphasis>   FIE location string</emphasis> <emphasis>include end-up</emphasis>
+<emphasis>   FIN location string</emphasis> <emphasis>file include with []</emphasis>
+<emphasis>   FIQ location string</emphasis>    <emphasis>file include with &quot;&quot;</emphasis>
+FIR location    <emphasis>resume file</emphasis>
+FIS location string <emphasis>include startup</emphasis>
+FS location directory   <emphasis>file start</emphasis>
+</programlisting>
+
+<para>directory :</para>
+<programlisting>
+number
+*
+</programlisting>
+</sect1>
+
+<sect1>
+<title>Identifier commands</title>
+
+<para>identifier-command :</para>
+<programlisting>
+C identifier-info   <emphasis>call identifier</emphasis>
+D identifier-info type-info <emphasis>define identifier</emphasis>
+L identifier-info   <emphasis>use identifier</emphasis>
+M identifier-info type-info <emphasis>declare identifier</emphasis>
+Q identifier-info   <emphasis>end identifier definition</emphasis>
+T identifier-info type-info <emphasis>tentatively define identifier</emphasis>
+U identifier-info   <emphasis>undefine identifier</emphasis>
+W identifier-info type-info <emphasis>weak prototype</emphasis>
+</programlisting>
+
+<para>identifier-info :</para>
+<programlisting>
+identifier-key location identifier
+</programlisting>
+
+<para>identifier-key :</para>
+<programlisting>
+CD  <emphasis>static data member</emphasis>
+CF function-key <emphasis>member function</emphasis>
+CM  <emphasis>data member</emphasis>
+CS function-key <emphasis>static member function</emphasis>
+CV function-key <emphasis>virtual member function</emphasis>
+E   <emphasis>enumerator</emphasis>
+FB function-key <emphasis>builtin function</emphasis>
+FE function key <emphasis>external function</emphasis>
+FS function-key <emphasis>static function</emphasis>
+K   <emphasis>keyword</emphasis>
+L   <emphasis>label</emphasis>
+MB  <emphasis>built-in macro</emphasis>
+MF  <emphasis>function-like macro</emphasis>
+MO  <emphasis>object-like macro</emphasis>
+NA  <emphasis>namespace alias</emphasis>
+NN  <emphasis>namespace name</emphasis>
+TA  <emphasis>type alias</emphasis>
+TC  <emphasis>class tag</emphasis>
+TE  <emphasis>enum tag</emphasis>
+TS  <emphasis>struct tag</emphasis>
+TU  <emphasis>union tag</emphasis>
+VA  <emphasis>automatic variable</emphasis>
+VE  <emphasis>extern variable</emphasis>
+VP  <emphasis>function parameter</emphasis>
+VS  <emphasis>static variable</emphasis>
+XF  <emphasis>procedure token</emphasis>
+XO  <emphasis>object token</emphasis>
+XP  <emphasis>token parameter</emphasis>
+XT  <emphasis>template parameter</emphasis>
+</programlisting>
+
+<para>function-key :</para>
+<programlisting>
+empty
+C function-key  <emphasis>C linkage</emphasis>
+I function-key  <emphasis>inline</emphasis>
+</programlisting>
+
+<para>identifier :</para>
+<programlisting>
+number = hashid accessopt scope-identifier
+number
+</programlisting>
+
+<para>hashid :</para>
+<programlisting>
+string  <emphasis>simple name</emphasis>
+C type  <emphasis>constructor</emphasis>
+D type  <emphasis>destructor</emphasis>
+O string    <emphasis>operator</emphasis>
+T type  <emphasis>conversion</emphasis>
+</programlisting>
+
+<para>access :</para>
+<programlisting>
+B   <emphasis>protected</emphasis>
+N   <emphasis>public</emphasis>
+P   <emphasis>private</emphasis>
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Scope commands</title>
+
+<para>scope-command :</para>
+
+<programlisting>
+SE scope-key location identifier    <emphasis>end scope</emphasis>
+SS scope-key location identifier    <emphasis>start scope</emphasis>
+</programlisting>
+
+<para>scope-key :</para>
+
+<programlisting>
+B   <emphasis>block scope</emphasis>
+CC  <emphasis>conditional scope</emphasis>
+N   <emphasis>namespace scope</emphasis>
+CF  <emphasis>false conditional scope</emphasis>
+CT  <emphasis>true conditional scope</emphasis>
+D   <emphasis>other declarative scope</emphasis>
+H   <emphasis>header scope</emphasis>
+S   <emphasis>class scope</emphasis>
+</programlisting>
+
+<para>scope-identifier :</para>
+<programlisting>
+identifier
+*
+</programlisting>
+</sect1>
+
+
+<sect1>
+<title>String command</title>
+
+<para>string-command :</para>
+<programlisting>
+A location string   <emphasis>string literal</emphasis>
+AC location string  <emphasis>character literal</emphasis>
+ACL location string <emphasis>wide character literal</emphasis>
+AL location string  <emphasis>wide string literal</emphasis>
+</programlisting>
+</sect1>
+
+
+<sect1>
+<Title>Templates</title>
+
+<para>specialisation-info :</para>
+<programlisting>
+token-application
+*
+</programlisting>
+
+<para>template-info :</para>
+<programlisting>
+identifier-key identifier token-application specialisation-info
+</programlisting>
+</sect1>
+
+
+<sect1>
+<title>Token sort information</title>
+
+<para>sort :</para>
+<programlisting>
+ZEC type-info   <emphasis>constant expression</emphasis>
+ZEL type-info   <emphasis>lvalue expression</emphasis>
+ZER type-info   <emphasis>rvalue expression</emphasis>
+ZF type-info    <emphasis>function</emphasis>
+ZM type-info : type-name    <emphasis>member</emphasis>
+ZN  <emphasis>integral constant</emphasis>
+ZPS parameter-list-opt : sort   <emphasis>procedure type ()</emphasis>
+ZPG parameter-list-opt ; parameter-list-opt:sort 
+<emphasis>       procedure type {}</emphasis>
+ZS  <emphasis>statement</emphasis>
+ZTA <emphasis>arithmetic type</emphasis>
+ZTF <emphasis>floating type</emphasis>
+ZTI <emphasis>integral type</emphasis>
+ZTO <emphasis>opaque type</emphasis>
+ZTP <emphasis>scalar type</emphasis>
+ZTS <emphasis>structure type</emphasis>
+ZTt parameter-list-opt :    <emphasis>template type</emphasis>
+ZTTS    <emphasis>structure tag</emphasis> 
+ZTTU    <emphasis>union tag</emphasis>
+ZTU <emphasis>union type</emphasis>
+ZUF number  <emphasis>function macro</emphasis>
+ZUO <emphasis>object macro</emphasis>
+</programlisting>
+
+<para>exp :</para>
+<programlisting>
+nat
+</programlisting>
+
+<para>member :</para>
+<programlisting>
+identifier
+string
+</programlisting>
+
+<para>statement :</para>
+<programlisting>
+exp
+</programlisting>
+
+<para>token-argument :</para>
+<programlisting>
+C identifier    <emphasis>template argument</emphasis>
+E exp   <emphasis>expression argument</emphasis>
+F identifier    <emphasis>function argument</emphasis>
+M member    <emphasis>member argument</emphasis>
+N nat   <emphasis>integer constant argument</emphasis>
+S statement <emphasis>statement argument</emphasis>
+T type-info <emphasis>type argument</emphasis>
+</programlisting>
+
+<para>token-argument-list :</para>
+<programlisting>
+token-argument
+token-argument , token-argument-list
+</programlisting>
+
+<para>token-application :</para>
+
+<programlisting>
+T identifier , token-argument-list :
+</programlisting>
+</sect1>
+
+<sect1>
+<title>Type information</title>
+
+<para>type-info :</para>
+<programlisting>
+scope-identifier    <emphasis>for namespace alias</emphasis>
+sort    <emphasis>for token, macro etc.</emphasis>
+type    <emphasis>for variable etc.</emphasis>
+type identifier-opt <emphasis>for overloaded function</emphasis>
+</programlisting>
+
+<para>type :</para>
+<programlisting>
+qualifieropt unqualified-type
+</programlisting>
+
+<para>qualifier :</para>
+<programlisting>
+C   <emphasis>const</emphasis>
+V   <emphasis>volatile</emphasis>
+CV  <emphasis>const volatile</emphasis>
+</programlisting>
+
+<para>unqualified-type :</para>
+<programlisting>
+type-name
+token-application
+c   <emphasis>char</emphasis>
+s   <emphasis>short</emphasis>
+i   <emphasis>int</emphasis>
+l   <emphasis>long</emphasis>
+x   <emphasis>long long</emphasis>
+f   <emphasis>float</emphasis>
+d   <emphasis>double</emphasis>
+r   <emphasis>long double</emphasis>
+v   <emphasis>void</emphasis>
+b   <emphasis>bool</emphasis>
+w   <emphasis>wchar_t</emphasis>
+Sc  <emphasis>signed char</emphasis>
+Uc  <emphasis>unsigned char</emphasis>
+Us  <emphasis>unsigned short</emphasis>
+Ui  <emphasis>unsigned int</emphasis>
+Ul  <emphasis>unsigned long</emphasis>
+Ux  <emphasis>unsigned long long</emphasis>
+u   <emphasis>bottom</emphasis>
+y   <emphasis>ptrdiff_t</emphasis>
+z   <emphasis>size_t</emphasis>
+a type : type   <emphasis>arithmetic type</emphasis>
+n nat   <emphasis>literal type</emphasis>
+p type  <emphasis>promoted type</emphasis>
+t parameter-listopt : type  <emphasis>template type</emphasis>
+A natopt : type <emphasis>array type</emphasis>
+B nat : type    <emphasis>bitfield type</emphasis>
+F type parameter-types  <emphasis>function type</emphasis>
+M type-name : type  <emphasis>pointer to member type</emphasis>
+P type  <emphasis>pointer type</emphasis>
+R type  <emphasis>reference type</emphasis>
+W type parameter-types  <emphasis>weak function type</emphasis>
+Q string    <emphasis>quoted type</emphasis>
+*   <emphasis>unknown type</emphasis>
+</programlisting>
+
+<para>parameter-types :</para>
+<programlisting>
+: exceptionopt qualifieropt :   <emphasis>no parameters</emphasis>
+. exceptionopt qualifieropt :   <emphasis>ellipsis</emphasis>
+. exceptionopt qualifieropt .   <emphasis>unknown</emphasis>
+, type parameter-types
+</programlisting>
+
+<para>exception :</para>
+<programlisting>
+( exception-listopt )
+</programlisting>
+
+<para>exception-list :</para>
+<programlisting>
+type
+type, exception-list
+</programlisting>
+
+
+<para>parameter-list :</para>
+<programlisting>
+identifier
+identifier , parameter-list
+</programlisting>
+
+<para>type-name :</para>
+<programlisting>
+identifier
+</programlisting>
+
+<para>nat :</para>
+<programlisting>
++number
+-number
+string
+identifier
+token-application
+</programlisting>
+
+</sect1>
 </appendix>
+
+<appendix>
+<title>The Token Syntax</title>
+
+<sect1>
+<title>Introduction</title>
+
+<para>The token syntax is used to introduce references to program constructs such as types, expressions etc. that can be defined in other compilation modules. This can be thought of as a generalisation of function prototyping which is used to introduce references to functions defined elsewhere. The references introduced by the token syntax are called tokens because they are tokens for the program constructs that they reference. The token syntax is said to specify a token interface.</para>
+
+<para>It is expected that the general user will have little direct contact with the token syntax, instead using the asbstract standard headers provided or using the tspec tool [Ref. 5] to generate their own token interface header files automatically. However, it may occasionally be necessary to use the raw power of the token syntax directly.</para>
+
+<para>As an example of the power of the token syntax consider the program below:</para>
+
+<programlisting>
+#pragma token TYPE FILE#
+#pragma token EXP rvalue:FILE *:stderr#
+int fprintf(FILE *, const char *, ...);
+void f(void) {
+fprintf(stderr,&quot;hello world\n&quot;);
+}
+</programlisting>
+
+<para>The first line of the program introduces a token, FILE, for a type. By using its identification, FILE, this token can be used wherever a type could have been used throughout the rest of the program. The compiler can then compile this program to TDF (the abstract TenDRA machine) even though it contains an undefined type. This is fundamental to the construction of portable software, where the developer cannot assume the definitions of various types as they may be different on different machines.</para>
+
+<para>The second line of the example, which introduces a token for an expression, is somewhat more complicated. In order to make use of an expression, it is necessary to know its type and whether or not it is an lvalue (i.e. whether or not it can be assigned to). As can be seen from the example however, it is not necessary to know the exact type of the expression because a token can be used to represent its type.</para>
+
+<para>The TenDRA compiler makes no assumptions about the possible definitions of tokens and will raise an error if a program requires information about an undefined token. In this way many errors resulting from inadvertent use of a definition present on the developer's system can be detected. For example, developers often assume that the type FILE will be implemented by a structure type when in fact the ISO C standard permits the implementation of FILE by any type. In the program above, any attempt to access members of stderr would cause the compiler to raise an error.</para>
+
+</sect1>
+
+<sect1>
+<title>Program construction using TDF</title>
+
+<para>Traditional program construction using the C language has two phases: compilation and linking.</para>
+
+<para>In the compilation phase the source text written in the C language is mapped to an object code format. This object code is generally not complete in itself and must be linked with other program segments such as definitions from the system libraries.</para>
+
+<para>When tokens are involved there is an extra stage in the construction process where undefined tokens in one program segment are linked with their definitions in another program segment. To summarise, program construction using TDF and the TenDRA tools has four basic operations:</para>
+
+
+<orderedlist>
+<listitem>
+<para>Source file compilation to TDF. The TDF produced may be incomplete in the sense that it may contain undefined tokens;</para>
+</listitem>
+
+<listitem>
+<para>TDF linking. The undefined tokens represented in TDF are linked to their definitions in other compilation modules or libraries. During linking, tokens with the same identifier are treated as the same token;</para>
+</listitem>
+
+<listitem>
+<para>TDF translation. This is the conversion of TDF into standard object file format for a particular machine system. The program is still incomplete at this stage in the sense that it may contain undefined library functions;</para>
+</listitem>
+
+<listitem>
+<para>Object file linking. This corresponds directly to standard object file linking.</para>
+</listitem>
+</orderedlist>
+
+</sect1>
+
+<sect1>
+<title>The token syntax</title>
+
+<para>The token syntax is an extension to the ISO C standard language to allow the use of tokens to represent program constructs. Tokens can be used either in place of, or as well as, the definitions required by a program. In the latter case, the tokens exist merely to enforce correct definitions and usage of the objects they reference. However it should be noted that the presence of a token introduction can alter the semantics of a program (examples are given in -XREF-#3F.5 Expression tokens). The semantics have been altered to force programs to respect token interfaces where they would otherwise fail to do so.</para>
+
+<para>The token syntax takes the following basic form:</para>
+
+<programlisting>
+#pragma token token-introduction token-identification
+</programlisting>
+
+<para>It is introduced as a pragma to allow other compilers to ignore it, though if tokens are being used to replace the definitions needed by a program, ignoring these pragmas will generally cause the compilation to fail.</para>
+
+<para>The <emphasis>token-introduction</emphasis> defines the kind of token being introduced along with any additional information associated with that kind of token. Currently there are five kinds of token that can be introduced, corresponding approximately to expressions, statements, type-names, member designators and function-like macros.</para>
+
+<para>The <emphasis>token-identification</emphasis> provides the means of referring to the token, both internally within the program and externally for TDF linking purposes.</para>
+
+</sect1>
+
+<sect1>
+<title>Token identification</title>
+
+<para>The syntax for the token-identification is as follows:</para>
+
+<programlisting>
+token identification:
+<emphasis>name-space</emphasis><subscript><emphasis>opt</emphasis></subscript> <emphasis>identifier</emphasis> # <emphasis>external-identifier
+</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+name-space: 
+TAG
+</programlisting>
+
+<orderedlist>
+<listitem>
+<para>There is a default name space associated with each kind of token and internal identifiers for tokens generally reside in these default name spaces. The ISO C standard describes the five name spaces as being:</para>
+</listitem>
+<listitem>
+<para>The label space, in which all label identifiers reside;</para>
+</listitem>
+<listitem>
+<para>The tag space, in which structure, union and enumeration tags reside;</para>
+</listitem>
+<listitem>
+<para>The member name space, in which structure and union member selectors reside;</para>
+</listitem>
+<listitem>
+<para>The macro name space, in which all macro definitions reside. Token identifiers in the macro name space have no definition and so are not expanded. However, they behave as macros in all other respects;</para>
+</listitem>
+<listitem>
+<para>The ordinary name space in which all other identifiers reside.</para>
+</listitem>
+</orderedlist>
+
+
+
+<para>The exception is compound type-token identifiers (see -XREF-#16F.7.4 Compound type tokens) which by default reside in the ordinary name space but can be forced to reside in the tag name space by setting the optional name-space to be TAG.</para>
+
+<para>The first identifier of the <emphasis>token-identification</emphasis> provides the internal identification of the token. This is the name used to identify the token within the program. It must be followed by a #.</para>
+
+<para>All further preprocessing tokens until the end of the line are treated as part of the <emphasis>external-identifier</emphasis> with non-empty white space sequences being replaced by a single space. The <emphasis>external-identifier</emphasis> specifies the external identification of the token which is used for TDF linking. External token identifications reside in their own name space which is distinct from the external name space for functions and objects. This means that it is possible to have both a function and a token with the same external identification. If the external-identifier is omitted it is assumed that the internal and external identifications are the same.</para>
+
+</sect1>
+
+<sect1>
+<title>Expression tokens</title>
+
+<para>There are various properties associated with expression tokens which are used to determine the operations that may be performed upon them.</para>
+
+<itemizedlist>
+<listitem>
+<para>Designation is the classification of the value delivered by evaluating the expression. The three possible designations, implied by the ISO C standard, section 6.3, are:</para>
+<itemizedlist mark='opencircle'>
+<listitem>
+<para>value - expression describes the computation of a value;</para>
+</listitem>
+<listitem>
+<para>object - expression designates a variable which may have an associated type qualifier giving the access conditions;</para>
+</listitem>
+<listitem>
+<para>function designation - expression designates a function.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<para>Type specifies the type of the expression ignoring any type qualification;</para>
+</listitem>
+<listitem>
+<para>Constancy is the property of being a constant expression as specified in the ISO C Standard section 6.4.</para>
+</listitem>
+</itemizedlist>
+
+<para>The syntax for introducing expression tokens is: </para>
+
+<programlisting>
+exp-token:
+	EXP <emphasis>exp-storage</emphasis> : <emphasis>type-name</emphasis> :
+NAT
+exp-storage:
+	rvalue
+	lvalue
+	const
+</programlisting>
+
+<para>Expression tokens can be introduced using either the EXP or NAT token introductions. Expression tokens introduced using NAT are constant value designations of type int i.e. they reference constant integer expressions. All other expression tokens are assumed to be non-constant and are introduced using EXP.</para>
+
+<itemizedlist>
+<listitem>
+<para>The <literal>exp-storage</literal> is either lvalue or rvalue. If it is lvalue, then the token is an object designation without type qualification. If it is rvalue then the token is either a value or a function designation depending on whether or not its type is a function type.</para>
+</listitem>
+<listitem>
+<para>The <emphasis>type-name</emphasis> is the type of the expression to which the token refers.</para>
+</listitem>
+</itemizedlist>
+
+<para>All internal expression token identifiers must reside in the macro name space and this is consequently the default name space for such identifiers. Hence the optional name-space, TAG, should not be present in an EXP token introduction. Although the use of an expression token after it has been introduced is very similar to that of an ordinary identifier, as it resides in the macro name space, it has the additional properties listed below:</para>
+
+<itemizedlist>
+<listitem>
+<para>expression tokens cannot be hidden by using an inner scope;</para>
+</listitem>
+<listitem>
+<para>with respect to #ifdef, expression tokens are defined;</para>
+</listitem>
+<listitem>
+<para>the scope of expression tokens can be terminated by #undef.</para>
+</listitem>
+</itemizedlist>
+
+<para>In order to make use of tokenised expressions, a new symbol, <literal>exp-token-name</literal> , has been introduced at translation phase seven of the syntax analysis as defined in the ISO C standard. When an expression token identifier is encountered by the preprocessor, an <emphasis>exp-token-name</emphasis> symbol is passed through to the syntax analyser. An <literal>exp-token-name</literal> provides information about an expression token in the same way that a <literal>typedef-name</literal> provides information about a type introduced using a typedef. This symbol can only occur as part of a primary-expression (ISO C standard section 6.3.1) and the expression resulting from the use of <literal>exp-token-name</literal> will have the type, designation and constancy specified in the token introduction. As an example, consider the pragma:</para>
+
+<programlisting>
+#pragma token EXP rvalue : int : x#
+</programlisting>
+
+<para>This introduces a token for an expression which is a value designation of type int with internal and external name x.</para>
+
+<para>Expression tokens can either be defined using #define statements or by using externals. They can also be resolved as a result of applying the type-resolution or assignment-resolution operators (see -XREF-#17F.7.5 Type token compatibility, definitions etc.). Expression token definitions are subject to the following constraints:</para>
+
+<itemizedlist>
+<listitem>
+<para>if the <literal>exp-token-name</literal> refers to a constant expression (i.e. it was introduced using the NAT token introduction), then the defining expression must also be a constant expression as expressed in the ISO C standard, section 6.4;</para>
+</listitem>
+<listitem>
+<para>if the <literal>exp-token-name</literal> refers to an lvalue expression, then the defining expression must also designate an object and the type of the expression token must be resolvable to the type of the defining expression. All the type qualifiers of the defining expression must appear in the object designation of the token introduction;</para>
+</listitem>
+<listitem>
+<para>if the <literal>exp-token-name</literal> refers to an expression that has function designation, then the type of the expression token must be resolvable to the type of the defining expression.</para>
+</listitem>
+</itemizedlist>
+<para>The program below provides two examples of the violation of the second constraint.</para>
+
+<programlisting>
+#pragma token EXP lvalue : int : i#
+extern short k;
+#define i 6
+#define i k
+</programlisting>
+
+<para>The expression token i is an object designation of type int. The first violation occurs because the expression, 6, does not designate an object. The second violation is because the type of the token expression, i, is int which cannot be resolved to the type short.</para>
+
+<para>If the <emphasis>exp-token-name</emphasis> refers to an expression that designates a value, then the defining expression is converted, as if by assignment, to the type of the expression token using the <emphasis>assignment-resolution</emphasis> operator (see -XREF-#17F.7.5 Type token compatibility, definitions etc.). With all other designations the defining expression is left unchanged. In both cases the resulting expression is used as the definition of the expression token. This can subtly alter the semantics of a program. Consider the program:</para>
+
+<programlisting>
+#pragma token EXP rvalue:long:li#
+#define li 6
+int f() {
+return sizeof(li);
+}
+</programlisting>
+
+<para>The definition of the token li causes the expression, 6, to be converted to long (this is essential to separate the use of li from its definition). The function, f, then returns sizeof(long). If the token introduction was absent however f would return sizeof(int).</para>
+
+<para>Although they look similar, expression token definitions using #defines are not quite the same as macro definitions. A macro can be defined by any preprocessing tokens which are then computed in phase 3 of translation as defined in the ISO C standard, whereas tokens are defined by assignment-expressions which are computed in phase 7. One of the consequences of this is illustrated by the program below:</para>
+
+<programlisting>
+#pragma token EXP rvalue:int :X#
+#define X M+3
+#define M sizeof(int)
+int f(int x) { return (x+X); }
+</programlisting>
+
+<para>If the token introduction of X is absent, the program above will compile as, at the time the definition of X is interpreted (when evaluating x+X), both M and X are in scope. When the token introduction is present the compilation will fail as the definition of X, being part of translation phase 7, is interpreted when it is encountered and at this stage M is not defined. This can be rectified by reversing the order of the definitions of X and M or by bracketing the definition of X. i.e.</para>
+
+<programlisting>
+<emphasis>#define X (M+3)</emphasis>
+</programlisting>
+
+<para>Conversely consider:</para>
+
+<programlisting>
+#pragma token EXP rvalue:int:X#
+#define M sizeof(int)
+#define X M+3
+#undef M
+int M(int x) { return (x+X); }
+</programlisting>
+
+<para>The definition of X is computed on line 3 when M is in scope, not on line 6 where it is used. Token definitions can be used in this way to relieve some of the pressures on name spaces by undefining macros that are only used in token definitions. This facility should be used with care as it may not be a straightforward matter to convert the program back to a conventional C program.</para>
+
+<para>Expression tokens can also be defined by declaring the <emphasis>exp-token-name</emphasis> that references the token to be an object with external linkage e.g.</para>
+
+<programlisting>
+#pragma token EXP lvalue:int:x#
+extern int x;
+</programlisting>
+
+<para>The semantics of this program are effectively the same as the semantics of:</para>
+
+<programlisting>
+#pragma token EXP lvalue:int:x#
+extern int _x;
+#define x _x
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Statement tokens</title>
+
+<para>The syntax for introducing a statement token is simply:</para>
+
+<programlisting>
+#pragma token STATEMENT init_globs#
+int g(int);
+int f(int x) { init_globs return g(x);}
+</programlisting>
+
+<para>Internal statement token identifiers reside in the macro name space. The optional name space, TAG, should not appear in statement token introductions.</para>
+
+<para>The use of statement tokens is analogous to the use of expression tokens (see -XREF-#3F.5 Expression tokens). A new symbol, <emphasis>stat-token-name</emphasis>, has been introduced into the syntax analysis at phase 7 of translation as defined in the ISO C standard. This token is passed through to the syntax analyser whenever the preprocessor encounters an identifier referring to a statement token. A <literal>stat-token-name</literal> can only occur as part of the statement syntax (ISO C standard, section 6.6).</para>
+
+<para>As with expression tokens, statement tokens are defined using #define statements. An example of this is shown below:</para>
+
+<programlisting>
+#pragma token STATEMENT i_globs#
+#define i_globs {int i=x;x=3;}
+</programlisting>
+
+<para>The constraints on the definition of statement tokens are:</para>
+
+<itemizedlist>
+<listitem>
+<para>the use of labels is forbidden unless the definition of the statement token occurs at the outer level (i.e outside of any compound statement forming a function definition);</para>
+</listitem>
+<listitem>
+<para>the use of return within the defining statement is not allowed.</para>
+</listitem>
+</itemizedlist>
+
+<para>The semantics of the defining statement are precisely the same as the semantics of a compound statement forming the definition of a function with no parameters and void result. The definition of statement tokens carries the same implications for phases of translation as the definition of expression tokens (see -XREF-#3F.5 Expression tokens).</para>
+
+</sect1>
+
+<sect1>
+<title>Type tokens</title>
+
+<para>Type tokens are used to introduce references to types. The ISO C standard, section 6.1.2.5, identifies the following classification of types:</para>
+
+
+<itemizedlist>
+<listitem>
+<para>the type char;</para>
+</listitem>
+<listitem>
+<para>signed integral types;</para>
+</listitem>
+<listitem>
+<para>unsigned integral types;</para>
+</listitem>
+<listitem>
+<para>floating types;</para>
+</listitem>
+<listitem>
+<para>character types;</para>
+</listitem>
+<listitem>
+<para>enumeration types;</para>
+</listitem>
+<listitem>
+<para>array types;</para>
+</listitem>
+<listitem>
+<para>structure types;</para>
+</listitem>
+<listitem>
+<para>union types;</para>
+</listitem>
+<listitem>
+<para>function types;</para>
+</listitem>
+<listitem>
+<para>pointer types;</para>
+</listitem>
+</itemizedlist>
+
+
+<para>These types fall into the following broader type classifications:</para>
+
+<itemizedlist>
+<listitem>
+<para>integral types - consisting of the signed integral types, the unsigned integral types and the type char;</para>
+</listitem>
+<listitem>
+<para>arithmetic types - consisting of the integral types and the floating types;</para>
+</listitem>
+<listitem>
+<para>scalar types - consisting of the arithmetic types and the pointer types;</para>
+</listitem>
+<listitem>
+<para>aggregate types - consisting of the structure and array types;</para>
+</listitem>
+<listitem>
+<para>derived types - consisting of array, structure, union, function and pointer types;</para>
+</listitem>
+<listitem>
+<para>derived declarator types - consisting of array, function and pointer types.</para>
+</listitem>
+</itemizedlist>
+
+<para>The classification of a type determines which operations are permitted on objects of that type. For example, the ! operator can only be applied to objects of scalar type. In order to reflect this, there are several type token introductions which can be used to classify the type to be referenced, so that the compiler can perform semantic checking on the application of operators. The possible type token introductions are:</para>
+
+<programlisting>
+type-token:
+	TYPE
+	VARIETY
+	ARITHMETIC
+	STRUCT
+	UNION
+</programlisting>
+
+<sect2>
+<title>General type tokens</title>
+
+<para>The most general type token introduction is TYPE. This introduces a type of unknown classification which can be defined to be any C type. Only a few generic operations can be applied to such type tokens, since the semantics must be defined for all possible substituted types. Assignment and function argument passing are effectively generic operations, apart from the treatment of array types. For example, according to the ISO C standard, even assignment is not permitted if the left operand has array type and we might therefore expect assignment of general token types to be illegal. Tokens introduced using the TYPE token introduction can thus be regarded as representing non-array types with extensions to represent array types provided by applying non-array semantics as described below.</para>
+
+<para>Once general type tokens have been introduced, they can be used to construct derived declarator types in the same way as conventional type declarators. For example:</para>
+
+<programlisting>
+#pragma token TYPE t_t#
+#pragma token TYPE t_p#
+#pragma token NAT n#
+typedef t_t *ptr_type; /* introduces pointer type */
+typedef t_t fn_type(t_p);/*introduces function type */
+typedef t_t arr_type[n];/*introduces array type */
+</programlisting>
+
+<para>The only standard conversion that can be performed on an object of general token type is the lvalue conversion (ISO C standard section 6.2). Lvalue conversion of an object with general token type is defined to return the item stored in the object. The semantics of lvalue conversion are thus fundamentally altered by the presence of a token introduction. If type <literal>t_t</literal> is defined to be an array type the lvalue conversion of an object of type <emphasis>t_t</emphasis> will deliver a pointer to the first array element. If, however, <emphasis>t_t</emphasis> is defined to be a general token type, which is later defined to be an array type, lvalue conversion on an object of type <emphasis>t_t</emphasis> will deliver the components of the array.</para>
+
+<para>This definition of lvalue conversion for general token types is used to allow objects of general tokenised types to be assigned to and passed as arguments to functions. The extensions to the semantics of function argument passing and assignment are as follows: if the type token is defined to be an array then the components of the array are assigned and passed as arguments to the function call; in all other cases the assignment and function call are the same as if the defining type had been used directly.</para>
+
+<para>The default name space for the internal identifiers for general type tokens is the ordinary name space and all such identifiers must reside in this name space. The local identifier behaves exactly as if it had been introduced with a typedef statement and is thus treated as a <emphasis>typedef-name</emphasis> by the syntax analyser.</para>
+
+</sect2>
+
+<sect2>
+<title>Integral type tokens</title>
+
+<para>The token introduction VARIETY is used to introduce a token representing an integral type. A token introduced in this way can only be defined as an integral type and can be used wherever an integral type is valid.</para>
+
+<para>Values which have integral tokenised types can be converted to any scalar type (see -XREF-#7F.7 Type tokens). Similarly values with any scalar type can be converted to a value with a tokenised integral type. The semantics of these conversions are exactly the same as if the type defining the token were used directly. Consider:</para>
+
+<programlisting>
+#pragma token VARIETY i_t#
+short f(void) {
+	i_t x_i = 5;
+	return x_i;
+}
+short g(void) {
+	long x_i = 5;
+	return x_i;
+}
+</programlisting>
+
+<para>Within the function f there are two conversions: the value, 5, of type int, is converted to <emphasis>i_t</emphasis>, the tokenised integral type, and a value of tokenised integral type <emphasis>i_t</emphasis> is converted to a value of type short. If the type <emphasis>i_t</emphasis> were defined to be long then the function f would be exactly equivalent to the function g.</para>
+
+<para>The usual arithmetic conversions described in the ISO C standard (section 6.3.1.5) are defined on integral type tokens and are applied where required by the ISO C standard.</para>
+
+<para>The integral promotions are defined according to the rules introduced in Chapter 4. These promotions are first applied to the integral type token and then the usual arithmetic conversions are applied to the resulting type.</para>
+
+<para>As with general type tokens, integral type tokens can only reside in their default name space, the ordinary name space (the optional name-space, TAG, cannot be specified in the token introduction). They also behave as though they had been introduced using a typedef statement.</para>
+
+</sect2>
+
+<sect2>
+<title>Arithmetic type tokens</title>
+
+<para>The token introduction ARITHMETIC introduces an arithmetic type token. In theory, such tokens can be defined by any arithmetic type, but the current implementation of the compiler only permits them to be defined by integral types. These type tokens are thus exactly equivalent to the integral type tokens introduced using the token introduction VARIETY.</para>
+
+</sect2>
+
+<sect2>
+<title>Compound type tokens</title>
+
+<para>For the purposes of this document, a compound type is a type describing objects which have components that are accessible via member selectors. All structure and union types are thus compound types, but, unlike structure and union types in C, compound types do not necessarily have an ordering on their member selectors. In particular, this means that some objects of compound type cannot be initialised with an <emphasis>initialiser-list</emphasis> (see ISO C standard section 6.5.7).</para>
+
+<para>Compound type tokens are introduced using either the STRUCT or UNION token introductions. A compound type token can be defined by any compound type, regardless of the introduction used. It is expected, however, that programmers will use STRUCT for compound types with non-overlapping member selectors and UNION for compound types with overlapping member selectors. The compound type token introduction does not specify the member selectors of the compound type - these are added later (see -XREF-#19F.8 Selector tokens).</para>
+
+<para>Values and objects with tokenised compound types can be used anywhere that a structure and union type can be used.</para>
+
+<para>Internal identifiers of compound type tokens can reside in either the ordinary name space or the tag name space. The default is the ordinary name space; identifiers placed in the ordinary name space behave as if the type had been declared using a typedef statement. If the identifier, id say, is placed in the tag name space, it is as if the type had been declared as struct id or union id. Examples of the introduction and use of compound type tokens are shown below:</para>
+
+<programlisting>
+#pragma token STRUCT n_t#
+#pragma token STRUCT TAG s_t#
+#pragma token UNION TAG u_t#
+
+void f() {
+	n_t x1;
+	struct n_t x2;      /* Illegal,n_t not in the tag name space */
+	s_t x3;         /* Illegal,s_t not in the ordinary name space*/
+	struct s_t x4; 
+	union u_t x5;
+}
+</programlisting>
+
+</sect2>
+
+<sect2>
+<title>Type token compatibility, definitions etc.</title>
+
+<para>A type represented by an undefined type token is incompatible (ISO C standard section 6.1.3.6) with all other types except for itself. A type represented by a defined type token is compatible with everything that is compatible with its definition.</para>
+
+<para>Type tokens can only be defined by using one of the operations known as <literal>type-resolution</literal> and <literal>assignment-resolution</literal>. Note that, as type token identifiers do not reside in the macro name space, they cannot be defined using #define statements.</para>
+
+<para><literal>Type-resolution</literal> operates on two types and is essentially identical to the operation of type compatibility (ISO C standard section 6.1.3.6) with one major exception. In the case where an undefined type token is found to be incompatible with the type with which it is being compared, the type token is defined to be the type with which it is being compared, thereby making them compatible.</para>
+
+<para>The ISO C standard prohibits the repeated use of typedef statements to define a type. However, in order to allow type resolution, the compiler allows types to be consistently redefined using multiple typedef statements if:</para>
+
+
+<itemizedlist>
+<listitem>
+<para>there is a resolution of the two types;</para>
+</listitem>
+<listitem>
+<para>as a result of the resolution, at least one token is defined.</para>
+</listitem>
+</itemizedlist>
+
+<para>As an example, consider the program below:</para>
+
+<programlisting>
+#pragma token TYPE t_t#
+typedef t_t *ptr_t_t;
+typedef int **ptr_t_t;
+</programlisting>
+
+<para>The second definition of <emphasis>ptr_t_t</emphasis> causes a resolution of the types <emphasis>t_t</emphasis> <literal>*</literal> and <emphasis>int</emphasis> <literal>**</literal>. The rules of type compatibility state that two pointers are compatible if their dependent types are compatible, thus type resolution results in the definition of <emphasis>t_t</emphasis> as int *.</para>
+
+<para><literal>Type-resolution</literal> can also result in the definition of other tokens. The program below results in the expression token N being defined as (4*sizeof(int)).</para>
+
+<programlisting>
+#pragma token EXP rvalue:int:N#
+typedef int arr[N];
+typedef int arr[4*sizeof(int)];
+</programlisting>
+
+<para>The <literal>type-resolution</literal> operator is not symmetric; a resolution of two types, A and B say, is an attempt to resolve type A to type B. Thus only the undefined tokens of A can be defined as a result of applying the <literal>type-resolution</literal> operator. In the examples above, if the typedefs were reversed, no <literal>type-resolution</literal> would take place and the types would be incompatible.</para>
+
+<para><literal>Assignment-resolution</literal> is similar to <literal>type-resolution</literal> but it occurs when converting an object of one type to another type for the purposes of assignment. Suppose the conversion is not possible and the type to which the object is being converted is an undefined token type. If the token can be defined in such a way that the conversion is possible, then that token will be suitably defined. If there is more than one possible definition, the definition causing no conversion will be chosen.</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Selector tokens</title>
+
+<para>The use of selector tokens is the primary method of adding member selectors to compound type tokens. (The only other method is to define the compound type token to be a particular structure or union type.) The introduction of new selector tokens can occur at any point in a program and they can thus be used to add new member selectors to existing compound types.</para>
+
+<para>The syntax for introducing member selector tokens as follows:</para>
+
+<programlisting>
+selector-token:
+MEMBER <emphasis>selector-type-name</emphasis> : <emphasis>type-name</emphasis> :
+selector-type-name:
+<emphasis>type-name</emphasis>
+<emphasis>type-name</emphasis> % <emphasis>constant-expression</emphasis>
+</programlisting>
+
+<para>The <emphasis>selector-type-name</emphasis> specifies the type of the object selected by the selector token. If the <emphasis>selector-type-name</emphasis> is a plain <emphasis>type-name</emphasis>, the member selector token has that type. If the <literal>selector-type-name</literal> consists of a <emphasis>type-name</emphasis> and a <emphasis>constant-expression</emphasis> separated by a % sign, the member selector token refers to a bitfield of type <emphasis>type-name</emphasis> and width <emphasis>constant-expression</emphasis> . The second <emphasis>type-name</emphasis> gives the compound type to which the member selector belongs. For example:</para>
+
+<programlisting>
+#pragma token STRUCT TAG s_t#
+#pragma token MEMBER char*: struct s_t:s_t_mem#
+</programlisting>
+
+<para>introduces a compound token type, <emphasis>s_t</emphasis>, which has a member selector, <emphasis>s_t_mem</emphasis>, which selects an object of type char*.</para>
+
+<para>Internal identifiers of member selector tokens can only reside in the member name space of the compound type to which they belong. Clearly this is also the default name space for such identifiers.</para>
+
+<para>When structure or union types are declared, according to the ISO C standard there is an implied ordering on the member selectors. In particular this means that:</para>
+
+<itemizedlist>
+<listitem>
+<para>during initialisation with an initialiser-list the identified members of a structure are initialised in the order in which they were declared. The first identified member of a union is initialised;</para>
+</listitem>
+<listitem>
+<para>the addresses of structure members will increase in the order in which they were declared.</para>
+</listitem>
+</itemizedlist>
+
+<para>The member selectors introduced as selector tokens are not related to any other member selectors until they are defined. There is thus no ordering on the undefined tokenised member selectors of a compound type. If a compound type has only undefined token selectors, it cannot be initialised with an initialiser-list. There will be an ordering on the defined members of a compound type and in this case, the compound type can be initialised automatically.</para>
+
+<para>The decision to allow unordered member selectors has been taken deliberately in order to separate the decision of which members belong to a structure from that of where such member components lie within the structure. This makes it possible to represent extensions to APIs which require extra member selectors to be added to existing compound types.</para>
+
+<para>As an example of the use of token member selectors, consider the structure lconv specified in the ISO C Standard library (section 7.4.3.1). The standard does not specify all the members of struct lconv or the order in which they appear. This type cannot be represented naturally by existing C types, but can be described by the token syntax.</para>
+
+<para>There are two methods for defining selector tokens, one explicit and one implicit. As selector token identifiers do not reside in the macro name space they cannot be defined using #define statements.</para>
+
+<para>Suppose A is an undefined compound token type and mem is an undefined selector token for A. If A is later defined to be the compound type B and B has a member selector with identifier mem then A.mem is defined to be B.mem providing the type of A.mem can be resolved to the type of B.mem. This is known as implicit selector token definition.</para>
+
+<para>In the program shown below the redefinition of the compound type <emphasis>s_t</emphasis> causes the token for the selector <emphasis>mem_x</emphasis> to be implicitly defined to be the second member of struct <emphasis>s_tag</emphasis>. The consequential type resolution leads to the token type <emphasis>t_t</emphasis> being defined to be int.</para>
+
+<programlisting>
+#pragma token TYPE t_t#
+#pragma token STRUCT s_t#
+#pragma token MEMBER t_t : s_t : mem_x#
+#pragma token MEMBER t_t : s_t : mem_y#
+struct s_tag { int a, mem_x, b; }
+typedef struct s_tag s_t;
+</programlisting>
+
+<para>Explicit selector token definition takes place using the pragma:</para>
+
+<programlisting>
+#pragma DEFINE MEMBER <emphasis>type-name</emphasis> <emphasis>identifier</emphasis> : <emphasis>member-designator</emphasis>
+
+member-designator:
+	<emphasis>identifier</emphasis>
+	<emphasis>identifier . member-designator</emphasis>
+</programlisting>
+
+<para>The <emphasis>type-name</emphasis> specifies the compound type to which the selector belongs.</para>
+
+<para>The <emphasis>identifier</emphasis> provides the identification of the member selector within that compound type.</para>
+
+<para>The <emphasis>member-designator</emphasis> provides the definition of the selector token. It must identify a selector of a compound type.</para>
+
+<para>If the <emphasis>member-designator</emphasis> is an identifier, then the identifier must be a member of the compound type specified by the <emphasis>type-name</emphasis>. If the <emphasis>member-designator</emphasis> is an identifier, <emphasis>id</emphasis> say, followed by a further member-designator, M say, then:</para>
+
+<itemizedlist>
+<listitem>
+<para>the identifier id must be a member identifying a selector of the compound type specified by <emphasis>type-name</emphasis>;</para>
+</listitem>
+<listitem>
+<para>the type of the selector identified by id must have compound type, C say;</para>
+</listitem>
+<listitem>
+<para>the <literal>member-designator</literal> M must identify a member selector of the compound type C.</para>
+</listitem>
+</itemizedlist>
+
+<para>As with implicit selector token definitions, the type of the selector token must be resolved to the type of the selector identified by the <emphasis>member-designator</emphasis>.</para>
+
+<para>In the example shown below, the selector token mem is defined to be the second member of struct <emphasis>s</emphasis> which in turn is the second member of struct <emphasis>s_t</emphasis>.</para>
+
+<programlisting>
+#pragma token STRUCT s_t#
+#pragma token MEMBER int : s_t : mem#
+typedef struct {int x; struct {char y; int z;} s; } s_t;
+#pragma DEFINE MEMBER s_t : mem s.z
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Procedure tokens</title>
+
+<para>Consider the macro SWAP defined below:</para>
+
+<programlisting>
+#define SWAP(T,A,B) { \
+	T x; \
+	x=B; \
+	B=A; \
+	A=x; \
+}
+</programlisting>
+
+<para>SWAP can be thought of as a statement that is parameterised by a type and two expressions.</para>
+
+<para>Procedure tokens are based on this concept of parameterisation. Procedure tokens reference program constructs that are parameterised by other program constructs.</para>
+
+<para>There are three methods of introducing procedure tokens. These are described in the sections below.</para>
+
+<sect2>
+<title>General procedure tokens</title>
+
+<para>The syntax for introducing a general procedure token is:</para>
+
+<programlisting>
+general procedure:
+	PROC { <emphasis>bound-toks</emphasis><subscript><emphasis>opt</emphasis></subscript> | <emphasis>prog-pars</emphasis><subscript><emphasis>opt</emphasis></subscript> } <emphasis>token-introduction</emphasis>
+
+simple procedure:
+	PROC ( <emphasis>bound-toks</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>token-introduction
+</emphasis>
+
+bound-toks:
+	<emphasis>bound-token</emphasis>
+	<emphasis>bound-token</emphasis>, <emphasis>bound-toks</emphasis>
+
+bound-token:
+	<emphasis>token-introduction name-space</emphasis><subscript><emphasis>opt</emphasis></subscript> <emphasis>identifier</emphasis>
+
+prog-pars:
+	<emphasis>program-parameter</emphasis>
+	<emphasis>program-parameter</emphasis>, <emphasis>prog-pars</emphasis>
+
+program parameter:
+	EXP <emphasis>identifier</emphasis>
+	STATEMENT <emphasis>identifier</emphasis>
+	TYPE <emphasis>type-name-identifier</emphasis>
+	MEMBER <emphasis>type-name-identifier</emphasis> : <emphasis>identifier</emphasis>
+</programlisting>
+
+<para>The final <literal>token-introduction</literal> specifies the kind of program construct being parameterised. In the current implementation of the compiler, only expressions and statements may be parameterised. The internal procedure token identifier is placed in the default name space of the program construct which it parameterises. For example, the internal identifier of a procedure token parameterising an expression would be placed in the macro name space.</para>
+
+<para>The <literal>bound-toks</literal> are the bound token dependencies which describe the program constructs upon which the procedure token depends. These should not be confused with the parameters of the token. The procedure token introduced in:</para>
+
+<programlisting>
+#pragma token PROC {TYPE t,EXP rvalue:t**:e|EXP e} EXP:rvalue:t:dderef#
+</programlisting>
+
+<para>is intended to represent a double dereference and depends upon the type of the expression to be dereferenced and upon the expression itself but takes only one argument, namely the expression, from which both dependencies can be deduced.</para>
+
+<para>The bound token dependencies are introduced in exactly the same way as the tokens described in the previous sections with the identifier corresponding to the internal identification of the token. No external identification is allowed. The scope of these local identifiers terminates at the end of the procedure token introduction, and whilst in scope, they hide all other identifiers in the same name space. Such tokens are referred to as &quot;bound&quot; because they are local to the procedure token.</para>
+
+<para>Once a bound token dependency has been introduced, it can be used throughout the rest of the procedure token introduction in the construction of other components.</para>
+
+<para>The <literal>prog-pars</literal> are the program parameters. They describe the parameters with which the procedure token is called. The bound token dependencies are deduced from these program parameters.</para>
+
+<para>Each program parameter is introduced with a keyword expressing the kind of program construct that it represents. The keywords are as follows:</para>
+
+<itemizedlist>
+<listitem>
+<para>EXP . The parameter is an expression and the identifier following EXP must be the identification of a bound token for an expression. When the procedure token is called, the corresponding parameter must be an assignment-expression and is treated as the definition of the bound token, thereby providing definitions for all dependencies relating to that token. For example, the call of the procedure token dderef, introduced above, in the code below:</para>
+
+<programlisting>
+char f(char **c_ptr_ptr){
+	return dderef(c_ptr_ptr);
+}
+</programlisting>
+
+<para>causes the expression, e, to be defined to be c_ptr_ptr thus resolving the type t** to be char **. The type t is hence defined to be char, also providing the type of the expression obtained by the application of the procedure token dderef;</para>
+</listitem>
+
+<listitem>
+<para>STATEMENT. The parameter is a statement. Its semantics correspond directly to those of EXP;</para>
+</listitem>
+<listitem>
+<para>TYPE. The parameter is a type. When the procedure token is applied, the corresponding argument must be a <literal>type-name</literal>. The parameter type is resolved to the argument type in order to define any related dependencies;</para>
+</listitem>
+<listitem>
+<para>MEMBER. The parameter is a member selector. The <literal>type-name</literal> specifies the composite type to which the member selector belongs and the identifier is the identification of the member selector. When the procedure token is applied, the corresponding argument must be a <emphasis>member-designator</emphasis> of the compound type.</para>
+</listitem>
+</itemizedlist>
+
+<para>Currently PROC tokens cannot be passed as program parameters.</para>
+
+</sect2>
+<sect2>
+<title>Simple procedure tokens</title>
+
+<para>In cases where there is a direct, one-to-one correspondence between the bound token dependencies and the program parameters a simpler form of procedure token introduction is available.</para>
+
+<para>Consider the two procedure token introductions below, corresponding to the macro SWAP described earlier.</para>
+
+<programlisting>
+/* General procedure introduction */
+#pragma token PROC{TYPE t,EXP lvalue:t:e1,EXP lvalue:t:e2 | \
+	TYPE t,EXP e1,EXP e2 } STATEMENT SWAP#
+/* Simple procedure introduction */
+#pragma token PROC(TYPE t,EXP lvalue:t:,EXP lvalue:t: ) STATEMENT SWAP#
+</programlisting>
+
+<para>The <emphasis>simple-token</emphasis> syntax is similar to the <emphasis>bound-token</emphasis> syntax, but it also introduces a program parameter for each bound token. The bound token introduced by the <emphasis>simple-token</emphasis> syntax is defined as though it had been introduced with the <emphasis>bound-token</emphasis> syntax. If the final identifier is omitted, then no name space can be specified, the bound token is not identified and in effect there is a local hidden identifier.</para>
+
+</sect2>
+<sect2>
+<title>Function procedure tokens</title>
+
+<para>One of the commonest uses of simple procedure tokens is to represent function in-lining. In this case, the procedure token represents the in-lining of the function, with the function parameters being the program arguments of the procedure token call, and the program construct resulting from the call of the procedure token being the corresponding in-lining of the function. This is a direct parallel to the use of macros to represent functions.</para>
+
+<para>The syntax for introducing function procedure tokens is:</para>
+
+<programlisting>
+function-procedure:
+	FUNC <emphasis>type-name</emphasis> :
+</programlisting>
+
+<para>The type-name must be a prototyped function type. The pragma results in the declaration of a function of that type with external linkage and the introduction of a procedure token suitable for an in-lining of the function. (If an ellipsis is present in the prototyped function type, it is used in the function declaration but not in the procedure token introduction.) Every parameter type and result type is mapped onto the token introduction:</para>
+
+<programlisting>
+EXP rvalue:
+</programlisting>
+
+<para>The example below:</para>
+
+<programlisting>
+#pragma token FUNC int(int): putchar#
+</programlisting>
+
+<para>declares a function, putchar, which returns an int and takes an int as its argument, and introduces a procedure token suitable for in-lining putchar. Note that:</para>
+
+<programlisting>
+#undef putchar
+</programlisting>
+
+<para>will remove the procedure token but not the underlying function.</para>
+
+</sect2>
+<sect2>
+<title>Defining procedure tokens</title>
+
+<para>All procedure tokens are defined by the same mechanism. Since simple and function procedure tokens can be transformed into general procedure tokens, the definition will be explained in terms of general procedure tokens.</para>
+
+<para>The syntax for defining procedure tokens is given below and is based upon the standard parameterised macro definition. However, as in the definitions of expressions and statements, the #defines of procedure token identifiers are evaluated in phase 7 of translation as described in the ISO C standard.</para>
+
+<programlisting>
+#define <emphasis>identifier</emphasis> ( <emphasis>id-list</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>assignment-expression
+</emphasis>
+#define <emphasis>identifier</emphasis> ( <emphasis>id-list</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>statement
+</emphasis>
+
+id-list:
+	<emphasis>identifier</emphasis>
+	<emphasis>identifer</emphasis>, <emphasis>id-list</emphasis>
+</programlisting>
+
+<para>The <emphasis>id-list</emphasis> must correspond directly to the program parameters of the procedure token introduction. There must be precisely one identifier for each program parameter. These identifiers are used to identify the program parameters of the procedure token being defined and have a scope that terminates at the end of the procedure token definition. They are placed in the default name spaces for the kinds of program constructs which they identify.</para>
+
+<para>None of the bound token dependencies can be defined during the evaluation of the definition of the procedure token since they are effectively provided by the arguments of the procedure token each time it is called. To illustrate this, consider the example below based on the dderef token used earlier.</para>
+
+<programlisting>
+#pragma token PROC{TYPE t, EXP rvalue:t**:e|EXP e}EXP rvalue:t:dderef#
+#define dderef (A) (**(A))
+</programlisting>
+
+<para>The identifiers t and e are not in scope during the definition, being merely local identifiers for use in the procedure token introduction. The only identifier in scope is A. A identifies an expression token which is an rvalue whose type is a pointer to a pointer to a type token. The expression token and the type token are provided by the arguments at the time of calling the procedure token.</para>
+
+<para>Again, the presence of a procedure token introduction can alter the semantics of a program. Consider the program below.</para>
+
+<programlisting>
+#pragma token PROC {TYPE t, EXP lvalue:t:,EXP lvalue:t:}STATEMENT SWAP#
+#define SWAP(T,A,B)\
+	{T x; x=B; B=A; A=x;}
+void f(int x, int y) {
+	SWAP(int, x, y)
+}
+</programlisting>
+
+<para>The definition and call of the procedure token are extremely straightforward. However, if the procedure token introduction is absent, the swap does not take place because x refers to the variable in the inner scope.</para>
+
+<para>Function procedure tokens are introduced with tentative implicit definitions, defining them to be direct calls of the functions they reference and effectively removing the in-lining capability. If a genuine definition is found later in the compilation, it overrides the tentative definition. An example of a tentative definition is shown below:</para>
+
+<programlisting>
+#pragma token FUNC int(int, long) : func#
+#define func(A, B) (func) (A, B)
+</programlisting>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Tokens and APIs</title>
+
+<para>In -XREF-Chapter 1 we mentioned that one of the main problems in writing portable software is the lack of separation between specification and implementation of APIs. The TenDRA technology uses the token syntax described in the previous sections to provide an abstract description of an API specification. Collections of tokens representing APIs are called &quot;interfaces&quot;. Tchk can compile programs with these interfaces in order to check applications against API specifications independently of any particular implementation that may be present on the developer's machine.</para>
+
+<para>In order to produce executable code, definitions of the interface tokens must be provided on all target machines. This is done by compiling the interfaces with the system headers and libraries.</para>
+
+<para>When developing applications, programmers must ensure that they do not accidentally define a token expressing an API. Implementers of APIs, however, do not want to inadvertently fail to define a token expressing that API. Token definition states have been introduced to enable programmers to instruct the compiler to check that tokens are defined when and only when they wish them to be. This is fundamental to the separation of programs into portable and unportable parts.</para>
+
+<para>When tokens are first introduced, they are in the free state. This means that the token can be defined or left undefined and if the token is defined during compilation, its definition will be output as TDF.</para>
+
+<para>Once a token has been given a valid definition, its definition state moves to defined. Tokens may only be defined once. Any attempt to define a token in the defined state is flagged as an error.</para>
+
+<para>There are three more token definition states which may be set by the programmer. These are as follows:</para>
+
+<itemizedlist>
+<listitem>
+<para>Indefinable - the token is not defined and must not be defined. Any attempt to define the token will cause an error. When compiling applications, interface tokens should be in the indefinable state. It is not possible for a token to move from the state of defined to indefinable;</para>
+</listitem>
+<listitem>
+<para>Committed - the token must be defined during the compilation. If no definition is found the compiler will raise an error. Interface tokens should be in the committed state when being compiled with the system headers and libraries to provide definitions;</para>
+</listitem>
+<listitem>
+<para>Ignored - any definition of the token that is assigned during the compilation of the program will not be output as TDF;</para>
+</listitem>
+</itemizedlist>
+
+<para>These token definition states are set using the pragmas:</para>
+
+<programlisting>
+#pragma <emphasis>token-op token-id-list</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+token-op:
+	define
+	no_def
+	ignore
+	interface
+
+token-id-list:  
+TAG<subscript><emphasis>opt</emphasis></subscript> <emphasis>identifier</emphasis> <emphasis>dot-list</emphasis><subscript><emphasis>opt </emphasis></subscript> <emphasis>token-id-list</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+dot-list:
+	. <emphasis>member-designator</emphasis>
+</programlisting>
+
+<para>The <emphasis>token-id-list</emphasis> is the list of tokens to which the definition state applies. The tokens in the <literal>token-id-list</literal> are identified by an identifier, optionally preceded by TAG. If TAG is present, the identifier refers to the tag name space, otherwise the macro and ordinary name spaces are searched for the identifier. If there is no <emphasis>dot-list</emphasis> present, the identifier must refer to a token. If the <emphasis>dot-list</emphasis> is present, the identifier must refer to a compound type and the member-designator must identify a member selector token of that compound type.</para>
+
+<para>The <emphasis>token-op</emphasis> specifies the definition state to be associated with the tokens in the <literal>token-id-list</literal>. There are three literal operators and one context dependent operator, as follows:</para>
+
+<orderedlist>
+<listitem>
+<para><literal>no_def</literal> causes the token state to move to indefinable.</para>
+</listitem>
+<listitem>
+<para><literal>define</literal> causes the token state to move to committed;</para>
+</listitem>
+<listitem>
+<para><literal>ignore</literal> causes the token state to move to ignored;</para>
+</listitem>
+<listitem>
+<para><literal>interface</literal> is the context dependent operator and is used when describing extensions to existing APIs.</para>
+</listitem>
+</orderedlist>
+
+<para>As an example of an extension API, consider the POSIX stdio.h. This is an extension of the ANSI stdio.h and uses the same tokens to represent the common part of the interface. When compiling applications, nothing can be assumed about the implementation of the ANSI tokens accessed via the POSIX API so they should be in the indefinable state. When the POSIX tokens are being implemented, however, the ANSI implementations can be assumed. The ANSI tokens are then in the ignored state. (Since the definitions of these tokens will have been output already during the definition of the ANSI interface, they should not be output again.)</para>
+
+<para>The <literal>interface</literal> operator has a variable interpretation to allow the correct definition state to be associated with these `base-API tokens'. The compiler associates a compilation state with each file it processes. These compilation states determine the interpretation of the interface operator within that file.</para>
+
+<para>The default compilation state is the standard state. In this state the <literal>interface</literal> operator is interpreted as the <literal>no_def</literal> operator. This is the standard state for compiling applications in the presence of APIs;</para>
+
+<para>Files included using:</para>
+
+<programlisting>
+#include header
+</programlisting>
+
+<para>have the same compilation state as the file from which they were included.</para>
+
+<para>The implementation compilation state is associated with files included using:</para>
+
+<programlisting>
+#pragma implement interface <emphasis>header</emphasis>
+</programlisting>
+
+<para>In this context the <literal>interface</literal> operator is interpreted as the <literal>define</literal> operator.</para>
+
+<para>Including a file using:</para>
+
+<programlisting>
+#pragma extend interface <emphasis>header</emphasis>
+</programlisting>
+
+<para>causes the compilation state to be extension unless the file from which it was included was in the standard state, in which case the compilation state is the standard state. In the extension state the <literal>interface</literal> operator is interpreted as the <literal>ignore</literal> operator.</para>
+
+</sect1>
+</appendix>
+
+<appendix>
+<title>API checking</title>
+
+<sect1>
+<title>Introduction</title>
+
+<para>The token syntax described in the previous annex provides the means of describing an API specification independently of any particular implementation of the API. Every object in the API specification is described using the appropriate #pragma token statement. These statements are arranged in TenDRA header files corresponding to the headers comprising the API. Each API consists of a separate set of header files. For example, if the ANSI API is used, the statement:</para>
+
+<programlisting>
+#include &lt;sys/types.h&gt;
+</programlisting>
+
+<para>will lead to a &quot;header not found&quot; error, whereas the header will be found in the POSIX API.</para>
+
+<para>Where relationships exist between APIs these have been made explicit in the headers. For example, the POSIX version of stdio.h consists of the ANSI version plus some extra objects. This is implemented by making the TenDRA header describing the POSIX version of stdio.h include the ANSI version of stdio.h.</para>
+
+</sect1>
+
+<sect1>
+<title>Specifying APIs to tcc</title>
+
+<para>The API against which a program is to be checked is specified to tchk by means of a command-line option of the form -Yapi where api is the API name. For example, ANSI X3.159 is specified by -Yansi (this is the default API) and POSIX 1003.1 is specified by -Yposix (for a full list of the supported APIs see -XREF-Chapter 2).</para>
+
+<para>Extension APIs, such as X11, require special attention. The API for a program is never just X11, but X11 plus some base API, for example, X11 plus POSIX or X11 plus XPG3. These composite APIs may be specified by, for example, passing the options -Yposix -Yx5_lib (in that order) to tcc to specify POSIX 1003.1 plus X11 (Release 5) Xlib. The rule is that base APIs, such as POSIX, override the existing API, whereas extension APIs, such as X11, extend it. The command-line option -info causes tcc to print the API currently in use. For example:</para>
+
+<programlisting>
+&gt; tcc -Yposix -Yx5_lib -info file.c
+</programlisting>
+
+<para>will result in the message:</para>
+
+<programlisting>
+tcc: Information: API is X11 Release 5 Xlib plus POSIX (1003.1).
+</programlisting>
+
+</sect1>
+<sect1>
+<title>API Checking Examples</title>
+
+<para>As an example of the TenDRA compiler's API checking capacities, consider the following program which prints the names and inode numbers of all the files in the current directory:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+int main ()
+{
+	DIR *d = opendir ( &quot;.&quot; );
+	struct dirent *e;
+	if (d = NULL) return ( 1 );
+	while(e=readdir(d),e!=NULL) 
+	{
+		printf ( &quot;%s %lu\n&quot;, e-&gt;d_name, e-&gt;d_ino );
+	}
+	closedir ( d );
+	return ( 0 );
+}
+</programlisting>
+
+<para>A first attempted compilation using strict checking:</para>
+
+<programlisting>
+&gt; tcc -Xs a.c 
+</programlisting>
+
+<para>results in messages to the effect that the headers &lt;sys/types.h&gt; and &lt;dirent.h&gt; cannot be found, plus a number of consequential errors. This is because tcc is checking the program against the default API, that is against the ANSI API, and the program is certainly not ANSI compliant. It does look as if it might be POSIX compliant however, so a second attempted compilation might be:</para>
+
+<programlisting>
+&gt; tcc -Xs -Yposix a.c
+</programlisting>
+
+<para>This results in one error and three warnings. Dealing with the warnings first, the returns of the calls of printf and closedir are being discarded and the variable d has been set and not used. The discarded function returns are deliberate, so they can be made explicit by casting them to void. The discarded assignment to d requires a little more thought - it is due to the mistyping d = NULL instead of d == NULL on line 9. The error is more interesting. In full the error message reads:</para>
+
+<programlisting>
+&quot;a.c&quot;:11
+printf ( &quot;%s %lu\n&quot;, e-&gt;d_name, e-&gt;d_ino!!!! );
+Error:ISO[6.5.2.1]{ANSI[3.5.2.1]}: The identifier 'd_ino' is not a member of 
+'struct/union posix.dirent.dirent'.
+ISO[6.3.2.3]{ANSI[3.3.2.3]}: The second operand of '-&gt;' must be a member of 
+the struct/union pointed to by the first.
+</programlisting>
+
+<para>That is, struct dirent does not have a field called d_ino. In fact this is true; while the d_name field of struct dirent is specified in POSIX, the d_ino field is an XPG3 extension (This example shows that the TenDRA representation of APIs is able to differentiate between APIs at a very fine level). Therefore a third attempted compilation might be:</para>
+
+<programlisting>
+&gt; tcc -Xs -Yxpg3 a.c
+</programlisting>
+
+<para>This leads to another error message concerning the printf statement, that the types unsigned long and (the promotion of) ino_t are incompatible. This is due to a mismatch between the printf format string &quot;%lu&quot; and the type of e-&gt;d_ino. POSIX only says that ino_t is an arithmetic type, not a specific type like unsigned long. The TenDRA representation of POSIX reflects this abstract nature of ino_t, so that the potential portability error is detected. In fact it is impossible to give a printf string which works for all possible implementations of ino_t. The best that can be done is to cast e-&gt;d_ino to some fixed type like unsigned long and print that.</para>
+
+<para>Hence the corrected, XPG3 conformant program reads:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+int main ()
+{
+	DIR *d = opendir ( &quot;.&quot; );
+	struct dirent *e;
+	if ( d == NULL ) return (1);
+	while(e=readdir(d),e!=NULL)
+	{
+		( void ) printf ( &quot;%s %lu\n&quot;, e-&gt;d_name,( unsigned long ) e-&gt;d_ino );
+	}
+	( void ) closedir ( d );
+	return ( 0 );
+}
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Redeclaring Objects in APIs</title>
+
+<para>Of course, it is possible to redeclare the functions declared in the TenDRA API descriptions within the program, provided they are consistent. However, what constitutes a consistent redeclaration in the fully abstract TenDRA machine is not as straightforward as it might seem; an interesting example is malloc in the ANSI API. This is defined by the prototype:</para>
+
+<programlisting>
+void *malloc ( size_t ); 
+</programlisting>
+
+<para>where size_t is a target dependent unsigned integral type. The redeclaration:</para>
+
+<programlisting>
+void *malloc (); 
+</programlisting>
+
+<para>is only correct if size_t is its own integral promotion, and therefore is not correct in general.</para>
+
+<para>Since it is not always desirable to remove these redeclarations (some machines may not have all the necessary functions declared in their system headers) the TenDRA compiler has a facility to accept inconsistent redeclarations of API functions which can be enabled by using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA incompatible interface declaration allow
+</programlisting>
+
+<para>This pragma supresses the consistency checking of re-declarations of API functions. Replacing <literal>allow</literal> by <literal>warning</literal> causes a warning to be printed. In both cases the TenDRA API description of the function takes precedence. The normal behaviour of flagging inconsistent redeclarations as errors can be restored by replacing <literal>allow</literal> by <literal>disallow</literal> in the pragma above. (There are also equivalent command-line options to tcc of the form -X:interface_decl= <emphasis>status</emphasis>, where <emphasis>status</emphasis> can be check, warn or dont.)</para>
+
+</sect1>
+
+<sect1>
+<title>Defining Objects in APIs</title>
+
+<para>Since the program API is meant to define the interface between what the program defines and what the target machine defines, the TenDRA compiler normally raises an error if any attempt is made to define an object from the API in the program itself. A subtle example of this is given by compiling the program:</para>
+
+<programlisting>
+#include &lt;errno.h&gt;
+extern int errno;
+</programlisting>
+
+<para>with the ANSI API. ANSI states that errno is an assignable lvalue of type int, and the TenDRA description of the API therefore states precisely that. The declaration of errno as an extern int is therefore an inconsistent specification of errno, but a consistent implementation. Accepting the lesser of two evils, the error reported is therefore that an attempt has been made to define errno despite the fact that it is part of the API.</para>
+
+<note>
+<para>If this same program is compiled using the POSIX API, in which errno is explicitly specified to be an extern int, the program merely contains a consistent redeclaration of errno and so does not raise an error.</para>
+</note>
+
+<para>The neatest workaround for the ANSI case, which preserves the declaration for those machines which need it, is as follows: if errno is anything other than an extern int it must be defined by a macro. Therefore:</para>
+
+<programlisting>
+#include &lt;errno.h&gt;
+#ifndef errno
+extern int errno;
+#endif
+</programlisting>
+
+<para>should always work.</para>
+
+<para>In most other examples, the definitions are more obvious. For example, a programmer might provide a memory allocator containing versions of malloc, free etc.:</para>
+
+<programlisting>
+#include &lt;stdlib.h&gt;
+void *malloc ( size_t sz )
+{
+	....
+}
+void free ( void *ptr )
+{
+	....
+}
+</programlisting>
+
+<para>If this is deliberate then the TenDRA compiler needs to be told to ignore the API definitions of these objects and to use those provided instead. This is done by listing the objects to be ignored using the pragma:</para>
+
+<programlisting>
+#pragma ignore malloc free ....
+</programlisting>
+
+<para>(also see section -XREF-G.10). This should be placed between the API specification and the object definitions. The provided definitions are checked for conformance with the API specifications. There are special forms of this pragma to enable field selectors and objects in the tag namespace to be defined. For example, if we wish to provide a definition of the type div_t from stdlib.h we need to ignore three objects - the type itself and its two field selectors - quot and rem. The definition would therefore take the form:</para>
+
+<programlisting>
+#include &lt;stdlib.h&gt;
+#pragma ignore div_t div_t.quot div_t.rem
+typedef struct {
+	int quot;
+	int rem;
+} div_t;
+</programlisting>
+
+<para>Similarly if we wish to define struct lconv from locale.h the definition would take the form:</para>
+
+<programlisting>
+#include &lt;locale.h&gt;
+#pragma ignore TAG lconv TAG lconv.decimal_point 
+....
+struct lconv {
+	char *decimal_point;
+	....
+};
+</programlisting>
+
+<para>to take into account that lconv lies in the tag name space. By defining objects in the API in this way, we are actually constructing a less general version of the API. This will potentially restrict the portability of the resultant program, and so should not be done without good reason.</para>
+
+
+</sect1>
+
+<sect1>
+<title>Stepping Outside an API</title>
+
+<para>Using the TenDRA compiler to check a program against a standard API will only be effective if the appropriate API description is available to the program being tested (just as a program can only be compiled on a conventional machine if the program API is implemented on that machine). What can be done for a program whose API are not supported depends on the degree to which the program API differs from an existing TenDRA API description. If the program API is POSIX with a small extension, say, then it may be possible to express that extension to the TenDRA compiler. For large unsupported program APIs it may be possible to use the system headers on a particular machine to allow for partial program checking (see section -XREF-H.7).</para>
+
+<para>For small API extensions the ideal method would be to use the token syntax described in Annex G to express the program API to the TenDRA compiler, however this is not currently encouraged because the syntax of such API descriptions is not yet firmly fixed. For the time being it may be possible to use C to express much of the information the TenDRA compiler needs to check the program. For example, POSIX specifies that sys/stat.h contains a number of macros, S_ISDIR, S_ISREG, and so on, which are used to test whether a file is a directory, a regular file, etc. Suppose that a program is basically POSIX conformant, but uses the additional macro S_ISLNK to test whether the file is a symbolic link (this is in COSE and AES, but not POSIX). A proper TenDRA description of S_ISLNK would contain the information that it was a macro taking a mode_t and returning an int, however for checking purposes it is sufficient to merely give the types. This can be done by pretending that S_ISLNK is a function:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+/* For TenDRA checking purposes only */
+extern int S_ISLNK ( mode_t ); 
+/* actually a macro */
+#endif
+</programlisting>
+
+<para>More complex examples might require an object in the API to be defined in order to provide more information about it (see H.5). For example, suppose that a program is basically ANSI compliant, but assumes that FILE is a structure with a field file_no of type int (representing the file number), rather than a generic type. This might be expressed by:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+/* For TenDRA checking purposes only */
+#pragma ignore FILE
+typedef struct {
+/* there may be other fields here */
+	int file_no;
+/* there may be other fields here */
+} FILE;
+#endif
+</programlisting>
+
+<para>The methods of API description above are what might be called &quot;example implementations&quot; rather than the &quot;abstract implementations&quot; of the actual TenDRA API descriptions. They should only be used as a last resort, when there is no alternative way of expressing the program within a standard API. For example, there may be no need to access the file_no field of a FILE directly, since POSIX provides a function, fileno, for this purpose. Extending an API in general reduces the number of potential target machines for the corresponding program.</para>
+
+</sect1>
+
+<sect1>
+<title>Using the System Headers</title>
+
+<para>One possibility if a program API is not supported by the TenDRA compiler is to use the set of system headers on the particular machine on which tcc happens to be running. Of course, this means that the API checking facilities of the TenDRA compiler will not be effective, but it is possible that the other program checking aspects will be of use.</para>
+
+<para>The system headers are not, and indeed are not intended to be, portable. A simple-minded approach to portability checking with the system headers could lead to more portability problems being found in the system headers than in the program itself. A more sophisticated approach involves applying different compilation modes to the system headers and to the program. The program itself can be checked very rigorously, while the system headers have very lax checks applied.</para>
+
+<para>This could be done directly, by putting a wrapper around each system header describing the mode to be applied to that header. However the mechanism of named compilation modes (see 2.2) provides an alternative solution. In addition to the normal -Idir command-line option, tcc also supports the option -Nname:dir, which is identical except that it also associates the identifier name with the directory dir. Once a directory has been named in this way, the name can be used in a directive:</para>
+
+<programlisting>
+#pragma TenDRA directory <emphasis>name</emphasis> use environment <emphasis>mode</emphasis>
+</programlisting>
+
+<para>which tells tcc to apply the named compilation mode, mode, to any files included from the directory, name. This is the mechanism used to specify the checks to be applied to the system headers.</para>
+
+<para>The system headers may be specified to tcc using the -Ysystem command-line option. This specifies /usr/include as the directory to search for headers and passes a system start-up file to tcc. This system start-up file contains any macro definitions which are necessary for tcc to navigate the system headers correctly, plus a description of the compilation mode to be used in compiling the system headers.</para>
+
+<para>In fact, before searching /usr/include, tcc searches another directory for system headers. This is intended to hold modified versions of any system headers which cause particular problems or require extra information. For example:</para>
+
+<itemizedlist>
+<listitem>
+<para>A version of stdio.h is provided for all systems, which contains the declarations of printf and similar functions necessary for tcc to apply its printf-string checks (see 3.3.2).</para>
+</listitem>
+<listitem>
+<para>A version of stdlib.h is provided for all systems which includes the declarations of exit and similar functions necessary for tcc to apply its flow analysis correctly (see 5.7).</para>
+</listitem>
+<listitem>
+<para>Versions of stdarg.h and varargs.h are provided for all systems which work with tcc. Most system headers contain built-in functions which are recognised by cc (but not tcc) to deal with these.</para>
+</listitem>
+</itemizedlist>
+<para>The user can also use this directory to modify any system headers which cause problems. For example, not all system headers declare all the functions they should, so it might be desirable to add these declarations.</para>
+
+<para>It should be noted that the system headers and the TenDRA API headers do not mix well. Both are parts of coherent systems of header files, and unless the intersection is very small, it is not usually possible to combine parts of these systems sensibly.</para>
+
+<para>Even a separation, such as compiling some modules of a program using a TenDRA API description and others using the system headers, can lead to problems in the intermodular linking phase (see Chapter 9). There will almost certainly be type inconsistency errors since the TenDRA headers and the system headers will have different representations of the same object.</para>
+
+</sect1>
+<sect1>
+<title>Abstract API headers and API usage analysis</title>
+
+<para>The abstract standard headers provided with the tool are the basis for the API usage analysis checking on dump files described in Chapter 9. The declarations in each abstract header file are enclosed by the following pragmas:</para>
+
+<programlisting>
+#pragma TenDRA declaration block <emphasis>API_name</emphasis> begin
+#pragma TenDRA declaration block end
+</programlisting>
+
+<para><literal>API_name</literal> has a standard form e.g. <emphasis>api__ansi__stdio</emphasis> for stdio.h in the ANSI API.</para>
+
+<para>This information is output in the dump format as the start and end of a header scope, i.e.</para>
+
+<programlisting>
+SSH position    ref_no = &lt;API_name&gt;
+SEH position    ref_no
+</programlisting>
+
+<para>The first occurence of each identifier in the dump output contains scope information; in the case of an identifier declared in the abstract headers, this scope information will normally refer to a header scope. Since each use of the identifier can be traced back to its declaration, this provides a means of tracking API usage within the application when the abstract headers are used. The disadvantages of this method are that only APIs for which abstract headers are available can be used. Objects which are not part of the standard APIs are not available and if an application requires such an identifier (or indeed attempts to use a standard API identifier for which the appropriate header has not been included) the resulting errors may distort or even completely halt the dump output resulting in incomplete or incorrect analysis.</para>
+
+<para>The second method of API analysis allows compilation of the application against the system headers, thereby overcoming the problems of non-standard API usage mentioned above. The dump of the application can be scanned to determine the identifiers which are used but not defined within the application itself. These identifiers form the program's external API with the system headers and libraries, and can be compared with API reference information, provided by dump output files produced from the abstract standard headers, to determine the applications API usage.</para>
+
+</sect1>
+</appendix>
+
+<appendix>
+<title>Specifying conversions using the token syntax</title>
+
+<sect1>
+<title>Introduction</title>
+
+<para>The token syntax described in Annex F can be used to fine-tune the conversion analysis and integer range checks described in section 3.2.2 and chapter 4 respectively.</para>
+
+</sect1>
+
+<sect1>
+<title>User-defined conversions</title>
+
+<para>In the example:</para>
+
+<programlisting>
+#pragma token TYPE IP#
+#pragma no_def IP
+#pragma token PROC{ TYPE t ,EXP rvalue : t* : e | EXP e}EXP rvalue:IP:p_to_ip#
+#pragma TenDRA conversion p_to_ip allow
+void f(void){
+	IP i, *pip;
+	i=pip;
+}
+</programlisting>
+
+<para>the conversion from type pointer to IP to IP would normally result in an error. However the pragma:</para>
+
+<programlisting>
+#pragma TenDRA conversion <emphasis>conv_list</emphasis> allow
+</programlisting>
+
+<para>allows users to define their own conversions between types that would otherwise be incompatible. Each identifier in the <emphasis>conv_list</emphasis> must be a local identifier for a PROC token (see -XREF-tdfc20.html#21F.9 Procedure tokens), taking exactly one argument which must be an expression. The procedure must also deliver an expression and both the parameter and the result must be rvalues. When attempting the conversion of a value from one type to another, either by assignment or casting, if that conversion would not normally be permitted, then, for each token introduced as a conversion token by the pragma above:</para>
+
+<para>An attempt is made to resolve the type of the token result to the type to which the value is being converted.</para>
+
+<para>If the result is resolved and the value to be converted is a suitable argument for the token procedure, the token procedure is applied to implement the conversion.</para>
+
+<para>If no suitable conversion token can be found, an error will be raised.</para>
+
+</sect1>
+
+<sect1>
+<title>Specifying integer promotions</title>
+
+<para>Whenever an integral type is used, e.g. in a call to a traditionally defined function, its promotion must be computed. If no promotion type has been specified, the compiler will raise an error. Although programs will generally use the default rules provided in the built-in compilation modes, the TenDRA compiler also allows programmers to specify their own set of integer promotion rules. Such promotions can be split into two categories: literal promotions and computed promotions.</para>
+
+<sect2>
+<title>Literal promotions</title>
+
+<para>The promoted type is supplied directly using the pragma:</para>
+
+<programlisting>
+#pragma promote <emphasis>type-name</emphasis> : <emphasis>type-name</emphasis>
+</programlisting>
+
+<para>The second type-name specifies the promoted type of the first type-name. Both types must be integral types.</para>
+
+</sect2>
+<sect2>
+<title>Computed promotions</title>
+
+<para>The pragma:</para>
+
+<programlisting>
+#pragma compute promote <emphasis>proc-token</emphasis>
+</programlisting>
+
+<para>allows the programmer to provide the identification of a procedure token (see -XREF-tdfc20.html#21F.9 Procedure tokens) for computing the promotion type of any integral type. This token is then called whenever the promotion of a type without a literal promotion is required. The procedure token <emphasis>proc-token</emphasis> must be declared as:</para>
+
+<programlisting>
+#pragma token PROC ( VARIETY ) VARIETY proc-token #
+</programlisting>
+
+<para>The TenDRA technology provides two pre-defined procedure tokens, identified by <literal>~promote</literal> and <literal>~sign-promote</literal>. These procedures perform integer promotions according to the ISO/ANSI promotion rules or according to the traditional signed promotion rules respectively. The built-in compilation environments (see chapter 2) use these tokens to specify the appropriate set of integer promotion rules.</para>
+
+</sect2>
+</sect1>
+</appendix>
+</book>
