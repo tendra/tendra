@@ -215,7 +215,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			arg_parse_intern_descriptions
- *			PROTO_S ((ArgListP arg_list))
+ *			(ArgListP arg_list)
  ** Exceptions:	XX_dalloc_no_memory, XX_error_redefined_string
  *
  * This function should be called on all option lists that the program uses,
@@ -225,8 +225,8 @@
  * this function is called.
  *
  ** Function:	int			arg_parse_arguments
- *			PROTO_S ((ArgListP arg_list, EStringP usage, int argc,
- *				  char **argv))
+ *			(ArgListP arg_list, EStringP usage, int argc,
+ *				  char **argv)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function does the argument parsing.  The arg_list argument should
@@ -239,7 +239,7 @@
  * that it parsed.
  *
  ** Function:	void			write_arg_usage
- *			PROTO_S ((OStreamP ostream, ArgUsageP closure))
+ *			(OStreamP ostream, ArgUsageP closure)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function can be used to write out a usage message based upon the usage

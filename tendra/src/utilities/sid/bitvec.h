@@ -84,7 +84,7 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			bitvec_set_size
- *			PROTO_S ((unsigned size))
+ *			(unsigned size)
  ** Exceptions:
  *
  * This function should be called once, before any bit vectors are
@@ -93,14 +93,14 @@
  * specified.
  *
  ** Function:	void			bitvec_init
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified bit vector.  Initially, all bits
  * are zero.
  *
  ** Function:	void			bitvec_copy
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the to bit vector from the from bit vector.  It
@@ -108,34 +108,34 @@
  * `bitvec_init' function previously.
  *
  ** Function:	void			bitvec_replace
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:
  *
  * This function copies the from bit vector into the to bit vector.  The to
  * bit vector must have been initialised previously.
  *
  ** Function:	void			bitvec_empty
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function sets all of the bits in the specified bit vector to zero.
  *
  ** Function:	BoolT			bitvec_is_empty
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are zero, and false otherwise.
  *
  ** Function:	BoolT			bitvec_is_full
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns true if all of the bits in the specified bit vector
  * are set, and false otherwise.
  *
  ** Function:	void			bitvec_set
- *			PROTO_S ((BitVecP bitvec, unsigned bit))
+ *			(BitVecP bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function sets the specified bit in the specified bit vector to one.
@@ -143,7 +143,7 @@
  * of this function is undefined.
  *
  ** Function:	BoolT			bitvec_is_set
- *			PROTO_S ((BitVecP bitvec, unsigned bit))
+ *			(BitVecP bitvec, unsigned bit)
  ** Exceptions:
  *
  * This function returns true if the specified bit in the specified bit vector
@@ -151,55 +151,55 @@
  * bit is out of range, the effect of this function is undefined.
  *
  ** Function:	void			bitvec_or
- *			PROTO_S ((BitVecP to, BitVecP from))
+ *			(BitVecP to, BitVecP from)
  ** Exceptions:
  *
  * This function performs an in-place bitwise or of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_and
- *			PROTO_S ((BitVecP to, BitVecPfrom))
+ *			(BitVecP to, BitVecPfrom)
  ** Exceptions:
  *
  * This function performs an in-place bitwise and of the to bit vector and the
  * from bit vector, leaving the result in the to bit vector.
  *
  ** Function:	void			bitvec_not
- *			PROTO_S ((BitVecP to))
+ *			(BitVecP to)
  ** Exceptions:
  *
  * This function performs an in-place bitwise negation of the to bit vector.
  *
  ** Function:	BoolT			bitvec_equal
- *			PROTO_S ((BitVecP bitvec1, BitVecP bitvec2))
+ *			(BitVecP bitvec1, BitVecP bitvec2)
  ** Exceptions:
  *
  * This function returns true if both of the specified bit vectors are equal,
  * and false otherwise.
  *
  ** Function:	BoolT			bitvec_intersects
- *			PROTO_S ((BitVecP bitvec1, BitVecP bitvec2))
+ *			(BitVecP bitvec1, BitVecP bitvec2)
  ** Exceptions:
  *
  * This function returns true if the bitwise and of the specified bit vectors
  * contains at least one bit that is set to one, and false otherwise.
  *
  ** Function:	unsigned		bitvec_num_bits
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns the number of bits in the bit vector that are set to
  * one.
  *
  ** Function:	unsigned		bitvec_first_bit
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function returns the index of the first bit in the specified bit
  * vector that is set to one.
  *
  ** Function:	BoolT			bitvec_next_bit
- *			PROTO_S ((BitVecP bitvec, unsigned *next_ref))
+ *			(BitVecP bitvec, unsigned *next_ref)
  ** Exceptions:
  *
  * This function looks for the first bit set to one in the specified bit
@@ -209,14 +209,14 @@
  * found, then the function returns false.
  *
  ** Function:	void			bitvec_destroy
- *			PROTO_S ((BitVecP bitvec))
+ *			(BitVecP bitvec)
  ** Exceptions:
  *
  * This function destroys the specified bit vector.  After this, it should be
  * reinitialised before it is used.
  *
  ** Function:	void			write_bitvec_indices
- *			PROTO_S ((OStreamP ostream, BitVecP bitvec))
+ *			(OStreamP ostream, BitVecP bitvec)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes out to the specified ostream the indices of all bits
