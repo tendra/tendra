@@ -70,10 +70,6 @@ REMOVE ?=	${ENV} rm -f
 
 .SUFFIXES: .o .c .sid
 
-#.sid.c:
-#	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
-#	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}
-
 .c.o:
 	@${ECHO} Compiling ${.IMPSRC}...
 	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${OBJ_SDIR}/${.TARGET}
@@ -81,6 +77,11 @@ REMOVE ?=	${ENV} rm -f
 .o:
 	@${ECHO} Linking ${.IMPSRC}...
 	${LD} ${LDOPTS} -o ${OBJ_SDIR}/${PROG} ${OBJS} ${LIBS}
+
+.sid.c:
+	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
+	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}\
+		${.TARGET:S/.c/.h/}
 
 OBJS=  ${SRCS:S/.c/.o/}
 
