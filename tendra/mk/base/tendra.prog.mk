@@ -20,6 +20,8 @@ MAIN_TARGETS=	config-check obj-dir make-dir depend all
 
 .MAIN: ${MAIN_TARGETS}
 
+.ORDER: config-check obj-dir make-dir depend all
+
 make-subdir: ${MAIN_TARGETS}
 
 
