@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,86 @@
  */
 
 
-#ifndef RELEASE
-#define RELEASE		"TenDRA-5.0.0-dev"
+#ifndef TEN_MSGCAT_H
+#define TEN_MSGCAT_H
+
+#include <ctype.h>
+
+#define	MSGCAT_MAXPARAMS	10
+
+
+/*
+ * Default print function for messages
+ */
+#ifndef	MSG_GEN
+#define	MSG_GEN		msg_print
 #endif
+
+/*
+ * Pull in program specific catalog
+ */
+#ifndef MSG_NO_CATSTD
+#include "catstd.h"
+#endif
+
+/*
+ * User defined function for application specific  types
+ */
+typedef void msg_uh_t (char, void *);
+
+void  msg_init(void);
+void  msg_print(int, ...);
+const char *msg_get_raw(int);
+void  msg_simple(const char *s, ...);
+void  msg_sev_set(int, int);
+void  msg_append_char(char);
+void  msg_append_string(const char *);
+void  msg_append_nstring(const char *, size_t);
+void  msg_append_newline(void);
+void  msg_uh_add(char, msg_uh_t *);
+
+/*
+ * Set this to zero if no program prefix required
+ */
+extern int msgcat_show_progname;
+
+/*
+ * Maximum message severity level ever reported
+ */
+extern int msg_max_reported_severity;
+
+struct OStreamT;
+
+extern struct OStreamT *msg_stream;
+
+extern int crt_line_no;
+extern const char *crt_file_name;
+
+
+/*
+ * ASSERTION ROUTINE DECLARATIONS
+ *
+ * These macros are used to define assertions for aiding program
+ * development.  If the macro ASSERTS is defined then code for checking
+ * these assertions is output, otherwise the macros have no effect.
+ * Note that ASSERTS is automatically defined if DEBUG is (see config.h).
+ * FAIL_COMPILER is intended as an alternative to #error blows up some
+ * compilers even if it is not on the main compilation path.
+ */
+
+#ifdef ASSERTS
+
+int is_true(int);
+void assertion(const char *, const char *, int);
+
+# define ASSERT(A)	if (is_true (!(A)))\
+			    assertion (#A, __FILE__, __LINE__)
+# define FAIL(A)	assertion (#A, __FILE__, __LINE__)
+#else
+# define ASSERT(A)	/* empty */
+# define FAIL(A)	/* empty */
+#endif
+
+#define FAIL_COMPILER	ERROR [!]
+
+#endif /* !MSGCAT_H */
