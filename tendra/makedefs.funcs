@@ -11,7 +11,14 @@ check_cc()
 		echo "NOTICE: CC is often the C++ compiler, we just need a normal C compiler,";
 		echo "        setting CC to \"cc\"."
 		echo;
-
+	elif [ "$CC" = "xlc_r" -o "$CC" = "xlc_r4" -o "$CC" = "xlc_r7"\
+		-o "$CC" = "cc_r" -o "$CC" = "cc_r4" -o "$CC" = "cc_r7" ]; then
+		# We are on AIX, and since we focus on ANSI as a compiler, use
+		# the right bootstrapping compiler: xlc (which implies ansi).
+		CC="xlc";
+		echo "NOTICE: Using xlc_r or cc_r creates POSIX threaded applications.  We do";
+		echo "        not need that.  Setting CC to \"xlc\"."
+		echo
 	fi
 }
 
