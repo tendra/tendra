@@ -70,13 +70,13 @@
  */
 
 typedef struct {
-    CONST char *name;
+    const char *name;
     int scoped;
     OPTION def [2];
 } OPT_DATA;
 
 typedef struct {
-    CONST char *name;
+    const char *name;
     LOCATION *loc;
     unsigned long max_value;
     unsigned long min_value;

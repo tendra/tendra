@@ -115,7 +115,7 @@ unsigned long max_id_length = 1024;
  *    tokens in symbols.h.
  */
 
-CONST char *token_names [] = {
+const char *token_names [] = {
 #define LEX_TOKEN(A, B, C)		(B),
 #include "symbols.h"
 #undef LEX_TOKEN

@@ -830,7 +830,7 @@ enc_diag_id(IDENTIFIER id, int def)
  */
 
 void
-enc_diag_init(CONST char *s, ulong n, TYPE t)
+enc_diag_init(const char *s, ulong n, TYPE t)
 {
     if (output_all) {
 		string u = ustrlit (s);

@@ -1852,7 +1852,7 @@ read_spec()
     /* Read file identifier */
     int e = 0;
     char buff [20];
-    CONST char *msg = NULL;
+    const char *msg = NULL;
     NAMESPACE gns = NULL_nspace;
     BITSTREAM *bs = start_bitstream (input_file, NULL_gen_ptr);
     unsigned c1 = DE_BITS (bs, BYTE_SIZE);

@@ -180,10 +180,10 @@ int dump_anon_class = 0;
  *    This is a sequence of characters giving the type of identifier.
  */
 
-static CONST char*
+static const char*
 dump_key(IDENTIFIER id, int def)
 {
-    CONST char *key = NULL;
+    const char *key = NULL;
     if (do_dump && !IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
 	    case id_keyword_tag :
@@ -1411,7 +1411,7 @@ dump_base(CLASS_TYPE ct)
     if (n > 1) {
 		FILE *f = dump_file;
 		if (f) {
-			CONST char *key;
+			const char *key;
 			GRAPH gr = DEREF_graph (ctype_base (ct));
 			CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
 			if (ci & cinfo_union) {
@@ -1514,7 +1514,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 		FILE *f = dump_file;
 		int n = DEREF_int (err_simple_number (e));
 		ERR_DATA *msg = ERR_CATALOG + n;
-		CONST char *sig = msg->signature;
+		const char *sig = msg->signature;
 		ERR_PROPS props = msg->props;
 		
 		/* Dump start of error */
@@ -1522,7 +1522,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 		if (props & ERR_PROP_compiler) return (0);
 		if (loc) {
 			/* First error component */
-			CONST char *err;
+			const char *err;
 			switch (sev) {
 			case ERROR_FATAL : err = "EF" ; break;
 			case ERROR_INTERNAL : err = "EI" ; break;
@@ -1541,7 +1541,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 		if (err_output [n]) {
 			fprintf_v (f, "%d", n);
 		} else {
-			CONST char *name = msg->name;
+			const char *name = msg->name;
 			fprintf_v (f, "%d = <%s.%s>", n, ERR_NAME, name);
 			err_output [n] = 1;
 		}
@@ -1652,7 +1652,7 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 					break;
 				}
 				case ERR_KEY_QUALIFIER : {
-					CONST char *s;
+					const char *s;
 					QUALIFIER qual;
 					qual = DEREF_qual (err_arg (e, a, QUALIFIER));
 					if (qual == qual_full || qual == qual_top) {
@@ -1783,7 +1783,7 @@ void
 dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, def);
+    const char *key = dump_key (id, def);
     if (key && f) {
 		/* Dump identifier key */
 		char d = 'M';
@@ -1929,7 +1929,7 @@ void
 dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, def);
+    const char *key = dump_key (id, def);
     if (key && f) {
 		if (def) {
 			fprintf_v (f, "U%s\t", key);
@@ -1956,7 +1956,7 @@ void
 dump_use(IDENTIFIER id, LOCATION *loc, int expl)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, 1);
+    const char *key = dump_key (id, 1);
     if (key && f) {
 		if (!expl) fputc_v ('I', f);
 		fprintf_v (f, "L%s\t", key);
@@ -1980,7 +1980,7 @@ void
 dump_call(IDENTIFIER id, LOCATION *loc, int expl)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, 1);
+    const char *key = dump_key (id, 1);
     if (key && f) {
 		if (!expl) fputc_v ('I', f);
 		fprintf_v (f, "C%s\t", key);
@@ -2004,7 +2004,7 @@ void
 dump_instance(IDENTIFIER id, TYPE form, TYPE spec)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, 1);
+    const char *key = dump_key (id, 1);
     if (key && f) {
 		fprintf_v (f, "Z%s\t", key);
 		dump_id (id);
@@ -2033,7 +2033,7 @@ void
 dump_token(IDENTIFIER id, IDENTIFIER tok)
 {
     FILE *f = dump_file;
-    CONST char *key = dump_key (id, 1);
+    const char *key = dump_key (id, 1);
     if (key && f) {
 		HASHID nm = DEREF_hashid (id_name (tok));
 		if (IS_hashid_name_etc (nm)) {
@@ -2265,7 +2265,7 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 {
     FILE *f = dump_file;
     if (f) {
-		CONST char *incl;
+		const char *incl;
 		switch (st) {
 	    case 2 : incl = "FIS" ; break;
 	    case 3 : incl = "FIE" ; break;
@@ -2339,7 +2339,7 @@ init_dump(string nm, string opt)
 			case 'u' : do_usage = 1 ; break;
 			default : {
 				/* Unknown dump options */
-				CONST char *err = "Unknown dump option, '%c'";
+				const char *err = "Unknown dump option, '%c'";
 				error (ERROR_WARNING, err, (int) c);
 				break;
 			}

@@ -1315,7 +1315,7 @@ init_itypes(int init)
 		base_token [ ntype_bool ].alt = ARITH_bool;
     } else {
 		/* 'bool' is equal to 'int' for most purposes */
-		CONST char **nms = ntype_name ; /* SCO cc gets const wrong */
+		const char **nms = ntype_name ; /* SCO cc gets const wrong */
 		it = DEREF_itype (type_integer_rep (type_bool));
 		qt = NULL_list (TYPE);
 		CONS_type (type_sint, qt, qt);

@@ -518,7 +518,7 @@ static BITSTREAM
  */
 
 static BITSTREAM
-*enc_dg_artificial(BITSTREAM *bs, CONST char *s)
+*enc_dg_artificial(BITSTREAM *bs, const char *s)
 {
     ENC_dg_artificial_idname (bs);
     ENC_ON (bs);

@@ -1783,7 +1783,7 @@ compile_base(GRAPH gr, int ptr)
     }
     if (n != LINK_NONE) return (n);
     if (output_all) {
-		CONST char *pre = "~cpp.base.";
+		const char *pre = "~cpp.base.";
 		if ((acc & dspec_mutable) && !ptr) pre = "~cpp.virt.";
 		s = mangle_vtable (pre, gr);
     }

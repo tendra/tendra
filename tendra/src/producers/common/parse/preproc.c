@@ -427,7 +427,7 @@ read_if_exp(int act, int dir)
 			} else if ((t == lex_hash_H1 || t == lex_hash_H2) &&
 					   q->next->tok == lex_identifier) {
 				/* Deal with '#predicate' */
-				CONST char *c = "0";
+				const char *c = "0";
 				PPTOKEN *r = q->next;
 				HASHID pred = r->pp_data.id.hash;
 				if (t == lex_hash_H2) IGNORE get_digraph (t);

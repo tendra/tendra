@@ -94,8 +94,8 @@
  *    These variables give the program name and version number.
  */
 
-CONST char *progname = NULL;
-CONST char *progvers = NULL;
+const char *progname = NULL;
+const char *progvers = NULL;
 
 
 /*
@@ -106,7 +106,7 @@ CONST char *progvers = NULL;
  */
 
 void
-set_progname(CONST char *prog, CONST char *vers)
+set_progname(const char *prog, const char *vers)
 {
     error_file = stderr;
     if (prog) {
@@ -194,7 +194,7 @@ struct std_version {
 	int year;
 	const char *iso_version;
 	const char *ansi_version;
-	void (*convert_to_ansi)(BUFFER *, CONST char *);
+	void (*convert_to_ansi)(BUFFER *, const char *);
 };
 
 #if LANGUAGE_CPP
@@ -202,7 +202,7 @@ static struct std_version std_version[] = {
 	{ 1998, "C++98 ", "C++98 ", NULL }
 };
 #else
-static void isoC90_to_ansiC89(BUFFER *, CONST char *);
+static void isoC90_to_ansiC89(BUFFER *, const char *);
 
 static struct std_version std_version[] = {
 	{ 1990, "C90 ", "C89 ", isoC90_to_ansiC89 },
@@ -278,7 +278,7 @@ error_option(string opt)
 	    }
 	    default : {
 			/* Unknown output options */
-			CONST char *err = "Unknown error formatting option, '%c'";
+			const char *err = "Unknown error formatting option, '%c'";
 			error (ERROR_WARNING, err, (int) c);
 			break;
 	    }
@@ -407,10 +407,10 @@ error_break(void)
  *    sev.  It also updates the internal flags.
  */
 
-static CONST char*
+static const char*
 error_header(int sev)
 {
-    CONST char *msg;
+    const char *msg;
     switch (sev) {
 	case ERROR_FATAL : {
 	    msg = HEADER_FATAL;
@@ -473,12 +473,12 @@ print_location(LOCATION *loc, FILE *f)
  */
 
 static void
-isoC90_to_ansiC89(BUFFER *bf, CONST char *s)
+isoC90_to_ansiC89(BUFFER *bf, const char *s)
 {
     char c;
     unsigned long n = 0;
-    CONST char *p = "1.";
-    CONST char *q = s;
+    const char *p = "1.";
+    const char *q = s;
     while (c = *q, (c >= '0' && c <= '9')) {
 		n = 10 * n + (unsigned long) (c - '0');
 		q++;
@@ -510,7 +510,7 @@ isoC90_to_ansiC89(BUFFER *bf, CONST char *s)
 static void
 print_error_start(FILE *f, LOCATION *loc, int sev)
 {
-    CONST char *msg = error_header (sev);
+    const char *msg = error_header (sev);
     if (loc) {
 		PRINT_HEADER (msg, loc, f);
 		if (print_error_loc) {
@@ -602,7 +602,7 @@ make_error(int n, ...) /* VARARGS */
     OPTION opt;
     va_list args;
     ERR_DATA *msg;
-    CONST char *s;
+    const char *s;
 #if FS_STDARG
     va_start (args, n);
 #else
@@ -771,8 +771,8 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
 	
     /* Look up error in catalogue */
     ERR_DATA *msg = ERR_CATALOG + n;
-    CONST char *sig = msg->signature;
-    CONST char *s = msg->key_STD;
+    const char *sig = msg->signature;
+    const char *s = msg->key_STD;
 	
     /* Print the error message */
     if (s == NULL) return;
@@ -969,11 +969,11 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
  */
 
 static void
-print_std(BUFFER *bf, CONST char *iso)
+print_std(BUFFER *bf, const char *iso)
 {
 	char buf[128];
-	CONST char *p = iso, *s = buf;
-	CONST struct std_version *v;
+	const char *p = iso, *s = buf;
+	const struct std_version *v;
 	unsigned len;
 
 	for (v = std_version; v < std_version + std_version_idx; v++)
@@ -1022,11 +1022,11 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 		bf = clear_buffer (&print_buff, f);
 		if (loc) bfprintf (bf, MESSAGE_START);
 		if (print_error_name) {
-			CONST char *name = msg->name;
+			const char *name = msg->name;
 			if (name) bfprintf (bf, MESSAGE_NAME, name);
 		}
 		if (!(props & ERR_PROP_non_iso) && print_iso_ref) {
-			CONST char *iso;
+			const char *iso;
 			ERR_DATA *prev = msg;
 			while (iso = prev->key_ISO, iso == NULL) {
 				/* Scan back to current section number */
@@ -1287,17 +1287,17 @@ install_error(LOCATION *loc, ERROR e)
  */
 
 void
-error(int sev, CONST char *s, ...) /* VARARGS */
+error(int sev, const char *s, ...) /* VARARGS */
 {
     va_list args;
 #if FS_STDARG
     va_start (args, s);
 #else
     int sev;
-    CONST char *s;
+    const char *s;
     va_start (args);
     sev = va_arg (args, int);
-    s = va_arg (args, CONST char *);
+    s = va_arg (args, const char *);
 #endif
     if (sev > error_threshold) {
 		FILE *f = error_file;
@@ -1344,7 +1344,7 @@ commentary(IDENTIFIER id)
 #ifdef ASSERTS
 
 void
-assertion(CONST char *s, CONST char *file, int line)
+assertion(const char *s, const char *file, int line)
 {
     FILE *f = error_file;
     PRINT_HEADER (HEADER_ASSERT, &crt_loc, f);

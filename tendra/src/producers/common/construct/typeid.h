@@ -66,7 +66,7 @@
  *    information constructs, typeid and dynamic_cast.
  */
 
-extern TYPE find_std_type(CONST char *, int, int);
+extern TYPE find_std_type(const char *, int, int);
 extern EXP make_typeid_exp(int, EXP, int);
 extern EXP make_typeid_type(int, TYPE, int);
 extern EXP make_dynamic_cast_exp(TYPE, EXP, int);

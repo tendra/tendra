@@ -68,7 +68,7 @@
 
 #if TDF_OUTPUT
 extern void enc_diag_id(IDENTIFIER, int) ;
-extern void enc_diag_init(CONST char *, ulong, TYPE) ;
+extern void enc_diag_init(const char *, ulong, TYPE) ;
 extern void enc_diag_token(IDENTIFIER, TYPE) ;
 extern BITSTREAM *enc_diag_name(BITSTREAM *, IDENTIFIER, int) ;
 extern BITSTREAM *enc_diag_local(BITSTREAM *, IDENTIFIER, BITSTREAM *) ;

@@ -103,7 +103,7 @@ extern void DEBUG_sort(TOKEN);
 extern void DEBUG_stmt(EXP);
 extern void DEBUG_str(STRING);
 extern void DEBUG_type(TYPE);
-extern void DEBUG_unmangle(CONST char *);
+extern void DEBUG_unmangle(const char *);
 extern void DEBUG_virt(VIRTUAL);
 
 extern void DEBUG_source(int);

@@ -348,7 +348,7 @@ open_input(int bin)
 			input_special = 1;
 			if (!bin) input_file = stdin;
 		} else {
-			CONST char *mode = (bin ? "rb" : "r");
+			const char *mode = (bin ? "rb" : "r");
 			nm = set_crt_loc (nm, 0);
 			input_special = 0;
 			input_file = fopen (strlit (nm), mode);
@@ -416,7 +416,7 @@ open_output(int n, int bin)
 			output_file [n] = stdout;
 			if (bin) return (0);
 		} else {
-			CONST char *mode = (bin ? "wb" : "w");
+			const char *mode = (bin ? "wb" : "w");
 			nm = make_pathname (nm);
 			output_name [n] = nm;
 			output_file [n] = fopen (strlit (nm), mode);
@@ -603,7 +603,7 @@ seek_buffer(unsigned long i, long n, int started)
 		while (input_bytes < n) {
 			if (p == NULL) {
 				char *nm = strlit (input_name);
-				CONST char *msg = "Internal seek error in '%s'";
+				const char *msg = "Internal seek error in '%s'";
 				error (ERROR_INTERNAL, msg, nm);
 				return;
 			}
@@ -614,7 +614,7 @@ seek_buffer(unsigned long i, long n, int started)
     } else {
 		if (s == -1) {
 			char *nm = strlit (input_name);
-			CONST char *msg = "Internal seek error in '%s'";
+			const char *msg = "Internal seek error in '%s'";
 			error (ERROR_INTERNAL, msg, nm);
 		}
 		input_start = input_buff [i].buff + PENDING_SZ;
@@ -1344,7 +1344,7 @@ end_include(int prev)
 		if (str) {
 			input_file = fopen (str, "r");
 			if (input_file == NULL) {
-				CONST char *msg = "Internal file error in '%s'";
+				const char *msg = "Internal file error in '%s'";
 				error (ERROR_INTERNAL, msg, str);
 				crt_loc.line++;
 				crt_loc.column = 0;

@@ -1012,7 +1012,7 @@ enc_dynamic_init()
  */
 
 void
-enc_tokdec(ulong n, CONST char *sorts)
+enc_tokdec(ulong n, const char *sorts)
 {
     BITSTREAM *bs = tokdec_unit;
     if (bs) {
@@ -1055,7 +1055,7 @@ enc_tokdec(ulong n, CONST char *sorts)
  */
 
 BITSTREAM
-*enc_tokdef_start(ulong n, CONST char *sorts,
+*enc_tokdef_start(ulong n, const char *sorts,
 				  ulong *pars, int d)
 {
     char res;

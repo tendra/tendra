@@ -529,7 +529,7 @@ print_exp_aux(EXP e, int paren, BUFFER *bf, int sp)
  */
 
 static void
-print_indent(int indent, CONST char *text, FILE *f)
+print_indent(int indent, const char *text, FILE *f)
 {
     while (indent > 1) {
 		fputc_v ('\t', f);
@@ -859,7 +859,7 @@ print_stmt(EXP e, int indent, int block, FILE *f)
  */
 
 static void
-print_bitmask(unsigned long n, CONST char **s)
+print_bitmask(unsigned long n, const char **s)
 {
     int sp = 0;
     FILE *f = DEBUG_file;
@@ -868,7 +868,7 @@ print_bitmask(unsigned long n, CONST char **s)
 		unsigned long m = 1;
 		for (i = 0; i < 32; i++) {
 			if (n & m) {
-				CONST char *c = s [i];
+				const char *c = s [i];
 				if (c) {
 					if (sp) fputs_v (" | ", f);
 					fputs_v (c, f);
@@ -968,7 +968,7 @@ DEBUG_btype(BASE_TYPE bt)
 void
 DEBUG_cinfo(CLASS_INFO ci)
 {
-    static CONST char *cinfos [32] = {
+    static const char *cinfos [32] = {
 		/* Keep in line with c_class.alg */
 		"complete", "defined", "struct", "union", "template", "token",
 		"pod", "nested", "merge", "rescan", "recursive", "incomplete",
@@ -997,7 +997,7 @@ DEBUG_ctype(CLASS_TYPE ct)
 void
 DEBUG_cusage(CLASS_USAGE cu)
 {
-    static CONST char *cusages [32] = {
+    static const char *cusages [32] = {
 		/* Keep in line with c_class.alg */
 		"address", "destr", "delete", "delete_array", NULL, NULL, NULL,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -1023,7 +1023,7 @@ DEBUG_cv(CV_SPEC cv)
 void
 DEBUG_dspec(DECL_SPEC ds)
 {
-    static CONST char *dspecs [32] = {
+    static const char *dspecs [32] = {
 		/* Keep in step with c_class.alg */
 		"used", "called", "defn", "inherit", "alias", "done", "static",
 		"extern", "auto", "register", "mutable", "inline", "virtual",
@@ -1241,7 +1241,7 @@ void
 DEBUG_mangle(IDENTIFIER id)
 {
     FILE *f = DEBUG_file;
-    CONST char *s = NULL;
+    const char *s = NULL;
     if (!IS_NULL_id (id)) {
 		int v = VAR_tag;
 		if (IS_id_token (id)) v = VAR_token;
@@ -1439,7 +1439,7 @@ DEBUG_type(TYPE t)
 }
 
 void
-DEBUG_unmangle(CONST char *s)
+DEBUG_unmangle(const char *s)
 {
     LIST (string) p = NULL_list (string);
     CONS_string (ustrlit (s), p, p);
@@ -1709,7 +1709,7 @@ define_options()
 {
     int col = 0;
     int comma = 0;
-    CONST char *s;
+    const char *s;
     FILE *f = DEBUG_file;
     OPT_DATA *p = OPT_CATALOG;
     fprintf_v (f, "    ");

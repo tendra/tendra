@@ -68,14 +68,14 @@
  */
 
 #define ERR_GEN		make_error
-#define ERR_CONST	CONST
+#define ERR_CONST	const
 
 typedef DECL_SPEC ACCESS;
 typedef IDENTIFIER LONG_ID;
 typedef int LEX;
 typedef PTR (LOCATION) PTR_LOC;
 typedef int cint;
-typedef CONST char *cstring;
+typedef const char *cstring;
 typedef unsigned long ucint;
 typedef unsigned plural;
 

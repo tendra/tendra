@@ -153,8 +153,8 @@ static string table_name = NULL;
 typedef struct {
     char opt;
     char space;
-    CONST char *arg;
-    CONST char *desc;
+    const char *arg;
+    const char *desc;
 } PROGRAM_ARG;
 
 static PROGRAM_ARG prog_args [] = {
@@ -215,8 +215,8 @@ report_usage(FILE *f)
     fprintf_v (f, "Usage: %s [options] [input] [output]\n", progname);
     for (i = 0 ; i < no_prog_args ; i++) {
 		char opt = prog_args [i].opt;
-		CONST char *arg = prog_args [i].arg;
-		CONST char *desc = prog_args [i].desc;
+		const char *arg = prog_args [i].arg;
+		const char *desc = prog_args [i].desc;
 		if (arg == NULL) arg = "\t";
 		if (desc == NULL) desc = "(not documented)";
 		fprintf_v (f, " -%c%s\t%s\n", opt, arg, desc);
@@ -235,7 +235,7 @@ report_usage(FILE *f)
  */
 
 static int
-set_machine(CONST char *mach)
+set_machine(const char *mach)
 {
     if (streq (mach, "dos")) {
 		allow_dos_newline = 1;
@@ -401,7 +401,7 @@ process_args(int argc, char **argv)
 				case 'D' : {
 					/* Macro definition */
 					char c;
-					CONST char *def = "1";
+					const char *def = "1";
 					BUFFER *bf = &internal_buff;
 					bfprintf (bf, "#define ");
 					while (c = *(arg++), c != 0) {
@@ -425,13 +425,13 @@ process_args(int argc, char **argv)
 				case 'F' : {
 					/* Open option file */
 					if (f != NULL) {
-						CONST char *err = "Nested option files";
+						const char *err = "Nested option files";
 						error (ERROR_WARNING, err);
 						break;
 					}
 					f = fopen (arg, "r");
 					if (f == NULL) {
-						CONST char *err = "Can't open option file '%s'";
+						const char *err = "Can't open option file '%s'";
 						error (ERROR_WARNING, err, arg);
 					}
 					break;
@@ -462,7 +462,7 @@ process_args(int argc, char **argv)
 					uarg = xustrcpy (uarg);
 					dir = ustrchr (uarg, ':');
 					if (dir == NULL) {
-						CONST char *err = "Bad '-%c' option";
+						const char *err = "Bad '-%c' option";
 						error (ERROR_WARNING, err, opt);
 						add_directory (uarg, NULL_string);
 					} else {
@@ -519,7 +519,7 @@ process_args(int argc, char **argv)
 				case 'W' : {
 					/* Switch on checks */
 					char c;
-					CONST char *sev = "warning";
+					const char *sev = "warning";
 					BUFFER *bf = &internal_buff;
 					if (streq (arg, "all")) {
 						check_level = 1;
@@ -579,12 +579,12 @@ process_args(int argc, char **argv)
 					uarg = xustrcpy (uarg);
 					dump = ustrchr (uarg, '=');
 					if (dump == NULL) {
-						CONST char *err = "Bad '-%c' option";
+						const char *err = "Bad '-%c' option";
 						error (ERROR_WARNING, err, opt);
 						break;
 					}
 					if (dump_name) {
-						CONST char *err = "Multiple dump files";
+						const char *err = "Multiple dump files";
 						error (ERROR_WARNING, err);
 					}
 					dump_opt = uarg;
@@ -650,7 +650,7 @@ process_args(int argc, char **argv)
 				case 'n' : {
 					/* Portability table */
 					if (table_name) {
-						CONST char *err = "Multiple portability tables";
+						const char *err = "Multiple portability tables";
 						error (ERROR_WARNING, err);
 					}
 					table_name = xustrcpy (uarg);
@@ -660,7 +660,7 @@ process_args(int argc, char **argv)
 				case 'o' : {
 					/* Output file */
 					if (output) {
-						CONST char *err = "Multiple output files";
+						const char *err = "Multiple output files";
 						error (ERROR_WARNING, err);
 					}
 					output = xustrcpy (uarg);
@@ -676,7 +676,7 @@ process_args(int argc, char **argv)
 				case 's' : {
 					/* Spec output file */
 					if (spec_name) {
-						CONST char *err = "Multiple spec output files";
+						const char *err = "Multiple spec output files";
 						error (ERROR_WARNING, err);
 					}
 					spec_name = xustrcpy (uarg);
@@ -734,14 +734,14 @@ process_args(int argc, char **argv)
 			
 			/* Deal with unknown options */
 			if (known == 0) {
-				CONST char *err = "Unknown option, '-%c%s'";
+				const char *err = "Unknown option, '-%c%s'";
 				error (ERROR_WARNING, err, opt, arg);
 			}
 			opt = next_opt;
 		}
     }
     if (opt) {
-		CONST char *err = "Incomplete option, '-%c'";
+		const char *err = "Incomplete option, '-%c'";
 		error (ERROR_WARNING, err, opt);
     }
 	
@@ -918,7 +918,7 @@ process_files(LIST (string) files)
     /* Check number of input files */
     len = LENGTH_list (files);
     if (max_len && len > max_len) {
-		CONST char *err = "Too many arguments (should have %u)";
+		const char *err = "Too many arguments (should have %u)";
 		error (ERROR_WARNING, err, max_len);
 		len = max_len;
     }

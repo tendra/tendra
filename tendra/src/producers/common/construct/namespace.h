@@ -82,7 +82,7 @@ extern NAMESPACE find_nspace_id(IDENTIFIER);
 extern int has_linkage(IDENTIFIER);
 
 extern NAMESPACE make_namespace(IDENTIFIER, unsigned, int);
-extern NAMESPACE make_global_nspace(CONST char *, int);
+extern NAMESPACE make_global_nspace(const char *, int);
 extern void uncache_namespace(NAMESPACE, int);
 extern void add_namespace(NAMESPACE);
 extern void remove_namespace(void);

@@ -125,7 +125,7 @@ init_err_hash()
     for (i = 0; i <= HASH_ERROR; i++) error_hash [i] = NULL;
     for (i = 0; i < CATALOG_SIZE; i++) {
 		unsigned long h;
-		CONST char *s = cat->name;
+		const char *s = cat->name;
 		if (s) {
 			h = hash (ustrlit (s));
 			h %= HASH_ERROR;
@@ -210,7 +210,7 @@ set_error_sev(int n, int opt)
 string
 find_vocab(int t)
 {
-    CONST char *s = token_names [t];
+    const char *s = token_names [t];
 #if LANGUAGE_C
     switch (t) {
 	case lex_class : s = "struct/union"; break;

@@ -100,8 +100,8 @@
  */
 
 static struct {
-    CONST char *name;
-    CONST char *sorts;
+    const char *name;
+    const char *sorts;
     ulong no;
     ulong diag;
     IDENTIFIER tok;
@@ -465,7 +465,7 @@ token_code(TOKEN tok)
  */
 
 TOKEN
-make_sort(CONST char *s, int proc)
+make_sort(const char *s, int proc)
 {
     TOKEN tok;
     if (proc) {
@@ -522,7 +522,7 @@ make_sort(CONST char *s, int proc)
  */
 
 static int
-check_sort(TOKEN tok, CONST char *s, int prog)
+check_sort(TOKEN tok, const char *s, int prog)
 {
     char r = *(s++);
     unsigned tag = TAG_tok (tok);
@@ -582,7 +582,7 @@ check_sort(TOKEN tok, CONST char *s, int prog)
  */
 
 IDENTIFIER
-resolve_token(IDENTIFIER id, CONST char *s, int prog)
+resolve_token(IDENTIFIER id, const char *s, int prog)
 {
     int ok = 0;
     IDENTIFIER rid = NULL_id;
@@ -645,7 +645,7 @@ builtin_token(IDENTIFIER id)
 		if (b != 2) {
 			string n = ustrlit (special_token [t].name);
 			if (ustreq (s, n)) {
-				CONST char *p = special_token [t].sorts;
+				const char *p = special_token [t].sorts;
 				TOKEN sort = DEREF_tok (id_token_sort (id));
 				if (!check_sort (sort, p, 0)) {
 					/* Check that token sort matches */
@@ -687,7 +687,7 @@ builtin_token(IDENTIFIER id)
  */
 
 static BITSTREAM
-*enc_foreign_sort(BITSTREAM *bs, CONST char *s)
+*enc_foreign_sort(BITSTREAM *bs, const char *s)
 {
     ENC_foreign_sort (bs);
     ENC_make_string (bs);
@@ -805,7 +805,7 @@ special_no(int t)
 		special_token [t].no = n;
 		if (tokdec_unit) {
 			/* Declare token */
-			CONST char *sorts = special_token [t].sorts;
+			const char *sorts = special_token [t].sorts;
 			enc_tokdec (n, sorts);
 		}
 		if (def) {
@@ -830,7 +830,7 @@ BITSTREAM
 *enc_special(BITSTREAM *bs, int t)
 {
     ulong n;
-    CONST char *sorts = special_token [t].sorts;
+    const char *sorts = special_token [t].sorts;
     bs = enc_apply_token (bs, (int) sorts [0]);
     n = special_no (t);
     n = link_no (bs, n, VAR_token);
@@ -884,7 +884,7 @@ BITSTREAM
  */
 
 static BITSTREAM
-*enc_param(BITSTREAM *bs, int n, CONST char *sorts,
+*enc_param(BITSTREAM *bs, int n, const char *sorts,
 		   ulong *pars)
 {
     bs = enc_apply_token (bs, (int) sorts [ n + 1 ]);
@@ -906,7 +906,7 @@ define_special(int t)
 {
     BITSTREAM *bs;
     ulong pars [10];
-    CONST char *sorts;
+    const char *sorts;
     TYPE s = NULL_type;
     ulong n = special_no (t);
     unsigned acc = find_usage (n, VAR_token);

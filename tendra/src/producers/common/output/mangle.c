@@ -1231,7 +1231,7 @@ mangle_token(BUFFER *bf, IDENTIFIER id, LIST (TOKEN) args, int d, int force)
 static string
 mangle_op(int op)
 {
-    CONST char *s;
+    const char *s;
     switch (op) {
 		/* Standard operator names */
 	case lex_abs : s = "__ab" ; break;
@@ -1624,7 +1624,7 @@ mangle_common(string s, IDENTIFIER id)
  */
 
 string
-mangle_vtable(CONST char *pre, GRAPH gr)
+mangle_vtable(const char *pre, GRAPH gr)
 {
     string s;
     BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
@@ -1647,7 +1647,7 @@ mangle_vtable(CONST char *pre, GRAPH gr)
  */
 
 string
-mangle_typeid(CONST char *pre, CLASS_TYPE ct)
+mangle_typeid(const char *pre, CLASS_TYPE ct)
 {
     string s;
     BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));
@@ -1670,7 +1670,7 @@ mangle_typeid(CONST char *pre, CLASS_TYPE ct)
  */
 
 string
-mangle_tname(CONST char *pre, TYPE t)
+mangle_tname(const char *pre, TYPE t)
 {
     string s;
     BUFFER *bf = clear_buffer (&mangle_buff, NIL (FILE));

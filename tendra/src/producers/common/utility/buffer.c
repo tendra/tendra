@@ -211,7 +211,7 @@ bfputs(BUFFER *bf, string s)
  */
 
 void
-bfprintf(BUFFER *bf, CONST char *s, ...) /* VARARGS */
+bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 {
     char c;
     string p;
@@ -221,10 +221,10 @@ bfprintf(BUFFER *bf, CONST char *s, ...) /* VARARGS */
     va_start (args, s);
 #else
     BUFFER *bf;
-    CONST char *s;
+    const char *s;
     va_start (args);
     bf = va_arg (args, BUFFER *);
-    s = va_arg (args, CONST char *);
+    s = va_arg (args, const char *);
 #endif
     m = (gen_size) strlen (s);
     p = stretch_buffer (bf, bf->posn, m);

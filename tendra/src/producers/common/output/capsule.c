@@ -106,7 +106,7 @@
  */
 
 typedef struct {
-    CONST char *name;
+    const char *name;
     int labels;
     int count;
     LIST (BITSTREAM_P) pres;
@@ -141,7 +141,7 @@ static EQN_INFO eqns [ EQN_no ] = {
  */
 
 typedef struct {
-    CONST char *name;
+    const char *name;
     ulong no;
     ulong sz;
     int present;
@@ -837,7 +837,7 @@ static BITSTREAM
 				string s = names [k];
 				unsigned use = (unsigned) uses [k];
 				if (use != USAGE_NONE) {
-					CONST char *msg;
+					const char *msg;
 					if (s) {
 						/* Count number of external names */
 						no_ext++;
@@ -1241,7 +1241,7 @@ output_option(string opt)
 	    case '-' : out = 0 ; break;
 	    default : {
 			/* Unknown output options */
-			CONST char *err = "Unknown output option, '%c'";
+			const char *err = "Unknown output option, '%c'";
 			error (ERROR_WARNING, err, (int) c);
 			break;
 	    }

@@ -1359,7 +1359,7 @@ NAMESPACE assert_namespace;
  */
 
 static void
-builtin_macro(CONST char *nm, int t, CONST char *d)
+builtin_macro(const char *nm, int t, const char *d)
 {
     if (d) {
 		IDENTIFIER id;
@@ -1411,8 +1411,8 @@ builtin_macro(CONST char *nm, int t, CONST char *d)
 void
 init_macros(int m, int a)
 {
-    CONST char *d = find_date ("%s %2d %d");
-    CONST char *t = find_time ("%.2d:%.2d:%.2d");
+    const char *d = find_date ("%s %2d %d");
+    const char *t = find_time ("%.2d:%.2d:%.2d");
     if (m) {
 		/* Define built-in macros */
 		builtin_macro ("__LINE__", lex_builtin_Hline, "1");
