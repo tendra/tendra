@@ -32,7 +32,7 @@ MAN=		calculus.1 \
 		tnc.1 \
 		tspec.1
 
-MAN_TRANS=	680x0-sunos.trans.1 \
+MAN_TRANS=	680x0.sunos.trans.1 \
 		80x86.cygwin32.trans.1 \
 		80x86.freebsd.trans.1 \
 		80x86.linux.trans.1 \
@@ -115,7 +115,7 @@ ${MAN_TRANS_TMP}:
 .man_tmp.1 .man_tmp.5:
 	${BIN_CAT} ${.IMPSRC} |sed "s/^ *//" \
 	|${BIN_NSGMLS} -gl -c ../../share/sgml/catalog - \
-	|${BIN_OINSTANT} -d -croff.cmap -sroff.sdata -tdocbook-to-man.ts \
+	|${BIN_OINSTANT} -d -croff.cmap -sroff.sdata -t../../share/misc/docbook-to-man.ts \
 	> ${.CURDIR}/${.TARGET}
 	${BIN_GROFF} -Tascii -man ${.CURDIR}/${.TARGET} > /dev/null
 
