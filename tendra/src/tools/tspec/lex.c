@@ -749,6 +749,7 @@ preproc(FILE *output, char *api, char *file,
     input_file = input;
     input_pending = LEX_EOF;
     p = make_object (sn, OBJ_SUBSET);
+    p->u.u_info = null;
     IGNORE add_hash (subsets, p, no_version);
 	
     /* Print position identifier */
