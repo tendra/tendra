@@ -44,7 +44,7 @@ syn match sidIdentifier	"[a-zA-Z_-][a-zA-Z0-9_-]*"
 
 syn match sidNotUsed	"![a-zA-Z_-][a-zA-Z0-9_-]*"
 
-syn match sidType	"\s*:\s*(.*)"
+syn match sidType	"\s*:\s*(\(\s*:[a-zA-Z_-][a-zA-Z0-9_-]*\s*\)*)"
 
 syn match sidOperator	"->"
 
