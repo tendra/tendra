@@ -24,6 +24,6 @@ TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
 #               -yTENDRA_BINDIR=${SRC_DIR}/obj \
 #               -yTENDRA_ENVDIR=${SRC_DIR}/obj/lib/env \
 #               -yTENDRA_LIBDIR=${SRC_DIR}/obj/lib \
-#               -yTENDRA_INCLDIR=${SRC_DIR}/obj/lib/machines/freebsd/80x86/include \
+#               -yTENDRA_INCLDIR=${SRC_DIR}/obj/lib/machines/${BUILD_OS}/80x86/include \
 #               -yTENDRA_STARTUPDIR=${SRC_DIR}/obj/lib \
 #               -yTENDRA_TMPDIR=/tmp
