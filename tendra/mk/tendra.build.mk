@@ -50,6 +50,9 @@ OBJ_DIR = ${BASE_DIR}/obj
 OBJ_SDIR = ${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR = /var/tmp
 
+PREFIX ?= /usr/local
+BINDIR ?= /bin
+
 # Binary paths
 
 SHELL = /bin/sh
@@ -59,6 +62,8 @@ ENV ?=		/usr/bin/env
 COPY ?=		${ENV} cp
 ECHO ?=		${ENV} echo
 ECHODIR ?=	${ENV} echo
+INSTALL ?=	${ENV} install
+MKDIR ?=	${ENV} mkdir
 MOVE ?=		${ENV} mv
 REMOVE ?=	${ENV} rm -f
 
@@ -104,6 +109,15 @@ clean:
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
 
+install:
+.if defined(PROG)
+	cd ${OBJ_SDIR};
+.if !exists(${PREFIX}${BINDIR})
+	${MKDIR} -p ${PREFIX}${BINDIR}
+.endif
+		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${PREFIX}${BINDIR}/${PROG}
+.endif
+
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
 	@mkdir -p ${OBJ_SDIR}
@@ -120,6 +134,6 @@ _SUBDIR: .USE
 .endfor
 .endif
 
-.for target in all clean
+.for target in all clean install
 ${target}: _SUBDIR
 .endfor
