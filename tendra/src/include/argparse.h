@@ -55,9 +55,10 @@
  */
 
 
-/**** arg-parse.h --- Command line argument parsing.
+/*
+ * Command line argument parsing.
  *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
+ * original author: Steve Folkes <smf@hermes.mod.uk>
  *
  **** Commentary:
  *
@@ -83,7 +84,6 @@
  ***=== TYPES ================================================================
  *
  ** Type:	ArgTypeT
- ** Type:	ArgTypeP
  ** Repr:	enum {AT_SWITCH, AT_NEG_SWITCH, AT_PROC_SWITCH, AT_IMMEDIATE,
  *		      AT_EITHER, AT_FOLLOWING, AT_EMPTY, AT_FOLLOWING2}
  *
@@ -163,14 +163,13 @@
  * or '+' it should be a long option; otherwise it should be a short option.
  *
  ** Type:	ArgProcP
- ** Repr:	void (*) (CStringP, ArgUsageP, GenericP, ...)
+ ** Repr:	void (*) (char *, ArgUsageT *, void *, ...)
  *
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  *
  ** Type:	ArgListT
- ** Type:	ArgListP
  ** Repr:	<private>
  *
  * This is the type of an entry in an option list.  A vector of such entries
@@ -182,46 +181,30 @@
  * field (a pointer to some arbritary data used by the procedure), and a
  * description field (the name of a named string that describes how the option
  * is used - see the file "error.h" for more information on named strings).
- * The description field should be surrounded by the ``UB'' and ``UE'' macros
- * for union initialisation.  The named strings used in the description fields
- * should themselves be interned before the ``arg_parse_arguments'' function
- * is called.  A typical argument list definition would be something like the
- * following:
+ * The named strings used in the description fields should themselves be
+ * interned before the ``arg_parse_arguments'' function is called.
+ *
+ * A typical argument list definition would be something like the following:
  *
  *	static ArgListT arg_list [] = {
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
- *		NIL (GenericP),
+ *		NULL,
  *		{ "option description name" }
  *	    }, ARG_PARSE_END_LIST
  *	};
  *
- * If an option has only a short form, then the name should be NIL (CStringP);
+ * If an option has only a short form, then the name should be NULL,
  * if it has only a long form, then the character should be '\0'.  It is
  * illegal for an option to have neither a long form or a short form.
  *
  ** Type:	ArgUsageT
- ** Type:	ArgUsageP
- ** Repr:	struct {CStringP usage; ArgListP arg_list;}
  *
  * This is the type of argument to be passed to ``write_arg_usage''.
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void			arg_parse_intern_descriptions
- *			PROTO_S ((ArgListP arg_list))
- ** Exceptions:	XX_dalloc_no_memory, XX_error_redefined_string
- *
- * This function should be called on all option lists that the program uses,
- * before they are passed to ``arg_parse_arguments''.  It replaces the
- * descrption name with the named string it represents.  It should only be
- * called once on each list.  The named strings used should be interned before
- * this function is called.
- *
- ** Function:	int			arg_parse_arguments
- *			PROTO_S ((ArgListP arg_list, EStringP usage, int argc,
- *				  char **argv))
- ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
+ ** Function: arg_parse_arguments
  *
  * This function does the argument parsing.  The arg_list argument should
  * specify the valid options for the program.  The usage estring should be a
@@ -232,9 +215,7 @@
  * this function.  The function returns the number of elements of the list
  * that it parsed.
  *
- ** Function:	void			write_arg_usage
- *			PROTO_S ((OStreamP ostream, ArgUsageP closure))
- ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
+ ** Function: write_arg_usage
  *
  * This function can be used to write out a usage message based upon the usage
  * information supplied.
@@ -247,16 +228,9 @@
  * This macro should be used to terminate an option list.
  */
 
-/****************************************************************************/
 
 #ifndef H_ARG_PARSE
 #define H_ARG_PARSE
-
-#include "config.h"
-#include "cstring.h"
-#include "ostream.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef enum {
 	AT_SWITCH,
@@ -268,35 +242,34 @@ typedef enum {
 	AT_EMPTY,
 	AT_FOLLOWING2,
 	AT_FOLLOWING3
-} ArgTypeT, *ArgTypeP;
+} ArgTypeT;
 
 struct ArgListT;
 typedef struct ArgUsageT {
-	int			usage;
-	struct ArgListT	       *arg_list;
-} ArgUsageT, *ArgUsageP;
+	int					usage;
+	struct ArgListT *	arg_list;
+} ArgUsageT;
 
-typedef void (*ArgProcP)(CStringP, ArgUsageP, GenericP, ...);
+typedef void (*ArgProcP)(char *, ArgUsageT *, void *, ...);
 
 typedef struct ArgListT {
-	CStringP			name;
-	char			short_name;
+	const char *		name;
+	char				short_name;
 	ArgTypeT			type;
 	ArgProcP			proc;
-	GenericP			closure;
-	int			msgid;
-} ArgListT, *ArgListP;
+	void *				closure;
+	int					msgid;
+} ArgListT;
 
 /*--------------------------------------------------------------------------*/
 
-int	arg_parse_arguments(ArgListP, int, int, char **);
+int	arg_parse_arguments(ArgListT *, int, int, char **);
 
-void	write_arg_usage(ArgUsageP);
+void	write_arg_usage(ArgUsageT *);
 
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-	{NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
-	0}
+	{NULL, '\0', (ArgTypeT) 0, (ArgProcT *)NULL, NULL, 0}
 
 #endif /* !defined (H_ARG_PARSE) */

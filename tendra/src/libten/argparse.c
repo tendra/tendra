@@ -55,25 +55,21 @@
  */
 
 
-/**** arg-parse.c --- Command line argument parsing.
+/*
+ * Command line argument parsing.
  *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
- *
- * This file implements the command line argument parsing routines specified
- * in "arg-parse.h".  See that file for more details.
+ * original author: Steve Folkes <smf@hermes.mod.uk>
  */
 
-/****************************************************************************/
 
-#include "arg-parse.h"
+#include "config.h"
+
+#include "argparse.h"
 #include "msgcat.h"
 
-/*--------------------------------------------------------------------------*/
 
 int
-arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
+arg_parse_arguments(ArgListT *arg_list, int usageid, int argc, char **argv)
 {
 	int       tmp_argc = argc;
 	char    **tmp_argv = argv;
@@ -82,25 +78,24 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 	closure.usage = usageid;
 	closure.arg_list = arg_list;
 	while (tmp_argc) {
-		CStringP option = tmp_argv[0];
-		char     c      = option[0];
+		char *option = tmp_argv[0];
+		char c = option[0];
 		
 		if (((c == '-' && option[1] == '-') ||
 			 (c == '+' && option[1] == '+')) && option[2] == '\0') {
 			return (argc - tmp_argc + 1);
 		} else if ((c == '-' && option[1] == '-') ||
 				   (c == '+' && option[1] == '+')) {
-			ArgListP tmp_list  = arg_list;
-			ArgListP chosen    = NIL (ArgListP);
-			unsigned matches   = 0;
-			CStringP immediate = NIL (CStringP);
+			ArgListT *tmp_list = arg_list;
+			ArgListT *chosen = NULL;
+			unsigned matches = 0;
+			char *immediate = NULL;
 			
-			while (tmp_list->name != NIL (CStringP) ||
-				   tmp_list->short_name != '\0') {
-				CStringP opt = tmp_list->name;
-				CStringP arg = option + 2;
+			while (tmp_list->name != NULL || tmp_list->short_name != '\0') {
+				const char *opt = tmp_list->name;
+				char *arg = option + 2;
 				
-				if (opt != NIL (CStringP)) {
+				if (opt != NULL) {
 					char optch;
 					char argch;
 					
@@ -146,7 +141,7 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 									   c == '-');
 					break;
 				case AT_IMMEDIATE:
-					if (immediate != NIL (CStringP)) {
+					if (immediate != NULL) {
 						(*chosen->proc) (option, &closure, chosen->closure,
 										   immediate);
 					} else {
@@ -155,7 +150,7 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					}
 					break;
 				case AT_EITHER:
-					if (immediate != NIL (CStringP)) {
+					if (immediate != NULL) {
 						if (immediate[0] != '\0') {
 							(*chosen->proc) (option, &closure,
 											   chosen->closure, immediate);
@@ -221,11 +216,11 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 		} else if (c == '-' || c == '+') {
 			CStringP opt = &(option [1]);
 			
-			while (opt != NIL (CStringP) && *opt != '\0') {
-				ArgListP tmp_list = arg_list;
-				ArgListP chosen   = NIL (ArgListP);
+			while (opt != NULL && *opt != '\0') {
+				ArgListT *tmp_list = arg_list;
+				ArgListT *chosen = NULL;
 				
-				while (tmp_list->name != NIL (CStringP) ||
+				while (tmp_list->name != NULL ||
 					   tmp_list->short_name != '\0') {
 					if (tmp_list->short_name == *opt) {
 						chosen = tmp_list;
@@ -248,7 +243,7 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					case AT_IMMEDIATE:
 						(*chosen->proc) (opt, &closure, chosen->closure,
 										   opt + 1);
-						opt = NIL (CStringP);
+						opt = NULL;
 						break;
 					case AT_EITHER:
 						if (opt[1] != '\0') {
@@ -264,7 +259,7 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 														   &closure);
 							UNREACHED;
 						}
-						opt = NIL (CStringP);
+						opt = NULL;
 						break;
 					case AT_FOLLOWING:
 						if (tmp_argc > 1) {
@@ -325,15 +320,13 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 }
 
 void
-write_arg_usage(ArgUsageP closure)
+write_arg_usage(ArgUsageT *closure)
 {
-	ArgListP arg_list = closure->arg_list;
+	ArgListT *arg_list = closure->arg_list;
 	int have_short;
 	
 	msg_append_string (msg_get_raw (closure->usage));
-	while (arg_list->name != NIL (CStringP) ||
-		   arg_list->short_name != '\0') {
-
+	while (arg_list->name != NULL || arg_list->short_name != '\0') {
 		have_short = 0;
 		msg_append_newline();
 		msg_append_string("  ");
