@@ -1,0 +1,13 @@
+# $TenDRA$
+
+
+DEPEND_SRC=	${MAN1} ${MAN5}
+
+
+${MAN1} ${MAN5}:
+	${BIN_CP} ${.CURDIR}/${.TARGET} ${.OBJDIR}/${.TARGET}
+
+
+CLEANFILES=	${MAN1} ${MAN5}
+
+.include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
