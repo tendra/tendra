@@ -72,6 +72,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "fmm.h"
 #include "msgcat.h"
 #include "ostream.h"
 
@@ -103,6 +104,22 @@ ostream_setup(void)
 	ostream_error_1.file  = stderr;
 }
 
+OStreamP
+ostream_new(void)
+{
+	OStreamP ostream;
+
+	ostream = fmm_malloc(sizeof(OStreamT), fmm_deftype);
+	ostream_init(ostream);
+	return (ostream);
+}
+
+void
+ostream_free(OStreamP ostream)
+{
+	fmm_free(ostream, fmm_deftype);
+}
+
 void
 ostream_init(OStreamP ostream)
 {
@@ -117,6 +134,7 @@ ostream_open(OStreamP ostream, CStringP name)
 	}
 	ostream->name = name;
 	ostream->line = 1;
+	ostream->column = 0;
 	ostream_buffer(ostream);
 	return (TRUE);
 }
@@ -163,9 +181,21 @@ ostream_name(OStreamP ostream)
 }
 
 unsigned
+ostream_column(OStreamP ostream)
+{
+	return (ostream->column + 1);
+}
+
+unsigned
 ostream_line(OStreamP ostream)
 {
 	return (ostream->line);
+}
+
+void
+ostream_unput(OStreamP ostream, unsigned n)
+{
+	fseek(ostream->file, -1, SEEK_CUR);
 }
 
 void
@@ -173,7 +203,11 @@ write_char(OStreamP ostream, char c)
 {
 	if (c == '\n') {
 		ostream->line++;
-	}
+		ostream->column = 0;
+	} else if (c == '\t') {
+		ostream->column = 8 * ((ostream->column + 8) / 8);
+	} else
+		ostream->column++;
 	if (putc((int)c, ostream->file) == EOF)
 		MSG_ostream_write_error(ostream_name(ostream));
 }
