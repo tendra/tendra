@@ -2,6 +2,11 @@
 
 INSTALL_PREFIX=		${INSTALL_DIR}/${TENDRA_VER}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
 
+.if defined(IMACHINE)
+INSTALL_TARGETS+=	install-machine
+INSTALL_SUB+=		lib/machines
+.endif
+
 .if defined(PROG)
 INSTALL_TARGETS+=	install-bin
 INSTALL_SUB+=		bin
@@ -30,12 +35,25 @@ INSTALL_TARGETS+=	install-wrapper
 # Our main target.
 install-all: install-dir ${INSTALL_TARGETS}
 
+# lib/machines: our machine dependent files.
+install-machine:
+.for i in ${MAKEDIR}
+	${MKDIR} ${INSTALL_PREFIX}/lib/machines/${i}
+.endfor
+.for i in ${DATA_INCLUDE}
+	${INSTALL} ${.OBJDIR}/${i} \
+		${INSTALL_PREFIX}/lib/machines/${i:C/(.*)\/.*$/\1/}
+.endfor
+.for i in ${DATA_STARTUP}
+	${INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/lib/machines/startup
+.endfor
+
 # lib/startup: our startup files for compilation modes.
 install-startup:
 	${MKDIR} ${INSTALL_PREFIX}/startup/${STARTUP}
 .for i in ${DATA}
 	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
-		${INSTALL_PREFIX}/startup/${STARTUP}
+		${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .endfor
 
 # lib/apis: our api files.

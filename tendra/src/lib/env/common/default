@@ -1,12 +1,12 @@
 /* $TenDRA$ */
 /* default environment for -MACH- */
 
-+TENDRA_MACHDIR         "<TENDRA_BASEDIR>/machines"
++TENDRA_MACHDIR         "<TENDRA_BASEDIR>/lib/machines"
 +TENDRA_BINDIR          "<TENDRA_BASEDIR>/bin"
 +TENDRA_ENVDIR          "<TENDRA_BASEDIR>/env"
 +TENDRA_LIBDIR          "<TENDRA_BASEDIR>/lib"
-+TENDRA_INCLDIR         "<TENDRA_BASEDIR>/include"
-+TENDRA_STARTUPDIR      "<TENDRA_BASEDIR>/startup"
++TENDRA_INCLDIR         "<TENDRA_BASEDIR>/lib/include"
++TENDRA_STARTUPDIR      "<TENDRA_BASEDIR>/lib/startup"
 +TENDRA_TMPDIR          "/tmp"
 
 +TDFC			"-BINDIR-/tdfc2"
