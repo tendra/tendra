@@ -8,12 +8,12 @@
 # mcrt is for profiling support (prof).
 
 CRT0?=          
-CRT1?=		
-CRTI?=		
-CRTN?=		
+CRT1?=		/usr/lib/crt1.o
+CRTI?=		/usr/lib/crti.o
+CRTN?=		/usr/lib/crtn.o
 GCRT0?=         
-GCRT1?=		
-MCRT0?=         
+GCRT1?=		/usr/lib/gcrt1.o
+MCRT0?=         /usr/lib/Mcrt1.o
 
 AWK?=		/bin/awk
 BASENAME?=	/bin/basename
