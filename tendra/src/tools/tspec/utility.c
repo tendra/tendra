@@ -342,7 +342,7 @@ create_dir(char *nm)
     }
 #endif
     create_dir(dir);
-    if (verbose) IGNORE printf("Creating directory, %s ...", dir);
+    if (verbose) IGNORE printf("Creating directory, %s ...\n", dir);
     if (mkdir(dir,(mode_t)DIRMODE)) {
 	error(ERR_SERIOUS, "Can't create directory, %s", dir);
 	return;
