@@ -89,7 +89,7 @@ log2(number n)
 {
     number r;
     number m;
-    for ( r = 0, m = 1; n > m && m; r++, m *= 2 ) /* empty */ ;
+    for (r = 0, m = 1; n > m && m; r++, m *= 2) /* empty */ ;
     return(r);
 }
 

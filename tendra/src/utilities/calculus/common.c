@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -43,9 +76,9 @@
 */
 
 typedef struct ALGEBRA_LIST_tag {
-    ALGEBRA_DEFN alg ;
-    struct ALGEBRA_LIST_tag *next ;
-} ALGEBRA_LIST ;
+    ALGEBRA_DEFN alg;
+    struct ALGEBRA_LIST_tag *next;
+} ALGEBRA_LIST;
 
 
 /*
@@ -56,8 +89,8 @@ typedef struct ALGEBRA_LIST_tag {
     the algebras defined.
 */
 
-ALGEBRA_DEFN *algebra = NULL ;
-static ALGEBRA_LIST *all_algebras = NULL ;
+ALGEBRA_DEFN *algebra = NULL;
+static ALGEBRA_LIST *all_algebras = NULL;
 
 
 /*
@@ -66,23 +99,23 @@ static ALGEBRA_LIST *all_algebras = NULL ;
     This routine allocates and initialises a new algebra structure.
 */
 
-void new_algebra
-    PROTO_Z ()
+void
+new_algebra(void)
 {
-    ALGEBRA_LIST *p = xmalloc_nof ( ALGEBRA_LIST, 1 ) ;
-    p->alg.name = "ALGEBRA" ;
-    p->alg.major_no = 1 ;
-    p->alg.minor_no = 0 ;
-    p->alg.primitives = NULL_list ( PRIMITIVE_P ) ;
-    p->alg.identities = NULL_list ( IDENTITY_P ) ;
-    p->alg.enumerations = NULL_list ( ENUM_P ) ;
-    p->alg.structures = NULL_list ( STRUCTURE_P ) ;
-    p->alg.unions = NULL_list ( UNION_P ) ;
-    p->alg.types = NULL_list ( TYPE_P ) ;
-    p->next = all_algebras ;
-    all_algebras = p ;
-    algebra = &( p->alg ) ;
-    return ;
+    ALGEBRA_LIST *p = xmalloc_nof(ALGEBRA_LIST, 1);
+    p->alg.name = "ALGEBRA";
+    p->alg.major_no = 1;
+    p->alg.minor_no = 0;
+    p->alg.primitives = NULL_list(PRIMITIVE_P);
+    p->alg.identities = NULL_list(IDENTITY_P);
+    p->alg.enumerations = NULL_list(ENUM_P);
+    p->alg.structures = NULL_list(STRUCTURE_P);
+    p->alg.unions = NULL_list(UNION_P);
+    p->alg.types = NULL_list(TYPE_P);
+    p->next = all_algebras;
+    all_algebras = p;
+    algebra = & (p->alg);
+    return;
 }
 
 
@@ -93,15 +126,14 @@ void new_algebra
     algebra has not been defined.
 */
 
-ALGEBRA_DEFN *find_algebra
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+ALGEBRA_DEFN *
+find_algebra(char *nm)
 {
-    ALGEBRA_LIST *p ;
-    for ( p = all_algebras ; p != NULL ; p = p->next ) {
-	if ( streq ( p->alg.name, nm ) ) return ( &( p->alg ) ) ;
+    ALGEBRA_LIST *p;
+    for (p = all_algebras; p != NULL; p = p->next) {
+	if (streq(p->alg.name, nm)) return(& (p->alg));
     }
-    return ( NULL ) ;
+    return(NULL);
 }
 
 
@@ -112,7 +144,7 @@ ALGEBRA_DEFN *find_algebra
     of the last non-composite type looked up.
 */
 
-static CLASS_ID_P last_id = NULL_ptr ( CLASS_ID ) ;
+static CLASS_ID_P last_id = NULL_ptr(CLASS_ID);
 
 
 /*
@@ -121,43 +153,42 @@ static CLASS_ID_P last_id = NULL_ptr ( CLASS_ID ) ;
     This routine adds the type t to the list of all types.
 */
 
-TYPE_P register_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+TYPE_P
+register_type(TYPE_P t)
 {
-    char *nm = name_type ( t ) ;
-    CLASS_ID_P id = last_id ;
-    LIST ( TYPE_P ) r = algebra->types ;
-    while ( !IS_NULL_list ( r ) ) {
-	TYPE_P s = DEREF_ptr ( HEAD_list ( r ) ) ;
-	if ( streq ( name_type ( s ), nm ) ) {
+    char *nm = name_type(t);
+    CLASS_ID_P id = last_id;
+    LIST(TYPE_P)r = algebra->types;
+    while (!IS_NULL_list(r)) {
+	TYPE_P s = DEREF_ptr(HEAD_list(r));
+	if (streq(name_type(s), nm)) {
 
 	    /* Check for multiple definition */
-	    if ( !IS_type_undef ( DEREF_type ( s ) ) ) {
-		char *fn1 = DEREF_string ( cid_file ( id ) ) ;
-		int ln1 = DEREF_int ( cid_line ( id ) ) ;
-		char *fn2 = DEREF_string ( cid_file ( last_id ) ) ;
-		int ln2 = DEREF_int ( cid_line ( last_id ) ) ;
-		if ( fn2 == crt_file_name ) {
-		    char *fn = fn1 ;
-		    int ln = ln1 ;
-		    fn1 = fn2 ;
-		    ln1 = ln2 ;
-		    fn2 = fn ;
-		    ln2 = ln ;
+	    if (!IS_type_undef(DEREF_type(s))) {
+		char *fn1 = DEREF_string(cid_file(id));
+		int ln1 = DEREF_int(cid_line(id));
+		char *fn2 = DEREF_string(cid_file(last_id));
+		int ln2 = DEREF_int(cid_line(last_id));
+		if (fn2 == crt_file_name) {
+		    char *fn = fn1;
+		    int ln = ln1;
+		    fn1 = fn2;
+		    ln1 = ln2;
+		    fn2 = fn;
+		    ln2 = ln;
 		}
-		error_posn ( ERROR_SERIOUS, fn1, ln1,
+		error_posn(ERROR_SERIOUS, fn1, ln1,
 			     "Type %s already defined (at %s, line %d)",
-			     nm, fn2, ln2 ) ;
+			     nm, fn2, ln2);
 	    }
 
-	    COPY_type ( s, DEREF_type ( t ) ) ;
-	    return ( s ) ;
+	    COPY_type(s, DEREF_type(t));
+	    return(s);
 	}
-	r = TAIL_list ( r ) ;
+	r = TAIL_list(r);
     }
-    CONS_ptr ( t, algebra->types, algebra->types ) ;
-    return ( t ) ;
+    CONS_ptr(t, algebra->types, algebra->types);
+    return(t);
 }
 
 
@@ -169,23 +200,22 @@ TYPE_P register_type
     and the result is returned.
 */
 
-TYPE_P find_type
-    PROTO_N ( ( alg, nm ) )
-    PROTO_T ( ALGEBRA_DEFN *alg X char *nm )
+TYPE_P
+find_type(ALGEBRA_DEFN *alg, char *nm)
 {
-    TYPE s0 ;
-    TYPE_P s ;
-    LIST ( TYPE_P ) t = alg->types ;
-    while ( !IS_NULL_list ( t ) ) {
-	s = DEREF_ptr ( HEAD_list ( t ) ) ;
-	if ( streq ( name_type ( s ), nm ) ) return ( s ) ;
-	t = TAIL_list ( t ) ;
+    TYPE s0;
+    TYPE_P s;
+    LIST(TYPE_P)t = alg->types;
+    while (!IS_NULL_list(t)) {
+	s = DEREF_ptr(HEAD_list(t));
+	if (streq(name_type(s), nm)) return(s);
+	t = TAIL_list(t);
     }
-    s = MAKE_ptr ( SIZE_type ) ;
-    MAKE_type_undef ( 0, nm, s0 ) ;
-    COPY_type ( s, s0 ) ;
-    s = register_type ( s ) ;
-    return ( s ) ;
+    s = MAKE_ptr(SIZE_type);
+    MAKE_type_undef(0, nm, s0);
+    COPY_type(s, s0);
+    s = register_type(s);
+    return(s);
 }
 
 
@@ -196,15 +226,14 @@ TYPE_P find_type
     type derived from an identity.
 */
 
-int is_identity_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+int
+is_identity_type(TYPE_P t)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    while ( IS_type_ptr_etc ( t0 ) ) {
-	t0 = DEREF_type ( DEREF_ptr ( type_ptr_etc_sub ( t0 ) ) ) ;
+    TYPE t0 = DEREF_type(t);
+    while (IS_type_ptr_etc(t0)) {
+	t0 = DEREF_type(DEREF_ptr(type_ptr_etc_sub(t0)));
     }
-    return ( IS_type_ident ( t0 ) ) ;
+    return(IS_type_ident(t0));
 }
 
 
@@ -217,30 +246,29 @@ int is_identity_type
     identities replaced by their definition is also created.
 */
 
-static TYPE_P compound_identity
-    PROTO_N ( ( r, depth ) )
-    PROTO_T ( TYPE_P r X int depth )
+static TYPE_P
+compound_identity(TYPE_P r, int depth)
 {
-    TYPE r0 = DEREF_type ( r ) ;
-    if ( depth > MAX_TYPE_DEPTH ) {
-	error ( ERROR_SERIOUS, "Cyclic type definition involving %s",
-		name_type ( r ) ) ;
-	return ( NULL_ptr ( TYPE ) ) ;
+    TYPE r0 = DEREF_type(r);
+    if (depth > MAX_TYPE_DEPTH) {
+	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
+		name_type(r));
+	return(NULL_ptr(TYPE));
     }
-    if ( IS_type_ident ( r0 ) ) {
-	IDENTITY_P a = DEREF_ptr ( type_ident_id ( DEREF_type ( r ) ) ) ;
-	TYPE_P s = DEREF_ptr ( ident_defn ( a ) ) ;
-	return ( s ) ;
+    if (IS_type_ident(r0)) {
+	IDENTITY_P a = DEREF_ptr(type_ident_id(DEREF_type(r)));
+	TYPE_P s = DEREF_ptr(ident_defn(a));
+	return(s);
     }
-    if ( IS_type_ptr_etc ( r0 ) ) {
-	unsigned tag = TAG_type ( r0 ) ;
-	TYPE_P s = DEREF_ptr ( type_ptr_etc_sub ( r0 ) ) ;
-	s = compound_identity ( s, depth ) ;
-	if ( !IS_NULL_ptr ( s ) ) {
-	    return ( compound_type ( tag, s, depth + 1 ) ) ;
+    if (IS_type_ptr_etc(r0)) {
+	unsigned tag = TAG_type(r0);
+	TYPE_P s = DEREF_ptr(type_ptr_etc_sub(r0));
+	s = compound_identity(s, depth);
+	if (!IS_NULL_ptr(s)) {
+	    return(compound_type(tag, s, depth + 1));
 	}
     }
-    return ( NULL_ptr ( TYPE ) ) ;
+    return(NULL_ptr(TYPE));
 }
 
 
@@ -252,30 +280,29 @@ static TYPE_P compound_identity
     only one copy of each type is created.
 */
 
-TYPE_P compound_type
-    PROTO_N ( ( tag, r, depth ) )
-    PROTO_T ( unsigned tag X TYPE_P r X int depth )
+TYPE_P
+compound_type(unsigned tag, TYPE_P r, int depth)
 {
-    TYPE s0 ;
-    TYPE_P s ;
-    LIST ( TYPE_P ) t = algebra->types ;
+    TYPE s0;
+    TYPE_P s;
+    LIST(TYPE_P)t = algebra->types;
 
     /* Search for uses */
-    while ( !IS_NULL_list ( t ) ) {
-	s = DEREF_ptr ( HEAD_list ( t ) ) ;
-	s0 = DEREF_type ( s ) ;
-	if ( TAG_type ( s0 ) == tag ) {
-	    TYPE_P rr = DEREF_ptr ( type_ptr_etc_sub ( s0 ) ) ;
-	    if ( EQ_ptr ( r, rr ) ) return ( s ) ;
+    while (!IS_NULL_list(t)) {
+	s = DEREF_ptr(HEAD_list(t));
+	s0 = DEREF_type(s);
+	if (TAG_type(s0) == tag) {
+	    TYPE_P rr = DEREF_ptr(type_ptr_etc_sub(s0));
+	    if (EQ_ptr(r, rr)) return(s);
 	}
-	t = TAIL_list ( t ) ;
+	t = TAIL_list(t);
     }
-    s = MAKE_ptr ( SIZE_type ) ;
-    MAKE_type_ptr_etc ( tag, 0, r, s0 ) ;
-    COPY_type ( s, s0 ) ;
-    CONS_ptr ( s, algebra->types, algebra->types ) ;
-    ( void ) compound_identity ( s, depth ) ;
-    return ( s ) ;
+    s = MAKE_ptr(SIZE_type);
+    MAKE_type_ptr_etc(tag, 0, r, s0);
+    COPY_type(s, s0);
+    CONS_ptr(s, algebra->types, algebra->types);
+   (void)compound_identity(s, depth);
+    return(s);
 }
 
 
@@ -287,23 +314,23 @@ TYPE_P compound_type
     the defined types.
 */
 
-void check_types
-    PROTO_Z ()
+void
+check_types(void)
 {
-    LIST ( TYPE_P ) t = algebra->types ;
-    while ( !IS_NULL_list ( t ) ) {
-	TYPE_P s = DEREF_ptr ( HEAD_list ( t ) ) ;
-	TYPE s0 = DEREF_type ( s ) ;
-	if ( IS_type_undef ( s0 ) ) {
-	    char *nm = name_type ( s ) ;
-	    error ( ERROR_SERIOUS, "Type %s used but not defined", nm ) ;
+    LIST(TYPE_P)t = algebra->types;
+    while (!IS_NULL_list(t)) {
+	TYPE_P s = DEREF_ptr(HEAD_list(t));
+	TYPE s0 = DEREF_type(s);
+	if (IS_type_undef(s0)) {
+	    char *nm = name_type(s);
+	    error(ERROR_SERIOUS, "Type %s used but not defined", nm);
 	} else {
-	    int sz = size_type ( s, 0 ) ;
-	    COPY_int ( type_size ( s0 ), sz ) ;
+	    int sz = size_type(s, 0);
+	    COPY_int(type_size(s0), sz);
 	}
-	t = TAIL_list ( t ) ;
+	t = TAIL_list(t);
     }
-    return ;
+    return;
 }
 
 
@@ -314,95 +341,94 @@ void check_types
     of t.
 */
 
-static LIST ( TYPE_P ) derived_types
-    PROTO_N ( ( t, p ) )
-    PROTO_T ( TYPE_P t X LIST ( TYPE_P ) p )
+static LIST(TYPE_P)
+derived_types(TYPE_P t, LIST(TYPE_P)p)
 {
-    TYPE t0 ;
-    unsigned tag ;
-    LIST ( TYPE_P ) q = p ;
-    while ( !IS_NULL_list ( q ) ) {
-	TYPE_P s = DEREF_ptr ( HEAD_list ( q ) ) ;
-	if ( EQ_ptr ( s, t ) ) return ( p ) ;
-	q = TAIL_list ( q ) ;
+    TYPE t0;
+    unsigned tag;
+    LIST(TYPE_P)q = p;
+    while (!IS_NULL_list(q)) {
+	TYPE_P s = DEREF_ptr(HEAD_list(q));
+	if (EQ_ptr(s, t)) return(p);
+	q = TAIL_list(q);
     }
-    CONS_ptr ( t, p, p ) ;
-    t0 = DEREF_type ( t ) ;
-    tag = TAG_type ( t0 ) ;
-    switch ( tag ) {
+    CONS_ptr(t, p, p);
+    t0 = DEREF_type(t);
+    tag = TAG_type(t0);
+    switch (tag) {
 
-	case type_ident_tag : {
+	case type_ident_tag: {
 	    /* Identity definition */
-	    IDENTITY_P r = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    TYPE_P s = DEREF_ptr ( ident_defn ( r ) ) ;
-	    p = derived_types ( s, p ) ;
-	    break ;
+	    IDENTITY_P r = DEREF_ptr(type_ident_id(t0));
+	    TYPE_P s = DEREF_ptr(ident_defn(r));
+	    p = derived_types(s, p);
+	    break;
 	}
 
-	case type_structure_tag : {
+	case type_structure_tag: {
 	    /* Structure components */
-	    STRUCTURE_P r = DEREF_ptr ( type_structure_struc ( t0 ) ) ;
-	    LIST ( COMPONENT_P ) c = DEREF_list ( str_defn ( r ) ) ;
-	    while ( !IS_NULL_list ( c ) ) {
-		COMPONENT_P cmp = DEREF_ptr ( HEAD_list ( c ) ) ;
-		TYPE_P s = DEREF_ptr ( cmp_type ( cmp ) ) ;
-		p = derived_types ( s, p ) ;
-		c = TAIL_list ( c ) ;
+	    STRUCTURE_P r = DEREF_ptr(type_structure_struc(t0));
+	    LIST(COMPONENT_P)c = DEREF_list(str_defn(r));
+	    while (!IS_NULL_list(c)) {
+		COMPONENT_P cmp = DEREF_ptr(HEAD_list(c));
+		TYPE_P s = DEREF_ptr(cmp_type(cmp));
+		p = derived_types(s, p);
+		c = TAIL_list(c);
 	    }
-	    break ;
+	    break;
 	}
 
-	case type_onion_tag : {
+	case type_onion_tag: {
 	    /* Union components, fields and maps */
-	    UNION_P r = DEREF_ptr ( type_onion_un ( t0 ) ) ;
-	    LIST ( COMPONENT_P ) c = DEREF_list ( un_s_defn ( r ) ) ;
-	    LIST ( FIELD_P ) f = DEREF_list ( un_u_defn ( r ) ) ;
-	    LIST ( MAP_P ) m = DEREF_list ( un_map ( r ) ) ;
-	    while ( !IS_NULL_list ( c ) ) {
-		COMPONENT_P cmp = DEREF_ptr ( HEAD_list ( c ) ) ;
-		TYPE_P s = DEREF_ptr ( cmp_type ( cmp ) ) ;
-		p = derived_types ( s, p ) ;
-		c = TAIL_list ( c ) ;
+	    UNION_P r = DEREF_ptr(type_onion_un(t0));
+	    LIST(COMPONENT_P)c = DEREF_list(un_s_defn(r));
+	    LIST(FIELD_P)f = DEREF_list(un_u_defn(r));
+	    LIST(MAP_P)m = DEREF_list(un_map(r));
+	    while (!IS_NULL_list(c)) {
+		COMPONENT_P cmp = DEREF_ptr(HEAD_list(c));
+		TYPE_P s = DEREF_ptr(cmp_type(cmp));
+		p = derived_types(s, p);
+		c = TAIL_list(c);
 	    }
-	    while ( !IS_NULL_list ( f ) ) {
-		FIELD_P fld = DEREF_ptr ( HEAD_list ( f ) ) ;
-		c = DEREF_list ( fld_defn ( fld ) ) ;
-		while ( !IS_NULL_list ( c ) ) {
-		    COMPONENT_P cmp = DEREF_ptr ( HEAD_list ( c ) ) ;
-		    TYPE_P s = DEREF_ptr ( cmp_type ( cmp ) ) ;
-		    p = derived_types ( s, p ) ;
-		    c = TAIL_list ( c ) ;
+	    while (!IS_NULL_list(f)) {
+		FIELD_P fld = DEREF_ptr(HEAD_list(f));
+		c = DEREF_list(fld_defn(fld));
+		while (!IS_NULL_list(c)) {
+		    COMPONENT_P cmp = DEREF_ptr(HEAD_list(c));
+		    TYPE_P s = DEREF_ptr(cmp_type(cmp));
+		    p = derived_types(s, p);
+		    c = TAIL_list(c);
 		}
-		f = TAIL_list ( f ) ;
+		f = TAIL_list(f);
 	    }
-	    while ( !IS_NULL_list ( m ) ) {
-		MAP_P map = DEREF_ptr ( HEAD_list ( m ) ) ;
-		LIST ( ARGUMENT_P ) a = DEREF_list ( map_args ( map ) ) ;
-		TYPE_P s = DEREF_ptr ( map_ret_type ( map ) ) ;
-		p = derived_types ( s, p ) ;
-		while ( !IS_NULL_list ( a ) ) {
-		    ARGUMENT_P arg = DEREF_ptr ( HEAD_list ( a ) ) ;
-		    s = DEREF_ptr ( arg_type ( arg ) ) ;
-		    p = derived_types ( s, p ) ;
-		    a = TAIL_list ( a ) ;
+	    while (!IS_NULL_list(m)) {
+		MAP_P map = DEREF_ptr(HEAD_list(m));
+		LIST(ARGUMENT_P)a = DEREF_list(map_args(map));
+		TYPE_P s = DEREF_ptr(map_ret_type(map));
+		p = derived_types(s, p);
+		while (!IS_NULL_list(a)) {
+		    ARGUMENT_P arg = DEREF_ptr(HEAD_list(a));
+		    s = DEREF_ptr(arg_type(arg));
+		    p = derived_types(s, p);
+		    a = TAIL_list(a);
 		}
-		m = TAIL_list ( m ) ;
+		m = TAIL_list(m);
 	    }
-	    break ;
+	    break;
 	}
 
-	case type_list_tag :
-	case type_ptr_tag :
-	case type_stack_tag :
-	case type_vec_tag :
-	case type_vec_ptr_tag : {
+	case type_list_tag:
+	case type_ptr_tag:
+	case type_stack_tag:
+	case type_vec_tag:
+	case type_vec_ptr_tag: {
 	    /* Pointer subtypes */
-	    TYPE_P s = DEREF_ptr ( type_ptr_etc_sub ( t0 ) ) ;
-	    p = derived_types ( s, p ) ;
-	    break ;
+	    TYPE_P s = DEREF_ptr(type_ptr_etc_sub(t0));
+	    p = derived_types(s, p);
+	    break;
 	}
     }
-    return ( p ) ;
+    return(p);
 }
 
 
@@ -412,58 +438,57 @@ static LIST ( TYPE_P ) derived_types
     This routine imports all the types in the list t.
 */
 
-static void import_type_list
-    PROTO_N ( ( t ) )
-    PROTO_T ( LIST ( TYPE_P ) t )
+static void
+import_type_list(LIST(TYPE_P)t)
 {
-    while ( !IS_NULL_list ( t ) ) {
-	TYPE_P s = DEREF_ptr ( HEAD_list ( t ) ) ;
-	TYPE s0 = DEREF_type ( s ) ;
-	unsigned tag = TAG_type ( s0 ) ;
-	switch ( tag ) {
-	    case type_primitive_tag : {
-		PRIMITIVE_P p = DEREF_ptr ( type_primitive_prim ( s0 ) ) ;
-		CONS_ptr ( p, algebra->primitives, algebra->primitives ) ;
-		goto register_lab ;
+    while (!IS_NULL_list(t)) {
+	TYPE_P s = DEREF_ptr(HEAD_list(t));
+	TYPE s0 = DEREF_type(s);
+	unsigned tag = TAG_type(s0);
+	switch (tag) {
+	    case type_primitive_tag: {
+		PRIMITIVE_P p = DEREF_ptr(type_primitive_prim(s0));
+		CONS_ptr(p, algebra->primitives, algebra->primitives);
+		goto register_lab;
 	    }
-	    case type_ident_tag : {
-		IDENTITY_P p = DEREF_ptr ( type_ident_id ( s0 ) ) ;
-		CONS_ptr ( p, algebra->identities, algebra->identities ) ;
-		goto register_lab ;
+	    case type_ident_tag: {
+		IDENTITY_P p = DEREF_ptr(type_ident_id(s0));
+		CONS_ptr(p, algebra->identities, algebra->identities);
+		goto register_lab;
 	    }
-	    case type_enumeration_tag : {
-		ENUM_P p = DEREF_ptr ( type_enumeration_en ( s0 ) ) ;
-		CONS_ptr ( p, algebra->enumerations, algebra->enumerations ) ;
-		goto register_lab ;
+	    case type_enumeration_tag: {
+		ENUM_P p = DEREF_ptr(type_enumeration_en(s0));
+		CONS_ptr(p, algebra->enumerations, algebra->enumerations);
+		goto register_lab;
 	    }
-	    case type_structure_tag : {
-		STRUCTURE_P p = DEREF_ptr ( type_structure_struc ( s0 ) ) ;
-		CONS_ptr ( p, algebra->structures, algebra->structures ) ;
-		goto register_lab ;
+	    case type_structure_tag: {
+		STRUCTURE_P p = DEREF_ptr(type_structure_struc(s0));
+		CONS_ptr(p, algebra->structures, algebra->structures);
+		goto register_lab;
 	    }
-	    case type_onion_tag : {
-		UNION_P p = DEREF_ptr ( type_onion_un ( s0 ) ) ;
-		CONS_ptr ( p, algebra->unions, algebra->unions ) ;
-		goto register_lab ;
+	    case type_onion_tag: {
+		UNION_P p = DEREF_ptr(type_onion_un(s0));
+		CONS_ptr(p, algebra->unions, algebra->unions);
+		goto register_lab;
 	    }
 	    register_lab : {
-		TYPE_P r = register_type ( s ) ;
-		if ( !EQ_ptr ( r, s ) ) {
-		    error ( ERROR_SERIOUS,
+		TYPE_P r = register_type(s);
+		if (!EQ_ptr(r, s)) {
+		    error(ERROR_SERIOUS,
 			    "Can't import previously used type %s",
-			    name_type ( s ) ) ;
+			    name_type(s));
 		}
-		break ;
+		break;
 	    }
 	    default : {
-		TYPE_P p = DEREF_ptr ( type_ptr_etc_sub ( s0 ) ) ;
-		( void ) compound_type ( tag, p, 0 ) ;
-		break ;
+		TYPE_P p = DEREF_ptr(type_ptr_etc_sub(s0));
+		(void)compound_type(tag, p, 0);
+		break;
 	    }
 	}
-	t = TAIL_list ( t ) ;
+	t = TAIL_list(t);
     }
-    return ;
+    return;
 }
 
 
@@ -474,32 +499,31 @@ static void import_type_list
     current algebra.
 */
 
-void import_type
-    PROTO_N ( ( alg, nm ) )
-    PROTO_T ( char *alg X char *nm )
+void
+import_type(char *alg, char *nm)
 {
-    TYPE_P t ;
-    LIST ( TYPE_P ) p ;
-    ALGEBRA_DEFN *a = find_algebra ( alg ) ;
-    if ( a == NULL ) {
-	error ( ERROR_SERIOUS, "Algebra %s not defined", alg ) ;
-	return ;
-    } else if ( a == algebra ) {
-	error ( ERROR_SERIOUS, "Can't import from current algebra" ) ;
-	return ;
+    TYPE_P t;
+    LIST(TYPE_P)p;
+    ALGEBRA_DEFN *a = find_algebra(alg);
+    if (a == NULL) {
+	error(ERROR_SERIOUS, "Algebra %s not defined", alg);
+	return;
+    } else if (a == algebra) {
+	error(ERROR_SERIOUS, "Can't import from current algebra");
+	return;
     }
-    t = find_type ( a, nm ) ;
-    if ( IS_type_undef ( DEREF_type ( t ) ) ) {
-	error ( ERROR_SERIOUS, "Type %s::%s not defined", alg, nm ) ;
-	return ;
+    t = find_type(a, nm);
+    if (IS_type_undef(DEREF_type(t))) {
+	error(ERROR_SERIOUS, "Type %s::%s not defined", alg, nm);
+	return;
     }
-    p = derived_types ( t, NULL_list ( TYPE_P ) ) ;
-    import_type_list ( p ) ;
-    while ( !IS_NULL_list ( p ) ) {
-	DESTROY_CONS_ptr ( destroy_calculus, t, p, p ) ;
-	UNUSED ( t ) ;
+    p = derived_types(t, NULL_list(TYPE_P));
+    import_type_list(p);
+    while (!IS_NULL_list(p)) {
+	DESTROY_CONS_ptr(destroy_calculus, t, p, p);
+	UNUSED(t);
     }
-    return ;
+    return;
 }
 
 
@@ -510,20 +534,19 @@ void import_type
     algebra.
 */
 
-void import_algebra
-    PROTO_N ( ( alg ) )
-    PROTO_T ( char *alg )
+void
+import_algebra(char *alg)
 {
-    ALGEBRA_DEFN *a = find_algebra ( alg ) ;
-    if ( a == NULL ) {
-	error ( ERROR_SERIOUS, "Algebra %s not defined", alg ) ;
-	return ;
-    } else if ( a == algebra ) {
-	error ( ERROR_SERIOUS, "Can't import from current algebra" ) ;
-	return ;
+    ALGEBRA_DEFN *a = find_algebra(alg);
+    if (a == NULL) {
+	error(ERROR_SERIOUS, "Algebra %s not defined", alg);
+	return;
+    } else if (a == algebra) {
+	error(ERROR_SERIOUS, "Can't import from current algebra");
+	return;
     }
-    import_type_list ( a->types ) ;
-    return ;
+    import_type_list(a->types);
+    return;
 }
 
 
@@ -533,58 +556,57 @@ void import_algebra
     This routine calculates the size of the type t.
 */
 
-int size_type
-    PROTO_N ( ( t, depth ) )
-    PROTO_T ( TYPE_P t X int depth )
+int
+size_type(TYPE_P t, int depth)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    int sz = DEREF_int ( type_size ( t0 ) ) ;
-    if ( sz ) return ( sz ) ;
+    TYPE t0 = DEREF_type(t);
+    int sz = DEREF_int(type_size(t0));
+    if (sz) return(sz);
 
-    if ( depth > MAX_TYPE_DEPTH ) {
-	error ( ERROR_SERIOUS, "Cyclic type definition involving %s",
-		name_type ( t ) ) ;
-	return ( 1 ) ;
+    if (depth > MAX_TYPE_DEPTH) {
+	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
+		name_type(t));
+	return(1);
     }
 
-    switch ( TAG_type ( t0 ) ) {
-	case type_ident_tag : {
-	    IDENTITY_P i = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    TYPE_P_P s = ident_defn ( i ) ;
-	    sz = size_type ( DEREF_ptr ( s ), depth + 1 ) ;
-	    break ;
+    switch (TAG_type(t0)) {
+	case type_ident_tag: {
+	    IDENTITY_P i = DEREF_ptr(type_ident_id(t0));
+	    TYPE_P_P s = ident_defn(i);
+	    sz = size_type(DEREF_ptr(s), depth + 1);
+	    break;
 	}
 
-	case type_structure_tag : {
-	    STRUCTURE_P str = DEREF_ptr ( type_structure_struc ( t0 ) ) ;
-	    LIST ( COMPONENT_P ) c = DEREF_list ( str_defn ( str ) ) ;
-	    sz = 0 ;
-	    while ( !IS_NULL_list ( c ) ) {
-		TYPE_P_P s ;
-		s = cmp_type ( DEREF_ptr ( HEAD_list ( c ) ) ) ;
-		sz += size_type ( DEREF_ptr ( s ), depth + 1 ) ;
-		c = TAIL_list ( c ) ;
+	case type_structure_tag: {
+	    STRUCTURE_P str = DEREF_ptr(type_structure_struc(t0));
+	    LIST(COMPONENT_P)c = DEREF_list(str_defn(str));
+	    sz = 0;
+	    while (!IS_NULL_list(c)) {
+		TYPE_P_P s;
+		s = cmp_type(DEREF_ptr(HEAD_list(c)));
+		sz += size_type(DEREF_ptr(s), depth + 1);
+		c = TAIL_list(c);
 	    }
-	    break ;
+	    break;
 	}
 
-	case type_primitive_tag : sz = SIZE_PRIM ; break ;
-	case type_enumeration_tag : sz = SIZE_ENUM ; break ;
-	case type_onion_tag : sz = SIZE_UNION ; break ;
-	case type_ptr_tag : sz = SIZE_PTR ; break ;
-	case type_list_tag : sz = SIZE_LIST ; break ;
-	case type_stack_tag : sz = SIZE_STACK ; break ;
-	case type_vec_tag : sz = SIZE_VEC ; break ;
-	case type_vec_ptr_tag : sz = SIZE_VEC_PTR ; break ;
+	case type_primitive_tag: sz = SIZE_PRIM; break;
+	case type_enumeration_tag: sz = SIZE_ENUM; break;
+	case type_onion_tag: sz = SIZE_UNION; break;
+	case type_ptr_tag: sz = SIZE_PTR; break;
+	case type_list_tag: sz = SIZE_LIST; break;
+	case type_stack_tag: sz = SIZE_STACK; break;
+	case type_vec_tag: sz = SIZE_VEC; break;
+	case type_vec_ptr_tag: sz = SIZE_VEC_PTR; break;
 
 	default : {
-	    error ( ERROR_SERIOUS, "Can't take size of type %s",
-		    name_type ( t ) ) ;
-	    sz = 1 ;
-	    break ;
+	    error(ERROR_SERIOUS, "Can't take size of type %s",
+		    name_type(t));
+	    sz = 1;
+	    break;
 	}
     }
-    return ( sz ) ;
+    return(sz);
 }
 
 
@@ -594,64 +616,63 @@ int size_type
     This routine finds the long name of the type t.
 */
 
-char *name_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+char *
+name_type(TYPE_P t)
 {
-    CLASS_ID_P id ;
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) EXHAUSTIVE {
-	case type_primitive_tag : {
-	    PRIMITIVE_P a = DEREF_ptr ( type_primitive_prim ( t0 ) ) ;
-	    id = DEREF_ptr ( prim_id ( a ) ) ;
-	    break ;
+    CLASS_ID_P id;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0))EXHAUSTIVE {
+	case type_primitive_tag: {
+	    PRIMITIVE_P a = DEREF_ptr(type_primitive_prim(t0));
+	    id = DEREF_ptr(prim_id(a));
+	    break;
 	}
-	case type_ident_tag : {
-	    IDENTITY_P a = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    id = DEREF_ptr ( ident_id ( a ) ) ;
-	    break ;
+	case type_ident_tag: {
+	    IDENTITY_P a = DEREF_ptr(type_ident_id(t0));
+	    id = DEREF_ptr(ident_id(a));
+	    break;
 	}
-	case type_enumeration_tag : {
-	    ENUM_P a = DEREF_ptr ( type_enumeration_en ( t0 ) ) ;
-	    id = DEREF_ptr ( en_id ( a ) ) ;
-	    break ;
+	case type_enumeration_tag: {
+	    ENUM_P a = DEREF_ptr(type_enumeration_en(t0));
+	    id = DEREF_ptr(en_id(a));
+	    break;
 	}
-	case type_structure_tag : {
-	    STRUCTURE_P a = DEREF_ptr ( type_structure_struc ( t0 ) ) ;
-	    id = DEREF_ptr ( str_id ( a ) ) ;
-	    break ;
+	case type_structure_tag: {
+	    STRUCTURE_P a = DEREF_ptr(type_structure_struc(t0));
+	    id = DEREF_ptr(str_id(a));
+	    break;
 	}
-	case type_onion_tag : {
-	    UNION_P a = DEREF_ptr ( type_onion_un ( t0 ) ) ;
-	    id = DEREF_ptr ( un_id ( a ) ) ;
-	    break ;
+	case type_onion_tag: {
+	    UNION_P a = DEREF_ptr(type_onion_un(t0));
+	    id = DEREF_ptr(un_id(a));
+	    break;
 	}
-	case type_quote_tag : {
-	    char *a = DEREF_string ( type_quote_defn ( t0 ) ) ;
-	    return ( a ) ;
+	case type_quote_tag: {
+	    char *a = DEREF_string(type_quote_defn(t0));
+	    return(a);
 	}
-	case type_ptr_tag : {
-	    return ( "PTR" ) ;
+	case type_ptr_tag: {
+	    return("PTR");
 	}
-	case type_list_tag : {
-	    return ( "LIST" ) ;
+	case type_list_tag: {
+	    return("LIST");
 	}
-	case type_stack_tag : {
-	    return ( "STACK" ) ;
+	case type_stack_tag: {
+	    return("STACK");
 	}
-	case type_vec_tag : {
-	    return ( "VEC" ) ;
+	case type_vec_tag: {
+	    return("VEC");
 	}
-	case type_vec_ptr_tag : {
-	    return ( "VEC_PTR" ) ;
+	case type_vec_ptr_tag: {
+	    return("VEC_PTR");
 	}
-	case type_undef_tag : {
-	    char *a = DEREF_string ( type_undef_name ( t0 ) ) ;
-	    return ( a ) ;
+	case type_undef_tag: {
+	    char *a = DEREF_string(type_undef_name(t0));
+	    return(a);
 	}
     }
-    last_id = id ;
-    return ( DEREF_string ( cid_name ( id ) ) ) ;
+    last_id = id;
+    return(DEREF_string(cid_name(id)));
 }
 
 
@@ -661,63 +682,62 @@ char *name_type
     This routine finds the short name of the type t.
 */
 
-char *name_aux_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+char *
+name_aux_type(TYPE_P t)
 {
-    CLASS_ID_P id ;
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) EXHAUSTIVE {
-	case type_primitive_tag : {
-	    PRIMITIVE_P a = DEREF_ptr ( type_primitive_prim ( t0 ) ) ;
-	    id = DEREF_ptr ( prim_id ( a ) ) ;
-	    break ;
+    CLASS_ID_P id;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0))EXHAUSTIVE {
+	case type_primitive_tag: {
+	    PRIMITIVE_P a = DEREF_ptr(type_primitive_prim(t0));
+	    id = DEREF_ptr(prim_id(a));
+	    break;
 	}
-	case type_ident_tag : {
-	    IDENTITY_P a = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    return ( name_aux_type ( DEREF_ptr ( ident_defn ( a ) ) ) ) ;
+	case type_ident_tag: {
+	    IDENTITY_P a = DEREF_ptr(type_ident_id(t0));
+	    return(name_aux_type(DEREF_ptr(ident_defn(a))));
 	}
-	case type_enumeration_tag : {
-	    ENUM_P a = DEREF_ptr ( type_enumeration_en ( t0 ) ) ;
-	    id = DEREF_ptr ( en_id ( a ) ) ;
-	    break ;
+	case type_enumeration_tag: {
+	    ENUM_P a = DEREF_ptr(type_enumeration_en(t0));
+	    id = DEREF_ptr(en_id(a));
+	    break;
 	}
-	case type_structure_tag : {
-	    STRUCTURE_P a = DEREF_ptr ( type_structure_struc ( t0 ) ) ;
-	    id = DEREF_ptr ( str_id ( a ) ) ;
-	    break ;
+	case type_structure_tag: {
+	    STRUCTURE_P a = DEREF_ptr(type_structure_struc(t0));
+	    id = DEREF_ptr(str_id(a));
+	    break;
 	}
-	case type_onion_tag : {
-	    UNION_P a = DEREF_ptr ( type_onion_un ( t0 ) ) ;
-	    id = DEREF_ptr ( un_id ( a ) ) ;
-	    break ;
+	case type_onion_tag: {
+	    UNION_P a = DEREF_ptr(type_onion_un(t0));
+	    id = DEREF_ptr(un_id(a));
+	    break;
 	}
-	case type_quote_tag : {
-	    char *a = DEREF_string ( type_quote_defn ( t0 ) ) ;
-	    return ( a ) ;
+	case type_quote_tag: {
+	    char *a = DEREF_string(type_quote_defn(t0));
+	    return(a);
 	}
-	case type_ptr_tag : {
-	    return ( "ptr" ) ;
+	case type_ptr_tag: {
+	    return("ptr");
 	}
-	case type_list_tag : {
-	    return ( "list" ) ;
+	case type_list_tag: {
+	    return("list");
 	}
-	case type_stack_tag : {
-	    return ( "stack" ) ;
+	case type_stack_tag: {
+	    return("stack");
 	}
-	case type_vec_tag : {
-	    return ( "vec" ) ;
+	case type_vec_tag: {
+	    return("vec");
 	}
-	case type_vec_ptr_tag : {
-	    return ( "vec_ptr" ) ;
+	case type_vec_ptr_tag: {
+	    return("vec_ptr");
 	}
-	case type_undef_tag : {
-	    char *a = DEREF_string ( type_undef_name ( t0 ) ) ;
-	    return ( a ) ;
+	case type_undef_tag: {
+	    char *a = DEREF_string(type_undef_name(t0));
+	    return(a);
 	}
     }
-    last_id = id ;
-    return ( DEREF_string ( cid_name_aux ( id ) ) ) ;
+    last_id = id;
+    return(DEREF_string(cid_name_aux(id)));
 }
 
 
@@ -729,22 +749,21 @@ char *name_aux_type
     expression versions.
 */
 
-int is_complex_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+int
+is_complex_type(TYPE_P t)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) {
-	case type_structure_tag :
-	case type_vec_tag :
-	case type_vec_ptr_tag : {
-	    return ( 1 ) ;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0)) {
+	case type_structure_tag:
+	case type_vec_tag:
+	case type_vec_ptr_tag: {
+	    return(1);
 	}
-	case type_ident_tag : {
-	    IDENTITY_P r = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    TYPE_P s = DEREF_ptr ( ident_defn ( r ) ) ;
-	    return ( is_complex_type ( s ) ) ;
+	case type_ident_tag: {
+	    IDENTITY_P r = DEREF_ptr(type_ident_id(t0));
+	    TYPE_P s = DEREF_ptr(ident_defn(r));
+	    return(is_complex_type(s));
 	}
     }
-    return ( 0 ) ;
+    return(0);
 }
