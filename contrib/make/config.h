@@ -116,7 +116,7 @@
 #endif
 
 #ifdef HAS_EXTENDED_GETCWD
-#define dogetcwd()	getcwd(NULL, 0)
+#define dogetcwd()	getcwd(NULL, PATH_MAX)
 #else
 #define dogetcwd()	getcwd(emalloc(PATH_MAX), PATH_MAX)
 #endif
