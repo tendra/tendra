@@ -64,6 +64,7 @@
 #include "config.h"
 #include "object.h"
 #include "hash.h"
+#include "index.h"
 #include "name.h"
 #include "type.h"
 #include "print.h"
