@@ -105,6 +105,17 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="linux"
 			OSVER="LINUX26"
 			;;
+	Minix.2*)	# Use the system supplied cc for CC.
+			# It aims to be C90 conforming.
+			check_cc
+			LD=""
+			LDOPTS=
+			LDCRT=""
+			# Minix only runs on x86 for now.
+			LIBS="-L/usr/lib/i386 -lc"
+			OSFAM="minix"
+			OSVER="MINIX2"
+			;;
 	NetBSD.2*)	#
 			check_cc
 			LD="ld"
