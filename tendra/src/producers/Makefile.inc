@@ -49,19 +49,13 @@ c_class.h:: c_class.alg
 	${CALCULUS} ${.CURDIR}/../common/c_class.alg -T${.CURDIR}/../common/obj_templ/err_ext.h ${.OBJDIR}/err_ext.h
 	${CALCULUS} ${.CURDIR}/../common/c_class.alg -T${.CURDIR}/../common/obj_templ/loc_ext.h ${.OBJDIR}/loc_ext.h
 
-errors1.h:: catalog.err
-	${MAKE_ERR} ${.CURDIR}/../common/utility/catalog.err ${.OBJDIR}/errors1.h
+errors1.h opts.h:: catalog.err
+	${MKERR} -l ${.OBJDIR}/errors1.h -u ${.OBJDIR}/opts.h \
+		${.CURDIR}/../common/utility/catalog.err
 
-errors2.h:: catalog.err extra.err
-	${BIN_CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
-	${MAKE_ERR} > ${.OBJDIR}/errors2.h
-
-errors3.h:: catalog.err extra.err
-	${BIN_CAT} ${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err |\
-	${MAKE_ERR} -d > ${.OBJDIR}/errors3.h
-
-opts.h:: catalog.err
-	${MAKE_ERR} -u ${.CURDIR}/../common/utility/catalog.err ${.OBJDIR}/opts.h
+errors2.h errors3.h:: catalog.err extra.err
+	${MKERR} -l ${.OBJDIR}/errors2.h -d ${.OBJDIR}/errors3.h \
+		${.CURDIR}/../common/utility/catalog.err ${.CURDIR}/../common/utility/extra.err
 
 tdf1.h:: tdf1.h-tdf
 	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.CURDIR}/../common/output/tdf1.h-tdf \

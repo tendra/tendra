@@ -7,8 +7,8 @@
 LEXI=		${OBJ_PREFIX}/utilities/lexi/lexi
 SID=		${OBJ_PREFIX}/utilities/sid/sid
 CALCULUS=	${OBJ_PREFIX}/utilities/calculus/calculus
-MAKE_ERR=	${OBJ_PREFIX}/utilities/make_err/make_err
 MAKE_TDF=	${OBJ_PREFIX}/utilities/make_tdf/make_tdf
+MKERR=		${BIN_AWK} -f ${SRC_DIR}/src/utilities/mkerr/mkerr.awk --
 TLD=		${OBJ_PREFIX}/tools/tld/tld
 DISP=		${OBJ_PREFIX}/tools/disp/disp
 PL=		${OBJ_PREFIX}/tools/pl/pl
