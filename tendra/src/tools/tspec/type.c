@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -41,7 +74,7 @@
     These types represent the fundamental C types.
 */
 
-#define BUILTIN( TYPE, NAME, VERS, ID )	type *TYPE
+#define BUILTIN(TYPE, NAME, VERS, ID)	type *TYPE
 #include "builtin.h"
 
 
@@ -51,13 +84,13 @@
     This routine initialises the fundamental C types.
 */
 
-void init_types
-    PROTO_Z ()
+void
+init_types(void)
 {
-#define BUILTIN( TYPE, NAME, VERS, ID )\
-    TYPE = make_type ( NAME, VERS, ID )
+#define BUILTIN(TYPE, NAME, VERS, ID)\
+    TYPE = make_type(NAME, VERS, ID)
 #include "builtin.h"
-    return ;
+    return;
 }
 
 
@@ -69,18 +102,17 @@ void init_types
     corresponding field hash table is returned.
 */
 
-static hash_table *find_namespace
-    PROTO_N ( ( id, fld ) )
-    PROTO_T ( int id X int fld )
+static hash_table *
+find_namespace(int id, int fld)
 {
-    switch ( id ) {
-	case TYPE_STRUCT_TAG :
-	case TYPE_UNION_TAG :
-	case TYPE_ENUM_TAG : {
-	    return ( fld ? tag_fields : tags ) ;
+    switch (id) {
+	case TYPE_STRUCT_TAG:
+	case TYPE_UNION_TAG:
+	case TYPE_ENUM_TAG: {
+	    return(fld ? tag_fields : tags);
 	}
     }
-    return ( fld ? type_fields : types ) ;
+    return(fld ? type_fields : types);
 }
 
 
@@ -90,13 +122,13 @@ static hash_table *find_namespace
     This routine allocates space for a new type.
 */
 
-static type *new_type
-    PROTO_Z ()
+static type *
+new_type(void)
 {
-    type *t ;
-    alloc_variable ( t, type, 1000 ) ;
-    t->state = 0 ;
-    return ( t ) ;
+    type *t;
+    alloc_variable(t, type, 1000);
+    t->state = 0;
+    return(t);
 }
 
 
@@ -107,100 +139,99 @@ static type *new_type
     type.
 */
 
-type *basic_type
-    PROTO_N ( ( n ) )
-    PROTO_T ( unsigned n )
+type *
+basic_type(unsigned n)
 {
-    type *t ;
-    switch ( n ) {
-	case BTYPE_CHAR : {
-	    t = type_char ;
-	    break ;
+    type *t;
+    switch (n) {
+	case BTYPE_CHAR: {
+	    t = type_char;
+	    break;
 	}
-	case ( BTYPE_SIGNED | BTYPE_CHAR ) : {
-	    t = type_schar ;
-	    break ;
+	case(BTYPE_SIGNED | BTYPE_CHAR): {
+	    t = type_schar;
+	    break;
 	}
-	case ( BTYPE_UNSIGNED | BTYPE_CHAR ) : {
-	    t = type_uchar ;
-	    break ;
+	case(BTYPE_UNSIGNED | BTYPE_CHAR): {
+	    t = type_uchar;
+	    break;
 	}
-	case BTYPE_SHORT :
-	case ( BTYPE_SHORT | BTYPE_INT ) : {
-	    t = type_short ;
-	    break ;
+	case BTYPE_SHORT:
+	case(BTYPE_SHORT | BTYPE_INT): {
+	    t = type_short;
+	    break;
 	}
-	case ( BTYPE_SIGNED | BTYPE_SHORT ) :
-	case ( BTYPE_SIGNED | BTYPE_SHORT | BTYPE_INT ) : {
-	    t = type_sshort ;
-	    break ;
+	case(BTYPE_SIGNED | BTYPE_SHORT):
+	case(BTYPE_SIGNED | BTYPE_SHORT | BTYPE_INT): {
+	    t = type_sshort;
+	    break;
 	}
-	case ( BTYPE_UNSIGNED | BTYPE_SHORT ) :
-	case ( BTYPE_UNSIGNED | BTYPE_SHORT | BTYPE_INT ) : {
-	    t = type_ushort ;
-	    break ;
+	case(BTYPE_UNSIGNED | BTYPE_SHORT):
+	case(BTYPE_UNSIGNED | BTYPE_SHORT | BTYPE_INT): {
+	    t = type_ushort;
+	    break;
 	}
-	case BTYPE_INT : {
-	    t = type_int ;
-	    break ;
+	case BTYPE_INT: {
+	    t = type_int;
+	    break;
 	}
-	case BTYPE_SIGNED :
-	case ( BTYPE_SIGNED | BTYPE_INT ) : {
-	    t = type_sint ;
-	    break ;
+	case BTYPE_SIGNED:
+	case(BTYPE_SIGNED | BTYPE_INT): {
+	    t = type_sint;
+	    break;
 	}
-	case BTYPE_UNSIGNED :
-	case ( BTYPE_UNSIGNED | BTYPE_INT ) : {
-	    t = type_uint ;
-	    break ;
+	case BTYPE_UNSIGNED:
+	case(BTYPE_UNSIGNED | BTYPE_INT): {
+	    t = type_uint;
+	    break;
 	}
-	case BTYPE_LONG :
-	case ( BTYPE_LONG | BTYPE_INT ) : {
-	    t = type_long ;
-	    break ;
+	case BTYPE_LONG:
+	case(BTYPE_LONG | BTYPE_INT): {
+	    t = type_long;
+	    break;
 	}
-	case ( BTYPE_SIGNED | BTYPE_LONG ) :
-	case ( BTYPE_SIGNED | BTYPE_LONG | BTYPE_INT ) : {
-	    t = type_slong ;
-	    break ;
+	case(BTYPE_SIGNED | BTYPE_LONG):
+	case(BTYPE_SIGNED | BTYPE_LONG | BTYPE_INT): {
+	    t = type_slong;
+	    break;
 	}
-	case ( BTYPE_UNSIGNED | BTYPE_LONG ) :
-	case ( BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_INT ) : {
-	    t = type_ulong ;
-	    break ;
+	case(BTYPE_UNSIGNED | BTYPE_LONG):
+	case(BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_INT): {
+	    t = type_ulong;
+	    break;
 	}
-	case ( BTYPE_LONG | BTYPE_LLONG ) :
-	case ( BTYPE_LONG | BTYPE_LLONG | BTYPE_INT ) : {
-	    t = type_llong ;
-	    break ;
+	case(BTYPE_LONG | BTYPE_LLONG):
+	case(BTYPE_LONG | BTYPE_LLONG | BTYPE_INT): {
+	    t = type_llong;
+	    break;
 	}
-	case ( BTYPE_SIGNED | BTYPE_LONG | BTYPE_LLONG ) :
-	case ( BTYPE_SIGNED | BTYPE_LONG | BTYPE_LLONG | BTYPE_INT ) : {
-	    t = type_sllong ;
-	    break ;
+	case(BTYPE_SIGNED | BTYPE_LONG | BTYPE_LLONG):
+	case(BTYPE_SIGNED | BTYPE_LONG | BTYPE_LLONG | BTYPE_INT): {
+	    t = type_sllong;
+	    break;
 	}
-	case ( BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_LLONG ) :
-	case ( BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_LLONG | BTYPE_INT ) : {
-	    t = type_ullong ;
-	    break ;
+	case(BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_LLONG):
+	case(BTYPE_UNSIGNED | BTYPE_LONG | BTYPE_LLONG | BTYPE_INT): {
+	    t = type_ullong;
+	    break;
 	}
 	default : {
-	    if ( n == BTYPE_FLOAT ) {
-		t = type_float ;
-	    } else if ( n == BTYPE_DOUBLE ) {
-		t = type_double ;
-	    } else if ( n == ( BTYPE_LONG | BTYPE_DOUBLE ) ) {
-		t = type_ldouble ;
-	    } else if ( n == BTYPE_VOID ) {
-		t = type_void ;
+	    if (n == BTYPE_FLOAT) {
+		t = type_float;
+	    } else if (n == BTYPE_DOUBLE) {
+		t = type_double;
+	    } else if (n == (BTYPE_LONG | BTYPE_DOUBLE)) {
+		t = type_ldouble;
+	    } else if (n == BTYPE_VOID) {
+		t = type_void;
 	    } else {
-		error ( ERR_SERIOUS, "Invalid type specifier" ) ;
-		t = type_int ;
+		error(ERR_SERIOUS, "Invalid type specifier");
+		t = type_int;
 	    }
-	    break ;
+	    break;
 	}
     }
-    return ( t ) ;
+    return(t);
 }
 
 
@@ -210,15 +241,14 @@ type *basic_type
     This routine returns the special type described by the string s.
 */
 
-type *special_type
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+type *
+special_type(char *s)
 {
-    if ( streq ( s, "bottom" ) ) return ( type_bottom ) ;
-    if ( streq ( s, "printf" ) ) return ( type_printf ) ;
-    if ( streq ( s, "scanf" ) ) return ( type_scanf ) ;
-    error ( ERR_SERIOUS, "Unknown special type '%s'", s ) ;
-    return ( type_int ) ;
+    if (streq(s, "bottom")) return(type_bottom);
+    if (streq(s, "printf")) return(type_printf);
+    if (streq(s, "scanf")) return(type_scanf);
+    error(ERR_SERIOUS, "Unknown special type '%s'", s);
+    return(type_int);
 }
 
 
@@ -228,18 +258,17 @@ type *special_type
     This routine creates a type called nm (version vers) with identifier id.
 */
 
-type *make_type
-    PROTO_N ( ( nm, vers, id ) )
-    PROTO_T ( char *nm X int vers X int id )
+type *
+make_type(char *nm, int vers, int id)
 {
-    type *t = new_type () ;
-    object *p = make_object ( nm, OBJ_TYPE ) ;
-    p->u.u_type = t ;
-    t->id = id ;
-    t->u.obj = p ;
-    t->v.obj2 = null ;
-    p = add_hash ( find_namespace ( id, 0 ), p, vers ) ;
-    return ( p->u.u_type ) ;
+    type *t = new_type();
+    object *p = make_object(nm, OBJ_TYPE);
+    p->u.u_type = t;
+    t->id = id;
+    t->u.obj = p;
+    t->v.obj2 = null;
+    p = add_hash(find_namespace(id, 0), p, vers);
+    return(p->u.u_type);
 }
 
 
@@ -251,25 +280,24 @@ type *make_type
     if force is true.
 */
 
-type *find_type
-    PROTO_N ( ( nm, vers, id, force ) )
-    PROTO_T ( char *nm X int vers X int id X int force )
+type *
+find_type(char *nm, int vers, int id, int force)
 {
-    type *t ;
-    object *p ;
-    hash_table *h = find_namespace ( id, 0 ) ;
-    p = search_hash ( h, nm, vers ) ;
-    if ( p == null ) {
-	if ( force == 0 ) return ( null ) ;
-	error ( ERR_SERIOUS, "%s '%s' not defined", h->name, nm ) ;
-	return ( make_type ( nm, vers, id ) ) ;
+    type *t;
+    object *p;
+    hash_table *h = find_namespace(id, 0);
+    p = search_hash(h, nm, vers);
+    if (p == null) {
+	if (force == 0) return(null);
+	error(ERR_SERIOUS, "%s '%s' not defined", h->name, nm);
+	return(make_type(nm, vers, id));
     }
-    t = p->u.u_type ;
-    if ( id != TYPE_GENERIC && id != t->id ) {
-	char *err = "%s '%s' used inconsistently (see %s, line %d)" ;
-	error ( ERR_SERIOUS, err, h->name, nm, p->filename, p->line_no ) ;
+    t = p->u.u_type;
+    if (id != TYPE_GENERIC && id != t->id) {
+	char *err = "%s '%s' used inconsistently (see %s, line %d)";
+	error(ERR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
     }
-    return ( t ) ;
+    return(t);
 }
 
 
@@ -279,15 +307,14 @@ type *find_type
     This routine creates a compound type with identifier id and subtype t.
 */
 
-type *make_subtype
-    PROTO_N ( ( t, id ) )
-    PROTO_T ( type *t X int id )
+type *
+make_subtype(type *t, int id)
 {
-    type *s = new_type () ;
-    s->id = id ;
-    s->u.subtype = t ;
-    s->v.obj2 = null ;
-    return ( s ) ;
+    type *s = new_type();
+    s->id = id;
+    s->u.subtype = t;
+    s->v.obj2 = null;
+    return(s);
 }
 
 
@@ -298,17 +325,16 @@ type *make_subtype
     the type t.
 */
 
-type *inject_type
-    PROTO_N ( ( s, t ) )
-    PROTO_T ( type *s X type *t )
+type *
+inject_type(type *s, type *t)
 {
-    type *p = s ;
-    if ( p == null ) return ( t ) ;
-    if ( t ) {
-	while ( p->u.subtype ) p = p->u.subtype ;
-	p->u.subtype = t ;
+    type *p = s;
+    if (p == null) return(t);
+    if (t) {
+	while (p->u.subtype)p = p->u.subtype;
+	p->u.subtype = t;
     }
-    return ( s ) ;
+    return(s);
 }
 
 
@@ -319,22 +345,21 @@ type *inject_type
     of the structure of union s of type t.
 */
 
-field *make_field
-    PROTO_N ( ( nm, vers, s, t ) )
-    PROTO_T ( char *nm X int vers X type *s X type *t )
+field *
+make_field(char *nm, int vers, type *s, type *t)
 {
-    char *n ;
-    field *r ;
-    object *p = make_object ( nm, OBJ_FIELD ) ;
-    alloc_variable ( r, field, 1000 ) ;
-    r->obj = p ;
-    r->stype = s ;
-    r->ftype = t ;
-    n = strchr ( nm, '.' ) ;
-    r->fname = ( n ? n + 1 : nm ) ;
-    p->u.u_field = r ;
-    p = add_hash ( find_namespace ( s->id, 1 ), p, vers ) ;
-    return ( p->u.u_field ) ;
+    char *n;
+    field *r;
+    object *p = make_object(nm, OBJ_FIELD);
+    alloc_variable(r, field, 1000);
+    r->obj = p;
+    r->stype = s;
+    r->ftype = t;
+    n = strchr(nm, '.');
+    r->fname = (n ? n + 1 : nm);
+    p->u.u_field = r;
+    p = add_hash(find_namespace(s->id, 1), p, vers);
+    return(p->u.u_field);
 }
 
 
@@ -345,14 +370,13 @@ field *make_field
     definitions.
 */
 
-type *expand_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( type *t )
+type *
+expand_type(type *t)
 {
-    while ( t && t->id == TYPE_DEFINED ) {
-	t = t->v.next ;
+    while (t && t->id == TYPE_DEFINED) {
+	t = t->v.next;
     }
-    return ( t ) ;
+    return(t);
 }
 
 
@@ -362,83 +386,82 @@ type *expand_type
     This routine applies various checks to the type t.
 */
 
-static type *check_type_aux
-    PROTO_N ( ( t, obj, c, ret ) )
-    PROTO_T ( type *t X int obj X int c X int ret )
+static type *
+check_type_aux(type *t, int obj, int c, int ret)
 {
-    if ( t == null ) return ( null ) ;
-    switch ( t->id ) {
-	case TYPE_VOID : {
-	    if ( ( obj || c ) && !ret ) {
-		error ( ERR_SERIOUS, "The type 'void' is incomplete" ) ;
+    if (t == null) return(null);
+    switch (t->id) {
+	case TYPE_VOID: {
+	    if ((obj || c) && !ret) {
+		error(ERR_SERIOUS, "The type 'void' is incomplete");
 	    }
-	    break ;
+	    break;
 	}
-	case TYPE_ARRAY : {
-	    if ( c && t->v.str [0] == 0 ) {
-		error ( ERR_SERIOUS, "Incomplete array type" ) ;
+	case TYPE_ARRAY: {
+	    if (c && t->v.str [0] == 0) {
+		error(ERR_SERIOUS, "Incomplete array type");
 	    }
-	    if ( ret ) {
-		error ( ERR_SERIOUS, "A function can't return an array" ) ;
+	    if (ret) {
+		error(ERR_SERIOUS, "A function can't return an array");
 	    }
-	    t->u.subtype = check_type_aux ( t->u.subtype, 1, 1, 0 ) ;
-	    break ;
+	    t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 0);
+	    break;
 	}
-	case TYPE_BITFIELD : {
-	    type *s = expand_type ( t->u.subtype ) ;
-	    if ( s ) {
-		switch ( s->id ) {
-		    case TYPE_INT :
-		    case TYPE_SIGNED :
-		    case TYPE_UNSIGNED : {
-			break ;
+	case TYPE_BITFIELD: {
+	    type *s = expand_type(t->u.subtype);
+	    if (s) {
+		switch (s->id) {
+		    case TYPE_INT:
+		    case TYPE_SIGNED:
+		    case TYPE_UNSIGNED: {
+			break;
 		    }
 		    default : {
-			error ( ERR_SERIOUS, "Non-integral bitfield type" ) ;
-			break ;
+			error(ERR_SERIOUS, "Non-integral bitfield type");
+			break;
 		    }
 		}
 	    }
-	    break ;
+	    break;
 	}
-	case TYPE_QUALIFIER : {
-	    t->u.subtype = check_type_aux ( t->u.subtype, obj, c, ret ) ;
-	    break ;
+	case TYPE_QUALIFIER: {
+	    t->u.subtype = check_type_aux(t->u.subtype, obj, c, ret);
+	    break;
 	}
-	case TYPE_LIST : {
-	    t->u.subtype = check_type_aux ( t->u.subtype, obj, c, ret ) ;
-	    t->v.next = check_type_aux ( t->v.next, obj, c, ret ) ;
-	    break ;
+	case TYPE_LIST: {
+	    t->u.subtype = check_type_aux(t->u.subtype, obj, c, ret);
+	    t->v.next = check_type_aux(t->v.next, obj, c, ret);
+	    break;
 	}
-	case TYPE_LVALUE : {
-	    t->u.subtype = check_type_aux ( t->u.subtype, 1, 0, ret ) ;
-	    break ;
+	case TYPE_LVALUE: {
+	    t->u.subtype = check_type_aux(t->u.subtype, 1, 0, ret);
+	    break;
 	}
-	case TYPE_RVALUE : {
-	    t->u.subtype = check_type_aux ( t->u.subtype, 1, 1, ret ) ;
-	    break ;
+	case TYPE_RVALUE: {
+	    t->u.subtype = check_type_aux(t->u.subtype, 1, 1, ret);
+	    break;
 	}
-	case TYPE_PROC : {
-	    if ( obj ) error ( ERR_SERIOUS, "Object type expected" ) ;
-	    t->u.subtype = check_type_aux ( t->u.subtype, 1, 1, 1 ) ;
-	    if ( t->v.next && t->v.next->v.next == null ) {
+	case TYPE_PROC: {
+	    if (obj)error(ERR_SERIOUS, "Object type expected");
+	    t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 1);
+	    if (t->v.next && t->v.next->v.next == null) {
 		/* Check for '( void )' */
-		type *s = t->v.next->u.subtype ;
-		if ( s && s->id == TYPE_VOID ) break ;
+		type *s = t->v.next->u.subtype;
+		if (s && s->id == TYPE_VOID)break;
 	    }
-	    t->v.next = check_type_aux ( t->v.next, 1, 0, 0 ) ;
-	    break ;
+	    t->v.next = check_type_aux(t->v.next, 1, 0, 0);
+	    break;
 	}
-	case TYPE_PTR : {
-	    t->u.subtype = check_type_aux ( t->u.subtype, 0, 0, 0 ) ;
-	    break ;
+	case TYPE_PTR: {
+	    t->u.subtype = check_type_aux(t->u.subtype, 0, 0, 0);
+	    break;
 	}
-	case TYPE_DEFINED : {
-	    t->v.next = check_type_aux ( t->v.next, obj, c, ret ) ;
-	    break ;
+	case TYPE_DEFINED: {
+	    t->v.next = check_type_aux(t->v.next, obj, c, ret);
+	    break;
 	}
     }
-    return ( t ) ;
+    return(t);
 }
 
 
@@ -449,36 +472,35 @@ static type *check_type_aux
     type id.  It returns an equivalent type.
 */
 
-type *check_type
-    PROTO_N ( ( t, id ) )
-    PROTO_T ( type *t X int id )
+type *
+check_type(type *t, int id)
 {
-    if ( t ) {
-	switch ( id ) {
-	    case OBJ_EXP :
-	    case OBJ_EXTERN : {
-		t = check_type_aux ( t, 1, 0, 0 ) ;
-		break ;
+    if (t) {
+	switch (id) {
+	    case OBJ_EXP:
+	    case OBJ_EXTERN: {
+		t = check_type_aux(t, 1, 0, 0);
+		break;
 	    }
-	    case OBJ_CONST :
-	    case OBJ_FIELD : {
-		t = check_type_aux ( t, 1, 1, 0 ) ;
-		break ;
+	    case OBJ_CONST:
+	    case OBJ_FIELD: {
+		t = check_type_aux(t, 1, 1, 0);
+		break;
 	    }
-	    case OBJ_FUNC : {
-		if ( t->id != TYPE_PROC ) {
-		    error ( ERR_SERIOUS, "Function type expected" ) ;
+	    case OBJ_FUNC: {
+		if (t->id != TYPE_PROC) {
+		    error(ERR_SERIOUS, "Function type expected");
 		}
-		t = check_type_aux ( t, 0, 0, 0 ) ;
-		break ;
+		t = check_type_aux(t, 0, 0, 0);
+		break;
 	    }
-	    case OBJ_TYPE :
-	    case OBJ_MACRO :
-	    case OBJ_STATEMENT : {
-		t = check_type_aux ( t, 0, 0, 0 ) ;
-		break ;
+	    case OBJ_TYPE:
+	    case OBJ_MACRO:
+	    case OBJ_STATEMENT: {
+		t = check_type_aux(t, 0, 0, 0);
+		break;
 	    }
 	}
     }
-    return ( t ) ;
+    return(t);
 }

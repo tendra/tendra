@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -42,15 +75,15 @@
     plus the TDF token namespace.
 */
 
-hash_table *exps ;
-hash_table *files ;
-hash_table *keywords ;
-hash_table *subsets ;
-hash_table *tags ;
-hash_table *tag_fields ;
-hash_table *tokens ;
-hash_table *types ;
-hash_table *type_fields ;
+hash_table *exps;
+hash_table *files;
+hash_table *keywords;
+hash_table *subsets;
+hash_table *tags;
+hash_table *tag_fields;
+hash_table *tokens;
+hash_table *types;
+hash_table *type_fields;
 
 
 /*
@@ -60,20 +93,20 @@ hash_table *type_fields ;
     miscellaneous variables.
 */
 
-void init_hash
-    PROTO_Z ()
+void
+init_hash(void)
 {
-    buffer = alloc_nof ( char, buffsize + 100 ) ;
-    exps = make_hash_table ( "Expression" ) ;
-    files = make_hash_table ( "Output file" ) ;
-    keywords = make_hash_table ( "Keyword" ) ;
-    subsets = make_hash_table ( "Set" ) ;
-    tags = make_hash_table ( "Tag" ) ;
-    tag_fields = make_hash_table ( "Field selector struct/union" ) ;
-    tokens = make_hash_table ( "Token" ) ;
-    types = make_hash_table ( "Type" ) ;
-    type_fields = make_hash_table ( "Field selector" ) ;
-    return ;
+    buffer = alloc_nof(char, buffsize + 100);
+    exps = make_hash_table("Expression");
+    files = make_hash_table("Output file");
+    keywords = make_hash_table("Keyword");
+    subsets = make_hash_table("Set");
+    tags = make_hash_table("Tag");
+    tag_fields = make_hash_table("Field selector struct/union");
+    tokens = make_hash_table("Token");
+    types = make_hash_table("Type");
+    type_fields = make_hash_table("Field selector");
+    return;
 }
 
 
@@ -84,14 +117,13 @@ void init_hash
     lie in the range [ 0, hash_size ).
 */
 
-static int hash
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+static int
+hash(char *nm)
 {
-    char *s ;
-    int n = 0 ;
-    for ( s = nm ; *s ; s++ ) n += *s ;
-    return ( n % hash_size ) ;
+    char *s;
+    int n = 0;
+    for (s = nm; *s; s++)n += *s;
+    return(n % hash_size);
 }
 
 
@@ -101,15 +133,14 @@ static int hash
     This routine creates a new hash table called nm.
 */
 
-hash_table *make_hash_table
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+hash_table *
+make_hash_table(char *nm)
 {
-    int i ;
-    hash_table *t = alloc_nof ( hash_table, 1 ) ;
-    t->name = nm ;
-    for ( i = 0 ; i < hash_size ; i++ ) t->array [i] = null ;
-    return ( t ) ;
+    int i;
+    hash_table *t = alloc_nof(hash_table, 1);
+    t->name = nm;
+    for (i = 0; i < hash_size; i++)t->array [i] = null;
+    return(t);
 }
 
 
@@ -121,18 +152,17 @@ hash_table *make_hash_table
     otherwise.
 */
 
-static object *lookup_hash
-    PROTO_N ( ( t, nm, v, h ) )
-    PROTO_T ( hash_table *t X char *nm X int v X int h )
+static object *
+lookup_hash(hash_table *t, char *nm, int v, int h)
 {
-    hash_elem *e = t->array [h] ;
-    while ( e ) {
-	if ( streq ( nm, e->obj->name ) ) {
-	    if ( v == e->vers || v == any_version ) return ( e->obj ) ;
+    hash_elem *e = t->array [h];
+    while (e) {
+	if (streq(nm, e->obj->name)) {
+	    if (v == e->vers || v == any_version) return(e->obj);
 	}
-	e = e->next ;
+	e = e->next;
     }
-    return ( null ) ;
+    return(null);
 }
 
 
@@ -144,30 +174,29 @@ static object *lookup_hash
     defined.  Otherwise it returns p.
 */
 
-object *add_hash
-    PROTO_N ( ( t, p, v ) )
-    PROTO_T ( hash_table *t X object *p X int v )
+object *
+add_hash(hash_table *t, object *p, int v)
 {
-    hash_elem *e ;
-    char *nm = p->name ;
-    int h = hash ( nm ) ;
-    object *q = lookup_hash ( t, nm, v, h ) ;
-    if ( q != null ) {
-	char *fn = q->filename ;
-	if ( fn ) {
-	    char *err = "%s '%s' already defined (%s, line %d)" ;
-	    error ( ERR_SERIOUS, err, t->name, nm, fn, q->line_no ) ;
+    hash_elem *e;
+    char *nm = p->name;
+    int h = hash(nm);
+    object *q = lookup_hash(t, nm, v, h);
+    if (q != null) {
+	char *fn = q->filename;
+	if (fn) {
+	    char *err = "%s '%s' already defined (%s, line %d)";
+	    error(ERR_SERIOUS, err, t->name, nm, fn, q->line_no);
 	} else {
-	    error ( ERR_SERIOUS, "%s '%s' already defined", t->name, nm ) ;
+	    error(ERR_SERIOUS, "%s '%s' already defined", t->name, nm);
 	}
-	return ( q ) ;
+	return(q);
     }
-    alloc_variable ( e, hash_elem, 1000 ) ;
-    e->obj = p ;
-    e->vers = v ;
-    e->next = t->array [h] ;
-    t->array [h] = e ;
-    return ( p ) ;
+    alloc_variable(e, hash_elem, 1000);
+    e->obj = p;
+    e->vers = v;
+    e->next = t->array [h];
+    t->array [h] = e;
+    return(p);
 }
 
 
@@ -179,12 +208,11 @@ object *add_hash
     null is returned.
 */
 
-object *search_hash
-    PROTO_N ( ( t, nm, v ) )
-    PROTO_T ( hash_table *t X char *nm X int v )
+object *
+search_hash(hash_table *t, char *nm, int v)
 {
-    int h = hash ( nm ) ;
-    return ( lookup_hash ( t, nm, v, h ) ) ;
+    int h = hash(nm);
+    return(lookup_hash(t, nm, v, h));
 }
 
 
@@ -195,31 +223,30 @@ object *search_hash
     alphabetical list.  The table cannot be used subsequently.
 */
 
-hash_elem *sort_hash
-    PROTO_N ( ( t ) )
-    PROTO_T ( hash_table *t )
+hash_elem *
+sort_hash(hash_table *t)
 {
-    int i ;
-    hash_elem *r = null ;
-    for ( i = 0 ; i < hash_size ; i++ ) {
-	hash_elem *p = t->array [i]  ;
-	while ( p ) {
-	    hash_elem *pn = p->next ;
-	    hash_elem *q = r, *s = null ;
-	    while ( q ) {
-		if ( strcmp ( p->obj->name, q->obj->name ) <= 0 ) break ;
-		s = q ;
-		q = q->next ;
+    int i;
+    hash_elem *r = null;
+    for (i = 0; i < hash_size; i++) {
+	hash_elem *p = t->array [i] ;
+	while (p) {
+	    hash_elem *pn = p->next;
+	    hash_elem *q = r, *s = null;
+	    while (q) {
+		if (strcmp(p->obj->name, q->obj->name) <= 0)break;
+		s = q;
+		q = q->next;
 	    }
-	    if ( s == null ) {
-		p->next = r ;
-		r = p ;
+	    if (s == null) {
+		p->next = r;
+		r = p;
 	    } else {
-		p->next = s->next ;
-		s->next = p ;
+		p->next = s->next;
+		s->next = p;
 	    }
-	    p = pn ;
+	    p = pn;
 	}
     }
-    return ( r ) ;
+    return(r);
 }
