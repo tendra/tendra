@@ -45,21 +45,21 @@
   CCOPTS+=
 .endif
 
-CCOPTS+= -D_${OSVER}
+CCOPTS+=	-D_${OSVER}
 
-SYS_INCLUDES= "-I/usr/include"
+SYS_INCLUDES=	"-I/usr/include"
 STRIP= :
-RANLIB= ranlib
+RANLIB=		ranlib
 EXEC_SUFFIX=
 
-LD?= ld
+LD?=	ld
 LDOPTS=
-LIBS= /usr/lib/crt1.o -lc
+LIBS=	/usr/lib/crt1.o -lc
 
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)
-SID ?=${OBJ_DIR}/src/utilities/sid/sid
+SID?=	${OBJ_DIR}/src/utilities/sid/sid
 .else
-SID ?=sid
+SID?=	sid
 .endif
 
-TSPEC ?= ${OBJ_DIR}/src/tools/tspec/tspec
+TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec

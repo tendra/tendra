@@ -43,33 +43,33 @@
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
 
-BASE_DIR = ${.CURDIR:C/\/(mk|src).*//}
-APIS = src/lib/apis
+BASE_DIR=	${.CURDIR:C/\/(mk|src).*//}
+APIS=		src/lib/apis
 
-PREFIX ?= /usr/local
-PUBLIC_BIN = ${PREFIX}/bin
-INSTALL_DIR = ${PREFIX}/lib/TenDRA
-COMMON_DIR = ${INSTALL_DIR}/lib
-MACH_DIR = ${INSTALL_DIR}/machines
-MAN_DIR = ${PREFIX}/man
-OBJ_DIR = ${BASE_DIR}/obj
-OBJ_SDIR = ${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
-TMP_DIR = /var/tmp
+PREFIX?=	/usr/local
+PUBLIC_BIN=	${PREFIX}/bin
+INSTALL_DIR=	${PREFIX}/lib/TenDRA
+COMMON_DIR=	${INSTALL_DIR}/lib
+MACH_DIR=	${INSTALL_DIR}/machines
+MAN_DIR=	${PREFIX}/man
+OBJ_DIR=	${BASE_DIR}/obj
+OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+TMP_DIR=	/var/tmp
 
 # Binary paths
 
-SHELL = /bin/sh
+SHELL=		/bin/sh
 
-ENV ?=		/usr/bin/env
+ENV?=		/usr/bin/env
 
-COPY ?=		${ENV} cp
-ECHO ?=		${ENV} echo
-ECHODIR ?=	${ENV} echo
-EXIT ?=		exit
-INSTALL ?=	${ENV} install
-MKDIR ?=	${ENV} mkdir
-MOVE ?=		${ENV} mv
-REMOVE ?=	${ENV} rm -f
+COPY?=		${ENV} cp
+ECHO?=		${ENV} echo
+ECHODIR?=	${ENV} echo
+EXIT?=		exit
+INSTALL?=	${ENV} install
+MKDIR?=		${ENV} mkdir
+MOVE?=		${ENV} mv
+REMOVE?=	${ENV} rm -f
 
 # Build infrastructure framework
 
