@@ -1,102 +1,5 @@
 #
 # $TenDRA$
-#
-# This include file <doc.docbook.mk> handles building and installing of
-# DocBook documentation in the FreeBSD Documentation Project.
-#
-# Documentation using DOCFORMAT=docbook is expected to be marked up
-# according to the DocBook DTD
-#
-
-# ------------------------------------------------------------------------
-#
-# Document-specific variables
-#
-#	DOC		This should be set to the name of the DocBook
-#			marked-up file, without the .sgml or .docb suffix.
-#			
-#			It also determins the name of the output files -
-#			${DOC}.html.
-#
-#	DOCBOOKSUFFIX	The suffix of your document, defaulting to .sgml
-#
-#	SRCS		The names of all the files that are needed to
-#			build this document - This is useful if any of
-#			them need to be generated.  Changing any file in
-#			SRCS causes the documents to be rebuilt.
-#
-#       HAS_INDEX       This document has index terms and so an index
-#                       can be created if specified with GEN_INDEX.
-#
-
-# ------------------------------------------------------------------------
-#
-# Variables used by both users and documents:
-#
-#	SGMLFLAGS	Additional options to pass to various SGML
-#			processors (e.g., jade, nsgmls).  Typically
-#			used to define "IGNORE" entities to "INCLUDE"
-#			 with "-i<entity-name>"
-#
-#	JADEFLAGS	Additional options to pass to Jade.  Typically
-#			used to set additional variables, such as
-#			"%generate-article-toc%".
-#
-#	TIDYFLAGS	Additional flags to pass to Tidy.  Typically
-#			used to set "-raw" flag to handle 8bit characters.
-#
-#	EXTRA_CATALOGS	Additional catalog files that should be used by
-#			any SGML processing applications.
-#
-#	NO_TIDY		If you do not want to use tidy, set this to "YES".
-#
-#       GEN_INDEX       If this document has an index (HAS_INDEX) and this
-#                       variable is defined, then index.sgml will be added 
-#                       to the list of dependencies for source files, and 
-#                       collateindex.pl will be run to generate index.sgml.
-#
-#	CSS_SHEET	Full path to a CSS stylesheet suitable for DocBook.
-#			Default is ${DOC_PREFIX}/share/misc/docbook.css
-#
-# Print-output options :
-#
-#       NICE_HEADERS    If defined, customized chapter headers will be created
-#			that you may find more aesthetically pleasing.	Note
-#			that this option only effects print output formats for
-#			Enlish language books.
-#
-#       MIN_SECT_LABELS If defined, do not display the section number for 4th
-#                       and 5th level section titles.  This would change 
-#                       "N.N.N.N Section title" into "Section Title" while
-#                       higher level sections are still printed with numbers.
-#
-#       TRACE={1,2}     Trace TeX's memory usage.  Set this to 1 for minimal
-#                       tracing or 2 for maximum tracing.  TeX memory 
-#                       statistics will be written out to <filename>.log.
-#                       For more information see the TeXbook, p301.
-#
-#       TWO_SIDE        If defined, two sided output will be created.  This 
-#                       means that new chapters will only start on odd 
-#                       numbered (aka right side, aka recto) pages and the 
-#                       headers and footers will be aligned appropriately 
-#                       for double sided paper.  Blank pages may be added as
-#                       needed.
-#
-#       JUSTIFY         If defined, text will be right justified so that the
-#                       right edge is smooth.  Words may be hyphenated using
-#                       the defalt TeX hyphenation rules for this purpose.
-#
-#       BOOK_OUTPUT     A collection of options are set suitable for printing
-#                       a book.  This option may be an order of magnitude more
-#                       CPU intensive than the default build.
-#
-#       RLE             Use Run-Length Encoding for EPS files, this will
-#                       result in signficiantly smaller PostScript files, 
-#                       but may take longer for a printer to process.
-
-#
-# Documents should use the += format to access these.
-#
 
 DOCBOOKSUFFIX?= sgml
 
@@ -165,7 +68,7 @@ PRINTOPTS?=	-ioutput.print -d ${DSLPRINT} ${PRINTFLAGS}
 
 .if defined(BOOK_OUTPUT)
 NICE_HEADERS=1
-MIN_SECT_LABELS=1
+MIN_SECT_LABELS=0
 TWO_SIDE=1
 JUSTIFY=1
 #WITH_FOOTNOTES=1
@@ -275,7 +178,7 @@ _cf=${_curformat}
 .if ${_cf} == "html-split"
 _docs+= index.html HTML.manifest ln*.html
 CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
-		HTML.manifest ln*.html
+		HTML.manifest ln*.html ${IMAGES_PNG}
 CLEANFILES+= PLIST.${_curformat}
 
 .else
@@ -285,25 +188,25 @@ CLEANFILES+= PLIST.${_curformat}
 
 .if ${_cf} == "html-split.tar"
 CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
-		HTML.manifest ln*.html
+		HTML.manifest ln*.html ${IMAGES_PNG}
 
 .elif ${_cf} == "html.tar"
-CLEANFILES+= ${DOC}.html
+CLEANFILES+= ${DOC}.html ${IMAGES_PNG}
 
 .elif ${_cf} == "txt"
 CLEANFILES+= ${DOC}.html-text
 
 .elif ${_cf} == "dvi"
-CLEANFILES+= ${DOC}.aux ${DOC}.log ${DOC}.tex
+CLEANFILES+= ${DOC}.aux ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
 .elif ${_cf} == "tex"
-CLEANFILES+= ${DOC}.aux ${DOC}.log
+CLEANFILES+= ${DOC}.aux ${DOC}.log ${IMAGES_EPS}
 
 .elif ${_cf} == "ps"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex-ps
+CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex-ps ${IMAGES_EPS}
 
 .elif ${_cf} == "pdf"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf
+CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES_PDF}
 
 .elif ${_cf} == "pdb"
 _docs+= ${.CURDIR:T}.pdb
@@ -315,7 +218,7 @@ CLEANFILES+= ${.CURDIR:T}.pdb
 .if (${LOCAL_CSS_SHEET} != ${CSS_SHEET}) && \
     (${_cf} == "html-split" || ${_cf} == "html-split.tar" || \
      ${_cf} == "html" || ${_cf} == "html.tar" || ${_cf} == "txt")
-CLEANFILES+= ${LOCAL_CSS_SHEET}
+CLEANFILES+= ${LOCAL_CSS_SHEET} ${IMAGES_PNG}
 .endif
 
 .endfor

@@ -38,6 +38,12 @@
             (list "VLINK" "#2276cb")
             (list "ALINK" "#999999")))
 
+(define %html-header-tags% 
+       '(("META " ("NAME" "keywords") ("CONTENT" "C, C++, Compiler, Open Source, TenDRA, BSD, sid, tcc"))
+	("META " ("NAME" "copyright") ("CONTENT" "TenDRA Documentation Team"))
+	("META " ("NAME" "author") ("CONTENT" "TenDRA Documentation Team"))
+	("META " ("NAME" "") ("CONTENT" ""))))
+
         (define %hyphenation% #f)        <!-- Silence a warning -->
 
         (define %gentext-nav-use-tables%
@@ -579,7 +585,7 @@
                                      (/  (string->number scale) 100)
                                      (if (and tex-backend
                                               (equal? graphic-format "PNG"))
-                                          0.5 1)))
+                                          1 1)))
                  (graphic-align  (cond ((equal? align (normalize "center"))
                                         'center)
                                        ((equal? align (normalize "right"))
@@ -596,9 +602,107 @@
 
       <![ %output.print.pdf; [
 
+;; justify our output.
+(define %default-quadding%   
+  'justify)
+
+;; center our images in the PDF output
+(element imagedata
+      (if (have-ancestor? (normalize "mediaobject"))
+        ($img$ (current-node) #t)                 
+        ($img$ (current-node) #f)))
+
+;; lets have some COLOR
+(define colorspace (color-space
+                     "ISO/IEC 10179:1996//Color-Space Family::Device RGB"))
+
+(define c-red   (color colorspace 1 0 0))
+(define c-bblue (color colorspace 0.13 0.46 0.80))
+(define c-blue (color colorspace 0.08 0.08 0.73))
+(define c-black (color colorspace 0.0 0.0 0.0))
+(define c-green (color colorspace 0.12 0.58 0.00))
+
+
+;; set the verbatim-style to blue.
+(define verbatim-style
+  (style
+      font-family-name: %mono-font-family%
+      font-size:        (* (inherited-font-size)
+                           (if %verbatim-size-factor%
+                               %verbatim-size-factor%
+                               1.0))
+      font-weight:      'medium
+      font-posture:     'upright
+      line-spacing:     (* (* (inherited-font-size)
+                              (if %verbatim-size-factor%
+                                  %verbatim-size-factor%
+                                  1.0))
+                           %line-spacing-factor%)
+      first-line-start-indent: 0pt
+      lines: 'asis
+      input-whitespace-treatment: 'preserve
+      color: c-blue))
+
+
+;; set the note tags to red.
+(define ($admonpara$)
+  (let* ((title     (select-elements
+                     (children (parent (current-node))) (normalize "title")))
+         (has-title (not (node-list-empty? title)))
+         (adm-title (if has-title
+                        (make sequence
+                          (with-mode title-sosofo-mode
+                            (process-node-list (node-list-first title)))
+                          (literal (gentext-label-title-sep
+                                    (gi (parent (current-node))))))
+                        (literal
+                         (gentext-element-name
+                          (parent (current-node)))
+                         (gentext-label-title-sep
+                          (gi (parent (current-node))))))))
+    (make paragraph
+      space-before: %para-sep%
+      space-after: %para-sep%
+      color: c-red
+      (if (and (not %admon-graphics%) (= (child-number) 1))
+          (make sequence
+            font-family-name: %title-font-family%
+            font-weight: 'bold
+            adm-title)
+          (empty-sosofo))
+      (process-children-trim))))
+
+
+;; color in TeX is quite buggy, so this resets pretty much anything that uses
+;; the default text style to black.
+;; unfortunatly this dosn't cover all of the bugs, at some point in the future
+;; i'm sure they will be fixed in the tex color package.
+
+(define default-text-style  
+  (style
+   font-size: %bf-size%
+   font-weight: 'medium
+   color: c-black
+   font-posture: 'upright
+   font-family-name: %body-font-family%
+   line-spacing: (* %bf-size% %line-spacing-factor%)))
+
+
       ]]>
 
+
       <!-- Both sets of stylesheets ..................................... -->
+
+
+(define %linenumber-length% 
+        4)
+
+(define %linenumber-mod% 
+        1)
+
+(define %number-programlisting-lines%
+        #t)
+
 
       (define %section-autolabel%
         #t)

@@ -89,7 +89,7 @@ MV?=		/bin/mv
 .include "doc.docbook.mk"
 .endif
 .if ${DOCFORMAT} == "html"
-.include "doc.html.mk"
+#.include "doc.html.mk"
 .endif
 .endif
 
