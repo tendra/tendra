@@ -1,4 +1,29 @@
 /*
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ 
  * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
  * All rights reserved.
  *
@@ -50,6 +75,8 @@
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
+ *
+ * $TenDRA$
  *
  * $TenDRA$
  */
@@ -122,8 +149,8 @@ init_err_hash()
     ERR_DATA *cat = ERR_CATALOG;
     ERR_HASH *err = xmalloc_nof (ERR_HASH, CATALOG_SIZE);
     all_error_hash = err;
-    for (i = 0 ; i <= HASH_ERROR ; i++) error_hash [i] = NULL;
-    for (i = 0 ; i < CATALOG_SIZE ; i++) {
+    for (i = 0; i <= HASH_ERROR; i++) error_hash [i] = NULL;
+    for (i = 0; i < CATALOG_SIZE; i++) {
 		unsigned long h;
 		CONST char *s = cat->name;
 		if (s) {
@@ -169,7 +196,7 @@ find_error_no(STRING s, int n)
 		if (all_error_hash == NULL) init_err_hash ();
 		h = hash (text);
 		h %= HASH_ERROR;
-		for (err = error_hash [h] ; err != NULL ; err = err->next) {
+		for (err = error_hash [h]; err != NULL; err = err->next) {
 			string nm = ustrlit (err->entry->name);
 			if (nm && ustreq (text, nm)) {
 				if (len == (ulong) ustrlen (nm)) {
@@ -213,7 +240,7 @@ find_vocab(int t)
     CONST char *s = token_names [t];
 #if LANGUAGE_C
     switch (t) {
-	case lex_class : s = "struct/union" ; break;
+	case lex_class : s = "struct/union"; break;
     }
 #endif
     return (ustrlit (s));

@@ -1,4 +1,29 @@
 /*
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ 
  * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
  * All rights reserved.
  *
@@ -50,6 +75,8 @@
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
+ *
+ * $TenDRA$
  *
  * $TenDRA$
  */
@@ -203,23 +230,23 @@ error_option(string opt)
     character c;
     while (c = *(opt++), c != 0) {
 		switch (c) {
-	    case 'a' : print_ansi_ref = out ; break;
-	    case 'c' : print_error_source = out ; break;
-	    case 'e' : print_error_name = out ; break;
-	    case 'f' : good_fseek = out ; break;
-	    case 'g' : record_location = out ; break;
-	    case 'i' : good_stat = out ; break;
-	    case 'k' : output_spec = out ; break;
-	    case 'l' : print_error_loc = out ; break;
-	    case 'm' : allow_multibyte = out ; break;
-	    case 'p' : preproc_space = out ; break;
-	    case 'q' : print_short = out ; break;
-	    case 'r' : allow_dos_newline = out ; break;
-	    case 's' : print_iso_ref = out ; break;
-	    case 't' : print_type_alias = out ; break;
-	    case 'x' : print_c_style = out ; break;
-	    case '+' : out = 1 ; break;
-	    case '-' : out = 0 ; break;
+	    case 'a' : print_ansi_ref = out; break;
+	    case 'c' : print_error_source = out; break;
+	    case 'e' : print_error_name = out; break;
+	    case 'f' : good_fseek = out; break;
+	    case 'g' : record_location = out; break;
+	    case 'i' : good_stat = out; break;
+	    case 'k' : output_spec = out; break;
+	    case 'l' : print_error_loc = out; break;
+	    case 'm' : allow_multibyte = out; break;
+	    case 'p' : preproc_space = out; break;
+	    case 'q' : print_short = out; break;
+	    case 'r' : allow_dos_newline = out; break;
+	    case 's' : print_iso_ref = out; break;
+	    case 't' : print_type_alias = out; break;
+	    case 'x' : print_c_style = out; break;
+	    case '+' : out = 1; break;
+	    case '-' : out = 0; break;
 	    case 'o' : {
 			error_file = (out ? stdout : stderr);
 			break;
@@ -299,7 +326,7 @@ error_option(string opt)
  *    The following forward declaration is necessary.
  */
 
-static void print_error_msg(ERROR, LOCATION *, FILE *) ;
+static void print_error_msg(ERROR, LOCATION *, FILE *);
 
 
 /*
@@ -355,8 +382,8 @@ term_error(int fatal)
  *    any error message is printed.
  */
 
-static void error_break
-PROTO_Z ()
+static void
+error_break(void)
 {
     return;
 }
@@ -450,11 +477,11 @@ iso_to_ansi(BUFFER *bf, CONST char *s)
 		bfprintf (bf, "%x", s);
     } else {
 		switch (n) {
-	    case 1 : n = 2 ; break;
-	    case 2 : n = 3 ; break;
-	    case 3 : n = 6 ; break;
-	    case 4 : n = 7 ; break;
-	    default : p = "" ; n -= 3 ; break;
+	    case 1 : n = 2; break;
+	    case 2 : n = 3; break;
+	    case 3 : n = 6; break;
+	    case 4 : n = 7; break;
+	    default : p = ""; n -= 3; break;
 		}
 		bfprintf (bf, "%x%lu%x", p, n, q);
     }
@@ -599,7 +626,7 @@ make_error(int n, ...) /* VARARGS */
 		unsigned i, m = (unsigned) strlen (s);
 		if (no_error_args) m = 0;
 		MAKE_err_simple_args (sev, n, m, e);
-		for (i = 0 ; i < m ; i++) {
+		for (i = 0; i < m; i++) {
 			switch (s [i]) {
 			case ERR_KEY_BASE_TYPE : {
 				BASE_TYPE arg = va_arg (args, BASE_TYPE);

@@ -1,4 +1,29 @@
 /*
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ 
  * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
  * All rights reserved.
  *
@@ -50,6 +75,8 @@
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
+ *
+ * $TenDRA$
  *
  * $TenDRA$
  */
@@ -871,7 +898,7 @@ print_bitmask(unsigned long n, CONST char **s)
     if (n) {
 		int i;
 		unsigned long m = 1;
-		for (i = 0 ; i < 32 ; i++) {
+		for (i = 0; i < 32; i++) {
 			if (n & m) {
 				CONST char *c = s [i];
 				if (c) {
@@ -908,7 +935,7 @@ print_bitstream(BITSTREAM *bs, FILE *f)
 		while (n) {
 			unsigned j;
 			unsigned c = (unsigned) *s;
-			for (j = 0 ; j < 8 ; j++) {
+			for (j = 0; j < 8; j++) {
 				fputc_v (((c & 0x80) ? '1' : '0'), f);
 				c <<= 1;
 			}
@@ -919,7 +946,7 @@ print_bitstream(BITSTREAM *bs, FILE *f)
 		if (i) {
 			unsigned j;
 			unsigned c = (unsigned) *s;
-			for (j = 0 ; j < i ; j++) {
+			for (j = 0; j < i; j++) {
 				fputc_v (((c & 0x80) ? '1' : '0'), f);
 				c <<= 1;
 			}
@@ -1524,26 +1551,26 @@ DEBUG_c_class(c_class *p, int indent)
 	    default : {
 			print_indent (indent, "", f);
 			switch (n) {
-		    case TYPEID_ctype : DEBUG_ctype (p) ; break;
-		    case TYPEID_err : report (crt_loc, p) ; break;
-		    case TYPEID_etype : DEBUG_etype (p) ; break;
-		    case TYPEID_flt : DEBUG_flt (p) ; break;
-		    case TYPEID_ftype : DEBUG_ftype (p) ; break;
-		    case TYPEID_graph : DEBUG_graph (p) ; break;
-		    case TYPEID_hashid : DEBUG_hashid (p) ; break;
-		    case TYPEID_id : DEBUG_id_long (p) ; break;
-		    case TYPEID_inst : DEBUG_inst (p) ; break;
-		    case TYPEID_itype : DEBUG_itype (p) ; break;
-		    case TYPEID_member : DEBUG_member (p) ; break;
-		    case TYPEID_nat : DEBUG_nat (p) ; break;
-		    case TYPEID_nspace : DEBUG_nspace (p) ; break;
-		    case TYPEID_off : DEBUG_offset (p) ; break;
-		    case TYPEID_str : DEBUG_str (p) ; break;
-		    case TYPEID_tok : DEBUG_sort (p) ; break;
-		    case TYPEID_type : DEBUG_type (p) ; break;
-		    case TYPEID_virt : DEBUG_virt (p) ; break;
-		    case TYPEID_free : fputs_v ("FREE\n", f) ; break;
-		    default : fputs_v ("UNKNOWN\n", f) ; break;
+		    case TYPEID_ctype : DEBUG_ctype (p); break;
+		    case TYPEID_err : report (crt_loc, p); break;
+		    case TYPEID_etype : DEBUG_etype (p); break;
+		    case TYPEID_flt : DEBUG_flt (p); break;
+		    case TYPEID_ftype : DEBUG_ftype (p); break;
+		    case TYPEID_graph : DEBUG_graph (p); break;
+		    case TYPEID_hashid : DEBUG_hashid (p); break;
+		    case TYPEID_id : DEBUG_id_long (p); break;
+		    case TYPEID_inst : DEBUG_inst (p); break;
+		    case TYPEID_itype : DEBUG_itype (p); break;
+		    case TYPEID_member : DEBUG_member (p); break;
+		    case TYPEID_nat : DEBUG_nat (p); break;
+		    case TYPEID_nspace : DEBUG_nspace (p); break;
+		    case TYPEID_off : DEBUG_offset (p); break;
+		    case TYPEID_str : DEBUG_str (p); break;
+		    case TYPEID_tok : DEBUG_sort (p); break;
+		    case TYPEID_type : DEBUG_type (p); break;
+		    case TYPEID_virt : DEBUG_virt (p); break;
+		    case TYPEID_free : fputs_v ("FREE\n", f); break;
+		    default : fputs_v ("UNKNOWN\n", f); break;
 			}
 			break;
 	    }

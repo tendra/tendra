@@ -1,4 +1,29 @@
 /*
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ 
  * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
  * All rights reserved.
  *
@@ -52,6 +77,8 @@
  *        it may be put.
  *
  * $TenDRA$
+ *
+ * $TenDRA$
  */
 
 
@@ -60,14 +87,14 @@
 
 
 /*
-    OPTION CATALOGUES
-
-    The table OPT_CATALOG is used to maintain the list of all boolean
-    options.  The table OPT_VALUE_CATALOG is used to hold the value
-    options.  Macros are given to name the entries in the latter table.
-    Names for entries in the former table are generated from the
-    error catalogue.
-*/
+ *    OPTION CATALOGUES
+ *
+ *    The table OPT_CATALOG is used to maintain the list of all boolean
+ *    options.  The table OPT_VALUE_CATALOG is used to hold the value
+ *    options.  Macros are given to name the entries in the latter table.
+ *    Names for entries in the former table are generated from the
+ *    error catalogue.
+ */
 
 typedef struct {
     CONST char *name;
@@ -89,11 +116,11 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [];
 
 
 /*
-    OPTION LEVELS
-
-    These values give the various option levels.  The fact that OPTION_OFF
-    is zero is used extensively.
-*/
+ *    OPTION LEVELS
+ *
+ *    These values give the various option levels.  The fact that OPTION_OFF
+ *    is zero is used extensively.
+ */
 
 #define OPTION_OFF				((OPTION) 0)
 #define OPTION_WARN				((OPTION) 1)
@@ -105,11 +132,11 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [];
 
 
 /*
-    OPTION VALUES
-
-    These macros are used to represent the various numeric option values
-    within the program.
-*/
+ *    OPTION VALUES
+ *
+ *    These macros are used to represent the various numeric option values
+ *    within the program.
+ */
 
 #define OPT_VAL_statement_depth			0
 #define OPT_VAL_hash_if_depth			1
@@ -154,11 +181,11 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG [];
 
 
 /*
-    COMPILER OPTION DECLARATIONS
-
-    The routines in this module are concerned with configurable compiler
-    options.
-*/
+ *    COMPILER OPTION DECLARATIONS
+ *
+ *    The routines in this module are concerned with configurable compiler
+ *    options.
+ */
 
 extern OPTION *crt_opt;
 extern OPTIONS *crt_opts;
