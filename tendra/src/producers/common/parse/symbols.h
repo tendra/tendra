@@ -256,7 +256,16 @@
 	LEX_TOKEN (lex_volatile, "volatile", TOK_TYPE_SPEC)
 	LEX_TOKEN (lex_while, "while", TOK_STATEMENT)
 	
+
+/*
+ *  ADDITIONAL C99 KEYWORD TOKENS
+ *
+ *  These tokens describe the additional C99 keywords.
+ */
 	
+	LEX_TOKEN (lex_restrict, "restrict", TOK_TYPE_SPEC)
+
+
 /*
  *  ADDITIONAL C++ KEYWORD TOKENS
  *
@@ -579,6 +588,9 @@
 	
 #define FIRST_C_KEYWORD		lex_auto
 #define LAST_C_KEYWORD		lex_while
+	
+#define FIRST_C99_KEYWORD	lex_restrict
+#define LAST_C99_KEYWORD	lex_restrict
 	
 #define FIRST_CPP_KEYWORD	lex_asm
 #define LAST_CPP_KEYWORD	lex_wchar_Ht

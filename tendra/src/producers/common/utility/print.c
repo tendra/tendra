@@ -280,6 +280,7 @@ print_cv(CV_SPEC n, BUFFER *bf, int sp)
 {
     if (n) {
 		if (n & cv_const) sp = print_lex (lex_const, bf, sp);
+		if (n & cv_restrict) sp = print_lex (lex_restrict, bf, sp);
 		if (n & cv_volatile) sp = print_lex (lex_volatile, bf, sp);
     }
     return (sp);

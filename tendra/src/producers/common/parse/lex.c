@@ -180,7 +180,8 @@ get_digraph(int t)
  *
  *    This routine creates a keyword identifier with name nm and lexical
  *    token number key.  The special case when key is lex_unknown is used
- *    to indicate a reserved identifier.
+ *    to indicate a reserved identifier, analogically lex_identifier maps to
+ *    a C99 keyword.
  */
 
 IDENTIFIER
@@ -196,6 +197,8 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 			tag = id_iso_keyword_tag;
 		} else if (key == lex_unknown) {
 			tag = id_reserved_tag;
+		} else if (key == lex_identifier) {
+			tag = id_c99_keyword_tag;
 		}
 		
 		/* Create keyword identifier */
@@ -211,6 +214,7 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 		switch (TAG_id (pid)) {
 	    case id_dummy_tag :
 	    case id_keyword_tag :
+	    case id_c99_keyword_tag :
 	    case id_iso_keyword_tag :
 	    case id_reserved_tag : {
 			COPY_id (id_alias (id), pid);
@@ -248,6 +252,12 @@ init_keywords(void)
     for (key = FIRST_C_KEYWORD; key <= LAST_C_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		IGNORE make_keyword (nm, key, NULL_id);
+    }
+	
+    /* Bring the C99 keywords into scope */
+    for (key = FIRST_C99_KEYWORD; key <= LAST_C99_KEYWORD; key++) {
+		HASHID nm = KEYWORD (key);
+		IGNORE make_keyword (nm, lex_identifier, NULL_id);
     }
 	
     /* Bring the C++ keywords into scope */

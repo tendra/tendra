@@ -100,13 +100,30 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
     TYPE r;
     unsigned tag;
     IDENTIFIER tid;
-	
-    /* Just return t if it is correctly qualified */
     CV_SPEC qual = DEREF_cv (type_qual (t));
+    tag = TAG_type (t);
+    /* Report illegal usage of 'restrict' */
+    if (cv & cv_restrict) {
+		int err = 1;
+		if (tag == type_ptr_tag) {
+			TYPE s = DEREF_type (type_ptr_sub (t));
+			if (IS_type_func (s)) {
+				qual &= ~cv_restrict;
+				COPY_cv (type_qual (t), qual);
+			} else {
+				err = 0;
+			}
+		}
+		if (err) {
+			cv &= ~cv_restrict;
+			report (crt_loc, ERR_dcl_type_restrict_bad (t));
+		}
+    }
+
+    /* Just return t if it is correctly qualified */
     if (qual == cv && !force) return (t);
 	
     /* Copy the type otherwise */
-    tag = TAG_type (t);
     ASSERT (ORDER_type == 18);
     switch (tag) {
 	case type_pre_tag : {

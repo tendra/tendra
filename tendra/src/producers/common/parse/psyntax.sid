@@ -163,6 +163,9 @@ auto; !break; case; !char; const; !continue; !default; !do;
 long; !register; return; !short; signed; !sizeof; static; struct;
 switch; !typedef; union; unsigned; void; volatile; !while;
 
+/* C99 keywords */
+!restrict;
+
 /* C++ keywords */
 asm; bool; catch; !class; const-cast; !delete; !dynamic-cast;
 explicit; export; !false; !friend; inline; !mutable; namespace;

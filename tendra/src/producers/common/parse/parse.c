@@ -656,10 +656,16 @@ expand_token(int store)
 				break;
 		    }
 				
+		    case id_c99_keyword_tag :
 		    case id_reserved_tag : {
 				/* Report reserved identifiers */
 				if (store == EXPAND_NORMAL && !in_pragma_dir) {
-					ERROR err = ERR_lex_key_reserve (nm);
+					ERROR err;
+				   	if (t == id_reserved_tag) {
+						err = ERR_lex_key_reserve (nm);
+					} else {
+						err = ERR_lex_key_c99 (nm);
+					}
 					report (crt_loc, err);
 				}
 				break;

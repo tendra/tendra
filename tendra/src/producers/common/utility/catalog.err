@@ -606,6 +606,13 @@ lex_key_reserve ( HASHID: nm )
     KEY (STD)	"'"nm"' is a reserved identifier"
 }
 
+lex_key_c99 ( HASHID: nm )
+{
+    USAGE:	wall
+    KEY (ISO)	/* none */
+    KEY (STD)	"'"nm"' is a keyword in ISO/IEC 9899:1999"
+}
+
 
 /*  --------------------------------------------------------------------
     2.12	Operators and punctuators
@@ -3594,6 +3601,12 @@ dcl_type_type_cv ( LONG_ID: id, CV_SPEC: cv )
 {
     USAGE:	wall | error
     KEY (STD)	"Type '"id"' is already '"cv"' qualified"
+}
+
+dcl_type_restrict_bad ( TYPE: t )
+{
+    KEY (ISO)	"-" | "-, 6.7.3"
+    KEY (STD)	"Type '"t"' may not be 'restrict' qualified"
 }
 
 

@@ -102,12 +102,13 @@ enum !CV_SPEC (cv) = {
     none =		0,
     const =		1 << 0,
     volatile =		1 << 1,
-    lvalue =		1 << 2,
+    restrict =		1 << 2,
+    lvalue =		1 << 3,
 
-    c =			1 << 3,
-    cpp =		1 << 4,
+    c =			1 << 4,
+    cpp =		1 << 5,
 
-    qual =		const | volatile,
+    qual =		const | volatile | restrict,
     mask =		qual | lvalue,
     language =		c | cpp
 };
@@ -741,7 +742,7 @@ union IDENTIFIER (id) = {
     dummy -> {
 	/* Undefined identifier */
     },
-    keyword, iso_keyword, reserved -> {
+    keyword, c99_keyword, iso_keyword, reserved -> {
 	/* Keywords */
     },
     builtin -> {

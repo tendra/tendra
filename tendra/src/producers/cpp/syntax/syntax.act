@@ -1309,6 +1309,7 @@ complex-type : () -> ( t ) = @{
 
 <cv_none> : () -> ( cv ) = @{ @cv = cv_none; @};
 <cv_const> : () -> ( cv ) = @{ @cv = cv_const; @};
+<cv_restrict> : () -> ( cv ) = @{ @cv = cv_restrict; @};
 <cv_volatile> : () -> ( cv ) = @{ @cv = cv_volatile; @};
 
 <cv_join> : ( a, b ) -> ( cv ) = @{
