@@ -163,7 +163,7 @@
  * or '+' it should be a long option; otherwise it should be a short option.
  *
  ** Type:	ArgProcP
- ** Repr:	void (*) (char *, ArgUsageT *, void *, ...)
+ ** Repr:	void (*) (char *, void *, ...)
  *
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
@@ -198,10 +198,6 @@
  * if it has only a long form, then the character should be '\0'.  It is
  * illegal for an option to have neither a long form or a short form.
  *
- ** Type:	ArgUsageT
- *
- * This is the type of argument to be passed to ``write_arg_usage''.
- *
  ***=== FUNCTIONS ============================================================
  *
  ** Function: arg_parse_arguments
@@ -214,11 +210,6 @@
  * of the program's argument list (the program name) should not be passed to
  * this function.  The function returns the number of elements of the list
  * that it parsed.
- *
- ** Function: write_arg_usage
- *
- * This function can be used to write out a usage message based upon the usage
- * information supplied.
  *
  ***=== MACROS ===============================================================
  *
