@@ -982,7 +982,7 @@ copy_dg_info(dg_info d, exp var, exp lab,
 	return new;
 }
 
-static *
+static detch_info *
 copy_detch_tree(detch_info * dl)
 {
 	detch_info * ans = (detch_info *) xcalloc (1, sizeof (detch_info));
@@ -1185,7 +1185,7 @@ dg_complete_inline(exp whole, exp comp)
 }
 
 
-static *
+static detch_info *
 gather_detch(exp e, dg_info * dx, int reason,
 			 int descend, int reuse, dg_tag opt_ref)
 {
@@ -1377,7 +1377,7 @@ strip_dg_context(exp e)
 	return;
 }
 
-static *
+static dg_info *
 after_dg_context(exp e)
 {
 	dg_info * dx = &(dgf(e));

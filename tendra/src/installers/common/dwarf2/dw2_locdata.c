@@ -137,7 +137,7 @@ typedef struct ll_s
 	struct ll_s *		inner;
 } * ll_item;
 
-static *
+static ll_item *
 ll_root(dg_name nm)
 {
 	exp x = nm->data.n_obj.obtain_val;
