@@ -64,6 +64,12 @@ SID?=	${OBJ_DIR}/src/utilities/sid/sid
 SID?=	sid
 .endif
 
+.if exists(${OBJ_DIR}/src/tools/tcc/tcc)
+TCC?=	${OBJ_DIR}/src/tools/tcc/tcc
+.else
+TCC?=	tcc
+.endif
+
 .if exists(${OBJ_DIR}/src/tools/tld/tld)
 TLD?=	${OBJ_DIR}/src/tools/tld/tld
 .else
