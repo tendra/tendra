@@ -207,7 +207,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 </note>
 
 <para>The default checking environment is Xc, other environments are specified by passing the name of the environment to the checker as a command line flag, e.g. the -Xs flag specifies that the Xs environment is to be used. These environments are the base checking modes and may not be combined: if more than one base mode is specified, only the final base mode is actually used - the earlier ones are ignored.</para>
-<para>There are also two "add-on" checking profiles, called <literal>nepc</literal> (no extra portability checks) and <literal>not_ansi</literal>, which may be used to complement any base mode. The "add-on" modes may alter the status of checks set in the base mode. The <literal>nepc/</literal> mode switches off many of the checks relating to portability issues and may be specified by passing the <literal>-nepc/</literal> command line option to tchk. The <literal>not_ansi/</literal> mode supports a raft of non-ISO features and is specified using the <literal>-not_ansi</literal> command line flag.</para>
+<para>There are also two "add-on" checking profiles, called <literal>nepc</literal> (no extra portability checks) and <literal>not_ansi</literal>, which may be used to complement any base mode. The "add-on" modes may alter the status of checks set in the base mode. The <literal>nepc</literal> mode switches off many of the checks relating to portability issues and may be specified by passing the <literal>-nepc</literal> command line option to tchk. The <literal>not_ansi</literal> mode supports a raft of non-ISO features and is specified using the <literal>-not_ansi</literal> command line flag.</para>
 
 </sect1>
 <sect1>
@@ -299,7 +299,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <sect1>
 <title>Individual command line checking options</title>
 
-<para>Some of the checks available can be controlled using a command line option of the form -Xopt,opt,..., where the various opt options give a comma-separated list of commands. These commands have the form test=status, where test is the name of the check, and status is either check (apply check and give an error if it fails), warn (apply check and give a warning if it fails) or dont (do not apply check). The names of checks can be found with their descriptions in -XREF-Chapters 3 - 8; for example the check for implicit function declarations described in -XREF-3.4.1 may be switched on using <literal>-X:implicit_func=check/</literal>.</para>
+<para>Some of the checks available can be controlled using a command line option of the form -Xopt,opt,..., where the various opt options give a comma-separated list of commands. These commands have the form test=status, where test is the name of the check, and status is either check (apply check and give an error if it fails), warn (apply check and give a warning if it fails) or dont (do not apply check). The names of checks can be found with their descriptions in -XREF-Chapters 3 - 8; for example the check for implicit function declarations described in -XREF-3.4.1 may be switched on using <literal>-X:implicit_func=check</literal>.</para>
 
 </sect1>
 
@@ -366,7 +366,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 
 <para>The macro STRING is defined in an area where unknown escape sequences, such as \!, are allowed, but it is expanded in an area where they are not allowed (this is the default setting). The conventional approach to macro expansion would lead to the unknown escape sequence being flagged as an error, even though the user probably intended to avoid this. The checker therefore expands all macros using the checking profile in which they were defined, rather than the current checking scope.</para>
 
-<para>The directives describing the user's desired checking profile could be included directly in the program itself, ideally in some configuration file which is #include'd in all source files. It is however perhaps more appropriate to store the directives as a startup file, <emphasis>file</emphasis> say, which is passed to the checker using the <literal>-f/</literal><emphasis>file</emphasis>command line option. It should be noted that user-defined compilation modes are defined on top of a built-in mode base (normally Xc, the default mode). It is therefore important to scope the new checking profile as described above.</para>
+<para>The directives describing the user's desired checking profile could be included directly in the program itself, ideally in some configuration file which is #include'd in all source files. It is however perhaps more appropriate to store the directives as a startup file, <emphasis>file</emphasis> say, which is passed to the checker using the <literal>-f</literal><emphasis>file</emphasis>command line option. It should be noted that user-defined compilation modes are defined on top of a built-in mode base (normally Xc, the default mode). It is therefore important to scope the new checking profile as described above.</para>
 
 <para>Names may be associated with checking scopes by using an alternative form of the begin directive:</para>
 
@@ -388,7 +388,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
     #pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis>
 </programlisting>
 
-<para>The directory name must be passed to the checker using the <literal>-N/</literal><emphasis>dir_name</emphasis> <literal>:/</literal><emphasis>dir</emphasis> <literal>/</literal>command line option. This is equivalent to the usual <literal>-I/</literal><literal>dir/</literal> option for specifying include paths, except that it also attaches the name dir_name to the directory.</para>
+<para>The directory name must be passed to the checker using the <literal>-N</literal><emphasis>dir_name</emphasis> <literal>:</literal><emphasis>dir</emphasis> <literal></literal>command line option. This is equivalent to the usual <literal>-I</literal><literal>dir</literal> option for specifying include paths, except that it also attaches the name dir_name to the directory.</para>
 </sect1>
 
 </chapter>
@@ -412,7 +412,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA conversion analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>status</emphasis> appears in a pragma statement it represents one of <literal>on/</literal> (enable the check and produce errors), <literal>warning/</literal> (enable the check but produce only warnings), or <literal>off/</literal> (disable the check). Here <emphasis>status</emphasis> may be <literal>on/</literal> to give an error if a conversion is detected, <literal>warning/</literal> to produce a warning if a conversion is detected, or <literal>off/</literal> to switch the checks off. The checks may also be controlled using the command line option<literal>-X:/</literal><emphasis>test</emphasis><literal>=/</literal><emphasis>state</emphasis> <literal>/</literal>where <emphasis>test</emphasis> is one of <literal>convert_all/</literal>, <literal>convert_int/</literal>, <literal>convert_int_explicit/</literal>, <literal>convert_int_implicit/</literal>, <literal>convert_int_ptr/</literal> and <literal>convert_ptr/</literal> and <emphasis>state</emphasis> is <literal>check/</literal>,<literal>warn/</literal> or <literal>dont/</literal>.
+<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>status</emphasis> appears in a pragma statement it represents one of <literal>on</literal> (enable the check and produce errors), <literal>warning</literal> (enable the check but produce only warnings), or <literal>off</literal> (disable the check). Here <emphasis>status</emphasis> may be <literal>on</literal> to give an error if a conversion is detected, <literal>warning</literal> to produce a warning if a conversion is detected, or <literal>off</literal> to switch the checks off. The checks may also be controlled using the command line option<literal>-X:</literal><emphasis>test</emphasis><literal>=</literal><emphasis>state</emphasis> <literal></literal>where <emphasis>test</emphasis> is one of <literal>convert_all</literal>, <literal>convert_int</literal>, <literal>convert_int_explicit</literal>, <literal>convert_int_implicit</literal>, <literal>convert_int_ptr</literal> and <literal>convert_ptr</literal> and <emphasis>state</emphasis> is <literal>check</literal>,<literal>warn</literal> or <literal>dont</literal>.
 
 <para>Due to the serious nature of implicit pointer to integer, implicit pointer to pointer conversions and undefined explicit pointer to pointer conversions, such conversions are flagged as errors by default. These conversion checks are not controlled by the global conversion analysis pragma above, but must be controlled by the relevant individual pragmas given in sections -XREF-3.2.2 and -XREF-3.2.3.</para>
 
@@ -446,7 +446,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 <para>Note that only implicit conversions are flagged; if the conversion is made explicit, by using a cast, no errors are raised.</para>
 
 
-<para>As usual <emphasis>status</emphasis> must be replaced by <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> in all the pragmas listed above.</para>
+<para>As usual <emphasis>status</emphasis> must be replaced by <literal>on</literal>, <literal>warning</literal> or <literal>off</literal> in all the pragmas listed above.</para>
 
 <para>The interaction of the integer conversion checks with the integer promotion and arithmetic rules is an extremely complex issue which is further discussed in Chapter 4.</para>
 
@@ -473,7 +473,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA conversion analysis ( int-pointer ) <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <emphasis>status</emphasis> may be <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> as before and <literal>pointer-int/</literal> may be substituted for <literal>int-pointer/</literal>.</para>
+<para>where <emphasis>status</emphasis> may be <literal>on</literal>, <literal>warning</literal> or <literal>off</literal> as before and <literal>pointer-int</literal> may be substituted for <literal>int-pointer</literal>.</para>
 
 </sect2>
 <sect2>
@@ -505,7 +505,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA conversion analysis ( pointer-pointer implicit ) <emphasis>status</emphasis>
 </programlisting>
 
-<para>where, as before, <literal>status/</literal> may be <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+<para>where, as before, <literal>status</literal> may be <literal>on</literal>, <literal>warning</literal> or <literal>off</literal>.</para>
 
 <para>Conversion between a pointer to a function type and a pointer to a non-function type is undefined by the ISO C standard and should generally be avoided. The checker can however be configured to treat function pointers as object pointers for conversion using:</para>
 
@@ -513,7 +513,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA function pointer as pointer <emphasis>permit</emphasis>
 </programlisting>
 
-<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>permit</emphasis> appears in a pragma statement it represents one of <literal>allow/</literal> (allow the construct and do not produce errors), <literal>warning/</literal> (allow the construct but produce warnings when it is detected), or <literal>disallow/</literal> (produce errors if the construct is detected) Here there are three options for <emphasis>permit</emphasis>: <literal>allow/</literal> (do not produce errors or warnings for function pointer &lt;-&gt; pointer conversions); <literal>warning/</literal> (produce a warning when function pointer &lt;-&gt; pointer conversions are detected); or <literal>disallow/</literal> (produce an error for function pointer &lt;-&gt; pointer conversions).</para>
+<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>permit</emphasis> appears in a pragma statement it represents one of <literal>allow</literal> (allow the construct and do not produce errors), <literal>warning</literal> (allow the construct but produce warnings when it is detected), or <literal>disallow</literal> (produce errors if the construct is detected) Here there are three options for <emphasis>permit</emphasis>: <literal>allow</literal> (do not produce errors or warnings for function pointer &lt;-&gt; pointer conversions); <literal>warning</literal> (produce a warning when function pointer &lt;-&gt; pointer conversions are detected); or <literal>disallow</literal> (produce an error for function pointer &lt;-&gt; pointer conversions).</para>
 
 <para>The generic pointer, void *, is a special case. All conversions of pointers to object or incomplete types to or from a generic pointer are allowed. Some older dialects of C used char * as a generic pointer. This dialect feature may be allowed, allowed with a warning, or disallowed using the pragma:</para>
 
@@ -521,7 +521,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA compatible type : char * == void * <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as before.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as before.</para>
 
 </sect2>
 <sect2>
@@ -574,7 +574,7 @@ int f ( n ) int n ; {
 #pragma TenDRA prototype <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal>.</para>
 
 <para>Even if prototypes are not supported the checker has a facility, described below, for detecting incorrectly typed functions.</para>
 
@@ -642,7 +642,7 @@ extern int f ();
 #pragma TenDRA prototype ( weak ) <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> is replaced by <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as appropriate. Weak prototypes are not permitted in the default mode.</para>
+<para>where <literal>permit</literal> is replaced by <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as appropriate. Weak prototypes are not permitted in the default mode.</para>
 
 </listitem>
 <listitem>
@@ -727,9 +727,9 @@ void g () {
 #pragma TenDRA weak prototype analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <literal>status/</literal> is one of <literal>on/</literal>, <literal>warning/</literal> and <literal>off/</literal> as usual. Weak prototype analysis is not performed in the default mode.</para>
+<para>where <literal>status</literal> is one of <literal>on</literal>, <literal>warning</literal> and <literal>off</literal> as usual. Weak prototype analysis is not performed in the default mode.</para>
 
-<para>There is also an equivalent command line option of the form <literal>-X:weak_proto=/</literal> <literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+<para>There is also an equivalent command line option of the form <literal>-X:weak_proto=</literal> <literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>This section ends with two examples which demonstrate some of the less obvious consequences of weak prototype analysis.</para>
 
@@ -852,7 +852,7 @@ typedef const char *PSTRING;
 
 <para>There are similar rules with scanf in place of printf.</parA>
 
-<para>The TenDRA descriptions of the standard APIs use this mechanism to describe those functions, namely printf, fprintf and sprintf, and scanf, fscanf and sscanf which are of these forms. This means that the checks are switched on for these functions by default. However, these descriptions are under the control of a macro, __NO_PRINTF_CHECKS, which, if defined before stdio.h is included, effectively switches the checks off. This macro is defined in the start-up files for certain checking modes, so that the checks are disabled in these modes (see chapter 2). The checks can be enabled in these cases by #undef'ing the macro before including stdio.h. There are equivalent command-line options to tchk of the form <literal>-X:printf=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal> or <literal>dont/</literal>, which respectively undefine and define this macro.</para>
+<para>The TenDRA descriptions of the standard APIs use this mechanism to describe those functions, namely printf, fprintf and sprintf, and scanf, fscanf and sscanf which are of these forms. This means that the checks are switched on for these functions by default. However, these descriptions are under the control of a macro, __NO_PRINTF_CHECKS, which, if defined before stdio.h is included, effectively switches the checks off. This macro is defined in the start-up files for certain checking modes, so that the checks are disabled in these modes (see chapter 2). The checks can be enabled in these cases by #undef'ing the macro before including stdio.h. There are equivalent command-line options to tchk of the form <literal>-X:printf=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal> or <literal>dont</literal>, which respectively undefine and define this macro.</para>
 
 </sect2>
 
@@ -876,9 +876,9 @@ int f ( int c )
 #pragma TenDRA incompatible void return <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> may be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as usual.<para>
+<para>where <emphasis>permit</emphasis> may be <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as usual.<para>
 
-<para>There are also equivalent command line options to tchk of the form <literal>-X:void_ret=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>. Incompatible void returns are allowed in the default mode and of course, plain return statements in functions returning void are always legal.</para>
+<para>There are also equivalent command line options to tchk of the form <literal>-X:void_ret=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>. Incompatible void returns are allowed in the default mode and of course, plain return statements in functions returning void are always legal.</para>
 
 <para>This check also detects functions which do not contain a return statement, but fall out of the bottom of the function as in:</para>
 
@@ -924,9 +924,9 @@ extern int g ();
 #pragma TenDRA implicit function declaration <emphasis>status</emphasis>
 </programlisting>
 
-<para>may be used to determine how tchk handles implicit function declarations. <literal>Status/</literal> is replaced by <literal>on/</literal> to allow implicit declarations, <literal>warning/</literal> to allow implicit declarations but to produce a warning when they occur, or <literal>off/</literal> to prevent implicit declarations and raise an error where they would normally be used.</para>
+<para>may be used to determine how tchk handles implicit function declarations. <literal>Status</literal> is replaced by <literal>on</literal> to allow implicit declarations, <literal>warning</literal> to allow implicit declarations but to produce a warning when they occur, or <literal>off</literal> to prevent implicit declarations and raise an error where they would normally be used.</para>
 
-<para>(There are also equivalent command-line options to tcc of the form <literal>-X:implicit_func=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.)</para>
+<para>(There are also equivalent command-line options to tcc of the form <literal>-X:implicit_func=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.)</para>
 
 <para>This test assumes an added significance in API checking. If a programmer wishes to check that a certain program uses nothing outside the POSIX API, then implicitly declared functions are a potential danger area. A function from outside POSIX could be used without being detected because it has been implicitly declared. Therefore, the detection of implicitly declared functions is vital to rigorous API checking.</para>
 
@@ -974,7 +974,7 @@ extern int g ();
 #pragma TenDRA argument <emphasis>type-name</emphasis> as ...
 </programlisting>
 
-<para>where again <literal>type-name/</literal> is the name of any type.</para>
+<para>where again <literal>type-name</literal> is the name of any type.</para>
 </listitem>
 <listitem>
 <formalpara>
@@ -984,7 +984,7 @@ extern int g ();
 <programlisting>
 #pragma TenDRA extra ... <emphasis>permit</emphasis>
 </programlisting>
-<para>where <literal>permit/</literal> may be <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal> as usual.</para>
+<para>where <literal>permit</literal> may be <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal> as usual.</para>
 </listitem>
 </orderedlist>
 
@@ -1003,9 +1003,9 @@ int f(a)char a;{
 
 <para>An incompatible type error is raised in the default checking mode. The check for incompatible types which arise from mixtures of prototyped and non-prototyped function declarations and definitions is controlled using:</para>
 
-<para><literal>#pragma TenDRA incompatible promoted function argument/</literal> <emphasis>permit</emphasis></para>
+<para><literal>#pragma TenDRA incompatible promoted function argument</literal> <emphasis>permit</emphasis></para>
 
-<para><literal>Permit/</literal> may be replaced by <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as normal. The parameter type in the resulting function type is the promoted parameter type.</para>
+<para><literal>Permit</literal> may be replaced by <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as normal. The parameter type in the resulting function type is the promoted parameter type.</para>
 
 
 </sect2>
@@ -1024,7 +1024,7 @@ int a;
 #pragma TenDRA incompatible type qualifier <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal>.</para>
 
 <para><!-- FM pgf ignored -->
 </para>
@@ -1042,7 +1042,7 @@ int a;
 <sect1>
 <title>Integer promotion rules</title>
 
-<para><literal>The ISO C standard rules/</literal> may be summarised as follows: long integral types promote to themselves; other integral types promote to whichever of int or unsigned int they fit into. In full the promotions are:</para>
+<para><literal>The ISO C standard rules</literal> may be summarised as follows: long integral types promote to themselves; other integral types promote to whichever of int or unsigned int they fit into. In full the promotions are:</para>
 
 
 <itemizedlist>
@@ -1076,10 +1076,10 @@ int a;
 </itemizedlist>
 
 <note>
-<para>Even with these simple built-in types, there is a degree of uncertainty, namely concerning the promotion of unsigned short. On most machines, int is strictly larger than short so the promotion of unsigned short is int. However, it is possible for short and int to have the same size, in which case the promotion is unsigned int. When using the ISO C promotion rules, the checker usually avoids making assumptions about the implementation by treating the promotion of unsigned short as an abstract integral type. If, however, the <literal>-Y32bit/</literal> option is specified, int is assumed to be strictly larger than short, and unsigned short promotes to int.</para>
+<para>Even with these simple built-in types, there is a degree of uncertainty, namely concerning the promotion of unsigned short. On most machines, int is strictly larger than short so the promotion of unsigned short is int. However, it is possible for short and int to have the same size, in which case the promotion is unsigned int. When using the ISO C promotion rules, the checker usually avoids making assumptions about the implementation by treating the promotion of unsigned short as an abstract integral type. If, however, the <literal>-Y32bit</literal> option is specified, int is assumed to be strictly larger than short, and unsigned short promotes to int.</para>
 </note>
 
-<para><literal>The traditional C integer promotion rules/</literal> are often referred to as the signed promotion rules. Under these rules, long integral types promote to themselves, as in ISO C, but the other integral types promote to unsigned int if they are qualified by unsigned, and int otherwise. Thus the signed promotion rules may be represented as follows:</para>
+<para><literal>The traditional C integer promotion rules</literal> are often referred to as the signed promotion rules. Under these rules, long integral types promote to themselves, as in ISO C, but the other integral types promote to unsigned int if they are qualified by unsigned, and int otherwise. Thus the signed promotion rules may be represented as follows:</para>
 
 <itemizedlist>
 <listitem>
@@ -1111,14 +1111,14 @@ int a;
 </listitem>
 </itemizedlist>
 
-<para>The traditional promotion rules are applied in the <literal>Xt/</literal> built-in environment only. All of the other built-in environments specify the ISO C promotion rules. Users may also specify their own rules for integer promotions and minimum integer ranges; the methods for doing this are described in Annex H.</para>
+<para>The traditional promotion rules are applied in the <literal>Xt</literal> built-in environment only. All of the other built-in environments specify the ISO C promotion rules. Users may also specify their own rules for integer promotions and minimum integer ranges; the methods for doing this are described in Annex H.</para>
 
 </sect1>
 
 <sect1>
 <title>Arithmetic operations on integer types</title>
 
-<para><literal>The ISO C standard rules/</literal> for calculating the type of an arithmetic operation involving two integer types is as follows - work out the integer promotions of the types of the two operands, then:</para>
+<para><literal>The ISO C standard rules</literal> for calculating the type of an arithmetic operation involving two integer types is as follows - work out the integer promotions of the types of the two operands, then:</para>
 
 <itemizedlist>
 <listitem>
@@ -1194,7 +1194,7 @@ TYPE ( int, char ) a ;
 <sect2>
 <title>Integer literals</title>
 
-<para><literal>The ISO C rules/</literal> on the type of integer literals are set out as follows. For each class of integer literals a list of types is given. The type of an integer literal is then the first type in the appropriate list which is large enough to contain the value of the integer literal. The class of the integer literal depends on whether it is decimal, hexadecimal or octal, and whether it is qualified by U (or u) or L (or l) or both. The rules may be summarised as follows:</para>
+<para><literal>The ISO C rules</literal> on the type of integer literals are set out as follows. For each class of integer literals a list of types is given. The type of an integer literal is then the first type in the appropriate list which is large enough to contain the value of the integer literal. The class of the integer literal depends on whether it is decimal, hexadecimal or octal, and whether it is qualified by U (or u) or L (or l) or both. The rules may be summarised as follows:</para>
 
 <itemizedlist>
 <listitem>
@@ -1214,7 +1214,7 @@ TYPE ( int, char ) a ;
 </listitem>
 </itemizedlist>
 
-<para>These rules are applied in all the built-in checking modes except <literal>Xt/</literal>. Traditional C does not have the U and L qualifiers, so if the <literal>Xt/</literal> mode is used, these qualifiers are ignored and all integer literals are treated as int, long or unsigned long, depending on the size of the number.</para>
+<para>These rules are applied in all the built-in checking modes except <literal>Xt</literal>. Traditional C does not have the U and L qualifiers, so if the <literal>Xt</literal> mode is used, these qualifiers are ignored and all integer literals are treated as int, long or unsigned long, depending on the size of the number.</para>
 
 <para>If a number fits into the minimal range for the first type of the appropriate list, then it is of that type; otherwise its type is undetermined and is said to be target dependent. The checker treats target dependent types as abstract integral types which may lead to integer conversion problems. For example, in:</para>
 
@@ -1262,25 +1262,25 @@ int main() {
 #pragma TenDRA integer overflow analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <literal>status/</literal> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>, controls a set of checks on arithmetic expressions involving integer constants. These checks cover overflow, use of constants exceeding the minimum guaranteed size for their type and division by zero. They are not enabled in the default mode.</para>
+<para>where <literal>status</literal> is <literal>on</literal>, <literal>warning</literal> or <literal>off</literal>, controls a set of checks on arithmetic expressions involving integer constants. These checks cover overflow, use of constants exceeding the minimum guaranteed size for their type and division by zero. They are not enabled in the default mode.</para>
 
 <para>There are two special cases of integer overflow for which checking is controlled separately:</para>
 
-<para><literal>Bitfield sizes/</literal>. Obviously, the size of a bitfield must be smaller than or equal to the minimum size of its integral type. A bitfield which is too large is flagged as an error in the default mode. The check on bitfield sizes is controlled by:</para>
+<para><literal>Bitfield sizes</literal>. Obviously, the size of a bitfield must be smaller than or equal to the minimum size of its integral type. A bitfield which is too large is flagged as an error in the default mode. The check on bitfield sizes is controlled by:</para>
 
 <programlisting>
 #pragma TenDRA bitfield overflow <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is one of <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is one of <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal>.</para>
 
-<para><literal>Octal and hexadecimal escape sequences/</literal>. According to the ISO C standard, the value of an octal or hexadecimal escape sequence shall be in the range of representable values for the type unsigned char for an integer character constant, or the unsigned type corresponding to wchar_t for a wide character constant. The check on escape sequence sizes is controlled by:</para>
+<para><literal>Octal and hexadecimal escape sequences</literal>. According to the ISO C standard, the value of an octal or hexadecimal escape sequence shall be in the range of representable values for the type unsigned char for an integer character constant, or the unsigned type corresponding to wchar_t for a wide character constant. The check on escape sequence sizes is controlled by:</para>
 
 <programlisting>
 #pragma TenDRA character escape overflow <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal>. The check is switched on by default.</para>
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow</literal>, <literal>warning</literal> and <literal>disallow</literal>. The check is switched on by default.</para>
 
 </sect1>
 
@@ -1293,7 +1293,7 @@ int main() {
 #pragma TenDRA integer operator analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <emphasis>status</emphasis> is replaced by <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>. This pragma enables checks on:</para>
+<para>where <emphasis>status</emphasis> is replaced by <literal>on</literal>, <literal>warning</literal> or <literal>off</literal>. This pragma enables checks on:</para>
 
 <itemizedlist>
 <listitem>
@@ -1326,13 +1326,13 @@ int main() {
 #pragma TenDRA longlong type <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is one of <literal>allow/</literal> (long long type accepted), <literal>disallow/</literal> (errors produced when long long types are detected) or <literal>warning/</literal> (long long type are accepted but a warning is raised).</para>
+<para>where <emphasis>permit</emphasis> is one of <literal>allow</literal> (long long type accepted), <literal>disallow</literal> (errors produced when long long types are detected) or <literal>warning</literal> (long long type are accepted but a warning is raised).</para>
 
 <programlisting>
 #pragma TenDRA set longlong type : type_name
 </programlisting>
 
-<para>where <emphasis>type_name</emphasis> is <literal>long/</literal> or <literal>long long/</literal>.</para>
+<para>where <emphasis>type_name</emphasis> is <literal>long</literal> or <literal>long long</literal>.</para>
 
 <para>The first pragma determines the behaviour of the checker if the type long long is encountered as a type specifier. In the disallow case, an error is raised and the type specifier mapped to long, otherwise the type is stored as long long although a message alerting the user to the use of long long is raised in the warning mode. The second pragma determines the semantics of long long. If the type specified is long long, then long long is treated as a separate integer type and if code generation is enabled, long long types appears in the output. Otherwise the type is mapped to long and all objects declared long long are output as if they had been declared long (a warning is produced when this occurs). In either case, long long is treated as a distinct integer type for the purpose of integer conversion checking.</para>
 
@@ -1402,9 +1402,9 @@ int f ( int n )
 #pragma TenDRA unreachable code <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where permit is replaced by <literal>disallow/</literal> to give an error if unreached code is detected, <literal>warning/</literal> to give a warning, or <literal>allow/</literal> to disable the test (this is the default).</para>
+<para>where permit is replaced by <literal>disallow</literal> to give an error if unreached code is detected, <literal>warning</literal> to give a warning, or <literal>allow</literal> to disable the test (this is the default).</para>
 
-<para>There are also equivalent command-line options to tchk of the form <literal>-X:unreached=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+<para>There are also equivalent command-line options to tchk of the form <literal>-X:unreached=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>Annotations to the code in the form of user-defined keywords may be used to indicate that a certain statement is genuinely reached or unreached. These keywords are introduced using:</para>
 
@@ -1473,9 +1473,9 @@ void f ( int n )
 #pragma TenDRA fall into case <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> is <literal>allow/</literal> (no errors), <literal>warning/</literal> (warn about case fall through) or <literal>disallow/</literal> (raise errors for case fall through).</para>
+<para>where <literal>permit</literal> is <literal>allow</literal> (no errors), <literal>warning</literal> (warn about case fall through) or <literal>disallow</literal> (raise errors for case fall through).</para>
 
-<para>There are also equivalent command-line options to tcc of the form -<literal>X:fall_thru=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+<para>There are also equivalent command-line options to tcc of the form -<literal>X:fall_thru=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>Deliberate case fall throughs can be indicated by means of a keyword, which has been introduced using:</para>
 
@@ -1531,7 +1531,7 @@ var2 = 0 ;
 #pragma TenDRA extra ; after conditional <emphasis>permit</emphasis>
 </programlisting>
 
-<para>with the usual <literal>allow/</literal> (this is the default setting), <literal>warning/</literal> and <literal>disallow/</literal> options for <emphasis>permit</emphasis>.</para>
+<para>with the usual <literal>allow</literal> (this is the default setting), <literal>warning</literal> and <literal>disallow</literal> options for <emphasis>permit</emphasis>.</para>
 
 </sect2>
 <sect2>
@@ -1549,7 +1549,7 @@ var2 = 0 ;
 if( var = 1 ) { ...
 </programlisting>
 
-<para>The options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal>. The default setting allows assignments to be used as control statements without raising an error.</para>
+<para>The options for <emphasis>permit</emphasis> are <literal>allow</literal>, <literal>warning</literal> and <literal>disallow</literal>. The default setting allows assignments to be used as control statements without raising an error.</para>
 
 </sect2>
 <sect2>
@@ -1562,7 +1562,7 @@ if( var = 1 ) { ...
 </programlisting>
 
 
-<para>where permit may be replaced by <literal>disallow/</literal> to give an error when constant control expressions are encountered, <literal>warning/</literal> <emphasis>to replace the error by a warning,</emphasis> <literal>/</literal>or the check may be switched off using the <literal>allow/</literal> (this is the default).</para>
+<para>where permit may be replaced by <literal>disallow</literal> to give an error when constant control expressions are encountered, <literal>warning</literal> <emphasis>to replace the error by a warning,</emphasis> <literal></literal>or the check may be switched off using the <literal>allow</literal> (this is the default).</para>
 
 </sect2>
 </sect1>
@@ -1694,7 +1694,7 @@ else { ...
 #pragma TenDRA operator precedence <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <emphasis>status</emphasis> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+<para>where <emphasis>status</emphasis> is <literal>on</literal>, <literal>warning</literal> or <literal>off</literal>.</para>
 
 </sect1>
 
@@ -1707,9 +1707,9 @@ else { ...
 #pragma TenDRA variable analysis status
 </programlisting>
 
-<parA>where <literal>status/</literal> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> as usual. The checks are switched off in the default mode.</para>
+<parA>where <literal>status</literal> is <literal>on</literal>, <literal>warning</literal> or <literal>off</literal> as usual. The checks are switched off in the default mode.</para>
 
-<para>There are also equivalent command line options to tchk of the form <literal>-X:variable=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+<para>There are also equivalent command line options to tchk of the form <literal>-X:variable=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>The variable analysis is concerned with the evaluation of expressions and the use of local variables, including function arguments. Occasionally it may not be possible to statically perform a full analysis on an expression or variable and in these cases the messages produced indicate that there may be a problem. If a full analysis is possible a definite error or warning is produced. The individual checks are listed in sections 5.6.1 to 5.6.6 and section 5.7 describes the source annotations which can be used to fine-tune the variable analysis.</para>
 
@@ -1732,7 +1732,7 @@ else { ...
 <para>after the first operand of the comma operator;</para>
 </listitem>
 <listitem>
-<para>at the end of any full expression (a full expression may take one of the following forms: an initialiser; the expression in an expression statement; the controlling expression in an <literal>if/</literal>, <literal>while/</literal>, <literal>do/</literal> or <literal>switch/</literal> statement; each of the three optional expressions of a <literal>for/</literal> statement; or the optional expression of a <literal>return/</literal> statement).</para>
+<para>at the end of any full expression (a full expression may take one of the following forms: an initialiser; the expression in an expression statement; the controlling expression in an <literal>if</literal>, <literal>while</literal>, <literal>do</literal> or <literal>switch</literal> statement; each of the three optional expressions of a <literal>for</literal> statement; or the optional expression of a <literal>return</literal> statement).</para>
 </listitem>
 </itemizedlist>
 
@@ -2092,7 +2092,7 @@ int f ( int n )
 #pragma TenDRA discard analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <emphasis>status</emphasis> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+<para>where <emphasis>status</emphasis> is <literal>on</literal>, <literal>warning</literal> or <literal>off</literal>.</para>
 
 <para>In addition, each of the component tests may be switched on and off independently using pragmas of the form:</para>
 
@@ -2102,7 +2102,7 @@ int f ( int n )
 #pragma TenDRA discard analysis (static) <emphasis>status</emphasis>
 </programlisting>
 
-<para>There are also equivalent command line options to tchk of the form <literal>-X:/</literal><literal>test/</literal><literal>=/</literal><literal>state/</literal>, where <literal>test/</literal> can be <literal>discard_all/</literal>, <literal>discard_func_ret/</literal> , <literal>discard_value/</literal> or <literal>unused_static/</literal>, and <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>. These checks are all switched off in the default mode.</para>
+<para>There are also equivalent command line options to tchk of the form <literal>-X:</literal><literal>test</literal><literal>=</literal><literal>state</literal>, where <literal>test</literal> can be <literal>discard_all</literal>, <literal>discard_func_ret</literal> , <literal>discard_value</literal> or <literal>unused_static</literal>, and <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>. These checks are all switched off in the default mode.</para>
 
 <para>Detailed descriptions of the individual checks follow in sections 5.8.1 - 5.8.3. Section 5.9 describes the facilities for fine-tuning the discard analysis.</para>
 
@@ -2217,7 +2217,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA unknown pragma <emphasis>permit</emphasis>
 </programlisting>
 
-<para>The option for <emphasis>permit</emphasis> are <literal>disallow/</literal> (raise an error if an unknown pragma is encountered), <literal>warning/</literal> (allow unknown pragmas with a warning), or <literal>allow/</literal> (allow unknown pragmas without comment).</para>
+<para>The option for <emphasis>permit</emphasis> are <literal>disallow</literal> (raise an error if an unknown pragma is encountered), <literal>warning</literal> (allow unknown pragmas with a warning), or <literal>allow</literal> (allow unknown pragmas without comment).</para>
 
 <para>In addition, the common non-ISO preprocessor directives, #file, #ident, #assert, #unassert and #weak may be permitted using:</para>
 
@@ -2225,7 +2225,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA directive <emphasis>dir</emphasis> allow
 </programlisting>
 
-<para>where <emphasis>dir</emphasis> is the appropriate one of <literal>file/</literal>, <literal>ident/</literal> , <literal>assert/</literal>, <literal>unassert/</literal> or <literal>weak/</literal>. If <literal>allow/</literal> is replaced by <literal>warning/</literal> then the directive is allowed, but a warning is issued. In either case, the modifier <literal>(ignore)/</literal> may be added to indicate that, although the directive is allowed, its effect is ignored. Thus for example:</para>
+<para>where <emphasis>dir</emphasis> is the appropriate one of <literal>file</literal>, <literal>ident</literal> , <literal>assert</literal>, <literal>unassert</literal> or <literal>weak</literal>. If <literal>allow</literal> is replaced by <literal>warning</literal> then the directive is allowed, but a warning is issued. In either case, the modifier <literal>(ignore)</literal> may be added to indicate that, although the directive is allowed, its effect is ignored. Thus for example:</para>
 
 <programlisting>
 #pragma TenDRA directive ident (ignore) allow
@@ -2245,7 +2245,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA unknown directive allow
 </programlisting>
 
-<para><literal>Disallow/</literal> and <literal>warning/</literal> variants are also available.</para>
+<para><literal>Disallow</literal> and <literal>warning</literal> variants are also available.</para>
 
 </sect1>
 <sect1>
@@ -2263,7 +2263,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA indented directive after # <emphasis>permit</emphasis>
 </programlisting>
 
-<para>which detects white space between the # and the directive name. The options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as usual. The default checking profile allows both forms of indented directives.</para>
+<para>which detects white space between the # and the directive name. The options for <emphasis>permit</emphasis> are <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as usual. The default checking profile allows both forms of indented directives.</para>
 
 </sect1>
 
@@ -2284,7 +2284,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA weak macro equality allow
 </programlisting>
 
-<para>where permit is <literal>allow/</literal> (use alternative definition of macro equality),<literal>warning/</literal> (as for allow but raise a warning), or <literal>disallow/</literal> (use the ISO C definition of macro equality - this is the default setting).</para>
+<para>where permit is <literal>allow</literal> (use alternative definition of macro equality),<literal>warning</literal> (as for allow but raise a warning), or <literal>disallow</literal> (use the ISO C definition of macro equality - this is the default setting).</para>
 
 <para>More generally, the pragma:</para>
 
@@ -2292,7 +2292,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA extra macro definition allow
 </programlisting>
 
-<para>allows macros to be redefined, both consistently and inconsistently. If the definitions are incompatible, the first definition is overwritten. This pragma has a <literal>disallow/</literal> variant, which resets the check to its default mode.</para>
+<para>allows macros to be redefined, both consistently and inconsistently. If the definitions are incompatible, the first definition is overwritten. This pragma has a <literal>disallow</literal> variant, which resets the check to its default mode.</para>
 
 </sect1>
 
@@ -2305,7 +2305,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA directive as macro argument <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 <para>The ISO C standard, section 6.8.3.2, also states that each # preprocessing token in the replacement list for a function-like macro shall be followed by a parameter as the next preprocessing token in the replacement list. By default, if tchk encounters a # in a function-like macro replacement list which is not followed by a parameter of the macro an error is raised. The checker's behaviour in this situation is controlled by:</para>
 
@@ -2313,7 +2313,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA no ident after # <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal> (do not raise errors), <literal>disallow/</literal> (default mode) and <literal>warning/</literal> (raise warnings instead of errors).</para>
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow</literal> (do not raise errors), <literal>disallow</literal> (default mode) and <literal>warning</literal> (raise warnings instead of errors).</para>
 
 </sect1>
 
@@ -2332,7 +2332,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA unmatched quote <emphasis>permit</emphasis>
 </programlisting>
 
-<para><emphasis>The usual</emphasis> <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal> options are available.</para>
+<para><emphasis>The usual</emphasis> <literal>allow</literal>, <literal>warning</literal> and <literal>disallow</literal> options are available.</para>
 
 </sect1>
 
@@ -2345,7 +2345,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA includes depth n
 </programlisting>
 
-<para>where <literal>n/</literal> can be any positive integral constant.</para>
+<para>where <literal>n</literal> can be any positive integral constant.</para>
 
 
 </sect1>
@@ -2359,7 +2359,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA text after directive <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal> (no errors are raised and any text on the same line as the #endif or #else statement is ignored), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal> (no errors are raised and any text on the same line as the #endif or #else statement is ignored), <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 </sect1>
 
@@ -2372,7 +2372,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA no directive/nline after ident <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> may be <literal>allow, disallow/</literal> or <literal>warning/</literal>.</para>
+<para>where <emphasis>permit</emphasis> may be <literal>allow, disallow</literal> or <literal>warning</literal>.</para>
 
 </sect1>
 
@@ -2385,7 +2385,7 @@ IGNORE puts ( "hello" );
 #pragma TenDRA no nline after file end <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> has the usual <literal>allow/</literal><emphasis>,</emphasis><literal>disallow/</literal> and <literal>warning/</literal> options.</para>
+<para>where <emphasis>permit</emphasis> has the usual <literal>allow</literal><emphasis>,</emphasis><literal>disallow</literal> and <literal>warning</literal> options.</para>
 
 </sect1>
 
@@ -2424,7 +2424,7 @@ extern int g ();
 #pragma TenDRA unify external linkage on
 </programlisting>
 
-<para>modifies the algorithm for resolving external linkage by searching the external namespace before inferring a declaration. In the example above, this results in the second use of g being resolved to the previous external declaration. The <literal>on/</literal> can be replaced by <literal>warning/</literal> to give a warning when such resolutions are detected, or <literal>off/</literal> to switch this feature off.</para>
+<para>modifies the algorithm for resolving external linkage by searching the external namespace before inferring a declaration. In the example above, this results in the second use of g being resolved to the previous external declaration. The <literal>on</literal> can be replaced by <literal>warning</literal> to give a warning when such resolutions are detected, or <literal>off</literal> to switch this feature off.</para>
 
 <para>Another linkage problem, which is left undefined in the ISO C standard, is illustrated by the following program:</para>
 
@@ -2446,23 +2446,23 @@ static int g ()
 #pragma TenDRA linkage resolution : <emphasis>action</emphasis>
 </programlisting>
 
-<para>where <literal>action/</literal> can be one of:</para>
+<para>where <literal>action</literal> can be one of:</para>
 
 <orderedlist>
 <listitem>
-<para><literal>(internal) on/</literal></para>
+<para><literal>(internal) on</literal></para>
 </listitem>
 <listitem>
-<para><literal>(internal) warning/</literal></para>
+<para><literal>(internal) warning</literal></para>
 </listitem>
 <listitem>
-<para><literal>(external) on/</literal></para>
+<para><literal>(external) on</literal></para>
 </listitem>
 <listitem>
-<para><literal>(external) warning/</literal></para>
+<para><literal>(external) warning</literal></para>
 </listitem>
 <listitem>
-<para><literal>off/</literal></para>
+<para><literal>off</literal></para>
 </listitem>
 </orderedlist>
 
@@ -2479,7 +2479,7 @@ static int g ()
 <programlisting>
 #pragma TenDRA incompatible linkage <emphasis>permit</emphasis>
 </programlisting>
-<para>where <emphasis>permit</emphasis> <literal>/</literal><emphasis>may be</emphasis> <literal>allow/</literal> (default mode), <literal>warning/</literal> (warn about incompatible linkage) or <literal>disallow/</literal> (raise errors for redeclarations with incompatible linkage).</para>
+<para>where <emphasis>permit</emphasis> <literal></literal><emphasis>may be</emphasis> <literal>allow</literal> (default mode), <literal>warning</literal> (warn about incompatible linkage) or <literal>disallow</literal> (raise errors for redeclarations with incompatible linkage).</para>
 
 </sect1>
 
@@ -2504,7 +2504,7 @@ int a, b;
 #pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 <para>A more common feature, allowed by the ISO C standard, but considered bad style by some, is the inference of an int return type for functions defined in the form:</para>
 
@@ -2520,7 +2520,7 @@ f ( int n ) {
 #pragma TenDRA implicit int type for function return <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> can be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <literal>permit</literal> can be <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 
 </sect1>
@@ -2534,7 +2534,7 @@ f ( int n ) {
 #pragma TenDRA extra int bitfield type <emphasis>permit</emphasis>
 </programlisting>
 
-<para><literal>Permit/</literal> is one of <literal>allow/</literal> (no errors raised), <literal>warning/</literal> (allow non-int bitfields through with a warning) or <literal>disallow/</literal> (raise errors for non-int bitfields).</para>
+<para><literal>Permit</literal> is one of <literal>allow</literal> (no errors raised), <literal>warning</literal> (allow non-int bitfields through with a warning) or <literal>disallow</literal> (raise errors for non-int bitfields).</para>
 
 <para>If non-int bitfields are allowed, the bitfield is treated as if it had been declared with an int type of the same signedness as the given type. The use of the type char as a bitfield type still generally causes an error, since whether a plain char is treated as signed or unsigned is implementation-dependent. The pragma:</para>
 
@@ -2543,7 +2543,7 @@ f ( int n ) {
 
 </programlisting>
 
-<para>where <literal>set-sign/</literal> is <literal>signed/</literal>, <literal>unsigned/</literal> or <literal>either/</literal>, can be used to specify the signedness of a plain char bitfield. If <emphasis>set-sign</emphasis> is <literal>signed/</literal> or <literal>unsigned/</literal>, the bitfield is treated as though it were declared signed char or unsigned char respectively. If <emphasis>set-sign</emphasis> is <literal>either/</literal>, the sign of the bitfield is target-dependent and the use of a plain char bitfield causes an error.</para>
+<para>where <literal>set-sign</literal> is <literal>signed</literal>, <literal>unsigned</literal> or <literal>either</literal>, can be used to specify the signedness of a plain char bitfield. If <emphasis>set-sign</emphasis> is <literal>signed</literal> or <literal>unsigned</literal>, the bitfield is treated as though it were declared signed char or unsigned char respectively. If <emphasis>set-sign</emphasis> is <literal>either</literal>, the sign of the bitfield is target-dependent and the use of a plain char bitfield causes an error.</para>
 
 </sect1>
     
@@ -2556,7 +2556,7 @@ f ( int n ) {
 #pragma TenDRA extra type definition <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> is <literal>allow/</literal> (silently accepts redefinitions, provided they are consistent), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <literal>permit</literal> is <literal>allow</literal> (silently accepts redefinitions, provided they are consistent), <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 </sect1>
     
@@ -2569,7 +2569,7 @@ f ( int n ) {
 #pragma TenDRA block function static <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> is <literal>allow/</literal> (accept block scope function declarations with other storage-class specifiers), <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+<para>where <literal>permit</literal> is <literal>allow</literal> (accept block scope function declarations with other storage-class specifiers), <literal>disallow</literal> or <literal>warning</literal>.</para>
 
 </sect1>
     
@@ -2582,7 +2582,7 @@ f ( int n ) {
 #pragma TenDRA incomplete type as object type <emphasis>permit</emphasis>
 </programlisting>
 
-<para>can be used to alter the treatment of array declarations with incomplete element types. <emphasis>Permit</emphasis> is one of <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal> as usual.</para>
+<para>can be used to alter the treatment of array declarations with incomplete element types. <emphasis>Permit</emphasis> is one of <literal>allow</literal>, <literal>disallow</literal> or <literal>warning</literal> as usual.</para>
 
 </sect1>
     
@@ -2595,7 +2595,7 @@ f ( int n ) {
 #pragma TenDRA forward enum declaration <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where replacing <literal>permit/</literal> by <literal>allow/</literal> permits the declaration and use of an enumeration tag before the declaration of its associated enumeration constants. A <literal>disallow/</literal> variant which restores the default behaviour is also available.</para>
+<para>where replacing <literal>permit</literal> by <literal>allow</literal> permits the declaration and use of an enumeration tag before the declaration of its associated enumeration constants. A <literal>disallow</literal> variant which restores the default behaviour is also available.</para>
 
 </sect1>
     
@@ -2608,13 +2608,13 @@ f ( int n ) {
 #pragma TenDRA unknown struct/union <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> may be <literal>allow/</literal> to allows code such as:</para>
+<para>where <literal>permit</literal> may be <literal>allow</literal> to allows code such as:</para>
 
 <programlisting>
 struct {int i; int j;};
 </programlisting>
 
-<para>through without errors (statements such as this occur in some system headers) or <literal>disallow/</literal> to restore the default behaviour.</para>
+<para>through without errors (statements such as this occur in some system headers) or <literal>disallow</literal> to restore the default behaviour.</para>
 
 </sect1>
     
@@ -2665,7 +2665,7 @@ int main() {
 #pragma TenDRA ident ... <emphasis>permit</emphasis>
 </programlisting>
 
-<para>If <literal>permit/</literal> is replaced by <literal>allow/</literal> the ellipsis is ignored, if <literal>warning/</literal> is used tchk produces a warning and if <literal>disallow/</literal> is used the default behaviour is restored.</para>
+<para>If <literal>permit</literal> is replaced by <literal>allow</literal> the ellipsis is ignored, if <literal>warning</literal> is used tchk produces a warning and if <literal>disallow</literal> is used the default behaviour is restored.</para>
 
 </sect1>
     
@@ -2694,7 +2694,7 @@ void f (int n,struct s *s1,struct s *s2) {
 <para>Both options of the conditional are lvalues.</para>
 
 <note>
-<para>there is also a <literal>disallow/</literal> variant, but <literal>warning/</literal> is not permitted in this case.</para>
+<para>there is also a <literal>disallow</literal> variant, but <literal>warning</literal> is not permitted in this case.</para>
 </note>
 
 </sect1>
@@ -2708,7 +2708,7 @@ void f (int n,struct s *s1,struct s *s2) {
 #pragma TenDRA ignore struct/union/enum tag <emphasis>status</emphasis>
 </programlisting>
 
-<para>may be used to change the severity of the error. The options for <emphasis>status</emphasis> are: <literal>on/</literal> (allows a tag to be used with any of the three classifications, the correct classification being inferred from the type definition), <literal>warning/</literal> or <literal>off/</literal>.</para>
+<para>may be used to change the severity of the error. The options for <emphasis>status</emphasis> are: <literal>on</literal> (allows a tag to be used with any of the three classifications, the correct classification being inferred from the type definition), <literal>warning</literal> or <literal>off</literal>.</para>
 
 </sect1>
     
@@ -2732,7 +2732,7 @@ void f () {
 #pragma TenDRA initialization of struct/union (auto) <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <literal>permit/</literal> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>. This feature is particularly useful when developing a program which is intended to be compiled with a compiler which does not support automatic compound initialisations.</para>
+<para>where <literal>permit</literal> is <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>. This feature is particularly useful when developing a program which is intended to be compiled with a compiler which does not support automatic compound initialisations.</para>
 
 </sect1>
     
@@ -2745,7 +2745,7 @@ void f () {
 #pragma TenDRA variable initialization <emphasis>permit</emphasis>
 </programlisting>
 
-<para>may be used to allow non-constant initialisers if <emphasis>permit</emphasis> is replaced by <literal>allow/</literal>. The other option for <emphasis>permit</emphasis> is <literal>disallow/</literal> which restores the default behaviour of flagging non-constant initialisers for objects of static storage duration as errors.</para>
+<para>may be used to allow non-constant initialisers if <emphasis>permit</emphasis> is replaced by <literal>allow</literal>. The other option for <emphasis>permit</emphasis> is <literal>disallow</literal> which restores the default behaviour of flagging non-constant initialisers for objects of static storage duration as errors.</para>
 
 </sect1>
     
@@ -2758,7 +2758,7 @@ void f () {
 #pragma TenDRA unknown escape <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> is <literal>allow/</literal> (silently replaces the unknown escape sequence, \z say, by z), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <emphasis>permit</emphasis> is <literal>allow</literal> (silently replaces the unknown escape sequence, \z say, by z), <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 </sect1>
     
@@ -2771,7 +2771,7 @@ void f () {
 #pragma TenDRA dollar as ident allow
 </programlisting>
 
-<para>can be used to allow such identifiers, which by default are flagged as errors. There is also a <literal>disallow/</literal> variant which restores the default behaviour.</para>
+<para>can be used to allow such identifiers, which by default are flagged as errors. There is also a <literal>disallow</literal> variant which restores the default behaviour.</para>
 
 
 </sect1>
@@ -2797,7 +2797,7 @@ void f () {
 #pragma TenDRA writeable string literal <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> may be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where <emphasis>permit</emphasis> may be <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 </sect1>
     
@@ -2810,7 +2810,7 @@ void f () {
 #pragma TenDRA unify incompatible string literal <emphasis>permit</emphasis>
 </programlisting>
 
-<para>is used, with <emphasis>permit</emphasis> set to <literal>allow/</literal> or <literal>warning/</literal> the character string literal is converted to a wide character string literal and the strings are concatenated, although in the <literal>warning/</literal> case a warning is output. <emphasis>The</emphasis> <literal>disallow/</literal> version of the pragma restores the default behaviour.</para>
+<para>is used, with <emphasis>permit</emphasis> set to <literal>allow</literal> or <literal>warning</literal> the character string literal is converted to a wide character string literal and the strings are concatenated, although in the <literal>warning</literal> case a warning is output. <emphasis>The</emphasis> <literal>disallow</literal> version of the pragma restores the default behaviour.</para>
 
 </sect1>
     
@@ -2823,7 +2823,7 @@ void f () {
 #pragma TenDRA nested comment analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>with <emphasis>status</emphasis> as <literal>on/</literal> or <literal>warning/</literal>. If <emphasis>status</emphasis> is <literal>off/</literal> the default behaviour is restored.</para>
+<para>with <emphasis>status</emphasis> as <literal>on</literal> or <literal>warning</literal>. If <emphasis>status</emphasis> is <literal>off</literal> the default behaviour is restored.</para>
 
 
 </sect1>
@@ -2837,7 +2837,7 @@ void f () {
 #pragma TenDRA no external declaration <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where the options for <literal>permit/</literal> are <literal>allow/</literal> (no errors raised), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+<para>where the options for <literal>permit</literal> are <literal>allow</literal> (no errors raised), <literal>warning</literal> or <literal>disallow</literal>.</para>
 
 </sect1>
     
@@ -2856,7 +2856,7 @@ enum e = {red, orange, yellow,};
 #pragma TenDRA extra , <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> has the usual <literal>allow/</literal><emphasis>,</emphasis><literal>disallow/</literal> and <literal>warning/</literal> options.</para>
+<para>where <emphasis>permit</emphasis> has the usual <literal>allow</literal><emphasis>,</emphasis><literal>disallow</literal> and <literal>warning</literal> options.</para>
 
 </sect1>
     
@@ -2877,7 +2877,7 @@ int f () {
 #pragma TenDRA extra ; <emphasis>permit</emphasis>
 </programlisting>
 
-<para>with <emphasis>permit</emphasis> as <literal>warning/</literal> or <literal>allow/</literal>. The <literal>disallow/</literal> option restores the default behaviour.</para>
+<para>with <emphasis>permit</emphasis> as <literal>warning</literal> or <literal>allow</literal>. The <literal>disallow</literal> option restores the default behaviour.</para>
 
 </sect1>
     
@@ -2910,7 +2910,7 @@ int f () {
 #pragma TenDRA enum switch analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <emphasis>status</emphasis> is <literal>on/</literal> (raise an error), <literal>warning/</literal> (produce a warning), or <literal>off/</literal> (the default mode when no errors are produced).</para>
+<para>where <emphasis>status</emphasis> is <literal>on</literal> (raise an error), <literal>warning</literal> (produce a warning), or <literal>off</literal> (the default mode when no errors are produced).</para>
 
 </sect1>
 
@@ -2929,9 +2929,9 @@ struct tag *p;
 #pragma TenDRA complete struct/union analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>where <literal>status/</literal> is <literal>on/</literal> to give an error as an incomplete structure or union is detected, <literal>warning/</literal> to give a warning, or <literal>off/</literal> to disable the check.</para>
+<para>where <literal>status</literal> is <literal>on</literal> to give an error as an incomplete structure or union is detected, <literal>warning</literal> to give a warning, or <literal>off</literal> to disable the check.</para>
 
-<para>The check can also be controlled by passing the command-line option <literal>-X:complete_struct=/</literal><literal>state/</literal> to tchk, where <literal>state/</literal> is <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+<para>The check can also be controlled by passing the command-line option <literal>-X:complete_struct=</literal><literal>state</literal> to tchk, where <literal>state</literal> is <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>The only place where the checker can actually detect that a structure or union is incomplete is at the end of the source file. This is because it is possible to complete a structure after it has been used. For example, in:</para>
 
@@ -2957,7 +2957,7 @@ struct tag {
 #pragma TenDRA variable hiding analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>If <emphasis>status</emphasis> is <literal>on/</literal> an error is raised when a local variable that shadows another variable is declared, if <literal>warning/</literal> is used the error is replaced by a warning and the <literal>off/</literal> option restores the default behaviour (shadowing is permitted and no errors are produced).</para>
+<para>If <emphasis>status</emphasis> is <literal>on</literal> an error is raised when a local variable that shadows another variable is declared, if <literal>warning</literal> is used the error is replaced by a warning and the <literal>off</literal> option restores the default behaviour (shadowing is permitted and no errors are produced).</para>
 
 </sect1>
 
@@ -2970,7 +2970,7 @@ struct tag {
 #pragma TenDRA floating equality <emphasis>permit</emphasis>
 </programlisting>
 
-<para><emphasis>where</emphasis> <literal>/</literal><emphasis>permit</emphasis> <literal>/</literal><emphasis>is</emphasis><literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>. By default the check is switched off.</para>
+<para><emphasis>where</emphasis> <literal></literal><emphasis>permit</emphasis> <literal></literal><emphasis>is</emphasis><literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>. By default the check is switched off.</para>
 
 </sect1>
 </chapter>
@@ -2980,7 +2980,7 @@ struct tag {
 
 <para>Tchk produces an extra output file, called a dump output file, for each translation unit processed. This file is in the form given by the symbol table output specification in Annex E, and contains information about the objects declared, defined or used within an application. Each object encountered during processing is assigned a unique reference number allowing uses of the object to be traced back to the declaration and definition of the object.</para>
 
-<para>In the default mode only external declaration and definition information is written to each dump file. The amount of information output may be increased by passing the <literal>-sym[cehklsu]/</literal> command line option to tchk. Any combination of the optional flags enclosed by [] may be used and the effect of each flag is described below:</para>
+<para>In the default mode only external declaration and definition information is written to each dump file. The amount of information output may be increased by passing the <literal>-sym[cehklsu]</literal> command line option to tchk. Any combination of the optional flags enclosed by [] may be used and the effect of each flag is described below:</para>
 
 <itemizedlist>
 <listitem>
@@ -3017,14 +3017,14 @@ struct tag {
 <sect1>
 <title>Unused headers</title>
 
-<para>Header files which are included but from which nothing is used within the other source files comprising the translation unit, might just as well not have been included. Tchk can detect top level include files which are unnecessary, by analysing the dump output for the file. This check is enabled by passing the <literal>-Wd,-H/</literal> command line flag to tchk. Errors are written to stderr in a simple ascii form by default, or to the unified dump file in dump format if the <literal>-D/</literal> command line option is used.</para>
+<para>Header files which are included but from which nothing is used within the other source files comprising the translation unit, might just as well not have been included. Tchk can detect top level include files which are unnecessary, by analysing the dump output for the file. This check is enabled by passing the <literal>-Wd,-H</literal> command line flag to tchk. Errors are written to stderr in a simple ascii form by default, or to the unified dump file in dump format if the <literal>-D</literal> command line option is used.</para>
 
 </sect1>
 
 <sect1>
 <title>Error processing</title>
 
-<para>By default the error messages generated by the checker are written in a simple ascii form to stderr. If instead, the errors are written to the dump file using the <literal>-sym:e/</literal> option mentioned above, an alternative lint-like error output may be generated by processing the dump files. The lint-like errors are enabled by passing the <literal>-Ycompact/</literal> flag to tchk.</para>
+<para>By default the error messages generated by the checker are written in a simple ascii form to stderr. If instead, the errors are written to the dump file using the <literal>-sym:e</literal> option mentioned above, an alternative lint-like error output may be generated by processing the dump files. The lint-like errors are enabled by passing the <literal>-Ycompact</literal> flag to tchk.</para>
 
 
 </sect1>
@@ -3032,7 +3032,7 @@ struct tag {
 <sect1>
 <title>API usage analysis</title>
 
-<para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check/</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out/</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.<para>
+<para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.<para>
 
 
 </sect1>
@@ -3502,7 +3502,7 @@ return ( 0 );
 
 <para>These modes modify the base environment.</para>
 
-<para>The <literal>nepc/</literal> environment switches off most of the extra portability checking. It is specified by passing the -nepc option to tcc.</para>
+<para>The <literal>nepc</literal> environment switches off most of the extra portability checking. It is specified by passing the -nepc option to tcc.</para>
 
 <para>Printf String Checking OFF</para>
 
@@ -3518,7 +3518,7 @@ return ( 0 );
 #pragma TenDRA bitfield overflow allow
 </programlisting>
 
-<para>The <literal>not_ansi/</literal> environment provides support for a range of non-ansi dialect features. It is specified by passing the -not_ansi option to tcc.</para>
+<para>The <literal>not_ansi</literal> environment provides support for a range of non-ansi dialect features. It is specified by passing the -not_ansi option to tcc.</para>
 
 <para>Pragma Profile:</para>
 <programlisting>
