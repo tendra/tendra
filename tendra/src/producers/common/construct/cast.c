@@ -1589,7 +1589,11 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		    break;
 		}
 		case type_ptr_tag : {
-		    e = cast_ptr_ptr (t, a, err, cast, 0, 0);
+			if (is_npc_exp (a)) {
+				e = make_null_exp (t);
+			} else {
+				e = cast_ptr_ptr (t, a, err, cast, 0, 0);
+			}
 		    break;
 		}
 	    }

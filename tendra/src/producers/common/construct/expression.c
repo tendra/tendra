@@ -1671,8 +1671,20 @@ make_equality_exp(int op, EXP a, EXP b)
 		return (e);
     }
 	
-    /* ... or both pointers ... */
+    /* ... or one is a null pointer constant and one is a pointer ... */
+    if (is_npc_exp (a) && IS_TYPE_PTR (cb)) {
+		a = make_null_ptr (NULL_exp, tb);
+		MAKE_exp_compare (type_bool, tst, a, b, e);
+		return (e);
+    }
     if (IS_TYPE_PTR (ca)) {
+		/* ... or the other way round ... */
+		if (is_npc_exp (b)) {
+			b = make_null_ptr (NULL_exp, ta);
+			MAKE_exp_compare (type_bool, tst, b, a, e);
+			return (e);
+		}
+		/* ... or both pointers ... */
 		if (IS_TYPE_PTR (cb)) {
 			int suspect = 0;
 			TYPE t = ptr_common_type (ta, tb, 1, &suspect);
@@ -1699,23 +1711,15 @@ make_equality_exp(int op, EXP a, EXP b)
 			return (e);
 		}
 		if (IS_TYPE_INT (cb)) {
-			/* Allow zero integer as a null pointer */
-			b = make_null_ptr (b, ta);
-			if (IS_NULL_exp (b)) {
-				report (crt_loc, ERR_expr_eq_nonzero (op, ta, tb));
-				b = make_null_ptr (NULL_exp, ta);
-			}
+			report (crt_loc, ERR_expr_eq_nonzero (op, ta, tb));
+			b = make_null_ptr (NULL_exp, ta);
 			MAKE_exp_compare (type_bool, tst, a, b, e);
 			return (e);
 		}
     } else if (IS_TYPE_PTR (cb)) {
 		if (IS_TYPE_INT (ca)) {
-			/* Allow zero integer as a null pointer */
-			a = make_null_ptr (a, tb);
-			if (IS_NULL_exp (a)) {
-				report (crt_loc, ERR_expr_eq_nonzero (op, tb, ta));
-				a = make_null_ptr (NULL_exp, tb);
-			}
+			report (crt_loc, ERR_expr_eq_nonzero (op, tb, ta));
+			a = make_null_ptr (NULL_exp, tb);
 			MAKE_exp_compare (type_bool, tst, b, a, e);
 			return (e);
 		}
@@ -2231,8 +2235,20 @@ make_cond_exp(EXP a, EXP b, EXP c)
 		goto return_lab;
     }
 	
-    /* ... or both pointers ... */
+    /* ... or one is a null pointer constant and one is a pointer ... */
+    if (is_npc_exp (b) && IS_TYPE_PTR (cc)) {
+		t = tc;
+		b = make_null_ptr (b, t);
+		goto return_lab;
+	}
     if (IS_TYPE_PTR (cb)) {
+		/* ... or the other way round ... */
+		if (is_npc_exp (c)) {
+			t = tb;
+			c = make_null_ptr (c, t);
+			goto return_lab;
+		}
+		/* ... or both pointers ... */
 		if (IS_TYPE_PTR (cc)) {
 			int suspect = 0;
 			t = ptr_common_type (tb, tc, 1, &suspect);
@@ -2254,24 +2270,16 @@ make_cond_exp(EXP a, EXP b, EXP c)
 			goto return_lab;
 		}
 		if (IS_TYPE_INT (cc)) {
-			/* Allow zero integer as a null pointer */
 			t = tb;
-			c = make_null_ptr (c, t);
-			if (IS_NULL_exp (c)) {
-				report (crt_loc, ERR_expr_cond_nonzero (tb, tc));
-				c = make_null_ptr (NULL_exp, t);
-			}
+			report (crt_loc, ERR_expr_cond_nonzero (tb, tc));
+			c = make_null_ptr (NULL_exp, t);
 			goto return_lab;
 		}
     } else if (IS_TYPE_PTR (cc)) {
 		if (IS_TYPE_INT (cb)) {
-			/* Allow zero integer as a null pointer */
 			t = tc;
-			b = make_null_ptr (b, t);
-			if (IS_NULL_exp (b)) {
-				report (crt_loc, ERR_expr_cond_nonzero (tc, tb));
-				b = make_null_ptr (NULL_exp, t);
-			}
+			report (crt_loc, ERR_expr_cond_nonzero (tc, tb));
+			b = make_null_ptr (NULL_exp, t);
 			goto return_lab;
 		}
     }
