@@ -5,15 +5,12 @@
 
 /* Binaries */
 
-+BIN_AS		"-BIN_AS-"
 +BIN_LD		"-BIN_LD-"
-+BIN_CC		"-BIN_CC-"
 
 
 /* Libraries */
 
-+LIB_CRT0	"-LIB_CRT0-"
-+LIB_GCRT0	"-LIB_GCRT0-"
++LIB_MCRT0	"-LIB_MCRT0-"
 
 
 +MACHINE		"hpux-*-hppa"
