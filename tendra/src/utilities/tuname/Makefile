@@ -29,4 +29,4 @@ extra:
 	@${ECHO} done
 
 clean:
-	${REMOVE} core ${NAME}
+	${REMOVE} ${NAME}.core core ${NAME}
