@@ -24,10 +24,42 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stddef.h", "null";
++IMPLEMENT "ansi", "stddef.h", "size_t";
++IMPLEMENT "ansi", "stddef.h", "wchar_t";
+
+# 7.20
+
++FIELD (struct) div_t { int quot, rem; };
++FIELD (struct) ldiv_t { long int quot, rem; };
++FIELD (struct) lldiv_t { long long int quot, rem; };
++CONST int EXIT_FAILURE, EXIT_SUCCESS;
++CONST int RAND_MAX;
++EXP size_t MB_CUR_MAX;
 
 # 7.20.1.1
 
 +FUNC double atof(const char *);
+
+# 7.20.1.2
+
++FUNC int atoi(const char *);
++FUNC long int atol(const char *);
++FUNC long long int atoll(const char *);
+
+# 7.20.1.3
+
++FUNC double strtod(const char * restrict, char ** restrict);
++FUNC float strtof(const char * restrict, char ** restrict);
++FUNC long double strtold(const char * restrict, char ** restrict);
+
+# 7.20.1.4
+
++FUNC long int strtol(const char * restrict, char ** restrict, int);
++FUNC long long int strtoll(const char * restrict, char ** restrict, int);
++FUNC unsigned long int strtoul(const char * restrict, char ** restrict, int);
++FUNC unsigned long long int strtoull(const char * restrict, char ** restrict,
+				      int);
 
 # 7.20.2.1
 
@@ -37,9 +69,21 @@
 
 +FUNC void srand(unsigned int);
 
+# 7.20.3.1
+
++FUNC void *calloc(size_t, size_t);
+
 # 7.20.3.2
 
 +FUNC void free(void *);
+
+# 7.20.3.3
+
++FUNC void *malloc(size_t);
+
+# 7.20.3.4
+
++FUNC void *realloc(void *, size_t);
 
 # 7.20.4.1
 
@@ -64,3 +108,44 @@
 # 7.20.4.6
 
 +FUNC int system(const char *);
+
+# 7.20.5.1
+
++FUNC void *bsearch(const void *, const void *, size_t, size_t,
+		    int (*)(const void *, const void *));
+
+# 7.20.5.2
+
++FUNC void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
+
+# 7.20.6.1
+
++FUNC int abs(int);
++FUNC long int labs(long int);
++FUNC long long int llabs(long long int);
+
+# 7.20.6.2
+
++FUNC div_t div(int, int);
++FUNC ldiv_t ldiv(long int, long int);
++FUNC lldiv_t lldiv(long long int, long long int);
+
+# 7.20.7.1
+
++FUNC int mblen(const char *, size_t);
+
+# 7.20.7.2
+
++FUNC int mbtowc(wchar_t * restrict, const char * restrict, size_t);
+
+# 7.20.7.3
+
++FUNC int wctomb(char *, wchar_t);
+
+# 7.20.8.1
+
++FUNC size_t mbstowcs(wchar_t * restrict, const char * restrict, size_t);
+
+# 7.20.8.2
+
++FUNC size_t wcstombs(char * restrict, const wchar_t * restrict, size_t);
