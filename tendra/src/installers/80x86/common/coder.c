@@ -1927,7 +1927,7 @@ coder(where dest, ash stack, exp e)
 	      }
 	      else
 	      if (callee_size == 0)
-		outs (" movl %esp %edx\n");
+		outs (" movl %esp,%edx\n");
 	      else {
 		outs (" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
 		outs (" movl %edx,%esp\n");
