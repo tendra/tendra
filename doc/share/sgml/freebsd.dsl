@@ -86,6 +86,8 @@
                 (normalize "authorgroup")
                 (normalize "author")
                 (normalize "editor")
+                (normalize "edition")
+                (normalize "pubdate")
                 (normalize "copyright")
                 (normalize "abstract")
                 (normalize "legalnotice")
