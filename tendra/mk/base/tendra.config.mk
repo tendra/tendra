@@ -12,13 +12,6 @@ HAVE_CONFIG_MK=1
 
 BUILD_TARGETS=	freebsd cygwin32 linux darwin
 
-reconfig:
-.if exists (${SRC_DIR}/config.mk)
-	cp ${SRC_DIR}/config.mk ${SRC_DIR}/backup.config.mk
-	rm ${SRC_DIR}/config.mk
-	${MAKE} ${BUILD_OS}
-.endif
-
 config-check:
 .if exists (${SRC_DIR}/config.mk)
 HAVE_CONF=	yes
