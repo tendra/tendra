@@ -1093,8 +1093,8 @@ c_output_definition_1(COutputInfoP info, RuleP rule,
 	rstack_destroy (&non_local_stack);
 	if (split != 0) {
 		if (ostream_line (ostream) >= split) {
-			CStringP     name    = ostream_gen_name (ostream);
-			CCodeP       header  = c_out_info_get_header1 (info);
+			const char *name  = ostream_gen_name (ostream);
+			CCodeP     header = c_out_info_get_header1 (info);
 			write_cstring (ostream, "/* END OF FILE */");
 			write_newline (ostream);
 			ostream_close (ostream);
