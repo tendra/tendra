@@ -493,7 +493,7 @@ unknown_procedure_identifier(char: a, char: b)
 interpreting(ccp: cmd)
 {
 	USAGE: ERROR /* OPTION */
-	KEY(STD) "Interpreting '%s'"
+	KEY(STD) "Interpreting '" cmd "'"
 }
 
 exceeded_maximum_buffer_length_in_y_argument()
@@ -523,7 +523,7 @@ list_of_recognised_options()
 X_error(ccp: cmd)
 {
 	USAGE: WARNING
-	KEY(STD) "%s"
+	KEY(STD) cmd
 }
 
 syntax_error(ccp: cmd)
