@@ -1332,7 +1332,7 @@ selection-statement : () -> ( e : EXP ) = {
 
 for-init-statement : () -> ( e : EXP ) = {
 	e = expression-statement;
-     ||
+    ||
 	declaration;
 	e = <stmt_decl>;
 	<stmt_for_decl>;
