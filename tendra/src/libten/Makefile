@@ -2,7 +2,9 @@
 
 SHLIB	= libten.a
 
-SRCS=	argparse.c catstd.c cstring.c dstring.c fmm.c msgcat.c ostream.c \
+SRCS=	argparse.c catstd.c char.c cstring.c dstring.c fmm.c msgcat.c ostream.c \
+		tdf_bstream tdf_decode.c tdf_encode.c tdf_fstream.c \
+		tdf_stream.c tdf_utils.c \
 		tenapp.c
 
 CFLAGS	+= -I${.OBJDIR} -I${SRC_DIR}/src/include

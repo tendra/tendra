@@ -56,11 +56,8 @@
 
 
 #include "config.h"
-#include "producer.h"
 #include <limits.h>
-#include "c_types.h"
 #include "char.h"
-#include "literal.h"
 
 
 /*

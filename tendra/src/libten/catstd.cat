@@ -30,7 +30,8 @@ TYPES:
 	hex4_t,				/* unsigned long, format: 0x%04X */
 	hex8_t,				/* unsigned long, format: 0x%08X */
 	pointer_t,			/* pointer, format 0x%08p */
-	esc_char			/* escaped character */
+	esc_char,			/* escaped character */
+	tdf_stream			/* location in the TDF stream */
 
 
 /*
@@ -292,3 +293,97 @@ description_of_version()
 	KEY(STD) "Report program version"
 }
 
+
+/*
+ * TDF error messages.  When this section grows enough it should be
+ * moved to separate catalog.
+ */
+
+fatal_tdf_stream_read_error(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"System error '"strerror"' while reading TDF file"
+}
+
+fatal_tdf_stream_seek_error(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Seek error"
+}
+
+fatal_tdf_cant_encode_0_as_extended_value(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Can't encode 0 as an extended value"
+}
+
+fatal_tdf_integer_too_big(tdf_stream: sp, long: value)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFINT value too big ("value")"
+}
+
+tdf_integer_too_long(tdf_stream: sp, long: length)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFINT value too long ("length")"
+}
+
+fatal_tdf_string_element_too_big(tdf_stream: sp, int: esize)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFSTRING element too big ("esize")"
+}
+
+fatal_tdf_expect_eof(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"End of file expected, but data found"
+}
+
+fatal_tdf_unexpected_eof(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Unexpected end of file"
+}
+
+fatal_tdf_bad_magic(tdf_stream: sp, ccp: got, ccp: expect)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Unknown TDF file header. Expected '"expect"', but got '"got"'"
+}
+
+fatal_tdf_bad_version(tdf_stream: sp, unsigned: major)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Illegal major version number '"major"'"
+}
+
+fatal_tdf_version_mismatch(tdf_stream: sp, unsigned: major, unsigned: required)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Major version number mismatch:
+		 ("major" should be "required")"
+}
+
+int_tdf_extend_unaligned(tdf_stream: sp, long: where)
+{
+	USAGE: INTERNAL
+	KEY(STD) sp"Extending unaligned stream at "where
+}
+
+int_tdf_unaligned_access(tdf_stream: sp, ccp: fn)
+{
+	USAGE: INTERNAL
+	KEY(STD) sp"Function "fn" requires byte aligned TDF stream"
+}
+
+
+/*
+ * TDF functions debug output
+ */
+debug_tdf_version(tdf_stream: sp, unsigned: major, unsigned: minor)
+{
+	USAGE: DEBUG
+	KEY(STD) sp"TDF version: "major"."minor
+}

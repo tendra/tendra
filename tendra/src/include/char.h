@@ -58,6 +58,23 @@
 #ifndef CHAR_INCLUDED
 #define CHAR_INCLUDED
 
+/*
+ * The values CHAR_* are used to identify the various types of character
+ * in multibyte strings.
+ */
+#define CHAR_SIMPLE		0
+#define CHAR_ASCII		1
+#define CHAR_OCTAL		2
+#define CHAR_HEX		3
+#define CHAR_UNI4		4
+#define CHAR_UNI8		5
+#define CHAR_NONE		6
+
+
+#ifndef C_TYPES_INCLUDED
+typedef unsigned char character;
+#endif
+
 
 /*
  *    CODESET MAPPINGS
