@@ -264,11 +264,15 @@ read_env_aux(char *nm, hashtable *ht)
 						if (count++ == buffer_size)
 							error(FATAL, "%s: line %d: Exceeded max line size",
 								  nm, line_num);
-						
 						if (c== '\n' || c== '\0') {
 							error (FATAL, "%s: line %d: Unmatched escape"
 								   " sequence, missing >",
-								   nm, line_num, key_start);
+								   nm, line_num);
+						}
+						if (c== '<') {
+							error (FATAL, "%s: line %d: Nested < > escape "
+								   " sequences prohibited",
+								   nm, line_num);
 							continue;
 						}
 					}
