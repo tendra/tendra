@@ -133,6 +133,13 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-d</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-e</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to only run its preprocessor
@@ -236,6 +243,13 @@
           <option>-v</option> options are given then <command>tspec</command>
           enters very verbose mode, in which it gives more information on its
           activities.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-w</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
   </variablelist>
