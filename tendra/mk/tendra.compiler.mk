@@ -45,6 +45,8 @@
   CCOPTS+=
 .endif
 
+CCOPTS+= -D_${OSVER}
+
 SYS_INCLUDES= "-I/usr/include"
 STRIP= :
 RANLIB= ranlib
