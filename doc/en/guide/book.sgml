@@ -267,7 +267,12 @@
         constructors for EXPs so 7 bits are required to cover all the EXPs.
         The parameters of each constructor have known SORTs and so their
         representations are just concatenated after the representation of the
-        constructor -XREF-footnote70" href="footnote.html#70*. While this is a
+        constructor.
+        <footnote>
+          <para>There are facilities to allow extensions to the number of
+            constructors, so it is not quite as simple as this</para>
+        </footnote>
+        While this is a
         very compact representation, it suffers from the defect that one must
         decode it even just to skip over it. This is very irksome is some
         applications, notably the TDF linker which is not interested detailed
@@ -703,8 +708,15 @@ make_linkextern (4, string_extern("printf"))
           formed by sets of UNITs of the same kind. Once again, there are a
           potentially unlimited number of kinds of UNITs but core-TDF only
           uses those named "tld","al_tagdefs", "tagdecs", "tagdefs",
-          "tokdecs" and "tokdefs" -XREF-footnote71"
-          href="footnote.html#71*. These names will appear (in the same
+          "tokdecs" and "tokdefs"
+          <footnote>
+            <para>The "tld" UNITs gives usage information for namess to
+              aid the linker, tld, to discover which namess have definitions
+              and some usage information. The C producer also optionally
+              constructs "diagnostics" UNITs (to give run-time diagnostic
+              information).</para>
+          </footnote>
+          These names will appear (in the same
           order as in <emphasis>groups</emphasis>) in the
           <emphasis>prop_names</emphasis> parameter of make_capsule, one
           for each kind of UNIT appearing in the CAPSULE:</para>
@@ -855,7 +867,12 @@ make_link(42, 4)
         <emphasis>e</emphasis> is initialisation of the variable
         <emphasis>t</emphasis>. A use of obtain_tag(<emphasis>t</emphasis>)
         will give a pointer to the variable (of SHAPE POINTER x), rather
-        than its contents -XREF-footnote72" href="footnote.html#72*. There
+        than its contents.
+        <footnote>
+          <para>There is a similar distinction between tags introduced to
+          be locals of a procedure using identify and variable (see <xref linkend='identify-variable'>)</para>
+        </footnote>
+        There
         can only be one make_var_tagdef of a given tag in a program, but
         there may be more than one common_tagdef, possibly with different
         initialisations; however these initialisations must overlap
@@ -1464,8 +1481,16 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         displacement, but this is not the intention of the definition. On
         any machine for which it is meaningful, the alignment of a BITFIELD
         must be one bit; in other words successive BITFIELDs are butted
-        together with no padding bits -XREF-footnote73"
-        href="footnote.html#73*. Within the limits of what one can extract
+        together with no padding bits.
+        <footnote>
+          <para>Note that is not generally true for C bitfields; most C ABIs 
+            have (different) rules for putting in padding bits depending on the 
+            size of the bitfield and its relation with the natural alignments. 
+            This is a fruitful source of errors in data exchange between 
+            different C ABIs For more on similar limitations of bitfields in 
+            TDF (see <xref linkend='assining-extracting-bit'>).</para>
+        </footnote>
+        Within the limits of what one can extract
         from BITFIELDs, namely INTEGER VARIETYs, this is how one should
         implement non-standard alignments, perhaps in constructing data,
         such as protocols, for exchange between machines. One could
@@ -1615,8 +1640,14 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         <emphasis>arg2</emphasis> gives the actual parameters. There must
         be at least as many actual parameters as given (with the same
         SHAPE) in the <emphasis>params_intro</emphasis> of the
-        corresponding make_proc for arg1 -XREF-footnote74"
-        href="footnote.html#74*. The values of <emphasis>arg2</emphasis>
+        corresponding make_proc for arg1.
+        <footnote>
+          <para>The vararg construction in C are implemented by giving more 
+            actuals than formals; the extra parameters are accessed by offset 
+            arithmetic with a pointer to a formal, using parameter_alignment to 
+            pad the offsets.</para>
+        </footnote>
+        The values of <emphasis>arg2</emphasis>
         will be copied into space managed by caller.</para>
       <para>
         The SHAPE of the result of the call is given by
@@ -1713,8 +1744,13 @@ offset_add(A, B) xb3  A     where B xb3  offset_zero(some compatible alignment)
         <emphasis>tgopt</emphasis>, if present, is a TAG which will bound
         to the final value of the parameter (after
         <emphasis>body</emphasis> is evaluated) in the
-        <emphasis>postlude</emphasis> expression of the apply_general_proc
-        -XREF-footnote75" href="footnote.html#75*. Clearly, this allows one
+        <emphasis>postlude</emphasis> expression of the apply_general_proc.
+        <footnote>
+          <para>If a formal parameter is to be used in this way, it 
+            should be marked as having out_par ACCESS in its corresponding 
+             TAGSHACC in callers_intro.</para>
+        </footnote>
+        Clearly, this allows one
         to use a caller parameter as an extra result of the procedure; for
         example, as in Ada out-parameters.</para>
       <para>
@@ -2791,7 +2827,10 @@ assign(obtain_tag(v), lhs).
       SHAPEs must be translate-time values.</para>
     <para>
       An initialisation of a TAGDEF is a constant in this sense
-      -XREF-footnote76" href="footnote.html#76*; this allows one to ignore
+      <footnote>
+        <para>However see also initial_value in section <xref linkend='make-unit'></para>
+      </footnote>
+      ; this allows one to ignore
       any difficulties about their order of evaluation in the UNIT and
       consequently the order of evaluation of UNITs. Once again all the
       EXPs which are initialisations must be evaluated before the program
@@ -3050,8 +3089,8 @@ shape_apply_token(make_tok(T_FILE), ())
         xpg3, posix, X etc. on top of C. However, it is possible to
         consider the constructions of the language itself as ideal
         candidates for TOKENisation. For example, the C for-statement could
-        be expressed as TOKEN with four parameters -XREF-footnote77"
-        href="footnote.html#77*. This TOKEN could be expanded in TDF in
+        be expressed as TOKEN with four parameters. This TOKEN could be 
+        expanded in TDF in
         several different ways, all giving the correct semantics of a
         for-statement. A translator (or other tools) could choose the
         expansion it wants depending on context and the properties of the
@@ -3062,8 +3101,14 @@ shape_apply_token(make_tok(T_FILE), ())
         effect a C-language API; perhaps this might be called more properly
         a language programming interface (LPI). Thus, we would have TOKENs
         for C for-statements, C conditionals, C procedure calls, C
-        procedure definitions etc. -XREF-footnote78"
-        href="footnote.html#78*.</para>
+        procedure definitions etc.
+        <footnote>
+          <para>Exercise for the reader: what are the SORTs of these 
+            parameters?</para>
+          <para>The current C producer does this for some of the constructs, but 
+            not in any systematic manner; perhaps it will change.</para>
+        </footnote>
+        </para>
       <para>
         The notion of a producer for any language working to an LPI
         specific to the constructs of the language is very attractive. It
@@ -3175,98 +3220,245 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
         follows is an alphabet of generic transformations which can often
         help to answer knotty questions. Here, E[X \ Y] denotes an EXP E
         with all internal occurrences of X replaced by Y.</para>
-<programlisting>
+
+
+<para>
 If F is any non order-specifying
--XREF-footnote79" href="footnote.html#79* EXP constructor and E is one of the EXP operands of F, then:
+<footnote>
+<para>The order-specifying constructors are conditional, identify, repeat, labelled, sequence and variable</para>
+</footnote>
+</para>
+
+<para>
+EXP constructor and E is one of the EXP operands of F, then:
+</para>
+
+<programlisting>
+F(... , E, ...) <=> identify(empty, newtag, E, F(... ,obtain_tag(newtag), ...))
 </programlisting>
-      <para>
-        F(... , E, ...) xde identify(empty, newtag, E, F(... ,
-        obtain_tag(newtag), ...)) If E is a non side-effecting
-        -XREF-footnote80" href="footnote.html#80* EXP and none of the
-        variables used in E are assigned to in B: identify(v, tag, E, B)
-        xde B[obtain_tag(tag) \ E] If all uses of tg in B are of the form
-        contents(shape(E), obtain_tag(tg)): variable(v, tg, E, B) xde
-        identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
-        obtain_tag(nt)]) sequence((S<emphasis>1</emphasis>, ... ,
-        S<emphasis>n</emphasis>), sequence((P<emphasis>1</emphasis>, ...,
-        P<emphasis>m</emphasis>), R) xdb sequence((S<emphasis>1</emphasis>,
-        ..., S<emphasis>n</emphasis>, P<emphasis>1</emphasis>, ...,
-        P<emphasis>m</emphasis>), R) If S<emphasis>i</emphasis> =
-        sequence((P<emphasis>1</emphasis>, ..., P<emphasis>m</emphasis>),
-        R) : sequence((S<emphasis>1</emphasis>, ... ,
-        S<emphasis>n</emphasis>), T) xdb sequence((S<emphasis>1</emphasis>,
-        ..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
-        P<emphasis>m</emphasis>, R, S<emphasis>i+1</emphasis>, ...,
-        S<emphasis>n</emphasis>), T) E xdb sequence(( ), E) If D is either
-        identify or variable: D(v, tag, sequence((S<emphasis>1</emphasis>,
-        ..., S<emphasis>n</emphasis>), R), B) xde
-        sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
-        D(v, tag, R, B) ) If S<emphasis>i</emphasis> is an EXP BOTTOM ,
-        then: sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>,
-        ... S<emphasis>n</emphasis>), R) xde
-        sequence((S<emphasis>1</emphasis>, ... S<emphasis>i-1</emphasis>),
-        S<emphasis>i</emphasis>) If E is an EXP BOTTOM, and if D is either
-        identify or variable: D(v, tag, E, B) xde E If
-        S<emphasis>i</emphasis> is make_top(), then:
-        sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>, ...
-        S<emphasis>n</emphasis>), R) xdb sequence((S<emphasis>1</emphasis>,
-        ... S<emphasis>i-1</emphasis>, S<emphasis>i+1</emphasis>,
-        ...S<emphasis>n</emphasis>), R) If S<emphasis>n</emphasis> is an
-        EXP TOP: sequence((S<emphasis>1</emphasis>, ...
-        S<emphasis>n</emphasis>), make_top()) xdb
-        sequence((S<emphasis>1</emphasis> , ...,
-        S<emphasis>n-1</emphasis>), S<emphasis>n</emphasis>) If E is an EXP
-        TOP and E is not side-effecting then E xde make_top() If C is some
-        non order-specifying and non side-effecting constructor, and
-        S<emphasis>i</emphasis> is C(P<emphasis>1</emphasis>,...,
-        P<emphasis>m</emphasis>) where P<emphasis>1..m</emphasis> are the
-        EXP operands of C: sequence((S<emphasis>1</emphasis>, ...,
-        S<emphasis>n</emphasis>), R) xde sequence((S<emphasis>1</emphasis>,
-        ..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
-        P<emphasis>m</emphasis>, S<emphasis>i+1</emphasis>, ...,
-        S<emphasis>n</emphasis>), R) If none of the S<emphasis>i</emphasis>
-        use the label L: conditional(L, sequence((S<emphasis>1</emphasis>,
-        ..., S<emphasis>n</emphasis>), R), A) xde
-        sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
-        conditional(L, R, A)) If there are no uses of L in X
-        -XREF-footnote81" href="footnote.html#81*: conditional(L, X, Y) xde
-        X conditional(L, E , goto(Z)) xde E[L \ Z] If EXP X contains no use
-        of the LABEL L: conditional(L, conditional(M, X, Y), Z) xde
-        conditional(M, X, conditional(L, Y, Z)) repeat(L, I, E) xde
-        sequence( (I), repeat(L, make_top(), E)) repeat(L, make_top(), E)
-        xde conditional(Z, E[L \ Z], repeat(L, make_top(), E)) If there are
-        no uses of L in E: repeat(L, make_top(), sequence((S, E),
-        make_top()) xde conditional(Z, S[L \ Z], repeat(L, make_top(),
-        sequence((E, S), make_top()) ) ) If f is a procedure defined
-        -XREF-footnote82" href="footnote.html#82* as: make_proc(rshape,
-        formal<emphasis>1..n</emphasis>, vtg , B( return
-        R<emphasis>1</emphasis>, ..., return R<emphasis>m</emphasis>))
-        where: formal<emphasis>i</emphasis> =
-        make_tagshacc(s<emphasis>i</emphasis>, v<emphasis>i</emphasis>,
-        tg<emphasis>i</emphasis>) and B is an EXP with all of its internal
-        return constructors indicated parametrically then, if
-        A<emphasis>i</emphasis> has SHAPE s<emphasis>i</emphasis>
-        apply_proc(rshape, f, (A<emphasis>1</emphasis>, ... ,
-        A<emphasis>n</emphasis>), V) xde variable( empty, newtag,
-        make_value((rshape=BOTTOM)? TOP: rshape), labelled( (L),
-        variable(v<emphasis>1</emphasis>, tg<emphasis>1</emphasis>,
-        A<emphasis>1</emphasis>, ... , variable(v<emphasis>n</emphasis>,
-        tg<emphasis>n</emphasis>, A<emphasis>n</emphasis>, variable(empty,
-        vtg, V, B(sequence( assign(obtain_tag(newtag),
-        R<emphasis>1</emphasis>), goto(L)) , ... , sequence(
-        assign(obtain_tag(newtag), R<emphasis>m</emphasis>), goto(L)) ) )
-        ), contents(rshape, obtain_tag(newtag)) ) ) assign(E, make_top())
-        xde sequence( (E), make_top()) contents(TOP, E) xde sequence((E),
-        make_top()) make_value(TOP) xde make_top() component(s,
-        contents(COMPOUND(S), E), D) xde contents(s, add_to_ptr(E, D))
-        make_compound(S, ((E<emphasis>1</emphasis>,
-        D<emphasis>1</emphasis>), ..., (E<emphasis>n</emphasis>,
-        D<emphasis>n</emphasis>)) ) xde variable(empty, nt,
-        make_value(COMPOUND(S)), sequence( (
-        assign(add_to_ptr(obtain_tag(nt), D<emphasis>1</emphasis>),
-        E<emphasis>1</emphasis>), ... , assign(add_to_ptr(obtain_tag(nt),
-        D<emphasis>n</emphasis>), E<emphasis>n</emphasis>) ), contents(S,
-        obtain_tag(nt)) ) )</para>
+
+<para>
+If E is a non side-effecting
+<footnote>
+<para>A sufficient condition for not side-effecting in this sense is that there are no apply_procs or local_allocs in E; that any assignments in E are 
+to variables defined in E; and that any branches in E are to labels defined in conditionals in E.</para>
+</footnote>
+
+</para>
+
+<para>EXP and none of the variables used in E are assigned to in B:</para>
+
+<programlisting>
+identify(v, tag, E, B) <=> B[obtain_tag(tag) \ E]
+</programlisting>
+
+<para>
+If all uses of tg in B are of the form
+</para>
+
+<programlisting>
+contents(shape(E), obtain_tag(tg)):
+variable(v, tg, E, B) <=> identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
+obtain_tag(nt)]) sequence((S<emphasis>1</emphasis>, ... ,
+S<emphasis>n</emphasis>), sequence((P<emphasis>1</emphasis>, ...,
+P<emphasis>m</emphasis>), R) => sequence((S<emphasis>1</emphasis>,
+..., S<emphasis>n</emphasis>, P<emphasis>1</emphasis>, ...,
+P<emphasis>m</emphasis>), R) If S<emphasis>i</emphasis> =
+sequence((P<emphasis>1</emphasis>, ..., P<emphasis>m</emphasis>),
+R) : sequence((S<emphasis>1</emphasis>, ... ,
+S<emphasis>n</emphasis>), T) => sequence((S<emphasis>1</emphasis>,
+..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
+P<emphasis>m</emphasis>, R, S<emphasis>i+1</emphasis>, ...,
+S<emphasis>n</emphasis>), T) E => sequence(( ), E)
+</programlisting>
+
+<para>
+If D is either identify or variable:
+</para>
+
+<programlisting>
+D(v, tag, sequence((S<emphasis>1</emphasis>,
+..., S<emphasis>n</emphasis>), R), B) <=>
+sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
+D(v, tag, R, B) )
+</programlisting>
+
+<para>
+If S<emphasis>i</emphasis> is an EXP BOTTOM ,
+then:
+</para>
+
+<programlisting>
+sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>,
+... S<emphasis>n</emphasis>), R) <=>
+sequence((S<emphasis>1</emphasis>, ... S<emphasis>i-1</emphasis>),
+S<emphasis>i</emphasis>)
+</programlisting>
+
+<para>
+If E is an EXP BOTTOM, and if D is either
+identify or variable:</para>
+
+<programlisting>
+D(v, tag, E, B) <=> E
+</programlisting>
+
+<para>
+If S<emphasis>i</emphasis> is make_top(), then:
+</para>
+
+<programlisting>
+sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>, ...
+S<emphasis>n</emphasis>), R) => sequence((S<emphasis>1</emphasis>,
+... S<emphasis>i-1</emphasis>, S<emphasis>i+1</emphasis>,
+...S<emphasis>n</emphasis>), R)
+</programlisting>
+
+<para>
+If S<emphasis>n</emphasis> is an
+EXP TOP:
+</para>
+
+<programlisting>
+sequence((S<emphasis>1</emphasis>, ...
+S<emphasis>n</emphasis>), make_top()) =>
+sequence((S<emphasis>1</emphasis> , ...,
+S<emphasis>n-1</emphasis>), S<emphasis>n</emphasis>)
+</programlisting>
+
+<para>
+If E is an EXP TOP and E is not side-effecting then:
+</para>
+
+<programlisting> E <=> make_top()
+</programlisting>
+
+<para>If C is some non order-specifying and non side-effecting constructor, and
+S<emphasis>i</emphasis> is C(P<emphasis>1</emphasis>,...,
+P<emphasis>m</emphasis>)
+</para>
+
+<para>
+where
+</para>
+
+<para>
+P<emphasis>1..m</emphasis> are the
+EXP operands of C:
+</para>
+
+<programlisting>
+sequence((S<emphasis>1</emphasis>, ...,
+S<emphasis>n</emphasis>), R) <=> sequence((S<emphasis>1</emphasis>,
+..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
+P<emphasis>m</emphasis>, S<emphasis>i+1</emphasis>, ...,
+S<emphasis>n</emphasis>), R)
+</programlisting>
+
+<para>
+If none of the S<emphasis>i</emphasis>
+use the label L:
+</para>
+
+<programlisting>
+conditional(L, sequence((S<emphasis>1</emphasis>,
+..., S<emphasis>n</emphasis>), R), A) <=>
+sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
+conditional(L, R, A))
+</programlisting>
+
+<para>
+If there are no uses of L in X:
+<footnote>
+<para>There are analogous rules for labelled and repeat with unused LABELs.</para>
+</footnote>
+</para>
+
+<programlisting>
+conditional(L, X, Y) <=>
+X conditional(L, E , goto(Z)) <=> E[L \ Z]
+</programlisting>
+
+<para>
+If EXP X contains no use
+of the LABEL L:
+</para>
+
+<programlisting>
+conditional(L, conditional(M, X, Y), Z) <=>
+conditional(M, X, conditional(L, Y, Z)) repeat(L, I, E) <=>
+sequence( (I), repeat(L, make_top(), E)) repeat(L, make_top(), E)
+<=> conditional(Z, E[L \ Z], repeat(L, make_top(), E))
+</programlisting>
+
+<para>
+If there are no uses of L in E:
+</para>
+
+<programlisting>
+repeat(L, make_top(), sequence((S, E),
+make_top()) <=> conditional(Z, S[L \ Z], repeat(L, make_top(),
+sequence((E, S), make_top()) ) )
+</programlisting>
+
+<para>
+If f is a procedure defined
+<footnote>
+<para>This has to be modified if B contains any uses of local_free_all or last_local.</para>
+</footnote>
+:</para>
+
+<programlisting>
+make_proc(rshape,
+formal<emphasis>1..n</emphasis>, vtg , B( return
+R<emphasis>1</emphasis>, ..., return R<emphasis>m</emphasis>))
+</programlisting>
+
+<para>
+where:
+</para>
+
+<programlisting>
+formal<emphasis>i</emphasis> =
+make_tagshacc(s<emphasis>i</emphasis>, v<emphasis>i</emphasis>,
+tg<emphasis>i</emphasis>)
+</programlisting>
+
+<para>
+and B is an EXP with all of its internal
+return constructors indicated parametrically then, if
+A<emphasis>i</emphasis> has SHAPE s<emphasis>i</emphasis>
+</para>
+
+<programlisting>
+apply_proc(rshape, f, (A<emphasis>1</emphasis>, ... ,
+A<emphasis>n</emphasis>), V) <=> variable( empty, newtag,
+make_value((rshape=BOTTOM)? TOP: rshape), labelled( (L),
+variable(v<emphasis>1</emphasis>, tg<emphasis>1</emphasis>,
+A<emphasis>1</emphasis>, ... , variable(v<emphasis>n</emphasis>,
+tg<emphasis>n</emphasis>, A<emphasis>n</emphasis>, variable(empty,
+vtg, V, B(sequence( assign(obtain_tag(newtag),
+R<emphasis>1</emphasis>), goto(L)) , ... , sequence(
+assign(obtain_tag(newtag), R<emphasis>m</emphasis>), goto(L)) ) )
+), contents(rshape, obtain_tag(newtag)) ) ) assign(E, make_top())
+<=> sequence( (E), make_top()) contents(TOP, E) <=> sequence((E),
+make_top()) make_value(TOP) <=> make_top() component(s,
+contents(COMPOUND(S), E), D) <=> contents(s, add_to_ptr(E, D))
+make_compound(S, ((E<emphasis>1</emphasis>,
+D<emphasis>1</emphasis>), ..., (E<emphasis>n</emphasis>,
+D<emphasis>n</emphasis>)) ) <=> variable(empty, nt,
+make_value(COMPOUND(S)), sequence( (
+assign(add_to_ptr(obtain_tag(nt), D<emphasis>1</emphasis>),
+E<emphasis>1</emphasis>), ... , assign(add_to_ptr(obtain_tag(nt),
+D<emphasis>n</emphasis>), E<emphasis>n</emphasis>) ), contents(S,
+obtain_tag(nt)) ) )
+</programlisting>
+
+
+
+
+
+
       <sect2 id='examples-f-trans'>
         <title>Examples of transformations</title>
         <para>
@@ -3349,8 +3541,14 @@ make_top()
           The definitions of most of the constructors in the TDF
           specification are predicated by some conditions; if these
           conditions are not met the effect and result of the constructor
-          is not defined for all possible platforms-XREF-footnote83"
-          href="footnote.html#83*. Any value which is dependent on the
+          is not defined for all possible platforms.
+<footnote>
+<para>However, we may find that the mapping of a constraint allows extra relationships for a class of architectures which do not hold in all 
+generality; this may mean that some constructions are defined on this class while still being undefined in others (see <xref 
+linkend='models-tdf-algebra'>).</para>
+</footnote>
+
+ Any value which is dependent on the
           effect or result of an undefined construction is also undefined.
           This is not the same as saying that a program is undefined if it
           can construct an undefined value - the dynamics of the program
@@ -3369,18 +3567,44 @@ make_top()
       Given that sh_int, sh_char and sh_double are the SHAPEs for int, char
       and double, the SHAPE of <emphasis>mystruct</emphasis> is constructed
       by:</para>
+
 <programlisting>
 SH_mystruct = compound(S_c)
-where:
-S_c = offset_add(O_c, shape_offset(sh_char))
-where:
-O_c = offset_pad(alignment(sh_char), S_d)
-where:
-S_d = offset_add(O_d, shape_offset(sh_double))
-where:
-O_d = offset_pad(alignment(sh_double), S_i)
-where-XREF-footnote84" href="footnote.html#84*:
 </programlisting>
+
+<para>
+where:
+</para>
+
+<programlisting>
+S_c = offset_add(O_c, shape_offset(sh_char))
+</programlisting>
+
+<para>where:</para>
+
+<programlisting>
+O_c = offset_pad(alignment(sh_char), S_d)
+</programlisting>
+
+<para>where:</para>
+
+<programlisting>
+S_d = offset_add(O_d, shape_offset(sh_double))
+</programlisting>
+
+<para>where:</para>
+
+<programlisting>
+O_d = offset_pad(alignment(sh_double), S_i)
+</programlisting>
+
+<para>where:
+
+<footnote>
+<para>I could equally have given simply shape_offset(sh_int) for S_i, but the above formulation is more uniform with respect to selection OFFSETs.</para>
+</footnote>
+</para>
+
     <para>
       S_i = offset_add(O_i, shape_offset(sh_int)) and: O_i =
       offset_zero(alignment(sh_int)) Each of S_c, S_d and S_i gives the
@@ -3548,8 +3772,13 @@ offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
         maximum integer variety.</para>
       <para>
         These tokens can be expressed in TDF if the lengths of the
-        available varieties are known, i.e., they are installer defined
-        -XREF-footnote85" href="footnote.html#85*. They ought to be used in
+        available varieties are known, i.e., they are installer defined.
+<footnote>
+<para>For most architectures, these definition are dependent only on a few constants such as the maximum length of bitfield., expessed as tokens for 
+the target. The precise specification of such target dependent tokens is of current interest outside the scope of this document.</para>
+</footnote>
+
+They ought to be used in
         place of offset_zero, offset_pad and offset_mult whereever the
         alignment or shape (required to construct a SHAPE or an argument to
         the bitfield constructs) is a pure bitfield. The constructor nof
