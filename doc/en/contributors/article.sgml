@@ -1,4 +1,8 @@
-<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN" [
+<!ENTITY individual SYSTEM "individual.sgml">
+<!ENTITY organisation SYSTEM "organisation.sgml">
+
+]>
 
 <article>
   <articleinfo>
@@ -15,35 +19,96 @@
     </copyright>
 
     <abstract>
-      <para>This article lists the individual and organizational contributors
+      <para>This article lists the individual and organisation contributions
         to the TenDRA Project.</para>
     </abstract>
   </articleinfo>
 
-  <sect1 id="donors">
-    <title>The donors</title>
 
-    <para>The donors list holds the names of individuals and organizations
+  <sect1 id="donations">
+    <title>Donations</title>
+
+    <para>The donations list holds the names of individuals and organizations
       whom we thank very much for their donation of resources, such as
       bandwidth, processing power, and/or hardware.  Without your donations we
       could not have pulled off a lot of what we do now.  Thank you.</para>
 
-    <itemizedlist>
-      <listitem>
-        <para><emphasis>Contributors to our infrastructure:</emphasis></para>
 
-        <para>The following individuals and organizations allowed us to set up
-          an infrastructure permitting the TenDRA Project to make its software
-          available to the world.</para>
-
-        <itemizedlist>
-          <listitem>
-            <para><ulink url="http://www.stanford.edu/">The Stanford
-              University</ulink> donated bandwidth, our central machine
-              'spill' and hosting in general.</para>
-          </listitem>
-        </itemizedlist>
-      </listitem>
-    </itemizedlist>
+        <informaltable frame="none">
+          <tgroup cols="3" align="left">
+      
+          <thead>
+            <row>
+              <entry>Donator</entry>
+      
+              <entry>Description</entry>
+            </row>
+          </thead>
+  
+          <tbody>
+            <row>
+              <entry><ulink url="http://www.stanford.edu/">Stanford University</ulink>
+    
+              <entry>Bandwidth and our central development machine 'spill'.</entry>
+            </row>
+          </tbody>
+        </informaltable>
   </sect1>
+
+
+  <sect1 id="individual">
+    <title>Individual Contributors</title>
+
+    <para>The following are individual's who have contributed to TenDRA.</para>
+
+
+        <informaltable frame="none">
+          <tgroup cols="3" align="left">
+      
+          <thead>
+            <row>
+              <entry>Contributor</entry>
+
+              <entry>Email</entry>
+      
+              <entry>Description</entry>
+            </row>
+          </thead>
+  
+          <tbody>
+            &individual;
+          </tbody>
+        </informaltable>
+  </sect1>
+
+
+  <sect1 id="organisation">
+    <title>Organisational Contributors</title>
+
+    <para>The following are organisation's who have contributed to 
+TenDRA.</para>
+
+
+        <informaltable frame="none">
+          <tgroup cols="3" align="left">
+      
+          <thead>
+            <row>
+              <entry>Contributor</entry>
+
+              <entry>URL</entry>
+      
+              <entry>Description</entry>
+            </row>
+          </thead>
+  
+          <tbody>
+            &organisation;
+          </tbody>
+        </informaltable>
+</sect1>
+
+
+
+
 </article>
