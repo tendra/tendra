@@ -67,7 +67,6 @@
 
 extern void print_set(object *, int);
 extern void print_type(FILE *, type *, char *, int);
-extern char *copyright;
 
 
 #endif

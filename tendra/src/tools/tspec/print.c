@@ -69,17 +69,6 @@
 
 
 /*
- *    COPYRIGHT MESSAGE
- *
- *    These variables give the file containing the copyright message, and,
- *    after the first time it is processed, the message text.
- */
-
-char *copyright = null;
-static char *copyright_text = null;
-
-
-/*
  *    OUTPUT MACROS
  *
  *    These macros are used as convenient shorthands for various print
@@ -1231,30 +1220,6 @@ print_set(object *input, int pass)
 			/* Include output file */
 			char *m = i->protect;
 			char *v = i->version;
-
-			/* Print the copyright message */
-			if (copyright) {
-				if (copyright_text == null) {
-					FILE *f = fopen (copyright, "r");
-					if (f == null) {
-						MSG_cant_open_copyright_file (copyright);
-						copyright_text = "";
-					} else {
-						int c, j = 0;
-						while (c = getc (f), c != EOF) {
-							buffer [j] = (char) c;
-							if (++j >= buffsize) {
-								MSG_copyright_too_long ();
-								break;
-							}
-						}
-						buffer [j] = 0;
-						copyright_text = string_copy (buffer);
-						IGNORE fclose (f);
-					}
-				}
-				OUTS (output, copyright_text);
-			}
 
 			/* Find the version number */
 			if (v == null && i->subset) {

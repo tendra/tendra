@@ -260,18 +260,6 @@ errors_in_analyser_phase(int: n)
 	KEY(STD) fileline n" error(s) in analyser phase"
 }
 
-cant_open_copyright_file(ccp: file)
-{
-	USAGE: ERROR
-	KEY(STD) fileline"Can't open copyright file, "file
-}
-
-copyright_too_long()
-{
-	USAGE: ERROR
-	KEY(STD) fileline"Copyright too long"
-}
-
 duplicate_type_specifier()
 {
 	USAGE: ERROR

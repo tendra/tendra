@@ -213,8 +213,6 @@ main(int argc, char **argv)
 		output_src_dir = string_copy (env);
 		output_src_len = (int) strlen (output_src_dir) + 1;
     }
-    env = getenv (COPYRIGHT_ENV);
-    if (env) copyright = string_copy (env);
 
     /* Process options */
     for (a = 1; a < argc; a++) {
@@ -229,8 +227,6 @@ main(int argc, char **argv)
 			} else if (arg [1] == 'S') {
 				output_src_dir = arg + 2;
 				output_src_len = (int) strlen (arg + 2) + 1;
-			} else if (arg [1] == 'C') {
-				copyright = arg + 2;
 			} else {
 				char *s;
 				for (s = arg + 1; *s; s++) {
