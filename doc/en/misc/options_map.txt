@@ -48,10 +48,10 @@ pl		tools/pl/main.c			                  I                       V               
 sid		utilities/sid/main.c		                                                                  b   d e f     i     l             s t   v 
 [unordered options]                                                                                               -
 
-tcpplus		producers/common/main.c	          A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
+tcpplus		producers/common/main.c	        - A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
                                                                           +   +     +                             +                               +           +
 
-tdfc2 		producers/common/main.c	          A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
+tdfc2 		producers/common/main.c	        - A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
                                                                           +   +     +                             +                               +           +
 
 tnc		tools/tnc/main.c		                  I     L                 V                         c d e f   h       l     o p q r   t u v w 
