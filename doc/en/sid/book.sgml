@@ -361,7 +361,7 @@ Xji = Bjk Xki, Yji
       <para>The second major transformation is to factor the grammar. It is
         possible that this phase could go on for ever, so there is a limit to
         the number of rules that can be generated. This limit may be changed
-        (see <xref linkend='invocation'>). In practice it is rare for
+        (see <xref linkend='invocation'> ). In practice it is rare for
         this to happen.</para>
 
       <para>The factoring phase tries to increase the number of language

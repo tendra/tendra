@@ -100,7 +100,7 @@ calculus [ options ] input .... [ output ]
         <xref linkend='relations-algerbras'> otherwise specified it is the last file which is used to
         generate the output.</para>
 
-      <para>The form in which the <xref linkend='input-syntax'>input type systems are
+      <para>The form in which the <xref linkend='input-syntax'> input type systems are
         expressed is described below. The form of the output depends on
         <emphasis>options</emphasis>. By default, the C implementation of the
         type system is output. If the <literal>-t</literal> option is passed
@@ -108,15 +108,15 @@ calculus [ options ] input .... [ output ]
         <ulink url="http://www.ten15.org/docs/tcpplus/#token-syntax">l<literal>#pragma token</literal></ulink>
         statements
         describing the type system specification are output.  This
-        <xref linkend='output-type-system-spec'>specification is given below, with some of the more
-        important <xref linkend='impl-details'>implementation details being described in the
+        <xref linkend='output-type-system-spec'> specification is given below, with some of the more
+        important <xref linkend='impl-details'> implementation details being described in the
         following section.</para>
 
       <para>Note that it is necessary to check any program written using
         <literal>calculus</literal> against the <literal>#pragma
         token</literal> version of the specification in order to get the full
         benefits of the rigorous type checking provided by the tool.  Some
-        sections of the program (if only the <xref linkend='support-routines'>basic
+        sections of the program (if only the <xref linkend='support-routines'> basic
         functions) may be dependent upon the implementation, and so not be
         suitable for this form of checking.</para>
     </simplesect>
@@ -330,7 +330,7 @@ component-initialiser :
   = string
       </programlisting>
 
-      <para>The optional <xref linkend='oper-structures'>component initialiser strings
+      <para>The optional <xref linkend='oper-structures'> component initialiser strings
         are</para>
 
       <para>Structures are the only algebra construct which prevent the input
@@ -393,7 +393,7 @@ field-identifier-list :
       </programlisting>
 
       <para>The optional one or two hashes which may be used to qualify a list
-        of field identifiers are used to indicate <xref linkend='aliasing'>aliasing in
+        of field identifiers are used to indicate <xref linkend='aliasing'> aliasing in
         the disk reading and writing routines. The
         <emphasis>base-field</emphasis> case is a notational convenience which
         allows one field in a union to inherit all the components of another
@@ -446,11 +446,11 @@ extended-type :
   quoted-type
       </programlisting>
 
-      <para>In addition to the <xref linkend='type-constructors'>types derived from the
+      <para>In addition to the <xref linkend='type-constructors'> types derived from the
         algebra</para>
 
       <para>A map may be qualified by means of a hash. This means that the
-        associated function also takes a <xref linkend='output-maps'>destructor
+        associated function also takes a <xref linkend='output-maps'> destructor
         function as a parameter.</para>
     </sect1>
 
@@ -483,7 +483,7 @@ type :
     <sect1 id='relations-algerbras'>
       <title>Relations between algebras</title>
 
-      <para>As <xref linkend='intro-using-calculus'>mentioned above, more than one input algebra may
+      <para>As <xref linkend='intro-using-calculus'> mentioned above, more than one input algebra may
         be specified to <literal>calculus</literal>. Each is processed
         separately, and output is generated for only one. By default this is
         the last algebra processed, however a specific algebra can be
@@ -629,7 +629,7 @@ void dummy_destroy_name () ;
 
       <para>The <literal>SIZE</literal> type constructor is used to represent
         a multiple of the size of a type. It is used, for example, in the
-        <xref linkend='oper-pointers'>pointer stepping construct <literal>STEP_ptr</literal>
+        <xref linkend='oper-pointers'> pointer stepping construct <literal>STEP_ptr</literal>
         to specify the number of units the pointer is to be increased by.
         Having a separate abstract type for the size of each type greatly
         increases the scope for type checking of memory allocation, and other,
@@ -645,7 +645,7 @@ SIZE ( t ) SIZE_type ;
       <para>where <emphasis>t</emphasis> denotes the type itself, and</para>
 
       <para>For the five other type constructors
-        <xref linkend='basic-types'>described</para>
+        <xref linkend='basic-types'> described</para>
 
       <programlisting>
 SIZE ( PTR ( t ) ) SIZE_ptr ( TYPE t ) ;
@@ -1001,7 +1001,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
       <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an
-        unsigned integral type in the output file. The <xref linkend='oper-primitives'>basic
+        unsigned integral type in the output file. The <xref linkend='oper-primitives'> basic
         operations listed above are always generated unless it has been
         indicated that <xref linkend='enumerations'> no lists of this type will be formed,
         when <literal>CONS_</literal><emphasis>type</emphasis> and the other

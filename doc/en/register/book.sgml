@@ -65,7 +65,7 @@
         included along with TDF itself as interface between TDF tools.</para>
      
       <para>This first revision includes additional tokens for accessing
-        variable parameter lists (see <xref linkend='accessing-var-parm'>), and a C
+        variable parameter lists (see <xref linkend='accessing-var-parm'> ), and a C
         mapping token to support the optional type <emphasis>long long
         int</emphasis>.</para>
     </simplesect>
@@ -113,7 +113,7 @@
         </listitem>
       </orderedlist>
      
-      <para>These classes are discussed separately, in <xref linkend='target-dep-tok'>
+      <para>These classes are discussed separately, in <xref linkend='target-dep-tok'> 
         to <xref linkend='app-prog-int'> below.</para>
     </simplesect>
   </preface>
@@ -136,7 +136,7 @@
    
     <para>For API tokens, the prefix will consist of a sequence of simple
       names, each followed by a dot, where the first simple name is the name
-      of the API as listed or referred to in <xref linkend='app-prog-int'>.</para>
+      of the API as listed or referred to in <xref linkend='app-prog-int'> .</para>
    
     <para>The prefix for producer specific and target dependency tokens will
       begin and end with characters that distinguish them from the above
@@ -149,14 +149,14 @@
     <simplelist type='horiz' columns='2'>
       <member><literal>~</literal></member>
  
-      <member>TDF interface tokens as specified in <xref linkend='tdf-int-tok'>
+      <member>TDF interface tokens as specified in <xref linkend='tdf-int-tok'> 
         below, and also LPI tokens specific to DRA's C producer.</member>
  
       <member><literal>.~</literal></member>
      
       <member>Registered target dependency tokens as specified in
-        <xref linkend='target-dep-tok'> below, and basic mapping tokens specified in
-        <xref linkend='basic-map-tok'>.</member>
+        <xref linkend='target-dep-tok'>  below, and basic mapping tokens specified in
+        <xref linkend='basic-map-tok'> .</member>
 
       <member><literal>~cpp.</literal></member>
 
@@ -177,7 +177,7 @@
       be expressed within TDF, but the detail will be architecture specific.
       Every installer should have associated with it, a capsule containing the
       installer specific definitions of all the tokens specificed within this
-      <xref linkend='basic-map-tok'>.</para>
+      <xref linkend='basic-map-tok'> .</para>
    
     <para>Some of these tokens provide information about the integer and
       floating point variety representations supported by an installer, in a
@@ -598,7 +598,7 @@
    
     <para>Every operating system variant of an installer should have
       associated with it, a capsule containing the definitions of all the
-      tokens specificed within this <xref linkend='basic-map-tok'>.</para>
+      tokens specificed within this <xref linkend='basic-map-tok'> .</para>
    
     <sect1 id='c-map-tok'>
       <title>C mapping tokens</title>
@@ -1120,14 +1120,14 @@
       appropriate producer itself. Before an application can be installed on
       some target platform, the appropriate LPI token definitions must have
       been built for that platform. In this sense, the LPI can be considered
-      as a primitive API, which is discussed in <xref linkend='app-prog-int'>.</para>
+      as a primitive API, which is discussed in <xref linkend='app-prog-int'> .</para>
    
     <para>The process by which the LPI token definition library or capsule is
       generated for any specific platform will vary according to the LPI, and
       responsibility for defining that process will also lie with the
       appropriate producer. Some LPIs, such as that associated with DRA's C
       producer, can be fully defined by architecture neutral TDF, using the
-      tokens specified in <xref linkend='target-dep-tok'> and <xref linkend='basic-map-tok'> to
+      tokens specified in <xref linkend='target-dep-tok'>  and <xref linkend='basic-map-tok'> to
       encapsulate any target dependencies.  When that is the case, the
       generation process can be fully automated. For other LPIs the process
       may be much less automated. In some cases where the source language
@@ -1136,7 +1136,7 @@
    
     <para>Generally, the individual LPI tokens do not need to be specified in
       the token registry, provided they follow a registered naming scheme to
-      ensure uniqueness (see <xref linkend='naming-scheme'>). In exceptional
+      ensure uniqueness (see <xref linkend='naming-scheme'> ). In exceptional
       circumstances it may be necessary for some TDF tool to recognise
       individual LPI tokens explicitly by name. This will be the case when
       experimenting with potential extensions to TDF, in the field of
@@ -1156,7 +1156,7 @@
       <para>DRA's C producer LPI is defined by an architecture neutral token
         definition capsule provided with the producer. Target specific detail is
         included only by use of the target dependency tokens and C mapping
-        tokens specified in <xref linkend='target-dep-tok'> and
+        tokens specified in <xref linkend='target-dep-tok'>  and
         <xref linkend='c-map-tok'> respectively.  Target specific versions
         of this capsule are obtained by transformation, using the
         `preprocessing' action of the TDF tool <emphasis>tnc</emphasis>, with
@@ -1168,7 +1168,7 @@
      
       <para>The DRA C LPI does not include standard library features, for which
         the C language requires header files. The standard C library is one
-        example of an API, discussed in <xref linkend='app-prog-int'>.</para>
+        example of an API, discussed in <xref linkend='app-prog-int'> .</para>
     </sect1>
    
     <sect1 id='dra-cpp-lpi'>

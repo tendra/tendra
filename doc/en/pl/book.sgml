@@ -519,7 +519,7 @@ Struct Complex (re: Double, im: Double)
         <para>A &lt;Simple_Proc&gt; produces a make_proc with the obvious
           operands. The scope of the tag names introduced by
           &lt;Parametername&gt; and &lt;Varparname&gt; is the
-          &lt;ClosedExp&gt; <xref linkend='control-struct-decl'>.</para>
+          &lt;ClosedExp&gt; <xref linkend='control-struct-decl'> .</para>
 
         <para>A &lt;General_Proc&gt; produces a make_general_proc with formal
           caller parameters given by &lt;For_callers&gt; and the formal callee
@@ -726,7 +726,7 @@ Struct Complex (re: Double, im: Double)
 &lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;
           </programlisting>
 
-          <para>For &lt;ClosedExp&gt;, see <xref linkend='control-struct-decl'></para>
+          <para>For &lt;ClosedExp&gt;, see <xref linkend='control-struct-decl'> </para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
@@ -768,7 +768,7 @@ Struct Complex (re: Double, im: Double)
 &lt;ExpTerm&gt; ::= &lt;Assertion&gt;
           </programlisting>
 
-          <para>For &lt;Assertion&gt;, see <xref linkend='conditionalexp-assertion'></para>
+          <para>For &lt;Assertion&gt;, see <xref linkend='conditionalexp-assertion'> </para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
@@ -847,7 +847,7 @@ Struct Complex (re: Double, im: Double)
           </programlisting>
 
           <para>Produces a make_proc. For &lt;Proc_defn&gt;, see
-            <xref linkend='procdef'></para>
+            <xref linkend='procdef'> </para>
 
           <programlisting>
 &lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )
@@ -1180,7 +1180,7 @@ Struct Complex (re: Double, im: Double)
         </programlisting>
 
         <para>This produces a use_tokdef. For &lt;Tok_Defn&gt; see
-          <xref linkend='tokdef'>. The critical use of this construction is to
+          <xref linkend='tokdef'> . The critical use of this construction is to
           provide an actual TOKEN parameter to a token application where the
           &lt;Tok_Defn&gt; contains uses of tags or labels local to a
           procedure.</para>

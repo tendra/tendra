@@ -448,9 +448,9 @@
         test=status, where test is the name of the check, and status is either
         check (apply check and give an error if it fails), warn (apply check and
         give a warning if it fails) or dont (do not apply check). The names of
-        checks can be found with their descriptions in <xref linkend='integral-types'> to <xref linkend='symbol-table-dump'>; for
+        checks can be found with their descriptions in <xref linkend='integral-types'> to <xref linkend='symbol-table-dump'> ; for
         example the check for implicit function declarations described in
-        <xref linkend='implicit-funct-decl'>may be switched on using
+        <xref linkend='implicit-funct-decl'> may be switched on using
         <literal>-X:implicit_func=check</literal>.</para>
     </sect1>
 
@@ -647,7 +647,7 @@ char * f () {
         conversions, such conversions are flagged as errors by default. These
         conversion checks are not controlled by the global conversion analysis
         pragma above, but must be controlled by the relevant individual pragmas
-        given in sections <xref linkend='point-int-int-int-conv'> and <xref linkend='point-point-conv'>
+        given in sections <xref linkend='point-int-int-int-conv'>  and <xref linkend='point-point-conv'> 
 
       <sect2 id='int-int-conversions'>
         <title>Integer to integer conversions</title>
@@ -855,7 +855,7 @@ int main ()
             arithmetic involves some argument conversion. In the case above,
             scale is converted to an unsigned int and that is multiplied by
             offset to give an unsigned int result. If the implicit int-&gt;int
-            conversion checks (<xref linkend='int-int-conversions'>) are enabled, this conversion is
+            conversion checks (<xref linkend='int-int-conversions'> ) are enabled, this conversion is
             detected and the problem may be avoided.</para>
         </example>
       </sect2>
@@ -994,7 +994,7 @@ int f <emphasis>WEAK</emphasis> (char,char *);
               prototype analysis mode is enabled (see below) all subsequent calls
               of the function are checked against this weak prototype.</para>
 
-            <para>For example, in the bizarre function in <xref linkend='funct-type-check'>, the weak
+            <para>For example, in the bizarre function in <xref linkend='funct-type-check'> , the weak
               prototype:</para>
 <programlisting>
 int f <emphasis>WEAK</emphasis> ( int );
@@ -1315,7 +1315,7 @@ int f ( int c )
 
         <para>Occasionally it may be the case that such a function is legal,
           because the end of the function is not reached. Unreachable code is
-          discussed in section <xref linkend='unreachable-code'></para>
+          discussed in section <xref linkend='unreachable-code'> .</para>
       </sect2>
     </sect1>
 
@@ -1540,10 +1540,10 @@ int a;
       are still in common use. The checker provides support for both ISO and
       traditional integer promotion rules. The set of rules used may be specified
       independently of the two integral range scenarios, 16 bit(default) and 32
-      bit, described in section <xref linkend='minimum-int-ranges'>
+      bit, described in section <xref linkend='minimum-int-ranges'> 
 
     <para>The means of specifying and alternative sets of promotion rules,
-      their interaction with the conversion checks described in <xref linkend='type-conv'>
+      their interaction with the conversion checks described in <xref linkend='type-conv'> 
       and the additional checks which may be performed on integers and integer
       operations are described in the remainder of this chapter.</para>
 
@@ -2080,7 +2080,7 @@ int main() {
       </orderedlist>
 
       <para>In these cases, the type of the operation is represented using an
-        abstract integral type as described in section <xref linkend='int-promotion-rules'>
+        abstract integral type as described in section <xref linkend='int-promotion-rules'> 
     </sect1>
   </chapter>
 
@@ -2991,7 +2991,7 @@ int f ( int n )
 
         <para><literal>n</literal> is unused because the return statement is
           not reached (a fact that can also be determined by the unreachable code
-          analysis in <xref linkend='unreachable-code'>.</para>
+          analysis in <xref linkend='unreachable-code'> .</para>
       </sect2>
     </sect1>
 
@@ -4330,7 +4330,7 @@ return ( 0 );
       <para>The Xs, Xp, Xw, Xc, Xa and Xt modes are mutually incompatible and
         should not be used together. All other built-in mode combinations are
         allowed and, of course, any built-in mode can be combined with
-        user-defined modes as described in section <xref linkend='scoping-check'>
+        user-defined modes as described in section <xref linkend='scoping-check'> 
 
       <para>Checks marked with E are enabled to produce an error and checks
         marked with W are enabled to produce a warning. A blank entry implies
@@ -5056,7 +5056,7 @@ return ( 0 );
           <row>
             <entry>Weak Prototype Analysis</entry>
 
-            <entry><xref linkend='type-check-proto'>
+            <entry><xref linkend='type-check-proto'> 
 
             <entry>-X:weak_proto=<emphasis>status</emphasis></entry>
           </row>
@@ -5064,7 +5064,7 @@ return ( 0 );
           <row>
             <entry>Implicit Function Declaration</entry>
 
-            <entry><xref linkend='overriding-type-check'>
+            <entry><xref linkend='overriding-type-check'> 
 
             <entry>-X:implicit_func=<emphasis>status</emphasis></entry>
           </row>
@@ -5072,7 +5072,7 @@ return ( 0 );
           <row>
             <entry>Printf String Checking</entry>
 
-            <entry><xref linkend='point-int-int-int-conv'>
+            <entry><xref linkend='point-int-int-int-conv'> 
 
             <entry>-X:printf=<emphasis>status</emphasis></entry>
           </row>
@@ -5080,7 +5080,7 @@ return ( 0 );
           <row>
             <entry>Incompatible Void Returns</entry>
 
-            <entry><xref linkend='point-int-int-int-conv'>
+            <entry><xref linkend='point-int-int-int-conv'> 
 
             <entry>-X:void_ret=<emphasis>status</emphasis></entry>
           </row>
@@ -5088,7 +5088,7 @@ return ( 0 );
           <row>
             <entry>Unreachable Code</entry>
 
-            <entry><xref linkend='unreachable-code'>
+            <entry><xref linkend='unreachable-code'> 
 
             <entry>-X:unreached=<emphasis>status</emphasis></entry>
           </row>
@@ -5096,7 +5096,7 @@ return ( 0 );
           <row>
             <entry>Case Fall Through</entry>
 
-            <entry><xref linkend='case-fall-through'>
+            <entry><xref linkend='case-fall-through'> 
 
             <entry>-X:fall_thru=stat</entry>
           </row>
@@ -5104,7 +5104,7 @@ return ( 0 );
           <row>
             <entry>Conversion Analysis</entry>
 
-            <entry><xref linkend='type-conv'>
+            <entry><xref linkend='type-conv'> 
 
             <entry>-X:convert_all=<emphasis>status</emphasis></entry>
           </row>
@@ -5112,7 +5112,7 @@ return ( 0 );
           <row>
             <entry>Integer-Integer Conversion</entry>
 
-            <entry><xref linkend='int-int-conversions'>
+            <entry><xref linkend='int-int-conversions'> 
 
             <entry>-X:convert_int=<emphasis>status</emphasis>
             -X:convert_int_implicit=<emphasis>status</emphasis>
@@ -5122,7 +5122,7 @@ return ( 0 );
           <row>
             <entry>Integer-Pointer Conversion</entry>
 
-            <entry><xref linkend='point-int-int-int-conv'>
+            <entry><xref linkend='point-int-int-int-conv'> 
 
             <entry>-X:convert_int_ptr=<emphasis>status</emphasis></entry>
           </row>
@@ -5130,7 +5130,7 @@ return ( 0 );
           <row>
             <entry>Pointer-Pointer Conversion</entry>
 
-            <entry><xref linkend='point-point-conv'>
+            <entry><xref linkend='point-point-conv'> 
 
             <entry>-X:convert_ptr=<emphasis>status</emphasis></entry>
           </row>
@@ -5138,7 +5138,7 @@ return ( 0 );
           <row>
             <entry>Complete Struct/Union Analysis</entry>
 
-            <entry><xref linkend='incomplete-struct'>
+            <entry><xref linkend='incomplete-struct'> 
 
             <entry>-X:complete_struct=<emphasis>status</emphasis></entry>
           </row>
@@ -5146,7 +5146,7 @@ return ( 0 );
           <row>
             <entry>Variable Analysis</entry>
 
-            <entry><xref linkend='var-analysis'>
+            <entry><xref linkend='var-analysis'> 
 
             <entry>-X:variable=<emphasis>status</emphasis></entry>
           </row>
@@ -5154,7 +5154,7 @@ return ( 0 );
           <row>
             <entry>Discard Analysis</entry>
 
-            <entry><xref linkend='discard-analysis'>
+            <entry><xref linkend='discard-analysis'> 
 
             <entry>-X:discard_all=<emphasis>status</emphasis></entry>
           </row>
@@ -5162,7 +5162,7 @@ return ( 0 );
           <row>
             <entry>Discarded Function Returns</entry>
 
-            <entry><xref linkend='dicard-funct'>
+            <entry><xref linkend='dicard-funct'> 
 
             <entry>-X:discard_func_ret=<emphasis>status</emphasis></entry>
           </row>
@@ -5170,7 +5170,7 @@ return ( 0 );
           <row>
             <entry>Discarded Values</entry>
 
-            <entry><xref linkend='discard-computed'>
+            <entry><xref linkend='discard-computed'> 
 
             <entry>-X:discard_value=<emphasis>status</emphasis></entry>
           </row>
@@ -5178,7 +5178,7 @@ return ( 0 );
           <row>
             <entry>Unused Statics</entry>
 
-            <entry><xref linkend='discard-computed'>
+            <entry><xref linkend='discard-computed'> 
 
             <entry>-X:unused_static=<emphasis>status</emphasis></entry>
           </row>
@@ -5591,7 +5591,7 @@ return ( 0 );
       <tbody>
       <row>
           <entry>begin</entry>
-          <entry><xref linkend='scoping-check'></entry>
+          <entry><xref linkend='scoping-check'> </entry>
       </row>
 
       <row>
@@ -5621,7 +5621,7 @@ return ( 0 );
 
       <row>
           <entry>end</entry>
-          <entry><xref linkend='scoping-check'></entry>
+          <entry><xref linkend='scoping-check'> </entry>
       </row>
 
       <row>
@@ -5684,7 +5684,7 @@ return ( 0 );
       <tbody>
       <row>
           <entry>complete struct/union analysis <emphasis>state</emphasis></entry>
-          <entry><xref linkend='incomplete-struct'></entry>
+          <entry><xref linkend='incomplete-struct'> </entry>
       </row>
 
       <row>
@@ -5694,12 +5694,12 @@ return ( 0 );
 
       <row>
           <entry>conversion analysis <emphasis>conversion_spec</emphasis></entry>
-          <entry><xref linkend='type-conv'></entry>
+          <entry><xref linkend='type-conv'> </entry>
       </row>
 
       <row>
           <entry>discard analysis <emphasis>discard_spec</emphasis></entry>
-          <entry><xref linkend='discard-analysis'></entry>
+          <entry><xref linkend='discard-analysis'> </entry>
       </row>
 
       <row>
@@ -5709,12 +5709,12 @@ return ( 0 );
 
       <row>
           <entry>fall into case <emphasis>permit</emphasis></entry>
-          <entry><xref linkend='case-fall-through'></entry>
+          <entry><xref linkend='case-fall-through'> </entry>
       </row>
 
       <row>
           <entry>function pointer as pointer <emphasis>permit</emphasis></entry>
-          <entry><xref linkend='point-point-conv'></entry>
+          <entry><xref linkend='point-point-conv'> </entry>
       </row>
 
       <row>
@@ -5739,12 +5739,12 @@ return ( 0 );
 
       <row>
           <entry>unreachable code <emphasis>permit</emphasis></entry>
-          <entry><xref linkend='unreachable-code'></entry>
+          <entry><xref linkend='unreachable-code'> </entry>
       </row>
 
       <row>
           <entry>variable analysis <emphasis>state</emphasis></entry>
-          <entry><xref linkend='unreachable-code'></entry>
+          <entry><xref linkend='unreachable-code'> </entry>
       </row>
 
       <row>
@@ -5754,7 +5754,7 @@ return ( 0 );
 
       <row>
           <entry>weak prototype analysis <emphasis>state</emphasis></entry>
-          <entry><xref linkend='type-check-proto'></entry>
+          <entry><xref linkend='type-check-proto'> </entry>
       </row>
       </tbody>
       </tgroup>
@@ -5784,72 +5784,72 @@ return ( 0 );
 
       <row>
           <entry>( int-int )</entry>
-          <entry><xref linkend='int-int-conversions'></entry>
+          <entry><xref linkend='int-int-conversions'> </entry>
       </row>
 
       <row>
           <entry>( int-int explicit )</entry>
-          <entry><xref linkend='int-int-conversions'></entry>
+          <entry><xref linkend='int-int-conversions'> </entry>
       </row>
 
       <row>
           <entry>( int-int implicit )</entry>
-          <entry><xref linkend='int-int-conversions'></entry>
+          <entry><xref linkend='int-int-conversions'> </entry>
       </row>
 
       <row>
           <entry>( int-enum implicit)</entry>
-          <entry><xref linkend='int-int-conversions'></entry>
+          <entry><xref linkend='int-int-conversions'> </entry>
       </row>
 
       <row>
           <entry>(enum-int implicit)</entry>
-          <entry><xref linkend='int-int-conversions'></entry>
+          <entry><xref linkend='int-int-conversions'> </entry>
       </row>
 
       <row>
           <entry>( int-pointer )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>( int-pointer explicit )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>(int-pointer implicit )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-int )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-int explicit )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-int implicit )</entry>
-          <entry><xref linkend='point-int-int-int-conv'></entry>
+          <entry><xref linkend='point-int-int-int-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-pointer )</entry>
-          <entry><xref linkend='point-point-conv'></entry>
+          <entry><xref linkend='point-point-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-pointer explicit )</entry>
-          <entry><xref linkend='point-point-conv'></entry>
+          <entry><xref linkend='point-point-conv'> </entry>
       </row>
 
       <row>
           <entry>( pointer-pointer implicit )</entry>
-          <entry><xref linkend='point-point-conv'></entry>
+          <entry><xref linkend='point-point-conv'> </entry>
       </row>
       </tbody>
       </tgroup>
@@ -5879,7 +5879,7 @@ return ( 0 );
 
       <row>
           <entry>( function return )</entry>
-          <entry><xref linkend='dicard-funct'></entry>
+          <entry><xref linkend='dicard-funct'> </entry>
       </row>
 
       <row>
@@ -5889,7 +5889,7 @@ return ( 0 );
 
       <row>
           <entry>( value )</entry>
-          <entry><xref linkend='discard-computed'></entry>
+          <entry><xref linkend='discard-computed'> </entry>
       </row>
       </tbody>
       </tgroup>
@@ -5962,7 +5962,7 @@ return ( 0 );
 
       <row>
           <entry>fall into case</entry>
-          <entry><xref linkend='case-fall-through'></entry>
+          <entry><xref linkend='case-fall-through'> </entry>
       </row>
 
       <row>
@@ -5972,12 +5972,12 @@ return ( 0 );
 
       <row>
           <entry>set reachable</entry>
-          <entry><xref linkend='unreachable-code'></entry>
+          <entry><xref linkend='unreachable-code'> </entry>
       </row>
 
       <row>
           <entry>set unreachable</entry>
-          <entry><xref linkend='unreachable-code'></entry>
+          <entry><xref linkend='unreachable-code'> </entry>
       </row>
 
       <row>
@@ -5987,7 +5987,7 @@ return ( 0 );
 
       <row>
           <entry>weak</entry>
-          <entry><xref linkend='type-check-proto'></entry>
+          <entry><xref linkend='type-check-proto'> </entry>
       </row>
       </tbody>
       </tgroup>
@@ -6205,7 +6205,7 @@ return ( 0 );
 
       <row>
           <entry>compatible type : char * == void * : <emphasis>permit</emphasis></entry>
-          <entry><xref linkend='point-point-conv'></entry>
+          <entry><xref linkend='point-point-conv'> </entry>
       </row>
 
       <row>
@@ -6370,7 +6370,7 @@ return ( 0 );
 
       <row>
           <entry>prototype (weak) <emphasis>permit</emphasis></entry>
-          <entry><xref linkend='type-check-proto'></entry>
+          <entry><xref linkend='type-check-proto'> </entry>
       </row>
 
       <row>
@@ -7508,7 +7508,7 @@ fprintf(stderr,&quot;hello world\n&quot;);
         program. In the latter case, the tokens exist merely to enforce correct
         definitions and usage of the objects they reference. However it should be
         noted that the presence of a token introduction can alter the semantics
-        of a program (examples are given in <xref linkend='expression-tokens'>Expression tokens). The
+        of a program (examples are given in <xref linkend='expression-tokens'> Expression tokens). The
         semantics have been altered to force programs to respect token interfaces
         where they would otherwise fail to do so.</para>
 
@@ -7722,7 +7722,7 @@ const
 
       <para>Expression tokens can either be defined using #define statements or
         by using externals. They can also be resolved as a result of applying the
-        type-resolution or assignment-resolution operators (see <xref linkend='type-token-compat'>
+        type-resolution or assignment-resolution operators (see <xref linkend='type-token-compat'> 
         Type token compatibility, definitions etc.). Expression token definitions
         are subject to the following constraints:</para>
 
@@ -7768,7 +7768,7 @@ extern short k;
       <para>If the <emphasis>exp-token-name</emphasis> refers to an expression
         that designates a value, then the defining expression is converted, as if
         by assignment, to the type of the expression token using the
-        <emphasis>assignment-resolution</emphasis> operator (see <xref linkend='type-token-compat'>
+        <emphasis>assignment-resolution</emphasis> operator (see <xref linkend='type-token-compat'> 
         Type token compatibility, definitions etc.). With all other designations
         the defining expression is left unchanged. In both cases the resulting
         expression is used as the definition of the expression token. This can
@@ -7859,7 +7859,7 @@ int f(int x) { init_globs return g(x);}
         introductions.</para>
 
       <para>The use of statement tokens is analogous to the use of expression
-        tokens (see <xref linkend='expression-tokens'>Expression tokens). A new symbol,
+        tokens (see <xref linkend='expression-tokens'> Expression tokens). A new symbol,
         <emphasis>stat-token-name</emphasis>, has been introduced into the syntax
         analysis at phase 7 of translation as defined in the ISO C standard. This
         token is passed through to the syntax analyser whenever the preprocessor
@@ -7893,7 +7893,7 @@ int f(int x) { init_globs return g(x);}
         the semantics of a compound statement forming the definition of a
         function with no parameters and void result. The definition of statement
         tokens carries the same implications for phases of translation as the
-        definition of expression tokens (see <xref linkend='expression-tokens'>Expression
+        definition of expression tokens (see <xref linkend='expression-tokens'> Expression
         tokens).</para>
     </sect1>
 
@@ -8067,7 +8067,7 @@ typedef t_t arr_type[n];/*introduces array type */
           type is valid.</para>
 
         <para>Values which have integral tokenised types can be converted to
-          any scalar type (see <xref linkend='type-tokens'>Type tokens). Similarly values with
+          any scalar type (see <xref linkend='type-tokens'> Type tokens). Similarly values with
           any scalar type can be converted to a value with a tokenised integral
           type. The semantics of these conversions are exactly the same as if the
           type defining the token were used directly. Consider:</para>
@@ -8136,7 +8136,7 @@ return x_i;
           non-overlapping member selectors and UNION for compound types with
           overlapping member selectors. The compound type token introduction does
           not specify the member selectors of the compound type - these are added
-          later (see <xref linkend='selector-tok'>Selector tokens).</para>
+          later (see <xref linkend='selector-tok'> Selector tokens).</para>
 
         <para>Values and objects with tokenised compound types can be used
           anywhere that a structure and union type can be used.</para>
@@ -8902,7 +8902,7 @@ dot-list:
         tchk by means of a command-line option of the form -Yapi where api is the
         API name. For example, ANSI X3.159 is specified by -Yansi (this is the
         default API) and POSIX 1003.1 is specified by -Yposix (for a full list of
-        the supported APIs see <xref linkend='type-check'>).</para>
+        the supported APIs see <xref linkend='type-check'> ).</para>
 
       <para>Extension APIs, such as X11, require special attention. The API for
         a program is never just X11, but X11 plus some base API, for example, X11
@@ -9394,7 +9394,7 @@ i=pip;
       <para>allows users to define their own conversions between types that
         would otherwise be incompatible. Each identifier in the
         <emphasis>conv_list</emphasis> must be a local identifier for a PROC
-        token (see <xref linkend='procedure-tok'>Procedure tokens), taking exactly one
+        token (see <xref linkend='procedure-tok'> Procedure tokens), taking exactly one
         argument which must be an expression. The procedure must also deliver an
         expression and both the parameter and the result must be rvalues. When
         attempting the conversion of a value from one type to another, either by
@@ -9446,7 +9446,7 @@ i=pip;
 </programlisting>
 
         <para>allows the programmer to provide the identification of a
-          procedure token (see <xref linkend='procedure-tok'>Procedure tokens) for
+          procedure token (see <xref linkend='procedure-tok'> Procedure tokens) for
           computing the promotion type of any integral type. This token is then
           called whenever the promotion of a type without a literal promotion is
           required. The procedure token <emphasis>proc-token</emphasis> must be

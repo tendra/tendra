@@ -2080,7 +2080,7 @@
     <sect1 id='intermodular-checks'>
       <title>Intermodular Checks</title>
 
-      <para>All of the extra compiler checks described in <xref linkend='compilation-modes-and-port'>
+      <para>All of the extra compiler checks described in <xref linkend='compilation-modes-and-port'> 
          refer to a single C source file, however
         <command>tcc</command> also has support for a number of
         intermodular checks. These checks are enabled by means of the
