@@ -2,6 +2,9 @@
 
 .PATH : ${.OBJDIR}/../../../ansi.api
 
+# Set TL_DIAG so we know that we're in the diag directory.
+TL_DIAG=	yes
+
 TCCFLAGS+=	-g
 
 # Built in lib/sys

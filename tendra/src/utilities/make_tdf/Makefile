@@ -7,8 +7,6 @@ SID_OPTS=	-l ossg-c -s no-lines
 
 PROG = make_tdf
 
-NOMAN=	yes
-
 SRCS=	input.c lex.c main.c output.c syntax.c
 
 #obj_c sources

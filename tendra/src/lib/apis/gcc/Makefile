@@ -1,6 +1,7 @@
 # $TenDRA$
 
-API=	gcc
+API=		gcc
+API_SUBDIR=	sys
 
 .include "../Makefile.inc"
 

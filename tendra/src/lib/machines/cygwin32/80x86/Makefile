@@ -1,6 +1,6 @@
 # $TenDRA$
 
-IMACHINE=	cygwin32/80x86
+INSTALL_MACHINE=	cygwin32/80x86
 
 .PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../common/tokens
 

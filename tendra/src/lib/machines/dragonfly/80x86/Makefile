@@ -1,6 +1,6 @@
 # $TenDRA$
 
-IMACHINE=	freebsd/80x86
+INSTALL_MACHINE=	freebsd/80x86
 
 .PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../common/tokens
 
