@@ -83,6 +83,11 @@
  */
 typedef void msg_uh_t (char, void *);
 
+/*
+ * Type of msg_on_message handler
+ */
+typedef void msg_on_message_t (MSG_DATA *);
+
 void  msg_init(void);
 void  msg_print(int, ...);
 const char *msg_get_raw(int);
@@ -103,6 +108,11 @@ extern int msgcat_show_progname;
  * Maximum message severity level ever reported
  */
 extern int msg_max_reported_severity;
+
+/*
+ * User handler called before message is printed
+ */
+extern msg_on_message_t *msg_on_message;
 
 struct OStreamT;
 

@@ -63,6 +63,8 @@ int msgcat_show_progname = 1;
 
 int msg_max_reported_severity;
 
+msg_on_message_t *msg_on_message;
+
 int crt_line_no = 1;
 const char *crt_file_name = NULL;
 
@@ -434,6 +436,8 @@ msg_print(int n, ...)
 	va_end(ap);
 	if (mp == NULL)
 		return;
+	if (msg_on_message)
+		msg_on_message(mp);
 	write_newline(msg_stream);
 	ostream_flush(msg_stream);
 	if (mp->usage == MSG_SEV_FATAL || (mp->props & MSG_PROP_FATAL)) {
