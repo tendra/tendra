@@ -1582,4 +1582,22 @@ $METHOD = "TNC" ;
       </listitem>
     </itemizedlist>
   </chapter>
+
+  <chapter id="c7">
+    <title>References</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>TDF and Portability, DRA, 1993.</para>
+      </listitem>
+
+      <listitem>
+        <para>The TDF Notation Compiler, DRA, 1993.</para>
+      </listitem>
+
+      <listitem>
+        <para>The C to TDF Producer, DRA, 1993.</para>
+      </listitem>
+    </itemizedlist>
+  </chapter>
 </book>
