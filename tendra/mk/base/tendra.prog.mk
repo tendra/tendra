@@ -74,7 +74,7 @@ clean-all:
 
 obj-dir:
 	@if ! test -d ${OBJ_DIR}/; then \
-		mkdir -p ${OBJ_DIR}; \
+		${MKDIR} ${OBJ_DIR}; \
 		if ! test -d ${OBJ_DIR}/; then \
 			${ECHO} "Unable to create ${OBJ_DIR}."; \
 			exit 1; \
@@ -86,7 +86,7 @@ make-dir:
 .if defined(MAKEDIR)
 .for i in ${MAKEDIR}
 	@if ! test -d ${OBJ_DIR}/${i}; then \
-		mkdir -p ${OBJ_DIR}/${i}; \
+		${MKDIR} ${OBJ_DIR}/${i}; \
 	fi
 .endfor
 .endif
