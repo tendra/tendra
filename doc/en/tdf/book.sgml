@@ -463,9 +463,10 @@
     <para>The encoding of every <literal>SORT</literal> in TDF can be extended indefinitely (except for certain auxiliary <literal>SORT</literal>s). This mechanism should only be used for extending standard TDF to the next standard, since otherwise extensions made by different groups of people might conflict with each other. See -XREF-spec11.html#13Extendable integer encoding.</para>
     </listitem>
     <listitem>
-    <para>Basic TDF has three kinds of linkable entity and seven kinds of unit. It also contains a mechanism for extending these so that other information can be transmitted in a capsule and properly related to basic TDF. The rules for linking this extra information are also laid down. See -XREF-spec8.html#M53make_capsule.
+    <para>Basic TDF has three kinds of linkable entity and seven kinds of unit. It also contains a mechanism for extending these so that other information can be transmitted in a capsule and properly related to basic TDF. The rules for linking this extra information are also laid down. See -XREF-spec8.html#M53make_capsule.</para>
     <para>If a new kind of unit is added, it can contain any information, but if it is to refer to the tags and tokens of other units it must use the linkable entities. Since new kinds of unit might need extra kinds of linkable entity, a method for adding these is also provided. All this works in a uniform way, with capsule level tables of the new entities, and external and internal links for them.</para>
     <para>If new kinds of unit are added, the order of groups must be the same in any capsules which are linked together. As an example of the use of this kind of extension, the diagnostic information is introduced in just this way. It uses two extra kinds of unit and one extra kind of linkable entity. The extra units need to refer to the tags in the other units, since these are the object of the diagnostic information. This mechanism can be used for both purposes.</para>
+    </listitem>
     <listitem>
     <para>The parameters of tokens are encoded in such a way that foreign information (that is, information which cannot be expressed in the TDF <literal>SORT</literal>s) can be supplied. This mechanism should only be used for the second purpose, though it could be used to experiment with extensions for future standards. See -XREF-spec11.html#8<literal>BITSTREAM</literal>.</para>
     </listitem>
@@ -483,7 +484,7 @@
     <emphasis>fv</emphasis>:      FLOATING_VARIETY
       -&gt; SHAPE
     </programlisting>
-   
+c   
     <para>The constructs' arguments (one in this case) precede the &quot;<emphasis>-&gt;</emphasis>&quot; and the result follows it. Each argument is shown as follows:</para>
     <programlisting>
     <emphasis>name</emphasis>:        SORT
@@ -576,7 +577,7 @@
   <chapter id='inst-behavior'>
     <title>Installer Behaviour</title>
    
-    <para> </para>
+
    
     <sect1 id='def-terms'>
     <title>Definition of terms</title>
@@ -620,7 +621,6 @@
  
   <chapter id='spec-tdf-constructs'>
     <title>Specification of TDF Constructs</title>
-    <para> </para>
    
     <sect1 id='access-b'>
     <title>ACCESS</title>
@@ -1867,7 +1867,7 @@
    
     <para>If none of the <literal>PROCPROPS</literal> <emphasis>var_callers</emphasis>, <emphasis>var_callees</emphasis> and <emphasis>check_stack</emphasis> are present the inlining is as follows, supposing that P is the body of the definition of <emphasis>p</emphasis>:</para>
    
-    <para>Let R<emphasis>i</emphasis> be the value of the <literal>EXP</literal> of the i<emphasis>th</emphasis> <literal>OTAGEXP</literal> in <emphasis>callers_intro</emphasis> and T<emphasis>i</emphasis> be its <literal>TAG</literal> (if it is present). Let E<emphasis>i</emphasis> be the i<emphasis>th</emphasis> value in <emphasis>callee_pars</emphasis>.
+    <para>Let R<emphasis>i</emphasis> be the value of the <literal>EXP</literal> of the i<emphasis>th</emphasis> <literal>OTAGEXP</literal> in <emphasis>callers_intro</emphasis> and T<emphasis>i</emphasis> be its <literal>TAG</literal> (if it is present). Let E<emphasis>i</emphasis> be the i<emphasis>th</emphasis> value in <emphasis>callee_pars</emphasis>.</para>
    
     <para>Let r<emphasis>i</emphasis> be the i<emphasis>th</emphasis> formal caller parameter <literal>TAG</literal> of <emphasis>p</emphasis>.</para>
    
@@ -3358,7 +3358,7 @@
    
     <para><emphasis>fa</emphasis> and <emphasis>fb</emphasis> will include <emphasis>locals_alignment</emphasis> and, if <emphasis>alloc_size</emphasis> is not the zero offset, will also contain <emphasis>alloca_alignment</emphasis>.</para>
    
-    <para>The result will be the same as if given by:
+    <para>The result will be the same as if given by:</para>
     <para>Assume <emphasis>stack_base</emphasis> is the current frame-pointer as given by <emphasis>current_env</emphasis> in a hypothetical procedure P with <emphasis>env_size</emphasis> equal to <emphasis>frame_size</emphasis> and which has generated <emphasis>alloc_size</emphasis> by a <emphasis>local_alloc</emphasis>. If P then calls Q, the result will be the same as that of a <emphasis>current_env</emphasis> performed immediately in the body of Q.</para>
     <para>If the following construction is performed:</para>
     <para>set_stack_limit(make_stack_limit(current_env, F, A))</para>
@@ -5230,7 +5230,7 @@
     <member>Is coding extendable:</member><member>no</member>
     </simplelist>
     <para>This is a auxilliary <literal>SORT</literal> used in <emphasis>apply_general_proc</emphasis>.</para>
-   
+    </sect2>   
    
    
     <sect2 id='make-otagexp'>
@@ -5984,6 +5984,7 @@
     <programlisting>
     -&gt; SORTNAME
     </programlisting>
+    </sect2>
    
     <sect2 id='aal-tag'>
     <title>Aal_tag</title>
@@ -6641,7 +6642,7 @@
    
     <para><emphasis>e</emphasis> will be a constant evaluable at load_time or <emphasis>e</emphasis> will be some <emphasis>initial_value</emphasis>(E) (see -XREF-#M125section 5.16.48 ).</para>
    
-    <para><emphasis>t</emphasis> will be declared in the <literal>CAPSULE</literal> using <emphasis>common_tagdec</emphasis>.If both the <emphasis>common_tagdec</emphasis> and
+    <para><emphasis>t</emphasis> will be declared in the <literal>CAPSULE</literal> using <emphasis>common_tagdec</emphasis>.If both the <emphasis>common_tagdec</emphasis> and</para>
    
     <para><emphasis>common_tagdef</emphasis> have <emphasis>signatures</emphasis> present, the string.</para>
    
@@ -6870,6 +6871,7 @@
    
    
     </sect2>
+    </sect1>
    
     <sect1 id='tokdef-props'>
     <title>TOKDEF_PROPS</title>
@@ -7369,7 +7371,7 @@
     -&gt; VARIETY
     </programlisting>
    
-    <para>If <emphasis>signed_width</emphasis> is <emphasis>true</emphasis> then this construction is equivalent to <emphasis>var_limits</emphasis>(-2<<emphasis>width</emphasis>-1, 2<emphasis>width</emphasis>-1-1). If <emphasis>signed_width</emphasis> is <emphasis>false</emphasis> then this construction is <emphasis>var_limits</emphasis> (0, 2<emphasis>width</emphasis>-1). </para>
+    <para>If <emphasis>signed_width</emphasis> is <emphasis>true</emphasis> then this construction is equivalent to <emphasis>var_limits</emphasis>(-2<emphasis>width</emphasis>-1, 2<emphasis>width</emphasis>-1-1). If <emphasis>signed_width</emphasis> is <emphasis>false</emphasis> then this construction is <emphasis>var_limits</emphasis> (0, 2<emphasis>width</emphasis>-1). </para>
    
    
    
@@ -7463,7 +7465,6 @@
  
   <chapter id='supplementary-unit'>
     <title>Supplementary UNIT</title>
-    <para> </para>
    
     <sect1 id='linkinfo-props'>
     <title>LINKINFO_PROPS</title>
@@ -7574,7 +7575,6 @@
   <chapter id='notes'>
     <title>Notes</title>
    
-    <para> </para>
    
     <sect1 id='binding'>
     <title>Binding</title>
@@ -8427,7 +8427,7 @@
     <para><literal>BYTESTREAM</literal> <emphasis>X</emphasis> occurs in only one place, the encoding of the <literal>SORT UNIT</literal>. The <literal>SORT</literal> <emphasis>X</emphasis> is determined by the <literal>UNIT</literal> identification which is given for each of the relevant <literal>SORTS</literal>.</para>
     </listitem>
     <listitem>
-    <para>The <emphasis>tld</emphasis> <literal>UNIT</literal> is encoded specially. It is always the first <literal>UNIT</literal> in a Capsule and is used to pass information to the TDF linker. The first entry in a <emphasis>tld</emphasis> <literal>UNIT</literal> is a <literal>TDFINT</literal> giving the format of the remainder of the <literal>UNIT</literal>. Currently, the linker supports formats 0 and 1, but others may be added to give greater functionality while retaining compatibility. With format 0, the remainder of <literal>UNIT</literal> is identical to a now obsolete <emphasis>tld2</emphasis> <literal>UNIT</literal>. With format 1, the remainder of the <literal>UNIT</literal> is as follows: If <emphasis>n</emphasis> is the number of <literal>EXTERN_LINK</literal> s in the <emphasis>external_linkage</emphasis> argument of <emphasis>make_capsule</emphasis>, the remainder consists of <emphasis>n</emphasis> sequences. These sequences are in the order given by <emphasis>external_linkage</emphasis>. Each element of a sequence consist of one <literal>TDFINT</literal> per linkable entity in the corresponding <emphasis>el</emphasis> of the <emphasis>make_extern_link</emphasis> in the same order. These integers will describe properties of the correponding external links. (In format 0, there are only two sequences, the first describing the token external links and the second describing the tag external links.)
+    <para>The <emphasis>tld</emphasis> <literal>UNIT</literal> is encoded specially. It is always the first <literal>UNIT</literal> in a Capsule and is used to pass information to the TDF linker. The first entry in a <emphasis>tld</emphasis> <literal>UNIT</literal> is a <literal>TDFINT</literal> giving the format of the remainder of the <literal>UNIT</literal>. Currently, the linker supports formats 0 and 1, but others may be added to give greater functionality while retaining compatibility. With format 0, the remainder of <literal>UNIT</literal> is identical to a now obsolete <emphasis>tld2</emphasis> <literal>UNIT</literal>. With format 1, the remainder of the <literal>UNIT</literal> is as follows: If <emphasis>n</emphasis> is the number of <literal>EXTERN_LINK</literal> s in the <emphasis>external_linkage</emphasis> argument of <emphasis>make_capsule</emphasis>, the remainder consists of <emphasis>n</emphasis> sequences. These sequences are in the order given by <emphasis>external_linkage</emphasis>. Each element of a sequence consist of one <literal>TDFINT</literal> per linkable entity in the corresponding <emphasis>el</emphasis> of the <emphasis>make_extern_link</emphasis> in the same order. These integers will describe properties of the correponding external links. (In format 0, there are only two sequences, the first describing the token external links and the second describing the tag external links.)</para>
    
     <itemizedlist>
     <listitem>
@@ -8464,10 +8464,6 @@
     <note>
     <para>The TDF linker will refuse to link TDF files with different major version numbers. The resulting minor version number is the maximum of component minor version numbers.</para>
     </note>
+    </sect1>
   </chapter>
 </book>
-
-
-
-
-
