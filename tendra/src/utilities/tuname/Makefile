@@ -17,11 +17,11 @@ LIBS =
 
 NAME = tuname
 
-CFILES = tuname.c
+SRCS = tuname.c
 
-${NAME} : ${CFILES}
+${NAME}: ${SRCS}
 	@${ECHO} ${BASE_DIR}
-	${CC} ${CCOPTS} -o ${NAME} ${CFILES} ${LIBS}
+	${CC} ${CCOPTS} -o ${NAME} ${SRCS} ${LIBS}
 
 all: ${NAME}
 	@${ECHO} all done
