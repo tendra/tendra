@@ -2708,7 +2708,7 @@ storage-class-specifier : () -> ( ds : DSPEC ) = {
 /*
  *    FUNCTION SPECIFIERS
  *
- *    This rule describes the function specifiers, 'inline, 'virtual' and
+ *    This rule describes the function specifiers, 'inline', 'virtual' and
  *    'explicit'.
  */
 
