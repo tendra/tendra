@@ -71,6 +71,12 @@
       </listitem>
     </varlistentry>
     <varlistentry>
+      <term><option>-c</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
       <term><option>-d</option></term>
       <listitem>
         <para>Causes <command>calculus</command> to generate disk reading and
@@ -79,10 +85,34 @@
       </listitem>
     </varlistentry>
     <varlistentry>
+      <term><option>-e</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
       <term><option>-i</option></term>
       <listitem>
         <para>Indicates to <command>calculus</command> that
           <emphasis>input</emphasis> is a simple input file.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-l</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-m</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-n</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
     <varlistentry>
@@ -101,6 +131,12 @@
             routines designed for use in the debugging of programs written
             using the type system.</para>
         </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-q</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
     </varlistentry>
     <varlistentry>
       <term><option>-r</option></term>
@@ -139,6 +175,12 @@
       <listitem>
         <para>Causes <command>calculus</command> to suppress the vector and vector pointer constructs
           in its output.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><option>-z</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
   </variablelist>
