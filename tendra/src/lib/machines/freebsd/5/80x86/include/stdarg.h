@@ -51,7 +51,7 @@
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
- * $TenDRA: tendra/src/lib/machines/freebsd/5/80x86/include/stdarg.h,v 1.5 2003/08/24 22:52:53 nonce Exp $
+ * $TenDRA$
  */
 
 #ifndef _STDARG_H
@@ -136,6 +136,18 @@ typedef char *va_list ;
 
 
 #endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+
+
+#ifndef __BUILDING_TDF_ISO99_STDARG_H_VA_COPY
+
+#pragma token PROC ( EXP lvalue : va_list : dst , EXP lvalue : va_list : src ) EXP rvalue : void : va_copy # iso99.stdarg.va_copy
+#pragma interface va_copy
+
+#else /* __BUILDING_TDF_ISO99_STDARG_H_VA_COPY */
+
+#define va_copy( DST, SRC )	( ( void ) ( DST = SRC ) )
+
+#endif /* __BUILDING_TDF_ISO99_STDARG_H_VA_COPY */
 
 
 #endif /* _STDARG_H */

@@ -133,4 +133,16 @@ typedef char *__va_t ;
 #endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
 
 
+#ifndef __BUILDING_TDF_ISO99_STDARG_H_VA_COPY
+
+#pragma token PROC ( EXP lvalue : va_list : dst , EXP lvalue : va_list : src ) EXP rvalue : void : va_copy # iso99.stdarg.va_copy
+#pragma interface va_copy
+
+#else /* __BUILDING_TDF_ISO99_STDARG_H_VA_COPY */
+
+#define va_copy( DST, SRC )	( ( void ) ( DST = SRC ) )
+
+#endif /* __BUILDING_TDF_ISO99_STDARG_H_VA_COPY */
+
+
 #endif /* _STDARG_H */
