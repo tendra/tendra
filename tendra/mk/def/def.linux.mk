@@ -61,4 +61,4 @@ TR?=		/usr/bin/tr
 TRUE?=		/bin/true
 TYPE?=		
 WC?=		/usr/bin/wc
-XARGS?=	p>	/usr/bin/xargs
+XARGS?=		/usr/bin/xargs
