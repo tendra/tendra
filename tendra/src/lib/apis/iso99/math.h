@@ -324,7 +324,7 @@
 
 +FUNC double trunc(double);
 +FUNC float truncf(float);
-+FUNC long double trunalc(long double);
++FUNC long double truncl(long double);
 
 # 7.12.10.1
 
