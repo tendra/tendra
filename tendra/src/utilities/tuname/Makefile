@@ -25,9 +25,3 @@ ${NAME} : ${CFILES}
 
 all: ${NAME}
 	@${ECHO} all done
-
-extra:
-	@${ECHO} done
-
-clean:
-	${REMOVE} ${NAME}.core core ${NAME}
