@@ -53,7 +53,7 @@ elif [ -f "../manpages/trans/$1/manpage.sgml" ]; then
 	echo "<!ENTITY % ref.man.options SYSTEM \"tmp/options.sgml_tmp\"> %ref.man.options;"
 	echo "<!ENTITY % ref.man.common SYSTEM \"tmp/common.sgml_tmp\"> %ref.man.common;"
 	echo "]>"
-	echo "<refentry id=\"$1\">"
+	echo "<refentry id=\"trans-$1\">"
 	cat ../manpages/trans/$1/manpage.sgml
 fi
 
