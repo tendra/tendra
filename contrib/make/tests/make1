@@ -1,0 +1,9 @@
+# $TenDRA$
+
+# Invocation: make -e -r with TEST set on the command line.
+# Used to test if we really cannot override due to -e.
+
+TEST=	wrong
+
+all:
+	@echo TEST=${TEST}
