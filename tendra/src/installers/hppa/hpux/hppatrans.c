@@ -101,7 +101,7 @@ bool do_tlrecursion = 0;	/* eventually to be moved to flagsdescs.h */
 
 
 /* only advertise options in manual page, other debugging options available as well */
-static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-Es] [-Fs] [-Gs] [-H] [-h] [-Is] [-K] [-Ms] [-O] [-P] [-Q] [-Rs] [-T] [-Us] [-V] [-v] [-W] [-X] [-Z] TDF-capsule output-as-file\n";
+static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-Es] [-Fs] [-Gs] [-g] [-H] [-Is] [-K] [-Ms] [-O] [-P] [-Q] [-Rs] [-T] [-Us] [-V] [-v] [-W] [-X] [-Z] TDF-capsule output-as-file\n";
 
 static int init_trans PROTO_S ( ( char *, char * ) ) ; /* forward reference */
 
