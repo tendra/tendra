@@ -233,7 +233,7 @@ OStreamP ostream_new(void);
 void	ostream_free(OStreamP);
 void	ostream_setup(void);
 void	ostream_init(OStreamP);
-BoolT	ostream_open(OStreamP, CStringP);
+BoolT	ostream_open(OStreamP, const char *);
 BoolT	ostream_is_open(OStreamP);
 void	ostream_buffer(OStreamP);
 void	ostream_unbuffer(OStreamP);

@@ -129,16 +129,17 @@ ostream_init(OStreamP ostream)
 }
 
 BoolT
-ostream_open(OStreamP ostream, CStringP name)
+ostream_open(OStreamP ostream, const char *name)
 {
-	char *oname, *pname;
+	const char *oname, *pname;
+	char *s;
 
 	oname = name;
 	pname = strrchr (name, '@');
 
 	if (pname != NULL) {
-		oname = string_alloc (strlen (name) + 10);
-		(void) sprintf (oname, "%.*s%d%s", (int) (pname - name), name,
+		oname = s = string_alloc (strlen (name) + 10);
+		(void) sprintf (s, "%.*s%d%s", (int) (pname - name), name,
 						++ostream->no, pname + 1);
 	}
 	if ((ostream->file = fopen (oname, "w")) == NULL) {
