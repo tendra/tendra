@@ -114,9 +114,6 @@ static int read_string PROTO_S ( ( void ) ) ;
 
 #include "lexer.h"
 
-#if !defined(lookup_type)
-typedef unsigned char lookup_type ;
-#endif
 
 /*
     GET THE NEXT CHARACTER
