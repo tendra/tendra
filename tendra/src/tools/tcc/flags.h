@@ -120,6 +120,8 @@ extern boolean suffix_overrides;
 extern boolean taciturn;
 extern boolean tidy_up;
 extern boolean time_commands;
+extern boolean tool_chain;	
+extern boolean tool_chain_environ;
 extern boolean verbose;
 extern boolean warnings;
 

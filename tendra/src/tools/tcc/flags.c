@@ -116,6 +116,8 @@ boolean suffix_overrides = 0;
 boolean taciturn = 0;
 boolean tidy_up = 0;
 boolean time_commands = 0;
+boolean tool_chain = 0;
+boolean tool_chain_environ = 0;
 boolean verbose = 0;
 boolean warnings = 1;
 

@@ -128,6 +128,8 @@ optmap main_optmap[] = {
     { "-sym:$", "1CS|SDO-d$1=", "enables symbol table dump linking with flags" },
     { "-v", "1VB", "specifies verbose mode" },
     { "-vb", "1TC", "specifies fairly verbose mode" },
+    { "-vt", "1TT", "verbose information about tool chain invocation" },
+    { "-ve", "1TE", "verbose information about tool chain environment" },
 
     /* Options not allowed in checker */
     { "-J+$", "AUJ-L$1", "specifies a TDF library directory" },
@@ -459,9 +461,11 @@ lookup_bool(char *s)
 	}
 	case 'T': {
 	    if (b == 'C') return(&taciturn);
+	    if (b == 'E') return(&tool_chain_environ);
 	    if (b == 'I') return(&time_commands);
 	    if (b == 'N') return(&allow_notation);
 	    if (b == 'S') return(&make_tspec);
+	    if (b == 'T') return(&tool_chain);
 	    if (b == 'U') return(&tidy_up);
 	    break;
 	}

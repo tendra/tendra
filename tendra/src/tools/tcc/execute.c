@@ -439,6 +439,40 @@ execute(filename *input, filename *output)
 		    }
 		    goto execute_error;
 		}
+
+		/* print tool chain commands sent to execv */
+		if (tool_chain) {
+		    char **curr = command;
+		    IGNORE printf ("\n%s \\\n", *curr++);
+
+		    while (*curr) {
+			IGNORE printf ("\t%s", *curr++);
+
+			if (*curr) {
+			    IGNORE printf (" \\");
+			}
+
+			IGNORE printf ("\n");
+		    }
+		}
+
+		/* print environment values sent to execv */
+		if (tool_chain_environ) {
+		    char **curr = environment;
+		    IGNORE printf ("\n\tEnvironment dump");
+
+		    if (!tool_chain) {
+			IGNORE printf (" for cmd %s", cmd);
+		    }
+
+		    IGNORE printf ("\n");
+		    
+		    while (*curr) {
+			IGNORE printf ("\t%s\n", *curr);
+			curr++;
+		    }
+		}
+
 		IGNORE execve(cmd, command, environment);
 		running_pid = -1;
 		error(SERIOUS, "Can't execute '%s'", cmd);
