@@ -70,6 +70,9 @@
  * symbol table to a particular use.
  */
 
+#ifndef	ARCHSYMS_H
+#define	ARCHSYMS_H
+
 /* glevels for field in FDR */
 #define GLEVEL_0	2
 #define GLEVEL_1	1
@@ -222,7 +225,7 @@
 #define otInline	4	/* inline procedure */
 #define otEnd		5	/* whatever you started */
 #define otMax		6	/* KEEP UP TO DATE */
-#endif (MFG == MIPS)
+#endif /* (MFG == MIPS) */
 
 
 #ifdef LANGUAGE_C
@@ -649,5 +652,6 @@ stConstant	scInfo	iss		--- (complex, e.g. string)
  *
  */
 
-#endif LANGUAGE_C
+#endif /* LANGUAGE_C */
 
+#endif /* ARCHSYMS_H */
