@@ -10,5 +10,5 @@ OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.o/g:C/.*\/(.*)$/\1/g}
 CLEANFILES+= ${SHLIB}
 
 ${SHLIB}: ${OBJS}
-	${AR} cr ${.TARGET} ${.ALLSRC}
-	${RANLIB} ${.TARGET}
+	${BIN_AR} cr ${.TARGET} ${.ALLSRC}
+	${BIN_RANLIB} ${.TARGET}
