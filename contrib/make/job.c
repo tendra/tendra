@@ -142,6 +142,19 @@
 #endif
 
 /*
+ * QNX needs this stuff
+ */
+#ifdef __QNXNTO__
+ typedef long fd_mask;
+# ifndef NFDBITS
+#  define NFDBITS (sizeof(fd_mask) * NBBY)
+# endif
+# ifndef howmany
+#  define howmany(x,y) (((x)+((y)-1))/(y))
+# endif
+#endif
+
+/*
  * error handling variables
  */
 static int	errors = 0;	    /* number of errors reported */
