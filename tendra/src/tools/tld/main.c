@@ -342,13 +342,13 @@ main_handle_warning(char *option, void *gclosure, BoolT enable)
 }
 
 static void
-main_handle_mode(char *option, void *closure)
+main_handle_mode(char *option, void *closure, char *arg)
 {
 	UNUSED(closure);
 
-	if (option[2])
+	if (arg[1])
 		MSG_bad_mode (option);
-	switch (option[1]) {
+	switch (arg[0]) {
 	case 'c': mode = MODE_BUILDER; break;
 	case 't': mode = MODE_CONTENTS;	break;
 	case 'x': mode = MODE_EXTRACT; break;
