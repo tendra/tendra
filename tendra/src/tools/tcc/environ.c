@@ -369,7 +369,7 @@ read_env_aux(char *nm, hashtable *ht)
 		} /* if the line is a +, >, < env action command */
 		
 	} /* for each line in the env file */
-	
+	return (0);
 } /* read_env_aux() */
 
 
