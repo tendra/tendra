@@ -1,3 +1,5 @@
+# $Id$
+
 DIST_DIR = ${.CURDIR:C/\/src.*//}
 
 .MAKEFLAGS: -m ${DIST_DIR}/mk
