@@ -57,10 +57,11 @@
 
 #include "config.h"
 #include "char.h"
-#include "error.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
 #include "syntax.h"
+#include "tenapp.h"
 
 
 /*
@@ -73,6 +74,7 @@
 int
 main(int argc, char **argv)
 {
+    OStreamT lex_ostream;
     int a;
     int too_many = 0;
     char *input = NULL;
@@ -80,7 +82,7 @@ main(int argc, char **argv)
     unsigned opts = OUTPUT_MAIN;
 
     /* Process arguments */
-    set_progname (argv [0], "1.2");
+    tenapp_init(argc, argv, "Lexical analyser", "1.3");
     for (a = 1 ; a < argc ; a++) {
 		char *arg = argv [a];
 		if (arg [0] == '-' && arg [1]) {
@@ -117,13 +119,13 @@ main(int argc, char **argv)
 			}
 			case 'v' : {
 				if (arg [2]) break;
-				report_version ();
+				tenapp_report_version();
 				known = 1;
 				break;
 			}
 			}
 			if (!known) {
-				error (ERROR_WARNING, "Unknown option, '%s'", arg);
+				MSG_getopt_unknown_option(arg);
 			}
 		} else {
 			if (input == NULL) {
@@ -137,8 +139,8 @@ main(int argc, char **argv)
     }
 
     /* Check arguments */
-    if (input == NULL) error (ERROR_FATAL, "Not enough arguments");
-    if (too_many) error (ERROR_WARNING, "Too many arguments");
+    if (input == NULL) MSG_getopt_not_enough_arguments();
+    if (too_many) MSG_getopt_too_many_arguments();
 
     /* Process input file */
     process_file (input);
@@ -147,18 +149,19 @@ main(int argc, char **argv)
     if (exit_status == EXIT_SUCCESS) {
 		if (white_space == NULL) white_space = make_string (" \t\n");
 		if (output == NULL || streq (output, "-")) {
-			lex_output = stdout;
+			lex_output = ostream_output;
 			output = NULL;
 		} else {
-			lex_output = fopen (output, "w");
-			if (lex_output == NULL) {
-				error (ERROR_FATAL, "Can't open output file, %s", output);
+			lex_output = &lex_ostream;
+			if (!ostream_open(lex_output, output)) {
+				MSG_cant_open_input_file(output);
 			}
 		}
 		output_all (opts);
-		if (output) fclose_v (lex_output);
+		if (output) ostream_close(lex_output);
     } else {
-		error (ERROR_FATAL, "Terminating due to previous errors");
+		MSG_had_errors();
     }
-    return (exit_status);
+    tenapp_exit();
+    return (0);
 }

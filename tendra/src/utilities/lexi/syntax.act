@@ -87,10 +87,10 @@ STRING -> SID_STRING ;
 
 #include "config.h"
 #include "char.h"
-#include "error.h"
+#include "cstring.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "syntax.h"
-#include "xalloc.h"
 
 
 /*
@@ -171,7 +171,7 @@ extern char *sid_prefix ;
 */
 
 identifier : () -> ( i : IDENTIFIER ) = @{
-    @i = xstrcpy ( token_buff ) ;
+    @i = string_copy(token_buff);
 @} ;
 
 
@@ -186,7 +186,7 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
     int n ;
     char *s ;
     char buff [1000] ;
-    strcpy_v ( buff, sid_prefix ) ;
+    strcpy(buff, sid_prefix);
     n = ( int ) strlen ( buff ) ;
     for ( s = token_buff ; *s ; s++ ) {
 	if ( *s == '-' ) {
@@ -199,12 +199,12 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
 	    buff [ n++ ] = *s ;
 	}
 	if ( n >= 900 ) {
-	    error ( ERROR_SERIOUS, "Identifier too long" ) ;
+	    MSG_id_too_long();
 	    break ;
 	}
     }
     buff [n] = 0 ;
-    @i = xstrcpy ( buff ) ;
+    @i = string_copy(buff);
 @} ;
 
 
@@ -216,7 +216,7 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
 */
 
 string : () -> ( s : STRING ) = @{
-    @s = xstrcpy ( token_buff ) ;
+    @s = string_copy(token_buff) ;
 @} ;
 
 
@@ -241,7 +241,7 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 */
 
 <string-concat> : ( a : STRING, b : STRING ) -> ( s : STRING ) = @{
-    @s = xstrcat ( @a, @b ) ;
+    @s = string_concat(@a, @b);
 @} ;
 
 
@@ -267,7 +267,7 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 
 <make-white> : ( s : CHARACTERS ) -> () = @{
     if ( white_space ) {
-	error ( ERROR_SERIOUS, "White space group already defined" ) ;
+	MSG_ws_grp_already_defined();
     }
     white_space = @s ;
 @} ;
@@ -337,7 +337,7 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 
 <add-condition> : ( i : IDENTIFIER ) -> () = @{
     if ( crt_cond ) {
-	crt_cond = xstrcat ( crt_cond, xstrcat ( " && ", @i ) ) ;
+	crt_cond = string_concat(crt_cond, string_concat(" && ", @i));
     } else {
 	crt_cond = @i ;
     }
@@ -353,9 +353,9 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 <compl-condition> : () -> () = @{
     if ( crt_cond ) {
 	if ( strchr ( crt_cond, '&' ) ) {
-	    crt_cond = xstrcat ( xstrcat ( "!( ", crt_cond ), " )" ) ;
+	    crt_cond = string_concat(string_concat("!( ", crt_cond ), " )");
 	} else {
-	    crt_cond = xstrcat ( "!", crt_cond ) ;
+	    crt_cond = string_concat("!", crt_cond);
 	}
     }
 @} ;
@@ -400,7 +400,7 @@ digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 */
 
 <syntax-error> : () -> () = @{
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    MSG_syntax_error();
 @} ;
 
 

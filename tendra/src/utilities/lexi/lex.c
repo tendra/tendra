@@ -56,10 +56,10 @@
 
 
 #include "config.h"
-#include "error.h"
+#include "cstring.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "syntax.h"
-#include "xalloc.h"
 
 
 /*
@@ -123,7 +123,7 @@ static int read_string(void);
  */
 
 static int
-read_char()
+read_char(void)
 {
     int c;
     if (pending != pending_buff) {
@@ -172,7 +172,7 @@ read_identifier(int a, int sid)
     char *t = token_buff;
     do {
 		*(t++) = (char) c;
-		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		if (t == token_end) MSG_buffer_overflow();
 		c = read_char ();
 		cl = lookup_char (c);
     } while (is_alphanum (cl) || c == e);
@@ -197,18 +197,18 @@ read_identifier(int a, int sid)
  */
 
 static int
-read_string()
+read_string(void)
 {
     int c;
     int escaped = 0;
     char *t = token_buff;
     while (c = read_char (), (c != '"' || escaped)) {
 		if (c == '\n' || c == LEX_EOF) {
-			error (ERROR_SERIOUS, "Unexpected end of string");
+			MSG_unexpected_eos();
 			break;
 		}
 		*(t++) = (char) c;
-		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		if (t == token_end) MSG_buffer_overflow();
 		if (escaped) {
 			escaped = 0;
 		} else {
@@ -229,7 +229,7 @@ read_string()
  */
 
 static int
-read_comment()
+read_comment(void)
 {
     int state = 0;
 	char *backing = NULL;
@@ -239,7 +239,7 @@ read_comment()
     while (state != 2) {
 		int c = read_char ();
 		if (c == LEX_EOF) {
-			error (ERROR_SERIOUS, "End of file in comment");
+			MSG_eof_in_comment();
 			return (lex_eof);
 		}
 		if (c == '*') {
@@ -252,16 +252,16 @@ read_comment()
 		*(t++) = (char) c;
 		if (t == token_end) {
 			*t = '\0';
-			backing = xstrcat (backing, token_buff);
+			backing = string_concat(backing, token_buff);
 			t = token_buff;
 		}
     }
     *t = '\0';
     if (first_comment == NULL) {
 		if (backing)
-			first_comment = xstrcat (backing, token_buff);
+			first_comment = string_concat(backing, token_buff);
 		else
-			first_comment = xstrcpy (token_buff);
+			first_comment = string_copy(token_buff);
 	}
     return (read_token ());
 }
@@ -296,12 +296,12 @@ process_file(char *nm)
 		crt_file_name = nm;
 		lex_input = fopen (nm, "r");
 		if (lex_input == NULL) {
-			error (ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			MSG_cant_open_input_file(nm);
 			return;
 		}
     }
     ADVANCE_LEXER;
     read_lex ();
-    if (nm) fclose_v (lex_input);
+    if (nm) (void)fclose (lex_input);
     return;
 }

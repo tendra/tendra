@@ -63,12 +63,13 @@
     DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
 */
 
-extern void process_file (char *);
-extern int read_token (void);
 extern char token_buff [];
 extern int crt_lex_token;
 extern int saved_lex_token;
 extern char *first_comment;
+
+void process_file(char *);
+int read_token(void);
 
 
 /*

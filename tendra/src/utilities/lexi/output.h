@@ -58,12 +58,13 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
+#include "ostream.h"
 
 /*
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern FILE *lex_output;
+extern OStreamP lex_output;
 extern void output_all (unsigned);
 
 

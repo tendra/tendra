@@ -56,9 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
 #include "char.h"
-#include "error.h"
-#include "xalloc.h"
+#include "msgcat.h"
 
 
 /*
@@ -95,13 +95,8 @@ static character*
 new_char(letter c)
 {
     character *p;
-    static int chars_left = 0;
-    static character *chars_free = NULL;
-    if (chars_left == 0) {
-		chars_left = 100;
-		chars_free = xmalloc_nof (character, chars_left);
-    }
-    p = chars_free + (--chars_left);
+
+    p = fmm_malloc(sizeof(*p), fmm_deftype);
     p->ch = c;
     p->defn = NULL;
     p->cond = NULL;
@@ -144,9 +139,7 @@ add_char(character *p, letter *s, char **data)
     }
     if (c == LAST_LETTER) {
 		if (q->defn) {
-			error (ERROR_SERIOUS,
-				   "String for '%s' has already been defined to give '%s'",
-				   data [0], q->defn);
+			MSG_string_already_defined(data [0], q->defn);
 		}
 		q->defn = data [0];
 		q->args = data [1];
@@ -181,12 +174,12 @@ make_group(char *nm, letter *s)
     int i, n = no_groups;
     for (i = 0 ; i < n ; i++) {
 		if (streq (nm, groups [i].name)) {
-			error (ERROR_SERIOUS, "Group '%s' already defined", nm);
+			MSG_group_already_defined(nm);
 			return;
 		}
     }
     if (n >= MAX_GROUPS) {
-		error (ERROR_SERIOUS, "Too many groups defined (%d)", n);
+		MSG_too_many_groups(n);
 		return;
     }
     groups [n].name = nm;
@@ -266,8 +259,7 @@ find_escape(int c)
 		a = EOF_LETTER;
 		break;
 	default: {
-	    error (ERROR_SERIOUS, "Unknown escape sequence, '\\%c'",
-			   (unsigned char) c);
+	    MSG_unknown_esc_seq(c);
 	    a = (letter) (c & 0xff);
 	    break;
 	}
@@ -286,7 +278,7 @@ letter*
 make_string(char *s)
 {
     int i = 0, n = (int) strlen (s);
-    letter *p = xmalloc_nof (letter, n + 1);
+    letter *p = xmalloc_nof(letter, n + 1);
     while (*s) {
 		letter a;
 		char c = *(s++);
@@ -302,8 +294,7 @@ make_string(char *s)
 			if (*s) {
 				s++;
 			} else {
-				error (ERROR_SERIOUS,
-					   "Unterminated character group name, '%s'", gnm);
+				MSG_unterminated_grp_name(gnm);
 			}
 			for (j = 0; j < no_groups; j++) {
 				if (strncmp (gnm, groups [j].name, glen) == 0) {
@@ -315,8 +306,8 @@ make_string(char *s)
 				if (strncmp (gnm, "white", glen) == 0) {
 					a = WHITE_LETTER;
 				} else {
-					error (ERROR_SERIOUS, "Unknown character group, '%.*s'",
-						   (int) glen, gnm);
+					/* todo: report only glen characters */
+					MSG_unknown_char_group(gnm);
 					a = '?';
 				}
 			}
@@ -357,7 +348,7 @@ add_keyword(char *nm, char **data)
     while (p) {
 		int c = strcmp (nm, p->name);
 		if (c == 0) {
-			error (ERROR_SERIOUS, "Keyword '%s' already defined", nm);
+			MSG_keyword_already_defined(nm);
 			return;
 		}
 		if (c < 0) break;
