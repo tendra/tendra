@@ -83,6 +83,18 @@ install:
 .endif
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
 .endif # PROG
+# XXX: Very dirty hack...
+.if defined(STARTUPSUBDIR)
+.if !exists(${MACH_BASE}/startup)
+	${MKDIR} -p ${MACH_BASE}/startup
+.for entry in ${STARTUPSUBDIR}
+	${MKDIR} -p ${MACH_BASE}/startup/${entry}
+	(cd ${entry} && for file in *;\
+		do ${INSTALL} -m 644 $$file ${MACH_BASE}/startup/${entry}/$$file;\
+		done)
+.endfor
+.endif
+.endif
 
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
