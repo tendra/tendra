@@ -220,8 +220,6 @@ process_flag(char *option)
     do_dump_opt=0;
     break;
    case 'V':
-   case 'v':
-   case 'i':
     printinfo();
     infoopt = TRUE;
     break;
