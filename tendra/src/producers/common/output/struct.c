@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "tdf_types.h"
+#include "tdf_stream.h"
+
 #include "version.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -212,7 +216,7 @@ static BITSTREAM
     ENC_make_nof_int (ts);
     ts = enc_variety (ts, type_char);
     ENC_make_string (ts);
-    ts = enc_tdfstring (ts, n, s);
+    tdf_en_tdfstring8 (ts, n, s);
     enc_tagdef_end (ts);
 	
     /* Encode the result */
@@ -304,7 +308,7 @@ static BITSTREAM
     /* Define base structure */
     ts = enc_tagdef_start (NULL_id, n, NULL_type, 1);
     ts = enc_special (ts, TOK_baseid_make);
-    us = start_bitstream (NULL, ts->link);
+    us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
     us = enc_rtti_type (us, t, lex_typeid);
     if (m == LINK_NONE) {
 		ENC_offset_zero (us);
@@ -315,7 +319,7 @@ static BITSTREAM
     us = enc_rtti_bases (us, br, pt, NULL_nat);
     us = enc_make_snat (us, a);
     us = enc_snat (us, sz, 0, 0);
-    ts = enc_bitstream (ts, us);
+    tdf_en_bitstream (ts, us);
     enc_tagdef_end (ts);
 	
     /* Encode the result */
@@ -450,12 +454,12 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 		}
 		bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
 		bs = enc_special (bs, TOK_typeid_make);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_make_snat (ts, c);
 		ts = enc_buffer (ts, bf);
 		ts = enc_rtti_bases (ts, br, p, sz);
 		DESTROY_list (p, SIZE_type);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
 		enc_tagdef_end (bs);
     }
     return;
@@ -508,9 +512,9 @@ BITSTREAM
 	    /* Built-in types */
 	    BITSTREAM *ts;
 	    bs = enc_special (bs, TOK_typeid_basic);
-	    ts = start_bitstream (NULL, bs->link);
+	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 	    ts = enc_arith (ts, t, 1);
-	    bs = enc_bitstream (bs, ts);
+	    tdf_en_bitstream (bs, ts);
 	    return (bs);
 	}
 	case type_compound_tag : {
@@ -635,7 +639,7 @@ BITSTREAM
 				}
 				
 				/* Find the run-time type information */
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				if (op == lex_typeid) {
 					bs = enc_special (bs, TOK_typeid_ref);
 				} else {
@@ -649,7 +653,7 @@ BITSTREAM
 					ENC_OFF (ts);
 					ENC_INT_SMALL (ts, 0);
 				}
-				bs = enc_bitstream (bs, ts);
+				tdf_en_bitstream (bs, ts);
 				used = DEREF_int (virt_table_rtti_used (vt));
 				if (!used) {
 					IDENTIFIER cid = DEREF_id (ctype_name (ct));
@@ -699,7 +703,7 @@ BITSTREAM
 	
     /* Convert to result type */
     bs = enc_special (bs, TOK_from_ptr_void);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     t = DEREF_type (type_ptr_etc_sub (t));
     ts = enc_alignment (ts, t);
 	
@@ -713,7 +717,7 @@ BITSTREAM
 	
     /* Encode main token */
     ts = enc_special (ts, TOK_dynam_cast);
-    us = start_bitstream (NULL, ts->link);
+    us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 	
     /* Encode address of virtual function table */
     s = DEREF_type (type_ptr_etc_sub (s));
@@ -734,7 +738,7 @@ BITSTREAM
 	
     /* Output run-time type information */
     us = enc_rtti_type (us, t, lex_typeid);
-    ts = enc_bitstream (ts, us);
+    tdf_en_bitstream (ts, us);
 	
     /* Check for exceptions */
     if (!IS_NULL_exp (b)) {
@@ -744,14 +748,14 @@ BITSTREAM
 		ENC_make_label (ts, lab);
 		ENC_SEQ_SMALL (ts, 1);
 		ts = enc_special (ts, TOK_pv_test);
-		us = start_bitstream (NULL, ts->link);
+		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 		ENC_contents (us);
 		us = enc_special (us, TOK_ptr_void);
 		ENC_obtain_tag (us);
 		ENC_make_tag (us, r);
 		ENC_make_label (us, lab);
 		ENC_equal (us);
-		ts = enc_bitstream (ts, us);
+		tdf_en_bitstream (ts, us);
 		ts = enc_exp (ts, b);
 		ENC_make_top (ts);
 		ENC_contents (ts);
@@ -761,7 +765,7 @@ BITSTREAM
     }
 	
     /* End conversion expression */
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     COPY_exp (exp_dummy_value (a), a1);
     return (bs);
 }
@@ -840,7 +844,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		n = capsule_no (NULL_string, VAR_tag);
 		enc_tagdec (NULL_id, n, f, 0);
 		bs = enc_tagdef_start (NULL_id, n, f, 0);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ENC_make_proc (bs);
 		bs = enc_shape (bs, r1);
 		ENC_LIST (bs, np);
@@ -888,7 +892,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		pn = unit_no (bs, fid, VAR_tag, 0);
 		ENC_obtain_tag (bs);
 		ENC_make_tag (bs, pn);
-		bs = join_bitstreams (bs, ts);
+		tdf_en_stream (bs, ts);
 		if (IS_type_ptr (r2)) {
 			/* Test for null pointers */
 			ulong lab = unit_no (bs, NULL_id, VAR_label, 1);
@@ -926,10 +930,10 @@ BITSTREAM
 {
     BITSTREAM *ts;
     bs = enc_special (bs, TOK_vtab_type);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ENC_make_nat (ts);
     ENC_INT (ts, n + VIRTUAL_EXTRA);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -957,7 +961,7 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
     /* Output start of table */
     bs = enc_tagdef_start (NULL_id, n, NULL_type, 1);
     bs = enc_special (bs, TOK_vtab_make);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ENC_obtain_tag (ts);
     r = link_no (ts, rtti, VAR_tag);
     ENC_make_tag (ts, r);
@@ -1005,7 +1009,7 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 		
 		/* Output pointer to member function */
 		ts = enc_special (ts, TOK_pmf_make);
-		us = start_bitstream (NULL, ts->link);
+		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 		if (ds & dspec_pure) {
 			/* Pure virtual function */
 			us = enc_special (us, TOK_vtab_pure);
@@ -1023,10 +1027,10 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 		}
 		us = enc_base (us, gs, 0);
 		us = enc_base (us, gr, 0);
-		ts = enc_bitstream (ts, us);
+		tdf_en_bitstream (ts, us);
 		pt = TAIL_list (pt);
     }
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     enc_tagdef_end (bs);
     return;
 }
@@ -1276,7 +1280,7 @@ static BITSTREAM
     if (tag == type_bitfield_tag) {
 		/* Use token for bitfields */
 		bs = enc_special (bs, TOK_pad);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     } else {
 		ts = bs;
     }
@@ -1291,7 +1295,7 @@ static BITSTREAM
 		TYPE r = find_bitfield_type (s);
 		ts = enc_shape (ts, r);
 		ts = enc_shape (ts, s);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
     } else {
 		bs = ts;
     }
@@ -1458,7 +1462,7 @@ compile_class(CLASS_TYPE ct)
 		}
 		
 		/* Scan through data members */
-		ts = start_bitstream (NULL, tokdef_unit->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, tokdef_unit->ts_link);
 		ns = DEREF_nspace (ctype_member (ct));
 		if (output_order) macc = dspec_public;
 		do {
@@ -1621,7 +1625,7 @@ compile_class(CLASS_TYPE ct)
 				/* Complete structure definition */
 				ts = enc_offset_pad (ts, pm, pt, NULL_type);
 			}
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 			enc_tokdef_end (m, bs);
 			
 			/* Record offset of non-virtual components */
@@ -2007,7 +2011,7 @@ static BITSTREAM
 		LIST (GRAPH) br = DEREF_list (graph_tails (gr));
 		LIST (GRAPH) bv = DEREF_list (ctype_vbase (ct));
 		NAMESPACE ns = DEREF_nspace (ctype_member (ct));
-		BITSTREAM *ts = start_bitstream (NULL, bs->link);
+		BITSTREAM *ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		
 		/* Scan through direct base classes */
 		while (!IS_NULL_list (br)) {
@@ -2097,11 +2101,11 @@ static BITSTREAM
 				}
 			}
 			ENC_LIST (bs, no_mems + no_mems);
-			bs = join_bitstreams (bs, ts);
+			bs = tdf_en_stream (bs, ts);
 		} else {
 			ENC_make_value (bs);
 			bs = enc_ctype (bs, ct);
-			end_bitstream (ts, 0);
+			tdf_stream_destroy (ts);
 		}
     }
     return (bs);
@@ -2324,11 +2328,11 @@ static BITSTREAM
 		if (npids > 2) npids = 2;
 		ENC_LIST_SMALL (bs, npids);
 		bs = enc_special (bs, TOK_to_ptr_void);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_al_ctype (ts, ct);
 		ENC_obtain_tag (ts);
 		ENC_make_tag (ts, m);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
 		if (npids == 2) {
 			/* Allow for second argument */
 			TYPE s;

@@ -62,6 +62,8 @@
 
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 #include "tenapp.h"
 
 #include "version.h"
@@ -229,8 +231,8 @@ start_linkage(BITSTREAM **ps, int create)
     p->next = all_links;
     all_links = p;
 	
-    /* Start the bitstream */
-    *ps = start_bitstream (NULL, p);
+    /* Start TDF stream */
+    *ps = tdf_bs_create (NULL, TDFS_MODE_WRITE, p);
     return;
 }
 
@@ -367,7 +369,7 @@ capsule_id(IDENTIFIER id, int v)
 ulong
 link_no(BITSTREAM *bs, ulong n, int v)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->link;
+    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
     ulong m = (n & ~LINK_EXTERN);
     n = lnk->map [v] [m];
     if (n == LINK_NONE) {
@@ -397,7 +399,7 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
     ulong n;
     if (IS_NULL_id (id)) {
 		/* Allow anonymous identifiers */
-		LINKAGE *lnk = (LINKAGE *) bs->link;
+		LINKAGE *lnk = (LINKAGE *) bs->ts_link;
 		n = (lnk->no [v])++;
 		vars [v].present = 1;
     } else {
@@ -405,7 +407,7 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 		n = DEREF_ulong (id_no (lid));
 		if (n == LINK_NONE) {
 			/* Not yet given a number */
-			LINKAGE *lnk = (LINKAGE *) bs->link;
+			LINKAGE *lnk = (LINKAGE *) bs->ts_link;
 			n = (lnk->no [v])++;
 			COPY_ulong (id_no (lid), n);
 			COPY_ulong (id_no (id), n);
@@ -510,7 +512,7 @@ get_diag_tag(IDENTIFIER id, int v)
 ulong
 no_labels(BITSTREAM *bs)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->link;
+    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
     return (lnk->no [ VAR_label ]);
 }
 
@@ -576,7 +578,7 @@ clear_usage(ulong n, int v)
 void
 count_item(BITSTREAM *bs)
 {
-    LINKAGE *lnk = (LINKAGE *) bs->link;
+    LINKAGE *lnk = (LINKAGE *) bs->ts_link;
     (lnk->count)++;
     return;
 }
@@ -594,7 +596,7 @@ static void
 add_unit(int u, BITSTREAM *bs, BITSTREAM *ps)
 {
     if (bs) {
-		LINKAGE *lnk = (LINKAGE *) bs->link;
+		LINKAGE *lnk = (LINKAGE *) bs->ts_link;
 		if (lnk == NULL || lnk->count || ps) {
 			EQN_INFO *eqn = eqns + u;
 			LIST (BITSTREAM_P) us = eqn->units;
@@ -654,7 +656,7 @@ ulong term_no = 0;
 static BITSTREAM
 *make_tld_unit()
 {
-    BITSTREAM *bs = start_bitstream (NULL, NULL);
+    struct tdf_stream *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, NULL);
     ENC_INT (bs, 1);
     return (bs);
 }
@@ -680,7 +682,7 @@ static BITSTREAM
 		string vers = report_version (0);
 		ENC_user_info (bs);
 		ENC_make_string (bs);
-		bs = enc_ustring (bs, vers);
+		tdf_en_ustring (bs, vers);
 		count_item (bs);
     }
     return (bs);
@@ -926,7 +928,7 @@ static BITSTREAM
 				unsigned ub;
 				BITSTREAM *us = DEREF_bits (HEAD_list (u));
 				BITSTREAM *vs = DEREF_bits (HEAD_list (v));
-				void *plnk = us->link;
+				void *plnk = us->ts_link;
 				
 				/* Output linkage information */
 				if (plnk) {
@@ -965,19 +967,19 @@ static BITSTREAM
 					/* Add extra information to unit */
 					if (lnk->create && (labels || count || vs)) {
 						BITSTREAM *ws;
-						ws = start_bitstream (NULL, plnk);
+						ws = tdf_bs_create (NULL, TDFS_MODE_WRITE, plnk);
 						if (labels) {
 							/* Number of labels */
 							ulong no_labs = lnk->no [ VAR_label ];
 							ENC_INT (ws, no_labs);
 						}
-						ws = join_bitstreams (ws, vs);
+						ws = tdf_en_stream (ws, vs);
 						if (count) {
 							/* Number of items */
 							ulong no_item = lnk->count;
 							ENC_SLIST (ws, no_item);
 						}
-						us = join_bitstreams (ws, us);
+						us = tdf_en_stream (ws, us);
 					}
 					
 				} else {
@@ -988,10 +990,10 @@ static BITSTREAM
 				
 				/* Add unit bitstream to capsule */
 				ENC_ALIGN (us);
-				ub = length_bitstream (us);
-				ENC_LENGTH (bs, (ub / BYTE_SIZE));
+				ub = us->ts_pos;
+				ENC_LENGTH (bs, tdf_pos_offset(ub));
 				ENC_ALIGN (bs);
-				bs = join_bitstreams (bs, us);
+				(void)tdf_en_stream (bs, us);
 				v = TAIL_list (v);
 				u = TAIL_list (u);
 			}
@@ -1066,10 +1068,10 @@ init_capsule()
 		
 		/* Initialise special functions */
 		clear_params ();
-		lnk = tagdef_unit->link;
-		init_func = start_bitstream (NULL, lnk);
-		term_func = start_bitstream (NULL, lnk);
-		term_static_func = start_bitstream (NULL, lnk);
+		lnk = tagdef_unit->ts_link;
+		init_func = tdf_bs_create (NULL, TDFS_MODE_WRITE, lnk);
+		term_func = tdf_bs_create (NULL, TDFS_MODE_WRITE, lnk);
+		term_static_func = tdf_bs_create (NULL, TDFS_MODE_WRITE, lnk);
 		init_no = 0;
 		term_no = 0;
 		
@@ -1105,7 +1107,7 @@ init_diag()
     if (output_capsule && output_diag >= 2) {
 		BITSTREAM *bs = diagcomp_pre;
 		if (bs == NULL) {
-			bs = start_bitstream (NULL, diagcomp_unit->link);
+			bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagcomp_unit->ts_link);
 			bs = enc_dg_compilation (bs);
 			diagcomp_pre = bs;
 			output_new_diag = output_diag;
@@ -1300,7 +1302,7 @@ write_capsule()
 			return;
 		}
 		f = output_file [ OUTPUT_TDF ];
-		bs = start_bitstream (f, NULL);
+		bs = tdf_bs_create (f, TDFS_MODE_WRITE, NULL);
 		
 		/* Encode the magic number (4.0 and later) */
 		ASSERT (TDF_VERSION == 100 * TDF_major + TDF_minor);
@@ -1322,7 +1324,8 @@ write_capsule()
 			ENC_SLIST_SMALL (bs, 0);
 			ENC_SLIST_SMALL (bs, 0);
 		}
-		end_bitstream (bs, 1);
+		tdf_en_align(bs);
+		tdf_stream_destroy (bs);
 		close_output (OUTPUT_TDF);
     }
     return;

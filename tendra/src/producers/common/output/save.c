@@ -59,6 +59,8 @@
 #include "producer.h"
 
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 #include "tenapp.h"
 
 #include "version.h"
@@ -189,14 +191,14 @@ static BITSTREAM
 			} else {
 				ulong date;
 				ENC_ON (bs);
-				bs = enc_ustring (bs, a1);
+				tdf_en_ustring (bs, a1);
 				if (ustreq (a1, b1)) {
 					/* Same file names */
 					ENC_OFF (bs);
 				} else {
 					/* Different file names */
 					ENC_ON (bs);
-					bs = enc_ustring (bs, b1);
+					tdf_en_ustring (bs, b1);
 				}
 				date = DEREF_ulong (posn_datestamp (posn));
 				ENC_INT (bs, date);
@@ -231,7 +233,7 @@ static BITSTREAM
 	    case hashid_name_tag :
 	    case hashid_ename_tag : {
 			string s = DEREF_string (hashid_name_etc_text (nm));
-			bs = enc_ustring (bs, s);
+			tdf_en_ustring (bs, s);
 			break;
 	    }
 	    case hashid_constr_tag : {
@@ -1240,7 +1242,7 @@ begin_spec()
 			return;
 		}
 		f = output_file [ OUTPUT_SPEC ];
-		bs = start_bitstream (f, NULL);
+		bs = tdf_bs_create (f, TDFS_MODE_WRITE, NULL);
 		
 		/* Write file identifier */
 		ENC_BITS (bs, BYTE_SIZE, ascii_T);
@@ -1269,7 +1271,8 @@ end_spec()
     BITSTREAM *bs = spec_unit;
     if (bs) {
 		if (!output_spec) ENC_INT (bs, 0);
-		end_bitstream (bs, 1);
+		tdf_en_align (bs);
+		tdf_stream_destroy (bs);
 		close_output (OUTPUT_SPEC);
 		spec_unit = NULL;
     }

@@ -59,6 +59,8 @@
 #include "producer.h"
 
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "system.h"
@@ -173,26 +175,26 @@ static BITSTREAM
 		ENC_make_nat (ts);
 		ENC_INT (ts, date);
 		ENC_make_string (ts);
-		ts = enc_ustring (ts, mn);
+		tdf_en_ustring (ts, mn);
 		ENC_make_string (ts);
 		if (is_full_pathname (bn)) {
-			ts = enc_ustring (ts, ustrlit (""));
+			tdf_en_ustring (ts, ustrlit (""));
 		} else {
 			string dn = DEREF_string (posn_dir (posn));
 			if (dn == NULL) {
 				string en = ustrlit (find_cwd ());
-				ts = enc_ustring (ts, en);
+				tdf_en_ustring (ts, en);
 			} else if (is_full_pathname (dn)) {
-				ts = enc_ustring (ts, dn);
+				tdf_en_ustring (ts, dn);
 			} else {
 				string en = ustrlit (find_cwd ());
 				BUFFER *bf = clear_buffer (&incl_buff, NULL);
 				bfprintf (bf, "%s/%s", en, dn);
-				ts = enc_ustring (ts, bf->start);
+				tdf_en_ustring (ts, bf->start);
 			}
 		}
 		ENC_make_string (ts);
-		ts = enc_ustring (ts, bn);
+		tdf_en_ustring (ts, bn);
 		enc_tokdef_end (n, ts);
     }
 	
@@ -332,7 +334,7 @@ static BITSTREAM
 		BUFFER *bf = clear_buffer (&incl_buff, NULL);
 		ENC_make_string (bs);
 		bfprintf (bf, "-I%s", d->path);
-		bs = enc_ustring (bs, bf->start);
+		tdf_en_ustring (bs, bf->start);
 		d = d->next;
     }
     return (bs);
@@ -369,7 +371,7 @@ BITSTREAM
     ENC_make_nat (bs);
     ENC_INT (bs, DWARF_CASE_SENSITIVE);
     ENC_make_string (bs);
-    bs = enc_ustring (bs, vers);
+    tdf_en_ustring (bs, vers);
     bs = enc_dg_options (bs);
     bs = enc_dg_namelist (bs, global_namespace);
 	
@@ -527,7 +529,7 @@ static BITSTREAM
     ENC_dg_artificial_idname (bs);
     ENC_ON (bs);
     ENC_make_string (bs);
-    bs = enc_ustring (bs, ustrlit (s));
+    tdf_en_ustring (bs, ustrlit (s));
     return (bs);
 }
 
@@ -599,7 +601,7 @@ BITSTREAM
 			ENC_dg_sourcestring_idname (bs);
 		}
 		ENC_make_string (bs);
-		bs = enc_ustring (bs, s);
+		tdf_en_ustring (bs, s);
     } else {
 		ENC_dg_anonymous_idname (bs);
 		ENC_OFF (bs);
@@ -1002,13 +1004,13 @@ enc_dg_id(IDENTIFIER id, int def)
     }
 	
     /* Add the identifier to the namespace */
-    bs = start_bitstream (NULL, diagcomp_unit->link);
+    bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagcomp_unit->ts_link);
     ENC_dg_name_append (bs);
     n = link_no (bs, n, VAR_dgtag);
     ENC_make_dg_tag (bs, n);
     bs = enc_dg_decl (bs, id, m, use);
     count_item (bs);
-    diagcomp_unit = join_bitstreams (diagcomp_unit, bs);
+    diagcomp_unit = tdf_en_stream (diagcomp_unit, bs);
     return;
 }
 
@@ -1048,7 +1050,7 @@ enc_dg_basetype(TYPE t, int def)
 		IDENTIFIER gid = DEREF_id (nspace_name (global_namespace));
 		ulong m = DEREF_ulong (id_no (gid));
 		record_usage (n, VAR_dgtag, USAGE_DEFN);
-		bs = start_bitstream (NULL, diagcomp_unit->link);
+		bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagcomp_unit->ts_link);
 		ENC_dg_name_append (bs);
 		m = link_no (bs, m, VAR_dgtag);
 		ENC_make_dg_tag (bs, m);
@@ -1110,7 +1112,7 @@ enc_dg_basetype(TYPE t, int def)
 			ENC_make_string (bs);
 			if (cv) sp = print_cv (cv, bf, sp);
 			IGNORE print_btype (bt, bf, sp);
-			bs = enc_ustring (bs, bf->start);
+			tdf_en_ustring (bs, bf->start);
 		}
 		switch (tag) {
 	    case type_integer_tag : {
@@ -1129,7 +1131,7 @@ enc_dg_basetype(TYPE t, int def)
 		ENC_true (bs);
 		ENC_OFFS (bs, 2);
 		count_item (bs);
-		diagcomp_unit = join_bitstreams (diagcomp_unit, bs);
+		diagcomp_unit = tdf_en_stream (diagcomp_unit, bs);
     }
     return (n);
 }
@@ -1180,7 +1182,7 @@ static BITSTREAM
 		us = ts;
     } else {
 		ts = enc_special (ts, spec);
-		us = start_bitstream (NULL, ts->link);
+		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
     }
     if (tok == LINK_NONE) {
 		us = enc_add_ptr (us, NULL_exp, m, off, 1);
@@ -1195,7 +1197,7 @@ static BITSTREAM
     if (spec == -1) {
 		ts = us;
     } else {
-		ts = enc_bitstream (ts, us);
+		tdf_en_bitstream (ts, us);
     }
     enc_tokdef_end (n, ts);
     n = link_no (bs, n, VAR_token);
@@ -1309,10 +1311,10 @@ static BITSTREAM
 				VIRTUAL vt = DEREF_virt (ctype_virt (ct));
 				ulong n = virtual_no (id, vt);
 				ENC_ON (bs);
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				bs = enc_special (bs, TOK_vtab_off);
 				ts = enc_make_snat (ts, (int) n);
-				bs = enc_bitstream (bs, ts);
+				tdf_en_bitstream (bs, ts);
 			} else {
 				ENC_OFF (bs);
 			}
@@ -1564,7 +1566,7 @@ static BITSTREAM
     vtags [1] = LINK_NONE;
     vtags [2] = LINK_NONE;
     vtags [3] = LINK_NONE;
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ts = enc_dg_namespace (ts, ns, &m, cs);
 #if LANGUAGE_CPP
     if (!IS_NULL_ctype (cs)) {
@@ -1576,7 +1578,7 @@ static BITSTREAM
     }
 #endif
     ENC_LIST (bs, m);
-    bs = join_bitstreams (bs, ts);
+    bs = tdf_en_stream (bs, ts);
     if (!IS_NULL_ctype (cs)) {
 		/* Friends */
 		ENC_OFF (bs);
@@ -1935,7 +1937,7 @@ BITSTREAM
     bs = enc_diag_start (bs);
     ENC_name_decl_dg (ts);
     ts = enc_dg_decl (ts, id, LINK_NONE, USAGE_DEFN);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -1963,7 +1965,7 @@ BITSTREAM
     }
     ENC_OFF (ts);
     ts = enc_dg_stmt (ts, e, 1);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -1989,7 +1991,7 @@ BITSTREAM
 				BITSTREAM *ts;
 				unsigned m = 0;
 				PTR (LOCATION) start_loc = block_loc (e, 0);
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				ts = enc_dg_namespace (ts, ns, &m, NULL_ctype);
 				if (blk > 1) m++;
 				if (m != 1) {
@@ -2001,7 +2003,7 @@ BITSTREAM
 					ENC_OFF (bs);
 					bs = enc_dg_loc (bs, start_loc, loc);
 				}
-				bs = join_bitstreams (bs, ts);
+				bs = tdf_en_stream (bs, ts);
 				return (bs);
 			}
 			break;

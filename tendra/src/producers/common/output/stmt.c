@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "tdf_types.h"
+#include "tdf_stream.h"
+
 #include "version.h"
 #include "c_types.h"
 #include "exp_ops.h"
@@ -240,7 +244,7 @@ static BITSTREAM
 #if LANGUAGE_CPP
 		unsigned ptag = null_tag;
 #endif
-		BITSTREAM *ts = start_bitstream (NULL, bs->link);
+		BITSTREAM *ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		while (!EQ_exp (e, d) && !IS_NULL_exp (e) && n < m) {
 			unsigned tag = TAG_exp (e);
 			if (tag == exp_decl_stmt_tag) {
@@ -292,7 +296,7 @@ static BITSTREAM
 		
 		/* Add destructors to main list */
 		if (n) ENC_SEQUENCE (bs, n + extra);
-		bs = join_bitstreams (bs, ts);
+		bs = tdf_en_stream (bs, ts);
     }
     return (bs);
 }
@@ -766,7 +770,7 @@ static BITSTREAM
     if (diag && !(ds & dspec_temp)) {
 		HASHID nm = DEREF_hashid (id_name (id));
 		if (!IS_hashid_anon (nm)) {
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		} else {
 			ts = bs;
 			diag = 0;
@@ -1325,16 +1329,16 @@ BITSTREAM
 	    EXP b = DEREF_exp (exp_hash_if_false_code (e));
 	    ENC_exp_cond (bs);
 	    bs = enc_exp (bs, c);
-	    ts = start_bitstream (NULL, bs->link);
+	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 	    ub = unreached_code;
 	    ts = enc_stmt_exp (ts, a, t, use);
 	    ua = unreached_code;
-	    bs = enc_bitstream (bs, ts);
-	    ts = start_bitstream (NULL, bs->link);
+	    tdf_en_bitstream (bs, ts);
+	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 	    unreached_code = ub;
 	    ts = enc_stmt_exp (ts, b, t, use);
 	    ub = unreached_code;
-	    bs = enc_bitstream (bs, ts);
+	    tdf_en_bitstream (bs, ts);
 	    unreached_code = (ua && ub);
 	    break;
 	}

@@ -85,7 +85,7 @@ int =			"int";
 unsigned =		"unsigned";
 string =		"character *";
 ulong_type (ulong) =	"unsigned long";
-BITSTREAM_P (bits) =	"struct bits_tag *";
+BITSTREAM_P (bits) =	"struct tdf_stream *";
 PPTOKEN_P (pptok) =	"struct pptok_tag *";
 
 

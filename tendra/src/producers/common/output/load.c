@@ -61,6 +61,8 @@
 #include "cstring.h"
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "system.h"
@@ -527,7 +529,7 @@ load_nat(BITSTREAM *bs)
 			CONS_unsigned (v, p, p);
 			if (++count == 10) {
 				/* Check for end of file */
-				if (de_eof (bs)) {
+				if (tdf_stream_eof (bs)) {
 					SPEC_ERROR ();
 					break;
 				}
@@ -1859,12 +1861,10 @@ read_spec()
     char buff [20];
     const char *msg = NULL;
     NAMESPACE gns = NULL_nspace;
-    BITSTREAM *bs = start_bitstream (input_file, NULL);
-    unsigned c1 = DE_BITS (bs, BYTE_SIZE);
-    unsigned c2 = DE_BITS (bs, BYTE_SIZE);
-    unsigned c3 = DE_BITS (bs, BYTE_SIZE);
-    unsigned c4 = DE_BITS (bs, BYTE_SIZE);
-    if (c1 == ascii_T && c2 == ascii_D && c3 == ascii_F && c4 == ascii_K) {
+    BITSTREAM *bs = tdf_fstream_createf (input_file, NULL);
+
+	tdf_de_magic(bs, tdf_spec_magic);
+    if (1) {
 		unsigned long n1 = DE_INT (bs);
 		unsigned long n2 = DE_INT (bs);
 		unsigned long n3 = DE_INT (bs);
@@ -1886,7 +1886,7 @@ read_spec()
 				e = spec_error;
 				if (e == 0) {
 					DE_ALIGN (bs);
-					if (!de_eof (bs)) {
+					if (!tdf_stream_eof (bs)) {
 						msg = "end of file expected";
 						e = 1;
 					}

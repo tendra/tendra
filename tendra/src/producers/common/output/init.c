@@ -59,6 +59,8 @@
 #include "producer.h"
 
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "c_types.h"
@@ -651,15 +653,15 @@ static BITSTREAM
 			EXP c = DEREF_exp (exp_destr_count (d));
 			ASSERT (!IS_NULL_exp (c));
 			bs = enc_special (bs, tok);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_exp (ts, c);
 			ts = enc_special (ts, TOK_destr_cast);
-			us = start_bitstream (NULL, ts->link);
+			us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 			us = enc_alignment (us, t);
 			us = enc_dummy_exp (us, t, n, off, 2 * cnt, 0);
-			ts = enc_bitstream (ts, us);
+			tdf_en_bitstream (ts, us);
 			ts = enc_destr_func (ts, d);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 			break;
 		}
 	case 2 : {
@@ -1067,10 +1069,10 @@ BITSTREAM
 		bs = enc_null_exp (bs, t);
 		in_static_init = 0;
 		in_dynamic_init = 1;
-		ts = start_bitstream (NULL, init_func->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, init_func->ts_link);
 		n = link_no (ts, n, VAR_tag);
 		ts = enc_init_tag (ts, n, NULL_off, 0, t, a, d, 2);
-		init_func = join_bitstreams (init_func, ts);
+		init_func = tdf_en_stream (init_func, ts);
 		if (!IS_NULL_exp (d)) init_no++;
 		init_no++;
     } else {
@@ -1082,10 +1084,10 @@ BITSTREAM
 			EXP a = make_dummy_init (t);
 			in_static_init = 0;
 			in_dynamic_init = 1;
-			ts = start_bitstream (NULL, init_func->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, init_func->ts_link);
 			n = link_no (ts, n, VAR_tag);
 			ts = enc_init_tag (ts, n, NULL_off, 0, t, a, d, 2);
-			init_func = join_bitstreams (init_func, ts);
+			init_func = tdf_en_stream (init_func, ts);
 			init_no += 2;
 			free_exp (a, 1);
 		}
@@ -1228,7 +1230,7 @@ BITSTREAM
 		BITSTREAM *bs;
 		int uc = unreached_code;
 		unreached_code = 0;
-		bs = start_bitstream (NULL, ts->link);
+		bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 		n = link_no (bs, n, VAR_tag);
 		if (m == LINK_NONE) {
 			/* Simple case */
@@ -1240,7 +1242,7 @@ BITSTREAM
 			bs = enc_term_local (bs, n, NULL_off, 0, t, e, 2);
 			ENC_make_top (bs);
 		}
-		ts = join_bitstreams (bs, ts);
+		ts = tdf_en_stream (bs, ts);
 		unreached_code = uc;
     }
     return (ts);
@@ -1353,9 +1355,9 @@ BITSTREAM
 	    if (!IS_NULL_exp (c)) {
 			BITSTREAM *ts;
 			bs = enc_special (bs, TOK_destr_end);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_exp (ts, c);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 	    } else {
 			tops = 1;
 	    }
@@ -1371,14 +1373,14 @@ BITSTREAM
 			ENC_make_label (bs, lab);
 			ENC_SEQ_SMALL (bs, 2);
 			bs = enc_special (bs, TOK_destr_test);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_exp (ts, c);
 			ENC_make_label (ts, lab);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 			bs = enc_special (bs, TOK_destr_end);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_exp (ts, c);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 			tops = 2;
 	    } else {
 			tops = 1;
@@ -1581,14 +1583,14 @@ BITSTREAM
 			TYPE tc = DEREF_type (exp_type (c));
 			ENC_assign (bs);
 			bs = enc_special (bs, TOK_ptr_to_ptr);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_alignment (ts, s);
 			ts = enc_alignment (ts, tz);
 			ts = enc_cont_op (ts, t, &bf);
 			ts = enc_shape (ts, t);
 			ENC_obtain_tag (ts);
 			ENC_make_tag (ts, n);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 			if (!eq_type_rep (tc, tz, 0)) {
 				/* Cast array size to size_t */
 				ENC_change_variety (bs);
@@ -1707,7 +1709,7 @@ BITSTREAM
 				ENC_contents (bs);
 				bs = enc_shape (bs, tz);
 				bs = enc_special (bs, TOK_ptr_to_ptr);
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				ts = enc_alignment (ts, s);
 				ts = enc_alignment (ts, tz);
 				ENC_add_to_ptr (ts);
@@ -1716,7 +1718,7 @@ BITSTREAM
 				ENC_obtain_tag (ts);
 				ENC_make_tag (ts, n);
 				ts = enc_extra_offset (ts, s, off_size_t, -1);
-				bs = enc_bitstream (bs, ts);
+				tdf_en_bitstream (bs, ts);
 				ASSERT (bf == 0);
 			}
 			

@@ -60,6 +60,8 @@
 
 #include "fmm.h"
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "c_types.h"
@@ -558,7 +560,7 @@ static BITSTREAM
 			ENC_pointer (bs);
 			bs = enc_alignment (bs, pt);
 			if (ts == NULL) {
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			}
 			ENC_identify (ts);
 			ts = enc_access (ts, ds);
@@ -575,7 +577,7 @@ static BITSTREAM
 			TYPE pu = arg_promote_type (pt, KILL_err);
 			bs = enc_shape (bs, pu);
 			if (ts == NULL) {
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			}
 			ENC_variable (ts);
 			ts = enc_access (ts, ds);
@@ -628,12 +630,12 @@ static BITSTREAM
     }
 	
     /* Allow for reference parameters */
-    if (ts) bs = join_bitstreams (bs, ts);
+    if (ts) (void)tdf_en_stream (bs, ts);
     ts = bs;
 	
     /* Encode function body */
     seq += stmt_length (e);
-    if (diag) bs = start_bitstream (NULL, bs->link);
+    if (diag) bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 #if LANGUAGE_CPP
     if (throws) bs = enc_try_func (bs, post);
 #endif
@@ -681,7 +683,7 @@ BITSTREAM
 				  TYPE t, int var)
 {
     unsigned use = USAGE_DECL;
-    BITSTREAM *bs = start_bitstream (NULL, tagdec_unit->link);
+    BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdec_unit->ts_link);
     ulong m = link_no (bs, n, VAR_tag);
     if (var == 0) {
 		ENC_make_id_tagdec (bs);
@@ -710,7 +712,7 @@ void
 enc_tagdec_end(BITSTREAM *bs)
 {
     count_item (bs);
-    tagdec_unit = join_bitstreams (tagdec_unit, bs);
+    tagdec_unit = tdf_en_stream (tagdec_unit, bs);
     return;
 }
 
@@ -749,7 +751,7 @@ BITSTREAM
 				  TYPE t, int var)
 {
     unsigned use = USAGE_DEFN;
-    BITSTREAM *bs = start_bitstream (NULL, tagdef_unit->link);
+    BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tagdef_unit->ts_link);
     ulong m = link_no (bs, n, VAR_tag);
     if (var == 0) {
 		ENC_make_id_tagdef (bs);
@@ -778,7 +780,7 @@ void
 enc_tagdef_end(BITSTREAM *bs)
 {
     count_item (bs);
-    tagdef_unit = join_bitstreams (tagdef_unit, bs);
+    tagdef_unit = tdf_en_stream (tagdef_unit, bs);
     return;
 }
 
@@ -918,8 +920,8 @@ enc_dynamic_init()
 			ENC_LIST_SMALL (bs, 0);
 			ENC_OFF (bs);
 			ENC_SEQUENCE (bs, term);
-			bs = join_bitstreams (bs, term_static_func);
-			bs = join_bitstreams (bs, term_func);
+			bs = tdf_en_stream (bs, term_static_func);
+			bs = tdf_en_stream (bs, term_func);
 			ENC_return (bs);
 			ENC_make_top (bs);
 			enc_tagdef_end (bs);
@@ -965,13 +967,13 @@ enc_dynamic_init()
 			/* Initialise termination function */
 			bs = enc_special (bs, TOK_destr_init);
 		}
-		bs = join_bitstreams (bs, init_func);
+		bs = tdf_en_stream (bs, init_func);
 		if (m1 != LINK_NONE) {
 			/* Set up termination function */
 			ulong n;
 			BITSTREAM *ts;
 			bs = enc_special (bs, TOK_destr_global);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			n = link_no (ts, m2, VAR_tag);
 			ENC_obtain_tag (ts);
 			ENC_make_tag (ts, n);
@@ -980,7 +982,7 @@ enc_dynamic_init()
 			n = link_no (ts, m1, VAR_tag);
 			ENC_obtain_tag (ts);
 			ENC_make_tag (ts, n);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 		}
 		if (var == 0) ENC_return (bs);
 		bs = enc_make_int (bs, s, 1);
@@ -1067,7 +1069,7 @@ BITSTREAM
     BITSTREAM *bs;
     if (d) enc_tokdec (n, sorts);
     record_usage (n, VAR_token, USAGE_DEFN);
-    bs = start_bitstream (NULL, tokdef_unit->link);
+    bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, tokdef_unit->ts_link);
     ENC_token_definition (bs);
     res = *(sorts++);
     bs = enc_sort (bs, (int) res);
@@ -1100,7 +1102,7 @@ enc_tokdef_end(ulong n, BITSTREAM *ps)
     ENC_make_tokdef (bs);
     ENC_INT (bs, m);
     bs = enc_signature (bs, NULL_id);
-    bs = enc_bitstream (bs, ps);
+    tdf_en_bitstream (bs, ps);
     count_item (bs);
     tokdef_unit = bs;
     return;
@@ -1691,7 +1693,7 @@ compile_comment(string s, unsigned long n)
     if (output_capsule) {
 		BITSTREAM *bs = linkinfo_unit;
 		ENC_make_comment (bs);
-		bs = enc_tdfstring (bs, n, s);
+		tdf_en_tdfstring8 (bs, n, s);
 		count_item (bs);
 		linkinfo_unit = bs;
     }
@@ -1717,7 +1719,7 @@ compile_preserve(IDENTIFIER id)
 		IGNORE capsule_id (id, VAR_tag);
 		n = unit_no (bs, id, VAR_tag, 1);
 		ENC_make_tag (bs, n);
-		bs = enc_diag_name (bs, id, 1);
+		enc_diag_name (bs, id, 1);
 		count_item (bs);
 		linkinfo_unit = bs;
     }
@@ -1747,7 +1749,7 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 		IGNORE capsule_name (n, &s, VAR_tag);
 		if (s) {
 			ENC_make_weak_symbol (bs);
-			bs = enc_ustring (bs, s);
+			tdf_en_ustring (bs, s);
 			ENC_obtain_tag (bs);
 			n = unit_no (bs, id, VAR_tag, 1);
 			ENC_make_tag (bs, n);

@@ -59,6 +59,8 @@
 #include "producer.h"
 
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "system.h"
@@ -134,8 +136,8 @@ static BITSTREAM
 		ENC_make_filename (ts);
 		ENC_make_nat (ts);
 		ENC_INT (ts, date);
-		ts = enc_ustring (ts, mn);
-		ts = enc_ustring (ts, bn);
+		tdf_en_ustring (ts, mn);
+		tdf_en_ustring (ts, bn);
 		enc_tokdef_end (n, ts);
     }
 	
@@ -186,13 +188,13 @@ static BITSTREAM
  *    as a TDF string.
  */
 
-BITSTREAM
-*enc_diag_name(BITSTREAM *bs, IDENTIFIER id,
+void
+enc_diag_name(BITSTREAM *bs, IDENTIFIER id,
 			   int q)
 {
     string s = mangle_diag (id, q);
-    bs = enc_ustring (bs, s);
-    return (bs);
+    tdf_en_ustring (bs, s);
+    return;
 }
 
 
@@ -207,7 +209,7 @@ BITSTREAM
 static BITSTREAM
 *enc_diag_tagdef_start(ulong n)
 {
-    BITSTREAM *bs = start_bitstream (NULL, diagtype_unit->link);
+    BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagtype_unit->ts_link);
     record_usage (n, VAR_diagtag, USAGE_DEFN);
     ENC_make_diag_tagdef (bs);
     n = link_no (bs, n, VAR_diagtag);
@@ -227,7 +229,7 @@ static void
 enc_diag_tagdef_end(BITSTREAM *bs)
 {
     count_item (bs);
-    diagtype_unit = join_bitstreams (diagtype_unit, bs);
+    diagtype_unit = tdf_en_stream (diagtype_unit, bs);
     return;
 }
 
@@ -250,7 +252,7 @@ static BITSTREAM
 		IDENTIFIER cid = DEREF_id (ctype_name (cs));
 		DECL_SPEC acc = DEREF_dspec (graph_access (gs));
 		bs = enc_diag_bases (bs, TAIL_list (br), pm);
-		bs = enc_diag_name (bs, cid, 0);
+		enc_diag_name (bs, cid, 0);
 		bs = enc_base (bs, gs, 1);
 		if (acc & dspec_virtual) {
 			ENC_diag_ptr (bs);
@@ -283,7 +285,7 @@ static BITSTREAM
 		mem = DEREF_member (member_next (mem));
 		mem = next_data_member (mem, 2);
 		bs = enc_diag_mems (bs, mem, pm);
-		bs = enc_diag_name (bs, mid, 0);
+		enc_diag_name (bs, mid, 0);
 		bs = enc_member (bs, mid);
 		bs = enc_diag_type (bs, s, 0);
 		(*pm)++;
@@ -309,7 +311,7 @@ static BITSTREAM
 		if (IS_NULL_off (off)) {
 			/* New virtual function table */
 			ulong n = DEREF_ulong (virt_table_tok (vt));
-			bs = enc_ustring (bs, ustrlit ("__vptr"));
+			tdf_en_ustring (bs, ustrlit ("__vptr"));
 			ENC_exp_apply_token (bs);
 			n = link_no (bs, n, VAR_token);
 			ENC_make_tok (bs, n);
@@ -374,7 +376,7 @@ enc_diag_class(CLASS_TYPE ct, int def)
 		
 		/* Encode diagnostic tag definition */
 		bs = enc_diag_tagdef_start (n);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		if (ci & cinfo_union) {
 			ENC_diag_union (bs);
 		} else {
@@ -384,7 +386,7 @@ enc_diag_class(CLASS_TYPE ct, int def)
 		tok = link_no (bs, tok, VAR_token);
 		ENC_make_tok (bs, tok);
 		ENC_LEN_SMALL (bs, 0);
-		bs = enc_diag_name (bs, id, 1);
+		enc_diag_name (bs, id, 1);
 		mem = next_data_member (mem, 2);
 		if (ci & cinfo_polymorphic) {
 			VIRTUAL vt = DEREF_virt (ctype_virt (ct));
@@ -393,7 +395,7 @@ enc_diag_class(CLASS_TYPE ct, int def)
 		ts = enc_diag_mems (ts, mem, &m);
 		ts = enc_diag_bases (ts, br, &m);
 		ENC_LIST (bs, m);
-		bs = join_bitstreams (bs, ts);
+		bs = tdf_en_stream (bs, ts);
 		enc_diag_tagdef_end (bs);
     } else {
 		CONS_ctype (ct, diag_classes, diag_classes);
@@ -493,14 +495,14 @@ static BITSTREAM
 		ts = enc_diag_tagdef_start (n);
 		ENC_diag_enum (ts);
 		ts = enc_diag_type (ts, t, 0);
-		ts = enc_diag_name (ts, id, 1);
+		enc_diag_name (ts, id, 1);
 		ENC_LIST (ts, LENGTH_list (p));
 		while (!IS_NULL_list (p)) {
 			/* Scan through enumerators */
 			IDENTIFIER pid = DEREF_id (HEAD_list (p));
 			EXP e = DEREF_exp (id_enumerator_value (pid));
 			ts = enc_exp (ts, e);
-			ts = enc_diag_name (ts, pid, 1);
+			enc_diag_name (ts, pid, 1);
 			p = TAIL_list (p);
 		}
 		enc_diag_tagdef_end (ts);
@@ -784,9 +786,9 @@ enc_diag_id(IDENTIFIER id, int def)
 	case id_type_alias_tag : {
 	    /* Typedef names */
 	    t = DEREF_type (id_class_name_etc_defn (id));
-	    bs = start_bitstream (NULL, diagdef_unit->link);
+	    bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagdef_unit->ts_link);
 	    ENC_diag_desc_typedef (bs);
-	    bs = enc_diag_name (bs, id, 1);
+	    enc_diag_name (bs, id, 1);
 	    bs = enc_diag_loc (bs, id_loc (id));
 	    bs = enc_diag_type (bs, t, 1);
 	    break;
@@ -806,9 +808,9 @@ enc_diag_id(IDENTIFIER id, int def)
 	    goto diag_label;
 	}
 		diag_label : {
-			bs = start_bitstream (NULL, diagdef_unit->link);
+			bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagdef_unit->ts_link);
 			ENC_diag_desc_id (bs);
-			bs = enc_diag_name (bs, id, 1);
+			enc_diag_name (bs, id, 1);
 			bs = enc_diag_loc (bs, id_loc (id));
 			ENC_obtain_tag (bs);
 			n = link_no (bs, n, VAR_tag);
@@ -819,7 +821,7 @@ enc_diag_id(IDENTIFIER id, int def)
     }
     if (bs) {
 		count_item (bs);
-		diagdef_unit = join_bitstreams (diagdef_unit, bs);
+		diagdef_unit = tdf_en_stream (diagdef_unit, bs);
     }
     return;
 }
@@ -842,16 +844,16 @@ enc_diag_init(const char *s, ulong n, TYPE t)
 		if (u) n = capsule_name (n, &u, VAR_tag);
     }
     if (output_diag && !output_new_diag) {
-		BITSTREAM *bs = start_bitstream (NULL, diagdef_unit->link);
+		BITSTREAM *bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, diagdef_unit->ts_link);
 		ENC_diag_desc_id (bs);
-		bs = enc_ustring (bs, ustrlit (s));
+		tdf_en_ustring (bs, ustrlit (s));
 		bs = enc_diag_loc (bs, NULL_ptr (LOCATION));
 		ENC_obtain_tag (bs);
 		n = link_no (bs, n, VAR_tag);
 		ENC_make_tag (bs, n);
 		bs = enc_diag_type (bs, t, 0);
 		count_item (bs);
-		diagdef_unit = join_bitstreams (diagdef_unit, bs);
+		diagdef_unit = tdf_en_stream (diagdef_unit, bs);
     }
     return;
 }
@@ -885,7 +887,7 @@ BITSTREAM
 	
     /* Add identifier information to ts */
     t = DEREF_type (id_variable_etc_type (id));
-    ts = enc_diag_name (ts, id, 0);
+    enc_diag_name (ts, id, 0);
     ENC_obtain_tag (ts);
     m = unit_no (ts, id, VAR_tag, 0);
     ENC_make_tag (ts, m);
@@ -895,7 +897,7 @@ BITSTREAM
     ENC_exp_apply_token (bs);
     n = link_no (bs, n, VAR_token);
     ENC_make_tok (bs, n);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -918,10 +920,10 @@ BITSTREAM
     }
 #endif
     if (IS_NULL_list (p)) {
-		bs = join_bitstreams (bs, ts);
+		bs = tdf_en_stream (bs, ts);
     } else {
 		IDENTIFIER pid = DEREF_id (HEAD_list (p));
-		BITSTREAM *us = start_bitstream (NULL, bs->link);
+		BITSTREAM *us = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		us = enc_diag_params (us, TAIL_list (p), ts, e);
 		bs = enc_diag_local (bs, pid, us);
     }
@@ -971,7 +973,7 @@ BITSTREAM
     if (output_diag) {
 		bs = enc_diag_start (bs);
 		*pbs = bs;
-		bs = start_bitstream (NULL, bs->link);
+		bs = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     }
     return (bs);
 }
@@ -1083,7 +1085,8 @@ BITSTREAM
 {
     if (output_diag) {
 		ts = enc_diag_stmt (ts, e, stmt);
-		ts = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
+		ts = bs;
     }
     return (ts);
 }

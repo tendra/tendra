@@ -19,12 +19,12 @@ SRCS+=	access.c allocate.c assign.c basetype.c cast.c check.c \
 SRCS+=	main.c
 
 # common/output
-SRCS+=	capsule.c compile.c decode.c diag.c diag2.c dump.c encode.c \
+SRCS+=	capsule.c compile.c decode.c diag.c diag2.c dump.c \
 	exp.c init.c load.c mangle.c save.c shape.c stmt.c struct.c \
 	throw.c tok.c unmangle.c	
 
 # common/parse
-SRCS+=	char.c constant.c file.c hash.c lex.c literal.c macro.c parse.c \
+SRCS+=	constant.c file.c hash.c lex.c literal.c macro.c parse.c \
 	pragma.c predict.c preproc.c psyntax1.c psyntax2.c psyntax3.c table.c
 
 # common/utility

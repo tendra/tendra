@@ -57,6 +57,10 @@
 
 #include "config.h"
 #include "producer.h"
+
+#include "tdf_types.h"
+#include "tdf_stream.h"
+
 #include "version.h"
 #include "c_types.h"
 #include "exp_ops.h"
@@ -157,9 +161,9 @@ static BITSTREAM
     bs = enc_ntest (bs, tst);
     ENC_make_label (bs, lab);
     bs = enc_special (bs, TOK_except_catch);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ts = enc_rtti_type (ts, t, lex_typeid);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     bs = enc_make_int (bs, type_sint, 0);
     return (bs);
 }
@@ -199,13 +203,13 @@ BITSTREAM
     /* Encode the try block body */
     ENC_SEQUENCE (bs, seq);
     bs = enc_special (bs, TOK_try_begin);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ENC_obtain_tag (ts);
     ENC_make_tag (ts, n);
     ENC_current_env (ts);
     ENC_make_local_lv (ts);
     ENC_make_label (ts, lab);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -221,10 +225,10 @@ BITSTREAM
 {
     BITSTREAM *ts;
     bs = enc_special (bs, TOK_try_end);
-    ts = start_bitstream (NULL, bs->link);
+    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     ENC_obtain_tag (ts);
     ENC_make_tag (ts, n);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -325,9 +329,9 @@ BITSTREAM
     } else {
 		BITSTREAM *ts;
 		bs = enc_special (bs, TOK_except_bad);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_make_snat (ts, 0);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
     }
     unreached_code = 1;
     return (bs);
@@ -358,13 +362,13 @@ BITSTREAM
 		
 		/* Allocate space for exception value */
 		bs = enc_special (bs, TOK_from_ptr_void);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_alignment (ts, t);
 		ts = enc_special (ts, TOK_except_alloc);
-		us = start_bitstream (NULL, ts->link);
+		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 		us = enc_exp (us, b);
-		ts = enc_bitstream (ts, us);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (ts, us);
+		tdf_en_bitstream (bs, ts);
 		
 		/* Assign exception value */
 		ENC_SEQ_SMALL (bs, 1);
@@ -372,15 +376,15 @@ BITSTREAM
 		
 		/* Throw the exception */
 		bs = enc_special (bs, TOK_except_throw);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_special (ts, TOK_to_ptr_void);
-		us = start_bitstream (NULL, ts->link);
+		us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 		us = enc_alignment (us, t);
 		us = enc_exp (us, c);
-		ts = enc_bitstream (ts, us);
+		tdf_en_bitstream (ts, us);
 		ts = enc_rtti_type (ts, t, lex_typeid);
 		ts = enc_destr_func (ts, d);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
 		unreached_code = 1;
 		free_exp (c, 1);
 		
@@ -403,11 +407,11 @@ BITSTREAM
 BITSTREAM
 *enc_thrown(BITSTREAM *bs, TYPE t)
 {
-    BITSTREAM *ts = start_bitstream (NULL, bs->link);
+    BITSTREAM *ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
     bs = enc_special (bs, TOK_from_ptr_void);
     ts = enc_alignment (ts, t);
     ts = enc_special (ts, TOK_except_value);
-    bs = enc_bitstream (bs, ts);
+    tdf_en_bitstream (bs, ts);
     return (bs);
 }
 
@@ -522,9 +526,9 @@ BITSTREAM
 			}
 		}
 		bs = enc_special (bs, TOK_except_bad);
-		ts = start_bitstream (NULL, bs->link);
+		ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 		ts = enc_make_snat (ts, have_bad);
-		bs = enc_bitstream (bs, ts);
+		tdf_en_bitstream (bs, ts);
     }
     if (rethrow) {
 		/* Re-throw the current exception */

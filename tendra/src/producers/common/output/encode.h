@@ -60,30 +60,6 @@
 
 
 /*
- *    BITSTREAM ENCODING DECLARATIONS
- *
- *    The routines in this module are concerned with low level output.
- */
-
-extern BITSTREAM *start_bitstream(FILE *, void *) ;
-extern void end_bitstream(BITSTREAM *, int) ;
-extern BITSTREAM *enc_bits(BITSTREAM *, unsigned, unsigned) ;
-extern BITSTREAM *enc_long_bits(BITSTREAM *, unsigned, unsigned long) ;
-extern BITSTREAM *enc_bytes(BITSTREAM *, unsigned long, string) ;
-extern BITSTREAM *enc_ascii(BITSTREAM *, unsigned long, string) ;
-extern BITSTREAM *enc_extn(BITSTREAM *, unsigned, unsigned) ;
-extern BITSTREAM *enc_int(BITSTREAM *, unsigned long) ;
-extern BITSTREAM *enc_int_aux(BITSTREAM *, unsigned long) ;
-extern BITSTREAM *enc_ident(BITSTREAM *, string, unsigned long) ;
-extern BITSTREAM *enc_tdfstring(BITSTREAM *, unsigned long, string) ;
-extern BITSTREAM *enc_ustring(BITSTREAM *, string) ;
-extern BITSTREAM *enc_boundary(BITSTREAM *) ;
-extern BITSTREAM *enc_bitstream(BITSTREAM *, BITSTREAM *) ;
-extern BITSTREAM *join_bitstreams(BITSTREAM *, BITSTREAM *) ;
-extern unsigned length_bitstream(BITSTREAM *) ;
-
-
-/*
  *    BITSTREAM SIZES
  *
  *    These macros give the number of bits in a byte and the number of
@@ -105,24 +81,24 @@ extern unsigned length_bitstream(BITSTREAM *) ;
  */
 
 #define ENC_BITS(A, B, C)\
-    (A) = enc_bits ((A), (unsigned) (B), (unsigned) (C))
+    tdf_en_bits ((A), (unsigned) (B), (unsigned) (C))
 
 #define ENC_BITS_2(A, B, C)\
-    (A) = enc_long_bits ((A), (unsigned) (B), (ulong) (C))
+    tdf_en_bits ((A), (unsigned) (B), (ulong) (C))
 
 #define ENC_EXTN(A, B, C)\
-    (A) = enc_extn ((A), (unsigned) (B), (unsigned) (C))
+    tdf_en_tdfextint ((A), (unsigned) (B), (C))
 
 #define ENC_INT(A, B)\
-    (A) = enc_int ((A), (unsigned long) (B))
+    tdf_en_tdfintl ((A), (B))
 
 #define ENC_IDENT(A, B, C)\
-    (A) = enc_ident ((A), (B), (unsigned long) (C))
+    tdf_en_tdfident ((A), (C), (B))
 
 #define ENC_ALIGN(A)\
-    (A) = enc_boundary ((A))
+    tdf_en_align ((A))
 
-#define ENC_BOOL(A, B)	ENC_BITS (A, 1, B)
+#define ENC_BOOL(A, B)	tdf_en_tdfbool(A, B)
 #define ENC_ON(A)		ENC_BITS (A, 1, 1)
 #define ENC_OFF(A)		ENC_BITS (A, 1, 0)
 #define ENC_OFFS(A, B)	ENC_BITS (A, B, 0)

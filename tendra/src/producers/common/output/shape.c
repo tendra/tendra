@@ -59,6 +59,8 @@
 #include "producer.h"
 
 #include "msgcat.h"
+#include "tdf_types.h"
+#include "tdf_stream.h"
 
 #include "version.h"
 #include "c_types.h"
@@ -124,9 +126,9 @@ static BITSTREAM
 		/* Small values */
 		unsigned long v = get_nat_value (n);
 		if (e) {
-			bs = enc_int (bs, v);
+			tdf_en_tdfintl (bs, v);
 		} else {
-			bs = enc_int_aux (bs, v);
+			tdf_en_tdfintl_aux (bs, v);
 		}
     } else {
 		/* Really large values */
@@ -135,7 +137,7 @@ static BITSTREAM
 		bs = enc_tdfint (bs, n, 0);
 		u &= 0x7;
 		if (e) u |= 0x8;
-		bs = enc_bits (bs, (unsigned) 4, u);
+		tdf_en_bits (bs, (unsigned) 4, u);
     }
     return (bs);
 }
@@ -485,10 +487,10 @@ BITSTREAM
 		ENC_make_string (ts);
 		ENC_INT (ts, BYTE_SIZE);
 		ENC_INT (ts, nt);
-		ts = enc_ascii (ts, ni, i);
+		tdf_en_ascii (ts, ni, i);
 		if (nf) {
 			ENC_BITS (ts, BYTE_SIZE, '.');
-			ts = enc_ascii (ts, nf, f);
+			tdf_en_ascii (ts, nf, f);
 		}
 		ENC_make_nat (ts);
 		ENC_INT (ts, 10);
@@ -525,7 +527,7 @@ BITSTREAM
 		ENC_to_nearest (bs);
 		ENC_false (bs);
 		ENC_make_string (bs);
-		bs = enc_ustring (bs, ustrlit (s));
+		tdf_en_ustring (bs, ustrlit (s));
 		ENC_make_nat (bs);
 		ENC_INT (bs, 10);
 		bs = enc_snat (bs, NULL_nat, 0, 0);
@@ -627,7 +629,7 @@ BITSTREAM
 			}
 		} else {
 			/* Simple string */
-			bs = enc_ascii (bs, n, s);
+			tdf_en_ascii (bs, n, s);
 		}
 		for (i = n ; i < m ; i++) {
 			/* Terminal zeros */
@@ -670,7 +672,7 @@ BITSTREAM
 			s += MULTI_WIDTH;
 		}
     } else {
-		bs = enc_ascii (bs, n, s);
+		tdf_en_ascii (bs, n, s);
     }
     return (bs);
 }
@@ -836,7 +838,7 @@ static BITSTREAM
 			tok = capsule_no (s, VAR_token);
 			COPY_ulong (itype_ntok (it), tok);
 			ts = enc_tokdef_start (tok, "Z", NULL, 1);
-			us = start_bitstream (NULL, ts->link);
+			us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 			switch (tag) {
 			case itype_promote_tag : {
 				/* Promoted integral types */
@@ -872,7 +874,7 @@ static BITSTREAM
 				break;
 			}
 			}
-			ts = enc_bitstream (ts, us);
+			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
     }
@@ -923,9 +925,9 @@ BITSTREAM
 				/* Integral token parameters */
 				BITSTREAM *ts;
 				bs = enc_special (bs, TOK_convert);
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				ts = enc_var_no (ts, it, 0);
-				bs = enc_bitstream (bs, ts);
+				tdf_en_bitstream (bs, ts);
 				return (bs);
 			}
 			break;
@@ -954,9 +956,9 @@ BITSTREAM
 				} else {
 					BITSTREAM *us;
 					ts = enc_special (ts, TOK_bitf_sign);
-					us = start_bitstream (NULL, ts->link);
+					us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 					us = enc_var_no (us, it, 0);
-					ts = enc_bitstream (ts, us);
+					tdf_en_bitstream (ts, us);
 				}
 				ts = enc_nat (ts, n, 1);
 				enc_tokdef_end (tok, ts);
@@ -965,9 +967,9 @@ BITSTREAM
 				BITSTREAM *ts, *us;
 				ts = enc_tokdef_start (tok, "V", NULL, 1);
 				ts = enc_special (ts, TOK_convert);
-				us = start_bitstream (NULL, ts->link);
+				us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 				us = enc_var_no (us, it, 0);
-				ts = enc_bitstream (ts, us);
+				tdf_en_bitstream (ts, us);
 				enc_tokdef_end (tok, ts);
 			}
 		}
@@ -1040,7 +1042,7 @@ static BITSTREAM
 			tok = capsule_no (s, VAR_token);
 			COPY_ulong (ftype_ntok (ft), tok);
 			ts = enc_tokdef_start (tok, "Z", NULL, 1);
-			us = start_bitstream (NULL, ts->link);
+			us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 			switch (tag) {
 			case ftype_arg_promote_tag : {
 				/* Promoted floating types */
@@ -1060,7 +1062,7 @@ static BITSTREAM
 				break;
 			}
 			}
-			ts = enc_bitstream (ts, us);
+			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
     }
@@ -1111,9 +1113,9 @@ BITSTREAM
 				/* Floating point token parameters */
 				BITSTREAM *ts;
 				bs = enc_special (bs, TOK_convert);
-				ts = start_bitstream (NULL, bs->link);
+				ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 				ts = enc_flvar_no (ts, ft);
-				bs = enc_bitstream (bs, ts);
+				tdf_en_bitstream (bs, ts);
 				return (bs);
 			}
 		}
@@ -1129,9 +1131,9 @@ BITSTREAM
 			COPY_ulong (ftype_ftok (ft), tok);
 			ts = enc_tokdef_start (tok, "F", NULL, 1);
 			ts = enc_special (ts, TOK_convert);
-			us = start_bitstream (NULL, ts->link);
+			us = tdf_bs_create (NULL, TDFS_MODE_WRITE, ts->ts_link);
 			us = enc_flvar_no (us, ft);
-			ts = enc_bitstream (ts, us);
+			tdf_en_bitstream (ts, us);
 			enc_tokdef_end (tok, ts);
 		}
     }
@@ -1396,10 +1398,10 @@ BITSTREAM
 		if (EQ_type (t, type_char)) {
 			bs = enc_special (bs, TOK_char_offset);
 		} else {
-			BITSTREAM *ts = start_bitstream (NULL, bs->link);
+			BITSTREAM *ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			bs = enc_special (bs, TOK_shape_offset);
 			ts = enc_shape (ts, t);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 		}
     } else {
 		/* Output explicit instructions */
@@ -1493,10 +1495,10 @@ BITSTREAM
 	    TYPE s = DEREF_type (exp_type (a));
 	    s = DEREF_type (type_ptr_mem_sub (s));
 	    bs = enc_special (bs, TOK_pm_offset);
-	    ts = start_bitstream (NULL, bs->link);
+	    ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 	    ts = enc_exp (ts, a);
 	    ts = enc_alignment (ts, s);
-	    bs = enc_bitstream (bs, ts);
+	    tdf_en_bitstream (bs, ts);
 	    break;
 	}
 	case off_negate_tag : {
@@ -1575,10 +1577,10 @@ BITSTREAM
 		if (n == 1) {
 			BITSTREAM *ts;
 			bs = enc_special (bs, TOK_extra_offset);
-			ts = start_bitstream (NULL, bs->link);
+			ts = tdf_bs_create (NULL, TDFS_MODE_WRITE, bs->ts_link);
 			ts = enc_alignment (ts, t);
 			ts = enc_offset (ts, off);
-			bs = enc_bitstream (bs, ts);
+			tdf_en_bitstream (bs, ts);
 		} else {
 			ENC_offset_mult (bs);
 			bs = enc_extra_offset (bs, t, off, 1);

@@ -58,6 +58,9 @@
 #include "config.h"
 #include "producer.h"
 #include <limits.h>
+
+#include "char.h"
+
 #include "c_types.h"
 #include "id_ops.h"
 #include "str_ops.h"
@@ -66,7 +69,6 @@
 #include "catalog.h"
 #include "option.h"
 #include "basetype.h"
-#include "char.h"
 #include "chktype.h"
 #include "convert.h"
 #include "literal.h"

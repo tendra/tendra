@@ -85,7 +85,9 @@
  *    definitions in the system headers.
  */
 
+#ifndef CHAR_INCLUDED
 typedef unsigned char character;
+#endif
 #define ulong ulong_type
 #define CONST_S const
 
@@ -254,26 +256,8 @@ typedef struct pptok_tag {
     OPTIONS *pp_opts;
 } PPTOKEN;
 
-
-/*
- *    TYPE REPRESENTING A SERIES OF BITS
- *
- *    A bitstream consists of an array of characters comprising the
- *    bits themselves, plus the current offset (in bytes and bits) of the
- *    end of these bits.  A pointer to the previous bitstream is used to
- *    chain bitstreams together.
- */
-
-typedef struct bits_tag {
-    string text;
-    unsigned bytes;
-    unsigned bits;
-    unsigned size;
-    FILE *file;
-    void *link;
-    struct bits_tag *prev;
-} BITSTREAM;
-
+struct tdf_stream;
+typedef struct tdf_stream BITSTREAM;
 
 /*
  *    TYPE REPRESENTING A CHARACTER BUFFER

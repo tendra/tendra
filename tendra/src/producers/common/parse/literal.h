@@ -107,8 +107,7 @@ extern CV_SPEC cv_string;
  *    STRING TYPES
  *
  *    The values STRING_* form a bitfield which is used to identify the
- *    various types of string literals.  The values CHAR_* are used to
- *    identify the various types of character in multibyte strings.
+ *    various types of string literals.
  */
 
 #define STRING_NONE		((unsigned) 0x00)
@@ -116,13 +115,6 @@ extern CV_SPEC cv_string;
 #define STRING_WIDE		((unsigned) 0x02)
 #define STRING_MULTI		((unsigned) 0x04)
 #define STRING_FAT		((unsigned) 0x08)
-#define CHAR_SIMPLE		0
-#define CHAR_ASCII		1
-#define CHAR_OCTAL		2
-#define CHAR_HEX		3
-#define CHAR_UNI4		4
-#define CHAR_UNI8		5
-#define CHAR_NONE		6
 #define MULTI_WIDTH		5
 
 
