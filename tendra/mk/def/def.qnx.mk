@@ -21,9 +21,9 @@ LIB_MCRT0?=
 
 # Arguments
 
-ARGS_CP?=       -v
-ARGS_GUNZIP?=   -f
-ARGS_MKDIR?=    -p
+ARGS_CP?=	-v
+ARGS_GUNZIP?=	-f
+ARGS_MKDIR?=	-p
 
 
 # Binaries
