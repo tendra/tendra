@@ -46,6 +46,8 @@
 #pragma TenDRA option "func_id" allow
 /* 6.4.9#2 */
 #pragma TenDRA option "cpplus_comment" allow
+/* 6.7.2 */
+#pragma TenDRA keyword _Bool for keyword bool
 /* 6.7.2#2 */
 #pragma TenDRA implicit int type disallow
 #pragma TenDRA implicit int type for const / volatile disallow
