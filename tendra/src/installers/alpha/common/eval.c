@@ -634,28 +634,30 @@ void evalone
 	  }
 	  }
 	  for (i = j; i < strsize && i-j < 8; i++) {
+	    if (i != j) 
+	      outstring(", ");
 	    switch (char_size) { 
 	    case 8:
 #if !DO_SCHEDULE
-	      (void)fprintf (as_file, "0x%x ", st[i]&0xff); 
+	      (void)fprintf (as_file, "0x%x", st[i]&0xff); 
 #else
-	      sprintf(outline,"0x%x ", st[i]&0xff); 
+	      sprintf(outline,"0x%x", st[i]&0xff); 
 	      outass(outline);
 #endif
 	      break;
 	    case 16:
 #if !DO_SCHEDULE
-	      (void)fprintf (as_file, "0x%x ", ((unsigned short *)st)[i]); 
+	      (void)fprintf (as_file, "0x%x", ((unsigned short *)st)[i]); 
 #else
-	      (void)sprintf (outline, "0x%x ", ((unsigned short *)st)[i]); 
+	      (void)sprintf (outline, "0x%x", ((unsigned short *)st)[i]); 
 	      outass(outline);
 #endif
 	      break;
 	    case 32:
 #if !DO_SCHEDULE
-	      (void)fprintf (as_file, "0x%x ", ((int *)st)[i]); 
+	      (void)fprintf (as_file, "0x%x", ((int *)st)[i]); 
 #else
-	      (void)sprintf (outline, "0x%x ", ((int *)st)[i]); 
+	      (void)sprintf (outline, "0x%x", ((int *)st)[i]); 
 	      outass(outline);
 #endif
 	      break;
@@ -663,9 +665,9 @@ void evalone
 	      flt64 bigint;
 	      bigint = flt_to_f64(((flpt*)st)[i],is_signed(sh(e)),&overflow);
 #if !DO_SCHEDULE
-	      out_INT64(flt64_to_INT64(bigint));outstring(" ");
+	      out_INT64(flt64_to_INT64(bigint));
 #else
-	      sprintf(outline,"%ld ",flt64_to_INT64(bigint));
+	      sprintf(outline,"%ld", flt64_to_INT64(bigint));
 	      outass(outline);
 #endif	
 	      break;
