@@ -1,6 +1,6 @@
 # $Id$
 
-DIST_DIR=	${.CURDIR:C/\/src.*//}
+DIST_DIR:=	${.PARSEDIR}
 
 .MAKEFLAGS:	-m ${DIST_DIR}/mk -r
 
