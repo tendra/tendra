@@ -106,7 +106,7 @@
  * This function initialises the specified istream not to read from any file.
  *
  ** Function:	BoolT			istream_open
- *			PROTO_S ((IStreamP istream, CStringP name))
+ *			PROTO_S ((IStreamP istream, char *name))
  ** Exceptions: XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function initialises the specified istream to read from the file with
@@ -228,7 +228,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_istream_read_error (CStringP name)
+ ** Exception:	XX_istream_read_error (char *name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -248,12 +248,12 @@
 
 typedef struct IStreamT {
 	FILE		       *file;
-	CStringP			buffer;
-	CStringP			current;
-	CStringP			end;
-	CStringP			limit;
+	char *			buffer;
+	char *			current;
+	char *			end;
+	char *			limit;
 	unsigned			line;
-	CStringP			name;
+	char *			name;
 	BoolT			read_last;
 } IStreamT, *IStreamP;
 
@@ -272,7 +272,7 @@ extern IStreamT		 *const istream_input;
 
 void	istream_setup(void);
 void	istream_init(IStreamP);
-BoolT	istream_open(IStreamP, CStringP);
+BoolT	istream_open(IStreamP, char *);
 void	istream_assign(IStreamP, IStreamP);
 BoolT	istream_is_open(IStreamP);
 BoolT	istream_read_char(IStreamP, char *);
@@ -280,7 +280,7 @@ BoolT	istream_peek_char(IStreamP, char *);
 IStreamStatusT istream_read_escaped_char(IStreamP, char *);
 void	istream_inc_line(IStreamP);
 unsigned istream_line(IStreamP);
-CStringP istream_name(IStreamP);
+char *	istream_name(IStreamP);
 void	istream_close(IStreamP);
 
 /*--------------------------------------------------------------------------*/
@@ -323,8 +323,8 @@ void	X__istream_fill_buffer(IStreamP);
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define istream_init(is) ((is)->name = NIL (CStringP))
-#define istream_is_open(is) ((is)->name != NIL (CStringP))
+#define istream_init(is) ((is)->name = NULL)
+#define istream_is_open(is) ((is)->name != NULL)
 #define istream_inc_line(is) ((is)->line ++)
 #define istream_line(is) ((is)->line)
 #define istream_name(is) ((is)->name)
