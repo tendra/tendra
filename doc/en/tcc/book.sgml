@@ -2303,7 +2303,7 @@
         input files it is passed by means of their file suffix. The
         recognised file suffixes are as follows:
         
-    <table frame="all">
+    <table frame="all" id='input-file-suffexes'>
       <title>Input File Suffixes</title>
         <tgroup cols="3">
           <thead>
@@ -2407,7 +2407,7 @@
         certain output files (and other files) have default names.
         These are as follows:</para>
 
-    <table frame="all">
+    <table frame="all" id='default-output-file'>
       <title>Default Output Filenames</title>
         <tgroup cols="2">
           <thead>
@@ -2459,7 +2459,7 @@
       <para>The various compilation phases under the control of
         <command>tcc</command> may be summarised as follows:</para>
         
-    <table frame="all">
+    <table frame="all" id='compilation-phase'>
       <title>Compilation Phase</title>
         <tgroup cols="4">
           <thead>
@@ -2621,7 +2621,7 @@
       
     <para>INSERT MAN PAGE XREF HERE!</para>
 
-    <table frame="all">
+    <table frame="all" id='archiver-options'>
       <title>Archiver Options</title>
         <tgroup cols="2">
           <thead>
@@ -2718,7 +2718,7 @@
       <para>The following standard APIs are supported in the form of
         TenDRA headers:</para>
         
-    <table frame="all">
+    <table frame="all" id='supported-apis-b'>
       <title>Supported APIs</title>
         <tgroup cols="3">
            <thead>
@@ -2869,7 +2869,7 @@
       <para>The following <command>tcc</command> environment
         identifiers are recognised:</para>
         
-    <table frame="all">
+    <table frame="all" id='env-identifers'>
       <title>Environment Identifiers</title>
         <tgroup cols="2">
            <thead>
@@ -3064,7 +3064,7 @@
         APIs (see section 7.5. on page 31), the following environments
         are standard:</para>
 
-    <table frame="all">
+    <table frame="all" id='standard-env'>
       <title>Standard Environments</title>
         <tgroup cols="2">
            <thead>
