@@ -58,6 +58,7 @@ install-machine:
 .for i in ${DATA_STARTUP}
 	${INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/lib/machines/startup
 .endfor
+	${INSTALL} ${.OBJDIR}/tokens/target_tok.tl ${INSTALL_PREFIX}/lib
 
 # lib/startup: our startup files for compilation modes.
 install-startup:
