@@ -837,94 +837,125 @@ operate_fmt(instruction ins, int src1, int src2, int dest)
 }
 
 
+static struct {
+  int           val;
+  instruction   *subst_ins;
+} negate_table1[] = {
+  { zaddl, &i_subl },
+  { zaddq, &i_subq },
+};
+
+/*
+ * Try to make the immediate positive by finding an inverse instruction.
+ * eg. addq $0, -1, $0 -> subq $0, 1, $0
+ * Return 1 if we succeeded.
+ */
+static int
+negate_ins(instruction *ins, INT64 *imm)
+{
+  unsigned i;
+  static int initialised = 0;
+  static int negate_table2[n_asmcodes];
+
+  if (!initialised) {
+    for (i = 0; i < sizeof(negate_table2) / sizeof(*negate_table2); i++)
+      negate_table2[i] = -1;
+    for (i = 0; i < sizeof(negate_table1) / sizeof(*negate_table1); i++)
+      negate_table2[negate_table1[i].val] = i;
+    initialised = 1;
+  }
+
+  if (ins_binid(*ins) < 0 || ins_binid(*ins) >= n_asmcodes) {
+    failer("ins_binid invalid");
+    return 0;
+  }
+  if (negate_table2[ins_binid(*ins)] != -1) {
+    *ins = *negate_table1[negate_table2[ins_binid(*ins)]].subst_ins;
+    INT64_assign(*imm, INT64_subtract(zero_int64, *imm, 0));
+    return 1;
+  } else if (ins_equal(*ins, i_xor)) {
+    *ins = i_eqv;
+    INT64_assign(*imm, INT64_decrement(INT64_subtract(zero_int64, *imm, 0)));
+    return 1;
+  }
+  return 0;
+}
+
+void
+operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
+{
+  if (src2 < 0) {
+    operate_fmt_big_immediate(ins, src1, make_INT64(-1, (unsigned)src2), dest);
+  } else {
+    operate_fmt_big_immediate(ins, src1, make_INT64(0, src2), dest);
+  }
+  return;
+}
+
 /*
   Output an operation where the second paramter is an immediate
   value.  If the immediate value is larger than 8 bits then it 
   needs to be loaded into a register 
 */
 void
-operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
-{
-  char *binasm_data;
-#if DO_SCHEDULE
-  char *outline = (char*)xcalloc(40,sizeof(char));
-  Instruction new_ins = get_new_instruction();
-  Instruction_data ins_dat = get_new_ins_data();
-  setclass(new_ins,ins_class(ins));
-  setsets(new_ins,(Register)dest,ins_class(ins));
-  setuses(new_ins,(Register)src1,ins_class(ins));
-  if(ins_class(ins) == class_subroutine){
-    setuses(new_ins,R28,ins_class(ins));
-    setsets_pc(new_ins,true);
-  }
-#endif
-  if(abs(src2) > 255){
-    bool block_status = in_noat_block;
-    if (!block_status) setnoat();
-    if(src2<0) {
-      load_store_immediate(i_ldiq,AT,make_INT64(-1,(unsigned)src2));
-    }
-    else {      
-      load_store_immediate(i_ldiq,AT,make_INT64(0,(unsigned)src2));
-    }
-    operate_fmt(ins,src1,AT,dest);
-    if (!block_status) setat();
-    return ;
-  }
-  
-  if(dest!=NO_REG){
-    if(as_file){
-#if !DO_SCHEDULE
-      (void)fprintf(as_file,"\t%s\t%s,%d,%s\n",ins_symbolic_name(ins),
-		    reg_name[src1],src2,reg_name[dest]);
-#else
-      (void)sprintf(outline,"\t%s\t%s,%d,%s\n",ins_symbolic_name(ins),
-		    reg_name[src1],src2,reg_name[dest]);
-#endif
-    }
-    clear_reg(dest);
-    binasm_data = out_iinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
-#if DO_SCHEDULE
-    set_instruction_text(ins_dat,outline);
-    set_instruction_binasm(ins_dat,binasm_data);
-    setdata(new_ins,ins_dat);
-    add_instruction(new_ins);
-#endif
-  }	
-  return;
-}
-
-void
 operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
 {
-  char * binasm_data;
+  int use_at = 0;
+  char *binasm_data;
 #if DO_SCHEDULE
-  char * outline = (char*)xcalloc(80,sizeof(char));
+  char *outline = (char*)xcalloc(80,sizeof(char));
   Instruction new_ins = get_new_instruction();
   Instruction_data ins_dat = get_new_ins_data();
   setclass(new_ins,ins_class(ins));
   setsets(new_ins,dest,ins_class(ins));
   setuses(new_ins,src1,ins_class(ins));
 #endif
-  if(as_file){
+
+  if (INT64_lt(src2, zero_int64) && !negate_ins(&ins, &src2)) {
+    use_at = 1;
+  }
+  if (!use_at && !INT64_lt(src2, make_INT64(0, 256))) {
+    use_at = 1;
+  }
+  /* The GNU assembler can't cope with an immediate operand in a div*
+   * instruction. */
+  if (ins_equal(ins, i_divl) || ins_equal(ins, i_divlu) ||
+      ins_equal(ins, i_divq) || ins_equal(ins, i_divqu)) {
+    use_at = 1;
+  }
+
+  if(use_at) {
+    if (in_noat_block) {
+      failer("immediate too big while in noat block");
+    }
+    setnoat();
+    load_store_immediate(i_ldiq,AT,src2);
+    operate_fmt(ins,src1,AT,dest);
+    setat();
+    return ;
+  }
+  
+  if(dest!=NO_REG){
+    if(as_file){
 #if !DO_SCHEDULE
-    (void)fprintf(as_file,"\t%s\t%s,",ins_symbolic_name(ins),reg_name[src1]);
-    out_INT64(src2);
-    (void)fprintf(as_file,",%s\n",reg_name[dest]);
+      (void)fprintf(as_file,"\t%s\t%s,",ins_symbolic_name(ins),reg_name[src1]);
+      out_INT64(src2);
+      (void)fprintf(as_file,",%s\n",reg_name[dest]);
 #else
-    (void)sprintf(outline,"\t%s\t%s,%d,%s\n",ins_symbolic_name(ins),
-		  reg_name[src1],src2,reg_name[dest]);
+      (void)sprintf(outline,"\t%s\t%s,%d,%s\n",ins_symbolic_name(ins),
+		    reg_name[src1],src2,reg_name[dest]);
+#endif
+    }
+    clear_reg(dest);
+    binasm_data = out_biinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
+#if DO_SCHEDULE
+    set_instruction_text(ins_dat,outline);
+    set_instruction_binasm(ins_dat,binasm_data);
+    setdata(new_ins,ins_dat);
+    /*setdata(new_ins,outline);*/
+    add_instruction(new_ins);
 #endif
   }
-  clear_reg(dest);
-  binasm_data = out_biinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
-#if DO_SCHEDULE
-  set_instruction_text(ins_dat,outline);
-  set_instruction_binasm(ins_dat,binasm_data);
-  setdata(new_ins,ins_dat);
-  /*setdata(new_ins,outline);*/
-  add_instruction(new_ins);
-#endif
   return;
 }
 
