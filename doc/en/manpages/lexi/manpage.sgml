@@ -1,0 +1,93 @@
+<refmeta>
+  <refentrytitle>lexi</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+  <refname>lexi</refname>
+  <refpurpose>lexical analyser tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>lexi</command>
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-file</replaceable></arg>
+    <arg choice='opt'><replaceable>output-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1 id='description'>
+  <title>Description</title>
+   <para><command>lexi</command> translates a description of a lexical analyser,
+     <emphasis>input-file</emphasis>, into code implementing that analyser.
+     This is output into the <emphasis>output-file</emphasis> argument, if
+     present, or the standard output otherwise.</para>
+</refsect1>
+
+<refsect1 id='options'>
+  <title>Options</title>
+  <variablelist>
+    <varlistentry>
+      <term>"<option>-f</option>"</term>
+      <listitem>
+        <para>Causes <command>lexi</command> to generate code describing any
+          functions specified in the input.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-k</option></term>
+      <listitem>
+      <para>Causes <command>lexi</command> to generate code describing any
+        keywords specified in the input.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-l</option><replaceable>string</replaceable></term>
+      <listitem>
+        <para>Causes <command>lexi</command> to use <emphasis>string</emphasis>
+          as a prefix for its generated lexical tokens.  The default is 
+          <emphasis>lex_</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-m</option></term>
+      <listitem>
+        <para>Causes <command>lexi</command> to generate code describing any
+          macros specified in the input.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-t</option></term>
+      <listitem>
+        <para>Causes <command>lexi</command> to generate code describing the
+          lookup table.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term>
+      <listitem>
+        <para>Causes <command>lexi</command> print its version number.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='seealso'>
+  <title>See Also</title>
+  <para>
+    <citerefentry>
+      <refentrytitle>tcc</refentrytitle>
+      <manvolnum>1</manvolnum>
+    </citerefentry>
+    .
+  </para>
+</refsect1>
