@@ -58,24 +58,29 @@ case "${SYSTEM}.${VERSION}" in
 	DragonFly.1*)	# Use the system supplied GCC for CC.
 			# System definition is __DragonFly__
 			check_cc
+			OSFAM="dragonfly"
 			OSVER="DRAGONFLY1"
 			;;
 	FreeBSD.4*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
 			check_cc
+			OSFAM="freebsd"
 			OSVER="FREEBSD4"
 			;;
 	FreeBSD.5*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
 			check_cc
+			OSFAM="freebsd"
 			OSVER="FREEBSD5"
 			;;
 	NetBSD.2*)	#
 			check_cc
+			OSFAM="netbsd"
 			OSVER="NETBSD2"
 			;;
 	OpenBSD.3*)	#
 			check_cc
+			OSFAM="openbsd"
 			OSVER="OPENBSD3"
 			;;
 	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
@@ -91,10 +96,17 @@ case "${SYSTEM}.${VERSION}" in
 			    esac;
 			fi
 			CC=$CC
+			OSFAM="sunos"
 			OSVER="SUNOS5"
 			;;
-	*)		echo "unknown ${SYSTEM} and ${VERSION} combination"
-			echo "please report to the developers..."
+	*)		# Make sure we specify what we want to hear from the
+			# people submitting feedback.
+			echo "Unknown \"${SYSTEM}\" and \"${VERSION}\" combination"
+			echo "Please report the following to the developers:"
+			echo
+			echo "uname -r:	${VERSION}"
+			echo "uname -s:	${SYSTEM}"
+			echo
 			;;
 esac
 
@@ -103,11 +115,13 @@ check_hostarch
 echo "Setting Makefile.defs environment to the following:"
 echo
 echo "CC:		$CC"
+echo "OSFAM:		$OSFAM"
 echo "OSVER:		$OSVER"
 echo "BLDARCH:	$BLDARCH ($HOSTARCH)"
 
 cat > Makefile.defs <<EOF
 CC?=$CC
+OSFAM=$OSFAM
 OSVER=$OSVER
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 BLDARCH=$BLDARCH
