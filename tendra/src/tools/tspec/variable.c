@@ -67,6 +67,7 @@
 #include "name.h"
 #include "type.h"
 #include "utility.h"
+#include "variable.h"
 
 
 /*
