@@ -102,14 +102,9 @@ typedef struct NonLocalClosureT {
 /*--------------------------------------------------------------------------*/
 
 static void
-c_output_save_non_locals_1 PROTO_N((info, non_local, non_local_state, rstack,
-				     handler_rule, table, indent))
-(COutputInfoP   info,				    NonLocalEntryP non_local X
-				    SaveRStackP    non_local_state X
-				    RStackP        rstack X
-				    RuleP          handler_rule X
-				    TableP         table X
-				    unsigned       indent)
+c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
+			   SaveRStackP non_local_state, RStackP rstack,
+			   RuleP handler_rule, TableP table, unsigned indent)
 {
     OStreamP ostream = c_out_info_ostream(info);
     EntryP   entry   = non_local_entry_get_initialiser(non_local);
@@ -166,8 +161,7 @@ c_output_save_non_locals_1 PROTO_N((info, non_local, non_local_state, rstack,
 }
 
 static void
-c_output_restore_non_locals_1(EntryP   from,				       EntryP   to X
-				       GenericP gclosure)
+c_output_restore_non_locals_1(EntryP from, EntryP to, GenericP gclosure)
 {
     NonLocalClosureP closure = (NonLocalClosureP)gclosure;
     COutputInfoP     info    = closure->info;
@@ -180,7 +174,7 @@ c_output_restore_non_locals_1(EntryP   from,				       EntryP   to X
 /*--------------------------------------------------------------------------*/
 
 void
-c_output_non_locals(COutputInfoP  info,			     NonLocalListP non_locals)
+c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
 {
     OStreamP       ostream = c_out_info_ostream(info);
     NonLocalEntryP non_local;
@@ -199,7 +193,7 @@ c_output_non_locals(COutputInfoP  info,			     NonLocalListP non_locals)
 }
 
 void
-c_output_declare_non_locals(COutputInfoP  info,				     NonLocalListP non_locals)
+c_output_declare_non_locals(COutputInfoP info, NonLocalListP non_locals)
 {
     OStreamP       ostream = c_out_info_ostream(info);
     NonLocalEntryP non_local;
@@ -216,14 +210,9 @@ c_output_declare_non_locals(COutputInfoP  info,				     NonLocalListP non_locals
 }
 
 void
-c_output_save_non_locals PROTO_N((info, rule, indent, rstack, non_local_stack,
-				   handler_rule, table))
-(COutputInfoP info,				  RuleP        rule X
-				  unsigned     indent X
-				  RStackP      rstack X
-				  RStackP      non_local_stack X
-				  RuleP        handler_rule X
-				  TableP       table)
+c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
+			 RStackP rstack, RStackP non_local_stack,
+			 RuleP handler_rule, TableP table)
 {
     OStreamP       ostream    = c_out_info_ostream(info);
     NStringP       in_prefix  = c_out_info_in_prefix(info);
@@ -269,12 +258,8 @@ c_output_save_non_locals PROTO_N((info, rule, indent, rstack, non_local_stack,
 }
 
 void
-c_output_restore_non_locals PROTO_N((info, rule, indent, rstack,
-				      non_local_stack))
-(COutputInfoP info,				     RuleP        rule X
-				     unsigned     indent X
-				     RStackP      rstack X
-				     RStackP      non_local_stack)
+c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
+			    RStackP rstack, RStackP non_local_stack)
 {
     NonLocalClosureT closure;
     SaveRStackT      state;

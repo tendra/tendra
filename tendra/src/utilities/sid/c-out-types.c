@@ -99,7 +99,7 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-c_output_param_assign(COutputInfoP info,			       TypeTupleP   inputs)
+c_output_param_assign(COutputInfoP info, TypeTupleP inputs)
 {
     OStreamP        ostream = c_out_info_ostream(info);
     TypeTupleEntryP ptr;
@@ -128,8 +128,8 @@ c_output_param_assign(COutputInfoP info,			       TypeTupleP   inputs)
 }
 
 static void
-c_output_non_ansi_params(COutputInfoP info,				  TypeTupleP   inputs X
-				  TypeTupleP   outputs)
+c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
+			 TypeTupleP outputs)
 {
     OStreamP        ostream    = c_out_info_ostream(info);
     NStringP        in_prefix  = c_out_info_in_prefix(info);
@@ -158,8 +158,8 @@ c_output_non_ansi_params(COutputInfoP info,				  TypeTupleP   inputs X
 }
 
 static void
-c_output_non_ansi_type_defn(COutputInfoP info,				     TypeTupleP   inputs X
-				     TypeTupleP   outputs)
+c_output_non_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
+			    TypeTupleP outputs)
 {
     OStreamP        ostream    = c_out_info_ostream(info);
     NStringP        in_prefix  = c_out_info_in_prefix(info);
@@ -230,8 +230,8 @@ c_output_non_ansi_type_defn(COutputInfoP info,				     TypeTupleP   inputs X
 }
 
 static void
-c_output_ansi_type_defn(COutputInfoP info,				 TypeTupleP   inputs X
-				 TypeTupleP   outputs)
+c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
+			TypeTupleP outputs)
 {
     OStreamP        ostream    = c_out_info_ostream(info);
     NStringP        in_prefix  = c_out_info_in_prefix(info);
@@ -320,9 +320,8 @@ c_output_ansi_type_defn(COutputInfoP info,				 TypeTupleP   inputs X
 }
 
 static EntryP
-types_get_entry(EntryP      entry,			 SaveRStackP state X
-			 EntryP     *type_ref X
-			 BoolT      *reference_ref)
+types_get_entry(EntryP entry, SaveRStackP state, EntryP *type_ref,
+		BoolT *reference_ref)
 {
     EntryP trans_entry;
 
@@ -338,9 +337,8 @@ types_get_entry(EntryP      entry,			 SaveRStackP state X
 }
 
 static KeyP
-types_get_key(EntryP      entry,		       SaveRStackP state X
-		       EntryP     *type_ref X
-		       BoolT      *reference_ref)
+types_get_key(EntryP entry, SaveRStackP state, EntryP *type_ref,
+	      BoolT *reference_ref)
 {
     EntryP trans = types_get_entry(entry, state, type_ref, reference_ref);
 
@@ -350,13 +348,8 @@ types_get_key(EntryP      entry,		       SaveRStackP state X
 /*--------------------------------------------------------------------------*/
 
 void
-c_output_assign PROTO_N((info, in_entry, out_entry, in_state, out_state,
-			  indent))
-(COutputInfoP info,			 EntryP       in_entry X
-			 EntryP       out_entry X
-			 SaveRStackP  in_state X
-			 SaveRStackP  out_state X
-			 unsigned     indent)
+c_output_assign(COutputInfoP info, EntryP in_entry, EntryP out_entry,
+		SaveRStackP in_state, SaveRStackP out_state, unsigned indent)
 {
     OStreamP ostream  = c_out_info_ostream(info);
     EntryP   in_type;
@@ -409,8 +402,7 @@ c_output_assign PROTO_N((info, in_entry, out_entry, in_state, out_state,
 }
 
 void
-c_output_type_decl(COutputInfoP info,			    TypeTupleP   inputs X
-			    TypeTupleP   outputs)
+c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 {
     OStreamP ostream = c_out_info_ostream(info);
 
@@ -453,8 +445,7 @@ c_output_type_decl(COutputInfoP info,			    TypeTupleP   inputs X
 }
 
 void
-c_output_type_defn(COutputInfoP info,			    TypeTupleP   inputs X
-			    TypeTupleP   outputs)
+c_output_type_defn(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 {
     if (c_out_info_get_prototypes(info)) {
 	c_output_ansi_type_defn(info, inputs, outputs);
@@ -464,8 +455,7 @@ c_output_type_defn(COutputInfoP info,			    TypeTupleP   inputs X
 }
 
 void
-c_output_result_assign(COutputInfoP info,				TypeTupleP   outputs X
-				unsigned     indent)
+c_output_result_assign(COutputInfoP info, TypeTupleP outputs, unsigned indent)
 {
     OStreamP        ostream    = c_out_info_ostream(info);
     NStringP        in_prefix  = c_out_info_in_prefix(info);
@@ -502,10 +492,8 @@ c_output_result_assign(COutputInfoP info,				TypeTupleP   outputs X
 }
 
 void
-c_output_alt_names(COutputInfoP info,			    TypeTupleP   names X
-			    TypeTupleP   exclude X
-			    SaveRStackP  state X
-			    unsigned     indent)
+c_output_alt_names(COutputInfoP info, TypeTupleP names, TypeTupleP exclude,
+		   SaveRStackP state, unsigned indent)
 {
     OStreamP        ostream   = c_out_info_ostream(info);
     NStringP        in_prefix = c_out_info_in_prefix(info);
@@ -534,9 +522,8 @@ c_output_alt_names(COutputInfoP info,			    TypeTupleP   names X
 }
 
 void
-c_output_rule_params(COutputInfoP info,			      TypeTupleP   inputs X
-			      TypeTupleP   outputs X
-			      SaveRStackP  state)
+c_output_rule_params(COutputInfoP info, TypeTupleP inputs,
+		     TypeTupleP outputs, SaveRStackP state)
 {
     OStreamP        ostream   = c_out_info_ostream(info);
     NStringP        in_prefix = c_out_info_in_prefix(info);
@@ -575,10 +562,8 @@ c_output_rule_params(COutputInfoP info,			      TypeTupleP   inputs X
 }
 
 void
-c_output_rename(COutputInfoP info,			 TypeTupleP   inputs X
-			 TypeTupleP   outputs X
-			 SaveRStackP  state X
-			 unsigned     indent)
+c_output_rename(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs,
+		SaveRStackP state, unsigned indent)
 {
     TypeTupleEntryP in_ptr  = inputs->head;
     TypeTupleEntryP out_ptr = outputs->head;
@@ -594,13 +579,8 @@ c_output_rename(COutputInfoP info,			 TypeTupleP   inputs X
 }
 
 void
-c_output_tail_decls PROTO_N((info, inputs, in_state, outputs, out_state,
-			      indent))
-(COutputInfoP info,			     TypeTupleP   inputs X
-			     SaveRStackP  in_state X
-			     TypeTupleP   outputs X
-			     SaveRStackP  out_state X
-			     unsigned     indent)
+c_output_tail_decls(COutputInfoP info, TypeTupleP inputs, SaveRStackP in_state,
+		    TypeTupleP outputs, SaveRStackP out_state, unsigned indent)
 {
     TypeTupleEntryP in_ptr  = inputs->head;
     TypeTupleEntryP out_ptr = outputs->head;
@@ -616,14 +596,9 @@ c_output_tail_decls PROTO_N((info, inputs, in_state, outputs, out_state,
 }
 
 BoolT
-c_output_required_copies PROTO_N((info, param, args, rstack, astate, indent,
-				   table))
-(COutputInfoP info,				  TypeTupleP   param X
-				  TypeTupleP   args X
-				  RStackP      rstack X
-				  SaveRStackP  astate X
-				  unsigned     indent X
-				  TableP       table)
+c_output_required_copies(COutputInfoP info, TypeTupleP param, TypeTupleP args,
+			 RStackP rstack, SaveRStackP astate, unsigned indent,
+			 TableP table)
 {
     OStreamP        ostream   = c_out_info_ostream(info);
     NStringP        in_prefix = c_out_info_in_prefix(info);
