@@ -264,8 +264,8 @@ typedef struct ArgListT {
 /*--------------------------------------------------------------------------*/
 
 int	arg_parse_arguments(ArgListT *, int, int, char **);
-
-void	write_arg_usage(ArgUsageT *);
+void	arg_print_usage(ArgListT *);
+void	arg_std_version(char *, void *);
 
 /*--------------------------------------------------------------------------*/
 

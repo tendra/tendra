@@ -67,6 +67,10 @@
 #include "argparse.h"
 #include "msgcat.h"
 
+#define	AP_LEFT_MARGIN	28
+#define	AP_RIGHT_MARGIN	80
+#define	AP_TEXT_LEN		(AP_RIGHT_MARGIN - AP_LEFT_MARGIN)
+
 
 int
 arg_parse_arguments(ArgListT *arg_list, int usageid, int argc, char **argv)
@@ -74,7 +78,7 @@ arg_parse_arguments(ArgListT *arg_list, int usageid, int argc, char **argv)
 	int       tmp_argc = argc;
 	char    **tmp_argv = argv;
 	ArgUsageT closure;
-  	
+
 	closure.usage = usageid;
 	closure.arg_list = arg_list;
 	while (tmp_argc) {
@@ -319,32 +323,154 @@ arg_parse_arguments(ArgListT *arg_list, int usageid, int argc, char **argv)
 	return (argc);
 }
 
+/*
+ * Pretty print specified options
+ */
 void
-write_arg_usage(ArgUsageT *closure)
+arg_print_usage(ArgListT *arg_list)
 {
-	ArgListT *arg_list = closure->arg_list;
-	int have_short;
-	
-	msg_append_string (msg_get_raw (closure->usage));
-	while (arg_list->name != NULL || arg_list->short_name != '\0') {
+	const char *ae, *msg;
+	int have_short, alen, slen;
+
+	msg_append_newline();
+	for (; arg_list->name != NULL || arg_list->short_name != '\0'; arg_list++) {
 		have_short = 0;
-		msg_append_newline();
+		msg = msg_get_raw(arg_list->msgid);
 		msg_append_string("  ");
+		slen = 2;
 		if (arg_list->short_name) {
-			msg_append_char('-');
+			switch (arg_list->type) {
+			case AT_SWITCH:
+			case AT_NEG_SWITCH:
+			case AT_PROC_SWITCH:
+				msg_append_string("{+|-}");
+				slen += 5;
+				break;
+			default:
+				msg_append_char('-');
+				slen++;
+			}
 			msg_append_char(arg_list->short_name);
 			have_short = 1;
+			slen++;
 		}
 		if (arg_list->name) {
-			if (have_short)
+			if (have_short) {
 				msg_append_string("  [");
-			msg_append_string("--");
+				slen += 5;
+			}
+			switch (arg_list->type) {
+			case AT_SWITCH:
+			case AT_NEG_SWITCH:
+			case AT_PROC_SWITCH:
+				msg_append_string("{++|--}");
+				slen += 7;
+				break;
+			default:
+				msg_append_string("--");
+				slen += 2;
+			}
 			msg_append_string(arg_list->name);
 			if (have_short)
-				msg_append_string("]");
+				msg_append_string("] ");
+			slen += strlen(arg_list->name);
 		}
-		msg_append_char(' ');
-		msg_append_string(msg_get_raw(arg_list->msgid));
-		arg_list++;
+		ae = strchr (msg, ' ');
+		alen = ae ? ae - msg + 1 : 0;
+		switch (arg_list->type) {
+		case AT_IMMEDIATE:
+			if (alen) {
+				msg_append_nstring(msg, alen);
+				slen += alen;
+				msg = ae + 1;
+			} else {
+				slen += 4;
+				msg_append_string("ARG ");
+			}
+			break;
+		case AT_EITHER:
+		case AT_FOLLOWING:
+		case AT_FOLLOWING2:
+		case AT_FOLLOWING3:
+			if (arg_list->name == NULL) {
+				msg_append_char (' ');
+				slen++;
+			}
+			if (alen) {
+				msg_append_nstring(msg, alen);
+				slen += alen;
+				msg = ae + 1;
+			} else {
+				slen += 4;
+				msg_append_string("ARG ");
+			}
+			break;
+		}
+		ae = strchr (msg, ' ');
+		alen = ae ? ae - msg + 1 : 0;
+		switch (arg_list->type) {
+		case AT_FOLLOWING2:
+		case AT_FOLLOWING3:
+			if (alen) {
+				msg_append_nstring(msg, alen);
+				slen += alen;
+				msg = ae + 1;
+			} else {
+				slen += 5;
+				msg_append_string("ARG2 ");
+			}
+			break;
+		}
+		ae = strchr (msg, ' ');
+		alen = ae ? ae - msg + 1 : 0;
+		switch (arg_list->type) {
+		case AT_FOLLOWING3:
+			if (alen) {
+				msg_append_nstring(msg, alen);
+				slen += alen;
+				msg = ae + 1;
+			} else {
+				slen += 5;
+				msg_append_string("ARG3 ");
+			}
+			break;
+		}
+
+		if (slen >= AP_LEFT_MARGIN) {
+			slen = 0;
+			msg_append_newline();
+		}
+		/*
+		 * Now print message with required alignment
+		 */
+		for (; *msg;) {
+			while (++slen < AP_LEFT_MARGIN)
+				msg_append_char(' ');
+			ae = strchr (msg, '\n');
+			if (ae) {
+				slen = ae - msg;
+				alen = slen + 1;
+			} else
+				slen = alen = strlen(msg);
+			if (slen > AP_TEXT_LEN) {
+				for (ae = msg + AP_TEXT_LEN + 1; *ae != ' ' && ae > msg; ae--)
+					;
+				slen = ae - msg;
+				alen = slen + 1;
+			}
+			msg_append_nstring(msg, slen);
+			msg += alen;
+			msg_append_newline();
+			slen = 0;
+		}
 	}
+}
+
+void
+arg_std_version(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	tenapp_report_version();
 }
