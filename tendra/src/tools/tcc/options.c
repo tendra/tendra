@@ -300,7 +300,7 @@ optmap environ_optmap[] = {
     {"$TENDRA_STARTUPDIR $", "SSV5$2", null, 0},
     {"$TENDRA_TMPDIR $", "SSV6$2", null, 0},
     {"$TENDRA_BASEDIR $", "SSV7$2", null, 0},
-    {"$TENDRA_SRCDIR $", "SSV7$2", null, 0},
+    {"$TENDRA_SRCDIR $", "SSV8$2", null, 0},
 
     /* Flags */
     {"?API $", "", null, 0},
