@@ -26,6 +26,24 @@ all:
 	@${MAKE} _OBJDIR
 	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} ${API}
 .endif
+.if defined(ENVFILE)
+	@${MAKE} _OBJDIR
+.for entry in ${ENVFILE}
+	@${ECHO} Fixing paths for environment ${entry}...
+	sed -e 1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g\
+		-e 1,\$$s%-MACHDIR-%${MACH_BASE}%g\
+		-e 1,\$$s%-BINDIR-%${MACH_BASE}/bin%g\
+		-e 1,\$$s%-ENVDIR-%${MACH_BASE}/env%g\
+		-e 1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g\
+		-e 1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g\
+		-e 1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g\
+		-e 1,\$$s%-TMPDIR-%${TMP_DIR}%g ${entry} >\
+		${OBJ_SDIR}/${entry}
+.endfor
+.if defined(ENVEXTRA)
+	cat ${ENVEXTRA} >> ${OBJ_SDIR}/../../../common/default
+.endif
+.endif
 .if defined(PROG)
 	@${MAKE} _OBJDIR
 	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} ${PROG}
@@ -70,6 +88,15 @@ install:
 		${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/include/${API}.api/$$file;\
 	done
 .endif # API
+.if defined(ENVFILE)
+.if !exists(${MACH_BASE}/env)
+	${MKDIR} -p ${MACH_BASE}/env
+.endif
+	cd ${OBJ_SDIR}
+.for entry in ${ENVFILE}
+	${INSTALL} -m 644 ${OBJ_SDIR}/${entry} ${MACH_BASE}/env/${entry}
+.endfor
+.endif # ENVFILE
 .if defined(PROG)
 	cd ${OBJ_SDIR};
 .if !exists(PUBLIC_BIN)
