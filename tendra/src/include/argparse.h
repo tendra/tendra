@@ -286,6 +286,9 @@ void	arg_std_version(char *, void *);
 #define	AP_OPT_FOLLOWING2(name, snm, lnm, proc) \
 	AP_OPTION((snm), (lnm), AT_FOLLOWING2, (proc), NULL, MID_description_of_##name)
 
+#define	AP_OPT_FOLLOWING3(name, snm, lnm, proc) \
+	AP_OPTION((snm), (lnm), AT_FOLLOWING3, (proc), NULL, MID_description_of_##name)
+
 #define	AP_OPT_IMMEDIATE(name, snm, lnm, proc) \
 	AP_OPTION((snm), (lnm), AT_IMMEDIATE, (proc), NULL, MID_description_of_##name)
 
