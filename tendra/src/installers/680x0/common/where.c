@@ -460,9 +460,11 @@ mnw(long d)
  */
 
 where
-mfw(int sg, char *v, int e) #else PROTO_T (int sg,
-										   long *v,
-										   int e) #endif
+#if FBASE == 10
+mfw(int sg, char *v, int e)
+#else
+mfw(int sg, long *v, int e)
+#endif
 {
     where w;
     int i, lv;

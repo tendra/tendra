@@ -224,6 +224,7 @@ error(char *s, ...)
     return;
 }
 
+#if 0
 /*
  *    PRINT A SIMPLE ERROR
  *
@@ -236,6 +237,7 @@ failer(char *s)
     error (s);
     return;
 }
+#endif
 
 
 /*
@@ -273,6 +275,7 @@ warning(char *s, ...)
 }
 
 
+#if 0
 /*
  *    MEMORY HACK VALUE
  */
@@ -388,4 +391,4 @@ xfree(voidstar p)
     free (p);
     return;
 }
-
+#endif
