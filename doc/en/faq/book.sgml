@@ -234,7 +234,12 @@
         url="http://www.tendra.org/licenses/BSDL.txt">BSD-licensed</ulink>
         compiler, which we consider an asset. Finally, everyone has their
         own reasons, but the above is a fair representation of interests
-        shared by all developers.
+        shared by all developers. For more information on the
+        technical aspect that we consider so important, please see the
+        <ulink url="http://www.tendra.org/docs/">TenDRA
+        Documentation</ulink>, as well as the
+        <ulink url="http://www.tendra.org/docs/faq/#ANDF-TDF">ANDF/TDF</ulinK>
+        FAQ entry.
           </para>
         </answer>
 
