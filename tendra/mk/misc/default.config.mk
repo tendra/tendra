@@ -18,6 +18,8 @@ BOOTSTRAP=	yes
 
 # DON'T CHANGE ANYTHING BELOW THIS LINE
 
+BUILD_OS=      @BUILD_OS@
+
 .include "@SRC_DIR@/mk/config/config.@MACH_OS_LCASE@.mk" 
 .include "@SRC_DIR@/mk/def/def.@MACH_OS_LCASE@.mk"
 

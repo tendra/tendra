@@ -12,6 +12,7 @@ config-create:
 .else
 	cat ${SRC_DIR}/mk/misc/default.config.mk |\
 	sed \
+	-e "s|@BUILD_OS@|${BUILD_OS}|g" \
 	-e "s|@PREFIX@|${PREFIX}|g" \
 	-e "s|@TMP_DIR@|${TMP_DIR}|g" \
 	-e "s|@MACH_OS@|${MACH_OS}|g" \
