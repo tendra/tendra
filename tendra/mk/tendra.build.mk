@@ -89,9 +89,9 @@ cleandir: .PHONY
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
 .if defined(API)
-	@mkdir -p ${OBJ_DIR}/${APIS}
+	@${MKDIR} -p ${OBJ_DIR}/${APIS}
 .else
-	@mkdir -p ${OBJ_SDIR}
+	@${MKDIR} -p ${OBJ_SDIR}
 .endif
 	@${ECHODIR} ${OBJ_SDIR} created for ${.CURDIR}
 .endif
