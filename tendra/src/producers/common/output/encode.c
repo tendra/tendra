@@ -121,7 +121,7 @@ BITSTREAM
 		free_bitstreams = bs->prev;
     } else {
 		bs = xmalloc (sizeof(*bs));
-		bs->text = string_alloc ((size_t) CHUNK_SIZE);
+		bs->text = ustring_alloc ((size_t) CHUNK_SIZE);
     }
     bs->bytes = 0;
     bs->bits = 0;

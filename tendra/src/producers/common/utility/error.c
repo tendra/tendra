@@ -1228,7 +1228,7 @@ install_error(LOCATION *loc, ERROR e)
 			}
 			print_error_body (e, loc, bf);
 			bfputc (bf, 0);
-			s = string_copy (bf->start);
+			s = ustring_copy (bf->start);
 			MAKE_exp_fail (type_bottom, s, a);
 		}
 		destroy_error (e, 1);

@@ -1528,7 +1528,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
     if (d == 0 && IS_NULL_type (t) && pre == NULL) {
 		if (copy) {
 			if (ustrchr (s, MANGLE_error)) return (NULL);
-			s = string_copy (s);
+			s = ustring_copy (s);
 		}
 		return (s);
     }
@@ -1574,7 +1574,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
     /* Check for illegal names */
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = string_copy (s);
+    s = ustring_copy (s);
     return (s);
 }
 
@@ -1616,7 +1616,7 @@ mangle_common(string s, IDENTIFIER id)
 		bfputs (bf, s);
 		t = bf->start;
 		if (ustrchr (t, MANGLE_error)) return (NULL);
-		t = string_copy (t);
+		t = ustring_copy (t);
     }
     return (t);
 }
@@ -1640,7 +1640,7 @@ mangle_vtable(const char *pre, GRAPH gr)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = string_copy (s);
+    s = ustring_copy (s);
     return (s);
 }
 
@@ -1663,7 +1663,7 @@ mangle_typeid(const char *pre, CLASS_TYPE ct)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = string_copy (s);
+    s = ustring_copy (s);
     return (s);
 }
 
@@ -1686,7 +1686,7 @@ mangle_tname(const char *pre, TYPE t)
     bfputc (bf, 0);
     s = bf->start;
     if (ustrchr (s, MANGLE_error)) return (NULL);
-    s = string_copy (s);
+    s = ustring_copy (s);
     return (s);
 }
 
@@ -1708,7 +1708,7 @@ mangle_init()
     char buff [50];
     output_init = 1;
     sprintf_v (buff, "_GLOBAL_$I$%s", uniq_string);
-    return (string_copy (ustrlit (buff)));
+    return (ustrlit (string_copy (buff)));
 #endif
 }
 
@@ -1726,7 +1726,7 @@ mangle_anon()
     char buff [50];
     static unsigned long anon_no = 0;
     sprintf_v (buff, "__%lu_%s", anon_no++, uniq_string);
-    return (string_copy (ustrlit (buff)));
+    return (ustrlit (string_copy (buff)));
 }
 
 

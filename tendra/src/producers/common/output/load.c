@@ -242,11 +242,11 @@ load_loc(BITSTREAM *bs)
 				STAT_TYPE fstr;
 				BUFFER *bf = clear_buffer (&token_buff, NULL);
 				de_tdfstring (bs, bf);
-				file = string_copy (bf->start);
+				file = ustring_copy (bf->start);
 				if (DE_BOOL (bs)) {
 					bf = clear_buffer (&token_buff, NULL);
 					de_tdfstring (bs, bf);
-					input = string_copy (bf->start);
+					input = ustring_copy (bf->start);
 				} else {
 					input = file;
 				}

@@ -450,7 +450,7 @@ unmangle_exp(string *ps, TYPE t)
 		op = unmangle_op (&s);
 		if (op == lex_float) {
 			/* Floating point literals */
-			string u = string_copy (s);
+			string u = ustring_copy (s);
 			string v = u;
 			while (c = *(s++), c != 0) {
 				if (c == MANGLE_sep) {
@@ -577,7 +577,7 @@ unmangle_nspace(string *ps, NAMESPACE ns, int var)
 			HASHID nm;
 			int ext = 0;
 			TYPE t = NULL_type;
-			string p = string_alloc ((size_t) (n + 1));
+			string p = ustring_alloc ((size_t) (n + 1));
 			string q = p;
 			while (n) {
 				c = *s;

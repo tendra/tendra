@@ -945,8 +945,8 @@ make_literal_exp(string str, int *ptok, int force)
 			}
 		}
 		if (IS_NULL_flt (lit)) {
-			int_part = string_copy (int_part);
-			frac_part = string_copy (frac_part);
+			int_part = ustring_copy (int_part);
+			frac_part = ustring_copy (frac_part);
 		}
 		if (trail_zero) {
 			/* Restore trailing zeros */
@@ -1361,7 +1361,7 @@ new_string_lit(string s, string se, int lex)
     int multibyte = allow_multibyte;
 #endif
     size_t sz = (size_t) (se - s) + 1;
-    string str = string_alloc (sz);
+    string str = ustring_alloc (sz);
 	
     /* Find string type */
     switch (lex) {
@@ -1497,7 +1497,7 @@ new_string_lit(string s, string se, int lex)
 			/* Convert to multi-character format */
 			string a;
 			sz *= MULTI_WIDTH;
-			a = string_alloc (sz);
+			a = ustring_alloc (sz);
 			make_multi_string (a, str, len, kind);
 			if (len) {
 				len *= MULTI_WIDTH;
@@ -1548,7 +1548,7 @@ new_string_lit(string s, string se, int lex)
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, len, str, kind, v, res);
-		string_free (str);
+		ustring_free (str);
 		UNUSED (res);
 		UNUSED (len);
 		UNUSED (kind);
@@ -1624,14 +1624,14 @@ concat_string_lit(STRING s, STRING t)
 		unsigned long sa = MULTI_WIDTH * na;
 		unsigned long sc = MULTI_WIDTH * nc;
 		sz = (size_t) (sc + MULTI_WIDTH);
-		c = string_alloc (sz);
+		c = ustring_alloc (sz);
 		make_multi_string (c, a, na, ka);
 		make_multi_string (c + sa, b, nb, kb);
 		add_multi_char (c + sc, (unsigned long) 0, CHAR_OCTAL);
     } else {
 		/* Simple strings */
 		sz = (size_t) (nc + 1);
-		c = string_alloc (sz);
+		c = ustring_alloc (sz);
 		xumemcpy (c, a, (size_t) na);
 		xumemcpy (c + na, b, (size_t) nb);
 		c [ nc ] = 0;
@@ -1642,7 +1642,7 @@ concat_string_lit(STRING s, STRING t)
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple (destroy, res, nc, c, kc, v, res);
-		string_free (c);
+		ustring_free (c);
 		UNUSED (res);
 		UNUSED (nc);
 		UNUSED (kc);

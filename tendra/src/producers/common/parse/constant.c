@@ -1675,7 +1675,7 @@ make_char_nat(TYPE t, unsigned tag, int d, unsigned kind, NAT n)
 				ERROR err = NULL_err;
 				s [0] = (character) (d + char_zero);
 				s [1] = 0;
-				MAKE_str_simple (1, string_copy (s), kind, str);
+				MAKE_str_simple (1, ustring_copy (s), kind, str);
 				e = make_string_exp (str);
 				e = make_cast_nat (t, e, &err, CAST_STATIC);
 				if (!IS_NULL_err (err)) report (crt_loc, err);

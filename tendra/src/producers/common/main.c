@@ -355,7 +355,7 @@ process_args(int argc, char **argv)
 		}
 		if (opt == 0) {
 			/* Input or output file 'arg' */
-			string uarg = string_copy (ustrlit (arg));
+			string uarg = ustrlit (string_copy (arg));
 			CONS_string (uarg, files, files);
 			
 		} else {
@@ -453,7 +453,7 @@ process_args(int argc, char **argv)
 					
 				case 'I' : {
 					/* Include file search directory */
-					uarg = string_copy (uarg);
+					uarg = ustring_copy (uarg);
 					add_directory (uarg, NULL_string);
 					break;
 				}
@@ -467,7 +467,7 @@ process_args(int argc, char **argv)
 				case 'N' : {
 					/* Named include file search directory */
 					string dir;
-					uarg = string_copy (uarg);
+					uarg = ustring_copy (uarg);
 					dir = ustrchr (uarg, ':');
 					if (dir == NULL) {
 						const char *err = "Bad '-%c' option";
@@ -584,7 +584,7 @@ process_args(int argc, char **argv)
 				case 'd' : {
 					/* Dump file */
 					string dump;
-					uarg = string_copy (uarg);
+					uarg = ustring_copy (uarg);
 					dump = ustrchr (uarg, '=');
 					if (dump == NULL) {
 						const char *err = "Bad '-%c' option";
@@ -603,7 +603,7 @@ process_args(int argc, char **argv)
 				case 'e' : {
 					/* End-up file */
 					LIST (string) p;
-					uarg = string_copy (uarg);
+					uarg = ustring_copy (uarg);
 					CONS_string (uarg, NULL_list (string), p);
 					endup_files = APPEND_list (endup_files, p);
 					have_startup = 1;
@@ -613,7 +613,7 @@ process_args(int argc, char **argv)
 				case 'f' : {
 					/* Start-up file */
 					LIST (string) p;
-					uarg = string_copy (uarg);
+					uarg = ustring_copy (uarg);
 					CONS_string (uarg, NULL_list (string), p);
 					startup_files = APPEND_list (startup_files, p);
 					have_startup = 1;
@@ -676,7 +676,7 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple portability tables";
 						error (ERROR_WARNING, err);
 					}
-					table_name = string_copy (uarg);
+					table_name = ustring_copy (uarg);
 					break;
 				}
 					
@@ -686,13 +686,13 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple output files";
 						error (ERROR_WARNING, err);
 					}
-					output = string_copy (uarg);
+					output = ustring_copy (uarg);
 					break;
 				}
 					
 				case 'r' : {
 					/* Error marker file */
-					output_name [ OUTPUT_ERROR ] = string_copy (uarg);
+					output_name [ OUTPUT_ERROR ] = ustring_copy (uarg);
 					break;
 				}
 					
@@ -702,7 +702,7 @@ process_args(int argc, char **argv)
 						const char *err = "Multiple spec output files";
 						error (ERROR_WARNING, err);
 					}
-					spec_name = string_copy (uarg);
+					spec_name = ustring_copy (uarg);
 					break;
 				}
 					

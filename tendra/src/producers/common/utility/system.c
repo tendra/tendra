@@ -294,7 +294,7 @@ const char
 		char *nm = getcwd (buff, 1024);
 		if (nm) {
 			/* Copy result */
-			string dir = string_copy (ustrlit (nm));
+			string dir = ustrlit (string_copy (nm));
 			dir = make_pathname (dir);
 			crt_directory = strlit (dir);
 		} else {
@@ -323,9 +323,7 @@ const char
 #if FS_UTSNAME
 		struct utsname un;
 		if (uname (&un) != -1) {
-			string s = ustrlit (un.nodename);
-			s = string_copy (s);
-			machine_name = strlit (s);
+			machine_name = string_copy (un.nodename);
 			return (machine_name);
 		}
 #endif

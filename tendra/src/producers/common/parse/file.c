@@ -234,7 +234,7 @@ make_pathname(string nm)
     character q = (character) file_sep;
     if (q != char_slash) {
 		string s;
-		nm = string_copy (nm);
+		nm = ustring_copy (nm);
 		for (s = nm; *s; s++) {
 			if (*s == q) *s = char_slash;
 		}
@@ -299,7 +299,7 @@ normalise_pathname(string s)
 		}
     }
     bfputc (bf, 0);
-    if (changed) s = string_copy (bf->start);
+    if (changed) s = ustring_copy (bf->start);
     return (s);
 }
 
@@ -1177,7 +1177,7 @@ start_include(string nm, int q, int st, int next)
     }
 	
     /* Check for multiple inclusions */
-    file = string_copy (file);
+    file = ustring_copy (file);
     if (special) {
 		crt_included_file = NULL;
     } else {
