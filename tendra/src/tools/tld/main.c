@@ -247,7 +247,6 @@ main_handle_rename(char *option,
 				   char *from, char *to)
 {
     UNUSED (option);
-    UNUSED (usage);
     UNUSED (gclosure);
     main_used_other = TRUE;
     arg_data_parse_rename (&main_arg_data, shape, from, to);
