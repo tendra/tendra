@@ -28,3 +28,7 @@
 # 7.14.1.1
 
 +FUNC void (*signal(int, void (*)(int)))(int);
+
+# 7.14.2.1
+
++FUNC int raise(int);
