@@ -10,6 +10,9 @@
 #       BASE_DIR        gives the directory in which the source has been
 #                       installed (i.e. the directory containing this script).
 #
+#	PREFIX		gives the base directory prefix in which binaries and
+#			helper files will be installed.
+#
 #       PUBLIC_BIN      gives the directory in which the public executables
 #                       (tcc, tchk and tspec) are to be installed.  If
 #                       PUBLIC_BIN is left blank then the public executables
@@ -41,17 +44,15 @@
 #                       plenty of free space).
 
 BASE_DIR = ${.CURDIR:C/\/(mk|src).*//}
-PUBLIC_BIN = /usr/local/bin
-INSTALL_DIR = /usr/local/lib/TenDRA
+PREFIX ?= /usr/local
+PUBLIC_BIN = ${PREFIX}/bin
+INSTALL_DIR = ${PREFIX}/lib/TenDRA
 COMMON_DIR = ${INSTALL_DIR}/lib
 MACH_DIR = ${INSTALL_DIR}/machines
-MAN_DIR = /usr/local/man
+MAN_DIR = ${PREFIX}/man
 OBJ_DIR = ${BASE_DIR}/obj
 OBJ_SDIR = ${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR = /var/tmp
-
-PREFIX ?= /usr/local
-BINDIR ?= /bin
 
 # Binary paths
 
@@ -112,10 +113,10 @@ clean:
 install:
 .if defined(PROG)
 	cd ${OBJ_SDIR};
-.if !exists(${PREFIX}${BINDIR})
-	${MKDIR} -p ${PREFIX}${BINDIR}
+.if !exists(PUBLIC_BIN)
+	${MKDIR} -p ${PUBLIC_BIN}
 .endif
-		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${PREFIX}${BINDIR}/${PROG}
+		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${PUBLIC_BIN}/${PROG}
 .endif
 
 _OBJDIR:
