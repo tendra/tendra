@@ -1221,7 +1221,7 @@
       <term><filename>/tmp/tcc*</filename></term>
       <listitem>
         <para>Temporary directory (this may be changed using the
-        <envar>TMPDIR</envar> system variable, see
+        <emphasis>TMPDIR</emphasis> system variable, see
         &man.freebsd.tempnam;).</para>
       </listitem>
     </varlistentry>

@@ -206,8 +206,8 @@
 
   <para>-inline noall,basics,tail</para>
 
-  <para><option>--language</option> <envar>LANGUAGE</envar> <!-- .br -->
-    <option>-l</option> <envar>LANGUAGE</envar></para>
+  <para><option>--language</option> <emphasis>LANGUAGE</emphasis> <!-- .br -->
+    <option>-l</option> <emphasis>LANGUAGE</emphasis></para>
 
   <para>This option specifies the output language. Currently this should be
     either "ansi-c", "pre-ansi-c", "ossg-c", or "test". The default is

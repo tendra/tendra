@@ -88,7 +88,7 @@
     keyword mappings, character mappings, and control flow sequences.</para>
 
   <para>Character group definitions are of form <literal>GROUP
-    identifier = string;</literal> where <varname>identifier</varname> is
+    identifier = string;</literal> where <emphasis>identifier</emphasis> is
     composed of one or more letters and underscores. Strings may contain
     arbitrary characters surrounded by quotes. It is possible to concatenate
     strings with a <quote>+</quote> operator. For example,
