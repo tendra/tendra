@@ -1182,7 +1182,7 @@ print_set(object *input, int pass)
 		}
 		if (pass == 1 && i->tokens == 0) {
 			if (verbose > 1) {
-				error (ERR_INFO, "%s is not required ...", nm);
+				IGNORE printf ("%s is not required ...", nm);
 			}
 			scan_object (i->elements, 1);
 			return;
@@ -1195,7 +1195,7 @@ print_set(object *input, int pass)
     if ((t1 && t1 < t2) && !force_output) {
 		/* Output file is up to date */
 		object *q;
-		if (verbose > 1) error (ERR_INFO, "%s is up to date ...", nm);
+		if (verbose > 1) IGNORE printf ("%s is up to date ...", nm);
 		q = make_object (nm, OBJ_FILE);
 		q->u.u_file = null;
 		IGNORE add_hash (files, q, no_version);
@@ -1213,7 +1213,7 @@ print_set(object *input, int pass)
 		/* Open output file */
 		if (output == null) {
 			create_dir (nm);
-			if (verbose) error (ERR_INFO, "Creating %s ...", nm);
+			if (verbose) IGNORE printf ("Creating %s ...", nm);
 			check_name (nm);
 			q = make_object (nm, OBJ_FILE);
 			q->u.u_file = null;

@@ -99,7 +99,7 @@ print_makefile(char *api, hash_elem *f, int whole)
     /* Open output file */
     nm = (whole ? MAKEFILE_API : MAKEFILE);
     nm = string_printf (nm, output_src_dir, api, api2);
-    if (verbose > 1) error (ERR_INFO, "Creating %s ...", nm);
+    if (verbose > 1) IGNORE printf ("Creating %s ...", nm);
     create_dir (nm);
     output = fopen (nm, "w");
     if (output == null) {
