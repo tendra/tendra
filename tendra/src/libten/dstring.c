@@ -383,12 +383,8 @@ dstring_destroy_to_cstring(DStringP dstring)
 {
 	char *tmp;
 	
-	if (dstring->ds_length >= dstring->ds_max_length) {
- 		tmp = dstring_to_cstring (dstring);
-	} else {
-		tmp = dstring->ds_contents;
-	}
-	tmp[dstring->ds_length] = '\0';
+	tmp = dstring_to_cstring (dstring);
+	dstring_destroy (dstring);
 	dstring->ds_length       = 0;
 	dstring->ds_max_length   = 0;
 	dstring->ds_contents     = NULL;
