@@ -100,6 +100,7 @@
 #include "basetype.h"
 #include "buffer.h"
 #include "capsule.h"
+#include "char.h"
 #include "dump.h"
 #include "file.h"
 #include "lex.h"
@@ -212,6 +213,29 @@ static int print_error_name = 0;
 static int print_error_source = 0;
 static int print_iso_ref = 1;
 static int print_ansi_ref = 0;
+static int print_std_version = 1;
+
+struct std_version {
+	int year;
+	const char *iso_version;
+	const char *ansi_version;
+	void (*convert_to_ansi)(BUFFER *, CONST char *);
+};
+
+#if LANGUAGE_CPP
+static struct std_version std_version[] = {
+	{ 1998, "C++98 ", "C++98 ", NULL }
+};
+#else
+static void isoC90_to_ansiC89(BUFFER *, CONST char *);
+
+static struct std_version std_version[] = {
+	{ 1990, "C90 ", "C89 ", isoC90_to_ansiC89 },
+	{ 1999, "C99 ", "C00 ", NULL }
+};
+#endif
+
+static int std_version_idx = 0;
 
 
 /*
@@ -242,11 +266,25 @@ error_option(string opt)
 	    case 'r' : allow_dos_newline = out; break;
 	    case 's' : print_iso_ref = out; break;
 	    case 't' : print_type_alias = out; break;
+	    case 'V' : print_std_version = out; break;
 	    case 'x' : print_c_style = out; break;
 	    case '+' : out = 1; break;
 	    case '-' : out = 0; break;
 	    case 'o' : {
 			error_file = (out ? stdout : stderr);
+			break;
+	    }
+	    case 'v' : {
+			int i, j, n, year; 
+			j = sscanf(strlit (opt), "%4d%n", &year, &n);
+			for (i = 0; i < array_size (std_version); i++)
+				if (j == 1 && year == std_version [i].year) {
+					std_version_idx = i;
+					break;
+				}
+			if (i == array_size (std_version))
+				error (ERROR_WARNING, "Unknown standard version");
+			if (j == 1) opt += n;
 			break;
 	    }
 	    case 'w' : {
@@ -306,11 +344,11 @@ error_option(string opt)
 	fputs_v (": ", (F))
 
 #define MESSAGE_START		"  "
-#define MESSAGE_END		".\n"
+#define MESSAGE_END			".\n"
 #define MESSAGE_TERM		"\n"
 #define MESSAGE_NAME		"[%x]: "
-#define MESSAGE_ISO		"[ISO %x]: "
-#define MESSAGE_ANSI		"[ANSI "
+#define MESSAGE_ISO			"[ISO %x%x]: "
+#define MESSAGE_ANSI		"[ANSI %x"
 #define MESSAGE_ANSI_END	"]: "
 #define MESSAGE_PRAGMA		"[Pragma]: "
 #define MESSAGE_PRINTF		"[Printf]: "
@@ -450,19 +488,18 @@ print_location(LOCATION *loc, FILE *f)
 }
 
 
+#if LANGUAGE_C
 /*
- *    CONVERT AN ISO SECTION NUMBER TO AN ANSI SECTION NUMBER
+ *    CONVERT AN ISO C90 SECTION NUMBER TO AN ANSI C89 SECTION NUMBER
  *
- *    The ISO C standard was based on the ANSI C standard but the sections
- *    were renumbered.  The ISO and ANSI C++ standards are identical.  This
- *    routine converts the ISO section number s to the corresponding ANSI
- *    section number, printing it to the buffer bf.
+ *    The ISO C90 standard was based on the ANSI C89 standard but the sections
+ *    were renumbered.  This routine converts the ISO section number s to
+ *    the corresponding ANSI section number, printing it to the buffer bf.
  */
 
 static void
-iso_to_ansi(BUFFER *bf, CONST char *s)
+isoC90_to_ansiC89(BUFFER *bf, CONST char *s)
 {
-#if LANGUAGE_C
     char c;
     unsigned long n = 0;
     CONST char *p = "1.";
@@ -483,11 +520,9 @@ iso_to_ansi(BUFFER *bf, CONST char *s)
 		}
 		bfprintf (bf, "%x%lu%x", p, n, q);
     }
-#else
-    bfprintf (bf, "%x", s);
-#endif
     return;
 }
+#endif
 
 
 /*
@@ -950,6 +985,47 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
     return;
 }
 
+/*
+ *    PRINT A STANDARD SECTION NUMBER
+ *
+ *    This function searches for the std_version_idx'th entry in the
+ *    string 'iso', a comma-separated list of section numbers.  If the
+ *    number is found and not suppressed by a leading '-', the selected
+ *    entry from std_version is printed together with the section number.
+ */
+
+static void
+print_std(BUFFER *bf, CONST char *iso)
+{
+	char buf[128];
+	CONST char *p = iso, *s = buf;
+	CONST struct std_version *v;
+	unsigned len;
+
+	for (v = std_version; v < std_version + std_version_idx; v++)
+		if ((p = strchr (p, char_comma)) != NULL)
+			p++;
+		else
+			break;
+	if (p != NULL)
+		p += strspn (p, " \t");
+	/* section number missing or ommitted on purpose */
+	if (p == NULL || *p == char_minus || *p == char_comma)
+		return;
+
+	len = strcspn (p, ",");
+	if (len >= sizeof(buf)) len = sizeof(buf) - 1;
+	sprintf (buf, "%.*s", (int)len, p);
+	if (print_ansi_ref) {
+		bfprintf (bf, MESSAGE_ANSI, print_std_version ? v->ansi_version : "");
+		if (v->convert_to_ansi != NULL)
+			(*v->convert_to_ansi) (bf, s);
+		else
+			bfputs (bf, ustrlit (s));
+		bfprintf (bf, MESSAGE_ANSI_END);
+	} else
+		bfprintf (bf, MESSAGE_ISO, print_std_version ? v->iso_version : "", s);
+}
 
 /*
  *    PRINT AN ERROR STRUCTURE
@@ -984,15 +1060,8 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 				prev--;
 			}
 			msg->key_ISO = iso;
-			if (iso && iso [0]) {
-				if (print_ansi_ref) {
-					bfprintf (bf, MESSAGE_ANSI);
-					iso_to_ansi (bf, iso);
-					bfprintf (bf, MESSAGE_ANSI_END);
-				} else {
-					bfprintf (bf, MESSAGE_ISO, iso);
-				}
-			}
+			if (iso && iso [0])
+				print_std (bf, iso);
 		}
 		if (props) {
 			if (props & ERR_PROP_pragma) bfprintf (bf, MESSAGE_PRAGMA);
