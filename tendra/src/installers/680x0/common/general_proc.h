@@ -53,13 +53,7 @@
  *
  * $TenDRA$
  */
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
+
 
 void apply_general_proc(exp e, where dest, ash stack);
 void tail_call(exp e, where dest, ash stack);
