@@ -29,7 +29,7 @@ _PROGSUBDIR: .USE
 .for entry in ${SUBDIR}
 	@${ECHO} "===> ${DIRPRFX}${entry}"
 	@${ECHO} "===> ${entry}# ${MAKE} ${.TARGET}"
-	@cd ${.CURDIR}/${entry}; \
+	cd ${.CURDIR}/${entry}; \
 		${MAKE} ${.TARGET} \
 		DIRPRFX=${DIRPRFX}${entry}/
 .endfor

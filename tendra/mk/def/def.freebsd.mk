@@ -2,6 +2,7 @@
 #
 # Binary / variable definitions for the FreeBSD operating system.
 
+AS?=            /usr/bin/as
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
 CAT?=		/bin/cat
@@ -26,6 +27,7 @@ GZIP?=		-9
 GZIP_CMD?=	/usr/bin/gzip -nf ${GZIP}
 HEAD?=		/usr/bin/head
 ID?=		/usr/bin/id
+LD?=            /usr/bin/ld
 LDCONFIG?=	/sbin/ldconfig
 LN?=		/bin/ln
 LS?=		/bin/ls

@@ -2,8 +2,7 @@
 
 DATA=	Xa Xc Xp Xs Xsystem Xt Xw nepc not_ansi
 
-INSTALL_STARTUP=	yes
-INSTALL_SUB=		startup/Modes
+STARTUP=	Modes
 
 .include "../Makefile.inc"
 

@@ -2,8 +2,7 @@
 
 DATA=	ansi.pf sign.pf
 
-INSTALL_STARTUP=	yes
-INSTALL_SUB=		startup/Promotion
+STARTUP=	Promotion
 
 .include "../Makefile.inc"
 

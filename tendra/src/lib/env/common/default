@@ -1,4 +1,13 @@
+/* $TenDRA$ */
 /* default environment for -MACH- */
+
++TENDRA_MACHDIR         "<TENDRA_BASEDIR>/machines"
++TENDRA_BINDIR          "<TENDRA_BASEDIR>/bin"
++TENDRA_ENVDIR          "<TENDRA_BASEDIR>/env"
++TENDRA_LIBDIR          "<TENDRA_BASEDIR>/lib"
++TENDRA_INCLDIR         "<TENDRA_BASEDIR>/include"
++TENDRA_STARTUPDIR      "<TENDRA_BASEDIR>/startup"
++TENDRA_TMPDIR          "/tmp"
 
 +TDFC			"-BINDIR-/tdfc2"
 +TDFCPP			"-BINDIR-/tdfc2 -E"
@@ -15,9 +24,9 @@
 +DUMP_ANAL		"-BINDIR-/dump_lint"
 +DUMP_LINK		"-BINDIR-/dump_linker"
 
-+AS			"/bin/as"
-+AS1			"/bin/as"
-+LD			"/bin/ld"
++AS			"/usr/bin/as"
++AS1			"/usr/bin/as"
++LD			"/usr/bin/ld"
 +DYN_LINK		"-LIBDIR-/sys/dyninit"
 +CC			"/bin/cc"
 
@@ -30,9 +39,9 @@
 +LINK			"-L-LIBDIR-"
 +LIB			"-lansi"
 
-+CRT0			"/lib/crt0.o"
-+CRT1			""
-+CRTN			""
++CRT0			""
++CRT1			"/usr/lib/crt1.o"
++CRTN			"/usr/lib/crtn.o"
 +SYS_LIB		""
 +SYS_LIBC		"-lc"
 +LINK_ENTRY		""

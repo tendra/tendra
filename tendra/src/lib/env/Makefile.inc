@@ -32,3 +32,12 @@ ${DATA_DEFAULT}:
 		${SED} ${SED_OPTS} > ${.OBJDIR}/${.TARGET}
 
 CLEANFILES=	${DATA} ${DATA_COMMON} ${DATA_DEFAULT}
+
+SED_INSTALL_OPTS= -e "s%-BINDIR-%<TENDRA_BINDIR>%g" \
+                  -e "s%-LIBDIR-%<TENDRA_LIBDIR>%g" \
+                  -e "s%-STARTUPDIR-%<TENDRA_STARTUPDIR>%g" \
+                  -e "s%-INCLDIR-%<TENDRA_INCLDIR>%g" \
+                  -e "s%-TMPDIR-%<TENDRA_TMPDIR>%g" \
+                  -e "s%-ENVDIR-%<TENDRA_ENVDIR>%g" \
+                  -e "s%-AS-%${AS}%g" \
+                  -e "s%-LD-%${LD}%g"

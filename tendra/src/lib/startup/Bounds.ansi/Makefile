@@ -2,8 +2,7 @@
 
 DATA=	default.pf int_sizes.pf 
 
-INSTALL_STARTUP=	yes
-INSTALL_SUB=		startup/Bounds.ansi
+STARTUP=	Bounds.ansi
 
 .include "../Makefile.inc"
 

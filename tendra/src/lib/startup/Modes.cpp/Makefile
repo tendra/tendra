@@ -2,8 +2,7 @@
 
 DATA=	Xa Xc Xp Xs Xsystem Xt Xw
 
-INSTALL_STARTUP=	yes
-INSTALL_SUB=		startup/Modes.cpp
+STARTUP=	Modes.cpp
 
 .include "../Makefile.inc"
 

@@ -2,8 +2,7 @@
 
 DATA=	ansi.pf trad.pf
 
-INSTALL_STARTUP=	yes
-INSTALL_SUB=		startup/Literal
+STARTUP=	Literal
 
 .include "../Makefile.inc"
 
