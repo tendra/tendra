@@ -5,10 +5,10 @@
 .PATH : ${.OBJDIR}.api
 
 TCC_OPTS+=	-Fj \
-		-Y/mnt/free/tendra/new/obj/lib/env/freebsd/common/80x86/building \
-		-Y/mnt/free/tendra/new/obj/lib/env/freebsd/common/80x86/32bit
+		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/building \
+		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/32bit
 
 TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
-		-Y/mnt/free/tendra/new/obj/lib/env/freebsd/common/80x86/default-build \
+		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/default-build \
 		-I/usr/include \
 		-I.
