@@ -1,4 +1,4 @@
-# Copyright (c) 2002, The TenDRA Project
+# Copyright (c) 2003, The TenDRA Project
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -24,33 +24,3 @@
 #
 # $TenDRA$
 #
-
-$UNIQUE = 1;
-$VERSION ="1.0";
-+BASE_API;
-
-+IMPLEMENT "ansi", "dummy/sys.h";
-+IMPLEMENT "iso99", "assert.h";
-+IMPLEMENT "iso99", "complex.h";
-+IMPLEMENT "iso99", "ctype.h";
-+IMPLEMENT "iso99", "errno.h";
-+IMPLEMENT "iso99", "fenv.h";
-+IMPLEMENT "iso99", "float.h";
-+IMPLEMENT "iso99", "iso646.h";
-+IMPLEMENT "iso99", "inttypes.h";
-+IMPLEMENT "iso99", "limits.h";
-+IMPLEMENT "iso99", "locale.h";
-+IMPLEMENT "iso99", "math.h";
-+IMPLEMENT "iso99", "setjmp.h";
-+IMPLEMENT "iso99", "signal.h";
-+IMPLEMENT "iso99", "stdarg.h";
-+IMPLEMENT "iso99", "stdbool.h";
-+IMPLEMENT "iso99", "stddef.h";
-+IMPLEMENT "iso99", "stdint.h";
-+IMPLEMENT "iso99", "stdio.h";
-+IMPLEMENT "iso99", "stdlib.h";
-+IMPLEMENT "iso99", "string.h";
-+IMPLEMENT "iso99", "tgmath.h";
-+IMPLEMENT "iso99", "time.h";
-+IMPLEMENT "iso99", "wchar.h";
-+IMPLEMENT "iso99", "wctype.h";
