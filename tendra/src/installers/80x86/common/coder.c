@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -33,192 +60,7 @@
 /**********************************************************************
 $Author$
 $Date$
-$Revision$
-$Log$
-Revision 1.1  2002/01/26 21:31:11  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.4  1998/03/15  16:00:13  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.3  1998/03/11  11:03:01  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:21:59  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.49  1997/12/08  16:44:33  pwe
- * make_compound
- *
- * Revision 1.48  1997/12/04  20:00:53  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.47  1997/10/28  10:26:31  pwe
- * correct extra diags / locations
- *
- * Revision 1.46  1997/10/23  09:36:49  pwe
- * extra_diags
- *
- * Revision 1.45  1997/10/10  18:24:55  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.44  1997/08/23  13:45:23  pwe
- * initial ANDF-DE
- *
- * Revision 1.43  1997/04/21  08:31:05  pwe
- * amend reg record at end of scope
- *
- * Revision 1.42  1997/04/17  11:55:34  pwe
- * dwarf2 improvements
- *
- * Revision 1.41  1997/03/20  16:23:29  pwe
- * dwarf2
- *
- * Revision 1.40  1997/02/18  11:42:46  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.39  1996/12/13  14:39:13  pwe
- * prep NEWDIAGS
- *
- * Revision 1.38  1996/12/10  15:11:27  pwe
- * prep NEWDIAGS
- *
- * Revision 1.37  1996/11/08  16:18:56  pwe
- * check_stack to check before modifying stack
- *
- * Revision 1.36  1996/10/08  07:58:50  pwe
- * revised correction to env_offset v id out_of_line
- *
- * Revision 1.35  1996/10/07  13:31:00  pwe
- * push make_value, and env_offset v id out_of_line
- *
- * Revision 1.34  1996/07/31  12:56:31  pwe
- * restore alloca stack after longjump
- *
- * Revision 1.33  1996/07/10  15:44:24  pwe
- * visible ptr top (for AVS 3.0)
- *
- * Revision 1.32  1996/05/20  14:30:06  pwe
- * improved 64-bit handling
- *
- * Revision 1.31  1996/05/13  12:51:49  pwe
- * undo premature commit
- *
- * Revision 1.29  1996/03/12  12:44:07  pwe
- * 64-bit ints compatible with gcc long long
- *
- * Revision 1.28  1996/02/20  14:44:55  pwe
- * linux/elf return struct
- *
- * Revision 1.27  1996/01/31  13:02:29  pwe
- * general proc with postlude used in proc parameter position
- *
- * Revision 1.26  1996/01/17  11:24:17  pwe
- * resurrect performance
- *
- * Revision 1.25  1996/01/11  14:02:15  pwe
- * struct return v postludes (again)
- *
- * Revision 1.24  1996/01/10  13:59:42  pwe
- * apply with varcallees within postlude
- *
- * Revision 1.23  1996/01/05  16:25:15  pwe
- * env_size and env_offset within constant expressions
- *
- * Revision 1.22  1995/12/14  16:49:09  pwe
- * postlude with struct result
- *
- * Revision 1.21  1995/11/01  18:41:04  pwe
- * PIC tail_call and exception handling
- *
- * Revision 1.20  1995/10/25  17:41:08  pwe
- * PIC_code current_env and callees
- *
- * Revision 1.19  1995/10/09  15:14:05  pwe
- * dynamic initialisation etc
- *
- * Revision 1.18  1995/09/29  16:17:49  pwe
- * gcc_compatible default on Linux
- *
- * Revision 1.17  1995/09/26  16:46:41  pwe
- * compare with zero to ignore previous overflow
- *
- * Revision 1.16  1995/09/08  12:51:01  pwe
- * exceptions improved
- *
- * Revision 1.15  1995/09/05  16:24:37  pwe
- * specials and exception changes
- *
- * Revision 1.14  1995/09/01  17:29:56  pwe
- * traps and Build scripts
- *
- * Revision 1.13  1995/08/30  16:06:17  pwe
- * prepare exception trapping
- *
- * Revision 1.12  1995/08/23  09:42:27  pwe
- * track fpu control word for trap etc
- *
- * Revision 1.11  1995/08/14  13:53:20  pwe
- * several corrections, tail calls and error jumps
- *
- * Revision 1.10  1995/08/04  08:28:58  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.9  1995/04/13  11:32:16  pwe
- * catch discards with side effects
- *
- * Revision 1.8  1995/03/23  13:25:33  pwe
- * limit scale in deeply nested repeats
- *
- * Revision 1.7  1995/02/27  10:58:52  pwe
- * local_free val_tag offsets treated similar to alloca
- *
- * Revision 1.6  1995/02/23  10:24:13  pwe
- * correction to compare env_offset
- *
- * Revision 1.5  1995/02/22  11:49:14  pwe
- * compare env_offset
- *
- * Revision 1.4  1995/02/01  18:51:13  pwe
- * correct empty make_nof
- *
- * Revision 1.3  1995/01/30  12:56:00  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.2  1994/11/08  09:00:14  jmf
- * Corrected ncopies - NOT TO COPY
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.7  1994/08/19  13:14:15  jmf
- * goto_tag: do final_dest before elimination of redundant jump,
- * so that jump to next; jump L is treated better.
- *
- * Revision 1.6  1994/08/09  11:54:31  jmf
- * alloc_reg: change to refuse reals which are variables.
- *
- * Revision 1.5  1994/08/04  10:22:36  jmf
- * Unon
- * Undone last fix to test and testbit. Changed label_ops
- *
- * Revision 1.4  1994/08/04  09:13:25  jmf
- * test and testbit: only swap labels if there is a single use.
- *
- * Revision 1.3  1994/07/12  15:37:26  jmf
- * Corrected silly synatx error l29
- *
- * Revision 1.2  1994/07/12  15:16:42  jmf
- * Change to align_label(2 in solve
- * Removed is_tester (now in misc_c.c
- *
- * Revision 1.1  1994/07/12  14:28:00  jmf
- * Initial revision
- *
-**********************************************************************/
+$Revision$*/
 
 
 /**********************************************************************
