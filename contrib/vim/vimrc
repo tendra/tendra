@@ -3,6 +3,16 @@
 set filetype=on
 syntax on
 
+augroup lexiprog
+	" Remove all lexiprog autocommands
+	autocmd!
+	autocmd BufNewFile,BufRead *.lxi        set filetype=lexi
+	autocmd BufNewFile,BufRead *.lxi        set formatoptions=croql
+	autocmd BufNewFile,BufRead *.lxi        set cindent
+	autocmd BufNewFile,BufRead *.lxi        set cinoptions=t0(0+4
+	autocmd BufNewFile,BufRead *.lxi        hi PreProc ctermfg=DarkCyan guifg=DarkCyan
+augroup END
+
 augroup sidprog
 	" Remove all sidprog autocommands
         autocmd!
