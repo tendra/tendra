@@ -67,6 +67,7 @@
  */
 
 extern void begin_function(IDENTIFIER);
+extern void declare_func_id(void);
 extern EXP end_function(IDENTIFIER, EXP);
 extern void begin_param(IDENTIFIER);
 extern void end_param(void);

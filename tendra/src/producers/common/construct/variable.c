@@ -158,6 +158,9 @@ check_usage(IDENTIFIER id, EXP blk, int anon)
 					if (ds & (dspec_inline | dspec_virtual)) {
 						/* Ignore inline and virtual functions */
 						/* EMPTY */
+					} else if (nm == KEYWORD (lex_func_Hid)) {
+						/* Ignore unused __func__ variable */
+						/* EMPTY */
 					} else {
 						if (ds & dspec_auto) {
 							err = ERR_stmt_dcl_unused (id);

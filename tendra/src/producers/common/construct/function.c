@@ -98,6 +98,7 @@
 #include "operator.h"
 #include "option.h"
 #include "overload.h"
+#include "parse.h"
 #include "predict.h"
 #include "printf.h"
 #include "redeclare.h"
@@ -107,6 +108,7 @@
 #include "template.h"
 #include "tokdef.h"
 #include "token.h"
+#include "ustring.h"
 #include "variable.h"
 
 
@@ -2573,6 +2575,44 @@ begin_function(IDENTIFIER id)
     /* Create dummy try block */
     start_try_check (ex);
     return;
+}
+
+
+/*
+ *    DECLARE THE IDENTIFIER __func__
+ *
+ *    According to ISO/IEC 9899:1999, the declaration
+ *
+ *      static const char __func__[] = "function-name";
+ *
+ *    implicitly follows the opening brace of a function body.  This
+ *    function simply inserts the tokens for this declaration into the token
+ *    stream.  The function name is obtained through the global variable
+ *    crt_func_id.
+ */
+
+void
+declare_func_id(void)
+{
+	int toks[] = {
+		lex_static, lex_const, lex_char, lex_identifier, lex_open_Hsquare_H1,
+		lex_close_Hsquare_H1, lex_assign, lex_string_Hlit, lex_semicolon
+	};
+	int i;
+	PPTOKEN *p = patch_tokens (array_size (toks));
+
+	for (i = 0; i < array_size (toks); i++) {
+		p->tok = toks[i];
+		if (p->tok == lex_identifier) {
+			p->pp_data.id.hash = KEYWORD (lex_func_Hid);
+		} else if (p->tok == lex_string_Hlit) {
+			HASHID h = DEREF_hashid (id_name (crt_func_id));
+			string s = DEREF_string (hashid_name_text (h));
+			p->pp_data.str.start = s;
+			p->pp_data.str.end = s + ustrlen (s);
+		}
+		p = p->next;
+	}
 }
 
 

@@ -190,7 +190,7 @@ using; virtual; wchar-t;
 !dollar; !either; !elif; ellipsis-exp; !end; !endif; !environment;
 !equality; !error; !escape; exhaustive; !exp-cap; !explain;
 !extend; !external; !extra; fall; !file; !float-cap; !forward;
-!func-cap; !function; !hexadecimal; !hiding; !ident; !identif;
+!func-cap; !func-id; !function; !hexadecimal; !hiding; !ident; !identif;
 !ifdef; !ifndef; !ignore; !implement; !implicit; !import; !include;
 !includes; !include-next; !incompatible; !incomplete; !indented;
 !initialization; !integer; !interface; !internal; !into; !int-cap;

@@ -183,7 +183,7 @@ decimal; decl; define; !define-cap; !defined; definition; depth;
 directive; directory; disallow; discard; dollar; either; !elif;
 ellipsis-exp; end; !endif; environment; equality; error; escape;
 exhaustive; exp-cap; !explain; !extend; external; extra; fall;
-file; float-cap; forward; func-cap; function; hexadecimal; hiding;
+file; float-cap; forward; func-cap; !func-id; function; hexadecimal; hiding;
 ident; identif; !ifdef; !ifndef; ignore; !implement; implicit;
 import; !include; includes; include-next; incompatible; incomplete;
 indented; initialization; integer; interface; internal; into;

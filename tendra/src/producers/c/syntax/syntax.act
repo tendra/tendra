@@ -984,6 +984,11 @@ complex-type : () -> ( t ) = @{
     have_func_declarator = 1;
 @};
 
+<func_id_declare> : () -> () = @{
+    if ( option ( OPT_func_id ) == OPTION_ALLOW ) {
+	declare_func_id ();
+    }
+@};
 
 /*
  *    CONST-VOLATILE QUALIFIERS

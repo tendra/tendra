@@ -185,7 +185,7 @@ asm; !bool; !catch; !class; !const-cast; !delete; !dynamic-cast;
 !dollar; !either; !elif; ellipsis-exp; !end; !endif; !environment;
 !equality; !error; !escape; exhaustive; !exp-cap; !explain;
 !extend; !external; !extra; fall; !file; !float-cap; !forward;
-!func-cap; !function; !hexadecimal; !hiding; !ident; !identif;
+!func-cap; !func-id; !function; !hexadecimal; !hiding; !ident; !identif;
 !ifdef; !ifndef; !ignore; !implement; !implicit; !import; !include;
 !includes; !include-next; !incompatible; !incomplete; !indented;
 !initialization; !integer; !interface; !internal; !into; !int-cap;
@@ -1084,6 +1084,8 @@ expression-statement : () -> ( e : EXP ) = {
 <bool_true> : () -> ( :BOOL );
 <bool_false> : () -> ( :BOOL );
 
+<func_id_declare> : () -> ();
+
 declaration-statement : ( :BOOL ) -> ( :EXP );
 
 statement-seq-opt : ( c : EXP, d : BOOL ) -> ( e : EXP ) = {
@@ -1111,6 +1113,7 @@ compound-statement : () -> ( e : EXP ) = {
 
 function-body : () -> ( e : EXP ) = {
 	c = <stmt_compound_begin>;
+	<func_id_declare>;
 	open-brace;
 	d = <stmt_compound_block> ( c );
 	b = statement-seq-opt ( c, d );

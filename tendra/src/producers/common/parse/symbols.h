@@ -381,6 +381,7 @@
 	LEX_TOKEN (lex_float_Hcap, "FLOAT", TOK_NONE)
 	LEX_TOKEN (lex_forward, "forward", TOK_NONE)
 	LEX_TOKEN (lex_func_Hcap, "FUNC", TOK_NONE)
+	LEX_TOKEN (lex_func_Hid, "__func__", TOK_NONE)
 	LEX_TOKEN (lex_function, "function", TOK_NONE)
 	LEX_TOKEN (lex_hexadecimal, "hexadecimal", TOK_NONE)
 	LEX_TOKEN (lex_hiding, "hiding", TOK_NONE)

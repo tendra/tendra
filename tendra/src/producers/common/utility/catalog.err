@@ -177,6 +177,7 @@ USAGE:
     func_impl = error | wall,
     func_incompat = error,
     func_linkage = error,
+    func_id = error,
     func_proto = none,
     func_ret_void = error | wall,
     func_token_undef = wall,
