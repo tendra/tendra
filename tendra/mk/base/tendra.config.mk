@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	cygwin32 darwin freebsd hpux linux netbsd openbsd osf1 solaris sunos tru64
+BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux linux netbsd openbsd osf1 solaris sunos tru64
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
@@ -30,6 +30,11 @@ HAVE_CONF=	yes
 
 ${BUILD_TARGETS}: config-create
 
+.endif
+
+.if make(aix)
+BUILD_OS=	aix
+.include "../config/config.aix.mk"
 .endif
 
 .if make(cygwin32)
