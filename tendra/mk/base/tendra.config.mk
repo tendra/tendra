@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux irix linux netbsd \
+BUILD_TARGETS=	aix cygwin32 darwin freebsd hpux irix linux netbsd\
 		openbsd osf1 qnx solaris sunos tru64
 
 config-check:
