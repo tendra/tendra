@@ -18,6 +18,10 @@ System V ABI:   http://www.caldera.com/developers/devspecs/
 parsers.org (intro material):    http://home.earthlink.net/~parsersinc/
 
 ASDL:
+
+    http://www.cs.princeton.edu/~danwang/Papers/dsl97/dsl97.ps
+      (The specification).
+
     http://www.research.microsoft.com/~drh/pubs/asdl.pdf (overview and
       initial experience with abstract syntax description language)
  
