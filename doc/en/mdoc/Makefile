@@ -11,15 +11,18 @@ MANPAGES=	calculus.1 disp.1 lexi.1 pl.1 sid.1 tcc.1 \
 		tccenv.5 tcpplus.1 tdfc2.1 tld.1 tnc.1 \
 		tspec.1
 
+MAN_TMP=	${MANPAGES:R:S/^/tmp./g}
 
-main: ${MANPAGES:R} ${MANPAGES}
+all: main
+
+main: ${MAN_TMP} ${MANPAGES}
 
 
-${MANPAGES:R}:
-	cat ${.CURDIR}/header |grep -v TenDRA > ${.CURDIR}/tmp.${.TARGET}
-	echo "<refentry id=\"man-${.TARGET}\">" >> ${.CURDIR}/tmp.${.TARGET}
-	cat ${.CURDIR}/../manpages/${.TARGET}/manpage.sgml >> ${.CURDIR}/tmp.${.TARGET}
-	echo "</refentry>" >> ${.CURDIR}/tmp.${.TARGET}
+${MAN_TMP}:
+	cat ${.CURDIR}/header |grep -v TenDRA > ${.CURDIR}/${.TARGET}
+	echo "<refentry id=\"man-${.TARGET}\">" >> ${.CURDIR}/${.TARGET}
+	cat ${.CURDIR}/../manpages/${.TARGET:S/tmp.//g}/manpage.sgml >> ${.CURDIR}/${.TARGET}
+	echo "</refentry>" >> ${.CURDIR}/${.TARGET}
 
 
 ${MANPAGES}:
