@@ -46,10 +46,10 @@ _REALWORK: fixenv.sed .USE
 	sed -f fixenv.sed ${.CURDIR}/${entry} > ${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
-	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_SDIR}/../../../common/default
+	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/lib/env/default
 . endif
 
-_objdir=	${OBJ_SDIR}
+_objdir=	${OBJ_DIR}/lib/env
 .elif "${PROG}" != ""
 #
 # Build a program.
