@@ -559,15 +559,11 @@ indable_son(int sto, exp to, exp e)
 static void
 scanargs(int st, exp e, int usereg0)
 {
-	exp t = e;
-	exp temp;
-	
-	while (temp = contexp (st, t), IGNORE scan2 (st, t, temp, usereg0),
-		   temp = contexp (st, t), !last (temp)) {
-		t = contexp (st, t);
+	do {
+		IGNORE scan2 (st, e, contexp (st, e), usereg0);
+		e = contexp (st, e);
 		st = 0;
-	};
-	return;
+	} while (!last (e));
 }
 
 
