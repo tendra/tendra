@@ -34,7 +34,7 @@
       has only been tested with TDF produced from C programs. There are known
       to be certain deficiencies relative to other languages (in particular to
       FORTRAN). A later version will correct these deficiencies. The changes
-      already envisaged are detailed in -XREF-diag6.html#0section 4, and would
+      already envisaged are detailed in <xref linkend='proposedchanges'>, and would
       have minimal (if any) impact on C producers.</para>
 
     <para>The diagnostic system introduces one new type of TDF linkable entities,
@@ -43,7 +43,7 @@
     <para>Much of the actual annotation of procedure bodies is currently done by
       reserved <literal>TOKEN</literal>s, which installers recognize specially.
       These <literal>TOKEN</literal>s are described in
-      -XREF-diag5.html#0section 3.</para>
+      <xref linkend='reserveddiagnostictokens'>.</para>
 
     <para>There is a resemblance between the TDF diagnostic information and Unix
       International's DWARF format. DWARF has similar aims to the TDF
@@ -736,7 +736,7 @@ char_offset: NAT
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='reserveddiagnostictokens'>
     <title>Reserved diagnostic TOKENs</title> 
 
     <para>Reserved <literal>TOKEN</literal>s were used for diagnostic extensions to
@@ -810,7 +810,7 @@ type:        DIAG_TYPE
     </sect1>
   </chapter>
 
-  <chapter>
+  <chapter id='proposedchanges'>
     <title>Proposed changes</title> 
 
     <para>It is thought likely that the new TDF entities described above will
