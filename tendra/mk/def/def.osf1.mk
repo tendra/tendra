@@ -9,64 +9,77 @@
 # gcrt is for profiling support (gprof).
 # mcrt is for profiling support (prof).
 
-CRT0?=		/usr/lib/cmplrs/cc/crt0.o
-CRT1?=		
-CRTI?=		
-CRTN?=		
-GCRT0?=		/usr/lib/cmplrs/cc/gcrt0.o
-GCRT1?=		
-MCRT0?=		/usr/lib/cmplrs/cc/mcrt0.o
 
-AR?=		/usr/bin/ar
-AS?=		/usr/bin/as
-AWK?=		/usr/bin/awk
-BASENAME?=	/usr/bin/basename
-CAT?=		/usr/bin/cat
-CHGRP?=		/usr/bin/chgrp
-CHMOD?=		/usr/bin/chmod
-CHOWN?=		/usr/sbin/chown
-CP?=		/usr/bin/cp
-CP_ARGS?=	
-CUT?=		/usr/bin/cut
-DC?=		/usr/bin/dc
-DIRNAME?=	/usr/bin/dirname
-ECHO?=		/usr/bin/echo
-EGREP?=		/usr/bin/egrep
-FALSE?=		/usr/bin/false
-FILE?=		/usr/bin/file
-FIND?=		/usr/bin/find
-GREP?=		/usr/bin/grep
-GTAR?=		/usr/bin/tar
-GUNZIP?=	/usr/bin/gunzip
-GUNZIP_ARGS?=	-f
-GZCAT?=		/usr/bin/gzcat
-GZIP?=		/usr/bin/gzip
-GZIP_ARGS?=	-nf -9
-HEAD?=		/usr/bin/head
-ID?=		/usr/bin/id
-LDCONFIG?=
-LN?=		/usr/bin/ln
-LS?=		/usr/bin/ls
-MKDIR?=		/usr/bin/mkdir
-MKDIR_ARGS?=	-p
-MTREE?=
-MV?=		/usr/bin/mv
-PATCH?=		/usr/bin/patch
-PAX?=		/usr/bin/pax
-PERL?=		/usr/bin/perl
-RANLIB?=	/usr/bin/ranlib
-RM?=		/usr/bin/rm
-RMDIR?=		/usr/bin/rmdir
-SED?=		/usr/bin/sed
-SETENV?=	/usr/bin/env
-SH?=		/usr/bin/sh
-SORT?=		/usr/bin/sort
-SU?=		/usr/bin/su
-TAIL?=		/usr/bin/tail
-TEST?=		/usr/bin/test
-TOUCH?=		/usr/bin/touch
-TR?=		/usr/bin/tr
-TRUE?=		/usr/bin/true
-TYPE?=		/usr/bin/type
-WC?=		/usr/bin/wc
-XARGS?=		/usr/bin/xargs
+# Libraries
+
+LIB_CRT0?=	/usr/lib/cmplrs/cc/crt0.o
+LIB_CRT1?=	
+LIB_CRTI?=	
+LIB_CRTN?=	
+LIB_GCRT0?=	/usr/lib/cmplrs/cc/gcrt0.o
+LIB_GCRT1?=	
+LIB_MCRT0?=	/usr/lib/cmplrs/cc/mcrt0.o
+LIB_PCRT0?=	/usr/lib/cmplrs/cc/pcrt0.o
+
+
+# Arguments
+
+ARGS_CP?=	
+ARGS_GUNZIP?=	-f
+ARGS_GZIP?=	-nf -9
+ARGS_MKDIR?=	-p
+
+
+# Binaries
+
+BIN_AR?=	/usr/bin/ar
+BIN_AS?=	/usr/bin/as
+BIN_AS1?=	/usr/lib/cmplrs/as/as1
+BIN_AWK?=	/usr/bin/awk
+BIN_BASENAME?=	/usr/bin/basename
+BIN_CAT?=	/usr/bin/cat
+BIN_CHGRP?=	/usr/bin/chgrp
+BIN_CHMOD?=	/usr/bin/chmod
+BIN_CHOWN?=	/usr/sbin/chown
+BIN_CP?=	/usr/bin/cp
+BIN_CUT?=	/usr/bin/cut
+BIN_DC?=	/usr/bin/dc
+BIN_DIRNAME?=	/usr/bin/dirname
+BIN_ECHO?=	/usr/bin/echo
+BIN_EGREP?=	/usr/bin/egrep
+BIN_FALSE?=	/usr/bin/false
+BIN_FILE?=	/usr/bin/file
+BIN_FIND?=	/usr/bin/find
+BIN_GREP?=	/usr/bin/grep
+BIN_GTAR?=	/usr/bin/tar
+BIN_GUNZIP?=	/usr/bin/gunzip
+BIN_GZCAT?=	/usr/bin/gzcat
+BIN_GZIP?=	/usr/bin/gzip
+BIN_HEAD?=	/usr/bin/head
+BIN_ID?=	/usr/bin/id
+BIN_BIN_LD?=	/bin/ld
+BIN_LDCONFIG?=	echo		# non existant.
+BIN_LN?=	/usr/bin/ln
+BIN_LS?=	/usr/bin/ls
+BIN_MKDIR?=	/usr/bin/mkdir
+BIN_MTREE?=	echo		# non existant.
+BIN_MV?=	/usr/bin/mv
+BIN_PATCH?=	/usr/bin/patch
+BIN_PAX?=	/usr/bin/pax
+BIN_PERL?=	/usr/bin/perl
+BIN_RANLIB?=	/usr/bin/ranlib
+BIN_RM?=	/usr/bin/rm
+BIN_RMDIR?=	/usr/bin/rmdir
+BIN_SED?=	/usr/bin/sed
+BIN_SETENV?=	/usr/bin/env
+BIN_SH?=	/usr/bin/sh
+BIN_SORT?=	/usr/bin/sort
+BIN_SU?=	/usr/bin/su
+BIN_TAIL?=	/usr/bin/tail
+BIN_TEST?=	/usr/bin/test
+BIN_TOUCH?=	/usr/bin/touch
+BIN_TR?=	/usr/bin/tr
+BIN_TRUE?=	/usr/bin/true
+BIN_TYPE?=	/usr/bin/type
+BIN_WC?=	/usr/bin/wc
+BIN_XARGS?=	/usr/bin/xargs
