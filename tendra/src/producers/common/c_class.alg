@@ -758,6 +758,7 @@ union IDENTIFIER (id) = {
 	PPTOKEN_P defn ;
 	LIST HASHID params ;
 	unsigned no_params ;
+	int va_macro ;
     },
     predicate -> {
 	/* Predicates */
