@@ -7,6 +7,7 @@
     <corpauthor>The TenDRA Documentation Team</corpauthor>
     <copyright>
       <year>2002</year>
+      <year>2003</year>
       <holder>TenDRA Documentation Team</holder>
     </copyright>
     <copyright>
@@ -215,7 +216,7 @@
   </chapter>
 
   <chapter>
-    <title>TenDRA vs. GCC</title>
+    <title>TenDRA and GCC</title>
 
     <qandaset>
       <qandaentry>
