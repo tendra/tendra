@@ -3279,6 +3279,8 @@ If F is any non order-specifying
           also illustrates neatly the lack of ordering constraints on the
           evaluation of operands. For example, mult(et, exp1, exp2) could
           be expanded by applications of {A} to either:</para>
+<example id='example-trans'>
+<title>Examples of transformations</title>
 <programlisting>
 identify(empty, t1, exp1,
 identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))) )
@@ -3289,6 +3291,7 @@ identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))) )
 identify(empty, t2, exp2,
 identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))) )
 </programlisting>
+</example>
         <para>
           Both orderings of the evaluations of exp1 and exp2 are
           acceptable, regardless of any side-effects in them. There is no
