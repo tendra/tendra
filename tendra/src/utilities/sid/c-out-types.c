@@ -71,6 +71,7 @@
 #include "c-code.h"
 #include "c-out-key.h"
 #include "entry.h"
+#include "msgcat.h"
 #include "name.h"
 #include "output.h"
 #include "rstack.h"

@@ -69,7 +69,7 @@
 #ifndef H_KEY
 #define H_KEY
 
-#include "os-interface.h"
+#include "config.h"
 #include "dstring.h"
 
 /*--------------------------------------------------------------------------*/

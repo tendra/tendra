@@ -70,7 +70,7 @@
 #ifndef H_C_PARSER
 #define H_C_PARSER
 
-#include "os-interface.h"
+#include "config.h"
 #include "c-lexer.h"
 #include "c-out-info.h"
 #include "table.h"

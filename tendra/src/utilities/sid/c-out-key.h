@@ -67,7 +67,7 @@
 #ifndef H_C_OUT_KEY
 #define H_C_OUT_KEY
 
-#include "os-interface.h"
+#include "config.h"
 #include "c-output.h"
 #include "dstring.h"
 #include "entry.h"

@@ -73,7 +73,7 @@
 #include "c-out-info.h"
 #include "basic.h"
 #include "entry.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "type.h"
 #include "types.h"
 
@@ -230,16 +230,16 @@ ZR92 (void)
 
     if ((c_current_entry = table_get_entry (c_current_table, (&ZI94))) ==
 	NIL (EntryP)) {
-	E_c_unknown_identifier ((&ZI94));
+	MSG_c_unknown_identifier ((&ZI94));
     } else if (entry_get_mapping (c_current_entry)) {
-	E_c_remapped_identifier ((&ZI94));
+	MSG_c_remapped_identifier ((&ZI94));
 	c_current_entry = NIL (EntryP);
     } else {
 	switch (entry_type (c_current_entry)) EXHAUSTIVE {
 	  case ET_NAME:
 	  case ET_ACTION:
 	  case ET_NON_LOCAL:
-	    E_c_illegal_map ((&ZI94));
+	    MSG_c_illegal_map ((&ZI94));
 	    c_current_entry = NIL (EntryP);
 	    break;
 	  case ET_RENAME:
@@ -294,7 +294,7 @@ ZR92 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_c_identifier ();
+	MSG_c_expected_c_identifier ();
     }
 		}
 		{
@@ -371,9 +371,9 @@ ZR119 (void)
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
 	NIL (EntryP)) {
-	E_c_unknown_assign ((&ZI79));
+	MSG_c_unknown_assign ((&ZI79));
     } else if (type_get_assign_code (entry_get_type (c_current_entry))) {
-	E_c_assign_mult_def ((&ZI79));
+	MSG_c_assign_mult_def ((&ZI79));
 	c_current_entry = NIL (EntryP);
     }
     nstring_destroy (&(ZI79));
@@ -409,23 +409,23 @@ ZR119 (void)
 	types_init (&tmp);
 	types_add_type_entry (&tmp, c_current_entry, FALSE);
 	if (!types_disjoint_names (&c_saved_type)) {
-	    E_c_assign_param_clash (key, &c_saved_type);
+	    MSG_c_assign_param_clash (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_saved_type, &tmp)) {
-	    E_c_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    MSG_c_assign_param_mismatch (key, &tmp, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_disjoint_names (&c_current_type)) {
-	    E_c_assign_result_clash (key, &c_current_type);
+	    MSG_c_assign_result_clash (key, &c_current_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_current_type, &tmp)) {
-	    E_c_assign_result_mismatch (key, &tmp, &c_current_type);
+	    MSG_c_assign_result_mismatch (key, &tmp, &c_current_type);
 	    errored = TRUE;
 	}
 	if (types_intersect (&c_saved_type, &c_current_type)) {
-	    E_c_assign_formal_clash (key, &c_saved_type, &c_current_type);
+	    MSG_c_assign_formal_clash (key, &c_saved_type, &c_current_type);
 	    errored = TRUE;
 	}
 	types_destroy (&tmp);
@@ -459,7 +459,7 @@ ZR119 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 		{
@@ -544,12 +544,12 @@ ZR148 (void)
 
     if ((c_current_entry = table_get_action (c_current_table, (&ZI79))) ==
 	NIL (EntryP)) {
-	E_c_unknown_action ((&ZI79));
+	MSG_c_unknown_action ((&ZI79));
     } else {
 	ActionP action = entry_get_action (c_current_entry);
 
 	if (action_get_code (action)) {
-	    E_c_action_mult_def ((&ZI79));
+	    MSG_c_action_mult_def ((&ZI79));
 	    c_current_entry = NIL (EntryP);
 	}
     }
@@ -571,7 +571,7 @@ ZR148 (void)
 			{
 
     if (!c_propagating_error) {
-	E_c_expected_end_action ();
+	MSG_c_expected_end_action ();
     }
 			}
 		    }
@@ -608,23 +608,23 @@ ZR148 (void)
 	KeyP       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
-	    E_c_action_param_clash (key, &c_saved_type);
+	    MSG_c_action_param_clash (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_saved_type, param)) {
-	    E_c_action_param_mismatch (key, param, &c_saved_type);
+	    MSG_c_action_param_mismatch (key, param, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_disjoint_names (&c_current_type)) {
-	    E_c_action_result_clash (key, &c_current_type);
+	    MSG_c_action_result_clash (key, &c_current_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_current_type, result)) {
-	    E_c_action_result_mismatch (key, result, &c_current_type);
+	    MSG_c_action_result_mismatch (key, result, &c_current_type);
 	    errored = TRUE;
 	}
 	if (types_intersect (&c_saved_type, &c_current_type)) {
-	    E_c_action_formal_clash (key, &c_saved_type, &c_current_type);
+	    MSG_c_action_formal_clash (key, &c_saved_type, &c_current_type);
 	    errored = TRUE;
 	}
 	if (errored) {
@@ -656,7 +656,7 @@ ZR148 (void)
 			{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 			}
 			{
@@ -691,7 +691,7 @@ ZR148 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_identifier ();
+	MSG_c_expected_identifier ();
     }
 		}
 		{
@@ -769,7 +769,7 @@ ZR107 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_separator ();
+	MSG_c_expected_separator ();
     }
 		}
 		goto ZL2_107;
@@ -805,7 +805,7 @@ ZR172 (void)
 	{
 
     if (!c_propagating_error) {
-	E_c_expected_separator ();
+	MSG_c_expected_separator ();
     }
 	}
     }
@@ -878,9 +878,9 @@ ZR127 (void)
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
 	NIL (EntryP)) {
-	E_c_unknown_param_assign ((&ZI79));
+	MSG_c_unknown_param_assign ((&ZI79));
     } else if (type_get_param_assign_code (entry_get_type (c_current_entry))) {
-	E_c_param_assign_mult_def ((&ZI79));
+	MSG_c_param_assign_mult_def ((&ZI79));
 	c_current_entry = NIL (EntryP);
     }
     nstring_destroy (&(ZI79));
@@ -916,23 +916,23 @@ ZR127 (void)
 	types_init (&tmp);
 	types_add_type_entry (&tmp, c_current_entry, FALSE);
 	if (!types_disjoint_names (&c_saved_type)) {
-	    E_c_param_assign_param_clash (key, &c_saved_type);
+	    MSG_c_param_assign_param_clash (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_saved_type, &tmp)) {
-	    E_c_param_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    MSG_c_param_assign_param_mismatch (key, &tmp, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_disjoint_names (&c_current_type)) {
-	    E_c_param_assign_result_clash (key, &c_current_type);
+	    MSG_c_param_assign_result_clash (key, &c_current_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_current_type, &tmp)) {
-	    E_c_param_assign_res_mismatch (key, &tmp, &c_current_type);
+	    MSG_c_param_assign_res_mismatch (key, &tmp, &c_current_type);
 	    errored = TRUE;
 	}
 	if (types_intersect (&c_saved_type, &c_current_type)) {
-	    E_c_param_assign_formal_clash (key, &c_saved_type,
+	    MSG_c_param_assign_formal_clash (key, &c_saved_type,
 					    &c_current_type);
 	    errored = TRUE;
 	}
@@ -967,7 +967,7 @@ ZR127 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 		{
@@ -1087,7 +1087,7 @@ ZR84 (void)
 	}
     }
     if ((c_current_prefix = (CPrefixT) prefix) == CPFX_NUM_PREFIXES) {
-	E_c_unknown_prefix ((&ZI85));
+	MSG_c_unknown_prefix ((&ZI85));
     }
     nstring_destroy (&(ZI85));
 	}
@@ -1135,7 +1135,7 @@ ZR84 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_c_identifier ();
+	MSG_c_expected_c_identifier ();
     }
 		}
 		{
@@ -1231,7 +1231,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_blt_header ();
+	MSG_c_expected_blt_header ();
     }
 		}
 	    }
@@ -1265,7 +1265,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 	    }
@@ -1304,7 +1304,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 	    }
@@ -1378,7 +1378,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_blt_terminals ();
+	MSG_c_expected_blt_terminals ();
     }
 		}
 	    }
@@ -1405,7 +1405,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_blt_actions ();
+	MSG_c_expected_blt_actions ();
     }
 		}
 	    }
@@ -1432,7 +1432,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_blt_trailer ();
+	MSG_c_expected_blt_trailer ();
     }
 		}
 	    }
@@ -1466,7 +1466,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 	    }
@@ -1505,7 +1505,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 	    }
@@ -1532,7 +1532,7 @@ c_parse_grammar (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_eof ();
+	MSG_c_expected_eof ();
     }
 		}
 	    }
@@ -1600,7 +1600,7 @@ ZR112 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_open_tuple ();
+	MSG_c_expected_open_tuple ();
     }
 		}
 	    }
@@ -1631,7 +1631,7 @@ ZR112 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_close_tuple ();
+	MSG_c_expected_close_tuple ();
     }
 		}
 	    }
@@ -1681,9 +1681,9 @@ ZR134 (void)
 
     if ((c_current_entry = table_get_type (c_current_table, (&ZI79))) ==
 	NIL (EntryP)) {
-	E_c_unknown_result_assign ((&ZI79));
+	MSG_c_unknown_result_assign ((&ZI79));
     } else if (type_get_result_assign_code (entry_get_type (c_current_entry))) {
-	E_c_result_assign_mult_def ((&ZI79));
+	MSG_c_result_assign_mult_def ((&ZI79));
 	c_current_entry = NIL (EntryP);
     }
     nstring_destroy (&(ZI79));
@@ -1719,23 +1719,23 @@ ZR134 (void)
 	types_init (&tmp);
 	types_add_type_entry (&tmp, c_current_entry, FALSE);
 	if (!types_disjoint_names (&c_saved_type)) {
-	    E_c_result_assign_param_clash (key, &c_saved_type);
+	    MSG_c_result_assign_param_clash (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_saved_type, &tmp)) {
-	    E_c_res_assign_param_mismatch (key, &tmp, &c_saved_type);
+	    MSG_c_res_assign_param_mismatch (key, &tmp, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_disjoint_names (&c_current_type)) {
-	    E_c_result_assign_result_clash (key, &c_current_type);
+	    MSG_c_result_assign_result_clash (key, &c_current_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_current_type, &tmp)) {
-	    E_c_res_assign_result_mismatch (key, &tmp, &c_current_type);
+	    MSG_c_res_assign_result_mismatch (key, &tmp, &c_current_type);
 	    errored = TRUE;
 	}
 	if (types_intersect (&c_saved_type, &c_current_type)) {
-	    E_c_result_assign_formal_clash (key, &c_saved_type,
+	    MSG_c_result_assign_formal_clash (key, &c_saved_type,
 					    &c_current_type);
 	    errored = TRUE;
 	}
@@ -1770,7 +1770,7 @@ ZR134 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 		{
@@ -1869,7 +1869,7 @@ ZR101 (void)
 
     if (!types_add_typed_name (&c_current_type, c_current_table, &(ZI88),
 			       (&ZI105), TRUE)) {
-	E_c_unknown_type ((&ZI105));
+	MSG_c_unknown_type ((&ZI105));
     }
     nstring_destroy (&(ZI105));
 					}
@@ -1881,7 +1881,7 @@ ZR101 (void)
 
     if (!types_add_typed_name (&c_current_type, c_current_table, &(ZI88),
 			       (&ZI105), FALSE)) {
-	E_c_unknown_type ((&ZI105));
+	MSG_c_unknown_type ((&ZI105));
     }
     nstring_destroy (&(ZI105));
 					}
@@ -1896,7 +1896,7 @@ ZR101 (void)
 			    {
 
     if (!c_propagating_error) {
-	E_c_expected_identifier ();
+	MSG_c_expected_identifier ();
     }
 			    }
 			    {
@@ -1953,7 +1953,7 @@ ZR101 (void)
 	{
 
     if (!c_propagating_error) {
-	E_c_expected_identifier ();
+	MSG_c_expected_identifier ();
     }
 	}
 	{
@@ -2024,15 +2024,15 @@ ZR141 (void)
 
     if ((c_current_entry = table_get_basic (c_current_table, (&ZI79))) ==
 	NIL (EntryP)) {
-	E_c_unknown_basic ((&ZI79));
+	MSG_c_unknown_basic ((&ZI79));
     } else {
 	BasicP basic = entry_get_basic (c_current_entry);
 
 	if (basic_get_result_code (basic)) {
-	    E_c_basic_mult_def ((&ZI79));
+	    MSG_c_basic_mult_def ((&ZI79));
 	    c_current_entry = NIL (EntryP);
 	} else if (types_equal_zero_tuple (basic_result (basic))) {
-	    E_c_basic_has_no_result ((&ZI79));
+	    MSG_c_basic_has_no_result ((&ZI79));
 	    c_current_entry = NIL (EntryP);
 	}
     }
@@ -2068,23 +2068,23 @@ ZR141 (void)
 	KeyP       key     = entry_key (c_current_entry);
 
 	if (!types_disjoint_names (&c_saved_type)) {
-	    E_c_basic_param_clash (key, &c_saved_type);
+	    MSG_c_basic_param_clash (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_equal_zero_tuple (&c_saved_type)) {
-	    E_c_basic_param_mismatch (key, &c_saved_type);
+	    MSG_c_basic_param_mismatch (key, &c_saved_type);
 	    errored = TRUE;
 	}
 	if (!types_disjoint_names (&c_current_type)) {
-	    E_c_basic_result_clash (key, &c_current_type);
+	    MSG_c_basic_result_clash (key, &c_current_type);
 	    errored = TRUE;
 	}
 	if (!types_fillin_types (&c_current_type, result)) {
-	    E_c_basic_result_mismatch (key, result, &c_current_type);
+	    MSG_c_basic_result_mismatch (key, result, &c_current_type);
 	    errored = TRUE;
 	}
 	if (types_intersect (&c_saved_type, &c_current_type)) {
-	    E_c_basic_formal_clash (key, &c_saved_type, &c_current_type);
+	    MSG_c_basic_formal_clash (key, &c_saved_type, &c_current_type);
 	    errored = TRUE;
 	}
 	if (errored) {
@@ -2116,7 +2116,7 @@ ZR141 (void)
 		{
 
     if (!c_propagating_error) {
-	E_c_expected_code ();
+	MSG_c_expected_code ();
     }
 		}
 		{
@@ -2275,7 +2275,7 @@ ZR116 (void)
 	{
 
     if (!c_propagating_error) {
-	E_c_expected_arrow ();
+	MSG_c_expected_arrow ();
     }
 	}
     }
@@ -2332,7 +2332,7 @@ ZR121 (void)
 	{
 
     if (!c_propagating_error) {
-	E_c_expected_define ();
+	MSG_c_expected_define ();
     }
 	}
     }
@@ -2359,7 +2359,7 @@ ZR124 (void)
 	{
 
     if (!c_propagating_error) {
-	E_c_expected_terminator ();
+	MSG_c_expected_terminator ();
     }
 	}
     }

@@ -192,7 +192,7 @@
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
  *		NIL (GenericP),
- *		UB "option description name" UE
+ *		{ "option description name" }
  *	    }, ARG_PARSE_END_LIST
  *	};
  *
@@ -252,9 +252,8 @@
 #ifndef H_ARG_PARSE
 #define H_ARG_PARSE
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
-#include "error.h"
 #include "ostream.h"
 
 /*--------------------------------------------------------------------------*/
@@ -273,7 +272,7 @@ typedef enum {
 
 struct ArgListT;
 typedef struct ArgUsageT {
-	CStringP			usage;
+	int			usage;
 	struct ArgListT	       *arg_list;
 } ArgUsageT, *ArgUsageP;
 
@@ -285,23 +284,19 @@ typedef struct ArgListT {
 	ArgTypeT			type;
 	ArgProcP			proc;
 	GenericP			closure;
-	union {
-		CStringP		name;
-		EStringP		message;
-	} u;
+	int			msgid;
 } ArgListT, *ArgListP;
 
 /*--------------------------------------------------------------------------*/
 
-void	arg_parse_intern_descriptions(ArgListP);
-int	arg_parse_arguments(ArgListP, EStringP, int, char **);
+int	arg_parse_arguments(ArgListP, int, int, char **);
 
-void	write_arg_usage(OStreamP, ArgUsageP);
+void	write_arg_usage(ArgUsageP);
 
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
-{NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
- { NIL (CStringP) }}
+	{NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
+	0}
 
 #endif /* !defined (H_ARG_PARSE) */

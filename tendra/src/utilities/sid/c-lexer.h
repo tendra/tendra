@@ -67,7 +67,7 @@
 #ifndef H_C_LEXER
 #define H_C_LEXER
 
-#include "os-interface.h"
+#include "config.h"
 #include "c-code.h"
 #include "dstring.h"
 #include "istream.h"

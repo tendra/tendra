@@ -67,7 +67,7 @@
 #ifndef H_C_OUTPUT
 #define H_C_OUTPUT
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "entry-list.h"
 #include "grammar.h"
@@ -87,7 +87,7 @@
 
 void	c_output_parser(COutputInfoP, GrammarP);
 void	c_output_header(COutputInfoP, GrammarP);
-void	c_output_location(COutputInfoP, CStringP, unsigned);
+void	c_output_location(COutputInfoP, const char *, unsigned);
 void	c_output_key_message(COutputInfoP, CStringP, KeyP, CStringP, unsigned);
 unsigned c_out_next_label(void);
 void	c_output_open(COutputInfoP, unsigned);

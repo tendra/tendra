@@ -67,6 +67,7 @@
 #include "rule.h"
 #include "action.h"
 #include "basic.h"
+#include "msgcat.h"
 #include "name.h"
 #include "type.h"
 

@@ -67,7 +67,7 @@
 #ifndef H_C_CHECK
 #define H_C_CHECK
 
-#include "os-interface.h"
+#include "config.h"
 #include "grammar.h"
 
 void	c_check_grammar(GrammarP);

@@ -67,7 +67,7 @@
 #ifndef H_NON_LOCAL
 #define H_NON_LOCAL
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "entry.h"
 #include "ostream.h"

@@ -70,7 +70,7 @@
 #ifndef H_RULE
 #define H_RULE
 
-#include "os-interface.h"
+#include "config.h"
 #include "bitvec.h"
 #include "dalloc.h"
 #include "entry.h"

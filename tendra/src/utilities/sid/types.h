@@ -67,7 +67,7 @@
 #ifndef H_TYPES
 #define H_TYPES
 
-#include "os-interface.h"
+#include "config.h"
 #include "dstring.h"
 #include "entry-list.h"
 #include "ostream.h"

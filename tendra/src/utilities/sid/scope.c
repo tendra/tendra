@@ -65,7 +65,7 @@
  */
 
 #include "scope.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "rule.h"
 
 /*--------------------------------------------------------------------------*/
@@ -332,7 +332,7 @@ scope_stack_check_shadowing(ScopeStackP stack,
 		
 		for (entry = frame->head; entry; entry = entry->next) {
 			if (entry->from == from) {
-				E_shadows_non_local (entry_key (from), entry_key (entry->to),
+				MSG_shadows_non_local (entry_key (from), entry_key (entry->to),
 									 rule);
 				return (TRUE);
 			}
@@ -340,7 +340,7 @@ scope_stack_check_shadowing(ScopeStackP stack,
 	}
 	if (entry_is_rule (from) || entry_is_action (from) ||
 		entry_is_basic (from)) {
-		E_shadows_global (entry_key (from), rule);
+		MSG_shadows_global (entry_key (from), rule);
 		return (TRUE);
 	}
 	return (FALSE);

@@ -146,10 +146,12 @@
 
 /****************************************************************************/
 
+#include <limits.h>
+
 #include "grammar.h"
 #include "action.h"
 #include "basic.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "name.h"
 #include "rule.h"
 #include "type.h"
@@ -178,30 +180,30 @@ grammar_check_1(EntryP entry, GenericP gclosure)
 	switch (entry_type (entry)) EXHAUSTIVE {
 	case ET_RULE:
 		if (!rule_is_defined (entry_get_rule (entry))) {
-			E_rule_not_defined (entry_key (entry));
+			MSG_rule_not_defined (entry_key (entry));
 		}
 		if (!entry_is_traced (entry)) {
-			E_rule_not_used (entry_key (entry));
+			MSG_rule_not_used (entry_key (entry));
 		}
 		break;
 	case ET_BASIC:
 		if (!entry_is_traced (entry)) {
-			E_basic_not_used (entry_key (entry));
+			MSG_basic_not_used (entry_key (entry));
 		}
 		break;
 	case ET_ACTION:
 		if (!entry_is_traced (entry)) {
-			E_action_not_used (entry_key (entry));
+			MSG_action_not_used (entry_key (entry));
 		}
 		break;
 	case ET_TYPE:
 		if (!entry_is_traced (entry)) {
-			E_type_not_used (entry_key (entry));
+			MSG_type_not_used (entry_key (entry));
 		}
 		break;
 	case ET_NON_LOCAL:
 		if (!entry_is_traced (entry)) {
-			E_non_local_not_used (entry_key (entry));
+			MSG_non_local_not_used (entry_key (entry));
 		}
 		break;
 	case ET_NAME:
@@ -327,7 +329,7 @@ unsigned
 grammar_next_terminal(GrammarP grammar)
 {
 	if (grammar->terminal == UINT_MAX) {
-		E_too_many_terminals ();
+		MSG_too_many_terminals ();
 		UNREACHED;
 	}
 	return (grammar->terminal ++);

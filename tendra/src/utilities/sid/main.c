@@ -82,20 +82,19 @@
 
 /****************************************************************************/
 
-#include "os-interface.h"
+#include "config.h"
 #include "release.h"
 #include "arg-parse.h"
+#include "basic.h"
 #include "c-check.h"
 #include "c-lexer.h"
 #include "c-output.h"
 #include "c-parser.h"
+#include "catstdn.h"
 #include "cstring.h"
 #include "cstring-list.h"
 #include "dstring.h"
-#include "error.h"
-#include "error-file.h"
-#include "exception.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "grammar.h"
 #include "istream.h"
 #include "lexer.h"
@@ -104,21 +103,7 @@
 #include "parser.h"
 #include "rule.h"
 #include "syntax.h"
-
-/*--------------------------------------------------------------------------*/
-
-#define USAGE "\
-\tusage: [option ...] in-file ... out-file ...\n\
-\twhere option is one of:"
-#ifndef VERSION
-#define VERSION "sid: version 1.9#13 (ansi-c, pre-ansi-c, ossg-c, test)"
-#endif /* !defined (VERSION) */
-#ifndef RELEASE
-#define RELEASE "unknown"
-#endif /* !defined (RELEASE) */
-#ifndef BANNER
-#define BANNER ""
-#endif /* !defined (BANNER) */
+#include "tenapp.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -182,10 +167,10 @@ main_init_c(OutputInfoP out_info, CStringListP options,
 			c_out_info_set_ossg (c_out_info, TRUE);
 		} else if (cstring_equal (option, "split")) {
 			c_out_info_set_split (c_out_info, (unsigned) 5000);
-		} else if (cstring_starts (option, "split=")) {
+		} else if (strncmp (option, "split=", 6) == 0) {
 			unsigned limit;
-			if (!cstring_to_unsigned (option + 6, &limit)) {
-				E_bad_split_size (option + 6);
+			if (!string_to_unsigned (option + 6, &limit)) {
+				MSG_bad_split_size (option + 6);
 				UNREACHED;
 			}
 			c_out_info_set_split (c_out_info, limit);
@@ -218,7 +203,7 @@ main_init_c(OutputInfoP out_info, CStringListP options,
 		} else {
 			CStringP lang;
 			lang = (ossg ? "ossg-c" : (ansi ? "ansi-c" : "pre-ansi-c"));
-			E_bad_language_option (lang, option);
+			MSG_bad_language_option (lang, option);
 		}
 	}
 	return ((GenericP) c_out_info);
@@ -256,10 +241,7 @@ main_input_c(GenericP gclosure, GrammarP grammar)
 	c_current_table    = grammar_table (grammar);
 	c_parse_grammar ();
 	c_lexer_close (&clstream);
-	if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 	c_check_grammar (grammar);
 }
 
@@ -285,7 +267,7 @@ main_init_test(OutputInfoP info, CStringListP options)
 		 entry = cstring_list_entry_deallocate (entry)) {
 		CStringP option = cstring_list_entry_string (entry);
 		
-		E_bad_language_option ("test", option);
+		MSG_bad_language_option ("test", option);
 	}
 	return (NIL (GenericP));
 }
@@ -351,10 +333,10 @@ main_handle_dump_file(CStringP option, ArgUsageP usage,
 	UNUSED (gclosure);
 	main_did_other = TRUE;
 	if (ostream_is_open (&dump_stream)) {
-		E_multiple_dump_files ();
+		MSG_multiple_dump_files ();
 		UNREACHED;
 	} else if (!ostream_open (&dump_stream, dump_file)) {
-		E_cannot_open_dump_file (dump_file);
+		MSG_cannot_open_dump_file (dump_file);
 		UNREACHED;
 	}
 }
@@ -366,7 +348,7 @@ main_handle_help(CStringP option, ArgUsageP usage,
 	UNUSED (option);
 	UNUSED (gclosure);
 	main_did_one_off = TRUE;
-	write_arg_usage (ostream_error, usage);
+	write_arg_usage (usage);
 	write_newline (ostream_error);
 	ostream_flush (ostream_error);
 }
@@ -383,8 +365,8 @@ main_handle_factor_limit(CStringP option,
 	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
-	if ((!cstring_to_unsigned (limit_str, &limit)) || (limit == 0)) {
-		E_bad_factor_limit (limit_str);
+	if ((!string_to_unsigned (limit_str, &limit)) || (limit == 0)) {
+		MSG_bad_factor_limit (limit_str);
 		UNREACHED;
 	}
 	rule_set_factor_limit (limit);
@@ -425,7 +407,7 @@ main_handle_inlining(CStringP option, ArgUsageP usage,
 				goto next;
 			}
 		}
-		E_bad_inlining_phase (phase);
+		MSG_bad_inlining_phase (phase);
 		UNREACHED;
 	  next:;
 	}
@@ -447,20 +429,8 @@ main_handle_language(CStringP option, ArgUsageP usage,
 			return;
 		}
 	}
-	E_bad_language (language_str);
+	MSG_bad_language (language_str);
 	UNREACHED;
-}
-
-static void
-main_handle_show_errors(CStringP option, ArgUsageP usage,
-						GenericP gclosure)
-{
-	UNUSED (option);
-	UNUSED (usage);
-	UNUSED (gclosure);
-	main_did_one_off = TRUE;
-	write_error_file (ostream_output);
-	ostream_flush (ostream_output);
 }
 
 static void
@@ -485,8 +455,8 @@ main_handle_tab_width(CStringP option, ArgUsageP usage,
 	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_other = TRUE;
-	if ((!cstring_to_unsigned (width_str, &width)) || (width == 0)) {
-		E_bad_tab_width (width_str);
+	if ((!string_to_unsigned (width_str, &width)) || (width == 0)) {
+		MSG_bad_tab_width (width_str);
 		UNREACHED;
 	}
 	out_info_set_tab_width (main_info_closure, width);
@@ -500,47 +470,11 @@ main_handle_version(CStringP option, ArgUsageP usage,
 	UNUSED (usage);
 	UNUSED (gclosure);
 	main_did_one_off = TRUE;
-	write_cstring (ostream_error, VERSION);
-	write_cstring (ostream_error, " (Release ");
-	write_cstring (ostream_error, RELEASE);
-	write_cstring (ostream_error, ")");
-	write_cstring (ostream_error, BANNER);
-	write_newline (ostream_error);
-	ostream_flush (ostream_error);
+	tenapp_report_version ();
 }
 
 /*--------------------------------------------------------------------------*/
 
-static EStringDataT main_description_strings [] = {
-	{ {
-		"description of dump-file",
-		" FILE\n\tCause intermediate grammars to be written to FILE."
-	} }, { {
-		"description of help",
-		"\n\tDisplay an option summary for the current mode."
-	} }, { {
-		"description of factor-limit",
-		" NUMBER\n\tSet the maximum number of rules to be generated during factorisation."
-	} }, { {
-		"description of inlining",
-		" INLINES\n\tSet which classes of rule are inlined.\n\tShould be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER', 'MULTI', or 'ALL'."
-	} }, { {
-		"description of language",
-		" LANGUAGE\n\tSet the language for the output parser."
-	} }, { {
-		"description of show-errors",
-		"\n\tDisplay the current error table on the standard output."
-	} }, { {
-		"description of switch",
-		" OPTION\n\tPass OPTION to language specific option parser."
-	} }, { {
-		"description of tab-width",
-		" NUMBER\n\tSet the number of spaces in a tab character."
-	} }, { {
-		"description of version",
-		"\n\tDisplay the version number on the standard error."
-	} }, ERROR_END_STRING_LIST
-};
 
 #ifdef __TenDRA__
 /* Some conversions to ArgProcP are slightly suspect */
@@ -552,39 +486,35 @@ static ArgListT main_arglist [] = {
 	{
 		"dump-file", 'd',			AT_FOLLOWING,
 		(ArgProcP) main_handle_dump_file,	NIL (GenericP),
-		{ "description of dump-file" }
+		MID_description_of_dump_file
 	}, {
 		"factor-limit", 'f',			AT_FOLLOWING,
 		(ArgProcP) main_handle_factor_limit,	NIL (GenericP),
-		{ "description of factor-limit" }
+		MID_description_of_factor_limit
 	}, {
 		"help", '?',				AT_EMPTY,
 		(ArgProcP) main_handle_help,		NIL (GenericP),
-		{ "description of help" }
+		MID_description_of_help
 	}, {
 		"inline", 'i',				AT_FOLLOWING,
 		(ArgProcP) main_handle_inlining,	NIL (GenericP),
-		{ "description of inlining" }
+		MID_description_of_inlining
 	}, {
 		"language", 'l',			AT_FOLLOWING,
 		(ArgProcP) main_handle_language,	NIL (GenericP),
-		{ "description of language" }
-	}, {
-		"show-errors", 'e',			AT_EMPTY,
-		(ArgProcP) main_handle_show_errors,	NIL (GenericP),
-		{ "description of show-errors" }
+		MID_description_of_language
 	}, {
 		"switch", 's',				AT_FOLLOWING,
 		(ArgProcP) main_handle_switch,		NIL (GenericP),
-		{ "description of switch" }
+		MID_description_of_switch
 	}, {
 		"tab-width", 't',			AT_FOLLOWING,
 		(ArgProcP) main_handle_tab_width,	NIL (GenericP),
-		{ "description of tab-width" }
+		MID_description_of_tab_width
 	}, {
 		"version", 'v',				AT_EMPTY,
 		(ArgProcP) main_handle_version,		NIL (GenericP),
-		{ "description of version" }
+		MID_description_of_version
 	}, ARG_PARSE_END_LIST
 };
 
@@ -594,27 +524,134 @@ static ArgListT main_arglist [] = {
 
 /*--------------------------------------------------------------------------*/
 
+/*
+ * Handlers for sid specific message objects
+ */
+static void
+msg_uh_ArgUsageP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_arg_usage((ArgUsageP)pp);
+}
+
+static void
+msg_uh_NStringP(char ch, void *pp)
+{
+	NStringP nstring = (NStringP)pp;
+
+	UNUSED(ch);
+	msg_append_nstring(nstring->ns_contents, nstring_length(nstring));
+}
+
+static void
+msg_uh_KeyP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_key (msg_stream, (KeyP)pp);
+}
+
+static void
+msg_uh_BasicClosureP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_basics (msg_stream, (BasicClosureP)pp);
+}
+
+static void
+msg_uh_ClashListP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_clashes (msg_stream, (ClashListP)pp);
+}
+
+static void
+msg_uh_EntryP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_key (msg_stream, entry_key ((EntryP)pp));
+}
+
+static void
+msg_uh_EntryListP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_entry_list (msg_stream, (EntryListP)pp);
+}
+
+static void
+msg_uh_RuleP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_key (msg_stream, entry_key (rule_entry ((RuleP)pp)));
+}
+
+static void
+msg_uh_RuleProdsP(char ch, void *pp)
+{
+	RuleP rule = pp;
+
+	UNUSED(ch);
+
+	for (; rule; rule = rule_get_next_in_reverse_dfs (rule)) {
+		write_newline (msg_stream);
+		write_rule (msg_stream, rule);
+	}
+}
+
+static void
+msg_uh_TypeTupleP(char ch, void *pp)
+{
+	UNUSED(ch);
+	write_type_types (msg_stream, (TypeTupleP)pp);
+}
+
+static void
+msg_uh_istream_line(char ch, void *pp)
+{
+	UNUSED(ch);
+	UNUSED(pp);
+	write_fmt(msg_stream, "%s: %lu: ",
+		lexer_stream_name (sid_current_stream),
+		(unsigned long) lexer_stream_line(sid_current_stream));
+}
+
+static void
+msg_uh_c_stream_line(char ch, void *pp)
+{
+	UNUSED(ch);
+	UNUSED(pp);
+	write_fmt(msg_stream, "%s: %lu: ",
+		c_lexer_stream_name (c_current_stream),
+		(unsigned long) c_lexer_stream_line(c_current_stream));
+}
+
 static void
 main_init(int argc, char **argv, OutputInfoP out_info)
 {
-	EStringP  usage_estring = error_define_string ("sid usage message", USAGE);
 	ArgUsageT closure;
-	CStringP  error_file;
 	int       skip;
 	unsigned  i;
 	unsigned  num_infiles;
 	unsigned  num_outfiles;
 	
-	error_init (argv [0], gen_errors_init_errors);
-	error_intern_strings (main_description_strings);
-	if ((error_file = getenv ("SID_ERROR_FILE")) != NIL (CStringP)) {
-		error_file_parse (error_file, FALSE);
-	}
-	closure.usage     = error_string_contents (usage_estring);
+	msg_uh_add(MSG_KEY_ArgUsageP, msg_uh_ArgUsageP);
+	msg_uh_add(MSG_KEY_NStringP, msg_uh_NStringP);
+	msg_uh_add(MSG_KEY_KeyP, msg_uh_KeyP);
+	msg_uh_add(MSG_KEY_BasicClosureP, msg_uh_BasicClosureP);
+	msg_uh_add(MSG_KEY_ClashListP, msg_uh_ClashListP);
+	msg_uh_add(MSG_KEY_EntryP, msg_uh_EntryP);
+	msg_uh_add(MSG_KEY_EntryListP, msg_uh_EntryListP);
+	msg_uh_add(MSG_KEY_RuleP, msg_uh_RuleP);
+	msg_uh_add(MSG_KEY_RuleProdsP, msg_uh_RuleProdsP);
+	msg_uh_add(MSG_KEY_TypeTupleP, msg_uh_TypeTupleP);
+	msg_uh_add(MSG_KEY_c_stream_line, msg_uh_c_stream_line);
+	msg_uh_add(MSG_KEY_istream_line, msg_uh_istream_line);
+
+	closure.usage     = NULL;
 	closure.arg_list  = main_arglist;
 	main_info_closure = out_info;
-	arg_parse_intern_descriptions (main_arglist);
-	skip = arg_parse_arguments (main_arglist, usage_estring, -- argc, ++ argv);
+	skip = arg_parse_arguments (main_arglist, MID_sid_usage_message,
+		 --argc, ++argv);
 	argc -= skip;
 	argv += skip;
 	if (main_did_one_off && (!main_did_other) && (argc == 0)) {
@@ -624,7 +661,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	num_infiles  = main_language->num_input_files;
 	num_outfiles = main_language->num_output_files;
 	if ((unsigned) argc != (num_infiles + num_outfiles)) {
-		E_usage (main_language->language, num_infiles, num_outfiles, &closure);
+		MSG_usage (main_language->language, num_infiles, num_outfiles, &closure);
 		UNREACHED;
 	}
 	out_info_set_num_input_files (out_info, num_infiles);
@@ -632,7 +669,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	for (i = 0; i < num_infiles; i ++) {
 		CStringP  name = argv [i];
 		if (!istream_open (out_info_get_istream (out_info, i), name)) {
-			E_cannot_open_input_file (name);
+			MSG_cant_open_input_file (name);
 			UNREACHED;
 		}
 		out_info_set_infile_name (out_info, i, name);
@@ -640,7 +677,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	for (i = 0; i < num_outfiles; i ++) {
 		CStringP  name = argv [num_infiles + i];
 		if (!ostream_open (out_info_get_ostream (out_info, i), name)) {
-			E_cannot_open_output_file (name);
+			MSG_cant_open_output_file (name);
 			UNREACHED;
 		}
 		out_info_set_outfile_name (out_info, i, name);
@@ -662,10 +699,7 @@ main_dump_grammar(OStreamP dstream, GrammarP grammar,
 static void
 main_abort_if_errored(void)
 {
-	if (error_max_reported_severity () >= ERROR_SEVERITY_ERROR) {
-		exit (EXIT_FAILURE);
-		UNREACHED;
-	}
+	tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
@@ -715,41 +749,19 @@ main_1(OutputInfoP out_info, OStreamP dstream)
 int
 main(int argc, char **argv)
 {
-	HANDLE {
-		OutputInfoT out_info;
-		
-		istream_setup ();
-		ostream_setup ();
-		out_info_init (&out_info, argv [0]);
-		ostream_init (&dump_stream);
-		cstring_list_init (&main_language_options);
-		main_init (argc, argv, &out_info);
-		if (ostream_is_open (&dump_stream)) {
-			main_1 (&out_info, &dump_stream);
-		} else {
-			main_1 (&out_info, NIL (OStreamP));
-		}
-	} WITH {
-		ExceptionP exception = EXCEPTION_EXCEPTION ();
-		
-		if (exception == XX_dalloc_no_memory) {
-			E_no_memory ();
-			UNREACHED;
-		} else if (exception == XX_istream_read_error) {
-			CStringP file = (CStringP) EXCEPTION_VALUE ();
-			
-			E_read_error (file);
-			UNREACHED;
-		} else if (exception == XX_ostream_write_error) {
-			CStringP file = (CStringP) EXCEPTION_VALUE ();
-			
-			E_write_error (file);
-			UNREACHED;
-		} else {
-			RETHROW ();
-			UNREACHED;
-		}
-	} END_HANDLE
-		  exit (EXIT_SUCCESS);
+	OutputInfoT out_info;
+
+	tenapp_init(argc, argv, "Parser generator", "1.10 (ansi-c, pre-ansi-c, ossg-c, test)");
+	istream_setup ();
+	out_info_init (&out_info, argv [0]);
+	ostream_init (&dump_stream);
+	cstring_list_init (&main_language_options);
+	main_init (argc, argv, &out_info);
+	if (ostream_is_open (&dump_stream)) {
+		main_1 (&out_info, &dump_stream);
+	} else {
+		main_1 (&out_info, NIL (OStreamP));
+	}
+	tenapp_exit2 (EXIT_SUCCESS);
 	UNREACHED;
 }

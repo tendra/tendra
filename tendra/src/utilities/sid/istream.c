@@ -69,15 +69,12 @@
 
 #include "istream.h"
 #include "cstring.h"
+#include "msgcat.h"
 #include "syntax.h"
 
 /*--------------------------------------------------------------------------*/
 
 #define ISTREAM_BUFSIZE 8193
-
-/*--------------------------------------------------------------------------*/
-
-ExceptionP XX_istream_read_error = EXCEPTION ("error reading from stream");
 
 /*--------------------------------------------------------------------------*/
 
@@ -343,9 +340,7 @@ X__istream_fill_buffer(IStreamP istream)
 						 (size_t) (ISTREAM_BUFSIZE - 1), istream->file);
 	
 	if ((bytes == (size_t) 0) && (ferror (istream->file))) {
-		char *name = cstring_duplicate (istream->name);
-		
-		THROW_VALUE (XX_istream_read_error, name);
+		MSG_file_read_error(istream->name);
 		UNREACHED;
 	}
 	istream->current   = istream->buffer;

@@ -80,7 +80,7 @@
 #include "rule.h"
 #include "basic.h"
 #include "bitvec.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -109,7 +109,7 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 			case ET_PREDICATE:
 				ASSERT (item == initial);
 				if (entry_list_contains (&predicate_list, entry)) {
-					E_predicate_collision (rule, entry_key (entry));
+					MSG_predicate_collision (rule, entry_key (entry));
 				} else {
 					entry_list_add (&predicate_list, entry);
 				}
@@ -129,7 +129,7 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 					bitvec_set (&tmp, terminal);
 					bitvec_and (&tmp, &test);
 					closure.bitvec = &tmp;
-					E_first_set_collision (rule, &closure);
+					MSG_first_set_collision (rule, &closure);
 					bitvec_destroy (&tmp);
 				} else {
 					bitvec_set (&test, terminal);
@@ -145,7 +145,7 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 				entry_list_intersection (&tmp_list, &predicate_list,
 										 item_preds);
 				if (!entry_list_is_empty (&tmp_list)) {
-					E_predicate_list_collision (rule, &tmp_list);
+					MSG_predicate_list_collision (rule, &tmp_list);
 				}
 				entry_list_destroy (&tmp_list);
 				entry_list_append (&predicate_list, item_preds);
@@ -157,7 +157,7 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 					bitvec_copy (&tmp, bitvec);
 					bitvec_and (&tmp, &test);
 					closure.bitvec = &tmp;
-					E_first_set_collision (rule, &closure);
+					MSG_first_set_collision (rule, &closure);
 					bitvec_destroy (&tmp);
 				} else {
 					bitvec_or (&test, bitvec);
@@ -173,7 +173,7 @@ rule_check_first_set_1(RuleP rule, GrammarP grammar)
 		if (see_through) {
 			if (is_empty) {
 				if (!is_empty_mesg_shown) {
-					E_multiple_see_through_alts (rule);
+					MSG_multiple_see_through_alts (rule);
 					is_empty_mesg_shown = TRUE;
 				}
 			} else {
@@ -303,14 +303,14 @@ rule_compute_follow_set_1(RuleP rule, GrammarP grammar,
 			bitvec_copy (&test, follow);
 			bitvec_and (&test, first);
 			closure.bitvec = &test;
-			E_follow_set_collision (rule, &closure, clashes);
+			MSG_follow_set_collision (rule, &closure, clashes);
 			bitvec_not (&test);
 			bitvec_and (first, &test);
 			bitvec_destroy (&test);
 		}
 		entry_list_intersection (&tmp_list, pred_follow, pred_first);
 		if (!entry_list_is_empty (&tmp_list)) {
-			E_predicate_follow_set_coll (rule, &tmp_list, clashes);
+			MSG_predicate_follow_set_coll (rule, &tmp_list, clashes);
 			entry_list_unlink_used (pred_first, &tmp_list);
 		}
 		entry_list_destroy (&tmp_list);

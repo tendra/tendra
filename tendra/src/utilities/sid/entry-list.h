@@ -69,7 +69,7 @@
 #ifndef H_ENTRY_LIST
 #define H_ENTRY_LIST
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "entry.h"
 #include "ostream.h"

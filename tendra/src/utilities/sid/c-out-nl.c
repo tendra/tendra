@@ -69,6 +69,7 @@
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-out-types.h"
+#include "msgcat.h"
 
 /*--------------------------------------------------------------------------*/
 

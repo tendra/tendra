@@ -67,7 +67,7 @@
 #ifndef H_C_OUT_INFO
 #define H_C_OUT_INFO
 
-#include "os-interface.h"
+#include "config.h"
 #include "dstring.h"
 #include "ostream.h"
 #include "output.h"

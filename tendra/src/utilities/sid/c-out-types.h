@@ -67,7 +67,7 @@
 #ifndef H_C_OUT_TYPES
 #define H_C_OUT_TYPES
 
-#include "os-interface.h"
+#include "config.h"
 #include "c-output.h"
 #include "rstack.h"
 #include "rule.h"

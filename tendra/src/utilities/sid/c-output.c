@@ -72,7 +72,7 @@
 #include "c-out-nl.h"
 #include "c-out-types.h"
 #include "dstring.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "output.h"
 #include "name.h"
 #include "rstack.h"
@@ -1099,7 +1099,7 @@ c_output_definition_1(COutputInfoP info, RuleP rule,
 			write_newline (ostream);
 			ostream_close (ostream);
 			if (!ostream_open (ostream, name)) {
-				E_cannot_open_output_file (name);
+				MSG_cant_open_output_file (name);
 				UNREACHED;
 			}
 			c_output_identification (info);
@@ -1240,8 +1240,7 @@ c_output_header(COutputInfoP info, GrammarP grammar)
 }
 
 void
-c_output_location(COutputInfoP info, CStringP file,
-				  unsigned line)
+c_output_location(COutputInfoP info, const char *file, unsigned line)
 {
 	if (c_out_info_get_lines (info)) {
 		OStreamP ostream = c_out_info_ostream (info);

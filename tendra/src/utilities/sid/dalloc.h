@@ -122,12 +122,8 @@
 #ifndef H_DALLOC
 #define H_DALLOC
 
-#include "os-interface.h"
-#include "exception.h"
-
-/*--------------------------------------------------------------------------*/
-
-extern ExceptionP		XX_dalloc_no_memory;
+#include "config.h"
+#include "fmm.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -136,12 +132,12 @@ extern ExceptionP		XX_dalloc_no_memory;
 void	E_dalloc_multi_deallocate(GenericP, CStringP, unsigned,
 		CStringP, unsigned);
 void	E_dalloc_corrupt_block(GenericP, CStringP, unsigned);
-GenericP X__dalloc_allocate(SizeT, SizeT, CStringP, unsigned);
+GenericP X__dalloc_allocate(size_t, size_t, CStringP, unsigned);
 void	X__dalloc_deallocate(GenericP, CStringP, unsigned);
 
 #else
 
-GenericP X__dalloc_allocate(SizeT, SizeT);
+GenericP X__dalloc_allocate(size_t, size_t);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 
@@ -150,11 +146,11 @@ GenericP X__dalloc_allocate(SizeT, SizeT);
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
 #define ALLOCATE(type) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) 1, __FILE__, \
+((type *) X__dalloc_allocate (sizeof (type), (size_t) 1, __FILE__, \
 			      (unsigned) __LINE__))
 
 #define ALLOCATE_VECTOR(type,length) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) (length), __FILE__, \
+((type *) X__dalloc_allocate (sizeof (type), (size_t) (length), __FILE__, \
 			      (unsigned) __LINE__))
 
 #define DEALLOCATE(pointer) \
@@ -163,13 +159,13 @@ X__dalloc_deallocate ((GenericP) (pointer), __FILE__, (unsigned) __LINE__)
 #else
 
 #define ALLOCATE(type) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) 1))
+((type *) X__dalloc_allocate (sizeof (type), (size_t) 1))
 
 #define ALLOCATE_VECTOR(type,length) \
-((type *) X__dalloc_allocate (sizeof (type), (SizeT) (length)))
+((type *) X__dalloc_allocate (sizeof (type), (size_t) (length)))
 
 #define DEALLOCATE(pointer) \
-if (pointer) {free ((GenericP) (pointer));}
+	fmm_free (pointer, fmm_deftype)
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

@@ -67,7 +67,7 @@
 #ifndef H_BASIC
 #define H_BASIC
 
-#include "os-interface.h"
+#include "config.h"
 #include "bitvec.h"
 #include "dalloc.h"
 #include "dstring.h"

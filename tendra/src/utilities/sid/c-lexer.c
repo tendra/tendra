@@ -67,7 +67,7 @@
  */
 
 #include "c-lexer.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "syntax.h"
 
 /*--------------------------------------------------------------------------*/
@@ -144,7 +144,7 @@ c_lexer_skip_white_space(IStreamP istream)
 			case '*':
 				if (!c_lexer_skip_bracketed_comment (istream)) {
 				  eof_in_comment:
-					E_c_eof_in_comment (istream);
+					MSG_c_eof_in_comment (istream);
 					return ('\0'); /*FOR EOF*/
 				}
 				break;
@@ -156,7 +156,7 @@ c_lexer_skip_white_space(IStreamP istream)
 				break;
 			default:
 			  illegal_in_comment:
-				E_c_illegal_comment_character (istream, c);
+				MSG_c_illegal_comment_character (istream, c);
 				break;
 			}
 			break;
@@ -185,13 +185,13 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
-			E_c_null_character_in_builtin (istream);
+			MSG_c_null_character_in_builtin (istream);
 			break;
 		case '\r':
 			goto redo;
 		case '\n':
 			istream_inc_line (istream);
-			E_c_newline_in_builtin (istream);
+			MSG_c_newline_in_builtin (istream);
 			goto done;
 		case '%':
 			goto done;
@@ -201,7 +201,7 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 		}
 	}
   eof:
-	E_c_eof_in_builtin (istream);
+	MSG_c_eof_in_builtin (istream);
   done:
 	cstring = dstring_destroy_to_cstring (&dstring);
 	if (cstring_ci_equal (cstring, "prefixes")) {
@@ -233,10 +233,10 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 	} else if (cstring_ci_equal (cstring, "param-assign")) {
 		token->t = C_TOK_BLT_PARAM_ASSIGN;
 	} else {
-		E_c_unknown_builtin (istream, cstring);
+		MSG_c_unknown_builtin (istream, cstring);
 		UNREACHED;
 	}
-	DEALLOCATE (cstring);
+	string_free (cstring);
 }
 
 static void
@@ -310,7 +310,7 @@ c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
 	}
   done:
 	if (!numbers_ok) {
-		E_c_expected_at_id (istream, c);
+		MSG_c_expected_at_id (istream, c);
 	}
 	dstring_to_nstring (&dstring, nstring);
 	dstring_destroy (&dstring);
@@ -390,7 +390,7 @@ c_lexer_read_at(IStreamP istream, DStringP dstring, CCodeP code)
 			c_code_append_identifier (code, &nstring);
 		} else {
 		  error:
-			E_c_illegal_at_char (istream, c);
+			MSG_c_illegal_at_char (istream, c);
 		}
 		break;
 	}
@@ -417,7 +417,7 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 		break;
 	default:
 	  error:
-		E_c_code_block_syntax (istream);
+		MSG_c_code_block_syntax (istream);
 		break;
 	}
 	dstring_init (&dstring);
@@ -445,7 +445,7 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 		}
 	}
   eof:
-	E_c_eof_in_code (istream);
+	MSG_c_eof_in_code (istream);
   done:
 	token->t = C_TOK_CODE;
 	c_lexer_flush_string (&dstring, code, TRUE);
@@ -567,7 +567,7 @@ c_lexer_next_token(CLexerStreamP stream)
 		if ((syntax_is_letter (c)) || (c == '_')) {
 			c_lexer_read_identifier (istream, c, &token);
 		} else {
-			E_c_illegal_character (istream, c);
+			MSG_c_illegal_character (istream, c);
 			goto retry;
 		}
 		break;

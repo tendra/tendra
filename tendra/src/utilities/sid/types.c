@@ -65,9 +65,11 @@
  *
  */
 
+#include <limits.h>
+
 #include "types.h"
 #include "dalloc.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "name.h"
 #include "rstack.h"
 #include "rule.h"
@@ -1299,7 +1301,7 @@ ntrans_add_translation(TypeNTransP translator, EntryP from)
 	NTransP link = ALLOCATE (NTransT);
 	
 	if (translator->count == UINT_MAX) {
-		E_too_many_generated_names ();
+		MSG_too_many_generated_names ();
 		UNREACHED;
 	}
 	link->to            = (translator->count) ++;

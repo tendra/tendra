@@ -67,7 +67,7 @@
 #ifndef H_TYPE
 #define H_TYPE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 

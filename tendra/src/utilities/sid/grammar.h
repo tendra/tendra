@@ -69,7 +69,7 @@
 #ifndef H_GRAMMAR
 #define H_GRAMMAR
 
-#include "os-interface.h"
+#include "config.h"
 #include "entry.h"
 #include "entry-list.h"
 #include "ostream.h"

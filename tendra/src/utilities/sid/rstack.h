@@ -69,7 +69,7 @@
 #ifndef H_RSTACK
 #define H_RSTACK
 
-#include "os-interface.h"
+#include "config.h"
 #include "table.h"
 #include "types.h"
 

@@ -64,6 +64,7 @@
  * This file implements the name manipulation routines.
  */
 
+#include "msgcat.h"
 #include "name.h"
 
 /*--------------------------------------------------------------------------*/

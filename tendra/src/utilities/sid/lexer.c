@@ -67,7 +67,7 @@
  */
 
 #include "lexer.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "syntax.h"
 
 /*--------------------------------------------------------------------------*/
@@ -142,7 +142,7 @@ lexer_skip_white_space(IStreamP istream)
 			case '*':
 				if (!lexer_skip_bracketed_comment (istream)) {
 				  eof_in_comment:
-					E_eof_in_comment (istream);
+					MSG_eof_in_comment (istream);
 					return ('\0'); /*FOR EOF*/
 				}
 				break;
@@ -154,7 +154,7 @@ lexer_skip_white_space(IStreamP istream)
 				break;
 			default:
 			  illegal_in_comment:
-				E_illegal_comment_character (istream, c);
+				MSG_illegal_comment_character (istream, c);
 				break;
 			}
 			break;
@@ -183,13 +183,13 @@ lexer_read_builtin(IStreamP istream, LexP token)
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
-			E_null_character_in_builtin (istream);
+			MSG_null_character_in_builtin (istream);
 			break;
 		case '\r':
 			goto redo;
 		case '\n':
 			istream_inc_line (istream);
-			E_newline_in_builtin (istream);
+			MSG_newline_in_builtin (istream);
 			goto done;
 		case '%':
 			goto done;
@@ -198,7 +198,7 @@ lexer_read_builtin(IStreamP istream, LexP token)
 		}
 	}
   eof:
-	E_eof_in_builtin (istream);
+	MSG_eof_in_builtin (istream);
   done:
 	cstring = dstring_destroy_to_cstring (&dstring);
 	if (cstring_ci_equal (cstring, "types")) {
@@ -210,10 +210,10 @@ lexer_read_builtin(IStreamP istream, LexP token)
 	} else if (cstring_ci_equal (cstring, "entry")) {
 		token->t = LEXER_TOK_BLT_ENTRY;
 	} else {
-		E_unknown_builtin (istream, cstring);
+		MSG_unknown_builtin (istream, cstring);
 		UNREACHED;
 	}
-	DEALLOCATE (cstring);
+	string_free (cstring);
 }
 
 static void
@@ -323,7 +323,7 @@ lexer_next_token(LexerStreamP stream)
 			token.t = LEXER_TOK_HANDLER_SEP;
 			break;
 		}
-		E_expected_hash (istream);
+		MSG_expected_hash (istream);
 		goto retry;
 	case '$':
 		token.t = LEXER_TOK_EMPTY;
@@ -337,7 +337,7 @@ lexer_next_token(LexerStreamP stream)
 			token.t = LEXER_TOK_ALT_SEP;
 			break;
 		}
-		E_expected_pipe (istream);
+		MSG_expected_pipe (istream);
 		goto retry;
 	case ',':
 		token.t = LEXER_TOK_SEPARATOR;
@@ -401,7 +401,7 @@ lexer_next_token(LexerStreamP stream)
 		if ((syntax_is_letter (c)) || (c == '_')) {
 			lexer_read_identifier (istream, c, &token);
 		} else {
-			E_illegal_character (istream, c);
+			MSG_illegal_character (istream, c);
 			goto retry;
 		}
 		break;

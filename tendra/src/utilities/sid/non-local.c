@@ -64,6 +64,7 @@
  * This file implements the non local name list manipulation routines.
  */
 
+#include "msgcat.h"
 #include "non-local.h"
 
 /*--------------------------------------------------------------------------*/

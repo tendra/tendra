@@ -64,6 +64,7 @@
  * This file implements the type ADT manipulation routines.
  */
 
+#include "msgcat.h"
 #include "type.h"
 
 /*--------------------------------------------------------------------------*/

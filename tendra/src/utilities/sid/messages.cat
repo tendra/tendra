@@ -1,0 +1,1078 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $TenDRA$
+ */
+
+
+TYPES:
+	NStringP,
+	ArgUsageP,
+	BasicClosureP,
+	ClashListP,
+	EntryP,
+	EntryListP,
+	KeyP,
+	RuleP,
+	RuleProdsP,
+	TypeTupleP,
+	istream_line,
+	c_stream_line
+
+GLOBALS:
+	istream_line: isline,
+	c_stream_line: clexline
+
+ENTRIES:
+
+arg_parse_missing_argument(ccp: option, ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"'\n\"usage
+}
+
+arg_parse_unknown_option(ccp: option, ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown option '"option"'\n\"usage
+}
+
+arg_parse_missing_short_arg(ccp: option, ccp: option_location,
+	ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"' at
+		  '"option_location"'\n\"usage
+}
+
+arg_parse_ambiguous_option(ccp: option, ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "ambiguous option '"option"'\n\"usage
+}
+
+arg_parse_unknown_short_opt(ccp: option, ccp: option_location, ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown short option '"option"' at
+		  '"option_location"'\n\"usage
+}
+
+/* c-check.c */
+basic_result_code_not_defined(KeyP: basic_name)
+{
+	USAGE: ERROR
+	KEY(STD) "result code not defined for basic '"basic_name"'"
+}
+
+action_code_not_defined(KeyP: action_name)
+{
+	USAGE: ERROR
+	KEY(STD) "definition code not defined for action '"action_name"'"
+}
+
+type_code_not_defined(KeyP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) "some but not all assignment operations defined for type
+		  '"type_name"'"
+}
+
+/* c-code.c */
+code_undefined_result(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": code result '"identifier_name"'
+		 is not defined"
+}
+
+bad_id_substitution(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line: "substituted identifier '"identifier_name"'
+		 is not a parameter or result"
+}
+
+bad_mod_id_substitution(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted mutable identifier
+		 '"identifier_name"' is not a parameter"
+}
+
+mod_id_in_assign(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted mutable identifier
+		 '"identifier_name"' in assignment operator definition"
+}
+
+bad_ref_id_substitution(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted reference identifier
+		 '"identifier_name"' is not a parameter"
+}
+
+ref_id_in_param_op(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted address of identifier
+		 '"identifier_name"' in parameter assignment operator
+		 definition"
+}
+
+bad_label_substitution(ccp: file, unsigned: line, EntryP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted label '"identifier_name"'
+		 in unparameterised block"
+}
+
+bad_exception_substitution(ccp: file, unsigned: line)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted exception call in unsuitable
+		 code block"
+}
+
+bad_advance_substitution(ccp: file, unsigned: line)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted lexer advance call in unsuitable
+		 code block"
+}
+
+bad_terminal_substitution(ccp: file, unsigned: line)
+{
+	USAGE: ERROR
+	KEY(STD) file": "line": substituted current terminal call in unsuitable
+		 code block"
+}
+
+/* c-lexer.c */
+c_eof_in_comment(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"end of file in comment"
+}
+
+c_illegal_comment_character(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"illegal comment character '"character"'"
+}
+
+c_null_character_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"null character in builtin"
+}
+
+c_eof_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"end of file in builtin"
+}
+
+c_unknown_builtin(istream_line: isline, ccp: builtin)
+{
+	USAGE: FATAL
+	KEY(STD) isline"unknown builtin '%"builtin"%'"
+}
+
+c_expected_at_id(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"expected identifier after '@"character"' construct"
+}
+
+c_illegal_at_char(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"illegal character after '@': '"character"'"
+}
+
+c_code_block_syntax(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"expected '{' to begin code block"
+}
+
+c_eof_in_code(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"end of file in C code block"
+}
+
+c_illegal_character(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"illegal character '"character"'"
+}
+
+c_newline_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"newline in builtin"
+}
+
+/* c-parser */
+c_unknown_identifier(NStringP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"unknown identifier '"identifier_name"'"
+}
+
+c_remapped_identifier(NStringP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"attempt to remap identifier '"identifier_name"'"
+}
+
+c_illegal_map(NStringP: identifier_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"cannot map identifier '"identifier_name"'
+		 [it must be a rule, a basic or a type]"
+}
+
+c_expected_identifier()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected identifier"
+}
+
+c_expected_c_identifier()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected C identifier"
+}
+
+c_unknown_assign(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"assignment operation defined for unknown type
+		 '"type_name"'"
+}
+
+c_assign_mult_def(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"multiple assignment operations defined for type
+		 '"type_name"'"
+}
+
+c_assign_param_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter type mismatch for assignment operation
+		 on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_assign_param_clash(KeyP: type_name, TypeTupleP: parameter_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"assignment operation parameter clash
+		 (or missing name) for type '"type_name"'
+		 [parameter = "parameter_type"]"
+}
+
+c_assign_result_clash(KeyP: type_name, TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"assignment operation result clash
+		 (or missing name) for type '"type_name"'
+		 [result = "result_type"]"
+}
+
+c_assign_formal_clash(KeyP: type_name, TypeTupleP: parameter_type,
+		TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"assignment operation formal clash for type
+		 '"type_name"' [parameter = "parameter_type",
+		 result = "result_type"]"
+}
+
+c_expected_code()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected code block"
+}
+
+c_assign_result_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+	TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result type mismatch for assignment operation
+		 on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_unknown_action(NStringP: action_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"definition for unknown action '"action_name"'"
+}
+
+c_action_mult_def(NStringP: action_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"multiple definitions for action '"action_name"'"
+}
+
+c_action_result_mismatch(KeyP: action_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result type mismatch for action '"action_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_action_formal_clash(KeyP: action_name, TypeTupleP: parameter_type,
+		TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"formal clash for action '"action_name"'
+		 [parameter = "parameter_type", result = "result_type"]"
+}
+
+c_action_param_mismatch(KeyP: action_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter type mismatch for action '"action_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_action_param_clash(KeyP: action_name, TypeTupleP: parameter_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter clash (or missing name) for action
+		 '"action_name"' [parameter = "parameter_type"]"
+}
+
+c_basic_result_clash(KeyP: terminal_name, TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"extraction operation result clash
+		 (or missing name) for terminal '"terminal_name"'
+		 [result = "result_type"]"
+}
+
+c_action_result_clash(KeyP: action_name, TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result clash (or missing name) for action
+		 '"action_name"' [result = "result_type"]"
+}
+
+c_expected_end_action()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '>'"
+}
+
+c_expected_separator()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected ','"
+}
+
+c_unknown_result_assign(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result assignment operation defined for unknown
+		 type '"type_name"'"
+}
+
+c_unknown_param_assign(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter assignment operation defined for unknown
+		 type '"type_name"'"
+}
+
+c_basic_result_mismatch(KeyP: terminal_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result type mismatch for extraction operation
+		 on terminal '"terminal_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_basic_param_clash(KeyP: terminal_name, TypeTupleP: parameter_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"extraction operation parameter clash
+		 (or missing name) for terminal '"terminal_name"'
+		 [parameter = "parameter_type"]"
+}
+
+c_basic_mult_def(NStringP: terminal_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"multiple extraction operations defined for
+		 terminal '"terminal_name"'"
+}
+
+c_basic_formal_clash(KeyP: terminal_name, TypeTupleP: parameter_type,
+	TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"extraction operation formal clash for terminal
+		 '"terminal_name"'
+		 [parameter = "parameter_type", result = "result_type"]"
+}
+
+c_basic_has_no_result(NStringP: terminal_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"extraction operation defined for terminal
+		 '"terminal_name"' that returns nothing"
+}
+
+c_basic_param_mismatch(KeyP: terminal_name, TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter type mismatch for extraction
+		 operation on terminal '"terminal_name"'
+		 ["erroneous_type" should be ()]"
+}
+
+c_expected_define()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '='"
+}
+
+c_expected_arrow()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '->'"
+}
+
+c_expected_terminator()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected ';'"
+}
+
+c_param_assign_mult_def(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"multiple parameter assignment operations
+		 defined for type '"type_name"'"
+}
+
+c_param_assign_param_clash(KeyP: type_name, TypeTupleP: parameter_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter assignment operation parameter clash
+		 (or missing name) for type '"type_name"'
+		 [parameter = "parameter_type"]"
+}
+
+c_param_assign_result_clash(KeyP: type_name, TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter assignment operation result clash
+		 (or missing name) for type '"type_name"'
+		 [result = "result_type"]"
+}
+
+c_param_assign_res_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+	TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result type mismatch for parameter assignment
+		 operation on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_param_assign_param_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+	TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter type mismatch for parameter assignment
+		 operation on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_param_assign_formal_clash(KeyP: type_name, TypeTupleP: parameter_type,
+		TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter assignment operation formal clash for
+		 type '"type_name"'
+		 [parameter = "parameter_type", result = "result_type"]"
+}
+
+c_unknown_type(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"type '"type_name"' hasn't been declared"
+}
+
+c_unknown_prefix(NStringP: prefix)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"unknown prefix type '"prefix"'"
+}
+
+c_unknown_basic(NStringP: terminal_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"extraction operation defined for unknown terminal
+		 '"terminal_name"'"
+}
+
+c_expected_blt_trailer()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '%trailer%'"
+}
+
+c_expected_eof()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected end of file"
+}
+
+c_expected_blt_header()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '%header%'"
+}
+
+c_expected_blt_terminals()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '%terminals%'"
+}
+
+c_expected_blt_actions()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '%actions%'"
+}
+
+c_expected_open_tuple()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected '('"
+}
+
+c_expected_close_tuple()
+{
+	USAGE: ERROR
+	KEY(STD) clexline"expected ')'"
+}
+
+c_expected_basic(ccp: class_name)
+{
+	USAGE: FATAL
+	KEY(STD) clexline"expected basic '"class_name"'"
+}
+
+c_result_assign_mult_def(NStringP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"multiple result assignment operations defined
+		 for type '"type_name"'"
+}
+
+c_res_assign_result_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result type mismatch for result assignment
+		 operation on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_result_assign_result_clash(KeyP: type_name, TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result assignment operation result clash
+		 (or missing name) for type '"type_name"'
+		 [result = "result_type"]"
+}
+
+c_res_assign_param_mismatch(KeyP: type_name, TypeTupleP: correct_type,
+		TypeTupleP: erroneous_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"parameter type mismatch for result assignment
+		 operation on type '"type_name"'
+		 ["erroneous_type" should be "correct_type"]"
+}
+
+c_result_assign_param_clash(KeyP: type_name, TypeTupleP: parameter_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result assignment operation parameter clash
+		 (or missing name) for type '"type_name"'
+		 [parameter = "parameter_type"]"
+}
+
+c_result_assign_formal_clash(KeyP: type_name, TypeTupleP: parameter_type,
+		TypeTupleP: result_type)
+{
+	USAGE: ERROR
+	KEY(STD) clexline"result assignment operation formal clash for type
+		 '"type_name"'
+		 [parameter = "parameter_type", result = "result_type"]"
+}
+
+/* grammar.c */
+rule_not_used(KeyP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "rule '"rule_name"' is never used"
+}
+
+rule_not_defined(KeyP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "rule '"rule_name"' is never defined"
+}
+
+basic_not_used(KeyP: basic_name)
+{
+	USAGE: ERROR
+	KEY(STD) "basic '"basic_name"' is never used"
+}
+
+action_not_used(KeyP: action_name)
+{
+	USAGE: ERROR
+	KEY(STD) "action '"action_name"' is never used"
+}
+
+type_not_used(KeyP: type_name)
+{
+	USAGE: ERROR
+	KEY(STD) "type '"type_name"' is never used"
+}
+
+non_local_not_used(KeyP: non_local_name_name)
+{
+	USAGE: ERROR
+	KEY(STD) "non local name '"non_local_name_name"' is never used"
+}
+
+too_many_terminals()
+{
+	USAGE: ERROR
+	KEY(STD) "too many terminals in grammar"
+}
+
+/* lexer.c */
+eof_in_comment(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"end of file in comment"
+}
+
+illegal_comment_character(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"illegal comment character '"character"'"
+}
+
+errf_null_char_in_builtin(istream_line: isline)
+{
+	USAGE: FATAL
+	KEY(STD) isline"null character in builtin"
+}
+
+newline_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"newline in builtin"
+}
+
+eof_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"end of file in builtin"
+}
+
+unknown_builtin(istream_line: isline, ccp: builtin)
+{
+	USAGE: FATAL
+	KEY(STD) isline"unknown builtin '%"builtin"%'"
+}
+
+expected_hash(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"second character missing from '##' operator"
+}
+
+expected_pipe(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"second character missing from '"
+}
+
+illegal_character(istream_line: isline, char: character)
+{
+	USAGE: ERROR
+	KEY(STD) isline"illegal character '"character"'"
+}
+
+null_character_in_builtin(istream_line: isline)
+{
+	USAGE: ERROR
+	KEY(STD) isline"null character in builtin"
+}
+
+/* main.c */
+bad_split_size(ccp: split_size)
+{
+	USAGE: FATAL
+	KEY(STD) "bad split size '"split_size"'"
+}
+
+bad_language_option(ccp: language_name, ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "language '"language_name"' doesn't understand option
+		 '"option"'"
+}
+
+bad_tab_width(ccp: tab_width)
+{
+	USAGE: FATAL
+	KEY(STD) "bad tab width '"tab_width"'"
+}
+
+bad_inlining_phase(ccp: phase)
+{
+	USAGE: FATAL
+	KEY(STD) "bad inlining phase '"phase"'"
+}
+
+bad_factor_limit(ccp: factor_limit)
+{
+	USAGE: FATAL
+	KEY(STD) "bad factor limit '"factor_limit"'"
+}
+
+bad_language(ccp: language_name)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown language '"language_name"'
+		 (should be 'ansi-c', 'pre-ansi-c', 'ossg-c' or 'test')"
+}
+
+multiple_dump_files()
+{
+	USAGE: FATAL
+	KEY(STD) "more than one dump file specified"
+}
+
+no_memory()
+{
+	USAGE: FATAL
+	KEY(STD) "cannot allocate memory"
+}
+
+cannot_open_dump_file(ccp: file_name)
+{
+	USAGE: FATAL
+	KEY(STD) "cannot open dump file '"file_name"': "strerror
+}
+
+usage(ccp: language_name, unsigned: number_input_files,
+		unsigned: number_output_files, ArgUsageP: usage)
+{
+	USAGE: FATAL
+	KEY(STD) "language '"language_name"' requires "number_input_files
+		 " input files and "number_output_files" output files\n"usage
+}
+
+
+description_of_dump_file()
+{
+	USAGE: NONE
+	KEY(STD) " FILE\n\tCause intermediate grammars to be written to FILE."
+}
+
+description_of_help()
+{
+	USAGE: NONE
+	KEY(STD) "\n\tDisplay an option summary for the current mode."
+}
+
+description_of_factor_limit()
+{
+	USAGE: NONE
+	KEY(STD) " NUMBER\n\tSet the maximum number of rules to be generated
+		  during factorisation."
+}
+
+description_of_inlining()
+{
+	USAGE: NONE
+	KEY(STD) " INLINES\n\tSet which classes of rule are inlined.\n\t
+		  Should be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER',
+		  'MULTI', or 'ALL'."
+}
+
+description_of_language()
+{
+	USAGE: NONE
+	KEY(STD) " LANGUAGE\n\tSet the language for the output parser."
+}
+
+description_of_switch()
+{
+	USAGE: NONE
+	KEY(STD) " OPTION\n\tPass OPTION to language specific option parser."
+}
+
+description_of_tab_width()
+{
+	USAGE: NONE
+	KEY(STD) " NUMBER\n\tSet the number of spaces in a tab character."
+}
+
+description_of_version()
+{
+	USAGE: NONE
+	KEY(STD) "\n\tDisplay the version number on the standard error."
+}
+
+sid_usage_message()
+{
+	USAGE: NONE
+	KEY(STD) "\tusage: [option ...] in-file ... out-file ...\n
+		  \twhere option is one of:"
+}
+
+/* rule-check.c */
+predicate_list_collision(RuleP: rule_name, EntryListP: predicate_names)
+{
+	USAGE: ERROR
+	KEY(STD) "collision of predicates "predicate_names
+		 " in rule '"rule_name"'"
+}
+
+first_set_collision(RuleP: rule_name, BasicClosureP: terminal_names)
+{
+	USAGE: ERROR
+	KEY(STD) "collision of terminal(s) "terminal_names" in rule
+		  '"rule_name"'"
+}
+
+follow_set_collision(RuleP: rule_name, BasicClosureP: terminal_names,
+		ClashListP: clashes)
+{
+	USAGE: ERROR
+	KEY(STD) "the terminal(s) "terminal_names" can start rule '"rule_name"'
+		  which is see through, and the same terminal(s) may appear
+		  in the following situations:\n"clashes""
+}
+
+multiple_see_through_alts(RuleP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "the rule '"rule_name"' contains more than one
+		  see through alternative"
+}
+
+predicate_collision(RuleP: rule_name, KeyP: predicate_name)
+{
+	USAGE: ERROR
+	KEY(STD) "collision of predicate '"predicate_name"'
+		  in rule '"rule_name"'"
+}
+
+predicate_follow_set_coll(RuleP: rule_name, EntryListP: predicate_names,
+		ClashListP: clashes)
+{
+	USAGE: ERROR
+	KEY(STD) "the predicate(s) "predicate_names" can start
+		  rule '"rule_name"' which is see through,
+		  and the same predicate(s) may appear
+		  in the following situations:"clashes""
+}
+
+/* rule-factor.c */
+factor_handler_mismatch(RuleP: inner_rule_name, RuleP: outer_rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "the rule '"inner_rule_name"' cannot be expanded
+		  into '"outer_rule_name"' as the exception
+		   handlers don't match"
+}
+
+factor_nl_entry(RuleP: inner_rule_name, RuleP: outer_rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "the rule '"inner_rule_name"' cannot be expanded
+		  into '"outer_rule_name"' as it contains
+		   non local name definitions"
+}
+
+too_many_factorisations(unsigned: number_productions)
+{
+	USAGE: FATAL
+	KEY(STD) "too many productions ("number_productions")
+		  created during factorisation"
+}
+
+/* rule-firsts.c */
+see_to_rule_predicate(RuleP: inner_rule_name, RuleP: outer_production)
+{
+	USAGE: ERROR
+	KEY(STD) "can see through to predicates in rule '"inner_rule_name"'
+		  in production\n"outer_production
+}
+
+cannot_compute_first_set(RuleP: production)
+{
+	USAGE: ERROR
+	KEY(STD) "cannot compute first set for production\n"production
+}
+
+see_to_predicate(KeyP: predicate, RuleP: production)
+{
+	USAGE: ERROR
+	KEY(STD) "can see through to predicate '"predicate"' in production\n"
+		  production
+}
+
+redundant_see_through_alt(RuleP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) "the rule '"rule_name"' has all terminals in its first set and
+		  has a redundant see through alternative"
+}
+
+/* rule-rle.c */
+out_of_scope_non_local(RuleP: using_rule_name,	RuleP: out_of_scope_rule_name,
+		RuleProdsP: productions)
+{
+	USAGE: ERROR
+	KEY(STD) "a non local name in the rule '"using_rule_name"'
+		  is not in scope in the rule '"out_of_scope_rule_name"'
+		  in the left recursive cycle involving the following
+		  productions:\n"productions""
+}
+
+left_recursion_name_mismatch(RuleProdsP: productions)
+{
+	USAGE: ERROR
+	KEY(STD) "the argument names of the left recursive calls in
+		  the following productions do not match:\n"productions""
+}
+
+
+left_recursion_type_mismatch(RuleProdsP: productions)
+{
+	USAGE: ERROR
+	KEY(STD) "the parameter or result types of the left recursive calls
+		  in the following productions do not match:\n"productions""
+}
+
+left_rec_handler_mismatch(RuleProdsP: productions)
+{
+	USAGE: ERROR
+	KEY(STD) "the exception handlers in the left recursion involving
+	          the following productions do not match:\n"productions""
+}
+
+left_recursion_nl_entry(RuleP: rule_name, RuleProdsP: productions)
+{
+	USAGE: ERROR
+	KEY(STD) "the rule '"rule_name"' declares non local names in the left
+		  recursive cycle with more than one entry point involving
+		  the following productions:\n"productions""
+}
+
+cycle_no_terminator(RuleP: rule_names)
+{
+	USAGE: ERROR
+	KEY(STD) "no cycle termination for the left recursive set involving
+		  the following rules: "rule_names""
+}
+
+/* scope.c */
+shadows_global(KeyP: name_name, RuleP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) isline"the name '"name_name"' shadows a global name
+		 in rule '"rule_name"'"
+}
+
+shadows_non_local(KeyP: name_name, KeyP: non_local_name_name, RuleP: rule_name)
+{
+	USAGE: ERROR
+	KEY(STD) isline"the name '"name_name"' shadows the non local name
+		 '"non_local_name_name"' in rule '"rule_name"'"
+}
+
+/* table.c */
+too_many_generated_ids()
+{
+	USAGE: FATAL
+	KEY(STD) "too many automatically generated identifiers required"
+}
+
+/* types.c */
+too_many_generated_names()
+{
+	USAGE: FATAL
+	KEY(STD) "too many automatically generated names required"
+}
+
+/* dalloc.c */
+dalloc_corrupt_block(ccp: file_name, unsigned: line_number,
+		pointer_t: block_address)
+{
+	USAGE: INTERNAL
+	KEY(STD) "memory block "block_address" is corrupt at deallocation
+		  (deallocation at line "line_number" in file '"file_name"'"
+}
+
+dalloc_multi_deallocate(ccp: file_name, unsigned: line_number,
+		pointer_t: block_address, ccp: allocation_file_name,
+		unsigned: allocation_line_number)
+{
+	USAGE: INTERNAL
+	KEY(STD) "memory block "block_address" allocated at line "
+		 allocation_line_number" in '"allocation_file_name"'
+		 is deallocated more than once (second deallocation
+		 at line "line_number" in file '"file_name"'"
+}
+

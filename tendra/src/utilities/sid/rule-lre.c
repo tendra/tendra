@@ -116,7 +116,7 @@
 
 #include "rule.h"
 #include "dstring.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -444,7 +444,7 @@ rule_check_non_locals(RuleP this_rule, RuleP rule_list,
 			if (!(nstring_is_prefix (string, scope) ||
 				  (nstring_is_prefix (scope, string) &&
 				   ((nstring_length (string) + 2) == length)))) {
-				E_out_of_scope_non_local (this_rule, rule, rule_list);
+				MSG_out_of_scope_non_local (this_rule, rule, rule_list);
 				return (FALSE);
 			}
 		}
@@ -453,7 +453,7 @@ rule_check_non_locals(RuleP this_rule, RuleP rule_list,
 		(real_size == 1)) {
 		return (TRUE);
 	} else {
-		E_left_recursion_nl_entry (this_rule, rule_list);
+		MSG_left_recursion_nl_entry (this_rule, rule_list);
 		return (FALSE);
 	}
 }
@@ -479,7 +479,7 @@ rule_check_alt_cycle_types(RuleP rule, RuleP rule_list,
 												   item_param (item)))) {
 				btrans_destroy (translator1);
 				btrans_destroy (translator2);
-				E_left_recursion_name_mismatch (rule_list);
+				MSG_left_recursion_name_mismatch (rule_list);
 				return (FALSE);
 			}
 /* If a result identifier is returned by the left recursive call, it is
@@ -543,12 +543,12 @@ rule_check_cycle_types(RuleP rule_list, EntryP predicate_id,
 		 rule = rule_get_next_in_reverse_dfs (rule)) {
 		if (!((types_equal (param, rule_param (rule))) &&
 			  (types_equal (result, rule_result (rule))))) {
-			E_left_recursion_type_mismatch (rule_list);
+			MSG_left_recursion_type_mismatch (rule_list);
 			return (FALSE);
 		}
 		rule_renumber (rule, TRUE, predicate_id);
 		if (!alt_equal (handler, rule_get_handler (rule))) {
-			E_left_rec_handler_mismatch (rule_list);
+			MSG_left_rec_handler_mismatch (rule_list);
 			return (FALSE);
 		}
 		if (!rule_check_non_locals (rule, rule_list, real_size)) {
@@ -728,7 +728,7 @@ rule_left_cycle_general_case_2(RuleP rule_list,
 		}
 	}
 	if (not_found) {
-		E_cycle_no_terminator (rule_list);
+		MSG_cycle_no_terminator (rule_list);
 		return (FALSE);
 	}
 	return (TRUE);

@@ -240,9 +240,8 @@
 #ifndef H_ISTREAM
 #define H_ISTREAM
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
-#include "exception.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -265,7 +264,6 @@ typedef enum {
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_istream_read_error;
 extern IStreamT		 *const istream_input;
 
 /*--------------------------------------------------------------------------*/

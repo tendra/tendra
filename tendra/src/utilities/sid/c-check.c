@@ -71,8 +71,9 @@
 #include "action.h"
 #include "basic.h"
 #include "entry.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "table.h"
+#include "type.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -90,13 +91,13 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 		
 		if ((!types_equal_zero_tuple (basic_result (basic))) &&
 			(basic_get_result_code (basic) == NIL (GenericP))) {
-			E_basic_result_code_not_defined (entry_key (entry));
+			MSG_basic_result_code_not_defined (entry_key (entry));
 		}
 	}
 		break;
 	case ET_ACTION:
 		if (action_get_code (entry_get_action (entry)) == NIL (GenericP)) {
-			E_action_code_not_defined (entry_key (entry));
+			MSG_action_code_not_defined (entry_key (entry));
 		}
 		break;
 	case ET_TYPE:
@@ -107,7 +108,7 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 			((type_get_assign_code (type) == NIL (GenericP)) ||
 			 (type_get_param_assign_code (type) == NIL (GenericP)) ||
 			 (type_get_result_assign_code (type) == NIL (GenericP)))) {
-			E_type_code_not_defined (entry_key (entry));
+			MSG_type_code_not_defined (entry_key (entry));
 		}
 		break;
 	case ET_NON_LOCAL:

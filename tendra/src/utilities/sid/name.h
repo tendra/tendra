@@ -69,7 +69,7 @@
 #ifndef H_NAME
 #define H_NAME
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 
 /*--------------------------------------------------------------------------*/

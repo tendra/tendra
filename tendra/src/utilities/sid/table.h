@@ -67,7 +67,7 @@
 #ifndef H_TABLE
 #define H_TABLE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dstring.h"
 #include "entry.h"
 #include "ostream.h"

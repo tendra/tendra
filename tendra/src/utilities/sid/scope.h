@@ -70,7 +70,7 @@
 #ifndef H_SCOPE
 #define H_SCOPE
 
-#include "os-interface.h"
+#include "config.h"
 #include "dstring.h"
 #include "entry.h"
 #include "table.h"

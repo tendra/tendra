@@ -134,7 +134,7 @@
 #ifndef H_SYNTAX
 #define H_SYNTAX
 
-#include "os-interface.h"
+#include "config.h"
 
 /*--------------------------------------------------------------------------*/
 

@@ -70,7 +70,7 @@
 #ifndef H_PARSER
 #define H_PARSER
 
-#include "os-interface.h"
+#include "config.h"
 #include "entry-list.h"
 #include "grammar.h"
 #include "lexer.h"

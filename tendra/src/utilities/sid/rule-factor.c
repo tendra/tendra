@@ -161,7 +161,7 @@
 #include "basic.h"
 #include "bitvec.h"
 #include "entry-list.h"
-#include "gen-errors.h"
+#include "msgcat.h"
 #include "types.h"
 
 /*--------------------------------------------------------------------------*/
@@ -327,10 +327,10 @@ rule_expand(RuleP rule, FactorClosureP closure,
 	
 	rule_factor_1 (item_rule, closure);
 	if (handler && (!alt_equal (handler, rule_get_handler (rule)))) {
-		E_factor_handler_mismatch (item_rule, rule);
+		MSG_factor_handler_mismatch (item_rule, rule);
 	}
 	if (!non_local_list_is_empty (rule_non_locals (item_rule))) {
-		E_factor_nl_entry (item_rule, rule);
+		MSG_factor_nl_entry (item_rule, rule);
 	}
 	for (last = &(groups->head); *last != group; last = &((*last)->next)) {
 		/*NOTHING*/
@@ -450,7 +450,7 @@ rule_create_factored(TypeTupleP params, TypeTupleP result,
 	RuleP           new_rule;
 	
 	if (factorised_rules == rule_factor_limit) {
-		E_too_many_factorisations (rule_factor_limit);
+		MSG_too_many_factorisations (rule_factor_limit);
 		UNREACHED;
 	}
 	factorised_rules ++;

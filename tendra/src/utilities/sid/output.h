@@ -67,7 +67,7 @@
 #ifndef H_OUTPUT
 #define H_OUTPUT
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
 #include "istream.h"
 #include "ostream.h"

@@ -70,7 +70,7 @@
 #ifndef H_ACTION
 #define H_ACTION
 
-#include "os-interface.h"
+#include "config.h"
 #include "dalloc.h"
 #include "dstring.h"
 #include "entry.h"

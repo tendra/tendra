@@ -67,7 +67,7 @@
 #ifndef H_C_CODE
 #define H_C_CODE
 
-#include "os-interface.h"
+#include "config.h"
 #include "c-out-info.h"
 #include "cstring.h"
 #include "dalloc.h"
