@@ -25,6 +25,8 @@
 .\"     no liability whatsoever in relation to any use to which
 .\"     it may be put.
 .\"
+.\" $TenDRA$
+.\"
 .TH tspec 1
 .SH NAME
 tspec \- An API specification tool
@@ -118,6 +120,9 @@ used, objects.
 .IP \fB-s\fR
 Causes \fBtspec\fR to check each header in an API separately, as opposed
 to all at once (as with the \fB-c\fR option).
+.\" ----------------------------------------------------------------------
+.IP \fB-t\fR
+Causes \fBtspec\fR to allow long long type specifiers.
 .\" ----------------------------------------------------------------------
 .IP \fB-u\fR
 Causes \fBtspec\fR to generate unique token names for the objects in
