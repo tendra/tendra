@@ -255,7 +255,7 @@ char
 
 
 /*
- *    CONCATENCATE TWO STRINGS
+ *    CONCATENATE TWO STRINGS
  *
  *    This routine allocates space for the concatenation of the strings
  *    s and t.
