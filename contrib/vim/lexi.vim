@@ -29,7 +29,11 @@ endif
 " COMMENTS
 
 syn region lexiComment	start="^\s*\/\*" end="\*\/\s*"
-syn match  lexiComment	"\/\/.*"
+
+" IDENTIFIERS
+
+syn match lexiIdentifier	"[a-zA-Z_]*"
+syn match lexiSIDIdentifier	"\$[a-zA-Z_]*"
 
 " STRING
 
@@ -39,12 +43,6 @@ syn region lexiString	start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=lexiSpecial
 " KEYWORDS
 
 syn keyword lexiKeyword	ELSE IF GROUP KEYWORD MAPPING TOKEN white
-
-" IDENTIFIERS
-
-syn match lexiIdentifier	"\$[a-zA-Z_-][a-zA-Z0-9_-]*"
-
-syn match lexiType	"\s*:\s*(\(\s*:[a-zA-Z_-][a-zA-Z0-9_-]*\s*\)*)"
 
 syn match lexiOperator	"->"
 
@@ -65,7 +63,8 @@ if version >= 508 || !exists("did_lexi_syn_inits")
 	HiLink lexiComment	Comment
 	HiLink lexiIdentifier	Identifier
 	HiLink lexiKeyword	Type
-	HiLink lexiOperator	Operator
+	HiLink lexiOperator	Grey
+	HiLink lexiSIDIdentifier Statement
 	HiLink lexiSpecial	SpecialChar
 	HiLink lexiString	String
 	HiLink lexiType		Type
