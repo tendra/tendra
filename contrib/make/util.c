@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include "config.h"
 #include "defines.h"
+#include "memory.h"
 
 #ifndef __STDC__
 # ifndef const
