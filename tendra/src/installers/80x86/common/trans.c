@@ -60,76 +60,7 @@
 /**********************************************************************
  *$Author$
  *$Date$
- *$Revision$
- *$Log$
- *Revision 1.3  2002/12/18 06:28:09  nonce
- *Added elf support for freebsd.  At present, the freebsd a.out asm
- *improperly issues '.align' arguments.  So, in the interim, elf output
- *is the default.
- *
- *The patches are largely based on R. Nordier's port patches.
- *
- * Revision 1.4  1998/03/11  11:03:06  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/06  17:04:21  release
- * Last minute pre-release polishing.
- *
- * Revision 1.2  1998/01/21  10:30:01  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.14  1997/12/05  10:32:38  pwe
- * system identification
- *
- * Revision 1.13  1997/10/23  09:37:15  pwe
- * extra_diags
- *
- * Revision 1.12  1997/10/10  18:25:33  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.11  1997/08/23  13:45:46  pwe
- * initial ANDF-DE
- *
- * Revision 1.10  1997/06/02  08:36:00  pwe
- * diags visibility
- *
- * Revision 1.9  1997/03/24  11:15:36  pwe
- * dwarf2 option/default
- *
- * Revision 1.8  1997/03/20  16:24:10  pwe
- * dwarf2
- *
- * Revision 1.7  1996/12/13  14:39:36  pwe
- * prep NEWDIAGS
- *
- * Revision 1.6  1996/02/16  10:10:44  pwe
- * Linux/ELF struct result and PIC jump table
- *
- * Revision 1.5  1996/02/08  13:45:15  pwe
- * Linux elf v aout option
- *
- * Revision 1.4  1995/03/16  09:13:35  pwe
- * sco_gas now install time option
- *
- * Revision 1.3  1995/02/17  13:21:17  pwe
- * rationalise compilation info
- *
- * Revision 1.2  1995/01/30  12:56:56  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.2  1994/07/13  07:39:57  jmf
- * Remove prefix initialising, do it in machine.c
- *
- * Revision 1.1  1994/07/12  14:42:47  jmf
- * Initial revision
- *
- **********************************************************************/
+ *$Revision$*/
 
 
 #include "config.h"
