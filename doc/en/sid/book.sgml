@@ -361,7 +361,7 @@ Xji = Bjk Xki, Yji
       <para>The second major transformation is to factor the grammar. It is
         possible that this phase could go on for ever, so there is a limit to
         the number of rules that can be generated. This limit may be changed
-        (see the -XREF-#invokeinvocation section). In practice it is rare for
+        (see <xref linkend='invocation'>). In practice it is rare for
         this to happen.</para>
 
       <para>The factoring phase tries to increase the number of language
@@ -1131,8 +1131,8 @@ rule1 [
                 there address be taken - they are immutable).  To try to
                 prevent this, parameters that are substituted may be cast to
                 their own type, which makes them unmodifiable in ISO C (see
-                the notes on the -XREF-#casts<literal>casts</literal> language
-                specific option).</entry>
+                the <xref linkend='sid-manpage'> manpage <literal>casts</literal> language
+                specific option under --language).</entry>
             </row>
 
             <row>
@@ -1944,7 +1944,7 @@ rule2 = {
 
         <para>When <literal>sid</literal> performs factoring, it needs to
           expand calls to certain rules into the rules that calls them (this
-          is described in the -XREF-#overviewoverview section). If the called
+          is described in the <xref linkend='overview'> section). If the called
           rule has an exception handler and it is not the same as the
           exception handler of the calling rule, then the expansion will
           fail.</para>
@@ -1957,7 +1957,7 @@ rule2 = {
 
         <para>When <literal>sid</literal> performs factoring, it needs to
           expand calls to certain rules into the rules that calls them (this
-          is described in the -XREF-#overviewoverview section). If the called
+          is described in the <xref linkend='overview'> section). If the called
           rule defines any non-local names, then the expansion will
           fail.</para>
       </simplesect>
@@ -2139,7 +2139,7 @@ rule1 = {
 
       <glossdef>
         <para>This is one of the transforms that <literal>sid</literal>
-          performs on the grammar. See the -XREF-#overviewoverview section for
+          performs on the grammar. See the <xref linkend='overview'> section for
           a description of the factoring process.</para>
       </glossdef>
     </glossentry>
