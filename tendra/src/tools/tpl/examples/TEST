@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for ARG in *.pl
+do
+	BASE=`basename ${ARG} .pl`
+	echo ${BASE}
+	../pl ${ARG} ${BASE}.j
+	disp ${BASE}.j ${BASE}.p
+done

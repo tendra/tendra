@@ -1,0 +1,321 @@
+		A Public Domain Tool for producing TDF
+		-------------------------------------
+		
+1. Introduction
+
+The basic idea is to produce the TDF bit encoding using language
+constructions directly related to the TDF constructors given in the
+specification document. These constructions have been produced
+automatically from the document and so updating them in view of further
+revisions of TDF is a relatively painless exercise. 
+
+There are macros for all of the non-primitive constructors with
+names given by prefixing the constructor name with o_ ; eg to output the
+EXP make_top, you simply call the macro o_make_top. A constructor with a
+number of parameters will correspond to a macro with that number of
+parameters. The expansion of the macro will check that each parameter
+outputs the correct TDF SORT.
+
+There are also procedures for outputing primitive SORTS; eg out_tdfbool(b)
+outputs b as as a TDFBOOL. I have only provided output procedures
+for primitive SORTs which have simple representations in C eg
+out_tdfint32(x) outputs the 32 bit integer x as a TDFINT.
+
+To give a flavour of the intended use of the tool, in order to produce
+the TDF for an assignment, one does:
+ 	o_assign(LHS, RHS)
+where LHS and RHS are pieces of code which will output the EXPs for the
+source and destination of the assignment. For example, LHS for a simple
+variable as destination could be:
+	o_obtain_tag(o_make_tag(out_tdfint32(A)))
+where A is the number chosen by the compiler for the variable. Of course,
+it is unlikely that a compiler would do this directly. LHS will usually be
+some conditional code which might choose this expansion from its analysis
+of the program being compiled. Both LHS and RHS (in common with all the
+parameters of the o_ macros) are statements (not expessions!) whose
+sequencing is controlled by the macro.
+
+The expansion of o_assign (see encodings.h) is: 
+#define o_assign(p_arg1,p_arg2)\
+{  out_basic_int(e_assign, 7);\
+ p_arg1; ASSERT_SORT(s_exp); \
+ p_arg2; ASSERT_SORT(s_exp); \
+SET_RSORT(s_exp);\
+}
+The encoding for the EXP assign (ie 6)is given by e_assign (in enc_nos.h)
+while s_exp (also in enc_nos.h) is a number chosen to represent the sort of
+an EXP. The procedure out_basic_int (in PD_streams.c) is the most primitive
+output routine. The macros ASSERT_SORT and SET_RSORT are defined in
+asserts.h and used to implement the SORT checking.
+
+
+2. Stream Mechanisms
+
+The TDF encoding is constructed in streams, represented by the type TDF
+given in PD_streams.h. 
+
+Each of the output macros and procedures operate on one of these streams
+given by TDF * current_TDF. For example, the out_basic_int(e_assign, 7) in
+o_assign above will add 7 bits to current_TDF to encode e_assign.
+
+We have:
+	typedef struct { Chunk * first; Chunk * last;
+			 unsigned int no; unsigned int sort;} TDF;
+The no and sort fields are used to provide the SORT checking mechanism. The
+first field points to the start of current stream given by a list of
+Chunks; the last field is the final Chunk in this list, ie the one where the
+next bits of output will go.
+
+A Chunk is given by:
+typedef struct chunk_struct
+		{ struct chunk_struct *next;
+		  short int usage;
+		  unsigned char offst; unsigned char aligned;
+     		  unsigned char data[DATA_SIZE];
+		} Chunk;
+The output bits will go into the data field where usage ( <= DATA_SIZE ) is
+the index of the next character to be written to and offst is the bit
+position within this character starting from the most significant end (ie
+offst=0 => no bits written yet into character). The next field is the next
+Chunk in the stream, terminated by (Chunk*)0; if the the next field is 0
+then this Chunk will be pointed to be the last field of the corresponding
+TDF structure.
+
+The a non-zero aligned field indicates that the start of the chunk data must be 
+on a byte boundary in the final CAPSULE.
+
+Note that the initial Chunks of a stream may not be completely filled; ie
+usage can less than DATA_SIZE (and offst need no be zero) for any Chunk in
+the chain.
+
+I have not provided any routines for compressing the Chunks into a
+contiguous area of mainstore; however the routine make_tdf_file will output
+a TDF stream to a file. If the contents of the TDF stream is a CAPSULE then
+this would be a .j file.
+
+
+3. Creating and changing streams.
+
+It is usually necessary to have several streams of TDF being produced at
+the same time. For example, tagdef and tagdec UNITs are often conveniently
+constructed in parallel; for example, there would usually be at least one
+for each UNIT being produced in the CAPSULE being compiled. We simply
+change the  stream in current_TDF. For some constructions,  the macros
+given below are very convenient - in any case the same pattern should be
+used.
+
+To create a new stream of output in a variable of type TDF , use the macro
+NEW_STREAM given in PD_streams.h:
+
+#define NEW_STREAM(ptrtoTDF, make_stream)\
+{ TDF * hold_;\
+  hold_ = current_TDF;\
+  current_TDF = ptrtoTDF;\
+  current_TDF->first = current_TDF->last = create_chunk();\
+  make_stream;\
+  current_TDF = hold_;\
+}	
+
+Here ptrtoTDF is some TDF* where the new stream is to be produced and
+make_stream is code to produce the bits of the stream. NEW_STREAM will park
+the current stream while the new stream is being produced, re-instating it
+after it is finished. For example:
+	TDF new_stream;
+	NEW_STREAM( & new_stream, o_make_top)
+will produce a stream containing make_top in new_stream, leaving the
+current stream unchanged. To add more to new_stream later, one would do:
+	CONT_STREAM( & new_stream, more_bits)
+	
+Notice that NEW_STREAM(x,y) is just the same as:
+	CONT_STREAM(x, 
+		current_TDF->first = current_TDF->last = create_chunk(); y)
+		
+
+Having constructed a new stream, it can be appended onto the current stream
+using the procedure: 
+	void append_TDF(TDF * tdf, Bool free_it)
+Here, free_it says whether the Chunks of tdf can be freed and reused. For
+example, append_tdf( & new_stream, 1) will append new_stream onto
+current_TDF, allowing the Chunks of new_stream to be resused (see
+create_chunk and free_chunk in PD_streams.c). The variable new_stream can
+then only be used as another output stream using NEW_STREAM.
+If one wished to copy new_stream onto the end of the current stream leaving
+its Chunks intact, use free_it = 0.
+
+A similar, more specialised, method of appending is given by:
+	void append_bytestream(TDF * tdf, Bool free_it)
+which makes tdf into a BYTESTREAM and appends it onto current_TDF. This
+would only be used for encoding a UNIT.
+
+
+4. Encodings
+
+The encoding macros of those construction which have encoding numbers
+output the encoding number for the construction in the number of bits
+appropriate to its SORT using:
+	void out_basic_int(long num, int bts)
+num is output to current_TDF in bts bits. This is the most primitive output
+routine and all the others use it, eg out_tdfint32 does the appropriate
+number of out_basic_int(oct_digit, 4).
+
+The encoding numbers of each construction given by the o_ macros in
+encodings.h may be found in enc_nos.h
+
+The parameters of a construction are output after the encoding number, so
+that many constructions are sequences of encoding numbers and the encodings
+of primitive sorts, implicitly bracketed by the signatures of the
+constructions involved.
+
+There are five procedures provided to give primitive encodings in
+PD_streams.c:
+ void out_tdfint32(unsigned long n);
+ 	- outputs n as a TDFINT - assumes long is 32 bits.
+ void out_extendable_int(unsigned long num, unsigned int bts);
+ 	- outputs num as extentable encoding in bts bits (see spec 7.3.3)
+ void out_tdfbool(Bool b);
+ 	- outputs b as a TDFBOOL
+ void out_tdfstring_bytes (unsigned char * s, unsigned int k,
+ 					unsigned int n);
+ 	- outputs s as a TDFSTRING with k elements of size k bits.
+ void out_tdfident_bytes (unsigned char * s)
+ 	- outputs s as a TDFIDENT, putting in the appropriate alignments
+ 	necessary.
+Other will be required for total generality; for example, it will become
+necessary to create TDFINTs of size greater than 32 bits.
+
+A procedure which can output a TDF stream (usually it would be a complete
+CAPSULE - a .j file) is given by:
+  void make_tdf_file(TDF * s, FILE * out_file)
+This is in mke_tdf_file.c
+  	
+
+
+5. LISTs and OPTIONs
+
+Many of the TDF constructors have LIST parameters with special encoding
+giving the number of elements in the LIST. The o_ macros take account of
+these by invoking the macro TDF_LIST. With the use of the LIST_ELEM macro,
+the number of elements are counted as they are output and used to provide
+the prefix of the encoding of the LIST. For example, a sequence S1; S2; S3
+would be encoded: 
+	o_sequence( {LIST_ELEM(S1); LIST_ELEM(S2)}, S3)
+The SORT checking is not foolproof here; in a LIST there must be no output
+other than that in the parameter of a LIST_ELEM. In the above example, the
+SORTS of S1 and S2 will be checked to see that they are EXPs, but there is
+no check to see that nothing has been output between LIST_ELEM(S1) and
+LIST_ELEM(S2).
+
+The mechanism for this is quite simple. The macro call of TDF_LIST in
+o_sequence (for example) creates a new stream into which the list elements
+will be output; each LIST_ELEM will increment the no field of the stream;
+the final number will be output to the original stream and the new stream
+appended to it.
+
+A similar mechanism is used for OPTIONal parameters. This time the o_ macro
+invokes TDF_OPTION and the actual parameter has the choice of either
+outputing nothing or something of the correct SORT using the OPTION macro.
+For example, a procedure application has an optional var_param parameter;
+with a empty option we have:
+	o_apply_proc(Shape, Proc, Pars, {})
+while with a real var_param V:
+	o_apply_proc(Shape, Proc, Pars, OPTION(V))
+	
+	
+6. BITSTREAMs
+
+Most of the constructors which use BITSTREAMs are handled transparently by
+their o_ macros. For example, a shape_cond would be encoded:
+	o_shape_cond(C, S1, S2)
+where S1 and S2 simply output SHAPEs normally. The _cond constructors all
+invoke the macro TDF_COND which provides new streams for both E1 and E2.
+The number of bits in each is computed using:
+	long bits_in_TDF(TDF *tdf); 
+and give the prefix TDFINT for the bitstreams required by the _cond
+construction.
+	
+Similarly all the _apply_token constructors work in the same fashion, this
+time using the TOK_APP macro. Here, of course, there is no SORT check
+possible on the parameter applied to the token. An EXP token, T,  with two
+parameters, P1 and P2,is applied using: o_exp_apply_token(T, {P1; P2}) ie
+the token parameters are simply output sequentially.
+
+The other BITSTREAMs are all derived from token_definition which is rather
+peculiar in that the SORT of the body parameter depends on its result_sort
+parameter. The o_token_definition macro is to be found in PD_streams.h
+rather than in encodings.h and its SORT is described as s_bitstream rather
+than s_token_definition as one might expect. Otherwise, it can used in the
+same way as the other o_ macros. Note that the SORT of the body parameter
+is not checked to be consistent with its result_sort parameter.  
+
+
+7. Summary
+
+Files:
+	encodings.h
+	  - contains all the o_ macros except for o_token_definition.
+	enc_nos.h
+	  - contains the e_ encoding numbers an s_ sort numbers.
+	PD_streams.h
+	  - declares the stream procedures, the primitive encodings and the 
+	    stream changing and creation macros, together with
+	    o_token_definition.		
+	PD_streams.c
+	  - defines the stream procedures and primitive encodings.
+	asserts.h
+	  - defines the macros which control the SORT checking;
+	    can be modified to eliminate SORT checking.
+	proto_def.h
+	  - defines the macro proto to allow prototypes in declarations.
+	  
+All output will be directed at: 
+	TDF * current_TDF;
+
+Primitive encoding procedures:
+	void out_basic_int(unsigned long num, unsigned int bts);
+	void out_extendable_int(unsigned long num, unsigned int bts);
+	void out_tdfint32(unsigned long n);
+	void out_tdfstring_bytes(unsigned char * s, unsigned int k,
+ 					unsigned int n);
+	void out_tdfbool(Bool b);
+	
+Stream handling procedures:
+	void append_TDF(TDF * tdf, Bool free_it);
+	void append_bytestream(TDF *tdf, Bool free_it);	
+	long bits_in_TDF(TDF *tdf);
+	
+Chunk handling procedures:
+	Chunk * create_chunk();
+	void free_chunk(Chunk * x);
+	
+Stream macros:
+	NEW_STREAM(ptrtoTDF, make_stream)
+	CONT_STREAM(ptrtoTDF, make_stream)
+   These are used by the o_ macros:
+   	TDF_COND(code_, sort_, exp_, arg1, arg2)
+   	TDF_LIST(x, sort_)
+   	   - an actual x parameter will contain only LIST_ELEM(...)s
+   	TDF_OPTION(x, sort_)
+   	   - an actual x parameter will have no output or one OPTION(...) 
+   	TOK_APP(num_, sort_, tok_, pars_)
+   	
+
+
+8. Appendix
+	
+There are four other files included which may be useful. They are:
+	decodings.c
+	  - contains d_X procedures, where X is a TDF non-primitive SORT;
+	    when used with readstream.c, the d_ procedures will give a
+	    diagnostic print of TDF in the above stream format. 
+	readstream.c
+	  - defines the primitive decoding and printing for stream format.
+	readstream.h
+	  - declares the primitive decodings.
+	mke_tdf_file.c
+	  - usually used to output the completed CAPSULE as a .j file.	   	   	
+   	
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   
+Please direct any comments or complaints to:
+	Ian Currie, DRA, Malvern
+	E-mail: currie@uk.mod.hermes   	        

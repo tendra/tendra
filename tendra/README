@@ -251,13 +251,13 @@ The tools directory contains the source for a number of different tools:
 
     disp		translates TDF into a human readable form;
 
-    pl			is a structured TDF assembler;
-
     tcc			is the front-end to the TenDRA compiler;
 
     tld			links a number of TDF capsules into one;
 
     tnc			is an unstructured TDF assember and disassembler;
+
+    tpl			is a structured TDF assembler;
 
     tspec		is a specification tool used in the TenDRA API
 			descriptions.

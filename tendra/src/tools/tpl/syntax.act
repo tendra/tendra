@@ -1,0 +1,2445 @@
+%prefixes%
+
+terminal = lex_ ;
+
+
+%maps%
+
+program ->  read_program ;
+access ->  read_access ;
+alignment ->  read_alignment ;
+al_tag ->  read_al_tag ;
+bitfield_variety ->  read_bitfield_variety ;
+bool ->  read_bool ;
+error_code ->  read_error_code ;
+error_code_list ->  read_error_code_list ;
+error_treatment ->  read_error_treatment ;
+exp ->  read_exp ;
+exp_list ->  read_exp_list ;
+floating_variety ->  read_floating_variety ;
+label ->  read_label ;
+nat ->  read_nat ;
+nat_option ->  read_nat_option ;
+ntest ->  read_ntest ;
+rounding_mode ->  read_rounding_mode ;
+shape ->  read_shape ;
+signed_nat ->  read_signed_nat ;
+string ->  read_string ;
+tag ->  read_tag ;
+token ->  read_token ;
+transfer_mode ->  read_transfer_mode ;
+variety ->  read_variety ;
+
+AL_TAGDEC -> PTR_Al_tagdec ;
+INT -> int ;
+LABDEC -> PTR_Labdec ;
+NAME -> Name ;
+SORT -> Sort ;
+STRING -> PTR_char ;
+PTR_TDF -> PTR_TDF ;
+TAGDEC -> PTR_Tagdec ;
+TDF -> TDF ;
+TOKDEC -> PTR_Tokdec ;
+TOKPAR -> PTR_Tokpar ;
+ULONG -> unsigned_long ;
+
+
+%header% @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+	(1) Its Recipients shall ensure that this Notice is
+	reproduced upon any copies or amended versions of it;
+    
+	(2) Any amended version of it shall be clearly marked to
+	show both the nature of and the organisation responsible
+	for the relevant amendment or amendments;
+    
+	(3) Its onward transfer from a recipient to another
+	party shall be deemed to be that party's acceptance of
+	these conditions;
+    
+	(4) DERA gives no warranty or assurance as to its
+	quality or suitability for any purpose and DERA accepts
+	no liability whatsoever in relation to any use to which
+	it may be put.
+*/
+
+
+#include "config.h"
+#include "util.h"
+#include "defs.h"
+#include "encodings.h"
+#include "enc_nos.h"
+#include "consfile.h"
+#include "lex.h"
+#include "analyse_sort.h"
+#include "find_id.h"
+#include "readstreams.h"
+#include "standardsh.h"
+#include "syntax.h"
+#include "units.h"
+
+#if FS_TENDRA
+#pragma TenDRA begin
+#pragma TenDRA unreachable code allow
+#pragma TenDRA variable analysis off
+#endif
+
+static int saved = 0 ;
+#define CURRENT_TERMINAL (unsigned)lex_v.t
+#define ADVANCE_LEXER lex_v = reader ()
+#define SAVE_LEXER(e) ((saved = lex_v.t), (lex_v.t = (e)))
+#define RESTORE_LEXER (lex_v.t = saved)
+
+typedef Al_tagdec *PTR_Al_tagdec ;
+typedef Labdec *PTR_Labdec ;
+typedef char *PTR_char ;
+typedef Tagdec *PTR_Tagdec ;
+typedef TDF *PTR_TDF ;
+typedef Tokdec *PTR_Tokdec ;
+typedef Tokpar *PTR_Tokpar ;
+typedef unsigned long unsigned_long ;
+
+
+static Tokpar * g_tokpars;
+static Sort g_sname;
+static TDF g_tok_defn;
+static TokSort g_toksort;
+int search_for_toks = 1;
+static Tokdec * g_tokformals;
+static int g_lastfield;
+static TDF g_shape;
+static TDF g_lastshape;
+ 
+static Name * g_shtokname;
+static int g_has_vis = 0;
+static Bool issigned;
+static Labdec * g_labdec;
+static unsigned long intvalue;
+static TDF optlab;
+static TDF g_lower;
+static TDF g_upper;
+static Bool g_has_upper;
+static TDF intro_acc;
+static TDF intro_init;
+
+static int query_t;
+static int g_cr_v;
+static int g_ce_v;
+static int g_unt;
+static Tagdec * g_app_tags;
+
+static void do_procprops
+    PROTO_N ( (i) )
+    PROTO_T ( int i )
+{
+    switch(i) {
+       case 0: return;
+       case 1: OPTION(o_var_callers); return;
+       case 2: OPTION(o_var_callees); return;
+       case 3: OPTION(o_add_procprops(o_var_callers, o_var_callees)); return;
+       case 4: OPTION(o_untidy); return;
+       case 5: OPTION(o_add_procprops(o_var_callers, o_untidy)); return;
+       case 6: OPTION(o_add_procprops(o_var_callees, o_untidy)); return;
+       case 7: OPTION(o_add_procprops(o_var_callers, 
+		      o_add_procprops(o_var_callees, o_untidy))); return;
+       case 8: OPTION(o_check_stack); return;
+       case 9: OPTION(o_add_procprops(o_var_callers,o_check_stack)); return;
+       case 10: OPTION(o_add_procprops(o_var_callees,o_check_stack)); return;
+       case 11: OPTION(o_add_procprops(o_check_stack,
+		       o_add_procprops(o_var_callers, o_var_callees))); return;
+       case 12: OPTION(o_add_procprops(o_untidy,o_check_stack)); return;
+       case 13: OPTION(o_add_procprops(o_check_stack,
+		       o_add_procprops(o_var_callers, o_untidy))); return;
+       case 14: OPTION(o_add_procprops(o_check_stack,
+		       o_add_procprops(o_var_callees, o_untidy))); return;
+       case 15: OPTION(o_add_procprops(o_check_stack,
+		       o_add_procprops(o_var_callers, 
+		       o_add_procprops(o_var_callees, o_untidy)))); return;
+    }
+}
+
+static int defaultlab = -1;
+static TDF g_lablist;
+int do_pp = 0;
+
+static void success
+    PROTO_Z ()
+{
+    IGNORE printf("Reached end\n");
+    print_res();
+}
+
+static int HAS_MAGIC = 1;
+unsigned long MAJOR_NO = major_version;
+unsigned long MINOR_NO = minor_version;
+
+
+@}, @{
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+	(1) Its Recipients shall ensure that this Notice is
+	reproduced upon any copies or amended versions of it;
+    
+	(2) Any amended version of it shall be clearly marked to
+	show both the nature of and the organisation responsible
+	for the relevant amendment or amendments;
+    
+	(3) Its onward transfer from a recipient to another
+	party shall be deemed to be that party's acceptance of
+	these conditions;
+    
+	(4) DERA gives no warranty or assurance as to its
+	quality or suitability for any purpose and DERA accepts
+	no liability whatsoever in relation to any use to which
+	it may be put.
+*/
+
+
+#ifndef SYNTAX_INCLUDED
+#define SYNTAX_INCLUDED
+
+extern int do_pp;
+extern int search_for_toks;
+extern unsigned long MAJOR_NO ;
+extern unsigned long MINOR_NO ;
+@} ;
+
+
+%terminals%
+
+
+%actions%
+
+<acc_l1> : () -> () = @{
+    current_TDF->no=1;
+@} ;
+
+<acc_l2_dec> : () -> ( hold, x, prev ) = @{
+    @prev = current_TDF;
+    @hold = *current_TDF;
+    INIT_TDF(&@x);
+    RESET_TDF(&@x);
+@} ;
+
+<acc_l3> : ( hold, x, prev ) -> () = @{
+    INIT_TDF(@prev);
+    RESET_TDF(@prev);
+    o_add_accesses(append_TDF(&@hold,1), append_TDF(&@x, 1));
+    current_TDF->no = 1;
+@} ;
+
+<access1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_access_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		  append_TDF(&@elsept,1));
+@} ;
+
+<access2> : ( i ) -> () = @{
+    if (strcmp(constructs[@i].name, "visible")==0) { g_has_vis = 1; }
+@} ;
+
+<al_list1_dec> : () -> ( hold, place ) = @{
+    @place = current_TDF;
+    @hold = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<al_list2> : ( hold, place ) -> () = @{
+    TDF second;
+    second = *current_TDF;
+    INIT_TDF(@place);
+    RESET_TDF(@place);
+    o_unite_alignments(append_TDF(&@hold,1), append_TDF(&second,1));
+@} ;
+
+<al_list_opt1> : () -> () = @{
+    o_alignment(o_top);
+@} ;
+
+<al_tag1> : () -> () = @{
+    char * n =lex_v.val.name;
+    Al_tagdec * x = find_al_tag(n);
+    if (x==(Al_tagdec*)0) {
+	x= MALLOC(Al_tagdec);
+	x->isdeffed =0; x->iskept=0;
+	NEW_IDNAME(x->idname, n, al_tag_ent);
+	x->next = al_tagdecs;
+	al_tagdecs = x;
+    }
+    x->isused =1;
+    make_al_tag(&x->idname.name);
+@} ;
+
+<al_tagdef2> : ( x, al, hold, already_used ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_al_tagdef( if (@already_used) {
+			  out_tdfint32(UL(non_local(&@x->idname.name,al_tag_ent)));
+			  } else {
+			      out_tdfint32(LOCNAME(@x->idname));
+			  },
+			  append_TDF(&@al, 1)
+			);
+    INC_LIST;
+@} ;
+
+<al_tgdf1_dec> : () -> ( x, al, hold, already_used ) = @{
+    char * n =lex_v.val.name;
+    @x = find_al_tag(n);
+    SELECT_UNIT(al_tagdef_unit);
+    if (@x==(Al_tagdec*)0) {
+	@x= MALLOC(Al_tagdec); @x->isdeffed =0; @x->iskept=0; @x->isused=0;
+	NEW_IDNAME(@x->idname, n, al_tag_ent);
+	@x->next = al_tagdecs; al_tagdecs = @x;
+	@already_used = 0;
+    }
+    else @already_used = 1;
+    if (@x->isdeffed) { fail("Al_tag %s defined twice", n); }
+    @x->isdeffed = 1;
+    SET_TDF(@hold, &@al);
+@} ;
+
+<alignment1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_alignment_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		     append_TDF(&@elsept,1));
+@} ;
+
+<alignment3> : ( at, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_obtain_al_tag(append_TDF(&@at, 1));
+@} ;
+
+<alment2_dec> : () -> ( at, hold ) = @{
+    SET_TDF(@hold, &@at);
+@} ;
+
+<bool1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_bool_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		append_TDF(&@elsept,1));
+@} ;
+
+<bvar3_dec> : () -> ( sg, nt, hold ) = @{
+    /* @nt uninitialised */
+    SET_TDF(@hold, &@sg);
+@} ;
+
+<bvariety1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_bfvar_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		 append_TDF(&@elsept,1));
+@} ;
+
+<bvariety2> : () -> () = @{
+    if (issigned) { o_true; }
+    else { o_false; }
+@} ;
+
+<bvariety4> : ( sg, nt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@nt);
+@} ;
+
+<bvariety5> : ( sg, nt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_bfvar_bits(append_TDF(&@sg,1), append_TDF(&@nt, 1));
+@} ;
+
+<call1_dec> : () -> ( fn, sh, ps, vp ) = @{
+    /* @sh, @ps, @vp uninitialised */
+    @fn = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<call2> : ( sh ) -> () = @{
+    @sh = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<call3> : ( ps ) -> () = @{
+    @ps = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<call4> : ( fn, sh, ps, vp ) -> () = @{
+    @vp = *current_TDF;
+    INIT_TDF(current_TDF);
+    o_apply_proc(append_TDF(&@sh,1), append_TDF(&@fn,1),
+	    { append_TDF(&@ps, 1); current_TDF->no = @ps.no; },
+	      if (@vp.no !=0) { OPTION(append_TDF(&@vp,1)); }
+	    );
+@} ;
+
+<callee1_dec> : () -> ( el, hold ) = @{
+    SET_TDF(@hold, &@el);
+@} ;
+
+<callee2> : ( el, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_callee_list( { append_TDF(&@el,1); current_TDF->no = @el.no;} );
+@} ;
+
+<callee3_dec> : () -> ( pt, sz, hold ) = @{
+    /* @sz uninitialised */
+    SET_TDF(@hold, &@pt);
+@} ;
+
+<callee4> : ( pt, sz, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@sz);
+@} ;
+
+<callee5> : ( pt, sz, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_dynamic_callees(append_TDF(&@pt,1), append_TDF(&@sz,1));
+@} ;
+
+<callee6> : () -> () = @{
+    o_same_callees;
+@} ;
+
+<cevaropt1> : () -> () = @{
+    g_ce_v = 0;
+@} ;
+
+<cevaropt2> : () -> () = @{
+    g_ce_v = 1;
+@} ;
+
+<chvar1_dec> : () -> ( v, ex, hold ) = @{
+    /* @ex uninitialised */
+    SET_TDF(@hold, &@v);
+@} ;
+
+<chvar2> : ( v, ex, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@ex);
+@} ;
+
+<chvar3> : ( v, ex, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_change_variety(o_wrap, append_TDF(&@v,1), append_TDF(&@ex,1));
+@} ;
+
+<crvaropt1> : () -> () = @{
+    g_cr_v = 0;
+@} ;
+
+<crvaropt2> : () -> () = @{
+    g_cr_v = 1;
+@} ;
+
+<cseexp1_dec> : () -> ( cntrl, ll, hold ) = @{
+    /* @ll uninitialised */
+    SET_TDF(@hold, &@cntrl);
+@} ;
+
+<cseexp2> : ( cntrl, ll, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@ll);
+@} ;
+
+<cseexp3> : ( cntrl, ll, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_case(o_false, append_TDF(&@cntrl,1),
+	   { append_TDF(&@ll,1); current_TDF->no = @ll.no; });
+@} ;
+
+<ctag_def3> : ( tfexp, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    @x->iscommon = 1;
+    o_common_tagdef(out_tdfint32(UL(non_local(&@x->idname.name, tag_ent))), {},
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    @x->isdeffed = 1;
+@} ;
+
+<ctag_def6> : ( tfexp, sigopt, hold, x, is_deced ) -> () = @{
+    RESET_TDF(@hold);
+    @x->iscommon = 1;
+    o_common_tagdef(out_tdfint32(UL(local_name(&@x->idname.name, tag_ent))), {},
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, @is_deced)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    SELECT_UNIT(tagdec_unit);
+    if (!@is_deced) {
+	o_common_tagdec(out_tdfint32(UL(non_local(&@x->idname.name,tag_ent))),
+	    {},
+	    if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	    o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+	INC_LIST;
+    }
+    @x->isdeffed=1; @x->hassh =1;
+    if (!@is_deced) { @x->next = tagdecs; tagdecs = @x; }
+@} ;
+
+<dest_o1_dec> : () -> ( hold ) = @{
+    SET_TDF(@hold, &optlab);
+@} ;
+
+<dest_opt2> : ( hold ) -> () = @{
+    RESET_TDF(@hold);
+@} ;
+
+<empty_snl> : () -> () = @{
+    g_tokpars = (Tokpar*)0;
+@} ;
+
+<eopt1> : () -> () = @{
+    o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(0)));
+@} ;
+
+<errc1> : () -> () = @{
+    current_TDF->no = 1;
+@} ;
+
+<errc2> : () -> () = @{
+    current_TDF->no ++;
+@} ;
+
+<errt1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_errt_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		append_TDF(&@elsept,1));
+@} ;
+
+<errt2_dec> : () -> ( l, hold ) = @{
+    SET_TDF(@hold, &@l);
+@} ;
+
+<errt3> : ( l, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_error_jump(append_TDF(&@l,1));
+@} ;
+
+<errt5> : ( l, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_trap({append_TDF(&@l,1); current_TDF->no = @l.no; });
+@} ;
+
+<exp1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_exp_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+	       append_TDF(&@elsept,1));
+@} ;
+
+<exp1_dec> : () -> ( first, second, place, n ) = @{
+    @n = lex_v.val.name;
+    @first = *current_TDF;
+    SET_TDF(@place, &@second);
+@} ;
+
+<exp2> : ( first, second, place, n ) -> () = @{
+    INIT_TDF(@place);
+    RESET_TDF(@place);
+    if(strcmp(@n, "*+.")==0) {
+	o_add_to_ptr(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, "*-*")==0) {
+	o_subtract_ptrs(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, ".*")==0) {
+	o_offset_mult(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, ".+.")==0) {
+	o_offset_add(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, ".-.")==0) {
+	o_offset_subtract(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, "./")==0) {
+	o_offset_div_by_int(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, "./.")==0) {
+	o_offset_div(
+	    o_var_limits(
+		o_make_signed_nat(out_tdfbool(1), out_tdfint32(UL(MINSI))),
+		o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(MAXSI)))),
+	    append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, ".max.")==0) {
+	o_offset_max(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else { fail("%s not an addrop", @n); }
+@} ;
+
+<exp3> : ( first, second, place, n ) -> () = @{
+    INIT_TDF(@place);
+    RESET_TDF(@place);
+    if(strcmp(@n, "And")==0) {
+	o_and(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, "Or")==0) {
+	o_or(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if(strcmp(@n, "Xor")==0) {
+	o_xor(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else { fail("%s not a logop", @n); }
+@} ;
+
+<exp5> : ( first, second, place, n ) -> () = @{
+    INIT_TDF(@place);
+    RESET_TDF(@place);
+    if (strcmp(@n,"%")==0) {
+	o_rem2(o_continue, o_continue, append_TDF(&@first,1),
+	       append_TDF(&@second,1));
+    } else if (strcmp(@n,"%1")==0) {
+	o_rem1(o_continue, o_continue, append_TDF(&@first,1),
+	       append_TDF(&@second,1));
+    } else if (strcmp(@n,"*")==0) {
+	o_mult(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if (strcmp(@n,"+")==0) {
+	o_plus(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if (strcmp(@n,"-")==0) {
+	o_minus(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if (strcmp(@n,"/")==0) {
+	o_div2(o_continue, o_continue, append_TDF(&@first,1),
+	       append_TDF(&@second,1));
+    } else if (strcmp(@n,"/1")==0) {
+	o_div1(o_continue, o_continue, append_TDF(&@first,1),
+	       append_TDF(&@second,1));
+    } else if (strcmp(@n,"<<")==0) {
+	o_shift_left(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if (strcmp(@n,"F*")==0) {
+	o_floating_mult(o_continue,
+	    { LIST_ELEM(append_TDF(&@first,1));
+	    LIST_ELEM(append_TDF(&@second,1)) });
+    } else if (strcmp(@n,">>")==0) {
+	o_shift_right(append_TDF(&@first,1), append_TDF(&@second,1));
+    } else if (strcmp(@n,"F+")==0) {
+	o_floating_plus(o_continue,
+	    { LIST_ELEM(append_TDF(&@first,1));
+	    LIST_ELEM(append_TDF(&@second,1)) });
+    } else if (strcmp(@n,"F-")==0) {
+	o_floating_minus(o_continue, append_TDF(&@first,1),
+			 append_TDF(&@second,1));
+    } else if (strcmp(@n,"F/")==0) {
+	o_floating_div(o_continue, append_TDF(&@first,1),
+		       append_TDF(&@second,1));
+    } else { fail("%s not an arithop", @n); }
+@} ;
+
+<exp6> : ( first, second, place, n ) -> () = @{
+    INIT_TDF(@place);
+    RESET_TDF(@place);
+    o_assign(append_TDF(&@first,1), append_TDF(&@second,1));
+@} ;
+
+<exp_sls1> : () -> () = @{
+    current_TDF->no =1;
+    o_make_top;
+@} ;
+
+<exp_sls2> : () -> () = @{
+    current_TDF->no =1;
+@} ;
+
+<exp_sls3_dec> : () -> ( nextexp, place ) = @{
+    SET_TDF(@place, &@nextexp);
+@} ;
+
+<exp_sls4> : ( nextexp, place ) -> () = @{
+    RESET_TDF(@place);
+    if (lex_v.t == lex_semi) {
+	current_TDF->no +=1;
+	append_TDF(&@nextexp,1);
+    } else {
+	TDF stats;
+	stats = *current_TDF;
+	INIT_TDF(current_TDF);
+	o_sequence(
+	    { append_TDF(&stats,1); current_TDF->no = stats.no; },
+	    append_TDF(&@nextexp,1));
+	/* cheats LIST in o_sequence */
+    }
+@} ;
+
+<exp_sls5> : () -> () = @{
+    o_make_top;
+@} ;
+
+<expcond1_dec> : () -> ( thpart, elsepart, condlab, hold, old_lab, old_labdecs ) = @{
+    /* @elsepart, @condlab uninitialised */
+    @old_lab = defaultlab;
+    @old_labdecs = labdecs;
+    defaultlab = -1;
+    SET_TDF(@hold, &@thpart);
+@} ;
+
+<expcond2> : ( elsepart, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@elsepart);
+@} ;
+
+<expcond3> : ( condlab, old_lab, old_labdecs ) -> () = @{
+    @condlab = optlab;
+    defaultlab = @old_lab;
+    tidy_labels(@old_labdecs);
+@} ;
+
+<expcond4> : ( thpart, elsepart, condlab, hold ) -> () = @{
+    INIT_TDF(@hold);
+    RESET_TDF(@hold);
+    o_conditional(append_TDF(&@condlab,1),
+		  append_TDF(&@thpart,1), append_TDF(&@elsepart,1));
+@} ;
+
+<expcons1_dec> : () -> ( sz, elist, hold ) = @{
+    /* @elist uninitialised */
+    SET_TDF(@hold, &@sz);
+@} ;
+
+<expcons2> : ( sz, elist, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@elist);
+@} ;
+
+<expcons3> : ( sz, elist, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_compound(append_TDF(&@sz,1),
+		    { append_TDF(&@elist,1); current_TDF->no = @elist.no; });
+@} ;
+
+<expdec1_dec> : () -> ( ldecs ) = @{
+    @ldecs = localdecs;
+@} ;
+
+<expdec2> : ( ldecs ) -> () = @{
+    localdecs = @ldecs;
+@} ;
+
+<expfail1> : () -> () = @{
+    o_fail_installer(read_string());
+@} ;
+
+<exphold1_dec> : () -> ( new, hold, empty, lineno, char_pos ) = @{
+    @empty = (current_TDF->first == current_TDF->last &&
+	      current_TDF->first->usage == 0 &&
+	      current_TDF->first->offst == 0);
+    @lineno = cLINE;
+    @char_pos = bind;
+    if (!@empty || line_no_tok != -1) { SET_TDF(@hold, &@new); }
+@} ;
+
+<exphold2> : ( new, hold, empty, lineno, char_pos ) -> () = @{
+    if (!@empty || line_no_tok != -1) {
+	SET(@hold);
+	RESET_TDF(@hold);
+	if (line_no_tok != -1) {
+	    o_exp_apply_token(
+		o_make_tok(out_tdfint32(UL(cname_to_lname(line_no_tok,tok_ent)))),
+		{ append_TDF(&@new,1);
+		  o_make_sourcemark(FILENAME(),
+			o_make_nat(out_tdfint32(@lineno)),
+			o_make_nat(out_tdfint32(UL(@char_pos))));
+			o_make_sourcemark(FILENAME(),
+			    o_make_nat(out_tdfint32(cLINE)),
+			    o_make_nat(out_tdfint32(UL(bind))));
+		});
+	 } else append_TDF(&@new,1);
+    }
+@} ;
+
+<expl1> : () -> () = @{
+    current_TDF->no=0;
+@} ;
+
+<expl2> : () -> () = @{
+    current_TDF->no++;
+@} ;
+
+<explab1_dec> : () -> ( starter, elist, old_lablist, hold, old_labdecs ) = @{
+    /* @elist uninitialised */
+    @old_labdecs = labdecs;
+    @old_lablist = g_lablist;
+    INIT_TDF(&g_lablist);
+    SET_TDF(@hold, &@starter);
+@} ;
+
+<explab2> : ( elist, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@elist);
+@} ;
+
+<explab3> : ( starter, elist, old_lablist, hold, old_labdecs ) -> () = @{
+    RESET_TDF(@hold);
+    o_labelled( { append_TDF(&g_lablist,1);
+		  current_TDF->no = g_lablist.no;},
+		  append_TDF(&@starter, 1),
+		  { append_TDF(&@elist,1);
+		    current_TDF->no = g_lablist.no;});
+    tidy_labels(@old_labdecs);
+    g_lablist = @old_lablist;
+@} ;
+
+<expneg1_dec> : () -> ( e, hold ) = @{
+    SET_TDF(@hold, &@e);
+@} ;
+
+<expnegate2> : ( e, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_negate(o_wrap, append_TDF(&@e,1));
+@} ;
+
+<expproc1_dec> : () -> ( pars, vpar, body, sh, hold, old_locals, old_labels ) = @{
+    /* @pars, @vpar, @body uninitialised */
+    @old_locals = localdecs;
+    @old_labels = labdecs;
+    localdecs = (Tagdec*)0;
+    labdecs = (Labdec *)0;
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<expproc2> : ( pars, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@pars)
+@} ;
+
+<expproc3> : ( vpar, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@vpar);
+@} ;
+
+<expproc4> : ( body, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@body);
+@} ;
+
+<expproc5> : ( pars, vpar, body, sh, hold, old_locals, old_labels ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_proc(append_TDF(&@sh,1),
+		{ append_TDF(&@pars,1); current_TDF->no = @pars.no;},
+		if (@vpar.no !=0) {OPTION(append_TDF(&@vpar,1)); },
+		append_TDF(&@body,1);)
+    while (labdecs != (Labdec *)0 ) {
+	if (!labdecs->declared) {
+	    fail("Label %s not declared", labdecs->idname.id);
+	}
+	labdecs = labdecs->next;
+    }
+    localdecs = @old_locals;
+    labdecs = @old_labels;
+@} ;
+
+<exprep1_dec> : () -> ( st, bdy, condlab, hold, old_labdecs, old_lab ) = @{
+    /* @bdy, @condlab, @old_lab uninitialised */
+    @old_labdecs = labdecs;
+    SET_TDF(@hold, &@st);
+@} ;
+
+<exprep2> : ( old_lab ) -> () = @{
+    @old_lab = defaultlab;
+    defaultlab = -1;
+@} ;
+
+<exprep3> : ( bdy, condlab, hold ) -> () = @{
+    @condlab = optlab;
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@bdy);
+@} ;
+
+<exprep4> : ( st, bdy, condlab, hold, old_labdecs, old_lab ) -> () = @{
+    RESET_TDF(@hold);
+    o_repeat(append_TDF(&@condlab,1), append_TDF(&@st,1), append_TDF(&@bdy,1));
+    tidy_labels(@old_labdecs);
+    defaultlab = @old_lab;
+@} ;
+
+<expstar1> : () -> () = @{
+    char * n = lex_v.val.name;
+    Tagdec * x = find_tag(n);
+    if (x == (Tagdec*)0) { fail("%s is not a tag", n); }
+    else
+    if (!x->isvar || x->hassh == 0) {
+	fail("Don't know shape of %s", n);
+    }
+    o_contents(
+	if (x->hassh == 1) {
+	    o_shape_apply_token(make_tok(&x->sh.shtok), {});
+	} else { append_TDF(&x->sh.tdfsh, 0); },
+	o_obtain_tag(make_tag(&x->idname.name)));
+@} ;
+
+<expstar2_dec> : () -> ( sh, e, hold ) = @{
+    /* @e uninitialised */
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<expstar3> : ( e, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@e);
+@} ;
+
+<expstar4> : ( sh, e, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_contents(append_TDF(&@sh,1), append_TDF(&@e,1));
+@} ;
+
+<expstr1_dec> : () -> ( st, vart, hold ) = @{
+    /* @vart uninitialised */
+    SET_TDF(@hold, &@st);
+@} ;
+
+<expstr2> : ( vart, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@vart);
+@} ;
+
+<expstring2> : ( st, vart, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_nof_int(append_TDF(&@vart, 1), append_TDF(&@st, 1););
+@} ;
+
+<exptag1> : () -> () = @{
+    TDF tg;
+    tg = *current_TDF;
+    INIT_TDF(current_TDF);
+    o_obtain_tag(append_TDF(&tg,1));
+@} ;
+
+<exptst1_dec> : () -> ( first, nt, second, hold, qt ) = @{
+    /* @nt, @second uninitialised */
+    @qt = query_t;
+    SET_TDF(@hold,&@first);
+@} ;
+
+<exptst2> : ( nt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold,&@nt);
+@} ;
+
+<exptst3> : ( second, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@second)
+@} ;
+
+<exptst4> : ( first, nt, second, hold, qt ) -> () = @{
+    RESET_TDF(@hold);
+    switch(@qt) {
+	case lex_query:
+	    o_integer_test({}, append_TDF(&@nt,1), append_TDF(&optlab,1),
+	   		append_TDF(&@first, 1), append_TDF(&@second,1));
+	    break;
+	case lex_float__query:
+	    o_floating_test({}, o_impossible, append_TDF(&@nt,1),
+	   		append_TDF(&optlab,1),
+	   		append_TDF(&@first, 1), append_TDF(&@second,1));
+	    break;
+	case lex_ptr__query:
+	    o_pointer_test( {}, append_TDF(&@nt,1),append_TDF(&optlab,1),
+	   		append_TDF(&@first, 1), append_TDF(&@second,1));
+	    break;
+	case lex_proc__query:
+	    o_proc_test( {}, append_TDF(&@nt,1),append_TDF(&optlab,1),
+	   		append_TDF(&@first, 1), append_TDF(&@second,1)
+	   		);
+	    break;
+	case lex_offset__query:
+	    o_offset_test({}, append_TDF(&@nt,1), append_TDF(&optlab,1),
+	   		append_TDF(&@first, 1), append_TDF(&@second,1)
+	   		);
+	    break;
+	default: fail("Don't understand test");
+    }
+@} ;
+
+<fden1_dec> : () -> ( mant, e, v, rm, hold, neg, r ) = @{
+    /* @v, @rm uninitialised */
+    @neg = 0;
+    @r = UL(radix);
+    SET_TDF(@hold, &@mant);
+    out_tdfstring_bytes(fformat(lex_v.val.name,lnum), 8, UI(lnum));
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@e);
+@} ;
+
+<fden2_dec> : () -> ( mant, e, v, rm, hold, neg, r ) = @{
+    /* @v, @rm uninitialised */
+    @neg = 1;
+    @r = UL(radix);
+    SET_TDF(@hold, &@mant);
+    out_tdfstring_bytes(fformat(lex_v.val.name,lnum), 8, UI(lnum));
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@e);
+@} ;
+
+<fden3> : ( v, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@v);
+@} ;
+
+<fden4> : ( rm, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@rm);
+@} ;
+
+<fden5> : ( mant, e, v, rm, hold, neg, r ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_floating(append_TDF(&@v,1),
+		    append_TDF(&@rm,1),
+		    if (@neg) { o_true; } else { o_false; },
+		    o_make_string(append_TDF(&@mant, 1)),
+		    o_make_nat(out_tdfint32(@r)),
+		    append_TDF(&@e, 1));
+@} ;
+
+<field1_dec> : () -> ( hold, x, y ) = @{
+    char * dotn = append_string(".",lex_v.val.name);
+    char * n = lex_v.val.name;
+    @x = find_tok(dotn);
+    @y = find_tok(n);
+    if (@x!=(Tokdec*)0 || @y!=(Tokdec*)0)
+	    fail("Field name %s must be unique", dotn);
+    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, dotn, tok_ent);
+    @x->isdeffed = 1; @x->isused=0; @x->iskept = 0;
+    @x->sort.ressort.sort = exp_sort;
+    @x->sort.pars = (Tokpar *)0;
+
+    @y = MALLOC(Tokdec); NEW_IDNAME(@y->idname, n, tok_ent);
+    @y->isdeffed = 1; @y->isused=0; @y->iskept = 0;
+    @y->sort.ressort.sort = exp_sort;
+    @y->sort.pars = MALLOC(Tokpar);
+    @y->sort.pars->par.sort = exp_sort;
+    @y->sort.pars->next = (Tokpar*)0;
+    @x->next = @y;
+    SET_TDF(@hold, &g_shape);
+@} ;
+
+<field2> : ( hold, x, y ) -> () = @{
+    int tn;
+    RESET_TDF(@hold);
+    o_make_tokdef(out_tdfint32(LOCNAME(@x->idname)), {},
+	o_token_def(o_exp, {},
+	    if (g_lastfield==-1) { /* first field */
+		o_offset_zero(o_alignment(append_TDF(&g_shape, 0)));
+	    } else {
+		o_offset_pad(o_alignment(append_TDF(&g_shape,0)),
+		    o_offset_add(o_exp_apply_token(
+			o_make_tok(out_tdfint32(UL(g_lastfield))),{}),
+		    o_shape_offset(append_TDF(&g_lastshape, 1))))
+	    }));
+    g_lastfield = (int)(LOCNAME(@x->idname));
+    g_lastshape = g_shape;
+    INC_LIST;
+    o_make_tokdef(out_tdfint32(LOCNAME(@y->idname)), {},
+	o_token_def(o_exp,
+	    LIST_ELEM(o_make_tokformals(o_exp,
+		out_tdfint32(UL(tn=next_unit_name(tok_ent))))),
+	    o_component(append_TDF(&g_lastshape,0),
+		o_exp_apply_token(o_make_tok(out_tdfint32(UL(tn))),{}),
+		o_exp_apply_token(
+		    o_make_tok(out_tdfint32(UL(g_lastfield))),{}))));
+    INC_LIST;
+    @y->next = tokdecs;
+    tokdecs = @x;
+@} ;
+
+<fvar1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_flvar_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		 append_TDF(&@elsept,1));
+@} ;
+
+<fvardouble> : () -> () = @{
+    o_flvar_parms(o_make_nat(out_tdfint32(UL(2))),
+		  o_make_nat(out_tdfint32(UL(MANT_DOUBLE))),
+		  o_make_nat(out_tdfint32(UL(MINEXP_DOUBLE))),
+		  o_make_nat(out_tdfint32(UL(MAXEXP_DOUBLE))));
+@} ;
+
+<fvarfloat> : () -> () = @{
+    o_flvar_parms(o_make_nat(out_tdfint32(UL(2))),
+		  o_make_nat(out_tdfint32(UL(MANT_FLOAT))),
+		  o_make_nat(out_tdfint32(UL(MINEXP_FLOAT))),
+		  o_make_nat(out_tdfint32(UL(MAXEXP_FLOAT))));
+@} ;
+
+<gcall1_dec> : () -> ( cers, cees, plude, cr_v, ce_v, old_app_tags, app_tags, old_tagdecs ) = @{
+    /* @cers, @cees, @plude uninitialised */
+    /* @cr_v, @ce_v, @app_tags uninitialised */
+    @old_app_tags = g_app_tags;
+    @old_tagdecs = tagdecs;
+    g_app_tags = (Tagdec*)0;
+@} ;
+
+<gcall2> : ( cers, cr_v, old_app_tags, app_tags ) -> () = @{
+    @cers = *current_TDF;
+    INIT_TDF(current_TDF);
+    @cr_v = g_cr_v;
+    @app_tags = g_app_tags;
+    g_app_tags = @old_app_tags;
+@} ;
+
+<gcall3> : ( cees, ce_v, app_tags ) -> () = @{
+    @cees = *current_TDF;
+    @ce_v = g_ce_v;
+    INIT_TDF(current_TDF);
+    while (@app_tags != (Tagdec*)0) {
+	Tagdec * x = @app_tags;
+	@app_tags = x->next;
+	x->next = tagdecs;
+	tagdecs = x;
+    }
+@} ;
+
+<gcall4> : ( fn, sh, cers, cees, plude, cr_v, ce_v, old_tagdecs ) -> () = @{
+    @plude = *current_TDF;
+    INIT_TDF(current_TDF);
+    tagdecs = @old_tagdecs;
+    o_apply_general_proc(
+	append_TDF(&@sh,1), do_procprops(@cr_v+2*@ce_v+4*g_unt),
+	append_TDF(&@fn,1),
+	{ append_TDF(&@cers,1); current_TDF->no = @cers.no; },
+	append_TDF(&@cees,1),
+	append_TDF(&@plude, 1))
+@} ;
+
+<gencond1_dec> : () -> ( condexp, thenpt, elsept, hold ) = @{
+    /* @thenpt, @elsept uninitialised */
+    SET_TDF(@hold, &@condexp);
+@} ;
+
+<gencond2> : ( thenpt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@thenpt);
+@} ;
+
+<gencond3> : ( elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@elsept);
+@} ;
+
+<gencons1_dec> : () -> ( i ) = @{
+    @i = lex_v.val.v;
+@} ;
+
+<gencons2> : ( i ) -> () = @{
+    (constructs[@i].f)();
+@} ;
+
+<genhold1_dec> : () -> ( new, hold, empty ) = @{
+    @empty = (current_TDF->first == current_TDF->last &&
+	      current_TDF->first->usage == 0 &&
+	      current_TDF->first->offst == 0);
+    if (!@empty) { SET_TDF(@hold, &@new); }
+@} ;
+
+<genhold2> : ( new, hold, empty ) -> () = @{
+    if (!@empty ) {
+	SET(@hold);
+	RESET_TDF(@hold);
+	append_TDF(&@new,1);
+    }
+@} ;
+
+<gentok1_dec> : () -> ( td ) = @{
+    @td = lex_v.val.tokname;
+    @td->isused = 1;
+@} ;
+
+<gentok2> : ( td ) -> () = @{
+    expand_tok(@td, &@td->sort);
+@} ;
+
+<gproc1_dec> : () -> ( sh, cers, cees, body, hold, cr_v, ce_v, c_unt, old_locals, old_labels ) = @{
+    /* @cers, @cees, @body uninitialised */
+    /* @cr_v, @ce_v @c_unt uninitialised */
+    @old_locals = localdecs;
+    @old_labels = labdecs;
+    localdecs = (Tagdec*)0;
+    labdecs = (Labdec *)0;
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<gproc2> : ( cers, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@cers);
+@} ;
+
+<gproc3> : ( cees, hold, cr_v) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@cees);
+    @cr_v = g_cr_v;
+@} ;
+
+<gproc4> : ( body, hold, ce_v ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@body);
+    @ce_v = g_ce_v;
+@} ;
+
+<gproc5> : ( c_unt ) -> () = @{
+    @c_unt = g_unt;
+@} ;
+
+<gproc6> : ( sh, cers, cees, body, hold, cr_v, ce_v, c_unt, old_locals, old_labels ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_general_proc(append_TDF(&@sh,1),
+			do_procprops(@cr_v+2*@ce_v+4*@c_unt),
+			{ append_TDF(&@cers,1);
+			  current_TDF->no = @cers.no;},
+			{ append_TDF(&@cees,1);
+			  current_TDF->no = @cees.no;},
+			append_TDF(&@body,1))
+    while (labdecs != (Labdec *)0 ) {
+	if (!labdecs->declared) {
+	    fail("Label %s not declared", labdecs->idname.id);
+	}
+	labdecs = labdecs->next;
+    }
+    localdecs = @old_locals;
+    labdecs = @old_labels;
+@} ;
+
+<ibody1_dec> : () -> ( acc, init, body, hold, tg, isvar ) = @{
+    @isvar = localdecs->isvar;
+    @acc = intro_acc;
+    @init = intro_init;
+    @tg = localdecs->idname.name;
+    SET_TDF(@hold, &@body);
+@} ;
+
+<integer1> : () -> () = @{
+    intvalue = UL(stoi(lex_v.val.name, lnum));
+@} ;
+
+<integer2> : () -> () = @{
+    intvalue = UL(lex_v.val.v);
+@} ;
+
+<intro1_dec> : () -> ( acc, init, hold, x, has_vis ) = @{
+    /* @init, @has_vis uninitialised */
+    char* n = lex_v.val.name;
+    @x = find_tag(n);
+    if (@x != (Tagdec*)0) { fail("Tag %s declared twice", n); }
+    @x = MALLOC(Tagdec); @x->isdeffed = 1; @x->hassh=0; @x->iskept=0;
+    NEW_IDNAME(@x->idname, n, tag_ent);
+    g_has_vis = 0;
+    SET_TDF(@hold, &@acc);
+@} ;
+
+<intro2> : ( init, hold, has_vis ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@init);
+    @has_vis = g_has_vis;
+@} ;
+
+<intro3> : ( hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@x->sh.tdfsh);
+    @x->hassh=2;
+@} ;
+
+<intro4> : ( acc, init, hold, x, has_vis ) -> () = @{
+    RESET_TDF(@hold);
+    intro_acc = @acc;
+    intro_init = @init;
+    @x->isvar=1;
+    if (@has_vis) {
+	Tagdec * y = MALLOC(Tagdec);
+	*y = *@x;
+	y->next = tagdecs;
+	tagdecs = y;
+    }
+    @x->next = localdecs;
+    localdecs = @x;
+@} ;
+
+<intro5> : ( acc, init, hold, x, has_vis ) -> () = @{
+    RESET_TDF(@hold);
+    intro_acc = @acc;
+    intro_init = @init;
+    @x->isvar=0;
+    if (@has_vis) {
+	Tagdec * y = MALLOC(Tagdec);
+	*y = *@x;
+	y->next = tagdecs;
+	tagdecs = y;
+    }
+    @x->next = localdecs;
+    localdecs = @x;
+@} ;
+
+<intro6> : ( x ) -> () = @{
+    o_make_value(append_TDF(&@x->sh.tdfsh, 0));
+@} ;
+
+<introbody2> : ( acc, init, body, hold, tg, isvar ) -> () = @{
+    RESET_TDF(@hold);
+    if (@isvar) {
+	o_variable( if(@acc.no!=0) { OPTION(append_TDF(&@acc,1)); },
+		    make_tag(&@tg), append_TDF(&@init,1),
+		    append_TDF(&@body,1));
+    } else {
+	o_identify( if(@acc.no!=0) { OPTION(append_TDF(&@acc,1)); },
+		    make_tag(&@tg), append_TDF(&@init,1),
+		    append_TDF(&@body,1));
+    }
+@} ;
+
+<keep1> : () -> () = @{
+    Tokdec * k = lex_v.val.tokname;
+    k->iskept = 1;
+@} ;
+
+<keep2> : () -> () = @{
+    char * n = lex_v.val.name;
+    Tagdec * t = find_tag(n);
+    if (t != (Tagdec*)0){
+	t->iskept = 1;
+     } else {
+	Al_tagdec * a = find_al_tag(n);
+	if (a == (Al_tagdec*)0) {
+	    fail("Ident %s not declared",n);
+	}
+	a->iskept = 1;
+    }
+@} ;
+
+<keeps1> : () -> () = @{
+    int i;
+    for(i=0; i<NO_OF_ENTITIES; i++) {
+	INIT_TDF(lk_externs+i);
+    }
+@} ;
+
+<keeps2> : () -> () = @{
+    CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(1)));
+    if(line_no_tok != -1) {
+	current_TDF = lk_externs+tok_ent;
+	o_make_linkextern(
+	    out_tdfint32(UL(line_no_tok)),
+		o_string_extern(
+		    { out_tdfident_bytes("~exp_to_source"); }));
+	current_TDF->no++;
+	CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(3)));
+    }
+    {
+	Tokdec * k = tokdecs;
+	while (k != (Tokdec*)0) {
+	    if (!k->isdeffed || k->iskept) {
+		int capname = capsule_name(&k->idname.name, tok_ent);
+		char * n = k->idname.id;
+		current_TDF = lk_externs+tok_ent;
+		o_make_linkextern(out_tdfint32(UL(capname)),
+		    o_string_extern({ out_tdfident_bytes(n); }));
+		current_TDF->no++;
+		CONT_STREAM(&units[tld2_unit].tdf,
+		    { int i = k->isused + 2 + 4*k->isdeffed;
+		      out_tdfint32(UL(i)); });
+	    }
+	    k = k->next;
+	}
+    }
+    {
+	Tagdec * k = tagdecs;
+	while (k != (Tagdec*)0) {
+	    if (!k->isdeffed || k->iskept) {
+		int capname = capsule_name(&k->idname.name, tag_ent);
+		char * n = k->idname.id;
+		current_TDF = lk_externs+tag_ent;
+		o_make_linkextern(out_tdfint32(UL(capname)),
+		    o_string_extern({ out_tdfident_bytes(n); }));
+		current_TDF->no++;
+		CONT_STREAM(&units[tld2_unit].tdf,
+		    { int i = k->isused + 2 + ((k->iscommon)?8:(4*k->isdeffed));
+		      out_tdfint32(UL(i)); });
+	    }
+	    k = k->next;
+	}
+    }
+    {
+	Al_tagdec * k = al_tagdecs;
+	while (k != (Al_tagdec*)0) {
+	    if (!k->isdeffed || k->iskept) {
+		int capname = capsule_name(&k->idname.name, al_tag_ent);
+		char * n = k->idname.id;
+		current_TDF = lk_externs+al_tag_ent;
+		o_make_linkextern(out_tdfint32(UL(capname)),
+		    o_string_extern({ out_tdfident_bytes(n); }));
+		current_TDF->no++;
+		CONT_STREAM(&units[tld2_unit].tdf,
+		    { int i = k->isused + 2 + 4*k->isdeffed;
+		      out_tdfint32(UL(i)); });
+	    }
+	    k = k->next;
+	}
+    }
+    {
+	int i;
+	TDF caps;
+	add_extra_toks();
+	INIT_TDF(&caps);
+	RESET_TDF(&caps);
+	if (do_pp) success();
+	if (HAS_MAGIC) {
+	    out_basic_int(UL('T'), UI(8));
+	    out_basic_int(UL('D'), UI(8));
+	    out_basic_int(UL('F'), UI(8));
+	    out_basic_int(UL('C'), UI(8));
+	    out_tdfint32(MAJOR_NO);
+	    out_tdfint32(MINOR_NO);
+	    byte_align();
+	}
+	o_make_capsule(
+	    {
+		for(i=0; i<NO_OF_UNITS; i++) {
+		    if(units[i].present) {
+			char* n;
+			n = unit_names[i];
+			LIST_ELEM({ out_tdfident_bytes(n); });
+		    }
+		}
+	    },
+	    {
+		for(i=0; i<NO_OF_ENTITIES; i++) {
+		    char* n;
+		    n = ent_names[i];
+		    LIST_ELEM(
+			o_make_capsule_link(
+			    { out_tdfident_bytes(n);},
+			    out_tdfint32(UL(capsule_names[i]))))
+		}
+	    },
+	    {
+		for(i=0; i<NO_OF_ENTITIES; i++) {
+		    TDF * lks = lk_externs+i;
+		    LIST_ELEM(
+			o_make_extern_link(
+			    { append_TDF(lks,1); current_TDF->no = lks->no; });
+		    )
+		}
+	    },
+	    {
+		for(i=0; i<NO_OF_UNITS; i++) {
+		    if(units[i].present) {
+			LIST_ELEM(
+			    o_make_group(LIST_ELEM(make_unit(i))););
+		    }
+		}
+	    }
+	);
+	make_tdf_file(&caps, out_file);
+    }
+@} ;
+
+<label1> : () -> () = @{
+    char * n =lex_v.val.name;
+    Labdec * x = find_lab(n);
+    if (x==(Labdec*)0) {
+	x = MALLOC(Labdec);
+	x->idname.id = n; x->idname.name.unit_name = next_label();
+	x->declared = 0;
+	x->next = labdecs; labdecs = x;
+    }
+    g_labdec = x;
+    o_make_label(out_tdfint32(LOCNAME(x->idname)));
+@} ;
+
+<llist1_dec> : () -> ( thisexp, hold ) = @{
+    @hold = current_TDF;
+    INIT_TDF(&@thisexp);
+    current_TDF = &g_lablist;
+@} ;
+
+<llist2> : ( thisexp ) -> () = @{
+    if (g_labdec != (Labdec*)0) {
+	if (g_labdec->declared) {
+	    fail("Label %s set twice", g_labdec->idname.id);
+	}
+	g_labdec->declared = 1;
+    }
+    current_TDF = &@thisexp;
+@} ;
+
+<llist3> : () -> () = @{
+    g_lablist.no = 1;
+@} ;
+
+<llist4> : () -> () = @{
+    g_lablist.no++;
+@} ;
+
+<llist5> : ( thisexp, hold ) -> () = @{
+    RESET_TDF(@hold);
+    append_TDF(&@thisexp, 1);
+@} ;
+
+<lset_o1> : () -> () = @{
+    TDF * hold;
+    SET_TDF(hold, &optlab);
+    if (defaultlab==-1) defaultlab = next_label();
+    o_make_label(out_tdfint32(UL(defaultlab)));
+    RESET_TDF(hold);
+@} ;
+
+<lset_o2_dec> : () -> ( hold ) = @{
+    SET_TDF(@hold, &optlab);
+    g_labdec = (Labdec*)0;
+    if (defaultlab != -1) { fail("This conditional uses a default jump"); }
+@} ;
+
+<lset_o3> : ( hold ) -> () = @{
+    if (g_labdec != (Labdec*)0) {
+	if (g_labdec->declared) {
+	    fail("Label %s set twice", g_labdec->idname.id);
+	}
+	g_labdec->declared = 1;
+    }
+    RESET_TDF(@hold);
+@} ;
+
+<mint1_dec> : () -> ( nt, v ) = @{
+    /* @v uninitialised */
+    @nt = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<mint2> : ( nt, v ) -> () = @{
+    @v = *current_TDF;
+    INIT_TDF(current_TDF);
+    o_make_int(append_TDF(&@v,1), append_TDF(&@nt,1));
+@} ;
+
+<nat1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_nat_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+	       append_TDF(&@elsept,1));
+@} ;
+
+<nat2> : () -> () = @{
+    o_make_nat(out_tdfint32(intvalue));
+@} ;
+
+<natopt1> : ( new, hold ) -> () = @{
+    RESET_TDF(@hold);
+    OPTION(append_TDF(&@new,1));
+@} ;
+
+<natopt_dec> : () -> ( new, hold ) = @{
+    SET_TDF(@hold, &@new);
+@} ;
+
+<newstr_opt1> : () -> () = @{
+    current_TDF->no=1;
+@} ;
+
+<newstring1> : () -> () = @{
+    char * s = lex_v.val.name;
+    o_make_string(out_tdfstring_bytes(s, 8, UI(strlen(s))));
+@} ;
+
+<newstring2> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_string_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		  append_TDF(&@elsept,1));
+@} ;
+
+<ntest1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_ntest_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		 append_TDF(&@elsept,1));
+@} ;
+
+<ntest2> : () -> () = @{
+    char * n = lex_v.val.name;
+    if (strcmp(n,"!<")==0) { o_not_less_than; }
+    else if (strcmp(n,"!<=")==0) { o_not_less_than_or_equal; }
+    else if (strcmp(n,"!=")==0) { o_not_equal; }
+    else if (strcmp(n,"!>")==0) { o_not_greater_than; }
+    else if (strcmp(n,"!>=")==0) { o_not_greater_than_or_equal; }
+    else if (strcmp(n,"!Comparable")==0) { o_not_comparable; }
+    else if (strcmp(n,"<")==0) { o_less_than; }
+    else if (strcmp(n,"<=")==0) { o_less_than_or_equal; }
+    else if (strcmp(n,"==")==0) { o_equal; }
+    else if (strcmp(n,">")==0) { o_greater_than; }
+    else if (strcmp(n,">=")==0) { o_greater_than_or_equal; }
+    else if (strcmp(n,"Comparable")==0) { o_comparable; }
+    else { fail("%s is not a comparison", n); }
+@} ;
+
+<offexpl1> : () -> () = @{
+    current_TDF->no = 2;
+@} ;
+
+<offexpl2> : () -> () = @{
+    current_TDF->no+=2;
+@} ;
+
+<otagel1> : () -> () = @{
+    current_TDF->no = 1;
+@} ;
+
+<otagel2> : () -> () = @{
+    current_TDF->no++;
+@} ;
+
+<otagel_opt1> : () -> () = @{
+    current_TDF->no = 0;
+@} ;
+
+<otagexp1_dec> : () -> ( e, hold ) = @{
+    SET_TDF(@hold, &@e);
+@} ;
+
+<otagexp2> : ( e, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_otagexp( {}, append_TDF(&@e,1));
+@} ;
+
+<otagexp3> : ( e, hold ) -> () = @{
+    char* n = lex_v.val.name;
+    Tagdec * x = find_tag(n);
+    if (x != (Tagdec*)0) { fail("Tag %s declared twice", n); }
+    x = MALLOC(Tagdec); x->isdeffed = 1; x->hassh=0; x->iskept=0;
+    NEW_IDNAME(x->idname, n, tag_ent);
+    x->isvar = 1;
+    x->next = g_app_tags; g_app_tags = x;
+    RESET_TDF(@hold);
+    o_make_otagexp( OPTION(make_tag(&x->idname.name)),append_TDF(&@e,1));
+@} ;
+
+<plude1> : () -> () = @{
+    o_make_top;
+@} ;
+
+<proc_def1> : ( tfexp, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@tfexp);
+@} ;
+
+<proc_def2> : ( tfexp, sigopt, hold, x, n, is_deced ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_id_tagdef(out_tdfint32(UL(local_name(&@x->idname.name, tag_ent))),
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, @is_deced)); },
+      append_TDF(&@tfexp, 1));
+    INC_LIST;
+    SELECT_UNIT(tagdec_unit);
+    if (!@is_deced) {
+	o_make_id_tagdec(out_tdfint32(UL(non_local(&@x->idname.name,tag_ent))),
+	    {},
+	    if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	    o_proc);
+	INC_LIST;
+    }
+    @x->isdeffed=1;
+    if (!@is_deced) {@x->next = tagdecs; tagdecs = @x;}
+@} ;
+
+<query_type1> : () -> () = @{
+    query_t = lex_query;
+@} ;
+
+<query_type2> : () -> () = @{
+    query_t = lex_float__query;
+@} ;
+
+<query_type3> : () -> () = @{
+    query_t = lex_ptr__query;
+@} ;
+
+<query_type4> : () -> () = @{
+    query_t = lex_proc__query;
+@} ;
+
+<query_type5> : () -> () = @{
+    query_t = lex_offset__query;
+@} ;
+
+<range1_dec> : () -> ( hold ) = @{
+    SET_TDF(@hold, &g_lower);
+@} ;
+
+<range2> : ( hold ) -> () = @{
+    RESET_TDF(@hold);
+    g_upper = g_lower;
+    g_has_upper=0;
+@} ;
+
+<range3> : ( hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &g_upper);
+@} ;
+
+<range4> : ( hold ) -> () = @{
+    RESET_TDF(@hold);
+    g_has_upper=1;
+@} ;
+
+<rllist1_dec> : () -> ( labx, hold ) = @{
+    SET_TDF(@hold,&@labx);
+@} ;
+
+<rllist2> : ( labx, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_caselim(append_TDF(&@labx,1),
+		   append_TDF(&g_lower, g_has_upper),
+		   append_TDF(&g_upper,1));
+    current_TDF->no = 1;
+@} ;
+
+<rllist3> : ( labx, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_caselim(append_TDF(&@labx,1),
+		   append_TDF(&g_lower, g_has_upper),
+		   append_TDF(&g_upper,1));
+@} ;
+
+<rllist4> : () -> () = @{
+    current_TDF->no++;
+@} ;
+
+<rmode1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_rounding_mode_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+			 append_TDF(&@elsept,1));
+@} ;
+
+<rmodeopt1> : () -> () = @{
+    o_to_nearest;
+@} ;
+
+<shape1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_shape_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		 append_TDF(&@elsept,1));
+@} ;
+
+<shapechar> : () -> () = @{
+    Name * shtok = tokforcharsh(issigned);
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapedouble> : () -> () = @{
+    Name * shtok = tokfordoublesh();
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapefloat> : () -> () = @{
+    Name * shtok = tokforfloatsh();
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapeint> : () -> () = @{
+    Name * shtok = tokforintsh(issigned);
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapelong> : () -> () = @{
+    Name * shtok = tokforlongsh(issigned);
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapeptr2> : ( sh, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_pointer(o_alignment(append_TDF(&@sh,1)));
+@} ;
+
+<shapeshort> : () -> () = @{
+    Name * shtok = tokforshortsh(issigned);
+    o_shape_apply_token(make_tok(shtok), {});
+@} ;
+
+<shapetok2> : ( place, sh, hold, cu ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_tokdef(out_tdfint32(UL(g_shtokname->unit_name)), {},
+		  o_token_def(o_shape, {}, append_TDF(&@sh, 1)));
+    INC_LIST;
+    current_Unit = @cu;
+    RESET_TDF(@place);
+@} ;
+
+<shapetokchar> : () -> () = @{
+    * g_shtokname = *(tokforcharsh(issigned));
+@} ;
+
+<shapetokint> : () -> () = @{
+    * g_shtokname = *(tokforintsh(issigned));
+@} ;
+
+<shapetoklong> : () -> () = @{
+    * g_shtokname = *(tokforlongsh(issigned));
+@} ;
+
+<shptr1_dec> : () -> ( sh, hold ) = @{
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<shtok1_dec> : () -> ( place, sh, hold, cu ) = @{
+    @place = current_TDF;
+    @cu = current_Unit;
+    select_tokdef_unit();
+    * g_shtokname = next_name(tok_ent);
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<shtokdb> : () -> () = @{
+    * g_shtokname = *(tokfordoublesh());
+@} ;
+
+<shtokflt> : () -> () = @{
+    * g_shtokname = *(tokforfloatsh());
+@} ;
+
+<shtokshrt> : () -> () = @{
+    * g_shtokname = *(tokforshortsh(issigned));
+@} ;
+
+<signed_nat1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_signed_nat_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+		      append_TDF(&@elsept,1));
+@} ;
+
+<signed_nat2> : () -> () = @{
+    o_make_signed_nat(out_tdfbool(0), out_tdfint32(intvalue));
+@} ;
+
+<signed_nat3> : () -> () = @{
+    o_make_signed_nat(out_tdfbool(1), out_tdfint32(intvalue));
+@} ;
+
+<signed_nat4> : () -> () = @{
+    o_make_signed_nat(out_tdfbool(0), out_tdfint32(cLINE));
+@} ;
+
+<signed_nat5_dec> : () -> ( nt, hold ) = @{
+    SET_TDF(@hold, &@nt);
+@} ;
+
+<signed_nat6> : ( nt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_snat_from_nat(o_true, append_TDF(&@nt,1));
+@} ;
+
+<signed_nat7_dec> : () -> ( nt, hold ) = @{
+    SET_TDF(@hold, &@nt);
+    if (strcmp(lex_v.val.name, "+")) fail("Only + or - on NATs");
+@} ;
+
+<signed_nat8> : ( nt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_snat_from_nat(o_false, append_TDF(&@nt,1));
+@} ;
+
+<signedornot1> : () -> () = @{
+    issigned = 1;
+@} ;
+
+<signedornot2> : () -> () = @{
+    issigned = 0;
+@} ;
+
+<sizeexp2> : ( sh, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_offset_pad(o_alignment(append_TDF(&@sh, 0)),
+		 o_shape_offset(append_TDF(&@sh, 1)));
+@} ;
+
+<sortname1> : () -> () = @{
+    g_sname.sort = lex_v.t;
+@} ;
+
+<sortname2> : () -> () = @{
+    if(g_sname.sort == token_sort) {
+	fail("Token pars require result and parameter sorts");
+    }
+    g_sname.toksort= (TokSort*)0;
+@} ;
+
+<sortname3_dec> : () -> ( x, temp, old_tokpars ) = @{
+    /* @temp uninitialised */
+    @old_tokpars = g_tokpars;
+    @x = g_sname;
+    if (g_sname.sort != token_sort) {
+	fail("Only token pars require result and parameter sorts");
+    }
+@} ;
+
+<sortname4> : ( temp ) -> () = @{
+    @temp = g_tokpars;
+@} ;
+
+<sortname5> : ( x, temp, old_tokpars ) -> () = @{
+    TokSort * ts = MALLOC(TokSort);
+    ts->ressort = g_sname;
+    ts->pars = @temp;
+    g_tokpars = @old_tokpars;
+    @x.toksort = ts;
+    g_sname = @x;
+@} ;
+
+<snl1> : () -> () = @{
+    g_tokpars = MALLOC(Tokpar);
+    g_tokpars->par = g_sname;
+    g_tokpars->next = (Tokpar*)0;
+@} ;
+
+<snl2_dec> : () -> ( tmp ) = @{
+    @tmp = g_sname;
+@} ;
+
+<snl3> : ( tmp ) -> () = @{
+    Tokpar * x = MALLOC(Tokpar);
+    x->par = @tmp;
+    x->next = g_tokpars;
+    g_tokpars = x;
+@} ;
+
+<strtr1> : () -> () = @{
+    o_make_top;
+@} ;
+
+<struct1_dec> : () -> ( x ) = @{
+    char * n = lex_v.val.name;
+    @x = find_tok(n);
+    SELECT_UNIT(tokdef_unit);
+    if (@x!=(Tokdec*)0) fail("Struct name %s must be unique", n);
+    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, n, tok_ent);
+    @x->sort.ressort.sort = shape_sort; @x->sort.pars = (Tokpar*)0;
+    @x->isdeffed = 1; @x->isused=0; @x->iskept=0;
+    g_lastfield = -1;
+@} ;
+
+<struct2> : ( x ) -> () = @{
+    o_make_tokdef(out_tdfint32(LOCNAME(@x->idname)), {},
+	o_token_def(o_shape, {},
+	    o_compound(o_offset_add(
+		o_exp_apply_token(
+		    o_make_tok(out_tdfint32(UL(g_lastfield))),{}),
+		o_shape_offset(append_TDF(&g_lastshape, 1))))))
+    INC_LIST;
+    @x->next = tokdecs;
+    tokdecs = @x;
+@} ;
+
+<szexp1_dec> : () -> ( sh, hold ) = @{
+    SET_TDF(@hold, &@sh);
+@} ;
+
+<tag1> : () -> () = @{
+    char * n =lex_v.val.name;
+    Tagdec * x = find_tag(n);
+    if (x == (Tagdec*)0) { fail("Ident %s not declared", n); }
+    x->isused = 1;
+    make_tag(&x->idname.name);
+@} ;
+
+<tag_dec1_dec> : () -> ( tdaccopt, sigopt, hold, x ) = @{
+    /* @sigopt uninitialised */
+    char * n =lex_v.val.name;
+    @x = find_tag(n);
+    if (@x != (Tagdec*)0) fail("Tag %s declared twice", n);
+    SELECT_UNIT(tagdec_unit);
+    @x = MALLOC(Tagdec); NEW_IDNAME(@x->idname, n, tag_ent);
+    @x->isdeffed = 0; @x->hassh = 1; @x->iskept=0; @x->iscommon=0;
+    @x->isused = 0;
+    SET_TDF(@hold, &@tdaccopt);
+@} ;
+
+<tag_dec2> : ( x ) -> () = @{
+    g_shtokname = &@x->sh.shtok;
+@} ;
+
+<tag_dec3> : ( tdaccopt, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_var_tagdec(out_tdfint32(LOCNAME(@x->idname)),
+	if (@tdaccopt.no !=0) { OPTION(append_TDF(&@tdaccopt, 1)); },
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+    INC_LIST;
+    @x->next = tagdecs;
+    @x->isvar = 1;
+    tagdecs = @x;
+@} ;
+
+<tag_dec4> : ( tdaccopt, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_id_tagdec(out_tdfint32(LOCNAME(@x->idname)),
+	if (@tdaccopt.no !=0) { OPTION(append_TDF(&@tdaccopt, 1)); },
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+    INC_LIST;
+    @x->next = tagdecs;
+    @x->isvar = 0;
+    tagdecs = @x;
+@} ;
+
+<tag_dec5> : ( tdaccopt, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    @x->iscommon = 1;
+    o_common_tagdec(out_tdfint32(LOCNAME(@x->idname)),
+	if (@tdaccopt.no !=0) { OPTION(append_TDF(&@tdaccopt, 1)); },
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+    INC_LIST;
+    @x->next = tagdecs;
+    @x->isvar = 1;
+    tagdecs = @x;
+@} ;
+
+<tag_dec6> : ( sigopt, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@sigopt);
+@} ;
+
+<tag_def10> : ( x ) -> () = @{
+    o_make_value(o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+@} ;
+
+<tag_def12> : ( tfexp, hold, x, is_deced, v, s ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_var_tagdef(out_tdfint32(UL(local_name(&@x->idname.name, tag_ent))),
+	{}, {}, append_TDF(&@tfexp, 1));
+    INC_LIST;
+    SELECT_UNIT(tagdec_unit);
+    if (!@is_deced) {
+	o_make_var_tagdec(out_tdfint32(UL(non_local(&@x->idname.name,tag_ent))),
+	    {}, {},
+	    o_nof(o_make_nat(out_tdfint32(UL(strlen(@s)+1))),
+		o_integer(append_TDF(&@v, 0))));
+       INC_LIST;
+    }
+    @x->isdeffed=1;
+    if (!@is_deced) { @x->next = tagdecs; tagdecs = @x; }
+@} ;
+
+<tag_def1_dec> : () -> ( tfexp, sigopt, hold, x, n, is_deced ) = @{
+    /* @tfexp uninitialised */
+    @n =lex_v.val.name;
+    @x = find_tag(@n);
+    SELECT_UNIT(tagdef_unit);
+    if(@x!= (Tagdec*)0) {
+	if (@x->isdeffed && !@x->iscommon) fail("Tag %s defined twice", @n);
+	if (!@x->isvar) fail("Tag %s declared as non-variable", @n);
+	@is_deced = 1;
+    } else {
+	@x = MALLOC(Tagdec);
+	@x->hassh = 0; @x->isvar=1; @x->iskept=0; @x->iscommon = 0;
+	@x->isused=0;
+	NEW_IDNAME(@x->idname, @n, tag_ent);
+	@is_deced=0;
+    }
+    SET_TDF(@hold, &@sigopt);
+@} ;
+
+<tag_def2> : ( tfexp, hold, x, n ) -> () = @{
+    RESET_TDF(@hold);
+    if (!@x->hassh) fail("No declaration shape for %s", @n);
+    SET_TDF(@hold, &@tfexp);
+@} ;
+
+<tag_def3> : ( tfexp, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_var_tagdef(out_tdfint32(UL(non_local(&@x->idname.name, tag_ent))),
+	{},
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    @x->isdeffed = 1;
+@} ;
+
+<tag_def4> : ( hold, x, n ) -> () = @{
+    RESET_TDF(@hold);
+    if (@x->hassh) fail("Two declaration shapes for %s", @n);
+    g_shtokname = &@x->sh.shtok;
+@} ;
+
+<tag_def5> : ( tfexp, hold ) -> () = @{
+    SET_TDF(@hold, &@tfexp);
+@} ;
+
+<tag_def6> : ( tfexp, sigopt, hold, x, is_deced ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_var_tagdef(out_tdfint32(UL(local_name(&@x->idname.name, tag_ent))),
+	{},
+	if (@sigopt.no !=0 ) { OPTION(append_TDF(&@sigopt, @is_deced)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    SELECT_UNIT(tagdec_unit);
+    if (!@is_deced) {
+	o_make_var_tagdec(out_tdfint32(UL(non_local(&@x->idname.name,tag_ent))),
+	    {},
+	    if (@sigopt.no !=0 ) { OPTION(append_TDF(&@sigopt, 1)); },
+	    o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+	INC_LIST;
+    }
+    @x->isdeffed=1; @x->hassh =1;
+    if (!@is_deced) { @x->next = tagdecs; tagdecs = @x; }
+@} ;
+
+<tag_def7_dec> : () -> ( tfexp, sigopt, hold, x, n, is_deced ) = @{
+    /* @tfexp uninitialised */
+    @n =lex_v.val.name;
+    @x = find_tag(@n);
+    SELECT_UNIT(tagdef_unit);
+    if(@x!= (Tagdec*)0) {
+	if (@x->isdeffed && !@x->iscommon) fail("Tag %s defined twice", @n);
+	if (@x->isvar) fail("Tag %s declared as variable", @n);
+	@is_deced = 1;
+    } else {
+	@x = MALLOC(Tagdec);
+	@x->hassh = 0; @x->isvar=0; @x->iskept=0; @x->iscommon = 0;
+	@x->isused = 0;
+	NEW_IDNAME(@x->idname, @n, tag_ent);
+	@is_deced = 0;
+    }
+    SET_TDF(@hold, &@sigopt);
+@} ;
+
+<tag_def8> : ( tfexp, sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_id_tagdef(out_tdfint32(UL(non_local(&@x->idname.name, tag_ent))),
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    @x->isdeffed = 1;
+@} ;
+
+<tag_def9> : ( tfexp, sigopt, hold, x, is_deced ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_id_tagdef(out_tdfint32(UL(local_name(&@x->idname.name, tag_ent))),
+	if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, @is_deced)); },
+	append_TDF(&@tfexp, 1));
+    INC_LIST;
+    SELECT_UNIT(tagdec_unit);
+    if (!@is_deced) {
+	o_make_id_tagdec(out_tdfint32(UL(non_local(&@x->idname.name,tag_ent))),
+	    {},
+	    if (@sigopt.no !=0) { OPTION(append_TDF(&@sigopt, 1)); },
+	    o_shape_apply_token(make_tok(&@x->sh.shtok), {}));
+	INC_LIST;
+    }
+    @x->isdeffed=1; @x->hassh =1;
+    if (!@is_deced) { @x->next = tagdecs; tagdecs = @x; }
+@} ;
+
+<tagsa1_dec> : () -> ( accopt, hold, x, has_vis ) = @{
+    /* @has_vis uninitialised */
+    char * n =lex_v.val.name;
+    @x = find_tag(n);
+    if (@x != (Tagdec*)0) fail("Ident %s already declared", n);
+    @x = MALLOC(Tagdec);
+    @x->hassh = 2; @x->isvar =1; @x->isdeffed = 1; @x->iskept=0;
+    NEW_IDNAME(@x->idname, n, tag_ent);
+    g_has_vis =0;
+    SET_TDF(@hold, &@accopt);
+@} ;
+
+<tagshacc2> : ( hold, x, has_vis ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@x->sh.tdfsh);
+    @has_vis = g_has_vis;
+@} ;
+
+<tagshacc3> : ( accopt, hold, x, has_vis ) -> () = @{
+    RESET_TDF(@hold);
+    o_make_tagshacc( append_TDF(&@x->sh.tdfsh, 0),
+	if(@accopt.no != 0) {OPTION(append_TDF(&@accopt,1));},
+	make_tag(&@x->idname.name));
+    if (@has_vis) {
+	Tagdec * y = MALLOC(Tagdec);
+	*y = *@x;
+	y->next = tagdecs;
+	tagdecs = y;
+    }
+    @x->next = localdecs;
+    localdecs = @x;
+@} ;
+
+<tagshacc_l1> : () -> () = @{
+    current_TDF->no =0;
+@} ;
+
+<tagshacc_l2> : () -> () = @{
+    current_TDF->no++;
+@} ;
+
+<tcall1_dec> : () -> ( fn ) = @{
+    @fn = *current_TDF;
+    INIT_TDF(current_TDF);
+@} ;
+
+<tcall2> : ( fn ) -> () = @{
+    TDF cees;
+    cees = *current_TDF;
+    INIT_TDF(current_TDF);
+    o_tail_call(do_procprops(g_ce_v*2),
+		append_TDF(&@fn,1), append_TDF(&cees,1));
+@} ;
+
+<tgdef10_dec> : ( hold ) -> ( v ) = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@v);
+@} ;
+
+<tgdef11_dec> : ( tfexp, hold, x, n, v ) -> ( s ) = @{
+    @s = lex_v.val.name;
+    if (@x->hassh) fail("Two declaration shapes for %s", @n);
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@tfexp);
+    o_make_nof_int(append_TDF(&@v, 0),
+	o_make_string(out_tdfstring_bytes(@s, 8, UI(strlen(@s)+1))));
+@} ;
+
+<tmode1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_transfer_mode_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+			 append_TDF(&@elsept,1));
+@} ;
+
+<tok1> : () -> () = @{
+    Tokdec * td = lex_v.val.tokname;
+    if (td->isparam) {
+	o_token_apply_token(make_tok(&td->idname.name), {});
+    } else {
+	make_tok(&td->idname.name);
+    }
+    /* token should only be expanded as parameter of a token */
+@} ;
+
+<tok2_dec> : () -> ( holdtd ) = @{
+    @holdtd = g_tok_defn;
+@} ;
+
+<tok3> : ( holdtd ) -> () = @{
+    o_use_tokdef(append_TDF(&g_tok_defn,1));
+    g_tok_defn = @holdtd;
+@} ;
+
+<tok_dec1_dec> : () -> ( sigopt, hold, x ) = @{
+    char *n = lex_v.val.name;
+    @x = find_tok(n);
+    if (@x != (Tokdec *)0) fail("Token %s declared twice", n);
+    SELECT_UNIT(tokdec_unit);
+    @x = MALLOC(Tokdec);
+    NEW_IDNAME(@x->idname, n, tok_ent);
+    SET_TDF(@hold, &@sigopt);
+@} ;
+
+<tok_dec2> : ( sigopt, hold, x ) -> () = @{
+    RESET_TDF(@hold);
+    @x->sort.ressort = g_sname;
+    @x->sort.pars = g_tokpars;
+    @x->next = tokdecs;
+    @x->isdeffed = 0; @x->isused = 0; @x->iskept=0; @x->isparam=0;
+    tokdecs = @x;
+    o_make_tokdec(out_tdfint32(LOCNAME(@x->idname)),
+	if (@sigopt.no != 0) { OPTION(append_TDF(&@sigopt, 1)); },
+	out_toksort(&@x->sort));
+    INC_LIST;
+@} ;
+
+<tok_def0> : () -> () = @{
+    search_for_toks = 0;
+@} ;
+
+<tok_def1_dec> : () -> ( holdtd, sigopt, hold, x, is_deced ) = @{
+    char *n = lex_v.val.name;
+    @x = find_tok(n);
+    @holdtd = g_tok_defn;
+    SELECT_UNIT(tokdef_unit);
+    search_for_toks = 1;
+    if (@x != (Tokdec *)0) {
+	if (@x->isdeffed) fail("Token %s defined twice", n);
+	@is_deced = 1;
+    } else {
+	@x = MALLOC(Tokdec);
+	NEW_IDNAME(@x->idname, n, tok_ent);
+	@is_deced = 0;
+    }
+    SET_TDF(@hold, &@sigopt);
+@} ;
+
+<tok_def2> : ( holdtd, sigopt, hold, x, is_deced ) -> () = @{
+    RESET_TDF(@hold);
+    @x->sort = g_toksort;
+    @x->isdeffed =1; @x->iskept=0; @x->isparam = 0;
+    o_make_tokdef(out_tdfint32(UL(local_name(&@x->idname.name,tok_ent))),
+	if (@sigopt.no != 0) { OPTION(append_TDF(&@sigopt, 1)); },
+	append_TDF(&g_tok_defn, 1));
+    INC_LIST;
+    if (!@is_deced) { @x->next = tokdecs; tokdecs = @x; @x->isused=0; }
+    g_tok_defn = @holdtd;
+@} ;
+
+<tok_dn1_dec> : () -> ( old_tokformals ) = @{
+    @old_tokformals = g_tokformals;
+@} ;
+
+<tok_dn2> : ( old_tokformals ) -> () = @{
+    Tokdec * old_tokdecs = tokdecs;
+    Tokdec * tokformals = g_tokformals;
+    TDF * hold = current_TDF;
+    Tokpar * tp = (Tokpar*)0;
+    Sort sn;
+    Tokdec * tfrev = (Tokdec*)0;
+    while (g_tokformals != (Tokdec*)0) { /* the wrong way round!! */
+	Tokdec * x = MALLOC(Tokdec);
+	*x = *g_tokformals;
+	x->next = tfrev;
+	tfrev = x;
+	g_tokformals = g_tokformals->next;
+    }
+    sn = g_sname;
+    current_TDF = &g_tok_defn;
+    INIT_TDF(current_TDF);
+    o_token_def( out_sort(&sn),
+	{
+	    while(tfrev != (Tokdec*)0) {
+		Tokdec * x = tfrev->next;
+		LIST_ELEM(
+		    o_make_tokformals(
+			out_sort(&tfrev->sort.ressort),
+			out_tdfint32(LOCNAME(tfrev->idname))));
+		tfrev->isparam = 1;
+		tfrev->next = tokdecs;
+		tokdecs = tfrev;
+		tfrev = x;
+	    }
+	},
+	analyse_sort(sn.sort));
+    g_toksort.ressort = sn;
+    while (tokformals != (Tokdec*)0) {
+	Tokpar * p = MALLOC(Tokpar);
+	p->par = tokformals->sort.ressort;
+	p->next = tp;
+	tokformals = tokformals->next;
+	tp = p;
+    }
+    g_toksort.pars = tp;
+    RESET_TDF(hold);
+    tokdecs = old_tokdecs;
+    g_tokformals = @old_tokformals;
+@} ;
+
+<tok_fml1_dec> : () -> ( x ) = @{
+    char * n = lex_v.val.name;
+    @x = find_tok(n);
+    if (@x!=(Tokdec*)0) fail("Token parameter name %s must be unique", n);
+    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, n, tok_ent);
+    @x->isdeffed = 1; @x->isused = 0; @x->iskept=0;
+    @x->next = (Tokdec*)0;
+@} ;
+
+<tok_fml2> : ( x ) -> () = @{
+    @x->sort.ressort = g_sname;
+    @x->sort.pars = (Tokpar*)0;  /* no pars in formal pars */
+    g_tokformals = @x;
+@} ;
+
+<tok_fml3> : ( x ) -> () = @{
+    @x->sort.ressort = g_sname;
+    @x->sort.pars = (Tokpar*)0; /* no pars in formal pars */
+    @x->next = g_tokformals;
+    g_tokformals = @x;
+@} ;
+
+<tok_fml_opt1> : () -> () = @{
+    g_tokpars = (Tokpar*)0;
+@} ;
+
+<untidy1> : () -> () = @{
+    g_unt = 0;
+@} ;
+
+<untidy2> : () -> () = @{
+    g_unt = 1;
+@} ;
+
+<untidy3> : () -> () = @{
+    g_unt = 3;
+@} ;
+
+<untidy4> : () -> () = @{
+    g_unt = 2;
+@} ;
+
+<variety1> : ( condexp, thenpt, elsept, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_var_cond(append_TDF(&@condexp,1), append_TDF(&@thenpt,1),
+	       append_TDF(&@elsept,1));
+@} ;
+
+<variety2_dec> : () -> ( first, second, hold ) = @{
+    /* @second uninitialised */
+    SET_TDF(@hold, &@first);
+@} ;
+
+<variety3> : ( second, hold ) -> () = @{
+    RESET_TDF(@hold);
+    SET_TDF(@hold, &@second);
+@} ;
+
+<variety4> : ( first, second, hold ) -> () = @{
+    RESET_TDF(@hold);
+    o_var_limits(append_TDF(&@first,1), append_TDF(&@second,1));
+@} ;
+
+<varietychar> : () -> () = @{
+    o_var_limits(
+	o_make_signed_nat(out_tdfbool(issigned),
+	    out_tdfint32(UL((issigned)?MINSC:0))),
+	o_make_signed_nat(out_tdfbool(0),
+	    out_tdfint32(UL((issigned)?MAXSC:MAXUSC))));
+@} ;
+
+<varietyint> : () -> () = @{
+    o_var_limits(
+	o_make_signed_nat(out_tdfbool(issigned),
+	    out_tdfint32(UL((issigned)?MINSI:0))),
+	o_make_signed_nat(out_tdfbool(0),
+	    out_tdfint32(UL((issigned)?MAXSI:MAXUSI))));
+@} ;
+
+<varietylong> : () -> () = @{
+    o_var_limits(
+	o_make_signed_nat(out_tdfbool(issigned),
+	    out_tdfint32(UL((issigned)?MINSL:0))),
+	o_make_signed_nat(out_tdfbool(0),
+	    out_tdfint32(UL((issigned)?MAXSL:MAXUSL))));
+@} ;
+
+<varietyopt1> : () -> () = @{
+    /* unsigned char */
+    o_var_limits(
+	o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(0))),
+	o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(255))));
+@} ;
+
+<varietyshort> : () -> () = @{
+    o_var_limits(
+	o_make_signed_nat(out_tdfbool(issigned),
+	    out_tdfint32(UL((issigned)?MINSS:0))),
+	o_make_signed_nat(out_tdfbool(0),
+	    out_tdfint32(UL((issigned)?MAXSS:MAXUSS))));
+@} ;
+
+<vpar1> : () -> () = @{
+    current_TDF->no=1;
+@} ;
+
+<vpar2> : () -> () = @{
+    current_TDF->no=0;
+@} ;
+
+<syntax_error> : () -> () = @{
+    fail("Syntax error");
+@} ;
+
+%trailer% @{
+@}, @{
+#endif
+@} ;

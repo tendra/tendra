@@ -1,0 +1,1505 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+%types%
+
+AL_TAGDEC ;
+INT ;
+LABDEC ;
+NAME ;
+PTR_TDF ;
+STRING ;
+SORT ;
+TAGDEC ;
+TDF ;
+TOKDEC ;
+TOKPAR ;
+ULONG ;
+
+
+%terminals%
+
+access_cons ; access_sort ; access_tok ; addrop ; al_tag_sort ;
+al_tag_tok ; al_tagdef ; alignment_cons ; alignment_sort ;
+alignment_tok ; arithop ; bar ; !base ; bitfield_variety_cons ;
+bitfield_variety_sort ; bitfield_variety_tok ; bool_cons ; bool_sort ;
+bool_tok ; case_term ; ccurl ; char_term ; character ; check_stack ;
+colon ; comma ; common_term ; commondec_term ; cons ; crd ; csq ;
+dotdotdot ; double_term ; dynamic ; e_term ; eof ; equals ;
+error_code_cons ; error_treatment_cons ; error_treatment_sort ;
+error_treatment_tok ; exp_cons ; exp_sort ; exp_tok ; float_den ;
+float_query ; float_term ; floating_variety_cons ;
+floating_variety_sort ; floating_variety_tok ; general ; goesto ; hash ;
+iddec ; ident ; int_den ; int_term ; keep ; lab ; label_sort ;
+label_tok ; let ; line_term ; logop ; long_term ; !mantissa ; !maxexp ;
+!minexp ; minus_term ; nat_cons ; nat_sort ; nat_tok ; !notaterminal ;
+!ntest_cons ; ntest_sort ; ntest_tok ; ocurl ; offset_query ; ord ;
+osq ; !point ; proc ; proc_query ; ptr ; ptr_query ; qstring ; query ;
+relop ; rep ; rounding_mode_cons ; rounding_mode_sort ;
+rounding_mode_tok ; same ; semi ; shape_cons ; shape_sort ; shape_tok ;
+short_term ; signed_nat_cons ; signed_nat_sort ; signed_nat_tok ;
+signed_term ; size_term ; star ; string_cons ; string_sort ;
+string_term ; string_tok ; struct_term ; tag_cons ; tag_sort ; tag_tok ;
+tail_call_term ; tokdec ; tokdef ; !token_cons ; token_sort ;
+!token_tok ; transfer_mode_cons ; transfer_mode_sort ;
+transfer_mode_tok ; unsigned_term ; untidy ; use ; var ; vardec ;
+variety_cons ; variety_sort ; variety_tok ; varpar ;
+
+%productions%
+
+
+/* ACTION DECLARATIONS */
+
+<access1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<access2> : ( :INT ) -> () ;
+<acc_l1> : () -> () ;
+<acc_l2_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<acc_l3> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<alignment1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<alignment3> : ( :TDF, :PTR_TDF ) -> () ;
+<alment2_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<al_list1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<al_list2> : ( :TDF, :PTR_TDF ) -> () ;
+<al_list_opt1> : () -> () ;
+<al_tag1> : () -> () ;
+<al_tagdef2> : ( :AL_TAGDEC, :TDF, :PTR_TDF, :INT ) -> () ;
+<al_tgdf1_dec> : () -> ( :AL_TAGDEC, :TDF, :PTR_TDF, :INT ) ;
+<bool1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<bvar3_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<bvariety1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<bvariety2> : () -> () ;
+<bvariety4> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<bvariety5> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<call1_dec> : () -> ( :TDF, :TDF, :TDF, :TDF ) ;
+<call2> : ( :TDF ) -> () ;
+<call3> : ( :TDF ) -> () ;
+<call4> : ( :TDF, :TDF, :TDF, :TDF ) -> () ;
+<callee1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<callee2> : ( :TDF, :PTR_TDF ) -> () ;
+<callee3_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<callee4> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<callee5> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<callee6> : () -> () ;
+<cevaropt1> : () -> () ;
+<cevaropt2> : () -> () ;
+<chvar1_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<chvar2> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<chvar3> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<crvaropt1> : () -> () ;
+<crvaropt2> : () -> () ;
+<cseexp1_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<cseexp2> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<cseexp3> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<ctag_def3> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<ctag_def6> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<dest_o1_dec> : () -> ( :PTR_TDF ) ;
+<dest_opt2> : ( :PTR_TDF ) -> () ;
+<empty_snl> : () -> () ;
+<eopt1> : () -> () ;
+<errc1> : () -> () ;
+<errc2> : () -> () ;
+<errt1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<errt2_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<errt3> : ( :TDF, :PTR_TDF ) -> () ;
+<errt5> : ( :TDF, :PTR_TDF ) -> () ;
+<exp1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<exp1_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :STRING ) ;
+<exp2> : ( :TDF, :TDF, :PTR_TDF, :STRING ) -> () ;
+<exp3> : ( :TDF, :TDF, :PTR_TDF, :STRING ) -> () ;
+<exp5> : ( :TDF, :TDF, :PTR_TDF, :STRING ) -> () ;
+<exp6> : ( :TDF, :TDF, :PTR_TDF, :STRING ) -> () ;
+<expcond1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF, :INT, :LABDEC ) ;
+<expcond2> : ( :TDF, :PTR_TDF ) -> () ;
+<expcond3> : ( :TDF, :INT, :LABDEC ) -> () ;
+<expcond4> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<expcons1_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<expcons2> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<expcons3> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<expdec1_dec> : () -> ( :TAGDEC ) ;
+<expdec2> : ( :TAGDEC ) -> () ;
+<expfail1> : () -> () ;
+<exphold1_dec> : () -> ( :TDF, :PTR_TDF, :INT, :ULONG, :INT ) ;
+<exphold2> : ( :TDF, :PTR_TDF, :INT, :ULONG, :INT ) -> () ;
+<expl1> : () -> () ;
+<expl2> : () -> () ;
+<explab1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF, :LABDEC ) ;
+<explab2> : ( :TDF, :PTR_TDF ) -> () ;
+<explab3> : ( :TDF, :TDF, :TDF, :PTR_TDF, :LABDEC ) -> () ;
+<expneg1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<expnegate2> : ( :TDF, :PTR_TDF ) -> () ;
+<expproc1_dec> : () -> ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :TAGDEC, :LABDEC ) ;
+<expproc2> : ( :TDF, :PTR_TDF ) -> () ;
+<expproc3> : ( :TDF, :PTR_TDF ) -> () ;
+<expproc4> : ( :TDF, :PTR_TDF ) -> () ;
+<expproc5> : ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :TAGDEC, :LABDEC ) -> () ;
+<exprep1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF, :LABDEC, :INT ) ;
+<exprep2> : ( :INT ) -> () ;
+<exprep3> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<exprep4> : ( :TDF, :TDF, :TDF, :PTR_TDF, :LABDEC, :INT ) -> () ;
+<expstar1> : () -> () ;
+<expstar2_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<expstar3> : ( :TDF, :PTR_TDF ) -> () ;
+<expstar4> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<expstr1_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<expstr2> : ( :TDF, :PTR_TDF ) -> () ;
+<expstring2> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<exptag1> : () -> () ;
+<exptst1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF, :INT ) ;
+<exptst2> : ( :TDF, :PTR_TDF ) -> () ;
+<exptst3> : ( :TDF, :PTR_TDF ) -> () ;
+<exptst4> : ( :TDF, :TDF, :TDF, :PTR_TDF, :INT ) -> () ;
+<exp_sls1> : () -> () ;
+<exp_sls2> : () -> () ;
+<exp_sls3_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<exp_sls4> : ( :TDF, :PTR_TDF ) -> () ;
+<exp_sls5> : () -> () ;
+<fden1_dec> : () -> ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :INT, :ULONG ) ;
+<fden2_dec> : () -> ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :INT, :ULONG ) ;
+<fden3> : ( :TDF, :PTR_TDF ) -> () ;
+<fden4> : ( :TDF, :PTR_TDF ) -> () ;
+<fden5> : ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :INT, :ULONG ) -> () ;
+<field1_dec> : () -> ( :PTR_TDF, :TOKDEC, :TOKDEC ) ;
+<field2> : ( :PTR_TDF, :TOKDEC, :TOKDEC ) -> () ;
+<fvar1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<fvardouble> : () -> () ;
+<fvarfloat> : () -> () ;
+<gcall1_dec> : () -> ( :TDF, :TDF, :TDF, :INT, :INT, :TAGDEC, :TAGDEC, :TAGDEC ) ;
+<gcall2> : ( :TDF, :INT, :TAGDEC, :TAGDEC ) -> () ;
+<gcall3> : ( :TDF, :INT, :TAGDEC ) -> () ;
+<gcall4> : ( :TDF, :TDF, :TDF, :TDF, :TDF, :INT, :INT, :TAGDEC ) -> () ;
+<gencond1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF ) ;
+<gencond2> : ( :TDF, :PTR_TDF ) -> () ;
+<gencond3> : ( :TDF, :PTR_TDF ) -> () ;
+<gencons1_dec> : () -> ( :INT ) ;
+<gencons2> : ( :INT ) -> () ;
+<genhold1_dec> : () -> ( :TDF, :PTR_TDF, :INT ) ;
+<genhold2> : ( :TDF, :PTR_TDF, :INT ) -> () ;
+<gentok1_dec> : () -> ( :TOKDEC ) ;
+<gentok2> : ( :TOKDEC ) -> () ;
+<gproc1_dec> : () -> ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :INT, :INT, :INT, :TAGDEC, :LABDEC ) ;
+<gproc2> : ( :TDF, :PTR_TDF ) -> () ;
+<gproc3> : ( :TDF, :PTR_TDF, :INT ) -> () ;
+<gproc4> : ( :TDF, :PTR_TDF, :INT ) -> () ;
+<gproc5> : ( :INT ) -> () ;
+<gproc6> : ( :TDF, :TDF, :TDF, :TDF, :PTR_TDF, :INT, :INT, :INT, :TAGDEC, :LABDEC ) -> () ;
+<ibody1_dec> : () -> ( :TDF, :TDF, :TDF, :PTR_TDF, :NAME, :INT ) ;
+<integer1> : () -> () ;
+<integer2> : () -> () ;
+<intro1_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) ;
+<intro2> : ( :TDF, :PTR_TDF, :INT ) -> () ;
+<intro3> : ( :PTR_TDF, :TAGDEC ) -> () ;
+<intro4> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<intro5> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<intro6> : ( :TAGDEC ) -> () ;
+<introbody2> : ( :TDF, :TDF, :TDF, :PTR_TDF, :NAME, :INT ) -> () ;
+<keep1> : () -> () ;
+<keep2> : () -> () ;
+<keeps1> : () -> () ;
+<keeps2> : () -> () ;
+<label1> : () -> () ;
+<llist1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<llist2> : ( :TDF ) -> () ;
+<llist3> : () -> () ;
+<llist4> : () -> () ;
+<llist5> : ( :TDF, :PTR_TDF ) -> () ;
+<lset_o1> : () -> () ;
+<lset_o2_dec> : () -> ( :PTR_TDF ) ;
+<lset_o3> : ( :PTR_TDF ) -> () ;
+<mint1_dec> : () -> ( :TDF, :TDF ) ;
+<mint2> : ( :TDF, :TDF ) -> () ;
+<nat1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<nat2> : () -> () ;
+<natopt1> : ( :TDF, :PTR_TDF ) -> () ;
+<natopt_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<newstring1> : () -> () ;
+<newstring2> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<newstr_opt1> : () -> () ;
+<ntest1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<ntest2> : () -> () ;
+<offexpl1> : () -> () ;
+<offexpl2> : () -> () ;
+<otagel1> : () -> () ;
+<otagel2> : () -> () ;
+<otagel_opt1> : () -> () ;
+<otagexp1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<otagexp2> : ( :TDF, :PTR_TDF ) -> () ;
+<otagexp3> : ( :TDF, :PTR_TDF ) -> () ;
+<plude1> : () -> () ;
+<proc_def1> : ( :TDF, :PTR_TDF ) -> () ;
+<proc_def2> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :STRING, :INT ) -> () ;
+<query_type1> : () -> () ;
+<query_type2> : () -> () ;
+<query_type3> : () -> () ;
+<query_type4> : () -> () ;
+<query_type5> : () -> () ;
+<range1_dec> : () -> ( :PTR_TDF ) ;
+<range2> : ( :PTR_TDF ) -> () ;
+<range3> : ( :PTR_TDF ) -> () ;
+<range4> : ( :PTR_TDF ) -> () ;
+<rllist1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<rllist2> : ( :TDF, :PTR_TDF ) -> () ;
+<rllist3> : ( :TDF, :PTR_TDF ) -> () ;
+<rllist4> : () -> () ;
+<rmode1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<rmodeopt1> : () -> () ;
+<shape1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<shapechar> : () -> () ;
+<shapedouble> : () -> () ;
+<shapefloat> : () -> () ;
+<shapeint> : () -> () ;
+<shapelong> : () -> () ;
+<shapeptr2> : ( :TDF, :PTR_TDF ) -> () ;
+<shapeshort> : () -> () ;
+<shapetok2> : ( :PTR_TDF, :TDF, :PTR_TDF, :INT ) -> () ;
+<shapetokchar> : () -> () ;
+<shapetokint> : () -> () ;
+<shapetoklong> : () -> () ;
+<shptr1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<shtok1_dec> : () -> ( :PTR_TDF, :TDF, :PTR_TDF, :INT ) ;
+<shtokdb> : () -> () ;
+<shtokflt> : () -> () ;
+<shtokshrt> : () -> () ;
+<signedornot1> : () -> () ;
+<signedornot2> : () -> () ;
+<signed_nat1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<signed_nat2> : () -> () ;
+<signed_nat3> : () -> () ;
+<signed_nat4> : () -> () ;
+<signed_nat5_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<signed_nat6> : ( :TDF, :PTR_TDF ) -> () ;
+<signed_nat7_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<signed_nat8> : ( :TDF, :PTR_TDF ) -> () ;
+<sizeexp2> : ( :TDF, :PTR_TDF ) -> () ;
+<sortname1> : () -> () ;
+<sortname2> : () -> () ;
+<sortname3_dec> : () -> ( :SORT, :TOKPAR, :TOKPAR ) ;
+<sortname4> : ( :TOKPAR ) -> () ;
+<sortname5> : ( :SORT, :TOKPAR, :TOKPAR ) -> () ;
+<snl1> : () -> () ;
+<snl2_dec> : () -> ( :SORT ) ;
+<snl3> : ( :SORT ) -> () ;
+<strtr1> : () -> () ;
+<struct1_dec> : () -> ( :TOKDEC ) ;
+<struct2> : ( :TOKDEC ) -> () ;
+<szexp1_dec> : () -> ( :TDF, :PTR_TDF ) ;
+<tag1> : () -> () ;
+<tagsa1_dec> : () -> ( :TDF, :PTR_TDF, :TAGDEC, :INT ) ;
+<tagshacc2> : ( :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<tagshacc3> : ( :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<tagshacc_l1> : () -> () ;
+<tagshacc_l2> : () -> () ;
+<tag_dec1_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) ;
+<tag_dec2> : ( :TAGDEC ) -> () ;
+<tag_dec3> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<tag_dec4> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<tag_dec5> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<tag_dec6> : ( :TDF, :PTR_TDF ) -> () ;
+<tag_def1_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :STRING, :INT ) ;
+<tag_def2> : ( :TDF, :PTR_TDF, :TAGDEC, :STRING ) -> () ;
+<tag_def3> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<tag_def4> : ( :PTR_TDF, :TAGDEC, :STRING ) -> () ;
+<tag_def5> : ( :TDF, :PTR_TDF ) -> () ;
+<tag_def6> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<tag_def7_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :STRING, :INT ) ;
+<tag_def8> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC ) -> () ;
+<tag_def9> : ( :TDF, :TDF, :PTR_TDF, :TAGDEC, :INT ) -> () ;
+<tag_def10> : ( :TAGDEC ) -> () ;
+<tag_def12> : ( :TDF, :PTR_TDF, :TAGDEC, :INT, :TDF, :STRING ) -> () ;
+<tcall1_dec> : () -> ( :TDF ) ;
+<tcall2> : ( :TDF ) -> () ;
+<tgdef10_dec> : ( :PTR_TDF ) -> ( :TDF ) ;
+<tgdef11_dec> : ( :TDF, :PTR_TDF, :TAGDEC, :STRING, :TDF ) -> ( :STRING ) ;
+<tmode1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<tok1> : () -> () ;
+<tok2_dec> : () -> ( :TDF ) ;
+<tok3> : ( :TDF ) -> () ;
+<tok_dec1_dec> : () -> ( :TDF, :PTR_TDF, :TOKDEC ) ;
+<tok_dec2> : ( :TDF, :PTR_TDF, :TOKDEC ) -> () ;
+<tok_def0> : () -> () ;
+<tok_def1_dec> : () -> ( :TDF, :TDF, :PTR_TDF, :TOKDEC, :INT ) ;
+<tok_def2> : ( :TDF, :TDF, :PTR_TDF, :TOKDEC, :INT ) -> () ;
+<tok_dn1_dec> : () -> ( :TOKDEC ) ;
+<tok_dn2> : ( :TOKDEC ) -> () ;
+<tok_fml1_dec> : () -> ( :TOKDEC ) ;
+<tok_fml2> : ( :TOKDEC ) -> () ;
+<tok_fml3> : ( :TOKDEC ) -> () ;
+<tok_fml_opt1> : () -> () ;
+<untidy1> : () -> () ;
+<untidy2> : () -> () ;
+<untidy3> : () -> () ;
+<untidy4> : () -> () ;
+<variety1> : ( :TDF, :TDF, :TDF, :PTR_TDF ) -> () ;
+<variety2_dec> : () -> ( :TDF, :TDF, :PTR_TDF ) ;
+<variety3> : ( :TDF, :PTR_TDF ) -> () ;
+<variety4> : ( :TDF, :TDF, :PTR_TDF ) -> () ;
+<varietychar> : () -> () ;
+<varietyint> : () -> () ;
+<varietylong> : () -> () ;
+<varietyopt1> : () -> () ;
+<varietyshort> : () -> () ;
+<vpar1> : () -> () ;
+<vpar2> : () -> () ;
+<syntax_error> : () -> () ;
+
+
+/* PRODUCTION DECLARATIONS */
+
+access_opt ;
+alignment ;
+bitfield_variety ;
+bool ;
+closed_exp ;
+exp ;
+label ;
+unary_exp ;
+nat ;
+proc_def_body ;
+proc_exp ;
+shape ;
+sortname_list_opt ;
+string ;
+variety_opt ;
+
+
+/* SORT NAMES */
+
+sortname = {
+    	access_sort ;
+    ||	al_tag_sort ;
+    ||	alignment_sort ;
+    ||	bitfield_variety_sort ;
+    ||	bool_sort ;
+    ||	error_treatment_sort ;
+    ||	exp_sort ;
+    ||	floating_variety_sort ;
+    ||	label_sort ;
+    ||	nat_sort ;
+    ||	ntest_sort ;
+    ||	rounding_mode_sort ;
+    ||	shape_sort ;
+    ||	signed_nat_sort ;
+    ||	string_sort ;
+    ||	tag_sort ;
+    ||	token_sort ;
+    ||	transfer_mode_sort ;
+    ||	variety_sort ;
+} ;
+
+full_sortname = {
+	<sortname1> ; sortname ; <sortname2> ;
+    ||
+	<sortname1> ; sortname ; ( a, b, c ) = <sortname3_dec> ;
+	osq ; sortname_list_opt ; csq ; <sortname4> ( b ) ;
+	full_sortname ; <sortname5> ( a, b, c ) ;
+} ;
+
+sortname_list = {
+	full_sortname ; <snl1> ;
+    ||
+	full_sortname ; a = <snl2_dec> ;
+	comma ; sortname_list ; <snl3> ( a ) ;
+} ;
+
+sortname_list_opt = {
+	<empty_snl> ;
+    ||	sortname_list ;
+} ;
+
+
+/* TOKEN DECLARATIONS */
+
+signature_opt = {
+	string ; <newstr_opt1> ;
+    ||	$ ;
+} ;
+
+tok_dec = {
+	tokdec ; ( a, b, c ) = <tok_dec1_dec> ;
+	ident ; signature_opt ; colon ;
+	osq ; sortname_list_opt ; csq ;
+	full_sortname ; <tok_dec2> ( a, b, c ) ;
+} ;
+
+
+/* TOKEN DEFINITIONS */
+
+tok_formal_list = {
+	a = <tok_fml1_dec> ; ident ; colon ;
+	full_sortname ; <tok_fml2> ( a ) ;
+    ||
+	tok_formal_list ; comma ;
+	a = <tok_fml1_dec> ; ident ; colon ;
+	full_sortname ; <tok_fml3> ( a ) ;
+} ;
+
+tok_formal_list_opt = {
+	tok_formal_list ;
+    ||	<tok_fml_opt1> ;
+} ;
+
+tok_def_body = {
+ 	a = <tok_dn1_dec> ; osq ; tok_formal_list_opt ; csq ;
+	full_sortname ; <tok_dn2> ( a ) ;
+} ;
+
+tok_def = {
+ 	<tok_def0> ; tokdef ; ( a, b, c, d, e ) = <tok_def1_dec> ;
+	ident ; equals ; tok_def_body ; <tok_def2> ( a, b, c, d, e ) ;
+} ;
+
+
+/* STRUCTURE DEFINITIONS */
+
+field_list = {
+	( a, b, c ) = <field1_dec> ;
+	ident ; colon ; shape ; <field2> ( a, b, c ) ;
+    ||
+	( a, b, c ) = <field1_dec> ;
+	ident ; colon ; shape ; <field2> ( a, b, c ) ; comma ;
+	field_list ;
+} ;
+
+struct_def = {
+	struct_term ; a = <struct1_dec> ; ident ; ord ;
+	field_list ; <struct2> ( a ) ; crd ;
+} ;
+
+
+/* TAG SHAPES */
+
+nonst_shape_body = {
+	shape_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	shape ; <gencond3> ( c, d ) ; comma ; shape ;
+	<shape1> ( a, b, c, d ) ; crd ;
+    ||
+	shape_sort ; colon ; shape ;
+    ||
+	a = <gentok1_dec> ; shape_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; shape_cons ; <gencons2> ( a ) ;
+    ||
+	ptr ; ( a, b ) = <shptr1_dec> ; shape ; <shapeptr2> ( a, b ) ;
+} ;
+
+nonst_shape = {
+	( a, b, c ) = <genhold1_dec> ;
+	nonst_shape_body ; <genhold2> ( a, b, c ) ;
+} ;
+
+variety_sign = {
+	<signedornot1> ;
+    ||
+	signed_term ; <signedornot1> ;
+    ||
+	unsigned_term ; <signedornot2> ;
+} ;
+
+shapetok = {
+	( a, b, c, d ) = <shtok1_dec> ; nonst_shape ;
+	<shapetok2> ( a, b, c, d ) ;
+    ||
+	float_term ; <shtokflt> ;
+    ||
+	double_term ; <shtokdb> ;
+    ||
+	variety_sign ; int_term ; <shapetokint> ;
+    ||
+	variety_sign ; long_term ; <shapetoklong> ;
+    ||
+	variety_sign ; short_term ; <shtokshrt> ;
+    ||
+	variety_sign ; char_term ; <shapetokchar> ;
+} ;
+
+
+/* STRINGS */
+
+string = {
+	<newstring1> ; qstring ;
+    ||
+	string_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	string ; comma ; <gencond3> ( c, d ) ;
+	string ; <newstring2> ( a, b, c, d ) ; crd ;
+    ||
+	string_sort ; colon ; string ;
+    ||
+	a = <gentok1_dec> ; string_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; string_cons ; <gencons2> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* TAG DECLARATIONS */
+
+tag_dec	= {
+	vardec ; ( a, b, c, d ) = <tag_dec1_dec> ;
+	ident ; access_opt ;
+	<tag_dec6> ( b, c ) ; signature_opt ;
+	<tag_dec2> ( d ) ; colon ; shapetok ; <tag_dec3> ( a, b, c, d ) ;
+    ||
+	iddec ; ( a, b, c, d ) = <tag_dec1_dec> ;
+	ident ; access_opt ;
+	<tag_dec6> ( b, c ) ; signature_opt ;
+	<tag_dec2> ( d ) ; colon ; shapetok ; <tag_dec4> ( a, b, c, d ) ;
+    ||
+	commondec_term ; ( a, b, c, d ) = <tag_dec1_dec> ;
+	ident ; access_opt ;
+	<tag_dec6> ( b, c ) ; signature_opt ;
+	<tag_dec2> ( d ) ; colon ; shapetok ; <tag_dec5> ( a, b, c, d ) ;
+} ;
+
+
+/* TAG DEFINITIONS */
+
+tag_def = {
+	var ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def2> ( a, c, d, e ) ; equals ; exp ;
+	<tag_def3> ( a, b, c, d ) ;
+    ||
+	var ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def4> ( c, d, e ) ; colon ; shapetok ;
+	<tag_def5> ( a, c ) ; equals ; exp ;
+	<tag_def6> ( a, b, c, d, f ) ;
+    ||
+	var ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def4> ( c, d, e ) ; colon ; shapetok ;
+	<tag_def5> ( a, c ) ; <tag_def10> ( d ) ;
+	<tag_def6> ( a, b, c, d, f ) ;
+    ||
+	common_term ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def2> ( a, c, d, e ) ; equals ; exp ;
+	<ctag_def3> ( a, b, c, d ) ;
+    ||
+	common_term ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def4> ( c, d, e ) ; colon ; shapetok ;
+	<tag_def5> ( a, c ) ; equals ; exp ;
+	<ctag_def6> ( a, b, c, d, f ) ;
+    ||
+	common_term ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	<tag_def4> ( c, d, e ) ; colon ; shapetok ;
+	<tag_def5> ( a, c ) ; <tag_def10> ( d ) ;
+	<ctag_def6> ( a, b, c, d, f ) ;
+    ||
+	let ; ( a, b, c, d, e, f ) = <tag_def7_dec> ;
+	ident ; signature_opt ; equals ;
+	<tag_def2> ( a, c, d, e ) ; exp ;
+	<tag_def8> ( a, b, c, d ) ;
+    ||
+	let ; ( a, b, c, d, e, f ) = <tag_def7_dec> ;
+	ident ; signature_opt ;
+	<tag_def4> ( c, d, e ) ; colon ; shapetok ;
+	<tag_def5> ( a, c ) ; equals ; exp ;
+	<tag_def9> ( a, b, c, d, f ) ;
+    ||
+	string_term ; ( a, b, c, d, e, f ) = <tag_def1_dec> ;
+	ident ; signature_opt ;
+	g = <tgdef10_dec> ( c ) ; variety_opt ; equals ;
+	h = <tgdef11_dec> ( a, c, d, e, g ) ; qstring ;
+	<tag_def12> ( a, c, d, f, g, h ) ;
+} ;
+
+
+/* PROCEDURE DEFINITIONS */
+
+proc_def = {
+	proc ; ( a, b, c, d, e, f ) = <tag_def7_dec> ;
+	ident ; equals ; <proc_def1> ( a, c ) ;
+	proc_def_body ; <proc_def2> ( a, b, c, d, e, f ) ;
+} ;
+
+
+/* ALIGNMENT TAG DEFINITIONS */
+
+al_tag_def = {
+	al_tagdef ; ( a, b, c, d ) = <al_tgdf1_dec> ; ident ; equals ;
+	alignment ; <al_tagdef2> ( a, b, c, d ) ;
+} ;
+
+
+/* ACCESSES */
+
+access = {
+ 	access_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	access ; comma ; <gencond3> ( c, d ) ;
+	access ; <access1> ( a, b, c, d ) ; crd ;
+    ||
+	access_sort ; colon ; access ;
+    ||
+	a = <gentok1_dec> ; access_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; access_cons ; <access2> ( a ) ; <gencons2> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+access_list =	{
+	access ; <acc_l1> ;
+    ||
+	access_list ; ( a, b, c ) = <acc_l2_dec> ; comma ;
+	access ; <acc_l3> ( a, b, c ) ;
+} ;
+
+access_opt = {
+	osq ; access_list ; csq ;
+    ||	$ ;
+} ;
+
+
+/* ALIGNMENT TAGS */
+
+al_tag = {
+ 	al_tag_sort ; colon ; al_tag ;
+    ||
+	a = <gentok1_dec> ; al_tag_tok ; <gentok2> ( a ) ;
+    ||
+	<al_tag1> ; ident ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* ALIGNMENTS */
+
+alignment_list = {
+	alignment ;
+    ||
+	alignment_list ; ( a, b ) = <al_list1_dec> ; comma ;
+	alignment ; <al_list2> ( a, b ) ;
+} ;
+
+alignment_list_opt = {
+	<al_list_opt1> ;
+    ||
+	( a, b, c ) = <genhold1_dec> ;
+	alignment_list ; <genhold2> ( a, b, c ) ;
+} ;
+
+alignment = {
+ 	alignment_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	alignment ; comma ; <gencond3> ( c, d ) ;
+	alignment ; <alignment1> ( a, b, c, d ) ; crd ;
+    ||
+	alignment_sort ; colon ; alignment ;
+    ||
+	a = <gentok1_dec> ; alignment_tok ; <gentok2> ( a ) ;
+    ||
+	( a, b ) = <alment2_dec> ; al_tag ; <alignment3> ( a, b ) ;
+    ||
+	a = <gencons1_dec> ; alignment_cons ; <gencons2> ( a ) ;
+    ||
+	ord ; alignment_list_opt ; crd ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* BITFIELD VARIETIES */
+
+after_bv_sort = {
+	( a, b, c, d ) = <gencond1_dec> ; query ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	bitfield_variety ; comma ; <gencond3> ( c, d ) ;
+	bitfield_variety ; <bvariety1> ( a, b, c, d ) ; crd ;
+    ||
+	colon ; bitfield_variety ;		   
+} ;
+
+bitfield_sign = {
+	bool ;
+    ||	variety_sign ; <bvariety2> ;
+} ;
+
+bitfield_variety = {
+	bitfield_variety_sort ; after_bv_sort ;
+    ||
+	a = <gentok1_dec> ; bitfield_variety_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; bitfield_variety_cons ; <gencons2> ( a ) ;
+    ||
+	( a, b, c ) = <bvar3_dec> ; bitfield_sign ;
+	<bvariety4> ( a, b, c ) ; nat ; <bvariety5> ( a, b, c ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* BOOLS */
+
+after_bool_sort = {
+	( a, b, c, d ) = <gencond1_dec> ; query ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	bool ; comma ; <gencond3> ( c, d ) ;
+	bool ; <bool1> ( a, b, c, d ) ; crd ;
+    ||
+	colon ; bool ;
+} ;
+
+bool = {
+ 	bool_sort ; after_bool_sort ;
+    ||
+	a = <gentok1_dec> ; bool_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; bool_cons ; <gencons2> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* ERROR CODES */
+
+error_code = {
+	a = <gencons1_dec> ; error_code_cons ; <gencons2> ( a ) ;	
+    ##
+	<syntax_error> ;
+} ;
+
+error_code_list = {
+	error_code ; <errc1> ;
+    ||
+	error_code_list ; comma ; error_code ; <errc2> ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* ERROR TREATMENTS */
+
+error_treatment = {
+	error_treatment_sort ; ( a, b, c, d ) = <gencond1_dec> ; query ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	error_treatment ; comma ; <gencond3> ( c, d ) ;
+	error_treatment ; <errt1> ( a, b, c, d ) ; crd ;
+    ||
+	error_treatment_sort ; colon ; error_treatment ;
+    ||
+	a = <gentok1_dec> ; error_treatment_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; error_treatment_cons ; <gencons2> ( a ) ;
+    ||
+	( a, b ) = <errt2_dec> ; label ; <errt3> ( a, b ) ;
+    ||
+	osq ; ( a, b ) = <errt2_dec> ; error_code_list ;
+	<errt5> ( a, b ) ; csq ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* FLOATING VARIETIES */
+
+floating_variety = {
+	floating_variety_sort ; ( a, b, c, d ) = <gencond1_dec> ; query ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	floating_variety ; comma ; <gencond3> ( c, d ) ;
+	floating_variety ; <fvar1> ( a, b, c, d ) ; crd ;
+    ||
+	floating_variety_sort ; colon ; floating_variety ;
+    ||
+	a = <gentok1_dec> ; floating_variety_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; floating_variety_cons ; <gencons2> ( a ) ;
+    ||
+	double_term ; <fvardouble> ;
+    ||
+	float_term ; <fvarfloat> ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* LABELS */
+
+label = {		
+	label_sort ; colon ; label ;
+    ||
+	a = <gentok1_dec> ; label_tok ; <gentok2> ( a ) ;
+    ||
+	<label1> ; ident ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+
+/* NATS */
+
+integer = {
+	<integer1> ; int_den ;
+    ||	<integer2> ; character ;
+} ;
+
+nat_not_int = {
+	nat_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	nat ; <gencond3> ( c, d ) ; comma ;
+	nat ; <nat1> ( a, b, c, d ) ; crd ;
+    ||
+	nat_sort ; colon ; nat ;
+    ||
+	a = <gentok1_dec> ; nat_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; nat_cons ; <gencons2> ( a ) ;
+} ;
+
+nat = {
+	integer ; <nat2> ;
+    ||
+	nat_not_int ;
+    ##
+	<syntax_error> ;
+} ;
+
+nat_option = {
+	( a, b ) = <natopt_dec> ; nat ; <natopt1> ( a, b ) ;
+    ||
+	$ ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* NTESTS */
+
+ntest = {
+	ntest_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	ntest ; <gencond3> ( c, d ) ; comma ;
+	ntest ; <ntest1> ( a, b, c, d ) ; crd ;
+    ||
+	ntest_sort ; colon ; ntest ;
+    ||
+	a = <gentok1_dec> ; ntest_tok ; <gentok2> ( a ) ;
+    ||
+	<ntest2> ; relop ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* ROUNDING MODES */
+
+rounding_mode = {
+	rounding_mode_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; comma ; <gencond2> ( b, d ) ;
+	rounding_mode ; comma ; <gencond3> ( c, d ) ;
+	rounding_mode ; <rmode1> ( a, b, c, d ) ; crd ;
+    ||
+	rounding_mode_sort ; colon ; rounding_mode ;
+    ||
+	a = <gentok1_dec> ; rounding_mode_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; rounding_mode_cons ; <gencons2> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+rounding_mode_opt = {
+	rounding_mode ;
+    ||	<rmodeopt1> ;
+} ;
+
+
+/* SHAPES */
+
+shape_body = {
+	shape_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	shape ; <gencond3> ( c, d ) ; comma ;
+	shape ; <shape1> ( a, b, c, d ) ; crd ;
+    ||
+	shape_sort ; colon ; shape ;
+    ||
+	a = <gentok1_dec> ; shape_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; shape_cons ; <gencons2> ( a ) ;
+    ||
+	float_term ; <shapefloat> ;
+    ||
+	double_term ; <shapedouble> ;
+    ||
+	variety_sign ; int_term ; <shapeint> ;
+    ||
+	variety_sign ; long_term ; <shapelong> ;
+    ||
+	variety_sign ; short_term ; <shapeshort> ;
+    ||
+	variety_sign ; char_term ; <shapechar> ;
+    ||
+	ptr ; ( a, b ) = <shptr1_dec> ; shape ; <shapeptr2> ( a, b ) ;
+} ;
+
+shape =	{
+	( a, b, c ) = <genhold1_dec> ;
+	shape_body ; <genhold2> ( a, b, c ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* SIGNED NATS */
+
+signed_nat_body = {
+	signed_nat_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	signed_nat_body ; <gencond3> ( c, d ) ; comma ;
+	signed_nat_body ; <signed_nat1> ( a, b, c, d ) ; crd ;
+    ||
+	signed_nat_sort ; colon ; signed_nat_body ;
+    ||
+	a = <gentok1_dec> ; signed_nat_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; signed_nat_cons ; <gencons2> ( a ) ;
+    ||
+	integer ; <signed_nat2> ;
+    ||
+	minus_term ; integer ; <signed_nat3> ;
+    ||
+	minus_term ; ( a, b ) = <signed_nat5_dec> ;
+	nat_not_int ; <signed_nat6> ( a, b ) ;
+    ||
+	( a, b ) = <signed_nat7_dec> ; arithop ;
+	nat_not_int ; <signed_nat8> ( a, b ) ;
+    ||
+	<signed_nat4> ; line_term ;
+} ;
+
+signed_nat = {
+	signed_nat_body ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* TAGS */
+
+tag = {
+	tag_sort ; colon ; tag ;
+    ||
+	a = <gentok1_dec> ; tag_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; tag_cons ; <gencons2> ( a ) ;
+    ||
+	<tag1> ; ident ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* TOKENS */
+
+tok_item = {
+	access_tok ;
+    ||	al_tag_tok ;
+    ||	alignment_tok ;
+    ||	bitfield_variety_tok ;
+    ||	bool_tok ;
+    ||	error_treatment_tok ;
+    ||	exp_tok ;
+    ||	floating_variety_tok ;
+    ||	label_tok ;
+    ||	nat_tok ;
+    ||	ntest_tok ;
+    ||	rounding_mode_tok ;
+    ||	shape_tok ;
+    ||	signed_nat_tok ;
+    ||	tag_tok ;
+    ||	transfer_mode_tok ;
+    ||	variety_tok ;
+} ;
+
+token = {
+	token_sort ; colon ; token ;
+    ||
+	<tok1> ; tok_item ;
+    ||
+	use ; a = <tok2_dec> ; tok_def_body ; <tok3> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* TRANSFER MODES */
+
+transfer_mode = {
+	transfer_mode_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	transfer_mode ; <gencond3> ( c, d ) ; comma ;
+	transfer_mode ; <tmode1> ( a, b, c, d ) ; crd ;
+    ||
+	transfer_mode_sort ; colon ; transfer_mode ;
+    ||
+	a = <gentok1_dec> ; transfer_mode_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; transfer_mode_cons ; <gencons2> ( a ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+/* VARIETIES */
+
+variety = {
+	variety_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	variety ; <gencond3> ( c, d ) ; comma ;
+	variety ; <variety1> ( a, b, c, d ) ; crd ;
+    ||
+	variety_sort ; colon ; variety ;
+    ||
+	a = <gentok1_dec> ; variety_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; variety_cons ; <gencons2> ( a ) ;
+    ||
+	( a, b, c ) = <variety2_dec> ;
+	signed_nat_body ; <variety3> ( b, c ) ;
+	colon ; signed_nat_body ; <variety4> ( a, b, c ) ;
+    ||
+	variety_sign ; int_term ; <varietyint> ;
+    ||
+	variety_sign ; long_term ; <varietylong> ;
+    ||
+	variety_sign ; short_term ; <varietyshort> ;
+    ||
+	variety_sign ; char_term ; <varietychar> ;
+    ##
+	<syntax_error> ;
+} ;
+
+variety_opt = {
+	ord ; variety ; crd ;
+    ||	<varietyopt1> ;
+} ;
+
+
+
+/* EXPRESSIONS */
+
+binop = {
+	arithop ;
+    ||	star ;
+    ||	minus_term ;
+} ;
+
+exp_body = {
+ 	unary_exp ;
+    ||
+        unary_exp ; ( a, b, c, d ) = <exp1_dec> ; addrop ;
+	unary_exp ; <exp2> ( a, b, c, d ) ;
+    ||
+        unary_exp ; ( a, b, c, d ) = <exp1_dec> ; logop ;
+	unary_exp ; <exp3> ( a, b, c, d ) ;
+    ||
+        unary_exp ; ( a, b, c, d ) = <exp1_dec> ; binop ;
+	unary_exp ; <exp5> ( a, b, c, d ) ;
+    ||
+        unary_exp ; ( a, b, c, d ) = <exp1_dec> ; equals ;
+	unary_exp ; <exp6> ( a, b, c, d ) ;
+} ;
+
+exp = {
+	( a, b, c, d, e ) = <exphold1_dec> ;
+	exp_body ; <exphold2> ( a, b, c, d, e ) ;
+    ##
+	<syntax_error> ;
+} ;
+
+exp_sequence = {
+ 	<exp_sls1> ;
+    ||
+	exp ; <exp_sls2> ;
+    ||
+	exp_sequence ; ( a, b ) = <exp_sls3_dec> ; semi ;
+	exp ; <exp_sls4> ( a, b ) ;
+    ||
+	exp_sequence ; ( a, b ) = <exp_sls3_dec> ; semi ;
+	<exp_sls5> ; <exp_sls4> ( a, b ) ;
+} ;
+
+labset_opt = {
+	a = <lset_o2_dec> ; colon ; label ; colon ; <lset_o3> ( a ) ;
+    ||	<lset_o1> ;
+} ;
+
+labelled_list = {
+	colon ; ( a, b ) = <llist1_dec> ; label ; <llist2> ( a ) ; colon ;
+	exp_sequence ; <llist5> ( a, b ) ;
+	<llist3> ;			
+    ||
+	colon ; ( a, b ) = <llist1_dec> ; label ; <llist2> ( a ) ; colon ;
+	exp_sequence ; <llist5> ( a, b ) ;
+	bar ; labelled_list ; <llist4> ;
+} ;
+
+labdest_opt = {
+	bar ; a = <dest_o1_dec> ; label ; <dest_opt2> ( a ) ;
+    ||	<lset_o1> ;
+} ;
+
+query_type = {
+	query ; <query_type1> ;
+    ||	float_query ; <query_type2> ;
+    ||	ptr_query ; <query_type3> ;
+    ||	proc_query ; <query_type4> ;
+    ||	offset_query ; <query_type5> ;
+} ;
+
+range = {
+	a = <range1_dec> ; signed_nat_body ; <range2> ( a ) ;
+    ||
+	a = <range1_dec> ; signed_nat_body ; colon ;
+	<range3> ( a ) ; signed_nat_body ; <range4> ( a ) ;
+} ;
+
+range_label_list = {
+	( a, b ) = <rllist1_dec> ; range ;
+	goesto ; label ; <rllist2> ( a, b ) ;
+    ||
+	( a, b ) = <rllist1_dec> ; range ;
+	goesto ; label ; <rllist3> ( a, b ) ; comma ;
+	range_label_list ; <rllist4> ;
+} ;
+
+offset_exp_list = {
+	exp ; colon ; exp ; <offexpl1> ;
+    ||
+	exp ; colon ; exp ; comma ; offset_exp_list ; <offexpl2> ;
+} ;
+
+exponent_opt = {
+	e_term ; signed_nat_body ;
+    ||	<eopt1> ;
+} ;
+
+exp_comma_list = {
+	exp ; <expl2> ;
+    ||
+	exp_comma_list ; comma ; exp ; <expl2> ;
+} ;
+
+exp_list = {
+	<expl1> ; exp_comma_list ;
+    ||
+	<expl1> ;
+    ##
+	<syntax_error> ;
+} ;
+
+varpar_opt = {
+ 	varpar ; exp ; <vpar1> ;
+    ||	<vpar2> ;
+} ;
+
+tagshacc = {
+	( a, b, c, d ) = <tagsa1_dec> ;
+	ident ; access_opt ; <tagshacc2> ( b, c, d ) ;
+	colon ; shape ; <tagshacc3> ( a, b, c, d ) ;
+} ;
+
+tagshacc_list = {
+	tagshacc ; <tagshacc_l2> ;
+    ||
+	tagshacc_list ; comma ; tagshacc ; <tagshacc_l2> ;
+} ;
+
+tagshacc_list_opt = {
+	<tagshacc_l1> ; tagshacc_list ;
+    ||	<tagshacc_l1> ;
+} ;
+
+varintro_opt = {
+	varpar ; tag ; colon ; alignment ;
+    ||	$ ;
+} ;
+
+tag_intro = {
+	var ; ( a, b, c, d, e ) = <intro1_dec> ;
+	ident ; access_opt ; <intro2> ( b, c, e ) ;
+	equals ; exp ; <intro4> ( a, b, c, d, e ) ;
+    ||
+	var ; ( a, b, c, d, e ) = <intro1_dec> ;
+	ident ; access_opt ; <intro3> ( c, d ) ;
+	colon ; shape ; <intro2> ( b, c, e ) ;
+	equals ; exp ; <intro4> ( a, b, c, d, e ) ;
+    ||
+	var ; ( a, b, c, d, e ) = <intro1_dec> ;
+	ident ; access_opt ; <intro3> ( c, d ) ;
+	colon ; shape ; <intro2> ( b, c, e ) ;
+	<intro6> ( d ) ; <intro4> ( a, b, c, d, e ) ;
+    ||
+	let ; ( a, b, c, d, e ) = <intro1_dec> ;
+	ident ; access_opt ; <intro2> ( b, c, e ) ;
+	equals ; exp ; <intro5> ( a, b, c, d, e ) ;
+} ;
+
+repeat_starter_opt = {
+	ord ; exp_sequence ; crd ;
+    ||	<strtr1> ;
+} ;
+
+untidy_opt = {
+ 	<untidy1> ;
+    ||	untidy ; <untidy2> ;
+    ||	untidy ; check_stack ; <untidy3> ;
+    ||	check_stack ; <untidy4> ;
+} ;
+
+postlude_opt = {
+	semi ; exp ;
+    ||	<plude1> ;
+} ;
+
+caller_var_opt = {
+	dotdotdot ; <crvaropt2> ;
+    ||	<crvaropt1> ;
+} ;
+
+callee_var_opt = {
+	dotdotdot ; <cevaropt2> ;
+    ||	<cevaropt1> ;
+} ;
+
+otagexp	= {
+	( a, b ) = <otagexp1_dec> ; exp ; <otagexp2> ( a, b ) ;
+    ||
+	( a, b ) = <otagexp1_dec> ; exp ; colon ;
+	<otagexp3> ( a, b ) ; ident ;
+} ;
+
+otagexp_list = {
+	otagexp ; <otagel1> ;
+    ||
+	otagexp_list ; <otagel2> ; comma ; otagexp ;
+} ;
+
+otagexp_list_opt = {
+	otagexp_list ;
+    ||	<otagel_opt1> ;
+} ;
+
+callee = {
+ 	( a, b ) = <callee1_dec> ; exp_list ; <callee2> ( a, b ) ;
+    ||
+	dynamic ; ( a, b, c ) = <callee3_dec> ;
+	ord ; exp ; <callee4> ( a, b, c ) ; comma ;
+	exp ; <callee5> ( a, b, c ) ; crd ;
+    ||
+	same ; <callee6> ;
+} ;
+
+unary_exp = {
+	exp_sort ; query ; ( a, b, c, d ) = <gencond1_dec> ;
+	ord ; exp ; <gencond2> ( b, d ) ; comma ;
+	exp ; <gencond3> ( c, d ) ; comma ;
+	exp ; <exp1> ( a, b, c, d ) ; crd ;
+    ||
+	exp_sort ; colon ; unary_exp ;
+    ||
+	a = <gentok1_dec> ; exp_tok ; <gentok2> ( a ) ;
+    ||
+	a = <gencons1_dec> ; exp_cons ; <gencons2> ( a ) ;
+    ||
+	closed_exp ;
+    ||
+	ord ; exp ; crd ;
+    ||
+	minus_term ; ord ; ( a, b ) = <expneg1_dec> ; exp ;
+	<expnegate2> ( a, b ) ; crd ;
+    ||
+	size_term ; ord ; ( a, b ) = <szexp1_dec> ;
+	shape ; <sizeexp2> ( a, b ) ; crd ;
+    ||
+	tag ; <exptag1> ;
+    ||
+	star ; <expstar1> ; ident ;
+    ||
+	star ; ( a, b, c ) = <expstar2_dec> ; ord ; shape ; crd ;
+	<expstar3> ( b, c ) ; unary_exp ; <expstar4> ( a, b, c ) ;
+    ||
+	query_type ; ord ; ( a, b, c, d, e ) = <exptst1_dec> ;
+	exp ; <exptst2> ( b, d ) ; ntest ;
+	<exptst3> ( c, d ) ; exp ; labdest_opt ;
+	<exptst4> ( a, b, c, d, e ) ; crd ;
+    ||
+	case_term ; ( a, b, c ) = <cseexp1_dec> ; exp ;
+	ord ; <cseexp2> ( a, b, c ) ; range_label_list ;
+	<cseexp3> ( a, b, c ) ; crd ;
+    ||
+	cons ; osq ; ( a, b, c ) = <expcons1_dec> ; exp ;
+	<expcons2> ( a, b, c ) ; csq ;
+	ord ; offset_exp_list ; <expcons3> ( a, b, c ) ; crd ;
+    ||
+	osq ; ( a, b, c ) = <chvar1_dec> ; variety ;
+	<chvar2> ( a, b, c ) ; csq ;
+	unary_exp ; <chvar3> ( a, b, c ) ;
+    ||
+	signed_nat_body ; ( a, b ) = <mint1_dec> ;
+	ord ; variety ; <mint2> ( a, b ) ; crd ;
+    ||
+	( a, b, c, d, e, f, g ) = <fden1_dec> ;
+	float_den ; exponent_opt ;
+	ord ; <fden3> ( c, e ) ; floating_variety ; <fden4> ( d, e ) ;
+	rounding_mode_opt ; <fden5> ( a, b, c, d, e, f, g ) ; crd ;
+    ||
+	minus_term ; ( a, b, c, d, e, f, g ) = <fden2_dec> ;
+	float_den ; exponent_opt ;
+	ord ; <fden3> ( c, e ) ; floating_variety ; <fden4> ( d, e ) ;
+	rounding_mode_opt ; <fden5> ( a, b, c, d, e, f, g ) ; crd ;
+    ||
+	proc_exp ; ( a, b, c, d ) = <call1_dec> ;
+	osq ; shape ; <call2> ( b ) ; csq ;
+	ord ; exp_list ; <call3> ( c ) ; varpar_opt ;
+	<call4> ( a, b, c, d ) ; crd ;
+    ||
+	proc_exp ; ( a, b, c, d ) = <call1_dec> ;
+	osq ; shape ; <call2> ( b ) ; csq ;
+	osq ; ( e, f, g, h, i, j, k, l ) = <gcall1_dec> ;
+	otagexp_list_opt ;
+	caller_var_opt ; <gcall2> ( e, h, j, k ) ; semi ; 			
+	callee ; callee_var_opt ; <gcall3> ( f, i, k ) ;
+	postlude_opt ; csq ; untidy_opt ;
+	<gcall4> ( a, b, e, f, g, h, i, l ) ;
+    ||
+	proc_exp ; a = <tcall1_dec> ; tail_call_term ;
+	osq ; callee ; callee_var_opt ;	<tcall2> ( a ) ; csq ;
+    ||
+	proc ; proc_def_body ;
+    ||
+	( a, b, c ) = <expstr1_dec> ; string ; <expstr2> ( b, c ) ;
+	ord ; variety ; crd ; <expstring2> ( a, b, c ) ;
+    ||
+	hash ; <expfail1> ;
+} ;
+
+closed_exp = {
+	ocurl ; exp_sequence ; ccurl ;
+    ||
+	query ; ( a, b, c, d, e, f ) = <expcond1_dec> ;
+	ocurl ; exp_sequence ; <expcond2> ( b, d ) ; bar ;
+	labset_opt ; <expcond3> ( c, e, f ) ;
+	exp_sequence ; <expcond4> ( a, b, c, d ) ; ccurl ;
+    ||
+	lab ; ( a, b, c, d, e ) = <explab1_dec> ;
+	ocurl ; exp_sequence ; <explab2> ( b, d ) ; bar ;
+	labelled_list ; ccurl ; <explab3> ( a, b, c, d, e ) ;
+    ||
+	rep ; ( a, b, c, d, e, f ) = <exprep1_dec> ;
+	repeat_starter_opt ; <exprep2> ( f ) ;
+	ocurl ; labset_opt ; <exprep3> ( b, c, d ) ;
+	exp_sequence ; <exprep4> ( a, b, c, d, e, f ) ;  ccurl ;
+    ||
+	a = <expdec1_dec> ; tag_intro ;
+	( b, c, d, e, f, g ) = <ibody1_dec> ;
+	closed_exp ; <introbody2> ( b, c, d, e, f, g ) ;
+	<expdec2> ( a ) ;
+} ;
+
+proc_def_body = {
+	( a, b, c, d, e, f, g ) = <expproc1_dec> ;
+	shape ; <expproc2> ( a, e ) ;
+	ord ; tagshacc_list_opt ; <expproc3> ( b, e ) ;
+	varintro_opt ; <expproc4> ( c, e ) ; crd ;
+	closed_exp ; <expproc5> ( a, b, c, d, e, f, g ) ;
+    ||
+	general ; ( a, b, c, d, e, f, g, h, i, j ) = <gproc1_dec> ;
+	shape ; <gproc2> ( b, e ) ;
+	ord ; tagshacc_list_opt ;
+	caller_var_opt ; <gproc3> ( c, e, f ) ; semi ;
+	tagshacc_list_opt ; callee_var_opt ; <gproc4> ( d, e, g ) ; crd ;
+	untidy_opt ; <gproc5> ( h ) ; closed_exp ;
+	<gproc6> ( a, b, c, d, e, f, g, h, i, j ) ;
+} ;
+
+proc_exp = {
+	ord ; exp ; crd ;
+    ||	tag ; <exptag1> ;
+} ;
+
+
+/* COMPILATION UNIT */
+
+element	= {
+	tok_dec ;
+    ||	tok_def ;
+    ||	tag_dec ;
+    ||	tag_def ;
+    ||	al_tag_def ;
+    ||	struct_def ;
+    ||	proc_def ;
+} ;
+
+element_list_opt = {
+	element ; semi ; element_list_opt ;
+    ||	$ ;
+} ;
+
+keep_item = {
+	<keep1> ; tok_item ;
+    ||	<keep2> ; ident ;
+} ;
+
+keep_list = {
+	keep_item ;
+    ||	keep_item ; comma ; keep_list ;
+} ;
+
+keep_list_opt = {
+	keep_list ;
+    ||	$ ;
+} ;
+
+program = {
+	element_list_opt ;
+	keep ; ord ; <keeps1> ; keep_list_opt ; crd ; eof ;
+	<keeps2> ;
+    ||
+	element_list_opt ; eof ;
+	<keeps1> ;
+	<keeps2> ;
+    ##
+	<syntax_error> ;
+} ;
+
+
+%entry% program, access, alignment, al_tag, bitfield_variety, bool,
+	error_code, error_code_list, error_treatment, exp, exp_list,
+	floating_variety, label, nat, nat_option, ntest, rounding_mode,
+	shape, signed_nat, string, tag, token, transfer_mode, variety ;

@@ -18,7 +18,7 @@
 
 .pl.j:
 	@${ECHO} Transforming ${.IMPSRC}
-	${PL} ${.IMPSRC} ${OBJ_SDIR}/${.TARGET}
+	${TPL} ${.IMPSRC} ${OBJ_SDIR}/${.TARGET}
 
 .sid.c:
 	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...

@@ -52,12 +52,6 @@ STRIP= :
 RANLIB=		ranlib
 EXEC_SUFFIX=
 
-.if exists(${OBJ_DIR}/src/tools/pl/pl)
-PL?=	${OBJ_DIR}/src/tools/pl/pl
-.else
-PL?=	pl
-.endif
-
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)
 SID?=	${OBJ_DIR}/src/utilities/sid/sid
 .else
@@ -80,6 +74,12 @@ TLD?=	tld
 TNC?=	${OBJ_DIR}/src/tools/tnc/tnc
 .else
 TNC?=	tnc
+.endif
+
+.if exists(${OBJ_DIR}/src/tools/tpl/tpl)
+TPL?=	${OBJ_DIR}/src/tools/tpl/tpl
+.else
+TPL?=	tpl
 .endif
 
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec

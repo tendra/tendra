@@ -83,8 +83,8 @@ $Log: main.c,v $
 #define RELEASE		"unknown"
 #endif
 
-static char *pl_version = "pl: Version 5.0 (TDF %lu.%lu, Release %s)\n" ;
-static char *pl_usage = "pl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j" ;
+static char *pl_version = "tpl: Version 5.0 (TDF %lu.%lu, Release %s)\n" ;
+static char *pl_usage = "tpl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j" ;
 
 int main
     PROTO_N ( ( argc, argv ) )
