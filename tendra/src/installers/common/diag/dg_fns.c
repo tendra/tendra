@@ -169,8 +169,6 @@ f_dg_apply_token(token token_value, bitstream token_args)
 	return v.tk_dg;
 }
 
-dg f_dummy_dg;
-
 dg
 f_make_tag_dg(dg_tag tg, dg diag)
 {
@@ -568,8 +566,6 @@ init_dg_comp_props()
 	return;
 }
 
-dg_tag f_dummy_dg_tag;
-
 dg_tag
 f_make_dg_tag(tdfint num)
 {
@@ -584,8 +580,6 @@ init_dg_tag()
 {
 	return;
 }
-
-dg_name f_dummy_dg_name;
 
 dg_name
 f_dg_name_apply_token(token token_value, bitstream token_args)
@@ -897,8 +891,6 @@ init_dg_name()
 {
 	return;
 }
-
-dg_type f_dummy_dg_type;
 
 dg_type
 f_dg_type_apply_token(token token_value, bitstream token_args)
@@ -1366,8 +1358,6 @@ init_dg_type()
 	return;
 }
 
-dg_class_base f_dummy_dg_class_base;
-
 dg_class_base
 f_make_dg_class_base(dg_tag base, dg_sourcepos_option whence,
 					 token_option location,
@@ -1393,8 +1383,6 @@ init_dg_class_base()
 {
 	return;
 }
-
-dg_classmem f_dummy_dg_classmem;
 
 dg_classmem
 f_dg_tag_classmem(dg_tag tg, dg_classmem mem)
@@ -1471,8 +1459,6 @@ init_dg_classmem()
 	return;
 }
 
-dg_qualifier f_dummy_dg_qualifier;
-
 dg_qualifier f_dg_const_qualifier = DG_CONST_T;
 
 dg_qualifier f_dg_volatile_qualifier = DG_VOL_T;
@@ -1488,8 +1474,6 @@ init_dg_qualifier()
 {
 	return;
 }
-
-dg_bound f_dummy_dg_bound;
 
 dg_bound
 f_dg_dynamic_bound(dg_tag bound, shape sha)
@@ -1528,8 +1512,6 @@ init_dg_bound()
 {
 	return;
 }
-
-dg_dim f_dummy_dg_dim;
 
 dg_dim
 f_dg_dim_apply_token(token token_value, bitstream token_args)
@@ -1620,8 +1602,6 @@ init_dg_dim()
 	return;
 }
 
-dg_enum f_dummy_dg_enum;
-
 dg_enum
 f_make_dg_enum(exp value, dg_idname idname,
 			   dg_sourcepos src_pos)
@@ -1666,8 +1646,6 @@ init_dg_enum()
 	return;
 }
 
-dg_param f_dummy_dg_param;
-
 dg_param
 f_dg_object_param(dg_idname_option idname,
 				  dg_sourcepos_option src_pos,
@@ -1700,8 +1678,6 @@ init_dg_param()
 	return;
 }
 
-dg_param_mode f_dummy_dg_param_mode;
-
 dg_param_mode f_dg_in_mode = DG_IN_MODE;
 
 dg_param_mode f_dg_out_mode = DG_OUT_MODE;
@@ -1713,8 +1689,6 @@ init_dg_param_mode()
 {
 	return;
 }
-
-dg_accessibility f_dummy_dg_accessibility;
 
 dg_accessibility f_dg_public_accessibility = DG_ACC_PUB;
 
@@ -1730,8 +1704,6 @@ init_dg_accessibility()
 	return;
 }
 
-dg_virtuality f_dummy_dg_virtuality;
-
 dg_virtuality f_dg_virtual_virtuality = DG_VIRT_VIRT;
 
 dg_virtuality f_dg_abstract_virtuality = DG_VIRT_PURE;
@@ -1741,8 +1713,6 @@ init_dg_virtuality()
 {
 	return;
 }
-
-dg_filename f_dummy_dg_filename;
 
 dg_filename
 f_dg_filename_apply_token(token token_value,
@@ -1766,8 +1736,6 @@ init_dg_filename()
 {
 	return;
 }
-
-dg_sourcepos f_dummy_dg_sourcepos;
 
 dg_sourcepos
 f_dg_span_sourcepos(dg_filename file, nat from_line,
@@ -1819,8 +1787,6 @@ init_dg_sourcepos()
 	return;
 }
 
-dg_compilation f_dummy_dg_compilation;
-
 dg_compilation
 f_dg_tag_compilation(dg_tag tg, dg_compilation comp)
 {
@@ -1863,8 +1829,6 @@ init_dg_compilation()
 	return;
 }
 
-dg_constraint f_dummy_dg_constraint;
-
 dg_constraint
 f_dg_type_constraint(dg_tag_option ref_member,
 					 dg_type type)
@@ -1895,8 +1859,6 @@ init_dg_constraint()
 	return;
 }
 
-dg_default f_dummy_dg_default;
-
 dg_default
 f_make_dg_default(exp_option value, dg_sourcepos_option src_span)
 {
@@ -1915,8 +1877,6 @@ init_dg_default()
 {
 	return;
 }
-
-dg_idname f_dummy_dg_idname;
 
 dg_idname
 f_dg_idname_apply_token(token token_value,
@@ -1991,8 +1951,6 @@ init_dg_idname()
 	return;
 }
 
-dg_varpart f_dummy_dg_varpart;
-
 dg_varpart
 f_dg_discrim_varpart(dg_classmem discrim,
 					 dg_variant_list variants)
@@ -2031,8 +1989,6 @@ init_dg_varpart()
 	return;
 }
 
-dg_variant f_dummy_dg_variant;
-
 dg_variant
 f_make_dg_variant(dg_discrim_list discr, dg_classmem_list fields)
 {
@@ -2047,8 +2003,6 @@ init_dg_variant()
 {
 	return;
 }
-
-dg_discrim f_dummy_dg_discrim;
 
 dg_discrim
 f_make_dg_discrim(exp lower, exp upper)
@@ -2067,8 +2021,6 @@ init_dg_discrim()
 {
 	return;
 }
-
-dg_macro f_dummy_dg_macro;
 
 dg_macro
 f_dg_function_macro(dg_sourcepos src_pos,
@@ -2345,8 +2297,6 @@ add_dg_constraint_list(dg_constraint_list list,
 	return elem;
 }
 
-dg_namelist f_dummy_dg_namelist;
-
 dg_namelist
 f_make_dg_namelist(dg_name_list items)
 {
@@ -2370,8 +2320,6 @@ init_dg_namelist()
 {
 	return;
 }
-
-dg_append f_dummy_dg_append;
 
 dg_append
 f_dg_name_append(dg_tag tg, dg_name nam)

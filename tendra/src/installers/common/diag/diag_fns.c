@@ -88,14 +88,6 @@
 #include "externs.h"
 
 
-diag_descriptor f_dummy_diag_descriptor;
-diag_tag f_dummy_diag_tag;
-diag_tagdef f_dummy_diag_tagdef;
-diag_type f_dummy_diag_type;
-diag_tq f_dummy_diag_tq;
-filename f_dummy_filename;
-sourcemark f_dummy_sourcemark;
-
 
 #define DEBUG(x) x
 
@@ -1766,14 +1758,6 @@ f_make_diagtaglink(tdfint i, tdfint ext)
 		&capsule_diag_tagtab[natint(ext)];
 	return;
 }
-
-diag_descriptor f_dummy_diag_descriptor;
-diag_tag f_dummy_diag_tag;
-diag_tagdef f_dummy_diag_tagdef;
-diag_type f_dummy_diag_type;
-diag_tq f_dummy_diag_tq;
-filename f_dummy_filename;
-sourcemark f_dummy_sourcemark;
 
 void
 init_diag_tq()

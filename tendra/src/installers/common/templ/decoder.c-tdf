@@ -80,6 +80,10 @@
 @loop sort
 @if !sort.builtin
 
+@if sort.basic
+
+%SN f_dummy_%SN;
+@endif
 
 /*
  * Decode %ST

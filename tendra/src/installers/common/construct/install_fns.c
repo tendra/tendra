@@ -164,7 +164,6 @@ shape f_bottom;
 shape f_top;
 shape f_local_label_value;
 
-procprops f_dummy_procprops;
 procprops f_var_callers = 1;
 procprops f_var_callees = 2;
 procprops f_untidy = 4;
@@ -803,8 +802,6 @@ init_access()
 	return;
 }
 
-access f_dummy_access;
-
 
 access f_visible = 1;
 access f_standard_access = 0;
@@ -870,8 +867,6 @@ init_alignment()
 	return;
 }
 
-alignment f_dummy_alignment;
-
 
 static alignment
 get_pal(alignment a, int sh_hd, int al)
@@ -932,8 +927,6 @@ init_bitfield_variety()
 	return;
 }
 
-bitfield_variety f_dummy_bitfield_variety;
-
 
 bool f_false = 0;
 bool f_true = 1;
@@ -943,8 +936,6 @@ init_bool()
 {
 	return;
 }
-
-bool f_dummy_bool;
 
 caselim
 f_make_caselim(label branch, signed_nat lower,
@@ -956,8 +947,6 @@ f_make_caselim(label branch, signed_nat lower,
 	c.high = upper;
 	return c;
 }
-
-callees f_dummy_callees;
 
 callees f_same_callees;
 
@@ -985,9 +974,6 @@ f_error_jump(label lab)
 }
 
 
-
-error_code f_dummy_error_code;
-
 void
 init_error_code()
 {
@@ -1002,9 +988,6 @@ init_error_treatment()
 	f_continue.err_code = 2;
 	return;
 }
-
-error_treatment f_dummy_error_treatment;
-
 
 exp
 f_abs(error_treatment ov_err, exp arg1)
@@ -4717,8 +4700,6 @@ init_exp()
 	return;
 }
 
-exp f_dummy_exp;
-
 exp
 f_return_to_label(exp e)
 {
@@ -4773,8 +4754,6 @@ init_nat()
 	return;
 }
 
-nat f_dummy_nat;
-
 void
 init_ntest()
 {
@@ -4794,16 +4773,11 @@ init_procprops()
 }
 
 
-
-ntest f_dummy_ntest;
-
 void
 init_rounding_mode()
 {
 	return;
 }
-
-rounding_mode f_dummy_rounding_mode;
 
 shape
 f_bitfield(bitfield_variety bf_var)
@@ -5110,9 +5084,6 @@ init_shape()
 	return;
 }
 
-shape f_dummy_shape;
-
-
 signed_nat
 f_computed_signed_nat(exp arg)
 {
@@ -5194,10 +5165,6 @@ init_signed_nat()
 	return;
 }
 
-signed_nat f_dummy_signed_nat;
-
-string f_dummy_string;
-
 void
 init_string()
 {
@@ -5261,8 +5228,6 @@ init_tagshacc()
 {
 	return;
 }
-
-transfer_mode f_dummy_transfer_mode;
 
 transfer_mode
 f_add_modes(transfer_mode md1, transfer_mode md2)
@@ -5364,8 +5329,6 @@ init_variety()
 	s64sh = getshape(1, const_al1, const_al1, S64_ALIGN, S64_SZ, s64hd);
 	return;
 }
-
-variety f_dummy_variety;
 
 version
 f_make_version(tdfint major_version, tdfint minor_version)
@@ -5614,8 +5577,6 @@ add_version_list(version_list list, version elem,
 	
 	return 0;
 }
-
-version f_dummy_version;
 
 access_option no_access_option = 0;
 

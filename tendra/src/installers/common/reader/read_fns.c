@@ -749,8 +749,6 @@ init_external()
 	return;
 }
 
-external f_dummy_external;
-
 floating_variety
 f_flvar_apply_token(token token_value, bitstream token_args)
 {
@@ -804,8 +802,6 @@ init_label()
 {
 	return;
 }
-
-label f_dummy_label;
 
 nat
 f_nat_apply_token(token token_value, bitstream token_args)
@@ -1074,8 +1070,6 @@ init_sortname()
 	return;
 }
 
-sortname f_dummy_sortname;
-
 tag
 f_tag_apply_token(token token_value, bitstream token_args)
 {
@@ -1115,9 +1109,6 @@ init_al_tag()
 {
 	return;
 }
-
-tag f_dummy_tag;
-al_tag f_dummy_al_tag;
 
 void
 check_sig(tag tg, string sig)
@@ -1195,9 +1186,6 @@ init_tagdec()
 {
 	return;
 }
-
-tagdec f_dummy_tagdec;
-
 
 void
 start_make_id_tagdef(tdfint t)
@@ -1287,9 +1275,6 @@ init_al_tagdef()
 	return;
 }
 
-tagdef f_dummy_tagdef;
-al_tagdef f_dummy_al_tagdef;
-
 char*
 add_prefix(char * nm)
 {
@@ -1344,8 +1329,6 @@ init_tokdec()
 {
 	return;
 }
-
-tokdec f_dummy_tokdec;
 
 tokdef
 f_make_tokdef(tdfint tokn, string_option sig,
@@ -1434,8 +1417,6 @@ init_tokdef()
 	return;
 }
 
-tokdef f_dummy_tokdef;
-
 token
 f_token_apply_token(token token_value, bitstream token_args)
 {
@@ -1456,8 +1437,6 @@ init_token()
 	return;
 }
 
-token f_dummy_token;
-
 token_defn
 f_token_definition(sortname result_sort, tokformals_list tok_params)
 {
@@ -1472,8 +1451,6 @@ init_token_defn()
 {
 	return;
 }
-
-token_defn f_dummy_token_defn;
 
 tokextern
 f_make_tokextern(tdfint internal, external ext)

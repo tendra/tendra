@@ -1719,10 +1719,6 @@ init_floating_variety()
 	return;
 }
 
-
-
-floating_variety f_dummy_floating_variety;
-
 floating_variety
 f_float_of_complex(shape sha)
 {

@@ -181,8 +181,6 @@ init_linkinfo(void)
 	return;
 }
 
-linkinfo f_dummy_linkinfo;
-
 linkinfo_list
 new_linkinfo_list(int n)
 {
