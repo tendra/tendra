@@ -16,6 +16,7 @@ GCRT1?=
 MCRT0?=         
 
 AR?=		/bin/ar
+AS?=		/bin/as
 AWK?=		/bin/awk
 BASENAME?=	/bin/basename
 CAT?=		/bin/cat
