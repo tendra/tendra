@@ -5,9 +5,8 @@
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-CC?=	gcc
-AR=	/usr/ccs/bin/ar
-RANLIB=	/usr/ccs/bin/ranlib
+CC?=	cc
+AR=	ar
 
 MACHINE=sgi
 MACHINE_ARCH=mips
@@ -53,7 +52,6 @@ all: bmake
 
 ohash/libohash.a: ${OBJ_OHASH}
 	${AR} cq ohash/libohash.a ${OBJ_OHASH}
-	${RANLIB} ohash/libohash.a
 
 generate: ohash/libohash.a ${OBJ_GEN}
 	${CC} -o generate ${OBJ_GEN} ${LDFLAGS}
