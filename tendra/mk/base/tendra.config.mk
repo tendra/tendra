@@ -32,25 +32,24 @@ ${BUILD_TARGETS}: config-create
 
 .endif
 
-.if make(freebsd)
-BUILD_OS=	freebsd
-.include "../config/config.freebsd.mk"
-.endif
-
 .if make(cygwin32)
 BUILD_OS=	cygwin32
 .include "../config/config.cygwin32.mk"
 .endif
 
-.if make(linux)
-BUILD_OS=	linux
-.include "../config/config.linux.mk"
-.endif
-
-
 .if make(darwin)
 BUILD_OS=	darwin
 .include "../config/config.darwin.mk"
+.endif
+
+.if make(freebsd)
+BUILD_OS=	freebsd
+.include "../config/config.freebsd.mk"
+.endif
+
+.if make(linux)
+BUILD_OS=	linux
+.include "../config/config.linux.mk"
 .endif
 
 .if make(openbsd)
