@@ -2,7 +2,7 @@
 #
 #	docbook-to-man.ts
 #
-#	$TenDRA: doc/share/misc/docbook-to-man.ts,v 1.1 2004/08/07 23:01:17 verm Exp $
+#	$TenDRA$
 #
 #############################################################################
 #
@@ -79,7 +79,7 @@ StartText:	^.\\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.or
 		^.\\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 		^.\\" SUCH DAMAGE.
 		^.\\"
-		^.\\" $TenDRA$
+		^.\\" \$TenDRA\$
 		^.\\"
 		^.TH "${_followrel descendant REFENTRYTITLE 1000}"
 			"${_followrel descendant MANVOLNUM 1000}" "${date}"
