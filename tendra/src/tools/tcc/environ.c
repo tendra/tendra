@@ -421,6 +421,9 @@ dereference_var (char *esc_start, char *esc_end, hashtable *ht,
 }
 
 
+int environ_count;
+hashtable *environ_hashtable;
+
 /*
  *   Reconcile the table of user-defined env options.  At present this
  *   function just makes sure that non-tccenv(5) variables declared by

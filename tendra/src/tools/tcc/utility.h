@@ -97,21 +97,8 @@ extern int hash(char *, int, int);
 extern int exit_status;
 extern char *progname;
 
-/*
- *  Substitution variables.  This is table 5.
- *
- */
-static char *PATH_SUBS[] = {
-	"TENDRA_MACHDIR",
-	"TENDRA_BINDIR",
-	"TENDRA_ENVDIR",
-	"TENDRA_LIBDIR",
-	"TENDRA_INCLDIR",
-	"TENDRA_STARTUPDIR",
-	"TENDRA_TMPDIR",
-	"TENDRA_BASEDIR",
-	NULL
-};
+extern char *PATH_SUBS[];
+extern size_t PATH_SUBS_elems;
 
 typedef struct htnode {
 	struct htnode *next;

@@ -386,6 +386,26 @@ xrealloc(pointer p, int sz)
     return (q);
 }
 
+
+/*
+ *  Substitution variables.  This is Table 5.
+ *
+ */
+char *PATH_SUBS[] = {
+	"TENDRA_MACHDIR",
+	"TENDRA_BINDIR",
+	"TENDRA_ENVDIR",
+	"TENDRA_LIBDIR",
+	"TENDRA_INCLDIR",
+	"TENDRA_STARTUPDIR",
+	"TENDRA_TMPDIR",
+	"TENDRA_BASEDIR",
+	NULL
+};
+
+size_t PATH_SUBS_elems = array_size (PATH_SUBS);
+
+
 /*
  *  Takes in a substitution variable as an argument, and returns its
  *  corresponding value.  This routine is used by the env substitution
