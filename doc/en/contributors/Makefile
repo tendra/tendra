@@ -6,7 +6,7 @@ DOC?=	article
 
 SRCS=	article.sgml
 
-article.html article.pdf: individual.sgml organisation.sgml
+DEPEND_SRC?=	individual.sgml organisation.sgml
 
 individual.sgml: individual
 	${CAT} ${.CURDIR}/individual \
