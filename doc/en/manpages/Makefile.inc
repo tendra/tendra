@@ -4,5 +4,6 @@
 
 OPENJADE?=	yes
 FORMATS?=	html
+LANGCODE=	en
 
 DOC_PREFIX?= ../../../
