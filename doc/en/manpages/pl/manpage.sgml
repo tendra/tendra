@@ -36,14 +36,6 @@
   <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
-      <term><option>-v</option></term>
-      <listitem>
-        <para>This option produces a "pretty print" of the TDF capsule on the
-          standard output.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-I&nbsp;path</option></term>
       <listitem>
         <para>Gives the search path for any #include files in the PL_TDF
@@ -56,6 +48,14 @@
       <listitem>
         <para>This option causes <command>pl</command> to print its version
           number and the version of the TDF specification it supports.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term>
+      <listitem>
+        <para>This option produces a "pretty print" of the TDF capsule on the
+          standard output.</para>
       </listitem>
     </varlistentry>
   </variablelist>
