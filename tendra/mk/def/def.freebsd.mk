@@ -73,6 +73,7 @@ BIN_SORT?=		/usr/bin/sort
 BIN_SU?=		/usr/bin/su
 BIN_TAIL?=		/usr/bin/tail
 BIN_TEST?=		/bin/test
+BIN_TIME?=		/usr/bin/time
 BIN_TOUCH?=		/usr/bin/touch
 BIN_TR?=		/usr/bin/tr
 BIN_TRUE?=		/usr/bin/true
