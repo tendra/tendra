@@ -2,6 +2,25 @@
  * $TenDRA$
 */
 
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_LD		"-BIN_LD-"
++BIN_CC		"-BIN_CC-"
+
+
+/* Libraries */
+
++LIB_LD_LINUX_1	"-LIB_LD_LINUX_1-"
++LIB_CRT1	"-LIB_CRT1-"
++LIB_CRTI	"-LIB_CRTI-"
++LIB_CRTBEGIN	"-LIB_CRTBEGIN-"
++LIB_CRTEND	"-LIB_CRTEND-"
++LIB_CRTN	"-LIB_CRTN-"
++LIB_GCRT1	"-LIB_GCRT1-"
+
+
 +MACHINE		"linux-*-80x86"
 +AS			"<BIN_AS> -Qy"
 +LD			"<BIN_LD> -m elf_i386"
