@@ -138,4 +138,6 @@
 
 #define HAS_MAGIC 1
 
+#define USAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
+
 #endif

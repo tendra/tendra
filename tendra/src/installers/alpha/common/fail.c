@@ -73,7 +73,7 @@ static char vcid[] = "$Id$";
 #include "config.h"
 #include "fail.h"
 #include "pseudo.h"
-#define USAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
+
 void alphafail
     PROTO_N ( ( reason,message,extra_info ) )
     PROTO_T ( fail_conditions reason X char *message X char *extra_info )
