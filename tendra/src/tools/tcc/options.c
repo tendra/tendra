@@ -444,6 +444,7 @@ lookup_bool(char *s)
 	}
 	case 'E': {
 		if (b == 'S') return &no_shuffle;
+		break;
 	}
 	case 'H' : {
 		if (b == 'L') return (&use_hp_linker);
