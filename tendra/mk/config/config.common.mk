@@ -28,6 +28,7 @@ config-create:
 	-e "s|@SRC_ENV@|${SRC_ENV}|g" \
 	-e "s|@OBJ_PREFIX@|${SRC_DIR}/obj|g" \
 	-e "s|@OBJ_ENV@|lib/env/${ENV_SRC}|g" \
+	-e "s|@MAN_COMPRESS@|${MAN_COMPRESS}|g" \
 	> ${SRC_DIR}/config.mk
 	@echo "Config file created! You can find it at: ${SRC_DIR}/config.mk"
 .endif

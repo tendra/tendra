@@ -3,6 +3,9 @@
 # Platform dependent commands' locations.
 UNAME=		/usr/bin/uname
 
+# Platform settings.
+MAN_COMPRESS=	yes
+
 # SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
 PREFIX?=	/usr/local
 TMP_DIR=	/tmp
