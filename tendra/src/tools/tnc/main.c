@@ -62,10 +62,6 @@
 #include "ostream.h"
 #include "tenapp.h"
 
-#include "msgcat.h"
-#include "ostream.h"
-#include "tenapp.h"
-
 #include "release.h"
 #include "fetch.h"
 #include "types.h"
