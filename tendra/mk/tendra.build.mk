@@ -33,6 +33,9 @@
 #                       files etc. created during the build process will
 #                       be stored.
 #
+#	OBJ_SDIR	gives the full path to the working directory and the
+#			sub-directory of the current source directory.
+#
 #       TMP_DIR         gives a temporary directory, used both by this
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
@@ -44,6 +47,7 @@ COMMON_DIR = ${INSTALL_DIR}/lib
 MACH_DIR = ${INSTALL_DIR}/machines
 MAN_DIR = /usr/local/man
 OBJ_DIR = ${BASE_DIR}/obj
+OBJ_SDIR = ${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR = /var/tmp
 
 # Binary paths
@@ -99,6 +103,12 @@ clean:
 .if defined(CLEAN_EXTRA)
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
+
+obj:
+	@if ! test -d ${OBJ_SDIR}/; then\
+		mkdir -p ${OBJ_SDIR};\
+		${ECHO} ${OBJ_SDIR} created for ${.CURDIR};\
+	fi
 
 _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
