@@ -66,6 +66,7 @@
 #include "external.h"
 #include "filename.h"
 #include "list.h"
+#include "environ.h"
 #include "execute.h"
 #include "flags.h"
 #include "compile.h"
