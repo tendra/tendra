@@ -1,4 +1,4 @@
-$TenDRA$
+/* $TenDRA$ */
 /*
     		 Crown Copyright (c) 1997
     
