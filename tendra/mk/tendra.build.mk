@@ -77,3 +77,6 @@ _SUBDIR: .USE
 .for target in all clean
 ${target}: _SUBDIR
 .endfor
+
+clean:
+	${REMOVE} ${NAME}.core core ${NAME}
