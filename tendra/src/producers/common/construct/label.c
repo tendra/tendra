@@ -533,8 +533,8 @@ LIST (EXP) all_try_blocks = NULL_list (EXP);
  */
 
 static LIST (IDENTIFIER)
-	jump_over_stmt(LIST (IDENTIFIER) ids, EXP e,
-				   IDENTIFIER lab, int force)
+jump_over_stmt(LIST (IDENTIFIER) ids, EXP e,
+			   IDENTIFIER lab, int force)
 {
     switch (TAG_exp (e)) {
 		
@@ -681,7 +681,7 @@ static LIST (IDENTIFIER)
  */
 
 static LIST (IDENTIFIER)
-	add_id(IDENTIFIER id, LIST (IDENTIFIER) p)
+add_id(IDENTIFIER id, LIST (IDENTIFIER) p)
 {
     LIST (IDENTIFIER) q = p;
     while (!IS_NULL_list (q)) {

@@ -714,7 +714,7 @@ unmangle_token_arg(string *ps)
  */
 
 static LIST (TOKEN)
-	unmangle_token_args(string *ps)
+unmangle_token_args(string *ps)
 {
     string s = *ps;
     unsigned n = unmangle_digit (&s);

@@ -336,7 +336,7 @@ check_types()
  */
 
 static LIST (TYPE_P)
-	derived_types(TYPE_P t, LIST (TYPE_P) p)
+derived_types(TYPE_P t, LIST (TYPE_P) p)
 {
     TYPE t0;
     unsigned tag;

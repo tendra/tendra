@@ -155,7 +155,7 @@ static LIST (unsigned) small_nat_2;
  */
 
 static LIST (unsigned)
-	digit_list(unsigned n)
+digit_list(unsigned n)
 {
     LIST (unsigned) p = NULL_list (unsigned);
     while (n) {

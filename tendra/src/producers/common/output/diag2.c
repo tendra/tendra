@@ -258,7 +258,7 @@ static BITSTREAM
  */
 
 static PTR (LOCATION)
-	block_loc(EXP e, int end)
+block_loc(EXP e, int end)
 {
     PTR (LOCATION) loc = NULL_ptr (LOCATION);
     if (!IS_NULL_exp (e)) {

@@ -1172,7 +1172,7 @@ merge_usage(VAR_INFO dp, VAR_INFO dq, int u)
  */
 
 static PTR (VARIABLE)
-	search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
+search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
 {
     if (!IS_NULL_list (q)) {
 		PTR (VARIABLE) ptr = HEAD_list (q);

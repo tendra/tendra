@@ -1564,8 +1564,8 @@ is_bound_tok(TOKEN tok, int def)
  */
 
 LIST (TOKEN)
-	make_token_args(IDENTIFIER id, LIST (IDENTIFIER) pids,
-					ERROR *err)
+make_token_args(IDENTIFIER id, LIST (IDENTIFIER) pids,
+				ERROR *err)
 {
     LIST (TOKEN) args = NULL_list (TOKEN);
     while (!IS_NULL_list (pids)) {
@@ -1633,7 +1633,7 @@ PPTOKEN
  */
 
 static LIST (TOKEN)
-	parse_token_args(IDENTIFIER id, PPTOKEN *p)
+parse_token_args(IDENTIFIER id, PPTOKEN *p)
 {
     int t;
     int d = 0;

@@ -687,7 +687,7 @@ expand_sort(TOKEN tok, int rec, int force)
  */
 
 LIST (TOKEN)
-	expand_args(LIST (TOKEN) p, int rec, int force)
+expand_args(LIST (TOKEN) p, int rec, int force)
 {
     int changed = 0;
     LIST (TOKEN) q = NULL_list (TOKEN);
@@ -1017,8 +1017,8 @@ expand_templ_type(TYPE t, int rec)
  */
 
 LIST (TYPE)
-	expand_exceptions(LIST (TYPE) p, int rec,
-					  int *changed)
+expand_exceptions(LIST (TYPE) p, int rec,
+				  int *changed)
 {
     LIST (TYPE) q = NULL_list (TYPE);
     if (EQ_list (p, univ_type_set)) {

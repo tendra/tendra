@@ -115,7 +115,7 @@ INSTANCE all_instances = NULL_inst;
  */
 
 static LIST (TOKEN)
-	add_template_args(LIST (TOKEN) p, LIST (TOKEN) q)
+add_template_args(LIST (TOKEN) p, LIST (TOKEN) q)
 {
     if (!IS_NULL_list (p)) {
 		TOKEN tok = DEREF_tok (HEAD_list (p));
@@ -174,7 +174,7 @@ inst_func_deduce(IDENTIFIER id, LIST (IDENTIFIER) pids,
  */
 
 static LIST (GRAPH)
-	deduce_graph(GRAPH gr, CLASS_TYPE ct, LIST (IDENTIFIER) pids)
+deduce_graph(GRAPH gr, CLASS_TYPE ct, LIST (IDENTIFIER) pids)
 {
     LIST (GRAPH) pr = NULL_list (GRAPH);
     CLASS_TYPE cr = DEREF_ctype (graph_head (gr));
@@ -1936,7 +1936,7 @@ bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds,
  */
 
 static LIST (EXP)
-	synthesise_args(IDENTIFIER id)
+synthesise_args(IDENTIFIER id)
 {
     LIST (TYPE) pars;
     LIST (EXP) args = NULL_list (EXP);

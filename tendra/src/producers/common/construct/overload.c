@@ -1044,7 +1044,7 @@ CANDIDATE
  */
 
 static LIST (TYPE)
-	possible_types(TYPE t, int *prom)
+possible_types(TYPE t, int *prom)
 {
     LIST (TYPE) r = NULL_list (TYPE);
     switch (TAG_type (t)) {

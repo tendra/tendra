@@ -1140,7 +1140,7 @@ overload_candidates(CANDIDATE_LIST *p, int op,
  */
 
 static LIST (TYPE)
-	add_int_types(LIST (TYPE) res)
+add_int_types(LIST (TYPE) res)
 {
     if (basetype_info [ ntype_sllong ].key) {
 		res = cons_type_set (res, type_ullong);
@@ -1161,7 +1161,7 @@ static LIST (TYPE)
  */
 
 static LIST (TYPE)
-	add_float_types(LIST (TYPE) res)
+add_float_types(LIST (TYPE) res)
 {
     res = cons_type_set (res, type_ldouble);
     res = cons_type_set (res, type_double);
@@ -1182,7 +1182,7 @@ static LIST (TYPE)
  */
 
 static LIST (TYPE)
-	find_type_convs(TYPE t, EXP a, unsigned kind)
+find_type_convs(TYPE t, EXP a, unsigned kind)
 {
     LIST (TYPE) res = NULL_list (TYPE);
     unsigned nt = TAG_type (t);

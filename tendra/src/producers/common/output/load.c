@@ -360,7 +360,7 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
  */
 
 static LIST (HASHID)
-	load_hashid_list(BITSTREAM *bs, NAMESPACE ns)
+load_hashid_list(BITSTREAM *bs, NAMESPACE ns)
 {
     LIST (HASHID) p = NULL_list (HASHID);
     while (DE_BOOL (bs)) {
@@ -454,7 +454,7 @@ load_use(BITSTREAM *bs, unsigned tag)
  */
 
 static LIST (IDENTIFIER)
-	load_use_list(BITSTREAM *bs)
+load_use_list(BITSTREAM *bs)
 {
     LIST (IDENTIFIER) p = NULL_list (IDENTIFIER);
     while (DE_BOOL (bs)) {
@@ -475,7 +475,7 @@ static LIST (IDENTIFIER)
  */
 
 static LIST (TOKEN)
-	load_tok_list(BITSTREAM *bs, int def)
+load_tok_list(BITSTREAM *bs, int def)
 {
     LIST (TOKEN) p = NULL_list (TOKEN);
     while (DE_BOOL (bs)) {
@@ -1008,8 +1008,8 @@ load_etype(BITSTREAM *bs, IDENTIFIER def,
  */
 
 static LIST (IDENTIFIER)
-	load_param_list(BITSTREAM *bs, NAMESPACE ns,
-					unsigned tag)
+load_param_list(BITSTREAM *bs, NAMESPACE ns,
+				unsigned tag)
 {
     LIST (IDENTIFIER) pids = NULL_list (IDENTIFIER);
     while (DE_BOOL (bs)) {
@@ -1277,7 +1277,7 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
  */
 
 static LIST (TYPE)
-	load_type_list(BITSTREAM *bs)
+load_type_list(BITSTREAM *bs)
 {
     LIST (TYPE) p = NULL_list (TYPE);
     while (DE_BOOL (bs)) {

@@ -291,7 +291,7 @@ PPTOKEN
  */
 
 static LIST (TOKEN)
-	parse_template_args(PPTOKEN *p)
+parse_template_args(PPTOKEN *p)
 {
     int t;
     PARSE_STATE st;
@@ -553,8 +553,8 @@ int allow_templ_dargs = 1;
  */
 
 static LIST (TOKEN)
-	check_templ_args(TOKEN tok, LIST (TOKEN) args,
-					 IDENTIFIER tid)
+check_templ_args(TOKEN tok, LIST (TOKEN) args,
+				 IDENTIFIER tid)
 {
     int s;
     int reported = 0;
@@ -1375,7 +1375,7 @@ is_exported(IDENTIFIER id)
  */
 
 LIST (TOKEN)
-	make_primary_args(LIST (IDENTIFIER) pids)
+make_primary_args(LIST (IDENTIFIER) pids)
 {
     LIST (TOKEN) args = NULL_list (TOKEN);
     while (!IS_NULL_list (pids)) {

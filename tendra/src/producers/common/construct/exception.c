@@ -260,7 +260,7 @@ eq_type_set(LIST (TYPE) p, LIST (TYPE) q,
  */
 
 LIST (TYPE)
-	cons_type_set(LIST (TYPE) p, TYPE t)
+cons_type_set(LIST (TYPE) p, TYPE t)
 {
     if (!IS_NULL_type (t) && !in_type_set (p, t)) {
 		CONS_type (t, p, p);
@@ -276,7 +276,7 @@ LIST (TYPE)
  */
 
 LIST (TYPE)
-	union_type_set(LIST (TYPE) p, LIST (TYPE) q)
+union_type_set(LIST (TYPE) p, LIST (TYPE) q)
 {
     if (!EQ_list (p, univ_type_set)) {
 		if (EQ_list (q, univ_type_set)) {
@@ -305,7 +305,7 @@ LIST (TYPE)
  */
 
 LIST (TYPE)
-	uniq_type_set(LIST (TYPE) p)
+uniq_type_set(LIST (TYPE) p)
 {
     static LIST (LIST (TYPE)) sets = NULL_list (LIST (TYPE));
     LIST (LIST (TYPE)) s = sets;

@@ -179,7 +179,7 @@ is_bottom(EXP e)
  */
 
 static PTR (EXP)
-	parent_stmt(EXP e)
+parent_stmt(EXP e)
 {
     PTR (EXP) ptr = NULL_ptr (EXP);
     if (!IS_NULL_exp (e)) {

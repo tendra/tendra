@@ -355,7 +355,7 @@ copy_offset(OFFSET off, int op)
  */
 
 static LIST (OFFSET)
-	copy_off_list(LIST (OFFSET) p)
+copy_off_list(LIST (OFFSET) p)
 {
     LIST (OFFSET) q = NULL_list (OFFSET);
     while (!IS_NULL_list (p)) {
@@ -375,7 +375,7 @@ static LIST (OFFSET)
  */
 
 LIST (EXP)
-	copy_exp_list(LIST (EXP) p, TYPE t1, TYPE t2)
+copy_exp_list(LIST (EXP) p, TYPE t1, TYPE t2)
 {
     LIST (EXP) q = NULL_list (EXP);
     while (!IS_NULL_list (p)) {
@@ -484,7 +484,7 @@ copy_func_exp(EXP e, TYPE t1, TYPE t2)
  */
 
 static LIST (EXP)
-	copy_func_args(LIST (EXP) p, IDENTIFIER id)
+copy_func_args(LIST (EXP) p, IDENTIFIER id)
 {
     unsigned n = 1;
     LIST (EXP) q = NULL_list (EXP);

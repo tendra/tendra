@@ -356,7 +356,7 @@ static LIST (GRAPH) virtual_bases = NULL_list (GRAPH);
  */
 
 static LIST (GRAPH)
-	fold_graph(GRAPH gr, LIST (GRAPH) br)
+fold_graph(GRAPH gr, LIST (GRAPH) br)
 {
     CLASS_TYPE ct = DEREF_ctype (graph_head (gr));
     DECL_SPEC acc = DEREF_dspec (graph_access (gr));

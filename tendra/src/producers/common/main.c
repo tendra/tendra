@@ -304,7 +304,7 @@ static char
  */
 
 static LIST (string)
-	process_args(int argc, char **argv)
+process_args(int argc, char **argv)
 {
     char opt = 0;
     FILE *f = NULL;

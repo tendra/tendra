@@ -522,8 +522,8 @@ virtual_return (TYPE s, TYPE t, GRAPH *pgr)
  */
 
 LIST (VIRTUAL)
-	overrides_virtual(CLASS_TYPE ct, HASHID nm,
-					  TYPE t, IDENTIFIER *pid)
+overrides_virtual(CLASS_TYPE ct, HASHID nm,
+				  TYPE t, IDENTIFIER *pid)
 {
     LIST (VIRTUAL) res = NULL_list (VIRTUAL);
     VIRTUAL vt = DEREF_virt (ctype_virt (ct));

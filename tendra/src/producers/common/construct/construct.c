@@ -1888,8 +1888,8 @@ make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1,
  */
 
 static LIST (TYPE)
-	add_constr_except(LIST (TYPE) p, CLASS_TYPE ct,
-					  int n)
+add_constr_except(LIST (TYPE) p, CLASS_TYPE ct,
+				  int n)
 {
     IDENTIFIER id = find_constr (ct, n, KILL_err);
     if (!IS_NULL_id (id) && IS_id_mem_func (id)) {
@@ -1911,7 +1911,7 @@ static LIST (TYPE)
  */
 
 static LIST (TYPE)
-	constr_except(CLASS_TYPE ct, int n)
+constr_except(CLASS_TYPE ct, int n)
 {
     LIST (TYPE) res = NULL_list (TYPE);
     GRAPH gr = DEREF_graph (ctype_base (ct));

@@ -153,7 +153,7 @@ check_ret_type(TYPE t, ERROR *err, int def)
  */
 
 LIST (EXP)
-	convert_args(LIST (EXP) args)
+convert_args(LIST (EXP) args)
 {
     LIST (EXP) p = args;
     while (!IS_NULL_list (p)) {
@@ -446,8 +446,8 @@ check_printf_args(IDENTIFIER id, LIST (TYPE) p,
  */
 
 static LIST (EXP)
-	cast_args(IDENTIFIER id, TYPE fn, GRAPH gr,
-			  LIST (EXP) args, TYPE *pr, int mem)
+cast_args(IDENTIFIER id, TYPE fn, GRAPH gr,
+		  LIST (EXP) args, TYPE *pr, int mem)
 {
     int ell;
     TYPE ret;

@@ -382,7 +382,7 @@ static BITSTREAM
  */
 
 static LIST (IDENTIFIER)
-	add_label(BITSTREAM *bs, IDENTIFIER lab, LIST (IDENTIFIER) q)
+add_label(BITSTREAM *bs, IDENTIFIER lab, LIST (IDENTIFIER) q)
 {
     if (!IS_NULL_id (lab)) {
 		IDENTIFIER flab = DEREF_id (id_alias (lab));
@@ -405,8 +405,8 @@ static LIST (IDENTIFIER)
  */
 
 static LIST (IDENTIFIER)
-	add_labels(BITSTREAM *bs, LIST (IDENTIFIER) p,
-			   LIST (IDENTIFIER) q)
+add_labels(BITSTREAM *bs, LIST (IDENTIFIER) p,
+		   LIST (IDENTIFIER) q)
 {
     while (!IS_NULL_list (p)) {
 		IDENTIFIER lab = DEREF_id (HEAD_list (p));
