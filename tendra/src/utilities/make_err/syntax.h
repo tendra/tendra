@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/make_err/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/make_err/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -46,7 +46,7 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_errors PROTO_S ((void));
+extern void read_errors (void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

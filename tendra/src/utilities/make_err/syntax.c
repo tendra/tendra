@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/make_err/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/make_err/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -86,8 +86,7 @@ static int counter = 0 ;
 */
 
 static NAME find_name
-    PROTO_N ( ( p, id ) )
-    PROTO_T ( LIST ( NAME ) p X string id )
+    ( LIST ( NAME ) p, string id )
 {
     while ( !IS_NULL_list ( p ) ) {
 	NAME a = DEREF_name ( HEAD_list ( p ) ) ;
@@ -107,8 +106,7 @@ static NAME find_name
 */
 
 static PARAM find_param
-    PROTO_N ( ( p, id ) )
-    PROTO_T ( LIST ( PARAM ) p X string id )
+    ( LIST ( PARAM ) p, string id )
 {
     while ( !IS_NULL_list ( p ) ) {
 	PARAM a = DEREF_param ( HEAD_list ( p ) ) ;
@@ -139,16 +137,16 @@ static PARAM find_param
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRparam_Hlist PROTO_S ((LIST_PARAM *));
-static void ZRname_Hlist PROTO_S ((LIST_NAME *, LIST_NAME *, LIST_NAME *));
-static void ZRname_Hseq PROTO_S ((LIST_NAME *, LIST_NAME *, LIST_NAME *));
-static void ZRprops_Hlist PROTO_S ((LIST_PROPERTY *));
-static void ZRmap_Hlist PROTO_S ((LIST_PARAM, LIST_MAP *));
-static void ZRentry PROTO_S ((ENTRY *));
-extern void read_errors PROTO_S ((void));
-static void ZRmessage_Hlist PROTO_S ((LIST_PARAM, LIST_MESSAGE *));
-static void ZRsignature PROTO_S ((LIST_PARAM *));
-static void ZRentries_Hlist PROTO_S ((LIST_ENTRY *));
+static void ZRparam_Hlist (LIST_PARAM *);
+static void ZRname_Hlist (LIST_NAME *, LIST_NAME *, LIST_NAME *);
+static void ZRname_Hseq (LIST_NAME *, LIST_NAME *, LIST_NAME *);
+static void ZRprops_Hlist (LIST_PROPERTY *);
+static void ZRmap_Hlist (LIST_PARAM, LIST_MAP *);
+static void ZRentry (ENTRY *);
+extern void read_errors (void);
+static void ZRmessage_Hlist (LIST_PARAM, LIST_MESSAGE *);
+static void ZRsignature (LIST_PARAM *);
+static void ZRentries_Hlist (LIST_ENTRY *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -156,8 +154,7 @@ static void ZRentries_Hlist PROTO_S ((LIST_ENTRY *));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRparam_Hlist PROTO_N ((ZOp))
-  PROTO_T (LIST_PARAM *ZOp)
+ZRparam_Hlist (LIST_PARAM *ZOp)
 {
     LIST_PARAM ZIp;
 
@@ -255,8 +252,7 @@ ZRparam_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRname_Hlist PROTO_N ((ZOp, ZOq, ZOr))
-  PROTO_T (LIST_NAME *ZOp X LIST_NAME *ZOq X LIST_NAME *ZOr)
+ZRname_Hlist (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 {
     LIST_NAME ZIp;
     LIST_NAME ZIq;
@@ -302,8 +298,7 @@ ZRname_Hlist PROTO_N ((ZOp, ZOq, ZOr))
 }
 
 static void
-ZRname_Hseq PROTO_N ((ZOp, ZOq, ZOr))
-  PROTO_T (LIST_NAME *ZOp X LIST_NAME *ZOq X LIST_NAME *ZOr)
+ZRname_Hseq (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 {
     LIST_NAME ZIp;
     LIST_NAME ZIq;
@@ -461,8 +456,7 @@ ZRname_Hseq PROTO_N ((ZOp, ZOq, ZOr))
 }
 
 static void
-ZRprops_Hlist PROTO_N ((ZOp))
-  PROTO_T (LIST_PROPERTY *ZOp)
+ZRprops_Hlist (LIST_PROPERTY *ZOp)
 {
     LIST_PROPERTY ZIp;
 
@@ -530,8 +524,7 @@ ZRprops_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRmap_Hlist PROTO_N ((ZIs, ZOp))
-  PROTO_T (LIST_PARAM ZIs X LIST_MAP *ZOp)
+ZRmap_Hlist (LIST_PARAM ZIs, LIST_MAP *ZOp)
 {
     LIST_MAP ZIp;
 
@@ -637,8 +630,7 @@ ZRmap_Hlist PROTO_N ((ZIs, ZOp))
 }
 
 static void
-ZRentry PROTO_N ((ZOe))
-  PROTO_T (ENTRY *ZOe)
+ZRentry (ENTRY *ZOe)
 {
     ENTRY ZIe;
 
@@ -887,7 +879,7 @@ ZRentry PROTO_N ((ZOe))
 }
 
 void
-read_errors PROTO_Z ()
+read_errors (void)
 {
     if ((CURRENT_TERMINAL) == 26) {
 	return;
@@ -1390,8 +1382,7 @@ read_errors PROTO_Z ()
 }
 
 static void
-ZRmessage_Hlist PROTO_N ((ZIs, ZOp))
-  PROTO_T (LIST_PARAM ZIs X LIST_MESSAGE *ZOp)
+ZRmessage_Hlist (LIST_PARAM ZIs, LIST_MESSAGE *ZOp)
 {
     LIST_MESSAGE ZIp;
 
@@ -1481,8 +1472,7 @@ ZRmessage_Hlist PROTO_N ((ZIs, ZOp))
 }
 
 static void
-ZRsignature PROTO_N ((ZOp))
-  PROTO_T (LIST_PARAM *ZOp)
+ZRsignature (LIST_PARAM *ZOp)
 {
     LIST_PARAM ZIp;
 
@@ -1516,8 +1506,7 @@ ZRsignature PROTO_N ((ZOp))
 }
 
 static void
-ZRentries_Hlist PROTO_N ((ZOp))
-  PROTO_T (LIST_ENTRY *ZOp)
+ZRentries_Hlist (LIST_ENTRY *ZOp)
 {
     LIST_ENTRY ZIp;
 
