@@ -15,6 +15,7 @@ GCRT0?=
 GCRT1?=		/usr/lib/gcrt1.o
 MCRT0?=		
 
+AR?=		/usr/bin/ar
 AS?=            /usr/bin/as
 AWK?=		/usr/bin/awk
 BASENAME?=	/usr/bin/basename
