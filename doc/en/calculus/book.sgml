@@ -3,7 +3,7 @@
 
 <book>
   <bookinfo>
-    <title>calculus User's Guide</title> 
+    <title>calculus User's Guide</title>
     <pubdate>$TenDRA$</pubdate>
     <corpauthor>The TenDRA Documentation Team</corpauthor>
     <copyright>
@@ -23,7 +23,7 @@
   </bookinfo>
 
   <preface>
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>This document describes a tool, <literal>calculus</literal>, which
       allows complex type systems to be described in a simple algebraic
@@ -62,7 +62,7 @@
       routines described below are an example of this.</para>
 
     <simplesect>
-      <title>Using calculus</title> 
+      <title>Using calculus</title>
 
       <para>The general form for invoking <literal>calculus</literal> is as</para>
 
@@ -101,7 +101,7 @@ calculus [ options ] input .... [ output ]
 
     </simplesect>
     <simplesect>
-      <title>Example program</title> 
+      <title>Example program</title>
 
       <para>The program <literal>calculus</literal> itself was written using a
         type system specified using the <literal>calculus</literal> tool.
@@ -113,13 +113,13 @@ calculus [ options ] input .... [ output ]
   </preface>
 
   <chapter>
-    <title>Input syntax</title> 
+    <title>Input syntax</title>
 
     <para></para>
 
     <programlisting>
 algebra :
-  ALGEBRA identifier version<subscript>opt</subscript> : item-list<subscript>opt</subscript> 
+  ALGEBRA identifier version<subscript>opt</subscript> : item-list<subscript>opt</subscript>
 
 version :
   ( integer . integer )
@@ -152,7 +152,7 @@ item :
       input. White space is not significant.</para>
 
     <sect1>
-      <title>Primitives</title> 
+      <title>Primitives</title>
 
       <para>Primitives form the basic components from which the other types in</para>
 
@@ -195,7 +195,7 @@ string
     </sect1>
 
     <sect1>
-      <title>Identities</title> 
+      <title>Identities</title>
 
       <para>Identities are used to associate a name with a particular type in
         the algebra. In this they correspond to <literal>typedef</literal>s
@@ -211,14 +211,14 @@ identity :
     </sect1>
 
     <sect1>
-      <title>Enumerations</title> 
+      <title>Enumerations</title>
 
       <para>Enumerations are used to define types which can only take values</para>
 
       <programlisting>
 enumeration :
   enum !<subscript>opt</subscript> object-identifier = { enumerator-list } ;
-  enum !<subscript>opt</subscript> object-identifier = base-enumeration + { 
+  enum !<subscript>opt</subscript> object-identifier = base-enumeration + {
 enumerator-list } ;
 
       </programlisting>
@@ -264,7 +264,7 @@ enumerator-list :
     </sect1>
 
     <sect1>
-      <title>Structures</title> 
+      <title>Structures</title>
 
       <para>Structures are used to build up composite types from other types in
         the algebra. They correspond to structures in C. They are described
@@ -322,7 +322,7 @@ component-initialiser :
     </sect1>
 
     <sect1>
-      <title>Unions</title> 
+      <title>Unions</title>
 
       <para>Unions are used to build up types which can hold a variety of
         information. They differ from C unions in that they are
@@ -439,7 +439,7 @@ extended-type :
     </sect1>
 
     <sect1>
-      <title>Type constructors</title> 
+      <title>Type constructors</title>
 
       <para>The types derived from the algebra may be described as follows:</para>
 
@@ -464,7 +464,7 @@ type :
     </sect1>
 
     <sect1>
-      <title>Relations between algebras</title> 
+      <title>Relations between algebras</title>
 
       <para>As -XREF-#Optionsmentioned above, more than one input algebra may
         be specified to <literal>calculus</literal>. Each is processed
@@ -500,7 +500,7 @@ import :
   </chapter>
 
   <chapter>
-    <title>Output type system specification</title> 
+    <title>Output type system specification</title>
 
     <para>In this section we document the basic output of
       <literal>calculus</literal>. Two forms of the output can be generated
@@ -526,7 +526,7 @@ import :
       <emphasis>union</emphasis><literal>_hdr.h</literal>.</para>
 
     <sect1>
-      <title>Version information</title> 
+      <title>Version information</title>
 
       <para>Certain basic information about the input algebra is included in
         <emphasis>name</emphasis><literal>.h</literal>.
@@ -543,7 +543,7 @@ import :
     </sect1>
 
     <sect1>
-      <title>Basic types</title> 
+      <title>Basic types</title>
 
       <para>Six abstract type operators, each taking a type as argument and</para>
 
@@ -608,7 +608,7 @@ void dummy_destroy_name () ;
     </sect1>
 
     <sect1>
-      <title>Operations on sizes</title> 
+      <title>Operations on sizes</title>
 
       <para>The <literal>SIZE</literal> type constructor is used to represent a
         multiple of the size of a type. It is used, for example, in the
@@ -652,7 +652,7 @@ SIZE ( t ) SCALE ( SIZE ( t ), INT_TYPE itype ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on pointers</title> 
+      <title>Operations on pointers</title>
 
       <para>The <literal>PTR</literal> type constructor is used to represent a
         pointer to an object of type <emphasis>t</emphasis>. It should be
@@ -660,7 +660,7 @@ SIZE ( t ) SCALE ( SIZE ( t ), INT_TYPE itype ) ;
         means of the C pointer construct.</para>
 
       <sect2>
-        <title>Simple pointer constructs</title> 
+        <title>Simple pointer constructs</title>
 
         <para>There are several simple operations on pointers, given as</para>
 
@@ -683,7 +683,7 @@ PTR ( t ) STEP_ptr ( PTR ( t ), SIZE ( t ) ) ;
 
       </sect2>
       <sect2>
-        <title>Unique pointers</title> 
+        <title>Unique pointers</title>
 
         <para>There are also constructs for generating and destroying unique</para>
 
@@ -698,7 +698,7 @@ void DESTROY_UNIQ_ptr ( PTR ( t ) ) ;
 
       </sect2>
       <sect2>
-        <title>Pointer construction and destruction</title> 
+        <title>Pointer construction and destruction</title>
 
         <para>The constructs:</para>
 
@@ -711,7 +711,7 @@ void DESTROY_ptr ( PTR ( t ), SIZE ( t ) ) ;
 
       </sect2>
       <sect2>
-        <title>Assignment and dereference constructs</title> 
+        <title>Assignment and dereference constructs</title>
 
         <para>The constructs for assigning and dereferencing pointers have one
           of two forms depending on the complexity of the type pointed to.
@@ -765,12 +765,12 @@ STATEMENT DEREF_vec_ptr ( PTR ( VEC_PTR ( t ) ), lvalue VEC_PTR ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on lists</title> 
+      <title>Operations on lists</title>
 
       <para>The <literal>LIST</literal> type constructor is used to represent a</para>
 
       <sect2>
-        <title>Simple list constructs</title> 
+        <title>Simple list constructs</title>
 
         <para>There are several simple list constructs:</para>
 
@@ -798,7 +798,7 @@ LIST ( t ) APPEND_list ( LIST ( t ), LIST ( t ) ) ;
 
       </sect2>
       <sect2>
-        <title>Unique lists</title> 
+        <title>Unique lists</title>
 
         <para>There are also constructs for generating and destroying unique</para>
 
@@ -813,7 +813,7 @@ void DESTROY_UNIQ_list ( LIST ( t ) ) ;
 
       </sect2>
       <sect2>
-        <title>List construction and destruction</title> 
+        <title>List construction and destruction</title>
 
         <para>For each type <emphasis>t</emphasis> there are operations for
           constructing and deconstructing lists. For the basic types
@@ -863,7 +863,7 @@ STATEMENT DESTROY_list ( LIST ( t ), SIZE ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on stacks</title> 
+      <title>Operations on stacks</title>
 
       <para>The <literal>STACK</literal> type constructor is used to represent
         stacks of objects of type <emphasis>t</emphasis>. Empty stacks can
@@ -902,7 +902,7 @@ STACK ( t ) STACK_list ( LIST ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on vectors</title> 
+      <title>Operations on vectors</title>
 
       <para>The <literal>VEC</literal> type constructor is used to represent
         vectors of objects of type <emphasis>t</emphasis>. There are a
@@ -933,7 +933,7 @@ STATEMENT DESTROY_vec ( VEC ( t ), SIZE ( t ) ) ;
       <para>Finally a vector can be trimmed using:</para>
 
       <programlisting>
-STATEMENT TRIM_vec ( VEC ( t ), SIZE ( t ), int, int, lvalue VEC ( 
+STATEMENT TRIM_vec ( VEC ( t ), SIZE ( t ), int, int, lvalue VEC (
 t ) ) ;
       </programlisting>
 
@@ -942,7 +942,7 @@ t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on vector pointers</title> 
+      <title>Operations on vector pointers</title>
 
       <para>The <literal>VEC_PTR</literal> type constructor is used to
         represent a pointer to an element of a vector of objects of type
@@ -961,7 +961,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on primitives</title> 
+      <title>Operations on primitives</title>
 
       <para>Each primitive specified within the algebra maps onto a
         <literal>typedef</literal> defining the type in terms of its given
@@ -973,7 +973,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on identities</title> 
+      <title>Operations on identities</title>
 
       <para>Each identity specified within the algebra maps onto a
         <literal>typedef</literal> in the output file. There are no
@@ -982,7 +982,7 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on enumerations</title> 
+      <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an unsigned
         integral type in the output file. The -XREF-#OutputPrimbasic
@@ -1013,7 +1013,7 @@ unsigned long ORDER_enum ;
     </sect1>
 
     <sect1>
-      <title>Operations on structures</title> 
+      <title>Operations on structures</title>
 
       <para>Each structure specified within the algebra maps onto a
         <literal>typedef</literal> defining the type to be the C structure
@@ -1065,7 +1065,7 @@ PTR ( btype ) CONVERT_struct_base ( PTR ( t ) ) ;
     </sect1>
 
     <sect1>
-      <title>Operations on unions</title> 
+      <title>Operations on unions</title>
 
       <para>Each union specified within the algebra maps onto an opaque type in
         the output file. In addition to the -XREF-#OutputPrimbasic
@@ -1089,7 +1089,7 @@ int EQ_union ( t, t ) ;
         distinguished value, or against each other.</para>
 
       <sect2>
-        <title>Union construction operations</title> 
+        <title>Union construction operations</title>
 
         <para>Most of the output for the union type <emphasis>t</emphasis> is
           output into the file
@@ -1167,7 +1167,7 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
 
       </sect2>
       <sect2>
-        <title>Union field sets</title> 
+        <title>Union field sets</title>
 
         <para>Recall that -XREF-#InputUniona number of union field identifiers
           may be associated with the same set of components. In this case
@@ -1177,11 +1177,11 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
         <programlisting>
 int IS_union_field_etc ( t ) ;
 PTR ( ctype ) union_field_etc_comp ( t ) ;
-STATEMENT MAKE_union_field_etc ( unsigned int, ctype, ...., lvalue 
+STATEMENT MAKE_union_field_etc ( unsigned int, ctype, ...., lvalue
 t ) ;
 STATEMENT MODIFY_union_field_etc ( unsigned int, t ) ;
 STATEMENT DECONS_union_field_etc ( lvalue ctype, ...., t ) ;
-STATEMENT DESTROY_union_field_etc ( DESTROYER, lvalue ctype, ...., 
+STATEMENT DESTROY_union_field_etc ( DESTROYER, lvalue ctype, ....,
 t ) ;
         </programlisting>
 
@@ -1210,7 +1210,7 @@ unsigned int union_field_etc_tag ;
 
       </sect2>
       <sect2>
-        <title>Inheritance in unions</title> 
+        <title>Inheritance in unions</title>
 
         <para>Inheritance in unions is handled as follows: if
           <emphasis>t</emphasis> is a derived union with base union
@@ -1226,7 +1226,7 @@ btype CONVERT_union_base ( t ) ;
 
       </sect2>
       <sect2>
-        <title>-XREF-OutputUnionMapsUnion maps</title> 
+        <title>-XREF-OutputUnionMapsUnion maps</title>
 
         <para>For each map, <emphasis>map</emphasis>, on the union
           <emphasis>t</emphasis>, we have declared in
@@ -1251,7 +1251,7 @@ map_ret map_union ( t, DESTROYER, map_par, .... ) ;
           tables of these functions. These have the form:</para>
 
         <programlisting>
-map_ret ( *map_union_table [ ORDER_union ] ) ( t, 
+map_ret ( *map_union_table [ ORDER_union ] ) ( t,
 map_par, .... ) = {
 ....
 map_union_field,
@@ -1294,10 +1294,10 @@ DECONS_union_field ( comp, ...., name_union ) ;
   </chapter>
 
   <chapter>
-    <title>Implementation details</title> 
+    <title>Implementation details</title>
 
     <sect1>
-      <title>Implementation of types</title> 
+      <title>Implementation of types</title>
 
       <para>The C implementation of the type system -XREF-#TokenOutputspecified
         above is based on a single type, <emphasis>name</emphasis>, with
@@ -1322,7 +1322,7 @@ typedef union name_tag {
         as blocks of cells. This is illustrated by the following diagram:</para>
 
       <figure id="calc">
-        <title>Packing of Types</title> 
+        <title>Packing of Types</title>
         <mediaobject>
           <imageobject>
             <imagedata fileref="calc" scale="100" format="PNG">
@@ -1415,7 +1415,7 @@ typedef struct {
     </sect1>
 
     <sect1>
-      <title>Support routines</title> 
+      <title>Support routines</title>
 
       <para>The implementation requires the user to provide certain support
         functions. Most fundamental are the routines for allocating and
@@ -1463,7 +1463,7 @@ name_VEC empty_name_vec ;
     </sect1>
 
     <sect1>
-      <title>Run-time checking</title> 
+      <title>Run-time checking</title>
 
       <para>The type checking facilities supported by
         <literal>calculus</literal> allow for compile-time detection of
@@ -1490,7 +1490,7 @@ name_VEC empty_name_vec ;
   </chapter>
 
   <chapter>
-    <title>Disk reading and writing</title> 
+    <title>Disk reading and writing</title>
 
     <para>One of the facilities which the -XREF-#COutputTypeshomogeneous
       implementation of the type system described above allows for is the
@@ -1517,7 +1517,7 @@ name_VEC empty_name_vec ;
       writing routines to use.</para>
 
     <sect1>
-      <title>Disk writing routines</title> 
+      <title>Disk writing routines</title>
 
       <para>The disk writing routines output in <literal>write_def.h</literal></para>
 
@@ -1595,7 +1595,7 @@ void WRITE_ALIAS ( unsigned int ) ;
     </sect1>
 
     <sect1>
-      <title>Disk reading routines</title> 
+      <title>Disk reading routines</title>
 
       <para>The disk reading routines output in <literal>read_def.h</literal>
         are exactly analogous to the disk writing routines. For each type
@@ -1624,7 +1624,7 @@ unsigned int READ_ALIAS ( void ) ;
     </sect1>
 
     <sect1>
-      <title>Object printing routines</title> 
+      <title>Object printing routines</title>
 
       <para>The object printing routines output in</para>
 
@@ -1687,7 +1687,7 @@ void DEBUG_type ( t * ) ;
     </sect1>
 
     <sect1>
-      <title>Aliasing</title> 
+      <title>Aliasing</title>
 
       <para>An important feature of the disk reading and writing routines,
         namely aliasing, has been mentioned but not yet described. The
@@ -1781,7 +1781,7 @@ name *find_name_alias ( unsigned int ) ;
     </sect1>
 
     <sect1>
-      <title>Application to calculus</title> 
+      <title>Application to calculus</title>
 
       <para>As -XREF-#Examplementioned above, the <literal>calculus</literal>
         program itself is an example of its own application. It therefore
@@ -1806,7 +1806,7 @@ name *find_name_alias ( unsigned int ) ;
   </chapter>
 
   <chapter>
-    <title>Template files</title> 
+    <title>Template files</title>
 
     <para>It is possible to use <literal>calculus</literal> to generate an
       output file from a template input file,
