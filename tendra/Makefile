@@ -24,18 +24,15 @@ BUILD_MACHINE = true
 BUILD_COMMON = true
 BUILD_OK = true
 
-.include "Makefile.inc"
-
 # RANDOM BITS 'N PIECES
 
-all:
-	@echo Starting TenDRA build...
-	@echo Bootstrapping from ${BASE_DIR}
-	@echo
-	@echo building host type determiner, tuname...
-	@echo ${DIST_DIR}
-	@echo ${.MAKEFLAGS}
+SUBDIR = src
 
-tuname:
-	@cd src/utilities/tuname;\
-		${MAKE} -f Makefile BASE=${BASE_DIR} CC=${CC}
+all:
+	@${ECHO} Starting TenDRA build...
+	@${ECHO} Bootstrapping from ${BASE_DIR}
+	@${ECHO}
+	@${ECHO} building host type determiner, tuname...
+	@${ECHO} ${DIST_DIR}
+
+.include "Makefile.inc"
