@@ -59,3 +59,16 @@ check_hostarch()
 				;;
 	esac
 }
+
+usage()
+{
+	echo "makedefs"
+	echo "usage: [OPTIONS] ./makedefs [-h]"
+	echo
+	echo "Configuration definition generator of the TenDRA Project"
+	echo
+	echo "Available OPTIONS (OPTION=value):"
+	echo "PREFIX		installation prefix"
+	echo "CC		C compiler command name"
+	echo "EXECFORMAT	desired default executable format (aout, elf)"
+}
