@@ -515,31 +515,31 @@ static EStringDataT main_description_strings [] = {
 	{ {
 		"description of dump-file",
 		" FILE\n\tCause intermediate grammars to be written to FILE."
-	} UE, { {
+	} }, { {
 		"description of help",
 		"\n\tDisplay an option summary for the current mode."
-	} UE, { {
+	} }, { {
 		"description of factor-limit",
 		" NUMBER\n\tSet the maximum number of rules to be generated during factorisation."
-	} UE, { {
+	} }, { {
 		"description of inlining",
 		" INLINES\n\tSet which classes of rule are inlined.\n\tShould be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER', 'MULTI', or 'ALL'."
-	} UE, { {
+	} }, { {
 		"description of language",
 		" LANGUAGE\n\tSet the language for the output parser."
-	} UE, { {
+	} }, { {
 		"description of show-errors",
 		"\n\tDisplay the current error table on the standard output."
-	} UE, { {
+	} }, { {
 		"description of switch",
 		" OPTION\n\tPass OPTION to language specific option parser."
-	} UE, { {
+	} }, { {
 		"description of tab-width",
 		" NUMBER\n\tSet the number of spaces in a tab character."
-	} UE, { {
+	} }, { {
 		"description of version",
 		"\n\tDisplay the version number on the standard error."
-	} UE, ERROR_END_STRING_LIST
+	} }, ERROR_END_STRING_LIST
 };
 
 #ifdef __TenDRA__
