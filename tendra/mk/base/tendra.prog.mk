@@ -104,6 +104,7 @@ make-dir:
 .endif
 
 .include "tendra.config.mk"
+.include "tendra.version.mk"
 .include "tendra.def.mk"
 .include "tendra.sys.mk"
 .include "tendra.install.mk"

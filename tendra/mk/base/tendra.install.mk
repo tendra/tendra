@@ -2,7 +2,7 @@
 
 
 # Various settings.
-INSTALL_PREFIX=		${INSTALL_DIR}/${TENDRA_VER}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
+INSTALL_PREFIX=		${INSTALL_DIR}/${VER_TENDRA}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}
 ARGS_CHMOD_BIN=		755
 ARGS_CHMOD_DATA=	644
 
@@ -187,6 +187,3 @@ install-man:
 	${BIN_GZIP} ${ARGS_GZIP} ${PREFIX}/man/man${i:C/.*(.)$/\1/}/${i}
 .endif
 .endfor
-
-.include "tendra.version.mk"
-
