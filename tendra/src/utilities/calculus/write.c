@@ -60,7 +60,7 @@
 #include "read.h"
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "msgcat.h"
 #include "write.h"
 
 
@@ -95,7 +95,7 @@ write_bits(int n, unsigned long v)
 		if (c >= 0) {
 			/* Write next byte */
 			int p = (int) (m >> c);
-			fputc_v (p, output_file);
+			(void)fputc (p, output_file);
 			m &= bitmask [c];
 			b = c;
 		}
@@ -210,12 +210,12 @@ write_file(char *nm)
 {
     /* Open file */
     if (streq (nm, ".")) {
-		error (ERROR_SERIOUS, "Output file not specified");
+		MSG_output_file_not_specified ();
 		return;
     }
     output_file = fopen (nm, "wb");
     if (output_file == NULL) {
-		error (ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+		MSG_cant_open_output_file (nm);
 		return;
     }
     init_bitmask ();
@@ -239,6 +239,6 @@ write_file(char *nm)
 		write_bits (CHAR_BIT - output_bits, (unsigned long) 0);
     }
     clear_calculus_alias ();
-    fclose_v (output_file);
+    (void)fclose (output_file);
     return;
 }

@@ -59,10 +59,11 @@
 #include "config.h"
 #include "read.h"
 #include "calculus.h"
+#include "cstring.h"
 #include "common.h"
-#include "error.h"
+#include "fmm.h"
+#include "msgcat.h"
 #include "output.h"
-#include "xalloc.h"
 
 
 /*
@@ -119,7 +120,7 @@ read_bits(int n)
 			/* Read next byte */
 			int c = getc (input_file);
 			if (c == EOF) {
-				error (ERROR_FATAL, "Premature end of file");
+				MSG_premature_eof ();
 			} else {
 				m = (((unsigned long) c) & MASK (CHAR_BIT));
 			}
@@ -175,7 +176,8 @@ static char
 *read_string(void)
 {
     unsigned long i, n = read_int ();
-    char *s = xstr ((long) (n + 1));
+    char *s = fmm_malloc(n + 1, memtype_str);
+
     for (i = 0; i < n; i++) {
 		s [i] = (char) read_bits (8);
     }
@@ -241,7 +243,7 @@ read_file(char *nm)
     crt_file_name = nm;
     input_file = fopen (nm, "rb");
     if (input_file == NULL) {
-		error (ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+		MSG_cant_open_input_file (nm);
 		return;
     }
     init_bitmask ();
@@ -251,11 +253,11 @@ read_file(char *nm)
     /* Confirm file header */
     s = READ_string ();
     if (!streq (s, calculus_NAME)) {
-		error (ERROR_FATAL, "Invalid file header identifier");
+		MSG_invalid_file_header_identifier ();
     }
     s = READ_string ();
     if (!streq (s, calculus_VERSION)) {
-		error (ERROR_FATAL, "Invalid file header version, '%s'", s);
+		MSG_invalid_file_header_version (s);
     }
 
     /* Read the algebra */
@@ -299,6 +301,6 @@ read_file(char *nm)
     }
 
     /* Close file */
-    fclose_v (input_file);
+    (void)fclose (input_file);
     return;
 }

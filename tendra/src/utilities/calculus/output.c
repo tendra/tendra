@@ -56,18 +56,17 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include <ctype.h>
 #include "calculus.h"
 #include "common.h"
-#include "error.h"
+#include "cstring.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
+#include "ostream.h"
 #include "suffix.h"
+#include "tenapp.h"
 #include "type_ops.h"
 
 
@@ -115,15 +114,13 @@ int unique = 0;
  *    This gives the file which is currently being used for output.
  */
 
-FILE *output_file = NULL;
-static int output_posn = 0;
-static char output_buff [256];
-static FILE *output_file_old = NULL;
-static int column = 0;
+OStreamT *output_file = NULL;
+static OStreamT *output_file_old = NULL;
 int verbose_output = 1;
 int const_tokens = 1;
 int have_varargs = 1;
 
+#define	out	output_file
 
 /*
  *    PRINT A CHARACTER
@@ -134,21 +131,7 @@ int have_varargs = 1;
 static void
 output_char(int c)
 {
-    int i = output_posn;
-    output_buff [i] = (char) c;
-    if (++i >= 250 || c == '\n') {
-		output_buff [i] = 0;
-		IGNORE fputs (output_buff, output_file);
-		i = 0;
-    }
-    if (c == '\n') {
-		column = 0;
-    } else if (c == '\t') {
-		column = 8 * ((column + 8) / 8);
-    } else {
-		column++;
-    }
-    output_posn = i;
+    write_char(output_file, c);
     return;
 }
 
@@ -160,9 +143,9 @@ output_char(int c)
  */
 
 static void
-output_string(CONST char *s)
+output_string(const char *s)
 {
-    for (; *s; s++) output_char (*s);
+    write_cstring(output_file, s);
     return;
 }
 
@@ -174,10 +157,11 @@ output_string(CONST char *s)
  *    character.
  */
 
-void flush_output
-PROTO_Z ()
+void
+flush_output(void)
 {
-    if (output_posn) output_char ('\n');
+    if (output_file)
+	ostream_flush (output_file);
     return;
 }
 
@@ -365,15 +349,8 @@ output(char *s, ...)
 {
     char c;
     va_list args;
-    char nbuff [100];
 
-#if FS_STDARG
     va_start (args, s);
-#else
-    char *s;
-    va_start (args);
-    s = va_arg (args, char *);
-#endif
 
     while (c = *(s++), c != 0) {
 		if (c == '%') {
@@ -480,8 +457,7 @@ output(char *s, ...)
 							n = log2 (n);
 							s++;
 						}
-						sprintf_v (nbuff, "%lu", n);
-						output_string (nbuff);
+						write_fmt(out, "%lu", n);
 					} else {
 						goto misplaced_arg;
 					}
@@ -498,8 +474,7 @@ output(char *s, ...)
 					if (HAVE_ECONST) {
 						number_P pn = ec_value (CRT_ECONST);
 						number n = DEREF_number (pn);
-						sprintf_v (nbuff, "%lu", n);
-						output_string (nbuff);
+						write_fmt(out, "%lu", n);
 					} else {
 						goto misplaced_arg;
 					}
@@ -723,8 +698,7 @@ output(char *s, ...)
 							n = log2 (n + 1);
 							s++;
 						}
-						sprintf_v (nbuff, "%lu", n);
-						output_string (nbuff);
+						write_fmt(out, "%lu", n);
 					} else {
 						goto misplaced_arg;
 					}
@@ -738,8 +712,7 @@ output(char *s, ...)
 				/* %V -> overall version */
 				int v1 = algebra->major_no;
 				int v2 = algebra->minor_no;
-				sprintf_v (nbuff, "%d.%d", v1, v2);
-				output_string (nbuff);
+				write_fmt(out, "%d.%d", v1, v2);
 				break;
 			}
 
@@ -765,7 +738,7 @@ output(char *s, ...)
 
 			case 'b' : {
 				/* %b -> backspace */
-				if (output_posn) output_posn--;
+				ostream_unput(output_file, 1);
 				break;
 			}
 
@@ -773,8 +746,7 @@ output(char *s, ...)
 				/* %d -> integer (extra argument) */
 				if (have_varargs) {
 					int da = va_arg (args, int);
-					sprintf_v (nbuff, "%d", da);
-					output_string (nbuff);
+					write_fmt(out, "%d", da);
 					break;
 				}
 				goto bad_format;
@@ -794,8 +766,7 @@ output(char *s, ...)
 				/* %n -> number (extra argument) */
 				if (have_varargs) {
 					number na = va_arg (args, number);
-					sprintf_v (nbuff, "%lu", na);
-					output_string (nbuff);
+					write_fmt(out, "%lu", na);
 					break;
 				}
 				goto bad_format;
@@ -833,14 +804,13 @@ output(char *s, ...)
 					t = 10 * t + (c - '0');
 					s++;
 				}
-				while (column < t) output_char ('\t');
+				while (out->column < t) output_char ('\t');
 				break;
 			}
 
 			case 'u' : {
 				/* %u -> unique */
-				sprintf_v (nbuff, "%d", unique);
-				output_string (nbuff);
+				write_fmt(out, "%d", unique);
 				break;
 			}
 
@@ -865,8 +835,7 @@ output(char *s, ...)
 
 			case '0' : {
 				/* %0 -> x<unique>_ */
-				sprintf_v (nbuff, "x%d_", unique);
-				output_string (nbuff);
+				write_fmt(out, "x%d_", unique);
 				break;
 			}
 
@@ -888,15 +857,13 @@ output(char *s, ...)
 			}
 
 				misplaced_arg : {
-					error (ERROR_SERIOUS,
-						   "Misplaced formatting string '%%%.2s'", s0);
+					MSG_misplaced_formatting_string (s0);
 					break;
 				}
 
 			default :
 				bad_format : {
-					error (ERROR_SERIOUS,
-						   "Unknown formatting string '%%%.2s'", s0);
+					MSG_unknown_formatting_string (s0);
 					s = s0;
 					break;
 				}
@@ -951,25 +918,26 @@ int output_c_code = 1;
 void
 open_file(char *dir, char *nm, char *suff)
 {
-    char *p;
+    char *fname, *p;
     char buff [1000];
+
     flush_output ();
-    sprintf_v (buff, "%s/%s%s", dir, nm, suff);
+    (void)sprintf (buff, "%s%c%s%s", dir, FS_PATH_SEP, nm, suff);
+    fname = string_copy(buff);
     output_file_old = output_file;
-    output_file = fopen (buff, "w");
-    if (output_file == NULL) {
-		error (ERROR_FATAL, "Can't open output file, %s", buff);
+    output_file = ostream_new();
+    if (!ostream_open(output_file, fname)) {
+		MSG_cant_open_output_file (fname);
     }
     if (verbose_output) {
-		IGNORE printf ("Creating %s ...\n", buff);
+		MSG_creating (fname);
     }
-    column = 0;
 
     if (output_c_code) {
 		/* Set up protection macro */
 		char *tok = "";
 		if (output_c_code == 2) tok = "_TOK";
-		sprintf_v (buff, "%s%s%s_INCLUDED", nm, suff, tok);
+		(void)sprintf (buff, "%s%s%s_INCLUDED", nm, suff, tok);
 		for (p = buff; *p; p++) {
 			char c = *p;
 			if (isalpha (c)) {
@@ -1000,7 +968,8 @@ close_file(void)
 {
     if (output_c_code) output ("#endif\n");
     flush_output ();
-    fclose_v (output_file);
+    ostream_close (output_file);
+    ostream_free (output_file);
     output_file = output_file_old;
     output_file_old = NULL;
     output_c_code = 1;

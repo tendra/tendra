@@ -58,9 +58,9 @@
 #include "config.h"
 #include "calculus.h"
 #include "code.h"
-#include "error.h"
 #include "common.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
 #include "suffix.h"
 #include "type_ops.h"
@@ -95,8 +95,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 {
 	TYPE t0 = DEREF_type (t);
 	if (depth > MAX_TYPE_DEPTH) {
-		error (ERROR_SERIOUS, "Cyclic type definition involving %s",
-		  name_type (t));
+		MSG_cyclic_type_definition(name_type (t));
 		return (p);
 	}
 
@@ -119,11 +118,10 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 			TYPE_P c_type = DEREF_ptr (cmp_type (cmp));
 			int n = (int) strlen (nm) + (int) strlen (c_nm) + 8;
 			if (n > (int) sizeof (buff)) {
-				error (ERROR_SERIOUS, "Too many field selectors in type %s",
-				  name_type (t));
+				MSG_too_many_field_selectors (name_type (t));
 				break;
 			}
-			sprintf_v (buff, "%s.%s", nm, c_nm);
+			(void)sprintf (buff, "%s.%s", nm, c_nm);
 			p = assign_component (c_type, p, buff, depth + 1);
 			c = TAIL_list (c);
 		}
@@ -150,8 +148,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 {
 	TYPE t0 = DEREF_type (t);
 	if (depth > MAX_TYPE_DEPTH) {
-		error (ERROR_SERIOUS, "Cyclic type definition involving %s",
-		  name_type (t));
+		MSG_cyclic_type_definition(name_type (t));
 		return (p);
 	}
 
@@ -174,11 +171,10 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 			TYPE_P c_type = DEREF_ptr (cmp_type (cmp));
 			int n = (int) strlen (nm) + (int) strlen (c_nm) + 8;
 			if (n > (int) sizeof (buff)) {
-				error (ERROR_SERIOUS, "Too many field selectors in type %s",
-				  name_type (t));
+				MSG_too_many_field_selectors (name_type (t));
 				break;
 			}
-			sprintf_v (buff, "%s.%s", nm, c_nm);
+			(void)sprintf (buff, "%s.%s", nm, c_nm);
 			p = deref_component (c_type, p, buff, depth + 1);
 			c = TAIL_list (c);
 		}
@@ -399,7 +395,7 @@ static char *
 gen(int n, char *nm)
 {
 	static char gbuff [100];
-	sprintf_v (gbuff, "GEN_%%X ( %d, TYPEID_%s )", n, nm);
+	(void)sprintf (gbuff, "GEN_%%X ( %d, TYPEID_%s )", n, nm);
 	if (n > gen_max) gen_max = n;
 	return (gbuff);
 }

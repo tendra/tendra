@@ -58,11 +58,12 @@
 #include "config.h"
 #include "calculus.h"
 #include "cmd_ops.h"
-#include "error.h"
 #include "common.h"
+#include "cstring.h"
+#include "msgcat.h"
 #include "output.h"
+#include "ostream.h"
 #include "template.h"
-#include "xalloc.h"
 
 
 /*
@@ -120,13 +121,13 @@ read_template(FILE *f, COMMAND p)
 		if (s == NULL) {
 			/* End of file */
 			if (IS_cmd_cond (p)) {
-				error (ERROR_SERIOUS, "End of '@if' expected");
+				MSG_end_of_if_expected ();
 			} else if (IS_cmd_loop (p)) {
-				error (ERROR_SERIOUS, "End of '@loop' expected");
+				MSG_end_of_loop_expected ();
 			}
 			break;
 		}
-		s = xstrcpy (s);
+		s = string_copy (s);
 		if (s [0] == '@') {
 			/* Complex command */
 			char *s1, *s2, *s3;
@@ -137,7 +138,7 @@ read_template(FILE *f, COMMAND p)
 			s3 = get_command (&s);
 			if (streq (s1, "if")) {
 				if (s2 == NULL) {
-					error (ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+					MSG_incomplete_at_command (s1);
 					s2 = "true";
 				}
 				MAKE_cmd_cond (ln2, s2, NULL_cmd, NULL_cmd, r);
@@ -145,7 +146,7 @@ read_template(FILE *f, COMMAND p)
 				if (IS_cmd_cond (p)) {
 					COMMAND v = DEREF_cmd (cmd_cond_true_code (p));
 					if (!IS_NULL_cmd (v)) {
-						error (ERROR_SERIOUS, "Duplicate '@%s' command", s1);
+						MSG_duplicate_at_command (s1);
 					}
 					q = REVERSE_list (q);
 					MAKE_cmd_compound (ln1, q, v);
@@ -153,19 +154,19 @@ read_template(FILE *f, COMMAND p)
 					q = NULL_list (COMMAND);
 					ln1 = ln2;
 				} else {
-					error (ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+					MSG_misplaced_at_command (s1);
 				}
 				s3 = s2;
 			} else if (streq (s1, "endif")) {
 				if (IS_cmd_cond (p)) {
 					go = 0;
 				} else {
-					error (ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+					MSG_misplaced_at_command (s1);
 				}
 				s3 = s2;
 			} else if (streq (s1, "loop")) {
 				if (s2 == NULL) {
-					error (ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+					MSG_incomplete_at_command (s1);
 					s2 = "false";
 				}
 				MAKE_cmd_loop (ln2, s2, NULL_cmd, r);
@@ -173,17 +174,17 @@ read_template(FILE *f, COMMAND p)
 				if (IS_cmd_loop (p)) {
 					go = 0;
 				} else {
-					error (ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+					MSG_misplaced_at_command (s1);
 				}
 				s3 = s2;
 			} else if (streq (s1, "comment")) {
 				s3 = NULL;
 			} else {
-				error (ERROR_SERIOUS, "Unknown command, '@%s'", s1);
+				MSG_unknown_at_command (s1);
 				s3 = NULL;
 			}
 			if (s3) {
-				error (ERROR_SERIOUS, "End of '@%s' expected", s1);
+				MSG_end_of_at_expected (s1);
 			}
 			crt_line_no = ln2 + 1;
 			if (!IS_NULL_cmd (r)) {
@@ -257,7 +258,7 @@ eval_cond(char *s)
     if (streq (s, "token")) return (token_cond);
     if (streq (s, "true")) return (1);
     if (streq (s, "false")) return (0);
-    error (ERROR_SERIOUS, "Unknown condition, '%s'", s);
+    MSG_unknown_condition (s);
     return (0);
 }
 
@@ -331,7 +332,7 @@ write_template(COMMAND cmd)
 					LOOP_MAP_ARGUMENT write_template (a);
 				}
 			} else {
-				error (ERROR_SERIOUS, "Unknown control, '%s'", s);
+				MSG_unknown_control (s);
 			}
 			break;
 	    }
@@ -363,22 +364,24 @@ template_file(char *in, char *out)
 {
     COMMAND cmd;
     FILE *input_file;
+    OStreamT outfile;
+
     crt_line_no = 1;
     crt_file_name = in;
     input_file = fopen (in, "r");
     if (input_file == NULL) {
-		error (ERROR_SERIOUS, "Can't open template file, '%s'", in);
+		MSG_cant_open_template_file (in);
 		return;
     }
     MAKE_cmd_simple (1, "<dummy>", cmd);
     cmd = read_template (input_file, cmd);
-    fclose_v (input_file);
+    (void)fclose (input_file);
     if (streq (out, ".")) {
-		output_file = stdout;
+		output_file = ostream_output;
     } else {
-		output_file = fopen (out, "w");
-		if (output_file == NULL) {
-			error (ERROR_SERIOUS, "Can't open output file, '%s'", out);
+		output_file = &outfile;
+		if (!ostream_open(output_file, out)) {
+			MSG_cant_open_output_file (out);
 			return;
 		}
     }
@@ -386,6 +389,6 @@ template_file(char *in, char *out)
     write_template (cmd);
     have_varargs = 1;
     flush_output ();
-    if (output_file != stdout) fclose_v (output_file);
+    if (output_file != ostream_output) ostream_close (output_file);
     return;
 }

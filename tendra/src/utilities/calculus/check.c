@@ -59,10 +59,10 @@
 #include "calculus.h"
 #include "check.h"
 #include "common.h"
-#include "error.h"
+#include "fmm.h"
+#include "msgcat.h"
 #include "output.h"
 #include "type_ops.h"
-#include "xalloc.h"
 
 
 /*
@@ -123,21 +123,15 @@ static NAME
 static void
 make_name(int n, char *a, char *b, char *c)
 {
-    static int names_left = 0;
-    static NAME *names_free = NULL;
     NAME *p = find_name (n, a, b, c);
+
     if (p) {
 		char buffer [1000];
-		sprintf_v (buffer, name_error [n], a, b, c);
-		error (ERROR_SERIOUS, "%s already defined (at %s, line %d)",
-			   buffer, p->file, p->line);
+		(void)sprintf (buffer, name_error [n], a, b, c);
+		MSG_name_already_defined (buffer, p->file, p->line);
 		return;
     }
-    if (names_left == 0) {
-		names_left = 1000;
-		names_free = xmalloc_nof (NAME, names_left);
-    }
-    p = names_free + (--names_left);
+    p = fmm_malloc(sizeof(*p), fmm_deftype);
     p->type = n;
     p->text [0] = a;
     p->text [1] = b;

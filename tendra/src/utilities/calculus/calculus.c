@@ -58,9 +58,9 @@
 #define calculus_IO_ROUTINES
 #include "config.h"
 #include "calculus.h"
-#include "error.h"
 #include "extra.h"
-#include "xalloc.h"
+#include "fmm.h"
+#include "msgcat.h"
 
 
 /*
@@ -314,7 +314,7 @@ find_calculus_alias(unsigned n)
 		if (q->ag_tag == n) return (q);
 		p = TAIL_list (p);
 	}
-	error (ERROR_FATAL, "Can't find alias %u", n);
+	MSG_cant_find_alias (n);
 	return (NULL);
 }
 

@@ -57,10 +57,10 @@
 
 #include "config.h"
 #include "calculus.h"
-#include "error.h"
+#include "cstring.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "syntax.h"
-#include "xalloc.h"
 
 
 /*
@@ -87,7 +87,7 @@ static int
 check_stack(int t)
 {
     if (!allow_stack) {
-		error (ERROR_SERIOUS, "Stack operations have been suppressed");
+		MSG_stack_operations_have_been_suppressed ();
 		allow_stack = 1;
     }
     return (t);
@@ -105,7 +105,7 @@ static int
 check_vec(int t)
 {
     if (!allow_vec) {
-		error (ERROR_SERIOUS, "Vector operations have been suppressed");
+		MSG_vector_operations_have_been_suppressed ();
 		allow_vec = 1;
     }
     return (t);
@@ -222,7 +222,7 @@ read_identifier(int a)
     char *t = token_buff;
     do {
 		*(t++) = (char) c;
-		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		if (t == token_end) MSG_buffer_overflow ();
 		c = read_char ();
 		cl = lookup_char (c);
     } while (is_alphanum (cl));
@@ -308,11 +308,11 @@ read_string()
     char *t = token_buff;
     while (c = read_char (), c != '"') {
 		if (c == '\n' || c == LEX_EOF) {
-			error (ERROR_SERIOUS, "Unexpected end of string");
+			MSG_unexpected_end_of_string ();
 			break;
 		}
 		*(t++) = (char) c;
-		if (t == token_end) error (ERROR_FATAL, "Buffer overflow");
+		if (t == token_end) MSG_buffer_overflow ();
     }
     *t = 0;
     return (lex_string);
@@ -337,7 +337,7 @@ read_comment()
     while (state != 2) {
 		int c = read_char ();
 		if (c == LEX_EOF) {
-			error (ERROR_SERIOUS, "End of file in comment");
+			MSG_end_of_file_in_comment ();
 			return (lex_eof);
 		}
 		if (c == '*') {
@@ -351,7 +351,7 @@ read_comment()
 		if (t == token_end) t = token_buff + 2;
     }
     *t = 0;
-    if (first_comment == NULL) first_comment = xstrcpy (token_buff);
+    if (first_comment == NULL) first_comment = string_copy (token_buff);
     return (read_token ());
 }
 
@@ -381,7 +381,7 @@ process_file(char *nm, int r)
     crt_file_name = nm;
     lex_input = fopen (nm, "r");
     if (lex_input == NULL) {
-		error (ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+		MSG_cant_open_input_file (nm);
 		return;
     }
     ADVANCE_LEXER;
@@ -391,8 +391,8 @@ process_file(char *nm, int r)
 		extra_calculus ();
     }
     if (crt_lex_token != lex_eof) {
-		error (ERROR_SERIOUS, "Terminating due to syntax error");
+		MSG_terminating_due_to_syntax_error ();
     }
-    fclose_v (lex_input);
+    (void)fclose (lex_input);
     return;
 }

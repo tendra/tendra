@@ -62,15 +62,16 @@
 #include "code.h"
 #include "common.h"
 #include "disk.h"
-#include "error.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
+#include "ostream.h"
 #include "pretty.h"
 #include "print.h"
 #include "template.h"
+#include "tenapp.h"
 #include "token.h"
 #include "write.h"
-#include "xalloc.h"
 
 
 /*
@@ -100,18 +101,20 @@
 static void
 list_action(char *nm)
 {
+    OStreamT outfile;
+
     if (streq (nm, ".")) {
-		output_file = stdout;
+		output_file = ostream_output;
     } else {
-		output_file = fopen (nm, "w");
-		if (output_file == NULL) {
-			error (ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+		output_file = &outfile;
+		if (!ostream_open(output_file, nm)) {
+			MSG_cant_open_output_file (nm);
 			return;
 		}
     }
     LOOP_TYPE output ("%TT ;\n", CRT_TYPE);
     flush_output ();
-    if (output_file != stdout) fclose_v (output_file);
+    if (output_file != ostream_output) ostream_close (output_file);
     return;
 }
 
@@ -136,7 +139,7 @@ main(int argc, char **argv)
     int act = ACTION_C;
 
     /* Scan arguments */
-    set_progname (argv [0], "1.2");
+    tenapp_init(argc, argv, "Algebraic type system tool", "1.3");
     for (a = 1; a < argc; a++) {
 		char *arg = argv [a];
 		if (arg [0] != '-') {
@@ -205,12 +208,12 @@ main(int argc, char **argv)
 
 					/* Other options */
 				case 'q' : verbose_output = 0; break;
-				case 'v' : report_version (); break;
+				case 'v' : tenapp_report_version (); break;
 				default : known = 0; break;
 				}
 			}
 			if (!known) {
-				error (ERROR_WARNING, "Unknown option, '%s'", arg);
+				MSG_getopt_unknown_option(arg);
 			}
 		} else if (a != last_arg) {
 			if (need_alg) new_algebra ();
@@ -224,14 +227,14 @@ main(int argc, char **argv)
 			need_alg = 1;
 		}
     }
-    if (no_args == 0) error (ERROR_FATAL, "Not enough arguments");
-    if (!need_alg) error (ERROR_SERIOUS, "Badly placed -E option");
+    if (no_args == 0) MSG_getopt_not_enough_arguments ();
+    if (!need_alg) MSG_badly_placed_E_option ();
 
     /* Look up output algebra */
     if (alg) {
 		ALGEBRA_DEFN *al = find_algebra (alg);
 		if (al == NULL) {
-			error (ERROR_SERIOUS, "Algebra %s not defined", alg);
+			MSG_algebra_not_defined(alg);
 		} else {
 			algebra = al;
 		}
@@ -251,7 +254,8 @@ main(int argc, char **argv)
 	    case ACTION_TEMPL : template_file (in, out); break;
 		}
     } else {
-		error (ERROR_FATAL, "No output generated due to previous errors");
+		MSG_no_output_generated_due_errors ();
     }
-    return (exit_status);
+    tenapp_exit();
+    return (0);
 }

@@ -57,10 +57,10 @@
 
 #include "config.h"
 #include "calculus.h"
-#include "error.h"
 #include "common.h"
+#include "fmm.h"
+#include "msgcat.h"
 #include "type_ops.h"
-#include "xalloc.h"
 
 
 /*
@@ -171,9 +171,7 @@ register_type(TYPE_P t)
 					fn2 = fn;
 					ln2 = ln;
 				}
-				error_posn (ERROR_SERIOUS, fn1, ln1,
-							"Type %s already defined (at %s, line %d)",
-							nm, fn2, ln2);
+				MSG_type_already_defined (nm, fn2, ln2);
 			}
 
 			COPY_type (s, DEREF_type (t));
@@ -245,8 +243,7 @@ compound_identity(TYPE_P r, int depth)
 {
     TYPE r0 = DEREF_type (r);
     if (depth > MAX_TYPE_DEPTH) {
-		error (ERROR_SERIOUS, "Cyclic type definition involving %s",
-			   name_type (r));
+		MSG_cyclic_type_definition (name_type (r));
 		return (NULL_ptr (TYPE));
     }
     if (IS_type_ident (r0)) {
@@ -317,7 +314,7 @@ check_types()
 		TYPE s0 = DEREF_type (s);
 		if (IS_type_undef (s0)) {
 			char *nm = name_type (s);
-			error (ERROR_SERIOUS, "Type %s used but not defined", nm);
+			MSG_type_used_but_not_defined (nm);
 		} else {
 			int sz = size_type (s, 0);
 			COPY_int (type_size (s0), sz);
@@ -468,8 +465,7 @@ import_type_list(LIST (TYPE_P) t)
 			register_lab : {
 				TYPE_P r = register_type (s);
 				if (!EQ_ptr (r, s)) {
-					error (ERROR_SERIOUS,
-						   "Can't import previously used type %s",
+					MSG_cant_import_previously_used_type (
 						   name_type (s));
 				}
 				break;
@@ -500,15 +496,15 @@ import_type(char *alg, char *nm)
     LIST (TYPE_P) p;
     ALGEBRA_DEFN *a = find_algebra (alg);
     if (a == NULL) {
-		error (ERROR_SERIOUS, "Algebra %s not defined", alg);
+		MSG_algebra_not_defined (alg);
 		return;
     } else if (a == algebra) {
-		error (ERROR_SERIOUS, "Can't import from current algebra");
+		MSG_cant_import_from_current_algebra ();
 		return;
     }
     t = find_type (a, nm);
     if (IS_type_undef (DEREF_type (t))) {
-		error (ERROR_SERIOUS, "Type %s::%s not defined", alg, nm);
+		MSG_type_not_defined (alg, nm);
 		return;
     }
     p = derived_types (t, NULL_list (TYPE_P));
@@ -533,10 +529,10 @@ import_algebra(char *alg)
 {
     ALGEBRA_DEFN *a = find_algebra (alg);
     if (a == NULL) {
-		error (ERROR_SERIOUS, "Algebra %s not defined", alg);
+		MSG_algebra_not_defined (alg);
 		return;
     } else if (a == algebra) {
-		error (ERROR_SERIOUS, "Can't import from current algebra");
+		MSG_cant_import_from_current_algebra ();
 		return;
     }
     import_type_list (a->types);
@@ -558,8 +554,7 @@ size_type(TYPE_P t, int depth)
     if (sz) return (sz);
 
     if (depth > MAX_TYPE_DEPTH) {
-		error (ERROR_SERIOUS, "Cyclic type definition involving %s",
-			   name_type (t));
+		MSG_cyclic_type_definition (name_type (t));
 		return (1);
     }
 
@@ -594,8 +589,7 @@ size_type(TYPE_P t, int depth)
 	case type_vec_ptr_tag : sz = SIZE_VEC_PTR; break;
 
 	default : {
-	    error (ERROR_SERIOUS, "Can't take size of type %s",
-			   name_type (t));
+	    MSG_cant_take_size_of_type (name_type (t));
 	    sz = 1;
 	    break;
 	}

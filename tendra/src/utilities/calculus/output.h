@@ -156,6 +156,7 @@ extern LIST (TYPE_P) crt_type;
 #define HAVE_TYPE	(!IS_NULL_list (crt_type))
 
 
+struct OStreamT;
 /*
  *    DECLARATIONS FOR BASIC OUTPUT ROUTINES
  */
@@ -165,18 +166,14 @@ extern int const_tokens;
 extern int have_varargs;
 extern int output_c_code;
 extern int verbose_output;
-extern FILE *output_file;
+extern struct OStreamT *output_file;
 extern void flush_output(void);
 extern void open_file(char *, char *, char *);
 extern void close_file(void);
 extern void output_type(TYPE_P);
 extern number log2(number);
 
-#if FS_STDARG
 extern void output (char *, ...);
-#else
-extern void output ();
-#endif
 
 #define comment(X)	output ("/* %e */\n\n", (X))
 

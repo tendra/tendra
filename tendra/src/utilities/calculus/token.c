@@ -58,7 +58,6 @@
 #include "config.h"
 #include "calculus.h"
 #include "code.h"
-#include "error.h"
 #include "common.h"
 #include "lex.h"
 #include "output.h"
