@@ -20,6 +20,7 @@ AS?=		/bin/as
 AWK?=		/bin/awk
 BASENAME?=	/bin/basename
 CAT?=		/bin/cat
+CC=		gcc
 CHGRP?=		/bin/chgrp
 CHMOD?=		/bin/chmod
 CHOWN?=		/bin/chown
