@@ -62,7 +62,7 @@ ${PROG}: ${OBJS}
 	sed s'/@@MACH_BASE@@/${MACH_BASE:S/\//\\\//g}/g' ${BASE_DIR}/${TOOLS}/${PROG}/${WRAPPER} > ${OBJ_SDIR}/${WRAPPER}
 .endif
 
-clean:
+clean: .PHONY
 .if defined(PROG)
 	cd ${OBJ_SDIR}; \
 		${REMOVE} ${PROG} ${PROG}.core core ${OBJS}
