@@ -4,21 +4,9 @@
 
 DOC_PREFIX?=../
 
-SUBDIR=	calculus \
-	diag \
-	faq \
-	guide \
-	pl \
-	port \
-	share \
-	sid \
-	tcc \
-	tcpplus \
-	tdf \
-	tdfc \
-	tld \
-	tnc \
-	tspec
+SUBDIR=	calculus diag faq tld tnc tspec
+
+#guide pl port sid tcc tcpplus tdf tdfc \
 
 
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"
