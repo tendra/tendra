@@ -1,28 +1,11 @@
-BASE=/u/g/release/Source
-SRC=${BASE}/src/lib/machines/sunos/680x0/src
-SRC2=${BASE}/src/lib/machines/common/src
+# $Id$
 
-CC=tcc
-TCCOPTS=-Ysystem
-REMOVE=rm -f
-MOVE=mv
-COPY=cp
-ECHO=echo
-SHELL=/bin/sh
+SRC2=	${BASE_DIR}/lib/machines/common/src
 
-all : dyninit
-	@${ECHO} all done
+TCCOPTS=	-Ysystem
+CCOPTS=		${TCCOPTS}
 
-pre : dyninit
-	@${ECHO} all done
+PROG=	dyninit
+SRCS=	dyninit.c
 
-dyninit : ${SRC}/dyninit.c ${SRC2}/ossg.h
-	${CC} ${TCCOPTS} -I${SRC2} -o dyninit.new ${SRC}/dyninit.c
-	${REMOVE} dyninit
-	${MOVE} dyninit.new dyninit
-
-clean :
-	${REMOVE} core
-
-clobber : clean
-	${REMOVE} dyninit
+.include "../../../Makefile.inc"
