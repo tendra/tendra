@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = apis env startup
+SUBDIR = env startup apis
 
 .include "Makefile.inc"
