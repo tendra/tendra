@@ -81,7 +81,7 @@
 typedef struct BasicT {
 	unsigned		terminal;
 	TypeTupleT		result;
-	GenericP		result_code;
+	void *			result_code;
 	BoolT			ignored;
 } BasicT, *BasicP;
 
@@ -95,10 +95,10 @@ typedef struct BasicClosureT {
 BasicP		basic_create(GrammarP, BoolT);
 unsigned	basic_terminal(BasicP);
 TypeTupleP	basic_result(BasicP);
-GenericP	basic_get_result_code(BasicP);
-void		basic_set_result_code(BasicP, GenericP);
+void *		basic_get_result_code(BasicP);
+void		basic_set_result_code(BasicP, void *);
 BoolT		basic_get_ignored(BasicP);
-void		basic_iter_for_table(BasicP, BoolT, void (*) (EntryP, GenericP), GenericP);
+void		basic_iter_for_table(BasicP, BoolT, void (*) (EntryP, void *), void *);
 
 void		write_basics(OStreamP, BasicClosureP);
 

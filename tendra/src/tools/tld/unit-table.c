@@ -110,8 +110,8 @@ unit_table_get(UnitTableP table, NStringP key)
 }
 
 void
-unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, GenericP),
-				GenericP closure)
+unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, void *),
+				void *closure)
 {
     unsigned i;
 

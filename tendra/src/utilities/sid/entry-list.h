@@ -104,9 +104,9 @@ void	entry_list_append(EntryListP, EntryListP);
 BoolT	entry_list_is_empty(EntryListP);
 void	entry_list_save_state(EntryListP, SaveListP);
 void	entry_list_restore_state(EntryListP, SaveListP);
-void	entry_list_iter(EntryListP, void (*) (EntryP, GenericP), GenericP);
-void	entry_list_iter_table(EntryListP, BoolT, void (*) (EntryP, GenericP),
-	    GenericP);
+void	entry_list_iter(EntryListP, void (*) (EntryP, void *), void *);
+void	entry_list_iter_table(EntryListP, BoolT, void (*) (EntryP, void *),
+	    void *);
 void	entry_list_destroy(EntryListP);
 
 void	write_entry_list(OStreamP, EntryListP);

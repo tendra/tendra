@@ -94,7 +94,7 @@ extern ShapeEntryP		shape_table_add(ShapeTableP, NStringP);
 extern ShapeEntryP		shape_table_get(ShapeTableP, NStringP);
 extern ShapeEntryP		shape_table_get_token_entry(ShapeTableP);
 extern ShapeEntryP		shape_table_get_tag_entry(ShapeTableP);
-extern void			shape_table_iter(ShapeTableP, void (*) (ShapeEntryP, GenericP), GenericP);
+extern void			shape_table_iter(ShapeTableP, void (*) (ShapeEntryP, void *), void *);
 extern void			shape_table_deallocate(ShapeTableP);
 
 #endif /* !defined (H_SHAPE_TABLE) */

@@ -123,7 +123,7 @@ c_output_non_ansi_params(COutputInfoP info, TypeTupleP inputs,
 		write_cstring (ostream, sep);
 		if ((!(ptr->reference)) &&
 			(type_get_assign_code (entry_get_type (ptr->type)) !=
-			 NIL (GenericP))) {
+			 NULL)) {
 			c_output_key (info, entry_key (ptr->name), out_prefix);
 		} else {
 			c_output_key (info, entry_key (ptr->name), in_prefix);
@@ -158,7 +158,7 @@ c_output_non_ansi_type_defn(COutputInfoP info,
 			write_char (ostream, '*');
 			c_output_key (info, entry_key (ptr->name), in_prefix);
 		} else if (type_get_assign_code (entry_get_type (ptr->type)) !=
-				   NIL (GenericP)) {
+				   NULL) {
 			write_char (ostream, '*');
 			c_output_key (info, entry_key (ptr->name), out_prefix);
 			specials = TRUE;
@@ -182,7 +182,7 @@ c_output_non_ansi_type_defn(COutputInfoP info,
 		for (ptr = inputs->head; ptr; ptr = ptr->next) {
 			if ((!(ptr->reference)) &&
 				(type_get_assign_code (entry_get_type (ptr->type)) !=
-				 NIL (GenericP))) {
+				 NULL)) {
 				output_indent (c_out_info_info (info), C_INDENT_STEP);
 				c_output_mapped_key (info, ptr->type);
 				write_char (ostream, ' ');
@@ -248,7 +248,7 @@ c_output_ansi_type_defn(COutputInfoP info,
 		write_char (ostream, '*');
 		c_output_key (info, entry_key (ptr->name), in_prefix);
 	    } else if (type_get_assign_code (entry_get_type (ptr->type)) !=
-		       NIL (GenericP)) {
+		       NULL) {
 		write_char (ostream, '*');
 		c_output_key (info, entry_key (ptr->name), out_prefix);
 		specials = TRUE;
@@ -273,7 +273,7 @@ c_output_ansi_type_defn(COutputInfoP info,
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	    if ((!(ptr->reference)) &&
 		(type_get_assign_code (entry_get_type (ptr->type)) !=
-		 NIL (GenericP))) {
+		 NULL)) {
 		output_indent (c_out_info_info (info), C_INDENT_STEP);
 		c_output_mapped_key (info, ptr->type);
 		write_char (ostream, ' ');
@@ -404,7 +404,7 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs,
 			c_output_mapped_key (info, ptr->type);
 			if ((ptr->reference) ||
 				(type_get_assign_code (entry_get_type (ptr->type)) !=
-				 NIL (GenericP))) {
+				 NULL)) {
 				write_cstring (ostream, " *");
 			}
 			sep = ", ";

@@ -74,16 +74,16 @@ type_create(void)
 {
 	TypeP type = ALLOCATE (TypeT);
 	
-	type->assign_code        = NIL (GenericP);
-	type->param_assign_code  = NIL (GenericP);
-	type->result_assign_code = NIL (GenericP);
+	type->assign_code        = NULL;
+	type->param_assign_code  = NULL;
+	type->result_assign_code = NULL;
 	return (type);
 }
 
 #ifdef FS_FAST
 #undef type_get_assign_code
 #endif /* defined (FS_FAST) */
-GenericP
+void *
 type_get_assign_code(TypeP type)
 {
 	return (type->assign_code);
@@ -96,9 +96,9 @@ type_get_assign_code(TypeP type)
 #undef type_set_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_assign_code(TypeP type, GenericP code)
+type_set_assign_code(TypeP type, void *code)
 {
-	ASSERT (type->assign_code == NIL (GenericP));
+	ASSERT (type->assign_code == NULL);
 	type->assign_code = code;
 }
 #ifdef FS_FAST
@@ -108,7 +108,7 @@ type_set_assign_code(TypeP type, GenericP code)
 #ifdef FS_FAST
 #undef type_get_param_assign_code
 #endif /* defined (FS_FAST) */
-GenericP
+void *
 type_get_param_assign_code(TypeP type)
 {
 	return (type->param_assign_code);
@@ -121,9 +121,9 @@ type_get_param_assign_code(TypeP type)
 #undef type_set_param_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_param_assign_code(TypeP type, GenericP code)
+type_set_param_assign_code(TypeP type, void *code)
 {
-	ASSERT (type->param_assign_code == NIL (GenericP));
+	ASSERT (type->param_assign_code == NULL);
 	type->param_assign_code = code;
 }
 #ifdef FS_FAST
@@ -133,7 +133,7 @@ type_set_param_assign_code(TypeP type, GenericP code)
 #ifdef FS_FAST
 #undef type_get_result_assign_code
 #endif /* defined (FS_FAST) */
-GenericP
+void *
 type_get_result_assign_code(TypeP type)
 {
 	return (type->result_assign_code);
@@ -146,9 +146,9 @@ type_get_result_assign_code(TypeP type)
 #undef type_set_result_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_result_assign_code(TypeP type, GenericP code)
+type_set_result_assign_code(TypeP type, void *code)
 {
-	ASSERT (type->result_assign_code == NIL (GenericP));
+	ASSERT (type->result_assign_code == NULL);
 	type->result_assign_code = code;
 }
 #ifdef FS_FAST

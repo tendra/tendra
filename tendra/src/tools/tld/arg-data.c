@@ -181,8 +181,8 @@ rename_control_entry_parse_pair(RenameControlEntryP entry,
 
 void
 shape_control_iter(ShapeControlP control,
-				   void (*proc)(NStringP, BoolT, NameKeyListP, GenericP),
-				   GenericP closure)
+				   void (*proc)(NStringP, BoolT, NameKeyListP, void *),
+				   void *closure)
 {
     ShapeControlEntryP entry;
 
@@ -193,8 +193,8 @@ shape_control_iter(ShapeControlP control,
 
 void
 rename_control_iter(RenameControlP control,
-					void (*proc)(NStringP, NameKeyPairListP, GenericP),
-					GenericP closure)
+					void (*proc)(NStringP, NameKeyPairListP, void *),
+					void *closure)
 {
     RenameControlEntryP entry;
 

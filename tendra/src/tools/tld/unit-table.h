@@ -90,7 +90,7 @@ typedef struct UnitTableT {
 extern UnitTableP		unit_table_create(void);
 extern UnitEntryP		unit_table_add(UnitTableP, NStringP, unsigned);
 extern UnitEntryP		unit_table_get(UnitTableP, NStringP);
-extern void			unit_table_iter(UnitTableP, void (*) (UnitEntryP, GenericP), GenericP);
+extern void			unit_table_iter(UnitTableP, void (*) (UnitEntryP, void *), void *);
 
 #endif /* !defined (H_UNIT_TABLE) */
 

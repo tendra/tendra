@@ -73,7 +73,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-static void	rule_compute_mutations_3(EntryP, GenericP);
+static void	rule_compute_mutations_3(EntryP, void *);
 
 static void
 rule_compute_mutations_4(RuleP rule, AltP alt,
@@ -106,12 +106,12 @@ rule_compute_mutations_4(RuleP rule, AltP alt,
 	}
 	if (propogate) {
 		entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
-						 (GenericP) rule);
+						 (void *) rule);
 	}
 }
 
 static void
-rule_compute_mutations_3(EntryP entry, GenericP gclosure)
+rule_compute_mutations_3(EntryP entry, void *gclosure)
 {
 	RuleP rule      = entry_get_rule (entry);
 	RuleP from_rule = (RuleP) gclosure;
@@ -158,7 +158,7 @@ rule_compute_mutations_2(RuleP rule, AltP alt)
 	}
 	if (propogate) {
 		entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
-						 (GenericP) rule);
+						 (void *) rule);
 	}
 }
 
@@ -178,7 +178,7 @@ rule_compute_mutations_1(RuleP rule)
 /*--------------------------------------------------------------------------*/
 
 void
-rule_compute_mutations(EntryP entry, GenericP gclosure)
+rule_compute_mutations(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	if (entry_is_rule (entry)) {

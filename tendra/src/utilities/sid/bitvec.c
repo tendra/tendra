@@ -111,21 +111,21 @@ void
 bitvec_copy(BitVecP to, BitVecP from)
 {
 	to->bits = ALLOCATE_VECTOR (ByteT, bitvec_size);
-	(void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
+	(void) memcpy ((void *) (to->bits), (void *) (from->bits),
 				   (size_t) bitvec_size);
 }
 
 void
 bitvec_replace(BitVecP to, BitVecP from)
 {
-	(void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
+	(void) memcpy ((void *) (to->bits), (void *) (from->bits),
 				   (size_t) bitvec_size);
 }
 
 void
 bitvec_empty(BitVecP bitvec)
 {
-	(void) memset ((GenericP) (bitvec->bits), 0, (size_t) bitvec_size);
+	(void) memset ((void *) (bitvec->bits), 0, (size_t) bitvec_size);
 }
 
 BoolT

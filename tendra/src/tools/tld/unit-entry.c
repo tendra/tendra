@@ -92,11 +92,11 @@ unit_write(UnitP unit, ShapeTableP shapes,
 		debug_info_w_start_counts (num_shapes);
 		tdf_write_int (writer, num_shapes);
 		shape_table_iter (shapes, shape_entry_write_count,
-						  (GenericP) &shape_closure);
+						  (void *) &shape_closure);
 		debug_info_w_start_maps (num_shapes);
 		tdf_write_int (writer, num_shapes);
 		shape_table_iter (shapes, shape_entry_write_links,
-						  (GenericP) &shape_closure);
+						  (void *) &shape_closure);
     } else {
 		debug_info_w_start_counts ((unsigned) 0);
 		tdf_write_int (writer, (unsigned) 0);
@@ -170,7 +170,7 @@ unit_entry_add_unit(UnitEntryP entry, unsigned num_counts)
 /*--------------------------------------------------------------------------*/
 
 void
-unit_entry_do_count(UnitEntryP entry, GenericP gclosure)
+unit_entry_do_count(UnitEntryP entry, void *gclosure)
 {
     UnitSetClosureP closure = (UnitSetClosureP) gclosure;
     UnitP           unit;
@@ -181,7 +181,7 @@ unit_entry_do_count(UnitEntryP entry, GenericP gclosure)
 
 			if ((table = unit->map_table) != NIL (MapTableP)) {
 				map_table_iter (table, map_entry_check_non_empty,
-								(GenericP) closure->shapes);
+								(void *) closure->shapes);
 			}
 			unit = unit->next;
 		}
@@ -217,14 +217,14 @@ unit_entry_write_tld_unit(UnitEntryP entry,
     tdf_write_int (writer, (unsigned) 0);
     debug_info_w_start_maps ((unsigned) 0);
     tdf_write_int (writer, (unsigned) 0);
-    shape_table_iter (shapes, shape_entry_compute_tld_size, (GenericP) &size);
+    shape_table_iter (shapes, shape_entry_compute_tld_size, (void *) &size);
     size /= 2;
     debug_info_w_unit_body (size);
     tdf_write_int (writer, size);
     tdf_write_align (writer);
     debug_info_w_tld_version ((unsigned) 1);
     tdf_write_int (writer, (unsigned) 1);
-    shape_table_iter (shapes, shape_entry_write_tld, (GenericP) writer);
+    shape_table_iter (shapes, shape_entry_write_tld, (void *) writer);
     tdf_write_align (writer);
 }
 

@@ -247,7 +247,7 @@ typedef char *		ExceptionP;
 
 typedef struct {
     char *				exception;
-    GenericP			data;
+    void *				data;
     unsigned			line;
     char *				file;
 } ThrowDataT, *ThrowDataP;
@@ -281,14 +281,14 @@ extern NoReturnT		X__exception_throw(void);
 
 #define THROW(exc) \
 {X__exception_throw_data.exception = (exc); \
- X__exception_throw_data.data      = NIL (GenericP); \
+ X__exception_throw_data.data      = NULL; \
  X__exception_throw_data.line      = __LINE__; \
  X__exception_throw_data.file      = __FILE__; \
  X__exception_throw ();}
 
 #define THROW_VALUE(exc,val) \
 {X__exception_throw_data.exception = (exc); \
- X__exception_throw_data.data      = ((GenericP) (val)); \
+ X__exception_throw_data.data      = ((void *) (val)); \
  X__exception_throw_data.line      = __LINE__; \
  X__exception_throw_data.file      = __FILE__; \
  X__exception_throw ();}

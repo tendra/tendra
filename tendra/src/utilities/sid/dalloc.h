@@ -73,10 +73,10 @@
  * be provided:
  *
  *	void				E_dalloc_multi_deallocate
- *			PROTO_S ((GenericP, char *, unsigned, char *,
+ *			PROTO_S ((void *, char *, unsigned, char *,
  *				  unsigned));
  *	void				E_dalloc_corrupt_block
- *			PROTO_S ((GenericP, char *, unsigned));
+ *			PROTO_S ((void *, char *, unsigned));
  *
  * The first function will be called if a block is deallocated more than once.
  * It takes the block's address, and the file and line number of the
@@ -129,15 +129,15 @@
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-void	E_dalloc_multi_deallocate(GenericP, char *, unsigned,
+void	E_dalloc_multi_deallocate(void *, char *, unsigned,
 		char *, unsigned);
-void	E_dalloc_corrupt_block(GenericP, char *, unsigned);
-GenericP X__dalloc_allocate(size_t, size_t, char *, unsigned);
-void	X__dalloc_deallocate(GenericP, char *, unsigned);
+void	E_dalloc_corrupt_block(void *, char *, unsigned);
+void *	X__dalloc_allocate(size_t, size_t, char *, unsigned);
+void	X__dalloc_deallocate(void *, char *, unsigned);
 
 #else
 
-GenericP X__dalloc_allocate(size_t, size_t);
+void * X__dalloc_allocate(size_t, size_t);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 
@@ -154,7 +154,7 @@ GenericP X__dalloc_allocate(size_t, size_t);
 			      (unsigned) __LINE__))
 
 #define DEALLOCATE(pointer) \
-X__dalloc_deallocate ((GenericP) (pointer), __FILE__, (unsigned) __LINE__)
+X__dalloc_deallocate ((void *) (pointer), __FILE__, (unsigned) __LINE__)
 
 #else
 

@@ -195,7 +195,7 @@ BoolT	types_check_undefined(TypeTupleP, TypeTupleP, TypeTupleP,
 BoolT	types_fillin_types(TypeTupleP, TypeTupleP);
 BoolT	types_fillin_names(TypeTupleP, TypeTupleP);
 BoolT	types_check_names(TypeTupleP, TypeTupleP);
-void	types_check_used(TypeTupleP, void (*) (GenericP, EntryP), GenericP);
+void	types_check_used(TypeTupleP, void (*) (void *, EntryP), void *);
 void	types_unlink_used(TypeTupleP, TypeTupleP);
 void	types_unlink_unused(TypeTupleP, struct AltT *);
 void	types_compute_formal_renaming(TypeTupleP, TypeRTransP);
@@ -206,7 +206,7 @@ void	types_compute_local_renaming(TypeTupleP, TypeTupleP, TypeRTransP,
 void	types_compute_param_from_trans(TypeTupleP, TypeNTransP, TypeNTransP,
 		TypeTupleP);
 BoolT	types_check_shadowing(TypeTupleP, ScopeStackP, struct RuleT *);
-void	types_iter_for_table(TypeTupleP, void (*) (EntryP, GenericP), GenericP);
+void	types_iter_for_table(TypeTupleP, void (*) (EntryP, void *), void *);
 void	types_destroy(TypeTupleP);
 
 void	write_type_types(OStreamP, TypeTupleP);
@@ -232,7 +232,7 @@ void	rtrans_init(TypeRTransP);
 void	rtrans_add_translation(TypeRTransP, EntryP, EntryP, EntryP, BoolT);
 EntryP	rtrans_get_translation(TypeRTransP, EntryP, EntryP *, BoolT *);
 void	rtrans_apply_for_non_locals(TypeRTransP,
-		void (*) (EntryP, EntryP, GenericP), GenericP);
+		void (*) (EntryP, EntryP, void *), void *);
 void	rtrans_destroy(TypeRTransP);
 
 /*--------------------------------------------------------------------------*/

@@ -102,15 +102,15 @@ static size_t dalloc_data_size = ALIGN (sizeof (DallocDataT));
 
 /*--------------------------------------------------------------------------*/
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length,
 				   char *file, unsigned line)
 {
-	GenericP tmp;
+	void *tmp;
 	
 	ASSERT (size != 0);
 	if (length == 0) {
-		tmp = NIL (GenericP);
+		tmp = NULL;
 	} else {
 		size_t        real_size = (((size) * length) + dalloc_data_size);
 		vm_address_t address;
@@ -134,7 +134,7 @@ X__dalloc_allocate(size_t size, size_t length,
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, char *file, unsigned line)
+X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 {
 	if (ptr) {
 		ByteP         pointer = (ByteP) ptr;
@@ -159,20 +159,20 @@ X__dalloc_deallocate(GenericP ptr, char *file, unsigned line)
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 {
-	GenericP tmp;
+	void *tmp;
 	
 	ASSERT (size != 0);
 	if (length == 0) {
-		tmp = NIL (GenericP);
+		tmp = NULL;
 	} else {
 		size_t       real_size = ((size * length) + dalloc_data_size);
 		ByteP       base;
 		DallocDataP data;
 		
-		if ((tmp = fmm_malloc (real_size, fmm_detype)) == NIL (GenericP)) {
+		if ((tmp = fmm_malloc (real_size, fmm_detype)) == NULL) {
 			MSG_no_memory ();
 			UNREACHED;
 		}
@@ -188,7 +188,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, char *file,
+X__dalloc_deallocate(void *ptr, char *file,
 					 unsigned line)
 {
 	if (ptr) {
@@ -212,17 +212,17 @@ X__dalloc_deallocate(GenericP ptr, char *file,
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length)
 {
 	size_t realsize;
-	GenericP tmp;
+	void *tmp;
 	
 	ASSERT (size != 0);
 	realsize = length * size;
 	if (length == 0) {
-		tmp = NIL (GenericP);
-	} else if ((tmp = fmm_malloc (realsize, fmm_deftype)) == NIL (GenericP)) {
+		tmp = NULL;
+	} else if ((tmp = fmm_malloc (realsize, fmm_deftype)) == NULL) {
 		MSG_no_memory ();
 		UNREACHED;
 	}

@@ -100,7 +100,7 @@ extern unsigned			map_entry_get_count(MapEntryP);
 extern unsigned			map_entry_get_num_links(MapEntryP);
 extern void			map_entry_get_link(MapEntryP, unsigned, unsigned *, unsigned *);
 
-extern void			map_entry_check_non_empty(MapEntryP, GenericP);
+extern void			map_entry_check_non_empty(MapEntryP, void *);
 
 #endif /* !defined (H_MAP_ENTRY) */
 

@@ -356,11 +356,11 @@ lib_capsule_full_name(LibCapsuleP capsule)
     char *full_name = ALLOCATE_VECTOR (char, lib_length + length + 3);
     char *tmp = full_name;
 
-    (void) memcpy ((GenericP) tmp, (GenericP) lib_name, (size_t) lib_length);
+    (void) memcpy (tmp, lib_name, (size_t) lib_length);
     tmp += lib_length;
     *tmp = '(';
     tmp ++;
-    (void) memcpy ((GenericP) tmp, (GenericP) name, (size_t) length);
+    (void) memcpy (tmp, name, (size_t) length);
     tmp += length;
     *tmp = ')';
     tmp ++;
@@ -488,7 +488,7 @@ library_content(LibraryP library, BoolT want_index,
 		}
 		if (want_index) {
 			shape_table_iter (shapes, shape_entry_show_content,
-							  NIL (GenericP));
+							  NULL);
 		}
     }
 }
@@ -609,10 +609,10 @@ library_write(LibraryP library, ShapeTableP shapes,
 		tdf_write_bytes (writer, contents);
     }
     shape_table_iter (shapes, shape_entry_do_lib_count,
-					  (GenericP) &num_shapes);
+					  (void *) &num_shapes);
     debug_info_w_start_index (num_shapes);
     tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_do_lib_write, (GenericP) writer);
+    shape_table_iter (shapes, shape_entry_do_lib_write, (void *) writer);
     debug_info_w_end_library ();
 }
 

@@ -101,8 +101,8 @@ void	rstack_save_state(RStackP, SaveRStackP);
 struct EntryT *rstack_get_translation(SaveRStackP, struct EntryT *,
 		struct EntryT **, BoolT *);
 void	rstack_apply_for_non_locals(RStackP, SaveRStackP,
-		void (*) (struct EntryT *, struct EntryT *, GenericP),
-		GenericP);
+		void (*) (struct EntryT *, struct EntryT *, void *),
+		void *);
 void	rstack_pop_frame(RStackP);
 void	rstack_destroy(RStackP);
 

@@ -201,7 +201,7 @@ rule_hash_1(RuleP rule, EntryP predicate_id)
 }
 
 static void
-rule_hash_for_comparison(EntryP entry, GenericP gclosure)
+rule_hash_for_comparison(EntryP entry, void *gclosure)
 {
     if (entry_is_rule (entry)) {
 		RuleP  rule         = entry_get_rule (entry);
@@ -267,7 +267,7 @@ rule_do_replacements_1(AltP alt, ReplaceClosureP closure)
 }
 
 static void
-rule_do_replacements(EntryP entry, GenericP gclosure)
+rule_do_replacements(EntryP entry, void *gclosure)
 {
     ReplaceClosureP closure = (ReplaceClosureP) gclosure;
 	
@@ -316,7 +316,7 @@ rule_remove_duplicates_1(RuleP *rule_ref,
 					closure.to      = rule_entry (rule);
 					*inner_rule_ref = rule_get_next_in_table (inner_rule);
 				}
-				table_iter (table, rule_do_replacements, (GenericP) &closure);
+				table_iter (table, rule_do_replacements, (void *) &closure);
 				did_remove = TRUE;
 				if (rule != *rule_ref) {
 					goto removed_rule;
@@ -342,7 +342,7 @@ rule_remove_duplicates(TableP table, EntryP predicate_id)
     for (i = 0; i < EQUALITY_TABLE_SIZE; i ++) {
 		equality_table [i] = NIL (RuleP);
     }
-    table_iter (table, rule_hash_for_comparison, (GenericP) predicate_id);
+    table_iter (table, rule_hash_for_comparison, (void *) predicate_id);
     do {
 		did_remove = FALSE;
 		for (i = 0; i < EQUALITY_TABLE_SIZE; i ++) {

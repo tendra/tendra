@@ -325,7 +325,7 @@ rule_handle_tails(RuleP rule_list)
 }
 
 void
-rule_compute_all_basics(EntryP entry, GenericP gclosure)
+rule_compute_all_basics(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	if (rule_do_inline_all_basics && entry_is_rule (entry)) {
@@ -336,7 +336,7 @@ rule_compute_all_basics(EntryP entry, GenericP gclosure)
 }
 
 void
-rule_compute_inlining(EntryP entry, GenericP gclosure)
+rule_compute_inlining(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	if (entry_is_rule (entry)) {
@@ -348,7 +348,7 @@ rule_compute_inlining(EntryP entry, GenericP gclosure)
 
 void
 rule_compute_needed_functions(EntryP entry,
-							  GenericP gclosure)
+							  void *gclosure)
 {
 	UNUSED (gclosure);
 	if (entry_is_rule (entry)) {

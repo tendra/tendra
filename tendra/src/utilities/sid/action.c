@@ -79,7 +79,7 @@ action_create(void)
 	
 	types_init (action_param (action));
 	types_init (action_result (action));
-	action->code = NIL (GenericP);
+	action->code = NULL;
 	return (action);
 }
 
@@ -110,7 +110,7 @@ action_result(ActionP action)
 #ifdef FS_FAST
 #undef action_get_code
 #endif /* defined (FS_FAST) */
-GenericP
+void *
 action_get_code(ActionP action)
 {
 	return (action->code);
@@ -123,7 +123,7 @@ action_get_code(ActionP action)
 #undef action_set_code
 #endif /* defined (FS_FAST) */
 void
-action_set_code(ActionP action, GenericP code)
+action_set_code(ActionP action, void *code)
 {
 	action->code = code;
 }
@@ -133,7 +133,7 @@ action_set_code(ActionP action, GenericP code)
 
 void
 action_iter_for_table(ActionP action, BoolT full,
-		void (*proc)(EntryP, GenericP), GenericP closure)
+		void (*proc)(EntryP, void *), void *closure)
 {
 	if (full) {
 		types_iter_for_table (action_param (action), proc, closure);

@@ -171,7 +171,7 @@ rule_compute_first_set_1(RuleP rule)
 }
 
 void
-rule_compute_first_set(EntryP entry, GenericP gclosure)
+rule_compute_first_set(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	if (entry_is_rule (entry)) {

@@ -91,7 +91,7 @@ typedef struct RenameClosureT {
 
 static void
 linker_rename_1(NStringP shape, NameKeyPairListP names,
-				GenericP gclosure)
+				void *gclosure)
 {
     RenameClosureP        closure    = (RenameClosureP) gclosure;
     ShapeTableP           shapes     = closure->shapes;
@@ -123,7 +123,7 @@ linker_rename(ArgDataP arg_data, ShapeTableP shapes,
     closure.shapes     = shapes;
     closure.lib_shapes = lib_shapes;
     rename_control_iter (arg_data_get_renames (arg_data), linker_rename_1,
-						 (GenericP) &closure);
+						 (void *) &closure);
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
@@ -192,7 +192,7 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 
 static void
 linker_suppress_1(NStringP shape, BoolT all,
-				  NameKeyListP names, GenericP gclosure)
+				  NameKeyListP names, void *gclosure)
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
@@ -202,7 +202,7 @@ linker_suppress_1(NStringP shape, BoolT all,
 		NameKeyListEntryP name  = name_key_list_head (names);
 
 		if (all) {
-			name_table_iter (table, name_entry_suppress, (GenericP) shape);
+			name_table_iter (table, name_entry_suppress, (void *) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
@@ -221,10 +221,10 @@ linker_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
     if (arg_data_get_suppress_mult (arg_data)) {
 		shape_table_iter (lib_shapes, shape_entry_lib_suppress_mult,
-						  NIL (GenericP));
+						  NULL);
     }
     shape_control_iter (arg_data_get_suppresses (arg_data), linker_suppress_1,
-						(GenericP) lib_shapes);
+						(void *) lib_shapes);
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
@@ -241,14 +241,14 @@ linker_resolve_undefined(UnitTableP units,
     do {
 		closure.did_define = FALSE;
 		shape_table_iter (shapes, shape_entry_resolve_undefined,
-						  (GenericP) &closure);
+						  (void *) &closure);
     } while (closure.did_define);
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 linker_hide(NStringP shape, BoolT all, NameKeyListP names,
-			GenericP gclosure)
+			void *gclosure)
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
@@ -260,7 +260,7 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
 		NameKeyListEntryP name  = name_key_list_head (names);
 
 		if (all) {
-			name_table_iter (table, name_entry_hide_defd, (GenericP) shape);
+			name_table_iter (table, name_entry_hide_defd, (void *) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
@@ -280,7 +280,7 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
 
 static void
 linker_keep(NStringP shape, BoolT all, NameKeyListP names,
-			GenericP gclosure)
+			void *gclosure)
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
@@ -292,7 +292,7 @@ linker_keep(NStringP shape, BoolT all, NameKeyListP names,
 		NameKeyListEntryP name  = name_key_list_head (names);
 
 		if (all) {
-			name_table_iter (table, name_entry_keep, (GenericP) shape);
+			name_table_iter (table, name_entry_keep, (void *) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
@@ -312,12 +312,12 @@ static void
 linker_hide_and_keep(ArgDataP arg_data, ShapeTableP shapes)
 {
     if (arg_data_get_all_hide_defd (arg_data)) {
-		shape_table_iter (shapes, shape_entry_hide_all_defd, NIL (GenericP));
+		shape_table_iter (shapes, shape_entry_hide_all_defd, NULL);
     }
     shape_control_iter (arg_data_get_hides (arg_data), linker_hide,
-						(GenericP) shapes);
+						(void *) shapes);
     shape_control_iter (arg_data_get_keeps (arg_data), linker_keep,
-						(GenericP) shapes);
+						(void *) shapes);
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
 

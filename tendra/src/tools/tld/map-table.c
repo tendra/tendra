@@ -113,8 +113,8 @@ map_table_get(MapTableP table, NStringP key)
 }
 
 void
-map_table_iter(MapTableP table, void (*proc)(MapEntryP, GenericP),
-			   GenericP closure)
+map_table_iter(MapTableP table, void (*proc)(MapEntryP, void *),
+			   void *closure)
 {
     unsigned i;
 

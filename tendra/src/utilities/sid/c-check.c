@@ -78,7 +78,7 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-c_check_grammar_1(EntryP entry, GenericP gclosure)
+c_check_grammar_1(EntryP entry, void *gclosure)
 {
 	TypeP type;
 	
@@ -90,24 +90,24 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 		BasicP basic = entry_get_basic (entry);
 		
 		if ((!types_equal_zero_tuple (basic_result (basic))) &&
-			(basic_get_result_code (basic) == NIL (GenericP))) {
+			(basic_get_result_code (basic) == NULL)) {
 			MSG_basic_result_code_not_defined (entry_key (entry));
 		}
 	}
 		break;
 	case ET_ACTION:
-		if (action_get_code (entry_get_action (entry)) == NIL (GenericP)) {
+		if (action_get_code (entry_get_action (entry)) == NULL) {
 			MSG_action_code_not_defined (entry_key (entry));
 		}
 		break;
 	case ET_TYPE:
 		type = entry_get_type (entry);
-		if (((type_get_assign_code (type) != NIL (GenericP)) ||
-			 (type_get_param_assign_code (type) != NIL (GenericP)) ||
-			 (type_get_result_assign_code (type) != NIL (GenericP))) &&
-			((type_get_assign_code (type) == NIL (GenericP)) ||
-			 (type_get_param_assign_code (type) == NIL (GenericP)) ||
-			 (type_get_result_assign_code (type) == NIL (GenericP)))) {
+		if (((type_get_assign_code (type) != NULL) ||
+			 (type_get_param_assign_code (type) != NULL) ||
+			 (type_get_result_assign_code (type) != NULL)) &&
+			((type_get_assign_code (type) == NULL) ||
+			 (type_get_param_assign_code (type) == NULL) ||
+			 (type_get_result_assign_code (type) == NULL))) {
 			MSG_type_code_not_defined (entry_key (entry));
 		}
 		break;
@@ -125,5 +125,5 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 void
 c_check_grammar(GrammarP grammar)
 {
-	table_iter (grammar_table (grammar), c_check_grammar_1, NIL (GenericP));
+	table_iter (grammar_table (grammar), c_check_grammar_1, NULL);
 }

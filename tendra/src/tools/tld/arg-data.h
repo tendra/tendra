@@ -137,9 +137,9 @@ typedef struct ArgDataT {
 /*--------------------------------------------------------------------------*/
 
 extern void			shape_control_iter(ShapeControlP, void (*) (NStringP, BoolT, NameKeyListP,
-																GenericP), GenericP);
+																void *), void *);
 extern void			rename_control_iter(RenameControlP, void (*) (NStringP, NameKeyPairListP,
-																  GenericP), GenericP);
+																  void *), void *);
 
 extern void			arg_data_init(ArgDataP, char *);
 extern void			arg_data_set_all_hide_defd(ArgDataP, BoolT);

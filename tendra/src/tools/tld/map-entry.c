@@ -142,7 +142,7 @@ map_entry_get_link(MapEntryP entry, unsigned link,
 
 void
 map_entry_check_non_empty(MapEntryP entry,
-						  GenericP gclosure)
+						  void *gclosure)
 {
     ShapeTableP table = (ShapeTableP) gclosure;
 

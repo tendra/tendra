@@ -159,7 +159,7 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-grammar_trace_ignored(EntryP entry, GenericP gclosure)
+grammar_trace_ignored(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	if (entry_is_basic (entry)) {
@@ -167,14 +167,14 @@ grammar_trace_ignored(EntryP entry, GenericP gclosure)
 		
 		if (basic_get_ignored (basic)) {
 			entry_iter (entry, TRUE,
-				NIL (void (*) (EntryP, GenericP)),
-						NIL (GenericP));
+				NIL (void (*) (EntryP, void *)),
+						NULL);
 		}
 	}
 }
 
 static void
-grammar_check_1(EntryP entry, GenericP gclosure)
+grammar_check_1(EntryP entry, void *gclosure)
 {
 	UNUSED (gclosure);
 	switch (entry_type (entry)) EXHAUSTIVE {
@@ -224,7 +224,7 @@ grammar_find_cycles(GrammarP grammar, CycleTypeT type)
 	RuleP      rule;
 	
 	rule_list_init (&root_list);
-	table_iter (table, rule_build_root_list, (GenericP) &root_list);
+	table_iter (table, rule_build_root_list, (void *) &root_list);
 	rule_list_terminate (&root_list);
 	for (rule = rule_list_head (&root_list); rule;
 		 rule = rule_next_in_root_list (rule)) {
@@ -265,7 +265,7 @@ grammar_find_cycles(GrammarP grammar, CycleTypeT type)
 }
 
 static void
-write_grammar_1(EntryP entry, GenericP gclosure)
+write_grammar_1(EntryP entry, void *gclosure)
 {
 	OStreamP ostream = (OStreamP) gclosure;
 	
@@ -380,10 +380,10 @@ grammar_check_complete(GrammarP grammar)
 	
 	table_untrace (table);
 	entry_list_iter_table (entry_list, TRUE,
-		NIL (void (*) (EntryP, GenericP)),
-			NIL (GenericP));
-	table_iter (table, grammar_trace_ignored, NIL (GenericP));
-	table_iter (table, grammar_check_1, NIL (GenericP));
+		NIL (void (*) (EntryP, void *)),
+			NULL);
+	table_iter (table, grammar_trace_ignored, NULL);
+	table_iter (table, grammar_check_1, NULL);
 }
 
 void
@@ -397,7 +397,7 @@ grammar_compute_first_sets(GrammarP grammar)
 {
 	TableP table = grammar_table (grammar);
 	
-	table_iter (table, rule_compute_first_set, NIL (GenericP));
+	table_iter (table, rule_compute_first_set, NULL);
 }
 
 void
@@ -413,7 +413,7 @@ grammar_factor(GrammarP grammar)
 	closure.predicate_id = grammar_get_predicate_id (grammar);
 	table_untrace (table);
 	entry_list_iter_table (entry_list, FALSE, rule_factor,
-						   (GenericP) &closure);
+						   (void *) &closure);
 	table_unlink_untraced_rules (table);
 	bitvec_destroy (&(closure.bitvec1));
 	bitvec_destroy (&(closure.bitvec2));
@@ -429,8 +429,8 @@ grammar_simplify(GrammarP grammar)
 	rule_remove_duplicates (table, predicate_id);
 	table_untrace (table);
 	entry_list_iter_table (entry_list, FALSE,
-		NIL (void (*)(EntryP, GenericP)),
-			NIL (GenericP));
+		NIL (void (*)(EntryP, void *)),
+			NULL);
 	table_unlink_untraced_rules (table);
 }
 
@@ -442,9 +442,9 @@ grammar_compute_inlining(GrammarP grammar)
 	if (rule_get_inline_tail_calls ()) {
 		grammar_find_cycles (grammar, CT_TAIL);
 	}
-	table_iter (table, rule_compute_all_basics, NIL (GenericP));
-	table_iter (table, rule_compute_inlining, NIL (GenericP));
-	table_iter (table, rule_compute_needed_functions, NIL (GenericP));
+	table_iter (table, rule_compute_all_basics, NULL);
+	table_iter (table, rule_compute_inlining, NULL);
+	table_iter (table, rule_compute_needed_functions, NULL);
 	grammar_find_cycles (grammar, CT_ALL);
 }
 
@@ -453,10 +453,10 @@ grammar_check_collisions(GrammarP grammar)
 {
 	TableP table = grammar_table (grammar);
 	
-	table_iter (table, rule_check_first_set, (GenericP) grammar);
-	table_iter (table, rule_compute_follow_set, (GenericP) grammar);
-	table_iter (table, rule_compute_see_through_alt, NIL (GenericP));
-	table_iter (table, rule_compute_alt_first_sets, NIL (GenericP));
+	table_iter (table, rule_check_first_set, (void *) grammar);
+	table_iter (table, rule_compute_follow_set, (void *) grammar);
+	table_iter (table, rule_compute_see_through_alt, NULL);
+	table_iter (table, rule_compute_alt_first_sets, NULL);
 }
 
 void
@@ -465,7 +465,7 @@ grammar_recompute_alt_names(GrammarP grammar)
 	TableP table        = grammar_table (grammar);
 	EntryP predicate_id = grammar_get_predicate_id (grammar);
 	
-	table_iter (table, rule_recompute_alt_names, (GenericP) predicate_id);
+	table_iter (table, rule_recompute_alt_names, (void *) predicate_id);
 }
 
 void
@@ -476,13 +476,13 @@ grammar_compute_mutations(GrammarP grammar)
 	RuleP     rule;
 	
 	rule_list_init (&root_list);
-	table_iter (table, rule_build_root_list, (GenericP) &root_list);
+	table_iter (table, rule_build_root_list, (void *) &root_list);
 	rule_list_terminate (&root_list);
 	for (rule = rule_list_head (&root_list); rule;
 		 rule = rule_next_in_root_list (rule)) {
 		rule_compute_reverse_list (rule, CT_MUTATE);
 	}
-	table_iter (table, rule_compute_mutations, NIL (GenericP));
+	table_iter (table, rule_compute_mutations, NULL);
 	for (rule = rule_list_head (&root_list); rule;
 		 rule = rule_next_in_root_list (rule)) {
 		rule_reinit_reverse_list (rule);
@@ -497,5 +497,5 @@ write_grammar(OStreamP ostream, GrammarP grammar)
 	
 	table_untrace (table);
 	entry_list_iter_table (entry_list, FALSE, write_grammar_1,
-						   (GenericP) ostream);
+						   (void *) ostream);
 }

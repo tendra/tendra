@@ -109,7 +109,7 @@ extern NStringP			unit_entry_key(UnitEntryP);
 extern unsigned			unit_entry_order(UnitEntryP);
 extern UnitP			unit_entry_add_unit(UnitEntryP, unsigned);
 
-extern void			unit_entry_do_count(UnitEntryP, GenericP);
+extern void			unit_entry_do_count(UnitEntryP, void *);
 extern void			unit_entry_write_unit_set(UnitEntryP, UnitEntryP, TDFWriterP);
 extern void			unit_entry_write_tld_unit(UnitEntryP, ShapeTableP, TDFWriterP);
 extern void			unit_entry_write_units(UnitEntryP, ShapeTableP, unsigned, TDFWriterP);

@@ -90,7 +90,7 @@ typedef struct MapTableT {
 extern MapTableP		map_table_create(void);
 extern MapEntryP		map_table_add(MapTableP, NStringP, unsigned);
 extern MapEntryP		map_table_get(MapTableP, NStringP);
-extern void			map_table_iter(MapTableP, void (*) (MapEntryP, GenericP), GenericP);
+extern void			map_table_iter(MapTableP, void (*) (MapEntryP, void *), void *);
 
 #endif /* !defined (H_MAP_TABLE) */
 

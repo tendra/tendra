@@ -95,7 +95,7 @@ extern void			name_table_add_rename(NameTableP, NameKeyP, NameKeyP);
 extern void			name_table_resolve_renames(NameTableP, NStringP, BoolT);
 extern NameEntryP		name_table_add(NameTableP, NameKeyP, struct ShapeEntryT *);
 extern NameEntryP		name_table_get(NameTableP, NameKeyP);
-extern void			name_table_iter(NameTableP, void (*) (NameEntryP, GenericP), GenericP);
+extern void			name_table_iter(NameTableP, void (*) (NameEntryP, void *), void *);
 extern void			name_table_deallocate(NameTableP);
 
 #endif /* !defined (H_NAME_TABLE) */

@@ -108,7 +108,7 @@ static ModeT	mode = MODE_LINKER;
 /*--------------------------------------------------------------------------*/
 
 static void
-main_handle_all(char *option, GenericP gclosure, BoolT enable)
+main_handle_all(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -117,7 +117,7 @@ main_handle_all(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_all_hide_defd(char *option, GenericP gclosure, BoolT enable)
+main_handle_all_hide_defd(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -126,7 +126,7 @@ main_handle_all_hide_defd(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_basename(char *option, GenericP gclosure, BoolT enable)
+main_handle_basename(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -135,7 +135,7 @@ main_handle_basename(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_debug_file(char *option, GenericP gclosure,
+main_handle_debug_file(char *option, void *gclosure,
 					   char *debug_file)
 {
     UNUSED (option);
@@ -145,7 +145,7 @@ main_handle_debug_file(char *option, GenericP gclosure,
 }
 
 static void
-main_handle_hide(char *option, GenericP gclosure, char *shape,
+main_handle_hide(char *option, void *gclosure, char *shape,
 				 char *name)
 {
     UNUSED (option);
@@ -155,7 +155,7 @@ main_handle_hide(char *option, GenericP gclosure, char *shape,
 }
 
 static void
-main_handle_hide_defined(char *option, GenericP gclosure,
+main_handle_hide_defined(char *option, void *gclosure,
 						 char *shape)
 {
     UNUSED (option);
@@ -165,7 +165,7 @@ main_handle_hide_defined(char *option, GenericP gclosure,
 }
 
 static void
-main_handle_index(char *option, GenericP gclosure, BoolT enable)
+main_handle_index(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -174,7 +174,7 @@ main_handle_index(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_info(char *option, GenericP gclosure, BoolT enable)
+main_handle_info(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -183,7 +183,7 @@ main_handle_info(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_keep(char *option, GenericP gclosure, char *shape,
+main_handle_keep(char *option, void *gclosure, char *shape,
 				 char *name)
 {
     UNUSED (option);
@@ -193,7 +193,7 @@ main_handle_keep(char *option, GenericP gclosure, char *shape,
 }
 
 static void
-main_handle_keep_all(char *option, GenericP gclosure, char *shape)
+main_handle_keep_all(char *option, void *gclosure, char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -203,7 +203,7 @@ main_handle_keep_all(char *option, GenericP gclosure, char *shape)
 
 static void
 main_handle_library_file(char *option,
-						 GenericP gclosure,
+						 void *gclosure,
 						 char *library_file)
 {
     UNUSED (option);
@@ -213,7 +213,7 @@ main_handle_library_file(char *option,
 }
 
 static void
-main_handle_match_base(char *option, GenericP gclosure, BoolT enable)
+main_handle_match_base(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -222,7 +222,7 @@ main_handle_match_base(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_output_file(char *option, GenericP gclosure,
+main_handle_output_file(char *option, void *gclosure,
 						char *output_file)
 {
     UNUSED (option);
@@ -232,7 +232,7 @@ main_handle_output_file(char *option, GenericP gclosure,
 }
 
 static void
-main_handle_library_path(char *option, GenericP gclosure,
+main_handle_library_path(char *option, void *gclosure,
 						 char *directory)
 {
     UNUSED (option);
@@ -243,7 +243,7 @@ main_handle_library_path(char *option, GenericP gclosure,
 
 static void
 main_handle_rename(char *option,
-				   GenericP gclosure, char *shape,
+				   void *gclosure, char *shape,
 				   char *from, char *to)
 {
     UNUSED (option);
@@ -255,7 +255,7 @@ main_handle_rename(char *option,
 
 static void
 main_handle_rename_file(char *option,
-						GenericP gclosure,
+						void *gclosure,
 						char *name)
 {
     UNUSED (option);
@@ -265,7 +265,7 @@ main_handle_rename_file(char *option,
 }
 
 static void
-main_handle_size(char *option, GenericP gclosure, BoolT enable)
+main_handle_size(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -275,7 +275,7 @@ main_handle_size(char *option, GenericP gclosure, BoolT enable)
 
 static void
 main_handle_suppress(char *option,
-					 GenericP gclosure, char *shape,
+					 void *gclosure, char *shape,
 					 char *name)
 {
     UNUSED (option);
@@ -286,7 +286,7 @@ main_handle_suppress(char *option,
 
 static void
 main_handle_suppress_all(char *option,
-						 GenericP gclosure,
+						 void *gclosure,
 						 char *shape)
 {
     UNUSED (option);
@@ -297,7 +297,7 @@ main_handle_suppress_all(char *option,
 
 static void
 main_handle_suppress_mult(char *option,
-						  GenericP gclosure,
+						  void *gclosure,
 						  BoolT enable)
 {
     UNUSED (option);
@@ -307,7 +307,7 @@ main_handle_suppress_mult(char *option,
 }
 
 static void
-main_handle_tdf_version(char *option, GenericP gclosure, BoolT enable)
+main_handle_tdf_version(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -316,7 +316,7 @@ main_handle_tdf_version(char *option, GenericP gclosure, BoolT enable)
 }
 
 static void
-main_handle_unit_file(char *option, GenericP gclosure, char *unit_file)
+main_handle_unit_file(char *option, void *gclosure, char *unit_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -325,7 +325,7 @@ main_handle_unit_file(char *option, GenericP gclosure, char *unit_file)
 }
 
 static void
-main_handle_version(char *option, GenericP gclosure)
+main_handle_version(char *option, void *gclosure)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -334,7 +334,7 @@ main_handle_version(char *option, GenericP gclosure)
 }
 
 static void
-main_handle_warning(char *option, GenericP gclosure, BoolT enable)
+main_handle_warning(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);

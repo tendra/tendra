@@ -164,8 +164,8 @@ rstack_get_translation(SaveRStackP state,
 
 void
 rstack_apply_for_non_locals(RStackP non_local_stack,
-	SaveRStackP state, void (*proc)(EntryP, EntryP, GenericP),
-	GenericP closure)
+	SaveRStackP state, void (*proc)(EntryP, EntryP, void *),
+	void *closure)
 {
 	TransStackEntryP frame = non_local_stack->head;
 	

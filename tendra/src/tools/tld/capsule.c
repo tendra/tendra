@@ -1105,7 +1105,7 @@ capsule_write(CapsuleP capsule, UnitTableP units,
     capsule_write_header (capsule);
     unit_set_closure.num_unit_sets = 1;
     unit_set_closure.shapes        = shapes;
-    unit_table_iter (units, unit_entry_do_count, (GenericP) &unit_set_closure);
+    unit_table_iter (units, unit_entry_do_count, (void *) &unit_set_closure);
     debug_info_w_start_unit_decs (unit_set_closure.num_unit_sets);
     tdf_write_int (writer, unit_set_closure.num_unit_sets);
     for (i = 0; i < capsule_num_unit_sets; i ++) {
@@ -1113,13 +1113,13 @@ capsule_write(CapsuleP capsule, UnitTableP units,
 
 		unit_entry_write_unit_set (entry, tld_entry, writer);
     }
-    shape_table_iter (shapes, shape_entry_do_count, (GenericP) &num_shapes);
+    shape_table_iter (shapes, shape_entry_do_count, (void *) &num_shapes);
     debug_info_w_start_shapes (num_shapes);
     tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_write_shape, (GenericP) writer);
+    shape_table_iter (shapes, shape_entry_write_shape, (void *) writer);
     debug_info_w_start_names (num_shapes);
     tdf_write_int (writer, num_shapes);
-    shape_table_iter (shapes, shape_entry_write_externs, (GenericP) writer);
+    shape_table_iter (shapes, shape_entry_write_externs, (void *) writer);
     debug_info_w_start_unit_sets (unit_set_closure.num_unit_sets);
     tdf_write_int (writer, unit_set_closure.num_unit_sets);
     for (i = 0; i < capsule_num_unit_sets; i ++) {

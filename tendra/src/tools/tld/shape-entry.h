@@ -120,21 +120,21 @@ extern void			shape_entry_add_to_list(ShapeEntryP, NameEntryP);
 extern NameEntryP		shape_entry_get_from_list(ShapeEntryP);
 extern ShapeEntryP		shape_entry_deallocate(ShapeEntryP);
 
-extern void			shape_entry_do_count(ShapeEntryP, GenericP);
-extern void			shape_entry_write_shape(ShapeEntryP, GenericP);
-extern void			shape_entry_write_externs(ShapeEntryP, GenericP);
-extern void			shape_entry_compute_tld_size(ShapeEntryP, GenericP);
-extern void			shape_entry_write_tld(ShapeEntryP, GenericP);
-extern void			shape_entry_write_count(ShapeEntryP, GenericP);
-extern void			shape_entry_write_links(ShapeEntryP, GenericP);
-extern void			shape_entry_check_multi_defs(ShapeEntryP, GenericP);
-extern void			shape_entry_do_lib_count(ShapeEntryP, GenericP);
-extern void			shape_entry_do_lib_write(ShapeEntryP, GenericP);
-extern void			shape_entry_resolve_undefined(ShapeEntryP, GenericP);
-extern void			shape_entry_hide_all_defd(ShapeEntryP, GenericP);
-extern void			shape_entry_suppress_mult(ShapeEntryP, GenericP);
-extern void			shape_entry_lib_suppress_mult(ShapeEntryP, GenericP);
-extern void			shape_entry_show_content(ShapeEntryP, GenericP);
+extern void			shape_entry_do_count(ShapeEntryP, void *);
+extern void			shape_entry_write_shape(ShapeEntryP, void *);
+extern void			shape_entry_write_externs(ShapeEntryP, void *);
+extern void			shape_entry_compute_tld_size(ShapeEntryP, void *);
+extern void			shape_entry_write_tld(ShapeEntryP, void *);
+extern void			shape_entry_write_count(ShapeEntryP, void *);
+extern void			shape_entry_write_links(ShapeEntryP, void *);
+extern void			shape_entry_check_multi_defs(ShapeEntryP, void *);
+extern void			shape_entry_do_lib_count(ShapeEntryP, void *);
+extern void			shape_entry_do_lib_write(ShapeEntryP, void *);
+extern void			shape_entry_resolve_undefined(ShapeEntryP, void *);
+extern void			shape_entry_hide_all_defd(ShapeEntryP, void *);
+extern void			shape_entry_suppress_mult(ShapeEntryP, void *);
+extern void			shape_entry_lib_suppress_mult(ShapeEntryP, void *);
+extern void			shape_entry_show_content(ShapeEntryP, void *);
 
 #endif /* !defined (H_SHAPE_ENTRY) */
 

@@ -145,22 +145,22 @@ extern NameEntryP	       *name_entry_list_next_ref(NameEntryP);
 extern NameEntryP		name_entry_get_indirect(NameEntryP);
 extern NameEntryP		name_entry_deallocate(NameEntryP);
 
-extern void			name_entry_do_count(NameEntryP, GenericP);
-extern void			name_entry_write_name(NameEntryP, GenericP);
-extern void			name_entry_compute_tld_size(NameEntryP, GenericP);
-extern void			name_entry_write_tld(NameEntryP, GenericP);
-extern void			name_entry_check_multi_defs(NameEntryP, GenericP);
-extern void			name_entry_do_lib_count(NameEntryP, GenericP);
-extern void			name_entry_do_lib_write(NameEntryP, GenericP);
-extern void			name_entry_suppress(NameEntryP, GenericP);
-extern void			name_entry_builder_suppress(NameEntryP, GenericP);
+extern void			name_entry_do_count(NameEntryP, void *);
+extern void			name_entry_write_name(NameEntryP, void *);
+extern void			name_entry_compute_tld_size(NameEntryP, void *);
+extern void			name_entry_write_tld(NameEntryP, void *);
+extern void			name_entry_check_multi_defs(NameEntryP, void *);
+extern void			name_entry_do_lib_count(NameEntryP, void *);
+extern void			name_entry_do_lib_write(NameEntryP, void *);
+extern void			name_entry_suppress(NameEntryP, void *);
+extern void			name_entry_builder_suppress(NameEntryP, void *);
 extern BoolT			name_entry_resolve_undefined(NameEntryP, struct NameTableT *, struct UnitTableT *,
 													 struct ShapeTableT *, NStringP);
-extern void			name_entry_hide_defd(NameEntryP, GenericP);
-extern void			name_entry_keep(NameEntryP, GenericP);
-extern void			name_entry_suppress_mult(NameEntryP, GenericP);
-extern void			name_entry_lib_suppress_mult(NameEntryP, GenericP);
-extern void			name_entry_show_content(NameEntryP, GenericP);
+extern void			name_entry_hide_defd(NameEntryP, void *);
+extern void			name_entry_keep(NameEntryP, void *);
+extern void			name_entry_suppress_mult(NameEntryP, void *);
+extern void			name_entry_lib_suppress_mult(NameEntryP, void *);
+extern void			name_entry_show_content(NameEntryP, void *);
 
 #endif /* !defined (H_NAME_ENTRY) */
 

@@ -175,7 +175,7 @@ shape_entry_deallocate(ShapeEntryP entry)
 /*--------------------------------------------------------------------------*/
 
 void
-shape_entry_do_count(ShapeEntryP entry, GenericP gclosure)
+shape_entry_do_count(ShapeEntryP entry, void *gclosure)
 {
     unsigned *count_ref = (unsigned *) gclosure;
 
@@ -187,7 +187,7 @@ shape_entry_do_count(ShapeEntryP entry, GenericP gclosure)
 
 void
 shape_entry_write_shape(ShapeEntryP entry,
-						GenericP gclosure)
+						void *gclosure)
 {
     if (shape_entry_get_non_empty (entry)) {
 		TDFWriterP writer  = (TDFWriterP) gclosure;
@@ -202,7 +202,7 @@ shape_entry_write_shape(ShapeEntryP entry,
 
 void
 shape_entry_write_externs(ShapeEntryP entry,
-						  GenericP gclosure)
+						  void *gclosure)
 {
     if (shape_entry_get_non_empty (entry)) {
 		TDFWriterP writer      = (TDFWriterP) gclosure;
@@ -210,16 +210,16 @@ shape_entry_write_externs(ShapeEntryP entry,
 		NameTableP table       = entry->names;
 		NStringP   key         = shape_entry_key (entry);
 
-		name_table_iter (table, name_entry_do_count, (GenericP) &num_externs);
+		name_table_iter (table, name_entry_do_count, (void *) &num_externs);
 		debug_info_w_start_shape_names (key, num_externs);
 		tdf_write_int (writer, num_externs);
-		name_table_iter (table, name_entry_write_name, (GenericP) writer);
+		name_table_iter (table, name_entry_write_name, (void *) writer);
     }
 }
 
 void
 shape_entry_compute_tld_size(ShapeEntryP entry,
-							 GenericP gclosure)
+							 void *gclosure)
 {
     if (shape_entry_get_non_empty (entry)) {
 		name_table_iter (entry->names, name_entry_compute_tld_size, gclosure);
@@ -227,7 +227,7 @@ shape_entry_compute_tld_size(ShapeEntryP entry,
 }
 
 void
-shape_entry_write_tld(ShapeEntryP entry, GenericP gclosure)
+shape_entry_write_tld(ShapeEntryP entry, void *gclosure)
 {
     if (shape_entry_get_non_empty (entry)) {
 		debug_info_w_start_usages (shape_entry_key (entry));
@@ -237,7 +237,7 @@ shape_entry_write_tld(ShapeEntryP entry, GenericP gclosure)
 
 void
 shape_entry_write_count(ShapeEntryP entry,
-						GenericP gclosure)
+						void *gclosure)
 {
     ShapeClosureP closure = (ShapeClosureP) gclosure;
 
@@ -256,7 +256,7 @@ shape_entry_write_count(ShapeEntryP entry,
 
 void
 shape_entry_write_links(ShapeEntryP entry,
-						GenericP gclosure)
+						void *gclosure)
 {
     ShapeClosureP closure = (ShapeClosureP) gclosure;
 
@@ -290,23 +290,23 @@ shape_entry_write_links(ShapeEntryP entry,
 
 void
 shape_entry_check_multi_defs(ShapeEntryP entry,
-							 GenericP gclosure)
+							 void *gclosure)
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   key   = shape_entry_key (entry);
 
     UNUSED (gclosure);
-    name_table_iter (table, name_entry_check_multi_defs, (GenericP) key);
+    name_table_iter (table, name_entry_check_multi_defs, (void *) key);
 }
 
 void
 shape_entry_do_lib_count(ShapeEntryP entry,
-						 GenericP gclosure)
+						 void *gclosure)
 {
     NameTableP table     = shape_entry_name_table (entry);
     unsigned   num_names = 0;
 
-    name_table_iter (table, name_entry_do_lib_count, (GenericP) &num_names);
+    name_table_iter (table, name_entry_do_lib_count, (void *) &num_names);
     if (num_names > 0) {
 		unsigned *num_shapes_ref = (unsigned *) gclosure;
 
@@ -317,7 +317,7 @@ shape_entry_do_lib_count(ShapeEntryP entry,
 
 void
 shape_entry_do_lib_write(ShapeEntryP entry,
-						 GenericP gclosure)
+						 void *gclosure)
 {
     unsigned num_names = entry->num_lib_names;
 
@@ -335,7 +335,7 @@ shape_entry_do_lib_write(ShapeEntryP entry,
 
 void
 shape_entry_resolve_undefined(ShapeEntryP entry,
-							  GenericP gclosure)
+							  void *gclosure)
 {
     ShapeLibClosureP closure   = (ShapeLibClosureP) gclosure;
     NStringP         key       = shape_entry_key (entry);
@@ -356,47 +356,47 @@ shape_entry_resolve_undefined(ShapeEntryP entry,
 
 void
 shape_entry_hide_all_defd(ShapeEntryP entry,
-						  GenericP gclosure)
+						  void *gclosure)
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
 
     UNUSED (gclosure);
-    name_table_iter (table, name_entry_hide_defd, (GenericP) shape);
+    name_table_iter (table, name_entry_hide_defd, (void *) shape);
 }
 
 void
 shape_entry_suppress_mult(ShapeEntryP entry,
-						  GenericP gclosure)
+						  void *gclosure)
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
 
     UNUSED (gclosure);
-    name_table_iter (table, name_entry_suppress_mult, (GenericP) shape);
+    name_table_iter (table, name_entry_suppress_mult, (void *) shape);
 }
 
 void
 shape_entry_lib_suppress_mult(ShapeEntryP entry,
-							  GenericP gclosure)
+							  void *gclosure)
 {
     NameTableP table = shape_entry_name_table (entry);
     NStringP   shape = shape_entry_key (entry);
 
     UNUSED (gclosure);
-    name_table_iter (table, name_entry_lib_suppress_mult, (GenericP) shape);
+    name_table_iter (table, name_entry_lib_suppress_mult, (void *) shape);
 }
 
 void
 shape_entry_show_content(ShapeEntryP entry,
-						 GenericP gclosure)
+						 void *gclosure)
 {
     UNUSED (gclosure);
     write_nstring (ostream_output, shape_entry_key (entry));
     write_char (ostream_output, ':');
     write_newline (ostream_output);
     name_table_iter (shape_entry_name_table (entry), name_entry_show_content,
-					 NIL (GenericP));
+					 NULL);
 }
 
 /*

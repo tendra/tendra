@@ -104,7 +104,7 @@ EntryP	table_get_basic(TableP, NStringP);
 EntryP	table_get_basic_by_number(TableP, unsigned);
 EntryP	table_get_action(TableP, NStringP);
 EntryP	table_get_rule(TableP, NStringP);
-void	table_iter(TableP, void (*) (EntryP, GenericP), GenericP);
+void	table_iter(TableP, void (*) (EntryP, void *), void *);
 void	table_untrace(TableP);
 void	table_unlink_untraced_rules(TableP);
 

@@ -231,8 +231,8 @@ entry_list_restore_state(EntryListP list,
 }
 
 void
-entry_list_iter(EntryListP list, void (*proc)(EntryP, GenericP),
-		GenericP closure)
+entry_list_iter(EntryListP list, void (*proc)(EntryP, void *),
+		void *closure)
 {
 	EntryListEntryP ptr;
 	
@@ -243,7 +243,7 @@ entry_list_iter(EntryListP list, void (*proc)(EntryP, GenericP),
 
 void
 entry_list_iter_table(EntryListP list, BoolT full,
-		void (*proc)(EntryP, GenericP), GenericP closure)
+		void (*proc)(EntryP, void *), void *closure)
 {
 	EntryListEntryP ptr;
 	

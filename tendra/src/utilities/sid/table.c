@@ -335,7 +335,7 @@ table_get_rule(TableP table, NStringP key)
 }
 
 void
-table_iter(TableP table, void (*proc)(EntryP, GenericP), GenericP closure)
+table_iter(TableP table, void (*proc)(EntryP, void *), void *closure)
 {
 	unsigned i;
 	

@@ -118,19 +118,19 @@ file_name_expand(char *dir, char *name, char *suffix)
     path   = ALLOCATE_VECTOR (char, length);
     tmp    = path;
     if (dir_length > 0) {
-		(void) memcpy ((GenericP) tmp, (GenericP) dir, (size_t) dir_length);
+		(void) memcpy (tmp, dir, (size_t) dir_length);
 		tmp += dir_length;
 		if (dir [dir_length - 1] != '/') {
 			tmp [0] = '/';
 			tmp ++;
 		}
     }
-    (void) memcpy ((GenericP) tmp, (GenericP) name, (size_t) name_length);
+    (void) memcpy (tmp, name, (size_t) name_length);
     tmp += name_length;
     if (suffix) {
 		tmp [0] = '.';
 		tmp ++;
-		(void) memcpy ((GenericP) tmp, (GenericP) suffix, (size_t) suf_length);
+		(void) memcpy (tmp, suffix, (size_t) suf_length);
 		tmp += suf_length;
     }
     tmp [0] = '\0';

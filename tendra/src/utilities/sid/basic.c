@@ -81,7 +81,7 @@ basic_create(GrammarP grammar, BoolT ignored)
 	
 	basic->terminal        = grammar_next_terminal (grammar);
 	types_init (basic_result (basic));
-	basic->result_code     = NIL (GenericP);
+	basic->result_code     = NULL;
 	basic->ignored         = ignored;
 	return (basic);
 }
@@ -113,7 +113,7 @@ basic_result(BasicP basic)
 #ifdef FS_FAST
 #undef basic_get_result_code
 #endif /* defined (FS_FAST) */
-GenericP
+void *
 basic_get_result_code(BasicP basic)
 {
 	return (basic->result_code);
@@ -126,7 +126,7 @@ basic_get_result_code(BasicP basic)
 #undef basic_set_result_code
 #endif /* defined (FS_FAST) */
 void
-basic_set_result_code(BasicP basic, GenericP code)
+basic_set_result_code(BasicP basic, void *code)
 {
 	basic->result_code = code;
 }
@@ -148,7 +148,7 @@ basic_get_ignored(BasicP basic)
 
 void
 basic_iter_for_table(BasicP basic, BoolT full,
-		void (*proc)(EntryP, GenericP), GenericP closure)
+		void (*proc)(EntryP, void *), void *closure)
 {
 	if (full) {
 		types_iter_for_table (basic_result (basic), proc, closure);

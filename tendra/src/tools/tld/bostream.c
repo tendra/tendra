@@ -116,7 +116,7 @@ void
 bostream_write_chars(BOStreamP bostream, unsigned length,
 					 char *chars)
 {
-    unsigned bytes_read = (unsigned) fwrite ((GenericP) chars, sizeof (char),
+    unsigned bytes_read = (unsigned) fwrite ((void *) chars, sizeof (char),
 											 (size_t) length, bostream->file);
 
     if ((bytes_read != length) && (ferror (bostream->file))) {
@@ -131,7 +131,7 @@ void
 bostream_write_bytes(BOStreamP bostream, unsigned length,
 					 ByteP bytes)
 {
-    unsigned bytes_read = (unsigned) fwrite ((GenericP) bytes, sizeof (ByteT),
+    unsigned bytes_read = (unsigned) fwrite ((void *) bytes, sizeof (ByteT),
 											 (size_t) length, bostream->file);
 
     if ((bytes_read != length) && (ferror (bostream->file))) {

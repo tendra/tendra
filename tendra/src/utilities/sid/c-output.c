@@ -158,7 +158,7 @@ c_output_declaration_1(COutputInfoP info,
 }
 
 static void
-c_output_declaration(EntryP entry, GenericP gclosure)
+c_output_declaration(EntryP entry, void *gclosure)
 {
 	if (entry_is_rule (entry)) {
 		RuleP        rule = entry_get_rule (entry);
@@ -188,7 +188,7 @@ c_output_ext_declaration_1(COutputInfoP info,
 }
 
 static void
-c_output_ext_declaration(EntryP entry, GenericP gclosure)
+c_output_ext_declaration(EntryP entry, void *gclosure)
 {
 	if (entry_is_rule (entry)) {
 		RuleP        rule = entry_get_rule (entry);
@@ -213,7 +213,7 @@ c_output_terminal_1(COutputInfoP info, EntryP entry)
 }
 
 static void
-c_output_terminal(EntryP entry, GenericP gclosure)
+c_output_terminal(EntryP entry, void *gclosure)
 {
 	if (entry_is_basic (entry)) {
 		COutputInfoP info = (COutputInfoP) gclosure;
@@ -223,7 +223,7 @@ c_output_terminal(EntryP entry, GenericP gclosure)
 }
 
 static void
-c_output_static_vars_1(EntryP entry, GenericP gclosure)
+c_output_static_vars_1(EntryP entry, void *gclosure)
 {
 	if (entry_is_rule (entry)) {
 		COutputInfoP info = (COutputInfoP) gclosure;
@@ -234,7 +234,7 @@ c_output_static_vars_1(EntryP entry, GenericP gclosure)
 }
 
 static void
-c_output_static_vars_2(EntryP entry, GenericP gclosure)
+c_output_static_vars_2(EntryP entry, void *gclosure)
 {
 	if (entry_is_rule (entry)) {
 		COutputInfoP info = (COutputInfoP) gclosure;
@@ -273,10 +273,10 @@ c_output_static_vars(COutputInfoP info, GrammarP grammar,
 		write_newline (ostream);
 	}
 	if (def) {
-		table_iter (table, c_output_static_vars_1, (GenericP) info);
+		table_iter (table, c_output_static_vars_1, (void *) info);
 		write_newline (ostream);
 	} else {
-		table_iter (table, c_output_static_vars_2, (GenericP) info);
+		table_iter (table, c_output_static_vars_2, (void *) info);
 	}
 }
 
@@ -1119,7 +1119,7 @@ c_output_definition_1(COutputInfoP info, RuleP rule,
 }
 
 static void
-c_output_definition(EntryP entry, GenericP gclosure)
+c_output_definition(EntryP entry, void *gclosure)
 {
 	if (entry_is_rule (entry)) {
 		RuleP        rule           = entry_get_rule (entry);
@@ -1168,14 +1168,14 @@ c_output_parser(COutputInfoP info, GrammarP grammar)
 		write_cstring (ostream, "/* BEGINNING OF FUNCTION DECLARATIONS */");
 		write_newline (ostream);
 		write_newline (ostream);
-		table_iter (table, c_output_declaration, (GenericP) info);
+		table_iter (table, c_output_declaration, (void *) info);
 		write_newline (ostream);
 	}
 	c_output_static_vars (info, grammar, TRUE);
 	write_cstring (ostream, "/* BEGINNING OF FUNCTION DEFINITIONS */");
 	write_newline (ostream);
 	write_newline (ostream);
-	table_iter (table, c_output_definition, (GenericP) &closure);
+	table_iter (table, c_output_definition, (void *) &closure);
 	write_cstring (ostream, "/* BEGINNING OF TRAILER */");
 	write_newline (ostream);
 	write_newline (ostream);
@@ -1211,21 +1211,21 @@ c_output_header(COutputInfoP info, GrammarP grammar)
 	if (c_out_info_get_split (info) != 0) {
 		write_cstring (ostream, "#ifndef __SID_SPLIT");
 		write_newline (ostream);
-		table_iter (table, c_output_ext_declaration, (GenericP) info);
+		table_iter (table, c_output_ext_declaration, (void *) info);
 		write_cstring (ostream, "#else /* __SID_SPLIT */");
 		write_newline (ostream);
-		table_iter (table, c_output_declaration, (GenericP) info);
+		table_iter (table, c_output_declaration, (void *) info);
 		c_output_static_vars (info, grammar, FALSE);
 		write_cstring (ostream, "#endif /* __SID_SPLIT */");
 		write_newline (ostream);
 	} else {
-		table_iter (table, c_output_ext_declaration, (GenericP) info);
+		table_iter (table, c_output_ext_declaration, (void *) info);
 	}
 	write_newline (ostream);
 	write_cstring (ostream, "/* BEGINNING OF TERMINAL DEFINITIONS */");
 	write_newline (ostream);
 	write_newline (ostream);
-	table_iter (table, c_output_terminal, (GenericP) info);
+	table_iter (table, c_output_terminal, (void *) info);
 	write_newline (ostream);
 	write_cstring (ostream, "/* BEGINNING OF TRAILER */");
 	write_newline (ostream);

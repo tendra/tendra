@@ -166,7 +166,6 @@ typedef const char *ccp;
 
 typedef void *pointer;		/* to be removed */
 typedef pointer gen_ptr;	/* to be removed */
-typedef pointer GenericP;	/* to be removed */
 
 /*
  * This is the type returned by comparison functions.  The values represent

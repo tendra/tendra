@@ -147,8 +147,8 @@ shape_table_get_tag_entry(ShapeTableP table)
 }
 
 void
-shape_table_iter(ShapeTableP table, void (*proc)(ShapeEntryP, GenericP),
-				 GenericP closure)
+shape_table_iter(ShapeTableP table, void (*proc)(ShapeEntryP, void *),
+				 void *closure)
 {
     unsigned i;
 

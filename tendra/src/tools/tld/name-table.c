@@ -181,8 +181,8 @@ name_table_get(NameTableP table, NameKeyP key)
 }
 
 void
-name_table_iter(NameTableP table, void (*proc)(NameEntryP, GenericP),
-				GenericP closure)
+name_table_iter(NameTableP table, void (*proc)(NameEntryP, void *),
+				void *closure)
 {
     unsigned i;
 

@@ -106,15 +106,15 @@ static size_t dalloc_data_size = ALIGN (sizeof (DallocDataT));
 
 /*--------------------------------------------------------------------------*/
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length,
 				   char *file, unsigned line)
 {
-    GenericP tmp;
+    void *tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-		tmp = NIL (GenericP);
+		tmp = NULL;
     } else {
 		size_t        real_size = (((size) * length) + dalloc_data_size);
 		vm_address_t address;
@@ -138,7 +138,7 @@ X__dalloc_allocate(size_t size, size_t length,
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, char *file,
+X__dalloc_deallocate(void *ptr, char *file,
 					 unsigned line)
 {
     if (ptr) {
@@ -164,21 +164,21 @@ X__dalloc_deallocate(GenericP ptr, char *file,
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length,
 				   char *file, unsigned line)
 {
-    GenericP tmp;
+    void *tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-		tmp = NIL (GenericP);
+		tmp = NULL;
     } else {
 		size_t       real_size = ((size * length) + dalloc_data_size);
 		ByteP       base;
 		DallocDataP data;
 
-		if ((tmp = malloc (real_size)) == NIL (GenericP)) {
+		if ((tmp = malloc (real_size)) == NULL) {
 			THROW (XX_dalloc_no_memory);
 			UNREACHED;
 		}
@@ -194,7 +194,7 @@ X__dalloc_allocate(size_t size, size_t length,
 }
 
 void
-X__dalloc_deallocate(GenericP ptr, char *file,
+X__dalloc_deallocate(void *ptr, char *file,
 					 unsigned line)
 {
     if (ptr) {
@@ -210,7 +210,7 @@ X__dalloc_deallocate(GenericP ptr, char *file,
 			UNREACHED;
 		}
 		data->magic = 0;
-		free ((GenericP) data);
+		free (data);
     }
 }
 
@@ -218,15 +218,15 @@ X__dalloc_deallocate(GenericP ptr, char *file,
 
 #else
 
-GenericP
+void *
 X__dalloc_allocate(size_t size, size_t length)
 {
-    GenericP tmp;
+    void *tmp;
 
     ASSERT (size != 0);
     if (length == 0) {
-		tmp = NIL (GenericP);
-    } else if ((tmp = calloc (length, size)) == NIL (GenericP)) {
+		tmp = NULL;
+    } else if ((tmp = calloc (length, size)) == NULL) {
 		THROW (XX_dalloc_no_memory);
 		UNREACHED;
     }

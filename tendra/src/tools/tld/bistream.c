@@ -118,7 +118,7 @@ unsigned
 bistream_read_chars(BIStreamP bistream, unsigned length,
 					char *chars)
 {
-    unsigned bytes_read = (unsigned) fread ((GenericP) chars, sizeof (char),
+    unsigned bytes_read = (unsigned) fread ((void *) chars, sizeof (char),
 											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {
@@ -135,7 +135,7 @@ unsigned
 bistream_read_bytes(BIStreamP bistream, unsigned length,
 					ByteP bytes)
 {
-    unsigned bytes_read = (unsigned) fread ((GenericP) bytes, sizeof (ByteT),
+    unsigned bytes_read = (unsigned) fread ((void *) bytes, sizeof (ByteT),
 											(size_t) length, bistream->file);
 
     if ((bytes_read == 0) && (ferror (bistream->file))) {

@@ -192,13 +192,13 @@ builder_read_capsules(ArgDataP arg_data, UnitTableP units,
 static void
 builder_check_multi_defs(ShapeTableP shapes)
 {
-    shape_table_iter (shapes, shape_entry_check_multi_defs, NIL (GenericP));
+    shape_table_iter (shapes, shape_entry_check_multi_defs, NULL);
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
 
 static void
 builder_suppress_1(NStringP shape, BoolT all,
-				   NameKeyListP names, GenericP gclosure)
+				   NameKeyListP names, void *gclosure)
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
@@ -209,7 +209,7 @@ builder_suppress_1(NStringP shape, BoolT all,
 
 		if (all) {
 			name_table_iter (table, name_entry_builder_suppress,
-							 (GenericP) shape);
+							 (void *) shape);
 		}
 		for (; name; name = name_key_list_entry_next (name)) {
 			NameKeyP   key        = name_key_list_entry_key (name);
@@ -228,10 +228,10 @@ builder_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 {
     if (arg_data_get_suppress_mult (arg_data)) {
 		shape_table_iter (lib_shapes, shape_entry_suppress_mult,
-						  NIL (GenericP));
+						  NULL);
     }
     shape_control_iter (arg_data_get_suppresses (arg_data), builder_suppress_1,
-						(GenericP) lib_shapes);
+						(void *) lib_shapes);
     tenapp_checkerrors(MSG_SEV_ERROR);
 
 }
