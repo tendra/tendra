@@ -1,9 +1,10 @@
 # $TenDRA$
 
+UNAME=		/usr/bin/uname
+
 PREFIX=		/usr/local
 TMP_DIR=	/tmp
 SRC_ENV=	${BUILD_OS}/common/${MACH_CPU}
-UNAME=		/usr/bin/uname
 
 MACH_CPU!=	${UNAME} -p
 MACH_OS!=	${UNAME}
