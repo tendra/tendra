@@ -72,6 +72,7 @@
     These routines are concerned with reading tcc environments.
 */
 
+extern void	dump_env(void);
 extern void	read_env(char *);
 extern int	read_env_aux(char *, hashtable *);
 extern char	*dereference_var(char *, char*, hashtable *, char *, int);

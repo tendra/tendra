@@ -110,6 +110,7 @@ boolean api_checks = 0;
 boolean checker = 0;
 boolean copyright = 0;
 boolean dry_run = 0;
+boolean env_dump = 0;
 boolean link_specs = 1;
 boolean make_up_names = 0;
 boolean show_api = 0;

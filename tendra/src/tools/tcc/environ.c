@@ -503,3 +503,24 @@ read_env(char *nm)
     if (e == 1) error(WARNING, "Can't find environment, '%s'", nm);
     return;
 }
+
+void
+dump_env(void)
+{
+	htnode *hn;
+	int i;
+
+	if (environ_hashtable == NULL)
+		error(FATAL, "No environment information found\n");
+
+	printf("Environment dump:\n");
+	/* Traverse the hash tree and print all data in it */
+	for(i = 0; i < TCC_TBLSIZE; i++) {
+		hn = environ_hashtable->node[i];
+
+		if (hn) {
+			printf("\t%s = %s\n", hn->key, hn->val);
+		}
+	}
+
+}

@@ -140,6 +140,7 @@ optmap main_optmap[] = {
       133 },
     { "-v", "1VB", "specifies verbose mode", 50 },
     { "-vb", "1TC", "specifies fairly verbose mode", 51 },
+    { "-vd", "1TD", "dump the env information tcc got hold of", 51},
     { "-ve", "1TE", "verbose information about tool chain environment", 51 },
     { "-vt", "1TT", "verbose information about tool chain invocation", 51 },
     { "-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1 },
@@ -220,7 +221,7 @@ optmap main_optmap[] = {
     { "$", "XUnknown option,$s$0|AXO$0", "unknown option", 0 },
 
     /* End marker */
-    { null, null, null }
+    { null, null, null, 9999 }
 };
 
 
@@ -347,7 +348,7 @@ optmap environ_optmap[] = {
     {"$", "XIllegal$senvironmental$soption,$s$0", null, 0},
 
     /* End marker */
-    { null, null, null }
+    { null, null, null, 9999 }
 };
 
 
@@ -493,6 +494,7 @@ lookup_bool(char *s)
 	}
 	case 'T': {
 	    if (b == 'C') return(&taciturn);
+	    if (b == 'D') return(&env_dump);
 	    if (b == 'E') return(&tool_chain_environ);
 	    if (b == 'I') return(&time_commands);
 	    if (b == 'N') return(&allow_notation);

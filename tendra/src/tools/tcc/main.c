@@ -262,6 +262,13 @@ main(int argc, char **argv)
     reconcile_envopts();
     free_list(opts);
 
+    /* Dump env information ? XXX: Where should this really be? */
+    if (env_dump) {
+	dump_env();
+	/* main_end(); XXX */
+	return(0);
+    }
+
     /* Check for input files */
     if (input_files == null) {
 	if (flag_no_files)main_end();
