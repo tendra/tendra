@@ -107,8 +107,8 @@
  *    related areas.
  */
 
-extern ERROR make_error PROTO_W ((int, ...));
-extern void error PROTO_W ((int, CONST char *, ...));
+extern ERROR make_error(int, ...);
+extern void error(int, CONST char *, ...);
 extern void set_progname(CONST char *, CONST char *);
 extern string report_version(int);
 extern void error_option(string);

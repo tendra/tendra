@@ -195,7 +195,7 @@ extern ERROR set_severity(ERROR, int, int);
 extern int find_option_no(STRING, int);
 extern int find_value_no(STRING, int);
 extern int find_type_no(STRING);
-extern int check_value PROTO_W ((int, unsigned long, ...));
+extern int check_value(int, unsigned long, ...);
 extern int incr_value(int);
 extern void decr_value(int);
 extern void use_option(IDENTIFIER, unsigned);

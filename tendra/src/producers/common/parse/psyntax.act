@@ -223,9 +223,9 @@ typedef LIST ( IDENTIFIER ) SID_LIST_ID;
  */
 
 #include "psyntax.h"
-extern void parse_tok_type PROTO_S ( ( TYPE * ) );
-extern void parse_mem_type PROTO_S ( ( TYPE * ) );
-extern void parse_operator PROTO_S ( ( IDENTIFIER * ) );
+extern void parse_tok_type ( TYPE * );
+extern void parse_mem_type ( TYPE * );
+extern void parse_operator ( IDENTIFIER * );
 
 
 /*

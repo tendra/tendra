@@ -95,7 +95,7 @@
 #include "template.h"
 #include "tokdef.h"
 #include "token.h"
-static void copy_template PROTO_S ((IDENTIFIER, int));
+static void copy_template(IDENTIFIER, int);
 
 
 /*

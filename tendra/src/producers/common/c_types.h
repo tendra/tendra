@@ -123,7 +123,7 @@ typedef unsigned char character;
 
 #ifdef RUNTIME
 #if c_class_IMPLEMENTATION
-extern c_class *debug_c_class PROTO_S ((unsigned, unsigned));
+extern c_class *debug_c_class(unsigned, unsigned);
 #undef GEN_c_class
 #define GEN_c_class(A, B)	debug_c_class ((unsigned) (A), (B))
 #define TYPEID(A)		((A) [-1].ag_tag)

@@ -114,8 +114,8 @@ BUFFER print_buff = NULL_buff;
  *    A couple of forward function declarations are necessary.
  */
 
-static int print_head PROTO_S ((TYPE, int, BUFFER *, int));
-static int print_tail PROTO_S ((TYPE, BUFFER *, int));
+static int print_head(TYPE, int, BUFFER *, int);
+static int print_tail(TYPE, BUFFER *, int);
 
 
 /*

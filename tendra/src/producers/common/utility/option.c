@@ -252,8 +252,8 @@ static OPT_HASH *all_option_hash = NULL;
  *    This routine sets up the option hash table.
  */
 
-static void init_opt_hash
-PROTO_Z ()
+static void
+init_opt_hash(void)
 {
     int i;
     OPT_DATA *cat = OPT_CATALOG;
