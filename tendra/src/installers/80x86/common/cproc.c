@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,16 +55,6 @@
  */
 
 
-/* 80x86/cproc.c */
-
-
-
-/**********************************************************************
- *   cproc produces the code for the procedure defined by which has
- *   name pname.
-
-**********************************************************************/
-
 #include "config.h"
 #include "fmm.h"
 
@@ -105,9 +95,10 @@
 #include "dw2_extra.h"
 #endif
 
+
 static exp returns_list;
 
-int locals_offset;	/* global, needed for solaris stabs */
+int locals_offset;				/* global, needed for solaris stabs */
 exp hasenvoff_list = nilexp;	/* global, used by coder */
 
 /* MACROS */
@@ -119,14 +110,13 @@ exp hasenvoff_list = nilexp;	/* global, used by coder */
 static void
 add_odd_bits(outofline * r)
 {
-	if (r != (outofline*)0) {
-		if (r -> next == (outofline*)0)
+	if (r != NULL) {
+		if (r->next == (outofline*)0)
 			last_odd_bit = 1;
-		add_odd_bits(r -> next);
-	}
-	else
+		add_odd_bits(r->next);
+	} else
 		return;
-	
+
 	current_odd_bit = r;
 	if (is80486)
 		dot_align(4);
@@ -142,7 +132,7 @@ add_odd_bits(outofline * r)
 		START_BB ();
 	}
 #endif
-	
+
 	regsinuse = r->regsinuse;
 	fstack_pos = r->fstack_pos;
 	cond1_set = r->cond1_set;
@@ -156,23 +146,21 @@ add_odd_bits(outofline * r)
 	if (name(sh(r->body)) != bothd)  {
 		clean_stack();
 		jump(r->jr, 0);
-	}
-	else
+	} else
 		stack_dec = 0;
 #ifdef NEWDWARF
 	if (dwarf2)
 #if 1
 		dw2_end_extra_bit (r->body);
 #else
-    dw2_end_extra_bit (r->dw2_hi);
+		dw2_end_extra_bit (r->dw2_hi);
 #endif
 #endif
 	return;
 }
 
 static void
-out_pops(int tot_sp, int push_space, int extra,
-		 int dpos)
+out_pops(int tot_sp, int push_space, int extra, int dpos)
 {
 #ifdef NEWDWARF
 	int st;
@@ -180,6 +168,7 @@ out_pops(int tot_sp, int push_space, int extra,
 #else
 	UNUSED(dpos);
 #endif
+
 	tot_sp -= extra;
 	if (no_frame && !stack_aligned_8byte) {
 		if (tot_sp != push_space) {
@@ -191,17 +180,16 @@ out_pops(int tot_sp, int push_space, int extra,
 			if (diagnose && dwarf2)
 				dwl0 = set_dw_text_label ();
 #endif
-		};
-	}
-	else {
+		}
+	} else {
 		if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
 			outs (" leal -");
 			outn ((long)push_space);
 			outs ("(%ebp),%esp");
 			outnl();
-		};
-	};
-	
+		}
+	}
+
 	/* pop the registers at the end */
 	if (no_frame && (min_rfree & 0x40)) {
 		outs (" pop %ebp");
@@ -210,7 +198,7 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (diagnose && dwarf2)
 			dwl1 = set_dw_text_label ();
 #endif
-	};
+	}
 	if (min_rfree & 0x20) {
 		outs (" pop %esi");
 		outnl();
@@ -218,7 +206,7 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (diagnose && dwarf2)
 			dwl2 = set_dw_text_label ();
 #endif
-	};
+	}
 	if (min_rfree & 0x10) {
 		outs (" pop %edi");
 		outnl();
@@ -226,7 +214,7 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (diagnose && dwarf2)
 			dwl3 = set_dw_text_label ();
 #endif
-	};
+	}
 	if (min_rfree & 0x8) {
 		outs (" pop %ebx");
 		outnl();
@@ -234,8 +222,8 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (diagnose && dwarf2)
 			dwl4 = set_dw_text_label ();
 #endif
-	};
-	
+	}
+
 	if (!no_frame)  {
 		outs (" pop %ebp");
 		outnl();
@@ -243,7 +231,7 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (diagnose && dwarf2)
 			dwl1 = set_dw_text_label ();
 #endif
-	};
+	}
 	outnl();
 #ifdef NEWDWARF
 	if (diagnose && dwarf2) {
@@ -251,7 +239,7 @@ out_pops(int tot_sp, int push_space, int extra,
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		dw2_fde_restore_args (dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
 	}
 #endif
@@ -269,62 +257,63 @@ out_untidy_pops(int tot_sp, int push_space)
 			outs ("(%esp),%ebp");
 			outnl();
 			s_offset += 4;
-		};
+		}
 		if (min_rfree & 0x20) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%esi");
 			outnl();
 			s_offset += 4;
-		};
+		}
 		if (min_rfree & 0x10) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%edi");
 			outnl();
 			s_offset += 4;
-		};
+		}
 		if (min_rfree & 0x8) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%ebx");
 			outnl();
 			/* s_offset += 4; */
-		};
-	}
-	else {
+		}
+	} else {
 		int fm_offset = - push_space;
+
 		if (min_rfree & 0x20) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%esi");
 			outnl();
 			fm_offset += 4;
-		};
+		}
 		if (min_rfree & 0x10) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%edi");
 			outnl();
 			fm_offset += 4;
-		};
+		}
 		if (min_rfree & 0x8) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%ebx");
 			outnl();
 			/* fm_offset += 4; */
-		};
+		}
 		outs (" movl 0(%ebp),%ebp");
 		outnl();
-	};
+	}
 	return;
 }
 
-
+/*
+ * Produce code for the procedure p
+ */
 int
-cproc(exp p, char *pname, int cname, int global,
-	  diag_global * diag_props)
+cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 {
 	exp jr, t, body;
 	ash stack;
@@ -349,14 +338,13 @@ cproc(exp p, char *pname, int cname, int global,
 	char * dw_labroom = "                 ";
 	/* .Ldw12345678:\n */
 #endif
-	
+
 	int request_align_8byte;
-	
+
 	returns_list = nilexp;
 	crt_proc_exp = p;
 	crt_proc_id = next_lab();
-	crt_ret_lab = next_lab ();	/* set up the return label for the
-								 *				   procedure */
+	crt_ret_lab = next_lab ();	/* set up the return label for the procedure */
 	crt_ret_lab_used = 0;
 	odd_bits = (outofline*)0;
 	scale = (float)1.0;
@@ -367,126 +355,113 @@ cproc(exp p, char *pname, int cname, int global,
 	callee_size = (proc_has_vcallees(p) ? -1 : 0);
 	ferrsize = 0;
 	fpucon = normal_fpucon;
-	
+
 	has_dy_callees = 0;		/* set by scan2 when stack_dec indeterminable */
 	has_tail_call = 0;		/* set by scan2, used in coder */
-	has_same_callees = 0;		/* set by scan2, used in coder */
+	has_same_callees = 0;	/* set by scan2, used in coder */
 	proc_has_asm = 0;		/* set by scan2 if any asm operands */
 	IGNORE scan2(1, p, p, 0);
 	useful_double = 0;
 	comp_weights(p);
-	
-/* 8byte align */
+
+	/* 8byte align */
 	request_align_8byte = permit_8byte_align && useful_double;
-	
+
 	if (pname[0] != local_prefix[0])
 		proc_type(pname);
-	
+
 	has_alloca = proc_has_alloca(p);
-	
+
 	must_use_bp = (has_alloca || proc_has_lv(p));
-	
+
 	regsinuse = 0;
-	
+
 	no_frame = 1;
 	if (always_use_frame || do_profile || must_use_bp || has_dy_callees ||
-        proc_uses_crt_env(p) || proc_has_setjmp(p) || proc_has_asm
-		)
+		proc_uses_crt_env(p) || proc_has_setjmp(p) || proc_has_asm)
 		no_frame = 0;
-	
+
 	if (request_align_8byte && no_frame) {
 		no_frame = 0;
 		stack_aligned_8byte = 1;
-	}
-	else
+	} else
 		stack_aligned_8byte = 0;
-	
+
 	if (!no_frame)
-		regsinuse = 0x40; /* prevent ebp from being used as an ordinary
-						   *                          register */
-	
+		/* prevent ebp from being used as an ordinary register */
+		regsinuse = 0x40;
+
 	fstack_pos = first_fl_reg;
-	
+
 	max_stack = 0;		/* maximum stack value attained */
-	max_extra_stack = 0;		/* maximum stack value attained */
+	max_extra_stack = 0;	/* maximum stack value attained */
 	min_rfree = 0;		/* total registers used */
 	stack_dec = 0;		/* current stack decrement */
 	cond1_set = 0;
-	cond2_set = 0;		/* state of condition flags is not known
-						 */
+	cond2_set = 0;		/* state of condition flags is not known */
 	clear_reg_record (crt_reg_record);
 	stack.ashsize = 0;
 	stack.ashalign = 0;
-	
-	
-	
+
 	vc_pointer = nilexp;
 	/* set up params before any diagnostics */
 	t = son(p);
 	param_pos = 0;
-	while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
-	{
+	while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)	{
 		t = bro(son(t));
-	};
-	if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
-	{
+	}
+	if (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
 		if (callee_size < 0)
 			vc_pointer = t;
-		while (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
-		{
+		while (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
 			ptno(t) = par_pl;
 			no(t) = param_pos;
 			if (isenvoff(t))
-				set_env_off(param_pos+64, t);
+				set_env_off(param_pos + 64, t);
 			param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
 			t = bro(son(t));
-		};
+		}
 		if (callee_size == 0)
 			callee_size = param_pos;
-	};
+	}
 	{
 		exp pp = son(p);
-		while (name(pp) == ident_tag && isparam(pp) && name(son(pp)) != formal_callee_tag)
-		{
+		while (name(pp) == ident_tag && isparam(pp) && name(son(pp)) != formal_callee_tag) {
 			ptno(pp) = par_pl;
 			no(pp) = param_pos;
 			if (isenvoff(pp))
 				set_env_off(param_pos+64, pp);
 			param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
 			pp = bro(son(pp));
-		};
-	};
-	
+		}
+	}
+
 	body = t;
-	
-	
-	
-	
+
 	if (global) {
 		outs (".globl ");
 		outs (pname);
 		outnl ();
-	};
-	
+	}
+
 	if (is80486)
 		dot_align(16);
 	else
 		dot_align(4);
-	
+
 	if (diagnose)
 #ifdef NEWDWARF
 		DIAG_PROC_BEGIN (diag_props, global, cname, pname, p);
 #else
-    diag_proc_begin (diag_props, global, cname, pname);
+		diag_proc_begin (diag_props, global, cname, pname);
 #endif
-	
+
 	if (cname == -1)
 		outs (pname);
-	else
-    {
+	else {
 		outs(local_prefix);
 		outn((long)cname);
-    };
+	}
 	outs (":");
 	outnl ();
 #ifdef NEWDWARF
@@ -495,8 +470,8 @@ cproc(exp p, char *pname, int cname, int global,
 		dwl0 = set_dw_text_label ();
 	}
 #endif
-	
-/* space for setting local displacement label */
+
+	/* space for setting local displacement label */
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
 	old_pos1 = ftell (fpout);
@@ -509,7 +484,7 @@ cproc(exp p, char *pname, int cname, int global,
 	outs ("                             ");
 	/* ".set .LfcwdispNNNN, SSSSS\n" */
 	outnl ();
-	
+
 	if (!no_frame) {
 		outs (" pushl %ebp");
 		outnl ();
@@ -519,9 +494,9 @@ cproc(exp p, char *pname, int cname, int global,
 		if (diagnose && dwarf2)
 			dwl1 = set_dw_text_label ();
 #endif
-	};
-	
-/* space for pushing fixed point registers */
+	}
+
+	/* space for pushing fixed point registers */
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
 	old_pos2 = ftell (fpout);
@@ -564,7 +539,7 @@ cproc(exp p, char *pname, int cname, int global,
 #endif
 		outnl ();
 	}
-	
+
 /* space for subtract from stack pointer */
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
@@ -575,19 +550,19 @@ cproc(exp p, char *pname, int cname, int global,
 	outnl ();
 	if (proc_has_checkstack(p)) {
 		checkalloc_stack (reg0, 1);
-	};
+	}
 #ifdef NEWDWARF
 	if (diagnose && dwarf2) {
 		dwl8 = set_dw_text_label ();
 		dw_entry_pos = dw2_start_fde (dwl0, dwl1);
 	}
 #endif
-	
+
 	if (stack_aligned_8byte) {
 		outs(" andl $-8,%esp");
 		outnl();
-	};
-	
+	}
+
 	if (flush_before_tell)
 		IGNORE fflush(fpout);
 	old_pos9 = ftell (fpout);
@@ -605,15 +580,14 @@ cproc(exp p, char *pname, int cname, int global,
 #if isfreebsd
 		main_prel = !freebsd_elf;
 #endif
-		if (main_prel &&
-			pname[0] != local_prefix[0] &&
-			!strcmp (pname+prefix_length, "main")) {
+		if (main_prel && pname[0] != local_prefix[0] &&
+			!strcmp (pname + prefix_length, "main")) {
 			out_main_prelude();
 		}
-	};
+	}
 #endif
 
-/*	
+/*
 #if islinux || isfreebsd
 	if (
 #if islinux
@@ -647,30 +621,28 @@ cproc(exp p, char *pname, int cname, int global,
 		outnl ();
 		outs (" call _mcount");
 		outnl ();
-	};
-	
-	
-	if (PIC_code && proc_uses_external(p))
-	{
+	}
+
+
+	if (PIC_code && proc_uses_external(p)) {
 		regsinuse |= GLOBALTABLEMASK;
 		min_rfree |= GLOBALTABLEMASK;
 		pic_prelude();
-	};
-	
+	}
+
 	need_preserve_stack = 0;
-	if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca)
-	{
+	if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca) {
 		need_preserve_stack = 1;
 		stack.ashsize += 32;
 		max_stack = stack.ashsize;
 		save_stack ();
-	};
-	
+	}
+
 	scale = (float)1.0;
 	last_odd_bit = 0;
 	doing_odd_bits = 0;
 	coder (zero, stack, body); /* code body of procedure */
-	
+
 	stack_dec = 0;
 	doing_odd_bits = 1;
 	while (odd_bits != (outofline*)0) {
@@ -679,26 +651,26 @@ cproc(exp p, char *pname, int cname, int global,
 		last_odd_bit = 0;
 		add_odd_bits(ol);
 	}
-	
-	
+
+
 	if (crt_ret_lab_used) {
-		jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0,
-					 0, 0);
+		jr = getexp (f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 		sonno(jr) = stack_dec;
 		ptno(jr) = crt_ret_lab;
 		fstack_pos_of(jr) = (prop)first_fl_reg;
 		set_label (jr);
-	};
-	
-	/* If the procedure loads the current env and uses make_lv
-	 *	   it may be the destination of a long_jump. In that case
-	 *	   ebx, esi and edi must be saved at and restored at exit.
-	 *	   ebp will be saved and restored anyway because such a
-	 *	   procedure will have a frame pointer.
+	}
+
+	/*
+	 * If the procedure loads the current env and uses make_lv
+	 * it may be the destination of a long_jump. In that case
+	 * ebx, esi and edi must be saved at and restored at exit.
+	 * ebp will be saved and restored anyway because such a
+	 * procedure will have a frame pointer.
 	 */
 	if (proc_uses_crt_env(p) && proc_has_lv(p))
 		min_rfree |= 0x38;
-	
+
 	/* compute space needed for local variables in memory */
 	ms = ((max_stack + 31) / 32) * 4;
 	/* compute space needed for pushing registers */
@@ -710,10 +682,10 @@ cproc(exp p, char *pname, int cname, int global,
 		push_space += 4;
 	if (min_rfree & 0x8)
 		push_space += 4;
-	
+
 	ferrsize /= 8;
 	tot_sp = rounder(ms + push_space + ferrsize, byte_stack_align);
-	
+
 	if (crt_ret_lab_used) {
 #ifdef NEWDWARF
 		long over_lab;
@@ -729,24 +701,24 @@ cproc(exp p, char *pname, int cname, int global,
 		if (diagnose && dwarf2)
 			dw2_after_fde_exit (over_lab);
 #endif
-	};
+	}
 	outnl ();
-	
+
 	this_pos = ftell (fpout);
 	while (returns_list != nilexp) {
 		st = fseek (fpout, (long)no(returns_list), 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		if (name(returns_list) == 1)
 			out_untidy_pops (tot_sp, push_space);
 		else
 			out_pops(tot_sp, push_space, ptno(returns_list)/8, sonno(returns_list));
 		returns_list = bro(returns_list);
-	};
+	}
 	fseek(fpout, this_pos, 0);
-	
+
 	locals_offset = tot_sp;
 	if (diagnose) {
 		no (p) = tot_sp;	/* may be used by delayed diagnostics */
@@ -760,10 +732,10 @@ cproc(exp p, char *pname, int cname, int global,
 			dw2_complete_fde ();
 #endif
 	}
-	
+
 	/* now set in the information at the head of the procedure */
 	{
-		
+
 		if (flush_before_tell)
 			IGNORE fflush(fpout);
 		this_pos = ftell (fpout);
@@ -771,24 +743,26 @@ cproc(exp p, char *pname, int cname, int global,
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
-		
-		/* set the label which says how much the stack was decreased, in case
-		 *       frame pointer addressing is used  */
+		}
+
+		/*
+		 * set the label which says how much the stack was decreased, in case
+		 * frame pointer addressing is used 
+		 */
 		outs (".set ");
 		outs(local_prefix);
 		outs ("disp");
 		outn ((long)crt_proc_id);
 		outs (", ");
 		outn ((long)tot_sp);
-		
+
 		if (ferrsize != 0) {
 			/* set label for displacement to fpu control local store */
 			st = fseek (fpout, old_pos1a, 0);
 			if (st == -1) {
 				failer (SEEK_FAILURE);
 				exit(EXIT_FAILURE);
-			};
+			}
 			outs (".set ");
 			outs(local_prefix);
 			outs ("fcwdisp");
@@ -796,14 +770,14 @@ cproc(exp p, char *pname, int cname, int global,
 			outs (", ");
 			outn ((long)((no_frame) ? (tot_sp - push_space - ferrsize) : (push_space + ferrsize)));
 		}
-		
+
 		st = fseek (fpout, this_pos, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
-	};
-	
+		}
+	}
+
 	if (tot_sp != push_space || proc_has_checkstack(p)) {
 		if (flush_before_tell)
 			IGNORE fflush(fpout);
@@ -812,115 +786,114 @@ cproc(exp p, char *pname, int cname, int global,
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
-		
+		}
+
 		/* decrease the stack if necessary */
 		if (proc_has_checkstack(p)) {
 			outs (" movl $");
 			outn ((long)(tot_sp - push_space));
 			outs (",%eax");
-		}
-		else {
+		} else {
 			outs (" subl $");
 			outn ((long)(tot_sp - push_space));
 			outs (",%esp");
-		};
+		}
 		outnl();
-		
+
 		if (ferrsize != 0) {	/* record FPU control word */
 			st = fseek (fpout, old_pos9, 0);
 			if (st == -1) {
 				failer (SEEK_FAILURE);
 				exit(EXIT_FAILURE);
-			};
+			}
 			move (uwordsh, mw(zeroe, normal_fpucon), mw(ferrmem, 0));
 		}
-		
+
 		st = fseek (fpout, this_pos, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
-	};
-	
+		}
+	}
+
 	/* push registers as necessary */
 	if (min_rfree & 0x8) {
 		st = fseek (fpout, old_pos2, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		outs (" pushl %ebx");
 		outnl();
 #ifdef NEWDWARF
 		if (diagnose && dwarf2)
 			dwl2 = set_dw_text_label ();
 #endif
-	};
-	
+	}
+
 	if (min_rfree & 0x10) {
 		st = fseek (fpout, old_pos3, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		outs (" pushl %edi");
 		outnl();
 #ifdef NEWDWARF
 		if (diagnose && dwarf2)
 			dwl3 = set_dw_text_label ();
 #endif
-	};
-	
-	
+	}
+
+
 	if (min_rfree & 0x20) {
 		st = fseek (fpout, old_pos4, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		outs (" pushl %esi");
 		outnl();
 #ifdef NEWDWARF
 		if (diagnose && dwarf2)
 			dwl4 = set_dw_text_label ();
 #endif
-	};
-	
+	}
+
 	if (no_frame && (min_rfree & 0x40)) {
 		st = fseek (fpout, old_pos5, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		outs (" pushl %ebp");
 		outnl();
 #ifdef NEWDWARF
 		if (diagnose && dwarf2)
 			dwl1 = set_dw_text_label ();
 #endif
-	};
-	
+	}
+
 #ifdef NEWDWARF
 	if (diagnose && dwarf2) {
 		st = fseek (fpout, dw_entry_pos, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
 			exit(EXIT_FAILURE);
-		};
+		}
 		dw2_fde_entry (dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
-	};
+	}
 #endif
-	
+
 	st = fseek (fpout, this_pos, 0);
 	if (st == -1) {
 		failer (SEEK_FAILURE);
 		exit(EXIT_FAILURE);
-	};
-	
+	}
+
 	if (pname[0] != local_prefix[0])
 		proc_size (pname);
-	
+
 	if (proc_needs_envsize(p)) {
 		outs (".set ");
 		outs(local_prefix);
@@ -930,7 +903,7 @@ cproc(exp p, char *pname, int cname, int global,
 		outn ((long)(tot_sp + 4 + max_extra_stack/8));
 		outnl ();
 	}
-	
+
 #if islinux || isfreebsd
 	if (
 #if islinux
@@ -941,7 +914,7 @@ cproc(exp p, char *pname, int cname, int global,
 		out_main_postlude();
 	}
 #endif
-	
+
 	/* now prepare params with env_offset for possible constant evaluation */
 	t = son(p);
 	while (name(t) == ident_tag && isparam(t)) {
@@ -960,24 +933,26 @@ cproc(exp p, char *pname, int cname, int global,
 		retcell(hasenvoff_list);
 		hasenvoff_list = next;
 	}
-	
+
 	if (no_frame)			/* hold info for later diagnostics */
 		clear_proc_has_fp(p);
 	else
 		set_proc_has_fp(p);
-	
+
 	return (proc_needs_envsize(p) ? tot_sp + 4 + max_extra_stack/8 : 0);
 }
 
 
-/* Restore call_save registers (%ebp, %esi, %edi, %ebx)
- *   when we know which ones are reused.
- *   This preserves %eax, %ecx, %edx */
+/*
+ * Restore call_save registers (%ebp, %esi, %edi, %ebx) when we know which
+ * ones are reused. This preserves %eax, %ecx, %edx
+ */
 void
 restore_callregs(int untidy)
 {
 	char *sp50 = "                                                  ";
 	long retpos = ftell(fpout);
+
 	outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
 	outs(sp50); outs(sp50); outs(sp50);
 	outnl();
