@@ -134,6 +134,8 @@ new_sort(sortname s, int sz)
 		(p + i)->encoding = i;
 		(p + i)->name = null;
 		(p + i)->next = null;
+		(p + i)->alias = null;
+		(p + i)->ename = null;
 		get_char_info (p + i) = null;
     }
     cons_table [s] = p;
