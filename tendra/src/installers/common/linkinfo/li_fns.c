@@ -88,8 +88,8 @@ extern weak_cell *weak_list;
 
 extern void out_rename(char *, char *);
 
-static *
-id_prefix(char * s)
+static char *
+id_prefix(char *s)
 {
 	char * r;
 	int l1, l2;
