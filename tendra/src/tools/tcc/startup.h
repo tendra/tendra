@@ -72,6 +72,8 @@
     files.
 */
 
+static void add_to_tokdef(char *s);
+
 extern void add_to_startup(char *);
 extern void add_to_endup(char *);
 extern void close_startup(void);
