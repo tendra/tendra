@@ -1,0 +1,93 @@
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+
+<article>
+  <articleinfo>
+    <title>Contributors to the TenDRA Project</title>
+
+    <pubdate>$TenDRA$</pubdate>
+
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+
+    <copyright>
+      <year>2003</year>
+
+      <year>2004</year>
+
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+
+    <abstract>
+      <para>This article lists the present and past members of the TenDRA
+        development team.</para>
+    </abstract>
+  </articleinfo>
+
+  <sect1 id="team"> 
+  <title>Current TenDRA Developers</title>
+    <informaltable frame="none">
+      <tgroup cols="4" align="left">
+      <colspec colnum="1" colwidth="170px">
+        <thead>
+          <row>
+            <entry>Developer</entry>
+            <entry>Contact</entry>
+            <entry>Description</entry>
+            <entry>Area of Focus</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Munish Chopra</entry>
+            <entry valign="top"><email>chopra@ten15.org</email></entry>
+            <entry>...</entry>
+            <entry>...</entry>
+          </row>
+          <row>
+            <entry valign="top">Stefan Farfeleder</entry>
+            <entry valign="top"><email>stefanf@ten15.org</email></entry>
+            <entry>...</entry>
+            <entry>...</entry>
+          </row>
+          <row>
+            <entry valign="top">Amos B. Haven</entry>
+            <entry valign="top"><email>nonce@ten15.org</email></entry>
+            <entry>...</entry>
+            <entry>...</entry>
+          </row>
+          <row>
+            <entry valign="top">Amar Takhar</entry>
+            <entry valign="top"><email>verm@ten15.org</email></entry>
+            <entry>...</entry>
+            <entry>...</entry>           
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+  </sect1>
+
+  <sect1 id="previous">
+  <title>Previous TenDRA Developers</title>
+
+    <informaltable frame="none">
+      <tgroup cols="2" align="left">
+        <thead>
+          <row>
+            <entry>Developer</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Jeroen Ruigrok van der Werven</entry>
+            <entry>Jeroen left on August 20, 2003 to focus on other aspects of
+              ANDF technology. Thanks for the hard work, we'll miss you
+              asmo!</entry> 
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+  </sect1>
+
+</article>
