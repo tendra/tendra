@@ -93,6 +93,11 @@
         </thead>
         <tbody>
           <row>
+            <entry>20041017</entry>
+            <entry>API</entry>
+            <entry>Implemented C99's flexible array members.</entry>
+          </row>
+          <row>
             <entry>20040904</entry>
             <entry>Codebase</entry>
             <entry>Imported generic, low-level TDF manipulation library
