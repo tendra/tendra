@@ -46,7 +46,7 @@
 
     <varlistentry>
       <term><option>-K</option><replaceable>str</replaceable></term>
-    
+
       <listitem>
         <para>Causes <command>trans386</command> to optimise its code for a
           particular processor model, determined by <emphasis>str</emphasis>. The
