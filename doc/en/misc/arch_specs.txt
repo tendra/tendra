@@ -1,0 +1,17 @@
+# $TenDRA$
+
+Overview
+--------
+
+This is a gathering of links, possibly combined with explanation, which detail
+the specifications of certain cores, microcontrollers, and CPUs.
+
+
+Links
+-----
+
+Atmel AVR, 8 bit RISC microcontroller:
+	http://www.atmel.com/atmel/products/prod23.htm
+
+Digital (nay Compaq, nay HP) Alpha CPU, 64 bit RISC CPU:
+	http://www.support.compaq.com/alpha-tools/documentation/current/chip-docs.html
