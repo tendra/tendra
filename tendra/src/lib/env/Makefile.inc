@@ -1,6 +1,6 @@
 # $TenDRA$
 
-SED_OPTS= -e "s%HI_MOM%HI_DAD%"
+SED_OPTS= -e "s%@MACH_CPU@%${MACH_CPU}%" -e "s%@BUILD_OS@%${BUILD_OS}%"
 
 # default env file for *BUILDING* purposes only this is NOT installed.
 DATA_DEFAULT=	default-build default

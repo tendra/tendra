@@ -16,7 +16,7 @@
 +TCPPLUSPP		"<TENDRA_BASEDIR>/producers/cpp/tcpplus -E"
 +CPP_SPEC_LINK		"<TENDRA_BASEDIR>/producers/cpp/tcpplus -S"
 +TLD			"<TENDRA_BASEDIR>/tools/tld/tld"
-+TRANS			"<TENDRA_BASEDIR>/installers/80x86/freebsd/trans"
++TRANS			"<TENDRA_BASEDIR>/installers/@MACH_CPU@/@BUILD_OS@/trans"
 +DISP			"<TENDRA_BASEDIR>/tools/disp/disp"
 +PL_TDF			"<TENDRA_BASEDIR>/tools/pl/pl"
 +TNC			"<TENDRA_BASEDIR>/tools/tnc/tnc"
@@ -48,7 +48,7 @@
 
 +API_NAME		"-Aansi"
 +API			"-R<TENDRA_INCLDIR>/ansi.d"
-+ENVDIR			"<TENDRA_BASEDIR>/lib/env/freebsd/common/80x86/"
++ENVDIR			"<TENDRA_BASEDIR>/lib/env/@BUILD_OS@/common/@MACH_CPU@/"
 +INFO			"ANSI@(X3.159)"
 +TEMP			"<TENDRA_TMPDIR>"
 +VERSION		""
