@@ -62,7 +62,7 @@ all:
 .endif
 
 ${API}:
-	@${ECHO} Building ${API} API...
+	@${ECHO} ....Building ${API} API
 	${TSPEC} -v -w -I${BASE_DIR}/${APIS} -O${OBJ_DIR}/${APIS}/include\
 		-S${OBJ_DIR}/${APIS}/building ${.TARGET}
 
@@ -99,7 +99,7 @@ _OBJDIR:
 _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
 .for entry in ${SUBDIR}
-		@${ECHODIR} "Entering ${DIRPREFIX}${entry}"
+		@${ECHODIR} "Entering: ${DIRPREFIX}${entry}"
 		@${ECHODIR} "..Executing within ${entry}: ${MAKE} ${.TARGET}"
 		@cd ${.CURDIR}/${entry}; \
 			${MAKE} ${.TARGET} DIRPREFIX=${DIRPREFIX}${entry}/
