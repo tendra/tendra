@@ -43,6 +43,7 @@
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
 
+API_DIR = ${BASE_DIR}/src/lib/apis
 BASE_DIR = ${.CURDIR:C/\/(mk|src).*//}
 PREFIX ?= /usr/local
 PUBLIC_BIN = ${PREFIX}/bin
@@ -93,10 +94,20 @@ REMOVE ?=	${ENV} rm -f
 OBJS=  ${SRCS:S/.c/.o/}
 
 all:
+.if defined(API)
+	@${MAKE} _OBJDIR
+	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} ${API}
+.endif
 .if defined(PROG)
 	@${MAKE} _OBJDIR
 	@env MAKEOBJDIR=${OBJ_SDIR} ${MAKE} ${PROG}
 .endif
+
+${API}:
+	@${ECHO} Building ${API} API...
+	${OBJ_DIR}/src/tools/tspec/tspec -v -I${API_DIR}\
+		-O${OBJ_SDIR:S/${API}$/include/}\
+		-S${OBJ_SDIR:S/${API}$/building/} ${.TARGET}
 
 ${PROG}: ${OBJS}
 	@${ECHO} Linking ${PROG}...
@@ -122,7 +133,11 @@ install:
 
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
+.if defined(API)
+	@mkdir -p ${OBJ_SDIR:S/\/${API}//}
+.else
 	@mkdir -p ${OBJ_SDIR}
+.endif
 	@${ECHODIR} ${OBJ_SDIR} created for ${.CURDIR}
 .endif
 
