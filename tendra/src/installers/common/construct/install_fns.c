@@ -771,18 +771,18 @@ f_unite_alignments(alignment a1, alignment a2)
 	if (a1->al.al_n == 1 && a2->al.al_n == 1)
 	{
 		if (a1->al.al_val.al_frame == a2->al.al_val.al_frame) {
-			if (a1->al.al_val.al > a2->al.al_val.al)
-			{ return a1; }
-			else
-			{ return a2; }
+			if (a1->al.al_val.al > a2->al.al_val.al) {
+				return a1;
+			} else {
+				return a2;
+			}
+		} else if (a1->al.al_val.al_frame ==0) {
+			return a2;
+		} else if (a2->al.al_val.al_frame == 0) {
+			return a1;
+		} else {
+			return (&frame_als[(a1->al.al_val.al_frame | a2->al.al_val.al_frame)-1]);
 		}
-		else
-			if (a1->al.al_val.al_frame ==0) { return a2; }
-			else
-				if (a2->al.al_val.al_frame == 0) { return a1; }
-				else {
-					return (&frame_als[(a1->al.al_val.al_frame | a2->al.al_val.al_frame)-1]);
-				}
 		
 	};
 	
@@ -1041,237 +1041,233 @@ f_add_to_ptr(exp arg1, exp arg2)
 #if issparc
 		  && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
-			 )))
+	   )))
 		failer(CHSH_ADDPTR);
 #endif
 	
 #if issparc || ishppa
 	if ((al1_of(sh(arg2))->al.al_val.al_frame & 6) != 0 &&
 #else
-		if ((al1_of(sh(arg2))->al.al_val.al_frame &4) != 0 &&
+	if ((al1_of(sh(arg2))->al.al_val.al_frame & 4) != 0 &&
 #endif
-			al2_of(sh(arg2))->al.sh_hd > nofhd) {
-				/* indirect varargs param */
-				exp z = me_b3(f_pointer(f_alignment(sh(arg1))), arg1, arg2, addptr_tag);
-				return f_contents(sh(arg1), z);
-			}
+		al2_of(sh(arg2))->al.sh_hd > nofhd) {
+			/* indirect varargs param */
+		exp z = me_b3(f_pointer(f_alignment(sh(arg1))), arg1, arg2, addptr_tag);
+		return f_contents(sh(arg1), z);
+	}
 		
 		
-		return (me_b3(f_pointer(al2_of(sh(arg2))), arg1, arg2,
-					  addptr_tag));
-		}
+	return (me_b3(f_pointer(al2_of(sh(arg2))), arg1, arg2, addptr_tag));
+}
 	
-	exp
-		f_and(exp arg1, exp arg2)
-		{
-			if (name(sh(arg1)) == bothd)
-			{ kill_exp(arg2,arg2); return arg1; }
-			if (name(sh(arg2)) == bothd)
-			{ kill_exp(arg1,arg1); return arg2; }
-			
+exp
+f_and(exp arg1, exp arg2)
+{
+	if (name(sh(arg1)) == bothd)
+	{ kill_exp(arg2,arg2); return arg1; }
+	if (name(sh(arg2)) == bothd)
+	{ kill_exp(arg1,arg1); return arg2; }
+	
 #if check_shape
-			if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
-				failer(CHSH_AND);
+	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1)))
+		failer(CHSH_AND);
 #endif
 #if !has64bits
-			if (name(sh(arg1)) >= s64hd &&
-				(name(arg1)!=val_tag || name(arg2) != val_tag)){
-				return TDFcallop3(arg1,arg2,and_tag);
-			}
+	if (name(sh(arg1)) >= s64hd &&
+		(name(arg1)!=val_tag || name(arg2) != val_tag)){
+		return TDFcallop3(arg1,arg2,and_tag);
+	}
 #endif
-			
-			return me_b2(arg1, arg2, and_tag);
-		}
 	
-	exp
-		f_apply_proc(shape result_shape, exp arg1,
-					 exp_list arg2, exp_option varparam)
-		{
-			exp res = getexp(result_shape, nilexp, 0, arg1, nilexp,
-							 0, 0, apply_tag);
-			int varhack = 0;
-			if (name(sh(arg1)) == bothd)
-				return arg1;
-			
+	return me_b2(arg1, arg2, and_tag);
+}
+	
+exp
+f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
+{
+	exp res = getexp(result_shape, nilexp, 0, arg1, nilexp,
+					 0, 0, apply_tag);
+	int varhack = 0;
+	if (name(sh(arg1)) == bothd)
+		return arg1;
+	
 #if check_shape
-			if (name(sh(arg1)) != prokhd)
-				failer(CHSH_APPLY);
+	if (name(sh(arg1)) != prokhd)
+		failer(CHSH_APPLY);
 #endif
-			
-			if (varparam.present) {
-				/* add a declaration for variable parameters */
-				arg2 = add_exp_list(arg2, varparam.val, arg2.number+1);
-				varhack =1;
-			}
-			
-			clear_exp_list(arg2);
-			
-			
-			if (name(arg1) == name_tag && isglob(son(arg1)) &&
-				!isvar(son(arg1)))
-			{speci sp;
-			/* check for substitutions for certain global procedures */
-			sp = special_fn(arg1, arg2.start, result_shape);
-			if (sp.is_special)
-				return sp.special_exp;
-			};
-			
-			if (arg2.number==0)
-			{setfather(res, arg1);}
-			else
-			{
-				clearlast(arg1);
-				bro(arg1) = arg2.start;
-				setfather(res, arg2.end);
+	
+	if (varparam.present) {
+		/* add a declaration for variable parameters */
+		arg2 = add_exp_list(arg2, varparam.val, arg2.number+1);
+		varhack =1;
+	}
+	
+	clear_exp_list(arg2);
+	
+	
+	if (name(arg1) == name_tag && isglob(son(arg1)) &&
+		!isvar(son(arg1)))
+	{
+		speci sp;
+		/* check for substitutions for certain global procedures */
+		sp = special_fn(arg1, arg2.start, result_shape);
+		if (sp.is_special)
+			return sp.special_exp;
+	};
+	
+	if (arg2.number==0)
+	{setfather(res, arg1);}
+	else
+	{
+		clearlast(arg1);
+		bro(arg1) = arg2.start;
+		setfather(res, arg2.end);
 #ifdef promote_pars
-				promote_actuals(bro(son(res)));
+		promote_actuals(bro(son(res)));
 #endif
-			};
-			
-			/* rewrite struct/union value parameters as pointer-to-copy */
-			if (redo_structparams && arg2.number > 0)       /* has >0 params */
-			{
-				exp param, prev;
-				
-				prev = arg1;
-				param = bro(arg1);
-				
-				while (1 /*"break" below*/)
-				{
-					if ((varhack && last(param)) ||
+	};
+	
+	/* rewrite struct/union value parameters as pointer-to-copy */
+	if (redo_structparams && arg2.number > 0)       /* has >0 params */
+	{
+		exp param, prev;
+		
+		prev = arg1;
+		param = bro(arg1);
+		
+		while (1 /*"break" below*/)
+		{
+			if ((varhack && last(param)) ||
 #if ishppa
-						((name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
-						  name(sh(param)) == doublehd) &&
-						 (shape_size(sh(param))>64)))
+				((name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
+				  name(sh(param)) == doublehd) &&
+				 (shape_size(sh(param))>64)))
 #else
 #if issparc
-						sparccpd(sh(param)))
+				sparccpd(sh(param)))
 #else
-					name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
-						name(sh(param)) == doublehd)
+				name(sh(param)) == cpdhd || name(sh(param)) == nofhd ||
+				name(sh(param)) == doublehd)
 #endif
 #endif
-				{
-					/*
-					 * param IS struct/union-by-value, pass indirectly: make a local
-					 * copy of param and in the parameter list replacce param by
-					 * pointer to the copy.
-					 *
-					 * From:(apply_tag arg1 ...param...)
-					 *
-					 * Make:(new_ident param (apply_tag arg1 .... new_par ...))
-					 *              Where new_par = pointer-to-new_ident
-					 */
-					exp new_par, new_ident;
-					shape ptr_s = f_pointer(f_alignment(sh(param)));
-					
-					/* new_ident: (ident_tag sh=sh(res) no=1 pt=new_par param res) */
-					new_ident =
-						getexp(sh(res), bro(res), (int)last(res), param, nilexp, 0, 1,
-							   ident_tag);
-					
-					setvar(new_ident);      /* taking its address below*/
-					
-					/* new_par: (name_tag sh=ptr_s pt=0 new_ident) */
-					new_par =
-						getexp(ptr_s, bro(param), (bool)last(param), new_ident, nilexp, 0, 0,
-							   name_tag);
-					pt(new_ident) = new_par; /* use of new new_ident by new_par*/
-					setlastuse(new_par);    /* ... is last-and-only use of new_ident */
-					
-					/* install res as body of new_ident */
-					clearlast(param);
-					bro(param) = res;
-					
-					setlast(res);
-					bro(res) = new_ident;
-					
-					bro(prev) = new_par;
-					
-					res = new_ident;        /* all done */
-					
-					/* iteration */
-					if (last(new_par))
-						break;
-					
-					param = bro(new_par);
-					prev = new_par;
-				}
+			{
+				/*
+				 * param IS struct/union-by-value, pass indirectly: make a local
+				 * copy of param and in the parameter list replacce param by
+				 * pointer to the copy.
+				 *
+				 * From:(apply_tag arg1 ...param...)
+				 *
+				 * Make:(new_ident param (apply_tag arg1 .... new_par ...))
+				 *              Where new_par = pointer-to-new_ident
+				 */
+				exp new_par, new_ident;
+				shape ptr_s = f_pointer(f_alignment(sh(param)));
+				
+				/* new_ident: (ident_tag sh=sh(res) no=1 pt=new_par param res) */
+				new_ident =
+					getexp(sh(res), bro(res), (int)last(res), param, nilexp, 0, 1,
+						   ident_tag);
+				
+				setvar(new_ident);      /* taking its address below*/
+				
+				/* new_par: (name_tag sh=ptr_s pt=0 new_ident) */
+				new_par =
+					getexp(ptr_s, bro(param), (bool)last(param), new_ident, nilexp, 0, 0,
+						   name_tag);
+				pt(new_ident) = new_par; /* use of new new_ident by new_par*/
+				setlastuse(new_par);    /* ... is last-and-only use of new_ident */
+				
+				/* install res as body of new_ident */
+				clearlast(param);
+				bro(param) = res;
+				
+				setlast(res);
+				bro(res) = new_ident;
+				
+				bro(prev) = new_par;
+				
+				res = new_ident;        /* all done */
+				
+				/* iteration */
+				if (last(new_par))
+					break;
+				
+				param = bro(new_par);
+				prev = new_par;
+			}
 			else
 			{
 				/* iteration */
 				if (last(param))
 					break;
-				
+
 				prev = param;
 				param = bro(param);
 			}
 		}
-};
-
-
-/* apply this transformation if the procedure has a structure-like
- *        result and we want to make a new first parameter which is
- *        a reference to where the result is to go. */
-if (redo_structfns && !reg_result(result_shape))
-{
-	/* replace f(x) by {var r; f(r, x); cont(r)} */
-	exp init, vardec, cont, contname, seq, app, appname, t;
-	exp_list list;
-	shape ptr_res_shape = f_pointer(f_alignment(result_shape));
-	
-	init = getexp(result_shape, nilexp, 0, nilexp, nilexp,
-				  0, 0, clear_tag);
-	vardec = getexp(result_shape, nilexp, 0, init, nilexp,
-					0, 1, ident_tag);
-	setvar(vardec);
-	contname = getexp(ptr_res_shape, nilexp, 0,
-					  vardec, nilexp, 0, 0, name_tag);
-	pt(vardec) = contname;
-	cont = f_contents(result_shape, contname);
-	appname = getexp(ptr_res_shape, bro(son(res)), 0,
-					 vardec, contname, 0, 0, name_tag);
-	++no(vardec);
-	pt(vardec) = appname;
-	app = getexp(f_top, nilexp, 0, son(res), nilexp, 0, 32,
-				 apply_tag);
-	if (last(son(res)))
-	{
-        clearlast(son(res));
-        setlast(appname);
-        bro(appname) = app;
 	};
-	bro(son(res)) = appname;
-	t = son(app);
-	list.number = 1;
-	while (!last(t))
+
+
+	/* apply this transformation if the procedure has a structure-like
+	 *        result and we want to make a new first parameter which is
+	 *        a reference to where the result is to go. */
+	if (redo_structfns && !reg_result(result_shape))
 	{
-        t = bro(t);
+		/* replace f(x) by {var r; f(r, x); cont(r)} */
+		exp init, vardec, cont, contname, seq, app, appname, t;
+		exp_list list;
+		shape ptr_res_shape = f_pointer(f_alignment(result_shape));
+
+		init = getexp(result_shape, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
+		vardec = getexp(result_shape, nilexp, 0, init, nilexp, 0, 1, ident_tag);
+		setvar(vardec);
+		contname = getexp(ptr_res_shape, nilexp, 0,
+						  vardec, nilexp, 0, 0, name_tag);
+		pt(vardec) = contname;
+		cont = f_contents(result_shape, contname);
+		appname = getexp(ptr_res_shape, bro(son(res)), 0,
+						 vardec, contname, 0, 0, name_tag);
+		++no(vardec);
+		pt(vardec) = appname;
+		app = getexp(f_top, nilexp, 0, son(res), nilexp, 0, 32, apply_tag);
+		if (last(son(res)))
+		{
+			clearlast(son(res));
+			setlast(appname);
+			bro(appname) = app;
+		};
+		bro(son(res)) = appname;
+		t = son(app);
+		list.number = 1;
+		while (!last(t))
+		{
+			t = bro(t);
+		};
+		bro(t) = app;
+		list.start = app;
+		list.end = app;
+		seq = f_sequence(list, cont);
+		bro(init) = seq;
+		setfather(vardec, seq);
+		retcell(res);
+		return vardec;
 	};
-	bro(t) = app;
-	list.start = app;
-	list.end = app;
-	seq = f_sequence(list, cont);
-	bro(init) = seq;
-	setfather(vardec, seq);
-	retcell(res);
-	return vardec;
-};
 
 
-return res;
+	return res;
 }
 
 exp
 f_assign(exp arg1, exp arg2)
 {
-if (name(sh(arg1)) == bothd)
-{ kill_exp(arg2,arg2); return arg1; }
- if (name(sh(arg2)) == bothd)
- { kill_exp(arg1,arg1); return arg2; }
- 
- 
- return me_b3(f_top, arg1, arg2, ass_tag);
+	if (name(sh(arg1)) == bothd)
+	{ kill_exp(arg2,arg2); return arg1; }
+	if (name(sh(arg2)) == bothd)
+	{ kill_exp(arg1,arg1); return arg2; }
+
+
+	return me_b3(f_top, arg1, arg2, ass_tag);
 }
 
 exp
@@ -1309,12 +1305,12 @@ f_assign_with_mode(transfer_mode md, exp arg1,
 #endif
 	if ((md & f_volatile)!=0)
 		return me_b3(f_top, arg1, arg2, assvol_tag);
+	else if ((md & f_overlap) &&
+		(name(arg2) == cont_tag || name(arg2) == contvol_tag) &&
+		! reg_result(sh(arg2)))
+		return f_move_some(md, son(arg2), arg1,f_shape_offset(sh(arg2)));
 	else
-		if ((md & f_overlap) &&
-			(name(arg2) == cont_tag || name(arg2) == contvol_tag) &&
-			! reg_result(sh(arg2)))
-			return f_move_some(md, son(arg2), arg1,f_shape_offset(sh(arg2)));
-		else return me_b3(f_top, arg1, arg2, ass_tag);
+		return me_b3(f_top, arg1, arg2, ass_tag);
 }
 
 exp
@@ -1783,17 +1779,15 @@ f_change_variety(error_treatment ov_err, variety r,
 							   (ss)?"__TDFUsuwiden":"__TDFUuuwiden", r);
 			return z;
 		}
-		else
-			if (name(r) >= s64hd) {
-				return TDFcallaux(ov_err, e, (sd)?"__TDFUu642s64":"__TDFUs642u64", r);
-			}
-			else {
-				exp e = TDFcallaux(ov_err, arg1,
-								   (sd)?((ss)?"__TDFUssshorten":"__TDFUusshorten"):
-								   (ss)?"__TDFUsushorten":"__TDFUuushorten",
-								   (sd)?slongsh:ulongsh);
-				return 	hold_check(me_c1(f_integer(r),ov_err, e, chvar_tag));
-			}
+		else if (name(r) >= s64hd) {
+			return TDFcallaux(ov_err, e, (sd)?"__TDFUu642s64":"__TDFUs642u64", r);
+		} else {
+			exp e = TDFcallaux(ov_err, arg1,
+							   (sd)?((ss)?"__TDFUssshorten":"__TDFUusshorten"):
+							   (ss)?"__TDFUsushorten":"__TDFUuushorten",
+							   (sd)?slongsh:ulongsh);
+			return 	hold_check(me_c1(f_integer(r),ov_err, e, chvar_tag));
+		}
 		
 	}
 #endif
@@ -1972,35 +1966,30 @@ div_rem(error_treatment div0_err, error_treatment ov_err,
 	if (eq_et(div0_err, ov_err) || eq_et(ov_err, f_impossible)) {
 		return f(div0_err, arg1, arg2);
 	}
-	else
-		if (eq_et(div0_err, f_impossible)) {
-			return f(ov_err, arg1, arg2);
+	else if (eq_et(div0_err, f_impossible)) {
+		return f(ov_err, arg1, arg2);
+	} else {
+		exp da2 = me_startid(sh(arg1), arg2, 0);
+		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0, labst_tag);
+		exp tst = f_integer_test(no_nat_option, f_equal, &lb,
+								 me_obtain(da2), me_shint(sh(arg2), 0));
+		exp_list st;
+		exp wrong;
+		st = new_exp_list(1);
+		st = add_exp_list(st,tst,0);
+		if (div0_err.err_code == 4) {
+			wrong = f_goto(div0_err.jmp_dest);
+		} else if (div0_err.err_code > 4) {
+			wrong = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+						   f_overflow, trap_tag);
+		} else {
+			wrong = me_shint(sh(arg1), 0);
 		}
-		else {
-			exp da2 = me_startid(sh(arg1), arg2, 0);
-			exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-			exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0, labst_tag);
-			exp tst = f_integer_test(no_nat_option, f_equal, &lb,
-									 me_obtain(da2), me_shint(sh(arg2), 0));
-			exp_list st;
-			exp wrong;
-			st = new_exp_list(1);
-			st = add_exp_list(st,tst,0);
-			if (div0_err.err_code == 4) {
-				wrong = f_goto(div0_err.jmp_dest);
-			}
-			else
-				if (div0_err.err_code > 4) {
-					wrong = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
-								   f_overflow, trap_tag);
-				}
-				else {
-					wrong = me_shint(sh(arg1), 0);
-				}
-			return me_complete_id(da2,
-								  f_conditional(&lb, f_sequence(st, wrong),
-												f(ov_err, arg1, me_obtain(da2))));
-		}
+		return me_complete_id(da2,
+							  f_conditional(&lb, f_sequence(st, wrong),
+											f(ov_err, arg1, me_obtain(da2))));
+	}
 }
 
 exp
@@ -2250,19 +2239,20 @@ f_labelled(label_list placelabs_intro, exp starter,
 	clear_exp_list(places);
 	
 	for (i=0; i<places.number; ++i)
-	{exp labst = get_lab(placelabs_intro.elems[i]);
-    b = bro(f);
-	
-    setbro(son(labst), f);
-    setbro(f, labst);
-    setlast(f);
-    setsh(labst, sh(f));
-    if (name(starter) == case_tag ||
-		(name(starter) == seq_tag && name(son(son(starter))) == case_tag))
-		fno(labst) = (float)(1.0/places.number);
-    else
-		fno(labst) = (float)5.0;
-    f = b;
+	{
+		exp labst = get_lab(placelabs_intro.elems[i]);
+		b = bro(f);
+		
+		setbro(son(labst), f);
+		setbro(f, labst);
+		setlast(f);
+		setsh(labst, sh(f));
+		if (name(starter) == case_tag ||
+			(name(starter) == seq_tag && name(son(son(starter))) == case_tag))
+			fno(labst) = (float)(1.0/places.number);
+		else
+			fno(labst) = (float)5.0;
+		f = b;
 	};
 	return (clean_labelled(starter, placelabs_intro));
 }
@@ -2636,21 +2626,24 @@ f_make_nof_int(variety v, string s)
 	{
 		switch (elem_sz)
 		{
-		case 8: nostr(res) = (char*)s.ints.chars;
+		case 8:
+			nostr(res) = (char*)s.ints.chars;
 			return res;
-		case 16:{short * ss =
-					 (short*)xcalloc(s.number, sizeof(short));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (short)(unsigned char)s.ints.chars[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
+		case 16:
+		{
+			short * ss = (short*)xcalloc(s.number, sizeof(short));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (short)(unsigned char)s.ints.chars[i];
+			nostr(res) = (char*) (void*)ss;
+			return res;
 		};
-		case 32:{int * ss =
-					 (int*)xcalloc(s.number, sizeof(int));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (int)(unsigned char)s.ints.chars[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
+		case 32:
+		{
+			int * ss = (int*)xcalloc(s.number, sizeof(int));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (int)(unsigned char)s.ints.chars[i];
+			nostr(res) = (char*) (void*)ss;
+			return res;
 		};
 		};
 	};
@@ -2658,21 +2651,24 @@ f_make_nof_int(variety v, string s)
 	{
 		switch (elem_sz)
 		{
-		case 8:{char * ss =
-					(char*)xcalloc(s.number, sizeof(char));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (char)(unsigned short)s.ints.shorts[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
-		};
-		case 16: nostr(res) = (char*) (void*)s.ints.shorts;
+		case 8:
+		{
+			char * ss = (char*)xcalloc(s.number, sizeof(char));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (char)(unsigned short)s.ints.shorts[i];
+			nostr(res) = (char*) (void*)ss;
 			return res;
-		case 32:{int * ss =
-					 (int*)xcalloc(s.number, sizeof(int));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (int)(unsigned short)s.ints.shorts[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
+		};
+		case 16:
+			nostr(res) = (char*) (void*)s.ints.shorts;
+			return res;
+		case 32:
+		{
+			int * ss = (int*)xcalloc(s.number, sizeof(int));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (int)(unsigned short)s.ints.shorts[i];
+			nostr(res) = (char*) (void*)ss;
+			return res;
 		};
 		};
 	};
@@ -2680,21 +2676,24 @@ f_make_nof_int(variety v, string s)
 	{
 		switch (elem_sz)
 		{
-		case 8:{char * ss =
-					(char*)xcalloc(s.number, sizeof(char));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (char)(unsigned long)s.ints.longs[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
+		case 8:
+		{
+			char * ss = (char*)xcalloc(s.number, sizeof(char));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (char)(unsigned long)s.ints.longs[i];
+			nostr(res) = (char*) (void*)ss;
+			return res;
 		};
-		case 16:{short * ss =
-					 (short*)xcalloc(s.number, sizeof(short));
-		for (i = 0; i < s.number; ++i)
-			ss[i] = (short)(unsigned long)s.ints.longs[i];
-		nostr(res) = (char*) (void*)ss;
-		return res;
+		case 16:
+		{
+			short * ss = (short*)xcalloc(s.number, sizeof(short));
+			for (i = 0; i < s.number; ++i)
+				ss[i] = (short)(unsigned long)s.ints.longs[i];
+			nostr(res) = (char*) (void*)ss;
+			return res;
 		};
-		case 32: nostr(res) = (char*)(void*)s.ints.longs;
+		case 32:
+			nostr(res) = (char*)(void*)s.ints.longs;
 			return res;
 		};
 	};
@@ -2945,59 +2944,279 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 #endif
 #endif
 		
-		{
-			/*
-			 * Param IS struct/union-by-value.  Incoming acutal parameter
-			 * will have been changed to be ptr-to expected value (see
-			 * f_apply_proc()), so adjust usage in body.
-			 */
-			exp use;                /* use of ident in pt() chain */
-			exp prev;               /* previous use in pt() chain */
-			exp eo = nilexp;
-			shape ptr_s = f_pointer(f_alignment(sh(son(param))));
-			
-#if ishppa
-			/* modify parameter itself */
-			if (!varhack)
 			{
-				exp obtain_param;
-				exp assign;
-				shape sha=sh(son(param));
-				t=me_obtain(param);
-				if (uses_crt_env)
+				/*
+				 * Param IS struct/union-by-value.  Incoming acutal parameter
+				 * will have been changed to be ptr-to expected value (see
+				 * f_apply_proc()), so adjust usage in body.
+				 */
+				exp use;                /* use of ident in pt() chain */
+				exp prev;               /* previous use in pt() chain */
+				exp eo = nilexp;
+				shape ptr_s = f_pointer(f_alignment(sh(son(param))));
+				
+#if ishppa
+				/* modify parameter itself */
+				if (!varhack)
 				{
-					eo = f_env_offset(frame_alignment,f_parameter_alignment(ptr_s),brog(param));
-					obtain_param = f_add_to_ptr(f_current_env(), eo);
+					exp obtain_param;
+					exp assign;
+					shape sha=sh(son(param));
+					t=me_obtain(param);
+					if (uses_crt_env)
+					{
+						eo = f_env_offset(frame_alignment,f_parameter_alignment(ptr_s),brog(param));
+						obtain_param = f_add_to_ptr(f_current_env(), eo);
+					}
+					id=me_startid(f_top,me_u3(sha,t,cont_tag),1);
+					ptr=me_startid(f_top,me_obtain(id),0);
+					if (uses_crt_env)
+					{
+						assign = f_assign(obtain_param, me_obtain(id));
+						body = f_sequence(add_exp_list(new_exp_list(1),assign, 0), body);
+					}
+					clearlast(son(ptr));
+					bro(son(ptr))=body;
+					setlast(body);
+					bro(body)=ptr;
+					sh(ptr)=sh(body);
+					body=id;
+					clearlast(son(id));
+					bro(son(id)) = ptr;
+					setlast(ptr);
+					bro(ptr) = id;
+					sh(id) = sh(ptr);
+					bro(params_intro.last_def) = body;
+					setlast(body);
+					bro(body) = param;
 				}
-				id=me_startid(f_top,me_u3(sha,t,cont_tag),1);
-				ptr=me_startid(f_top,me_obtain(id),0);
-				if (uses_crt_env)
-				{
-					assign = f_assign(obtain_param, me_obtain(id));
-					body = f_sequence(add_exp_list(new_exp_list(1),assign, 0), body);
-				}
-				clearlast(son(ptr));
-				bro(son(ptr))=body;
-				setlast(body);
-				bro(body)=ptr;
-				sh(ptr)=sh(body);
-				body=id;
-				clearlast(son(id));
-				bro(son(id)) = ptr;
-				setlast(ptr);
-				bro(ptr) = id;
-				sh(id) = sh(ptr);
-				bro(params_intro.last_def) = body;
-				setlast(body);
-				bro(body) = param;
-			}
 #endif
-			
-			/* visit each use of the parameter modifying appropriately*/
-			for (prev = param, use = pt(prev);
-				 use != nilexp;
-				 prev = use, use = pt(prev))
-				if (!uses_crt_env || (uses_crt_env && use != eo))
+				
+				/* visit each use of the parameter modifying appropriately*/
+				for (prev = param, use = pt(prev);
+					 use != nilexp;
+					 prev = use, use = pt(prev))
+					if (!uses_crt_env || (uses_crt_env && use != eo))
+					{
+						if (!isvar(param))    /* add cont */
+						{
+							exp new_use =
+								getexp(ptr_s,
+									   use, (bool)1, son(use), pt(use), props(use), 0, name_tag);
+							son(use) = new_use;
+							pt(prev) = new_use;
+							pt(use) = nilexp;
+							props(use) = (prop)0;
+							setname(use, cont_tag); /* retain same no and sh */
+							
+							use = new_use;
+						}
+						
+						if (no(use) > 0)      /* add reff */
+						{
+							exp new_use =
+								getexp(ptr_s,
+									   use, (bool)1, son(use), pt(use), props(use), 0, name_tag);
+							son(use) = new_use;
+							pt(prev) = new_use;
+							pt(use) = nilexp;
+							props(use) = (prop)0;
+							setname(use, reff_tag); /* retain same no and sh */
+							
+							use = new_use;
+						}
+					} /* for */
+				
+#if ishppa
+				if (!varhack)
+				{
+					/* Change all but ptr's references to param to references to ptr */
+					for (use = pt(param); use != nilexp; use = pt(use))
+					{
+						if ((son(use)==param) && (use!=son(son(id)))
+							&& (!uses_crt_env || (uses_crt_env && use != eo)))
+							son(use)=ptr;
+					}
+					pt(ptr)=pt(param);
+				}
+#endif
+				
+				/* modify parameter itself */
+				if (isenvoff(param)) {
+					props(param) = (prop)0;
+					setvis(param);
+				}
+				else { props(param) = (prop)0; }
+				setparam(param);
+				setcaonly(param);
+				if (varhack) { setvis(param); }
+				setsh(son(param), ptr_s);
+			} /* if redo... */
+			varhack = 0;
+			IGNORE check_id(param, param);   /* apply check_id to the parameters */
+		} /* for */
+	}
+
+	if (proc_struct_result != nilexp)
+	{
+		bro(son(proc_struct_result)) = son(res);
+		setfather(proc_struct_result, son(res));
+		son(res) = proc_struct_result;
+		setfather(res, proc_struct_result);
+	};
+
+	/* clear this flag to distinguish values created during procedure
+	 *       reading.
+	 */
+	in_proc_def = 0;
+
+	pop_proc_props();
+
+	if (old_proc_props != (proc_props *)0 || rep_make_proc) {
+		dec * extra_dec = make_extra_dec(make_local_name(), 0, 0, res, f_proc);
+		exp e = extra_dec -> dec_u.dec_val.dec_exp;
+		res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
+		pt(e) = res;
+		no(e) = 1;
+	};
+
+
+	return res;
+}
+
+procprops crt_procprops;
+
+void
+start_make_general_proc(shape result_shape,
+	procprops prcprops, tagshacc_list caller_intro,
+	tagshacc_list callee_intro)
+{
+	/* initialise global flags which are used at the end of the
+	 *       reading process in f_make_proc */
+
+	push_proc_props();
+
+	proc_struct_result = nilexp;
+	has_alloca = 0;
+	proc_is_recursive = 0;
+	uses_crt_env = 0;
+	has_setjmp = 0;
+	uses_loc_address = 0;
+	proc_label_count = 0;
+	proc_struct_res = 0;
+	default_freq = 1.0;
+	frame_alignment = f_unite_alignments(f_locals_alignment,
+	  f_callers_alignment((prcprops & f_var_callers) !=0));
+	frame_alignment =  f_unite_alignments(frame_alignment,
+	  f_callees_alignment((prcprops & f_var_callees) !=0));
+
+	proc_externs = 0;
+	/* set this flag to distinguish values created during procedure
+	 *       reading.
+	 */
+	in_proc_def = 1;
+	crt_procprops = prcprops;
+	return;
+}
+
+exp
+f_make_general_proc(shape result_shape, procprops prcprops,
+	tagshacc_list caller_intro, tagshacc_list callee_intro,
+	exp body)
+{
+	exp res;
+#if check_shape
+	if (name(sh(body)) != bothd)
+		failer(CHSH_MAKE_PROC);
+#endif
+	res = getexp(f_proc, nilexp, 0, caller_intro.id, result_shape,
+				 0, 0,   general_proc_tag);
+	
+	if (caller_intro.number == 0 && callee_intro.number == 0) {
+		son(res) = body;
+		setlast(body);
+		bro(body) = res;
+	} else if (callee_intro.number == 0) {
+		bro(son(res)) = res;
+		bro(caller_intro.last_def) = body;
+		setlast(body);
+		bro(body) = caller_intro.last_id;
+	} else {
+		int i;
+		exp z = callee_intro.id;
+		for (i=0; i<callee_intro.number; i++) {
+			set_callee(z);
+			z = bro(son(z));
+		}
+		if (caller_intro.number !=0) {
+			bro(caller_intro.last_def) = callee_intro.id;
+			bro(callee_intro.id) = caller_intro.last_id; /*???*/
+		} else {
+			son(res) = callee_intro.id;
+		}
+		bro(son(res)) = res;
+		bro(callee_intro.last_def) = body;
+		setlast(body);
+		bro(body) = callee_intro.last_id;
+	}
+	
+#ifdef promote_pars
+	promote_formals(son(res));
+#endif
+	/* set the properties of the procedure construction from the
+	 *        global values accumulated during reading.
+	 *        WE OUGHT TO POP THE OLD VALUES.
+     */
+	if (has_alloca)
+		set_proc_has_alloca(res);
+	if (proc_is_recursive)
+		setrecursive(res);
+	if (has_lv)
+		set_proc_has_lv(res);
+	if (uses_crt_env)
+		set_proc_uses_crt_env(res);
+	if (has_setjmp)
+		set_proc_has_setjmp(res);
+	if (uses_loc_address)
+		set_loc_address(res);
+	if (proc_struct_res)
+		set_struct_res(res);
+	if (proc_externs)
+		set_proc_uses_external(res);
+	
+	if (caller_intro.number !=0)
+	{
+		bool varhack = 0;
+		exp param;
+		for (param = caller_intro.last_id; param != res; param = bro(param))
+		{
+			if (redo_structparams && !varhack &&
+#if ishppa
+				shape_size(sh(son(param))) > 64)
+#else
+				(name(sh(son(param))) == cpdhd ||name(sh(son(param))) == nofhd ||
+#if issparc
+				 sparccpd(sh(son(param))) ||
+#endif
+				 
+				 name(sh(son(param))) == doublehd))
+#endif
+			{
+				/*
+				 * Param IS struct/union-by-value.  Incoming acutal parameter
+				 * will have been changed to be ptr-to expected value (see
+				 * f_apply_proc()), so adjust usage in body.
+				 */
+				exp use;                /* use of ident in pt() chain */
+				exp prev;               /* previous use in pt() chain */
+				
+				shape ptr_s = f_pointer(f_alignment(sh(son(param))));
+				int mustbevis;
+				
+				/* visit each use of the parameter modifying appropriately*/
+				for (prev = param, use = pt(prev);
+					 use != nilexp;
+					 prev = use, use = pt(prev))
 				{
 					if (!isvar(param))    /* add cont */
 					{
@@ -3027,306 +3246,83 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 						use = new_use;
 					}
 				} /* for */
-			
-#if ishppa
-			if (!varhack)
-			{
-				/* Change all but ptr's references to param to references to ptr */
-				for (use = pt(param); use != nilexp; use = pt(use))
-				{
-					if ((son(use)==param) && (use!=son(son(id)))
-						&& (!uses_crt_env || (uses_crt_env && use != eo)))
-						son(use)=ptr;
-				}
-				pt(ptr)=pt(param);
-			}
-#endif
-			
-			/* modify parameter itself */
-			if (isenvoff(param)) {
-				props(param) = (prop)0;
-				setvis(param);
-			}
-			else { props(param) = (prop)0; }
-			setparam(param);
-			setcaonly(param);
-			if (varhack) { setvis(param); }
-			setsh(son(param), ptr_s);
-		} /* if redo... */
-	varhack = 0;
-	IGNORE check_id(param, param);   /* apply check_id to the parameters */
-} /* for */
-}
-
-if (proc_struct_result != nilexp)
-{
-bro(son(proc_struct_result)) = son(res);
-setfather(proc_struct_result, son(res));
-son(res) = proc_struct_result;
-setfather(res, proc_struct_result);
-};
-
-/* clear this flag to distinguish values created during procedure
- *       reading.
- */
-in_proc_def = 0;
-
-pop_proc_props();
-
-if (old_proc_props != (proc_props *)0 || rep_make_proc) {
-dec * extra_dec = make_extra_dec(make_local_name(), 0, 0, res, f_proc);
-exp e = extra_dec -> dec_u.dec_val.dec_exp;
-res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
-pt(e) = res;
-no(e) = 1;
-};
-
-
-return res;
-}
-
-procprops crt_procprops;
-
-void
-start_make_general_proc(shape result_shape,
-	procprops prcprops, tagshacc_list caller_intro,
-	tagshacc_list callee_intro)
-{
-/* initialise global flags which are used at the end of the
- *       reading process in f_make_proc */
-
-push_proc_props();
-
-proc_struct_result = nilexp;
-has_alloca = 0;
-proc_is_recursive = 0;
-uses_crt_env = 0;
-has_setjmp = 0;
-uses_loc_address = 0;
-proc_label_count = 0;
-proc_struct_res = 0;
-default_freq = 1.0;
-frame_alignment = f_unite_alignments(f_locals_alignment,
-	f_callers_alignment((prcprops & f_var_callers) !=0));
-frame_alignment =  f_unite_alignments(frame_alignment,
-	f_callees_alignment((prcprops & f_var_callees) !=0));
-
-proc_externs = 0;
-/* set this flag to distinguish values created during procedure
- *       reading.
- */
-in_proc_def = 1;
-crt_procprops = prcprops;
-return;
-}
-
-exp
-f_make_general_proc(shape result_shape, procprops prcprops,
-	tagshacc_list caller_intro, tagshacc_list callee_intro,
-	exp body)
-{
-	exp res;
-#if check_shape
-	if (name(sh(body)) != bothd)
-		failer(CHSH_MAKE_PROC);
-#endif
-	res = getexp(f_proc, nilexp, 0, caller_intro.id, result_shape,
-				 0, 0,   general_proc_tag);
-	
-	if (caller_intro.number == 0 && callee_intro.number == 0) {
-		son(res) = body;
-		setlast(body);
-		bro(body) = res;
-	}
-	else
-		if (callee_intro.number == 0) {
-			bro(son(res)) = res;
-			bro(caller_intro.last_def) = body;
-			setlast(body);
-			bro(body) = caller_intro.last_id;
-		}
-		else {
-			int i;
-			exp z = callee_intro.id;
-			for (i=0; i<callee_intro.number; i++) {
-				set_callee(z);
-				z = bro(son(z));
-			}
-			if (caller_intro.number !=0) {
-				bro(caller_intro.last_def) = callee_intro.id;
-				bro(callee_intro.id) = caller_intro.last_id; /*???*/
-			}
-			else {
-				son(res) = callee_intro.id;
-			}
-			bro(son(res)) = res;
-			bro(callee_intro.last_def) = body;
-			setlast(body);
-			bro(body) = callee_intro.last_id;
-		}
-	
-#ifdef promote_pars
-	promote_formals(son(res));
-#endif
-	/* set the properties of the procedure construction from the
-	 *        global values accumulated during reading.
-	 *        WE OUGHT TO POP THE OLD VALUES.
-     */
-	if (has_alloca)
-		set_proc_has_alloca(res);
-	if (proc_is_recursive)
-		setrecursive(res);
-	if (has_lv)
-		set_proc_has_lv(res);
-	if (uses_crt_env)
-		set_proc_uses_crt_env(res);
-	if (has_setjmp)
-		set_proc_has_setjmp(res);
-	if (uses_loc_address)
-		set_loc_address(res);
-	if (proc_struct_res)
-		set_struct_res(res);
-	if (proc_externs)
-		set_proc_uses_external(res);
-	
-	if (caller_intro.number !=0)
-	{ bool varhack = 0;
-    exp param;
-    for (param = caller_intro.last_id; param != res; param = bro(param))
-    {
-		if (redo_structparams && !varhack &&
-#if ishppa
-			shape_size(sh(son(param))) > 64)
-#else
-			(name(sh(son(param))) == cpdhd ||name(sh(son(param))) == nofhd ||
-#if issparc
-			 sparccpd(sh(son(param))) ||
-#endif
-			 
-			 name(sh(son(param))) == doublehd))
-#endif
-		{
-			/*
-			 * Param IS struct/union-by-value.  Incoming acutal parameter
-			 * will have been changed to be ptr-to expected value (see
-			 * f_apply_proc()), so adjust usage in body.
-			 */
-			exp use;                /* use of ident in pt() chain */
-			exp prev;               /* previous use in pt() chain */
-			
-			shape ptr_s = f_pointer(f_alignment(sh(son(param))));
-			int mustbevis;
-			
-			/* visit each use of the parameter modifying appropriately*/
-			for (prev = param, use = pt(prev);
-				 use != nilexp;
-				 prev = use, use = pt(prev))
-			{
-				if (!isvar(param))    /* add cont */
-				{
-					exp new_use =
-						getexp(ptr_s,
-							   use, (bool)1, son(use), pt(use), props(use), 0, name_tag);
-					son(use) = new_use;
-					pt(prev) = new_use;
-					pt(use) = nilexp;
-					props(use) = (prop)0;
-					setname(use, cont_tag); /* retain same no and sh */
-					
-					use = new_use;
-				}
 				
-				if (no(use) > 0)      /* add reff */
-				{
-					exp new_use =
-						getexp(ptr_s,
-							   use, (bool)1, son(use), pt(use), props(use), 0, name_tag);
-					son(use) = new_use;
-					pt(prev) = new_use;
-					pt(use) = nilexp;
-					props(use) = (prop)0;
-					setname(use, reff_tag); /* retain same no and sh */
-					
-					use = new_use;
+				/* modify parameter itself */
+				mustbevis = isenvoff(param);
+				if (isoutpar(param)) {
+					props(param) = (prop)0;
+					setoutpar(param);
 				}
-			} /* for */
-			
-			/* modify parameter itself */
-			mustbevis = isenvoff(param);
-			if (isoutpar(param)) {
-				props(param) = (prop)0;
-				setoutpar(param);
-			}
-			else props(param) = (prop)0;
-			if (mustbevis) { setvis(param); }
-			setparam(param);
-			setcaonly(param);
-			setsh(son(param), ptr_s);
-		} /* if redo... */
-	varhack = 0;
-	IGNORE check_id(param, param);   /* apply check_id to the caller parameters */
-    } /* for */
-}
+				else props(param) = (prop)0;
+				if (mustbevis) { setvis(param); }
+				setparam(param);
+				setcaonly(param);
+				setsh(son(param), ptr_s);
+			} /* if redo... */
+			varhack = 0;
+			IGNORE check_id(param, param);   /* apply check_id to the caller parameters */
+		} /* for */
+	}
 
-if (callee_intro.number !=0)
-{
-    exp param= callee_intro.last_id;
-    int i;
-	
-    for (i=callee_intro.number; i!=0; param = father(param), i--)
-    {
-		
-		IGNORE check_id(param, param);   /* apply check_id to the callee parameters */
-    } /* for */
-}
+	if (callee_intro.number !=0)
+	{
+		exp param= callee_intro.last_id;
+		int i;
 
-if (redo_structfns && !reg_result(result_shape)) {
-	if (proc_struct_result==nilexp){
-		exp init = getexp(f_pointer(f_alignment(result_shape)),
-						  nilexp, 0, nilexp, nilexp,
-						  0, 0, clear_tag);
-		exp iddec = getexp(sh(son(res)), nilexp, 0, init, nilexp,
-						   0, 0, ident_tag);
-		setparam(iddec);
-		proc_struct_result = iddec;
+		for (i=callee_intro.number; i!=0; param = father(param), i--)
+		{
+
+			IGNORE check_id(param, param);   /* apply check_id to the callee parameters */
+		} /* for */
+	}
+
+	if (redo_structfns && !reg_result(result_shape)) {
+		if (proc_struct_result==nilexp){
+			exp init = getexp(f_pointer(f_alignment(result_shape)),
+			  nilexp, 0, nilexp, nilexp,
+			  0, 0, clear_tag);
+			exp iddec = getexp(sh(son(res)), nilexp, 0, init, nilexp,
+			  0, 0, ident_tag);
+			setparam(iddec);
+			proc_struct_result = iddec;
+		};
+
+		bro(son(proc_struct_result)) = son(res);
+		setfather(proc_struct_result, son(res));
+		son(res) = proc_struct_result;
+		setfather(res, proc_struct_result);
 	};
-	
-	bro(son(proc_struct_result)) = son(res);
-	setfather(proc_struct_result, son(res));
-	son(res) = proc_struct_result;
-	setfather(res, proc_struct_result);
-};
 
-/* clear this flag to distinguish values created during procedure
- *       reading.
- */
-in_proc_def = 0;
+	/* clear this flag to distinguish values created during procedure
+	 *       reading.
+	 */
+	in_proc_def = 0;
 
-set_make_procprops(res,prcprops);
+	set_make_procprops(res,prcprops);
 
-pop_proc_props();
-if (old_proc_props != (proc_props *)0 || rep_make_proc) {
-    dec * extra_dec = make_extra_dec(make_local_name(), 0, 0, res, f_proc);
-    exp e = extra_dec -> dec_u.dec_val.dec_exp;
-    res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
-    pt(e) = res;
-    no(e) = 1;
-};
+	pop_proc_props();
+	if (old_proc_props != (proc_props *)0 || rep_make_proc) {
+		dec * extra_dec = make_extra_dec(make_local_name(), 0, 0, res, f_proc);
+		exp e = extra_dec -> dec_u.dec_val.dec_exp;
+		res = getexp (f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
+		pt(e) = res;
+		no(e) = 1;
+	};
 
-return res;
+	return res;
 }
 
 
 exp
 find_caller_id(int n, exp p)
 {
-while (name(p) == ident_tag) {
-if (name(son(p)) == caller_name_tag && no(son(p))==n) {
-return p;
-}
-p = bro(son(p));
-}
-return nilexp;
+	while (name(p) == ident_tag) {
+		if (name(son(p)) == caller_name_tag && no(son(p))==n) {
+			return p;
+		}
+		p = bro(son(p));
+	}
+	return nilexp;
 }
 
 void
@@ -3435,39 +3431,40 @@ f_apply_general_proc(shape result_shape, procprops prcprops,
 	
 	bro(p) = r_p; clearlast(p);
 #ifdef promote_pars
-    {	int i;
-	exp ote = caller_pars.start;
-	for (i = 0; i< caller_pars.number; i++) {
-	    shape s = sh(ote);
-	    if (name(s)>=scharhd && name(s)<=uwordhd) {
-	        shape ns = (is_signed(s))? slongsh:ulongsh;
-			exp par = (name(ote)==caller_tag)?son(ote):ote;
-			exp next = bro(ote);
-			exp id;
-			int l = last(ote);
-	        exp w = hold_check(f_change_variety(f_wrap,ns, copy(par)));
-			if (name(ote)==caller_tag) sh(ote)=ns;
-	        replace(par, w, nilexp);
-	        kill_exp(par, nilexp);
-	    	if (name(ote) == caller_tag &&
-				(id = find_caller_id(i, postlude)) != nilexp) {
-				exp p = pt(id);
-				sh(son(id))=ns;
-				while (p != nilexp) { /* replaces uses in postlude */
-					exp nextp = pt(p);
-					sh(p) = ns;
-					w = f_change_variety(f_wrap, s, copy(p));
-					replace(p, w, nilexp);
-					kill_exp(p, nilexp);
-					p = nextp;
+	{
+		int i;
+		exp ote = caller_pars.start;
+		for (i = 0; i< caller_pars.number; i++) {
+			shape s = sh(ote);
+			if (name(s)>=scharhd && name(s)<=uwordhd) {
+				shape ns = (is_signed(s))? slongsh:ulongsh;
+				exp par = (name(ote)==caller_tag)?son(ote):ote;
+				exp next = bro(ote);
+				exp id;
+				int l = last(ote);
+				exp w = hold_check(f_change_variety(f_wrap,ns, copy(par)));
+				if (name(ote)==caller_tag) sh(ote)=ns;
+				replace(par, w, nilexp);
+				kill_exp(par, nilexp);
+				if (name(ote) == caller_tag &&
+					(id = find_caller_id(i, postlude)) != nilexp) {
+					exp p = pt(id);
+					sh(son(id))=ns;
+					while (p != nilexp) { /* replaces uses in postlude */
+						exp nextp = pt(p);
+						sh(p) = ns;
+						w = f_change_variety(f_wrap, s, copy(p));
+						replace(p, w, nilexp);
+						kill_exp(p, nilexp);
+						p = nextp;
+					}
 				}
+				if (l) break;
+				ote = next;
 			}
-			if (l) break;
-			ote = next;
-	    }
-	    else ote = bro(ote);
+			else ote = bro(ote);
+		}
 	}
-    }
 #endif
 	
 	if (redo_structfns && !reg_result(result_shape))
@@ -4039,13 +4036,12 @@ f_offset_pad(alignment a, exp arg1)
 		top_aldef = ares;
 		sha = f_offset(ares, a);
 	}
+	else if (al1_of(sh(arg1))->al.al_val.al_frame != 0)
+		sha = f_offset(al1_of(sh(arg1)), a);
 	else
-		if (al1_of(sh(arg1))->al.al_val.al_frame != 0)
-			sha = f_offset(al1_of(sh(arg1)), a);
-		else
-			sha = f_offset(long_to_al(max(a->al.al_val.al,
-										  al1(sh(arg1)))),
-						   a);
+		sha = f_offset(long_to_al(max(a->al.al_val.al,
+									  al1(sh(arg1)))),
+					   a);
 	
 	
 	return (me_u3(sha, arg1, offset_pad_tag));
@@ -4547,8 +4543,7 @@ f_shift_left(error_treatment ov_err, exp arg1,
 	}
 #endif
 	
-	if (ov_err.err_code == 4)
-	{
+	if (ov_err.err_code == 4) {
 		exp d1 = me_startid(f_top, arg1, 0);
 		exp d2 = me_startid(f_top, arg2, 0);
 		exp d3 = me_startid(f_top,
@@ -4563,30 +4558,28 @@ f_shift_left(error_treatment ov_err, exp arg1,
 		return me_complete_id(d1,
 							  me_complete_id(d2,
 											 me_complete_id(d3, f_sequence(el, me_obtain(d3)))));
-	}
-	else
-		if (ov_err.err_code > 4) {
-			exp d1 = me_startid(f_top, arg1, 0);
-			exp d2 = me_startid(f_top, arg2, 0);
-			exp d3 = me_startid(f_top,
-								hold_check(f_shift_left(f_impossible, me_obtain(d1),
-														me_obtain(d2))), 0);
-			exp_list el;
-			exp right = hold_check(f_shift_right(me_obtain(d3), me_obtain(d2)));
-			exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, f_overflow,
-							 trap_tag);
-			exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-			exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0, labst_tag);
-			exp test = me_q1(no_nat_option, f_equal, &lb, right,
-							 me_obtain(d1), test_tag);
-			el = new_exp_list(1);
-			el = add_exp_list(el, test, 1);
-			return me_complete_id(d1,
-								  me_complete_id(d2,
-												 me_complete_id(d3,
-																f_conditional(&lb, f_sequence(el, me_obtain(d3)),trp))));
-			
-		};
+	} else if (ov_err.err_code > 4) {
+		exp d1 = me_startid(f_top, arg1, 0);
+		exp d2 = me_startid(f_top, arg2, 0);
+		exp d3 = me_startid(f_top,
+							hold_check(f_shift_left(f_impossible, me_obtain(d1),
+													me_obtain(d2))), 0);
+		exp_list el;
+		exp right = hold_check(f_shift_right(me_obtain(d3), me_obtain(d2)));
+		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, f_overflow,
+						 trap_tag);
+		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0, labst_tag);
+		exp test = me_q1(no_nat_option, f_equal, &lb, right,
+						 me_obtain(d1), test_tag);
+		el = new_exp_list(1);
+		el = add_exp_list(el, test, 1);
+		return me_complete_id(d1,
+							  me_complete_id(d2,
+											 me_complete_id(d3,
+															f_conditional(&lb, f_sequence(el, me_obtain(d3)),trp))));
+		
+	};
 	
 	return me_b1(ov_err, arg1, arg2, shl_tag);
 }
@@ -4662,10 +4655,8 @@ start_variable(access_option acc, tag name_intro,
 	{
 		setvis(i);
 		setenvoff(i);
-	}
-	else
-		if ((acc & f_no_other_read) && (acc & f_no_other_write))
-			setcaonly(i);
+	} else if ((acc & f_no_other_read) && (acc & f_no_other_write))
+		setcaonly(i);
 	set_tag(name_intro, i);
 	
 	return;
@@ -4818,9 +4809,9 @@ f_compound(exp off)
 	int sz;
 	if (name(off)==val_tag)
 		sz = no(off);
-	else
-    {failer(ILLCPDOFFSET);
-	sz = 0;
+	else {
+		failer(ILLCPDOFFSET);
+		sz = 0;
     };
 	return getshape(0, const_al1, const_al1,
 					al1_of(sh(off)),
@@ -4874,30 +4865,27 @@ f_nof(nat n, shape s)
 		if (name(s) == tophd) {
 			/* pathological - make it nof(0, char) */
 			res = getshape(0, const_al1, const_al1,align_of(ucharsh), 0, nofhd);
-		}
-		else
-			if (al == 1) {
-				if ((sz &(sz-1)) != 0 && nofsz > BF_STORE_UNIT) {
-					IGNORE fprintf(stderr, "Warning: Bitfields of nof cannot all be variety enclosed \n");
-				}
-				if ((sz &(sz-1)) == 0 || nofsz > BF_STORE_UNIT) {
-					shape news = containedshape(sz,1);
-					int nsz = shape_align(news);
-					int newn = rounder(nofsz, nsz);
-					res = getshape(0, const_al1, const_al1, align_of(news),
-								   newn, nofhd);
-				}
-				else {
-					shape news = containedshape(nofsz,1);
-					res = getshape(0, const_al1, const_al1, align_of(news),
-								   shape_size(news), cpdhd);
-					
-				}
-				
+		} else if (al == 1) {
+			if ((sz &(sz-1)) != 0 && nofsz > BF_STORE_UNIT) {
+				IGNORE fprintf(stderr, "Warning: Bitfields of nof cannot all be variety enclosed \n");
+			}
+			if ((sz &(sz-1)) == 0 || nofsz > BF_STORE_UNIT) {
+				shape news = containedshape(sz,1);
+				int nsz = shape_align(news);
+				int newn = rounder(nofsz, nsz);
+				res = getshape(0, const_al1, const_al1, align_of(news),
+							   newn, nofhd);
 			}
 			else {
-				res = getshape(0, const_al1, const_al1, align_of(s), nofsz, nofhd);
+				shape news = containedshape(nofsz,1);
+				res = getshape(0, const_al1, const_al1, align_of(news),
+							   shape_size(news), cpdhd);
+				
 			}
+			
+		} else {
+			res = getshape(0, const_al1, const_al1, align_of(s), nofsz, nofhd);
+		}
 		
 		ptno(res) = nm;	/* set the pt field of the shape to the
 						 *			   shapemacs.h hd identifier of the shape */
@@ -5130,18 +5118,17 @@ f_computed_signed_nat(exp arg)
 			{
 				snatneg(res) = 0;
 				snatint(res) = no(arg);
-			}
-			else
-			{if (no(arg) < 0)
-			{
-				snatneg(res) = 1;
-				snatint(res) = -no(arg);
-			}
-			else
-			{
-				snatneg(res) = 0;
-				snatint(res) = no(arg);
-			}
+			} else {
+				if (no(arg) < 0)
+				{
+					snatneg(res) = 1;
+					snatint(res) = -no(arg);
+				}
+				else
+				{
+					snatneg(res) = 0;
+					snatint(res) = no(arg);
+				}
 			};
 			return res;
 		}
@@ -5224,24 +5211,21 @@ f_concat_string(string a1, string a2)
 		for (i=0; i<a2.number; i++)
 			res.ints.chars[i+a1.number] = a2.ints.chars[i];
 		res.ints.chars[res.number]=0;
+	} else if (res.size<=16) {
+		res.ints.shorts = (short*)xcalloc(res.number+1, sizeof(short));
+		for (i=0; i<a1.number; i++)
+			res.ints.shorts[i] = a1.ints.shorts[i];
+		for (i=0; i<a2.number; i++)
+			res.ints.shorts[i+a1.number] = a2.ints.shorts[i];
+		res.ints.shorts[res.number]=0;
+	} else {
+		res.ints.longs = (long*)xcalloc(res.number+1, sizeof(long));
+		for (i=0; i<a1.number; i++)
+			res.ints.longs[i] = a1.ints.longs[i];
+		for (i=0; i<a2.number; i++)
+			res.ints.longs[i+a1.number] = a2.ints.longs[i];
+		res.ints.longs[res.number]=0;
 	}
-	else
-		if (res.size<=16) {
-			res.ints.shorts = (short*)xcalloc(res.number+1, sizeof(short));
-			for (i=0; i<a1.number; i++)
-				res.ints.shorts[i] = a1.ints.shorts[i];
-			for (i=0; i<a2.number; i++)
-				res.ints.shorts[i+a1.number] = a2.ints.shorts[i];
-			res.ints.shorts[res.number]=0;
-		}
-		else {
-			res.ints.longs = (long*)xcalloc(res.number+1, sizeof(long));
-			for (i=0; i<a1.number; i++)
-				res.ints.longs[i] = a1.ints.longs[i];
-			for (i=0; i<a2.number; i++)
-				res.ints.longs[i+a1.number] = a2.ints.longs[i];
-			res.ints.longs[res.number]=0;
-		}
 	return res;
 }
 
@@ -5826,16 +5810,17 @@ tidy_initial_values()
 					p = np;
 				}
 			}
-			{exp init = son(son(crt_exp));
-			exp new_init = f_make_value(sh(init));
-	        if (good_name == (char*)0) {
-				good_name = my_def -> dec_u.dec_val.dec_id;
-			}
-			retcell(son(crt_exp));
-			son(crt_exp) = new_init;
-			bro(new_init) = crt_exp; setlast(new_init);
-			initial_as = add_exp_list(initial_as,
-									  hold_check(f_assign(me_obtain(crt_exp), init)), 0);
+			{
+				exp init = son(son(crt_exp));
+				exp new_init = f_make_value(sh(init));
+				if (good_name == (char*)0) {
+					good_name = my_def -> dec_u.dec_val.dec_id;
+				}
+				retcell(son(crt_exp));
+				son(crt_exp) = new_init;
+				bro(new_init) = crt_exp; setlast(new_init);
+				initial_as = add_exp_list(initial_as,
+										  hold_check(f_assign(me_obtain(crt_exp), init)), 0);
 			}
 		}
 		if (do_prom && son(crt_exp) != nilexp && my_def -> dec_u.dec_val.dec_var
