@@ -162,7 +162,7 @@ nstring_hash_value(NStringP nstring)
 	size_t tmp_length   = nstring_length (nstring);
 	
 	while (tmp_length--) {
-		value += ((unsigned) (*tmp_contents ++));
+		value += (unsigned) (*tmp_contents++);
 	}
 	return (value);
 }
@@ -280,7 +280,7 @@ dstring_append_char(DStringP dstring, char c)
 		fmm_free (dstring->ds_contents, memtype_str);
 		dstring->ds_contents = tmp;
 	}
-	dstring->ds_contents [dstring->ds_length ++] = c;
+	dstring->ds_contents[dstring->ds_length++] = c;
 }
 
 void
@@ -308,12 +308,12 @@ void
 dstring_append_nstring(DStringP dstring, NStringP nstring)
 {
 	size_t nlength = nstring_length (nstring);
-	size_t length  = (nlength + (dstring->ds_length));
+	size_t length  = nlength + dstring->ds_length;
 	
-	if (length > (dstring->ds_max_length)) {
+	if (length > dstring->ds_max_length) {
 		char *tmp;
 		
-		while ((dstring->ds_max_length) < length) {
+		while (dstring->ds_max_length < length) {
 			dstring->ds_max_length += DSTRING_CHUNK_SIZE;
 		}
 		tmp = fmm_malloc(dstring->ds_max_length, memtype_str);
@@ -327,18 +327,17 @@ dstring_append_nstring(DStringP dstring, NStringP nstring)
 }
 
 BoolT
-dstring_last_char_equal(DStringP dstring,
-						char c)
+dstring_last_char_equal(DStringP dstring, char c)
 {
-	return ((dstring->ds_length) &&
-			((dstring->ds_contents [dstring->ds_length - 1]) == c));
+	return (dstring->ds_length &&
+			(dstring->ds_contents[dstring->ds_length - 1] == c));
 }
 
 void
 dstring_to_nstring(DStringP dstring, NStringP nstring)
 {
 	if (dstring->ds_length > 0) {
-		nstring->ns_length   = (dstring->ds_length);
+		nstring->ns_length   = dstring->ds_length;
  		nstring->ns_contents = fmm_malloc(dstring->ds_length, memtype_str);
 		(void) memcpy (nstring->ns_contents, dstring->ds_contents,
 					   dstring->ds_length);
@@ -356,7 +355,7 @@ dstring_to_cstring(DStringP dstring)
 	if (dstring->ds_length > 0) {
 		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
 	}
-	tmp [dstring->ds_length] = '\0';
+	tmp[dstring->ds_length] = '\0';
 	return (tmp);
 }
 
@@ -365,14 +364,14 @@ dstring_destroy_to_cstring(DStringP dstring)
 {
 	char *tmp;
 	
-	if ((dstring->ds_length) >= (dstring->ds_max_length)) {
+	if (dstring->ds_length >= dstring->ds_max_length) {
  		tmp = fmm_malloc(dstring->ds_length + 1, memtype_str);
 		(void) memcpy (tmp, dstring->ds_contents, dstring->ds_length);
 		fmm_free (dstring->ds_contents, memtype_str);
 	} else {
-		tmp = (dstring->ds_contents);
+		tmp = dstring->ds_contents;
 	}
-	tmp [dstring->ds_length] = '\0';
+	tmp[dstring->ds_length] = '\0';
 	dstring->ds_length       = 0;
 	dstring->ds_max_length   = 0;
 	dstring->ds_contents     = NULL;
