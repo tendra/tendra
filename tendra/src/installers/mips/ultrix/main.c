@@ -194,7 +194,7 @@ int   main
 	do_profile = 1;
 	break;
       case 'Q':
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
       case 'R':
 	round_after_flop = opt(s[2]);
 	break;
