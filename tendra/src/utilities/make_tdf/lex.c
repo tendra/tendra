@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+   $TenDRA$
 */
 
 
@@ -98,7 +100,7 @@ static int read_number PROTO_S ( ( int ) ) ;
     or from the input file.
 */
 
-static int read_char
+static int _read_char
     PROTO_Z ()
 {
     int c ;
@@ -112,6 +114,17 @@ static int read_char
     }
     return ( c ) ;
 }
+
+static int read_char
+    PROTO_Z ()
+{
+    int c;
+
+    do {
+       c = _read_char();       /* Ignore any \r */
+    } while ( c == '\r' ) ;
+    return ( c ) ;
+}             
 
 
 /*
