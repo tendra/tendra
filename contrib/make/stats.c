@@ -171,4 +171,4 @@ Init_Stats()
     atexit(print_stats);
 }
 
-#endif
+#endif /* HAS_STATS */
