@@ -1034,41 +1034,6 @@
   <chapter>
     <title>The Components of the TDF System</title>
 
-<!--
-  <DT><A HREF="#S21"><option>5.1</option> - The C to TDF Producer<DD>
-  <DL>
-  <DT><A HREF="#S22"><option>5.1.1</option> - Include File Directories<DD>
-  <DT><A HREF="#S23"><option>5.1.2</option> - Start-up Files and End-up Files<DD>
-  <DT><A HREF="#S24"><option>5.1.3</option> - Compilation Modes and Portability
-  Tables<DD>
-  <DT><A HREF="#S25"><option>5.1.4</option> - Description of Compilation Modes<DD>
-  </DL>
-  <DT><A HREF="#S26"><option>5.2</option> - The TDF Linker<DD>
-  <DL>
-  <DT><A HREF="#S27"><option>5.2.1</option> - The Linker and TDF Libraries<DD>
-  <DT><A HREF="#S28"><option>5.2.2</option> - Combining TDF Capsules<DD>
-  <DT><A HREF="#S29"><option>5.2.3</option> - Constructing TDF Libraries<DD>
-  <DT><A HREF="#S30"><option>5.2.4</option> - Useful tld Options<DD>
-  </DL>
-  <DT><A HREF="#S31"><option>5.3</option> - The TDF to Target Translator<DD>
-  <DL>
-  <DT><A HREF="#S32"><option>5.3.1</option> - tcc Options Affecting the Translator<DD>
-  <DT><A HREF="#S33"><option>5.3.2</option> - Useful trans Options<DD>
-  <DT><A HREF="#S34"><option>5.3.3</option> - Optimisation in TDF Translators<DD>
-  <DT><A HREF="#S35"><option>5.3.4</option> - The Mips Translator and Assembler<DD>
-  </DL>
-  <DT><A HREF="#S36"><option>5.4</option> - The System Assembler<DD>
-  <DT><A HREF="#S37"><option>5.5</option> - The System Linker<DD>
-  <DL>
-  <DT><A HREF="#S38"><option>5.5.1</option> - The System Linker and tcc Environments<DD>
-  <DT><A HREF="#S39"><option>5.5.2</option> - The Effect of Command-Line Options
-  on the System Linker<DD>
-  </DL>
-  <DT><A HREF="#S40"><option>5.6</option> - The C Preprocessor<DD>
-  <DT><A HREF="#S41"><option>5.7</option> - The TDF Pretty Printer<DD>
-  <DT><A HREF="#S42"><option>5.8</option> - The TDF Archiver<DD>
--->
-
     <sect1>
       <title>The C to TDF Producer</title>
 
@@ -2102,19 +2067,6 @@
     </sect1>
   </chapter>
 
-<!--
-    <TITLE>tcc User's Guide: Miscellaneous Topics</TITLE>
-    </HEAD>
-    <sect1>
-    <H1>tcc User's Guide</H1>
-    <title>January 1998</title>
-    <DL>
-    <DT><A HREF="#S44"><option>6.1</option> - Intermodular Checks<DD>
-    <DT><A HREF="#S45"><option>6.2</option> - Debugging and Profiling<DD>
-    <DT><A HREF="#S46"><option>6.3</option> - The System Environment<DD>
-    <DT><A HREF="#S47"><option>6.4</option> - The Temporary Directory<DD>
-    <DT><A HREF="#S48"><option>6.5</option> - The tcc Option Interpreter
--->
 
   <chapter>
     <title>Miscellaneous Topics</title>
@@ -2329,7 +2281,6 @@
         debugging <command>tcc</command> and not for use by the
         general user. However, if you are interested,
         <option>--1DB</option> is a good place to start.</para>
-    <!-- FM pgf ignored -->
       <para>
         <screen>
         	[1]	<option>TDF and Portability</option>, DRA, 1994.
@@ -2340,21 +2291,6 @@
       </para>
     </sect1>
   </chapter>
-
-<!--
-  <TITLE>tcc User's Guide: tcc Reference Guide</TITLE>
-  </HEAD>
-  <H1>tcc User's Guide</H1>
-  <title>January 1998</title>
-  <DL>
-  <DT><A HREF="#S50"><option>7.1</option> - Input and Output Files<DD>
-  <DT><A HREF="#S51"><option>7.2</option> - Compilation Phases<DD>
-  <DT><A HREF="#S52"><option>7.3</option> - Command-line Options<DD>
-  <DT><A HREF="#S53"><option>7.4</option> - Compilation Modes<DD>
-  <DT><A HREF="#S54"><option>7.5</option> - Supported APIs<DD>
-  <DT><A HREF="#S55"><option>7.6</option> - Environment Identifiers<DD>
-  <DT><A HREF="#S56"><option>7.7</option> - Standard Environments<DD>
-  -->
 
   <chapter>
 
