@@ -1,6 +1,6 @@
 # $TenDRA$
 #
-# Binary / variable definitions for the SCO operating system.
+# Binary / variable definitions for the Solaris operating system.
 
 # The execution startup routines.
 # crt is for normal support, crti for _init, crtn for _fini.
