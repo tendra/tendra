@@ -122,6 +122,7 @@ ${MAN_TRANS_TMP}:
 # For testing the resulting groff manpages
 test:
 	for i in ${MAN} ${MAN_TRANS}; do \
+		echo "==> $$i"; \
 		${BIN_GROFF} -Tascii -man $$i > /dev/null; \
 	done
 
