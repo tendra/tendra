@@ -1419,6 +1419,11 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
 			bt = br;
 		}
 	}
+	/* The type bool is unsigned for our purposes */
+	if (bt & btype_bool) {
+		bt &= ~btype_signed;
+		bt |= btype_unsigned;
+	}
 	return (bt);
 }
 
