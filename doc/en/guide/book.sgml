@@ -82,7 +82,7 @@
       many choices have been made in the definition which would be intolerable
       in a standard language definition for the human programmer but which,
       paradoxically enough, make it much simpler for a computer to produce and
-      analyse TDF</para>
+      analyse TDF.</para>
 
     <para> The SORTs and constructors in effect form a multi-sorted algebra.
       There were two principal reasons for choosing this algebraic form of
@@ -126,7 +126,100 @@
         exp_cond in -XREF-guide11.html#1section 9.1 on page 43) which allows
         translate time conditional expansion of the SORT.</para>
 
-<para>FIGURE - first class SORTs gtable6.png</para>
+    <table frame="all">
+      <title>First class SORTs</title>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>SORT</entry>
+              <entry>USAGE</entry>
+            </row>
+          </thead> 
+
+          <tbody>
+            <row>
+              <entry>ACCESS</entry>
+              <entry>Properties of TAGs</entry>
+            </row>
+            <row>
+              <entry>AL_TAG</entry>
+              <entry>Name for alignment</entry>
+            </row>
+            <row>
+              <entry>ALIGNMENT</entry>
+              <entry>Abstraction of data alignment</entry>
+            </row>
+            <row>
+              <entry>BITFIELD_VARIETY</entry>
+              <entry>Give no of bits in bit-field with sign</entry>
+            </row>
+            <row>
+              <entry>BOOL</entry>
+              <entry>true or false</entry>
+            </row>
+            <row>
+              <entry>ERROR_TREATMENT</entry>
+              <entry>How to handle errors in operations</entry>
+            </row>
+            <row>
+              <entry>EXP</entry>
+              <entry>Piece of TDF program manipulating values</entry>
+            </row>
+            <row>
+              <entry>FLOATING_VARIETY</entry>
+              <entry>Kind of floating point number</entry>
+            </row>
+            <row>
+              <entry>LABEL</entry>
+              <entry>Mark on EXP to jump to</entry>
+            </row>
+            <row>
+              <entry>NAT</entry>
+              <entry>Non-negative static number of unbounded size</entry>
+            </row>
+            <row>
+              <entry>NTEST</entry>
+              <entry>Test in comparisons</entry>
+            </row>
+            <row>
+              <entry>PROCPROPS</entry>
+              <entry>Porperties of calls and definitions of procedures</entry>
+            </row>
+            <row>
+              <entry>ROUNDING_MODE</entry>
+              <entry>How to round floating point operations</entry>
+            </row>
+            <row>
+              <entry>SHAPE</entry>
+              <entry>Abstraction of size and representation of values</entry>
+            </row>
+            <row>
+              <entry>SIGNED_NAT</entry>
+              <entry>Static number of unbounded size</entry>
+            </row>
+            <row>
+              <entry>STRING</entry>
+              <entry>Static string of n-bit integers</entry>
+            </row>
+            <row>
+              <entry>TAG</entry>
+              <entry>Name for value in run-time program</entry>
+            </row>
+            <row>
+              <entry>TRANSFERMODE</entry>
+              <entry>Controls special contents and assignments operations</entry>
+            </row>
+            <row>
+              <entry>TOKEN</entry>
+              <entry>Install-time function</entry>
+            </row>
+            <row>
+              <entry>VARIETY</entry>
+              <entry>Kind of integer used in run-time program</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
 
       <para> Every TOKEN has a result SORT, i.e. the SORT of its resulting
         expansion and before it can be expanded, one must have its parameter
@@ -296,8 +389,181 @@ plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
         constructions. These include BITSTREAM, BYTESTREAM, TDFINT,
         TDFIDENT and TDFSTRING.</para>
 
+    <table frame="all">
+      <title>Sorts without SORTNAMEs</title>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>SORT</entry>
+              <entry>USAGE</entry>
+            </row>
+          </thead>
 
-<para>FIGURE SORTs without SORTNAMEs - gtable4.png</para>
+          <tbody>
+            <row>
+              <entry>AL_TAGDEF</entry>
+              <entry>Alignment name definition</entry>
+            </row>
+            <row>
+              <entry>AL_TAGDEF_PROPS</entry>
+              <entry>Body of UNIT containing AL_TAGDEFs</entry>
+            </row>
+            <row>
+              <entry>BITSTREAM</entry>
+              <entry>Encapsulation of a bit encoding</entry>
+            </row>
+            <row>
+              <entry>BYTE STREAM</entry>
+              <entry>Encapsulation of a byte encoding</entry>
+            </row>
+            <row>
+              <entry>CALLEES</entry>
+              <entry>Actual callee parameters</entry>
+            </row>
+            <row>
+              <entry>CAPSULE</entry>
+              <entry>Independent piece of TDF program</entry>
+            </row>
+            <row>
+              <entry>CAPSULE_LINK</entry>
+              <entry>No and kind of linkable entities in CAPSULE</entry>
+            </row>
+            <row>
+              <entry>CASELIM</entry>
+              <entry>Bounds in case constructor</entry>
+            </row>
+            <row>
+              <entry>ERROR_CODE</entry>
+              <entry>Encoding for exceptions</entry>
+            </row>
+            <row>
+              <entry>EXTERNAL</entry>
+              <entry>External name used to connect CAPSULE name</entry>
+            </row>
+            <row>
+              <entry>EXTERN_LINK</entry>
+              <entry>List of LINKEXTERNs in CAPSULE</entry>
+            </row>
+            <row>
+              <entry>GROUP</entry>
+              <entry>List of UNITs with same identification</entry>
+            </row>
+            <row>
+              <entry>LINK</entry>
+              <entry>Connects names in CAPSULE</entry>
+            </row>
+            <row>
+              <entry>LINK EXTERN</entry>
+              <entry>Used to connect CAPSULE names to outside world</entry>
+            </row>
+            <row>
+              <entry>LINKS</entry>
+              <entry>List of LINKs</entry>
+            </row>
+            <row>
+              <entry>LIST (AUX)</entry>
+              <entry>List of AUX SORTs; may have SORTNAME later</entry>
+            </row>
+            <row>
+              <entry>OTAGEXP</entry>
+              <entry>Describes a formal parameter</entry>
+            </row>
+            <row>
+              <entry>PROPS</entry>
+              <entry>Program info in a UNIT</entry>
+            </row>
+            <row>
+              <entry>SLIST (AUX)</entry>
+              <entry>List of AUX SORTs; will not have SORTNAME later</entry>
+            </row>
+            <row>
+              <entry>SORTNAME</entry>
+              <entry>SORT which can be parameter of TOKEN</entry>
+            </row>
+            <row>
+              <entry>TAGACC</entry>
+              <entry>Used in constructing proc formals</entry>
+            </row>
+            <row>
+              <entry>TAGDEC</entry>
+              <entry>Declaration of TAG at UNIT level</entry>
+            </row>
+            <row>
+              <entry>TAGDEC_PROPS</entry>
+              <entry>Body of UNIT containing TAGDECs</entry>
+            </row>
+            <row>
+              <entry>TAGDEF</entry>
+              <entry>Definition of TAG at UNIT level</entry>
+            </row>
+            <row>
+              <entry>TAGDEF_PROPS</entry>
+              <entry>Body of UNIT containing TAGDEFs</entry>
+            </row>
+            <row>
+              <entry>TAGSHACC</entry>
+              <entry>A formal parameter</entry>
+            </row>
+            <row>
+              <entry>TDFBOOL</entry>
+              <entry>TDF encoding for a boolean</entry>
+            </row>
+            <row>
+              <entry>TDFIDENT</entry>
+              <entry>TDF encoding of a byte string</entry>
+            </row>
+            <row>
+              <entry>TDFINT</entry>
+              <entry>TDF encoding of an integer</entry>
+            </row>
+            <row>
+              <entry>TDFSTRING</entry>
+              <entry>TDF encoding of n-bit byte string</entry>
+            </row>
+            <row>
+              <entry>TOKDEC</entry>
+              <entry>Declaration of a TOKEN</entry>
+            </row>
+            <row>
+              <entry>TOKDEC_PROPS</entry>
+              <entry>Body of UNIT containing TOKDECs</entry>
+            </row>
+            <row>
+              <entry>TOKDEF</entry>
+              <entry>Definition of a TOKEN</entry>
+            </row>
+            <row>
+              <entry>TOKDEF_PROPS</entry>
+              <entry>Body of UNIT containing TOKDEFs</entry>
+            </row>
+            <row>
+              <entry>TOKEN_DEFN</entry>
+              <entry>Defines TOKEN expansion</entry>
+            </row>
+            <row>
+              <entry>TOKFORMALS</entry>
+              <entry>Sort and name for parameters in TOKEN_DEFN</entry>
+            </row>
+            <row>
+              <entry>UNIQUE</entry>
+              <entry>World-wide name</entry>
+            </row>
+            <row>
+              <entry>UNIT</entry>
+              <entry>Component of CAPSULE with LINKs to other UNITs</entry>
+            </row>
+            <row>
+              <entry>VERSION</entry>
+              <entry>Version no of TDF</entry>
+            </row>
+            <row>
+              <entry>VERSION_PROPS</entry>
+              <entry>Body of UNIT containing version information</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
     </sect1>
   </chapter>
   <chapter>
