@@ -207,7 +207,7 @@ CLEANFILES+= ${DOC}.aux ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 CLEANFILES+= ${DOC}.aux ${DOC}.log ${IMAGES_EPS}
 
 .elif ${_cf} == "ps"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex-ps ${IMAGES_EPS}
+CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
 .elif ${_cf} == "pdf"
 CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES_PDF}
@@ -385,9 +385,6 @@ ${DOC}.rtf: ${SRCS} ${LOCAL_IMAGES_EPS}
 ${DOC}.tex: ${SRCS} ${LOCAL_IMAGES_EPS} ${INDEX_SGML} ${PRINT_INDEX}
 	${JADE} -V tex-backend ${PRINTOPTS} \
 		${JADEOPTS} -t tex -o ${.TARGET} ${MASTERDOC}
-
-${DOC}.tex-ps: ${DOC}.tex
-	${LN} -f ${.ALLSRC} ${.TARGET}
 
 ${DOC}.tex-pdf: ${SRCS} ${IMAGES_PDF} ${INDEX_SGML} ${PRINT_INDEX}
 	${RM} -f ${.TARGET}
