@@ -82,9 +82,7 @@ install-api:
 # lib/env: our environment files.
 install-env:
 	${BIN_MKDIR} ${ARGS_MKDIR} ${INSTALL_PREFIX}/env
-	${BIN_SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
-		${INSTALL_PREFIX}/env/default
-.for i in ${DATA_COMMON} ${DATA}
+.for i in ${DATA_COMMON} ${DATA} ${DATA_DEFAULT}
 	${BIN_INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/env
 .endfor
 

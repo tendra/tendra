@@ -27,8 +27,8 @@ clean: _PROGSUBDIR
 _PROGSUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
 .for entry in ${SUBDIR}
-	@${ECHO} "===> ${DIRPRFX}${entry}"
-	@${ECHO} "===> ${entry}# ${MAKE} ${.TARGET}"
+	@${BIN_ECHO} "===> ${DIRPRFX}${entry}"
+	@${BIN_ECHO} "===> ${entry}# ${MAKE} ${.TARGET}"
 	cd ${.CURDIR}/${entry}; \
 		${MAKE} ${.TARGET} \
 		DIRPRFX=${DIRPRFX}${entry}/
