@@ -1,6 +1,6 @@
 # $TenDRA$
 
-.SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p
+.SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p .disp
 
 #CC		?=	cc
 CFLAGS		?=	-O -pipe
@@ -20,6 +20,9 @@ ECHODIR		?=	echo
 
 .pl.j:
 	${PL} ${.IMPSRC} ${.TARGET} 
+
+.j.disp:
+	${DISP} ${DISP_FLAGS} ${.IMPSRC} ${.TARGET} || (true)
 
 .c.j:
 	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} ${.IMPSRC}
