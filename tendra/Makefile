@@ -29,14 +29,15 @@ BUILD_OK=	true
 SUBDIR=		src
 
 all:
-.if exists(Makefile.defs)
+.if !exists(Makefile.defs)
+.BEGIN:
+	@${ECHO} "Please run 'makedefs' prior to running (b)make"
+	@${ECHO}
+	@${EXIT} 1;
+.else
 	@${ECHO} Starting TenDRA build...
 	@${ECHO} Bootstrapping from ${BASE_DIR}
 	@${ECHO}
-.else
-	@${ECHO} "Please run 'makedefs' prior to running make"
-	@${ECHO}
-	@${EXIT} 1;
 .endif
 
 .include "Makefile.inc"
