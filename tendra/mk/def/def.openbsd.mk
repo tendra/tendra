@@ -10,13 +10,13 @@
 
 # Libraries
 
-CRT0?=		/usr/lib/crt0.o
-CRT1?=
-CRTI?=
-CRTN?=
-GCRT0?=		/usr/lib/gcrt0.o
-GCRT1?=
-MCRT0?=
+LIB_CRT0?=		/usr/lib/crt0.o
+LIB_CRT1?=
+LIB_CRTI?=
+LIB_CRTN?=
+LIB_GCRT0?=		/usr/lib/gcrt0.o
+LIB_GCRT1?=
+LIB_MCRT0?=
 
 
 # Arguments
