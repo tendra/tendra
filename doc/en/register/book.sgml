@@ -51,8 +51,8 @@
         included along with TDF itself as interface between TDF tools.</para>
       
       <para>This first revision includes additional tokens for accessing
-        variable parameter lists (see -XREF-#S17section 5.3), and a C mapping
-        token to support the optional type <emphasis>long long
+        variable parameter lists (see <xref linkend="acc-var-param">), and a C
+        mapping token to support the optional type <emphasis>long long
         int</emphasis>.</para>
     </simplesect>
   
@@ -99,12 +99,12 @@
         </listitem>
       </orderedlist>
       
-      <para>These classes are discussed separately, in sections -XREF-#S63 to
-        -XREF-#S217 below.</para>
+      <para>These classes are discussed separately, in <xref linkend="ch02">
+        to <xref linkend="ch06"> below.</para>
     </simplesect>
   </preface>
   
-  <chapter>
+  <chapter id="ch01">
     <title>Naming scheme</title>
     
     <para>A flat name space will suffice for TDF token names if producer
@@ -122,7 +122,7 @@
     
     <para>For API tokens, the prefix will consist of a sequence of simple
       names, each followed by a dot, where the first simple name is the name
-      of the API as listed or referred to in section -XREF-#S217.</para>
+      of the API as listed or referred to in <xref linkend="ch06">.</para>
     
     <para>The prefix for producer specific and target dependency tokens will
       begin and end with characters that distinguish them from the above
@@ -135,11 +135,14 @@
     <simplelist type='horiz' columns='2'>
       <member><literal>~</literal></member>
   
-      <member>TDF interface tokens as specified in section -XREF-#S145 below, and also LPI tokens specific to DRA's C producer.</member>
+      <member>TDF interface tokens as specified in <xref linkend="ch04">
+        below, and also LPI tokens specific to DRA's C producer.</member>
   
       <member><literal>.~</literal></member>
       
-      <member>Registered target dependency tokens as specified in section -XREF-#S63 below, and basic mapping tokens specified in section -XREF-#S114.</member>
+      <member>Registered target dependency tokens as specified in
+        <xref linkend="ch02"> below, and basic mapping tokens specified in
+        <xref linkend="ch03">.</member>
 
       <member><literal>~cpp.</literal></member>
 
@@ -151,10 +154,10 @@
     </simplelist>
   </chapter>
   
-  <chapter>
+  <chapter id="ch02">
     <title>Target dependency tokens</title>
     
-    <para>Target dependency tokens provide a common interface to simple constructs where the required detail for any specific architecture can be expressed within TDF, but the detail will be architecture specific. Every installer should have associated with it, a capsule containing the installer specific definitions of all the tokens specificed within this section -XREF-#S63.</para>
+    <para>Target dependency tokens provide a common interface to simple constructs where the required detail for any specific architecture can be expressed within TDF, but the detail will be architecture specific. Every installer should have associated with it, a capsule containing the installer specific definitions of all the tokens specificed within this <xref linkend="ch03">.</para>
     
     <para>Some of these tokens provide information about the integer and floating point variety representations supported by an installer, in a form that may be used by TDF analysis tools for architecture specific analysis, or by library generation tools when generating an architecture specific version of a library. Other target dependency tokens provide commonly required conversion routines.</para>
     
@@ -209,7 +212,7 @@
       </sect2>
     </sect1>
     
-    <sect1>
+    <sect1 id="float-var-rep">
       <title>Floating variety representations</title>
       
       <para>Floating point representations are much more diverse than
@@ -550,7 +553,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="ch03">
     <title>Basic mapping tokens</title>
     
     <para>Basic mapping tokens provide target specific detail for specific
@@ -567,9 +570,9 @@
     
     <para>Every operating system variant of an installer should have
       associated with it, a capsule containing the definitions of all the
-      tokens specificed within this section -XREF-#S114.</para>
+      tokens specificed within this <xref linkend="ch03">.</para>
     
-    <sect1>
+    <sect1 id="c-map-tokens">
       <title>C mapping tokens</title>
       
       <sect2>
@@ -658,8 +661,8 @@
         </programlisting>
         
         <para><emphasis>.~fl_rep</emphasis> is the sequence number (see
-          subsection -XREF-#S83.2) of the floating point representation to be
-          used for values of C type <emphasis>float</emphasis>.</para>
+          <xref linkend="float-var-rep">) of the floating point representation
+          to be used for values of C type <emphasis>float</emphasis>.</para>
       </sect2>
 
       <sect2>
@@ -789,11 +792,11 @@
         </programlisting>
         
         <para><emphasis>.~F_fl_rep</emphasis> is the sequence number (see
-          subsection -XREF-#S83.2) of the floating point representation to be
-          used for values of Fortran77 type <emphasis>REAL</emphasis>, with
-          the constraint that
-          <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis>
-          ) = <emphasis>.~F_int_width</emphasis>.</para>
+          <xref linkend="float-var-rep">) of the floating point representation
+          to be used for values of Fortran77 type <emphasis>REAL</emphasis>,
+          with the constraint that
+          <emphasis>.~rep_fv_width</emphasis>(<emphasis>.~F_fl_rep</emphasis>)
+          = <emphasis>.~F_int_width</emphasis>.</para>
         
         <para>If this constraint cannot be met,
           <emphasis>.~F_fl_rep</emphasis> will be 0.</para>
@@ -819,7 +822,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="ch04">
     <title>TDF Interface tokens</title>
     
     <para>A very few specifically named tokens are referred to within the TDF
@@ -932,7 +935,7 @@
       </sect2>
     </sect1>
 
-    <sect1>
+    <sect1 id="acc-var-param">
       <title>Accessing variable parameter lists</title>
       
       <para>Installers should provide token definitions for the tokens listed
@@ -1077,7 +1080,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="ch05">
     <title>Language Programming Interfaces</title>
     
     <para>A Language Programming Interface (LPI) is here defined to mean a set
@@ -1089,35 +1092,35 @@
       appropriate producer itself. Before an application can be installed on
       some target platform, the appropriate LPI token definitions must have
       been built for that platform. In this sense, the LPI can be considered
-      as a primitive API, which is discussed in section -XREF-#S217.</para>
+      as a primitive API, which is discussed in <xref linkend="ch06">.</para>
     
     <para>The process by which the LPI token definition library or capsule is
       generated for any specific platform will vary according to the LPI, and
       responsibility for defining that process will also lie with the
       appropriate producer. Some LPIs, such as that associated with DRA's C
       producer, can be fully defined by architecture neutral TDF, using the
-      tokens specified in sections -XREF-#S63 and -XREF-#S114 to encapsulate
-      any target dependencies.  When that is the case, the generation process
-      can be fully automated. For other LPIs the process may be much less
-      automated. In some cases where the source language implies a complex
-      run-time system, this might even require a small amount of new code to
-      be written for each platform.</para>
+      tokens specified in <xref linkend="ch02"> and <xref linkend="ch03"> to
+      encapsulate any target dependencies.  When that is the case, the
+      generation process can be fully automated. For other LPIs the process
+      may be much less automated. In some cases where the source language
+      implies a complex run-time system, this might even require a small
+      amount of new code to be written for each platform.</para>
     
     <para>Generally, the individual LPI tokens do not need to be specified in
       the token registry, provided they follow a registered naming scheme to
-      ensure uniqueness (see section -XREF-#S52). In exceptional circumstances
-      it may be necessary for some TDF tool to recognise individual LPI tokens
-      explicitly by name. This will be the case when experimenting with
-      potential extensions to TDF, in the field of parallelism for example. In
-      other cases a TDF installer or other tool may recognise an LPI token by
-      name rather than its definition by choice, for some unspecified
-      advantage. We make a pragmatic choice in such cases whether to include
-      such token specifications in the token registry. For widely used
-      producers, we can assume availability of the LPI token specifcations, or
-      standard definitions, separately from the token register, but we should
-      expect any such tokens to be specified within the register for all cases
-      where significant advantage could be taken by an installer only if it
-      recognises the token by name.</para>
+      ensure uniqueness (see <xref linkend="ch01">). In exceptional
+      circumstances it may be necessary for some TDF tool to recognise
+      individual LPI tokens explicitly by name. This will be the case when
+      experimenting with potential extensions to TDF, in the field of
+      parallelism for example. In other cases a TDF installer or other tool
+      may recognise an LPI token by name rather than its definition by choice,
+      for some unspecified advantage. We make a pragmatic choice in such cases
+      whether to include such token specifications in the token registry. For
+      widely used producers, we can assume availability of the LPI token
+      specifcations, or standard definitions, separately from the token
+      register, but we should expect any such tokens to be specified within
+      the register for all cases where significant advantage could be taken by
+      an installer only if it recognises the token by name.</para>
     
     <sect1>
       <title>The DRA C LPI</title>
@@ -1125,19 +1128,19 @@
       <para>DRA's C producer LPI is defined by an architecture neutral token
         definition capsule provided with the producer. Target specific detail is
         included only by use of the target dependency tokens and C mapping
-        tokens specified in sections -XREF-#S63 and -XREF-#S124.1 respectively.
-        Target specific versions of this capsule are obtained by transformation,
-        using the `preprocessing' action of the TDF tool
-        <emphasis>tnc</emphasis>, with definitions of the target dependency and
-        C mapping tokens that are provided with the target installer. No special
-        treatment is required for any of the C LPI tokens, though translation
-        time can be slightly improved in a few cases if the names are recognised
-        and standard token definition exercised explicitly within some
-        installers.</para>
+        tokens specified in <xref linkend="ch02"> and
+        <xref linkend="c-map-tokens"> respectively.  Target specific versions
+        of this capsule are obtained by transformation, using the
+        `preprocessing' action of the TDF tool <emphasis>tnc</emphasis>, with
+        definitions of the target dependency and C mapping tokens that are
+        provided with the target installer. No special treatment is required
+        for any of the C LPI tokens, though translation time can be slightly
+        improved in a few cases if the names are recognised and standard token
+        definition exercised explicitly within some installers.</para>
       
       <para>The DRA C LPI does not include standard library features, for which
         the C language requires header files. The standard C library is one
-        example of an API, discussed in section -XREF-#S217.</para>
+        example of an API, discussed in <xref linkend="ch06">.</para>
     </sect1>
     
     <sect1>
@@ -1204,7 +1207,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="ch06">
     <title>Application Programming Interfaces</title>
   
     <para>Application Programming Interfaces are typically specified with a C
