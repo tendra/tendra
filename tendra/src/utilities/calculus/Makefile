@@ -1,8 +1,8 @@
 # $TenDRA$
 
-CFLAGS+= -I${.CURDIR} -I${.CURDIR}/obj_c \
+CFLAGS+= -I${.CURDIR} \
 	-I${SRC_DIR}/src/include -I.
-.PATH : ${.CURDIR} ${.CURDIR}/obj_c
+.PATH : ${.CURDIR}
 
 PROG=	calculus
 

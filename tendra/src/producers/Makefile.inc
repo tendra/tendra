@@ -11,13 +11,10 @@ SRCS+=	access.c allocate.c assign.c basetype.c cast.c check.c \
 	identifier.c initialise.c instance.c inttype.c label.c \
 	member.c merge.c namespace.c operator.c overload.c printf.c \
 	quality.c redeclare.c rewrite.c statement.c template.c tokdef.c \
-	token.c typeid.c variable.c virtual.c
+	token.c typeid.c variable.c virtual.c c_class.c
 
 # common/
 SRCS+=	main.c
-
-# common/obj_c
-SRCS+=	c_class.c
 
 # common/output
 SRCS+=	capsule.c compile.c decode.c diag.c diag2.c dump.c encode.c \

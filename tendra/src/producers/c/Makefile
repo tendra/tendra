@@ -1,6 +1,6 @@
 # $TenDRA$
 
-SRCDIRS=	c/syntax common/construct common/ common/obj_c \
+SRCDIRS=	c/syntax common/construct common \
 		common/output common/parse common/utility 
 
 PROG = tdfc2

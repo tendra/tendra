@@ -1,14 +1,11 @@
 # $TenDRA$
 
-CFLAGS+= -I${.CURDIR}  -I${.CURDIR}/obj_c -I${SRC_DIR}/src/include -I.
-.PATH : ${.CURDIR} ${.CURDIR}/obj_c .
+CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
+.PATH : ${.CURDIR} .
 
 PROG = make_tdf
 
-SRCS=	catstd.c input.c lex.c main.c output.c syntax.c
-
-#obj_c sources
-SRCS+= tdf.c
+SRCS=	catstd.c input.c lex.c main.c output.c syntax.c tdf.c
 
 DEPEND_SRC=	catstd.c keyword.h lexer.h syntax.c tdf.h
 
