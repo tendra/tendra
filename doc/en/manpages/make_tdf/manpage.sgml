@@ -1,0 +1,50 @@
+<refmeta>
+  <refentrytitle>make_tdf</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='maketdf-name'>
+  <refname>make_tdf</refname>
+  <refpurpose>To be documented.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='maketdf-synopsis'>
+  <cmdsynopsis>
+    <command>make_tdf</command>
+    <arg choice='opt'>-V</arg>
+    <arg choice='opt'>-h</arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='pl-description'>
+  <title>DESCRIPTION</title>
+  <para>To be documented.</para>
+</refsect1>
+
+<refsect1 id='pl-options'>
+  <title>OPTIONS</title>
+  <variablelist>
+    <varlistentry>
+      <term><option>-V</option></term>
+      <listitem>
+        <para>Prints version number.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>Show help.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='maketdf-seealso'>
+<title>SEE ALSO</title>
+<para>&man.tendra.tcc;.</para>
+</refsect1>
