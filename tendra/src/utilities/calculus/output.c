@@ -966,7 +966,7 @@ open_file(char *dir, char *nm, char *suff)
 	error(ERROR_FATAL, "Can't open output file, %s", buff);
     }
     if (verbose_output) {
-	fprintf_v(stderr, "Creating %s ...\n", buff);
+	IGNORE printf("Creating %s ...\n", buff);
     }
     column = 0;
 
