@@ -52,6 +52,7 @@ BIN_GZCAT?=		/usr/bin/gzcat
 BIN_GZIP?=		/usr/bin/gzip
 BIN_HEAD?=		/usr/bin/head
 BIN_ID?=		/usr/bin/id
+BIN_INSTALL?=		/usr/bin/install
 BIN_LD?=		/usr/bin/ld
 BIN_LDCONFIG?=		/sbin/ldconfig
 BIN_LN?=		/bin/ln
