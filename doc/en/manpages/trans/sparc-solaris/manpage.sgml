@@ -65,6 +65,21 @@
     </varlistentry>
 
     &option-cm;
+
+    <varlistentry>
+      <term><option>-N</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-O</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
     &option-cp;
     &option-cq;
     &option-cr;
