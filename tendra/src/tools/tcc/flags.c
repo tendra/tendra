@@ -322,6 +322,7 @@ list *std_link_crt0 = null;
 list *std_link_crt1 = null;
 list *std_link_crtp_n = null;
 list *std_link_crtn = null;
+list *std_link_crti = null;
 list *std_link_libdirs = null;
 list *std_link_libs = null;
 list *std_link_c_libs = null;

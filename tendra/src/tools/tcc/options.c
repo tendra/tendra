@@ -315,6 +315,7 @@ optmap environ_optmap [] = {
 	{"?CRT1 $", "$1S1$2", null, 0},
 	{"?CRTN $", "$1S2$2", null, 0},
 	{"?CRTP_N $", "$1S3$2", null, 0},
+	{"?CRTI $", "$1S4$2", null, 0},
 	{"?SYS_LINK $", "$1SL$2", null, 0},
 	{"?SYS_LIB $", "$1Sl$2", null, 0},
 	{"?SYS_LIBC $", "$1Sc$2", null, 0},
@@ -627,6 +628,7 @@ lookup_list(char *s)
 		case '1' : return (&std_link_crt1);
 		case '2' : return (&std_link_crtn);
 		case '3' : return (&std_link_crtp_n);
+		case '4' : return (&std_link_crti);
 		case 'L' : return (&std_link_libdirs);
 		case 'l' : return (&std_link_libs);
 		case 'c' : return (&std_link_c_libs);

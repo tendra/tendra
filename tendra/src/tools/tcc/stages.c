@@ -637,6 +637,7 @@ linker_options(filename *input, filename *output)
 		if ((dl_state == 0) || (dl_state & use_dynlink) != 0) {
 			cmd_list (std_link_crt0);
 			cmd_list (std_link_crt1);
+			cmd_list (std_link_crti);
 		}
     }
     if (use_hp_linker) {

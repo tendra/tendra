@@ -271,6 +271,7 @@ extern list *std_link_crt0;
 extern list *std_link_crt1;
 extern list *std_link_crtp_n;
 extern list *std_link_crtn;
+extern list *std_link_crti;
 extern list *std_link_libdirs;
 extern list *std_link_libs;
 extern list *std_link_c_libs;
