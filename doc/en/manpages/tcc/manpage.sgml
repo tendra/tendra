@@ -13,14 +13,14 @@
 
 <refsynopsisdiv id='tcc-synopsis'>
   <cmdsynopsis>
-    <command>tcc</command> 
+    <command>tcc</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>files</replaceable></arg>
   </cmdsynopsis>
 </refsynopsisdiv>
 
 <refsect1 id='tcc-description'>
-  <title>Description</title> 
+  <title>Description</title>
 
   <para><command>tcc</command> is the user interface to the TDF system. It is
     more fully</para>
@@ -30,7 +30,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.c</markup> are
           understood to be C source files.</para>
@@ -38,7 +38,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.i</markup> are
         understood to be preprocessed C source files.</para>
@@ -46,7 +46,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.C</markup> are
           understood to be C++ source files (only if <option>-Yc++</option>
@@ -64,7 +64,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.j</markup> are
            understood to be target independent TDF capsules.</para>
@@ -72,7 +72,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
       <para>Arguments whose names end in <markup>.ta</markup> are
         understood to be archives of target independent TDF
@@ -81,7 +81,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.t</markup> are
           understood to be target dependent TDF capsules.</para>
@@ -89,7 +89,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.s</markup> are
           understood to be assembly source files.</para>
@@ -97,7 +97,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.d</markup> are
           understood to be TenDRA dump files.</para>
@@ -105,7 +105,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.K</markup> are
           understood to be C++ spec files (only if <option>-Yc++</option>
@@ -114,7 +114,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.p</markup> are
           understood to be TDF notation source files (only if
@@ -123,7 +123,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>Arguments whose names end in <markup>.pl</markup> are
         understood to be PL_TDF source files (only if
@@ -131,7 +131,7 @@
       </listitem>
     </varlistentry>
     <varlistentry>
-      <term>-</term> 
+      <term>-</term>
       <listitem>
         <para>All other arguments (but particularly those whose names end
           in <markup>.o</markup> and <markup>.a</markup>) are understood to
@@ -179,21 +179,21 @@
 
   <variablelist>
     <varlistentry>
-      <term><emphasis>c</emphasis></term> 
+      <term><emphasis>c</emphasis></term>
       <listitem>
         <para>C to TDF producer</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>p</emphasis></term> 
+      <term><emphasis>p</emphasis></term>
       <listitem>
         <para>C preprocessor</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>x</emphasis></term> 
+      <term><emphasis>x</emphasis></term>
       <listitem>
         <para>C++ to TDF producer (only if <option>-Yc++</option> is
         specified)</para>
@@ -201,7 +201,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>g</emphasis></term> 
+      <term><emphasis>g</emphasis></term>
       <listitem>
       <para>C++ preprocessor (only if <option>-Yc++</option> is
         specified)</para>
@@ -209,42 +209,42 @@
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>L</emphasis></term> 
+      <term><emphasis>L</emphasis></term>
       <listitem>
         <para>TDF linker (or builder)</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>t</emphasis></term> 
+      <term><emphasis>t</emphasis></term>
       <listitem>
         <para>TDF translator</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>a</emphasis></term> 
+      <term><emphasis>a</emphasis></term>
       <listitem>
         <para>System assembler</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>l</emphasis></term> 
+      <term><emphasis>l</emphasis></term>
       <listitem>
         <para>System linker</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>S</emphasis></term> 
+      <term><emphasis>S</emphasis></term>
       <listitem>
         <para>C++ spec linker</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>e</emphasis></term> 
+      <term><emphasis>e</emphasis></term>
       <listitem>
         <para>Compact-output error reporter (only if
           <option>-Ycompact</option> is specified)</para>
@@ -252,14 +252,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>u</emphasis></term> 
+      <term><emphasis>u</emphasis></term>
       <listitem>
         <para>TenDRA dump file linker</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><emphasis>d</emphasis></term> 
+      <term><emphasis>d</emphasis></term>
       <listitem>
         <para>TDF pretty-printer</para>
       </listitem>
@@ -268,7 +268,7 @@
 </refsect1>
 
 <refsect1 id='tcc-options'>
-  <title>OPTIONS</title> 
+  <title>OPTIONS</title>
 
   <para>The following options are supported by <command>tcc</command>. All
     options are scanned before input files are dealt with. The system
@@ -277,14 +277,14 @@
 
   <variablelist>
     <varlistentry>
-      <term><option>-A</option><replaceable>string</replaceable></term> 
+      <term><option>-A</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Asserts the predicate <emphasis>string</emphasis>.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-B</option><replaceable>string</replaceable></term> 
+      <term><option>-B</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Passed to the system linker. The valid values of
           <emphasis>string</emphasis> are target dependent.</para>
@@ -292,7 +292,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-C</option></term> 
+      <term><option>-C</option></term>
       <listitem>
         <para>Not implemented and provided for &man.freebsd.cc;
           compatibility only. It is meant to preserve comments when
@@ -301,7 +301,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-D</option><replaceable>string</replaceable></term> 
+      <term><option>-D</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Where <emphasis>string</emphasis> is of the form
           <emphasis>macro</emphasis> or <emphasis>macro=defn</emphasis>, is
@@ -314,7 +314,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-E</option></term> 
+      <term><option>-E</option></term>
       <listitem>
         <para>Invokes the C preprocessor only, putting the result into a
           file with a <markup>.i</markup> suffix if other options indicate
@@ -326,7 +326,7 @@
 
     <varlistentry>
       <term><option>-E</option><replaceable>letter</replaceable><emphasis>:</emphasis><emphasis>
-        file</emphasis></term> 
+        file</emphasis></term>
       <listitem>
         <para>Causes <emphasis>file</emphasis> to be invoked as the
           executable for the compilation stage given by
@@ -335,7 +335,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-F</option><replaceable>letter</replaceable></term> 
+      <term><option>-F</option><replaceable>letter</replaceable></term>
       <listitem>
         <para>Tells <command>tcc</command> to stop after producing the
           files indicated by <emphasis>letter</emphasis>, and to preserve
@@ -345,14 +345,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-G</option></term> 
+      <term><option>-G</option></term>
       <listitem>
         <para>Provided for <emphasis>cc</emphasis> compatibility.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-H</option></term> 
+      <term><option>-H</option></term>
       <listitem>
         <para>Causes the names of files included by a '#include' directive
           to be printed.</para>
@@ -360,7 +360,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-I</option><replaceable>string</replaceable></term> 
+      <term><option>-I</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Tells the producers and preprocessors to search the directory
           <emphasis>string</emphasis> for included files. The directories are
@@ -370,7 +370,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-J</option><replaceable>string</replaceable></term> 
+      <term><option>-J</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Tells the TDF linker to search the directory
           <emphasis>string</emphasis> for TDF libraries. The linker searches
@@ -388,7 +388,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-L</option><replaceable>string</replaceable></term> 
+      <term><option>-L</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Tells the system linker to search the directory
           <emphasis>string</emphasis> for libraries. It searches the
@@ -398,7 +398,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-M</option></term> 
+      <term><option>-M</option></term>
       <listitem>
         <para>Specifies that the TDF linker should link all the given
           target independent TDF capsules into one. This is done between
@@ -408,7 +408,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-MA</option></term> 
+      <term><option>-MA</option></term>
       <listitem>
         <para>Specifies that the TDF linker should link all the given
           target independent TDF capsules into one and also hide all the
@@ -421,7 +421,7 @@
 
     <varlistentry>
       <term><option>-N</option><replaceable>identifier</replaceable>:<emphasis>
-      string</emphasis></term> 
+      string</emphasis></term>
       <listitem>
         <para>As <option>-I</option><replaceable>string</replaceable>
           except that the identifier <emphasis>identifier</emphasis> is
@@ -431,7 +431,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-O</option><replaceable>string</replaceable></term> 
+      <term><option>-O</option><replaceable>string</replaceable></term>
       <listitem>
         <para>This flag has no effect other than to cancel any previous
           diagnostics flag and is included only for compatibility with other
@@ -442,7 +442,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-P</option></term> 
+      <term><option>-P</option></term>
       <listitem>
         <para>Invokes the C preprocessor only, putting the result into a
           file with a <markup>.i</markup> suffix. The C++ preprocessor is
@@ -452,7 +452,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-P</option><replaceable>letter</replaceable>...</term> 
+      <term><option>-P</option><replaceable>letter</replaceable>...</term>
       <listitem>
         <para>Tells <command>tcc</command> to preserve those files
           indicated by <emphasis>letter</emphasis>. Each
@@ -465,7 +465,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-S</option></term> 
+      <term><option>-S</option></term>
       <listitem>
         <para>Tells <command>tcc</command> to stop after producing an
           assembly source file. This is equivalent to
@@ -475,7 +475,7 @@
 
     <varlistentry>
       <term><option>-S</option><replaceable>letter</replaceable><emphasis>,</emphasis><emphasis>
-        string</emphasis><emphasis>,</emphasis>...</term> 
+        string</emphasis><emphasis>,</emphasis>...</term>
       <listitem>
         <para>The specifies that the list of input files
           <emphasis>string</emphasis> all have type
@@ -489,7 +489,7 @@
 
     <varlistentry>
       <term><option>-S</option><replaceable>letter</replaceable><emphasis>:</emphasis><emphasis>
-        string</emphasis></term> 
+        string</emphasis></term>
       <listitem>
         <para>Similar to the option above, but specifies a single input
           file, <emphasis>string</emphasis> (which may contain a
@@ -498,7 +498,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-U</option><replaceable>string</replaceable></term> 
+      <term><option>-U</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Is equivalent to inserting the preprocessor directive "#undef
           <emphasis>string</emphasis>" at the start of each C source file.
@@ -510,7 +510,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
       <listitem>
         <para>Causes all tools invoked by <command>tcc</command> to print
           their version numbers.</para>
@@ -519,7 +519,7 @@
 
     <varlistentry>
       <term><option>-W</option><replaceable>letter</replaceable><emphasis>,</emphasis><emphasis>
-        string</emphasis><emphasis>,</emphasis>...</term> 
+        string</emphasis><emphasis>,</emphasis>...</term>
       <listitem>
         <para>This passes the list of options <emphasis>string</emphasis>
           to the compilation phase indicated by
@@ -529,7 +529,7 @@
 
     <varlistentry>
       <term><option>-W</option><replaceable>letter</replaceable><emphasis>:</emphasis><emphasis>
-        string</emphasis></term> 
+        string</emphasis></term>
       <listitem>
         <para>Similar to the option above, but specifies a single option
           <emphasis>string</emphasis> (which may contain a comma).</para>
@@ -537,7 +537,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-X</option><replaceable>string</replaceable></term> 
+      <term><option>-X</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Specifies a compilation mode. <emphasis>string</emphasis> can
           be <emphasis>a</emphasis> for "lenient ANSI",
@@ -549,7 +549,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-X:</option><replaceable>string</replaceable></term> 
+      <term><option>-X:</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Specifies an individual compilation option. See the
           <emphasis>tcc User's Guide</emphasis> for details.</para>
@@ -557,7 +557,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-Y</option><replaceable>file</replaceable></term> 
+      <term><option>-Y</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the environment to use. An environment is a file
           telling <command>tcc</command> to modify its defaults. If the full
@@ -578,7 +578,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-Z</option><replaceable>string</replaceable></term> 
+      <term><option>-Z</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Provided for &man.freebsd.cc; compatibility. Specifies
           various installer options.</para>
@@ -586,9 +586,9 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-api_check</option></term> 
+      <term><option>-api_check</option></term>
       <listitem>
-        <para>Causes <emphasis>tchk</emphasis> to create an API usage 
+        <para>Causes <emphasis>tchk</emphasis> to create an API usage
           analysis file, with default name <emphasis>a.api</emphasis>.</para>
       </listitem>
     </varlistentry>
@@ -602,7 +602,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-b</option></term> 
+      <term><option>-b</option></term>
       <listitem>
         <para>Stops the library <emphasis>libc.a</emphasis> being used by
           the linker by default.</para>
@@ -610,7 +610,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-c</option></term> 
+      <term><option>-c</option></term>
       <listitem>
         <para>Tells <command>tcc</command> to stop after producing the
           binary object files. This is equivalent to
@@ -619,7 +619,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-cc</option></term> 
+      <term><option>-cc</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to invoke &man.freebsd.cc; for
           its code production, using the C to TDF producer as a checking
@@ -630,7 +630,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-cc_only</option></term> 
+      <term><option>-cc_only</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to invoke &man.freebsd.cc;
           only.</para>
@@ -638,7 +638,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-ch</option></term> 
+      <term><option>-ch</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to emulate the stand-alone
           static checker, &man.tendra.tchk;. Intermodular checks are enabled
@@ -647,7 +647,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-d</option></term> 
+      <term><option>-d</option></term>
       <listitem>
         <para>Halts the compilation after the creation of the dump files.
           This is equivalent to <option>-Fd</option>.</para>
@@ -655,7 +655,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-disp</option></term> 
+      <term><option>-disp</option></term>
       <listitem>
         <para>Runs the TDF pretty-printer on all files at stage 2 or 3 and
           then terminates. The results are put into files with
@@ -664,7 +664,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-disp_t</option></term> 
+      <term><option>-disp_t</option></term>
       <listitem>
         <para>Runs the pretty-printer on all files at stage 3 and then
           terminates. This differs from the previous option in that it
@@ -675,7 +675,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-dn</option> or <option>-dy</option></term> 
+      <term><option>-dn</option> or <option>-dy</option></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
@@ -683,7 +683,7 @@
 
     <varlistentry>
       <term><option>-do</option><replaceable>letter</replaceable> <emphasis>
-      string</emphasis></term> 
+      string</emphasis></term>
       <listitem>
         <para>Sets the name of the default output file of type
           <emphasis>letter</emphasis> to <emphasis>string</emphasis>. For
@@ -693,7 +693,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-dry</option></term> 
+      <term><option>-dry</option></term>
       <listitem>
         <para>Makes <command>tcc</command> print information on what system
           commands it would execute with the given files and options (as in
@@ -702,7 +702,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-dump</option></term> 
+      <term><option>-dump</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to dump its current status.
           This option is only used during the actual compilation of
@@ -711,7 +711,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-e</option><replaceable>string</replaceable></term> 
+      <term><option>-e</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Is equivalent to inserting the preprocessor directive
           "#include "<emphasis>string</emphasis>"" at the end of each C
@@ -720,7 +720,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-f</option><replaceable>string</replaceable></term> 
+      <term><option>-f</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Is equivalent to inserting the preprocessor directive
           "#include "<emphasis>string</emphasis>"" at the start of each C
@@ -729,7 +729,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-g</option></term> 
+      <term><option>-g</option></term>
       <listitem>
         <para>Tells <command>tcc</command> to produce diagnostic
           information compatible with the system debugger.</para>
@@ -737,14 +737,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-h</option><replaceable>string</replaceable></term> 
+      <term><option>-h</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-i</option></term> 
+      <term><option>-i</option></term>
       <listitem>
         <para>Tells <command>tcc</command> to stop after producing the
           target independent TDF capsules. This is equivalent to
@@ -753,21 +753,21 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-im</option></term> 
+      <term><option>-im</option></term>
       <listitem>
         <para>Enables intermodular checks.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-im0</option></term> 
+      <term><option>-im0</option></term>
       <listitem>
         <para>Disables intermodular checks.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-info</option></term> 
+      <term><option>-info</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to print information on the
           current API.</para>
@@ -775,7 +775,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-j</option><replaceable>string</replaceable></term> 
+      <term><option>-j</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Tells the TDF linker to use the TDF library
           <emphasis>string</emphasis><markup>.tl</markup>.</para>
@@ -783,7 +783,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-k</option></term> 
+      <term><option>-k</option></term>
       <listitem>
         <para>In intermodular checking mode, halts the compilation after
           the creation of the C++ spec files. This is equivalent to
@@ -792,7 +792,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-keep_errors</option></term> 
+      <term><option>-keep_errors</option></term>
       <listitem>
         <para>By default, if an error occurs during the production of a
           file, <command>tcc</command> will remove it. This option will
@@ -801,7 +801,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-l</option><replaceable>string</replaceable></term> 
+      <term><option>-l</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Tells the system linker to use the library
           <emphasis>lib</emphasis><emphasis>string</emphasis><markup>.a</markup>.</para>
@@ -809,7 +809,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-make_up_names</option></term> 
+      <term><option>-make_up_names</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to make up names for all
           intermediate files rather than forming them from the basenames of
@@ -826,7 +826,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-nepc</option></term> 
+      <term><option>-nepc</option></term>
       <listitem>
         <para>Tells the C to TDF producer to allow certain non-portable
           constructs through.</para>
@@ -834,7 +834,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-not_ansi</option></term> 
+      <term><option>-not_ansi</option></term>
       <listitem>
         <para>Tells the C to TDF producer to allow certain non-ANSI
           features through.</para>
@@ -842,7 +842,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-no_startup_options</option></term> 
+      <term><option>-no_startup_options</option></term>
       <listitem>
         <para>Ensures that no start-up or end-up options are passed to the
           C to TDF producer (unlikely to be useful).</para>
@@ -850,7 +850,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-o </option><replaceable>string</replaceable></term> 
+      <term><option>-o </option><replaceable>string</replaceable></term>
       <listitem>
         <para>If a final executable is produced, call it
           <emphasis>string</emphasis> (the default is
@@ -859,7 +859,7 @@
       </listitem>
     </varlistentry>
     <varlistentry>
-      <term><option>-p</option></term> 
+      <term><option>-p</option></term>
 
       <listitem>
         <para>Produces profiling data for use with &man.freebsd.prof; on
@@ -868,7 +868,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-prod</option></term> 
+      <term><option>-prod</option></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should stop after
           producing the target independent TDF capsules and combine them into
@@ -878,7 +878,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option> or <option>-quiet</option></term> 
+      <term><option>-q</option> or <option>-quiet</option></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should work silently.
           This is the default.</para>
@@ -886,7 +886,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-query</option></term> 
+      <term><option>-query</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to print a list of all the
           options it recognises, together with a brief description of each.
@@ -896,7 +896,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-s</option></term> 
+      <term><option>-s</option></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
@@ -904,7 +904,7 @@
 
     <varlistentry>
       <term><option>-s</option><replaceable>letter</replaceable><emphasis>:</emphasis><emphasis>
-        suffix</emphasis></term> 
+        suffix</emphasis></term>
       <listitem>
         <para>Specifies that files with suffix <emphasis>suffix</emphasis>
           are interpreted as having type indicated by
@@ -913,7 +913,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-show_env</option></term> 
+      <term><option>-show_env</option></term>
       <listitem>
         <para>Prints the <command>tcc</command> environments path. This is
           a list of directories separated by colons. The first element of the
@@ -925,7 +925,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-show_errors</option></term> 
+      <term><option>-show_errors</option></term>
       <listitem>
         <para>Makes <command>tcc</command> report on the command it was
           executing when an error occurred.</para>
@@ -948,14 +948,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-sym</option></term> 
+      <term><option>-sym</option></term>
       <listitem>
         <para>Enables dump-linking.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-sym: </option><emphasis>string</emphasis></term> 
+      <term><option>-sym: </option><emphasis>string</emphasis></term>
       <listitem>
         <para>Enables dump-linking (with mode specified by options in
           string).</para>
@@ -971,7 +971,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-temp </option><replaceable>dir</replaceable></term> 
+      <term><option>-temp </option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should use
           <emphasis>dir</emphasis> as its temporary directory.</para>
@@ -979,7 +979,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-tidy</option></term> 
+      <term><option>-tidy</option></term>
       <listitem>
         <para>Causes <command>tcc</command> to remove its intermediate
           files when they are no longer required rather than waiting to the
@@ -988,7 +988,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-time</option></term> 
+      <term><option>-time</option></term>
       <listitem>
         <para>Makes <command>tcc</command> print information on what system
           commands it is executing (as with verbose mode) followed by the
@@ -997,14 +997,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-u</option><replaceable>string</replaceable></term> 
+      <term><option>-u</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-v</option> or <option>-verbose</option></term> 
+      <term><option>-v</option> or <option>-verbose</option></term>
       <listitem>
         <para>Specifies that <command>tcc</command> should work in verbose
           mode, sending information on what system commands it is executing
@@ -1012,7 +1012,7 @@
       </listitem>
     </varlistentry>
     <varlistentry>
-      <term><option>-vb</option></term> 
+      <term><option>-vb</option></term>
 
       <listitem>
         <para>Causes the name of each input file to be printed as it is
@@ -1021,7 +1021,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-version</option></term> 
+      <term><option>-version</option></term>
       <listitem>
         <para>Makes <command>tcc</command> report its version
           number.</para>
@@ -1029,7 +1029,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-w</option></term> 
+      <term><option>-w</option></term>
       <listitem>
         <para>Suppresses all <command>tcc</command> warning
           messages.</para>
@@ -1046,7 +1046,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-wsl</option></term> 
+      <term><option>-wsl</option></term>
       <listitem>
         <para>Tells the TDF translator to make all string literals
           writable.</para>
@@ -1054,7 +1054,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-z</option><replaceable>string</replaceable></term> 
+      <term><option>-z</option><replaceable>string</replaceable></term>
       <listitem>
         <para>Passed to the system linker.</para>
       </listitem>
@@ -1063,25 +1063,25 @@
 </refsect1>
 
 <refsect1 id='tcc-files'>
-  <title>FILES</title> 
+  <title>FILES</title>
 
   <variablelist>
     <varlistentry>
-      <term> <filename>file.c</filename></term> 
+      <term> <filename>file.c</filename></term>
       <listitem>
         <para>C source file</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.i</filename></term> 
+      <term><filename>file.i</filename></term>
       <listitem>
         <para>Preprocessed C source file</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.C</filename></term> 
+      <term><filename>file.C</filename></term>
       <listitem>
         <para>C++ source file (only if <option>-Yc++</option> is
           specified)</para>
@@ -1089,7 +1089,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.I</filename></term> 
+      <term><filename>file.I</filename></term>
       <listitem>
         <para>Preprocessed C++ source file (only if <option>-Yc++</option>
           is specified)</para>
@@ -1097,21 +1097,21 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.j</filename></term> 
+      <term><filename>file.j</filename></term>
       <listitem>
         <para>Target independent TDF capsule</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.t</filename></term> 
+      <term><filename>file.t</filename></term>
       <listitem>
         <para>Target dependent TDF capsule</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.s</filename></term> 
+      <term><filename>file.s</filename></term>
 
       <listitem>
         <para>Assembly source file</para>
@@ -1132,7 +1132,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.K</filename></term> 
+      <term><filename>file.K</filename></term>
       <listitem>
         <para>C++ spec file (only if <option>-Yc++</option> is
         specified)</para>
@@ -1140,14 +1140,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.p</filename></term> 
+      <term><filename>file.p</filename></term>
       <listitem>
         <para>Pretty-printed TDF capsule</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.pl</filename></term> 
+      <term><filename>file.pl</filename></term>
       <listitem>
         <para>PL_TDF source file (only if <option>-Ypl_tdf</option> is
         specified)</para>
@@ -1162,21 +1162,21 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.G</filename></term> 
+      <term><filename>file.G</filename></term>
       <listitem>
         <para>Binasm source file (Mips and Alpha only)</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>file.T</filename></term> 
+      <term><filename>file.T</filename></term>
       <listitem>
         <para>Assembler symbol table (Mips and Alpha only)</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><filename>a.out</filename></term> 
+      <term><filename>a.out</filename></term>
       <listitem>
         <para>Default executable name</para>
       </listitem>
@@ -1211,7 +1211,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><filename>tcc_startup.h</filename></term> 
+      <term><filename>tcc_startup.h</filename></term>
       <listitem>
         <para>Name of preserved <command>tcc</command> start-up file</para>
       </listitem>
@@ -1229,7 +1229,7 @@
 </refsect1>
 
 <refsect1 id='tcc-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.freebsd.as;, &man.freebsd.cc;, &man.tendra.disp;,
   &man.freebsd.ld;, &man.freebsd.prof;, &man.tendra.tchk;,

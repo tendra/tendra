@@ -13,7 +13,7 @@
 
 <refsynopsisdiv id='synopsis'>
   <cmdsynopsis>
-    <command>tnc</command> 
+    <command>tnc</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>input-file</replaceable></arg>
     <arg choice='opt'><replaceable>output-file</replaceable></arg>
@@ -21,7 +21,7 @@
 </refsynopsisdiv>
 
 <refsect1 id='description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para><command>tnc</command> translates TDF capsules to and from text. It
     has two input modes, <emphasis>read</emphasis> and
@@ -48,7 +48,7 @@
 </refsect1>
 
 <refsect1 id='options'>
-  <title>OPTIONS</title> 
+  <title>OPTIONS</title>
 
   <variablelist>
     <varlistentry>
@@ -66,7 +66,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-d</option> or <option>-decode</option></term> 
+      <term><option>-d</option> or <option>-decode</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>decode</emphasis> mode. That is, that
@@ -75,7 +75,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-e</option> or <option>-encode</option></term> 
+      <term><option>-e</option> or <option>-encode</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>encode</emphasis> mode. That is, that
@@ -84,7 +84,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-eval</option></term> 
+      <term><option>-eval</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should simplify its
           input by evaluating constant expressions as far as possible.</para>
@@ -92,7 +92,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-expand</option></term> 
+      <term><option>-expand</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should expand its input
           by replacing all applications of defined tokens by the token
@@ -101,7 +101,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-f</option> or <option>-func</option></term> 
+      <term><option>-f</option> or <option>-func</option></term>
       <listitem>
         <para>Causes <command>tnc</command> to use its alternative,
           functional, form for both input and output. The options
@@ -120,7 +120,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-I</option><replaceable>dir</replaceable></term> 
+      <term><option>-I</option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Adds the directory <emphasis>dir</emphasis> to the search
           path used by <command>tnc</command> to find included files in
@@ -129,7 +129,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-l</option> or <option>-lib</option></term> 
+      <term><option>-l</option> or <option>-lib</option></term>
       <listitem>
         <para>In <emphasis>decode</emphasis> mode, specifies that
           <emphasis>input-file</emphasis> is not a TDF capsule, but a TDF
@@ -139,7 +139,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-L</option><replaceable>prefix</replaceable></term> 
+      <term><option>-L</option><replaceable>prefix</replaceable></term>
       <listitem>
         <para>Causes <command>tnc</command> to treat any external
           identifiers starting with <emphasis>prefix</emphasis> to be treated
@@ -148,7 +148,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-o</option> <emphasis>output-file</emphasis></term> 
+      <term><option>-o</option> <emphasis>output-file</emphasis></term>
       <listitem>
         <para>Gives an alternative method of specifying the output
           file.</para>
@@ -156,7 +156,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-p</option> or <option>-print</option></term> 
+      <term><option>-p</option> or <option>-print</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>decode</emphasis> and <emphasis>write</emphasis> modes.
@@ -168,7 +168,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term> 
+      <term><option>-q</option></term>
       <listitem>
         <para>Causes <command>tnc</command> not to check the consistency of
           multiple tag or token definitions.</para>
@@ -176,7 +176,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-r</option> or <option>-read</option></term> 
+      <term><option>-r</option> or <option>-read</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>read</emphasis> mode. That is, that
@@ -185,7 +185,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-t</option> or <option>-tsimp</option></term> 
+      <term><option>-t</option> or <option>-tsimp</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should expand its input
           by replacing all applications of defined tokens by the token
@@ -196,7 +196,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
       <listitem>
         <para>In <emphasis>write</emphasis> mode, specifies that the output
           should be in the "verbose" form, with no shorthand forms.</para>
@@ -204,7 +204,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-version</option></term> 
+      <term><option>-version</option></term>
       <listitem>
         <para>Makes <command>tnc</command> print its version number and the
           version of the TDF specification it supports.</para>
@@ -212,7 +212,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-w</option> or <option>-write</option></term> 
+      <term><option>-w</option> or <option>-write</option></term>
       <listitem>
         <para>Specifies that <command>tnc</command> should be in
           <emphasis>write</emphasis> mode. That is, that
@@ -223,7 +223,7 @@
 </refsect1>
 
 <refsect1 id='seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.tendra.disp;, &man.tendra.tcc;.</para>
 </refsect1>

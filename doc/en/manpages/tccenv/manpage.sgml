@@ -18,7 +18,7 @@
 </refsynopsisdiv>
 
 <refsect1 id='tccenv-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para><emphasis>Tcc</emphasis> environments are used to configure the
     behaviour of &man.tendra.tcc;, a special case of which is specifying
@@ -52,7 +52,7 @@
 </refsect1>
 
 <refsect1 id='tccenv-userdefined-environments'>
-  <title>USER-DEFINED ENVIRONMENTS</title> 
+  <title>USER-DEFINED ENVIRONMENTS</title>
 
   <para>The simplest example of a user-defined environment contains lines
     of the form</para>
@@ -108,7 +108,7 @@
 </refsect1>
 
 <refsect1 id='tccenv-full-environment-list'>
-  <title>FULL ENVIRONMENT LIST</title> 
+  <title>FULL ENVIRONMENT LIST</title>
 
   <para>The majority of the standard environments can be divided into two
     classes: those which correspond to APIs and those which implement
@@ -126,7 +126,7 @@
         <para>the ANSI X3.159 API (this is the default API environment)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>iso</filename></term>
       <listitem>
@@ -142,49 +142,49 @@
         <para>the POSIX (IEEE 1003.1:1988) API</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>posix1</filename></term>
       <listitem>
         <para>the POSIX.1 (ISO/IEC 9945-1:1990) API</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>posix2</filename></term>
       <listitem>
         <para>the POSIX.2 (ISO/IEC 9945-2:1993) API</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>xpg3</filename></term>
       <listitem>
         <para>the X/Open Portability Guide 3</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>xpg4</filename></term>
       <listitem>
         <para>the X/Open Portability Guide 4</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>unix95</filename></term>
       <listitem>
         <para>the X/Open Single UNIX Specification (Spec 1170)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>svid3</filename></term>
       <listitem>
         <para>the System V Interface Definition (3rd Edition)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>aes</filename></term>
       <listitem>
@@ -200,63 +200,63 @@
         <para>BSD-like extension for use with POSIX, etc.</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_lib</filename></term>
       <listitem>
         <para>X11 (Release 5) X Library</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_t</filename></term>
       <listitem>
         <para>X11 (Release 5) Intrinsics Toolkit</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_mu</filename></term>
       <listitem>
         <para>X11 (Release 5) Miscellaneous Utilities</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_aw</filename></term>
       <listitem>
         <para>X11 (Release 5) Athena Widgets</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_mit</filename></term>
       <listitem>
         <para>X11 (Release 5) MIT Implementation</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_proto</filename></term>
       <listitem>
         <para>X11 (Release 5) Protocol Extension</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>x5_ext</filename></term>
       <listitem>
         <para>X11 (Release 5) Extensions</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>motif_1_1</filename></term>
       <listitem>
         <para>Motif (Release 1.1)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>motif_1_2</filename></term>
       <listitem>
@@ -274,14 +274,14 @@
         <para>System headers as main API</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>system+</filename></term>
       <listitem>
         <para>System headers as last resort extension API</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>tdf_ext</filename></term>
       <listitem>
@@ -302,7 +302,7 @@
         <para>permit access to X11 Release 5 private headers (*P.h)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>motif_private</filename></term>
       <listitem>
@@ -329,14 +329,14 @@
         <para>enables the C++ producer/checker tcpplus.</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>pl_tdf</filename></term>
       <listitem>
         <para>enables the PL_TDF compiler pl.</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>tnc</filename></term>
       <listitem>
@@ -356,7 +356,7 @@
         <para>specifies minimal integer sizes allowed by ANSI (default)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>32bit</filename></term>
       <listitem>
@@ -375,7 +375,7 @@
         <para>Use a.out instead of ELF format (386 Linux ELF only).</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>static</filename></term>
       <listitem>
@@ -386,7 +386,7 @@
 
 
 <refsect1 id='tccenv-environmental-identifiers'>
-  <title>ENVIRONMENTAL IDENTIFIERS</title> 
+  <title>ENVIRONMENTAL IDENTIFIERS</title>
 
   <para>In the following list, the environmental prefix * must be
     replaced by one of + (which replaces the existing value), &lt; (which
@@ -400,434 +400,434 @@
         <para>modifies the list of API analysis environment names</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*AS</filename></term>
       <listitem>
         <para>modifies the system assembler executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*AS1</filename></term>
       <listitem>
         <para>modifies the auxiliary assembler executable (Mips and Alpha only)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CC</filename></term>
       <listitem>
         <para>modifies the system compiler executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CPP_SPEC_LINK</filename></term>
       <listitem>
         <para>modifies the C++ spec linker executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CRT0</filename></term>
       <listitem>
         <para>modifies the first list of initial default .o files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CRT1</filename></term>
       <listitem>
         <para>modifies the second list of initial default .o files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CRTP_N</filename></term>
       <listitem>
         <para>modifies the list of additional default .o files (-Yprom only)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*CRTN</filename></term>
       <listitem>
         <para>modifies the list of final default .o files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*DISP</filename></term>
       <listitem>
         <para>modifies the TDF pretty printer executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*DUMP_ANAL</filename></term>
       <listitem>
         <para>modifies the dump-file analyser executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*DUMP_LINK</filename></term>
       <listitem>
         <para>modifies the dump linker executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*DYN_LINK</filename></term>
       <listitem>
         <para>modifies the dynamic-initialisation linker executable (RS6000 and Sparc only)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+ENVDIR</filename></term>
       <listitem>
         <para>sets the default environment directory</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG</filename></term>
       <listitem>
         <para>passes a flag to tcc(1)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_AS</filename></term>
       <listitem>
         <para>passes a flag to the assembler</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_AS1</filename></term>
       <listitem>
         <para>passes a flag to the auxiliary assembler (Mips and Alpha only)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_CC</filename></term>
       <listitem>
         <para>passes a flag to the system compiler</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_CPP_SPEC_LINK</filename></term>
       <listitem>
         <para>passes a flag to the C++ spec linker</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_DISP</filename></term>
       <listitem>
         <para>passes a flag to the TDF pretty printer</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_DUMP_ANAL</filename></term>
       <listitem>
         <para>passes a flag to the dump-file analyser</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_DUMP_LINK</filename></term>
       <listitem>
         <para>passes a flag to the dump linker</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_DYN_LINK</filename></term>
       <listitem>
         <para>passes a flag to the dynamic-initialisation linker ((RS6000 and Sparc only)</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_INSTALL</filename></term>
       <listitem>
         <para>passes a flag to the TDF archive builder</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_LD</filename></term>
       <listitem>
         <para>passes a flag to the system linker</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_PL_TDF</filename></term>
       <listitem>
         <para>passes a flag to the PL_TDF compiler</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_SPEC_LINKER</filename></term>
       <listitem>
         <para>passes a flag to the C spec linker</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TCPPLUS</filename></term>
       <listitem>
         <para>passes a flag to the C++ producer</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TCPPLUSPP</filename></term>
       <listitem>
         <para>passes a flag to the C++ preprocessor</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TDFC</filename></term>
       <listitem>
         <para>passes a flag to the C producer</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TDFCPP</filename></term>
       <listitem>
         <para>passes a flag to the C preprocessor</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TLD</filename></term>
       <listitem>
         <para>passes a flag to the TDF linker</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TNC</filename></term>
       <listitem>
         <para>passes a flag to the TDF notation compiler</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+FLAG_TRANS</filename></term>
       <listitem>
         <para>passes a flag to the TDF translator</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*INCL</filename></term>
       <listitem>
         <para>modifies the list of default include file directories</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*INFO</filename></term>
       <listitem>
         <para>modifies the list of API information</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*LD</filename></term>
       <listitem>
         <para>modifies the system linker executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*LIB</filename></term>
       <listitem>
         <para>modifies the list of default TDF libraries</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+LINE_START</filename></term>
       <listitem>
         <para>inserts a line in the tcc(1) built-in start-up file</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+LINE_END</filename></term>
       <listitem>
         <para>inserts a line in the tcc(1) built-in end-up file</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*LINK</filename></term>
       <listitem>
         <para>modifies the list of default TDF library directories</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*LINK_ENTRY</filename></term>
       <listitem>
         <para>modifies the linker options specifying the entry point</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+MACHINE</filename></term>
       <listitem>
         <para>sets the target machine type</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+PORTABILITY</filename></term>
       <listitem>
         <para>sets the producer portability table</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*PL_TDF</filename></term>
       <listitem>
         <para>modifies the PL_TDF compiler executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*SPEC_LINK</filename></term>
       <listitem>
         <para>modifies the C spec linker executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*STARTUP</filename></term>
       <listitem>
         <para>modifies the list of default C producer start-up files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*STARTUP_DIR</filename></term>
       <listitem>
         <para>modifies the list of default C producer start-up directories</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*STARTUP_CPP</filename></term>
       <listitem>
         <para>modifies the list of default C++ producer start-up files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*STARTUP_CPP_DIR</filename></term>
       <listitem>
         <para>modifies the list of default C++ producer start-up directories</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*SUFFIX_CPP</filename></term>
       <listitem>
         <para>sets the filename suffix override for C++ source files</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*SYS_LIB</filename></term>
       <listitem>
         <para>modifies the list of default system libraries</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*SYS_LIBC</filename></term>
       <listitem>
         <para>modifies the list of standard system libraries</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*SYS_LINK</filename></term>
       <listitem>
         <para>modifies the list of default system library directories</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TCPPLUS</filename></term>
       <listitem>
         <para>modifies the C++ producer executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TCPPLUSPP</filename></term>
       <listitem>
         <para>modifies the C++ preprocessor executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TDFC</filename></term>
       <listitem>
         <para>modifies the C producer executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TDFCPP</filename></term>
       <listitem>
         <para>modifies the C preprocessor executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+TEMP</filename></term>
       <listitem>
         <para>sets the temporary directory</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TLD</filename></term>
       <listitem>
         <para>modifies the TDF linker executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TNC</filename></term>
       <listitem>
         <para>modifies the TDF notation compiler executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>*TRANS</filename></term>
       <listitem>
         <para>modifies the TDF translator executable</para>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>+VERSION</filename></term>
       <listitem>
@@ -840,7 +840,7 @@
 </refsect1>
 
 <refsect1 id='tccenv-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.tendra.tcc;, &man.tendra.tchk;, &man.tendra.tcpplus;
     &man.tendra.pl;. &man.tendra.tnc;</para>

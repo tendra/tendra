@@ -24,7 +24,7 @@
 
 
 <refsect1 id='tld-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para>The <emphasis>tld</emphasis> command is used to create and
     manipulate TDF libraries, and to link together TDF capsules. It has four
@@ -47,7 +47,7 @@
 </refsect1>
 
 <refsect1 id='tld-switches'>
-  <title>SWITCHES</title> 
+  <title>SWITCHES</title>
 
   <para>The new version of <emphasis>tld</emphasis> accepts both short form
     and long form command line switches.</para>
@@ -95,7 +95,7 @@
 </refsect1>
 
 <refsect1 id='tld-externalnames'>
-  <title>EXTERNAL NAMES</title> 
+  <title>EXTERNAL NAMES</title>
 
   <para>An external name may be either a string or a unique. A unique is
     written as</para>
@@ -118,7 +118,7 @@
 </refsect1>
 
 <refsect1 id='tld-renamefilesyntax'>
-  <title>RENAME FILE SYNTAX</title> 
+  <title>RENAME FILE SYNTAX</title>
 
   <para>Renaming may be specified either on the command line, or in a file.
     The files that specify the renamings to be performed have the following
@@ -133,7 +133,7 @@
 </refsect1>
 
 <refsect1 id='tld-unitsetfilesyntax'>
-  <title>UNIT SET FILE SYNTAX</title> 
+  <title>UNIT SET FILE SYNTAX</title>
 
   <para>The file should consist of a sequence of strings enclosed in double
     quotes. The backslash character can be used to escape characters. The
@@ -148,7 +148,7 @@
 </refsect1>
 
 <refsect1 id='tld-errorfilesyntax'>
-  <title>ERROR FILE SYNTAX</title> 
+  <title>ERROR FILE SYNTAX</title>
 
   <para>It is possible to change the error messages that the linker uses.
     In order to do this, make the environment variable
@@ -174,7 +174,7 @@
 </refsect1>
 
 <refsect1 id='tld-linking'>
-  <title>LINKING</title> 
+  <title>LINKING</title>
 
   <para>In the default mode, <emphasis>tld</emphasis> tries to link
     together the TDF capsules specified on the command line. This consists of
@@ -221,9 +221,9 @@
 </refsect1>
 
 <refsect1 id='tld-switches2'>
-  <title>Switches</title> 
+  <title>Switches</title>
 
-   <para><command>tld</command>accepts the following switches in link 
+   <para><command>tld</command>accepts the following switches in link
      mode:</para>
 
   <para><option>--all-hide-defined</option>
@@ -231,7 +231,7 @@
 
   <para>Hide all external names (of any shape) that are defined.</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the linking process in
@@ -251,7 +251,7 @@
     <emphasis>NAME</emphasis> to be hidden. An error is reported if the name
     is not defined.</para>
 
-  <para><option>--hide-defined</option> <replaceable>SHAPE</replaceable> 
+  <para><option>--hide-defined</option> <replaceable>SHAPE</replaceable>
     <option>-H</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Cause the all external <emphasis>SHAPE</emphasis> names that are
@@ -265,13 +265,13 @@
   <para>Cause the external <emphasis>SHAPE</emphasis> name
     <emphasis>NAME</emphasis> to be kept.</para>
 
-  <para><option>--keep-all</option> <replaceable>SHAPE</replaceable> 
+  <para><option>--keep-all</option> <replaceable>SHAPE</replaceable>
     <option>-K</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Cause the all external <emphasis>SHAPE</emphasis> names to be
     kept.</para>
 
-  <para><option>--library</option> <replaceable>FILE</replaceable> 
+  <para><option>--library</option> <replaceable>FILE</replaceable>
     <option>-l</option><replaceable>FILE</replaceable></para>
 
   <para>Use the file <emphasis>FILE</emphasis> as a TDF library. If the
@@ -280,14 +280,14 @@
     '<emphasis>FILE</emphasis>.tl'. Duplicate entries for the same library
     are ignored.</para>
 
-  <para><option>--output-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--output-file</option> <replaceable>FILE</replaceable>
     <option>-o</option> <replaceable>FILE</replaceable></para>
 
   <para>Write the output capsule to the file <emphasis>FILE</emphasis>. If
     this switch is not specified, then the output is written to the file
     'capsule.j' instead.</para>
 
-  <para><option>--path</option> <replaceable>DIRECTORY</replaceable> 
+  <para><option>--path</option> <replaceable>DIRECTORY</replaceable>
     <option>-L</option><replaceable>DIRECTORY</replaceable></para>
 
   <para>Append the directory <emphasis>DIRECTORY</emphasis> to the library
@@ -301,7 +301,7 @@
   <para>Rename the external <emphasis>SHAPE</emphasis> name
     <emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</para>
 
-  <para><option>--rename-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--rename-file</option> <replaceable>FILE</replaceable>
     <option>-R</option> <replaceable>FILE</replaceable></para>
 
   <para>Read the contents of the file <emphasis>FILE</emphasis> as a series
@@ -321,7 +321,7 @@
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
 
-  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable> 
+  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
     <option>-S</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Do not try to find a definition for any external
@@ -333,7 +333,7 @@
   <para>Do not use non-unique definitions in libraries as definitions for
     external names.</para>
 
-  <para><option>--unit-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--unit-file</option> <replaceable>FILE</replaceable>
     <option>-u</option> <replaceable>FILE</replaceable></para>
 
   <para>Parse <emphasis>FILE</emphasis> to get a new unit set name list. By
@@ -355,7 +355,7 @@
 </refsect1>
 
 <refsect1 id='tld-libraryconstruction'>
-  <title>LIBRARY CONSTRUCTION</title> 
+  <title>LIBRARY CONSTRUCTION</title>
 
   <para>A TDF library is a sequence of named capsules, with an index. The
     index indicates which external names are defined by the capsules in the
@@ -367,14 +367,14 @@
 </refsect1>
 
 <refsect1 id='tld-switches3'>
-  <title>Switches</title> 
+  <title>Switches</title>
 
   <para>FIXME: tld</para>
 
    <para><command>tld</command>accepts the following switches in library
      construction mode:</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library construction process in
@@ -384,7 +384,7 @@
 
   <para>Write an option summary to the standard error.</para>
 
-  <para><option>--include-library</option> <replaceable>FILE</replaceable> 
+  <para><option>--include-library</option> <replaceable>FILE</replaceable>
     <option>-i</option> <replaceable>FILE</replaceable></para>
 
   <para>Include all of the capsules in the TDF library
@@ -392,7 +392,7 @@
     name should be a proper file name, not a library abbreviation like the
     <option>--library</option> switch used by the linking mode.</para>
 
-  <para><option>--output-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--output-file</option> <replaceable>FILE</replaceable>
     <option>-o</option> <replaceable>FILE</replaceable></para>
 
   <para>Write the output library to the file <emphasis>FILE</emphasis>. If
@@ -412,7 +412,7 @@
   <para>Do not try to find a definition for the external
     <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
 
-  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable> 
+  <para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
     <option>-S</option> <replaceable>SHAPE</replaceable></para>
 
   <para>Do not try to find a definition for any external
@@ -424,7 +424,7 @@
   <para>Do not use non-unique definitions in libraries as definitions for
     external names.</para>
 
-  <para><option>--unit-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--unit-file</option> <replaceable>FILE</replaceable>
     <option>-u</option> <replaceable>FILE</replaceable></para>
 
   <para>Parse <emphasis>FILE</emphasis> to get a new unit set name list. By
@@ -439,7 +439,7 @@
 </refsect1>
 
 <refsect1 id='tld-librarycontents'>
-  <title>LIBRARY CONTENTS</title> 
+  <title>LIBRARY CONTENTS</title>
 
   <para>When invoked with the <option>-mt</option> switch,
     <emphasis>tld</emphasis> produces a listing of the contents of the TDF
@@ -447,12 +447,12 @@
 </refsect1>
 
 <refsect1 id='tld-switches4'>
-  <title>Switches</title> 
+  <title>Switches</title>
 
   <para><command>tld</command>accepts the following switches in library contents
     mode:</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library contents process in
@@ -493,7 +493,7 @@
 </refsect1>
 
 <refsect1 id='tld-libraryextraction'>
-  <title>LIBRARY EXTRACTION</title> 
+  <title>LIBRARY EXTRACTION</title>
 
   <para>When invoked with the <option>-mx</option> switch,
     <emphasis>tld</emphasis> extracts capsules from the TDF library specified
@@ -511,7 +511,7 @@
 </refsect1>
 
 <refsect1 id='tld-switches5'>
-  <title>Switches</title> 
+  <title>Switches</title>
 
   <para><command>tld</command>accepts the following switches in library
     extraction mode:</para>
@@ -531,7 +531,7 @@
     into the current directory, using just their basename. This may cause
     some of the capsules to be written on top of each other.</para>
 
-  <para><option>--debug-file</option> <replaceable>FILE</replaceable> 
+  <para><option>--debug-file</option> <replaceable>FILE</replaceable>
     <option>-d</option> <replaceable>FILE</replaceable></para>
 
   <para>Produce a diagnostic trace of the library extraction process in
@@ -569,7 +569,7 @@
 </refsect1>
 
 <refsect1 id='tld-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.tendra.tcc;.</para>
 </refsect1>

@@ -27,9 +27,9 @@
   <title>DESCRIPTION</title>
   <para>The action of <command>pl</command> is to compile a PL_TDF text in
     <emphasis>infile.pl</emphasis> to a TDF capsule in
-    <emphasis>outfile.j</emphasis>. (See <emphasis>PL_TDF Definition</emphasis>).  
-    The resulting .j file is suitable for linking and translation by 
-    &man.tendra.tcc;</para> 
+    <emphasis>outfile.j</emphasis>. (See <emphasis>PL_TDF Definition</emphasis>).
+    The resulting .j file is suitable for linking and translation by
+    &man.tendra.tcc;</para>
 </refsect1>
 
 <refsect1 id='pl-options'>

@@ -13,7 +13,7 @@
 
 <refsynopsisdiv id='tchk-synopsis'>
   <cmdsynopsis>
-    <command>tchk</command> 
+    <command>tchk</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>files</replaceable></arg>
   </cmdsynopsis>
@@ -21,7 +21,7 @@
 
 
 <refsect1 id='tchk-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para><command>tchk</command> is the stand-alone TenDRA Static Program
     Checker. It is more fully documented in the <userinput>TCheck - The
@@ -34,6 +34,6 @@
 </refsect1>
 
 <refsect1 id='tchk-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
   <para>&man.tendra.tcc;.</para>
 </refsect1>

@@ -13,7 +13,7 @@
 
 <refsynopsisdiv id='disp-synopsis'>
   <cmdsynopsis>
-    <command>disp</command> 
+    <command>disp</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>input-file</replaceable></arg>
     <arg choice='opt'><replaceable>output-file</replaceable></arg>
@@ -22,7 +22,7 @@
 
 
 <refsect1 id='disp-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
   <para><command>disp</command> translates the input TDF capsule, <emphasis>
     input-file</emphasis> into a human-readable form, the layout of
     which reflects the structure of the underlying TDF tree. If the <emphasis>
@@ -41,16 +41,16 @@
     <option>-disp_t</option> option. The <emphasis>-</emphasis>
     <emphasis>opt</emphasis> flag can be passed to
     <command>disp</command> by passing the flag
-    <option>-Wd,-</option><replaceable>opt</replaceable> to 
+    <option>-Wd,-</option><replaceable>opt</replaceable> to
     <emphasis>tcc</emphasis>.</para>
 </refsect1>
 
 <refsect1 id='disp-options'>
-  <title>OPTIONS</title> 
+  <title>OPTIONS</title>
 
   <variablelist>
     <varlistentry>
-      <term><option>-g</option></term> 
+      <term><option>-g</option></term>
       <listitem>
         <para>Makes <command>disp</command> print any diagnostic
           information units within the TDF capsule.</para>
@@ -58,7 +58,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-n</option><replaceable>columns</replaceable></term> 
+      <term><option>-n</option><replaceable>columns</replaceable></term>
       <listitem>
         <para>Makes <command>disp</command> try to format its output to fit
           into a page width of <emphasis>columns</emphasis>. The
@@ -67,7 +67,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term> 
+      <term><option>-q</option></term>
       <listitem>
         <para>Makes <command>disp</command> ignore the specified page width
           and print its output with the minimum possible indentation. This
@@ -77,7 +77,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-r</option></term> 
+      <term><option>-r</option></term>
       <listitem>
         <para>Makes <command>disp</command> continue after any errors. The
           use of this flag is not recommended since anything read after an
@@ -86,7 +86,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-v</option></term> 
+      <term><option>-v</option></term>
       <listitem>
         <para>Makes <command>disp</command> print its version number and
           the version of the TDF specification it supports.</para>
@@ -94,7 +94,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-A</option></term> 
+      <term><option>-A</option></term>
       <listitem>
         <para>Makes <command>disp</command> decode all the units it
           recognises (including diagnostic and linking units) within the TDF
@@ -103,7 +103,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-D</option></term> 
+      <term><option>-D</option></term>
       <listitem>
         <para>Makes <command>disp</command> print a simple binary dump of
           the input file. This is intended for debugging purposes.</para>
@@ -111,7 +111,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-E</option></term> 
+      <term><option>-E</option></term>
       <listitem>
         <para>Makes <command>disp</command> report such information as the
           number of external tags and tokens which it usually omits.</para>
@@ -119,7 +119,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-S</option></term> 
+      <term><option>-S</option></term>
       <listitem>
         <para>Because tokens may be defined in terms of other tokens and do
           not need to be declared before they are defined,
@@ -133,7 +133,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-T</option></term> 
+      <term><option>-T</option></term>
       <listitem>
         <para>The skip pass described under the <option>-S</option> option
           is usual done silently, without printing any information. This is
@@ -142,7 +142,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-U</option></term> 
+      <term><option>-U</option></term>
 
       <listitem>
         <para>Makes <command>disp</command> print the usage information
@@ -152,7 +152,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
       <listitem>
         <para>By default <command>disp</command> attempts to rationalise
           the TDF it reads. In particular it uses the external token and tag
@@ -165,7 +165,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-W</option></term> 
+      <term><option>-W</option></term>
       <listitem>
         <para>Makes <command>disp</command> issue a warning about every
           token which is used before it is declared.</para>
@@ -175,7 +175,7 @@
 </refsect1>
 
 <refsect1 id='disp-diagnostics'>
-  <title>DIAGNOSTICS</title> 
+  <title>DIAGNOSTICS</title>
   <para>The error reports if the input file is not a legal TDF capsule are
     intended to aid developers writing programs which produce TDF. Thus they
     try to give all the information that may be required, including the
@@ -183,7 +183,7 @@
 </refsect1>
 
 <refsect1 id='disp-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.tendra.tcc;.</para>
 </refsect1>

@@ -13,32 +13,32 @@
 
 <refsynopsisdiv id='tspec-synopsis'>
   <cmdsynopsis>
-    <command>tspec</command> 
+    <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>api</replaceable></arg>
   </cmdsynopsis>
 
   <cmdsynopsis>
-    <command>tspec</command> 
+    <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>apiheader</replaceable></arg>
   </cmdsynopsis>
 
   <cmdsynopsis>
-    <command>tspec</command> 
+    <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'><replaceable>apiheadersubset</replaceable></arg>
   </cmdsynopsis>
 
   <cmdsynopsis>
-    <command>tspec</command> 
+    <command>tspec</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='plain'>-l <replaceable>file</replaceable></arg>
   </cmdsynopsis>
 </refsynopsisdiv>
 
 <refsect1 id='tspec-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para><command>tspec</command> is a tool for translating a form of API
     (Application Programming Interface) description into the
@@ -57,11 +57,11 @@
 </refsect1>
 
 <refsect1 id='tspec-options'>
-  <title>OPTIONS</title> 
+  <title>OPTIONS</title>
 
   <variablelist>
     <varlistentry>
-      <term><option>-C</option><replaceable>file</replaceable></term> 
+      <term><option>-C</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Causes <command>tspec</command> to insert the contents of
           <emphasis>file</emphasis> as a copyright message at the start of
@@ -74,7 +74,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-I</option><replaceable>dir</replaceable></term> 
+      <term><option>-I</option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Add the colon-separated list of directories
           <emphasis>dir</emphasis> to the list of directories searched for
@@ -84,7 +84,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-O</option><replaceable>dir</replaceable></term> 
+      <term><option>-O</option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Specifies that the directory <emphasis>dir</emphasis> should
           be used as a base for the include output files. This can also be
@@ -96,7 +96,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-S</option><replaceable>dir</replaceable></term> 
+      <term><option>-S</option><replaceable>dir</replaceable></term>
       <listitem>
         <para>Specifies that the directory <emphasis>dir</emphasis> should
           be used as a base for the source output files. This can also be
@@ -108,7 +108,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to print the program's
           version, as well as the TenDRA release.</para>
@@ -116,7 +116,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-a</option></term> 
+      <term><option>-a</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to check all headers in an
           API at once, as opposed to separately (as with the
@@ -125,7 +125,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-c</option></term> 
+      <term><option>-c</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to only check the input
           files, not to generate any output files.</para>
@@ -133,7 +133,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-e</option></term> 
+      <term><option>-e</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to only run its preprocessor
           phase, writing the output to the standard output.</para>
@@ -141,7 +141,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-f</option></term> 
+      <term><option>-f</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to ignore date stamps when
           deciding whether it is necessary to update an output file, and to
@@ -150,7 +150,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-i</option></term> 
+      <term><option>-i</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to print an index of all the
           objects specified in the input files to the standard output. This
@@ -160,14 +160,14 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-l</option></term> 
+      <term><option>-l</option></term>
       <listitem>
         <para>Specifies local input mode (see above).</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term><option>-m</option></term> 
+      <term><option>-m</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to print an index intended
           for machine processing of all the objects specified in the input
@@ -177,7 +177,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-n</option></term> 
+      <term><option>-n</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to update any output files
           which are younger than the <command>tspec</command> executable.
@@ -187,7 +187,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-p</option></term> 
+      <term><option>-p</option></term>
       <listitem>
         <para>Indicates to <command>tspec</command> that its input has
           already been preprocessed (i.e. that it is the output of a previous
@@ -196,7 +196,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-r</option></term> 
+      <term><option>-r</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to only produce output for
           implemented, as opposed to used, objects.</para>
@@ -204,7 +204,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-s</option></term> 
+      <term><option>-s</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to check each header in an
           API separately, as opposed to all at once (as with the
@@ -213,7 +213,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-t</option></term> 
+      <term><option>-t</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to allow long long type
           specifiers.</para>
@@ -221,7 +221,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-u</option></term> 
+      <term><option>-u</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to generate unique token
           names for the objects in its input files.</para>
@@ -229,7 +229,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-v</option></term> 
+      <term><option>-v</option></term>
       <listitem>
         <para>Causes <command>tspec</command> to enter verbose mode, in
           which it reports on the output files it creates. If two
@@ -242,7 +242,7 @@
 </refsect1>
 
 <refsect1 id='tspec-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
 
   <para>&man.tendra.tcc;, &man.tendra.tdfc;.</para>
 </refsect1>

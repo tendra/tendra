@@ -13,7 +13,7 @@
 
 <refsynopsisdiv id='tcpplus-synopsis'>
   <cmdsynopsis>
-    <command>tcpplus</command> 
+    <command>tcpplus</command>
     <arg choice='opt'><replaceable>options</replaceable></arg>
     <arg choice='opt'><replaceable>input-file</replaceable></arg>
     <arg choice='opt'><replaceable>output-file</replaceable></arg>
@@ -22,7 +22,7 @@
 
 
 <refsect1 id='tcpplus-description'>
-  <title>DESCRIPTION</title> 
+  <title>DESCRIPTION</title>
 
   <para>In its default action, <command>tcpplus</command> translates the
     input C++ source file, <emphasis>input-file</emphasis>, into a TDF/ANDF
@@ -62,7 +62,7 @@
 </refsect1>
 
 <refsect1 id='tcpplus-options'>
-  <title>OPTIONS</title> 
+  <title>OPTIONS</title>
 
   <para>The command-line options can appear in any order and can be
     interspersed with the input and output files. All the multi-part options
@@ -85,7 +85,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-D</option><replaceable>macro</replaceable></term> 
+      <term><option>-D</option><replaceable>macro</replaceable></term>
       <listitem>
         <para>Defines the given macro to be 1.</para>
       </listitem>
@@ -93,7 +93,7 @@
 
     <varlistentry>
       <term><option>-D</option><replaceable>macro</replaceable><emphasis>=</emphasis><emphasis>
-        tokens</emphasis></term> 
+        tokens</emphasis></term>
       <listitem>
         <para>Defines the given macro to be the given sequence of
           preprocessing tokens.</para>
@@ -101,7 +101,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-E</option></term> 
+      <term><option>-E</option></term>
       <listitem>
         <para>Enables preprocessing mode in which the input C++ source file
           is preprocessed into the output file.</para>
@@ -109,7 +109,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-F</option><replaceable>file</replaceable></term> 
+      <term><option>-F</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Causes a list of options to be read from
           <emphasis>file</emphasis>.</para>
@@ -117,7 +117,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-H</option></term> 
+      <term><option>-H</option></term>
       <listitem>
         <para>Enables verbose inclusion mode in which warnings are printed
         at the start and the end of each included source file.</para>
@@ -125,7 +125,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-I</option><replaceable>directory</replaceable></term> 
+      <term><option>-I</option><replaceable>directory</replaceable></term>
       <listitem>
         <para>Adds the given directory to the list searched by
           <command>tcpplus</command> for included source files. No such
@@ -135,7 +135,7 @@
 
     <varlistentry>
       <term><option>-N</option><replaceable>name</replaceable><emphasis>:</emphasis><emphasis>
-        directory</emphasis></term> 
+        directory</emphasis></term>
       <listitem>
         <para>Is identical to
           <option>-I</option><replaceable>directory</replaceable> except that
@@ -144,7 +144,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-S</option></term> 
+      <term><option>-S</option></term>
       <listitem>
         <para>Enables spec linker mode in which any number of C++ spec
           input files are linked into a single C++ spec output file.</para>
@@ -152,7 +152,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-U</option><replaceable>macro</replaceable></term> 
+      <term><option>-U</option><replaceable>macro</replaceable></term>
       <listitem>
         <para>Undefines the given macro. The special case
           <option>-U-</option> undefines all the built-in macros. These are
@@ -165,7 +165,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-V</option></term> 
+      <term><option>-V</option></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to print the name of each
           function to the standard output as it is compiled.</para>
@@ -173,7 +173,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-W</option><replaceable>option</replaceable></term> 
+      <term><option>-W</option><replaceable>option</replaceable></term>
 
       <listitem>
         <para>Causes <command>tcpplus</command> to print a warning in the
@@ -184,7 +184,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-X</option></term> 
+      <term><option>-X</option></term>
       <listitem>
         <para>Disables exception handling. The current implementation can
           be a large run-time overhead if not required. The effect of linking
@@ -195,7 +195,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-Z</option><replaceable>number</replaceable></term> 
+      <term><option>-Z</option><replaceable>number</replaceable></term>
       <listitem>
         <para>Sets the maximum number of errors printed by
           <command>tcpplus</command> before bailing out to be
@@ -204,7 +204,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-a</option></term> 
+      <term><option>-a</option></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to apply complete program
           analysis to its input files. That is it assumes that no other
@@ -214,7 +214,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-c</option></term> 
+      <term><option>-c</option></term>
       <listitem>
         <para>Disables TDF output. The output file will still be a valid
           TDF capsule, only it will contain no information. This is
@@ -224,7 +224,7 @@
 
     <varlistentry>
       <term><option>-d</option><replaceable>opt</replaceable><emphasis>=</emphasis><emphasis>
-        dump-file</emphasis></term> 
+        dump-file</emphasis></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to dump information about
           its input file into <emphasis>dump-file</emphasis>.
@@ -240,7 +240,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-e</option><replaceable>file</replaceable></term> 
+      <term><option>-e</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as an end-up file. This is
           equivalent to adding a <emphasis>#include</emphasis> directive for
@@ -249,7 +249,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-f</option><replaceable>file</replaceable></term> 
+      <term><option>-f</option><replaceable>file</replaceable></term>
       <listitem>
         <para>Specifies the given file as a start-up file. This is
           equivalent to adding a <emphasis>#include</emphasis> directive for
@@ -258,7 +258,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-g</option></term> 
+      <term><option>-g</option></term>
       <listitem>
         <para>Specifies that the output TDF capsule should also contain
           information to allow for the generation of run-time debugging
@@ -267,7 +267,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-h</option></term> 
+      <term><option>-h</option></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to print a full list of its
           available command-line options. This includes a number not
@@ -277,7 +277,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-j</option><replaceable>opt</replaceable></term> 
+      <term><option>-j</option><replaceable>opt</replaceable></term>
       <listitem>
         <para>Sets the TDF output options given by
           <emphasis>opt</emphasis>.</para>
@@ -285,7 +285,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-m</option><replaceable>opt</replaceable></term> 
+      <term><option>-m</option><replaceable>opt</replaceable></term>
       <listitem>
         <para>Sets the error formatting options given by
           <emphasis>opt</emphasis>.</para>
@@ -309,7 +309,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-q</option></term> 
+      <term><option>-q</option></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to quit immediately without
           processing its input file. This is useful primarily in version and
@@ -318,7 +318,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-s</option><replaceable>spec-file</replaceable></term> 
+      <term><option>-s</option><replaceable>spec-file</replaceable></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to write a C++ spec file
           describing the input source file to
@@ -327,7 +327,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-t</option></term> 
+      <term><option>-t</option></term>
       <listitem>
         <para>Specifies that <command>tcpplus</command> should include
           token declarations in its output TDF capsule. While these are
@@ -345,7 +345,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-v</option></term> 
+      <term><option>-v</option></term>
       <listitem>
         <para>Causes <command>tcpplus</command> to print its version
           number.</para>
@@ -353,7 +353,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-w</option></term> 
+      <term><option>-w</option></term>
       <listitem>
         <para>Disables all warning messages. This is equivalent to
           <option>-mw</option>.</para>
@@ -361,7 +361,7 @@
     </varlistentry>
 
     <varlistentry>
-      <term><option>-z</option></term> 
+      <term><option>-z</option></term>
       <listitem>
         <para>Forces <command>tcpplus</command> to produce an output file
           even if compilation errors occur. The effect of installing a TDF
@@ -373,6 +373,6 @@
 </refsect1>
 
 <refsect1 id='tcpplus-seealso'>
-  <title>SEE ALSO</title> 
+  <title>SEE ALSO</title>
   <para>&man.tendra.tcc;, &man.tendra.tdfc;.</para>
 </refsect1>
