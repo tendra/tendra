@@ -74,9 +74,11 @@ _objdir=	${OBJ_SDIR}
 MAN=    	${PROG}.1
 . endif
 
-_REALWORK: ${OBJS} .USE
+${PROG}: ${OBJS}
 	@${ECHO} "# Linking ${WRKDIR}/${PROG}"
 	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LDCRT} ${LIBS}
+
+_REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
 	@${ECHO} "# Adjusting paths for ${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
