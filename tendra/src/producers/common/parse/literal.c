@@ -1282,7 +1282,7 @@ make_multi_string(string s, string t, unsigned long n, unsigned k)
 {
     if (k & STRING_MULTI) {
 		n *= MULTI_WIDTH;
-		xumemcpy (s, t, (gen_size) n);
+		xumemcpy (s, t, (size_t) n);
     } else {
 		unsigned long i;
 		for (i = 0; i < n; i++) {
@@ -1355,7 +1355,7 @@ new_string_lit(string s, string se, int lex)
 #if FS_MULTIBYTE
     int multibyte = allow_multibyte;
 #endif
-    gen_size sz = (gen_size) (se - s) + 1;
+    size_t sz = (size_t) (se - s) + 1;
     string str = xustr (sz);
 	
     /* Find string type */
@@ -1576,7 +1576,7 @@ eq_string_lit(STRING s, STRING t)
 		at = DEREF_string (str_simple_text (t));
 		if (as == at) return (1);
 		if (ks & STRING_MULTI) ns *= MULTI_WIDTH;
-		if (xumemcmp (as, at, (gen_size) ns) == 0) return (1);
+		if (xumemcmp (as, at, (size_t) ns) == 0) return (1);
     }
     return (0);
 }
@@ -1595,7 +1595,7 @@ concat_string_lit(STRING s, STRING t)
     STRING res;
     STRING prev;
     unsigned kc;
-    gen_size sz;
+    size_t sz;
     unsigned long nc;
     string a = DEREF_string (str_simple_text (s));
     string b = DEREF_string (str_simple_text (t));
@@ -1618,17 +1618,17 @@ concat_string_lit(STRING s, STRING t)
 		/* Multi-byte strings */
 		unsigned long sa = MULTI_WIDTH * na;
 		unsigned long sc = MULTI_WIDTH * nc;
-		sz = (gen_size) (sc + MULTI_WIDTH);
+		sz = (size_t) (sc + MULTI_WIDTH);
 		c = xustr (sz);
 		make_multi_string (c, a, na, ka);
 		make_multi_string (c + sa, b, nb, kb);
 		add_multi_char (c + sc, (unsigned long) 0, CHAR_OCTAL);
     } else {
 		/* Simple strings */
-		sz = (gen_size) (nc + 1);
+		sz = (size_t) (nc + 1);
 		c = xustr (sz);
-		xumemcpy (c, a, (gen_size) na);
-		xumemcpy (c + na, b, (gen_size) nb);
+		xumemcpy (c, a, (size_t) na);
+		xumemcpy (c + na, b, (size_t) nb);
 		c [ nc ] = 0;
     }
     MAKE_str_simple (nc, c, kc, res);

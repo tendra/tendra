@@ -574,7 +574,7 @@ unmangle_nspace(string *ps, NAMESPACE ns, int var)
 			HASHID nm;
 			int ext = 0;
 			TYPE t = NULL_type;
-			string p = xustr ((gen_size) (n + 1));
+			string p = xustr ((size_t) (n + 1));
 			string q = p;
 			while (n) {
 				c = *s;

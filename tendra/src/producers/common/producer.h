@@ -95,19 +95,6 @@
 
 
 /*
- *    GENERIC POINTER AND SIZE TYPES
- *
- *    The type gen_ptr is used to represent the generic pointer.  The type
- *    gen_size is used to represent a generic size type (it is equivalent
- *    to size_t).
- */
-
-typedef void *gen_ptr;
-
-typedef unsigned long gen_size;
-
-
-/*
  *    ASSERTION MACROS
  *
  *    These macros are used in connection with the assertion routines.  If

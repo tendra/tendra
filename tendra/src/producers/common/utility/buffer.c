@@ -114,7 +114,7 @@ output_buffer(BUFFER *bf, int fl)
 		string s = bf->start;
 		size_t n = (size_t) (bf->posn - s);
 		if (n) {
-			IGNORE fwrite ((gen_ptr) s, sizeof (character), n, f);
+			IGNORE fwrite (s, sizeof (character), n, f);
 			if (fl) IGNORE fflush_v (f);
 			bf->posn = s;
 		}
@@ -134,8 +134,8 @@ string
 extend_buffer(BUFFER *bf, string s)
 {
     string p = bf->start;
-    gen_size m = (gen_size) (s - p);
-    gen_size n = (gen_size) (bf->end - p) + 500;
+    size_t m = (size_t) (s - p);
+    size_t n = (size_t) (bf->end - p) + 500;
     p = xrealloc_nof (p, character, n + 12);
     bf->start = p;
     bf->end = p + n;
@@ -152,12 +152,12 @@ extend_buffer(BUFFER *bf, string s)
  */
 
 string
-stretch_buffer(BUFFER *bf, string s, gen_size m)
+stretch_buffer(BUFFER *bf, string s, size_t m)
 {
-    gen_size n = (gen_size) (bf->end - s);
+    size_t n = (size_t) (bf->end - s);
     while (m >= n) {
 		s = extend_buffer (bf, s);
-		n = (gen_size) (bf->end - s);
+		n = (size_t) (bf->end - s);
     }
     return (s);
 }
@@ -191,7 +191,7 @@ bfputc(BUFFER *bf, int c)
 void
 bfputs(BUFFER *bf, string s)
 {
-    gen_size m = (gen_size) ustrlen (s);
+    size_t m = ustrlen (s);
     string p = stretch_buffer (bf, bf->posn, m);
     ustrcpy_v (p, s);
     bf->posn = p + m;
@@ -212,10 +212,10 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 {
     char c;
     string p;
-    gen_size m;
+    size_t m;
     va_list args;
     va_start (args, s);
-    m = (gen_size) strlen (s);
+    m = strlen (s);
     p = stretch_buffer (bf, bf->posn, m);
 	
     /* Scan through format string */
@@ -235,7 +235,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 				break;
 			}
 			case 'd' : {
-				p = stretch_buffer (bf, p, (gen_size) 50);
+				p = stretch_buffer (bf, p, (size_t) 50);
 				if (ext) {
 					/* '%ld' -> long */
 					long al = va_arg (args, long);
@@ -252,7 +252,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 				/* '%s' -> string */
 				string as = va_arg (args, string);
 				if (as) {
-					m = (gen_size) ustrlen (as);
+					m = ustrlen (as);
 					p = stretch_buffer (bf, p, m);
 					ustrcpy_v (p, as);
 					p += m;
@@ -260,7 +260,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 				break;
 			}
 			case 'u' : {
-				p = stretch_buffer (bf, p, (gen_size) 50);
+				p = stretch_buffer (bf, p, (size_t) 50);
 				if (ext) {
 					/* '%lu' -> unsigned long */
 					unsigned long al = va_arg (args, unsigned long);
@@ -277,7 +277,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 				/* '%x' -> char * */
 				char *ax = va_arg (args, char *);
 				if (ax) {
-					m = (gen_size) strlen (ax);
+					m = strlen (ax);
 					p = stretch_buffer (bf, p, m);
 					ustrcpy_v (p, ustrlit (ax));
 					p += m;
@@ -314,11 +314,11 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
  *    string s.  It returns the number of characters read.
  */
 
-gen_size
-bfread(BUFFER *bf, string s, gen_size n)
+size_t
+bfread(BUFFER *bf, string s, size_t n)
 {
     string p = bf->posn;
-    gen_size m = (gen_size) (bf->end - p);
+    size_t m = (size_t) (bf->end - p);
     if (m > n) m = n;
     if (m) {
 		xumemcpy (s, p, m);

@@ -75,8 +75,8 @@
 #endif
 
 #if c_class_IMPLEMENTATION
-#define U2S(S)		((char *) (gen_ptr) (S))
-#define S2U(S)		((string) (gen_ptr) (S))
+#define U2S(S)		((char *) (S))
+#define S2U(S)		((string) (S))
 #endif
 
 #define ustrlit(S)		(S2U (S))

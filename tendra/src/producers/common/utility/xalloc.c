@@ -72,12 +72,12 @@
  *    this file.  This routine allocates sz bytes of memory.
  */
 
-gen_ptr
-xmalloc(gen_size sz)
+void *
+xmalloc(size_t sz)
 {
-    gen_ptr p;
+    void *p;
     if (sz == 0) sz = 1;
-    p = malloc ((size_t) sz);
+    p = malloc (sz);
     if (p == NULL) {
 		max_errors = ULONG_MAX;
 		error (ERROR_INTERNAL, "Memory allocation error");
@@ -94,15 +94,15 @@ xmalloc(gen_size sz)
  *    p can be the result of a previous memory allocation routine, or NULL.
  */
 
-gen_ptr
-xrealloc(gen_ptr p, gen_size sz)
+void *
+xrealloc(void *p, size_t sz)
 {
-    gen_ptr q;
+    void *q;
     if (sz == 0) sz = 1;
     if (p) {
-		q = realloc (p, (size_t) sz);
+		q = realloc (p, sz);
     } else {
-		q = malloc ((size_t) sz);
+		q = malloc (sz);
     }
     if (q == NULL) {
 		max_errors = ULONG_MAX;
@@ -121,7 +121,7 @@ xrealloc(gen_ptr p, gen_size sz)
  */
 
 void
-xfree(gen_ptr p)
+xfree(void *p)
 {
     if (p) free (p);
     return;
@@ -134,7 +134,7 @@ xfree(gen_ptr p)
  *    This buffer is used in the allocation of small strings.
  */
 
-static gen_size chars_left = 0;
+static size_t chars_left = 0;
 static string chars_free = NULL;
 
 
@@ -146,7 +146,7 @@ static string chars_free = NULL;
  */
 
 string
-xustr(gen_size n)
+xustr(size_t n)
 {
     string r;
     if (n < 1000) {
@@ -174,7 +174,7 @@ xustr(gen_size n)
  */
 
 void
-xufree(string s, gen_size n)
+xufree(string s, size_t n)
 {
     if (s) {
 		if (n < 1000) {
@@ -201,7 +201,7 @@ xufree(string s, gen_size n)
  */
 
 string
-xustrncpy(string s, gen_size n)
+xustrncpy(string s, size_t n)
 {
     string r;
     if (n < 2) {
@@ -231,9 +231,9 @@ xustrncpy(string s, gen_size n)
 string
 xustrcpy(string s)
 {
-    gen_size n;
+    size_t n;
     if (s == NULL) return (NULL);
-    n = (gen_size) ustrlen (s);
+    n = ustrlen (s);
     return (xustrncpy (s, n));
 }
 
@@ -249,11 +249,11 @@ string
 xustrcat(string s, string t)
 {
     string r;
-    gen_size n, m;
+    size_t n, m;
     if (s == NULL) return (xustrcpy (t));
     if (t == NULL) return (xustrcpy (s));
-    n = (gen_size) ustrlen (s);
-    m = n + (gen_size) ustrlen (t) + 1;
+    n = ustrlen (s);
+    m = n + ustrlen (t) + 1;
     r = xustr (m);
     ustrcpy_v (r, s);
     ustrcpy_v (r + n, t);
@@ -268,9 +268,9 @@ xustrcat(string s, string t)
  */
 
 void
-xumemcpy(string s, string t, gen_size n)
+xumemcpy(string s, string t, size_t n)
 {
-    if (n) memcpy_v ((gen_ptr) s, (gen_ptr) t, (size_t) n);
+    if (n) memcpy_v (s, t, n);
     return;
 }
 
@@ -282,8 +282,8 @@ xumemcpy(string s, string t, gen_size n)
  */
 
 int
-xumemcmp(string s, string t, gen_size n)
+xumemcmp(string s, string t, size_t n)
 {
     if (s == t || n == 0) return (0);
-    return (memcmp ((gen_ptr) s, (gen_ptr) t, (size_t) n));
+    return (memcmp (s, t, n));
 }

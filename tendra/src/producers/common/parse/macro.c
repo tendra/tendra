@@ -221,7 +221,7 @@ token_parts(int t, PPTOKEN *p)
 	case lex_wstring_Hlit : {
 	    /* String and character literals */
 	    string s1 = token_buff.start;
-	    gen_size n = (gen_size) (token_buff.posn - s1);
+	    size_t n = (size_t) (token_buff.posn - s1);
 	    string s2;
 	    if (n < 2) {
 			/* Optimise for small strings */
