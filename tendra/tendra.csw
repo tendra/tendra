@@ -2,34 +2,80 @@ workspace tendra {
 	ro_prefix "/usr/include"
 	cd "src/tools"
 
+	project disp {
+		cd "disp"
+
+		file basic.c
+		file binding.c
+		file capsule.c
+		file file.c
+		file main.c
+		file pretty.c
+		file sort.c
+		file tdf.c
+		file tree.c
+		file unit.c
+		file utility.c
+	}
+
+	project tcc {
+		cd "tcc"
+
+		file archive.c
+		file compile.c
+		file environ.c
+		file execute.c
+		file filename.c
+		file flags.c
+		file list.c
+		file main.c
+		file options.c
+		file stages.c
+		file startup.c
+		file utility.c
+	}
+
+	project tnc {
+		cd "tnc"
+
+		file alignment.c
+		file analyser.c
+		file bitstream.c
+		file check.c
+		file de_capsule.c
+		file de_unit.c
+		file decode.c
+		file enc_cap.c
+		file encode.c
+		file eval.c
+		file fetch.c
+		file file.c
+		file help.c
+		file high.c
+		file main.c
+		file node.c
+		file read.c
+		file read_cap.c
+		file shape.c
+		file table.c
+		file tdf.c
+		file utility.c
+		file write.c
+	}
+
 	project tspec {
 		cd "tspec"
 		
-		file builtin.h
-		file config.h
 		file hash.c
-		file hash.h
 		file index.c
-		file index.h
 		file lex.c
-		file lex.h
-		file lexer.h
 		file main.c
 		file makefile.c
-		file makefile.h
 		file name.c
-		file name.h
 		file object.c
-		file object.h
-		file ossg.h
 		file print.c
-		file print.h
-		file release.h
 		file type.c
-		file type.h
 		file utility.c
-		file utility.h
 		file variable.c
-		file variable.h
 	}
 }
