@@ -73,6 +73,18 @@ case "${SYSTEM}.${VERSION}" in
 			OSFAM="freebsd"
 			OSVER="FREEBSD5"
 			;;
+	Linux.2.4*)	# Use the system supplied GCC for CC.
+			# System definition is __linux
+			check_cc
+			OSFAM="linux"
+			OSVER="LINUX24"
+			;;
+	Linux.2.6*)	# Use the system supplied GCC for CC.
+			# System definition is __linux
+			check_cc
+			OSFAM="linux"
+			OSVER="LINUX26"
+			;;
 	NetBSD.2*)	#
 			check_cc
 			OSFAM="netbsd"
