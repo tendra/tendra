@@ -1,0 +1,155 @@
+-*- indented-text -*-
+
+			USER VISIBLE CHANGES TO SID
+			===========================
+
+Thu Feb 29 13:38:20 1996  Steve Folkes  (smf@rivers.dra.hmg.gb)
+
+    * Added support for an unreachable code macro (instead of a comment) in
+    the C output languages.
+
+Fri Jul 22 14:32:00 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * FROZE VERSION 1.8.
+
+Tue Jul 19 14:05:20 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added assignment as an alternative to identity binding.
+
+Thu Jul 14 15:19:08 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added initialisers for non local variables.
+
+Fri Jul  1 14:09:02 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added support for non local variables within rules.
+
+    * FROZE VERSION 1.7.
+
+Wed Jun 22 14:01:08 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added support for language specific options.  Added options to control
+    prototyping, use of numeric identifiers and casting of substituted
+    parameters for C output language.
+
+Thu Jun 16 15:41:59 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added support for call by reference and action parameter mutation
+    information.
+
+Fri May 27 13:33:04 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Changed the format of the C definition file to provide a parameter
+    assignment operation (this should have been in from the start for
+    consistent semantics).  Also, the prefix section, maps section and all
+    three assignment operation sections are now optional.
+
+Thu May 26 09:35:31 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Improved error messages.  Made dump file be updated with information
+    from the phase that failed in the case of an error (this is not always
+    useful though - the grammar may be in a useless state after a failed
+    transform; left recursion elimination is particularly bad for this).
+
+Tue May 17 15:30:33 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added a stricter ANSI C language that uses numeric identifiers to keep
+    the identifier length below 32 characters.
+
+    * FROZE VERSION 1.6.
+
+Mon May 16 15:43:04 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Changed the syntax of the input files so that the grammar looks more
+    like a conventional programming language.  Removed basics.  Added a
+    header file to the C language output.
+
+Wed Apr 27 14:41:48 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "--show-errors" option to show the error table status, and a
+    "--help" option to show the command line syntax.
+
+    * FROZE VERSION 1.5.
+
+Tue Apr 26 12:26:53 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Changed command line syntax to be compatible with the TDF linker.
+
+Mon Apr 25 12:23:22 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * FROZE VERSION 1.4.
+
+Mon Mar 28 15:17:20 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added "#line" directives to header and trailer.  Ensured that there is
+    always a newline at the end of a code block.
+
+Fri Mar 11 11:36:25 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added support for anonymous rules and in alternative exception
+    handlers.  Fixed cycle detection routine used in needed function
+    computation.
+
+    * FROZE VERSION 1.3.
+
+Tue Mar  8 17:56:17 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Changed syntax of code blocks in action file.  SID now inlines all
+    actions, basics, assignments etc. and performs the substitutions.
+    Substitutions allow for identifier and label substitution, as well as
+    exception raising.
+
+Fri Mar  4 17:28:52 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Put name identifiers in a separate namespace.  Stopped it being an
+    error if the "-version" switch is used with no files specified.
+
+Wed Mar  2 17:23:47 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added a test mode language.
+
+    * FROZE VERSION 1.2.
+
+Tue Mar  1 17:46:41 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added exception handling instead of old error reporting mechanism.
+
+Fri Feb 18 15:12:20 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added option of inlining rules that only contain basics.  Changed
+    output routines, so that parameters and results of inlined functions are
+    substituted, rather than created and assigned to.
+
+Thu Feb 17 16:33:47 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Changed identifier prefixes.  Made grammar printing mark inlinable
+    rules with a '+'.
+
+Wed Feb 16 17:55:25 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Added predicate support.  Improved factoring to allow alternatives
+    with the same dataflow, but different names to be factored.  Allowed
+    types to be defined that were only the result types of terminals.
+    Stopped rules being declared as entry points to the grammar multiple
+    times.
+
+Fri Feb  4 16:54:38 1994  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Fixed the cycle detection routines used in tail recursion detection.
+
+    * FROZE VERSION 1.1.
+
+Wed Feb 2 17:20:07 1994 Steve Folkes (smf@arrow.dra.hmg.gb) 
+
+    * Fixed the cycle detection routines used in left recursion detection.
+    Fixed bug in outputting code for see through alternatives.  Sorted error
+    lists to make comparisons easier.  Modified grammar printing to mark
+    tail calls.
+
+Wed Dec 22 11:42:50 1993  Steve Folkes  (smf@arrow.dra.hmg.gb)
+
+    * Initial version of the new sid.  Adds dataflow and marginally improved
+    error handling to the original version of sid.  Also fixes some bugs in
+    the algorithms used in the earlier version of sid.
+
+    * FROZE VERSION 1.0.

@@ -1,0 +1,543 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+%types%
+
+StringT;
+CCodeP;
+BoolT;
+
+%terminals%
+
+blt-prefixes;		// %prefixes% 
+blt-maps;		// %maps% 
+blt-assignments;	// %assignments% 
+blt-terminals;		// %terminals%
+blt-header;		// %header% 
+blt-actions;		// %actions% 
+blt-trailer;		// %trailer% 
+blt-result-assign;	// %result-assignments%
+sid-identifier: () -> (: StringT);
+c-identifier: () -> (: StringT);
+separator;		// ,
+typemark;		// :
+terminator;		// ; 
+begin-action;		// <
+define;			// =
+end-action;		// >
+code: () -> (: CCodeP);	// @{ ... @}
+arrow;			// ->
+open-tuple;		// (
+close-tuple;		// )
+blt-param-assign;	// %parameter-assignments%
+reference;		// &
+eof;
+
+%productions%
+
+<set-prefix>: (: StringT &) -> ();
+<x-set-prefix>: (: StringT &) -> ();
+<set-map>: (: StringT &) -> ();
+<x-set-map>: (: StringT &) -> ();
+<init-tuple>;
+<tuple-type>: (: StringT &, : StringT &) -> ();
+<tuple-ref-type>: (: StringT &, : StringT &) -> ();
+<tuple-name>: (: StringT &) -> ();
+<save-tuple>;
+<null-type>;
+<assign>: (: StringT &) -> ();
+<x-assign>: (: CCodeP) -> ();
+<passign>: (: StringT &) -> ();
+<x-passign>: (: CCodeP) -> ();
+<rassign>: (: StringT &) -> ();
+<x-rassign>: (: CCodeP) -> ();
+<set-terminal>: (: StringT &) -> ();
+<x-set-terminal>: (: CCodeP) -> ();
+<set-action>: (: StringT &) -> ();
+<x-set-action>: (: CCodeP) -> ();
+<set-header1>: (: CCodeP) -> ();
+<set-header2>: (: CCodeP) -> ();
+<set-trailer1>: (: CCodeP) -> ();
+<set-trailer2>: (: CCodeP) -> ();
+
+<unhandled-syntax-error>;
+
+<expected-identifier>;
+<expected-c-identifier>;
+<expected-separator>;
+<expected-open-tuple>;
+<expected-close-tuple>;
+<expected-arrow>;
+<expected-terminator>;
+<expected-end-action>;
+<expected-define>;
+<expected-code>;
+<expected-blt-header>;
+<expected-blt-terminals>;
+<expected-blt-actions>;
+<expected-blt-trailer>;
+<expected-eof>;
+
+<destroy-string>: (: StringT &) -> ();
+
+<skip-to-end-of-tuple-defn>;
+<skip-to-end-of-prefix>;
+<skip-to-end-of-map>;
+<skip-to-end-of-assignment>;
+<skip-to-end-of-result-assign>;
+<skip-to-end-of-param-assign>;
+<skip-to-end-of-terminal>;
+<skip-to-end-of-action>;
+<skip-recover>;
+
+<is-close-tuple-or-skipped-or-eof>: () -> (: BoolT);
+
+c-parse-grammar [
+	// IDENTIFIERS:
+	identifier: () -> (id: StringT) = {
+		id = sid-identifier;
+	    ||
+		id = c-identifier;
+	};
+
+	// PREFIX DEFINITIONS:
+	prefix-list [
+		prefix = {
+			prefix = identifier;
+			<set-prefix> (&prefix);
+			{
+				define;
+			    ##
+				<expected-define>;
+			};
+			{
+				name = c-identifier;
+				<x-set-prefix> (&name);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-c-identifier>;
+				<skip-to-end-of-prefix>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		prefix;
+		<skip-recover>;
+		prefix-list;
+	};
+
+	// IDENTIFIER MAPPING:
+	map-list [
+		map = {
+			from = identifier;
+			<set-map> (&from);
+			{
+				arrow;
+			    ##
+				<expected-arrow>;
+			};
+			{
+				to = c-identifier;
+				<x-set-map> (&to);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-c-identifier>;
+				<skip-to-end-of-map>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		map;
+		<skip-recover>;
+		map-list;
+	};
+
+	// FUNCTION TYPE SPECIFICATIONS:
+	function-type-defn [
+		tuple-defn = {
+			name = c-identifier;
+			{
+				typemark;
+				{
+					type = identifier;
+					{
+						reference;
+						<tuple-ref-type> (&name,
+								  &type);
+					    ||
+						<tuple-type> (&name, &type);
+					};
+				    ##
+					<expected-identifier>;
+					<destroy-string> (&name);
+					<skip-to-end-of-tuple-defn>;
+				};
+			    ||
+				<tuple-name> (&name);
+			};
+		    ##
+			<expected-identifier>;
+			<skip-to-end-of-tuple-defn>;
+		};
+
+		tuple-defn-list-1 = {
+			tuple-defn;
+			{
+				? = <is-close-tuple-or-skipped-or-eof>;
+			    ||
+				separator;
+				tuple-defn-list-1;
+			    ##
+				<expected-separator>;
+				tuple-defn-list-1;
+			};
+		};
+
+		tuple-defn-list = {
+			$;
+		    ||
+			tuple-defn-list-1;
+		};
+
+		type-tuple-defn = {
+			<init-tuple>;
+			{
+				open-tuple;
+			    ##
+				<expected-open-tuple>;
+			};
+			tuple-defn-list;
+			<skip-recover>;
+			{
+				close-tuple;
+			    ##
+				<expected-close-tuple>;
+			};
+		};
+	] = {
+		typemark;
+		type-tuple-defn;
+		<save-tuple>;
+		{
+			arrow;
+		    ##
+			<expected-arrow>;
+		};
+		type-tuple-defn;
+	    ||
+		<null-type>;
+	};
+
+	// ASSIGNMENT DEFINITIONS:
+	assignment-list [
+		assignment = {
+			id = identifier;
+			<assign> (&id);
+			function-type-defn;
+			{
+				define;
+			    ##
+				<expected-define>;
+			};
+			{
+				body = code;
+				<x-assign> (body);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-code>;
+				<skip-to-end-of-assignment>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		assignment;
+		<skip-recover>;
+		assignment-list;
+	};
+			
+	param-assign-list [
+		param-assign = {
+			id = identifier;
+			<passign> (&id);
+			function-type-defn;
+			{
+				define;
+			    ##
+				<expected-define>;
+			};
+			{
+				body = code;
+				<x-passign> (body);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-code>;
+				<skip-to-end-of-param-assign>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		param-assign;
+		<skip-recover>;
+		param-assign-list;
+	};
+			
+	result-assign-list [
+		result-assign = {
+			id = identifier;
+			<rassign> (&id);
+			function-type-defn;
+			{
+				define;
+			    ##
+				<expected-define>;
+			};
+			{
+				body = code;
+				<x-rassign> (body);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-code>;
+				<skip-to-end-of-result-assign>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		result-assign;
+		<skip-recover>;
+		result-assign-list;
+	};
+			
+	// TERMINAL RESULT EXTRACTION DEFINITIONS:
+	terminal-list [
+		terminal = {
+			id = identifier;
+			<set-terminal> (&id);
+			function-type-defn;
+			{
+				define;
+			    ##
+				<expected-define>;
+			};
+			{
+				body = code;
+				<x-set-terminal> (body);
+				{
+					terminator;
+				    ##
+					<expected-terminator>;
+				};
+			    ##
+				<expected-code>;
+				<skip-to-end-of-terminal>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		terminal;
+		<skip-recover>;
+		terminal-list;
+	};
+			
+	// ACTION DEFINITIONS:
+	action-list [
+		action = {
+			begin-action;
+			{
+				id = identifier;
+				<set-action> (&id);
+				{
+					end-action;
+				    ##
+					<expected-end-action>;
+				};
+				function-type-defn;
+				{
+					define;
+				    ##
+					<expected-define>;
+				};
+				{
+					body = code;
+					<x-set-action> (body);
+					{
+						terminator;
+					    ##
+						<expected-terminator>;
+					};
+				    ##
+					<expected-code>;
+					<skip-to-end-of-action>;
+				};
+			    ##
+				<expected-identifier>;
+				<skip-to-end-of-action>;
+			};
+		};
+	] = {
+		$;
+	    ||
+		action;
+		<skip-recover>;
+		action-list;
+	};
+
+] /* c-parse-grammar */ = {
+	{
+		blt-prefixes;
+		prefix-list;
+	    ||
+		$;
+	};
+	{
+		blt-maps;
+		map-list;
+	    ||
+		$;
+	};
+	{
+		blt-header;
+	   ##
+		<expected-blt-header>;
+	};
+	{
+		h1 = code;
+		<set-header1> (h1);
+	    ##
+		<expected-code>;
+	};
+	{
+		separator;
+	    ##
+		<expected-separator>;
+	};
+	{
+		h2 = code;
+		<set-header2> (h2);
+	    ##
+		<expected-code>;
+	};
+	{
+		terminator;
+	    ##
+		<expected-terminator>;
+	};
+	{
+		blt-assignments;
+		assignment-list;
+	    ||
+		$;
+	};
+	{
+		blt-param-assign;
+		param-assign-list;
+	    ||
+		$;
+	};
+	{
+		blt-result-assign;
+		result-assign-list;
+	    ||
+		$;
+	};
+	{
+		blt-terminals;
+	    ##
+		<expected-blt-terminals>;
+	};
+	terminal-list;
+	{
+		blt-actions;
+	    ##
+		<expected-blt-actions>;
+	};
+	action-list;
+	{
+		blt-trailer;
+	    ##
+		<expected-blt-trailer>;
+	};
+	{
+		t1 = code;
+		<set-trailer1> (t1);
+	    ##
+		<expected-code>;
+	};
+	{
+		separator;
+	    ##
+		<expected-separator>;
+	};
+	{
+		t2 = code;
+		<set-trailer2> (t2);
+	    ##
+		<expected-code>;
+	};
+	{
+		terminator;
+	    ##
+		<expected-terminator>;
+	};
+	{
+		eof;
+	    ##
+		<expected-eof>;
+	};
+    ##
+	<unhandled-syntax-error>;
+};
+
+%entry% c-parse-grammar;
