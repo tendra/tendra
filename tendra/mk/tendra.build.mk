@@ -3,6 +3,7 @@
 # $Id$
 
 .include <tendra.base.mk>
+.include <tendra.rules.mk>
 
 # Do some pretty-printing.
 WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
@@ -11,8 +12,6 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .if !target(.MAIN)
 .MAIN: all
 .endif
-
-.include <tendra.rules.mk>
 
 # Do it all. Real workers, mutually exclusive, follow.
 
