@@ -1,4 +1,4 @@
-+MACHINE	"freebsd-*-80x86"
++MACHINE	"dragonfly-*-80x86"
 +AS		"/usr/bin/as"
 +LD		"/usr/bin/ld -e start -dc -dp"
 +CC		"/usr/bin/cc"

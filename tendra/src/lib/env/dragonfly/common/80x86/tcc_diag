@@ -1,4 +1,4 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR FreeBSD */
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR DragonFly */
 
 +CRT0		"/usr/lib/crt1.o"
 <LINK		"-L-LIBDIR-/diag"
