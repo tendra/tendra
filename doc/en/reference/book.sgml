@@ -14,9 +14,38 @@
 <!ENTITY ref.man.tcpplus SYSTEM "../manpages/tcpplus/manpage.sgml">
 <!ENTITY ref.man.tdfc2 SYSTEM "../manpages/tdfc2/manpage.sgml">
 
+<!ENTITY % ref.man.80x86-common SYSTEM "../manpages/trans/common/80x86-common.sgml"> %ref.man.80x86-common;
+<!ENTITY % ref.man.alpha-common SYSTEM "../manpages/trans/common/alpha-common.sgml"> %ref.man.alpha-common;
+<!ENTITY % ref.man.common SYSTEM "../manpages/trans/common/common.sgml"> %ref.man.common;
+<!ENTITY % ref.man.hppa-common SYSTEM "../manpages/trans/common/hppa-common.sgml"> %ref.man.hppa-common;
+<!ENTITY % ref.man.mips-common SYSTEM "../manpages/trans/common/mips-common.sgml"> %ref.man.mips-common;
+<!ENTITY % ref.man.options SYSTEM "../manpages/trans/common/options.sgml"> %ref.man.options;
+<!ENTITY % ref.man.power-common SYSTEM "../manpages/trans/common/power-common.sgml"> %ref.man.power-common;
+<!ENTITY % ref.man.ppc601-common SYSTEM "../manpages/trans/common/ppc601-common.sgml"> %ref.man.ppc601-common;
+<!ENTITY % ref.man.sparc-common SYSTEM "../manpages/trans/common/sparc-common.sgml"> %ref.man.sparc-common;
+
+<!ENTITY ref.man.680x0-sunos-trans SYSTEM "../manpages/trans/680x0-sunos/manpage.sgml">
+<!ENTITY ref.man.80x86-cygwin32-trans SYSTEM "../manpages/trans/80x86-cygwin32/manpage.sgml">
+<!ENTITY ref.man.80x86-freebsd-trans SYSTEM "../manpages/trans/80x86-freebsd/manpage.sgml">
+<!ENTITY ref.man.80x86-linux-trans SYSTEM "../manpages/trans/80x86-linux/manpage.sgml">
+<!ENTITY ref.man.80x86-netbsd-trans SYSTEM "../manpages/trans/80x86-netbsd/manpage.sgml">
+<!ENTITY ref.man.80x86-openbsd-trans SYSTEM "../manpages/trans/80x86-openbsd/manpage.sgml">
+<!ENTITY ref.man.80x86-sco-trans SYSTEM "../manpages/trans/80x86-sco/manpage.sgml">
+<!ENTITY ref.man.80x86-solaris-trans SYSTEM "../manpages/trans/80x86-solaris/manpage.sgml">
+<!ENTITY ref.man.80x86-svr4.2-trans SYSTEM "../manpages/trans/80x86-svr4.2/manpage.sgml">
+<!ENTITY ref.man.alpha-freebsd-trans SYSTEM "../manpages/trans/alpha-freebsd/manpage.sgml">
+<!ENTITY ref.man.alpha-osf1-trans SYSTEM "../manpages/trans/alpha-osf1/manpage.sgml">
+<!ENTITY ref.man.hppa-hpux-trans SYSTEM "../manpages/trans/hppa-hpux/manpage.sgml">
+<!ENTITY ref.man.mips-irix-trans SYSTEM "../manpages/trans/mips-irix/manpage.sgml">
+<!ENTITY ref.man.mips-ultrix-trans SYSTEM "../manpages/trans/mips-ultrix/manpage.sgml">
+<!ENTITY ref.man.power-aix-trans SYSTEM "../manpages/trans/power-aix/manpage.sgml">
+<!ENTITY ref.man.sparc-solaris-trans SYSTEM "../manpages/trans/sparc-solaris/manpage.sgml">
+<!ENTITY ref.man.sparc-sunos-trans SYSTEM "../manpages/trans/sparc-sunos/manpage.sgml">
+
 
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man
+
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
 ]>
@@ -53,7 +82,9 @@
 
   <preface>
     <title>Introduction</title>
-    <para>some type of description here.</para>
+    <para>The existance of this document is to ensure all manpages can live together in a single document.</para>
+
+    <para>As a <emphasis>side effect</emphasis> it makes a good single point of reference for all of <application>TenDRA</application>'s options.</para>
   </preface>
 
 
@@ -128,7 +159,73 @@
   <chapter>
     <title>Installers</title>
 
-    <para>not complete yet.</para>
+    <refentry id=ref.man.80x86-cygwin32-trans>
+      &ref.man.80x86-cygwin32-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-freebsd-trans>
+      &ref.man.80x86-freebsd-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-linux-trans>
+      &ref.man.80x86-linux-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-netbsd-trans>
+      &ref.man.80x86-netbsd-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-openbsd-trans>
+      &ref.man.80x86-openbsd-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-sco-trans>
+      &ref.man.80x86-sco-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-solaris-trans>
+      &ref.man.80x86-solaris-trans;
+    </refentry>
+
+    <refentry id=ref.man.80x86-svr4.2-trans>
+      &ref.man.80x86-svr4.2-trans;
+    </refentry>
+
+    <refentry id=ref.man.alpha-freebsd-trans>
+      &ref.man.alpha-freebsd-trans;
+    </refentry>
+
+    <refentry id=ref.man.alpha-osf1-trans>
+      &ref.man.alpha-osf1-trans;
+    </refentry>
+
+    <refentry id=ref.man.hppa-hpux-trans>
+      &ref.man.hppa-hpux-trans;
+    </refentry>
+
+    <refentry id=ref.man.mips-irix-trans>
+      &ref.man.mips-irix-trans;
+    </refentry>
+
+    <refentry id=ref.man.mips-ultrix-trans>
+      &ref.man.mips-ultrix-trans;
+    </refentry>
+
+    <refentry id=ref.man.power-aix-trans>
+      &ref.man.power-aix-trans;
+    </refentry>
+
+    <refentry id=ref.man.680x0-sunos-trans>
+      &ref.man.680x0-sunos-trans;
+    </refentry>
+
+    <refentry id=ref.man.sparc-solaris-trans>
+      &ref.man.sparc-solaris-trans;
+    </refentry>
+
+    <refentry id=ref.man.sparc-sunos-trans>
+      &ref.man.sparc-sunos-trans;
+    </refentry>
 
   </chapter>
 
