@@ -23,6 +23,6 @@ keyword.h:
 lexer.h:
 	${LEXI} ${.CURDIR}/lexer.lxi ${OBJ_DIR}/${.TARGET}
 
-CLEANFILES+=	syntax.c keyword.h lexer.h
+CLEANFILES+=	syntax.h syntax.c keyword.h lexer.h
 
 .include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
