@@ -61,10 +61,10 @@
       management system can be applied to all the types within the system. It
       also opens the possibility of writing operations which apply to all
       types within the system in a straightforward manner. The
-      <link linkend="DiskOutput">disk reading and writing routines</link> described
+      <link linkend="diskoutput">disk reading and writing routines</link> described
       below are an example of this.</para>
   
-    <sect1 id="Options">
+    <sect1 id="options">
       <title>1.1. Using calculus</title>
   
       <para>The general form for invoking <command>calculus</command>
@@ -78,30 +78,30 @@
         must already exist. If no <option>output</option> argument is given
         then the current working directory is assumed. Note that several
         <option>input</option> files can be given.  Unless
-        <link linkend="Module">otherwise specified</link> it is the last file which is
+        <link linkend="module">otherwise specified</link> it is the last file which is
         used to generate the output.</para>
   
-      <para>The form in which the <link linkend="TextInput">input type systems</link>
+      <para>The form in which the <link linkend="textinput">input type systems</link>
         are expressed is described below. The form of the output depends on
         <option>options</option>. By default, the C implementation of the type system is
         output. If the <option>-t</option> option is passed to
         <command>calculus</command> then <link
         linkend="../tcpplus/token.html"><code>#pragma token</code></link> statements
         describing the type system specification are output.  This <link
-        linkend="TokenOutput">specification</link> is given below, with some of the
-        more important <link linkend="COutput">implementation details</link> being
+        linkend="tokenoutput">specification</link> is given below, with some of the
+        more important <link linkend="coutput">implementation details</link> being
         described in the following section.</para>
   
       <para>Note that it is necessary to check any program written using
         <command>calculus</command> against the <code>#pragma
         token</code> version of the specification in order to get the full
         benefits of the rigorous type checking provided by the tool. Some
-        sections of the program (if only the <link linkend="COutputSupport">basic
+        sections of the program (if only the <link linkend="coutputsupport">basic
         functions</link>) may be dependent upon the implementation, and so not be
         suitable for this form of checking.</para>
     </sect1>
 
-    <sect1 id="Example">
+    <sect1 id="example">
       <title>1.2. Example program</title>
 
       <para>The program <command>calculus</command> itself was written
@@ -113,7 +113,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="textinput">
     <title>Input syntax</title>
   
     <para>The overall input file format is as follows:
@@ -150,7 +150,7 @@
         sequences in strings. C style comments may be used anywhere in the
         input. White space is not significant.</para>
 
-    <sect1 id="InputPrim">
+    <sect1 id="inputprim">
     
       <title>2.1. Primitives</title>
   
@@ -182,7 +182,7 @@
         used in the output routines.</para>
     </sect1>
 
-    <sect1 id="InputIdent">
+    <sect1 id="inputident">
       <title>2.2. Identities</title>
   
       <para>Identities are used to associate a name with a particular type in
@@ -192,10 +192,10 @@
           <i>identity</i> :
                   <i>object-identifier</i> = <i>type</i> ;
         </programlisting>where the definition type, <i>type</i>, is as
-        described <link linkend="InputType">below</link>.</para>
+        described <link linkend="inputtype">below</link>.</para>
     </sect1>
 
-    <sect1 id="InputEnum">
+    <sect1 id="inputenum">
       <title>2.3. Enumerations</title>
   
       <para>Enumerations are used to define types which can only take values
@@ -241,7 +241,7 @@
         that they are genuinely distinct types.</para>
     </sect1>
 
-    <sect1 id="InputStruct">
+    <sect1 id="inputstruct">
       <title>2.4. Structures</title>
   
       <para>Structures are used to build up composite types from other types
@@ -283,7 +283,7 @@
   
           <i>component-initialiser</i> :
                   = <i>string</i>
-      </programlisting>The optional <link linkend="OutputStruct">component
+      </programlisting>The optional <link linkend="outputstruct">component
         initialiser strings</link> are explained below.</para>
   
       <para>Structures are the only algebra construct which prevent the input
@@ -292,7 +292,7 @@
         in terms of themselves.</para>
     </sect1>
 
-    <sect1 id="InputUnion">
+    <sect1 id="inputunion">
       <title>2.5. Unions</title>
   
       <para>Unions are used to build up types which can hold a variety of
@@ -344,7 +344,7 @@
         </programlisting>
         The optional one or two hashes which may be used to
         qualify a list of field identifiers are used to indicate
-        <link linkend="DiskAlias">aliasing</link> in the disk reading and writing
+        <link linkend="diskalias">aliasing</link> in the disk reading and writing
         routines.  The <i>base-field</i> case is a notational convenience
         which allows one field in a union to inherit all the components of
         another field.</para>
@@ -387,17 +387,17 @@
           <i>extended-type</i> :
                   <i>type</i>
                   <i>quoted-type</i>
-        </programlisting>In addition to the <link linkend="InputType">types derived
+        </programlisting>In addition to the <link linkend="inputtype">types derived
         from the algebra</link> it is possible to use quoted C types in this
         context.</para>
   
       <para>A map may be qualified by means of a hash. This means that the
         associated function also takes a
-        <link linkend="OutputUnionMaps">destructor function</link>
+        <link linkend="outputunionmaps">destructor function</link>
         as a parameter.</para>
     </sect1>
 
-    <sect1 id="InputType">
+    <sect1 id="inputtype">
       <title>2.6. Type constructors</title>
   
       <para>The types derived from the algebra may be described as follows:
@@ -419,10 +419,10 @@
         up further types from the basic algebra types.</para>
     </sect1>
 
-    <sect1 id="Module">
+    <sect1 id="module">
       <title>2.7. Relations between algebras</title>
   
-      <para>As <link linkend="Options">mentioned above</link>, more than one input
+      <para>As <link linkend="options">mentioned above</link>, more than one input
         algebra may be specified to <command>calculus</command>. Each
         is processed separately, and output is generated for only one. By
         default this is the last algebra processed, however a specific algebra
@@ -450,7 +450,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="tokenoutput">
     <title>Output type system specification</title>
   
     <para>In this section we document the basic output of
@@ -461,7 +461,7 @@
   
     <para>In this section the description given will be at the level of the
       output specification. The more important details of the
-      <link linkend="COutput">C implementation</link> are given in the following
+      <link linkend="coutput">C implementation</link> are given in the following
       section.</para>
   
     <para>The output is split among several header files in the specified
@@ -475,7 +475,7 @@
       <filename>union_map.h</filename> and <filename>union_hdr.h</filename>.
       </para>
 
-    <sect1 id="OutputInfo">
+    <sect1 id="outputinfo">
       <title>3.1. Version information</title>
   
       <para>Certain basic information about the input algebra is included in
@@ -489,7 +489,7 @@
         implementation is included.</para>
     </sect1>
 
-    <sect1 id="OutputBasic">
+    <sect1 id="outputbasic">
       <title>3.2. Basic types</title>
   
       <para>Six abstract type operators, each taking a type as argument and
@@ -541,12 +541,12 @@
         so on are implementation dependent.</para>
     </sect1>
 
-    <sect1 id="OutputSize">
+    <sect1 id="outputsize">
       <title>3.3. Operations on sizes</title>
   
       <para>The <code>SIZE</code> type constructor is used to represent a
         multiple of the size of a type. It is used, for example, in the <link
-        linkend="OutputPtr">pointer stepping construct</link> <code>STEP_ptr</code>
+        linkend="outputptr">pointer stepping construct</link> <code>STEP_ptr</code>
         to specify the number of units the pointer is to be increased by.
         Having a separate abstract type for the size of each type greatly
         increases the scope for type checking of memory allocation, and other,
@@ -561,7 +561,7 @@
         associated type name.</para>
   
       <para>For the five other type constructors
-        <link linkend="OutputBasic">described above</link> there are constant
+        <link linkend="outputbasic">described above</link> there are constant
         expressions:
         <programlisting>
           SIZE ( PTR ( <i>t</i> ) ) SIZE_ptr ( TYPE <i>t</i> ) ;
@@ -581,7 +581,7 @@
         for any type <i>t</i> and any integral type <i>itype</i>.</para>
     </sect1>  
 
-    <sect1 id="OutputPtr">
+    <sect1 id="outputptr">
       <title>3.4. Operations on pointers</title>
   
       <para>The <code>PTR</code> type constructor is used to represent a
@@ -589,8 +589,8 @@
         this construct is not in general implemented by means of the C pointer
         construct.</para>
   
-      <sect2>
-        <title>Simple pointer constructs</title>
+      <sect2 id="simple-pointer-constructs">
+        <title>3.4.1 Simple pointer constructs</title>
   
         <para>There are several simple operations on pointers, given as
           follows:
@@ -609,8 +609,8 @@
           used to add a scalar value to a pointer.</para>
       </sect2>
   
-      <sect2>
-        <title>Unique pointers</title>
+      <sect2 id="unique-pointers">
+        <title>3.4.2 Unique pointers</title>
   
         <para>There are also constructs for generating and destroying unique
           pointers:
@@ -622,8 +622,8 @@
           undefined.</para>
       </sect2>
   
-      <sect2>
-        <title>Pointer construction and destruction</title>
+      <sect2 id="pointer-construction-destruction">
+        <title>3.4.3 Pointer construction and destruction</title>
   
         <para>The constructs:
           <programlisting>
@@ -634,8 +634,8 @@
           type.</para>
       </sect2>
   
-      <sect2>
-        <title>Assignment and dereference constructs</title>
+      <sect2 id="construct-assignment-dereference">
+        <title>3.4.4 Assignment and dereference constructs</title>
   
         <para>The constructs for assigning and dereferencing pointers have one
           of two forms depending on the complexity of the type pointed to. For
@@ -684,14 +684,14 @@
       </sect2>
     </sect1>
 
-    <sect1 id="OutputList">
+    <sect1 id="outputlist">
       <title>3.5. Operations on lists</title>
   
       <para>The <code>LIST</code> type constructor is used to represent a list
         of objects of type <i>t</i>.</para>
   
-      <sect2>
-        <title>Simple list constructs</title>
+      <sect2 id="simple-list-constructs">
+        <title>3.5.1 Simple list constructs</title>
   
         <para>There are several simple list constructs:
           <programlisting>
@@ -716,8 +716,8 @@
           reversed. One list can be appended to another.</para>
       </sect2>
   
-      <sect2>
-        <title>Unique lists</title>
+      <sect2 id="unique-lists">
+        <title>3.5.2 Unique lists</title>
   
         <para>There are also constructs for generating and destroying unique
           lists:
@@ -730,8 +730,8 @@
           undefined.</para>
       </sect2>
   
-      <sect2>
-        <title>List construction and destruction</title>
+      <sect2 id="list-construction-destruction">
+        <title>3.5.3 List construction and destruction</title>
   
         <para>For each type <i>t</i> there are operations for constructing and
           deconstructing lists. For the basic types comprising the algebra
@@ -778,7 +778,7 @@
       </sect2>
     </sect1>
 
-    <sect1 id="OutputStack">
+    <sect1 id="outputstack">
       <title>3.6. Operations on stacks</title>
   
       <para>The <code>STACK</code> type constructor is used to represent
@@ -797,7 +797,7 @@
         </programlisting>
         where <i>type</i> is the short type name. There are also generic
         constructs, such as <code>PUSH_ptr</code> for pushing any pointer
-        type, similar to the <link linkend="OutputList">generic list
+        type, similar to the <link linkend="outputlist">generic list
         constructors</link> above.</para>
   
       <para>Stacks are in fact just modified lists with pushing corresponding
@@ -810,7 +810,7 @@
         for explicitly converting between lists and stacks.</para>
     </sect1>
 
-    <sect1 id="OutputVec">
+    <sect1 id="outputvec">
       <title>3.7. Operations on vectors</title>
   
       <para>The <code>VEC</code> type constructor is used to represent vectors
@@ -844,7 +844,7 @@
         trimming operation.</para>
     </sect1>
 
-    <sect1 id="OutputVecPtr">
+    <sect1 id="outputvecptr">
       <title>3.8. Operations on vector pointers</title>
   
       <para>The <code>VEC_PTR</code> type constructor is used to represent a
@@ -860,7 +860,7 @@
         pointer.</para>
     </sect1>
 
-    <sect1 id="OutputPrim">
+    <sect1 id="outputprim">
       <title>3.9. Operations on primitives</title>
   
       <para>Each primitive specified within the algebra maps onto a
@@ -871,7 +871,7 @@
         the stack push and pop operations.</para>
     </sect1>
 
-    <sect1 id="OutputIdent">
+    <sect1 id="outputident">
       <title>3.10. Operations on identities</title>
   
       <para>Each identity specified within the algebra maps onto a
@@ -879,14 +879,14 @@
         identities.</para>
     </sect1>
 
-    <sect1 id="OutputEnum">
+    <sect1 id="outputenum">
       <title>3.11. Operations on enumerations</title>
   
       <para>Each enumeration specified within the algebra maps onto an
         unsigned integral type in the output file. The
-        <link linkend="OutputPrim">basic operations</link> listed above are always
+        <link linkend="outputprim">basic operations</link> listed above are always
         generated unless it has been indicated that
-        <link linkend="InputEnum">no lists of this type will be formed</link>, when
+        <link linkend="inputenum">no lists of this type will be formed</link>, when
         <code>CONS_</code><i>type</i> and the other list and stack operators
         are suppressed. In addition each enumerator which is a member of this
         enumeration maps onto a constant expression:
@@ -904,12 +904,12 @@
         giving one more than the maximum enumerator in the enumeration.</para>
     </sect1>
 
-    <sect1 id="OutputStruct">
+    <sect1 id="outputstruct">
       <title>3.12. Operations on structures</title>
   
       <para>Each structure specified within the algebra maps onto a
         <code>typedef</code> defining the type to be the C structure with the
-        given components. In addition to the <link linkend="OutputPrim">basic
+        given components. In addition to the <link linkend="outputprim">basic
         operations</link> listed above there are also field selectors
         defined.</para>
   
@@ -947,11 +947,11 @@
         and <i>btype</i> respectively.</para>
     </sect1>
     
-    <sect1 id="OutputUnion">
+    <sect1 id="outputunion">
       <title>3.13. Operations on unions</title>
   
       <para>Each union specified within the algebra maps onto an opaque type
-        in the output file. In addition to the <link linkend="OutputPrim">basic
+        in the output file. In addition to the <link linkend="outputprim">basic
         operations</link> listed above there are a number of other constructs
         output into <i>name</i><code>.h</code>, namely:
         <programlisting>
@@ -967,8 +967,8 @@
         may be compared against this distinguished value, or against each
         other.</para>
   
-      <sect2>
-        <title>Union construction operations</title>
+      <sect2 id="union-construction-operations">
+        <title>3.13.1 Union construction operations</title>
   
         <para>Most of the output for the union type <i>t</i> is output into
           the file <filename>union_ops.h</filename>. This contains a
@@ -1017,7 +1017,7 @@
           the components of <i>field</i>, both the shared components and the
           unshared components, which do not have a component initialiser
           string in the definition. The union component are initialised either
-          using the <link linkend="OutputStruct">initialiser string</link> or the
+          using the <link linkend="outputstruct">initialiser string</link> or the
           given operation argument.</para>
   
         <para><code>DECONS_</code><i>union_field</i> performs the opposite
@@ -1029,10 +1029,10 @@
           initialiser strings.</para>
       </sect2>
   
-      <sect2>
-        <title>Union field sets</title>
+      <sect2 id="union-field-sets">
+        <title>3.13.2 Union field sets</title>
   
-        <para>Recall that <link linkend="InputUnion">a number of union field
+        <para>Recall that <link linkend="inputunion">a number of union field
           identifiers</link> may be associated with the same set of components.
           In this case these fields form a union field set named after the
           first element of the set. There are operations:
@@ -1066,8 +1066,8 @@
           <i>union_field</i><code>_etc_tag</code>.</para>
       </sect2>
   
-      <sect2>
-        <title>Inheritance in unions</title>
+      <sect2 id="inheritance-in-unions">
+        <title>3.13.3 Inheritance in unions</title>
   
         <para>Inheritance in unions is handled as follows: if <i>t</i> is a
           derived union with base union <i>btype</i> then there is an
@@ -1079,8 +1079,8 @@
           and <i>btype</i> respectively.</para>
       </sect2>
   
-      <sect2 id="OutputUnionMaps">
-        <title>Union maps</title>
+      <sect2 id="outputunionmaps">
+        <title>3.13.4 Union maps</title>
 
         <para>For each map, <i>map</i>, on the union <i>t</i>, we have
           declared in <i>union</i><code>_ops.h</code> an operator:
@@ -1089,7 +1089,7 @@
           </programlisting>
           where <i>map_ret</i> is the map return type and <i>map_par</i>
           ranges over the map parameter types. This is except for maps with
-          destructors (i.e. those qualified by a <link linkend="InputUnion">hash
+          destructors (i.e. those qualified by a <link linkend="inputunion">hash
           symbol</link>) which have the form:
           <programlisting>
           <i>map_ret map_union</i> ( <i>t</i>, DESTROYER, <i>map_par</i>, .... ) ;
@@ -1133,14 +1133,14 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="coutput">
     <title>Implementation details</title>
 
-    <sect1 id="COutputTypes">
+    <sect1 id="coutputtypes">
       <title>4.1. Implementation of types</title>
   
       <para>The C implementation of the type system
-        <link linkend="TokenOutput">specified above</link> is based on a single type,
+        <link linkend="tokenoutput">specified above</link> is based on a single type,
         <i>name</i>, with the same name as the input algebra. This is defined
         as follows:
         <programlisting>
@@ -1164,12 +1164,12 @@
         </para>
   
       <para>Primitive types are implemented by a <code>typedef</code> defining
-        the type in terms of its <link linkend="OutputPrim">given definition</link>. A
+        the type in terms of its <link linkend="outputprim">given definition</link>. A
         primitive type can be packed into a single cell using the appropriate
         <code>ag_prim_</code><i>type</i> field of the union.</para>
   
       <para>Identity types are implemented by a <code>typedef</code> defining
-        the type as being equal to another <link linkend="OutputIdent">type from
+        the type as being equal to another <link linkend="outputident">type from
         the algebra</link>.</para>
     
       <para>Enumeration types are all implemented as <code>unsigned int</code>
@@ -1179,7 +1179,7 @@
         union.</para>
     
       <para>Structure types are implemented by a <code>typedef</code> defining
-        the type to be the C structure with the <link linkend="OutputStruct">given
+        the type to be the C structure with the <link linkend="outputstruct">given
         components</link>. A structure type may be packed into a block of cells
         by packing each of the components in turn.</para>
     
@@ -1238,7 +1238,7 @@
       <para>All size types are implemented as <code>int</code>.</para>
     </sect1>  
 
-    <sect1 id="COutputSupport">
+    <sect1 id="coutputsupport">
       <title>4.2. Support routines</title>
   
       <para>The implementation requires the user to provide certain support
@@ -1253,7 +1253,7 @@
         where <code>gen_</code><i>name</i> allocates a block of cells of the
         given size, <code>destroy_</code><i>name</i> deallocates the given
         block, and <code>dummy_destroy_</code><i>name</i> has <link
-        linkend="OutputBasic">no effect</link>. The precise details of how the
+        linkend="outputbasic">no effect</link>. The precise details of how the
         memory management is to be handled are left to the user.</para>
   
       <para>Certain generic list functions must also be provided, namely:
@@ -1273,11 +1273,11 @@
       </programlisting>needs to be defined.</para>
   
       <para>Examples of these support routines can be found in the
-        <link linkend="Example"><command>calculus</command> program</link>
+        <link linkend="example"><command>calculus</command> program</link>
         itself.</para>
     </sect1>
 
-    <sect1 id="COutputAssert">
+    <sect1 id="coutputassert">
       <title>4.3. Run-time checking</title>
   
       <para>The type checking facilities supported by
@@ -1302,10 +1302,10 @@
     </sect1>
   </chapter>
   
-  <chapter id="DiskOutput">
+  <chapter id="diskoutput">
     <title>Disk reading and writing</title>
   
-    <para>One of the facilities which the <link linkend="COutputTypes">homogeneous
+    <para>One of the facilities which the <link linkend="coutputtypes">homogeneous
       implementation</link> of the type system described above allows for is the
       addition of persistence.  Persistence in this context means allowing
       objects to be written to, and read from, disk. Also discussed in this
@@ -1328,7 +1328,7 @@
       make these available for the disk reading and writing routines to
       use.</para>
 
-    <sect1 id="DiskWrite">
+    <sect1 id="diskwrite">
       <title>5.1. Disk writing routines</title>
   
       <para>The disk writing routines output in
@@ -1362,7 +1362,7 @@
         mentioned in the algebra definition. This can be done by means of a
         command-line option of the form <code>-E</code><i>input</i> where
         <i>input</i> is a file containing a list of the extra types required.
-        In the notation <link linkend="TextInput">used above</link> the syntax for
+        In the notation <link linkend="textinput">used above</link> the syntax for
         <i>input</i> is given by:
         <programlisting>
           <i>extra</i> :
@@ -1382,7 +1382,7 @@
           void WRITE_ALIAS ( unsigned int ) ;
         </programlisting>
         for writing a number of bits to disk, writing a vector dimension and
-        writing an <link linkend="DiskAlias">object alias</link>.</para>
+        writing an <link linkend="diskalias">object alias</link>.</para>
   
       <para>Any of the <code>WRITE_</code><i>type</i> functions may be
         overridden by the user by defining a macro
@@ -1394,7 +1394,7 @@
         disk reading and writing routines.</para>
     </sect1>
 
-    <sect1 id="DiskRead">
+    <sect1 id="diskread">
       <title>5.2. Disk reading routines</title>
   
       <para>The disk reading routines output in
@@ -1413,12 +1413,12 @@
           unsigned int READ_ALIAS ( void ) ;
         </programlisting>
         for reading a number of bits from disk, reading a vector dimension and
-        reading an <link linkend="DiskAlias">object alias</link>. The
+        reading an <link linkend="diskalias">object alias</link>. The
         <code>READ_</code><i>type</i> functions may be overridden by means of
         macros as before.</para>
     </sect1>
 
-    <sect1 id="DiskPrint">
+    <sect1 id="diskprint">
       <title>5.3. Object printing routines</title>
   
       <para>The object printing routines output in
@@ -1470,7 +1470,7 @@
         <code>DEBUG</code> is defined.</para>
     </sect1>
   
-    <sect1 id="DiskAlias">
+    <sect1 id="diskalias">
       <title>5.4. Aliasing</title>
   
       <para>An important feature of the disk reading and writing routines,
@@ -1491,7 +1491,7 @@
         this same object.</para>
   
       <para>The objects on which aliasing can be specified are the
-        <link linkend="InputUnion">union fields</link>. A union field may be qualified
+        <link linkend="inputunion">union fields</link>. A union field may be qualified
         by one or two hash symbols to signify that objects of that type should
         be aliased.</para>
   
@@ -1547,19 +1547,19 @@
         giving the next alias number to be assigned, and routines for adding
         an alias to the list of all aliases, and looking up an alias in this
         list. Example implementations of these routines are given in the
-        <link linkend="Example"><command>calculus</command> program</link>
+        <link linkend="example"><command>calculus</command> program</link>
         itself.</para>
     </sect1>
 
-    <sect1 id="Application">
+    <sect1 id="application">
       <title>5.5. Application to calculus</title>
   
-      <para>As <link linkend="Example">mentioned above</link>, the
+      <para>As <link linkend="example">mentioned above</link>, the
         <command>calculus</command> program itself is an example of
         its own application. It therefore contains routines for reading and
         writing a representation of an algebra to and from disk, and for
         pretty-printing the contents of an algebra. These may be accessed
-        using the <link linkend="Options">command-line options</link> mentioned
+        using the <link linkend="options">command-line options</link> mentioned
         above.</para>
   
       <para>If the <option>-w</option> command-line option is specified to
@@ -1575,7 +1575,7 @@
     </sect1>
   </chapter>
   
-  <chapter>
+  <chapter id="template-files">
     <title>Template files</title>
   
     <para>It is possible to use <command>calculus</command> to
