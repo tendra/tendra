@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/calculus/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/calculus/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -46,8 +46,8 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void extra_calculus PROTO_S ((void));
-extern void read_calculus PROTO_S ((void));
+extern void extra_calculus (void);
+extern void read_calculus (void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

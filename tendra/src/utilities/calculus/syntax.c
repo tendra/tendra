@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/calculus/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/calculus/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -103,57 +103,57 @@ static LIST ( ECONST_P ) enum_list = NULL_list ( ECONST_P ) ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZR254 PROTO_S ((number, number *));
-static void ZRimport_Hitem PROTO_S ((void));
-static void ZR258 PROTO_S ((number, number *));
-static void ZRprimary_Hexp PROTO_S ((number *));
-static void ZR262 PROTO_S ((number, number *));
-static void ZR264 PROTO_S ((int *));
-static void ZR265 PROTO_S ((int *));
-static void ZR268 PROTO_S ((CLASS_ID_P *));
-static void ZR269 PROTO_S ((string *));
-static void ZRextra_Hlist PROTO_S ((void));
-static void ZRclass_Hid PROTO_S ((CLASS_ID_P *));
-static void ZRnew_Hitem_Hlist PROTO_S ((void));
-extern void extra_calculus PROTO_S ((void));
-static void ZRunion_Hlist PROTO_S ((UNION_P_LIST *));
-static void ZRshift_Hexp PROTO_S ((number *));
-static void ZRcomponent_Hdecl PROTO_S ((TYPE_P, COMPONENT_P_LIST *));
-static void ZRadd_Hexp PROTO_S ((number *));
-static void ZRstructure_Hsingle PROTO_S ((STRUCTURE_P_LIST *));
-static void ZRmap_Hlist PROTO_S ((MAP_P_LIST *));
-static void ZRprimitive_Hdefn PROTO_S ((CLASS_ID_P, PRIMITIVE_P *));
-static void ZRunary_Hexp PROTO_S ((number *));
-static void ZRand_Hexp PROTO_S ((number *));
-static void ZRargument_Hdecl PROTO_S ((TYPE_P, ARGUMENT_P_LIST *));
-static void ZRold_Hunit PROTO_S ((void));
-static void ZRenumerator_Hlist PROTO_S ((ECONST_P_LIST *));
-static void ZRcomponent_Hgroup PROTO_S ((COMPONENT_P_LIST *));
-static void ZRnew_Hunit PROTO_S ((void));
-static void ZRidentity_Hdefn PROTO_S ((CLASS_ID_P, IDENTITY_P *));
-static void ZRmult_Hexp PROTO_S ((number *));
-extern void read_calculus PROTO_S ((void));
-static void ZRtype PROTO_S ((TYPE_P *));
-static void ZRstructure_Hdefn PROTO_S ((CLASS_ID_P, string, STRUCTURE_P *));
-static void ZRcomponent_Hlist PROTO_S ((COMPONENT_P_LIST *));
-static void ZRextended_Htype PROTO_S ((TYPE_P *));
-static void ZRprimitive_Hlist PROTO_S ((PRIMITIVE_P_LIST *));
-static void ZR209 PROTO_S ((string *));
-static void ZRargument_Hlist PROTO_S ((ARGUMENT_P_LIST *));
-static void ZRexpression PROTO_S ((number *));
-static void ZRxor_Hexp PROTO_S ((number *));
-static void ZRidentity_Hlist PROTO_S ((IDENTITY_P_LIST *));
-static void ZRor_Hexp PROTO_S ((number *));
-static void ZRunion_Hsingle PROTO_S ((UNION_P_LIST *));
-static void ZRstructure_Hlist PROTO_S ((STRUCTURE_P_LIST *));
-static void ZRunion_Hdefn_Hold PROTO_S ((CLASS_ID_P, UNION_P *));
-static void ZRenum_Hsingle PROTO_S ((ENUM_P_LIST *));
-static void ZRfield_Hid_Hlist PROTO_S ((int, FIELD_P_LIST *));
-static void ZR242 PROTO_S ((number, number *));
-static void ZRfield_Hlist PROTO_S ((FIELD_P_LIST *));
-static void ZRunion_Hdefn_Hnew PROTO_S ((CLASS_ID_P, UNION_P *));
-static void ZR246 PROTO_S ((number, number *));
-static void ZR250 PROTO_S ((number, number *));
+static void ZR254 (number, number *);
+static void ZRimport_Hitem (void);
+static void ZR258 (number, number *);
+static void ZRprimary_Hexp (number *);
+static void ZR262 (number, number *);
+static void ZR264 (int *);
+static void ZR265 (int *);
+static void ZR268 (CLASS_ID_P *);
+static void ZR269 (string *);
+static void ZRextra_Hlist (void);
+static void ZRclass_Hid (CLASS_ID_P *);
+static void ZRnew_Hitem_Hlist (void);
+extern void extra_calculus (void);
+static void ZRunion_Hlist (UNION_P_LIST *);
+static void ZRshift_Hexp (number *);
+static void ZRcomponent_Hdecl (TYPE_P, COMPONENT_P_LIST *);
+static void ZRadd_Hexp (number *);
+static void ZRstructure_Hsingle (STRUCTURE_P_LIST *);
+static void ZRmap_Hlist (MAP_P_LIST *);
+static void ZRprimitive_Hdefn (CLASS_ID_P, PRIMITIVE_P *);
+static void ZRunary_Hexp (number *);
+static void ZRand_Hexp (number *);
+static void ZRargument_Hdecl (TYPE_P, ARGUMENT_P_LIST *);
+static void ZRold_Hunit (void);
+static void ZRenumerator_Hlist (ECONST_P_LIST *);
+static void ZRcomponent_Hgroup (COMPONENT_P_LIST *);
+static void ZRnew_Hunit (void);
+static void ZRidentity_Hdefn (CLASS_ID_P, IDENTITY_P *);
+static void ZRmult_Hexp (number *);
+extern void read_calculus (void);
+static void ZRtype (TYPE_P *);
+static void ZRstructure_Hdefn (CLASS_ID_P, string, STRUCTURE_P *);
+static void ZRcomponent_Hlist (COMPONENT_P_LIST *);
+static void ZRextended_Htype (TYPE_P *);
+static void ZRprimitive_Hlist (PRIMITIVE_P_LIST *);
+static void ZR209 (string *);
+static void ZRargument_Hlist (ARGUMENT_P_LIST *);
+static void ZRexpression (number *);
+static void ZRxor_Hexp (number *);
+static void ZRidentity_Hlist (IDENTITY_P_LIST *);
+static void ZRor_Hexp (number *);
+static void ZRunion_Hsingle (UNION_P_LIST *);
+static void ZRstructure_Hlist (STRUCTURE_P_LIST *);
+static void ZRunion_Hdefn_Hold (CLASS_ID_P, UNION_P *);
+static void ZRenum_Hsingle (ENUM_P_LIST *);
+static void ZRfield_Hid_Hlist (int, FIELD_P_LIST *);
+static void ZR242 (number, number *);
+static void ZRfield_Hlist (FIELD_P_LIST *);
+static void ZRunion_Hdefn_Hnew (CLASS_ID_P, UNION_P *);
+static void ZR246 (number, number *);
+static void ZR250 (number, number *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -161,8 +161,7 @@ static void ZR250 PROTO_S ((number, number *));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZR254 PROTO_N ((ZI252, ZO253))
-  PROTO_T (number ZI252 X number *ZO253)
+ZR254 (number ZI252, number *ZO253)
 {
     number ZI253;
 
@@ -223,7 +222,7 @@ ZR254 PROTO_N ((ZI252, ZO253))
 }
 
 static void
-ZRimport_Hitem PROTO_Z ()
+ZRimport_Hitem (void)
 {
     if ((CURRENT_TERMINAL) == 49) {
 	return;
@@ -255,8 +254,7 @@ ZRimport_Hitem PROTO_Z ()
 }
 
 static void
-ZR258 PROTO_N ((ZI256, ZO257))
-  PROTO_T (number ZI256 X number *ZO257)
+ZR258 (number ZI256, number *ZO257)
 {
     number ZI257;
 
@@ -317,8 +315,7 @@ ZR258 PROTO_N ((ZI256, ZO257))
 }
 
 static void
-ZRprimary_Hexp PROTO_N ((ZOn))
-  PROTO_T (number *ZOn)
+ZRprimary_Hexp (number *ZOn)
 {
     number ZIn;
 
@@ -400,8 +397,7 @@ ZRprimary_Hexp PROTO_N ((ZOn))
 }
 
 static void
-ZR262 PROTO_N ((ZI260, ZO261))
-  PROTO_T (number ZI260 X number *ZO261)
+ZR262 (number ZI260, number *ZO261)
 {
     number ZI261;
 
@@ -491,8 +487,7 @@ ZR262 PROTO_N ((ZI260, ZO261))
 }
 
 static void
-ZR264 PROTO_N ((ZOn))
-  PROTO_T (int *ZOn)
+ZR264 (int *ZOn)
 {
     int ZIn;
 
@@ -519,8 +514,7 @@ ZR264 PROTO_N ((ZOn))
 }
 
 static void
-ZR265 PROTO_N ((ZOn))
-  PROTO_T (int *ZOn)
+ZR265 (int *ZOn)
 {
     int ZIn;
 
@@ -547,8 +541,7 @@ ZR265 PROTO_N ((ZOn))
 }
 
 static void
-ZR268 PROTO_N ((ZI267))
-  PROTO_T (CLASS_ID_P *ZI267)
+ZR268 (CLASS_ID_P *ZI267)
 {
     switch (CURRENT_TERMINAL) {
       case 0: case 15: case 16: case 17: case 18:
@@ -614,8 +607,7 @@ ZR268 PROTO_N ((ZI267))
 }
 
 static void
-ZR269 PROTO_N ((ZIa))
-  PROTO_T (string *ZIa)
+ZR269 (string *ZIa)
 {
     switch (CURRENT_TERMINAL) {
       case 26:
@@ -658,7 +650,7 @@ ZR269 PROTO_N ((ZIa))
 }
 
 static void
-ZRextra_Hlist PROTO_Z ()
+ZRextra_Hlist (void)
 {
   ZL2_extra_Hlist:;
     switch (CURRENT_TERMINAL) {
@@ -697,8 +689,7 @@ ZRextra_Hlist PROTO_Z ()
 }
 
 static void
-ZRclass_Hid PROTO_N ((ZOi))
-  PROTO_T (CLASS_ID_P *ZOi)
+ZRclass_Hid (CLASS_ID_P *ZOi)
 {
     CLASS_ID_P ZIi;
 
@@ -800,7 +791,7 @@ ZRclass_Hid PROTO_N ((ZOi))
 }
 
 static void
-ZRnew_Hitem_Hlist PROTO_Z ()
+ZRnew_Hitem_Hlist (void)
 {
   ZL2_new_Hitem_Hlist:;
     switch (CURRENT_TERMINAL) {
@@ -911,7 +902,7 @@ ZRnew_Hitem_Hlist PROTO_Z ()
 }
 
 void
-extra_calculus PROTO_Z ()
+extra_calculus (void)
 {
     if ((CURRENT_TERMINAL) == 49) {
 	return;
@@ -940,8 +931,7 @@ extra_calculus PROTO_Z ()
 }
 
 static void
-ZRunion_Hlist PROTO_N ((ZOp))
-  PROTO_T (UNION_P_LIST *ZOp)
+ZRunion_Hlist (UNION_P_LIST *ZOp)
 {
     UNION_P_LIST ZIp;
 
@@ -985,8 +975,7 @@ ZRunion_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRshift_Hexp PROTO_N ((ZO253))
-  PROTO_T (number *ZO253)
+ZRshift_Hexp (number *ZO253)
 {
     number ZI253;
 
@@ -1012,8 +1001,7 @@ ZRshift_Hexp PROTO_N ((ZO253))
 }
 
 static void
-ZRcomponent_Hdecl PROTO_N ((ZIt, ZOp))
-  PROTO_T (TYPE_P ZIt X COMPONENT_P_LIST *ZOp)
+ZRcomponent_Hdecl (TYPE_P ZIt, COMPONENT_P_LIST *ZOp)
 {
     COMPONENT_P_LIST ZIp;
 
@@ -1106,8 +1094,7 @@ ZRcomponent_Hdecl PROTO_N ((ZIt, ZOp))
 }
 
 static void
-ZRadd_Hexp PROTO_N ((ZO257))
-  PROTO_T (number *ZO257)
+ZRadd_Hexp (number *ZO257)
 {
     number ZI257;
 
@@ -1133,8 +1120,7 @@ ZRadd_Hexp PROTO_N ((ZO257))
 }
 
 static void
-ZRstructure_Hsingle PROTO_N ((ZOp))
-  PROTO_T (STRUCTURE_P_LIST *ZOp)
+ZRstructure_Hsingle (STRUCTURE_P_LIST *ZOp)
 {
     STRUCTURE_P_LIST ZIp;
 
@@ -1189,8 +1175,7 @@ ZRstructure_Hsingle PROTO_N ((ZOp))
 }
 
 static void
-ZRmap_Hlist PROTO_N ((ZOp))
-  PROTO_T (MAP_P_LIST *ZOp)
+ZRmap_Hlist (MAP_P_LIST *ZOp)
 {
     MAP_P_LIST ZIp;
 
@@ -1311,8 +1296,7 @@ ZRmap_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRprimitive_Hdefn PROTO_N ((ZIi, ZOp))
-  PROTO_T (CLASS_ID_P ZIi X PRIMITIVE_P *ZOp)
+ZRprimitive_Hdefn (CLASS_ID_P ZIi, PRIMITIVE_P *ZOp)
 {
     PRIMITIVE_P ZIp;
 
@@ -1361,8 +1345,7 @@ ZRprimitive_Hdefn PROTO_N ((ZIi, ZOp))
 }
 
 static void
-ZRunary_Hexp PROTO_N ((ZOn))
-  PROTO_T (number *ZOn)
+ZRunary_Hexp (number *ZOn)
 {
     number ZIn;
 
@@ -1450,8 +1433,7 @@ ZRunary_Hexp PROTO_N ((ZOn))
 }
 
 static void
-ZRand_Hexp PROTO_N ((ZO249))
-  PROTO_T (number *ZO249)
+ZRand_Hexp (number *ZO249)
 {
     number ZI249;
 
@@ -1477,8 +1459,7 @@ ZRand_Hexp PROTO_N ((ZO249))
 }
 
 static void
-ZRargument_Hdecl PROTO_N ((ZIt, ZOp))
-  PROTO_T (TYPE_P ZIt X ARGUMENT_P_LIST *ZOp)
+ZRargument_Hdecl (TYPE_P ZIt, ARGUMENT_P_LIST *ZOp)
 {
     ARGUMENT_P_LIST ZIp;
 
@@ -1542,7 +1523,7 @@ ZRargument_Hdecl PROTO_N ((ZIt, ZOp))
 }
 
 static void
-ZRold_Hunit PROTO_Z ()
+ZRold_Hunit (void)
 {
     if ((CURRENT_TERMINAL) == 49) {
 	return;
@@ -1706,8 +1687,7 @@ ZRold_Hunit PROTO_Z ()
 }
 
 static void
-ZRenumerator_Hlist PROTO_N ((ZOp))
-  PROTO_T (ECONST_P_LIST *ZOp)
+ZRenumerator_Hlist (ECONST_P_LIST *ZOp)
 {
     ECONST_P_LIST ZIp;
 
@@ -1801,8 +1781,7 @@ ZRenumerator_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRcomponent_Hgroup PROTO_N ((ZOp))
-  PROTO_T (COMPONENT_P_LIST *ZOp)
+ZRcomponent_Hgroup (COMPONENT_P_LIST *ZOp)
 {
     COMPONENT_P_LIST ZIp;
 
@@ -1838,7 +1817,7 @@ ZRcomponent_Hgroup PROTO_N ((ZOp))
 }
 
 static void
-ZRnew_Hunit PROTO_Z ()
+ZRnew_Hunit (void)
 {
     if ((CURRENT_TERMINAL) == 49) {
 	return;
@@ -1952,8 +1931,7 @@ ZRnew_Hunit PROTO_Z ()
 }
 
 static void
-ZRidentity_Hdefn PROTO_N ((ZIi, ZOp))
-  PROTO_T (CLASS_ID_P ZIi X IDENTITY_P *ZOp)
+ZRidentity_Hdefn (CLASS_ID_P ZIi, IDENTITY_P *ZOp)
 {
     IDENTITY_P ZIp;
 
@@ -1995,8 +1973,7 @@ ZRidentity_Hdefn PROTO_N ((ZIi, ZOp))
 }
 
 static void
-ZRmult_Hexp PROTO_N ((ZO261))
-  PROTO_T (number *ZO261)
+ZRmult_Hexp (number *ZO261)
 {
     number ZI261;
 
@@ -2022,7 +1999,7 @@ ZRmult_Hexp PROTO_N ((ZO261))
 }
 
 void
-read_calculus PROTO_Z ()
+read_calculus (void)
 {
     if ((CURRENT_TERMINAL) == 49) {
 	return;
@@ -2075,8 +2052,7 @@ read_calculus PROTO_Z ()
 }
 
 static void
-ZRtype PROTO_N ((ZOt))
-  PROTO_T (TYPE_P *ZOt)
+ZRtype (TYPE_P *ZOt)
 {
     TYPE_P ZIt;
 
@@ -2195,8 +2171,7 @@ ZRtype PROTO_N ((ZOt))
 }
 
 static void
-ZRstructure_Hdefn PROTO_N ((ZIi, ZIj, ZOp))
-  PROTO_T (CLASS_ID_P ZIi X string ZIj X STRUCTURE_P *ZOp)
+ZRstructure_Hdefn (CLASS_ID_P ZIi, string ZIj, STRUCTURE_P *ZOp)
 {
     STRUCTURE_P ZIp;
 
@@ -2250,8 +2225,7 @@ ZRstructure_Hdefn PROTO_N ((ZIi, ZIj, ZOp))
 }
 
 static void
-ZRcomponent_Hlist PROTO_N ((ZOp))
-  PROTO_T (COMPONENT_P_LIST *ZOp)
+ZRcomponent_Hlist (COMPONENT_P_LIST *ZOp)
 {
     COMPONENT_P_LIST ZIp;
 
@@ -2306,8 +2280,7 @@ ZRcomponent_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRextended_Htype PROTO_N ((ZOt))
-  PROTO_T (TYPE_P *ZOt)
+ZRextended_Htype (TYPE_P *ZOt)
 {
     TYPE_P ZIt;
 
@@ -2359,8 +2332,7 @@ ZRextended_Htype PROTO_N ((ZOt))
 }
 
 static void
-ZRprimitive_Hlist PROTO_N ((ZOp))
-  PROTO_T (PRIMITIVE_P_LIST *ZOp)
+ZRprimitive_Hlist (PRIMITIVE_P_LIST *ZOp)
 {
     PRIMITIVE_P_LIST ZIp;
 
@@ -2414,8 +2386,7 @@ ZRprimitive_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZR209 PROTO_N ((ZOj))
-  PROTO_T (string *ZOj)
+ZR209 (string *ZOj)
 {
     string ZIj;
 
@@ -2456,8 +2427,7 @@ ZR209 PROTO_N ((ZOj))
 }
 
 static void
-ZRargument_Hlist PROTO_N ((ZOp))
-  PROTO_T (ARGUMENT_P_LIST *ZOp)
+ZRargument_Hlist (ARGUMENT_P_LIST *ZOp)
 {
     ARGUMENT_P_LIST ZIp;
 
@@ -2510,8 +2480,7 @@ ZRargument_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRexpression PROTO_N ((ZOn))
-  PROTO_T (number *ZOn)
+ZRexpression (number *ZOn)
 {
     number ZIn;
 
@@ -2534,8 +2503,7 @@ ZRexpression PROTO_N ((ZOn))
 }
 
 static void
-ZRxor_Hexp PROTO_N ((ZO245))
-  PROTO_T (number *ZO245)
+ZRxor_Hexp (number *ZO245)
 {
     number ZI245;
 
@@ -2561,8 +2529,7 @@ ZRxor_Hexp PROTO_N ((ZO245))
 }
 
 static void
-ZRidentity_Hlist PROTO_N ((ZOp))
-  PROTO_T (IDENTITY_P_LIST *ZOp)
+ZRidentity_Hlist (IDENTITY_P_LIST *ZOp)
 {
     IDENTITY_P_LIST ZIp;
 
@@ -2616,8 +2583,7 @@ ZRidentity_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRor_Hexp PROTO_N ((ZO241))
-  PROTO_T (number *ZO241)
+ZRor_Hexp (number *ZO241)
 {
     number ZI241;
 
@@ -2643,8 +2609,7 @@ ZRor_Hexp PROTO_N ((ZO241))
 }
 
 static void
-ZRunion_Hsingle PROTO_N ((ZOp))
-  PROTO_T (UNION_P_LIST *ZOp)
+ZRunion_Hsingle (UNION_P_LIST *ZOp)
 {
     UNION_P_LIST ZIp;
 
@@ -2687,8 +2652,7 @@ ZRunion_Hsingle PROTO_N ((ZOp))
 }
 
 static void
-ZRstructure_Hlist PROTO_N ((ZOp))
-  PROTO_T (STRUCTURE_P_LIST *ZOp)
+ZRstructure_Hlist (STRUCTURE_P_LIST *ZOp)
 {
     STRUCTURE_P_LIST ZIp;
 
@@ -2741,8 +2705,7 @@ ZRstructure_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRunion_Hdefn_Hold PROTO_N ((ZIi, ZOp))
-  PROTO_T (CLASS_ID_P ZIi X UNION_P *ZOp)
+ZRunion_Hdefn_Hold (CLASS_ID_P ZIi, UNION_P *ZOp)
 {
     UNION_P ZIp;
 
@@ -2907,8 +2870,7 @@ ZRunion_Hdefn_Hold PROTO_N ((ZIi, ZOp))
 }
 
 static void
-ZRenum_Hsingle PROTO_N ((ZOp))
-  PROTO_T (ENUM_P_LIST *ZOp)
+ZRenum_Hsingle (ENUM_P_LIST *ZOp)
 {
     ENUM_P_LIST ZIp;
 
@@ -3063,8 +3025,7 @@ ZRenum_Hsingle PROTO_N ((ZOp))
 }
 
 static void
-ZRfield_Hid_Hlist PROTO_N ((ZIn, ZOp))
-  PROTO_T (int ZIn X FIELD_P_LIST *ZOp)
+ZRfield_Hid_Hlist (int ZIn, FIELD_P_LIST *ZOp)
 {
     FIELD_P_LIST ZIp;
 
@@ -3134,8 +3095,7 @@ ZRfield_Hid_Hlist PROTO_N ((ZIn, ZOp))
 }
 
 static void
-ZR242 PROTO_N ((ZI240, ZO241))
-  PROTO_T (number ZI240 X number *ZO241)
+ZR242 (number ZI240, number *ZO241)
 {
     number ZI241;
 
@@ -3177,8 +3137,7 @@ ZR242 PROTO_N ((ZI240, ZO241))
 }
 
 static void
-ZRfield_Hlist PROTO_N ((ZOp))
-  PROTO_T (FIELD_P_LIST *ZOp)
+ZRfield_Hlist (FIELD_P_LIST *ZOp)
 {
     FIELD_P_LIST ZIp;
 
@@ -3288,8 +3247,7 @@ ZRfield_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRunion_Hdefn_Hnew PROTO_N ((ZIi, ZOp))
-  PROTO_T (CLASS_ID_P ZIi X UNION_P *ZOp)
+ZRunion_Hdefn_Hnew (CLASS_ID_P ZIi, UNION_P *ZOp)
 {
     UNION_P ZIp;
 
@@ -3482,8 +3440,7 @@ ZRunion_Hdefn_Hnew PROTO_N ((ZIi, ZOp))
 }
 
 static void
-ZR246 PROTO_N ((ZI244, ZO245))
-  PROTO_T (number ZI244 X number *ZO245)
+ZR246 (number ZI244, number *ZO245)
 {
     number ZI245;
 
@@ -3525,8 +3482,7 @@ ZR246 PROTO_N ((ZI244, ZO245))
 }
 
 static void
-ZR250 PROTO_N ((ZI248, ZO249))
-  PROTO_T (number ZI248 X number *ZO249)
+ZR250 (number ZI248, number *ZO249)
 {
     number ZI249;
 
