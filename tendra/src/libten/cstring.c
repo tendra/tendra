@@ -46,6 +46,12 @@ string_alloc(size_t n)
 	return s;
 }
 
+void
+string_free(char *s)
+{
+	fmm_free(s, memtype_str);
+}
+
 
 /*
  * Duplicate a string by allocating a new one.

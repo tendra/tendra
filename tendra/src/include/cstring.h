@@ -33,6 +33,7 @@
 #define	cstring_ci_equal(s1, s2)	(strcasecmp ((s1), (s2)) == 0)
 
 char *string_alloc(size_t);
+void  string_free(char *);
 char *string_copy(const char *);
 char *string_ncopy(const char *, size_t);
 char *string_join(const char *, const char *, char);
