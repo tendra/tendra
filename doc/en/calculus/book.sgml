@@ -100,8 +100,8 @@ calculus [ options ] input .... [ output ]
         sections of the program (if only the -XREF-#COutputSupportbasic
         functions) may be dependent upon the implementation, and so not be
         suitable for this form of checking.</para>
-
     </simplesect>
+
     <simplesect>
       <title>Example program</title>
 
