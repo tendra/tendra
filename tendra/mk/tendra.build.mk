@@ -43,8 +43,9 @@
 #                       script and by tcc (so make sure that there is
 #                       plenty of free space).
 
-API_DIR = ${BASE_DIR}/src/lib/apis
 BASE_DIR = ${.CURDIR:C/\/(mk|src).*//}
+APIS = src/lib/apis
+
 PREFIX ?= /usr/local
 PUBLIC_BIN = ${PREFIX}/bin
 INSTALL_DIR = ${PREFIX}/lib/TenDRA
@@ -105,8 +106,8 @@ all:
 
 ${API}:
 	@${ECHO} Building ${API} API...
-	${TSPEC} -v -I${API_DIR} -O${OBJ_SDIR:S/${API}$/include/}\
-		-S${OBJ_SDIR:S/${API}$/building/} ${.TARGET}
+	${TSPEC} -v -I${BASE_DIR}/${APIS} -O${OBJ_DIR}/${APIS}/include\
+		-S${OBJ_DIR}/${APIS}/building ${.TARGET}
 
 ${PROG}: ${OBJS}
 	@${ECHO} Linking ${PROG}...
@@ -129,17 +130,13 @@ install:
 .if !exists(${INSTALL_DIR}/lib/include/${API}.api)
 	${MKDIR} -p ${INSTALL_DIR}/lib/include/${API}.api
 .endif
-	cd ${OBJ_SDIR:S/${API}$/building\/${API}.api/};\
-	for file in *; do\
-		if [ $$file != Makefile ]; then\
-			${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/building/${API}.api/$$file;\
-		fi\
+	cd ${OBJ_DIR}/${APIS}/building/${API}.api;\
+	for file in M_${API} *.c; do\
+		${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/building/${API}.api/$$file;\
 	done
-	cd ${OBJ_SDIR:S/${API}$/include\/${API}.api/};\
-	for file in *; do\
-		if [ $$file != Makefile ]; then\
-			${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/include/${API}.api/$$file;\
-		fi\
+	cd ${OBJ_DIR}/${APIS}/include/${API}.api;\
+	for file in *.h; do\
+		${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/include/${API}.api/$$file;\
 	done
 .endif # API
 .if defined(PROG)
@@ -153,7 +150,7 @@ install:
 _OBJDIR:
 .if !exists(${OBJ_SDIR})
 .if defined(API)
-	@mkdir -p ${OBJ_SDIR:S/\/${API}//}
+	@mkdir -p ${OBJ_DIR}/${APIS}
 .else
 	@mkdir -p ${OBJ_SDIR}
 .endif
