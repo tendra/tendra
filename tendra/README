@@ -115,12 +115,6 @@ executing make:
 
 	$ make
 
-After this the work directory can be removed, and:
-
-	INSTALL -tcc
-
-run to bootstrap the system.
-
 
 KNOWN INSTALLATION PROBLEMS
 ---------------------------
