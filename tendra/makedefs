@@ -31,6 +31,9 @@
 # The purpose of this script is to determine the host on which we are
 # compiling TenDRA and provide sane compilation defaults.
 
+# Makefile.def revision number, used for determining if we need to rerun.
+MKDEFVER=1
+
 HOSTARCH=`/usr/bin/env uname -m`
 SYSTEM=`/usr/bin/env uname -s`
 VERSION=`/usr/bin/env uname -r`
@@ -202,6 +205,7 @@ echo "BLDARCH:	${BLDARCH} (${HOSTARCH})"
 echo "EXECFORMAT:	${EXECFORMAT}"
 
 cat > Makefile.defs <<EOF
+MKDEFVER=${MKDEFVER}
 PREFIX=${PREFIX}
 CC?=${CC}
 LD?=${LD}
