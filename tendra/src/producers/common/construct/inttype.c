@@ -111,7 +111,7 @@ BASE_INFO basetype_info [ ORDER_ntype ] = {
     { btype_ldouble, 0, 0, btype_none, 1, NULL_type },
     { btype_void, 0, 0, btype_none, 1, NULL_type },
     { btype_bottom, 0, 0, btype_none, 1, NULL_type },
-    { btype_bool, 1, 1, btype_unsigned, LANGUAGE_CPP, NULL_type },
+    { btype_bool, 1, 1, btype_unsigned, 1, NULL_type },
     { btype_ptrdiff_t, 16, UINT_MAX, btype_signed, 0, NULL_type },
     { btype_size_t, 16, UINT_MAX, btype_unsigned, 0, NULL_type },
     { btype_wchar_t, 8, UINT_MAX, btype_none, LANGUAGE_CPP, NULL_type },
