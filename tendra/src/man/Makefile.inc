@@ -9,5 +9,3 @@ ${MAN1} ${MAN5}:
 
 
 CLEANFILES=	${MAN1} ${MAN5}
-
-.include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
