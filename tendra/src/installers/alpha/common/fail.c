@@ -73,7 +73,7 @@ static char vcid[] = "$Id$";
 #include "config.h"
 #include "fail.h"
 #include "pseudo.h"
-#define USEAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
+#define USAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
 void alphafail
     PROTO_N ( ( reason,message,extra_info ) )
     PROTO_T ( fail_conditions reason X char *message X char *extra_info )
@@ -85,8 +85,8 @@ void alphafail
     fprintf(stderr,"Error: Cannot Open file %s",message);
     fatal=1;
     break;
-  case USEAGE:
-    fprintf(stderr,"Error: %s\nuseage: is %s",message,USEAGE_STRING);
+  case USAGE:
+    fprintf(stderr,"Error: %s\nusage: is %s",message,USAGE_STRING);
     fatal=1;
     break;
   case OVERFLOW:

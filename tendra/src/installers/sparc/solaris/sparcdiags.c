@@ -1459,7 +1459,7 @@ void stab_proc_end
 		fprintf ( dg_file, "\t.stabs\t\"%s:p", t->u.l.nm);
 		OUT_DT_SHAPE ( t->u.l.dt ) ;
 		fprintf ( dg_file, "\",0xa0,0,%d,%ld\n", 0, disp);
-		if (disp <= 88) { /* register useage comment */
+		if (disp <= 88) { /* register usage comment */
 		  fprintf ( dg_file, "\t.stabs\t\"%s:r", t->u.l.nm);
 		  OUT_DT_SHAPE ( t->u.l.dt ) ;
 		  fprintf ( dg_file, "\",0x40,0,%d,%ld\n",0,24+ ((disp-68)/4));

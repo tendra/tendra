@@ -827,7 +827,7 @@ void stab_local
 	  fprintf ( dg_file, "\",0xa0,0,%d,%ld\n",
 		    0,
 		    disp ) ;
-	  if(disp <= 88) { /* register useage comment */
+	  if(disp <= 88) { /* register usage comment */
 	    fprintf(dg_file, "\t.stabs\t\"%s:r",nm);
 	    OUT_DT_SHAPE(dt);
 	    fprintf(dg_file,"\",0x40,0,%d,%ld\n",0,24+ ((disp-68)/4));

@@ -64,7 +64,7 @@
 #define FAIL_H
 #define MAX_WARNINGS 10
 typedef enum {FILE_OPEN,
-	      USEAGE,
+	      USAGE,
 	      OVERFLOW,
 	      CROSS_IMPLEMENTATION,
 	      REG_ALLOC,
@@ -87,8 +87,8 @@ extern void failer PROTO_S ((char *));
 #define BIG_DIVISION		OVERFLOW,"64 bit division failed",""
 #define BIG_ADDITION		OVERFLOW,"64 bit addition failed",""
 #define BIG_SUBTRACTION	OVERFLOW,"64 bit subtraction failed",""
-#define ILLEGAL_FLAG		USEAGE,"Illegal flag"
-#define TOO_FEW_PARAMETERS	USEAGE,"Not enough parameters",""
+#define ILLEGAL_FLAG		USAGE,"Illegal flag"
+#define TOO_FEW_PARAMETERS	USAGE,"Not enough parameters",""
 #define OPENING_T_FILE		INTERNAL,"Cannot open .t file:"
 #define CANNOT_OPEN_FILE	FILE_OPEN,""
 #define OUT_OF_TREGS		REG_ALLOC,"Too many fixed point t-regs required",""
