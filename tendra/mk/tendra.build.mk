@@ -85,12 +85,12 @@ install:
 .endif # PROG
 # XXX: Very dirty hack...
 .if defined(STARTUPSUBDIR)
-.if !exists(${MACH_BASE}/startup)
-	${MKDIR} -p ${MACH_BASE}/startup
+.if !exists(${COMMON_DIR}/startup)
+	${MKDIR} -p ${COMMON_DIR}/startup
 .for entry in ${STARTUPSUBDIR}
-	${MKDIR} -p ${MACH_BASE}/startup/${entry}
+	${MKDIR} -p ${COMMON_DIR}/startup/${entry}
 	(cd ${entry} && for file in *;\
-		do ${INSTALL} -m 644 $$file ${MACH_BASE}/startup/${entry}/$$file;\
+		do ${INSTALL} -m 644 $$file ${COMMON_DIR}/startup/${entry}/$$file;\
 		done)
 .endfor
 .endif
