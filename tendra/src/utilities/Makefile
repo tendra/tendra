@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = tuname sid calculus
+SUBDIR = tuname sid lexi calculus
 
 .include "Makefile.inc"
