@@ -125,13 +125,11 @@ the older APIs.
 
 The location of certain system linker files has changed in later versions
 of Linux.  The solution is to change the tcc environment files to reflect
-the new locations.  This can be done by:
+the new locations.
 
-	cd src/lib/env/linux/elf
+Todo:	cd src/lib/env/linux/elf
 	mv 80x86 80x86.old
 	mv 80x86.new 80x86
-
-before running INSTALL.
 
 
 ORGANISATION OF RELEASE
