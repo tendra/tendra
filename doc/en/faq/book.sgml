@@ -200,7 +200,7 @@
         </question>
         <answer>
           <para>As described in <ulink
-        url="http://http://www.tendra.org/docs/tdfc/#AEN769">section 3.7
+        url="http://www.tendra.org/docs/tdfc/#AEN769">section 3.7
         of the C Checker Reference Manual</ulink>, <parameter
         class="option">long long</parameter> is supported by TenDRA. It
         is not enabled by default; you may pass <parameter
