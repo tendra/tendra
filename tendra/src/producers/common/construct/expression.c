@@ -2237,14 +2237,14 @@ make_cond_exp(EXP a, EXP b, EXP c)
     /* ... or one is a null pointer constant and one is a pointer ... */
     if (is_npc_exp (b) && IS_TYPE_PTR (cc)) {
 		t = tc;
-		b = make_null_ptr (b, t);
+		if (IS_TYPE_INT (cb)) b = make_null_ptr (b, t);
 		goto return_lab;
 	}
     if (IS_TYPE_PTR (cb)) {
 		/* ... or the other way round ... */
 		if (is_npc_exp (c)) {
 			t = tb;
-			c = make_null_ptr (c, t);
+			if (IS_TYPE_INT (cc)) c = make_null_ptr (c, t);
 			goto return_lab;
 		}
 		/* ... or both pointers ... */
