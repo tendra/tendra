@@ -1,0 +1,68 @@
+# $TenDRA$
+
+.SUFFIXES: .c .o
+
+.c.o:
+	${CC} ${CFLAGS} -c $< -o $@
+
+CC=	cc
+AR=	ar
+RANLIB=	ranlib
+
+MACHINE_ARCH=	alpha
+
+CFLAGS=		-I. -Iohash -Ilst.lib \
+		-DHAS_EXTENDED_GETCWD -DNEED_FGETLN -DNEED_SETENV \
+		-DHAVE_SNPRINTF -DNEED_UNSETENV -DHAVE_UTIMES \
+		-DHAVE_VSNPRINTF -DHAVE_VSPRINTF \
+		-DNEED_INTTYPES_H -DHAS_PATHS_H -DHAVE_REGEX_H \
+		-DHAVE_SYS_UTSNAME_H
+LDFLAGS=	-Lohash -lohash
+
+
+# ohash
+OBJ_OHASH=	ohash/ohash_create_entry.o ohash/ohash_delete.o \
+		ohash/ohash_do.o ohash/ohash_entries.o ohash/ohash_enum.o \
+		ohash/ohash_init.o ohash/ohash_interval.o \
+		ohash/ohash_lookup_interval.o ohash/ohash_lookup_memory.o \
+		ohash/ohash_qlookup.o ohash/ohash_qlookupi.o
+
+# generate
+OBJ_GEN=	generate.o stats.o memory.o
+
+# make
+# var.c, varmodifiers.c, varname.c require generate to compile
+OBJ_MAKE=	arch.o buf.o cmd_exec.o compat.o cond.o dir.o error.o for.o \
+		init.o job.o lowparse.o main.o make.o memory.o parse.o \
+		parsevar.o str.o stats.o suff.o targ.o timestamp.o util.o \
+		var.o varmodifiers.o varname.o
+
+
+
+# lst.lib
+OBJ_LST=	lst.lib/lstAddNew.o lst.lib/lstAppend.o lst.lib/lstConcat.o \
+		lst.lib/lstConcatDestroy.o lst.lib/lstDeQueue.o \
+		lst.lib/lstDestroy.o lst.lib/lstDupl.o lst.lib/lstFindFrom.o \
+		lst.lib/lstForEachFrom.o lst.lib/lstInsert.o \
+		lst.lib/lstMember.o lst.lib/lstRemove.o lst.lib/lstReplace.o \
+		lst.lib/lstSucc.o
+
+all: bmake
+
+
+ohash/libohash.a: ${OBJ_OHASH}
+	${AR} cq ohash/libohash.a ${OBJ_OHASH}
+	${RANLIB} ohash/libohash.a
+
+generate: ohash/libohash.a ${OBJ_GEN}
+	${CC} -o generate ${OBJ_GEN} ${LDFLAGS}
+
+varhashconsts.h: generate
+	./generate 1 > $@
+
+bmake:	ohash/libohash.a generate varhashconsts.h ${OBJ_MAKE} ${OBJ_LST}
+	${CC} -o bmake ${OBJ_MAKE} ${OBJ_LST} ${LDFLAGS}
+
+clean:
+	rm -rf ${OBJ_OHASH} ${OBJ_GEN} ${OBJ_MAKE} ${OBJ_LST} \
+		ohash/libohash.a generate varhashconsts.h bmake
