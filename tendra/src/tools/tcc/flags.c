@@ -54,10 +54,12 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "filename.h"
 #include "list.h"
 #include "archive.h"
-#include "copyright.h"
 #include "environ.h"
 #include "flags.h"
 #include "startup.h"
@@ -394,16 +396,16 @@ set_stage(int t, int k)
     if (t == ALL_TYPES) {
 		boolean ks = keeps [ STARTUP_FILE ];
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
-			error (WARNING, "Illegal stop option");
+			MSG_illegal_stop_option ();
 		} else if (k == KEEP_STAGE) {
 			int i;
-			for (i = 0 ; i < array_size (keeps) ; i++) {
+			for (i = 0 ; i < ARRAY_SIZE (keeps) ; i++) {
 				if (keeps [i] == 0) keeps [i] = 1;
 			}
 			keep_all = 1;
 		} else if (k == DONT_KEEP_STAGE) {
 			int i;
-			for (i = 0 ; i < array_size (keeps) ; i++) {
+			for (i = 0 ; i < ARRAY_SIZE (keeps) ; i++) {
 				if (keeps [i] == 1) keeps [i] = 0;
 			}
 			keep_all = 0;
@@ -436,7 +438,7 @@ set_stage(int t, int k)
 			default :
 				default_lab : {
 					if (t != last_stop) {
-						error (WARNING, "More than one stop option given");
+						MSG_more_than_one_stop_option_given ();
 					}
 					break;
 				}
@@ -581,22 +583,22 @@ update_options(void)
     if (checker) mode = "checker";
     if (use_system_cc) {
 		if (!checker) {
-			error (WARNING, "Using the system C compiler");
+			MSG_using_the_system_C_compiler ();
 		}
 		mode = "system compiler";
     }
     if (mode) {
 		if (make_archive) {
-			error (WARNING, "Can't build TDF archive in %s mode", mode);
+			MSG_cant_build_tdf_archive_in_mode (mode);
 			stops [ INDEP_TDF ] = 1;
 			make_archive = 0;
 		}
 		if (make_complex) {
-			error (WARNING, "Can't build TDF complex in %s mode", mode);
+			MSG_cant_build_tdf_complex_in_mode (mode);
 			make_complex = 0;
 		}
 		if (make_pretty) {
-			error (WARNING, "Can't pretty print TDF in %s mode", mode);
+			MSG_cant_pretty_print_tdf_in_mode (mode);
 			stops [ INDEP_TDF ] = 1;
 			make_pretty = 0;
 		}
@@ -632,7 +634,7 @@ update_options(void)
 
     /* Print API information */
     if (show_api) {
-		error (INFO, "API is %s", api_info);
+		MSG_api_is (api_info);
 		show_api = 0;
     }
 
@@ -734,7 +736,7 @@ update_options(void)
 
     /* Print the copyright message if required */
     if (copyright) {
-		print_copyright ();
+		MSG_crown_copyright ();
 		copyright = 0;
     }
 

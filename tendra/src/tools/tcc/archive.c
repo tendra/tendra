@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+
 #include "external.h"
 #include "filename.h"
 #include "list.h"
@@ -87,14 +90,14 @@ read_file(char *nm, char *w, long n, FILE *f)
 {
     if (dry_run) {
 		if (fseek (f, n, SEEK_CUR)) {
-			error (SERIOUS, "Error when stepping over '%s'", nm);
+			MSG_error_when_stepping_over (nm);
 			return (1);
 		}
     } else {
 		size_t m = (size_t) n;
 		FILE *g = fopen (nm, w);
 		if (g == null) {
-			error (SERIOUS, "Can't open copy destination file, '%s'", nm);
+			MSG_cant_open_copy_destination_file (nm);
 			return (1);
 		}
 		while (m) {
@@ -103,13 +106,13 @@ read_file(char *nm, char *w, long n, FILE *f)
 			if (r > (size_t) block_size) r = (size_t) block_size;
 			s = fread (p, sizeof (char), r, f);
 			if (s != r) {
-				error (SERIOUS, "Reading error when creating '%s'", nm);
+				MSG_reading_error_when_creating (nm);
 				IGNORE fclose (g);
 				return (1);
 			}
 			s = fwrite (p, sizeof (char), r, g);
 			if (s != r) {
-				error (SERIOUS, "Writing error when creating '%s'", nm);
+				MSG_writing_error_when_creating (nm);
 				IGNORE fclose (g);
 				return (1);
 			}
@@ -137,13 +140,13 @@ write_file(char *nm, char *rd, FILE *f)
     if (dry_run) return (0);
     g = fopen (nm, rd);
     if (g == null) {
-		error (SERIOUS, "Can't open copy source file, '%s'", nm);
+		MSG_cant_open_copy_source_file (nm);
 		return (1);
     }
     while (n = fread (p, sizeof (char), (size_t) block_size, g), n) {
 		m = fwrite (p, sizeof (char), n, f);
 		if (m != n) {
-			error (SERIOUS, "Writing error when copying '%s'", nm);
+			MSG_writing_error_when_copying (nm);
 			IGNORE fclose (g);
 			return (0);
 		}
@@ -189,7 +192,7 @@ make_dir(char *nm)
     }
 #else
     {
-		error (INTERNAL, "Built-in mkdir function not implemented");
+		MSG_built_in_mkdir_function_not_implemented ();
 		return (1);
     }
 #endif
@@ -214,20 +217,20 @@ move_file(char *from, char *to)
 #if FS_STAT
     if (rename (from, to) == 0) return (0);
     if (errno != EXDEV) {
-		error (SERIOUS, "Can't rename '%s' to '%s'", from, to);
+		MSG_cant_rename_file (from, to);
 		return (1);
     }
 #endif
     f = fopen (to, "wb");
     if (f == null) {
-		error (SERIOUS, "Can't open copy destination file, '%s'", to);
+		MSG_cant_open_copy_destination_file (to);
 		return (1);
     }
     e = write_file (from, "rb", f);
     IGNORE fclose (f);
     if (e) return (e);
     if (remove (from)) {
-		error (SERIOUS, "Can't remove source file, '%s'", from);
+		MSG_cant_remove_source_file (from);
 		return (1);
     }
     return (0);
@@ -282,14 +285,14 @@ remove_file(char *nm)
 			if (errno == ENOENT) return (0);
 		}
 		if (e) {
-			error (SERIOUS, "Can't remove '%s'", nm);
+			MSG_cant_remove_file (nm);
 			return (1);
 		}
 		return (0);
     }
 #else
     {
-		error (INTERNAL, "Built-in remove function not implemented");
+		MSG_built_in_remove_function_not_implemented ();
 		return (1);
     }
 #endif
@@ -308,7 +311,7 @@ touch_file(char *nm, char *opt)
 {
     if (!dry_run) {
 		FILE *f = fopen (nm, "w");
-		if (f == null) error (SERIOUS, "Can't touch file, '%s'", nm);
+		if (f == null) MSG_cant_touch_file (nm);
 		if (opt && streq (opt, "-k")) {
 			/* This is an empty C spec file */
 			static unsigned char cs [] = {
@@ -412,7 +415,7 @@ file_time(char *nm)
 		if (dry_run) return (0);
 		e = stat (nm, &st);
 		if (e == -1) {
-			error (SERIOUS, "Can't access file '%s'", nm);
+			MSG_cant_access_file (nm);
 			return (0);
 		}
 		return ((long) st.st_mtime);
@@ -503,7 +506,7 @@ process_archive_opt(void)
 		} else if (streq (opt, "-short") || streq (opt, "-s")) {
 			archive_full = 0;
 		} else {
-			error (WARNING, "Unknown archiver option, '%s'", opt);
+			MSG_unknown_archiver_option (opt);
 		}
     }
     opt_joiner = null;
@@ -529,7 +532,7 @@ build_archive(char *arch, char **input)
     if (dry_run) return (0);
     f = fopen (arch, "wb");
     if (f == null) {
-		error (SERIOUS, "Can't open output archive, '%s'", arch);
+		MSG_cant_open_output_archive (arch);
 		return (1);
     }
     IGNORE fputs (ARCHIVE_HEADER, f);
@@ -573,7 +576,7 @@ build_archive(char *arch, char **input)
 			if (verbose) comment (1, "... archive file %s\n", *s);
 			g = fopen (*s, "rb");
 			if (g == null) {
-				error (SERIOUS, "Can't open '%s' for archiving", *s);
+				MSG_cant_open_for_archiving (*s);
 				IGNORE fclose (f);
 				return (1);
 			} else {
@@ -582,7 +585,7 @@ build_archive(char *arch, char **input)
 				IGNORE fprintf (f, "+ %ld %s\n", (long) m, n);
 				while (m) {
 					if (fwrite (p, sizeof (char), m, f) != m) {
-						error (SERIOUS, "Write error in archive '%s'", arch);
+						MSG_write_error_in_archive (arch);
 						IGNORE fclose (f);
 						return (1);
 					}
@@ -610,7 +613,7 @@ build_archive(char *arch, char **input)
 int
 split_archive(char *arch, filename **ret)
 {
-    boolean go = 1;
+    boolean failed = 0, go = 1;
     char *emsg = null;
     list *opts = null;
     filename *q = null;
@@ -620,21 +623,24 @@ split_archive(char *arch, filename **ret)
     /* Open archive file */
     FILE *f = fopen (arch, "rb");
     if (f == null) {
-		emsg = "Can't open input archive, '%s'";
+		MSG_cant_open_input_archive (arch);
+		failed = 1;
 		goto archive_error;
     }
 
     /* Check for archive header */
     if (fgets (buffer, buffer_size, f) == null ||
 		!streq (buffer, ARCHIVE_HEADER)) {
-		emsg = "Illegal input archive, '%s'";
+		MSG_illegal_input_archive (arch);
+		failed = 1;
 		goto archive_error;
     }
 
     /* Extract archived files */
     do {
 		if (fgets (buffer, buffer_size, f) == null) {
-			emsg = "Premature end of archive '%s'";
+			MSG_premature_end_of_archive (arch);
+			failed = 1;
 			goto archive_error;
 		}
 		if (buffer [0] == '+' && buffer [1] == ' ') {
@@ -647,7 +653,8 @@ split_archive(char *arch, filename **ret)
 			if (buffer [m] == '\n') buffer [m] = 0;
 			while (c = *(p++), c != ' ') {
 				if (c < '0' || c > '9') {
-					emsg = "Illegal file length specifier in archive '%s'";
+					MSG_illegal_file_length_specifier_in_archive (arch);
+					failed = 1;
 					goto archive_error;
 				}
 				n = 10 * n + (c - '0');
@@ -655,7 +662,8 @@ split_archive(char *arch, filename **ret)
 			if (streq (p, "+")) {
 				/* File continuations */
 				if (q == null) {
-					emsg = "Illegal file continuation in archive '%s'";
+					MSG_illegal_file_continuation_in_archive (arch);
+					failed = 1;
 					goto archive_error;
 				}
 				w = "ab";
@@ -692,7 +700,8 @@ split_archive(char *arch, filename **ret)
 				}
 			}
 			if (read_file (q->name, w, n, f)) {
-				emsg = "Read error in archive '%s'";
+				MSG_read_error_in_archive (arch);
+				failed = 1;
 				goto archive_error;
 			}
 		} else if (buffer [0] == '>' && buffer [1] == ' ') {
@@ -705,7 +714,8 @@ split_archive(char *arch, filename **ret)
 			if (buffer [m] == '\n') buffer [m] = 0;
 			while (c = *(p++), c != ' ') {
 				if (c < '0' || c > '9') {
-					emsg = "Illegal link information in archive '%s'";
+					MSG_illegal_link_information_in_archive (arch);
+					failed = 1;
 					goto archive_error;
 				}
 				ad = 10 * ad + (c - '0');
@@ -719,8 +729,7 @@ split_archive(char *arch, filename **ret)
 			}
 			fd = file_time (q->name);
 			if (ad && fd && ad != fd) {
-				error (WARNING, "Date stamp on file '%s' has changed",
-					   q->name);
+				MSG_date_stamp_on_file_has_changed (q->name);
 			}
 		} else if (streq (buffer, ARCHIVE_TRAILER)) {
 			/* Archived options */
@@ -729,7 +738,8 @@ split_archive(char *arch, filename **ret)
 			while (c = getc (f), c != EOF) {
 				buffer [0] = (char) c;
 				if (fgets (buffer + 1, buffer_size - 1, f) == null) {
-					emsg = "Premature end of archive '%s'";
+					MSG_premature_end_of_archive (arch);
+					failed = 1;
 					goto archive_error;
 				}
 				m = (int) strlen (buffer) - 1;
@@ -740,14 +750,14 @@ split_archive(char *arch, filename **ret)
 			}
 			go = 0;
 		} else {
-			emsg = "Illegal file description in archive '%s'";
+			MSG_illegal_file_description_in_archive (arch);
+			failed = 1;
 			goto archive_error;
 		}
     } while (go);
 
     /* Return */
     archive_error : {
-		if (emsg) error (SERIOUS, emsg, arch);
 		IGNORE fclose (f);
 		if (need_moves) {
 			for (q = output; q != null; q = q->next) {
@@ -757,7 +767,7 @@ split_archive(char *arch, filename **ret)
 								 q->aux->name);
 					}
 					if (move_file (q->name, q->aux->name)) {
-						emsg = "rhubarb";
+						failed = 1;
 					} else {
 						q->name = q->aux->name;
 						q->storage = q->aux->storage;
@@ -771,7 +781,7 @@ split_archive(char *arch, filename **ret)
 			process_options (opts, main_optmap, 0);
 			opt_archive = add_list (opt_archive, opts);
 		}
-		if (emsg) return (1);
+		if (failed) return (1);
 		return (0);
     }
 }

@@ -56,6 +56,11 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "external.h"
 #include "filename.h"
 #include "list.h"
@@ -111,7 +116,7 @@ process_delayed_signal(void)
 {
     if (last_signal != 0) {
 		last_command = last_signaled_cmd;
-		handler (last_signal);
+		tenapp_signal (last_signal);
     }
     return;
 }
@@ -130,7 +135,7 @@ cmd_string(char *s)
 {
     if (cmd_no >= command_size) {
 		command_size += 1000;
-		command = realloc_nof (command, char *, command_size);
+		command = xrealloc (command, command_size * sizeof (char *));
     }
     command [ cmd_no ] = s;
     if (s == null) {
@@ -303,7 +308,7 @@ execute(filename *input, filename *output)
     cmd_string ((char *) null);
     cmd = command [0];
     if (cmd == null) {
-		error (INTERNAL, "Empty command");
+		MSG_empty_command ();
 		return (null);
     }
     last_command = cmd;
@@ -379,21 +384,19 @@ execute(filename *input, filename *output)
 	    }
 	    case 'u' : {
 			if (streq (cmd, "undef")) {
-				int sev;
+				cmd = command [1];
 				if (dry_run) {
-					sev = WARNING;
+					MSG_tool_is_not_available_w (cmd);
 				} else {
-					sev = INTERNAL;
+					MSG_tool_is_not_available_i (cmd);
 					err = 1;
 				}
-				cmd = command [1];
-				error (sev, "The tool '%s' is not available", cmd);
 				goto execute_error;
 			}
 			break;
 	    }
 		}
-		error (SERIOUS, "Built-in '%s' command not implemented", cmd);
+		MSG_built_in_command_not_implemented (cmd);
 		err = 1;
 
     } else if (!dry_run) {
@@ -402,7 +405,7 @@ execute(filename *input, filename *output)
 		{
 			pid_t pid = fork ();
 			if (pid == (pid_t) -1) {
-				error (SERIOUS, "Can't fork process");
+				MSG_cant_fork_process ();
 				err = 1;
 			} else {
 				if (pid) {
@@ -429,7 +432,7 @@ execute(filename *input, filename *output)
 								last_signaled_cmd = string_copy (cmd);
 								last_signal = sig;
 							} else {
-								handler (sig);
+								tenapp_signal (sig);
 							}
 						}
 						err = 1;
@@ -461,7 +464,7 @@ execute(filename *input, filename *output)
 				}
 				IGNORE execve (cmd, command, environment);
 				running_pid = -1;
-				error (SERIOUS, "Can't execute '%s'", cmd);
+				MSG_cant_execute (cmd);
 				exit (2);
 			}
 		}
@@ -488,7 +491,7 @@ execute(filename *input, filename *output)
 						last_signaled_cmd = string_copy (cmd);
 						last_signal = sig;
 					} else {
-						handler (sig);
+						tenapp_signal (sig);
 					}
 				}
 				err = 1;
@@ -516,7 +519,7 @@ execute(filename *input, filename *output)
 			if (show_errors) {
 				/* Show when the error occurred */
 				if (!filled_buff) print_cmd (buff);
-				error (INFO, "Error in '%s'", buff + 1);
+				MSG_error_in (buff + 1);
 			}
 			remove_junk ();
 			return (null);

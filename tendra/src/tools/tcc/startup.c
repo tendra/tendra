@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+
 #include "external.h"
 #include "filename.h"
 #include "list.h"
@@ -96,7 +99,7 @@ add_to_startup(char *s)
     if (startup_file == null) {
 		startup_file = fopen (startup_name, "a");
 		if (startup_file == null) {
-			error (SERIOUS, "Can't open startup file, '%s'", startup_name);
+			MSG_cant_open_startup_file (startup_name);
 			return;
 		}
 		IGNORE fprintf (startup_file, "#line 1 \"%s\"\n", name_h_file);
@@ -124,7 +127,7 @@ add_to_endup(char *s)
     if (endup_file == null) {
 		endup_file = fopen (endup_name, "a");
 		if (endup_file == null) {
-			error (SERIOUS, "Can't open endup file, '%s'", endup_name);
+			MSG_cant_open_endup_file (endup_name);
 			return;
 		}
 		IGNORE fprintf (endup_file, "#line 1 \"%s\"\n", name_E_file);
@@ -161,8 +164,7 @@ add_to_tokdef(char *s)
     if (tokdef_file == null) {
 		tokdef_file = fopen (tokdef_name, "a");
 		if (tokdef_file == null) {
-			error (SERIOUS, "Can't open token definition file, '%s'",
-				   tokdef_name);
+			MSG_cant_open_token_definition_file (tokdef_name);
 			return;
 		}
 		IGNORE fputs ("(make_tokdec ~char variety)\n", tokdef_file);

@@ -56,6 +56,11 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "external.h"
 #include "filename.h"
@@ -95,8 +100,7 @@
 void
 print_version(void)
 {
-    error (INFO, "%s%s, Machine: %s, Release: %s", VERSION_STRING,
-		   (checker ? " (checker)" : ""), machine_name, RELEASE);
+    MSG_tcc_version(VERSION_STRING, checker ? " (checker)" : "", machine_name, RELEASE);
     flag_no_files = 1;
     return;
 }
@@ -110,31 +114,6 @@ print_version(void)
  */
 
 char **environment = null;
-
-
-/*
- *    SIGNAL HANDLER
- *
- *    This routine is the main signal handler.  It reports any interesting
- *    signals and then cleans up.
- */
-
-void
-handler(int sig)
-{
-    IGNORE signal (SIGINT, SIG_IGN);
-    if (verbose) comment (1, "\n");
-    if (sig != SIGINT) {
-		char *cmd = (last_command ? last_command : "unknown");
-		error (SERIOUS, "Caught signal %d in '%s'", sig, cmd);
-		if (!flag_keep_err && (remove ("core") == 0)) {
-			error (WARNING, "Removed core");
-		}
-    }
-    exit_status = EXIT_FAILURE;
-    main_end ();
-    return;
-}
 
 
 /*
@@ -159,16 +138,8 @@ static void
 main_start(char *prog, char **envp)
 {
     environment = envp;
-    buffer = alloc_nof (char, buffer_size);
+    buffer = xalloc (buffer_size * sizeof (char));
     progname = find_basename (prog);
-	/*
-    IGNORE signal (SIGINT, handler);
-    IGNORE signal (SIGSEGV, handler);
-    IGNORE signal (SIGTERM, handler);
-#ifdef SIGFPE
-    IGNORE signal (SIGFPE, handler);
-#endif
-	*/
     initialise_options ();
     return;
 }
@@ -190,7 +161,7 @@ main_middle(void)
     cmd_string (tempdir);
     IGNORE execute (no_filename, no_filename);
     if (last_return) {
-		error (FATAL, "Can't create temporary directory");
+		MSG_cant_create_temporary_directory ();
     }
     made_tempdir = 1;
     return;
@@ -238,6 +209,8 @@ main(int argc, char **argv)
     list *opts = null;
 
     /* Initialisation */
+    tenapp_init(argc, argv, "TCC", VERSION_STRING);
+    tenapp_add_eh (main_end);
     main_start (PROGNAME_TCC, environ);
 
     /* Check TCCOPTS options */
@@ -261,7 +234,7 @@ main(int argc, char **argv)
     /* Check for input files */
     if (input_files == null) {
 		if (flag_no_files) main_end ();
-		error (FATAL, "No input files specified");
+		MSG_no_input_files_specified ();
     }
 
     /* Apply compilation */
@@ -271,7 +244,7 @@ main(int argc, char **argv)
     /* Check for unprocessed files */
     while (output != null) {
 		if (output->storage == INPUT_FILE) {
-			error (WARNING, "Input file '%s' not processed", output->name);
+			MSG_input_file_not_processed (output->name);
 		}
 		output = output->next;
     }

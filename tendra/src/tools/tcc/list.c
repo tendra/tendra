@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+
 #include "list.h"
 #include "utility.h"
 
@@ -85,13 +88,7 @@ new_list(void)
 		spare_lists = p->next;
 		return (p);
     } else {
-		static int no_free = 0;
-		static list *free_objs = null;
-		if (no_free == 0) {
-			no_free = 1000;
-			free_objs = alloc_nof (list, no_free);
-		}
-		return (free_objs + (--no_free));
+		return (xalloc (sizeof (list)));
     }
 }
 

@@ -60,6 +60,9 @@
 #include <sys/stat.h>
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+
 #include "filename.h"
 #include "list.h"
 #include "environ.h"
@@ -113,7 +116,7 @@ void
 show_envpath(void)
 {
 	find_envpath ();
-	error (INFO, "Environment path is '%s'", envpath);
+	MSG_environment_path_is (envpath);
 	return;
 }
 
@@ -201,8 +204,7 @@ read_env_aux(char *nm, hashtable *ht)
 			key_length = 0;
 			while (c = *p++, is_alphanum(c)) {
 				if (count++ == buffer_size)
-					error(FATAL, "%s: line %d: Exceeded max line size",
-						  nm, line_num);
+					MSG_exceeded_max_line_size (nm, line_num);
 				key_length++;
 			}
 
@@ -213,21 +215,18 @@ read_env_aux(char *nm, hashtable *ht)
 			while (c==' ' || c == '\t') {
 				c = *p++;
 				if (count++ == buffer_size)
-					error(FATAL, "%s: line %d: Exceeded max line size",
-						  nm, line_num);
+					MSG_exceeded_max_line_size (nm, line_num);
 			}
 
 			/* sanity check */
 			if (c== '\0') {
-				error (WARNING, "%s: line %d: No value assigned to key %s",
-					   nm, line_num, key_start);
+				MSG_no_value_assigned_to_key (nm, line_num, key_start);
 				continue;
 			}
 
 			/* All values assigned to a key must be in quotes */
 			if (c != '"') {
-				error (WARNING, "%s: line %d: Value assigned to key %s"
-					   " must be quoted", nm, line_num, key_start);
+				MSG_value_assigned_to_key_must_be_quoted (nm, line_num, key_start);
 				continue;
 			}
 			val_start = p;
@@ -238,8 +237,7 @@ read_env_aux(char *nm, hashtable *ht)
 			/* read the value, until the matching close quote */
 			while (c = *p++, (c != '"' && c != '\n' && c != '\0')) {
 				if (count++ == buffer_size)
-					error(FATAL, "%s: line %d: Exceeded max line size",
-						  nm, line_num);
+					MSG_exceeded_max_line_size (nm, line_num);
 
 				if (c=='<') {
 					int sub_len;    /* length of substitution */
@@ -257,17 +255,12 @@ read_env_aux(char *nm, hashtable *ht)
 					while (c = *p++, c!= '>') {
 						esc_len++;
 						if (count++ == buffer_size)
-							error(FATAL, "%s: line %d: Exceeded max line size",
-								  nm, line_num);
+							MSG_exceeded_max_line_size (nm, line_num);
 						if (c== '\n' || c== '\0') {
-							error (FATAL, "%s: line %d: Unmatched escape"
-								   " sequence, missing >",
-								   nm, line_num);
+							MSG_unmatched_escape_sequence_missing_ra (nm, line_num);
 						}
 						if (c== '<') {
-							error (FATAL, "%s: line %d: Nested < > escape "
-								   " sequences prohibited",
-								   nm, line_num);
+							MSG_nested_la_ra_escape_sequences_prohibited (nm, line_num);
 							continue;
 						}
 					}
@@ -307,8 +300,7 @@ read_env_aux(char *nm, hashtable *ht)
 					line_len += diff;
 					count += diff;
 					if (count == buffer_size)
-						error(FATAL, "%s: line %d: Exceeded max line size",
-							  nm, line_num);
+						MSG_exceeded_max_line_size (nm, line_num);
 
 					/* make room for the substitution */
 					for (cnt = 0; cnt < shift_max; cnt++) {
@@ -329,9 +321,8 @@ read_env_aux(char *nm, hashtable *ht)
 
 			/* did we end the val scan on new line or EOF? */
 			if (c=='\n' || c=='\0') {
-				error (WARNING, "%s: line %d: Value assigned to key %s"
-					   " not terminated with end quote",
-					   nm, line_num, key_start);
+				MSG_value_assigned_to_key_not_terminated_with_end_quote
+					   (nm, line_num, key_start);
 				continue;
 			}
 
@@ -405,9 +396,7 @@ dereference_var (char *esc_start, char *esc_end, hashtable *ht,
 		if (hn == NULL)
 		{
 			*esc_end = tmp;
-			error (FATAL,
-				   "Undefined variable <%s> in %s line %d\n",
-				   esc_start, nm, line_num);
+			MSG_undefined_variable_in_file (esc_start, nm, line_num);
 		}
 		sub = hn->val;
 	}
@@ -447,7 +436,7 @@ reconcile_envopts(void)
 	 */
 	if (environ_count == 0)
 	{
-		error (WARNING, "not invoked with any -Y env arguments");
+		MSG_not_invoked_with_any_Yenv_arguments ();
  	}
 
 	/* All subsequent warnings require a verbose flag */
@@ -460,7 +449,7 @@ reconcile_envopts(void)
 	{
 		/* -Y args given, but failed */
 		if (environ_count > 0)
-			error (WARNING, "failed to load any environment files");
+			MSG_failed_to_load_any_environment_files ();
 		return;
 	}
 
@@ -469,8 +458,7 @@ reconcile_envopts(void)
 		hn = environ_hashtable->node[i];
 		if (hn &&  (hn->flag & USR)  &&
 			!(hn->flag & READ))
-			error (WARNING, "%s, line %d: environment option %s declared"
-				   " but never used", hn->file, hn->line_num, hn->key);
+			MSG_environment_option_declared_but_never_used (hn->file, hn->line_num, hn->key);
 	}
 }
 
@@ -498,6 +486,6 @@ read_env(char *nm)
 	}
 	e = read_env_aux(nm, ht);
 	if (e == 1)
-		error (WARNING, "Can't find environment, '%s'", nm);
+		MSG_cant_find_environment (nm);
 	return;
 }

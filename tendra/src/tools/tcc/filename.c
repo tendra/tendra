@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "filename.h"
 #include "list.h"
 #include "external.h"
@@ -184,7 +188,7 @@ find_fullname(char *s)
 		if (get_cwd (buffer, buffer_size)) {
 			pwd = string_concat (buffer, "/");
 		} else {
-			error (WARNING, "Can't determine current working directory");
+			MSG_cant_determine_current_working_directory ();
 			pwd = "";
 		}
     }
@@ -226,13 +230,7 @@ split_name(char *s)
 static filename*
 new_filename(void)
 {
-    static int no_free = 0;
-    static filename *free_objs = null;
-    if (no_free == 0) {
-		no_free = 1000;
-		free_objs = alloc_nof (filename, no_free);
-    }
-    return (free_objs + (--no_free));
+    return (xalloc (sizeof (filename)));
 }
 
 
@@ -296,7 +294,7 @@ find_type(int s, int suff)
 	    case TDF_ARCHIVE_KEY : return (TDF_ARCHIVE);
 		}
     }
-    error (WARNING, "Unknown file type, '%c'", (unsigned char) s);
+    MSG_unknown_file_type (s);
     return (UNKNOWN_TYPE);
 }
 
@@ -353,7 +351,7 @@ file_suffix(int t)
 		}
 		return (suff);
     }
-    error (SERIOUS, "Illegal file type");
+    MSG_illegal_file_type ();
     return (file_suffix (DEFAULT_TYPE));
 }
 
@@ -528,7 +526,7 @@ make_filename(filename *p, int t, int s)
 	    if (final_name) {
 			static boolean used_final_name = 0;
 			if (used_final_name) {
-				error (WARNING, "Can only name one file with '-o'");
+				MSG_can_only_name_one_file_with_o ();
 			} else {
 				nm = final_name;
 				b = find_basename (nm);
@@ -558,7 +556,7 @@ make_filename(filename *p, int t, int s)
 	    break;
 	}
 	default : {
-	    error (INTERNAL, "Illegal storage type");
+	    MSG_illegal_storage_type ();
 	    d = null;
 	    break;
 	}

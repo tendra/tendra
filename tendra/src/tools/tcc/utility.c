@@ -54,13 +54,11 @@
  * $TenDRA$
  */
 
+#include <stdarg.h>
 
 #include "config.h"
-#if FS_STDARG
-#include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
+#include "cstring.h"
+#include "msgcat.h"
 
 #include "options.h"
 #include "list.h"
@@ -70,83 +68,6 @@
 #include "utility.h"
 #include "environ.h"
 
-/*
- *    ERROR VARIABLES
- *
- *    The value exit_status gives the overall status of the program.  It
- *    can be EXIT_SUCCESS or EXIT_FAILURE.  The variable progname gives
- *    the name of the program, which is used in error reports.
- */
-
-int exit_status = EXIT_SUCCESS;
-char *progname = PROGNAME_TCC;
-
-
-/*
- *    PRINT AN ERROR MESSAGE
- *
- *    This routine prints an error message s (a printf-style string,
- *    which may be followed by any number of arguments) of severity e
- *    (see utility.h).
- */
-
-void
-error(int e, char *s, ...) /* VARARGS */
-{
-    va_list args;
-    char *errtype = null;
-#if FS_STDARG
-    va_start (args, s);
-#else
-    int e;
-    char *s;
-    va_start (args);
-    e = va_arg (args, int);
-    s = va_arg (args, char *);
-#endif
-    switch (e) {
-	case FATAL : {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Fatal";
-	    break;
-	}
-	case INTERNAL : {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Internal";
-	    break;
-	}
-	case SERIOUS : {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Error";
-	    break;
-	}
-	case OPTION : {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Option interpreter";
-	    break;
-	}
-	case WARNING : {
-	    if (!warnings) {
-			va_end (args);
-			return;
-	    }
-	    errtype = "Warning";
-	    break;
-	}
-	case INFO : {
-	    errtype = "Information";
-	    break;
-	}
-    }
-    if (checker) progname = PROGNAME_TCHK;
-    IGNORE fprintf (stderr, "%s: ", progname);
-    if (errtype) IGNORE fprintf (stderr, "%s: ", errtype);
-    IGNORE vfprintf (stderr, s, args);
-    IGNORE fprintf (stderr, ".\n");
-    va_end (args);
-    if (e == FATAL) main_end ();
-    return;
-}
 
 /*
  *    HASH TABLE
@@ -205,7 +126,7 @@ lookup_table (hashtable *ht, char *key)
 	htnode *hn;
 
 	if (! key) {
-		error(WARNING, "Looking up null key in tccenv hashtable");
+		MSG_looking_up_null_key_in_tccenv_hashtable ();
 		return NULL;
 	}
 	hashval = ht->hashfcn (key, ht->tblsize, ht->keysize);
@@ -274,8 +195,8 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 			default:
 				/* this should never happend, since read_env_aux
 				   screens for this */
-				error (FATAL, "Attempt to update hashtable with "
-					   "invalid key %s\n", key);
+				MSG_attempt_to_update_hashtable_with_invalid_key
+					(key);
 			}
 		}
 
@@ -303,7 +224,7 @@ hash(char *key, int tblsize, int keysize)
 
 	if (!key)
 	{
-		error (FATAL, "hash operation requested on empty key\n");
+		MSG_hash_operation_requested_on_empty_key ();;
 	}
 	while (*key && !is_whitespace(*key) && i < keysize)
 	{
@@ -330,56 +251,13 @@ comment(int e, char *s, ...) /* VARARGS */
 {
     FILE *f;
     va_list args;
-#if FS_STDARG
     va_start (args, s);
-#else
-    int e;
-    char *s;
-    va_start (args);
-    e = va_arg (args, int);
-    s = va_arg (args, char *);
-#endif
     f = (e ? stdout : stderr);
     IGNORE fflush (f);
     IGNORE vfprintf (f, s, args);
     IGNORE fflush (f);
     va_end (args);
     return;
-}
-
-
-/*
- *    ALLOCATE A BLOCK OF MEMORY
- *
- *    This routine allocates a block of memory of size sz and returns
- *    the result.
- */
-
-pointer
-xalloc(int sz)
-{
-    pointer p = (pointer) malloc ((size_t) sz);
-    if (p == null) error (FATAL, "Memory allocation error");
-    return (p);
-}
-
-
-/*
- *    REALLOCATE A BLOCK OF MEMORY
- *
- *    This routine reallocates the block of memory p to have size sz.
- *    xrealloc (null, sz) is equivalent to xalloc (sz).
-
-*/
-
-pointer
-xrealloc(pointer p, int sz)
-{
-    pointer q;
-    if (p == null) return (xalloc (sz));
-    q = (pointer) realloc (p, (size_t) sz);
-    if (q == null) error (FATAL, "Memory reallocation error");
-    return (q);
 }
 
 
@@ -399,7 +277,7 @@ char *PATH_SUBS[] = {
 	NULL
 };
 
-size_t PATH_SUBS_elems = array_size (PATH_SUBS);
+size_t PATH_SUBS_elems = ARRAY_SIZE (PATH_SUBS);
 
 
 /*
@@ -426,9 +304,7 @@ find_path_subst (char *var)
 	while (*subs){
 		if (!strcmp (var, *subs)) {
 			if (env_paths[i] == NULL){
-				error (FATAL, "The env variable <%s> is null.\n"
-					   "Check your environment or edit your env files.\n",
-					   PATH_SUBS[i]);
+				MSG_env_variable_is_null (PATH_SUBS[i]);
 			}
  			return env_paths[i];
 		}
@@ -436,108 +312,16 @@ find_path_subst (char *var)
 		subs++;
 	}
 	if (!*subs)
-		error
-			(WARNING,
-			 "Expected command line option -y%s=[value]; trying environment\n",
-			 var);
+		MSG_expected_y_option (var);
 	ret = getenv (var);
 
 	/* Perhaps this should not be fatal? */
 	if (!ret)
-		error (FATAL, "Unknown environment variable %s", var);
+		MSG_unknown_environment_variable (var);
 	return ret;
 }
 
 
-/*
- *    ALLOCATE SPACE FOR A STRING
- *
- *    This routine allocates n characters of memory for use in the string
- *    memory allocation routines.
- */
-
-static char*
-string_alloc(int n)
-{
-    char *r;
-    if (n >= 1000) {
-		/* Long strings are allocated space by alloc_nof */
-		r = alloc_nof (char, n);
-    } else {
-		/* Short strings are allocated space from a buffer */
-		static int no_free = 0;
-		static char *free_chars = null;
-		if (n >= no_free) {
-			no_free = 4000;
-			free_chars = alloc_nof (char, no_free);
-		}
-		r = free_chars;
-		no_free -= n;
-		free_chars += n;
-    }
-    return (r);
-}
-
-
-/*
- *    COPY A STRING
- *
- *    This routine allocates space for a copy of the string s and copies
- *    the string into this space.  This copy is returned.
- */
-
-char*
-string_copy(char *s)
-{
-    int n = (int) strlen (s);
-    char *r = string_alloc (n + 1);
-    IGNORE strcpy (r, s);
-    return (r);
-}
-
-
-/*
- *    COPY TWO STRINGS
- *
- *    This routine allocates space for a copy of the string s followed by
- *    a copy of the string t and concatenates the strings into this space.
- *    This copy is returned.
- */
-
-char*
-string_concat(char *s, char *t)
-{
-    int n = (int) strlen (s);
-    int m = (int) strlen (t);
-    char *r = string_alloc (n + m + 1);
-    IGNORE strcpy (r, s);
-    IGNORE strcpy (r + n, t);
-    return (r);
-}
-
-/*
- *    APPEND TWO STRINGS
- *
- *    This routine allocates space for a copy of the string s followed
- *    by a copy of the string t and concatenates the strings into this
- *    space, placing the delimiter character between them. The copy is
- *    returned.  E.g.,:
- *
- *    Given:    "foo" + "bar" + ':'
- *    Returns:  "foo:bar"
- */
-
-char*
-string_append(char *s, char *t, char delimeter)
-{
-    int n = (int) strlen (s);
-    int m = (int) strlen (t);
-    char *r = string_alloc (n + m + 2);
-    IGNORE strcpy (r, s);
-	*(r + n) = delimeter;
-    IGNORE strcpy (r + n + 1, t);
-    return (r);
-}
 
 
 /*

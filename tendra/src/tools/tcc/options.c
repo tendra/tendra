@@ -60,6 +60,11 @@
 #include <sys/stat.h>
 
 #include "config.h"
+#include "cstring.h"
+#include "fmm.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "filename.h"
 #include "list.h"
 #include "archive.h"
@@ -401,7 +406,7 @@ special_option(void)
 		if (dump_opts == null)
 			dump_opts = "-d=";
 	} else {
-		error (WARNING, "Unknown special option, '%s'", s);
+		MSG_unknown_special_option (s);
 	}
 	return;
 }
@@ -515,7 +520,7 @@ lookup_bool(char *s)
 		break;
 	}
 	}
-	error (OPTION, "Unknown boolean identifier, '%c%c'", a, b);
+	MSG_unknown_boolean_identifier (a, b);
 	return (null);
 }
 
@@ -569,7 +574,7 @@ lookup_list(char *s)
 		case DUMP_ANAL_ID : return (&exec_dump_anal);
 		case DUMP_LINK_ID : return (&exec_dump_link);
 		}
-		error (OPTION, "Unknown compilation stage, '%c'", b);
+		MSG_unknown_compilation_stage (b);
 		return (null);
 	}
 	case 'Q' : {
@@ -582,7 +587,7 @@ lookup_list(char *s)
 			case ARCHIVER_ID : return (&opt_joiner);
 			case CC_ID : return (&opt_cc);
 			}
-			error (OPTION, "Unknown compilation stage, '%c'", b);
+			MSG_unknown_compilation_stage (b);
 			return (null);
 		}
 		goto case_O;
@@ -611,7 +616,7 @@ lookup_list(char *s)
 			case DUMP_ANAL_ID : return (&opt_dump_anal);
 			case DUMP_LINK_ID : return (&opt_dump_link);
 			}
-			error (OPTION, "Unknown compilation stage, '%c'", b);
+			MSG_unknown_compilation_stage (b);
 			return (null);
 		}
 	case 'S' : {
@@ -659,7 +664,7 @@ lookup_list(char *s)
 		break;
 	}
 	}
-	error (OPTION, "Unknown list identifier, '%c%c'", a, b);
+	MSG_unknown_list_identifier (a, b);
 	return (null);
 }
 
@@ -686,7 +691,7 @@ lookup_string(char *s)
 		case STARTUP_FILE_KEY : return (&name_h_file);
 		case PRETTY_TDF_KEY : return (&name_p_file);
 		}
-		error (OPTION, "Unknown output file specifier, '%c'", b);
+		MSG_unknown_output_file_specifier (b);
 		return (null);
 	}
 	if (a == 'S') {
@@ -715,7 +720,7 @@ lookup_string(char *s)
 	if (a == 'V' && b == 'F') return (&version_flag);
 	if (a == 'W' && b == 'D') return (&workdir);
 	if (a == 'X' && b == 'X') return (&xx_string);
-	error (OPTION, "Unknown string identifier, '%c%c'", a, b);
+	MSG_unknown_string_identifier (a, b);
 	return (null);
 }
 
@@ -774,7 +779,7 @@ lookup_proc(char *s)
 	if (a == 'S' && b == 'E') return (show_envpath);
 	if (a == 'S' && b == 'M') return (set_machine);
 	if (a == 'S' && b == 'P') return (special_option);
-	error (OPTION, "Unknown procedure identifier, '%c%c'", a, b);
+	MSG_unknown_procedure_identifier (a, b);
 	return (null);
 }
 
@@ -1028,7 +1033,7 @@ interpret_cmd(char *cmd)
 
 	/* Debugging */
 	if (debug_options)
-		error (OPTION, "Interpreting '%s'", cmd);
+		MSG_interpreting (cmd);
 	/* Deal with at-hack */
 	if (c == '@') {
 		char *p = string_copy (cmd + 1), *q;
@@ -1166,16 +1171,14 @@ interpret_cmd(char *cmd)
 				/* only the val is user supplied and needs bounds
 				   checking */
  				if (++count >= MAX_LINE){
-					error (FATAL,
-						   "Exceeded maximum buffer length in -y argument\n");
+					MSG_exceeded_maximum_buffer_length_in_y_argument ();
 				}
  			}
 			*r++ ='\0';
 			/* additional error checking for those platforms supporting stat */
 #if FS_STAT
 			if (stat (val, &sb) == -1) {
-				error (SERIOUS, "interpret_cmd: %s %s\n",
-					   val, strerror(errno));
+				MSG_interpret_cmd (val);
 			}
 #endif
 			i=0;
@@ -1189,8 +1192,7 @@ interpret_cmd(char *cmd)
 				subs++;
 			}
 			if (!*subs)
-				error (WARNING, "Ignoring non-standard env assignment: %s=%s",
-					   var, val);
+				MSG_ignoring_non_standard_env_assignment (var, val);
 		}
 		else {
 			read_env (cmd + 1);
@@ -1244,7 +1246,7 @@ interpret_cmd(char *cmd)
 		/* Query */
 		char *s;
 		optmap *t = main_optmap;
-		error (INFO, "List of recognised options");
+		MSG_list_of_recognised_options ();
 		while (s = t->in, s != null) {
 			if (*s == '-') {
 				char d;
@@ -1331,11 +1333,11 @@ interpret_cmd(char *cmd)
 
 	case 'X' : {
 		/* Error */
-		error (WARNING, "%s", cmd + 1);
+		MSG_X_error (cmd + 1);
 		return;
 	}
 	}
-	error (OPTION, "Syntax error, '%s'", cmd);
+	MSG_syntax_error (cmd);
 	return;
 }
 
@@ -1395,32 +1397,32 @@ process_options(list *opt, optmap *tab, int fast)
 			}
 			case MATCH_IN_ERR : {
 				/* Error in optmap input */
-				error (OPTION, "Illegal input '%s'", t->in);
+				MSG_illegal_input (t->in);
 				status = MATCH_FAILED;
 				break;
 			}
 			case MATCH_OUT_ERR : {
 				/* Error in optmap output */
-				error (OPTION, "Illegal option '%s'", t->out);
+				MSG_illegal_option (t->out);
 				status = MATCH_FAILED;
 				break;
 			}
 			case MATCH_OPT_ERR : {
 				/* Ran out of space for result */
-				error (OPTION, "Too many components, '%s'", arg);
+				MSG_too_many_components (arg);
 				status = MATCH_FAILED;
 				break;
 			}
 			}
 		}
-		error (OPTION, "Can't interpret '%s'", arg);
+		MSG_cant_interpret (arg);
 		end_search :
 			p = p->next;
 	}
 
 	/* Check for incomplete options */
 	if (status == MATCH_MORE) {
-		error (WARNING, "Option '%s' is incomplete", arg);
+		MSG_option_is_incomplete (arg);
 	}
 	/* if the no_shuffle flag is unset, we have order cmds to run */
 	if (no_shuffle == 0 && fast == 0) {

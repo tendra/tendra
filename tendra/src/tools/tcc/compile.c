@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "filename.h"
 #include "list.h"
 #include "archive.h"
@@ -189,7 +191,7 @@ apply_cc(filename *input)
 	    case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
-				error (WARNING, "'%s' is a C spec file", p->name);
+				MSG_is_a_C_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
@@ -204,7 +206,7 @@ apply_cc(filename *input)
 	    case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
-				error (WARNING, "'%s' is a C++ spec file", p->name);
+				MSG_is_a_cpp_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
@@ -218,8 +220,7 @@ apply_cc(filename *input)
 
 	    default : {
 			/* Other file types give an error */
-			error (WARNING, "TDF file '%s' not recognised in cc mode",
-				   p->name);
+			MSG_TDF_file_not_recognised_in_cc_mode (p->name);
 			p->type = DEFAULT_TYPE;
 			break;
 	    }
@@ -326,8 +327,7 @@ apply_compile(filename *input, int produce)
 				if (allow_specs && stops [ CPP_SPEC ]) p = null;
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
-				error (WARNING, "'%s' is a C++ source file",
-					   p->name);
+				MSG_is_a_cpp_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
@@ -341,8 +341,7 @@ apply_compile(filename *input, int produce)
 				if (allow_specs && stops [ CPP_SPEC ]) p = null;
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
-				error (WARNING, "'%s' is a preprocessed C++ source file",
-					   p->name);
+				MSG_is_a_preprocessed_cpp_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
@@ -381,8 +380,7 @@ apply_compile(filename *input, int produce)
 				p = do_notation (p);
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
-				error (WARNING, "'%s' is a TDF notation source file",
-					   p->name);
+				MSG_is_a_tdf_notation_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
@@ -394,8 +392,7 @@ apply_compile(filename *input, int produce)
 				p = do_pl_tdf (p);
 				if (p != pc) p = apply_compile (p, produce);
 			} else {
-				error (WARNING, "'%s' is a PL_TDF source file",
-					   p->name);
+				MSG_is_a_pl_tdf_source_file (p->name);
 				p->type = DEFAULT_TYPE;
 			}
 			break;
@@ -404,7 +401,7 @@ apply_compile(filename *input, int produce)
 	    case C_SPEC : {
 			/* C spec file */
 			if (!allow_specs) {
-				error (WARNING, "'%s' is a C spec file", p->name);
+				MSG_is_a_C_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
@@ -419,7 +416,7 @@ apply_compile(filename *input, int produce)
 	    case CPP_SPEC : {
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
-				error (WARNING, "'%s' is a C++ spec file", p->name);
+				MSG_is_a_cpp_spec_file (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
@@ -585,7 +582,7 @@ apply_split_arch(filename *input)
 		p->next = null;
 		if (p->type == TDF_ARCHIVE) {
 			if (use_system_cc) {
-				error (WARNING, "'%s' is a TDF archive", p->name);
+				MSG_is_a_tdf_archive (p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
 				p = do_split_arch (p);

@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "cstring.h"
+#include "msgcat.h"
+
 #include "filename.h"
 #include "list.h"
 #include "archive.h"
@@ -166,9 +169,7 @@ uniq_filename(char *nm, int t, int s, filename *input)
 				case CPP_SPEC : m = "linked C++ spec file" ; break;
 				case EXECUTABLE : m = "executable" ; break;
 				}
-				error (WARNING,
-					   "Renaming %s '%s' to '%s' to avoid clash with input",
-					   m, p->name, q->name);
+				MSG_renaming_to_avoid_clash_with_input (m, p->name, q->name);
 			}
 			return (q);
 		}

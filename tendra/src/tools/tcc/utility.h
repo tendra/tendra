@@ -76,26 +76,12 @@ extern char *buffer;
  *    allocation.
  */
 
-extern void error (int, char *, ...);
 extern void comment (int, char *, ...);
-extern pointer xalloc(int);
-extern pointer xrealloc(pointer, int);
-extern char *string_copy(char *);
-extern char* string_append(char *, char *, char);
-extern char *string_concat(char *, char *);
 extern char* find_path_subst(char *);
 extern int hash(char *, int, int);
 
 /*extern char* format_path(char *); */
 
-/*
- *    ERROR VARIABLES
- *
- *    These variables are concerned with error reporting.
- */
-
-extern int exit_status;
-extern char *progname;
 
 extern char *PATH_SUBS[];
 extern size_t PATH_SUBS_elems;
@@ -124,36 +110,5 @@ extern hashtable* init_table   (int, int, int (*fcn) (char*, int, int));
 extern htnode*    lookup_table (hashtable *, char *);
 extern htnode*    update_table (hashtable *, char *, char *,
 								unsigned int, char *, int);
-
-/*
- *    ERROR TYPES
- *
- *    These values give the severity levels for the error reporting
- *    routine, error.
- */
-
-#define FATAL		0
-#define INTERNAL	1
-#define SERIOUS		2
-#define OPTION		3
-#define WARNING		4
-#define INFO		5
-
-
-/*
- *    UTILITY MACROS
- *
- *    These macros give convenient shorthands for various constructs.
- */
-
-#define alloc_size(T, N)\
-    ((int) (N) * (int) sizeof (T))
-#define alloc_nof(T, N)\
-    (T *) xalloc (alloc_size (T, N))
-#define realloc_nof(P, T, N)\
-    (T *) xrealloc ((pointer) (P), alloc_size (T, N))
-#define array_size(A)\
-    ((int) sizeof (A) / (int) sizeof (A [0]))
-
 
 #endif
