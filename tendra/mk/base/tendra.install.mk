@@ -37,7 +37,7 @@ install-all: install-dir ${INSTALL_TARGETS}
 # lib/machines: our machine dependent files.
 install-machine:
 .for i in ${MAKEDIR}
-	${MKDIR} ${INSTALL_PREFIX}/lib/machines/${i}
+	${MKDIR} -p ${INSTALL_PREFIX}/lib/machines/${i}
 .endfor
 .for i in ${DATA_INCLUDE}
 	${INSTALL} ${.OBJDIR}/${i} \
@@ -49,7 +49,7 @@ install-machine:
 
 # lib/startup: our startup files for compilation modes.
 install-startup:
-	${MKDIR} ${INSTALL_PREFIX}/lib/startup/${STARTUP}
+	${MKDIR} -p ${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .for i in ${DATA}
 	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
 		${INSTALL_PREFIX}/lib/startup/${STARTUP}
@@ -68,7 +68,7 @@ install-api:
 
 # lib/env: our environment files.
 install-env:
-	${MKDIR} ${INSTALL_PREFIX}/env
+	${MKDIR} -p ${INSTALL_PREFIX}/env
 	${SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
 		${INSTALL_PREFIX}/env/default
 .for i in ${DATA_COMMON} ${DATA}
