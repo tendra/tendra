@@ -6,7 +6,7 @@
 /* Binaries */
 
 +BIN_AS		"-BIN_AS-"
-+BIN_AS11_31	"-BIN_AS11_31-"
++BIN_AS1	"-BIN_AS1-"
 
 
 /* Libraries */
