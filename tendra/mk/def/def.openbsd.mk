@@ -9,8 +9,9 @@
 
 CRT0?=		/usr/lib/crt0.o
 CRT1?=
+CRTI?=
 CRTN?=
-GCRT0?=
+GCRT0?=		/usr/lib/gcrt0.o
 GCRT1?=
 MCRT0?=
 

@@ -3,13 +3,15 @@
 # Binary / variable definitions for the NetBSD operating system.
 
 # The execution startup routines.
+# crt is for normal support, crti for _init, crtn for _fini.
 # gcrt is for profiling support (gprof).
 # mcrt is for profiling support (prof).
 
 CRT0?=		/usr/lib/crt0.o
-CRT1?=		/usr/lib/crti.o
+CRT1?=
+CRTI?=		/usr/lib/crti.o
 CRTN?=		/usr/lib/crtn.o
-GCRT0?=		/usr/lib/gcrtn.o
+GCRT0?=		/usr/lib/gcrt0.o
 GCRT1?=		
 MCRT0?=		
 
