@@ -157,7 +157,7 @@ void fmm_stat_by_type(void);
  * Some short hand macros
  */
 #define	xalloc(size)		fmm_malloc((size), fmm_deftype)
-#define	xcalloc(n,size)		fmm_malloc((n) * (size), fmm_deftype)
+#define	xcalloc(n,size)		fmm_calloc((n) * (size), fmm_deftype)
 #define	xmalloc(size)		fmm_malloc((size), fmm_deftype)
 #define	xrealloc(ptr, size)	fmm_realloc((ptr), (size), fmm_deftype)
 #define	xmalloc_nof(T, N)	((T *)xalloc((long)(N) * (long)sizeof (T)))
