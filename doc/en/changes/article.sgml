@@ -18,8 +18,7 @@
     </copyright>
 
     <abstract>
-      <para>This article outlines major changes to the TenDRA codebase since
-        the 4.1.2 release.</para>
+      <para>This article outlines major changes to the TenDRA codebase.</para>
       <para>The changes are categorized as follows:
       <informaltable frame="none">
         <tgroup cols="2" align="left">
@@ -74,8 +73,8 @@
 
   </articleinfo>
 
-  <sect1 id="changes-4.1.2">
-  <title>Changes since TenDRA-4.1.2</title>
+  <sect1 id="changes-5.0.0prior">
+  <title>Changes prior to 5.0.0</title>
     <informaltable frame="none">
       <tgroup cols="3" align="left">
         <thead>
