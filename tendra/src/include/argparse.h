@@ -244,13 +244,7 @@ typedef enum {
 	AT_FOLLOWING3
 } ArgTypeT;
 
-struct ArgListT;
-typedef struct ArgUsageT {
-	int					usage;
-	struct ArgListT *	arg_list;
-} ArgUsageT;
-
-typedef void (*ArgProcP)(char *, ArgUsageT *, void *, ...);
+typedef void (*ArgProcP)(char *, void *, ...);
 
 typedef struct ArgListT {
 	const char *		name;
@@ -263,7 +257,7 @@ typedef struct ArgListT {
 
 /*--------------------------------------------------------------------------*/
 
-int	arg_parse_arguments(ArgListT *, int, int, char **);
+int		arg_parse_arguments(ArgListT *, int, char **);
 void	arg_print_usage(ArgListT *);
 void	arg_std_version(char *, void *);
 
