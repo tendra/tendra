@@ -52,8 +52,6 @@
  *      it may be put.
  *
  * $TenDRA$
- *
- * $TenDRA$
  */
 
 
