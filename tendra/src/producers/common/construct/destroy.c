@@ -300,13 +300,15 @@ free_exp(EXP e, int force)
 	    break;
 	}
 	case exp_null_tag : {
-	    int npc;
-	    DESTROY_exp_null (destroy, t, npc, e);
+	    int ptr_const;
+	    DESTROY_exp_null (destroy, t, ptr_const, e);
+	    UNUSED (ptr_const);
 	    break;
 	}
 	case exp_zero_tag : {
-	    int npc;
-	    DESTROY_exp_zero (destroy, t, npc, e);
+	    int ptr_const;
+	    DESTROY_exp_zero (destroy, t, ptr_const, e);
+	    UNUSED (ptr_const);
 	    break;
 	}
 	case exp_paren_tag : {

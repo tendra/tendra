@@ -2123,7 +2123,7 @@ is_zero_exp(EXP a)
 int
 is_npc_exp(EXP a)
 {
-	if (IS_exp_null (a) && DEREF_int (exp_null_npc (a))) return (1);
+	if (IS_exp_null (a) && DEREF_int (exp_null_ptr_const (a))) return (1);
 	return (is_zero_exp (a));
 }
 
