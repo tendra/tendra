@@ -13,7 +13,8 @@ SRCS+=	catstd.c
 DEPEND_SRC+=	catstd.c
 
 # Productions
-CAT_PRODS+=	-c ${.OBJDIR}/catstd.c -l ${.OBJDIR}/catstd.h
+CAT_PRODS+=	-c ${.OBJDIR}/catstd.c -l ${.OBJDIR}/catstd.h \
+	-n ${.OBJDIR}/catstdn.h
 
 # Target
 catstd.c:: messages.cat ${CAT_EXTRA}
