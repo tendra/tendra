@@ -58,30 +58,7 @@
 /**********************************************************************
  *$Author$
  *$Date$
- *$Revision$
- *$Log$
- *Revision 1.3  2002/11/25 20:17:42  nonce
- *Fixed numerous return types mangled by the ossg removal scripts.
- *Approximately 4 out of 2390 files had unusual function signatures that
- *confused the parser.  These files compiled and worked fine, but
- *generated compiler warnings.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/02/18  12:56:25  currie
- * NEW DIAG STRUCTURE
- *
- * Revision 1.3  1996/12/19  14:28:35  currie
- * Foralls - using two counters
- *
- *Revision 1.2  1995/06/26 13:04:35  currie
- *make_stack_limit, env_size etc
-
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
- ***********************************************************************/
+ *$Revision$*/
 
 #include "config.h"
 #include "common_types.h"
