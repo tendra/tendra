@@ -15,6 +15,7 @@ SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
 HAVE_CONF=      yes
 .endif
 
+
 MAIN_TARGETS=	config-check obj-dir make-dir depend all
 
 .MAIN: ${MAIN_TARGETS}
@@ -52,6 +53,13 @@ depend:
 
 depend-all: ${DEPEND_SRC}
 
+
+# Install target.
+install:
+	env MAKEOBJDIR=${OBJ_DIR} ${MAKE} install-all
+
+
+
 # Our clean targets.
 
 CLEANFILES+= ${PROG} ${OBJS}
@@ -85,6 +93,7 @@ make-dir:
 
 .include "tendra.def.mk"
 .include "tendra.sys.mk"
+.include "tendra.install.mk"
 .include "tendra.subdir.mk"
 
 .else
