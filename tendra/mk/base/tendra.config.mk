@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	cygwin32 darwin freebsd hpux linux netbsd openbsd osf1 tru64
+BUILD_TARGETS=	cygwin32 darwin freebsd hpux linux netbsd openbsd osf1 solaris sunos tru64
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
@@ -70,4 +70,9 @@ BUILD_OS=	openbsd
 .if make(osf1) || make(tru64)
 BUILD_OS=	osf1
 .include "../config/config.osf1.mk"
+.endif
+
+.if make(solaris) || make(sunos)
+BUILD_OS=	sunos
+.include "../config/config.sunos.mk"
 .endif
