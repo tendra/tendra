@@ -7,6 +7,8 @@
 # gcrt is for profiling support (gprof).
 # mcrt is for profiling support (prof).
 
+# XXX: This needs to be tweaked in order to distinguish between 32- and 64-bit.
+
 CRT0?=          /usr/ccs/lib/hpux32/crt0.o
 CRT1?=		
 CRTI?=		
