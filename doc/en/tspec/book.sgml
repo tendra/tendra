@@ -259,9 +259,9 @@
     <sect1 id="cmdlineopts">
       <title>Command-line Options</title>
 
-      <refentry>
-        &tspec.manpage;
-      </refentry>
+    <para>Please see the <xref linkend='tspec-manpage'> manpage for a complete list of
+      command-line options.</para>
+
     </sect1>
   </chapter>
 
@@ -1626,4 +1626,13 @@ $METHOD = "TNC" ;
       </listitem>
     </itemizedlist>
   </chapter>
+
+<chapter id='manpages'>
+  <title>Manual Pages</title>
+    <refentry id='tspec-manpage'>
+      &tspec.manpage;
+    </refentry>
+</chapter>
+
+
 </book>
