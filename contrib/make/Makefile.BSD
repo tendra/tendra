@@ -5,7 +5,7 @@
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-CC=	cc
+CC?=	cc
 AR=	ar
 RANLIB=	ranlib
 

@@ -7,7 +7,7 @@
 
 # We use the system's compiler, not gcc.
 
-CC=	cc
+CC?=	cc
 AR=	ar
 RANLIB=	ranlib
 

@@ -8,7 +8,7 @@
 # Since we cannot use the native compiler, since it is not ANSI C compatible,
 # we need to use gcc.
 
-CC=	gcc
+CC?=	gcc
 AR=	ar
 RANLIB=	ranlib
 
