@@ -11,5 +11,6 @@ Links
 -----
 
 Common C++ ABI: http://www.codesourcery.com/cxx-abi/
-
+System V ABI:   http://www.caldera.com/developers/devspecs/
+parsers.org (intro material):    http://home.earthlink.net/~parsersinc/
 
