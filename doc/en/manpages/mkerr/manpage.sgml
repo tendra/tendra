@@ -1,0 +1,93 @@
+<refmeta>
+  <refentrytitle>mkerr</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='mkerr-name'>
+  <refname>mkerr</refname>
+  <refpurpose>Message catalog compiler.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='mkerr-synopsis'>
+  <cmdsynopsis>
+    <command>mkerr</command>
+    <arg choice='opt'>-d <replaceable>defnfile</replaceable></arg>
+    <arg choice='opt'>-l <replaceable>declfile</replaceable></arg>
+    <arg choice='opt'>-n <replaceable>numfile</replaceable></arg>
+    <arg choice='opt'>-u <replaceable>usagefile</replaceable></arg>
+    <arg choice='opt'>-c <replaceable>compfile</replaceable></arg>
+    <arg choice='opt'>-h</arg>
+    <arg choice='opt'>-v</arg>
+    <arg choice='plain'><replaceable>srcfile</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='mkerr-description'>
+  <title>DESCRIPTION</title>
+  <para>Message catalogs are used to describe various messages produced
+    by TenDRA programs. This utility generates the necessary code to
+    print those messages.</para>
+</refsect1>
+
+<refsect1 id='mkerr-options'>
+  <title>OPTIONS</title>
+  <variablelist>
+    <varlistentry>
+      <term><option>-c</option> <replaceable>compfile</replaceable></term>
+      <listitem>
+        <para>Specifies the compound .c file.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-d</option> <replaceable>defnfile</replaceable></term>
+      <listitem>
+        <para>Specifies the error definition file name.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>Show help.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-l</option> <replaceable>declfile</replaceable></term>
+      <listitem>
+        <para>Specifies the error declaration file name.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-n</option> <replaceable>numfile</replaceable></term>
+      <listitem>
+        <para>Specifies the error number file name.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-u</option> <replaceable>usagefile</replaceable></term>
+      <listitem>
+        <para>Specifies the error usage file name.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term>
+      <listitem>
+        <para>Increase debug level.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='mkerr-seealso'>
+<title>SEE ALSO</title>
+<para>&man.tendra.tcc;.</para>
+</refsect1>
