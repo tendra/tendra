@@ -33,3 +33,4 @@ $VERSION ="1.0";
 +IMPLEMENT "iso99", "ctype.h";
 +IMPLEMENT "iso99", "limits.h";
 +IMPLEMENT "iso99", "locale.h";
++IMPLEMENT "iso99", "math.h";
