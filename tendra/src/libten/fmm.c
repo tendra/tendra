@@ -511,9 +511,9 @@ fmm_stat_by_bucket(void)
 			continue;
 		size = 1 << i;
 		if (size < 1024)
-			printf("%4d", size);
+			printf("%4ld", size);
 		else
-			printf("%3dK", size >> 10);
+			printf("%3ldK", size >> 10);
 		printf(" %8ld %6ld %10ld %7ld %10ld\n",
 			fbp->fb_totalblk - fbp->fb_freeblk,
 			fbp->fb_freeblk, fbp->kb_calls,
@@ -534,7 +534,7 @@ fmm_stat_by_type(void)
 	for (ftp = fmm_typelist; ftp; ftp = ftp->ft_next) {
 		if (ftp->ft_calls == 0)
 			continue;
-		printf("%13s%8ld%8ldK%8ldK%9lld",
+		printf("%13s%8ld%8ldK%8ldK%9ld",
 		    ftp->ft_name,
 		    ftp->ft_inuse, (ftp->ft_memuse + 1023) / 1024,
 		    (ftp->ft_maxused + 1023) / 1024,
