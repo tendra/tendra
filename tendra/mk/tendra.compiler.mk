@@ -53,3 +53,5 @@ EXEC_SUFFIX=
 LD?= ld
 LDOPTS=
 LIBS= /usr/lib/crt1.o -lc
+
+SID?= sid
