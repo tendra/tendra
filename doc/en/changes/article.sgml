@@ -18,7 +18,10 @@
     </copyright>
 
     <abstract>
-      <para>This article outlines major changes to the TenDRA codebase.</para>
+      <para>This article outlines major changes to the TenDRA
+        codebase between releases. For on-going and future work, please
+        see the <ulink url="/tasks/">task list</ulink> for further
+        information.</para>
       <para>The changes are categorized as follows:
       <informaltable frame="none">
         <tgroup cols="2" align="left">
