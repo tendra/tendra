@@ -41,10 +41,12 @@
     &option-cd;
     &option-ce;
     &option-cf;
+    &option-cg;
     &option-ch;
     &option-ci;
     &option-ck;
     &option-cm;
+    &option-cn;
     &option-cp;
     &option-cq;
     &option-cr;
@@ -54,7 +56,14 @@
     &option-cx;
     &option-cz;
     &option-a;
+    &option-b;
+    &option-c;
+    &option-d;
+    &option-e;
+    &option-f;
+    &option-g;
     &option-h;
+    &option-i;
     &option-k;
 
   </variablelist>
