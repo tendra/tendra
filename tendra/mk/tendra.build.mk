@@ -29,7 +29,7 @@
 #       MAN_DIR         gives the directory in which the manual pages are
 #                       to be installed.
 #
-#       WORK_DIR        gives the working directory in which binary object
+#       OBJ_DIR         gives the working directory in which binary object
 #                       files etc. created during the build process will
 #                       be stored.
 #
@@ -43,7 +43,7 @@ INSTALL_DIR = /usr/local/lib/TenDRA
 COMMON_DIR = ${INSTALL_DIR}/lib
 MACH_DIR = ${INSTALL_DIR}/machines
 MAN_DIR = /usr/local/man
-WORK_DIR = ${BASE_DIR}/work
+OBJ_DIR = ${BASE_DIR}/obj
 TMP_DIR = /var/tmp
 
 # Binary paths

@@ -13,7 +13,7 @@
 # required when bootstrapping the system using tcc.
 #
 # To install the bootstrapped compiler, install first using cc or gcc.
-# Then remove the work directory (WORK_DIR), change the compiler to tcc,
+# Then remove the work directory (OBJ_DIR), change the compiler to tcc,
 # and install again.  Bootstrapping is recommended (all our testing is
 # on the bootstrapped compiler).
 #
