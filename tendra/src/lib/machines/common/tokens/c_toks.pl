@@ -228,6 +228,11 @@ computed_signed_nat (
   - 1(~unsigned_long)
 );
 
+Tokdef max_unsigned_long = [] SIGNED_NAT 
+computed_signed_nat (
+  (0(~unsigned_long) - 1(~unsigned_long))
+);
+
 Tokdef max_signed_longlong = [] SIGNED_NAT
 computed_signed_nat (
   (1(~unsigned_longlong) <<
@@ -494,6 +499,44 @@ Tokdef ~lit_ulonglong = [arg:SIGNED_NAT] SIGNED_NAT
 t_u_longlong;
 
 
+Tokdef ~lit_int99 = [arg:SIGNED_NAT] SIGNED_NAT
+SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_int],
+  t_s_int,
+  SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_long],
+    t_s_long,
+    t_s_longlong
+  )
+);
+
+
+Tokdef ~lit_hex99 = [arg:SIGNED_NAT] SIGNED_NAT
+SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_int],
+  t_s_int,
+  SIGNED_NAT ? ( SNLLTEST [arg, <=, max_unsigned_int],
+    t_u_int,
+    SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_long],
+      t_s_long,
+      SIGNED_NAT ? ( SNLLTEST [arg, <=, max_unsigned_long],
+        t_u_long,
+        SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_longlong],
+	  t_s_longlong,
+	  t_u_longlong
+        )
+      )
+    )
+  )
+);
+
+
+Tokdef ~lit_unsigned99 = [arg:SIGNED_NAT] SIGNED_NAT
+SIGNED_NAT ? ( SNLLTEST [arg, <=, max_unsigned_int],
+  t_u_int,
+  SIGNED_NAT ? ( SNLLTEST [arg, <=, max_unsigned_long],
+    t_u_long,
+    t_u_longlong
+  )
+);
+
 
 Tokdef ~char_lit = [chars:EXP, length:SIGNED_NAT, v:VARIETY] EXP
 EXP ? ( SNTEST [length, ==, 1],
@@ -658,7 +701,7 @@ Keep (
 ~ptr_void, ~assign, ~assign_vol, ~convert, ~arith_type, ~int_promot,
 ~debug_exp, ~debug_scope, ~fn_scope, ~promote, ~sign_promote,
 ~lit_int, ~lit_hex, ~lit_unsigned, ~lit_long, ~lit_ulong, ~lit_longlong,
-~lit_ulonglong, ~char_lit, ~wchar_lit,
+~lit_ulonglong, ~lit_int99, ~lit_hex99, ~lit_unsigned99, ~char_lit, ~wchar_lit,
 ~string_lit, ~checked_plus, ~to_ptr_void, ~from_ptr_void, ~ptr_to_ptr,
 ~sizeof, ~i_to_p, ~p_to_i, ~null_pv, ~pv_test, ~cpp.pv_compare, ~pad,
 ~i_to_pv, ~pv_to_i, ~f_to_pv, ~pv_to_f, ~comp_off, ~little_endian,
