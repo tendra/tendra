@@ -6796,3 +6796,1036 @@ bs = enc_exp ( bs, b ) ;
 
 </sect1>
 </chapter>
+
+<appendix id='pragma-directive-syntax'>
+<title><literal>#pragma</literal> directive syntax</title>
+
+<para>The following gives a summary of the syntax for the <literal>#pragma</literal> directives used for -XREF-pragma.htmlcompiler configuration and -XREF-token.htmltoken specification:</para>
+
+<programlisting>
+<emphasis>pragma-directive</emphasis> :
+-XREF-#tendra# pragma TenDRA ++<emphasis><subscript>opt</subscript> tendra-directive</emphasis>
+-XREF-#token# pragma <emphasis>token-directive</emphasis>
+
+-XREF-tendra<emphasis>tendra-directive</emphasis> :
+-XREF-#scope<emphasis>scope-directive</emphasis>
+-XREF-#low<emphasis>low-level-directive</emphasis>
+-XREF-#analysis<emphasis>analysis-directive on</emphasis>
+-XREF-#check<emphasis>check-directive allow</emphasis>
+-XREF-#keyword<emphasis>keyword-directive</emphasis>
+-XREF-#type<emphasis>type-directive</emphasis>
+-XREF-#linkage<emphasis>linkage-directive</emphasis>
+-XREF-#misc<emphasis>misc-directive</emphasis>
+-XREF-#token1<emphasis>tendra-token-directive</emphasis>
+
+<emphasis>on</emphasis> :
+on
+warning
+off
+
+<emphasis>allow</emphasis> :
+allow
+warning
+disallow
+
+</programlisting>
+
+<programlisting>
+-XREF-scope<emphasis>scope-directive</emphasis> :
+-XREF-pragma.html#scopebegin
+-XREF-pragma.html#scopebegin name environment <emphasis>identifier</emphasis>
+-XREF-pragma.html#scopeend
+-XREF-pragma.html#scopedirectory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis>
+-XREF-pragma.html#scopeuse environment <emphasis>identifier</emphasis>
+-XREF-pragma.html#scopeuse environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis>
+
+</programlisting>
+
+<programlisting>
+-XREF-low<emphasis>low-level-directive</emphasis> :
+-XREF-pragma.html#lowerror <emphasis>string-literal allow</emphasis>
+-XREF-pragma.html#lowerror <emphasis>string-literal on</emphasis>
+-XREF-pragma.html#lowerror <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis>
+-XREF-pragma.html#lowoption <emphasis>string-literal allow</emphasis>
+-XREF-pragma.html#lowoption <emphasis>string-literal on</emphasis>
+-XREF-pragma.html#limitsoption value <emphasis>string-literal integer-literal</emphasis>
+-XREF-pragma.html#lowuse error <emphasis>string-literal</emphasis>
+
+</programlisting>
+
+<programlisting>
+-XREF-analysis<emphasis>analysis-directive</emphasis> :
+-XREF-pragma.html#initcomplete initialization analysis
+-XREF-pragma.html#elabcomplete struct / union analysis
+-XREF-pragma.html#convconversion analysis <emphasis>conversion-spec<subscript>opt</subscript></emphasis>
+-XREF-pragma.html#discarddiscard analysis <emphasis>discard-spec<subscript>opt</subscript></emphasis>
+-XREF-pragma.html#switchenum switch analysis
+-XREF-pragma.html#linkageexternal function linkage
+-XREF-pragma.html#forfor initialization block
+-XREF-pragma.html#elabignore struct / union / enum tag
+-XREF-pragma.html#templateimplicit export template
+-XREF-pragma.html#impl_funcimplicit function declaration
+-XREF-pragma.html#expinteger operator analysis
+-XREF-pragma.html#expinteger overflow analysis
+-XREF-pragma.html#commentnested comment analysis
+-XREF-pragma.html#expoperator precedence analysis
+-XREF-pragma.html#exppointer operator analysis
+-XREF-pragma.html#throwthrow analysis
+-XREF-pragma.html#linkageunify external linkage
+-XREF-pragma.html#variablevariable analysis
+-XREF-pragma.html#hidevariable hiding analysis
+-XREF-pragma.html#weakweak prototype analysis
+
+<emphasis>conversion-spec</emphasis> :
+( int - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+( int - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+( pointer - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+( pointer - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+( int - enum implicit )
+( pointer - void * implicit )
+( void * - pointer implicit )
+
+<emphasis>implicit-spec</emphasis> :
+implicit
+explicit
+
+<emphasis>discard-spec</emphasis> :
+( function return )
+( static )
+( value )
+
+</programlisting>
+
+<programlisting>
+-XREF-check<emphasis>check-directive</emphasis> :
+-XREF-pragma.html#overloadambiguous overload resolution
+-XREF-pragma.html#ifassignment as bool
+-XREF-pragma.html#bitfieldbitfield overflow
+-XREF-pragma.html#linkageblock function static
+-XREF-pragma.html#catch_allcatch all
+-XREF-pragma.html#escapecharacter escape overflow
+-XREF-token.html#tokdefcompatible token
+-XREF-pragma.html#includecomplete file includes
+-XREF-pragma.html#target-ifconditional declaration
+-XREF-pragma.html#lvalueconditional lvalue
+-XREF-pragma.html#overloadconditional overload resolution <emphasis>overload-spec<subscript>opt</subscript></emphasis>
+-XREF-pragma.html#ifconst conditional
+-XREF-pragma.html#macrodirective as macro argument
+-XREF-pragma.html#identifierdollar as ident
+-XREF-pragma.html#elabextra ,
+-XREF-pragma.html#decl_noneextra ;
+-XREF-pragma.html#ifextra ; after conditional
+-XREF-pragma.html#weakextra ...
+-XREF-pragma.html#bitfieldextra bitfield int type
+-XREF-pragma.html#macroextra macro definition
+-XREF-pragma.html#typedefextra type definition
+-XREF-pragma.html#switchfall into case
+-XREF-pragma.html#elabforward enum declaration
+-XREF-pragma.html#convfunction pointer as pointer
+-XREF-pragma.html#ellipsisident ...
+-XREF-pragma.html#implicitimplicit int type <emphasis>inttype-spec<subscript>opt</subscript></emphasis>
+-XREF-token.html#tokdefimplicit token definition
+-XREF-token.html#specincompatible interface declaration
+-XREF-token.html#memberincompatible member declaration
+-XREF-pragma.html#linkageincompatible linkage
+-XREF-pragma.html#weakincompatible promoted function argument
+-XREF-pragma.html#compatibleincompatible type qualifier
+-XREF-pragma.html#returnincompatible void return
+-XREF-pragma.html#completeincomplete type as object type
+-XREF-pragma.html#ppdirindented # directive
+-XREF-pragma.html#ppdirindented directive after #
+-XREF-pragma.html#initinitialization of struct / union ( auto )
+-XREF-pragma.html#longlonglonglong type
+-XREF-pragma.html#ppdirno directive / nline after ident
+-XREF-pragma.html#emptyno external declaration
+-XREF-pragma.html#macrono ident after #
+-XREF-pragma.html#lexno nline after file end
+-XREF-token.html#tokdefno token definition
+-XREF-pragma.html#overloadoverload resolution
+-XREF-pragma.html#weakprototype
+-XREF-pragma.html#weakprototype ( weak )
+-XREF-token.html#exprvalue token as const
+-XREF-pragma.html#ppdirtext after directive
+-XREF-pragma.html#lvaluethis lvalue
+-XREF-pragma.html#stringunify incompatible string literal
+-XREF-pragma.html#ppdirunknown directive
+-XREF-pragma.html#escapeunknown escape
+-XREF-pragma.html#ppdirunknown pragma
+-XREF-pragma.html#decl_noneunknown struct / union
+-XREF-pragma.html#stringunmatched quote
+-XREF-pragma.html#reachunreachable code
+-XREF-pragma.html#initvariable initialization
+-XREF-pragma.html#macroweak macro equality
+-XREF-pragma.html#stringwriteable string literal
+
+<emphasis>inttype-spec</emphasis> :
+for const / volatile
+for external declaration
+for function return
+
+<emphasis>overload-spec</emphasis> :
+( complete )
+( incomplete )
+
+</programlisting>
+
+<programlisting>
+-XREF-keyword<emphasis>keyword-directive</emphasis> :
+-XREF-#keywordkeyword <emphasis>identifier</emphasis> for <emphasis>keyword-spec</emphasis>
+-XREF-pragma.html#keyword-specundef keyword <emphasis>identifier</emphasis>
+
+-XREF-keyword-spec<emphasis>keyword-spec</emphasis> :
+-XREF-pragma.html#discarddiscard value
+-XREF-pragma.html#variablediscard variable
+-XREF-pragma.html#switchexhaustive
+-XREF-pragma.html#switchfall into case
+-XREF-pragma.html#keywordkeyword <emphasis>identifier</emphasis>
+-XREF-pragma.html#keywordoperator <emphasis>operator</emphasis>
+-XREF-pragma.html#variableset
+-XREF-pragma.html#reachset reachable
+-XREF-pragma.html#reachset unreachable
+-XREF-pragma.html#convtype representation
+-XREF-pragma.html#weakweak
+
+</programlisting>
+
+<programlisting>
+-XREF-type<emphasis>type-directive</emphasis> :
+-XREF-pragma.html#reachbottom <emphasis>identifier</emphasis>
+-XREF-pragma.html#charcharacter <emphasis>character-sign</emphasis>
+-XREF-pragma.html#identifiercharacter <emphasis>character-literal character-mapping</emphasis>
+-XREF-pragma.html#identifiercharacter <emphasis>string-literal character-mapping</emphasis>
+-XREF-lib.html#arithcompute promote <emphasis>identifier</emphasis>
+-XREF-pragma.html#escapeescape <emphasis>character-literal character-mapping</emphasis>
+-XREF-pragma.html#intinteger literal <emphasis>literal-spec</emphasis>
+-XREF-lib.html#arithpromoted <emphasis>type-id</emphasis> : <emphasis>type-id</emphasis>
+-XREF-pragma.html#charset character literal : <emphasis>type-id</emphasis>
+-XREF-pragma.html#longlongset longlong type : <emphasis>longlong-spec</emphasis>
+-XREF-pragma.html#charset ptrdiff_t : <emphasis>type-id</emphasis>
+-XREF-pragma.html#charset size_t : <emphasis>type-id</emphasis>
+-XREF-pragma.html#charset wchar_t : <emphasis>type-id</emphasis>
+-XREF-pragma.html#stringset string literal : <emphasis>string-const</emphasis>
+-XREF-pragma.html#stdset std namespace : <emphasis>scope-name</emphasis>
+-XREF-#type-spectype <emphasis>identifier</emphasis> for <emphasis>type-spec</emphasis>
+
+<emphasis>character-sign</emphasis> :
+signed
+unsigned
+either
+
+<emphasis>character-mapping</emphasis> :
+as <emphasis>character-literal</emphasis> allow
+disallow
+
+<emphasis>literal-spec</emphasis> :
+<emphasis>literal-base literal-suffix<subscript>opt</subscript> literal-type-list</emphasis>
+
+<emphasis>literal-base</emphasis> :
+decimal
+octal
+hexadecimal
+
+<emphasis>literal-suffix</emphasis> :
+unsigned
+long
+unsigned long
+long long
+unsigned long long
+
+<emphasis>literal-type-list</emphasis> :
+* <emphasis>literal-type-spec</emphasis>
+<emphasis>integer-literal literal-type-spec</emphasis> | <emphasis>literal-type-list</emphasis>
+? <emphasis>literal-type-spec</emphasis> | <emphasis>literal-type-list</emphasis>
+
+<emphasis>literal-type-spec</emphasis> :
+: <emphasis>type-id</emphasis>
+* <emphasis>allow<subscript>opt</subscript></emphasis> : <emphasis>identifier</emphasis>
+* * <emphasis>allow<subscript>opt</subscript></emphasis> :
+
+<emphasis>longlong-spec</emphasis> :
+long
+long long
+
+<emphasis>string-const</emphasis> :
+const
+no const
+
+<emphasis>scope-name</emphasis> :
+<emphasis>identifier</emphasis>
+::
+
+-XREF-type-spec<emphasis>type-spec</emphasis> :
+-XREF-pragma.html#reachbottom
+-XREF-pragma.html#charptrdiff_t
+-XREF-pragma.html#charsize_t
+-XREF-pragma.html#charwchar_t
+-XREF-pragma.html#printf... printf
+-XREF-pragma.html#printf... scanf
+
+</programlisting>
+
+<programlisting>
+-XREF-linkage<emphasis>linkage-directive</emphasis> :
+-XREF-pragma.html#linkageconst linkage <emphasis>linkage</emphasis>
+-XREF-pragma.html#linkageexternal linkage <emphasis>string-literal</emphasis>
+-XREF-pragma.html#linkageexternal volatile_t
+-XREF-pragma.html#linkageinline linkage <emphasis>linkage</emphasis>
+-XREF-pragma.html#linkagelinkage resolution : <emphasis>linkage-spec</emphasis>
+
+<emphasis>linkage</emphasis> :
+external
+internal
+
+<emphasis>linkage-spec</emphasis> :
+( <emphasis>linkage</emphasis> ) on
+( <emphasis>linkage</emphasis> ) warning
+off
+
+</programlisting>
+
+<programlisting>
+-XREF-misc<emphasis>misc-directive</emphasis> :
+-XREF-pragma.html#weakargument <emphasis>type-id</emphasis> as ...
+-XREF-pragma.html#weakargument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis>
+-XREF-pragma.html#compatiblecompatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis>
+-XREF-pragma.html#convconversion <emphasis>identifier-list</emphasis> allow
+-XREF-dump.html#scopedeclaration block <emphasis>identifier</emphasis> begin
+-XREF-dump.html#scopedeclaration block end
+-XREF-pragma.html#ppdirdirective <emphasis>directive-spec directive-state</emphasis>
+-XREF-pragma.html#variablediscard <emphasis>expression</emphasis>
+-XREF-pragma.html#switchexhaustive
+-XREF-pragma.html#castexplicit cast <emphasis>cast-spec<subscript>opt</subscript> allow</emphasis>
+-XREF-pragma.html#includeincludes depth <emphasis>integer-literal</emphasis>
+-XREF-pragma.html#staticpreserve <emphasis>preserve-list</emphasis>
+-XREF-pragma.html#variableset <emphasis>expression</emphasis>
+-XREF-pragma.html#limitsset error limit <emphasis>integer-literal</emphasis>
+-XREF-pragma.html#identifierset name limit <emphasis>integer-literal</emphasis> warning<emphasis><subscript>opt</subscript></emphasis>
+-XREF-pragma.html#discardsuspend static <emphasis>identifier-list</emphasis>
+
+<emphasis>directive-spec</emphasis> :
+assert
+file
+ident
+import
+include_next
+unassert
+warning
+weak
+
+<emphasis>directive-state</emphasis> :
+allow
+warning
+disallow
+( ignore ) allow
+( ignore ) warning
+
+<emphasis>cast-operator</emphasis> :
+static_cast
+const_cast
+reinterpret_cast
+
+<emphasis>cast-spec</emphasis> :
+as <emphasis>cast-operator</emphasis>
+<emphasis>cast-spec</emphasis> | <emphasis>cast-operator</emphasis>
+
+<emphasis>preserve-list</emphasis> :
+<emphasis>identifier-list</emphasis>
+*
+
+<emphasis>identifier-list</emphasis> :
+<emphasis>identifier identifier-list<subscript>opt</subscript></emphasis>
+
+</programlisting>
+
+<programlisting>
+-XREF-token<emphasis>token-directive</emphasis> :
+-XREF-token.html#spectoken <emphasis>token-spec</emphasis>
+-XREF-token.html#tokdefno_def <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefdefine <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefignore <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefinterface <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefundef token <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefextend interface <emphasis>header-name</emphasis>
+-XREF-token.html#tokdefimplement interface <emphasis>header-name</emphasis>
+
+-XREF-token1<emphasis>tendra-token-directive</emphasis> :
+-XREF-token.html#spectoken <emphasis>token-spec</emphasis>
+-XREF-token.html#tokdefno_def <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefdefine <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefreject <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefinterface <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefundef token <emphasis>token-list</emphasis>
+-XREF-token.html#tokdefextend <emphasis>header-name</emphasis>
+-XREF-token.html#tokdefimplement <emphasis>header-name</emphasis>
+-XREF-token.html#tokdefmember definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis>
+
+<emphasis>member-offset</emphasis> :
+::<emphasis><subscript>opt</subscript> id-expression</emphasis>
+<emphasis>member-offset</emphasis> . ::<emphasis><subscript>opt</subscript> id-expression</emphasis>
+<emphasis>member-offset</emphasis> [ <emphasis>constant-expression</emphasis> ]
+
+<emphasis>token-list</emphasis> :
+<emphasis>token-id token-list<subscript>opt</subscript></emphasis>
+# <emphasis>preproc-token-list</emphasis>
+
+<emphasis>token-id</emphasis> :
+<emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis>
+<emphasis>type-id</emphasis> . <emphasis>identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>token-spec</emphasis> :
+<emphasis>token-introduction token-identification</emphasis>
+
+<emphasis>token-introduction</emphasis> :
+<emphasis>exp-token</emphasis>
+<emphasis>statement-token</emphasis>
+<emphasis>type-token</emphasis>
+<emphasis>member-token</emphasis>
+<emphasis>procedure-token</emphasis>
+
+<emphasis>token-identification</emphasis> :
+<emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis> # <emphasis>external-identifier<subscript>opt</subscript></emphasis>
+
+<emphasis>token-namespace</emphasis> :
+TAG
+
+<emphasis>external-identifier</emphasis> :
+-
+<emphasis>preproc-token-list</emphasis>
+
+<emphasis>exp-token</emphasis> :
+EXP <emphasis>exp-storage<subscript>opt</subscript></emphasis> : <emphasis>type-id</emphasis> :
+NAT
+INTEGER
+
+<emphasis>exp-storage</emphasis> :
+lvalue
+rvalue
+const
+
+<emphasis>statement-token</emphasis> :
+STATEMENT
+
+<emphasis>type-token</emphasis> :
+TYPE
+VARIETY
+VARIETY signed
+VARIETY unsigned
+FLOAT
+ARITHMETIC
+SCALAR
+CLASS
+STRUCT
+UNION
+
+<emphasis>member-token</emphasis> :
+MEMBER <emphasis>access-specifier<subscript>opt</subscript> member-type-id</emphasis> : <emphasis>type-id</emphasis> :
+
+<emphasis>member-type-id</emphasis> :
+<emphasis>type-id</emphasis>
+<emphasis>type-id</emphasis> % <emphasis>constant-expression</emphasis>
+
+<emphasis>access-specifier</emphasis> :
+public
+protected
+private
+
+<emphasis>procedure-token</emphasis> :
+<emphasis>general-procedure</emphasis>
+<emphasis>simple-procedure</emphasis>
+<emphasis>function-procedure</emphasis>
+
+<emphasis>general-procedure</emphasis> :
+PROC { <emphasis>bound-toks<subscript>opt</subscript></emphasis> | <emphasis>prog-pars<subscript>opt</subscript></emphasis> } <emphasis>token-introduction</emphasis>
+
+<emphasis>bound-toks</emphasis> :
+<emphasis>bound-token</emphasis>
+<emphasis>bound-token</emphasis> , <emphasis>bound-toks</emphasis>
+
+<emphasis>bound-token</emphasis> :
+<emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier</emphasis>
+
+<emphasis>prog-pars</emphasis> :
+<emphasis>program-parameter</emphasis>
+<emphasis>program-parameter</emphasis> , <emphasis>prog-pars</emphasis>
+
+<emphasis>program-parameter</emphasis> :
+EXP <emphasis>identifier</emphasis>
+STATEMENT <emphasis>identifier</emphasis>
+TYPE <emphasis>type-id</emphasis>
+MEMBER <emphasis>type-id</emphasis> : <emphasis>identifier</emphasis>
+PROC <emphasis>identifier</emphasis>
+
+<emphasis>simple-procedure</emphasis> :
+PROC ( <emphasis>simple-toks<subscript>opt</subscript></emphasis> ) <emphasis>token-introduction</emphasis>
+
+<emphasis>simple-toks</emphasis> :
+<emphasis>simple-token</emphasis>
+<emphasis>simple-token</emphasis> , <emphasis>simple-toks</emphasis>
+
+<emphasis>simple-token</emphasis> :
+<emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier<subscript>opt</subscript></emphasis>
+
+<emphasis>function-procedure</emphasis> :
+FUNC <emphasis>type-id</emphasis> :
+</programlisting>
+</appendix>
+
+<appendix id='symbol-table-dump-syntax'>
+<title>Symbol table dump syntax</title>
+
+<para>The following gives a summary of the syntax for the -XREF-dump.htmlsymbol table dump file (version 1.1):</para>
+
+<programlisting>
+</programlisting>
+
+<programlisting>
+<emphasis>dump-file</emphasis> :
+<emphasis>command-list<subscript>opt</subscript></emphasis>
+
+<emphasis>command-list</emphasis> :
+<emphasis>command command-list<subscript>opt</subscript></emphasis>
+
+<emphasis>command</emphasis> :
+<emphasis>version-command</emphasis>
+<emphasis>identifier-command</emphasis>
+<emphasis>scope-command</emphasis>
+<emphasis>override-command</emphasis>
+<emphasis>base-command</emphasis>
+<emphasis>api-command</emphasis>
+<emphasis>template-command</emphasis>
+<emphasis>promotion-command</emphasis>
+<emphasis>error-command</emphasis>
+<emphasis>path-command</emphasis>
+<emphasis>file-command</emphasis>
+<emphasis>include-command</emphasis>
+<emphasis>string-command</emphasis>
+
+<emphasis>version-command</emphasis> :
+V <emphasis>number number string</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>location</emphasis> :
+<emphasis>number number number string string</emphasis>
+<emphasis>number number number string</emphasis> *
+<emphasis>number number number</emphasis> *
+<emphasis>number number</emphasis> *
+<emphasis>number</emphasis> *
+*
+
+</programlisting>
+
+<programlisting>
+<emphasis>identifier</emphasis> :
+<emphasis>number</emphasis> = <emphasis>identifier-name access<subscript>opt</subscript> scope-identifier</emphasis>
+<emphasis>number</emphasis>
+
+<emphasis>identifier-name</emphasis> :
+<emphasis>string</emphasis>
+C <emphasis>type</emphasis>
+D <emphasis>type</emphasis>
+O <emphasis>string</emphasis>
+T <emphasis>type</emphasis>
+
+<emphasis>access</emphasis> :
+N
+B
+P
+
+<emphasis>scope-identifier</emphasis> :
+<emphasis>identifier</emphasis>
+*
+
+<emphasis>identifier-command</emphasis> :
+D <emphasis>identifier-info type-info</emphasis>
+M <emphasis>identifier-info type-info</emphasis>
+T <emphasis>identifier-info type-info</emphasis>
+Q <emphasis>identifier-info</emphasis>
+U <emphasis>identifier-info</emphasis>
+L <emphasis>identifier-info</emphasis>
+C <emphasis>identifier-info</emphasis>
+W <emphasis>identifier-info type-info</emphasis>
+I <emphasis>identifier-command</emphasis>
+
+<emphasis>identifier-info</emphasis> :
+<emphasis>identifier-key location identifier</emphasis>
+
+<emphasis>identifier-key</emphasis> :
+K
+MO
+MF
+MB
+TC
+TS
+TU
+TE
+TA
+NN
+NA
+VA
+VP
+VE
+VS
+FE <emphasis>function-key<subscript>opt</subscript></emphasis>
+FS <emphasis>function-key<subscript>opt</subscript></emphasis>
+FB <emphasis>function-key<subscript>opt</subscript></emphasis>
+CF <emphasis>function-key<subscript>opt</subscript></emphasis>
+CS <emphasis>function-key<subscript>opt</subscript></emphasis>
+CV <emphasis>function-key<subscript>opt</subscript></emphasis>
+CM
+CD
+E
+L
+XO
+XF
+XP
+XT
+
+<emphasis>function-key</emphasis> :
+C <emphasis>function-key<subscript>opt</subscript></emphasis>
+I <emphasis>function-key<subscript>opt</subscript></emphasis>
+
+<emphasis>type-info</emphasis> :
+<emphasis>type identifier<subscript>opt</subscript></emphasis>
+<emphasis>sort</emphasis>
+<emphasis>scope-identifier</emphasis>
+*
+
+</programlisting>
+
+<programlisting>
+<emphasis>scope-command</emphasis> :
+SS <emphasis>scope-key location identifier</emphasis>
+SE <emphasis>scope-key location identifier</emphasis>
+
+<emphasis>scope-key</emphasis> :
+N
+S
+B
+D
+H
+CT
+CF
+CC
+
+</programlisting>
+
+<programlisting>
+<emphasis>override-command</emphasis> :
+O <emphasis>identifier identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>base-command</emphasis> :
+B <emphasis>identifier-key identifier base-graph</emphasis>
+
+<emphasis>base-graph</emphasis> :
+<emphasis>base-class</emphasis>
+<emphasis>base-class</emphasis> ( <emphasis>base-list</emphasis> )
+
+<emphasis>base-class</emphasis> :
+<emphasis>number</emphasis> = V<emphasis><subscript>opt</subscript> access<subscript>opt</subscript> type-name</emphasis>
+<emphasis>number</emphasis> :
+
+<emphasis>base-list</emphasis> :
+<emphasis>base-graph base-list<subscript>opt</subscript></emphasis>
+
+<emphasis>base-number</emphasis> :
+<emphasis>number</emphasis> : <emphasis>type-name</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>api-command</emphasis> :
+X <emphasis>identifier-key identifier string</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>template-command</emphasis> :
+Z <emphasis>identifier-key identifier token-application specialise-info</emphasis>
+
+<emphasis>specialise-info</emphasis> :
+<emphasis>identifier</emphasis>
+<emphasis>token-application</emphasis>
+*
+
+</programlisting>
+
+<programlisting>
+<emphasis>type</emphasis> :
+<emphasis>type-name</emphasis>
+c
+s
+i
+l
+x
+b
+w
+y
+z
+f
+d
+r
+v
+u
+Sc
+Uc
+Us
+Ui
+Ul
+Ux
+C <emphasis>type</emphasis>
+V <emphasis>type</emphasis>
+P <emphasis>type</emphasis>
+R <emphasis>type</emphasis>
+M <emphasis>type-name</emphasis> : <emphasis>type</emphasis>
+F <emphasis>type parameter-types</emphasis>
+A <emphasis>nat<subscript>opt</subscript></emphasis> : <emphasis>type</emphasis>
+B <emphasis>nat</emphasis> : <emphasis>type</emphasis>
+t <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>type</emphasis>
+p <emphasis>type</emphasis>
+a <emphasis>type</emphasis> : <emphasis>type</emphasis>
+n <emphasis>lit-base<subscript>opt</subscript> lit-suffix<subscript>opt</subscript></emphasis>
+W <emphasis>type parameter-types</emphasis>
+q <emphasis>type</emphasis>
+Q <emphasis>string</emphasis>
+*
+
+<emphasis>type-name</emphasis> :
+<emphasis>identifier</emphasis>
+<emphasis>token-application</emphasis>
+
+<emphasis>parameter-types</emphasis> :
+: <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> :
+. <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> :
+. <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> .
+, <emphasis>type parameter-types</emphasis>
+
+<emphasis>func-qualifier</emphasis> :
+C <emphasis>func-qualifier<subscript>opt</subscript></emphasis>
+V <emphasis>func-qualifier<subscript>opt</subscript></emphasis>
+
+<emphasis>exception-spec</emphasis> :
+( <emphasis>exception-list<subscript>opt</subscript></emphasis> )
+
+<emphasis>exception-list</emphasis> :
+<emphasis>type</emphasis>
+<emphasis>type</emphasis> , <emphasis>exception-list</emphasis>
+
+<emphasis>nat</emphasis> :
++ <emphasis>number</emphasis>
+- <emphasis>number</emphasis>
+<emphasis>identifier</emphasis>
+<emphasis>token-application</emphasis>
+<emphasis>string</emphasis>
+
+<emphasis>parameter-list</emphasis> :
+<emphasis>identifier</emphasis>
+<emphasis>identifier</emphasis> , <emphasis>parameter-list</emphasis>
+
+<emphasis>lit-base</emphasis> :
+O
+X
+
+<emphasis>lit-suffix</emphasis> :
+U
+l
+Ul
+x
+Ux
+
+</programlisting>
+
+<programlisting>
+<emphasis>promotion-command</emphasis> :
+P <emphasis>type</emphasis> : <emphasis>type</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>sort</emphasis> :
+<emphasis>expression-sort</emphasis>
+<emphasis>statement-sort</emphasis>
+<emphasis>type-sort</emphasis>
+<emphasis>tag-type-sort</emphasis>
+<emphasis>member-sort</emphasis>
+<emphasis>proc-sort</emphasis>
+<emphasis>func-sort</emphasis>
+<emphasis>template-sort</emphasis>
+<emphasis>macro-sort</emphasis>
+
+<emphasis>expression-sort</emphasis> :
+ZEL <emphasis>type</emphasis>
+ZER <emphasis>type</emphasis>
+ZEC <emphasis>type</emphasis>
+ZN
+
+<emphasis>statement-sort</emphasis> :
+ZS
+
+<emphasis>type-sort</emphasis> :
+ZTO
+ZTI
+ZTF
+ZTA
+ZTP
+ZTS
+ZTU
+
+<emphasis>tag-type-sort</emphasis> :
+ZTTS
+ZTTU
+
+<emphasis>member-sort</emphasis> :
+ZM <emphasis>type</emphasis> : <emphasis>type-name</emphasis>
+
+<emphasis>proc-sort</emphasis> :
+ZPG <emphasis>parameter-list<subscript>opt</subscript></emphasis> ; <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>sort</emphasis>
+ZPS <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>sort</emphasis>
+
+<emphasis>func-sort</emphasis> :
+ZF <emphasis>type</emphasis>
+
+<emphasis>template-sort</emphasis> :
+ZTt <emphasis>parameter-list<subscript>opt</subscript></emphasis> :
+
+<emphasis>macro-sort</emphasis> :
+ZUO
+ZUF <emphasis>number</emphasis>
+
+<emphasis>token-application</emphasis> :
+T <emphasis>identifier</emphasis> , <emphasis>token-argument-list</emphasis> :
+
+<emphasis>token-argument-list</emphasis> :
+<emphasis>token-argument</emphasis>
+<emphasis>token-argument</emphasis> , <emphasis>token-argument-list</emphasis>
+
+<emphasis>token-argument</emphasis> :
+E <emphasis>expression</emphasis>
+N <emphasis>nat</emphasis>
+S <emphasis>statement</emphasis>
+T <emphasis>type</emphasis>
+M <emphasis>member</emphasis>
+F <emphasis>identifier</emphasis>
+C <emphasis>identifier</emphasis>
+
+<emphasis>expression</emphasis> :
+<emphasis>nat</emphasis>
+
+<emphasis>statement</emphasis> :
+<emphasis>expression</emphasis>
+
+<emphasis>member</emphasis> :
+<emphasis>identifier</emphasis>
+<emphasis>string</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>error-name</emphasis> :
+<emphasis>number</emphasis> = <emphasis>string</emphasis>
+<emphasis>number</emphasis>
+
+<emphasis>error-command</emphasis> :
+ES <emphasis>location error-info</emphasis>
+EW <emphasis>location error-info</emphasis>
+EI <emphasis>location error-info</emphasis>
+EF <emphasis>location error-info</emphasis>
+EC <emphasis>error-info</emphasis>
+EA <emphasis>error-argument</emphasis>
+
+<emphasis>error-info</emphasis> :
+<emphasis>error-name number number</emphasis>
+
+<emphasis>error-argument</emphasis> :
+B <emphasis>base-number</emphasis>
+C <emphasis>scope-identifier</emphasis>
+E <emphasis>expression</emphasis>
+H <emphasis>identifier-name</emphasis>
+I <emphasis>identifier</emphasis>
+L <emphasis>location</emphasis>
+N <emphasis>nat</emphasis>
+S <emphasis>string</emphasis>
+T <emphasis>type</emphasis>
+V <emphasis>number</emphasis>
+V - <emphasis>number</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>path-command</emphasis> :
+FD <emphasis>number</emphasis> = <emphasis>string string<subscript>opt</subscript></emphasis>
+
+<emphasis>directory</emphasis> :
+<emphasis>number</emphasis>
+*
+
+<emphasis>file-command</emphasis> :
+FS <emphasis>location directory</emphasis>
+FE <emphasis>location</emphasis>
+
+<emphasis>include-command</emphasis> :
+FIA <emphasis>location string</emphasis>
+FIQ <emphasis>location string</emphasis>
+FIN <emphasis>location string</emphasis>
+FIS <emphasis>location string</emphasis>
+FIE <emphasis>location string</emphasis>
+FIR <emphasis>location</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>string-command</emphasis> :
+A <emphasis>location string</emphasis>
+AC <emphasis>location string</emphasis>
+AL <emphasis>location string</emphasis>
+ACL <emphasis>location string</emphasis>
+</programlisting>
+
+</appendix>
+
+<appendix id='error-catalogue-syntax'>
+<title>Error catalogue syntax</title>
+
+<para>The following gives a summary of the syntax for the -XREF-error.htmlerror catalogue accepted by the <literal>make_err</literal> tool. Identifiers are normal C-style identifiers, strings consist of any sequence of characters enclosed inside <literal>&quot;....&quot;</literal>. The escape sequences <literal>\&quot;</literal> and <literal>\\</literal> are allowed in strings; other characters (including newline characters) map to themselves. C-style comments are allowed.</para>
+
+<programlisting>
+</programlisting>
+
+<programlisting>
+<emphasis>error-database</emphasis> :
+<emphasis>header types<subscript>opt</subscript> properties<subscript>opt</subscript> keys<subscript>opt</subscript> usages<subscript>opt</subscript> entries<subscript>opt</subscript></emphasis>
+
+<emphasis>header</emphasis> :
+<emphasis>database-name<subscript>opt</subscript> rig-name<subscript>opt</subscript> prefixes<subscript>opt</subscript></emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>database-name</emphasis> :
+DATABASE_NAME : <emphasis>identifier</emphasis>
+
+<emphasis>rig-name</emphasis> :
+RIG : <emphasis>identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>prefixes</emphasis> :
+PREFIX : <emphasis>output-prefix<subscript>opt</subscript> compiler-prefix<subscript>opt</subscript> error-prefix<subscript>opt</subscript></emphasis>
+
+<emphasis>output-prefix</emphasis> :
+compiler_output -&gt; <emphasis>identifier</emphasis>
+
+<emphasis>compiler-prefix</emphasis> :
+from_compiler -&gt; <emphasis>identifier</emphasis>
+
+<emphasis>error-prefix</emphasis> :
+from_database -&gt; <emphasis>identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>types</emphasis> :
+TYPES : <emphasis>name-list<subscript>opt</subscript></emphasis>
+
+<emphasis>properties</emphasis> :
+PROPERTIES : <emphasis>name-list<subscript>opt</subscript></emphasis>
+
+<emphasis>keys</emphasis> :
+KEYS : <emphasis>name-list<subscript>opt</subscript></emphasis>
+
+<emphasis>usages</emphasis> :
+USAGE : <emphasis>name-list<subscript>opt</subscript></emphasis>
+
+<emphasis>name</emphasis> :
+<emphasis>identifier</emphasis>
+<emphasis>identifier</emphasis> = <emphasis>identifier</emphasis>
+<emphasis>identifier</emphasis> = <emphasis>identifier</emphasis> | <emphasis>identifier</emphasis>
+
+<emphasis>name-list</emphasis> :
+<emphasis>name</emphasis>
+<emphasis>name</emphasis> , <emphasis>name-list</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>type-name</emphasis> :
+<emphasis>identifier</emphasis>
+
+<emphasis>property-name</emphasis> :
+<emphasis>identifier</emphasis>
+
+<emphasis>key-name</emphasis> :
+<emphasis>identifier</emphasis>
+
+<emphasis>usage-name</emphasis> :
+<emphasis>identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>entries</emphasis> :
+ENTRIES : <emphasis>entries-list<subscript>opt</subscript></emphasis>
+
+<emphasis>entry-list</emphasis> :
+<emphasis>entry entry-list<subscript>opt</subscript></emphasis>
+
+<emphasis>entry</emphasis> :
+<emphasis>identifier</emphasis> ( <emphasis>param-list<subscript>opt</subscript></emphasis> ) { <emphasis>entry-body</emphasis> }
+
+<emphasis>entry-body</emphasis> :
+<emphasis>alt-name<subscript>opt</subscript> entry-usage<subscript>opt</subscript> entry-properties<subscript>opt</subscript> map-list<subscript>opt</subscript></emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>parameter</emphasis> :
+<emphasis>type-name</emphasis> : <emphasis>identifier</emphasis>
+
+<emphasis>param-list</emphasis> :
+<emphasis>parameter</emphasis>
+<emphasis>parameter</emphasis> , <emphasis>param-list</emphasis>
+
+<emphasis>param-name</emphasis> :
+<emphasis>identifier</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>alt-name</emphasis> :
+ALT_NAME : <emphasis>identifier</emphasis>
+
+<emphasis>entry-usage</emphasis> :
+USAGE : <emphasis>usage-name</emphasis>
+USAGE : <emphasis>usage-name</emphasis> | <emphasis>usage-name</emphasis>
+
+<emphasis>entry-properties</emphasis> :
+PROPERTIES : <emphasis>property-list<subscript>opt</subscript></emphasis>
+
+<emphasis>property-list</emphasis> :
+<emphasis>property-name</emphasis>
+<emphasis>property-name</emphasis> , <emphasis>property-list</emphasis>
+
+</programlisting>
+
+<programlisting>
+<emphasis>map</emphasis> :
+KEY ( <emphasis>key-name</emphasis> ) <emphasis>message-list<subscript>opt</subscript></emphasis>
+KEY ( <emphasis>key-name</emphasis> ) <emphasis>message-list<subscript>opt</subscript></emphasis> | <emphasis>message-list<subscript>opt</subscript></emphasis>
+
+<emphasis>map-list</emphasis> :
+<emphasis>map map-list<subscript>opt</subscript></emphasis>
+
+<emphasis>message-list</emphasis> :
+<emphasis>string message-list<subscript>opt</subscript></emphasis>
+<emphasis>param-name message-list<subscript>opt</subscript></emphasis>
+</programlisting>
+</appendix>
+</book>
