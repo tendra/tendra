@@ -80,7 +80,6 @@
 
 #include <stdio.h>
 #include <sun3/a.out.h>
-#include "ossg.h"
 
 #define MAJOR_VERSION		1
 #define MINOR_VERSION		1
