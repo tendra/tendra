@@ -1556,7 +1556,7 @@ VarModifiers_Apply(str, name, ctxt, err, freePtr, start, endc, lengthPtr)
 	if (DEBUG(VAR))
 	    printf("Applying :%c to \"%s\"\n", *tstr, str);
 
-	mod = choose_mod[*tstr];
+	mod = choose_mod[(unsigned)*tstr];
 	arg = NULL;
 
 	if (mod != NULL && (!mod->atstart || atstart))
