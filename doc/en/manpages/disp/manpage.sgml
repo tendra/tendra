@@ -129,10 +129,31 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-d</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-g</option></term>
       <listitem>
         <para>Makes <command>disp</command> print any diagnostic
           information units within the TDF capsule.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-h</option></term>
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-i</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -142,6 +163,13 @@
         <para>Makes <command>disp</command> try to format its output to fit
           into a page width of <emphasis>columns</emphasis>. The
           default page width is 80.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-p</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 
@@ -169,6 +197,13 @@
       <listitem>
         <para>Makes <command>disp</command> print its version number and
           the version of the TDF specification it supports.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-x</option></term>
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
   </variablelist>
