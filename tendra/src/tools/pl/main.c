@@ -61,6 +61,8 @@
 #include "msgcat.h"
 #include "tenapp.h"
 
+#include "consfile.h"
+#include "defs.h"
 #include "release.h"
 #include "namedecs.h"
 #include "lex.h"
@@ -102,6 +104,16 @@ opt_help(char *option, void *closure)
 	msg_append_newline ();
 }
 
+static int
+cons_compare(const void *a, const void *b)
+{
+	const Constructs *ap, *bp;
+
+	ap = a;
+	bp = b;
+	return strcmp(ap->name, bp->name);
+}
+
 int
 main(int argc, char **argv)
 {
@@ -109,6 +121,7 @@ main(int argc, char **argv)
 	int optcnt;
 
     tenapp_init(argc, argv, "PL-TDF compiler", "5.0");
+	qsort(constructs, no_of_cons, sizeof(Constructs), cons_compare);
     init_includes ();
 	argc--;
 	argv++;

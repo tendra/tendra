@@ -34,14 +34,10 @@ Constructs constructs [] = {
 @if !sort.special
 @loop sort.cons
 @if cons.simple
-@if cons.eq.xor
-{ "%CN", %SN_t, c_%CN }
-};
-@else
 { "%CN", %SN_t, c_%CN },
 @endif
-@endif
 @end
 @endif
 @endif
 @end
+{ NULL, 0, NULL }};
