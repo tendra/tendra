@@ -2,12 +2,20 @@
  * $TenDRA$
 */
 
+
+/* Binaries */
+
++BIN_AS			"-BIN_AS-"
++BIN_LD			"-BIN_LD-"
++BIN_CC			"-BIN_CC-"
+
+
+/* Libraries */
+
++CRT0			"-LIB_CRT0-"
++LIB_AOUT_CRT0		"-LIB_AOUT_CRT0-"
+
+
 +MACHINE		"cygwin32-*-80x86"
-+AS			"-AS-"
-+LD			"-LD-"
-+CC			"-CC-"
-+CRT0			"-CRT0-"
-+CRT1			""
-+CRTN			""
 +SYS_LIB		"-ltdf -lcygwin -lkernel32"
 +SYS_LINK		"-L/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib -L<TENDRA_LIBDIR>/sys"
