@@ -339,11 +339,12 @@ read_line(int t1, int tn)
  *    COPY A LIST OF TOKENS
  *
  *    This routine copies the list of tokens toks, excluding any ignored
- *    tokens.
+ *    tokens.  If no tokens at all were copied, a placemarker token is
+ *    inserted and *have_placemarkers is set to 1.
  */
 
 static PPTOKEN*
-copy_tok_list(PPTOKEN *toks)
+copy_tok_list(PPTOKEN *toks, int *have_placemarkers)
 {
     PPTOKEN *ptr_tok;
     PPTOKEN dummy_tok, *this_tok = &dummy_tok;
@@ -354,6 +355,12 @@ copy_tok_list(PPTOKEN *toks)
 			this_tok = this_tok->next;
 			copy_pptok (this_tok, t, ptr_tok);
 		}
+    }
+    if (this_tok == &dummy_tok) {
+		this_tok->next = new_pptok ();
+		this_tok = this_tok->next;
+		this_tok->tok = lex_placemarker;
+		*have_placemarkers = 1;
     }
     this_tok->next = NULL;
     return (dummy_tok.next);
@@ -523,6 +530,12 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
     unsigned long sb = q->pp_space;
     p->pp_space = (sa | sb);
     q->pp_space = 0;
+    if (a == lex_placemarker) {
+		copy_pptok (p, b, q);
+		return (1);
+    } else if (b == lex_placemarker) {
+		return (1);
+    }
     if (a >= FIRST_SYMBOL && a <= LAST_SYMBOL) {
 		if (b >= FIRST_SYMBOL && b <= LAST_SYMBOL) {
 			/* Two symbols may combine to give another symbol */
@@ -815,6 +828,33 @@ process_concat(PPTOKEN *defn, HASHID macro)
 
 
 /*
+ *   REMOVE PLACEMARKER TOKENS
+ *
+ *   This function removes all placemarker tokens after any ## operators
+ *   were processed.
+ */
+
+static PPTOKEN *
+remove_placemarkers(PPTOKEN *defn)
+{
+	PPTOKEN dummy_tok;
+	PPTOKEN *last_tok = &dummy_tok, *this_tok;
+	this_tok = dummy_tok.next = defn;
+	while (this_tok != NULL) {
+		if (this_tok->tok == lex_placemarker) {
+			last_tok->next = this_tok->next;
+			free_pptok (this_tok);
+			this_tok = last_tok->next;
+		} else {
+			last_tok = this_tok;
+			this_tok = this_tok->next;
+		}
+	}
+	return (dummy_tok.next);
+}
+
+
+/*
  *    MAXIMUM NUMBER OF MACRO PARAMETERS
  *
  *    This macro defines the maximum number of macro parameters which
@@ -876,6 +916,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
     int va_macro = 0;
     int have_unknown = 0;
     int have_hash_hash = 0;
+    int have_placemarkers = 0;
     unsigned long ws = crt_spaces;
     PPTOKEN dummy_tok, *this_tok = &dummy_tok;
     PPTOKEN *arg_array_base [ MAX_MACRO_PARAMS + 1 ];
@@ -1066,6 +1107,11 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 						ERROR err;
 						err = ERR_cpp_replace_arg_empty (no_args, macro);
 						report (crt_loc, err);
+						/* Insert a placemarker. */
+						dummy_tok.next = new_pptok ();
+						dummy_tok.next->tok = lex_placemarker;
+						dummy_tok.next->next = NULL;
+						have_placemarkers = 1;
 					}
 					if (no_args <= no_pars) {
 						arg_array [ no_args ] = dummy_tok.next;
@@ -1141,6 +1187,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 			report (crt_loc, ERR_cpp_replace_arg_empty (0, macro));
 			arg_array [1] = NULL;
 			no_args = 1;
+			have_placemarkers = 1;
 		}
 
 		/* Check that argument and parameter lists match */
@@ -1178,7 +1225,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 			if (state == 0) {
 				if (defn->next && defn->next->tok == lex_hash_Hhash_Hop) {
 					/* Preceding ##, just copy argument */
-					this_tok->next = copy_tok_list (arg);
+					this_tok->next = copy_tok_list (arg, &have_placemarkers);
 				} else {
 					/* Normal argument expansion */
 					TOKEN_LOC *arg_locs = NULL;
@@ -1198,7 +1245,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 				
 			} else {
 				/* Following ##, just copy argument */
-				this_tok->next = copy_tok_list (arg);
+				this_tok->next = copy_tok_list (arg, &have_placemarkers);
 			}
 			
 			sp = defn->pp_space;
@@ -1242,6 +1289,8 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
     /* Rescan for ## directives */
     if (have_hash_hash) defn = process_concat (defn, macro);
 	
+    if (have_placemarkers) defn = remove_placemarkers (defn);
+
     /* Rescan for further expansion (but not expanding macro) */
     COPY_dspec (id_storage (id), (ds | dspec_temp));
     this_tok = expand_toks (defn, locs, complete);

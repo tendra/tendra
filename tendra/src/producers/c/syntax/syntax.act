@@ -1609,6 +1609,7 @@ complex-type : () -> ( t ) = @{
 #define lex_ignore_token	-1
 #define lex_end_condition	-2
 #define lex_included		-3
+#define lex_placemarker		-4
 
 
 #endif
