@@ -2,7 +2,7 @@
 
 .SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf .cc .t .p
 
-CC		?=	cc
+#CC		?=	cc
 CFLAGS		?=	-O -pipe
 CXX		?=	c++
 CXXFLAGS	?=	${CXXINCLUDES} ${CFLAGS}
@@ -12,7 +12,7 @@ ECHODIR		?=	echo
 
 
 .c.o:
-	${CC} ${CFLAGS} -c ${.IMPSRC}
+	${BIN_CC} ${CFLAGS} -c ${.IMPSRC}
 
 .c-tdf.c .h-tdf.h:
 	${MAKE_TDF} ${SRC_DIR}/src/lib/tdf/def_4_1.db ${.IMPSRC} >\

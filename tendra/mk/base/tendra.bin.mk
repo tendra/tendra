@@ -8,4 +8,4 @@ OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.o/g:C/.*\/(.*)$/\1/g}
 
 
 ${PROG}: ${OBJS}
-	${CC} ${CFLAGS} ${LDFLAGS} -o ${.TARGET} ${OBJS_NODIR} ${LDDESTDIR} ${LDADD}
+	${BIN_CC} ${CFLAGS} ${LDFLAGS} -o ${.TARGET} ${OBJS_NODIR} ${LDDESTDIR} ${LDADD}
