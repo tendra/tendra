@@ -129,7 +129,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 	}
 
 	/* Other types are simple */
-	output ("\tCOPY_%TM ( x%u_ + %d, %e ) ;\\\n", t, p, nm);
+	output ("\tCOPY_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
 	return (p + size_type (t, 0));
 }
 
@@ -183,9 +183,9 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 
 	/* Other types are simple */
 	if (is_complex_type (t)) {
-		output ("\tDEREF_%TM ( x%u_ + %d, %e ) ;\\\n", t, p, nm);
+		output ("\tDEREF_%TM (x%u_ + %d, %e);\\\n", t, p, nm);
 	} else {
-		output ("\t%e = DEREF_%TM ( x%u_ + %d ) ;\\\n", nm, t, p);
+		output ("\t%e = DEREF_%TM (x%u_ + %d);\\\n", nm, t, p);
 	}
 	return (p + size_type (t, 0));
 }
@@ -202,43 +202,10 @@ void
 print_deref(TYPE_P t, char *a, char *b)
 {
 	if (is_complex_type (t)) {
-		output ("DEREF_%TM ( %e, %e ) ;\n", t, a, b);
+		output ("DEREF_%TM (%e, %e);\n", t, a, b);
 	} else {
-		output ("%e = DEREF_%TM ( %e ) ;\n", b, t, a);
+		output ("%e = DEREF_%TM (%e);\n", b, t, a);
 	}
-	return;
-}
-
-
-/*
- *    PRINT PROTOTYPE MACROS
- *
- *    This routine prints the prototype macros used by the output.  The
- *    default values correspond to the non-prototype case.
- */
-
-void
-print_proto(void)
-{
-	comment ("Prototype macros");
-	output ("#ifndef PROTO_S\n");
-	output ("#ifdef __STDC__\n");
-	output ("#define PROTO_S( types )%t40types\n");
-	output ("#define PROTO_N( names )\n");
-	output ("#define PROTO_T( parms )%t40( parms )\n");
-	output ("#define PROTO_Z()%t40( void )\n");
-	output ("#define X%t40,\n");
-	output ("#else\n");
-	output ("#define PROTO_S( types )%t40()\n");
-	output ("#define PROTO_N( names )%t40names\n");
-	output ("#define PROTO_T( parms )%t40parms ;\n");
-	output ("#define PROTO_Z()%t40()\n");
-	output ("#define X%t40;\n");
-	output ("#endif\n");
-	output ("#endif\n\n");
-	output ("#ifndef CONST_S\n");
-	output ("#define CONST_S\n");
-	output ("#endif\n\n\n");
 	return;
 }
 
@@ -271,34 +238,34 @@ static void
 print_assert_decs(void)
 {
 	output ("#ifdef ASSERTS\n");
-	output ("extern %X *check_null_%X PROTO_S ");
-	output ("( ( %X *, CONST_S char *, int ) ) ;\n");
-	output ("extern %X *check_tag_%X PROTO_S ");
-	output ("( ( %X *, unsigned, CONST_S char *, int ) ) ;\n");
-	output ("extern %X *check_tag_etc_%X PROTO_S ");
-	output ("( ( %X *, unsigned, unsigned, CONST_S char *, int ) ) ;\n");
+	output ("extern %X *check_null_%X ");
+	output ("(%X *, const char *, int);\n");
+	output ("extern %X *check_tag_%X ");
+	output ("(%X *, unsigned, const char *, int);\n");
+	output ("extern %X *check_tag_etc_%X ");
+	output ("(%X *, unsigned, unsigned, const char *, int);\n");
 	if (allow_vec) {
-		output ("extern int check_int_size PROTO_S ");
-		output ("( ( int, int, CONST_S char *, int ) ) ;\n");
+		output ("extern int check_int_size ");
+		output ("(int, int, const char *, int);\n");
 	}
-	output ("#define CHECK_NULL( P )\\\n");
-	output ("    ( check_null_%X ( ( P ), __FILE__, __LINE__ ) )\n");
-	output ("#define CHECK_TAG( P, N )\\\n");
-	output ("    ( check_tag_%X ( ( P ), ( unsigned ) ( N ), ");
-	output ("__FILE__, __LINE__ ) )\n");
-	output ("#define CHECK_TAG_ETC( P, L, U )\\\n");
-	output ("    ( check_tag_etc_%X ( ( P ), ( unsigned ) ( L ), ");
-	output ("( unsigned ) ( U ), __FILE__, __LINE__ ) )\n");
+	output ("#define\tCHECK_NULL(P)\\\n");
+	output ("\t(check_null_%X ((P), __FILE__, __LINE__))\n");
+	output ("#define\tCHECK_TAG(P, N)\\\n");
+	output ("\t(check_tag_%X ((P), (unsigned)(N), ");
+	output ("__FILE__, __LINE__))\n");
+	output ("#define\tCHECK_TAG_ETC(P, L, U)\\\n");
+	output ("\t(check_tag_etc_%X ((P), (unsigned)(L), ");
+	output ("(unsigned)(U), __FILE__, __LINE__))\n");
 	if (allow_vec) {
-		output ("#define CHECK_INT( N, M )\\\n");
-		output ("     ( check_int_size ( ( N ), ( M ), ");
-		output ("__FILE__, __LINE__ ) )\n");
+		output ("#define\tCHECK_INT(N, M)\\\n");
+		output ("\t(check_int_size ((N), (M), ");
+		output ("__FILE__, __LINE__))\n");
 	}
 	output ("#else\n");
-	output ("#define CHECK_NULL( P )%t40( P )\n");
-	output ("#define CHECK_TAG( P, N )%t40( P )\n");
-	output ("#define CHECK_TAG_ETC( P, L, U )%t40( P )\n");
-	if (allow_vec) output ("#define CHECK_INT( N, M )%t40( N )\n");
+	output ("#define\tCHECK_NULL(P)%t40(P)\n");
+	output ("#define\tCHECK_TAG(P, N)%t40(P)\n");
+	output ("#define\tCHECK_TAG_ETC(P, L, U)%t40(P)\n");
+	if (allow_vec) output ("#define\tCHECK_INT(N, M)%t40(N)\n");
 	output ("#endif\n\n\n");
 	return;
 }
@@ -317,58 +284,53 @@ print_assert_fns(void)
 {
 	/* Assertion printing */
 	output ("#ifndef assert_%X\n");
-	output ("static void assert_%X\n");
-	output ("    PROTO_N ( ( s, fn, ln ) )\n");
-	output ("    PROTO_T ( CONST_S char *s X CONST_S char *fn X int ln )\n");
+	output ("static void\nassert_%X");
+	output ("(const char *s, const char *fn, int ln)\n");
 	output ("{\n");
-	output ("    ( void ) fprintf ( stderr, \"Assertion %%s failed, ");
-	output ("%%s, line %%d.\\n\", s, fn, ln ) ;\n");
-	output ("    abort () ;\n");
+	output ("\t(void)fprintf(stderr, \"Assertion %%s failed, ");
+	output ("%%s, line %%d.\\n\", s, fn, ln);\n");
+	output ("\tabort();\n");
 	output ("}\n");
 	output ("#endif\n\n");
 
 	/* Null pointer check */
-	output ("%X *check_null_%X\n");
-	output ("    PROTO_N ( ( p, fn, ln ) )\n");
-	output ("    PROTO_T ( %X *p X CONST_S char *fn X int ln )\n");
+	output ("%X *\ncheck_null_%X");
+	output ("(%X *p, const char *fn, int ln)\n");
 	output ("{\n");
-	output ("    if ( p == NULL ) ");
-	output ("assert_%X ( \"Null pointer\", fn, ln ) ;\n");
-	output ("    return ( p ) ;\n");
+	output ("\tif (p == NULL) ");
+	output ("assert_%X (\"Null pointer\", fn, ln);\n");
+	output ("\treturn (p);\n");
 	output ("}\n\n");
 
 	/* Union tag check */
-	output ("%X *check_tag_%X\n");
-	output ("    PROTO_N ( ( p, t, fn, ln ) )\n");
-	output ("    PROTO_T ( %X *p X unsigned t X CONST_S char *fn X int ln )\n");
+	output ("%X *\ncheck_tag_%X");
+	output ("(%X *p, unsigned t, const char *fn, int ln)\n");
 	output ("{\n");
-	output ("    p = check_null_%X ( p, fn, ln ) ;\n");
-	output ("    if ( p->ag_tag != t ) ");
-	output ("assert_%X ( \"Union tag\", fn, ln ) ;\n");
-	output ("    return ( p ) ;\n");
+	output ("\tp = check_null_%X(p, fn, ln);\n");
+	output ("\tif (p->ag_tag != t) ");
+	output ("assert_%X(\"Union tag\", fn, ln);\n");
+	output ("\treturn (p);\n");
 	output ("}\n\n");
 
 	/* Union tag range check */
-	output ("%X *check_tag_etc_%X\n");
-	output ("    PROTO_N ( ( p, tl, tb, fn, ln ) )\n");
-	output ("    PROTO_T ( %X *p X unsigned tl X unsigned tb ");
-	output ("X CONST_S char *fn X int ln )\n");
+	output ("%X *\ncheck_tag_etc_%X");
+	output ("(%X *p, unsigned tl, unsigned tb ");
+	output (", const char *fn, int ln)\n");
 	output ("{\n");
-	output ("    p = check_null_%X ( p, fn, ln ) ;\n");
-	output ("    if ( p->ag_tag < tl || p->ag_tag >= tb ) {\n");
-	output ("\tassert_%X ( \"Union tag\", fn, ln ) ;\n");
-	output ("    }\n");
-	output ("    return ( p ) ;\n");
+	output ("\tp = check_null_%X (p, fn, ln);\n");
+	output ("\tif (p->ag_tag < tl || p->ag_tag >= tb) {\n");
+	output ("\t\tassert_%X(\"Union tag\", fn, ln);\n");
+	output ("\t}\n");
+	output ("\treturn (p);\n");
 	output ("}\n\n");
 
 	/* Vector trim range check */
 	if (!allow_vec) return;
-	output ("int check_int_size\n");
-	output ("    PROTO_N ( ( n, m, fn, ln ) )\n");
-	output ("    PROTO_T ( int n X int m X CONST_S char *fn X int ln )\n");
+	output ("int\ncheck_int_size");
+	output ("(int n, int m, const char *fn, int ln)\n");
 	output ("{\n");
-	output ("    if ( n > m ) assert_%X ( \"Vector bound\", fn, ln ) ;\n");
-	output ("    return ( n ) ;\n");
+	output ("\tif (n > m) assert_%X(\"Vector bound\", fn, ln);\n");
+	output ("\treturn (n);\n");
 	output ("}\n\n");
 	return;
 }
@@ -414,69 +376,69 @@ print_simple_cons(char *nm, int sz, int d)
 {
 	/* CONS routine */
 	char *g;
-	output ("#define CONS_%e( A, B, C )\\\n", nm);
-	output ("    {\\\n");
+	output ("#define\tCONS_%e(A, B, C)\\\n", nm);
+	output ("\t{\\\n");
 	g = gen (sz + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\tCOPY_%e ( x%u_ + 1, ( A ) ) ;\\\n", nm);
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\tCOPY_%e (x%u_ + 1, (A));\\\n", nm);
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* UN_CONS routine */
-	output ("#define UN_CONS_%e( A, B, C )\\\n", nm);
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
+	output ("#define\tUN_CONS_%e(A, B, C)\\\n", nm);
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
 	if (d) {
-		output ("\t( A ) = DEREF_%e ( x%u_ + 1 ) ;\\\n", nm);
+		output ("\t\t(A) = DEREF_%e (x%u_ + 1);\\\n", nm);
 	} else {
-		output ("\tDEREF_%e ( x%u_ + 1, ( A ) ) ;\\\n", nm);
+		output ("\t\tDEREF_%e (x%u_ + 1, (A));\\\n", nm);
 	}
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* DESTROY_CONS routine */
-	output ("#define DESTROY_CONS_%e( D, A, B, C )\\\n", nm);
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
+	output ("#define\tDESTROY_CONS_%e(D, A, B, C)\\\n", nm);
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
 	if (d) {
-		output ("\t( A ) = DEREF_%e ( x%u_ + 1 ) ;\\\n", nm);
+		output ("\t\t(A) = DEREF_%e (x%u_ + 1);\\\n", nm);
 	} else {
-		output ("\tDEREF_%e ( x%u_ + 1, ( A ) ) ;\\\n", nm);
+		output ("\t\tDEREF_%e (x%u_ + 1, (A));\\\n", nm);
 	}
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) %d ) ;\\\n", sz + 1);
-	output ("    }\n\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned)%d);\\\n", sz + 1);
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* PUSH routine */
-		output ("#define PUSH_%e( A, B )\\\n", nm);
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_%e(A, B)\\\n", nm);
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
 		g = gen (sz + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\tCOPY_%e ( x%u_ + 1, ( A ) ) ;\\\n", nm);
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\tCOPY_%e (x%u_ + 1, (A));\\\n", nm);
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* POP routine */
-		output ("#define POP_%e( A, B )\\\n", nm);
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
+		output ("#define\tPOP_%e(A, B)\\\n", nm);
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
 		if (d) {
-			output ("\t( A ) = DEREF_%e ( x%u_ + 1 ) ;\\\n", nm);
+			output ("\t\t(A) = DEREF_%e (x%u_ + 1);\\\n", nm);
 		} else {
-			output ("\tDEREF_%e ( x%u_ + 1, ( A ) ) ;\\\n", nm);
+			output ("\t\tDEREF_%e (x%u_ + 1, (A));\\\n", nm);
 		}
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) %d ) ;\\\n", sz + 1);
-		output ("    }\n\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned)%d);\\\n", sz + 1);
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -501,18 +463,18 @@ print_struct_defn(void)
 	int ok;
 	comment ("Structure declarations");
 	LOOP_STRUCTURE {
-		output ("typedef struct %SM_tag %SN ;\n");
+		output ("typedef struct %SM_tag %SN;\n");
 		COPY_int (str_output (CRT_STRUCTURE), 0);
 	}
 	output ("\n\n");
 
 	comment ("Identity type definitions");
-	LOOP_IDENTITY output ("typedef %IT %IN ;\n");
+	LOOP_IDENTITY output ("typedef %IT %IN;\n");
 	output ("\n\n");
 
 	comment ("Structure definitions");
 	output ("#ifndef %X_STRUCT_DEFINED\n");
-	output ("#define %X_STRUCT_DEFINED\n\n");
+	output ("#define\t%X_STRUCT_DEFINED\n\n");
 	do {
 		ok = 1;
 		LOOP_STRUCTURE {
@@ -540,8 +502,8 @@ print_struct_defn(void)
 				if (pr) {
 					/* Print structure definition */
 					output ("struct %SM_tag {\n");
-					LOOP_STRUCTURE_COMPONENT output ("    %CT %CN ;\n");
-					output ("} ;\n\n");
+					LOOP_STRUCTURE_COMPONENT output ("\t%CT %CN;\n");
+					output ("};\n\n");
 					COPY_int (str_output (CRT_STRUCTURE), 1);
 				} else {
 					/* Structure definition postponed */
@@ -571,50 +533,50 @@ print_types_c(void)
 		CLASS_ID_P c = DEREF_ptr (prim_id (CRT_PRIMITIVE));
 		char *pn = DEREF_string (cid_name (c));
 		char *pd = DEREF_string (prim_defn (CRT_PRIMITIVE));
-		if (!streq (pn, pd)) output ("typedef %PD %PN ;\n");
+		if (!streq (pn, pd)) output ("typedef %PD %PN;\n");
 	}
 	output ("\n\n");
 
 	comment ("Basic types");
-	if (allow_vec) output ("typedef unsigned %X_dim ;\n\n");
+	if (allow_vec) output ("typedef unsigned %X_dim;\n\n");
 	output ("typedef union %X_tag {\n");
-	output ("    unsigned ag_tag ;\n");
-	output ("    union %X_tag *ag_ptr ;\n");
-	if (allow_vec) output ("    %X_dim ag_dim ;\n");
-	output ("    unsigned ag_enum ;\n");
-	output ("    unsigned long ag_long_enum ;\n");
-	LOOP_PRIMITIVE output ("    %PN ag_prim_%PM ;\n");
-	output ("} %X ;\n\n");
-	output ("typedef %X *%X_PTR ;\n\n");
+	output ("\tunsigned ag_tag;\n");
+	output ("\tunion %X_tag *ag_ptr;\n");
+	if (allow_vec) output ("\t%X_dim ag_dim;\n");
+	output ("\tunsigned ag_enum;\n");
+	output ("\tunsigned long ag_long_enum;\n");
+	LOOP_PRIMITIVE output ("\t%PN ag_prim_%PM;\n");
+	output ("} %X;\n\n");
+	output ("typedef %X *%X_PTR;\n\n");
 
 	if (allow_vec) {
 		output ("typedef struct {\n");
-		output ("    %X *vec ;\n");
-		output ("    %X *ptr ;\n");
-		output ("} %X_VEC_PTR ;\n\n");
+		output ("\t%X *vec;\n");
+		output ("\t%X *ptr;\n");
+		output ("} %X_VEC_PTR;\n\n");
 
 		output ("typedef struct {\n");
-		output ("    %X_dim dim ;\n");
-		output ("    %X_VEC_PTR elems ;\n");
-		output ("} %X_VEC ;\n\n");
+		output ("\t%X_dim dim;\n");
+		output ("\t%X_VEC_PTR elems;\n");
+		output ("} %X_VEC;\n\n");
 	}
 
 	output ("#ifndef %X_DESTR_DEFINED\n");
-	output ("#define %X_DESTR_DEFINED\n");
-	output ("typedef void ( *DESTROYER ) ");
-	output ("PROTO_S ( ( %X *, unsigned ) ) ;\n");
+	output ("#define\t%X_DESTR_DEFINED\n");
+	output ("typedef void (*DESTROYER) ");
+	output ("(%X *, unsigned);\n");
 	output ("#endif\n\n");
 
-	output ("#define PTR( A )\t%X_PTR\n");
-	output ("#define LIST( A )\t%X_PTR\n");
+	output ("#define\tPTR(A)\t%X_PTR\n");
+	output ("#define\tLIST(A)\t%X_PTR\n");
 	if (allow_stack) {
-		output ("#define STACK( A )\t%X_PTR\n");
+		output ("#define\tSTACK(A)\t%X_PTR\n");
 	}
 	if (allow_vec) {
-		output ("#define VEC( A )\t%X_VEC\n");
-		output ("#define VEC_PTR( A )\t%X_VEC_PTR\n");
+		output ("#define\tVEC(A)\t%X_VEC\n");
+		output ("#define\tVEC_PTR(A)\t%X_VEC_PTR\n");
 	}
-	output ("#define SIZE( A )\tint\n\n\n");
+	output ("#define\tSIZE(A)\tint\n\n\n");
 
 	if (extra_asserts) {
 		comment ("Assertion macros");
@@ -625,48 +587,48 @@ print_types_c(void)
 	LOOP_ENUM {
 		number m = DEREF_number (en_order (CRT_ENUM));
 		if (m > (number) 0x10000) {
-			output ("typedef unsigned long %EN ;\n");
+			output ("typedef unsigned long %EN;\n");
 		} else {
-			output ("typedef unsigned %EN ;\n");
+			output ("typedef unsigned %EN;\n");
 		}
 	}
 	output ("\n\n");
 
 	comment ("Union type definitions");
-	LOOP_UNION output ("typedef %X *%UN ;\n");
+	LOOP_UNION output ("typedef %X *%UN;\n");
 	output ("\n\n");
 
 	print_struct_defn ();
 
 	comment ("Function declarations");
-	output ("extern %X *gen_%X PROTO_S ( ( unsigned ) ) ;\n");
-	output ("extern void destroy_%X PROTO_S ( ( %X *, unsigned ) ) ;\n");
+	output ("extern %X *gen_%X (unsigned);\n");
+	output ("extern void destroy_%X (%X *, unsigned);\n");
 	output ("extern void dummy_destroy_%X ");
-	output ("PROTO_S ( ( %X *, unsigned ) ) ;\n");
+	output ("(%X *, unsigned);\n");
 	output ("extern void destroy_%X_list ");
-	output ("PROTO_S ( ( %X *, unsigned ) ) ;\n");
-	output ("extern %X *append_%X_list PROTO_S ( ( %X *, %X * ) ) ;\n");
-	output ("extern %X *end_%X_list PROTO_S ( ( %X * ) ) ;\n");
-	output ("extern unsigned length_%X_list PROTO_S ( ( %X * ) ) ;\n");
-	output ("extern %X *reverse_%X_list PROTO_S ( ( %X * ) ) ;\n");
-	if (allow_vec) output ("extern %X_VEC empty_%X_vec ;\n");
+	output ("(%X *, unsigned);\n");
+	output ("extern %X *append_%X_list (%X *,%X *);\n");
+	output ("extern %X *end_%X_list (%X *);\n");
+	output ("extern unsigned length_%X_list (%X *);\n");
+	output ("extern %X *reverse_%X_list (%X *);\n");
+	if (allow_vec) output ("extern %X_VEC empty_%X_vec;\n");
 	output ("#ifdef %X_IO_ROUTINES\n");
-	output ("extern unsigned crt_%X_alias ;\n");
-	output ("extern void set_%X_alias PROTO_S ( ( %X *, unsigned ) ) ;\n");
-	output ("extern %X *find_%X_alias PROTO_S ( ( unsigned ) ) ;\n");
-	output ("extern void clear_%X_alias PROTO_S ( ( void ) ) ;\n");
+	output ("extern unsigned crt_%X_alias;\n");
+	output ("extern void set_%X_alias (%X *, unsigned);\n");
+	output ("extern %X *find_%X_alias (unsigned);\n");
+	output ("extern void clear_%X_alias (void);\n");
 	output ("#endif\n");
 	output ("\n\n");
 	comment ("Run-time type information");
 	output ("#ifndef GEN_%X\n");
-	output ("#define GEN_%X( A, B )%t40gen_%X ( ( unsigned ) ( A ) )\n");
+	output ("#define\tGEN_%X(A, B)%t40gen_%X ((unsigned)(A))\n");
 	output ("#endif\n");
-	output ("#define TYPEID_ptr%t40( ( unsigned ) 0 )\n");
-	output ("#define TYPEID_list%t40( ( unsigned ) 1 )\n");
-	output ("#define TYPEID_stack%t40( ( unsigned ) 2 )\n");
+	output ("#define\tTYPEID_ptr%t40((unsigned)0)\n");
+	output ("#define\tTYPEID_list%t40((unsigned)1)\n");
+	output ("#define\tTYPEID_stack%t40((unsigned)2)\n");
 	n = 3;
 	LOOP_UNION {
-		output ("#define TYPEID_%UM%t40( ( unsigned ) %d )\n", n);
+		output ("#define\tTYPEID_%UM%t40((unsigned)%d)\n", n);
 		n++;
 	}
 	output ("\n\n");
@@ -686,81 +648,81 @@ print_ptr_c(void)
 	/* Pointers */
 	char *g;
 	comment ("Definitions for pointers");
-	output ("#define STEP_ptr( A, B )%t40");
-	output ("( %s( A ) + B )\n", check_null);
-	output ("#define SIZE_ptr( A )%t40%d\n", SIZE_PTR);
-	output ("#define NULL_ptr( A )%t40( ( %X * ) 0 )\n");
-	output ("#define IS_NULL_ptr( A )%t40( ( A ) == 0 )\n");
-	output ("#define EQ_ptr( A, B )%t40( ( A ) == ( B ) )\n");
-	output ("#define MAKE_ptr( A )%t40GEN_%X ( ( A ), TYPEID_ptr )\n");
-	output ("#define DESTROY_ptr( A, B )%t40");
-	output ("destroy_%X ( ( A ), ( unsigned ) ( B ) )\n");
+	output ("#define\tSTEP_ptr(A, B)%t40");
+	output ("(%s(A) + B)\n", check_null);
+	output ("#define\tSIZE_ptr(A)%t40%d\n", SIZE_PTR);
+	output ("#define\tNULL_ptr(A)%t40((%X *)0)\n");
+	output ("#define\tIS_NULL_ptr(A)%t40((A) == 0)\n");
+	output ("#define\tEQ_ptr(A, B)%t40((A) == (B))\n");
+	output ("#define\tMAKE_ptr(A)%t40GEN_%X ((A), TYPEID_ptr)\n");
+	output ("#define\tDESTROY_ptr(A, B)%t40");
+	output ("destroy_%X ((A), (unsigned)(B))\n");
 	g = gen (1, "ptr");
-	output ("#define UNIQ_ptr( A )%t40%e\n", g);
-	output ("#define DESTROY_UNIQ_ptr( A )%t40");
-	output ("destroy_%X ( ( A ), ( unsigned ) 1 )\n");
+	output ("#define\tUNIQ_ptr(A)%t40%e\n", g);
+	output ("#define\tDESTROY_UNIQ_ptr(A)%t40");
+	output ("destroy_%X ((A), (unsigned)1)\n");
 	output ("#ifdef %X_IO_ROUTINES\n");
-	output ("#define VOIDSTAR_ptr( A )%t40( ( void * ) ( A ) )\n");
+	output ("#define\tVOIDSTAR_ptr(A)%t40((void *)(A))\n");
 	output ("#endif\n\n");
 
 	/* Assignment and dereference of pointers */
-	output ("#define COPY_ptr( A, B )%t40");
-	output ("( %s( A )->ag_ptr = ( B ) )\n", check_null);
-	output ("#define DEREF_ptr( A )%t40");
-	output ("( %s( A )->ag_ptr )\n", check_null);
+	output ("#define\tCOPY_ptr(A, B)%t40");
+	output ("(%s(A)->ag_ptr = (B))\n", check_null);
+	output ("#define\tDEREF_ptr(A)%t40");
+	output ("(%s(A)->ag_ptr)\n", check_null);
 
 	/* Pointer list constructor */
-	output ("#define CONS_ptr( A, B, C )\\\n");
-	output ("    {\\\n");
+	output ("#define\tCONS_ptr(A, B, C)\\\n");
+	output ("\t{\\\n");
 	g = gen (SIZE_PTR + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Pointer list deconstructor */
-	output ("#define UN_CONS_ptr( A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tUN_CONS_ptr(A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Pointer list destructor */
-	output ("#define DESTROY_CONS_ptr( D, A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) 2 ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_CONS_ptr(D, A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned)2);\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* Pointer stack constructor */
-		output ("#define PUSH_ptr( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_ptr(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
 		g = gen (SIZE_PTR + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* Pointer stack destructor */
-		output ("#define POP_ptr( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
-		output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) 2 ) ;\\\n");
-		output ("    }\n\n");
+		output ("#define\tPOP_ptr(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
+		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned)2);\\\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -781,94 +743,94 @@ print_list_c(void)
 	/* Lists */
 	char *g;
 	comment ("Definitions for lists");
-	output ("#define HEAD_list( A )%t40");
-	output ("( %s( A ) + 1 )\n", check_null);
-	output ("#define PTR_TAIL_list( A )%t40");
-	output ("( %s( A ) )\n", check_null);
-	output ("#define TAIL_list( A )%t40");
-	output ("( %s( A )->ag_ptr )\n", check_null);
+	output ("#define\tHEAD_list(A)%t40");
+	output ("(%s(A) + 1)\n", check_null);
+	output ("#define\tPTR_TAIL_list(A)%t40");
+	output ("(%s(A))\n", check_null);
+	output ("#define\tTAIL_list(A)%t40");
+	output ("(%s(A)->ag_ptr)\n", check_null);
 
-	output ("#define LENGTH_list( A )%t40length_%X_list ( ( A ) )\n");
-	output ("#define END_list( A )%t40end_%X_list ( ( A ) )\n");
-	output ("#define REVERSE_list( A )%t40reverse_%X_list ( ( A ) )\n");
-	output ("#define APPEND_list( A, B )%t40");
-	output ("append_%X_list ( ( A ), ( B ) )\n\n");
-	output ("#define SIZE_list( A )%t40%d\n", SIZE_LIST);
-	output ("#define NULL_list( A )%t40( ( %X * ) 0 )\n");
-	output ("#define IS_NULL_list( A )%t40( ( A ) == 0 )\n");
-	output ("#define EQ_list( A, B )%t40( ( A ) == ( B ) )\n");
+	output ("#define\tLENGTH_list(A)%t40length_%X_list ((A))\n");
+	output ("#define\tEND_list(A)%t40end_%X_list ((A))\n");
+	output ("#define\tREVERSE_list(A)%t40reverse_%X_list ((A))\n");
+	output ("#define\tAPPEND_list(A, B)%t40");
+	output ("append_%X_list ((A), (B))\n\n");
+	output ("#define\tSIZE_list(A)%t40%d\n", SIZE_LIST);
+	output ("#define\tNULL_list(A)%t40((%X *) 0)\n");
+	output ("#define\tIS_NULL_list(A)%t40((A) == 0)\n");
+	output ("#define\tEQ_list(A, B)%t40((A) == (B))\n");
 	g = gen (1, "list");
-	output ("#define UNIQ_list( A )%t40%e\n", g);
-	output ("#define DESTROY_UNIQ_list( A )%t40");
-	output ("destroy_%X ( ( A ), ( unsigned ) 1 )\n");
+	output ("#define\tUNIQ_list(A)%t40%e\n", g);
+	output ("#define\tDESTROY_UNIQ_list(A)%t40");
+	output ("destroy_%X ((A), (unsigned) 1)\n");
 	output ("#ifdef %X_IO_ROUTINES\n");
-	output ("#define VOIDSTAR_list( A )%t40( ( void * ) ( A ) )\n");
+	output ("#define\tVOIDSTAR_list(A)%t40((void *) (A))\n");
 	output ("#endif\n\n");
 
 	/* Destruction of lists */
-	output ("#define DESTROY_list( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\tdestroy_%X_list ( ( A ), ( unsigned ) ( B ) ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_list(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\tdestroy_%X_list ((A), (unsigned) (B));\\\n");
+	output ("\t}\n\n");
 
 	/* Assignment and dereference of lists */
-	output ("#define COPY_list( A, B )%t40");
-	output ("( %s( A )->ag_ptr = ( B ) )\n", check_null);
-	output ("#define DEREF_list( A )%t40");
-	output ("( %s( A )->ag_ptr )\n", check_null);
+	output ("#define\tCOPY_list(A, B)%t40");
+	output ("(%s(A)->ag_ptr = (B))\n", check_null);
+	output ("#define\tDEREF_list(A)%t40");
+	output ("(%s(A)->ag_ptr)\n", check_null);
 
 	/* List list constructor */
-	output ("#define CONS_list( A, B, C )\\\n");
-	output ("    {\\\n");
+	output ("#define\tCONS_list(A, B, C)\\\n");
+	output ("\t{\\\n");
 	g = gen (SIZE_LIST + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* List list deconstructor */
-	output ("#define UN_CONS_list( A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tUN_CONS_list(A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* List list destructor */
-	output ("#define DESTROY_CONS_list( D, A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) 2 ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_CONS_list(D, A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned) 2);\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* List stack constructor */
-		output ("#define PUSH_list( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_list(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t%X **r%u_ = &(B);\\\n");
 		g = gen (SIZE_LIST + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* List stack destructor */
-		output ("#define POP_list( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
-		output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) 2 ) ;\\\n");
-		output ("    }\n\n");
+		output ("#define\tPOP_list(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
+		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -889,70 +851,70 @@ print_stack_c(void)
 	/* Stacks */
 	char *g;
 	comment ("Definitions for stacks");
-	output ("#define SIZE_stack( A )%t40%d\n", SIZE_STACK);
-	output ("#define NULL_stack( A )%t40( ( %X * ) 0 )\n");
-	output ("#define IS_NULL_stack( A )%t40( ( A ) == 0 )\n");
-	output ("#define STACK_list( A )%t40( A )\n");
-	output ("#define LIST_stack( A )%t40( A )\n\n");
+	output ("#define\tSIZE_stack(A)%t40%d\n", SIZE_STACK);
+	output ("#define\tNULL_stack(A)%t40((%X *) 0)\n");
+	output ("#define\tIS_NULL_stack(A)%t40((A) == 0)\n");
+	output ("#define\tSTACK_list(A)%t40(A)\n");
+	output ("#define\tLIST_stack(A)%t40(A)\n\n");
 
 	/* Assignment and dereference of stacks */
-	output ("#define COPY_stack( A, B )%t40");
-	output ("( %s( A )->ag_ptr = ( B ) )\n", check_null);
-	output ("#define DEREF_stack( A )%t40");
-	output ("( %s( A )->ag_ptr )\n", check_null);
+	output ("#define\tCOPY_stack(A, B)%t40");
+	output ("(%s(A)->ag_ptr = (B))\n", check_null);
+	output ("#define\tDEREF_stack(A)%t40");
+	output ("(%s(A)->ag_ptr)\n", check_null);
 
 	/* Stack list constructor */
-	output ("#define CONS_stack( A, B, C )\\\n");
-	output ("    {\\\n");
+	output ("#define\tCONS_stack(A, B, C)\\\n");
+	output ("\t{\\\n");
 	g = gen (SIZE_STACK + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Stack list deconstructor */
-	output ("#define UN_CONS_stack( A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tUN_CONS_stack(A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Stack list destructor */
-	output ("#define DESTROY_CONS_stack( D, A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) 2 ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_CONS_stack(D, A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned) 2);\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* Stack stack constructor */
-		output ("#define PUSH_stack( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_stack(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t%X **r%u_ = &(B);\\\n");
 		g = gen (SIZE_STACK + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\tx%u_ [1].ag_ptr = ( A ) ;\\\n");
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\tx%u_[1].ag_ptr = (A);\\\n");
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* Stack stack destructor */
-		output ("#define POP_stack( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
-		output ("\t( A ) = x%u_ [1].ag_ptr ;\\\n");
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) 2 ) ;\\\n");
-		output ("    }\n\n");
+		output ("#define\tPOP_stack(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
+		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -973,150 +935,150 @@ print_vec_c(void)
 	/* Vectors */
 	char *g;
 	comment ("Definitions for vectors");
-	output ("#define DIM_vec( A )%t40( ( A ).dim )\n");
-	output ("#define PTR_ptr_vec( A )%t40");
-	output ("( %s( A ) [2].ag_ptr )\n", check_null);
-	output ("#define DIM_ptr_vec( A )%t40( ( A )->ag_dim )\n");
-	output ("#define SIZE_vec( A )%t40%d\n", SIZE_VEC);
-	output ("#define NULL_vec( A )%t40empty_%X_vec\n\n");
+	output ("#define\tDIM_vec(A)%t40((A).dim)\n");
+	output ("#define\tPTR_ptr_vec(A)%t40");
+	output ("(%s(A)[2].ag_ptr)\n", check_null);
+	output ("#define\tDIM_ptr_vec(A)%t40((A)->ag_dim)\n");
+	output ("#define\tSIZE_vec(A)%t40%d\n", SIZE_VEC);
+	output ("#define\tNULL_vec(A)%t40empty_%X_vec\n\n");
 
 	/* Vector creation */
-	output ("#define MAKE_vec( SZ, U, RES )\\\n");
-	output ("    {\\\n");
-	output ("\t%X_VEC x%u_ ;\\\n");
-	output ("\t%X_dim u%u_ = ( U ) ;\\\n");
-	output ("\tx%u_.dim = u%u_ ;\\\n");
-	output ("\tif ( u%u_ == 0 ) u%u_ = 1 ;\\\n");
-	output ("\tx%u_.elems.ptr = ");
-	output ("GEN_%X ( ( SZ ) * u%u_, TYPEID_ptr ) ;\\\n");
-	output ("\tx%u_.elems.vec = x%u_.elems.ptr ;\\\n");
-	output ("\t( RES ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tMAKE_vec(SZ, U, RES)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X_VEC x%u_;\\\n");
+	output ("\t\t%X_dim u%u_ = (U);\\\n");
+	output ("\t\tx%u_.dim = u%u_;\\\n");
+	output ("\t\tif (u%u_ == 0) u%u_ = 1;\\\n");
+	output ("\t\tx%u_.elems.ptr = ");
+	output ("GEN_%X ((SZ) * u%u_, TYPEID_ptr);\\\n");
+	output ("\t\tx%u_.elems.vec = x%u_.elems.ptr;\\\n");
+	output ("\t\t(RES) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector destroyer */
-	output ("#define DESTROY_vec( V, SZ )\\\n");
-	output ("    {\\\n");
-	output ("\t%X_VEC x%u_ ;\\\n");
-	output ("\tx%u_ = ( V ) ;\\\n");
-	output ("\tdestroy_%X ( x%u_.elems.ptr, ");
-	output ("( unsigned ) ( ( SZ ) * x%u_.dim ) ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_vec(V, SZ)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X_VEC x%u_;\\\n");
+	output ("\t\tx%u_ = (V);\\\n");
+	output ("\t\tdestroy_%X (x%u_.elems.ptr, ");
+	output ("(unsigned) ((SZ) * x%u_.dim));\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector trimmer */
-	output ("#define TRIM_vec( V, SZ, L, U, RES )\\\n");
-	output ("    {\\\n");
-	output ("\t%X_VEC x%u_ ;\\\n");
+	output ("#define\tTRIM_vec(V, SZ, L, U, RES)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X_VEC x%u_;\\\n");
 	if (extra_asserts) {
-		output ("\tint u%u_, l%u_ ;\\\n");
-		output ("\tx%u_ = ( V ) ;\\\n");
-		output ("\tu%u_ = CHECK_INT ( ( U ), DIM_vec ( x%u_ ) ) ;\\\n");
-		output ("\tl%u_ = CHECK_INT ( ( L ), u%u_ ) ;\\\n");
-		output ("\tx%u_.elems.ptr += ( ( SZ ) * l%u_ ) ;\\\n");
-		output ("\tx%u_.dim = ( unsigned ) ( u%u_ - l%u_ ) ;\\\n");
+		output ("\t\tint u%u_, l%u_;\\\n");
+		output ("\t\tx%u_ = (V);\\\n");
+		output ("\t\tu%u_ = CHECK_INT ((U), DIM_vec (x%u_));\\\n");
+		output ("\t\tl%u_ = CHECK_INT ((L), u%u_);\\\n");
+		output ("\t\tx%u_.elems.ptr += ((SZ) * l%u_);\\\n");
+		output ("\t\tx%u_.dim = (unsigned) (u%u_ - l%u_);\\\n");
 	} else {
-		output ("\tint l%u_ = ( L ) ;\\\n");
-		output ("\tx%u_ = ( V ) ;\\\n");
-		output ("\tx%u_.elems.ptr += ( ( SZ ) * l%u_ ) ;\\\n");
-		output ("\tx%u_.dim = ( unsigned ) ( ( U ) - l%u_ ) ;\\\n");
+		output ("\t\tint l%u_ = (L);\\\n");
+		output ("\t\tx%u_ = (V);\\\n");
+		output ("\t\tx%u_.elems.ptr += ((SZ) * l%u_);\\\n");
+		output ("\t\tx%u_.dim = (unsigned) ((U) - l%u_);\\\n");
 	}
-	output ("\t( RES ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t(RES) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector assignment */
-	output ("#define COPY_vec( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%X_VEC y%u_ ;\\\n");
-	output ("\ty%u_ = ( B ) ;\\\n");
-	output ("\tx%u_ [0].ag_dim = y%u_.dim ;\\\n");
-	output ("\tx%u_ [1].ag_ptr = y%u_.elems.vec ;\\\n");
-	output ("\tx%u_ [2].ag_ptr = y%u_.elems.ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tCOPY_vec(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%X_VEC y%u_;\\\n");
+	output ("\t\ty%u_ = (B);\\\n");
+	output ("\t\tx%u_[0].ag_dim = y%u_.dim;\\\n");
+	output ("\t\tx%u_[1].ag_ptr = y%u_.elems.vec;\\\n");
+	output ("\t\tx%u_[2].ag_ptr = y%u_.elems.ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector dereference */
-	output ("#define DEREF_vec( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%X_VEC *y%u_ = &( B ) ;\\\n");
-	output ("\ty%u_->dim = x%u_ [0].ag_dim ;\\\n");
-	output ("\ty%u_->elems.vec = x%u_ [1].ag_ptr ;\\\n");
-	output ("\ty%u_->elems.ptr = x%u_ [2].ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDEREF_vec(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%X_VEC *y%u_ = &(B);\\\n");
+	output ("\t\ty%u_->dim = x%u_[0].ag_dim;\\\n");
+	output ("\t\ty%u_->elems.vec = x%u_[1].ag_ptr;\\\n");
+	output ("\t\ty%u_->elems.ptr = x%u_[2].ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector list constructor */
-	output ("#define CONS_vec( A, B, C )\\\n");
-	output ("    {\\\n");
+	output ("#define\tCONS_vec(A, B, C)\\\n");
+	output ("\t{\\\n");
 	g = gen (SIZE_VEC + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\t%X_VEC y%u_ ;\\\n");
-	output ("\ty%u_ = ( A ) ;\\\n");
-	output ("\tx%u_ [1].ag_dim = y%u_.dim ;\\\n");
-	output ("\tx%u_ [2].ag_ptr = y%u_.elems.vec ;\\\n");
-	output ("\tx%u_ [3].ag_ptr = y%u_.elems.ptr ;\\\n");
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\t%X_VEC y%u_;\\\n");
+	output ("\t\ty%u_ = (A);\\\n");
+	output ("\t\tx%u_[1].ag_dim = y%u_.dim;\\\n");
+	output ("\t\tx%u_[2].ag_ptr = y%u_.elems.vec;\\\n");
+	output ("\t\tx%u_[3].ag_ptr = y%u_.elems.ptr;\\\n");
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector list deconstructor */
-	output ("#define UN_CONS_vec( A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t%X_VEC *y%u_ = &( A ) ;\\\n");
-	output ("\ty%u_->dim = x%u_ [1].ag_dim ;\\\n");
-	output ("\ty%u_->elems.vec = x%u_ [2].ag_ptr ;\\\n");
-	output ("\ty%u_->elems.ptr = x%u_ [3].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tUN_CONS_vec(A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t%X_VEC *y%u_ = &(A);\\\n");
+	output ("\t\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+	output ("\t\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+	output ("\t\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector list destructor */
-	output ("#define DESTROY_CONS_vec( D, A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t%X_VEC *y%u_ = &( A ) ;\\\n");
-	output ("\ty%u_->dim = x%u_ [1].ag_dim ;\\\n");
-	output ("\ty%u_->elems.vec = x%u_ [2].ag_ptr ;\\\n");
-	output ("\ty%u_->elems.ptr = x%u_ [3].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) 4 ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_CONS_vec(D, A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t%X_VEC *y%u_ = &(A);\\\n");
+	output ("\t\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+	output ("\t\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+	output ("\t\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned) 4);\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* Vector stack constructor */
-		output ("#define PUSH_vec( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_vec(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
 		g = gen (SIZE_VEC + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\t%X_VEC y%u_ ;\\\n");
-		output ("\ty%u_ = ( A ) ;\\\n");
-		output ("\tx%u_ [1].ag_dim = y%u_.dim ;\\\n");
-		output ("\tx%u_ [2].ag_ptr = y%u_.elems.vec ;\\\n");
-		output ("\tx%u_ [3].ag_ptr = y%u_.elems.ptr ;\\\n");
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\t%X_VEC y%u_;\\\n");
+		output ("\t\ty%u_ = (A);\\\n");
+		output ("\t\tx%u_[1].ag_dim = y%u_.dim;\\\n");
+		output ("\t\tx%u_[2].ag_ptr = y%u_.elems.vec;\\\n");
+		output ("\t\tx%u_[3].ag_ptr = y%u_.elems.ptr;\\\n");
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* Vector stack destructor */
-		output ("#define POP_vec( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
-		output ("\t%X_VEC *y%u_ = &( A ) ;\\\n");
-		output ("\ty%u_->dim = x%u_ [1].ag_dim ;\\\n");
-		output ("\ty%u_->elems.vec = x%u_ [2].ag_ptr ;\\\n");
-		output ("\ty%u_->elems.ptr = x%u_ [3].ag_ptr ;\\\n");
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) 4 ) ;\\\n");
-		output ("    }\n\n");
+		output ("#define\tPOP_vec(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
+		output ("\t\t%X_VEC *y%u_ = &(A);\\\n");
+		output ("\t\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+		output ("\t\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+		output ("\t\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned) 4);\\\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -1137,95 +1099,95 @@ print_vec_ptr_c(void)
 	/* Vector pointers */
 	char *g;
 	comment ("Definitions for vector pointers");
-	output ("#define VEC_PTR_vec( A )%t40( ( A ).elems )\n");
-	output ("#define PTR_vec_ptr( A )%t40( ( A ).ptr )\n");
-	output ("#define SIZE_vec_ptr( A )%t40%d\n\n", SIZE_VEC_PTR);
+	output ("#define\tVEC_PTR_vec(A)%t40((A).elems)\n");
+	output ("#define\tPTR_vec_ptr(A)%t40((A).ptr)\n");
+	output ("#define\tSIZE_vec_ptr(A)%t40%d\n\n", SIZE_VEC_PTR);
 
 	/* Vector pointer assignment */
-	output ("#define COPY_vec_ptr( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%X_VEC_PTR y%u_ ;\\\n");
-	output ("\ty%u_ = ( B ) ;\\\n");
-	output ("\tx%u_->ag_ptr = y%u_.vec ;\\\n");
-	output ("\tx%u_ [1].ag_ptr = y%u_.ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tCOPY_vec_ptr(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%X_VEC_PTR y%u_;\\\n");
+	output ("\t\ty%u_ = (B);\\\n");
+	output ("\t\tx%u_->ag_ptr = y%u_.vec;\\\n");
+	output ("\t\tx%u_[1].ag_ptr = y%u_.ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector pointer dereference */
-	output ("#define DEREF_vec_ptr( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%X_VEC_PTR *y%u_ = &( B ) ;\\\n");
-	output ("\ty%u_->vec = x%u_->ag_ptr ;\\\n");
-	output ("\ty%u_->ptr = x%u_ [1].ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDEREF_vec_ptr(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%X_VEC_PTR *y%u_ = &(B);\\\n");
+	output ("\t\ty%u_->vec = x%u_->ag_ptr;\\\n");
+	output ("\t\ty%u_->ptr = x%u_[1].ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector pointer list constructor */
-	output ("#define CONS_vec_ptr( A, B, C )\\\n");
-	output ("    {\\\n");
+	output ("#define\tCONS_vec_ptr(A, B, C)\\\n");
+	output ("\t{\\\n");
 	g = gen (SIZE_VEC_PTR + 1, "list");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
-	output ("\t%X_VEC_PTR y%u_ ;\\\n");
-	output ("\ty%u_ = ( A ) ;\\\n");
-	output ("\tx%u_ [1].ag_ptr = y%u_.vec ;\\\n");
-	output ("\tx%u_ [2].ag_ptr = y%u_.ptr ;\\\n");
-	output ("\tx%u_->ag_ptr = ( B ) ;\\\n");
-	output ("\t( C ) = x%u_ ;\\\n");
-	output ("    }\n\n");
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
+	output ("\t\t%X_VEC_PTR y%u_;\\\n");
+	output ("\t\ty%u_ = (A);\\\n");
+	output ("\t\tx%u_[1].ag_ptr = y%u_.vec;\\\n");
+	output ("\t\tx%u_[2].ag_ptr = y%u_.ptr;\\\n");
+	output ("\t\tx%u_->ag_ptr = (B);\\\n");
+	output ("\t\t(C) = x%u_;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector pointer list deconstructor */
-	output ("#define UN_CONS_vec_ptr( A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t%X_VEC_PTR *y%u_ = &( A ) ;\\\n");
-	output ("\ty%u_->vec = x%u_ [1].ag_ptr ;\\\n");
-	output ("\ty%u_->ptr = x%u_ [2].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tUN_CONS_vec_ptr(A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t%X_VEC_PTR *y%u_ = &(A);\\\n");
+	output ("\t\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+	output ("\t\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Vector pointer list destructor */
-	output ("#define DESTROY_CONS_vec_ptr( D, A, B, C )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( C ) ;\\\n", check_null);
-	output ("\t%X_VEC_PTR *y%u_ = &( A ) ;\\\n");
-	output ("\ty%u_->vec = x%u_ [1].ag_ptr ;\\\n");
-	output ("\ty%u_->ptr = x%u_ [2].ag_ptr ;\\\n");
-	output ("\t( B ) = x%u_->ag_ptr ;\\\n");
-	output ("\t( D ) ( x%u_, ( unsigned ) 3 ) ;\\\n");
-	output ("    }\n\n");
+	output ("#define\tDESTROY_CONS_vec_ptr(D, A, B, C)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
+	output ("\t\t%X_VEC_PTR *y%u_ = &(A);\\\n");
+	output ("\t\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+	output ("\t\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
+	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
+	output ("\t\t(D) (x%u_, (unsigned) 3);\\\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (allow_stack) {
 		/* Vector stack constructor */
-		output ("#define PUSH_vec_ptr( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
+		output ("#define\tPUSH_vec_ptr(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
 		g = gen (SIZE_VEC_PTR + 1, "stack");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\t%X_VEC_PTR y%u_ ;\\\n");
-		output ("\ty%u_ = ( A ) ;\\\n");
-		output ("\tx%u_ [1].ag_ptr = y%u_.vec ;\\\n");
-		output ("\tx%u_ [2].ag_ptr = y%u_.ptr ;\\\n");
-		output ("\tx%u_->ag_ptr = *r%u_ ;\\\n");
-		output ("\t*r%u_ = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\t%X_VEC_PTR y%u_;\\\n");
+		output ("\t\ty%u_ = (A);\\\n");
+		output ("\t\tx%u_[1].ag_ptr = y%u_.vec;\\\n");
+		output ("\t\tx%u_[2].ag_ptr = y%u_.ptr;\\\n");
+		output ("\t\tx%u_->ag_ptr = *r%u_;\\\n");
+		output ("\t\t*r%u_ = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
 		/* Vector stack destructor */
-		output ("#define POP_vec_ptr( A, B )\\\n");
-		output ("    {\\\n");
-		output ("\t%X **r%u_ = &( B ) ;\\\n");
-		output ("\t%X *x%u_ = %s( *r%u_ ) ;\\\n", check_null);
-		output ("\t%X_VEC *y%u_ = &( A ) ;\\\n");
-		output ("\ty%u_->vec = x%u_ [1].ag_ptr ;\\\n");
-		output ("\ty%u_->ptr = x%u_ [2].ag_ptr ;\\\n");
-		output ("\t*r%u_ = x%u_->ag_ptr ;\\\n");
-		output ("\tdestroy_%X ( x%u_, ( unsigned ) 3 ) ;\\\n");
-		output ("    }\n\n");
+		output ("#define\tPOP_vec_ptr(A, B)\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X **r%u_ = &(B);\\\n");
+		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
+		output ("\t\t%X_VEC *y%u_ = &(A);\\\n");
+		output ("\t\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+		output ("\t\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
+		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
+		output ("\t\tdestroy_%X (x%u_, (unsigned) 3);\\\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
@@ -1244,7 +1206,7 @@ static void
 print_size_c(void)
 {
 	comment ("Definitions for sizes");
-	output ("#define SCALE( A, B )%t40( ( A ) * ( int ) ( B ) )\n\n\n");
+	output ("#define\tSCALE(A, B)%t40((A) * (int) (B))\n\n\n");
 	return;
 }
 
@@ -1259,11 +1221,11 @@ static void
 print_prim_c(void)
 {
 	comment ("Definitions for primitive %PN");
-	output ("#define SIZE_%PM%t40%d\n\n", SIZE_PRIM);
-	output ("#define COPY_%PM( A, B )%t40");
-	output ("( %s( A )->ag_prim_%PM = ( B ) )\n", check_null);
-	output ("#define DEREF_%PM( A )%t40");
-	output ("( %s( A )->ag_prim_%PM )\n", check_null);
+	output ("#define\tSIZE_%PM%t40%d\n\n", SIZE_PRIM);
+	output ("#define\tCOPY_%PM(A, B)%t40");
+	output ("(%s(A)->ag_prim_%PM = (B))\n", check_null);
+	output ("#define\tDEREF_%PM(A)%t40");
+	output ("(%s(A)->ag_prim_%PM)\n", check_null);
 	print_simple_cons ("%PM", SIZE_PRIM, 1);
 	return;
 }
@@ -1281,12 +1243,12 @@ print_enum_consts(void)
 	number n = DEREF_number (en_order (CRT_ENUM));
 	if (n > (number) 0x10000) {
 		output ("#ifdef __STDC__\n");
-		LOOP_ENUM_CONST output ("#define %EM_%ES%t40( ( %EN ) %EVUL )\n");
-		output ("#define ORDER_%EM%t40( %EOUL )\n");
+		LOOP_ENUM_CONST output ("#define\t%EM_%ES%t40((%EN) %EVUL)\n");
+		output ("#define\tORDER_%EM%t40(%EOUL)\n");
 		output ("#else\n");
 	}
-	LOOP_ENUM_CONST output ("#define %EM_%ES%t40( ( %EN ) %EV )\n");
-	output ("#define ORDER_%EM%t40( ( unsigned long ) %EO )\n");
+	LOOP_ENUM_CONST output ("#define\t%EM_%ES%t40((%EN) %EV)\n");
+	output ("#define\tORDER_%EM%t40((unsigned long) %EO)\n");
 	if (n > (number) 0x10000) {
 		output ("#endif\n");
 	}
@@ -1308,11 +1270,11 @@ print_enum_c(void)
 	if (n > (number) 0x10000) fld = "ag_long_enum";
 	comment ("Definitions for enumeration %EN");
 	print_enum_consts ();
-	output ("#define SIZE_%EM%t40%d\n\n", SIZE_ENUM);
-	output ("#define COPY_%EM( A, B )%t40");
-	output ("( %s( A )->%s = ( B ) )\n", check_null, fld);
-	output ("#define DEREF_%EM( A )%t40");
-	output ("( %s( A )->%s )\n", check_null, fld);
+	output ("#define\tSIZE_%EM%t40%d\n\n", SIZE_ENUM);
+	output ("#define\tCOPY_%EM(A, B)%t40");
+	output ("(%s(A)->%s = (B))\n", check_null, fld);
+	output ("#define\tDEREF_%EM(A)%t40");
+	output ("(%s(A)->%s)\n", check_null, fld);
 	if (DEREF_int (en_lists (CRT_ENUM))) {
 		print_simple_cons ("%EM", SIZE_ENUM, 1);
 	} else {
@@ -1339,59 +1301,59 @@ print_struct_c(void)
 	comment ("Definitions for structure %SN");
 	LOOP_STRUCTURE_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-		output ("#define %SM_%CN( P )%t40");
-		output ("( ( P ) + %d )\n", sz);
+		output ("#define\t%SM_%CN(P)%t40");
+		output ("((P) + %d)\n", sz);
 		sz += size_type (ct, 0);
 	}
-	output ("#define SIZE_%SM%t40%d\n\n", sz);
+	output ("#define\tSIZE_%SM%t40%d\n\n", sz);
 
-	output ("#define COPY_%SM( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%SN y%u_ ;\\\n");
-	output ("\ty%u_ = ( B ) ;\\\n");
+	output ("#define\tCOPY_%SM(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%SN y%u_;\\\n");
+	output ("\t\ty%u_ = (B);\\\n");
 	posn = 0;
 	LOOP_STRUCTURE_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		posn = assign_component (ct, posn, "y%u_.%CN", 0);
 	}
-	output ("    }\n\n");
+	output ("\t}\n\n");
 	unique++;
 
-	output ("#define DEREF_%SM( A, B )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( A ) ;\\\n", check_null);
-	output ("\t%SN *y%u_ = &( B ) ;\\\n");
+	output ("#define\tDEREF_%SM(A, B)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(A);\\\n", check_null);
+	output ("\t\t%SN *y%u_ = &(B);\\\n");
 	posn = 0;
 	LOOP_STRUCTURE_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		posn = deref_component (ct, posn, "y%u_->%CN", 0);
 	}
-	output ("    }\n\n");
+	output ("\t}\n\n");
 	unique++;
 
-	output ("#define MAKE_%SM( ");
+	output ("#define\tMAKE_%SM(");
 	LOOP_STRUCTURE_COMPONENT {
 		string v = DEREF_string (cmp_value (CRT_COMPONENT));
 		if (v == NULL) output ("%CN_, ");
 	}
-	output ("%SM_ )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = %s( %SM_ ) ;\\\n", check_null);
+	output ("%SM_)\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = %s(%SM_);\\\n", check_null);
 	posn = 0;
 	LOOP_STRUCTURE_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		string v = DEREF_string (cmp_value (CRT_COMPONENT));
-		if (v == NULL) v = "( %CN_ )";
+		if (v == NULL) v = "(%CN_)";
 		posn = assign_component (ct, posn, v, 0);
 	}
-	output ("    }\n\n");
+	output ("\t}\n\n");
 	unique++;
 
 	if (!IS_NULL_ptr (base)) {
 		CLASS_ID_P id = DEREF_ptr (str_id (base));
 		char *nm = DEREF_string (cid_name_aux (id));
-		output ("#define CONVERT_%SM_%s( P )%t40( P )\n\n", nm);
+		output ("#define\tCONVERT_%SM_%s(P)%t40(P)\n\n", nm);
 	}
 
 	print_simple_cons ("%SM", sz, 0);
@@ -1411,20 +1373,20 @@ print_union_c(void)
 	UNION_P base = DEREF_ptr (un_base (CRT_UNION));
 
 	comment ("Definitions for union %UN");
-	output ("#define ORDER_%UM%t40( ( unsigned ) %UO )\n");
-	output ("#define SIZE_%UM%t40%d\n", SIZE_UNION);
-	output ("#define NULL_%UM%t40( ( %UN ) 0 )\n");
-	output ("#define IS_NULL_%UM( A )%t40( ( A ) == 0 )\n");
-	output ("#define EQ_%UM( A, B )%t40( ( A ) == ( B ) )\n\n");
-	output ("#define COPY_%UM( A, B )%t40");
-	output ("( %s( A )->ag_ptr = ( B ) )\n", check_null);
-	output ("#define DEREF_%UM( A )%t40");
-	output ("( %s( A )->ag_ptr )\n\n", check_null);
+	output ("#define\tORDER_%UM%t40((unsigned) %UO)\n");
+	output ("#define\tSIZE_%UM%t40%d\n", SIZE_UNION);
+	output ("#define\tNULL_%UM%t40((%UN) 0)\n");
+	output ("#define\tIS_NULL_%UM(A)%t40((A) == 0)\n");
+	output ("#define\tEQ_%UM(A, B)%t40((A) == (B))\n\n");
+	output ("#define\tCOPY_%UM(A, B)%t40");
+	output ("(%s(A)->ag_ptr = (B))\n", check_null);
+	output ("#define\tDEREF_%UM(A)%t40");
+	output ("(%s(A)->ag_ptr)\n\n", check_null);
 
 	if (!IS_NULL_ptr (base)) {
 		CLASS_ID_P id = DEREF_ptr (un_id (base));
 		char *nm = DEREF_string (cid_name_aux (id));
-		output ("#define CONVERT_%UM_%s( P )%t40( P )\n\n", nm);
+		output ("#define\tCONVERT_%UM_%s(P)%t40(P)\n\n", nm);
 	}
 
 	print_simple_cons ("%UM", SIZE_UNION, 1);
@@ -1446,13 +1408,12 @@ print_main_c(void)
 		output ("#include \"%s_bscs.h\"\n\n", MAIN_PREFIX);
 	}
 	output ("#ifndef %X_NAME\n");
-	output ("#define %X_NAME%t40\"%X\"\n");
-	output ("#define %X_VERSION%t40\"%V\"\n");
-	output ("#define %X_SPECIFICATION%t40%d\n", 0);
-	output ("#define %X_IMPLEMENTATION%t40%d\n", 1);
+	output ("#define\t%X_NAME%t40\"%X\"\n");
+	output ("#define\t%X_VERSION%t40\"%V\"\n");
+	output ("#define\t%X_SPECIFICATION%t40%d\n", 0);
+	output ("#define\t%X_IMPLEMENTATION%t40%d\n", 1);
 	output ("#endif\n\n\n");
 
-	print_proto ();
 	print_types_c ();
 	print_ptr_c ();
 	print_list_c ();
@@ -1538,165 +1499,165 @@ print_field_c(int sz, int tag, int rng, int al)
 
 	LOOP_FIELD_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-		output ("#define %UM_%e_%CN( P )%t40", f);
+		output ("#define\t%UM_%e_%CN(P)%t40", f);
 		if (extra_asserts && tag != -1) {
 			if (rng) {
-				output ("( CHECK_TAG_ETC ( ( P ), %d, %d ) + %d )\n",
+				output ("(CHECK_TAG_ETC ((P), %d, %d) + %d)\n",
 				  tag, tag + rng, sz);
 			} else {
-				output ("( CHECK_TAG ( ( P ), %d ) + %d )\n", tag, sz);
+				output ("(CHECK_TAG ((P), %d) + %d)\n", tag, sz);
 			}
 		} else {
-			output ("( ( P ) + %d )\n", sz);
+			output ("((P) + %d)\n", sz);
 		}
 		sz += size_type (ct, 0);
 	}
 
 	/* Component constructor */
-	output ("\n#define MAKE_%UM_%e( ", f);
+	output ("\n#define MAKE_%UM_%e(", f);
 	if (rng) output ("tag, ");
 	print_cons_args (1, "_");
-	output (" )\\\n");
-	output ("    {\\\n");
+	output (")\\\n");
+	output ("\t{\\\n");
 	g = gen (sz + al, "%UM");
-	output ("\t%X *x%u_ = %e ;\\\n", g);
+	output ("\t\t%X *x%u_ = %e;\\\n", g);
 	if (tag != -1) {
 		if (rng) {
-			output ("\tx%u_->ag_tag = ( tag ) ;\\\n");
+			output ("\t\tx%u_->ag_tag = (tag);\\\n");
 		} else {
-			output ("\tx%u_->ag_tag = %d ;\\\n", tag);
+			output ("\t\tx%u_->ag_tag = %d;\\\n", tag);
 		}
 		posn = 1;
 	}
 	LOOP_UNION_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		string v = DEREF_string (cmp_value (CRT_COMPONENT));
-		if (v == NULL) v = "( %CN_ )";
+		if (v == NULL) v = "(%CN_)";
 		posn = assign_component (ct, posn, v, 0);
 	}
 	LOOP_FIELD_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		string v = DEREF_string (cmp_value (CRT_COMPONENT));
-		if (v == NULL) v = "( %CN_ )";
+		if (v == NULL) v = "(%CN_)";
 		posn = assign_component (ct, posn, v, 0);
 	}
-	if (al) output ("\tx%u_ [%d].ag_tag = 0 ;\\\n", sz);
+	if (al) output ("\tx%u_[%d].ag_tag = 0;\\\n", sz);
 	if (rng && extra_asserts) {
-		output ("\t( %X_%UM ) = CHECK_TAG_ETC ( x%u_, %d, %d ) ;\\\n",
+		output ("\t(%X_%UM) = CHECK_TAG_ETC (x%u_, %d, %d);\\\n",
 		  tag, tag + rng);
 	} else {
-		output ("\t( %X_%UM ) = x%u_ ;\\\n");
+		output ("\t(%X_%UM) = x%u_;\\\n");
 	}
-	output ("    }\n\n");
+	output ("\t}\n\n");
 	unique++;
 
 	/* Tag modifier */
 	if (rng) {
-		output ("#define MODIFY_%UM_%e( tag, %X_%UM )\\\n", f);
-		output ("    {\\\n");
+		output ("#define\tMODIFY_%UM_%e(tag, %X_%UM)\\\n", f);
+		output ("\t{\\\n");
 		if (extra_asserts) {
-			output ("\t%X *x%u_ = CHECK_TAG_ETC");
-			output (" ( ( %X_%UM ), %d, %d ) ;\\\n", tag, tag + rng);
-			output ("\tx%u_->ag_tag = ( tag ) ;\\\n");
-			output ("\t( void ) CHECK_TAG_ETC");
-			output (" ( x%u_, %d, %d ) ;\\\n", tag, tag + rng);
+			output ("\t\t%X *x%u_ = CHECK_TAG_ETC");
+			output (" ((%X_%UM), %d, %d);\\\n", tag, tag + rng);
+			output ("\t\tx%u_->ag_tag = (tag);\\\n");
+			output ("\t\t(void) CHECK_TAG_ETC");
+			output (" (x%u_, %d, %d);\\\n", tag, tag + rng);
 		} else {
-			output ("\t( %X_%UM )->ag_tag = ( tag ) ;\\\n");
+			output ("\t\t(%X_%UM)->ag_tag = (tag);\\\n");
 		}
-		output ("    }\n\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
 	/* Component deconstructor */
 	if (field_not_empty ()) {
-		output ("#define DECONS_%UM_%e( ", f);
+		output ("#define\tDECONS_%UM_%e(", f);
 		print_cons_args (0, "_");
-		output (" )\\\n");
-		output ("    {\\\n");
-		output ("\t%X *x%u_ = ");
+		output (")\\\n");
+		output ("\t{\\\n");
+		output ("\t\t%X *x%u_ = ");
 		if (tag != -1) {
 			if (extra_asserts) {
 				if (rng) {
-					output ("CHECK_TAG_ETC ( ( %X_%UM ), %d, %d ) ;\\\n",
+					output ("CHECK_TAG_ETC ((%X_%UM), %d, %d);\\\n",
 					  tag, tag + rng);
 				} else {
-					output ("CHECK_TAG ( ( %X_%UM ), %d ) ;\\\n", tag);
+					output ("CHECK_TAG ((%X_%UM), %d);\\\n", tag);
 				}
 			} else {
-				output ("( %X_%UM ) ;\\\n");
+				output ("(%X_%UM);\\\n");
 			}
 			posn = 1;
 		} else {
-			output ("( %X_%UM ) ;\\\n");
+			output ("(%X_%UM);\\\n");
 			posn = 0;
 		}
 		LOOP_UNION_COMPONENT {
 			TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-			posn = deref_component (ct, posn, "( %CN_ )", 0);
+			posn = deref_component (ct, posn, "(%CN_)", 0);
 		}
 		LOOP_FIELD_COMPONENT {
 			TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-			posn = deref_component (ct, posn, "( %CN_ )", 0);
+			posn = deref_component (ct, posn, "(%CN_)", 0);
 		}
-		output ("    }\n\n");
+		output ("\t}\n\n");
 		unique++;
 	}
 
 	/* Component destructor */
-	output ("#define DESTROY_%UM_%e( destroyer_, ", f);
+	output ("#define\tDESTROY_%UM_%e(destroyer_, ", f);
 	print_cons_args (0, "_");
-	output (" )\\\n");
-	output ("    {\\\n");
-	output ("\t%X *x%u_ = ");
+	output (")\\\n");
+	output ("\t{\\\n");
+	output ("\t\t%X *x%u_ = ");
 	if (tag != -1) {
 		if (extra_asserts) {
 			if (rng) {
-				output ("CHECK_TAG_ETC ( ( %X_%UM ), %d, %d ) ;\\\n",
+				output ("CHECK_TAG_ETC ((%X_%UM), %d, %d);\\\n",
 				  tag, tag + rng);
 			} else {
-				output ("CHECK_TAG ( ( %X_%UM ), %d ) ;\\\n", tag);
+				output ("CHECK_TAG ((%X_%UM), %d);\\\n", tag);
 			}
 		} else {
-			output ("( %X_%UM ) ;\\\n");
+			output ("(%X_%UM);\\\n");
 		}
 		posn = 1;
 	} else {
-		output ("( %X_%UM ) ;\\\n");
+		output ("(%X_%UM);\\\n");
 		posn = 0;
 	}
 	LOOP_UNION_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-		posn = deref_component (ct, posn, "( %CN_ )", 0);
+		posn = deref_component (ct, posn, "(%CN_)", 0);
 	}
 	LOOP_FIELD_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
-		posn = deref_component (ct, posn, "( %CN_ )", 0);
+		posn = deref_component (ct, posn, "(%CN_)", 0);
 	}
-	output ("\t( destroyer_ ) ( x%u_, ( unsigned ) %d ) ;\\\n", sz + al);
-	output ("    }\n\n");
+	output ("\t\t(destroyer_) (x%u_, (unsigned) %d);\\\n", sz + al);
+	output ("\t}\n\n");
 	unique++;
 
 	/* Aliasing commands */
 	if (al && !rng) {
 		output ("#ifdef %X_IO_ROUTINES\n\n");
-		output ("#define NEW_ALIAS_%UM_%FN( P, N )\\\n");
-		output ("    {\\\n");
+		output ("#define\tNEW_ALIAS_%UM_%FN(P, N)\\\n");
+		output ("\t{\\\n");
 		g = gen (sz + al, "list");
-		output ("\t%X *x%u_ = %e ;\\\n", g);
-		output ("\tunsigned a%u_ = ( N ) ;\\\n");
-		if (tag != -1) output ("\tx%u_->ag_tag = %d ;\\\n", tag);
-		output ("\tx%u_ [%d].ag_tag = a%u_ ;\\\n", sz);
-		output ("\tset_%X_alias ( x%u_ + %d, a%u_ ) ;\\\n", sz);
-		output ("\t( P ) = x%u_ ;\\\n");
-		output ("    }\n\n");
+		output ("\t\t%X *x%u_ = %e;\\\n", g);
+		output ("\t\tunsigned a%u_ = (N);\\\n");
+		if (tag != -1) output ("\tx%u_->ag_tag = %d;\\\n", tag);
+		output ("\t\tx%u_[%d].ag_tag = a%u_;\\\n", sz);
+		output ("\t\tset_%X_alias (x%u_ + %d, a%u_);\\\n", sz);
+		output ("\t\t(P) = x%u_;\\\n");
+		output ("\t}\n\n");
 		unique++;
 
-		output ("#define GET_ALIAS_%UM_%FN( P )%t40");
-		output ("( ( %s( P ) + %d )->ag_tag )\n", check_null, sz);
-		output ("#define SET_ALIAS_%UM_%FN( P, N )%t40");
-		output ("set_%X_alias ( %s( P ) + %d, ( N ) )\n", check_null, sz);
-		output ("#define FIND_ALIAS_%UM_%FN( N )%t40");
-		output ("( find_%X_alias ( N ) - %d )\n\n", sz);
+		output ("#define\tGET_ALIAS_%UM_%FN(P)%t40");
+		output ("((%s(P) + %d)->ag_tag)\n", check_null, sz);
+		output ("#define\tSET_ALIAS_%UM_%FN(P, N)%t40");
+		output ("set_%X_alias (%s(P) + %d, (N))\n", check_null, sz);
+		output ("#define\tFIND_ALIAS_%UM_%FN(N)%t40");
+		output ("(find_%X_alias (N) - %d)\n\n", sz);
 		output ("#endif\n\n");
 	}
 	output ("\n");
@@ -1713,12 +1674,12 @@ print_field_c(int sz, int tag, int rng, int al)
 static void
 print_map_table(int d)
 {
-	output ("%MR ( *%MN_%UM_table [ ORDER_%UM ] )");
+	output ("%MR (*%MN_%UM_table[ORDER_%UM])");
 	if (map_proto) {
-		output ("\n    PROTO_S ( ( %UN");
+		output ("\n\t(%UN");
 		if (d) output (", DESTROYER");
 		LOOP_MAP_ARGUMENT output (", %AT");
-		output (" ) )");
+		output (")");
 	} else {
 		output (" ()");
 	}
@@ -1736,10 +1697,10 @@ print_map_table(int d)
 void
 print_map_args(char *d)
 {
-	output ("( %X_%UM");
+	output ("(%X_%UM");
 	if (d) output (", %e", d);
 	LOOP_MAP_ARGUMENT output (", %AN");
-	output (" )");
+	output (")");
 	return;
 }
 
@@ -1770,19 +1731,19 @@ print_union_ops_c(char *dir, char *un)
 	}
 
 	comment ("Operations for union %UN");
-	output ("#define TAG_%UM( P )%t40", check_null);
+	output ("#define\tTAG_%UM(P)%t40", check_null);
 	if (is_tagged) {
-		output ("( %s( P )->ag_tag )\n\n\n", check_null);
+		output ("(%s(P)->ag_tag)\n\n\n", check_null);
 	} else {
-		output ("( ( unsigned ) 0 )\n\n\n");
+		output ("((unsigned) 0)\n\n\n");
 	}
 
 	/* Operations on common components */
 	LOOP_UNION_COMPONENT {
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		comment ("Operations for component %CN of union %UN");
-		output ("#define %UM_%CN( P )%t40");
-		output ("( %s( P ) + %d )\n\n\n", check_null, sz);
+		output ("#define\t%UM_%CN(P)%t40");
+		output ("(%s(P) + %d)\n\n\n", check_null, sz);
 		sz += size_type (ct, 0);
 	}
 
@@ -1795,20 +1756,20 @@ print_union_ops_c(char *dir, char *un)
 
 		if (rng) {
 			comment ("Operations for field set %FN_etc of union %UN");
-			output ("#define %UM_%FN_etc_tag%t40( ( unsigned ) %d )\n",
+			output ("#define\t%UM_%FN_etc_tag%t40((unsigned) %d)\n",
 			  tag + rng);
-			output ("#define IS_%UM_%FN_etc( P )%t40");
-			output ("( ( unsigned ) ( %s( P )->ag_tag - %d )",
+			output ("#define\tIS_%UM_%FN_etc(P)%t40");
+			output ("((unsigned) (%s(P)->ag_tag - %d)",
 			  check_null, tag);
-			output (" < ( unsigned ) %d )\n\n", rng);
+			output (" < (unsigned) %d)\n\n", rng);
 			print_field_c (sz, tag, rng, al);
 		}
 
 		comment ("Operations for field %FN of union %UN");
-		output ("#define %UM_%FN_tag%t40( ( unsigned ) %d )\n", tag);
-		output ("#define IS_%UM_%FN( P )%t40");
+		output ("#define\t%UM_%FN_tag%t40((unsigned) %d)\n", tag);
+		output ("#define\tIS_%UM_%FN(P)%t40");
 		if (is_tagged) {
-			output ("( %s( P )->ag_tag == %d )\n\n", check_null, tag);
+			output ("(%s(P)->ag_tag == %d)\n\n", check_null, tag);
 			print_field_c (sz, tag, 0, al);
 		} else {
 			output ("1\n\n");
@@ -1825,21 +1786,21 @@ print_union_ops_c(char *dir, char *un)
 		comment ("Map %MN on union %UN");
 		output ("extern ");
 		print_map_table (hash);
-		output (" ;\n\n#define %MN_%UM");
+		output (";\n\n#define %MN_%UM");
 		print_map_args (dest);
-		output ("\\\n    ( ( %MN_%UM_table [ ");
+		output ("\\\n    ((%MN_%UM_table[");
 		if (is_tagged) {
 			if (extra_asserts) {
-				output ("CHECK_TAG_ETC ( ( %X_%UM ), 0, ORDER_%UM )");
+				output ("CHECK_TAG_ETC ((%X_%UM), 0, ORDER_%UM)");
 			} else {
-				output ("( %X_%UM )");
+				output ("(%X_%UM)");
 			}
-			output ("->ag_tag ] ) ");
+			output ("->ag_tag]) ");
 		} else {
-			output ("0 ] ) ");
+			output ("0]) ");
 		}
 		print_map_args (dest);
-		output (" )\n\n\n");
+		output (")\n\n\n");
 	}
 
 	/* End of file */
@@ -1862,8 +1823,8 @@ print_func_tab(int i)
 	if (i) output ("#ifndef IGNORE_%MN_%UM\n\n");
 	print_map_table (hash);
 	output (" = {\n");
-	LOOP_UNION_FIELD output ("    %MN_%UM_%FN%F,\n");
-	output ("} ;\n\n");
+	LOOP_UNION_FIELD output ("\t%MN_%UM_%FN%F,\n");
+	output ("};\n\n");
 	if (i) output ("#endif\n\n");
 	output ("\n");
 	return;
@@ -1884,35 +1845,35 @@ print_func_hdr(int d, int e)
 	int hash = DEREF_int (map_flag (CRT_MAP));
 	char *dest = (d ? "_d_" : "_");
 	char *etc = (e ? "_etc" : "");
-	output ("#define HDR_%MN%s%UM_%FN%s\\\n", dest, etc);
+	output ("#define\tHDR_%MN%s%UM_%FN%s\\\n", dest, etc);
 
 	/* Function header */
-	output ("    %MR %MN_%UM_%FN\\\n");
-	output ("\tPROTO_N ( ");
+	output ("\t%MR %MN_%UM_%FN\\\n");
+	output ("\t(");
 	print_map_args (hash ? "destroyer" : NULL);
-	output (" )\\\n");
+	output (")\\\n");
 
 	/* Function argument declarations */
-	output ("\tPROTO_T ( %UN %X_%UM");
-	if (hash) output (" X DESTROYER destroyer");
-	LOOP_MAP_ARGUMENT output (" X %AT %AN");
-	output (" )\\\n    {");
+	output ("\t(%UN %X_%UM");
+	if (hash) output (", DESTROYER destroyer");
+	LOOP_MAP_ARGUMENT output (", %AT %AN");
+	output (")\\\n\t{");
 
 	/* Field component declarations */
-	LOOP_UNION_COMPONENT output ("\\\n\t%CT %CN ;");
-	LOOP_FIELD_COMPONENT output ("\\\n\t%CT %CN ;");
+	LOOP_UNION_COMPONENT output ("\\\n\t%CT %CN;");
+	LOOP_FIELD_COMPONENT output ("\\\n\t%CT %CN;");
 
 	/* Assignment of field components */
 	if (d) {
-		output ("\\\n\tDESTROY_%UM_%FN%s ( ", etc);
+		output ("\\\n\tDESTROY_%UM_%FN%s (", etc);
 		output (hash ? "destroyer, " : "destroy_%X, ");
 		print_cons_args (0, "");
-		output (" ) ;");
+		output (");");
 	} else {
 		if (field_not_empty ()) {
-			output ("\\\n\tDECONS_%UM_%FN%s ( ", etc);
+			output ("\\\n\tDECONS_%UM_%FN%s (", etc);
 			print_cons_args (0, "");
-			output (" ) ;");
+			output (");");
 		}
 	}
 	output ("\n\n");
@@ -1999,14 +1960,14 @@ main_action_c(char *dir)
 	}
 
 	comment ("Maximum allocation size");
-	output ("#define %X_GEN_MAX%t40%d\n\n", gen_max + 1);
+	output ("#define\t%X_GEN_MAX%t40%d\n\n", gen_max + 1);
 	close_file ();
 
 	if (ign) {
 		open_file (dir, IGNORE_PREFIX, DEF_SUFFIX);
 		comment ("Map ignore macros");
 		LOOP_UNION {
-			LOOP_UNION_MAP output ("#define IGNORE_%MN_%UM%t40%d\n", 1);
+			LOOP_UNION_MAP output ("#define\tIGNORE_%MN_%UM%t40%d\n", 1);
 		}
 		output ("\n");
 		close_file ();

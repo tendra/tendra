@@ -68,7 +68,6 @@ extern BoolT extra_headers;
 extern BoolT map_proto;
 extern void main_action_c(char *);
 extern void print_deref(TYPE_P, char *, char *);
-extern void print_proto(void);
 extern void print_include(void);
 extern void print_struct_defn(void);
 extern void print_map_args(char *);

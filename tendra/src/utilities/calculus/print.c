@@ -75,10 +75,10 @@
 static void
 printer_prim(void)
 {
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"%%s = \", nm_) ;\n");
-    output ("    OUTPUT_%PM (f_, x_) ;\n");
-    output ("    (void) fprintf (f_, \" ;\\n\") ;\n");
+    output ("\tprint_indent (f_, d_);\n");
+    output ("\t(void) fprintf (f_, \"%%s = \", nm_);\n");
+    output ("\tOUTPUT_%PM (f_, x_);\n");
+    output ("\t(void) fprintf (f_, \";\\n\");\n");
     return;
 }
 
@@ -93,21 +93,21 @@ printer_prim(void)
 static void
 printer_enum(void)
 {
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"%%s = \", nm_) ;\n");
-    output ("    switch (x_) {\n");
+    output ("\tprint_indent (f_, d_);\n");
+    output ("\t(void) fprintf (f_, \"%%s = \", nm_);\n");
+    output ("\tswitch (x_) {\n");
     LOOP_ENUM_CONST {
 		output ("\tcase %EM_%ES : {\n");
-		output ("\t    (void) fprintf (f_, \"%ES ;\\n\") ;\n");
-		output ("\t    break ;\n");
+		output ("\t\t(void) fprintf (f_, \"%ES;\\n\");\n");
+		output ("\t\tbreak;\n");
 		output ("\t}\n");
     }
     output ("\tdefault : {\n");
-    output ("\t    (void) fprintf (f_, \"%%lu ;\\n\",");
-    output (" (unsigned long) x_) ;\n");
-    output ("\t    break ;\n");
+    output ("\t\t(void) fprintf (f_, \"%%lu;\\n\",");
+    output (" (unsigned long) x_);\n");
+    output ("\t\tbreak;\n");
     output ("\t}\n");
-    output ("    }\n");
+    output ("\t}\n");
     return;
 }
 
@@ -122,14 +122,14 @@ printer_enum(void)
 static void
 printer_struct(void)
 {
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"%%s = {\\n\", nm_) ;\n");
+    output ("\tprint_indent (f_, d_);\n");
+    output ("\t(void) fprintf (f_, \"%%s = {\\n\", nm_);\n");
     LOOP_STRUCTURE_COMPONENT {
 		TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
-		output ("    PRINT_%TI (f_, x_.%CN, \"%CN\", d_ + 1) ;\n", t);
+		output ("\tPRINT_%TI (f_, x_.%CN, \"%CN\", d_ + 1);\n", t);
     }
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"}\\n\") ;\n");
+    output ("\tprint_indent (f_, d_);\n");
+    output ("\t(void) fprintf (f_, \"}\\n\");\n");
     return;
 }
 
@@ -146,10 +146,10 @@ printer_component(char *d)
 {
     TYPE_P t = DEREF_ptr (cmp_type (CRT_COMPONENT));
     output ("\t\t{\n");
-    output ("\t\t    %TT z_ ;\n", t);
+    output ("\t\t    %TT z_;\n", t);
     output ("\t\t    ");
     print_deref (t, d, "z_");
-    output ("\t\t    PRINT_%TI (f_, z_, \"%CN\", d_ + 1) ;\n", t);
+    output ("\t\t    PRINT_%TI (f_, z_, \"%CN\", d_ + 1);\n", t);
     output ("\t\t}\n");
     return;
 }
@@ -165,40 +165,40 @@ printer_component(char *d)
 static void
 printer_union(void)
 {
-    output ("    print_indent (f_, d_) ;\n");
+    output ("    print_indent (f_, d_);\n");
     output ("    if (IS_NULL_%UM (x_)) {\n");
-    output ("\t(void) fprintf (f_, \"%%s = NULL_%UM ;\\n\", nm_) ;\n");
+    output ("\t(void) fprintf (f_, \"%%s = NULL_%UM;\\n\", nm_);\n");
     output ("    } else {\n");
     output ("\tswitch (TAG_%UM (x_)) {\n");
     LOOP_UNION_FIELD {
 		int al = DEREF_int (fld_flag (CRT_FIELD));
 		output ("\t    case %UM_%FN_tag : {\n");
 		if (al) {
-			output ("\t\tunsigned alias_ = GET_ALIAS_%UM_%FN (x_) ;\n");
+			output ("\t\tunsigned alias_ = GET_ALIAS_%UM_%FN (x_);\n");
 			output ("\t\tif (alias_) {\n");
 			output ("\t\t    (void) fprintf (f_, \"%%s = ");
-			output ("[%%u] ;\\n\", nm_, alias_) ;\n");
-			output ("\t\t    break ;\n");
+			output ("[%%u];\\n\", nm_, alias_);\n");
+			output ("\t\t    break;\n");
 			output ("\t\t}\n");
-			output ("\t\talias_ = ++crt_%X_alias ;\n");
-			output ("\t\tSET_ALIAS_%UM_%FN (x_, alias_) ;\n");
+			output ("\t\talias_ = ++crt_%X_alias;\n");
+			output ("\t\tSET_ALIAS_%UM_%FN (x_, alias_);\n");
 			output ("\t\t(void) fprintf (f_, \"%%s = [%%u] = {\\n\", ");
-			output ("nm_, alias_) ;\n");
+			output ("nm_, alias_);\n");
 		} else {
-			output ("\t\t(void) fprintf (f_, \"%%s = {\\n\", nm_) ;\n");
+			output ("\t\t(void) fprintf (f_, \"%%s = {\\n\", nm_);\n");
 		}
-		output ("\t\tprint_indent (f_, d_ + 1) ;\n");
-		output ("\t\t(void) fprintf (f_, \"(tag) = %FN ;\\n\") ;\n");
+		output ("\t\tprint_indent (f_, d_ + 1);\n");
+		output ("\t\t(void) fprintf (f_, \"(tag) = %FN;\\n\");\n");
 		LOOP_UNION_COMPONENT printer_component ("%UM_%CN (x_)");
 		LOOP_FIELD_COMPONENT printer_component ("%UM_%FN_%CN (x_)");
-		output ("\t\tprint_indent (f_, d_) ;\n");
-		output ("\t\t(void) fprintf (f_, \"}\\n\") ;\n");
-		output ("\t\tbreak ;\n");
+		output ("\t\tprint_indent (f_, d_);\n");
+		output ("\t\t(void) fprintf (f_, \"}\\n\");\n");
+		output ("\t\tbreak;\n");
 		output ("\t    }\n");
     }
     output ("\t    default : {\n");
-    output ("\t\t(void) fprintf (f_, \"%%s = ERROR!\\n\", nm_) ;\n");
-    output ("\t\tbreak ;\n");
+    output ("\t\t(void) fprintf (f_, \"%%s = ERROR!\\n\", nm_);\n");
+    output ("\t\tbreak;\n");
     output ("\t    }\n");
     output ("\t}\n");
     output ("    }\n");
@@ -217,22 +217,22 @@ static void
 printer_ptr(TYPE_P s, char *ptr, char *nm,
 			char *i)
 {
-    output ("%s    print_indent (f_, d_) ;\n", i);
+    output ("%s    print_indent (f_, d_);\n", i);
     output ("%s    if (IS_NULL_ptr (%s)) {\n", i, nm);
     output ("%s\t(void) fprintf (f_, ", i);
-    output ("\"%%s = NULL_ptr ;\\n\", nm_) ;\n");
+    output ("\"%%s = NULL_ptr;\\n\", nm_);\n");
     output ("%s    } else if (d_ < print_ptr_depth) {\n", i);
-    output ("%s\t%TT z_ ;\n", i, s);
+    output ("%s\t%TT z_;\n", i, s);
     output ("%s\t", i);
     print_deref (s, nm, "z_");
     output ("%s\t(void) fprintf (f_, ", i);
-    output ("\"%%s = %s {\\n\", nm_) ;\n", ptr);
-    output ("%s\tPRINT_%TI (f_, z_, \"(%TI)\", d_ + 1) ;\n", i, s, s);
-    output ("%s\tprint_indent (f_, d_) ;\n", i);
-    output ("%s\t(void) fprintf (f_, \"}\\n\") ;\n", i);
+    output ("\"%%s = %s {\\n\", nm_);\n", ptr);
+    output ("%s\tPRINT_%TI (f_, z_, \"(%TI)\", d_ + 1);\n", i, s, s);
+    output ("%s\tprint_indent (f_, d_);\n", i);
+    output ("%s\t(void) fprintf (f_, \"}\\n\");\n", i);
     output ("%s    } else {\n", i);
     output ("%s\t(void) fprintf (f_, \"%%s = ", i);
-    output ("0x%%p ;\\n\", nm_, VOIDSTAR_ptr (%s)) ;\n", nm);
+    output ("0x%%p;\\n\", nm_, VOIDSTAR_ptr (%s));\n", nm);
     output ("%s    }\n", i);
     return;
 }
@@ -248,21 +248,21 @@ printer_ptr(TYPE_P s, char *ptr, char *nm,
 static void
 printer_list(TYPE_P s, char *nm)
 {
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"%%s = LIST {\\n\", nm_) ;\n");
+    output ("    print_indent (f_, d_);\n");
+    output ("    (void) fprintf (f_, \"%%s = LIST {\\n\", nm_);\n");
     output ("    while (!IS_NULL_list (%s)) {\n", nm);
-    output ("\t%TT z_ ;\n", s);
-    output ("\tUN_CONS_%TM (z_, %s, %s) ;\n", s, nm, nm);
-    output ("\tPRINT_%TI (f_, z_, \"(%TI)\", d_ + 1) ;\n", s, s);
+    output ("\t%TT z_;\n", s);
+    output ("\tUN_CONS_%TM (z_, %s, %s);\n", s, nm, nm);
+    output ("\tPRINT_%TI (f_, z_, \"(%TI)\", d_ + 1);\n", s, s);
     output ("\tif (!print_list_expand && !IS_NULL_list (%s)) {\n", nm);
-    output ("\t    print_indent (f_, d_ + 1) ;\n");
+    output ("\t    print_indent (f_, d_ + 1);\n");
     output ("\t    (void) fprintf (f_, \"(tail) = ");
-    output ("0x%%p ;\\n\", VOIDSTAR_list (%s)) ;\n", nm);
-    output ("\t    break ;\n");
+    output ("0x%%p;\\n\", VOIDSTAR_list (%s));\n", nm);
+    output ("\t    break;\n");
     output ("\t}\n");
     output ("    }\n");
-    output ("    print_indent (f_, d_) ;\n");
-    output ("    (void) fprintf (f_, \"}\\n\") ;\n");
+    output ("    print_indent (f_, d_);\n");
+    output ("    (void) fprintf (f_, \"}\\n\");\n");
     return;
 }
 
@@ -277,17 +277,17 @@ printer_list(TYPE_P s, char *nm)
 static void
 printer_vec(TYPE_P s)
 {
-    output ("    print_indent (f_, d_) ;\n");
+    output ("    print_indent (f_, d_);\n");
     output ("    {\n");
-    output ("\t%X_dim n = DIM_vec (x_) ;\n");
-    output ("\tPTR (%TT) y_ = PTR_vec_ptr (VEC_PTR_vec (x_)) ;\n", s);
-    output ("\t(void) fprintf (f_, \"%%s = {\\n\", nm_) ;\n");
+    output ("\t%X_dim n = DIM_vec (x_);\n");
+    output ("\tPTR (%TT) y_ = PTR_vec_ptr (VEC_PTR_vec (x_));\n", s);
+    output ("\t(void) fprintf (f_, \"%%s = {\\n\", nm_);\n");
     output ("\twhile (n--) {\n");
     printer_ptr (s, "VEC", "y_", "\t");
-    output ("\t    y_ = STEP_ptr (y_, SIZE_%TM) ;\n", s);
+    output ("\t    y_ = STEP_ptr (y_, SIZE_%TM);\n", s);
     output ("\t}\n");
-    output ("\tprint_indent (f_, d_) ;\n");
-    output ("\t(void) fprintf (f_, \"}\\n\") ;\n");
+    output ("\tprint_indent (f_, d_);\n");
+    output ("\t(void) fprintf (f_, \"}\\n\");\n");
     output ("    }\n");
     return;
 }
@@ -303,7 +303,7 @@ printer_vec(TYPE_P s)
 static void
 printer_vec_ptr(TYPE_P s)
 {
-    output ("    PTR (%TT) y_ = PTR_vec_ptr (x_) ;\n", s);
+    output ("    PTR (%TT) y_ = PTR_vec_ptr (x_);\n", s);
     printer_ptr (s, "VEC_PTR", "y_", "");
     return;
 }
@@ -326,30 +326,30 @@ print_action(char *dir)
 		TYPE_P t = CRT_TYPE;
 		if (is_identity_type (t)) {
 			output ("#ifndef PRINT_%TI\n", t);
-			output ("#define PRINT_%TI(A, B, C, D) ", t);
+			output ("#define\tPRINT_%TI(A, B, C, D) ", t);
 			output ("PRINT_%TJ ((A), (B), (C), (D))\n", t);
 			output ("#endif\n\n");
 		} else {
 			output ("#ifndef PRINT_%TI\n", t);
 			output ("static void PRINT_%TI ", t);
-			output ("(FILE *, %TT, char *, int)  ;\n", t);
+			output ("(FILE *, %TT, char *, int) ;\n", t);
 			output ("#endif\n\n");
 		}
     }
     output ("\n\n");
 
     comment ("Printing variables");
-    output ("static int print_indent_step = 4 ;\n");
-    output ("static int print_ptr_depth = 1 ;\n");
-    output ("static int print_list_expand = 0 ;\n\n\n");
+    output ("static int print_indent_step = 4;\n");
+    output ("static int print_ptr_depth = 1;\n");
+    output ("static int print_list_expand = 0;\n\n\n");
 
     comment ("Printing indentation routine");
     output ("static void print_indent\n");
     output ("(FILE *f, int d)\n");
     output ("{\n");
-    output ("    int i = print_indent_step * d ;\n");
-    output ("    while (i--) (void) fputc (' ', f) ;\n");
-    output ("    return ;\n");
+    output ("    int i = print_indent_step * d;\n");
+    output ("    while (i--) (void) fputc (' ', f);\n");
+    output ("    return;\n");
     output ("}\n\n\n");
 
     /* Function definitions */
@@ -422,7 +422,7 @@ print_action(char *dir)
 			    }
 			    case type_stack_tag : {
 				TYPE_P s = DEREF_ptr (type_stack_sub (t0));
-				output ("    LIST (%TT) y_ = LIST_stack (x_) ;\n", s);
+				output ("    LIST (%TT) y_ = LIST_stack (x_);\n", s);
 				printer_list (s, "y_");
 				break;
 			    }
@@ -441,7 +441,7 @@ print_action(char *dir)
 			}
 
 			/* Function trailer */
-			output ("    return ;\n");
+			output ("    return;\n");
 			output ("}\n\n");
 
 			/* Debugging routine */
@@ -453,8 +453,8 @@ print_action(char *dir)
 			    output ("{\n    ");
 			    if (is_struct) output ("if (x_) ");
 			    output ("PRINT_%TI (stdout, %sx_, ", t, star);
-			    output ("\"%TI\", 0) ;\n", t);
-			    output ("    return ;\n");
+			    output ("\"%TI\", 0);\n", t);
+			    output ("    return;\n");
 			    output ("}\n\n");
 			    output ("#endif\n\n");
 			}

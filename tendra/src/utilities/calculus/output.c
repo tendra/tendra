@@ -951,7 +951,7 @@ open_file(char *dir, char *nm, char *suff)
 		/* Print file header */
 		print_comment ();
 		output ("#ifndef %s\n", buff);
-		output ("#define %s\n\n", buff);
+		output ("#define\t%s\n\n", buff);
     }
     return;
 }

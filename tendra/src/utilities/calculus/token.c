@@ -248,7 +248,7 @@ print_types_tok(void)
 
     comment ("Basic types");
     output ("#ifndef %X_DESTR_DEFINED\n");
-    output ("#define %X_DESTR_DEFINED\n");
+    output ("#define\t%X_DESTR_DEFINED\n");
     output ("typedef void (*DESTROYER) () ;\n");
     output ("#endif\n\n");
     output ("%pt PROC (TYPE) TYPE PTR #\n");
@@ -667,7 +667,7 @@ print_union_tok(void)
     UNION_P base = DEREF_ptr (un_base (CRT_UNION));
 
     comment ("Definitions for union %UN");
-    output ("#define ORDER_%UM ((unsigned) %UO)\n");
+    output ("#defineORDER_%UM ((unsigned) %UO)\n");
     output ("%pt %xc : %UN : NULL_%UM #\n");
     output ("%pt PROC (%xr : %UN :) %xr : int : IS_NULL_%UM #\n");
     output ("%pt PROC (%xr : %UN :, %xr : %UN :) ");
@@ -702,13 +702,12 @@ print_main_tok(char *dir)
 		output ("#include \"%s_bscs.h\"\n\n", MAIN_PREFIX);
     }
     output ("#ifndef %X_NAME\n");
-    output ("#define %X_NAME%t40\"%X\"\n");
-    output ("#define %X_VERSION%t40\"%V\"\n");
-    output ("#define %X_SPECIFICATION%t40%d\n", 1);
-    output ("#define %X_IMPLEMENTATION%t40%d\n", 0);
+    output ("#define\t%X_NAME%t40\"%X\"\n");
+    output ("#define\t%X_VERSION%t40\"%V\"\n");
+    output ("#define\t%X_SPECIFICATION%t40%d\n", 1);
+    output ("#define\t%X_IMPLEMENTATION%t40%d\n", 0);
     output ("#endif\n\n\n");
 
-    print_proto ();
     print_types_tok ();
     print_ptr_tok ();
     print_list_tok ();
@@ -938,7 +937,7 @@ main_action_tok(char *dir)
 		open_file (dir, IGNORE_PREFIX, DEF_SUFFIX);
 		comment ("Map ignore macros");
 		LOOP_UNION {
-			LOOP_UNION_MAP output ("#define IGNORE_%MN_%UM%t40%d\n", 1);
+			LOOP_UNION_MAP output ("#define\tIGNORE_%MN_%UM%t40%d\n", 1);
 		}
 		output ("\n");
 		close_file ();
