@@ -676,7 +676,7 @@ typedef char *GenericP;
 # endif /* defined (FS_NO_MKDIR) */
 
 # ifdef __GNUC__
-typedef __volatile__ void NoReturnT;
+typedef void NoReturnT;
 # else
 #  ifdef __TenDRA__
 #   pragma TenDRA type NoReturnT for bottom
