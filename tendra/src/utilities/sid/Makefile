@@ -40,9 +40,9 @@ EFILES=${SRC2}/arg-parse.e ${SRC2}/c-check.e ${SRC2}/c-code.e\
  ${SRC2}/rule-firsts.e ${SRC2}/rule-lre.e ${SRC2}/scope.e\
  ${SRC2}/table.e ${SRC2}/types.e
 
-gen-errors.c: ${SRC2}/BUILD_ERRORS ${EFILES}
+gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT};\
-	${SRC2}/BUILD_ERRORS -o gen-errors ${EFILES}
+	${BUILD_ERRORS} -o gen-errors ${EFILES}
 
 auto_clobber :
 	${REMOVE} ${PARSER_OUT} ${C_OUT} ${ERR_OUT}

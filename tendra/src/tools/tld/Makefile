@@ -31,8 +31,8 @@ EFILES=${SRC1}/arg-data.e ${SRC1}/arg-parse.e ${SRC1}/builder.e\
  ${SRC1}/main.e ${SRC1}/name-entry.e ${SRC1}/rename-file.e\
  ${SRC1}/shape-entry.e ${SRC1}/tdf-read.e
 
-gen-errors.c : ${SRC1}/BUILD_ERRORS ${EFILES}
+gen-errors.c : ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT};\
-	${SRC1}/BUILD_ERRORS -o gen-errors ${EFILES}
+	${BUILD_ERRORS} -o gen-errors ${EFILES}
 
 .include "../Makefile.inc"
