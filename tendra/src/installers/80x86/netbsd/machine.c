@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/machine.c */
+/* netbsd/machine.c */
 
 #include "config.h"
 #include "common_types.h"
