@@ -5,7 +5,7 @@
 DOC_PREFIX?=../
 
 # SGML documents.
-SUBDIR=		calculus contributors diag faq guide \
+SUBDIR=		calculus changes contributors diag faq guide \
 		make pl port readme reference register \
 		release sid tcc tcpplus tdf tdfc team \
 		tld tnc tspec
