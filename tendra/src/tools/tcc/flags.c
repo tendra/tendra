@@ -542,7 +542,7 @@ initialise_options()
     env_paths = (char**) xalloc (sz);
 
 	/* Here, we should set these to sane defaults.  For now, just NULL */
-    for (i=0; i < sz; i++) {
+    for (i=0; i < sz / sizeof(pointer); i++) {
 		env_paths[i] = NULL;
 	}
     return;

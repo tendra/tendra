@@ -246,7 +246,7 @@ read_env_aux(char *nm)
 							   "edit your env files.\n",
 							   sbuff, nm, line_num);
 					}
-					while ((c = *tmp++) != NULL && count < MAX_LINE) {
+					while ((c = *tmp++) != '\0' && count < MAX_LINE) {
 						count++;
 						*q++ = c;
 					}
