@@ -1,6 +1,6 @@
 # $TenDRA$
 
-.SUFFIXES:	.o .c .j .pl .c-tdf .h-tdf
+.SUFFIXES:	.o .c .h .j .pl .c-tdf .h-tdf
 
 CC		?=	cc
 CFLAGS		?=	-O -pipe

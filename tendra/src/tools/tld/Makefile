@@ -1,7 +1,7 @@
 # $TenDRA$
 
 CFLAGS= -I${.CURDIR} -I.
-.PATH.c : ${.CURDIR} .
+.PATH : ${.CURDIR} .
 
 PROG = tld
 

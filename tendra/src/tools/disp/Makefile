@@ -12,9 +12,9 @@ SRCS=	basic.c binding.c capsule.c file.c main.c pretty.c \
 
 DEPEND_SRC=	tdf.c tdf.h
 
-tdf.c: tdf.c-tdf
-	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.IMPSRC} |\
-	${SED} -f ${.CURDIR}/templ/tdf.sed > ${OBJ_DIR}/${.TARGET}
+#tdf.c: tdf.c-tdf
+#	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.IMPSRC} |\
+#	${SED} -f ${.CURDIR}/templ/tdf.sed > ${OBJ_DIR}/${.TARGET}
 
 CLEANFILES+=	tdf.c tdf.h
 

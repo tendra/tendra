@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	freebsd cygwin32
+BUILD_TARGETS=	freebsd cygwin32 linux
 
 reconfig:
 .if exists (${SRC_DIR}/config.mk)
@@ -48,3 +48,9 @@ BUILD_OS=	freebsd
 BUILD_OS=	cygwin32
 .include "../config/config.cygwin32.mk"
 .endif
+
+.if make(linux)
+BUILD_OS=	linux
+.include "../config/config.linux.mk"
+.endif
+

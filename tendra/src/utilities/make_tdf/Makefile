@@ -1,7 +1,7 @@
 # $TenDRA$
 
 CFLAGS= -I${.CURDIR} -I${.CURDIR}/../shared -I${.CURDIR}/obj_c -I.
-.PATH.c : ${.CURDIR} ${.CURDIR}/.. ${.CURDIR}/../shared ${.CURDIR}/obj_c .
+.PATH : ${.CURDIR} ${.CURDIR}/.. ${.CURDIR}/../shared ${.CURDIR}/obj_c .
 SID_OPTS=	-l ossg-c -s no-lines
 
 PROG = make_tdf
