@@ -94,10 +94,11 @@
         <para>This option causes <command>&trans;</command> to output
         debugging information in its output file. This will only work if the
         input TDF capsule contains debugging information. On the SCO platform
-        the format used by <emphasis>dbxtra</emphasis> and <emphasis
-       >codeview</emphasis> is supported. On the SVR4.2 platform
-        Dwarf 1 is supported, which is used by <emphasis>debug</emphasis>. On the Solaris, FreeBSD, and Linux platforms,
-        <emphasis>stabs</emphasis> is supported. The GNU debugger
+        the format used by <emphasis>dbxtra</emphasis> and
+        <emphasis>codeview</emphasis> is supported. On the SVR4.2
+        platform Dwarf 1 is supported, which is used by
+        <emphasis>debug</emphasis>. On the Solaris, FreeBSD, and Linux
+        platforms, <emphasis>stabs</emphasis> is supported. The GNU debugger
         <emphasis>gdb</emphasis> may be used on all platforms.</para>
       </listitem>
     </varlistentry>
@@ -220,6 +221,7 @@
 '>
 
 
+<!--   X   -->
 <!ENTITY option-cx '
     <varlistentry>
       <term><option>-X</option></term>
