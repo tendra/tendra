@@ -59,7 +59,8 @@
           <row>
             <entry valign="top">Amos B. Haven</entry>
             <entry valign="top"><email>nonce@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Amos aims to look at SSA transformations, data flow,
+              dynamic slicing, and related areas. </entry>
           </row>
           <row>
             <entry valign="top">Boris Popov</entry>
