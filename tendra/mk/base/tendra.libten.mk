@@ -23,4 +23,4 @@ catstd.c:: messages.cat ${CAT_EXTRA}
 		${CAT_STD} ${.CURDIR}/messages.cat ${CAT_EXTRA}
 
 
-CLEANFILES+=	catstd.h catstd.c
+CLEANFILES+=	catstd.h catstdn.h catstd.c
