@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : producing old "a.out" for LINUX */
+/* TCC ENVIRONMENT : producing old "a.out" for LINUX 
+ * $TenDRA$
+*/
 
 +FLAG_TRANS		"-k0"
 +AS			"/usr/i486-linuxaout/bin/as"
@@ -7,4 +9,4 @@
 +CRT1			""
 +CRTN			""
 <SYS_LIB		"-ltdfaout"
-<SYS_LINK		"-L-LIBDIR-/sys"
+<SYS_LINK		"-L<TENDRA_LIBDIR>/sys"

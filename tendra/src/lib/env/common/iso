@@ -1,6 +1,8 @@
-/* tcc environment for iso */
+/* tcc environment for iso 
+ * $TenDRA$
+*/
 
-+INCL			"-Niso:-INCLDIR-/iso.api"
++INCL			"-Niso:<TENDRA_INCLDIR>/iso.api"
 +LIB			"-liso -lansi"
 +FLAG_INSTALL		"-Yiso"
 +API_NAME		"-Aiso"

@@ -1,3 +1,7 @@
+/* 
+ * $TenDRA$
+*/
+
 +MACHINE		"svr4.2-*-sparc"
 +FLAG			"--1SC"
 +AS			"/usr/bin/as"

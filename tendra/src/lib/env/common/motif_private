@@ -1,4 +1,6 @@
-/* tcc environment for motif private headers */
+/* tcc environment for motif private headers 
+ * $TenDRA$
+*/
 
 +FLAG		"-D__MOTIF_P_HEADERS"
 <INFO		"Motif@Private@Headers"

@@ -1,3 +1,5 @@
-/* tcc environment for c */
+/* tcc environment for c 
+ * $TenDRA$
+*/
 
 +INCL			"-Yansi"

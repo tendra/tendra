@@ -1,3 +1,7 @@
+/* 
+ * $TenDRA$
+*/
+
 +MACHINE		"ultrix-4.1-mips"
 +VERSION		"2.0"
 +FLAG			"--1MA"

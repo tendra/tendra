@@ -1,3 +1,7 @@
+/* 
+ * $TenDRA$
+*/
+
 +MACHINE		"svr4.2-*-80x86"
 +FLAG			"--2SC"
 +AS			"/usr/bin/as"

@@ -1,4 +1,6 @@
-/* tcc environment for strict motif_1_2 */
+/* tcc environment for strict motif_1_2 
+ * $TenDRA$
+*/
 
 +FLAG		"-Ymotif_1_2"
 +FLAG		"-D__STRICT_MOTIF_1_2"

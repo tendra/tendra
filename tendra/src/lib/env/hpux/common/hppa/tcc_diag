@@ -1,5 +1,7 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR HP */
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR HP 
+ * $TenDRA$
+*/
 
 +LD			"/bin/ld"
-+CRT1			"-LIBDIR-/sys/dyn_begin.o /usr/lib/end.o"
-<LINK			"-L-LIBDIR-/diag"
++CRT1			"<TENDRA_LIBDIR>/sys/dyn_begin.o /usr/lib/end.o"
+<LINK			"-L<TENDRA_LIBDIR>/diag"

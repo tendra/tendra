@@ -1,4 +1,6 @@
-/* tcc environment for the TDF Spec 4.0 extensions */
+/* tcc environment for the TDF Spec 4.0 extensions 
+ * $TenDRA$
+*/
 
 <LIB			"-ltarget_tok"
 +FLAG_INSTALL		"-Ytdf_ext"

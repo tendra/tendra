@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR ALPHA */
+/* TCC ENVIRONMENT : PROFILING FOR ALPHA 
+ * $TenDRA$
+*/
 
 <SYS_LINK       	"-L/usr/lib/cmplrs/cc/"
 +FLAG_TRANS     	"-P"

@@ -1,7 +1,9 @@
-/* tcc environment for the TDF Spec 4.0 extensions on Sparc SunOS */
+/* tcc environment for the TDF Spec 4.0 extensions on Sparc SunOS 
+ * $TenDRA$
+*/
 
 +FLAG                   "--3DL"
-<SYS_LINK		"-L-LIBDIR-/sys"
+<SYS_LINK		"-L<TENDRA_LIBDIR>/sys"
 <LIB			"-ltarget_tok"
 <SYS_LIB        	"-ltdf"
 +FLAG_INSTALL		"-Ytdf_ext"

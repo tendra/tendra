@@ -1,4 +1,6 @@
-/* TCC environment for compact output */
+/* TCC environment for compact output 
+ * $TenDRA$
+*/
 
 +FLAG			"--2LI"
 +FLAG_DUMP_LINK		"-D"

@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR DEC MIPS */
+/* TCC ENVIRONMENT : PROFILING FOR DEC MIPS 
+ * $TenDRA$
+*/
 
 <SYS_LINK       	"-L/usr/lib/cmplrs/cc/"
 +FLAG_TRANS		"-P"

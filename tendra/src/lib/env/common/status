@@ -1,4 +1,6 @@
-/* tcc environment for status report */
+/* tcc environment for status report 
+ * $TenDRA$
+*/
 
 ?TDFC			"C Producer executable (TDFC)"
 ?TCPPLUS		"C++ Producer executable (TCPPLUS)"

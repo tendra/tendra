@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR MIPS */
+/* TCC ENVIRONMENT : PROFILING FOR MIPS 
+ * $TenDRA$
+*/
 
 +CRT0		"/usr/lib/mcrt1.o"
 +LIBC		"-lprof"

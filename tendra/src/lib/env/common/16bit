@@ -1,5 +1,7 @@
-/* tcc environment for 16-bit portability checking */
+/* tcc environment for 16-bit portability checking 
+ * $TenDRA$
+*/
 
-+PORTABILITY		"-STARTUPDIR-/Bounds.ansi/default.pf"
-<STARTUP_DIR		"-I-STARTUPDIR-/Bounds.ansi"
-<STARTUP_CPP_DIR	"-I-STARTUPDIR-/Bounds.ansi"
++PORTABILITY		"<TENDRA_STARTUPDIR>/Bounds.ansi/default.pf"
+<STARTUP_DIR		"-I<TENDRA_STARTUPDIR>/Bounds.ansi"
+<STARTUP_CPP_DIR	"-I<TENDRA_STARTUPDIR>/Bounds.ansi"

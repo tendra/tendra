@@ -1,4 +1,6 @@
-/* tcc environment implementing -G flag */
+/* tcc environment implementing -G flag 
+ * $TenDRA$
+*/
 +CRT0		""
 +SYS_LIBC	""
 +FLAG_LD	"-G"

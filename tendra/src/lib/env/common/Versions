@@ -1,4 +1,6 @@
-/* tcc environment implementing -V flag */
+/* tcc environment implementing -V flag 
+ * $TenDRA$
+*/
 
 +FLAG			"-version"
 +FLAG_TDFC		"-v"

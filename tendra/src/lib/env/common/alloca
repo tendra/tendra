@@ -1,3 +1,5 @@
-/* inline alloca */
+/* inline alloca 
+ * $TenDRA$
+*/
 
-+FLAG		"-f-INCLDIR-/gcc.api/tdf_alloca.h"
++FLAG		"-f<TENDRA_INCLDIR>/gcc.api/tdf_alloca.h"

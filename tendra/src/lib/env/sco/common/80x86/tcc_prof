@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR I386 */
+/* TCC ENVIRONMENT : PROFILING FOR I386 
+ * $TenDRA$
+*/
 
 +LD		"/bin/ld"
 +CRT0		"/lib/mcrt1.o"

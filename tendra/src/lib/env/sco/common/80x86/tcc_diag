@@ -1,6 +1,8 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR I386 */
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR I386 
+ * $TenDRA$
+*/
 
 +LD		"/bin/ld"
 +CRT0		"/lib/crt1.o"
 +CRTN		"/lib/crtn.o"
-<LINK		"-L-LIBDIR-/diag"
+<LINK		"-L<TENDRA_LIBDIR>/diag"

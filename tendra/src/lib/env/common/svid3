@@ -1,6 +1,8 @@
-/* tcc environment for svid3 */
+/* tcc environment for svid3 
+ * $TenDRA$
+*/
 
-+INCL			"-Nsvid3:-INCLDIR-/svid3.api"
++INCL			"-Nsvid3:<TENDRA_INCLDIR>/svid3.api"
 +LIB			"-lsvid3 -lxpg3 -lposix -lansi"
 +FLAG_INSTALL		"-Ysvid3"
 +API_NAME		"-Asvid3"

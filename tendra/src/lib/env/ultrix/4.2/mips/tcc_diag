@@ -1,5 +1,7 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR MIPS 2.10 */
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR MIPS 2.10 
+ * $TenDRA$
+*/
 
 +AS		"/bin/as"
 +AS1		"/usr/lib/cmplrs/as/as1 -O1 -g2"
-<LINK		"-L-LIBDIR-/diag"
+<LINK		"-L<TENDRA_LIBDIR>/diag"

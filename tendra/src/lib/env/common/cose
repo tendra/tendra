@@ -1,3 +1,5 @@
-/* tcc environment for cose */
+/* tcc environment for cose 
+ * $TenDRA$
+*/
 
 +FLAG		"-Yunix95"

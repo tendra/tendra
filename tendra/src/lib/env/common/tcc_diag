@@ -1,1 +1,3 @@
-/* tcc environment for diagnostics on unknown machine */
+/* tcc environment for diagnostics on unknown machine 
+ * $TenDRA$
+*/

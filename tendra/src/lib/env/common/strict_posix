@@ -1,4 +1,6 @@
-/* tcc environment for strict posix */
+/* tcc environment for strict posix 
+ * $TenDRA$
+*/
 
 +FLAG		"-Yposix"
 +FLAG		"-D__STRICT_POSIX"

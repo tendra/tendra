@@ -1,4 +1,6 @@
-/* ENVIRONMENT FOR -Xw ON common */
+/* ENVIRONMENT FOR -Xw ON common 
+ * $TenDRA$
+*/
 
-+STARTUP		"-f-STARTUPDIR-/Modes/Xw"
-+STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xw"
++STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xw"
++STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xw"

@@ -1,4 +1,6 @@
-/* TCC environment for Sparc SunOS PIC code */
+/* TCC environment for Sparc SunOS PIC code 
+ * $TenDRA$
+*/
 
 +FLAG			"--3DL"
 +FLAG_TRANS		"-D1"

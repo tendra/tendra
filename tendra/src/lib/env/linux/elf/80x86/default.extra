@@ -1,3 +1,7 @@
+/* 
+ * $TenDRA$
+*/
+
 +MACHINE		"linux-*-80x86"
 +AS			"/usr/bin/as -Qy"
 +LD			"/usr/bin/ld -m elf_i386"
@@ -6,4 +10,4 @@
 +CRT1			"/usr/lib/crti.o /usr/lib/crtbegin.o"
 +CRTN			"/usr/lib/crtend.o /usr/lib/crtn.o"
 +SYS_LIB		"-ltdf"
-+SYS_LINK		"-L-LIBDIR-/sys"
++SYS_LINK		"-L<TENDRA_LIBDIR>/sys"

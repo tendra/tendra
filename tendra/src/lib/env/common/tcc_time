@@ -1,4 +1,6 @@
-/* tcc environment implementing the -time option */
+/* tcc environment implementing the -time option 
+ * $TenDRA$
+*/
 
 <TDFC			"/bin/time"
 <TDFCPP			"/bin/time"

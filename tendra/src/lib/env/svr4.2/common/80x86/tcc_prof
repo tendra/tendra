@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR SVR4 I386 */
+/* TCC ENVIRONMENT : PROFILING FOR SVR4 I386 
+ * $TenDRA$
+*/
 
 +CRT0		"/usr/ccs/lib/mcrt1.o /usr/ccs/lib/crti.o"
 +CRTN		"/usr/ccs/lib/crtn.o"

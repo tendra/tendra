@@ -1,2 +1,6 @@
+/* 
+ * $TenDRA$
+*/
+
 +FLAG_TRANS	"-K3"
 +LD		"/usr/bin/ld"

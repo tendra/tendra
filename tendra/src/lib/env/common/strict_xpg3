@@ -1,4 +1,6 @@
-/* tcc environment for strict xpg3 */
+/* tcc environment for strict xpg3 
+ * $TenDRA$
+*/
 +FLAG		"-Yxpg3"
 +FLAG		"-D__STRICT_XPG3"
 +FLAG		"-D__STRICT_POSIX"

@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR HPPA */
+/* TCC ENVIRONMENT : PROFILING FOR HPPA 
+ * $TenDRA$
+*/
 
 +LD			"/bin/ld"
 +CRT0			"/lib/mcrt0.o"

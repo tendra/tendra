@@ -1,3 +1,7 @@
+/* 
+ * $TenDRA$
+*/
+
 +MACHINE		"irix-*-mips"
 +FLAG			"--1MA"
 +VERSION		"3.18"
@@ -5,5 +9,5 @@
 +AS1			"/usr/lib/as1 -O2 -pic2 -noglobal"
 +LD			"/usr/bin/ld"
 +CRT0			""
-+CRT1			"/usr/lib/crt1.o -LIBDIR-/sys/dyn_begin.o"
++CRT1			"/usr/lib/crt1.o <TENDRA_LIBDIR>/sys/dyn_begin.o"
 +CRTN			"/usr/lib/crtn.o"

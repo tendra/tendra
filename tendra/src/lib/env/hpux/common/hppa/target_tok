@@ -1,4 +1,6 @@
-/* tcc environment for target_tok token library for hp_pa*/
+/* tcc environment for target_tok token library for hp_pa
+ * $TenDRA$
+*/
 >LIB			"-ltarget_tok"
 +FLAG_LD	       	"-z"
 +FLAG_INSTALL		"-Ytarget_tok"

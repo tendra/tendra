@@ -1,3 +1,5 @@
-/* environment for powerpc specific code */
+/* environment for powerpc specific code 
+ * $TenDRA$
+*/
 +FLAG_AS		"-m pwr"
 +FLAG_TRANS		"-KR"

@@ -1,4 +1,6 @@
-/* tcc environment for library building */
+/* tcc environment for library building 
+ * $TenDRA$
+*/
 
-+INCL			"-I-INCLDIR-/dummy.api"
++INCL			"-I<TENDRA_INCLDIR>/dummy.api"
 +FLAG			"-D__BUILDING_LIBS"

@@ -1,4 +1,6 @@
-/* ENVIRONMENT FOR -Xc ON common */
+/* ENVIRONMENT FOR -Xc ON common 
+ * $TenDRA$
+*/
 
-+STARTUP		"-f-STARTUPDIR-/Modes/Xc"
-+STARTUP_CPP		"-f-STARTUPDIR-/Modes.cpp/Xc"
++STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xc"
++STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xc"

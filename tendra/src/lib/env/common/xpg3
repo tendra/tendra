@@ -1,6 +1,8 @@
-/* tcc environment for xpg3 */
+/* tcc environment for xpg3 
+ * $TenDRA$
+*/
 
-+INCL			"-Nxpg3:-INCLDIR-/xpg3.api"
++INCL			"-Nxpg3:<TENDRA_INCLDIR>/xpg3.api"
 +LIB			"-lxpg3 -lposix -lansi"
 +FLAG_INSTALL		"-Yxpg3"
 +API_NAME		"-Axpg3"

@@ -1,6 +1,8 @@
-/* tcc environment for ansi */
+/* tcc environment for ansi 
+ * $TenDRA$
+*/
 
-+INCL			"-Nansi:-INCLDIR-/ansi.api"
++INCL			"-Nansi:<TENDRA_INCLDIR>/ansi.api"
 +LIB			"-lansi"
 +FLAG_INSTALL		"-Yansi"
 +API_NAME		"-Aansi"

@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR m68k sunos */
+/* TCC ENVIRONMENT : PROFILING FOR m68k sunos 
+ * $TenDRA$
+*/
 
 +SYS_LIBC		"-lc_p"
 +FLAG_TRANS		"-P"

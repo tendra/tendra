@@ -1,6 +1,8 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR SPARC */
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR SPARC 
+ * $TenDRA$
+*/
 
 +AS			"/bin/as"
 +LD			"/bin/ld -dc -dp -X"
 >SYS_LIB		"-lg"
-<LINK			"-L-LIBDIR-/diag"
+<LINK			"-L<TENDRA_LIBDIR>/diag"

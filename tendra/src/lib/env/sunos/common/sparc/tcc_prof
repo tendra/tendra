@@ -1,4 +1,6 @@
-/* TCC ENVIRONMENT : PROFILING FOR SPARC */
+/* TCC ENVIRONMENT : PROFILING FOR SPARC 
+ * $TenDRA$
+*/
 
 +LD			"/bin/ld -dc -dp -X"
 +SYS_LIBC		"-lc_p"

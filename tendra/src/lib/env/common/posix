@@ -1,6 +1,8 @@
-/* tcc environment for posix */
+/* tcc environment for posix 
+ * $TenDRA$
+*/
 
-+INCL			"-Nposix:-INCLDIR-/posix.api"
++INCL			"-Nposix:<TENDRA_INCLDIR>/posix.api"
 +LIB			"-lposix -lansi"
 +FLAG_INSTALL		"-Yposix"
 +API_NAME		"-Aposix"
