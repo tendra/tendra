@@ -1,6 +1,9 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY sid.manpage SYSTEM "../manpages/sid/manpage.sgml">
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man;
 ]>
 
 <book>
@@ -439,7 +442,8 @@ sid <emphasis>options input-files output-files</emphasis>
     </programlisting>
 
 
-    <para>INSERT MANPAGE XREF HERE</para>
+    <para>Please see the <xref linkend='sid-manpage'> manpage for a complete list of
+      command-line options.</para>
   </chapter>
 
   <chapter id='grammar-file'>
@@ -2084,6 +2088,13 @@ rule1 = {
 
       </simplesect>
     </sect1>
+  </chapter>
+
+  <chapter id='manpages'>
+    <title>Manual Pages</title>
+      <refentry id='sid-manpage'>
+        &sid.manpage;
+      </refentry>
   </chapter>
 
   <glossary id='glossary'>
