@@ -286,7 +286,7 @@ multibyte           1
 
 <para>This table gives the default implementation limits imposed by the C++ producer for the various implementation quantities listed in Annex B of the ISO C++ standard, together with the minimum limits allowed in ISO C and C++. A default limit of <emphasis>none</emphasis> means that the quantity is limited only by the size of the host machine (either <literal>ULONG_MAX</literal> or until it runs out of memory). A limit of <emphasis>target</emphasis> means that while no limits is imposed by the C++ front-end, particular target machines may impose such limits.</para>
 
-<table frame='all'>
+<table frame='all' id='impl-limits'>
 <title>Implementation Limits</title>
 <tgroup cols='4'>
 <thead>
@@ -2708,7 +2708,7 @@ reject -&gt; reject
 
 
 
-<table frame='all'>
+<table frame='all' id='identifer-keys'>
 <title>Identifier Keys</title>
 <tgroup cols='3'>
 <thead>
@@ -3022,7 +3022,7 @@ reject -&gt; reject
 
 <para>The -XREF-built-in built-in types are represented in the symbol table dump as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='symbol-table-dump-b'>
 <title>Symbol Table Dump</title>
 <tgroup cols='4'>
 <thead>
@@ -3128,7 +3128,7 @@ reject -&gt; reject
 
 <para>-XREF-composite Composite and qualified types are represented in terms of their subtypes as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='subtypes'>
 <title>Subtypes</title>
 <tgroup cols='2'>
 <thead>
@@ -3572,7 +3572,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 <para>The representations of the basic arithmetic types are target dependent, so, for example, an <literal>int</literal> may contain 16, 32, 64 or some other number of bits. Thus it is necessary to introduce a token to stand for each of the built-in arithmetic types (including the -XREF-pragma.html#longlong<literal>long long</literal> types). Each integral type is represented by a <literal>VARIETY</literal> token as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='variety-tokens'>
 <title>Variety Tokens</title>
 <tgroup cols='3'>
 <thead>
@@ -3657,7 +3657,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 <para>Similarly each floating point type is represent by a <literal>FLOATING_VARIETY</literal> token:</para>
 
 
-<table frame='all'>
+<table frame='all' id='floating-var-tokens'>
 <title>Floating Variety Tokens</title>
 <tgroup cols='2'>
 <thead>
@@ -3689,7 +3689,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 <para>Each integral type also has an encoding as a <literal>SIGNED_NAT</literal> as shown above. This number is a bit pattern built up from the following values:</para>
 
-<table frame='all'>
+<table frame='all' id='bit-pattern'>
 <title>Signed Bit Pattern</title>
 <tgroup cols='2'>
 <thead>
@@ -3779,7 +3779,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 
 <para>will be represented by a <literal>SIGNED_NAT</literal> token with external name <literal>tv</literal> corresponding to the encoding of <literal>v</literal>. Special cases of this are the implementation dependent integral types which arise naturally within the language. The external token names for these types are given below:</para>
 
-<table frame='all'>
+<table frame='all' id='external-tokens'>
 <title>External Tokens</title>
 <tgroup cols='2'>
 <thead>
@@ -3829,7 +3829,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 <para>which map a literal value to the representation of an integral type. The token used depends on the list of possible types, which in turn depends on the base used to represent the literal and the integer suffix used, as given in the following table:</para>
 
 
-<table frame='all'>
+<table frame='all' id='int-literal-types'>
 <title>Integer Literal Types</title>
 <tgroup cols='4'>
 <thead>
@@ -4631,7 +4631,7 @@ delete this ;
 
 <para>The following table gives the various tag numbers used in type information structures plus a list of the base type information structures associated with each type. Macros giving these tag numbers are provided in the default implementation in a header, <literal>interface.h</literal>, which is shared by the C++ producer.</para>
 
-<table frame='all'>
+<table frame='all' id='info-struct-tag-num'>
 <title>Information Structure Tag Numbers</title>
 <tgroup cols='4'>
 <thead>
@@ -4743,7 +4743,7 @@ delete this ;
 
 <para>Each base type information structure is described as a triple consisting of a type and two integers. One of these integers may be used to encode a type qualifier, <literal>cv</literal>, as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='info-struct-base-types'>
 <title>Information Structure Base Types</title>
 <tgroup cols='2'>
 <thead>
@@ -4780,7 +4780,7 @@ delete this ;
 
 <para>The base type information for a class consists of information on each of its direct base classes. The includes the offset of this base within the class (for a virtual base class this is the offset of the corresponding <emphasis>ptr</emphasis> field), whether the base is virtual (1) or not (0), and the base class access, encoded as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='base-class-access'>
 <title>Base Class Access Encoding</title>
 <tgroup cols='2'>
 <thead>
@@ -4833,7 +4833,7 @@ delete this ;
 
 <para>where the argument gives the encoding of the type as given in the following table:</para>
 
-<table frame='all'>
+<table frame='all' id='type-encodings'>
 <title>Type Encodiing</title>
 <tgroup cols='4'>
 <thead>
@@ -5221,7 +5221,7 @@ extern &quot;C&quot; int errno ;
 
 <para>Simple identifier names are mapped to themselves. Unicode characters of the forms <literal>\u</literal><emphasis>xxxx</emphasis> and <literal>\U</literal><emphasis>xxxxxxxx</emphasis> are mapped to <literal>__k</literal><emphasis>xxxx</emphasis> and <literal>__K</literal><emphasis>xxxxxxxx</emphasis> respectively, where the hex digits are output in their canonical lower-case form. Constructors are mapped to <literal>__ct</literal> and destructors to <literal>__dt</literal>. Conversions functions are mapped to <literal>__op</literal><emphasis>type</emphasis> where <emphasis>type</emphasis> is the mangled form of the conversion type. Overloaded operator functions, <literal>operator@</literal>, are mapped as follows:</para>
 
-<table frame='all'>
+<table frame='all' id='overloaded-oper-funct'>
 <title>Overloaded Operator Functions</title>
 <tgroup cols='6'>
 <thead>
@@ -5815,7 +5815,7 @@ stat::st_mtime
 
 <para>The following table lists all the source modules in the C++ producer with a brief description of the purpose of each:</para>
 
-<table frame='all'>
+<table frame='all' id='cpp-prod-modules'>
 <title>C++ Producer Modules</title>
 <tgroup cols='3'>
 <thead>
