@@ -420,7 +420,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
     #pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis>
 </programlisting>
 
-<para>The directory name must be passed to the checker using the <literal>-N</literal><emphasis>dir_name</emphasis> <literal>:</literal><emphasis>dir</emphasis> <literal></literal>command line option. This is equivalent to the usual <literal>-I</literal><literal>dir</literal> option for specifying include paths, except that it also attaches the name dir_name to the directory.</para>
+<para>The directory name must be passed to the checker using the <literal>-N</literal><emphasis>dir_name</emphasis> <literal>:</literal><emphasis>dir</emphasis>command line option. This is equivalent to the usual <literal>-I</literal><literal>dir</literal> option for specifying include paths, except that it also attaches the name dir_name to the directory.</para>
 </sect1>
 
 </chapter>
@@ -444,7 +444,7 @@ The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on s
 #pragma TenDRA conversion analysis <emphasis>status</emphasis>
 </programlisting>
 
-<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>status</emphasis> appears in a pragma statement it represents one of <literal>on</literal> (enable the check and produce errors), <literal>warning</literal> (enable the check but produce only warnings), or <literal>off</literal> (disable the check). Here <emphasis>status</emphasis> may be <literal>on</literal> to give an error if a conversion is detected, <literal>warning</literal> to produce a warning if a conversion is detected, or <literal>off</literal> to switch the checks off. The checks may also be controlled using the command line option<literal>-X:</literal><emphasis>test</emphasis><literal>=</literal><emphasis>state</emphasis> <literal></literal>where <emphasis>test</emphasis> is one of <literal>convert_all</literal>, <literal>convert_int</literal>, <literal>convert_int_explicit</literal>, <literal>convert_int_implicit</literal>, <literal>convert_int_ptr</literal> and <literal>convert_ptr</literal> and <emphasis>state</emphasis> is <literal>check</literal>,<literal>warn</literal> or <literal>dont</literal>.
+<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>status</emphasis> appears in a pragma statement it represents one of <literal>on</literal> (enable the check and produce errors), <literal>warning</literal> (enable the check but produce only warnings), or <literal>off</literal> (disable the check). Here <emphasis>status</emphasis> may be <literal>on</literal> to give an error if a conversion is detected, <literal>warning</literal> to produce a warning if a conversion is detected, or <literal>off</literal> to switch the checks off. The checks may also be controlled using the command line option<literal>-X:</literal><emphasis>test</emphasis><literal>=</literal><emphasis>state</emphasis> where <emphasis>test</emphasis> is one of <literal>convert_all</literal>, <literal>convert_int</literal>, <literal>convert_int_explicit</literal>, <literal>convert_int_implicit</literal>, <literal>convert_int_ptr</literal> and <literal>convert_ptr</literal> and <emphasis>state</emphasis> is <literal>check</literal>,<literal>warn</literal> or <literal>dont</literal>.</para>
 
 <para>Due to the serious nature of implicit pointer to integer, implicit pointer to pointer conversions and undefined explicit pointer to pointer conversions, such conversions are flagged as errors by default. These conversion checks are not controlled by the global conversion analysis pragma above, but must be controlled by the relevant individual pragmas given in sections -XREF-3.2.2 and -XREF-3.2.3.</para>
 
@@ -912,7 +912,7 @@ int f ( int c )
 #pragma TenDRA incompatible void return <emphasis>permit</emphasis>
 </programlisting>
 
-<para>where <emphasis>permit</emphasis> may be <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as usual.<para>
+<para>where <emphasis>permit</emphasis> may be <literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal> as usual.</para>
 
 <para>There are also equivalent command line options to tchk of the form <literal>-X:void_ret=</literal><literal>state</literal>, where <literal>state</literal> can be <literal>check</literal>, <literal>warn</literal> or <literal>dont</literal>. Incompatible void returns are allowed in the default mode and of course, plain return statements in functions returning void are always legal.</para>
 
@@ -1016,6 +1016,7 @@ extern int g ();
 <formalpara>
 <title>Ellipsis compatibility</title>
 <para>If, when comparing two function prototypes for compatibility, one has an ellipsis and the other does not, but otherwise the two types would be compatible, then if an `extra' ellipsis is allowed, the types are treated as compatible. The pragma controlling ellipsis compatibility is:</para>
+</formalpara>
 
 <programlisting>
 #pragma TenDRA extra ... <emphasis>permit</emphasis>
@@ -1598,7 +1599,7 @@ if( var = 1 ) { ...
 </programlisting>
 
 
-<para>where permit may be replaced by <literal>disallow</literal> to give an error when constant control expressions are encountered, <literal>warning</literal> <emphasis>to replace the error by a warning,</emphasis> <literal></literal>or the check may be switched off using the <literal>allow</literal> (this is the default).</para>
+<para>where permit may be replaced by <literal>disallow</literal> to give an error when constant control expressions are encountered, <literal>warning</literal> <emphasis>to replace the error by a warning,</emphasis> or the check may be switched off using the <literal>allow</literal> (this is the default).</para>
 
 </sect2>
 </sect1>
@@ -1646,55 +1647,55 @@ else { ...
 </row>
 <row>
 <entry>[ - ++ -- + - * & (type) sizeof</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>* / %</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>+(binary) -(binary)</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry><< >></entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry><<= >>=</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>== [=</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>&</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>^</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>|</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>&&</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>||</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>?;</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>=+= -= *= /= %= &= ^= |= <<= >>=</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>.</entry>
@@ -2515,7 +2516,7 @@ static int g ()
 <programlisting>
 #pragma TenDRA incompatible linkage <emphasis>permit</emphasis>
 </programlisting>
-<para>where <emphasis>permit</emphasis> <literal></literal><emphasis>may be</emphasis> <literal>allow</literal> (default mode), <literal>warning</literal> (warn about incompatible linkage) or <literal>disallow</literal> (raise errors for redeclarations with incompatible linkage).</para>
+<para>where <emphasis>permit</emphasis> <emphasis>may be</emphasis> <literal>allow</literal> (default mode), <literal>warning</literal> (warn about incompatible linkage) or <literal>disallow</literal> (raise errors for redeclarations with incompatible linkage).</para>
 
 </sect1>
 
@@ -3006,7 +3007,7 @@ struct tag {
 #pragma TenDRA floating equality <emphasis>permit</emphasis>
 </programlisting>
 
-<para><emphasis>where</emphasis> <literal></literal><emphasis>permit</emphasis> <literal></literal><emphasis>is</emphasis><literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>. By default the check is switched off.</para>
+<para><emphasis>where</emphasis><emphasis>permit</emphasis> <emphasis>is</emphasis><literal>allow</literal>, <literal>warning</literal> or <literal>disallow</literal>. By default the check is switched off.</para>
 
 </sect1>
 </chapter>
@@ -3068,7 +3069,7 @@ struct tag {
 <sect1 id='api-usage-anal'>
 <title>API usage analysis</title>
 
-<para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.<para>
+<para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.</para>
 
 
 </sect1>
@@ -3212,12 +3213,12 @@ return ( 0 );
 </row>
 <row>
 <entry>assignments as conditional control statements</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>bitfield overflow</entry>
@@ -3226,7 +3227,7 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>block level static function</entry>
@@ -3234,8 +3235,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>character escape overflow</entry>
@@ -3244,7 +3245,7 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>sign of char</entry>
@@ -3262,16 +3263,16 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>complete struct/union analysis</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>conditional lvalues</entry>
@@ -3279,62 +3280,62 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>constant conditional control statements</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>conversion analysis</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( int -> enum implicit )</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( int -> int explicit )</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( int -> int implicit )</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( int <-> pointer explicit )</entry>
 <entry>W</entry>
 <entry>W</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( int <-> pinter implicit )</entry>
@@ -3342,17 +3343,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( pointer -> pointer explicit )</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( pointer -> pointer implicit )</entry>
@@ -3360,17 +3361,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive used as macro argument</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive assert</entry>
@@ -3378,8 +3379,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive file</entry>
@@ -3387,8 +3388,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive ident</entry>
@@ -3396,8 +3397,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive unassert</entry>
@@ -3405,8 +3406,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>directive weak</entry>
@@ -3414,62 +3415,62 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>discard analysis</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( function return )</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( static)</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>( value )</entry>
 <entry>W</entry>
-<entry></entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>"$" used as character</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>enum switch analysis</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra , at end of enum lists</entry>
@@ -3477,8 +3478,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra ... in function prototypes</entry>
@@ -3486,8 +3487,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra ; after external declarations</entry>
@@ -3495,17 +3496,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra ; after contional statements</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 <entry>W</entry>
-<entry></entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra int types for bitfields</entry>
@@ -3513,8 +3514,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
 </row>
 <row>
 <entry>extra macro definitions</entry>
@@ -3522,9 +3523,9 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry></entry>
-<entry></entry>
-
+<entry>NUKEME</entry>
+<entry>NUKEME</entry>
+</row>
 </tbody>
 </tgroup>
 </table>
@@ -4108,7 +4109,7 @@ incompatible void return <emphasis>permit</emphasis> -XREF-tdfc6.html#25==&gt;
 
 
 <listitem>
-<para><<emphasis>variable_pragma</emphasis>:</para>
+<para><emphasis>variable_pragma</emphasis>:</para>
 
 <programlisting linenumbering='unnumbered'>
 discard <emphasis>identifier</emphasis> <emphasis>separator</emphasis> -XREF-tdfc8.html#26==&gt; 
