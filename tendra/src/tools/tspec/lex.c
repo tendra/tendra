@@ -156,16 +156,16 @@ static int read_insert(int) ;
 static int read_c_comment(int) ;
 static int read_comment(int) ;
 
-#define unread_char(A)	input_pending = (A)
+#define unread_char(A)		input_pending = (A)
 #define get_global(A)		read_identifier (0, (A), 0)
-#define get_local(A, B)	read_identifier ((A), (B), 0)
+#define get_local(A, B)		read_identifier ((A), (B), 0)
 #define get_command(A, B)	read_identifier ((A), (B), 0)
 #define get_variable(A, B)	read_identifier ((A), (B), 0)
 #define get_number(A)		read_number ((A), 0)
 #define get_string(A)		read_string (0)
-#define get_comment(A)	read_comment (0)
+#define get_comment(A)		read_comment (0)
 #define get_c_comment(A, B)	read_c_comment (0)
-#define get_text(A, B)	read_insert (0)
+#define get_text(A, B)		read_insert (0)
 #define unknown_token(A)	lex_unknown
 
 
