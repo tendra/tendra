@@ -1332,7 +1332,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		i = res -> exp;
 		if (i >= MANT_SIZE)
 			i = MANT_SIZE - 1;
-		for (; i >= 0; --i)
+		for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
 		res -> mant[0] = (unsigned short)c;	/* CAST:jmf: */
 	};
@@ -1351,7 +1351,7 @@ flpt_newdig(unsigned int dig, flt * res, int base)
 		i = res -> exp;
 		if (i >= MANT_SIZE)
 			i = MANT_SIZE - 1;
-		for (; i >= 0; --i)
+		for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
 		res -> mant[0] = (unsigned short)c;	/* CAST:jmf: */
 	};
@@ -1511,7 +1511,7 @@ flpt_round(int round_t, int posn, flt * res)
         i = res -> exp;
         if (i >= MANT_SIZE)
 			i = MANT_SIZE - 1;
-        for (; i >= 0; --i)
+        for (; i > 0; --i)
 			res -> mant[i] = res -> mant[i-1];
         res -> mant[0] = (unsigned short)c;
 	};
