@@ -9,65 +9,77 @@
 
 # XXX: This needs to be tweaked in order to distinguish between 32- and 64-bit.
 
-CRT0?=          /usr/lib/crt0.o
-CRT1?=		
-CRTI?=		
-CRTN?=		
-GCRT0?=         /usr/lib/gcrt0.o
-GCRT1?=		
-MCRT0?=         /usr/lib/mcrt0.o
 
-AR?=		/usr/bin/ar
-AS?=		/usr/bin/as
-AWK?=		/usr/bin/awk
-BASENAME?=	/bin/basename
-CAT?=		/bin/cat
-CHGRP?=		/bin/chgrp
-CHMOD?=		/bin/chmod
-CHOWN?=		/bin/chown
-CP?=		/bin/cp
-CP_ARGS?=	
-CUT?=		/bin/cut
-DC?=		/bin/dc
-DIRNAME?=	/bin/dirname
-ECHO?=		/bin/echo
-EGREP?=		/bin/egrep
-FALSE?=		/bin/false
-FILE?=		/bin/file
-FIND?=		/bin/find
-GREP?=		/bin/grep
-GTAR?=		/usr/bin/tar
-GUNZIP?=	/usr/bin/gunzip
-GUNZIP_ARGS?=	-f
-GZCAT?=		# Not a system utility, available through external package.
-GZIP?=		/usr/bin/gzip
-GZIP_ARGS?=	-9
-HEAD?=		/bin/head
-ID?=		/bin/id
-LD?=		/usr/bin/ld
-LDCONFIG?=	NO-ldconfig
-LN?=		/bin/ln
-LS?=		/bin/ls
-MKDIR?=		/bin/mkdir
-MKDIR_ARGS?=	-p
-MTREE?=		NO-mtree
-MV?=		/bin/mv
-PATCH?=		/bin/patch
-PAX?=		/usr/bin/pax
-PERL?=		/usr/bin/perl
-RANLIB?=	/usr/bin/ranlib
-RM?=		/bin/rm
-RMDIR?=		/bin/rmdir
-SED?=		/usr/bin/sed
-SETENV?=	/usr/bin/env
-SH?=		/bin/sh
-SORT?=		/usr/bin/sort
-SU?=		/usr/bin/su
-TAIL?=		/usr/bin/tail
-TEST?=		/bin/test
-TOUCH?=		/usr/bin/touch
-TR?=		/usr/bin/tr
-TRUE?=		/usr/bin/true
-TYPE?=		type				# Shell builtin
-WC?=		/usr/bin/wc
-XARGS?=		/usr/bin/xargs
+# Libraries
+
+LIB_CRT0?=	/usr/lib/crt0.o
+LIB_CRT1?=		
+LIB_CRTI?=		
+LIB_CRTN?=		
+LIB_GCRT0?=	/usr/lib/gcrt0.o
+LIB_GCRT1?=	
+LIB_MCRT0?=	/usr/lib/mcrt0.o
+LIB_LIBG_EXP?=	/usr/lib/libg.exp
+LIB_LIB_MCRT0?=	/lib/mcrt0.o
+
+
+# Arguments
+
+ARGS_CP?=	
+ARGS_GUNZIP?=	-f
+ARGS_GZIP?=	-9
+ARGS_MKDIR?=	-p
+
+
+# Binaries
+
+BIN_AR?=	/usr/bin/ar
+BIN_AS?=	/usr/bin/as
+BIN_AWK?=	/usr/bin/awk
+BIN_BASENAME?=	/bin/basename
+BIN_CAT?=	/bin/cat
+BIN_CHGRP?=	/bin/chgrp
+BIN_CHMOD?=	/bin/chmod
+BIN_CHOWN?=	/bin/chown
+BIN_CP?=	/bin/cp
+BIN_CUT?=	/bin/cut
+BIN_DC?=	/bin/dc
+BIN_DIRNAME?=	/bin/dirname
+BIN_ECHO?=	/bin/echo
+BIN_EGREP?=	/bin/egrep
+BIN_FALSE?=	/bin/false
+BIN_FILE?=	/bin/file
+BIN_FIND?=	/bin/find
+BIN_GREP?=	/bin/grep
+BIN_GTAR?=	/usr/bin/tar
+BIN_GUNZIP?=	/usr/bin/gunzip
+BIN_GZCAT?=	echo		# Not a system utility.
+BIN_GZIP?=	/usr/bin/gzip
+BIN_HEAD?=	/bin/head
+BIN_ID?=	/bin/id
+BIN_LD?=	/usr/bin/ld
+BIN_LDCONFIG?=	echo		# non existant.
+BIN_LN?=	/bin/ln
+BIN_LS?=	/bin/ls
+BIN_MKDIR?=	/bin/mkdir
+BIN_MTREE?=	echo		# non existant.
+BIN_MV?=	/bin/mv
+BIN_PATCH?=	/bin/patch
+BIN_PAX?=	/usr/bin/pax
+BIN_PERL?=	/usr/bin/perl
+BIN_RANLIB?=	/usr/bin/ranlib
+BIN_BINRM?=	/bin/rm
+BIN_RMDIR?=	/bin/rmdir
+BIN_SED?=	/usr/bin/sed
+BIN_SETENV?=	/usr/bin/env
+BIN_SH?=	/bin/sh
+BIN_SORT?=	/usr/bin/sort
+BIN_SU?=	/usr/bin/su
+BIN_TAIL?=	/usr/bin/tail
+BIN_TEST?=	/bin/test
+BIN_TOUCH?=	/usr/bin/touch
+BIN_TR?=	/usr/bin/tr
+BIN_TRUE?=	/usr/bin/true
+BIN_TYPE?=	type		# Shell builtin
+BIN_WC?=	/usr/bin/wc
+BIN_XARGS?=	/usr/bin/xargs
