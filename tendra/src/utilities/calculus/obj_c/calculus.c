@@ -95,7 +95,7 @@ static calculus *free_calculus_array [] = {
 /*
  *    GENERATE A NEW OBJECT BLOCK
  *
- *    This routine generates a new blcok of calculi of size sz.  Small blocks
+ *    This routine generates a new block of calculi of size sz.  Small blocks
  *    are allocated from the calculus array, others from the main calculus list.
  */
 
