@@ -196,7 +196,7 @@
 
 #if !FS_TENDRA && !FS_LINT
 #define SET( name )
-#define UNUSED( name )
+#define UNUSED( name )		(void)name
 #define	IGNORE			(void)
 #define EXHAUSTIVE
 #define REACHED
