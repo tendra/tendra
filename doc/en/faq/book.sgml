@@ -10,8 +10,10 @@
 
     <copyright>
       <year>2002</year>
-      
+
       <year>2003</year>
+
+      <year>2004</year>
 
       <holder>TenDRA Documentation Team</holder>
     </copyright>
@@ -191,9 +193,12 @@
         </question>
 
         <answer>
-          <para>No.  We encourage the use of separate <filename>.s</filename>
-            files combined with <filename>.c</filename>/
-            <filename>.h</filename> instead.</para>
+          <para>Though there is no support for inline assembly at this time,
+            it is being <ulink url=" http://www.ten15.org/tasks/#143">worked
+            on</ulink>. For now, we encourage the use of separate
+            <filename>.s</filename> files combined with
+            <filename>.c</filename>/<filename>.h</filename> files
+            instead.</para>
         </answer>
       </qandaentry>
 
