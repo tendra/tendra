@@ -1198,7 +1198,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="identifier">
+  <sect3 id="identifier-names">
     <title>2.2.8. Identifier names</title>
   <para>
   During lexical analysis, each character in the source file has an
@@ -1904,7 +1904,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="bitfield">
+  <sect3 id="bitfield-types">
     <title>2.2.24. Bitfield types</title>
   <para>
   The C++ rules on bitfield types differ slightly from the C rules.
@@ -2104,7 +2104,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="conv">
+  <sect3 id="type-conversions">
     <title>2.2.32. Type conversions</title>
   <para>
   There are a number of directives which allow various classes of type
@@ -2374,7 +2374,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="exp">
+  <sect3 id="expressions">
     <title>2.2.36. Expressions</title>
   <para>
   The directive: 
@@ -2448,7 +2448,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="init">
+  <sect3 id="initialiser-expressions">
     <title>2.2.37. Initialiser expressions</title>
   <para>
   C, but not C++, only allows constant expressions in static initialisers.
@@ -2976,7 +2976,7 @@
   a separator for the unique name components. 
   </para>
   
-  <H4><A id="exp">Expression tokens</A></H4>
+  <H4><A id="expression-tokens">Expression tokens</A></H4>
   <para>
   Expression tokens are specified as follows: 
   <programlisting>
@@ -3175,7 +3175,7 @@
   </para>
   </sect3>
   
-  <sect3 id="args">
+  <sect3 id="token-arguments">
     <title>2.3.2. Token arguments</title>
   <para>
   As mentioned above, the program parameters for a <code>PROC</code>
@@ -3392,7 +3392,7 @@
   </para>
   
   
-  <sect3 id="lex">
+  <sect3 id="lexical-elements">
     <title>2.4.1. Lexical elements</title>
   <para>
   A symbol table dump file consists of a sequence of characters giving
@@ -3467,7 +3467,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="loc">
+  <sect3 id="file-locations">
     <title>2.4.3. File locations</title>
   <para>
   A location within a source file can be specified using three 
@@ -3499,7 +3499,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="id">
+  <sect3 id="identifiers">
     <title>2.4.4. Identifiers</title>
   <para>
   Each identifier is represented in the symbol table dump by a unique
@@ -3858,7 +3858,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="type">
+  <sect3 id="types">
     <title>2.4.5. Types</title>
   <para>
   The <A id="built-in">built-in types</A> are represented in the symbol
@@ -4186,7 +4186,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="args">
+  <sect3 id="token-applications">
     <title>2.4.7. Token applications</title>
   <para>
   Given an identifier representing a <code>PROC</code> token or a template,
@@ -4353,7 +4353,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="string">
+  <sect3 id="string-literals">
     <title>2.4.10. String literals</title>
   <para>
   It is possible to dump information on string literals to the symbol
@@ -4742,7 +4742,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="conv">
+  <sect3 id="undefined-conversions">
     <title>2.6.5. Undefined conversions</title>
   <para>
   Several conversions in C and C++ can only be represented by undefined
@@ -5848,7 +5848,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="init">
+  <sect3 id="dynamic-initialisation">
     <title>2.6.15. Dynamic initialisation</title>
   <para>
   The dynamic initialisation of variables with static storage duration
@@ -7418,7 +7418,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="id">
+  <sect3 id="identifier">
     <title>3.2.17. <code>IDENTIFIER</code></title>
   <para>
   The union type <code>IDENTIFIER</code> (<code>id</code>) is used to
@@ -7771,7 +7771,7 @@
   </para>
   </sect3>  
   
-  <sect3 id="loc">
+  <sect3 id="location">
     <title>3.2.31. <code>LOCATION</code></title>
   <para>
   The structure type <code>LOCATION</code> (<code>loc</code>) is used
@@ -8283,7 +8283,7 @@
   		<A HREF="pragma.html#weak">weak</A>
   
   
-  	<A id="type"><I>type-directive</I></A> :
+  	<A id="type-directive"><I>type-directive</I></A> :
   		<A HREF="pragma.html#reach">bottom <I>identifier</I></A>
   		<A HREF="pragma.html#char">character <I>character-sign</I></A>
   		<A HREF="pragma.html#identifier">character <I>character-literal character-mapping</I></A>
