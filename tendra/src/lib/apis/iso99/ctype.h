@@ -25,24 +25,58 @@
 # $TenDRA$
 #
 
-# 7.4
-
-# 7.4.1
+# 7.4.1.1
 
 +FUNC int isalnum(int);
+
+# 7.4.1.2
+
 +FUNC int isalpha(int);
+
+# 7.4.1.3
+
 +FUNC int isblank(int);
+
+# 7.4.1.4
+
 +FUNC int iscntrl(int);
+
+# 7.4.1.5
+
 +FUNC int isdigit(int);
+
+# 7.4.1.6
+
 +FUNC int isgraph(int);
+
+# 7.4.1.7
+
 +FUNC int islower(int);
+
+# 7.4.1.8
+
 +FUNC int isprint(int);
+
+# 7.4.1.9
+
 +FUNC int ispunct(int);
+
+# 7.4.1.10
+
 +FUNC int isspace(int);
+
+# 7.4.1.11
+
 +FUNC int isupper(int);
+
+# 7.4.1.12
+
 +FUNC int isxdigit(int);
 
-# 7.4.2
+# 7.4.2.1
 
 +FUNC int tolower(int);
+
+# 7.4.2.2
+
 +FUNC int toupper(int);
