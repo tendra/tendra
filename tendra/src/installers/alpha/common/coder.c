@@ -3939,7 +3939,7 @@ tailrecurse:
 	setat();
 	load_store(i_ldl,rtmp,zero3);
 	operate_fmt(i_addq,rtmp,GP,rtmp);
-	integer_jump(i_jmp,31,rtmp,endlab); /* endlab is hint */
+	integer_jump(i_jmp,31,rtmp,-endlab); /* endlab is hint */
 	set_label (endlab);
 	close_capsule();
 	comment(" end case ");
