@@ -294,28 +294,28 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NStringT {
-	unsigned			length;
-	CStringP			contents;
+	size_t		length;
+	CStringP	contents;
 } NStringT, *NStringP;
 
 typedef struct DStringT {
-	unsigned			length;
-	unsigned			max_length;
-	CStringP			contents;
+	size_t		length;
+	size_t		max_length;
+	CStringP	contents;
 } DStringT, *DStringP;
 
 /*--------------------------------------------------------------------------*/
 
 void	nstring_init(NStringP);
-void	nstring_init_length(NStringP, unsigned);
+void	nstring_init_length(NStringP, size_t);
 void	nstring_assign(NStringP, NStringP);
 void	nstring_copy_cstring(NStringP, CStringP);
 void	nstring_insert_cstring(NStringP, CStringP);
 void	nstring_copy(NStringP, NStringP);
-CStringP	nstring_to_cstring(NStringP);
-unsigned	nstring_hash_value(NStringP);
-unsigned	nstring_length(NStringP);
-CStringP	nstring_contents(NStringP);
+CStringP nstring_to_cstring(NStringP);
+unsigned nstring_hash_value(NStringP);
+size_t	nstring_length(NStringP);
+CStringP nstring_contents(NStringP);
 CmpT	nstring_compare(NStringP, NStringP);
 BoolT	nstring_equal(NStringP, NStringP);
 BoolT	nstring_ci_equal(NStringP, NStringP);
@@ -326,7 +326,7 @@ void	nstring_destroy(NStringP);
 void	write_nstring(OStreamP, NStringP);
 
 void	dstring_init(DStringP);
-unsigned dstring_length(DStringP);
+size_t	dstring_length(DStringP);
 void	dstring_append_char(DStringP, char);
 void	dstring_append_cstring(DStringP, CStringP);
 void	dstring_append_nstring(DStringP, NStringP);
