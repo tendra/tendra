@@ -46,7 +46,7 @@ echo "${SYSTEM}.${VERSION} detected..."
 echo
 
 # See the URL in the warning below for why this is bad.
-if [ ! -z $LD_LIBRARY_PATH ]; then
+if [ ! -z ${LD_LIBRARY_PATH} ]; then
 	echo "WARNING: LD_LIBRARY_PATH set, please don't do that (see:"
 	echo "http://www.visi.com/~barr/ldpath.html)"
 	echo "Setting to empty environment variable..."
@@ -125,7 +125,7 @@ case "${SYSTEM}.${VERSION}" in
 			;;
 	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
 			# software package.
-			if [ "x$CC" = "x" ]; then
+			if [ "x${CC}" = "x" ]; then
 			    CC=`/usr/bin/env cc`
 			    case "${CC}" in
 				*ucb*cc*)
@@ -135,7 +135,7 @@ case "${SYSTEM}.${VERSION}" in
 				    ;;
 			    esac;
 			fi
-			CC=$CC
+			CC=${CC}
 			LD="ld"
 			LDOPTS=
 			LDCRT=
@@ -163,24 +163,24 @@ fi
 echo "Setting Makefile.defs environment to the following:"
 echo
 echo "PREFIX:		${PREFIX}"
-echo "CC:		$CC"
-echo "LD:		$LD"
-echo "LDOPTS:		$LDOPTS"
-echo "LDCRT:		$LDCRT"
-echo "LIBS:		$LIBS"
-echo "OSFAM:		$OSFAM"
-echo "OSVER:		$OSVER"
-echo "BLDARCH:	$BLDARCH ($HOSTARCH)"
+echo "CC:		${CC}"
+echo "LD:		${LD}"
+echo "LDOPTS:		${LDOPTS}"
+echo "LDCRT:		${LDCRT}"
+echo "LIBS:		${LIBS}"
+echo "OSFAM:		${OSFAM}"
+echo "OSVER:		${OSVER}"
+echo "BLDARCH:	${BLDARCH} (${HOSTARCH})"
 
 cat > Makefile.defs <<EOF
 PREFIX=${PREFIX}
-CC?=$CC
-LD?=$LD
-LDOPTS=$LDOPTS
-LDCRT=$LDCRT
-LIBS=$LIBS
-OSFAM=$OSFAM
-OSVER=$OSVER
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-BLDARCH=$BLDARCH
+CC?=${CC}
+LD?=${LD}
+LDOPTS=${LDOPTS}
+LDCRT=${LDCRT}
+LIBS=${LIBS}
+OSFAM=${OSFAM}
+OSVER=${OSVER}
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
+BLDARCH=${BLDARCH}
 EOF
