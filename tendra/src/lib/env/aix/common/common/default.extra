@@ -2,9 +2,15 @@
  * $TenDRA$
 */
 
-+BIN_LD			-LD-
-+LIBG_EXP		-LIBG_EXP-
-+LIB_MCRT0		-LIB_MCRT0-
+/* Binaries */
+
++BIN_LD			"-BIN_LD-""
+
+
+/* Libraries */
+
++LIBG_EXP		"-LIB_LIBG_EXP-"
++LIB_MCRT0		"-LIB_MCRT0-"
 
 
 +MACHINE		"aix-*-*"
