@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,9 +104,9 @@
  *    are used in read_if_exp before they are defined.
  */
 
-static int eq_pptok(PPTOKEN *, PPTOKEN *) ;
-static PPTOKEN *skip_predicate(PPTOKEN **, int) ;
-static int check_assert(HASHID, PPTOKEN *, int) ;
+static int eq_pptok(PPTOKEN *, PPTOKEN *);
+static PPTOKEN *skip_predicate(PPTOKEN **, int);
+static int check_assert(HASHID, PPTOKEN *, int);
 
 
 /*
@@ -167,7 +167,7 @@ static unsigned preproc_depth = 0;
  */
 
 void
-start_preproc_if ()
+start_preproc_if (void)
 {
     PUSH_unsigned (preproc_depth, preproc_stack);
     PUSH_unsigned (PP_END, preproc_stack);
@@ -190,7 +190,7 @@ start_preproc_if ()
  */
 
 int
-clear_preproc_if ()
+clear_preproc_if (void)
 {
     int ok = 1;
     while (!IS_NULL_stack (preproc_stack)) {
@@ -765,7 +765,7 @@ read_if (int dir, unsigned c, int prev)
     /* Step over any unused code */
     cond &= PP_COND_MASK;
     if (cond == PP_FALSE || cond == PP_PAST || cond == PP_SKIP) {
-		for (; ;) {
+		for (;;) {
 			int t;
 			unsigned long sp = skip_white (1);
 			in_preproc_dir = 1;
@@ -1015,7 +1015,7 @@ read_include(int act, int dir)
 			/* Scan header name */
 			if (quote) {
 				string t = ++s;
-				for (; ;) {
+				for (;;) {
 					if (*t == quote) {
 						*t = 0;
 						if (t + 1 != token_buff.posn) end = 1;
@@ -1267,7 +1267,7 @@ free_macro_defn(IDENTIFIER id)
  */
 
 static int
-read_define()
+read_define(void)
 {
     HASHID macro;
     PPTOKEN *defn;
@@ -1375,7 +1375,7 @@ read_define()
 		}
 		
 		/* Mark the macro parameters in the definition */
-		for (p = defn ; p != NULL ; p = p->next) {
+		for (p = defn; p != NULL; p = p->next) {
 			int tk = p->tok;
 			if (tk == lex_identifier) {
 				HASHID par = p->pp_data.id.hash;
@@ -1395,7 +1395,7 @@ read_define()
 		}
 		
 		/* Check for '#' operators */
-		for (p = defn ; p != NULL ; p = p->next) {
+		for (p = defn; p != NULL; p = p->next) {
 			int tk = p->tok;
 			if (tk == lex_hash_H2) tk = get_digraph (tk);
 			if (tk == lex_hash_H1) {
@@ -1409,7 +1409,7 @@ read_define()
 		}
 		
 		/* Clear the parameter marks */
-		for (lp = pars ; !IS_NULL_list (lp) ; lp = TAIL_list (lp)) {
+		for (lp = pars; !IS_NULL_list (lp); lp = TAIL_list (lp)) {
 			HASHID par = DEREF_hashid (HEAD_list (lp));
 			unsigned long mark = DEREF_ulong (hashid_hash (par));
 			mark %= HASH_SIZE;
@@ -1434,7 +1434,7 @@ read_define()
 			/* Definition can't start with '##' */
 			report (preproc_loc, ERR_cpp_concat_place (macro));
 		}
-		for (p = defn->next ; p != NULL ; p = p->next) {
+		for (p = defn->next; p != NULL; p = p->next) {
 			tk = p->tok;
 			if (tk == lex_hash_Hhash_H2) tk = get_digraph (tk);
 			if (tk == lex_hash_Hhash_H1) {
@@ -1519,7 +1519,7 @@ read_define()
  */
 
 static int
-read_undef()
+read_undef(void)
 {
     /* Read the macro identifier */
     unsigned def;
@@ -1750,8 +1750,8 @@ make_assert(HASHID pred, int key)
  *    the token after the matching close bracket.
  */
 
-static PPTOKEN
-*skip_predicate(PPTOKEN **p, int dir)
+static PPTOKEN*
+skip_predicate(PPTOKEN **p, int dir)
 {
     PPTOKEN *q = *p;
     PPTOKEN *r = NULL;
@@ -2405,7 +2405,7 @@ read_preproc_dir(int act, int prev)
  */
 
 void
-preprocess_file()
+preprocess_file(void)
 {
     int t;
     FILE *f;
@@ -2468,7 +2468,7 @@ preprocess_file()
 			}
 			if (n != ln) {
 				if (n > ln && n <= ln + 10) {
-					for (; ln < n ; ln++) fputc_v ('\n', f);
+					for (; ln < n; ln++) fputc_v ('\n', f);
 				} else {
 					/* Force '#line' for more than 10 blank lines */
 					fprintf_v (f, "\n\n#line %lu\n", n);
@@ -2479,8 +2479,8 @@ preprocess_file()
 			
 			/* Print indentation */
 			ws = sp;
-			for (; sp >= tab ; sp -= tab) bfputc (bf, '\t');
-			for (; sp ; sp--) bfputc (bf, ' ');
+			for (; sp >= tab; sp -= tab) bfputc (bf, '\t');
+			for (; sp; sp--) bfputc (bf, ' ');
 			
 			/* Allow for hash symbols */
 			if (t == lex_hash_H1) crt_token->tok = lex_hash_Hhash_H1;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,16 +103,16 @@ typedef struct pstate_tag {
  *    level lexical analysis and preprocessing routine.
  */
 
-extern void init_parser(PPTOKEN *) ;
-extern int expand_token(int) ;
-extern int expand_preproc(int) ;
-extern void rescan_template(NAMESPACE) ;
-extern PPTOKEN *patch_tokens(int) ;
-extern PPTOKEN *restore_parser(void) ;
-extern PPTOKEN *read_loc_tokens(PPTOKEN *) ;
-extern void snip_tokens(PPTOKEN *, PPTOKEN *) ;
-extern void save_state(PARSE_STATE *, int) ;
-extern void restore_state(PARSE_STATE *) ;
+extern void init_parser(PPTOKEN *);
+extern int expand_token(int);
+extern int expand_preproc(int);
+extern void rescan_template(NAMESPACE);
+extern PPTOKEN *patch_tokens(int);
+extern PPTOKEN *restore_parser(void);
+extern PPTOKEN *read_loc_tokens(PPTOKEN *);
+extern void snip_tokens(PPTOKEN *, PPTOKEN *);
+extern void save_state(PARSE_STATE *, int);
+extern void restore_state(PARSE_STATE *);
 extern int crt_state_depth;
 
 
@@ -151,15 +151,15 @@ extern int have_syntax_error;
 
 #define ADVANCE_LEXER\
     {\
-	last_lex_token = crt_lex_token ;\
-	crt_lex_token = expand_token (EXPAND_NORMAL) ;\
+	last_lex_token = crt_lex_token;\
+	crt_lex_token = expand_token (EXPAND_NORMAL);\
     }
 
 
 #define SAVE_LEXER(T)\
     {\
-	saved_lex_token = crt_lex_token ;\
-	crt_lex_token = (T) ;\
+	saved_lex_token = crt_lex_token;\
+	crt_lex_token = (T);\
     }
 
 

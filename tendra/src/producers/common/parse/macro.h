@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,17 +80,17 @@ typedef struct tok_loc_tag {
  *    lists of preprocessing tokens, including the expansion of macros.
  */
 
-extern void init_macros(int, int) ;
-extern void term_macros(void) ;
-extern PPTOKEN *recognise_strings(PPTOKEN *, HASHID, int) ;
-extern PPTOKEN *expand_macro(HASHID, TOKEN_LOC *, int) ;
-extern PPTOKEN *read_line(int, int) ;
-extern PPTOKEN *expand_tok_list(PPTOKEN *) ;
-extern PPTOKEN *clean_tok_list(PPTOKEN *) ;
-extern PPTOKEN *new_pptok(void) ;
-extern void free_tok_list(PPTOKEN *) ;
-extern int quote_tok_list(PPTOKEN *, int, int) ;
-extern void token_parts(int, PPTOKEN *) ;
+extern void init_macros(int, int);
+extern void term_macros(void);
+extern PPTOKEN *recognise_strings(PPTOKEN *, HASHID, int);
+extern PPTOKEN *expand_macro(HASHID, TOKEN_LOC *, int);
+extern PPTOKEN *read_line(int, int);
+extern PPTOKEN *expand_tok_list(PPTOKEN *);
+extern PPTOKEN *clean_tok_list(PPTOKEN *);
+extern PPTOKEN *new_pptok(void);
+extern void free_tok_list(PPTOKEN *);
+extern int quote_tok_list(PPTOKEN *, int, int);
+extern void token_parts(int, PPTOKEN *);
 
 
 /*

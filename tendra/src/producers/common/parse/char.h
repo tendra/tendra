@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,10 +66,10 @@
  *    ASCII and checks on unicode characters.
  */
 
-extern void map_ascii(unsigned char *) ;
-extern unsigned long to_ascii(unsigned long, int *) ;
-extern unsigned long from_ascii(unsigned long, int *) ;
-extern int unicode_alpha(unsigned long) ;
+extern void map_ascii(unsigned char *);
+extern unsigned long to_ascii(unsigned long, int *);
+extern unsigned long from_ascii(unsigned long, int *);
+extern int unicode_alpha(unsigned long);
 extern int is_ascii;
 
 

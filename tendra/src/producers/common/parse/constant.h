@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,33 +89,33 @@
  *    performing calculations with integer constant expressions.
  */
 
-extern void init_constant(void) ;
-extern void init_float(FLOAT_TYPE) ;
-extern FLOAT get_float(TYPE, int) ;
+extern void init_constant(void);
+extern void init_float(FLOAT_TYPE);
+extern FLOAT get_float(TYPE, int);
 
-extern NAT make_nat_literal(NAT, unsigned, unsigned) ;
-extern NAT make_large_nat(LIST (unsigned)) ;
-extern NAT make_nat_value(unsigned long) ;
-extern NAT make_small_nat(int) ;
-extern unsigned long get_nat_value(NAT) ;
-extern NAT negate_nat(NAT) ;
-extern NAT binary_nat_op(unsigned, NAT, NAT) ;
-extern int compare_nat(NAT, NAT) ;
-extern int eq_nat(NAT, NAT) ;
+extern NAT make_nat_literal(NAT, unsigned, unsigned);
+extern NAT make_large_nat(LIST (unsigned));
+extern NAT make_nat_value(unsigned long);
+extern NAT make_small_nat(int);
+extern unsigned long get_nat_value(NAT);
+extern NAT negate_nat(NAT);
+extern NAT binary_nat_op(unsigned, NAT, NAT);
+extern int compare_nat(NAT, NAT);
+extern int eq_nat(NAT, NAT);
 
-extern int check_nat_range(TYPE, NAT) ;
-extern int check_type_size(TYPE, NAT) ;
-extern NAT max_type_value(TYPE, int) ;
-extern void check_bounds(int, TYPE, EXP) ;
-extern unsigned eval_const_cond(EXP) ;
-extern unsigned no_bits(unsigned) ;
-extern int divides_nat(EXP, EXP) ;
-extern int is_zero_nat(NAT) ;
-extern int is_negative_nat(NAT) ;
-extern int is_error_nat(NAT) ;
-extern int is_calc_nat(NAT) ;
-extern int is_zero_exp(EXP) ;
-extern int is_literal(EXP) ;
+extern int check_nat_range(TYPE, NAT);
+extern int check_type_size(TYPE, NAT);
+extern NAT max_type_value(TYPE, int);
+extern void check_bounds(int, TYPE, EXP);
+extern unsigned eval_const_cond(EXP);
+extern unsigned no_bits(unsigned);
+extern int divides_nat(EXP, EXP);
+extern int is_zero_nat(NAT);
+extern int is_negative_nat(NAT);
+extern int is_error_nat(NAT);
+extern int is_calc_nat(NAT);
+extern int is_zero_exp(EXP);
+extern int is_literal(EXP);
 
 
 /*
@@ -126,15 +126,15 @@ extern int is_literal(EXP) ;
  *    precisely the constant-expressions from the grammar.
  */
 
-extern EXP make_test_nat(EXP) ;
-extern EXP make_unary_nat(unsigned, EXP) ;
-extern EXP make_binary_nat(unsigned, EXP, EXP) ;
-extern EXP make_compare_nat(NTEST, EXP, EXP) ;
-extern EXP make_cond_nat(EXP, EXP, EXP) ;
-extern EXP make_cast_nat(TYPE, EXP, ERROR *, unsigned) ;
-extern EXP make_int_exp(TYPE, unsigned, NAT) ;
-extern NAT make_nat_exp(EXP, ERROR *) ;
-extern EXP calc_nat_value(NAT, TYPE) ;
+extern EXP make_test_nat(EXP);
+extern EXP make_unary_nat(unsigned, EXP);
+extern EXP make_binary_nat(unsigned, EXP, EXP);
+extern EXP make_compare_nat(NTEST, EXP, EXP);
+extern EXP make_cond_nat(EXP, EXP, EXP);
+extern EXP make_cast_nat(TYPE, EXP, ERROR *, unsigned);
+extern EXP make_int_exp(TYPE, unsigned, NAT);
+extern NAT make_nat_exp(EXP, ERROR *);
+extern EXP calc_nat_value(NAT, TYPE);
 
 #define SMALL_NAT_SIZE		257
 #define SMALL_NAT_ALLOC		17

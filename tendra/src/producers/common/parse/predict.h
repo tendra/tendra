@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,21 +67,21 @@
  *    problems (such as resolving between declarations and expressions).
  */
 
-extern int predict_array(void) ;
-extern int predict_class(int) ;
-extern int predict_decl(void) ;
-extern int predict_destr(NAMESPACE) ;
-extern int predict_dspec(int) ;
-extern int predict_func_defn(void) ;
-extern int predict_init(void) ;
-extern int predict_obj_defn(void) ;
-extern int predict_operator(void) ;
-extern int predict_param(void) ;
-extern int predict_ptr(int) ;
-extern int predict_template(void) ;
-extern int predict_tspec(int) ;
-extern int predict_typeid(int) ;
-extern int predict_typename(void) ;
+extern int predict_array(void);
+extern int predict_class(int);
+extern int predict_decl(void);
+extern int predict_destr(NAMESPACE);
+extern int predict_dspec(int);
+extern int predict_func_defn(void);
+extern int predict_init(void);
+extern int predict_obj_defn(void);
+extern int predict_operator(void);
+extern int predict_param(void);
+extern int predict_ptr(int);
+extern int predict_template(void);
+extern int predict_tspec(int);
+extern int predict_typeid(int);
+extern int predict_typename(void);
 
 
 /*

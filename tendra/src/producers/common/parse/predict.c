@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -186,7 +186,7 @@ int used_register = 0;
  */
 
 #if LANGUAGE_CPP
-static int predict_declarator(int, int, int) ;
+static int predict_declarator(int, int, int);
 #endif
 
 
@@ -200,11 +200,11 @@ static int predict_declarator(int, int, int) ;
 #if LANGUAGE_CPP
 
 static int
-skip_brackets()
+skip_brackets(void)
 {
     int n = 0;
     int brackets = 1;
-    for (; ;) {
+    for (;;) {
 		int t = next_token ();
 		n++;
 		switch (t) {
@@ -249,7 +249,7 @@ skip_brackets()
 #if LANGUAGE_CPP
 
 static int
-skip_operator()
+skip_operator(void)
 {
     int t, c;
     int go = 1;
@@ -573,7 +573,7 @@ predict_declarator(int t, int loc, int depth)
     if (!IS_NULL_nspace (ns)) {
 		IGNORE add_nested_nspace (ns);
     }
-    for (; ;) {
+    for (;;) {
 		switch (t) {
 			
 	    case lex_open_Hround : {
@@ -764,7 +764,7 @@ predict_declarator(int t, int loc, int depth)
  */
 
 int
-predict_decl()
+predict_decl(void)
 {
     int t = crt_lex_token;
     int c = lookup_token (t);
@@ -1270,7 +1270,7 @@ predict_typeid(int e)
  */
 
 int
-predict_typename()
+predict_typename(void)
 {
     int d = 0;
     int t = crt_lex_token;
@@ -1311,7 +1311,7 @@ predict_typename()
  */
 
 int
-predict_init()
+predict_init(void)
 {
 #if LANGUAGE_CPP
     PPTOKEN *p = crt_token;
@@ -1422,7 +1422,7 @@ predict_destr(NAMESPACE ns)
  */
 
 int
-predict_param()
+predict_param(void)
 {
     int t = crt_lex_token;
     switch (t) {
@@ -1543,7 +1543,7 @@ predict_class(int col)
  */
 
 int
-predict_func_defn()
+predict_func_defn(void)
 {
     int t = crt_lex_token;
     if (t == lex_open_Hbrace_H1) return (1);
@@ -1564,7 +1564,7 @@ predict_func_defn()
  */
 
 int
-predict_obj_defn()
+predict_obj_defn(void)
 {
     int t = crt_lex_token;
     if (t == lex_assign) return (1);
@@ -1608,7 +1608,7 @@ predict_ptr(int ref)
  */
 
 int
-predict_operator()
+predict_operator(void)
 {
 #if LANGUAGE_CPP
     int t = crt_lex_token;
@@ -1628,7 +1628,7 @@ predict_operator()
  */
 
 int
-predict_array()
+predict_array(void)
 {
     PPTOKEN *p;
     NAMESPACE np;
@@ -1652,7 +1652,7 @@ predict_array()
  */
 
 int
-predict_template()
+predict_template(void)
 {
     int d = 0;
     int t = crt_lex_token;

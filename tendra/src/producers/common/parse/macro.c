@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -99,8 +99,8 @@ static LIST (PPTOKEN_P) alloc_tokens = NULL_list (PPTOKEN_P);
  *    This routine allocates a new token from the list free_tokens.
  */
 
-PPTOKEN
-*new_pptok()
+PPTOKEN*
+new_pptok(void)
 {
     PPTOKEN *p = free_tokens;
     if (p == NULL) {
@@ -109,7 +109,7 @@ PPTOKEN
 		p = xmalloc_nof (PPTOKEN, n);
 		CONS_pptok (p, alloc_tokens, alloc_tokens);
 		q = p;
-		for (i = 1 ; i < n ; i++) {
+		for (i = 1; i < n; i++) {
 			q->next = q + 1;
 			q++;
 		}
@@ -130,8 +130,8 @@ PPTOKEN
 
 #define free_pptok(P)\
     {\
-	(P)->next = free_tokens ;\
-	free_tokens = (P) ;\
+	(P)->next = free_tokens;\
+	free_tokens = (P);\
     }
 
 
@@ -161,7 +161,7 @@ free_tok_list(PPTOKEN *p)
  */
 
 void
-term_macros()
+term_macros(void)
 {
     LIST (PPTOKEN_P) p = alloc_tokens;
     while (!IS_NULL_list (p)) {
@@ -184,10 +184,10 @@ term_macros()
 
 #define copy_pptok(P, T, Q)\
     {\
-	(P)->tok = (T) ;\
-	(P)->pp_data = (Q)->pp_data ;\
-	(P)->pp_opts = (Q)->pp_opts ;\
-	(P)->pp_space = (Q)->pp_space ;\
+	(P)->tok = (T);\
+	(P)->pp_data = (Q)->pp_data;\
+	(P)->pp_opts = (Q)->pp_opts;\
+	(P)->pp_space = (Q)->pp_space;\
     }
 
 
@@ -251,7 +251,7 @@ token_parts(int t, PPTOKEN *p)
 	    string s1 = token_buff.start;
 	    string s2 = p->pp_data.buff;
 	    ASSERT (MULTI_WIDTH <= sizeof (p->pp_data.buff));
-	    for (i = 0 ; i < MULTI_WIDTH ; i++) s2 [i] = s1 [i];
+	    for (i = 0; i < MULTI_WIDTH; i++) s2 [i] = s1 [i];
 	    break;
 	}
     }
@@ -266,8 +266,8 @@ token_parts(int t, PPTOKEN *p)
  *    the result.
  */
 
-PPTOKEN
-*clean_tok_list(PPTOKEN *toks)
+PPTOKEN*
+clean_tok_list(PPTOKEN *toks)
 {
     unsigned long sp = 0;
     PPTOKEN p0, *p = &p0;
@@ -301,8 +301,8 @@ PPTOKEN
  *    definition, similarly tn gives the last token.
  */
 
-PPTOKEN
-*read_line(int t1, int tn)
+PPTOKEN*
+read_line(int t1, int tn)
 {
     int t = t1;
     unsigned long sp = 0;
@@ -343,12 +343,12 @@ PPTOKEN
  *    tokens.
  */
 
-static PPTOKEN
-*copy_tok_list(PPTOKEN *toks)
+static PPTOKEN*
+copy_tok_list(PPTOKEN *toks)
 {
     PPTOKEN *ptr_tok;
     PPTOKEN dummy_tok, *this_tok = &dummy_tok;
-    for (ptr_tok = toks ; ptr_tok != NULL ; ptr_tok = ptr_tok->next) {
+    for (ptr_tok = toks; ptr_tok != NULL; ptr_tok = ptr_tok->next) {
 		int t = ptr_tok->tok;
 		if (t != lex_ignore_token) {
 			this_tok->next = new_pptok ();
@@ -385,7 +385,7 @@ quote_tok_list(PPTOKEN *toks, int esc, int quote)
     BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
 	
     /* Scan through tokens */
-    for (ptr_tok = toks ; ptr_tok != NULL ; ptr_tok = ptr_tok->next) {
+    for (ptr_tok = toks; ptr_tok != NULL; ptr_tok = ptr_tok->next) {
 		character p, q;
 		int t = ptr_tok->tok;
 		if (t == lex_ignore_token) continue;
@@ -531,7 +531,7 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			string s = token_buff.start;
 			ustrcpy_v (s, token_name (a));
 			ustrcpy_v (s + ustrlen (s), token_name (b));
-			for (c = FIRST_SYMBOL ; c <= LAST_SYMBOL ; c++) {
+			for (c = FIRST_SYMBOL; c <= LAST_SYMBOL; c++) {
 				if (ustreq (s, token_name (c))) {
 					/* Token found - check options */
 					p->tok = c;
@@ -665,7 +665,7 @@ TOKEN_LOC *file_loc = &dummy_loc;
  *    recursively.  This gives the necessary forward declarations.
  */
 
-static PPTOKEN *expand_toks(PPTOKEN *, TOKEN_LOC *, int) ;
+static PPTOKEN *expand_toks(PPTOKEN *, TOKEN_LOC *, int);
 
 
 /*
@@ -684,8 +684,8 @@ static PPTOKEN *expand_toks(PPTOKEN *, TOKEN_LOC *, int) ;
  *    is to spot these unrecognised quotes and turn them into proper strings.
  */
 
-PPTOKEN
-*recognise_strings(PPTOKEN *defn, HASHID macro,
+PPTOKEN*
+recognise_strings(PPTOKEN *defn, HASHID macro,
 				   int act)
 {
     PPTOKEN *this_tok = defn;
@@ -776,8 +776,8 @@ PPTOKEN
  *    already been reported.
  */
 
-static PPTOKEN
-*process_concat(PPTOKEN *defn, HASHID macro)
+static PPTOKEN*
+process_concat(PPTOKEN *defn, HASHID macro)
 {
     PPTOKEN *this_tok;
     while (defn && defn->tok == lex_hash_Hhash_Hop) {
@@ -867,8 +867,8 @@ static PPTOKEN
  *    the result is '2 * f (9)', rather than '2 * 9 * g'.
  */
 
-PPTOKEN
-*expand_macro(HASHID macro, TOKEN_LOC *locs,
+PPTOKEN*
+expand_macro(HASHID macro, TOKEN_LOC *locs,
 			  int complete)
 {
     LOCATION loc;
@@ -950,7 +950,7 @@ PPTOKEN
 		TOKEN_LOC *ptr_loc = locs;
 		
 		/* Check for following open bracket */
-		for (; ;) {
+		for (;;) {
 			if (ptr_loc == file_loc) {
 				/* Read token from input location */
 				int legal = 1;
@@ -1011,10 +1011,10 @@ PPTOKEN
 		}
 		
 		/* Scan macro arguments */
-		for (; ;) {
+		for (;;) {
 			/* Get the next token */
 			int refill = 0;
-			for (; ;) {
+			for (;;) {
 				if (ptr_loc == file_loc) {
 					/* Read token from file location */
 					sp = skip_white (1);
@@ -1117,7 +1117,7 @@ PPTOKEN
 				report (loc, ERR_cpp_replace_arg_eof (macro));
 			} else {
 				/* Free those arguments actually read */
-				for (n = 1 ; n <= no_args && n <= no_pars ; n++) {
+				for (n = 1; n <= no_args && n <= no_pars; n++) {
 					free_tok_list (arg_array [n]);
 				}
 				if (arg_array != arg_array_base) xfree_nof (arg_array);
@@ -1127,7 +1127,7 @@ PPTOKEN
 		
 		/* Update location pointers */
 		if (ptr_loc) *(ptr_loc)->toks = ptr_tok;
-		for (lc = locs ; lc != ptr_loc ; lc = lc->next) {
+		for (lc = locs; lc != ptr_loc; lc = lc->next) {
 			*(lc)->toks = NULL;
 		}
 		
@@ -1139,7 +1139,7 @@ PPTOKEN
 			report (crt_loc, err);
 			
 			/* Add extra arguments if there are not enough */
-			for (n = no_args + 1 ; n <= no_pars ; n++) {
+			for (n = no_args + 1; n <= no_pars; n++) {
 				arg_array [n] = NULL;
 			}
 		}
@@ -1237,7 +1237,7 @@ PPTOKEN
     if (tag == id_func_macro_tag) {
 		/* Free the macro arguments */
 		unsigned n;
-		for (n = 1 ; n <= no_pars ; n++) free_tok_list (arg_array [n]);
+		for (n = 1; n <= no_pars; n++) free_tok_list (arg_array [n]);
 		if (arg_array != arg_array_base) xfree_nof (arg_array);
     }
 	
@@ -1255,8 +1255,8 @@ PPTOKEN
  *    The complete argument is as in expand_macro.
  */
 
-static PPTOKEN
-*expand_toks(PPTOKEN *toks, TOKEN_LOC *locs,
+static PPTOKEN*
+expand_toks(PPTOKEN *toks, TOKEN_LOC *locs,
 			 int complete)
 {
     PPTOKEN *ptr_tok;
@@ -1264,7 +1264,7 @@ static PPTOKEN
     PPTOKEN dummy_tok, *this_tok = &dummy_tok;
 	
     /* Copy list of tokens */
-    for (ptr_tok = toks ; ptr_tok != NULL ; ptr_tok = ptr_tok->next) {
+    for (ptr_tok = toks; ptr_tok != NULL; ptr_tok = ptr_tok->next) {
 		int t = ptr_tok->tok;
 		if (t == lex_ignore_token) {
 			sp |= ptr_tok->pp_space;
@@ -1328,8 +1328,8 @@ static PPTOKEN
  *    complete list, with no locations for reading further tokens.
  */
 
-PPTOKEN
-*expand_tok_list(PPTOKEN *toks)
+PPTOKEN*
+expand_tok_list(PPTOKEN *toks)
 {
     return (expand_toks (toks, NIL (TOKEN_LOC), 1));
 }

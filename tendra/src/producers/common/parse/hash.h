@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,20 +66,20 @@
  *    in the hash table.
  */
 
-extern HASHID lookup_name(string, unsigned long, int, int) ;
-extern HASHID lookup_conv(TYPE) ;
-extern HASHID lookup_constr(TYPE, IDENTIFIER) ;
-extern HASHID lookup_destr(TYPE, IDENTIFIER) ;
-extern HASHID lookup_anon(void) ;
-extern HASHID expand_name(HASHID, CLASS_TYPE) ;
-extern HASHID next_expand_name(HASHID) ;
-extern void prime_name(IDENTIFIER) ;
+extern HASHID lookup_name(string, unsigned long, int, int);
+extern HASHID lookup_conv(TYPE);
+extern HASHID lookup_constr(TYPE, IDENTIFIER);
+extern HASHID lookup_destr(TYPE, IDENTIFIER);
+extern HASHID lookup_anon(void);
+extern HASHID expand_name(HASHID, CLASS_TYPE);
+extern HASHID next_expand_name(HASHID);
+extern void prime_name(IDENTIFIER);
 
-extern int find_hashid(HASHID) ;
-extern void init_hash(void) ;
-extern IDENTIFIER underlying_id(IDENTIFIER) ;
-extern void set_hashid_loc(IDENTIFIER, IDENTIFIER) ;
-extern unsigned long hash(string) ;
+extern int find_hashid(HASHID);
+extern void init_hash(void);
+extern IDENTIFIER underlying_id(IDENTIFIER);
+extern void set_hashid_loc(IDENTIFIER, IDENTIFIER);
+extern unsigned long hash(string);
 extern IDENTIFIER underlying_op;
 extern HASHID *hash_ops_table;
 extern HASHID hash_keyword [];

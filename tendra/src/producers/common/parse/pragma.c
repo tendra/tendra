@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,8 +105,8 @@
  *    This routine reads the next preprocessing token from the input file.
  */
 
-static PPTOKEN
-*get_token()
+static PPTOKEN*
+get_token(void)
 {
     PPTOKEN *p = new_pptok ();
     int t = read_token ();
@@ -223,7 +223,7 @@ void
 rescan_pragma(int s)
 {
     PPTOKEN *p;
-    for (p = crt_token ; p != NULL ; p = p->next) {
+    for (p = crt_token; p != NULL; p = p->next) {
 		int t = p->tok;
 		if (t >= FIRST_KEYWORD && t <= LAST_KEYWORD && t != s) {
 			p->tok = lex_identifier;
@@ -385,8 +385,8 @@ parse_pragma(PPTOKEN *p, int tendra)
  *    token is returned if there is no colon in p.
  */
 
-static PPTOKEN
-*skip_to_colon(PPTOKEN *p)
+static PPTOKEN*
+skip_to_colon(PPTOKEN *p)
 {
     while (p) {
 		PPTOKEN *q = p->next;
@@ -407,8 +407,8 @@ static PPTOKEN
  *    token namespace.
  */
 
-static PPTOKEN
-*mark_tdf_param(PPTOKEN *p, int n, int macro)
+static PPTOKEN*
+mark_tdf_param(PPTOKEN *p, int n, int macro)
 {
     if (p && p->tok == lex_identifier) {
 		int t = find_hashid (p->pp_data.id.hash);
@@ -464,8 +464,8 @@ static PPTOKEN
  *    preprocessing tokens p.
  */
 
-static PPTOKEN
-*mark_prog_param(PPTOKEN *p)
+static PPTOKEN*
+mark_prog_param(PPTOKEN *p)
 {
     if (p && p->tok == lex_identifier) {
 		int t = find_hashid (p->pp_data.id.hash);
@@ -537,8 +537,8 @@ static PPTOKEN
  *    macro to true if the declared token lies in the macro namespace.
  */
 
-static PPTOKEN
-*mark_tdf_token(PPTOKEN *p, int *macro)
+static PPTOKEN*
+mark_tdf_token(PPTOKEN *p, int *macro)
 {
     if (p == NULL) return (NULL);
     if (p->tok == lex_identifier) {
@@ -602,7 +602,7 @@ static PPTOKEN
 			if (t == lex_open_Hbrace_H1 || t == lex_open_Hbrace_H2) {
 				/* General procedure parameters */
 				p = p->next;
-				for (; ;) {
+				for (;;) {
 					if (p == NULL) break;
 					t = p->tok;
 					if (t == lex_or_H1) {
@@ -614,7 +614,7 @@ static PPTOKEN
 					if (p == NULL) break;
 					if (p->tok == lex_comma) p = p->next;
 				}
-				for (; ;) {
+				for (;;) {
 					if (p == NULL) break;
 					t = p->tok;
 					if (t == lex_close_Hbrace_H1 ||
@@ -629,7 +629,7 @@ static PPTOKEN
 			} else if (t == lex_open_Hround) {
 				/* Simple procedure parameters */
 				p = p->next;
-				for (; ;) {
+				for (;;) {
 					if (p == NULL) break;
 					t = p->tok;
 					if (t == lex_close_Hround) {
@@ -696,8 +696,8 @@ static PPTOKEN
  *    is a simple identifier.
  */
 
-static PPTOKEN
-*quote_token_name(PPTOKEN *p)
+static PPTOKEN*
+quote_token_name(PPTOKEN *p)
 {
     PPTOKEN *q = p->next;
     if (q != NULL) {
@@ -801,7 +801,7 @@ read_tendra(PPTOKEN *p, int tendra)
     p = q;
 	
     /* Replace any identifiers by keywords */
-    for (q = p ; q != NULL ; q = q->next) {
+    for (q = p; q != NULL; q = q->next) {
 		int t = q->tok;
 		if (t == lex_identifier) {
 			t = find_hashid (q->pp_data.id.hash);
@@ -837,7 +837,7 @@ read_interface(PPTOKEN *p, int tendra)
 		q->next = s;
 		nl = 1;
     }
-    for (q = p ; q != NULL ; q = q->next) {
+    for (q = p; q != NULL; q = q->next) {
 		/* Suppress expansion of 'TAG' */
 		int t = q->tok;
 		if (t == lex_identifier) {
@@ -1105,7 +1105,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
  */
 
 int
-read_pragma()
+read_pragma(void)
 {
     int t;
     PPTOKEN *p = get_token ();
@@ -1181,7 +1181,7 @@ read_pragma()
  */
 
 int
-lint_comment()
+lint_comment(void)
 {
     string t;
     size_t sz;

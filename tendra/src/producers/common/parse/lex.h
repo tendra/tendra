@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,24 +67,24 @@
  *    using the routine read_token.
  */
 
-extern void init_lex(void) ;
-extern void init_char(void) ;
-extern void process_file(void) ;
-extern IDENTIFIER make_keyword(HASHID, int, IDENTIFIER) ;
-extern void init_keywords(void) ;
-extern int read_token(void) ;
-extern int read_string(int, int) ;
-extern int peek_char(int, int *) ;
-extern int skip_to_end(void) ;
-extern unsigned long skip_white(int) ;
-extern void patch_white(unsigned long) ;
-extern int get_digraph(int) ;
-extern int primary_form(int) ;
-extern int is_white_char(unsigned long) ;
-extern int is_alpha_char(unsigned long) ;
-extern int is_legal_char(unsigned long) ;
-extern void set_char_lookup(int, int) ;
-extern void set_character(EXP, EXP) ;
+extern void init_lex(void);
+extern void init_char(void);
+extern void process_file(void);
+extern IDENTIFIER make_keyword(HASHID, int, IDENTIFIER);
+extern void init_keywords(void);
+extern int read_token(void);
+extern int read_string(int, int);
+extern int peek_char(int, int *);
+extern int skip_to_end(void);
+extern unsigned long skip_white(int);
+extern void patch_white(unsigned long);
+extern int get_digraph(int);
+extern int primary_form(int);
+extern int is_white_char(unsigned long);
+extern int is_alpha_char(unsigned long);
+extern int is_legal_char(unsigned long);
+extern void set_char_lookup(int, int);
+extern void set_character(EXP, EXP);
 
 
 /*

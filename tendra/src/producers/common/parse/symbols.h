@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@
  *  group because they have an associated value.
  */
 
-LEX_TOKEN (lex_unknown, "<unknown>", TOK_NONE)
+	LEX_TOKEN (lex_unknown, "<unknown>", TOK_NONE)
 	
 	LEX_TOKEN (lex_identifier, "<id>", TOK_EXP)
 	LEX_TOKEN (lex_type_Hname, "<type>", TOK_TYPE)

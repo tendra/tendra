@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,35 +67,35 @@
  *    expressions.
  */
 
-extern EXP make_literal_exp(string, int *, int) ;
-extern EXP make_bool_exp(unsigned, unsigned) ;
-extern EXP make_string_exp(STRING) ;
+extern EXP make_literal_exp(string, int *, int);
+extern EXP make_bool_exp(unsigned, unsigned);
+extern EXP make_string_exp(STRING);
 
-extern int is_zero_float(FLOAT) ;
-extern int eq_float_lit(FLOAT, FLOAT) ;
-extern int eq_string_lit(STRING, STRING) ;
-extern unsigned test_bool_exp(EXP) ;
-extern unsigned long eval_line_digits(string, unsigned *) ;
-extern unsigned long get_multi_char(string, int *) ;
-extern unsigned long get_string_char(STRING, int *) ;
-extern void add_multi_char(string, unsigned long, int) ;
-extern unsigned long eval_unicode(int, unsigned, int *, string *, ERROR *) ;
-extern TYPE find_literal_type(NAT, int, int, string, int *) ;
-extern TYPE find_char_type(NAT) ;
-extern NAT round_float_lit(FLOAT, RMODE) ;
-extern STRING new_string_lit(string, string, int) ;
-extern STRING concat_string_lit(STRING, STRING) ;
-extern STRING share_string_lit(STRING) ;
-extern NAT eval_char_lit(STRING) ;
-extern int get_char_value(EXP) ;
-extern void begin_literal(int, int) ;
-extern void add_range_literal(EXP, int) ;
-extern void add_type_literal(TYPE) ;
-extern void add_token_literal(IDENTIFIER, unsigned) ;
-extern void set_string_qual(CV_SPEC) ;
-extern void set_escape(EXP, EXP) ;
-extern void set_char_lit(TYPE) ;
-extern void init_literal(void) ;
+extern int is_zero_float(FLOAT);
+extern int eq_float_lit(FLOAT, FLOAT);
+extern int eq_string_lit(STRING, STRING);
+extern unsigned test_bool_exp(EXP);
+extern unsigned long eval_line_digits(string, unsigned *);
+extern unsigned long get_multi_char(string, int *);
+extern unsigned long get_string_char(STRING, int *);
+extern void add_multi_char(string, unsigned long, int);
+extern unsigned long eval_unicode(int, unsigned, int *, string *, ERROR *);
+extern TYPE find_literal_type(NAT, int, int, string, int *);
+extern TYPE find_char_type(NAT);
+extern NAT round_float_lit(FLOAT, RMODE);
+extern STRING new_string_lit(string, string, int);
+extern STRING concat_string_lit(STRING, STRING);
+extern STRING share_string_lit(STRING);
+extern NAT eval_char_lit(STRING);
+extern int get_char_value(EXP);
+extern void begin_literal(int, int);
+extern void add_range_literal(EXP, int);
+extern void add_type_literal(TYPE);
+extern void add_token_literal(IDENTIFIER, unsigned);
+extern void set_string_qual(CV_SPEC);
+extern void set_escape(EXP, EXP);
+extern void set_char_lit(TYPE);
+extern void init_literal(void);
 
 extern unsigned char digit_values [];
 extern unsigned char escape_sequences [];

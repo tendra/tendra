@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ typedef struct {
  *    table.
  */
 
-extern void read_table(string) ;
+extern void read_table(string);
 extern PORT_ENTRY port_entry [];
 
 

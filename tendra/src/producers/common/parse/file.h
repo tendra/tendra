@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,30 +69,30 @@
  *    in the input file.
  */
 
-extern int refill_char(void) ;
-extern string init_buffer(unsigned long) ;
-extern string make_pathname(string) ;
-extern int is_full_pathname(string) ;
-extern string set_crt_loc(string, int) ;
-extern int start_include(string, int, int, int) ;
-extern int end_include(int) ;
-extern void open_startup(void) ;
-extern int open_input(int) ;
-extern int open_output(int, int) ;
-extern void close_input(void) ;
-extern void close_output(int) ;
-extern void set_incl_depth(unsigned long) ;
-extern void add_directory(string, string) ;
-extern void directory_mode(string, OPTIONS *) ;
-extern void builtin_startup(void) ;
-extern void term_input(void) ;
-extern long tell_buffer(unsigned long) ;
-extern void seek_buffer(unsigned long, long, int) ;
-extern void protection_macro(HASHID, int, int) ;
-extern void update_column(void) ;
+extern int refill_char(void);
+extern string init_buffer(unsigned long);
+extern string make_pathname(string);
+extern int is_full_pathname(string);
+extern string set_crt_loc(string, int);
+extern int start_include(string, int, int, int);
+extern int end_include(int);
+extern void open_startup(void);
+extern int open_input(int);
+extern int open_output(int, int);
+extern void close_input(void);
+extern void close_output(int);
+extern void set_incl_depth(unsigned long);
+extern void add_directory(string, string);
+extern void directory_mode(string, OPTIONS *);
+extern void builtin_startup(void);
+extern void term_input(void);
+extern long tell_buffer(unsigned long);
+extern void seek_buffer(unsigned long, long, int);
+extern void protection_macro(HASHID, int, int);
+extern void update_column(void);
 
 #ifdef SYSTEM_INCLUDED
-extern int already_included(string, STAT_TYPE *, int) ;
+extern int already_included(string, STAT_TYPE *, int);
 #endif
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,8 +168,8 @@ init_parser(PPTOKEN *toks)
  *    previous list is returned.
  */
 
-PPTOKEN
-*restore_parser()
+PPTOKEN*
+restore_parser(void)
 {
     PPTOKEN *p = first_token;
     POP_pptok (crt_token, parser_stack);
@@ -217,8 +217,8 @@ snip_tokens(PPTOKEN *p, PPTOKEN *q)
  *    to pass more than one token to the parser.
  */
 
-PPTOKEN
-*patch_tokens(int n)
+PPTOKEN*
+patch_tokens(int n)
 {
     while (n) {
 		PPTOKEN *p = new_pptok ();
@@ -376,8 +376,8 @@ make_loc_tokens(PPTOKEN *p)
  *    preprocessing tokens p.
  */
 
-PPTOKEN
-*read_loc_tokens(PPTOKEN *p)
+PPTOKEN*
+read_loc_tokens(PPTOKEN *p)
 {
     if (p) {
 		int t = p->tok;

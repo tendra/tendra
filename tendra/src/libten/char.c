@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -143,10 +143,10 @@ map_ascii(unsigned char *p)
     if (asc == -1) {
 		/* Set up conversion tables */
 		asc = 1;
-		for (c = 0 ; c < NO_CHAR ; c++) {
+		for (c = 0; c < NO_CHAR; c++) {
 			to_ascii_tab [c] = (character) c;
 		}
-		for (c = 0 ; c < NO_CHAR ; c++) {
+		for (c = 0; c < NO_CHAR; c++) {
 			unsigned a = (unsigned) from_ascii_tab [c];
 			if (a == NONE) a = c;
 			if (a != c) asc = 0;
@@ -160,12 +160,12 @@ map_ascii(unsigned char *p)
 		/* Map table */
 		unsigned char b = p [ NONE ];
 		unsigned char copy [ NO_CHAR ];
-		for (c = 0 ; c < NO_CHAR ; c++) {
+		for (c = 0; c < NO_CHAR; c++) {
 			copy [c] = p [c];
 			p [c] = b;
 		}
 		SET (copy);
-		for (c = 0 ; c < NO_CHAR ; c++) {
+		for (c = 0; c < NO_CHAR; c++) {
 			character a = from_ascii_tab [c];
 			p [a] = copy [c];
 		}

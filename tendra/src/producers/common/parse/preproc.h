@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,17 +67,17 @@
  *    stand-alone preprocessing action of the program.
  */
 
-extern int read_preproc_dir(int, int) ;
-extern void patch_preproc_dir(PPTOKEN *) ;
-extern int read_include(int, int) ;
-extern unsigned check_macro(HASHID, int) ;
-extern IDENTIFIER make_assert(HASHID, int) ;
-extern void read_ident(int) ;
-extern void read_weak(int) ;
-extern void preprocess_file(void) ;
-extern void start_preproc_if (void) ;
-extern int clear_preproc_if (void) ;
-extern int patch_cond(int, int) ;
+extern int read_preproc_dir(int, int);
+extern void patch_preproc_dir(PPTOKEN *);
+extern int read_include(int, int);
+extern unsigned check_macro(HASHID, int);
+extern IDENTIFIER make_assert(HASHID, int);
+extern void read_ident(int);
+extern void read_weak(int);
+extern void preprocess_file(void);
+extern void start_preproc_if (void);
+extern int clear_preproc_if (void);
+extern int patch_cond(int, int);
 
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -229,7 +229,7 @@ make_pathname(string nm)
     if (q != char_slash) {
 		string s;
 		nm = xustrcpy (nm);
-		for (s = nm ; *s ; s++) {
+		for (s = nm; *s; s++) {
 			if (*s == q) *s = char_slash;
 		}
     }
@@ -358,7 +358,7 @@ open_input(int bin)
 		if (input_file == NULL) return (0);
 		if (!started_buff) {
 			unsigned i;
-			for (i = 0 ; i < NO_BUFFER ; i++) {
+			for (i = 0; i < NO_BUFFER; i++) {
 				string buff = xmalloc_nof (character, TOTAL_SZ);
 				input_buff [i].buff = buff;
 			}
@@ -379,13 +379,13 @@ open_input(int bin)
  */
 
 void
-term_input()
+term_input(void)
 {
     free_buffer (&incl_buff);
     free_buffer (&internal_buff);
     if (started_buff) {
 		unsigned i;
-		for (i = 0 ; i < NO_BUFFER ; i++) {
+		for (i = 0; i < NO_BUFFER; i++) {
 			xfree_nof (input_buff [i].buff);
 			input_buff [i].buff = NULL;
 		}
@@ -435,7 +435,7 @@ open_output(int n, int bin)
  */
 
 void
-close_input()
+close_input(void)
 {
     FILE *fin = input_file;
     if (fin && !input_special) {
@@ -479,7 +479,7 @@ close_output(int n)
  */
 
 static string
-fill_buffer()
+fill_buffer(void)
 {
     size_t i, n;
     size_t m = TOTAL_SZ;
@@ -504,7 +504,7 @@ fill_buffer()
     input_bytes += (long) n;
 	
     /* Fill the overflow area with char_end's */
-    for (i = n ; i < n + OVERFLOW_SZ ; i++) p [i] = char_end;
+    for (i = n; i < n + OVERFLOW_SZ; i++) p [i] = char_end;
     if (n == 0) p = NULL;
     return (p);
 }
@@ -634,7 +634,7 @@ seek_buffer(unsigned long i, long n, int started)
  */
 
 void
-update_column()
+update_column(void)
 {
     string p = input_posn;
     if (p) {
@@ -660,7 +660,7 @@ update_column()
  */
 
 int
-refill_char()
+refill_char(void)
 {
     int c;
     update_column ();
@@ -699,8 +699,8 @@ static INCL_DIR *crt_found_path = NULL;
  *    defined.
  */
 
-static INCL_DIR
-*find_directory(string nm)
+static INCL_DIR*
+find_directory(string nm)
 {
     INCL_DIR *p = dir_path;
     while (p != NULL) {
@@ -787,7 +787,7 @@ LIST (string) endup_files = NULL_list (string);
  */
 
 void
-builtin_startup()
+builtin_startup(void)
 {
     BUFFER *bf = &internal_buff;
     internal_name = DEREF_string (posn_file (crt_loc.posn));
@@ -811,7 +811,7 @@ builtin_startup()
  */
 
 void
-open_startup()
+open_startup(void)
 {
     LIST (string) p = startup_files;
     while (!IS_NULL_list (p)) {
@@ -910,7 +910,7 @@ set_incl_depth(unsigned long n)
 		INCL_BUFF *p = xmalloc_nof (INCL_BUFF, n);
 		INCL_BUFF *q = position;
 		m = crt_option_value (OPT_VAL_include_depth);
-		for (i = 0 ; i < m ; i++) p [i] = q [i];
+		for (i = 0; i < m; i++) p [i] = q [i];
 		position_size = n;
 		position = p;
 		if (q != position_array) xfree_nof (q);

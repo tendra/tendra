@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,23 +135,23 @@ primary_form(int t)
 {
     int u = t;
     switch (u) {
-	case lex_and_H2 : u = lex_and_H1 ; break;
-	case lex_and_Heq_H2 : u = lex_and_Heq_H1 ; break;
-	case lex_close_Hbrace_H2 : u = lex_close_Hbrace_H1 ; break;
-	case lex_close_Hsquare_H2 : u = lex_close_Hsquare_H1 ; break;
-	case lex_compl_H2 : u = lex_compl_H1 ; break;
-	case lex_hash_H2 : u = lex_hash_H1 ; break;
-	case lex_hash_Hhash_H2 : u = lex_hash_Hhash_H1 ; break;
-	case lex_logical_Hand_H2 : u = lex_logical_Hand_H1 ; break;
-	case lex_logical_Hor_H2 : u = lex_logical_Hor_H1 ; break;
-	case lex_not_H2 : u = lex_not_H1 ; break;
-	case lex_not_Heq_H2 : u = lex_not_Heq_H1 ; break;
-	case lex_open_Hbrace_H2 : u = lex_open_Hbrace_H1 ; break;
-	case lex_open_Hsquare_H2 : u = lex_open_Hsquare_H1 ; break;
-	case lex_or_H2 : u = lex_or_H1 ; break;
-	case lex_or_Heq_H2 : u = lex_or_Heq_H1 ; break;
-	case lex_xor_H2 : u = lex_xor_H1 ; break;
-	case lex_xor_Heq_H2 : u = lex_xor_Heq_H1 ; break;
+	case lex_and_H2 : u = lex_and_H1; break;
+	case lex_and_Heq_H2 : u = lex_and_Heq_H1; break;
+	case lex_close_Hbrace_H2 : u = lex_close_Hbrace_H1; break;
+	case lex_close_Hsquare_H2 : u = lex_close_Hsquare_H1; break;
+	case lex_compl_H2 : u = lex_compl_H1; break;
+	case lex_hash_H2 : u = lex_hash_H1; break;
+	case lex_hash_Hhash_H2 : u = lex_hash_Hhash_H1; break;
+	case lex_logical_Hand_H2 : u = lex_logical_Hand_H1; break;
+	case lex_logical_Hor_H2 : u = lex_logical_Hor_H1; break;
+	case lex_not_H2 : u = lex_not_H1; break;
+	case lex_not_Heq_H2 : u = lex_not_Heq_H1; break;
+	case lex_open_Hbrace_H2 : u = lex_open_Hbrace_H1; break;
+	case lex_open_Hsquare_H2 : u = lex_open_Hsquare_H1; break;
+	case lex_or_H2 : u = lex_or_H1; break;
+	case lex_or_Heq_H2 : u = lex_or_Heq_H1; break;
+	case lex_xor_H2 : u = lex_xor_H1; break;
+	case lex_xor_Heq_H2 : u = lex_xor_Heq_H1; break;
     }
     return (u);
 }
@@ -206,7 +206,7 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
     if (do_keyword) dump_declare (id, &crt_loc, 1);
 	
     /* Add keyword to identifier meanings */
-    for (; ;) {
+    for (;;) {
 		IDENTIFIER pid = DEREF_id (ptr);
 		switch (TAG_id (pid)) {
 	    case id_dummy_tag :
@@ -231,12 +231,12 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
  */
 
 void
-init_keywords()
+init_keywords(void)
 {
     int key;
 	
     /* Set up keyword entries */
-    for (key = FIRST_KEYWORD ; key <= LAST_KEYWORD ; key++) {
+    for (key = FIRST_KEYWORD; key <= LAST_KEYWORD; key++) {
 		int ext = 0;
 		string keyword = token_name (key);
 		unsigned long h = hash (keyword);
@@ -245,13 +245,13 @@ init_keywords()
     }
 	
     /* Bring the C keywords into scope */
-    for (key = FIRST_C_KEYWORD ; key <= LAST_C_KEYWORD ; key++) {
+    for (key = FIRST_C_KEYWORD; key <= LAST_C_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		IGNORE make_keyword (nm, key, NULL_id);
     }
 	
     /* Bring the C++ keywords into scope */
-    for (key = FIRST_CPP_KEYWORD ; key <= LAST_CPP_KEYWORD ; key++) {
+    for (key = FIRST_CPP_KEYWORD; key <= LAST_CPP_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 #if LANGUAGE_CPP
 		IGNORE make_keyword (nm, key, NULL_id);
@@ -263,7 +263,7 @@ init_keywords()
     }
 	
     /* Bring the ISO alternative keywords into scope */
-    for (key = FIRST_ISO_KEYWORD ; key <= LAST_ISO_KEYWORD ; key++) {
+    for (key = FIRST_ISO_KEYWORD; key <= LAST_ISO_KEYWORD; key++) {
 		HASHID nm = KEYWORD (key);
 		if (allow_iso_keywords) {
 			IGNORE make_keyword (nm, key, NULL_id);
@@ -288,7 +288,7 @@ init_keywords()
  */
 
 static int
-adjust_trigraph()
+adjust_trigraph(void)
 {
     if (allow_trigraphs) {
 		int c = next_char ();
@@ -370,7 +370,7 @@ adjust_trigraph()
  */
 
 static int
-read_newline()
+read_newline(void)
 {
     if (allow_dos_newline) {
 		int c = next_char ();
@@ -390,7 +390,7 @@ read_newline()
  */
 
 static int
-read_eof()
+read_eof(void)
 {
     if (allow_dos_newline) {
 		int c = next_char ();
@@ -411,9 +411,9 @@ read_eof()
  */
 
 static int
-read_char()
+read_char(void)
 {
-    for (; ;) {
+    for (;;) {
 		int c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_question) c = adjust_trigraph ();
@@ -694,7 +694,7 @@ skip_string(int q)
     loc = crt_loc;
 	
     /* Scan to end of string */
-    for (; ;) {
+    for (;;) {
 		int c = read_char ();
 		if (END_STRING (c, e) && !escaped) {
 			if (e == char_single_quote && !have_char) {
@@ -777,7 +777,7 @@ read_string(int q, int esc)
     loc = crt_loc;
 	
     /* Scan the string */
-    for (; ;) {
+    for (;;) {
 		c = read_char ();
 		if (END_STRING (c, e) && !escaped) {
 			if (e == char_single_quote && !have_char) {
@@ -1031,7 +1031,7 @@ skip_white(int nl)
 {
     int c;
     unsigned long sp = 0;
-    for (; ;) {
+    for (;;) {
 		c = next_char ();
 		if (c == char_end) c = refill_char ();
 		if (c == char_return) c = read_newline ();
@@ -1160,12 +1160,12 @@ patch_white(unsigned long sp)
  */
 
 int
-skip_to_end()
+skip_to_end(void)
 {
     int c;
     int res = 0;
     in_preproc_dir = 0;
-    for (; ;) {
+    for (;;) {
 		IGNORE skip_white (0);
 		read_label : {
 			/* Inlined version of read_char */
@@ -1241,7 +1241,7 @@ read_unicode(int c, int *pc)
 		*pc = CHAR_NONE;
 		return (0);
     }
-    for (i = 0 ; i < n ; i++) {
+    for (i = 0; i < n; i++) {
 		int t;
 		int d = read_char ();
 		if (d == char_eof) break;
@@ -1291,7 +1291,7 @@ read_extended_id(unsigned long u, int ch)
 			report (crt_loc, ERR_lex_name_extendid (u));
 		}
 		print_char (u, ch, 0, bf);
-		for (; ;) {
+		for (;;) {
 			c = read_char ();
 #if FS_EXTENDED_CHAR
 			if (IS_EXTENDED (c)) break;
@@ -1342,7 +1342,7 @@ HASHID token_hashid = NULL_hashid;
  */
 
 int
-read_token()
+read_token(void)
 {
     int c, t;
     int column = -1;
@@ -1832,7 +1832,7 @@ read_token()
 		start_line_label : {
 			/* Re-entry point after preprocessing directives */
 			column = 0;
-			for (; ;) {
+			for (;;) {
 				/* Step over any obvious spaces */
 				c = next_char ();
 				if (c == char_end) c = refill_char ();
@@ -1971,7 +1971,7 @@ read_token()
  */
 
 void
-init_char()
+init_char(void)
 {
     int i;
     unsigned char *p, *q;
@@ -1990,7 +1990,7 @@ init_char()
     p = xmalloc_nof (unsigned char, NO_CHAR);
     q = main_characters;
     copy_characters = p;
-    for (i = 0 ; i < NO_CHAR ; i++) *(p++) = *(q++);
+    for (i = 0; i < NO_CHAR; i++) *(p++) = *(q++);
 	
     /* Initialise token buffer */
     token_buff.posn = extend_buffer (&token_buff, token_buff.posn);
@@ -2006,7 +2006,7 @@ init_char()
  */
 
 void
-init_lex()
+init_lex(void)
 {
     /* Initialise file variables */
     crt_buff_no = 0;
@@ -2037,7 +2037,7 @@ init_lex()
  */
 
 void
-process_file()
+process_file(void)
 {
     init_lex ();
     ADVANCE_LEXER;

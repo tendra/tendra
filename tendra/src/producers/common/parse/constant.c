@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1275,7 +1275,7 @@ get_nat_bits(NAT n, int *eq)
 		val = DEREF_unsigned (nat_small_value (n));
     } else {
 		LIST (unsigned) vals = DEREF_list (nat_large_values (n));
-		for (; ;) {
+		for (;;) {
 			val = DEREF_unsigned (HEAD_list (vals));
 			vals = TAIL_list (vals);
 			if (IS_NULL_list (vals)) break;
@@ -2174,7 +2174,7 @@ init_float(FLOAT_TYPE ft)
     NAT z = small_nat [0];
     string fp = small_number [0];
     LIST (FLOAT) p = NULL_list (FLOAT);
-    for (n = SMALL_FLT_SIZE - 1 ; n >= 0 ; n--) {
+    for (n = SMALL_FLT_SIZE - 1; n >= 0; n--) {
 		FLOAT f;
 		string ip = small_number [n];
 		MAKE_flt_simple (ip, fp, z, f);
@@ -2193,7 +2193,7 @@ init_float(FLOAT_TYPE ft)
  */
 
 void
-init_constant()
+init_constant(void)
 {
     int n = 0;
     while (n < SMALL_NAT_ALLOC) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -182,7 +182,7 @@ check_digits(string s, unsigned base)
 #if FS_EXTENDED_CHAR
 		if (IS_EXTENDED (c)) break;
 #endif
-		b = (unsigned) digit_values [c] ;;
+		b = (unsigned) digit_values [c];
 		if (b >= base) break;
 		s++;
     }
@@ -239,7 +239,7 @@ eval_char_digits(string s, string t, unsigned base)
     int overflow = 0;
     unsigned long n = 0;
     unsigned long b = (unsigned long) base;
-    for (r = s ; r != t ; r++) {
+    for (r = s; r != t; r++) {
 		unsigned long m = n;
 		n = b * n + (unsigned long) digit_values [ *r ];
 		if (n < m) overflow = 1;
@@ -267,7 +267,7 @@ eval_line_digits(string s, unsigned *err)
     unsigned long n = 0;
     string t = check_digits (s, (unsigned) 10);
     if (*t) e = 2;
-    for (r = s ; r != t ; r++) {
+    for (r = s; r != t; r++) {
 		n = 10 * n + (unsigned long) digit_values [ *r ];
 		if (n > 0x7fff) e |= 1;
     }
@@ -428,7 +428,7 @@ static struct {
  */
 
 void
-init_literal()
+init_literal(void)
 {
     int b, s;
     BUILTIN_TYPE n;
@@ -449,11 +449,11 @@ init_literal()
 #endif
 	
     /* Set up type lists */
-    for (b = 0 ; b < BASE_NO ; b++) {
-		for (s = 0 ; s < SUFFIX_NO ; s++) {
+    for (b = 0; b < BASE_NO; b++) {
+		for (s = 0; s < SUFFIX_NO; s++) {
 			LIST (TYPE) p = NULL_list (TYPE);
 			begin_literal (b, s);
-			for (n = 0 ; n < 6 ; n++) {
+			for (n = 0; n < 6; n++) {
 				if (int_lit_tok [b] [s].type [n] == 2) {
 					TYPE t = type_builtin [ ntype_sint + n ];
 					add_range_literal (NULL_exp, 1);
@@ -472,7 +472,7 @@ init_literal()
     if (string_hash_table == NULL) {
 		unsigned long i;
 		STRING *q = xmalloc_nof (STRING, HASH_STRING_SIZE);
-		for (i = 0 ; i < HASH_STRING_SIZE ; i++) q [i] = NULL_str;
+		for (i = 0; i < HASH_STRING_SIZE; i++) q [i] = NULL_str;
 		string_hash_table = q;
     }
     return;
@@ -611,9 +611,9 @@ add_token_literal(IDENTIFIER id, unsigned sev)
     p->tok = id;
     p->tok_no = n;
     switch (sev) {
-	case OPTION_ON : p->opt = OPT_error ; break;
-	case OPTION_WARN : p->opt = OPT_warning ; break;
-	default : p->opt = OPT_none ; break;
+	case OPTION_ON : p->opt = OPT_error; break;
+	case OPTION_WARN : p->opt = OPT_warning; break;
+	default : p->opt = OPT_none; break;
     }
     return;
 }
@@ -932,7 +932,7 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		if (zero && ustreq (frac_part, small_number [0])) {
 			int i;
-			for (i = 0 ; i < SMALL_FLT_SIZE ; i++) {
+			for (i = 0; i < SMALL_FLT_SIZE; i++) {
 				if (ustreq (int_part, small_number [i])) {
 					lit = get_float (t, i);
 					break;
@@ -1164,25 +1164,25 @@ round_float_lit(FLOAT f, RMODE mode)
     /* Construct integer string */
     j = 0;
     n = res_len;
-    for (i = 0 ; i < pre_len ; i++) {
+    for (i = 0; i < pre_len; i++) {
 		if (j < n) {
 			result [j] = char_zero;
 			j++;
 		}
     }
-    for (i = 0 ; i < int_len ; i++) {
+    for (i = 0; i < int_len; i++) {
 		if (j < n) {
 			result [j] = int_part [i];
 			j++;
 		}
     }
-    for (i = 0 ; i < frac_len ; i++) {
+    for (i = 0; i < frac_len; i++) {
 		if (j < n) {
 			result [j] = frac_part [i];
 			j++;
 		}
     }
-    for (; j < n ; j++) result [j] = char_zero;
+    for (; j < n; j++) result [j] = char_zero;
     result [n] = 0;
 	
     /* Calculate the result */
@@ -1239,7 +1239,7 @@ get_multi_char(string s, int *pc)
 {
     int i;
     unsigned long n = 0;
-    for (i = MULTI_WIDTH - 1 ; i >= 1 ; i--) {
+    for (i = MULTI_WIDTH - 1; i >= 1; i--) {
 		n = (n << 8) + (unsigned long) s [i];
     }
     *pc = (int) s [0];
@@ -1263,7 +1263,7 @@ add_multi_char(string s, unsigned long n,
 {
     int i;
     s [0] = (character) ch;
-    for (i = 1 ; i < MULTI_WIDTH ; i++) {
+    for (i = 1; i < MULTI_WIDTH; i++) {
 		s [i] = (character) (n & 0xff);
 		n >>= 8;
     }
@@ -1288,7 +1288,7 @@ make_multi_string(string s, string t, unsigned long n,
 		xumemcpy (s, t, (gen_size) n);
     } else {
 		unsigned long i;
-		for (i = 0 ; i < n ; i++) {
+		for (i = 0; i < n; i++) {
 			add_multi_char (s, (unsigned long) *t, CHAR_SIMPLE);
 			s += MULTI_WIDTH;
 			t++;
@@ -1773,7 +1773,7 @@ eval_char_lit(STRING str)
 		if (kind & STRING_MULTI) {
 			NAT b = make_small_nat (256);
 			n = small_nat [0];
-			for (i = 0 ; i < len ; i++) {
+			for (i = 0; i < len; i++) {
 				NAT d;
 				int ch = CHAR_SIMPLE;
 				unsigned long c = get_multi_char (s, &ch);
@@ -1785,7 +1785,7 @@ eval_char_lit(STRING str)
 			}
 		} else {
 			n = small_nat [0];
-			for (i = 0 ; i < len ; i++) {
+			for (i = 0; i < len; i++) {
 				int ch = CHAR_SIMPLE;
 				unsigned long c = (unsigned long) *s;
 				c = to_ascii (c, &ch);

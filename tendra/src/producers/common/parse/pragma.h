@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,12 +66,12 @@
  *    #pragma directives used to configure the program.
  */
 
-extern int read_pragma(void) ;
-extern int lint_comment(void) ;
-extern int find_keyword(IDENTIFIER) ;
-extern void define_keyword(IDENTIFIER, int) ;
-extern void undef_keyword(IDENTIFIER) ;
-extern void rescan_pragma(int) ;
+extern int read_pragma(void);
+extern int lint_comment(void);
+extern int find_keyword(IDENTIFIER);
+extern void define_keyword(IDENTIFIER, int);
+extern void undef_keyword(IDENTIFIER);
+extern void rescan_pragma(int);
 
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -447,7 +447,7 @@ make_op(int t)
  */
 
 HASHID
-lookup_anon()
+lookup_anon(void)
 {
     HASHID nm;
     static unsigned long anon_no = 0;
@@ -652,37 +652,37 @@ IDENTIFIER underlying_op = NULL_id;
  */
 
 void
-init_hash()
+init_hash(void)
 {
     int n;
     unsigned long i;
 	
     /* Set up identifier hash table */
     hash_table = xmalloc_nof (HASHID, HASH_SIZE);
-    for (i = 0 ; i < HASH_SIZE ; i++) {
+    for (i = 0; i < HASH_SIZE; i++) {
 		hash_table [i] = NULL_hashid;
     }
 	
     /* Set up type hash table */
     hash_type_table = xmalloc_nof (HASHID, HASH_TYPE_SIZE);
-    for (i = 0 ; i < HASH_TYPE_SIZE ; i++) {
+    for (i = 0; i < HASH_TYPE_SIZE; i++) {
 		hash_type_table [i] = NULL_hashid;
     }
 	
     /* Set up operator look-up table */
     hash_ops_table = xmalloc_nof (HASHID, LAST_TOKEN + 1);
-    for (n = 0 ; n <= LAST_TOKEN ; n++) {
+    for (n = 0; n <= LAST_TOKEN; n++) {
 		hash_ops_table [n] = NULL_hashid;
     }
 	
     /* Allocate hash table entries for all symbols */
-    for (n = FIRST_C_SYMBOL ; n <= LAST_C_SYMBOL ; n++) {
+    for (n = FIRST_C_SYMBOL; n <= LAST_C_SYMBOL; n++) {
 		hash_ops_table [n] = make_op (n);
     }
-    for (n = FIRST_CPP_SYMBOL ; n <= LAST_CPP_SYMBOL ; n++) {
+    for (n = FIRST_CPP_SYMBOL; n <= LAST_CPP_SYMBOL; n++) {
 		hash_ops_table [n] = make_op (n);
     }
-    for (n = FIRST_EXTRA_SYMBOL ; n <= LAST_EXTRA_SYMBOL ; n++) {
+    for (n = FIRST_EXTRA_SYMBOL; n <= LAST_EXTRA_SYMBOL; n++) {
 		hash_ops_table [n] = make_op (n);
     }
     hash_ops_table [ lex_array_Hop ] = make_op (lex_array_Hop);
@@ -698,11 +698,11 @@ init_hash()
     hash_ops_table [ lex_vtable ] = make_op (lex_vtable);
 	
     /* Map secondary representations to primary representations */
-    for (n = FIRST_DIGRAPH ; n <= LAST_DIGRAPH ; n++) {
+    for (n = FIRST_DIGRAPH; n <= LAST_DIGRAPH; n++) {
 		int m = primary_form (n);
 		hash_ops_table [n] = hash_ops_table [m];
     }
-    for (n = FIRST_ISO_KEYWORD ; n <= LAST_ISO_KEYWORD ; n++) {
+    for (n = FIRST_ISO_KEYWORD; n <= LAST_ISO_KEYWORD; n++) {
 		int m = primary_form (n);
 		hash_ops_table [n] = hash_ops_table [m];
     }

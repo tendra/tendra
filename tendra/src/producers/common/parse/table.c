@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ PORT_ENTRY port_entry [] = {
  */
 
 static int
-parse_table()
+parse_table(void)
 {
     int t;
     PORT_ENTRY *p = port_entry;
@@ -121,7 +121,7 @@ parse_table()
 		update_column ();
 		
 		/* Check through table entries */
-		for (i = 0 ; i < PORT_size ; i++) {
+		for (i = 0; i < PORT_size; i++) {
 			string ut = ustrlit (p [i].name);
 			if (ustreq (us, ut)) {
 				/* Entry found */
@@ -283,7 +283,7 @@ read_table(string nm)
 				set = 0;
 			} else {
 				/* Check for undefined values */
-				for (i = 0 ; i < PORT_size ; i++) {
+				for (i = 0; i < PORT_size; i++) {
 					if (p [i].set == 0) {
 						string nt = ustrlit (p [i].name);
 						report (crt_loc, ERR_port_entry_undef (nt));
@@ -316,7 +316,7 @@ read_table(string nm)
 			/* Find maximum number of bits in an integer */
 			m = p [ PORT_max_bits ].value;
 		}
-		for (n = 0 ; n < ORDER_ntype ; n++) {
+		for (n = 0; n < ORDER_ntype; n++) {
 			unsigned exact = p [ PORT_exact_range ].value;
 			switch (n) {
 			case ntype_char :
