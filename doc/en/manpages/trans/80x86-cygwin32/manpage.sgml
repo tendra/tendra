@@ -50,6 +50,7 @@
 
     &option-ce;
     &option-cf;
+    &option-cg;
 
     <varlistentry>
       <term><option>-H</option></term>
@@ -83,6 +84,7 @@
     </varlistentry>
 
     &option-cm;
+    &option-cn;
     &option-cp;
     &option-cq;
     &option-cr;
@@ -92,7 +94,14 @@
     &option-cx;
     &option-cz;
     &option-a;
+    &option-b;
+    &option-c;
+    &option-d;
+    &option-e;
+    &option-f;
+    &option-g;
     &option-h;
+    &option-i;
     &option-k;
 
   </variablelist>
