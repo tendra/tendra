@@ -1,0 +1,40 @@
+/*
+ *  STARTUP FILE FOR COMPILATION MODE Xc99
+ *
+ *  Xc99 represents strict ISO/IEC 9899:1999 compliance, no more, no less.
+ *
+ * $TenDRA$
+ */
+#pragma TenDRA declaration block Xc99__startup begin
+
+#pragma TenDRA begin
+
+#include "../Literal/ansi.pf"
+#include "../Promotion/ansi.pf"
+
+#define __ANDF__ 1
+#define __TenDRA__ 1
+#define __OPENLINT__ 1
+
+#pragma TenDRA weak prototype analysis off
+#pragma TenDRA incompatible interface declaration warning
+
+#pragma TenDRA linkage resolution : (internal) warning
+
+#pragma TenDRA unknown pragma allow
+#pragma TenDRA no external declaration disallow
+
+#ifndef __NO_PRINTF_CHECKS
+#define __NO_PRINTF_CHECKS 1
+#endif
+
+/* Implicit function declarations are not allowed in C99 anymore. */ 
+#pragma TenDRA implicit function declaration off
+/* Implicit int type for functions lacking a return type was removed in C99. */
+#pragma TenDRA implicit int type for function return disallow
+/* 6.7.2.2 */
+#pragma TenDRA extra , allow
+/* 6.8.6.4#1 */
+#pragma TenDRA incompatible void return disallow
+
+#pragma TenDRA declaration block end

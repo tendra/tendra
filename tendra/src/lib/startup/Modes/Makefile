@@ -1,6 +1,6 @@
 # $TenDRA$
 
-DATA=	Xa Xc Xp Xs Xsystem Xt Xw nepc not_ansi
+DATA=	Xa Xc Xc99 Xp Xs Xsystem Xt Xw nepc not_ansi
 
 STARTUP=	Modes
 
