@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl -w
+# $TenDRA$
 ###############################################################################
 $[    = 1 ;
 $prog = $0;
@@ -111,7 +112,7 @@ sub next_token {
 	(($lexer'line eq "") &&
 	    (($lexer'line = <INFILE>), ($lexer'line_num ++)));
 	(defined ($lexer'line)) || return ($TOK_EOF, 0);
-	$lexer'line =~ s/^[ \t\n]*(#.*$)?\n?//;
+	$lexer'line =~ s/^[ \t\n\r]*(#.*$)?\n?//;
 	($lexer'line eq "") && redo get_token;
 
 	if ($lexer'line =~ s/^{//) {

@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+   $TenDRA$
 */
 
 
@@ -40,8 +42,9 @@
  *
  *** Change Log:
  * $Log$
- * Revision 1.1  2002/01/26 21:32:12  asmodai
- * Initial version of TenDRA 4.1.2.
+ * Revision 1.2  2002/12/12 07:43:57  asmodai
+ * Add code to recognise carriage returns (\r).
+ * Add $TenDRA$.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:42  release
  * First version to be checked into rolling release.
@@ -118,6 +121,8 @@ lexer_skip_white_space PROTO_N ((istream))
 	  case '\0':
 	    ISTREAM_HANDLE_NULL (istream, redo1, eof);
 	    break;
+	  case '\r':
+	    goto redo1;
 	  case '\n':
 	    istream_inc_line (istream);
 	    break;
@@ -178,6 +183,8 @@ lexer_read_builtin PROTO_N ((istream, token))
 	    ISTREAM_HANDLE_NULL (istream, redo, eof);
 	    E_null_character_in_builtin (istream);
 	    break;
+	  case '\r':
+	    goto redo;
 	  case '\n':
 	    istream_inc_line (istream);
 	    E_newline_in_builtin (istream);

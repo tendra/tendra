@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+   $TenDRA$
 */
 
 
@@ -39,8 +41,9 @@
  *
  **** Change Log:
  * $Log$
- * Revision 1.1  2002/01/26 21:32:12  asmodai
- * Initial version of TenDRA 4.1.2.
+ * Revision 1.2  2002/12/12 07:43:57  asmodai
+ * Add code to recognise carriage returns (\r).
+ * Add $TenDRA$.
  *
  * Revision 1.1.1.1  1998/01/17  15:57:45  release
  * First version to be checked into rolling release.
@@ -101,6 +104,8 @@ istream_read_hex_char PROTO_N ((istream, c_ref))
       case '\0':
 	ISTREAM_HANDLE_NULL (istream, redo1, eof);
 	return (ISTREAM_STAT_SYNTAX_ERROR);
+      case '\r':
+	goto redo1;
       case '\n':
 	istream_inc_line (istream);
 	return (ISTREAM_STAT_SYNTAX_ERROR);
@@ -116,6 +121,8 @@ istream_read_hex_char PROTO_N ((istream, c_ref))
       case '\0':
 	ISTREAM_HANDLE_NULL (istream, redo2, eof);
 	return (ISTREAM_STAT_SYNTAX_ERROR);
+      case '\r':
+	goto redo2;
       case '\n':
 	istream_inc_line (istream);
 	return (ISTREAM_STAT_SYNTAX_ERROR);
@@ -205,6 +212,8 @@ istream_read_char PROTO_N ((istream, c_ref))
 
   redo:
     switch (c = ISTREAM_READ_CHAR (istream)) {
+      case '\r':
+	goto redo;
       case '\n':
 	istream_inc_line (istream);
 	break;
@@ -254,6 +263,8 @@ istream_read_escaped_char PROTO_N ((istream, c_ref))
 	ISTREAM_HANDLE_NULL (istream, redo, eof);
 	*c_ref = c;
 	return (ISTREAM_STAT_READ_CHAR);
+      case '\r':
+	goto redo;
       case '\n':
 	istream_inc_line (istream);
 	return (ISTREAM_STAT_NO_CHAR);
