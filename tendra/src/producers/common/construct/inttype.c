@@ -157,7 +157,7 @@ LIST (TYPE) all_llong_types = NULL_list (TYPE);
  */
 
 unsigned char builtin_casts [ ORDER_ntype ] [ ORDER_ntype ] = {
-	/* CH CH SC UC SS US SI UI SL UL SX UX FL DB LD VD BT BL PD SZ WC EL */
+	/*         CH CH SC UC SS US SI UI SL UL SX UX FL DB LD VD BT BL PD SZ WC EL */
 	/* CH */ { 0, 0, 5, 5, 1, 7, 1, 7, 1, 7, 1, 7, 8, 8, 8, 9, 9, 8, 1, 7, 0, 0 },
 	/* CH */ { 0, 0, 5, 5, 1, 7, 1, 7, 1, 7, 1, 7, 8, 8, 8, 9, 9, 8, 1, 7, 0, 0 },
 	/* SC */ { 5, 5, 0, 6, 0, 7, 0, 7, 0, 7, 0, 7, 8, 8, 8, 9, 9, 8, 1, 7, 8, 0 },
