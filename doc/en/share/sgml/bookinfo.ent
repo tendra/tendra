@@ -10,3 +10,5 @@
 -->
 
 <!ENTITY bookinfo.legalnotice SYSTEM "legalnotice.sgml">
+<!ENTITY bookinfo.legalnotice-crown SYSTEM "legalnotice-crown.sgml">
+
