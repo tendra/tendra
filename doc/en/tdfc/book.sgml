@@ -1647,55 +1647,55 @@ else { ...
 </row>
 <row>
 <entry>[ - ++ -- + - * & (type) sizeof</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>* / %</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>+(binary) -(binary)</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry><< >></entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry><<= >>=</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>== [=</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>&</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>^</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>|</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>&&</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>||</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>?;</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>=+= -= *= /= %= &= ^= |= <<= >>=</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>.</entry>
@@ -3213,12 +3213,12 @@ return ( 0 );
 </row>
 <row>
 <entry>assignments as conditional control statements</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>bitfield overflow</entry>
@@ -3227,7 +3227,7 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>block level static function</entry>
@@ -3235,8 +3235,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>character escape overflow</entry>
@@ -3245,7 +3245,7 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>sign of char</entry>
@@ -3263,16 +3263,16 @@ return ( 0 );
 <entry>W</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 </row>
 <row>
 <entry>complete struct/union analysis</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>conditional lvalues</entry>
@@ -3280,62 +3280,62 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>constant conditional control statements</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>conversion analysis</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( int -> enum implicit )</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( int -> int explicit )</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( int -> int implicit )</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( int <-> pointer explicit )</entry>
 <entry>W</entry>
 <entry>W</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( int <-> pinter implicit )</entry>
@@ -3343,17 +3343,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( pointer -> pointer explicit )</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( pointer -> pointer implicit )</entry>
@@ -3361,17 +3361,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive used as macro argument</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive assert</entry>
@@ -3379,8 +3379,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive file</entry>
@@ -3388,8 +3388,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive ident</entry>
@@ -3397,8 +3397,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive unassert</entry>
@@ -3406,8 +3406,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>directive weak</entry>
@@ -3415,62 +3415,62 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>discard analysis</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( function return )</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( static)</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>( value )</entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>"$" used as character</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>enum switch analysis</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra , at end of enum lists</entry>
@@ -3478,8 +3478,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra ... in function prototypes</entry>
@@ -3487,8 +3487,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra ; after external declarations</entry>
@@ -3496,17 +3496,17 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra ; after contional statements</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 <entry>W</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra int types for bitfields</entry>
@@ -3514,8 +3514,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>W</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 <row>
 <entry>extra macro definitions</entry>
@@ -3523,8 +3523,8 @@ return ( 0 );
 <entry>E</entry>
 <entry>E</entry>
 <entry>E</entry>
-<entry>NUKEME</entry>
-<entry>NUKEME</entry>
+<entry></entry>
+<entry></entry>
 </row>
 </tbody>
 </tgroup>
