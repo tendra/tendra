@@ -1,0 +1,26 @@
+#!/bin/sh
+
+BASE=/u/g/release/Source
+SRC=${BASE}/src/lib/cpp/src
+
+cat > makefile.sed << EOF
+1,\$s/^LINK_CC=.*/AR=ar/
+1,\$s/^CCOPTS=.*/& \${MACHOPTS}/
+1,\$s/\\\${LINK_CC} -o/\${AR} cr/
+/^TCCOPTS/a\\
+MACHOPTS=\\
+RANLIB=ranlib
+/{AR}/a\\
+	\${RANLIB} \${NAME}
+EOF
+
+make_mf\
+    +A BASE=${BASE}\
+    +A SRC=${SRC}\
+    +W ...\
+    -o .../libcpp.a\
+    -Yc++\
+    ${SRC}/*.cc\
+    | sed -f makefile.sed > Makefile
+
+rm -f makefile.sed
