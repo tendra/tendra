@@ -146,7 +146,8 @@
 
       <member><literal>~cpp.</literal></member>
 
-      <member>LPI tokens specific to DRA's C++ producer, other than those it shares with the C producer.</member>
+      <member>LPI tokens specific to DRA's C++ producer, other than those it
+        shares with the C producer.</member>
 
       <member><literal>.Et~</literal></member>
 
@@ -157,11 +158,24 @@
   <chapter id="ch02">
     <title>Target dependency tokens</title>
     
-    <para>Target dependency tokens provide a common interface to simple constructs where the required detail for any specific architecture can be expressed within TDF, but the detail will be architecture specific. Every installer should have associated with it, a capsule containing the installer specific definitions of all the tokens specificed within this <xref linkend="ch03">.</para>
+    <para>Target dependency tokens provide a common interface to simple
+      constructs where the required detail for any specific architecture can
+      be expressed within TDF, but the detail will be architecture specific.
+      Every installer should have associated with it, a capsule containing the
+      installer specific definitions of all the tokens specificed within this
+      <xref linkend="ch03">.</para>
     
-    <para>Some of these tokens provide information about the integer and floating point variety representations supported by an installer, in a form that may be used by TDF analysis tools for architecture specific analysis, or by library generation tools when generating an architecture specific version of a library. Other target dependency tokens provide commonly required conversion routines.</para>
+    <para>Some of these tokens provide information about the integer and
+      floating point variety representations supported by an installer, in a
+      form that may be used by TDF analysis tools for architecture specific
+      analysis, or by library generation tools when generating an architecture
+      specific version of a library. Other target dependency tokens provide
+      commonly required conversion routines.</para>
     
-    <para>It is recommended that these tokens should not be used directly within application programs. They are designed for use within LPI definitions, which can provide a more appropriate interface for applications.</para>
+    <para>It is recommended that these tokens should not be used directly
+      within application programs. They are designed for use within LPI
+      definitions, which can provide a more appropriate interface for
+      applications.</para>
     
     <sect1>
       <title>Integer variety representations</title>
