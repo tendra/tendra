@@ -1,0 +1,232 @@
+# $TenDRA$
+                        Online Compiler Baedeker
+
+                                 being 
+
+                    A Compilation of Compiler Notes
+
+                        nonce at tendra dot org
+
+|=----------------------------=[ E H ? ]=------------------------------=|
+
+__        __
+\ \      / /  hat follows is a set of notes on advanced compiler
+ \ \ /\ / /   topics.  These notes are intended to serve as a 
+  \ V  V /    'thinking piece' to explore various advanced in 
+   \_/\_/     compiler technology.  The idea is to catalog major
+              improvements, and determine if they are suitable
+for inclusion in the TenDRA compiler.  You can learn more about
+the TenDRA compiler by visiting http://www.tendra.org.
+
+
+|=-----------------------=[ O V E R V I E W ]=--------------------------=|
+
+ _____ 
+|_   _| he following is a collection of notes on compiler
+  | |   optimization techniques, with relevant references.  These
+  | |   notes are culled from web searches, literature searches,
+  |_|   experience, and a few good reference texts.  Allen & Kennedy's 
+        excellent text "Optimizing Compilers for Modern Architectures"
+(ISBN 1-55860-286-0). provides a good overview, at least from a
+dependency perspective.  Andrew Appel's "Modern Compiler
+Implementation in ML" (ISBN 0-521-58274-1) provides a good overview of
+basics.  J. Glenn Brookshear's "Formal Languages, Automata, and
+Complexity" (ISBN 0-8053-0143-7) provides an *excellent* theoretical
+background.
+
+    For historical reference, I've consulted John A.N. Lee's "The
+Anatomy of a Compiler" (Reinhold, 1967).  For inspiration, Christian
+Queinnec's "Lisp In Small Pieces" (ISBN 0-521-56247-3), was consulted.
+
+    Lastly, to 'keep up with the Jones'', I've read deeply of Serge
+Lidin's "Inside Microsoft .NET IL Assembler" (ISBN 0-7356-1547-0), and
+Robert Stark, et al., "Java and the Java Virtual Machine: Definition,
+Verification, Validation" (ISBN 3-540-42088-6).  Stark's book on the
+validation of the JVM, in particular, is most remarkable.  The future
+of compilation, it would seem, includes proof-carrying or validation
+of some sort; it's well worth the read.
+
+    Together, these texts suggest the following organization of topics.
+(At present, the outline is heavily skewed towards dependence
+analysis, since that would appear to yield the best results for
+TenDRA.)  Other organizing principles will be used in future
+revisions.
+
+|=----------------------=[ B A C K G R O U N D ]=------------------------=|
+
+    These notes are intended for readers already skilled in basic
+compiler technology.  If you are not well versed in compilers, I'd
+recommend getting a bucket of sand, making an ingot of super pure
+silicon, wafering the ingot, and etching CMOS circuits onto the
+wafers.  Then, use lower voltage power to drive a state machine etched
+onto the chips.  I'd recommend a register based machine, but you can
+use stacks for simplicity.  Now you're ready to create an instruction
+set architecture on paper.  After settling on the ISA, make some
+microcode to control your simple state machine, and fab a few
+prototypes.  Then you're ready to write some machine code.  After
+wasting years of your life writing machine code, abstract the
+code-writing process into a series of formal steps, borrowing heavily
+from linguistics along the way.  Make higher level languages, and
+tools to translation your ambiguous expressions into machine
+code. You'll get the idea.
+
+   The rest should be easy.
+
+|=-----------------------------------------------------------------------=|
+
+I.  Dependence Analysis
+
+    A.  In General
+
+        1.  Subscript Partitioning
+
+        2.  Merging Direction Vectors
+
+    B.  Single-Subscript Dependency
+ 
+        1.  ZIV Test
+
+        2.  SIV Test
+ 
+        3.  Multiple Induction
+
+    C.  Coupled Group Testing
+
+        1.  Delta Tests
+
+        2.  Other Tests
+
+II.  Transformations
+
+     A.  Loop Normalizations
+
+     B.  Data Flow Analysis
+
+         1.  Definition-Use Chains
+
+         2.  Dead Code Elimination
+
+         3.  Constant Propagation
+
+         4.  Static Single-Assignment Form
+
+     C.  Induction Variable Exposure
+
+         1.  Forward Expression Substitution
+
+         2.  Induction Variable Substitution
+
+III.  Parallelism Enhancements--Fine Grained
+
+    A.  Loop Interchange
+
+    B. Scalar Expansion
+
+    C. Scalar and Array Renaming
+
+    D. Node Splitting
+
+    E. Loop Skewing
+
+
+IV.  Parallelism Enhancements--Course Grained
+
+    A.  Single-Loop Methods
+
+        1.  Privitization
+
+        2.  Loop Distribution
+
+        3.  Alignment
+
+        4.  Code Replication
+
+        5.  Loop Fusion
+
+    B. Perfect Nested Loops
+
+        1.  Interchange
+
+        2.  Selection
+
+        3.  Reversal
+
+        4.  Skewing 
+
+        5.  Unimodular Transformations
+
+    C. Imperfect Nested Loop
+
+        1.  Multilevel
+
+        2.  Parallel Code Generation
+      
+V.  Control Flow Analysis
+
+    A.  If-Conversion
+
+        1.  What?
+
+        2.  Branch Classification
+
+            a.  Forward Branches
+
+            b.  Exit Branches
+
+            c.  Backward Branches
+
+         3.  Complete Forward Branch Removal
+
+    B. Control Dependence
+
+VI. Register Use Management
+
+    A.  Scalar Register Allocation
+
+        1.  Data Dependence 
+
+        2.  Loop-Carried & Loop-Independent Reuse
+
+    B.  Scalar Replacement
+
+        1.  Pruning Dependence Graphs
+
+        2.  Simple Replacement
+
+        3.  Handling Loop-Carried Dependencies
+
+        4.  Spanning Dependencies
+
+        5.  Eliminating Scalar Copies
+
+        6.  Moderating Register Pressure
+
+        7.  Scalar Replacement Algorithm
+
+   C.  Unroll-and-Jam
+
+         1.  Legality Consideration
+
+         2.  The Unroll-and-Jam Algo
+
+         3.  Effectiveness
+
+    D.  Loop Interchange for Register Reuse
+
+    E.  Loop Fusion
+
+    F.  Other
+
+        1.  Trapezoidal Loops
+
+VII. Cache Use Management
+
+     A.  Locality, Blocking, etc.
+
+
+
+
+
+
+
+
