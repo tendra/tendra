@@ -500,6 +500,7 @@ removeCR(char *s)
 			s[1] = 0;
 			break;
 		}
+		s++;
 	}
 }
 
