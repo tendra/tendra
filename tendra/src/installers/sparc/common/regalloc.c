@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -34,76 +61,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/08/23  13:54:34  pwe
- * initial ANDF-DE
- *
- * Revision 1.8  1997/03/26  13:04:52  pwe
- * general proc compatibility
- *
- * Revision 1.7  1996/08/22  16:47:15  pwe
- * correct accessing for double params
- *
- * Revision 1.6  1995/11/07  09:53:31  john
- * Change to general procs
- *
- * Revision 1.5  1995/10/24  17:16:15  john
- * Fixed stupid mistake in register allocation
- *
- * Revision 1.4  1995/09/22  13:07:17  john
- * Protected local reg
- *
- * Revision 1.3  1995/08/22  15:29:15  john
- * Change to compound_tag
- *
- * Revision 1.2  1995/05/26  13:01:29  john
- * Change for new spec
- *
- * Revision 1.1.1.1  1995/03/13  10:18:53  john
- * Entered into CVS
- *
- * Revision 1.4  1994/12/01  13:25:47  djch
- * Alter allocator to ensure env_offset'd go on the stack.
- *
- * Revision 1.3  1994/10/26  13:44:54  djch
- * *** empty log message ***
- *
- * Revision 1.2  1994/05/03  15:10:48  djch
- * From the expt version, fixes bug where fixdump sometimes got real reg numbers,
- * sometimes sreg numbers
- *
- * Revision 1.2  1994/05/03  15:10:48  djch
- * From the expt version, fixes bug where fixdump sometimes got real reg numbers,
- * sometimes sreg numbers
- *
- * Revision 1.2  94/02/15  11:20:27  djch
- * fixed wrong bit set in fixdump for inreg_bits exps, added comments
- * 
- * Revision 1.1  94/01/13  12:13:56  djch
- * Initial revision
- * 
- * Revision 1.4  93/08/27  11:36:44  11:36:44  ra (Robert Andrews)
- * A couple of lint-like changes.  Use of pset etc to set properties.
- * 
- * Revision 1.3  93/08/13  14:44:36  14:44:36  ra (Robert Andrews)
- * Reformatted comment.
- * 
- * Revision 1.2  93/07/05  18:24:39  18:24:39  ra (Robert Andrews)
- * Reformatted file.  Added support for PIC by means of the avoid_L7
- * flag which causes register L7 not to be allocated.
- * 
- * Revision 1.1  93/06/24  14:59:11  14:59:11  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
