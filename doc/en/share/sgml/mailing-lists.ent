@@ -1,0 +1,25 @@
+<!--
+     Names of TenDRA mailing lists.
+
+     $TenDRA$
+-->
+
+<!ENTITY a.announce "TenDRA announcements mailing list
+  <email>tendra-announce@lists.tendra.org</email>">
+
+<!ENTITY a.bugs "TenDRA Bugs discussion mailing list
+  <email>tendra-bugs@lists.tendra.org</email>">
+
+<!ENTITY a.cvs "TenDRA CVS commits mailing list"
+  <email>tendra-cvs@lists.tendra.org</email>">
+
+<!ENTITY a.dev "TenDRA development mailing list
+  <email>tendra-dev@lists.tendra.org</email>">
+
+<!ENTITY a.docs "TenDRA documentation mailing list"
+  <email>tendra-docs@lists.tendra.org</email>">
+
+<!ENTITY a.help "TenDRA help and questions mailing list"
+  <email>tendra-help@lists.tendra.org</email">
+
+<!ENTITY a.majordomo "<email>majordomo@lists.tendra.org</email>">

@@ -1,0 +1,11 @@
+  -- ...................................................................... --
+  -- TenDRA SGML Public Identifiers ....................................... --
+  
+  -- $TenDRA$
+  --
+
+PUBLIC "-//FreeBSD//DOCUMENT DocBook Stylesheet//EN"
+	"freebsd.dsl"
+
+PUBLIC "-//FreeBSD//ENTITIES DocBook Mailing List Entities//EN"
+	"mailing-lists.ent"
