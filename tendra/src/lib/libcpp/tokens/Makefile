@@ -2,7 +2,7 @@
 
 .PATH : ${.CURDIR}
 
-CFLAGS=	-I${.CURDIR}/../src
+CFLAGS+=	-I${.CURDIR}/../src
 
 TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
 		-Y${DEFAULT_BUILD} \

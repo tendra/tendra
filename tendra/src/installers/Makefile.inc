@@ -4,7 +4,7 @@
 SRCDIRS+=	common/construct common/diag common/linkinfo common/reader \
 		common/templ
 
-CFLAGS= 	-I. -I${.CURDIR} ${SRCDIRS:S|^|-I${SRC_DIR}/src/installers/|}
+CFLAGS+= 	-I. -I${.CURDIR} ${SRCDIRS:S|^|-I${SRC_DIR}/src/installers/|}
 .PATH :		${.CURDIR} ${SRCDIRS:S|^|${.CURDIR}/../../|}
 
 # installers/common/construct

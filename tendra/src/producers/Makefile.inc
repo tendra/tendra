@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS= -I${.CURDIR} -I. ${SRCDIRS:S|^|-I${.CURDIR}/../|}
+CFLAGS+= -I${.CURDIR} -I. ${SRCDIRS:S|^|-I${.CURDIR}/../|}
 .PATH : ${.CURDIR} ${SRCDIRS:S|^|${.CURDIR}/../|}
 SID_OPTS=	-l ansi-c -s numeric -s split -s no-lines
 
