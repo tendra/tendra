@@ -49,3 +49,7 @@ SYS_INCLUDES = "-I/usr/include"
 STRIP = :
 RANLIB = ranlib
 EXEC_SUFFIX=
+
+LD ?= ld
+LDOPTS =
+LIBS = /usr/lib/crt1.o -lc
