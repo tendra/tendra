@@ -97,8 +97,8 @@ character *main_pass = passes + 1;
     This routine allocates a new character with value c.
 */
 
-static character *new_char
-(letter c)
+static character *
+new_char(letter c)
 {
     character *p;
     static int chars_left = 0;
@@ -124,8 +124,8 @@ static character *new_char
     pass p.
 */
 
-void add_char
-(character *p, letter *s, char **data)
+void
+add_char(character *p, letter *s, char **data)
 {
     character *q;
     letter c = *s;
@@ -181,8 +181,8 @@ int no_groups = 0;
     definition s.
 */
 
-void make_group
-(char *nm, letter *s)
+void
+make_group(char *nm, letter *s)
 {
     int i, n = no_groups;
     for (i = 0; i < n; i++) {
@@ -208,8 +208,8 @@ void make_group
     This routine checks whether the letter c is in the list p.
 */
 
-int in_group
-(letter *p, letter c)
+int
+in_group(letter *p, letter c)
 {
     letter a;
     if (p == NULL) return(0);
@@ -233,8 +233,8 @@ int in_group
     This routine finds the character corresponding to the escape sequence c.
 */
 
-letter find_escape
-(int c)
+letter
+find_escape(int c)
 {
     letter a;
     switch (c) {
@@ -266,8 +266,8 @@ letter find_escape
     This routine translates the string s into an array of letters.
 */
 
-letter *make_string
-(char *s)
+letter *
+make_string(char *s)
 {
     int i = 0, n = (int)strlen(s);
     letter *p = xmalloc_nof(letter, n + 1);
@@ -332,8 +332,8 @@ keyword *keywords = NULL;
     of all keywords.
 */
 
-void add_keyword
-(char *nm, char **data)
+void
+add_keyword(char *nm, char **data)
 {
     static int keywords_left = 0;
     static keyword *keywords_free = NULL;

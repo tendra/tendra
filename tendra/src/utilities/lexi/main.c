@@ -76,8 +76,8 @@
     reads the input file, and writes the output files.
 */
 
-int main
-(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
     int a;
     int key = 0;

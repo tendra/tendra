@@ -128,8 +128,8 @@ static int read_string(void);
     or from the input file.
 */
 
-static int read_char
-(void)
+static int
+read_char(void)
 {
     int c;
     if (pending != pending_buff) {
@@ -164,8 +164,8 @@ char *first_comment = NULL;
     The sid flag indicates whether a sid-style identifier is expected.
 */
 
-static int read_identifier
-(int a, int sid)
+static int
+read_identifier(int a, int sid)
 {
     int c = a, cl;
     int e = (sid ? '-' : 'x');
@@ -196,8 +196,8 @@ static int read_identifier
     quote has been read.
 */
 
-static int read_string
-(void)
+static int
+read_string(void)
 {
     int c;
     int escaped = 0;
@@ -228,8 +228,8 @@ static int read_string
     have been read.
 */
 
-static int read_comment
-(void)
+static int
+read_comment(void)
 {
     int state = 0;
     char *t = token_buff;
@@ -274,8 +274,8 @@ int saved_lex_token;
     This routine processes the input file nm.
 */
 
-void process_file
-(char *nm)
+void
+process_file(char *nm)
 {
     crt_line_no = 1;
     if (nm == NULL || streq(nm, "-")) {

@@ -85,8 +85,8 @@ FILE *lex_output;
     This routine outputs an indentation of d.
 */
 
-static void output_indent
-(int d)
+static void
+output_indent(int d)
 {
     int n = 4 * d;
     for (; n >= 8; n -= 8)fputc_v('\t', out);
@@ -101,8 +101,8 @@ static void output_indent
     This routine finds the character literal corresponding to c.
 */
 
-static char *char_lit
-(letter c)
+static char *
+char_lit(letter c)
 {
     static char buff [10];
     switch (c) {
@@ -139,8 +139,8 @@ static char *read_name = "read_char";
     gives the depth of recursion and d gives the indentation.
 */
 
-static int output_pass
-(character *p, int n, int d)
+static int
+output_pass(character *p, int n, int d)
 {
     character *q;
     int cases = 0;
@@ -320,8 +320,8 @@ static int output_pass
     generated.
 */
 
-static void output_comment
-(void)
+static void
+output_comment(void)
 {
     if (first_comment) {
 	/* Print copyright comment, if present */
@@ -340,8 +340,8 @@ static void output_comment
     This routine is the entry point for the main output routine.
 */
 
-void output_all
-(void)
+void
+output_all(void)
 {
     int c, n;
 
@@ -423,8 +423,8 @@ void output_all
     This routine outputs code for the keyword p.
 */
 
-static void output_word
-(keyword *p)
+static void
+output_word(keyword *p)
 {
     fprintf_v(out, "MAKE_KEYWORD ( \"%s\", %s", p->name, p->defn);
     if (p->args)fputs_v(" ()", out);
@@ -440,8 +440,8 @@ static void output_word
     This routine outputs code to generate all keywords.
 */
 
-void output_keyword
-(void)
+void
+output_keyword(void)
 {
     keyword *p, *q;
     output_comment();
