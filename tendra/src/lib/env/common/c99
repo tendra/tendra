@@ -4,6 +4,7 @@
  */
 
 +INCL			"-Niso99:<TENDRA_INCLDIR>/iso99.api"
++LIB			"-liso99 -lansi"
 +COMP_OPTION		"longlong=allow"
 +FLAG_INSTALL		"-Yiso99"
 +FLAG_TDFC		"-mv1999"
