@@ -145,7 +145,7 @@
 
       <member>LPI tokens specific to DRA's C++ producer, other than those it shares with the C producer.</member>
 
-      <member>.Et~</member>
+      <member><literal>.Et~</literal></member>
 
       <member>LPI tokens specific to Etnoteam's Fortran77 producer.</member>
     </simplelist>
