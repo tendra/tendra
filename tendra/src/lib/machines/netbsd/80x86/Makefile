@@ -3,7 +3,9 @@
 .PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../common/tokens
 
 # include
-DATA_INCLUDE=	include/ctype.h include/limits.h include/stdarg.h include/unistd.h include/xti.h include/gcc_dependency.h
+DATA_INCLUDE=	include/ctype.h include/limits.h include/stdarg.h \
+		include/unistd.h include/xti.h \
+		include/gcc_dependency.h
 
 # include/sys
 DATA_INCLUDE+=	include/sys/param.h include/sys/shm.h
@@ -11,7 +13,7 @@ DATA_INCLUDE+=	include/sys/param.h include/sys/shm.h
 # startup
 DATA_STARTUP+=	startup/ansi.h startup/bsd_extn.h startup/cpp.h startup/gcc.h \
 		startup/iso.h startup/posix.h startup/posix1.h \
-		startup/posix2.h startup/svid3.h startup startup/system.h \
+		startup/posix2.h startup/svid3.h startup/system.h \
 		startup/unix95.h startup/xpg3.h startup/xpg4.h 
 
 MAKEDIR=	include include/sys startup tokens
