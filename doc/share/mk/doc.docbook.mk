@@ -185,7 +185,7 @@ CLEANFILES+= 		${HTML_SPLIT_INDEX} ${HTML_INDEX} ${PRINT_INDEX}
 
 
 
-all: ${_docs}
+all: ${DEPEND_SRC} ${_docs}
 
 
 # HTML-SPLIT -------------------------------------------------------------
