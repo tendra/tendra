@@ -121,20 +121,6 @@ char *sid_prefix = "lex_" ;
 static char *crt_cond = NULL ;
 
 
-/*
-    COMPILATION MODE
-
-    We allow unreached code in the automatically generated sections.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#ifndef OLD_PRODUCER
-#pragma TenDRA unreachable code allow
-#endif
-#endif
-
-
 @}, @{
 /*
     		 Crown Copyright (c) 1997
