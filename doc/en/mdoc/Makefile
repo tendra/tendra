@@ -22,6 +22,8 @@ BIN_GROFF?=	groff
 MAN=		calculus.1 \
 		disp.1 \
 		lexi.1 \
+		make_tdf.1 \
+		mkerr.1\
 		pl.1 \
 		sid.1 \
 		tcc.1 \
