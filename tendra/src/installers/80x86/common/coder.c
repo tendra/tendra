@@ -1729,7 +1729,7 @@ coder(where dest, ash stack, exp e)
 		if (postlude == nilexp && !untidy_call) {
 			old_regsinuse = regsinuse;
 			if (multi_reg)
-				regsinuse |= 0x2;	/* prevent callins using pop edx */
+				regsinuse |= REG_EDX;	/* prevent callins using pop edx */
 			callins (longs, son (e), ret_stack_dec);
 			regsinuse = old_regsinuse;
 		} else {
@@ -2078,9 +2078,9 @@ coder(where dest, ash stack, exp e)
 					reset_fpucon();
 					if (name(e)==untidy_return_tag) {
 						int old_regsinuse = regsinuse;
-						regsinuse &= ~0x6;	/* %ecx, %edx not preserved */
+						regsinuse &= ~(REG_ECX | REG_EDX);	/* %ecx, %edx not preserved */
 						if (shape_size(sh(son(e))) > 32 && !with_fl_reg)
-							regsinuse |= 0x2;	/* %edx used for return value */
+							regsinuse |= REG_EDX;	/* %edx used for return value */
 						if (stack_dec != 0)
 							stack_return (- stack_dec);
 						regsinuse = old_regsinuse;

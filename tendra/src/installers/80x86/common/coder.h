@@ -61,6 +61,19 @@
 #ifndef coder_key
 #define coder_key 1
 
+/*
+ * 32-bit registers mask
+ */
+#define	REG_EAX		0x01
+#define	REG_EDX		0x02
+#define	REG_ECX		0x04
+#define	REG_EBX		0x08
+#define	REG_EDI		0x10
+#define	REG_ESI		0x20
+#define	REG_EBP		0x40
+#define	REG_ESP		0x80
+#define	REG_ALL_EXCEPT_EAX	(REG_EDX | REG_ECX | REG_EBX | REG_EDI | REG_ESI | REG_EBP)
+
 
 extern void coder(where dest, ash stack, exp e);
 extern int regsinuse;

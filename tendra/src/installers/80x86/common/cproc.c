@@ -191,7 +191,7 @@ out_pops(int tot_sp, int push_space, int extra, int dpos)
 	}
 
 	/* pop the registers at the end */
-	if (no_frame && (min_rfree & 0x40)) {
+	if (no_frame && (min_rfree & REG_EBP)) {
 		outs (" pop %ebp");
 		outnl();
 #ifdef NEWDWARF
@@ -199,7 +199,7 @@ out_pops(int tot_sp, int push_space, int extra, int dpos)
 			dwl1 = set_dw_text_label ();
 #endif
 	}
-	if (min_rfree & 0x20) {
+	if (min_rfree & REG_ESI) {
 		outs (" pop %esi");
 		outnl();
 #ifdef NEWDWARF
@@ -207,7 +207,7 @@ out_pops(int tot_sp, int push_space, int extra, int dpos)
 			dwl2 = set_dw_text_label ();
 #endif
 	}
-	if (min_rfree & 0x10) {
+	if (min_rfree & REG_EDI) {
 		outs (" pop %edi");
 		outnl();
 #ifdef NEWDWARF
@@ -215,7 +215,7 @@ out_pops(int tot_sp, int push_space, int extra, int dpos)
 			dwl3 = set_dw_text_label ();
 #endif
 	}
-	if (min_rfree & 0x8) {
+	if (min_rfree & REG_EBX) {
 		outs (" pop %ebx");
 		outnl();
 #ifdef NEWDWARF
@@ -251,28 +251,28 @@ out_untidy_pops(int tot_sp, int push_space)
 {
 	if (no_frame) {
 		int s_offset = tot_sp - push_space;
-		if (min_rfree & 0x40) {
+		if (min_rfree & REG_EBP) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%ebp");
 			outnl();
 			s_offset += 4;
 		}
-		if (min_rfree & 0x20) {
+		if (min_rfree & REG_ESI) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%esi");
 			outnl();
 			s_offset += 4;
 		}
-		if (min_rfree & 0x10) {
+		if (min_rfree & REG_EDI) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%edi");
 			outnl();
 			s_offset += 4;
 		}
-		if (min_rfree & 0x8) {
+		if (min_rfree & REG_EBX) {
 			outs (" movl ");
 			outn ((long)s_offset);
 			outs ("(%esp),%ebx");
@@ -282,21 +282,21 @@ out_untidy_pops(int tot_sp, int push_space)
 	} else {
 		int fm_offset = - push_space;
 
-		if (min_rfree & 0x20) {
+		if (min_rfree & REG_ESI) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%esi");
 			outnl();
 			fm_offset += 4;
 		}
-		if (min_rfree & 0x10) {
+		if (min_rfree & REG_EDI) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%edi");
 			outnl();
 			fm_offset += 4;
 		}
-		if (min_rfree & 0x8) {
+		if (min_rfree & REG_EBX) {
 			outs (" movl ");
 			outn ((long)fm_offset);
 			outs ("(%ebp),%ebx");
@@ -389,7 +389,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 
 	if (!no_frame)
 		/* prevent ebp from being used as an ordinary register */
-		regsinuse = 0x40;
+		regsinuse = REG_EBP;
 
 	fstack_pos = first_fl_reg;
 
@@ -669,18 +669,18 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 	 * procedure will have a frame pointer.
 	 */
 	if (proc_uses_crt_env(p) && proc_has_lv(p))
-		min_rfree |= 0x38;
+		min_rfree |= REG_EBX | REG_ESI | REG_EDI;
 
 	/* compute space needed for local variables in memory */
 	ms = ((max_stack + 31) / 32) * 4;
 	/* compute space needed for pushing registers */
-	if (no_frame && min_rfree & 0x40)
+	if (no_frame && min_rfree & REG_EBP)
 		push_space += 4;
-	if (min_rfree & 0x20)
+	if (min_rfree & REG_ESI)
 		push_space += 4;
-	if (min_rfree & 0x10)
+	if (min_rfree & REG_EDI)
 		push_space += 4;
-	if (min_rfree & 0x8)
+	if (min_rfree & REG_EBX)
 		push_space += 4;
 
 	ferrsize /= 8;
@@ -817,7 +817,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 	}
 
 	/* push registers as necessary */
-	if (min_rfree & 0x8) {
+	if (min_rfree & REG_EBX) {
 		st = fseek (fpout, old_pos2, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
@@ -831,7 +831,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 #endif
 	}
 
-	if (min_rfree & 0x10) {
+	if (min_rfree & REG_EDI) {
 		st = fseek (fpout, old_pos3, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
@@ -846,7 +846,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 	}
 
 
-	if (min_rfree & 0x20) {
+	if (min_rfree & REG_ESI) {
 		st = fseek (fpout, old_pos4, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);
@@ -860,7 +860,7 @@ cproc(exp p, char *pname, int cname, int global, diag_global *diag_props)
 #endif
 	}
 
-	if (no_frame && (min_rfree & 0x40)) {
+	if (no_frame && (min_rfree & REG_EBP)) {
 		st = fseek (fpout, old_pos5, 0);
 		if (st == -1) {
 			failer (SEEK_FAILURE);

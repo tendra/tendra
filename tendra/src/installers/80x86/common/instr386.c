@@ -431,7 +431,7 @@ contop(exp a, int r0inuse, where dest)
 		int  inreg1 = ptno (son (son (id1))) == reg_pl;
 		/* true if def of outer identity
 		 *					   is already in a register */
-		int  reg_mask = (~regsinuse) & 0x3e;
+		int  reg_mask = (~regsinuse) & (REG_EDX | REG_ECX | REG_EBX | REG_ESI | REG_EDI);
 		int  regs_free = count_regs (reg_mask);
 		/* number of free integer
 		 *					   registers */
@@ -1049,7 +1049,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 			if (mem1) {
 				if (sz == 64) {
 					/* a2 must be reg0/1 */
-					regsinuse |= 0x2;
+					regsinuse |= REG_EDX;
 					contop (a1.where_exp, 1, dest);
 					ins2 (cmpl, 32, 32, mw(a1.where_exp, a1.where_off + 32), reg1);
 					simple_branch (op12, labno);
@@ -1070,7 +1070,7 @@ maxmin(shape sha, where a1, where a2, where dest,
 				if (mem2) {
 					if (sz == 64) {
 						/* a1 and dest must be reg0/1 */
-						regsinuse |= 0x2;
+						regsinuse |= REG_EDX;
 						contop(a2.where_exp, 1, dest);
 						ins2 (cmpl, 32, 32, reg1, mw(a2.where_exp, a2.where_off + 32));
 						simple_branch (op12, labno);
@@ -1264,7 +1264,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 			exp holda = son(a);
 			exp holdb = son(b);
 			if (sz == 64)
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 			if (inmem (a1))
 				contop (a, eq_where (reg0, a2), a1);
 			else
@@ -1369,7 +1369,7 @@ add_plus(shape sha, where a1, where a2, where dest,
 			exp holda = son(a);
 			exp holdb = son(b);
 			if (sz == 64)
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 			if (inmem (a1))
 				contop (a, eq_where (reg0, a2), a2);
 			else
@@ -1657,7 +1657,7 @@ sub(shape sha, where a1, where a2, where dest)
 			exp holda = son(a);
 			exp holdb = son(b);
 			if (sz == 64)
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 			if (inmem (a1))
 				contop (a, eq_where (reg0, a2), a2);
 			else
@@ -1985,7 +1985,7 @@ all_in_regs(exp e)
 int
 two_contops(exp fe, exp te)
 {
-	int   nr = count_regs ((~regsinuse) & 0x3e);
+	int   nr = count_regs ((~regsinuse) & (REG_EDX | REG_ECX | REG_EBX | REG_ESI | REG_EDI));
 	if (nr >= 2)
 		return (1);
 	if (nr == 1)
@@ -2517,7 +2517,7 @@ move(shape sha, where from, where to)
 		where w1;
 		int riu = regsinuse;
 		if (!eq_where (from, reg0)) {
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			contop (fe, 0, reg0);
 			w1 = mw (fe, from.where_off + 32);
 			ins2 (movl, sz, sz, w1, reg1);
@@ -2528,7 +2528,7 @@ move(shape sha, where from, where to)
 		}
 		else
 			if (!eq_where (to, reg0)) {
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 				contop (te, 1, to);
 				w1 = mw (te, to.where_off + 32);
 				ins2 (movl, sz, sz, reg0, to);
@@ -2543,7 +2543,7 @@ move(shape sha, where from, where to)
 	}
 	
 	if (name(sha) == realhd && might_overlap(sha, from, to)) {
-		if ((regsinuse & 0x7e) != 0x7e) {
+		if ((regsinuse & REG_ALL_EXCEPT_EAX) != REG_ALL_EXCEPT_EAX) {
 			int  foff = from.where_off;
 			int  toff = to.where_off;
 			int  old_regsinuse = regsinuse;
@@ -2556,34 +2556,25 @@ move(shape sha, where from, where to)
 			contop (te, 1, to);
 			regsinuse = old_regsinuse;
 			
-			if ((regsinuse & 0x2) == 0)
+			if ((regsinuse & REG_EDX) == 0)
 				extra_reg = reg1;
-			else
-				if ((regsinuse & 0x4) == 0)
-					extra_reg = reg2;
-				else
-					if ((regsinuse & 0x8) == 0) {
-						extra_reg = reg3;
-						min_rfree |= 0x8;
-					}
-					else
-						if ((regsinuse & 0x10) == 0) {
-							extra_reg = reg4;
-							min_rfree |= 0x10;
-						}
-						else
-							if ((regsinuse & 0x20) == 0) {
-								extra_reg = reg5;
-								min_rfree |= 0x20;
-							}
-							else
-								if ((regsinuse & 0x40) == 0) {
-									extra_reg = reg6;
-									min_rfree |= 0x40;
-								}
-								else {
-									SET(extra_reg);
-								};
+			else if ((regsinuse & REG_ECX) == 0)
+				extra_reg = reg2;
+			else if ((regsinuse & REG_EBX) == 0) {
+				extra_reg = reg3;
+				min_rfree |= REG_EBX;
+			} else if ((regsinuse & REG_EDI) == 0) {
+				extra_reg = reg4;
+				min_rfree |= REG_EDI;
+			} else if ((regsinuse & REG_ESI) == 0) {
+				extra_reg = reg5;
+				min_rfree |= REG_ESI;
+			} else if ((regsinuse & REG_EBP) == 0) {
+				extra_reg = reg6;
+				min_rfree |= REG_EBP;
+			} else {
+				SET(extra_reg);
+			}
 			ins2 (movl, size32, size32, mw (fe, foff), reg0);
 			ins2 (movl, size32, size32, mw (fe, foff + 32), extra_reg);
 			ins2 (movl, size32, size32, reg0, mw (te, toff));
@@ -2666,7 +2657,7 @@ move(shape sha, where from, where to)
 	{				/* use rep movsl to do the move */
 		int  old_extra_stack = extra_stack;
 		int  old_regsinuse;
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			extra_stack += 32;
 			ins0 (pushesi);
 #ifdef NEWDWARF
@@ -2674,7 +2665,7 @@ move(shape sha, where from, where to)
 				dw2_track_push();
 #endif
 		};
-		if (regsinuse & 0x10) {
+		if (regsinuse & REG_EDI) {
 			extra_stack += 32;
 			ins0 (pushedi);
 #ifdef NEWDWARF
@@ -2682,7 +2673,7 @@ move(shape sha, where from, where to)
 				dw2_track_push();
 #endif
 		};
-		if (regsinuse & 0x4) {
+		if (regsinuse & REG_ECX) {
 			extra_stack += 32;
 			ins0 (pushecx);
 #ifdef NEWDWARF
@@ -2691,13 +2682,13 @@ move(shape sha, where from, where to)
 #endif
 		};
 		old_regsinuse = regsinuse;
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			mova (from, pushdest);
 			extra_stack += 32;
 		}
 		else {
 			mova (from, reg5);
-			regsinuse |= 0x20;
+			regsinuse |= REG_ESI;
 		};
 		
 		mova (to, reg4);
@@ -2705,7 +2696,7 @@ move(shape sha, where from, where to)
 		
 		move (slongsh, mw (zeroe, (sz / 32)), reg2);
 		
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			ins0 (popesi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
@@ -2728,21 +2719,21 @@ move(shape sha, where from, where to)
 		invalidate_dest (reg2);
 		invalidate_dest (reg4);
 		invalidate_dest (reg5);
-		if (regsinuse & 0x4) {
+		if (regsinuse & REG_ECX) {
 			ins0 (popecx);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
 		};
-		if (regsinuse & 0x10) {
+		if (regsinuse & REG_EDI) {
 			ins0 (popedi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
 		};
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			ins0 (popesi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
@@ -2751,7 +2742,7 @@ move(shape sha, where from, where to)
 		};
 		check_stack_max;
 		extra_stack = old_extra_stack;
-		min_rfree |= 0x30;
+		min_rfree |= REG_ESI | REG_EDI;
 		invalidate_dest (to);
 		son(fe) = holdfe;
 		son(te) = holdte;
@@ -2766,7 +2757,7 @@ movecont(where from, where to, where length,
 {
 	if (nooverlap) {
 		int  old_extra_stack = extra_stack;
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			extra_stack += 32;
 			ins0 (pushesi);
 #ifdef NEWDWARF
@@ -2774,7 +2765,7 @@ movecont(where from, where to, where length,
 				dw2_track_push();
 #endif
 		}
-		if (regsinuse & 0x10) {
+		if (regsinuse & REG_EDI) {
 			extra_stack += 32;
 			ins0 (pushedi);
 #ifdef NEWDWARF
@@ -2821,14 +2812,14 @@ movecont(where from, where to, where length,
 		if (diagnose && dwarf2 && no_frame)
 			dw2_track_pop();
 #endif
-		if (regsinuse & 0x10) {
+		if (regsinuse & REG_EDI) {
 			ins0 (popedi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
 				dw2_track_pop();
 #endif
 		}
-		if (regsinuse & 0x20) {
+		if (regsinuse & REG_ESI) {
 			ins0 (popesi);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
@@ -2837,7 +2828,7 @@ movecont(where from, where to, where length,
 		}
 		check_stack_max;
 		extra_stack = old_extra_stack;
-		min_rfree |= 0x30;
+		min_rfree |= REG_ESI | REG_EDI;
 		invalidate_dest (reg0);
 		invalidate_dest (reg2);
 		invalidate_dest (to);
@@ -2889,7 +2880,7 @@ retins()
 void
 stack_return (int longs)
 {
-	if (longs == 32 && (regsinuse & 0x2) == 0)
+	if (longs == 32 && (regsinuse & REG_EDX) == 0)
 	{
 		ins0(popedx);
 #ifdef NEWDWARF
@@ -2900,7 +2891,7 @@ stack_return (int longs)
 		stack_dec += longs;
 		return;
 	};
-	if (longs == 32 && (regsinuse & 0x4) == 0)
+	if (longs == 32 && (regsinuse & REG_ECX) == 0)
 	{
 		ins0(popecx);
 #ifdef NEWDWARF
@@ -2911,7 +2902,7 @@ stack_return (int longs)
 		stack_dec += longs;
 		return;
 	};
-	if (is80586 && longs == 64 && (regsinuse & 0x2) == 0)
+	if (is80586 && longs == 64 && (regsinuse & REG_EDX) == 0)
 	{
 		ins0(popedx);
 #ifdef NEWDWARF
@@ -2927,7 +2918,7 @@ stack_return (int longs)
 		stack_dec += longs;
 		return;
 	};
-	if (is80586 && longs == 64 && (regsinuse & 0x4) == 0)
+	if (is80586 && longs == 64 && (regsinuse & REG_ECX) == 0)
 	{
 		ins0(popecx);
 #ifdef NEWDWARF
@@ -3226,7 +3217,7 @@ cmp(shape sha, where from, where min, int nt,
 			else {
 				if (inmem (from)) {
 					if (sz == 64)
-						regsinuse |= 0x2;
+						regsinuse |= REG_EDX;
 					contop (from.where_exp, eq_where (reg0, min), reg0);
 					contop_done = 1;
 				};
@@ -3286,7 +3277,7 @@ cmp(shape sha, where from, where min, int nt,
 			else {
 				if (inmem (min)) {
 					if (sz == 64)
-						regsinuse |= 0x2;
+						regsinuse |= REG_EDX;
 					contop (min.where_exp, eq_where (reg0, from), reg0);
 					contop_done = 1;
 				};
@@ -3867,7 +3858,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 			/* use 2 address */
 			int riu = regsinuse;
 			if (sz == 64)
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 			if (inmem (a1))
 				contop (a, eq_where (reg0, a2), a1);
 			else
@@ -3944,7 +3935,7 @@ andetc(char *opb, char *opw, char *opl, int one,
 		if (!inmem (a1) || !inmem (a2)) {
 			int riu = regsinuse;
 			if (sz == 64)
-				regsinuse |= 0x2;
+				regsinuse |= REG_EDX;
 			if (inmem (a1))
 				contop (a, eq_where (reg0, a2), a2);
 			else
@@ -4111,7 +4102,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 		if (eq_where (a1, reg0)) {
 			int difsg = (is_signed(sh1) != is_signed(sh2));
 			int lab1, lab2;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			contop (a2.where_exp, 1, a2);
 			if (name(a2.where_exp) == val_tag) {
 				if ((no(a2.where_exp) = a2.where_off) >= 0) {
@@ -4215,12 +4206,12 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 	if (shape_size(sh2) == 32 || (name(a2.where_exp) == val_tag && !isbigval(a2.where_exp))) {
 		if (eq_where (a1, reg0)) {
 			reg0_in_use = 1;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			move (slongsh, a2, reg2);
 		}
 		else {
 			move (slongsh, a2, reg2);
-			regsinuse |= 0x4;
+			regsinuse |= REG_ECX;
 			move (sha, a1, reg0);
 		}
 		ins0 (pushedx);
@@ -4288,7 +4279,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 	};
 	move (sha, a1, reg0);
 	reg0_in_use = 1;
-	regsinuse |= 0x6;
+	regsinuse |= REG_ECX | REG_EDX;
 	contop (a2.where_exp, 1, a2);
 	ins0 (pushedx);
 #ifdef NEWDWARF
@@ -4450,7 +4441,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		/* or signed imulb with same constraint */
 		if (!is_signed (sha))
 			in = &in[1];
-		if ((regsinuse & 0x2) && !eq_where (dest, reg1)) {
+		if ((regsinuse & REG_EDX) && !eq_where (dest, reg1)) {
 			stored = 1;
 			ins0(pushedx);
 #ifdef NEWDWARF
@@ -4795,7 +4786,7 @@ shiftl(shape sha, where wshift, where from,
 		if (name(wshift.where_exp) == val_tag)
 			rotshift64 (0, sig, wshift);
 		else {	/* need count in reg2 */
-			if (regsinuse & 0x4) {
+			if (regsinuse & REG_ECX) {
 				ins0(pushecx);
 #ifdef NEWDWARF
 				if (diagnose && dwarf2 && no_frame)
@@ -4805,11 +4796,11 @@ shiftl(shape sha, where wshift, where from,
 				check_stack_max;
 			};
 			reg0_in_use = 1;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			move (slongsh, wshift, reg2);
 			rotshift64 (0, sig, wshift);
 			invalidate_dest (reg2);
-			if (regsinuse & 0x4) {
+			if (regsinuse & REG_ECX) {
 				ins0(popecx);
 #ifdef NEWDWARF
 				if (diagnose && dwarf2 && no_frame)
@@ -4890,7 +4881,7 @@ shiftl(shape sha, where wshift, where from,
 		to_reg2 = eq_where (to, reg2);
 		wshift_reg2 = eq_where (wshift, reg2);
 		
-		if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2) {
+		if (!to_reg2 && (regsinuse & REG_ECX) && !wshift_reg2) {
 			ins0(pushecx);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
@@ -4910,7 +4901,7 @@ shiftl(shape sha, where wshift, where from,
 		invalidate_dest (reg0);
 		invalidate_dest (reg2);
 		
-		if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2)
+		if (!to_reg2 && (regsinuse & REG_ECX) && !wshift_reg2)
 		{
 			ins0(popecx);
 #ifdef NEWDWARF
@@ -4949,7 +4940,7 @@ rotshiftr(int shft, shape sha, where wshift,
 		if (name(wshift.where_exp) == val_tag)
 			rotshift64 (shft+1, sig, wshift);
 		else {	/* need count in reg2 */
-			if (regsinuse & 0x4) {
+			if (regsinuse & REG_ECX) {
 				ins0(pushecx);
 #ifdef NEWDWARF
 				if (diagnose && dwarf2 && no_frame)
@@ -4959,11 +4950,11 @@ rotshiftr(int shft, shape sha, where wshift,
 				check_stack_max;
 			};
 			reg0_in_use = 1;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			move (slongsh, wshift, reg2);
 			rotshift64 (shft+1, sig, wshift);
 			invalidate_dest (reg2);
-			if (regsinuse & 0x4) {
+			if (regsinuse & REG_ECX) {
 				ins0(popecx);
 #ifdef NEWDWARF
 				if (diagnose && dwarf2 && no_frame)
@@ -5043,7 +5034,7 @@ rotshiftr(int shft, shape sha, where wshift,
 		to_reg2 = eq_where (to, reg2);
 		wshift_reg2 = eq_where (wshift, reg2);
 		
-		if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2) {
+		if (!to_reg2 && (regsinuse & REG_ECX) && !wshift_reg2) {
 			ins0(pushecx);
 #ifdef NEWDWARF
 			if (diagnose && dwarf2 && no_frame)
@@ -5057,7 +5048,7 @@ rotshiftr(int shft, shape sha, where wshift,
 		
 		if (eq_where(from, to) &&
 			!eq_where(from, reg2) &&
-			((regsinuse & 0x4) == 0 || wshift_reg2) &&
+			((regsinuse & REG_ECX) == 0 || wshift_reg2) &&
 			sz == 32) {
 			move (slongsh, wshift, reg2);
 			ins2 (shifter, 8, sz, reg2, to);
@@ -5075,7 +5066,7 @@ rotshiftr(int shft, shape sha, where wshift,
 			invalidate_dest (reg2);
 		};
 		
-		if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2)
+		if (!to_reg2 && (regsinuse & REG_ECX) && !wshift_reg2)
 		{
 			ins0(popecx);
 #ifdef NEWDWARF
@@ -5237,7 +5228,7 @@ divit(shape sha, where bottom, where top,
 	
 	if (flinmem (bottom) || (eq_where (bottom, reg1) && sz > 8) || (whichdiv==1 && sg)) {
 		d = reg2;
-		if (regsinuse & 0x4 && !eq_where (dest, reg2)) {
+		if (regsinuse & REG_ECX && !eq_where (dest, reg2)) {
 			/* preserve ecx if necessary */
 			r2flag = 1;
 			ins0(pushecx);
@@ -5251,7 +5242,7 @@ divit(shape sha, where bottom, where top,
 		reg0_in_use = 1;
 		if (sz == 64) {
 			int riu = regsinuse;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			move (shb, bottom, reg2);
 			regsinuse = riu;
 		}
@@ -5280,7 +5271,7 @@ divit(shape sha, where bottom, where top,
 		simple_set_label(divlab);
 	}
 	
-	if (!eq_where (dest, reg1) && regsinuse & 0x2 && sz > 8) {
+	if (!eq_where (dest, reg1) && regsinuse & REG_EDX && sz > 8) {
 		r1flag = 1;
 		ins0(pushedx);
 #ifdef NEWDWARF
@@ -5502,7 +5493,7 @@ remit(shape sha, where bottom, where top,
 	
 	if (flinmem (bottom) || (eq_where (bottom, reg1) && sz > 8) || (whichrem==1 && sg)) {
 		d = reg2;
-		if (regsinuse & 0x4 && !eq_where (dest, reg2)) {
+		if (regsinuse & REG_ECX && !eq_where (dest, reg2)) {
 			/* preserve ecx if necessary */
 			r2flag = 1;
 			ins0(pushecx);
@@ -5516,7 +5507,7 @@ remit(shape sha, where bottom, where top,
 		reg0_in_use = 1;
 		if (sz == 64) {
 			int riu = regsinuse;
-			regsinuse |= 0x2;
+			regsinuse |= REG_EDX;
 			move (shb, bottom, reg2);
 			regsinuse = riu;
 		}
@@ -5545,7 +5536,7 @@ remit(shape sha, where bottom, where top,
 		simple_set_label(divlab);
 	}
 	
-	if (!eq_where (dest, reg1) && regsinuse & 0x2 && sz > 8) {
+	if (!eq_where (dest, reg1) && regsinuse & REG_EDX && sz > 8) {
 		r1flag = 1;
 		ins0(pushedx);
 #ifdef NEWDWARF
