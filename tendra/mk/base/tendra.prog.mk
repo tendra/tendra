@@ -7,7 +7,9 @@ OBJ_DIR=        ${.CURDIR:C/(.*)\/src(.*)/\1\/obj\2/}
 OBJ_PREFIX=     ${.CURDIR:C/(.*)\/src(.*)/\1\/obj/}
 
 
+.if !defined(SRC_DIR)
 SRC_DIR=        ${.CURDIR:C/(.*)\/src.*/\1/}
+.endif
 
 .if exists (${SRC_DIR}/config.mk)
 HAVE_CONF=      yes
@@ -30,6 +32,10 @@ make-subdir: ${MAIN_TARGETS}
 .include "tendra.bin.mk"
 .endif
 
+.if defined(LIB)
+.include "tendra.lib.mk"
+.endif
+
 # All our nifty targets.
 
 
@@ -37,7 +43,7 @@ all:
 	env MAKEOBJDIR=${OBJ_DIR} ${MAKE} make-all
 
 
-MAKE_ALL=	${PROG} ${TL}
+MAKE_ALL=	${PROG} ${TL} ${LIB}
 
 make-all: ${MAKE_ALL}
 

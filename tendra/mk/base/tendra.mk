@@ -1,7 +1,9 @@
 # $TenDRA$
 #
 
+.if !defined(SRC_DIR)
 SRC_DIR=	${.CURDIR:C/(.*)\/src.*/\1/}
+.endif
 
 .if !exists (${SRC_DIR}/config.mk)
 
