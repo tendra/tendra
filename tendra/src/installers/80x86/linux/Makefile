@@ -2,7 +2,7 @@
 
 PROG=	trans
 
-# installers/80x86/freebsd
+# installers/80x86/linux
 SRCS=	assembler.c diag_out.c machine.c
 
 # installers/80x86
