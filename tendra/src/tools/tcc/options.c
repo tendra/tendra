@@ -134,6 +134,8 @@ optmap main_optmap [] = {
 	{"-sym:$", "1CS|SDO-d$1=", "enables symbol table dump linking with flags", 133},
 	{"-v", "1VB", "specifies verbose mode", 50},
 	{"-vb", "1TC", "specifies fairly verbose mode", 51},
+	{"-vt", "1TT", "verbose information about tool chain invocation", 51},
+	{"-ve", "1TE", "verbose information about tool chain environment", 51},
     {"-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1},
 		
 	/* added */
@@ -490,6 +492,8 @@ lookup_bool(char *s)
 	}
 	case 'T' : {
 		if (b == 'C') return (&taciturn);
+		if (b == 'T') return (&tool_chain);
+		if (b == 'E') return (&tool_chain_environ);
 		if (b == 'I') return (&time_commands);
 		if (b == 'N') return (&allow_notation);
 		if (b == 'S') return (&make_tspec);
