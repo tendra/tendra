@@ -1,5 +1,5 @@
 # $Id$
 
-ENVSUBDIR= common ${OSFAM}/common/${BLDARCH}
+SUBDIR= common ${OSFAM}/common/${BLDARCH}
 
-.include "../Makefile.inc"
+.include "Makefile.inc"
