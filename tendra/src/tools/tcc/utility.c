@@ -188,7 +188,7 @@ key_match(char *key, char *keyfield)
 	if (!key || !keyfield)
 		return 0;
 	/* advance pointers past command chars */
-	while (key && !is_alphanum(*key))
+	while (*key && !is_alphanum(*key))
 		key++;
 	while (keyfield && !is_alphanum(*keyfield))
 		keyfield++;
@@ -300,7 +300,7 @@ hash(char *key, int tblsize, int keysize)
 	int hashval = 0;
 
 	/* skip leading +, <, >, ?, / chars */
-	while (key && !(is_alphanum(*key)))
+	while (*key && !(is_alphanum(*key)))
 	{
 		key++;
 	}
