@@ -131,7 +131,7 @@ typedef char *__va_t ;
 #define va_end(X)	( ( void ) 0 )
 
 #define va_arg(list, mode) \
-	(*(((list)._offset += ((int)sizeof(mode) + 7) & -8), \
+	(*(((list).__offset += ((int)sizeof(mode) + 7) & -8), \
 	    (mode *)((list).__base + (list).__offset - \
 		((__builtin_isfloat(mode) && (list).__offset <= (6 * 8)) ? \
 		(6 * 8) + 8 : ((int)sizeof(mode) + 7) & -8))))
