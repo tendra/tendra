@@ -39,7 +39,7 @@
         separate organisations and is now known as <ulink
         url="http://www.qinetiq.com/">QinetiQ</ulink>.
         <acronym>DERA</acronym> was the logical equivalent of the United
-        States' <ulink url="http://www.darpa.mil/">DARPA</ulink>. 
+        States' <ulink url="http://www.darpa.mil/">DARPA</ulink>.
           </para>
         </answer>
 
@@ -136,7 +136,7 @@
   </chapter>
 
    <chapter>
-    <title>Using TenDRA</title> 
+    <title>Using TenDRA</title>
 
     <qandaset>
       <qandaentry>
@@ -172,7 +172,7 @@
         good place to start. Please consult <ulink
         url="http://www.google.com/">Google</ulink> as well as the <ulink
         url="http://lists.tendra.org/">list archives</ulink> before
-        mailing the list. 
+        mailing the list.
           </para>
         </answer>
 
@@ -196,7 +196,7 @@
 
         <question id="long-long">
           <para>Is <parameter class="option">long long</parameter>
-        supported?</para> 
+        supported?</para>
         </question>
         <answer>
           <para>As described in <ulink
@@ -206,7 +206,7 @@
         is not enabled by default; you may pass <parameter
         class="option">-Y longlong</parameter> to <command>tcc</command>
         or modify the system description file before building to enable
-        it by default. 
+        it by default.
           </para>
         </answer>
 
@@ -275,11 +275,11 @@
 
         <question id="where-to-start">
           <para>I would like to help, but I don't really know where to
-        start.</para> 
+        start.</para>
         </question>
         <answer>
           <para>A peek at the <ulink
-        url="http://www.tendra.org/tasks/">task list</ulink> is 
+        url="http://www.tendra.org/tasks/">task list</ulink> is
         probably a good idea. See if anything fits your bill, and take
         it up. It is a great idea to subscribe to the <ulink
         url="http://lists.tendra.org/">mailing lists</ulink> to stay
@@ -292,7 +292,7 @@
       </qandaentry>
 
       <qandaentry>
- 
+
         <question id="add-support">
           <para>I want to work on support for a specific
         architecture/platform.</para>
@@ -315,7 +315,7 @@
   </chapter>
 
   <chapter>
-    <title>Problems related to TenDRA-4.1.2</title> 
+    <title>Problems related to TenDRA-4.1.2</title>
 
     <qandaset>
       <qandaentry>
@@ -336,12 +336,12 @@
           <para>Some understanding of how the system works is useful in trying
             to work around problems. The start-up files describing the
             macros needed to nagivate the system headers for a particular
-            API are found in: 
+            API are found in:
             <filename class="directory">src/lib/machines/&lt;os&gt;/&lt;cpu&gt;/startup/&lt;api&gt;.h</filename>
             where &lt;os&gt; is the operating system name, &lt;cpu&gt; is
             the CPU type, and &lt;api&gt; is the API name. A set of
             replacement system headers, which are checked before the real
-            system headers, are found in: 
+            system headers, are found in:
             <filename class="directory">src/lib/machines/&lt;os&gt;/lt;cpu&gt;/include</filename>
             These are also used with the -Ysystem option to tcc,
             modifications which are specific to library building, should be
