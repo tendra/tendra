@@ -1,5 +1,7 @@
 # $TenDRA$
 
+IMACHINE=	openbsd/80x86
+
 .PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../common/tokens
 
 # include
