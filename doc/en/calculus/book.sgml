@@ -4,21 +4,24 @@
 <book>
   <bookinfo>
     <title>calculus User's Guide</title>
+    
     <pubdate>$TenDRA$</pubdate>
+    
     <corpauthor>The TenDRA Documentation Team</corpauthor>
+
     <copyright>
       <year>2002</year>
       <holder>TenDRA Documentation Team</holder>
     </copyright>
+
     <copyright>
       <year>1998</year>
       <holder>Defence Evaluation and Research Agency (DERA)</holder>
     </copyright>
-    <abstract>
 
+    <abstract>
       <para>Please email us at <email>docs@tendra.org</email> if you see any
         errors</para>
-
     </abstract>
   </bookinfo>
 
@@ -107,7 +110,6 @@ calculus [ options ] input .... [ output ]
         is designed to provide an example of its own application, with some
         features not strictly necessary for the functionality of the program
         being added for illustrative purposes.</para>
-
     </simplesect>
   </preface>
 
@@ -178,7 +180,6 @@ string
       </programlisting>
 
       <note>
-
         <para>Each primitive (and also each identity, each enumeration, each
           structure and each union) has two names associated with it. The
           second name is optional; if it is not given then it is assumed to be
@@ -186,13 +187,11 @@ string
           given to the corresponding type in the output file. The second is a
           short form of this name which will be used in forming constructor
           names etc. in the output.</para>
-
       </note>
 
       <para>The optional hash and colon which may be used to qualify an object
         identifier are provided for backwards compatibility only and are not
         used in the output routines.</para>
-
     </sect1>
 
     <sect1>
@@ -208,7 +207,6 @@ identity :
       </programlisting>
 
       <para>where the definition type, <emphasis>type</emphasis>, is as</para>
-
     </sect1>
 
     <sect1>
@@ -264,7 +262,6 @@ enumerator-list :
 
       <para>Enumerations thus correspond to enumeration types in C, except
         that</para>
-
     </sect1>
 
     <sect1>
@@ -323,7 +320,6 @@ component-initialiser :
         from being a general graph. Unions may be defined in terms of
         themselves, but (as in C) pointers must be used to define structures
         in terms of themselves.</para>
-
     </sect1>
 
     <sect1>
@@ -387,12 +383,10 @@ field-identifier-list :
         field.</para>
 
       <note>
-
         <para>A number of field identifiers may be associated with the same
           set of field components. Any such list containing more than one
           identifier forms a field identifier set, named after the first field
           identifier.</para>
-
       </note>
 
       <para>In addition a number of maps may be associated with a union. These
@@ -441,7 +435,6 @@ extended-type :
       <para>A map may be qualified by means of a hash. This means that the
         associated function also takes a -XREF-#OutputUnionMapsdestructor
         function as a parameter.</para>
-
     </sect1>
 
     <sect1>
@@ -503,7 +496,6 @@ import :
         components and union fields and maps. Thus an algebra consisting just
         of <emphasis>import</emphasis> commands can be used to express
         subalgebras in a simple fashion.</para>
-
     </sect1>
   </chapter>
 
@@ -547,7 +539,6 @@ import :
         which take the values 0 or 1 depending on whether the specification of
         the type system in terms of <literal>#pragma token</literal>
         statements or the C implementation is included.</para>
-
     </sect1>
 
     <sect1>
@@ -614,7 +605,6 @@ void dummy_destroy_name () ;
         <literal>dummy_destroy_</literal><emphasis>name</emphasis> is a dummy
         destructor which has no effect. The details of the arguments passed to
         the destructors and so on are implementation dependent.</para>
-
     </sect1>
 
     <sect1>
@@ -660,7 +650,6 @@ SIZE ( t ) SCALE ( SIZE ( t ), INT_TYPE itype ) ;
       </programlisting>
 
       <para>for any type <emphasis>t</emphasis> and any integral type</para>
-
     </sect1>
 
     <sect1>
@@ -692,8 +681,8 @@ PTR ( t ) STEP_ptr ( PTR ( t ), SIZE ( t ) ) ;
           (note that we can only compare pointers to the same type).  Finally
           <literal>STEP_ptr</literal> can be used to add a scalar value to a
           pointer.</para>
-
       </sect2>
+
       <sect2>
         <title>Unique pointers</title>
 
@@ -708,8 +697,8 @@ void DESTROY_UNIQ_ptr ( PTR ( t ) ) ;
         <para>A unique pointer is guaranteed to be different from all other
           undestroyed pointers. Dereferencing a unique pointer is
           undefined.</para>
-
       </sect2>
+
       <sect2>
         <title>Pointer construction and destruction</title>
 
@@ -722,8 +711,8 @@ void DESTROY_ptr ( PTR ( t ), SIZE ( t ) ) ;
 
         <para>are used to respectively create and destroy a pointer to a
           given</para>
-
       </sect2>
+
       <sect2>
         <title>Assignment and dereference constructs</title>
 
@@ -774,7 +763,6 @@ STATEMENT DEREF_vec ( PTR ( VEC ( t ) ), lvalue VEC ( t ) ) ;
 STATEMENT COPY_vec_ptr ( PTR ( VEC_PTR ( t ) ), VEC_PTR ( t ) ) ;
 STATEMENT DEREF_vec_ptr ( PTR ( VEC_PTR ( t ) ), lvalue VEC_PTR ( t ) ) ;
         </programlisting>
-
       </sect2>
     </sect1>
 
@@ -810,8 +798,8 @@ LIST ( t ) APPEND_list ( LIST ( t ), LIST ( t ) ) ;
           <literal>cdr</literal>) of a list may be formed. The end element of
           a list may be selected. The order of the elements in a list can be
           reversed. One list can be appended to another.</para>
-
       </sect2>
+
       <sect2>
         <title>Unique lists</title>
 
@@ -826,8 +814,8 @@ void DESTROY_UNIQ_list ( LIST ( t ) ) ;
         <para>A unique lists is guaranteed to be different from all other
           undestroyed lists. Taking the head or tail of a unique list is
           undefined.</para>
-
       </sect2>
+
       <sect2>
         <title>List construction and destruction</title>
 
@@ -874,7 +862,6 @@ STATEMENT DESTROY_list ( LIST ( t ), SIZE ( t ) ) ;
         </programlisting>
 
         <para>which may be used to destroy all the elements in a list.</para>
-
       </sect2>
     </sect1>
 
@@ -914,7 +901,6 @@ STACK ( t ) STACK_list ( LIST ( t ) ) ;
       </programlisting>
 
       <para>for explicitly converting between lists and stacks.</para>
-
     </sect1>
 
     <sect1>
@@ -955,7 +941,6 @@ t ) ) ;
 
       <para>the two integral arguments giving the lower and upper bounds
         for</para>
-
     </sect1>
 
     <sect1>
@@ -974,7 +959,6 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
       <para>The first transforms a vector into a vector pointer (pointing to
         its first argument). The second transforms a vector pointer into a
         normal pointer.</para>
-
     </sect1>
 
     <sect1>
@@ -986,7 +970,6 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
         the size constructs, the pointer assignment and dereference
         operations, the list construction and deconstruction operations and
         the stack push and pop operations.</para>
-
     </sect1>
 
     <sect1>
@@ -995,7 +978,6 @@ PTR ( t ) PTR_vec_ptr ( VEC_PTR ( t ) ) ;
       <para>Each identity specified within the algebra maps onto a
         <literal>typedef</literal> in the output file. There are no operations
         on identities.</para>
-
     </sect1>
 
     <sect1>
@@ -1027,7 +1009,6 @@ unsigned long ORDER_enum ;
 
       <para>giving one more than the maximum enumerator in the
         enumeration.</para>
-
     </sect1>
 
     <sect1>
@@ -1080,7 +1061,6 @@ PTR ( btype ) CONVERT_struct_base ( PTR ( t ) ) ;
       <para>where <emphasis>struct</emphasis> and <emphasis>base</emphasis>
         are the short names of <emphasis>t</emphasis> and
         <emphasis>btype</emphasis> respectively.</para>
-
     </sect1>
 
     <sect1>
@@ -1182,8 +1162,8 @@ STATEMENT DESTROY_union_field ( DESTROYER, lvalue ctype, ...., t ) ;
           to the original value. For these two operations
           <emphasis>ctype</emphasis> ranges over all the components, including
           those with initialiser strings.</para>
-
       </sect2>
+
       <sect2>
         <title>Union field sets</title>
 
@@ -1226,8 +1206,8 @@ unsigned int union_field_etc_tag ;
           equal to <emphasis>union_field</emphasis><literal>_tag</literal> and
           strictly less than <emphasis>union_field</emphasis>
           <literal>_etc_tag</literal>.</para>
-
       </sect2>
+
       <sect2>
         <title>Inheritance in unions</title>
 
@@ -1242,8 +1222,8 @@ btype CONVERT_union_base ( t ) ;
         <para>where <emphasis>union</emphasis> and <emphasis>base</emphasis>
           are the short names of <emphasis>t</emphasis> and
           <emphasis>btype</emphasis> respectively.</para>
-
       </sect2>
+
       <sect2>
         <title>-XREF-OutputUnionMapsUnion maps</title>
 
@@ -1307,7 +1287,6 @@ DECONS_union_field ( comp, ...., name_union ) ;
           parameter is present, or the default destructor,
           <literal>destroy_</literal><emphasis>name</emphasis>,
           otherwise.</para>
-
       </sect2>
     </sect1>
   </chapter>
@@ -1343,6 +1322,7 @@ typedef union name_tag {
 
       <figure id="calc">
         <title>Packing of Types</title>
+
         <mediaobject>
           <imageobject>
             <imagedata fileref="calc" scale="100" format="PNG">
@@ -1432,7 +1412,6 @@ typedef struct {
         <literal>ag_dim</literal> field.</para>
 
       <para>All size types are implemented as <literal>int</literal>.</para>
-
     </sect1>
 
     <sect1>
@@ -1481,7 +1460,6 @@ name_VEC empty_name_vec ;
 
       <para>Examples of these support routines can be found in the
         -XREF-#Example<literal>calculus</literal> program itself.</para>
-
     </sect1>
 
     <sect1>
@@ -1507,7 +1485,6 @@ name_VEC empty_name_vec ;
         need to be compiled into the program when <literal>ASSERTS</literal>
         is defined. Note that the functions are implementation
         specific.</para>
-
     </sect1>
   </chapter>
 
@@ -1615,7 +1592,6 @@ void WRITE_ALIAS ( unsigned int ) ;
         identity definition. This provides a method for introducing types
         which are representationally the same, but which are treated
         differently by the disk reading and writing routines.</para>
-
     </sect1>
 
     <sect1>
@@ -1644,7 +1620,6 @@ unsigned int READ_ALIAS ( void ) ;
         and reading an -XREF-#DiskAliasobject alias. The
         <literal>READ_</literal><emphasis>type</emphasis> functions may be
         overridden by means of macros as before.</para>
-
     </sect1>
 
     <sect1>
@@ -1710,7 +1685,6 @@ void DEBUG_type ( t * ) ;
 
       <para>These debugging routines are only defined conditionally, if
         the</para>
-
     </sect1>
 
     <sect1>
@@ -1804,7 +1778,6 @@ name *find_name_alias ( unsigned int ) ;
         adding an alias to the list of all aliases, and looking up an alias in
         this list. Example implementations of these routines are given in the
         -XREF-#Example<literal>calculus</literal> program itself.</para>
-
     </sect1>
 
     <sect1>
@@ -1828,7 +1801,6 @@ name *find_name_alias ( unsigned int ) ;
         be pretty-printed to an output file (or the standard output if no
         <emphasis>output</emphasis> argument is given) by specifying the
         <literal>-o</literal> option.</para>
-
     </sect1>
   </chapter>
 
@@ -2011,6 +1983,5 @@ union %UN (%UM) = {
   } ;
 @end
     </programlisting>
-
   </chapter>
 </book>
