@@ -72,9 +72,9 @@ clean:
 clean-all:
 .if !empty(CLEANFILES)
 	@if [ -d "${OBJ_DIR}" ]; then \
-		echo rm -f ${CLEANOPT} ${CLEANFILES}; \
+		${BIN_RM} -f ${CLEANOPT} ${CLEANFILES}; \
 	else \
-		echo "WARNING: Object directory ${OBJ_DIR} does not exist!"; \
+		${BIN_ECHO} "WARNING: Object directory ${OBJ_DIR} does not exist!"; \
 	fi
 
 .endif
@@ -83,10 +83,10 @@ obj-dir:
 	@if ! test -d ${OBJ_DIR}/; then \
 		${BIN_MKDIR} ${ARGS_MKDIR} ${OBJ_DIR}; \
 		if ! test -d ${OBJ_DIR}/; then \
-			${ECHO} "Unable to create ${OBJ_DIR}."; \
+			${BIN_ECHO} "Unable to create ${OBJ_DIR}."; \
 			exit 1; \
 		fi; \
-		${ECHO} "${OBJ_DIR} created for ${.CURDIR}"; \
+		${BIN_ECHO} "${OBJ_DIR} created for ${.CURDIR}"; \
 	fi
 
 make-dir:

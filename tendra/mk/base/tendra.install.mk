@@ -103,7 +103,6 @@ install-startup:
 # lib/apis: our api files.
 install-api:
 .for i in ${API}.api shared/${API}.api
-#	@echo ${OBJ_PREFIX}/lib/apis/${i} ${INSTALL_PREFIX}/lib/include/${i}
 	cd ${OBJ_PREFIX}/lib/apis/${i}; \
 	for i in *.h; do \
 		${BIN_CP} ${OBJ_PREFIX}/lib/apis/${i}/$$i \

@@ -17,15 +17,15 @@ TNC=		${OBJ_PREFIX}/tools/tnc/tnc
 TSPEC=		${OBJ_PREFIX}/tools/tspec/tspec
 
 def:
-	@echo "lexi:     ${LEXI}"
-	@echo "sid:      ${SID}"
-	@echo "calculus: ${CALCULUS}"
-	@echo "make_err: ${MAKE_ERR}"
-	@echo "make_tdf: ${MAKE_TDF}"
-	@echo "tld:      ${TLD}"
-	@echo "disp:     ${DISP}"
-	@echo "pl:       ${PL}"
-	@echo "tcc:      ${TCC}"
-	@echo "tnc:      ${TNC}"
-	@echo "tspec:    ${TSPEC}"
-	@echo DEFAULT_BUILD:	${DEFAULT_BUILD}
+	@${BIN_ECHO} "lexi:     ${LEXI}"
+	@${BIN_ECHO} "sid:      ${SID}"
+	@${BIN_ECHO} "calculus: ${CALCULUS}"
+	@${BIN_ECHO} "make_err: ${MAKE_ERR}"
+	@${BIN_ECHO} "make_tdf: ${MAKE_TDF}"
+	@${BIN_ECHO} "tld:      ${TLD}"
+	@${BIN_ECHO} "disp:     ${DISP}"
+	@${BIN_ECHO} "pl:       ${PL}"
+	@${BIN_ECHO} "tcc:      ${TCC}"
+	@${BIN_ECHO} "tnc:      ${TNC}"
+	@${BIN_ECHO} "tspec:    ${TSPEC}"
+	@${BIN_ECHO} DEFAULT_BUILD:	${DEFAULT_BUILD}
