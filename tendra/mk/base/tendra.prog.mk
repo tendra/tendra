@@ -3,8 +3,8 @@
 CFLAGS+=${COPTS} ${DEBUG_FLAGS}
 
 # Calculate our object directory and obj prefix.
-OBJ_DIR=        ${.CURDIR:C/(.*)\/src(.*)/\1\/obj\2/}
-OBJ_PREFIX=     ${.CURDIR:C/(.*)\/src(.*)/\1\/obj/}
+OBJ_PREFIX?=   ${.CURDIR:C/(.*)\/src(.*)/\1\/obj/}
+OBJ_DIR=       ${.CURDIR:C/(.*)\/src(.*)/${OBJ_PREFIX}\/\2/}
 
 
 .if !defined(SRC_DIR)
