@@ -42,6 +42,8 @@
 /* Initialisers for aggregate or union objects don't have to be constant
  * expressions anymore. */
 #pragma TenDRA error "dcl_init_aggr_dynamic" off
+/* 6.4.2.2  */
+#pragma TenDRA option "func_id" allow
 /* 6.4.9#2 */
 #pragma TenDRA option "cpplus_comment" allow
 /* 6.7.2#2 */
