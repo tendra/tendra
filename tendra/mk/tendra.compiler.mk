@@ -54,4 +54,8 @@ LD?= ld
 LDOPTS=
 LIBS= /usr/lib/crt1.o -lc
 
-SID?= sid
+.if exists(${OBJ_DIR}/src/utilities/sid/sid)
+SID ?=${OBJ_DIR}/src/utilities/sid/sid
+.else
+SID ?=sid
+.endif
