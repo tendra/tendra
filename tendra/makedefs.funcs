@@ -26,6 +26,12 @@ check_cc()
 check_hostarch()
 {
 	case "$HOSTARCH" in
+		alpha)		# DEC, nay, Compaq, nay HP Alpha
+				BLDARCH="alpha"
+				;;
+		amd64)		# AMD64
+				BLDARCH="amd64"
+				;;
 		i386)		# Intel 80386
 				BLDARCH="80x86"
 				;;
@@ -38,6 +44,9 @@ check_hostarch()
 		i686)		# Intel 80686 (Pentium Pro, Pentium II,
 				# Pentium III, Pentium 4, AMD Athlon)
 				BLDARCH="80x86"
+				;;
+		sparc)		# SPARC 32 bit
+				BLDARCH="sparc"
 				;;
 		sparc64)	# SPARC 64 bit
 				BLDARCH="sparc"
