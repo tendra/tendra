@@ -77,9 +77,8 @@ ${MAN_TRANS}:
 	groff -Tascii -man ${.TARGET} > /dev/null
 
 
-
 test:
-	for i in ${MANPAGES}; do \
+	for i in ${MAN} ${MAN_TRANS}; do \
 		groff -Tascii -man $$i > /dev/null; \
 	done
 
