@@ -28,6 +28,8 @@
 #       it may be put.
 #
 
+echo "Use the provided makefiles!"
+exit
 
 #
 # STANDARD DIRECTORIES
