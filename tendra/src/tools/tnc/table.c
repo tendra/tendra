@@ -138,6 +138,8 @@ new_sort(sortname s, int sz)
     for (i = 0; i < sz; i++) {
 	(p + i) ->sortnum = s;
 	(p + i) ->encoding = i;
+	(p + i)->alias = null;
+	(p + i)->ename = null;
 	(p + i) ->name = null;
 	(p + i) ->next = null;
 	get_char_info(p + i) = null;
