@@ -561,13 +561,20 @@ msg_uh_TypeTupleP(char ch, void *pp)
 }
 
 static void
+msg_uh_istreamline(char ch, void *pp)
+{
+	IStreamT *istream = pp;
+
+	UNUSED(ch);
+	write_fmt(msg_stream, "%s: %lu: ",
+		istream_name (istream),
+		(unsigned long) istream_line(istream));
+}
+
+static void
 msg_uh_isline(char ch, void *pp)
 {
-	UNUSED(ch);
-	UNUSED(pp);
-	write_fmt(msg_stream, "%s: %lu: ",
-		lexer_stream_name (sid_current_stream),
-		(unsigned long) lexer_stream_line(sid_current_stream));
+	msg_uh_istreamline(ch, &sid_current_stream->istream);
 }
 
 static void
@@ -599,6 +606,7 @@ main_init(int argc, char **argv, OutputInfoP out_info)
 	msg_uh_add(MSG_KEY_TypeTupleP, msg_uh_TypeTupleP);
 	msg_uh_add(MSG_GLOB_clexline, msg_uh_clexline);
 	msg_uh_add(MSG_GLOB_isline, msg_uh_isline);
+	msg_uh_add(MSG_KEY_istream_line, msg_uh_istreamline);
 
 	main_info_closure = out_info;
 	skip = arg_parse_arguments (main_arglist, --argc, ++argv);
