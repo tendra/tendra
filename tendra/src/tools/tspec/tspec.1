@@ -78,6 +78,10 @@ source output files.  This can also be specified using the
 \fBTSPEC_SRC_OUTPUT\fR or the \fBTSPEC_OUTPUT\fR environmental variable.
 In the latter case it is given by \fB${TSPEC_OUTPUT}/src\fR.
 .\" ----------------------------------------------------------------------
+.IP \fB-a\fR
+Causes \fBtspec\fR to check all headers in an API at once, as opposed to
+separately (as with the \fB-s\fR option).
+.\" ----------------------------------------------------------------------
 .IP \fB-c\fR
 Causes \fBtspec\fR to only check the input files, not to generate any
 output files.
@@ -119,7 +123,7 @@ used, objects.
 .\" ----------------------------------------------------------------------
 .IP \fB-s\fR
 Causes \fBtspec\fR to check each header in an API separately, as opposed
-to all at once (as with the \fB-c\fR option).
+to all at once (as with the \fB-a\fR option).
 .\" ----------------------------------------------------------------------
 .IP \fB-t\fR
 Causes \fBtspec\fR to allow long long type specifiers.
