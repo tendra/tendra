@@ -180,6 +180,10 @@ main(int argc, char **argv)
 					known = 1;
 					break;
 				}
+				case 'V' : {
+					tenapp_report_version ();
+					break;
+				}
 				}
 			} else {
 				/* Single character options */
@@ -207,8 +211,7 @@ main(int argc, char **argv)
 				case 'z' : allow_stack = 0; break;
 
 					/* Other options */
-				case 'q' : verbose_output = 0; break;
-				case 'v' : tenapp_report_version (); break;
+				case 'v' : verbose_output = 0; break;
 				default : known = 0; break;
 				}
 			}
