@@ -82,18 +82,6 @@
 
     &option-cq;
     &option-cr;
-
-    <varlistentry>
-      <term><option>-S</option></term>
-
-      <listitem>
-        <para>When this option is present <command>alphatrans</command> will
-          produce a symbolic assembler file in addition to its normal outputs. In
-          this case the name of the symbolic assembler file must be present on
-          the command line.</para>
-      </listitem>
-    </varlistentry>
-
     &option-cu;
     &option-cv;
     &option-cw;
