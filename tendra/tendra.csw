@@ -1,0 +1,26 @@
+workspace tendra {
+	ro_prefix "/usr/include"
+	cd "src/utilities"
+
+	project calculus {
+		cd "calculus"
+		ipath "obj_c"
+		ipath "obj_tok"
+		ipath "../shared"
+		
+		file check.c
+		file code.c
+		file common.c
+		file disk.c
+		file lex.c
+		file main.c
+		file output.c
+		file pretty.c
+		file print.c
+		file read.c
+		file syntax.c
+		file template.c
+		file token.c
+		file write.c
+	}
+}
