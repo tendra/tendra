@@ -2,8 +2,6 @@
 #
 # Binary / variable definitions for the Linux operating system.
 
-
-
 AWK?=		/bin/awk
 BASENAME?=	/bin/basename
 CAT?=		/bin/cat
