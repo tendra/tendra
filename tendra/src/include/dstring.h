@@ -112,14 +112,14 @@
  * should not be used afterwards, without reinitialising it.
  *
  ** Function:	void			nstring_copy_cstring
- *			(NStringP nstring, CStringP cstring)
+ *			(NStringP nstring, const char *cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function initialises the specified nstring from the content of the
  * specified cstring.
  *
  ** Function:	void			nstring_insert_cstring
- *			(NStringP nstring, CStringP cstring)
+ *			(NStringP nstring, const char *cstring)
  ** Exceptions:
  *
  * This function inserts the specified cstring into the specified nstring.
@@ -229,7 +229,7 @@
  * This function appends the specified character to the specified dstring.
  *
  ** Function:	void			dstring_append_cstring
- *			(DStringP dstring, CStringP cstring)
+ *			(DStringP dstring, const char *cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the content of the specified cstring to the specified
@@ -286,22 +286,21 @@
 #ifndef H_DSTRING
 #define H_DSTRING
 
-#include "os-interface.h"
+#include "config.h"
 #include "cstring.h"
-#include "dalloc.h"
 #include "ostream.h"
 
 /*--------------------------------------------------------------------------*/
 
 typedef struct NStringT {
 	size_t		length;
-	CStringP	contents;
+	char *		contents;
 } NStringT, *NStringP;
 
 typedef struct DStringT {
 	size_t		length;
 	size_t		max_length;
-	CStringP	contents;
+	char *		contents;
 } DStringT, *DStringP;
 
 /*--------------------------------------------------------------------------*/
@@ -309,13 +308,13 @@ typedef struct DStringT {
 void	nstring_init(NStringP);
 void	nstring_init_length(NStringP, size_t);
 void	nstring_assign(NStringP, NStringP);
-void	nstring_copy_cstring(NStringP, CStringP);
-void	nstring_insert_cstring(NStringP, CStringP);
+void	nstring_copy_cstring(NStringP, const char *);
+void	nstring_insert_cstring(NStringP, const char *);
 void	nstring_copy(NStringP, NStringP);
-CStringP nstring_to_cstring(NStringP);
+char *	nstring_to_cstring(NStringP);
 unsigned nstring_hash_value(NStringP);
 size_t	nstring_length(NStringP);
-CStringP nstring_contents(NStringP);
+char *	nstring_contents(NStringP);
 CmpT	nstring_compare(NStringP, NStringP);
 BoolT	nstring_equal(NStringP, NStringP);
 BoolT	nstring_ci_equal(NStringP, NStringP);
@@ -328,12 +327,12 @@ void	write_nstring(OStreamP, NStringP);
 void	dstring_init(DStringP);
 size_t	dstring_length(DStringP);
 void	dstring_append_char(DStringP, char);
-void	dstring_append_cstring(DStringP, CStringP);
+void	dstring_append_cstring(DStringP, const char *);
 void	dstring_append_nstring(DStringP, NStringP);
 BoolT	dstring_last_char_equal(DStringP, char);
 void	dstring_to_nstring(DStringP, NStringP);
-CStringP dstring_to_cstring(DStringP);
-CStringP dstring_destroy_to_cstring(DStringP);
+char *	dstring_to_cstring(DStringP);
+char *	dstring_destroy_to_cstring(DStringP);
 void	dstring_destroy(DStringP);
 
 /*--------------------------------------------------------------------------*/
