@@ -1,7 +1,12 @@
+/*
+ * $TenDRA$
+ */
+
 char_bits			8
 short_bits			16
 int_bits			16
 long_bits			32
+longlong_bits			64
 
 signed_range			symmetric
 char_type			either
