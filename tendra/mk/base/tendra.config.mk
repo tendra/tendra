@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	freebsd cygwin32 linux darwin
+BUILD_TARGETS=	freebsd cygwin32 linux darwin osf1
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
