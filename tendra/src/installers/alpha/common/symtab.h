@@ -64,7 +64,6 @@ Type definitions for the MIPS TDF translator to produce a .T , file (symbol tabl
 
 */
 
-#include "cross_config.h"
 #include "archsyms.h"
 
 /********************************************************************

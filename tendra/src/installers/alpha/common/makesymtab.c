@@ -65,7 +65,6 @@ static char vcid[] = "$Id$";
 #include "symtab.h"	
 #include "makesymtab.h"	
 #include "xalloc.h"
-#include "cross_config.h"
 /* type definitions for translator produced debugging 
    information to be incorporated into a .T file  */
 

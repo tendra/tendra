@@ -81,7 +81,6 @@ static char vcid[] = "nil";
 #include "expmacs.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-#include "cross_config.h"
 extern  char diagnose;
 
 #include "archsyms.h"

@@ -79,7 +79,6 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include "main.h"
 #include "alphadiags.h"
 #include "symbol.h"
-#include "cross_config.h"
 extern int currentfile;
 
 #include "archsyms.h"

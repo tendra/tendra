@@ -228,8 +228,6 @@
 #endif /* (MFG == MIPS) */
 
 
-#ifdef LANGUAGE_C
-
 /* 
  * This (part of the) file contains the definition of the Third Eye Symbol Table.
  *
@@ -651,7 +649,5 @@ stConstant	scInfo	iss		--- (complex, e.g. string)
 
  *
  */
-
-#endif /* LANGUAGE_C */
 
 #endif /* ARCHSYMS_H */

@@ -89,7 +89,6 @@ static char vcid[] = "$Id$";
 #include "mark_scope.h"
 #include "symdiags.h"
 #include "pseudo.h"
-#include "cross_config.h"
 
 #include "archsyms.h"
 

@@ -105,7 +105,6 @@ static char vcid[] = "$Id$";
 #include "version.h"
 #include "locate.h"
 #include "translate.h"
-#include "cross_config.h"
 
 #if DO_SCHEDULE
 #include "scheduler.h"

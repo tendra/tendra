@@ -81,7 +81,6 @@
 #include "symtab.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-#include "cross_config.h"
 
 #include "archsyms.h"
 

@@ -109,7 +109,6 @@ alphadiags.c,v
 #include "coder.h"
 #include "cross.h"
 #include "symbol.h"
-#include "cross_config.h"
 
 #include "archsyms.h"
 
