@@ -391,3 +391,21 @@
 +FUNC double fma(double, double, double);
 +FUNC float fmaf(float, float, float);
 +FUNC long double fmal(long double, long double, long double);
+
+# 7.12.14.1
+# XXX: +MACRO int isgreater(real-floating type, real-floating type);
+
+# 7.12.14.2
+# XXX: +MACRO int isgreaterequal(real-floating type, real-floating type);
+
+# 7.12.14.3
+# XXX: +MACRO int isless(real-floating type, real-floating type);
+
+# 7.12.14.4
+# XXX: +MACRO int islessequal(real-floating type, real-floating type);
+
+# 7.12.14.5
+# XXX: +MACRO int islessgreater(real-floating type, real-floating type);
+
+# 7.12.14.6
+# XXX: +MACRO int isunordered(real-floating type, real-floating type);
