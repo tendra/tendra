@@ -1829,8 +1829,7 @@ check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
  *    STORAGE CLASS SPECIFIERS
  *
  *    This rule describes the storage class specifiers, including 'typedef'
- *    as well as the more obvious 'static', 'extern' and so on.  'inline'
- *    has been added as an extension.
+ *    as well as the more obvious 'static', 'extern' and so on.
  */
 
 <dspec_auto> : () -> ( :DSPEC );
@@ -1838,7 +1837,6 @@ check-type-specifier-seq : () -> ( bt : BTYPE, t : TYPE, cv : CV ) = {
 <dspec_static> : () -> ( :DSPEC );
 <dspec_register> : () -> ( :DSPEC );
 <dspec_typedef> : () -> ( :DSPEC );
-<dspec_inline> : () -> ( :DSPEC );
 
 storage-class-specifier : () -> ( ds : DSPEC ) = {
 	auto; ds = <dspec_auto>;
@@ -1846,7 +1844,19 @@ storage-class-specifier : () -> ( ds : DSPEC ) = {
     ||	static; ds = <dspec_static>;
     ||	register; ds = <dspec_register>;
     ||	typedef; ds = <dspec_typedef>;
-    ||	inline; ds = <dspec_inline>;
+};
+
+
+/*
+ *    FUNCTION SPECIFIERS
+ *
+ *    This rule describes the function specifier 'inline'.
+ */
+
+<dspec_inline> : () -> ( :DSPEC );
+
+function-specifier : () -> ( ds : DSPEC ) = {
+	inline; ds = <dspec_inline>;
 };
 
 
@@ -1867,7 +1877,10 @@ storage-class-specifier : () -> ( ds : DSPEC ) = {
 <is_decl_specifier> : () -> ( :BOOL );
 
 decl-specifier : () -> ( bt : BTYPE, t : TYPE, cv : CV, ds : DSPEC ) = {
-	ds = storage-class-specifier;
+	{
+		ds = storage-class-specifier;
+	    ||  ds = function-specifier;
+	};
 	<dspec_check> ( ds );
 	bt = <btype_none>;
 	t = <type_none>;
