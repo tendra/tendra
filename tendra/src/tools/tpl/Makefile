@@ -10,7 +10,7 @@ TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS} -I${SRC}
 LIBS=
 
-PROG=		tpl
+PROG=		${.CURDIR:T}
 
 SRCS=		analyse_sort.c consfile.c decodings.c errors.c find_id.c\
 		fnsfile.c includes.c lex.c main.c readstreams.c standardsh.c\

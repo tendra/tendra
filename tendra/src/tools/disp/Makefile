@@ -12,7 +12,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		disp
+PROG=		${.CURDIR:T}
 
 SRCS=		basic.o binding.o capsule.o file.o main.o pretty.o sort.o tdf.o\
 		tree.o unit.o utility.o

@@ -13,7 +13,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		make_tdf
+PROG=		${.CURDIR:T}
 
 SRCS=		error.c input.c lex.c main.c output.c syntax.c tdf.c xalloc.c
 

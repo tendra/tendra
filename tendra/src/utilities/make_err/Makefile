@@ -13,7 +13,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		make_err
+PROG=		${.CURDIR:T}
 
 SRCS=		error.c errors.c lex.c main.c process.c syntax.c xalloc.c
 

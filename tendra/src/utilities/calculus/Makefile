@@ -13,7 +13,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		calculus
+PROG=		${.CURDIR:T}
 
 SRCS=		calculus.c check.c code.c common.c disk.c error.c lex.c main.c\
  		output.c pretty.c print.c read.c syntax.c template.c token.c\

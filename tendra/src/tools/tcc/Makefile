@@ -8,7 +8,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		tcc
+PROG=		${.CURDIR:T}
 WRAPPER=	tcc.sh
 
 SRCS=		archive.c compile.c environ.c execute.c filename.c flags.c\

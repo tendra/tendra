@@ -11,7 +11,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		sid
+PROG=		${.CURDIR:T}
 
 SRCS=		action.c alt.c arg-parse.c basic.c bitvec.c c-check.c\
 		c-code.c c-lexer.c c-out-info.c c-out-key.c c-out-nl.c\

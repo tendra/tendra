@@ -12,7 +12,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		tnc
+PROG=		${.CURDIR:T}
 
 SRCS=		alignment.c analyser.c bitstream.c check.c de_capsule.c\
 		de_unit.c decode.c enc_cap.c encode.c eval.c fetch.c file.c\

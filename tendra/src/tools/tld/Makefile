@@ -11,7 +11,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		tld
+PROG=		${.CURDIR:T}
 
 SRCS=		arg-data.c arg-parse.c bistream.c bostream.c builder.c\
 		capsule.c contents.c cstring-list.c cstring.c dalloc.c debug.c\

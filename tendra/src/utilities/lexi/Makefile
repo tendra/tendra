@@ -11,7 +11,7 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=		lexi
+PROG=		${.CURDIR:T}
 
 SRCS=		char.c error.c lex.c main.c output.c syntax.c xalloc.c
 
