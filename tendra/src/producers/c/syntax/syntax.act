@@ -1238,7 +1238,8 @@ complex-type : () -> ( t ) = @{
 <dspec_join> : ( a, b ) -> ( ds ) = @{
     /* Combine two declaration specifiers */
     DECL_SPEC d = ( ( @a & @b ) & dspec_duplicate );
-    if ( d ) report ( crt_loc, ERR_dcl_spec_dup ( d ) );
+    /* Duplicate inline is allowed */
+    if ( d & ~dspec_inline ) report ( crt_loc, ERR_dcl_spec_dup ( d ) );
     @ds = ( @a | @b );
 @};
 
