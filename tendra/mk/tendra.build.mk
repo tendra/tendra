@@ -133,8 +133,10 @@ cleanobj:
 # Create objdir and its symlink.
 obj:
 .if "${_objdir}" != "" && (!exists(${_objdir}) || !exists(obj))
+. if !exists(${_objdir})
 	@${ECHO} "# Creating objdir ${_objdir}"
 	@${MKDIR} -p ${_objdir}
+. endif
 	@${REMOVE} ${.CURDIR}/obj
 	@${LN} -sf ${_objdir} ${.CURDIR}/obj
 .endif
