@@ -66,11 +66,11 @@
  *    recycling of expressions.
  */
 
-extern void free_exp(EXP, int) ;
-extern void free_exp_list(LIST (EXP), int) ;
-extern void free_function(IDENTIFIER) ;
-extern void free_nspace(NAMESPACE) ;
-extern void free_offset(OFFSET, int) ;
+extern void free_exp(EXP, int);
+extern void free_exp_list(LIST (EXP), int);
+extern void free_function(IDENTIFIER);
+extern void free_nspace(NAMESPACE);
+extern void free_offset(OFFSET, int);
 
 
 #endif

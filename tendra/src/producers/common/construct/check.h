@@ -66,17 +66,17 @@
  *    properties of expressions.
  */
 
-extern int eq_token(TOKEN, TOKEN) ;
-extern int eq_token_args(IDENTIFIER, IDENTIFIER, LIST (TOKEN), LIST (TOKEN)) ;
-extern DECL_SPEC find_exp_linkage(EXP, EXP *, int) ;
-extern int eq_offset(OFFSET, OFFSET, int) ;
-extern int eq_exp_exact(EXP, EXP) ;
-extern int eq_exp(EXP, EXP, int) ;
-extern int is_const_exp(EXP, int) ;
-extern int is_const_offset(OFFSET, int, int) ;
-extern int is_zero_offset(OFFSET) ;
-extern int overflow_exp(EXP) ;
-extern int know_type(EXP) ;
+extern int eq_token(TOKEN, TOKEN);
+extern int eq_token_args(IDENTIFIER, IDENTIFIER, LIST (TOKEN), LIST (TOKEN));
+extern DECL_SPEC find_exp_linkage(EXP, EXP *, int);
+extern int eq_offset(OFFSET, OFFSET, int);
+extern int eq_exp_exact(EXP, EXP);
+extern int eq_exp(EXP, EXP, int);
+extern int is_const_exp(EXP, int);
+extern int is_const_offset(OFFSET, int, int);
+extern int is_zero_offset(OFFSET);
+extern int overflow_exp(EXP);
+extern int know_type(EXP);
 
 
 #endif

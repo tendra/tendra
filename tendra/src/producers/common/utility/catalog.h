@@ -87,11 +87,11 @@ typedef unsigned plural;
 #include "errors1.h"
 #endif
 
-extern void set_error_sev(int, int) ;
-extern int find_error_no(STRING, int) ;
-extern void init_catalog(void) ;
-extern void term_catalog(void) ;
-extern string find_vocab(int) ;
+extern void set_error_sev(int, int);
+extern int find_error_no(STRING, int);
+extern void init_catalog(void);
+extern void term_catalog(void);
+extern string find_vocab(int);
 extern unsigned catalog_size;
 
 

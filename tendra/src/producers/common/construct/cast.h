@@ -65,25 +65,25 @@
  *    The routines in this module are concerned with casting types.
  */
 
-extern EXP make_cast_exp(TYPE, EXP, int) ;
-extern EXP make_static_cast_exp(TYPE, EXP, int) ;
-extern EXP make_reinterp_cast_exp(TYPE, EXP, int) ;
-extern EXP make_const_cast_exp(TYPE, EXP, int) ;
-extern EXP make_new_cast_exp(int, TYPE, EXP, int) ;
-extern EXP make_func_cast_exp(TYPE, LIST (EXP)) ;
-extern EXP make_base_cast(TYPE, EXP, OFFSET) ;
+extern EXP make_cast_exp(TYPE, EXP, int);
+extern EXP make_static_cast_exp(TYPE, EXP, int);
+extern EXP make_reinterp_cast_exp(TYPE, EXP, int);
+extern EXP make_const_cast_exp(TYPE, EXP, int);
+extern EXP make_new_cast_exp(int, TYPE, EXP, int);
+extern EXP make_func_cast_exp(TYPE, LIST (EXP));
+extern EXP make_base_cast(TYPE, EXP, OFFSET);
 
-extern EXP cast_exp(TYPE, EXP, ERROR *, unsigned) ;
-extern EXP cast_int_int(TYPE, EXP, ERROR *, unsigned, int) ;
-extern EXP cast_int_float(TYPE, EXP, ERROR *, unsigned) ;
-extern EXP cast_float_float(TYPE, EXP, ERROR *, unsigned) ;
-extern EXP cast_ptr_ptr(TYPE, EXP, ERROR *, unsigned, int, int) ;
-extern EXP cast_ptr_mem_ptr_mem(TYPE, EXP, ERROR *, unsigned, int, int) ;
-extern EXP cast_class_class(TYPE, EXP, ERROR *, unsigned, int) ;
-extern EXP cast_templ_type(TYPE, EXP, unsigned) ;
-extern void cast_away_const(unsigned, ERROR *, unsigned) ;
-extern EXP cast_token(TYPE, EXP, ERROR *, ERROR, unsigned) ;
-extern void allow_conversion(IDENTIFIER) ;
+extern EXP cast_exp(TYPE, EXP, ERROR *, unsigned);
+extern EXP cast_int_int(TYPE, EXP, ERROR *, unsigned, int);
+extern EXP cast_int_float(TYPE, EXP, ERROR *, unsigned);
+extern EXP cast_float_float(TYPE, EXP, ERROR *, unsigned);
+extern EXP cast_ptr_ptr(TYPE, EXP, ERROR *, unsigned, int, int);
+extern EXP cast_ptr_mem_ptr_mem(TYPE, EXP, ERROR *, unsigned, int, int);
+extern EXP cast_class_class(TYPE, EXP, ERROR *, unsigned, int);
+extern EXP cast_templ_type(TYPE, EXP, unsigned);
+extern void cast_away_const(unsigned, ERROR *, unsigned);
+extern EXP cast_token(TYPE, EXP, ERROR *, ERROR, unsigned);
+extern void allow_conversion(IDENTIFIER);
 
 
 /*

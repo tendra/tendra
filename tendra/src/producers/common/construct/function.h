@@ -66,33 +66,33 @@
  *    application of functions.
  */
 
-extern void begin_function(IDENTIFIER) ;
-extern EXP end_function(IDENTIFIER, EXP) ;
-extern void begin_param(IDENTIFIER) ;
-extern void end_param(void) ;
-extern void adjust_param(TYPE) ;
-extern int function_params(TYPE) ;
-extern TYPE make_param_type(TYPE, int) ;
-extern TYPE make_func_type(TYPE, int, CV_SPEC, LIST (TYPE)) ;
-extern CV_SPEC func_linkage(CV_SPEC) ;
-extern void member_func_type(CLASS_TYPE, unsigned, TYPE) ;
-extern void check_weak_func(TYPE, int) ;
-extern void decl_func_type(IDENTIFIER, TYPE, int) ;
-extern TYPE find_func_type(TYPE) ;
-extern TYPE redecl_func_type(IDENTIFIER, TYPE, TYPE, int, int) ;
-extern EXP apply_func_id(IDENTIFIER, QUALIFIER, GRAPH, LIST (EXP)) ;
-extern LIST (EXP) convert_args(LIST (EXP)) ;
-extern EXP make_func_exp(EXP, LIST (EXP), int) ;
-extern EXP check_inline(IDENTIFIER, LIST (EXP), TYPE) ;
-extern TYPE check_main(TYPE, HASHID) ;
-extern void recheck_main(IDENTIFIER) ;
-extern int pass_complex_type(TYPE) ;
-extern unsigned min_no_args(TYPE) ;
-extern void func_type_defn(int) ;
-extern ERROR check_param_type(IDENTIFIER, TYPE) ;
-extern TYPE check_ret_type(TYPE, ERROR *, int) ;
-extern int check_func_dargs(TYPE, int, int) ;
-extern void object_type(TYPE, unsigned) ;
+extern void begin_function(IDENTIFIER);
+extern EXP end_function(IDENTIFIER, EXP);
+extern void begin_param(IDENTIFIER);
+extern void end_param(void);
+extern void adjust_param(TYPE);
+extern int function_params(TYPE);
+extern TYPE make_param_type(TYPE, int);
+extern TYPE make_func_type(TYPE, int, CV_SPEC, LIST (TYPE));
+extern CV_SPEC func_linkage(CV_SPEC);
+extern void member_func_type(CLASS_TYPE, unsigned, TYPE);
+extern void check_weak_func(TYPE, int);
+extern void decl_func_type(IDENTIFIER, TYPE, int);
+extern TYPE find_func_type(TYPE);
+extern TYPE redecl_func_type(IDENTIFIER, TYPE, TYPE, int, int);
+extern EXP apply_func_id(IDENTIFIER, QUALIFIER, GRAPH, LIST (EXP));
+extern LIST (EXP) convert_args(LIST (EXP));
+extern EXP make_func_exp(EXP, LIST (EXP), int);
+extern EXP check_inline(IDENTIFIER, LIST (EXP), TYPE);
+extern TYPE check_main(TYPE, HASHID);
+extern void recheck_main(IDENTIFIER);
+extern int pass_complex_type(TYPE);
+extern unsigned min_no_args(TYPE);
+extern void func_type_defn(int);
+extern ERROR check_param_type(IDENTIFIER, TYPE);
+extern TYPE check_ret_type(TYPE, ERROR *, int);
+extern int check_func_dargs(TYPE, int, int);
+extern void object_type(TYPE, unsigned);
 
 
 /*

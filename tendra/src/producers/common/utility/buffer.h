@@ -66,15 +66,15 @@
  *    character buffers.
  */
 
-extern void free_buffer(BUFFER *) ;
-extern BUFFER *clear_buffer(BUFFER *, FILE *) ;
-extern void output_buffer(BUFFER *, int) ;
-extern string extend_buffer(BUFFER *, string) ;
-extern string stretch_buffer(BUFFER *, string, gen_size) ;
-extern gen_size bfread(BUFFER *, string, gen_size) ;
+extern void free_buffer(BUFFER *);
+extern BUFFER *clear_buffer(BUFFER *, FILE *);
+extern void output_buffer(BUFFER *, int);
+extern string extend_buffer(BUFFER *, string);
+extern string stretch_buffer(BUFFER *, string, gen_size);
+extern gen_size bfread(BUFFER *, string, gen_size);
 extern void bfprintf PROTO_W ((BUFFER *, CONST char *, ...));
-extern void bfputs(BUFFER *, string) ;
-extern void bfputc(BUFFER *, int) ;
+extern void bfputs(BUFFER *, string);
+extern void bfputc(BUFFER *, int);
 
 
 #endif

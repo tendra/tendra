@@ -87,34 +87,34 @@ typedef struct {
  *    type conversions.
  */
 
-extern TYPE arith_type(TYPE, TYPE, EXP, EXP) ;
-extern TYPE promote_type(TYPE) ;
-extern TYPE unpromote_type(TYPE) ;
-extern TYPE arg_promote_type(TYPE, ERROR *) ;
-extern TYPE ptr_common_type(TYPE, TYPE, int, int *) ;
-extern TYPE ptr_mem_common_type(TYPE, TYPE, int *) ;
-extern TYPE common_type(TYPE, TYPE, int *) ;
-extern unsigned check_qualifier(TYPE, TYPE, int) ;
-extern int is_arg_promote(TYPE) ;
+extern TYPE arith_type(TYPE, TYPE, EXP, EXP);
+extern TYPE promote_type(TYPE);
+extern TYPE unpromote_type(TYPE);
+extern TYPE arg_promote_type(TYPE, ERROR *);
+extern TYPE ptr_common_type(TYPE, TYPE, int, int *);
+extern TYPE ptr_mem_common_type(TYPE, TYPE, int *);
+extern TYPE common_type(TYPE, TYPE, int *);
+extern unsigned check_qualifier(TYPE, TYPE, int);
+extern int is_arg_promote(TYPE);
 extern int qualifier_depth;
 
-extern EXP convert_arith(TYPE, EXP, int, int) ;
-extern EXP convert_bitfield(EXP) ;
-extern EXP convert_boolean(EXP, unsigned, ERROR *) ;
-extern EXP convert_array(EXP, int, ERROR *) ;
-extern EXP convert_lvalue(EXP) ;
-extern EXP convert_none(EXP) ;
-extern EXP convert_const(EXP) ;
-extern EXP convert_promote(TYPE, EXP) ;
-extern EXP convert_ptr_common(TYPE, EXP, int, int) ;
-extern EXP convert_ptr_mem_common(TYPE, EXP, int, int) ;
-extern EXP convert_reference(EXP, int) ;
-extern TYPE convert_qual_type(TYPE) ;
+extern EXP convert_arith(TYPE, EXP, int, int);
+extern EXP convert_bitfield(EXP);
+extern EXP convert_boolean(EXP, unsigned, ERROR *);
+extern EXP convert_array(EXP, int, ERROR *);
+extern EXP convert_lvalue(EXP);
+extern EXP convert_none(EXP);
+extern EXP convert_const(EXP);
+extern EXP convert_promote(TYPE, EXP);
+extern EXP convert_ptr_common(TYPE, EXP, int, int);
+extern EXP convert_ptr_mem_common(TYPE, EXP, int, int);
+extern EXP convert_reference(EXP, int);
+extern TYPE convert_qual_type(TYPE);
 
-extern unsigned convert_seq(CONVERSION *, EXP, int, int) ;
-extern unsigned std_convert_seq(CONVERSION *, EXP, int, int) ;
-extern int compare_seq(CONVERSION *, CONVERSION *) ;
-extern int is_ambiguous_func(IDENTIFIER) ;
+extern unsigned convert_seq(CONVERSION *, EXP, int, int);
+extern unsigned std_convert_seq(CONVERSION *, EXP, int, int);
+extern int compare_seq(CONVERSION *, CONVERSION *);
+extern int is_ambiguous_func(IDENTIFIER);
 
 
 /*

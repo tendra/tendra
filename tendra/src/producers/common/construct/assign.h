@@ -66,12 +66,12 @@
  *    assignment expressions.
  */
 
-extern EXP make_assign_exp(EXP, EXP, int) ;
-extern EXP make_become_exp(int, EXP, EXP) ;
-extern EXP make_postfix_exp(int, EXP) ;
-extern EXP make_prefix_exp(int, EXP) ;
-extern EXP convert_assign(TYPE, EXP, ERROR *) ;
-extern EXP convert_class(TYPE, EXP, ERROR *) ;
+extern EXP make_assign_exp(EXP, EXP, int);
+extern EXP make_become_exp(int, EXP, EXP);
+extern EXP make_postfix_exp(int, EXP);
+extern EXP make_prefix_exp(int, EXP);
+extern EXP convert_assign(TYPE, EXP, ERROR *);
+extern EXP convert_class(TYPE, EXP, ERROR *);
 
 
 #endif

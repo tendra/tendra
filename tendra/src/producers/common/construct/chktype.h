@@ -67,27 +67,27 @@
  */
 
 extern ERROR check_object(TYPE) ;
-extern ERROR check_abstract(TYPE) ;
-extern ERROR check_complete(TYPE) ;
-extern ERROR check_incomplete(TYPE) ;
-extern ERROR check_modifiable(TYPE, EXP) ;
-extern TYPE check_pointer(TYPE, ERROR *) ;
-extern TYPE check_compatible(TYPE, TYPE, int, ERROR *, int) ;
-extern TYPE type_composite(TYPE, TYPE, int, int, ERROR *, int) ;
-extern int is_global_type(TYPE) ;
-extern int unify_type(TYPE, TYPE, CV_SPEC, int) ;
-extern unsigned type_category(TYPE *) ;
-extern unsigned type_tag(TYPE) ;
+extern ERROR check_abstract(TYPE);
+extern ERROR check_complete(TYPE);
+extern ERROR check_incomplete(TYPE);
+extern ERROR check_modifiable(TYPE, EXP);
+extern TYPE check_pointer(TYPE, ERROR *);
+extern TYPE check_compatible(TYPE, TYPE, int, ERROR *, int);
+extern TYPE type_composite(TYPE, TYPE, int, int, ERROR *, int);
+extern int is_global_type(TYPE);
+extern int unify_type(TYPE, TYPE, CV_SPEC, int);
+extern unsigned type_category(TYPE *);
+extern unsigned type_tag(TYPE);
 
-extern int eq_func_type(TYPE, TYPE, int, int) ;
-extern int eq_type_qual(TYPE, TYPE, int) ;
-extern int eq_type_offset(TYPE, TYPE) ;
-extern int eq_itype(INT_TYPE, INT_TYPE) ;
-extern int eq_ftype(FLOAT_TYPE, FLOAT_TYPE) ;
-extern int eq_ctype(CLASS_TYPE, CLASS_TYPE) ;
-extern int eq_etype(ENUM_TYPE, ENUM_TYPE) ;
-extern CV_SPEC cv_compare(TYPE, TYPE) ;
-extern CV_SPEC find_cv_qual(TYPE) ;
+extern int eq_func_type(TYPE, TYPE, int, int);
+extern int eq_type_qual(TYPE, TYPE, int);
+extern int eq_type_offset(TYPE, TYPE);
+extern int eq_itype(INT_TYPE, INT_TYPE);
+extern int eq_ftype(FLOAT_TYPE, FLOAT_TYPE);
+extern int eq_ctype(CLASS_TYPE, CLASS_TYPE);
+extern int eq_etype(ENUM_TYPE, ENUM_TYPE);
+extern CV_SPEC cv_compare(TYPE, TYPE);
+extern CV_SPEC find_cv_qual(TYPE);
 
 #define eq_type(A, B)			eq_type_qual ((A), (B), 0)
 #define eq_type_unqual(A, B)		eq_type_qual ((A), (B), 1)

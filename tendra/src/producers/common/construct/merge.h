@@ -66,9 +66,9 @@
  *    identifiers declared in separate compilation units.
  */
 
-extern int compatible_class(CLASS_TYPE, CLASS_TYPE) ;
-extern void merge_namespaces(NAMESPACE, NAMESPACE) ;
-extern int merge_type(IDENTIFIER, IDENTIFIER) ;
+extern int compatible_class(CLASS_TYPE, CLASS_TYPE);
+extern void merge_namespaces(NAMESPACE, NAMESPACE);
+extern int merge_type(IDENTIFIER, IDENTIFIER);
 extern int force_merge;
 
 

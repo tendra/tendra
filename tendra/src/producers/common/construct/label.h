@@ -66,18 +66,18 @@
  *    statements.
  */
 
-extern EXP begin_label_stmt(IDENTIFIER, int) ;
-extern EXP end_label_stmt(EXP, EXP) ;
-extern EXP make_goto_stmt(IDENTIFIER) ;
-extern EXP make_jump_stmt(IDENTIFIER, EXP) ;
-extern IDENTIFIER postlude_label(void) ;
-extern IDENTIFIER find_postlude_label(void) ;
-extern NAT find_case_nat(IDENTIFIER) ;
-extern int used_label(IDENTIFIER) ;
-extern unsigned check_labels(void) ;
-extern EXP solve_labels(EXP) ;
-extern EXP solve_switch (EXP) ;
-extern void end_solve_stmts(void) ;
+extern EXP begin_label_stmt(IDENTIFIER, int);
+extern EXP end_label_stmt(EXP, EXP);
+extern EXP make_goto_stmt(IDENTIFIER);
+extern EXP make_jump_stmt(IDENTIFIER, EXP);
+extern IDENTIFIER postlude_label(void);
+extern IDENTIFIER find_postlude_label(void);
+extern NAT find_case_nat(IDENTIFIER);
+extern int used_label(IDENTIFIER);
+extern unsigned check_labels(void);
+extern EXP solve_labels(EXP);
+extern EXP solve_switch (EXP);
+extern void end_solve_stmts(void);
 extern LIST (EXP) all_solve_stmts;
 extern LIST (EXP) all_try_blocks;
 extern NAMESPACE label_namespace;

@@ -66,31 +66,31 @@
  *    manipulation of the basic C and C++ types.
  */
 
-extern void init_types(void) ;
-extern TYPE make_base_type(BASE_TYPE) ;
-extern BASE_TYPE join_pre_types(BASE_TYPE, BASE_TYPE) ;
-extern TYPE complete_pre_type(BASE_TYPE, TYPE, CV_SPEC, int) ;
-extern TYPE empty_complete_pre_type(BASE_TYPE, TYPE, CV_SPEC, int) ;
-extern TYPE inject_pre_type(TYPE, TYPE, int) ;
-extern TYPE copy_typedef(IDENTIFIER, TYPE, CV_SPEC) ;
-extern TYPE qualify_type(TYPE, CV_SPEC, int) ;
-extern TYPE lvalue_type(TYPE) ;
-extern TYPE rvalue_type(TYPE) ;
-extern TYPE check_bitfield_type(CV_SPEC, TYPE, BASE_TYPE, NAT, int) ;
-extern BASE_TYPE get_bitfield_rep(TYPE, BASE_TYPE) ;
-extern TYPE find_bitfield_type(TYPE) ;
-extern TYPE make_bitfield_type(TYPE, BASE_TYPE, EXP, int) ;
-extern int check_int_type(TYPE, BASE_TYPE) ;
-extern ERROR report_inferred_type(TYPE, int) ;
-extern TYPE clean_inferred_type(TYPE) ;
-extern int is_type_inferred(TYPE) ;
-extern NAT check_array_dim(NAT) ;
-extern NAT make_array_dim(EXP) ;
-extern void accept_argument(TYPE, TYPE) ;
-extern void accept_ellipsis(TYPE) ;
-extern TYPE eq_argument(TYPE, TYPE, int) ;
-extern TYPE eq_ellipsis(TYPE) ;
-extern void set_compatible_type(TYPE, TYPE, unsigned) ;
+extern void init_types(void);
+extern TYPE make_base_type(BASE_TYPE);
+extern BASE_TYPE join_pre_types(BASE_TYPE, BASE_TYPE);
+extern TYPE complete_pre_type(BASE_TYPE, TYPE, CV_SPEC, int);
+extern TYPE empty_complete_pre_type(BASE_TYPE, TYPE, CV_SPEC, int);
+extern TYPE inject_pre_type(TYPE, TYPE, int);
+extern TYPE copy_typedef(IDENTIFIER, TYPE, CV_SPEC);
+extern TYPE qualify_type(TYPE, CV_SPEC, int);
+extern TYPE lvalue_type(TYPE);
+extern TYPE rvalue_type(TYPE);
+extern TYPE check_bitfield_type(CV_SPEC, TYPE, BASE_TYPE, NAT, int);
+extern BASE_TYPE get_bitfield_rep(TYPE, BASE_TYPE);
+extern TYPE find_bitfield_type(TYPE);
+extern TYPE make_bitfield_type(TYPE, BASE_TYPE, EXP, int);
+extern int check_int_type(TYPE, BASE_TYPE);
+extern ERROR report_inferred_type(TYPE, int);
+extern TYPE clean_inferred_type(TYPE);
+extern int is_type_inferred(TYPE);
+extern NAT check_array_dim(NAT);
+extern NAT make_array_dim(EXP);
+extern void accept_argument(TYPE, TYPE);
+extern void accept_ellipsis(TYPE);
+extern TYPE eq_argument(TYPE, TYPE, int);
+extern TYPE eq_ellipsis(TYPE);
+extern void set_compatible_type(TYPE, TYPE, unsigned);
 
 
 /*

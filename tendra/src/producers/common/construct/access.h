@@ -81,19 +81,19 @@ typedef struct {
  *    The routines in this module are concerned with class member access.
  */
 
-extern IDENTIFIER access_decl(IDENTIFIER) ;
-extern void friend_function(CLASS_TYPE, IDENTIFIER, int) ;
-extern void friend_class(CLASS_TYPE, IDENTIFIER, int) ;
-extern DECL_SPEC join_access(DECL_SPEC, DECL_SPEC) ;
-extern void check_access(IDENTIFIER, DECL_SPEC) ;
-extern void check_base_access(GRAPH) ;
-extern void immediate_access(IDENTIFIER, IDENTIFIER) ;
-extern int clear_access(IDENTIFIER, ACCESS_LIST *) ;
-extern int report_access(IDENTIFIER) ;
-extern void adjust_access(IDENTIFIER, DECL_SPEC, int) ;
-extern void free_access(ACCESS_LIST *) ;
-extern void save_access(ACCESS_LIST *) ;
-extern int restore_access(IDENTIFIER, ACCESS_LIST *) ;
+extern IDENTIFIER access_decl(IDENTIFIER);
+extern void friend_function(CLASS_TYPE, IDENTIFIER, int);
+extern void friend_class(CLASS_TYPE, IDENTIFIER, int);
+extern DECL_SPEC join_access(DECL_SPEC, DECL_SPEC);
+extern void check_access(IDENTIFIER, DECL_SPEC);
+extern void check_base_access(GRAPH);
+extern void immediate_access(IDENTIFIER, IDENTIFIER);
+extern int clear_access(IDENTIFIER, ACCESS_LIST *);
+extern int report_access(IDENTIFIER);
+extern void adjust_access(IDENTIFIER, DECL_SPEC, int);
+extern void free_access(ACCESS_LIST *);
+extern void save_access(ACCESS_LIST *);
+extern int restore_access(IDENTIFIER, ACCESS_LIST *);
 extern ACCESS_LIST crt_access_list;
 extern int do_access_checks;
 extern DECL_SPEC crt_access;

@@ -84,19 +84,19 @@
 
 extern ERROR make_error PROTO_W ((int, ...));
 extern void error PROTO_W ((int, CONST char *, ...));
-extern void set_progname(CONST char *, CONST char *) ;
-extern string report_version(int) ;
-extern void error_option(string) ;
-extern void print_error(LOCATION *, ERROR) ;
-extern EXP install_error(LOCATION *, ERROR) ;
-extern void commentary(IDENTIFIER) ;
-extern void destroy_error(ERROR, int) ;
-extern ERROR concat_error(ERROR, ERROR) ;
-extern ERROR concat_warning(ERROR, ERROR) ;
-extern void add_error(ERROR *, ERROR) ;
-extern void term_error(int) ;
-extern ERROR set_prefix(ERROR) ;
-extern void restore_prefix(ERROR) ;
+extern void set_progname(CONST char *, CONST char *);
+extern string report_version(int);
+extern void error_option(string);
+extern void print_error(LOCATION *, ERROR);
+extern EXP install_error(LOCATION *, ERROR);
+extern void commentary(IDENTIFIER);
+extern void destroy_error(ERROR, int);
+extern ERROR concat_error(ERROR, ERROR);
+extern ERROR concat_warning(ERROR, ERROR);
+extern void add_error(ERROR *, ERROR);
+extern void term_error(int);
+extern ERROR set_prefix(ERROR);
+extern void restore_prefix(ERROR);
 
 #define report(A, B)		print_error (&(A), (B))
 #define fail(A)		print_error (NIL (LOCATION), (A))
@@ -138,8 +138,8 @@ extern FILE *error_file;
  */
 
 #ifdef ASSERTS
-extern int is_true(int) ;
-extern void assertion(CONST char *, CONST char *, int) ;
+extern int is_true(int);
+extern void assertion(CONST char *, CONST char *, int);
 #if FS_STDC_HASH
 #define ASSERT(A)	if (is_true (!(A)))\
 			    assertion (#A, __FILE__, __LINE__)
