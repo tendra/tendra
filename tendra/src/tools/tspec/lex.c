@@ -605,10 +605,10 @@ print_posn(FILE *output)
 {
     static char *last_filename = "";
     if (!streq (filename, last_filename)) {
-		IGNORE fprintf (output, "$FILE = \"%s\" ;\n", filename);
+		IGNORE fprintf (output, "$FILE = \"%s\";\n", filename);
 		last_filename = filename;
     }
-    IGNORE fprintf (output, "$LINE = %d ;\n", line_no - 1);
+    IGNORE fprintf (output, "$LINE = %d;\n", line_no - 1);
     return;
 }
 
@@ -777,7 +777,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 				char *cmd = "+IMPLEMENT";
 				preproc (output, api, file, s);
 				print_subset_name (output, cmd, api, file, s, 0);
-				IGNORE fputs (" ;\n", output);
+				IGNORE fputs (";\n", output);
 				do {
 					c = read_pptoken (0);
 					if (c == lex_open_Hbrace) {
@@ -905,7 +905,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			error (ERR_SERIOUS, "+IF without +ENDIF");
 			if_depth--;
 		}
-		IGNORE fputs ("} ;\n", output);
+		IGNORE fputs ("};\n", output);
 		IGNORE fclose (input);
 		p->u.u_info = make_info (api, file, subset);
 		filename = old_filename;

@@ -415,13 +415,13 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 			field *f = q->u.u_obj->u.u_field;
 			OUTS (output, "    ");
 			print_type (output, f->ftype, f->fname, 0);
-			OUTS (output, " ;\n");
+			OUTS (output, ";\n");
 			q = q->next;
 		}
 		if (*tag) {
-			OUTS (output, "} ;\n");
+			OUTS (output, "};\n");
 		} else {
-			OUT (output, "} %s ;\n", nm);
+			OUT (output, "} %s;\n", nm);
 		}
     }
 	
@@ -464,7 +464,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    } else {
 			OUTS (output, "typedef ");
 			print_type (output, s, nm, 0);
-			OUTS (output, " ;\n");
+			OUTS (output, ";\n");
 			break;
 	    }
 	    /* Allow for special types */
@@ -473,10 +473,10 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    OUT (output, "#ifdef %s\n", tm);
 	    OUT (output, "#pragma TenDRA type %s for %s\n", nm, sp);
 	    OUT (output, "#else /* %s */\n", tm);
-	    OUT (output, "typedef %s %s ;\n", s->u.obj->name, nm);
+	    OUT (output, "typedef %s %s;\n", s->u.obj->name, nm);
 	    OUT (output, "#endif /* %s */\n", tm);
 	    OUT (output, "#else /* %s */\n", b);
-	    OUT (output, "typedef %s %s ;\n", s->u.obj->name, nm);
+	    OUT (output, "typedef %s %s;\n", s->u.obj->name, nm);
 	    OUT (output, "#endif /* %s */\n", b);
 	    break;
 	}
@@ -543,15 +543,15 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    /* Print the end of the enumeration type */
 	    if (tagged) {
 			IGNORE sprintf (buffer, "%s%s", enum_hack, nm);
-			OUT (output, "\n} %s ;\n", buffer);
+			OUT (output, "\n} %s;\n", buffer);
 	    } else {
-			OUT (output, "\n} %s ;\n", nm);
+			OUT (output, "\n} %s;\n", nm);
 	    }
 		
 	    /* Print the hacked library building version */
 	    OUT (output, "#else /* %s */\n", b);
 	    if (tagged) {
-			OUT (output, "typedef int %s ;\n", buffer);
+			OUT (output, "typedef int %s;\n", buffer);
 	    } else {
 			OUT (output, "#pragma token VARIETY %s # %s\n", nm, tnm);
 			OUT (output, "#pragma promote %s : %s\n", nm, nm);
@@ -604,7 +604,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    if (t->id == TYPE_LVALUE) t = t->u.subtype;
 	    OUTS (output, "extern ");
 	    print_type (output, t, nm, 0);
-	    OUTS (output, " ;\n");
+	    OUTS (output, ";\n");
 	    break;
 	}
 		
@@ -630,7 +630,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    if (sp) OUTC (output, ' ');
 	    OUT (output, "%s %s (", nm, w);
 	    print_tail (output, t, 0);
-	    OUTS (output, ") ;\n");
+	    OUTS (output, ");\n");
 	    break;
 	}
 		
