@@ -1743,7 +1743,7 @@ char *p = 1 - 1 ;   // valid, but weird
 #pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis> 
 </programlisting>
 
-<para>can be used to check aggregate initialisers. The initialiser should be fully bracketed (i.e. with no elision of braces), and should have an entry for each member of the structure or array.<para>
+<para>can be used to check aggregate initialisers. The initialiser should be fully bracketed (i.e. with no elision of braces), and should have an entry for each member of the structure or array.</para>
 
 </sect2>
 
@@ -3733,7 +3733,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 <row>
 <entry>long long</entry>
 <entry>16</entry>
-
+</row>
 </tbody>
 </tgroup>
 </table>
@@ -3896,7 +3896,7 @@ P <emphasis>type</emphasis> : <emphasis>type</emphasis>
 <entry>ULL</entry>
 <entry>~lit_ulonglong</entry>
 <entry>unsigned long long</entry>
-
+</row>
 </tbody>
 </tgroup>
 </table>
@@ -4448,6 +4448,7 @@ class D : public B, public C {
 <para>Note that there is a single <emphasis>A</emphasis> sub-object of <emphasis>D</emphasis> referenced by the <emphasis>ptr A</emphasis> fields in both the <emphasis>B</emphasis> and <emphasis>C</emphasis> sub-objects. The elimination of <emphasis>vtbl D::B</emphasis> is as above.</para>
 </sect3>
 
+</sect2>
 <sect2 id='const-and-destructors'>
 <title>Constructors and destructors</title>
 
@@ -5633,7 +5634,7 @@ ret function
 }
 </programlisting>
 
-<para>and declared as:<para>
+<para>and declared as:</para>
 
 <programlisting>
 ret function PROTO_S ( ( void ) ) ;
@@ -7279,9 +7280,6 @@ FUNC <emphasis>type-id</emphasis> :
 <para>The following gives a summary of the syntax for the -XREF-dump.htmlsymbol table dump file (version 1.1):</para>
 
 <programlisting>
-</programlisting>
-
-<programlisting>
 <emphasis>dump-file</emphasis> :
 <emphasis>command-list<subscript>opt</subscript></emphasis>
 
@@ -7694,9 +7692,6 @@ ACL <emphasis>location string</emphasis>
 <title>Error catalogue syntax</title>
 
 <para>The following gives a summary of the syntax for the -XREF-error.htmlerror catalogue accepted by the <literal>make_err</literal> tool. Identifiers are normal C-style identifiers, strings consist of any sequence of characters enclosed inside <literal>&quot;....&quot;</literal>. The escape sequences <literal>\&quot;</literal> and <literal>\\</literal> are allowed in strings; other characters (including newline characters) map to themselves. C-style comments are allowed.</para>
-
-<programlisting>
-</programlisting>
 
 <programlisting>
 <emphasis>error-database</emphasis> :
