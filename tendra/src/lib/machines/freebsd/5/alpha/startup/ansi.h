@@ -32,3 +32,8 @@
 #ifndef __signed
 #define __signed	signed
 #endif
+
+/* Work around __aligned() */
+#ifndef	__aligned
+#define	__aligned(x)	/* nothing */
+#endif

@@ -1,5 +1,5 @@
 /*
- * $TenDRA: tendra/src/lib/machines/freebsd/5/80x86/startup/system.h,v 1.2 2003/10/20 12:10:30 stefanf Exp $
+ * $TenDRA$
  */
 
 #ifndef __TDF_SYS_INCLUDED
@@ -38,6 +38,11 @@
 
 #ifndef __signed
 #define __signed	signed
+#endif
+
+/* Work around __aligned() */
+#ifndef	__aligned
+#define	__aligned(x)	/* nothing */
 #endif
 
 #endif
