@@ -71,7 +71,10 @@ install:
 .if !exists(PUBLIC_BIN)
 	${MKDIR} -p ${PUBLIC_BIN}
 .endif
-		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${PUBLIC_BIN}/${PROG}
+.if !exists(${MACH_BASE}/bin)
+	${MKDIR} -p ${MACH_BASE}/bin
+.endif
+		${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
 .endif
 
 _OBJDIR:
