@@ -328,24 +328,30 @@ void
 write_arg_usage(ArgUsageP closure)
 {
 	ArgListP arg_list = closure->arg_list;
+	int have_short;
 	
 	msg_append_string (msg_get_raw (closure->usage));
 	while (arg_list->name != NIL (CStringP) ||
 		   arg_list->short_name != '\0') {
-		const char * desc = msg_get_raw (arg_list->msgid);
-		
-		if (arg_list->name) {
-			msg_append_newline();
-			msg_append_string("    {--|++}");
-			msg_append_string(arg_list->name);
-			msg_append_string(desc);
-		}
-		if (arg_list->short_name != '\0') {
-			msg_append_newline();
-			msg_append_string("    {-|+}");
+
+		have_short = 0;
+		msg_append_newline();
+		msg_append_string("  ");
+		if (arg_list->short_name) {
+			msg_append_char('-');
 			msg_append_char(arg_list->short_name);
-			msg_append_string(desc);
+			have_short = 1;
 		}
+		if (arg_list->name) {
+			if (have_short)
+				msg_append_string("  [");
+			msg_append_string("--");
+			msg_append_string(arg_list->name);
+			if (have_short)
+				msg_append_string("]");
+		}
+		msg_append_char(' ');
+		msg_append_string(msg_get_raw(arg_list->msgid));
 		arg_list++;
 	}
 }

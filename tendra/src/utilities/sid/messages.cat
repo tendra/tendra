@@ -824,7 +824,7 @@ usage(ccp: language_name, unsigned: number_input_files,
 description_of_dump_file()
 {
 	USAGE: NONE
-	KEY(STD) " FILE\n\tCause intermediate grammars to be written to FILE."
+	KEY(STD) "FILE\n\tCause intermediate grammars to be written to FILE."
 }
 
 description_of_help()
@@ -836,34 +836,34 @@ description_of_help()
 description_of_factor_limit()
 {
 	USAGE: NONE
-	KEY(STD) " NUMBER\n\tSet the maximum number of rules to be generated
+	KEY(STD) "NUMBER\n\tSet the maximum number of rules to be generated
 		  during factorisation."
 }
 
 description_of_inlining()
 {
 	USAGE: NONE
-	KEY(STD) " INLINES\n\tSet which classes of rule are inlined.\n\t
-		  Should be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER',
+	KEY(STD) "INLINES\n\tSet which classes of rule are inlined.
+		 \n\tShould be any of 'SINGLES', 'BASICS', 'TAIL', 'OTHER',
 		  'MULTI', or 'ALL'."
 }
 
 description_of_language()
 {
 	USAGE: NONE
-	KEY(STD) " LANGUAGE\n\tSet the language for the output parser."
+	KEY(STD) "LANGUAGE\n\tSet the language for the output parser."
 }
 
 description_of_switch()
 {
 	USAGE: NONE
-	KEY(STD) " OPTION\n\tPass OPTION to language specific option parser."
+	KEY(STD) "OPTION\n\tPass OPTION to language specific option parser."
 }
 
 description_of_tab_width()
 {
 	USAGE: NONE
-	KEY(STD) " NUMBER\n\tSet the number of spaces in a tab character."
+	KEY(STD) "NUMBER\n\tSet the number of spaces in a tab character."
 }
 
 description_of_version()
@@ -875,8 +875,8 @@ description_of_version()
 sid_usage_message()
 {
 	USAGE: NONE
-	KEY(STD) "\tusage: [option ...] in-file ... out-file ...\n
-		  \twhere option is one of:"
+	KEY(STD) "Usage: sid [options ...] in-file ... out-file ...
+		  \nwhere option is one of:"
 }
 
 /* rule-check.c */
