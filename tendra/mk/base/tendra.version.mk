@@ -38,7 +38,7 @@ VER_TENDRA=	5.0.0
 VER_LIBTEN=	1.0.0
 
 # lib/tdf
-VER_TDF=	4.1.0
+VER_TDF=	4.1
 
 
 # utilities/calculus
