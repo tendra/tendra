@@ -2,7 +2,7 @@
 
 .PATH : ${.CURDIR} ${OBJ_DIR} . ${.CURDIR}/../../../common/tokens ${.CURDIR}/../../../common/src
 
-TCC_OPTS=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
+TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
 		-Ydefault.extra \
 		-J${SRC_DIR}/obj/lib/apis/lib/posix \

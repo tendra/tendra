@@ -4,7 +4,7 @@
 # in by tendra.prog.mk
 
 
-TCC_OPTS=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
+TCC_OPTS+=	-yTENDRA_BASEDIR=${OBJ_PREFIX} \
 		-Y${DEFAULT_BUILD} \
 		-Ydefault.extra
 

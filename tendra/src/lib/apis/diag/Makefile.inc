@@ -1,5 +1,5 @@
 # $TenDRA$
 
-TCC_OPTS=	-g
+TCC_OPTS+=	-g
 
 
