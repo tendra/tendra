@@ -1,21 +1,24 @@
 # $TenDRA$
 
-trans		680x0/common/trans.c              A B C D E F   H I     L M   O P Q   S   U V W     Z 		    c           i     l     o     r                      
+trans		680x0/sunos/main.c                A B C D E F   H I     L M   O P Q   S   U V W     Z 		    c           i     l     o     r                      
 
 
-trans		80x86/common/trans.c              A B C D E F G H I J K   M N   P Q R   T U V W X   Z 		a b c d e f g h i k                 s         
+trans		80x86/common/trans.c              A B C D E F G H I J K   M N   P Q R   T U V W X   Z 		a b c d e f g   i j k               s         
                                                               +     ?       +           ?                         + + + + + +   +                   ?             
 
-trans		alpha/freebsd/driver.c            A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d         i                   s   u v            
-                                                                                  +                                   +         +                   +   + + 
+trans		alpha/freebsd/driver.c            A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d                             s   u
+                                                                                  +                                   +                             +   +
 
-trans		alpha/osf1/driver.c               A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d         i                   s   u v
-                                                                                  +                                   +         +                   +   + +
+trans		alpha/osf1/driver.c               A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d                             s   u
+                                                                                  +                                   +                             +   +
 
-trans		hppa/hpux/hppatrans.c             A B C D E F G H I   K   M     P Q R     U V W X   Z 		      d       h                                   
+trans		hppa/hpux/hppatrans.c             A B C D E F G H I   K   M     P Q R     U V W X   Z 		      d     g
                                                               +                                                       +
 
-trans		irix/main.c                       A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d e             l                              
+trans		mips/irix/main.c                  A   C D E F   H I   K   M     P Q R S   U V W X   Z 		      d e             l                              
+                                                                                                                      + +             +
+
+trans           mips/ultrix/main.c                A B C D E F   H I   K   M     P Q R S   U V W X   Z                 d e             l
                                                                                                                       + +             +
 
 trans		power/aix/powertrans.c            A B C   E F   H I   K   M   O P Q R     U V W X   Z 	 	    c                                                 
@@ -24,47 +27,43 @@ trans		power/aix/powertrans.c            A B C   E F   H I   K   M   O P Q R    
 trans		sparc/common/sparctrans.c         A B C D E F   H I J K   M N O P Q R   T U V W X   Z 		a   c       g   i     l     n       r   t u             
                                                                     ?       + +         ?                       +   +       +   +     +     +       +   + +
 
-trans		ultrix/main.c                     A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d e             l                                          
-                                                                                                                      + +             +                                                                                                                               
-                                                                                                                                                                              
-calculus	utilities/calculus/main.c	  A       E                             T                       a   c d e       i     l m n o p q r   t   v w x   z 
-                                                                                                                    +   +             + + +     +                 + 
+calculus	utilities/calculus/main.c	  A       E                             T   V                   a   c d e       i     l m n o p   r   t   v w x   z 
+                                                                                                                    +   +             + + +                       + 
 
-disp		tools/disp/main.c		  A     D E                           S T U V W                       d     g h i         n   p q r       v   x 
-                                                                                                                      +       + +             +               +
+disp		tools/disp/main.c		  A     D E                           S T   V W                 a     d     g h i         n     q r       v   x 
+                                                                                                                +     +         +                 +       +   +
 
-lexi		utilities/lexi/main.c		                                                                          f         k l m             t   v 
+lexi		utilities/lexi/main.c		                                            V                             f         k l m             t
  
 
-make_err	utilities/make_err/main.c	                                                                      d                   n             u v 
+mkerr		utilities/make_err/main.c	                                                                      d                   n             u v 
 [missing]
 
-make_tdf	utilities/make_tdf/main.c	                                                                                                          v
+make_tdf	utilities/make_tdf/main.c	                                            V
 [missing]
 
-pl		tools/pl/main.c			                  I                       V                                 g                             v 
+pl		tools/pl/main.c			                  I                         V                               g                 p             
                                                                                                                             +
 
-sid		utilities/sid/main.c		                                                                  b   d e f     i     l             s t   v 
-[unordered options]                                                                                               -
+sid		utilities/sid/main.c		                                            V                     b   d e f   h i     l             s t 
 
-tcpplus		producers/common/main.c	        - A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
+
+tcpplus		producers/common/main.c	        - A     D E F   H I       M N O   Q R S U V W X    Z            a b c d e f g h   j     m n o     r s t u v w x   z 
                                                                           +   +     +                             +                               +           +
 
-tdfc2 		producers/common/main.c	        - A     D E F   H I       M N O     R S U V W X    Z            a b c d e f g h   j     m n o   q r s t u v w x   z 
+tdfc2 		producers/common/main.c	        - A     D E F   H I       M N O   Q R S U V W X    Z            a b c d e f g h   j     m n o     r s t u v w x   z 
                                                                           +   +     +                             +                               +           +
 
 tnc		tools/tnc/main.c		                  I     L                 V                         c d e f   h       l     o p q r   t u v w 
                                                                                                                               +                         + +
 
-tspec		tools/tspec/main.c		      C           I           O       S     V                   a   c d e f     i     l m n   p   r s t u v w 
+tspec		tools/tspec/main.c		                  I           O       S     V                   a   c d e f     i     l m n   p   r s t u v w 
                                                                                                                       +                                     +
 
 LEGEND
 ~~~~~~
 * ?: need to go digging in the code to figure this out
 * [missing]: man page for this is not in CVS
-* [unordered options]: the options described in the man page are not ordered properly, A-Z a-z
-* undocumented options are distinguished by the '-' underneath them 
-* options that only have placeholders (the actual description of the option is missing) are distinguished by a '+' underneath them
-* note that some of the long options may be undocumented, these still need to be detected
+* options that only have placeholders (the actual description of the option in the man page is missing) are distinguished by a '+' underneath them
+* note that there are undocumented long options
+
