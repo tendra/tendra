@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -34,100 +61,7 @@
 static char vcid[] = "$Id$";
 #endif /* lint */
 
-/*
-$Log$
-Revision 1.1  2002/01/26 21:31:15  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.2  1998/02/04  10:43:34  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.24  1996/03/25  14:35:45  john
- * introduced do_extern_adds
- *
- * Revision 1.23  1996/02/15  09:58:29  john
- * Fixed handling of initialisation procedures
- *
- * Revision 1.22  1996/01/23  16:59:10  john
- * Fix to diagnostics
- *
- * Revision 1.21  1996/01/18  09:33:31  john
- * Fix diagnostics
- *
- * Revision 1.20  1996/01/17  10:05:07  john
- * Fix to diagnostics
- *
- * Revision 1.19  1996/01/17  09:31:53  john
- * Fix to diagnostics
- *
- * Revision 1.18  1995/12/04  09:14:16  john
- * Fix to diagnostics
- *
- * Revision 1.17  1995/11/14  15:40:12  john
- * Implemented dynamic initialisations
- *
- * Revision 1.16  1995/11/13  12:44:45  john
- * Minor change
- *
- * Revision 1.15  1995/09/22  16:02:27  john
- * Changed special id's
- *
- * Revision 1.14  1995/09/04  16:27:08  john
- * Fix to general procs
- *
- * Revision 1.13  1995/08/21  08:46:45  john
- * Changed include files
- *
- * Revision 1.12  1995/08/04  15:51:29  john
- * Minor change
- *
- * Revision 1.11  1995/06/28  10:27:52  john
- * Hack to fix source file names for diagnostics.
- *
- * Revision 1.10  1995/06/21  14:25:47  john
- * Reformatting
- *
- * Revision 1.9  1995/06/15  08:33:56  john
- * Fixed syntax error
- *
- * Revision 1.8  1995/06/13  14:02:22  john
- * Fixed s-register allocation with frame pointer & added support for
- * trap error treatment
- *
- * Revision 1.7  1995/05/25  15:33:39  john
- * Cosmetic change
- *
- * Revision 1.6  1995/05/23  15:38:28  john
- * Changed Version information
- *
- * Revision 1.5  1995/05/16  10:56:33  john
- * Changes for spec 3.1
- *
- * Revision 1.4  1995/04/10  14:14:16  john
- * Minor change
- *
- * Revision 1.3  1995/04/07  11:07:13  john
- * Changed assembler output (mainly scheduling changes).
- *
- * Revision 1.2  1995/03/29  14:06:31  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:25  john
- * Entered into CVS
- *
- * Revision 1.13  1995/03/23  10:16:41  john
- * Added support for scheduler
- *
- * Revision 1.12  1995/01/26  13:52:12  john
- * Removed unused variable and added include files
- *
- * Revision 1.11  1995/01/10  09:43:56  john
- * Added code for out-of-line optimisation
- *
-*/
+/**/
 
 #include "config.h"
 #include "common_types.h"
