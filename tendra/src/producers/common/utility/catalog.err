@@ -172,7 +172,7 @@ USAGE:
     eof_nline = error,
     escape_overflow = error,
     escape_unknown = error,
-    for_scope = on | off,
+    for_scope = on,
     func_block = error,
     func_impl = error | wall,
     func_incompat = error,
@@ -3145,6 +3145,28 @@ stmt_for_init ( IDENTIFIER: id )
 {
     USAGE:	for_scope
     KEY (STD)	"Variable '"id"' used outside its 'for' statement"
+}
+
+stmt_for_decl ()
+{
+    USAGE:	none | error
+    KEY (ISO)	"???" | "-, 6.8.5.3"
+    KEY (STD)	"Declaration in 'for' statement"
+}
+
+stmt_for_storage ( DECL_SPEC: ds )
+{
+    USAGE:	none | error
+    KEY (ISO)	"???" | "-, 6.8.5"
+    KEY (STD)	"Declaration in 'for' statement contains illegal storage
+		 specifier(s) '"ds"'"
+}
+
+stmt_for_no_object ()
+{
+    USAGE:	none | error
+    KEY (STD)	"Declaration in 'for' statement must declare an identifier for
+		 an object"
 }
 
 

@@ -147,6 +147,7 @@ int in_weak_param = 0;
 int in_ptr_mem_selector = 0;
 int in_token_decl = 0;
 int in_template_decl = 0;
+int in_for_decl = 0;
 int really_in_function_defn = 0;
 int really_in_class_defn = 0;
 int is_function_next = 0;

@@ -1320,6 +1320,7 @@ selection-statement : () -> ( e : EXP ) = {
 <stmt_do_begin> : () -> ( :EXP );
 <stmt_do_end> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
 <stmt_for_begin> : () -> ( :EXP );
+<stmt_for_decl> : () -> ();
 <stmt_for_init> : ( :EXP, :EXP ) -> ( :EXP );
 <stmt_for_cond> : ( :EXP, :EXP, :EXP ) -> ( :EXP );
 <stmt_for_end> : ( :EXP, :EXP ) -> ( :EXP );
@@ -1328,6 +1329,11 @@ selection-statement : () -> ( e : EXP ) = {
 
 for-init-statement : () -> ( e : EXP ) = {
 	e = expression-statement;
+     ||
+	declaration;
+	e = <stmt_decl>;
+	<stmt_for_decl>;
+	<stmt_label_clear>;
 };
 
 for-cond-statement : () -> ( e : EXP ) = {

@@ -152,6 +152,16 @@ complete_dspec(DECL_SPEC ds, BASE_TYPE bt,
 			   TYPE t, CV_SPEC cv)
 {
     DECL_SPEC key = (ds & dspec_nonempty);
+#if LANGUAGE_C
+    if (in_for_decl) {
+		/* Can't have specifiers other than 'auto' or 'register' */
+		DECL_SPEC mask = ~(dspec_auto | dspec_register);
+		if (ds & mask) {
+			report (crt_loc, ERR_stmt_for_storage (ds & mask));
+			ds &= ~mask;
+		}
+    }
+#endif
     if (key || bt || !IS_NULL_type (t) || cv) {
 		/* Have a declaration specifier */
 		if (ds & dspec_c) {
@@ -2738,6 +2748,14 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt,
 		}
     }
 	
+#if LANGUAGE_C	
+    /* Check 'for' statements */
+    if (in_for_decl) {
+		report (crt_loc, ERR_stmt_for_no_object ());
+		return (NULL_id);
+    }
+#endif
+
     /* Check for definitions of built-in types */
     if ((ds & dspec_typedef) && !mem) {
 		BASE_TYPE bs = key_type (tok);

@@ -102,6 +102,7 @@ extern int in_weak_param;
 extern int in_ptr_mem_selector;
 extern int in_token_decl;
 extern int in_template_decl;
+extern int in_for_decl;
 extern int really_in_function_defn;
 extern int really_in_class_defn;
 extern int is_function_next;

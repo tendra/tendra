@@ -802,11 +802,17 @@ complex-type : () -> ( t ) = @{
 @};
 
 <stmt_for_begin> : () -> ( e ) = @{
+    in_for_decl++;
     @e = begin_for_stmt ();
+@};
+
+<stmt_for_decl> : () -> () = @{
+    report ( crt_loc, ERR_stmt_for_decl () );
 @};
 
 <stmt_for_init> : ( a, b ) -> ( e ) = @{
     @e = init_for_stmt ( @a, &@b );
+    in_for_decl--;
 @};
 
 <stmt_for_cond> : ( a, b, c ) -> ( e ) = @{
