@@ -82,7 +82,8 @@
 #include "dump_distr.h"
 #include "construct_v.h"
 #include "reader_v.h"
-extern void output_symtab PROTO_S ((char*));
+
+extern void output_symtab(char*);
 
 
 /* extern int bytes_allocated; */
@@ -337,4 +338,3 @@ main(int argc, char **argv)
 	output_symtab (dname);	/* construct the .T file */
 	return (good_trans);		/* return 1 for error, 0 for good */
 }
-
