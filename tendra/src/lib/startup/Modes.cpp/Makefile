@@ -1,6 +1,6 @@
 # $TenDRA$
 
-DATA=	Makefile Xa Xc Xp Xs Xsystem Xt Xw
+DATA=	Xa Xc Xp Xs Xsystem Xt Xw
 
 .include "../Makefile.inc"
 
