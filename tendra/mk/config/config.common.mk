@@ -44,7 +44,6 @@ config-create:
 .else
 	cat ${SRC_DIR}/mk/misc/default.config.mk \
 	|sed ${SED_OPT_VAR} \
-	|sed ${SED_OPT_COND} \
 	> ${SRC_DIR}/config.mk
 	@echo "Config file created! You can find it at: ${SRC_DIR}/config.mk"
 .endif
