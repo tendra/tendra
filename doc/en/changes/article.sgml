@@ -92,6 +92,13 @@
           </row>
         </thead>
         <tbody>
+          <row>
+            <entry>20040904</entry>
+            <entry>Codebase</entry>
+            <entry>Imported generic, low-level TDF manipulation library
+              as part of libten. Converted tools, producers and
+	      installers to use library functions for TDF manipulations.</entry>
+          </row>
 	  <row>
 	    <entry>20040815</entry>
 	    <entry>Codebase</entry>
@@ -243,7 +250,7 @@
           <row>
             <entry>20040514</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>tspec</emphasis> to the libten platform.</entry>
+            <entry>Converted tspec to the libten platform.</entry>
           </row>
           <row>
             <entry>20040512</entry>
@@ -259,7 +266,7 @@
           <row>
             <entry>20040421</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>tcc</emphasis> to the libten platform.</entry>
+            <entry>Converted tcc to the libten platform.</entry>
           </row>
           <row>
             <entry>20040410</entry>
@@ -272,7 +279,7 @@
           <row>
             <entry>20040407</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>disp</emphasis> to the libten platform.</entry>
+            <entry>Converted disp to the libten platform.</entry>
           </row>
           <row>
             <entry>20040405</entry>
@@ -283,7 +290,7 @@
           <row>
             <entry>20040405</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>tld</emphasis> to the libten platform.</entry>
+            <entry>Converted tld to the libten platform.</entry>
           </row>
           <row>
             <entry>20040401</entry>
@@ -294,12 +301,12 @@
           <row>
             <entry>20040331</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>sid</emphasis> to the libten platform.</entry>
+            <entry>Converted sid to the libten platform.</entry>
           </row>
           <row>
             <entry>20040331</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>pl</emphasis> to the libten platform.</entry>
+            <entry>Converted pl to the libten platform.</entry>
           </row>
           <row>
             <entry>20040330</entry>
@@ -363,27 +370,26 @@
           <row>
             <entry>20040319</entry>
             <entry>Codebase</entry>
-            <entry>Removed the now obsolete
-              <emphasis>make_err</emphasis> utility.</entry>
+            <entry>Removed the now obsolete make_err utility.</entry>
           </row>
           <row>
             <entry>20040319</entry>
             <entry>Build</entry>
-            <entry>Our <emphasis>bmake</emphasis> now has noBuiltin set
+            <entry>Our bmake now has noBuiltin set
               to true, so that it doesn't look for a sys.mk on the
               system. A new -R switch restores the previous behaviour.</entry>
           </row>
           <row>
             <entry>20040314</entry>
             <entry>Codebase</entry>
-            <entry>Converted <emphasis>make_tdf</emphasis> to the libten
+            <entry>Converted make_tdf to the libten
               platform.</entry>
           </row>
           <row>
             <entry>20040314</entry>
             <entry>Build</entry>
-            <entry>Switched to the <emphasis>mkerr</emphasis> utility,
-              obsoleting <emphasis>mk_err</emphasis>.</entry>
+            <entry>Switched to the mkerr utility,
+              obsoleting make_err.</entry>
           </row>
           <row>
             <entry>20040311</entry>
