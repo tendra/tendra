@@ -14,8 +14,6 @@ LIBS =
 
 .include "../../../mk/tendra.compiler.mk"
 
-SHELL = /bin/sh
-
 # Dependencies and construction rules
 
 NAME = tuname
