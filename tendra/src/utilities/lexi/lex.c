@@ -141,11 +141,16 @@ read_char()
 /*
  *    TOKEN BUFFER
  *
- *    This buffer is used by read_token to hold the values of identifiers
- *    and strings.
+ *    This buffer is used by read_token to hold the values of
+ *    identifiers and strings.  The BUFF_SZ must be large enough to
+ *    hold a single token, usually around 32 characters for most
+ *    languages and purposes.  Since the buffer is also used to copy
+ *    the first_comment (copied into the output stream) the buffer is
+ *    sized generously to avoid costly string concatenations.  First
+ *    comments that exceed 2500 characters are allowed, however.
  */
-
-char token_buff [2000];
+#define BUFF_SZ 2500
+char token_buff [BUFF_SZ];
 static char *token_end = token_buff + sizeof (token_buff);
 char *first_comment = NULL;
 
@@ -227,6 +232,7 @@ static int
 read_comment()
 {
     int state = 0;
+	char *backing = NULL;
     char *t = token_buff;
     *(t++) = '/';
     *(t++) = '*';
@@ -244,10 +250,19 @@ read_comment()
 			state = 0;
 		}
 		*(t++) = (char) c;
-		if (t == token_end) t = token_buff + 2;
+		if (t == token_end) {
+			*t = '\0';
+			backing = xstrcat (backing, token_buff);
+			t = token_buff;
+		}
     }
-    *t = 0;
-    if (first_comment == NULL) first_comment = xstrcpy (token_buff);
+    *t = '\0';
+    if (first_comment == NULL) {
+		if (backing)
+			first_comment = xstrcat (backing, token_buff);
+		else
+			first_comment = xstrcpy (token_buff);
+	}
     return (read_token ());
 }
 
