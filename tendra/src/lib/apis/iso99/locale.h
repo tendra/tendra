@@ -25,11 +25,38 @@
 # $TenDRA$
 #
 
-$UNIQUE = 1;
-$VERSION ="1.0";
-+BASE_API;
+# 7.11
 
-+IMPLEMENT "ansi", "dummy/sys.h";
-+IMPLEMENT "iso99", "ctype.h";
-+IMPLEMENT "iso99", "limits.h";
-+IMPLEMENT "iso99", "locale.h";
++CONST int LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME;
+
++FIELD struct lconv{
+	char *decimal_point;
+	char *thousands_sep;
+	char *grouping;
+	char *mon_decimal_point;
+	char *mon_thousands_sep;
+	char *mon_grouping;
+	char *positive_sign;
+	char *negative_sign;
+	char *currency_symbol;
+	char frac_digits;
+	char p_cs_precedes;
+	char n_cs_precedes;
+	char p_sep_by_space;
+	char n_sep_by_space;
+	char p_sign_posn;
+	char n_sign_posn;
+	char *int_curr_symbol;
+	char int_frac_digits;
+	char int_p_cs_precedes;
+	char int_n_cs_precedes;
+	char int_p_sep_by_space;
+	char int_n_sep_by_space;
+	char int_p_sign_posn;
+	char int_n_sign_posn;
+};
+
+# 7.11.1.1
+
++FUNC char *setlocale(int, const char*);
++FUNC struct lconv *localeconv(void);
