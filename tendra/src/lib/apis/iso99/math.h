@@ -298,12 +298,12 @@
 
 # 7.12.9.5
 
-+FUNC double lint(double);
-+FUNC float lrintf(float);
-+FUNC long double lrintl(long double);
-+FUNC double llrint(double);
-+FUNC float llrintf(float);
-+FUNC long double llrintl(long double);
++FUNC long int lrint(double);
++FUNC long int lrintf(float);
++FUNC long int lrintl(long double);
++FUNC long long int llrint(double);
++FUNC long long int llrintf(float);
++FUNC long long int llrintl(long double);
 
 # 7.12.9.6
 
@@ -313,12 +313,12 @@
 
 # 7.12.9.7
 
-+FUNC double lround(double);
-+FUNC float lroundf(float);
-+FUNC long double lroundl(long double);
-+FUNC double llround(double);
-+FUNC float llroundf(float);
-+FUNC long double llroundl(long double);
++FUNC long int lround(double);
++FUNC long int lroundf(float);
++FUNC long int lroundl(long double);
++FUNC long long int llround(double);
++FUNC long long int llroundf(float);
++FUNC long long int llroundl(long double);
 
 # 7.12.9.8
 
