@@ -5543,342 +5543,1381 @@ return ( 0 );
   <appendix id='sum-pragma-statements'>
     <title>Summary of the pragma statements</title>
 
-    <orderedlist>
-      <listitem>
-        <para><emphasis>pragma_syntax</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-#pragma TenDRA <emphasis>tendra_pragma</emphasis>
-#pragma token <emphasis>token_pragma</emphasis>
-#pragma <emphasis>token_operation</emphasis>
-#pragma <emphasis>integer_pragma</emphasis>
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>tendra_pragma</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-begin -XREF-tdfc5.html#13==&gt;
-begin <emphasis>name</emphasis> environment <emphasis>identifier</emphasis>
-declaration block <emphasis>identifier</emphasis> begin -XREF-tdfc21.html#6==&gt;
-declaration block end -XREF-tdfc21.html#6==&gt;
-directory <emphasis>name</emphasis> use environment <emphasis>identifier</emphasis>
-use environment <emphasis>identifier</emphasis>
-end -XREF-tdfc5.html#13==&gt;
-<emphasis>analysis_spec</emphasis>
-<emphasis>function_pars</emphasis> -XREF-tdfc6.html#32==&gt;
-keyword <emphasis>identifier</emphasis> for <emphasis>keyword_spec</emphasis>
-type <emphasis>identifier</emphasis> for <emphasis>type_spec</emphasis>
-<emphasis>check_pragma</emphasis>
-<emphasis>variable_pragma</emphasis>
-<emphasis>dialect_pragma</emphasis>
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>analysis_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-complete struct/union analysis <emphasis>state</emphasis> -XREF-tdfc11.html#4==&gt;
-conversion <emphasis>conv_list</emphasis> allow -XREF-tdfc22.html#2==&gt;
-conversion analysis <emphasis>conversion_spec</emphasis> -XREF-tdfc6.html#2==&gt;
-discard analysis <emphasis>discard_spec</emphasis> -XREF-tdfc8.html#36==&gt;
-enum switch analysis <emphasis>state</emphasis> -XREF-tdfc11.html#2==&gt;
-fall into case <emphasis>permit</emphasis> -XREF-tdfc8.html#6==&gt;
-function pointer as pointer <emphasis>permit</emphasis> -XREF-tdfc6.html#11==&gt;
-integer operator analysis <emphasis>state</emphasis> -XREF-tdfc7.html#18==&gt;
-integer overflow analysis <emphasis>state</emphasis> -XREF-tdfc7.html#14==&gt;
-nested comment analysis <emphasis>state</emphasis> -XREF-tdfc10.html#45==&gt;
-operator precedence analysis <emphasis>state</emphasis> -XREF-tdfc8.html#15==&gt;
-unreachable code <emphasis>permit</emphasis> -XREF-tdfc8.html#2==&gt;
-variable analysis <emphasis>state</emphasis> -XREF-tdfc8.html#2==&gt;
-variable hiding analysis <emphasis>state</emphasis> -XREF-tdfc11.html#6==&gt;
-weak prototype analysis <emphasis>state</emphasis> -XREF-tdfc6.html#20==&gt;
-</programlisting>
-      </listitem>
+    <table frame="none" id='pragma-syntax'>
+      <title>pragma_syntax</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>#pragma TenDRA <emphasis>tendra_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>conversion_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-<emphasis>empty</emphasis>
-( int-int ) -XREF-tdfc6.html#5==&gt;
-( int-int explicit ) -XREF-tdfc6.html#5==&gt;
-( int-int implicit ) -XREF-tdfc6.html#5==&gt;
-( int-enum implicit) -XREF-tdfc6.html#5==&gt;
-(enum-int implicit) -XREF-tdfc6.html#5==&gt;
-( int-pointer ) -XREF-tdfc6.html#8==&gt;
-( int-pointer explicit ) -XREF-tdfc6.html#8==&gt;
-(int-pointer implicit ) -XREF-tdfc6.html#8==&gt;
-( pointer-int ) -XREF-tdfc6.html#8==&gt;
-( pointer-int explicit ) -XREF-tdfc6.html#8==&gt;
-( pointer-int implicit ) -XREF-tdfc6.html#8==&gt;
-( pointer-pointer ) -XREF-tdfc6.html#11==&gt;
-( pointer-pointer explicit ) -XREF-tdfc6.html#11==&gt;
-( pointer-pointer implicit ) -XREF-tdfc6.html#11==&gt;
-</programlisting>
-      </listitem>
+      <row>
+          <entry>#pragma token <emphasis>token_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>discard_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-<emphasis>empty</emphasis>
-( function return ) -XREF-tdfc8.html#38==&gt;
-( static ) -XREF-tdfc8.html#42==&gt;
-( value ) -XREF-tdfc8.html#40==&gt;
+      <row>
+          <entry>#pragma <emphasis>token_operation</emphasis></entry>
+          <entry></entry>
+      </row>
 
-</programlisting>
-      </listitem>
+      <row>
+          <entry>#pragma <emphasis>integer_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
 
-      <listitem>
-        <para><emphasis>function_pars</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-argument <emphasis>type_name</emphasis> as <emphasis>type_name</emphasis> -XREF-tdfc6.html#32==&gt;
-argument <emphasis>type_name</emphasis> as ... -XREF-tdfc6.html#32==&gt;
-extra ... <emphasis>permit</emphasis> -XREF-tdfc6.html#32==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>keyword_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-discard value -XREF-tdfc8.html#44==&gt;
-discard variable -XREF-tdfc8.html#26==&gt;
-exhaustive -XREF-tdfc8.html#32==&gt;
-fall into case -XREF-tdfc8.html#6==&gt;
-set -XREF-tdfc8.html#29==&gt;
-set reachable -XREF-tdfc8.html#2==&gt;
-set unreachable -XREF-tdfc8.html#2==&gt;
-type representation -XREF-tdfc7.html#4==&gt;
-weak -XREF-tdfc6.html#20==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>type_spec:</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-bottom -XREF-tdfc8.html#34==&gt;
-... printf -XREF-tdfc6.html#23==&gt;
-... scanf -XREF-tdfc6.html#23==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>check_pragma</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-implicit function declaration <emphasis>state</emphasis> -XREF-tdfc6.html#30==&gt;
-incompatible interface declaration <emphasis>permit</emphasis> -XREF-tdfc21.html#1==&gt;
-incompatible void return <emphasis>permit</emphasis> -XREF-tdfc6.html#25==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>variable_pragma</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-discard <emphasis>identifier</emphasis> <emphasis>separator</emphasis> -XREF-tdfc8.html#26==&gt;
-preserve <emphasis>identifier_list</emphasis> -XREF-tdfc8.html#46==&gt;
-set identifier <emphasis>separator</emphasis> -XREF-tdfc8.html#29==&gt;
-suspend static <emphasis>identifier_list</emphasis> -XREF-tdfc8.html#46==&gt;
-exhaustive -XREF-tdfc8.html#32==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>separator</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-;
-,
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>identifier_list</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-<emphasis>identifier</emphasis>
-<emphasis>identifier</emphasis> <emphasis>identifier_list</emphasis>
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>dialect_pragma</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-++ -XREF-tdfc10.html#56==&gt;
-assignment as bool <emphasis>permit</emphasis> -XREF-tdfc8.html#11==&gt;
-bitfield overflow <emphasis>permit</emphasis> -XREF-tdfc7.html#14==&gt;
-block function static <emphasis>permit</emphasis> -XREF-tdfc10.html#15==&gt;
-character <emphasis>set_sign</emphasis> -XREF-tdfc10.html#9==&gt;
-character escape overflow <emphasis>permit</emphasis> -XREF-tdfc7.html#14==&gt;
-compatible type : char * == void * : <emphasis>permit</emphasis> -XREF-tdfc6.html#11==&gt;
-conditional lvalue <emphasis>dallow</emphasis> -XREF-tdfc10.html#29==&gt;
-const conditional <emphasis>permit</emphasis> -XREF-tdfc8.html#13==&gt;
-dollar as ident <emphasis>dallow</emphasis> -XREF-tdfc10.html#39==&gt;
-directive <emphasis>pp_directive pp_spec</emphasis> -XREF-tdfc9.html#1==&gt;
-directive as macro argument <emphasis>permit</emphasis> -XREF-tdfc9.html#11==&gt;
-external volatile_t -XREF-tdfc10.html#23==&gt;
-extra ; <emphasis>permit</emphasis> -XREF-tdfc10.html#54==&gt;
-extra ; after conditional <emphasis>permit</emphasis> -XREF-tdfc8.html#9==&gt;
-extra , <emphasis>permit</emphasis> -XREF-tdfc10.html#52==&gt;
-extra bitfield int type <emphasis>permit</emphasis> -XREF-tdfc10.html#9==&gt;
-extra macro definition <emphasis>dallow</emphasis> -XREF-tdfc9.html#9==&gt;
-extra type definition <emphasis>permit</emphasis> -XREF-tdfc10.html#13==&gt;
-forward enum declaration <emphasis>dallow</emphasis> -XREF-tdfc10.html#19==&gt;
-floating point equality <emphasis>permit</emphasis> -XREF-tdfc11.html#8==&gt;
-ident ... <emphasis>permit</emphasis> -XREF-tdfc10.html#27==&gt;
-ignore struct/union/enum tag <emphasis>status</emphasis> -XREF-tdfc10.html#31==&gt;
-implicit int type for external declaration <emphasis>permit</emphasis> -XREF-tdfc10.html#7==&gt;
-implicit int type for function return <emphasis>permit</emphasis> -XREF-tdfc10.html#7==&gt;
-includes depth <emphasis>integral_constant</emphasis> -XREF-tdfc9.html#17==&gt;
-incompatible linkage <emphasis>permit</emphasis> -XREF-tdfc10.html#5==&gt;
-incompatible promoted function argument <emphasis>dallow</emphasis> -XREF-tdfc6.html#37==&gt;
-incompatible type qualifier <emphasis>dallow</emphasis> -XREF-tdfc6.html#39==&gt;
-incomplete type as object type <emphasis>permit</emphasis> -XREF-tdfc10.html#17==&gt;
-indented # directive <emphasis>permit</emphasis> -XREF-tdfc9.html#7==&gt;
-initialization of struct/union (auto) <emphasis>permit</emphasis> -XREF-tdfc10.html#33==&gt;
-linkage resolution : <emphasis>linkage_spec</emphasis> -XREF-tdfc10.html#1==&gt;
-longlong type <emphasis>permit</emphasis> -XREF-tdfc7.html#24==&gt;
-no directive/nline after ident <emphasis>permit</emphasis> -XREF-tdfc9.html#21==&gt;
-no external declaration <emphasis>permit</emphasis> -XREF-tdfc10.html#50==&gt;
-no ident after # <emphasis>permit</emphasis> -XREF-tdfc9.html#11==&gt;
-no nline after file end <emphasis>permit</emphasis> -XREF-tdfc9.html#23==&gt;
-prototype <emphasis>permit</emphasis> -XREF-tdfc6.html#17==&gt;
-prototype (weak) <emphasis>permit</emphasis> -XREF-tdfc6.html#20==&gt;
-set longlong type : <emphasis>type_name</emphasis> -XREF-tdfc7.html#24==&gt;
-set name limit <emphasis>integer_constant</emphasis> -XREF-tdfc10.html#25==&gt;
-set size_t : <emphasis>type_name</emphasis> <emphasis>-XREF-tdfc7.html#10==&gt;</emphasis>
-text after directive <emphasis>permit</emphasis> -XREF-tdfc9.html#19==&gt;
-unify external linkage <emphasis>status</emphasis> -XREF-tdfc10.html#1==&gt;
-unify incompatible string literal <emphasis>permit</emphasis> -XREF-tdfc10.html#43==&gt;
-unknown escape <emphasis>permit</emphasis> -XREF-tdfc10.html#36==&gt;
-unknown pragma <emphasis>permit</emphasis> -XREF-tdfc9.html#1==&gt;
-unknown struct/union <emphasis>dallow</emphasis> -XREF-tdfc10.html#21==&gt;
-unknown directive <emphasis>permit</emphasis> -XREF-tdfc9.html#1==&gt;
-unmatched quote <emphasis>permit</emphasis> -XREF-tdfc9.html#15==&gt;
-variable initialization <emphasis>dallow</emphasis> -XREF-tdfc10.html#35==&gt;
-weak macro equality <emphasis>permit</emphasis> -XREF-tdfc9.html#9==&gt;
-writeable string literal <emphasis>permit</emphasis> -XREF-tdfc10.html#41==&gt;
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>set_sign</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-signed
-unsign
-either
-</programlisting>
-      </listitem>
 
-      <listitem>
-        <para><emphasis>pp_directive</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-file
-ident
-assert
-unassert
-weak
-</programlisting>
-      </listitem>
+    <table frame="none" id='tendra-pragma'>
+      <title>tendra_pragma</title>
+      <tgroup cols="2">      
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>begin</entry>
+          <entry> -XREF-tdfc5.html#13==&gt;</entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>pp_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-allow
-warning
-(ignore) allow
-(ignore) warning
-</programlisting>
-      </listitem>
+      <row>
+          <entry>begin <emphasis>name</emphasis> environment <emphasis>identifier</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>linkage_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-(internal) on
-(internal) warning
-(external) on
-(external) warning
-off
-</programlisting>
-      </listitem>
+      <row>
+          <entry>declaration block <emphasis>identifier</emphasis> begin</entry>
+          <entry> -XREF-tdfc21.html#6==&gt;</entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>state</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-on
-warning
-off
-</programlisting>
-      </listitem>
+      <row>
+          <entry>declaration block end</entry>
+          <entry> -XREF-tdfc21.html#6==&gt;</entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>permit</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-allow
-warning
-disallow
-</programlisting>
-      </listitem>
+      <row>
+          <entry>directory <emphasis>name</emphasis> use environment <emphasis>identifier</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>dallow</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-allow
-disallow
-</programlisting>
-      </listitem>
+      <row>
+          <entry>use environment <emphasis>identifier</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>token_pragma</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-ARITHMETIC -XREF-tdfc20.html#13==&gt;
-DEFINE MEMBER
-EXP -XREF-tdfc20.html#3==&gt;
-FUNC -XREF-tdfc20.html#24==&gt;
-MEMBER -XREF-tdfc20.html#19==&gt;
-NAT -XREF-tdfc20.html#3==&gt;
-PROC -XREF-tdfc20.html#22==&gt;
-STATEMENT -XREF-tdfc20.html#6==&gt;
-STRUCT -XREF-tdfc20.html#16==&gt;
-TYPE -XREF-tdfc20.html#9==&gt;
-UNION -XREF-tdfc20.html#16==&gt;
-VARIETY -XREF-tdfc20.html#11==&gt;
-</programlisting>
-      </listitem>
+      <row>
+          <entry>end</entry>
+          <entry> -XREF-tdfc5.html#13==&gt;</entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>token_operation</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-define
-no_def
-extend
-ignore
-implement
-interface
-promote -XREF-tdfc22.html#4==&gt;
-</programlisting>
-      </listitem>
+      <row>
+          <entry><emphasis>analysis_spec</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>integer_pragma:</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-integer literal <emphasis>lit_class_type_list</emphasis> -XREF-tdfc17.html#2==&gt;
-</programlisting>
-      </listitem>
+      <row>
+          <entry><emphasis>function_pars</emphasis></entry>
+          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>lit_class_type_list:</emphasis></para>
-<programlisting linenumbering='unnumbered'>
-*<emphasis>int_type_spec</emphasis>
-integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis>
-</programlisting>
-      </listitem>
+      <row>
+          <entry>keyword <emphasis>identifier</emphasis> for <emphasis>keyword_spec</emphasis></entry>
+          <entry></entry>
+      </row>
 
-      <listitem>
-        <para><emphasis>int_type_spec</emphasis>:</para>
-<programlisting linenumbering='unnumbered'>
-<emphasis>type_name</emphasis>
-*warning<subscript><emphasis>opt</emphasis></subscript> : <emphasis>identifier</emphasis>
-** :
-</programlisting>
-      </listitem>
-    </orderedlist>
-  </appendix>
+      <row>
+          <entry>type <emphasis>identifier</emphasis> for <emphasis>type_spec</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry><emphasis>check_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry><emphasis>variable_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry><emphasis>dialect_pragma</emphasis></entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+
+
+
+
+    <table frame="none" id='analysis-spec'>
+      <title>analysis_spec</title>
+      <tgroup cols="2">      
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>complete struct/union analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc11.html#4==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>conversion <emphasis>conv_list</emphasis> allow</entry>
+          <entry> -XREF-tdfc22.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>conversion analysis <emphasis>conversion_spec</emphasis></entry>
+          <entry> -XREF-tdfc6.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>discard analysis <emphasis>discard_spec</emphasis></entry>
+          <entry> -XREF-tdfc8.html#36==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>enum switch analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc11.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>fall into case <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc8.html#6==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>function pointer as pointer <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>integer operator analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc7.html#18==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>integer overflow analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>nested comment analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc10.html#45==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>operator precedence analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc8.html#15==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unreachable code <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>variable analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>variable hiding analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc11.html#6==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>weak prototype analysis <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+
+    <table frame="none" id='conversion-spec'>
+      <title>conversion_spec</title>
+      <tgroup cols="2">      
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry><emphasis>empty</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>( int-int )</entry>
+          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( int-int explicit )</entry>
+          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( int-int implicit )</entry>
+          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( int-enum implicit)</entry>
+          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>(enum-int implicit)</entry>
+          <entry> -XREF-tdfc6.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( int-pointer )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( int-pointer explicit )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>(int-pointer implicit )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-int )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-int explicit )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-int implicit )</entry>
+          <entry> -XREF-tdfc6.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-pointer )</entry>
+          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-pointer explicit )</entry>
+          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( pointer-pointer implicit )</entry>
+          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+
+    <table frame="none" id='discard-spec'>
+      <title>discard_spec</title>
+      <tgroup cols="2">      
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry><emphasis>empty</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>( function return )</entry>
+          <entry> -XREF-tdfc8.html#38==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( static )</entry>
+          <entry> -XREF-tdfc8.html#42==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>( value )</entry>
+          <entry> -XREF-tdfc8.html#40==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+    <table frame="none" id='function-pars'>
+      <title>function_pars</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>argument <emphasis>type_name</emphasis> as <emphasis>type_name</emphasis></entry>
+          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>argument <emphasis>type_name</emphasis> as ...</entry>
+          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra ... <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#32==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+    <table frame="none" id='keyword-spec'>
+      <title>keyword_spec</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>discard value</entry>
+          <entry> -XREF-tdfc8.html#44==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>discard variable</entry>
+          <entry> -XREF-tdfc8.html#26==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>exhaustive</entry>
+          <entry> -XREF-tdfc8.html#32==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>fall into case</entry>
+          <entry> -XREF-tdfc8.html#6==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set</entry>
+          <entry> -XREF-tdfc8.html#29==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set reachable</entry>
+          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set unreachable</entry>
+          <entry> -XREF-tdfc8.html#2==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>type representation</entry>
+          <entry> -XREF-tdfc7.html#4==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>weak</entry>
+          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='type-spec'>
+      <title>type_spec</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>bottom</entry>
+          <entry> -XREF-tdfc8.html#34==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>... printf</entry>
+          <entry> -XREF-tdfc6.html#23==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>... scanf</entry>
+          <entry> -XREF-tdfc6.html#23==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='check-pragma'>
+      <title>check_pragma</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>implicit function declaration <emphasis>state</emphasis></entry>
+          <entry> -XREF-tdfc6.html#30==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incompatible interface declaration <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc21.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incompatible void return <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#25==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='variable-pragma'>
+      <title>variable_pragma</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>discard <emphasis>identifier</emphasis> <emphasis>separator</emphasis></entry>
+          <entry> -XREF-tdfc8.html#26==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>preserve <emphasis>identifier_list</emphasis></entry>
+          <entry> -XREF-tdfc8.html#46==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set identifier <emphasis>separator</emphasis></entry>
+          <entry> -XREF-tdfc8.html#29==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>suspend static <emphasis>identifier_list</emphasis></entry>
+          <entry> -XREF-tdfc8.html#46==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>exhaustive</entry>
+          <entry> -XREF-tdfc8.html#32==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+    <table frame="none" id='separator'>
+      <title>separator</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>;</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>,</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='identifier-list'>
+      <title>identifier_list</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry><emphasis>identifier</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry><emphasis>identifier</emphasis> <emphasis>identifier_list</emphasis></entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+
+    <table frame="none" id='dialect-pragma'>
+      <title>dialect_pragma</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>++</entry>
+          <entry> -XREF-tdfc10.html#56==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>assignment as bool <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc8.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>bitfield overflow <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>block function static <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#15==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>character <emphasis>set_sign</emphasis></entry>
+          <entry> -XREF-tdfc10.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>character escape overflow <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc7.html#14==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>compatible type : char * == void * : <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>conditional lvalue <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc10.html#29==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>const conditional <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc8.html#13==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>dollar as ident <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc10.html#39==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>directive <emphasis>pp_directive pp_spec</emphasis></entry>
+          <entry> -XREF-tdfc9.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>directive as macro argument <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>external volatile_t</entry>
+          <entry> -XREF-tdfc10.html#23==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra ; <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#54==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra ; after conditional <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc8.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra , <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#52==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra bitfield int type <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra macro definition <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc9.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>extra type definition <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#13==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>forward enum declaration <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc10.html#19==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>floating point equality <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc11.html#8==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>ident ... <emphasis>permit</emphasis> </entry>
+          <entry>-XREF-tdfc10.html#27==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>ignore struct/union/enum tag <emphasis>status</emphasis></entry>
+          <entry> -XREF-tdfc10.html#31==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>implicit int type for external declaration <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#7==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>implicit int type for function return <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#7==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>includes depth <emphasis>integral_constant</emphasis></entry>
+          <entry> -XREF-tdfc9.html#17==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incompatible linkage <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#5==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incompatible promoted function argument <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc6.html#37==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incompatible type qualifier <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc6.html#39==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>incomplete type as object type <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#17==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>indented # directive <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#7==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>initialization of struct/union (auto) <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#33==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>linkage resolution : <emphasis>linkage_spec</emphasis></entry>
+          <entry> -XREF-tdfc10.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>longlong type <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc7.html#24==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>no directive/nline after ident <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#21==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>no external declaration <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#50==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>no ident after # <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#11==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>no nline after file end <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#23==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>prototype <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#17==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>prototype (weak) <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc6.html#20==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set longlong type : <emphasis>type_name</emphasis></entry>
+          <entry> -XREF-tdfc7.html#24==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set name limit <emphasis>integer_constant</emphasis></entry>
+          <entry> -XREF-tdfc10.html#25==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>set size_t : <emphasis>type_name</emphasis></entry>
+          <entry>-XREF-tdfc7.html#10==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>text after directive <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#19==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unify external linkage <emphasis>status</emphasis></entry>
+          <entry> -XREF-tdfc10.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unify incompatible string literal <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#43==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unknown escape <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#36==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unknown pragma <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unknown struct/union <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc10.html#21==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unknown directive <emphasis>permit</emphasis></entry>
+          <entry>-XREF-tdfc9.html#1==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>unmatched quote <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#15==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>variable initialization <emphasis>dallow</emphasis></entry>
+          <entry> -XREF-tdfc10.html#35==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>weak macro equality <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc9.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>writeable string literal <emphasis>permit</emphasis></entry>
+          <entry> -XREF-tdfc10.html#41==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='set-sign'>
+      <title>set_sign</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>signed</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>unsign</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>either</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='pp-directive'>
+      <title>pp_directive</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>file</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>ident</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>assert</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>unassert</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>weak</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='pp-spec'>
+      <title>pp_spec</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>allow</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>warning</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>(ignore) allow</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>(ignore) warning</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='linkage-spec'>
+      <title>linkage_spec</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>(internal) on</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>(internal) warning</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>(external) on</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>(external) warning</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>off</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='state'>
+      <title>state</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>on</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>warning</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>off</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='permit'>
+      <title>permit</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>allow</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>warning</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>disallow</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='dallow'>
+      <title>dallow</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>allow</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>disallow</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='token-pragma'>
+      <title>token_pragma</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>ARITHMETIC</entry>
+          <entry> -XREF-tdfc20.html#13==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>DEFINE MEMBER</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>EXP</entry>
+          <entry> -XREF-tdfc20.html#3==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>FUNC</entry>
+          <entry> -XREF-tdfc20.html#24==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>MEMBER</entry>
+          <entry> -XREF-tdfc20.html#19==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>NAT</entry>
+          <entry> -XREF-tdfc20.html#3==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>PROC</entry>
+          <entry> -XREF-tdfc20.html#22==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>STATEMENT</entry>
+          <entry> -XREF-tdfc20.html#6==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>STRUCT</entry>
+          <entry> -XREF-tdfc20.html#16==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>TYPE</entry>
+          <entry> -XREF-tdfc20.html#9==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>UNION</entry>
+          <entry> -XREF-tdfc20.html#16==&gt;</entry>
+      </row>
+
+      <row>
+          <entry>VARIETY</entry>
+          <entry> -XREF-tdfc20.html#11==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+
+    <table frame="none" id='token-operation'>
+      <title>token_operation</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>define</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>no_def</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>extend</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>ignore</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>implement</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>interface</entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>promote</entry>
+          <entry> -XREF-tdfc22.html#4==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+    <table frame="none" id='integer-pragma'>
+      <title>integer_pragma</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>integer literal <emphasis>lit_class_type_list</emphasis></entry>
+          <entry> -XREF-tdfc17.html#2==&gt;</entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+    <table frame="none" id='lit-class-type-list'>
+      <title>lit_class_type_list</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry>*<emphasis>int_type_spec</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis></entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
+
+
+    <table frame="none" id='int-type-spec'>
+      <title>int_type_spec</title>
+      <tgroup cols="2">
+      <thead>
+        <row>
+          <entry>statement</entry>
+          <entry>reference</entry>
+        </row>
+      </thead>
+      <tbody>
+      <row>
+          <entry><emphasis>type_name</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>*warning<subscript><emphasis>opt</emphasis></subscript> : <emphasis>identifier</emphasis></entry>
+          <entry></entry>
+      </row>
+
+      <row>
+          <entry>** :</entry>
+          <entry></entry>
+      </row>
+      </tbody>
+      </tgroup>
+    </table>   
+
+
+
 
   <appendix id='dump-format-spec'>
     <title>Dump format specification</title>
@@ -8436,5 +9475,3 @@ i=pip;
     </sect1>
   </appendix>
 </book>
-
-
