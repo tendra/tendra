@@ -45,6 +45,10 @@
 
 BASE_DIR=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
+ENV=		src/lib/env
+STARTUP=	src/lib/startup
+TOOLS=		src/tools
+UTILITIES=	src/utilities
 
 PREFIX?=	/usr/local
 PUBLIC_BIN=	${PREFIX}/bin
