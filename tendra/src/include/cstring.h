@@ -29,6 +29,8 @@
 #ifndef TEN_CSTRING_H
 #define	TEN_CSTRING_H
 
+#include <stddef.h>
+
 #define	cstring_equal(s1, s2)		(strcmp ((s1), (s2)) == 0)
 #define	cstring_ci_equal(s1, s2)	(strcasecmp ((s1), (s2)) == 0)
 
