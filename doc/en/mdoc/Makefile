@@ -26,6 +26,7 @@ MAN=		calculus.1 \
 		sid.1 \
 		tcc.1 \
 		tccenv.5 \
+		tchk.1 \
 		tcpplus.1 \
 		tdfc2.1 \
 		tld.1 \
