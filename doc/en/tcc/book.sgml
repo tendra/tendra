@@ -7,6 +7,8 @@
 "../manpages/tcc/manpage.sgml">
 <!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
 %man;
+<!ENTITY % trademarks PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN">
+%trademarks;
 ]>
 
 <book>
@@ -45,6 +47,16 @@
     &bookinfo.legalnotice;
 
     &bookinfo.legalnotice-crown;
+
+    <legalnotice id="trademarks" role="trademarks">
+      &tm-attrib.dec;
+      &tm-attrib.hp;
+      &tm-attrib.mips;
+      &tm-attrib.next;
+      &tm-attrib.opengroup;
+      &tm-attrib.sun;
+      &tm-attrib.sparc;
+    </legalnotice>
 
   </bookinfo>
 
@@ -824,7 +836,7 @@
   	MACHINE		the target machine type (see section 4.2),
   	PORTABILITY	the producer portability table (see section 5.1.3),
   	TEMP		the default temporary directory (see section 6.4),
-  	VERSION		the target machine version (Mips only, see section 5.3.4).
+  	VERSION		the target machine version (&mips; only, see section 5.3.4).
       </screen>
     </para>
 
@@ -921,12 +933,12 @@
         importantly, the system linker is also expressed using
         environments.  The only target dependencies for which the
         machine type needs to be known are genuine aberrations. For
-        example, the TDF to Mips translator and the Mips assembler are
+        example, the TDF to &mips; translator and the &mips; assembler are
         completely different from most other translator-assembler pairs
         in that they pass two files, a <command>.G</command> and a
         <command>.T</command> file, between them, rather than the more
         normal single <command>.s</command> file. Thus it is important
-        for <command>tcc</command> to know that the machine type is Mips
+        for <command>tcc</command> to know that the machine type is &mips;
         in this case (see section 5.3.4 for more details).</para>
     </sect1>
  
@@ -1561,14 +1573,14 @@
             MS-DOS.</para>
           </listitem>
 
-          <listitem><para>The TDF --&gt; Sparc (Version 7) translator
+          <listitem><para>The TDF --&gt; &sparc; (Version 7) translator
             is called <command>sparctrans </command>. This again
             exists in two versions, one running on SVR4.2 and one on
-            SunOS and Solaris 1. These versions again differ primarily
+            &sunos; and &solaris; 1. These versions again differ primarily
             in the symbolic debugger supported.</para>
           </listitem>
      
-          <listitem><para>The TDF --&gt; Mips (R2000/R3000,
+          <listitem><para>The TDF --&gt; &mips; (R2000/R3000,
             little-endian) translator is called
             <command>mipstrans</command>. This differs from the other
             translators in that instead of outputting a single
@@ -1577,16 +1589,16 @@
             table file (with a <command>.T</command> suffix). This is
             discussed in more detail below.
             <command>mipstrans</command> runs on Ultrix, but again has
-            two versions. One runs on Ultrix 4.1 and earlier, the
+            two versions. One runs on &ultrix; 4.1 and earlier, the
             other on 4.2 and later. This necessary because of a change
             in the format of the binasm file between these two
             releases.</para>
           </listitem>
      
           <listitem><para>The TDF --&gt; 68030/68040 translator also
-            exists in two versions.  One runs on HP-UX and is called
-            <command>hptrans</command>; the other runs on NeXTStep and
-            is called <command>nexttrans</command> (however the NeXT
+            exists in two versions.  One runs on &hp-ux; and is called
+            <command>hptrans</command>; the other runs on &nextstep and
+            is called <command>nexttrans</command> (however the &next
             is not a supported platform because of its lack of
             standard API coverage).  These differ, not only in the
             symbolic debugger supported, but also in the format of the
@@ -1695,15 +1707,15 @@
       </sect2>
 
       <sect2 id='mips-trans-asm'>
-        <title>The Mips Translator and Assembler</title>
+        <title>The &mips; Translator and Assembler</title>
 
-        <para>As has been mentioned, the TDF --&gt; Mips translator, <command>mipstrans</command>
+        <para>As has been mentioned, the TDF --&gt; &mips; translator, <command>mipstrans</command>
         is genuinely exceptional in that it outputs a pair of files for each
         input TDF capsule, rather than a single assembly source file. The
         general scheme is shown in Fig. 5.</para>
 
       <figure id="mips-filese">
-        <title>MIPS Compilation Path</title>
+        <title>&mips; Compilation Path</title>
           <mediaobject>
             <imageobject>
               <imagedata fileref="mips_files" format="PNG">
@@ -1729,7 +1741,7 @@
           <option>-S</option>. The two main
           <command>mipstrans</command> output files,
           <command>a.G</command> and <command>a.T</command>, are then
-          transformed by the auxiliary Mips assembler,
+          transformed by the auxiliary &mips; assembler,
           <command>as1</command>, into a binary object file,
           <command>a.o</command>.</para>
 
@@ -1743,7 +1755,7 @@
           way.  The information lost from the symbol table in this
           process is only important when symbolic debugging
           information is required. Input <command>.s</command> files
-          are translated into binary object files by the main Mips
+          are translated into binary object files by the main &mips;
           assembler, <command>as</command>, in the normal way.</para>
 
         <para>So, in addition to the main assembler, which is given by
@@ -1769,7 +1781,7 @@
         of least interest to normal users. The assembler translates an
         assembly source (or <command>.s</command>) file into a binary
         object (or <command>.o</command>) file. (The exception to this
-        is the Mips auxiliary assembler discussed above.) Most
+        is the &mips; auxiliary assembler discussed above.) Most
         assemblers are straight translation phases, although some also
         offer peephole optimisation and scheduling facilities. No
         <command>tcc</command> command-line options are directly
@@ -2374,12 +2386,12 @@
             <row>
               <entry>.G</entry>
               <entry>G</entry>
-              <entry>Binasm source file (Mips only)</entry>
+              <entry>Binasm source file (&mips; only)</entry>
             </row>
             <row>
               <entry>.T</entry>
               <entry>T</entry>
-              <entry>Assembler symbol table (Mips only)</entry>
+              <entry>Assembler symbol table (&mips; only)</entry>
             </row>
             <row>
               <entry>other</entry>
@@ -2582,13 +2594,13 @@
               <entry><command>mipstrans</command></entry>
               <entry>t</entry>
               <entry>.t &rarr .G + .T</entry>
-              <entry><literal>TDF</literal> to Mips translator</entry>
+              <entry><literal>TDF</literal> to &mips; translator</entry>
             </row>
             <row>
               <entry><command>asl</command></entry>
               <entry>A</entry>
               <entry>.G + .T &rarr .o</entry>
-              <entry>Auxiliary assembler (Mips only)</entry>
+              <entry>Auxiliary assembler (&mips; only)</entry>
             </row>
             <row>
               <entry><command>cc</command></entry>
@@ -2822,7 +2834,7 @@
              </row>
              <row>
                <entry>motif</entry>
-               <entry>Motif 1.1</entry>
+               <entry>&motif; 1.1</entry>
                <entry>extension API</entry>
              </row>
              <row>
@@ -2891,7 +2903,7 @@
              </row>
              <row>
                <entry><literal>*AS1</literal></entry>
-               <entry>modifies the auxiliary assembler executable (Mips only)</entry>
+               <entry>modifies the auxiliary assembler executable (&mips; only)</entry>
              </row>
              <row>
                <entry><literal>*CC</literal></entry>
@@ -3051,7 +3063,7 @@
              </row>
              <row>
                <entry><literal>+VERSION</literal></entry>
-               <entry>sets the target machine version (Mips only)</entry>
+               <entry>sets the target machine version (&mips; only)</entry>
              </row>
            </tbody>
          </tgroup>
