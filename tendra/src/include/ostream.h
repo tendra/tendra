@@ -219,6 +219,8 @@ typedef struct OStreamT {
 	const char *	name;
 	unsigned	line;
 	unsigned	column;
+	const char *	gen_name;
+	int		no;
 } OStreamT, *OStreamP;
 
 /*
@@ -238,6 +240,7 @@ void	ostream_unbuffer(OStreamP);
 void	ostream_close(OStreamP);
 void	ostream_flush(OStreamP);
 const char *ostream_name(OStreamP);
+const char *ostream_gen_name(OStreamP);
 unsigned ostream_line(OStreamP);
 unsigned ostream_column(OStreamP);
 void	ostream_unput(OStreamP, unsigned);

@@ -71,7 +71,9 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "cstring.h"
 #include "fmm.h"
 #include "msgcat.h"
 #include "ostream.h"
@@ -86,11 +88,11 @@
  * Standard output streams mapped to stdout and stderr
  */
 static OStreamT	ostream_output_1 = {
-	NULL, "<stdout>", 1
+	NULL, "<stdout>", 1, 0, NULL, 0
 };
 
 static OStreamT	ostream_error_1 = {
-	NULL, "<stderr>", 1
+	NULL, "<stderr>", 1, 0, NULL, 0
 };
 
 OStreamT *const ostream_output = &ostream_output_1;
@@ -129,10 +131,21 @@ ostream_init(OStreamP ostream)
 BoolT
 ostream_open(OStreamP ostream, CStringP name)
 {
-	if ((ostream->file = fopen (name, "w")) == NULL) {
+	char *oname, *pname;
+
+	oname = name;
+	pname = strrchr (name, '@');
+
+	if (pname != NULL) {
+		oname = string_alloc (strlen (name) + 10);
+		(void) sprintf (oname, "%.*s%d%s", (int) (pname - name), name,
+						++ostream->no, pname + 1);
+	}
+	if ((ostream->file = fopen (oname, "w")) == NULL) {
 		return (FALSE);
 	}
-	ostream->name = name;
+	ostream->name = oname;
+	ostream->gen_name = name;
 	ostream->line = 1;
 	ostream->column = 0;
 	ostream_buffer(ostream);
@@ -178,6 +191,12 @@ const char*
 ostream_name(OStreamP ostream)
 {
 	return (ostream->name);
+}
+
+const char*
+ostream_gen_name(OStreamP ostream)
+{
+	return (ostream->gen_name);
 }
 
 unsigned
