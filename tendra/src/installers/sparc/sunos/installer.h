@@ -95,15 +95,15 @@ $Header$
 #ifdef __GNUC__
 #ifdef __sun__
 /* SunOS 4.1.3 doesn't have these in stdio.h */
-extern int fputs PROTO_S((const char *, FILE*));
-extern int fputc PROTO_S((int , FILE*));
-extern int fprintf PROTO_W((FILE*,const char*, ...));
-extern size_t fread PROTO_S((void*, size_t, size_t, FILE*));
-extern int fflush PROTO_S((FILE *));
-extern int fclose PROTO_S((FILE *));
-extern int fgetc PROTO_S((FILE *));
-extern int remove PROTO_S((const char *));
-extern void setbuf PROTO_S((FILE *, char *));
+extern int fputs(const char *, FILE*);
+extern int fputc(int , FILE*);
+extern int fprintf(FILE*, const char*, ...);
+extern size_t fread(void*, size_t, size_t, FILE*);
+extern int fflush(FILE *);
+extern int fclose(FILE *);
+extern int fgetc(FILE *);
+extern int remove(const char *);
+extern void setbuf(FILE *, char *);
 #endif
 #endif
 
