@@ -266,7 +266,7 @@ void	arg_std_version(char *, void *);
 /*--------------------------------------------------------------------------*/
 
 #define	AP_OPTION(snm, lnm, type, proc, closure, msgid) \
-	{(lnm), (snm), (type), (ArgProcP)(proc), (void*)(closure), (msgid)}
+	{(lnm), (snm), (type), (ArgProcP)(proc), (closure), (msgid)}
 
 #define	AP_OPT_EMPTY(name, snm, lnm, proc) \
 	AP_OPTION((snm), (lnm), AT_EMPTY, (proc), NULL, MID_description_of_##name)
@@ -296,6 +296,6 @@ void	arg_std_version(char *, void *);
 	AP_OPTION((snm), (lnm), AT_PROC_SWITCH, (proc), NULL, MID_description_of_##name)
 
 #define AP_OPT_EOL \
-	{NULL, '\0', (ArgTypeT) 0, (ArgProcP)NULL, NULL, 0}
+	{NULL, '\0', (ArgTypeT)0, NULL, NULL, 0}
 
 #endif /* !defined (H_ARG_PARSE) */
