@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -45,7 +78,7 @@
     This is the file from which the lexical routine read their input.
 */
 
-static FILE *lex_input ;
+static FILE *lex_input;
 
 
 /*
@@ -58,8 +91,8 @@ static FILE *lex_input ;
     required by the lexical analyser increases.
 */
 
-static int pending_buff [12] = { '?' } ;
-static int *pending = pending_buff ;
+static int pending_buff[12] = { '?' };
+static int *pending = pending_buff;
 
 
 /*
@@ -70,16 +103,16 @@ static int *pending = pending_buff ;
     in this file.
 */
 
-static int read_char PROTO_S ( ( void ) ) ;
-static int read_comment PROTO_S ( ( void ) ) ;
-static int read_identifier PROTO_S ( ( int ) ) ;
-static int read_number PROTO_S ( ( int ) ) ;
+static int read_char(void);
+static int read_comment(void);
+static int read_identifier(int);
+static int read_number(int);
 
-#define get_comment( A )	read_comment ()
-#define get_identifier( A )	read_identifier ( ( A ) )
-#define get_number( A )		read_number ( ( A ) )
-#define unknown_token( A )	lex_unknown
-#define unread_char( A )	*( ++pending ) = ( A )
+#define get_comment(A)		read_comment()
+#define get_identifier(A)	read_identifier((A))
+#define get_number(A)		read_number((A))
+#define unknown_token(A)	lex_unknown
+#define unread_char(A)		*(++pending) = (A)
 
 
 /*
@@ -98,19 +131,19 @@ static int read_number PROTO_S ( ( int ) ) ;
     or from the input file.
 */
 
-static int read_char
-    PROTO_Z ()
+static int
+read_char(void)
 {
-    int c ;
-    if ( pending != pending_buff ) {
-	c = *( pending-- ) ;
+    int c;
+    if (pending != pending_buff) {
+	c = *(pending--);
     } else {
-	c = fgetc ( lex_input ) ;
-	if ( c == '\n' ) crt_line_no++ ;
-	if ( c == EOF ) return ( LEX_EOF ) ;
-	c &= 0xff ;
+	c = fgetc(lex_input);
+	if (c == '\n') crt_line_no++;
+	if (c == EOF) return(LEX_EOF);
+	c &= 0xff;
     }
-    return ( c ) ;
+    return(c);
 }
 
 
@@ -121,10 +154,10 @@ static int read_char
     Similarly token_value is used to hold the values of numbers.
 */
 
-char token_buff [2000] ;
-static char *token_end = token_buff + sizeof ( token_buff ) ;
-char *first_comment = NULL ;
-unsigned token_value = 0 ;
+char token_buff[2000];
+static char *token_end = token_buff + sizeof(token_buff);
+char *first_comment = NULL;
+unsigned token_value = 0;
 
 
 /*
@@ -134,27 +167,26 @@ unsigned token_value = 0 ;
     corresponding lexical token.  Keywords are dealt with locally.
 */
 
-static int read_identifier
-    PROTO_N ( ( a ) )
-    PROTO_T ( int a )
+static int
+read_identifier(int a)
 {
-    int c = a, cl ;
-    char *t = token_buff ;
+    int c = a, cl;
+    char *t = token_buff;
     do {
-	*( t++ ) = ( char ) c ;
-	if ( t == token_end ) error ( ERROR_FATAL, "Buffer overflow" ) ;
-	c = read_char () ;
-	cl = lookup_char ( c ) ;
-    } while ( is_alphanum ( cl ) ) ;
-    *t = 0 ;
-    unread_char ( c ) ;
+	*(t++) = (char)c;
+	if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
+	c = read_char();
+	cl = lookup_char(c);
+    } while (is_alphanum(cl));
+    *t = 0;
+    unread_char(c);
 
     /* Deal with keywords */
-    t = token_buff ;
-#define MAKE_KEYWORD( A, B )\
-    if ( streq ( t, ( A ) ) ) return ( B ) ;
+    t = token_buff;
+#define MAKE_KEYWORD(A, B)\
+    if (streq(t,(A))) return(B);
 #include "keyword.h"
-    return ( lex_name ) ;
+    return(lex_name);
 }
 
 
@@ -165,22 +197,21 @@ static int read_identifier
     a, has been read.  The number's value is stored in token_value.
 */
 
-static int read_number
-    PROTO_N ( ( a ) )
-    PROTO_T ( int a )
+static int
+read_number(int a)
 {
-    int c = a, cl ;
-    unsigned n = 0 ;
+    int c = a, cl;
+    unsigned n = 0;
     do {
-	unsigned m = 10 * n + ( unsigned ) ( c - '0' ) ;
-	if ( m < n ) error ( ERROR_SERIOUS, "Number overflow" ) ;
-	n = m ;
-	c = read_char () ;
-	cl = lookup_char ( c ) ;
-    } while ( is_digit ( cl ) ) ;
-    unread_char ( c ) ;
-    token_value = n ;
-    return ( lex_number ) ;
+	unsigned m = 10 * n + (unsigned)(c - '0');
+	if (m < n) error(ERROR_SERIOUS, "Number overflow");
+	n = m;
+	c = read_char();
+	cl = lookup_char(c);
+    } while (is_digit(cl));
+    unread_char(c);
+    token_value = n;
+    return(lex_number);
 }
 
 
@@ -191,31 +222,31 @@ static int read_number
     initial hash character has been read.
 */
 
-static int read_comment
-    PROTO_Z ()
+static int
+read_comment(void)
 {
-    int c ;
-    char *t = token_buff ;
+    int c;
+    char *t = token_buff;
     do {
-	*( t++ ) = ' ' ;
-	if ( t == token_end ) t = token_buff ;
-	*( t++ ) = '*' ;
-	if ( t == token_end ) t = token_buff ;
+	*(t++) = ' ';
+	if (t == token_end) t = token_buff;
+	*(t++) = '*';
+	if (t == token_end) t = token_buff;
 	do {
-	    c = read_char () ;
-	    if ( c == LEX_EOF ) {
-		error ( ERROR_SERIOUS, "End of file in comment" ) ;
-		return ( lex_eof ) ;
+	    c = read_char();
+	    if (c == LEX_EOF) {
+		error(ERROR_SERIOUS, "End of file in comment");
+		return(lex_eof);
 	    }
-	    *( t++ ) = ( char ) c ;
-	    if ( t == token_end ) t = token_buff ;
-	} while ( c != '\n' ) ;
-	c = read_char () ;
-    } while ( c == '#' ) ;
-    unread_char ( c ) ;
-    *t = 0 ;
-    if ( first_comment == 0 ) first_comment = xstrcpy ( token_buff ) ;
-    return ( read_token () ) ;
+	    *(t++) = (char)c;
+	    if (t == token_end) t = token_buff;
+	} while (c != '\n');
+	c = read_char();
+    } while (c == '#');
+    unread_char(c);
+    *t = 0;
+    if (first_comment == 0) first_comment = xstrcpy(token_buff);
+    return(read_token());
 }
 
 
@@ -227,31 +258,30 @@ static int read_comment
     is reached.
 */
 
-static char *get_command
-    PROTO_N ( ( ps ) )
-    PROTO_T ( char **ps )
+static char *
+get_command(char **ps)
 {
-    char *t = *ps ;
-    char *s = t ;
-    if ( s ) {
-	char c ;
-	while ( c = *s, ( c == ' ' || c == '\t' || c == '\r' ) ) {
-	    *s = 0 ;
-	    s++ ;
+    char *t = *ps;
+    char *s = t;
+    if (s) {
+	char c;
+	while (c = *s,(c == ' ' || c == '\t' || c == '\r')) {
+	    *s = 0;
+	    s++;
 	}
-	if ( c == '#' || c == '\n' || c == 0 ) {
-	    *s = 0 ;
-	    *ps = NULL ;
-	    return ( NULL ) ;
+	if (c == '#' || c == '\n' || c == 0) {
+	    *s = 0;
+	    *ps = NULL;
+	    return(NULL);
 	}
-	t = s ;
-	while ( c = *s, !( c == ' ' || c == '\t' || c == '\r' ||
-			   c == '\n' || c == 0 ) ) {
-	    s++ ;
+	t = s;
+	while (c = *s, !(c == ' ' || c == '\t' || c == '\r' ||
+			   c == '\n' || c == 0)) {
+	    s++;
 	}
-	*ps = s ;
+	*ps = s;
     }
-    return ( t ) ;
+    return(t);
 }
 
 
@@ -261,132 +291,131 @@ static char *get_command
     This routine reads a template file from the current input file.
 */
 
-COMMAND read_template
-    PROTO_N ( ( p ) )
-    PROTO_T ( COMMAND p )
+COMMAND
+read_template(COMMAND p)
 {
-    int go = 1 ;
-    char buff [1000] ;
-    FILE *f = lex_input ;
-    int ln1 = crt_line_no ;
-    LIST ( COMMAND ) q = NULL_list ( COMMAND ) ;
+    int go = 1;
+    char buff[1000];
+    FILE *f = lex_input;
+    int ln1 = crt_line_no;
+    LIST(COMMAND)q = NULL_list(COMMAND);
     do {
-	COMMAND r = NULL_cmd ;
-	int ln2 = crt_line_no ;
-	char *s = fgets ( buff, 1000, f ) ;
-	if ( s == NULL ) {
+	COMMAND r = NULL_cmd;
+	int ln2 = crt_line_no;
+	char *s = fgets(buff, 1000, f);
+	if (s == NULL) {
 	    /* End of file */
-	    if ( IS_cmd_cond ( p ) ) {
-		error ( ERROR_SERIOUS, "End of '@if' expected" ) ;
-	    } else if ( IS_cmd_loop ( p ) ) {
-		error ( ERROR_SERIOUS, "End of '@loop' expected" ) ;
+	    if (IS_cmd_cond(p)) {
+		error(ERROR_SERIOUS, "End of '@if' expected");
+	    } else if (IS_cmd_loop(p)) {
+		error(ERROR_SERIOUS, "End of '@loop' expected");
 	    }
-	    break ;
+	    break;
 	}
-	s = xstrcpy ( s ) ;
-	if ( s [0] == '@' ) {
+	s = xstrcpy(s);
+	if (s[0] == '@') {
 	    /* Complex command */
-	    int complex = 1 ;
-	    char *s1, *s2, *s3 ;
-	    s++ ;
-	    s1 = get_command ( &s ) ;
-	    if ( s1 == NULL ) s1 = "<empty>" ;
-	    s2 = get_command ( &s ) ;
-	    s3 = get_command ( &s ) ;
-	    if ( streq ( s1, "if" ) ) {
-		if ( s2 == NULL ) {
-		    error ( ERROR_SERIOUS, "Incomplete '@%s' command", s1 ) ;
-		    s2 = "true" ;
+	    int complex = 1;
+	    char *s1, *s2, *s3;
+	    s++;
+	    s1 = get_command(&s);
+	    if (s1 == NULL) s1 = "<empty>";
+	    s2 = get_command(&s);
+	    s3 = get_command(&s);
+	    if (streq(s1, "if")) {
+		if (s2 == NULL) {
+		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    s2 = "true";
 		}
-		MAKE_cmd_cond ( ln2, s2, NULL_cmd, NULL_cmd, r ) ;
-	    } else if ( streq ( s1, "else" ) ) {
-		if ( IS_cmd_cond ( p ) ) {
-		    COMMAND v = DEREF_cmd ( cmd_cond_true_code ( p ) ) ;
-		    if ( !IS_NULL_cmd ( v ) ) {
-			error ( ERROR_SERIOUS, "Duplicate '@%s' command", s1 ) ;
+		MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
+	    } else if (streq(s1, "else")) {
+		if (IS_cmd_cond(p)) {
+		    COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
+		    if (!IS_NULL_cmd(v)) {
+			error(ERROR_SERIOUS, "Duplicate '@%s' command", s1);
 		    }
-		    q = REVERSE_list ( q ) ;
-		    MAKE_cmd_compound ( ln1, q, v ) ;
-		    COPY_cmd ( cmd_cond_true_code ( p ), v ) ;
-		    q = NULL_list ( COMMAND ) ;
-		    ln1 = ln2 ;
+		    q = REVERSE_list(q);
+		    MAKE_cmd_compound(ln1, q, v);
+		    COPY_cmd(cmd_cond_true_code(p), v);
+		    q = NULL_list(COMMAND);
+		    ln1 = ln2;
 		} else {
-		    error ( ERROR_SERIOUS, "Misplaced '@%s' command", s1 ) ;
+		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
-		s3 = s2 ;
-	    } else if ( streq ( s1, "endif" ) ) {
-		if ( IS_cmd_cond ( p ) ) {
-		    go = 0 ;
+		s3 = s2;
+	    } else if (streq(s1, "endif")) {
+		if (IS_cmd_cond(p)) {
+		    go = 0;
 		} else {
-		    error ( ERROR_SERIOUS, "Misplaced '@%s' command", s1 ) ;
+		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
-		s3 = s2 ;
-	    } else if ( streq ( s1, "loop" ) ) {
-		if ( s2 == NULL ) {
-		    error ( ERROR_SERIOUS, "Incomplete '@%s' command", s1 ) ;
-		    s2 = "false" ;
+		s3 = s2;
+	    } else if (streq(s1, "loop")) {
+		if (s2 == NULL) {
+		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    s2 = "false";
 		}
-		MAKE_cmd_loop ( ln2, s2, NULL_cmd, r ) ;
-	    } else if ( streq ( s1, "end" ) ) {
-		if ( IS_cmd_loop ( p ) ) {
-		    go = 0 ;
+		MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
+	    } else if (streq(s1, "end")) {
+		if (IS_cmd_loop(p)) {
+		    go = 0;
 		} else {
-		    error ( ERROR_SERIOUS, "Misplaced '@%s' command", s1 ) ;
+		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
-		s3 = s2 ;
-	    } else if ( streq ( s1, "use" ) ) {
-		if ( s2 == NULL ) {
-		    error ( ERROR_SERIOUS, "Incomplete '@%s' command", s1 ) ;
-		    s2 = "all" ;
+		s3 = s2;
+	    } else if (streq(s1, "use")) {
+		if (s2 == NULL) {
+		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    s2 = "all";
 		}
-		MAKE_cmd_use ( ln2, s2, s3, r ) ;
-		if ( s3 ) s3 = get_command ( &s ) ;
-		complex = 0 ;
-	    } else if ( streq ( s1, "special" ) ) {
-		if ( s2 == NULL ) {
-		    error ( ERROR_SERIOUS, "Incomplete '@%s' command", s1 ) ;
-		    s2 = "<none>" ;
+		MAKE_cmd_use(ln2, s2, s3, r);
+		if (s3) s3 = get_command(&s);
+		complex = 0;
+	    } else if (streq(s1, "special")) {
+		if (s2 == NULL) {
+		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    s2 = "<none>";
 		}
-		MAKE_cmd_special ( ln2, s2, s3, r ) ;
-		if ( s3 ) s3 = get_command ( &s ) ;
-		complex = 0 ;
-	    } else if ( streq ( s1, "comment" ) ) {
-		s3 = NULL ;
+		MAKE_cmd_special(ln2, s2, s3, r);
+		if (s3) s3 = get_command(&s);
+		complex = 0;
+	    } else if (streq(s1, "comment")) {
+		s3 = NULL;
 	    } else {
-		error ( ERROR_SERIOUS, "Unknown command, '@%s'", s1 ) ;
-		s3 = NULL ;
+		error(ERROR_SERIOUS, "Unknown command, '@%s'", s1);
+		s3 = NULL;
 	    }
-	    if ( s3 ) {
-		error ( ERROR_SERIOUS, "End of '@%s' expected", s1 ) ;
+	    if (s3) {
+		error(ERROR_SERIOUS, "End of '@%s' expected", s1);
 	    }
-	    crt_line_no = ln2 + 1 ;
-	    if ( !IS_NULL_cmd ( r ) ) {
+	    crt_line_no = ln2 + 1;
+	    if (!IS_NULL_cmd(r)) {
 		/* Read body of command */
-		if ( complex ) {
-		    COMMAND u = read_template ( r ) ;
-		    if ( IS_cmd_cond ( r ) ) {
-			COMMAND v = DEREF_cmd ( cmd_cond_true_code ( r ) ) ;
-			if ( IS_NULL_cmd ( v ) ) {
-			    COPY_cmd ( cmd_cond_true_code ( r ), u ) ;
+		if (complex) {
+		    COMMAND u = read_template(r);
+		    if (IS_cmd_cond(r)) {
+			COMMAND v = DEREF_cmd(cmd_cond_true_code(r));
+			if (IS_NULL_cmd(v)) {
+			    COPY_cmd(cmd_cond_true_code(r), u);
 			} else {
-			    COPY_cmd ( cmd_cond_false_code ( r ), u ) ;
+			    COPY_cmd(cmd_cond_false_code(r), u);
 			}
-		    } else if ( IS_cmd_loop ( r ) ) {
-			COPY_cmd ( cmd_loop_body ( r ), u ) ;
+		    } else if (IS_cmd_loop(r)) {
+			COPY_cmd(cmd_loop_body(r), u);
 		    }
 		}
-		CONS_cmd ( r, q, q ) ;
+		CONS_cmd(r, q, q);
 	    }
 	} else {
 	    /* Simple command */
-	    MAKE_cmd_simple ( ln2, s, r ) ;
-	    CONS_cmd ( r, q, q ) ;
-	    crt_line_no = ln2 + 1 ;
+	    MAKE_cmd_simple(ln2, s, r);
+	    CONS_cmd(r, q, q);
+	    crt_line_no = ln2 + 1;
 	}
-    } while ( go ) ;
-    q = REVERSE_list ( q ) ;
-    MAKE_cmd_compound ( ln1, q, p ) ;
-    return ( p ) ;
+    } while (go);
+    q = REVERSE_list(q);
+    MAKE_cmd_compound(ln1, q, p);
+    return(p);
 }
 
 
@@ -397,8 +426,8 @@ COMMAND read_template
     lexical tokens.
 */
 
-int crt_lex_token ;
-int saved_lex_token ;
+int crt_lex_token;
+int saved_lex_token;
 
 
 /*
@@ -408,23 +437,22 @@ int saved_lex_token ;
     opened successfully.
 */
 
-int open_file
-    PROTO_N ( ( nm ) )
-    PROTO_T ( char *nm )
+int
+open_file(char *nm)
 {
-    crt_line_no = 1 ;
-    if ( nm == NULL || streq ( nm, "-" ) ) {
-	crt_file_name = "stdin" ;
-	lex_input = stdin ;
+    crt_line_no = 1;
+    if (nm == NULL || streq(nm, "-")) {
+	crt_file_name = "stdin";
+	lex_input = stdin;
     } else {
-	crt_file_name = nm ;
-	lex_input = fopen ( nm, "r" ) ;
-	if ( lex_input == NULL ) {
-	    error ( ERROR_SERIOUS, "Can't open input file, '%s'", nm ) ;
-	    return ( 0 ) ;
+	crt_file_name = nm;
+	lex_input = fopen(nm, "r");
+	if (lex_input == NULL) {
+	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+	    return(0);
 	}
     }
-    return ( 1 ) ;
+    return(1);
 }
 
 
@@ -434,10 +462,10 @@ int open_file
     This routine closes the current input file.
 */
 
-void close_file
-    PROTO_Z ()
+void
+close_file(void)
 {
-    FILE *f = lex_input ;
-    if ( f != stdin ) fclose_v ( f ) ;
-    return ;
+    FILE *f = lex_input;
+    if (f != stdin) fclose_v(f);
+    return;
 }
