@@ -10,7 +10,7 @@ SRC3=${SRC1}/construct
 SRC4=${SRC1}/output
 SRC5=${SRC1}/parse
 SRC7=${SRC1}/utility
-SPEC=${.CURDIR}../../lib/tdf/def_4_1.db
+SPEC=${.CURDIR}/../../lib/tdf/def_4_1.db
 
 # Standard variables
 
