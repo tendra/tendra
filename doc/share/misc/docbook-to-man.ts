@@ -2,7 +2,7 @@
 #
 #	docbook-to-man.ts
 #
-#	$TenDRA$
+#	$TenDRA: doc/share/misc/docbook-to-man.ts,v 1.1 2004/08/07 23:01:17 verm Exp $
 #
 #############################################################################
 #
@@ -55,9 +55,40 @@ Var:	procsubstep 0
 #   ####     #####     #####     #####     #####     #####     ####     #####     
 #
 GI:		REFENTRY
-StartText:	^.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n
+StartText:	^.\\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/>
+		^.\\" All rights reserved.
+		^.\\" 
+		^.\\" Redistribution and use in source and binary forms, with or without
+		^.\\" modification, are permitted provided that the following conditions
+		^.\\" are met:
+		^.\\" 1. Redistributions of source code must retain the above copyright
+		^.\\"    notice, this list of conditions and the following disclaimer.
+		^.\\" 2. Redistributions in binary form must reproduce the above copyright
+		^.\\"    notice, this list of conditions and the following disclaimer in the
+		^.\\"    documentation and/or other materials provided with the distribution.
+		^.\\" 
+		^.\\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+		^.\\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+		^.\\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+		^.\\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+		^.\\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+		^.\\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+		^.\\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+		^.\\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+		^.\\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+		^.\\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+		^.\\" SUCH DAMAGE.
+		^.\\"
+		^.\\" $TenDRA$
+		^.\\"
 		^.TH "${_followrel descendant REFENTRYTITLE 1000}"
-		"${_followrel descendant MANVOLNUM 1000}"^
+			"${_followrel descendant MANVOLNUM 1000}" "${date}"
+			"The TenDRA Project" "The TenDRA Project"
+		^.SH "NAME"
+		^.PP
+		^\\fB${_followrel descendant REFENTRYTITLE 1000}\\fP - ${_followrel descendant REFPURPOSE 1000}
+
+
 EndText:	^...\\" created by instant / docbook-to-man, ${date}^
 -
 #
@@ -75,7 +106,8 @@ Ignore:		all
 -
 #
 GI:		REFNAMEDIV
-StartText:	^.SH "NAME"^
+#StartText:	^.SH "NAME"^
+Ignore:		all
 -
 #
 GI:		REFDESCRIPTOR
@@ -282,12 +314,12 @@ EndText:	\\fR^
 #
 GI:		PARA
 Relation:	ancestor LISTITEM
-StartText:	^.IP "" 10^
+StartText:	^.IP "" 5^
 -
 #
 GI:		PARA
 Relation:	ancestor STEP
-StartText:	^.IP "" 10^
+StartText:	^.IP "" 5^
 -
 #
 GI:		PARA
@@ -826,7 +858,7 @@ GI:		VARLISTENTRY
 #
 GI:		TERM
 StartText:	^.IP "
-EndText:	" 10^
+EndText:	" 5^
 -
 #
 GI:		LISTITEM
