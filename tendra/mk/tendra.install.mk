@@ -39,7 +39,7 @@ install: _instmanpages
 .if !exists(${MACH_BASE}/env)
 	${MKDIR} -p ${MACH_BASE}/env
 .endif
-	cd ${OBJ_SDIR}
+	cd ${OBJ_SDIR};
 .for entry in ${ENVFILE}
 	${INSTALL} -m 644 ${OBJ_SDIR}/${entry} ${MACH_BASE}/env/${entry}
 .endfor
