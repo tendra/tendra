@@ -1,0 +1,15 @@
+# $TenDRA$
+
+Overview
+--------
+
+This is a gathering of links, possibly combined with explanation, which might
+be relevant, or not, to TenDRA and its further development.
+
+
+Links
+-----
+
+Common C++ ABI: http://www.codesourcery.com/cxx-abi/
+
+
