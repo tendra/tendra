@@ -35,7 +35,7 @@ _TENDRA_COMPILER_MK_=1
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
   TCCOPTS=
-  WARNS= -W -Wall -Wmissing-prototypes -Wstrict-prototypes
+  WARNS= -W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
   CCOPTS+= -ansi -pedantic -fno-builtin ${WARNS}
 # The Intel C Compiler.
 .elif ${CC} == "icc"
