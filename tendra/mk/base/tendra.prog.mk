@@ -27,6 +27,8 @@ make-subdir: ${MAIN_TARGETS}
 
 .if defined(HAVE_CONF)
 
+.include "tendra.config.mk"
+
 .if defined(USE_LIBTEN)
 .include "tendra.libten.mk"
 .endif
@@ -103,7 +105,6 @@ make-dir:
 .endfor
 .endif
 
-.include "tendra.config.mk"
 .include "tendra.version.mk"
 .include "tendra.def.mk"
 .include "tendra.sys.mk"

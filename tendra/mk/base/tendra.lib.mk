@@ -11,4 +11,6 @@ CLEANFILES+= ${SHLIB}
 
 ${SHLIB}: ${OBJS}
 	${BIN_AR} cr ${.TARGET} ${.ALLSRC}
+.if !defined(NO_RANLIB)
 	${BIN_RANLIB} ${.TARGET}
+.endif
