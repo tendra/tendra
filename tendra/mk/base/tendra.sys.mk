@@ -15,11 +15,12 @@ ECHODIR		?=	echo
 	${CC} ${CFLAGS} -c ${.IMPSRC}
 
 .c-tdf.c .h-tdf.h:
-	${MAKE_TDF} ${.CURDIR}/../../lib/tdf/def_4_1.db ${.IMPSRC} >\
+	${MAKE_TDF} ${SRC_DIR}/src/lib/tdf/def_4_1.db ${.IMPSRC} >\
 	${OBJ_DIR}/${.TARGET}
 
 .pl.j:
 	${PL} ${.IMPSRC} ${.TARGET} 
 
 .c.j:
-	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}
+#	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}
+	/usr/bin/env TCCOPTS="${TCC_OPTS} ${TCCFLAGS}" ${TCC} -o ${.TARGET} -c ${.IMPSRC}
