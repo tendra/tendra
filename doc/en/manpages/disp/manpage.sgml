@@ -1,0 +1,189 @@
+<refmeta>
+  <refentrytitle>disp</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="software">TenDRA</refmiscinfo>
+  <refmiscinfo class="date">$TenDRA$</refmiscinfo>
+  <refmiscinfo class="sectdesc">TenDRA</refmiscinfo>
+</refmeta>
+
+<refnamediv id='name'>
+ <refname>disp</refname>
+ <refpurpose>TDF pretty printer</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+  <cmdsynopsis>
+    <command>disp</command> 
+    <arg choice='opt'><replaceable>options</replaceable></arg>
+    <arg choice='plain'><replaceable>input-file</replaceable></arg>
+    <arg choice='opt'><replaceable>output-file</replaceable></arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1 id='description'>
+  <title>DESCRIPTION</title> 
+  <para><command>disp</command> translates the input TDF capsule, <emphasis>
+    input-file</emphasis> into a human-readable form, the layout of
+    which reflects the structure of the underlying TDF tree. If the <emphasis>
+    output-file</emphasis> argument is present, this is used for
+    output; otherwise the standard output is used.</para>
+
+  <para>Whenever possible the output of <command>disp</command> matches the
+    TDF specification. The most important exception is the use of asterisks
+    after a token name to indicate an application of that token. Also a dash
+    is used to indicate the absense of an optional argument and an ellipsis
+    (...) is used to indicate that a token's arguments have been skipped
+    rather than decoded (since the token was undeclared).</para>
+
+  <para>It is recommended that <command>disp</command> is invoked via
+    &man.tendra.tcc; using the <option>-disp</option> or the
+    <option>-disp_t</option> option. The <emphasis>-</emphasis>
+    <emphasis>opt</emphasis> flag can be passed to
+    <command>disp</command> by passing the flag
+    <option>-Wd,-</option><replaceable>opt</replaceable> to 
+    <emphasis>tcc</emphasis>.</para>
+</refsect1>
+
+<refsect1 id='options'>
+  <title>OPTIONS</title> 
+
+  <variablelist>
+    <varlistentry>
+      <term>"<option>-g</option>"</term> 
+      <listitem>
+        <para>Makes <command>disp</command> print any diagnostic
+          information units within the TDF capsule.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-n</option><replaceable>columns</replaceable></term> 
+      <listitem>
+        <para>Makes <command>disp</command> try to format its output to fit
+          into a page width of <emphasis>columns</emphasis>. The
+          default page width is 80.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-q</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> ignore the specified page width
+          and print its output with the minimum possible indentation. This
+          makes it run faster, but does not make the best use of the
+          available page width.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-r</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> continue after any errors. The
+          use of this flag is not recommended since anything read after an
+          error is likely to be of very little value.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> print its version number and
+          the version of the TDF specification it supports.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-A</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> decode all the units it
+          recognises (including diagnostic and linking units) within the TDF
+          capsule.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-D</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> print a simple binary dump of
+          the input file. This is intended for debugging purposes.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-E</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> report such information as the
+          number of external tags and tokens which it usually omits.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-S</option></term> 
+      <listitem>
+        <para>Because tokens may be defined in terms of other tokens and do
+          not need to be declared before they are defined,
+          <command>disp</command> makes two passes of all the token
+          definition units. In the first pass it extracts only the
+          declaration information, stepping over the main body of the
+          definition. On the second pass all the information is read. The
+          <option>-S</option> option makes <command>disp</command> skip the
+          first pass.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-T</option></term> 
+      <listitem>
+        <para>The skip pass described under the <option>-S</option> option
+          is usual done silently, without printing any information. This is
+          changed by the <option>-T</option> option.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-U</option></term> 
+
+      <listitem>
+        <para>Makes <command>disp</command> print the usage information
+          associated with the external tokens and tags and also any linkage
+          information units within the capsule.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-V</option></term> 
+      <listitem>
+        <para>By default <command>disp</command> attempts to rationalise
+          the TDF it reads. In particular it uses the external token and tag
+          names whenever possible, following the token and tag bindings to
+          find these, and makes up names for those tokens and tags which do
+          not have external names. The <option>-V</option> option makes it
+          not attempt any such rationalisation, but instead to output exactly
+          what it reads.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-W</option></term> 
+      <listitem>
+        <para>Makes <command>disp</command> issue a warning about every
+          token which is used before it is declared.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='diagnostics'>
+  <title>DIAGNOSTICS</title> 
+  <para>The error reports if the input file is not a legal TDF capsule are
+    intended to aid developers writing programs which produce TDF. Thus they
+    try to give all the information that may be required, including the
+    position within the input file that the error occurred.</para>
+</refsect1>
+
+<refsect1 id='seealso'>
+  <title>SEE ALSO</title> 
+
+  <para>&man.tendra.tcc;.</para>
+</refsect1>
