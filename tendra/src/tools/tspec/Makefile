@@ -11,7 +11,6 @@ API_DIR=${BASE_DIR}/src/lib/apis
 
 # Standard variables
 
-CC?=		tcc
 TCCOPTS=	-Yposix1 -Xs
 CCOPTS=		${TCCOPTS} -I${.CURDIR} -DINPUT_DIR=\"${API_DIR}\"\
 		 -DINCLUDE_DIR=\"${INCL_DIR}\" -DSRC_DIR=\"${SRC_DIR}\"

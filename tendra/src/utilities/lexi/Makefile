@@ -5,7 +5,6 @@ SRCX=${.CURDIR}/../shared
 
 # Standard variables
 
-CC?=		tcc
 TCCOPTS=	-Yansi -Xs
 CCOPTS=		${TCCOPTS} -I${.CURDIR} -I${SRCX}
 LIBS=

@@ -2,7 +2,6 @@
 
 # Standard variables
 
-CC?=		tcc
 TCCOPTS=	-Yxpg4 -Xs
 CCOPTS=		${TCCOPTS} -I${SRC}
 LIBS=
