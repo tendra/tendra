@@ -5,7 +5,7 @@
 CFLAGS=	-I${.CURDIR}/src
 
 TCC_OPTS=	-yTENDRA_BASEDIR=${OBJ_PREFIX}/ \
-		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/default-build \
+		-Y${OBJ_PREFIX}/lib/env/${BUILD_OS}/common/80x86/default-build \
 		-Ydefault.extra \
 		-Yc++ \
 		-J${SRC_DIR}/obj/lib/apis/lib/cpp \
