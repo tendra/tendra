@@ -1,12 +1,12 @@
 # $TenDRA$
 
-trans		680x0/sunos/main.c                A B C D E F   H I     L M   O P Q   S   U V W     Z 		    c           i     l     o     r                      
-
+trans		680x0/sunos/main.c                A B C D E F   H I     L M   O P Q       U V W X   Z 		    c           i     l     o     r                      
+                                                  ! ! ! ! ! !   ! !     ! !   ! ! !       ! ! ! !   !               !           !     !     !     !
 
 trans		80x86/common/trans.c              A B C D E F G H I J K   M N   P Q R   T U V W X   Z 		a b c d e f g   i j k               s         
                                                               +     ?       +           ?                         + + + + + +   +                   ?             
 
-trans		alpha/freebsd/driver.c            A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d                             s   u
+trans		alpha/freebsd/driver.c            A B C D E F   H I   K   M     P Q R     U V W X   Z 		      d                             s   u
                                                                                   +                                   +                             +   +
 
 trans		alpha/osf1/driver.c               A B C D E F   H I   K   M     P Q R S   U V W X   Z 		      d                             s   u
