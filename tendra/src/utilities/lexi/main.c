@@ -86,7 +86,7 @@ main(int argc, char **argv)
     char *output = NULL;
 
     /* Process arguments */
-    set_progname(argv [0], "1.1");
+    set_progname(argv [0], "1.2");
     for (a = 1; a < argc; a++) {
 	char *arg = argv [a];
 	if (arg [0] == '-' && arg [1]) {
