@@ -19,6 +19,7 @@ MACH_EXEC=	elf
 MACH_CPU=	80x86
 .endif
 
-TCC_OPTS+=	-f${SRC_DIR}/src/lib/machines/${BUILD_OS}/${MACH_CPU}/include/gcc_dependency.h
+# No longer needed
+#TCC_OPTS+=	-f${SRC_DIR}/src/lib/machines/${BUILD_OS}/${MACH_CPU}/include/gcc_dependency.h
 
 .include "config.common.mk"

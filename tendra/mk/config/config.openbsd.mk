@@ -23,6 +23,7 @@ MACH_CPU=      sparc
 MACH_CPU=      680x0
 .endif
 
-TCC_OPTS+=	-f${SRC_DIR}/src/lib/machines/${BUILD_OS}/${MACH_CPU}/include/gcc_dependency.h
+# No longer needed
+#TCC_OPTS+=	-f${SRC_DIR}/src/lib/machines/${BUILD_OS}/${MACH_CPU}/include/gcc_dependency.h
 
 .include "config.common.mk"

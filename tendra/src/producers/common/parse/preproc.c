@@ -2133,6 +2133,7 @@ read_preproc_dir(int act, int prev)
     update_column ();
     if (in_preproc_dir) preproc_loc = crt_loc;
     if (t != lex_identifier) {
+		if (!act) goto end_label;
 		if (t == lex_newline || t == lex_eof) {
 			/* Warn about empty directives */
 			report (preproc_loc, ERR_cpp_null ());
@@ -2179,13 +2180,15 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_error : {
 	    /* Deal with '#error' */
+		if (!act) goto end_label;
 	    report (preproc_loc, ERR_cpp_old (t));
-	    if (act) read_error (OPT_error);
+	    read_error (OPT_error);
 	    goto end_label;
 	}
 		
 	case lex_include : {
 	    /* Deal with '#include' */
+		if (!act) goto end_label;
 	    pp = read_include (act, t);
 	    return (pp);
 	}
@@ -2250,14 +2253,16 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_assert : {
 	    /* Deal with '#assert' (extension) */
-	    OPTION opt = option (OPT_ppdir_assert);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_assert);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_assert, 0);
 				report (preproc_loc, err);
 			}
-			if (act && !option (OPT_ppdir_assert_ignore)) {
+			if (!option (OPT_ppdir_assert_ignore)) {
 				read_assert (t);
 			}
 			goto end_label;
@@ -2267,14 +2272,16 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_file : {
 	    /* Deal with '#file' (extension) */
-	    OPTION opt = option (OPT_ppdir_file);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_file);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_file, 0);
 				report (preproc_loc, err);
 			}
-			if (act && !option (OPT_ppdir_file_ignore)) {
+			if (!option (OPT_ppdir_file_ignore)) {
 				read_location (t);
 			}
 			goto end_label;
@@ -2284,14 +2291,16 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_ident : {
 	    /* Deal with '#ident' (extension) */
-	    OPTION opt = option (OPT_ppdir_ident);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_ident);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_ident, 0);
 				report (preproc_loc, err);
 			}
-			if (act && !option (OPT_ppdir_ident_ignore)) {
+			if (!option (OPT_ppdir_ident_ignore)) {
 				read_ident (t);
 			}
 			goto end_label;
@@ -2302,7 +2311,9 @@ read_preproc_dir(int act, int prev)
 	case lex_import :
 	case lex_include_Hnext : {
 	    /* Deal with '#import' and '#include_next' (extension) */
-	    OPTION opt = option (OPT_ppdir_import);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_import);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
@@ -2320,14 +2331,16 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_unassert : {
 	    /* Deal with '#unassert' (extension) */
-	    OPTION opt = option (OPT_ppdir_unassert);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_unassert);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_unassert, 0);
 				report (preproc_loc, err);
 			}
-			if (act && !option (OPT_ppdir_unassert_ignore)) {
+			if (!option (OPT_ppdir_unassert_ignore)) {
 				read_unassert (t);
 			}
 			goto end_label;
@@ -2337,7 +2350,9 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_warning : {
 	    /* Deal with '#warning' (extension) */
-	    OPTION opt = option (OPT_ppdir_warning);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_warning);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
@@ -2354,14 +2369,16 @@ read_preproc_dir(int act, int prev)
 		
 	case lex_weak : {
 	    /* Deal with '#weak' (extension) */
-	    OPTION opt = option (OPT_ppdir_weak);
+		OPTION opt;
+		if (!act) goto end_label;
+	    opt = option (OPT_ppdir_weak);
 	    if (opt != OPTION_DISALLOW) {
 			if (opt != OPTION_ALLOW) {
 				err = ERR_pragma_cpp_known (t);
 				err = set_severity (err, OPT_ppdir_weak, 0);
 				report (preproc_loc, err);
 			}
-			if (act && !option (OPT_ppdir_weak_ignore)) {
+			if (!option (OPT_ppdir_weak_ignore)) {
 				read_weak (t);
 			}
 			goto end_label;
