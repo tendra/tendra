@@ -253,7 +253,7 @@ learned in parallel fortran (PFC) suggest that internal data
 representations are essential.  (This is perhaps a lesson that is
 being re-learned by gcc's rtl.)
 
-    Tendra uses a rather unique data representation format: the
+    TenDRA uses a rather unique data representation format: the
 Architecture Neutral Distribution Format (XANDF).  This andf
 representation is as rich as any other uniform common language.
 However, the andf format is also extensible in two explicit ways.
