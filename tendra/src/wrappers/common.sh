@@ -19,7 +19,7 @@ OPTS_DEFAULT=""
 # Execute -BIN_RUN- with our compiled options.
 
 if [ -n "$DEBUG" ]; then
-	${BIN_RUN} ${OPTS_DEFAULT} ${@+"$@"}
-else
 	-BIN_ECHO- ${BIN_RUN} ${OPTS_DEFAULT} ${@+"$@"}
+else
+	${BIN_RUN} ${OPTS_DEFAULT} ${@+"$@"}
 fi;
