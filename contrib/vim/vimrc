@@ -1,0 +1,14 @@
+" $TenDRA$
+
+set filetype=on
+syntax on
+
+augroup sidprog
+	" Remove all sidprog autocommands
+        autocmd!
+        autocmd BufNewFile,BufRead *.sid        set filetype=sid
+        autocmd BufNewFile,BufRead *.sid        set formatoptions=croql
+        autocmd BufNewFile,BufRead *.sid        set cindent
+        autocmd BufNewFile,BufRead *.sid        set cinoptions=t0(0+4
+        autocmd BufNewFile,BufRead *.sid        hi PreProc ctermfg=DarkCyan guifg=DarkCyan
+augroup END

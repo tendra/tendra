@@ -1,0 +1,6 @@
+$TenDRA$
+
+To use these syntax highlighting files with vim, create a $HOME/.vim
+directory.  In that directory create another directory called syntax.
+In the syntax directory place the .vim files.
+Then use the vimrc file to enhance your $HOME/.vimrc file with.
