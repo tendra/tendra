@@ -310,3 +310,18 @@
 +FUNC double round(double);
 +FUNC float roundf(float);
 +FUNC long double roundl(long double);
+
+# 7.12.9.7
+
++FUNC double lround(double);
++FUNC float lroundf(float);
++FUNC long double lroundl(long double);
++FUNC double llround(double);
++FUNC float llroundf(float);
++FUNC long double llroundl(long double);
+
+# 7.12.9.8
+
++FUNC double trunc(double);
++FUNC float truncf(float);
++FUNC long double trunalc(long double);
