@@ -109,11 +109,11 @@ int output_src_len = (int) sizeof (SRC_DIR);
 char *
 basename(char *nm)
 {
-    char *b = nm;
-    for (; *nm; nm++) {
+	char *b = nm;
+	for (; *nm; nm++) {
 		if (*nm == '/') b = nm + 1;
-    }
-    return (b);
+	}
+	return (b);
 }
 
 
@@ -127,14 +127,14 @@ basename(char *nm)
 char *
 dirname(char *nm)
 {
-    char *p, *end = null;
-    char *dir = string_copy (nm);
-    for (p = dir; *p; p++) {
+	char *p, *end = null;
+	char *dir = string_copy (nm);
+	for (p = dir; *p; p++) {
 		if (*p == '/') end = p;
-    }
-    if (end == null || end == dir) return (null);
-    *end = 0;
-    return (dir);
+	}
+	if (end == null || end == dir) return (null);
+	*end = 0;
+	return (dir);
 }
 
 
@@ -148,17 +148,17 @@ dirname(char *nm)
 char *
 relative(char *from, char *to, int n)
 {
-    char *s = buffer;
-    if (from == null) return (to);
-    if (to == null) return (from);
-    for (from = from + n; *from; from++) {
+	char *s = buffer;
+	if (from == null) return (to);
+	if (to == null) return (from);
+	for (from = from + n; *from; from++) {
 		if (*from == '/') {
 			IGNORE strcpy (s, "../");
 			s += 3;
 		}
-    }
-    IGNORE strcpy (s, to + n);
-    return (buffer);
+	}
+	IGNORE strcpy (s, to + n);
+	return (buffer);
 }
 
 
@@ -171,8 +171,8 @@ relative(char *from, char *to, int n)
 char *
 hack_name(char *nm, char *key)
 {
-    char *p = string_copy (nm), *q;
-    for (q = p; *q; q++) {
+	char *p = string_copy (nm), *q;
+	for (q = p; *q; q++) {
 		char c = *q;
 		if (isalpha (c) && isupper (c)) {
 			/* The second letter of key maps upper case letters */
@@ -189,8 +189,8 @@ hack_name(char *nm, char *key)
 			/* The first letter of key is the default */
 			*q = key [0];
 		}
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -205,10 +205,10 @@ hack_name(char *nm, char *key)
 char *
 token_name(char *nm)
 {
-    if (strneq (nm, HIDDEN_NAME, HIDDEN_LEN)) {
+	if (strneq (nm, HIDDEN_NAME, HIDDEN_LEN)) {
 		nm = string_concat ("~", nm + HIDDEN_LEN);
-    }
-    if (unique_names && crt_object) {
+	}
+	if (unique_names && crt_object) {
 		info *i = crt_object->u.u_info;
 		char *pfx = i->prefix;
 		if (pfx == null) {
@@ -216,8 +216,8 @@ token_name(char *nm)
 			i->prefix = pfx;
 		}
 		if (*pfx) return (string_printf ("%s.%s", pfx, nm));
-    }
-    return (nm);
+	}
+	return (nm);
 }
 
 
@@ -230,16 +230,16 @@ token_name(char *nm)
 char *
 token_prefix(char *api, char *file, char *subset)
 {
-    UNUSED (subset);
-    if (unique_names) {
+	UNUSED (subset);
+	if (unique_names) {
 		int n;
 		if (file == null) return (api);
 		IGNORE sprintf (buffer, "%s.%s", api, basename (file));
 		n = (int) strlen (buffer) - 2;
 		if (n >= 0 && buffer [n] == '.') buffer [n] = 0;
 		return (hack_name (buffer, "_Aa0."));
-    }
-    return (null);
+	}
+	return (null);
 }
 
 
@@ -253,16 +253,16 @@ token_prefix(char *api, char *file, char *subset)
 char *
 subset_name(char *api, char *file, char *subset)
 {
-    char *sn;
-    if (subset) {
+	char *sn;
+	if (subset) {
 		char *f = (file ? file : "");
 		sn = string_printf ("%s:%s:%s", api, f, subset);
-    } else if (file) {
+	} else if (file) {
 		sn = string_printf ("%s:%s", api, file);
-    } else {
+	} else {
 		sn = string_printf ("%s", api);
-    }
-    return (sn);
+	}
+	return (sn);
 }
 
 
@@ -276,18 +276,18 @@ subset_name(char *api, char *file, char *subset)
 char *
 include_name(char *dir, char *api, char *file, char *subset)
 {
-    char *nm;
-    if (subset) {
+	char *nm;
+	if (subset) {
 		char s [20];
 		IGNORE strncpy (s, subset, 18);
 		s [OUTPUT_LENGTH] = 0;
 		nm = string_printf (OUTPUT_SUBSET, dir, api, s);
-    } else if (file) {
+	} else if (file) {
 		nm = string_printf (OUTPUT_FILE, dir, api, file);
-    } else {
+	} else {
 		nm = string_printf (OUTPUT_API, dir, api);
-    }
-    return (nm);
+	}
+	return (nm);
 }
 
 
@@ -301,23 +301,23 @@ include_name(char *dir, char *api, char *file, char *subset)
 char *
 src_name(char *dir, char *api, char *file, char *subset)
 {
-    char *nm;
-    if (subset) {
+	char *nm;
+	if (subset) {
 		char s [20];
 		IGNORE strncpy (s, subset, 18);
 		s [OUTPUT_LENGTH] = 0;
 		nm = string_printf (SOURCE_SUBSET, dir, api, s);
-    } else if (file) {
+	} else if (file) {
 		int n;
 		nm = string_printf (SOURCE_FILE, dir, api, basename (file));
 		n = (int) strlen (nm) - 4;
 		if (n >= 0 && streq (nm + n, ".h.c")) {
 			IGNORE strcpy (nm + n, ".c");
 		}
-    } else {
+	} else {
 		nm = string_printf (SOURCE_API, dir, api);
-    }
-    return (nm);
+	}
+	return (nm);
 }
 
 
@@ -331,15 +331,15 @@ src_name(char *dir, char *api, char *file, char *subset)
 char *
 macro_name(char *pfx, char *api, char *file, char *subset)
 {
-    if (subset) {
+	if (subset) {
 		char *f = (file ? file : "");
 		IGNORE sprintf (buffer, "%s_%s_%s_%s", pfx, api, f, subset);
-    } else if (file) {
+	} else if (file) {
 		IGNORE sprintf (buffer, "%s_%s_%s", pfx, api, file);
-    } else {
+	} else {
 		IGNORE sprintf (buffer, "%s_%s", pfx, api);
-    }
-    return (hack_name (buffer, "_AA0"));
+	}
+	return (hack_name (buffer, "_AA0"));
 }
 
 
@@ -353,16 +353,16 @@ macro_name(char *pfx, char *api, char *file, char *subset)
 char *
 block_name(char *api, char *file, char *subset)
 {
-    char * pfx = (subset ? "subset" : "api");
-    if (file) {
+	char * pfx = (subset ? "subset" : "api");
+	if (file) {
 		int len;
 		IGNORE sprintf (buffer, "%s__%s__%s", pfx, api, file);
 		/* remove any trailing ".h" */
 		len = (int) strlen (buffer);
 		if (streq (buffer + len - 2, ".h"))
 			buffer [len - 2] = '\0';
-    } else {
+	} else {
 		IGNORE sprintf (buffer, "%s__%s", pfx, api);
-    }
-    return (hack_name (buffer, "_Aa0"));
+	}
+	return (hack_name (buffer, "_Aa0"));
 }

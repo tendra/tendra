@@ -103,7 +103,7 @@ int line_no = 1;
 void
 tspec_on_message(MSG_DATA *mp)
 {
-    switch (mp->usage) {
+	switch (mp->usage) {
 	case MSG_SEV_FATAL : {
 	    exit_status = EXIT_FAILURE;
 	    no_errors++;
@@ -119,7 +119,7 @@ tspec_on_message(MSG_DATA *mp)
 	    no_errors++;
 	    break;
 	}
-    }
+	}
 }
 
 
@@ -133,11 +133,11 @@ tspec_on_message(MSG_DATA *mp)
 char *
 string_printf(char *s, ...) /* VARARGS */
 {
-    va_list args;
-    va_start (args, s);
-    IGNORE vsprintf (buffer, s, args);
-    va_end (args);
-    return (string_copy (buffer));
+	va_list args;
+	va_start (args, s);
+	IGNORE vsprintf (buffer, s, args);
+	va_end (args);
+	return (string_copy (buffer));
 }
 
 
@@ -169,23 +169,23 @@ string_printf(char *s, ...) /* VARARGS */
 void
 create_dir(char *nm)
 {
-    struct stat st;
-    char *dir = dirname (nm);
-    if (dir == null) return;
-    if (stat (dir, &st) == 0) return;
+	struct stat st;
+	char *dir = dirname (nm);
+	if (dir == null) return;
+	if (stat (dir, &st) == 0) return;
 #ifdef ENOENT
-    if (errno != ENOENT) {
+	if (errno != ENOENT) {
 		MSG_illegal_directory (dir);
 		return;
-    }
+	}
 #endif
-    create_dir (dir);
-    if (verbose) IGNORE printf ("Creating directory, %s ...\n", dir);
-    if (mkdir (dir, DIRMODE)) {
+	create_dir (dir);
+	if (verbose) IGNORE printf ("Creating directory, %s ...\n", dir);
+	if (mkdir (dir, DIRMODE)) {
 		MSG_cant_create_directory (dir);
 		return;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -199,21 +199,21 @@ create_dir(char *nm)
 void
 check_name(char *nm)
 {
-    char *p;
-    int i = 0, n = 0;
-    for (p = nm; *p; p++) {
+	char *p;
+	int i = 0, n = 0;
+	for (p = nm; *p; p++) {
 		if (*p == '/') {
 			if (i > n) n = i;
 			i = 0;
 		} else {
 			i++;
 		}
-    }
-    if (i > n) n = i;
-    if (n > 14) {
+	}
+	if (i > n) n = i;
+	if (n > 14) {
 		MSG_path_component_too_long (nm, n);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -227,7 +227,7 @@ check_name(char *nm)
 time_t
 date_stamp(char *nm)
 {
-    struct stat st;
-    if (nm && stat (nm, &st) == 0) return (st.st_mtime);
-    return ((time_t) 0);
+	struct stat st;
+	if (nm && stat (nm, &st) == 0) return (st.st_mtime);
+	return ((time_t) 0);
 }

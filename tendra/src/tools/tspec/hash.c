@@ -93,17 +93,17 @@ hash_table *type_fields;
 void
 init_hash(void)
 {
-    buffer = xalloc (buffsize + 100);
-    exps = make_hash_table ("Expression");
-    files = make_hash_table ("Output file");
-    keywords = make_hash_table ("Keyword");
-    subsets = make_hash_table ("Set");
-    tags = make_hash_table ("Tag");
-    tag_fields = make_hash_table ("Field selector struct/union");
-    tokens = make_hash_table ("Token");
-    types = make_hash_table ("Type");
-    type_fields = make_hash_table ("Field selector");
-    return;
+	buffer = xalloc (buffsize + 100);
+	exps = make_hash_table ("Expression");
+	files = make_hash_table ("Output file");
+	keywords = make_hash_table ("Keyword");
+	subsets = make_hash_table ("Set");
+	tags = make_hash_table ("Tag");
+	tag_fields = make_hash_table ("Field selector struct/union");
+	tokens = make_hash_table ("Token");
+	types = make_hash_table ("Type");
+	type_fields = make_hash_table ("Field selector");
+	return;
 }
 
 
@@ -117,10 +117,10 @@ init_hash(void)
 static int
 hash(char *nm)
 {
-    char *s;
-    int n = 0;
-    for (s = nm; *s; s++) n += *s;
-    return (n % hash_size);
+	char *s;
+	int n = 0;
+	for (s = nm; *s; s++) n += *s;
+	return (n % hash_size);
 }
 
 
@@ -133,11 +133,11 @@ hash(char *nm)
 hash_table *
 make_hash_table(char *nm)
 {
-    int i;
-    hash_table *t = xalloc (sizeof (*t));
-    t->name = nm;
-    for (i = 0; i < hash_size; i++) t->array [i] = null;
-    return (t);
+	int i;
+	hash_table *t = xalloc (sizeof (*t));
+	t->name = nm;
+	for (i = 0; i < hash_size; i++) t->array [i] = null;
+	return (t);
 }
 
 
@@ -152,14 +152,14 @@ make_hash_table(char *nm)
 static object *
 lookup_hash(hash_table *t, char *nm, int v, int h)
 {
-    hash_elem *e = t->array [h];
-    while (e) {
+	hash_elem *e = t->array [h];
+	while (e) {
 		if (streq (nm, e->obj->name)) {
 			if (v == e->vers || v == any_version) return (e->obj);
 		}
 		e = e->next;
-    }
-    return (null);
+	}
+	return (null);
 }
 
 
@@ -174,11 +174,11 @@ lookup_hash(hash_table *t, char *nm, int v, int h)
 object *
 add_hash(hash_table *t, object *p, int v)
 {
-    hash_elem *e;
-    char *nm = p->name;
-    int h = hash (nm);
-    object *q = lookup_hash (t, nm, v, h);
-    if (q != null) {
+	hash_elem *e;
+	char *nm = p->name;
+	int h = hash (nm);
+	object *q = lookup_hash (t, nm, v, h);
+	if (q != null) {
 		char *fn = q->filename;
 		if (fn) {
 			MSG_name_already_defined_at(t->name, nm, fn, q->line_no);
@@ -186,13 +186,13 @@ add_hash(hash_table *t, object *p, int v)
 			MSG_name_already_defined(t->name, nm);
 		}
 		return (q);
-    }
-    e = xalloc (sizeof (*e));
-    e->obj = p;
-    e->vers = v;
-    e->next = t->array [h];
-    t->array [h] = e;
-    return (p);
+	}
+	e = xalloc (sizeof (*e));
+	e->obj = p;
+	e->vers = v;
+	e->next = t->array [h];
+	t->array [h] = e;
+	return (p);
 }
 
 
@@ -207,8 +207,8 @@ add_hash(hash_table *t, object *p, int v)
 object *
 search_hash(hash_table *t, char *nm, int v)
 {
-    int h = hash (nm);
-    return (lookup_hash (t, nm, v, h));
+	int h = hash (nm);
+	return (lookup_hash (t, nm, v, h));
 }
 
 
@@ -222,9 +222,9 @@ search_hash(hash_table *t, char *nm, int v)
 hash_elem *
 sort_hash(hash_table *t)
 {
-    int i;
-    hash_elem *r = null;
-    for (i = 0; i < hash_size; i++) {
+	int i;
+	hash_elem *r = null;
+	for (i = 0; i < hash_size; i++) {
 		hash_elem *p = t->array [i];
 		while (p) {
 			hash_elem *pn = p->next;
@@ -243,6 +243,6 @@ sort_hash(hash_table *t)
 			}
 			p = pn;
 		}
-    }
-    return (r);
+	}
+	return (r);
 }

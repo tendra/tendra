@@ -112,7 +112,7 @@ static int column = 0;
 static int
 is_tailed_type(type *t)
 {
-    if (t) {
+	if (t) {
 		switch (t->id) {
 	    case TYPE_ARRAY :
 	    case TYPE_BITFIELD :
@@ -120,8 +120,8 @@ is_tailed_type(type *t)
 			return (1);
 	    }
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -135,8 +135,8 @@ is_tailed_type(type *t)
 static int
 print_head(FILE *output, type *t, int sp, int tok)
 {
-    if (t == null) return (sp);
-    switch (t->id) {
+	if (t == null) return (sp);
+	switch (t->id) {
 	case TYPE_VOID :
 	case TYPE_INT :
 	case TYPE_SIGNED :
@@ -217,8 +217,8 @@ print_head(FILE *output, type *t, int sp, int tok)
 	    MSG_unknown_type_identifier (t->id);
 	    break;
 	}
-    }
-    return (sp);
+	}
+	return (sp);
 }
 
 
@@ -232,8 +232,8 @@ print_head(FILE *output, type *t, int sp, int tok)
 static void
 print_tail(FILE *output, type *t, int tok)
 {
-    if (t == null) return;
-    switch (t->id) {
+	if (t == null) return;
+	switch (t->id) {
 	case TYPE_LVALUE :
 	case TYPE_RVALUE :
 	case TYPE_QUALIFIER : {
@@ -278,8 +278,8 @@ print_tail(FILE *output, type *t, int tok)
 	    print_tail (output, t->u.subtype, tok);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -292,15 +292,15 @@ print_tail(FILE *output, type *t, int tok)
 void
 print_type(FILE *output, type *t, char *nm, int tok)
 {
-    if (t) {
+	if (t) {
 		int sp = print_head (output, t, 0, tok);
 		if (nm) {
 			if (sp) OUTC (output, ' ');
 			OUTS (output, nm);
 		}
 		print_tail (output, t, tok);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -314,27 +314,27 @@ print_type(FILE *output, type *t, char *nm, int tok)
 static void
 print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 {
-    char *tok, *tag;
-    object *q = t->v.obj2;
-    boolean show_token = 1, show_interface = 1;
-    boolean show_ignore = 1, show_defn = 1;
+	char *tok, *tag;
+	object *q = t->v.obj2;
+	boolean show_token = 1, show_interface = 1;
+	boolean show_ignore = 1, show_defn = 1;
 
-    /* Find the token type */
-    switch (t->id) EXHAUSTIVE {
+	/* Find the token type */
+	switch (t->id) EXHAUSTIVE {
 	case TYPE_STRUCT : tok = "STRUCT"; tag = ""; break;
 	case TYPE_STRUCT_TAG : tok = "STRUCT"; tag = "TAG "; break;
 	case TYPE_UNION : tok = "UNION"; tag = ""; break;
 	case TYPE_UNION_TAG : tok = "UNION"; tag = "TAG "; break;
-    }
+	}
 
-    /* Deal with undefined tokens immediately */
-    if (q == null) {
+	/* Deal with undefined tokens immediately */
+	if (q == null) {
 		OUT (output, "#pragma token %s %s%s # %s\n", tok, tag, nm, tnm);
 		return;
-    }
+	}
 
-    /* Deal with the various definition cases */
-    switch (t->state) {
+	/* Deal with the various definition cases */
+	switch (t->state) {
 	case 0 : {
 	    /* Definition is immediate */
 	    if (is_hidden (nm)) {
@@ -372,32 +372,32 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 	    }
 	    break;
 	}
-    }
+	}
 
-    /* Print the token if necessary */
-    if (show_token) {
+	/* Print the token if necessary */
+	if (show_token) {
 		OUT (output, "#pragma token %s %s%s # %s\n", tok, tag, nm, tnm);
-    }
+	}
 
-    /* Print the interface statement */
-    if (show_interface) {
+	/* Print the interface statement */
+	if (show_interface) {
 		char *b = BUILDING_MACRO;
 		OUT (output, "#ifdef %s\n", b);
 		OUT (output, "#pragma interface %s%s\n", tag, nm);
 		OUT (output, "#else /* %s */\n", b);
-    }
+	}
 
-    /* Print the ignore statement */
-    if (show_ignore) {
+	/* Print the ignore statement */
+	if (show_ignore) {
 		if (!show_interface) {
 			char *b = BUILDING_MACRO;
 			OUT (output, "#ifndef %s\n", b);
 		}
 		OUT (output, "#pragma ignore %s%s\n", tag, nm);
-    }
+	}
 
-    /* Print the type definition */
-    if (show_defn) {
+	/* Print the type definition */
+	if (show_defn) {
 		tok = (tok [0] == 'S' ? "struct" : "union");
 		if (*tag) {
 			OUT (output, "%s %s {\n", tok, nm);
@@ -416,14 +416,14 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 		} else {
 			OUT (output, "} %s;\n", nm);
 		}
-    }
+	}
 
-    /* Print the final #endif */
-    if (show_interface || show_ignore) {
+	/* Print the final #endif */
+	if (show_interface || show_ignore) {
 		char *b = BUILDING_MACRO;
 		OUT (output, "#endif /* %s */\n", b);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -437,11 +437,11 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 static void
 print_token_type(FILE *output, object *p, char *tnm)
 {
-    char *tok = "TYPE";
-    char *nm = p->name;
-    type *t = p->u.u_type;
-    int i = t->id;
-    switch (i) {
+	char *tok = "TYPE";
+	char *nm = p->name;
+	type *t = p->u.u_type;
+	int i = t->id;
+	switch (i) {
 
 	case TYPE_DEFINED : {
 	    /* Defined types */
@@ -559,8 +559,8 @@ print_token_type(FILE *output, object *p, char *tnm)
 	    MSG_unknown_type_identifier (i);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -574,8 +574,8 @@ print_token_type(FILE *output, object *p, char *tnm)
 static void
 print_token(FILE *output, object *p, char *tnm)
 {
-    char *nm = p->name;
-    switch (p->objtype) {
+	char *nm = p->name;
+	switch (p->objtype) {
 
 	case OBJ_CONST :
 	case OBJ_EXP : {
@@ -718,8 +718,8 @@ print_token(FILE *output, object *p, char *tnm)
 	    MSG_unknown_object_type (p->objtype);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -733,8 +733,8 @@ print_token(FILE *output, object *p, char *tnm)
  */
 
 typedef struct {
-    int dir;
-    char *nm;
+	int dir;
+	char *nm;
 } ifcmd;
 
 
@@ -748,11 +748,11 @@ typedef struct {
 static void
 print_ifs(FILE *output, ifcmd *ifs)
 {
-    ifcmd *p;
-    boolean changed;
+	ifcmd *p;
+	boolean changed;
 
-    /* Simplify the list of statements */
-    do {
+	/* Simplify the list of statements */
+	do {
 		ifcmd *q = null;
 		changed = 0;
 		for (p = ifs; p->dir != CMD_END; p++) {
@@ -789,11 +789,11 @@ print_ifs(FILE *output, ifcmd *ifs)
 				q = p;
 			}
 		}
-    } while (changed);
+	} while (changed);
 
-    /* Print the result */
-    if (column) OUTC (output, '\n');
-    for (p = ifs; p->dir != CMD_END; p++) {
+	/* Print the result */
+	if (column) OUTC (output, '\n');
+	for (p = ifs; p->dir != CMD_END; p++) {
 		switch (p->dir) {
 	    case CMD_IF : {
 			OUT (output, "#if %s\n", p->nm);
@@ -816,10 +816,10 @@ print_ifs(FILE *output, ifcmd *ifs)
 			break;
 	    }
 		}
-    }
-    column = 0;
-    ifs [0].dir = CMD_END;
-    return;
+	}
+	column = 0;
+	ifs [0].dir = CMD_END;
+	return;
 }
 
 
@@ -833,8 +833,8 @@ print_ifs(FILE *output, ifcmd *ifs)
 static void
 print_interface(FILE *output, object *p, ifcmd *ifs)
 {
-    char *nm = p->name;
-    switch (p->objtype) {
+	char *nm = p->name;
+	switch (p->objtype) {
 
 	case OBJ_CONST :
 	case OBJ_EXP :
@@ -932,10 +932,10 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	    nm = null;
 	    break;
 	}
-    }
+	}
 
-    /* Print the interface statement */
-    if (nm) {
+	/* Print the interface statement */
+	if (nm) {
 		int n = (int) strlen (nm) + 1;
 		if (ifs [0].dir != CMD_END) print_ifs (output, ifs);
 		if (column + n >= 60) {
@@ -946,8 +946,8 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 		OUTC (output, ' ');
 		OUTS (output, nm);
 		column += n;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -958,15 +958,15 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 static void
 print_include(FILE *output, char *nm, int on)
 {
-    object *p;
-    if (nm == null) return;
-    IGNORE sprintf (buffer, "%s[%s]", crt_info->src, nm);
-    if (search_hash (files, buffer, no_version)) return;
-    p = make_object (string_copy (buffer), OBJ_FILE);
-    p->u.u_file = null;
-    IGNORE add_hash (files, p, no_version);
-    if (on) OUT (output, "#include <%s>\n", nm);
-    return;
+	object *p;
+	if (nm == null) return;
+	IGNORE sprintf (buffer, "%s[%s]", crt_info->src, nm);
+	if (search_hash (files, buffer, no_version)) return;
+	p = make_object (string_copy (buffer), OBJ_FILE);
+	p->u.u_file = null;
+	IGNORE add_hash (files, p, no_version);
+	if (on) OUT (output, "#include <%s>\n", nm);
+	return;
 }
 
 
@@ -980,10 +980,10 @@ print_include(FILE *output, char *nm, int on)
 static void
 print_object(FILE *output, object *input, int pass)
 {
-    object *p;
-    ifcmd ifs [100];
-    ifs [0].dir = CMD_END;
-    for (p = input; p != null; p = p->next) {
+	object *p;
+	ifcmd ifs [100];
+	ifs [0].dir = CMD_END;
+	for (p = input; p != null; p = p->next) {
 		char *nm = p->name;
 		switch (p->objtype) {
 
@@ -1106,9 +1106,9 @@ print_object(FILE *output, object *input, int pass)
 			break;
 	    }
 		}
-    }
-    if (ifs [0].dir != CMD_END) print_ifs (output, ifs);
-    return;
+	}
+	if (ifs [0].dir != CMD_END) print_ifs (output, ifs);
+	return;
 }
 
 
@@ -1121,8 +1121,8 @@ print_object(FILE *output, object *input, int pass)
 static void
 scan_object(object *input, int pass)
 {
-    object *p;
-    for (p = input; p != null; p = p->next) {
+	object *p;
+	for (p = input; p != null; p = p->next) {
 		if (p->objtype == OBJ_SET) {
 			object *q = p->u.u_obj;
 			info *i = q->u.u_info;
@@ -1132,8 +1132,8 @@ scan_object(object *input, int pass)
 				if (pass < 2) print_set (p, pass);
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1147,21 +1147,21 @@ scan_object(object *input, int pass)
 void
 print_set(object *input, int pass)
 {
-    char *nm;
-    time_t t1, t2;
-    FILE *output = null;
-    object *ss = input->u.u_obj;
-    info *i = ss->u.u_info;
-    column = 0;
+	char *nm;
+	time_t t1, t2;
+	FILE *output = null;
+	object *ss = input->u.u_obj;
+	info *i = ss->u.u_info;
+	column = 0;
 
-    if (streq (i->api, LOCAL_API)) {
+	if (streq (i->api, LOCAL_API)) {
 		/* Local files go to the standard output */
 		if (pass != 0) return;
 		nm = "stdout";
 		output = stdout;
 		t1 = (time_t) 0;
 		t2 = (time_t) 0;
-    } else {
+	} else {
 		nm = (pass ? i->src : i->incl);
 		if (nm == null || (restrict_use && i->implemented == 0)) {
 			scan_object (i->elements, 1);
@@ -1177,9 +1177,9 @@ print_set(object *input, int pass)
 		t1 = i->age;
 		if (progdate > t1) t1 = progdate;
 		t2 = date_stamp (nm);
-    }
+	}
 
-    if ((t1 && t1 < t2) && !force_output) {
+	if ((t1 && t1 < t2) && !force_output) {
 		/* Output file is up to date */
 		object *q;
 		if (verbose > 1)
@@ -1190,7 +1190,7 @@ print_set(object *input, int pass)
 		for (q = i->elements; q != null; q = q->next) {
 			if (q->objtype == OBJ_SET) print_set (q, pass);
 		}
-    } else {
+	} else {
 		/* Output file needs updating */
 		object *q = null;
 		info *old_info = crt_info;
@@ -1338,6 +1338,6 @@ print_set(object *input, int pass)
 		crt_info = old_info;
 		column = old_column;
 		weak_proto = old_weak_proto;
-    }
-    return;
+	}
+	return;
 }

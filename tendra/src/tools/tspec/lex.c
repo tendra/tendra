@@ -77,10 +77,10 @@
 static void
 make_keyword(char *nm, int t)
 {
-    object *p = make_object (nm, OBJ_KEYWORD);
-    p->u.u_num = t;
-    IGNORE add_hash (keywords, p, no_version);
-    return;
+	object *p = make_object (nm, OBJ_KEYWORD);
+	p->u.u_num = t;
+	IGNORE add_hash (keywords, p, no_version);
+	return;
 }
 
 
@@ -94,9 +94,9 @@ void
 init_keywords(void)
 {
 #define MAKE_KEYWORD(NAME, LEX)\
-    make_keyword (NAME, LEX)
+	make_keyword (NAME, LEX)
 #include "keyword.h"
-    return;
+	return;
 }
 
 
@@ -132,16 +132,16 @@ int input_pending = LEX_EOF;
 static int
 read_char(void)
 {
-    int c = input_pending;
-    if (c == LEX_EOF) {
+	int c = input_pending;
+	if (c == LEX_EOF) {
 		c = fgetc (input_file);
 		if (c == '\n') line_no++;
 		if (c == EOF) return (LEX_EOF);
 		c &= 0xff;
-    } else {
+	} else {
 		input_pending = LEX_EOF;
-    }
-    return (c);
+	}
+	return (c);
 }
 
 
@@ -195,13 +195,13 @@ static int read_comment(int);
 static int
 read_identifier(int a, int b, int pp)
 {
-    int c;
-    object *p;
-    int i = 0;
-    char *s = buffer;
-    if (a) s [i++] = (char) a;
-    s [i++] = (char) b;
-    for (;;) {
+	int c;
+	object *p;
+	int i = 0;
+	char *s = buffer;
+	if (a) s [i++] = (char) a;
+	s [i++] = (char) b;
+	for (;;) {
 		c = read_char ();
 		if (!is_alphanum (lookup_char (c))) break;
 		s [i] = (char) c;
@@ -209,28 +209,28 @@ read_identifier(int a, int b, int pp)
 			MSG_identifier_too_long ();
 			i = 1;
 		}
-    }
-    unread_char (c);
-    s [i] = 0;
-    p = search_hash (keywords, s, no_version);
-    if (p) return (p->u.u_num);
-    token_value = s;
-    if (a == 0) {
+	}
+	unread_char (c);
+	s [i] = 0;
+	p = search_hash (keywords, s, no_version);
+	if (p) return (p->u.u_num);
+	token_value = s;
+	if (a == 0) {
 		if (!pp) token_value = string_copy (s);
 		return (lex_name);
-    }
-    if (a == '$') {
+	}
+	if (a == '$') {
 		if (!pp) token_value = string_copy (s);
 		return (lex_variable);
-    }
-    if (a == '+') {
+	}
+	if (a == '+') {
 		/* Commands */
 		if (!pp) token_value = string_copy (s);
 		MSG_unknown_command (s);
 		return (lex_name);
-    }
-    token_value = string_concat (HIDDEN_NAME, s + 1);
-    return (lex_name);
+	}
+	token_value = string_concat (HIDDEN_NAME, s + 1);
+	return (lex_name);
 }
 
 
@@ -244,11 +244,11 @@ read_identifier(int a, int b, int pp)
 static int
 read_number(int a, int pp)
 {
-    int c;
-    int i = 0;
-    char *s = buffer;
-    s [i++] = (char) a;
-    for (;;) {
+	int c;
+	int i = 0;
+	char *s = buffer;
+	s [i++] = (char) a;
+	for (;;) {
 		c = read_char ();
 		if (!is_digit (lookup_char (c))) break;
 		s [i] = (char) c;
@@ -256,15 +256,15 @@ read_number(int a, int pp)
 			MSG_number_too_long ();
 			i = 0;
 		}
-    }
-    unread_char (c);
-    s [i] = 0;
-    if (pp) {
+	}
+	unread_char (c);
+	s [i] = 0;
+	if (pp) {
 		token_value = s;
-    } else {
+	} else {
 		token_value = string_copy (s);
-    }
-    return (lex_number);
+	}
+	return (lex_number);
 }
 
 
@@ -278,10 +278,10 @@ read_number(int a, int pp)
 static int
 read_string(int pp)
 {
-    int c;
-    int i = 0;
-    char *s = buffer;
-    for (;;) {
+	int c;
+	int i = 0;
+	char *s = buffer;
+	for (;;) {
 		c = read_char ();
 		if (c == '"') {
 			/* End of string */
@@ -531,10 +531,10 @@ read_pptoken(int w)
 	case ';' : t = lex_semicolon; break;
 	case ',' : t = lex_comma; break;
 	case LEX_EOF : t = lex_eof; break;
-    }
-    buffer [0] = (char) c;
-    buffer [1] = 0;
-    return (t);
+	}
+	buffer [0] = (char) c;
+	buffer [1] = 0;
+	return (t);
 }
 
 
@@ -549,25 +549,25 @@ read_pptoken(int w)
 static int
 read_pp_string(char **str, int *b)
 {
-    int c = read_pptoken (1);
-    if (c == lex_open_Hround) {
+	int c = read_pptoken (1);
+	if (c == lex_open_Hround) {
 		*b = 1;
 		c = read_pptoken (1);
-    }
-    if (c != lex_string) {
+	}
+	if (c != lex_string) {
 		MSG_string_expected ();
 		*str = "???";
 		return (c);
-    }
-    *str = string_copy (buffer);
-    c = read_pptoken (1);
-    if (*b) {
+	}
+	*str = string_copy (buffer);
+	c = read_pptoken (1);
+	if (*b) {
 		if (c != lex_close_Hround) {
 			MSG_close_round_expected ();
 		}
 		c = read_pptoken (1);
-    }
-    return (c);
+	}
+	return (c);
 }
 
 
@@ -582,17 +582,17 @@ static void
 print_subset_name(FILE *output, char *cmd, char *api, char *file,
 				  char *subset, int b)
 {
-    if (b) {
+	if (b) {
 		IGNORE fprintf (output, "%s (\"%s\")", cmd, api);
-    } else {
+	} else {
 		IGNORE fprintf (output, "%s \"%s\"", cmd, api);
-    }
-    if (file) IGNORE fprintf (output, ", \"%s\"", file);
-    if (subset) {
+	}
+	if (file) IGNORE fprintf (output, ", \"%s\"", file);
+	if (subset) {
 		if (file == null) IGNORE fputs (", \"\"", output);
 		IGNORE fprintf (output, ", \"%s\"", subset);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -606,13 +606,13 @@ print_subset_name(FILE *output, char *cmd, char *api, char *file,
 static void
 print_posn(FILE *output)
 {
-    static char *last_filename = "";
-    if (!streq (filename, last_filename)) {
+	static char *last_filename = "";
+	if (!streq (filename, last_filename)) {
 		IGNORE fprintf (output, "$FILE = \"%s\";\n", filename);
 		last_filename = filename;
-    }
-    IGNORE fprintf (output, "$LINE = %d;\n", line_no - 1);
-    return;
+	}
+	IGNORE fprintf (output, "$LINE = %d;\n", line_no - 1);
+	return;
 }
 
 
@@ -626,14 +626,14 @@ print_posn(FILE *output)
 static void
 preproc_subfile(FILE *output, char *cmd)
 {
-    int c;
-    int txt;
-    int b = 0;
-    char *api = null;
-    char *file = null;
-    char *subset = null;
-    c = read_pp_string (&api, &b);
-    if (c == lex_comma) {
+	int c;
+	int txt;
+	int b = 0;
+	char *api = null;
+	char *file = null;
+	char *subset = null;
+	c = read_pp_string (&api, &b);
+	if (c == lex_comma) {
 		int d = 0;
 		c = read_pp_string (&file, &d);
 		if (d) {
@@ -645,21 +645,21 @@ preproc_subfile(FILE *output, char *cmd)
 			if (d) MSG_illegally_bracketed_string ();
 		}
 		if (*file == 0) file = null;
-    }
-    if (c == lex_semicolon) {
+	}
+	if (c == lex_semicolon) {
 		txt = ';';
-    } else if (c == lex_open_Hround) {
+	} else if (c == lex_open_Hround) {
 		txt = '(';
-    } else {
+	} else {
 		MSG_semicolon_or_open_round_expected ();
 		txt = ';';
-    }
-    preproc (output, api, file, subset);
-    print_posn (output);
-    print_subset_name (output, cmd, api, file, subset, b);
-    IGNORE fputc (' ', output);
-    IGNORE fputc (txt, output);
-    return;
+	}
+	preproc (output, api, file, subset);
+	print_posn (output);
+	print_subset_name (output, cmd, api, file, subset, b);
+	IGNORE fputc (' ', output);
+	IGNORE fputc (txt, output);
+	return;
 }
 
 
@@ -672,41 +672,41 @@ preproc_subfile(FILE *output, char *cmd)
 void
 preproc(FILE *output, char *api, char *file, char *subset)
 {
-    int c;
-    char *s;
-    object *p;
-    char *sn, *nm;
-    FILE *old_file;
-    int old_pending;
-    int old_line_no;
-    char *old_filename;
-    boolean found = 0;
-    int brackets = 0;
-    int end_brackets = 0;
-    int if_depth = 0;
-    int else_depth = 0;
-    FILE *input = null;
-    boolean printing = (boolean) (subset ? 0 : 1);
+	int c;
+	char *s;
+	object *p;
+	char *sn, *nm;
+	FILE *old_file;
+	int old_pending;
+	int old_line_no;
+	char *old_filename;
+	boolean found = 0;
+	int brackets = 0;
+	int end_brackets = 0;
+	int if_depth = 0;
+	int else_depth = 0;
+	FILE *input = null;
+	boolean printing = (boolean) (subset ? 0 : 1);
 
-    /* Check for previous inclusion */
-    sn = subset_name (api, file, subset);
-    p = search_hash (subsets, sn, no_version);
-    if (p != null) {
+	/* Check for previous inclusion */
+	sn = subset_name (api, file, subset);
+	p = search_hash (subsets, sn, no_version);
+	if (p != null) {
 		if (p->u.u_info == null) {
 			MSG_recursive_inclusion (sn);
 		} else if (p->u.u_info->implemented) {
 			MSG_set_not_found (sn);
 		}
 		return;
-    }
+	}
 
-    /* Open the input file */
-    nm = (file ? file : MASTER_FILE);
-    if (!streq (api, LOCAL_API)) {
+	/* Open the input file */
+	nm = (file ? file : MASTER_FILE);
+	if (!streq (api, LOCAL_API)) {
 		nm = string_printf ("%s/%s", api, nm);
-    }
-    s = input_dir;
-    while (s) {
+	}
+	s = input_dir;
+	while (s) {
 		char *t = strchr (s, ':');
 		if (t == null) {
 			IGNORE sprintf (buffer, "%s/%s", s, nm);
@@ -721,8 +721,8 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			nm = string_copy (buffer);
 			break;
 		}
-    }
-    if (input == null) {
+	}
+	if (input == null) {
 		input = fopen (nm, "r");
 		if (input == null) {
 			MSG_set_not_found_no_file (sn, nm);
@@ -732,33 +732,33 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			p->u.u_info->implemented = 1;
 			return;
 		}
-    }
-    if (verbose > 1) {
+	}
+	if (verbose > 1) {
 		if (subset) {
 			IGNORE printf ("Preprocessing %s [%s] ...\n", nm, subset);
 		} else {
 			IGNORE printf ("Preprocessing %s ...\n", nm);
 		}
-    }
-    old_filename = filename;
-    old_line_no = line_no;
-    old_file = input_file;
-    old_pending = input_pending;
-    filename = nm;
-    line_no = 1;
-    input_file = input;
-    input_pending = LEX_EOF;
-    p = make_object (sn, OBJ_SUBSET);
-    p->u.u_info = null;
-    IGNORE add_hash (subsets, p, no_version);
+	}
+	old_filename = filename;
+	old_line_no = line_no;
+	old_file = input_file;
+	old_pending = input_pending;
+	filename = nm;
+	line_no = 1;
+	input_file = input;
+	input_pending = LEX_EOF;
+	p = make_object (sn, OBJ_SUBSET);
+	p->u.u_info = null;
+	IGNORE add_hash (subsets, p, no_version);
 
-    /* Print position identifier */
-    print_subset_name (output, "+SET", api, file, subset, 0);
-    IGNORE fputs (" := {\n", output);
-    if (printing) print_posn (output);
+	/* Print position identifier */
+	print_subset_name (output, "+SET", api, file, subset, 0);
+	IGNORE fputs (" := {\n", output);
+	if (printing) print_posn (output);
 
-    /* Process the input */
-    while (c = read_pptoken (0), c != lex_eof) {
+	/* Process the input */
+	while (c = read_pptoken (0), c != lex_eof) {
 		switch (c) {
 
 	    case lex_subset : {
@@ -894,10 +894,10 @@ preproc(FILE *output, char *api, char *file, char *subset)
 				break;
 			}
 		}
-    }
+	}
 
-    /* End of file */
-    end_of_file : {
+	/* End of file */
+	end_of_file : {
 		if (brackets) {
 			MSG_bracket_imbalance_of (brackets);
 		}
@@ -917,5 +917,5 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			p->u.u_info->implemented = 1;
 		}
 		return;
-    }
+	}
 }

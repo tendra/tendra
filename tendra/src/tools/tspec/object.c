@@ -76,14 +76,14 @@
 object *
 make_object(char *nm, int t)
 {
-    object *p;
-    p = xalloc (sizeof (*p));
-    p->name = nm;
-    p->objtype = t;
-    p->next = null;
-    p->filename = filename;
-    p->line_no = line_no;
-    return (p);
+	object *p;
+	p = xalloc (sizeof (*p));
+	p->name = nm;
+	p->objtype = t;
+	p->next = null;
+	p->filename = filename;
+	p->line_no = line_no;
+	return (p);
 }
 
 
@@ -96,12 +96,12 @@ make_object(char *nm, int t)
 object *
 join_object(object *p, object *q)
 {
-    object *r = p;
-    if (p == null) return (q);
-    if (q == null) return (p);
-    while (r->next) r = r->next;
-    r->next = q;
-    return (p);
+	object *r = p;
+	if (p == null) return (q);
+	if (q == null) return (p);
+	while (r->next) r = r->next;
+	r->next = q;
+	return (p);
 }
 
 
@@ -116,8 +116,8 @@ join_object(object *p, object *q)
 object *
 make_subset(char *nm)
 {
-    object *p = search_hash (subsets, nm, no_version);
-    if (p == null) {
+	object *p = search_hash (subsets, nm, no_version);
+	if (p == null) {
 		char *api = string_copy (nm);
 		char *file = null;
 		char *subset = null;
@@ -136,8 +136,8 @@ make_subset(char *nm)
 		p->u.u_info = make_info (api, file, subset);
 		p->u.u_info->age = (time_t) 0;
 		IGNORE add_hash (subsets, p, no_version);
-    }
-    return (p);
+	}
+	return (p);
 }
 
 
@@ -151,25 +151,25 @@ make_subset(char *nm)
 info *
 make_info(char *api, char *file, char *subset)
 {
-    info *p;
-    p = xalloc (sizeof (*p));
-    p->api = api;
-    p->file = file;
-    p->subset = subset;
-    p->age = date_stamp (filename);
-    p->incl = include_name (output_incl_dir, api, file, subset);
-    p->src = src_name (output_src_dir, api, file, subset);
-    p->block = block_name (api, file, subset);
-    p->linkage = "C";
-    p->nspace = null;
-    p->method = null;
-    p->prefix = token_prefix (api, file, subset);
-    p->protect = macro_name (PROTECT_PREFIX, api, file, subset);
-    p->version = null;
-    p->tokens = 0;
-    p->implemented = 0;
-    p->elements = null;
-    return (p);
+	info *p;
+	p = xalloc (sizeof (*p));
+	p->api = api;
+	p->file = file;
+	p->subset = subset;
+	p->age = date_stamp (filename);
+	p->incl = include_name (output_incl_dir, api, file, subset);
+	p->src = src_name (output_src_dir, api, file, subset);
+	p->block = block_name (api, file, subset);
+	p->linkage = "C";
+	p->nspace = null;
+	p->method = null;
+	p->prefix = token_prefix (api, file, subset);
+	p->protect = macro_name (PROTECT_PREFIX, api, file, subset);
+	p->version = null;
+	p->tokens = 0;
+	p->implemented = 0;
+	p->elements = null;
+	return (p);
 }
 
 
@@ -183,12 +183,12 @@ make_info(char *api, char *file, char *subset)
 void
 update_time(object *p, object *q)
 {
-    if (p && q) {
+	if (p && q) {
 		time_t tp = p->u.u_info->age;
 		time_t tq = q->u.u_info->age;
 		if (tp && tq > tp) p->u.u_info->age = tq;
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -203,10 +203,10 @@ update_time(object *p, object *q)
 object *
 make_token(char *nm, int vers, object *p, int objtype)
 {
-    object *r = make_object (nm, OBJ_TOKEN);
-    r->u.u_obj = p;
-    IGNORE add_hash (tokens, r, vers);
-    if (crt_object) {
+	object *r = make_object (nm, OBJ_TOKEN);
+	r->u.u_obj = p;
+	IGNORE add_hash (tokens, r, vers);
+	if (crt_object) {
 		switch (objtype) {
 	    case OBJ_EXTERN :
 	    case OBJ_WEAK : {
@@ -217,8 +217,8 @@ make_token(char *nm, int vers, object *p, int objtype)
 			break;
 	    }
 		}
-    }
-    return (r);
+	}
+	return (r);
 }
 
 
@@ -232,8 +232,8 @@ make_token(char *nm, int vers, object *p, int objtype)
 object *
 make_exp(char *nm, int vers, int t)
 {
-    object *r = make_object (nm, t);
-    IGNORE add_hash (exps, r, vers);
-    r->u.u_type = null;
-    return (r);
+	object *r = make_object (nm, t);
+	IGNORE add_hash (exps, r, vers);
+	r->u.u_type = null;
+	return (r);
 }

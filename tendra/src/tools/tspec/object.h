@@ -82,9 +82,9 @@ struct type_tag;
  */
 
 typedef struct object_tag {
-    char *name;
-    int objtype;
-    union {
+	char *name;
+	int objtype;
+	union {
 		int u_num;
 		char *u_str;
 		FILE *u_file;
@@ -92,10 +92,10 @@ typedef struct object_tag {
 		struct info_tag *u_info;
 		struct object_tag *u_obj;
 		struct type_tag *u_type;
-    } u;
-    struct object_tag *next;
-    char *filename;
-    int line_no;
+	} u;
+	struct object_tag *next;
+	char *filename;
+	int line_no;
 } object;
 
 
@@ -155,19 +155,19 @@ typedef struct object_tag {
  */
 
 typedef struct info_tag {
-    char *api, *file, *subset;
-    time_t age;
-    char *incl, *src;
-    char *block;
-    char *linkage;
-    char *nspace;
-    char *method;
-    char *prefix;
-    char *protect;
-    char *version;
-    boolean tokens;
-    int implemented;
-    object *elements;
+	char *api, *file, *subset;
+	time_t age;
+	char *incl, *src;
+	char *block;
+	char *linkage;
+	char *nspace;
+	char *method;
+	char *prefix;
+	char *protect;
+	char *version;
+	boolean tokens;
+	int implemented;
+	object *elements;
 } info;
 
 

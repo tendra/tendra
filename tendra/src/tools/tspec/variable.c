@@ -84,8 +84,8 @@ object *crt_object = null;
 void
 set_string(char *v, char *s)
 {
-    boolean known = 0;
-    switch (v [1]) {
+	boolean known = 0;
+	switch (v [1]) {
 	case 'A' : {
 	    if (streq (v, "$APINAME")) {
 			if (crt_object) {
@@ -223,9 +223,9 @@ set_string(char *v, char *s)
 	    }
 	    break;
 	}
-    }
-    if (!known) MSG_unknown_string_variable (v);
-    return;
+	}
+	if (!known) MSG_unknown_string_variable (v);
+	return;
 }
 
 
@@ -238,8 +238,8 @@ set_string(char *v, char *s)
 void
 set_integer(char *v, int n)
 {
-    boolean known = 0;
-    switch (v [1]) {
+	boolean known = 0;
+	switch (v [1]) {
 	case 'I' : {
 	    if (streq (v, "$INTERFACE")) {
 			if (crt_object) {
@@ -270,7 +270,7 @@ set_integer(char *v, int n)
 	    }
 	    break;
 	}
-    }
-    if (!known) MSG_unknown_integer_variable (v);
-    return;
+	}
+	if (!known) MSG_unknown_integer_variable (v);
+	return;
 }

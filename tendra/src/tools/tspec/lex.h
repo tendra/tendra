@@ -86,7 +86,7 @@ extern char *token_value;
 #define CURRENT_TERMINAL	crt_lex_token
 #define ADVANCE_LEXER		crt_lex_token = read_token ()
 #define SAVE_LEXER(T)         (saved_lex_token = crt_lex_token,\
-                                  crt_lex_token = (T))
+	                              crt_lex_token = (T))
 #define RESTORE_LEXER           (crt_lex_token = saved_lex_token)
 #define LEX_EOF			256
 

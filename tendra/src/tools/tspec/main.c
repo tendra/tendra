@@ -97,12 +97,12 @@ static char *progfile;
 static void
 exit_handler(void)
 {
-    hash_elem *e;
+	hash_elem *e;
 
-    if (exit_status == 0)
+	if (exit_status == 0)
 	return;
-    e = sort_hash (files);
-    while (e) {
+	e = sort_hash (files);
+	while (e) {
 		object *p = e->obj;
 		FILE *f = p->u.u_file;
 		if (f) {
@@ -112,7 +112,7 @@ exit_handler(void)
 			IGNORE remove (nm);
 		}
 		e = e->next;
-    }
+	}
 }
 
 
@@ -125,16 +125,16 @@ exit_handler(void)
 static void
 separate(object *p)
 {
-    info *i = p->u.u_info;
-    static char *exec = null;
-    if (i->subset || i->file == null) return;
-    if (exec == null) exec = buffer + strlen (buffer);
-    IGNORE sprintf (exec, "%s %s", i->api, i->file);
-    if (verbose > 1) IGNORE printf ("Executing '%s' ...\n", buffer);
-    if (system (buffer)) {
+	info *i = p->u.u_info;
+	static char *exec = null;
+	if (i->subset || i->file == null) return;
+	if (exec == null) exec = buffer + strlen (buffer);
+	IGNORE sprintf (exec, "%s %s", i->api, i->file);
+	if (verbose > 1) IGNORE printf ("Executing '%s' ...\n", buffer);
+	if (system (buffer)) {
 		MSG_separate_compilation_failed (p->name);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -147,16 +147,16 @@ separate(object *p)
 static void
 implement(object *p, int depth)
 {
-    object *q;
-    info *i = p->u.u_info;
-    if (i == null || i->implemented >= depth) return;
-    i->implemented = depth;
-    for (q = i->elements; q != null; q = q->next) {
+	object *q;
+	info *i = p->u.u_info;
+	if (i == null || i->implemented >= depth) return;
+	i->implemented = depth;
+	for (q = i->elements; q != null; q = q->next) {
 		if (q->objtype == OBJ_IMPLEMENT) {
 			implement (q->u.u_obj, depth + 1);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 static void
@@ -294,48 +294,48 @@ msg_uh_fileline(char ch, void *pp)
 int
 main(int argc, char **argv)
 {
-    int optcnt, targc;
-    char *env, **targv;
-    char *api = null;
-    char *file = null;
-    char *subset = null;
-    object *commands = null;
+	int optcnt, targc;
+	char *env, **targv;
+	char *api = null;
+	char *file = null;
+	char *subset = null;
+	object *commands = null;
 
-    /* Initialisation */
-    tenapp_init (argc, argv, "An API specification tool", "2.9");
-    tenapp_add_eh (exit_handler);
-    msg_uh_add(MSG_GLOB_fileline, msg_uh_fileline);
-    msg_on_message = tspec_on_message;
+	/* Initialisation */
+	tenapp_init (argc, argv, "An API specification tool", "2.9");
+	tenapp_add_eh (exit_handler);
+	msg_uh_add(MSG_GLOB_fileline, msg_uh_fileline);
+	msg_on_message = tspec_on_message;
 
 	targc = argc;
 	targv = argv;
-    line_no = 1;
-    filename = "built-in definitions";
-    init_hash ();
-    init_keywords ();
-    init_types ();
-    filename = "command line";
+	line_no = 1;
+	filename = "built-in definitions";
+	init_hash ();
+	init_keywords ();
+	init_types ();
+	filename = "command line";
 
-    /* Read system variables */
-    env = getenv (INPUT_ENV);
-    if (env) input_dir = string_copy (env);
-    env = getenv (OUTPUT_ENV);
-    if (env) {
+	/* Read system variables */
+	env = getenv (INPUT_ENV);
+	if (env) input_dir = string_copy (env);
+	env = getenv (OUTPUT_ENV);
+	if (env) {
 		output_incl_dir = string_printf ("%s/include", env);
 		output_incl_len = (int) strlen (output_incl_dir) + 1;
 		output_src_dir = string_printf ("%s/src", env);
 		output_src_len = (int) strlen (output_src_dir) + 1;
-    }
-    env = getenv (INCLUDE_ENV);
-    if (env) {
+	}
+	env = getenv (INCLUDE_ENV);
+	if (env) {
 		output_incl_dir = string_copy (env);
 		output_incl_len = (int) strlen (output_incl_dir) + 1;
-    }
-    env = getenv (SRC_ENV);
-    if (env) {
+	}
+	env = getenv (SRC_ENV);
+	if (env) {
 		output_src_dir = string_copy (env);
 		output_src_len = (int) strlen (output_src_dir) + 1;
-    }
+	}
 
 	progfile = argv[0];
 	optcnt = arg_parse_arguments (cmdl_opts, --argc, ++argv);
@@ -357,11 +357,11 @@ main(int argc, char **argv)
 		subset = file;
 		file = api;
 		api = LOCAL_API;
-    }
-    if (api == null) MSG_getopt_not_enough_arguments ();
-    input_dir = string_printf ("%s:%s", dir, input_dir);
+	}
+	if (api == null) MSG_getopt_not_enough_arguments ();
+	input_dir = string_printf ("%s:%s", dir, input_dir);
 
-    if (preproc_input) {
+	if (preproc_input) {
 		/* Open preprocessed input */
 		if (file != null) MSG_getopt_not_enough_arguments ();
 		preproc_file = fopen (api, "r");
@@ -370,7 +370,7 @@ main(int argc, char **argv)
 		if (preproc_file == null) {
 			MSG_cant_open_input_file (api);
 		}
-    } else {
+	} else {
 		/* Find the temporary file */
 		int n;
 		if (preproc_file == null) {
@@ -389,10 +389,10 @@ main(int argc, char **argv)
 		if (preproc_file == stdout) exit (exit_status);
 		filename = "temporary file";
 		line_no = 1;
-    }
+	}
 
-    /* Deal with separate compilation */
-    if (separate_files) {
+	/* Deal with separate compilation */
+	if (separate_files) {
 		int n;
 		hash_elem *e;
 		char *s = buffer;
@@ -417,21 +417,21 @@ main(int argc, char **argv)
 			MSG_errors_in_separate_compilation (n);
 		}
 		exit (exit_status);
-    }
+	}
 
-    /* Process the input */
-    input_file = preproc_file;
-    input_pending = LEX_EOF;
-    rewind (input_file);
-    ADVANCE_LEXER;
-    read_spec (&commands);
-    if (no_errors) {
+	/* Process the input */
+	input_file = preproc_file;
+	input_pending = LEX_EOF;
+	rewind (input_file);
+	ADVANCE_LEXER;
+	read_spec (&commands);
+	if (no_errors) {
 		filename = null;
 		MSG_errors_in_analyser_phase (no_errors);
-    }
+	}
 
-    /* Perform the output */
-    if (!check_only) {
+	/* Perform the output */
+	if (!check_only) {
 		filename = null;
 		if (commands && commands->objtype == OBJ_SET) {
 			implement (commands->u.u_obj, 1);
@@ -451,6 +451,6 @@ main(int argc, char **argv)
 				}
 			}
 		}
-    }
-    return (exit_status);
+	}
+	return (exit_status);
 }

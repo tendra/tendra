@@ -67,18 +67,18 @@
  */
 
 typedef struct type_tag {
-    int id;
-    union {
+	int id;
+	union {
 		object *obj;
 		struct type_tag *subtype;
-    } u;
-    union {
+	} u;
+	union {
 		int no;
 		char *str;
 		object *obj2;
 		struct type_tag *next;
-    } v;
-    boolean state;
+	} v;
+	boolean state;
 } type;
 
 
@@ -91,10 +91,10 @@ typedef struct type_tag {
  */
 
 typedef struct field_tag {
-    object *obj;
-    char *fname;
-    type *ftype;
-    type *stype;
+	object *obj;
+	char *fname;
+	type *ftype;
+	type *stype;
 } field;
 
 

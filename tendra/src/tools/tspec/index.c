@@ -109,8 +109,8 @@ static char field_sep = '$';
 static void
 print_field(char *s)
 {
-    IGNORE printf ("%s%c", s, field_sep);
-    return;
+	IGNORE printf ("%s%c", s, field_sep);
+	return;
 }
 
 
@@ -124,8 +124,8 @@ print_field(char *s)
 static void
 print_escape(char *s)
 {
-    int c;
-    while ((c = *s++) != '\0') {
+	int c;
+	while ((c = *s++) != '\0') {
 		if (c == field_sep) {
 			IGNORE printf ("\\F");
 		} else if (c == '\n') {

@@ -85,9 +85,9 @@ void
 init_types(void)
 {
 #define BUILTIN(TYPE, NAME, VERS, ID)\
-    TYPE = make_type (NAME, VERS, ID)
+	TYPE = make_type (NAME, VERS, ID)
 #include "builtin.h"
-    return;
+	return;
 }
 
 
@@ -102,14 +102,14 @@ init_types(void)
 static hash_table *
 find_namespace(int id, int fld)
 {
-    switch (id) {
+	switch (id) {
 	case TYPE_STRUCT_TAG :
 	case TYPE_UNION_TAG :
 	case TYPE_ENUM_TAG : {
 	    return (fld ? tag_fields : tags);
 	}
-    }
-    return (fld ? type_fields : types);
+	}
+	return (fld ? type_fields : types);
 }
 
 
@@ -122,10 +122,10 @@ find_namespace(int id, int fld)
 static type *
 new_type(void)
 {
-    type *t;
-    t = xalloc (sizeof (*t));
-    t->state = 0;
-    return (t);
+	type *t;
+	t = xalloc (sizeof (*t));
+	t->state = 0;
+	return (t);
 }
 
 
@@ -139,8 +139,8 @@ new_type(void)
 type *
 basic_type(unsigned n)
 {
-    type *t;
-    switch (n) {
+	type *t;
+	switch (n) {
 	case BTYPE_CHAR : {
 	    t = type_char;
 	    break;
@@ -227,8 +227,8 @@ basic_type(unsigned n)
 	    }
 	    break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -241,11 +241,11 @@ basic_type(unsigned n)
 type *
 special_type(char *s)
 {
-    if (streq (s, "bottom")) return (type_bottom);
-    if (streq (s, "printf")) return (type_printf);
-    if (streq (s, "scanf")) return (type_scanf);
-    MSG_unknown_special_type (s);
-    return (type_int);
+	if (streq (s, "bottom")) return (type_bottom);
+	if (streq (s, "printf")) return (type_printf);
+	if (streq (s, "scanf")) return (type_scanf);
+	MSG_unknown_special_type (s);
+	return (type_int);
 }
 
 
@@ -258,14 +258,14 @@ special_type(char *s)
 type *
 make_type(char *nm, int vers, int id)
 {
-    type *t = new_type ();
-    object *p = make_object (nm, OBJ_TYPE);
-    p->u.u_type = t;
-    t->id = id;
-    t->u.obj = p;
-    t->v.obj2 = null;
-    p = add_hash (find_namespace (id, 0), p, vers);
-    return (p->u.u_type);
+	type *t = new_type ();
+	object *p = make_object (nm, OBJ_TYPE);
+	p->u.u_type = t;
+	t->id = id;
+	t->u.obj = p;
+	t->v.obj2 = null;
+	p = add_hash (find_namespace (id, 0), p, vers);
+	return (p->u.u_type);
 }
 
 
@@ -280,20 +280,20 @@ make_type(char *nm, int vers, int id)
 type *
 find_type(char *nm, int vers, int id, int force)
 {
-    type *t;
-    object *p;
-    hash_table *h = find_namespace (id, 0);
-    p = search_hash (h, nm, vers);
-    if (p == null) {
+	type *t;
+	object *p;
+	hash_table *h = find_namespace (id, 0);
+	p = search_hash (h, nm, vers);
+	if (p == null) {
 		if (force == 0) return (null);
 		MSG_type_not_defined (h->name, nm);
 		return (make_type (nm, vers, id));
-    }
-    t = p->u.u_type;
-    if (id != TYPE_GENERIC && id != t->id) {
+	}
+	t = p->u.u_type;
+	if (id != TYPE_GENERIC && id != t->id) {
 		MSG_type_used_inconsistently (h->name, nm, p->filename, p->line_no);
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -306,11 +306,11 @@ find_type(char *nm, int vers, int id, int force)
 type *
 make_subtype(type *t, int id)
 {
-    type *s = new_type ();
-    s->id = id;
-    s->u.subtype = t;
-    s->v.obj2 = null;
-    return (s);
+	type *s = new_type ();
+	s->id = id;
+	s->u.subtype = t;
+	s->v.obj2 = null;
+	return (s);
 }
 
 
@@ -324,13 +324,13 @@ make_subtype(type *t, int id)
 type *
 inject_type(type *s, type *t)
 {
-    type *p = s;
-    if (p == null) return (t);
-    if (t) {
+	type *p = s;
+	if (p == null) return (t);
+	if (t) {
 		while (p->u.subtype) p = p->u.subtype;
 		p->u.subtype = t;
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -344,18 +344,18 @@ inject_type(type *s, type *t)
 field *
 make_field(char *nm, int vers, type *s, type *t)
 {
-    char *n;
-    field *r;
-    object *p = make_object (nm, OBJ_FIELD);
-    r = xalloc (sizeof (*r));
-    r->obj = p;
-    r->stype = s;
-    r->ftype = t;
-    n = strchr (nm, '.');
-    r->fname = (n ? n + 1 : nm);
-    p->u.u_field = r;
-    p = add_hash (find_namespace (s->id, 1), p, vers);
-    return (p->u.u_field);
+	char *n;
+	field *r;
+	object *p = make_object (nm, OBJ_FIELD);
+	r = xalloc (sizeof (*r));
+	r->obj = p;
+	r->stype = s;
+	r->ftype = t;
+	n = strchr (nm, '.');
+	r->fname = (n ? n + 1 : nm);
+	p->u.u_field = r;
+	p = add_hash (find_namespace (s->id, 1), p, vers);
+	return (p->u.u_field);
 }
 
 
@@ -369,10 +369,10 @@ make_field(char *nm, int vers, type *s, type *t)
 type *
 expand_type(type *t)
 {
-    while (t && t->id == TYPE_DEFINED) {
+	while (t && t->id == TYPE_DEFINED) {
 		t = t->v.next;
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -385,8 +385,8 @@ expand_type(type *t)
 static type *
 check_type_aux(type *t, int obj, int c, int ret)
 {
-    if (t == null) return (null);
-    switch (t->id) {
+	if (t == null) return (null);
+	switch (t->id) {
 	case TYPE_VOID : {
 	    if ((obj || c) && !ret) {
 			MSG_type_void_is_incomplete ();
@@ -456,8 +456,8 @@ check_type_aux(type *t, int obj, int c, int ret)
 	    t->v.next = check_type_aux (t->v.next, obj, c, ret);
 	    break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -471,7 +471,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 type *
 check_type(type *t, int id)
 {
-    if (t) {
+	if (t) {
 		switch (id) {
 	    case OBJ_EXP :
 	    case OBJ_EXTERN : {
@@ -497,6 +497,6 @@ check_type(type *t, int id)
 			break;
 	    }
 		}
-    }
-    return (t);
+	}
+	return (t);
 }

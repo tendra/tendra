@@ -66,9 +66,9 @@
  */
 
 typedef struct hash_elem_tag {
-    object *obj;
-    int vers;
-    struct hash_elem_tag *next;
+	object *obj;
+	int vers;
+	struct hash_elem_tag *next;
 } hash_elem;
 
 
@@ -82,8 +82,8 @@ typedef struct hash_elem_tag {
 #define hash_size		31
 
 typedef struct {
-    char *name;
-    hash_elem *array [ hash_size ];
+	char *name;
+	hash_elem *array [ hash_size ];
 } hash_table;
 
 
