@@ -3,22 +3,13 @@
 # $Id$
 
 .include <tendra.base.mk>
+.include <tendra.functions.mk>
 
 # Installation infrastructure framework. We come after tendra.build.mk.
 
 # For {ENV, MACH, STARTUP}SUBDIR, a real Makefile should exist in each
 # directory and control should be passed via standard SUBDIR mechanism.
 # At the moment, we have to do all the work here, which is *ugly*.
-
-# This shell function is inlined in rules below. Careful about quoting.
-CONDCREATE= 	@Condcreate() { 					\
-			for dir in $${*} ; do 				\
-				if ${TEST} ! -e $${dir} ; then 		\
-					echo "\# Creating $${dir}/" ; 	\
-					${MKDIR} -p $${dir} ; 		\
-				fi ; 					\
-			done ; 						\
-		} ; Condcreate
 
 # Real workers, mutually exclusive, follow.
 

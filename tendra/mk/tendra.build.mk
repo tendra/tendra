@@ -3,17 +3,8 @@
 # $Id$
 
 .include <tendra.base.mk>
+.include <tendra.functions.mk>
 .include <tendra.rules.mk>
-
-# This shell function is inlined in rules below. Careful about quoting.
-CONDCREATE= 	@Condcreate() { 					\
-			for dir in $${*} ; do 				\
-				if ${TEST} ! -e $${dir} ; then 		\
-					echo "\# Creating $${dir}/" ; 	\
-					${MKDIR} -p $${dir} ; 		\
-				fi ; 					\
-			done ; 						\
-		} ; Condcreate
 
 # Do some pretty-printing.
 WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
