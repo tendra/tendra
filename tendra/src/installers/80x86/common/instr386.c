@@ -1928,38 +1928,29 @@ in_fstack(exp e)
 int
 in_reg(exp e)
 {
-	unsigned char  ne = name (e);
-	if (ne == name_tag && ptno (son (e)) == reg_pl) {
-		int  n = no (son (e));
-		if (!iscaonly (son (e)) && isvar (son (e)))
-			n = (n | (int)0x80000000);
-		return (n);
-	};
-	if (ne == cont_tag && name (son (e)) == name_tag &&
-		isvar (son (son (e))) &&
-		ptno (son (son (e))) == reg_pl) {
-		int  n = no (son (son (e)));
-		if (!iscaonly (son (son (e))) && isvar (son (son (e))))
-			n = (n | (int)0x80000000);
-		return (n);
-	};
-	if (ne == ass_tag && name (son (e)) == name_tag &&
-		isvar (son (son (e))) &&
-		ptno (son (son (e))) == reg_pl) {
-		int  n = no (son (son (e)));
-		if (!iscaonly (son (son (e))) && isvar (son (son (e))))
-			n = (n | (int)0x80000000);
-		return (n);
-	};
-	if (ne == ident_tag && ptno (e) == reg_pl) {
-		int  n = no (e);
-		if (!iscaonly (e) && isvar (e))
-			n = (n | (int)0x80000000);
-		return (n);
-	};
+	unsigned char ne = name(e);
+
 	if (ne == current_env_tag)
-		return (0x40);
-	return (0);
+		return REG_EBP;
+	if (ne == name_tag) {
+		e = son(e);
+	} else if (ne == cont_tag || ne == ass_tag) {
+		e = son(e);
+		if (name(e) != name_tag)
+			return 0;
+		e = son(e);
+		if (!isvar(e))
+			return 0;
+	} else if (ne != ident_tag)
+		return 0;
+	if (ptno(e) == reg_pl) {
+		int n = no(e);
+
+		if (!iscaonly(e) && isvar(e))
+			n = (n | (int)0x80000000);
+		return n;
+	}
+	return 0;
 }
 
 static int
