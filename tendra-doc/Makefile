@@ -1,5 +1,6 @@
 # $Id$
 
+TIDY= tidy
 XSLTPROC= xsltproc
 
 DBSRCS=	calculus/calculus.xml diagnostic/diagnostic.xml tcpplus/tcpplus.xml\
@@ -10,6 +11,7 @@ DBXSL=	/usr/local/share/xsl/docbook/xhtml/docbook.xsl
 all:
 .for i in ${DBSRCS}
 	${XSLTPROC} -o ${i:C/xml/html/} --xinclude ${DBXSL} ${i}
+	${TIDY} -im -wrap 78 -xml ${i:C/xml/html/}
 .endfor
 
 clean:
