@@ -32,7 +32,6 @@ all:
 	@${ECHO} Starting TenDRA build...
 	@${ECHO} Bootstrapping from ${BASE_DIR}
 	@${ECHO}
-	@${ECHO} building host type determiner, tuname...
 	@${ECHO} ${DIST_DIR}
 
 .include "Makefile.inc"
