@@ -48,6 +48,7 @@ MV?=		/bin/mv
 PATCH?=		/usr/bin/patch
 PAX?=		
 PERL?=		/usr/bin/perl
+RANLIB?=	/usr/bin/ranlib
 RM?=		/bin/rm
 RMDIR?=		/bin/rmdir
 SED?=		/bin/sed

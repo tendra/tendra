@@ -52,6 +52,7 @@ PATCH?=		/usr/bin/patch
 PAX?=		/bin/pax
 PERL?=		/usr/bin/perl
 PKGLOCALEDIR?=	share
+RANLIB?=	/usr/bin/ranlib
 RM?=		/bin/rm
 RMDIR?=		/bin/rmdir
 SED?=		/usr/bin/sed
