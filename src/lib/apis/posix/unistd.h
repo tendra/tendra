@@ -39,7 +39,7 @@
 
     +CONST int R_OK, W_OK, X_OK, F_OK ;
 
-    +CONST int _POSIX_JOB_CONTROL, _POSIX_SAVED_IDS ;
+    #+CONST int _POSIX_JOB_CONTROL, _POSIX_SAVED_IDS ;
 
     +CONST int _SC_ARG_MAX, _SC_CHILD_MAX, _SC_CLK_TCK, _SC_JOB_CONTROL ;
     +CONST int _SC_NGROUPS_MAX, _SC_OPEN_MAX, _SC_SAVED_IDS, _SC_VERSION ;
@@ -91,10 +91,10 @@
     +FUNC char *ttyname ( int ) ;
     +FUNC int unlink ( const char * ) ;
 
-    +FUNC int chown ( const char *, uid_t, gid_t ) ;
-    +FUNC int setgid ( gid_t ) ;
+    +FUNC int chown ( const char *, int, int ) ;
+    +FUNC int setgid ( int ) ;
     +FUNC int setpgid ( pid_t, pid_t ) ;
-    +FUNC int setuid ( uid_t ) ;
+    +FUNC int setuid ( int ) ;
 } ;
 
 +SUBSET "tcpgrp" := {

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/ash
 #
 #   		 Crown Copyright (c) 1997, 1998
 #   
@@ -73,7 +73,7 @@ COMMON_DIR=${INSTALL_DIR}/lib
 MACH_DIR=${INSTALL_DIR}/machines
 MAN_DIR=/usr/local/man
 WORK_DIR=${BASE_DIR}/work
-TEMP_DIR=/var/tmp
+TEMP_DIR=/usr/tmp
 
 
 #
@@ -139,13 +139,13 @@ COMMENT=echo
 # have a particular suffix, for example it may be set to ".exe".
 #
 
-CC=cc
+CC="cc -O2 -i -DFS_NO_UNION_INIT -DFS_UNION_INIT=0 -DFS_TEMPNAM=0"
 CCOPTS=
 LIBOPTS=
 TCCOPTS="TCCOPTS="
 SYS_INCLUDES="-I/usr/include"
-STRIP=:
-RANLIB=ranlib
+STRIP=strip
+RANLIB=touch
 EXEC_SUFFIX=
 
 
@@ -356,6 +356,7 @@ do
 	else
 	    ${COMMENT} compilation failed ...
 	    BUILD_OK=false
+	    exit 1
 	fi
 	${COMMENT}
     fi
@@ -381,8 +382,14 @@ do
     fi
 done
 
-rm -f ${MACH_SED}
 
+chmem =786432  ${MACH_BASE}/bin/tspec1
+chmem =655360  ${MACH_BASE}/bin/tdfc2
+chmem =786432  ${MACH_BASE}/bin/tcpplus
+chmem =655360  ${MACH_BASE}/bin/pl
+chmem =655360  ${MACH_BASE}/bin/tld
+chmem =655360  ${MACH_BASE}/bin/tnc
+chmem =1441792 ${MACH_BASE}/bin/trans
 
 #
 # BUILD DYNAMIC LINKER
@@ -404,7 +411,6 @@ then
 	${COMMENT}
     fi
 fi
-
 
 #
 # INSTALL ENVIRONMENTS
@@ -510,6 +516,21 @@ exec ${MACH_BASE}/bin/tspec1${EXEC_SUFFIX} \${@+"\$@"}
 EOF
     chmod +x ${PUBLIC_BIN}/tspec
     ${COMMENT}
+
+    SRC=${BASE_DIR}/src/lib/machines/${MACH_OS}/${MACH_CPU}/src
+    if [ -f ${SRC}/ld ]; then
+      ${COMMENT} installing ld ...
+      LD_SED=${TEMP_DIR}/ld$$.sed
+      cat > ${LD_SED} << EOF
+1,\$s%-LIBDIR-%${MACH_BASE}/lib%g
+1,\$s%-TMPDIR-%${TEMP_DIR}%g
+EOF
+      rm -f ${PUBLIC_BIN}/ld
+      sed -f ${LD_SED} ${SRC}/ld > ${PUBLIC_BIN}/ld
+      chmod +x ${PUBLIC_BIN}/ld
+      rm -f ${LD_SED}
+      ${COMMENT}
+    fi
 fi
 
 
@@ -761,7 +782,7 @@ then
 	make -f ${SRC}/Makefile BASE=${BASE_DIR} all || BUILD_OK=false
 	${COMMENT}
     fi
-    for PROG in `cat ${BASE_DIR}/src/build/LIBRARIES`
+    for PROG in `sed -f ${MACH_SED} ${BASE_DIR}/src/build/LIBRARIES`
     do
 	NAME=`echo ${PROG} | sed -e 's/:.*//'`
 	SRC=${BASE_DIR}/src/`echo ${PROG} | sed -e 's/.*://'`
@@ -786,7 +807,7 @@ then
 	fi
     done
 fi
-
+rm -f ${MACH_SED}
 
 #
 # END OF INSTALLATION SCRIPT

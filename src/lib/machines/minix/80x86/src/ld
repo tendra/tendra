@@ -1,0 +1,52 @@
+#!/usr/bin/ash
+# linker simulator for i386
+
+OUTPUT_NAME="a.out"
+FILES=""
+EM_LED="/usr/lib/em_led -a0:4 -a1:4 -a2:4 -a3:4"
+CV="/usr/lib/cv -x -mi386"
+SID=no
+STRIP=""
+STACK=""
+RELOC=no
+DRY=""
+SEARCH_PATH="-LIBDIR-/sys"  # sed-ed at install-time
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -i)  SID=yes; shift;;
+    -L*) L=`echo $1 | sed -e s/-L//`; SEARCH_PATH="$L $SEARCH_PATH"; shift;;
+    -l*) L=`echo $1 | sed -e s/-l//`; L="lib$L.a"
+         LIB=""
+         for P in $SEARCH_PATH; do
+           if [ -f "$P/$L" ]; then
+             LIB="$P/$L"; break
+           fi
+         done
+         if [ "$LIB" = "" ]; then
+           echo "Warning: $L not found" 1>&2
+         else
+           FILES="$FILES $LIB"
+         fi
+         shift;;
+    -n)  DRY=echo; shift;;
+    -o)  shift; OUTPUT_NAME="$1"; shift;;
+    -r)  RELOC=yes; shift;;
+    -S)  shift; CV="$CV -S $1"; shift;;
+    -s)  STRIP="-s"; shift;;
+    *)   FILES="$FILES $1"; shift;;
+  esac
+done
+
+if [ "$RELOC" = "no" ]; then
+  EM_LED="$EM_LED -b0:0"
+  if [ "$SID" = "yes" ]; then
+    EM_LED="$EM_LED -b1:0"
+  fi
+  TEMP_NAME="-TMPDIR-/ld$$.o"
+  $DRY $EM_LED $STRIP -o $TEMP_NAME $FILES
+  $DRY $CV $TEMP_NAME $OUTPUT_NAME
+  $DRY rm -f $TEMP_NAME
+else
+  $DRY $EM_LED $STRIP -r -o $OUTPUT_NAME $FILES
+fi

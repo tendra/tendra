@@ -342,6 +342,10 @@ int main
 	sysname = "cygwin32" ;
 	machine = find_linux_machine ( machine ) ;
 
+    } else if ( strncmp ( sysname, "minix", 5 ) == 0 ) {
+	machine = find_linux_machine ( machine ) ;
+	execform = "aout" ;
+
     } else {
 	/* Unknown operating system */
 	sysname = "unknown" ;

@@ -594,7 +594,7 @@ unsigned extra_constr_args
     constructor.
 */
 
-static int in_ctor_base_init = 0 ;
+int in_ctor_base_init = 0 ;
 
 
 /*
@@ -2605,7 +2605,8 @@ EXP convert_constr
 
     /* Check for template parameters */
     if ( dependent_conv ( t, args ) ) {
-	MAKE_exp_opn ( t, lex_static_Hcast, args, e ) ;
+	MAKE_exp_opn ( t, in_ctor_base_init ? templ_virtual_init
+                                            : lex_static_Hcast, args, e ) ;
 	return ( e ) ;
     }
 

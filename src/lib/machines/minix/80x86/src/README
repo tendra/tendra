@@ -1,0 +1,3 @@
+c/_sigaction.c, c/frexp.s, c/modf.s, crtso.s, out.h, c/*.mak, end.mak and
+curses/Makefile are taken from Minix 2.0.2.
+LICENSE contains Minix 2.0.2 license.

@@ -1766,6 +1766,7 @@ EXP make_new_cast_exp
 {
     EXP e ;
     switch ( op ) {
+	case templ_virtual_init :
 	case lex_static_Hcast : {
 	    e = make_static_cast_exp ( t, a, n ) ;
 	    break ;

@@ -1,0 +1,12 @@
+/* tcc environment for the C++ to TDF producer */
+
++CRT0			"-LIBDIR-/sys/cpprtso.o"
++INCL_CPP		"-Ncpp:-INCLDIR-/cpp.api"
++FLAG			"-f-MACHDIR-/startup/cpp.h"
++FLAG			"-jcpp"
++FLAG			"--2DL"
+>SYS_LIB		"-LIBDIR-/sys/libcpp.a"
++FLAG_INSTALL		"-Yc++"
++API_NAME		"-Acpp"
++FLAG			"-special cpp"
+<INFO			"C++@ABI"

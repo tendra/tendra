@@ -1,0 +1,168 @@
+TENDRA C/C++ FOR MINIX
+----------------------
+
+This is a port of the TenDRA C/C++ compiler (version 4.1.2) for Minix 2.0.2,
+but it will probably compile under 2.0.0 and 2.0.3 without changes.
+Read the file COPYRIGHT for the original license (which is quite liberal).
+Since I don't think changing "movl hola, %ebx" for "mov ebx, (hola)" needs
+a license, my modifications are public domain.
+
+The original sources of TenDRA can be obtained from
+
+ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2.tar.gz
+ftp://ftp.ten15.org/pub/source/TenDRA-4.1.2-doc.tar.gz
+
+and also from
+
+http://i44w3.info.uni-karlsruhe.de/~andf/download/TenDRA-4.1.2.tar.gz
+
+This package is available from
+
+http://tendra4minix.sourceforge.net
+
+
+INSTALLATION
+------------
+
+You need at least an i486 processor (or i386+i387) and 4 MB of RAM to build
+this package. As bin user, type
+
+cd /usr/local/src
+zcat TenDRA412a.taz | tar xf -
+cd TenDRA-4.1.2
+./INSTALL >> messages.build 2>&1
+
+The compilation and installation may take up to 8 hours on a slow
+machine (33 MHz). You can monitor the compilation process at another
+virtual terminal,
+
+cd /usr/local/src/TenDRA-4.1.2
+tail -n 24 -f messages.build
+
+At the end, there should be no error messages in this file. Common causes
+of failure are:
+
+  - Lack of memory. The memory used by some programs (for example,
+    em_cemcom.ansi) needs to be enlarged to more than 1.2 MB to handle some
+    parts of the code. Try recompiling your kernel to reduce FS buffers
+    and/or drop temporarily some drivers and servers (INET).
+
+  - You have changed system headers in a way that affects their semantics
+    (as the TenDRA frontend understands this). The TenDRA compilers don't
+    use system headers by default, but a library of headers codified in TDF
+    (intermediate language). This library is built from both the API
+    specifications (in the src/lib/apis directory) and the system headers
+    during the installation process. Deleting or adding a simple "const"
+    keyword will affect their meaning and thus will break the building of
+    the TDF API library. The solution is to make your system headers and the
+    API descriptions agree. Read tspec documentation (it's not that
+    difficult, I have had to do it myself), and/or email me if you have
+    problems with this.
+
+In general, the original sources are very clean and the makefiles very well
+behaved, so if the installation gets interrupted somewhere, you can restart
+it with the ./INSTALL command above; no need of deleting anything nor
+unpacking again.
+
+Almost everything gets installed under /usr/local/lib/TenDRA, a few scripts
+go into /usr/local/bin (tcc, tchk, tspec, ld), and man pages into
+/usr/local/man (don't forget "makewhatis /usr/local/man" to read them).
+
+
+USAGE
+-----
+
+To compile a simple C program,
+
+tcc hello.c
+
+To compile a simple C++ program,
+
+tcc -Yc++ hello.C
+
+As mentioned before, the frontends don't use the system headers. Instead,
+they check your program against precompiled libraries of "tokens" (= macro
+definitions) that specify Application Programming Interfaces (APIs). These
+precompiled API token libraries are built during installation, using the
+specs given in src/lib/apis and the contents of the system headers. The
+TenDRA-4.1.2 distribution comes with several APIs, but only two of them can
+be built on standard Minix: ansi (X3.159) and posix (1003.1). APIs are
+chosen by specifying an environment with the -Y switch. By default, the
+ansi environment is used. Several -Y switches may be combined in the same
+command line,
+
+tcc -Yposix -Yc++ prog.C
+
+If you want to bypass API checking and use normal system headers, there is
+a special environment for doing this,
+
+tcc -Ysystem prog.c
+tcc -Ysystem -Yc++ prog.C
+
+This is necessary to use Minix specific features (networking, for example).
+The compiler driver tcc behaves like any other one, accepting common
+options like -c (compile only), -o (name output file), etc. See the man
+page tcc(1). You can pass options to the linker script through the -Wl:
+switch; the most important use of this is to produce a separate I&D
+executable,
+
+tcc -Ysystem -Wl:-i main.o module.o -lcurses
+
+
+IMPORTANT NOTES
+---------------
+
+Of course, there is list of caveats about this program.
+
+1. No Standard C++ Library is included in the package (not even iostream).
+   See the documentation for some advice on how to port GNU libio (although
+   I haven't tried myself).
+
+2. The -g switch (emit debug info) is a complete nonsense. Never use it.
+   I have wiped diagnostics off the Minix specific parts of the 80x86
+   installer (= the compiler backend), but the common part will still
+   produce some output. Anyway, the ACK assembler cannot understand AT&T
+   style debug information, so if you compile with -g, you will just get a
+   stream of error messages from the assembler.
+
+3. I doubt that the -p switch (emit profiling data) works. I am not sure,
+   but I think Minix has no support for profiling.
+
+4. Linking ACK object code with TenDRA object code is not possible in
+   general. Two binary incompatibilities arise: (1) ACK uses ebx as a
+   scratch register, this means it indulges in overwriting ebx without
+   making a copy; (2) ACK returns float/double values in eax/edx, while
+   TenDRA uses st(0) for this. You may have noticed that libc and libcurses
+   are completely rebuilt with the TenDRA C compiler during installation.
+   You will have to do so for other libraries as well.
+
+5. If you are used to dirty C programming, then you will find that it is
+   almost impossible to compile a "normal" program with TenDRA. The
+   frontends are very strict about languages and standards. This strictness
+   can be suspended using suitable #pragmas. There is a plethora of them
+   (they are also a way of expressing TDF constructs). For example, if you
+   want to be able to assign a data pointer to a function pointer (something
+   explicitly forbidden in ANSI C), you must put this #pragma somewhere in
+   your code
+
+   #pragma TenDRA function pointer as pointer allow
+
+   See also the switch -X (compilation mode) in the documentation.
+
+
+COMMENTS
+--------
+
+The principle underlying this port has been: do it the simplest way
+possible, no matter how inelegant it might result. Inelegant doesn't mean
+buggy. I have corrected two important bugs (bugs 17 and 18 of
+http://bugs.ten15.org), and I think that the compilers are now very safe
+(the original code, as I said before, is particularly stable and clean).
+I have made some tests involving relatively complex inheritance hierarchies,
+with template classes, virtual bases, virtual tables, and exceptions, and
+everything has worked fine.
+
+I don't plan to develop this package very actively, but I want it to be bug
+free. If you find some problem other than the five warnings I made above,
+please tell me (email me at the address josejuanmr@users.sourceforge.net)
+and I'll try to fix it (you'll have to be patient).

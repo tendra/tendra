@@ -39,5 +39,5 @@
     +SUBSET "ino_t" := { +TYPE ( arith ) ino_t ; } ;
     +SUBSET "mode_t" := { +TYPE ( arith ) mode_t ; } ;
     +TYPE ( arith ) nlink_t ;
-    +SUBSET "off_t" := { +TYPE ( signed ) off_t ; } ;
+    +SUBSET "off_t" := { +TYPE ( unsigned ) off_t ; } ;
 } ;

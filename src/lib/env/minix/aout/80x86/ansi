@@ -1,0 +1,8 @@
+/* tcc environment for ansi */
+
++INCL			"-Nansi:-INCLDIR-/ansi.api"
++FLAG			"-f-MACHDIR-/startup/ansi.h"
++LIB			"-lansi"
++FLAG_INSTALL		"-Yansi"
++API_NAME		"-Aansi"
++INFO			"ANSI@(X3.159)"

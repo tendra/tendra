@@ -102,5 +102,6 @@ extern int have_conv_expl ;
 #define EXTRA_DELETE			1
 #define EXTRA_DESTR			2
 
+#define templ_virtual_init 1053
 
 #endif

@@ -87,7 +87,7 @@
 +IFNDEF __JUST_XPG3
 +TYPE fpos_t ;
 +FUNC int fgetpos ( FILE *, fpos_t * ) ;
-+FUNC int fsetpos ( FILE *, const fpos_t * ) ;
++FUNC int fsetpos ( FILE *, fpos_t * ) ;
 +ENDIF
 +FUNC int setvbuf ( FILE *, char *, int, size_t ) ;
 +FUNC int vfprintf ( FILE *, const char *, ~va_list ) ;

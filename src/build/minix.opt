@@ -1,0 +1,28 @@
+#!/usr/bin/ash
+# this script sets stack+data size of some tools needed to build TenDRA-4.1.2
+
+chmod u+w /usr/lib/em_opt2
+chmod u+w /usr/lib/em_led
+chmod u+w /usr/lib/em_cemcom.ansi
+chmod u+w /usr/lib/ego/ic
+chmod u+w /usr/lib/ego/cf
+chmod u+w /usr/lib/ego/cj
+chmod u+w /usr/lib/ego/bo
+chmod u+w /usr/lib/ego/sp
+chmod u+w /usr/lib/ego/ca
+chmod u+w /usr/lib/i386/cg
+chmod u+w /usr/lib/i386/as
+
+chmem =106496  /usr/bin/cc             # 104K
+chmem =163840  /usr/bin/make           # 160K
+chmem =196608  /usr/lib/em_opt2        # 192K
+chmem =196608  /usr/lib/em_led         # 192K
+chmem =1310720 /usr/lib/em_cemcom.ansi # 1280K
+chmem =1179648 /usr/lib/ego/ic         # 1152K
+chmem =1114112 /usr/lib/ego/cf         # 1088K
+chmem =1114112 /usr/lib/ego/cj         # 1088K
+chmem =1114112 /usr/lib/ego/bo         # 1088K
+chmem =1114112 /usr/lib/ego/sp         # 1088K
+chmem =1179648 /usr/lib/ego/ca         # 1152K
+chmem =196608  /usr/lib/i386/cg        # 192K
+chmem =327680  /usr/lib/i386/as        # 320K

@@ -68,4 +68,4 @@
 
 +FUNC int open ( const char *, int, ... ) ;
 +FUNC int fcntl ( int, int, ... ) ;
-+FUNC int creat ( const char *, mode_t ) ;
++FUNC int creat ( const char *, int ) ;

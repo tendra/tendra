@@ -565,7 +565,6 @@
 #   define FS_VOID_PTR
 #   define FS_VOLATILE
 #   define FS_CONST
-#   define FS_UNION_INIT
 #   define FS_ENUM
 #   if __STDC__ == 1
 #    define FS_ANSI_ENVIRON

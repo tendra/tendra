@@ -343,6 +343,7 @@ EXP apply_unary
 	    suppress_usage-- ;
 	    break ;
 	}
+	case templ_virtual_init :
 	case lex_static_Hcast :
 	case lex_reinterpret_Hcast :
 	case lex_const_Hcast :
@@ -526,6 +527,8 @@ EXP apply_binary
     type t2 gives the destination for any cast operator.
 */
 
+extern int in_ctor_base_init;
+
 EXP apply_nary
     PROTO_N ( ( op, p, t1, t2, cpy ) )
     PROTO_T ( int op X LIST ( EXP ) p X TYPE t1 X TYPE t2 X int cpy )
@@ -578,6 +581,18 @@ EXP apply_nary
 	    if ( cpy ) p = copy_exp_list ( p, t1, t2 ) ;
 	    p = convert_args ( p ) ;
 	    e = convert_constr ( t2, p, &err, CAST_STATIC ) ;
+	    if ( !IS_NULL_err ( err ) ) report ( crt_loc, err ) ;
+	    break ;
+	}
+	case templ_virtual_init : {
+	    /* Construct 't2 ( p0, ..., pn )' for nonvirtual base initializer*/
+	    ERROR err = NULL_err ;
+            int icbi = in_ctor_base_init;
+            in_ctor_base_init = 1;
+	    if ( cpy ) p = copy_exp_list ( p, t1, t2 ) ;
+	    p = convert_args ( p ) ;
+	    e = convert_constr ( t2, p, &err, CAST_STATIC ) ;
+            in_ctor_base_init = icbi;
 	    if ( !IS_NULL_err ( err ) ) report ( crt_loc, err ) ;
 	    break ;
 	}
@@ -1097,8 +1112,11 @@ static HASHID overload_candidates
     /* Look up 't::operator op' */
     if ( IS_type_compound ( t ) ) {
 	CLASS_TYPE ct = DEREF_ctype ( type_compound_defn ( t ) ) ;
-	NAMESPACE ns = DEREF_nspace ( ctype_member ( ct ) ) ;
-	IDENTIFIER id = search_field ( ns, nm, 0, 0 ) ;
+	NAMESPACE ns;
+	IDENTIFIER id;
+	complete_class(ct, 1);
+	ns = DEREF_nspace ( ctype_member ( ct ) ) ;
+	id = search_field ( ns, nm, 0, 0 ) ;
 	if ( !IS_NULL_id ( id ) ) {
 	    if ( IS_id_ambig ( id ) ) {
 		/* Ambiguous look-up */

@@ -54,4 +54,4 @@
 } ;
 
 +FUNC struct group *getgrnam ( const char * ) ;
-+FUNC struct group *getgrgid ( gid_t ) ;
++FUNC struct group *getgrgid ( int ) ;
