@@ -24,9 +24,9 @@
 #
 # $TenDRA$
 #
-+IMPLEMENT "ansi", "stddef.h", "null";
-+IMPLEMENT "ansi", "stddef.h", "size_t";
-+IMPLEMENT "ansi", "stddef.h", "wchar_t";
++IMPLEMENT "iso99", "stddef.h", "null";
++IMPLEMENT "iso99", "stddef.h", "size_t";
++IMPLEMENT "iso99", "stddef.h", "wchar_t";
 
 # 7.20
 

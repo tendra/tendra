@@ -24,7 +24,7 @@
 #
 # $TenDRA$
 #
-+IMPLEMENT "ansi", "stddef.h", "null";
++IMPLEMENT "iso99", "stddef.h", "null";
 
 # 7.11
 
