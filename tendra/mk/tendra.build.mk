@@ -64,11 +64,35 @@ REMOVE ?=	${ENV} rm -f
 .MAIN: all
 .endif
 
+.SUFFIXES: .o .c
+
+.c.o:
+	@${ECHO} Compiling ${.IMPSRC}...
+	${CC} ${CCOPTS} -c ${.IMPSRC}
+
+.o:
+	@${ECHO} Linking ${.IMPSRC}...
+	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+
+OBJS=  ${SRCS:S/.c/.o/}
+
+all:
+.if defined(PROG)
+	${MAKE} build-prog
+.endif
+
+build-prog: ${PROG}
+
+${PROG}: ${OBJS}
+
+clean:
+	${REMOVE} ${PROG} ${PROG}.core core ${OBJS}
+
 _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
 .for entry in ${SUBDIR}
 		@${ECHODIR} "Entering ${DIRPREFIX}${entry}"
-		@${ECHODIR} "..Executing ${entry}: ${MAKE} ${.TARGET}"
+		@${ECHODIR} "..Executing within ${entry}: ${MAKE} ${.TARGET}"
 		@cd ${.CURDIR}/${entry}; \
 			${MAKE} ${.TARGET} DIRPREFIX=${DIRPREFIX}${entry}/
 .endfor
@@ -77,6 +101,3 @@ _SUBDIR: .USE
 .for target in all clean
 ${target}: _SUBDIR
 .endfor
-
-clean:
-	${REMOVE} ${NAME}.core core ${NAME}
