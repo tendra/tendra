@@ -99,8 +99,7 @@
 
 
 <!ENTITY tm-attrib.opengroup "<para>Motif, OSF/1, and UNIX are
-  registered trademarks and IT DialTone and The Open Group are
-  trademarks of The Open Group in the United States and other
+  registered trademarks of The Open Group in the United States and other
   countries.  <ulink url='htp://www.opengroup.org/'>http://www.opengroup.org/</ulink></para>">
 <!ENTITY motif "<trademark class='registered'>Motif</trademark>">
 <!ENTITY unix "<trademark class='registered'>UNIX</trademark>">
