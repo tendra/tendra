@@ -83,7 +83,7 @@ scope_stack_push(ScopeStackP stack, NStringP scope)
 	DStringT         dstring;
 	
 	dstring_init (&dstring);
-	if (frame->head) {
+	if (stack->head) {
 		dstring_append_nstring (&dstring, &(stack->head->scope));
 	}
 	dstring_append_nstring (&dstring, scope);
