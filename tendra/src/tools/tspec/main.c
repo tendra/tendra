@@ -302,7 +302,7 @@ main(int argc, char **argv)
 	object *commands = null;
 
 	/* Initialisation */
-	tenapp_init (argc, argv, "An API specification tool", "2.9");
+	tenapp_init (argc, argv, "An API specification tool", "2.10");
 	tenapp_add_eh (exit_handler);
 	msg_uh_add(MSG_GLOB_fileline, msg_uh_fileline);
 	msg_on_message = tspec_on_message;

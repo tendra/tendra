@@ -60,7 +60,7 @@ VER_TLD=	4.0.7
 VER_TNC=	1.0
 
 # tools/tspec
-VER_TSPEC=	2.9
+VER_TSPEC=	2.10
 
 
 # producers/c
