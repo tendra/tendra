@@ -81,12 +81,12 @@ ALGEBRA c_class (1.1) :
  *    definitions etc.
  */
 
-int =			"int" ;
-unsigned =		"unsigned" ;
-string =		"character *" ;
-ulong_type (ulong) =	"unsigned long" ;
-BITSTREAM_P (bits) =	"struct bits_tag *" ;
-PPTOKEN_P (pptok) =	"struct pptok_tag *" ;
+int =			"int";
+unsigned =		"unsigned";
+string =		"character *";
+ulong_type (ulong) =	"unsigned long";
+BITSTREAM_P (bits) =	"struct bits_tag *";
+PPTOKEN_P (pptok) =	"struct pptok_tag *";
 
 
 /*
@@ -110,7 +110,7 @@ enum !CV_SPEC (cv) = {
     qual =		const | volatile,
     mask =		qual | lvalue,
     language =		c | cpp
-} ;
+};
 
 
 /*
@@ -144,7 +144,7 @@ enum !BUILTIN_TYPE (ntype) = {
     size_t =		19,
     wchar_t =		20,
     ellipsis =		21
-} ;
+};
 
 
 /*
@@ -204,7 +204,7 @@ enum !BASE_TYPE (btype) = {
     other =		keyword | bottom | ptrdiff_t | size_t,
     arith =		int | float,
     scalar =		int | float | star
-} ;
+};
 
 
 /*
@@ -216,46 +216,46 @@ enum !BASE_TYPE (btype) = {
  */
 
 union INT_TYPE (itype) = {
-    TYPE prom ;
-    LIST TYPE cases ;
-    BUILTIN_TYPE unprom = "ntype_none" ;
-    ulong_type itok = "LINK_NONE" ;
-    ulong_type ntok = "LINK_NONE" ;
-    ulong_type diag = "LINK_NONE" ;
+    TYPE prom;
+    LIST TYPE cases;
+    BUILTIN_TYPE unprom = "ntype_none";
+    ulong_type itok = "LINK_NONE";
+    ulong_type ntok = "LINK_NONE";
+    ulong_type diag = "LINK_NONE";
 } + {
     basic -> {
 	/* Built-in types */
-	BASE_TYPE rep ;
-	BUILTIN_TYPE no ;
+	BASE_TYPE rep;
+	BUILTIN_TYPE no;
     },
     bitfield -> {
 	/* Bitfield types */
-	TYPE sub ;
-	BASE_TYPE rep ;
-	NAT size ;
-	DECL_SPEC info ;
+	TYPE sub;
+	BASE_TYPE rep;
+	NAT size;
+	DECL_SPEC info;
     },
     promote -> {
 	/* Promotion types */
-	INT_TYPE arg ;
+	INT_TYPE arg;
     },
     arith -> {
 	/* Arithmetic conversion types */
-	INT_TYPE arg1, arg2 ;
+	INT_TYPE arg1, arg2;
     },
     literal -> {
 	/* Target dependent literal type */
-	NAT nat ;
-	int spec ;
-	int form, suff ;
-	IDENTIFIER tok ;
+	NAT nat;
+	int spec;
+	int form, suff;
+	IDENTIFIER tok;
     },
     token -> {
 	/* Tokenised integral type */
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
+	IDENTIFIER tok;
+	LIST TOKEN args;
     }
-} ;
+};
 
 
 /*
@@ -267,31 +267,31 @@ union INT_TYPE (itype) = {
  */
 
 union FLOAT_TYPE (ftype) = {
-    TYPE arg_prom ;
-    ulong_type ftok = "LINK_NONE" ;
-    ulong_type ntok = "LINK_NONE" ;
-    ulong_type diag = "LINK_NONE" ;
-    LIST FLOAT small = "NULL_list ( FLOAT )" ;
+    TYPE arg_prom;
+    ulong_type ftok = "LINK_NONE";
+    ulong_type ntok = "LINK_NONE";
+    ulong_type diag = "LINK_NONE";
+    LIST FLOAT small = "NULL_list ( FLOAT )";
 } + {
     basic -> {
 	/* Built-in types */
-	BASE_TYPE rep ;
-	BUILTIN_TYPE no ;
+	BASE_TYPE rep;
+	BUILTIN_TYPE no;
     },
     arg_promote -> {
 	/* Argument promotion types */
-	FLOAT_TYPE arg ;
+	FLOAT_TYPE arg;
     },
     arith -> {
 	/* Arithmetic conversion types */
-	FLOAT_TYPE arg1, arg2 ;
+	FLOAT_TYPE arg1, arg2;
     },
     token -> {
 	/* Tokenised floating type */
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
+	IDENTIFIER tok;
+	LIST TOKEN args;
     }
-} ;
+};
 
 
 /*
@@ -344,7 +344,7 @@ enum !CLASS_INFO (cinfo) = {
     trivial =		trivial_make | trivial_destr,
     implicit =		trivial | const_copy | const_assign,
     default =		implicit | empty | pod
-} ;
+};
 
 
 /*
@@ -360,7 +360,7 @@ enum !CLASS_USAGE (cusage) = {
     destr =		1 << 1,		/* destroyed incomplete */
     delete =		1 << 2,		/* deleted incomplete */
     delete_array =	1 << 3		/* deleted incomplete array */
-} ;
+};
 
 
 /*
@@ -375,29 +375,29 @@ enum !CLASS_USAGE (cusage) = {
  */
 
 union CLASS_TYPE (ctype) = {
-    IDENTIFIER name ;
-    CLASS_INFO info ;
-    CLASS_USAGE usage ;
-    NAMESPACE member ;
-    GRAPH base ;
-    unsigned no_bases ;
-    TYPE prev ;
-    TYPE form = "NULL_type" ;
-    IDENTIFIER constr = "NULL_id" ;
-    IDENTIFIER destr = "NULL_id" ;
-    VIRTUAL virt = "NULL_virt" ;
-    LIST GRAPH vbase = "NULL_list ( GRAPH )" ;
-    LIST IDENTIFIER conv = "NULL_list ( IDENTIFIER )" ;
-    LIST CLASS_TYPE chums = "NULL_list ( CLASS_TYPE )" ;
-    LIST IDENTIFIER pals = "NULL_list ( IDENTIFIER )" ;
-    LIST IDENTIFIER nest = "NULL_list ( IDENTIFIER )" ;
-    ulong_type tok1 = "LINK_NONE" ;
-    ulong_type tok2 = "LINK_NONE" ;
+    IDENTIFIER name;
+    CLASS_INFO info;
+    CLASS_USAGE usage;
+    NAMESPACE member;
+    GRAPH base;
+    unsigned no_bases;
+    TYPE prev;
+    TYPE form = "NULL_type";
+    IDENTIFIER constr = "NULL_id";
+    IDENTIFIER destr = "NULL_id";
+    VIRTUAL virt = "NULL_virt";
+    LIST GRAPH vbase = "NULL_list ( GRAPH )";
+    LIST IDENTIFIER conv = "NULL_list ( IDENTIFIER )";
+    LIST CLASS_TYPE chums = "NULL_list ( CLASS_TYPE )";
+    LIST IDENTIFIER pals = "NULL_list ( IDENTIFIER )";
+    LIST IDENTIFIER nest = "NULL_list ( IDENTIFIER )";
+    ulong_type tok1 = "LINK_NONE";
+    ulong_type tok2 = "LINK_NONE";
 } + {
     basic -> {
 	/* empty */
     }
-} ;
+};
 
 
 /*
@@ -412,22 +412,22 @@ union CLASS_TYPE (ctype) = {
  */
 
 union GRAPH (graph) = {
-    CLASS_TYPE head ;
-    DECL_SPEC access ;
-    LIST GRAPH tails = "NULL_list ( GRAPH )" ;
-    GRAPH top = "NULL_graph" ;
-    GRAPH equal = "NULL_graph" ;
-    GRAPH up = "NULL_graph" ;
-    unsigned no = "0" ;
-    OFFSET off = "NULL_off" ;
-    LIST IDENTIFIER member = "NULL_list ( IDENTIFIER )" ;
-    ulong_type tok1 = "LINK_NONE" ;
-    ulong_type tok2 = "LINK_NONE" ;
+    CLASS_TYPE head;
+    DECL_SPEC access;
+    LIST GRAPH tails = "NULL_list ( GRAPH )";
+    GRAPH top = "NULL_graph";
+    GRAPH equal = "NULL_graph";
+    GRAPH up = "NULL_graph";
+    unsigned no = "0";
+    OFFSET off = "NULL_off";
+    LIST IDENTIFIER member = "NULL_list ( IDENTIFIER )";
+    ulong_type tok1 = "LINK_NONE";
+    ulong_type tok2 = "LINK_NONE";
 } + {
     basic -> {
 	/* empty */
     }
-} ;
+};
 
 
 /*
@@ -440,43 +440,43 @@ union GRAPH (graph) = {
  */
 
 union VIRTUAL (virt) = {
-    IDENTIFIER func ;
-    ulong_type no ;
-    GRAPH base ;
-    VIRTUAL next = "NULL_virt" ;
+    IDENTIFIER func;
+    ulong_type no;
+    GRAPH base;
+    VIRTUAL next = "NULL_virt";
 } + {
     table -> {
 	/* Virtual function table */
-	OFFSET off ;
-	LIST VIRTUAL entries = "NULL_list ( VIRTUAL )" ;
-	ulong_type tok = "LINK_NONE" ;
-	ulong_type tbl = "LINK_NONE" ;
-	ulong_type rtti = "LINK_NONE" ;
-	int rtti_used = "0" ;
+	OFFSET off;
+	LIST VIRTUAL entries = "NULL_list ( VIRTUAL )";
+	ulong_type tok = "LINK_NONE";
+	ulong_type tbl = "LINK_NONE";
+	ulong_type rtti = "LINK_NONE";
+	int rtti_used = "0";
     },
     simple -> {
 	/* New virtual function */
     },
     override -> {
 	/* Overriding virtual function */
-	GRAPH ret ;
-	IDENTIFIER orig ;
-	GRAPH src ;
+	GRAPH ret;
+	IDENTIFIER orig;
+	GRAPH src;
     },
     inherit -> {
 	/* Inherited primary function */
     },
     complex -> {
 	/* Inherited overriding virtual function */
-	GRAPH ret ;
-	IDENTIFIER orig ;
-	GRAPH src ;
+	GRAPH ret;
+	IDENTIFIER orig;
+	GRAPH src;
     },
     link -> {
 	/* Symbolic link */
-	PTR VIRTUAL to ;
+	PTR VIRTUAL to;
     }
-} ;
+};
 
 
 /*
@@ -489,18 +489,18 @@ union VIRTUAL (virt) = {
  */
 
 union ENUM_TYPE (etype) = {
-    IDENTIFIER name ;
-    CLASS_INFO info ;
-    TYPE rep ;
-    TYPE form = "NULL_type" ;
-    LIST IDENTIFIER values = "NULL_list ( IDENTIFIER )" ;
-    EXP value = "NULL_exp" ;
-    ulong_type plus = "0" ;
+    IDENTIFIER name;
+    CLASS_INFO info;
+    TYPE rep;
+    TYPE form = "NULL_type";
+    LIST IDENTIFIER values = "NULL_list ( IDENTIFIER )";
+    EXP value = "NULL_exp";
+    ulong_type plus = "0";
 } + {
     basic -> {
 	/* empty */
     }
-} ;
+};
 
 
 /*
@@ -512,89 +512,89 @@ union ENUM_TYPE (etype) = {
 
 union TYPE (type) = {
     /* Type qualifiers */
-    CV_SPEC qual ;
-    IDENTIFIER name = "NULL_id" ;
+    CV_SPEC qual;
+    IDENTIFIER name = "NULL_id";
 } + {
     pre -> {
 	/* Pre-types (used during parsing only) */
-	BASE_TYPE rep ;
-	QUALIFIER nqual ;
+	BASE_TYPE rep;
+	QUALIFIER nqual;
     },
     integer -> {
 	/* Integer types */
-	INT_TYPE rep ;
-	INT_TYPE sem ;
+	INT_TYPE rep;
+	INT_TYPE sem;
     },
     floating -> {
 	/* Floating point types */
-	FLOAT_TYPE rep ;
-	FLOAT_TYPE sem ;
+	FLOAT_TYPE rep;
+	FLOAT_TYPE sem;
     },
     top, bottom -> {
 	/* The void types */
     },
     ptr, ref -> {
 	/* Pointer and reference types */
-	TYPE sub ;
+	TYPE sub;
     },
     ptr_mem -> {
 	/* Pointer to member types */
-	CLASS_TYPE of ;
-	TYPE sub ;
+	CLASS_TYPE of;
+	TYPE sub;
     },
     func -> {
 	/* Function types */
-	TYPE ret ;
-	LIST TYPE ptypes ;
-	int ellipsis ;
-	CV_SPEC mqual ;
-	LIST TYPE mtypes ;
-	NAMESPACE pars ;
-	LIST IDENTIFIER pids ;
-	LIST TYPE except ;
+	TYPE ret;
+	LIST TYPE ptypes;
+	int ellipsis;
+	CV_SPEC mqual;
+	LIST TYPE mtypes;
+	NAMESPACE pars;
+	LIST IDENTIFIER pids;
+	LIST TYPE except;
     },
     array -> {
 	/* Array types */
-	TYPE sub ;
-	NAT size ;
+	TYPE sub;
+	NAT size;
     },
     bitfield -> {
 	/* Bitfield types */
-	INT_TYPE defn ;
+	INT_TYPE defn;
     },
     compound -> {
 	/* Class types */
-	CLASS_TYPE defn ;
+	CLASS_TYPE defn;
     },
     enumerate -> {
 	/* Enumeration types */
-	ENUM_TYPE defn ;
+	ENUM_TYPE defn;
     },
     token -> {
 	/* Tokenised type */
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
-	INSTANCE app = "NULL_inst" ;
+	IDENTIFIER tok;
+	LIST TOKEN args;
+	INSTANCE app = "NULL_inst";
     },
     templ -> {
 	/* Template type */
-	TOKEN sort ;
-	TYPE defn ;
-	int fix ;
+	TOKEN sort;
+	TYPE defn;
+	int fix;
     },
     instance -> {
 	/* Template member type */
-	IDENTIFIER id ;
-	DECL_SPEC access ;
+	IDENTIFIER id;
+	DECL_SPEC access;
     },
     dummy -> {
 	/* Dummy special token type */
-	int tok ;
+	int tok;
     },
     error -> {
 	/* Error propagation type */
     }
-} ;
+};
 
 
 /*
@@ -661,7 +661,7 @@ enum DECL_SPEC (dspec) = {
     language =		c | cpp,
     other =		ignore | implicit | instance | main | pure |
 			reserve | temp | template | token | trivial
-} ;
+};
 
 
 /*
@@ -675,29 +675,29 @@ enum DECL_SPEC (dspec) = {
  */
 
 union HASHID (hashid) = {
-    IDENTIFIER id = "NULL_id" ;
-    IDENTIFIER cache = "NULL_id" ;
-    HASHID next ;
-    ulong_type hash ;
+    IDENTIFIER id = "NULL_id";
+    IDENTIFIER cache = "NULL_id";
+    HASHID next;
+    ulong_type hash;
 } + {
     name, ename -> {
 	/* Simple and extended identifiers */
-	string text ;
+	string text;
     },
     constr, destr, conv -> {
 	/* Constructors, destructors and conversion functions */
-	TYPE type ;
-	IDENTIFIER tid ;
+	TYPE type;
+	IDENTIFIER tid;
     },
     op -> {
 	/* Overloaded operator name */
-	int lex ;
+	int lex;
     },
     anon -> {
 	/* Unnamed identifier */
-	ulong_type uniq ;
+	ulong_type uniq;
     }
-} ;
+};
 
 
 /*
@@ -717,7 +717,7 @@ enum !QUALIFIER (qual) = {
     top =		3,
     mark =		4,
     explicit =		nested | full | top
-} ;
+};
 
 
 /*
@@ -730,13 +730,13 @@ enum !QUALIFIER (qual) = {
  */
 
 union IDENTIFIER (id) = {
-    HASHID name ;
-    DECL_SPEC storage ;
-    NAMESPACE parent ;
-    LOCATION loc ;
-    IDENTIFIER alias = "%0" ;
-    ulong_type no = "LINK_NONE" ;
-    ulong_type dump = "LINK_NONE" ;
+    HASHID name;
+    DECL_SPEC storage;
+    NAMESPACE parent;
+    LOCATION loc;
+    IDENTIFIER alias = "%0";
+    ulong_type no = "LINK_NONE";
+    ulong_type dump = "LINK_NONE";
 } + {
     dummy -> {
 	/* Undefined identifier */
@@ -746,89 +746,89 @@ union IDENTIFIER (id) = {
     },
     builtin -> {
 	/* Built-in operators */
-	TYPE ret ;
-	LIST TYPE ptypes ;
+	TYPE ret;
+	LIST TYPE ptypes;
     },
     obj_macro -> {
 	/* Object-like macros */
-	PPTOKEN_P defn ;
+	PPTOKEN_P defn;
     },
     func_macro -> {
 	/* Function-like macros */
-	PPTOKEN_P defn ;
-	LIST HASHID params ;
-	unsigned no_params ;
-	int va_macro ;
+	PPTOKEN_P defn;
+	LIST HASHID params;
+	unsigned no_params;
+	int va_macro;
     },
     predicate -> {
 	/* Predicates */
-	LIST PPTOKEN_P values = "NULL_list ( PPTOKEN_P )" ;
+	LIST PPTOKEN_P values = "NULL_list ( PPTOKEN_P )";
     },
     class_name, enum_name,
     class_alias, enum_alias, type_alias -> {
 	/* Type names */
-	TYPE defn ;
-	BASE_TYPE rep = "btype_none" ;
+	TYPE defn;
+	BASE_TYPE rep = "btype_none";
     },
     nspace_name, nspace_alias -> {
 	/* Namespace names */
-	NAMESPACE defn ;
+	NAMESPACE defn;
     },
     variable, parameter, stat_member -> {
 	/* Variables (including static members) */
-	TYPE type ;
-	EXP init = "NULL_exp" ;
-	EXP term = "NULL_exp" ;
+	TYPE type;
+	EXP init = "NULL_exp";
+	EXP term = "NULL_exp";
     },
     weak_param -> {
 	/* Non-prototype function parameters */
     },
     function, mem_func, stat_mem_func -> {
 	/* Functions (including member functions) */
-	TYPE type ;
-	IDENTIFIER over ;
-	TYPE form = "NULL_type" ;
-	LIST CLASS_TYPE chums = "NULL_list ( CLASS_TYPE )" ;
-	EXP defn = "NULL_exp" ;
+	TYPE type;
+	IDENTIFIER over;
+	TYPE form = "NULL_type";
+	LIST CLASS_TYPE chums = "NULL_list ( CLASS_TYPE )";
+	EXP defn = "NULL_exp";
     },
     member -> {
 	/* Simple data member */
-	TYPE type ;
-	OFFSET off = "NULL_off" ;
-	GRAPH base = "NULL_graph" ;
+	TYPE type;
+	OFFSET off = "NULL_off";
+	GRAPH base = "NULL_graph";
     },
     enumerator -> {
 	/* Enumerators */
-	TYPE etype ;
-	EXP value ;
+	TYPE etype;
+	EXP value;
     },
     label -> {
 	/* Labels */
-	int op ;
-	EXP stmt = "NULL_exp" ;
-	EXP gotos = "NULL_exp" ;
-	LIST VARIABLE vars = "NULL_list ( VARIABLE )" ;
+	int op;
+	EXP stmt = "NULL_exp";
+	EXP gotos = "NULL_exp";
+	LIST VARIABLE vars = "NULL_list ( VARIABLE )";
     },
     token -> {
 	/* Tokens */
-	TOKEN sort ;
-	IDENTIFIER alt ;
+	TOKEN sort;
+	IDENTIFIER alt;
     },
     ambig -> {
 	/* Ambiguous identifier */
-	LIST IDENTIFIER ids ;
-	int over ;
+	LIST IDENTIFIER ids;
+	int over;
     },
     undef -> {
 	/* Undefined identifier */
-	TYPE form = "NULL_type" ;
+	TYPE form = "NULL_type";
     },
     pending -> {
 	/* Pending identifier (used in spec input) */
-	unsigned itag ;
-	TYPE type ;
+	unsigned itag;
+	TYPE type;
     }
-} ;
+};
 
 
 /*
@@ -841,17 +841,17 @@ union IDENTIFIER (id) = {
  */
 
 union MEMBER (member) = {
-    IDENTIFIER id = "NULL_id" ;
-    IDENTIFIER alt = "NULL_id" ;
-    MEMBER next ;
+    IDENTIFIER id = "NULL_id";
+    IDENTIFIER alt = "NULL_id";
+    MEMBER next;
 } + {
     small -> {
 	/* empty */
     },
     large -> {
-	MEMBER tnext ;
+	MEMBER tnext;
     }
-} ;
+};
 
 
 /*
@@ -868,26 +868,26 @@ union MEMBER (member) = {
  */
 
 union NAMESPACE (nspace) = {
-    IDENTIFIER name ;
-    MEMBER last = "NULL_member" ;
-    MEMBER prev = "NULL_member" ;
-    NAMESPACE parent ;
-    LIST NAMESPACE use = "NULL_list ( NAMESPACE )" ;
-    LIST NAMESPACE join = "NULL_list ( NAMESPACE )" ;
-    STACK IDENTIFIER set = "NULL_stack ( IDENTIFIER )" ;
-    ulong_type dump = "LINK_NONE" ;
+    IDENTIFIER name;
+    MEMBER last = "NULL_member";
+    MEMBER prev = "NULL_member";
+    NAMESPACE parent;
+    LIST NAMESPACE use = "NULL_list ( NAMESPACE )";
+    LIST NAMESPACE join = "NULL_list ( NAMESPACE )";
+    STACK IDENTIFIER set = "NULL_stack ( IDENTIFIER )";
+    ulong_type dump = "LINK_NONE";
 } + {
     block, param, dummy, label, templ -> {
 	/* Member list */
     },
     named, unnamed, global, ctype -> {
 	/* Member hash table */
-	MEMBER first = "NULL_member" ;
-	LIST IDENTIFIER extra = "NULL_list ( IDENTIFIER )" ;
-	ulong_type size ;
-	PTR MEMBER table ;
+	MEMBER first = "NULL_member";
+	LIST IDENTIFIER extra = "NULL_list ( IDENTIFIER )";
+	ulong_type size;
+	PTR MEMBER table;
     }
-} ;
+};
 
 
 /*
@@ -905,27 +905,27 @@ union NAT (nat) = {
 } + {
     small -> {
 	/* Single digit */
-	unsigned value ;
+	unsigned value;
     },
     large -> {
 	/* Multiple digits */
-	LIST unsigned values ;
+	LIST unsigned values;
     },
     calc -> {
 	/* Calculated value */
-	EXP value ;
-	ulong_type tok = "LINK_NONE" ;
+	EXP value;
+	ulong_type tok = "LINK_NONE";
     },
     neg -> {
 	/* Negation */
-	NAT arg ;
+	NAT arg;
     },
     token -> {
 	/* Tokenised expression */
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
+	IDENTIFIER tok;
+	LIST TOKEN args;
     }
-} ;
+};
 
 
 /*
@@ -936,15 +936,15 @@ union NAT (nat) = {
  */
 
 union FLOAT (flt) = {
-    ulong_type tok = "LINK_NONE" ;
+    ulong_type tok = "LINK_NONE";
 } + {
     simple -> {
 	/* Simple literal */
-	string int_part ;
-	string frac_part ;
-	NAT exponent ;
+	string int_part;
+	string frac_part;
+	NAT exponent;
     }
-} ;
+};
 
 
 /*
@@ -956,16 +956,16 @@ union FLOAT (flt) = {
  */
 
 union STRING (str) = {
-    STRING next = "NULL_str" ;
+    STRING next = "NULL_str";
 } + {
     simple -> {
 	/* Simple literals */
-	ulong_type len ;
-	string text ;
-	unsigned kind ;
-	ulong_type tok = "LINK_NONE" ;
+	ulong_type len;
+	string text;
+	unsigned kind;
+	ulong_type tok = "LINK_NONE";
     }
-} ;
+};
 
 
 /*
@@ -992,7 +992,7 @@ enum !NTEST (ntest) = {
     negate =		eq + not_eq,
     not =		not_eq,
     not_not =		not_not_eq
-} ;
+};
 
 
 /*
@@ -1008,7 +1008,7 @@ enum !RMODE (rmode) = {
     to_larger =		2,
     to_smaller =	3,
     to_zero =		4
-} ;
+};
 
 
 /*
@@ -1021,371 +1021,371 @@ enum !RMODE (rmode) = {
 
 union EXP (exp) = {
     /* Expression type */
-    TYPE type ;
+    TYPE type;
 } + {
     identifier, member, ambiguous, undeclared -> {
 	/* Identifiers */
-	IDENTIFIER id ;
-	QUALIFIER qual ;
+	IDENTIFIER id;
+	QUALIFIER qual;
     },
     int_lit -> {
 	/* Integer literal */
-	NAT nat ;
-	unsigned etag ;
+	NAT nat;
+	unsigned etag;
     },
     float_lit -> {
 	/* Floating point literal */
-	FLOAT flt ;
+	FLOAT flt;
     },
     char_lit -> {
 	/* Character literal */
-	STRING str ;
-	int digit ;
+	STRING str;
+	int digit;
     },
     string_lit -> {
 	/* String literal */
-	STRING str ;
+	STRING str;
     },
     value -> {
 	/* Undefined value */
     },
     null, zero -> {
 	/* Null value (null pointer, zero etc.) */
-	int npc = "0" ;
+	int npc = "0";
     },
     paren, copy -> {
 	/* Identity operation (used for parentheses) */
-	EXP arg ;
+	EXP arg;
     },
     assign -> {
 	/* Assignment */
-	EXP ref, arg ;
+	EXP ref, arg;
     },
     init -> {
 	/* Initialisation */
-	IDENTIFIER id ;
-	EXP arg ;
+	IDENTIFIER id;
+	EXP arg;
     },
     preinc -> {
 	/* Pre-increment */
-	EXP ref, op ;
-	int becomes ;
+	EXP ref, op;
+	int becomes;
     },
     postinc -> {
 	/* Post-increment */
-	EXP ref, value, op ;
+	EXP ref, value, op;
     },
     indir -> {
 	/* Indirection */
-	EXP ptr ;
-	int index = "0" ;
+	EXP ptr;
+	int index = "0";
     },
     contents -> {
 	/* Contents */
-	EXP ptr ;
+	EXP ptr;
     },
     address -> {
 	/* Address of an object */
-	EXP arg ;
+	EXP arg;
     },
     address_mem -> {
 	/* Address of a member */
-	EXP arg ;
-	int paren ;
+	EXP arg;
+	int paren;
     },
     func -> {
 	/* Function call */
-	EXP fn ;
-	LIST EXP args ;
-	unsigned extra = "0" ;
+	EXP fn;
+	LIST EXP args;
+	unsigned extra = "0";
     },
     func_id -> {
 	/* Named function call */
-	IDENTIFIER id ;
-	LIST EXP args ;
-	EXP virt ;
-	unsigned extra = "0" ;
+	IDENTIFIER id;
+	LIST EXP args;
+	EXP virt;
+	unsigned extra = "0";
     },
     call -> {
 	/* Member function call */
-	EXP ptr, arg ;
-	GRAPH base ;
+	EXP ptr, arg;
+	GRAPH base;
     },
     negate, compl, not, abs -> {
 	/* Simple unary operations */
-	EXP arg ;
+	EXP arg;
     },
     plus, minus, mult, div, rem,
     and, or, xor, log_and, log_or,
     lshift, rshift, max, min -> {
 	/* Simple binary operations */
-	EXP arg1, arg2 ;
+	EXP arg1, arg2;
     },
     test -> {
 	/* Compare against null value */
-	NTEST tst ;
-	EXP arg ;
+	NTEST tst;
+	EXP arg;
     },
     compare -> {
 	/* Compare two values */
-	NTEST tst ;
-	EXP arg1, arg2 ;
+	NTEST tst;
+	EXP arg1, arg2;
     },
     cast -> {
 	/* Casts */
-	unsigned conv ;
-	EXP arg ;
+	unsigned conv;
+	EXP arg;
     },
     base_cast -> {
 	/* Base class conversion */
-	unsigned conv ;
-	EXP arg ;
-	OFFSET off ;
+	unsigned conv;
+	EXP arg;
+	OFFSET off;
     },
     dyn_cast -> {
 	/* Dynamic cast */
-	EXP arg ;
-	EXP except ;
+	EXP arg;
+	EXP except;
     },
     add_ptr -> {
 	/* Add a value to a pointer */
-	EXP ptr ;
-	OFFSET off ;
-	int virt ;
+	EXP ptr;
+	OFFSET off;
+	int virt;
     },
     offset_size -> {
 	/* Size of offset */
-	OFFSET off ;
-	TYPE step ;
-	int pad ;
+	OFFSET off;
+	TYPE step;
+	int pad;
     },
     constr -> {
 	/* Constructor call */
-	EXP call, obj, alt ;
-	int info ;
+	EXP call, obj, alt;
+	int info;
     },
     destr -> {
 	/* Destructor call */
-	EXP call, obj ;
-	EXP count = "NULL_exp" ;
+	EXP call, obj;
+	EXP count = "NULL_exp";
     },
     alloc -> {
 	/* Allocator call */
-	EXP call, init ;
-	EXP garbage, size ;
+	EXP call, init;
+	EXP garbage, size;
     },
     dealloc -> {
 	/* Deallocator call */
-	EXP term, call ;
-	EXP arg, size ;
+	EXP term, call;
+	EXP arg, size;
     },
     rtti -> {
 	/* Run-time type information */
-	EXP arg ;
-	EXP except ;
-	int op ;
+	EXP arg;
+	EXP except;
+	int op;
     },
     rtti_type -> {
 	/* Run-time type information */
-	TYPE arg ;
-	int op ;
+	TYPE arg;
+	int op;
     },
     rtti_no -> {
 	/* Arithmetic type number */
-	TYPE arg ;
+	TYPE arg;
     },
     dynamic -> {
 	/* Dynamic initialiser */
-	EXP arg ;
+	EXP arg;
     },
     aggregate -> {
 	/* Aggregate initialisers */
-	LIST EXP args ;
-	LIST OFFSET offs ;
+	LIST EXP args;
+	LIST OFFSET offs;
     },
     initialiser -> {
 	/* Compound initialisers */
-	LIST EXP args ;
-	LIST OFFSET offs ;
-	int kind ;
-	unsigned virt, base ;
+	LIST EXP args;
+	LIST OFFSET offs;
+	int kind;
+	unsigned virt, base;
     },
     nof -> {
 	/* Array initialisers */
-	EXP start ;
-	NAT size ;
-	EXP pad ;
-	EXP end ;
+	EXP start;
+	NAT size;
+	EXP pad;
+	EXP end;
     },
     comma -> {
 	/* Comma operator */
-	LIST EXP args ;
+	LIST EXP args;
     },
     set, unused -> {
 	/* Variable analysis operators */
-	EXP arg ;
+	EXP arg;
     },
     reach, unreach -> {
 	/* Flow analysis operators */
-	EXP parent = "NULL_exp" ;
-	EXP body ;
+	EXP parent = "NULL_exp";
+	EXP body;
     },
     sequence -> {
 	/* Sequence of statements */
-	EXP parent = "NULL_exp" ;
-	LIST EXP first, last ;
-	NAMESPACE decl ;
-	int block ;
+	EXP parent = "NULL_exp";
+	LIST EXP first, last;
+	NAMESPACE decl;
+	int block;
     },
     solve_stmt -> {
 	/* Label complex */
-	EXP parent = "NULL_exp" ;
-	EXP body ;
-	LIST IDENTIFIER labels = "NULL_list ( IDENTIFIER )" ;
-	LIST IDENTIFIER vars = "NULL_list ( IDENTIFIER )" ;
+	EXP parent = "NULL_exp";
+	EXP body;
+	LIST IDENTIFIER labels = "NULL_list ( IDENTIFIER )";
+	LIST IDENTIFIER vars = "NULL_list ( IDENTIFIER )";
     },
     decl_stmt -> {
 	/* Declaration statement */
-	EXP parent = "NULL_exp" ;
-	IDENTIFIER id ;
-	EXP body ;
+	EXP parent = "NULL_exp";
+	IDENTIFIER id;
+	EXP body;
     },
     if_stmt -> {
 	/* If statement */
-	EXP parent = "NULL_exp" ;
-	EXP cond ;
-	EXP true_code, false_code ;
-	IDENTIFIER label ;
+	EXP parent = "NULL_exp";
+	EXP cond;
+	EXP true_code, false_code;
+	IDENTIFIER label;
     },
     while_stmt -> {
 	/* While and for statements */
-	EXP parent = "NULL_exp" ;
-	EXP cond ;
-	EXP body = "NULL_exp" ;
-	IDENTIFIER break_lab ;
-	IDENTIFIER cont_lab ;
-	IDENTIFIER loop_lab ;
-	LIST IDENTIFIER cond_id = "NULL_list ( IDENTIFIER )" ;
+	EXP parent = "NULL_exp";
+	EXP cond;
+	EXP body = "NULL_exp";
+	IDENTIFIER break_lab;
+	IDENTIFIER cont_lab;
+	IDENTIFIER loop_lab;
+	LIST IDENTIFIER cond_id = "NULL_list ( IDENTIFIER )";
     },
     do_stmt -> {
 	/* Do statements */
-	EXP parent = "NULL_exp" ;
-	EXP cond ;
-	EXP body = "NULL_exp" ;
-	IDENTIFIER break_lab ;
-	IDENTIFIER cont_lab ;
-	IDENTIFIER loop_lab ;
+	EXP parent = "NULL_exp";
+	EXP cond;
+	EXP body = "NULL_exp";
+	IDENTIFIER break_lab;
+	IDENTIFIER cont_lab;
+	IDENTIFIER loop_lab;
     },
     switch_stmt -> {
 	/* Switch statement */
-	EXP parent = "NULL_exp" ;
-	EXP control ;
-	EXP body ;
-	LIST NAT cases = "NULL_list ( NAT )" ;
-	LIST IDENTIFIER case_labs = "NULL_list ( IDENTIFIER )" ;
-	IDENTIFIER default_lab = "NULL_id" ;
-	int exhaust ;
-	IDENTIFIER break_lab ;
+	EXP parent = "NULL_exp";
+	EXP control;
+	EXP body;
+	LIST NAT cases = "NULL_list ( NAT )";
+	LIST IDENTIFIER case_labs = "NULL_list ( IDENTIFIER )";
+	IDENTIFIER default_lab = "NULL_id";
+	int exhaust;
+	IDENTIFIER break_lab;
     },
     hash_if -> {
 	/* #if statement */
-	EXP parent = "NULL_exp" ;
-	EXP cond ;
-	EXP true_code, false_code ;
-	EXP last = "NULL_exp" ;
+	EXP parent = "NULL_exp";
+	EXP cond;
+	EXP true_code, false_code;
+	EXP last = "NULL_exp";
     },
     return_stmt -> {
 	/* Return statement */
-	EXP parent = "NULL_exp" ;
-	EXP value ;
+	EXP parent = "NULL_exp";
+	EXP value;
     },
     goto_stmt -> {
 	/* Goto statement (including break and continue statements) */
-	EXP parent = "NULL_exp" ;
-	IDENTIFIER label ;
-	EXP join ;
-	EXP next ;
+	EXP parent = "NULL_exp";
+	IDENTIFIER label;
+	EXP join;
+	EXP next;
     },
     label_stmt -> {
 	/* Labelled statement (including case and default statements) */
-	EXP parent = "NULL_exp" ;
-	IDENTIFIER label ;
-	EXP body ;
-	IDENTIFIER next = "NULL_id" ;
+	EXP parent = "NULL_exp";
+	IDENTIFIER label;
+	EXP body;
+	IDENTIFIER next = "NULL_id";
     },
     try_block -> {
 	/* Try block */
-	EXP parent = "NULL_exp" ;
-	EXP body ;
-	int func ;
-	LIST EXP handlers = "NULL_list ( EXP )" ;
-	LIST TYPE htypes = "NULL_list ( TYPE )" ;
-	EXP ellipsis = "NULL_exp" ;
-	LIST TYPE ttypes = "NULL_list ( TYPE )" ;
-	LIST LOCATION tlocs = "NULL_list ( LOCATION )" ;
-	ulong_type no = "LINK_NONE" ;
+	EXP parent = "NULL_exp";
+	EXP body;
+	int func;
+	LIST EXP handlers = "NULL_list ( EXP )";
+	LIST TYPE htypes = "NULL_list ( TYPE )";
+	EXP ellipsis = "NULL_exp";
+	LIST TYPE ttypes = "NULL_list ( TYPE )";
+	LIST LOCATION tlocs = "NULL_list ( LOCATION )";
+	ulong_type no = "LINK_NONE";
     },
     handler -> {
 	/* Exception handler */
-	EXP parent = "NULL_exp" ;
-	IDENTIFIER except ;
-	EXP body ;
-	ulong_type diag = "LINK_NONE" ;
+	EXP parent = "NULL_exp";
+	IDENTIFIER except;
+	EXP body;
+	ulong_type diag = "LINK_NONE";
     },
     exception -> {
 	/* Throw expression */
-	EXP arg ;
-	EXP size, destr ;
-	int expl ;
+	EXP arg;
+	EXP size, destr;
+	int expl;
     },
     thrown -> {
 	/* Caught expression */
-	int done ;
+	int done;
     },
     op -> {
 	/* Undetermined operation */
-	int lex ;
-	EXP arg1, arg2 ;
+	int lex;
+	EXP arg1, arg2;
     },
     opn -> {
 	/* Undetermined operation */
-	int lex ;
-	LIST EXP args ;
+	int lex;
+	LIST EXP args;
     },
     assembler -> {
 	/* asm expression */
-	STRING op ;
-	LIST EXP args ;
+	STRING op;
+	LIST EXP args;
     },
     uncompiled -> {
 	/* Uncompiled expression */
-	LOCATION start ;
-	PPTOKEN_P defn ;
+	LOCATION start;
+	PPTOKEN_P defn;
     },
     location -> {
 	/* Location expression */
-	LOCATION end ;
-	EXP arg ;
+	LOCATION end;
+	EXP arg;
     },
     fail -> {
 	/* Install-time failure */
-	string msg ;
+	string msg;
     },
     token -> {
 	/* Tokenised expression */
-	EXP parent = "NULL_exp" ;
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
+	EXP parent = "NULL_exp";
+	IDENTIFIER tok;
+	LIST TOKEN args;
     },
     dummy -> {
 	/* Dummy expression */
-	EXP value ;
-	ulong_type no ;
-	OFFSET off ;
-	int virt = "0" ;
-	int cont ;
+	EXP value;
+	ulong_type no;
+	OFFSET off;
+	int virt = "0";
+	int cont;
     }
-} ;
+};
 
 
 /*
@@ -1401,63 +1401,63 @@ union OFFSET (off) = {
 } + {
     zero -> {
 	/* Zero offset */
-	TYPE type ;
+	TYPE type;
     },
     type -> {
 	/* Type offset */
-	TYPE type ;
+	TYPE type;
     },
     array -> {
 	/* Array offset */
-	TYPE type ;
-	unsigned arg ;
+	TYPE type;
+	unsigned arg;
     },
     extra -> {
 	/* Extra offset for array allocator */
-	TYPE type ;
-	int scale ;
+	TYPE type;
+	int scale;
     },
     base -> {
 	/* Base class offset */
-	GRAPH graph ;
+	GRAPH graph;
     },
     deriv -> {
 	/* Derived class offset */
-	GRAPH graph ;
-	OFFSET direct ;
-	OFFSET indirect ;
+	GRAPH graph;
+	OFFSET direct;
+	OFFSET indirect;
     },
     member -> {
 	/* Member offset */
-	IDENTIFIER id ;
+	IDENTIFIER id;
     },
     ptr_mem -> {
 	/* Pointer member offset */
-	EXP arg ;
+	EXP arg;
     },
     negate -> {
 	/* Offset negation */
-	OFFSET arg ;
+	OFFSET arg;
     },
     plus -> {
 	/* Offset addition */
-	OFFSET arg1, arg2 ;
+	OFFSET arg1, arg2;
     },
     mult -> {
 	/* Offset multiplication */
-	OFFSET arg1 ;
-	EXP arg2 ;
+	OFFSET arg1;
+	EXP arg2;
     },
     ptr_diff -> {
 	/* Pointer difference */
-	EXP ptr1, ptr2 ;
+	EXP ptr1, ptr2;
     },
     token -> {
 	/* Tokenised offset */
-	IDENTIFIER tok ;
-	LIST TOKEN args ;
+	IDENTIFIER tok;
+	LIST TOKEN args;
     }
-} ;
+};
 
 
 /*
@@ -1475,60 +1475,60 @@ union TOKEN (tok) = {
 } + {
     exp -> {
 	/* Expression tokens */
-	TYPE type ;
-	int constant ;
-	EXP value ;
+	TYPE type;
+	int constant;
+	EXP value;
     },
     stmt -> {
 	/* Statement tokens */
-	EXP value ;
+	EXP value;
     },
     nat, snat -> {
 	/* Integer constant tokens */
-	NAT value ;
+	NAT value;
     },
     type -> {
 	/* Type tokens */
-	BASE_TYPE kind ;
-	TYPE value ;
-	TYPE alt = "NULL_type" ;
+	BASE_TYPE kind;
+	TYPE value;
+	TYPE alt = "NULL_type";
     },
     func -> {
 	/* Function tokens */
-	TYPE type ;
-	IDENTIFIER defn = "NULL_id" ;
-	TOKEN proc = "NULL_tok" ;
+	TYPE type;
+	IDENTIFIER defn = "NULL_id";
+	TOKEN proc = "NULL_tok";
     },
     member -> {
 	/* Class member tokens */
-	TYPE of ;
-	TYPE type ;
-	OFFSET value ;
+	TYPE of;
+	TYPE type;
+	OFFSET value;
     },
     class -> {
 	/* Template class tokens */
-	TYPE type ;
-	IDENTIFIER value ;
-	TYPE alt = "NULL_type" ;
+	TYPE type;
+	IDENTIFIER value;
+	TYPE alt = "NULL_type";
     },
     proc -> {
 	/* Procedure tokens */
-	TOKEN res ;
-	NAMESPACE pars ;
-	int key ;
-	INSTANCE apps = "NULL_inst" ;
-	LIST IDENTIFIER bids = "NULL_list ( IDENTIFIER )" ;
-	LIST IDENTIFIER pids = "NULL_list ( IDENTIFIER )" ;
+	TOKEN res;
+	NAMESPACE pars;
+	int key;
+	INSTANCE apps = "NULL_inst";
+	LIST IDENTIFIER bids = "NULL_list ( IDENTIFIER )";
+	LIST IDENTIFIER pids = "NULL_list ( IDENTIFIER )";
     },
     templ -> {
 	/* Template tokens */
-	DECL_SPEC usage ;
-	NAMESPACE pars ;
-	INSTANCE apps = "NULL_inst" ;
-	LIST IDENTIFIER pids = "NULL_list ( IDENTIFIER )" ;
-	LIST TOKEN dargs = "NULL_list ( TOKEN )" ;
+	DECL_SPEC usage;
+	NAMESPACE pars;
+	INSTANCE apps = "NULL_inst";
+	LIST IDENTIFIER pids = "NULL_list ( IDENTIFIER )";
+	LIST TOKEN dargs = "NULL_list ( TOKEN )";
     }
-} ;
+};
 
 
 /*
@@ -1539,24 +1539,24 @@ union TOKEN (tok) = {
  */
 
 union INSTANCE (inst) = {
-    TYPE form ;
-    INSTANCE alias = "%0" ;
-    INSTANCE next ;
+    TYPE form;
+    INSTANCE alias = "%0";
+    INSTANCE next;
 } + {
     templ -> {
 	/* Template instance */
-	IDENTIFIER id ;
-	TYPE spec = "NULL_type" ;
-	DECL_SPEC access ;
-	PPTOKEN_P mode = "NULL" ;
-	LIST IDENTIFIER mems = "NULL_list ( IDENTIFIER )" ;
-	INSTANCE prev ;
+	IDENTIFIER id;
+	TYPE spec = "NULL_type";
+	DECL_SPEC access;
+	PPTOKEN_P mode = "NULL";
+	LIST IDENTIFIER mems = "NULL_list ( IDENTIFIER )";
+	INSTANCE prev;
     },
     token -> {
 	/* Token type instance */
-	ulong_type no = "LINK_NONE" ;
+	ulong_type no = "LINK_NONE";
     }
-} ;
+};
 
 
 /*
@@ -1567,9 +1567,9 @@ union INSTANCE (inst) = {
  */
 
 struct VARIABLE (var) = {
-    IDENTIFIER id ;
-    DECL_SPEC info ;
-} ;
+    IDENTIFIER id;
+    DECL_SPEC info;
+};
 
 
 /*
@@ -1581,19 +1581,19 @@ struct VARIABLE (var) = {
  */
 
 union ERROR (err) = {
-    int severity ;
+    int severity;
 } + {
     simple -> {
 	/* Simple errors */
-	int number ;
-	unsigned size = "0" ;
+	int number;
+	unsigned size = "0";
 	/* arguments ... */
     },
     compound -> {
 	/* Compound errors */
-	ERROR head, tail ;
+	ERROR head, tail;
     }
-} ;
+};
 
 
 /*
@@ -1604,19 +1604,19 @@ union ERROR (err) = {
  */
 
 struct LOCATION (loc) = {
-    ulong_type line ;
-    ulong_type column ;
-    PTR POSITION posn ;
-} ;
+    ulong_type line;
+    ulong_type column;
+    PTR POSITION posn;
+};
 
 struct POSITION (posn) = {
-    string file ;
-    int quote_file ;
-    string input ;
-    string base ;
-    string dir ;
-    ulong_type offset ;
-    PTR LOCATION from ;
-    ulong_type datestamp ;
-    ulong_type tok = "LINK_NONE" ;
-} ;
+    string file;
+    int quote_file;
+    string input;
+    string base;
+    string dir;
+    ulong_type offset;
+    PTR LOCATION from;
+    ulong_type datestamp;
+    ulong_type tok = "LINK_NONE";
+};
