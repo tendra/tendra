@@ -95,7 +95,6 @@ extern char *name_h_file;
 extern char *name_j_file;
 extern char *name_k_file;
 extern char *name_K_file;
-extern char *name_d_file;
 extern char *name_p_file;
 extern char *temporary_dir;
 extern char *tokdef_output;
