@@ -105,8 +105,7 @@ all:
 
 ${API}:
 	@${ECHO} Building ${API} API...
-	${OBJ_DIR}/src/tools/tspec/tspec -v -I${API_DIR}\
-		-O${OBJ_SDIR:S/${API}$/include/}\
+	${TSPEC} -v -I${API_DIR} -O${OBJ_SDIR:S/${API}$/include/}\
 		-S${OBJ_SDIR:S/${API}$/building/} ${.TARGET}
 
 ${PROG}: ${OBJS}
