@@ -1552,7 +1552,7 @@ JobRestart(job)
 	     * resume it.
 	     */
 	    bool error;
-	    int status;
+	    int status = 0;
 
 #ifdef RMT_WANTS_SIGNALS
 	    if (job->flags & JOB_REMOTE) {
