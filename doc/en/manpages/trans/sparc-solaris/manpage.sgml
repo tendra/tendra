@@ -89,6 +89,78 @@
     &option-cx;
     &option-cz;
 
+    <varlistentry>
+      <term><option>-a</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-c</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-g</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-i</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-l</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-n</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-r</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-t</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-u</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
   </variablelist>
 </refsect1>
 
