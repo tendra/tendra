@@ -11,7 +11,7 @@
  * on a per-platform basis
  */
 
-+BIN_TIME		-BIN_TIME-
++BIN_TIME		"-BIN_TIME-"
 
 
 /* TenDRA specific settings
