@@ -409,7 +409,7 @@ print_simple_cons(char *nm, int sz, int d)
 		output ("\t\tDEREF_%e (x%u_ + 1, (A));\\\n", nm);
 	}
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned)%d);\\\n", sz + 1);
+	output ("\t\t(D) (x%u_, %du);\\\n", sz + 1);
 	output ("\t}\n\n");
 	unique++;
 
@@ -437,7 +437,7 @@ print_simple_cons(char *nm, int sz, int d)
 			output ("\t\tDEREF_%e (x%u_ + 1, (A));\\\n", nm);
 		}
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned)%d);\\\n", sz + 1);
+		output ("\t\tdestroy_%X (x%u_, %du);\\\n", sz + 1);
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -623,12 +623,12 @@ print_types_c(void)
 	output ("#ifndef GEN_%X\n");
 	output ("#define\tGEN_%X(A, B)%t40gen_%X ((unsigned)(A))\n");
 	output ("#endif\n");
-	output ("#define\tTYPEID_ptr%t40((unsigned)0)\n");
-	output ("#define\tTYPEID_list%t40((unsigned)1)\n");
-	output ("#define\tTYPEID_stack%t40((unsigned)2)\n");
+	output ("#define\tTYPEID_ptr%t40%du\n", 0);
+	output ("#define\tTYPEID_list%t40%du\n", 1);
+	output ("#define\tTYPEID_stack%t40%du\n", 2);
 	n = 3;
 	LOOP_UNION {
-		output ("#define\tTYPEID_%UM%t40((unsigned)%d)\n", n);
+		output ("#define\tTYPEID_%UM%t40%du\n", n);
 		n++;
 	}
 	output ("\n\n");
@@ -660,7 +660,7 @@ print_ptr_c(void)
 	g = gen (1, "ptr");
 	output ("#define\tUNIQ_ptr(A)%t40%e\n", g);
 	output ("#define\tDESTROY_UNIQ_ptr(A)%t40");
-	output ("destroy_%X ((A), (unsigned)1)\n");
+	output ("destroy_%X ((A), 1u)\n");
 	output ("#ifdef %X_IO_ROUTINES\n");
 	output ("#define\tVOIDSTAR_ptr(A)%t40((void *)(A))\n");
 	output ("#endif\n\n");
@@ -697,7 +697,7 @@ print_ptr_c(void)
 	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
 	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned)2);\\\n");
+	output ("\t\t(D) (x%u_, 2u);\\\n");
 	output ("\t}\n\n");
 	unique++;
 
@@ -721,7 +721,7 @@ print_ptr_c(void)
 		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
 		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned)2);\\\n");
+		output ("\t\tdestroy_%X (x%u_, 2u);\\\n");
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -762,7 +762,7 @@ print_list_c(void)
 	g = gen (1, "list");
 	output ("#define\tUNIQ_list(A)%t40%e\n", g);
 	output ("#define\tDESTROY_UNIQ_list(A)%t40");
-	output ("destroy_%X ((A), (unsigned) 1)\n");
+	output ("destroy_%X ((A), 1u)\n");
 	output ("#ifdef %X_IO_ROUTINES\n");
 	output ("#define\tVOIDSTAR_list(A)%t40((void *) (A))\n");
 	output ("#endif\n\n");
@@ -805,7 +805,7 @@ print_list_c(void)
 	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
 	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned) 2);\\\n");
+	output ("\t\t(D) (x%u_, 2u);\\\n");
 	output ("\t}\n\n");
 	unique++;
 
@@ -829,7 +829,7 @@ print_list_c(void)
 		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
 		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+		output ("\t\tdestroy_%X (x%u_, 2u);\\\n");
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -889,7 +889,7 @@ print_stack_c(void)
 	output ("\t\t%X *x%u_ = %s(C);\\\n", check_null);
 	output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned) 2);\\\n");
+	output ("\t\t(D) (x%u_, 2u);\\\n");
 	output ("\t}\n\n");
 	unique++;
 
@@ -913,7 +913,7 @@ print_stack_c(void)
 		output ("\t\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
 		output ("\t\t(A) = x%u_[1].ag_ptr;\\\n");
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+		output ("\t\tdestroy_%X (x%u_, 2u);\\\n");
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -1046,7 +1046,7 @@ print_vec_c(void)
 	output ("\t\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
 	output ("\t\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned) 4);\\\n");
+	output ("\t\t(D) (x%u_, 4u);\\\n");
 	output ("\t}\n\n");
 	unique++;
 
@@ -1077,7 +1077,7 @@ print_vec_c(void)
 		output ("\t\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
 		output ("\t\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned) 4);\\\n");
+		output ("\t\tdestroy_%X (x%u_, 4u);\\\n");
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -1157,7 +1157,7 @@ print_vec_ptr_c(void)
 	output ("\t\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
 	output ("\t\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
 	output ("\t\t(B) = x%u_->ag_ptr;\\\n");
-	output ("\t\t(D) (x%u_, (unsigned) 3);\\\n");
+	output ("\t\t(D) (x%u_, 3u);\\\n");
 	output ("\t}\n\n");
 	unique++;
 
@@ -1186,7 +1186,7 @@ print_vec_ptr_c(void)
 		output ("\t\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
 		output ("\t\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
 		output ("\t\t*r%u_ = x%u_->ag_ptr;\\\n");
-		output ("\t\tdestroy_%X (x%u_, (unsigned) 3);\\\n");
+		output ("\t\tdestroy_%X (x%u_, 3u);\\\n");
 		output ("\t}\n\n");
 		unique++;
 	}
@@ -1373,7 +1373,7 @@ print_union_c(void)
 	UNION_P base = DEREF_ptr (un_base (CRT_UNION));
 
 	comment ("Definitions for union %UN");
-	output ("#define\tORDER_%UM%t40((unsigned) %UO)\n");
+	output ("#define\tORDER_%UM%t40%UOu\n");
 	output ("#define\tSIZE_%UM%t40%d\n", SIZE_UNION);
 	output ("#define\tNULL_%UM%t40((%UN) 0)\n");
 	output ("#define\tIS_NULL_%UM(A)%t40((A) == 0)\n");
@@ -1633,7 +1633,7 @@ print_field_c(int sz, int tag, int rng, int al)
 		TYPE_P ct = DEREF_ptr (cmp_type (CRT_COMPONENT));
 		posn = deref_component (ct, posn, "(%CN_)", 0);
 	}
-	output ("\t\t(destroyer_) (x%u_, (unsigned) %d);\\\n", sz + al);
+	output ("\t\t(destroyer_) (x%u_, %du);\\\n", sz + al);
 	output ("\t}\n\n");
 	unique++;
 
@@ -1735,7 +1735,7 @@ print_union_ops_c(char *dir, char *un)
 	if (is_tagged) {
 		output ("(%s(P)->ag_tag)\n\n\n", check_null);
 	} else {
-		output ("((unsigned) 0)\n\n\n");
+		output ("0u\n\n\n");
 	}
 
 	/* Operations on common components */
@@ -1756,17 +1756,16 @@ print_union_ops_c(char *dir, char *un)
 
 		if (rng) {
 			comment ("Operations for field set %FN_etc of union %UN");
-			output ("#define\t%UM_%FN_etc_tag%t40((unsigned) %d)\n",
-			  tag + rng);
+			output ("#define\t%UM_%FN_etc_tag%t40%du\n", tag + rng);
 			output ("#define\tIS_%UM_%FN_etc(P)%t40");
 			output ("((unsigned) (%s(P)->ag_tag - %d)",
 			  check_null, tag);
-			output (" < (unsigned) %d)\n\n", rng);
+			output (" < %du)\n\n", rng);
 			print_field_c (sz, tag, rng, al);
 		}
 
 		comment ("Operations for field %FN of union %UN");
-		output ("#define\t%UM_%FN_tag%t40((unsigned) %d)\n", tag);
+		output ("#define\t%UM_%FN_tag%t40%du\n", tag);
 		output ("#define\tIS_%UM_%FN(P)%t40");
 		if (is_tagged) {
 			output ("(%s(P)->ag_tag == %d)\n\n", check_null, tag);
