@@ -26,6 +26,7 @@
  * $TenDRA$
  */
 
+#include <limits.h>
 #include <string.h>
 #include "fmm.h"
 
@@ -34,8 +35,8 @@ struct fmm_type *memtype_str;
 /*
  * Allocate n characters for a string.
  */
-static char*
-string_alloc(int n)
+char*
+string_alloc(size_t n)
 {
 	char *s;
 
@@ -115,4 +116,26 @@ string_join(const char *s1, const char *s2, char delimeter)
 	dst[l1] = delimeter;
 	strcpy(dst + l1 + 1, s2);
 	return dst;
+}
+
+int
+string_to_unsigned(const char *cp, unsigned *rp)
+{
+	unsigned result, digit;
+	
+	if (*cp == '\0')
+		return (0);
+	result = 0;
+	for (; *cp; cp++) {
+		if (*cp < '0' || *cp > '9')
+			return (0);
+		digit = *cp - '0';
+
+		if (((UINT_MAX - digit) / 10) < result) {
+			return (0);
+		}
+		result = result * 10 + digit;
+	}
+	*rp = result;
+	return (1);
 }

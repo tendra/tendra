@@ -29,10 +29,16 @@
 #ifndef TEN_CSTRING_H
 #define	TEN_CSTRING_H
 
+#define	cstring_equal(s1, s2)		(strcmp ((s1), (s2)) == 0)
+#define	cstring_ci_equal(s1, s2)	(strcasecmp ((s1), (s2)) == 0)
+
+char *string_alloc(size_t);
 char *string_copy(const char *);
 char *string_ncopy(const char *, size_t);
 char *string_join(const char *, const char *, char);
 char *string_concat(const char *, const char *);
+int   string_to_unsigned(const char *, unsigned *);
+
 
 struct fmm_type;
 
