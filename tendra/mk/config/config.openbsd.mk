@@ -19,6 +19,14 @@ MACH_EXEC=	elf
 MACH_CPU=	80x86
 .endif
 
+.if ${TMP_CPU} == "sparc"
+MACH_CPU=      sparc
+.endif
+ 
+.if ${TMP_CPU} == "mac68k"
+MACH_CPU=      680x0
+.endif
+
 TCC_OPTS=  ${SRC_DIR}/src/lib/machines/openbsd/${MACH_CPU}/include/gcc_dependency.h
 
 .include "config.common.mk"
