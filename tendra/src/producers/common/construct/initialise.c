@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997, 1998
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -154,7 +154,7 @@ unsigned long member_no = 0;
 MEMBER
 next_data_member(MEMBER mem, int bf)
 {
-    while (!IS_NULL_member (mem)) {
+	while (!IS_NULL_member (mem)) {
 		IDENTIFIER id = DEREF_id (member_id (mem));
 		if (!IS_NULL_id (id) && IS_id_member (id)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
@@ -182,8 +182,8 @@ next_data_member(MEMBER mem, int bf)
 			}
 		}
 		mem = DEREF_member (member_next (mem));
-    }
-    return (NULL_member);
+	}
+	return (NULL_member);
 }
 
 
@@ -199,11 +199,11 @@ next_data_member(MEMBER mem, int bf)
 EXP
 dynamic_init(IDENTIFIER id, string off, EXP e)
 {
-    int fs = 0;
-    int c = -1;
-    if (!IS_NULL_id (id)) {
+	int fs = 0;
+	int c = -1;
+	if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
-	    case id_variable_tag : {
+		case id_variable_tag : {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_auto) {
 				if (off == NULL) return (e);
@@ -211,22 +211,22 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 				if (!(ds & dspec_linkage)) fs = 1;
 			}
 			break;
-	    }
-	    case id_stat_member_tag : {
+		}
+		case id_stat_member_tag : {
 			/* Check static members */
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Ignore other identifiers */
 			return (e);
-	    }
 		}
-    }
-    if (option (OPT_init_dynamic)) {
+		}
+	}
+	if (option (OPT_init_dynamic)) {
 		/* Dynamic initialisation not allowed */
 		c = 1;
-    }
-    if (!is_const_exp (e, c)) {
+	}
+	if (!is_const_exp (e, c)) {
 		/* Non-constant initialiser */
 		TYPE t = DEREF_type (exp_type (e));
 		if (!is_templ_type (t)) {
@@ -247,8 +247,8 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 			}
 			MAKE_exp_dynamic (t, e, e);
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -263,9 +263,9 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 EXP
 check_init(EXP e)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		switch (TAG_exp (e)) {
-	    case exp_identifier_tag : {
+		case exp_identifier_tag : {
 			IDENTIFIER id = DEREF_id (exp_identifier_id (e));
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_temp) {
@@ -273,8 +273,8 @@ check_init(EXP e)
 				COPY_dspec (id_storage (id), ds);
 			}
 			break;
-	    }
-	    case exp_init_tag : {
+		}
+		case exp_init_tag : {
 			IDENTIFIER id = DEREF_id (exp_init_id (e));
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_temp) {
@@ -282,38 +282,38 @@ check_init(EXP e)
 				COPY_dspec (id_storage (id), ds);
 			}
 			break;
-	    }
-	    case exp_indir_tag : {
+		}
+		case exp_indir_tag : {
 			EXP a = DEREF_exp (exp_indir_ptr (e));
 			a = check_init (a);
 			COPY_exp (exp_indir_ptr (e), a);
 			break;
-	    }
-	    case exp_address_tag : {
+		}
+		case exp_address_tag : {
 			EXP a = DEREF_exp (exp_address_arg (e));
 			a = check_init (a);
 			COPY_exp (exp_address_arg (e), a);
 			break;
-	    }
-	    case exp_base_cast_tag : {
+		}
+		case exp_base_cast_tag : {
 			EXP a = DEREF_exp (exp_base_cast_arg (e));
 			a = check_init (a);
 			COPY_exp (exp_base_cast_arg (e), a);
 			break;
-	    }
-	    case exp_add_ptr_tag : {
+		}
+		case exp_add_ptr_tag : {
 			EXP a = DEREF_exp (exp_add_ptr_ptr (e));
 			a = check_init (a);
 			COPY_exp (exp_add_ptr_ptr (e), a);
 			break;
-	    }
-	    case exp_dynamic_tag : {
+		}
+		case exp_dynamic_tag : {
 			EXP a = DEREF_exp (exp_dynamic_arg (e));
 			a = check_init (a);
 			COPY_exp (exp_dynamic_arg (e), a);
 			break;
-	    }
-	    case exp_aggregate_tag : {
+		}
+		case exp_aggregate_tag : {
 			LIST (EXP) p = DEREF_list (exp_aggregate_args (e));
 			while (!IS_NULL_list (p)) {
 				EXP a = DEREF_exp (HEAD_list (p));
@@ -322,8 +322,8 @@ check_init(EXP e)
 				p = TAIL_list (p);
 			}
 			break;
-	    }
-	    case exp_nof_tag : {
+		}
+		case exp_nof_tag : {
 			EXP a = DEREF_exp (exp_nof_start (e));
 			EXP b = DEREF_exp (exp_nof_pad (e));
 			EXP c = DEREF_exp (exp_nof_end (e));
@@ -334,10 +334,10 @@ check_init(EXP e)
 			COPY_exp (exp_nof_pad (e), b);
 			COPY_exp (exp_nof_end (e), c);
 			break;
-	    }
 		}
-    }
-    return (e);
+		}
+	}
+	return (e);
 }
 
 
@@ -367,44 +367,44 @@ static DECL_SPEC temp_storage = dspec_auto;
 EXP
 make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 {
-    LOCATION loc;
-    DECL_SPEC ds;
-    EXP c = NULL_exp;
-    HASHID nm = lookup_anon ();
-    NAMESPACE ns = crt_namespace;
-    QUALIFIER cq = crt_id_qualifier;
-    int tq = crt_templ_qualifier;
-    int fn = in_function_defn;
-    IDENTIFIER id = DEREF_id (hashid_id (nm));
-    loc = decl_loc;
-    decl_loc = crt_loc;
-    crt_id_qualifier = qual_none;
-    crt_templ_qualifier = 0;
-	
-    /* Declare the temporary object */
-    if (IS_type_ref (t)) t = DEREF_type (type_ref_sub (t));
-    if (in_default_arg) {
+	LOCATION loc;
+	DECL_SPEC ds;
+	EXP c = NULL_exp;
+	HASHID nm = lookup_anon ();
+	NAMESPACE ns = crt_namespace;
+	QUALIFIER cq = crt_id_qualifier;
+	int tq = crt_templ_qualifier;
+	int fn = in_function_defn;
+	IDENTIFIER id = DEREF_id (hashid_id (nm));
+	loc = decl_loc;
+	decl_loc = crt_loc;
+	crt_id_qualifier = qual_none;
+	crt_templ_qualifier = 0;
+
+	/* Declare the temporary object */
+	if (IS_type_ref (t)) t = DEREF_type (type_ref_sub (t));
+	if (in_default_arg) {
 		/* NOT YET IMPLEMENTED */
 		crt_namespace = global_namespace;
 		in_function_defn = 0;
-    }
-    t = qualify_type (t, cv_none, 0);
-    if (IS_type_compound (t)) {
+	}
+	t = qualify_type (t, cv_none, 0);
+	if (IS_type_compound (t)) {
 		add_error (err, ERR_dcl_init_ref_tmp (t));
-    }
-    id = make_object_decl (dspec_temp, t, id, 0);
-    ds = DEREF_dspec (id_storage (id));
-    if (temp_storage != dspec_auto) {
+	}
+	id = make_object_decl (dspec_temp, t, id, 0);
+	ds = DEREF_dspec (id_storage (id));
+	if (temp_storage != dspec_auto) {
 		/* Set storage class */
 		ds &= ~dspec_storage;
 		ds |= temp_storage;
-    }
-    if (ds & dspec_auto) ds |= dspec_register;
-    COPY_dspec (id_storage (id), ds);
-    made_temporary = id;
-	
-    /* Check initialiser */
-    if (!is_const_exp (e, -1)) {
+	}
+	if (ds & dspec_auto) ds |= dspec_register;
+	COPY_dspec (id_storage (id), ds);
+	made_temporary = id;
+
+	/* Check initialiser */
+	if (!is_const_exp (e, -1)) {
 		if (ds & dspec_auto) {
 			c = e;
 			e = NULL_exp;
@@ -417,47 +417,47 @@ make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 			c = e;
 			e = make_null_exp (s);
 		}
-    }
-    if (IS_NULL_exp (d)) {
+	}
+	if (IS_NULL_exp (d)) {
 		/* Create destructor */
 		int du = do_usage;
 		do_usage = 0;
 		d = init_default (t, &d, DEFAULT_DESTR, EXTRA_DESTR, err);
 		do_usage = du;
-    }
-    COPY_exp (id_variable_init (id), e);
-    COPY_exp (id_variable_term (id), d);
-    define_id (id);
-	
-    /* Construct the result expression */
-    if (!IS_NULL_exp (c)) {
+	}
+	COPY_exp (id_variable_init (id), e);
+	COPY_exp (id_variable_term (id), d);
+	define_id (id);
+
+	/* Construct the result expression */
+	if (!IS_NULL_exp (c)) {
 		/* Assign initial value */
 		t = DEREF_type (id_variable_type (id));
 		MAKE_exp_init (t, id, c, e);
 		ds = DEREF_dspec (id_storage (id));
 		ds |= dspec_explicit;
 		COPY_dspec (id_storage (id), ds);
-    } else {
+	} else {
 		e = make_id_exp (id);
-    }
-	
-    /* Define variable */
-    if (!(ds & dspec_auto)) {
+	}
+
+	/* Define variable */
+	if (!(ds & dspec_auto)) {
 		if (!really_in_function_defn && !in_template_decl) {
 			/* Compile variable definition */
 			compile_variable (id, 0);
 		}
-    }
-    if (do_dump) {
+	}
+	if (do_dump) {
 		dump_implicit = 1;
 		dump_declare (id, &decl_loc, 1);
-    }
-    crt_templ_qualifier = tq;
-    crt_id_qualifier = cq;
-    in_function_defn = fn;
-    crt_namespace = ns;
-    decl_loc = loc;
-    return (e);
+	}
+	crt_templ_qualifier = tq;
+	crt_id_qualifier = cq;
+	in_function_defn = fn;
+	crt_namespace = ns;
+	decl_loc = loc;
+	return (e);
 }
 
 
@@ -471,12 +471,12 @@ make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 static int
 involves_alias(EXP e, EXP d)
 {
-    if (!IS_NULL_exp (d)) {
+	if (!IS_NULL_exp (d)) {
 		/* NOT YET IMPLEMENTED */
 		UNUSED (e);
 		return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -494,7 +494,7 @@ involves_alias(EXP e, EXP d)
 EXP
 remove_temporary(EXP e, EXP d)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		EXP a = NULL_exp;
 		unsigned tag = TAG_exp (e);
 		if (tag == exp_constr_tag) {
@@ -531,8 +531,8 @@ remove_temporary(EXP e, EXP d)
 				}
 			}
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -558,8 +558,8 @@ int init_ref_force = 1;
 EXP
 init_ref_lvalue(TYPE t, EXP e, ERROR *err)
 {
-    EXP a = NULL_exp;
-    if (!IS_NULL_exp (e)) {
+	EXP a = NULL_exp;
+	if (!IS_NULL_exp (e)) {
 		TYPE s = DEREF_type (exp_type (e));
 		CV_SPEC qual = DEREF_cv (type_qual (s));
 		if (qual & cv_lvalue) {
@@ -601,8 +601,8 @@ init_ref_lvalue(TYPE t, EXP e, ERROR *err)
 			/* Allow for template parameters */
 			a = cast_templ_type (t, e, CAST_IMPLICIT);
 		}
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -620,29 +620,29 @@ init_ref_lvalue(TYPE t, EXP e, ERROR *err)
 static EXP
 init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 {
-    /* Check for reference to functions */
-    CV_SPEC qual;
-    unsigned nt = TAG_type (t);
-    if (nt == type_func_tag) {
+	/* Check for reference to functions */
+	CV_SPEC qual;
+	unsigned nt = TAG_type (t);
+	if (nt == type_func_tag) {
 		add_error (err, ERR_dcl_init_ref_func ());
 		e = make_null_exp (t);
 		return (e);
-    }
-	
-    /* Check for const references */
-    qual = find_cv_qual (t);
-    qual &= cv_qual;
-    if (qual != cv_const) {
+	}
+
+	/* Check for const references */
+	qual = find_cv_qual (t);
+	qual &= cv_qual;
+	if (qual != cv_const) {
 		int ok = 0;
 		if (!IS_NULL_exp (e)) {
 			TYPE s = DEREF_type (exp_type (e));
 			if (IS_type_error (s)) ok = 1;
 		}
 		if (!ok) add_error (err, ERR_dcl_init_ref_const ());
-    }
-	
-    /* Check the initialiser */
-    if (!IS_NULL_exp (e)) {
+	}
+
+	/* Check the initialiser */
+	if (!IS_NULL_exp (e)) {
 		/* Check whether t is reference compatible with s */
 		int force = init_ref_force;
 		TYPE s = DEREF_type (exp_type (e));
@@ -673,8 +673,8 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 			}
 			return (e);
 		}
-    }
-    return (NULL_exp);
+	}
+	return (NULL_exp);
 }
 
 
@@ -688,7 +688,7 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 EXP
 make_ref_init(TYPE t, EXP e)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		if (IS_exp_op (e)) {
 			/* Allow for template parameters */
 			COPY_type (exp_type (e), t);
@@ -706,8 +706,8 @@ make_ref_init(TYPE t, EXP e)
 				MAKE_exp_address (t, e, e);
 			}
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -722,31 +722,31 @@ make_ref_init(TYPE t, EXP e)
 EXP
 make_null_exp(TYPE t)
 {
-    EXP e;
-    switch (TAG_type (t)) {
+	EXP e;
+	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {
-	    NAT n = small_nat [0];
-	    MAKE_exp_int_lit (t, n, exp_int_lit_tag, e);
-	    break;
+		NAT n = small_nat [0];
+		MAKE_exp_int_lit (t, n, exp_int_lit_tag, e);
+		break;
 	}
 	case type_floating_tag : {
-	    FLOAT f = get_float (t, 0);
-	    MAKE_exp_float_lit (t, f, e);
-	    break;
+		FLOAT f = get_float (t, 0);
+		MAKE_exp_float_lit (t, f, e);
+		break;
 	}
 	case type_bitfield_tag : {
-	    TYPE s = find_bitfield_type (t);
-	    e = make_null_exp (s);
-	    MAKE_exp_cast (t, (CONV_BITFIELD | CONV_REVERSE), e, e);
-	    break;
+		TYPE s = find_bitfield_type (t);
+		e = make_null_exp (s);
+		MAKE_exp_cast (t, (CONV_BITFIELD | CONV_REVERSE), e, e);
+		break;
 	}
 	default : {
-	    MAKE_exp_null (t, e);
-	    break;
+		MAKE_exp_null (t, e);
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -759,32 +759,32 @@ make_null_exp(TYPE t)
 EXP
 make_unit_exp(TYPE t)
 {
-    EXP e;
-    switch (TAG_type (t)) {
+	EXP e;
+	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {
-	    NAT n = small_nat [1];
-	    MAKE_exp_int_lit (t, n, exp_int_lit_tag, e);
-	    break;
+		NAT n = small_nat [1];
+		MAKE_exp_int_lit (t, n, exp_int_lit_tag, e);
+		break;
 	}
 	case type_floating_tag : {
-	    FLOAT f = get_float (t, 1);
-	    MAKE_exp_float_lit (t, f, e);
-	    break;
+		FLOAT f = get_float (t, 1);
+		MAKE_exp_float_lit (t, f, e);
+		break;
 	}
 	case type_bitfield_tag : {
-	    TYPE s = find_bitfield_type (t);
-	    e = make_unit_exp (s);
-	    MAKE_exp_cast (t, (CONV_BITFIELD | CONV_REVERSE), e, e);
-	    break;
+		TYPE s = find_bitfield_type (t);
+		e = make_unit_exp (s);
+		MAKE_exp_cast (t, (CONV_BITFIELD | CONV_REVERSE), e, e);
+		break;
 	}
 	default : {
-	    FAIL (Invalid unit type);
-	    MAKE_exp_null (t, e);
-	    break;
+		FAIL (Invalid unit type);
+		MAKE_exp_null (t, e);
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -797,39 +797,39 @@ make_unit_exp(TYPE t)
 int
 is_null_exp(EXP e)
 {
-    if (IS_NULL_exp (e)) return (1);
-    switch (TAG_exp (e)) {
+	if (IS_NULL_exp (e)) return (1);
+	switch (TAG_exp (e)) {
 	case exp_int_lit_tag : {
-	    NAT n = DEREF_nat (exp_int_lit_nat (e));
-	    return (is_zero_nat (n));
+		NAT n = DEREF_nat (exp_int_lit_nat (e));
+		return (is_zero_nat (n));
 	}
 	case exp_float_lit_tag : {
-	    FLOAT f = DEREF_flt (exp_float_lit_flt (e));
-	    return (is_zero_float (f));
+		FLOAT f = DEREF_flt (exp_float_lit_flt (e));
+		return (is_zero_float (f));
 	}
 	case exp_null_tag :
 	case exp_zero_tag : {
-	    return (1);
+		return (1);
 	}
 	case exp_aggregate_tag : {
-	    LIST (EXP) p = DEREF_list (exp_aggregate_args (e));
-	    while (!IS_NULL_list (p)) {
+		LIST (EXP) p = DEREF_list (exp_aggregate_args (e));
+		while (!IS_NULL_list (p)) {
 			EXP a = DEREF_exp (HEAD_list (p));
 			if (!is_null_exp (a)) return (0);
 			p = TAIL_list (p);
-	    }
-	    return (1);
+		}
+		return (1);
 	}
 	case exp_nof_tag : {
-	    EXP a = DEREF_exp (exp_nof_start (e));
-	    EXP b = DEREF_exp (exp_nof_pad (e));
-	    EXP c = DEREF_exp (exp_nof_end (e));
-	    if (!is_null_exp (a)) return (0);
-	    if (!is_null_exp (b)) return (0);
-	    return (is_null_exp (c));
+		EXP a = DEREF_exp (exp_nof_start (e));
+		EXP b = DEREF_exp (exp_nof_pad (e));
+		EXP c = DEREF_exp (exp_nof_end (e));
+		if (!is_null_exp (a)) return (0);
+		if (!is_null_exp (b)) return (0);
+		return (is_null_exp (c));
 	}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -845,56 +845,56 @@ is_null_exp(EXP e)
 EXP
 init_empty(TYPE t, CV_SPEC cv, int force, ERROR *err)
 {
-    EXP e = NULL_exp;
-    switch (TAG_type (t)) {
+	EXP e = NULL_exp;
+	switch (TAG_type (t)) {
 	case type_array_tag : {
-	    NAT n = DEREF_nat (type_array_size (t));
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    e = init_empty (s, cv, force, err);
-	    if (!IS_NULL_exp (e)) {
+		NAT n = DEREF_nat (type_array_size (t));
+		TYPE s = DEREF_type (type_array_sub (t));
+		e = init_empty (s, cv, force, err);
+		if (!IS_NULL_exp (e)) {
 			MAKE_exp_nof (t, NULL_exp, n, e, NULL_exp, e);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ref_tag : {
-	    /* References must be initialised */
-	    TYPE s = DEREF_type (type_ref_sub (t));
-	    add_error (err, ERR_dcl_init_ref_none ());
-	    if (IS_type_func (s)) {
+		/* References must be initialised */
+		TYPE s = DEREF_type (type_ref_sub (t));
+		add_error (err, ERR_dcl_init_ref_none ());
+		if (IS_type_func (s)) {
 			e = make_null_exp (s);
-	    } else {
+		} else {
 			e = init_empty (s, cv_none, 1, err);
 			e = make_temporary (s, e, NULL_exp, 1, err);
 			e = make_ref_init (t, e);
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_compound_tag : {
-	    /* Call default constructor for classes */
-	    e = init_default (t, &e, DEFAULT_CONSTR, EXTRA_CONSTR, err);
-	    if (IS_NULL_exp (e)) goto default_lab;
-	    break;
+		/* Call default constructor for classes */
+		e = init_default (t, &e, DEFAULT_CONSTR, EXTRA_CONSTR, err);
+		if (IS_NULL_exp (e)) goto default_lab;
+		break;
 	}
 	case type_enumerate_tag : {
-	    if (force) {
+		if (force) {
 			/* Check for zero enumerator */
 			ENUM_TYPE et = DEREF_etype (type_enumerate_defn (t));
 			CLASS_INFO ei = DEREF_cinfo (etype_info (et));
 			if (!(ei & cinfo_usr_constr)) {
 				add_error (err, ERR_dcl_enum_zero (t));
 			}
-	    }
-	    goto default_lab;
+		}
+		goto default_lab;
 	}
 	case type_token_tag : {
-	    if (is_templ_type (t)) {
+		if (is_templ_type (t)) {
 			/* Allow for template parameters */
 			if (force) {
 				MAKE_exp_op (t, lex_cast, NULL_exp, NULL_exp, e);
 			}
 			break;
-	    }
-	    goto default_lab;
+		}
+		goto default_lab;
 	}
 	default :
 		default_lab : {
@@ -907,8 +907,8 @@ init_empty(TYPE t, CV_SPEC cv, int force, ERROR *err)
 			if (force) e = make_null_exp (t);
 			break;
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -935,7 +935,7 @@ static NAT last_array_size = NULL_nat;
 static int
 is_char_array(TYPE t)
 {
-    if (IS_type_array (t)) {
+	if (IS_type_array (t)) {
 		TYPE s = DEREF_type (type_array_sub (t));
 		if (check_int_type (s, btype_char)) return (1);
 		if (check_int_type (s, btype_wchar_t)) return (2);
@@ -943,9 +943,9 @@ is_char_array(TYPE t)
 			s = type_composite (s, type_wchar_t, 1, 0, KILL_err, 0);
 			if (!IS_NULL_type (s)) return (3);
 		}
-    }
-    return (0);
-	
+	}
+	return (0);
+
 }
 
 
@@ -959,35 +959,35 @@ is_char_array(TYPE t)
 static EXP
 pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 {
-    EXP a;
-    int eq;
-    unsigned long c;
-    ERROR err2 = NULL_err;
-    TYPE s = DEREF_type (type_array_sub (t));
-	
-    /* Check for equality */
-    eq = compare_nat (n, m);
-    if (eq == 0) {
+	EXP a;
+	int eq;
+	unsigned long c;
+	ERROR err2 = NULL_err;
+	TYPE s = DEREF_type (type_array_sub (t));
+
+	/* Check for equality */
+	eq = compare_nat (n, m);
+	if (eq == 0) {
 		return (e);
-    } else if (eq == 1) {
+	} else if (eq == 1) {
 		if (!pad) return (NULL_exp);
-    } else if (eq == -1) {
+	} else if (eq == -1) {
 		/* Too many initialisers */
 		if (!pad) return (NULL_exp);
 		add_error (err, ERR_dcl_init_aggr_excess (t));
 		return (e);
-    } else {
+	} else {
 		/* Allow for token definitions */
 		force_tokdef++;
 		eq = eq_nat (n, m);
 		force_tokdef--;
 		if (eq) return (e);
 		if (!pad) return (NULL_exp);
-    }
-	
-    /* Find number of uninitialised elements */
-    c = get_nat_value (m);
-    if (c != 0) {
+	}
+
+	/* Find number of uninitialised elements */
+	c = get_nat_value (m);
+	if (c != 0) {
 		EXP en = calc_nat_value (n, type_size_t);
 		EXP em = calc_nat_value (m, type_size_t);
 		en = make_minus_exp (en, em);
@@ -1000,13 +1000,13 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 			c = get_nat_value (n);
 			if (c == 0) return (e);
 		}
-    }
-	
-    /* Form initialiser */
-    if (IS_NULL_err (err2)) err2 = ERR_dcl_init_aggr_pad (n, t);
-    if (!IS_NULL_err (err2)) add_error (err, err2);
-    a = init_empty (s, cv_none, 1, err);
-    if (!IS_NULL_exp (e) && IS_exp_aggregate (e)) {
+	}
+
+	/* Form initialiser */
+	if (IS_NULL_err (err2)) err2 = ERR_dcl_init_aggr_pad (n, t);
+	if (!IS_NULL_err (err2)) add_error (err, err2);
+	a = init_empty (s, cv_none, 1, err);
+	if (!IS_NULL_exp (e) && IS_exp_aggregate (e)) {
 		if (c <= ARRAY_PADDING) {
 			/* Explicitly pad small arrays */
 			LIST (EXP) p = DEREF_list (exp_aggregate_args (e));
@@ -1020,9 +1020,9 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 			COPY_type (exp_type (e), t);
 			return (e);
 		}
-    }
-    MAKE_exp_nof (t, e, n, a, NULL_exp, e);
-    return (e);
+	}
+	MAKE_exp_nof (t, e, n, a, NULL_exp, e);
+	return (e);
 }
 
 
@@ -1038,16 +1038,16 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 EXP
 init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 {
-    TYPE r = DEREF_type (exp_type (e));
-    NAT n = DEREF_nat (type_array_size (t));
-    TYPE s = DEREF_type (type_array_sub (t));
-    if (IS_type_array (r)) {
+	TYPE r = DEREF_type (exp_type (e));
+	NAT n = DEREF_nat (type_array_size (t));
+	TYPE s = DEREF_type (type_array_sub (t));
+	if (IS_type_array (r)) {
 		unsigned tag = TAG_exp (e);
 		NAT m = DEREF_nat (type_array_size (r));
 		TYPE u = DEREF_type (type_array_sub (r));
 		if (IS_NULL_nat (n)) n = m;
 		last_array_size = m;
-		
+
 		/* Check for templates */
 		if (in_template_decl) {
 			if (is_templ_type (s) || is_templ_type (u)) {
@@ -1055,7 +1055,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 				return (e);
 			}
 		}
-		
+
 		/* Initialisation by string literal */
 		if (tag == exp_string_lit_tag) {
 			unsigned long na, ma;
@@ -1099,7 +1099,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 					e = NULL_exp;
 				}
 			}
-			
+
 			/* Check array bound */
 			na = get_nat_value (n);
 			ma = get_nat_value (m);
@@ -1125,7 +1125,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 			}
 			return (e);
 		}
-		
+
 		/* Check array initialisers */
 		if (tag == exp_token_tag) {
 			/* Allow rvalue array tokens */
@@ -1157,13 +1157,13 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 			if (!IS_NULL_exp (e)) return (e);
 		}
 		add_error (err, ERR_basic_link_incompat (t, r));
-    } else {
+	} else {
 		/* Other array initialisations are not allowed */
 		report (crt_loc, ERR_dcl_init_aggr_array_bad ());
 		last_array_size = NULL_nat;
-    }
-    e = init_empty (t, cv, 1, err);
-    return (e);
+	}
+	e = init_empty (t, cv, 1, err);
+	return (e);
 }
 
 
@@ -1178,16 +1178,16 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 ERROR
 init_error(ERROR err, int init)
 {
-    ERROR ferr;
+	ERROR ferr;
 #if LANGUAGE_CPP
-    ferr = ERR_dcl_init_conv ();
-    UNUSED (init);
+	ferr = ERR_dcl_init_conv ();
+	UNUSED (init);
 #else
-    ferr = ERR_expr_ass_conv ();
-    if (init) ferr = concat_error (ferr, ERR_dcl_init_assign ());
+	ferr = ERR_expr_ass_conv ();
+	if (init) ferr = concat_error (ferr, ERR_dcl_init_assign ());
 #endif
-    err = concat_warning (err, ferr);
-    return (err);
+	err = concat_warning (err, ferr);
+	return (err);
 }
 
 
@@ -1201,18 +1201,18 @@ init_error(ERROR err, int init)
 EXP
 init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 {
-    switch (TAG_type (t)) {
+	switch (TAG_type (t)) {
 	case type_array_tag : {
-	    /* Array initialisers */
-	    e = init_array (t, cv, e, 0, err);
-	    break;
+		/* Array initialisers */
+		e = init_array (t, cv, e, 0, err);
+		break;
 	}
 	case type_ref_tag : {
-	    /* Reference initialisers */
-	    EXP a;
-	    TYPE s = DEREF_type (type_ref_sub (t));
-	    TYPE r = DEREF_type (exp_type (e));
-	    if (IS_type_compound (r)) {
+		/* Reference initialisers */
+		EXP a;
+		TYPE s = DEREF_type (type_ref_sub (t));
+		TYPE r = DEREF_type (exp_type (e));
+		if (IS_type_compound (r)) {
 			if (IS_type_compound (s)) {
 				/* Check base class conversions first */
 				a = init_ref_lvalue (s, e, err);
@@ -1228,9 +1228,9 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 				if (eq_type (r, t)) break;
 				e = convert_reference (e, REF_ASSIGN);
 			}
-	    }
-	    a = init_ref_lvalue (s, e, err);
-	    if (IS_NULL_exp (a)) {
+		}
+		a = init_ref_lvalue (s, e, err);
+		if (IS_NULL_exp (a)) {
 			a = init_ref_rvalue (s, e, err);
 			if (IS_NULL_exp (a)) {
 				e = init_assign (s, cv_none, e, err);
@@ -1240,16 +1240,16 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 			} else {
 				e = a;
 			}
-	    } else {
+		} else {
 			e = a;
-	    }
-	    e = make_ref_init (t, e);
-	    break;
+		}
+		e = make_ref_init (t, e);
+		break;
 	}
 	case type_compound_tag : {
-	    /* Class initialisers */
-	    TYPE s = DEREF_type (exp_type (e));
-	    if (IS_type_compound (s)) {
+		/* Class initialisers */
+		TYPE s = DEREF_type (exp_type (e));
+		if (IS_type_compound (s)) {
 			/* Check for base class initialisers */
 			CLASS_TYPE cs = DEREF_ctype (type_compound_defn (s));
 			CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
@@ -1258,22 +1258,22 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 				e = init_direct (t, e, err);
 				break;
 			}
-	    }
-	    e = convert_conv (t, e, err, CAST_IMPLICIT);
-	    if (!IS_exp_null (e)) {
+		}
+		e = convert_conv (t, e, err, CAST_IMPLICIT);
+		if (!IS_exp_null (e)) {
 			e = make_temporary (t, e, NULL_exp, 0, err);
 			e = init_direct (t, e, err);
 			e = remove_temporary (e, NULL_exp);
-	    }
-	    break;
+		}
+		break;
 	}
 	default : {
-	    /* Do conversion by initialisation */
-	    e = convert_assign (t, e, err);
-	    break;
+		/* Do conversion by initialisation */
+		e = convert_assign (t, e, err);
+		break;
 	}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1288,20 +1288,20 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 EXP
 init_constr(TYPE t, LIST (EXP) args, ERROR *err)
 {
-    EXP e;
-    unsigned tag = TAG_type (t);
-    switch (tag) {
+	EXP e;
+	unsigned tag = TAG_type (t);
+	switch (tag) {
 	case type_ref_tag : {
-	    /* Reference initialisers */
-	    EXP a;
-	    TYPE s = DEREF_type (type_ref_sub (t));
-	    if (LENGTH_list (args) == 1) {
+		/* Reference initialisers */
+		EXP a;
+		TYPE s = DEREF_type (type_ref_sub (t));
+		if (LENGTH_list (args) == 1) {
 			a = DEREF_exp (HEAD_list (args));
 			a = init_ref_lvalue (s, a, err);
-	    } else {
+		} else {
 			a = NULL_exp;
-	    }
-	    if (IS_NULL_exp (a)) {
+		}
+		if (IS_NULL_exp (a)) {
 			a = init_ref_rvalue (s, a, err);
 			if (IS_NULL_exp (a)) {
 				e = init_constr (s, args, err);
@@ -1311,27 +1311,27 @@ init_constr(TYPE t, LIST (EXP) args, ERROR *err)
 			} else {
 				e = a;
 			}
-	    } else {
+		} else {
 			e = a;
-	    }
-	    e = make_ref_init (t, e);
-	    break;
+		}
+		e = make_ref_init (t, e);
+		break;
 	}
 	case type_compound_tag : {
-	    /* Class constructor initialisers */
-	    e = convert_constr (t, args, err, CAST_STATIC);
-	    e = remove_temporary (e, NULL_exp);
-	    break;
+		/* Class constructor initialisers */
+		e = convert_constr (t, args, err, CAST_STATIC);
+		e = remove_temporary (e, NULL_exp);
+		break;
 	}
 	case type_token_tag : {
-	    /* Check for template parameters */
-	    if (is_templ_type (t)) {
+		/* Check for template parameters */
+		if (is_templ_type (t)) {
 			LIST (OFFSET) offs = NULL_list (OFFSET);
 			MAKE_exp_initialiser (t, args, offs, 0, 0, 0, e);
 			e = cast_templ_type (t, e, CAST_IMPLICIT);
 			break;
-	    }
-	    goto default_lab;
+		}
+		goto default_lab;
 	}
 	default :
 		default_lab : {
@@ -1359,8 +1359,8 @@ init_constr(TYPE t, LIST (EXP) args, ERROR *err)
 			}
 			break;
 		}
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1374,10 +1374,10 @@ init_constr(TYPE t, LIST (EXP) args, ERROR *err)
 EXP
 init_direct(TYPE t, EXP a, ERROR *err)
 {
-    LIST (EXP) args;
-    CONS_exp (a, NULL_list (EXP), args);
-    a = init_constr (t, args, err);
-    return (a);
+	LIST (EXP) args;
+	CONS_exp (a, NULL_list (EXP), args);
+	a = init_constr (t, args, err);
+	return (a);
 }
 
 
@@ -1403,8 +1403,8 @@ BUFFER field_buff = NULL_buff;
 static EXP
 get_aggr_elem(LIST (EXP) p, unsigned *ptag)
 {
-    EXP a = DEREF_exp (HEAD_list (p));
-    if (!IS_NULL_exp (a)) {
+	EXP a = DEREF_exp (HEAD_list (p));
+	if (!IS_NULL_exp (a)) {
 		if (IS_exp_location (a)) {
 			TYPE t;
 			DESTROY_exp_location (destroy, t, crt_loc, a, a);
@@ -1420,8 +1420,8 @@ get_aggr_elem(LIST (EXP) p, unsigned *ptag)
 			}
 			*ptag = tag;
 		}
-    }
-    return (a);
+	}
+	return (a);
 }
 
 
@@ -1440,32 +1440,32 @@ static EXP
 init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			  ERROR *err)
 {
-    EXP e;
-    LIST (EXP) p = *r;
-    ERROR cerr = NULL_err;
-    CLASS_INFO ci = cinfo_none;
-    unsigned tag = TAG_type (t);
-    switch (tag) {
-		
+	EXP e;
+	LIST (EXP) p = *r;
+	ERROR cerr = NULL_err;
+	CLASS_INFO ci = cinfo_none;
+	unsigned tag = TAG_type (t);
+	switch (tag) {
+
 	case type_array_tag : {
-	    /* Array types */
-	    NAT nc;
-	    LIST (EXP) a = NULL_list (EXP);
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    int str = is_char_array (s);
-	    BUFFER *bf = &field_buff;
-	    unsigned boff = (unsigned) (bf->posn - bf->start);
-		
-	    /* Find the array size */
-	    NAT n = DEREF_nat (type_array_size (t));
-	    unsigned long m = get_nat_value (n);
-	    unsigned long c = 0;
-		
-	    /* Report partially bracketed initialisers */
-	    if (!start) add_error (err, ERR_dcl_init_aggr_partial ());
-		
-	    /* Check for string literals in braces */
-	    if (start && !IS_NULL_list (p)) {
+		/* Array types */
+		NAT nc;
+		LIST (EXP) a = NULL_list (EXP);
+		TYPE s = DEREF_type (type_array_sub (t));
+		int str = is_char_array (s);
+		BUFFER *bf = &field_buff;
+		unsigned boff = (unsigned) (bf->posn - bf->start);
+
+		/* Find the array size */
+		NAT n = DEREF_nat (type_array_size (t));
+		unsigned long m = get_nat_value (n);
+		unsigned long c = 0;
+
+		/* Report partially bracketed initialisers */
+		if (!start) add_error (err, ERR_dcl_init_aggr_partial ());
+
+		/* Check for string literals in braces */
+		if (start && !IS_NULL_list (p)) {
 			unsigned et = null_tag;
 			e = get_aggr_elem (p, &et);
 			if (et == exp_string_lit_tag && is_char_array (t)) {
@@ -1473,17 +1473,17 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				p = TAIL_list (p);
 				break;
 			}
-	    }
-		
-	    /* Loop through at most m initialisers */
-	    while (!IS_NULL_list (p) && c != m) {
+		}
+
+		/* Loop through at most m initialisers */
+		while (!IS_NULL_list (p) && c != m) {
 			LIST (EXP) p0 = p;
 			ERROR serr = NULL_err;
 			unsigned et = null_tag;
-			
+
 			/* Build up the field name */
 			bfprintf (bf, " [%lu]", c);
-			
+
 			/* Check first element of aggregate */
 			e = get_aggr_elem (p, &et);
 			if (IS_NULL_exp (e)) {
@@ -1505,81 +1505,81 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				/* Otherwise read constituents from p */
 				e = init_aggr_aux (s, cv, &p, 0, id, &serr);
 			}
-			
+
 			/* Report any errors for this member */
 			if (!IS_NULL_err (serr)) {
 				ERROR ferr = ERR_dcl_init_decl (id, bf->start);
 				serr = concat_error (ferr, serr);
 				report (crt_loc, serr);
 			}
-			
+
 			/* Check for dynamic initialisers */
 			e = dynamic_init (id, bf->start, e);
-			
+
 			/* Restore the field name */
 			bf->posn = bf->start + boff;
 			bf->posn [0] = 0;
-			
+
 			/* Check that some initialisers were used up */
 			if (EQ_list (p, p0)) break;
-			
+
 			/* Build up the result (in reverse order) */
 			CONS_exp (e, a, a);
 			c++;
-	    }
-		
-	    /* Construct the result */
-	    a = REVERSE_list (a);
-	    nc = make_nat_value (c);
-	    MAKE_type_array (cv_none, s, nc, s);
-	    MAKE_exp_aggregate (s, a, NULL_list (OFFSET), e);
-		
-	    /* Check array size */
-	    if (!IS_NULL_nat (n)) {
+		}
+
+		/* Construct the result */
+		a = REVERSE_list (a);
+		nc = make_nat_value (c);
+		MAKE_type_array (cv_none, s, nc, s);
+		MAKE_exp_aggregate (s, a, NULL_list (OFFSET), e);
+
+		/* Check array size */
+		if (!IS_NULL_nat (n)) {
 			e = pad_array (e, nc, t, n, 1, err);
-	    }
-	    last_array_size = nc;
-	    break;
+		}
+		last_array_size = nc;
+		break;
 	}
-		
+
 	case type_ref_tag : {
-	    /* Reference types */
-	    TYPE s = DEREF_type (type_ref_sub (t));
-	    e = init_ref_rvalue (s, NULL_exp, err);
-	    if (IS_NULL_exp (e)) {
+		/* Reference types */
+		TYPE s = DEREF_type (type_ref_sub (t));
+		e = init_ref_rvalue (s, NULL_exp, err);
+		if (IS_NULL_exp (e)) {
 			e = init_aggr_aux (s, cv, r, start, id, err);
 			e = make_temporary (s, e, NULL_exp, 1, err);
 			e = make_ref_init (t, e);
-	    }
-	    return (e);
+		}
+		return (e);
 	}
-		
+
 	case type_compound_tag : {
-	    /* Compound types */
-	    MEMBER mem;
-	    NAMESPACE ns;
-	    unsigned long pads = 0;
-	    LIST (EXP) a = NULL_list (EXP);
-	    LIST (OFFSET) b = NULL_list (OFFSET);
-	    CV_SPEC cv1 = (DEREF_cv (type_qual (t)) | cv);
-	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
-	    GRAPH gr = DEREF_graph (ctype_base (ct));
-	    LIST (GRAPH) br = DEREF_list (graph_tails (gr));
-	    BUFFER *bf = &field_buff;
-	    unsigned boff = (unsigned) (bf->posn - bf->start);
-		
-	    /* Check for non-aggregate classes */
-	    ci = DEREF_cinfo (ctype_info (ct));
-	    if (!(ci & cinfo_defined)) {
+		/* Compound types */
+		MEMBER mem;
+		NAMESPACE ns;
+		unsigned long pads = 0;
+		LIST (EXP) a = NULL_list (EXP);
+		LIST (OFFSET) b = NULL_list (OFFSET);
+		CV_SPEC cv1 = (DEREF_cv (type_qual (t)) | cv);
+		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
+		GRAPH gr = DEREF_graph (ctype_base (ct));
+		LIST (GRAPH) br = DEREF_list (graph_tails (gr));
+		BUFFER *bf = &field_buff;
+		unsigned boff = (unsigned) (bf->posn - bf->start);
+
+		/* Check for non-aggregate classes */
+		ci = DEREF_cinfo (ctype_info (ct));
+		if (!(ci & cinfo_defined)) {
 			/* Instantiate template types if necessary */
 			complete_class (ct, 1);
 			ci = DEREF_cinfo (ctype_info (ct));
-	    }
-	    if (!(ci & cinfo_complete)) {
+		}
+		if (!(ci & cinfo_complete)) {
 			/* Incomplete types can't be initialised */
 			goto incomplete_lab;
-	    }
-	    if (ci & cinfo_non_aggregate) {
+		}
+		if (ci & cinfo_non_aggregate) {
 			/* Types with these properties can't be initialised */
 			cerr = class_info (ct, cinfo_non_aggregate, 1);
 			if (ci & cinfo_token) goto token_lab;
@@ -1587,10 +1587,10 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			add_error (err, cerr);
 			add_error (err, ERR_dcl_init_aggr_type (t));
 			cerr = NULL_err;
-	    }
-		
-	    /* Check for non-aggregate initialisations */
-	    if (!IS_NULL_list (p)) {
+		}
+
+		/* Check for non-aggregate initialisations */
+		if (!IS_NULL_list (p)) {
 			unsigned rank;
 			CONVERSION conv;
 			unsigned et = null_tag;
@@ -1599,19 +1599,19 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			conv.to = t;
 			rank = std_convert_seq (&conv, e, 0, 0);
 			if (rank != CONV_NONE) goto non_aggregate_lab;
-	    }
-		
-	    /* Report partially bracketed initialisers */
-	    if (!start) add_error (err, ERR_dcl_init_aggr_partial ());
-		
-	    /* Loop through base classes */
-	    while (!IS_NULL_list (br)) {
+		}
+
+		/* Report partially bracketed initialisers */
+		if (!start) add_error (err, ERR_dcl_init_aggr_partial ());
+
+		/* Loop through base classes */
+		while (!IS_NULL_list (br)) {
 			ERROR serr = NULL_err;
 			GRAPH gs = DEREF_graph (HEAD_list (br));
 			OFFSET off = DEREF_off (graph_off (gs));
 			CLASS_TYPE cs = DEREF_ctype (graph_head (gs));
 			TYPE s = make_class_type (cs);
-			
+
 			/* Build up field name */
 			IDENTIFIER sid = DEREF_id (ctype_name (cs));
 			HASHID snm = DEREF_hashid (id_name (sid));
@@ -1619,7 +1619,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				bfputc (bf, '.');
 				IGNORE print_hashid (snm, 1, 0, bf, 0);
 			}
-			
+
 			/* Check next initialiser */
 			if (!IS_NULL_list (p)) {
 				unsigned et = null_tag;
@@ -1638,51 +1638,51 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				e = init_empty (s, cv1, 1, &serr);
 				pads++;
 			}
-			
+
 			/* Report any errors for this field */
 			if (!IS_NULL_err (serr)) {
 				ERROR ferr = ERR_dcl_init_decl (id, bf->start);
 				serr = concat_error (ferr, serr);
 				report (crt_loc, serr);
 			}
-			
+
 			/* Check for dynamic initialisers */
 			e = dynamic_init (id, bf->start, e);
-			
+
 			/* Restore field name */
 			bf->posn = bf->start + boff;
 			bf->posn [0] = 0;
-			
+
 			/* Build up the result (in reverse order) */
 			CONS_exp (e, a, a);
 			CONS_off (off, b, b);
 			br = TAIL_list (br);
-	    }
-		
-	    /* Find list of class members */
-	    ns = DEREF_nspace (ctype_member (ct));
-	    mem = DEREF_member (nspace_ctype_first (ns));
-	    mem = next_data_member (mem, 0);
-		
-	    /* Loop through structure members */
-	    while (!IS_NULL_member (mem)) {
+		}
+
+		/* Find list of class members */
+		ns = DEREF_nspace (ctype_member (ct));
+		mem = DEREF_member (nspace_ctype_first (ns));
+		mem = next_data_member (mem, 0);
+
+		/* Loop through structure members */
+		while (!IS_NULL_member (mem)) {
 			ERROR serr = NULL_err;
 			CV_SPEC cv2 = cv1;
 			IDENTIFIER sid = DEREF_id (member_id (mem));
 			TYPE s = DEREF_type (id_member_type (sid));
 			DECL_SPEC ds = DEREF_dspec (id_storage (sid));
 			OFFSET off = DEREF_off (id_member_off (sid));
-			
+
 			/* Build up field name */
 			HASHID snm = DEREF_hashid (id_name (sid));
 			if (!IS_hashid_anon (snm)) {
 				bfputc (bf, '.');
 				IGNORE print_hashid (snm, 1, 0, bf, 0);
 			}
-			
+
 			/* Adjust cv-qualifiers */
 			if (ds & dspec_mutable) cv2 = cv_none;
-			
+
 			/* Check next initialiser */
 			if (!IS_NULL_list (p)) {
 				unsigned et = null_tag;
@@ -1706,55 +1706,55 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				e = init_empty (s, cv2, 1, &serr);
 				pads++;
 			}
-			
+
 			/* Report any errors for this field */
 			if (!IS_NULL_err (serr)) {
 				ERROR ferr = ERR_dcl_init_decl (id, bf->start);
 				serr = concat_error (ferr, serr);
 				report (crt_loc, serr);
 			}
-			
+
 			/* Check for dynamic initialisers */
 			e = dynamic_init (id, bf->start, e);
-			
+
 			/* Restore field name */
 			bf->posn = bf->start + boff;
 			bf->posn [0] = 0;
-			
+
 			/* Build up the result (in reverse order) */
 			CONS_exp (e, a, a);
 			CONS_off (off, b, b);
-			
+
 			/* Examine next member */
 			if (ci & cinfo_union) break;
 			mem = DEREF_member (member_next (mem));
 			mem = next_data_member (mem, 0);
-	    }
-		
-	    /* Report padded structures */
-	    if (pads) {
+		}
+
+		/* Report padded structures */
+		if (pads) {
 			NAT n = make_nat_value (pads);
 			add_error (err, ERR_dcl_init_aggr_pad (n, t));
-	    }
-		
-	    /* Construct the result */
-	    a = REVERSE_list (a);
-	    b = REVERSE_list (b);
-	    MAKE_exp_aggregate (t, a, b, e);
-	    break;
+		}
+
+		/* Construct the result */
+		a = REVERSE_list (a);
+		b = REVERSE_list (b);
+		MAKE_exp_aggregate (t, a, b, e);
+		break;
 	}
-		
+
 	case type_integer_tag :
 	case type_floating_tag :
 	case type_enumerate_tag :
 	case type_ptr_tag :
 	case type_ptr_mem_tag : {
-	    /* Scalar types */
-	    if (IS_NULL_list (p)) {
+		/* Scalar types */
+		if (IS_NULL_list (p)) {
 			/* Can't have empty initialiser */
 			add_error (err, ERR_dcl_init_aggr_no_scalar ());
 			e = init_empty (t, cv, 1, err);
-	    } else {
+		} else {
 			/* The first element must be a scalar */
 			unsigned et = null_tag;
 			e = get_aggr_elem (p, &et);
@@ -1776,10 +1776,10 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 				}
 			}
 			p = TAIL_list (p);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_token_tag :
 		token_lab : {
 			/* Tokenised types */
@@ -1788,7 +1788,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			e = init_aggr_aux (s, cv, r, start, id, err);
 			return (e);
 		}
-		
+
 	case type_top_tag :
 	case type_bottom_tag :
 		incomplete_lab : {
@@ -1798,7 +1798,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			e = init_empty (t, cv, 1, err);
 			break;
 		}
-		
+
 	default :
 		non_aggregate_lab : {
 			/* Other types */
@@ -1851,17 +1851,17 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 			}
 			break;
 		}
-    }
-	
-    /* Check for end of initialiser list */
-    if (start && !IS_NULL_list (p)) {
+	}
+
+	/* Check for end of initialiser list */
+	if (start && !IS_NULL_list (p)) {
 		ERROR ferr = ERR_dcl_init_decl (id, NULL_string);
 		ferr = concat_error (ferr, ERR_dcl_init_aggr_excess (t));
 		report (crt_loc, ferr);
 		p = NULL_list (EXP);
-    }
-    *r = p;
-    return (e);
+	}
+	*r = p;
+	return (e);
 }
 
 
@@ -1875,19 +1875,19 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST (EXP) *r, int start, IDENTIFIER id,
 EXP
 init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 {
-    LOCATION loc;
-    LIST (EXP) args = DEREF_list (exp_aggregate_args (e));
-    if (IS_NULL_list (args)) {
+	LOCATION loc;
+	LIST (EXP) args = DEREF_list (exp_aggregate_args (e));
+	if (IS_NULL_list (args)) {
 		/* Report empty aggregate initialisers */
 		add_error (err, ERR_dcl_init_aggr_empty ());
-    }
-    bad_crt_loc++;
-    loc = crt_loc;
-    IGNORE clear_buffer (&field_buff, NULL);
-    e = init_aggr_aux (t, cv_none, &args, 2, id, err);
-    crt_loc = loc;
-    bad_crt_loc--;
-    return (e);
+	}
+	bad_crt_loc++;
+	loc = crt_loc;
+	IGNORE clear_buffer (&field_buff, NULL);
+	e = init_aggr_aux (t, cv_none, &args, 2, id, err);
+	crt_loc = loc;
+	bad_crt_loc--;
+	return (e);
 }
 
 
@@ -1902,9 +1902,9 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 EXP
 init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 {
-    /* Check the initialiser */
-    ERROR err = NULL_err;
-    if (IS_NULL_exp (e)) {
+	/* Check the initialiser */
+	ERROR err = NULL_err;
+	if (IS_NULL_exp (e)) {
 		/* Empty initialisers */
 		DECL_SPEC ds = DEREF_dspec (id_storage (id));
 		if (ds & dspec_auto) {
@@ -1914,9 +1914,9 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 		} else {
 			e = init_empty (t, cv_none, 1, &err);
 		}
-    } else {
+	} else {
 		switch (TAG_exp (e)) {
-	    case exp_aggregate_tag : {
+		case exp_aggregate_tag : {
 			/* Aggregate initialisers */
 			if (is_templ_type (t)) {
 				e = cast_templ_type (t, e, CAST_IMPLICIT);
@@ -1924,14 +1924,14 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 				e = init_aggregate (t, e, id, &err);
 			}
 			break;
-	    }
-	    case exp_nof_tag : {
+		}
+		case exp_nof_tag : {
 			/* Padded aggregate initialisers */
 			e = DEREF_exp (exp_nof_start (e));
 			e = init_general (t, e, id, 0);
 			return (e);
-	    }
-	    case exp_initialiser_tag : {
+		}
+		case exp_initialiser_tag : {
 			/* Function style initialisers */
 			LIST (EXP) args;
 			args = DEREF_list (exp_initialiser_args (e));
@@ -1939,8 +1939,8 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 			e = init_constr (t, args, &err);
 			if (!IS_NULL_err (err)) err = init_error (err, 1);
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Simple initialisers */
 			unsigned etag = TAG_exp (e);
 			e = convert_reference (e, REF_ASSIGN);
@@ -1950,22 +1950,22 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 			e = init_assign (t, cv_none, e, &err);
 			if (!IS_NULL_err (err)) err = init_error (err, 1);
 			break;
-	    }
 		}
-    }
-	
-    /* Report any errors */
-    if (!IS_NULL_err (err)) {
+		}
+	}
+
+	/* Report any errors */
+	if (!IS_NULL_err (err)) {
 		ERROR ferr = ERR_dcl_init_decl (id, NULL_string);
 		err = concat_error (ferr, err);
 		report (crt_loc, err);
-    }
-	
-    /* Check for dynamic initialisers */
-    if (!IS_NULL_exp (e)) {
+	}
+
+	/* Check for dynamic initialisers */
+	if (!IS_NULL_exp (e)) {
 		e = dynamic_init (id, NULL_string, e);
-    }
-    return (e);
+	}
+	return (e);
 }
 
 
@@ -1979,19 +1979,19 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 EXP
 destroy_general(TYPE t, IDENTIFIER id)
 {
-    EXP d = NULL_exp;
-    int du = do_usage;
-    ERROR err = NULL_err;
-    do_usage = 0;
-    d = init_default (t, &d, DEFAULT_DESTR, EXTRA_DESTR, &err);
-    if (!IS_NULL_err (err)) {
+	EXP d = NULL_exp;
+	int du = do_usage;
+	ERROR err = NULL_err;
+	do_usage = 0;
+	d = init_default (t, &d, DEFAULT_DESTR, EXTRA_DESTR, &err);
+	if (!IS_NULL_err (err)) {
 		/* Report any destructor errors */
 		ERROR ferr = ERR_dcl_init_decl (id, NULL_string);
 		err = concat_error (ferr, err);
 		report (decl_loc, err);
-    }
-    do_usage = du;
-    return (d);
+	}
+	do_usage = du;
+	return (d);
 }
 
 
@@ -2007,79 +2007,79 @@ destroy_general(TYPE t, IDENTIFIER id)
 int
 init_object(IDENTIFIER id, EXP e)
 {
-    EXP d;
-    TYPE t;
-    int def = 0;
-    unsigned tag;
-    DECL_SPEC ds;
-    unsigned itag;
-    int ignore = 0;
-	
-    /* Check for non-object declarations */
-    if (IS_NULL_id (id)) return (0);
-    itag = TAG_id (id);
-    switch (itag) {
-		
+	EXP d;
+	TYPE t;
+	int def = 0;
+	unsigned tag;
+	DECL_SPEC ds;
+	unsigned itag;
+	int ignore = 0;
+
+	/* Check for non-object declarations */
+	if (IS_NULL_id (id)) return (0);
+	itag = TAG_id (id);
+	switch (itag) {
+
 	case id_variable_tag :
 	case id_stat_member_tag : {
-	    /* Variables and static data members */
-	    break;
+		/* Variables and static data members */
+		break;
 	}
-		
+
 	case id_parameter_tag : {
-	    /* Function parameters */
-	    if (!in_default_arg) {
+		/* Function parameters */
+		if (!in_default_arg) {
 			if (!IS_NULL_exp (e)) {
 				report (crt_loc, ERR_dcl_fct_default_weak (id));
 			}
 			return (0);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_function_tag :
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Check for function declarations */
-	    if (!IS_NULL_exp (e)) {
+		/* Check for function declarations */
+		if (!IS_NULL_exp (e)) {
 			/* Can't initialise functions */
 			report (crt_loc, ERR_dcl_init_func (id));
-	    }
-		
-	    /* Check previous definition */
-	    d = DEREF_exp (id_function_etc_defn (id));
-	    if (!IS_NULL_exp (d)) {
+		}
+
+		/* Check previous definition */
+		d = DEREF_exp (id_function_etc_defn (id));
+		if (!IS_NULL_exp (d)) {
 			ds = DEREF_dspec (id_storage (id));
 			ds |= dspec_defn;
 			COPY_dspec (id_storage (id), ds);
-	    }
-	    return (0);
+		}
+		return (0);
 	}
-		
+
 	case id_member_tag : {
-	    /* Check for non-static members (shouldn't be reached) */
-	    report (crt_loc, ERR_class_mem_init_mem (id));
-	    return (0);
+		/* Check for non-static members (shouldn't be reached) */
+		report (crt_loc, ERR_class_mem_init_mem (id));
+		return (0);
 	}
-		
+
 	default : {
-	    /* The declaration could have been a typedef */
-	    if (!IS_NULL_exp (e)) {
+		/* The declaration could have been a typedef */
+		if (!IS_NULL_exp (e)) {
 			/* Can't initialise a typedef */
 			report (crt_loc, ERR_dcl_init_typedef (id));
-	    }
-	    return (1);
+		}
+		return (1);
 	}
-    }
-	
-    /* Get declaration data */
-    t = DEREF_type (id_variable_etc_type (id));
-    tag = TAG_type (t);
-    ds = DEREF_dspec (id_storage (id));
-    temp_storage = (ds & dspec_storage);
-	
-    /* Check array initialisers */
-    if (tag == type_array_tag) {
+	}
+
+	/* Get declaration data */
+	t = DEREF_type (id_variable_etc_type (id));
+	tag = TAG_type (t);
+	ds = DEREF_dspec (id_storage (id));
+	temp_storage = (ds & dspec_storage);
+
+	/* Check array initialisers */
+	if (tag == type_array_tag) {
 		int chk = 0;
 		if (!IS_NULL_exp (e)) {
 			/* Initialisation of array types */
@@ -2111,7 +2111,7 @@ init_object(IDENTIFIER id, EXP e)
 			/* Arrays with internal linkage must have a complete type */
 			if (ds & dspec_static) chk = 1;
 		}
-		
+
 		/* Can only spot incomplete arrays at this stage */
 		if (chk) {
 			ERROR err = check_complete (t);
@@ -2121,8 +2121,8 @@ init_object(IDENTIFIER id, EXP e)
 				report (decl_loc, err);
 			}
 		}
-		
-    } else {
+
+	} else {
 		/* Other initialisers */
 		if (!IS_NULL_exp (e)) {
 			if (tag == type_compound_tag) {
@@ -2147,14 +2147,14 @@ init_object(IDENTIFIER id, EXP e)
 				}
 				ds |= dspec_defn;
 			}
-			
+
 			/* Examine initialiser */
 			e = init_general (t, e, id, 0);
 		}
-    }
-	
-    /* Check on definition */
-    if (ds & dspec_stat_inline) {
+	}
+
+	/* Check on definition */
+	if (ds & dspec_stat_inline) {
 		/* Check for definitions of inline static members */
 		if (ds & dspec_defn) {
 			if (!IS_NULL_exp (e)) {
@@ -2168,8 +2168,8 @@ init_object(IDENTIFIER id, EXP e)
 			/* Mark as defined and no longer inline */
 			ds &= ~dspec_stat_inline;
 		}
-		
-    } else {
+
+	} else {
 		/* Provide default definition if necessary */
 		if (ds & dspec_defn) {
 			def = 1;
@@ -2178,7 +2178,7 @@ init_object(IDENTIFIER id, EXP e)
 				if (!IS_NULL_exp (e) && IS_exp_zero (e)) def = 2;
 			}
 		}
-		
+
 		/* Check previous definition */
 		d = DEREF_exp (id_variable_etc_init (id));
 		if (!IS_NULL_exp (d)) {
@@ -2201,12 +2201,12 @@ init_object(IDENTIFIER id, EXP e)
 			}
 			ds |= dspec_defn;
 		}
-    }
-	
-    /* Update declaration data */
-    COPY_type (id_variable_etc_type (id), t);
-    COPY_dspec (id_storage (id), ds);
-    if (!IS_NULL_exp (e)) {
+	}
+
+	/* Update declaration data */
+	COPY_type (id_variable_etc_type (id), t);
+	COPY_dspec (id_storage (id), ds);
+	if (!IS_NULL_exp (e)) {
 		/* Define object */
 		if (!ignore) {
 			if ((ds & dspec_auto) && (ds & dspec_used)) {
@@ -2225,8 +2225,8 @@ init_object(IDENTIFIER id, EXP e)
 			check_decl_nspace (id, ns, 1, crt_namespace);
 		}
 		if (def == 0) def = 1;
-    }
-    if (def) {
+	}
+	if (def) {
 		/* Create destructor */
 		EXP d1 = DEREF_exp (id_variable_etc_term (id));
 		d = destroy_general (t, id);
@@ -2236,19 +2236,19 @@ init_object(IDENTIFIER id, EXP e)
 			MAKE_exp_paren (t1, d, d);
 		}
 		COPY_exp (id_variable_etc_term (id), d);
-    }
-    if (!IS_NULL_id (unify_id_pending)) {
+	}
+	if (!IS_NULL_id (unify_id_pending)) {
 		/* Deal with any pending identifiers */
 		IGNORE unify_id (unify_id_pending, id, 1);
-    }
-    temp_storage = dspec_auto;
-    if (def && !(ds & dspec_auto)) {
+	}
+	temp_storage = dspec_auto;
+	if (def && !(ds & dspec_auto)) {
 		if (!really_in_function_defn && !in_template_decl) {
 			/* Compile variable definition */
 			compile_variable (id, 0);
 		}
-    }
-    return (def);
+	}
+	return (def);
 }
 
 
@@ -2264,7 +2264,7 @@ init_object(IDENTIFIER id, EXP e)
 void
 init_param(IDENTIFIER id, EXP e)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		if (!IS_NULL_id (id)) {
 			if (IS_id_token (id)) {
 				/* Template parameter */
@@ -2287,8 +2287,8 @@ init_param(IDENTIFIER id, EXP e)
 				}
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2307,32 +2307,32 @@ init_param(IDENTIFIER id, EXP e)
 int
 init_member(IDENTIFIER id, EXP e)
 {
-    int def;
-    unsigned tag;
-	
-    /* Check for definitions */
-    if (IS_NULL_id (id)) return (0);
-    tag = TAG_id (id);
-    if (have_access_decl) {
+	int def;
+	unsigned tag;
+
+	/* Check for definitions */
+	if (IS_NULL_id (id)) return (0);
+	tag = TAG_id (id);
+	if (have_access_decl) {
 		def = 2;
 		have_access_decl = 0;
-    } else {
+	} else {
 		switch (tag) {
-	    case id_stat_member_tag :
-	    case id_mem_func_tag :
-	    case id_stat_mem_func_tag : {
+		case id_stat_member_tag :
+		case id_mem_func_tag :
+		case id_stat_mem_func_tag : {
 			def = 0;
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			def = 1;
 			break;
-	    }
 		}
-    }
-	
-    /* Check for function declarations */
-    if (IS_NULL_exp (e)) {
+		}
+	}
+
+	/* Check for function declarations */
+	if (IS_NULL_exp (e)) {
 		if (tag == id_mem_func_tag || tag == id_stat_mem_func_tag) {
 			if (really_in_function_defn) {
 				NAMESPACE ns = DEREF_nspace (id_parent (id));
@@ -2348,32 +2348,32 @@ init_member(IDENTIFIER id, EXP e)
 			}
 		}
 		return (def);
-    }
-	
-    /* Check the various types of member */
-    switch (tag) {
-		
+	}
+
+	/* Check the various types of member */
+	switch (tag) {
+
 	case id_stat_member_tag : {
-	    /* Static data members may be initialised */
-	    DECL_SPEC ds;
-	    TYPE t = DEREF_type (id_stat_member_type (id));
-	    CV_SPEC cv = find_cv_qual (t);
-	    switch (TAG_type (t)) {
+		/* Static data members may be initialised */
+		DECL_SPEC ds;
+		TYPE t = DEREF_type (id_stat_member_type (id));
+		CV_SPEC cv = find_cv_qual (t);
+		switch (TAG_type (t)) {
 		case type_integer_tag :
 		case type_enumerate_tag : {
-		    ERROR err = NULL_err;
-		    IGNORE make_nat_exp (e, &err);
-		    if (!IS_NULL_err (err)) {
+			ERROR err = NULL_err;
+			IGNORE make_nat_exp (e, &err);
+			if (!IS_NULL_err (err)) {
 				/* Initialiser should be a constant expression */
 				ERROR err2 = ERR_class_mem_init_const ();
 				err = concat_error (err, err2);
 				report (crt_loc, err);
-		    }
-		    break;
+			}
+			break;
 		}
 		case type_token_tag : {
-		    if (!is_templ_type (t)) goto default_lab;
-		    break;
+			if (!is_templ_type (t)) goto default_lab;
+			break;
 		}
 		default :
 			default_lab : {
@@ -2381,42 +2381,42 @@ init_member(IDENTIFIER id, EXP e)
 				report (crt_loc, ERR_class_static_data_init (id, t));
 				break;
 			}
-	    }
-	    if (cv != (cv_const | cv_lvalue)) {
+		}
+		if (cv != (cv_const | cv_lvalue)) {
 			/* Only const types allowed */
 			report (crt_loc, ERR_class_static_data_const (id, t));
-	    }
-	    e = init_general (t, e, id, 0);
-	    e = dynamic_init (id, NULL_string, e);
-	    e = check_init (e);
-	    COPY_exp (id_stat_member_init (id), e);
-		
-	    /* Mark inline member definition */
-	    ds = DEREF_dspec (id_storage (id));
-	    ds |= dspec_stat_inline;
-	    COPY_dspec (id_storage (id), ds);
-	    break;
+		}
+		e = init_general (t, e, id, 0);
+		e = dynamic_init (id, NULL_string, e);
+		e = check_init (e);
+		COPY_exp (id_stat_member_init (id), e);
+
+		/* Mark inline member definition */
+		ds = DEREF_dspec (id_storage (id));
+		ds |= dspec_stat_inline;
+		COPY_dspec (id_storage (id), ds);
+		break;
 	}
-		
+
 	case id_mem_func_tag :
 	case id_stat_mem_func_tag : {
-	    /* Check for pure specifiers */
-	    if (is_zero_exp (e)) {
+		/* Check for pure specifiers */
+		if (is_zero_exp (e)) {
 			DECL_SPEC ds = DEREF_dspec (id_storage (id));
 			if (ds & dspec_virtual) {
 				CLASS_TYPE ct = crt_class;
 				CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
-				
+
 				/* Pure specifier should be precisely '0' */
 				int tok = last_lex_token;
 				if (tok != lex_integer_Hexp || is_literal (e) != 2) {
 					report (crt_loc, ERR_class_abstract_zero ());
 				}
-				
+
 				/* Mark class as abstract */
 				ci |= cinfo_abstract;
 				COPY_cinfo (ctype_info (ct), ci);
-				
+
 				/* Mark function as pure */
 				ds |= dspec_pure;
 				COPY_dspec (id_storage (id), ds);
@@ -2424,26 +2424,26 @@ init_member(IDENTIFIER id, EXP e)
 				/* Only virtual functions can be pure */
 				report (crt_loc, ERR_class_abstract_virt ());
 			}
-	    } else {
+		} else {
 			/* Can't initialise functions otherwise */
 			report (crt_loc, ERR_dcl_init_func (id));
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case id_member_tag : {
-	    /* Can't initialise non-static members */
-	    report (crt_loc, ERR_class_mem_init_mem (id));
-	    break;
+		/* Can't initialise non-static members */
+		report (crt_loc, ERR_class_mem_init_mem (id));
+		break;
 	}
-		
+
 	default : {
-	    /* Can't initialise a typedef */
-	    report (crt_loc, ERR_dcl_init_typedef (id));
-	    break;
+		/* Can't initialise a typedef */
+		report (crt_loc, ERR_dcl_init_typedef (id));
+		break;
 	}
-    }
-    return (def);
+	}
+	return (def);
 }
 
 
@@ -2456,14 +2456,14 @@ init_member(IDENTIFIER id, EXP e)
 void
 allow_initialiser(IDENTIFIER id)
 {
-    id = find_token (id);
-    if (IS_id_token (id)) {
+	id = find_token (id);
+	if (IS_id_token (id)) {
 		/* NOT YET IMPLEMENTED */
 		/* EMPTY */
-    } else {
+	} else {
 		report (crt_loc, ERR_token_undecl (id));
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -2474,8 +2474,8 @@ allow_initialiser(IDENTIFIER id)
  */
 
 void
-init_initialise()
+init_initialise(void)
 {
-    field_buff.posn = extend_buffer (&field_buff, field_buff.posn);
-    return;
+	field_buff.posn = extend_buffer (&field_buff, field_buff.posn);
+	return;
 }

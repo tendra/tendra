@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -101,13 +101,13 @@
 TYPE
 qualify_type(TYPE t, CV_SPEC cv, int force)
 {
-    TYPE r;
-    unsigned tag;
-    IDENTIFIER tid;
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    tag = TAG_type (t);
-    /* Report illegal usage of 'restrict' */
-    if (cv & cv_restrict) {
+	TYPE r;
+	unsigned tag;
+	IDENTIFIER tid;
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	tag = TAG_type (t);
+	/* Report illegal usage of 'restrict' */
+	if (cv & cv_restrict) {
 		int err = 1;
 		if (tag == type_ptr_tag) {
 			TYPE s = DEREF_type (type_ptr_sub (t));
@@ -122,186 +122,186 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 			cv &= ~cv_restrict;
 			report (crt_loc, ERR_dcl_type_restrict_bad (t));
 		}
-    }
+	}
 
-    /* Just return t if it is correctly qualified */
-    if (qual == cv && !force) return (t);
-	
-    /* Copy the type otherwise */
-    ASSERT (ORDER_type == 18);
-    switch (tag) {
+	/* Just return t if it is correctly qualified */
+	if (qual == cv && !force) return (t);
+
+	/* Copy the type otherwise */
+	ASSERT (ORDER_type == 18);
+	switch (tag) {
 	case type_pre_tag : {
-	    BASE_TYPE rep;
-	    QUALIFIER idtype;
-	    DECONS_type_pre (qual, tid, rep, idtype, t);
-	    MAKE_type_pre (cv, rep, idtype, r);
-	    break;
+		BASE_TYPE rep;
+		QUALIFIER idtype;
+		DECONS_type_pre (qual, tid, rep, idtype, t);
+		MAKE_type_pre (cv, rep, idtype, r);
+		break;
 	}
 	case type_integer_tag : {
-	    INT_TYPE rep;
-	    INT_TYPE sem;
-	    DECONS_type_integer (qual, tid, rep, sem, t);
-	    if (cv == cv_none && IS_NULL_id (tid) && !force) {
+		INT_TYPE rep;
+		INT_TYPE sem;
+		DECONS_type_integer (qual, tid, rep, sem, t);
+		if (cv == cv_none && IS_NULL_id (tid) && !force) {
 			r = make_itype (rep, sem);
 			break;
-	    }
-	    MAKE_type_integer (cv, rep, sem, r);
-	    break;
+		}
+		MAKE_type_integer (cv, rep, sem, r);
+		break;
 	}
 	case type_floating_tag : {
-	    FLOAT_TYPE rep;
-	    FLOAT_TYPE sem;
-	    DECONS_type_floating (qual, tid, rep, sem, t);
-	    if (cv == cv_none && IS_NULL_id (tid) && !force) {
+		FLOAT_TYPE rep;
+		FLOAT_TYPE sem;
+		DECONS_type_floating (qual, tid, rep, sem, t);
+		if (cv == cv_none && IS_NULL_id (tid) && !force) {
 			if (IS_ftype_basic (rep)) {
 				BUILTIN_TYPE n = DEREF_ntype (ftype_basic_no (rep));
 				r = type_builtin [n];
 				break;
 			}
-	    }
-	    MAKE_type_floating (cv, rep, sem, r);
-	    break;
+		}
+		MAKE_type_floating (cv, rep, sem, r);
+		break;
 	}
 	case type_top_tag : {
-	    tid = DEREF_id (type_name (t));
-	    if (cv == cv_none && IS_NULL_id (tid) && !force) {
+		tid = DEREF_id (type_name (t));
+		if (cv == cv_none && IS_NULL_id (tid) && !force) {
 			r = type_void;
 			break;
-	    }
-	    MAKE_type_top (cv, r);
-	    break;
+		}
+		MAKE_type_top (cv, r);
+		break;
 	}
 	case type_bottom_tag : {
-	    tid = DEREF_id (type_name (t));
-	    if (cv == cv_none && IS_NULL_id (tid) && !force) {
+		tid = DEREF_id (type_name (t));
+		if (cv == cv_none && IS_NULL_id (tid) && !force) {
 			r = type_bottom;
 			break;
-	    }
-	    MAKE_type_bottom (cv, r);
-	    break;
+		}
+		MAKE_type_bottom (cv, r);
+		break;
 	}
 	case type_ptr_tag : {
-	    TYPE sub;
-	    DECONS_type_ptr (qual, tid, sub, t);
-	    MAKE_type_ptr (cv, sub, r);
-	    break;
+		TYPE sub;
+		DECONS_type_ptr (qual, tid, sub, t);
+		MAKE_type_ptr (cv, sub, r);
+		break;
 	}
 	case type_ref_tag : {
-	    TYPE sub;
-	    CV_SPEC cv1 = (cv & cv_qual);
-	    DECONS_type_ref (qual, tid, sub, t);
-	    if (cv1) {
+		TYPE sub;
+		CV_SPEC cv1 = (cv & cv_qual);
+		DECONS_type_ref (qual, tid, sub, t);
+		if (cv1) {
 			/* Pass cv-qualifiers to base type */
 			CV_SPEC cv2 = DEREF_cv (type_qual (sub));
 			sub = qualify_type (sub, (cv1 | cv2), force);
 			cv &= ~cv_qual;
-	    }
-	    MAKE_type_ref (cv, sub, r);
-	    break;
+		}
+		MAKE_type_ref (cv, sub, r);
+		break;
 	}
 #if LANGUAGE_CPP
 	case type_ptr_mem_tag : {
-	    CLASS_TYPE of;
-	    TYPE sub;
-	    DECONS_type_ptr_mem (qual, tid, of, sub, t);
-	    MAKE_type_ptr_mem (cv, of, sub, r);
-	    break;
+		CLASS_TYPE of;
+		TYPE sub;
+		DECONS_type_ptr_mem (qual, tid, of, sub, t);
+		MAKE_type_ptr_mem (cv, of, sub, r);
+		break;
 	}
 #endif
 	case type_func_tag : {
-	    int ell;
-	    TYPE ret;
-	    CV_SPEC mqual;
-	    NAMESPACE pars;
-	    LIST (TYPE) ptypes;
-	    LIST (TYPE) mtypes;
-	    LIST (TYPE) except;
-	    LIST (IDENTIFIER) pids;
-	    DECONS_type_func (qual, tid, ret, ptypes, ell, mqual,
+		int ell;
+		TYPE ret;
+		CV_SPEC mqual;
+		NAMESPACE pars;
+		LIST (TYPE) ptypes;
+		LIST (TYPE) mtypes;
+		LIST (TYPE) except;
+		LIST (IDENTIFIER) pids;
+		DECONS_type_func (qual, tid, ret, ptypes, ell, mqual,
 						  mtypes, pars, pids, except, t);
-	    cv &= ~cv_qual;
-	    MAKE_type_func (cv, ret, ptypes, ell, mqual,
+		cv &= ~cv_qual;
+		MAKE_type_func (cv, ret, ptypes, ell, mqual,
 						mtypes, pars, pids, except, r);
-	    break;
+		break;
 	}
 	case type_array_tag : {
-	    TYPE sub;
-	    NAT size;
-	    CV_SPEC cv1 = (cv & cv_qual);
-	    DECONS_type_array (qual, tid, sub, size, t);
-	    if (cv1) {
+		TYPE sub;
+		NAT size;
+		CV_SPEC cv1 = (cv & cv_qual);
+		DECONS_type_array (qual, tid, sub, size, t);
+		if (cv1) {
 			/* Pass cv-qualifiers to base type */
 			CV_SPEC cv2 = DEREF_cv (type_qual (sub));
 			sub = qualify_type (sub, (cv1 | cv2), force);
 			cv &= ~cv_qual;
-	    }
-	    MAKE_type_array (cv, sub, size, r);
-	    break;
+		}
+		MAKE_type_array (cv, sub, size, r);
+		break;
 	}
 	case type_bitfield_tag : {
-	    INT_TYPE defn;
-	    DECONS_type_bitfield (qual, tid, defn, t);
-	    MAKE_type_bitfield (cv, defn, r);
-	    break;
+		INT_TYPE defn;
+		DECONS_type_bitfield (qual, tid, defn, t);
+		MAKE_type_bitfield (cv, defn, r);
+		break;
 	}
 	case type_compound_tag : {
-	    CLASS_TYPE defn;
-	    DECONS_type_compound (qual, tid, defn, t);
-	    MAKE_type_compound (cv, defn, r);
-	    break;
+		CLASS_TYPE defn;
+		DECONS_type_compound (qual, tid, defn, t);
+		MAKE_type_compound (cv, defn, r);
+		break;
 	}
 	case type_enumerate_tag : {
-	    ENUM_TYPE defn;
-	    DECONS_type_enumerate (qual, tid, defn, t);
-	    MAKE_type_enumerate (cv, defn, r);
-	    break;
+		ENUM_TYPE defn;
+		DECONS_type_enumerate (qual, tid, defn, t);
+		MAKE_type_enumerate (cv, defn, r);
+		break;
 	}
 	case type_token_tag : {
-	    INSTANCE app;
-	    IDENTIFIER tok;
-	    LIST (TOKEN) args;
-	    DECONS_type_token (qual, tid, tok, args, app, t);
-	    MAKE_type_token (cv, tok, args, r);
-	    COPY_inst (type_token_app (r), app);
-	    break;
+		INSTANCE app;
+		IDENTIFIER tok;
+		LIST (TOKEN) args;
+		DECONS_type_token (qual, tid, tok, args, app, t);
+		MAKE_type_token (cv, tok, args, r);
+		COPY_inst (type_token_app (r), app);
+		break;
 	}
 	case type_templ_tag : {
-	    int fix;
-	    TYPE defn;
-	    TOKEN sort;
-	    DECONS_type_templ (qual, tid, sort, defn, fix, t);
-	    MAKE_type_templ (cv, sort, defn, fix, r);
-	    break;
+		int fix;
+		TYPE defn;
+		TOKEN sort;
+		DECONS_type_templ (qual, tid, sort, defn, fix, t);
+		MAKE_type_templ (cv, sort, defn, fix, r);
+		break;
 	}
 	case type_instance_tag : {
-	    IDENTIFIER id;
-	    DECL_SPEC acc;
-	    DECONS_type_instance (qual, tid, id, acc, t);
-	    MAKE_type_instance (cv, id, acc, r);
-	    break;
+		IDENTIFIER id;
+		DECL_SPEC acc;
+		DECONS_type_instance (qual, tid, id, acc, t);
+		MAKE_type_instance (cv, id, acc, r);
+		break;
 	}
 	case type_dummy_tag : {
-	    int tok;
-	    DECONS_type_dummy (qual, tid, tok, t);
-	    MAKE_type_dummy (cv, tok, r);
-	    break;
+		int tok;
+		DECONS_type_dummy (qual, tid, tok, t);
+		MAKE_type_dummy (cv, tok, r);
+		break;
 	}
 	case type_error_tag : {
-	    tid = DEREF_id (type_name (t));
-	    cv &= cv_lvalue;
-	    MAKE_type_error (cv, r);
-	    break;
+		tid = DEREF_id (type_name (t));
+		cv &= cv_lvalue;
+		MAKE_type_error (cv, r);
+		break;
 	}
 	default : {
-	    FAIL (Invalid type);
-	    tid = NULL_id;
-	    r = t;
-	    break;
+		FAIL (Invalid type);
+		tid = NULL_id;
+		r = t;
+		break;
 	}
-    }
-    COPY_id (type_name (r), tid);
-    UNUSED (qual);
-    return (r);
+	}
+	COPY_id (type_name (r), tid);
+	UNUSED (qual);
+	return (r);
 }
 
 
@@ -323,87 +323,87 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 TYPE
 copy_typedef(IDENTIFIER id, TYPE t, CV_SPEC cv)
 {
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    CV_SPEC qual_new = (qual | cv);
-    CV_SPEC qual_join = (qual & cv);
-    if (qual_join && !IS_NULL_id (id)) {
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	CV_SPEC qual_new = (qual | cv);
+	CV_SPEC qual_join = (qual & cv);
+	if (qual_join && !IS_NULL_id (id)) {
 		/* Warn about duplicate qualifiers */
 		report (crt_loc, ERR_dcl_type_type_cv (id, qual_join));
-    }
-	
-    /* Check types */
-    switch (TAG_type (t)) {
-		
+	}
+
+	/* Check types */
+	switch (TAG_type (t)) {
+
 	case type_ptr_tag : {
-	    /* Copy pointer types */
-	    TYPE s = DEREF_type (type_ptr_sub (t));
-	    TYPE r = copy_typedef (id, s, cv_none);
-	    if (!EQ_type (r, s) || qual_new != qual) {
+		/* Copy pointer types */
+		TYPE s = DEREF_type (type_ptr_sub (t));
+		TYPE r = copy_typedef (id, s, cv_none);
+		if (!EQ_type (r, s) || qual_new != qual) {
 			IDENTIFIER tid = DEREF_id (type_name (t));
 			MAKE_type_ptr (qual_new, r, t);
 			COPY_id (type_name (t), tid);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 	case type_ref_tag : {
-	    /* Ignore qualifiers for references */
-	    TYPE s, r;
-	    if (cv && !IS_NULL_id (id)) {
+		/* Ignore qualifiers for references */
+		TYPE s, r;
+		if (cv && !IS_NULL_id (id)) {
 			report (crt_loc, ERR_dcl_ref_cv_type (cv, id));
-	    }
-	    s = DEREF_type (type_ref_sub (t));
-	    r = copy_typedef (id, s, cv_none);
-	    if (!EQ_type (r, s)) {
+		}
+		s = DEREF_type (type_ref_sub (t));
+		r = copy_typedef (id, s, cv_none);
+		if (!EQ_type (r, s)) {
 			IDENTIFIER tid = DEREF_id (type_name (t));
 			MAKE_type_ref (qual, r, t);
 			COPY_id (type_name (t), tid);
-	    }
-	    break;
+		}
+		break;
 	}
-		
+
 #if LANGUAGE_CPP
 	case type_ptr_mem_tag : {
-	    /* Copy pointer member types */
-	    TYPE s = DEREF_type (type_ptr_mem_sub (t));
-	    TYPE r = copy_typedef (id, s, cv_none);
-	    if (!EQ_type (r, s) || qual_new != qual) {
+		/* Copy pointer member types */
+		TYPE s = DEREF_type (type_ptr_mem_sub (t));
+		TYPE r = copy_typedef (id, s, cv_none);
+		if (!EQ_type (r, s) || qual_new != qual) {
 			IDENTIFIER tid = DEREF_id (type_name (t));
 			CLASS_TYPE of = DEREF_ctype (type_ptr_mem_of (t));
 			MAKE_type_ptr_mem (qual_new, of, r, t);
 			COPY_id (type_name (t), tid);
-	    }
-	    break;
+		}
+		break;
 	}
 #endif
-		
+
 	case type_func_tag : {
-	    /* Ignore qualifiers for functions */
-	    int ell;
-	    TYPE ret;
-	    CV_SPEC mqual;
-	    IDENTIFIER tid;
-	    NAMESPACE pars;
-	    LIST (TYPE) except;
-	    LIST (TYPE) ptypes;
-	    LIST (TYPE) mtypes;
-	    LIST (IDENTIFIER) pids;
-	    LIST (TYPE) mtypes_new;
-	    LIST (TYPE) ptypes_new = NULL_list (TYPE);
-	    LIST (IDENTIFIER) pids_new = NULL_list (IDENTIFIER);
-		
-	    /* Warn about qualifiers */
-	    if (cv && !IS_NULL_id (id)) {
+		/* Ignore qualifiers for functions */
+		int ell;
+		TYPE ret;
+		CV_SPEC mqual;
+		IDENTIFIER tid;
+		NAMESPACE pars;
+		LIST (TYPE) except;
+		LIST (TYPE) ptypes;
+		LIST (TYPE) mtypes;
+		LIST (IDENTIFIER) pids;
+		LIST (TYPE) mtypes_new;
+		LIST (TYPE) ptypes_new = NULL_list (TYPE);
+		LIST (IDENTIFIER) pids_new = NULL_list (IDENTIFIER);
+
+		/* Warn about qualifiers */
+		if (cv && !IS_NULL_id (id)) {
 			report (crt_loc, ERR_dcl_fct_qual (cv, id));
-	    }
-		
-	    /* Decompose old function type */
-	    DECONS_type_func (qual, tid, ret, ptypes, ell, mqual,
+		}
+
+		/* Decompose old function type */
+		DECONS_type_func (qual, tid, ret, ptypes, ell, mqual,
 						  mtypes, pars, pids, except, t);
-		
-	    /* Copy appropriate components */
-	    ret = copy_typedef (id, ret, cv_none);
-	    while (!IS_NULL_list (pids)) {
+
+		/* Copy appropriate components */
+		ret = copy_typedef (id, ret, cv_none);
+		while (!IS_NULL_list (pids)) {
 			/* Redeclare each parameter */
 			TYPE s;
 			IDENTIFIER pid = DEREF_id (HEAD_list (pids));
@@ -413,54 +413,54 @@ copy_typedef(IDENTIFIER id, TYPE t, CV_SPEC cv)
 			s = qualify_type (s, cv_none, 0);
 			CONS_type (s, ptypes_new, ptypes_new);
 			pids = TAIL_list (pids);
-	    }
-	    pids_new = REVERSE_list (pids_new);
-	    ptypes_new = REVERSE_list (ptypes_new);
-	    if (EQ_list (ptypes, mtypes)) {
+		}
+		pids_new = REVERSE_list (pids_new);
+		ptypes_new = REVERSE_list (ptypes_new);
+		if (EQ_list (ptypes, mtypes)) {
 			mtypes_new = ptypes_new;
-	    } else {
+		} else {
 			TYPE r = DEREF_type (HEAD_list (mtypes));
 			CONS_type (r, ptypes_new, mtypes_new);
-	    }
-		
-	    /* Construct new function type */
-	    MAKE_type_func (qual, ret, ptypes_new, ell, mqual,
+		}
+
+		/* Construct new function type */
+		MAKE_type_func (qual, ret, ptypes_new, ell, mqual,
 						mtypes_new, pars, pids_new, except, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		COPY_id (type_name (t), tid);
+		break;
 	}
-		
+
 	case type_array_tag : {
-	    /* Qualify the base type of an array */
-	    NAT n = DEREF_nat (type_array_size (t));
-	    TYPE s = DEREF_type (type_array_sub (t));
-	    TYPE r = copy_typedef (id, s, cv);
-	    IDENTIFIER tid = DEREF_id (type_name (t));
-	    MAKE_type_array (qual, r, n, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		/* Qualify the base type of an array */
+		NAT n = DEREF_nat (type_array_size (t));
+		TYPE s = DEREF_type (type_array_sub (t));
+		TYPE r = copy_typedef (id, s, cv);
+		IDENTIFIER tid = DEREF_id (type_name (t));
+		MAKE_type_array (qual, r, n, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
-		
+
 	case type_token_tag : {
-	    /* Tokenised types */
-	    IDENTIFIER tok = DEREF_id (type_token_tok (t));
-	    DECL_SPEC ds = DEREF_dspec (id_storage (tok));
-	    if (!(ds & dspec_defn)) goto default_lab;
-	    t = expand_type (t, 0);
-	    t = qualify_type (t, qual_new, 0);
-	    break;
+		/* Tokenised types */
+		IDENTIFIER tok = DEREF_id (type_token_tok (t));
+		DECL_SPEC ds = DEREF_dspec (id_storage (tok));
+		if (!(ds & dspec_defn)) goto default_lab;
+		t = expand_type (t, 0);
+		t = qualify_type (t, qual_new, 0);
+		break;
 	}
-		
+
 	case type_templ_tag : {
-	    /* Template types */
-	    TYPE s = DEREF_type (type_templ_defn (t));
-	    TOKEN tok = DEREF_tok (type_templ_sort (t));
-	    IDENTIFIER tid = DEREF_id (type_name (t));
-	    MAKE_type_templ (qual_new, tok, s, 1, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		/* Template types */
+		TYPE s = DEREF_type (type_templ_defn (t));
+		TOKEN tok = DEREF_tok (type_templ_sort (t));
+		IDENTIFIER tid = DEREF_id (type_name (t));
+		MAKE_type_templ (qual_new, tok, s, 1, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
-		
+
 	default :
 		default_lab : {
 			/* Other types */
@@ -469,8 +469,8 @@ copy_typedef(IDENTIFIER id, TYPE t, CV_SPEC cv)
 			}
 			break;
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -484,10 +484,10 @@ copy_typedef(IDENTIFIER id, TYPE t, CV_SPEC cv)
 TYPE
 lvalue_type(TYPE t)
 {
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (qual & cv_lvalue) return (t);
-    qual |= cv_lvalue;
-    return (qualify_type (t, qual, 0));
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (qual & cv_lvalue) return (t);
+	qual |= cv_lvalue;
+	return (qualify_type (t, qual, 0));
 }
 
 
@@ -501,10 +501,10 @@ lvalue_type(TYPE t)
 TYPE
 rvalue_type(TYPE t)
 {
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (!(qual & cv_lvalue)) return (t);
-    qual &= ~cv_lvalue;
-    return (qualify_type (t, qual, 0));
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (!(qual & cv_lvalue)) return (t);
+	qual &= ~cv_lvalue;
+	return (qualify_type (t, qual, 0));
 }
 
 
@@ -521,9 +521,9 @@ rvalue_type(TYPE t)
 BASE_TYPE
 join_pre_types(BASE_TYPE b1, BASE_TYPE b2)
 {
-    BASE_TYPE bt = (b1 | b2);
-    BASE_TYPE bs = (b1 & b2);
-    if (bs) {
+	BASE_TYPE bt = (b1 | b2);
+	BASE_TYPE bs = (b1 & b2);
+	if (bs) {
 		if (bs == btype_long) {
 			if (!(bt & btype_long2)) {
 				/* Allow 'long long' */
@@ -532,8 +532,8 @@ join_pre_types(BASE_TYPE b1, BASE_TYPE b2)
 			}
 		}
 		report (crt_loc, ERR_dcl_type_simple_dup (bs));
-    }
-    return (bt);
+	}
+	return (bt);
 }
 
 
@@ -553,13 +553,13 @@ join_pre_types(BASE_TYPE b1, BASE_TYPE b2)
 TYPE
 inject_pre_type(TYPE p, TYPE t, int chk)
 {
-    TYPE q = p;
-    unsigned long n = 0;
-    if (IS_NULL_type (q)) return (t);
-    if (IS_NULL_type (t)) return (q);
-	
-    /* Map 'ptr template' to 'template ptr' etc */
-    if (IS_type_templ (t) && !IS_type_templ (q)) {
+	TYPE q = p;
+	unsigned long n = 0;
+	if (IS_NULL_type (q)) return (t);
+	if (IS_NULL_type (t)) return (q);
+
+	/* Map 'ptr template' to 'template ptr' etc */
+	if (IS_type_templ (t) && !IS_type_templ (q)) {
 		TYPE s;
 		int fix;
 		TOKEN tok;
@@ -572,13 +572,13 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			COPY_id (type_name (t), tid);
 			return (t);
 		}
-    }
-	
-    /* Scan down to incomplete component */
-    do {
+	}
+
+	/* Scan down to incomplete component */
+	do {
 		switch (TAG_type (q)) {
-			
-	    case type_ptr_tag : {
+
+		case type_ptr_tag : {
 			/* Pointer types, t * */
 			TYPE s = DEREF_type (type_ptr_sub (q));
 			if (IS_NULL_type (s)) {
@@ -608,9 +608,9 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			}
 			q = s;
 			break;
-	    }
-			
-	    case type_ref_tag : {
+		}
+
+		case type_ref_tag : {
 			/* Reference types, t & */
 			TYPE s = DEREF_type (type_ref_sub (q));
 			if (IS_NULL_type (s)) {
@@ -648,10 +648,10 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			}
 			q = s;
 			break;
-	    }
-			
+		}
+
 #if LANGUAGE_CPP
-	    case type_ptr_mem_tag : {
+		case type_ptr_mem_tag : {
 			/* Pointer to member types, t c::* */
 			TYPE s = DEREF_type (type_ptr_mem_sub (q));
 			if (IS_NULL_type (s)) {
@@ -689,10 +689,10 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			}
 			q = s;
 			break;
-	    }
+		}
 #endif
-			
-	    case type_func_tag : {
+
+		case type_func_tag : {
 			/* Function types, t (args) */
 			TYPE s = DEREF_type (type_func_ret (q));
 			if (IS_NULL_type (s)) {
@@ -741,9 +741,9 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			}
 			q = s;
 			break;
-	    }
-			
-	    case type_array_tag : {
+		}
+
+		case type_array_tag : {
 			/* Array types, t [n] */
 			TYPE s = DEREF_type (type_array_sub (q));
 			if (IS_NULL_type (s)) {
@@ -808,9 +808,9 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			}
 			q = s;
 			break;
-	    }
-			
-	    case type_templ_tag : {
+		}
+
+		case type_templ_tag : {
 			/* Template types, template < ... > t */
 			TYPE s = DEREF_type (type_templ_defn (q));
 			if (IS_NULL_type (s)) {
@@ -820,19 +820,19 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			q = s;
 			n--;
 			break;
-	    }
-			
-	    default : {
+		}
+
+		default : {
 			/* Only the types above should appear */
 			q = NULL_type;
 			n--;
 			break;
-	    }
+		}
 		}
 		n++;
-    } while (!IS_NULL_type (q));
-    if (chk) IGNORE check_value (OPT_VAL_declarator_max, n);
-    return (p);
+	} while (!IS_NULL_type (q));
+	if (chk) IGNORE check_value (OPT_VAL_declarator_max, n);
+	return (p);
 }
 
 
@@ -849,10 +849,10 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 int
 is_type_inferred(TYPE t)
 {
-    if (EQ_type (t, type_inferred)) return (INFERRED_EMPTY);
-    while (!IS_NULL_type (t)) {
+	if (EQ_type (t, type_inferred)) return (INFERRED_EMPTY);
+	while (!IS_NULL_type (t)) {
 		switch (TAG_type (t)) {
-	    case type_integer_tag : {
+		case type_integer_tag : {
 			/* Check integer types */
 			if (EQ_type (t, type_inferred)) {
 				return (INFERRED_SPEC);
@@ -865,47 +865,47 @@ is_type_inferred(TYPE t)
 				}
 			}
 			return (INFERRED_NOT);
-	    }
-	    case type_ptr_tag :
-	    case type_ref_tag : {
+		}
+		case type_ptr_tag :
+		case type_ref_tag : {
 			/* Check pointer and reference types */
 			t = DEREF_type (type_ptr_etc_sub (t));
 			break;
-	    }
+		}
 #if LANGUAGE_CPP
-	    case type_ptr_mem_tag : {
+		case type_ptr_mem_tag : {
 			/* Check pointer to member types */
 			t = DEREF_type (type_ptr_mem_sub (t));
 			break;
-	    }
+		}
 #endif
-	    case type_func_tag : {
+		case type_func_tag : {
 			/* Check function return types only */
 			t = DEREF_type (type_func_ret (t));
 			break;
-	    }
-	    case type_array_tag : {
+		}
+		case type_array_tag : {
 			/* Check array types */
 			t = DEREF_type (type_array_sub (t));
 			break;
-	    }
-	    case type_bitfield_tag : {
+		}
+		case type_bitfield_tag : {
 			/* Check bitfield types */
 			t = find_bitfield_type (t);
 			break;
-	    }
-	    case type_templ_tag : {
+		}
+		case type_templ_tag : {
 			/* Check template types */
 			t = DEREF_type (type_templ_defn (t));
 			break;
-	    }
-	    default : {
+		}
+		default : {
 			/* Other types are not inferred */
 			return (INFERRED_NOT);
-	    }
 		}
-    }
-    return (INFERRED_QUAL);
+		}
+	}
+	return (INFERRED_QUAL);
 }
 
 
@@ -919,15 +919,15 @@ is_type_inferred(TYPE t)
 TYPE
 clean_inferred_type(TYPE t)
 {
-    TYPE sub;
-    CV_SPEC qual;
-    IDENTIFIER tid;
-    switch (TAG_type (t)) {
+	TYPE sub;
+	CV_SPEC qual;
+	IDENTIFIER tid;
+	switch (TAG_type (t)) {
 	case type_integer_tag : {
-	    if (EQ_type (t, type_inferred)) {
+		if (EQ_type (t, type_inferred)) {
 			/* Simple inferred type */
 			t = type_sint;
-	    } else {
+		} else {
 			INT_TYPE it = DEREF_itype (type_integer_rep (t));
 			TYPE pt = DEREF_type (itype_prom (it));
 			if (EQ_type (pt, type_inferred)) {
@@ -935,78 +935,78 @@ clean_inferred_type(TYPE t)
 				qual = DEREF_cv (type_qual (t));
 				t = qualify_type (type_sint, qual, 0);
 			}
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_ptr_tag : {
-	    DECONS_type_ptr (qual, tid, sub, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_ptr (qual, sub, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		DECONS_type_ptr (qual, tid, sub, t);
+		sub = clean_inferred_type (sub);
+		MAKE_type_ptr (qual, sub, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
 	case type_ref_tag : {
-	    DECONS_type_ref (qual, tid, sub, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_ref (qual, sub, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		DECONS_type_ref (qual, tid, sub, t);
+		sub = clean_inferred_type (sub);
+		MAKE_type_ref (qual, sub, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
 #if LANGUAGE_CPP
 	case type_ptr_mem_tag : {
-	    CLASS_TYPE of;
-	    DECONS_type_ptr_mem (qual, tid, of, sub, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_ptr_mem (qual, of, sub, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		CLASS_TYPE of;
+		DECONS_type_ptr_mem (qual, tid, of, sub, t);
+		sub = clean_inferred_type (sub);
+		MAKE_type_ptr_mem (qual, of, sub, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
 #endif
 	case type_func_tag : {
-	    int ell;
-	    CV_SPEC mqual;
-	    NAMESPACE pars;
-	    LIST (TYPE) ptypes;
-	    LIST (TYPE) mtypes;
-	    LIST (TYPE) except;
-	    LIST (IDENTIFIER) pids;
-	    DECONS_type_func (qual, tid, sub, ptypes, ell, mqual,
+		int ell;
+		CV_SPEC mqual;
+		NAMESPACE pars;
+		LIST (TYPE) ptypes;
+		LIST (TYPE) mtypes;
+		LIST (TYPE) except;
+		LIST (IDENTIFIER) pids;
+		DECONS_type_func (qual, tid, sub, ptypes, ell, mqual,
 						  mtypes, pars, pids, except, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_func (qual, sub, ptypes, ell, mqual,
+		sub = clean_inferred_type (sub);
+		MAKE_type_func (qual, sub, ptypes, ell, mqual,
 						mtypes, pars, pids, except, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		COPY_id (type_name (t), tid);
+		break;
 	}
 	case type_array_tag : {
-	    NAT size;
-	    DECONS_type_array (qual, tid, sub, size, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_array (qual, sub, size, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		NAT size;
+		DECONS_type_array (qual, tid, sub, size, t);
+		sub = clean_inferred_type (sub);
+		MAKE_type_array (qual, sub, size, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
 	case type_bitfield_tag : {
-	    INT_TYPE bf;
-	    DECONS_type_bitfield (qual, tid, bf, t);
-	    sub = DEREF_type (itype_bitfield_sub (bf));
-	    sub = clean_inferred_type (sub);
-	    COPY_type (itype_bitfield_sub (bf), sub);
-	    MAKE_type_bitfield (qual, bf, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		INT_TYPE bf;
+		DECONS_type_bitfield (qual, tid, bf, t);
+		sub = DEREF_type (itype_bitfield_sub (bf));
+		sub = clean_inferred_type (sub);
+		COPY_type (itype_bitfield_sub (bf), sub);
+		MAKE_type_bitfield (qual, bf, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
 	case type_templ_tag : {
-	    int fix;
-	    TOKEN sort;
-	    DECONS_type_templ (qual, tid, sort, sub, fix, t);
-	    sub = clean_inferred_type (sub);
-	    MAKE_type_templ (qual, sort, sub, fix, t);
-	    COPY_id (type_name (t), tid);
-	    break;
+		int fix;
+		TOKEN sort;
+		DECONS_type_templ (qual, tid, sort, sub, fix, t);
+		sub = clean_inferred_type (sub);
+		MAKE_type_templ (qual, sort, sub, fix, t);
+		COPY_id (type_name (t), tid);
+		break;
 	}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1020,20 +1020,20 @@ clean_inferred_type(TYPE t)
 ERROR
 report_inferred_type(TYPE t, int infer)
 {
-    ERROR err = NULL_err;
-    switch (infer) {
+	ERROR err = NULL_err;
+	switch (infer) {
 	case INFERRED_EMPTY :
 	case INFERRED_SPEC : {
-	    err = ERR_dcl_type_none ();
-	    break;
+		err = ERR_dcl_type_none ();
+		break;
 	}
 	case INFERRED_QUAL : {
-	    err = ERR_dcl_type_qual ();
-	    break;
+		err = ERR_dcl_type_qual ();
+		break;
 	}
-    }
-    err = concat_error (err, ERR_dcl_type_infer (t));
-    return (err);
+	}
+	err = concat_error (err, ERR_dcl_type_infer (t));
+	return (err);
 }
 
 
@@ -1056,11 +1056,11 @@ report_inferred_type(TYPE t, int infer)
 TYPE
 make_base_type(BASE_TYPE bt)
 {
-    TYPE t;
-    BASE_TYPE bm = bt;
-    BASE_TYPE bo = btype_none;
-	
-    if (bm & btype_other) {
+	TYPE t;
+	BASE_TYPE bm = bt;
+	BASE_TYPE bo = btype_none;
+
+	if (bm & btype_other) {
 		/* Deal with non-integral cases */
 		if (bm & btype_void) {
 			t = type_void;
@@ -1110,8 +1110,8 @@ make_base_type(BASE_TYPE bt)
 			bm = btype_sint;
 			t = type_sint;
 		}
-		
-    } else {
+
+	} else {
 		do {
 			/* Deal with obvious integral cases */
 			switch (BTYPE (bm)) {
@@ -1229,18 +1229,18 @@ make_base_type(BASE_TYPE bt)
 			}
 			}
 		} while (IS_NULL_type (t));
-    }
-	
-    /* Check result */
-    if (bt & ~bm) {
+	}
+
+	/* Check result */
+	if (bt & ~bm) {
 		/* Report excess type specifiers */
 		if (bo == btype_none) bo = (bt & bm);
 		report (crt_loc, ERR_dcl_type_simple_bad (bt, bo));
-    } else if (bo) {
+	} else if (bo) {
 		/* Report non-standard type specifiers */
 		report (crt_loc, ERR_dcl_type_simple_bad (bt, bo));
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1267,8 +1267,8 @@ static int use_type_name = 1;
 TYPE
 complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 {
-    /* Deal with named types */
-    if (!IS_NULL_type (t)) {
+	/* Deal with named types */
+	if (!IS_NULL_type (t)) {
 		if (bt) report (crt_loc, ERR_dcl_type_simple_undecl (bt, t));
 		if (IS_type_pre (t)) {
 			CV_SPEC qual;
@@ -1304,16 +1304,16 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 			t = copy_typedef (NULL_id, t, cv);
 		}
 		return (t);
-    }
-	
-    /* Deal with type specifiers */
-    if (bt == btype_none) {
+	}
+
+	/* Deal with type specifiers */
+	if (bt == btype_none) {
 		t = type_inferred;
-    } else {
+	} else {
 		t = make_base_type (bt);
-    }
-    if (cv) t = qualify_type (t, cv, 0);
-    if (infer) {
+	}
+	if (cv) t = qualify_type (t, cv, 0);
+	if (infer) {
 		/* Check for inferred types */
 		int i = is_type_inferred (t);
 		if (i != INFERRED_NOT) {
@@ -1322,8 +1322,8 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 			err = report_inferred_type (t, i);
 			report (crt_loc, err);
 		}
-    }
-    return (t);
+	}
+	return (t);
 }
 
 
@@ -1339,14 +1339,14 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 TYPE
 empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 {
-    /* Check for elaborated type declarations */
-    if (!IS_NULL_type (t) && IS_type_pre (t)) {
+	/* Check for elaborated type declarations */
+	if (!IS_NULL_type (t) && IS_type_pre (t)) {
 		BASE_TYPE key = DEREF_btype (type_pre_rep (t));
 		switch (key) {
-	    case btype_class :
-	    case btype_struct :
-	    case btype_union :
-	    case btype_enum : {
+		case btype_class :
+		case btype_struct :
+		case btype_union :
+		case btype_enum : {
 			if (bt) {
 				ERROR err = ERR_dcl_type_simple_undecl (bt, t);
 				report (crt_loc, err);
@@ -1354,15 +1354,15 @@ empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 			COPY_cv (type_qual (t), cv);
 			COPY_btype (type_pre_rep (t), key);
 			return (t);
-	    }
 		}
-    }
-	
-    /* Otherwise obtain the completed type */
-    use_type_name = 0;
-    t = complete_pre_type (bt, t, cv, infer);
-    use_type_name = 1;
-    return (t);
+		}
+	}
+
+	/* Otherwise obtain the completed type */
+	use_type_name = 0;
+	t = complete_pre_type (bt, t, cv, infer);
+	use_type_name = 1;
+	return (t);
 }
 
 
@@ -1375,9 +1375,9 @@ empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 TYPE
 find_bitfield_type(TYPE t)
 {
-    INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
-    t = DEREF_type (itype_bitfield_sub (it));
-    return (t);
+	INT_TYPE it = DEREF_itype (type_bitfield_defn (t));
+	t = DEREF_type (itype_bitfield_sub (it));
+	return (t);
 }
 
 
@@ -1391,16 +1391,16 @@ find_bitfield_type(TYPE t)
 BASE_TYPE
 get_bitfield_rep(TYPE t, BASE_TYPE bt)
 {
-    int depth = 0;
-    IDENTIFIER id = DEREF_id (type_name (t));
-    while (!IS_NULL_id (id) && depth < 100) {
+	int depth = 0;
+	IDENTIFIER id = DEREF_id (type_name (t));
+	while (!IS_NULL_id (id) && depth < 100) {
 		/* Scan down to original typedef definition */
 		bt = DEREF_btype (id_class_name_etc_rep (id));
 		t = DEREF_type (id_class_name_etc_defn (id));
 		id = DEREF_id (type_name (t));
 		depth++;
-    }
-    if (IS_type_integer (t)) {
+	}
+	if (IS_type_integer (t)) {
 		INT_TYPE it = DEREF_itype (type_integer_rep (t));
 		if (IS_itype_basic (it)) {
 			BASE_TYPE br = DEREF_btype (itype_basic_rep (it));
@@ -1410,8 +1410,8 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
 			}
 			bt = br;
 		}
-    }
-    return (bt);
+	}
+	return (bt);
 }
 
 
@@ -1429,67 +1429,67 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
 TYPE
 check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 {
-    INT_TYPE bf;
-    TYPE p = NULL_type;
-    DECL_SPEC info = dspec_none;
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (qual) {
+	INT_TYPE bf;
+	TYPE p = NULL_type;
+	DECL_SPEC info = dspec_none;
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (qual) {
 		/* Move any cv-qualifiers to top level */
 		t = qualify_type (t, cv_none, 0);
 		cv |= qual;
-    }
-    switch (TAG_type (t)) {
+	}
+	switch (TAG_type (t)) {
 	case type_integer_tag :
 	case type_enumerate_tag : {
-	    /* Integral types are allowed */
-	    int ok = 1;
-	    bt = get_bitfield_rep (t, bt);
-	    if (bt & btype_int) {
+		/* Integral types are allowed */
+		int ok = 1;
+		bt = get_bitfield_rep (t, bt);
+		if (bt & btype_int) {
 			if (bt & (btype_short | btype_long)) ok = 0;
-	    } else {
+		} else {
 			ok = 0;
-	    }
-	    if (!ok) {
+		}
+		if (!ok) {
 			/* Only 'int' types allowed in C */
 			report (crt_loc, ERR_class_bit_base_int (t));
-	    }
-	    if (!(bt & (btype_signed | btype_unsigned))) {
+		}
+		if (!(bt & (btype_signed | btype_unsigned))) {
 			/* No sign given in type specifier */
 			report (crt_loc, ERR_class_bit_sign (bt));
-	    }
-	    break;
+		}
+		break;
 	}
 	case type_token_tag : {
-	    /* Allow template parameter types */
-	    if (is_templ_type (t)) {
+		/* Allow template parameter types */
+		if (is_templ_type (t)) {
 			IDENTIFIER id = DEREF_id (type_token_tok (t));
 			LIST (TOKEN) args = DEREF_list (type_token_args (t));
 			t = apply_itype_token (id, args);
 			bt = (btype_named | btype_template);
 			break;
-	    }
-	    report (crt_loc, ERR_class_bit_base (t));
-	    return (t);
+		}
+		report (crt_loc, ERR_class_bit_base (t));
+		return (t);
 	}
 	case type_error_tag : {
-	    /* Ignore error types */
-	    return (t);
+		/* Ignore error types */
+		return (t);
 	}
 	default : {
-	    /* Other types are not allowed */
-	    report (crt_loc, ERR_class_bit_base (t));
-	    return (t);
+		/* Other types are not allowed */
+		report (crt_loc, ERR_class_bit_base (t));
+		return (t);
 	}
-    }
-	
-    /* Check the range of n */
-    if (IS_NULL_nat (n) || is_zero_nat (n)) {
+	}
+
+	/* Check the range of n */
+	if (IS_NULL_nat (n) || is_zero_nat (n)) {
 		/* Only anonymous bitfields can have size zero */
 		if (!zero) report (crt_loc, ERR_class_bit_dim_zero ());
 		info |= dspec_pure;
 		n = small_nat [0];
 		p = type_sint;
-    } else {
+	} else {
 		if (is_negative_nat (n)) {
 			/* Bitfield size cannot be negative */
 			report (crt_loc, ERR_class_bit_dim_neg (n));
@@ -1509,17 +1509,17 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 				p = type_uint;
 			}
 		}
-    }
-    if (IS_NULL_type (p)) {
+	}
+	if (IS_NULL_type (p)) {
 		/* NOT YET IMPLEMENTED */
 		p = promote_type (t);
-    }
-	
-    /* Construct bitfield type */
-    if (zero) info |= dspec_ignore;
-    MAKE_itype_bitfield (p, NULL_list (TYPE), t, bt, n, info, bf);
-    MAKE_type_bitfield (cv, bf, t);
-    return (t);
+	}
+
+	/* Construct bitfield type */
+	if (zero) info |= dspec_ignore;
+	MAKE_itype_bitfield (p, NULL_list (TYPE), t, bt, n, info, bf);
+	MAKE_type_bitfield (cv, bf, t);
+	return (t);
 }
 
 
@@ -1533,14 +1533,14 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 TYPE
 make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e, int zero)
 {
-    ERROR err = NULL_err;
-    NAT n = make_nat_exp (e, &err);
-    if (!IS_NULL_err (err)) {
+	ERROR err = NULL_err;
+	NAT n = make_nat_exp (e, &err);
+	if (!IS_NULL_err (err)) {
 		err = concat_error (err, ERR_class_bit_dim_const ());
 		report (crt_loc, err);
-    }
-    t = check_bitfield_type (cv_none, t, bt, n, zero);
-    return (t);
+	}
+	t = check_bitfield_type (cv_none, t, bt, n, zero);
+	return (t);
 }
 
 
@@ -1554,15 +1554,15 @@ make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e, int zero)
 NAT
 check_array_dim(NAT n)
 {
-    if (!IS_NULL_nat (n)) {
+	if (!IS_NULL_nat (n)) {
 		if (is_zero_nat (n)) {
 			report (crt_loc, ERR_dcl_array_dim_zero ());
 		} else if (is_negative_nat (n)) {
 			report (crt_loc, ERR_dcl_array_dim_neg (n));
 			n = negate_nat (n);
 		}
-    }
-    return (n);
+	}
+	return (n);
 }
 
 
@@ -1577,7 +1577,7 @@ check_array_dim(NAT n)
 NAT
 make_array_dim(EXP e)
 {
-    if (!IS_NULL_exp (e)) {
+	if (!IS_NULL_exp (e)) {
 		ERROR err = NULL_err;
 		NAT n = make_nat_exp (e, &err);
 		if (!IS_NULL_err (err)) {
@@ -1586,8 +1586,8 @@ make_array_dim(EXP e)
 		}
 		n = check_array_dim (n);
 		return (n);
-    }
-    return (NULL_nat);
+	}
+	return (NULL_nat);
 }
 
 
@@ -1602,15 +1602,15 @@ make_array_dim(EXP e)
 int
 check_int_type(TYPE t, BASE_TYPE m)
 {
-    if (IS_type_integer (t)) {
+	if (IS_type_integer (t)) {
 		INT_TYPE it = DEREF_itype (type_integer_rep (t));
 		switch (TAG_itype (it)) {
-	    case itype_basic_tag : {
+		case itype_basic_tag : {
 			BASE_TYPE bt = DEREF_btype (itype_basic_rep (it));
 			if ((bt & m) == m) return (1);
 			break;
-	    }
-	    case itype_token_tag : {
+		}
+		case itype_token_tag : {
 			/* Tokenised types */
 			IDENTIFIER tid = DEREF_id (itype_token_tok (it));
 			TOKEN tok = DEREF_tok (id_token_sort (tid));
@@ -1622,10 +1622,10 @@ check_int_type(TYPE t, BASE_TYPE m)
 				if ((bt & m) == m) return (1);
 			}
 			break;
-	    }
 		}
-    }
-    return (0);
+		}
+	}
+	return (0);
 }
 
 
@@ -1651,14 +1651,14 @@ static LIST (TYPE) ell_types = NULL_list (TYPE);
 void
 set_compatible_type(TYPE t, TYPE s, unsigned opt)
 {
-    TYPE pt = type_char_star;
-    TYPE ps = type_void_star;
-    if (eq_type (t, pt) && eq_type (s, ps)) {
+	TYPE pt = type_char_star;
+	TYPE ps = type_void_star;
+	if (eq_type (t, pt) && eq_type (s, ps)) {
 		set_option (OPT_gen_ptr_char, opt);
-    } else {
+	} else {
 		report (preproc_loc, ERR_pragma_compat_type ());
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1673,9 +1673,9 @@ set_compatible_type(TYPE t, TYPE s, unsigned opt)
 static TYPE
 find_arg_type(TYPE t)
 {
-    LIST (TYPE) p = arg1_types;
-    LIST (TYPE) q = arg2_types;
-    while (!IS_NULL_list (p)) {
+	LIST (TYPE) p = arg1_types;
+	LIST (TYPE) q = arg2_types;
+	while (!IS_NULL_list (p)) {
 		TYPE r = DEREF_type (HEAD_list (p));
 		r = type_composite (t, r, 0, 1, KILL_err, 0);
 		if (!IS_NULL_type (r)) {
@@ -1684,8 +1684,8 @@ find_arg_type(TYPE t)
 		}
 		q = TAIL_list (q);
 		p = TAIL_list (p);
-    }
-    return (NULL_type);
+	}
+	return (NULL_type);
 }
 
 
@@ -1699,37 +1699,37 @@ find_arg_type(TYPE t)
 void
 accept_argument(TYPE t, TYPE s)
 {
-    TYPE pt, ps;
-    LIST (TYPE) p;
-    t = qualify_type (t, cv_none, 0);
-    t = make_param_type (t, CONTEXT_PARAMETER);
-    s = qualify_type (s, cv_none, 0);
-    s = make_param_type (s, CONTEXT_PARAMETER);
-    pt = find_arg_type (t);
-    ps = find_arg_type (s);
-    if (IS_NULL_type (ps)) ps = s;
-    if (!IS_NULL_type (pt)) {
+	TYPE pt, ps;
+	LIST (TYPE) p;
+	t = qualify_type (t, cv_none, 0);
+	t = make_param_type (t, CONTEXT_PARAMETER);
+	s = qualify_type (s, cv_none, 0);
+	s = make_param_type (s, CONTEXT_PARAMETER);
+	pt = find_arg_type (t);
+	ps = find_arg_type (s);
+	if (IS_NULL_type (ps)) ps = s;
+	if (!IS_NULL_type (pt)) {
 		/* Already have entry for t */
 		if (!eq_type (ps, pt)) {
 			report (preproc_loc, ERR_pragma_arg_dup (t));
 		}
 		return;
-    }
-    pt = type_composite (ps, t, 0, 1, KILL_err, 0);
-    if (!IS_NULL_type (pt)) {
+	}
+	pt = type_composite (ps, t, 0, 1, KILL_err, 0);
+	if (!IS_NULL_type (pt)) {
 		report (preproc_loc, ERR_pragma_arg_cycle ());
 		return;
-    }
-    p = arg2_types;
-    CONS_type (t, arg1_types, arg1_types);
-    CONS_type (ps, p, arg2_types);
-    while (!IS_NULL_list (p)) {
+	}
+	p = arg2_types;
+	CONS_type (t, arg1_types, arg1_types);
+	CONS_type (ps, p, arg2_types);
+	while (!IS_NULL_list (p)) {
 		pt = DEREF_type (HEAD_list (p));
 		pt = type_composite (pt, t, 0, 1, KILL_err, 0);
 		if (!IS_NULL_type (pt)) COPY_type (HEAD_list (p), ps);
 		p = TAIL_list (p);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1743,14 +1743,14 @@ accept_argument(TYPE t, TYPE s)
 void
 accept_ellipsis(TYPE t)
 {
-    TYPE r;
-    t = qualify_type (t, cv_none, 0);
-    t = make_param_type (t, CONTEXT_PARAMETER);
-    r = eq_ellipsis (t);
-    if (IS_NULL_type (r)) {
+	TYPE r;
+	t = qualify_type (t, cv_none, 0);
+	t = make_param_type (t, CONTEXT_PARAMETER);
+	r = eq_ellipsis (t);
+	if (IS_NULL_type (r)) {
 		CONS_type (t, ell_types, ell_types);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1766,16 +1766,16 @@ accept_ellipsis(TYPE t)
 TYPE
 eq_argument(TYPE t, TYPE s, int eq)
 {
-    TYPE pt = find_arg_type (t);
-    TYPE ps = find_arg_type (s);
-    if (EQ_type (pt, ps)) {
+	TYPE pt = find_arg_type (t);
+	TYPE ps = find_arg_type (s);
+	if (EQ_type (pt, ps)) {
 		if (!IS_NULL_type (pt)) return (pt);
 		if (eq) return (NULL_type);
-    }
-    if (IS_NULL_type (pt)) pt = t;
-    if (IS_NULL_type (ps)) ps = s;
-    pt = type_composite (pt, ps, 0, 1, KILL_err, 1);
-    return (pt);
+	}
+	if (IS_NULL_type (pt)) pt = t;
+	if (IS_NULL_type (ps)) ps = s;
+	pt = type_composite (pt, ps, 0, 1, KILL_err, 1);
+	return (pt);
 }
 
 
@@ -1789,14 +1789,14 @@ eq_argument(TYPE t, TYPE s, int eq)
 TYPE
 eq_ellipsis(TYPE t)
 {
-    LIST (TYPE) p = ell_types;
-    while (!IS_NULL_list (p)) {
+	LIST (TYPE) p = ell_types;
+	while (!IS_NULL_list (p)) {
 		TYPE r = DEREF_type (HEAD_list (p));
 		TYPE s = eq_argument (t, r, 0);
 		if (!IS_NULL_type (s)) return (s);
 		p = TAIL_list (p);
-    }
-    return (NULL_type);
+	}
+	return (NULL_type);
 }
 
 
@@ -1825,20 +1825,20 @@ TYPE type_error;
  */
 
 void
-init_types()
+init_types(void)
 {
-    unsigned long n;
-    init_itypes (1);
-    for (n = 0 ; n < ORDER_ntype ; n++) {
+	unsigned long n;
+	init_itypes (1);
+	for (n = 0 ; n < ORDER_ntype ; n++) {
 		MAKE_type_ptr (cv_none, type_builtin [n], ptr_type_builtin [n]);
-    }
-    MAKE_type_func (cv_lvalue, type_void, NULL_list (TYPE), 0, cv_lang,
+	}
+	MAKE_type_func (cv_lvalue, type_void, NULL_list (TYPE), 0, cv_lang,
 					NULL_list (TYPE), NULL_nspace, NULL_list (IDENTIFIER),
 					NULL_list (TYPE), type_func_void);
-    MAKE_type_func (cv_none, type_void, NULL_list (TYPE), 0, cv_lang,
+	MAKE_type_func (cv_none, type_void, NULL_list (TYPE), 0, cv_lang,
 					NULL_list (TYPE), NULL_nspace, NULL_list (IDENTIFIER),
 					NULL_list (TYPE), type_temp_func);
-    MAKE_type_error (cv_none, type_error);
-    type_ellipsis = NULL_type;
-    return;
+	MAKE_type_error (cv_none, type_error);
+	type_ellipsis = NULL_type;
+	return;
 }
