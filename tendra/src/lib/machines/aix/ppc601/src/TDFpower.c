@@ -1,4 +1,38 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+
+/*
     Copyright (c) 1993 Open Software Foundation, Inc.
 
 
@@ -26,7 +60,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -35,18 +69,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -54,154 +88,148 @@
 */
 
 
-#include "ossg.h"
-
 /* from float.h */
 #define FP_RND_RZ		0
 #define FP_RND_RN		1
 #define FP_RND_RP		2
 #define FP_RND_RM		3
 
-typedef unsigned short fprnd_t ;
-extern fprnd_t fp_read_rnd PROTO_S ( ( void ) ) ;
-extern fprnd_t fp_swap_rnd PROTO_S ( ( fprnd_t ) ) ;
+typedef unsigned short fprnd_t;
+extern fprnd_t fp_read_rnd(void);
+extern fprnd_t fp_swap_rnd(fprnd_t);
 
 /* from math.h */
-extern unsigned uitrunc PROTO_S ( ( double ) ) ;
-extern int itrunc PROTO_S ( ( double ) ) ;
-extern double rint PROTO_S ( ( double ) ) ;
+extern unsigned uitrunc(double);
+extern int itrunc(double);
+extern double rint(double);
 
 /* from limits.h */
-#define INT_MAX			( 2147483647 )
-#define INT_MIN			( -( INT_MAX + 1 ) ) 
+#define INT_MAX			(2147483647)
+#define INT_MIN			(- (INT_MAX + 1))
 
-extern int __TDFrnd_error ;
-extern unsigned int __TDFrnd_unsgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern int __TDFrnd_sgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern void __TDFerr_rnd_unsgned PROTO_S ( ( double, fprnd_t ) ) ;
-extern void __TDFerr_rnd_sgned PROTO_S ( ( double, fprnd_t ) ) ;
+extern int __TDFrnd_error;
+extern unsigned int __TDFrnd_unsgned(double, fprnd_t);
+extern int __TDFrnd_sgned(double, fprnd_t);
+extern void __TDFerr_rnd_unsgned(double, fprnd_t);
+extern void __TDFerr_rnd_sgned(double, fprnd_t);
 
-int __TDFrnd_error = 0 ;
+int __TDFrnd_error = 0;
 
-unsigned int __TDFrnd_unsgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+unsigned int
+__TDFrnd_unsgned(double f, fprnd_t rnd_mode)
 {
-    fprnd_t swap ;
-    unsigned int ret_value ;
-    swap = fp_swap_rnd ( rnd_mode ) ;
-    ret_value = uitrunc ( rint ( f ) ) ;
-    ( void ) fp_swap_rnd ( swap ) ;
-    return ( ret_value ) ;
+    fprnd_t swap;
+    unsigned int ret_value;
+    swap = fp_swap_rnd(rnd_mode);
+    ret_value = uitrunc(rint(f));
+   (void)fp_swap_rnd(swap);
+    return(ret_value);
 }
 
-int __TDFrnd_sgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+int
+__TDFrnd_sgned(double f, fprnd_t rnd_mode)
 {
-    fprnd_t swap ;
-    int ret_value ;
-    swap = fp_swap_rnd ( rnd_mode ) ;
-    ret_value = itrunc ( rint ( f ) ) ;
-    ( void ) fp_swap_rnd ( swap ) ;
-    return ( ret_value );
+    fprnd_t swap;
+    int ret_value;
+    swap = fp_swap_rnd(rnd_mode);
+    ret_value = itrunc(rint(f));
+   (void)fp_swap_rnd(swap);
+    return(ret_value);
 }
 
-void __TDFerr_rnd_unsgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
+void
+__TDFerr_rnd_unsgned(double f, fprnd_t rnd_mode)
 {
-    double fmin = 0.0 ;
-    double fmax = 4294967295.0 ;
-    switch ( rnd_mode ) {
-	case FP_RND_RN : {
-	    fmin += -0.5 ;
-	    fmax += 0.5 ;
-	    if ( f < fmin || f > fmax ) {
-		__TDFrnd_error = 1 ;
+    double fmin = 0.0;
+    double fmax = 4294967295.0;
+    switch (rnd_mode) {
+	case FP_RND_RN: {
+	    fmin += -0.5;
+	    fmax += 0.5;
+	    if (f < fmin || f > fmax) {
+		__TDFrnd_error = 1;
 	    } else {
-		__TDFrnd_error = -1 ;
+		__TDFrnd_error = -1;
 	    }
-	    break ;
+	    break;
 	}
-	case FP_RND_RZ : {
-	    fmin += -1.0 ;
-	    fmax += 1.0 ;
-	    if ( f <= fmin || f >= fmax ) {
-		__TDFrnd_error = 1 ;
+	case FP_RND_RZ: {
+	    fmin += -1.0;
+	    fmax += 1.0;
+	    if (f <= fmin || f >= fmax) {
+		__TDFrnd_error = 1;
 	    } else {
-		__TDFrnd_error = -1 ;
+		__TDFrnd_error = -1;
 	    }
-	    break ;
+	    break;
 	}
-	case FP_RND_RP : {
-	    fmin += -1.0 ;
-	    if ( f <= fmin || f > fmax ) {
-		__TDFrnd_error = 1 ;
+	case FP_RND_RP: {
+	    fmin += -1.0;
+	    if (f <= fmin || f > fmax) {
+		__TDFrnd_error = 1;
 	    } else {
-		__TDFrnd_error = -1 ;
+		__TDFrnd_error = -1;
 	    }
-	    break ;
+	    break;
 	}
-	case FP_RND_RM : {
-	    fmax += 1.0 ;
-	    if ( f < fmin || f >= fmax ) {
-		__TDFrnd_error = 1 ;
+	case FP_RND_RM: {
+	    fmax += 1.0;
+	    if (f < fmin || f >= fmax) {
+		__TDFrnd_error = 1;
 	    } else {
-		__TDFrnd_error = -1 ;
-	    }
-	    break ;
-	}
-    }
-    return ;
-}
-
-void __TDFerr_rnd_sgned
-    PROTO_N ( ( f, rnd_mode ) ) 
-    PROTO_T ( double f X fprnd_t rnd_mode )
-{
-    double fmin = -2147483648.0 ;
-    double fmax = 2147483647.0 ;
-  
-    switch ( rnd_mode ) {
-	case FP_RND_RN : {
-	    fmin += -0.5 ;
-	    fmax += 0.5 ;
-	    if ( f < fmin || f > fmax ) {
-		__TDFrnd_error = 1 ;
-	    } else {
-		 __TDFrnd_error = -1 ;
-	    }
-	    break ;
-	}
-	case FP_RND_RZ : {
-	    fmin += -1.0 ;
-	    fmax += 1.0 ;
-	    if ( f <= fmin || f >= fmax ) {
-		__TDFrnd_error = 1 ;
-	    } else {
-		__TDFrnd_error = -1 ;
-	    }
-	    break ;
-	}
-	case FP_RND_RP : {
-	    fmin += -1.0 ;
-	    if ( f <= fmin || f > fmax ) {
-		__TDFrnd_error = 1 ;
-	    } else {
-		__TDFrnd_error = -1 ;
-	    }
-	    break ;
-	}
-	case FP_RND_RM : {
-	    fmax += 1.0 ;
-	    if ( f < fmin || f >= fmax ) {
-		__TDFrnd_error = 1 ;
-	    } else {
-		__TDFrnd_error = -1 ;
+		__TDFrnd_error = -1;
 	    }
 	    break;
 	}
     }
-    return ;
+    return;
+}
+
+void
+__TDFerr_rnd_sgned(double f, fprnd_t rnd_mode)
+{
+    double fmin = -2147483648.0;
+    double fmax = 2147483647.0;
+
+    switch (rnd_mode) {
+	case FP_RND_RN: {
+	    fmin += -0.5;
+	    fmax += 0.5;
+	    if (f < fmin || f > fmax) {
+		__TDFrnd_error = 1;
+	    } else {
+		 __TDFrnd_error = -1;
+	    }
+	    break;
+	}
+	case FP_RND_RZ: {
+	    fmin += -1.0;
+	    fmax += 1.0;
+	    if (f <= fmin || f >= fmax) {
+		__TDFrnd_error = 1;
+	    } else {
+		__TDFrnd_error = -1;
+	    }
+	    break;
+	}
+	case FP_RND_RP: {
+	    fmin += -1.0;
+	    if (f <= fmin || f > fmax) {
+		__TDFrnd_error = 1;
+	    } else {
+		__TDFrnd_error = -1;
+	    }
+	    break;
+	}
+	case FP_RND_RM: {
+	    fmax += 1.0;
+	    if (f < fmin || f >= fmax) {
+		__TDFrnd_error = 1;
+	    } else {
+		__TDFrnd_error = -1;
+	    }
+	    break;
+	}
+    }
+    return;
 }
