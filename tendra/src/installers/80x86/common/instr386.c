@@ -4133,7 +4133,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1,
 				ins2 (testl, 32, 32, reg0, reg0);
 				simple_branch (jns, lab1);
 				ins1 (mull, 32, a2);
-				ins2 (decl, 32, 32, a2, reg1);
+				ins1 (decl, 32, reg1);
 				simple_branch (jmp, lab2);
 				simplest_set_lab (lab1);
 				ins1 (mull, 32, a2);
