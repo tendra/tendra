@@ -177,7 +177,7 @@
 
       (define minimal-section-labels #f)
       (define max-section-level-labels
-        (if minimal-section-labels 3 10))
+        (if minimal-section-labels 4 10))
 
       (define ($section-title$)
         (let* ((sect (current-node))

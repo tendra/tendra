@@ -4,6 +4,10 @@
 .include "../Makefile.inc"
 .endif
 
+.PATH :	${.CURDIR}/images
+
+IMAGES_OBJ?=	calc.obj
+
 DOC?= book
 
 SRCS=   book.sgml

@@ -1325,7 +1325,7 @@ typedef union name_tag {
         <title>Packing of Types</title> 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="images/calc.png" format="PNG">
+            <imagedata fileref="calc" scale="100" format="PNG">
           </imageobject>
         </mediaobject>
       </figure>
