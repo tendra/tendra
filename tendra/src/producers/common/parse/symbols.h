@@ -495,6 +495,33 @@ LEX_TOKEN ( lex_open_Htemplate, "<", TOK_NONE )
 LEX_TOKEN ( lex_zzzzzz, "<dummy>", TOK_NONE )
 
 
+/*
+ * OMP PRAGMA DIRECTIVES
+ *
+ * These directives include and are for '#pragma omp' directives.
+ * They are tokens for OpenMP 2.0 compliance.
+ */
+
+LEX_TOKEN (lex_omp_omp, "omp", TOK_NONE)
+LEX_TOKEN (lex_omp_parallel, "parallel", TOK_NONE)
+LEX_TOKEN (lex_omp_sections, "sections", TOK_NONE)
+LEX_TOKEN (lex_omp_single, "single", TOK_NONE)
+LEX_TOKEN (lex_omp_master, "master", TOK_NONE)
+LEX_TOKEN (lex_omp_critical, "critical", TOK_NONE)
+LEX_TOKEN (lex_omp_barrier, "barrier", TOK_NONE)
+LEX_TOKEN (lex_omp_atomic, "atomic", TOK_NONE)
+LEX_TOKEN (lex_omp_flush, "flush", TOK_NONE)
+LEX_TOKEN (lex_omp_ordered, "ordered", TOK_NONE)
+LEX_TOKEN (lex_omp_threadprivate, "threadprivate", TOK_NONE)
+LEX_TOKEN (lex_omp_private, "private", TOK_NONE)
+LEX_TOKEN (lex_omp_firstprivate, "firstprivate", TOK_NONE)
+LEX_TOKEN (lex_omp_lastprivate, "lastprivate", TOK_NONE)
+LEX_TOKEN (lex_omp_shared, "shared", TOK_NONE)
+LEX_TOKEN (lex_omp_default, "default", TOK_NONE)
+LEX_TOKEN (lex_omp_reduction, "reduction", TOK_NONE)
+LEX_TOKEN (lex_omp_copyin, "copyin". TOK_NONE)
+LEX_TOKEN (lex_omp_copyprivate, "copyprivate", TOK_NONE)
+
 #endif /* LEX_TOKEN */
 
 
