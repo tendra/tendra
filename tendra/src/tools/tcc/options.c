@@ -221,7 +221,7 @@ optmap main_optmap [] = {
 	{"$", "XUnknown option,$s$0|AXO$0", "unknown option", 0},
 
 	/* End marker */
-	{ null, null, null }
+	{ null, null, null, 0 }
 };
 
 
