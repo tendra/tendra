@@ -317,7 +317,7 @@ main(int argc, char *argv[])
   init_flpt();
 #include "inits.h"
   top_def = (dec*)0;
-  local_prefix="$$";
+  local_prefix=".L";
   name_prefix="";
 #if DO_SCHEDULE
   if(do_scheduling){
