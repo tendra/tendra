@@ -2280,11 +2280,14 @@ move(shape sha, where from, where to)
 		int fv = name(sh(fe)) - shrealhd;
 		r2l fint;
 		fint = real2longs_IEEE(&flptnos[no(fe)], fv);
-		move(slongsh, mw(zeroe, fint.i1), to);
+		contop(te, 0, to);
+		ins2(movl, 32, 32, mw(zeroe, fint.i1), to);
 		if (sz >= 64)
-			move(slongsh, mw(zeroe, fint.i2), mw(te, to.where_off + 32));
+			ins2(movl, 32, 32, mw(zeroe, fint.i2), mw(te, to.where_off + 32));
 		if (sz >= 96)
-			move(slongsh, mw(zeroe, fint.i3), mw(te, to.where_off + 64));
+			ins2(movl, 32, 32, mw(zeroe, fint.i3), mw(te, to.where_off + 64));
+		invalidate_dest(to);
+		end_contop();
 		son(fe) = holdfe;
 		son(te) = holdte;
 		return;
