@@ -87,6 +87,9 @@ ${PROG}: ${OBJS}
 
 clean:
 	${REMOVE} ${PROG} ${PROG}.core core ${OBJS}
+.if defined(CLEAN_EXTRA)
+	${REMOVE} ${CLEAN_EXTRA}
+.endif
 
 _SUBDIR: .USE
 .if defined(SUBDIR) && !empty(SUBDIR)
