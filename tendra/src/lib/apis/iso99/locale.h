@@ -24,12 +24,13 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stddef.h", "null";
 
 # 7.11
 
 +CONST int LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME;
 
-+FIELD struct lconv{
++FIELD struct lconv {
 	char *decimal_point;
 	char *thousands_sep;
 	char *grouping;
@@ -58,5 +59,8 @@
 
 # 7.11.1.1
 
-+FUNC char *setlocale(int, const char*);
++FUNC char *setlocale(int, const char *);
+
+# 7.11.2.1
+
 +FUNC struct lconv *localeconv(void);
