@@ -21,7 +21,7 @@
   </bookinfo>
 
   <preface id="preface">
-    <title>Introduction</title> 
+    <title>Introduction</title>
 
     <para>As explained in reference 1, TDF may be regarded as an abstract
       target machine which can be used to facilitate the separation of target
@@ -83,10 +83,10 @@
   </preface>
 
   <chapter id="c1">
-    <title>Overview of <literal>tspec</literal></title> 
+    <title>Overview of <literal>tspec</literal></title>
 
     <sect1 id="speclevel">
-      <title>Specification Levels</title> 
+      <title>Specification Levels</title>
 
       <para>Let us begin by examining the various levels of specification with
         which <literal>tspec</literal> is concerned. At the lowest level it is
@@ -138,7 +138,7 @@
     </sect1>
 
     <sect1 id="inputlayout">
-      <title>Input Layout</title> 
+      <title>Input Layout</title>
 
       <para>The <literal>tspec</literal> representation of an API is arranged
         as a directory with the same name as the API, containing a number of
@@ -164,7 +164,7 @@
     </sect1>
 
     <sect1 id="outputlayout">
-      <title>Output Layout</title> 
+      <title>Output Layout</title>
 
       <para><literal>tspec</literal> actually outputs two sets of output
         files, the include output files, containing the <literal>#pragma
@@ -219,7 +219,7 @@
     </sect1>
 
     <sect1 id="copyrightmsg">
-      <title>Copyright Messages</title> 
+      <title>Copyright Messages</title>
 
       <para><literal>tspec</literal> will optionally add a copyright message
         to the start of each include output file. This message is copied from
@@ -231,7 +231,7 @@
     </sect1>
 
     <sect1 id="cmdlineopts">
-      <title>Command-line Options</title> 
+      <title>Command-line Options</title>
 
       <para>Insert XREF to manpage here..
       </para>
@@ -240,7 +240,7 @@
   </chapter>
 
   <chapter id="c2">
-    <title>Specifying API Structure</title> 
+    <title>Specifying API Structure</title>
 
     <para>The basic form of the <literal>tspec</literal> description of an API
       has already been explained in <xref linkend="inputlayout"> - it is a
@@ -259,7 +259,7 @@
       </para>
 
     <sect1 id="subset">
-      <title>+SUBSET</title> 
+      <title>+SUBSET</title>
 
       <para>A list of <literal>tspec</literal> constructs within a header can
         be grouped into a named subset by enclosing them within:</para>
@@ -283,7 +283,7 @@
     </sect1>
 
     <sect1 id="implementuse">
-      <title>+IMPLEMENT and +USE</title> 
+      <title>+IMPLEMENT and +USE</title>
 
       <para><literal>tspec</literal> has two import constructs which allow one
         API, or header, or subset of a header to be included in another. The
@@ -394,7 +394,7 @@
   </chapter>
 
   <chapter id="c3">
-    <title>Specifying Objects</title> 
+    <title>Specifying Objects</title>
 
     <para>The main body of any <literal>tspec</literal> description of an API
       consists of a list of object specifications. Most of this section is
@@ -403,9 +403,9 @@
       on object names.</para>
 
     <sect1 id="objectnames">
-      <title>Object Names</title> 
+      <title>Object Names</title>
       <sect2 id="intextnames">
-        <title>Internal and External Names</title> 
+        <title>Internal and External Names</title>
 
         <para>All objects specified using <literal>tspec</literal> actually
           have two names. The first is the internal name by which it is
@@ -480,7 +480,7 @@ iname | "ename"
 
       </sect2>
       <sect2 id="moreobj">
-        <title>More on Object Names</title> 
+        <title>More on Object Names</title>
 
         <para>Basically the legal identifiers in <literal>tspec</literal> (for
           both internal and external names) are the same as those in C -
@@ -517,7 +517,7 @@ iname | "ename"
     </sect1>
 
     <sect1 id="func">
-      <title>+FUNC</title> 
+      <title>+FUNC</title>
 
       <para>The simplest form of object to specify is a procedure. This is
         done by means of:</para>
@@ -602,7 +602,7 @@ void *malloc ( size_t ) ;
     </sect1>
 
     <sect1 id="expconst">
-      <title>+EXP and +CONST</title> 
+      <title>+EXP and +CONST</title>
 
       <para>Expressions correspond to constants, identities and variables.
         They are specified by:</para>
@@ -671,7 +671,7 @@ void *malloc ( size_t ) ;
     </sect1>
 
     <sect1 id="macro">
-      <title>+MACRO</title> 
+      <title>+MACRO</title>
 
       <para>The <literal>+MACRO</literal> construct is similar in form to the
         <literal>+FUNC</literal> construct, except that it means that only a
@@ -704,7 +704,7 @@ void *malloc ( size_t ) ;
     </sect1>
 
     <sect1 id="statement">
-      <title>+STATEMENT</title> 
+      <title>+STATEMENT</title>
 
       <para>The <literal>+STATEMENT</literal> construct is very similar to the
         <literal>+MACRO</literal> construct except that, instead of being a C
@@ -727,7 +727,7 @@ void *malloc ( size_t ) ;
     </sect1>
 
     <sect1 id="define">
-      <title>+DEFINE</title> 
+      <title>+DEFINE</title>
 
       <para>It is possible to insert macro definitions directly into
         <literal>tspec</literal> using the <literal>+DEFINE</literal>
@@ -759,7 +759,7 @@ void *malloc ( size_t ) ;
     </sect1>
 
     <sect1 id="type">
-      <title>+TYPE</title> 
+      <title>+TYPE</title>
 
       <para>New types may be specified using the <literal>+TYPE</literal>
         construct. This has the form:</para>
@@ -834,7 +834,7 @@ typedef struct tag { int x, y ; } type ;
     </sect1>
 
     <sect1 id="typedef">
-      <title>+TYPEDEF</title> 
+      <title>+TYPEDEF</title>
 
       <para>It is also possible to define new types in terms of existing
         types.  This is done using the <literal>+TYPEDEF</literal> construct,
@@ -904,7 +904,7 @@ size_t sz ;
     </sect1>
 
     <sect1 id="field">
-      <title>+FIELD</title> 
+      <title>+FIELD</title>
 
       <para>Having specified a structure or union type, or a structure or
         union tag, we may wish to specify certain fields of this structure or
@@ -1003,7 +1003,7 @@ size_t sz ;
     </sect1>
 
     <sect1 id="nat">
-      <title>+NAT</title> 
+      <title>+NAT</title>
 
       <para>In the example given in <xref linkend="field">,
         <literal>posix:dirent.h</literal> specifies that the
@@ -1049,7 +1049,7 @@ char d_name [ ~dirent_d_name_size ] ;
     </sect1>
 
     <sect1 id="enum">
-      <title>+ENUM</title> 
+      <title>+ENUM</title>
 
       <para>Currently <literal>tspec</literal> only has limited support for
         enumeration types. A <literal>+ENUM</literal> construct is translated
@@ -1083,7 +1083,7 @@ name = number
     </sect1>
 
     <sect1 id="token">
-      <title>+TOKEN</title> 
+      <title>+TOKEN</title>
 
       <para>As was mentioned in <xref linkend="preface">, the <literal>#pragma
         token</literal> syntax is highly complex, and the token descriptions
@@ -1123,7 +1123,7 @@ name = number
   </chapter>
 
   <chapter id="c4">
-    <title>Other tspec Constructs</title> 
+    <title>Other tspec Constructs</title>
 
     <para>Although most <literal>tspec</literal> constructs are concerned
       either with specifying new objects or imposing structure upon various
@@ -1131,7 +1131,7 @@ name = number
       categories.</para>
 
     <sect1 id="ifelse">
-      <title>+IF, +ELSE and +ENDIF</title> 
+      <title>+IF, +ELSE and +ENDIF</title>
 
       <para>It is possible to introduce conditional compilation into the API
         description by means of the constructs:</para>
@@ -1178,7 +1178,7 @@ name = number
     </sect1>
 
     <sect1 id="quoted">
-      <title>Quoted Text</title> 
+      <title>Quoted Text</title>
 
       <para>It is sometimes desirable to include text in the specification
         file which will be copied directly into one of the output files - for
@@ -1206,7 +1206,7 @@ name = number
     </sect1>
 
     <sect1 id="comments">
-      <title>C Comments</title> 
+      <title>C Comments</title>
 
       <para>A special case of quoted text are C style comments:</para>
 
@@ -1219,7 +1219,7 @@ name = number
     </sect1>
 
     <sect1 id="fileprop">
-      <title>File Properties</title> 
+      <title>File Properties</title>
 
       <para>Various properties of individual sets of objects or global
         properties can be set using file properties. These take the
@@ -1323,12 +1323,12 @@ $property = "string" ;
   </chapter>
 
   <chapter id="c5">
-    <title>Miscellaneous Topics</title> 
+    <title>Miscellaneous Topics</title>
 
     <para>In this section we round up a few miscellaneous topics.</para>
 
     <sect1 id="finecontrol">
-      <title>Fine Control of Included Files</title> 
+      <title>Fine Control of Included Files</title>
 
       <para>The <literal>+IMPLEMENT</literal> and <literal>+USE</literal>
         commands described in <xref linkend="implementuse"> are capable of
@@ -1402,7 +1402,7 @@ $property = "string" ;
     </sect1>
 
     <sect1 id="protmacros">
-      <title>Protection Macros</title> 
+      <title>Protection Macros</title>
 
       <para>Each include output file is surrounded by a construct of the
         form:</para>
@@ -1425,7 +1425,7 @@ $property = "string" ;
     </sect1>
 
     <sect1 id="idxprint">
-      <title>Index Printing</title> 
+      <title>Index Printing</title>
 
       <para>If it is invoked with the <literal>-i</literal> command-line
         option, instead of creating its output file, <literal>tspec</literal>
@@ -1439,7 +1439,7 @@ $property = "string" ;
     </sect1>
 
     <sect1 id="tdflibbuild">
-      <title>TDF Library Building</title> 
+      <title>TDF Library Building</title>
 
       <para>As was explained in reference 1, the <literal>#pragma
         token</literal> headers output by <literal>tspec</literal> are used
@@ -1517,7 +1517,7 @@ $METHOD = "TNC" ;
   </chapter>
 
   <chapter id="c6">
-    <title>Changes in tspec 2.0</title> 
+    <title>Changes in tspec 2.0</title>
 
     <para>This document describes <literal>tspec</literal> version 2.0.
       <literal>tspec</literal> 2.0 contains significant changes from previous
