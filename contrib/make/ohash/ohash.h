@@ -42,7 +42,7 @@
 #include <sys/types.h>
 #endif
 
-#if defined(__CYGWIN__)
+#if defined(__CYGWIN__) && !defined(__uint32_t_defined)
 typedef __uint32_t uint32_t;
 #endif
 
