@@ -49,7 +49,7 @@ install-all: install-dir ${INSTALL_TARGETS}
 # lib/machines: our machine dependent files.
 install-machine:
 .for i in ${MAKEDIR}
-	${MKDIR} -p ${INSTALL_PREFIX}/lib/machines/${i}
+	${MKDIR} ${MKDIR_ARGS} ${INSTALL_PREFIX}/lib/machines/${i}
 .endfor
 .for i in ${DATA_INCLUDE}
 	${INSTALL} ${.OBJDIR}/${i} \
@@ -61,7 +61,7 @@ install-machine:
 
 # lib/startup: our startup files for compilation modes.
 install-startup:
-	${MKDIR} -p ${INSTALL_PREFIX}/lib/startup/${STARTUP}
+	${MKDIR} ${MKDIR_ARGS} ${INSTALL_PREFIX}/lib/startup/${STARTUP}
 .for i in ${DATA}
 	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${i} \
 		${INSTALL_PREFIX}/lib/startup/${STARTUP}
@@ -80,7 +80,7 @@ install-api:
 
 # lib/env: our environment files.
 install-env:
-	${MKDIR} -p ${INSTALL_PREFIX}/env
+	${MKDIR} ${MKDIR_ARGS} ${INSTALL_PREFIX}/env
 	${SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
 		${INSTALL_PREFIX}/env/default
 .for i in ${DATA_COMMON} ${DATA}
@@ -94,7 +94,7 @@ install-bin:
 # installers/*, producers/*, tools/*, utilities/*: our man pages.
 install-man:
 .for i in ${MAN}
-	${MKDIR} -p ${PREFIX}/man/man${i:E}
+	${MKDIR} ${MKDIR_ARGS} ${PREFIX}/man/man${i:E}
 	${INSTALL} ${.CURDIR}/${i} ${PREFIX}/man/man${i:E}
 .endfor
 
@@ -104,7 +104,7 @@ install-shlib:
 
 install-dir:
 	for i in ${INSTALL_SUB}; do \
-		${MKDIR} ${INSTALL_PREFIX}/$$i; \
+		${MKDIR} ${MKDIR_ARGS} ${INSTALL_PREFIX}/$$i; \
 	done
 
 #
@@ -112,7 +112,7 @@ install-dir:
 #
 SED_WRAPPER_OPTS= -e "s%-INSTALL_PREFIX-%${INSTALL_PREFIX}%g"
 install-wrapper:
-	${MKDIR} -p ${PREFIX}/bin
+	${MKDIR} ${MKDIR_ARGS} ${PREFIX}/bin
 	${SED} ${SED_WRAPPER_OPTS} ${SRC_DIR}/src/tools/tcc/tcc.sh > \
 		${PREFIX}/bin/tcc
 	${CHMOD} +x ${PREFIX}/bin/tcc

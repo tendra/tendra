@@ -21,10 +21,10 @@ DEPEND_SRC=	${DATA} ${DATA_COMMON} ${DATA_DEFAULT}
 INSTALL_TARGETS=	install-env
 
 ${DATA}:
-	@${CP_VERBOSE} -R ${.CURDIR}/${.TARGET} ${.OBJDIR}/${.TARGET}
+	@${CP} ${CP_ARGS} -R ${.CURDIR}/${.TARGET} ${.OBJDIR}/${.TARGET}
 
 ${DATA_COMMON}:
-	@${CP_VERBOSE} -R ${SRC_DIR}/src/lib/env/common/${.TARGET} ${.OBJDIR}/${.TARGET}
+	@${CP} ${CP_ARGS} -R ${SRC_DIR}/src/lib/env/common/${.TARGET} ${.OBJDIR}/${.TARGET}
 
 
 ${DATA_DEFAULT}:
