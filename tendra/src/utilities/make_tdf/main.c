@@ -59,11 +59,12 @@
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "spec_ops.h"
-#include "error.h"
 #include "input.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
 #include "syntax.h"
+#include "tenapp.h"
 
 
 /*
@@ -83,7 +84,7 @@ main(int argc, char **argv)
 	char *output = NULL;
 	
 	/* Process arguments */
-	set_progname (argv[0], "2.0");
+	tenapp_init(argc, argv, "TDF encoder/decoder generator", "2.0");
 	for (a = 1; a < argc; a++) {
 		char *arg = argv[a];
 		if (arg[0] == '-' && arg[1]) {
@@ -91,13 +92,13 @@ main(int argc, char **argv)
 			switch (arg[1]) {
 			case 'v' : {
 				if (arg[2]) break;
-				report_version ();
+				tenapp_report_version ();
 				known = 1;
 				break;
 			}
 			}
 			if (!known) {
-				error (ERROR_WARNING, "Unknown option, '%s'", arg);
+				MSG_getopt_unknown_option (arg);
 			}
 		} else {
 			if (input == NULL) {
@@ -113,7 +114,7 @@ main(int argc, char **argv)
 	}
 	
 	/* Check arguments */
-	if (too_many) error (ERROR_WARNING, "Too many arguments");
+	if (too_many) MSG_too_many_arguments ();
 	
 	/* Process the input */
 	builtin_sorts ();
@@ -134,5 +135,6 @@ main(int argc, char **argv)
 			}
 		}
 	}
-	return (exit_status);
+	tenapp_exit();
+	return (0);
 }

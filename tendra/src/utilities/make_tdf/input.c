@@ -58,13 +58,13 @@
 #include "config.h"
 #include "tdf.h"
 #include "cons_ops.h"
+#include "cstring.h"
 #include "info_ops.h"
 #include "link_ops.h"
 #include "par_ops.h"
 #include "sort_ops.h"
-#include "error.h"
 #include "input.h"
-#include "xalloc.h"
+#include "msgcat.h"
 
 
 /*
@@ -160,7 +160,7 @@ static struct {
 };
 
 #define NO_BUILTIN_SORTS	6
-#define NO_SORTS		array_size(sort_names)
+#define NO_SORTS		ARRAY_SIZE (sort_names)
 
 
 /*
@@ -186,7 +186,7 @@ define_sort(SORT s, SORT_INFO info, int code)
 
 	if (!IS_NULL_info (old)) {
 		string nm = DEREF_string (sort_name (s));
-		error (ERROR_SERIOUS, "Sort '%s' already defined", nm);
+		MSG_sort_already_defined (nm);
 	}
 	COPY_info (sort_info (s), info);
 	if (code == 0) code = next_code++;
@@ -225,7 +225,7 @@ find_sort(string nm, int create)
 	cnm = to_capitals (nm);
 	MAKE_sort_basic (nm, cnm, NULL, NULL, 0, 0, 0, 0, info, s);
 	if (!create) {
-		error (ERROR_SERIOUS, "Sort '%s' not defined", nm);
+		MSG_sort_not_defined (nm);
 		MAKE_info_builtin (nm, info);
 		define_sort (s, info, 0);
 	}
@@ -344,7 +344,7 @@ ends_in(string s, string e)
 	if (n >= m) {
 		unsigned d = n - m;
 		if (streq (s + d, e)) {
-			s = xstrcpy (s);
+			s = string_copy (s);
 			s[d] = 0;
 			return (s);
 		}
@@ -366,7 +366,7 @@ to_capitals(string s)
 	char c;
 	string t;
 
-	s = xstrcpy (s);
+	s = string_copy (s);
 	t = s;
 	while (c = *t, c != 0) {
 		if (c >= 'a' && c <= 'z') {
@@ -452,7 +452,7 @@ compound_sort(SORT s, string suff, unsigned tag,
 		MAKE_info_clist_etc (tag, nm, t, info);
 		define_sort (s, info, code);
 	} else {
-		error (ERROR_SERIOUS, "Sort '%s' doesn't end in '%s'", nm, suff);
+		MSG_sort_doesnt_end_in (nm, suff);
 	}
 	return;
 }
@@ -497,8 +497,7 @@ set_special(SORT s, string c, unsigned kind)
 		COPY_unsigned (cons_kind (a), kind);
 	} else {
 		string nm = DEREF_string (sort_name (s));
-		error (ERROR_SERIOUS, "Can't find construct '%s' for sort '%s'",
-			   c, nm);
+		MSG_cant_find_construct_for_sort (c, nm);
 	}
 	return;
 }
@@ -567,7 +566,7 @@ check_sorts(void)
 		SORT_INFO info = DEREF_info (sort_info (s));
 		if (IS_NULL_info (info)) {
 			string nm = DEREF_string (sort_name (s));
-			error (ERROR_SERIOUS, "Sort '%s' not defined", nm);
+			MSG_sort_not_defined (nm);
 			MAKE_info_builtin (nm, info);
 			define_sort (s, info, 0);
 		}
@@ -660,7 +659,7 @@ find_param(CONSTRUCT c, unsigned n)
 	while (n) {
 		if (IS_NULL_list (p)) {
 			string nm = DEREF_string (cons_name (c));
-			error (ERROR_SERIOUS, "Bad parameter number for '%s'", nm);
+			MSG_bad_parameter_number (nm);
 			return (NULL_par);
 		}
 		p = TAIL_list (p);

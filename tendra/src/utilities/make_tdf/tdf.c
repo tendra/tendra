@@ -56,9 +56,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
 #include "tdf.h"
-#include "error.h"
-#include "xalloc.h"
 
 
 /*

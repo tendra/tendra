@@ -96,16 +96,16 @@ PARAM-LIST -> SID_PARAM_LIST;
 #include "tdf.h"
 #include "cmd_ops.h"
 #include "cons_ops.h"
+#include "cstring.h"
 #include "info_ops.h"
 #include "link_ops.h"
 #include "par_ops.h"
 #include "sort_ops.h"
 #include "spec_ops.h"
-#include "error.h"
 #include "input.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "syntax.h"
-#include "xalloc.h"
 
 
 /*
@@ -208,7 +208,7 @@ typedef LIST (PARAMETER) SID_PARAM_LIST;
  */
 
 name : () -> (n : NAME) = @{
-	@n = xstrcpy (token_buff);
+	@n = string_copy (token_buff);
 @};
 
 
@@ -235,7 +235,7 @@ number : () -> (n : NUMBER) = @{
  */
 
 <keyword_name> : () -> (n : NAME) = @{
-	@n = xstrcpy (token_buff);
+	@n = string_copy (token_buff);
 @};
 
 
@@ -278,7 +278,7 @@ number : () -> (n : NUMBER) = @{
 
 <make_cons> : (n : NAME, e : NUMBER, r : SORT, p : PARAM-LIST, s : SORT) -> (c : CONS) = @{
 	if (!EQ_sort (@r, @s)) {
-	error (ERROR_SERIOUS, "Wrong result sort for '%s'", @n);
+	MSG_wrong_result_sort (@n);
 	}
 	@c = make_construct (@n, @e, @s, @p);
 @};
@@ -377,7 +377,7 @@ number : () -> (n : NUMBER) = @{
  */
 
 <syntax_error> : () -> () = @{
-	error (ERROR_SERIOUS, "Syntax error");
+	MSG_syntax_error ();
 @};
 
 

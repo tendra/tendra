@@ -64,10 +64,12 @@
 #include "par_ops.h"
 #include "sort_ops.h"
 #include "spec_ops.h"
-#include "error.h"
 #include "input.h"
 #include "lex.h"
+#include "msgcat.h"
 #include "output.h"
+#include "ostream.h"
+#include "tenapp.h"
 
 
 /*
@@ -220,7 +222,7 @@ output_sort(SORT sort, int intro)
 		case info_basic_tag : {
 			if (c < 32) {
 				char buff[10];
-				sprintf_v (buff, "\\%03o", (unsigned) c);
+				(void)sprintf (buff, "\\%03o", (unsigned) c);
 				output_string (buff);
 			} else {
 				output_char (c);
@@ -293,7 +295,7 @@ output(string s)
 					case 'N' : {
 						/* '%CN' -> construct name */
 						string nm = DEREF_string (cons_name (cc));
-						sprintf_v (buff, "%.*s", prec, nm);
+						(void)sprintf (buff, "%.*s", prec, nm);
 						output_string (buff);
 						break;
 					}
@@ -301,7 +303,7 @@ output(string s)
 						/* '%CE' -> construct encoding */
 						unsigned e;
 						e = DEREF_unsigned (cons_encode (cc));
-						sprintf_v (buff, "%u", e);
+						(void)sprintf (buff, "%u", e);
 						output_string (buff);
 						break;
 					}
@@ -328,7 +330,7 @@ output(string s)
 				if (c == 'N') {
 					/* '%PN' -> parameter name */
 					string nm = DEREF_string (par_name (cp));
-					sprintf_v (buff, "%.*s", prec, nm);
+					(void)sprintf (buff, "%.*s", prec, nm);
 					output_string (buff);
 				} else if (c == 'S') {
 					/* '%PS' -> parameter sort */
@@ -337,7 +339,7 @@ output(string s)
 					goto sort_format;
 				} else if (c == 'E') {
 					/* '%PE' -> parameter number */
-					sprintf_v (buff, "%d", crt_param_no);
+					(void)sprintf (buff, "%d", crt_param_no);
 					output_string (buff);
 				} else {
 					goto bad_format;
@@ -354,14 +356,14 @@ output(string s)
 					case 'N' : {
 						/* '%SN' -> sort name */
 						string nm = DEREF_string (sort_name (cs));
-						sprintf_v (buff, "%.*s", prec, nm);
+						(void)sprintf (buff, "%.*s", prec, nm);
 						output_string (buff);
 						break;
 					}
 					case 'T' : {
 						/* '%ST' -> sort name in capitals */
 						string nm = DEREF_string (sort_caps (cs));
-						sprintf_v (buff, "%.*s", prec, nm);
+						(void)sprintf (buff, "%.*s", prec, nm);
 						output_string (buff);
 						break;
 					}
@@ -369,7 +371,7 @@ output(string s)
 						/* '%SL' -> sort unit name */
 						string nm = DEREF_string (sort_link (cs));
 						if (nm) {
-							sprintf_v (buff, "%.*s", prec, nm);
+							(void)sprintf (buff, "%.*s", prec, nm);
 							output_string (buff);
 						}
 						break;
@@ -378,7 +380,7 @@ output(string s)
 						/* '%SU' -> sort unit name */
 						string nm = DEREF_string (sort_unit (cs));
 						if (nm) {
-							sprintf_v (buff, "%.*s", prec, nm);
+							(void)sprintf (buff, "%.*s", prec, nm);
 							output_string (buff);
 						}
 						break;
@@ -389,7 +391,7 @@ output(string s)
 						if (IS_info_basic (ci)) {
 							b = DEREF_unsigned (info_basic_bits (ci));
 						}
-						sprintf_v (buff, "%u", b);
+						(void)sprintf (buff, "%u", b);
 						output_string (buff);
 						break;
 					}
@@ -399,7 +401,7 @@ output(string s)
 						if (IS_info_basic (ci)) {
 							e = DEREF_unsigned (info_basic_extend (ci));
 						}
-						sprintf_v (buff, "%u", e);
+						(void)sprintf (buff, "%u", e);
 						output_string (buff);
 						break;
 					}
@@ -410,7 +412,7 @@ output(string s)
 							m = DEREF_unsigned (info_basic_max (ci));
 						}
 						if (have_prec) m += (unsigned) prec;
-						sprintf_v (buff, "%u", m);
+						(void)sprintf (buff, "%u", m);
 						output_string (buff);
 						break;
 					}
@@ -446,11 +448,11 @@ output(string s)
 				c = *(s++);
 				if (c == 'A') {
 					/* '%VA' -> major version number */
-					sprintf_v (buff, "%u", crt_major);
+					(void)sprintf (buff, "%u", crt_major);
 					output_string (buff);
 				} else if (c == 'B') {
 					/* '%VB' -> minor version number */
-					sprintf_v (buff, "%u", crt_minor);
+					(void)sprintf (buff, "%u", crt_minor);
 					output_string (buff);
 				} else {
 					goto bad_format;
@@ -462,11 +464,11 @@ output(string s)
 				c = *(s++);
 				if (c == 'V') {
 					/* %ZV -> program version */
-					sprintf_v (buff, "%.*s", prec, progvers);
+					(void)sprintf (buff, "%.*s", prec, progvers);
 					output_string (buff);
 				} else if (c == 'X') {
 					/* %ZX -> program name */
-					sprintf_v (buff, "%.*s", prec, progname);
+					(void)sprintf (buff, "%.*s", prec, progname);
 					output_string (buff);
 				} else {
 					goto bad_format;
@@ -498,7 +500,7 @@ output(string s)
 					crt_unique = prec;
 				} else {
 					prec = crt_unique++;
-					sprintf_v (buff, "%d", prec);
+					(void)sprintf (buff, "%d", prec);
 					output_string (buff);
 				}
 				break;
@@ -527,14 +529,14 @@ output(string s)
 			}
 				
 				misplaced_arg : {
-					error (ERROR_SERIOUS, "Misplaced format, '%%%.2s'", s0);
+					MSG_misplaced_format (s0);
 					output_string ("<error>");
 					break;
 				}
 				
 			default :
 				bad_format : {
-					error (ERROR_SERIOUS, "Unknown format, '%%%.2s'", s0);
+					MSG_unknown_format (s0);
 					output_string ("<error>");
 					break;
 				}
@@ -748,7 +750,7 @@ eval_cond(string s)
 		if (streq (s, "true")) return (1);
 		if (streq (s, "false")) return (0);
 	}
-	error (ERROR_SERIOUS, "Unknown condition, '%s'", s0);
+	MSG_unknown_condition (s0);
 	return (0);
 }
 
@@ -870,7 +872,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 				crt_param = lp;
 				
 			} else {
-				error (ERROR_SERIOUS, "Unknown control, '%s'", s);
+				MSG_unknown_control (s);
 			}
 			break;
 		}
@@ -956,7 +958,7 @@ output_spec(char *nm, SPECIFICATION spec,
 		crt_file_name = nm;
 		output_file = fopen (nm, "w");
 		if (output_file == NULL) {
-			error (ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+			MSG_cant_open_output_file (nm);
 			return;
 		}
 	}
@@ -967,6 +969,6 @@ output_spec(char *nm, SPECIFICATION spec,
 	crt_minor = DEREF_unsigned (spec_minor (spec));
 	output_template (spec, cmd);
 	if (output_posn) output_char ('\n');
-	if (nm) fclose_v (output_file);
+	if (nm) (void)fclose (output_file);
 	return;
 }
