@@ -30,6 +30,9 @@
 
 /*
 $Log$
+Revision 1.2  2002/01/27 10:28:11  asmodai
+Fix spelling of separate and derived words.
+
 Revision 1.1  2002/01/26 21:31:21  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -1011,7 +1014,7 @@ regs |= RMASK(pr);
 	      iss.b.offset += bytes_per_step;
 
 	      /*
-	       * now generate overlapping sequence with ld rX seperated from
+	       * now generate overlapping sequence with ld rX separated from
 	       * following st rX
 	       * 
 	       *	st	r1
@@ -1072,7 +1075,7 @@ regs |= RMASK(pr);
 	     * %cnt,bytes_per_step,%cnt ldX	%tmp,[%srcptr+%cnt] stX
 	     * %tmp,[%destptr+%cnt] bne	loop
 	     * 
-	     * +++ unroll, and use two copy regs to seperate ld and st using same
+	     * +++ unroll, and use two copy regs to separate ld and st using same
 	     * reg
 	     */
 

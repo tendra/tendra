@@ -60,6 +60,9 @@ $Author$
 $Date$
 $Revision$
 $Log$
+Revision 1.2  2002/01/27 10:28:11  asmodai
+Fix spelling of separate and derived words.
+
 Revision 1.1  2002/01/26 21:31:26  asmodai
 Initial version of TenDRA 4.1.2.
 
@@ -292,7 +295,7 @@ static void loopmove1
    *		stX	%tmp,[%destptr+%cnt]
    *		bnz	loop
    *
-   * +++ unroll, and use two copy regs to seperate ld and st using same reg
+   * +++ unroll, and use two copy regs to separate ld and st using same reg
    * +++ use CR
    * +++ use lu/stu
    * +++ use lsi/stsi
@@ -743,7 +746,7 @@ static int moveinstore PROTO_N ((iss,isd,size,al,regs,sgned)) PROTO_T (instore i
       iss.b.offset += bytes_per_step;
 
       /*
-       * now generate overlapping sequence with ld rX seperated from
+       * now generate overlapping sequence with ld rX separated from
        * following st rX
        *
        *	st	r1

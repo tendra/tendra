@@ -38,7 +38,7 @@
  *
  * This file defines some file name manipulation routines.  It should be
  * replaced on operating systems with a different file name syntax to that
- * used here ('/' seperated path names).
+ * used here ('/' separated path names).
  *
  ***=== FUNCTIONS ============================================================
  *
@@ -90,6 +90,9 @@
  *
  **** Change Log:
  * $Log$
+ * Revision 1.2  2002/01/27 10:28:11  asmodai
+ * Fix spelling of separate and derived words.
+ *
  * Revision 1.1  2002/01/26 21:32:04  asmodai
  * Initial version of TenDRA 4.1.2.
  *
