@@ -83,7 +83,7 @@ StartText:	^.\\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.or
 		^.\\"
 		^.TH "${_followrel descendant REFENTRYTITLE 1000}"
 			"${_followrel descendant MANVOLNUM 1000}" "${date}"
-			"The TenDRA Project" "The TenDRA Project"
+			"${_followrel descendant REFENTRYTITLE 1000} @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@"
 		^.SH "NAME"
 		^.PP
 		^\\fB${_followrel descendant REFENTRYTITLE 1000}\\fP - ${_followrel descendant REFPURPOSE 1000}
