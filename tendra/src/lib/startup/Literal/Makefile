@@ -1,6 +1,6 @@
 # $TenDRA$
 
-DATA=	ansi.pf trad.pf
+DATA=	ansi.pf c99.pf trad.pf
 
 STARTUP=	Literal
 
