@@ -84,6 +84,18 @@ install:
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
 .endif # PROG
 # XXX: Very dirty hack...
+.if defined(ENVSUBDIR)
+.if !exists(${MACH_BASE}/env)
+	${MKDIR} -p ${MACH_BASE}/env
+.endif
+.for entry in ${ENVSUBDIR}
+	${MKDIR} -p ${MACH_BASE}/startup/${entry}
+	(cd ${entry} && for file in *;\
+		do ${INSTALL} -m 644 $$file ${MACH_BASE}/env/$$file;\
+		done)
+.endfor
+.endif
+# XXX: Very dirty hack...
 .if defined(STARTUPSUBDIR)
 .if !exists(${COMMON_DIR}/startup)
 	${MKDIR} -p ${COMMON_DIR}/startup
