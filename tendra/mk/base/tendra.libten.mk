@@ -12,10 +12,13 @@ SRCS+=	catstd.c
 # Dependancies
 DEPEND_SRC+=	catstd.c
 
+# Productions
+CAT_PRODS+=	-c ${.OBJDIR}/catstd.c -l ${.OBJDIR}/catstd.h
+
 # Target
 catstd.c:: messages.cat ${CAT_EXTRA}
 	${BIN_AWK} -f ${MKERR} -- \
-		-c ${.OBJDIR}/catstd.c  -l ${.OBJDIR}/catstd.h \
+		${CAT_PRODS} \
 		${CAT_STD} ${.CURDIR}/messages.cat ${CAT_EXTRA}
 
 
