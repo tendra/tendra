@@ -28,7 +28,7 @@
 */
 
 
-/* freebsd/diag_out.c */
+/* openbsd/diag_out.c */
 
 #include "config.h"
 #include "common_types.h"
