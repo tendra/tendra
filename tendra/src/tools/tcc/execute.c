@@ -93,21 +93,21 @@ static int last_signal = 0;
 static int delay_signal_handling = 0;
 
 void
-enable_delayed_signal() 
+enable_delayed_signal(void)
 {
     delay_signal_handling = 1;
     return;
 }
 
 void
-disable_delayed_signal()
+disable_delayed_signal(void)
 {
     delay_signal_handling = 0;
     return;
 }
 
 void
-process_delayed_signal()
+process_delayed_signal(void)
 {
     if (last_signal != 0) {
 		last_command = last_signaled_cmd;
@@ -180,7 +180,7 @@ cmd_list(list *p)
 boolean exec_error = 0;
 
 void
-reset_exec_error()
+reset_exec_error(void)
 {
     exec_error = 0;
     return;
@@ -219,7 +219,7 @@ static long running_pid = -1;
  */
 
 void
-kill_stray()
+kill_stray(void)
 {
 #if FS_FORK
     if (running_pid == -1) return;
@@ -248,7 +248,7 @@ static filename *junk = null;
  */
 
 void
-remove_junk()
+remove_junk(void)
 {
     if (!dry_run && !flag_keep_err) {
 		filename *p;
@@ -292,8 +292,8 @@ print_cmd(char *b)
  *    has been abstracted to also allow the BSD implementation.
  */
 
-filename
-*execute(filename *input, filename *output)
+filename*
+execute(filename *input, filename *output)
 {
     char *cmd;
     int err = 0;
@@ -412,15 +412,18 @@ filename
 					running_pid = -1;
 					if (process_exited (status)) {
 						err = process_exit_value (status);
-						/* This only returns if there was no remembered
-						 *			   signal. */
+						/* This only returns if there was no
+						 * remembered signal. 
+						 */
 						process_delayed_signal ();
 					} else {
 						if (process_signaled (status)) {
-							/* delay_signal_handling is a global that tells us
-							 *			       that it is ok to let the next call to execute
-							 *			       report that the command received a signal.
-							 *			       This supports the way that the producer is called. */
+							/* delay_signal_handling is a global that
+							 * tells us that it is ok to let the next
+							 * call to execute report that the command
+							 * received a signal.  This supports the
+							 * way that the producer is called. 
+							 */
 							int sig = process_signal_value (status);
 							if (delay_signal_handling && last_signal == 0) {
 								last_signaled_cmd = string_copy (cmd);

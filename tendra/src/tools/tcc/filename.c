@@ -158,8 +158,8 @@ char *workdir = null ;
  *    This routine returns the basename of the file name s.
  */
 
-char
-*find_basename(char *s)
+char*
+find_basename(char *s)
 {
     char *r = s;
     for (; *s ; s++) {
@@ -175,8 +175,8 @@ char
  *    This routine returns the full name of the file name s.
  */
 
-char
-*find_fullname(char *s)
+char*
+find_fullname(char *s)
 {
     static char *pwd = null;
     if (*s == '/') return (s);
@@ -199,8 +199,8 @@ char
  *    the file suffix, and returns the latter.
  */
 
-static char
-*split_name(char *s)
+static char*
+split_name(char *s)
 {
     int i, n = (int) strlen (s);
     for (i = n - 1 ; i >= 0 ; i--) {
@@ -223,8 +223,8 @@ static char
  *    This routine allocates a new filename structure.
  */
 
-static filename
-*new_filename()
+static filename*
+new_filename(void)
 {
     static int no_free = 0;
     static filename *free_objs = null;
@@ -308,8 +308,8 @@ find_type(int s, int suff)
  *    suffix.  It needs to be kept in step with Table 1 and Table 2.
  */
 
-static char
-*file_suffix(int t)
+static char*
+file_suffix(int t)
 {
     static char suff [3];
     suff [0] = 0;
@@ -399,8 +399,8 @@ static int uniq_no = 0;
  *    be kept in step with Table 1, Table 2 and Table 3.
  */
 
-filename
-*find_filename(char *s, int t)
+filename*
+find_filename(char *s, int t)
 {
     filename *p = new_filename ();
     char *b = string_copy (find_basename (s));
@@ -507,8 +507,8 @@ where(int t)
  *    to be kept in step with Table 1 and Table 2.
  */
 
-filename
-*make_filename(filename *p, int t, int s)
+filename*
+make_filename(filename *p, int t, int s)
 {
     boolean f = 0;
     char *b, *d, *e;

@@ -66,16 +66,16 @@
  *    and then executing it.
  */
 
-extern void enable_delayed_signal(void) ;
-extern void disable_delayed_signal(void) ;
-extern void process_delayed_signal(void) ;
-extern void reset_exec_error(void) ;
-extern void cmd_string(char *) ;
-extern void cmd_filename(filename *) ;
-extern void cmd_list(list *) ;
-extern void kill_stray(void) ;
-extern void remove_junk(void) ;
-extern filename *execute(filename *, filename *) ;
+extern void enable_delayed_signal(void);
+extern void disable_delayed_signal(void);
+extern void process_delayed_signal(void);
+extern void reset_exec_error(void);
+extern void cmd_string(char *);
+extern void cmd_filename(filename *);
+extern void cmd_list(list *);
+extern void kill_stray(void);
+extern void remove_junk(void);
+extern filename *execute(filename *, filename *);
 
 
 /*

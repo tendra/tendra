@@ -59,6 +59,8 @@
 #define OPTIONS_INCLUDED
 
 #include "list.h"
+#include "filename.h"
+
 /*
  *    TYPE REPRESENTING AN OPTION
  *

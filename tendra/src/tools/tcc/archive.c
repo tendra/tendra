@@ -338,8 +338,8 @@ touch_file(char *nm, char *opt)
 
 #if !FS_TEMPNAM
 
-char
-*like_tempnam(char *dir, char *pfx) /* ARGSUSED */
+char*
+like_tempnam(char *dir, char *pfx) /* ARGSUSED */
 {
     static char letter = 'a';
     char *p = buffer;
@@ -479,10 +479,10 @@ static boolean archive_options = 1;
  */
 
 void
-process_archive_opt()
+process_archive_opt(void)
 {
     list *p;
-    for (p = opt_joiner ; p != null ; p = p->next) {
+    for (p = opt_joiner; p != null; p = p->next) {
 		char *opt = p->item;
 		if (streq (opt, "-copy") || streq (opt, "-c")) {
 			archive_links = 0;
@@ -533,7 +533,7 @@ build_archive(char *arch, char **input)
 		return (1);
     }
     IGNORE fputs (ARCHIVE_HEADER, f);
-    for (s = input ; *s ; s++) {
+    for (s = input; *s; s++) {
 		if (end) {
 			/* Archive options */
 			if (archive_options) {
@@ -562,7 +562,7 @@ build_archive(char *arch, char **input)
 				int i, m = (int) strlen (n);
 				buffer [0] = '*';
 				buffer [1] = 0;
-				for (i = m - 1 ; i >= 0 ; i--) {
+				for (i = m - 1; i >= 0; i--) {
 					if (n [i] == '.') {
 						IGNORE strcpy (buffer + 1, n + i);
 						break;
@@ -750,7 +750,7 @@ split_archive(char *arch, filename **ret)
 		if (emsg) error (SERIOUS, emsg, arch);
 		IGNORE fclose (f);
 		if (need_moves) {
-			for (q = output ; q != null ; q = q->next) {
+			for (q = output; q != null; q = q->next) {
 				if (q->aux && keeps_aux [ archive_type ]) {
 					if (verbose) {
 						comment (1, "... rename %s to %s\n", q->name,

@@ -67,25 +67,25 @@
  *    list of input files and returns a list of output files.
  */
 
-extern filename *do_produce(filename *) ;
-extern filename *do_preproc(filename *) ;
-extern filename *do_cpp_produce(filename *) ;
-extern filename *do_cpp_preproc(filename *) ;
-extern filename *do_tdf_link(filename *) ;
-extern filename *do_tdf_build(filename *) ;
-extern filename *do_translate(filename *) ;
-extern filename *do_assemble(filename *) ;
-extern filename *do_dynlink(filename *) ;
-extern filename *do_link(filename *) ;
-extern filename *do_notation(filename *) ;
-extern filename *do_pl_tdf(filename *) ;
-extern filename *do_pretty(filename *) ;
-extern filename *do_split_arch(filename *) ;
-extern filename *do_build_arch(filename *) ;
-extern filename *do_build_file(filename *, int) ;
-extern filename *do_link_specs(filename *, int) ;
-extern filename *do_cc(filename *, int) ;
-extern filename *do_keep(filename *) ;
+extern filename *do_produce(filename *);
+extern filename *do_preproc(filename *);
+extern filename *do_cpp_produce(filename *);
+extern filename *do_cpp_preproc(filename *);
+extern filename *do_tdf_link(filename *);
+extern filename *do_tdf_build(filename *);
+extern filename *do_translate(filename *);
+extern filename *do_assemble(filename *);
+extern filename *do_dynlink(filename *);
+extern filename *do_link(filename *);
+extern filename *do_notation(filename *);
+extern filename *do_pl_tdf(filename *);
+extern filename *do_pretty(filename *);
+extern filename *do_split_arch(filename *);
+extern filename *do_build_arch(filename *);
+extern filename *do_build_file(filename *, int);
+extern filename *do_link_specs(filename *, int);
+extern filename *do_cc(filename *, int);
+extern filename *do_keep(filename *);
 extern int binary_obj_type;
 
 

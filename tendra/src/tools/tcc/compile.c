@@ -90,8 +90,8 @@ static filename *apply_unjoin PROTO_S ((filename *, int));
  *    returning the result.
  */
 
-static filename
-*apply_cc(filename *input)
+static filename*
+apply_cc(filename *input)
 {
     filename *p = input;
     filename *output = null;
@@ -254,8 +254,8 @@ static filename
  *    This routine applies the TDF linker to p, returning the result.
  */
 
-static filename
-*apply_tdf_link(filename *p)
+static filename*
+apply_tdf_link(filename *p)
 {
     static boolean tried = 0;
     if (p == null || stops [ INDEP_TDF ]) return (p);
@@ -281,8 +281,8 @@ static filename
  *    with Table 1.
  */
 
-static filename
-*apply_compile(filename *input, int produce)
+static filename*
+apply_compile(filename *input, int produce)
 {
     filename *p = input;
     filename *output = null;
@@ -470,8 +470,8 @@ static filename
  *    compiles them to binary object files, and returns them.
  */
 
-static filename
-*filter_ofiles(filename *input)
+static filename*
+filter_ofiles(filename *input)
 {
     filename *p = input;
     filename *links = null;
@@ -498,8 +498,8 @@ static filename
  *    and returns the corresponding output files.
  */
 
-static filename
-*apply_link(filename *input)
+static filename*
+apply_link(filename *input)
 {
     filename *p = input;
     int spec_out = C_SPEC_2;
@@ -573,8 +573,8 @@ static filename
  *    and returns the corresponding output files.
  */
 
-static filename
-*apply_split_arch(filename *input)
+static filename*
+apply_split_arch(filename *input)
 {
     filename *p = input;
     filename *output = null;
@@ -604,8 +604,8 @@ static filename
  *    and returns the corresponding output files.
  */
 
-static filename
-*apply_build_arch(filename *input)
+static filename*
+apply_build_arch(filename *input)
 {
     filename *p = input;
     filename *links = null;
@@ -643,8 +643,8 @@ static filename
  *    input, and returns the corresponding output files.
  */
 
-static filename
-*apply_build(filename *input)
+static filename*
+apply_build(filename *input)
 {
     filename *p = input;
     filename *links = null;
@@ -682,8 +682,8 @@ static filename
  *    and returns the corresponding output files.
  */
 
-static filename
-*apply_preproc(filename *input)
+static filename*
+apply_preproc(filename *input)
 {
     filename *p = input;
     filename *output = null;
@@ -707,8 +707,8 @@ static filename
  *    input, and returns the corresponding output files.
  */
 
-static filename
-*apply_pretty(filename *input)
+static filename*
+apply_pretty(filename *input)
 {
     filename *p = input;
     filename *output = null;
@@ -738,8 +738,8 @@ static filename
  *    in the aux field.
  */
 
-static filename
-*apply_unjoin(filename *input, int t)
+static filename*
+apply_unjoin(filename *input, int t)
 {
     filename *p = input;
     filename *output = null;
@@ -768,8 +768,8 @@ static filename
  *    input, and returns the corresponding output files.
  */
 
-filename
-*apply_all(filename *input)
+filename*
+apply_all(filename *input)
 {
     filename *p = input;
 	

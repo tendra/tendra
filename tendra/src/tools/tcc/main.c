@@ -92,7 +92,7 @@
  */
 
 void
-print_version()
+print_version(void)
 {
     error (INFO, "%s%s, Machine: %s, Release: %s", VERSION_STRING,
 		   (checker ? " (checker)" : ""), machine_name, RELEASE);
@@ -181,7 +181,7 @@ main_start(char *prog, char **envp)
  */
 
 static void
-main_middle()
+main_middle(void)
 {
     char *s = temp_name (temporary_dir, progname);
     tempdir = string_copy (s);
@@ -205,7 +205,7 @@ main_middle()
  */
 
 void
-main_end()
+main_end(void)
 {
     IGNORE signal (SIGINT, SIG_IGN);
     remove_junk ();
@@ -254,6 +254,7 @@ main(int argc, char **argv)
     }
     process_options (opts, main_optmap, 0);
     update_options ();
+	reconcile_envopts();
     free_list (opts);
 	
     /* Check for input files */

@@ -58,6 +58,7 @@
 #ifndef ENVIRON_INCLUDED
 #define ENVIRON_INCLUDED
 
+#include "utility.h"
 
 /*
  *    PROCEDURE DECLARATIONS
@@ -65,10 +66,29 @@
  *    These routines are concerned with reading tcc environments.
  */
 
-extern void read_env(char *) ;
-extern int read_env_aux(char *) ;
-extern void find_envpath(void) ;
-extern void show_envpath(void) ;
+extern void read_env(char *);
+extern int  read_env_aux(char *, hashtable *);
+extern void find_envpath(void);
+extern void show_envpath(void);
+extern void reconcile_envopts();
+
+#define TCC_TBLSZE 119
+#define TCC_KEYSZE  27
+
+hashtable* environ_hashtable;
+
+/*
+ *  CHARACTER TYPES
+ *
+ *  These macros identify various character types.
+ */
+
+#define is_alphanum(X)	(((X) >= 'A' && (X) <= 'Z') ||\
+				  ((X) >= '0' && (X) <= '9') ||\
+				  ((X) == '_'))
+#define is_whitespace(X)	((X) == ' ' || (X) == '\t')
+#define is_quote(X)		((X) == '"')
+#define is_newline(X)		((X) == '\n')
 
 
 /*

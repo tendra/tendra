@@ -77,7 +77,7 @@
  */
 
 extern int archive_type;
-extern void process_archive_opt(void) ;
+extern void process_archive_opt(void);
 
 
 /*
@@ -87,15 +87,15 @@ extern void process_archive_opt(void) ;
  *    plus the procedures for building and splitting TDF archives.
  */
 
-extern int cat_file(char *) ;
-extern int make_dir(char *) ;
-extern int move_file(char *, char *) ;
-extern int remove_file(char *) ;
-extern int touch_file(char *, char *) ;
-extern boolean is_archive(char *) ;
-extern int split_archive(char *, filename **) ;
-extern int build_archive(char *, char **) ;
-extern long file_size(char *) ;
+extern int cat_file(char *);
+extern int make_dir(char *);
+extern int move_file(char *, char *);
+extern int remove_file(char *);
+extern int touch_file(char *, char *);
+extern boolean is_archive(char *);
+extern int split_archive(char *, filename **);
+extern int build_archive(char *, char **);
+extern long file_size(char *);
 
 
 #endif

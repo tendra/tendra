@@ -76,13 +76,15 @@ extern char *buffer;
  *    allocation.
  */
 
-extern void error PROTO_W ((int, char *, ...));
-extern void comment PROTO_W ((int, char *, ...));
-extern pointer xalloc(int) ;
-extern pointer xrealloc(pointer, int) ;
-extern char *string_copy(char *) ;
-extern char *string_concat(char *, char *) ;
+extern void error (int, char *, ...);
+extern void comment (int, char *, ...);
+extern pointer xalloc(int);
+extern pointer xrealloc(pointer, int);
+extern char *string_copy(char *);
+extern char *string_concat(char *, char *);
 extern char* find_path_subst(char*);
+extern int hash(char *, int, int);
+
 /*extern char* format_path(char *); */
 
 /*
@@ -110,10 +112,30 @@ static char *PATH_SUBS[] = {
 	NULL
 };
 
+typedef struct _htnode {
+	struct _htnode *next;
+	char *val;
+	char *key;
+	unsigned int  flag;
+	char *file;
+	int  line_num;
+} htnode;
 
+#define TCCENV 0x01U
+#define USR    0x02U
+#define READ   0x04U
 
+typedef struct _hashtable {
+	htnode **node;
+	int tblsize;
+	int keysize; /* max length of key to hash */
+	int (*hashfcn) (char*, int, int); 
+} hashtable;
 
-
+extern hashtable* init_table   (int, int, int (*fcn) (char*, int, int));
+extern htnode*    lookup_table (hashtable *, char *);
+extern htnode*    update_table (hashtable *, char *, char *,
+								unsigned int, char *, int);
 
 /*
  *    ERROR TYPES

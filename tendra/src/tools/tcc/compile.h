@@ -65,7 +65,7 @@
  *    This routine controls the overall compilation scheme.
  */
 
-extern filename *apply_all(filename *) ;
+extern filename *apply_all(filename *);
 
 
 #endif

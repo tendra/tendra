@@ -66,10 +66,10 @@
  *    values of the various compilation options.
  */
 
-extern void initialise_options(void) ;
-extern void update_options(void) ;
-extern void set_machine(void) ;
-extern void set_stage(int, int) ;
+extern void initialise_options(void);
+extern void update_options(void);
+extern void set_machine(void);
+extern void set_stage(int, int);
 
 
 /*

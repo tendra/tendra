@@ -90,11 +90,11 @@ typedef struct list_t {
  *    These routines are concerned with creating and manipulating lists.
  */
 
-extern list *add_list(list *, list *) ;
-extern list *add_item(list *, void *) ;
-extern list *insert_item(void *, list *) ;
+extern list *add_list(list *, list *);
+extern list *add_item(list *, void *);
+extern list *insert_item(void *, list *);
 extern list *insert_inorder(ordered_node*, list*);
-extern list *make_list(void *) ;
-extern void free_list(list *) ;
+extern list *make_list(void *);
+extern void free_list(list *);
 
 #endif

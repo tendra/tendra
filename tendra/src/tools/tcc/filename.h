@@ -172,13 +172,13 @@ extern int no_input_files;
  *    These routines are concerned with creating and manipulating filenames.
  */
 
-extern char *find_basename(char *) ;
-extern char *find_fullname(char *) ;
-extern filename *add_filename(filename *, filename *) ;
-extern filename *find_filename(char *, int) ;
-extern filename *make_filename(filename *, int, int) ;
-extern int find_type(int, int) ;
-extern int where(int) ;
+extern char *find_basename(char *);
+extern char *find_fullname(char *);
+extern filename *add_filename(filename *, filename *);
+extern filename *find_filename(char *, int);
+extern filename *make_filename(filename *, int, int);
+extern int find_type(int, int);
+extern int where(int);
 
 
 #endif

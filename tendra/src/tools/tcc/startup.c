@@ -181,7 +181,7 @@ add_to_tokdef(char *s)
  */
 
 void
-close_startup()
+close_startup(void)
 {
     if (startup_file) {
 		IGNORE fclose (startup_file);
@@ -208,7 +208,7 @@ close_startup()
  */
 
 void
-remove_startup()
+remove_startup(void)
 {
     if (keeps [ STARTUP_FILE ]) {
 		if (startup_name) {

@@ -463,7 +463,7 @@ set_stage(int t, int k)
  */
 
 void
-set_machine()
+set_machine(void)
 {
 #if 0
     char *mach = machine_name;
@@ -497,7 +497,7 @@ set_machine()
  */
 
 void
-initialise_options()
+initialise_options(void)
 {
     /* Initialise executables */
     list *p;
@@ -560,7 +560,7 @@ initialise_options()
  */
 
 void
-update_options()
+update_options(void)
 {
     char *mode = null;
     static boolean done_diag = 0;

@@ -77,8 +77,8 @@ static list *spare_lists = null;
  *    This routine allocates a new list structure.
  */
 
-static list
-*new_list()
+static list*
+new_list(void)
 {
     if (spare_lists) {
 		list *p = spare_lists;
@@ -116,8 +116,8 @@ free_list(list *p)
  *    This routine joins two lists, p and q, and returns the result.
  */
 
-list
-*add_list(list *p, list *q)
+list*
+add_list(list *p, list *q)
 {
     list *r;
     if (p == null) return (q);
@@ -135,8 +135,8 @@ list
  *    the result.
  */
 
-list
-*add_item(list *p, void *s)
+list*
+add_item(list *p, void *s)
 {
     list *q, *r;
     q = new_list ();
@@ -156,8 +156,8 @@ list
  *    returns the result.
  */
 
-list
-*insert_item(void *s, list *p)
+list*
+insert_item(void *s, list *p)
 {
     list *q = new_list ();
     q->item = s;
@@ -210,8 +210,8 @@ insert_inorder(ordered_node* indata, list *inlst)
  *    spaces (spaces and tabs).
  */
 
-list
-*make_list(void *s)
+list*
+make_list(void *s)
 {
     list *r = null;
     char *p = string_copy (s);

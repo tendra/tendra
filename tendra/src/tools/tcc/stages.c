@@ -88,8 +88,8 @@ int binary_obj_type = BINARY_OBJ;
  *    an error has occurred.
  */
 
-static filename
-*do_move(filename *from, filename *to)
+static filename*
+do_move(filename *from, filename *to)
 {
     if (from == null) return (from);
     if (to) {
@@ -112,8 +112,8 @@ static filename
  *    work directory.  It returns the new location of p.
  */
 
-filename
-*do_keep(filename *p)
+filename*
+do_keep(filename *p)
 {
     if (p->storage == TEMP_FILE) {
 		filename *q = make_filename (p, p->type, PRESERVED_FILE);
@@ -145,8 +145,8 @@ static filename *uniq_tempfile = null;
  *    file is stored in uniq_tempfile, otherwise it holds the output file.
  */
 
-static filename
-*uniq_filename(char *nm, int t, int s, filename *input)
+static filename*
+uniq_filename(char *nm, int t, int s, filename *input)
 {
     filename *p = find_filename (nm, t);
     filename *q = make_filename (p, t, s);
@@ -237,8 +237,8 @@ producer_options(int pp)
  *    the result.
  */
 
-filename
-*do_produce(filename *input)
+filename*
+do_produce(filename *input)
 {
     boolean spec_produced;
     filename *output, *spec;
@@ -290,8 +290,8 @@ filename
  *    then the output is sent to the standard output.
  */
 
-filename
-*do_preproc(filename *input)
+filename*
+do_preproc(filename *input)
 {
     filename *output;
     if (input == null) return (input);
@@ -318,8 +318,8 @@ filename
  *    the result.
  */
 
-filename
-*do_cpp_produce(filename *input)
+filename*
+do_cpp_produce(filename *input)
 {
     filename *spec;
     filename *output, *producer_output;
@@ -373,8 +373,8 @@ filename
  *    preserved then the output is copied to the standard output.
  */
 
-filename
-*do_cpp_preproc(filename *input)
+filename*
+do_cpp_preproc(filename *input)
 {
     filename *output;
     if (input == null) return (input);
@@ -403,8 +403,8 @@ filename
  *    TDF (also see do_tdf_build).
  */
 
-filename
-*do_tdf_link(filename *input)
+filename*
+do_tdf_link(filename *input)
 {
     filename *output;
     if (input == null || stops [ INDEP_TDF ]) return (input);
@@ -433,8 +433,8 @@ filename
  *    file, which is then moved to the output file.
  */
 
-filename
-*do_tdf_build(filename *input)
+filename*
+do_tdf_build(filename *input)
 {
     int keep;
     filename *output;
@@ -468,8 +468,8 @@ filename
  *    this is also a special case.
  */
 
-filename
-*do_translate(filename *input)
+filename*
+do_translate(filename *input)
 {
     int t;
     filename *output;
@@ -549,8 +549,8 @@ filename
  *    to handle the .G and .T files output by the mips translator.
  */
 
-filename
-*do_assemble(filename *input)
+filename*
+do_assemble(filename *input)
 {
     filename *output;
     int t = binary_obj_type;
@@ -702,8 +702,8 @@ linker_options(filename *input, filename *output)
  *    and adds the corresponding .o to the file list.
  */
 
-filename
-*do_dynlink(filename *input)
+filename*
+do_dynlink(filename *input)
 {
     filename *linked_ofiles, *extra_sfile, *output = null;
     if (input == null || stops [ BINARY_OBJ ]) return (input);
@@ -746,8 +746,8 @@ filename
  *    the HP linkers insist on certain options being in two parts.
  */
 
-filename
-*do_link(filename *input)
+filename*
+do_link(filename *input)
 {
     int keep;
     filename *output;
@@ -771,8 +771,8 @@ filename
  *    input, and returns the result.
  */
 
-filename
-*do_notation(filename *input)
+filename*
+do_notation(filename *input)
 {
     int keep;
     filename *output;
@@ -796,8 +796,8 @@ filename
  *    and returns the result.
  */
 
-filename
-*do_pl_tdf(filename *input)
+filename*
+do_pl_tdf(filename *input)
 {
     filename *output;
     if (input == null) return (input);
@@ -819,8 +819,8 @@ filename
  *    input, and returns the result.
  */
 
-filename
-*do_pretty(filename *input)
+filename*
+do_pretty(filename *input)
 {
     filename *output;
     if (input == null || stops [ DEP_TDF ]) return (input);
@@ -840,8 +840,8 @@ filename
  *    This routine splits the TDF archive, input, and returns the result.
  */
 
-filename
-*do_split_arch(filename *input)
+filename*
+do_split_arch(filename *input)
 {
     if (input == null) return (input);
     cmd_list (exec_split_arch);
@@ -859,8 +859,8 @@ filename
  *    aux field of the output contains the archive contents.
  */
 
-filename
-*do_build_arch(filename *input)
+filename*
+do_build_arch(filename *input)
 {
     int keep;
     filename *output;
@@ -891,8 +891,8 @@ filename
  *    archive contents.
  */
 
-filename
-*do_build_file(filename *input, int t)
+filename*
+do_build_file(filename *input, int t)
 {
     int s;
     filename *output;
@@ -926,8 +926,8 @@ filename
  *    C_SPEC_2, CPP_SPEC_1 or CPP_SPEC_2.
  */
 
-filename
-*do_link_specs(filename *input, int t)
+filename*
+do_link_specs(filename *input, int t)
 {
     int keep;
     filename *output, *spec_file;
@@ -992,8 +992,8 @@ filename
  *    files of type t, and returning the output files.
  */
 
-filename
-*do_cc(filename *input, int t)
+filename*
+do_cc(filename *input, int t)
 {
     char *flag;
     filename *output;

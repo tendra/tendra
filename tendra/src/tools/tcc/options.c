@@ -379,7 +379,7 @@ static char *xx_string = null;
  */
 
 static void
-special_option()
+special_option(void)
 {
 	boolean b = 1;
 	char *s = xx_string;
@@ -735,14 +735,14 @@ static char *lookup_proc_arg = null;
  */
 
 static void
-add_pragma_aux()
+add_pragma_aux(void)
 {
 	add_pragma (lookup_proc_arg);
 	return;
 }
 
 static void
-add_token_aux()
+add_token_aux(void)
 {
 	add_token (lookup_proc_arg);
 	return;

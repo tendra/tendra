@@ -66,12 +66,12 @@
  *    files.
  */
 
-extern void add_to_startup(char *) ;
-extern void add_to_endup(char *) ;
-extern void close_startup(void) ;
-extern void remove_startup(void) ;
-extern void add_pragma(char *) ;
-extern void add_token(char *) ;
+extern void add_to_startup(char *);
+extern void add_to_endup(char *);
+extern void close_startup(void);
+extern void remove_startup(void);
+extern void add_pragma(char *);
+extern void add_token(char *);
 
 
 /*
