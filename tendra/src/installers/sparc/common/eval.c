@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,17 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -140,7 +129,8 @@ maxmin(shape s)
  */
 
 int
-next_data_lab(){
+next_data_lab(void)
+{
 	static int data_lab = 100;
 	return (++data_lab);
 }
@@ -186,7 +176,7 @@ outfloat(flpt f, bool ro)
 	exppos = &fltrepr [ i + 2 ];
 	if (flptnos [f].exp != 0) {
 		sprintf (exppos, "e%ld", flptnos [f].exp);
-	} 
+	}
 	else {
 		exppos [0] = 0;
 	}
@@ -214,13 +204,13 @@ evalexp(exp e)
 		else {
 			return (no (e));
 		}
-    }	
+    }
     case general_env_offset_tag :
     case env_offset_tag : {
 		exp id = son(e);	/* as per tags.h, son is ident, not name */
-		
+
 		assert (name(id) == ident_tag);
-		
+
 		return boff_env_offset(id);
     }
     case env_size_tag : {
@@ -234,10 +224,10 @@ evalexp(exp e)
 		else {
 			arg_space = ((max(pr->needsproc.maxargs,6*32)+((16+1)*32))+63)&~63;
 		}
-		return (((pr->spacereqproc.stack+63)&~63) + 
+		return (((pr->spacereqproc.stack+63)&~63) +
 				pr->needsproc.callee_size +arg_space)>>3;
     }
-        
+
     case offset_add_tag : {
 		return (evalexp(son(e)) + evalexp(bro(son(e))));
     }
@@ -260,11 +250,11 @@ evalexp(exp e)
     case offset_negate_tag : {
 		return (- evalexp(son(e)));
     }
-		
+
     case bitf_to_int_tag : {
 		return (evalexp (son (e)));
     }
-		
+
     case int_to_bitf_tag : {
 		ash a;
 		unsigned long w = (unsigned long) evalexp (son (e));
@@ -278,61 +268,61 @@ evalexp(exp e)
 		}
 		return ((long) w);
     }
-		
+
     case not_tag : {
 		long a1 = evalexp (son (e));
 		return (~a1);
     }
-		
+
     case and_tag : {
 		long a1 = evalexp (son (e));
 		long a2 = evalexp (bro (son (e)));
 		return (a1 & a2);
     }
-		
+
     case or_tag : {
 		long a1 = evalexp (son (e));
 		long a2 = evalexp (bro (son (e)));
 		return (a1 | a2);
     }
-		
+
     case xor_tag : {
 		long a1 = evalexp (son (e));
 		long a2 = evalexp (bro (son (e)));
 		return (a1 ^ a2);
     }
-		
+
     case shr_tag : {
 		bool sgned = (bool) (name (sh (e)) & 1);
 		long a1 = evalexp (son (e));
 		long a2 = evalexp (bro (son (e)));
 		if (sgned) {
 			return (a1 >> a2);
-		} 
+		}
 		else {
 			unsigned long b1 = (unsigned long) a1;
 			return ((long) (b1 >> a2));
 		}
     }
-		
+
     case shl_tag : {
 		long a1 = evalexp (son (e));
 		long a2 = evalexp (bro (son (e)));
 		return (a1 << a2);
     }
-		
+
     case concatnof_tag : {
 		ash s1, s2;
 		unsigned long a1 = (unsigned long) evalexp (son (e));
 		unsigned long a2 = (unsigned long) evalexp (bro (son (e)));
 		s1 = ashof (sh (son (e)));
 		s2 = ashof (sh (bro (son (e))));
-		
+
 		/* We should only be concatenating bitfields */
 		assert (s1.ashalign == 1 && s1.ashsize <= 32);
 		assert (s2.ashalign == 1 && s2.ashsize <= 32);
 		assert (s1.ashsize + s2.ashsize <= 32);
-		
+
 		if (s2.ashsize == 32) {
 			/* avoid illegal shift by 32 */
 			assert (a1 == 0);
@@ -340,7 +330,7 @@ evalexp(exp e)
 		}
 		return ((long) ((a1 << s2.ashsize) | a2));
     }
-		
+
     case clear_tag : {
 		return (0);
     }
@@ -359,10 +349,10 @@ oneval(int val, long al, int rep)
 	char *as;
 	if (al <= 8) {
 		as = "\t.byte\t";
-	} 
+	}
 	else if (al <= 16) {
 		as = "\t.half\t";
-	} 
+	}
 	else {
 		as = "\t.word\t";
 	}
@@ -396,7 +386,7 @@ outascii(char * s, long strsize)
 			default : {
 				if (c >= 0 && isprint (c)) {
 					outc (c);
-				} 
+				}
 				else {
 					/* octal representation */
 					outf ("\\%.3o", (unsigned)c & 0xff);
@@ -435,7 +425,7 @@ emptyconcbit(int bitposn)
 	start.value_size = 0;
 	start.value = 0;
 	return (start);
-}	
+}
 
 
 /*
@@ -453,7 +443,7 @@ outconcbit(concbittype c, bool ro)
 		insection (data_section);
 	if (sz == 0) return;
 	assert (sz <= 32);
-	
+
 	/* output as a series of bytes */
 	outs ("\t.byte\t");
 #if little_end
@@ -477,7 +467,7 @@ outconcbit(concbittype c, bool ro)
 }
 
 /*
- *  Output a unary representation of the number val.  val should be 
+ *  Output a unary representation of the number val.  val should be
  *  less than or equal to 31 as it represent the number of bits
  *  in a bitfield which does not occupy a whole machine word.
  */
@@ -501,16 +491,14 @@ unary(int val)
  */
 
 static concbittype
-addconcbitaux(unsigned long w, int size, concbittype b4,
-			  bool ro)
+addconcbitaux(unsigned long w, int size, concbittype b4, bool ro)
 {
 	int wordpos ; /* bit position within word */
 	if (b4.value_size == 32 ||
 		(b4.value_size != 0 && (b4.bitposn & 31) == 0)) {
 		assert ((b4.bitposn & 31) == 0);
 		wordpos = 32;
-	} 
-	else {
+	} else {
 		wordpos = (b4.bitposn & 31);
 	}
 	assert (size > 0);
@@ -520,10 +508,10 @@ addconcbitaux(unsigned long w, int size, concbittype b4,
 	if ((size == 0 && (wordpos != 0 || b4.value_size != 0)) ||
 		(wordpos + size > 32)) {
 		assert (wordpos == 32) ; /* should be aligned automatically */
-		
+
 		/* crossed boundary : output value */
 		outconcbit (b4, ro);
-		
+
 		/* start new value */
 		b4.value_size = 0;
 		b4.value = 0;
@@ -533,8 +521,7 @@ addconcbitaux(unsigned long w, int size, concbittype b4,
 	/* add to b4 */
 	if (size == 32) {
 		b4.value = w;
-	} 	
-	else {
+	} else {
 #if little_end
 		b4.value = b4.value | (w << b4.value_size);
 #else
@@ -545,7 +532,7 @@ addconcbitaux(unsigned long w, int size, concbittype b4,
 	b4.value_size += size;
 	assert (b4.value_size <= 32);
 	return (b4);
-}	
+}
 
 
 /*
@@ -723,14 +710,14 @@ evalone(exp e, int bitposn, bool ro)
 			v = real2longs_IEEE(f,0);
 			outs ("\t.word\t");
 			outn (v.i1);
-		} 
+		}
 		else if (sz == 64) {
 			v = real2longs_IEEE(f,1);
 			outs ("\t.word\t");
 			outn (v.i2);
 			outc (',');
 			outn (v.i1);
-		} 
+		}
 		else {
 			v = real2longs_IEEE(f,2);
 			outs ("\t.word\t");
@@ -763,7 +750,7 @@ evalone(exp e, int bitposn, bool ro)
 		}
 		if (al == 1) {
 			evalconcbit (e, bitposn, ro);
-		} 
+		}
 		else {
 			oneval (no (e), al, 1);
 		}
@@ -820,8 +807,7 @@ evalone(exp e, int bitposn, bool ro)
 					left = addconcbitaux (0, 1, left, ro);
 					gap--;
 				}
-			} 
-			else {
+			} else {
 				/* alignment will handle gap */
 				left.bitposn = (int) rounder (left.bitposn, ta);
 			}
@@ -831,8 +817,7 @@ evalone(exp e, int bitposn, bool ro)
 			if (ta == 1) {
 				/* collect bitfields */
 				left = evalconcbitaux (tup, left, ro);
-			} 
-			else {
+			} else {
 				/* output final bits from any previous field */
 				int lb;
 				outconcbit (left, ro);
@@ -887,8 +872,7 @@ evalone(exp e, int bitposn, bool ro)
 #if 0
 		if (c.ashalign != 0) {
 			bitsize = (c.ashsize / c.ashalign) * c.ashalign;
-		} 
-		else {
+		} else {
 			bitsize = 0;
 		}
 #endif
@@ -897,8 +881,7 @@ evalone(exp e, int bitposn, bool ro)
 			outs ("\t.skip\t");
 			outn ((sz + 7) >> 3);
 			outnl ();
-		}
-		else
+		} else
 			for (i = 0 ; i < n ; i++) evalone (e, bitposn, ro);
 		return;
     }
@@ -907,8 +890,7 @@ evalone(exp e, int bitposn, bool ro)
 		if (al == 1) {
 			/* allow for bitfields */
 			evalconcbit (e, bitposn, ro);
-		} 
-		else {
+		} else {
 			ash a;
 			a = ashof (sh (son (e)));
 			evalone (son (e), bitposn, ro);
@@ -917,7 +899,7 @@ evalone(exp e, int bitposn, bool ro)
 			if (a.ashalign != 0) {
 				bitposn = (int) ((bitposn / a.ashalign) *
 								 a.ashalign);
-			}	
+			}
 			evalone (bro (son (e)), bitposn, ro);
 		}
 		return;
@@ -941,28 +923,28 @@ evalone(exp e, int bitposn, bool ro)
     case bitf_to_int_tag :
     case int_to_bitf_tag :
     case general_env_offset_tag :
-    case env_offset_tag : 
+    case env_offset_tag :
     case env_size_tag : case offset_add_tag : case offset_max_tag :
     case offset_pad_tag : case offset_mult_tag : case offset_div_tag :
-    case offset_div_by_int_tag : case offset_subtract_tag : 
+    case offset_div_by_int_tag : case offset_subtract_tag :
     case offset_negate_tag : {
 		outs ("\t.word\t");
 		outn (evalexp (e));
 		outnl ();
 		return;
     }
-		
+
     case chvar_tag : {
 		if (shape_size (sh (e)) == shape_size (sh (son (e)))) {
 			sh (son (e)) = sh (e);
 			evalone (son (e), bitposn, ro);
-		} 
+		}
 		else {
 			fail ("Illegal chvar constant");
 		}
 		return;
     }
-		
+
     case minptr_tag : {
 		exp p1 = son (e);
 		exp p2 = bro (p1);
@@ -976,8 +958,7 @@ evalone(exp e, int bitposn, bool ro)
 			outs (n2);
 			if (n < 0) {
 				outn (n);
-			} 
-			else if (n > 0) {
+			} else if (n > 0) {
 				outc ('+');
 				outn (n);
 			}
@@ -986,7 +967,7 @@ evalone(exp e, int bitposn, bool ro)
 		}
 		/* FALL THROUGH */
     }
-		
+
     default : {
 		fail ("Illegal constant");
 		return;
@@ -1003,7 +984,7 @@ bool know_size = 0;
 
 /*
  *  OUTPUT DATA INITIALISERS FOR AN EXPRESSION
- *  The result is the instore address of the constant.  A negative 
+ *  The result is the instore address of the constant.  A negative
  *  value of ll indicates the initialisation of a global variable.
  */
 instore
@@ -1018,17 +999,15 @@ evaluated(exp e, long ll, bool ro)
 	if (ll == 0) {
 		lab = next_data_lab ();
 		extnamed = 0;
-	} 
-	else if (ll < 0) {
+	} else if (ll < 0) {
 		lab = (int) ll;
 		extnamed = (bool) main_globals [ -lab - 1 ]->dec_u.dec_val.extnamed;
-	} 
-	else /* if (ll > 0) */ {
+	} else /* if (ll > 0) */ {
 		lab = (int) (-ll);
 		extnamed = (bool) main_globals [ -lab - 1 ]->dec_u.dec_val.extnamed;
 	}
 	a = ashof (sh (e));
-	
+
 	isa.adval = 0;
 	isa.b.offset = 0;
 	isa.b.base = lab;
@@ -1048,8 +1027,7 @@ evaluated(exp e, long ll, bool ro)
 				outs (",\".bss\",");
 				outn (align);
 				outnl ();
-			} 
-			else {
+			} else {
 				outc (',');
 				outn (byte_size);
 				outs (",\"bss\",");
@@ -1060,12 +1038,11 @@ evaluated(exp e, long ll, bool ro)
 			if (dwarf2 && (name(e) == clear_tag && no(e) == -1))
 				note_data (lab, ro);	/* do_prom */
 #endif
-		} 
+		}
 		else {
 			if (a.ashalign > 32 || a.ashsize > 32) {
 				set_align (64L);
-			} 
-			else {
+			} else {
 				set_align (32L);
 			}
 			outs ("\t.common\t");
@@ -1076,15 +1053,14 @@ evaluated(exp e, long ll, bool ro)
 				outc (',');
 				outn (align);
 				outnl ();
-			} 
-			else {
+			} else {
 				outc (',');
 				outn (byte_size);
 				outnl ();
 			}
 		}
 		know_size = 1;
-	} 
+	}
 	else {
 #ifdef NEWDWARF
 		if (dwarf2)
@@ -1096,13 +1072,12 @@ evaluated(exp e, long ll, bool ro)
 			insection (data_section);
 		if (a.ashalign > 32 || a.ashsize > 32) {
 			set_align (64L);
-		} 
-		else {
+		} else {
 			set_align (32L);
 		}
 		outlab (lab);
 		outs (":\n");
-		if (a.ashsize != 0){
+		if (a.ashsize != 0) {
 			evalone (z, 0, ro);
 		}
 		/* evalone does not output .skip to finish off */

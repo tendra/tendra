@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,15 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -109,7 +100,7 @@ regofval(exp e)
 			return ((isvar (dc)) ? (-no (dc)) : (no (dc)));
 		}
 		return (R_NO_REG);
-	} 
+	}
 	else if (name (e) == val_tag && no (e) == 0) {
 		return (R_G0);
 	}
@@ -120,7 +111,7 @@ regofval(exp e)
 /*
  *  HAS A FLOATING REGISTER BEEN ALLOCATED FOR A VALUE?
  *  The expression e is checked to see if it has been allocated into a
- *  floating register.  If so the register number is returned, 
+ *  floating register.  If so the register number is returned,
  *  otherwise R_NO_REG is returned.
  */
 
@@ -160,7 +151,7 @@ make_code_here(exp e, space sp, where dest)
 
 /*
  *  DOES AN EXPRESSION FIT INTO A REGISTER?
- *  If e easily fits into a unique fixed register then this register 
+ *  If e easily fits into a unique fixed register then this register
  *  number is returned.  Otherwise R_NO_REG is returned.
  */
 static int
@@ -211,7 +202,7 @@ reg_operand(exp e, space sp)
 		assert (reg != -1);
 		keepreg (e, reg);
 		return (reg);
-	} 
+	}
 	else {
 		/* e was found easily in a register */
 		assert (IS_FIXREG (reg));
@@ -234,7 +225,7 @@ reg_operand_here(exp e, space sp, int this_reg)
 		w.ashwhere = ashof (sh (e));
 		setregalt (w.answhere, this_reg);
 		(void) make_code_here (e, sp, w);
-	} 
+	}
 	else {
 		/* e was found easily in a register, so just do a move */
 		assert (IS_FIXREG (reg));
@@ -247,7 +238,7 @@ reg_operand_here(exp e, space sp, int this_reg)
 
 /*
  *  CODE AN EXPRESSION INTO A FLOATING REGISTER
- *  The expression e is encoded into a floating register and the 
+ *  The expression e is encoded into a floating register and the
  *  register number is returned.
  */
 
@@ -264,7 +255,7 @@ freg_operand(exp e, space sp, int reg)
 	if (name (e) == cont_tag) {
 		x = fregofval (son (e));
 		if (x < R_NO_REG) return (x);
-	} 
+	}
 	else if (name (e) == apply_tag || name(e) == apply_general_tag) {
 		fr.fr = 0;
 		setfregalt (aa, fr);
@@ -301,7 +292,7 @@ code_here(exp e, space sp, where dest)
 	int reg = is_reg_operand (e);
 	if (reg == R_NO_REG || reg == R_G0) {
 		return (make_code_here (e, sp, dest));
-	} 
+	}
 	else {
 		/* e was found easily in a register */
 		ans aa;

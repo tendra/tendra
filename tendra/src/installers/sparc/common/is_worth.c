@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,17 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -96,22 +85,22 @@ is_worth(exp c)
 {
     unsigned char cnam = name (c);
     bool isflt = (bool) is_floating (name (sh (c)));
-	
+
     if (name (sh (c)) == ptrhd && al1 (sh (c)) == 1) {
 		/* Pointers to bits aren't */
 		return (false);
     }
-	
+
     if (cnam == real_tag) {
 		/* Real constants are */
 		return (true);
     }
-	
+
     if (cnam == goto_tag) {
 		/* Extracting gotos messes things up */
 		return (false);
     }
-	
+
     if (cnam == cont_tag) {
 		exp s = son (c);
 		if (isflt && (name (s) != name_tag || isglob (son (s)))) {
@@ -128,7 +117,7 @@ is_worth(exp c)
 		}
 		return (false);
     }
-	
+
     if (cnam == val_tag) {
 		/* It is sometimes worth extracting large integer constants */
 		exp dad;
@@ -136,15 +125,15 @@ is_worth(exp c)
 		if (n == 0) return (false);
 		if (name(sh(c)) == u64hd || name(sh(c)) == s64hd) return (false);
 		dad = father (c);
-		
+
 		if (dad == nilexp)
 		{
 			if (SIMM13_SIZE (n)) return (false);
 			return (true);
 		}
-		
+
 		switch (name (dad)) {
-			
+
 	    case and_tag : {
 			exp grandad = father (dad);
 			if ((name (grandad) == test_tag && (n & (n - 1)) == 0
@@ -158,14 +147,14 @@ is_worth(exp c)
 			}
 			/* FALL THROUGH */
 	    }
-			
+
 	    case or_tag :
 	    case xor_tag :
 	    case test_tag : {
 			/* Large or negative constants are worth extracting */
 			return ((int) (n < 0 || !SIMM13_SIZE (n)));
 	    }
-			
+
 	    case mult_tag :
 	    case offset_mult_tag : {
 #if 0
@@ -177,7 +166,7 @@ is_worth(exp c)
 #endif
 			return (false);
 	    }
-			
+
 	    case div1_tag :
 	    case div2_tag :
 	    case rem2_tag : {
@@ -187,7 +176,7 @@ is_worth(exp c)
 #endif
 			return ((int) ((n & (n - 1)) != 0)) ; /* LINT */
 	    }
-			
+
 	    default : {
 			/* Extract large constants */
 			if (SIMM13_SIZE (n)) return (false);
@@ -195,7 +184,7 @@ is_worth(exp c)
 	    }
 		}
     }
-	
+
     if (is_o (cnam) || cnam == clear_tag) return (false);
     return (true);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -55,27 +55,16 @@
 */
 
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
-
-
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
 #include "exptypes.h"
 #include "procrec.h"
 
-extern weights add_weights PROTO_S ( ( weights *, weights * ) ) ;
-extern weights add_wlist PROTO_S ( ( double, exp ) ) ;
-extern weights mult_weights PROTO_S ( ( double, weights * ) ) ;
-extern weights weightsv PROTO_S ( ( double, exp ) ) ;
-extern wp max_weights PROTO_S ( ( double, weights *, bool ) ) ;
+extern weights add_weights(weights *, weights *);
+extern weights add_wlist(double, exp);
+extern weights mult_weights(double, weights *);
+extern weights weightsv(double, exp);
+extern wp max_weights(double, weights *, bool);
 
 #endif /* WEIGHTS_INCLUDED */

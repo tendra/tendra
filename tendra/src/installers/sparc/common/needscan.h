@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef NEEDSCAN_INCLUDED
@@ -72,22 +61,22 @@ $Header$
 #include "exptypes.h"
 #include "proctypes.h"
 
-extern bool chase PROTO_S ( ( exp, exp * ) ) ;
-extern bool complex PROTO_S ( ( exp ) ) ;
-extern bool subvar_use PROTO_S ( ( exp ) ) ;
-extern bool unchanged PROTO_S ( ( exp, exp ) ) ;
-extern exp *ptr_position PROTO_S ( ( exp ) ) ;
-extern needs fpop PROTO_S ( ( exp *, exp ** ) ) ;
-extern needs likediv PROTO_S ( ( exp *, exp ** ) ) ;
-extern needs likeplus PROTO_S ( ( exp *, exp ** ) ) ;
-extern needs maxneeds PROTO_S ( ( needs, needs ) ) ;
-extern needs maxtup PROTO_S ( ( exp, exp ** ) ) ;
-extern needs scan PROTO_S ( ( exp *, exp ** ) ) ;
-extern needs shapeneeds PROTO_S ( ( shape ) ) ;
-extern void cca PROTO_S ( ( exp **, exp * ) ) ;
-extern void check_asm_seq PROTO_S ( ( exp, int ) ) ;
+extern bool chase(exp, exp *);
+extern bool complex(exp);
+extern bool subvar_use(exp);
+extern bool unchanged(exp, exp);
+extern exp *ptr_position(exp);
+extern needs fpop(exp *, exp **);
+extern needs likediv(exp *, exp **);
+extern needs likeplus(exp *, exp **);
+extern needs maxneeds(needs, needs);
+extern needs maxtup(exp, exp **);
+extern needs scan(exp *, exp **);
+extern needs shapeneeds(shape);
+extern void cca(exp **, exp *);
+extern void check_asm_seq(exp, int);
 
-extern int maxfix, maxfloat ;
+extern int maxfix, maxfloat;
 #define max(X,Y) (X>Y)?(X):(Y)
 #define min(X,Y) (X<Y)?(X):(Y)
 #endif /* NEEDSCAN_INCLUDED */

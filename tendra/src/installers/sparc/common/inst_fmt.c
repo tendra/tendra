@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,17 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -219,7 +208,7 @@ set_ins(baseoff a, int dest)
     char *extname = ext_name (a.base);
     long d = a.offset;
     clear_reg (dest);
-	
+
     if (d == 0 || PIC_code) {
 		fprintf (as_file, "\tset\t%s,%s\n", extname, RN (dest));
     } else if (d > 0) {
@@ -230,7 +219,7 @@ set_ins(baseoff a, int dest)
 #ifdef NEWDWARF
     lost_count_ins();
 #endif
-	
+
     if (PIC_code) {
 		ld_rr_ins (i_ld, R_L7, dest, dest);
 		if (d) rir_ins (i_add, dest, d, dest);
@@ -273,13 +262,13 @@ st_ro_ins(ins_p ins, int src, baseoff a)
 {
     long off = a.offset;
     assert (IS_FIXREG (a.base));
-	
+
     /* in general we cannot cope with store using temp reg, catch it always */
     if ((src == R_TMP || a.base == R_TMP)
 		&& ABS_OF (off) > (16 + 1 + 6) * 4 /* leeway for mem_temp */) {
 		fail ("Temporary register problem in st_ro_ins");
     }
-	
+
     if (SIMM13_SIZE (off)) {
 		/* Small offset */
 		CONST char *rs = RN (src);
@@ -375,7 +364,7 @@ void
 rir_ins(ins_p ins, int src1, long imm, int dest)
 {
     clear_reg (dest);
-	
+
     if (SIMM13_SIZE (imm)) {
 		/* Small data */
 		fprintf (as_file, "\t%s\t%s,%ld,%s\n", ins,
@@ -461,7 +450,7 @@ void
 ir_ins(ins_p ins, long imm, int dest)
 {
     clear_reg (dest);
-	
+
     if (SIMM13_SIZE (imm) || ins == i_set) {
 		fprintf (as_file, "\t%s\t%ld,%s\n", ins, imm, RN (dest));
 #ifdef NEWDWARF
@@ -492,13 +481,13 @@ void
 lr_ins(int imm, int dest)
 {
     clear_reg (dest);
-	
+
     /* use a set instruction to load the label */
     fprintf (as_file, "\tset\t%s%d,%s\n", lab_prefix, imm, RN (dest));
 #ifdef NEWDWARF
     lost_count_ins();
 #endif
-	
+
     if (PIC_code) {
 		ld_rr_ins (i_ld, R_L7, dest, dest);
     }
@@ -581,9 +570,9 @@ lngjmp(int o_fp_reg, int pc_reg, int r_new_sp)
 {
 	int lab = new_label();
 	baseoff frm;
-	
+
 	frm.offset = FP_OFFSET_IN_FRAME;
-    
+
 #ifdef NOT_SUN_BUGGY_ASM
 	fprintf (as_file, "\tta\t3\n");
 #else
@@ -595,9 +584,9 @@ lngjmp(int o_fp_reg, int pc_reg, int r_new_sp)
 #endif
 	rr_ins (i_mov, R_SP, r_new_sp);
 	rir_ins(i_sub, R_SP, 0x40, R_SP);
-	
+
 	frm.base = r_new_sp;
-	
+
 	set_label (lab);
 	ld_ro_ins (i_ld, frm,   R_TMP);
 	fprintf (as_file, "\tcmp\t%s,%s\n", RN (R_TMP), RN(o_fp_reg));
@@ -609,7 +598,7 @@ lngjmp(int o_fp_reg, int pc_reg, int r_new_sp)
 	/* now r_new_sp holds the sp to a reg
 	 *				 save area whose fp is the fp we want...*/
 	rr_ins (i_mov, r_new_sp, R_FP);
-	
+
 	fprintf (as_file, "\tjmpl\t %s + 0, %%g0\n", RN(pc_reg));
 	fprintf (as_file, "\t%s\n", i_restore) ;	/* delay slot */
 #ifdef NEWDWARF
@@ -652,8 +641,8 @@ extj_ins(ins_p ins, baseoff b, int param_regs_used)
 		else {
 			fprintf (as_file, "\t%s\t%s,%d\n", ins, ext, param_regs_used);
 		}
-		
-	} 
+
+	}
 	else {
 		/* param_regs_used = -1 means it is not known */
 		if (b.offset) {
@@ -668,11 +657,11 @@ extj_ins(ins_p ins, baseoff b, int param_regs_used)
 	count_ins(2);
 #endif
 	return;
-}	
+}
 
-/* 
+/*
  *   don't fill up the delay slot: the caller of this functions must
- *   provide its own delay slot filler 
+ *   provide its own delay slot filler
  */
 void
 extj_ins_without_delay(ins_p ins, baseoff b,
@@ -683,7 +672,7 @@ extj_ins_without_delay(ins_p ins, baseoff b,
 		/* print number of parameter registers if known */
 		assert (param_regs_used <= 6) ;	/* %o0..%o5 */
 		fprintf (as_file, "\t%s\t%s,%d\n", ins, ext, param_regs_used);
-	} 
+	}
 	else {
 		/* param_regs_used = -1 means it is not known */
 		fprintf (as_file, "\t%s\t%s\n", ins, ext);
@@ -698,7 +687,7 @@ extj_ins_without_delay(ins_p ins, baseoff b,
 
 /*
  *  OUTPUT AN EXTERNAL JUMP OR CALL INSTRUCTION (SPECIAL CASE)
- *  
+ *
  *  This case is used to handle special calls like .muls where the
  *  name is given by a string.
  */
@@ -711,7 +700,7 @@ extj_special_ins(ins_p ins, CONST char * CONST ext,
 		/* print number of parameter registers if known */
 		assert (param_regs_used <= 6) ;	/* %o0..%o5 */
 		fprintf (as_file, "\t%s\t%s,%d\n", ins, ext, param_regs_used);
-	} 
+	}
 	else {
 		/* param_regs_used = -1 means it is not known */
 		fprintf (as_file, "\t%s\t%s\n", ins, ext);
@@ -734,7 +723,7 @@ extj_special_ins_no_delay(ins_p ins, CONST char * CONST ext,
 		/* print number of parameter registers if known */
 		assert (param_regs_used <= 6) ;	/* %o0..%o5 */
 		fprintf (as_file, "\t%s\t%s,%d\n", ins, ext, param_regs_used);
-	} 
+	}
 	else {
 		/* param_regs_used = -1 means it is not known */
 		fprintf (as_file, "\t%s\t%s\n", ins, ext);
@@ -763,10 +752,10 @@ extj_reg_ins(ins_p ins, int reg, int param_regs_used)
 			rr_ins (i_mov, reg, R_G1);
 			reg = R_G1;
 		}
-	}	
+	}
 	extj_special_ins (ins, RN (reg), param_regs_used);
 	return;
-}	
+}
 
 
 void
@@ -780,10 +769,10 @@ extj_reg_ins_no_delay(ins_p ins, int reg,
 			rr_ins (i_mov, reg, R_G1);
 			reg = R_G1;
 		}
-	}	
+	}
 	extj_special_ins_no_delay (ins, RN (reg), param_regs_used);
 	return;
-}	
+}
 
 
 
@@ -845,7 +834,7 @@ br_abs(int lab)
 /*
  *  OUTPUT A CONDITIONAL FLOATING POINT TEST JUMP
  *
- *  The instruction before a floating point test jump instruction 
+ *  The instruction before a floating point test jump instruction
  *  cannot be another floating point instruction.
  */
 
@@ -900,7 +889,7 @@ condri_ins(ins_p ins, int src1, long imm,
 		count_ins(1);
 #endif
 		br_ins (ins, lab);
-    } 
+    }
 	else {
 		/* Large constant */
 		if (src1 == R_TMP) {
@@ -934,7 +923,7 @@ fmaxminrr_ins(ins_p ins, int src1, int src2,
 #ifdef NEWDWARF
 	count_ins(4);
 #endif
-	
+
 	set_label(lab);
 	return;
 }
@@ -947,7 +936,7 @@ maxminrr_ins(ins_p ins, int src1, int src2,
 			 int dest)
 {
 	int lab = new_label();
-	
+
 	fprintf (as_file, "\tcmp\t%s,%s\n", RN (src1), RN (src2));
 	fprintf (as_file, "\t%s\t%s%d\n", ins, lab_prefix, lab);
 	/* USE the delay slot */
@@ -956,7 +945,7 @@ maxminrr_ins(ins_p ins, int src1, int src2,
 #ifdef NEWDWARF
 	count_ins(4);
 #endif
-	
+
 	set_label(lab);
 	return;
 }
@@ -970,7 +959,7 @@ maxminri_ins(ins_p ins, int src1, long val,
 			 int dest)
 {
 	int lab = new_label();
-	
+
 	if (!SIMM13_SIZE (val))  {
 		fprintf (as_file, "\tset\t%ld,%s\n", val, RN (R_TMP));
 		fprintf (as_file, "\tcmp\t%s,%s\n", RN (src1), RN (R_TMP));
@@ -983,7 +972,7 @@ maxminri_ins(ins_p ins, int src1, long val,
 #ifdef NEWDWARF
 		lost_count_ins();
 #endif
-	} 
+	}
 	else{
 		fprintf (as_file, "\tcmp\t%s,%ld\n", RN (src1), val);
 		fprintf (as_file, "\t%s\t%s%d\n", ins, lab_prefix, lab);
@@ -993,7 +982,7 @@ maxminri_ins(ins_p ins, int src1, long val,
 #ifdef NEWDWARF
 		count_ins(4);
 #endif
-		
+
 	}
 	set_label(lab);
 	return;
@@ -1015,17 +1004,17 @@ ldf_ro_ins(ins_p ins, baseoff a, int dest)
 		CONST char *rn = RN (a.base);
 		if (off == 0) {
 			fprintf (as_file, "\t%s\t[%s],%s\n", ins, rn, FRN(dest));
-		} 
+		}
 		else if (off > 0) {
 			fprintf (as_file, "\t%s\t[%s+%ld],%s\n", ins, rn, off, FRN(dest));
-		} 
+		}
 		else /* if (off < 0) */ {
 			fprintf (as_file, "\t%s\t[%s-%ld],%s\n", ins, rn, -off, FRN(dest));
 		}
 #ifdef NEWDWARF
 		count_ins(1);
 #endif
-	} 
+	}
 	else {
 		/* Large offset */
 		assert (a.base != R_TMP);
@@ -1074,7 +1063,7 @@ ldf_ins(ins_p ins, baseoff a, int dest)
 		tmp_off.offset = 0;
 		set_ins (a, R_TMP);
 		ldf_ro_ins (ins, tmp_off, dest);
-	} 
+	}
 	else {
 		ldf_ro_ins (ins, a, dest);
 	}
@@ -1099,17 +1088,17 @@ stf_ro_ins(ins_p ins, int src, baseoff a)
 		CONST char *rn = RN (a.base);
 		if (off == 0) {
 			fprintf (as_file, "\t%s\t%s,[%s]\n", ins, FRN(src), rn);
-		} 
+		}
 		else if (off > 0) {
 			fprintf (as_file, "\t%s\t%s,[%s+%ld]\n", ins, FRN(src), rn, off);
-		} 
+		}
 		else /* if (off < 0) */ {
 			fprintf (as_file, "\t%s\t%s,[%s-%ld]\n", ins, FRN(src), rn, -off);
 		}
 #ifdef NEWDWARF
 		count_ins(1);
 #endif
-	} 
+	}
 	else {
 		/* Large offset */
 		assert (a.base != R_TMP);
@@ -1130,7 +1119,7 @@ stf_ro_ins(ins_p ins, int src, baseoff a)
 void
 stf_rr_ins(ins_p ins, int src, int reg1, int reg2)
 {
-	fprintf (as_file, "\t%s\t%s,[%s+%s]\n", ins, FRN(src), 
+	fprintf (as_file, "\t%s\t%s,[%s+%s]\n", ins, FRN(src),
 			 RN (reg1), RN (reg2));
 #ifdef NEWDWARF
 	count_ins(1);
@@ -1141,7 +1130,7 @@ stf_rr_ins(ins_p ins, int src, int reg1, int reg2)
 
 /*
  *  OUTPUT A STORE FLOATING INSTRUCTION
- *  
+ *
  *  If baseoff is a global this may be two instructions and involve
  *  a temporary register.
  */
@@ -1156,7 +1145,7 @@ stf_ins(ins_p ins, int src, baseoff a)
 		tmp_off.offset = 0;
 		set_ins (a, R_TMP);
 		stf_ro_ins (ins, src, tmp_off);
-	} 
+	}
 	else {
 		stf_ro_ins (ins, src, a);
 	}
@@ -1203,7 +1192,7 @@ void
 rrrf_ins(ins_p ins, int src1, int src2, int dest)
 {
 	clear_freg (dest);
-	fprintf (as_file, "\t%s\t%s,%s,%s\n", ins, FRN(src1), 
+	fprintf (as_file, "\t%s\t%s,%s,%s\n", ins, FRN(src1),
 			 FRN(src2), FRN(dest));
 #ifdef NEWDWARF
 	count_ins(1);

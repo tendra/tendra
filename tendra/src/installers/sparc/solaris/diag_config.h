@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef STAB_CONF_INCLUDED
@@ -71,21 +60,21 @@ $Header$
 
 #include "config.h"
 
-typedef long OUTPUT_REC ;
+typedef long OUTPUT_REC;
 
 #ifdef NEWDIAGS
 
 extern int dwarf2;
-extern void dw2_proc_start PROTO_S ((exp p, dg_name d));
-extern void dw2_proc_end PROTO_S ((exp p));
-extern void dw2_code_info PROTO_S ((dg_info d, void (*mcode)(void *), void * args));
-extern void dw2_start_basic_block PROTO_S ((void));
+extern void dw2_proc_start(exp p, dg_name d);
+extern void dw2_proc_end(exp p);
+extern void dw2_code_info(dg_info d, void (*mcode)(void *), void * args);
+extern void dw2_start_basic_block(void);
 
 
 #define DIAG_VAL_BEGIN(d,g,c,s,e)	if (!dwarf2) \
 				  stab_global (d, e, s, g);
 
-#define DIAG_VAL_END(d)		
+#define DIAG_VAL_END(d)
 
 #define DIAG_PROC_BEGIN(d,g,c,s,e) if (dwarf2) \
 				  dw2_proc_start (e, d);\

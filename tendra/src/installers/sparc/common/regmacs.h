@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef REGMACS_INCLUDED
@@ -71,8 +60,8 @@ $Header$
 
 
 /*
-    SPARC FIXED REGISTERS
-*/
+ *    SPARC FIXED REGISTERS
+ */
 
 /* Global registers */
 #define R_G0		0	/* always holds 0 */
@@ -123,14 +112,14 @@ $Header$
 
 
 /*
-    SPARC FLOATING POINT REGISTERS
-
-    Two representations are used in sparctrans, 0...15 to represent 16
-    register-pairs for doubles at the higher (e.g. fregalloc) levels, and
-    0...31 at the lower (assembler) levels.  This is somewhat confusing,
-    conversion is one way using a 'frg << 1'-like expression, often in
-    the parameter position of a ???_ins () function call.
-*/
+ *    SPARC FLOATING POINT REGISTERS
+ *
+ *    Two representations are used in sparctrans, 0...15 to represent 16
+ *    register-pairs for doubles at the higher (e.g. fregalloc) levels, and
+ *    0...31 at the lower (assembler) levels.  This is somewhat confusing,
+ *    conversion is one way using a 'frg << 1'-like expression, often in
+ *    the parameter position of a ???_ins () function call.
+ */
 
 /* Floating point registers */
 #define R_F0		0	/* procedure result register */
@@ -152,11 +141,11 @@ $Header$
 /*
   REGISTER MASKS
   A register mask, with one bit per register, is used in 'space' etc.
-  A set bit indicates that the register is not available for 
+  A set bit indicates that the register is not available for
   allocation.
 */
 
-#define	RMASK( r )	( ( ( long ) 1 ) << ( r ) )
+#define	RMASK(r)	(((long) 1) << (r))
 
 
 /*
@@ -167,16 +156,16 @@ $Header$
   registers (O0-O7)
 */
 
-#define IS_FIXREG( r )		( ( r ) >= R_FIRST && ( r ) <= R_LAST )
-#define IS_SREG( r )		( ( r ) >= R_L0 && ( r ) <= R_I5 )
-#define IS_TREG( r )		( ( ( r ) >= R_G2 && ( r ) <= R_G7 ) ||\
-				  ( ( r ) >= R_O0 && ( r ) <= R_O5 ) ||\
-				  ( ( r ) == R_O7 ) )
+#define IS_FIXREG(r)		((r) >= R_FIRST && (r) <= R_LAST)
+#define IS_SREG(r)		((r) >= R_L0 && (r) <= R_I5)
+#define IS_TREG(r)		(((r) >= R_G2 && (r) <= R_G7) || \
+						  ((r) >= R_O0 && (r) <= R_O5) || \
+						  ((r) == R_O7))
 #define IS_IN_REG(r)	((r)>=R_I0 && (r)<= R_I5)
 #define PARAM_TREGS		0x0000ff00L
 #define PROC_TREGS		0xffff40ffL
-#define IS_FLT_SREG( r )	0
-#define IS_FLT_TREG( r )	( ( r ) >= 0 && ( r ) <= 15 )
+#define IS_FLT_SREG(r)	0
+#define IS_FLT_TREG(r)	((r) >= 0 && (r) <= 15)
 #define PARAM_FLT_TREGS		0x0000
 #define PROC_FLT_TREGS		0x0000
 #define MAXFLOAT_TREGS		16

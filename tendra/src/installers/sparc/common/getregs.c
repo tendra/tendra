@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,17 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -136,12 +125,12 @@ getreg(long fixed)
 	for (; ;) {
 		/* Check if register is free */
 		if ((choosefix & fixed) == 0 && currentfix != R_O7) reg = currentfix;
-		
+
 		/* Work out the next register (cyclic) */
 		if (currentfix == R_LAST) {
 			currentfix = R_FIRST;
 			choosefix = RMASK (R_FIRST);
-		} 
+		}
 		else {
 			currentfix++;
 			choosefix = choosefix << 1;
@@ -168,7 +157,7 @@ getreg(long fixed)
 
 /*
  *  GET THE NEXT FREE TEMPORARY FLOATING REGISTER
- *  
+ *
  *  The argument fl gives the bitmask of all the unavailable registers.
  */
 
@@ -181,12 +170,12 @@ getfreg(long fl)
 	for (; ;) {
 		/* Check if register is free */
 		if ((choosefloat & fl) == 0) reg = currentfloat;
-		
+
 		/* Work out the next register (cyclic) */
 		if (currentfloat == R_FLT_LAST) {
 			currentfloat = R_FLT_FIRST;
 			choosefloat = RMASK (R_FLT_FIRST);
-		} 
+		}
 		else {
 			currentfloat++;
 			choosefloat = choosefloat << 1;

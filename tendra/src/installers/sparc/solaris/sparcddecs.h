@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef SPARCDDECS_INCLUDED
@@ -71,30 +60,30 @@ $Header$
 
 #ifdef NEWDIAGS
 
-extern void init_stab PROTO_S ( ( void ) ) ;
-extern void init_stab_aux PROTO_S ( ( void ) ) ;
-extern void code_diag_info PROTO_S ( ( dg_info, void (*)(void *), void * ) );
-extern void stab_global PROTO_S ( ( dg_name, exp, char *, int ) ) ;
-extern void stab_proc PROTO_S ( ( dg_name, exp, char *, int ) ) ;
-extern void stab_proc_end PROTO_S ( ( void ) ) ;
-extern void stab_types PROTO_S ( ( void ) ) ;
+extern void init_stab(void);
+extern void init_stab_aux(void);
+extern void code_diag_info(dg_info, void (*)(void *), void *);
+extern void stab_global(dg_name, exp, char *, int);
+extern void stab_proc(dg_name, exp, char *, int);
+extern void stab_proc_end(void);
+extern void stab_types(void);
 
 #else
 
-extern void init_stab PROTO_S ( ( void ) ) ;
-extern void init_stab_aux PROTO_S ( ( void ) ) ;
-extern void stab_collect_files PROTO_S ( ( filename ) ) ;
-extern void stab_tagdefs PROTO_S ( ( void ) ) ;
-extern void stab_typedefs PROTO_S ( ( void ) ) ;
-extern void stab_begin PROTO_S ( ( diag_info *, int, exp ) ) ;
-extern void stab_end PROTO_S ( ( diag_info *, exp ) ) ;
-extern void stab_file PROTO_S ( ( long, bool ) ) ;
-extern void stab_global PROTO_S ( ( diag_descriptor *, exp, char *, bool ) ) ;
-extern void stab_local PROTO_S ( ( char *, diag_type, exp, long, long ) ) ;
-extern void stab_proc PROTO_S ( ( diag_descriptor *, exp, char *, bool ) ) ;
-extern void stab_proc_end PROTO_S ( ( void ) ) ;
-extern void stab_types PROTO_S ( ( void ) ) ;
-extern void stabd PROTO_S ( ( long, long, int ) ) ;
+extern void init_stab(void);
+extern void init_stab_aux(void);
+extern void stab_collect_files(filename);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
+extern void stab_begin(diag_info *, int, exp);
+extern void stab_end(diag_info *, exp);
+extern void stab_file(long, bool);
+extern void stab_global(diag_descriptor *, exp, char *, bool);
+extern void stab_local(char *, diag_type, exp, long, long);
+extern void stab_proc(diag_descriptor *, exp, char *, bool);
+extern void stab_proc_end(void);
+extern void stab_types(void);
+extern void stabd(long, long, int);
 extern long currentfile ;
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -53,17 +53,6 @@
  *
  * $TenDRA$
  */
-
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
@@ -199,7 +188,7 @@ ld_addr(instore is, int reg)
 
 /*
  *  LOAD THE ADDRESS REPRESENTED BY is INTO A REGISTER
- *  The register number is returned.  regs gives the registers to 
+ *  The register number is returned.  regs gives the registers to
  *  choose from.
  */
 int
@@ -225,7 +214,7 @@ move(ans a, where dest, long regs, bool sgned)
 {
 	int al = (int) dest.ashwhere.ashalign;
 	if (dest.ashwhere.ashsize == 0) return (NOREG);
-	
+
 	if (PIC_code && discrim (dest.answhere) == notinreg) {
 		instore iss;
 		iss = insalt (dest.answhere);
@@ -241,9 +230,9 @@ move(ans a, where dest, long regs, bool sgned)
 			setinsalt (dest.answhere, iss);
 		}
 	}
-	
+
 	start : switch (discrim (a)) {
-		
+
 	case insomereg :
 	case insomefreg : {
 		/* Source is in some register */
@@ -253,9 +242,9 @@ move(ans a, where dest, long regs, bool sgned)
 	case inreg : {
 		/* Source in fixed point register */
 		int r = regalt (a);
-		
+
 		switch (discrim (dest.answhere)) {
-			
+
 		case inreg : {
 			/* Register to register move */
 			int rd = regalt (dest.answhere);
@@ -264,7 +253,7 @@ move(ans a, where dest, long regs, bool sgned)
 			}
 			return (NOREG);
 		}
-			
+
 		case insomereg : {
 			/* Register to some register move */
 			int *sr = someregalt (dest.answhere);
@@ -272,7 +261,7 @@ move(ans a, where dest, long regs, bool sgned)
 			*sr = r;
 			return (NOREG);
 		}
-			
+
 		case infreg : {
 			/* Register to floating register move */
 			freg fr;
@@ -286,19 +275,19 @@ move(ans a, where dest, long regs, bool sgned)
 			}
 			return (NOREG);
 		}
-			
+
 		case notinreg : {
 			/* Register to store move */
 			instore is;
 			ins_p st = i_st_sz (al);
-			
+
 			if (al == 1) {
 				st = i_st_sz ((int) dest.ashwhere.ashsize);
 			} else {
 				/*assert (al == dest.ashwhere.ashsize) ;*/
 				st = i_st_sz (al);
 			}
-			
+
 			is = insalt (dest.answhere);
 			if (is.adval) {
 				st_ins (st, r, is.b);
@@ -320,12 +309,12 @@ move(ans a, where dest, long regs, bool sgned)
 		/* Source in floating point register */
 		freg fr;
 		fr = fregalt (a);
-		
+
 		switch (discrim (dest.answhere)) {
 		case inreg : {
 			/* Floating register to register move */
 			int rd = regalt (dest.answhere);
-			
+
 			if (rd != 0) {
 				/* store and load to move to fixed reg */
 				stf_ins (i_st, fr.fr<<1, mem_temp (0));
@@ -351,7 +340,7 @@ move(ans a, where dest, long regs, bool sgned)
 			/* Floating register to floating register move */
 			freg frd;
 			frd = fregalt (dest.answhere);
-			
+
 			if (fr.fr != frd.fr) {
 				rrf_ins (i_fmovs, fr.fr << 1, frd.fr << 1);
 				if (frd.dble) {
@@ -365,16 +354,16 @@ move(ans a, where dest, long regs, bool sgned)
 			/* Floating register to store move */
 			instore is;
 			ins_p st = (fr.dble ? i_std : i_st);
-			
+
 			if ((dest.ashwhere.ashsize == 64 && !fr.dble) ||
 				(dest.ashwhere.ashsize == 32 && fr.dble)) {
 				fail ("Inconsistent sizes in move");
 			}
-			
+
 			is = insalt (dest.answhere);
 			if (is.adval) {
 				if (fr.dble) {
-					if (((is.b.offset & 7) == 0) && 
+					if (((is.b.offset & 7) == 0) &&
 						((is.b.base == R_FP) || (is.b.base == R_SP))) {
 						/* double aligned */
 						stf_ins (i_std, fr.fr << 1, is.b);
@@ -394,7 +383,7 @@ move(ans a, where dest, long regs, bool sgned)
 				ld_ins (i_ld, is.b, b.base);
 				stf_ro_ins (st, fr.fr << 1, b);
 			}
-			
+
 			return (fr.dble ? -(fr.fr + 32) : (fr.fr + 32));
 		}
 		default:
@@ -407,7 +396,7 @@ move(ans a, where dest, long regs, bool sgned)
 		instore iss;
 		int size = dest.ashwhere.ashsize;
 		iss = insalt (a);
-		
+
 		if (PIC_code && !IS_FIXREG (iss.b.base) && !SIMM13_SIZE (iss.b.offset)) {
 			/* global with large offset: we have to avoid double use of R_TMP */
 			int ofs = iss.b.offset;
@@ -418,7 +407,7 @@ move(ans a, where dest, long regs, bool sgned)
 			iss.b.offset = ofs;
 			iss.b.base = r;
 		}
-	    
+
 		if (iss.adval && iss.b.offset == 0 && IS_FIXREG (iss.b.base)) {
 			/* address of [ base_reg + 0 ] is base_reg */
 			setregalt (a, iss.b.base);
@@ -428,7 +417,7 @@ move(ans a, where dest, long regs, bool sgned)
 			al = (size<=8)?9: ((size<=16)?16:32);
 		}
 		if (al == 64) al = 32;
-		
+
 		/* determine which load instruction to use from al and adval */
 		switch (discrim (dest.answhere)) {
 		case insomereg : {
@@ -466,7 +455,7 @@ move(ans a, where dest, long regs, bool sgned)
 			assert (!iss.adval);
 			if (frd.dble) {
 				/* double precision */
-				if (((iss.b.offset & 7) == 0) && (iss.b.offset != -8) && 
+				if (((iss.b.offset & 7) == 0) && (iss.b.offset != -8) &&
 					((iss.b.base == R_FP) || (iss.b.base == R_SP))) {
 					/* source is double aligned */
 					ldf_ins (i_ldd, iss.b, frd.fr << 1);
@@ -491,18 +480,18 @@ move(ans a, where dest, long regs, bool sgned)
 			instore isd;
 			ins_p st, ld;
 			bool unalign = (bool) (al < 32);
-			
+
 			/* we are limited by 32 bit regs */
 			bits_per_step = MIN_OF (al, 32);
 			bytes_per_step = bits_per_step / 8;
-			
+
 			/* round up number of bits to be moved */
 			bits = (int) ((dest.ashwhere.ashsize +
 						   bits_per_step - 1) &
 						  ~(bits_per_step - 1));
-			
+
 			no_steps = (bits + bits_per_step - 1) / bits_per_step;
-			
+
 			if ((al % 8) != 0 || (bits % 8) != 0) {
 				fail ("move : misaligned store");
 				return (NOREG);
@@ -511,10 +500,10 @@ move(ans a, where dest, long regs, bool sgned)
 			assert (bytes_per_step > 0 && bytes_per_step <= 4);
 			assert (no_steps > 0);
 			assert ((no_steps * bytes_per_step) == (bits / 8));
-			
+
 			ld = i_ld_sz (bits_per_step, sgned);
 			st = i_st_sz (bits_per_step);
-			
+
 			isd = insalt (dest.answhere);
 			if (no_steps <= MAX_STEPS_INLINE_MOVE) {
 				/* expand to a number of loads and stores */
@@ -538,7 +527,7 @@ move(ans a, where dest, long regs, bool sgned)
 						/* load source */
 						ld_ins (ld, iss.b, r);
 					}
-					
+
 					if (!isd.adval) {
 						ld_ins (i_ld, isd.b, R_TMP);
 						isd.b.base = R_TMP;
@@ -552,17 +541,17 @@ move(ans a, where dest, long regs, bool sgned)
 					int r1, r2;
 					int ld_steps = no_steps;
 					int st_steps = no_steps;
-					
+
 					assert (ld_steps >= 2);
 					/*assert (!iss.adval) ;*/
 					assert (bits_per_step <= 32);
-					
+
 					/* find the registers to be used */
 					r1 = getreg (regs);
 					regs |= RMASK (r1);
 					r2 = getreg (regs);
 					regs |= RMASK (r2);
-					
+
 					if (!IS_FIXREG (iss.b.base)) {
 						/* load source ptr in reg */
 						int pr = getreg (regs);
@@ -571,7 +560,7 @@ move(ans a, where dest, long regs, bool sgned)
 						iss.b.base = pr;
 						iss.b.offset = 0;
 					}
-					
+
 					if (!isd.adval) {
 						int pr = getreg (regs);
 						regs |= RMASK (pr);
@@ -585,16 +574,16 @@ move(ans a, where dest, long regs, bool sgned)
 						isd.b.base = pr;
 						isd.b.offset = 0;
 					}
-					
+
 					/* first pre-load both registers */
 					ld_ro_ins (ld, iss.b, r1);
 					ld_steps--;
 					iss.b.offset += bytes_per_step;
-					
+
 					ld_ro_ins (ld, iss.b, r2);
 					ld_steps--;
 					iss.b.offset += bytes_per_step;
-					
+
 					/* now generate a sequence of instructions
 					 *	     of the form :
 					 *
@@ -608,21 +597,21 @@ move(ans a, where dest, long regs, bool sgned)
 						st_ro_ins (st, r1, isd.b);
 						st_steps--;
 						isd.b.offset += bytes_per_step;
-						
+
 						/* ld r1 */
 						if (ld_steps > 0) {
 							ld_ro_ins (ld, iss.b, r1);
 							ld_steps--;
 							iss.b.offset += bytes_per_step;
 						}
-						
+
 						/* st r2 */
 						if (st_steps > 0) {
 							st_ro_ins (st, r2, isd.b);
 							st_steps--;
 							isd.b.offset += bytes_per_step;
 						}
-						
+
 						/* ld r2 */
 						if (ld_steps > 0) {
 							ld_ro_ins (ld, iss.b, r2);
@@ -640,27 +629,27 @@ move(ans a, where dest, long regs, bool sgned)
 				int srcptr_reg;
 				int destptr_reg;
 				int loop = new_label ();
-				
+
 				assert (!iss.adval);
 				assert (bytes_per_step <= 4);
-				
+
 				/* find control register */
 				cnt_reg = getreg (regs);
 				regs |= RMASK (cnt_reg);
-				
+
 				/* find source register */
 				assert (!iss.adval);
 				iss.adval = 1;
 				srcptr_reg = addr_reg (iss, regs);
 				regs |= RMASK (srcptr_reg);
-				
+
 				/* find destination register */
 				destptr_reg = addr_reg (isd, regs);
 				regs |= RMASK (destptr_reg);
-				
+
 				/* find copy register */
 				copy_reg = R_TMP;
-				
+
 				/* main loop */
 				ir_ins (i_mov, (long) (bytes_per_step * no_steps),
 						cnt_reg);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef PROCTYPES_INCLUDED
@@ -73,87 +62,87 @@ $Header$
 
 
 /*
-  TYPE REPRESENTING REGISTER NEEDS
-*/
+ *  TYPE REPRESENTING REGISTER NEEDS
+ */
 
 typedef struct {
-    int fixneeds  ;
-    int floatneeds ;
-    prop prps ;
-    int maxargs ;
-  int callee_size;
-} needs ;
+    int fixneeds;
+    int floatneeds;
+    prop prps;
+    int maxargs;
+	int callee_size;
+} needs;
 
 int callee_size;
 
 /*
-  MACROS FOR MANIPULATING PROPERTIES OF NEEDS
-*/
+ *  MACROS FOR MANIPULATING PROPERTIES OF NEEDS
+ */
 
-#define pnset( x, m )	( x ).prps = ( prop ) ( ( x ).prps | ( m ) )
-#define pnclr( x, m )	( x ).prps = ( prop ) ( ( x ).prps & ~( m ) )
-#define pntst( x, m )	( ( x ).prps & ( m ) )
+#define pnset(x, m)	(x).prps = (prop) ((x).prps | (m))
+#define pnclr(x, m)	(x).prps = (prop) ((x).prps & ~(m))
+#define pntst(x, m)	((x).prps & (m))
 
 
 /*
-  TYPE REPRESENTING REGISTER WEIGHTS
-*/
+ *  TYPE REPRESENTING REGISTER WEIGHTS
+ */
 
 #define wfixno		25
 #define wfloatno	16
 
 typedef struct {
-    float fix [ wfixno ] ;
-    float floating [ wfloatno ] ;
-} weights ;
+    float fix [ wfixno ];
+    float floating [ wfloatno ];
+} weights;
 
 typedef struct {
-    weights wp_weights ;
-    long fix_break ;
-    long float_break ;
-} wp ;
+    weights wp_weights;
+    long fix_break;
+    long float_break;
+} wp;
 
 
 /*
-  TYPE REPRESENTING THE SPACE REQUIRED BY A PROCEDURE
-*/
+ *  TYPE REPRESENTING THE SPACE REQUIRED BY A PROCEDURE
+ */
 
 typedef struct {
-    long fixdump ;
-    long fltdump ;
-    long stack ;
-} spacereq ;
+    long fixdump;
+    long fltdump;
+    long stack;
+} spacereq;
 
 
 /*
-  TYPE REPRESENTING A PROCEDURE RECORD
-*/
+ *  TYPE REPRESENTING A PROCEDURE RECORD
+ */
 
 typedef struct {
-    exp nameproc ;
-    int tlrecstart ;
-    needs needsproc ;
-    spacereq spacereqproc ;
-    int expproc ;
-} procrec ;
+    exp nameproc;
+    int tlrecstart;
+    needs needsproc;
+    spacereq spacereqproc;
+    int expproc;
+} procrec;
 
 
 /*
-  TYPE REPRESENTING REGISTER USAGE
-*/
+ *  TYPE REPRESENTING REGISTER USAGE
+ */
 
 typedef struct {
-    long fixed ;
-    long flt ;
-} space  ;
+    long fixed;
+    long flt;
+} space;
 
 
 /*
-  Type representing postlude chain
-*/
+ *  Type representing postlude chain
+ */
 typedef struct _postl {
-  exp postlude;
-  struct _postl * outer;
+	exp postlude;
+	struct _postl * outer;
 } postlude_chain;
 
 

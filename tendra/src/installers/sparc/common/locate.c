@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -54,16 +54,6 @@
  * $TenDRA$
  */
 
-
-
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 #define SPARCTRANS_CODE
 #include "config.h"
@@ -110,14 +100,14 @@ boff(exp e)
 		long sno = gl->dec_u.dec_val.sym_number;
 		an.base = (int) (-(sno + 1));
 		an.offset = 0;
-	} 
+	}
 	else if (isparam (e) && name(son(e)) != formal_callee_tag) {
 		/* parameter, positive offset from %fp */
 		/* assert (name (son (e)) == clear_tag) ;*/
 		an.base = R_FP;
 		an.offset = BITS2BYTES(no (son (e)) + proc_state.params_offset);
 		assert (an.offset >= BITS2BYTES(proc_state.params_offset));
-	} 
+	}
 	else if (isparam(e) && name(son(e)) == formal_callee_tag){
 		an.base = R_SP;
 		an.offset = BITS2BYTES(no(son(e)));
@@ -142,8 +132,8 @@ boff(exp e)
 		an.base = R_SP;
 		an.base = call_base_reg;
 		an.offset = BYTE_OFFSET_PART(n) + BITS2BYTES(PARAMS_OFFSET);
-		
-	}	
+
+	}
 	else if (b == R_FP) {
 		/* locally declared things, negative offset from %fp */
 		an.base = R_FP;
@@ -151,34 +141,34 @@ boff(exp e)
 			BYTE_OFFSET_PART(n) + BITS2BYTES(proc_state.locals_offset) /*-
 																		*      BITS2BYTES(proc_state.callee_size)*/;
 		assert (an.offset <= 0);
-		assert (an.offset >= -(BITS2BYTES(proc_state.locals_space /*+ 
+		assert (an.offset >= -(BITS2BYTES(proc_state.locals_space /*+
 																   *				       proc_state.callee_size*/)));
-	} 
+	}
 	else if (b == R_SP) {
 		/* on stack temps */
 		an.base = R_SP;
 		an.offset = BYTE_OFFSET_PART(n);
-	} 
+	}
 #if 0
 	else if (b == local_reg && Has_vcallees){
 		an.base = b;
 		an.offset = -(BITS2BYTES(proc_state.locals_space)) +
 			BYTE_OFFSET_PART(n) + BITS2BYTES(proc_state.locals_offset);
-	}	
+	}
 #endif
 	else if (b <= 31) {
 		/* other base register and offset */
 		an.base = b;
 		an.offset = BYTE_OFFSET_PART(n);
-	}	
-	
+	}
+
 #if 1
 	/* obsolete */
 	else if (b == 32) {
 		/* global names */
 		an.base = - ADDR_PART(n);
 		an.offset = 0;
-	} 
+	}
 	else if (b == 33) {
 		/* local data label : LDNNNN */
 		an.base = ADDR_PART(n);
@@ -194,7 +184,7 @@ boff(exp e)
 int
 boff_env_offset(exp e)
 {
-	/* used ONLY for envoffsets as init values for globals. 
+	/* used ONLY for envoffsets as init values for globals.
 	 *   cf make_proc_tag_code */
 	int n = no (e);
 	/*int b = REG_PART(n);*/
@@ -203,7 +193,7 @@ boff_env_offset(exp e)
 	exp x = e;
 	assert (! isglob (e));
 	/*assert (b == R_FP);*/
-	
+
 #define VAL_params_offset ((16 + 1) * 32)
 #define VAL_locals_offset (0)
 	while (name(x) != proc_tag && name(x)!=general_proc_tag){
@@ -220,12 +210,12 @@ boff_env_offset(exp e)
 			offset = BITS2BYTES(no (son (e)) + VAL_params_offset);
 			assert (offset >= BITS2BYTES(VAL_params_offset));
 		}
-	} 
+	}
 	else {
 		/* locally declared things, negative offset from %fp */
 		/* Now we need the stack size from the procrec, so find the proc */
 		long locals_space;
-		
+
 		locals_space = procrecs[no(x)].spacereqproc.stack;
 		locals_space = (locals_space +63) &~63; /* 8 byte aligned */
 		offset = -(BITS2BYTES(locals_space)) +
@@ -234,14 +224,14 @@ boff_env_offset(exp e)
 		assert (offset >= -(BITS2BYTES(locals_space)));
 	}
 	return (offset);
-}	
+}
 
 
 /*
  *  AUXILLIARY LOCATION ROUTINE
  *
  *  Finds the address of the expression e using shape s.  sp gives the
- *  available t-registers for any inner evaluation.  dreg is 
+ *  available t-registers for any inner evaluation.  dreg is
  *  historical.
  */
 
@@ -252,7 +242,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	ans aa;
 	where wans;
 	a = ashof (s);
-	
+
 	switch (name (e)) {
     case name_tag : {
 		/* this a locally declared name ... */
@@ -265,7 +255,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			w = locate (son (dc), sp, sh (son (dc)), dreg);
 			if (no (e) == 0) {
 				aa = w.answhere;
-			} 
+			}
 			else {
 				instore is;
 				switch (discrim (w.answhere)) {
@@ -280,12 +270,12 @@ locate1(exp e, space sp, shape s, int dreg)
 				}
 				setinsalt (aa, is);
 			}
-		} 
+		}
 		else if (props (dc) & inreg_bits) {
 			/* ... it has been allocated in a fixed point register */
 			if (var) {
 				setregalt (aa, no (dc));
-			} 
+			}
 			else {
 				instore b;
 				b.b.base = no (dc);
@@ -293,14 +283,14 @@ locate1(exp e, space sp, shape s, int dreg)
 				b.adval = 1;
 				setinsalt (aa, b);
 			}
-		} 
+		}
 		else if (props (dc) & infreg_bits) {
 			/* ... it has been allocated in a floating point register */
 			freg fr;
 			fr.fr = no (dc);
 			fr.dble = (bool) ((a.ashsize == 64) ? 1 : 0);
 			setfregalt (aa, fr);
-		} 
+		}
 		else {
 			/* ... it is in memory */
 			instore is;
@@ -309,7 +299,7 @@ locate1(exp e, space sp, shape s, int dreg)
 						 name (son (dc)) == proc_tag ||
 						 name(son(dc)) == general_proc_tag))) {
 				is.adval = 1;
-			} 
+			}
 			else {
 				is.adval = 0;
 			}
@@ -330,10 +320,10 @@ locate1(exp e, space sp, shape s, int dreg)
 		int ind = R_NO_REG;
 		instore is;
 		ans asum;
-		
+
 		wsum = locate (sum, sp, sh (sum), 0);
 		asum = wsum.answhere;
-		
+
 		/* answer is going to be wsum displaced by integer result of
 		 *       evaluating bro (sum) */
 		switch (discrim (asum)) {
@@ -353,23 +343,23 @@ locate1(exp e, space sp, shape s, int dreg)
 				}
 				nsp = guardreg (b.base, sp);
 				addend = reg_operand (bro (sum), nsp);
-				
+
 				/* evaluate the displacement ... */
 				if (dreg == 0) dreg = getreg (nsp.fixed);
 				rrr_ins (i_add, b.base, addend, dreg);
 				clear_reg (dreg);
-				
+
 				/* ... add it to the base register into new reg */
 				b.base = dreg;
 				is.b = b;
 				setinsalt (aa, is);
 				wans.answhere = aa;
 				wans.ashwhere = a;
-				
+
 				/* ...and use it as base a literal base-offset result */
 				keepexp (e, aa);
 				return (wans);
-			} 
+			}
 			else {
 				/* wsum represents an actual pointer in store ... */
 				/* ... so load it into a good register */
@@ -388,7 +378,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		}
 		}
 		/*register ind contains the evaluation of 1st operand of addptr*/
-		if (name (bro (sum)) == env_offset_tag || 
+		if (name (bro (sum)) == env_offset_tag ||
 			name (bro(sum)) == general_env_offset_tag) {
 			is.b.base = ind;
 			is.b.offset = boff_env_offset(son(bro(sum)));
@@ -420,7 +410,7 @@ locate1(exp e, space sp, shape s, int dreg)
 			isa.b.base = ind;
 			isa.b.offset = -no (e);
 			setinsalt (aa, isa);
-		} 
+		}
 		else {
 			if (dreg == 0) dreg = getreg (sp.fixed);
 			rrr_ins (i_sub, ind,
@@ -459,7 +449,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		case inreg : {
 			/* wans is a pointer in a register */
 			instore isa;
-			
+
 			isa.b.base = regalt (wans.answhere);
 			isa.adval = 1;
 			isa.b.offset = BITS2BYTES(no (e));
@@ -490,7 +480,7 @@ locate1(exp e, space sp, shape s, int dreg)
 				/* literal store address, make it a direct one */
 				isa.adval = 0;
 				setinsalt (aa, isa);
-			} 
+			}
 			else {
 				/* actual pointer in store so load it into reg and
 				 *	       deliver direct base-offset (reg, 0) */
@@ -594,7 +584,7 @@ locate(exp e, space sp, shape s, int dreg)
 	ak = iskept (e);
 	if (discrim (ak) == inreg && regalt (ak) == 0) {
 		w = locate1 (e, sp, s, dreg);
-	} 
+	}
 	else {
 		w.answhere = ak;
 		w.ashwhere = ashof (s);

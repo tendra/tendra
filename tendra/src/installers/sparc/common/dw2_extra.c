@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,14 +54,6 @@
  * $TenDRA$
  */
 
-
-/*
- *			    VERSION INFORMATION
- *			    ===================
- *
- *--------------------------------------------------------------------------
- *$Header$
- *--------------------------------------------------------------------------*/
 
 #include "config.h"
 #include "common_types.h"
@@ -212,7 +204,7 @@ find_loc(exp e)
 {
 	loc_s l;
 	switch (name (e)) {
-		
+
     case name_tag : {
 		if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
 							   !(brog(son(e))->dec_u.dec_val.extnamed))) {
@@ -264,7 +256,7 @@ find_loc(exp e)
 						l = find_in_store (son(e), (long)no(e)/8);
 		break;
     }
-		
+
     case cont_tag :
     case contvol_tag : {
 		if (name(son(e)) == name_tag && (isdiscarded(son(e)) ||
@@ -326,7 +318,7 @@ find_loc(exp e)
 							l = find_in_store (son(son(e)), (long)no(son(e))/8);
 		break;
     }
-		
+
     case reff_tag : {
 		l = find_loc (son(e));
 		if (l.key == L_GLOB || l.key == L_REGOFF)
@@ -341,7 +333,7 @@ find_loc(exp e)
 				l.key = L_INDIRECT;
 		break;
     }
-		
+
     default:
 		failer ("unimplemented location condition");
 	}
@@ -603,7 +595,7 @@ dw2_locate_exp(exp e, int locate_const, int cx)
 	}
 	if (no_location)
 		length = 0;
-	
+
 	if (within_loclist)
 		out16 ();
 	else
@@ -681,7 +673,7 @@ dw2_prepare_locate(exp id)
 	/* bool leaf = (bool) ((pprops & anyproccall) == 0) ;	*/
 	long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
 	long st = sppr->stack ;		/* space for locals in bits */
-	
+
 	Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
 	/* callee_start_reg as initialisation */
 	call_base_reg = R_NO_REG;	/* needs reset at apply_general */
@@ -992,10 +984,10 @@ dw2_cie()
 	out8 (); uleb128 ((unsigned long)framecode_factor); d_outnl ();
 	out8 (); sleb128 ((long)framedata_factor); d_outnl ();
 	out8 (); outn ((long)retaddr_column); d_outnl ();	/* return address column */
-	
+
 	out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
 	sleb128 ((long) 8); d_outnl ();		/* sparc entry rules, ret offset 8 */
-	
+
 	for (i = R_FIRST; i <= R_LAST; i++) {
 		if ((i > R_G0 && i <= (R_G0 + g_reg_max)) ||
 			(i >= R_O0 && i <= R_O7 && i != R_SP)) {
@@ -1210,7 +1202,7 @@ dw_allocated(dg_name nm, exp id)
 		regassns[reg].share_set = (void *)0;
 	}
 	for (i=0; i<TRACKREGS; i++) {
-		if (regexps[i].keptexp && 
+		if (regexps[i].keptexp &&
 			(regexps[i].iscont ? (name(x) == cont_tag &&
 								  sim_exp (son(x), regexps[i].keptexp))
 			 : sim_exp (x, regexps[i].keptexp))) {

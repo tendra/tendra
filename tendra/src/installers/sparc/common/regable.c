@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #define SPARCTRANS_CODE
@@ -75,72 +64,71 @@ $Header$
 #include "regable.h"
 
 /*
-  DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?
-*/
+ *  DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?
+ */
 
-bool valregable 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s ){
-  if ( is_floating ( name ( s ) ) ) {
-    /* Floating point values don't go in fixed registers */
-    return ( 0 ) ;
-  } 
-  else {
-    ash a ;
-    a = ashof ( s ) ;
-    if ( a.ashsize > 32 ) {
-      /* Reject anything too big */
-      return ( 0 ) ;
-    } 
-    else if ( name ( s ) == cpdhd || name (s) == nofhd) {
-      /* Compound shapes are not put in registers */
-      return ( 0 ) ;
-    } 
-    else if ( /*a.ashsize == a.ashalign && a.ashalign !=*/ 1 ) {
-      /* Bitfields are put in registers */
-      return ( 1 ) ;
-    }
-  }
-  return ( 0 ) ;
+bool
+valregable(shape s)
+{
+	if (is_floating (name (s))) {
+		/* Floating point values don't go in fixed registers */
+		return (0);
+	}
+	else {
+		ash a;
+		a = ashof (s);
+		if (a.ashsize > 32) {
+			/* Reject anything too big */
+			return (0);
+		}
+		else if (name (s) == cpdhd || name (s) == nofhd) {
+			/* Compound shapes are not put in registers */
+			return (0);
+		}
+		else if (/*a.ashsize == a.ashalign && a.ashalign !=*/ 1) {
+			/* Bitfields are put in registers */
+			return (1);
+		}
+	}
+	return (0);
 }
 
 
 /*
-  DOES THE EXPRESSION e FIT INTO A FIXED REGISTER?
-*/
+ *  DOES THE EXPRESSION e FIT INTO A FIXED REGISTER?
+ */
 
-bool fixregable 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
-  if ( !isvis ( e ) && !isoutpar ( e) && !isglob ( e ) && !isenvoff(e) &&
-       name(son(e)) != caller_name_tag) {
-    shape s = sh ( son ( e ) ) ;
-    return ( valregable ( s ) ) ;
-  }
-  return ( 0 ) ;
+bool
+fixregable(exp e)
+{
+	if (!isvis (e) && !isoutpar (e) && !isglob (e) && !isenvoff(e) &&
+		name(son(e)) != caller_name_tag) {
+		shape s = sh (son (e));
+		return (valregable (s));
+	}
+	return (0);
 }
 
 
 /*
-  DOES THE EXPRESSION e FIT INTO A FLOATING POINT REGISTER?
-*/
+ *  DOES THE EXPRESSION e FIT INTO A FLOATING POINT REGISTER?
+ */
 
-bool floatregable 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e ){
-  if ( !isvis ( e ) && !isoutpar ( e) && !isglob ( e ) && !isenvoff(e) &&
-       name(son(e)) != caller_name_tag) {
-    shape s = sh ( son ( e ) ) ;
-    if ( is_floating ( name ( s ) ) ) {
+bool
+floatregable(exp e)
+{
+	if (!isvis (e) && !isoutpar (e) && !isglob (e) && !isenvoff(e) &&
+		name(son(e)) != caller_name_tag) {
+		shape s = sh (son (e));
+		if (is_floating (name (s))) {
 #if use_long_double
-      if ( shape_size ( s ) > 64 ) return ( 0 ) ;
+			if (shape_size (s) > 64) return (0);
 #endif
-      return ( 1 ) ;
-    } 
-    else {
-      return ( 0 ) ;
-    }
-  }
-  return ( 0 ) ;
+			return (1);
+		}
+		else {
+			return (0);
+		}
+	}
+	return (0);
 }
-

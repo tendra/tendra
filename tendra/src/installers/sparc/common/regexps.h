@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,36 +34,25 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
  *        it may be put.
  *
  * $TenDRA$
-*/
-
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header$
---------------------------------------------------------------------------*/
+ */
 
 
 #ifndef REGEXPS_INCLUDED
@@ -72,27 +61,27 @@ $Header$
 #include "exptypes.h"
 
 typedef struct {
-    ans inans ;
-    exp keptexp ;
-    bool iscont ;
-} regpeep ;
+    ans inans;
+    exp keptexp;
+    bool iscont;
+} regpeep;
 
 extern regpeep regexps [];
 
-extern ans iskept PROTO_S ( ( exp ) ) ;
-extern bool couldbe PROTO_S ( ( exp, exp ) ) ;
-extern bool couldeffect PROTO_S ( ( exp, exp ) ) ;
-extern bool dependson PROTO_S ( ( exp, bool, exp ) ) ;
-extern bool eq_sze PROTO_S ( ( shape, shape ) ) ;
-extern bool sim_exp PROTO_S ( ( exp, exp ) ) ;
-extern bool sim_explist PROTO_S ( ( exp, exp ) ) ;
-extern void clear_all PROTO_S ( ( void ) ) ;
-extern void clear_dep_reg PROTO_S ( ( exp ) ) ;
-extern void clear_reg PROTO_S ( ( int ) ) ;
-extern void keepcont PROTO_S ( ( exp, int ) ) ;
-extern void keepexp PROTO_S ( ( exp, ans ) ) ;
-extern void keepreg PROTO_S ( ( exp, int ) ) ;
+extern ans iskept(exp);
+extern bool couldbe(exp, exp);
+extern bool couldeffect(exp, exp);
+extern bool dependson(exp, bool, exp);
+extern bool eq_sze(shape, shape);
+extern bool sim_exp(exp, exp);
+extern bool sim_explist(exp, exp);
+extern void clear_all(void);
+extern void clear_dep_reg(exp);
+extern void clear_reg(int);
+extern void keepcont(exp, int);
+extern void keepexp(exp, ans);
+extern void keepreg(exp, int);
 
-#define clear_freg( R ) clear_reg ( ( ( R ) >> 1 ) + 32 )
+#define clear_freg(R)	clear_reg(((R) >> 1) + 32)
 
 #endif /* REGEXPS_INCLUDED */
