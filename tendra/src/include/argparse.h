@@ -241,7 +241,9 @@ typedef enum {
 	AT_FOLLOWING,
 	AT_EMPTY,
 	AT_FOLLOWING2,
-	AT_FOLLOWING3
+	AT_FOLLOWING3,
+	AT_SET,
+	AT_RESET
 } ArgTypeT;
 
 typedef void (*ArgProcP)(char *, void *, ...);

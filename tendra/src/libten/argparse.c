@@ -134,10 +134,16 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 			} else {
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
-					*((BoolP) chosen->closure) = c == '-';
+					*((BoolT*) chosen->closure) = c == '-';
 					break;
 				case AT_NEG_SWITCH:
-					*((BoolP) chosen->closure) = c == '+';
+					*((BoolT*) chosen->closure) = c == '+';
+					break;
+				case AT_SET:
+					*((BoolT*)chosen->closure) = TRUE;
+					break;
+				case AT_RESET:
+					*((BoolT*)chosen->closure) = FALSE;
 					break;
 				case AT_PROC_SWITCH:
 					(*chosen->proc) (option, chosen->closure, c == '-');
@@ -237,10 +243,16 @@ arg_parse_arguments(ArgListT *arg_list, int argc, char **argv)
 				}
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
-					*((BoolP) chosen->closure) = c == '-';
+					*((BoolT*) chosen->closure) = c == '-';
 					break;
 				case AT_NEG_SWITCH:
-					*((BoolP) chosen->closure) = c == '+';
+					*((BoolT*) chosen->closure) = c == '+';
+					break;
+				case AT_SET:
+					*((BoolT*)chosen->closure) = TRUE;
+					break;
+				case AT_RESET:
+					*((BoolT*)chosen->closure) = FALSE;
 					break;
 				case AT_PROC_SWITCH:
 					(*chosen->proc) (opt, chosen->closure, c == '-');
