@@ -48,6 +48,8 @@ TMP_DIR = /var/tmp
 
 # Binary paths
 
+SHELL = /bin/sh
+
 ENV ?=		/usr/bin/env
 
 COPY ?=		${ENV} cp
