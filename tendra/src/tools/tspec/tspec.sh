@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec @@MACH_BASE@@/bin/tspec1 \${@+"\$@"}
+exec @@MACH_BASE@@/bin/tspec \${@+"\$@"}
