@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,142 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.2  1998/03/11  11:04:00  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.27  1997/12/04  19:54:30  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.26  1997/10/10  18:33:10  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.25  1997/08/23  13:54:43  pwe
- * initial ANDF-DE
- *
- * Revision 1.24  1997/04/17  12:00:03  pwe
- * dwarf2 support
- *
- * Revision 1.23  1997/04/04  15:23:15  pwe
- * tidy re old DWARF interface
- *
- * Revision 1.22  1997/03/26  13:04:55  pwe
- * general proc compatibility
- *
- * Revision 1.21  1997/03/24  17:09:40  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.20  1997/02/18  11:48:36  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.19  1996/09/18  12:04:04  pwe
- * fixed PIC_code
- *
- * Revision 1.18  1996/08/27  14:09:18  pwe
- * ensure all varargs are stored, and ptr is not64bit
- *
- * Revision 1.17  1996/08/15  15:34:57  pwe
- * mod for PWE ownership
- *
- * Revision 1.16  1995/12/15  11:14:57  john
- * Change for dynamic initialisations on SunOS
- *
- * Revision 1.15  1995/11/14  14:25:05  john
- * Fix to dynamic initialisations
- *
- * Revision 1.14  1995/11/07  09:53:53  john
- * Change to register allocation for general procs
- *
- * Revision 1.13  1995/10/25  17:13:50  john
- * Fixed error in init segment
- *
- * Revision 1.12  1995/10/06  10:22:09  john
- * Changed optimisation level for general procs (SunOS only).
- *
- * Revision 1.11  1995/10/04  09:01:22  john
- * Added dynamic initialisation on Solaris
- *
- * Revision 1.10  1995/09/22  13:07:48  john
- * Change for new exception handling
- *
- * Revision 1.9  1995/09/13  11:01:44  john
- * compilation fixes
- *
- * Revision 1.8  1995/08/04  15:47:14  john
- * Minor change
- *
- * Revision 1.7  1995/07/17  16:46:16  john
- * Fixed error on SunOS
- *
- * Revision 1.6  1995/07/14  16:34:26  john
- * Changes for new spec
- *
- * Revision 1.5  1995/06/30  08:29:50  john
- * Changed size of callee area
- *
- * Revision 1.4  1995/06/14  15:36:38  john
- * Added support for trap error treatment & stack limits.  Also, some
- * reformatting.
- *
- * Revision 1.3  1995/05/26  13:02:20  john
- * Change for new spec
- *
- * Revision 1.2  1995/04/20  08:07:08  john
- * Moved source stabs record before initial text section
- *
- * Revision 1.1.1.1  1995/03/13  10:19:00  john
- * Entered into CVS
- *
- * Revision 1.4  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.3  1994/07/04  08:31:36  djch
- * changes for new versioning info.
- *
- * Revision 1.2  1994/05/03  15:12:43  djch
- * removed extract.h and the inner procs stuff, now done in the common section
- *
- * Revision 1.11  94/02/21  16:13:59  16:13:59  ra (Robert Andrews)
- * Correct unit weight in weightsv.
- * 
- * Revision 1.10  93/09/27  14:57:41  14:57:41  ra (Robert Andrews)
- * Added support for weak linking.  Added support for DWARF diagnostic
- * routines.
- * 
- * Revision 1.9  93/08/27  11:40:10  11:40:10  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.8  93/08/18  11:17:49  11:17:49  ra (Robert Andrews)
- * Removed stray spaces from outs command.
- * 
- * Revision 1.7  93/08/13  14:48:20  14:48:20  ra (Robert Andrews)
- * Removed a comment.
- * 
- * Revision 1.6  93/07/12  15:20:32  15:20:32  ra (Robert Andrews)
- * The exit_translator routine now outputs any special_routines which
- * have been used but are not defined in the system libraries.
- * 
- * Revision 1.5  93/07/05  18:29:07  18:29:07  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * Added support for PIC by setting avoid_L7 if necessary.
- * 
- * Revision 1.4  93/06/29  14:49:03  14:49:03  ra (Robert Andrews)
- * Messed up version control header.  Revision 1.2 was the important one.
- * It involved a minor reorganisation and reformat.  The routines
- * init_translator and exit_translator were introduced.
- * 
- * Revision 1.1  93/06/24  14:59:37  14:59:37  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
