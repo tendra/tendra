@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -51,14 +84,13 @@
     r such that n <= 2**r).
 */
 
-number log2
-    PROTO_N ( ( n ) )
-    PROTO_T ( number n )
+number
+log2(number n)
 {
-    number r ;
-    number m ;
-    for ( r = 0, m = 1 ; n > m && m ; r++, m *= 2 ) /* empty */ ;
-    return ( r ) ;
+    number r;
+    number m;
+    for ( r = 0, m = 1; n > m && m; r++, m *= 2 ) /* empty */ ;
+    return(r);
 }
 
 
@@ -69,18 +101,18 @@ number log2
     output.h.
 */
 
-LIST ( ECONST_P ) crt_ec = NULL_list ( ECONST_P ) ;
-LIST ( ENUM_P ) crt_en = NULL_list ( ENUM_P ) ;
-LIST ( IDENTITY_P ) crt_id = NULL_list ( IDENTITY_P ) ;
-LIST ( PRIMITIVE_P ) crt_prim = NULL_list ( PRIMITIVE_P ) ;
-LIST ( STRUCTURE_P ) crt_str = NULL_list ( STRUCTURE_P ) ;
-LIST ( UNION_P ) crt_union = NULL_list ( UNION_P ) ;
-LIST ( COMPONENT_P ) crt_cmp = NULL_list ( COMPONENT_P ) ;
-LIST ( FIELD_P ) crt_fld = NULL_list ( FIELD_P ) ;
-LIST ( MAP_P ) crt_map = NULL_list ( MAP_P ) ;
-LIST ( ARGUMENT_P ) crt_arg = NULL_list ( ARGUMENT_P ) ;
-LIST ( TYPE_P ) crt_type = NULL_list ( TYPE_P ) ;
-int unique = 0 ;
+LIST(ECONST_P)crt_ec = NULL_list(ECONST_P);
+LIST(ENUM_P)crt_en = NULL_list(ENUM_P);
+LIST(IDENTITY_P)crt_id = NULL_list(IDENTITY_P);
+LIST(PRIMITIVE_P)crt_prim = NULL_list(PRIMITIVE_P);
+LIST(STRUCTURE_P)crt_str = NULL_list(STRUCTURE_P);
+LIST(UNION_P)crt_union = NULL_list(UNION_P);
+LIST(COMPONENT_P)crt_cmp = NULL_list(COMPONENT_P);
+LIST(FIELD_P)crt_fld = NULL_list(FIELD_P);
+LIST(MAP_P)crt_map = NULL_list(MAP_P);
+LIST(ARGUMENT_P)crt_arg = NULL_list(ARGUMENT_P);
+LIST(TYPE_P)crt_type = NULL_list(TYPE_P);
+int unique = 0;
 
 
 /*
@@ -89,14 +121,14 @@ int unique = 0 ;
     This gives the file which is currently being used for output.
 */
 
-FILE *output_file = NULL ;
-static int output_posn = 0 ;
-static char output_buff [256] ;
-static FILE *output_file_old = NULL ;
-static int column = 0 ;
-int verbose_output = 1 ;
-int const_tokens = 1 ;
-int have_varargs = 1 ;
+FILE *output_file = NULL;
+static int output_posn = 0;
+static char output_buff[256];
+static FILE *output_file_old = NULL;
+static int column = 0;
+int verbose_output = 1;
+int const_tokens = 1;
+int have_varargs = 1;
 
 
 /*
@@ -105,26 +137,25 @@ int have_varargs = 1 ;
     This routine prints the single character c.
 */
 
-static void output_char
-    PROTO_N ( ( c ) )
-    PROTO_T ( int c )
+static void
+output_char(int c)
 {
-    int i = output_posn ;
-    output_buff [i] = ( char ) c ;
-    if ( ++i >= 250 || c == '\n' ) {
-	output_buff [i] = 0 ;
-	IGNORE fputs ( output_buff, output_file ) ;
-	i = 0 ;
+    int i = output_posn;
+    output_buff[i] = (char)c;
+    if (++i >= 250 || c == '\n') {
+	output_buff[i] = 0;
+	IGNORE fputs(output_buff, output_file);
+	i = 0;
     }
-    if ( c == '\n' ) {
-	column = 0 ;
-    } else if ( c == '\t' ) {
-	column = 8 * ( ( column + 8 ) / 8 ) ;
+    if (c == '\n') {
+	column = 0;
+    } else if (c == '\t') {
+	column = 8 *((column + 8) / 8);
     } else {
-	column++ ;
+	column++;
     }
-    output_posn = i ;
-    return ;
+    output_posn = i;
+    return;
 }
 
 
@@ -134,12 +165,11 @@ static void output_char
     This routine prints the string s.
 */
 
-static void output_string
-    PROTO_N ( ( s ) )
-    PROTO_T ( CONST char *s )
+static void
+output_string(CONST char *s)
 {
-    for ( ; *s ; s++ ) output_char ( *s ) ;
-    return ;
+    for (; *s; s++)output_char(*s);
+    return;
 }
 
 
@@ -150,11 +180,11 @@ static void output_string
     character.
 */
 
-void flush_output
-    PROTO_Z ()
+void
+flush_output(void)
 {
-    if ( output_posn ) output_char ( '\n' ) ;
-    return ;
+    if (output_posn)output_char('\n');
+    return;
 }
 
 
@@ -164,53 +194,52 @@ void flush_output
     This routine prints the type t.
 */
 
-void output_type
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+void
+output_type(TYPE_P t)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) {
-	case type_vec_tag : {
-	    TYPE_P_P s = type_vec_sub ( t0 ) ;
-	    output_string ( "VEC ( " ) ;
-	    output_type ( DEREF_ptr ( s ) ) ;
-	    output_string ( " )" ) ;
-	    break ;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0)) {
+	case type_vec_tag: {
+	    TYPE_P_P s = type_vec_sub(t0);
+	    output_string("VEC ( ");
+	    output_type(DEREF_ptr(s));
+	    output_string(" )");
+	    break;
 	}
-	case type_ptr_tag : {
-	    TYPE_P_P s = type_ptr_sub ( t0 ) ;
-	    output_string ( "PTR ( " ) ;
-	    output_type ( DEREF_ptr ( s ) ) ;
-	    output_string ( " )" ) ;
-	    break ;
+	case type_ptr_tag: {
+	    TYPE_P_P s = type_ptr_sub(t0);
+	    output_string("PTR ( ");
+	    output_type(DEREF_ptr(s));
+	    output_string(" )");
+	    break;
 	}
-	case type_list_tag : {
-	    TYPE_P_P s = type_list_sub ( t0 ) ;
-	    output_string ( "LIST ( " ) ;
-	    output_type ( DEREF_ptr ( s ) ) ;
-	    output_string ( " )" ) ;
-	    break ;
+	case type_list_tag: {
+	    TYPE_P_P s = type_list_sub(t0);
+	    output_string("LIST ( ");
+	    output_type(DEREF_ptr(s));
+	    output_string(" )");
+	    break;
 	}
-	case type_stack_tag : {
-	    TYPE_P_P s = type_stack_sub ( t0 ) ;
-	    output_string ( "STACK ( " ) ;
-	    output_type ( DEREF_ptr ( s ) ) ;
-	    output_string ( " )" ) ;
-	    break ;
+	case type_stack_tag: {
+	    TYPE_P_P s = type_stack_sub(t0);
+	    output_string("STACK ( ");
+	    output_type(DEREF_ptr(s));
+	    output_string(" )");
+	    break;
 	}
-	case type_vec_ptr_tag : {
-	    TYPE_P_P s = type_vec_ptr_sub ( t0 ) ;
-	    output_string ( "VEC_PTR ( " ) ;
-	    output_type ( DEREF_ptr ( s ) ) ;
-	    output_string ( " )" ) ;
-	    break ;
+	case type_vec_ptr_tag: {
+	    TYPE_P_P s = type_vec_ptr_sub(t0);
+	    output_string("VEC_PTR ( ");
+	    output_type(DEREF_ptr(s));
+	    output_string(" )");
+	    break;
 	}
 	default : {
-	    output_string ( name_type ( t ) ) ;
-	    break ;
+	    output_string(name_type(t));
+	    break;
 	}
     }
-    return ;
+    return;
 }
 
 
@@ -221,59 +250,58 @@ void output_type
     determines the depth to which identities are to be expanded.
 */
 
-static void output_type_id
-    PROTO_N ( ( t, depth ) )
-    PROTO_T ( TYPE_P t X int depth )
+static void
+output_type_id(TYPE_P t, int depth)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) {
-	case type_vec_tag : {
-	    TYPE_P_P s = type_vec_sub ( t0 ) ;
-	    output_string ( "vec_" ) ;
-	    output_type_id ( DEREF_ptr ( s ), depth ) ;
-	    break ;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0)) {
+	case type_vec_tag: {
+	    TYPE_P_P s = type_vec_sub(t0);
+	    output_string("vec_");
+	    output_type_id(DEREF_ptr(s), depth);
+	    break;
 	}
-	case type_ptr_tag : {
-	    TYPE_P_P s = type_ptr_sub ( t0 ) ;
-	    output_string ( "ptr_" ) ;
-	    output_type_id ( DEREF_ptr ( s ), depth ) ;
-	    break ;
+	case type_ptr_tag: {
+	    TYPE_P_P s = type_ptr_sub(t0);
+	    output_string("ptr_");
+	    output_type_id(DEREF_ptr(s), depth);
+	    break;
 	}
-	case type_list_tag : {
-	    TYPE_P_P s = type_list_sub ( t0 ) ;
-	    output_string ( "list_" ) ;
-	    output_type_id ( DEREF_ptr ( s ), depth ) ;
-	    break ;
+	case type_list_tag: {
+	    TYPE_P_P s = type_list_sub(t0);
+	    output_string("list_");
+	    output_type_id(DEREF_ptr(s), depth);
+	    break;
 	}
-	case type_stack_tag : {
-	    TYPE_P_P s = type_stack_sub ( t0 ) ;
-	    output_string ( "stack_" ) ;
-	    output_type_id ( DEREF_ptr ( s ), depth ) ;
-	    break ;
+	case type_stack_tag: {
+	    TYPE_P_P s = type_stack_sub(t0);
+	    output_string("stack_");
+	    output_type_id(DEREF_ptr(s), depth);
+	    break;
 	}
-	case type_vec_ptr_tag : {
-	    TYPE_P_P s = type_vec_ptr_sub ( t0 ) ;
-	    output_string ( "vptr_" ) ;
-	    output_type_id ( DEREF_ptr ( s ), depth ) ;
-	    break ;
+	case type_vec_ptr_tag: {
+	    TYPE_P_P s = type_vec_ptr_sub(t0);
+	    output_string("vptr_");
+	    output_type_id(DEREF_ptr(s), depth);
+	    break;
 	}
-	case type_ident_tag : {
-	    IDENTITY_P id = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    if ( depth ) {
-		TYPE_P_P s = ident_defn ( id ) ;
-		output_type_id ( DEREF_ptr ( s ), depth - 1 ) ;
+	case type_ident_tag: {
+	    IDENTITY_P id = DEREF_ptr(type_ident_id(t0));
+	    if (depth) {
+		TYPE_P_P s = ident_defn(id);
+		output_type_id(DEREF_ptr(s), depth - 1);
 	    } else {
-		CLASS_ID_P nm = DEREF_ptr ( ident_id ( id ) ) ;
-		output_string ( DEREF_string ( cid_name ( nm ) ) ) ;
+		CLASS_ID_P nm = DEREF_ptr(ident_id(id));
+		output_string(DEREF_string(cid_name(nm)));
 	    }
-	    break ;
+	    break;
 	}
 	default : {
-	    output_string ( name_aux_type ( t ) ) ;
-	    break ;
+	    output_string(name_aux_type(t));
+	    break;
 	}
     }
-    return ;
+    return;
 }
 
 
@@ -283,49 +311,48 @@ static void output_type_id
     This routine print the size of the type t.
 */
 
-static void output_type_size
-    PROTO_N ( ( t ) )
-    PROTO_T ( TYPE_P t )
+static void
+output_type_size(TYPE_P t)
 {
-    TYPE t0 = DEREF_type ( t ) ;
-    switch ( TAG_type ( t0 ) ) {
-	case type_vec_tag : {
-	    TYPE_P_P s = type_vec_sub ( t0 ) ;
-	    output ( "SIZE_vec ( %TT )", DEREF_ptr ( s ) ) ;
-	    break ;
+    TYPE t0 = DEREF_type(t);
+    switch (TAG_type(t0)) {
+	case type_vec_tag: {
+	    TYPE_P_P s = type_vec_sub(t0);
+	    output("SIZE_vec ( %TT )", DEREF_ptr(s));
+	    break;
 	}
-	case type_ptr_tag : {
-	    TYPE_P_P s = type_ptr_sub ( t0 ) ;
-	    output ( "SIZE_ptr ( %TT )", DEREF_ptr ( s ) ) ;
-	    break ;
+	case type_ptr_tag: {
+	    TYPE_P_P s = type_ptr_sub(t0);
+	    output("SIZE_ptr ( %TT )", DEREF_ptr(s));
+	    break;
 	}
-	case type_list_tag : {
-	    TYPE_P_P s = type_list_sub ( t0 ) ;
-	    output ( "SIZE_list ( %TT )", DEREF_ptr ( s ) ) ;
-	    break ;
+	case type_list_tag: {
+	    TYPE_P_P s = type_list_sub(t0);
+	    output("SIZE_list ( %TT )", DEREF_ptr(s));
+	    break;
 	}
-	case type_stack_tag : {
-	    TYPE_P_P s = type_stack_sub ( t0 ) ;
-	    output ( "SIZE_stack ( %TT )", DEREF_ptr ( s ) ) ;
-	    break ;
+	case type_stack_tag: {
+	    TYPE_P_P s = type_stack_sub(t0);
+	    output("SIZE_stack ( %TT )", DEREF_ptr(s));
+	    break;
 	}
-	case type_vec_ptr_tag : {
-	    TYPE_P_P s = type_vec_ptr_sub ( t0 ) ;
-	    output ( "SIZE_vec_ptr ( %TT )", DEREF_ptr ( s ) ) ;
-	    break ;
+	case type_vec_ptr_tag: {
+	    TYPE_P_P s = type_vec_ptr_sub(t0);
+	    output("SIZE_vec_ptr ( %TT )", DEREF_ptr(s));
+	    break;
 	}
-	case type_ident_tag : {
-	    IDENTITY_P id = DEREF_ptr ( type_ident_id ( t0 ) ) ;
-	    output_type_size ( DEREF_ptr ( ident_defn ( id ) ) ) ;
-	    break ;
+	case type_ident_tag: {
+	    IDENTITY_P id = DEREF_ptr(type_ident_id(t0));
+	    output_type_size(DEREF_ptr(ident_defn(id)));
+	    break;
 	}
 	default : {
-	    output_string ( "SIZE_" ) ;
-	    output_string ( name_aux_type ( t ) ) ;
-	    break ;
+	    output_string("SIZE_");
+	    output_string(name_aux_type(t));
+	    break;
 	}
     }
-    return ;
+    return;
 }
 
 
@@ -338,554 +365,553 @@ static void output_type_size
     procedure in the form "%XY -> ....".
 */
 
-void output
-    PROTO_V ( ( char *s, ... ) )
-    /*VARARGS*/
+void
+output(char *s, ...) /*VARARGS*/
 {
-    char c ;
-    va_list args ;
-    char nbuff [100] ;
+    char c;
+    va_list args;
+    char nbuff[100];
 
 #if FS_STDARG
-    va_start ( args, s ) ;
+    va_start(args, s);
 #else
-    char *s ;
-    va_start ( args ) ;
-    s = va_arg ( args, char * ) ;
+    char *s;
+    va_start(args);
+    s = va_arg(args, char *);
 #endif
 
-    while ( c = *( s++ ), c != 0 ) {
-	if ( c == '%' ) {
-	    char *s0 = s ;
-	    c = *( s++ ) ;
-	    switch ( c ) {
+    while (c = *(s++), c != 0) {
+	if (c == '%') {
+	    char *s0 = s;
+	    c = *(s++);
+	    switch (c) {
 
-		case 'A' : {
+		case 'A': {
 		    /* Arguments */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %AN -> argument name */
-			if ( HAVE_ARGUMENT ) {
-			    string_P ps = arg_name ( CRT_ARGUMENT ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_ARGUMENT) {
+			    string_P ps = arg_name(CRT_ARGUMENT);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'T' ) {
+		    } else if (c == 'T') {
 			/* %AT -> argument type */
-			if ( HAVE_ARGUMENT ) {
-			    TYPE_P_P pt = arg_type ( CRT_ARGUMENT ) ;
-			    output_type ( DEREF_ptr ( pt ) ) ;
+			if (HAVE_ARGUMENT) {
+			    TYPE_P_P pt = arg_type(CRT_ARGUMENT);
+			    output_type(DEREF_ptr(pt));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'C' : {
+		case 'C': {
 		    /* Components */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %CN -> component name */
-			if ( HAVE_COMPONENT ) {
-			    string_P ps = cmp_name ( CRT_COMPONENT ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_COMPONENT) {
+			    string_P ps = cmp_name(CRT_COMPONENT);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'T' ) {
+		    } else if (c == 'T') {
 			/* %CT -> component type */
-			if ( HAVE_COMPONENT ) {
-			    TYPE_P_P pt = cmp_type ( CRT_COMPONENT ) ;
-			    output_type ( DEREF_ptr ( pt ) ) ;
+			if (HAVE_COMPONENT) {
+			    TYPE_P_P pt = cmp_type(CRT_COMPONENT);
+			    output_type(DEREF_ptr(pt));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'U' ) {
+		    } else if (c == 'U') {
 			/* %CU -> short component type */
-			if ( HAVE_COMPONENT ) {
-			    TYPE_P_P pt = cmp_type ( CRT_COMPONENT ) ;
-			    TYPE_P ta = DEREF_ptr ( pt ) ;
-			    char *tn = name_aux_type ( ta ) ;
-			    output_string ( tn ) ;
+			if (HAVE_COMPONENT) {
+			    TYPE_P_P pt = cmp_type(CRT_COMPONENT);
+			    TYPE_P ta = DEREF_ptr(pt);
+			    char *tn = name_aux_type(ta);
+			    output_string(tn);
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'V' ) {
+		    } else if (c == 'V') {
 			/* %CV -> component default value */
-			if ( HAVE_COMPONENT ) {
-			    string_P ps = cmp_name ( CRT_COMPONENT ) ;
-			    string s1 = DEREF_string ( ps ) ;
-			    if ( s1 ) output_string ( s1 ) ;
+			if (HAVE_COMPONENT) {
+			    string_P ps = cmp_name(CRT_COMPONENT);
+			    string s1 = DEREF_string(ps);
+			    if (s1)output_string(s1);
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'E' : {
+		case 'E': {
 		    /* Enumerations */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %EN -> enumeration name */
-			if ( HAVE_ENUM ) {
-			    CLASS_ID_P_P pi = en_id ( CRT_ENUM ) ;
-			    string_P ps = cid_name ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_ENUM) {
+			    CLASS_ID_P_P pi = en_id(CRT_ENUM);
+			    string_P ps = cid_name(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'M' ) {
+		    } else if (c == 'M') {
 			/* %EM -> short enumeration name */
-			if ( HAVE_ENUM ) {
-			    CLASS_ID_P_P pi = en_id ( CRT_ENUM ) ;
-			    string_P ps = cid_name_aux ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_ENUM) {
+			    CLASS_ID_P_P pi = en_id(CRT_ENUM);
+			    string_P ps = cid_name_aux(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'O' ) {
+		    } else if (c == 'O') {
 			/* %EO -> enumeration order */
-			if ( HAVE_ENUM ) {
-			    number_P pn = en_order ( CRT_ENUM ) ;
-			    number n = DEREF_number ( pn ) ;
-			    if ( *s == '2' ) {
-				n = log2 ( n ) ;
-				s++ ;
+			if (HAVE_ENUM) {
+			    number_P pn = en_order(CRT_ENUM);
+			    number n = DEREF_number(pn);
+			    if (*s == '2') {
+				n = log2(n);
+				s++;
 			    }
-			    sprintf_v ( nbuff, "%lu", n ) ;
-			    output_string ( nbuff ) ;
+			    sprintf_v(nbuff, "%lu", n);
+			    output_string(nbuff);
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'S' ) {
+		    } else if (c == 'S') {
 			/* %ES -> enumerator name */
-			if ( HAVE_ECONST ) {
-			    string_P ps = ec_name ( CRT_ECONST ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_ECONST) {
+			    string_P ps = ec_name(CRT_ECONST);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'V' ) {
+		    } else if (c == 'V') {
 			/* %EV -> enumerator value */
-			if ( HAVE_ECONST ) {
-			    number_P pn = ec_value ( CRT_ECONST ) ;
-			    number n = DEREF_number ( pn ) ;
-			    sprintf_v ( nbuff, "%lu", n ) ;
-			    output_string ( nbuff ) ;
+			if (HAVE_ECONST) {
+			    number_P pn = ec_value(CRT_ECONST);
+			    number n = DEREF_number(pn);
+			    sprintf_v(nbuff, "%lu", n);
+			    output_string(nbuff);
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'F' : {
+		case 'F': {
 		    /* Fields */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %FN -> field name */
-			if ( HAVE_FIELD ) {
-			    string_P ps = fld_name ( CRT_FIELD ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_FIELD) {
+			    string_P ps = fld_name(CRT_FIELD);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == ',' ) {
+		    } else if (c == ',') {
 			/* %F, -> ',' (if not the last field) */
-			if ( HAVE_FIELD ) {
-			    LIST ( FIELD_P ) nf = TAIL_list ( crt_fld ) ;
-			    if ( !IS_NULL_list ( nf ) ) output_string ( "," ) ;
+			if (HAVE_FIELD) {
+			    LIST(FIELD_P)nf = TAIL_list(crt_fld);
+			    if (!IS_NULL_list(nf))output_string(",");
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'I' : {
+		case 'I': {
 		    /* Identities */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %IN -> identity name */
-			if ( HAVE_IDENTITY ) {
-			    CLASS_ID_P_P pi = ident_id ( CRT_IDENTITY ) ;
-			    string_P ps = cid_name ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_IDENTITY) {
+			    CLASS_ID_P_P pi = ident_id(CRT_IDENTITY);
+			    string_P ps = cid_name(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'M' ) {
+		    } else if (c == 'M') {
 			/* %IM -> short identity name */
-			if ( HAVE_IDENTITY ) {
-			    CLASS_ID_P_P pi = ident_id ( CRT_IDENTITY ) ;
-			    string_P ps = cid_name_aux ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_IDENTITY) {
+			    CLASS_ID_P_P pi = ident_id(CRT_IDENTITY);
+			    string_P ps = cid_name_aux(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'T' ) {
+		    } else if (c == 'T') {
 			/* %IT -> identity type definition */
-			if ( HAVE_IDENTITY ) {
-			    TYPE_P_P pt = ident_defn ( CRT_IDENTITY ) ;
-			    output_type ( DEREF_ptr ( pt ) ) ;
+			if (HAVE_IDENTITY) {
+			    TYPE_P_P pt = ident_defn(CRT_IDENTITY);
+			    output_type(DEREF_ptr(pt));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'M' : {
+		case 'M': {
 		    /* Maps */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %MN -> map name */
-			if ( HAVE_MAP ) {
-			    string_P ps = map_name ( CRT_MAP ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_MAP) {
+			    string_P ps = map_name(CRT_MAP);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'R' ) {
+		    } else if (c == 'R') {
 			/* %MR -> map return type */
-			if ( HAVE_MAP ) {
-			    TYPE_P_P pt = map_ret_type ( CRT_MAP ) ;
-			    output_type ( DEREF_ptr ( pt ) ) ;
+			if (HAVE_MAP) {
+			    TYPE_P_P pt = map_ret_type(CRT_MAP);
+			    output_type(DEREF_ptr(pt));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'P' : {
+		case 'P': {
 		    /* Primitives */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %PN -> primitive name */
-			if ( HAVE_PRIMITIVE ) {
-			    CLASS_ID_P_P pi = prim_id ( CRT_PRIMITIVE ) ;
-			    string_P ps = cid_name ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_PRIMITIVE) {
+			    CLASS_ID_P_P pi = prim_id(CRT_PRIMITIVE);
+			    string_P ps = cid_name(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'M' ) {
+		    } else if (c == 'M') {
 			/* %PM -> short primitive name */
-			if ( HAVE_PRIMITIVE ) {
-			    CLASS_ID_P_P pi = prim_id ( CRT_PRIMITIVE ) ;
-			    string_P ps = cid_name_aux ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_PRIMITIVE) {
+			    CLASS_ID_P_P pi = prim_id(CRT_PRIMITIVE);
+			    string_P ps = cid_name_aux(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'D' ) {
+		    } else if (c == 'D') {
 			/* %PD -> primitive definition */
-			if ( HAVE_PRIMITIVE ) {
-			    string_P ps = prim_defn ( CRT_PRIMITIVE ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_PRIMITIVE) {
+			    string_P ps = prim_defn(CRT_PRIMITIVE);
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'S' : {
+		case 'S': {
 		    /* Structures */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %SN -> structure name */
-			if ( HAVE_STRUCTURE ) {
-			    CLASS_ID_P_P pi = str_id ( CRT_STRUCTURE ) ;
-			    string_P ps = cid_name ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_STRUCTURE) {
+			    CLASS_ID_P_P pi = str_id(CRT_STRUCTURE);
+			    string_P ps = cid_name(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'M' ) {
+		    } else if (c == 'M') {
 			/* %SM -> short structure name */
-			if ( HAVE_STRUCTURE ) {
-			    CLASS_ID_P_P pi = str_id ( CRT_STRUCTURE ) ;
-			    string_P ps = cid_name_aux ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_STRUCTURE) {
+			    CLASS_ID_P_P pi = str_id(CRT_STRUCTURE);
+			    string_P ps = cid_name_aux(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'T' : {
+		case 'T': {
 		    /* Types */
-		    c = *( s++ ) ;
-		    if ( have_varargs ) {
-			TYPE_P ta = va_arg ( args, TYPE_P ) ;
-			if ( c == 'N' ) {
+		    c = *(s++);
+		    if (have_varargs) {
+			TYPE_P ta = va_arg(args, TYPE_P);
+			if (c == 'N') {
 			    /* %TN -> type name */
-			    char *tn = name_type ( ta ) ;
-			    output_string ( tn ) ;
-			} else if ( c == 'M' ) {
+			    char *tn = name_type(ta);
+			    output_string(tn);
+			} else if (c == 'M') {
 			    /* %TM -> short type name */
-			    char *tn = name_aux_type ( ta ) ;
-			    output_string ( tn ) ;
-			} else if ( c == 'I' ) {
+			    char *tn = name_aux_type(ta);
+			    output_string(tn);
+			} else if (c == 'I') {
 			    /* %TI -> type identifier */
-			    output_type_id ( ta, 0 ) ;
-			} else if ( c == 'J' ) {
+			    output_type_id(ta, 0);
+			} else if (c == 'J') {
 			    /* %TJ -> type identifier */
-			    output_type_id ( ta, 1 ) ;
-			} else if ( c == 'S' ) {
+			    output_type_id(ta, 1);
+			} else if (c == 'S') {
 			    /* %TS -> type size */
-			    output_type_size ( ta ) ;
-			} else if ( c == 'T' ) {
+			    output_type_size(ta);
+			} else if (c == 'T') {
 			    /* %TT -> type definition */
-			    output_type ( ta ) ;
+			    output_type(ta);
 			} else {
-			    goto bad_format ;
+			    goto bad_format;
 			}
-			break ;
+			break;
 		    }
-		    goto bad_format ;
+		    goto bad_format;
 		}
 
-		case 'U' : {
+		case 'U': {
 		    /* Unions */
-		    c = *( s++ ) ;
-		    if ( c == 'N' ) {
+		    c = *(s++);
+		    if (c == 'N') {
 			/* %UN -> union name */
-			if ( HAVE_UNION ) {
-			    CLASS_ID_P_P pi = un_id ( CRT_UNION ) ;
-			    string_P ps = cid_name ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_UNION) {
+			    CLASS_ID_P_P pi = un_id(CRT_UNION);
+			    string_P ps = cid_name(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'M' ) {
+		    } else if (c == 'M') {
 			/* %UM -> short union name */
-			if ( HAVE_UNION ) {
-			    CLASS_ID_P_P pi = un_id ( CRT_UNION ) ;
-			    string_P ps = cid_name_aux ( DEREF_ptr ( pi ) ) ;
-			    output_string ( DEREF_string ( ps ) ) ;
+			if (HAVE_UNION) {
+			    CLASS_ID_P_P pi = un_id(CRT_UNION);
+			    string_P ps = cid_name_aux(DEREF_ptr(pi));
+			    output_string(DEREF_string(ps));
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
-		    } else if ( c == 'O' ) {
+		    } else if (c == 'O') {
 			/* %UO -> union order */
-			if ( HAVE_UNION ) {
-			    int_P pi = un_no_fields ( CRT_UNION ) ;
-			    number n = ( number ) DEREF_int ( pi ) ;
-			    c = *s ;
-			    if ( c == '2' ) {
-				n = log2 ( n ) ;
-				s++ ;
-			    } else if ( c == '3' ) {
-				n = log2 ( n + 1 ) ;
-				s++ ;
+			if (HAVE_UNION) {
+			    int_P pi = un_no_fields(CRT_UNION);
+			    number n = (number)DEREF_int(pi);
+			    c = *s;
+			    if (c == '2') {
+				n = log2(n);
+				s++;
+			    } else if (c == '3') {
+				n = log2(n + 1);
+				s++;
 			    }
-			    sprintf_v ( nbuff, "%lu", n ) ;
-			    output_string ( nbuff ) ;
+			    sprintf_v(nbuff, "%lu", n);
+			    output_string(nbuff);
 			} else {
-			    goto misplaced_arg ;
+			    goto misplaced_arg;
 			}
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'V' : {
+		case 'V': {
 		    /* %V -> overall version */
-		    int v1 = algebra->major_no ;
-		    int v2 = algebra->minor_no ;
-		    sprintf_v ( nbuff, "%d.%d", v1, v2 ) ;
-		    output_string ( nbuff ) ;
-		    break ;
+		    int v1 = algebra->major_no;
+		    int v2 = algebra->minor_no;
+		    sprintf_v(nbuff, "%d.%d", v1, v2);
+		    output_string(nbuff);
+		    break;
 		}
 
-		case 'X' : {
+		case 'X': {
 		    /* %X -> overall name */
-		    output_string ( algebra->name ) ;
-		    break ;
+		    output_string(algebra->name);
+		    break;
 		}
 
-		case 'Z' : {
-		    c = *( s++ ) ;
-		    if ( c == 'V' ) {
+		case 'Z': {
+		    c = *(s++);
+		    if (c == 'V') {
 			/* %ZV -> program version */
-			output_string ( progvers ) ;
-		    } else if ( c == 'X' ) {
+			output_string(progvers);
+		    } else if (c == 'X') {
 			/* %ZX -> program name */
-			output_string ( progname ) ;
+			output_string(progname);
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 'b' : {
+		case 'b': {
 		    /* %b -> backspace */
-		    if ( output_posn ) output_posn-- ;
-		    break ;
+		    if (output_posn)output_posn--;
+		    break;
 		}
 
-		case 'd' : {
+		case 'd': {
 		    /* %d -> integer (extra argument) */
-		    if ( have_varargs ) {
-			int da = va_arg ( args, int ) ;
-			sprintf_v ( nbuff, "%d", da ) ;
-			output_string ( nbuff ) ;
-			break ;
+		    if (have_varargs) {
+			int da = va_arg(args, int);
+			sprintf_v(nbuff, "%d", da);
+			output_string(nbuff);
+			break;
 		    }
-		    goto bad_format ;
+		    goto bad_format;
 		}
 
-		case 'e' : {
+		case 'e': {
 		    /* %e -> evaluated string (extra argument) */
-		    if ( have_varargs ) {
-			char *ea = va_arg ( args, char * ) ;
-			if ( ea ) output ( ea ) ;
-			break ;
+		    if (have_varargs) {
+			char *ea = va_arg(args, char *);
+			if (ea)output(ea);
+			break;
 		    }
-		    goto bad_format ;
+		    goto bad_format;
 		}
 
-		case 'n' : {
+		case 'n': {
 		    /* %n -> number (extra argument) */
-		    if ( have_varargs ) {
-			number na = va_arg ( args, number ) ;
-			sprintf_v ( nbuff, "%lu", na ) ;
-			output_string ( nbuff ) ;
-			break ;
+		    if (have_varargs) {
+			number na = va_arg(args, number);
+			sprintf_v(nbuff, "%lu", na);
+			output_string(nbuff);
+			break;
 		    }
-		    goto bad_format ;
+		    goto bad_format;
 		}
 
-		case 'p' : {
+		case 'p': {
 		    /* Pragmas */
-		    c = *( s++ ) ;
-		    if ( c == 't' ) {
+		    c = *(s++);
+		    if (c == 't') {
 			/* %pt -> '#pragma token' */
-			output_string ( "#pragma token" ) ;
-		    } else if ( c == 'i' ) {
+			output_string("#pragma token");
+		    } else if (c == 'i') {
 			/* %pi -> '#pragma interface' */
-			output_string ( "#pragma interface" ) ;
+			output_string("#pragma interface");
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case 's' : {
+		case 's': {
 		    /* %s -> string (extra argument) */
-		    if ( have_varargs ) {
-			char *sa = va_arg ( args, char * ) ;
-			if ( sa ) output_string ( sa ) ;
-			break ;
+		    if (have_varargs) {
+			char *sa = va_arg(args, char *);
+			if (sa)output_string(sa);
+			break;
 		    }
-		    goto bad_format ;
+		    goto bad_format;
 		}
 
-		case 't' : {
+		case 't': {
 		    /* %t[0-9]* -> tab */
-		    int t = 0 ;
-		    while ( c = *s, ( c >= '0' && c <= '9' ) ) {
-			t = 10 * t + ( c - '0' ) ;
-			s++ ;
+		    int t = 0;
+		    while (c = *s,(c >= '0' && c <= '9')) {
+			t = 10 * t + (c - '0');
+			s++;
 		    }
-		    while ( column < t ) output_char ( '\t' ) ;
-		    break ;
+		    while (column < t)output_char('\t');
+		    break;
 		}
 
-		case 'u' : {
+		case 'u': {
 		    /* %u -> unique */
-		    sprintf_v ( nbuff, "%d", unique ) ;
-		    output_string ( nbuff ) ;
-		    break ;
+		    sprintf_v(nbuff, "%d", unique);
+		    output_string(nbuff);
+		    break;
 		}
 
-		case 'x' : {
+		case 'x': {
 		    /* Expression tokens */
-		    c = *( s++ ) ;
-		    if ( c == 'r' ) {
+		    c = *(s++);
+		    if (c == 'r') {
 			/* %xr -> 'EXP rvalue' */
-			output_string ( "EXP" ) ;
-		    } else if ( c == 'l' ) {
+			output_string("EXP");
+		    } else if (c == 'l') {
 			/* %xl -> 'EXP lvalue' */
-			output_string ( "EXP lvalue" ) ;
-		    } else if ( c == 'c' ) {
+			output_string("EXP lvalue");
+		    } else if (c == 'c') {
 			/* %xc -> 'EXP const' */
-			output_string ( "EXP" ) ;
-			if ( const_tokens ) output_string ( " const" ) ;
+			output_string("EXP");
+			if (const_tokens)output_string(" const");
 		    } else {
-			goto bad_format ;
+			goto bad_format;
 		    }
-		    break ;
+		    break;
 		}
 
-		case '0' : {
+		case '0': {
 		    /* %0 -> x<unique>_ */
-		    sprintf_v ( nbuff, "x%d_", unique ) ;
-		    output_string ( nbuff ) ;
-		    break ;
+		    sprintf_v(nbuff, "x%d_", unique);
+		    output_string(nbuff);
+		    break;
 		}
 
-		case '%' : {
+		case '%': {
 		    /* %% -> '%' */
-		    output_string ( "%" ) ;
-		    break ;
+		    output_string("%");
+		    break;
 		}
 
-		case '@' : {
+		case '@': {
 		    /* %@ -> '@' */
-		    output_string ( "@" ) ;
-		    break ;
+		    output_string("@");
+		    break;
 		}
 
-		case '\n' : {
+		case '\n': {
 		    /* %\n -> ignored newline */
-		    break ;
+		    break;
 		}
 
 		misplaced_arg : {
-		    error ( ERROR_SERIOUS,
-			    "Misplaced formatting string '%%%.2s'", s0 ) ;
-		    break ;
+		    error(ERROR_SERIOUS,
+			    "Misplaced formatting string '%%%.2s'", s0);
+		    break;
 		}
 
 		default :
 		bad_format : {
-		    error ( ERROR_SERIOUS,
-			    "Unknown formatting string '%%%.2s'", s0 ) ;
-		    s = s0 ;
-		    break ;
+		    error(ERROR_SERIOUS,
+			    "Unknown formatting string '%%%.2s'", s0);
+		    s = s0;
+		    break;
 		}
 	    }
 	} else {
-	    output_char ( c ) ;
+	    output_char(c);
 	}
     }
-    va_end ( args ) ;
-    return ;
+    va_end(args);
+    return;
 }
 
 
@@ -896,18 +922,18 @@ void output
     that it is automatically generated.
 */
 
-static void print_comment
-    PROTO_Z ()
+static void
+print_comment(void)
 {
-    if ( first_comment ) {
+    if (first_comment) {
 	/* Print copyright comment, if present */
-	output ( "%s\n\n", first_comment ) ;
+	output("%s\n\n", first_comment);
     }
     output ( "/*\n" ) ;
     output ( "    AUTOMATICALLY GENERATED FROM ALGEBRA %X (VERSION %V)\n" ) ;
     output ( "    BY %ZX (VERSION %ZV)\n" ) ;
     output ( "*/\n\n" ) ;
-    return ;
+    return;
 }
 
 
@@ -917,7 +943,7 @@ static void print_comment
     This flag is true if C code is being output.
 */
 
-int output_c_code = 1 ;
+int output_c_code = 1;
 
 
 /*
@@ -927,45 +953,44 @@ int output_c_code = 1 ;
     Two files can be open at once.
 */
 
-void open_file
-    PROTO_N ( ( dir, nm, suff ) )
-    PROTO_T ( char *dir X char *nm X char *suff )
+void
+open_file(char *dir, char *nm, char *suff)
 {
-    char *p ;
-    char buff [1000] ;
-    flush_output () ;
-    sprintf_v ( buff, "%s/%s%s", dir, nm, suff ) ;
-    output_file_old = output_file ;
-    output_file = fopen ( buff, "w" ) ;
-    if ( output_file == NULL ) {
-	error ( ERROR_FATAL, "Can't open output file, %s", buff ) ;
+    char *p;
+    char buff[1000];
+    flush_output();
+    sprintf_v(buff, "%s/%s%s", dir, nm, suff);
+    output_file_old = output_file;
+    output_file = fopen(buff, "w");
+    if (output_file == NULL) {
+	error(ERROR_FATAL, "Can't open output file, %s", buff);
     }
-    if ( verbose_output ) {
-	fprintf_v ( stderr, "Creating %s ...\n", buff ) ;
+    if (verbose_output) {
+	fprintf_v(stderr, "Creating %s ...\n", buff);
     }
-    column = 0 ;
+    column = 0;
 
-    if ( output_c_code ) {
+    if (output_c_code) {
 	/* Set up protection macro */
-	char *tok = "" ;
-	if ( output_c_code == 2 ) tok = "_TOK" ;
-	sprintf_v ( buff, "%s%s%s_INCLUDED", nm, suff, tok ) ;
-	for ( p = buff ; *p ; p++ ) {
-	    char c = *p ;
-	    if ( isalpha ( c ) ) {
-		if ( islower ( c ) ) c = ( char ) toupper ( c ) ;
-	    } else if ( !isdigit ( c ) ) {
-		c = '_' ;
+	char *tok = "";
+	if (output_c_code == 2)tok = "_TOK";
+	sprintf_v(buff, "%s%s%s_INCLUDED", nm, suff, tok);
+	for (p = buff; *p; p++) {
+	    char c = *p;
+	    if (isalpha(c)) {
+		if (islower(c))c = (char)toupper(c);
+	    } else if (!isdigit(c)) {
+		c = '_';
 	    }
-	    *p = c ;
+	    *p = c;
 	}
 
 	/* Print file header */
-	print_comment () ;
-	output ( "#ifndef %s\n", buff ) ;
-	output ( "#define %s\n\n", buff ) ;
+	print_comment();
+	output("#ifndef %s\n", buff);
+	output("#define %s\n\n", buff);
     }
-    return ;
+    return;
 }
 
 
@@ -975,14 +1000,14 @@ void open_file
     This routine closes the current output file.
 */
 
-void close_file
-    PROTO_Z ()
+void
+close_file(void)
 {
-    if ( output_c_code ) output ( "#endif\n" ) ;
-    flush_output () ;
-    fclose_v ( output_file ) ;
-    output_file = output_file_old ;
-    output_file_old = NULL ;
-    output_c_code = 1 ;
-    return ;
+    if (output_c_code)output("#endif\n");
+    flush_output();
+    fclose_v(output_file);
+    output_file = output_file_old;
+    output_file_old = NULL;
+    output_c_code = 1;
+    return;
 }
