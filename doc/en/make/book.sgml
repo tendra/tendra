@@ -327,7 +327,7 @@ ci $(SRCS) &lt; /dev/tty
       <para>This would force the program's input to come from the terminal. If
         you can't do this for some reason, your only other alternative is to
         use PMake in its fullest compatibility mode. See Compatibility in
-        chapter 4.-XREF-</para>
+        <xref linkend='compatibility' />.</para>
 
     </sect1>
 
@@ -2458,7 +2458,7 @@ sh -c 'cmd || true'
 
       </sect1>
 
-      <sect1>
+      <sect1 id='compatibility'>
         <title>Compatibility</title>
 
         <para>There are three (well, 3 1/2) levels of backwards-compatibility
