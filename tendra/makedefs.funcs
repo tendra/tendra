@@ -8,6 +8,7 @@ check_cc()
 	fi
 }
 
+# Check to see which architecture the host is running on.
 check_hostarch()
 {
 	case "$HOSTARCH" in
@@ -27,8 +28,10 @@ check_hostarch()
 		sparc64)	# SPARC 64 bit
 				BLDARCH="sparc"
 				;;
-		*)		echo "Unknown architecture..."
-				echo "Please provide uname -m details to the TenDRA Project"
+		*)		echo "Unknown architecture \"${HOSTARCH}\""
+				echo "Please report the following to the developers:"
+				echo
+				echo "uname -m:	${HOSTARCH}"
 				echo
 				;;
 	esac
