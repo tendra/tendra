@@ -661,7 +661,7 @@ expand_token(int store)
 				/* Report reserved identifiers */
 				if (store == EXPAND_NORMAL && !in_pragma_dir) {
 					ERROR err;
-				   	if (t == id_reserved_tag) {
+				   	if (tag == id_reserved_tag) {
 						err = ERR_lex_key_reserve (nm);
 					} else {
 						err = ERR_lex_key_c99 (nm);
