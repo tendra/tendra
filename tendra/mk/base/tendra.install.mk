@@ -114,11 +114,11 @@ install-api:
 	@echo dirs: ${DIRS}
 	@echo headers: ${HEADERS}
 	for i in ${DIRS}; do \
-		${BIN_MKDIR} -p ${INSTALL_PREFIX}/lib/include/$${i}; \
+		${BIN_MKDIR} -p ${INSTALL_PREFIX}/include/$${i}; \
 	done
 	for i in ${HEADERS}; do \
-	${BIN_CP} ${OBJ_PREFIX}/lib/apis/$${i} ${INSTALL_PREFIX}/lib/include/$${i}; \
-	${BIN_CHMOD} ${ARGS_CHMOD_DATA} ${INSTALL_PREFIX}/lib/include/$${i}; \
+	${BIN_CP} ${OBJ_PREFIX}/lib/apis/$${i} ${INSTALL_PREFIX}/include/$${i}; \
+	${BIN_CHMOD} ${ARGS_CHMOD_DATA} ${INSTALL_PREFIX}/include/$${i}; \
 	done
 
 # lib/apis/lib lib/apis/lib/diag: our tl files.
