@@ -52,10 +52,6 @@ STRIP= :
 RANLIB=		ranlib
 EXEC_SUFFIX=
 
-LD?=	ld
-LDOPTS=
-LIBS=	/usr/lib/crt1.o -lc
-
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)
 SID?=	${OBJ_DIR}/src/utilities/sid/sid
 .else
