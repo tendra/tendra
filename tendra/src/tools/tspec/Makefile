@@ -17,6 +17,7 @@ LIBS=
 # Dependencies and construction rules
 
 PROG=		tspec
+WRAPPER=	tspec.sh
 
 SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
 		syntax.c type.c utility.c variable.c
