@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS= -I${.CURDIR} -I.
+CFLAGS+= -I${.CURDIR} -I.
 .PATH : ${.CURDIR} ${.CURDIR}/templ .
 SID_OPTS=	-l ossg-c -s no-lines
 

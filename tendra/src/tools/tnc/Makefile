@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS= -I${.CURDIR} -I.
+CFLAGS+= -I${.CURDIR} -I.
 .PATH : ${.CURDIR} ${.CURDIR}/templ .
 
 PROG = tnc

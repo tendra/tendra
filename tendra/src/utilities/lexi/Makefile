@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS= -I${.CURDIR} -I${.CURDIR}/.. -I${.CURDIR}/../shared -I.
+CFLAGS+= -I${.CURDIR} -I${.CURDIR}/.. -I${.CURDIR}/../shared -I.
 .PATH : ${.CURDIR} ${.CURDIR}/.. ${.CURDIR}/../shared
 
 PROG = lexi

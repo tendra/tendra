@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS= -I${.CURDIR} -I.
+CFLAGS+= -I${.CURDIR} -I.
 .PATH : ${.CURDIR} 
 
 PROG = tspec

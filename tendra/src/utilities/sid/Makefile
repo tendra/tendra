@@ -1,6 +1,6 @@
 # $TenDRA$
 
-CFLAGS=	-I. -I${.CURDIR}
+CFLAGS+= -I. -I${.CURDIR}
 
 PROG=	sid
 
