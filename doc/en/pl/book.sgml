@@ -1,0 +1,1419 @@
+<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+
+<book>
+  <bookinfo>
+    <title>PL_TDF Definition</title>
+    <pubdate>$TenDRA$</pubdate>
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+    <copyright>
+      <year>2002</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+    <copyright>
+      <year>1997</year>
+      <year>1998</year>
+      <holder>Defence Evaluation and Research Agency (DERA)</holder>
+    </copyright>
+    <abstract>
+      <para>Please email us at <email>docs@tendra.org</email> if you see any errors</para>
+    </abstract>
+  </bookinfo>
+
+  <preface>
+    <title>Introduction</title> 
+    <para>
+      PL_TDF is a language in the lineage of Wirth's PL360 and its later
+      derivatives. The basic idea in PL360 was to give one an assembler in
+      which one could express all of the order-code of the IBM 360 while
+      still preserving the logical structure of the program using familiar
+      programming constructs. If one had to produce a program at the code
+      level, this approach was much preferable to writing "flat" assembly
+      code using a traditional assembler, as anyone who has used both can
+      testify.</para>
+    <para>
+      In the TDF "machine" the problem is not lack of structure at its
+      "assembly" level, but rather too much of it; one loses the sense of a
+      TDF program because of its deeply nested structure. Also the naming
+      conventions of TDF are designed to make them tractable to machine
+      manipulation, rather than human reading and writing. However, the
+      approach is basically the same. PL_TDF provides shorthand notations
+      for the commonly occuring control structures and operations while
+      still allowing one to use the standard TDF constructors which, in
+      turn, may have shorthand notations for their parameters. The naming
+      is always done by identifiers where the sort of the name is
+      determined by its declaration, or by context.</para>
+    <para>
+      The TDF derived from PL_TDF is guaranteed to be SORT correct;
+      however, there is no SHAPE checking, so one can still make illegal
+      TDF.</para>
+  </preface>
+  <chapter>
+    <title>Notation</title> 
+    <sect1>
+      <title>Syntax description</title> 
+      <para>
+        Words enclosed in angle brackets, &lt; &gt;, form non-terminal
+        symbols. Other symbols and words stand for themselves as terminal
+        symbols. An expansion of a non-terminal is indicated using ::= with
+        its expansion given as a sequence (possibly empty) of terminals and
+        non-terminals. For example:</para>
+<programlisting>
+&lt;Exp&gt; ::= * &lt;ident&gt;
+</programlisting>
+      <para>
+        is a possible expansion of an EXP SORT. If the word for the
+        non-terminal starts with a capital letter then it will be totally
+        described by a set of such expansions; otherwise the expansion of
+        the non-terminal will be given by other methods in the text.</para>
+      <para>
+        The post-fix -Opt on a non terminal is an abreviation allowing an
+        empty expansion. For example:</para>
+<programlisting>
+&lt;Access&gt;-Opt
+</programlisting>
+      <para>
+        is equivalent to the use of another non-terminal
+        &lt;AccessOption&gt; whose expansions are:</para>
+<programlisting>
+&lt;AccessOption&gt; ::= 
+&lt;AccessOption&gt; ::= &lt;Access&gt;
+</programlisting>
+      <para>
+        The post-fix -List on a non terminal is an abreviation for lists of
+        objects separated by the ,-symbol. For example:</para>
+<programlisting>
+&lt;Exp&gt;-List
+</programlisting>
+      <para>
+        is equivalent to the use of another non-terminal &lt;ExpList&gt;
+        whose expansions are:</para>
+<programlisting>
+&lt;ExpList&gt; ::= &lt;Exp&gt;
+&lt;ExpList&gt; ::= &lt;ExpList&gt; , &lt;Exp&gt;
+</programlisting>
+      <para>
+        Both of these post-fix notations are also used with sequences of
+        terminals and non-terminals within the angle brackets with the same
+        kind of expansion. In these cases, the expansion within the angle
+        brackets form an anonymous non-terminal.</para>
+    </sect1>
+    <sect1>
+      <title>Lexical Units</title> 
+      <para>
+        The terminal symbols ( ), [ ], and { } always occur as parenthetic
+        pairs and never form part of other terminal symbols.</para>
+      <para>
+        The terminal symbols , ; and : are similarly terminators for other
+        terminal symbols.</para>
+      <para>
+        White space is a terminator for other terminal symbols but is
+        otherwise ignored except in strings.</para>
+      <para>
+        All other terminal symbols are sequences of ACSII symbols not
+        including the above. These are divided into seven classes:
+        keywords, TDF constructors, operators, &lt;integer_denotation&gt;s,
+        &lt;floating_denotation&gt;s, &lt;string&gt;s and &lt;ident&gt;s.</para>
+      <para>
+        The keywords and operators are expressed directly in the syntax
+        description. The TDF constructors are those given in the TDF
+        specification which have first-class SORTs as parameters and
+        results.</para>
+      <para>
+        An &lt;integer_denotatation&gt; allows one to express an integer in
+        any base less than 16, with the default being 10.</para>
+<programlisting>
+&lt;integer_denotation&gt; ::= &lt;digit&gt;
+&lt;integer_denotation&gt; ::= &lt;integer_denotation&gt; &lt;digit&gt;
+&lt;integer_denotation&gt; ::= &lt;base&gt; &lt;integer_denotation&gt;
+
+&lt;base&gt; ::= &lt;integer_denotation&gt; r
+</programlisting>
+      <para>
+        Examples are 31, 16r1f, 8r37, 2r11111 - all giving the same value.</para>
+      <para>
+        A &lt;floating_denotation&gt; is an &lt;integer_denotation&gt;
+        followed by the . symbol and a sequence of digits. The radix of the
+        &lt;floating_denotation&gt; is given by the base of its component
+        &lt;integer_denotation&gt;</para>
+      <para>
+        A &lt;string&gt; is the same as a C string - any sequence of
+        characters within " ". The same C conventions hold for \ within
+        strings for single characters.</para>
+      <para>
+        A &lt;character&gt; is an string character within ` `. The same \
+        conventions hold.</para>
+      <para>
+        An &lt;ident&gt; is any other sequence of characters. They will be
+        used to form names for TAGs, TOKENs, AL_TAGs and LABELs.</para>
+    </sect1>
+    <sect1>
+      <title>Pre-processing</title> 
+      <para>
+        At the moment there is only one pre-processing directive. A line
+        starting with #include will textually include the following file
+        (named within string quotes), using the same path conventions as C.</para>
+      <para>
+        Comments may be included in the text using the /* ... */ notation;
+        this differs slightly from the C convention in that comments may be
+        nested.</para>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>The Language</title> 
+    <para>
+      The basic philosophy of PL_TDF is to provide the "glue" constructors
+      of TDF automatically, while still allowing the programmer to use the
+      significant constructors in their most general form. By "glue"
+      constructors, I mean those like make_link, make_group etc. which are
+      there to provide tedious, but vital, constructions concerned with
+      linking and naming. The "significant" constructors really come in two
+      groups, depending on their resulting SORTs. There are those SORTs
+      like TOKDEC, whose SORTs are purely syntactic and can't be used as
+      results of token applications or _cond constructions. On the other
+      hand, the first-class SORTs, like EXP, can be used in those
+      situations and generally have a much richer set of constructors.
+      These first-class SORTs are precisely those which have SORTNAMEs.
+      These SORTNAMEs appear in PL_TDF as expansions of &lt;Sortname&gt;:</para>
+<programlisting>
+&lt;Sortname&gt; ::= ACCESS
+&lt;Sortname&gt; ::= AL_TAG
+&lt;Sortname&gt; ::= ALIGNMENT
+&lt;Sortname&gt; ::= BITFIELD_VARIETY
+&lt;Sortname&gt; ::= BOOL
+&lt;Sortname&gt; ::= ERROR_TREATMENT
+&lt;Sortname&gt; ::= EXP
+&lt;Sortname&gt; ::= FLOATING_VARIETY
+&lt;Sortname&gt; ::= LABEL
+&lt;Sortname&gt; ::= NAT
+&lt;Sortname&gt; ::= NTEST
+&lt;Sortname&gt; ::= ROUNDING_MODE
+&lt;Sortname&gt; ::= SHAPE
+&lt;Sortname&gt; ::= SIGNED_NAT
+&lt;Sortname&gt; ::= STRING
+&lt;Sortname&gt; ::= TAG
+&lt;Sortname&gt; ::= TRANSFER_MODE
+&lt;Sortname&gt; ::= VARIETY
+</programlisting>
+    <para>
+      All of the significant constructors are expanded by non-terminals
+      with names related to their resulting SORT e.g. all EXPs are expanded
+      by &lt;Exp&gt; and all TOKDECs are expanded by &lt;Tokdec&gt;. Any
+      first-class SORT can be expanded by using the constructor names given
+      in the TDF specification, provided that the parameter SORTs are also
+      first-class. For example, the following are all valid expansions of
+      &lt;Exp&gt; :</para>
+<programlisting>
+make_top
+return(E)                  where E is an expansion of &lt;Exp&gt;
+goto(L)                    where L is an expansion of &lt;Label&gt;
+assign(E1, E2)             where E1 and E2 are expansions of &lt;Exp&gt;
+</programlisting>
+    <para>
+      Any such use of TDF constructors will be checked for the
+      SORT-correctness of their parameters. I will denote such a
+      constructor as an &lt;exp_constructor&gt;; similarly for all the
+      other first-class sorts.</para>
+    <para>
+      Any of the first-class sorts may also be expanded by a token
+      application. Tokens in PL_TDF are given &lt;ident&gt; names by
+      &lt;Tokdef&gt; or &lt;Tokdec&gt; which must occur before their use in
+      applications. In applications, these names will be denoted by
+      &lt;exp_token&gt;, &lt;shape_token&gt; etc. , depending on the result
+      sort of their introduction.</para>
+    <para>
+      The principle of "no use before declaration" also applies to
+      &lt;ident&gt; names given to TAGs.</para>
+    <sect1>
+      <title>Program</title> 
+      <para>
+        The root expansion of a PL_TDF program is given by &lt;Program&gt;:</para>
+<programlisting>
+&lt;Program&gt; ::= &lt;ElementList&gt; Keep ( &lt;Item&gt;-List-Opt )
+
+&lt;ElementList&gt; ::= &lt;Element&gt; ;
+&lt;ElementList&gt; ::= &lt;Element&gt; ; &lt;ElementList&gt;
+
+&lt;Element&gt; ::= &lt;Tokdec&gt;
+&lt;Element&gt; ::= &lt;Tokdef&gt;
+&lt;Element&gt; ::= &lt;Tagdec&gt;
+&lt;Element&gt; ::= &lt;Tagdef&gt;
+&lt;Element&gt; ::= &lt;Altagdef&gt;
+&lt;Element&gt; ::= &lt;Structdef&gt;
+&lt;Element&gt; ::= &lt;Procdef&gt;
+
+&lt;Item&gt; ::= &lt;tag&gt;
+&lt;Item&gt; ::= &lt;token&gt;
+&lt;item&gt; ::= &lt;altag&gt;
+</programlisting>
+      <para>
+        A &lt;Program&gt; consists of a list of definitions and
+        declarations giving meaning to various &lt;ident&gt;s, as TAGs,
+        TOKENs and AL_TAGs. The &lt;Item&gt;-List-Opt indicates which of
+        these names will be externally available via CAPSULE_LINKs; in
+        addition any other names which are declared but not defined will
+        also be linked externally.</para>
+      <para>
+        A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
+      <sect2>
+        <title>Tokdec</title> 
+        <para>
+          A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:</para>
+<programlisting>
+&lt;Tokdec&gt; ::= Tokdec &lt;ident&gt;&lt;Signature&gt;: [ &lt;TokDecPar&gt;-List-Opt ] &lt;ResultSort&gt;
+
+&lt;ResultSort&gt; ::= &lt;Sortname&gt;
+&lt;TokDecPar&gt; ::= &lt;Sortname&gt;
+&lt;TokDecPar&gt; ::= TOKEN [ &lt;TokDecPar&gt;-List-Opt ] &lt;ResultSort&gt;
+&lt;Signature&gt; ::= &lt;String&gt;-Opt
+</programlisting>
+        <para>
+          This produces a TOKDEC in a tokdec UNIT of the CAPSULE. Further
+          uses of the introduced &lt;ident&gt; will be treated as a
+          &lt;x-token&gt; where x is given by the &lt;ResultSort&gt;.</para>
+      </sect2>
+      <sect2>
+        <title>Tokdef</title> 
+        <para>
+          A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
+          &lt;ident&gt; may have previously been introduced by a
+          &lt;Tokdec&gt;:</para>
+<programlisting>
+&lt;Tokdef&gt; ::= Tokdef &lt;ident&gt;&lt;Signature&gt; = &lt;Tok_Defn&gt;
+
+&lt;Tok_Defn&gt; ::= [ &lt;TokDefPar&gt;-List-Opt ] &lt;ResultSort&gt; &lt;result_sort&gt;
+&lt;TokDefPar&gt; ::= &lt;ident&gt; : &lt;TokDecPar&gt;
+&lt;Signature&gt; ::= &lt;String&gt;-Opt
+</programlisting>
+        <para>
+          This produces a TOKDEF in a tokdef UNIT of the CAPSULE. The
+          expansion of &lt;result_sort&gt; depends on &lt;ResultSort&gt;,
+          e.g. if &lt;ResultSort&gt; is EXP then &lt;result_sort&gt; ::=
+          &lt;Exp&gt; and so on.</para>
+        <para>
+          Each of the &lt;ident&gt;s in the &lt;TokDefPar&gt;s will be
+          names for tokens whose scope is &lt;result_sort&gt;. A use of
+          such a name within its scope will be expanded as a parameterless
+          token application of the appropriate sort given by its
+          &lt;TokDecPar&gt;. Note that this is still true if the
+          &lt;TokDecPar&gt; is a TOKEN - if a &lt;TokDefPar&gt; is:</para>
+<programlisting>
+x: TOKEN[ LABEL ]EXP
+</programlisting>
+        <para>
+          then x[L] is expanded as:</para>
+<programlisting>
+exp_apply_token( token_apply_token(x, ()), L)
+</programlisting>
+        <para>
+          &lt;Tok_defn&gt; also occurs in an expansion of &lt;Token&gt;, as
+          a parameter of a token application.</para>
+      </sect2>
+      <sect2>
+        <title>Tagdec</title> 
+        <para>
+          A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:</para>
+<programlisting>
+&lt;Tagdec&gt; ::= &lt;DecType&gt; &lt;ident&gt; &lt;Signature&gt; &lt;Access&gt;-Opt : &lt;Shape&gt;
+&lt;DecType&gt; ::= Vardec
+&lt;DecType&gt; ::= Iddec
+&lt;DecType&gt; ::= Commondec
+&lt;Signature&gt; ::= &lt;String&gt;-Opt
+</programlisting>
+        <para>
+          This produces a TAGDEC in a tagdec UNIT of the CAPSULE, using a
+          make_id_tagdec for the Iddec option, a make_var_tagdec for the
+          Vardec option and a common_tagdec for the Commondec option.</para>
+        <para>
+          The &lt;Shape&gt;s in both &lt;Tagdec&gt;s and &lt;Tagdef&gt;s
+          will produce SHAPE TOKENs in a tagdef UNIT; these may be applied
+          in various shorthand operations on TAG &lt;ident&gt;s.</para>
+      </sect2>
+      <sect2>
+        <title>Tagdef</title> 
+        <para>
+          A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
+          &lt;ident&gt; may have previously been introduced by a
+          &lt;Tagdec&gt;; if it has not the &lt; : &lt;Shape&gt; &gt;-Opt
+          below must not be empty and a TAGDEC will be produced for it.</para>
+<programlisting>
+&lt;Tagdef&gt; ::= Var &lt;ident&gt;&lt;Signature&gt; &lt; : &lt;Shape&gt; &gt;-Opt &lt; = &lt;Exp&gt;&gt;-Opt
+</programlisting>
+        <para>
+          Produces a make_var_tagdef.</para>
+<programlisting>
+&lt;Tagdef&gt; ::= Common &lt;ident&gt; &lt;Signature&gt;&lt; : &lt;Shape&gt; &gt;-Opt &lt; = &lt;Exp&gt; &gt;-Opt
+</programlisting>
+        <para>
+          Produces a common_tagdef.</para>
+<programlisting>
+&lt;Tagdef&gt; ::= Let &lt;ident&gt;&lt;Signature&gt; &lt; : &lt;Shape&gt; &gt;-Opt = &lt;Exp&gt;
+</programlisting>
+        <para>
+          Produces a make_id_tagdef.</para>
+<programlisting>
+&lt;Tagdef&gt; ::= String &lt;ident&gt; &lt;Variety&gt;-Opt =&lt;string&gt;
+</programlisting>
+        <para>
+          This is a shorthand for producing names which have the properties
+          of C strings. The &lt;Variety&gt;-Opt gives the variety of the
+          characters with the string, an empty option giving unsigned
+          chars. The TDF produced is a make_var_tagdef initialised by a
+          make_nof_int. This means that given a String definition:</para>
+<programlisting>
+String format = "Result = %d\n"
+</programlisting>
+        <para>
+          the tag &lt;ident&gt;, format, could be used straightforwardly as
+          the first parameter of printf - see -XREF-pl5.html#0Section 4
+          (Example PL_TDF programs).</para>
+      </sect2>
+      <sect2>
+        <title>Altagdef</title> 
+        <para>
+          An &lt;Altagdef&gt; defines an &lt;ident&gt; as an AL_TAG:</para>
+<programlisting>
+&lt;Altagdef&gt; ::= Al_tagdef &lt;ident&gt; = &lt;Alignment&gt;
+</programlisting>
+        <para>
+          This produces an AL_TAGDEF in an al_tagdef UNIT of the CAPSULE.
+          The &lt;ident&gt; concerned can be previously used in as an
+          expansion of &lt;Alignment&gt;.</para>
+      </sect2>
+      <sect2>
+        <title>Structdef</title> 
+        <para>
+          A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
+          together with two TOKENs for each field of the structure to allow
+          easy access to the offsets and contents of the field:</para>
+<programlisting>
+&lt;Structdef&gt; ::= Struct &lt;Structname&gt; ( &lt;Field&gt;-List )
+
+&lt;Structname&gt; ::= &lt;ident&gt;
+
+&lt;Field&gt; ::= &lt;Fieldname&gt; : &lt;Shape&gt;
+
+&lt;Fieldname&gt; ::= &lt;ident&gt;
+</programlisting>
+        <para>
+          This produces a TOKDEF in a tokdef UNIT defining
+          &lt;Structname&gt; as a SHAPE token whose expansion is an EXP
+          OFFSET(a1,a2) where the OFFSET is the size of the structure with
+          standard TDF padding and offset addition of the component SHAPEs
+          and sizes (note that this may not correspond precisely with C
+          sizes).Each &lt;Fieldname&gt; will produce two TOKENs. The first
+          is named by &lt;Fieldname&gt; itself and is a [EXP]EXP which
+          gives the value of the field of its structure parameter. The
+          second is named by prefixing &lt;Fieldname&gt; by the.-symbol and
+          is an [ ]EXP giving the OFFSET of the field from the start of the
+          structure. Thus given:</para>
+<programlisting>
+Struct Complex (re: Double, im: Double)
+</programlisting>
+        <para>
+          Complex is a TOKEN for a SHAPE defining two Doubles; re[E] and
+          im[E] will extract the components of E where E is an EXP of shape
+          Complex; .re and.im give EXP OFFSETs of the the two fields from
+          the start of the structure.</para>
+      </sect2>
+      <sect2>
+        <title>Procdef</title> 
+        <para>
+          A &lt;Procdef&gt; defines a TAG to be a procedure; it is simply
+          an abreviation of a an Iddec &lt;Tagdef&gt;:</para>
+<programlisting>
+&lt;Procdef&gt; ::= Proc &lt;ident&gt; = &lt;Proc_Defn&gt;
+
+&lt;Proc_Defn&gt; ::= &lt;Simple_Proc&gt;
+&lt;Proc_Defn&gt; ::= &lt;General_Proc&gt;
+
+&lt;Simple_Proc&gt; ::= &lt;Shape&gt; ( &lt;TagShAcc&gt;-List-Opt &lt;VarIntro&gt;-Opt ) &lt;ClosedExp&gt;
+
+&lt;TagShAcc&gt; ::= &lt;Parametername&gt; &lt;Access&gt;-Opt : &lt;Shape&gt;
+
+&lt;Parametername&gt; ::= &lt;ident&gt;
+
+&lt;VarIntro&gt; ::= Varpar &lt;Varparname&gt; : &lt;Alignment&gt;
+
+&lt;Varparname&gt; ::= &lt;ident&gt;
+</programlisting>
+<programlisting>
+&lt;General_Proc&gt; ::= General &lt;Shape&gt; ( &lt;For_Callers&gt;; &lt;For_Callees&gt;) &lt;ProcProps&gt;-Opt &lt;ClosedExp&gt;
+
+&lt;For_Callers&gt; ::= &lt;TagShAcc&gt;-List-Opt &lt;...&gt;-Opt
+
+&lt;For_Callees&gt; ::= &lt;TagShAcc&gt;-List-Opt &lt;...&gt;-Opt
+
+&lt;ProcProps&gt; ::= &lt;untidy&gt;-Opt &lt;check_stack&gt;-Opt
+</programlisting>
+        <para>
+          A &lt;Procdef&gt; produces a TAGDEF in a tagdef UNIT and and,
+          possibly, a TAGDEC in a tagdef UNIT.</para>
+        <para>
+          A &lt;Simple_Proc&gt; produces a make_proc with the obvious
+          operands. The scope of the tag names introduced by
+          &lt;Parametername&gt; and &lt;Varparname&gt; is the
+          &lt;ClosedExp&gt; (see -XREF-#86section 3.3).</para>
+        <para>
+          A &lt;General_Proc&gt; produces a make_general_proc with formal
+          caller parameters given by &lt;For_callers&gt; and the formal
+          callee parameters given by &lt;For_callees&gt;; in both cases the
+          &lt;...&gt; option says that the procedure can be called with a
+          variable number of parameters. The scope of the tag names are the
+          same as for &lt;Simple_Proc&gt;.</para>
+      </sect2>
+    </sect1>
+    <sect1>
+      <title>First-class SORT expansions</title> 
+      <para>
+        All of the first-class sorts have similar expansions for native TDF
+        constructions and for token applications. I shall take
+        &lt;Shape&gt; as the paradigm sort and allow the reader to
+        conjugate the following for the the other sorts.</para>
+      <para>
+        Those first-class sorts which include the _cond constructions
+        denote them in the same way:</para>
+<programlisting>
+&lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt;, &lt;Shape&gt;, &lt;Shape&gt; )
+</programlisting>
+      <para>
+        This produces a shape_cond with the obvious parameters.</para>
+      <para>
+        Each constructor for &lt;Shape&gt; with parameters which are
+        first-class sorts can be expanded:</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;shape_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+</programlisting>
+      <para>
+        Each &lt;constructor_param&gt; will be the first_class SORT
+        expansion, required by the &lt;shape_constructor&gt; as in the TDF
+        specification eg the constructor, pointer, requires a
+        &lt;constructor_param&gt; ::= &lt;Alignment&gt;.</para>
+      <para>
+        Any &lt;ident&gt; which is declared to be a &lt;shape_token&gt; by
+        a TOKDEF or TOKDEC can be expanded:</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;shape_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+      <para>
+        This will produce a shape_apply_token with the appropriate
+        parameters. Each &lt;token_param&gt; will be the first-class SORT
+        expansion required by the SORT given by the &lt;TokDecPar&gt; of
+        the TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
+      <sect2>
+        <title>Access</title> 
+<programlisting>
+&lt;Access&gt; ::= ACCESS ? ( &lt;Exp&gt; , &lt;Access&gt; , &lt;Access&gt; )
+&lt;Access&gt; ::= &lt;access_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Access&gt; ::= &lt;access_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          There are no expansions of &lt;Access&gt; other than the standard
+          ones.</para>
+      </sect2>
+      <sect2>
+        <title>Al_tag</title> 
+<programlisting>
+&lt;Al_tag&gt; ::= &lt;al_tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard token expansion.</para>
+<programlisting>
+&lt;Al_tag&gt; ::= &lt;ident&gt;
+</programlisting>
+        <para>
+          Any &lt;ident&gt; found as an expansion of &lt;Al_tag&gt; will be
+          declared as the name for an AL_TAG.</para>
+      </sect2>
+      <sect2>
+        <title>Alignment</title> 
+<programlisting>
+&lt;Alignment&gt; ::= ALIGNMENT ? ( &lt;Exp&gt; , &lt;Alignment&gt; , &lt;Alignment&gt; )
+&lt;Alignment&gt; ::= &lt;alignment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Alignment&gt; ::= &lt;alignment_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Alignment&gt; ::= &lt;Al_tag&gt;
+</programlisting>
+        <para>
+          This results in an obtain_al_tag of the AL_TAG.</para>
+<programlisting>
+&lt;Alignment&gt; ::= ( &lt;Alignment&gt;-List-Opt )
+</programlisting>
+        <para>
+          The &lt;Alignment&gt;s in the &lt;Alignment&gt;-List are united
+          using unite_alignments. The empty option results in the top
+          ALIGNMENT.</para>
+      </sect2>
+      <sect2>
+        <title>Bitfield_variety</title> 
+<programlisting>
+&lt;Bitfield_variety&gt; ::= BITFIELD_VARIETY ? ( &lt;Exp&gt; , &lt;Bitfield_variety&gt;, &lt;Bitfield_variety&gt;)
+&lt;Bitfield_variety&gt; ::= &lt;bitfield_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Bitfield_variety&gt; ::= &lt;bitfield_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Bitfield_variety&gt; ::= &lt;BfSign&gt;-Opt &lt;Nat&gt;
+&lt;BfSign&gt; ::= &lt;Bool&gt;
+&lt;BfSign&gt; ::= Signed
+&lt;BfSign&gt; ::= Unsigned
+</programlisting>
+        <para>
+          This expands to bfvar_bits. The empty default on the sign is
+          Signed.</para>
+      </sect2>
+      <sect2>
+        <title>Bool</title> 
+<programlisting>
+&lt;Bool&gt; ::= BOOL ? ( &lt;Exp&gt; , &lt;Bool&gt;, &lt;Bool&gt;)
+&lt;Bool&gt; ::= &lt;bool_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Bool&gt; ::= &lt;bool_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          There are no expansions of &lt;Bool&gt; other than the standard
+          ones.</para>
+      </sect2>
+      <sect2>
+        <title>Error_treatment</title> 
+<programlisting>
+&lt;Error_treatment&gt; ::= ERROR_TREATMENT ? 
+( &lt;Exp&gt; , &lt;Error_treatment&gt;, &lt;Error_treatment&gt;)
+&lt;Error_treatment&gt; ::= &lt;error_treatment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Error_treatment&gt; ::= &lt;error_treatment__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Error_treatment&gt; ::= &lt;Label&gt;
+</programlisting>
+        <para>
+          This gives an error_jump to the label.</para>
+<programlisting>
+&lt;Error_treatment&gt; ::= [ &lt;Error_code&gt;-List]
+&lt;Error_code&gt; ::= overflow
+&lt;Error_code&gt; ::= nil_access
+&lt;Error_code&gt; ::= stack_overflow
+</programlisting>
+        <para>
+          Produces trap with the &lt;Error_code&gt;s as arguments.</para>
+      </sect2>
+      <sect2>
+        <title>Exp</title> 
+<programlisting>
+&lt;Exp&gt; ::= &lt;ExpTerm&gt;
+&lt;Exp&gt; ::= &lt;ExpTerm&gt; &lt;BinaryOp&gt; &lt;ExpTerm&gt;
+</programlisting>
+        <para>
+          The &lt;BinaryOp&gt;s include the arithmetic, offset, logical
+          operators and assignment and are given in table 1. In this
+          expansion, any error_treatments are taken to be wrap.</para>
+
+<para>FIGURE BinaryOP - pltable1.png</para>
+        <para>
+          The names like *+. (i.e. add_to_ptr) do have a certain logic; the
+          * indicates that the left operand must be a pointer expression
+          and the. that the other is an offset</para>
+        <para>
+          The further expansions of &lt;Exp&gt; are all &lt;ExpTerm&gt;s</para>
+        <sect3>
+          <title>ExpTerm</title> 
+<programlisting>
+&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
+&lt;ExpTerm&gt; ::= &lt;exp_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;ExpTerm&gt; ::= &lt;exp_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+          <para>
+            The standard expansions.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;
+</programlisting>
+          <para>
+            For &lt;ClosedExp&gt;, see -XREF-#86section 3.3.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
+&lt;ExpTerm&gt; ::= - ( &lt;Exp&gt; )
+</programlisting>
+          <para>
+            The negate constructor.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= Sizeof ( &lt;Shape&gt; )
+</programlisting>
+          <para>
+            This produces the EXP OFFSET for an index multiplier for arrays
+            of &lt;Shape&gt;. It is the shape_offset of &lt;Shape&gt;
+            padded up to its alignment.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;Tag&gt;
+</programlisting>
+          <para>
+            This produces an obtain_tag.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= * &lt;ident&gt;
+</programlisting>
+          <para>
+            The &lt;ident&gt; must have been declared as a variable TAG and
+            the construction produces a contents operation with its
+            declared SHAPE.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= * ( &lt;Shape&gt; ) &lt;ExpTerm&gt;
+</programlisting>
+          <para>
+            This produces a contents operation with the given
+            &lt;Shape&gt;.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;Assertion&gt;
+</programlisting>
+          <para>
+            For &lt;Assertion&gt;, see -XREF-#89section 3.3.1</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
+&lt;RangeDest&gt; ::= &lt;Signed_Nat&gt; &lt; : &lt;Signed_Nat&gt; &gt;-Opt -&gt; &lt;Label&gt;
+</programlisting>
+          <para>
+            This produces a case operation.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= Cons [ &lt;Exp&gt; ] ( &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List )
+&lt;Offset&gt; ::= &lt;Exp&gt;
+</programlisting>
+          <para>
+            This produces a make_compound with the [ &lt;Exp&gt; ] as the
+            size and fields given by &lt; &lt;Offset&gt; : &lt;Exp&gt;
+            &gt;-List.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= [ &lt;Variety&gt; ] &lt;ExpTerm&gt;
+</programlisting>
+          <para>
+            This produces a change_variety with a wrap error_treatment.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;Signed_Nat&gt; ( &lt;Variety&gt; )
+</programlisting>
+          <para>
+            This produces a make_int of the &lt;Signed_Nat&gt; with the
+            given variety.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt
+&lt;ExpTerm&gt; ::= - &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt
+</programlisting>
+          <para>
+            Produces a make_floating.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;ProcVal&gt; [ &lt;Shape&gt; ] ( &lt;Exp&gt;-List-Opt &lt; Varpar &lt;Exp&gt; &gt;-Opt)
+
+&lt;ProcVal&gt; ::= &lt;Tag&gt;
+&lt;ProcVal&gt; ::= ( &lt;Exp&gt; )
+</programlisting>
+          <para>
+            Produces an apply_proc with the given parameters returning the
+            given &lt;Shape&gt;.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::=         &lt;ProcVal&gt; [ &lt;Shape&gt; ]
+[ &lt;Act_Callers&gt;-Opt ; &lt;Act_Callees&gt;-Opt &lt;; &lt;Postlude&gt;&gt;-Opt ] 
+&lt;ProcProps&gt;-Opt
+&lt;Act_Callers&gt; ::= &lt;&lt;Exp&gt; &lt;: &lt;ident&gt;&gt;-Opt&gt;-List &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= &lt;Exp&gt;-List &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= Dynamic ( &lt;Exp&gt; , &lt;Exp&gt; ) &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= Same
+&lt;Postlude&gt; ::= &lt;Exp&gt;
+</programlisting>
+          <para>
+            Produces an apply_general_proc with the actual caller
+            parameters given by &lt;Act_Callers&gt; and the calle
+            parameters given by &lt;Act_Callees&gt;; the &lt;...&gt; option
+            indicates that the procedure is expecting a variable number of
+            parameters. Any &lt;ident&gt;s introduced in
+            &lt;Act_Callers&gt; are in scope in &lt;Postlude&gt;.</para>
+<programlisting>
+&lt;Exp&gt; ::= &lt;ProcVal&gt; Tail_call [ &lt;Act_Callees&gt;-Opt ]
+</programlisting>
+          <para>
+            Produces a tail_call with the callee parameters given and same
+            caller parameters as those of the calling procedure.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= Proc &lt;Proc_defn&gt;
+</programlisting>
+          <para>
+            Produces a make_proc. For &lt;Proc_defn&gt;, see
+            -XREF-#12section 3.1.7</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )
+</programlisting>
+          <para>
+            Produces a make_nof_int of the given variety.</para>
+<programlisting>
+&lt;ExpTerm&gt; ::= # &lt;String&gt;
+</programlisting>
+          <para>
+            This produces a TDF fail_installer; this construction is useful
+            for narrowing down SHAPE errors detected by the translator.</para>
+        </sect3>
+      </sect2>
+      <sect2>
+        <title>Floating_variety</title> 
+<programlisting>
+&lt;Floating_variety&gt; ::= FLOATING_VARIETY ? 
+( &lt;Exp&gt; , &lt;Floating_variety&gt;, &lt;Floating_variety&gt;)
+&lt;Floating_variety&gt; ::= &lt;floating_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Floating_variety&gt; ::= &lt;floating_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard constructions.</para>
+<programlisting>
+&lt;Floating_variety&gt; ::= Float
+</programlisting>
+        <para>
+          An IEEE 32 bit floating variety.</para>
+<programlisting>
+&lt;Floating_variety&gt; ::= Double
+</programlisting>
+        <para>
+          An IEEE 64 bit floating variety.</para>
+      </sect2>
+      <sect2>
+        <title>Label</title> 
+<programlisting>
+&lt;Label&gt; ::= &lt;label_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard token application.</para>
+<programlisting>
+&lt;Label&gt; ::= &lt;ident&gt;
+</programlisting>
+        <para>
+          The &lt;ident&gt; will be declared as a LABEL, whose scope is the
+          current procedure.</para>
+      </sect2>
+      <sect2>
+        <title>Nat</title> 
+<programlisting>
+&lt;Nat&gt; ::= NAT ? ( &lt;Exp&gt; , &lt;Nat&gt;, &lt;Nat&gt;)
+&lt;Nat&gt; ::= &lt;nat_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Nat&gt; ::= &lt;nat_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Nat&gt; ::= &lt;integer_denotation&gt;
+</programlisting>
+        <para>
+          Produces a make_nat on the integer</para>
+<programlisting>
+&lt;Nat&gt; ::= &lt;character&gt;
+</programlisting>
+        <para>
+          Produces a make_nat on the ASCII value of the character.</para>
+      </sect2>
+      <sect2>
+        <title>Ntest</title> 
+<programlisting>
+&lt;Ntest&gt; ::= NTEST ? ( &lt;Exp&gt; , &lt;Ntest&gt;, &lt;Ntest&gt;)
+&lt;Ntest&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Ntest&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !&lt;
+</programlisting>
+        <para>
+          Produces not_less_than.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !&lt;=
+</programlisting>
+        <para>
+          Produces not_less_than_or_equal.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !=
+</programlisting>
+        <para>
+          Produces not_equal.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !&gt;
+</programlisting>
+        <para>
+          Produces not_greater_than.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !&gt;=
+</programlisting>
+        <para>
+          Produces not_greater_than_or_equal.</para>
+<programlisting>
+&lt;Ntest&gt; ::= !Comparable
+</programlisting>
+        <para>
+          Produces not_comparable.</para>
+<programlisting>
+&lt;Ntest&gt; ::= &lt;
+</programlisting>
+        <para>
+          Produces less_than.</para>
+<programlisting>
+&lt;Ntest&gt; ::= &lt;=
+</programlisting>
+        <para>
+          Produces less_than_or_equal.</para>
+<programlisting>
+&lt;Ntest&gt; ::= ==
+</programlisting>
+        <para>
+          Produces equal.</para>
+<programlisting>
+&lt;Ntest&gt; ::= &gt;
+</programlisting>
+        <para>
+          Produces greater_than.</para>
+<programlisting>
+&lt;Ntest&gt; ::= &gt;=
+</programlisting>
+        <para>
+          Produces greater_than_or_equal.</para>
+      </sect2>
+      <sect2>
+        <title>Rounding_mode</title> 
+<programlisting>
+&lt;Rounding_mode&gt; ::= ROUNDING_MODE? 
+( &lt;Exp&gt; , &lt;Rounding_mode&gt;, &lt;Rounding_mode&gt;)
+&lt;Rounding_mode&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Rounding_mode&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          There are no constructions for &lt;Rounding_mode&gt; other than
+          the standard ones.</para>
+      </sect2>
+      <sect2>
+        <title>Shape</title> 
+<programlisting>
+&lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt; , &lt;Shape&gt;, &lt;Shape&gt;)
+&lt;Shape&gt; ::= &lt;shape_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Shape&gt; ::= &lt;shape_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Shape&gt; ::= Float
+</programlisting>
+        <para>
+          The shape for an IEEE 32 bit float.</para>
+<programlisting>
+&lt;Shape&gt; ::= Double
+</programlisting>
+        <para>
+          The shape for an IEEE 64 bit float.</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Int
+&lt;Sign&gt; ::= Signed
+&lt;Sign&gt; ::= Unsigned
+</programlisting>
+        <para>
+          The shape for a 32 bit signed or unsigned integer. The default is
+          signed.</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Long
+</programlisting>
+        <para>
+          The shape for a 32 bit signed or unsigned integer.</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Short
+</programlisting>
+        <para>
+          The shape for a 16 bit signed or unsigned integer.</para>
+<programlisting>
+&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Char
+</programlisting>
+        <para>
+          The shape for a 8 bit signed or unsigned integer.</para>
+<programlisting>
+&lt;Shape&gt; ::= Ptr &lt;Shape&gt;
+</programlisting>
+        <para>
+          The SHAPE pointer(alignment(&lt;Shape&gt;)).</para>
+      </sect2>
+      <sect2>
+        <title>Signed_Nat</title> 
+<programlisting>
+&lt;Signed_Nat&gt; ::= SIGNED_NAT ? ( &lt;Exp&gt; , &lt;Signed_Nat&gt;, &lt;Signed_Nat&gt;)
+&lt;Signed_Nat&gt; ::= &lt;signed_nat_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Signed_Nat&gt; ::= &lt;signed_nat_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Signed_Nat&gt; ::= &lt;integer_denotation&gt;
+&lt;Signed_Nat&gt; ::= - &lt;integer_denotation&gt;
+</programlisting>
+        <para>
+          This produces a make_signed_nat on the integer value.</para>
+<programlisting>
+&lt;Signed_Nat&gt; ::= &lt;character&gt;
+&lt;Signed_Nat&gt; ::= - &lt;character&gt;
+</programlisting>
+        <para>
+          This produces a make_signed_nat on the ASCII value of the
+          character.</para>
+<programlisting>
+&lt;Signed_Nat&gt; ::= LINE
+</programlisting>
+        <para>
+          This produces a make_signed_nat on the current line number of the
+          file being compiled - useful for writing test programs.</para>
+<programlisting>
+&lt;Signed_Nat&gt; ::= + &lt;Nat&gt;
+&lt;Signed_Nat&gt; ::= - &lt;Nat&gt;
+</programlisting>
+        <para>
+          This produces an appropriately signed &lt;Signed_Nat&gt; from a
+          &lt;Nat&gt;.</para>
+      </sect2>
+      <sect2>
+        <title>String</title> 
+<programlisting>
+&lt;String&gt; ::= STRING? ( &lt;Exp&gt; , &lt;String&gt;, &lt;String&gt;)
+&lt;String&gt; ::= &lt;string_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;String&gt; ::= &lt;string_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions</para>
+<programlisting>
+&lt;String&gt; ::= &lt;string&gt;
+</programlisting>
+        <para>
+          Produces a make_string.</para>
+      </sect2>
+      <sect2>
+        <title>Tag</title> 
+<programlisting>
+&lt;Tag&gt; ::= &lt;tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard token application.</para>
+<programlisting>
+&lt;Tag&gt; ::= &lt;ident&gt;
+</programlisting>
+        <para>
+          This gives an obtain_tag; the &lt;ident&gt; must been declared as
+          a TAG either globally or locally.</para>
+      </sect2>
+      <sect2>
+        <title>Token</title> 
+        <para>
+          TOKEN is rather a limited first-class sort. There is no explicit
+          construction given for token_apply_token, since the only place
+          where it can occur is in an expansion of a token parameter of
+          another token; here it is produced implicitly. The only place
+          where &lt;Token&gt; is expanded is in an actual TOKEN parameter
+          of a token application; other uses (e.g. as in
+          &lt;shape_token&gt;) are always &lt;ident&gt;s.</para>
+<programlisting>
+&lt;Token&gt; ::= &lt;ident&gt;
+</programlisting>
+        <para>
+          The &lt;ident&gt; must have been declarered by a &lt;Tokdec&gt;
+          or &lt;Tokdec&gt; or is a formal parameter of TOKEN.</para>
+<programlisting>
+&lt;Token&gt; ::= Use &lt;Tok_Defn&gt;
+</programlisting>
+        <para>
+          This produces a use_tokdef. For &lt;Tok_Defn&gt; see
+          -XREF-#3section 3.1.2. The critical use of this construction is
+          to provide an actual TOKEN parameter to a token application where
+          the &lt;Tok_Defn&gt; contains uses of tags or labels local to a
+          procedure.</para>
+      </sect2>
+      <sect2>
+        <title>Transfer_mode</title> 
+<programlisting>
+&lt;Transfer_mode&gt; ::= TRANSFER_MODE ? ( &lt;Exp&gt; , &lt;Transfer_mode&gt;, &lt;Transfer_mode&gt;)
+&lt;Transfer_mode&gt; ::= &lt;transfer_mode_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Transfer_mode&gt; ::= &lt;transfer_mode_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          There are no expansions for &lt;Transfer_mode&gt; other than the
+          standard expansions.</para>
+      </sect2>
+      <sect2>
+        <title>Variety</title> 
+<programlisting>
+&lt;Variety&gt; ::= VARIETY ? ( &lt;Exp&gt; , &lt;Variety&gt;, &lt;Variety&gt;)
+&lt;Variety&gt; ::= &lt;variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Variety&gt; ::= &lt;variety_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
+</programlisting>
+        <para>
+          The standard expansions.</para>
+<programlisting>
+&lt;Variety&gt; ::= &lt;Signed_Nat&gt; : &lt;Signed_Nat&gt;
+</programlisting>
+        <para>
+          This produces var_limits.</para>
+<programlisting>
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Int
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Long
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Short
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Char
+</programlisting>
+        <para>
+          This produces the variety of the appropriate integer shape.</para>
+      </sect2>
+    </sect1>
+    <sect1>
+      <title>Control structure and local declarations</title> 
+      <para>
+        The control and declaration structure is given by
+        &lt;ClosedExp&gt;:</para>
+<programlisting>
+&lt;ClosedExp&gt; ::= { &lt;ExpSeq&gt; }
+
+&lt;ExpSeq&gt; ::= &lt;Exp&gt;-Opt
+&lt;ExpSeq&gt; ::= &lt;ExpSeq&gt; ; &lt;Exp&gt;-Opt
+</programlisting>
+      <para>
+        This produces a TDF sequence if there is more than one
+        &lt;Exp&gt;-Opt; if there is only one it is simply the production
+        for &lt;Exp&gt;-Opt; any empty &lt;Exp&gt;-Opt produce make_top.</para>
+<programlisting>
+&lt;ClosedExp&gt; ::= &lt;ConditionalExp&gt;
+&lt;ClosedExp&gt; ::= &lt;RepeatExp&gt;
+&lt;ClosedExp&gt; ::= &lt;LabelledExp&gt;
+&lt;ClosedExp&gt; ::= &lt;Local_Defn&gt;
+</programlisting>
+      <para>
+        The effect of these, together with the expansion of
+        &lt;Assertion&gt; is given below.</para>
+      <sect2>
+        <title>ConditionalExp and Assertion</title> 
+<programlisting>
+&lt;ConditionalExp&gt; ::= ? { &lt;ExpSeq&gt; | &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
+
+&lt;LabelSetting&gt; ::= : &lt;Label&gt; :
+</programlisting>
+        <para>
+          This produces a TDF conditional. The scope of a LABEL
+          &lt;ident&gt; which may be introduced by &lt;Label&gt; is the
+          first &lt;ExpSeq&gt;. A branch to the second half of the
+          conditional will usually be made by the failure of an
+          &lt;Assertion&gt; ( ie a TDF _test) in the first half.</para>
+<programlisting>
+&lt;Assertion&gt; ::= &lt;Query&gt; ( &lt;Exp&gt; &lt;Ntest&gt; &lt;Exp&gt; &lt;FailDest&gt;-Opt )
+
+&lt;Query&gt; ::= ?
+</programlisting>
+        <para>
+          The assertion will be translated as an integer_test</para>
+<programlisting>
+&lt;Query&gt; ::= F?
+</programlisting>
+        <para>
+          The assertion will be translated as a floating_test with a wrap
+          error_treatment.</para>
+<programlisting>
+&lt;Query&gt; ::= *?
+</programlisting>
+        <para>
+          The assertion will be translated as a pointer_test.</para>
+<programlisting>
+&lt;Query&gt; ::=.?
+</programlisting>
+        <para>
+          The assertion will be translated as an offset_test.</para>
+<programlisting>
+&lt;Query&gt; ::= P?
+</programlisting>
+        <para>
+          The assertion will be translated as a proc_test.</para>
+<programlisting>
+&lt;FailDest&gt; ::= | &lt;Label&gt;
+
+</programlisting>
+        <para>
+          The &lt;Assertion&gt; will produce the appropriate _test on its
+          component &lt;Exp&gt;s. If the test fails, then control will pass
+          to the &lt;FailDest&gt;-Opt. If &lt;FailDest&gt;-Opt is not
+          empty, this is the &lt;Label&gt;. Otherwise, the
+          &lt;Assertion&gt; must be in the immediate context of a
+          &lt;ConditionalExp&gt; or &lt;RepeatExp&gt; with an empty
+          &lt;LabelSetting&gt;-Opt; in which case this is treated as an
+          anonymous label and control passes to there. For example, the
+          following &lt;Conditional&gt; delivers the maximum of two
+          integers:</para>
+<programlisting>
+?{ ?(a &gt;= b); a | b }
+</programlisting>
+        <para>
+          This is equivalent to:</para>
+<programlisting>
+?{ ?(a &gt;= b | L ); a | :L: b }
+</programlisting>
+        <para>
+          without the hassle of having to invent the LABEL name, L.</para>
+      </sect2>
+      <sect2>
+        <title>RepeatExp</title> 
+<programlisting>
+&lt;RepeatExp&gt; ::= Rep &lt;Starter&gt;-Opt { &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
+
+&lt;Starter&gt; = ( &lt;ExpSeq&gt; )
+</programlisting>
+        <para>
+          This produces a TDF repeat. The loop will usually repeat by an
+          &lt;Assertion&gt; failing to the &lt;LabelSetting&gt;-Opt; an
+          empty &lt;LabelSetting&gt;-Opt will follow the same conventions
+          as one in a &lt;Conditional&gt;. An empty &lt;Starter&gt;-Opt
+          will produce make_top.</para>
+      </sect2>
+      <sect2>
+        <title>LabelledExp</title> 
+<programlisting>
+&lt;LabelledExp&gt; ::= Labelled { &lt;ExpSeq&gt; &lt;Places&gt; }
+
+&lt;Places&gt; ::= &lt;Place&gt;
+&lt;Places&gt; ::= &lt;Places&gt; &lt;Place&gt;
+
+&lt;Place&gt; ::= | : &lt;Label&gt; : &lt;ExpSeq&gt;
+</programlisting>
+        <para>
+          This produces a TDF labelled with the obvious parameters. The
+          scope of any LABEL &lt;idents&gt; introduced by the
+          &lt;Label&gt;s is the &lt;LabelledExp&gt;.</para>
+      </sect2>
+      <sect2>
+        <title>Local_Defn</title> 
+        <para>
+          A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for the
+          scope of the component &lt;ClosedExp&gt;. Any containing an
+          &lt;Access&gt; visible is also available globally - however it
+          will only make sense in the constructor env_offset.</para>
+<programlisting>
+&lt;Local_Defn&gt; ::= Var &lt;ident&gt; &lt;Access&gt;-Opt &lt;VarInit&gt; &lt;ClosedExp&gt;
+
+&lt;VarInit&gt; ::= = &lt;Exp&gt;
+</programlisting>
+        <para>
+          This &lt;Local_Defn&gt; produces a TDF variable with the obvious
+          parameters.</para>
+<programlisting>
+&lt;Local_Defn&gt; ::= Var &lt;ident&gt; &lt;Access&gt;-Opt : &lt;Shape&gt; &lt;VarInit&gt;-Opt &lt;ClosedExp&gt;
+</programlisting>
+        <para>
+          Also a TDF variable. An empty &lt;VarInit&gt;-Opt gives
+          make_value(&lt;Shape&gt;) as the initialisation to the variable.
+          Using this form of variable definition also has the advantage of
+          allowing one to use the simple form of the contents operation ( *
+          in -XREF-#26section 3.2.7 ).</para>
+<programlisting>
+&lt;Local_Defn&gt; ::= Let &lt;ident&gt; &lt;Access&gt;-Opt = &lt;Exp&gt; &lt;ClosedExp&gt;
+</programlisting>
+        <para>
+          This produces a TDF identify with the obvious parameters.</para>
+      </sect2>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>Example PL_TDF programs</title> 
+    <sect1>
+      <title>Sieve of Erastothenes</title> 
+<programlisting>
+/* Print out the primes less than 10000 */
+String s1 = "%d\t";                   /* good strings for printf */
+String s2 = "\n";
+ 
+Var n: nof(10000, Char);                    /* will contain1 for prime; 0 for composite */
+ 
+Tokdef N = [ind:EXP]EXP n *+. (Sizeof(Char) .* ind);
+            /* Token delivering pointer to element of n */
+ 
+Iddec printf : proc;                /* definition provided by ansi library */  
+
+ Proc main = top ()
+Var i:Int
+Var j:Int
+{ Rep (i = 2(Int))
+    {   /* set i-th element of n to 1 */
+     N[* i] = 1(Char);
+     i = (* i + 1(Int));
+     ?(* i &gt;= 10000(Int))            /* NB assertion fails to continue loop */
+    }
+Rep (i = 2(Int) )
+    { 
+     ?{     ?( *(Char)N[* i] == 1(Char));
+        /* if its a prime ... */
+        Rep ( j = (* i + * i) )
+        { /*... wipe out composites */
+        N[* j] = 0(Char);
+        j = (* j + * i);
+        ?(* j &gt;= 10000(Int))
+     }
+     | make_top
+     };
+     i = (* i + 1(Int));
+     ?(* i &gt;= 100(Int)) 
+     };
+ Rep (i = 2(Int); j = 0(Int) )
+     {   ?{  ?( *(Char)N[* i] == 1(Char));
+            /* if it's a prime, print it */
+             printf[top](s1, * i);
+             j = (* j + 1(Int));
+            ?{  ?( * j == 5(Int));
+                /* print new line */
+                printf[top](s2);
+                j = 0(Int)
+             | make_top
+            }
+        | make_top
+        };
+        i = (* i + 1(Int));
+        ?(* i &gt;= 10000(Int))
+     }; 
+ return(make_top)
+};
+  
+Keep (main)         /* main will be an external name; so will printf since it is not defined */
+</programlisting>
+    </sect1>
+    <sect1>
+      <title>Example with structures</title> 
+<programlisting>
+   Struct C (re:Double, im:Double);
+        /* define TOKENs : C as a SHAPE for complex, with field offsets .re and .im
+            and selectors re and im */
+
+Iddec printf:proc;
+
+Proc addC = C (lv:C, rv:C)                  /* add two complex numbers */
+    Let l = * lv
+    Let r = * rv
+    { return( Cons[shape_offset(C)] ( .re: re[l] F+ re[r], .im: im[l] F+ im[r]) ) } ;
+    
+String s1 = "Ans = (%g, %g)\n";
+
+Proc main = top()
+    Let x = Cons[shape_offset(C)] (.re: 1.0(Double), .im:2.0(Double)) 
+    Let y = Cons[shape_offset(C)] (.re: 3.0(Double), .im:4.0(Double))
+    Let z = addC[C](x,y)
+    {   printf[top](s1, re[z], im[z]);
+            /* prints out "Ans = (4, 6)" */
+        return(make_top)
+    };
+
+Keep(main)
+</programlisting>
+    </sect1>
+    <sect1>
+      <title>Test for case</title> 
+<programlisting>
+   Iddec printf:proc;
+
+String s1 = "%d is not in [%d,%d]\n";
+String s2 = "%d OK\n";
+
+Proc test = top(i:Int, l:Int, u:Int)                    /* report whether l&lt;=i&lt;=u */
+    ?{  ?(* i &gt;= * l); ?(* i &lt;= * u);
+        printf[top](s2, * i); 
+        return(make_top)
+    |   printf[top](s1, * i, * l, * u);
+        return(make_top)
+    };
+
+String s3 = "ERROR with %d\n";
+ 
+Proc main = top()               /* check to see that case is working */
+Var i:Int = 0(Int)
+     Rep { 
+        Labelled {
+            Case * i (0 -&gt; l0, 1 -&gt; l1, 2:3 -&gt; l2, 4:10000 -&gt; l3)
+            | :l0: test[top](* i, 0(Int), 0(Int))
+            | :l1: test[top](* i, 1(Int), 1(Int))
+            | :l2: test[top](* i, 2(Int), 3(Int))
+            | :l3: printf[top](s3, * i)
+        };
+     i = (* i + 1(Int));
+    ?(* i &gt; 3(Int));
+    return(make_top)
+ };
+ 
+Keep (main, test)
+</programlisting>
+    </sect1>
+    <sect1>
+      <title>Example of use of high-order TOKENs</title> 
+<programlisting>
+   Tokdef IF = [ boolexp:TOKEN[LABEL]EXP, thenpt:EXP, elsept:EXP] EXP
+            ?{ boolexp[lab]; thenpt | :lab: elsept };
+        /* IF is a TOKEN which can be used to mirror a standard if ... then ... else
+             construction; the boolexp is a formal TOKEN with a LABEL parameter
+             which is jumped to if the boolean is false */
+    
+Iddec printf: proc;
+
+String cs = "Correct\n";
+String ws = "Wrong\n";
+
+Proc main = top()
+    Var i:Int = 0(Int) 
+    {
+        IF[ Use [l:LABEL]EXP ?(* i == 0(Int) | l), printf[top](cs), printf[top](ws) ];
+            /* in other words if (i==0) printf("Correct") else printf("Wrong") */
+        IF[ Use [l:LABEL]EXP ?(* i != 0(Int) | l), printf[top](ws), printf[top](cs) ];
+        i = IF[ Use [l:LABEL]EXP ?(* i != 0(Int) | l), 2(Int), 3(Int)];
+        IF[ Use [l:LABEL]EXP ?(* i == 3(Int) | l), printf[top](cs), printf[top](ws) ];
+        return(make_top)
+     };
+
+Keep (main)
+</programlisting>
+    </sect1>
+    <sect1>
+      <title>A test for long jumps</title> 
+<programlisting>
+   Iddec printf:proc;
+
+Proc f = bottom(env:pointer(frame_alignment), lab:pointer(code_alignment) )
+{
+    long_jump(* env, * lab)
+};
+
+String s1 = "Should not reach here\n";
+String s2 = "long-jump OK\n";
+
+Proc main = top()
+Labelled{
+        f[bottom](current_env, make_local_lv(l));
+        printf[top](s1);            /* should never reach here */
+        return(make_top)
+           | :l: 
+        printf[top](s2);
+        return(make_top)
+          };
+
+Keep (main)
+</programlisting>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>Use of the PL_TDF compiler</title> 
+    <para>
+      INSERT XREF TO MANPAGE HERE</para>
+    <para>
+      Compile-time error reporting is rather rudimentary and error recovery
+      non-existent. Only the first error found will be reported on the
+      standard error channel. This will give some indication of the type of
+      error, together with the text line number and a print-out of the
+      line, marking the place within the line where the error was detected.</para>
+    <para>
+      Errors which can only be detected at translate-time are much more
+      difficult to correct. These are usually shape or alignment errors,
+      particularly in the construction of offsets. Try compiling and
+      translating with the -g option. On the error, the translator will
+      output the source filename and an approximate line-number
+      corresponding to the position of the error in the PL_TDF.</para>
+    <para>
+      Translating with the -g option may sometimes give warning messages
+      from the system assembler being used; some assemblers object to being
+      given line number information in anything else but the .text segment
+      of the program. The main intention of the -g option is to detect and
+      correct errors errors thrown up by the translators and not for
+      run-time de-bugging, so do not regard a warning like this as a bug in
+      the system.</para>
+  </chapter>
+</book>
+

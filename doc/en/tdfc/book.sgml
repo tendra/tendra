@@ -1,0 +1,3589 @@
+<!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN">
+<book>
+  <bookinfo>
+    <title>C Checker Reference Manual</title>
+    <pubdate>$TenDRA$</pubdate>
+    <corpauthor>The TenDRA Documentation Team</corpauthor>
+    <copyright>
+      <year>2002</year>
+      <holder>TenDRA Documentation Team</holder>
+    </copyright>
+    <copyright>
+      <year>1997</year>
+      <year>1998</year>
+      <holder>Defence Evaluation and Research Agency (DERA)</holder>
+    </copyright>
+    <abstract>
+      <para>Please email us at <email>docs@tendra.org</email> if you see any errors</para>
+    </abstract>
+  </bookinfo>
+
+<bibliography>
+<biblioentry>
+<title>Tdfc: The C to TDF Producer Issue 1.0 (DRA/CIS3/OSSG/TR/95/102/1.0)</title>
+</biblioentry>
+
+<biblioentry>
+<title>The C to TDF Producer Issue 2.1.0</title>
+<copyright><year>June 1993</year></copyright>
+</biblioentry>
+
+<biblioentry>
+<title>TCheck, The TenDRA Program Checker (DRA/CIS/CSE2/TR/94/44/1.2)</title>
+<copyright><year>November 1994</year></copyright>
+</biblioentry>
+
+<biblioentry>
+<title>Tcc Users Guide (DRA/CIS/CSE2/TR/94/48/1.2)</title>
+<copyright><year>June 1994</year></copyright>
+</biblioentry>
+
+<biblioentry>
+<title>Implementation of ISO/IEC 9899</title>
+<copyright><year>1990</year></copyright>
+</biblioentry>
+
+<biblioentry>
+<title>tspec - An API Specification Tool DRA/CIS/CSE2/94/48/2.1</title>
+<copyright><year>September 1994</year></copyright>
+</biblioentry>
+</bibliography>
+
+  <preface>
+    <title>Introduction</title>
+      <simplesect>
+        <title>Background</title>
+        <para>The C program static checker was originally developed as a programming tool to aid the construction of portable programs using the Application Programming Interface (API) model of software portability; the principle underlying this approach being: 
+        </para>
+        <blockquote>
+          <para><emphasis>If a program is written to conform to an abstract API specification, then that program will be portable to any machine which implements the API specification correctly.</emphasis></para>
+        </blockquote>
+        <para>The tool was designed to address the problem of the lack of separation between an API specification and an API implementation and as such was considered as a compiler for an abstract machine.</para>
+        <para>This approach gave the tool an unusually powerful basis for static checking of C programs and a large amount of development work has resulted in the production of the TenDRA C static checker (tchk). The terms, TenDRA C checker and tchk are used interchangably in this document.</para>
+     </simplesect>
+
+     <simplesect>
+     <title>1.2 The C static checker</title>
+
+    <para>The C static checker is a powerful and flexible tool which can perform a number of static checks on C programs, including:</para>
+
+<itemizedlist>
+<listitem>
+<para>
+strict interface checking. In particular, the checker can analyse programs against abstract APIs to check their conformance to the specification. Abstract versions of most standard APIs are provided with the tool; alternatively users can define their own abstract APIs using the syntax described in Annex G
+</para>      
+</listitem>
+<listitem>
+<para>
+checking of integer sizes, overflows and implicit integer conversions including potential 64-bit problems, against a 16 bit or 32 bit architecture profile
+</para>      
+</listitem>
+<listitem>
+<para>
+strict ISO C standard checking, plus configurable support for many non-ISO dialect features
+</para>      
+</listitem>
+<listitem>
+<para>
+extensive type checking, including prototype-style checking for traditionally defined functions, conversion checking, type checking on printf and scanf style argument strings and type checking between translation units
+</para>
+</listitem>
+<listitem>
+<para>
+variable analysis, including detection of unused variables, use of uninitialised variables, dependencies on order of evaluation in expressions and detection of unused function returns, computed values and static variables
+</para>      
+</listitem>
+<listitem>
+<para>
+detection of unused header files
+</para>      
+</listitem>
+<listitem>
+<para>
+configurable tests for detecting many other common programming errors
+</para>      
+</listitem>
+<listitem>
+<para>
+complete standard API usage analysis
+</para>      
+</listitem>
+<listitem>
+<para>
+several built-in checking environments plus support for user-defined checking profiles.
+</para>      
+</listitem>
+</itemizedlist>
+</simplesect>
+
+<simplesect>
+<title>1.3 About this document
+
+<para>This document is designed as a reference manual detailing the features of the C static checker. It contains eleven chapters (including this introduction) and nine annexes.</para>
+
+<itemizedlist>
+<listitem>
+<para>Chapter 2: Configuring the Checker describes the built-in checking modes and the design of customised environments</para>
+</listitem>
+<listitem>
+<para>Chapters 3-8: Type Checking, Integral Types, Data Flow and Variable Analysis , Preprocessing Checks, ISO C and Other Dialects and Common Errors respectively</para>
+</listitem>
+<listitem>
+<para>Chapter 9: The Symbol Table Dump deals with the detection of unused header files, type checking across translation units and complete standard API usage analysis</para>
+</listitem>
+<listitem>
+<para>Chapter 10: Conditional Compilation describes the checker's approach to conditional compilation</para>
+</listitem>
+<listitem>
+<para>Chapter 11: References lists the references used in the production of this document</para>
+</listitem>
+<listitem>
+<para>Annex A: Checking Modes gives a description of the built-in environments</para>
+</listitem>
+<listitem>
+<para>Annex B: Command Line Options lists the command line checking options</para>
+</listitem>
+<listitem>
+<para>Annex C: Specifying Integral Types describes the built-in integer modes and the methods for customising them</para>
+</listitem>
+<listitem>
+<para>Annex D: Pragma Syntax Specification</para>
+</listitem>
+<listitem>
+<para>Annex E: Symbol Table Dump Specification</para>
+</listitem>
+<listitem>
+<para>Annex F: Token Syntax describes the methods and syntax used to produce abstract APIs</para>
+</listitem>
+<listitem>
+<para>Annex G: Abstract API Manipulation gives details of the ways in which TenDRA abstract APIs may be extended, combined or overriden by local declarations</para>
+</listitem>
+<listitem>
+<para>Annex H: Specifying Conversions with Tokens</para>
+</listitem>
+</itemizedlist>
+</simplesect>
+</preface>
+
+
+
+<chapter>
+<title>Configuring the Checker</title>
+
+<para>There are several methods available for configuring the checker most of which are selected by using the relevant command line option. More detailed customisation may require special #pragma statements to be incorporated into the source code to be analysed (this commonly takes the form of a startup file). The configuration options generally act independently of one another and unless explicitly forbidden in the descriptions below, they may be combined in any way.</para>
+
+<sect1>
+<title>Built-in checking profiles</title>
+<para>Six standard checking profiles are provided with the tool and are held as a set of startup files which are automatically included in each C source file. A brief description of each profile is given below, for a complete descriptions see Annex A.</para>
+
+
+<itemizedlist>
+<listitem>
+<para>Xs ( strict checks ) denotes strict ISO standard C with most extra checks enabled as warnings</para>
+</listitem>
+<listitem>
+<para>Xp ( partial checks ) denotes strict ISO standard C with some extra checks enabled</para>
+</listitem>
+<listitem>
+<para>Xc ( conformance ) denotes strict ISO standard C with no extra checks enabled</para>
+</listitem>
+<listitem>
+<para>Xw ( warning mode ) represents a `warning' oriented compilation mode. Many non-ISO standard C features are permitted with a warning. Extra checks are performed to produce warnings</para>
+</listitem>
+<listitem>
+<para>Xa ( `standard-ish' C ) denotes ISO standard C with syntatic relaxation and no extra checks</para>
+</listitem>
+<listitem>
+<para>Xt ( traditional C ) denotes traditional ( Kernighan and Ritchie ) C with no extra checks</para>
+</listitem>
+</itemizedlist>
+
+
+
+<note>
+<para>
+The modes Xc, Xa, and Xt are meant to roughly correspond to the modes found on some System V compilers.
+</para>
+</note>
+
+<para>The default checking environment is Xc, other environments are specified by passing the name of the environment to the checker as a command line flag, e.g. the -Xs flag specifies that the Xs environment is to be used. These environments are the base checking modes and may not be combined: if more than one base mode is specified, only the final base mode is actually used - the earlier ones are ignored.</para>
+<para>There are also two "add-on" checking profiles, called <literal>nepc</literal> (no extra portability checks) and <literal>not_ansi</literal>, which may be used to complement any base mode. The "add-on" modes may alter the status of checks set in the base mode. The <literal>nepc/</literal> mode switches off many of the checks relating to portability issues and may be specified by passing the <literal>-nepc/</literal> command line option to tchk. The <literal>not_ansi/</literal> mode supports a raft of non-ISO features and is specified using the <literal>-not_ansi</literal> command line flag.</para>
+
+</sect1>
+<sect1>
+<title>Minimum integer ranges</title>
+
+<para>By default the checker assumes that all integer ranges conform to the minimum ranges prescribed by the ISO C standard, i.e. char contain at least 8 bits, short and int contain at least 16 bits and long contains at least 32 bits. If the -Y32bit flag is passed to the checker it assumes that integers conform to the minimum ranges commonly found on most 32 bit machines, i.e. int contains at least 32 bits and int is strictly larger than short so that the integral promotion of unsigned short is int under the ISO C standard integer promotion rules.</para>
+</sect1>
+
+<sect1>
+<title>API selection</title>
+
+<para>By default, programs are checked against the standard ISO C API as specified in the ISO C standard Chapter 7. Other APIs are specified by passing the -Yapi-name flag to the tchk, where api-name <emphasis>is one of the API designators listed below</emphasis>. APIs fall into two categories: base APIs and extension APIs. If more than one base API is specified to tchk, only the last one is used for checking; the others are ignored. Additional extension APIs, however, may be used in addition to any suitable base API.</para>
+
+<para>The base APIs available are:</para>
+
+
+<itemizedlist>
+<listitem>
+      <para>ansi ANSI X3.159;</para>
+</listitem>
+<listitem>
+      <para>iso ISO MSE 9899:1990(Amendment 1:1993(E));</para>
+</listitem>
+<listitem>
+      <para>posix POSIX 1003.1;</para>
+</listitem>
+<listitem>
+      <para>posix2 POSIX 1003.2;</para>
+</listitem>
+<listitem>
+      <para>xpg3 X/Open Portability Guide 3;</para>
+</listitem>
+<listitem>
+      <para>xpg4 X/Open Portability Guide 4;</para>
+</listitem>
+<listitem>
+      <para>cose COSE 1170;</para>
+</listitem>
+<listitem>
+      <para>svid3 System V Interface Definition 3rd Edition;</para>
+</listitem>
+<listitem>
+      <para>aes AES Revision A;</para>
+</listitem>
+<listitem>
+      <para>system System headers as main API.</para>
+</listitem>
+</itemizedlist>
+
+
+<para>and the extension APIs are:</para>
+
+<itemizedlist>
+<listitem>
+      <para>bsd_extn BSD-like extension for use with POSIX etc.;</para>
+</listitem>
+<listitem>
+      <para>x5_lib X11 (Release 5) Library;</para>
+</listitem>
+<listitem>
+      <para>x5_t X11 (Release 5) Intrinsics Toolkit;</para>
+</listitem>
+<listitem>
+      <para>x5_mu X11 (Release 5) Miscellaneous Utilities;</para>
+</listitem>
+<listitem>
+      <para>x5_aw X11 (Release 5) Athena Widgets;</para>
+</listitem>
+<listitem>
+      <para>x5_mit X11 (Release 5) MIT Implementation;</para>
+</listitem>
+<listitem>
+      <para>x5_proto X11 (Release 5) Protocol Extension;</para>
+</listitem>
+<listitem>
+      <para>x5_ext X11 (Release 5) Extensions;</para>
+</listitem>
+<listitem>
+      <para>x5_private X11 (Release 5) private headers (otherwise protected );</para>
+</listitem>
+<listitem>
+      <para>motif Motif 1.1;</para>
+</listitem>
+</itemizedlist>
+
+<para>system+ System headers as last resort API. Search the system headers only for those objects for which no declaration or definition can be found within the base API.</para>
+</sect1>
+
+<sect1>
+<title>Individual command line checking options</title>
+
+<para>Some of the checks available can be controlled using a command line option of the form -Xopt,opt,..., where the various opt options give a comma-separated list of commands. These commands have the form test=status, where test is the name of the check, and status is either check (apply check and give an error if it fails), warn (apply check and give a warning if it fails) or dont (do not apply check). The names of checks can be found with their descriptions in -XREF-Chapters 3 - 8; for example the check for implicit function declarations described in -XREF-3.4.1 may be switched on using <literal>-X:implicit_func=check/</literal>.</para>
+
+</sect1>
+
+<sect1>
+
+<title>Construct a customised checking environment</title>
+<para>The individual checks performed by the C static checker are generally controlled by #pragma directives. The reason for this is that the ISO standard places no restrictions on the syntax following a #pragma preprocessing directive, and most compilers/checkers can be configured to ignore any unknown #pragma directives they encounter.</para>
+
+    
+
+<para>Most of these directives begin:</para>
+<programlisting>
+    #pragma TenDRA ...
+</programlisting>
+    
+<para>and are always checked for syntactical correctness. The individual directives, together with the checks they control are described in Chapters 3 - 8. Section 2.2 describes the method of constructing a new checking profile from these individual checks.</para>
+
+</sect1>
+
+<sect1>
+<title>Scoping checking profiles</title>
+
+<para>Almost all the available checks are scoped (exceptions will be mentioned in the description of the check). A new checking scope may be started by inserting the pragma:</para>
+
+<programlisting>
+    #pragma TenDRA begin
+</programlisting>
+
+<para>at the outermost level. The scope runs until the matching:</para>
+
+<programlisting>
+    #pragma TenDRA end
+</programlisting>
+
+<para>directive, or to the end of the translation unit (the ISO C standard definition of a translation unit as being a source file, together with any headers or source files included using the #include preprocessing directive, less any source lines skipped by any of the conditional inclusion preprocessing directives, is used throughout this document).</para>
+
+<para>Checking scopes may be nested in the obvious way.</para>
+
+<para>Each new checking scope inherits its initial set of checks from the checking scope which immediately contains it (this includes the implicit main checking scope consisting of the entire source file). Any checks switched on or off within the scope apply only to that scope and any scope it contains. The set of checks applied reverts to its previous state at the end of a scope. Thus, for example:</para>
+
+<programlisting>
+    #pragma TenDRA variable analysis on
+    /* Variable analysis is on here */
+    #pragma TenDRA begin
+    #pragma TenDRA variable analysis off
+    /* Variable analysis is off here */
+    #pragma TenDRA end
+    /* Variable analysis is on again here */
+</programlisting>
+    
+<para>Once a check has been set any attempt to change its status within the same scope is flagged as an error. If checks need to be switched on and off in the same source file, they must be properly scoped. The built-in compilation modes have the entire source file as their scope.</para>
+
+<para>The method of applying different checking profiles to different parts of a program clearly needs to take into account those properties of C which can circumvent such scoping. Consider for example:</para>
+
+<programlisting>
+    #pragma TenDRA begin
+    #pragma TenDRA unknown escape allow
+    #define STRING "hello\!"
+    #pragma TenDRA end
+    char * f () {
+        return ( STRING ) ;
+    }
+</programlisting>
+
+<para>The macro STRING is defined in an area where unknown escape sequences, such as \!, are allowed, but it is expanded in an area where they are not allowed (this is the default setting). The conventional approach to macro expansion would lead to the unknown escape sequence being flagged as an error, even though the user probably intended to avoid this. The checker therefore expands all macros using the checking profile in which they were defined, rather than the current checking scope.</para>
+
+<para>The directives describing the user's desired checking profile could be included directly in the program itself, ideally in some configuration file which is #include'd in all source files. It is however perhaps more appropriate to store the directives as a startup file, <emphasis>file</emphasis> say, which is passed to the checker using the <literal>-f/</literal><emphasis>file</emphasis>command line option. It should be noted that user-defined compilation modes are defined on top of a built-in mode base (normally Xc, the default mode). It is therefore important to scope the new checking profile as described above.</para>
+
+<para>Names may be associated with checking scopes by using an alternative form of the begin directive:</para>
+
+<programlisting>
+    #pragma TenDRA begin name environment identifier
+</programlisting>
+
+<para>where identifier is any valid C identifier. Thereafter a statement of the form:</para>
+
+<programlisting>
+    #pragma TenDRA use environment identifier
+</programlisting>
+
+<para>changes the current checking environment to the environment associated with identifier.</para>
+
+<para>Sometimes it may be desirable to use different checking profiles for different parts of a translation unit, e.g. applying less strict checks to any system headers which may be included. The checker can be configured to apply a named checking scope, <emphasis>env_name</emphasis>, to any files included from a directory which has been named <emphasis>dir_name</emphasis>, using:</para>
+
+<programlisting>
+    #pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis>
+</programlisting>
+
+<para>The directory name must be passed to the checker using the <literal>-N/</literal><emphasis>dir_name</emphasis> <literal>:/</literal><emphasis>dir</emphasis> <literal>/</literal>command line option. This is equivalent to the usual <literal>-I/</literal><literal>dir/</literal> option for specifying include paths, except that it also attaches the name dir_name to the directory.</para>
+</sect1>
+
+</chapter>
+
+
+<chapter>
+<title>Type checking</title>
+
+<para>Type checking is relevant to two main areas of C. It ensures that all declarations referring to the same object are consistent (clearly a pre-requisite for a well-defined program). It is also the key to determining when an undefined or unexpected value has been produced due to the type conversions which arise from certain operations in C. Conversions may be explicit (conversion is specified by a cast) or implicit. Generally explicit conversions may be regarded more leniently since the programmer was obviously aware of the conversion, whereas the implications of an implicit conversion may not have been considered.</para>
+
+<sect1>
+<title>Type conversions</title>
+
+<para>The only types which may be interconverted legally are integral types, floating point types and pointer types. Even if these rules are observed, the results of some conversions can be surprising and may vary on different machines. The checker can detect three categories of conversion: integer to integer conversions, pointer to integer and integer to pointer conversions, and pointer to pointer conversions.</para>
+
+<para>In the default mode, the checker allows all integer to integer conversions, explicit integer to pointer and pointer to integer conversions and the explicit pointer to pointer conversions defined by the ISO C standard (all conversions between pointers to function types and other pointers are undefined according to the ISO C standard).</para>
+
+<para>Checks to detect these conversions are controlled by the pragma:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>status</emphasis> appears in a pragma statement it represents one of <literal>on/</literal> (enable the check and produce errors), <literal>warning/</literal> (enable the check but produce only warnings), or <literal>off/</literal> (disable the check). Here <emphasis>status</emphasis> may be <literal>on/</literal> to give an error if a conversion is detected, <literal>warning/</literal> to produce a warning if a conversion is detected, or <literal>off/</literal> to switch the checks off. The checks may also be controlled using the command line option<literal>-X:/</literal><emphasis>test</emphasis><literal>=/</literal><emphasis>state</emphasis> <literal>/</literal>where <emphasis>test</emphasis> is one of <literal>convert_all/</literal>, <literal>convert_int/</literal>, <literal>convert_int_explicit/</literal>, <literal>convert_int_implicit/</literal>, <literal>convert_int_ptr/</literal> and <literal>convert_ptr/</literal> and <emphasis>state</emphasis> is <literal>check/</literal>,<literal>warn/</literal> or <literal>dont/</literal>.
+
+<para>Due to the serious nature of implicit pointer to integer, implicit pointer to pointer conversions and undefined explicit pointer to pointer conversions, such conversions are flagged as errors by default. These conversion checks are not controlled by the global conversion analysis pragma above, but must be controlled by the relevant individual pragmas given in sections -XREF-3.2.2 and -XREF-3.2.3.</para>
+
+<sect2>
+<title>Integer to integer conversions</title>
+
+<para>All integer to integer conversions are allowed in C, however some can result in a loss of accuracy and so may be usefully detected. For example, conversions from int to long never result in a loss of accuracy, but conversions from long to int may. The detection of these shortening conversions is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-int ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>Checks on explicit conversions and implicit conversions may be controlled independently using:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-int explicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>and</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-int implicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>Objects of enumerated type are specified by the ISO C standard to be compatible with an implementation-defined integer type. However assigning a value of a different integral type other then an appropriate enumeration constant to an object of enumeration type is not really in keeping with the spirit of enumerations. The check to detect the implicit integer to enum type conversions which arise from such assignments is controlled using:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-enum implicit ) <emphasis>status</emphasis> 
+</programlisting>
+
+<para>Note that only implicit conversions are flagged; if the conversion is made explicit, by using a cast, no errors are raised.</para>
+
+
+<para>As usual <emphasis>status</emphasis> must be replaced by <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> in all the pragmas listed above.</para>
+
+<para>The interaction of the integer conversion checks with the integer promotion and arithmetic rules is an extremely complex issue which is further discussed in Chapter 4.</para>
+
+
+</sect2>
+<sect2>
+<title>Pointer to integer and integer to pointer conversions</title>
+
+<para>Integer to pointer and pointer to integer conversions are generally unportable and should always be specified by means of an explicit cast. The exception is that the integer zero and null pointers are deemed to be inter-convertible. As in the integer to integer conversion case, explicit and implicit pointer to integer and integer to pointer conversions may be controlled separately using:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-pointer explicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>and</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-pointer implicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>or both checks may be controlled together by:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( int-pointer ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <emphasis>status</emphasis> may be <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> as before and <literal>pointer-int/</literal> may be substituted for <literal>int-pointer/</literal>.</para>
+
+</sect2>
+<sect2>
+<title>Pointer to pointer conversions</title>
+
+<para>A ccording to the ISO C standard, section 6.3.4, the only legal pointer to pointer conversions are explicit conversions between:</para>
+
+<para>a pointer to an object or incomplete type and a pointer to a different object or incomplete type. The resulting pointer may not be valid if it is improperly aligned for the type pointed to;</para>
+
+<para>a pointer to a function of one type and a pointer to a function of another type. If a converted pointer, used to call a function, has a type that is incompatible with the type of the called function, the behaviour is undefined.</para>
+
+<para>Except for conversions to and from the generic pointer which are discussed below, all other conversions, including implicit pointer to pointer conversions, are extremely unportable.</para>
+
+<para>All pointer to pointer conversion may be flagged as errors using:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( pointer-pointer ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>Explicit and implicit pointer to pointer conversions may be controlled separately using:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( pointer-pointer explicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>and</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis ( pointer-pointer implicit ) <emphasis>status</emphasis>
+</programlisting>
+
+<para>where, as before, <literal>status/</literal> may be <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+
+<para>Conversion between a pointer to a function type and a pointer to a non-function type is undefined by the ISO C standard and should generally be avoided. The checker can however be configured to treat function pointers as object pointers for conversion using:</para>
+
+<programlisting>
+#pragma TenDRA function pointer as pointer <emphasis>permit</emphasis>
+</programlisting>
+
+<para>Unless explicitly stated to the contrary, throughout the rest of the document where <emphasis>permit</emphasis> appears in a pragma statement it represents one of <literal>allow/</literal> (allow the construct and do not produce errors), <literal>warning/</literal> (allow the construct but produce warnings when it is detected), or <literal>disallow/</literal> (produce errors if the construct is detected) Here there are three options for <emphasis>permit</emphasis>: <literal>allow/</literal> (do not produce errors or warnings for function pointer &lt;-&gt; pointer conversions); <literal>warning/</literal> (produce a warning when function pointer &lt;-&gt; pointer conversions are detected); or <literal>disallow/</literal> (produce an error for function pointer &lt;-&gt; pointer conversions).</para>
+
+<para>The generic pointer, void *, is a special case. All conversions of pointers to object or incomplete types to or from a generic pointer are allowed. Some older dialects of C used char * as a generic pointer. This dialect feature may be allowed, allowed with a warning, or disallowed using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA compatible type : char * == void * <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as before.</para>
+
+</sect2>
+<sect2>
+<title>Example: 64-bit portability issues</title>
+
+<para>64-bit machines form the "next frontier" of program portability. Most of the problems involved in 64-bit portability are type conversion problems. The assumptions that were safe on a 32-bit machine are not necessarily true on a 64-bit machine - int may not be the same size as long, pointers may not be the same size as int, and so on. This example illustrates the way in which the checker's conversion analysis tests can detect potential 64-bit portability problems.</para>
+
+<para>Consider the following code:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+void print ( string, offset, scale )
+char *string;
+unsigned int offset;
+int scale;
+{
+  string += ( scale * offset );
+  ( void ) puts ( string );
+  return;
+}
+
+int main ()
+{
+  char *s = "hello there";
+  print ( s + 4, 2U, -2 );
+  return ( 0 );
+}
+</programlisting>
+
+<para>This appears to be fairly simple - the offset of 2U scaled by -2 cancels out the offset in s + 4, so the program just prints "hello there". Indeed, this is what happens on most machines. When ported to a particular 64-bit machine, however, it core dumps. The fairly subtle reason is that the composite offset, scale * offset, is actually calculated as an unsigned int by the ISO C arithmetic conversion rules. So the answer is not -4. Strictly speaking it is undefined, but on virtually all machines it will be UINT_MAX - 3. The fact that adding this offset to string is equivalent to adding -4 is only true on machines on which pointers have the same size as unsigned int. If a pointer contains 64 bits and an unsigned int contains 32 bits, the result is 232 bytes out.</para>
+
+<para>So the error occurs because of the failure to spot that the offset being added to string is unsigned. All mixed integer type arithmetic involves some argument conversion. In the case above, scale is converted to an unsigned int and that is multiplied by offset to give an unsigned int result. If the implicit int-&gt;int conversion checks (-XREF-3.2.1 ) are enabled, this conversion is detected and the problem may be avoided.</para>
+
+</sect2>
+</sect1>
+<sect1>
+<title>Function type checking</title>
+
+<para>The importance of function type checking in C lies in the conversions which can result from type mismatches between the arguments in a function call and the parameter types assumed by its definition or between the specified type of the function return and the values returned within the function definition. Until the introduction of function prototypes into ISO standard C, there was little scope for detecting the correct typing of functions. Traditional C allows for absolutely no type checking of function arguments, so that totally bizarre functions, such as:</para>
+
+<programlisting>
+int f ( n ) int n ; {
+  return ( f ( "hello", "there" ) ) ;
+}
+</programlisting>
+
+<para>are allowed, although their effect is undefined. However, the move to fully prototyped programs has been relatively slow. This is partially due to an understandable reluctance to change existing, working programs, but the desire to maintain compatibility with existing C compilers, some of which still do not support prototypes, is also a powerful factor. Prototypes are allowed in the checker's default mode but tchk can be configured to allow, allow with a warning or disallow prototypes, using:</para>
+
+<programlisting>
+#pragma TenDRA prototype <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+
+<para>Even if prototypes are not supported the checker has a facility, described below, for detecting incorrectly typed functions.</para>
+
+
+<sect2>
+<title>Type checking non-prototyped functions</title>
+
+<para>The checker offers a method for applying prototype-like checks to traditionally defined functions, by introducing the concept of " weak" prototypes. A weak prototype contains function parameter type information, but has none of the automatic argument conversions associated with a normal prototype. Instead weak prototypes imply the usual argument promotion passing rules for non-prototyped functions. The type information required for a weak prototype can be obtained in three ways:</para>
+
+
+<orderedlist>
+<listitem>
+
+<para>A weak prototype may be declared using the syntax:</para>
+
+<programlisting>
+int f <emphasis>WEAK</emphasis> ( char, char * ) ;
+</programlisting>
+
+<para>where <emphasis>WEAK</emphasis> represents any keyword which has been introduced using:</para>
+
+<programlisting>
+#pragma TenDRA keyword <emphasis>WEAK</emphasis> for weak
+</programlisting>
+
+<para>An alternative definition of the keyword must be provided for other compilers. For example, the following definition would make system compilers interpret weak prototypes as normal (strong) prototypes:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword WEAK for weak
+#else
+#define WEAK
+#endif
+</programlisting>
+
+<para>The difference between conventional prototypes and weak prototypes can be illustrated by considering the normal prototype for f:</para>
+
+<programlisting>
+int f (char,char *);
+</programlisting>
+
+<para>When the prototype is present, the first argument to f would be passed as a char. Using the weak prototype, however, results in the first argument being passed as the integral promotion of char, that is to say, as an int.</para>
+
+<para>There is one limitation on the declaration of weak prototypes - declarations of the form:</para>
+
+<programlisting>
+int f <emphasis>WEAK</emphasis>() ;
+</programlisting>
+
+<para>are not allowed. If a function has no arguments, this should be stated explicitly as:</para>
+
+<programlisting>
+int f <emphasis>WEAK</emphasis>( void ) ;
+</programlisting>
+
+<para>whereas if the argument list is not specified, weak prototypes should be avoided and a traditional declaration used instead:</para>
+
+<programlisting>
+extern int f ();
+</programlisting>
+
+<para>The checker may be configured to allow, allow with a warning or disallow weak prototype declarations using:</para>
+
+<programlisting>
+#pragma TenDRA prototype ( weak ) <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> is replaced by <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as appropriate. Weak prototypes are not permitted in the default mode.</para>
+
+</listitem>
+<listitem>
+
+<para>Information can be deduced from a function definition. For example, the function definition:</para>
+
+<programlisting>
+int f(c,s) char c; char *s;{...}
+</programlisting>
+
+<para>is said to have weak prototype:</para>
+
+<programlisting>
+int f <emphasis>WEAK</emphasis> (char,char *);
+</programlisting>
+
+<para>The checker automatically constructs a weak prototype for each traditional function definition it encounters and if the weak prototype analysis mode is enabled (see below) all subsequent calls of the function are checked against this weak prototype.</para>
+
+<para>For example, in the bizarre function in -XREF-3.3, the weak prototype:</para>
+
+<programlisting>
+int f <emphasis>WEAK</emphasis> ( int );
+</programlisting>
+
+<para>is constructed for f. The subsequent call to f:</para>
+
+<programlisting>
+f ( "hello", "there" );
+</programlisting>
+
+<para>is then rejected by comparison with this weak prototype - not only is f called with the wrong number of arguments, but the first argument has a type incompatible with (the integral promotion of) int.</para>
+
+</listitem>
+<listitem>
+
+<para>Information may be deduced from the calls of a function. For example, in:</para>
+
+<programlisting>
+extern void f ();
+void g ()
+{
+  f ( 3 );
+  f ( "hello" );
+}
+</programlisting>
+
+<para>we can infer from the first call of f that f takes one integral argument. We cannot deduce the type of this argument, only that it is an integral type whose promotion is int (since this is how the argument is passed). We can therefore infer a partial weak prototype for f:</para>
+
+<programlisting>
+void f <emphasis>WEAK</emphasis> ( t );
+</programlisting>
+
+<para>for some integral type t which promotes to int. Similarly, from the second call of f we can infer the weak prototype:</para>
+
+<programlisting>
+void f <emphasis>WEAK</emphasis> ( char * );
+</programlisting>
+
+<para>(the argument passing rules are much simpler in this case). Clearly the two inferred prototypes are incompatible, so an error is raised.  Note that prototype inferred from function calls alone cannot ensure that the uses of the function within a source file are correct, merely that they are consistent. The presence of an explicit function declaration or definition is required for a definitive "right" prototype.</para>
+
+<para>Null pointers cause particular problems with weak prototypes inferred from function calls. For example, in:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+extern void f ();
+void g () {
+  f ( "hello" );
+  f( NULL );
+}
+</programlisting>
+
+<para>the argument in the first call of f is char* whereas in the second it is int (because NULL is defined to be 0). Whereas NULL can be converted to char*, it is not necessarily passed to procedures in the same way (for example, it may be that pointers have 64 bits and ints have 32 bits). It is almost always necessary to cast NULL to the appropriate pointer type in weak procedure calls.</para>
+
+</listitem>
+</orderedlist>
+
+
+
+<para>Functions for which explicitly declared weak prototypes are provided are always type-checked by the checker. Weak prototypes deduced from function declarations or calls are used for type checking if the weak prototype analysis mode is enabled using:</para>
+
+<programlisting>
+#pragma TenDRA weak prototype analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <literal>status/</literal> is one of <literal>on/</literal>, <literal>warning/</literal> and <literal>off/</literal> as usual. Weak prototype analysis is not performed in the default mode.</para>
+
+<para>There is also an equivalent command line option of the form <literal>-X:weak_proto=/</literal> <literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+
+<para>This section ends with two examples which demonstrate some of the less obvious consequences of weak prototype analysis.</para>
+
+
+<example>
+<title>An obscure type mismatch</title>
+
+<para>As stated above, the promotion and conversion rules for weak prototypes are precisely those for traditionally declared and defined functions. Consider the program:</para>
+
+<programlisting>
+void f ( n )long n;{
+  printf ( "%ld\n", n );
+}
+void g (){
+  f ( 3 );
+}
+</programlisting>
+
+<para>The literal constant 3 is an int and hence is passed as such to f. f is however expecting a long, which can lead to problems on some machines. Introducing a strong prototype declaration of f for those compilers which understand them:</para>
+
+<programlisting>
+#ifdef __STDC__ 
+  void f ( long );
+#endif
+</programlisting>
+
+<para>will produce correct code - the arguments to a function declared with a prototype are converted to the appropriate types, so that the literal is actually passed as 3L. This solves the problem for compilers which understand prototypes, but does not actually detect the underlying error. Weak prototypes, because they use the traditional argument passing rules, do detect the error. The constructed weak prototype:</para>
+
+<programlisting>
+void f <emphasis>WEAK</emphasis> ( long );
+</programlisting>
+
+<para>conveys the type information that f is expecting a long, but accepts the function arguments as passed rather than converting them. Hence, the error of passing an int argument to a function expecting a long is detected.</para>
+
+<para>Many programs, seeking to have prototype checks while preserving compilability with non-prototype compilers, adopt a compromise approach of traditional definitions plus prototype declarations for those compilers which understand them, as in the example above. While this ensures correct argument passing in the prototype case, as the example shows it may obscure errors in the non-prototype case.</para>
+
+</example>
+
+<example>
+<title>Weak prototype checks in defined programs</title>
+
+<para>In most cases a program which fails to compile with the weak prototype analysis enabled is undefined. ISO standard C does however contain an anomalous rule on equivalence of representation. For example, in:</para>
+
+<programlisting>
+extern void f ();
+void g () {
+  f ( 3 );
+  f ( 4U );
+}
+</programlisting>
+
+<para>the TenDRA checker detects an error - in one instance f is being passed an int, whereas in the other it is being passed an unsigned int. However, the ISO C standard states that, for values which fit into both types, the representation of a number as an int is equal to that as an unsigned int, and that values with the same representation are interchangeable in procedure arguments. Thus the program is defined. The justification for raising an error or warning for this program is that the prototype analysis is based on types, not some weaker notion of "equivalence of representation". The program may be defined, but it is not type correct.</para>
+
+<para>Another case in which a program is defined, but not correct, is where an unnecessary extra argument is passed to a function. For example, in:</para>
+
+<programlisting>
+void f ( a ) int a; {
+  printf ( "%d\n", a );
+}
+void g () {
+  f ( 3, 4 );
+}
+</programlisting>
+
+<para>the call of f is defined, but is almost certainly a mistake.</para>
+</example>
+
+</sect2>
+<sect2>
+<title>Checking printf strings</title>
+
+<para>Normally functions which take a variable number of arguments offer only limited scope for type checking. For example, given the prototype:</para>
+
+<programlisting>
+int execl ( const char *, const char *, ... );
+</programlisting>
+
+<para>the first two arguments may be checked, but we have no hold on any subsequent arguments (in fact in this example they should all be const char *, but C does not allow this information to be expressed). Two classes of functions of this form, namely the printf and scanf families, are so common that they warrant special treatment. If one of these functions is called with a constant format string, then it is possible to use this string to deduce the types of the extra arguments that it is expect ing. For example, in:</para>
+
+<programlisting>
+printf ( "%ld", 4 );
+</programlisting>
+
+<para>the format string indicates that printf is expecting a single additional argument of type long. We can therefore deduce a <emphasis>quasi-prototype</emphasis> which this particular call to printf should conform to, namely:</para>
+
+<programlisting>
+int printf ( const char *,long );
+</programlisting>
+
+<para>In fact this is a mixture of a strong prototype and a weak prototype. The first argument comes from the actual prototype of printf, and hence is strong. All subsequent arguments correspond to the ellipsis part of the printf prototype, and are passed by the normal promotion rules. Hence the long component of the inferred prototype is weak (see 3.3.1). This means that the error in the call to printf - the integer literal is passed as an int when a long is expected - is detected.</para>
+
+<para>In order for this check to take place, the function declaration needs to tell the checker that the function is like printf. This is done by introducing a special type, <emphasis>PSTRING</emphasis> say, to stand for a printf string, using:</para>
+
+<programlisting>
+#pragma TenDRA type <emphasis>PSTRING</emphasis> for ... printf
+</programlisting>
+
+<para>For most purposes this is equivalent to:</para>
+
+<programlisting>
+typedef const char *<emphasis>PSTRING</emphasis>;
+</programlisting>
+
+<para>except that when a function declaration:</para>
+
+
+<programlisting>
+int f ( <emphasis>PSTRING</emphasis>, ... );
+</programlisting>
+
+<para>is encountered the checker knows to deduce the types of the arguments corresponding to the ... from the PSTRING argument (the precise rules it applies are those set out in the XPG4 definition of fprintf). If this mechanism is used to apply printf style checks to user defined functions, an alternative definition of PSTRING for conventional compilers must be provided. For example:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA type PSTRING for ... printf
+#else
+typedef const char *PSTRING;
+#endif
+</programlisting>
+
+<para>There are similar rules with scanf in place of printf.</parA>
+
+<para>The TenDRA descriptions of the standard APIs use this mechanism to describe those functions, namely printf, fprintf and sprintf, and scanf, fscanf and sscanf which are of these forms. This means that the checks are switched on for these functions by default. However, these descriptions are under the control of a macro, __NO_PRINTF_CHECKS, which, if defined before stdio.h is included, effectively switches the checks off. This macro is defined in the start-up files for certain checking modes, so that the checks are disabled in these modes (see chapter 2). The checks can be enabled in these cases by #undef'ing the macro before including stdio.h. There are equivalent command-line options to tchk of the form <literal>-X:printf=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal> or <literal>dont/</literal>, which respectively undefine and define this macro.</para>
+
+</sect2>
+
+<sect2>
+
+<title>Function return checking</title>
+
+<para>Function returns normally present no difficulties. The return value is converted, as if by assignment, to the function return type, so that the problem is essentially one of type conversion (see 3.2). There is however one anomalous case. A plain return statement, without a return value, is allowed in functions returning a non-void type, the value returned being undefined. For example, in:</para>
+
+<programlisting>
+int f ( int c )
+{
+  if ( c ) return ( 1 );
+  return;
+}
+</programlisting>
+
+<para>the value returned when c is zero is undefined. The test for detecting such void returns is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA incompatible void return <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> may be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as usual.<para>
+
+<para>There are also equivalent command line options to tchk of the form <literal>-X:void_ret=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>. Incompatible void returns are allowed in the default mode and of course, plain return statements in functions returning void are always legal.</para>
+
+<para>This check also detects functions which do not contain a return statement, but fall out of the bottom of the function as in:</para>
+
+<programlisting>
+int f ( int c )
+{
+  if ( c ) return ( 1 );
+}
+</programlisting>
+
+<para>Occasionally it may be the case that such a function is legal, because the end of the function is not reached. Unreachable code is discussed in section -XREF-tdfc8.html 5.2.</para>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Overriding type checking</title>
+
+<para>There are several commonly used features of C, some of which are even allowed by the ISO C standard, which can circumvent or hinder the type-checking of a program. The checker may be configured either to enforce the absence of these features or to support them with or without a warning, as described below.</para>
+
+<sect2>
+<title>Implicit Function Declarations</title>
+
+<para>The ISO C standard states that any undeclared function is implicitly assumed to return int. For example, in ISO C:</para>
+
+<programlisting>
+int f ( int c ) {
+  return ( g( c )+1 );
+}
+
+</programlisting>
+
+<para>the undeclared function g is inferred to have a declaration:</para>
+
+<programlisting>
+extern int g ();
+</programlisting>
+
+<para>This can potentially lead to program errors. The definition of f would be valid if g actually returned double, but incorrect code would be produced. Again, an explicit declaration might give us more information about the function argument types, allowing more checks to be applied.</para>
+
+<para>Therefore the best chance of detecting bugs in a program and ensuring its portability comes from having each function declared before it is used. This means detecting implicit declarations and replacing them by explicit declarations. By default implicit function declarations are allowed, however the pragma:</para>
+
+<programlisting>
+#pragma TenDRA implicit function declaration <emphasis>status</emphasis>
+</programlisting>
+
+<para>may be used to determine how tchk handles implicit function declarations. <literal>Status/</literal> is replaced by <literal>on/</literal> to allow implicit declarations, <literal>warning/</literal> to allow implicit declarations but to produce a warning when they occur, or <literal>off/</literal> to prevent implicit declarations and raise an error where they would normally be used.</para>
+
+<para>(There are also equivalent command-line options to tcc of the form <literal>-X:implicit_func=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.)</para>
+
+<para>This test assumes an added significance in API checking. If a programmer wishes to check that a certain program uses nothing outside the POSIX API, then implicitly declared functions are a potential danger area. A function from outside POSIX could be used without being detected because it has been implicitly declared. Therefore, the detection of implicitly declared functions is vital to rigorous API checking.</para>
+
+</sect2>
+<sect2>
+<title>Function Parameters</title>
+
+<para>Many systems pass function arguments of differing types in the same way and programs are sometimes written to take advantage of this feature. The checker has a number of options to resolve type mismatches which may arise in this way and would otherwise be flagged as errors:</para>
+
+<orderedlist>
+<listitem>
+<formalpara>
+<title>Type-type compatibility</title>
+<para>When comparing function prototypes for compatibility, the function parameter types must be compared. If the parameter types would otherwise be incompatible, they are treated as compatible if they have previously been introduced with a type-type param ter compatibility pragma i.e.</para>
+</formalpara>
+
+<programlisting>
+#pragma TenDRA argument <emphasis>type-name</emphasis> as <emphasis>type-name</emphasis>
+</programlisting>
+
+<para>where <emphasis>type-name</emphasis> is the name of any type. This pragma is transitive and the second type in the pragma is taken to be the final type of the parameter.</para>
+</listitem>
+
+<listitem>
+<formalpara>
+<title>Type-ellipsis compatibility</title>
+<para>Two function prototypes with different numbers of arguments are compatible if:</para>
+</formalpara>
+
+<itemizedlist>
+<listitem>
+<para>both prototypes have an ellipsis</para>
+</listitem>
+<listitem>
+<para>each parameter type common to both prototypes is compatible</para>
+</listitem>
+<listitem>
+<para>each extra parameter type in the prototype with more parameters, is either specified in a type-ellipsis compatibility pragma or is type-type compatible (see above) to a type that is specified in a type-ellipsis compatibility.</para>
+</listitem>
+</itemizedlist>
+
+<para>Type-ellipsis compatibility is introduced using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA argument <emphasis>type-name</emphasis> as ...
+</programlisting>
+
+<para>where again <literal>type-name/</literal> is the name of any type.</para>
+</listitem>
+<listitem>
+<formalpara>
+<title>Ellipsis compatibility</title>
+<para>If, when comparing two function prototypes for compatibility, one has an ellipsis and the other does not, but otherwise the two types would be compatible, then if an `extra' ellipsis is allowed, the types are treated as compatible. The pragma controlling ellipsis compatibility is:</para>
+
+<programlisting>
+#pragma TenDRA extra ... <emphasis>permit</emphasis>
+</programlisting>
+<para>where <literal>permit/</literal> may be <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal> as usual.</para>
+</listitem>
+</orderedlist>
+
+</sect2>
+<sect2>
+<title>Incompatible promoted function arguments</title>
+
+<para>Mixing the use of prototypes with old-fashioned function definitions can result in incorrect code. For example, in the program below the function argument promotion rules are applied to the definition of f, making it incompatible with the earlier prototype (a is converted to the integer promotion of char, i.e. int).</para>
+
+<programlisting>
+int f(char);
+int f(a)char a;{
+...
+}
+</programlisting>
+
+<para>An incompatible type error is raised in the default checking mode. The check for incompatible types which arise from mixtures of prototyped and non-prototyped function declarations and definitions is controlled using:</para>
+
+<para><literal>#pragma TenDRA incompatible promoted function argument/</literal> <emphasis>permit</emphasis></para>
+
+<para><literal>Permit/</literal> may be replaced by <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as normal. The parameter type in the resulting function type is the promoted parameter type.</para>
+
+
+</sect2>
+<sect2>
+<title>Incompatible type qualifiers</title>
+<para>The declarations</para>
+
+<programlisting>
+const int a;
+int a;
+</programlisting>
+
+<para>are not compatible according to the ISO C standard because the qualifier, const, is present in one declaration but not in the other. Similar rules hold for volatile qualified types. By default, tchk produces an error when declarations of the same object contain different type qualifiers. The check is controlled using:</para>
+
+<programlisting>
+#pragma TenDRA incompatible type qualifier <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+
+<para><!-- FM pgf ignored -->
+</para>
+</sect2>
+</sect1>
+</chapter>
+
+
+<chapter>
+<title>Integral Types</title>
+<para>The checks described in the previous chapter involved the detection of conversions which could result in undefined values. Certain conversions involving integral types, however, are defined in the ISO C standard and so might be considered safe and unlikely to cause problems. This unfortunately is not the case: some of these conversions may still result in a change in value; the actual size of each integral type is implementation-dependent; and the "old-style" integer conversion rules which predate the ISO standard are still in common use. The checker provides support for both ISO and traditional integer promotion rules. The set of rules used may be specified independently of the two integral range scenarios, 16 bit(default) and 32 bit, described in section -XREF-2.1.2.</para>
+
+<para>The means of specifying and alternative sets of promotion rules, their interaction with the conversion checks described in section -XREF-3.2 and the additional checks which may be performed on integers and integer operations are described in the remainder of this chapter.</para>
+
+<sect1>
+<title>Integer promotion rules</title>
+
+<para><literal>The ISO C standard rules/</literal> may be summarised as follows: long integral types promote to themselves; other integral types promote to whichever of int or unsigned int they fit into. In full the promotions are:</para>
+
+
+<itemizedlist>
+<listitem>
+<para>char -&gt; int</para>
+</listitem>
+<listitem>
+<para>signed char -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned char -&gt; int</para>
+</listitem>
+<listitem>
+<para>short -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned short -&gt; int or unsigned int</para>
+</listitem>
+<listitem>
+<para>int -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned int -&gt; unsigned int</para>
+</listitem>
+<listitem>
+<para>long -&gt; long</para>
+</listitem>
+<listitem>
+<para>unsigned long -&gt; unsigned long</para>
+</listitem>
+</itemizedlist>
+
+<note>
+<para>Even with these simple built-in types, there is a degree of uncertainty, namely concerning the promotion of unsigned short. On most machines, int is strictly larger than short so the promotion of unsigned short is int. However, it is possible for short and int to have the same size, in which case the promotion is unsigned int. When using the ISO C promotion rules, the checker usually avoids making assumptions about the implementation by treating the promotion of unsigned short as an abstract integral type. If, however, the <literal>-Y32bit/</literal> option is specified, int is assumed to be strictly larger than short, and unsigned short promotes to int.</para>
+</note>
+
+<para><literal>The traditional C integer promotion rules/</literal> are often referred to as the signed promotion rules. Under these rules, long integral types promote to themselves, as in ISO C, but the other integral types promote to unsigned int if they are qualified by unsigned, and int otherwise. Thus the signed promotion rules may be represented as follows:</para>
+
+<itemizedlist>
+<listitem>
+<para>char -&gt; int</para>
+</listitem>
+<listitem>
+<para>signed char -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned char -&gt; unsigned int</para>
+</listitem>
+<listitem>
+<para>short -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned short -&gt; unsigned int</para>
+</listitem>
+<listitem>
+<para>int -&gt; int</para>
+</listitem>
+<listitem>
+<para>unsigned int -&gt; unsigned int</para>
+</listitem>
+<listitem>
+<para>long -&gt; long</para>
+</listitem>
+<listitem>
+<para>unsigned long -&gt; unsigned long</para>
+</listitem>
+</itemizedlist>
+
+<para>The traditional promotion rules are applied in the <literal>Xt/</literal> built-in environment only. All of the other built-in environments specify the ISO C promotion rules. Users may also specify their own rules for integer promotions and minimum integer ranges; the methods for doing this are described in Annex H.</para>
+
+</sect1>
+
+<sect1>
+<title>Arithmetic operations on integer types</title>
+
+<para><literal>The ISO C standard rules/</literal> for calculating the type of an arithmetic operation involving two integer types is as follows - work out the integer promotions of the types of the two operands, then:</para>
+
+<itemizedlist>
+<listitem>
+<para>If either promoted type is unsigned long, the result type is unsigned long;</para>
+</listitem>
+<listitem>
+<para>Otherwise, if one promoted type is long and the other is unsigned int, then if a long int can represent all values of an unsigned int, the result type is long; otherwise the result type is unsigned long;</para>
+</listitem>
+<listitem>
+<para>Otherwise, if either promoted type is long, the result type is long;</para>
+</listitem>
+<listitem>
+<para>Otherwise, if either promoted type is unsigned int, the result type is unsigned int;</para>
+</listitem>
+<listitem>
+<para>Otherwise the result type is int.</para>
+</listitem>
+</itemizedlist>
+
+<para>Both promoted values are converted to the result type, and the operation is then applied.</para>
+
+</sect1>
+
+<sect1>
+<title>Interaction with the integer conversion checks</title>
+
+<para>A simple-minded implementation of the integer conversion checks described in 3.2 would interact badly with these rules. Consider, for example, adding two values of type char:</para>
+
+<programlisting>
+char f ( char a, char b )
+{
+  char c = a + b ;
+  return ( c ) ;
+}
+</programlisting>
+
+<para>The various stages in the calculation of c are as follows - a and b are converted to their promotion type, int, added together to give an int result, which is converted to a char and assigned to c. The conversions of a and b from char to int are always safe, and so present no difficulties to the integer conversion checks. The conversion of the result from int to char, however, is precisely the type of value destroying conversion which these checks are designed to detect.</para>
+
+<para>Obviously, an integer conversion check which flagged all char arithmetic would never be used, thereby losing the potential to detect many subtle portability errors. For this reason, the integer conversion checks are more sophisticated. In all typed languages, the type is used for two purposes - for static type checking and for expressing information about the actual representation of data on the target machine. Essentially it is a confusion between these two roles which leads to the problems above. The C promotion and arithmetic rules are concerned with how data is represented and manipulated, rather than the underlying abstract types of this data. When a and b are promoted to int prior to being added together, this is only a change in representation; at the conceptual level they are still char's. Again, when they are added, the result may be represented as an int, but conceptually it is a char. Thus the assignment to c, an actual char, is just a change in representation, not a change in conceptual type.</para>
+
+<para>So each expression may be regarded as having two types - a conceptual type which stands for what the expression means, and a representational type which stands for how the expression is to represented as data on the target machine. In the vast majority of expressions, these types coincide, however the integral promotion and arithmetic conversions are changes of representational, not conceptual, types. The integer conversion checks are concerned with detecting changes of conceptual type, since it is these which are most likely to be due to actual programming errors.</para>
+
+<para>It is possible to define integral types within the TenDRA extensions to C in which the split between concept and representation is made explicit. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA keyword TYPE for type representation
+</programlisting>
+
+<para>may be used to introduce a keyword TYPE for this purpose (as with all such pragmas, the precise keyword to be used is left to the user). Once this has been done, TYPE ( r, t ) may be used to represent a type which is conceptually of type t but is represented as data like type r. Both t and r must be integral types. For example:</para>
+
+<programlisting>
+TYPE ( int, char ) a ;
+</programlisting>
+
+<para>declares a variable a which is represented as an int, but is conceptually a char.</para>
+
+<para>In order to maintain compatibility with other compilers, it is necessary to give TYPE a sensible alternative definition. For all but conversion checking purposes, TYPE ( r, t ) is identical to r, so a suitable definition is:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword TYPE for type representation
+#else
+#define TYPE( r, t ) r
+#endif
+</programlisting>
+
+</sect1>
+<sect1>
+<title>Target dependent integral types</title>
+
+<para>Since the checker uses only information about the minimum guaranteed ranges of integral types, integer values for which the actual type of the values is unknown may arise. Integer values of undetermined type generally arise in one of two ways: through the use of integer literals and from API types which are not completely specified.</para>
+
+<sect2>
+<title>Integer literals</title>
+
+<para><literal>The ISO C rules/</literal> on the type of integer literals are set out as follows. For each class of integer literals a list of types is given. The type of an integer literal is then the first type in the appropriate list which is large enough to contain the value of the integer literal. The class of the integer literal depends on whether it is decimal, hexadecimal or octal, and whether it is qualified by U (or u) or L (or l) or both. The rules may be summarised as follows:</para>
+
+<itemizedlist>
+<listitem>
+<para>decimal -&gt; int or long or unsigned long</para>
+</listitem>
+<listitem>
+<para>hex or octal -&gt; int or unsigned int or long or unsigned long</para>
+</listitem>
+<listitem>
+<para>any + U -&gt; unsigned int or unsigned long</para>
+</listitem>
+<listitem>
+<para>any + L -&gt; long or unsigned long</para>
+</listitem>
+<listitem>
+<para>any + UL -&gt; unsigned long</para>
+</listitem>
+</itemizedlist>
+
+<para>These rules are applied in all the built-in checking modes except <literal>Xt/</literal>. Traditional C does not have the U and L qualifiers, so if the <literal>Xt/</literal> mode is used, these qualifiers are ignored and all integer literals are treated as int, long or unsigned long, depending on the size of the number.</para>
+
+<para>If a number fits into the minimal range for the first type of the appropriate list, then it is of that type; otherwise its type is undetermined and is said to be target dependent. The checker treats target dependent types as abstract integral types which may lead to integer conversion problems. For example, in:</para>
+
+<programlisting>
+int f ( int n ) {
+  return ( n &amp; 0xff00 ) ;
+}
+</programlisting>
+
+<para>the type of 0xff00 is target dependent, since it does not fit into the minimal range for int specified by the ISO C standard (this is detected by the integer overflow analysis described in section 4.6). The arithmetic conversions resulting from the &amp; operation is detected by the checker's conversion analysis. Note that if the -Y32bit option is specified to tchk, an int is assumed to contain at least 32 bits. In this case, 0xff00 fits into the type int, and so this is the type of the integer literal. No invalid integer conversions is then detected.</para>
+
+</sect2>
+<sect2>
+<title>Abstract API types</title>
+
+<para>Target dependent integral types also occur in API specifications and may be encountered when checking against one of the implementation-independent APIs provided with the checker. The commonest example of this is size_t, which is stated by the ISO C standard to be a target dependent unsigned integral type, and which arises naturally within the language as the type of a sizeof expression.</para>
+
+<para>The checker has its own internal version of size_t, wchar_t and ptrdiff_t for evaluating static compile-time expressions. These internal types are compatible with the ISO C specification of size_t, wchar_t and ptrdiff_t, and thus are compatible with any conforming definitions of these types found in included files. However, when checking the following program against the system headers, a warning is produced on some machines concerning the implicit conversion of an unsigned int to type size_t:</para>
+
+<programlisting>
+#include &lt;stdlib.h&gt;
+int main() {
+  size_t size;
+  size = sizeof(int);
+}
+</programlisting>
+
+<para>The system header on the machine in question actually defines size_t to be a signed int (this of course contravenes the ISO C standard) but the compile time function sizeof returns the checker's internal version of size_t which is an abstract unsigned integral type. By using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA set size_t:signed int
+</programlisting>
+
+<para>the checker can be instructed to use a different internal definition of size_t when evaluating the sizeof function and the error does not arise. Equivalent options are also available for the ptrdiff_t and wchar_t types.</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Integer overflow checks</title>
+
+<para>Given the complexity of the rules governing the types of integers and results of integer operations, as well as the variation of integral ranges with machine architecture, it is hardly surprising that unexpected results of integer operations are at the root of many programming problems. These problems can often be hard to track down and may suddenly appear in an application which was previously considered "safe", when it is moved to a new system. Since the checker supports the concept of a guaranteed minimum size of an integer it is able to detect many potential problems involving integer constants. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA integer overflow analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <literal>status/</literal> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>, controls a set of checks on arithmetic expressions involving integer constants. These checks cover overflow, use of constants exceeding the minimum guaranteed size for their type and division by zero. They are not enabled in the default mode.</para>
+
+<para>There are two special cases of integer overflow for which checking is controlled separately:</para>
+
+<para><literal>Bitfield sizes/</literal>. Obviously, the size of a bitfield must be smaller than or equal to the minimum size of its integral type. A bitfield which is too large is flagged as an error in the default mode. The check on bitfield sizes is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA bitfield overflow <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is one of <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+
+<para><literal>Octal and hexadecimal escape sequences/</literal>. According to the ISO C standard, the value of an octal or hexadecimal escape sequence shall be in the range of representable values for the type unsigned char for an integer character constant, or the unsigned type corresponding to wchar_t for a wide character constant. The check on escape sequence sizes is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA character escape overflow <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal>. The check is switched on by default.</para>
+
+</sect1>
+
+<sect1>
+<title>Integer operator checks</title>
+
+<para>The results of some integer operations are undefined by the ISO C standard for certain argument types. Others are implementation-defined or simply likely to produce unexpected results.In the default mode such operations are processed silently, however a set of checks on operations involving integer constants may be controlled using:</para>
+
+<programlisting>
+#pragma TenDRA integer operator analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <emphasis>status</emphasis> is replaced by <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>. This pragma enables checks on:</para>
+
+<itemizedlist>
+<listitem>
+<para>shift operations where an expression is shifted by a negative number or by an amount greater than or equal to the width in bits of the expression being shifted;</para>
+</listitem>
+<listitem>
+<para>right shift operation with a negative value of signed integral type as the first argument;</para>
+</listitem>
+<listitem>
+<para>division operation with a negative operand;</para>
+</listitem>
+<listitem>
+<para>test for an unsigned value strictly greater than or less than 0 (these are always true or false respectively);</para>
+</listitem>
+<listitem>
+<para>conversion of a negative constant value to an unsigned type;</para>
+</listitem>
+<listitem>
+<para>application of unary - operator to an unsigned value.</para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+<sect1>
+<title>Support for 64 bit integer types (long long)</title>
+
+<para>Although the use of long long to specify a 64 bit integer type is not supported by the ISO C standard it is becoming increasingly popular as in programming use. By default, tchk does not support the use of long long but the checker can be configured to support the long long type to different degrees using the following pragmas:</para>
+
+<programlisting>
+#pragma TenDRA longlong type <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is one of <literal>allow/</literal> (long long type accepted), <literal>disallow/</literal> (errors produced when long long types are detected) or <literal>warning/</literal> (long long type are accepted but a warning is raised).</para>
+
+<programlisting>
+#pragma TenDRA set longlong type : type_name
+</programlisting>
+
+<para>where <emphasis>type_name</emphasis> is <literal>long/</literal> or <literal>long long/</literal>.</para>
+
+<para>The first pragma determines the behaviour of the checker if the type long long is encountered as a type specifier. In the disallow case, an error is raised and the type specifier mapped to long, otherwise the type is stored as long long although a message alerting the user to the use of long long is raised in the warning mode. The second pragma determines the semantics of long long. If the type specified is long long, then long long is treated as a separate integer type and if code generation is enabled, long long types appears in the output. Otherwise the type is mapped to long and all objects declared long long are output as if they had been declared long (a warning is produced when this occurs). In either case, long long is treated as a distinct integer type for the purpose of integer conversion checking.</para>
+
+<para>Extensions to the integer promotion and arithmetic conversion rules are required for the long long type. These have been implemented as follows:</para>
+
+<itemizedlist>
+<listitem>
+<para>the types of integer arithmetic operations where neither argument has long long type are unaffected;</para>
+</listitem>
+<listitem>
+<para>long long and unsigned long long both promote to themselves;</para>
+</listitem>
+<listitem>
+<para>the result type of arithmetic operations with one or more arguments of type unsigned long long is unsigned long long;</para>
+</listitem>
+<listitem>
+<para>otherwise if either argument has type signed long long the overall type is long long if both arguments can be represented in this form, otherwise the type is unsigned long long.</para>
+</listitem>
+</itemizedlist>
+
+<para>There are now three cases where the type of an integer arithmetic operation is not completely determined from the type of its arguments, i.e.</para>
+
+<orderedlist>
+<listitem>
+<para>signed long long + unsigned long = signed long long <emphasis>or</emphasis> unsigned long long;</para>
+</listitem>
+<listitem>
+<para>signed long long + unsigned int = signed long long <emphasis>or</emphasis> unsigned long long;</para>
+</listitem>
+<listitem>
+<para>signed int + unsigned short = signed int <emphasis>or</emphasis> unsigned int ( as before ).</para>
+</listitem>
+</orderedlist>
+
+<para>In these cases, the type of the operation is represented using an abstract integral type as described in section -XREF-4.2.</para>
+
+</sect1>
+</chapter>
+
+
+<chapter>
+
+<title>Data Flow and Variable Analysis</title>
+
+<para>The checker has a number of features which can be used to help track down potential programming errors relating to the use of variables within a source file and the flow of control through the program. Examples of this are detecting sections of unused code, flagging expressions that depend upon the order of evaluation where the order is not defined, checking for unused static variables, etc.</para>
+
+<sect1>
+<title>Unreachable code analysis</title>
+
+<para>Consider the following function definition:</para>
+
+<programlisting>
+int f ( int n )
+{
+  if ( n ) {
+  return ( 1 );
+} else {
+  return ( 0 );
+}
+  return ( 2 );
+}
+</programlisting>
+
+<para>The final return statement is redundant since it can never be reached. The test for unreachable code is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA unreachable code <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where permit is replaced by <literal>disallow/</literal> to give an error if unreached code is detected, <literal>warning/</literal> to give a warning, or <literal>allow/</literal> to disable the test (this is the default).</para>
+
+<para>There are also equivalent command-line options to tchk of the form <literal>-X:unreached=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+
+<para>Annotations to the code in the form of user-defined keywords may be used to indicate that a certain statement is genuinely reached or unreached. These keywords are introduced using:</para>
+
+<programlisting>
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+</programlisting>
+
+<para>The statement REACHED then indicates that this portion of the program is actually reachable, whereas UNREACHED indicates that it is unreachable. For example, one way of fixing the program above might be to say that the final return is reachable (this is a blatant lie, but never mind). This would be done as follows:</para>
+
+<programlisting>
+int f ( int n ) {
+  if ( n ) {
+    return ( 1 );
+  } else {
+    return ( 0 )
+  }
+  REACHED
+  return ( 2 );
+}
+</programlisting>
+
+<para>An example of the use of UNREACHED might be in the function below which falls out of the bottom without a return statement. We might know that, because it is never called with c equal to zero, the end of the function is never reached. This could be indicated as follows:</parA>
+
+<programlisting>
+int f ( int c ){
+  if ( c ) return ( 1 );
+  UNREACHED
+}
+</programlisting>
+
+<para>As always, if new keywords are introduced into a program then definitions need to be provided for conventional compilers. In this case, this can be done as follows:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+#else
+#define REACHED
+#define UNREACHED
+#endif
+</programlisting>
+
+
+</sect1>
+<sect1>
+<title>Case fall through</title>
+
+<para>Another flow analysis check concerns fall through in case statements. For example, in:</para>
+
+<programlisting>
+void f ( int n )
+{
+  switch ( n ) {
+    case 1 : puts ( "one" );
+   case 2 : puts ( "two" );
+  }
+}
+</programlisting>
+
+<para>the control falls through from the first case to the second. This may be due to an error in the program (a missing break statement), or be deliberate. Even in the latter case, the code is not particularly maintainable as it stands - there is always the risk when adding a new case that it will interrupt this carefully contrived flow. Thus it is customary to comment all case fall throughs to serve as a warning.</para>
+
+<para>In the default mode, the TenDRA C checker ignores all such fall throughs. A check to detect fall through in case statements is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA fall into case <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> is <literal>allow/</literal> (no errors), <literal>warning/</literal> (warn about case fall through) or <literal>disallow/</literal> (raise errors for case fall through).</para>
+
+<para>There are also equivalent command-line options to tcc of the form -<literal>X:fall_thru=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+
+<para>Deliberate case fall throughs can be indicated by means of a keyword, which has been introduced using:</para>
+
+<programlisting>
+#pragma TenDRA keyword FALL_THROUGH for fall into case
+</programlisting>
+
+<para>Then, if the example above were deliberate, this could be indicated by:</para>
+
+<programlisting>
+void f ( int n ){
+  switch ( n ) {
+    case 1 : puts ( "one" );
+    FALL_THROUGH
+    case 2 : puts ( "two" );
+  }
+}
+</programlisting>
+
+<note>
+<para>FALL_THROUGH is inserted between the two cases, rather than at the end of the list of statements following the first case.</para>
+</note>
+
+<para>If a keyword is introduced in this way, then an alternative definition needs to be introduced for conventional compilers. This might be done as follows:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword FALL_THROUGH for fall into case
+#else
+#define FALL_THROUGH
+#endif
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Unusual flow in conditional statements</title>
+<para>The following three checks are designed to detect possible errors in conditional statements.</para>
+
+<sect2>
+<title>Empty if statements</title>
+
+<para>Consider the following C statements:</para>
+
+<programlisting>
+if( var1 == 1 ) ;
+var2 = 0 ;
+</programlisting>
+
+<para>The conditional statement serves no purpose here and the second statement will always be executed regardless of the value of var1. This is almost certainly not what the programmer intended to write. A test for if statements with no body is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA extra ; after conditional <emphasis>permit</emphasis>
+</programlisting>
+
+<para>with the usual <literal>allow/</literal> (this is the default setting), <literal>warning/</literal> and <literal>disallow/</literal> options for <emphasis>permit</emphasis>.</para>
+
+</sect2>
+<sect2>
+<title>Use of assignments as control expressions</title>
+
+<para>Using the C assignment operator, `=', when the equality operator `==' was intended is an extremely common problem. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA assignment as bool <emphasis>permit</emphasis>
+</programlisting>
+
+<para>is used to control the treatment of assignments used as the controlling expression of a conditional statement or a loop, e.g.</para>
+
+<programlisting>
+if( var = 1 ) { ...
+</programlisting>
+
+<para>The options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal>. The default setting allows assignments to be used as control statements without raising an error.</para>
+
+</sect2>
+<sect2>
+<title>Constant control expressions</title>
+
+<para>Statements with constant control expressions are not really conditional at all since the value of the control statement can be evaluated statically. Although this feature is sometimes used in loops, relying on a break, goto or return statement to end the loop, it may be useful to detect all constant control expressions to check that they are deliberate. The check for statically constant control expressions is controlled using:</para>
+
+<programlisting>
+#pragma TenDRA const conditional <emphasis>permit</emphasis>
+</programlisting>
+
+
+<para>where permit may be replaced by <literal>disallow/</literal> to give an error when constant control expressions are encountered, <literal>warning/</literal> <emphasis>to replace the error by a warning,</emphasis> <literal>/</literal>or the check may be switched off using the <literal>allow/</literal> (this is the default).</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Operator precedence</title>
+
+<para>The ISO C standard section 6.3, provides a set of rules governing the order in which operators within expressions should be applied. These rules are said to specify the operator precedence and are summarised in the table over the page. Operators on the same line have the same precedence and the rows are in order of decreasing precedence. Note that the unary +, -, * and &amp; operators have higher precedence than the binary forms and thus appear higher in the table.</para>
+
+<para>The precedence of operators is not always intuitive and often leads to unexpected results when expressions are evaluated. A particularly common example is to write:</para>
+
+<programlisting>
+if ( var &amp; TEST == 1) { ...
+}
+else { ...
+</programlisting>
+
+<para>assuming that the control expression will be evaluated as:</para>
+
+<programlisting>
+( ( var &amp; TEST ) == 1 )
+</programlisting>
+
+<para>However, the == operator has a higher precedence than the bitwise &amp; operator and the control expression is evaluated as:</para>
+
+<programlisting>
+( var &amp; ( TEST == 1 ) )
+</programlisting>
+
+<parA>which in general will give a different result</para>
+
+<table frame='all'>
+<title>ISO C Rules for Operator Precedence</title>
+<tgroup cols='2'>
+<thead>
+<row>
+<entry>operators</entry>
+<entry>Precedence</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>function call() [] -> . ++(postfix) --(postfix)</entry>
+<entry>highest</entry>
+</row>
+<row>
+<entry>[ - ++ -- + - * & (type) sizeof</entry>
+<entry></entry>
+</row>
+<row>
+<entry>* / %</entry>
+<entry></entry>
+</row>
+<row>
+<entry>+(binary) -(binary)</entry>
+<entry></entry>
+</row>
+<row>
+<entry><< >></entry>
+<entry></entry>
+</row>
+<row>
+<entry><<= >>=</entry>
+<entry></entry>
+</row>
+<row>
+<entry>== [=</entry>
+<entry></entry>
+</row>
+<row>
+<entry>&</entry>
+<entry></entry>
+</row>
+<row>
+<entry>^</entry>
+<entry></entry>
+</row>
+<row>
+<entry>|</entry>
+<entry></entry>
+</row>
+<row>
+<entry>&&</entry>
+<entry></entry>
+</row>
+<row>
+<entry>||</entry>
+<entry></entry>
+</row>
+<row>
+<entry>?;</entry>
+<entry></entry>
+</row>
+<row>
+<entry>=+= -= *= /= %= &= ^= |= <<= >>=</entry>
+<entry></entry>
+</row>
+<row>
+<entry>.</entry>
+<entry>lowest</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<para>The TenDRA C checker can be configured to flag expressions containing certain operators whose precedence is commonly confused, namely:</para>
+
+<itemizedlist>
+<listitem>
+<para>&amp;&amp; <emphasis>versus</emphasis> ||</para>
+</listitem>
+<listitem>
+<para>&lt;&lt; <emphasis>and</emphasis> &gt;&gt; <emphasis>versus</emphasis> + <emphasis>and</emphasis> -</para>
+</listitem>
+<listitem>
+<para>&amp; <emphasis>versus</emphasis> == != &lt; &gt; &lt;= &gt;= + <emphasis>and</emphasis> -</para>
+</listitem>
+<listitem>
+<para>^ <emphasis>versus</emphasis> &amp; == |= &lt; &gt; &lt;= &gt;= + <emphasis>and</emphasis> -</para>
+</listitem>
+<listitem>
+<para>| <emphasis>versus</emphasis> ^ &amp; == |= &lt; &gt; &lt;= &gt;= + <emphasis>and</emphasis> -</para>
+</listitem>
+</itemizedlist>
+
+<para>The check is switched off by default and is controlled using:</para>
+
+<programlisting>
+#pragma TenDRA operator precedence <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <emphasis>status</emphasis> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+
+</sect1>
+
+<sect1>
+<title>Variable analysis</title>
+
+<para>The variable analysis checks are controlled by:</para>
+
+<programlisting>
+#pragma TenDRA variable analysis status
+</programlisting>
+
+<parA>where <literal>status/</literal> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal> as usual. The checks are switched off in the default mode.</para>
+
+<para>There are also equivalent command line options to tchk of the form <literal>-X:variable=/</literal><literal>state/</literal>, where <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+
+<para>The variable analysis is concerned with the evaluation of expressions and the use of local variables, including function arguments. Occasionally it may not be possible to statically perform a full analysis on an expression or variable and in these cases the messages produced indicate that there may be a problem. If a full analysis is possible a definite error or warning is produced. The individual checks are listed in sections 5.6.1 to 5.6.6 and section 5.7 describes the source annotations which can be used to fine-tune the variable analysis.</para>
+
+<sect2>
+<title>Order of evaluation</title>
+
+<para>The ISO C standard specifies certain points in the expression syntax at which all prior expressions encountered are guaranteed to have been evaluated. These positions are called sequence points and occur:</parA>
+
+<itemizedlist>
+<listitem>
+<para>after the arguments and function expression of a function call have been evaluated but before the call itself;</para>
+</listitem>
+<listitem>
+<para>after the first operand of a logical &amp;&amp;, or || operator;</para>
+</listitem>
+<listitem>
+<para>after the first operand of the conditional operator, ?:;</para>
+</listitem>
+<listitem>
+<para>after the first operand of the comma operator;</para>
+</listitem>
+<listitem>
+<para>at the end of any full expression (a full expression may take one of the following forms: an initialiser; the expression in an expression statement; the controlling expression in an <literal>if/</literal>, <literal>while/</literal>, <literal>do/</literal> or <literal>switch/</literal> statement; each of the three optional expressions of a <literal>for/</literal> statement; or the optional expression of a <literal>return/</literal> statement).</para>
+</listitem>
+</itemizedlist>
+
+
+<para>Between two sequence points however, the order in which the operands of an operator are evaluated, and the order in which side effects take place is unspecified - any order which conforms to the operator precedence rules above is permitted. For example:</para>
+
+<programlisting>
+var = i + arr[ i++ ] ;
+</programlisting>
+
+<para>may evaluate to different values on different machines, depending on which argument of the + operator is evaluated first. The checker can detect expressions which depend on the order of evaluation of sub-expressions between sequence points and these are flagged as errors or warnings when the variable analysis is enabled.</para>
+
+</sect2>
+<sect2>
+<title>Modification between sequence points</title>
+
+<para>The ISO C standard states that if an object is modified more than once, or is modified and accessed other than to determine the new value, between two sequence points, then the behaviour is undefined. Thus the result of:</para>
+
+<programlisting>
+var = arr[i++] + i++ ;
+</programlisting>
+
+<para>is undefined, since the value of i is being incremented twice between sequence points. This behaviour is detected by the variable analysis.</para>
+
+</sect2>
+<sect2>
+<title>Operand of sizeof operator</title>
+
+<para>According to the ISO C standard, section 6.3.3.4, the operand of the sizeof operator is not itself evaluated. If the operand has any side-effects these will not occur. When the variable analysis is enabled, the checker detects the use of expressions with side-effects in the operand of the sizeof operator.</para>
+
+</sect2>
+<sect2>
+<title>Unused variables</title>
+
+<para>As part of the variable analysis, a simple test applied to each local variable at the end of its scope to determine whether it has been used in that scope. For example, in:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r;
+  return ( 0 );
+}
+</programlisting>
+
+<para>both the function argument n and the local variable r are unused.</para>
+
+</sect2>
+<sect2>
+<title>Values set and not used</title>
+
+<para>This is a more complex test since it is applied to every instance of setting the variable. For example, in:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r = 1;
+  r = 5;
+  return ( r );
+}
+</programlisting>
+
+<para>the first value r is set to 1 and is not used before it is overwritten by 5 (this second value is used however). This test requires some flow analysis. For example, if the program is modified to:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r = 1;
+  if ( n == 3 ) {
+    r = 5;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>the initial value of r is used when n != 3, so no error is detected. However in:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r = 1;
+  if ( n == 3 ) {
+    r = 5;
+  } else {
+    r = 6;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>the initial value of r is overwritten regardless of the result of the conditional, and hence is unused.</para>
+
+</sect2>
+<sect2>
+<title>Variable which has not been set is used</title>
+
+<para>This test also requires some flow analysis, for example in:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r;
+  if ( n == 3 ) {
+    r = 5;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>the use of the variable r as a return value is reported because there are paths leading to this statement in which r is not set (i.e. when n != 3). However, in:</para>
+
+<programlisting>
+int f ( int n )
+{
+  int r;
+  if ( n == 3 ) {
+    r = 5;
+  } else {
+    r = 6;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>r is always set before it is used, so no error is detected.</para>
+
+</sect2>
+</sect1>
+<sect1>
+<title>Overriding the variable analysis</title>
+
+<para>Although many of the problems discovered by the variable analysis are genuine mistakes, some may be as the result of deliberate decisions by the program writer. In this case, more information needs to be provided to the checker to convey the programmer's intentions. Four constructs are provided for this purpose: the discard variable, the set variable, the exhaustive switch and the non-returning function.</para>
+
+<sect2>
+<title>Discarding variables</title>
+
+<para>Actively discarding a variable counts as a use of that variable in the variable analysis, and so can be used to suppress messages concerning unused variables and values assigned to variables. There are two distinct methods to indicate that the variable x is to be discarded. The first uses a pragma:</para>
+
+<programlisting>
+#pragma TenDRA discard x;
+</programlisting>
+
+<para>which the checker treats as if it were a C statement, ending in a semicolon. Having a statement which is noticed by one compiler but ignored by another can lead to problems. For example, in:</para>
+
+<programlisting>
+if ( n == 3 )
+#pragma TenDRA discard x;
+  puts ( "n is three" );
+</programlisting>
+
+<para>tchk believes that x is discarded if n == 3 and the message is always printed, whereas other compilers will ignore the #pragma statement and think that the message is printed if n == 3. An alternative, in many ways neater, solution is to introduce a new keyword for discarding variables. For example, to introduce the keyword DISCARD for this purpose, the pragma:</para>
+
+<programlisting>
+#pragma TenDRA keyword DISCARD for discard variable
+</programlisting>
+
+<para>should be used. The variable x can then be discarded by means of the statement:</para>
+
+<programlisting>
+DISCARD ( x );
+</programlisting>
+
+<para>A dummy definition for DISCARD to use with normal compilers needs to be given in order to maintain compilability with those compilers. For example, a complete definition of DISCARD might be:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword DISCARD for discard variable
+#else
+#define DISCARD(x) (( void ) 0 )
+#endif
+</programlisting>
+
+<para>Discarding a variable changes its assignment state to unset, so that any subsequent uses of the variable, without an intervening assignment to it, lead to a "variable used before being set" error. This feature can be exploited if the same variable is used for distinct purposes in different parts of its scope, by causing the variable analysis to treat the different uses separately. For example, in:</para>
+
+<programlisting>
+void f ( void ) {
+  int i = 0;
+  while ( i++ &lt; 10 )
+    { puts ( "hello" ); }
+  while ( i++ &lt; 10 ) 
+    { puts ( "goodbye" ); }
+}
+</programlisting>
+
+<para>which is intended to print both messages ten times, the two uses of i as a loop counter are independent - they could have been implemented with different variables. By discarding i after the first loop, the second loop can be analysed separately. In this way, the error of failing to reset i to 0 can be detected.</para>
+
+</sect2>
+<sect2>
+<title>Setting variables</title>
+
+<para>In addition to discarding variables, it is also possible to set them. In deliberately setting a variable, the programmer is telling the checker to assume that some value will always have been assigned to the variable by that point, so that any "variable used without being set" errors can be suppressed. This construct is particularly useful in programs with complex flow control, to help out the variable analysis. For example, in:</para>
+
+<programlisting>
+void f ( int n )
+{
+  int r;
+  if ( n != 0 ) r = n;
+  if ( n &gt; 2 ) {
+    printf ( "%d\n", r );
+  }
+}
+</programlisting>
+
+<para>r is only used if n &gt; 2, in which case we also have n != 0, so that r has already been initialised. However, in its flow analysis, the TenDRA C checker treats all the conditionals it meets as if they were independent and does not look for any such complex dependencies (indeed it is possible to think of examples where such analysis would be impossible). Instead, it needs the programmer to clarify the flow of the program by asserting that r will be set if the second condition is true.</para>
+
+<para>Programmers may assert that the variable, r, is set either by means of a pragma:</para>
+
+<programlisting>
+#pragma TenDRA set r;
+</programlisting>
+
+<para>or by using, for example:</para>
+
+<programlisting>
+SET ( r );
+</programlisting>
+
+<para>where SET is a keyword which has previously been introduced to stand for the variable setting construct using:</para>
+
+<programlisting>
+#pragma TenDRA keyword SET for set
+</programlisting>
+
+<note>
+<para>cf. DISCARD above.</para>
+</note>
+
+</sect2>
+<sect2>
+<title>Exhaustive switch statements</title>
+
+<para>A special case of a flow control construct which may be used to set the value of a variable is a switch statement. Consider the program:</para>
+
+<programlisting>
+char *f ( int n ){
+  char *r;
+  switch ( n ) {
+    case 1:r="one";break;
+    case 2:r="two";break;
+    case 3:r="three";break;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>This leads to an error indicating that r is used but not set, because it is not set if n lies outside the three cases in the switch statement. However, the programmer might know that f is only ever called with these three values, and hence that r is always set before it is used. This information could be expressed by asserting that r is set at the end of the switch construct (see above), but it would be better to express the cause of this setting rather than just its effect. The reason why r is always set is that the switch statement is exhaustive - there are case statements for all the possible values of n.</para>
+
+<para>Programmers may assert that a switch statement is exhaustive by means of a pragma immediately following it. For example, in the above case it would take the form:</para>
+
+<programlisting>
+....
+switch ( n )
+#pragma TenDRA exhaustive
+{
+  case 1:r="one";break;
+  ....
+</programlisting>
+
+<para>Again, there is an option to introduce a keyword, EXHAUSTIVE say, for exhaustive switch statements using:</para>
+
+<programlisting>
+#pragma TenDRA keyword EXHAUSTIVE for exhaustive
+</programlisting>
+
+<para>Using this form, the example program becomes:</para>
+
+<programlisting>
+switch ( n ) EXHAUSTIVE {
+  case 1:r="one";break;
+</programlisting>
+
+<para>In order to maintain compatibility with existing compilers, a dummy definition for EXHAUSTIVE must be introduced for them to use. For example, a complete definition of EXHAUSTIVE might be:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#else
+#define EXHAUSTIVE
+#endif
+</programlisting>
+
+</sect2>
+<sect2>
+<title>Non-returning functions</title>
+<para>Consider a modified version of the program above, in which calls to f with an argument other than 1, 2 or 3 cause an error message to be printed:</para>
+
+<programlisting>
+extern void error (const char*);
+char *f ( int n ) {
+  char *r;
+  switch ( n ) {
+    case 1:r="one";break;
+    case 2:r="two";break;
+    case 3:r="three";break;
+    default:error("Illegal value");
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>This causes an error because, in the default case, r is not set before it is used. However, depending on the semantics of the function, error, the return statement may never be reached in this case. This is because the fact that a function returns void can mean one of two distinct things:</para>
+
+<orderedlist>
+<listitem>
+<para>That the function does not return a value. This is the usual meaning of void.</para>
+</listitem>
+<listitem>
+<para>That the function never returns, for example the library function, exit, uses void in this sense.</para>
+</listitem>
+</orderedlist>
+
+<para>If error never returns, then the program above is correct; otherwise, an unset value of r may be returned.</para>
+
+<para>Therefore, we need to be able to declare the fact that a function never returns. This is done by introducing a new type to stand for the non-returning meaning of void (some compilers use volatile void for this purpose). This is done by means of the pragma:</para>
+
+<programlisting>
+#pragma TenDRA type VOID for bottom
+</programlisting>
+
+<para>to introduce a type VOID (although any identifier may be used) with this meaning. The declaration of error can then be expressed as:</para>
+
+<programlisting>
+extern VOID error (const char *);
+</programlisting>
+
+<para>In order to maintain compatibility with existing compilers a definition of VOID needs to be supplied. For example:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA type VOID for bottom
+#else
+typedef void VOID;
+#endif
+</programlisting>
+
+<para>The largest class of non-returning functions occurs in the various standard APIs - for example, exit and abort. The TenDRA descriptions of these APIs contain this information. The information that a function does not return is taken into account in all flow analysis contexts. For example, in:</para>
+
+<programlisting>
+#include &lt;stdlib.h&gt;
+int f ( int n )
+{
+  exit ( EXIT_FAILURE );
+  return ( n );
+}
+</programlisting>
+
+<para><literal>n</literal> is unused because the return statement is not reached (a fact that can also be determined by the unreachable code analysis in section -XREF-5.2).</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Discard Analysis</title>
+
+<para>A couple of examples of what might be termed "discard analysis" have already been described - discarded (unused) local variables and discarded (unused) assignments to local variables (see section 5.6.4 and 5.6.5). The checker can perform three more types of discard analysis: discarded function returns, discarded computations and unused static variables and procedures. These three tests may be controlled as a group using:</para>
+
+<programlisting>
+#pragma TenDRA discard analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <emphasis>status</emphasis> is <literal>on/</literal>, <literal>warning/</literal> or <literal>off/</literal>.</para>
+
+<para>In addition, each of the component tests may be switched on and off independently using pragmas of the form:</para>
+
+<programlisting>
+#pragma TenDRA discard analysis (function return) <emphasis>status</emphasis>
+#pragma TenDRA discard analysis (value) <emphasis>status</emphasis>
+#pragma TenDRA discard analysis (static) <emphasis>status</emphasis>
+</programlisting>
+
+<para>There are also equivalent command line options to tchk of the form <literal>-X:/</literal><literal>test/</literal><literal>=/</literal><literal>state/</literal>, where <literal>test/</literal> can be <literal>discard_all/</literal>, <literal>discard_func_ret/</literal> , <literal>discard_value/</literal> or <literal>unused_static/</literal>, and <literal>state/</literal> can be <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>. These checks are all switched off in the default mode.</para>
+
+<para>Detailed descriptions of the individual checks follow in sections 5.8.1 - 5.8.3. Section 5.9 describes the facilities for fine-tuning the discard analysis.</para>
+
+<sect2>
+<title>Discarded function returns</title>
+
+<para>Functions which return a value which is not used form the commonest instances of discarded values. For example, in:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+int main ()
+{
+  puts ( "hello" );
+  return ( 0 );
+}
+</programlisting>
+
+<para>the function, puts, returns an int value, indicating whether an error has occurred, which is ignored.</para>
+
+</sect2>
+<sect2>
+<title>Discarded computed values</title>
+
+<para>A rarer instance of a discarded object, and one which is almost always an error, is where a value is computed but not used. For example, in:</para>
+
+<programlisting>
+int f ( int n ) {
+  int r = 4 
+  if ( n == 3 ) {
+    r == 5;
+  }
+  return ( r );
+}
+</programlisting>
+
+<para>the value r == 5 is computed but not used. This is actually because it is a misprint for r = 5.</para>
+
+</sect2>
+<sect2>
+<title>Unused static variables and procedures</title>
+
+<para>The final example of discarded values, which perhaps more properly belongs with the variable analysis tests mentioned above, is for static objects which are unused in the source module in which they are defined. Of course this means that they are unused in the entire program. Such objects can usually be removed.</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>Overriding the discard analysis</title>
+
+<para>As with the variable analysis, certain constructs may be used to provide the checker with extra information about a program, to convey the programmer's intentions more clearly.</para>
+
+<sect2>
+<title>Discarding function returns and computed values</title>
+
+<para>Unwanted function returns and, more rarely, discarded computed values, may be actively ignored to indicate to the discard analysis that the value is being discarded deliberately. This can be done using the traditional method of casting the value to void:</para>
+
+<programlisting>
+( void ) puts ( "hello" );
+</programlisting>
+
+<para>or by introducing a keyword, IGNORE say, for discarding a value. This is done using a pragma of the form:</parA>
+
+<programlisting>
+#pragma TenDRA keyword IGNORE for discard value
+</programlisting>
+
+<para>The example discarded value then becomes:</para>
+
+<programlisting>
+IGNORE puts ( "hello" );
+</programlisting>
+
+<para>Of course it is necessary to introduce a definition of IGNORE for conventional compilers in order to maintain compilability. A suitable definition might be:</para>
+
+<programlisting>
+#ifdef __TenDRA__
+#pragma TenDRA keyword IGNORE for discard value
+#else
+#define IGNORE ( void )
+#endif
+</programlisting>
+
+</sect2>
+<sect2>
+<title>Preserving unused statics</title>
+
+<para>Occasionally unused static values are introduced deliberately into programs. The fact that the static variables or procedures x, y and z are deliberately unused may be indicated by introducing the pragma:</para>
+
+<programlisting>
+#pragma TenDRA suspend static x y z
+</programlisting>
+
+<para>at the outer level after the definition of all three objects.</para>
+
+</sect2>
+</sect1>
+</chapter>
+
+
+<chapter>
+<title>Preprocessing checks</title>
+
+<para>This chapter describes tchk's capabilities for checking the preprocessing constructs that arise in C.</para>
+
+
+<sect1>
+<title>Preprocessor directives</title>
+
+<para>By default, the TenDRA C checker understands those preprocessor directives specified by the ISO C standard, section 6.8, i.e. #if, #ifdef, #ifndef, #elif, #else, #endif, #error, #line and #pragma. As has been mentioned, #pragma statements play a significant role in the checker. While any recognised #pragma statements are processed, all unknown pragma statements are ignored by default. The check to detect unknown pragma statements is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA unknown pragma <emphasis>permit</emphasis>
+</programlisting>
+
+<para>The option for <emphasis>permit</emphasis> are <literal>disallow/</literal> (raise an error if an unknown pragma is encountered), <literal>warning/</literal> (allow unknown pragmas with a warning), or <literal>allow/</literal> (allow unknown pragmas without comment).</para>
+
+<para>In addition, the common non-ISO preprocessor directives, #file, #ident, #assert, #unassert and #weak may be permitted using:</para>
+
+<programlisting>
+#pragma TenDRA directive <emphasis>dir</emphasis> allow
+</programlisting>
+
+<para>where <emphasis>dir</emphasis> is the appropriate one of <literal>file/</literal>, <literal>ident/</literal> , <literal>assert/</literal>, <literal>unassert/</literal> or <literal>weak/</literal>. If <literal>allow/</literal> is replaced by <literal>warning/</literal> then the directive is allowed, but a warning is issued. In either case, the modifier <literal>(ignore)/</literal> may be added to indicate that, although the directive is allowed, its effect is ignored. Thus for example:</para>
+
+<programlisting>
+#pragma TenDRA directive ident (ignore) allow
+</programlisting>
+
+<para>causes the checker to ignore any #ident directives without raising any errors.</para>
+
+<para>Finally, the directive dir can be disallowed using:</para>
+
+<programlisting>
+#pragma TenDRA directive <emphasis>dir</emphasis> disallow
+</programlisting>
+
+<para>Any other unknown preprocessing directives cause the checker to raise an error in the default mode. The pragma may be used to force the checker to ignore such directives without raising any errors.</para>
+
+<programlisting>
+#pragma TenDRA unknown directive allow
+</programlisting>
+
+<para><literal>Disallow/</literal> and <literal>warning/</literal> variants are also available.</para>
+
+</sect1>
+<sect1>
+<title>Indented Preprocessing Directives</title>
+
+<para>The ISO C standard allows white space to occur before the # in a preprocessing directive, and between the # and the directive name. Many older preprocessors have problems with such directives. The checker's treatment of such directives can be set using:</para>
+
+<programlisting>
+#pragma TenDRA indented # directive <emphasis>permit</emphasis>
+</programlisting>
+
+<para>which detects white space before the # and:</para>
+
+<programlisting>
+#pragma TenDRA indented directive after # <emphasis>permit</emphasis>
+</programlisting>
+
+<para>which detects white space between the # and the directive name. The options for <emphasis>permit</emphasis> are <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal> as usual. The default checking profile allows both forms of indented directives.</para>
+
+</sect1>
+
+<sect1>
+<title>Multiple macro definitions</title>
+
+
+<para>The ISO C standard states that, for two definitions of a function-like macro to be equal, both the spelling of the parameters and the macro definition must be equal. Thus, for example, in:</para>
+
+<programlisting>
+#define f( x ) ( x )
+#define f( y ) ( y )
+</programlisting>
+
+<para>the two definitions of f are not equal, despite the fact that they are clearly equivalent. Tchk has an alternative definition of macro equality which allows for consistent substitution of parameter names. The type of macro equality used is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA weak macro equality allow
+</programlisting>
+
+<para>where permit is <literal>allow/</literal> (use alternative definition of macro equality),<literal>warning/</literal> (as for allow but raise a warning), or <literal>disallow/</literal> (use the ISO C definition of macro equality - this is the default setting).</para>
+
+<para>More generally, the pragma:</para>
+
+<programlisting>
+#pragma TenDRA extra macro definition allow
+</programlisting>
+
+<para>allows macros to be redefined, both consistently and inconsistently. If the definitions are incompatible, the first definition is overwritten. This pragma has a <literal>disallow/</literal> variant, which resets the check to its default mode.</para>
+
+</sect1>
+
+<sect1>
+<title>Macro arguments</title>
+
+<para>According to the ISO C standard, section -XREF-6.8.3, if a macro argument contains a sequence of preprocessing tokens that would otherwise act as a preprocessing directive, the behaviour is undefined. Tchk allows preprocessing directives in macro arguments by default. The check to detect such macro arguments is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA directive as macro argument <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+<para>The ISO C standard, section 6.8.3.2, also states that each # preprocessing token in the replacement list for a function-like macro shall be followed by a parameter as the next preprocessing token in the replacement list. By default, if tchk encounters a # in a function-like macro replacement list which is not followed by a parameter of the macro an error is raised. The checker's behaviour in this situation is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA no ident after # <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where the options for <emphasis>permit</emphasis> are <literal>allow/</literal> (do not raise errors), <literal>disallow/</literal> (default mode) and <literal>warning/</literal> (raise warnings instead of errors).</para>
+
+</sect1>
+
+<sect1>
+<title>Unmatched quotes</title>
+
+<para>The ISO C standard, section -XREF-6.1, states that if a ` or " character matches the category of preprocessing tokens described as "single non-whitespace-characters that do not lexically match the other preprocessing token categories", then the behaviour is undefined. For example:</para>
+
+<programlisting>
+#define a `b
+</programlisting>
+
+<para>would result in undefined behaviour. By default the ` character is ignored by tchk. A check to detect such statements may be controlled by:</para>
+
+<programlisting>
+#pragma TenDRA unmatched quote <emphasis>permit</emphasis>
+</programlisting>
+
+<para><emphasis>The usual</emphasis> <literal>allow/</literal>, <literal>warning/</literal> and <literal>disallow/</literal> options are available.</para>
+
+</sect1>
+
+<sect1>
+<title>Include depth</title>
+
+<para>Most preprocessors set a maximum depth for #include directives (which may be limited by the maximum number of files which can be open on the host system). By default, the checker supports a depth equal to this maximum number. However, a smaller maximum depth can be set using:</para>
+
+<programlisting>
+#pragma TenDRA includes depth n
+</programlisting>
+
+<para>where <literal>n/</literal> can be any positive integral constant.</para>
+
+
+</sect1>
+
+<sect1>
+<title>Text after #endif</title>
+
+<para>The ISO C standard, section 6.8, specifies that #endif and #else preprocessor directives do not take any arguments, but should be followed by a newline. In the default checking mode, tchk raises an error when #endif or #else statements are not directly followed by a new line. This behaviour may be modified using:</para>
+
+<programlisting>
+#pragma TenDRA text after directive <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal> (no errors are raised and any text on the same line as the #endif or #else statement is ignored), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+</sect1>
+
+<sect1>
+<title>Text after #</title>
+
+<para>The ISO C standard specifies that a # occuring outside of a macro replacement list must be followed by a new line or by a preprocessing directive and this is enforced by the checker in default mode . The check is controlled by:</para>
+
+<programlisting>
+#pragma TenDRA no directive/nline after ident <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> may be <literal>allow, disallow/</literal> or <literal>warning/</literal>.</para>
+
+</sect1>
+
+<sect1>
+<title>New line at end of file</title>
+
+<para>The ISO C standard, section 5.1.1.2, states that source files must end with new lines. Files which do not end in new lines are flagged as errors by the checker in default mode. The behaviour can be modified using:</para>
+
+<programlisting>
+#pragma TenDRA no nline after file end <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> has the usual <literal>allow/</literal><emphasis>,</emphasis><literal>disallow/</literal> and <literal>warning/</literal> options.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter>
+<title>Dialect Features</title>
+
+<para>This chapter describes the capabilities of the TenDRA C checker for enforcing the ISO C standard as well as features for detecting areas left undefined by the standard. It also lists the non-ISO dialect features supported by the checker in order to provide compatibility with older versions of C and allow the use of third-party source which may contain non-standard constructs.</para>
+
+
+<sect1>
+<title>Resolving linkage problems</title>
+
+<para>Often the way that identifier names are resolved can alter the semantics of a program. For example, in:</para>
+
+<programlisting>
+void f () {
+  {
+    extern void g ();
+    g ( 3 );
+  }
+  g ( 7 );
+}
+</programlisting>
+
+<para>the external declaration of g is only in scope in the inner block of f. Thus, at the second call of g, it is not in scope, and so is inferred to have declaration:</para>
+
+<programlisting>
+extern int g ();
+</programlisting>
+
+<para>-XREF-(see 3.4). This conflicts with the previous declaration of g which, although not in scope, has been registered in the external namespace. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA unify external linkage on
+</programlisting>
+
+<para>modifies the algorithm for resolving external linkage by searching the external namespace before inferring a declaration. In the example above, this results in the second use of g being resolved to the previous external declaration. The <literal>on/</literal> can be replaced by <literal>warning/</literal> to give a warning when such resolutions are detected, or <literal>off/</literal> to switch this feature off.</para>
+
+<para>Another linkage problem, which is left undefined in the ISO C standard, is illustrated by the following program:</para>
+
+<programlisting>
+int f () {
+  extern int g ();
+  return ( g () );
+}
+
+static int g ()
+{
+  return ( 0 );
+}
+</programlisting>
+
+<para>Is the external variable g (the declaration of which would be inferred if it was omitted) the same as the static variable g? Of course, had the order of the two functions been reversed, there would be no doubt that they were, however, in the given case it is undefined. By default, the linkage is resolved externally, so that the two uses of g are not identified. However, the checker can be made to resolve its linkage internally, so that the two uses of g are identified. The resolution algorithm can be set using:</para>
+
+<programlisting>
+#pragma TenDRA linkage resolution : <emphasis>action</emphasis>
+</programlisting>
+
+<para>where <literal>action/</literal> can be one of:</para>
+
+<orderedlist>
+<listitem>
+<para><literal>(internal) on/</literal></para>
+</listitem>
+<listitem>
+<para><literal>(internal) warning/</literal></para>
+</listitem>
+<listitem>
+<para><literal>(external) on/</literal></para>
+</listitem>
+<listitem>
+<para><literal>(external) warning/</literal></para>
+</listitem>
+<listitem>
+<para><literal>off/</literal></para>
+</listitem>
+</orderedlist>
+
+<para>depending on whether the linkage resolution is internal, external, or default, and whether a warning message is required. The most useful behaviour is to issue a warning for all such occurrences (by setting action to (internal) warning, for example) so that the programmer can be alerted to clarify what was intended.</para>
+
+
+</sect1>
+
+<sect1>
+<title>Identifier linkage</title>
+
+<para>The ISO C standard, section 6.1.2.2, states that "if, within a translation unit, an identifier appears with both internal and external linkage, the behaviour is undefined". By default, the checker silently declares the variable with external linkage. The check to detect variables which are redeclared with incompatible linkage is controlled using:</para>
+
+<programlisting>
+#pragma TenDRA incompatible linkage <emphasis>permit</emphasis>
+</programlisting>
+<para>where <emphasis>permit</emphasis> <literal>/</literal><emphasis>may be</emphasis> <literal>allow/</literal> (default mode), <literal>warning/</literal> (warn about incompatible linkage) or <literal>disallow/</literal> (raise errors for redeclarations with incompatible linkage).</para>
+
+</sect1>
+
+<sect1>
+<title>Implicit integer types</title>
+
+<para>Older C dialects allow external variables to be specified without a type, the type int being inferred. Thus, for example:</para>
+
+<programlisting>
+a, b;
+</programlisting>
+
+<para>is equivalent to:</para>
+
+<programlisting>
+int a, b;
+</programlisting>
+
+<para>By default these inferred declarations are not permitted, though tchk's behaviour can be modified using:</para>
+
+<programlisting>
+#pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+<para>A more common feature, allowed by the ISO C standard, but considered bad style by some, is the inference of an int return type for functions defined in the form:</para>
+
+<programlisting>
+f ( int n ) {
+  ....
+}
+</programlisting>
+
+<para>the checker's treatment of such functions can be determined using:</para>
+
+<programlisting>
+#pragma TenDRA implicit int type for function return <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> can be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+
+</sect1>
+    
+<sect1>
+<title>Bitfield types</title>
+
+<para>The ISO C standard only allows signed int, unsigned int and their equivalent types as type specifiers in bitfields. Using the default checking profile, tchk raises errors for other integral types used as type specifiers in bitfields.This behaviour may be modified using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA extra int bitfield type <emphasis>permit</emphasis>
+</programlisting>
+
+<para><literal>Permit/</literal> is one of <literal>allow/</literal> (no errors raised), <literal>warning/</literal> (allow non-int bitfields through with a warning) or <literal>disallow/</literal> (raise errors for non-int bitfields).</para>
+
+<para>If non-int bitfields are allowed, the bitfield is treated as if it had been declared with an int type of the same signedness as the given type. The use of the type char as a bitfield type still generally causes an error, since whether a plain char is treated as signed or unsigned is implementation-dependent. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA character <emphasis>set-sign</emphasis>
+
+</programlisting>
+
+<para>where <literal>set-sign/</literal> is <literal>signed/</literal>, <literal>unsigned/</literal> or <literal>either/</literal>, can be used to specify the signedness of a plain char bitfield. If <emphasis>set-sign</emphasis> is <literal>signed/</literal> or <literal>unsigned/</literal>, the bitfield is treated as though it were declared signed char or unsigned char respectively. If <emphasis>set-sign</emphasis> is <literal>either/</literal>, the sign of the bitfield is target-dependent and the use of a plain char bitfield causes an error.</para>
+
+</sect1>
+    
+<sect1>
+<title>Extra type definitions</title>
+
+<para>In accordence with the ISO C standard, in default mode tchk does not allow a type to be defined more than once using a typedef. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA extra type definition <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> is <literal>allow/</literal> (silently accepts redefinitions, provided they are consistent), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>Static block level functions</title>
+
+<para>The ISO C standard (Section 6.5.1) states that the declaration of an identifier for a function that has block scope shall have no explicit storage-class specifier other than extern. By default, tchk raises an error for declarations which do not conform to this rule. The behaviour can be modified using:</para>
+
+<programlisting>
+#pragma TenDRA block function static <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> is <literal>allow/</literal> (accept block scope function declarations with other storage-class specifiers), <literal>disallow/</literal> or <literal>warning/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>Incomplete array element types</title>
+
+<para>The ISO C standard (Section 6.1.2.5) states that an incomplete type e.g an undefined structure or union type, is not an object type and that array elements must be of object type. The default behaviour of the checker causes errors when incomplete types are used to specify array element types. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA incomplete type as object type <emphasis>permit</emphasis>
+</programlisting>
+
+<para>can be used to alter the treatment of array declarations with incomplete element types. <emphasis>Permit</emphasis> is one of <literal>allow/</literal>, <literal>disallow/</literal> or <literal>warning/</literal> as usual.</para>
+
+</sect1>
+    
+<sect1>
+<title>Forward enumeration declarations</title>
+
+<para>The ISO C Standard (Section 6.5.2.3) states that the first introduction of an enumeration tag shall declare the constants associated with that tag. This rule is enforced by the checker in default mode, however it can be relaxed using the pragma:</para>
+
+<programlisting>
+#pragma TenDRA forward enum declaration <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where replacing <literal>permit/</literal> by <literal>allow/</literal> permits the declaration and use of an enumeration tag before the declaration of its associated enumeration constants. A <literal>disallow/</literal> variant which restores the default behaviour is also available.</para>
+
+</sect1>
+    
+<sect1>
+<title>Untagged compound types</title>
+
+<para>The ISO C standard states that a declaration must declare at least a declarator, a tag or the members of an enumeration. The checker detects such declarations and, by default, raises an error. The severity of the errors can be altered by:</para>
+
+<programlisting>
+#pragma TenDRA unknown struct/union <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> may be <literal>allow/</literal> to allows code such as:</para>
+
+<programlisting>
+struct {int i; int j;};
+</programlisting>
+
+<para>through without errors (statements such as this occur in some system headers) or <literal>disallow/</literal> to restore the default behaviour.</para>
+
+</sect1>
+    
+<sect1>
+<title>External volatility</title>
+
+<para>The inclusion of the pragma:</para>
+
+<programlisting>
+#pragma TenDRA external volatile_t
+</programlisting>
+
+<para>instructs the checker thereafter to treat any object declared with external linkage (ISO C standard Section 6.1.2.2) as if it were volatile (ISO C standard Section 6.5.3). This was a feature of some traditional C dialects. In the default mode, objects with external linkage are only treated as volatile if they were declared with the volatile type qualifier.</para>
+
+</sect1>
+    
+<sect1>
+<title>Identifier name length</title>
+
+<para>Under the ISO C standard rules on identifier name length, an implementation is only required to treat the first 31 characters of an internal name and the first 6 characters of an external name as significant. The TenDRA C checker provides a facility for users to specify the maximum number of characters allowed in an identifier name, to prevent unexpected results when the application is moved to a new implementation. The limit is set using:</para>
+
+<programlisting>
+#pragma TenDRA set name limit <emphasis>integer_constant</emphasis>
+</programlisting>
+
+<para>There is currently no distinction made between external and internal names for length checking. Identifier name lengths are not checked in the default mode.</para>
+
+</sect1>
+    
+<sect1>
+<title>Ellipsis in function calls</title>
+
+<para>An ellipsis is not an identifier and should not be used in a function call, even if, as in the program below, the function prototype contains an ellipsis:</para>
+
+<programlisting>
+int f(int a,...) {
+  return 1; }
+int main() {
+  int x, y;
+  x=f(y ,...);
+  return 1;
+}
+</programlisting>
+
+<para>In default mode the checker raises an error if an ellipsis is used as a parameter in a function call. The severity of this error can be modified by using:</para>
+
+<programlisting>
+#pragma TenDRA ident ... <emphasis>permit</emphasis>
+</programlisting>
+
+<para>If <literal>permit/</literal> is replaced by <literal>allow/</literal> the ellipsis is ignored, if <literal>warning/</literal> is used tchk produces a warning and if <literal>disallow/</literal> is used the default behaviour is restored.</para>
+
+</sect1>
+    
+<sect1>
+<title>Conditional lvalues</title>
+
+<para>The ? operator cannot normally be used to define an lvalue, so that for example, the program:</para>
+
+<programlisting>
+struct s {int a, b; };
+void f (int n,struct s *s1,struct s *s2) {
+  ( n ? s1: s2)-&gt;a = 0;
+}
+</programlisting>
+
+<para>is not allowed in ISO C. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA conditional lvalue allow
+</programlisting>
+
+<para>allows conditional lvalues if:</para>
+
+<para>Both options of the conditional operator have compatible compound types;</para>
+
+<para>Both options of the conditional are lvalues.</para>
+
+<note>
+<para>there is also a <literal>disallow/</literal> variant, but <literal>warning/</literal> is not permitted in this case.</para>
+</note>
+
+</sect1>
+    
+<sect1>
+<title>Unifying the tag name space</title>
+
+<para>Each object in the tag name space is associated with a classification (struct, union or enum) of the type to which it refers. If such a tag is used, it must be preceded by the correct classification, otherwise the checker produces an error by default. However, the pragma:</para>
+
+<programlisting>
+#pragma TenDRA ignore struct/union/enum tag <emphasis>status</emphasis>
+</programlisting>
+
+<para>may be used to change the severity of the error. The options for <emphasis>status</emphasis> are: <literal>on/</literal> (allows a tag to be used with any of the three classifications, the correct classification being inferred from the type definition), <literal>warning/</literal> or <literal>off/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>Initialisation of compound types</title>
+
+<para>Many older C dialects do not allow the initialisation of automatic variables of compound type. Thus, for example:</para>
+
+<programlisting>
+void f () {
+  struct {
+    int a;
+    int b;
+  } x = { 3, 2 };
+}
+</programlisting>
+
+<para>would not be allowed by some older compilers, although by default tchk does not raise any errors since the code is legal according to the ISO C standard. The checker's behaviour may be changed using:</para>
+
+<programlisting>
+#pragma TenDRA initialization of struct/union (auto) <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <literal>permit/</literal> is <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>. This feature is particularly useful when developing a program which is intended to be compiled with a compiler which does not support automatic compound initialisations.</para>
+
+</sect1>
+    
+<sect1>
+<title>Variable initialisation</title>
+
+<para>The ISO C standard (Section 6.5.7) states that all expressions in an initialiser for an object that has static storage duration or in an initialiser-list for an object that has aggregate or union type shall be constant expressions. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA variable initialization <emphasis>permit</emphasis>
+</programlisting>
+
+<para>may be used to allow non-constant initialisers if <emphasis>permit</emphasis> is replaced by <literal>allow/</literal>. The other option for <emphasis>permit</emphasis> is <literal>disallow/</literal> which restores the default behaviour of flagging non-constant initialisers for objects of static storage duration as errors.</para>
+
+</sect1>
+    
+<sect1>
+<title>Escape sequences</title>
+
+<para>The ISO C standard specifies a small set of escape sequences in strings, for example \n as newline. Unknown escape sequences lead to an error in the default mode , however the severity of the error may be altered using:</para>
+
+<programlisting>
+#pragma TenDRA unknown escape <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> is <literal>allow/</literal> (silently replaces the unknown escape sequence, \z say, by z), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>$ in identifier names</title>
+
+<para>The ISO C standard (Section 6.1) states that the use of the character $ in identifier names is illegal. The pragma:</para>
+
+<programlisting>
+#pragma TenDRA dollar as ident allow
+</programlisting>
+
+<para>can be used to allow such identifiers, which by default are flagged as errors. There is also a <literal>disallow/</literal> variant which restores the default behaviour.</para>
+
+
+</sect1>
+    
+<sect1>
+<title>Writeable string literals</title>
+
+<para>The ISO C standard, section 6.1.4, states that "if the program attempts to modify a string literal of either form, the behaviour is undefined". Assignments to string literals of the form:</para>
+
+<programlisting>
+"abc"='3';
+</programlisting>
+
+<para>always result in errors. Other attempts to modify members of string literals, e.g.</para>
+
+<programlisting>
+"abc"[1]='3';
+</programlisting>
+
+<para>are permitted in the default checking mode. This behaviour can be changed using:</para>
+
+<programlisting>
+#pragma TenDRA writeable string literal <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> may be <literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>Concatenation of character string literals and wide character string literals</title>
+
+<para>The ISO C standard, section 6.1.4, states that if a character string literal is adjacent to a wide character string literal, the behaviour is undefined. By default, this is flagged as an error by the checker. If the pragma:</para>
+
+<programlisting>
+#pragma TenDRA unify incompatible string literal <emphasis>permit</emphasis>
+</programlisting>
+
+<para>is used, with <emphasis>permit</emphasis> set to <literal>allow/</literal> or <literal>warning/</literal> the character string literal is converted to a wide character string literal and the strings are concatenated, although in the <literal>warning/</literal> case a warning is output. <emphasis>The</emphasis> <literal>disallow/</literal> version of the pragma restores the default behaviour.</para>
+
+</sect1>
+    
+<sect1>
+<title>Nested comments</title>
+
+<para>The occurence of the `/*' characters inside a C comment, i.e. text surrounded by the `/*' and `*/' symbols, is usually a mistake and can lead to the termination of a comment unexpectedly. By default such nested comments are processed silently, however an error or warning can be produced by setting:</para>
+
+<programlisting>
+#pragma TenDRA nested comment analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>with <emphasis>status</emphasis> as <literal>on/</literal> or <literal>warning/</literal>. If <emphasis>status</emphasis> is <literal>off/</literal> the default behaviour is restored.</para>
+
+
+</sect1>
+    
+<sect1>
+<title>Empty source files</title>
+
+<para>The ISO standard states that each source file should contain at least one declaration or definition. Source files which contain no external declarations or definitions are flagged as errors by the checker in default mode. The severity of the error may be altered using:</para>
+
+<programlisting>
+#pragma TenDRA no external declaration <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where the options for <literal>permit/</literal> are <literal>allow/</literal> (no errors raised), <literal>warning/</literal> or <literal>disallow/</literal>.</para>
+
+</sect1>
+    
+<sect1>
+<title>Extra commas</title>
+
+<para>The ISO C standard does not allow extra commas in enumeration type declarations e.g.</para>
+
+<programlisting>
+enum e = {red, orange, yellow,};
+</programlisting>
+
+<para>The extra comma at the end of the declaration is flagged as an error by default, but this behaviour may be changed by using:</para>
+
+<programlisting>
+#pragma TenDRA extra , <emphasis>permit</emphasis>
+</programlisting>
+
+<para>where <emphasis>permit</emphasis> has the usual <literal>allow/</literal><emphasis>,</emphasis><literal>disallow/</literal> and <literal>warning/</literal> options.</para>
+
+</sect1>
+    
+<sect1>
+<title>Extra semicolons</title>
+
+<para>Some dialects of C allow extra semicolons at the external declaration and definition level in contravention of the ISO C standard. For example, the program:</para>
+
+<programlisting>
+int f () {
+  return ( 0 );
+};
+</programlisting>
+
+<para>is not ISO compliant. The checker enforces the ISO rules by default, but the errors raised may be reduced to warning or suppressed entirely using:</para>
+
+<programlisting>
+#pragma TenDRA extra ; <emphasis>permit</emphasis>
+</programlisting>
+
+<para>with <emphasis>permit</emphasis> as <literal>warning/</literal> or <literal>allow/</literal>. The <literal>disallow/</literal> option restores the default behaviour.</para>
+
+</sect1>
+    
+<sect1>
+<title>Compatibility with C++ to TDF producer</title>
+
+<para>In the interests of compatibility between the C checker and the new C++ checker, all pragmas beginning:</para>
+
+<programlisting>
+#pragma TenDRA ++
+</programlisting>
+
+<para>are silently ignored by tchk.</para>
+
+</sect1>
+</chapter>
+
+<chapter>
+<title>Common Errors</title>
+
+<para>Tchk is capable of performing a number of checks for common programming mistakes. This chapter describes these checks and controlling pragmas.</para>
+
+<sect1>
+
+<title>Enumerations controlling switch statements</title>
+
+<para>Enumerations are commonly used as control expressions in switch statements. When case labels for some of the enumeration constant belonging to the enumeration type do not exist and there is no default label, the switch statement has no effect for certain possible values of the control expression. Checks to detect such switch statements are controlled by:</para>
+
+<programlisting>
+#pragma TenDRA enum switch analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <emphasis>status</emphasis> is <literal>on/</literal> (raise an error), <literal>warning/</literal> (produce a warning), or <literal>off/</literal> (the default mode when no errors are produced).</para>
+
+</sect1>
+
+<sect1>
+<title>Incomplete structures and unions</title>
+
+<para>ISO C allows for structures or unions to be declared but not defined, provided they are not used in a context where it is necessary to know the complete structure. For example:</para>
+
+<programlisting>
+struct tag *p;
+</programlisting>
+
+<para>is allowed, despite the fact that struct tag is incomplete. The TenDRA C checker has an option to detect such incomplete structures or unions, controlled by:</para>
+
+<programlisting>
+#pragma TenDRA complete struct/union analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>where <literal>status/</literal> is <literal>on/</literal> to give an error as an incomplete structure or union is detected, <literal>warning/</literal> to give a warning, or <literal>off/</literal> to disable the check.</para>
+
+<para>The check can also be controlled by passing the command-line option <literal>-X:complete_struct=/</literal><literal>state/</literal> to tchk, where <literal>state/</literal> is <literal>check/</literal>, <literal>warn/</literal> or <literal>dont/</literal>.</para>
+
+<para>The only place where the checker can actually detect that a structure or union is incomplete is at the end of the source file. This is because it is possible to complete a structure after it has been used. For example, in:</para>
+
+<programlisting>
+struct tag *p;
+struct tag {
+  int a;
+  int b;
+};
+</programlisting>
+
+<para>struct tag is complete despite the fact that it was incomplete in the definition of p.</para>
+
+
+</sect1>
+
+<sect1>
+<title>Variable shadowing</title>
+
+<para>It is quite legal in C to have a variable in an inner scope, with the same name as a variable in an outer scope. These variables are distinct and whilst in the inner scope, the declaration in the outer scope is not visible - it is "shadowed" by the local variable of the same name. Confusion can arise if this was not what the programmer intended. The checker can therefore be configured to detect shadowing in three cases: a local variable shadowing a global variable; a local variable shadowing a local variable with a wider scope and a local variable shadowing a typedef name, by using:</parA>
+
+<programlisting>
+#pragma TenDRA variable hiding analysis <emphasis>status</emphasis>
+</programlisting>
+
+<para>If <emphasis>status</emphasis> is <literal>on/</literal> an error is raised when a local variable that shadows another variable is declared, if <literal>warning/</literal> is used the error is replaced by a warning and the <literal>off/</literal> option restores the default behaviour (shadowing is permitted and no errors are produced).</para>
+
+</sect1>
+
+<sect1>
+<title>Floating point equality</title>
+
+<para>Due to the rounding errors that occur in the handling of floating point values, comparison for equality between two floating point values is a hazardous and unpredictable operation. Tests for equality of two floating point numbers are controlled by:</para>
+
+<programlisting>
+#pragma TenDRA floating equality <emphasis>permit</emphasis>
+</programlisting>
+
+<para><emphasis>where</emphasis> <literal>/</literal><emphasis>permit</emphasis> <literal>/</literal><emphasis>is</emphasis><literal>allow/</literal>, <literal>warning/</literal> or <literal>disallow/</literal>. By default the check is switched off.</para>
+
+</sect1>
+</chapter>
+
+<chapter>
+<title>Symbol Table Dump</title>
+
+<para>Tchk produces an extra output file, called a dump output file, for each translation unit processed. This file is in the form given by the symbol table output specification in Annex E, and contains information about the objects declared, defined or used within an application. Each object encountered during processing is assigned a unique reference number allowing uses of the object to be traced back to the declaration and definition of the object.</para>
+
+<para>In the default mode only external declaration and definition information is written to each dump file. The amount of information output may be increased by passing the <literal>-sym[cehklsu]/</literal> command line option to tchk. Any combination of the optional flags enclosed by [] may be used and the effect of each flag is described below:</para>
+
+<itemizedlist>
+<listitem>
+<para>no flags external declarations, definitions only;</para>
+</listitem>
+<listitem>
+<para>c string and character literals output;</para>
+</listitem>
+<listitem>
+<para>e errors incorporated into dump output;</para>
+</listitem>
+<listitem>
+<para>e_only only errors output;</para>
+</listitem>
+<listitem>
+<para>h included headers output;</para>
+</listitem>
+<listitem>
+<para>k keywords output;</para>
+</listitem>
+<listitem>
+<para>l local variables output;</para>
+</listitem>
+<listitem>
+<para>s scopes output;</para>
+</listitem>
+<listitem>
+<para>u variable usage output.</para>
+</listitem>
+</itemizedlist>
+
+<para>The dump information is currently used for four main purposes: detecting included header files from which nothing is used within the translation unit; production of lint-like error output; API usage analysis and type checking between translation units.</para>
+
+<sect1>
+<title>Unused headers</title>
+
+<para>Header files which are included but from which nothing is used within the other source files comprising the translation unit, might just as well not have been included. Tchk can detect top level include files which are unnecessary, by analysing the dump output for the file. This check is enabled by passing the <literal>-Wd,-H/</literal> command line flag to tchk. Errors are written to stderr in a simple ascii form by default, or to the unified dump file in dump format if the <literal>-D/</literal> command line option is used.</para>
+
+</sect1>
+
+<sect1>
+<title>Error processing</title>
+
+<para>By default the error messages generated by the checker are written in a simple ascii form to stderr. If instead, the errors are written to the dump file using the <literal>-sym:e/</literal> option mentioned above, an alternative lint-like error output may be generated by processing the dump files. The lint-like errors are enabled by passing the <literal>-Ycompact/</literal> flag to tchk.</para>
+
+
+</sect1>
+
+<sect1>
+<title>API usage analysis</title>
+
+<para>Analysis performed on the set of dump files produced for an entire application can detect the objects, types, etc. from external APIs which are used by the application. The API usage analysis is enabled by passing one or more <literal>-api_check/</literal><emphasis>API</emphasis> flags to tchk where <emphasis>API</emphasis> may be any of the standard APIs listed in section 2.1. The <literal>-api_check_out/</literal><emphasis>FILE</emphasis> flag may be used to direct the API analysis information to the file <emphasis>FILE</emphasis> (by default it is written to stdout). The APIs used to perform API usage analysis may be different from those used to process the application. Annex G.8 contains details of the methods used to perform the API usage analysis.<para>
+
+
+</sect1>
+
+<sect1>
+<title>Intermodular checks</title>
+
+<para>All the checks discussed in earlier chapters have been concerned with a single source file. However, tchk also contains a linking phase in which it is able to perform intermodular checks (i.e. checks between source files). In the linking phase, the dumps file generated from each translation unit processed are combined into a single dump file containing information on all external objects within the application, and type consistency checks are applied to ensure that the definitions and declarations of each object are consistent and external objects and functions have at most one definition.</para>
+
+<para>The amount of information about an object stored in a dump file depends on the compilation mode used to produce that file. For example, if extra prototype checks are enabled (see section 3.3), the dump file contains any information inferred about a function from its traditional style definition or from applications of that function. For example, if one file contains:</para>
+
+<programlisting>
+extern void f () ;
+void g ()
+{
+  f ( "hello" ) ;
+}
+</programlisting>
+
+<para>and another contained:</para>
+
+<programlisting>
+void f ( n ) int n ;
+{
+  return ;
+}
+</programlisting>
+
+<para>then the inferred prototype:</para>
+
+<programlisting>
+void f WEAK ( char * ) ;
+</programlisting>
+
+<para>from the call of f would be included in the first dump file, whereas the weak prototype deduced from the definition of f:</para>
+
+<programlisting>
+void f WEAK ( int ) ;
+</programlisting>
+
+<para>would be included in the second. When these two dump files are linked, the inconsistency is discovered and an error is reported.</para>
+
+</sect1>
+</chapter>
+
+
+<chapter>
+<title>Conditional Compilation</title>
+
+<para>Tchk generally treats conditional compilation in the same way as other compilers and checkers. For example, consider:</para>
+
+<programlisting>
+#if expr
+.... /* First branch */
+#else
+.... /* Second branch */
+#endif
+</programlisting>
+
+<para>the expression, expr, is evaluated: if it is non-zero the first branch of the conditional is processed; if it is zero the second branch is processed instead.</para>
+
+<para>Sometimes, however, tchk may be unable to evaluate the expression statically because of the abstract types and expressions which arise from the minimum integer range assumptions or the abstract standard headers used by the tool (see target-dependent types in section 4.5). For example, consider the following ISO compliant program:</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+int main () {
+#if ( CHAR_MIN == 0 )
+  puts ("char is unsigned");
+#else
+  puts ("char is signed");
+#endif
+return ( 0 );
+}
+</programlisting>
+
+<para>The TenDRA representation of the ISO API merely states that CHAR_MIN - the least value which fits into a char - is a target dependent integral constant. Hence, whether or not it equals zero is again target dependent, so the checker needs to maintain both branches. By contrast, any conventional compiler is compiling to a particular target machine on which CHAR_MIN is a specific integral constant. It can therefore always determine which branch of the conditional it should compile.</para>
+
+<para>In order to allow both branches to be maintained in these cases, it has been necessary for tchk to impose certain restrictions on the form of the conditional branches and the positions in which such target-dependent conditionals may occur. These may be summarised as:</para>
+
+<para>Target-dependent conditionals may not appear at the outer level. If the checker encounters a target-dependent conditional at the outer level an error is produced. In order to continue checking in the rest of the file an arbitrary assumption must be made about which branch of the conditional to process; tchk assumes that the conditional is true and the first branch is used;</para>
+
+<para>The branches of allowable target-dependent conditionals may not contain declarations or definitions.</para>
+
+</chapter>
+
+<appendix>
+<title>Compilation Modes</title>
+
+<sect1>
+<title>Base modes</title>
+
+<para>The Xs, Xp, Xw, Xc, Xa and Xt modes are mutually incompatible and should not be used together. All other built-in mode combinations are allowed and, of course, any built-in mode can be combined with user-defined modes as described in section -XREF-2.2.</para>
+
+<para>Checks marked with E are enabled to produce an error and checks marked with W are enabled to produce a warning. A blank entry implies that the check is disabled.</para>
+
+
+<table frame=all>
+<title>Base Modes</title>
+<tgroup cols=7>
+<thead>
+<row>
+<entry>Check</entry>
+<entry>Xs</entry>
+<entry>Xp</entry>
+<entry>Xw</entry>
+<entry>Xc</entry>
+<entry>Xa</entry>
+<entry>Xt</entry>
+</row>
+</thead>
+
+<tbody>
+
+<row>
+<entry>+/-Value of __STDC__</entry>
+<entry>1</entry>
+<entry>1</entry>
+<entry>1</entry>
+<entry>1</entry>
+<entry>1</entry>
+<entry>0</entry>
+</row>
+<row>
+<entry>ISO C rules for integer literals</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>N</entry>
+</row>
+<row>
+<entry>ISO C rules for integer promotions</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>Y</entry>
+<entry>N</entry>
+</row>
+<row>
+<entry>assignments as conditional control statements</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>bitfield overflow</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+</row>
+<row>
+<entry>block level static function</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>character escape overflow</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+</row>
+<row>
+<entry>sign of char</entry>
+<entry>+/-^a</entry>
+<entry>+/-</entry>
+<entry>+/-</entry>
+<entry>+/-</entry>
+<entry>+/-</entry>
+<entry>+/-</entry>
+</row>
+<row>
+<entry>char * as generic pointer</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+</row>
+<row>
+<entry>complete struct/union analysis</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>conditional lvalues</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>constant conditional control statements</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>conversion analysis</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( int -> enum implicit )</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( int -> int explicit )</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( int -> int implicit )</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( int <-> pointer explicit )</entry>
+<entry>W</entry>
+<entry>W</entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( int <-> pinter implicit )</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( pointer -> pointer explicit )</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( pointer -> pointer implicit )</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive used as macro argument</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive assert</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive file</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive ident</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive unassert</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>directive weak</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>discard analysis</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( function return )</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( static)</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>( value )</entry>
+<entry>W</entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>"$" used as character</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>enum switch analysis</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra , at end of enum lists</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra ... in function prototypes</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra ; after external declarations</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra ; after contional statements</entry>
+<entry></entry>
+<entry></entry>
+<entry>W</entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra int types for bitfields</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>W</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+</row>
+<row>
+<entry>extra macro definitions</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry>E</entry>
+<entry></entry>
+<entry></entry>
+
+</tbody>
+</tgroup>
+</table>
+
+
+</sect1>
+
+<sect1>
+
+<title>A.2 nepc and not_ansi modes</title>
+
+<para>These modes modify the base environment.</para>
+
+<para>The <literal>nepc/</literal> environment switches off most of the extra portability checking. It is specified by passing the -nepc option to tcc.</para>
+
+<para>Printf String Checking OFF</para>
+
+<para>Pragma Profile:</para>
+
+<programlisting>
+#pragma TenDRA conversion analysis off
+#pragma TenDRA weak prototype analysis off
+#pragma TenDRA compatible type : char * == void * : allow
+#pragma TenDRA function pointer as pointer allow
+#pragma TenDRA character escape overflow allow
+#pragma TenDRA no nline after file end allow
+#pragma TenDRA bitfield overflow allow
+</programlisting>
+
+<para>The <literal>not_ansi/</literal> environment provides support for a range of non-ansi dialect features. It is specified by passing the -not_ansi option to tcc.</para>
+
+<para>Pragma Profile:</para>
+<programlisting>
+#pragma TenDRA linkage resolution : (internal) on
+#pragma TenDRA unify external linkage on
+#pragma TenDRA directive assert allow
+#pragma TenDRA directive file allow
+#pragma TenDRA directive ident allow
+#pragma TenDRA directive unassert allow
+#pragma TenDRA directive weak allow
+#pragma TenDRA compatible type : char * == void * : allow
+#pragma TenDRA conditional lvalue allow
+#pragma TenDRA extra ; allow
+#pragma TenDRA extra bitfield int type allow
+#pragma TenDRA extra type definition allow
+#pragma TenDRA ignore struct/union/enum tag on
+#pragma TenDRA implicit int type for external declaration allow
+#pragma TenDRA implicit int type for function return allow
+#pragma TenDRA no external declaration allow
+#pragma TenDRA text after directive allow
+#pragma TenDRA unknown escape allow
+#pragma TenDRA unknown pragma allow
+#pragma TenDRA weak macro equality allow
+#pragma TenDRA extra ... allow
+#pragma TenDRA extra , allow
+#pragma TenDRA incomplete type as object type allow
+#pragma TenDRA dollar as ident allow
+#pragma TenDRA variable initialization allow
+#pragma TenDRA extra macro definition allow
+#pragma TenDRA incompatible type qualifier allow
+#pragma TenDRA no directive/nline after ident allow
+#pragma TenDRA unknown directive allow
+#pragma TenDRA no ident after # allow
+#pragma TenDRA block function static allow
+#pragma TenDRA unknown struct/union allow
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Command Line Options for Portability Checking</title>
+
+<table frame=all>
+<title>Base Modes</title>
+<tgroup cols=3>
+<thead>
+<row>
+<entry>Check</entry>
+<entry>Refrences</entry>
+<entry>Command Line Option</entry>
+</row>
+</thead>
+
+<tbody>
+
+<row>
+<entry>Weak Prototype Analysis</entry>
+<entry>3.3.1</entry>
+<entry>-X:weak_proto=status</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</sect1>
+
+</appendix>
