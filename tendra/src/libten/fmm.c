@@ -390,6 +390,20 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 }
 
 /*
+ * Allocate block of memory and fill it with zeros
+ */
+void *
+fmm_calloc(size_t size, struct fmm_type *ftp)
+{
+	void *rp;
+
+	rp = fmm_malloc(size, ftp);
+	if (rp)
+		memset(rp, 0, size);
+	return rp;
+}
+
+/*
  * Free a block of memory allocated by fm_malloc().
  */
 void

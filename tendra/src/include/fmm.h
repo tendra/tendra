@@ -144,6 +144,7 @@ extern struct fmm_type *fmm_deftype;
 struct fmm_type* fmm_type_add(const char *, const char *);
 void fmm_type_remove(struct fmm_type *);
 
+void *fmm_calloc(size_t, struct fmm_type *);
 void *fmm_malloc(size_t, struct fmm_type *);
 void *fmm_realloc(void *, size_t, struct fmm_type *);
 void fmm_free(void *, struct fmm_type *);
@@ -156,8 +157,11 @@ void fmm_stat_by_type(void);
  * Some short hand macros
  */
 #define	xalloc(size)		fmm_malloc((size), fmm_deftype)
+#define	xcalloc(n,size)		fmm_malloc((n) * (size), fmm_deftype)
+#define	xmalloc(size)		fmm_malloc((size), fmm_deftype)
 #define	xrealloc(ptr, size)	fmm_realloc((ptr), (size), fmm_deftype)
 #define	xmalloc_nof(T, N)	((T *)xalloc((long)(N) * (long)sizeof (T)))
+#define	xfree(ptr)		fmm_free((ptr), fmm_deftype)
 
 #endif /* !defined(TEN_FMM_H) */
 
