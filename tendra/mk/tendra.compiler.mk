@@ -59,3 +59,5 @@ SID ?=${OBJ_DIR}/src/utilities/sid/sid
 .else
 SID ?=sid
 .endif
+
+TSPEC ?= ${OBJ_DIR}/src/tools/tspec/tspec
