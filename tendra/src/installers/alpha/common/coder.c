@@ -3906,8 +3906,6 @@ tailrecurse:
 	  z = bro (z);
 	}
 	set_text_section();
-	setnoat();
-	load_store (i_lda, AT, zeroveclab);
 	if (!INT64_eq(l,zero_int64) /*l != 0*/) {
 	  int rtmp2;
 	  INT64 lit;
@@ -3920,11 +3918,15 @@ tailrecurse:
 	  lit = INT64_increment(INT64_subtract(u,l,1));
 	  operate_fmt_big_immediate(i_cmpult,rtmp,lit,rtmp2);
 	  integer_branch(i_beq,rtmp2,endlab);
+	  setnoat();
+	  load_store(i_lda, AT, zeroveclab);
 	  operate_fmt(i_s4addq,rtmp,AT,rtmp);
 	}
 	else {
 	  int rtmp2;
 	  space newsp;
+	  setnoat();
+	  load_store(i_lda, AT, zeroveclab);
 	  newsp = guardreg(r,sp);
 	  newsp = guardreg(rtmp,newsp);
 	  rtmp2 = getreg(newsp.fixed);
