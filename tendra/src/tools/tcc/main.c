@@ -63,6 +63,7 @@
 #include "execute.h"
 #include "flags.h"
 #include "compile.h"
+#include "environ.h"
 #include "main.h"
 #include "options.h"
 #include "startup.h"
