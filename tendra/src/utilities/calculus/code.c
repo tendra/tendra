@@ -1240,18 +1240,8 @@ print_prim_c(void)
 void
 print_enum_consts(void)
 {
-	number n = DEREF_number (en_order (CRT_ENUM));
-	if (n > (number) 0x10000) {
-		output ("#ifdef __STDC__\n");
-		LOOP_ENUM_CONST output ("#define\t%EM_%ES%t40((%EN) %EVUL)\n");
-		output ("#define\tORDER_%EM%t40(%EOUL)\n");
-		output ("#else\n");
-	}
-	LOOP_ENUM_CONST output ("#define\t%EM_%ES%t40((%EN) %EV)\n");
+	LOOP_ENUM_CONST output ("#define\t%EM_%ES%t40((%EN) %EVu)\n");
 	output ("#define\tORDER_%EM%t40((unsigned long) %EO)\n");
-	if (n > (number) 0x10000) {
-		output ("#endif\n");
-	}
 	return;
 }
 
