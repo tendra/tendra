@@ -18,12 +18,15 @@ TMP_CPU!=	${UNAME} -p
 MACH_OS!=	${UNAME}
 MACH_VERS!=	${UNAME} -r
 
+MACH_VERS_MAJOR=	${MACH_VERS:C/^(.).*/\1/}
 # SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
-.if ${MACH_VERS:R} == "5"
+
+.if ${MACH_VERS_MAJOR} == "5"
 SRC_MACHINES=	${BUILD_OS}/5/${MACH_CPU}
 .else
 SRC_MACHINES=	${BUILD_OS}/4/${MACH_CPU}
 .endif
+
 
 # Not sure of the best way to get the exec type, suggestions?
 MACH_EXEC=	elf
