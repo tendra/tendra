@@ -10,19 +10,19 @@
 #pragma TenDRA no external declaration allow
 
 #ifndef __NO_BUILTIN_ASSERTIONS
-#assert machine(i386)
-#assert cpu(i386)
+#assert machine(alpha)
+#assert cpu(alpha)
 #assert system(unix)
 #assert system(FreeBSD)
 #unassert lint
 #endif
 
 #define unix		1
-#define i386		1
+#define alpha		1
 #define __unix		1
-#define __i386		1
+#define __alpha		1
 #define __unix__	1
-#define __i386__	1
+#define __alpha__	1
 #define __FreeBSD__	2
 
 #ifndef __inline
