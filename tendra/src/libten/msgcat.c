@@ -350,7 +350,7 @@ msg_get(int n, va_list args)
 				pp = NULL;
 			}
 		} else if (ch >= 'a' && ch <= 'z') {
-			;	/* global variable */
+			pp = msg_params + 0;	/* global variable */
 		} else {
 			if (ch != '%')
 				ch = '?';	/* syntax */
