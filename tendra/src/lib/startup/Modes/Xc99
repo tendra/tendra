@@ -63,6 +63,7 @@
 #pragma TenDRA incompatible void return disallow
 /* 6.10.3 */
 #pragma TenDRA error "cpp_space_replace2" on
+#pragma TenDRA error "cpp_replace_arg_empty" off
 #pragma TenDRA option "va_macro" allow
 
 #pragma TenDRA declaration block end

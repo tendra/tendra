@@ -7071,7 +7071,6 @@ cpp_replace_arg_none ( HASHID: nm )
 
 cpp_replace_arg_empty ( unsigned: n, HASHID: nm )
 {
-    USAGE:	wall
     KEY (STD)	"Argument "n" for macro '"nm"' is empty"
 }
 
