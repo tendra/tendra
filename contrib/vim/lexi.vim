@@ -42,7 +42,7 @@ syn keyword lexiKeyword	ELSE IF GROUP KEYWORD MAPPING TOKEN white
 
 " IDENTIFIERS
 
-syn match lexiIdentifier	"[a-zA-Z_-][a-zA-Z0-9_-]*"
+syn match lexiIdentifier	"\$[a-zA-Z_-][a-zA-Z0-9_-]*"
 
 syn match lexiType	"\s*:\s*(\(\s*:[a-zA-Z_-][a-zA-Z0-9_-]*\s*\)*)"
 
