@@ -66,6 +66,7 @@
 
 #include "argparse.h"
 #include "msgcat.h"
+#include "tenapp.h"
 
 #define	AP_LEFT_MARGIN	28
 #define	AP_RIGHT_MARGIN	80
