@@ -71,7 +71,10 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include <limits.h>
+
 #include "common_types.h"
 #include "weights.h"
 #include "basicread.h"
@@ -88,7 +91,6 @@
 #include "check.h"
 #include "flags.h"
 #include "codec.h"
-#include "xalloc.h"
 #include "global_opt.h"
 #include "reg_record.h"
 #include "externs.h"

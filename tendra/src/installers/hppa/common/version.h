@@ -62,7 +62,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define MAJOR 7
-#define MINOR 8
+#define	TRANS_VERSION	"7.8"
 
 #endif

@@ -56,9 +56,10 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "symtab.h"	
 #include "makesymtab.h"	
-#include "xalloc.h"
 #include "flags.h"
 /* type definitions for translator produced debugging 
    information to be incorporated into a .T file  */

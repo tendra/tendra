@@ -57,6 +57,8 @@
 
 #define SPARCTRANS_CODE
 #include "config.h"
+#include "fmm.h"
+
 #include "addrtypes.h"
 #include "exptypes.h"
 #include "shapemacs.h"
@@ -70,7 +72,6 @@
 #include "procrec.h"
 #include "tags.h"
 #include "bitsmacs.h"
-#include "xalloc.h"
 #include "locate.h"
 #include "comment.h"
 #include "myassert.h"

@@ -62,7 +62,6 @@
 #include "codetypes.h"
 #include "installtypes.h"
 
-extern char *sparctrans;
 extern bool do_comment;
 extern void fail(char *) ;
 extern FILE *as_file;

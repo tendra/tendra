@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "tenapp.h"
+
 #include "common_types.h"
 #include "installglob.h"
 #include "tags.h"
@@ -74,7 +77,6 @@
 #include "eval.h"
 #include "bitsmacs.h"
 #include "scan.h"
-#include "xalloc.h"
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
@@ -601,8 +603,7 @@ translate_capsule(void)
 
   if(as_file){
     fprintf(as_file," # produced by TDF->Alpha/OSF1 installer\n");
-    fprintf(as_file," # installer version %d.%d.%d\n",target_version,
-	    target_revision,target_patchlevel);
+    fprintf(as_file," # installer version %s\n", progvers);
     /*comment(" # produced by TDF->Alpha/OSF1 installer\n");*/
 #if !DO_SCHEDULE
     fprintf(as_file,"\t.ugen\n");

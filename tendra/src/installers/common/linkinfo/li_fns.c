@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "flags.h"
 #include "messages_li.h"
@@ -74,7 +76,6 @@ extern weak_cell *weak_list;
 #include "out.h"
 #endif
 
-#include "xalloc.h"
 #include "readglob.h"
 #include "basicread.h"
 #include "exp.h"

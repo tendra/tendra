@@ -71,6 +71,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "out.h"
 #include "operand.h"
@@ -98,7 +100,6 @@
 #include "check.h"
 #include "label_ops.h"
 #include "externs.h"
-#include "xalloc.h"
 
 #include "instr.h"
 

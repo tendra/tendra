@@ -59,6 +59,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "basicread.h"
 #include "out.h"
@@ -68,7 +70,6 @@
 #include "tags.h"
 #include "szs_als.h"
 #include "diagglob.h"
-#include "xalloc.h"
 #include "exp.h"
 #include "mark_scope.h"
 #include "externs.h"

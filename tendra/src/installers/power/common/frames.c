@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "installglob.h"
@@ -105,7 +107,6 @@
 #include "needscan.h"
 #include "machine.h"
 #include "diagout.h"
-#include "xalloc.h"
 #include "comment.h"
 #include "translat.h"
 #include "readglob.h"

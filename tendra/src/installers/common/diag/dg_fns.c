@@ -58,6 +58,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "readglob.h"
 #include "table_fns.h"
@@ -71,7 +73,6 @@
 #include "dg_fns.h"
 #include "dg_aux.h"
 #include "dg_globs.h"
-#include "xalloc.h"
 #include "toktypes.h"
 #include "flags.h"
 #include "externs.h"

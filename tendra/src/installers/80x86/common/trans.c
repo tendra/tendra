@@ -60,6 +60,8 @@
 
 
 #include "config.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -129,6 +131,7 @@ main(int argc, char **argv)
 	int i;
 	char *outfname;
 	
+	tenapp_init(argc, argv, "TDF to 80x86/Pentium translator", "1.0");
 	/* defaults */
 	do_inlining = 1;		/* inline */
 	redo_structfns = 1;		/* replace fns delivering structs */
@@ -269,7 +272,8 @@ main(int argc, char **argv)
 			do_unroll = (s[2] == '1');
 			break;
 		case 'V':
-			IGNORE fprintf(stderr, "DERA ANDF 80x86/Pentium translator (TDF version %d.%d)\n",
+			tenapp_report_version();
+			IGNORE fprintf(stderr, "TDF version %d.%d:",
 						   MAJOR_VERSION, MINOR_VERSION);
 			IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
 						   reader_revision);
@@ -290,14 +294,7 @@ main(int argc, char **argv)
 						   DWARF2_MINOR);
 #endif
 			IGNORE fprintf(stderr, "\n");
-			IGNORE fprintf(stderr, "system %s: ", target_system);
-#ifdef __DATE__
-			IGNORE fprintf(stderr, "installer compilation %s", __DATE__);
-#endif
-			IGNORE fprintf(stderr, "\n");
-#ifdef RELEASE
-			IGNORE fprintf(stderr, "release: %s\n",RELEASE);
-#endif
+			IGNORE fprintf(stderr, "system %s\n", target_system);
 			break;
 		case 'W':
 			writable_strings = (s[2] == '1');

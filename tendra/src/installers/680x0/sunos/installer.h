@@ -62,8 +62,8 @@
  *    the macros controlling the selection of target-dependent optimizations.
  */
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef INSTALLER_H
+#define INSTALLER_H
 
 
 /*
@@ -71,7 +71,6 @@
  */
 
 #include "ossg_api.h"
-#include "ossg.h"
 
 #ifndef FS_LITTLE_ENDIAN
 #define FS_LITTLE_ENDIAN 0

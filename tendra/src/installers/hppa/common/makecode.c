@@ -60,6 +60,8 @@
 
 #define HPPATRANS_CODE
 #include "config.h"
+#include "fmm.h"
+
 #include "myassert.h"
 #include "addrtypes.h"
 #include "tags.h"
@@ -102,7 +104,6 @@
 #include "f64.h"
 #include "misc_c.h"
 #include "special.h"
-#include "xalloc.h"
 #include "loc_signal.h"
 
 #define outp fprintf

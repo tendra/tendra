@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "tenapp.h"
+
 #if FS_STDARG
 #include <stdarg.h>
 #else
@@ -67,12 +69,6 @@
 #include "utility.h"
 extern long crt_line_num;
 extern char *crt_fname;
-extern char *progname;
-long total_calloced;
-#if 0
-/* Makes automatically generated makefile work */
-#include "xalloc.c"
-#endif
 
 
 /*
@@ -268,120 +264,3 @@ warning(char *s, ...)
 }
 
 
-#if 0
-/*
- *    MEMORY HACK VALUE
- */
-
-#define memhack 0
-
-/*
- *    ALLOCATE A BLOCK OF MEMORY
- *
- *    A pointer to a block of memory of size sz is returned.  Failure to
- *    allocate this memory gives an immediate fatal error.
- */
-
-voidstar
-xmalloc(size_t sz)
-{
-    voidstar res;
-    if (sz == 0) return (null);
-    res = (voidstar) malloc (sz + memhack);
-    if (res == null) {
-		error ("Can't allocate memory");
-		exit (EXIT_FAILURE);
-    }
-#ifdef MEM_DEBUG
-    printf ("%d (malloc, %d bytes)\n", res, sz);
-    fflush (stdout);
-#endif
-    return (res);
-}
-
-
-/*
- *    ALLOCATE ROOM IN MEMORY
- *
- *    A pointer to a block of memory of size n * sz is returned.  This
- *    memory is initialized to 0.  Failure to allocate memory gives an
- *    immediate fatal error.
- */
-
-voidstar
-xcalloc(int n, size_t sz)
-{
-    voidstar res;
-    if (n == 0 || sz == 0) return (null);
-    if (sz == sizeof (char) && n < 100) {
-		/* Be careful not to free character arrays */
-		static char *cbuffer = null;
-		static size_t cbuffsz = 0;
-		if (n + memhack >= cbuffsz) {
-			cbuffsz = 2000;
-			cbuffer = (char *) calloc (cbuffsz, sizeof (char));
-			if (cbuffer == null) {
-				error ("Can't allocate memory");
-				exit (EXIT_FAILURE);
-			}
-		}
-		res = (voidstar) cbuffer;
-		cbuffer += (n + memhack);
-		cbuffsz -= (n + memhack);
-    } else {
-		res = (voidstar) calloc (n + memhack, sz);
-		if (res == null) {
-			error ("Can't allocate memory");
-			exit (EXIT_FAILURE);
-		}
-    }
-#ifdef MEM_DEBUG
-    printf ("%d (calloc, %d bytes)\n", res, n * sz);
-    fflush (stdout);
-#endif
-    return (res);
-}
-
-
-/*
- *    REALLOCATE A BLOCK OF MEMORY
- *
- *    The previously allocated memory pointed to by p is reallocated
- *    to size n.  A pointer to the new block of memory is returned.
- *    Failure to allocate memory gives an immediate fatal error.
- */
-
-voidstar
-xrealloc(voidstar p, size_t sz)
-{
-    voidstar res;
-    if (p == null) return (xmalloc (sz));
-    if (sz == 0) return (null);
-    res = (voidstar) realloc (p, sz + memhack);
-    if (res == null) {
-		error ("Can't reallocate memory");
-		exit (EXIT_FAILURE);
-    }
-#ifdef MEM_DEBUG
-    printf ("%d (realloc, %d bytes)\n", res, sz);
-    fflush (stdout);
-#endif
-    return (res);
-}
-
-
-/*
- *    FREE A BLOCK OF MEMORY
- *
- *    The block of memory pointed to by p is returned to free.  p must
- *    previously have been allocated using one of the routines above.
- */
-
-void
-xfree(voidstar p)
-{
-    if (p == null) return;
-    free (p);
-    return;
-}
-#endif

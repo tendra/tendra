@@ -8,6 +8,10 @@ CFLAGS+= 	-I. -I${.CURDIR} ${SRCDIRS:S|^|-I${SRC_DIR}/src/installers/|} \
 		-I${SRC_DIR}/src/include
 .PATH :		${.CURDIR} ${SRCDIRS:S|^|${.CURDIR}/../../|}
 
+USE_LIBTEN=	yes
+
+#CAT_EXTRA=	${.CURDIR}/../../common/reader/messages.cat
+
 # installers/common/construct
 SRCS+=	aldefs.c case_opt.c check.c check_id.c complex_eq.c const.c exp.c \
 	f64.c flags.c flpt.c flpt_fns.c foralls.c global_opt.c inl_norm.c \
@@ -21,8 +25,7 @@ SRCS+=	dg_aux.c dg_fns.c diag_fns.c diag_info.c mark_scope.c
 SRCS+=	li_fns.c
 
 # installers/common/reader
-SRCS+=	basicread.c decoder.c read_fns.c read_sort.c readglob.c table_fns.c \
-	xalloc.c
+SRCS+=	basicread.c decoder.c read_fns.c read_sort.c readglob.c table_fns.c
 
 DEPEND_SRC=	decoder.c ecodes.h externs.h inits.h \
 		main_reads.h temp_fns.c

@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include <signal.h>
 #include "memtdf.h"
 #include "codegen.h"
@@ -98,7 +100,6 @@
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include "xalloc.h"
 #include "parameter.h"
 #include "error.h"
 #include "dynamic_init.h"

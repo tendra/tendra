@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "utility.h"
 #define failer failer_reject
 #include "basicread.c"
@@ -76,10 +78,8 @@ open_input(char *nm)
 	
     if (strcmp (nm, "-")) {
 		fpin = fopen (nm, "r");
-		if (fpin == null) {
-			error ("Can't open input file, %s", nm);
-			exit (EXIT_FAILURE);
-		}
+		if (fpin == null)
+			MSG_cant_open_input_file(nm);
     } else {
 		int c;
 		fpin = tmpfile ();

@@ -57,17 +57,12 @@
 
 #define SPARCTRANS_CODE
 #include "config.h"
+#include "tenapp.h"
+
 #include "common_types.h"
 #include "comment.h"
 #include "const.h"
 #include "out.h"
-
-
-/*
- *  PROGRAM NAME
- */
-
-char *sparctrans = "sparctrans";
 
 
 /*
@@ -90,7 +85,7 @@ fail(char * mess)
 		outnl ();
 		fflush (as_file);
 	}
-	fprintf (stderr, "%s : error : %s\n", sparctrans, mess);
+	fprintf (stderr, "%s : error : %s\n", progname, mess);
 	if (!do_comment) exit (EXIT_FAILURE);
 	/* generate more code to give the error context when commenting */
 	return;

@@ -65,6 +65,8 @@
 
 /**/
 #include "config.h"
+#include "fmm.h"
+
 #include "inst_fmt.h"
 #include "main.h"
 #include "fail.h"
@@ -72,7 +74,6 @@
 #include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
-#include "xalloc.h"
 #include "bool.h"
 #include "ibinasm.h"
 #include "out_ba.h"

@@ -60,9 +60,10 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "externs.h"
-#include "xalloc.h"
 #include "installglob.h"
 #include "expmacs.h"
 #include "tags.h"

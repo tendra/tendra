@@ -61,11 +61,12 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "cv_types.h"
 #include "expmacs.h"
 #include "out.h"
-#include "xalloc.h"
 
 
 /* PROCEDURES */

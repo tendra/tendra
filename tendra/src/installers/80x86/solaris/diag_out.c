@@ -58,6 +58,8 @@
 /* sol86/diag_out.c */
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "basicread.h"
 #include "out.h"
@@ -66,7 +68,6 @@
 #include "expmacs.h"
 #include "tags.h"
 #include "szs_als.h"
-#include "xalloc.h"
 #include "exp.h"
 #include "externs.h"
 

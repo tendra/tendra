@@ -57,6 +57,9 @@
 
 #define SPARCTRANS_CODE
 #include "config.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "flags.h"
 #include "tempdecs.h"
@@ -131,11 +134,8 @@ static void
 open_files(char * infname, char * outfname)
 {
 
-	if (!initreader (infname)) {
-		fprintf (stderr, "%s : cannot open input file %s\n",
-				 sparctrans, infname);
-		exit (EXIT_FAILURE);
-	}
+	if (!initreader (infname))
+		MSG_cant_open_input_file (infname);
 
 	if (strcmp (outfname, "-") == 0) {
 		/* "-" by convention means stdout */
@@ -143,11 +143,8 @@ open_files(char * infname, char * outfname)
 	}
 	else {
 		as_file = fopen (outfname, "w");
-		if (as_file == NULL) {
-			fprintf (stderr, "%s : cannot open output file %s\n",
-					 sparctrans, outfname);
-			exit (EXIT_FAILURE);
-		}
+		if (as_file == NULL)
+			MSG_cant_open_output_file (outfname);
 	}
 	return;
 }
@@ -166,11 +163,7 @@ main(int argc, char ** argv)
 	char *outfname;
 	bool errflg = 0;
 
-	/* initialise executable name */
-	sparctrans = argv [0];
-	for (arg = sparctrans; *arg; arg++) {
-		if (*arg == '/') sparctrans = arg + 1;
-	}
+	tenapp_init(argc, argv, "TDF to SPARC translator", "1.0");
 
 	/* initialise output file */
 	as_file = stdout;
@@ -263,7 +256,8 @@ main(int argc, char ** argv)
 		case 'U' : do_unroll = GET_0_1; break;
 
 		case 'V':
-			IGNORE fprintf(stderr, "DERA ANDF Sparc translator (TDF version %d.%d)\n",
+			tenapp_report_version();
+			IGNORE fprintf(stderr, "TDF version %d.%d: ",
 						   MAJOR_VERSION, MINOR_VERSION);
 			IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
 						   reader_revision);
@@ -289,9 +283,6 @@ main(int argc, char ** argv)
 			IGNORE fprintf(stderr, "installer compilation %s", __DATE__);
 #endif
 			IGNORE fprintf(stderr, "\n");
-#ifdef RELEASE
-			IGNORE fprintf(stderr, "release: %s\n",RELEASE);
-#endif
 			break;
 
 		case 'W' : break;
@@ -356,7 +347,7 @@ main(int argc, char ** argv)
 
 		default : {
 			fprintf (stderr, "%s : unknown option, %s\n",
-					 sparctrans, arg);
+					 progname, arg);
 			break;
 		}
 		}
@@ -374,14 +365,14 @@ main(int argc, char ** argv)
     }
     else {
 		if (argc == a)
-			fprintf (stderr, "%s : input file missing\n", sparctrans);
+			fprintf (stderr, "%s : input file missing\n", progname);
 		errflg = 1;
     }
 
     /* check ABI conformance */
     if (sysV_abi && (g_reg_max > 4)) {
 		fprintf (stderr, "%s : -r%d conflicts with SYSV ABI\n",
-				 sparctrans, g_reg_max);
+				 progname, g_reg_max);
     }
 
     /* quit if arguments were wrong */
@@ -438,7 +429,7 @@ main(int argc, char ** argv)
 	/* check for output errors and close the output file */
 	if (ferror (as_file) != 0 || fclose (as_file) != 0) {
 		fprintf (stderr, "%s : output file error, %s\n",
-				 sparctrans, outfname);
+				 progname, outfname);
 		exit (EXIT_FAILURE);
 	}
 

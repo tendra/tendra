@@ -65,6 +65,8 @@
 /**/
 
 #include "config.h"
+#include "fmm.h"
+
 #include "regexps.h"
 #include "ibinasm.h"
 #include "out_ba.h"
@@ -73,7 +75,6 @@
 #endif
 #include "inst_fmt.h"
 #include "labels.h"
-#include "xalloc.h"
 #include "main.h"
 
 int   last_label = 31;

@@ -58,9 +58,10 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "readglob.h"
-#include "xalloc.h"
 #include "basicread.h"
 #include "sortmacs.h"
 #include "exp.h"

@@ -65,11 +65,12 @@
 
 ***********************************************************************/
 #include "config.h"
+#include "fmm.h"
+
 #include <limits.h>
 #include "common_types.h"
 #include "flpttypes.h"
 #include "exp.h"
-#include "xalloc.h"
 #include "szs_als.h"
 #include "messages_c.h"
 #include "basicread.h"

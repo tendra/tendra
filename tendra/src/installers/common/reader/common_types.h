@@ -62,6 +62,8 @@
 
 /* a collection of all the type defining header files */
 
+#include "installer.h"
+
 #include "codetypes.h"
 
 #include "dg_first.h"

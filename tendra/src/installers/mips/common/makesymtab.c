@@ -57,6 +57,7 @@
 
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -68,7 +69,6 @@
 #include "common_types.h"
 #include "flags.h"
 #include "makesymtab.h"
-#include "xalloc.h"
 
 extern bool BIGEND;
 int MAJOR_VERSION_as = 3;

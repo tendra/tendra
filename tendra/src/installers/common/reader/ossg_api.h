@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+ $TenDRA$
 */
 
 
@@ -44,17 +46,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS		0
-#define EXIT_FAILURE		1
-#endif
-
-#ifndef SEEK_SET
-#define SEEK_SET		0
-#define SEEK_CUR		1
-#define SEEK_END		2
-#endif
 
 #ifdef __TenDRA__
 #ifndef CROSS_INCLUDE

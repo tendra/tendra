@@ -60,6 +60,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "out.h"
 #include "expmacs.h"
@@ -74,7 +76,6 @@
 #include "assembler.h"
 #include "instr.h"
 #include "instr386.h"
-#include "xalloc.h"
 #include "install_fns.h"
 #include <string.h>
 

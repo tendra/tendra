@@ -55,8 +55,8 @@
  */
 
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef INSTALLER_H
+#define INSTALLER_H
 
 /*
     HISTORY
@@ -72,7 +72,6 @@
 
 /* API SPECIFICATION */
 #include "ossg_api.h"
-#include "ossg.h"
 
 #ifndef FS_LITTLE_ENDIAN
 #define FS_LITTLE_ENDIAN	0
@@ -179,7 +178,7 @@
 			name(s) == shcomplexhd || shape_size(s)>64 || \
 			name(s) == u64hd || name(s) == s64hd)
 
-#endif /* CONFIG_INCLUDED */
+#endif /* INSTALLER_H */
 
 
 

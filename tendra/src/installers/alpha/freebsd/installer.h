@@ -59,7 +59,6 @@
 #define config_key 1
 
 #include "ossg_api.h"
-#include "ossg.h"
 
 #ifndef FS_64_BIT
 #define FS_64_BIT		1

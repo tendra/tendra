@@ -135,6 +135,8 @@
  */
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "myassert.h"
 #include "flpt.h"
@@ -160,7 +162,6 @@
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include "xalloc.h"
 #include "comment.h"
 #include "sparcdiags.h"
 #include "installglob.h"

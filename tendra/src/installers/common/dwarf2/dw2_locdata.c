@@ -57,6 +57,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "dg_types.h"
 #include "dw2_config.h"
@@ -67,7 +69,6 @@
 #include "expmacs.h"
 #include "tags.h"
 #include "basicread.h"
-#include "xalloc.h"
 #include "externs.h"
 #include "dg_aux.h"
 #include "dw2_locdata.h"

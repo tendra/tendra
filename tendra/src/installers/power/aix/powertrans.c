@@ -82,6 +82,8 @@
 
 
 #include "config.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "flags.h"		/* for option flags */
 #include "tempdecs.h"	/* for tempdecopt */
@@ -104,19 +106,8 @@ main(int argc, char **argv)
 	char *infname=(char*)0;
 	char *outfname=(char*)0;
 	char *arg;
-	char *powertrans;
 
-	/*
-	 * Initialise executable name
-	 */
-	powertrans = argv [0];
-	for (arg = powertrans; *arg; arg++)
-	{
-		if (*arg == '/')
-		{
-			powertrans = arg + 1;
-		}
-	}
+	tenapp_init(argc, argv, "TDF to RS6000/PowerPC translator", "1.0");
 
 	/* errors messages are output on stdout, ensure they get out */
 	setbuf(stdout, NULL);
@@ -173,7 +164,7 @@ main(int argc, char **argv)
 		case 'B' : flpt_const_overflow_fail = GET_0_1; break;
 		case 'C' : do_loopconsts = GET_0_1; break;
 		case 'D' : fprintf(stderr, "%s : not implemented, %s\n",
-						   powertrans, arg); break;
+						   progname, arg); break;
 		case 'E' : extra_checks = 0; break;
 		case 'F' : do_foralls = GET_0_1; break;
 		case 'H' : diagnose = 1; break;
@@ -207,7 +198,8 @@ main(int argc, char **argv)
 		case 'U' : do_unroll = GET_0_1; break;
 
 		case 'V':
-			fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",
+			tenapp_report_version();
+			fprintf(stderr, "TDF version %d.%d: \n",
 					MAJOR_VERSION, MINOR_VERSION);
 			fprintf(stderr, "reader %d.%d: \n", reader_version,
 					reader_revision);
@@ -217,9 +209,6 @@ main(int argc, char **argv)
 			fprintf(stderr, "system %s: \n", target_system);
 #ifdef __DATE__
 			IGNORE fprintf(stderr, "installer compilation : %s\n", __DATE__);
-#endif
-#ifdef RELEASE
-			IGNORE fprintf(stderr, "release: %s\n",RELEASE);
 #endif
 			break;
 
@@ -242,7 +231,7 @@ main(int argc, char **argv)
 
 		default : {
 			fprintf (stderr, "%s : unknown option, %s\n",
-					 powertrans, arg);
+					 progname, arg);
 			break;
 		}
 		}

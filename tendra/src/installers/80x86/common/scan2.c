@@ -252,7 +252,7 @@ cc1(int sto, exp to, int se, exp e, int (*doit)(exp, int, int),
 
 /* does cca and forces the declaration to use a register */
 static void
-ccp(int sto, exp to, int sx, exp x)
+cca_reg(int sto, exp to, int sx, exp x)
 {
 	exp toc;
 	cca (sto, to, sx, x);
@@ -328,13 +328,13 @@ ap_argsc(int sto, exp to, exp e)
 		do1 = 0;
 	
 	if (do1)
-		ccp (1, e, 1, q);
+		cca_reg (1, e, 1, q);
 	
 	if (name (a) == offset_mult_tag && name (bro (son (a))) == val_tag &&
 		(k = no (bro (son (a))), k == 8 || k == 16 || k == 32 || k == 64))
-		ccp (1, e, 1, bro (son (q)));
+		cca_reg (1, e, 1, bro (son (q)));
 	else
-		ccp (1, e, 0, son (q));
+		cca_reg (1, e, 0, son (q));
 	
 	if (do1) {
 		cca (sto, to, 1, son (e));
@@ -402,9 +402,9 @@ cont_arg(int sto, exp to, exp e, int usereg0)
     };
 	
 	if (n == reff_tag)
-		ccp (1, e, 1, son (e));
+		cca_reg (1, e, 1, son (e));
 	else
-		ccp (1, e, 1, e);
+		cca_reg (1, e, 1, e);
 	
 	cca (sto, to, 1, son (e));
 	
@@ -1068,7 +1068,7 @@ scan2(int sto, exp to, exp e, int usereg0)
 			return (0);
 		};
 		
-		ccp (sto, to, 1, e);
+		cca_reg (sto, to, 1, e);
 		return (0);
 	};
     case proc_tag:

@@ -71,14 +71,7 @@
 #define target_revision	4
 #define target_patchlevel 11
 #define target_system "Digital Unix (OSF/1)"
-
-#ifdef RELEASE
-#define RELEASE_INFO RELEASE
-#else
-#define RELEASE_INFO "private"
-#endif
-
-
+#define	TRANS_VERSION	"2.4.11"
 
 #endif
 

@@ -85,6 +85,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -97,7 +99,6 @@
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include "xalloc.h"
 #include "parameter.h"
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

@@ -68,6 +68,7 @@
 ********************************************************************/
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -81,7 +82,6 @@
 #include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
-#include "xalloc.h"
 #include "symtab.h"
 #include "new_symbol.h"
 #include "basicread.h"

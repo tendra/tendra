@@ -61,6 +61,7 @@
 
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -70,7 +71,6 @@
 
 #include "common_types.h"
 #include "symtab.h"
-#include "xalloc.h"
 #include "flags.h"
 #include "expmacs.h"
 #include "shapemacs.h"

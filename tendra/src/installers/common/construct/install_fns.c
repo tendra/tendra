@@ -72,6 +72,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include <ctype.h>
 #include <time.h>
 #include "common_types.h"
@@ -87,7 +89,6 @@
 #include "table_fns.h"
 #include "flpttypes.h"
 #include "flpt.h"
-#include "xalloc.h"
 #include "shapemacs.h"
 #include "read_fns.h"
 #include "sortmacs.h"

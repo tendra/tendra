@@ -237,6 +237,10 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "tenapp.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "flpt.h"
 #include "frames.h"
@@ -262,7 +266,6 @@
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include "xalloc.h"
 #include "comment.h"
 #include "hppadiags.h"
 #include "installglob.h"
@@ -455,8 +458,8 @@ translate_capsule()
 	capn++;
 	
 	/* mark the as output as TDF compiled */
-	outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");
-	fprintf(outf,"%d.%d",MAJOR,MINOR);
+	outs("\t;  Produced by the ");
+	fprintf(outf,"%s %s", progdesc, progvers);
 	outnl();
 	outnl();
 	outnl();

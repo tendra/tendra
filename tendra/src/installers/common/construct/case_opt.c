@@ -61,6 +61,8 @@
  ************************************************************/
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "installglob.h"
 #include "exp.h"
@@ -78,7 +80,6 @@
 #include "case_opt.h"
 #include "externs.h"
 #include "me_fns.h"
-#include "xalloc.h"
 #include "install_fns.h"
 #include "szs_als.h"
 

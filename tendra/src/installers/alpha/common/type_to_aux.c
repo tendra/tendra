@@ -70,13 +70,14 @@
 /**/
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "shapemacs.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
-#include "xalloc.h"
 #include "main.h"
 #include "symtab.h"
 #include "symbol.h"

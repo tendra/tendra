@@ -56,7 +56,8 @@
 
 
 #include "config.h"
-#include "release.h"
+#include "tenapp.h"
+
 #include "common_types.h"
 #include "assembler.h"
 #include "basicread.h"
@@ -94,8 +95,6 @@ extern int max_errors;
  *    PROGRAM NAME AND VERSION NUMBER
  */
 
-char *progname = "hptrans";
-static char *version_str = "Version: 0.6";
 static char *revision = REVISION_STRING;
 static char *revdate = DATE_STRING;
 int normal_version = 1;
@@ -234,8 +233,7 @@ main(int argc, char **argv)
     char *input = null;
     char *output = null;
 
-    /* Set up program name */
-    progname = basename (argv [0]);
+	tenapp_init(argc, argv, "TDF to 680x0 translator", TRANS_VERSION);
 
     /* Set default options */
     diagnose = 0;
@@ -329,7 +327,8 @@ main(int argc, char **argv)
 		char *machine = "HP";
 #endif
 #endif
-		fprintf(stderr, "DRA TDF translator (TDF version %d.%d)\n",
+		tenapp_report_version();
+		fprintf(stderr, "TDF version %d.%d: ",
 				MAJOR_VERSION, MINOR_VERSION);
 		fprintf(stderr, "reader %d.%d: ", reader_version,
 				reader_revision);
@@ -341,7 +340,6 @@ main(int argc, char **argv)
 #ifdef __DATE__
 		fprintf(stderr," : installer compilation %s\n", __DATE__);
 #endif
-		fprintf(stderr,"release: %s\n",RELEASE);
 		fprintf (stderr, ".\n");
 #ifdef EBUG
 		fprintf (stderr, "Last revised %s.\n", revdate);
@@ -426,8 +424,9 @@ main(int argc, char **argv)
     /* Decode, optimize and process the input TDF */
     open_output (output);
     asm_comment;
-    outs (" TDF to 680x0, ");
-    outs (version_str);
+	outs (progdesc);
+    outs (", ");
+    outs (progvers);
     outs (", ");
     outs (revision);
     outnl ();

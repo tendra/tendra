@@ -82,6 +82,8 @@
  ************************************************************************/
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "consttypes.h"
 #include "constmacs.h"
@@ -98,7 +100,6 @@
 #include "is_worth.h"
 #include "flpt.h"
 #include "flpttypes.h"
-#include "xalloc.h"
 #include "messages_c.h"
 #include "basicread.h"
 #include "me_fns.h"

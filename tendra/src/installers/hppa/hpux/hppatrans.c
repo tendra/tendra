@@ -61,6 +61,9 @@
 
 #define HPPATRANS_CODE
 #include "config.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "flags.h"		/* for option flags */
 #include "tempdecs.h"		/* for tempdecopt */
 #include "comment.h"		/* for do_comment */
@@ -115,6 +118,8 @@ main(int argc, char ** argv)
 	char *infname=(char*)0;
 	char *outfname=(char*)0;
 
+
+	tenapp_init(argc, argv, "TDF to HP PA-RISC translator", TRANS_VERSION);
 
 	/* initialise output file */
 	outf = stdout;
@@ -210,8 +215,9 @@ main(int argc, char ** argv)
 		case 'V' :
 		{
 			/* print version number */
-			fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: (TDF %d.%d)\nreader %d.%d:\nconstruct %d.%d:\ntranslator compilation date = %s\n ",
-					MAJOR,MINOR,MAJOR_VERSION,MINOR_VERSION,
+			tenapp_report_version();
+			fprintf(stderr,"TDF %d.%d\nreader %d.%d:\nconstruct %d.%d:\ntranslator compilation date = %s\n ",
+					MAJOR_VERSION,MINOR_VERSION,
 					reader_version,reader_revision,construct_version,
 					construct_revision,compile_date);
 			versionflg = 1;
@@ -327,10 +333,7 @@ init_trans(char * infname, char * outfname)
 	 */
 
 	if (!initreader(infname))
-	{
-		fprintf(stderr, "hppatrans: cannot open input file %s\n", infname);
-		return 3;
-	}
+		MSG_cant_open_input_file(infname);
 
 	if (strcmp(outfname, "-") == 0)
 	{
@@ -341,10 +344,7 @@ init_trans(char * infname, char * outfname)
 	{
 		outf = fopen(outfname, "w+");
 		if (outf == (FILE *) 0)
-		{
-			fprintf(stderr, "hppatrans: cannot open output file %s\n", outfname);
-			return 3;
-		}
+			MSG_cant_open_output_file(outfname);
 	}
 
 	return 0;			/* OK */

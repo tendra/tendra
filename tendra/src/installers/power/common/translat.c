@@ -160,6 +160,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "installglob.h"
@@ -180,7 +183,6 @@
 #include "needscan.h"
 #include "machine.h"
 #include "diagout.h"
-#include "xalloc.h"
 #include "comment.h"
 
 #include "translat.h"
@@ -214,10 +216,7 @@ translate(char *infname, char *outfname)
 	 * Open files.
 	 */
 	if (!initreader(infname))
-	{
-		fprintf(stderr, "powertrans: cannot open input file %s\n", infname);
-		return 3;
-	}
+		MSG_cant_open_input_file(infname);
 	
 	if (strcmp(outfname, "-") == 0)
 	{
@@ -229,10 +228,7 @@ translate(char *infname, char *outfname)
 	{
 		as_file = fopen(outfname, "w");
 		if (as_file == (FILE *) 0)
-		{
-			fprintf(stderr, "powertrans: cannot open output file %s\n", outfname);
-			return 3;
-		}
+			MSG_cant_open_output_file(outfname);
 	}
 	
 	/* mark the as output as TDF compiled */

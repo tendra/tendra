@@ -57,6 +57,7 @@
 
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -85,7 +86,6 @@
 #include "ibinasm.h"
 #include "syms.h"
 #include "out_ba.h"
-#include "xalloc.h"
 #include "new_symbol.h"
 #include "mipsdiags.h"
 #include "extern_adds.h"

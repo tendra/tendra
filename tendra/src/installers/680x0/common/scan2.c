@@ -204,7 +204,7 @@ cc(bool sto, exp to, bool se, exp e, bool (*doit)(exp, int),
  */
 
 static void
-ccp(bool sto, exp to, bool sx, exp x)
+cca_reg(bool sto, exp to, bool sx, exp x)
 {
     exp xc = contexp (sx, x);
     exp toc;
@@ -263,7 +263,7 @@ ap_arg1(bool sto, exp to, bool sa, exp a,
     if (!b && name (ac) == name_tag) return;
 	
     /* The pointer has to go into a register */
-    ccp (sto, to, sa, a);
+    cca_reg (sto, to, sa, a);
     return;
 }
 
@@ -287,7 +287,7 @@ ap_argsc(bool sto, exp to, bool se, exp e,
 		
 		long k = no (bro (son (a)));
 		if ((k == 8 || k == 16 || k == 32 || k == 64) && k == sz) {
-			ccp (sto, to, 1, a);
+			cca_reg (sto, to, 1, a);
 			ap_arg1 (sto, to, 1, ec, b);
 			return;
 		}
@@ -295,13 +295,13 @@ ap_argsc(bool sto, exp to, bool se, exp e,
     }
 	
     if (sz == 8) {
-		ccp (sto, to, 0, son (ec));
+		cca_reg (sto, to, 0, son (ec));
 		ap_arg1 (sto, to, 1, ec, b);
 		return;
     }
 	
     if (b) {
-		ccp (sto, to, se, e);
+		cca_reg (sto, to, se, e);
 		return;
     }
 	
@@ -333,7 +333,7 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 			(isvar (son (son (s))) || isglob (son (son (s))) ||
 			 isusereg (son (son (s))))) return;
 		
-		ccp (sto, to, 1, e);
+		cca_reg (sto, to, 1, e);
 		return;
     }
 	
@@ -347,7 +347,7 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 			return;
 		}
 		
-		ccp (sto, to, 1, s);
+		cca_reg (sto, to, 1, s);
 		return;
     }
 	
@@ -356,7 +356,7 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 		return;
     }
 	
-    ccp (sto, to, 1, e);
+    cca_reg (sto, to, 1, e);
     return;
 }
 
@@ -904,13 +904,13 @@ scan2(bool sto, exp to, exp e)
 			name (bro (son (a))) == val_tag) {
 			long k = no (bro (son (a))) / 8;
 			if (k == 1 || k == 2 || k == 4 || k == 8) {
-				ccp (sto, to, 1, a);
+				cca_reg (sto, to, 1, a);
 				ap_arg1 (sto, to, 1, e, 0);
 				return;
 			}
 	    }
 		
-	    ccp (sto, to, 0, son (e));
+	    cca_reg (sto, to, 0, son (e));
 	    ap_arg1 (sto, to, 1, e, 0);
 	    return;
 	}
@@ -956,7 +956,7 @@ scan2(bool sto, exp to, exp e)
 	    if (name (s) == name_tag ||
 			(name (s) == cont_tag &&
 			 name (son (s)) == name_tag)) return;
-	    ccp (sto, to, 1, e);
+	    cca_reg (sto, to, 1, e);
 	    return;
 	}
 		

@@ -62,6 +62,8 @@
   is available.
 */
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "exptypes.h"
 #include "shapemacs.h"
@@ -72,7 +74,6 @@
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include "xalloc.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

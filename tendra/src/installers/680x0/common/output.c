@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+
 #include "common_types.h"
 #include "assembler.h"
 #include "instrs.h"
@@ -88,10 +90,8 @@ open_output(char *nm)
 		fpout = stdout;
     } else {
 		fpout = fopen (nm, "w");
-		if (fpout == null) {
-			error ("Can't open output file, %s", nm);
-			exit (EXIT_FAILURE);
-		}
+		if (fpout == null)
+			MSG_cant_open_output_file(nm);
     }
     return;
 }

@@ -57,6 +57,7 @@
 
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -69,7 +70,6 @@
 #include "bstack.h"
 #include "type_to_aux.h"
 #include "makesymtab.h"
-#include "xalloc.h"
 #include "diagtypes.h"
 #include "flags.h"
 #include "new_symbol.h"

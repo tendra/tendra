@@ -69,6 +69,9 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+#include "tenapp.h"
+
 #include "version.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -129,6 +132,8 @@ main(int argc, char **argv)
 	bool no_opts = 0;
 	bool override_diags = 0;
 	PIC_code = 1;
+
+	tenapp_init(argc, argv, "TDF to Mips BIGEND (as:3.x) translator", TRANS_VERSION);
 
 	as_file = (FILE *) 0;
 	do_inlining = 1;
@@ -211,9 +216,9 @@ main(int argc, char **argv)
 			}
 
 			if (s[ind] != '.') {
-				fprintf(stderr,
-						"DRA TDF Mips BIGEND (as:3.x) translator %d.%d (TDF version %d.%d): 30th June 1994\n",
-						mipstrans_version,mipstrans_revision,MAJOR_VERSION, MINOR_VERSION);
+				tenapp_report_version();
+				fprintf(stderr,	"TDF version %d.%d:", MAJOR_VERSION,
+				  MINOR_VERSION);
 				fprintf(stderr, "reader %d.%d: ", reader_version,
 						reader_revision);
 				fprintf(stderr, "construct %d.%d: \n", construct_version,
@@ -286,10 +291,8 @@ main(int argc, char **argv)
 	dname = argv[argc - 1];	/* the .T file */
 	nm = argv[argc - 2];		/* the .G file */
 	ba_file = fopen (nm, "w");
-	if (ba_file == (FILE *) 0) {
-		printf ("install: can't open output file %s\n", nm);
-		return (1);
-	}
+	if (ba_file == (FILE *) 0)
+		MSG_cant_open_output_file(nm);
 
 
 	if (!initreader (argv[argc - 3])) {

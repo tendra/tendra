@@ -61,6 +61,8 @@
  */
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "installglob.h"
 #include "exp.h"
@@ -74,7 +76,6 @@
 #include "shapemacs.h"
 #include "glopt.h"
 #include "inline.h"
-#include "xalloc.h"
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif

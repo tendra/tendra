@@ -57,8 +57,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
-#include "xalloc.h"
 #include "basicread.h"
 #include "dwarf_out.h"
 #include "dwarf_type.h"

@@ -67,10 +67,11 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "ibinasm.h"
 #include "main.h"
 #include "out_ba.h"
-#include "xalloc.h"
 
 static  binasm ba;
 

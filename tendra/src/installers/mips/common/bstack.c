@@ -56,7 +56,8 @@
 
 
 #include "config.h"
-#include "xalloc.h"
+#include "fmm.h"
+
 #include "bstack.h"
 
 void

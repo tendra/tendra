@@ -63,7 +63,8 @@
 */
 
 #include "config.h"
-#include "xalloc.h"
+#include "fmm.h"
+
 #include "addresstypes.h"
 #include "common_types.h"
 #include "tags.h"

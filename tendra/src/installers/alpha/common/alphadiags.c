@@ -87,6 +87,8 @@ alphadiags.c,v
  *
 */
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "exptypes.h"
 #include "shapemacs.h"
@@ -97,7 +99,6 @@ alphadiags.c,v
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include "xalloc.h"
 #include "syms.h"
 #include "diag_fns.h"
 #include "locate.h"

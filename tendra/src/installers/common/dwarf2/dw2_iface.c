@@ -57,6 +57,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "basicread.h"
 #include "dg_globs.h"
@@ -71,7 +73,6 @@
 #include "dw2_lines.h"
 #include "dw2_info.h"
 #include "dw2_locdata.h"
-#include "xalloc.h"
 #include "diagglob.h"
 
 

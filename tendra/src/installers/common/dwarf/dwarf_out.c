@@ -65,6 +65,8 @@
 /* LOG 25/11/93 removed redundant labbufe djch */
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "installtypes.h"
 #include "machine.h"
@@ -81,7 +83,6 @@
 
 #include "shapemacs.h"
 
-#include "xalloc.h"
 #include "dwarf_types.h"
 #include "dwarf_loc.h"
 #include "dwarf_mc.h"

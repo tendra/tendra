@@ -66,6 +66,8 @@
  */
 
 #include "config.h"
+
+#include "common_types.h"
 #include "myassert.h"
 #include "addrtypes.h"
 #include "expmacs.h"
@@ -87,8 +89,6 @@
 #include "codehere.h"
 #include "proc.h"
 #include "frames.h"
-
-#include "common_types.h"
 
 #include "locate.h"
 

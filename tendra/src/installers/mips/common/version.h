@@ -57,3 +57,4 @@
 
 #define mipstrans_version	4
 #define mipstrans_revision	49
+#define	TRANS_VERSION		"4.49"

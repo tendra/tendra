@@ -58,12 +58,13 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "readglob.h"
 #include "table_fns.h"
 #include "basicread.h"
 #include "sortmacs.h"
-#include "xalloc.h"
 #ifdef NEWDIAGS
 #include "exp.h"
 #include "expmacs.h"

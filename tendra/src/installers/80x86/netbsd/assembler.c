@@ -58,6 +58,8 @@
 /* netbsd/assembler.c */
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "out.h"
 #include "expmacs.h"

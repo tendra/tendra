@@ -70,6 +70,7 @@
 ********************************************************************/
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -87,7 +88,6 @@
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include "xalloc.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

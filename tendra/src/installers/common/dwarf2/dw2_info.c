@@ -57,6 +57,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "dg_aux.h"
 #include "dw2_config.h"
@@ -75,7 +77,6 @@
 #include "flpt.h"
 #include "flpttypes.h"
 #include "externs.h"
-#include "xalloc.h"
 #include "dg_globs.h"
 #include "f64.h"
 #include "dw2_locdata.h"

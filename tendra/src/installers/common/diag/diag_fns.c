@@ -60,6 +60,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
 #include "readglob.h"
 #include "table_fns.h"
@@ -72,7 +74,6 @@
 #include "natmacs.h"
 #include "install_fns.h"
 #include "diag_fns.h"
-#include "xalloc.h"
 
 
 #ifdef NEWDIAGS

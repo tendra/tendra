@@ -86,6 +86,8 @@
 
 #include "config.h"
 #include "cross_config.h"
+#include "fmm.h"
+
 #include <time.h>
 
 #ifdef CROSS_INCLUDE
@@ -110,7 +112,6 @@
 #include "machine.h"
 #include "szs_als.h"
 #include "install_fns.h"
-#include "xalloc.h"
 
 #include "maxminmacs.h"
 #include "proc.h"

@@ -82,8 +82,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "common_types.h"
-#include "xalloc.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "tags.h"

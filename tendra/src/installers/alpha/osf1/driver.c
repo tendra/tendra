@@ -65,6 +65,8 @@
 
 
 #include "config.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -110,8 +112,8 @@ static bool produce_symbolic_assembler = FALSE;
 void 
 printinfo(void)
 {
-  (void)fprintf(stderr,"DRA TDF DEC Alpha/OSF1 translator %d.%d.%d:(TDF version %d.%d)\n",
-		target_version,target_revision,target_patchlevel,
+  tenapp_report_version();
+  (void)fprintf(stderr,"TDF version %d.%d: ",
 		MAJOR_VERSION,MINOR_VERSION);
   (void)fprintf(stderr,"reader %d.%d: ",reader_version,reader_revision);
   (void)fprintf(stderr,"construct %d.%d: \n",construct_version,
@@ -273,6 +275,9 @@ main(int argc, char *argv[])
   char *dname;	/* name of file to hold symbol table */
   char *baname;
   char *tname;
+
+  tenapp_init(argc, argv, "TDF to DEC Alpha/OSF1 translator", TRANS_VERSION);
+
   do_inlining=0;
   redo_structfns=1;
   do_foralls=0;

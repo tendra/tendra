@@ -63,9 +63,10 @@
 /**/
 
 #include "config.h"
+#include "fmm.h"
+
 #include "fail.h"
 #include "file.h"
-#include "xalloc.h"
 
 /*
    Opens the file 'fname' with mode 'mode'.
