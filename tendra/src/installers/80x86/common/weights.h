@@ -66,9 +66,9 @@ $Revision$*/
 #define weights_key 1
 
 
-extern  void init_weights PROTO_S ((void));
-extern  void comp_weights PROTO_S ((exp e));
-extern  int regable PROTO_S ((exp e));
-extern  int no_side PROTO_S ((exp e));
+extern  void init_weights(void);
+extern  void comp_weights(exp e);
+extern  int regable(exp e);
+extern  int no_side(exp e);
 
 #endif

@@ -105,9 +105,8 @@ $Revision$*/
 
 static exp delayed_const_list = nilexp;
 
-static int const_ready
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int 
+const_ready(exp e)
 {
   unsigned char  n = name (e);
   if (n == env_size_tag)
@@ -125,9 +124,8 @@ static int const_ready
   return (const_ready(e));
 }
 
-static void eval_if_ready
-    PROTO_N ( (t,now) )
-    PROTO_T ( exp t X int now )
+static void 
+eval_if_ready(exp t, int now)
 {
   if (now || const_ready(son(t))) {
     if (isglob(t)) {
@@ -185,9 +183,8 @@ static void eval_if_ready
 
 /* PROCEDURES */
 
-void make_code
-    PROTO_N ( (my_def) )
-    PROTO_T ( dec * my_def )
+void 
+make_code(dec *my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
@@ -343,9 +340,8 @@ void make_code
   return;
 }
 
-void mark_unaliased
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void 
+mark_unaliased(exp e)
 {
   exp p = pt (e);
   int ca = 1;
@@ -370,8 +366,8 @@ void mark_unaliased
 }
 
 
-void translate_capsule
-    PROTO_Z ()
+void 
+translate_capsule(void)
 {
   dec * my_def;
 
@@ -493,14 +489,14 @@ void translate_capsule
 
 }
 
-void translate_tagdef
-    PROTO_Z ()
+void 
+translate_tagdef(void)
 {
   return;
 }
 
-void translate_unit
-    PROTO_Z ()
+void 
+translate_unit(void)
 {
   return;
 }

@@ -181,8 +181,8 @@ int proc_has_asm = 0;	/* init by cproc */
 
 /* PROCEDURES */
 
-void clean_stack
-    PROTO_Z ()
+void 
+clean_stack(void)
 {
   if (no_frame && not_in_params && not_in_postlude && stack_dec != 0)
     stack_return(-stack_dec);
@@ -190,9 +190,8 @@ void clean_stack
 
 
 /* is this a pushable proc argument ? */
-static int push_arg
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int 
+push_arg(exp e)
 {
   shape sha = sh(e);
   unsigned char  n = name (sha);
@@ -206,9 +205,8 @@ static int push_arg
   return (1);
 }
 
-static void code_push
-    PROTO_N ( (stack, t) )
-    PROTO_T ( ash stack X exp t )
+static void 
+code_push(ash stack, exp t)
 {
   int n = (int)name(t);
   if (is_o(n))
@@ -222,9 +220,8 @@ static void code_push
 
 /* produce the code for proc params in
    order from last to first */
-static void code_pars
-    PROTO_N ( (stack, t) )
-    PROTO_T ( ash stack X exp t )
+static void 
+code_pars(ash stack, exp t)
 {
   int tsize = shape_size(sh(t));
   if (last (t)) {		/* last parameter is pushed first */
@@ -240,9 +237,8 @@ static void code_pars
 }
 
 /* stack parameters ready for apply_proc */
-static int procargs
-    PROTO_N ( (stack, arg, has_checkstack) )
-    PROTO_T ( ash stack X exp arg X int has_checkstack )
+static int 
+procargs(ash stack, exp arg, int has_checkstack)
 {
   int use_push = 1;
   int longs = 0, extra;
@@ -316,9 +312,8 @@ static int procargs
 
 /* stack dynamic or same callees */
 /* %edx and %ecx don't need to be preserved */
-static int push_cees
-    PROTO_N ( (src, siz, vc, stack) )
-    PROTO_T ( exp src X exp siz X int vc X ash stack )
+static int 
+push_cees(exp src, exp siz, int vc, ash stack)
 {
   int old_regsinuse = regsinuse;
   int longs = -1;
@@ -423,9 +418,8 @@ int  bits_in[16] = {		/* number of bits in the index */
 
 /* allocate registers ebx esi edi,
    providing br registers are left */
-static regu alloc_reg_big
-    PROTO_N ( (rs, sha, br, byteuse) )
-    PROTO_T ( int rs X shape sha X int br X int byteuse )
+static regu 
+alloc_reg_big(int rs, shape sha, int br, int byteuse)
 {
   int  sz,
         nr,
@@ -483,9 +477,8 @@ static regu alloc_reg_big
 
 /* allocate registers ecx edx ebx esi edi
    if at least br registers are available */
-static regu alloc_reg_small
-    PROTO_N ( (rs, sha, br, byteuse) )
-    PROTO_T ( int rs X shape sha X int br X int byteuse )
+static regu 
+alloc_reg_small(int rs, shape sha, int br, int byteuse)
 {
   int  sz,
         nr,
@@ -544,9 +537,8 @@ static regu alloc_reg_small
 
 /* allocate floating point registers, if
    at least br are available */
-static regu alloc_fl_small
-    PROTO_N ( (rs, br) )
-    PROTO_T ( int rs X int br )
+static regu 
+alloc_fl_small(int rs, int br)
 {
   int  mask,
         i,
@@ -581,9 +573,8 @@ static regu alloc_fl_small
 }
 
 /* allocate all registers */
-static regu alloc_reg
-    PROTO_N ( (rs, sha, br, big_reg, e) )
-    PROTO_T ( int rs X shape sha X int br X int big_reg X exp e )
+static regu 
+alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
 {
   if (name (sha) >= shrealhd && name (sha) <= doublehd) {
 #ifdef NEWDIAGS
@@ -626,9 +617,8 @@ static regu alloc_reg
  ************************************************************************/
 
 
-static dcl alloc_regable
-    PROTO_N ( (dc, def, e, big_reg) )
-    PROTO_T ( dcl dc X exp def X exp e X int big_reg )
+static dcl 
+alloc_regable(dcl dc, exp def, exp e, int big_reg)
 {
   where alt;
   int defsize = shape_size(sh(def));
@@ -673,9 +663,8 @@ static dcl alloc_regable
   return (dc);
 }
 
-static dcl def_where
-    PROTO_N ( (e, def, stack) )
-    PROTO_T ( exp e X exp def X ash stack )
+static dcl 
+def_where(exp e, exp def, ash stack)
 {
   int big_reg = has_intnl_call(e);
   dcl dc;
@@ -789,9 +778,8 @@ static dcl def_where
  ***********************************************************************/
 
 
-static void solve
-    PROTO_N ( (s, l, dest, jr, stack) )
-    PROTO_T ( exp s X exp l X where dest X exp jr X ash stack )
+static void 
+solve(exp s, exp l, where dest, exp jr, ash stack)
 {
   while (!last (l)) {		/* not the last branch */
     exp record = getexp (f_bottom, nilexp,
@@ -842,9 +830,8 @@ static void solve
    result into dest.
  *************************************************************************/
 
-static void caser
-    PROTO_N ( (arg, exhaustive, case_exp) )
-    PROTO_T ( exp arg X int exhaustive X exp case_exp )
+static void 
+caser(exp arg, int exhaustive, exp case_exp)
 {
   exp t = arg;
   int  n;
@@ -908,9 +895,8 @@ static void caser
    stack is the ash for the current stack.
  ********************************************************************/
 
-static ash stack_room
-    PROTO_N ( (stack, dest, off) )
-    PROTO_T ( ash stack X where dest X int off )
+static ash 
+stack_room(ash stack, where dest, int off)
 {
   if (name(dest.where_exp) == ident_tag)
    {
@@ -926,12 +912,12 @@ static ash stack_room
 
 
 #ifdef NEWDIAGS
-static void coder1
+static void 
+coder1(where dest, ash stack, exp e)
 #else
-void coder
+void 
+coder(where dest, ash stack, exp e)
 #endif
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
 {
   float old_scale;
   switch (name (e)) {
@@ -2340,18 +2326,16 @@ struct coder_args {
 	exp e;
 };
 
-static void coder2
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+static void 
+coder2(void *args)
 {
   struct coder_args * x = (struct coder_args *) args;
   coder1 (x->dest, x->stack, x->e);
   return;
 }
 
-static dg_where dg_where_dest
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static dg_where 
+dg_where_dest(exp e)
 {
   dg_where w;
   if (name(e) == name_tag || name(e) == reff_tag) {
@@ -2394,17 +2378,15 @@ static dg_where dg_where_dest
   return w;
 }
 
-static dg_where contop_where
-    PROTO_N ( (id) )
-    PROTO_T ( exp id )
+static dg_where 
+contop_where(exp id)
 {
   return (dg_where_dest (bro(son(id))));
 }
 
 
-dg_where find_diag_res
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+dg_where 
+find_diag_res(void *args)
 {
   struct coder_args * x = (struct coder_args *) args;
   exp e = x->dest.where_exp;
@@ -2439,9 +2421,8 @@ dg_where find_diag_res
   return w;
 }
 
-void coder
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
+void 
+coder(where dest, ash stack, exp e)
 {
   dg_info d;
   dg_info was_current = current_dg_info;
@@ -2550,17 +2531,15 @@ void coder
 
 
 
-static void done_arg
-    PROTO_N ( (args) )
-    PROTO_T ( void * args )
+static void 
+done_arg(void *args)
 {
   UNUSED (args);
   return;
 }
 
-void diag_arg
-    PROTO_N ( (dest, stack, e) )
-    PROTO_T ( where dest X ash stack X exp e )
+void 
+diag_arg(where dest, ash stack, exp e)
 {
   if (dgf(e)) {
     struct coder_args args;

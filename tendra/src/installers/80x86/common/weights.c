@@ -136,7 +136,7 @@ typedef struct elt  explist;
 				/* list of identity declarations in force
 				   at this point */
 
-weights weightsv PROTO_S ( ( exp, explist * ) ) ;
+weights weightsv(exp, explist * );
 
 /* VARIABLES */
 
@@ -148,9 +148,8 @@ weights zeros, moveregs, cmpregs, divregs, applyregs;
 
 /* PROCEDURES */
 
-static int no_side_aux
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int 
+no_side_aux(exp e)
 {
   exp arg;
   if (name(e)==name_tag || name(e)==env_offset_tag || name(e)==top_tag || son(e)==nilexp)
@@ -167,9 +166,8 @@ static int no_side_aux
 
 /* test for guaranteed no side effect */
 /* simple assignment is permitted */
-int no_side
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+int 
+no_side(exp e)
 {
   return ((is_a (name (e)) || name (e) == test_tag || name (e) == ass_tag ||
 	   name (e) == testbit_tag || name (e) == ident_tag)
@@ -177,9 +175,8 @@ int no_side
 }
 
 /* add two weight vectors */
-weights add_weights
-    PROTO_N ( (w1, w2) )
-    PROTO_T ( weights w1 X weights w2 )
+weights 
+add_weights(weights w1, weights w2)
 {
   weights r;
   float  wa,
@@ -195,8 +192,8 @@ weights add_weights
   return (r);
 }
 
-void init_weights
-    PROTO_Z ()
+void 
+init_weights(void)
 {
 		/* initialisation of constants */
   int  i;
@@ -222,9 +219,8 @@ void init_weights
   return;
 }
 
-void markcall
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void 
+markcall(explist *el)
 {
   explist * t = el;
   while (t != (explist *) 0) {
@@ -237,9 +233,8 @@ void markcall
    of currently active declarations, to
    show that there is a call, movc3 etc.
    within their scope */
-void markmove
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void 
+markmove(explist *el)
 {
   explist * t = el;
   while (t != (explist *) 0) {
@@ -249,9 +244,8 @@ void markmove
 }
 
 /* mark to show reg1 may be needed */
-void markreg1
-    PROTO_N ( (el) )
-    PROTO_T ( explist * el )
+void 
+markreg1(explist *el)
 {
   explist * t = el;
   while (t != (explist *) 0) {
@@ -264,9 +258,8 @@ void markreg1
 /* work out weights for a declaration and
    set up the break point to put in the no
    field of the declaration */
-wp max_weights
-    PROTO_N ( (size, locp, ws, isfl) )
-    PROTO_T ( int size X float locp X weights ws X int isfl )
+wp 
+max_weights(int size, float locp, weights ws, int isfl)
 {
   int  k = (size + 31) / 32;
   int  bk = 11;
@@ -324,9 +317,8 @@ wp max_weights
 
 
 /* see if we must use movc3?? */
-weights try_mc3
-    PROTO_N ( (e, ws, el) )
-    PROTO_T ( exp e X weights ws X explist * el )
+weights 
+try_mc3(exp e, weights ws, explist *el)
 {
   int  sz = shape_size(sh(e));
 
@@ -339,9 +331,8 @@ weights try_mc3
 
 /* work out the weights for a list of exp.
    usemc3 is 1 if movc3 may be used. */
-weights add_wlist
-    PROTO_N ( (re, usemc3, el) )
-    PROTO_T ( exp re X int usemc3 X explist * el )
+weights 
+add_wlist(exp re, int usemc3, explist *el)
 {
   weights wl1, wl2;
   if (re == nilexp)
@@ -365,9 +356,8 @@ weights add_wlist
 
 
 /* can the value defined by e be put in a register */
-int regable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+int 
+regable(exp e)
 {
   unsigned char  n;
   shape sha = sh (son (e));
@@ -379,9 +369,8 @@ int regable
   return (1);
 }
 
-int isflsh
-    PROTO_N ( (s) )
-    PROTO_T ( shape s )
+int 
+isflsh(shape s)
 {
   unsigned char  n = name (s);
   return (n >= shrealhd && n <= doublehd);
@@ -397,9 +386,8 @@ int isflsh
    declaration. After the scan the break
    point is put into the no of the
    declaration */
-weights weightsv
-    PROTO_N ( (e, el) )
-    PROTO_T ( exp e X explist * el )
+weights 
+weightsv(exp e, explist *el)
 {
   unsigned char  n = name (e);
   float old_scale;
@@ -610,9 +598,8 @@ weights weightsv
   };
 }
 
-void comp_weights
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void 
+comp_weights(exp e)
 {
   scale = 1.0;
   IGNORE weightsv (e, (explist *) 0);

@@ -65,6 +65,6 @@ $Revision$*/
 #ifndef tvcallee_key
 #define tvcallee_key 1
 
-extern void transform_var_callees PROTO_S((void));
+extern void transform_var_callees(void);
 
 #endif

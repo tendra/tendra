@@ -74,8 +74,8 @@ $Revision$*/
 #include "tv_callees.h"
 
 
-void transform_var_callees
-    PROTO_Z ()
+void 
+transform_var_callees(void)
 				/* Transforms caller arguments of general
 				   procs with variable callees, to appear
 				   like a structure whose address is
