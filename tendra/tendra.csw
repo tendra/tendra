@@ -1,26 +1,35 @@
 workspace tendra {
 	ro_prefix "/usr/include"
-	cd "src/utilities"
+	cd "src/tools"
 
-	project calculus {
-		cd "calculus"
-		ipath "obj_c"
-		ipath "obj_tok"
-		ipath "../shared"
+	project tspec {
+		cd "tspec"
 		
-		file check.c
-		file code.c
-		file common.c
-		file disk.c
+		file builtin.h
+		file config.h
+		file hash.c
+		file hash.h
+		file index.c
+		file index.h
 		file lex.c
+		file lex.h
+		file lexer.h
 		file main.c
-		file output.c
-		file pretty.c
+		file makefile.c
+		file makefile.h
+		file name.c
+		file name.h
+		file object.c
+		file object.h
+		file ossg.h
 		file print.c
-		file read.c
-		file syntax.c
-		file template.c
-		file token.c
-		file write.c
+		file print.h
+		file release.h
+		file type.c
+		file type.h
+		file utility.c
+		file utility.h
+		file variable.c
+		file variable.h
 	}
 }
