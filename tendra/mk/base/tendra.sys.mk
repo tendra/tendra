@@ -22,5 +22,4 @@ ECHODIR		?=	echo
 	${PL} ${.IMPSRC} ${.TARGET} 
 
 .c.j:
-#	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}
-	/usr/bin/env TCCOPTS="${TCC_OPTS} ${TCCFLAGS}" ${TCC} -o ${.TARGET} -c ${.IMPSRC}
+	${TCC} ${TCC_OPTS} ${TCCFLAGS} -o ${.TARGET} -c ${.IMPSRC}

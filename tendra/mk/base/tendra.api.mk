@@ -7,5 +7,9 @@
 OBJS+=  ${SRCS:N*.h:R:S/$/.j/g}
 OBJS_NODIR+=  ${SRCS:N*.h:R:S/$/.j/g:C/.*\/(.*)$/\1/g}
 
+# add the library to the cleanfiles.
+CLEANFILES+= ${TL}
+
+
 ${TL}: ${OBJS}
-	@echo ${TLD} ${TCCFLAGS} ${LDFLAGS} -o ${.TARGET} ${OBJS_NODIR} ${LDDESTDIR} ${LDADD}
+	${TLD} ${LDFLAGS} -o ${.TARGET} ${OBJS_NODIR} ${LDDESTDIR} ${LDADD}
