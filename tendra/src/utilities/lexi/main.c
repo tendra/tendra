@@ -78,7 +78,7 @@ int main
     int too_many = 0 ;
     char *input = NULL ;
     char *output = NULL ;
-    unsigned opts = OUTPUT_MAIN
+    unsigned opts = OUTPUT_MAIN;
 
     /* Process arguments */
     set_progname ( argv [0], "1.2" ) ;

@@ -132,8 +132,9 @@ int read_token PROTO_Z ()
 		return ( get_string ( c0 ) ) ;
 	    }
 	    case '$' : {
+		int t1, c1;
+		c1 = read_char () ;
 		t1 = lookup_char ( c1 ) ;
-		int c1 = read_char () ;
 		if ( is_alpha ( t1 ) ) {
 		    return ( get_sid_ident ( c0, c1 ) ) ;
 		}
