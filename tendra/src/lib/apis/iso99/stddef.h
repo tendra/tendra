@@ -24,3 +24,4 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stddef.h";

@@ -24,3 +24,8 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "errno.h";
+
+# 7.5
+
++CONST int EILSEQ;

@@ -24,3 +24,8 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "iso", "wctype.h";
+
+# 7.25.2.1.3
+
++FUNC int iswblank(wint_t);
