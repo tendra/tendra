@@ -32,7 +32,6 @@ LS?=		/bin/ls
 MKDIR?=		/bin/mkdir -p
 MTREE?=		/usr/sbin/mtree
 MV?=		/bin/mv
-OP_DLS?=	1
 PATCH?=		/usr/bin/patch
 PAX?=		/bin/pax
 PERL?=		/usr/pkg/bin/perl
