@@ -25,6 +25,9 @@ config-create:
 	-e "s|@MACH_EXEC@|${MACH_EXEC}|g" \
 	-e "s|@MACH_OS_LCASE@|${BUILD_OS}|g" \
 	-e "s|@SRC_DIR@|${SRC_DIR}|g" \
+	-e "s|@SRC_ENV@|${SRC_ENV}|g" \
+	-e "s|@OBJ_PREFIX@|${SRC_DIR}/obj|g" \
+	-e "s|@OBJ_ENV@|lib/env/${ENV_SRC}|g" \
 	> ${SRC_DIR}/config.mk
 	@echo "config file created! you can find it at: ${SRC_DIR}/config.mk"
 .endif
