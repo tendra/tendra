@@ -92,6 +92,11 @@
           </row>
         </thead>
         <tbody>
+	  <row>
+	    <entry>20040815</entry>
+	    <entry>Codebase</entry>
+	    <entry>Converted producers to the libten platform.</entry>
+	  </row>
           <row>
             <entry>20040619</entry>
             <entry>Codebase</entry>
