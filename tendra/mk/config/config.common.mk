@@ -1,10 +1,10 @@
 # $TenDRA$
 #
 # This holds the actual target for creating the config file.
-# since this will always be common for all os's i moved it to it's own
+# Since this will always be common for all OS's I moved it to it's own
 # file.
 
-# bug: sometimes this file included twice
+# XXX: sometimes this file is included twice
 .if !defined(HAVE_COMMON_MK)
 HAVE_COMMON_MK=1
 

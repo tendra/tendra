@@ -9,7 +9,7 @@ TMP_CPU!=	${UNAME} -p
 MACH_OS!=	${UNAME}
 MACH_VERS!=	${UNAME} -r
 
-#not sure of the best way to get the exec type, suggestions?
+# Not sure of the best way to get the exec type, suggestions?
 MACH_EXEC=	elf
 
 .if ${TMP_CPU} == "powerpc"
