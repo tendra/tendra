@@ -211,6 +211,29 @@
         </answer>
 
       </qandaentry>
+
+      <qandaentry>
+        <question id="warning">
+          <para>My compilation is breaking due to TenDRA complaining
+            about an "Unknown preprocessing directive, '#warning'".
+        </question>
+        <answer>
+          <para>The #warning preprocessing directive is a GNU C
+            extension to the ISO C standard and its use, although
+            useful, is discouraged.  A proper solution would be to
+            wrap its use with the appropriate #define's for singling
+            out supporting compilers.
+          </para>
+
+          <para>TenDRA supports a pragma which allows you to turn on
+            support for #warning's though.  By using the following in
+            your code you should be able to use #warning:
+            <programlisting>
+#pragma TenDRA directive warning allow
+            </programlisting>
+          </para>
+        </answer>
+      </qandaentry>
     </qandaset>
 
   </chapter>
