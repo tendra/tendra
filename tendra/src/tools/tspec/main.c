@@ -77,6 +77,22 @@
 
 
 /*
+ * INPUT AND OUTPUT DIRECTORIES
+ *
+ * The variable input_dir consists of a colon-separated list of directories
+ * to be searched for input files.  output_incl_dir and output_src_dir
+ * give respectively the output include and output source directories.
+ * The lengths of these directory names (plus one) are also given.
+ */
+
+char *input_dir;
+char *output_incl_dir;
+char *output_src_dir;
+int output_incl_len;
+int output_src_len;
+
+
+/*
     SIGNAL HANDLER
 
     This routine handles caught signals.

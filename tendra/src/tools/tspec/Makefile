@@ -1,17 +1,14 @@
 # $Id$
 
 # Standard directories and files
-DEST=${BASE_DIR}/src/lib
-INCL_DIR=${DEST}/include
-#SRC_DIR=${DEST}/building
+DEST=${OBJ_DIR}/src/lib
 #SRC=${BASE}/src/tools/tspec
 API_DIR=${BASE_DIR}/src/lib/apis
 
 # Standard variables
 
 TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		${TCCOPTS} -I${.CURDIR} -DINPUT_DIR=\"${API_DIR}\"\
-		 -DINCLUDE_DIR=\"${INCL_DIR}\" -DSRC_DIR=\"${SRC_DIR}\"
+CCOPTS=		${TCCOPTS} -I${.CURDIR}
 LIBS=
 
 # Dependencies and construction rules

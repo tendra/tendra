@@ -69,26 +69,6 @@
 #endif
 
 /*
-    INPUT AND OUTPUT DIRECTORIES
-
-    These macros give the standard input and output directories, and may
-    vary between machines.
-*/
-
-#ifndef INPUT_DIR
-#define INPUT_DIR		"/u/g/release/Source/src/lib/apis"
-#endif
-
-#ifndef INCLUDE_DIR
-#define INCLUDE_DIR		"/u/g/release/Source/lib/include"
-#endif
-
-#ifndef SRC_DIR
-#define SRC_DIR			"/u/g/release/Source/lib/building"
-#endif
-
-
-/*
     ENVIRONMENTAL VARIABLES
 
     These macros give the names of the various environmental variables
