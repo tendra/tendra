@@ -476,7 +476,7 @@ fmm_free(void *addr, struct fmm_type *ftp)
 	pp->fph_freecnt++;
 	if (pp->fph_freecnt >= fbp->fb_blkperpage) {
 		if (pp->fph_freecnt > fbp->fb_blkperpage)
-			MSG_fmm_multiple_free(NULL);
+			MSG_fmm_multiple_free((void *)NULL);
 		else if (fbp->fb_freeblk > fbp->kb_highwat)
 			fbp->kb_couldfree++;
 	}
