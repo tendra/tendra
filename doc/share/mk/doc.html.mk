@@ -69,7 +69,11 @@ XARGS?=		/usr/bin/xargs
 
 TIDY?=		${PREFIX}/bin/tidy
 TIDYOPTS?=	-i -m -raw -preserve -f /dev/null ${TIDYFLAGS}
+.if exists(${PREFIX}/bin/elinks)
+HTML2TXT?=	${PREFIX}/bin/elinks
+.else
 HTML2TXT?=	${PREFIX}/bin/links
+.endif
 HTML2TXTOPTS?=	-dump ${HTML2TXTFLAGS}
 HTML2PDB?=	${PREFIX}/bin/iSiloBSD
 HTML2PDBOPTS?=	-y -d0 -Idef ${HTML2PDBFLAGS}
