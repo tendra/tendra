@@ -19,14 +19,14 @@
 #
 # BUILD_OK is set to false if an error occurs.
 
-BUILD_UPDATE = true
-BUILD_MACHINE = true
-BUILD_COMMON = true
-BUILD_OK = true
+BUILD_UPDATE=	true
+BUILD_MACHINE=	true
+BUILD_COMMON=	true
+BUILD_OK=	true
 
 # RANDOM BITS 'N PIECES
 
-SUBDIR = src
+SUBDIR=		src
 
 all:
 .if exists(Makefile.defs)
