@@ -142,7 +142,7 @@ int unit_index;
 
 int rep_make_proc = 1;  /* identify any make_procs not in make_id_tagdef*/
 
-int replace_arith_type = 0;	/* do not use C definitions of promote
+BoolT replace_arith_type = 0;	/* do not use C definitions of promote
 							 *				   etc. */
 
 int good_trans = 0;		/* 0 if translation is good, 1 for error

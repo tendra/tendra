@@ -137,7 +137,7 @@ extern char * make_local_name(void);
 
 extern int rep_make_proc;
 
-extern int replace_arith_type;
+extern BoolT replace_arith_type;
 
 extern int good_trans;
 

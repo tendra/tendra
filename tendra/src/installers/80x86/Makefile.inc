@@ -8,3 +8,4 @@ SRCS+=	c_arith_type.c codec.c coder.c cproc.c dw2_extra.c evaluate.c glopt.c \
 	machine_toks.c operand.c out.c overlap.c reg_record.c scan2.c spec.c \
 	spec_tok.c trans.c translate.c tv_callees.c weights.c
 	
+CAT_EXTRA+=	${.CURDIR}/../common/msgarch.cat

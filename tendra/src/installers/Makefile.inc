@@ -10,7 +10,7 @@ CFLAGS+= 	-I. -I${.CURDIR} ${SRCDIRS:S|^|-I${SRC_DIR}/src/installers/|} \
 
 USE_LIBTEN=	yes
 
-CAT_EXTRA=	${.CURDIR}/../../common/construct/messages.cat
+CAT_EXTRA+=	${.CURDIR}/../../common/construct/messages.cat
 
 # installers/common/construct
 SRCS+=	aldefs.c case_opt.c check.c check_id.c complex_eq.c const.c exp.c \

@@ -78,9 +78,9 @@ extern int proc_struct_res;
 extern int proc_label_count;
 extern float default_freq;
 extern int proc_externs;
-extern int flpt_always_comparable;
-extern int report_versions;
-extern int indirect_jumps;
+extern BoolT flpt_always_comparable;
+extern BoolT report_versions;
+extern BoolT indirect_jumps;
 extern int do_unroll;
 
 extern exp proc_struct_result;
@@ -105,7 +105,7 @@ extern int ptr_null;
 extern int proc_null;
 extern int lv_null;
 
-extern int no_bss;
+extern BoolT no_bss;
 
 #define MAJOR_VERSION 4
 #define MINOR_VERSION 1

@@ -82,7 +82,7 @@
 #include "inl_norm.h"
 
 
-int print_inlines = 0;
+BoolT print_inlines = 0;
 
 /* Procedures */
 

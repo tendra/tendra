@@ -83,11 +83,11 @@ int proc_struct_res;
 int proc_label_count;
 float default_freq;
 int proc_externs;
-int flpt_always_comparable = 1;
-int report_versions = 0;
+BoolT flpt_always_comparable = 1;
+BoolT report_versions = 0;
 int do_unroll = 1;
 
-int indirect_jumps = 1;
+BoolT indirect_jumps = 1;
 
 exp proc_struct_result;
 
@@ -117,7 +117,7 @@ int ptr_null = 0;
 int proc_null = 0;
 int lv_null = 0;
 
-int no_bss = 0;
+BoolT no_bss = 0;
 
 
 

@@ -69,7 +69,7 @@
 int is80486;		/* compile for 80486 */
 int is80586;		/* compile for 80586 */
 int flush_before_tell = 0;	/* to cure a bug in DOS system */
-int always_use_frame;
+BoolT always_use_frame;
 int gcc_compatible = GCC_STRUCTS;
 int module_has_setjmp = 0;
 int stack_aligned_8byte = 0;

@@ -60,6 +60,9 @@
 
 
 #include "config.h"
+#include "argparse.h"
+#include "catstdn.h"
+#include "msgcat.h"
 #include "tenapp.h"
 
 #include "release.h"
@@ -71,6 +74,7 @@
 #include "flpt.h"
 #include "externs.h"
 #include "weights.h"
+#include "inl_norm.h"
 #include "installglob.h"
 #include "instr.h"
 #include "machine.h"
@@ -103,9 +107,249 @@ static bool dump_abbrev = 0;
 #include "dwarf_mc.h"
 #endif
 
-extern int print_inlines;
 
 /* PROCEDURES */
+
+static void opt_help(char *option, void *closure);
+
+#define	AP_OPT_BINSW(name, snm, lnm, value) \
+	AP_OPTION((snm), (lnm), AT_EITHER, opt_bin_switch, (value), MID_description_of_##name)
+
+static void
+opt_bin_switch(char *option, void *closure, char *value)
+{
+	int *optval = closure;
+
+	UNUSED(option);
+
+	switch (*value) {
+	  case '0':
+		*optval = 0;
+		break;
+	  case '1':
+		*optval = 1;
+		break;
+	  default:
+		MSG_getopt_invalid_argument(option, value);
+	}
+}
+
+static void
+opt_diag(char *option, void *closure)
+{
+	UNUSED(closure);
+
+	diagnose = 1;
+
+#ifdef NEWDIAGS1
+	if (option[1] == 'O') {
+		return;
+	} else if (option[1])
+		MSG_arg_parse_unknown_option(option);
+#endif
+	{
+#ifdef NEWDIAGS
+		diag_visible = 1;
+#endif
+		always_use_frame = 1;
+		do_inlining = 0;
+		do_loopconsts = 0;
+		do_foralls = 0;
+		all_variables_visible = 1;
+	}
+}
+
+#ifdef NEWDWARF
+static void
+opt_dwarf2(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	diagnose = 1;
+	extra_diags = 1;
+	dwarf2 = 1;
+	break;
+}
+
+static void
+opt_dwarf2abbrev(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	dump_abbrev = 1;
+	diagnose = 1;
+	extra_diags = 1;
+	dwarf2 = 1;
+}
+#endif
+
+static void
+opt_proctype(char *option, void *closure)
+{
+	UNUSED(closure);
+
+	switch (option[1]) {
+	  case '3':
+		is80486 = 0;
+		is80586 = 0;
+		break;
+	  case '4':
+		is80486 = 1;
+		is80586 = 0;
+		break;
+	  case '5':
+		is80486 = 1;
+		is80586 = 1;
+		break;
+	  default:
+		MSG_arg_parse_unknown_option(option);
+	}
+}
+
+static void
+opt_quit(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	tenapp_exit2(0);
+}
+
+static void
+opt_versions(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	tenapp_report_version();
+	IGNORE fprintf(stderr, "TDF version %d.%d:",  MAJOR_VERSION, MINOR_VERSION);
+	IGNORE fprintf(stderr, "reader %d.%d: ", reader_version, reader_revision);
+	IGNORE fprintf(stderr, "construct %d.%d: ", construct_version,
+				   construct_revision);
+	IGNORE fprintf(stderr, "target %d.%d: ", target_version, target_revision);
+#if DWARF
+	IGNORE fprintf(stderr, "dwarf1 %d.%d: ", DWARF_MAJOR, DWARF_MINOR);
+#endif
+#ifdef NEWDIAGS
+	IGNORE fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
+				   diag_revision, DG_VERSION);
+#endif
+#ifdef NEWDWARF
+	IGNORE fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR, DWARF2_MINOR);
+#endif
+	IGNORE fprintf(stderr, "\n");
+	IGNORE fprintf(stderr, "system %s\n", target_system);
+}
+
+static void
+opt_disableopts(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	do_unroll = 0;
+	do_inlining = 0;
+	do_loopconsts = 0;
+	do_special_fns = 0;
+	do_foralls = 0;
+	indirect_jumps = 0;
+	all_variables_visible = 1;
+}
+
+static void
+opt_outformat(char *option, void *closure, char *value)
+{
+	int fmt = 0;
+
+	UNUSED(option);
+	UNUSED(closure);
+
+	switch (*value) {
+	  case '0':
+		break;
+	  case '1':
+		fmt = 1;
+		break;
+	  default:
+		MSG_getopt_invalid_argument(option, value);
+	}
+#if islinux
+	set_linux_format (fmt);
+#endif
+#if isfreebsd
+	set_freebsd_format (fmt);
+#endif
+}
+
+static void
+opt_ptrnull(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	ptr_null = 0x55555555;		/* null value for pointer */
+}
+
+static ArgListT cmdl_opts[] = {
+	AP_OPT_BINSW	(do_alloca,		'A', NULL, &do_alloca),
+	AP_OPT_BINSW	(flptc_range,	'B', NULL, &flpt_const_overflow_fail),
+	AP_OPT_BINSW	(do_loopconsts,	'C', NULL, &do_loopconsts),
+	AP_OPT_BINSW	(PIC_code,		'D', NULL, &PIC_code),
+	AP_OPT_RESET	(no_constchk,	'E', NULL, &extra_checks),
+	AP_OPT_BINSW	(do_foralls,	'F', NULL, &do_foralls),
+	AP_OPT_BINSW	(gcc_compat,	'G', NULL, &gcc_compatible),
+#ifdef NEWDIAGS
+	AP_OPT_IMMEDIATE(diag_o,		'H', NULL, opt_diag),	/* -HO form */
+#endif
+	AP_OPT_EMPTY	(diag,			'H', NULL, opt_diag),
+	AP_OPT_BINSW	(do_inlining,	'I', NULL, &do_inlining),
+#ifdef NEWDWARF
+	AP_OPT_EMPTY	(dwarf2,		'J', NULL, opt_dwarf2),
+#endif
+	AP_OPT_EITHER	(proctype,		'K', NULL, opt_proctype),
+	AP_OPT_BINSW	(strict_fl_div,	'M', NULL, &strict_fl_div),
+	AP_OPT_SET		(do_prom,		'N', NULL, &do_prom),
+	AP_OPT_SET		(do_profile,	'P', NULL, &do_profile),
+	AP_OPT_EMPTY	(quit,			'Q', NULL, opt_quit),
+	AP_OPT_BINSW	(round_flop,	'R', NULL, &round_after_flop),
+#ifdef NEWDWARF
+	AP_OPT_EMPTY	(dwarf2abbrev	'T', NULL, opt_dwarf2abbrev),
+#endif
+	AP_OPT_BINSW	(do_unroll,		'U', NULL, &do_unroll),
+	AP_OPT_EMPTY	(versions,		'V', "version", opt_versions),
+	AP_OPT_BINSW	(writable_strs,	'W', NULL, &writable_strings),
+	AP_OPT_EMPTY	(disableopts,	'X', NULL, opt_disableopts),
+	AP_OPT_SET		(reportcapver,	'Z', NULL, &report_versions),
+	AP_OPT_SET		(useframe,		'a', NULL, &always_use_frame),
+	AP_OPT_SET		(visvars,		'b', NULL, &all_variables_visible),
+	AP_OPT_RESET	(todoc,			'c', NULL, &replace_arith_type),
+	AP_OPT_RESET	(retbyref,		'd', NULL, &redo_structfns),
+	AP_OPT_RESET	(todoc,			'e', NULL, &indirect_jumps),
+	AP_OPT_EMPTY	(nullptr,		'f', NULL, opt_ptrnull),
+	AP_OPT_SET		(todoc,			'g', NULL, &flpt_always_comparable),
+	AP_OPT_EMPTY	(help,			'h', "help", opt_help),
+	AP_OPT_SET		(print_inlines,	'i', NULL, &print_inlines),
+	AP_OPT_SET		(no_bss,		'j', NULL, &no_bss),
+	AP_OPT_EITHER	(outformat,		'k', NULL, opt_outformat),
+#if issco
+	AP_OPT_SET		(sco_gas,		's', NULL, &sco_gas),
+#endif
+	AP_OPT_EOL
+};
+
+static void
+opt_help(char *option, void *closure)
+{
+	UNUSED(option);
+	UNUSED(closure);
+
+	MSG_usage ();
+	arg_print_usage (cmdl_opts);
+	msg_append_newline ();
+}
+
 
 static void
 init_all()
@@ -115,7 +359,7 @@ init_all()
 	good_trans = 0;
 	capsule_freelist = (capsule_frees*)0;
 	old_proc_props = (proc_props *)0;
-	
+
 /* 80x86 specific */
 	extra_stack = 0;
 	top_def = (dec*)0;
@@ -128,7 +372,7 @@ init_all()
 int
 main(int argc, char **argv)
 {
-	int i;
+	int optcnt;
 	char *outfname;
 	
 	tenapp_init(argc, argv, "TDF to 80x86/Pentium translator", "1.0");
@@ -171,196 +415,16 @@ main(int argc, char **argv)
 							 */
 	indirect_jumps = 1;		/* follow gotos and tests to final dest */
 	no_bss = 0;			/* use .comm */
-	
-	
+
+
 	ptr_null = 0;			/* null value for pointer */
 	proc_null = 0;		/* null value for proc */
 	lv_null = 0;			/* null value for label_value*/
-	
-	
-	for (i = 1; i != argc && argv[i][0] == '-'; ++i) {/* read flags */
-		char *s = argv[i];
-		
-		switch (s[1]) {
-		case 'A':
-			do_alloca = (s[2] == '1');
-			break;
-		case 'B':
-			flpt_const_overflow_fail = (s[2] == '1');
-			break;
-		case 'C':
-			do_loopconsts = (s[2] == '1');
-			break;
-		case 'D':
-			PIC_code = (s[2] == '1');
-			break;
-		case 'E':
-			extra_checks = 0;
-			break;
-		case 'F':
-			do_foralls = (s[2] == '1');
-			break;
-		case 'G':
-			gcc_compatible = (s[2] == '1');
-			break;
-		case 'H':
-			diagnose = 1;
-#ifdef NEWDIAGS
-			if (s[2] != 'O')
-#endif
-			{
-#ifdef NEWDIAGS
-				diag_visible = 1;
-#endif
-				always_use_frame = 1;
-				do_inlining = 0;
-				do_loopconsts = 0;
-				do_foralls = 0;
-				all_variables_visible = 1;
-			}
-			break;
-		case 'I':
-			do_inlining = (s[2] == '1');
-			break;
-#ifdef NEWDWARF
-		case 'J':
-			diagnose = 1;
-			extra_diags = 1;
-			dwarf2 = 1;
-			break;
-#endif
-		case 'K':
-			if (s[2] == '3')
-			{
-				is80486 = 0;
-				is80586 = 0;
-			};
-			if (s[2] == '4')
-			{
-				is80486 = 1;
-				is80586 = 0;
-			};
-			if (s[2] == '5')
-			{
-				is80486 = 1;
-				is80586 = 1;
-			};
-			break;
-		case 'M':
-			strict_fl_div = (s[2] == '1');
-			break;
-		case 'N':
-			do_prom = 1;
-			break;
-		case 'P':
-			do_profile = 1;
-			break;
-		case 'Q':
-			return 0;
-		case 'R':
-			round_after_flop = (s[2] == '1');
-			break;
-#ifdef NEWDWARF
-		case 'T':
-			dump_abbrev = 1;
-			diagnose = 1;
-			extra_diags = 1;
-			dwarf2 = 1;
-			break;
-#endif
-		case 'U':
-			do_unroll = (s[2] == '1');
-			break;
-		case 'V':
-			tenapp_report_version();
-			IGNORE fprintf(stderr, "TDF version %d.%d:",
-						   MAJOR_VERSION, MINOR_VERSION);
-			IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
-						   reader_revision);
-			IGNORE fprintf(stderr, "construct %d.%d: ", construct_version,
-						   construct_revision);
-			IGNORE fprintf(stderr, "target %d.%d: ", target_version,
-						   target_revision);
-#if DWARF
-			IGNORE fprintf(stderr, "dwarf1 %d.%d: ", DWARF_MAJOR,
-						   DWARF_MINOR);
-#endif
-#ifdef NEWDIAGS
-			IGNORE fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
-						   diag_revision, DG_VERSION);
-#endif
-#ifdef NEWDWARF
-			IGNORE fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR,
-						   DWARF2_MINOR);
-#endif
-			IGNORE fprintf(stderr, "\n");
-			IGNORE fprintf(stderr, "system %s\n", target_system);
-			break;
-		case 'W':
-			writable_strings = (s[2] == '1');
-			break;
-		case 'X':
-			do_unroll = 0;
-			do_inlining = 0;
-			do_loopconsts = 0;
-			do_special_fns = 0;
-			do_foralls = 0;
-			indirect_jumps = 0;
-			all_variables_visible = 1;
-			break;
-		case 'Z':
-			report_versions = 1;
-			break;
-			
-		case 'a':
-			always_use_frame = 1;
-			break;
-		case 'b':
-			all_variables_visible = 1;
-			break;
-		case 'c':
-			replace_arith_type = 0;
-			break;
-		case 'd':
-			redo_structfns = 0;
-			break;
-		case 'e':
-			indirect_jumps = 0;
-			break;
-		case 'f':
-			ptr_null = 0x55555555;		/* null value for pointer */
-			break;
-		case 'g':
-			flpt_always_comparable = 1;
-			break;
-		case 'i':
-			print_inlines = 1;
-			break;
-		case 'j':
-			no_bss = 1;
-			break;
-#if islinux
-		case 'k':
-			set_linux_format (s[2] == '1');
-			break;
-#endif
-#if isfreebsd
-		case 'k':
-			set_freebsd_format (s[2] == '1');
-			break;
-#endif 
-#if issco
-		case 's':
-			sco_gas = 1;
-			break;
-#endif
-			
-		default:
-			failer (BAD_FLAG);
-			break;
-		};
-	};
-	
+
+	optcnt = arg_parse_arguments (cmdl_opts, --argc, ++argv);
+	argc -= optcnt;
+	argv += optcnt;
+
 #if islinux
 	if (gcc_compatible < 0)
 		gcc_compatible = ! linux_elf;
@@ -368,41 +432,37 @@ main(int argc, char **argv)
 #if isfreebsd
 	if (gcc_compatible < 0)
 		gcc_compatible = ! freebsd_elf;
-#endif                                         
-	
-	if (i == argc)
-		i--;	/* BAD_COMMAND1 */
-	
-	for (; i < argc ; i += 2) {
-		if (i == (argc-1))
-		{
-			failer (BAD_COMMAND1);
-			return (1);
-		};
-		
-		
-		outfname = argv[i+1];
-		
+#endif
+
+	if (argc < 2)
+		MSG_getopt_not_enough_arguments();
+
+	for (; argc ; argc -=2, argv += 2) {
+		if (argc < 2)
+			MSG_getopt_not_enough_arguments();
+
+		outfname = argv[1];
+
 		/* initiate the output file */
 		if (!outinit (outfname)) {
 			failer (CANT_OPEN);
 			return (1);
 		};
-		
-		if (!initreader (argv[i])) {
+
+		if (!initreader (argv[0])) {
 			failer (CANT_READ);
 			return (1);
 		};
-		
+
 		init_all();
-		
+
 #ifdef NEWDWARF
 		if (dwarf2) {
 			init_dwarf2 ();
 		} else
 #endif
 			if (diagnose) out_diagnose_prelude();
-		
+
 #ifdef NEWDWARF
 		if (dump_abbrev) {
 			outs (".text\n");
@@ -412,9 +472,9 @@ main(int argc, char **argv)
 			dwarf2_postlude ();
 		} else
 #endif
-			
+
 			IGNORE d_capsule();
-		
+
 		while (weak_list)
 		{
 			outs(".set ");
@@ -424,19 +484,19 @@ main(int argc, char **argv)
 			outnl();
 			weak_list = weak_list -> next;
 		};
-		
+
 #ifdef NEWDWARF
 		if (dwarf2) {
 			end_dwarf2 ();
 		} else
 #endif
 			if (diagnose) out_diagnose_postlude();
-		
+
 		outend ();			/* close the .s file */
 		endreader();
-		
+
 		if (good_trans)
-			exit(EXIT_FAILURE);
+			tenapp_exit2(EXIT_FAILURE);
 	}
 	return 0;
 }

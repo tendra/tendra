@@ -70,7 +70,7 @@
 #endif
 
 
-extern int sco_gas;
+extern BoolT sco_gas;
 
 #define isvax 0
 #define ismips 0

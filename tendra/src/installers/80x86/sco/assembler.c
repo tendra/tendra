@@ -70,7 +70,7 @@
 #include "basicread.h"
 
 
-int sco_gas = 0;
+BoolT sco_gas = 0;
 
 /* PROCEDURES */
 

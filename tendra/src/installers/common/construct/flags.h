@@ -66,22 +66,22 @@ extern  int do_inlining;
 extern  int do_special_fns;
 extern  int do_loopconsts;
 extern  int do_foralls;
-extern  int redo_structfns;
+extern  BoolT redo_structfns;
 extern  int redo_structparams;
 extern  int diagnose;
-extern  int do_profile;
+extern  BoolT do_profile;
 extern  int do_alloca;
 extern  int double_align;
 extern  int stack_align;
 extern  int param_align;
-extern  int extra_checks;
+extern  BoolT extra_checks;
 extern  int separate_units;
 extern  int writable_strings;
 extern  int PIC_code;
-extern  int all_variables_visible;
+extern  BoolT all_variables_visible;
 extern  int round_after_flop;
 extern  int strict_fl_div;
-extern	int do_prom;
+extern	BoolT do_prom;
 
 #ifdef NEWDIAGS
 extern  int diag_visible;

@@ -54,6 +54,7 @@
  * $TenDRA$
  */
 
+extern BoolT print_inlines;
 
 extern void normalised_inlining(void);
 extern int inlinechoice(exp, exp, int);
