@@ -56,30 +56,30 @@
 
 
 /*
-    TYPE SYSTEM SPECIFICATION
-
-    The main type system for the program is specified using the calculus
-    tool.  This generates two representations of the type algebra, c_class.
-    The files in obj_tok describe the output type system abstractly in terms
-    of the TenDRA '#pragma token' constructs.  These may be used to apply
-    extremely rigorous type checking to the program.  The files in obj_c
-    give the implementation of the type system in C terms.  The
-    implementation specific parts of the program, including the memory
-    management, is handled in obj_c/c_class.c.
-*/
+ *    TYPE SYSTEM SPECIFICATION
+ *
+ *    The main type system for the program is specified using the calculus
+ *    tool.  This generates two representations of the type algebra, c_class.
+ *    The files in obj_tok describe the output type system abstractly in terms
+ *    of the TenDRA '#pragma token' constructs.  These may be used to apply
+ *    extremely rigorous type checking to the program.  The files in obj_c
+ *    give the implementation of the type system in C terms.  The
+ *    implementation specific parts of the program, including the memory
+ *    management, is handled in obj_c/c_class.c.
+ */
 
 ALGEBRA c_class (1.1) :
 
 
 /*
-    PRIMITIVE TYPES
-
-    These are the primitive types from which the algebra is built.  int,
-    unsigned and string are self-explanatory.  BITSTREAM_P represents a
-    series of bits, and is used to hold any compiled code.  PPTOKEN_P
-    represents a list of preprocessing tokens, and is used in macro
-    definitions etc.
-*/
+ *    PRIMITIVE TYPES
+ *
+ *    These are the primitive types from which the algebra is built.  int,
+ *    unsigned and string are self-explanatory.  BITSTREAM_P represents a
+ *    series of bits, and is used to hold any compiled code.  PPTOKEN_P
+ *    represents a list of preprocessing tokens, and is used in macro
+ *    definitions etc.
+ */
 
 int =			"int" ;
 unsigned =		"unsigned" ;
@@ -90,13 +90,13 @@ PPTOKEN_P (pptok) =	"struct pptok_tag *" ;
 
 
 /*
-    TYPE REPRESENTING A CONST-VOLATILE SPECIFIER
-
-    The const and volatile type qualifiers are represented by an
-    enumeration type (which is actually a bit pattern).  An additional
-    value is used to indicate lvalues.  Type linkage specifiers are also
-    included.
-*/
+ *    TYPE REPRESENTING A CONST-VOLATILE SPECIFIER
+ *
+ *    The const and volatile type qualifiers are represented by an
+ *    enumeration type (which is actually a bit pattern).  An additional
+ *    value is used to indicate lvalues.  Type linkage specifiers are also
+ *    included.
+ */
 
 enum !CV_SPEC (cv) = {
     none =		0,
@@ -114,12 +114,12 @@ enum !CV_SPEC (cv) = {
 
 
 /*
-    TYPE REPRESENTING A BUILT-IN TYPE
-
-    The built-in types have two representations - as a BASE_TYPE (see below)
-    or as a BUILTIN_TYPE.  The latter is used primarily as an index into
-    various tables.
-*/
+ *    TYPE REPRESENTING A BUILT-IN TYPE
+ *
+ *    The built-in types have two representations - as a BASE_TYPE (see below)
+ *    or as a BUILTIN_TYPE.  The latter is used primarily as an index into
+ *    various tables.
+ */
 
 enum !BUILTIN_TYPE (ntype) = {
     none =		0,
@@ -148,13 +148,13 @@ enum !BUILTIN_TYPE (ntype) = {
 
 
 /*
-    TYPE REPRESENTING A BASIC TYPE
-
-    The basic types are represented by an enumeration type (which is
-    actually a bit pattern except for the named type component).  The
-    composite bitpatterns for the maximally valid combinations are also
-    given.  The elaborated type keys are also represented by this type.
-*/
+ *    TYPE REPRESENTING A BASIC TYPE
+ *
+ *    The basic types are represented by an enumeration type (which is
+ *    actually a bit pattern except for the named type component).  The
+ *    composite bitpatterns for the maximally valid combinations are also
+ *    given.  The elaborated type keys are also represented by this type.
+ */
 
 enum !BASE_TYPE (btype) = {
     none =		0,
@@ -208,12 +208,12 @@ enum !BASE_TYPE (btype) = {
 
 
 /*
-    TYPE REPRESENTING AN INTEGRAL TYPE
-
-    An integral type can be one of the built-in types, an integral promotion
-    type or an arithmetic conversion type.  The promotion type for each
-    integral type is stored as part of its definition.
-*/
+ *    TYPE REPRESENTING AN INTEGRAL TYPE
+ *
+ *    An integral type can be one of the built-in types, an integral promotion
+ *    type or an arithmetic conversion type.  The promotion type for each
+ *    integral type is stored as part of its definition.
+ */
 
 union INT_TYPE (itype) = {
     TYPE prom ;
@@ -259,12 +259,12 @@ union INT_TYPE (itype) = {
 
 
 /*
-    TYPE REPRESENTING A FLOATING POINT TYPE
-
-    A floating point type can be one of the built-in types or an arithmetic
-    conversion type.  Note that all floating point types are their own
-    arithmetic promotions, but they do have distinct argument promotions.
-*/
+ *    TYPE REPRESENTING A FLOATING POINT TYPE
+ *
+ *    A floating point type can be one of the built-in types or an arithmetic
+ *    conversion type.  Note that all floating point types are their own
+ *    arithmetic promotions, but they do have distinct argument promotions.
+ */
 
 union FLOAT_TYPE (ftype) = {
     TYPE arg_prom ;
@@ -295,12 +295,12 @@ union FLOAT_TYPE (ftype) = {
 
 
 /*
-    TYPE REPRESENTING CLASS INFORMATION
-
-    This type is a bitpattern giving information about a class, for example,
-    if it is complete, whether it has base classes, non-static data members,
-    and so on.
-*/
+ *    TYPE REPRESENTING CLASS INFORMATION
+ *
+ *    This type is a bitpattern giving information about a class, for example,
+ *    if it is complete, whether it has base classes, non-static data members,
+ *    and so on.
+ */
 
 enum !CLASS_INFO (cinfo) = {
     none =		0,
@@ -348,11 +348,11 @@ enum !CLASS_INFO (cinfo) = {
 
 
 /*
-    TYPE REPRESENTING CLASS USAGE INFORMATION
-
-    This type is a bitpattern used to represent information on how a class
-    is used.
-*/
+ *    TYPE REPRESENTING CLASS USAGE INFORMATION
+ *
+ *    This type is a bitpattern used to represent information on how a class
+ *    is used.
+ */
 
 enum !CLASS_USAGE (cusage) = {
     none =		0,
@@ -364,15 +364,15 @@ enum !CLASS_USAGE (cusage) = {
 
 
 /*
-    TYPE REPRESENTING A CLASS TYPE
-
-    A class type has an associated type name, type key (class, struct or
-    union), and class information.  The hash table entries for the
-    constructors and destructors, plus a list of the conversion functions
-    on the class are maintained within the class definition.  The class
-    members themselves are just a namespace.  The base classes are
-    represented by a graph.
-*/
+ *    TYPE REPRESENTING A CLASS TYPE
+ *
+ *    A class type has an associated type name, type key (class, struct or
+ *    union), and class information.  The hash table entries for the
+ *    constructors and destructors, plus a list of the conversion functions
+ *    on the class are maintained within the class definition.  The class
+ *    members themselves are just a namespace.  The base classes are
+ *    represented by a graph.
+ */
 
 union CLASS_TYPE (ctype) = {
     IDENTIFIER name ;
@@ -401,15 +401,15 @@ union CLASS_TYPE (ctype) = {
 
 
 /*
-    TYPE REPRESENTING A GRAPH OF DERIVED CLASSES
-
-    This type is used to represent the directed acyclic graphs of base
-    classes associated with a class.  Each node of this graph consists
-    of a class and a list of its base classes.  The access of each base
-    class, and other information, is recorded.  Identical virtual bases
-    are linked using the equal field.  The next field is used to link
-    all instances of a class within a graph, whether virtual or not.
-*/
+ *    TYPE REPRESENTING A GRAPH OF DERIVED CLASSES
+ *
+ *    This type is used to represent the directed acyclic graphs of base
+ *    classes associated with a class.  Each node of this graph consists
+ *    of a class and a list of its base classes.  The access of each base
+ *    class, and other information, is recorded.  Identical virtual bases
+ *    are linked using the equal field.  The next field is used to link
+ *    all instances of a class within a graph, whether virtual or not.
+ */
 
 union GRAPH (graph) = {
     CLASS_TYPE head ;
@@ -431,13 +431,13 @@ union GRAPH (graph) = {
 
 
 /*
-    TYPE REPRESENTING A VIRTUAL FUNCTION
-
-    This type is used to represent a virtual function table or an entry
-    of such a table.  Each table entry has an associated function plus
-    information on where this was inherited from and any difference in
-    the return type of an overriding function.
-*/
+ *    TYPE REPRESENTING A VIRTUAL FUNCTION
+ *
+ *    This type is used to represent a virtual function table or an entry
+ *    of such a table.  Each table entry has an associated function plus
+ *    information on where this was inherited from and any difference in
+ *    the return type of an overriding function.
+ */
 
 union VIRTUAL (virt) = {
     IDENTIFIER func ;
@@ -480,13 +480,13 @@ union VIRTUAL (virt) = {
 
 
 /*
-    TYPE REPRESENTING AN ENUMERATION TYPE
-
-    An enumeration type has an associated type name, a class information
-    field (which is only used to indicate whether the type is complete),
-    and an underlying integral type.  The enumerators themselves are given
-    as a simple list (note that they do not form a namespace).
-*/
+ *    TYPE REPRESENTING AN ENUMERATION TYPE
+ *
+ *    An enumeration type has an associated type name, a class information
+ *    field (which is only used to indicate whether the type is complete),
+ *    and an underlying integral type.  The enumerators themselves are given
+ *    as a simple list (note that they do not form a namespace).
+ */
 
 union ENUM_TYPE (etype) = {
     IDENTIFIER name ;
@@ -504,11 +504,11 @@ union ENUM_TYPE (etype) = {
 
 
 /*
-    TYPE REPRESENTING A TYPE
-
-    The types are represented by a union type, with one field per type
-    class.  Any type may be qualified using const, volatile and lvalue.
-*/
+ *    TYPE REPRESENTING A TYPE
+ *
+ *    The types are represented by a union type, with one field per type
+ *    class.  Any type may be qualified using const, volatile and lvalue.
+ */
 
 union TYPE (type) = {
     /* Type qualifiers */
@@ -598,16 +598,16 @@ union TYPE (type) = {
 
 
 /*
-    TYPE REPRESENTING A DECLARATION SPECIFIER
-
-    The basic declaration specifiers (i.e. the storage class specifiers,
-    the function specifiers, friend and typedef) are represented by an
-    enumeration type (which is actually a bit pattern).  Other declaration
-    and linkage information is also included, including access specifiers.
-    The fact that public < protected < private is used extensively.  The
-    values none, static and extern are also used to specify the linkage of
-    an object.
-*/
+ *    TYPE REPRESENTING A DECLARATION SPECIFIER
+ *
+ *    The basic declaration specifiers (i.e. the storage class specifiers,
+ *    the function specifiers, friend and typedef) are represented by an
+ *    enumeration type (which is actually a bit pattern).  Other declaration
+ *    and linkage information is also included, including access specifiers.
+ *    The fact that public < protected < private is used extensively.  The
+ *    values none, static and extern are also used to specify the linkage of
+ *    an object.
+ */
 
 enum DECL_SPEC (dspec) = {
     none =		0,
@@ -665,14 +665,14 @@ enum DECL_SPEC (dspec) = {
 
 
 /*
-    TYPE REPRESENTING A HASH TABLE ENTRY
-
-    Identifier names are represented by a hash table entry.  There are
-    several different types of names (simp1e strings, destructor names and
-    so on).  Each hash table entry contains, in effect, a built-in namespace
-    member indicating the underlying meaning of this name.  It also contains
-    the hash value for this entry.
-*/
+ *    TYPE REPRESENTING A HASH TABLE ENTRY
+ *
+ *    Identifier names are represented by a hash table entry.  There are
+ *    several different types of names (simp1e strings, destructor names and
+ *    so on).  Each hash table entry contains, in effect, a built-in namespace
+ *    member indicating the underlying meaning of this name.  It also contains
+ *    the hash value for this entry.
+ */
 
 union HASHID (hashid) = {
     IDENTIFIER id = "NULL_id" ;
@@ -701,14 +701,14 @@ union HASHID (hashid) = {
 
 
 /*
-    TYPE REPRESENTING AN IDENTIFIER QUALIFIER
-
-    These values are used to identify how an identifier is qualified,
-    either unqualified, a nested qualifier (for example A::B::n), a full
-    nested qualifier (for example ::A::B::n), or a top nested qualifier
-    (for example ::n).  A value to mark resolved overloaded functions
-    is also included.
-*/
+ *    TYPE REPRESENTING AN IDENTIFIER QUALIFIER
+ *
+ *    These values are used to identify how an identifier is qualified,
+ *    either unqualified, a nested qualifier (for example A::B::n), a full
+ *    nested qualifier (for example ::A::B::n), or a top nested qualifier
+ *    (for example ::n).  A value to mark resolved overloaded functions
+ *    is also included.
+ */
 
 enum !QUALIFIER (qual) = {
     none =		0,
@@ -721,13 +721,13 @@ enum !QUALIFIER (qual) = {
 
 
 /*
-    TYPE REPRESENTING AN IDENTIFIER
-
-    Identifiers have an associated hash table entry, indicating the
-    identifier name, plus a location indicating where the identifier was
-    first declared.  The various things an identifier can represent are
-    given by the different fields of the union.
-*/
+ *    TYPE REPRESENTING AN IDENTIFIER
+ *
+ *    Identifiers have an associated hash table entry, indicating the
+ *    identifier name, plus a location indicating where the identifier was
+ *    first declared.  The various things an identifier can represent are
+ *    given by the different fields of the union.
+ */
 
 union IDENTIFIER (id) = {
     HASHID name ;
@@ -832,13 +832,13 @@ union IDENTIFIER (id) = {
 
 
 /*
-    TYPE REPRESENTING A NAMESPACE MEMBER
-
-    There are two kinds of namespace member, small and large, corresponding
-    to the two kinds of namespace.  The important section consists of two
-    identifiers, giving the current meanings of a name in the namespace.
-    Everything else is just links to other members.
-*/
+ *    TYPE REPRESENTING A NAMESPACE MEMBER
+ *
+ *    There are two kinds of namespace member, small and large, corresponding
+ *    to the two kinds of namespace.  The important section consists of two
+ *    identifiers, giving the current meanings of a name in the namespace.
+ *    Everything else is just links to other members.
+ */
 
 union MEMBER (member) = {
     IDENTIFIER id = "NULL_id" ;
@@ -855,17 +855,17 @@ union MEMBER (member) = {
 
 
 /*
-    TYPE REPRESENTING A NAMESPACE
-
-    There are two kinds of namespace, small and large.  The small namespaces
-    are the block and parameter spaces, the large ones are the class and
-    namespace spaces.  Every namespace has an associated namespace name
-    (which may be the null identifier).  A small namespace consists of a
-    simple linked list of small members (in reverse order of declaration).
-    A large namespace consists of a hash table of large members, plus a list
-    of all such members in order of declaration.  The distinct orders reflect
-    the distinct purposes the two kinds of namespace are put to.
-*/
+ *    TYPE REPRESENTING A NAMESPACE
+ *
+ *    There are two kinds of namespace, small and large.  The small namespaces
+ *    are the block and parameter spaces, the large ones are the class and
+ *    namespace spaces.  Every namespace has an associated namespace name
+ *    (which may be the null identifier).  A small namespace consists of a
+ *    simple linked list of small members (in reverse order of declaration).
+ *    A large namespace consists of a hash table of large members, plus a list
+ *    of all such members in order of declaration.  The distinct orders reflect
+ *    the distinct purposes the two kinds of namespace are put to.
+ */
 
 union NAMESPACE (nspace) = {
     IDENTIFIER name ;
@@ -891,14 +891,14 @@ union NAMESPACE (nspace) = {
 
 
 /*
-    TYPE REPRESENTING AN INTEGER LITERAL
-
-    An integer literal (or constant integral expression) is represented by
-    a sign and a list of numbers in the range [0,0xffff] representing the
-    value base 0x10000.  The case where there is only one digit is dealt
-    with separately.  It is also possible to form an integer literal from
-    an expression.
-*/
+ *    TYPE REPRESENTING AN INTEGER LITERAL
+ *
+ *    An integer literal (or constant integral expression) is represented by
+ *    a sign and a list of numbers in the range [0,0xffff] representing the
+ *    value base 0x10000.  The case where there is only one digit is dealt
+ *    with separately.  It is also possible to form an integer literal from
+ *    an expression.
+ */
 
 union NAT (nat) = {
     /* empty */
@@ -929,11 +929,11 @@ union NAT (nat) = {
 
 
 /*
-    TYPE REPRESENTING A FLOATING POINT LITERAL
-
-    A floating point literal is represented by a sign, two strings giving
-    the digits before and after the decimal point, plus an exponent.
-*/
+ *    TYPE REPRESENTING A FLOATING POINT LITERAL
+ *
+ *    A floating point literal is represented by a sign, two strings giving
+ *    the digits before and after the decimal point, plus an exponent.
+ */
 
 union FLOAT (flt) = {
     ulong_type tok = "LINK_NONE" ;
@@ -948,12 +948,12 @@ union FLOAT (flt) = {
 
 
 /*
-    TYPE REPRESENTING A STRING LITERAL
-
-    A string literal consists of a sequence of characters of a given length.
-    Characters, wide characters, strings and wide strings are represented
-    by distinct fields of the union.
-*/
+ *    TYPE REPRESENTING A STRING LITERAL
+ *
+ *    A string literal consists of a sequence of characters of a given length.
+ *    Characters, wide characters, strings and wide strings are represented
+ *    by distinct fields of the union.
+ */
 
 union STRING (str) = {
     STRING next = "NULL_str" ;
@@ -969,12 +969,12 @@ union STRING (str) = {
 
 
 /*
-    TYPE REPRESENTING A TEST
-
-    Test and comparison operators are represented by an enumeration type
-    which happen to be in the same order as the TDF encoding.  Complementary
-    tests (for example '<' and '>=') always add up to the same value, negate.
-*/
+ *    TYPE REPRESENTING A TEST
+ *
+ *    Test and comparison operators are represented by an enumeration type
+ *    which happen to be in the same order as the TDF encoding.  Complementary
+ *    tests (for example '<' and '>=') always add up to the same value, negate.
+ */
 
 enum !NTEST (ntest) = {
     eq =		0,
@@ -996,11 +996,11 @@ enum !NTEST (ntest) = {
 
 
 /*
-    TYPE REPRESENTING A ROUNDING MODE
-
-    Floating point rounding modes are represented by an enumeration type
-    which happen to be in the same order as the TDF encoding.
-*/
+ *    TYPE REPRESENTING A ROUNDING MODE
+ *
+ *    Floating point rounding modes are represented by an enumeration type
+ *    which happen to be in the same order as the TDF encoding.
+ */
 
 enum !RMODE (rmode) = {
     as_state =		0,
@@ -1012,12 +1012,12 @@ enum !RMODE (rmode) = {
 
 
 /*
-    TYPE REPRESENTING AN EXPRESSION OR STATEMENT
-
-    The expressions and statements are represented by a union type, with one
-    field per expression or statement class.  Every expression has an
-    associated type.
-*/
+ *    TYPE REPRESENTING AN EXPRESSION OR STATEMENT
+ *
+ *    The expressions and statements are represented by a union type, with one
+ *    field per expression or statement class.  Every expression has an
+ *    associated type.
+ */
 
 union EXP (exp) = {
     /* Expression type */
@@ -1389,12 +1389,12 @@ union EXP (exp) = {
 
 
 /*
-    TYPE REPRESENTING AN OFFSET
-
-    This type is used to represent an offset between two pointers.  The
-    type construct gives the offset between successive elements of an
-    array of that type.  The other constructs are fairly obvious.
-*/
+ *    TYPE REPRESENTING AN OFFSET
+ *
+ *    This type is used to represent an offset between two pointers.  The
+ *    type construct gives the offset between successive elements of an
+ *    array of that type.  The other constructs are fairly obvious.
+ */
 
 union OFFSET (off) = {
     /* empty */
@@ -1461,14 +1461,14 @@ union OFFSET (off) = {
 
 
 /*
-    TYPE REPRESENTING A TOKEN
-
-    This type is used to represent a TDF token.  The various fields
-    correspond to the kinds of token - expressions, statements, types etc.
-    Each simple component also contains a field for holding a value of
-    that kind, thus a list of token arguments can themselves be expressed
-    as a list of tokens.
-*/
+ *    TYPE REPRESENTING A TOKEN
+ *
+ *    This type is used to represent a TDF token.  The various fields
+ *    correspond to the kinds of token - expressions, statements, types etc.
+ *    Each simple component also contains a field for holding a value of
+ *    that kind, thus a list of token arguments can themselves be expressed
+ *    as a list of tokens.
+ */
 
 union TOKEN (tok) = {
     /* empty */
@@ -1532,11 +1532,11 @@ union TOKEN (tok) = {
 
 
 /*
-    TYPE REPRESENTING A TEMPLATE INSTANCE
-
-    A template instance consists of an identifier, a type giving the
-    template form and a specifier giving declaration information.
-*/
+ *    TYPE REPRESENTING A TEMPLATE INSTANCE
+ *
+ *    A template instance consists of an identifier, a type giving the
+ *    template form and a specifier giving declaration information.
+ */
 
 union INSTANCE (inst) = {
     TYPE form ;
@@ -1560,11 +1560,11 @@ union INSTANCE (inst) = {
 
 
 /*
-    TYPE REPRESENTING A VARIABLE ANALYSIS STATE
-
-    This type is used in the variable analysis routines to record the
-    state of a local variable.
-*/
+ *    TYPE REPRESENTING A VARIABLE ANALYSIS STATE
+ *
+ *    This type is used in the variable analysis routines to record the
+ *    state of a local variable.
+ */
 
 struct VARIABLE (var) = {
     IDENTIFIER id ;
@@ -1573,12 +1573,12 @@ struct VARIABLE (var) = {
 
 
 /*
-    TYPE REPRESENTING AN ERROR
-
-    An error can be either a simple message, described by an error number,
-    or a compound formed from two other errors.  Some trickery is used to
-    store the arguments for a simple error after its size field.
-*/
+ *    TYPE REPRESENTING AN ERROR
+ *
+ *    An error can be either a simple message, described by an error number,
+ *    or a compound formed from two other errors.  Some trickery is used to
+ *    store the arguments for a simple error after its size field.
+ */
 
 union ERROR (err) = {
     int severity ;
@@ -1597,11 +1597,11 @@ union ERROR (err) = {
 
 
 /*
-    TYPE REPRESENTING A FILE POSITION
-
-    A file position consists of a line number plus a pointer to a type
-    giving the file name.
-*/
+ *    TYPE REPRESENTING A FILE POSITION
+ *
+ *    A file position consists of a line number plus a pointer to a type
+ *    giving the file name.
+ */
 
 struct LOCATION (loc) = {
     ulong_type line ;
