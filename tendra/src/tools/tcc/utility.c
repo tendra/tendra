@@ -444,7 +444,7 @@ find_path_subst (char *var)
 
 	/* Perhaps this should not be fatal? */
 	if (!ret)
-		error (FATAL, "Unknown environment variable ", var);
+		error (FATAL, "Unknown environment variable %s", var);
 	return ret;
 }
 
