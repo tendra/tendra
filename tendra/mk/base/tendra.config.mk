@@ -83,7 +83,12 @@ BUILD_OS=	qnx
 .include "../config/config.qnx.mk"
 .endif
 
-.if make(solaris) || make(sunos)
+.if make(solaris) 
+BUILD_OS=	solaris
+.include "../config/config.solaris.mk"
+.endif
+
+.if make(sunos)
 BUILD_OS=	sunos
 .include "../config/config.sunos.mk"
 .endif
