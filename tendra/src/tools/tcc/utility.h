@@ -113,8 +113,8 @@ static char *PATH_SUBS[] = {
 	NULL
 };
 
-typedef struct _htnode {
-	struct _htnode *next;
+typedef struct htnode {
+	struct htnode *next;
 	char *val;
 	char *key;
 	unsigned int  flag;
@@ -126,7 +126,7 @@ typedef struct _htnode {
 #define USR    0x02U
 #define READ   0x04U
 
-typedef struct _hashtable {
+typedef struct {
 	htnode **node;
 	int tblsize;
 	int keysize; /* max length of key to hash */

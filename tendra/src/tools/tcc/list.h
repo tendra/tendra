@@ -64,7 +64,7 @@
  *    must be sort, a priority ranking fields is used.
  */
 
-typedef struct _tag {
+typedef struct {
 	char *cmd;
 	int  rank;
 } ordered_node;
