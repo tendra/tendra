@@ -4,9 +4,17 @@
 
 DOC_PREFIX?=../
 
-# guide pl port register tcc tcpplus tdf tdfc
+# SGML documents.
+SUBDIR=		calculus contributors diag faq guide \
+		make pl port readme reference register \
+		release sid tcc tcpplus tdf tdfc team \
+		tld tnc tspec
 
-SUBDIR=	calculus diag faq make tld tnc tspec
+# mdoc conversion, misc documents and the manpages
+SUBDIR+=	mdoc misc manpages
 
 
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"
+
+
+
