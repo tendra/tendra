@@ -82,50 +82,50 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 	closure.usage = usageid;
 	closure.arg_list = arg_list;
 	while (tmp_argc) {
-		CStringP option = (tmp_argv [0]);
-		char     c      = (option [0]);
+		CStringP option = tmp_argv[0];
+		char     c      = option[0];
 		
-		if ((((c == '-') && (option [1] == '-')) ||
-			 ((c == '+') && (option [1] == '+'))) && (option [2] == '\0')) {
+		if (((c == '-' && option[1] == '-') ||
+			 (c == '+' && option[1] == '+')) && option[2] == '\0') {
 			return (argc - tmp_argc + 1);
-		} else if (((c == '-') && (option [1] == '-')) ||
-				   ((c == '+') && (option [1] == '+'))) {
+		} else if ((c == '-' && option[1] == '-') ||
+				   (c == '+' && option[1] == '+')) {
 			ArgListP tmp_list  = arg_list;
 			ArgListP chosen    = NIL (ArgListP);
 			unsigned matches   = 0;
 			CStringP immediate = NIL (CStringP);
 			
-			while ((tmp_list->name != NIL (CStringP)) ||
-				   (tmp_list->short_name != '\0')) {
-				CStringP opt = (tmp_list->name);
-				CStringP arg = (&(option [2]));
+			while (tmp_list->name != NIL (CStringP) ||
+				   tmp_list->short_name != '\0') {
+				CStringP opt = tmp_list->name;
+				CStringP arg = option + 2;
 				
 				if (opt != NIL (CStringP)) {
 					char optch;
 					char argch;
 					
 					do {
-						optch = (*opt ++);
-						argch = (*arg ++);
-					} while (optch && argch && (optch == argch));
+						optch = *opt++;
+						argch = *arg++;
+					} while (optch && argch && optch == argch);
 					if (optch == argch) {
 						chosen    = tmp_list;
 						matches   = 1;
-						immediate = (arg - 1);
+						immediate = arg - 1;
 						break;
-					} else if ((optch == '\0') &&
-							   (((tmp_list->type) == AT_IMMEDIATE) ||
-								((tmp_list->type) == AT_EITHER))) {
+					} else if (optch == '\0' &&
+							   (tmp_list->type == AT_IMMEDIATE ||
+								tmp_list->type == AT_EITHER)) {
 						chosen    = tmp_list;
 						matches   = 1;
-						immediate = (arg - 1);
+						immediate = arg - 1;
 						break;
 					} else if (argch == '\0') {
 						chosen = tmp_list;
-						matches ++;
+						matches++;
 					}
 				}
-				tmp_list ++;
+				tmp_list++;
 			}
 			if (matches == 0) {
 				MSG_arg_parse_unknown_option (option, &closure);
@@ -136,18 +136,18 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 			} else {
 				switch (chosen->type) EXHAUSTIVE {
 				case AT_SWITCH:
-					(*((BoolP) (chosen->closure))) = (c == '-');
+					*((BoolP) chosen->closure) = c == '-';
 					break;
 				case AT_NEG_SWITCH:
-					(*((BoolP) (chosen->closure))) = (c == '+');
+					*((BoolP) chosen->closure) = c == '+';
 					break;
 				case AT_PROC_SWITCH:
-					(*(chosen->proc)) (option, &closure, chosen->closure,
+					(*chosen->proc) (option, &closure, chosen->closure,
 									   c == '-');
 					break;
 				case AT_IMMEDIATE:
 					if (immediate != NIL (CStringP)) {
-						(*(chosen->proc)) (option, &closure, chosen->closure,
+						(*chosen->proc) (option, &closure, chosen->closure,
 										   immediate);
 					} else {
 						MSG_arg_parse_unknown_option (option, &closure);
@@ -156,13 +156,13 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					break;
 				case AT_EITHER:
 					if (immediate != NIL (CStringP)) {
-						if (immediate [0] != '\0') {
-							(*(chosen->proc)) (option, &closure,
+						if (immediate[0] != '\0') {
+							(*chosen->proc) (option, &closure,
 											   chosen->closure, immediate);
 						} else if (tmp_argc > 1) {
-							tmp_argv ++;
+							tmp_argv++;
 							tmp_argc--;
-							(*(chosen->proc)) (option, &closure,
+							(*chosen->proc) (option, &closure,
 											   chosen->closure, tmp_argv [0]);
 						} else {
 							MSG_arg_parse_missing_argument (option, &closure);
@@ -177,22 +177,22 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					if (tmp_argc > 1) {
 						tmp_argv++;
 						tmp_argc--;
-						(*(chosen->proc)) (option, &closure, chosen->closure,
-										   tmp_argv [0]);
+						(*chosen->proc) (option, &closure, chosen->closure,
+										   tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
 					}
 					break;
 				case AT_EMPTY:
-					(*(chosen->proc)) (option, &closure, chosen->closure);
+					(*chosen->proc) (option, &closure, chosen->closure);
 					break;
 				case AT_FOLLOWING2:
 					if (tmp_argc > 2) {
 						tmp_argv += 2;
 						tmp_argc -= 2;
-						(*(chosen->proc)) (option, &closure, chosen->closure,
-										   tmp_argv [-1], tmp_argv [0]);
+						(*chosen->proc) (option, &closure, chosen->closure,
+										   tmp_argv[-1], tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
@@ -202,9 +202,9 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					if (tmp_argc > 3) {
 						tmp_argv += 3;
 						tmp_argc -= 3;
-						(*(chosen->proc)) (option, &closure, chosen->closure,
-										   tmp_argv [-2], tmp_argv [-1],
-										   tmp_argv [0]);
+						(*chosen->proc) (option, &closure, chosen->closure,
+										   tmp_argv[-2], tmp_argv[-1],
+										   tmp_argv[0]);
 					} else {
 						MSG_arg_parse_missing_argument (option, &closure);
 						UNREACHED;
@@ -212,53 +212,53 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					break;
 				}
 			}
-		} else if (((c == '-') && (option [1] == '+')) ||
-				   ((c == '+') && (option [1] == '-')) ||
-				   ((c == '-') && (option [1] == '\0')) ||
-				   ((c == '+') && (option [1] == '\0'))) {
+		} else if ((c == '-' && option[1] == '+') ||
+				   (c == '+' && option[1] == '-') ||
+				   (c == '-' && option[1] == '\0') ||
+				   (c == '+' && option[1] == '\0')) {
 			MSG_arg_parse_unknown_option (option, &closure);
 			UNREACHED;
-		} else if ((c == '-') || (c == '+')) {
+		} else if (c == '-' || c == '+') {
 			CStringP opt = &(option [1]);
 			
-			while ((opt != NIL (CStringP)) && (*opt != '\0')) {
+			while (opt != NIL (CStringP) && *opt != '\0') {
 				ArgListP tmp_list = arg_list;
 				ArgListP chosen   = NIL (ArgListP);
 				
-				while ((tmp_list->name != NIL (CStringP)) ||
-					   (tmp_list->short_name != '\0')) {
+				while (tmp_list->name != NIL (CStringP) ||
+					   tmp_list->short_name != '\0') {
 					if (tmp_list->short_name == *opt) {
 						chosen = tmp_list;
 						break;
 					}
-					tmp_list ++;
+					tmp_list++;
 				}
 				if (chosen) {
 					switch (chosen->type) EXHAUSTIVE {
 					case AT_SWITCH:
-						(*((BoolP) (chosen->closure))) = (c == '-');
+						*((BoolP) chosen->closure) = c == '-';
 						break;
 					case AT_NEG_SWITCH:
-						(*((BoolP) (chosen->closure))) = (c == '+');
+						*((BoolP) chosen->closure) = c == '+';
 						break;
 					case AT_PROC_SWITCH:
-						(*(chosen->proc)) (opt, &closure, chosen->closure,
+						(*chosen->proc) (opt, &closure, chosen->closure,
 										   c == '-');
 						break;
 					case AT_IMMEDIATE:
-						(*(chosen->proc)) (opt, &closure, chosen->closure,
+						(*chosen->proc) (opt, &closure, chosen->closure,
 										   opt + 1);
 						opt = NIL (CStringP);
 						break;
 					case AT_EITHER:
-						if (opt [1] != '\0') {
-							(*(chosen->proc)) (opt, &closure, chosen->closure,
+						if (opt[1] != '\0') {
+							(*chosen->proc) (opt, &closure, chosen->closure,
 											   opt + 1);
 						} else if (tmp_argc > 1) {
-							tmp_argv ++;
+							tmp_argv++;
 							tmp_argc--;
-							(*(chosen->proc)) (opt, &closure, chosen->closure,
-											   tmp_argv [0]);
+							(*chosen->proc) (opt, &closure, chosen->closure,
+											   tmp_argv[0]);
 						} else {
 							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
@@ -270,8 +270,8 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 						if (tmp_argc > 1) {
 							tmp_argv++;
 							tmp_argc--;
-							(*(chosen->proc)) (opt, &closure, chosen->closure,
-											   tmp_argv [0]);
+							(*chosen->proc) (opt, &closure, chosen->closure,
+											   tmp_argv[0]);
 						} else {
 							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
@@ -279,14 +279,14 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 						}
 						break;
 					case AT_EMPTY:
-						(*(chosen->proc)) (opt, &closure, chosen->closure);
+						(*chosen->proc) (opt, &closure, chosen->closure);
 						break;
 					case AT_FOLLOWING2:
 						if (tmp_argc > 2) {
 							tmp_argv += 2;
 							tmp_argc -= 2;
-							(*(chosen->proc)) (opt, &closure, chosen->closure,
-											   tmp_argv [-1], tmp_argv [0]);
+							(*chosen->proc) (opt, &closure, chosen->closure,
+											   tmp_argv[-1], tmp_argv[0]);
 						} else {
 							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
@@ -297,9 +297,9 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 						if (tmp_argc > 3) {
 							tmp_argv += 3;
 							tmp_argc -= 3;
-							(*(chosen->proc)) (opt, &closure, chosen->closure,
-											   tmp_argv [-2], tmp_argv [-1],
-											   tmp_argv [0]);
+							(*chosen->proc) (opt, &closure, chosen->closure,
+											   tmp_argv[-2], tmp_argv [-1],
+											   tmp_argv[0]);
 						} else {
 							MSG_arg_parse_missing_short_arg (option, opt,
 														   &closure);
@@ -312,13 +312,13 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 					UNREACHED;
 				}
 				if (opt) {
-					opt ++;
+					opt++;
 				}
 			}
 		} else {
 			return (argc - tmp_argc);
 		}
-		tmp_argv ++;
+		tmp_argv++;
 		tmp_argc--;
 	}
 	return (argc);
@@ -327,11 +327,11 @@ arg_parse_arguments(ArgListP arg_list, int usageid, int argc, char **argv)
 void
 write_arg_usage(ArgUsageP closure)
 {
-	ArgListP arg_list = (closure->arg_list);
+	ArgListP arg_list = closure->arg_list;
 	
 	msg_append_string (msg_get_raw (closure->usage));
-	while ((arg_list->name != NIL (CStringP)) ||
-		   (arg_list->short_name != '\0')) {
+	while (arg_list->name != NIL (CStringP) ||
+		   arg_list->short_name != '\0') {
 		const char * desc = msg_get_raw (arg_list->msgid);
 		
 		if (arg_list->name) {
@@ -346,6 +346,6 @@ write_arg_usage(ArgUsageP closure)
 			msg_append_char(arg_list->short_name);
 			msg_append_string(desc);
 		}
-		arg_list ++;
+		arg_list++;
 	}
 }
