@@ -40,7 +40,7 @@
         <ulink
         url="http://www.tendra.org/download/">http://www.tendra.org/download/</ulink>.</para>  
 
-      <para>It is also available from the main FTP site directly avaiable via HTTP or FTP:
+      <para>It is also available from the main FTP site directly accessible via HTTP or FTP:
 <ulink url="http://ftp.tendra.org/source/">http://ftp.tendra.org/source/</ulink>,
 <ulink url="ftp://ftp.tendra.org/pub/source/">ftp://ftp.tendra.org/pub/source/</ulink>.
       </para>
@@ -54,7 +54,7 @@
 <ulink url="http://www.tendra.org/docs/">http://www.tendra.org/docs/</ulink>.</para>
 
       <para>It is also available from the main FTP site directly
-      avaiable via HTTP or FTP: 
+      accessible via HTTP or FTP: 
 <ulink url="http://ftp.tendra.org/docs/">http://ftp.tendra.org/docs/</ulink>,
 <ulink url="ftp://ftp.tendra.org/pub/docs/">ftp://ftp.tendra.org/pub/docs/</ulink>.
       </para>
@@ -84,7 +84,7 @@
     </sect1>
 
     <sect1>
-      <title>OS Specificic Information</title>
+      <title>OS Specific Information</title>
 
       <para>blah</para>
     </sect1>
