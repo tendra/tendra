@@ -4,7 +4,7 @@ DEPEND_SRC=	${DATA}
 
 ${DATA}:
 .for i in ${DATA}
-	@cp -v ${.CURDIR}/$i ${.OBJDIR}/$i
+	@${CP_VERBOSE} ${.CURDIR}/$i ${.OBJDIR}/$i
 .endfor
 
 CLEANFILES=	${DATA}
