@@ -27,7 +27,9 @@
 
 .if defined(PROG)
 .if !defined(MAN)
+.if exists(${PROG}.1)
 MAN=    ${PROG}.1
+.endif	# exists(${PROG}.1)
 .endif  # !defined(MAN)
 .endif
 
