@@ -626,10 +626,10 @@ translate_capsule(void)
   
   if(as_file){
 #if !DO_SCHEDULE
-    fprintf(as_file,"\t.verstamp %d %d\n",majorno,minorno);
+    fprintf(as_file,"\t" VERSION_INSTR "\n",majorno,minorno);
 #else
     outline = (char*)xcalloc(30,sizeof(char));
-    sprintf(outline,"\t.verstamp %d %d\n",majorno,minorno);
+    sprintf(outline,"\t" VERSION_INSTR "\n",majorno,minorno);
 #endif
   }
 
