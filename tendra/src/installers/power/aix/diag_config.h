@@ -96,9 +96,9 @@ typedef void *OUTPUT_REC;			/* stabstring TypeNo */
 typedef diag_descriptor diag_global;
 
 
-extern void INSPECT_FILENAME PROTO_S ((filename));
-extern void OUTPUT_GLOBALS_TAB PROTO_S ((void));
-extern void OUTPUT_DIAG_TAGS PROTO_S ((void));
+extern void INSPECT_FILENAME(filename);
+extern void OUTPUT_GLOBALS_TAB(void);
+extern void OUTPUT_DIAG_TAGS(void);
 #define NEW_DIAG_GLOBAL(x)		(x)
 
 
