@@ -263,12 +263,12 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
 				break;
 
 			case '>': /* append */
-				hn->val = string_concat(string_concat(hn->val, " "), val);
+				hn->val = string_append (hn->val, val, ' ');
 				hn->val = val;
 				break;
 
 			case '<': /* prepend */
-				hn->val = string_concat(val, string_concat(hn->val, " "));
+				hn->val = string_append (val, hn->val, ' ');
 				hn->val = val;
 				break;
 
@@ -495,6 +495,30 @@ string_concat(char *s, char *t)
     char *r = string_alloc (n + m + 1);
     IGNORE strcpy (r, s);
     IGNORE strcpy (r + n, t);
+    return (r);
+}
+
+/*
+ *    APPEND TWO STRINGS
+ *
+ *    This routine allocates space for a copy of the string s followed
+ *    by a copy of the string t and concatenates the strings into this
+ *    space, placing the delimiter character between them. The copy is
+ *    returned.  E.g.,:
+ *
+ *    Given:    "foo" + "bar" + ':'
+ *    Returns:  "foo:bar"
+ */
+
+char*
+string_append(char *s, char *t, char delimeter)
+{
+    int n = (int) strlen (s);
+    int m = (int) strlen (t);
+    char *r = string_alloc (n + m + 2);
+    IGNORE strcpy (r, s);
+	*(r + n) = delimeter;
+    IGNORE strcpy (r + n + 1, t);
     return (r);
 }
 

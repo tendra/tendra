@@ -81,8 +81,9 @@ extern void comment (int, char *, ...);
 extern pointer xalloc(int);
 extern pointer xrealloc(pointer, int);
 extern char *string_copy(char *);
+extern char* string_append(char *, char *, char);
 extern char *string_concat(char *, char *);
-extern char* find_path_subst(char*);
+extern char* find_path_subst(char *);
 extern int hash(char *, int, int);
 
 /*extern char* format_path(char *); */
