@@ -1,6 +1,9 @@
 <!DOCTYPE BOOK PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"[
 <!ENTITY % bookinfo PUBLIC "-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN">
 %bookinfo;
+<!ENTITY pl.manpage SYSTEM "../manpages/pl/manpage.sgml">
+<!ENTITY % man PUBLIC "-//FreeBSD//ENTITIES DocBook Manual Page Entities//EN">
+%man;
 ]>
 
 <book>
@@ -1602,7 +1605,8 @@ Keep (main)
   <chapter id='use-pl-tdf-compiler'>
     <title>Use of the PL_TDF compiler</title> 
 
-    <para>INSERT XREF TO MANPAGE HERE</para>
+    <para>Please see the <xref linkend='pl-manpage'> manpage for a complete list of
+      command-line options.</para>
 
     <para>Compile-time error reporting is rather rudimentary and error
       recovery non-existent. Only the first error found will be reported on
@@ -1626,6 +1630,13 @@ Keep (main)
       de-bugging, so do not regard a warning like this as a bug in the
       system.</para>
   </chapter>
-</book>
 
+<chapter id='manpages'>
+  <title>Manual Pages</title>
+    <refentry id='pl-manpage'>
+      &pl.manpage;
+    </refentry>
+</chapter>
+
+</book>
 
