@@ -412,11 +412,11 @@ contop(exp a, int r0inuse, where dest)
 	
 	if (PIC_code) {
 		SPILLREG = reg4;
-		SPILLMASK = 0x10;
+		SPILLMASK = REG_EDI;
 	}
 	else {
 		SPILLREG = reg3;
-		SPILLMASK = 0x8;
+		SPILLMASK = REG_EBX;
 	};
 	
 	if ((n == cont_tag || n == ass_tag || n == reff_tag)
@@ -732,7 +732,7 @@ initzeros()
 	dummyu = getexp (ulongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
 	
 	reg0id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x1, ident_tag);
+					 REG_EAX, ident_tag);
 	ptno(reg0id) = reg_pl;
 	reg0 = mw (getexp (slongsh, nilexp, 0, reg0id, nilexp, 0, 0, name_tag),
 			   0);
@@ -745,38 +745,38 @@ initzeros()
 				   0);
 	
 	reg1id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x2, ident_tag);
+					 REG_EDX, ident_tag);
 	ptno(reg1id) = reg_pl;
 	reg1 = mw (getexp (slongsh, nilexp, 0, reg1id, nilexp, 0, 0, name_tag),
 			   0);
 	
 	reg2id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x4, ident_tag);
+					 REG_ECX, ident_tag);
 	ptno(reg2id) = reg_pl;
 	reg2 = mw (getexp (slongsh, nilexp, 0, reg2id, nilexp, 0, 0, name_tag),
 			   0);
 	
 	reg3id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x8, ident_tag);
+					 REG_EBX, ident_tag);
 	ptno(reg3id) = reg_pl;
 	reg3 = mw (getexp (slongsh, nilexp, 0, reg3id, nilexp, 0, 0, name_tag),
 			   0);
 	
 	
 	reg4id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x10, ident_tag);
+					 REG_EDI, ident_tag);
 	ptno(reg4id) = reg_pl;
 	reg4 = mw (getexp (slongsh, nilexp, 0, reg4id, nilexp, 0, 0, name_tag),
 			   0);
 	
 	reg5id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x20, ident_tag);
+					 REG_ESI, ident_tag);
 	ptno(reg5id) = reg_pl;
 	reg5 = mw (getexp (slongsh, nilexp, 0, reg5id, nilexp, 0, 0, name_tag),
 			   0);
 	
 	reg6id = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-					 0x40, ident_tag);
+					 REG_EBP, ident_tag);
 	ptno(reg6id) = reg_pl;
 	reg6 = mw (getexp (slongsh, nilexp, 0, reg6id, nilexp, 0, 0, name_tag),
 			   0);
@@ -789,18 +789,18 @@ initzeros()
 				  0);
 	
 	reg0uid = getexp (f_bottom, nilexp, 0, dummyu, nilexp, 0,
-					  0x1, ident_tag);
+					  REG_EAX, ident_tag);
 	ptno(reg0uid) = reg_pl;
 	reg0u = mw (getexp (ulongsh, nilexp, 0, reg0uid, nilexp, 0, 0, name_tag),
 				0);
 	
 	spid = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-				   128, ident_tag);
+				   REG_ESP, ident_tag);
 	ptno(spid) = reg_pl;
 	sp = mw (getexp (slongsh, nilexp, 0, spid, nilexp, 0, 0, name_tag), 0);
 	
 	bpid = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-				   64, ident_tag);
+				   REG_EBP, ident_tag);
 	ptno(bpid) = reg_pl;
 	bp = mw (getexp (slongsh, nilexp, 0, bpid, nilexp, 0, 0, name_tag), 0);
 	
