@@ -19,11 +19,11 @@ HAVE_CONF=	yes
 .else
 	@echo "YOU HAVE NOT CONFIGURED TenDRA YET"
 	@echo ""
-	@echo "available targets are:"
+	@echo "Available targets are:"
 	@echo "  ${BUILD_TARGETS}"
 	@echo ""
-	@echo "In order to configure TenDRA please execute make with the"
-	@echo "proper targets to create config.mk"
+	@echo "In order to configure TenDRA, please execute make with the"
+	@echo "proper target to create config.mk"
 	@echo ""
 .endif
 
