@@ -290,4 +290,5 @@ process_file(char *nm)
     ADVANCE_LEXER;
     read_errors();
     if (nm != NULL)fclose_v(lex_input);
+    return;
 }

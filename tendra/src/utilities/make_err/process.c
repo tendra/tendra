@@ -192,6 +192,7 @@ static void output_msg
 	p = TAIL_list(p);
     }
     fputc_v('"', f);
+    return;
 }
 
 
@@ -328,6 +329,7 @@ static void output_defn
     }
     fprintf_v(f, "\n    }\n");
     fprintf_v(f, "} ;\n");
+    return;
 }
 
 
@@ -479,6 +481,7 @@ static void output_decl
 	qn++;
     }
     fprintf_v(f, "\n#endif\n#endif\n");
+    return;
 }
 
 
@@ -506,6 +509,7 @@ static void output_number
 	qn++;
     }
     fprintf_v(f, "\n#endif\n");
+    return;
 }
 
 
@@ -543,6 +547,7 @@ static void output_usage
 	q = TAIL_list(q);
 	p = TAIL_list(p);
     }
+    return;
 }
 
 
@@ -585,4 +590,5 @@ void output_all
 
     /* Close output file */
     if (nm != NULL)fclose_v(f);
+    return;
 }
