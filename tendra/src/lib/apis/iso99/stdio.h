@@ -24,3 +24,35 @@
 #
 # $TenDRA$
 #
+
+# 7.19.4.1
+
++FUNC int remove(const char *);
+
+# 7.19.4.2
+
++FUNC int rename(const char *, const char *);
+
+# 7.19.4.4
+
++FUNC char *tmpnam(char *);
+
+# 7.19.7.6
+
++FUNC int getchar(void);
+
+# 7.19.7.7
+
++FUNC char *gets(char *);
+
+# 7.19.7.9
+
++FUNC int putchar(int);
+
+# 7.19.7.10
+
++FUNC int puts(const char *);
+
+# 7.19.10.4
+
++FUNC void perror(const char *);
