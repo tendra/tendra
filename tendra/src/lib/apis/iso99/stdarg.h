@@ -24,3 +24,10 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stdarg.h";
+
+# 7.15.1.2
+
++SUBSET "va_copy" := {
+    +MACRO void va_copy(lvalue va_list, lvalue va_list);
+};
