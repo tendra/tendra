@@ -57,24 +57,15 @@
 #ifndef _STDARG_H
 #define _STDARG_H
 
-
 #ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
 
+/* We need the __va_list type. */
+#include <machine/_types.h>
 
-/*
-    DEFINITION OF VA_LIST
-
-    The definition of va_list is copied from the system header.
-*/
-
-#ifndef _VA_LIST
-#define _VA_LIST
 #ifndef _VA_LIST_DECLARED
-#define _VA_LIST_DECLARED
-typedef char *va_list ;
+#define	_VA_LIST_DECLARED
+typedef __va_list va_list ;
 #endif
-#endif
-
 
 
 /*
@@ -120,20 +111,30 @@ typedef char *va_list ;
     operators defined in the system header.
 */
 
-typedef char *va_list ;
+#pragma token PROC ( TYPE t ) EXP rvalue : int : __builtin_isfloat #
+#pragma no_def __builtin_isfloat
 
-#define __va_round( T )\
-    ( ( ( sizeof ( T ) + 3 ) / 4 ) * 4 )
+#ifndef _VA_LIST_DECLARED
+#define	_VA_LIST_DECLARED
+#define __COMPLEX_VA_LIST
+typedef struct {
+	char    *__base;
+	int     __offset;
+	int     __pad;
+} va_list;
+#endif
 
-#define va_start( AP, ARG )\
-    ( AP = &( ARG ) + __va_round ( ARG ) )
+static va_list _v ;
+typedef char *__va_t ;
 
-#define va_end( AP )	( ( void ) 0 )
+#define __va_start(X)	(_v.__base = ( X ), _v.__offset = 0, _v)
+#define va_end(X)	( ( void ) 0 )
 
-#define va_arg( AP, T )\
-    ( AP += __va_round ( T ),\
-      *( ( T * ) ( ( AP ) - __va_round ( T ) ) ) )
-
+#define va_arg(list, mode) \
+	(*(((list)._offset += ((int)sizeof(mode) + 7) & -8), \
+	    (mode *)((list).__base + (list).__offset - \
+		((__builtin_isfloat(mode) && (list).__offset <= (6 * 8)) ? \
+		(6 * 8) + 8 : ((int)sizeof(mode) + 7) & -8))))
 
 #endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
 
