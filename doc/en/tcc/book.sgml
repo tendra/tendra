@@ -42,11 +42,8 @@
 
   </bookinfo>
 
-  <chapter>
+  <preface>
     <title>The Function of tcc</title>
-
-    <sect1>
-      <title>The Function of tcc</title>
 
       <para>Like most compilation systems, the TDF C system consists
         of a number of components which transform or combine various
@@ -77,8 +74,7 @@
         reference, <command>tcc</command> will print a list of all its
         command-line options (with a brief description) if invoked
         with the <option>-query</option> option.</para>
-    </sect1>
-  </chapter>
+  </preface>
 
   <chapter>
     <title>The TDF Compilation Strategy</title>
