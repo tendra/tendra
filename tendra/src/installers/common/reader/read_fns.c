@@ -68,6 +68,7 @@
 
 
 #include "config.h"
+#include "cstring.h"
 #include "fmm.h"
 
 #include "common_types.h"
@@ -218,19 +219,15 @@ external_to_string(external ext)
 	}
 }
 
-
+/*
+ * Invent a local label identifier
+ */
 char *
-make_local_name()
+make_local_name(void)
 {
-	/* invent a local label identifier */
-	char *id;
 	char *st = intchars (next_lab ());
-	int   l = (int)strlen (st);
-	int lpl = (int)strlen(local_prefix);
-	id = (char *) xcalloc (l + lpl + 1, sizeof (char));
-	IGNORE strcpy(id, local_prefix);
-	IGNORE strcpy(&id[lpl], st);
-	return id;
+
+	return string_concat(local_prefix, st);
 }
 
 static void
@@ -1296,18 +1293,9 @@ al_tagdef f_dummy_al_tagdef;
 char*
 add_prefix(char * nm)
 {
-	char * id;
-	int idl = (int)strlen(nm);
-	int   j;
-	int npl = (int)strlen(name_prefix);
-	if (npl == 0) return nm;
-	id = (char *) xcalloc ((idl + npl + 1), sizeof (char));
-	id[idl + npl] = 0;
-	for (j = npl; j < (idl+npl); ++j)
-		id[j] = nm[j-npl];
-	for (j = 0; j < npl; ++j)
-		id[j] = name_prefix[j];
-	return id;
+	if (strlen(name_prefix) == 0)
+		return nm;	/* This is not very clever idea */
+	return string_concat(name_prefix, nm);
 }
 
 tagextern
