@@ -108,7 +108,7 @@
 
   </preface>
 
-  <chapter id="c1">
+  <chapter id="overview-of-tspec">
     <title>Overview of <literal>tspec</literal></title>
 
     <sect1 id="speclevel">
@@ -265,7 +265,7 @@
     </sect1>
   </chapter>
 
-  <chapter id="c2">
+  <chapter id="specifying-api-struct">
     <title>Specifying API Structure</title>
 
     <para>The basic form of the <literal>tspec</literal> description of an API
@@ -419,7 +419,7 @@
     </sect1>
   </chapter>
 
-  <chapter id="c3">
+  <chapter id="specifying-objects">
     <title>Specifying Objects</title>
 
     <para>The main body of any <literal>tspec</literal> description of an API
@@ -1148,7 +1148,7 @@ name = number
     </sect1>
   </chapter>
 
-  <chapter id="c4">
+  <chapter id="other-constructs">
     <title>Other tspec Constructs</title>
 
     <para>Although most <literal>tspec</literal> constructs are concerned
@@ -1348,7 +1348,7 @@ $property = "string" ;
     </sect1>
   </chapter>
 
-  <chapter id="c5">
+  <chapter id="miscellaneous-topics">
     <title>Miscellaneous Topics</title>
 
     <para>In this section we round up a few miscellaneous topics.</para>
@@ -1542,7 +1542,7 @@ $METHOD = "TNC" ;
     </sect1>
   </chapter>
 
-  <chapter id="c6">
+  <chapter id="changes-in-tspec">
     <title>Changes in tspec 2.0</title>
 
     <para>This document describes <literal>tspec</literal> version 2.0.
@@ -1609,7 +1609,7 @@ $METHOD = "TNC" ;
     </itemizedlist>
   </chapter>
 
-  <chapter id="c7">
+  <chapter id="references">
     <title>References</title>
 
     <itemizedlist>
