@@ -1,3 +1,7 @@
+/*
+ * $TenDRA$
+ */
+
 #ifndef __TDF_SYS_INCLUDED
 #define __TDF_SYS_INCLUDED
 
@@ -26,7 +30,7 @@
 #define __i386		1
 #define __unix__	1
 #define __i386__	1
-#define __FreeBSD__	2
+#define __FreeBSD__	%%__FreeBSD__%%
 
 #ifndef __inline
 #pragma TenDRA keyword __inline for inline

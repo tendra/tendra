@@ -23,7 +23,7 @@
 #define __alpha		1
 #define __unix__	1
 #define __alpha__	1
-#define __FreeBSD__	2
+#define __FreeBSD__	%%__FreeBSD__%%
 
 #ifndef __inline
 #pragma TenDRA keyword __inline for inline
