@@ -75,7 +75,7 @@
 static void
 disk_read_enum(void)
 {
-    number n = log2 (DEREF_number (en_order (CRT_ENUM)));
+    number n = log_2 (DEREF_number (en_order (CRT_ENUM)));
     if (n <= 16) {
 		output ("    x_ = (%EN) READ_BITS (%n);\n", n);
     } else {
@@ -382,7 +382,7 @@ disk_read_def(char *dir)
 static void
 disk_write_enum(void)
 {
-    number n = log2 (DEREF_number (en_order (CRT_ENUM)));
+    number n = log_2 (DEREF_number (en_order (CRT_ENUM)));
     if (n <= 16) {
 		output ("\tWRITE_BITS (%n, (unsigned) x_);\n", n);
     } else {
