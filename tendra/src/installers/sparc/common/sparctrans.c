@@ -1,30 +1,57 @@
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
+ * Copyright (c) 2002, The Tendra Project <http://www.tendra.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *    
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *    
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *    
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *    
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *    
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
 */
 
 
@@ -36,125 +63,7 @@
 
 --------------------------------------------------------------------------
 $Header$
---------------------------------------------------------------------------
-$Log$
-Revision 1.1  2002/01/26 21:31:29  asmodai
-Initial version of TenDRA 4.1.2.
-
- * Revision 1.4  1998/03/11  11:03:59  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/06  17:04:37  release
- * Last minute pre-release polishing.
- *
- * Revision 1.2  1998/01/21  10:30:12  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.15  1997/12/05  10:38:59  pwe
- * system identification
- *
- * Revision 1.14  1997/10/28  10:19:10  pwe
- * extra diags
- *
- * Revision 1.13  1997/10/10  18:33:02  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.12  1997/08/23  13:54:36  pwe
- * initial ANDF-DE
- *
- * Revision 1.11  1997/06/02  08:42:37  pwe
- * diags visibility
- *
- * Revision 1.10  1997/04/17  11:59:59  pwe
- * dwarf2 support
- *
- * Revision 1.9  1997/02/18  11:48:27  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.8  1996/08/15  15:34:54  pwe
- * mod for PWE ownership
- *
- * Revision 1.7  1996/03/18  09:02:17  john
- * Changed dynamic init default.
- *
- * Revision 1.6  1996/02/21  15:10:38  john
- * dynamic initialisations turned on by default
- *
- * Revision 1.5  1995/12/15  10:27:46  john
- * Added dynamic initialisations on SunOS
- *
- * Revision 1.4  1995/11/24  11:41:53  john
- * Fix for postludes
- *
- * Revision 1.3  1995/06/27  09:12:17  john
- * Reformatting
- *
- * Revision 1.2  1995/03/14  17:54:41  john
- * Changed default optimisation level
- *
- * Revision 1.1.1.1  1995/03/13  10:18:57  john
- * Entered into CVS
- *
- * Revision 1.7  1994/10/26  13:44:06  djch
- * added switches -i[idas] to give runtime control of inlining choices
- *
- * Revision 1.6  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.5  1994/07/04  08:30:49  djch
- * Changes to argument values and names, in conformance to new man page for all
- * installers.
- *
- * Revision 1.4  1994/05/24  13:13:53  djch
- * hacked -O to provide flpt overflow off, and -O? to be optimization
- *
- * Revision 1.3  1994/05/13  13:11:23  djch
- * Incorporates improvements from expt version
- * included debug.h to get enums to suport printing tag and shape names
- * changed default to do inlining and foralls, made their switches toggle...
- *
- * Revision 1.2  1994/05/03  15:13:39  djch
- * removed the -R flag (inner procs now in the common section)
- *
- * Revision 1.10  94/02/21  16:13:24  16:13:24  ra (Robert Andrews)
- * A couple of flags have changed.
- * 
- * Revision 1.9  93/11/19  16:31:27  16:31:27  ra (Robert Andrews)
- * Changed version number to 0.10.
- * 
- * Revision 1.8  93/09/27  14:55:41  14:55:41  ra (Robert Andrews)
- * The values of name_prefix, local_prefix and lab_prefix (which is new)
- * vary according to the target machine.
- * 
- * Revision 1.7  93/08/27  11:38:14  11:38:14  ra (Robert Andrews)
- * A couple of lint-like changes.  The definitions of local_prefix and
- * name_prefix are now not duplicated (see machine.c).
- * 
- * Revision 1.6  93/08/18  11:17:03  11:17:03  ra (Robert Andrews)
- * Changed method of specifying target machine (see config.h).
- * 
- * Revision 1.5  93/08/13  14:46:34  14:46:34  ra (Robert Andrews)
- * Removed a couple of comments.
- * 
- * Revision 1.4  93/07/14  11:22:15  11:22:15  ra (Robert Andrews)
- * Add options to set library_key.
- * 
- * Revision 1.3  93/07/05  18:28:24  18:28:24  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * Added support for PIC (switched on using the -D option).
- * 
- * Revision 1.2  93/06/29  14:34:22  14:34:22  ra (Robert Andrews)
- * Slight reorganisation.  Error messages now use sparctrans (the variable).
- * The version number has also changed.
- * 
- * Revision 1.1  93/06/24  14:59:26  14:59:26  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
+--------------------------------------------------------------------------*/
 
 
 #define SPARCTRANS_CODE
