@@ -22,15 +22,37 @@ RM?=		/bin/rm
 MV?=		/bin/mv
 
 
+.MAIN: all
+
+all: _SUBDIRUSE
+
 # Image processing (contains code used by the doc.<format>.mk files, so must
 # be listed first).
-.include "doc.images.mk"
+
 
 .if defined(DOC)
+.include "doc.images.mk"
 .include "doc.docbook.mk"
+.include "doc.install.mk"
 .endif
 
-.include "doc.install.mk"
+
+
+
+clean: _SUBDIRUSE
+.if defined(CLEANFILES) && !empty(CLEANFILES)
+	${RM} -f ${CLEANFILES}
+.endif
+
+cleanall:
+	${MAKE} FORMATS="${ALL_FORMATS}" clean
+
 
 # Subdirectory glue.
-.include "doc.subdir.mk"
+
+_SUBDIRUSE: .USE
+.for entry in ${SUBDIR}
+	@${ECHODIR} "===> ${DIRPRFX}${entry}"
+	cd ${.CURDIR}/${entry} && \
+	${MAKE} ${.TARGET} DIRPRFX=${DIRPRFX}${entry}/
+.endfor
