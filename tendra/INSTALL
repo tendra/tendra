@@ -1,6 +1,20 @@
+This INSTALL document is here only for those who are trying out a SNAP or CVS 
+release.
+
+Configuring TenDRA is very easy, typing 'bmake' will get you a list of 
+configurable targets, select one of these targets to create your corresponding 
+config.mk.  For instance, if you're on FreeBSD, 'bmake freebsd' will get you 
+going.
+
+
+Note: Even though TenDRA uses PMake, if you have an error please try with our 
+      shipped PMake, the *BSD's have extended make to support features that are 
+      not supported by us, sometimes breakage can happen.
+
+You can edit config.mk to your liking, please be mindful of changes you've made 
+to config.mk, periodically you'll need to regenerate this to pull in supported 
+variables and features.
+
+
 # $TenDRA$
 
-A number of build targets exist.
-
-Running make and following the instructions should
-get you going.
