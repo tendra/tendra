@@ -29,13 +29,13 @@
 
 ENTRIES:
 
-name_already_defined(ccp: name, ccp: file, ccp: line)
+name_already_defined(ccp: name, ccp: file, int: line)
 {
 	USAGE: FATAL
 	KEY(STD) iline name" already defined (at "file", line "line")"
 }
 
-type_already_defined(ccp: name, ccp: file, ccp: line)
+type_already_defined(ccp: name, ccp: file, int: line)
 {
 	USAGE: FATAL
 	KEY(STD) iline"Type "name" already defined (at "file", line "line")"
