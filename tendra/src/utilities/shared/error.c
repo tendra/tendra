@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -64,14 +97,14 @@
     These variables are used or set in the error routines.
 */
 
-CONST char *progname = NULL ;
-CONST char *progvers = NULL ;
-int exit_status = EXIT_SUCCESS ;
-int maximum_errors = 20 ;
-static int number_errors = 0 ;
+CONST char *progname = NULL;
+CONST char *progvers = NULL;
+int exit_status = EXIT_SUCCESS;
+int maximum_errors = 20;
+static int number_errors = 0;
 
-int crt_line_no = 1 ;
-CONST char *crt_file_name = NULL ;
+int crt_line_no = 1;
+CONST char *crt_file_name = NULL;
 
 
 /*
@@ -81,14 +114,13 @@ CONST char *crt_file_name = NULL ;
     vers.
 */
 
-void set_progname
-    PROTO_N ( ( nm, vers ) )
-    PROTO_T ( CONST char *nm X CONST char *vers )
+void
+set_progname(CONST char *nm, CONST char *vers)
 {
-    char *r = strrchr ( nm, '/' ) ;
-    progname = ( r ? r + 1 : nm ) ;
-    progvers = vers ;
-    return ;
+    char *r = strrchr(nm, '/');
+    progname = (r ? r + 1 : nm);
+    progvers = vers;
+    return;
 }
 
 
@@ -98,16 +130,16 @@ void set_progname
     This routine prints the program name and version number.
 */
 
-void report_version
-    PROTO_Z ()
+void
+report_version(void)
 {
-    CONST char *r = RELEASE ;
-    CONST char *nm = progname ;
-    CONST char *vers = progvers ;
-    if ( nm == NULL ) nm = "unknown" ;
-    if ( vers == NULL ) vers = "1.0" ;
-    fprintf_v ( stderr, "%s: Version %s (Release %s)\n", nm, vers, r ) ;
-    return ;
+    CONST char *r = RELEASE;
+    CONST char *nm = progname;
+    CONST char *vers = progvers;
+    if (nm == NULL) nm = "unknown";
+    if (vers == NULL) vers = "1.0";
+    fprintf_v(stderr, "%s: Version %s (Release %s)\n", nm, vers, r);
+    return;
 }
 
 
@@ -118,43 +150,42 @@ void report_version
     e.  fn and ln give the error position.
 */
 
-static void error_msg
-    PROTO_N ( ( e, fn, ln, s, args ) )
-    PROTO_T ( int e X CONST char *fn X int ln X CONST char *s X va_list args )
+static void
+error_msg(int e, CONST char *fn, int ln, CONST char *s, va_list args)
 {
-    if ( e != ERROR_NONE ) {
-	if ( progname ) fprintf_v ( stderr, "%s: ", progname ) ;
-	switch ( e ) {
-	    case ERROR_WARNING : {
-		fprintf_v ( stderr, "Warning: " ) ;
-		break ;
+    if (e != ERROR_NONE) {
+	if (progname) fprintf_v(stderr, "%s: ", progname);
+	switch (e) {
+	    case ERROR_WARNING: {
+		fprintf_v(stderr, "Warning: ");
+		break;
 	    }
-	    case ERROR_FATAL : {
-		fprintf_v ( stderr, "Fatal: " ) ;
-		exit_status = EXIT_FAILURE ;
-		number_errors++ ;
-		break ;
+	    case ERROR_FATAL: {
+		fprintf_v(stderr, "Fatal: ");
+		exit_status = EXIT_FAILURE;
+		number_errors++;
+		break;
 	    }
 	    default : {
-		fprintf_v ( stderr, "Error: " ) ;
-		exit_status = EXIT_FAILURE ;
-		number_errors++ ;
-		break ;
+		fprintf_v(stderr, "Error: ");
+		exit_status = EXIT_FAILURE;
+		number_errors++;
+		break;
 	    }
 	}
-	if ( fn ) {
-	    fprintf_v ( stderr, "%s: ", fn ) ;
-	    if ( ln != -1 ) fprintf_v ( stderr, "line %d: ", ln ) ;
+	if (fn) {
+	    fprintf_v(stderr, "%s: ", fn);
+	    if (ln != -1) fprintf_v(stderr, "line %d: ", ln);
 	}
-	vfprintf_v ( stderr, s, args ) ;
-	fprintf_v ( stderr, ".\n" ) ;
-	if ( e == ERROR_FATAL ) exit ( EXIT_FAILURE ) ;
-	if ( number_errors >= maximum_errors && maximum_errors ) {
-	    error ( ERROR_FATAL, "Too many errors (%d) - aborting",
-		    number_errors ) ;
+	vfprintf_v(stderr, s, args);
+	fprintf_v(stderr, ".\n");
+	if (e == ERROR_FATAL) exit(EXIT_FAILURE);
+	if (number_errors >= maximum_errors && maximum_errors) {
+	    error(ERROR_FATAL, "Too many errors (%d) - aborting",
+		    number_errors);
 	}
     }
-    return ;
+    return;
 }
 
 
@@ -166,23 +197,23 @@ static void error_msg
     as the optional procedure parameters.
 */
 
-void error
-    PROTO_V ( ( int e, CONST char *s, ... ) )
+void
+error(int e, CONST char *s, ...)
     /*VARARGS*/
 {
-    va_list args ;
+    va_list args;
 #if FS_STDARG
-    va_start ( args, s ) ;
+    va_start(args, s);
 #else
-    int e ;
-    CONST char *s ;
-    va_start ( args ) ;
-    e = va_arg ( args, int ) ;
-    s = va_arg ( args, CONST char * ) ;
+    int e;
+    CONST char *s;
+    va_start(args);
+    e = va_arg(args, int);
+    s = va_arg(args, CONST char *);
 #endif
-    error_msg ( e, crt_file_name, crt_line_no, s, args ) ;
-    va_end ( args ) ;
-    return ;
+    error_msg(e, crt_file_name, crt_line_no, s, args);
+    va_end(args);
+    return;
 }
 
 
@@ -193,27 +224,27 @@ void error
     position given by fn and ln.  s is as above.
 */
 
-void error_posn
-    PROTO_V ( ( int e, CONST char *fn, int ln, CONST char *s, ... ) )
+void
+error_posn(int e, CONST char *fn, int ln, CONST char *s, ...)
     /*VARARGS*/
 {
-    va_list args ;
+    va_list args;
 #if FS_STDARG
-    va_start ( args, s ) ;
+    va_start(args, s);
 #else
-    int e ;
-    CONST char *fn ;
-    int ln ;
-    CONST char *s ;
-    va_start ( args ) ;
-    e = va_arg ( args, int ) ;
-    fn = va_arg ( args, CONST char * ) ;
-    ln = va_arg ( args, int ) ;
-    s = va_arg ( args, CONST char * ) ;
+    int e;
+    CONST char *fn;
+    int ln;
+    CONST char *s;
+    va_start(args);
+    e = va_arg(args, int);
+    fn = va_arg(args, CONST char *);
+    ln = va_arg(args, int);
+    s = va_arg(args, CONST char *);
 #endif
-    error_msg ( e, fn, ln, s, args ) ;
-    va_end ( args ) ;
-    return ;
+    error_msg(e, fn, ln, s, args);
+    va_end(args);
+    return;
 }
 
 
@@ -226,13 +257,12 @@ void error_posn
     given by file and line.
 */
 
-void assertion
-    PROTO_N ( ( s, file, line ) )
-    PROTO_T ( CONST char *s X CONST char *file X int line )
+void
+assertion(CONST char *s, CONST char *file, int line)
 {
-    if ( progname ) fprintf_v ( stderr, "%s: ", progname ) ;
-    fprintf_v ( stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s ) ;
-    abort () ;
+    if (progname) fprintf_v(stderr, "%s: ", progname);
+    fprintf_v(stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s);
+    abort();
 }
 
 #endif
