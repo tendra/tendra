@@ -64,6 +64,7 @@
 #include "config.h"
 #include "types.h"
 #include "fetch.h"
+#include "file.h"
 #include "read_types.h"
 #include "analyser.h"
 #include "utility.h"

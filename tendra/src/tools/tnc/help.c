@@ -65,6 +65,7 @@
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"
+#include "help.h"
 #include "node.h"
 #include "table.h"
 #include "tdf.h"

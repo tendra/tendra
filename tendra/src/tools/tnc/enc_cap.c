@@ -64,6 +64,7 @@
 #include "config.h"
 #include "types.h"
 #include "enc_types.h"
+#include "enc_cap.h"
 #include "bitstream.h"
 #include "encode.h"
 #include "names.h"

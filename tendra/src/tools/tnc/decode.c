@@ -262,7 +262,7 @@ de_var_sort(long v)
     A label construct is decoded.
 */
 
-void
+static void
 de_make_label(node *p)
 {
     long n = tdf_int();

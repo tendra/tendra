@@ -64,6 +64,7 @@
 #include "config.h"
 #include "types.h"
 #include "enc_types.h"
+#include "bitstream.h"
 #include "file.h"
 #include "utility.h"
 

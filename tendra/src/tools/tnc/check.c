@@ -64,6 +64,7 @@
 #include "config.h"
 #include "types.h"
 #include "alignment.h"
+#include "check.h"
 #include "eval.h"
 #include "node.h"
 #include "read.h"

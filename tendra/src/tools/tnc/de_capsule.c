@@ -64,6 +64,7 @@
 #include "config.h"
 #include "types.h"
 #include "de_types.h"
+#include "de_capsule.h"
 #include "de_unit.h"
 #include "decode.h"
 #include "fetch.h"
@@ -302,7 +303,7 @@ find_binding(binding *bt, long v, long n)
     as an array of characters.
 */
 
-char *
+static char *
 de_aligned_string(void)
 {
     char *p;

@@ -89,13 +89,15 @@ boolean print_shapes = 0;
 boolean func_output = 0;
 
 
+static void	print_spaces(int);
+
 /*
     PRINT A NUMBER OF SPACES
 
     An indentation of d spaces is printed to the output file.
 */
 
-void
+static void
 print_spaces(int d)
 {
     int n = 2 * d;
