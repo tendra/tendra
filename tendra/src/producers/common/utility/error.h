@@ -140,15 +140,9 @@ extern FILE *error_file;
 #ifdef ASSERTS
 extern int is_true(int);
 extern void assertion(const char *, const char *, int);
-#if FS_STDC_HASH
 #define ASSERT(A)	if (is_true (!(A)))\
 			    assertion (#A, __FILE__, __LINE__)
 #define FAIL(A)	assertion (#A, __FILE__, __LINE__)
-#else
-#define ASSERT(A)	if (is_true (!(A)))\
-			    assertion ("A", __FILE__, __LINE__)
-#define FAIL(A)	assertion ("A", __FILE__, __LINE__)
-#endif
 #else
 #if FS_LINT
 #define ASSERT(A)	/* empty */

@@ -108,11 +108,7 @@
  *    to size_t).
  */
 
-#if FS_PTR_VOID
 typedef void *gen_ptr;
-#else
-typedef char *gen_ptr;
-#endif
 
 typedef unsigned long gen_size;
 

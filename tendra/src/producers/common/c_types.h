@@ -169,17 +169,10 @@ extern c_class *debug_c_class(unsigned, unsigned);
  *    LINK_EXTERN to distinguish them from internal linkage numbers.
  */
 
-#if FS_NUMBER_SUFFIX
 #define LINK_NONE		((ulong) 0xffffffffUL)
 #define LINK_EXTERN		((ulong) 0x80000000UL)
 #define LINK_ZERO		((ulong) 0xfffffffeUL)
 #define LINK_TOKDEF		((ulong) 0xfffffffdUL)
-#else
-#define LINK_NONE		((ulong) 0xffffffff)
-#define LINK_EXTERN		((ulong) 0x80000000)
-#define LINK_ZERO		((ulong) 0xfffffffe)
-#define LINK_TOKDEF		((ulong) 0xfffffffd)
-#endif
 
 
 /*

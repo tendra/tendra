@@ -56,11 +56,7 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "c_types.h"
 #include "error.h"
 #include "buffer.h"
@@ -217,15 +213,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
     string p;
     gen_size m;
     va_list args;
-#if FS_STDARG
     va_start (args, s);
-#else
-    BUFFER *bf;
-    const char *s;
-    va_start (args);
-    bf = va_arg (args, BUFFER *);
-    s = va_arg (args, const char *);
-#endif
     m = (gen_size) strlen (s);
     p = stretch_buffer (bf, bf->posn, m);
 	

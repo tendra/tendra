@@ -57,11 +57,7 @@
 
 #include "config.h"
 #include <limits.h>
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "c_types.h"
 #include "err_ops.h"
 #include "exp_ops.h"
@@ -759,15 +755,7 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
     va_list args;
     unsigned long u;
     OPT_VALUE_DATA *p;
-#if FS_STDARG
     va_start (args, v);
-#else
-    int n;
-    unsigned long v;
-    va_start (args);
-    n = va_arg (args, int);
-    v = va_arg (args, unsigned long);
-#endif
 	
     /* Check against implementation limit */
     p = OPT_VALUE_CATALOG + n;
