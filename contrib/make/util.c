@@ -491,6 +491,18 @@ strstr(string, substring)
 #endif
 
 #ifdef NEED_FGETLN
+static void
+removeCR(char *s)
+{
+	while (*s) {
+		if (*s == '\r' && s[1] == '\n') {
+			*s = '\n';
+			s[1] = 0;
+			break;
+		}
+	}
+}
+
 char *
 fgetln(stream, len)
     FILE *stream;
@@ -505,11 +517,13 @@ fgetln(stream, len)
     }
     if (fgets(buffer, buflen+1, stream) == NULL)
 	return NULL;
+    removeCR(buffer);
     *len = strlen(buffer);
     while (*len == buflen && buffer[*len-1] != '\n') {
 	buffer = erealloc(buffer, 2*buflen + 1);
 	if (fgets(buffer + buflen, buflen + 1, stream) == NULL)
 	    return NULL;
+	removeCR(buffer);
 	*len += strlen(buffer + buflen);
 	buflen *= 2;
     }

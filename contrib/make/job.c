@@ -1937,7 +1937,8 @@ JobOutput(job, cp, endp, msg)
 		 * command....
 		 */
 		cp++;
-		while (*cp == ' ' || *cp == '\t' || *cp == '\n') {
+		while (*cp == ' ' || *cp == '\t' || *cp == '\n' ||
+		       *cp == '\r') {
 		    cp++;
 		}
 		ecp = strstr(cp, commandShell->noPrint);

@@ -680,7 +680,7 @@ CondToken(doEval)
 	return t;
     }
 
-    while (*condExpr == ' ' || *condExpr == '\t')
+    while (*condExpr == ' ' || *condExpr == '\t' || *condExpr == '\r')
 	condExpr++;
     switch (*condExpr) {
 	case '(':

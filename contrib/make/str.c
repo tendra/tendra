@@ -139,6 +139,7 @@ brk_string(str, store_argc, buffer)
 	    continue;
 	case ' ':
 	case '\t':
+	case '\r':
 	case '\n':
 	    if (inquote)
 		break;
