@@ -1452,13 +1452,13 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 		/* Integral types are allowed */
 		int ok = 1;
 		bt = get_bitfield_rep (t, bt);
-		if (bt & btype_int) {
+		if (bt & (btype_int | btype_bool)) {
 			if (bt & (btype_short | btype_long)) ok = 0;
 		} else {
 			ok = 0;
 		}
 		if (!ok) {
-			/* Only 'int' types allowed in C */
+			/* Only 'int' types and '_Bool' allowed in C */
 			report (crt_loc, ERR_class_bit_base_int (t));
 		}
 		if (!(bt & (btype_signed | btype_unsigned))) {
