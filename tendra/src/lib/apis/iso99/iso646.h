@@ -24,3 +24,4 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "iso", "iso646.h";
