@@ -24,3 +24,15 @@
 #
 # $TenDRA$
 #
+$PROTECT = "";
+
++IMPLEMENT "ansi", "assert.h", "fail";
+
+# 7.2.1.1
+
++IFDEF NDEBUG
++DEFINE assert.1(e) %% ((void)0) %%;
++ELSE
++DEFINE assert.2(e) %% ((e) ? (void)0 : __assert_aux(#e, __func__, __FILE__, \
+	__LINE__)) %%;
++ENDIF
