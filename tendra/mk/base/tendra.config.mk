@@ -10,7 +10,7 @@
 .if !defined(HAVE_CONFIG_MK)
 HAVE_CONFIG_MK=1
 
-BUILD_TARGETS=	cygwin32 darwin freebsd linux netbsd openbsd osf1 tru64
+BUILD_TARGETS=	cygwin32 darwin freebsd hpux linux netbsd openbsd osf1 tru64
 
 config-check:
 .if exists (${SRC_DIR}/config.mk)
@@ -45,6 +45,11 @@ BUILD_OS=	darwin
 .if make(freebsd)
 BUILD_OS=	freebsd
 .include "../config/config.freebsd.mk"
+.endif
+
+.if make(hpux)
+BUILD_OS=	hpux
+.include "../config/config.hpux.mk"
 .endif
 
 .if make(linux)
