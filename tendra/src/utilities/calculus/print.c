@@ -103,12 +103,12 @@ printer_enum()
 		output ("\t}\n");
     }
     output ("\tdefault : {\n");
-				   output ("\t    (void) fprintf (f_, \"%%lu ;\\n\",");
-				   output (" (unsigned long) x_) ;\n");
-				   output ("\t    break ;\n");
-				   output ("\t}\n");
-				   output ("    }\n");
-				   return;
+    output ("\t    (void) fprintf (f_, \"%%lu ;\\n\",");
+    output (" (unsigned long) x_) ;\n");
+    output ("\t    break ;\n");
+    output ("\t}\n");
+    output ("    }\n");
+    return;
 }
 
 
@@ -197,12 +197,12 @@ printer_union()
 		output ("\t    }\n");
     }
     output ("\t    default : {\n");
-					   output ("\t\t(void) fprintf (f_, \"%%s = ERROR!\\n\", nm_) ;\n");
-					   output ("\t\tbreak ;\n");
-					   output ("\t    }\n");
-					   output ("\t}\n");
-					   output ("    }\n");
-					   return;
+    output ("\t\t(void) fprintf (f_, \"%%s = ERROR!\\n\", nm_) ;\n");
+    output ("\t\tbreak ;\n");
+    output ("\t    }\n");
+    output ("\t}\n");
+    output ("    }\n");
+    return;
 }
 
 
@@ -367,99 +367,99 @@ print_action(char *dir)
 			output (" char *nm_, int d_)\n");
 			output ("{\n");
 
-	    /* Function body */
-	    switch (tag) {
-		case type_primitive_tag : {
-		    PRIMITIVE_P p = DEREF_ptr (type_primitive_prim (t0));
-		    LOOP_PRIMITIVE {
-			if (EQ_ptr (CRT_PRIMITIVE, p)) {
-			    printer_prim ();
-			    break;
+			/* Function body */
+			switch (tag) {
+			    case type_primitive_tag : {
+				PRIMITIVE_P p = DEREF_ptr (type_primitive_prim (t0));
+				LOOP_PRIMITIVE {
+				    if (EQ_ptr (CRT_PRIMITIVE, p)) {
+					printer_prim ();
+					break;
+				    }
+				}
+				break;
+			    }
+			    case type_enumeration_tag : {
+				ENUM_P p = DEREF_ptr (type_enumeration_en (t0));
+				LOOP_ENUM {
+				    if (EQ_ptr (CRT_ENUM, p)) {
+					printer_enum ();
+					break;
+				    }
+				}
+				break;
+			    }
+			    case type_structure_tag : {
+				STRUCTURE_P p = DEREF_ptr (type_structure_struc (t0));
+				LOOP_STRUCTURE {
+				    if (EQ_ptr (CRT_STRUCTURE, p)) {
+					printer_struct ();
+					break;
+				    }
+				}
+				is_struct = 1;
+				break;
+			    }
+			    case type_onion_tag : {
+				UNION_P p = DEREF_ptr (type_onion_un (t0));
+				LOOP_UNION {
+				    if (EQ_ptr (CRT_UNION, p)) {
+					printer_union ();
+					break;
+				    }
+				}
+				break;
+			    }
+			    case type_ptr_tag : {
+				TYPE_P s = DEREF_ptr (type_ptr_sub (t0));
+				printer_ptr (s, "PTR", "x_", "");
+				break;
+			    }
+			    case type_list_tag : {
+				TYPE_P s = DEREF_ptr (type_list_sub (t0));
+				printer_list (s, "x_");
+				break;
+			    }
+			    case type_stack_tag : {
+				TYPE_P s = DEREF_ptr (type_stack_sub (t0));
+				output ("    LIST (%TT) y_ = LIST_stack (x_) ;\n", s);
+				printer_list (s, "y_");
+				break;
+			    }
+			    case type_vec_tag : {
+				TYPE_P s = DEREF_ptr (type_vec_sub (t0));
+				printer_vec (s);
+				is_struct = 1;
+				break;
+			    }
+			    case type_vec_ptr_tag : {
+				TYPE_P s = DEREF_ptr (type_vec_ptr_sub (t0));
+				printer_vec_ptr (s);
+				is_struct = 1;
+				break;
+			    }
 			}
-		    }
-		    break;
-		}
-		case type_enumeration_tag : {
-		    ENUM_P p = DEREF_ptr (type_enumeration_en (t0));
-		    LOOP_ENUM {
-			if (EQ_ptr (CRT_ENUM, p)) {
-			    printer_enum ();
-			    break;
-			}
-		    }
-		    break;
-		}
-		case type_structure_tag : {
-		    STRUCTURE_P p = DEREF_ptr (type_structure_struc (t0));
-		    LOOP_STRUCTURE {
-			if (EQ_ptr (CRT_STRUCTURE, p)) {
-			    printer_struct ();
-			    break;
-			}
-		    }
-		    is_struct = 1;
-		    break;
-		}
-		case type_onion_tag : {
-		    UNION_P p = DEREF_ptr (type_onion_un (t0));
-		    LOOP_UNION {
-			if (EQ_ptr (CRT_UNION, p)) {
-			    printer_union ();
-			    break;
-			}
-		    }
-		    break;
-		}
-		case type_ptr_tag : {
-		    TYPE_P s = DEREF_ptr (type_ptr_sub (t0));
-		    printer_ptr (s, "PTR", "x_", "");
-		    break;
-		}
-		case type_list_tag : {
-		    TYPE_P s = DEREF_ptr (type_list_sub (t0));
-		    printer_list (s, "x_");
-		    break;
-		}
-		case type_stack_tag : {
-		    TYPE_P s = DEREF_ptr (type_stack_sub (t0));
-		    output ("    LIST (%TT) y_ = LIST_stack (x_) ;\n", s);
-		    printer_list (s, "y_");
-		    break;
-		}
-		case type_vec_tag : {
-		    TYPE_P s = DEREF_ptr (type_vec_sub (t0));
-		    printer_vec (s);
-		    is_struct = 1;
-		    break;
-		}
-		case type_vec_ptr_tag : {
-		    TYPE_P s = DEREF_ptr (type_vec_ptr_sub (t0));
-		    printer_vec_ptr (s);
-		    is_struct = 1;
-		    break;
-		}
-	    }
 
-	    /* Function trailer */
-	    output ("    return ;\n");
-	    output ("}\n\n");
+			/* Function trailer */
+			output ("    return ;\n");
+			output ("}\n\n");
 
-	    /* Debugging routine */
-	    if (extra_asserts) {
-		char *star = (is_struct ? "*" : "");
-		output ("#ifdef DEBUG\n\n");
-		output ("void DEBUG_%TI\n", t);
+			/* Debugging routine */
+			if (extra_asserts) {
+			    char *star = (is_struct ? "*" : "");
+			    output ("#ifdef DEBUG\n\n");
+			    output ("void DEBUG_%TI\n", t);
 			    output ("(%TT %sx_)\n", t, star);
 			    output ("{\n    ");
-		if (is_struct) output ("if (x_) ");
-		output ("PRINT_%TI (stdout, %sx_, ", t, star);
-		output ("\"%TI\", 0) ;\n", t);
-		output ("    return ;\n");
-		output ("}\n\n");
-		output ("#endif\n\n");
-	    }
-	    output ("#endif\n\n\n");
-	}
+			    if (is_struct) output ("if (x_) ");
+			    output ("PRINT_%TI (stdout, %sx_, ", t, star);
+			    output ("\"%TI\", 0) ;\n", t);
+			    output ("    return ;\n");
+			    output ("}\n\n");
+			    output ("#endif\n\n");
+			}
+			output ("#endif\n\n\n");
+		}
     }
 
     close_file ();
