@@ -44,6 +44,6 @@ install-bin:
 	@${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${PROG} ${INSTALL_PREFIX}/${INSTALL_SUB}
 
 install-dir:
-	@${MKDIR} ${INSTALL_PREFIX}/${INSTALL_SUB}
+	${MKDIR} ${INSTALL_PREFIX}/${INSTALL_SUB}
 
 .include "tendra.version.mk"
