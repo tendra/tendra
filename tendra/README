@@ -111,7 +111,7 @@ For example:
 	$ CC=gcc ./makedefs
 
 will configure the build to use gcc as the compiler.  Follow this up with
-executing make:
+executing make (or bmake if called like that):
 
 	$ make
 
