@@ -85,7 +85,7 @@ int show_inlining  = 0;
 
 
 static int  complexity(exp e, int count, int newdecs);
-static last_new_decs = -999;
+static int last_new_decs = -999;
 
 /*
  *    APPLY COMPLEXITY TO A LIST OF EXPRESSIONS
