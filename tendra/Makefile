@@ -33,7 +33,6 @@ all:
 	@${ECHO} Starting TenDRA build...
 	@${ECHO} Bootstrapping from ${BASE_DIR}
 	@${ECHO}
-	@${ECHO} ${DIST_DIR}
 .else
 	@${ECHO} "Please run 'makedefs' prior to running make"
 	@${ECHO}
