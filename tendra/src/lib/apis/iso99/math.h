@@ -247,3 +247,27 @@
 +FUNC double sqrt(double);
 +FUNC float sqrtf(float);
 +FUNC long double sqrtl(long double);
+
+# 7.12.8.1
+
++FUNC double erf(double);
++FUNC float erff(float);
++FUNC long double erfl(long double);
+
+# 7.12.8.2
+
++FUNC double erfc(double);
++FUNC float erfcf(float);
++FUNC long double erfcl(long double);
+
+# 7.12.8.3
+
++FUNC double lgamma(double);
++FUNC float lgammaf(float);
++FUNC long double lgammal(long double);
+
+# 7.12.8.4
+
++FUNC double tgamma(double);
++FUNC float tgammaf(float);
++FUNC long double tgammal(long double);
