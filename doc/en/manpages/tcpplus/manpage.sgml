@@ -314,6 +314,17 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-i</option><replaceable>opt</replaceable></term>
+      <listitem>
+        <para>Print dependency information usable for make(1). Passing
+          -iM causes all headers to be printed, passing -iMM causes only
+          those headers between double quotes to be printed. The default
+          suffix for object files is .o and can be overridden with
+          -iO<emphasis>ext</emphasis>.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-j</option><replaceable>opt</replaceable></term>
       <listitem>
         <para>Sets the TDF output options given by
