@@ -545,6 +545,11 @@ initialise_options(void)
     for (i=0; i < sz / sizeof(pointer); i++) {
 		env_paths[i] = NULL;
 	}
+
+	/* Set the environment file table to null, and zero out counters */
+	environ_hashtable = NULL;
+	environ_count = 0;
+	
     return;
 }
 

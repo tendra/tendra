@@ -76,8 +76,8 @@ extern char* dereference_var (char *, char *, hashtable *, char *, int);
 #define TCC_TBLSZE 119
 #define TCC_KEYSZE  27
 
-hashtable* environ_hashtable;
-
+hashtable* environ_hashtable;  /* global set of env keys/values */
+int environ_count;             /* how may -Y env loads are attempted */
 /*
  *  CHARACTER TYPES
  *

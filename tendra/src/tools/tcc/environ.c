@@ -436,8 +436,32 @@ reconcile_envopts(void)
 {
 	int i;
 	htnode *hn;
+
+	/* If no -Y args were given whatsoever, give a warning, since a
+	 *  mysterious internal error ("tcc: Internal: The tool
+	 *  'C_producer' is not available'") is about to follow during the
+	 *  execute stage.  This mistake is so fundamental, we give a
+	 *  warning even without verbose being set.
+	 */
+	if (environ_count == 0)
+	{
+		error (WARNING, "not invoked with any -Y env arguments");
+ 	}
+
+	/* All subsequent warnings require a verbose flag */
 	if (!verbose)
 		return;
+
+	/* If the global env table is NULL, no -Y args succeeded, or none
+	   were given */
+	if (!environ_hashtable)
+	{
+		/* -Y args given, but failed */
+		if (environ_count > 0)
+			error (WARNING, "failed to load any environment files");
+		return;
+	}
+	
 	for (i = 0; i < TCC_TBLSZE; i++)
 	{
 		hn = environ_hashtable->node[i];
@@ -461,6 +485,10 @@ read_env(char *nm)
 {
 	int e;
 	static hashtable *ht;
+
+	/* note attempt to load -Y env file */
+	environ_count++;
+	
 	if (ht == NULL)
 	{
 		ht = init_table (TCC_TBLSZE, TCC_KEYSZE, &hash);
