@@ -1,12 +1,9 @@
 # $TenDRA$
 
-TCCFLAGS=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/xpg4.h
+# Source for the api itself
+.include "${.CURDIR}/Makefile.inc"
 
-TL=	xpg4.tl
+# Defs for lib/apis
+.include "${.CURDIR}/../Makefile.inc"
 
-SRCS=	iconv.c langinfo.c limits.c monetary.c nl_types.c search.c \
-	sem.c shm.c stdio.c time.c unistd.c wchar.c
-
-.include "../Makefile.inc"
-
-.include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
+.include "../../../../mk/base/tendra.prog.mk"

@@ -11,4 +11,5 @@ TCC_OPTS+=	-Fj \
 TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
 		-Y${OBJ_PREFIX}/lib/env/freebsd/common/80x86/default-build \
 		-I/usr/include \
-		-I.
+		-I. \
+		-I..

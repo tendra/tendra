@@ -1,15 +1,9 @@
 # $TenDRA$
 
-TCCFLAGS=       -f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/ansi.h
+# Source for the api itself
+.include "${.CURDIR}/Makefile.inc"
 
-TL=	ansi.tl
+# Defs for lib/apis
+.include "${.CURDIR}/../Makefile.inc"
 
-SRCS=	alloc.c clock_t.c ctype.c enums.c eof.c errno.c fail.c \
-	file.c float.c free.c limits.c locale.c math.c rename.c \
-	seek_con.c setjmp.c signal.c size_t.c stddef.c stdio.c \
-	stdlib.c string.c sys.c system.c time.c time_t.c tmp_max.c \
-	va_args.c va_list.c wchar_t.c xpg3_ran.c xpg4_ran.c
-
-.include "../Makefile.inc"
-
-.include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
+.include "../../../../mk/base/tendra.prog.mk"

@@ -1,11 +1,9 @@
 # $TenDRA$
 
-TCCFLAGS=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/iso.h
+# Source for the api itself
+.include "${.CURDIR}/Makefile.inc"
 
-TL=	iso.tl
+# Defs for lib/apis
+.include "${.CURDIR}/../Makefile.inc"
 
-SRCS=	errno.c mse.c mse2.c wchar.c wctype.c wint.c
-
-.include "../Makefile.inc"
-
-.include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
+.include "../../../../mk/base/tendra.prog.mk"

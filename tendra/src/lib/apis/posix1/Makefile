@@ -1,11 +1,9 @@
 # $TenDRA$
 
-TCCFLAGS=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/posix1.h
+# Source for the api itself
+.include "${.CURDIR}/Makefile.inc"
 
-TL=	posix1.tl
+# Defs for lib/apis
+.include "${.CURDIR}/../Makefile.inc"
 
-SRCS=	limits.c locale.c ssize_t.c unistd.c
-
-.include "../Makefile.inc"
-
-.include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
+.include "../../../../mk/base/tendra.prog.mk"

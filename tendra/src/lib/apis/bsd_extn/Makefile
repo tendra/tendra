@@ -1,12 +1,9 @@
 # $TenDRA$
 
-TCCFLAGS=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/bsd_extn.h
+# Source for the api itself
+.include "${.CURDIR}/Makefile.inc"
 
-TL=	bsd_extn.tl
-
-SRCS=	alloca.c errno.c in.c inet.c netdb.c param.c resource.c \
-	select.c socket.c strings.c syslog.c timeval.c uio.c
-
-.include "../Makefile.inc"
+# Defs for lib/apis
+.include "${.CURDIR}/../Makefile.inc"
 
 .include "${.CURDIR}/../../../../mk/base/tendra.prog.mk"
