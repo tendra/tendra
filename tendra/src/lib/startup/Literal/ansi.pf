@@ -76,6 +76,7 @@
 #undef int_max
 #undef uint_max
 #undef lint_max
+#undef ulint_max
 #undef llint_max
 #undef l_i
 #undef l_u
