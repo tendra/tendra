@@ -69,7 +69,7 @@
 #include "tenapp.h"
 #include "units.h"
 
-static char *pl_usage = "pl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j";
+static char *pl_usage = "pl [-p] [-Ipath] [-g] [-V] infile.pl outfile.j";
 
 int
 main(int argc, char **argv)
@@ -95,7 +95,7 @@ main(int argc, char **argv)
 				add_include (a + 2);
 				break;
 			}
-			case 'v' : {
+			case 'p' : {
 				if (a [2]) ok = 0;
 				do_pp = 1;
 				break;
