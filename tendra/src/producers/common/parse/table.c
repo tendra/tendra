@@ -62,7 +62,6 @@
 #include "hashid_ops.h"
 #include "error.h"
 #include "catalog.h"
-#include "option.h"
 #include "char.h"
 #include "file.h"
 #include "inttype.h"
@@ -88,7 +87,7 @@ PORT_ENTRY port_entry [] = {
     { "short_bits", 0, 0, btype_none },			/* 1 */
     { "int_bits", 0, 0, btype_none },			/* 2 */
     { "long_bits", 0, 0, btype_none },			/* 3 */
-    { "longlong_bits", 1, 0, btype_none },		/* 4 */
+    { "longlong_bits", 0, 0, btype_none },		/* 4 */
     { "max_bits", 1, UINT_MAX, btype_none },		/* 5 */
     { "signed_range", 0, 0, btype_none },		/* 6 */
     { "char_type", 0, 0, btype_none },			/* 7 */
@@ -299,19 +298,10 @@ read_table(string nm)
 	
     /* Set values from table */
     if (set) {
-		unsigned m;
+		unsigned m = p [ PORT_llong_bits ].value;
 		unsigned long n;
 		BASE_INFO *q = basetype_info;
 		set_char_sign (p [ PORT_char_type ].type);
-		if (p [ PORT_llong_bits ].set == 2) {
-			/* 'long long' types are allowed */
-			set_option (OPT_longlong, (unsigned) OPTION_ALLOW);
-			m = p [ PORT_llong_bits ].value;
-		} else {
-			/* 'long long' types are not allowed */
-			m = p [ PORT_long_bits ].value;
-			p [ PORT_llong_bits ].value = m;
-		}
 		if (p [ PORT_exact_range ].value == 0) {
 			/* Find maximum number of bits in an integer */
 			m = p [ PORT_max_bits ].value;
