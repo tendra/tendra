@@ -1,0 +1,50 @@
+  -- ...................................................................... --
+  -- FreeBSD SGML Public Identifiers ...................................... --
+  
+  -- $TenDRA$
+  --
+
+  -- ...................................................................... --
+  -- Language neutral ..................................................... --
+ 
+  -- These identifiers are shared across all translations of the FreeBSD
+     documentation, even though the listed language is "EN"
+  --
+
+PUBLIC "-//FreeBSD//DTD DocBook V3.1-Based Extension//EN" 
+       "freebsd.dtd"
+
+PUBLIC "-//FreeBSD//DTD DocBook V4.1-Based Extension//EN"
+	"freebsd41.dtd"
+
+PUBLIC "-//FreeBSD//DOCUMENT DocBook Stylesheet//EN"
+	"freebsd.dsl"
+
+PUBLIC "-//FreeBSD//DOCUMENT DocBook Language Neutral Stylesheet//EN"
+	"freebsd.dsl"
+
+PUBLIC	"-//TenDRA//ENTITIES DocBook Miscellaneous TenDRA Entities//EN"
+	"tendra.ent"
+
+  -- ...................................................................... --
+  -- English specific ..................................................... --
+
+  -- These identifiers should only be used by English language versions of 
+     the FreeBSD Documentation.
+
+     All other translations should base their FPIs on these, but change the
+     final parameter in the FPI to represent the target language, as 
+     appropriate.  Do not change the rest of the FPI
+  --
+
+PUBLIC 	"-//FreeBSD//ENTITIES DocBook BookInfo Entities//EN" 
+	"../../en/share/sgml/bookinfo.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Author Entities//EN"
+        "../../en/share/sgml/authors.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Team Entities//EN"
+        "../../en/share/sgml/teams.ent"
+
+PUBLIC  "-//FreeBSD//ENTITIES DocBook Newsgroup Entities//EN"
+        "../../en/share/sgml/newsgroups.ent"

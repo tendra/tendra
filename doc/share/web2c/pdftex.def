@@ -1,0 +1,2 @@
+% $TenDRA$
+\catcode`@=11\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}\catcode`@=12
