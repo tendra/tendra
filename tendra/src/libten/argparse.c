@@ -408,6 +408,7 @@ arg_print_usage(ArgListT *arg_list)
 			}
 			break;
 		default:
+			;
 		}
 		ae = strchr (msg, ' ');
 		alen = ae ? ae - msg + 1 : 0;
@@ -424,6 +425,7 @@ arg_print_usage(ArgListT *arg_list)
 			}
 			break;
 		default:
+			;
 		}
 		ae = strchr (msg, ' ');
 		alen = ae ? ae - msg + 1 : 0;
@@ -439,6 +441,7 @@ arg_print_usage(ArgListT *arg_list)
 			}
 			break;
 		default:
+			;
 		}
 
 		if (slen >= AP_LEFT_MARGIN) {
