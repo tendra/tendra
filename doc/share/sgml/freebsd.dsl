@@ -719,6 +719,18 @@
       (define %indent-screen-lines%
         "    ")
 
+(define (auto-xref-direct target 
+                          #!optional
+                          junk)
+  (let* ((substitute (list
+                      (list "%g"  (element-gi-sosofo target))
+                      (list "%n"  (element-label-sosofo target))
+                      (list "%p"  (element-page-number-sosofo target))
+                      (list "%t"  (element-title-xref-sosofo target))))
+         (tlist   (match-split-list "%g %n - %t" (assoc-objs substitute))))
+    (string-list-sosofo tlist substitute)))
+
+
       (define (article-titlepage-recto-elements)
         (list (normalize "title")
               (normalize "subtitle")
