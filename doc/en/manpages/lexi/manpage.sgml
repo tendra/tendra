@@ -32,7 +32,7 @@
   <title>Options</title>
   <variablelist>
     <varlistentry>
-      <term>"<option>-f</option>"</term>
+      <term><option>-f</option></term>
       <listitem>
         <para>Causes <command>lexi</command> to generate code describing any
           functions specified in the input.</para>
@@ -81,11 +81,180 @@
   </variablelist>
 </refsect1>
 
+<refsect1 id='lexi-input'>
+  <title>Input File</title>
+  <para>The <command>lexi</command> input file defines the lexical analyzer
+    to be created. It contains character group definitions, token mappings,
+    keyword mappings, character mappings, and control flow sequences.</para>
+
+  <para>Character group definitions are of form <literal>GROUP
+    identifier = string;</literal> where <varname>identifier</varname> is
+    composed of one or more letters and underscores. Strings may contain
+    arbitrary characters surrounded by quotes. It is possible to concatenate
+    strings with a <quote>+</quote> operator. For example,
+    <literal>qabc + qdef</literal> will form <literal>qabcdef</literal>.
+    </para>
+
+  <para>There are pre-defined character sequences <literal>{A-Z}</literal>,
+    <literal>{a-z}</literal> and <literal>{0-9}</literal>. It is possible
+    to use already defined character groups to define new character groups.
+    For example, if we have definitions for letters
+    (<literal>GROUP alpha = {A-Z};</literal>) and for digits (<literal>GROUP
+    digit = {0-9};</literal>) then definition for alphanumeric characters
+    will be <literal>GROUP alnum = "[alpha][digit]";</literal>.
+    Special group <literal>white</literal> is supposed to contain whitespace
+    characters, wich are silently ignored by the lexer.</para>
+
+  <para>The maximum number of character groups wich can be defined is 31.</para>
+
+  <para>The statement <literal>TOKEN string -> identifier;</literal> maps
+    character sequence to the C or <command>sid</command> identifier. The C
+    identifier may be one of variable or function, the variable or result of
+    the function call is returned by the lexer routine. Matched characters are
+    passed as an argument to the function.
+  </para>
+
+  <para>The statement <literal>KEYWORD string -> identifier;</literal> maps
+    character string to the <command>sid</command> terminal.</para>
+
+  <para>The statement <literal>MAPPING string -> identifier;</literal> maps
+    string of the arbitrary length to the one character. If any
+    <literal>MAPPING</literal> command is present, pre-pass analyzer will be
+    created. Pre-pass analyzer is run before the main pass, this is particulary
+    usable, for example, when mapping ANSI trigraph sequences to characters.
+    </para>
+
+  <para>Character groups, tokens, keywords and mappings can be defined
+    conditionally. This is accomplished with IF and ELSE keywords. The general
+    form of control sequence is <literal>IF (identifier) command;
+    ELSE command;</literal> where <literal>identifier</literal> is a C variable
+    and command is character group or mapping definition. The ELSE part is
+    optional. It is possible use multiple commands, surrounding them with
+    curly brackets.</para>
+
+  <para>It is possible to use C style comments in the input file.</para>
+</refsect1>
+
+<refsect1 id='lexi-examples'>
+  <title>Examples</title>
+  <para>The first example is taken from <command>lexi</command> sources,
+    this is snippet from input grammar specification.</para>
+
+  <programlisting linenumbering=unnumbered>
+/* Character groups */
+
+/* These characters are silently ignored. */
+GROUP white = " \\t\\n\\r" ;
+GROUP alpha = {A-Z} + {a-z} + "_";
+GROUP digit = {0-9};
+GROUP alphanum = "[alpha][digit]";
+
+/* Simple symbols */
+TOKEN "(" -> $open;
+TOKEN ")" -> $close;
+
+/* Comments, strings and identifiers */
+TOKEN "/*" -> get_comment();
+TOKEN """ -> get_string();
+
+/* Keywords */
+KEYWORD "GROUP" -> $group;
+KEYWORD "TOKEN" -> $token;
+  </programlisting>
+
+  <para>Next example illustrates some additional features of
+    <command>lexi</command>.</para>
+  <programlisting>
+/* Map ANSI trigraph sequence to the ordinary bracket. */
+MAPPING "??>" -> "}";
+
+/* Define conditionally some character groups and mappings. */
+IF (with_trigraphs) {
+	GROUP foo = "foo";
+	MAPPING "??<" -> "{";
+}
+  </programlisting>
+</refsect1>
+
+<refsect1 id='lexi-c-interface'>
+  <title>The C interface</title>
+  <variablelist>
+    <varlistentry>
+      <term>
+        <funcsynopsis>
+          <funcprototype>
+            <funcdef>int <function>read_token</function></funcdef>
+            <void>
+          </funcprototype>
+        </funcsynopsis>
+      </term>
+      <listitem><para>The main analyzer routine produced by
+	<command>lexi</command>.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+
+  <para>Next functions are used by analyzer.</para>
+
+  <variablelist>
+    <varlistentry>
+      <term>
+        <funcsynopsis>
+          <funcprototype>
+            <funcdef>int <function>read_char</function></funcdef>
+            <void>
+          </funcprototype>
+        </funcsynopsis>
+      </term>
+      <listitem>
+        <para>Reads next token from input stream.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <funcsynopsis>
+          <funcprototype>
+            <funcdef>void <function>unread_char</function></funcdef>
+	    <paramdef>int</paramdef>
+          </funcprototype>
+        </funcsynopsis>
+      </term>
+	<listitem>
+	  <para>Returns character to the input stream.</para>
+	</listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <funcsynopsis>
+          <funcprototype>
+            <funcdef>int <function>unknown_token</function></funcdef>
+	    <paramdef>int</paramdef>
+          </funcprototype>
+        </funcsynopsis>
+      </term>
+	<listitem>
+	  <para>This function is called by <function>read_token()</function>
+	    when unknown token is found.</para>
+	</listitem>
+  </variablelist>
+</refsect1>
+
+<refsect1 id='lexi-bugs'>
+  <title>Bugs</title>
+  <para>The <command>lexi</command> input file must contain at least one TOKEN
+    directive, unless invalid lexer is produced.</para>
+</refsect1>
+
 <refsect1 id='lexi-seealso'>
   <title>See Also</title>
   <para>
     <citerefentry>
       <refentrytitle>tcc</refentrytitle>
+      <manvolnum>1</manvolnum>
+    </citerefentry>
+    ,
+    <citerefentry>
+      <refentrytitle>sid</refentrytitle>
       <manvolnum>1</manvolnum>
     </citerefentry>
     .
