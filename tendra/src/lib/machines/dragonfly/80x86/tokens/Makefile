@@ -16,7 +16,8 @@ except_toks.t : except_toks.j ${SRC2}/except_toks
 	${TCC} -Y${SRC2}/except_toks -Ft -o except_toks.t except_toks.j
 
 var_toks.t : var_toks.j ${SRC2}/var_toks
-	${TCC} -Y${SRC2}/var_toks -Ft -o var_toks.t var_toks.j
+	${TCC} -Y${SRC2}/var_toks -Ft -o ${OBJ_SDIR}/${.TARGET}\
+		${OBJ_SDIR}/var_toks.j
 
 sys_toks.j : ${PLTEXT}
 	${TLD} -o ${OBJ_SDIR}/${.TARGET} ${PLTEXT:S/^/${OBJ_SDIR}\//}
