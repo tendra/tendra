@@ -80,8 +80,8 @@ static char vcid[] = "$Id$";
 #include "scheduler.h"
 #endif
 #include "inst_fmt.h"
-extern  FILE * as_file;
-extern bool in_noat_block;
+#include "main.h"
+#include "eval.h"
 
 void setprologue
     PROTO_N ( ( lvl ) )
@@ -370,7 +370,6 @@ void set_align
     PROTO_N ( ( al ) )
     PROTO_T ( int al )
 {
-  extern int current_alignment;
 #if DO_SCHEDULE
   Instruction new_ins = getinst();
   Instruction_data ins_dat = get_new_ins_data();

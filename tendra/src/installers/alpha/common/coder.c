@@ -118,7 +118,7 @@ static char vcid[] = "$Id$";
 #include "float.h"
 #include "szs_als.h"
 #include "translate.h"
-extern  FILE * as_file;
+
 int fscopefile;	/* file of current proc */
 
 /*extern void add_odd_bits PROTO_S ((outofline*));*/

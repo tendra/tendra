@@ -81,12 +81,9 @@
 #include "symtab.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-
+#include "alphadiags.h"
 #include "archsyms.h"
 
-
-extern long find_aux PROTO_S ((diag_type e));
-extern int add_aux PROTO_S ((AUXU,int));
 
 int field=0;
 

@@ -80,6 +80,6 @@ extern void  outfloat PROTO_S ((exp,int,ash));
 
 
 extern char fltrepr[];
-
+extern int current_alignment;
 
 

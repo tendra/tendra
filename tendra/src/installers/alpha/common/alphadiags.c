@@ -109,15 +109,8 @@ alphadiags.c,v
 #include "coder.h"
 #include "cross.h"
 #include "symbol.h"
-
+#include "main.h"
 #include "archsyms.h"
-
-extern FILE * as_file;
-extern bool last_param PROTO_S ((exp e));
-extern int currentfile;
-/* our current fileno  */
-extern int mainfile;
-/* default fileno for no diags or shape output */
 
 
 int *file_dnos;		/* dense nos for files */

@@ -116,8 +116,6 @@ procrec * procrecs;
 dec ** main_globals;
 int main_globals_index;
 
-extern filename * fds;
-
 /*
   return the appropriate storage class based on the size parameter.
   The size is given in bytes.
@@ -419,7 +417,6 @@ void translate_capsule
   int noprocs;
   int i;
   char * outline = (char*)xcalloc(80,sizeof(char));
-  extern exp* usages;
   setregalt (nowhere.answhere, NO_REG);
   nowhere.ashwhere.ashsize = 0;
   nowhere.ashwhere.ashsize = 0;

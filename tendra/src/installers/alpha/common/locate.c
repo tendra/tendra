@@ -91,7 +91,7 @@ static char vcid[] = "$Id$";
 #include "reg_defs.h"
 #include "locate.h"
 #include "fail.h"
-extern  FILE * as_file;
+#include "main.h"
 
 int locals_offset; /* the offset in bits of start of current locals */
 int frame_size;	/* the size of the current stack frame in bits */

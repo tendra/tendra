@@ -80,7 +80,7 @@ static char vcid[] = "$Id$";
 #include "inst_fmt.h"
 #include "labels.h"
 #include "xalloc.h"
-extern  FILE * as_file;
+#include "main.h"
 
 int   last_label = 31;
 

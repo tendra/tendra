@@ -89,6 +89,7 @@ static char vcid[] = "$Id$";
 #include "construct_v.h"
 #include "symbol.h"
 #include "bool.h"
+#include "main.h"
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
 

@@ -92,10 +92,10 @@ static char vcid[] = "$Id$";
 #include "pseudo.h"
 #include "labels.h"
 #include "move.h"
+#include "coder.h"
 
 /* bit masks */
 #if FS_64_BIT
-extern int stack_top;
 INT64 word_mask=0xffffL;
 INT64 long_mask=0xffffffffL;
 INT64 one_64=1L;

@@ -59,6 +59,7 @@
 
 /**/
 
+#include "archsyms.h"
 #include "common_types.h"
 
 void init_table_space PROTO_S ((int, int));
@@ -110,5 +111,5 @@ int new_esym_d PROTO_S ((char *,int,int,int,diag_type,int));
 
 void output_symtab PROTO_S ((char*));
 
-
+int add_aux PROTO_S ((AUXU,int));
 

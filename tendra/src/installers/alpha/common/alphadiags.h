@@ -63,8 +63,8 @@
 #include "diagtypes.h"
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
+extern filename *fds;
 extern void collect_files PROTO_S ((filename f));
-extern current_file;		/* dense no of current source file */
 extern void stab_file PROTO_S ((int i));	/* symtab entry for file 
 					   source file i */
 extern void stabd PROTO_S ((int findex, int lno));/*.. entry for linenos */

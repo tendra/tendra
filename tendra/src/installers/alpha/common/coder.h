@@ -70,6 +70,10 @@
 
 extern where nowhere;
 extern int fscopefile;
+extern int in_general_proc;
+extern int arg_stack_space;
+extern int stack_top;
+extern long notbranch[6];
 
 extern bool last_param PROTO_S ((exp));
 extern makeans make_code PROTO_S ((exp e, space sp, where dest, int exitlab));

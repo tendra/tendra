@@ -81,8 +81,7 @@ static char vcid[] = "nil";
 #include "expmacs.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-extern  char diagnose;
-
+#include "flags.h"
 #include "archsyms.h"
 
 
@@ -113,8 +112,6 @@ STRINGS* local_strings;
 AUXTAB* aux_symbols;
 BSTACK* blockstack;
 
-int add_aux PROTO_S ((AUXU,int));
-	
 int* file_inds;
 int* aux_inds;
 int* str_inds;

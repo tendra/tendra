@@ -101,16 +101,13 @@ static char vcid[] = "$Id$";
 #include "coder.h"
 #include "szs_als.h"
 #include "scan.h"
+#include "me_fns.h"
+#include "main.h"
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 static int stparam, fixparam, floatparam;
        /* used by scan to set initial parameter	positions */
 static int numparams=0;
-
-extern alignment long_to_al PROTO_S ((int)); 
-	
-extern long notbranch[6];
-extern bool do_tlrecursion;
 
 static bool rscope_level = 0;
 static bool nonevis = 1;

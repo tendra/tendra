@@ -89,11 +89,11 @@
 #include "code_here.h"
 #include "maxminmacs.h"
 #include "pseudo.h"
+#include "inst_fmt.h"
 #if DO_SCHEDULE
 static int instruction_number=0;
 #endif
 int andpeep = 0;
-extern int extended_comments;
 bool in_noat_block=FALSE;
 
 

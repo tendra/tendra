@@ -77,7 +77,6 @@ static char vcid[] = "$Id$";
 #include "main.h"
 #include "out_ba.h"
 #include "xalloc.h"
-extern  FILE * ba_file;
 
 static  binasm ba;
 
