@@ -122,6 +122,8 @@ int in_preproc_dir = 0;
 int no_preproc_dir = 0;
 int in_pragma_dir = 0;
 int in_hash_if_exp = 0;
+int inclusion_dependencies = DEP_NONE;
+const char *inclusion_obj_suffix = ".o";
 int pragma_number = 0;
 int preproc_only = 0;
 int preproc_space = 0;
@@ -2424,6 +2426,42 @@ read_preproc_dir(int act, int prev)
 
 
 /*
+ *    PRINT DEPENDENCIES FOR MAKE
+ *
+ *    Adds the file fn to the current dependency line.  If output is not a
+ *    null pointer, a new dependency list is begun on the next line.  For
+ *    the target, the file extension is replaced with inclusion_obj_suffix.
+ *    Lines longer than 72 characters are wrapped.
+ */
+
+void
+print_dependency(const char *fn, FILE *output)
+{
+	static FILE *f = NULL;
+	static int col = 0;
+
+	if (output != NULL) {
+		/* Search the filename part and replace the extension. */
+		const char *dot;
+		const char *slash = strrchr (fn, char_slash);
+		const char *file = fn;
+		if (slash != NULL) file = slash + 1;
+		dot = strrchr (file, char_dot);
+		if (dot == NULL) dot = file + strlen (file);
+		if (f != NULL) putc ('\n', f);
+		f = output;
+		col = fprintf (f, "%.*s%s:", (int)(dot - file), file,
+		    inclusion_obj_suffix);
+	}
+	if (col + strlen (fn) > 72) {
+		fputs (" \\\n ", f);
+		col = 2;
+	}
+	col += fprintf (f, " %s", fn);
+}
+
+
+/*
  *    PREPROCESS A FILE
  *
  *    This routine gives the preprocessor entry point for the compiler.  Each
@@ -2456,13 +2494,19 @@ preprocess_file(void)
     }
     f = output_file [ OUTPUT_PREPROC ];
     bf = clear_buffer (&preproc_buff, f);
-    fprintf_v (f, "#line 1 \"%s\"", strlit (fn));
+    if (inclusion_dependencies == DEP_NONE) {
+		fprintf_v (f, "#line 1 \"%s\"", strlit (fn));
+    } else {
+		print_dependency (strlit (fn), f);
+    }
     crt_file_changed = 1;
 	
     /* Scan through preprocessing tokens */
     while (t = expand_preproc (EXPAND_NORMAL), t != lex_eof) {
 		/* Allow for skipped files */
 		if (crt_file_type) continue;
+		/* The actual printing is done via start_include() */
+		if (inclusion_dependencies != DEP_NONE) continue;
 		
 		/* Replace keywords by underlying identifier */
 		if (t >= FIRST_KEYWORD && t <= LAST_KEYWORD) {

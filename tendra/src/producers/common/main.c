@@ -182,6 +182,7 @@ static PROGRAM_ARG prog_args [] = {
     { 'f', 1, "<file>", "add a start-up file" },
     { 'g', 0, "<level>", "enable diagnostics mode" },
     { 'h', 0, NULL, "print this help page" },
+    { 'i', 1, "<opts>", "print dependencies for make" },
     { 'j', 1, "<opts>", "set TDF output options" },
     { 'm', 1, "<opts>", "set error printing options" },
     { 'n', 1, "<file>", "specify portability table" },
@@ -632,6 +633,21 @@ process_args(int argc, char **argv)
 				case 'h' : {
 					/* Help option */
 					report_usage (error_file);
+					break;
+				}
+					
+				case 'i' : {
+					/* Generate makefile dependencies */
+					if (streq (arg, "M")) {
+						inclusion_dependencies = DEP_ALL;
+					} else if (streq (arg, "MM")) {
+						inclusion_dependencies = DEP_NO_SYSTEM;
+					} else if (arg [0] == 'O') {
+						inclusion_obj_suffix = arg + 1;
+					} else {
+						known = 0;
+					}
+					if (known != 0) preproc_only = 1;
 					break;
 				}
 					

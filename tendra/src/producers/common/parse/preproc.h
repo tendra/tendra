@@ -78,6 +78,7 @@ extern void preprocess_file(void);
 extern void start_preproc_if (void);
 extern int clear_preproc_if (void);
 extern int patch_cond(int, int);
+extern void print_dependency(const char *fn, FILE *output);
 
 
 /*
@@ -96,6 +97,25 @@ extern int in_hash_if_exp;
 extern EXP crt_hash_if_exp;
 extern LOCATION preproc_loc;
 extern IDENTIFIER token_macro;
+
+
+/*
+ *    INCLUSION DEPENDENCIES
+ *
+ *    The variable inclusion_dependencies controls whether and how
+ *    dependency lines for make should be printed.  DEP_ALL prints all
+ *    included files whereas DEP_NO_SYSTEM omits those between angle
+ *    brackets.  Both imply preprocessor-only mode.
+ */
+
+enum {
+	DEP_NONE,
+	DEP_ALL,
+	DEP_NO_SYSTEM
+};
+
+extern int inclusion_dependencies;
+extern const char *inclusion_obj_suffix;
 
 
 /*

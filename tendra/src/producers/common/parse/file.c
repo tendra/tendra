@@ -55,6 +55,8 @@
  */
 
 
+#include <limits.h>
+
 #include "config.h"
 #include "system.h"
 #include "c_types.h"
@@ -1234,6 +1236,22 @@ start_include(string nm, int q, int st, int next)
     }
     if (option (OPT_include_verbose)) {
 		report (preproc_loc, ERR_cpp_include_open (file));
+    }
+    if (inclusion_dependencies != DEP_NONE) {
+		/* All included files with an inclusion depth greater than
+		 * ignore_depth are ignored.  ignore_depth is set to prevent
+		 * printing "" headers that are included from <> headers if we're
+		 * only interested in the former ones, and to prevent printing files
+		 * that are included from start-up or end-up files. */
+		static unsigned long ignore_depth = ULONG_MAX;
+		if (c <= ignore_depth) ignore_depth = ULONG_MAX;
+	   	if (st == 0 && (inclusion_dependencies == DEP_ALL || q == char_quote)) {
+			if (ignore_depth == ULONG_MAX) {
+				print_dependency (strlit (input_name), NULL);
+			}
+		} else if (ignore_depth == ULONG_MAX) {
+			ignore_depth = c;
+		}
     }
     crt_loc.line--;
     crt_loc.column = 0;
