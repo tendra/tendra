@@ -5,7 +5,13 @@
 check_cc()
 {
 	if [ "x$CC" = "x" ]; then
-		CC="cc"
+		CC="cc";
+	elif [ "x$CC" = "xCC" ]; then
+		CC="cc";
+		echo "NOTICE: CC is often the C++ compiler, we just need a normal C compiler,";
+		echo "        setting CC to \"cc\"."
+		echo;
+
 	fi
 }
 
