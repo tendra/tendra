@@ -255,6 +255,8 @@ main(int argc, char **argv)
 		need_alg = 1;
 		had_alg = 1;
 	}
+	if (!had_alg)
+		MSG_getopt_not_enough_arguments();
 	if (argc > 1)
 		MSG_getopt_too_many_arguments ();
 	out = (argc == 1 ? *argv : ".");
