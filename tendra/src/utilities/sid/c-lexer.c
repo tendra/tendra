@@ -67,8 +67,10 @@
  *
  *** Change Log:
  * $Log$
- * Revision 1.3  2002/12/12 07:27:01  asmodai
- * Replace certain 8 spaces with tabs.
+ * Revision 1.4  2002/12/12 07:30:23  asmodai
+ * Add recognition of carriage returns (\r) for Cygwin.
+ *
+ * Submitted by:	Boris Popov <bp@butya.kz>
  *
  * Revision 1.1.1.1  1998/01/17  15:57:42  release
  * First version to be checked into rolling release.
@@ -95,6 +97,8 @@
       case '\0': \
 	ISTREAM_HANDLE_NULL ((istream), redo, eof); \
 	break; \
+      case '\r': \
+	goto redo; \
       case '\n': \
 	istream_inc_line (istream); \
 	break; \
@@ -143,6 +147,8 @@ c_lexer_skip_white_space(IStreamP istream)
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo1, eof);
 			break;
+		case '\r':
+			goto redo1;
 		case '\n':
 			istream_inc_line (istream);
 			break;
@@ -201,6 +207,8 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
 			E_c_null_character_in_builtin (istream);
 			break;
+		case '\r':
+			goto redo;
 		case '\n':
 			istream_inc_line (istream);
 			E_c_newline_in_builtin (istream);
@@ -362,6 +370,8 @@ c_lexer_read_at(IStreamP istream, DStringP dstring,
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo, error);
 		goto error;
+	case '\r':
+		goto redo;
 	case '\n':
 		istream_inc_line (istream);
 		goto error;
@@ -446,6 +456,8 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 			istream_inc_line (istream);
 			dstring_append_char (&dstring, c);
 			break;
+		case '\r':
+			goto redo3;
 		case '@':
 			if (c_lexer_read_at (istream, &dstring, code)) {
 				goto done;
