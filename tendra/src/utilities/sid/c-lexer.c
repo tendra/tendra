@@ -65,24 +65,7 @@
  * of SID identifiers should be made both here and in the file
  * "../parser/lexer.c".
  *
- *** Change Log:
- * $Log$
- * Revision 1.4  2002/12/12 07:30:23  asmodai
- * Add recognition of carriage returns (\r) for Cygwin.
- *
- * Submitted by:	Boris Popov <bp@butya.kz>
- *
- * Revision 1.1.1.1  1998/01/17  15:57:42  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/15  09:55:56  smf
- * Brought into line with OSSG C Coding Standards Document, as per
- * "CR94_178.sid+tld-update".
- *
- * Revision 1.1.1.1  1994/07/25  16:04:13  smf
- * Initial import of SID 1.8 non shared files.
- *
- **/
+ *** Change Log:*/
 
 /****************************************************************************/
 
