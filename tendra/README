@@ -78,6 +78,15 @@ from the TenDRA web site:
 INSTALLATION INFORMATION
 ------------------------
 
+TenDRA has a few dependencies, of which only one would most likely be missing
+on any decent Unix or Unix-like system:
+
+ash,
+awk,
+sed
+Simon J. Gerraty's bmake [http://www.crufty.net/help/sjg/bmake.html]
+Used version: http://www.crufty.net/ftp/pub/sjg/bmake-20040511.tar.gz
+
 The main source archive can be extracted using:
 
 pax.bz2:	bzip2 -dc TenDRA-<version|date>.pax.bz2 | pax -rv
