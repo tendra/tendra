@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+   $TenDRA$
 */
 
 
@@ -33,8 +35,10 @@ $Author$
 $Date$
 $Revision$
 $Log$
-Revision 1.1  2002/01/26 21:32:02  asmodai
-Initial version of TenDRA 4.1.2.
+Revision 1.2  2002/11/19 06:47:38  asmodai
+Add recognition of carriage return, allowing this to work under Windows.
+
+Submitted by:	Boris Popov <bp@butya.kz>
 
  * Revision 1.1.1.1  1998/01/17  15:57:23  release
  * First version to be checked into rolling release.
@@ -215,7 +219,8 @@ static int terminator
     switch (x) {
   	case '(': case ')': case '[': case ']': case '{':
   	case '}': case ':': case ';': case ',': case ' ':
-  	case 0: case '\t': case '\n': case '\'': case '"': case -1: {
+	case 0: case '\t': case '\n': case '\r': case '\'': case '"':
+	case -1: {
 	    return 1;
 	}
   	case '0': case '1': case '2': case '3': case '4':
