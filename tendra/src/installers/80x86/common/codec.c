@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,19 +55,6 @@
  */
 
 
-/* 80x86/codec.c */
-
-
-
-/**********************************************************************
- *
- *                            codec.c
- *
- *   codec produces code for operations which produce values.
- *   e is the operation and dest is where the result is to be put.
-
-**********************************************************************/
-
 #include "config.h"
 #include "common_types.h"
 
@@ -93,9 +80,9 @@
 #include "codec.h"
 
 
-/* PROCEDURES */
-
-/* returns true if is_o(e) but not a possible 80386 operand */
+/*
+ * Returns true if is_o(e) but not a possible 80386 operand
+ */
 int
 is_crc(exp e)
 {
@@ -103,39 +90,37 @@ is_crc(exp e)
 	if (name(e) == name_tag) {
 		if (isvar(son(e)))
 			return (!isglob(son(e)) || PIC_code);
-		/* else */
+
 		return (son(son(e)) == nilexp ||
 				(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
 				 !(brog(son(e)) -> dec_u.dec_val.extnamed)) ||
 				(name(son(son(e))) == ident_tag && isparam(son(son(e)))));
 	}
-	
+
 	if (name(e) == reff_tag || name(e) == field_tag)
 		return 1;
-	
+
 	if (name(e) != cont_tag)
 		return 0;
-	
+
 	if (name(son(e)) == cont_tag)
 		return 1;
-	
+
 	return name(son(e)) == reff_tag &&
 		name(son(son(e))) == cont_tag;
 }
 
-/* op is a procedure for encoding a unary
- *   operation. If a is a possible 80386
- *   operand, uop applies this operator to
- *   produce the code for a, leaving the
- *   result in dest. sha gives the shape for
- *   the operation. If a is not a possible
- *   80386 operand, then uop produces code
- *   for a to put it into eax (reg0) and
- *   then applies op to eax, putting the
- *   result into dest. */
+/*
+ * Process unary operation.
+ * op	is a procedure for encoding
+ * a	operand. If it is a possible 80386 operand, uop applies this operator
+ *		to produce the code for a, leaving the result in dest.  Otherwise,
+ *		uop produces code for a to put it into eax (reg0) and then applies op
+ *		to eax, putting the result into dest
+ * sha	gives the shape for the operation.
+ */
 void
-uop(void (*op)(shape, where, where), shape sha,
-	exp a, where dest, ash stack)
+uop(void (*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 {
 	if (!is_o (name (a)) || is_crc(a)) {
 		where qw;
@@ -172,27 +157,25 @@ no_reg_needed(exp e)
 	return 0;
 }
 
-/* op is a procedure for encoding a binary
- *   operation. Not more than one of a and b
- *   will not be a possible 80386 operand.
- *   This has been ensured by scan2. If a
- *   and b are both possible 80386 operands,
- *   bop applies this operator to produce
- *   the code, leaving the result in dest.
- *   sha gives the shape for the operation.
- *   If either a or b is not a possible
- *   80386 operand, then bop produces code
- *   for it to put it into eax (reg0) and
- *   then applies op to eax and the other
- *   operand, putting the result into dest.
+/*
+ * Process binary operation.
+ * op is a procedure for encoding a binary operation on a and b.
+ * sha gives the shape for the operation.
+ *
+ * Not more than one of operands will not be a possible 80386 operand.
+ * This has been ensured by scan2. If both arguments are possible 80386
+ * operands, bop applies op to produce the code, leaving the result in dest.
+ *
+ * If either a or b is not a possible 80386 operand, then bop produces code
+ * for it to put it into eax (reg0) and then applies op to eax and the other
+ * operand, putting the result into dest.
  */
 void
 bop(void (*op)(shape, where, where, where),
-	shape sha, exp a, exp b, where dest,
-	ash stack)
+	shape sha, exp a, exp b, where dest, ash stack)
 {
 	where qw;
-	
+
 	if (!is_o (name (a)) || is_crc(a)) {
 		if (!inmem(dest) && no_reg_needed(b))
 			qw.where_exp = copyexp (dest.where_exp);
@@ -205,7 +188,7 @@ bop(void (*op)(shape, where, where, where),
 		retcell (qw.where_exp);
 		cond1_set = 0;
 		return;
-	};
+	}
 	if (!is_o (name (b)) || is_crc(b)) {
 		if (!inmem(dest) && no_reg_needed(a))
 			qw.where_exp = copyexp (dest.where_exp);
@@ -218,77 +201,82 @@ bop(void (*op)(shape, where, where, where),
 		retcell (qw.where_exp);
 		cond1_set = 0;
 		return;
-	};
-	
+	}
+
 	(*op) (sha, mw (a, 0), mw (b, 0), dest);
 	return;
 }
 
-/* process the binary logical operation
- *   exp. op is the compiling procedure for
- *   the operation. It is commutative and
- *   associative, the operation takes a
- *   variable number of arguments. It is
- *   therefore necessary to avoid the
- *   mistake of assigning to the destination
- *   (dest) inappropriately if its value is
- *   used in the expression. At most one of
- *   the arguments will not be a possible
- *   80386 operand. If there is such an
- *   argument, logop precomputes it, putting
- *   the value into reg0. */
+/*
+ * Process the binary logical operation e
+ * op is the compiling procedure for the operation.
+ *
+ * Operation is commutative and associative, it takes a variable number
+ * of arguments. It is therefore, necessary to avoid the mistake of assigning
+ * to the destination (dest) inappropriately if its value is used
+ * in the expression.
+ * At most one of the arguments will not be a possible 80386 operand.
+ * If there is such an argument, logop precomputes it, putting the value
+ * into reg0.
+ */
 static void
-logop(void (*op)(shape, where, where, where),
-	  exp e, where dest, ash stack)
+logop(void (*op)(shape, where, where, where), exp e, where dest, ash stack)
 {
 	exp arg1 = son (e);
 	exp arg2 = bro (arg1);
 	shape sha = sh(e);
 	exp t, u;
 	where qw;
-	
+
 	if (last (arg1)) {
 		coder (dest, stack, arg1);
 		return;
-	};
-	
+	}
+
 	if (last (arg2)) {		/* just two arguments. */
 		bop (op, sha, arg1, arg2, dest, stack);
 		return;
-	};
-	/* need to take care about overlap between dest and args or to avoid
-	 *     extra push. So use reg0. */
+	}
+	/*
+	 * Need to take care about overlap between dest and args or to avoid
+	 * extra push. So use reg0.
+	 */
 	qw.where_exp = copyexp (reg0.where_exp);
 	sh (qw.where_exp) = sha;
 	qw.where_off = 0;
 	t = arg1;
-	/* now look for an argument which is not a possible 80386 operand */
+
+	/* Now look for an argument which is not a possible 80386 operand */
 	while (1) {
 		if (!is_o (name (t)) || is_crc(t))
 			break;
 		if (last (t)) {
 			t = nilexp;
 			break;
-		};
+		}
 		t = bro (t);
-	};
-	
-	if (t == nilexp) {		/* all arguments are possible 80386
-							 *				   operands */
+	}
+
+	if (t == nilexp) {
+		/*
+		 * All arguments are possible 80386 operands
+		 */
 		(*op) (sha, mw (arg1, 0), mw (arg2, 0), qw);
 		t = bro (arg2);
 		while (!last (t)) {
 			(*op) (sha, mw (t, 0), qw, qw);/* encode operations in turn */
 			t = bro (t);
-		};
+		}
 		(*op) (sha, mw (t, 0), qw, dest);/* encode final operation */
 		retcell (qw.where_exp);
 		cond1_set = 0;
 		return;
-	};
-	
-	coder (qw, stack, t);		/* encode the single argument which is not
-								 *				   a possible 80386 operend */
+	}
+
+	/*
+	 * Encode the single argument which is not a possible 80386 operand
+	 */
+	coder (qw, stack, t);
 	u = arg1;
 	/* now encode the remaining operations */
 	while (1) {
@@ -297,49 +285,50 @@ logop(void (*op)(shape, where, where, where),
 				(*op) (sha, mw (u, 0), qw, dest);
 			else
 				(*op) (sha, mw (u, 0), qw, qw);
-		};
+		}
 		if (last (u))
 			break;
 		u = bro (u);
-	};
+	}
 	retcell (qw.where_exp);
 	cond1_set = 0;
 	return;
 }
 
-/* process the multiply operation
- *   exp. op is the compiling procedure for
- *   the operation. It is commutative and
- *   associative, the operation takes a
- *   variable number of arguments. It is
- *   therefore necessary to avoid the
- *   mistake of assigning to the destination
- *   (dest) inappropriately if its value is
- *   used in the expression. At most one of
- *   the arguments will not be a possible
- *   80386 operand. If there is such an
- *   argument, it is precomputed, putting
- *   the value into reg0. */
+/*
+ * Process the multiply operation e.
+ *
+ * op is the compiling procedure for the operation.
+ *
+ * Operation is commutative and associative, it takes a variable number
+ * of arguments. It is therefore, necessary to avoid the mistake
+ * of assigning to the destination (dest) inappropriately if its value is
+ * used in the expression.
+ *
+ * At most one of the arguments will not be a possible 80386 operand.
+ * If there is such an argument, it is precomputed, putting the value into reg0.
+ */
 static void
-multop(void (*op)(shape, where, where, where),
-	   exp e, where dest, ash stack)
+multop(void (*op)(shape, where, where, where), exp e, where dest, ash stack)
 {
 	exp arg1 = son (e);
 	exp arg2 = bro (arg1);
 	exp t, u;
 	where qw;
-	
+
 	if (last (arg1)) {
 		coder (dest, stack, arg1);
 		return;
-	};
-	
+	}
+
 	if (last (arg2)) {		/* just two arguments. */
 		bop (op, sh (e), arg1, arg2, dest, stack);
 		return;
-	};
-	/* need to take care about overlap between dest and args or to avoid
-	 *     extra push. So use reg0. */
+	}
+	/*
+	 * Need to take care about overlap between dest and args or to avoid
+	 * extra push. So use reg0.
+	 */
 	qw.where_exp = copyexp (reg0.where_exp);
 	sh (qw.where_exp) = sh (e);
 	qw.where_off = 0;
@@ -351,26 +340,30 @@ multop(void (*op)(shape, where, where, where),
 		if (last (t)) {
 			t = nilexp;
 			break;
-		};
+		}
 		t = bro (t);
-	};
-	
-	if (t == nilexp) {		/* all arguments are possible 80386
-							 *				   operands */
+	}
+
+	if (t == nilexp) {
+		/*
+		 * All arguments are possible 80386 operands
+		 */
 		(*op) (sh (e), mw (arg1, 0), mw (arg2, 0), qw);
 		t = bro (arg2);
 		while (!last (t)) {
 			(*op) (sh (e), mw (t, 0), qw, qw);/* encode operations in turn */
 			t = bro (t);
-		};
+		}
 		(*op) (sh (e), mw (t, 0), qw, dest);/* encode final operation */
 		retcell (qw.where_exp);
 		cond1_set = 0;
 		return;
-	};
-	
-	coder (qw, stack, t);		/* encode the single argument which is not
-								 *				   a possible 80386 operend */
+	}
+
+	/*
+	 * Encode the single argument which is not a possible 80386 operand.
+	 */
+	coder (qw, stack, t);
 	u = arg1;
 	/* now encode the remaining operations */
 	while (1) {
@@ -379,21 +372,22 @@ multop(void (*op)(shape, where, where, where),
 				(*op) (sh (e), mw (u, 0), qw, dest);
 			else
 				(*op) (sh (e), mw (u, 0), qw, qw);
-		};
+		}
 		if (last (u))
 			break;
 		u = bro (u);
-	};
+	}
 	retcell (qw.where_exp);
 	cond1_set = 0;
 	return;
 }
 
-/* if a is a negation form b-son(a)
- *   otherwise b+a in dest */
+/*
+ * if a is a negation, produce b - son(a).
+ * Otherwise encode b + a in dest
+ */
 static void
-addsub(shape sha, where a, where b, where dest,
-	   exp e)
+addsub(shape sha, where a, where b, where dest, exp e)
 {
 	UNUSED(e);
 	if (name (a.where_exp) == neg_tag)
@@ -403,37 +397,34 @@ addsub(shape sha, where a, where b, where dest,
 	return;
 }
 
-
-
-/***********************************************************************
- *   codec outputs the code which evaulates e and puts the result into
- *   dest.
- ***********************************************************************/
-
-
-/* encode e, putting the result into dest.
- *   stack is the current stack level */
+/*
+ * Produce code which evaluates e and puts the result into dest.
+ *
+ * stack is the current stack level
+ */
 void
 codec(where dest, ash stack, exp e)
 {
 	switch (name (e)) {
-    case plus_tag:
-	{				/* at most one of the arguments will not
-					 *				   be a possible 80386 operand */
+	case plus_tag:
+	{
+		/*
+		 * At most one of the arguments will not be a possible 80386 operand
+		 */
 		exp arg1 = son (e);
 		exp arg2 = bro (arg1);
 		exp t, u, v;
 		where qw;
 		exp old_overflow_e = overflow_e;
-		
+
 		if (last (arg1)) {	/* there is only one argument */
 			coder (dest, stack, arg1);
 			return;
-		};
-		
+		}
+
 		if (!optop(e))
 			overflow_e = e;
-		
+
 		if (last (arg2) && is_o (name (arg1)) && !is_crc(arg1) &&
 			((is_o (name (arg2)) && !is_crc(arg2))||
 			 (name (arg2) == neg_tag &&
@@ -443,14 +434,16 @@ codec(where dest, ash stack, exp e)
 			addsub (sh (e), mw (arg2, 0), mw (arg1, 0), dest, e);
 			overflow_e = old_overflow_e;
 			return;
-		};
-		/* need to take care about overlap between dest and args or to
-		 *	   avoid extra push. So use reg0. */
+		}
+		/*
+		 * Need to take care about overlap between dest and args or to
+		 * avoid extra push. So use reg0.
+		 */
 		t = arg1;
 		qw.where_exp = copyexp (reg0.where_exp);
 		sh (qw.where_exp) = sh (e);
 		qw.where_off = 0;
-		
+
 		/* now look for argument which is not a possible 80386 operand */
 		while (1) {
 			if ((!is_o (name (t)) || is_crc(t)) &&
@@ -460,16 +453,16 @@ codec(where dest, ash stack, exp e)
 			if (last (t)) {
 				t = nilexp;
 				break;
-			};
+			}
 			t = bro (t);
-		};
-		
+		}
+
 		if (t == nilexp && name (arg1) == neg_tag &&
 			name (arg2) == neg_tag)
 			t = arg1;
-		
-		if (t == nilexp) {	/* all arguments are possible 80386
-							 *				   operands */
+
+		if (t == nilexp) {
+			/* All arguments are possible 80386 operands */
 			t = bro (arg2);
 			if (name (arg1) == neg_tag)
 				addsub (sh (e), mw (arg1, 0), mw (arg2, 0),
@@ -477,23 +470,23 @@ codec(where dest, ash stack, exp e)
 			else
 				addsub (sh (e), mw (arg2, 0), mw (arg1, 0),
 						(t == e) ? dest : qw, e);
-			if (t == e)
-			{
+
+			if (t == e)	{
 				overflow_e = old_overflow_e;
 				return;
-			};
+			}
 			while (!last (t)) {
 				u = bro (t);
 				addsub (sh (e), mw (t, 0), qw, qw, e);
 				t = u;
-			};
+			}
 			addsub (sh (e), mw (t, 0), qw, dest, e);
 			overflow_e = old_overflow_e;
 			return;
-		};
-		
-		coder (qw, stack, t);	/* encode the argument which is not a
-								 *				   possible 80386 operand */
+		}
+
+		/* Encode the argument which is not a possible 80386 operand */
+		coder (qw, stack, t);
 		u = arg1;
 		/* now encode the remaining operations */
 		while (1) {
@@ -503,28 +496,30 @@ codec(where dest, ash stack, exp e)
 					addsub (sh (e), mw (u, 0), qw, dest, e);
 				else
 					addsub (sh (e), mw (u, 0), qw, qw, e);
-			};
+			}
 			if (last (u))
 				break;
 			u = v;
-		};
+		}
 		retcell (qw.where_exp);
-        cond1_set = 0;
-        overflow_e = old_overflow_e;
+		cond1_set = 0;
+		overflow_e = old_overflow_e;
 		return;
-	};
-    case addptr_tag: {		/* use index operation */
+	}
+	case addptr_tag: {		/* use index operation */
 		mova (mw (e, 0), dest);
 		return;
-	};
-    case chvar_tag: {
+	}
+	case chvar_tag: {
 		exp a = son (e);
 		exp old_overflow_e = overflow_e;
-        if (!optop(e))
+
+		if (!optop(e))
 			overflow_e = e;
 		if (!is_o (name (a)) || is_crc(a)) {
-			/* argument is not a possible 80386
-			 *				   operand, so evaluate it in reg0 */
+			/*
+			 * Argument is not a possible 80386 operand, so evaluate it in reg0
+			 */
 			if (inmem (dest) ||
 				(shape_size(sh(a)) == 8 && bad_from_reg(dest)) ||
 				shape_size(sh(a)) == 64) {
@@ -538,135 +533,135 @@ codec(where dest, ash stack, exp e)
 				retcell (qw.where_exp);
 				cond1_set = 0;
 				return;
-			};
+			}
 			coder (dest, stack, a);
 			if (name(sh(e)) > name(sh(a)))
 				change_var_sh (sh (e), sh (a), dest, dest);
 			overflow_e = old_overflow_e;
 			return;
-		};
+		}
 		change_var_check (sh (e), mw (a, 0), dest);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case minus_tag:
+	}
+	case minus_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (!optop(e))
+
+		if (!optop(e))
 			overflow_e = e;
 		bop (sub, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case subptr_tag:
-    case minptr_tag:
-    case make_stack_limit_tag:
+	}
+	case subptr_tag:
+	case minptr_tag:
+	case make_stack_limit_tag:
 	{
 		bop (sub, sh (e), bro (son (e)), son (e), dest, stack);
 		return;
-	};
-    case mult_tag:
+	}
+	case mult_tag:
 	{
-        if (!optop(e))
-		{
+		if (!optop(e)) {
 			exp old_overflow_e = overflow_e;
-            overflow_e = e;
+
+			overflow_e = e;
 			multop (multiply, e, dest, stack);
-            overflow_e = old_overflow_e;
-		}
-        else
+			overflow_e = old_overflow_e;
+		} else
 			multop (mult, e, dest, stack);
 		return;
-	};
-    case div2_tag:
+	}
+	case div2_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (div2, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case div1_tag:
+	}
+	case div1_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (div1, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case div0_tag:
+	}
+	case div0_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (div0, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case neg_tag:
+	}
+	case neg_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (!optop(e))
+		if (!optop(e))
 			overflow_e = e;
 		uop (negate, sh (e), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case shl_tag:
+	}
+	case shl_tag:
 	{
 		exp old_overflow_e = overflow_e;
 		overflow_e = e;
-        if (!optop(e))
+		if (!optop(e))
 			overflow_e = e;
 		bop (shiftl, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case shr_tag:
+	}
+	case shr_tag:
 	{
 		bop (shiftr, sh (e), bro (son (e)), son (e), dest, stack);
 		return;
-	};
-    case rotl_tag:
+	}
+	case rotl_tag:
 	{
 		bop (rotatel, sh (e), bro (son (e)), son (e), dest, stack);
 		return;
-	};
-    case rotr_tag:
+	}
+	case rotr_tag:
 	{
 		bop (rotater, sh (e), bro (son (e)), son (e), dest, stack);
 		return;
-	};
-    case mod_tag:
+	}
+	case mod_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (mod, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case rem2_tag:
+	}
+	case rem2_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (rem2, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case rem0_tag:
+	}
+	case rem0_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (errhandle(e))
+		if (errhandle(e))
 			overflow_e = e;
 		bop (rem0, sh (e), bro (son (e)), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case round_tag:
+	}
+	case round_tag:
 	{
 		shape s = sh (e);
 		where d;
@@ -676,7 +671,7 @@ codec(where dest, ash stack, exp e)
 			if (inmem(dest))
 				d = reg0;
 		}
-        setup_fl_ovfl(e);
+		setup_fl_ovfl(e);
 		switch (round_number(e)) {
 		case 0:
 			uop (frnd0, s, son (e), d, stack);
@@ -693,8 +688,8 @@ codec(where dest, ash stack, exp e)
 		case 4:
 			uop (frnd4, s, son (e), d, stack);
 			break;
-		};
-        test_fl_ovfl(e, d);
+		}
+		test_fl_ovfl(e, d);
 		if (name(s) != name(sh(e))) {
 			exp old_overflow_e = overflow_e;
 			if (!optop(e))
@@ -703,80 +698,80 @@ codec(where dest, ash stack, exp e)
 			overflow_e = old_overflow_e;
 		}
 		return;
-	};
-    case fplus_tag:
+	}
+	case fplus_tag:
 	{
-        setup_fl_ovfl(e);
+		setup_fl_ovfl(e);
 		fl_multop (fplus_tag, sh (e), son (e), dest);
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case fmult_tag:
+	}
+	case fmult_tag:
 	{
-        setup_fl_ovfl(e);
+		setup_fl_ovfl(e);
 		fl_multop (fmult_tag, sh (e), son (e), dest);
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case fminus_tag:
+	}
+	case fminus_tag:
 	{
-        setup_fl_ovfl(e);
+		setup_fl_ovfl(e);
 		fl_binop (fminus_tag, sh (e), mw (bro (son (e)), 0),
 				  mw (son (e), 0), dest, bro (son (e)));
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case fdiv_tag:
+	}
+	case fdiv_tag:
 	{
-        setup_fl_ovfl(e);
+		setup_fl_ovfl(e);
 		fl_binop (fdiv_tag, sh (e), mw (bro (son (e)), 0),
 				  mw (son (e), 0), dest, bro (son (e)));
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case fneg_tag: {
-        setup_fl_ovfl(e);
+	}
+	case fneg_tag: {
+		setup_fl_ovfl(e);
 		fl_neg (sh (e), mw (son (e), 0), dest);
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case fabs_tag: {
-        setup_fl_ovfl(e);
+	}
+	case fabs_tag: {
+		setup_fl_ovfl(e);
 		fl_abs (sh (e), mw (son (e), 0), dest);
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case float_tag: {
-        setup_fl_ovfl(e);
+	}
+	case float_tag: {
+		setup_fl_ovfl(e);
 		floater (sh (e), mw (son (e), 0), dest);
-        test_fl_ovfl(e, dest);
+		test_fl_ovfl(e, dest);
 		return;
-	};
-    case chfl_tag: {
+	}
+	case chfl_tag: {
 		if (name(sh(e)) < name(sh(son(e))))
 			setup_fl_ovfl(e);
 		changefl (sh (e), mw (son (e), 0), dest);
 		if (name(sh(e)) < name(sh(son(e))))
 			test_fl_ovfl(e, dest);
 		return;
-	};
-    case and_tag: {
+	}
+	case and_tag: {
 		logop (and, e, dest, stack);
 		return;
-	};
-    case or_tag: {
+	}
+	case or_tag: {
 		logop (or, e, dest, stack);
 		return;
-	};
-    case xor_tag: {
+	}
+	case xor_tag: {
 		logop (xor, e, dest, stack);
 		return;
-	};
-    case not_tag: {
+	}
+	case not_tag: {
 		uop (not, sh (e), son (e), dest, stack);
 		return;
-	};
-    case offset_pad_tag:
+	}
+	case offset_pad_tag:
 		if (al2(sh(son(e))) >= al2(sh(e)))
 		{
 			if (al2(sh(e)) != 1 || al2(sh(son(e))) == 1)
@@ -785,65 +780,63 @@ codec(where dest, ash stack, exp e)
 				coder(reg0, stack, son(e));
 				shiftl (slongsh, mw(zeroe, 3), reg0, dest);
 			}
-		}
-		else
-        {
+		} else {
 			int al = al2(sh(e))/8;
+
 			coder(reg0, stack, son(e));
 			if (al2(sh(son(e))) == 1) {
 				add (slongsh, mw(zeroe, al*8 -1), reg0, reg0);
 				shiftr (slongsh, mw(zeroe, 3), reg0, reg0);
-			}
-			else
+			} else
 				add (slongsh, mw(zeroe, al-1), reg0, reg0);
 			and (slongsh, mw(zeroe, -al), reg0, dest);
-        };
+		}
 		return;
-    case offset_add_tag:
+	case offset_add_tag:
 	{
 		bop (add, sh (e), son (e), bro (son (e)), dest, stack);
 		return;
-	};
-    case abs_tag:
+	}
+	case abs_tag:
 	{
 		exp old_overflow_e = overflow_e;
-        if (!optop(e))
+		if (!optop(e))
 			overflow_e = e;
 		uop (absop, sh(e), son (e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
-	};
-    case offset_max_tag:
-    case max_tag:
+	}
+	case offset_max_tag:
+	case max_tag:
 	{
 		bop (maxop, sh(e), son (e), bro (son (e)), dest, stack);
 		return;
-	};
-    case min_tag:
+	}
+	case min_tag:
 	{
 		bop (minop, sh(e), son (e), bro (son (e)), dest, stack);
 		return;
-	};
+	}
 	case offset_subtract_tag:
 	{
 		bop (sub, sh(e), bro(son (e)), son (e), dest, stack);
 		return;
-	};
-    case offset_mult_tag:
+	}
+	case offset_mult_tag:
 	{
 		bop (mult, slongsh, son (e), bro (son (e)), dest, stack);
 		return;
-	};
-    case offset_negate_tag: {
+	}
+	case offset_negate_tag: {
 		uop (negate, sh (e), son (e), dest, stack);
 		return;
-	};
-    case offset_div_by_int_tag:
+	}
+	case offset_div_by_int_tag:
 	{
 		bop (div0, sh (e), bro (son (e)), son (e), dest, stack);
 		return;
-	};
-    case offset_div_tag:
+	}
+	case offset_div_tag:
 	{
 		if (shape_size (sh (e)) == 32)
 			bop (div0, sh (e), bro (son (e)), son (e), dest, stack);
@@ -857,42 +850,43 @@ codec(where dest, ash stack, exp e)
 				change_var (sh (e), dest, dest);
 			}
 		return;
-	};
-    case absbool_tag:
+	}
+	case absbool_tag:
 	{
 		failer(NO_SETCC);
-        return;
-	};
-	
-    case int_to_bitf_tag:
+		return;
+	}
+
+	case int_to_bitf_tag:
 	{
 		int mask = lsmask[shape_size(sh(e))];
 		move(slongsh, mw(son(e), 0), dest);
 		and(slongsh, mw(zeroe, mask), dest, dest);
 		return;
-	};
-    case bitf_to_int_tag:
+	}
+	case bitf_to_int_tag:
 		coder(reg0, stack, son(e));
 		change_var_sh (sh (e), sh(son(e)), reg0, dest);
 		return;
-    case alloca_tag:
+	case alloca_tag:
 		coder(dest, stack, e);
 		return;
-    case power_tag:
+	case power_tag:
 		failer("integer power not implemented");
 		return;
-    case cont_tag:
-		if (!newcode && name(sh(e)) == bitfhd)
-        {
+	case cont_tag:
+		if (!newcode && name(sh(e)) == bitfhd) {
 			mem_to_bits(e, sh(e), dest, stack);
 			return;
-        };
+		}
 		/* deliberate fall through into default */
-    default:
+	default:
 	{
-		if (!is_o (name (e))) {	/* e is not a possible 80386 operand,
-								 *				   precompute it into reg0 and move to
-								 *				   dest */
+		if (!is_o (name (e))) {
+			/*
+			 * e is not a possible 80386 operand, precompute it into reg0 and
+			 * move to dest
+			 */
 			where qw;
 			qw.where_exp = copyexp (reg0.where_exp);
 			sh (qw.where_exp) = sh (e);
@@ -902,25 +896,24 @@ codec(where dest, ash stack, exp e)
 			retcell (qw.where_exp);
 			cond1_set = 0;
 			return;
-		};
-		
+		}
+
 		if (is_crc(e) && name(e) != name_tag
 			&& name(e) != reff_tag && name(e) != field_tag) {
 			exp s = son(e);
 			exp ss = son(s);
 			exp sss = ss;
-			exp * p = & son(e);
-			
+			exp *p = &son(e);
+
 			if (name(s) == reff_tag) {
 				sss = son(ss);
 				p = & son(s);
 			}
-			
+
 			if (name(sss) == name_tag && ptno(son(sss)) == reg_pl) {
 				move(sh(e), mw(e, 0), dest);
 				return;
-			}
-			else {
+			} else {
 				exp temp = copyexp(reg0.where_exp);
 				exp preserve = *p;
 				coder(reg0, stack, *p);
@@ -930,8 +923,8 @@ codec(where dest, ash stack, exp e)
 				return;
 			}
 		}
-		
-		
+
+
 		if (name (e) == reff_tag &&
 			(name (son (e)) == name_tag ||
 			 (name (son (e)) == cont_tag &&
@@ -939,34 +932,32 @@ codec(where dest, ash stack, exp e)
 			/* look for case when reff should be done by add */
 			add (slongsh, mw (son (e), 0), mw (zeroe, no (e) / 8), dest);
 			return;
-		};
-		
+		}
+
 		if ((name (e) == name_tag && isvar (son (e))) ||
 			name (e) == reff_tag ||
-            (PIC_code && name(e) == name_tag && isglob(son(e)) &&
+			(PIC_code && name(e) == name_tag && isglob(son(e)) &&
 			 name(sh(son(e))) == prokhd &&
 			 !brog(son(e)) ->  dec_u.dec_val.extnamed)) {
 			if (ptno(son(e)) != nowhere_pl)
 				mova (mw (e, 0), dest);
 			return;
-		};
-		
-        if (name(e) == clear_tag)
-		{
-            if ((name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd &&
+		}
+
+		if (name(e) == clear_tag) {
+			if ((name (sh (e)) >= shrealhd && name (sh (e)) <= doublehd &&
 				 !inmem(dest)) || name (dest.where_exp) == apply_tag)
 				move(sh(e), fzero, dest);
-            return;
-		};
-		
-		
+			return;
+		}
+
 		/* other values */
-		
+
 		if (name (e) != top_tag && name(e) != prof_tag)
 			move (sh (e), mw (e, 0), dest);
 		else
 			top_regsinuse = regsinuse;
 		return;
-	};
-	};
+	}
+	}
 }
