@@ -1,4 +1,4 @@
-TENDRA 4.1.2 RELEASE INFORMATION
+TENDRA 5.0.0 RELEASE INFORMATION
 ================================
 
 
@@ -57,20 +57,20 @@ subdirectories) are subject to the following copyright:
 DOWNLOADING INFORMATION
 -----------------------
 
-The TenDRA 4.1.2 release is available via the Web site:
+The TenDRA 5.0.0 release is available via the Web site:
 
   http://www.tendra.org/download/releases/tendra/
 
 or by FTP from ftp.allbsd.org, in the directory /pub/TenDRA/releases/tendra/.
 It consists of the gzipped tar archive:
 
-	TenDRA-4.1.2.tar.gz
+	TenDRA-5.0.0.tar.gz
 
 (about 3.9MB - see the actual site for the precise figure), plus the
 optional documentation, comprising a copy of the documents available
 from the TenDRA web site:
 
-	TenDRA-4.1.2-doc.tar.gz
+	TenDRA-5.0.0-doc.tar.gz
 
 (about 760kB).
 
@@ -87,8 +87,8 @@ tar.gz:		gzip -dc TenDRA-<version|date>.tar.gz | tar xvf -
 
 to give a directory, TenDRA-<version|date>, containing the release source.
 If you also want to install the release documentation you will also need to
-download TenDRA-4.1.2-doc.tar.gz and extract this as above.  The
-documentation is extracted into the subdirectory TenDRA-4.1.2/doc.
+download TenDRA-5.0.0-doc.tar.gz and extract this as above.  The
+documentation is extracted into the subdirectory TenDRA-5.0.0/doc.
 
 The release is installed by running the shell script 'makedefs' found in
 the main source directory.  The default configuration installs the
