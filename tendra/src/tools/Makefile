@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = disp pl
+SUBDIR = disp pl tcc
 
 .include "Makefile.inc"
