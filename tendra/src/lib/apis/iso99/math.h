@@ -27,13 +27,35 @@
 
 # 7.12
 
-+EXP double HUGE_VAL;
-+EXP float HUGE_VALF;
-+EXP long double HUGE_VALL;
++TYPE (float) float_t;
++TYPE (float) double_t;
 
-+EXP float INFINITY;
++CONST double HUGE_VAL;
++CONST float HUGE_VALF;
++CONST long double HUGE_VALL;
 
-+EXP float NAN;
++CONST float INFINITY;
+
++IFNDEF __NO_NAN
++CONST float NAN;
++ENDIF
+
++CONST int FP_INFINITE;
++CONST int FP_NAN;
++CONST int FP_NORMAL;
++CONST int FP_SUBNORMAL;
++CONST int FP_ZERO;
+
+#+FP_FAST_FMA
+#+FP_FAST_FMAF
+#+FP_FAST_FMAFL
+
++CONST int FP_ILOGB0;
++CONST int FP_ILOGBNAN;
+
++DEFINE MATH_ERRNO 1;
++DEFINE MATH_ERREXCEPT 2;
++EXP int math_errhandling;
 
 # 7.12.3.1
 
