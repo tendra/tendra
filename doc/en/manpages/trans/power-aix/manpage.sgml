@@ -93,6 +93,14 @@
     &option-cx;
     &option-cz;
 
+    <varlistentry>
+      <term><option>-c</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
   </variablelist>
 </refsect1>
 
