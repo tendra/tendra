@@ -23,7 +23,6 @@ INSTALL_SUB+=		lib/include/${API}.api lib/include/shared/${API}.api
 
 .if defined(INSTALL_ENV)
 INSTALL_TARGETS+=	install-env
-INSTALL_SUB+=		env
 .endif
 
 .if defined(PROG)
@@ -69,6 +68,7 @@ install-api:
 
 # lib/env: our environment files.
 install-env:
+	${MKDIR} ${INSTALL_PREFIX}/env
 	${SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
 		${INSTALL_PREFIX}/env/default
 .for i in ${DATA_COMMON} ${DATA}
