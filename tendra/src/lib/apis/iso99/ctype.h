@@ -25,9 +25,24 @@
 # $TenDRA$
 #
 
-$UNIQUE = 1;
-$VERSION ="1.0";
-+BASE_API;
+# 7.4
 
-+IMPLEMENT "ansi", "dummy/sys.h";
-+IMPLEMENT "iso99", "ctype.h";
+# 7.4.1
+
++FUNC int isalnum(int);
++FUNC int isalpha(int);
++FUNC int isblank(int);
++FUNC int iscntrl(int);
++FUNC int isdigit(int);
++FUNC int isgraph(int);
++FUNC int islower(int);
++FUNC int isprint(int);
++FUNC int ispunct(int);
++FUNC int isspace(int);
++FUNC int isupper(int);
++FUNC int isxdigit(int);
+
+# 7.4.2
+
++FUNC int tolower(int);
++FUNC int toupper(int);
