@@ -67,6 +67,7 @@
 
 /****************************************************************************/
 
+#include <ctype.h>
 #include <string.h>
 
 #include "dstring.h"
@@ -210,8 +211,8 @@ nstring_ci_equal(NStringP nstring1, NStringP nstring2)
 		char c2;
 		
 		do {
-			c1 = syntax_upcase (*tmp1 ++);
-			c2 = syntax_upcase (*tmp2 ++);
+			c1 = toupper (*tmp1++);
+			c2 = toupper (*tmp2++);
 			if (length-- == 0) {
 				return (TRUE);
 			}
