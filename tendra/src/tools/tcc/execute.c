@@ -193,13 +193,12 @@ reset_exec_error(void)
 
 
 /*
- *    LAST COMMAND
+ *    LAST RETURN VALUE
  *
- *    The name of the last command executed, and its return value (zero
- *    indicating success) are stored.
+ *    The return value (zero indicating success) of the last command
+ *    executed is stored.
  */
 
-char *last_command = null;
 int last_return = 0;
 
 

@@ -38,6 +38,7 @@ extern const char *progdesc;
 extern const char *progname;
 extern const char *progvers;
 extern const char *relvers;
+extern const char *last_command;
 extern int exit_status;
 extern int tenapp_print_memusage_onexit;
 

@@ -81,7 +81,7 @@ int keep_core = 1;
 /*
  * Last executed command from which we may receive signal
  */
-char *last_command;
+const char *last_command;
 
 struct fmm_type *memtype_app;
 
