@@ -51,6 +51,7 @@ BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
 STARTUP=	src/lib/startup
+STARTUP_MACH=	src/lib/machines/${OSFAM}/${BLDARCH}/startup
 TOOLS=		src/tools
 UTILITIES=	src/utilities
 
