@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/sid/c-parser.sid
+ *	./c-parser.sid
  * and
- *	/u/g/release/Source/src/utilities/sid/c-parser.act
+ *	./c-parser.act
  * by:
  *	sid
  */
@@ -11,33 +11,60 @@
 
 
 /*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
+ * Copyright (c) 2003-2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *  		 Crown Copyright (c) 1997
+ *
+ *  This TenDRA(r) Computer Program is subject to Copyright
+ *  owned by the United Kingdom Secretary of State for Defence
+ *  acting through the Defence Evaluation and Research Agency
+ *  (DERA).  It is made available to Recipients with a
+ *  royalty-free licence for its use, reproduction, transfer
+ *  to other parties and amendment for any purpose not excluding
+ *  product development provided that any such use et cetera
+ *  shall be deemed to be acceptance of the following conditions:-
+ *
+ *      (1) Its Recipients shall ensure that this Notice is
+ *      reproduced upon any copies or amended versions of it;
+ *
+ *      (2) Any amended version of it shall be clearly marked to
+ *      show both the nature of and the organisation responsible
+ *      for the relevant amendment or amendments;
+ *
+ *      (3) Its onward transfer from a recipient to another
+ *      party shall be deemed to be that party's acceptance of
+ *      these conditions;
+ *
+ *      (4) DERA gives no warranty or assurance as to its
+ *      quality or suitability for any purpose and DERA accepts
+ *      no liability whatsoever in relation to any use to which
+ *      it may be put.
+ *
+ * $TenDRA$
+ */
 
 
 #include "c-parser.h"
@@ -75,30 +102,30 @@ TableP			c_current_table;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZR132 PROTO_S ((void));
-static void ZR139 PROTO_S ((void));
-static void ZR92 PROTO_S ((void));
-static void ZR119 PROTO_S ((void));
-static void ZR148 PROTO_S ((void));
-static void ZR107 PROTO_S ((void));
-static void ZR172 PROTO_S ((void));
-static void ZR146 PROTO_S ((void));
-static void ZR127 PROTO_S ((void));
-static void ZR82 PROTO_S ((void));
-static void ZR84 PROTO_S ((void));
-extern void c_parse_grammar PROTO_S ((void));
-static void ZR110 PROTO_S ((void));
-static void ZR112 PROTO_S ((void));
-static void ZR134 PROTO_S ((void));
-static void ZR101 PROTO_S ((void));
-static void ZR141 PROTO_S ((void));
-static void ZR90 PROTO_S ((void));
-static void ZR99 PROTO_S ((void));
-static void ZR117 PROTO_S ((void));
-static void ZR116 PROTO_S ((void));
-static void ZR125 PROTO_S ((void));
-static void ZR121 PROTO_S ((void));
-static void ZR124 PROTO_S ((void));
+static void ZR132 (void);
+static void ZR139 (void);
+static void ZR92 (void);
+static void ZR119 (void);
+static void ZR148 (void);
+static void ZR107 (void);
+static void ZR172 (void);
+static void ZR146 (void);
+static void ZR127 (void);
+static void ZR82 (void);
+static void ZR84 (void);
+extern void c_parse_grammar (void);
+static void ZR110 (void);
+static void ZR112 (void);
+static void ZR134 (void);
+static void ZR101 (void);
+static void ZR141 (void);
+static void ZR90 (void);
+static void ZR99 (void);
+static void ZR117 (void);
+static void ZR116 (void);
+static void ZR125 (void);
+static void ZR121 (void);
+static void ZR124 (void);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -107,7 +134,7 @@ static BoolT ZI0;
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZR132 PROTO_Z ()
+ZR132 (void)
 {
   ZL2_132:;
     switch (CURRENT_TERMINAL) {
@@ -137,7 +164,7 @@ ZR132 PROTO_Z ()
 }
 
 static void
-ZR139 PROTO_Z ()
+ZR139 (void)
 {
   ZL2_139:;
     switch (CURRENT_TERMINAL) {
@@ -167,7 +194,7 @@ ZR139 PROTO_Z ()
 }
 
 static void
-ZR92 PROTO_Z ()
+ZR92 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -308,7 +335,7 @@ ZR92 PROTO_Z ()
 }
 
 static void
-ZR119 PROTO_Z ()
+ZR119 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -472,7 +499,7 @@ ZR119 PROTO_Z ()
 }
 
 static void
-ZR148 PROTO_Z ()
+ZR148 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -700,7 +727,7 @@ ZR148 PROTO_Z ()
 }
 
 static void
-ZR107 PROTO_Z ()
+ZR107 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -758,7 +785,7 @@ ZR107 PROTO_Z ()
 }
 
 static void
-ZR172 PROTO_Z ()
+ZR172 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -785,7 +812,7 @@ ZR172 PROTO_Z ()
 }
 
 static void
-ZR146 PROTO_Z ()
+ZR146 (void)
 {
   ZL2_146:;
     switch (CURRENT_TERMINAL) {
@@ -815,7 +842,7 @@ ZR146 PROTO_Z ()
 }
 
 static void
-ZR127 PROTO_Z ()
+ZR127 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -979,7 +1006,7 @@ ZR127 PROTO_Z ()
 }
 
 static void
-ZR82 PROTO_Z ()
+ZR82 (void)
 {
   ZL2_82:;
     switch (CURRENT_TERMINAL) {
@@ -1009,7 +1036,7 @@ ZR82 PROTO_Z ()
 }
 
 static void
-ZR84 PROTO_Z ()
+ZR84 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1150,7 +1177,7 @@ ZR84 PROTO_Z ()
 }
 
 void
-c_parse_grammar PROTO_Z ()
+c_parse_grammar (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1523,7 +1550,7 @@ c_parse_grammar PROTO_Z ()
 }
 
 static void
-ZR110 PROTO_Z ()
+ZR110 (void)
 {
     switch (CURRENT_TERMINAL) {
       case 9:
@@ -1547,7 +1574,7 @@ ZR110 PROTO_Z ()
 }
 
 static void
-ZR112 PROTO_Z ()
+ZR112 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1618,7 +1645,7 @@ ZR112 PROTO_Z ()
 }
 
 static void
-ZR134 PROTO_Z ()
+ZR134 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1781,7 +1808,7 @@ ZR134 PROTO_Z ()
 }
 
 static void
-ZR101 PROTO_Z ()
+ZR101 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -1961,7 +1988,7 @@ ZR101 PROTO_Z ()
 }
 
 static void
-ZR141 PROTO_Z ()
+ZR141 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2126,7 +2153,7 @@ ZR141 PROTO_Z ()
 }
 
 static void
-ZR90 PROTO_Z ()
+ZR90 (void)
 {
   ZL2_90:;
     switch (CURRENT_TERMINAL) {
@@ -2156,7 +2183,7 @@ ZR90 PROTO_Z ()
 }
 
 static void
-ZR99 PROTO_Z ()
+ZR99 (void)
 {
     switch (CURRENT_TERMINAL) {
       case 11:
@@ -2198,7 +2225,7 @@ ZR99 PROTO_Z ()
 }
 
 static void
-ZR117 PROTO_Z ()
+ZR117 (void)
 {
   ZL2_117:;
     switch (CURRENT_TERMINAL) {
@@ -2228,7 +2255,7 @@ ZR117 PROTO_Z ()
 }
 
 static void
-ZR116 PROTO_Z ()
+ZR116 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2255,7 +2282,7 @@ ZR116 PROTO_Z ()
 }
 
 static void
-ZR125 PROTO_Z ()
+ZR125 (void)
 {
   ZL2_125:;
     switch (CURRENT_TERMINAL) {
@@ -2285,7 +2312,7 @@ ZR125 PROTO_Z ()
 }
 
 static void
-ZR121 PROTO_Z ()
+ZR121 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -2312,7 +2339,7 @@ ZR121 PROTO_Z ()
 }
 
 static void
-ZR124 PROTO_Z ()
+ZR124 (void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
