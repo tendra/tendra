@@ -1,15 +1,19 @@
 # $Id$
 
-SRC=${BASE}/src/lib/cpp/src
+.include "../../Makefile.inc"
 
-TCCOPTS=-Yc++ -I${SRC}
+SRC=${BASE_DIR}/src/lib/cpp/src
+
+TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/default -yTENDRA_BASEDIR="${OBJ_DIR}/src" -yTENDRA_ENVDIR="${OBJ_DIR}/${ENVIRONMENT}" -yTCPPLUS="${OBJ_DIR}/src/producers/cpp/tcpplus" -Yc++ -I${SRC}
 
 SYS_FILES=basic.j ptr_func.j ptr_mem.j throw.j vtable.j
+
+.PATH:	${SRC}
 
 all: ${SYS_FILES}
 	@${ECHO} all done
 
-basic.j: basic.cc ${SRC}/basic.h ${SRC}/implement.h
+basic.j: basic.cc
 	${TCC} ${TCCOPTS} -Fj -o basic.j basic.cc
 
 ptr_func.j: ptr_func.p
@@ -18,14 +22,10 @@ ptr_func.j: ptr_func.p
 ptr_mem.j: ptr_mem.p
 	${TNC} ptr_mem.p ptr_mem.j
 
-throw.j: throw.cc  ${SRC}/implement.h ${SRC}/longjump.h\
- ${SRC}/offset.h ${SRC}/throw.h
+throw.j: throw.cc
 	${TCC} ${TCCOPTS} -Fj -o throw.j throw.cc
 
 vtable.j: vtable.p
 	${TNC} vtable.p vtable.j
 
-clobber: clean
-	${REMOVE} ${SYS_FILES}
-
-.include "../../Makefile.inc"
+CLEAN_EXTRA= ${SYS_FILES}
