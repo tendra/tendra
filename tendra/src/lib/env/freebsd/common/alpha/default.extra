@@ -12,11 +12,15 @@
 /* Libraries */
 
 +LIB_CRT0	"-LIB_CRT0-"
++LIB_CRT1	"-LIB_CRT1-"
 +LIB_GCRT0	"-LIB_GCRT0-"
++LIB_CRTN	"-LIB_CRTN-"
 
 
 +MACHINE	"freebsd-*-alpha"
 +AS		"<BIN_AS>"
-+LD		"<BIN_LD> -e start -dc -dp"
++LD		"<BIN_LD> -e _start -dc -dp"
 +CC		"<BIN_CC>"
 +CRT0		"<LIB_CRT0>"
++CRT1		"<LIB_CRT1>"
++CRTN		"<LIB_CRTN>"
