@@ -837,12 +837,22 @@ operate_fmt(instruction ins, int src1, int src2, int dest)
 }
 
 
+enum {
+  NEGATE,
+  BITCOMPL
+};
+
 static struct {
-  int           val;
+  int           orig_ins;
   instruction   *subst_ins;
-} negate_table1[] = {
-  { zaddl, &i_subl },
-  { zaddq, &i_subq },
+  int		transform;
+} transform_table1[] = {
+  { zaddl, &i_subl, NEGATE },
+  { zaddq, &i_subq, NEGATE },
+  { zand, &i_bic, BITCOMPL },
+  { zbis, &i_ornot, BITCOMPL },
+  { zor, &i_ornot, BITCOMPL },
+  { zxor, &i_eqv, BITCOMPL },
 };
 
 /*
@@ -851,17 +861,18 @@ static struct {
  * Return 1 if we succeeded.
  */
 static int
-negate_ins(instruction *ins, INT64 *imm)
+transform_ins(instruction *ins, INT64 *imm)
 {
   unsigned i;
+  int subst;
   static int initialised = 0;
-  static int negate_table2[n_asmcodes];
+  static int transform_table2[n_asmcodes];
 
   if (!initialised) {
-    for (i = 0; i < sizeof(negate_table2) / sizeof(*negate_table2); i++)
-      negate_table2[i] = -1;
-    for (i = 0; i < sizeof(negate_table1) / sizeof(*negate_table1); i++)
-      negate_table2[negate_table1[i].val] = i;
+    for (i = 0; i < sizeof(transform_table2) / sizeof(*transform_table2); i++)
+      transform_table2[i] = -1;
+    for (i = 0; i < sizeof(transform_table1) / sizeof(*transform_table1); i++)
+      transform_table2[transform_table1[i].orig_ins] = i;
     initialised = 1;
   }
 
@@ -869,14 +880,18 @@ negate_ins(instruction *ins, INT64 *imm)
     failer("ins_binid invalid");
     return 0;
   }
-  if (negate_table2[ins_binid(*ins)] != -1) {
-    *ins = *negate_table1[negate_table2[ins_binid(*ins)]].subst_ins;
-    INT64_assign(*imm, INT64_subtract(zero_int64, *imm, 0));
-    return 1;
-  } else if (ins_equal(*ins, i_xor)) {
-    *ins = i_eqv;
-    INT64_assign(*imm, INT64_decrement(INT64_subtract(zero_int64, *imm, 0)));
-    return 1;
+  subst = transform_table2[ins_binid(*ins)];
+  if (subst != -1) {
+    *ins = *transform_table1[subst].subst_ins;
+    switch (transform_table1[subst].transform) {
+    case NEGATE:
+      INT64_assign(*imm, INT64_subtract(zero_int64, *imm, 0));
+      return 1;
+    case BITCOMPL:
+      INT64_assign(*imm, INT64_not(*imm));
+      return 1;
+    }
+    failer("transform invalid");
   }
   return 0;
 }
@@ -911,7 +926,7 @@ operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
   setuses(new_ins,src1,ins_class(ins));
 #endif
 
-  if (INT64_lt(src2, zero_int64) && !negate_ins(&ins, &src2)) {
+  if (INT64_lt(src2, zero_int64) && !transform_ins(&ins, &src2)) {
     use_at = 1;
   }
   if (INT64_lt(src2, zero_int64) || !INT64_lt(src2, make_INT64(0, 256))) {
