@@ -231,7 +231,7 @@ int main
 	     break;
 	   }
 	 case 'Z' : report_versions = 1; break;
-	 case '?' : default:
+	 default :
            {
     	     fprintf ( stderr, "%s : unknown option, \"%s\"\n", "trans", arg );
              errflg = 1; break;
