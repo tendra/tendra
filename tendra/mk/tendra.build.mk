@@ -16,10 +16,6 @@
 	@${ECHO} Compiling ${.IMPSRC}...
 	${CC} ${CCOPTS} -c ${.IMPSRC} -o ${OBJ_SDIR}/${.TARGET}
 
-.o:
-	@${ECHO} Linking ${.IMPSRC}...
-	${LD} ${LDOPTS} -o ${OBJ_SDIR}/${PROG} ${OBJS} ${LIBS}
-
 .sid.c:
 	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
 	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}\
@@ -42,7 +38,7 @@ ${API}:
 
 ${PROG}: ${OBJS}
 	@${ECHO} Linking ${PROG}...
-	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${LD} ${LDOPTS} -o ${PROG} ${OBJS} ${LDCRT} ${LIBS}
 
 clean:
 .if defined(PROG)
