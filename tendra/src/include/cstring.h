@@ -43,6 +43,12 @@ char *string_concat(const char *, const char *);
 int   string_to_unsigned(const char *, unsigned *);
 int   string_casecmp(const char *, const char *);
 
+unsigned char *ustring_alloc(size_t);
+void           ustring_free(unsigned char *);
+unsigned char *ustring_copy(const unsigned char *);
+unsigned char *ustring_ncopy(const unsigned char *, size_t);
+unsigned char *ustring_concat(const unsigned char *, const unsigned char *);
+
 
 struct fmm_type;
 

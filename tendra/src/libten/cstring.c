@@ -158,3 +158,34 @@ string_casecmp(const char *s1, const char *s2)
 			break;
 	return tolower((unsigned char)*s1) - tolower((unsigned char)*s2);
 }
+
+
+unsigned char *
+ustring_alloc(size_t n)
+{
+	return (unsigned char *)string_alloc(n);
+}
+
+void
+ustring_free(unsigned char *p)
+{
+	string_free((char *)p);
+}
+
+unsigned char *
+ustring_copy(const unsigned char *s)
+{
+	return (unsigned char *)string_copy((const char *)s);
+}
+
+unsigned char *
+ustring_ncopy(const unsigned char *s, size_t n)
+{
+	return (unsigned char *)string_ncopy((const char *)s, n);
+}
+
+unsigned char *
+ustring_concat(const unsigned char *s, const unsigned char *t)
+{
+	return (unsigned char *)string_concat((const char *)s, (const char *)t);
+}
