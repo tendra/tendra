@@ -63,6 +63,14 @@
     </varlistentry>
 
     <varlistentry>
+      <term><option>-G</option><replaceable>switch</replaceable></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term><option>-H</option>&nbsp;<option>-h</option></term>
 
       <listitem>
