@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -55,8 +88,8 @@
     The program name and version number are given.
 */
 
-char *progname = "tnc" ;
-static char *version = "Version: 1.9" ;
+char *progname = "tnc";
+static char *version = "Version: 1.9";
 
 
 /*
@@ -65,34 +98,33 @@ static char *version = "Version: 1.9" ;
     The show option corresponding to arg is set to t.
 */
 
-static boolean output_option
-    PROTO_N ( ( arg, t ) )
-    PROTO_T ( char *arg X boolean t )
+static boolean
+output_option(char *arg, boolean t)
 {
-    boolean *p = null ;
-    if ( streq ( arg, "tokdecs" ) ) {
-	p = &show_tokdecs ;
-    } else if ( streq ( arg, "tokdefs" ) ) {
-	p = &show_tokdefs ;
-    } else if ( streq ( arg, "aldecs" ) ) {
-	p = &show_aldecs ;
-    } else if ( streq ( arg, "aldefs" ) ) {
-	p = &show_aldefs ;
-    } else if ( streq ( arg, "tagdecs" ) ) {
-	p = &show_tagdecs ;
-    } else if ( streq ( arg, "tagdefs" ) ) {
-	p = &show_tagdefs ;
+    boolean *p = null;
+    if (streq(arg, "tokdecs")) {
+	p = &show_tokdecs;
+    } else if (streq(arg, "tokdefs")) {
+	p = &show_tokdefs;
+    } else if (streq(arg, "aldecs")) {
+	p = &show_aldecs;
+    } else if (streq(arg, "aldefs")) {
+	p = &show_aldefs;
+    } else if (streq(arg, "tagdecs")) {
+	p = &show_tagdecs;
+    } else if (streq(arg, "tagdefs")) {
+	p = &show_tagdefs;
     }
-    if ( p == null ) return ( 0 ) ;
-    if ( t ) {
-	show_tokdecs = 0 ;
-	show_tokdefs = 0 ;
-	show_aldefs = 0 ;
-	show_tagdecs = 0 ;
-	show_tagdefs = 0 ;
+    if (p == null) return(0);
+    if (t) {
+	show_tokdecs = 0;
+	show_tokdefs = 0;
+	show_aldefs = 0;
+	show_tagdecs = 0;
+	show_tagdefs = 0;
     }
-    *p = t ;
-    return ( 1 ) ;
+    *p = t;
+    return(1);
 }
 
 
@@ -103,240 +135,239 @@ static boolean output_option
     and calls the appropriate input and output routines.
 */
 
-int main
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char **argv )
+int
+main(int argc, char **argv)
 {
-    int a ;
-    int status = 0 ;
-    boolean expand = 0 ;
-    boolean evaluate = 0 ;
-    boolean lib_input = 0 ;
-    boolean output_next = 0 ;
-    void ( *input_fn ) PROTO_S ( ( void ) ) ;
-    void ( *output_fn ) PROTO_S ( ( void ) ) ;
+    int a;
+    int status = 0;
+    boolean expand = 0;
+    boolean evaluate = 0;
+    boolean lib_input = 0;
+    boolean output_next = 0;
+    void(*input_fn)(void);
+    void(*output_fn)(void);
 
     /* Default action : read text, encode TDF capsule */
-    input_fn = read_capsule ;
-    output_fn = enc_capsule ;
-    text_input = 1 ;
-    text_output = 0 ;
+    input_fn = read_capsule;
+    output_fn = enc_capsule;
+    text_input = 1;
+    text_output = 0;
 
     /* Initialize internal tables */
-    output = stdout ;
-    init_tables () ;
-    init_constructs () ;
+    output = stdout;
+    init_tables();
+    init_constructs();
 
     /* Scan arguments */
-    for ( a = 1 ; a < argc ; a++ ) {
-	char *arg = argv [a] ;
-	if ( output_next ) {
-	    open_output ( arg ) ;
-	    output_next = 0 ;
-	} else if ( *arg == '-' ) {
-	    boolean known = 0 ;
-	    switch ( arg [1] ) {
-		case 'h' : {
+    for (a = 1; a < argc; a++) {
+	char *arg = argv[a];
+	if (output_next) {
+	    open_output(arg);
+	    output_next = 0;
+	} else if (*arg == '-') {
+	    boolean known = 0;
+	    switch (arg[1]) {
+		case 'h': {
 		    /* Help option */
-		    if ( streq ( arg, "-help" ) ) {
-			if ( status ) warning ( "Too many arguments" ) ;
-			a++ ;
-			if ( a == argc ) {
-			    help ( "all" ) ;
+		    if (streq(arg, "-help")) {
+			if (status)warning("Too many arguments");
+			a++;
+			if (a == argc) {
+			    help("all");
 			} else {
-			    while ( a < argc ) {
-				help ( argv [a] ) ;
-				a++ ;
+			    while (a < argc) {
+				help(argv[a]);
+				a++;
 			    }
 			}
-			exit ( exit_status ) ;
+			exit(exit_status);
 		    }
-		    break ;
+		    break;
 		}
-		case 'd' : {
-		    if ( arg [2] == 0 || streq ( arg, "-decode" ) ) {
+		case 'd': {
+		    if (arg[2] == 0 || streq(arg, "-decode")) {
 			/* Decode mode */
-			input_fn = de_capsule ;
-			text_input = 0 ;
-			known = 1 ;
+			input_fn = de_capsule;
+			text_input = 0;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'e' : {
-		    if ( arg [2] == 0 || streq ( arg, "-encode" ) ) {
+		case 'e': {
+		    if (arg[2] == 0 || streq(arg, "-encode")) {
 			/* Encode mode */
-			output_fn = enc_capsule ;
-			text_output = 0 ;
-			known = 1 ;
-		    } else if ( streq ( arg, "-eval" ) ) {
-			evaluate = 1 ;
-			known = 1 ;
-		    } else if ( streq ( arg, "-expand" ) ) {
-			expand = 1 ;
-			known = 1 ;
+			output_fn = enc_capsule;
+			text_output = 0;
+			known = 1;
+		    } else if (streq(arg, "-eval")) {
+			evaluate = 1;
+			known = 1;
+		    } else if (streq(arg, "-expand")) {
+			expand = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'r' : {
-		    if ( arg [2] == 0 || streq ( arg, "-read" ) ) {
+		case 'r': {
+		    if (arg[2] == 0 || streq(arg, "-read")) {
 			/* Read mode */
-			input_fn = read_capsule ;
-			text_input = 1 ;
-			known = 1 ;
+			input_fn = read_capsule;
+			text_input = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'w' : {
-		    if ( arg [2] == 0 || streq ( arg, "-write" ) ) {
+		case 'w': {
+		    if (arg[2] == 0 || streq(arg, "-write")) {
 			/* Write mode */
-			output_fn = print_capsule ;
-			text_output = 1 ;
-			known = 1 ;
+			output_fn = print_capsule;
+			text_output = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'p' : {
-		    if ( arg [2] == 0 || streq ( arg, "-print" ) ) {
+		case 'p': {
+		    if (arg[2] == 0 || streq(arg, "-print")) {
 			/* Pretty printer mode */
-			input_fn = de_capsule ;
-			output_fn = print_capsule ;
-			text_input = 0 ;
-			text_output = 1 ;
-			known = 1 ;
+			input_fn = de_capsule;
+			output_fn = print_capsule;
+			text_input = 0;
+			text_output = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 't' : {
-		    if ( arg [2] == 0 || streq ( arg, "-tsimp" ) ) {
+		case 't': {
+		    if (arg[2] == 0 || streq(arg, "-tsimp")) {
 			/* Expand token definitions */
-			evaluate = 1 ;
-			expand = 1 ;
-			known = 1 ;
+			evaluate = 1;
+			expand = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'c' : {
-		    if ( arg [2] == 0 || streq ( arg, "-check" ) ) {
+		case 'c': {
+		    if (arg[2] == 0 || streq(arg, "-check")) {
 			/* Switch on shape checking */
-			init_shapes () ;
-			do_check = 1 ;
-			known = 1 ;
-		    } else if ( streq ( arg, "-cv" ) ) {
-			init_shapes () ;
-			do_check = 1 ;
-			print_shapes = 1 ;
-			known = 1 ;
+			init_shapes();
+			do_check = 1;
+			known = 1;
+		    } else if (streq(arg, "-cv")) {
+			init_shapes();
+			do_check = 1;
+			print_shapes = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'l' : {
-		    if ( arg [2] == 0 || streq ( arg, "-lib" ) ) {
-			lib_input = 1 ;
-			known = 1 ;
+		case 'l': {
+		    if (arg[2] == 0 || streq(arg, "-lib")) {
+			lib_input = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'f' : {
-		    if ( arg [2] == 0 || streq ( arg, "-func" ) ) {
+		case 'f': {
+		    if (arg[2] == 0 || streq(arg, "-func")) {
 			/* Check on form of input and output */
-			func_input = 1 ;
-			func_output = 1 ;
-			known = 1 ;
-		    } else if ( streq ( arg, "-func_out" ) ) {
-			func_output = 1 ;
-			known = 1 ;
-		    } else if ( streq ( arg, "-func_in" ) ) {
-			func_input = 1 ;
-			known = 1 ;
+			func_input = 1;
+			func_output = 1;
+			known = 1;
+		    } else if (streq(arg, "-func_out")) {
+			func_output = 1;
+			known = 1;
+		    } else if (streq(arg, "-func_in")) {
+			func_input = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'n' : {
-		    if ( strncmp ( arg, "-no_", 4 ) == 0 ) {
-			known = output_option ( arg + 4, 0 ) ;
+		case 'n': {
+		    if (strncmp(arg, "-no_", 4) == 0) {
+			known = output_option(arg + 4, 0);
 		    }
-		    break ;
+		    break;
 		}
-		case 'o' : {
-		    if ( arg [2] == 0 ) {
-			output_next = 1 ;
-			known = 1 ;
-		    } else if ( strncmp ( arg, "-only_", 6 ) == 0 ) {
-			known = output_option ( arg + 6, 1 ) ;
+		case 'o': {
+		    if (arg[2] == 0) {
+			output_next = 1;
+			known = 1;
+		    } else if (strncmp(arg, "-only_", 6) == 0) {
+			known = output_option(arg + 6, 1);
 		    }
-		    break ;
+		    break;
 		}
-		case 'q' : {
-		    if ( arg [2] == 0 ) {
-			dont_check = 1 ;
-			known = 1 ;
+		case 'q': {
+		    if (arg[2] == 0) {
+			dont_check = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'u' : {
-		    if ( arg [2] == 0 || streq ( arg, "-unsorted" ) ) {
-			order_names = 0 ;
-			known = 1 ;
+		case 'u': {
+		    if (arg[2] == 0 || streq(arg, "-unsorted")) {
+			order_names = 0;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'v' : {
-		    if ( arg [2] == 0 || streq ( arg, "-version" ) ) {
-			char *vn = version ;
-			char *rn = RELEASE ;
-			int v1 = VERSION_major ;
-			int v2 = VERSION_minor ;
-			IGNORE fprintf ( stderr, "%s: %s", progname, vn ) ;
-			IGNORE fprintf ( stderr, " (TDF %d.%d)", v1, v2 ) ;
-			IGNORE fprintf ( stderr, " (release %s)\n", rn ) ;
-			known = 1 ;
+		case 'v': {
+		    if (arg[2] == 0 || streq(arg, "-version")) {
+			char *vn = version;
+			char *rn = RELEASE;
+			int v1 = VERSION_major;
+			int v2 = VERSION_minor;
+			IGNORE fprintf(stderr, "%s: %s", progname, vn);
+			IGNORE fprintf(stderr, " (TDF %d.%d)", v1, v2);
+			IGNORE fprintf(stderr, " (release %s)\n", rn);
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
-		case 'I' : {
-		    add_directory ( arg + 2 ) ;
-		    known = 1 ;
-		    break ;
+		case 'I': {
+		    add_directory(arg + 2);
+		    known = 1;
+		    break;
 		}
-		case 'L' : {
-		    local_prefix = arg + 2 ;
-		    known = 1 ;
-		    break ;
+		case 'L': {
+		    local_prefix = arg + 2;
+		    known = 1;
+		    break;
 		}
-		case 'V' : {
-		    if ( arg [2] == 0 ) {
-			verbose = 1 ;
-			known = 1 ;
+		case 'V': {
+		    if (arg[2] == 0) {
+			verbose = 1;
+			known = 1;
 		    }
-		    break ;
+		    break;
 		}
 	    }
-	    if ( !known ) warning ( "Unknown option, %s", arg ) ;
+	    if (!known)warning("Unknown option, %s", arg);
 
 	} else {
 	    /* Initialize input and output files */
-	    if ( status == 0 ) {
-		open_input ( arg, 0 ) ;
-	    } else if ( status == 1 ) {
-		open_output ( arg ) ;
+	    if (status == 0) {
+		open_input(arg, 0);
+	    } else if (status == 1) {
+		open_output(arg);
 	    } else {
-		warning ( "Too many arguments" ) ;
+		warning("Too many arguments");
 	    }
-	    status++ ;
+	    status++;
 	}
     }
 
     /* Check on library input */
-    if ( lib_input && input_fn == de_capsule ) input_fn = de_library ;
+    if (lib_input && input_fn == de_capsule)input_fn = de_library;
 
     /* Perform the appropriate actions */
-    if ( status == 0 ) fatal_error ( "Not enough arguments" ) ;
-    ( *input_fn ) () ;
-    if ( exit_status == EXIT_SUCCESS || text_output ) {
-	if ( expand ) expand_all () ;
-	if ( evaluate ) eval_all () ;
-	sort_all () ;
-	( *output_fn ) () ;
+    if (status == 0)fatal_error("Not enough arguments");
+   (*input_fn)();
+    if (exit_status == EXIT_SUCCESS || text_output) {
+	if (expand)expand_all();
+	if (evaluate)eval_all();
+	sort_all();
+	(*output_fn)();
     }
-    return ( exit_status ) ;
+    return(exit_status);
 }

@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -38,12 +71,12 @@
     The types boolean, byte and pointer are defined.
 */
 
-typedef char boolean ;
-typedef unsigned char byte ;
+typedef char boolean;
+typedef unsigned char byte;
 #if FS_PTR_VOID
-typedef void *pointer ;
+typedef void *pointer;
 #else
-typedef char *pointer ;
+typedef char *pointer;
 #endif
 
 
@@ -53,7 +86,7 @@ typedef char *pointer ;
     The structure representing a TDF construct is defined recursively.
 */
 
-struct x_construct ;
+struct x_construct;
 
 
 /*
@@ -64,7 +97,7 @@ struct x_construct ;
     the form sort_* in tags.h.
 */
 
-typedef int sortname ;
+typedef int sortname;
 
 
 /*
@@ -77,11 +110,11 @@ typedef int sortname ;
 */
 
 typedef struct x_node {
-    struct x_construct *cons ;
-    struct x_node *son ;
-    struct x_node *bro ;
-    struct x_node *shape ;
-} node ;
+    struct x_construct *cons;
+    struct x_node *son;
+    struct x_node *bro;
+    struct x_node *shape;
+} node;
 
 
 /*
@@ -92,8 +125,8 @@ typedef struct x_node {
 */
 
 typedef struct x_al_tag_info {
-    node *def ;
-} al_tag_info ;
+    node *def;
+} al_tag_info;
 
 
 /*
@@ -105,11 +138,11 @@ typedef struct x_al_tag_info {
 */
 
 typedef struct x_tag_info {
-    boolean var ;
-    boolean vis ;
-    node *dec ;
-    node *def ;
-} tag_info ;
+    boolean var;
+    boolean vis;
+    node *dec;
+    node *def;
+} tag_info;
 
 
 /*
@@ -122,14 +155,14 @@ typedef struct x_tag_info {
 */
 
 typedef struct x_tok_info {
-    boolean dec ;
-    sortname res ;
-    char *args ;
-    node *sig ;
-    node *def ;
-    int depth ;
-    struct x_construct **pars ;
-} tok_info ;
+    boolean dec;
+    sortname res;
+    char *args;
+    node *sig;
+    node *def;
+    int depth;
+    struct x_construct **pars;
+} tok_info;
 
 
 /*
@@ -144,19 +177,19 @@ typedef struct x_tok_info {
 */
 
 typedef struct x_construct {
-    sortname sortnum ;
-    long encoding ;
-    char *name ;
-    node *ename ;
-    struct x_construct *alias ;
-    struct x_construct *next ;
+    sortname sortnum;
+    long encoding;
+    char *name;
+    node *ename;
+    struct x_construct *alias;
+    struct x_construct *next;
     union {
-	char *char_u ;
-	al_tag_info al_tag_u ;
-	tag_info tag_u ;
-	tok_info tok_u ;
-    } u ;
-} construct ;
+	char *char_u;
+	al_tag_info al_tag_u;
+	tag_info tag_u;
+	tok_info tok_u;
+    } u;
+} construct;
 
 
 /*
@@ -167,10 +200,10 @@ typedef struct x_construct {
     be used - the fields should not be addressed directly.
 */
 
-#define get_char_info( X )	( ( X )->u.char_u )
-#define get_al_tag_info( X )	( &( ( X )->u.al_tag_u ) )
-#define get_tag_info( X )	( &( ( X )->u.tag_u ) )
-#define get_tok_info( X )	( &( ( X )->u.tok_u ) )
+#define get_char_info(X)	((X) ->u.char_u)
+#define get_al_tag_info(X)	(&((X) ->u.al_tag_u))
+#define get_tag_info(X)		(&((X) ->u.tag_u))
+#define get_tok_info(X)		(&((X) ->u.tok_u))
 
 
 /*
@@ -181,9 +214,9 @@ typedef struct x_construct {
 */
 
 typedef struct x_directory {
-    char *dirname ;
-    struct x_directory *next ;
-} directory ;
+    char *dirname;
+    struct x_directory *next;
+} directory;
 
 
 #endif
