@@ -69,8 +69,8 @@ install-api:
 
 # lib/env: our environment files.
 install-env:
-	cat ${SRC_DIR}/src/lib/env/common/default | \
-	${SED} ${SED_INSTALL_OPTS} > ${INSTALL_PREFIX}/env/default
+	${SED} ${SED_INSTALL_OPTS} ${SRC_DIR}/src/lib/env/common/default > \
+		${INSTALL_PREFIX}/env/default
 .for i in ${DATA_COMMON} ${DATA}
 	${INSTALL} ${.OBJDIR}/${i} ${INSTALL_PREFIX}/env
 .endfor
@@ -89,8 +89,8 @@ install-dir:
 #
 SED_WRAPPER_OPTS= -e "s%-INSTALL_PREFIX-%${INSTALL_PREFIX}%g"
 install-wrapper:
-	${CAT} ${SRC_DIR}/src/tools/tcc/tcc.sh | \
-		${SED} ${SED_WRAPPER_OPTS} > ${PREFIX}/bin/tcc
+	${SED} ${SED_WRAPPER_OPTS} ${SRC_DIR}/src/tools/tcc/tcc.sh > \
+		${PREFIX}/bin/tcc
 	${CHMOD} +x ${PREFIX}/bin/tcc
 
 .include "tendra.version.mk"
