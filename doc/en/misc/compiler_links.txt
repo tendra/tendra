@@ -40,4 +40,5 @@ SLED:  http://www.cs.virginia.edu/~nr/toolkit/base/refman.ps
 NCI Home:   http://www.cs.virginia.edu/nci/
        (The Nat'l Compiler Infrastructure home page)
 
-
+David Tribble's list of incompatibilities between ISO C and C++:
+	http://david.tribble.com/text/cdiffs.htm	
