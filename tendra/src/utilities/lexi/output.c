@@ -387,14 +387,7 @@ void output_all
 	if ((int)strlen(gnm) < 8)fputc_v('\t', out);
 	fprintf_v(out, "( ( T ) & 0x%04x )\n", m);
     }
-    fputs_v("\n", out);
-    fputs_v("#ifndef PROTO_Z\n", out);
-    fputs_v("#ifdef __STDC__\n", out);
-    fputs_v("#define(void)\t\t( void )\n", out);
-    fputs_v("#else\n", out);
-    fputs_v("#define(void)\t\t()\n", out);
-    fputs_v("#endif\n", out);
-    fputs_v("#endif\n\n\n", out);
+    fputs_v("\n\n", out);
 
     /* Lexical pre-pass */
     if (pre_pass->next) {
