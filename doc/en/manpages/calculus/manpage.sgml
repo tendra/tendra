@@ -46,6 +46,7 @@
           the last algebra input is used for output.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-E</option><replaceable>file</replaceable></term>
       <listitem>
@@ -55,6 +56,7 @@
         the <option>-d</option> option.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-T</option><replaceable>file</replaceable></term>
       <listitem>
@@ -62,6 +64,7 @@
           file <emphasis>output</emphasis>.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-a</option></term>
       <listitem>
@@ -70,12 +73,14 @@
            other code to help in writing programs using the tool.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-c</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-d</option></term>
       <listitem>
@@ -84,12 +89,14 @@
           system.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-e</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-i</option></term>
       <listitem>
@@ -97,24 +104,28 @@
           <emphasis>input</emphasis> is a simple input file.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-l</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-m</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-n</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-o</option></term>
       <listitem>
@@ -124,6 +135,7 @@
           standard output is used.</para>
         </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-p</option></term>
         <listitem>
@@ -132,12 +144,14 @@
             using the type system.</para>
         </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-q</option></term>
       <listitem>
         <para>To be documented.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-r</option></term>
        <listitem>
@@ -146,6 +160,7 @@
            previous <option>-w</option> option.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-t</option></term>
       <listitem>
@@ -157,12 +172,14 @@
           using the type system.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
      <term><option>-v</option></term>
       <listitem>
          <para>Causes <command>calculus</command> print its version number.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-w</option></term>
       <listitem>
@@ -170,6 +187,7 @@
           <emphasis>output</emphasis>, which in this instance is an output file.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-x</option></term>
       <listitem>
@@ -177,6 +195,7 @@
           in its output.</para>
       </listitem>
     </varlistentry>
+
     <varlistentry>
       <term><option>-z</option></term>
       <listitem>
