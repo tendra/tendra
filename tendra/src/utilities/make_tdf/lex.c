@@ -134,7 +134,7 @@ static int read_char
     Similarly token_value is used to hold the values of numbers.
 */
 
-char token_buff [2000] ;
+char token_buff [4000] ;
 static char *token_end = token_buff + sizeof ( token_buff ) ;
 char *first_comment = NULL ;
 unsigned token_value = 0 ;
