@@ -2,7 +2,7 @@
 
 .PATH : ${.OBJDIR}/../../svid3.api
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/svid3.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/svid3.h
 
 TL=	svid3.tl
 

@@ -21,7 +21,7 @@ SUBDIR+=	libcpp/tokens
 SUBDIR+=	apis/lib
 
 # Requires apis/lib/ansi, apis/lib/posix
-SUBDIR+=	machines/${BUILD_OS}/${MACH_CPU}/tokens
+SUBDIR+=	machines/${SRC_MACHINES}/tokens
 
 # Requires everything :)
 SUBDIR+=	libcpp libtdf

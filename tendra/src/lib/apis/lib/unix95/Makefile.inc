@@ -2,7 +2,7 @@
 
 .PATH : ${.OBJDIR}/../../unix95.api
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/unix95.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/unix95.h
 
 TL=	unix95.tl
 

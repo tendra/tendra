@@ -1,5 +1,5 @@
 # $TenDRA$
 
-SUBDIR= ${BUILD_OS}/${MACH_CPU}
+SUBDIR= ${SRC_MACHINES}
 
 .include "${.CURDIR}/../../../mk/base/tendra.subdir.mk"

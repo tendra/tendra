@@ -13,7 +13,7 @@ TCC_OPTS+=	-Fj \
 		-Ybuilding \
 		-Y32bit
 
-TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/include \
+TCCFLAGS+=	-I${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/include \
 		-I/usr/include
 
 #

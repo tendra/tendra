@@ -20,4 +20,4 @@ CLEANFILES=	c_toks.j dep_toks.j map_toks.j sys.j sys_toks.j
 .include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
 
 .PATH :	${.CURDIR}/../machines/common/tokens ${.CURDIR}/../machines/common/src \
-	${.CURDIR}/../machines/${BUILD_OS}/${MACH_CPU}/tokens
+	${.CURDIR}/../machines/${SRC_MACHINES}/tokens

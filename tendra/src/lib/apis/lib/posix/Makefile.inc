@@ -1,6 +1,6 @@
 # $TenDRA$
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/posix.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/posix.h
 
 .PATH : ${.OBJDIR}/../../posix.api
 

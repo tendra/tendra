@@ -29,6 +29,7 @@ config-create:
 	-e "s|@MACH_OS_LCASE@|${BUILD_OS}|g" \
 	-e "s|@SRC_DIR@|${SRC_DIR}|g" \
 	-e "s|@SRC_ENV@|${SRC_ENV}|g" \
+	-e "s|@SRC_MACHINES@|${SRC_MACHINES}|g" \
 	-e "s|@OBJ_PREFIX@|${SRC_DIR}/obj|g" \
 	-e "s|@OBJ_ENV@|lib/env/${ENV_SRC}|g" \
 	-e "s|@MAN_COMPRESS@|${MAN_COMPRESS}|g" \

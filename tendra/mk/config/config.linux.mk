@@ -13,6 +13,8 @@ TMP_DIR=        /tmp
 
 # SRC_ENV corresponds to the hierarchy in tendra/src/lib/env.
 SRC_ENV=	${BUILD_OS}/${MACH_EXEC}/${MACH_CPU}
+# SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
+SRC_MACHINES=	${BUILD_OS}/${MACH_CPU}
 
 TMP_CPU!=	${UNAME} -m
 MACH_OS!=	${UNAME}

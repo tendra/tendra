@@ -1,6 +1,6 @@
 # $TenDRA$
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/gcc.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/gcc.h
 
 .PATH : ${.OBJDIR}/../../gcc.api
 

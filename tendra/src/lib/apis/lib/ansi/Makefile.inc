@@ -2,7 +2,7 @@
 
 .PATH : ${.OBJDIR}/../../ansi.api
 
-TCCFLAGS+=       -f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/ansi.h
+TCCFLAGS+=       -f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/ansi.h
 
 TL=	ansi.tl
 

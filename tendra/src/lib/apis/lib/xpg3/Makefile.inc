@@ -2,7 +2,7 @@
 
 .PATH : ${.OBJDIR}/../../xpg3.api
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/xpg3.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/xpg3.h
 
 TL=	xpg3.tl
 

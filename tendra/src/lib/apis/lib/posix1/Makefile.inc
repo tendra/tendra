@@ -2,7 +2,7 @@
 
 .PATH : ${.OBJDIR}/../../posix1.api
 
-TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${BUILD_OS}/${MACH_CPU}/startup/posix1.h
+TCCFLAGS+=	-f${OBJ_PREFIX}/lib/machines/${SRC_MACHINES}/startup/posix1.h
 
 TL=	posix1.tl
 
