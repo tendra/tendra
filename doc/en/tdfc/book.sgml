@@ -7414,7 +7414,7 @@ token-application
         interface.</para>
 
       <para>It is expected that the general user will have little direct
-        contact with the token syntax, instead using the asbstract standard
+        contact with the token syntax, instead using the abstract standard
         headers provided or using the tspec tool [Ref. 5] to generate their own
         token interface header files automatically. However, it may occasionally
         be necessary to use the raw power of the token syntax directly.</para>
