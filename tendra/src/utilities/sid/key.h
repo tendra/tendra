@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** key.h --- Key ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "key.c" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -75,42 +74,28 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int KeyTypeT, *KeyTypeP;
-#define KT_STRING	(0)
-#define KT_NUMERIC	(1)
-#else
 typedef enum {
-    KT_STRING,
-    KT_NUMERIC
+	KT_STRING,
+	KT_NUMERIC
 } KeyTypeT, *KeyTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct KeyT {
-    KeyTypeT			type;
-    NStringT			string;
-    unsigned			number;
+	KeyTypeT			type;
+	NStringT			string;
+	unsigned			number;
 } KeyT, *KeyP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			key_init_from_string
-	PROTO_S ((KeyP, NStringP, unsigned));
-extern void			key_init_from_number
-	PROTO_S ((KeyP, unsigned));
-extern CmpT			key_compare
-	PROTO_S ((KeyP, KeyP));
-extern BoolT			key_is_string
-	PROTO_S ((KeyP));
-extern NStringP			key_get_string
-	PROTO_S ((KeyP));
-extern unsigned			key_get_number
-	PROTO_S ((KeyP));
-extern unsigned			key_hash_value
-	PROTO_S ((KeyP));
+void	key_init_from_string(KeyP, NStringP, unsigned);
+void	key_init_from_number(KeyP, unsigned);
+CmpT	key_compare(KeyP, KeyP);
+BoolT	key_is_string(KeyP);
+NStringP key_get_string(KeyP);
+unsigned key_get_number(KeyP);
+unsigned key_hash_value(KeyP);
 
-extern void			write_key
-	PROTO_S ((OStreamP, KeyP));
+void	write_key(OStreamP, KeyP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -122,11 +107,3 @@ extern void			write_key
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
-

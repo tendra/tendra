@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** dalloc.c --- Memory allocation and deallocation.
@@ -63,8 +63,7 @@
  *
  * This file implements the dynamic memory management facility specified in
  * the file "dalloc.h".  See that file for more information.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -85,10 +84,10 @@ ExceptionP XX_dalloc_no_memory = EXCEPTION ("cannot allocate memory");
 /*--------------------------------------------------------------------------*/
 
 typedef struct DallocDataT {
-    CStringP			file;
-    unsigned			line;
-    SizeT			size;
-    int				magic;
+	CStringP		file;
+	unsigned		line;
+	SizeT			size;
+	int				magic;
 } DallocDataT, *DallocDataP;
 
 /*--------------------------------------------------------------------------*/
@@ -106,121 +105,109 @@ static SizeT dalloc_data_size = ALIGN (sizeof (DallocDataT));
 /*--------------------------------------------------------------------------*/
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length, file, line))
-		   PROTO_T (SizeT    size X
-			    SizeT    length X
-			    CStringP file X
-			    unsigned line)
+X__dalloc_allocate(SizeT size, SizeT length,
+				   CStringP file, unsigned line)
 {
-    GenericP tmp;
-
-    ASSERT (size != 0);
-    if (length == 0) {
-	tmp = NIL (GenericP);
-    } else {
-	SizeT        real_size = (((size) * length) + dalloc_data_size);
-	vm_address_t address;
-	DallocDataP  data;
-	ByteP        base;
-
-	if (vm_allocate (task_self (), &address, (vm_size_t) real_size,
-			 TRUE) != KERN_SUCCESS) {
-	    THROW (XX_dalloc_no_memory);
-	    UNREACHED;
+	GenericP tmp;
+	
+	ASSERT (size != 0);
+	if (length == 0) {
+		tmp = NIL (GenericP);
+	} else {
+		SizeT        real_size = (((size) * length) + dalloc_data_size);
+		vm_address_t address;
+		DallocDataP  data;
+		ByteP        base;
+		
+		if (vm_allocate (task_self (), &address, (vm_size_t) real_size,
+						 TRUE) != KERN_SUCCESS) {
+			THROW (XX_dalloc_no_memory);
+			UNREACHED;
+		}
+		data        = (DallocDataP) address;
+		base        = (ByteP) address;
+		tmp         = (base + dalloc_data_size);
+		data->file  = file;
+		data->line  = line;
+		data->size  = real_size;
+		data->magic = DALLOC_MAGIC;
 	}
-	data        = (DallocDataP) address;
-	base        = (ByteP) address;
-	tmp         = (base + dalloc_data_size);
-	data->file  = file;
-	data->line  = line;
-	data->size  = real_size;
-	data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+	return (tmp);
 }
 
 void
-X__dalloc_deallocate PROTO_N ((ptr, file, line))
-		     PROTO_T (GenericP ptr X
-			      CStringP file X
-			      unsigned line)
+X__dalloc_deallocate(GenericP ptr, CStringP file, unsigned line)
 {
-    if (ptr) {
-	ByteP         pointer = (ByteP) ptr;
-	DallocDataP   data    = (DallocDataP) (pointer - dalloc_data_size);
-	vm_address_t  address = (vm_address_t) data;
-	vm_size_t     size    = data->size;
-	kern_return_t result;
-
-	if (data->magic == 0) {
-	    E_dalloc_multi_deallocate (ptr, file, line, data->file,
-				       data->line);
-	    UNREACHED;
-	} else if (data->magic != DALLOC_MAGIC) {
-	    E_dalloc_corrupt_block (ptr, file, line);
-	    UNREACHED;
+	if (ptr) {
+		ByteP         pointer = (ByteP) ptr;
+		DallocDataP   data    = (DallocDataP) (pointer - dalloc_data_size);
+		vm_address_t  address = (vm_address_t) data;
+		vm_size_t     size    = data->size;
+		kern_return_t result;
+		
+		if (data->magic == 0) {
+			E_dalloc_multi_deallocate (ptr, file, line, data->file,
+									   data->line);
+			UNREACHED;
+		} else if (data->magic != DALLOC_MAGIC) {
+			E_dalloc_corrupt_block (ptr, file, line);
+			UNREACHED;
+		}
+		data->magic = 0;
+		result = vm_protect (task_self (), address, size, FALSE, VM_PROT_NONE);
+		ASSERT (result == KERN_SUCCESS);
 	}
-	data->magic = 0;
-	result = vm_protect (task_self (), address, size, FALSE, VM_PROT_NONE);
-	ASSERT (result == KERN_SUCCESS);
-    }
 }
 
 #else
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length, file, line))
-		   PROTO_T (SizeT    size X
-			    SizeT    length X
-			    CStringP file X
-			    unsigned line)
+X__dalloc_allocate(SizeT size, SizeT length, CStringP file, unsigned line)
 {
-    GenericP tmp;
-
-    ASSERT (size != 0);
-    if (length == 0) {
-	tmp = NIL (GenericP);
-    } else {
-	SizeT       real_size = ((size * length) + dalloc_data_size);
-	ByteP       base;
-	DallocDataP data;
-
-	if ((tmp = malloc (real_size)) == NIL (GenericP)) {
-	    THROW (XX_dalloc_no_memory);
-	    UNREACHED;
+	GenericP tmp;
+	
+	ASSERT (size != 0);
+	if (length == 0) {
+		tmp = NIL (GenericP);
+	} else {
+		SizeT       real_size = ((size * length) + dalloc_data_size);
+		ByteP       base;
+		DallocDataP data;
+		
+		if ((tmp = malloc (real_size)) == NIL (GenericP)) {
+			THROW (XX_dalloc_no_memory);
+			UNREACHED;
+		}
+		(void) memset (tmp, 0, real_size);
+		data        = tmp;
+		base        = tmp;
+		tmp         = (base + dalloc_data_size);
+		data->file  = file;
+		data->line  = line;
+		data->magic = DALLOC_MAGIC;
 	}
-	(void) memset (tmp, 0, real_size);
-	data        = tmp;
-	base        = tmp;
-	tmp         = (base + dalloc_data_size);
-	data->file  = file;
-	data->line  = line;
-	data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+	return (tmp);
 }
 
 void
-X__dalloc_deallocate PROTO_N ((ptr, file, line))
-		     PROTO_T (GenericP ptr X
-			      CStringP file X
-			      unsigned line)
+X__dalloc_deallocate(GenericP ptr, CStringP file,
+					 unsigned line)
 {
-    if (ptr) {
-	ByteP       pointer = (ByteP) ptr;
-	DallocDataP data    = (DallocDataP) (pointer - dalloc_data_size);
-
-	if (data->magic == 0) {
-	    E_dalloc_multi_deallocate (ptr, file, line, data->file,
-				       data->line);
-	    UNREACHED;
-	} else if (data->magic != DALLOC_MAGIC) {
-	    E_dalloc_corrupt_block (ptr, file, line);
-	    UNREACHED;
+	if (ptr) {
+		ByteP       pointer = (ByteP) ptr;
+		DallocDataP data    = (DallocDataP) (pointer - dalloc_data_size);
+		
+		if (data->magic == 0) {
+			E_dalloc_multi_deallocate (ptr, file, line, data->file,
+									   data->line);
+			UNREACHED;
+		} else if (data->magic != DALLOC_MAGIC) {
+			E_dalloc_corrupt_block (ptr, file, line);
+			UNREACHED;
+		}
+		data->magic = 0;
+		free ((GenericP) data);
 	}
-	data->magic = 0;
-	free ((GenericP) data);
-    }
 }
 
 #endif /* defined (__NeXT__) */
@@ -228,20 +215,18 @@ X__dalloc_deallocate PROTO_N ((ptr, file, line))
 #else
 
 GenericP
-X__dalloc_allocate PROTO_N ((size, length))
-		   PROTO_T (SizeT size X
-			    SizeT length)
+X__dalloc_allocate(SizeT size, SizeT length)
 {
-    GenericP tmp;
-
-    ASSERT (size != 0);
-    if (length == 0) {
-	tmp = NIL (GenericP);
-    } else if ((tmp = calloc (length, size)) == NIL (GenericP)) {
-	THROW (XX_dalloc_no_memory);
-	UNREACHED;
-    }
-    return (tmp);
+	GenericP tmp;
+	
+	ASSERT (size != 0);
+	if (length == 0) {
+		tmp = NIL (GenericP);
+	} else if ((tmp = calloc (length, size)) == NIL (GenericP)) {
+		THROW (XX_dalloc_no_memory);
+		UNREACHED;
+	}
+	return (tmp);
 }
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rstack.h --- Renaming stack ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "rstack.c" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -77,51 +76,34 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct TransStackEntryT {
-    struct TransStackEntryT    *next;
-    TypeRTransT			translator;
+	struct TransStackEntryT    *next;
+	TypeRTransT			translator;
 } TransStackEntryT, *TransStackEntryP;
 
 typedef struct RStackT {
-    TransStackEntryP		head;
+	TransStackEntryP		head;
 } RStackT, *RStackP;
 
 typedef struct SaveRStackT {
-    TransStackEntryP		head;
+	TransStackEntryP		head;
 } SaveRStackT, *SaveRStackP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			rstack_init
-	PROTO_S ((RStackP));
-extern void			rstack_push_frame
-	PROTO_S ((RStackP));
-extern void			rstack_compute_formal_renaming
-	PROTO_S ((RStackP, TypeTupleP));
-extern void			rstack_compute_formal_inlining
-	PROTO_S ((RStackP, TypeTupleP, TypeTupleP));
-extern void			rstack_compute_local_renaming
-	PROTO_S ((RStackP, TypeTupleP, TypeTupleP, TableP));
-extern void			rstack_add_translation
-	PROTO_S ((RStackP, struct EntryT *, struct EntryT *, struct EntryT *,
-		  BoolT));
-extern void			rstack_save_state
-	PROTO_S ((RStackP, SaveRStackP));
-extern struct EntryT	       *rstack_get_translation
-	PROTO_S ((SaveRStackP, struct EntryT *, struct EntryT **, BoolT *));
-extern void			rstack_apply_for_non_locals
-	PROTO_S ((RStackP, SaveRStackP, void (*) (struct EntryT *,
-						  struct EntryT *, GenericP),
-		  GenericP));
-extern void			rstack_pop_frame
-	PROTO_S ((RStackP));
-extern void			rstack_destroy
-	PROTO_S ((RStackP));
+void	rstack_init(RStackP);
+void	rstack_push_frame(RStackP);
+void	rstack_compute_formal_renaming(RStackP, TypeTupleP);
+void	rstack_compute_formal_inlining(RStackP, TypeTupleP, TypeTupleP);
+void	rstack_compute_local_renaming(RStackP, TypeTupleP, TypeTupleP, TableP);
+void	rstack_add_translation(RStackP, struct EntryT *, struct EntryT *,
+		struct EntryT *, BoolT);
+void	rstack_save_state(RStackP, SaveRStackP);
+struct EntryT *rstack_get_translation(SaveRStackP, struct EntryT *,
+		struct EntryT **, BoolT *);
+void	rstack_apply_for_non_locals(RStackP, SaveRStackP,
+		void (*) (struct EntryT *, struct EntryT *, GenericP),
+		GenericP);
+void	rstack_pop_frame(RStackP);
+void	rstack_destroy(RStackP);
 
 #endif /* !defined (H_RSTACK) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

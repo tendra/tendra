@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rstack.c --- Renaming stack ADT.
@@ -63,10 +63,7 @@
  *
  * This file implements the renaming stack routines.  They are mainly used by
  * the output routines to do scoping of inlined rules.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "rstack.h"
 #include "action.h"
@@ -78,147 +75,122 @@
 /*--------------------------------------------------------------------------*/
 
 void
-rstack_init PROTO_N ((rstack))
-	    PROTO_T (RStackP rstack)
+rstack_init(RStackP rstack)
 {
-    rstack->head = NIL (TransStackEntryP);
+	rstack->head = NIL (TransStackEntryP);
 }
 
 void
-rstack_push_frame PROTO_N ((rstack))
-		  PROTO_T (RStackP rstack)
+rstack_push_frame(RStackP rstack)
 {
-    TransStackEntryP frame = ALLOCATE (TransStackEntryT);
-
-    frame->next = rstack->head;
-    rtrans_init (&(frame->translator));
-    rstack->head = frame;
+	TransStackEntryP frame = ALLOCATE (TransStackEntryT);
+	
+	frame->next = rstack->head;
+	rtrans_init (&(frame->translator));
+	rstack->head = frame;
 }
 
 void
-rstack_compute_formal_renaming PROTO_N ((rstack, names))
-			       PROTO_T (RStackP    rstack X
-					TypeTupleP names)
+rstack_compute_formal_renaming(RStackP rstack,
+							   TypeTupleP names)
 {
-    ASSERT (rstack->head);
-    types_compute_formal_renaming (names, &(rstack->head->translator));
+	ASSERT (rstack->head);
+	types_compute_formal_renaming (names, &(rstack->head->translator));
 }
 
 void
-rstack_compute_formal_inlining PROTO_N ((rstack, names, renames))
-			       PROTO_T (RStackP    rstack X
-					TypeTupleP names X
-					TypeTupleP renames)
+rstack_compute_formal_inlining(RStackP rstack,
+							   TypeTupleP names,
+							   TypeTupleP renames)
 {
-    SaveRStackT state;
-
-    ASSERT (rstack->head);
-    state.head = rstack->head->next;
-    types_compute_formal_inlining (names, renames, &(rstack->head->translator),
-				   &state);
+	SaveRStackT state;
+	
+	ASSERT (rstack->head);
+	state.head = rstack->head->next;
+	types_compute_formal_inlining (names, renames, &(rstack->head->translator),
+								   &state);
 }
 
 void
-rstack_compute_local_renaming PROTO_N ((rstack, names, exclude, table))
-			      PROTO_T (RStackP    rstack X
-				       TypeTupleP names X
-				       TypeTupleP exclude X
-				       TableP     table)
+rstack_compute_local_renaming(RStackP rstack,
+							  TypeTupleP names,
+							  TypeTupleP exclude,
+							  TableP table)
 {
-    SaveRStackT state;
-
-    ASSERT (rstack->head);
-    state.head = rstack->head->next;
-    types_compute_local_renaming (names, exclude, &(rstack->head->translator),
-				  &state, table);
+	SaveRStackT state;
+	
+	ASSERT (rstack->head);
+	state.head = rstack->head->next;
+	types_compute_local_renaming (names, exclude, &(rstack->head->translator),
+								  &state, table);
 }
 
 void
-rstack_add_translation PROTO_N ((rstack, from, to, type, reference))
-		       PROTO_T (RStackP rstack X
-				EntryP  from X
-				EntryP  to X
-				EntryP  type X
-				BoolT   reference)
+rstack_add_translation(RStackP rstack, EntryP from,
+					   EntryP to, EntryP type,
+					   BoolT reference)
 {
-    ASSERT (rstack->head);
-    rtrans_add_translation (&(rstack->head->translator), from, to, type,
-			    reference);
+	ASSERT (rstack->head);
+	rtrans_add_translation (&(rstack->head->translator), from, to, type,
+							reference);
 }
 
 void
-rstack_save_state PROTO_N ((rstack, state))
-		  PROTO_T (RStackP     rstack X
-			   SaveRStackP state)
+rstack_save_state(RStackP rstack, SaveRStackP state)
 {
-    state->head = rstack->head;
+	state->head = rstack->head;
 }
 
 EntryP
-rstack_get_translation PROTO_N ((state, entry, type_ref, reference_ref))
-		       PROTO_T (SaveRStackP state X
-				EntryP      entry X
-				EntryP     *type_ref X
-				BoolT      *reference_ref)
+rstack_get_translation(SaveRStackP state,
+					   EntryP entry, EntryP *type_ref,
+					   BoolT *reference_ref)
 {
-    TransStackEntryP frame = state->head;
-
-    while (frame) {
-	EntryP translation;
-
-	translation = rtrans_get_translation (&(frame->translator), entry,
-					      type_ref, reference_ref);
-	if (translation) {
-	    return (translation);
+	TransStackEntryP frame = state->head;
+	
+	while (frame) {
+		EntryP translation;
+		
+		translation = rtrans_get_translation (&(frame->translator), entry,
+											  type_ref, reference_ref);
+		if (translation) {
+			return (translation);
+		}
+		frame = frame->next;
 	}
-	frame = frame->next;
-    }
-    return (NIL (EntryP));
+	return (NIL (EntryP));
 }
 
 void
-rstack_apply_for_non_locals PROTO_N ((non_local_stack, state, proc, closure))
-			    PROTO_T (RStackP     non_local_stack X
-				     SaveRStackP state X
-				     void      (*proc) PROTO_S ((EntryP,
-								 EntryP,
-								 GenericP)) X
-				     GenericP    closure)
+rstack_apply_for_non_locals(RStackP non_local_stack,
+	SaveRStackP state, void (*proc)(EntryP, EntryP, GenericP),
+	GenericP closure)
 {
-    TransStackEntryP frame = non_local_stack->head;
-
-    if ((frame != NIL (TransStackEntryP)) && (state->head)) {
-	TransStackEntryP limit = state->head->next;
-
-	for (; frame != limit; frame = frame->next) {
-	    rtrans_apply_for_non_locals (&(frame->translator), proc, closure);
+	TransStackEntryP frame = non_local_stack->head;
+	
+	if ((frame != NIL (TransStackEntryP)) && (state->head)) {
+		TransStackEntryP limit = state->head->next;
+		
+		for (; frame != limit; frame = frame->next) {
+			rtrans_apply_for_non_locals (&(frame->translator), proc, closure);
+		}
 	}
-    }
 }
 
 void
-rstack_pop_frame PROTO_N ((rstack))
-		 PROTO_T (RStackP rstack)
+rstack_pop_frame(RStackP rstack)
 {
-    TransStackEntryP frame = rstack->head;
-
-    rstack->head = frame->next;
-    rtrans_destroy (&(frame->translator));
-    DEALLOCATE (frame);
+	TransStackEntryP frame = rstack->head;
+	
+	rstack->head = frame->next;
+	rtrans_destroy (&(frame->translator));
+	DEALLOCATE (frame);
 }
 
 void
-rstack_destroy PROTO_N ((rstack))
-	       PROTO_T (RStackP rstack)
+rstack_destroy(RStackP rstack)
 {
-    while (rstack->head) {
-	rstack_pop_frame (rstack);
-    }
+	while (rstack->head) {
+		rstack_pop_frame (rstack);
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

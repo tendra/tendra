@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the action manipulation routines.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "action.h"
 #include "basic.h"
@@ -76,14 +73,14 @@
 /*--------------------------------------------------------------------------*/
 
 ActionP
-action_create()
+action_create(void)
 {
-    ActionP action = ALLOCATE (ActionT);
-
-    types_init (action_param (action));
-    types_init (action_result (action));
-    action->code = NIL (GenericP);
-    return (action);
+	ActionP action = ALLOCATE (ActionT);
+	
+	types_init (action_param (action));
+	types_init (action_result (action));
+	action->code = NIL (GenericP);
+	return (action);
 }
 
 #ifdef FS_FAST
@@ -92,7 +89,7 @@ action_create()
 TypeTupleP
 action_param(ActionP action)
 {
-    return (&(action->param));
+	return (&(action->param));
 }
 #ifdef FS_FAST
 #define action_param(a) (&((a)->param))
@@ -104,7 +101,7 @@ action_param(ActionP action)
 TypeTupleP
 action_result(ActionP action)
 {
-    return (&(action->result));
+	return (&(action->result));
 }
 #ifdef FS_FAST
 #define action_result(a) (&((a)->result))
@@ -116,7 +113,7 @@ action_result(ActionP action)
 GenericP
 action_get_code(ActionP action)
 {
-    return (action->code);
+	return (action->code);
 }
 #ifdef FS_FAST
 #define action_get_code(a) ((a)->code)
@@ -128,7 +125,7 @@ action_get_code(ActionP action)
 void
 action_set_code(ActionP action, GenericP code)
 {
-    action->code = code;
+	action->code = code;
 }
 #ifdef FS_FAST
 #define action_set_code(a, c) ((a)->code = (c))
@@ -136,18 +133,10 @@ action_set_code(ActionP action, GenericP code)
 
 void
 action_iter_for_table(ActionP action, BoolT full,
-					  void (*proc)(EntryP, GenericP),
-					  GenericP closure)
+		void (*proc)(EntryP, GenericP), GenericP closure)
 {
-    if (full) {
+	if (full) {
 		types_iter_for_table (action_param (action), proc, closure);
 		types_iter_for_table (action_result (action), proc, closure);
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

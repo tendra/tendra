@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "basic.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_BASIC
 #define H_BASIC
@@ -82,28 +79,28 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct BasicT {
-    unsigned			terminal;
-    TypeTupleT			result;
-    GenericP			result_code;
-    BoolT			ignored;
+	unsigned		terminal;
+	TypeTupleT		result;
+	GenericP		result_code;
+	BoolT			ignored;
 } BasicT, *BasicP;
 
 typedef struct BasicClosureT {
-    BitVecP			bitvec;
-    GrammarP			grammar;
+	BitVecP			bitvec;
+	GrammarP		grammar;
 } BasicClosureT, *BasicClosureP;
 
 /*--------------------------------------------------------------------------*/
 
-extern BasicP			basic_create(GrammarP, BoolT);
-extern unsigned			basic_terminal(BasicP);
-extern TypeTupleP		basic_result(BasicP);
-extern GenericP			basic_get_result_code(BasicP);
-extern void			basic_set_result_code(BasicP, GenericP);
-extern BoolT			basic_get_ignored(BasicP);
-extern void			basic_iter_for_table(BasicP, BoolT, void (*) (EntryP, GenericP), GenericP);
+BasicP		basic_create(GrammarP, BoolT);
+unsigned	basic_terminal(BasicP);
+TypeTupleP	basic_result(BasicP);
+GenericP	basic_get_result_code(BasicP);
+void		basic_set_result_code(BasicP, GenericP);
+BoolT		basic_get_ignored(BasicP);
+void		basic_iter_for_table(BasicP, BoolT, void (*) (EntryP, GenericP), GenericP);
 
-extern void			write_basics(OStreamP, BasicClosureP);
+void		write_basics(OStreamP, BasicClosureP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -116,10 +113,3 @@ extern void			write_basics(OStreamP, BasicClosureP);
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_BASIC) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** grammar.c --- Grammar transforms frontend.
@@ -142,8 +142,7 @@
  * in the grammar.  The function computes the mutation effects from actions
  * that mutate their parameters.  See the file "rule-mutate.c" for more
  * details.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -158,153 +157,143 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-grammar_trace_ignored PROTO_N ((entry, gclosure))
-		      PROTO_T (EntryP   entry X
-			       GenericP gclosure)
+grammar_trace_ignored(EntryP entry, GenericP gclosure)
 {
-    UNUSED (gclosure);
-    if (entry_is_basic (entry)) {
-	BasicP basic = entry_get_basic (entry);
-
-	if (basic_get_ignored (basic)) {
-	    entry_iter (entry, TRUE,
-			NIL (void (*) PROTO_S ((EntryP, GenericP))),
-			NIL (GenericP));
-	}
-    }
-}
-
-static void
-grammar_check_1 PROTO_N ((entry, gclosure))
-		PROTO_T (EntryP   entry X
-			 GenericP gclosure)
-{
-    UNUSED (gclosure);
-    switch (entry_type (entry)) EXHAUSTIVE {
-      case ET_RULE:
-	if (!rule_is_defined (entry_get_rule (entry))) {
-	    E_rule_not_defined (entry_key (entry));
-	}
-	if (!entry_is_traced (entry)) {
-	    E_rule_not_used (entry_key (entry));
-	}
-	break;
-      case ET_BASIC:
-	if (!entry_is_traced (entry)) {
-	    E_basic_not_used (entry_key (entry));
-	}
-	break;
-      case ET_ACTION:
-	if (!entry_is_traced (entry)) {
-	    E_action_not_used (entry_key (entry));
-	}
-	break;
-      case ET_TYPE:
-	if (!entry_is_traced (entry)) {
-	    E_type_not_used (entry_key (entry));
-	}
-	break;
-      case ET_NON_LOCAL:
-	if (!entry_is_traced (entry)) {
-	    E_non_local_not_used (entry_key (entry));
-	}
-	break;
-      case ET_NAME:
-      case ET_RENAME:
-	break;
-      case ET_PREDICATE:
-	UNREACHED;
-    }
-}
-
-static void
-grammar_find_cycles PROTO_N ((grammar, type))
-		    PROTO_T (GrammarP   grammar X
-			     CycleTypeT type)
-{
-    TableP     table         = grammar_table (grammar);
-    EntryP     predicate_id  = grammar_get_predicate_id (grammar);
-    RuleP      dfs_list_head = NIL (RuleP);
-    RuleListT  root_list;
-    RuleP      rule;
-
-    rule_list_init (&root_list);
-    table_iter (table, rule_build_root_list, (GenericP) &root_list);
-    rule_list_terminate (&root_list);
-    for (rule = rule_list_head (&root_list); rule;
-	 rule = rule_next_in_root_list (rule)) {
-	rule_compute_reverse_list (rule, type);
-	rule_compute_dfs (rule, type, &dfs_list_head);
-    }
-    for (rule = rule_list_head (&root_list); rule;
-	 rule = rule_next_in_root_list (rule)) {
-	rule_set_dfs_state (rule, DFS_UNTRACED);
-    }
-    for (rule = dfs_list_head; rule; rule = rule_get_next_in_dfs (rule)) {
-	if (!rule_has_no_cycles (rule)) {
-	    RuleP reverse_dfs_list_head = NIL (RuleP);
-
-	    rule_compute_reverse_dfs (rule, rule, &reverse_dfs_list_head);
-	    if (reverse_dfs_list_head) {
-		switch (type) EXHAUSTIVE {
-		  case CT_LEFT:
-		    rule_remove_left_cycle (reverse_dfs_list_head,
-					    predicate_id, table);
-		    break;
-		  case CT_TAIL:
-		    rule_handle_tails (reverse_dfs_list_head);
-		    break;
-		  case CT_ALL:
-		    rule_handle_need_functions (reverse_dfs_list_head);
-		    break;
-		  case CT_MUTATE:
-		    UNREACHED;
+	UNUSED (gclosure);
+	if (entry_is_basic (entry)) {
+		BasicP basic = entry_get_basic (entry);
+		
+		if (basic_get_ignored (basic)) {
+			entry_iter (entry, TRUE,
+				NIL (void (*) (EntryP, GenericP)),
+						NIL (GenericP));
 		}
-	    }
 	}
-    }
-    for (rule = rule_list_head (&root_list); rule;
-	 rule = rule_next_in_root_list (rule)) {
-	rule_reinit_reverse_list (rule);
-    }
 }
 
 static void
-write_grammar_1 PROTO_N ((entry, gclosure))
-		PROTO_T (EntryP   entry X
-			 GenericP gclosure)
+grammar_check_1(EntryP entry, GenericP gclosure)
 {
-    OStreamP ostream = (OStreamP) gclosure;
+	UNUSED (gclosure);
+	switch (entry_type (entry)) EXHAUSTIVE {
+	case ET_RULE:
+		if (!rule_is_defined (entry_get_rule (entry))) {
+			E_rule_not_defined (entry_key (entry));
+		}
+		if (!entry_is_traced (entry)) {
+			E_rule_not_used (entry_key (entry));
+		}
+		break;
+	case ET_BASIC:
+		if (!entry_is_traced (entry)) {
+			E_basic_not_used (entry_key (entry));
+		}
+		break;
+	case ET_ACTION:
+		if (!entry_is_traced (entry)) {
+			E_action_not_used (entry_key (entry));
+		}
+		break;
+	case ET_TYPE:
+		if (!entry_is_traced (entry)) {
+			E_type_not_used (entry_key (entry));
+		}
+		break;
+	case ET_NON_LOCAL:
+		if (!entry_is_traced (entry)) {
+			E_non_local_not_used (entry_key (entry));
+		}
+		break;
+	case ET_NAME:
+	case ET_RENAME:
+		break;
+	case ET_PREDICATE:
+		UNREACHED;
+	}
+}
 
-    if (entry_is_rule (entry)) {
-	write_rule (ostream, entry_get_rule (entry));
-	write_newline (ostream);
-    }
+static void
+grammar_find_cycles(GrammarP grammar, CycleTypeT type)
+{
+	TableP     table         = grammar_table (grammar);
+	EntryP     predicate_id  = grammar_get_predicate_id (grammar);
+	RuleP      dfs_list_head = NIL (RuleP);
+	RuleListT  root_list;
+	RuleP      rule;
+	
+	rule_list_init (&root_list);
+	table_iter (table, rule_build_root_list, (GenericP) &root_list);
+	rule_list_terminate (&root_list);
+	for (rule = rule_list_head (&root_list); rule;
+		 rule = rule_next_in_root_list (rule)) {
+		rule_compute_reverse_list (rule, type);
+		rule_compute_dfs (rule, type, &dfs_list_head);
+	}
+	for (rule = rule_list_head (&root_list); rule;
+		 rule = rule_next_in_root_list (rule)) {
+		rule_set_dfs_state (rule, DFS_UNTRACED);
+	}
+	for (rule = dfs_list_head; rule; rule = rule_get_next_in_dfs (rule)) {
+		if (!rule_has_no_cycles (rule)) {
+			RuleP reverse_dfs_list_head = NIL (RuleP);
+			
+			rule_compute_reverse_dfs (rule, rule, &reverse_dfs_list_head);
+			if (reverse_dfs_list_head) {
+				switch (type) EXHAUSTIVE {
+				case CT_LEFT:
+					rule_remove_left_cycle (reverse_dfs_list_head,
+											predicate_id, table);
+					break;
+				case CT_TAIL:
+					rule_handle_tails (reverse_dfs_list_head);
+					break;
+				case CT_ALL:
+					rule_handle_need_functions (reverse_dfs_list_head);
+					break;
+				case CT_MUTATE:
+					UNREACHED;
+				}
+			}
+		}
+	}
+	for (rule = rule_list_head (&root_list); rule;
+		 rule = rule_next_in_root_list (rule)) {
+		rule_reinit_reverse_list (rule);
+	}
+}
+
+static void
+write_grammar_1(EntryP entry, GenericP gclosure)
+{
+	OStreamP ostream = (OStreamP) gclosure;
+	
+	if (entry_is_rule (entry)) {
+		write_rule (ostream, entry_get_rule (entry));
+		write_newline (ostream);
+	}
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-grammar_init PROTO_N ((grammar))
-	     PROTO_T (GrammarP grammar)
+grammar_init(GrammarP grammar)
 {
-    TableP table = grammar_table (grammar);
-
-    table_init (table);
-    entry_list_init (grammar_entry_list (grammar));
-    grammar->terminal       = 0;
-    grammar->predicate_type = NIL (EntryP);
-    grammar->predicate_id   = table_add_generated_name (table);
+	TableP table = grammar_table (grammar);
+	
+	table_init (table);
+	entry_list_init (grammar_entry_list (grammar));
+	grammar->terminal       = 0;
+	grammar->predicate_type = NIL (EntryP);
+	grammar->predicate_id   = table_add_generated_name (table);
 }
 
 #ifdef FS_FAST
 #undef grammar_table
 #endif /* defined (FS_FAST) */
 TableP
-grammar_table PROTO_N ((grammar))
-	      PROTO_T (GrammarP grammar)
+grammar_table(GrammarP grammar)
 {
-    return (&(grammar->table));
+	return (&(grammar->table));
 }
 #ifdef FS_FAST
 #define grammar_table(g) (&((g)->table))
@@ -314,10 +303,9 @@ grammar_table PROTO_N ((grammar))
 #undef grammar_entry_list
 #endif /* defined (FS_FAST) */
 EntryListP
-grammar_entry_list PROTO_N ((grammar))
-		   PROTO_T (GrammarP grammar)
+grammar_entry_list(GrammarP grammar)
 {
-    return (&(grammar->entry_list));
+	return (&(grammar->entry_list));
 }
 #ifdef FS_FAST
 #define grammar_entry_list(g) (&((g)->entry_list))
@@ -327,34 +315,31 @@ grammar_entry_list PROTO_N ((grammar))
 #undef grammar_max_terminal
 #endif /* defined (FS_FAST) */
 unsigned
-grammar_max_terminal PROTO_N ((grammar))
-		     PROTO_T (GrammarP grammar)
+grammar_max_terminal(GrammarP grammar)
 {
-    return (grammar->terminal);
+	return (grammar->terminal);
 }
 #ifdef FS_FAST
 #define grammar_max_terminal(g) ((g)->terminal)
 #endif /* defined (FS_FAST) */
 
 unsigned
-grammar_next_terminal PROTO_N ((grammar))
-		      PROTO_T (GrammarP grammar)
+grammar_next_terminal(GrammarP grammar)
 {
-    if (grammar->terminal == UINT_MAX) {
-	E_too_many_terminals ();
-	UNREACHED;
-    }
-    return (grammar->terminal ++);
+	if (grammar->terminal == UINT_MAX) {
+		E_too_many_terminals ();
+		UNREACHED;
+	}
+	return (grammar->terminal ++);
 }
 
 #ifdef FS_FAST
 #undef grammar_get_predicate_type
 #endif /* defined (FS_FAST) */
 EntryP
-grammar_get_predicate_type PROTO_N ((grammar))
-			   PROTO_T (GrammarP grammar)
+grammar_get_predicate_type(GrammarP grammar)
 {
-    return (grammar->predicate_type);
+	return (grammar->predicate_type);
 }
 #ifdef FS_FAST
 #define grammar_get_predicate_type(g) ((g)->predicate_type)
@@ -364,11 +349,10 @@ grammar_get_predicate_type PROTO_N ((grammar))
 #undef grammar_set_predicate_type
 #endif /* defined (FS_FAST) */
 void
-grammar_set_predicate_type PROTO_N ((grammar, type))
-			   PROTO_T (GrammarP grammar X
-				    EntryP   type)
+grammar_set_predicate_type(GrammarP grammar,
+						   EntryP type)
 {
-    grammar->predicate_type = type;
+	grammar->predicate_type = type;
 }
 #ifdef FS_FAST
 #define grammar_set_predicate_type(g, t) ((g)->predicate_type = (t))
@@ -378,157 +362,138 @@ grammar_set_predicate_type PROTO_N ((grammar, type))
 #undef grammar_get_predicate_id
 #endif /* defined (FS_FAST) */
 EntryP
-grammar_get_predicate_id PROTO_N ((grammar))
-			 PROTO_T (GrammarP grammar)
+grammar_get_predicate_id(GrammarP grammar)
 {
-    return (grammar->predicate_id);
+	return (grammar->predicate_id);
 }
 #ifdef FS_FAST
 #define grammar_get_predicate_id(g) ((g)->predicate_id)
 #endif /* defined (FS_FAST) */
 
 void
-grammar_check_complete PROTO_N ((grammar))
-		       PROTO_T (GrammarP grammar)
+grammar_check_complete(GrammarP grammar)
 {
-    TableP     table      = grammar_table (grammar);
-    EntryListP entry_list = grammar_entry_list (grammar);
-
-    table_untrace (table);
-    entry_list_iter_table (entry_list, TRUE,
-			   NIL (void (*) PROTO_S ((EntryP, GenericP))),
-			   NIL (GenericP));
-    table_iter (table, grammar_trace_ignored, NIL (GenericP));
-    table_iter (table, grammar_check_1, NIL (GenericP));
+	TableP     table      = grammar_table (grammar);
+	EntryListP entry_list = grammar_entry_list (grammar);
+	
+	table_untrace (table);
+	entry_list_iter_table (entry_list, TRUE,
+		NIL (void (*) (EntryP, GenericP)),
+			NIL (GenericP));
+	table_iter (table, grammar_trace_ignored, NIL (GenericP));
+	table_iter (table, grammar_check_1, NIL (GenericP));
 }
 
 void
-grammar_remove_left_recursion PROTO_N ((grammar))
-			      PROTO_T (GrammarP grammar)
+grammar_remove_left_recursion(GrammarP grammar)
 {
-    grammar_find_cycles (grammar, CT_LEFT);
+	grammar_find_cycles (grammar, CT_LEFT);
 }
 
 void
-grammar_compute_first_sets PROTO_N ((grammar))
-			   PROTO_T (GrammarP grammar)
+grammar_compute_first_sets(GrammarP grammar)
 {
-    TableP table = grammar_table (grammar);
-
-    table_iter (table, rule_compute_first_set, NIL (GenericP));
+	TableP table = grammar_table (grammar);
+	
+	table_iter (table, rule_compute_first_set, NIL (GenericP));
 }
 
 void
-grammar_factor PROTO_N ((grammar))
-	       PROTO_T (GrammarP grammar)
+grammar_factor(GrammarP grammar)
 {
-    TableP         table      = grammar_table (grammar);
-    EntryListP     entry_list = grammar_entry_list (grammar);
-    FactorClosureT closure;
-
-    bitvec_init (&(closure.bitvec1));
-    bitvec_init (&(closure.bitvec2));
-    closure.table        = table;
-    closure.predicate_id = grammar_get_predicate_id (grammar);
-    table_untrace (table);
-    entry_list_iter_table (entry_list, FALSE, rule_factor,
-			   (GenericP) &closure);
-    table_unlink_untraced_rules (table);
-    bitvec_destroy (&(closure.bitvec1));
-    bitvec_destroy (&(closure.bitvec2));
+	TableP         table      = grammar_table (grammar);
+	EntryListP     entry_list = grammar_entry_list (grammar);
+	FactorClosureT closure;
+	
+	bitvec_init (&(closure.bitvec1));
+	bitvec_init (&(closure.bitvec2));
+	closure.table        = table;
+	closure.predicate_id = grammar_get_predicate_id (grammar);
+	table_untrace (table);
+	entry_list_iter_table (entry_list, FALSE, rule_factor,
+						   (GenericP) &closure);
+	table_unlink_untraced_rules (table);
+	bitvec_destroy (&(closure.bitvec1));
+	bitvec_destroy (&(closure.bitvec2));
 }
 
 void
-grammar_simplify PROTO_N ((grammar))
-		 PROTO_T (GrammarP grammar)
+grammar_simplify(GrammarP grammar)
 {
-    TableP       table        = grammar_table (grammar);
-    EntryListP   entry_list   = grammar_entry_list (grammar);
-    EntryP       predicate_id = grammar_get_predicate_id (grammar);
-
-    rule_remove_duplicates (table, predicate_id);
-    table_untrace (table);
-    entry_list_iter_table (entry_list, FALSE,
-			   NIL (void (*) PROTO_S ((EntryP, GenericP))),
-			   NIL (GenericP));
-    table_unlink_untraced_rules (table);
+	TableP       table        = grammar_table (grammar);
+	EntryListP   entry_list   = grammar_entry_list (grammar);
+	EntryP       predicate_id = grammar_get_predicate_id (grammar);
+	
+	rule_remove_duplicates (table, predicate_id);
+	table_untrace (table);
+	entry_list_iter_table (entry_list, FALSE,
+		NIL (void (*)(EntryP, GenericP)),
+			NIL (GenericP));
+	table_unlink_untraced_rules (table);
 }
 
 void
-grammar_compute_inlining PROTO_N ((grammar))
-			 PROTO_T (GrammarP grammar)
+grammar_compute_inlining(GrammarP grammar)
 {
-    TableP     table         = grammar_table (grammar);
-
-    if (rule_get_inline_tail_calls ()) {
-	grammar_find_cycles (grammar, CT_TAIL);
-    }
-    table_iter (table, rule_compute_all_basics, NIL (GenericP));
-    table_iter (table, rule_compute_inlining, NIL (GenericP));
-    table_iter (table, rule_compute_needed_functions, NIL (GenericP));
-    grammar_find_cycles (grammar, CT_ALL);
+	TableP     table         = grammar_table (grammar);
+	
+	if (rule_get_inline_tail_calls ()) {
+		grammar_find_cycles (grammar, CT_TAIL);
+	}
+	table_iter (table, rule_compute_all_basics, NIL (GenericP));
+	table_iter (table, rule_compute_inlining, NIL (GenericP));
+	table_iter (table, rule_compute_needed_functions, NIL (GenericP));
+	grammar_find_cycles (grammar, CT_ALL);
 }
 
 void
-grammar_check_collisions PROTO_N ((grammar))
-			 PROTO_T (GrammarP grammar)
+grammar_check_collisions(GrammarP grammar)
 {
-    TableP table = grammar_table (grammar);
-
-    table_iter (table, rule_check_first_set, (GenericP) grammar);
-    table_iter (table, rule_compute_follow_set, (GenericP) grammar);
-    table_iter (table, rule_compute_see_through_alt, NIL (GenericP));
-    table_iter (table, rule_compute_alt_first_sets, NIL (GenericP));
+	TableP table = grammar_table (grammar);
+	
+	table_iter (table, rule_check_first_set, (GenericP) grammar);
+	table_iter (table, rule_compute_follow_set, (GenericP) grammar);
+	table_iter (table, rule_compute_see_through_alt, NIL (GenericP));
+	table_iter (table, rule_compute_alt_first_sets, NIL (GenericP));
 }
 
 void
-grammar_recompute_alt_names PROTO_N ((grammar))
-			    PROTO_T (GrammarP grammar)
+grammar_recompute_alt_names(GrammarP grammar)
 {
-    TableP table        = grammar_table (grammar);
-    EntryP predicate_id = grammar_get_predicate_id (grammar);
-
-    table_iter (table, rule_recompute_alt_names, (GenericP) predicate_id);
+	TableP table        = grammar_table (grammar);
+	EntryP predicate_id = grammar_get_predicate_id (grammar);
+	
+	table_iter (table, rule_recompute_alt_names, (GenericP) predicate_id);
 }
 
 void
-grammar_compute_mutations PROTO_N ((grammar))
-			  PROTO_T (GrammarP grammar)
+grammar_compute_mutations(GrammarP grammar)
 {
-    TableP    table = grammar_table (grammar);
-    RuleListT root_list;
-    RuleP     rule;
-
-    rule_list_init (&root_list);
-    table_iter (table, rule_build_root_list, (GenericP) &root_list);
-    rule_list_terminate (&root_list);
-    for (rule = rule_list_head (&root_list); rule;
-	 rule = rule_next_in_root_list (rule)) {
-	rule_compute_reverse_list (rule, CT_MUTATE);
-    }
-    table_iter (table, rule_compute_mutations, NIL (GenericP));
-    for (rule = rule_list_head (&root_list); rule;
-	 rule = rule_next_in_root_list (rule)) {
-	rule_reinit_reverse_list (rule);
-    }
+	TableP    table = grammar_table (grammar);
+	RuleListT root_list;
+	RuleP     rule;
+	
+	rule_list_init (&root_list);
+	table_iter (table, rule_build_root_list, (GenericP) &root_list);
+	rule_list_terminate (&root_list);
+	for (rule = rule_list_head (&root_list); rule;
+		 rule = rule_next_in_root_list (rule)) {
+		rule_compute_reverse_list (rule, CT_MUTATE);
+	}
+	table_iter (table, rule_compute_mutations, NIL (GenericP));
+	for (rule = rule_list_head (&root_list); rule;
+		 rule = rule_next_in_root_list (rule)) {
+		rule_reinit_reverse_list (rule);
+	}
 }
 
 void
-write_grammar PROTO_N ((ostream, grammar))
-	      PROTO_T (OStreamP ostream X
-		       GrammarP grammar)
+write_grammar(OStreamP ostream, GrammarP grammar)
 {
-    TableP     table      = grammar_table (grammar);
-    EntryListP entry_list = grammar_entry_list (grammar);
-
-    table_untrace (table);
-    entry_list_iter_table (entry_list, FALSE, write_grammar_1,
-			   (GenericP) ostream);
+	TableP     table      = grammar_table (grammar);
+	EntryListP entry_list = grammar_entry_list (grammar);
+	
+	table_untrace (table);
+	entry_list_iter_table (entry_list, FALSE, write_grammar_1,
+						   (GenericP) ostream);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

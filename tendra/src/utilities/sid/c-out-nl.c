@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the non local name list output routines used by SID.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "c-out-nl.h"
 #include "action.h"
@@ -76,26 +73,22 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NonLocalClosureT {
-    COutputInfoP	info;
-    SaveRStackP		state;
-    unsigned		indent;
+	COutputInfoP	info;
+	SaveRStackP		state;
+	unsigned		indent;
 } NonLocalClosureT, *NonLocalClosureP;
 
 /*--------------------------------------------------------------------------*/
 
 static void
-c_output_save_non_locals_1(COutputInfoP info,
-						   NonLocalEntryP non_local,
-						   SaveRStackP non_local_state,
-						   RStackP rstack,
-						   RuleP handler_rule,
-						   TableP table,
-						   unsigned indent)
+c_output_save_non_locals_1(COutputInfoP info, NonLocalEntryP non_local,
+		SaveRStackP non_local_state, RStackP rstack,
+		RuleP handler_rule, TableP table,  unsigned indent)
 {
-    OStreamP ostream = c_out_info_ostream (info);
-    EntryP   entry   = non_local_entry_get_initialiser (non_local);
-
-    if (entry) {
+	OStreamP ostream = c_out_info_ostream (info);
+	EntryP   entry   = non_local_entry_get_initialiser (non_local);
+	
+	if (entry) {
 		EntryP      type;
 		BoolT       reference;
 		EntryP      translation = rstack_get_translation (non_local_state,
@@ -110,7 +103,7 @@ c_output_save_non_locals_1(COutputInfoP info,
 		TypeTupleT  args;
 		TypeTupleT  result_args;
 		SaveRStackT state;
-
+		
 		c_output_key_message (info, "/* BEGINNING OF INITIALISER: ", key,
 							  " */", indent);
 		c_output_open (info, indent);
@@ -143,20 +136,18 @@ c_output_save_non_locals_1(COutputInfoP info,
 							  indent);
 		types_destroy (&result_args);
 		types_destroy (&args);
-    }
+	}
 }
 
 static void
-c_output_restore_non_locals_1(EntryP from,
-							  EntryP to,
-							  GenericP gclosure)
+c_output_restore_non_locals_1(EntryP from, EntryP to, GenericP gclosure)
 {
-    NonLocalClosureP closure = (NonLocalClosureP) gclosure;
-    COutputInfoP     info    = closure->info;
-    SaveRStackP      state   = closure->state;
-    unsigned         indent  = closure->indent;
-
-    c_output_assign (info, to, from, state, state, indent);
+	NonLocalClosureP closure = (NonLocalClosureP) gclosure;
+	COutputInfoP     info    = closure->info;
+	SaveRStackP      state   = closure->state;
+	unsigned         indent  = closure->indent;
+	
+	c_output_assign (info, to, from, state, state, indent);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -164,10 +155,10 @@ c_output_restore_non_locals_1(EntryP from,
 void
 c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
 {
-    OStreamP       ostream = c_out_info_ostream (info);
-    NonLocalEntryP non_local;
-
-    for (non_local = non_locals->head; non_local;
+	OStreamP       ostream = c_out_info_ostream (info);
+	NonLocalEntryP non_local;
+	
+	for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		if (!c_out_info_get_split (info)) {
 			write_cstring (ostream, "static ");
@@ -177,17 +168,16 @@ c_output_non_locals(COutputInfoP info, NonLocalListP non_locals)
 		c_output_mapped_key (info, non_local->name);
 		write_char (ostream, ';');
 		write_newline (ostream);
-    }
+	}
 }
 
 void
-c_output_declare_non_locals(COutputInfoP info,
-							NonLocalListP non_locals)
+c_output_declare_non_locals(COutputInfoP info, NonLocalListP non_locals)
 {
-    OStreamP       ostream = c_out_info_ostream (info);
-    NonLocalEntryP non_local;
-
-    for (non_local = non_locals->head; non_local;
+	OStreamP       ostream = c_out_info_ostream (info);
+	NonLocalEntryP non_local;
+	
+	for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		write_cstring (ostream, "extern ");
 		c_output_mapped_key (info, non_local->type);
@@ -195,28 +185,25 @@ c_output_declare_non_locals(COutputInfoP info,
 		c_output_mapped_key (info, non_local->name);
 		write_char (ostream, ';');
 		write_newline (ostream);
-    }
+	}
 }
 
 void
-c_output_save_non_locals(COutputInfoP info,
-						 RuleP rule, unsigned indent,
-						 RStackP rstack,
-						 RStackP non_local_stack,
-						 RuleP handler_rule,
-						 TableP table)
+c_output_save_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
+		RStackP rstack, RStackP non_local_stack,  RuleP handler_rule,
+		TableP table)
 {
-    OStreamP       ostream    = c_out_info_ostream (info);
-    NStringP       in_prefix  = c_out_info_in_prefix (info);
-    NonLocalListP  non_locals = rule_non_locals (rule);
-    NonLocalEntryP non_local;
-    SaveRStackT    state;
-    SaveRStackT    non_local_state;
-
-    for (non_local = non_locals->head; non_local;
+	OStreamP       ostream    = c_out_info_ostream (info);
+	NStringP       in_prefix  = c_out_info_in_prefix (info);
+	NonLocalListP  non_locals = rule_non_locals (rule);
+	NonLocalEntryP non_local;
+	SaveRStackT    state;
+	SaveRStackT    non_local_state;
+	
+	for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		EntryP entry = table_add_generated_name (table);
-
+		
 		output_indent (c_out_info_info (info), indent);
 		c_output_mapped_key (info, non_local->type);
 		write_char (ostream, ' ');
@@ -225,51 +212,41 @@ c_output_save_non_locals(COutputInfoP info,
 		rstack_add_translation (non_local_stack, non_local->name, entry,
 								non_local->type, FALSE);
 		rstack_add_translation (rstack, entry, entry, non_local->type, FALSE);
-    }
-    write_newline (ostream);
-    rstack_save_state (rstack, &state);
-    rstack_save_state (non_local_stack, &non_local_state);
-    for (non_local = non_locals->head; non_local;
+	}
+	write_newline (ostream);
+	rstack_save_state (rstack, &state);
+	rstack_save_state (non_local_stack, &non_local_state);
+	for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		EntryP type;
 		BoolT  reference;
 		EntryP entry = rstack_get_translation (&non_local_state,
 											   non_local->name, &type,
 											   &reference);
-
+		
 		ASSERT ((entry != NIL (EntryP)) && (type == non_local->type) &&
 				(!reference));
 		c_output_assign (info, non_local->name, entry, &state, &state, indent);
-    }
-    for (non_local = non_locals->head; non_local;
+	}
+	for (non_local = non_locals->head; non_local;
 		 non_local = non_local->next) {
 		c_output_save_non_locals_1 (info, non_local, &non_local_state,
-									rstack, handler_rule, table, indent);
-    }
-    rstack_save_state (non_local_stack, rule_non_local_state (rule));
+			rstack, handler_rule, table, indent);
+	}
+	rstack_save_state (non_local_stack, rule_non_local_state (rule));
 }
 
 void
-c_output_restore_non_locals(COutputInfoP info,
-							RuleP rule, unsigned indent,
-							RStackP rstack,
-							RStackP non_local_stack)
+c_output_restore_non_locals(COutputInfoP info, RuleP rule, unsigned indent,
+		RStackP rstack,	RStackP non_local_stack)
 {
-    NonLocalClosureT closure;
-    SaveRStackT      state;
-
-    rstack_save_state (rstack, &state);
-    closure.info   = info;
-    closure.state  = &state;
-    closure.indent = indent;
-    rstack_apply_for_non_locals (non_local_stack, rule_non_local_state (rule),
-								 c_output_restore_non_locals_1,
-								 (GenericP) &closure);
+	NonLocalClosureT closure;
+	SaveRStackT      state;
+	
+	rstack_save_state (rstack, &state);
+	closure.info   = info;
+	closure.state  = &state;
+	closure.indent = indent;
+	rstack_apply_for_non_locals (non_local_stack, rule_non_local_state (rule),
+			c_output_restore_non_locals_1, (GenericP) &closure);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-lexer.c" for details.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_LEXER
 #define H_C_LEXER
@@ -81,87 +78,59 @@
  * reflected in the "c-parser.sid" file.
  **/
 
-#ifdef FS_NO_ENUM
-typedef int CTokenT, *CTokenP;
-#define C_TOK_BLT_PREFIXES		(0)
-#define C_TOK_BLT_MAPS			(1)
-#define C_TOK_BLT_ASSIGNMENTS		(2)
-#define C_TOK_BLT_TERMINALS		(3)
-#define C_TOK_BLT_HEADER		(4)
-#define C_TOK_BLT_ACTIONS		(5)
-#define C_TOK_BLT_TRAILER		(6)
-#define C_TOK_BLT_RESULT_ASSIGN		(7)
-#define C_TOK_SID_IDENTIFIER		(8)
-#define C_TOK_C_IDENTIFIER		(9)
-#define C_TOK_SEPARATOR			(10)
-#define C_TOK_TYPEMARK			(11)
-#define C_TOK_TERMINATOR		(12)
-#define C_TOK_BEGIN_ACTION		(13)
-#define C_TOK_DEFINE			(14)
-#define C_TOK_END_ACTION		(15)
-#define C_TOK_CODE			(16)
-#define C_TOK_ARROW			(17)
-#define C_TOK_OPEN_TUPLE		(18)
-#define C_TOK_CLOSE_TUPLE		(19)
-#define C_TOK_BLT_PARAM_ASSIGN		(20)
-#define C_TOK_REFERENCE			(21)
-#define C_TOK_EOF			(22)
-#define C_TOK_ERROR			(23)
-#else
 typedef enum {
-    C_TOK_BLT_PREFIXES,
-    C_TOK_BLT_MAPS,
-    C_TOK_BLT_ASSIGNMENTS,
-    C_TOK_BLT_TERMINALS,
-    C_TOK_BLT_HEADER,
-    C_TOK_BLT_ACTIONS,
-    C_TOK_BLT_TRAILER,
-    C_TOK_BLT_RESULT_ASSIGN,
-    C_TOK_SID_IDENTIFIER,
-    C_TOK_C_IDENTIFIER,
-    C_TOK_SEPARATOR,
-    C_TOK_TYPEMARK,
-    C_TOK_TERMINATOR,
-    C_TOK_BEGIN_ACTION,
-    C_TOK_DEFINE,
-    C_TOK_END_ACTION,
-    C_TOK_CODE,
-    C_TOK_ARROW,
-    C_TOK_OPEN_TUPLE,
-    C_TOK_CLOSE_TUPLE,
-    C_TOK_BLT_PARAM_ASSIGN,
-    C_TOK_REFERENCE,
-    C_TOK_EOF,
-    C_TOK_ERROR
+	C_TOK_BLT_PREFIXES,
+	C_TOK_BLT_MAPS,
+	C_TOK_BLT_ASSIGNMENTS,
+	C_TOK_BLT_TERMINALS,
+	C_TOK_BLT_HEADER,
+	C_TOK_BLT_ACTIONS,
+	C_TOK_BLT_TRAILER,
+	C_TOK_BLT_RESULT_ASSIGN,
+	C_TOK_SID_IDENTIFIER,
+	C_TOK_C_IDENTIFIER,
+	C_TOK_SEPARATOR,
+	C_TOK_TYPEMARK,
+	C_TOK_TERMINATOR,
+	C_TOK_BEGIN_ACTION,
+	C_TOK_DEFINE,
+	C_TOK_END_ACTION,
+	C_TOK_CODE,
+	C_TOK_ARROW,
+	C_TOK_OPEN_TUPLE,
+	C_TOK_CLOSE_TUPLE,
+	C_TOK_BLT_PARAM_ASSIGN,
+	C_TOK_REFERENCE,
+	C_TOK_EOF,
+	C_TOK_ERROR
 } CTokenT, *CTokenP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct CLexT {
-    CTokenT			t;
-    union {
+	CTokenT			t;
+	union {
 		NStringT		string;
 		CCodeP			code;
-    } u;
+	} u;
 } CLexT, *CLexP;
 
 typedef struct CLexerStreamT {
-    IStreamT			istream;
-    CLexT			token;
-    CTokenT			saved_terminal;
+	IStreamT			istream;
+	CLexT			token;
+	CTokenT			saved_terminal;
 } CLexerStreamT, *CLexerStreamP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			c_lexer_init(CLexerStreamP, IStreamP);
-extern void			c_lexer_close(CLexerStreamP);
-extern CStringP			c_lexer_stream_name(CLexerStreamP);
-extern unsigned			c_lexer_stream_line(CLexerStreamP);
-extern CTokenT			c_lexer_get_terminal(CLexerStreamP);
-extern void			c_lexer_next_token(CLexerStreamP);
-extern NStringP			c_lexer_string_value(CLexerStreamP);
-extern CCodeP			c_lexer_code_value(CLexerStreamP);
-extern void			c_lexer_save_terminal(CLexerStreamP, CTokenT);
-extern void			c_lexer_restore_terminal(CLexerStreamP);
+void	c_lexer_init(CLexerStreamP, IStreamP);
+void	c_lexer_close(CLexerStreamP);
+CStringP c_lexer_stream_name(CLexerStreamP);
+unsigned c_lexer_stream_line(CLexerStreamP);
+CTokenT	c_lexer_get_terminal(CLexerStreamP);
+void	c_lexer_next_token(CLexerStreamP);
+NStringP c_lexer_string_value(CLexerStreamP);
+CCodeP	c_lexer_code_value(CLexerStreamP);
+void	c_lexer_save_terminal(CLexerStreamP, CTokenT);
+void	c_lexer_restore_terminal(CLexerStreamP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -175,11 +144,3 @@ extern void			c_lexer_restore_terminal(CLexerStreamP);
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_C_LEXER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
- **/

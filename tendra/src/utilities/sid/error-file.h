@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** error-file.h --- Error file parsing routines.
@@ -112,13 +112,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern void			error_file_parse
-	PROTO_S ((CStringP, BoolT));
+void	error_file_parse (CStringP, BoolT);
 
 #endif /* !defined (H_ERROR_FILE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rule-firsts.c --- Computation of rule first sets.
@@ -78,8 +78,7 @@
  * check that predicates are either the first item in an alternative, or are
  * preceded by a basic (or another predicate).  The same check is also made
  * for rules that start with a predicate.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -91,103 +90,93 @@
 /*--------------------------------------------------------------------------*/
 
 void
-rule_compute_first_set_1 PROTO_N ((rule))
-			 PROTO_T (RuleP rule)
+rule_compute_first_set_1(RuleP rule)
 {
-    AltP     alt;
-    unsigned priority = 0;
-
-    if (rule_has_computed_first_set (rule)) {
-	return;
-    } else if (rule_is_computing_first_set (rule)) {
-	E_cannot_compute_first_set (rule);
-	return;
-    }
-    rule_computing_first_set (rule);
-    for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
-	BoolT see_through = TRUE;
-	BoolT no_action   = TRUE;
-	ItemP item        = alt_item_head (alt);
-	ItemP initial     = item;
-
-	for (; see_through && (item != NIL (ItemP)); item = item_next (item)) {
-	    switch (item_type (item)) EXHAUSTIVE {
-	      case ET_PREDICATE:
-		if (item != initial) {
-		    E_see_to_predicate (entry_key (item_entry (item)), rule);
+	AltP     alt;
+	unsigned priority = 0;
+	
+	if (rule_has_computed_first_set (rule)) {
+		return;
+	} else if (rule_is_computing_first_set (rule)) {
+		E_cannot_compute_first_set (rule);
+		return;
+	}
+	rule_computing_first_set (rule);
+	for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
+		BoolT see_through = TRUE;
+		BoolT no_action   = TRUE;
+		ItemP item        = alt_item_head (alt);
+		ItemP initial     = item;
+		
+		for (; see_through && (item != NIL (ItemP)); item = item_next (item)) {
+			switch (item_type (item)) EXHAUSTIVE {
+			case ET_PREDICATE:
+				if (item != initial) {
+					E_see_to_predicate (entry_key (item_entry (item)), rule);
+				}
+				entry_list_add_if_missing (rule_predicate_first (rule),
+										   item_entry (item));
+				see_through = FALSE;
+				break;
+			case ET_RENAME:
+			case ET_ACTION:
+				no_action = FALSE;
+				break;
+			case ET_RULE: {
+				EntryP     entry      = item_entry (item);
+				RuleP      item_rule  = entry_get_rule (entry);
+				EntryListP pred_first = rule_predicate_first (item_rule);
+				unsigned   item_priority;
+				
+				rule_compute_first_set_1 (item_rule);
+				if ((item != initial) &&
+					(!entry_list_is_empty (pred_first))) {
+					E_see_to_rule_predicate (item_rule, rule);
+				}
+				bitvec_or (rule_first_set (rule),
+						   rule_first_set (item_rule));
+				entry_list_append (rule_predicate_first (rule), pred_first);
+				see_through   = rule_is_see_through (item_rule);
+				item_priority = rule_get_priority (item_rule);
+				if ((item_priority > priority) && no_action) {
+					priority = item_priority;
+				}
+			}
+				break;
+			case ET_BASIC: {
+				BasicP basic = entry_get_basic (item_entry (item));
+				
+				bitvec_set (rule_first_set (rule), basic_terminal (basic));
+				see_through = FALSE;
+			}
+				break;
+			case ET_NON_LOCAL:
+			case ET_NAME:
+			case ET_TYPE:
+				UNREACHED;
+			}
 		}
-		entry_list_add_if_missing (rule_predicate_first (rule),
-					   item_entry (item));
-		see_through = FALSE;
-		break;
-	      case ET_RENAME:
-	      case ET_ACTION:
-		no_action = FALSE;
-		break;
-	      case ET_RULE: {
-		  EntryP     entry      = item_entry (item);
-		  RuleP      item_rule  = entry_get_rule (entry);
-		  EntryListP pred_first = rule_predicate_first (item_rule);
-		  unsigned   item_priority;
-
-		  rule_compute_first_set_1 (item_rule);
-		  if ((item != initial) &&
-		      (!entry_list_is_empty (pred_first))) {
-		      E_see_to_rule_predicate (item_rule, rule);
-		  }
-		  bitvec_or (rule_first_set (rule),
-			     rule_first_set (item_rule));
-		  entry_list_append (rule_predicate_first (rule), pred_first);
-		  see_through   = rule_is_see_through (item_rule);
-		  item_priority = rule_get_priority (item_rule);
-		  if ((item_priority > priority) && no_action) {
-		      priority = item_priority;
-		  }
-	      }
-		break;
-	      case ET_BASIC: {
-		  BasicP basic = entry_get_basic (item_entry (item));
-
-		  bitvec_set (rule_first_set (rule), basic_terminal (basic));
-		  see_through = FALSE;
-	      }
-		break;
-	      case ET_NON_LOCAL:
-	      case ET_NAME:
-	      case ET_TYPE:
-		UNREACHED;
-	    }
+		if (see_through) {
+			rule_see_through (rule);
+		}
 	}
-	if (see_through) {
-	    rule_see_through (rule);
+	if (rule_has_empty_alt (rule)) {
+		rule_see_through (rule);
 	}
-    }
-    if (rule_has_empty_alt (rule)) {
-	rule_see_through (rule);
-    }
-    rule_set_priority (rule, priority + 1);
-    if (rule_is_see_through (rule) && bitvec_is_full (rule_first_set (rule))) {
-	E_redundant_see_through_alt (rule);
-    }
-    rule_computed_first_set (rule);
+	rule_set_priority (rule, priority + 1);
+	if (rule_is_see_through (rule) && bitvec_is_full (rule_first_set (rule))) {
+		E_redundant_see_through_alt (rule);
+	}
+	rule_computed_first_set (rule);
 }
 
 void
-rule_compute_first_set PROTO_N ((entry, gclosure))
-		       PROTO_T (EntryP   entry X
-				GenericP gclosure)
+rule_compute_first_set(EntryP entry, GenericP gclosure)
 {
-    UNUSED (gclosure);
-    if (entry_is_rule (entry)) {
-	RuleP rule = entry_get_rule (entry);
-
-	rule_compute_first_set_1 (rule);
-    }
+	UNUSED (gclosure);
+	if (entry_is_rule (entry)) {
+		RuleP rule = entry_get_rule (entry);
+		
+		rule_compute_first_set_1 (rule);
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

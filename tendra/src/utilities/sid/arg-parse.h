@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -245,8 +245,7 @@
  ** Exceptions:
  *
  * This macro should be used to terminate an option list.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -260,68 +259,49 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int ArgTypeT, *ArgTypeP;
-#define AT_SWITCH	(0)
-#define AT_NEG_SWITCH	(1)
-#define AT_PROC_SWITCH	(2)
-#define AT_IMMEDIATE	(3)
-#define AT_EITHER	(4)
-#define AT_FOLLOWING	(5)
-#define AT_EMPTY	(6)
-#define AT_FOLLOWING2	(7)
-#define AT_FOLLOWING3	(8)
-#else
 typedef enum {
-    AT_SWITCH,
-    AT_NEG_SWITCH,
-    AT_PROC_SWITCH,
-    AT_IMMEDIATE,
-    AT_EITHER,
-    AT_FOLLOWING,
-    AT_EMPTY,
-    AT_FOLLOWING2,
-    AT_FOLLOWING3
+	AT_SWITCH,
+	AT_NEG_SWITCH,
+	AT_PROC_SWITCH,
+	AT_IMMEDIATE,
+	AT_EITHER,
+	AT_FOLLOWING,
+	AT_EMPTY,
+	AT_FOLLOWING2,
+	AT_FOLLOWING3
 } ArgTypeT, *ArgTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 struct ArgListT;
 typedef struct ArgUsageT {
-    CStringP			usage;
-    struct ArgListT	       *arg_list;
+	CStringP			usage;
+	struct ArgListT	       *arg_list;
 } ArgUsageT, *ArgUsageP;
 
 typedef void (*ArgProcP)(CStringP, ArgUsageP, GenericP, ...);
 
 typedef struct ArgListT {
-    CStringP			name;
-    char			short_name;
-    ArgTypeT			type;
-    ArgProcP			proc;
-    GenericP			closure;
-    UNION {
+	CStringP			name;
+	char			short_name;
+	ArgTypeT			type;
+	ArgProcP			proc;
+	GenericP			closure;
+	union {
 		CStringP		name;
 		EStringP		message;
-    } u;
+	} u;
 } ArgListT, *ArgListP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			arg_parse_intern_descriptions(ArgListP);
-extern int			arg_parse_arguments(ArgListP, EStringP, int, char **);
+void	arg_parse_intern_descriptions(ArgListP);
+int	arg_parse_arguments(ArgListP, EStringP, int, char **);
 
-extern void			write_arg_usage(OStreamP, ArgUsageP);
+void	write_arg_usage(OStreamP, ArgUsageP);
 
 /*--------------------------------------------------------------------------*/
 
 #define ARG_PARSE_END_LIST \
 {NIL (CStringP), '\0', (ArgTypeT) 0, NIL (ArgProcP), NIL (GenericP), \
- UB NIL (CStringP) UE}
+ { NIL (CStringP) }}
 
 #endif /* !defined (H_ARG_PARSE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** cstring-list.h --- String list ADT.
@@ -117,8 +117,7 @@
  * pointer to the next entry in the list.  Once this function has been called,
  * the state of the list that the entry is a member of is undefined.  It is
  * only useful for deallocating the entire list in a loop.
- *
- **** Change log:*/
+ */
 
 /****************************************************************************/
 
@@ -132,32 +131,21 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct CStringListEntryT {
-    struct CStringListEntryT   *next;
-    CStringP			string;
+	struct CStringListEntryT   *next;
+	CStringP			string;
 } CStringListEntryT, *CStringListEntryP;
 
 typedef struct CStringListT {
-    CStringListEntryP		head;
-    CStringListEntryP	       *tail;
+	CStringListEntryP		head;
+	CStringListEntryP	       *tail;
 } CStringListT, *CStringListP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			cstring_list_init
-	PROTO_S ((CStringListP));
-extern void			cstring_list_append
-	PROTO_S ((CStringListP, CStringP));
-extern CStringListEntryP	cstring_list_head
-	PROTO_S ((CStringListP));
-extern CStringP			cstring_list_entry_string
-	PROTO_S ((CStringListEntryP));
-extern CStringListEntryP	cstring_list_entry_deallocate
-	PROTO_S ((CStringListEntryP));
+void	cstring_list_init(CStringListP);
+void	cstring_list_append(CStringListP, CStringP);
+CStringListEntryP cstring_list_head(CStringListP);
+CStringP cstring_list_entry_string(CStringListEntryP);
+CStringListEntryP cstring_list_entry_deallocate(CStringListEntryP);
 
 #endif /* !defined (H_CSTRING_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

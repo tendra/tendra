@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** syntax.c --- Character classification.
@@ -66,73 +66,63 @@
  *
  * This particular implementation assumes that the ASCII character set is
  * being used. It will need changing for other character sets.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "syntax.h"
 
 /*--------------------------------------------------------------------------*/
 
 int
-syntax_value PROTO_N ((c))
-	     PROTO_T (char c)
+syntax_value(char c)
 {
-    if ((c >= '0') && (c <= '9')) {
-	return (c - '0');
-    } else if ((c >= 'A') && (c <= 'Z')) {
-	return (c - 'A' + 10);
-    } else if ((c >= 'a') && (c <= 'z')) {
-	return (c - 'a' + 10);
-    }
-    return (SYNTAX_NO_VALUE);
+	if ((c >= '0') && (c <= '9')) {
+		return (c - '0');
+	} else if ((c >= 'A') && (c <= 'Z')) {
+		return (c - 'A' + 10);
+	} else if ((c >= 'a') && (c <= 'z')) {
+		return (c - 'a' + 10);
+	}
+	return (SYNTAX_NO_VALUE);
 }
 
 char
-syntax_upcase PROTO_N ((c))
-	      PROTO_T (char c)
+syntax_upcase(char c)
 {
-    if ((c >= 'a') && (c <= 'z')) {
-	return ((char) (c - 'a' + 'A'));
-    }
-    return (c);
+	if ((c >= 'a') && (c <= 'z')) {
+		return ((char) (c - 'a' + 'A'));
+	}
+	return (c);
 }
 
 char
-syntax_downcase PROTO_N ((c))
-		PROTO_T (char c)
+syntax_downcase(char c)
 {
-    if ((c >= 'A') && (c <= 'Z')) {
-	return ((char) (c - 'A' + 'a'));
-    }
-    return (c);
+	if ((c >= 'A') && (c <= 'Z')) {
+		return ((char) (c - 'A' + 'a'));
+	}
+	return (c);
 }
 
 BoolT
-syntax_is_white_space PROTO_N ((c))
-		      PROTO_T (char c)
+syntax_is_white_space(char c)
 {
-    return ((c < 33) || (c > 126));
+	return ((c < 33) || (c > 126));
 }
 
 BoolT
-syntax_is_printable PROTO_N ((c))
-		    PROTO_T (char c)
+syntax_is_printable(char c)
 {
-    return ((c > 31) && (c < 127));
+	return ((c > 31) && (c < 127));
 }
 
 BoolT
-syntax_is_letter PROTO_N ((c))
-		 PROTO_T (char c)
+syntax_is_letter(char c)
 {
-    return (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
+	return (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
 }
 
 BoolT
-syntax_is_digit PROTO_N ((c))
-		PROTO_T (char c)
+syntax_is_digit(char c)
 {
-    return ((c >= '0') && (c <= '9'));
+	return ((c >= '0') && (c <= '9'));
 }

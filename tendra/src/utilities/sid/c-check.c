@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,8 +63,7 @@
  *
  * This file contains routines to check that all actions and basic result
  * extraction functions are defined.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -80,15 +79,15 @@
 static void
 c_check_grammar_1(EntryP entry, GenericP gclosure)
 {
-    TypeP type;
-
-    UNUSED (gclosure);
-    switch (entry_type (entry)) EXHAUSTIVE {
+	TypeP type;
+	
+	UNUSED (gclosure);
+	switch (entry_type (entry)) EXHAUSTIVE {
 	case ET_RULE:
 		break;
 	case ET_BASIC: {
 		BasicP basic = entry_get_basic (entry);
-
+		
 		if ((!types_equal_zero_tuple (basic_result (basic))) &&
 			(basic_get_result_code (basic) == NIL (GenericP))) {
 			E_basic_result_code_not_defined (entry_key (entry));
@@ -117,7 +116,7 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 		break;
 	case ET_PREDICATE:
 		UNREACHED;
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -125,13 +124,5 @@ c_check_grammar_1(EntryP entry, GenericP gclosure)
 void
 c_check_grammar(GrammarP grammar)
 {
-    table_iter (grammar_table (grammar), c_check_grammar_1, NIL (GenericP));
+	table_iter (grammar_table (grammar), c_check_grammar_1, NIL (GenericP));
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
- **/

@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** table.h --- Identifier table ADT.
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "table.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_TABLE
 #define H_TABLE
@@ -86,55 +83,29 @@ struct GrammarT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct TableT {
-    EntryP			contents [TABLE_SIZE];
+	EntryP			contents [TABLE_SIZE];
 } TableT, *TableP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			table_init
-	PROTO_S ((TableP));
-extern EntryP			table_add_type
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_add_basic
-	PROTO_S ((TableP, NStringP, struct GrammarT *, BoolT));
-extern EntryP			table_add_action
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_add_rule
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_add_generated_rule
-	PROTO_S ((TableP, BoolT));
-extern EntryP			table_add_name
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_add_generated_name
-	PROTO_S ((TableP));
-extern EntryP			table_add_rename
-	PROTO_S ((TableP));
-extern EntryP			table_add_non_local
-	PROTO_S ((TableP, NStringP, EntryP));
-extern EntryP			table_get_entry
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_get_type
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_get_basic
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_get_basic_by_number
-	PROTO_S ((TableP, unsigned));
-extern EntryP			table_get_action
-	PROTO_S ((TableP, NStringP));
-extern EntryP			table_get_rule
-	PROTO_S ((TableP, NStringP));
-extern void			table_iter
-	PROTO_S ((TableP, void (*) (EntryP, GenericP), GenericP));
-extern void			table_untrace
-	PROTO_S ((TableP));
-extern void			table_unlink_untraced_rules
-	PROTO_S ((TableP));
+void	table_init(TableP);
+EntryP	table_add_type(TableP, NStringP);
+EntryP	table_add_basic(TableP, NStringP, struct GrammarT *, BoolT);
+EntryP	table_add_action(TableP, NStringP);
+EntryP	table_add_rule(TableP, NStringP);
+EntryP	table_add_generated_rule(TableP, BoolT);
+EntryP	table_add_name(TableP, NStringP);
+EntryP	table_add_generated_name(TableP);
+EntryP	table_add_rename(TableP);
+EntryP	table_add_non_local(TableP, NStringP, EntryP);
+EntryP	table_get_entry(TableP, NStringP);
+EntryP	table_get_type(TableP, NStringP);
+EntryP	table_get_basic(TableP, NStringP);
+EntryP	table_get_basic_by_number(TableP, unsigned);
+EntryP	table_get_action(TableP, NStringP);
+EntryP	table_get_rule(TableP, NStringP);
+void	table_iter(TableP, void (*) (EntryP, GenericP), GenericP);
+void	table_untrace(TableP);
+void	table_unlink_untraced_rules(TableP);
 
 #endif /* !defined (H_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** entry.c --- Identifier table entry ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * This file implements the identifier table routines used by SID.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -81,8 +80,7 @@
 #undef entry_traced
 #endif /* defined (FS_FAST) */
 static void
-entry_traced PROTO_N ((entry))
-	     PROTO_T (EntryP entry)
+entry_traced(EntryP entry)
 {
     entry->traced = TRUE;
 }
@@ -93,13 +91,11 @@ entry_traced PROTO_N ((entry))
 /*--------------------------------------------------------------------------*/
 
 EntryP
-entry_create_from_string PROTO_N ((key, number, type))
-			 PROTO_T (NStringP   key X
-				  unsigned   number X
-				  EntryTypeT type)
+entry_create_from_string(NStringP key, unsigned number,
+						 EntryTypeT type)
 {
     EntryP entry = ALLOCATE (EntryT);
-
+	
     entry->next   = NIL (EntryP);
     key_init_from_string (entry_key (entry), key, number);
     entry->mapped = FALSE;
@@ -111,14 +107,11 @@ entry_create_from_string PROTO_N ((key, number, type))
 }
 
 EntryP
-entry_create_from_number PROTO_N ((key, type, traced, next))
-			 PROTO_T (unsigned   key X
-				  EntryTypeT type X
-				  BoolT      traced X
-				  EntryP     next)
+entry_create_from_number(unsigned key, EntryTypeT type,
+						 BoolT traced, EntryP next)
 {
     EntryP entry = ALLOCATE (EntryT);
-
+	
     entry->next   = next;
     key_init_from_number (entry_key (entry), key);
     entry->mapped = FALSE;
@@ -133,9 +126,7 @@ entry_create_from_number PROTO_N ((key, type, traced, next))
 #undef entry_set_basic
 #endif /* defined (FS_FAST) */
 void
-entry_set_basic PROTO_N ((entry, basic))
-		PROTO_T (EntryP entry X
-			 BasicP basic)
+entry_set_basic(EntryP entry, BasicP basic)
 {
     ASSERT (entry_is_basic (entry));
     entry->u.basic = basic;
@@ -148,9 +139,7 @@ entry_set_basic PROTO_N ((entry, basic))
 #undef entry_set_rule
 #endif /* defined (FS_FAST) */
 void
-entry_set_rule PROTO_N ((entry, rule))
-	       PROTO_T (EntryP entry X
-			RuleP  rule)
+entry_set_rule(EntryP entry, RuleP rule)
 {
     ASSERT (entry_is_rule (entry));
     entry->u.rule = rule;
@@ -163,9 +152,7 @@ entry_set_rule PROTO_N ((entry, rule))
 #undef entry_set_action
 #endif /* defined (FS_FAST) */
 void
-entry_set_action PROTO_N ((entry, action))
-		 PROTO_T (EntryP  entry X
-			  ActionP action)
+entry_set_action(EntryP entry, ActionP action)
 {
     ASSERT (entry_is_action (entry));
     entry->u.action = action;
@@ -178,9 +165,7 @@ entry_set_action PROTO_N ((entry, action))
 #undef entry_set_type
 #endif /* defined (FS_FAST) */
 void
-entry_set_type PROTO_N ((entry, type))
-	       PROTO_T (EntryP entry X
-			TypeP  type)
+entry_set_type(EntryP entry, TypeP type)
 {
     ASSERT (entry_is_type (entry));
     entry->u.type = type;
@@ -193,9 +178,7 @@ entry_set_type PROTO_N ((entry, type))
 #undef entry_set_non_local
 #endif /* defined (FS_FAST) */
 void
-entry_set_non_local PROTO_N ((entry, type))
-		    PROTO_T (EntryP entry X
-			     EntryP type)
+entry_set_non_local(EntryP entry, EntryP type)
 {
     ASSERT (entry_is_non_local (entry));
     entry->u.non_local = type;
@@ -208,8 +191,7 @@ entry_set_non_local PROTO_N ((entry, type))
 #undef entry_next
 #endif /* defined (FS_FAST) */
 EntryP
-entry_next PROTO_N ((entry))
-	   PROTO_T (EntryP entry)
+entry_next(EntryP entry)
 {
     return (entry->next);
 }
@@ -221,8 +203,7 @@ entry_next PROTO_N ((entry))
 #undef entry_next_ref
 #endif /* defined (FS_FAST) */
 EntryP *
-entry_next_ref PROTO_N ((entry))
-	       PROTO_T (EntryP entry)
+entry_next_ref(EntryP entry)
 {
     return (&(entry->next));
 }
@@ -234,8 +215,7 @@ entry_next_ref PROTO_N ((entry))
 #undef entry_key
 #endif /* defined (FS_FAST) */
 KeyP
-entry_key PROTO_N ((entry))
-	  PROTO_T (EntryP entry)
+entry_key(EntryP entry)
 {
     return (&(entry->key));
 }
@@ -247,8 +227,7 @@ entry_key PROTO_N ((entry))
 #undef entry_type
 #endif /* defined (FS_FAST) */
 EntryTypeT
-entry_type PROTO_N ((entry))
-	   PROTO_T (EntryP entry)
+entry_type(EntryP entry)
 {
     return (entry->type);
 }
@@ -260,9 +239,7 @@ entry_type PROTO_N ((entry))
 #undef entry_change_type
 #endif /* defined (FS_FAST) */
 void
-entry_change_type PROTO_N ((entry, type))
-		  PROTO_T (EntryP     entry X
-			   EntryTypeT type)
+entry_change_type(EntryP entry, EntryTypeT type)
 {
     entry->type = type;
 }
@@ -274,8 +251,7 @@ entry_change_type PROTO_N ((entry, type))
 #undef entry_is_basic
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_basic PROTO_N ((entry))
-	       PROTO_T (EntryP entry)
+entry_is_basic(EntryP entry)
 {
     return (entry->type == ET_BASIC);
 }
@@ -287,8 +263,7 @@ entry_is_basic PROTO_N ((entry))
 #undef entry_is_action
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_action PROTO_N ((entry))
-		PROTO_T (EntryP entry)
+entry_is_action(EntryP entry)
 {
     return (entry->type == ET_ACTION);
 }
@@ -300,8 +275,7 @@ entry_is_action PROTO_N ((entry))
 #undef entry_is_rule
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_rule PROTO_N ((entry))
-	      PROTO_T (EntryP entry)
+entry_is_rule(EntryP entry)
 {
     return (entry->type == ET_RULE);
 }
@@ -313,8 +287,7 @@ entry_is_rule PROTO_N ((entry))
 #undef entry_is_type
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_type PROTO_N ((entry))
-	      PROTO_T (EntryP entry)
+entry_is_type(EntryP entry)
 {
     return (entry->type == ET_TYPE);
 }
@@ -326,8 +299,7 @@ entry_is_type PROTO_N ((entry))
 #undef entry_is_non_local
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_non_local PROTO_N ((entry))
-		   PROTO_T (EntryP entry)
+entry_is_non_local(EntryP entry)
 {
     return (entry->type == ET_NON_LOCAL);
 }
@@ -339,8 +311,7 @@ entry_is_non_local PROTO_N ((entry))
 #undef entry_get_basic
 #endif /* defined (FS_FAST) */
 BasicP
-entry_get_basic PROTO_N ((entry))
-		PROTO_T (EntryP entry)
+entry_get_basic(EntryP entry)
 {
     ASSERT (entry_is_basic (entry));
     return (entry->u.basic);
@@ -353,8 +324,7 @@ entry_get_basic PROTO_N ((entry))
 #undef entry_get_action
 #endif /* defined (FS_FAST) */
 ActionP
-entry_get_action PROTO_N ((entry))
-		 PROTO_T (EntryP entry)
+entry_get_action(EntryP entry)
 {
     ASSERT (entry_is_action (entry));
     return (entry->u.action);
@@ -367,8 +337,7 @@ entry_get_action PROTO_N ((entry))
 #undef entry_get_rule
 #endif /* defined (FS_FAST) */
 RuleP
-entry_get_rule PROTO_N ((entry))
-	       PROTO_T (EntryP entry)
+entry_get_rule(EntryP entry)
 {
     ASSERT (entry_is_rule (entry));
     return (entry->u.rule);
@@ -381,8 +350,7 @@ entry_get_rule PROTO_N ((entry))
 #undef entry_get_name
 #endif /* defined (FS_FAST) */
 NameP
-entry_get_name PROTO_N ((entry))
-	       PROTO_T (EntryP entry)
+entry_get_name(EntryP entry)
 {
     return (entry->name);
 }
@@ -394,8 +362,7 @@ entry_get_name PROTO_N ((entry))
 #undef entry_get_type
 #endif /* defined (FS_FAST) */
 TypeP
-entry_get_type PROTO_N ((entry))
-	       PROTO_T (EntryP entry)
+entry_get_type(EntryP entry)
 {
     ASSERT (entry_is_type (entry));
     return (entry->u.type);
@@ -408,8 +375,7 @@ entry_get_type PROTO_N ((entry))
 #undef entry_get_non_local
 #endif /* defined (FS_FAST) */
 EntryP
-entry_get_non_local PROTO_N ((entry))
-		    PROTO_T (EntryP entry)
+entry_get_non_local(EntryP entry)
 {
     ASSERT (entry_is_non_local (entry));
     return (entry->u.non_local);
@@ -419,71 +385,65 @@ entry_get_non_local PROTO_N ((entry))
 #endif /* defined (FS_FAST) */
 
 void
-entry_set_mapping PROTO_N ((entry, mapping))
-		  PROTO_T (EntryP   entry X
-			   NStringP mapping)
+entry_set_mapping(EntryP entry, NStringP mapping)
 {
     if (entry->mapped) {
-	nstring_destroy (&(entry->mapping));
+		nstring_destroy (&(entry->mapping));
     }
     nstring_assign (&(entry->mapping), mapping);
     entry->mapped = TRUE;
 }
 
 NStringP
-entry_get_mapping PROTO_N ((entry))
-		  PROTO_T (EntryP entry)
+entry_get_mapping(EntryP entry)
 {
     if (entry->mapped) {
-	return (&(entry->mapping));
+		return (&(entry->mapping));
     }
     return (NIL (NStringP));
 }
 
 void
-entry_iter PROTO_N ((entry, full, proc, closure))
-	   PROTO_T (EntryP   entry X
-		    BoolT    full X
-		    void   (*proc) PROTO_S ((EntryP, GenericP)) X
-		    GenericP closure)
+entry_iter(EntryP entry, BoolT full, void (*proc)(EntryP, GenericP),
+		   GenericP closure)
 {
     if (!entry_is_traced (entry)) {
-	entry_traced (entry);
-	if (proc) {
-	    (*proc) (entry, closure);
-	}
-	switch (entry_type (entry)) EXHAUSTIVE {
-	  case ET_RULE: {
-	      RuleP rule = entry_get_rule (entry);
-
-	      rule_iter_for_table (rule, full, proc, closure);
-	  }
-	    break;
-	  case ET_ACTION: {
-	      ActionP action = entry_get_action (entry);
-
-	      action_iter_for_table (action, full, proc, closure);
-	  }
-	    break;
-	  case ET_BASIC: {
-	      BasicP basic = entry_get_basic (entry);
-
-	      basic_iter_for_table (basic, full, proc, closure);
-	  }
-	    break;
-	  case ET_NON_LOCAL:
-	    if (full) {
-		entry_iter (entry_get_non_local (entry), TRUE, proc, closure);
-	    }
-	    break;
-	  case ET_NAME:
-	  case ET_TYPE:
-	  case ET_RENAME:
-	    /*NOTHING*/
-	    break;
-	  case ET_PREDICATE:
-	    UNREACHED;
-	}
+		entry_traced (entry);
+		if (proc) {
+			(*proc) (entry, closure);
+		}
+		switch (entry_type (entry)) EXHAUSTIVE {
+		case ET_RULE: {
+			RuleP rule = entry_get_rule (entry);
+			
+			rule_iter_for_table (rule, full, proc, closure);
+		}
+			break;
+		case ET_ACTION: {
+			ActionP action = entry_get_action (entry);
+			
+			action_iter_for_table (action, full, proc, closure);
+		}
+			break;
+		case ET_BASIC: {
+			BasicP basic = entry_get_basic (entry);
+			
+			basic_iter_for_table (basic, full, proc, closure);
+		}
+			break;
+		case ET_NON_LOCAL:
+			if (full) {
+				entry_iter (entry_get_non_local (entry), TRUE, proc, closure);
+			}
+			break;
+		case ET_NAME:
+		case ET_TYPE:
+		case ET_RENAME:
+			/*NOTHING*/
+			break;
+		case ET_PREDICATE:
+			UNREACHED;
+		}
     }
 }
 
@@ -491,8 +451,7 @@ entry_iter PROTO_N ((entry, full, proc, closure))
 #undef entry_not_traced
 #endif /* defined (FS_FAST) */
 void
-entry_not_traced PROTO_N ((entry))
-		 PROTO_T (EntryP entry)
+entry_not_traced(EntryP entry)
 {
     entry->traced = FALSE;
 }
@@ -504,8 +463,7 @@ entry_not_traced PROTO_N ((entry))
 #undef entry_is_traced
 #endif /* defined (FS_FAST) */
 BoolT
-entry_is_traced PROTO_N ((entry))
-		PROTO_T (EntryP entry)
+entry_is_traced(EntryP entry)
 {
     return (entry->traced);
 }
@@ -518,4 +476,4 @@ entry_is_traced PROTO_N ((entry))
  * eval: (include::add-path-entry "../os-interface" "../library")
  * eval: (include::add-path-entry "../generated")
  * end:
-**/
+ **/

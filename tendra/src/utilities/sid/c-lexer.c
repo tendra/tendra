@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,10 +64,7 @@
  * This file implements the SID C lexical analyser.  Any changes to the syntax
  * of SID identifiers should be made both here and in the file
  * "../parser/lexer.c".
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "c-lexer.h"
 #include "gen-errors.h"
@@ -76,32 +73,32 @@
 /*--------------------------------------------------------------------------*/
 
 #define LEXER_READ_ONE_CHAR(istream, redo, eof, id) \
-    switch ((id) = ISTREAM_READ_CHAR (istream)) { \
-      case '\0': \
+	switch ((id) = ISTREAM_READ_CHAR (istream)) { \
+	  case '\0': \
 	ISTREAM_HANDLE_NULL ((istream), redo, eof); \
 	break; \
-      case '\r': \
+	  case '\r': \
 	goto redo; \
-      case '\n': \
+	  case '\n': \
 	istream_inc_line (istream); \
 	break; \
-      default: \
+	  default: \
 	break; \
-    }
+	}
 
 /*--------------------------------------------------------------------------*/
 
 static BoolT
 c_lexer_skip_bracketed_comment(IStreamP istream)
 {
-    char c1;
-    char c2;
-
+	char c1;
+	char c2;
+	
   redo1:
-    LEXER_READ_ONE_CHAR (istream, redo1, eof, c1);
+	LEXER_READ_ONE_CHAR (istream, redo1, eof, c1);
   redo2:
-    LEXER_READ_ONE_CHAR (istream, redo2, eof, c2);
-    for (;;) {
+	LEXER_READ_ONE_CHAR (istream, redo2, eof, c2);
+	for (;;) {
 		if ((c1 == '/') && (c2 == '*')) {
 			if (!c_lexer_skip_bracketed_comment (istream)) {
 				goto eof;
@@ -112,20 +109,20 @@ c_lexer_skip_bracketed_comment(IStreamP istream)
 			return (TRUE);
 		}
 		c1 = c2;
-      redo4:
+	  redo4:
 		LEXER_READ_ONE_CHAR (istream, redo4, eof, c2);
-    }
+	}
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 static char
 c_lexer_skip_white_space(IStreamP istream)
 {
-    for (;;) {
+	for (;;) {
 		char c;
-
-      redo1:
+		
+	  redo1:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo1, eof);
@@ -169,22 +166,22 @@ c_lexer_skip_white_space(IStreamP istream)
 			}
 			break;
 		}
-    }
+	}
   eof:
-    return ('\0'); /*FOR EOF*/
+	return ('\0'); /*FOR EOF*/
 }
 
 static void
 c_lexer_read_builtin(IStreamP istream, CLexP token)
 {
-    DStringT dstring;
-    CStringP cstring;
-
-    dstring_init (&dstring);
-    for (;;) {
+	DStringT dstring;
+	CStringP cstring;
+	
+	dstring_init (&dstring);
+	for (;;) {
 		char c;
-
-      redo:
+		
+	  redo:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo, eof);
@@ -202,57 +199,56 @@ c_lexer_read_builtin(IStreamP istream, CLexP token)
 			dstring_append_char (&dstring, c);
 			break;
 		}
-    }
+	}
   eof:
-    E_c_eof_in_builtin (istream);
+	E_c_eof_in_builtin (istream);
   done:
-    cstring = dstring_destroy_to_cstring (&dstring);
-    if (cstring_ci_equal (cstring, "prefixes")) {
+	cstring = dstring_destroy_to_cstring (&dstring);
+	if (cstring_ci_equal (cstring, "prefixes")) {
 		token->t = C_TOK_BLT_PREFIXES;
-    } else if (cstring_ci_equal (cstring, "maps")) {
+	} else if (cstring_ci_equal (cstring, "maps")) {
 		token->t = C_TOK_BLT_MAPS;
-    } else if (cstring_ci_equal (cstring, "assignments")) {
+	} else if (cstring_ci_equal (cstring, "assignments")) {
 		token->t = C_TOK_BLT_ASSIGNMENTS;
-    } else if (cstring_ci_equal (cstring, "assign")) {
+	} else if (cstring_ci_equal (cstring, "assign")) {
 		token->t = C_TOK_BLT_ASSIGNMENTS;
-    } else if (cstring_ci_equal (cstring, "terminals")) {
+	} else if (cstring_ci_equal (cstring, "terminals")) {
 		token->t = C_TOK_BLT_TERMINALS;
-    } else if (cstring_ci_equal (cstring, "header")) {
+	} else if (cstring_ci_equal (cstring, "header")) {
 		token->t = C_TOK_BLT_HEADER;
-    } else if (cstring_ci_equal (cstring, "actions")) {
+	} else if (cstring_ci_equal (cstring, "actions")) {
 		token->t = C_TOK_BLT_ACTIONS;
-    } else if (cstring_ci_equal (cstring, "trailer")) {
+	} else if (cstring_ci_equal (cstring, "trailer")) {
 		token->t = C_TOK_BLT_TRAILER;
-    } else if (cstring_ci_equal (cstring, "result-assignments")) {
+	} else if (cstring_ci_equal (cstring, "result-assignments")) {
 		token->t = C_TOK_BLT_RESULT_ASSIGN;
-    } else if (cstring_ci_equal (cstring, "result-assign")) {
+	} else if (cstring_ci_equal (cstring, "result-assign")) {
 		token->t = C_TOK_BLT_RESULT_ASSIGN;
-    } else if (cstring_ci_equal (cstring, "parameter-assignments")) {
+	} else if (cstring_ci_equal (cstring, "parameter-assignments")) {
 		token->t = C_TOK_BLT_PARAM_ASSIGN;
-    } else if (cstring_ci_equal (cstring, "parameter-assign")) {
+	} else if (cstring_ci_equal (cstring, "parameter-assign")) {
 		token->t = C_TOK_BLT_PARAM_ASSIGN;
-    } else if (cstring_ci_equal (cstring, "param-assignments")) {
+	} else if (cstring_ci_equal (cstring, "param-assignments")) {
 		token->t = C_TOK_BLT_PARAM_ASSIGN;
-    } else if (cstring_ci_equal (cstring, "param-assign")) {
+	} else if (cstring_ci_equal (cstring, "param-assign")) {
 		token->t = C_TOK_BLT_PARAM_ASSIGN;
-    } else {
+	} else {
 		E_c_unknown_builtin (istream, cstring);
 		UNREACHED;
-    }
-    DEALLOCATE (cstring);
+	}
+	DEALLOCATE (cstring);
 }
 
 static void
-c_lexer_read_identifier(IStreamP istream,
-						char c, CLexP token)
+c_lexer_read_identifier(IStreamP istream, char c, CLexP token)
 {
-    BoolT    c_ident = (c != '-');
-    DStringT dstring;
-
-    dstring_init (&dstring);
-    dstring_append_char (&dstring, c);
-    for (;;) {
-      redo1:
+	BoolT    c_ident = (c != '-');
+	DStringT dstring;
+	
+	dstring_init (&dstring);
+	dstring_append_char (&dstring, c);
+	for (;;) {
+	  redo1:
 		switch (c = ISTREAM_PEEK_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo1, done);
@@ -271,31 +267,30 @@ c_lexer_read_identifier(IStreamP istream,
 			}
 			break;
 		}
-    }
+	}
   done:
-    if (c_ident) {
+	if (c_ident) {
 		token->t = C_TOK_C_IDENTIFIER;
-    } else {
+	} else {
 		token->t = C_TOK_SID_IDENTIFIER;
-    }
-    dstring_to_nstring (&dstring, &(token->u.string));
-    dstring_destroy (&dstring);
+	}
+	dstring_to_nstring (&dstring, &(token->u.string));
+	dstring_destroy (&dstring);
 }
 
 static void
-c_lexer_read_code_id(IStreamP istream, char c,
-					 NStringP nstring)
+c_lexer_read_code_id(IStreamP istream, char c, NStringP nstring)
 {
-    BoolT    numbers_ok = (syntax_is_letter (c) || (c == '_'));
-    DStringT dstring;
-    char     c1;
-
-    dstring_init (&dstring);
-    if (numbers_ok) {
+	BoolT    numbers_ok = (syntax_is_letter (c) || (c == '_'));
+	DStringT dstring;
+	char     c1;
+	
+	dstring_init (&dstring);
+	if (numbers_ok) {
 		dstring_append_char (&dstring, c);
-    }
-    for (;;) {
-      redo1:
+	}
+	for (;;) {
+	  redo1:
 		switch (c1 = ISTREAM_PEEK_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo1, done);
@@ -312,22 +307,21 @@ c_lexer_read_code_id(IStreamP istream, char c,
 			}
 			break;
 		}
-    }
+	}
   done:
-    if (!numbers_ok) {
+	if (!numbers_ok) {
 		E_c_expected_at_id (istream, c);
-    }
-    dstring_to_nstring (&dstring, nstring);
-    dstring_destroy (&dstring);
+	}
+	dstring_to_nstring (&dstring, nstring);
+	dstring_destroy (&dstring);
 }
 
 static void
-c_lexer_flush_string(DStringP dstring, CCodeP code,
-					 BoolT force_nl)
+c_lexer_flush_string(DStringP dstring, CCodeP code, BoolT force_nl)
 {
-    NStringT nstring;
-
-    if (dstring_length (dstring) > 0) {
+	NStringT nstring;
+	
+	if (dstring_length (dstring) > 0) {
 		if (force_nl && (!dstring_last_char_equal (dstring, '\n'))) {
 			dstring_append_char (dstring, '\n');
 		}
@@ -335,21 +329,20 @@ c_lexer_flush_string(DStringP dstring, CCodeP code,
 		c_code_append_string (code, &nstring);
 		dstring_destroy (dstring);
 		dstring_init (dstring);
-    } else if (force_nl) {
+	} else if (force_nl) {
 		nstring_copy_cstring (&nstring, "\n");
 		c_code_append_string (code, &nstring);
-    }
+	}
 }
 
 static BoolT
-c_lexer_read_at(IStreamP istream, DStringP dstring,
-				CCodeP code)
+c_lexer_read_at(IStreamP istream, DStringP dstring, CCodeP code)
 {
-    char     c;
-    NStringT nstring;
-
+	char     c;
+	NStringT nstring;
+	
   redo:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
+	switch (c = ISTREAM_READ_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo, error);
 		goto error;
@@ -400,36 +393,36 @@ c_lexer_read_at(IStreamP istream, DStringP dstring,
 			E_c_illegal_at_char (istream, c);
 		}
 		break;
-    }
-    return (FALSE);
+	}
+	return (FALSE);
 }
 
 static void
 c_lexer_read_code(IStreamP istream, CLexP token)
 {
-    CCodeP   code = c_code_create (istream_name (istream),
+	CCodeP   code = c_code_create (istream_name (istream),
 								   istream_line (istream));
-    DStringT dstring;
-    char     c;
-
+	DStringT dstring;
+	char     c;
+	
   redo1:
-    switch (ISTREAM_PEEK_CHAR (istream)) {
+	switch (ISTREAM_PEEK_CHAR (istream)) {
 	case '\0':
 		ISTREAM_HANDLE_NULL (istream, redo1, error);
 		goto error;
 	case '{':
-      redo2:
+	  redo2:
 		LEXER_READ_ONE_CHAR (istream, redo2, error, c);
 		UNUSED (c);
 		break;
 	default:
-      error:
+	  error:
 		E_c_code_block_syntax (istream);
 		break;
-    }
-    dstring_init (&dstring);
-    for (;;) {
-      redo3:
+	}
+	dstring_init (&dstring);
+	for (;;) {
+	  redo3:
 		switch (c = ISTREAM_READ_CHAR (istream)) {
 		case '\0':
 			ISTREAM_HANDLE_NULL (istream, redo3, eof);
@@ -450,14 +443,14 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 			dstring_append_char (&dstring, c);
 			break;
 		}
-    }
+	}
   eof:
-    E_c_eof_in_code (istream);
+	E_c_eof_in_code (istream);
   done:
-    token->t = C_TOK_CODE;
-    c_lexer_flush_string (&dstring, code, TRUE);
-    dstring_destroy (&dstring);
-    token->u.code = code;
+	token->t = C_TOK_CODE;
+	c_lexer_flush_string (&dstring, code, TRUE);
+	dstring_destroy (&dstring);
+	token->u.code = code;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -465,8 +458,8 @@ c_lexer_read_code(IStreamP istream, CLexP token)
 void
 c_lexer_init(CLexerStreamP stream, IStreamP istream)
 {
-    istream_assign (&(stream->istream), istream);
-    c_lexer_next_token (stream);
+	istream_assign (&(stream->istream), istream);
+	c_lexer_next_token (stream);
 }
 
 #ifdef FS_FAST
@@ -475,7 +468,7 @@ c_lexer_init(CLexerStreamP stream, IStreamP istream)
 void
 c_lexer_close(CLexerStreamP stream)
 {
-    istream_close (&(stream->istream));
+	istream_close (&(stream->istream));
 }
 #ifdef FS_FAST
 #define c_lexer_close(s) (istream_close (&((s)->istream)))
@@ -487,7 +480,7 @@ c_lexer_close(CLexerStreamP stream)
 CStringP
 c_lexer_stream_name(CLexerStreamP stream)
 {
-    return (istream_name (&(stream->istream)));
+	return (istream_name (&(stream->istream)));
 }
 #ifdef FS_FAST
 #define c_lexer_stream_name(s) (istream_name (&((s)->istream)))
@@ -499,7 +492,7 @@ c_lexer_stream_name(CLexerStreamP stream)
 unsigned
 c_lexer_stream_line(CLexerStreamP stream)
 {
-    return (istream_line (&(stream->istream)));
+	return (istream_line (&(stream->istream)));
 }
 #ifdef FS_FAST
 #define c_lexer_stream_line(s) (istream_line (&((s)->istream)))
@@ -511,7 +504,7 @@ c_lexer_stream_line(CLexerStreamP stream)
 CTokenT
 c_lexer_get_terminal(CLexerStreamP stream)
 {
-    return (stream->token.t);
+	return (stream->token.t);
 }
 #ifdef FS_FAST
 #define c_lexer_get_terminal(s) ((s)->token.t)
@@ -520,12 +513,12 @@ c_lexer_get_terminal(CLexerStreamP stream)
 void
 c_lexer_next_token(CLexerStreamP stream)
 {
-    IStreamP istream = &(stream->istream);
-    CLexT    token;
-    char     c;
-
+	IStreamP istream = &(stream->istream);
+	CLexT    token;
+	char     c;
+	
   retry:
-    switch (c = c_lexer_skip_white_space (istream)) {
+	switch (c = c_lexer_skip_white_space (istream)) {
 	case '\0': /*FOR EOF*/
 		token.t = C_TOK_EOF;
 		break;
@@ -578,8 +571,8 @@ c_lexer_next_token(CLexerStreamP stream)
 			goto retry;
 		}
 		break;
-    }
-    stream->token = token;
+	}
+	stream->token = token;
 }
 
 #ifdef FS_FAST
@@ -588,9 +581,9 @@ c_lexer_next_token(CLexerStreamP stream)
 NStringP
 c_lexer_string_value(CLexerStreamP stream)
 {
-    ASSERT ((stream->token.t == C_TOK_C_IDENTIFIER) ||
+	ASSERT ((stream->token.t == C_TOK_C_IDENTIFIER) ||
 			(stream->token.t == C_TOK_SID_IDENTIFIER));
-    return (&(stream->token.u.string));
+	return (&(stream->token.u.string));
 }
 #ifdef FS_FAST
 #define c_lexer_string_value(s) (&((s)->token.u.string))
@@ -602,32 +595,23 @@ c_lexer_string_value(CLexerStreamP stream)
 CCodeP
 c_lexer_code_value(CLexerStreamP stream)
 {
-    ASSERT (stream->token.t == C_TOK_CODE);
-    return (stream->token.u.code);
+	ASSERT (stream->token.t == C_TOK_CODE);
+	return (stream->token.u.code);
 }
 #ifdef FS_FAST
 #define c_lexer_code_value(s) ((s)->token.u.code)
 #endif /* defined (FS_FAST) */
 
 void
-c_lexer_save_terminal(CLexerStreamP stream,
-					  CTokenT error_terminal)
+c_lexer_save_terminal(CLexerStreamP stream, CTokenT error_terminal)
 {
-    ASSERT (stream->token.t != error_terminal);
-    stream->saved_terminal = stream->token.t;
-    stream->token.t        = error_terminal;
+	ASSERT (stream->token.t != error_terminal);
+	stream->saved_terminal = stream->token.t;
+	stream->token.t        = error_terminal;
 }
 
 void
 c_lexer_restore_terminal(CLexerStreamP stream)
 {
-    stream->token.t = stream->saved_terminal;
+	stream->token.t = stream->saved_terminal;
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
- **/

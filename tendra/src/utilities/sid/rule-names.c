@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rule-names.c --- Recompute alternative names.
@@ -63,8 +63,7 @@
  *
  * This file implements the functions that recompute the names defined in each
  * alternative of a rule (including the exception handler alternative).
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -78,53 +77,40 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-rule_recompute_alt_names_2 PROTO_N ((alt, predicate_id))
-			   PROTO_T (AltP   alt X
-				    EntryP predicate_id)
+rule_recompute_alt_names_2(AltP alt, EntryP predicate_id)
 {
-    TypeTupleP names = alt_names (alt);
-    ItemP      item;
-
-    types_destroy (names);
-    types_init (names);
-    for (item = alt_item_head (alt); item; item = item_next (item)) {
-	types_add_new_names (names, item_result (item), predicate_id);
-    }
+	TypeTupleP names = alt_names (alt);
+	ItemP      item;
+	
+	types_destroy (names);
+	types_init (names);
+	for (item = alt_item_head (alt); item; item = item_next (item)) {
+		types_add_new_names (names, item_result (item), predicate_id);
+	}
 }
 
 static void
-rule_recompute_alt_names_1 PROTO_N ((rule, predicate_id))
-			   PROTO_T (RuleP  rule X
-				    EntryP predicate_id)
+rule_recompute_alt_names_1(RuleP rule, EntryP predicate_id)
 {
-    AltP alt;
-
-    if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
-	rule_recompute_alt_names_2 (alt, predicate_id);
-    }
-    for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
-	rule_recompute_alt_names_2 (alt, predicate_id);
-    }
+	AltP alt;
+	
+	if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
+		rule_recompute_alt_names_2 (alt, predicate_id);
+	}
+	for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
+		rule_recompute_alt_names_2 (alt, predicate_id);
+	}
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-rule_recompute_alt_names PROTO_N ((entry, gclosure))
-			 PROTO_T (EntryP   entry X
-				  GenericP gclosure)
+rule_recompute_alt_names(EntryP entry, GenericP gclosure)
 {
-    if (entry_is_rule (entry)) {
-	RuleP  rule         = entry_get_rule (entry);
-	EntryP predicate_id = (EntryP) gclosure;
-
-	rule_recompute_alt_names_1 (rule, predicate_id);
-    }
+	if (entry_is_rule (entry)) {
+		RuleP  rule         = entry_get_rule (entry);
+		EntryP predicate_id = (EntryP) gclosure;
+		
+		rule_recompute_alt_names_1 (rule, predicate_id);
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

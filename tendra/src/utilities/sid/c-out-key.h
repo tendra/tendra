@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-out-key.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUT_KEY
 #define H_C_OUT_KEY
@@ -76,17 +73,9 @@
 #include "entry.h"
 #include "key.h"
 
-/*--------------------------------------------------------------------------*/
 
-extern void			c_output_mapped_key(COutputInfoP, EntryP);
-extern void			c_output_key(COutputInfoP, KeyP, NStringP);
-extern void			c_output_label_key(COutputInfoP, KeyP, unsigned);
+void	c_output_mapped_key(COutputInfoP, EntryP);
+void	c_output_key(COutputInfoP, KeyP, NStringP);
+void	c_output_label_key(COutputInfoP, KeyP, unsigned);
 
 #endif /* !defined (H_C_OUT_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

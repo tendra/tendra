@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rule.h --- Rule ADT.
@@ -65,10 +65,7 @@
  * handling routines.  The actual implementations are spread across a number
  * of files, but are all logically part of the same file.  See the files named
  * in the declarations for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_RULE
 #define H_RULE
@@ -86,483 +83,305 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int DFSStateT, *DFSStateP;
-#define DFS_UNTRACED	(0)
-#define DFS_TRACING	(1)
-#define DFS_CYCLING	(2)
-#define DFS_TRACED	(3)
-#else
 typedef enum {
-    DFS_UNTRACED,
-    DFS_TRACING,
-    DFS_CYCLING,
-    DFS_TRACED
+	DFS_UNTRACED,
+	DFS_TRACING,
+	DFS_CYCLING,
+	DFS_TRACED
 } DFSStateT, *DFSStateP;
-#endif /* defined (FS_NO_ENUM) */
 
-#ifdef FS_NO_ENUM
-typedef int CycleTypeT, *CycleTypeP;
-#define CT_LEFT		(0)
-#define CT_TAIL		(1)
-#define CT_ALL		(2)
-#define CT_MUTATE	(3)
-#else
 typedef enum {
-    CT_LEFT,
-    CT_TAIL,
-    CT_ALL,
-    CT_MUTATE
+	CT_LEFT,
+	CT_TAIL,
+	CT_ALL,
+	CT_MUTATE
 } CycleTypeT, *CycleTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct ItemT {
-    struct ItemT	       *next;
-    TypeTupleT			param;
-    TypeTupleT			result;
-    EntryTypeT			type;
-    EntryP			entry;
-    BoolT			inlinable;
-    BoolT			tail_call;
+	struct ItemT	       *next;
+	TypeTupleT		param;
+	TypeTupleT		result;
+	EntryTypeT		type;
+	EntryP			entry;
+	BoolT			inlinable;
+	BoolT			tail_call;
 } ItemT, *ItemP;
 
 typedef struct AltT {
-    struct AltT		       *next;
-    TypeTupleT			names;
-    BitVecT			first_set;
-    ItemP			item_head;
-    ItemP		       *item_tail;
+	struct AltT		*next;
+	TypeTupleT		names;
+	BitVecT			first_set;
+	ItemP			item_head;
+	ItemP		       *item_tail;
 } AltT, *AltP;
 
 typedef struct RuleT {
-    EntryP			entry;
-    TypeTupleT			param;
-    TypeTupleT			result;
-    NonLocalListT		non_locals;
-    NStringT			maximum_scope;
-    BoolT			defined;
-    BoolT			has_empty_alt;
-    BoolT			required;
-    EntryListT			reverse_list;
-    DFSStateT			dfs_state;
-    struct RuleT	       *next_in_root_list;
-    struct RuleT	       *next_in_dfs;
-    struct RuleT	       *next_in_reverse_dfs;
-    BoolT			no_cycles;
-    unsigned			cycle_index;
-    BoolT			computed_first_set;
-    BoolT			computing_first_set;
-    BitVecT			first_set;
-    EntryListT			predicate_first;
-    BoolT			see_through;
-    unsigned			priority;
-    BoolT			factored;
-    struct RuleT	       *tail_group;
-    BoolT			being_inlined;
-    BoolT			checked_for_inlining;
-    EntryListT			call_list;
-    struct RuleT	       *next_in_table;
-    BitVecT			follow_set;
-    EntryListT			predicate_follow;
-    BoolT			started_follows;
-    AltP			see_through_alt;
-    BoolT			needs_function;
-    BoolT			all_basics;
-    SaveRStackT			rstack_state;
-    SaveRStackT			non_local_state;
-    BoolT			being_output;
-    unsigned			start_label;
-    unsigned			call_count;
-    unsigned			end_label;
-    BoolT			used_end_label;
-    unsigned			next_label;
-    unsigned			handler_label;
-    BoolT			used_handler_label;
-    AltP			handler;
-    AltP			alt_head;
-    AltP		       *alt_tail;
+	EntryP			entry;
+	TypeTupleT		param;
+	TypeTupleT		result;
+	NonLocalListT		non_locals;
+	NStringT		maximum_scope;
+	BoolT			defined;
+	BoolT			has_empty_alt;
+	BoolT			required;
+	EntryListT		reverse_list;
+	DFSStateT		dfs_state;
+	struct RuleT	       *next_in_root_list;
+	struct RuleT	       *next_in_dfs;
+	struct RuleT	       *next_in_reverse_dfs;
+	BoolT			no_cycles;
+	unsigned		cycle_index;
+	BoolT			computed_first_set;
+	BoolT			computing_first_set;
+	BitVecT			first_set;
+	EntryListT		predicate_first;
+	BoolT			see_through;
+	unsigned		priority;
+	BoolT			factored;
+	struct RuleT	       *tail_group;
+	BoolT			being_inlined;
+	BoolT			checked_for_inlining;
+	EntryListT		call_list;
+	struct RuleT	       *next_in_table;
+	BitVecT			follow_set;
+	EntryListT		predicate_follow;
+	BoolT			started_follows;
+	AltP			see_through_alt;
+	BoolT			needs_function;
+	BoolT			all_basics;
+	SaveRStackT		rstack_state;
+	SaveRStackT		non_local_state;
+	BoolT			being_output;
+	unsigned		start_label;
+	unsigned		call_count;
+	unsigned		end_label;
+	BoolT			used_end_label;
+	unsigned		next_label;
+	unsigned		handler_label;
+	BoolT			used_handler_label;
+	AltP			handler;
+	AltP			alt_head;
+	AltP		       *alt_tail;
 } RuleT, *RuleP;
 
 typedef struct RuleListT {
-    RuleP			head;
-    RuleP		       *tail;
+	RuleP			head;
+	RuleP		       *tail;
 } RuleListT, *RuleListP;
 
 typedef struct FactorClosureT {
-    BitVecT			bitvec1;
-    BitVecT			bitvec2;
-    TableP			table;
-    EntryP			predicate_id;
+	BitVecT			bitvec1;
+	BitVecT			bitvec2;
+	TableP			table;
+	EntryP			predicate_id;
 } FactorClosureT, *FactorClosureP;
 
 typedef struct SimpClosureT {
-    BoolT			did_inline;
-    TableP			table;
+	BoolT			did_inline;
+	TableP			table;
 } SimpClosureT, *SimpClosureP;
 
 typedef struct ClashListT {
-    struct ClashListT	       *next;
-    RuleP			rule;
-    AltP			alt;
-    ItemP			item;
+	struct ClashListT	       *next;
+	RuleP			rule;
+	AltP			alt;
+	ItemP			item;
 } ClashListT, *ClashListP;
 
 /*--------------------------------------------------------------------------*/
 
 /* Defined in "rule.c": */
-extern RuleP			rule_create
-	PROTO_S ((EntryP));
-extern void			rule_reinit
-	PROTO_S ((RuleP));
-extern EntryP			rule_entry
-	PROTO_S ((RuleP));
-extern TypeTupleP		rule_param
-	PROTO_S ((RuleP));
-extern TypeTupleP		rule_result
-	PROTO_S ((RuleP));
-extern NonLocalListP		rule_non_locals
-	PROTO_S ((RuleP));
-extern NStringP			rule_maximum_scope
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_defined
-	PROTO_S ((RuleP));
-extern void			rule_defined
-	PROTO_S ((RuleP));
-extern void			rule_add_alt
-	PROTO_S ((RuleP, AltP));
-extern BoolT			rule_has_empty_alt
-	PROTO_S ((RuleP));
-extern void			rule_add_empty_alt
-	PROTO_S ((RuleP));
-extern BoolT			rule_has_one_alt
-	PROTO_S ((RuleP));
-extern void			rule_compute_result_intersect
-	PROTO_S ((RuleP));
-extern void			rule_compute_minimal_dataflow
-	PROTO_S ((RuleP, TypeTupleP));
-extern BoolT			rule_is_required
-	PROTO_S ((RuleP));
-extern void			rule_required
-	PROTO_S ((RuleP));
-extern void			rule_compute_reverse_list
-	PROTO_S ((RuleP, CycleTypeT));
-extern void			rule_reinit_reverse_list
-	PROTO_S ((RuleP));
-extern EntryListP		rule_reverse_list
-	PROTO_S ((RuleP));
-extern void			rule_set_dfs_state
-	PROTO_S ((RuleP, DFSStateT));
-extern RuleP			rule_next_in_root_list
-	PROTO_S ((RuleP));
-extern void			rule_build_root_list
-	PROTO_S ((EntryP, GenericP));
-extern RuleP			rule_get_next_in_dfs
-	PROTO_S ((RuleP));
-extern void			rule_compute_dfs
-	PROTO_S ((RuleP, CycleTypeT, RuleP *));
-extern RuleP			rule_get_next_in_reverse_dfs
-	PROTO_S ((RuleP));
-extern RuleP		       *rule_next_in_reverse_dfs_ref
-	PROTO_S ((RuleP));
-extern void			rule_compute_reverse_dfs
-	PROTO_S ((RuleP, RuleP, RuleP *));
-extern BoolT			rule_has_no_cycles
-	PROTO_S ((RuleP));
-extern void			rule_no_cycles
-	PROTO_S ((RuleP));
-extern unsigned			rule_get_cycle_index
-	PROTO_S ((RuleP));
-extern void			rule_set_cycle_index
-	PROTO_S ((RuleP, unsigned));
-extern void			rule_reset_cycle_index
-	PROTO_S ((RuleP));
-extern BoolT			rule_has_computed_first_set
-	PROTO_S ((RuleP));
-extern void			rule_computed_first_set
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_computing_first_set
-	PROTO_S ((RuleP));
-extern void			rule_computing_first_set
-	PROTO_S ((RuleP));
-extern BitVecP			rule_first_set
-	PROTO_S ((RuleP));
-extern EntryListP		rule_predicate_first
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_see_through
-	PROTO_S ((RuleP));
-extern void			rule_see_through
-	PROTO_S ((RuleP));
-extern unsigned			rule_get_priority
-	PROTO_S ((RuleP));
-extern void			rule_set_priority
-	PROTO_S ((RuleP, unsigned));
-extern BoolT			rule_is_factored
-	PROTO_S ((RuleP));
-extern void			rule_factored
-	PROTO_S ((RuleP));
-extern RuleP			rule_get_tail_group
-	PROTO_S ((RuleP));
-extern void			rule_set_tail_group
-	PROTO_S ((RuleP, RuleP));
-extern BoolT			rule_is_being_inlined
-	PROTO_S ((RuleP));
-extern void			rule_being_inlined
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_checked_for_inlining
-	PROTO_S ((RuleP));
-extern void			rule_checked_for_inlining
-	PROTO_S ((RuleP));
-extern EntryListP		rule_call_list
-	PROTO_S ((RuleP));
-extern RuleP			rule_get_next_in_table
-	PROTO_S ((RuleP));
-extern RuleP		       *rule_get_next_in_table_ref
-	PROTO_S ((RuleP));
-extern void			rule_set_next_in_table
-	PROTO_S ((RuleP, RuleP));
-extern BitVecP			rule_follow_set
-	PROTO_S ((RuleP));
-extern EntryListP		rule_predicate_follow
-	PROTO_S ((RuleP));
-extern BoolT			rule_has_started_follows
-	PROTO_S ((RuleP));
-extern void			rule_started_follows
-	PROTO_S ((RuleP));
-extern void			rule_set_see_through_alt
-	PROTO_S ((RuleP, AltP));
-extern AltP			rule_see_through_alt
-	PROTO_S ((RuleP));
-extern BoolT			rule_needs_function
-	PROTO_S ((RuleP));
-extern void			rule_will_need_function
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_all_basics
-	PROTO_S ((RuleP));
-extern void			rule_all_basics
-	PROTO_S ((RuleP));
-extern SaveRStackP		rule_rstack_state
-	PROTO_S ((RuleP));
-extern SaveRStackP		rule_non_local_state
-	PROTO_S ((RuleP));
-extern BoolT			rule_is_being_output
-	PROTO_S ((RuleP));
-extern void			rule_being_output
-	PROTO_S ((RuleP));
-extern void			rule_not_being_output
-	PROTO_S ((RuleP));
-extern unsigned			rule_get_start_label
-	PROTO_S ((RuleP));
-extern void			rule_set_start_label
-	PROTO_S ((RuleP, unsigned));
-extern unsigned			rule_get_call_count
-	PROTO_S ((RuleP));
-extern void			rule_inc_call_count
-	PROTO_S ((RuleP));
-extern unsigned			rule_get_end_label
-	PROTO_S ((RuleP));
-extern void			rule_set_end_label
-	PROTO_S ((RuleP, unsigned));
-extern BoolT			rule_used_end_label
-	PROTO_S ((RuleP));
-extern unsigned			rule_get_next_label
-	PROTO_S ((RuleP));
-extern void			rule_set_next_label
-	PROTO_S ((RuleP, unsigned));
-extern unsigned			rule_get_handler_label
-	PROTO_S ((RuleP));
-extern void			rule_set_handler_label
-	PROTO_S ((RuleP, unsigned));
-extern BoolT			rule_used_handler_label
-	PROTO_S ((RuleP));
-extern AltP			rule_get_handler
-	PROTO_S ((RuleP));
-extern void			rule_set_handler
-	PROTO_S ((RuleP, AltP));
-extern AltP			rule_alt_head
-	PROTO_S ((RuleP));
-extern void			rule_renumber
-	PROTO_S ((RuleP, BoolT, EntryP));
-extern void			rule_iter_for_table
-	PROTO_S ((RuleP, BoolT, void (*) (EntryP, GenericP), GenericP));
-extern void			rule_deallocate
-	PROTO_S ((RuleP));
+RuleP	rule_create(EntryP);
+void	rule_reinit(RuleP);
+EntryP	rule_entry(RuleP);
+TypeTupleP	rule_param(RuleP);
+TypeTupleP	rule_result(RuleP);
+NonLocalListP	rule_non_locals(RuleP);
+NStringP	rule_maximum_scope(RuleP);
+BoolT	rule_is_defined(RuleP);
+void	rule_defined(RuleP);
+void	rule_add_alt(RuleP, AltP);
+BoolT	rule_has_empty_alt(RuleP);
+void	rule_add_empty_alt(RuleP);
+BoolT	rule_has_one_alt(RuleP);
+void	rule_compute_result_intersect(RuleP);
+void	rule_compute_minimal_dataflow(RuleP, TypeTupleP);
+BoolT	rule_is_required(RuleP);
+void	rule_required(RuleP);
+void	rule_compute_reverse_list(RuleP, CycleTypeT);
+void	rule_reinit_reverse_list(RuleP);
+EntryListP	rule_reverse_list(RuleP);
+void	rule_set_dfs_state(RuleP, DFSStateT);
+RuleP	rule_next_in_root_list(RuleP);
+void	rule_build_root_list(EntryP, GenericP);
+RuleP	rule_get_next_in_dfs(RuleP);
+void	rule_compute_dfs(RuleP, CycleTypeT, RuleP *);
+RuleP	rule_get_next_in_reverse_dfs(RuleP);
+RuleP *	rule_next_in_reverse_dfs_ref(RuleP);
+void	rule_compute_reverse_dfs(RuleP, RuleP, RuleP *);
+BoolT	rule_has_no_cycles(RuleP);
+void	rule_no_cycles(RuleP);
+unsigned	rule_get_cycle_index(RuleP);
+void	rule_set_cycle_index(RuleP, unsigned);
+void	rule_reset_cycle_index(RuleP);
+BoolT	rule_has_computed_first_set(RuleP);
+void	rule_computed_first_set(RuleP);
+BoolT	rule_is_computing_first_set(RuleP);
+void	rule_computing_first_set(RuleP);
+BitVecP	rule_first_set(RuleP);
+EntryListP	rule_predicate_first(RuleP);
+BoolT	rule_is_see_through(RuleP);
+void	rule_see_through(RuleP);
+unsigned	rule_get_priority(RuleP);
+void	rule_set_priority(RuleP, unsigned);
+BoolT	rule_is_factored(RuleP);
+void	rule_factored(RuleP);
+RuleP	rule_get_tail_group(RuleP);
+void	rule_set_tail_group(RuleP, RuleP);
+BoolT	rule_is_being_inlined(RuleP);
+void	rule_being_inlined(RuleP);
+BoolT	rule_is_checked_for_inlining(RuleP);
+void	rule_checked_for_inlining(RuleP);
+EntryListP	rule_call_list(RuleP);
+RuleP	rule_get_next_in_table(RuleP);
+RuleP *	rule_get_next_in_table_ref(RuleP);
+void	rule_set_next_in_table(RuleP, RuleP);
+BitVecP	rule_follow_set(RuleP);
+EntryListP	rule_predicate_follow(RuleP);
+BoolT	rule_has_started_follows(RuleP);
+void	rule_started_follows(RuleP);
+void	rule_set_see_through_alt(RuleP, AltP);
+AltP	rule_see_through_alt(RuleP);
+BoolT	rule_needs_function(RuleP);
+void	rule_will_need_function(RuleP);
+BoolT	rule_is_all_basics(RuleP);
+void	rule_all_basics(RuleP);
+SaveRStackP	rule_rstack_state(RuleP);
+SaveRStackP	rule_non_local_state(RuleP);
+BoolT	rule_is_being_output(RuleP);
+void	rule_being_output(RuleP);
+void	rule_not_being_output(RuleP);
+unsigned	rule_get_start_label(RuleP);
+void	rule_set_start_label(RuleP, unsigned);
+unsigned rule_get_call_count(RuleP);
+void	rule_inc_call_count(RuleP);
+unsigned rule_get_end_label(RuleP);
+void	rule_set_end_label(RuleP, unsigned);
+BoolT	rule_used_end_label(RuleP);
+unsigned rule_get_next_label(RuleP);
+void	rule_set_next_label(RuleP, unsigned);
+unsigned rule_get_handler_label(RuleP);
+void	rule_set_handler_label(RuleP, unsigned);
+BoolT	rule_used_handler_label(RuleP);
+AltP	rule_get_handler(RuleP);
+void	rule_set_handler(RuleP, AltP);
+AltP	rule_alt_head(RuleP);
+void	rule_renumber(RuleP, BoolT, EntryP);
+void	rule_iter_for_table(RuleP, BoolT,
+		void (*) (EntryP, GenericP), GenericP);
+void	rule_deallocate(RuleP);
 
-extern void			write_rule_lhs
-	PROTO_S ((OStreamP, RuleP));
-extern void			write_rule
-	PROTO_S ((OStreamP, RuleP));
+void	write_rule_lhs(OStreamP, RuleP);
+void	write_rule(OStreamP, RuleP);
 
-extern void			rule_list_init
-	PROTO_S ((RuleListP));
-extern void			rule_list_append
-	PROTO_S ((RuleListP, RuleP, RuleP *));
-extern void			rule_list_terminate
-	PROTO_S ((RuleListP));
-extern RuleP			rule_list_head
-	PROTO_S ((RuleListP));
+void	rule_list_init(RuleListP);
+void	rule_list_append(RuleListP, RuleP, RuleP *);
+void	rule_list_terminate(RuleListP);
+RuleP	rule_list_head(RuleListP);
 
 /* Defined in "rule-check.c": */
-extern void			rule_check_first_set
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_compute_follow_set
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_compute_see_through_alt
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_compute_alt_first_sets
-	PROTO_S ((EntryP, GenericP));
+void	rule_check_first_set(EntryP, GenericP);
+void	rule_compute_follow_set(EntryP, GenericP);
+void	rule_compute_see_through_alt(EntryP, GenericP);
+void	rule_compute_alt_first_sets(EntryP, GenericP);
 
-extern void			write_clashes
-	PROTO_S ((OStreamP, ClashListP));
+void	write_clashes(OStreamP, ClashListP);
 
 /* Defined in "rule-error.c": */
-extern void			rule_compute_error_list
-	PROTO_S ((EntryP, GenericP));
+void	rule_compute_error_list(EntryP, GenericP);
 
 /* Defined in "rule-factor.c": */
-extern void			rule_factor
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_set_factor_limit
-	PROTO_S ((unsigned));
+void	rule_factor(EntryP, GenericP);
+void	rule_set_factor_limit(unsigned);
 
 /* Defined in "rule-firsts.c": */
-extern void			rule_compute_first_set_1
-	PROTO_S ((RuleP));
-extern void			rule_compute_first_set
-	PROTO_S ((EntryP, GenericP));
+void	rule_compute_first_set_1(RuleP);
+void	rule_compute_first_set(EntryP, GenericP);
 
 /* Defined in "rule-lre.c": */
-extern void			rule_remove_left_cycle
-	PROTO_S ((RuleP, EntryP, TableP));
+void	rule_remove_left_cycle(RuleP, EntryP, TableP);
 
 /* Defined in "rule-mutate.c": */
-extern void			rule_compute_mutations
-	PROTO_S ((EntryP, GenericP));
+void	rule_compute_mutations(EntryP, GenericP);
 
 /* Defined in "rule-name.c": */
-extern void			rule_recompute_alt_names
-	PROTO_S ((EntryP, GenericP));
+void	rule_recompute_alt_names(EntryP, GenericP);
 
 /* Defined in "rule-simp.c": */
-extern void			rule_remove_duplicates
-	PROTO_S ((TableP, EntryP));
+void	rule_remove_duplicates(TableP, EntryP);
 
 /* Defined in "rule-tail.c": */
-extern void			rule_handle_tails
-	PROTO_S ((RuleP));
-extern void			rule_compute_all_basics
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_compute_inlining
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_compute_needed_functions
-	PROTO_S ((EntryP, GenericP));
-extern void			rule_handle_need_functions
-	PROTO_S ((RuleP));
-extern BoolT			rule_get_inline_tail_calls
-	PROTO_S ((void));
-extern void			rule_set_inline_tail_calls
-	PROTO_S ((BoolT));
-extern void			rule_set_inline_all_basics
-	PROTO_S ((BoolT));
-extern void			rule_set_inline_singles
-	PROTO_S ((BoolT));
-extern void			rule_set_inline_non_tail_calls
-	PROTO_S ((BoolT));
-extern void			rule_set_multiple_inlining
-	PROTO_S ((BoolT));
+void	rule_handle_tails(RuleP);
+void	rule_compute_all_basics(EntryP, GenericP);
+void	rule_compute_inlining(EntryP, GenericP);
+void	rule_compute_needed_functions(EntryP, GenericP);
+void	rule_handle_need_functions(RuleP);
+BoolT	rule_get_inline_tail_calls(void);
+void	rule_set_inline_tail_calls(BoolT);
+void	rule_set_inline_all_basics(BoolT);
+void	rule_set_inline_singles(BoolT);
+void	rule_set_inline_non_tail_calls(BoolT);
+void	rule_set_multiple_inlining(BoolT);
 
 /* Defined in "alt.c": */
-extern AltP			alt_create
-	PROTO_S ((void));
-extern AltP			alt_create_merge
-	PROTO_S ((ItemP, ItemP, TypeTransP, TableP));
-extern AltP			alt_duplicate
-	PROTO_S ((AltP));
-extern BoolT			alt_less_than
-	PROTO_S ((AltP, AltP));
-extern BoolT			alt_equal
-	PROTO_S ((AltP, AltP));
-extern AltP			alt_next
-	PROTO_S ((AltP));
-extern AltP		       *alt_next_ref
-	PROTO_S ((AltP));
-extern void			alt_set_next
-	PROTO_S ((AltP, AltP));
-extern TypeTupleP		alt_names
-	PROTO_S ((AltP));
-extern BitVecP			alt_first_set
-	PROTO_S ((AltP));
-extern ItemP			alt_item_head
-	PROTO_S ((AltP));
-extern ItemP			alt_unlink_item_head
-	PROTO_S ((AltP));
-extern void			alt_add_item
-	PROTO_S ((AltP, ItemP));
-extern AltP			alt_deallocate
-	PROTO_S ((AltP));
+AltP	alt_create(void);
+AltP	alt_create_merge(ItemP, ItemP, TypeTransP, TableP);
+AltP	alt_duplicate(AltP);
+BoolT	alt_less_than(AltP, AltP);
+BoolT	alt_equal(AltP, AltP);
+AltP	alt_next(AltP);
+AltP *	alt_next_ref(AltP);
+void	alt_set_next(AltP, AltP);
+TypeTupleP	alt_names(AltP);
+BitVecP	alt_first_set(AltP);
+ItemP	alt_item_head(AltP);
+ItemP	alt_unlink_item_head(AltP);
+void	alt_add_item(AltP, ItemP);
+AltP	alt_deallocate(AltP);
 
-extern void			write_alt
-	PROTO_S ((OStreamP, AltP));
-extern void			write_alt_highlighting
-	PROTO_S ((OStreamP, AltP, ItemP));
+void	write_alt(OStreamP, AltP);
+void	write_alt_highlighting(OStreamP, AltP, ItemP);
 
 /* Defined in "item.c": */
-extern ItemP			item_create
-	PROTO_S ((EntryP));
-extern ItemP			item_duplicate
-	PROTO_S ((ItemP));
-extern ItemP			item_duplicate_and_translate
-	PROTO_S ((ItemP, TypeTransP, TableP));
-extern void			item_translate_list
-	PROTO_S ((ItemP, TypeBTransP));
-extern void			item_to_predicate
-	PROTO_S ((ItemP));
-extern ItemP			item_next
-	PROTO_S ((ItemP));
-extern ItemP		       *item_next_ref
-	PROTO_S ((ItemP));
-extern void			item_set_next
-	PROTO_S ((ItemP, ItemP));
-extern EntryP			item_entry
-	PROTO_S ((ItemP));
-extern void			item_set_entry
-	PROTO_S ((ItemP, EntryP));
-extern EntryTypeT		item_type
-	PROTO_S ((ItemP));
-extern BoolT			item_is_rule
-	PROTO_S ((ItemP));
-extern BoolT			item_is_action
-	PROTO_S ((ItemP));
-extern BoolT			item_is_predicate
-	PROTO_S ((ItemP));
-extern BoolT			item_is_basic
-	PROTO_S ((ItemP));
-extern BoolT			item_is_rename
-	PROTO_S ((ItemP));
-extern TypeTupleP		item_param
-	PROTO_S ((ItemP));
-extern void			item_add_param
-	PROTO_S ((ItemP, TypeTupleP));
-extern TypeTupleP		item_result
-	PROTO_S ((ItemP));
-extern void			item_add_result
-	PROTO_S ((ItemP, TypeTupleP));
-extern BoolT			item_is_inlinable
-	PROTO_S ((ItemP));
-extern void			item_inlinable
-	PROTO_S ((ItemP));
-extern BoolT			item_is_tail_call
-	PROTO_S ((ItemP));
-extern void			item_tail_call
-	PROTO_S ((ItemP));
-extern BoolT			item_names_used_in_list
-	PROTO_S ((ItemP, TypeTupleP));
-extern void			item_compute_minimal_dataflow
-	PROTO_S ((ItemP, TypeTupleP));
-extern ItemP			item_deallocate
-	PROTO_S ((ItemP));
+ItemP	item_create(EntryP);
+ItemP	item_duplicate(ItemP);
+ItemP	item_duplicate_and_translate(ItemP, TypeTransP, TableP);
+void	item_translate_list(ItemP, TypeBTransP);
+void	item_to_predicate(ItemP);
+ItemP	item_next(ItemP);
+ItemP *	item_next_ref(ItemP);
+void	item_set_next(ItemP, ItemP);
+EntryP	item_entry(ItemP);
+void	item_set_entry(ItemP, EntryP);
+EntryTypeT item_type(ItemP);
+BoolT	item_is_rule(ItemP);
+BoolT	item_is_action(ItemP);
+BoolT	item_is_predicate(ItemP);
+BoolT	item_is_basic(ItemP);
+BoolT	item_is_rename(ItemP);
+TypeTupleP item_param(ItemP);
+void	item_add_param(ItemP, TypeTupleP);
+TypeTupleP item_result(ItemP);
+void	item_add_result(ItemP, TypeTupleP);
+BoolT	item_is_inlinable(ItemP);
+void	item_inlinable(ItemP);
+BoolT	item_is_tail_call(ItemP);
+void	item_tail_call(ItemP);
+BoolT	item_names_used_in_list(ItemP, TypeTupleP);
+void	item_compute_minimal_dataflow(ItemP, TypeTupleP);
+ItemP	item_deallocate(ItemP);
 
-extern void			write_item
-	PROTO_S ((OStreamP, ItemP));
+void	write_item(OStreamP, ItemP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -670,10 +489,3 @@ extern void			write_item
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_RULE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-code.c" for details.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_CODE
 #define H_C_CODE
@@ -83,72 +80,60 @@
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int CCodeItemTypeT, *CCodeItemTypeP;
-#define CCT_STRING	(0)
-#define CCT_LABEL	(1)
-#define CCT_IDENT	(2)
-#define CCT_MOD_IDENT	(3)
-#define CCT_REF_IDENT	(4)
-#define CCT_EXCEPTION	(5)
-#define CCT_ADVANCE	(6)
-#define CCT_TERMINAL	(7)
-#else
 typedef enum {
-    CCT_STRING,
-    CCT_LABEL,
-    CCT_IDENT,
-    CCT_MOD_IDENT,
-    CCT_REF_IDENT,
-    CCT_EXCEPTION,
-    CCT_ADVANCE,
-    CCT_TERMINAL
+	CCT_STRING,
+	CCT_LABEL,
+	CCT_IDENT,
+	CCT_MOD_IDENT,
+	CCT_REF_IDENT,
+	CCT_EXCEPTION,
+	CCT_ADVANCE,
+	CCT_TERMINAL
 } CCodeItemTypeT, *CCodeItemTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct CCodeItemT {
-    struct CCodeItemT	       *next;
-    CCodeItemTypeT		type;
-    union {
+	struct CCodeItemT	       *next;
+	CCodeItemTypeT		type;
+	union {
 		NStringT		string;
 		EntryP			ident;
-    } u;
+	} u;
 } CCodeItemT, *CCodeItemP;
 
 typedef struct CCodeT {
-    CCodeItemP			head;
-    CCodeItemP		       *tail;
-    unsigned			line;
-    CStringP			file;
-    TypeTupleT			param;
-    TypeTupleT			result;
+	CCodeItemP			head;
+	CCodeItemP		       *tail;
+	unsigned			line;
+	CStringP			file;
+	TypeTupleT			param;
+	TypeTupleT			result;
 } CCodeT, *CCodeP;
 
 /*--------------------------------------------------------------------------*/
 
-extern CCodeP			c_code_create(CStringP, unsigned);
-extern void			c_code_append_string(CCodeP, NStringP);
-extern void			c_code_append_label(CCodeP, NStringP);
-extern void			c_code_append_identifier(CCodeP, NStringP);
-extern void			c_code_append_modifiable(CCodeP, NStringP);
-extern void			c_code_append_reference(CCodeP, NStringP);
-extern void			c_code_append_exception(CCodeP);
-extern void			c_code_append_advance(CCodeP);
-extern void			c_code_append_terminal(CCodeP);
-extern void			c_code_check(CCodeP, BoolT, BoolT, TypeTupleP, TypeTupleP, TableP);
-extern CStringP			c_code_file(CCodeP);
-extern unsigned			c_code_line(CCodeP);
-extern TypeTupleP		c_code_param(CCodeP);
-extern TypeTupleP		c_code_result(CCodeP);
-extern void			c_code_deallocate(CCodeP);
+CCodeP	c_code_create(CStringP, unsigned);
+void	c_code_append_string(CCodeP, NStringP);
+void	c_code_append_label(CCodeP, NStringP);
+void	c_code_append_identifier(CCodeP, NStringP);
+void	c_code_append_modifiable(CCodeP, NStringP);
+void	c_code_append_reference(CCodeP, NStringP);
+void	c_code_append_exception(CCodeP);
+void	c_code_append_advance(CCodeP);
+void	c_code_append_terminal(CCodeP);
+void	c_code_check(CCodeP, BoolT, BoolT, TypeTupleP, TypeTupleP, TableP);
+CStringP c_code_file(CCodeP);
+unsigned c_code_line(CCodeP);
+TypeTupleP c_code_param(CCodeP);
+TypeTupleP c_code_result(CCodeP);
+void	c_code_deallocate(CCodeP);
 
-extern void			c_output_c_code_action(COutputInfoP, CCodeP, TypeTupleP, TypeTupleP, SaveRStackP,
+void	c_output_c_code_action(COutputInfoP, CCodeP, TypeTupleP, TypeTupleP, SaveRStackP,
 										   RuleP);
-extern void			c_output_c_code_basic(COutputInfoP, CCodeP, TypeTupleP, SaveRStackP);
-extern void			c_output_c_code_assign(COutputInfoP, CCodeP, EntryP, EntryP, EntryP, BoolT, BoolT);
-extern void			c_output_c_code_param_assign(COutputInfoP, CCodeP, EntryP, EntryP);
-extern void			c_output_c_code_result_assign(COutputInfoP, CCodeP, EntryP, EntryP);
-extern void			c_output_c_code(COutputInfoP, CCodeP);
+void	c_output_c_code_basic(COutputInfoP, CCodeP, TypeTupleP, SaveRStackP);
+void	c_output_c_code_assign(COutputInfoP, CCodeP, EntryP, EntryP, EntryP, BoolT, BoolT);
+void	c_output_c_code_param_assign(COutputInfoP, CCodeP, EntryP, EntryP);
+void	c_output_c_code_result_assign(COutputInfoP, CCodeP, EntryP, EntryP);
+void	c_output_c_code(COutputInfoP, CCodeP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -158,11 +143,3 @@ extern void			c_output_c_code(COutputInfoP, CCodeP);
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_C_CODE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
- **/

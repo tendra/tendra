@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** non-local.c --- Non local name ADT.
@@ -62,137 +62,112 @@
  **** Commentary:
  *
  * This file implements the non local name list manipulation routines.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "non-local.h"
 
 /*--------------------------------------------------------------------------*/
 
 void
-non_local_list_init PROTO_N ((non_locals))
-		    PROTO_T (NonLocalListP non_locals)
+non_local_list_init(NonLocalListP non_locals)
 {
-    non_locals->head = NIL (NonLocalEntryP);
-    non_locals->tail = &(non_locals->head);
+	non_locals->head = NIL (NonLocalEntryP);
+	non_locals->tail = &(non_locals->head);
 }
 
 NonLocalEntryP
-non_local_list_add PROTO_N ((non_locals, name, type))
-		   PROTO_T (NonLocalListP non_locals X
-			    EntryP        name X
-			    EntryP        type)
+non_local_list_add(NonLocalListP non_locals,
+				   EntryP name, EntryP type)
 {
-    NonLocalEntryP entry = ALLOCATE (NonLocalEntryT);
-
-    entry->next         = NIL (NonLocalEntryP);
-    entry->name         = name;
-    entry->type         = type;
-    entry->initialiser  = NIL (EntryP);
-    *(non_locals->tail) = entry;
-    non_locals->tail    = &(entry->next);
-    return (entry);
+	NonLocalEntryP entry = ALLOCATE (NonLocalEntryT);
+	
+	entry->next         = NIL (NonLocalEntryP);
+	entry->name         = name;
+	entry->type         = type;
+	entry->initialiser  = NIL (EntryP);
+	*(non_locals->tail) = entry;
+	non_locals->tail    = &(entry->next);
+	return (entry);
 }
 
 BoolT
-non_local_list_is_empty PROTO_N ((non_locals))
-			PROTO_T (NonLocalListP non_locals)
+non_local_list_is_empty(NonLocalListP non_locals)
 {
-    return (non_locals->head == NIL (NonLocalEntryP));
+	return (non_locals->head == NIL (NonLocalEntryP));
 }
 
 void
-non_local_list_iter_for_table PROTO_N ((non_locals, proc, closure))
-			      PROTO_T (NonLocalListP non_locals X
-				       void        (*proc) PROTO_S ((EntryP,
-								     GenericP))
-				       X
-				       GenericP      closure)
+non_local_list_iter_for_table(NonLocalListP non_locals,
+	  void (*proc)(EntryP, GenericP), GenericP closure)
 {
-    NonLocalEntryP non_local;
-
-    for (non_local = non_locals->head; non_local;
-	 non_local = non_local->next) {
-	entry_iter (non_local->type, TRUE, proc, closure);
-	if (non_local->initialiser) {
-	    entry_iter (non_local->initialiser, TRUE, proc, closure);
+	NonLocalEntryP non_local;
+	
+	for (non_local = non_locals->head; non_local;
+		 non_local = non_local->next) {
+		entry_iter (non_local->type, TRUE, proc, closure);
+		if (non_local->initialiser) {
+			entry_iter (non_local->initialiser, TRUE, proc, closure);
+		}
 	}
-    }
 }
 
 void
-non_local_list_destroy PROTO_N ((non_locals))
-		       PROTO_T (NonLocalListP non_locals)
+non_local_list_destroy(NonLocalListP non_locals)
 {
-    NonLocalEntryP entry = non_locals->head;
-
-    while (entry) {
-	NonLocalEntryP tmp = entry->next;
-
-	DEALLOCATE (entry);
-	entry = tmp;
-    }
-}
-
-void
-write_non_locals PROTO_N ((ostream, non_locals))
-		 PROTO_T (OStreamP      ostream X
-			  NonLocalListP non_locals)
-{
-    NonLocalEntryP non_local;
-
-    for (non_local = non_locals->head; non_local;
-	 non_local = non_local->next) {
-	ASSERT (non_local->type);
-	ASSERT (non_local->name);
-	write_tab (ostream);
-	write_key (ostream, entry_key (non_local->name));
-	write_cstring (ostream, ": ");
-	write_key (ostream, entry_key (non_local->type));
-	if (non_local->initialiser) {
-	    write_cstring (ostream, " = <");
-	    write_key (ostream, entry_key (non_local->initialiser));
-	    write_char (ostream, '>');
+	NonLocalEntryP entry = non_locals->head;
+	
+	while (entry) {
+		NonLocalEntryP tmp = entry->next;
+		
+		DEALLOCATE (entry);
+		entry = tmp;
 	}
-	write_char (ostream, ';');
-	write_newline (ostream);
-    }
 }
 
 void
-non_local_entry_set_initialiser PROTO_N ((non_local, init))
-				PROTO_T (NonLocalEntryP non_local X
-					 EntryP         init)
+write_non_locals(OStreamP ostream, NonLocalListP non_locals)
 {
-    non_local->initialiser = init;
+	NonLocalEntryP non_local;
+	
+	for (non_local = non_locals->head; non_local;
+		 non_local = non_local->next) {
+		ASSERT (non_local->type);
+		ASSERT (non_local->name);
+		write_tab (ostream);
+		write_key (ostream, entry_key (non_local->name));
+		write_cstring (ostream, ": ");
+		write_key (ostream, entry_key (non_local->type));
+		if (non_local->initialiser) {
+			write_cstring (ostream, " = <");
+			write_key (ostream, entry_key (non_local->initialiser));
+			write_char (ostream, '>');
+		}
+		write_char (ostream, ';');
+		write_newline (ostream);
+	}
+}
+
+void
+non_local_entry_set_initialiser(NonLocalEntryP non_local,
+								EntryP init)
+{
+	non_local->initialiser = init;
 }
 
 EntryP
-non_local_entry_get_initialiser PROTO_N ((non_local))
-				PROTO_T (NonLocalEntryP non_local)
+non_local_entry_get_initialiser(NonLocalEntryP non_local)
 {
-    return (non_local->initialiser);
+	return (non_local->initialiser);
 }
 
 EntryP
-non_local_entry_get_name PROTO_N ((non_local))
-			 PROTO_T (NonLocalEntryP non_local)
+non_local_entry_get_name(NonLocalEntryP non_local)
 {
-    return (non_local->name);
+	return (non_local->name);
 }
 
 EntryP
-non_local_entry_get_type PROTO_N ((non_local))
-			 PROTO_T (NonLocalEntryP non_local)
+non_local_entry_get_type(NonLocalEntryP non_local)
 {
-    return (non_local->type);
+	return (non_local->type);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** cstring-list.c --- String list ADT.
@@ -63,8 +63,7 @@
  *
  * This file implements the string list facility specified in the file
  * "cstring-list.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -73,52 +72,40 @@
 /*--------------------------------------------------------------------------*/
 
 void
-cstring_list_init PROTO_N ((list))
-		  PROTO_T (CStringListP list)
+cstring_list_init(CStringListP list)
 {
-    list->head = NIL (CStringListEntryP);
-    list->tail = &(list->head);
+	list->head = NIL (CStringListEntryP);
+	list->tail = &(list->head);
 }
 
 void
-cstring_list_append PROTO_N ((list, string))
-		    PROTO_T (CStringListP list X
-			     CStringP     string)
+cstring_list_append(CStringListP list, CStringP string)
 {
-    CStringListEntryP entry = ALLOCATE (CStringListEntryT);
-
-    entry->next   = NIL (CStringListEntryP);
-    entry->string = string;
-    *(list->tail) = entry;
-    list->tail    = &(entry->next);
+	CStringListEntryP entry = ALLOCATE (CStringListEntryT);
+	
+	entry->next   = NIL (CStringListEntryP);
+	entry->string = string;
+	*(list->tail) = entry;
+	list->tail    = &(entry->next);
 }
 
 CStringListEntryP
-cstring_list_head PROTO_N ((list))
-		  PROTO_T (CStringListP list)
+cstring_list_head(CStringListP list)
 {
-    return (list->head);
+	return (list->head);
 }
 
 CStringP
-cstring_list_entry_string PROTO_N ((entry))
-			  PROTO_T (CStringListEntryP entry)
+cstring_list_entry_string(CStringListEntryP entry)
 {
-    return (entry->string);
+	return (entry->string);
 }
 
 CStringListEntryP
-cstring_list_entry_deallocate PROTO_N ((entry))
-			      PROTO_T (CStringListEntryP entry)
+cstring_list_entry_deallocate(CStringListEntryP entry)
 {
-    CStringListEntryP next = entry->next;
-
-    DEALLOCATE (entry);
-    return (next);
+	CStringListEntryP next = entry->next;
+	
+	DEALLOCATE (entry);
+	return (next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

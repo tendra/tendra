@@ -215,8 +215,7 @@
  *
  * This function writes out to the specified ostream the indices of all bits
  * in the specified bit vector that are set to one.
- *
- **** Change log:*/
+ */
 
 /****************************************************************************/
 
@@ -230,36 +229,30 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct BitVecT {
-    ByteP		bits;
+	ByteP		bits;
 } BitVecT, *BitVecP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			bitvec_set_size(unsigned);
-extern void			bitvec_init(BitVecP);
-extern void			bitvec_copy(BitVecP, BitVecP);
-extern void			bitvec_replace(BitVecP, BitVecP);
-extern void			bitvec_empty(BitVecP);
-extern BoolT			bitvec_is_empty(BitVecP);
-extern BoolT			bitvec_is_full(BitVecP);
-extern void			bitvec_set(BitVecP, unsigned);
-extern BoolT			bitvec_is_set(BitVecP, unsigned);
-extern void			bitvec_or(BitVecP, BitVecP);
-extern void			bitvec_and(BitVecP, BitVecP);
-extern void			bitvec_not(BitVecP);
-extern BoolT			bitvec_equal(BitVecP, BitVecP);
-extern BoolT			bitvec_intersects(BitVecP, BitVecP);
-extern unsigned			bitvec_num_bits(BitVecP);
-extern unsigned			bitvec_first_bit(BitVecP);
-extern BoolT			bitvec_next_bit(BitVecP, unsigned *);
-extern void			bitvec_destroy(BitVecP);
+void	bitvec_set_size(unsigned);
+void	bitvec_init(BitVecP);
+void	bitvec_copy(BitVecP, BitVecP);
+void	bitvec_replace(BitVecP, BitVecP);
+void	bitvec_empty(BitVecP);
+BoolT	bitvec_is_empty(BitVecP);
+BoolT	bitvec_is_full(BitVecP);
+void	bitvec_set(BitVecP, unsigned);
+BoolT	bitvec_is_set(BitVecP, unsigned);
+void	bitvec_or(BitVecP, BitVecP);
+void	bitvec_and(BitVecP, BitVecP);
+void	bitvec_not(BitVecP);
+BoolT	bitvec_equal(BitVecP, BitVecP);
+BoolT	bitvec_intersects(BitVecP, BitVecP);
+unsigned bitvec_num_bits(BitVecP);
+unsigned bitvec_first_bit(BitVecP);
+BoolT	bitvec_next_bit(BitVecP, unsigned *);
+void	bitvec_destroy(BitVecP);
 
-extern void			write_bitvec_indices(OStreamP, BitVecP);
+void	write_bitvec_indices(OStreamP, BitVecP);
 
 #endif /* !defined (H_BITVEC) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

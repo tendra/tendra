@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  **** Commentary:
  *
  * See the file "c-check.c" for details.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_CHECK
 #define H_C_CHECK
@@ -73,16 +70,6 @@
 #include "os-interface.h"
 #include "grammar.h"
 
-/*--------------------------------------------------------------------------*/
-
-extern void			c_check_grammar(GrammarP);
+void	c_check_grammar(GrammarP);
 
 #endif /* !defined (H_C_CHECK) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
- **/

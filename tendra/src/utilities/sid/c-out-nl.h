@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-out-nl.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUT_NL
 #define H_C_OUT_NL
@@ -75,19 +72,10 @@
 #include "non-local.h"
 #include "rule.h"
 
-/*--------------------------------------------------------------------------*/
-
-extern void			c_output_non_locals(COutputInfoP, NonLocalListP);
-extern void			c_output_declare_non_locals(COutputInfoP, NonLocalListP);
-extern void			c_output_save_non_locals(COutputInfoP, RuleP, unsigned, RStackP, RStackP, RuleP,
-											 TableP);
-extern void			c_output_restore_non_locals(COutputInfoP, RuleP, unsigned, RStackP, RStackP);
+void	c_output_non_locals(COutputInfoP, NonLocalListP);
+void	c_output_declare_non_locals(COutputInfoP, NonLocalListP);
+void	c_output_save_non_locals(COutputInfoP, RuleP, unsigned, RStackP, RStackP, RuleP,
+				 TableP);
+void	c_output_restore_non_locals(COutputInfoP, RuleP, unsigned, RStackP, RStackP);
 
 #endif /* !defined (H_C_OUT_NL) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

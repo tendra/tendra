@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** dalloc.h --- Memory allocation and deallocation.
@@ -115,8 +115,7 @@
  *
  * This exception is raised if there is not enough memory to allocate an
  * object (or a vector of objects).
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -134,19 +133,15 @@ extern ExceptionP		XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-extern void			E_dalloc_multi_deallocate
-	PROTO_S ((GenericP, CStringP, unsigned, CStringP, unsigned));
-extern void			E_dalloc_corrupt_block
-	PROTO_S ((GenericP, CStringP, unsigned));
-extern GenericP			X__dalloc_allocate
-	PROTO_S ((SizeT, SizeT, CStringP, unsigned));
-extern void			X__dalloc_deallocate
-	PROTO_S ((GenericP, CStringP, unsigned));
+void	E_dalloc_multi_deallocate(GenericP, CStringP, unsigned,
+		CStringP, unsigned);
+void	E_dalloc_corrupt_block(GenericP, CStringP, unsigned);
+GenericP X__dalloc_allocate(SizeT, SizeT, CStringP, unsigned);
+void	X__dalloc_deallocate(GenericP, CStringP, unsigned);
 
 #else
 
-extern GenericP			X__dalloc_allocate
-	PROTO_S ((SizeT, SizeT));
+GenericP X__dalloc_allocate(SizeT, SizeT);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

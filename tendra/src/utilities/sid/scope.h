@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** scope.h --- Scope stack ADT.
@@ -81,50 +81,36 @@ struct RuleT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct ScopeMapEntryT {
-    struct ScopeMapEntryT      *next;
-    EntryP			from;
-    EntryP			to;
+	struct ScopeMapEntryT      *next;
+	EntryP			from;
+	EntryP			to;
 } ScopeMapEntryT, *ScopeMapEntryP;
 
 typedef struct ScopeStackFrameT {
-    struct ScopeStackFrameT    *next;
-    NStringT			scope;
-    ScopeMapEntryP		head;
-    ScopeMapEntryP	       *tail;
+	struct ScopeStackFrameT    *next;
+	NStringT			scope;
+	ScopeMapEntryP		head;
+	ScopeMapEntryP	       *tail;
 } ScopeStackFrameT, *ScopeStackFrameP;
 
 typedef struct ScopeStackT {
-    ScopeStackFrameP		head;
+	ScopeStackFrameP		head;
 } ScopeStackT, *ScopeStackP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			scope_stack_init
-	PROTO_S ((ScopeStackP));
-extern void			scope_stack_push
-	PROTO_S ((ScopeStackP, NStringP));
-extern void			scope_stack_pop
-	PROTO_S ((ScopeStackP));
-extern EntryP			scope_stack_add_rule
-	PROTO_S ((ScopeStackP, TableP, NStringP, struct RuleT *, BoolT *));
-extern EntryP			scope_stack_add_action
-	PROTO_S ((ScopeStackP, TableP, NStringP, struct RuleT *, BoolT *));
-extern EntryP			scope_stack_add_non_local
-	PROTO_S ((ScopeStackP, TableP, NStringP, EntryP, struct RuleT *));
-extern EntryP			scope_stack_get_rule
-	PROTO_S ((ScopeStackP, TableP, NStringP));
-extern EntryP			scope_stack_get_action
-	PROTO_S ((ScopeStackP, TableP, NStringP));
-extern EntryP			scope_stack_get_non_local
-	PROTO_S ((ScopeStackP, TableP, NStringP, NStringP));
-extern BoolT			scope_stack_check_shadowing
-	PROTO_S ((ScopeStackP, EntryP, struct RuleT *));
+void	scope_stack_init(ScopeStackP);
+void	scope_stack_push(ScopeStackP, NStringP);
+void	scope_stack_pop(ScopeStackP);
+EntryP	scope_stack_add_rule(ScopeStackP, TableP, NStringP,
+		struct RuleT *, BoolT *);
+EntryP	scope_stack_add_action(ScopeStackP, TableP, NStringP,
+		struct RuleT *, BoolT *);
+EntryP	scope_stack_add_non_local(ScopeStackP, TableP, NStringP, EntryP,
+		struct RuleT *);
+EntryP	scope_stack_get_rule(ScopeStackP, TableP, NStringP);
+EntryP	scope_stack_get_action(ScopeStackP, TableP, NStringP);
+EntryP	scope_stack_get_non_local(ScopeStackP, TableP, NStringP, NStringP);
+BoolT	scope_stack_check_shadowing(ScopeStackP, EntryP, struct RuleT *);
 
 #endif /* !defined (H_SCOPE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

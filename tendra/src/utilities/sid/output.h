@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** output.h --- Target independent output routines.
@@ -62,10 +62,7 @@
  **** Commentary:
  *
  * See the file "output.c" for more information.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_OUTPUT
 #define H_OUTPUT
@@ -78,45 +75,31 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct OutputInfoT {
-    CStringP			prog_name;
-    OStreamP			current_ostream;
-    IStreamP			istreams;
-    OStreamP			ostreams;
-    CStringP		       *input_names;
-    CStringP		       *output_names;
-    unsigned			tab_width;
+	CStringP			prog_name;
+	OStreamP			current_ostream;
+	IStreamP			istreams;
+	OStreamP			ostreams;
+	CStringP		       *input_names;
+	CStringP		       *output_names;
+	unsigned			tab_width;
 } OutputInfoT, *OutputInfoP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			out_info_init
-	PROTO_S ((OutputInfoP, CStringP));
-extern CStringP			out_info_get_prog_name
-	PROTO_S ((OutputInfoP));
-extern void			out_info_set_current_ostream
-	PROTO_S ((OutputInfoP, unsigned));
-extern OStreamP			out_info_get_current_ostream
-	PROTO_S ((OutputInfoP));
-extern void			out_info_set_num_input_files
-	PROTO_S ((OutputInfoP, unsigned));
-extern void			out_info_set_num_output_files
-	PROTO_S ((OutputInfoP, unsigned));
-extern IStreamP			out_info_get_istream
-	PROTO_S ((OutputInfoP, unsigned));
-extern OStreamP			out_info_get_ostream
-	PROTO_S ((OutputInfoP, unsigned));
-extern void			out_info_set_infile_name
-	PROTO_S ((OutputInfoP, unsigned, CStringP));
-extern CStringP			out_info_get_infile_name
-	PROTO_S ((OutputInfoP, unsigned));
-extern void			out_info_set_outfile_name
-	PROTO_S ((OutputInfoP, unsigned, CStringP));
-extern CStringP			out_info_get_outfile_name
-	PROTO_S ((OutputInfoP, unsigned));
-extern void			out_info_set_tab_width
-	PROTO_S ((OutputInfoP, unsigned));
-extern void			output_indent
-	PROTO_S ((OutputInfoP, unsigned));
+void	out_info_init(OutputInfoP, CStringP);
+CStringP out_info_get_prog_name(OutputInfoP);
+void	out_info_set_current_ostream(OutputInfoP, unsigned);
+OStreamP out_info_get_current_ostream(OutputInfoP);
+void	out_info_set_num_input_files(OutputInfoP, unsigned);
+void	out_info_set_num_output_files(OutputInfoP, unsigned);
+IStreamP out_info_get_istream(OutputInfoP, unsigned);
+OStreamP out_info_get_ostream(OutputInfoP, unsigned);
+void	out_info_set_infile_name(OutputInfoP, unsigned, CStringP);
+CStringP out_info_get_infile_name(OutputInfoP, unsigned);
+void	out_info_set_outfile_name(OutputInfoP, unsigned, CStringP);
+CStringP out_info_get_outfile_name(OutputInfoP, unsigned);
+void	out_info_set_tab_width(OutputInfoP, unsigned);
+void	output_indent(OutputInfoP, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
@@ -133,10 +116,3 @@ extern void			output_indent
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_OUTPUT) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

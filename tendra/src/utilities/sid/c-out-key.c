@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the identifier key output routines used by SID.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "c-out-key.h"
 #include "action.h"
@@ -79,12 +76,11 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-write_c_key(OStreamP ostream, CStringP contents,
-			unsigned length)
+write_c_key(OStreamP ostream, CStringP contents, unsigned length)
 {
-    while (length --) {
+	while (length--) {
 		char c;
-
+		
 		switch (c = *contents ++) {
 		case '-':
 			write_cstring (ostream, "_H");
@@ -105,7 +101,7 @@ write_c_key(OStreamP ostream, CStringP contents,
 			}
 			break;
 		}
-    }
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -113,16 +109,16 @@ write_c_key(OStreamP ostream, CStringP contents,
 void
 c_output_mapped_key(COutputInfoP info, EntryP entry)
 {
-    OStreamP ostream = c_out_info_ostream (info);
-    NStringP mapping = entry_get_mapping (entry);
-    BoolT    strict  = c_out_info_get_numeric_ids (info);
-
-    if (mapping) {
+	OStreamP ostream = c_out_info_ostream (info);
+	NStringP mapping = entry_get_mapping (entry);
+	BoolT    strict  = c_out_info_get_numeric_ids (info);
+	
+	if (mapping) {
 		write_nstring (ostream, mapping);
-    } else {
+	} else {
 		KeyP     key    = entry_key (entry);
 		NStringP prefix;
-
+		
 		switch (entry_type (entry)) EXHAUSTIVE {
 		case ET_TYPE:
 			prefix = c_out_info_type_prefix (info);
@@ -146,57 +142,48 @@ c_output_mapped_key(COutputInfoP info, EntryP entry)
 		write_nstring (ostream, prefix);
 		if (key_is_string (key) && (!strict)) {
 			NStringP nstring = key_get_string (key);
-
+			
 			write_c_key (ostream, nstring_contents (nstring),
 						 nstring_length (nstring));
 		} else {
 			write_unsigned (ostream, key_get_number (key));
 		}
-    }
+	}
 }
 
 void
-c_output_key(COutputInfoP info, KeyP key,
-			 NStringP prefix)
+c_output_key(COutputInfoP info, KeyP key, NStringP prefix)
 {
-    OStreamP ostream = c_out_info_ostream (info);
-    BoolT    strict  = c_out_info_get_numeric_ids (info);
-
-    write_nstring (ostream, prefix);
-    if (key_is_string (key) && (!strict)) {
+	OStreamP ostream = c_out_info_ostream (info);
+	BoolT    strict  = c_out_info_get_numeric_ids (info);
+	
+	write_nstring (ostream, prefix);
+	if (key_is_string (key) && (!strict)) {
 		NStringP nstring = key_get_string (key);
-
+		
 		write_c_key (ostream, nstring_contents (nstring),
 					 nstring_length (nstring));
-    } else {
+	} else {
 		write_unsigned (ostream, key_get_number (key));
-    }
+	}
 }
 
 void
-c_output_label_key(COutputInfoP info, KeyP key,
-				   unsigned label)
+c_output_label_key(COutputInfoP info, KeyP key, unsigned label)
 {
-    OStreamP ostream = c_out_info_ostream (info);
-    NStringP prefix  = c_out_info_label_prefix (info);
-    BoolT    strict  = c_out_info_get_numeric_ids (info);
-
-    write_nstring (ostream, prefix);
-    write_unsigned (ostream, label);
-    write_char (ostream, '_');
-    if (key_is_string (key) && (!strict)) {
+	OStreamP ostream = c_out_info_ostream (info);
+	NStringP prefix  = c_out_info_label_prefix (info);
+	BoolT    strict  = c_out_info_get_numeric_ids (info);
+	
+	write_nstring (ostream, prefix);
+	write_unsigned (ostream, label);
+	write_char (ostream, '_');
+	if (key_is_string (key) && (!strict)) {
 		NStringP nstring = key_get_string (key);
-
+		
 		write_c_key (ostream, nstring_contents (nstring),
-					 nstring_length (nstring));
-    } else {
+				nstring_length (nstring));
+	} else {
 		write_unsigned (ostream, key_get_number (key));
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,8 +63,7 @@
  *
  * This file implements the bit vector manipulation routines specified in
  * "bitvec.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -83,72 +82,72 @@ static ByteT			bitvec_mask;
 void
 bitvec_set_size(unsigned size)
 {
-    bitvec_valid_bits = size;
-    bitvec_size       = ((size + NUM_BITS - (unsigned) 1) / NUM_BITS);
-    bitvec_mask       = (ByteT) 0;
-    if (size % NUM_BITS) {
+	bitvec_valid_bits = size;
+	bitvec_size       = ((size + NUM_BITS - (unsigned) 1) / NUM_BITS);
+	bitvec_mask       = (ByteT) 0;
+	if (size % NUM_BITS) {
 		unsigned i;
 		unsigned mask =0;
-
+		
 		for (i = (NUM_BITS - (size % NUM_BITS)); i; i --) {
 			mask >>= 1;
 			mask  |= ((unsigned) 1 << (NUM_BITS - (unsigned) 1));
 		}
 		bitvec_mask = (ByteT) mask;
-    }
-    bitvec_mask = (~bitvec_mask);
+	}
+	bitvec_mask = (~bitvec_mask);
 }
 
 void
 bitvec_init(BitVecP bitvec)
 {
-    bitvec->bits = ALLOCATE_VECTOR (ByteT, bitvec_size);
+	bitvec->bits = ALLOCATE_VECTOR (ByteT, bitvec_size);
 }
 
 void
 bitvec_copy(BitVecP to, BitVecP from)
 {
-    to->bits = ALLOCATE_VECTOR (ByteT, bitvec_size);
-    (void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
+	to->bits = ALLOCATE_VECTOR (ByteT, bitvec_size);
+	(void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
 				   (SizeT) bitvec_size);
 }
 
 void
 bitvec_replace(BitVecP to, BitVecP from)
 {
-    (void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
+	(void) memcpy ((GenericP) (to->bits), (GenericP) (from->bits),
 				   (SizeT) bitvec_size);
 }
 
 void
 bitvec_empty(BitVecP bitvec)
 {
-    (void) memset ((GenericP) (bitvec->bits), 0, (SizeT) bitvec_size);
+	(void) memset ((GenericP) (bitvec->bits), 0, (SizeT) bitvec_size);
 }
 
 BoolT
 bitvec_is_empty(BitVecP bitvec)
 {
-    ByteP    bitvec_bits = (bitvec->bits);
-    unsigned bytes       = bitvec_size;
-
-    while (bytes --) {
-		if (*bitvec_bits ++) {
+	ByteP    bitvec_bits = (bitvec->bits);
+	unsigned bytes       = bitvec_size;
+	
+	while (bytes--) {
+		if (*bitvec_bits++) {
 			return (FALSE);
 		}
-    }
-    return (TRUE);
+	}
+	return (TRUE);
 }
 
 BoolT
 bitvec_is_full(BitVecP bitvec)
 {
-    ByteP    bitvec_bits = (bitvec->bits);
-    unsigned bytes       = bitvec_size;
-
-    while (bytes --) {
+	ByteP    bitvec_bits = (bitvec->bits);
+	unsigned bytes       = bitvec_size;
+	
+	while (bytes --) {
 		ByteT byte = (*bitvec_bits ++);
-
+		
 		if (bytes == 0) {
 			byte |= (ByteT) ~bitvec_mask;
 		}
@@ -156,150 +155,150 @@ bitvec_is_full(BitVecP bitvec)
 		if (byte) {
 			return (FALSE);
 		}
-    }
-    return (TRUE);
+	}
+	return (TRUE);
 }
 
 void
 bitvec_set(BitVecP bitvec, unsigned bit)
 {
-    ASSERT (bit < bitvec_valid_bits);
-    (bitvec->bits) [bit / NUM_BITS] |= (ByteT) (1 << (bit % NUM_BITS));
+	ASSERT (bit < bitvec_valid_bits);
+	(bitvec->bits) [bit / NUM_BITS] |= (ByteT) (1 << (bit % NUM_BITS));
 }
 
 BoolT
 bitvec_is_set(BitVecP bitvec, unsigned bit)
 {
-    ASSERT (bit < bitvec_valid_bits);
-    return ((bitvec->bits) [bit / NUM_BITS] & ((ByteT) 1 << (bit % NUM_BITS)));
+	ASSERT (bit < bitvec_valid_bits);
+	return ((bitvec->bits) [bit / NUM_BITS] & ((ByteT) 1 << (bit % NUM_BITS)));
 }
 
 void
 bitvec_or(BitVecP to, BitVecP from)
 {
-    ByteP    to_bits   = (to->bits);
-    ByteP    from_bits = (from->bits);
-    unsigned bytes     = bitvec_size;
-
-    while (bytes --) {
-		(*to_bits ++) |= (*from_bits ++);
-    }
+	ByteP    to_bits   = (to->bits);
+	ByteP    from_bits = (from->bits);
+	unsigned bytes     = bitvec_size;
+	
+	while (bytes--) {
+		(*to_bits++) |= (*from_bits++);
+	}
 }
 
 void
 bitvec_and(BitVecP to, BitVecP from)
 {
-    ByteP    to_bits   = (to->bits);
-    ByteP    from_bits = (from->bits);
-    unsigned bytes     = bitvec_size;
-
-    while (bytes --) {
-		(*to_bits ++) &= (*from_bits ++);
-    }
+	ByteP    to_bits   = (to->bits);
+	ByteP    from_bits = (from->bits);
+	unsigned bytes     = bitvec_size;
+	
+	while (bytes--) {
+		(*to_bits++) &= (*from_bits++);
+	}
 }
 
 void
 bitvec_not(BitVecP to)
 {
-    ByteP    to_bits = (to->bits);
-    unsigned bytes   = bitvec_size;
-
-    while (bytes --) {
+	ByteP    to_bits = (to->bits);
+	unsigned bytes   = bitvec_size;
+	
+	while (bytes--) {
 		(*to_bits) = (~(*to_bits));
-		to_bits ++;
-    }
-    (to->bits) [bitvec_size - 1] &= bitvec_mask;
+		to_bits++;
+	}
+	(to->bits) [bitvec_size - 1] &= bitvec_mask;
 }
 
 BoolT
 bitvec_equal(BitVecP bitvec1, BitVecP bitvec2)
 {
-    ByteP    bitvec1_bits = (bitvec1->bits);
-    ByteP    bitvec2_bits = (bitvec2->bits);
-    unsigned bytes        = bitvec_size;
-
-    while (bytes --) {
-		if ((*bitvec1_bits ++) != (*bitvec2_bits ++)) {
+	ByteP    bitvec1_bits = (bitvec1->bits);
+	ByteP    bitvec2_bits = (bitvec2->bits);
+	unsigned bytes        = bitvec_size;
+	
+	while (bytes --) {
+		if ((*bitvec1_bits++) != (*bitvec2_bits++)) {
 			return (FALSE);
 		}
-    }
-    return (TRUE);
+	}
+	return (TRUE);
 }
 
 BoolT
 bitvec_intersects(BitVecP bitvec1, BitVecP bitvec2)
 {
-    ByteP    bitvec1_bits = (bitvec1->bits);
-    ByteP    bitvec2_bits = (bitvec2->bits);
-    unsigned bytes        = bitvec_size;
-
-    while (bytes --) {
-		if ((*bitvec1_bits ++) & (*bitvec2_bits ++)) {
+	ByteP    bitvec1_bits = (bitvec1->bits);
+	ByteP    bitvec2_bits = (bitvec2->bits);
+	unsigned bytes        = bitvec_size;
+	
+	while (bytes--) {
+		if ((*bitvec1_bits++) & (*bitvec2_bits++)) {
 			return (TRUE);
 		}
-    }
-    return (FALSE);
+	}
+	return (FALSE);
 }
 
 unsigned
 bitvec_num_bits(BitVecP bitvec)
 {
-    unsigned i;
-    unsigned num_bits = 0;
-
-    for (i = 0; i < bitvec_valid_bits; i ++) {
+	unsigned i;
+	unsigned num_bits = 0;
+	
+	for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			num_bits ++;
 		}
-    }
-    return (num_bits);
+	}
+	return (num_bits);
 }
 
 unsigned
 bitvec_first_bit(BitVecP bitvec)
 {
-    unsigned i;
-
-    for (i = 0; i < bitvec_valid_bits; i ++) {
+	unsigned i;
+	
+	for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			return (i);
 		}
-    }
-    return (bitvec_valid_bits);
+	}
+	return (bitvec_valid_bits);
 }
 
 BoolT
 bitvec_next_bit(BitVecP bitvec, unsigned *next_ref)
 {
-    unsigned i;
-
-    for (i = ((*next_ref) + 1); i < bitvec_valid_bits; i ++) {
+	unsigned i;
+	
+	for (i = ((*next_ref) + 1); i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			*next_ref = i;
 			return (TRUE);
 		}
-    }
-    return (FALSE);
+	}
+	return (FALSE);
 }
 
 void
 bitvec_destroy(BitVecP bitvec)
 {
-    DEALLOCATE (bitvec->bits);
+	DEALLOCATE (bitvec->bits);
 }
 
 void
 write_bitvec_indices(OStreamP ostream, BitVecP bitvec)
 {
-    unsigned num_bits_set = 0;
-    unsigned i;
-
-    for (i = 0; i < bitvec_valid_bits; i ++) {
+	unsigned num_bits_set = 0;
+	unsigned i;
+	
+	for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			num_bits_set ++;
 		}
-    }
-    for (i = 0; i < bitvec_valid_bits; i ++) {
+	}
+	for (i = 0; i < bitvec_valid_bits; i ++) {
 		if (bitvec_is_set (bitvec, i)) {
 			write_unsigned (ostream, i);
 			num_bits_set --;
@@ -309,11 +308,5 @@ write_bitvec_indices(OStreamP ostream, BitVecP bitvec)
 				write_cstring (ostream, ", ");
 			}
 		}
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

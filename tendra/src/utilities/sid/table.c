@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** table.c --- Identifier table ADT.
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the identifier table routines used by SID.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "table.h"
 #include "action.h"
@@ -79,352 +76,304 @@
 /*--------------------------------------------------------------------------*/
 
 static unsigned
-table_next_generated_key PROTO_Z ()
+table_next_generated_key(void)
 {
-    static unsigned sequence = 0;
-
-    if (sequence == UINT_MAX) {
-	E_too_many_generated_ids ();
-	UNREACHED;
-    }
-    return (sequence ++);
+	static unsigned sequence = 0;
+	
+	if (sequence == UINT_MAX) {
+		E_too_many_generated_ids ();
+		UNREACHED;
+	}
+	return (sequence ++);
 }
 
 static EntryP
-table_add_entry PROTO_N ((table, key, type, found_ref))
-		PROTO_T (TableP     table X
-			 NStringP   key X
-			 EntryTypeT type X
-			 BoolT     *found_ref)
+table_add_entry(TableP table, NStringP key, EntryTypeT type, BoolT *found_ref)
 {
-    unsigned hash   = (nstring_hash_value (key) % TABLE_SIZE);
-    EntryP  *entryp = &(table->contents [hash]);
-    EntryP   entry;
-    unsigned number;
-
-    *found_ref = FALSE;
-    while ((entry = *entryp) != NIL (EntryP)) {
-	KeyP ent_key = entry_key (entry);
-
-	if ((key_is_string (ent_key)) &&
-	    (nstring_equal (key_get_string (ent_key), key))) {
-	    if (type == ET_NAME) {
-		nstring_destroy (key);
-		return (entry);
-	    } else if (entry_type (entry) == ET_NAME) {
-		nstring_destroy (key);
-		entry_change_type (entry, type);
-		return (entry);
-	    } else if ((entry_type (entry) == type) &&
-		       ((type == ET_ACTION) || (type == ET_RULE))) {
-		*found_ref = TRUE;
-		nstring_destroy (key);
-		return (entry);
-	    } else {
-		return (NIL (EntryP));
-	    }
+	unsigned hash   = (nstring_hash_value (key) % TABLE_SIZE);
+	EntryP  *entryp = &(table->contents [hash]);
+	EntryP   entry;
+	unsigned number;
+	
+	*found_ref = FALSE;
+	while ((entry = *entryp) != NIL (EntryP)) {
+		KeyP ent_key = entry_key (entry);
+		
+		if ((key_is_string (ent_key)) &&
+			(nstring_equal (key_get_string (ent_key), key))) {
+			if (type == ET_NAME) {
+				nstring_destroy (key);
+				return (entry);
+			} else if (entry_type (entry) == ET_NAME) {
+				nstring_destroy (key);
+				entry_change_type (entry, type);
+				return (entry);
+			} else if ((entry_type (entry) == type) &&
+					   ((type == ET_ACTION) || (type == ET_RULE))) {
+				*found_ref = TRUE;
+				nstring_destroy (key);
+				return (entry);
+			} else {
+				return (NIL (EntryP));
+			}
+		}
+		entryp = entry_next_ref (entry);
 	}
-	entryp = entry_next_ref (entry);
-    }
-    number  = table_next_generated_key ();
-    entry   = entry_create_from_string (key, number, type);
-    *entryp = entry;
-    return (entry);
+	number  = table_next_generated_key ();
+	entry   = entry_create_from_string (key, number, type);
+	*entryp = entry;
+	return (entry);
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-table_init PROTO_N ((table))
-	   PROTO_T (TableP table)
+table_init(TableP table)
 {
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i ++) {
-	table->contents [i] = NIL (EntryP);
-    }
+	unsigned i;
+	
+	for (i = 0; i < TABLE_SIZE; i ++) {
+		table->contents [i] = NIL (EntryP);
+	}
 }
 
 EntryP
-table_add_type PROTO_N ((table, key))
-	       PROTO_T (TableP   table X
-			NStringP key)
+table_add_type(TableP table, NStringP key)
 {
-    BoolT  found;
-    EntryP entry = table_add_entry (table, key, ET_TYPE, &found);
-
-    if (entry) {
-	entry_set_type (entry, type_create ());
-    }
-    return (entry);
+	BoolT  found;
+	EntryP entry = table_add_entry (table, key, ET_TYPE, &found);
+	
+	if (entry) {
+		entry_set_type (entry, type_create ());
+	}
+	return (entry);
 }
 
 EntryP
-table_add_basic PROTO_N ((table, key, grammar, ignored))
-		PROTO_T (TableP   table X
-			 NStringP key X
-			 GrammarP grammar X
-			 BoolT    ignored)
+table_add_basic(TableP table, NStringP key, GrammarP grammar, BoolT ignored)
 {
-    BoolT  found;
-    EntryP entry = table_add_entry (table, key, ET_BASIC, &found);
-
-    if (entry) {
-	entry_set_basic (entry, basic_create (grammar, ignored));
-    }
-    return (entry);
+	BoolT  found;
+	EntryP entry = table_add_entry (table, key, ET_BASIC, &found);
+	
+	if (entry) {
+		entry_set_basic (entry, basic_create (grammar, ignored));
+	}
+	return (entry);
 }
 
 EntryP
-table_add_action PROTO_N ((table, key))
-		 PROTO_T (TableP   table X
-			  NStringP key)
+table_add_action(TableP table, NStringP key)
 {
-    BoolT  found;
-    EntryP entry = table_add_entry (table, key, ET_ACTION, &found);
-
-    if ((entry != NIL (EntryP)) && (!found)) {
-	entry_set_action (entry, action_create ());
-    }
-    return (entry);
+	BoolT  found;
+	EntryP entry = table_add_entry (table, key, ET_ACTION, &found);
+	
+	if ((entry != NIL (EntryP)) && (!found)) {
+		entry_set_action (entry, action_create ());
+	}
+	return (entry);
 }
 
 EntryP
-table_add_rule PROTO_N ((table, key))
-	       PROTO_T (TableP   table X
-			NStringP key)
+table_add_rule(TableP table, NStringP key)
 {
-    BoolT  found;
-    EntryP entry = table_add_entry (table, key, ET_RULE, &found);
+	BoolT  found;
+	EntryP entry = table_add_entry (table, key, ET_RULE, &found);
+	
+	if ((entry != NIL (EntryP)) && (!found)) {
+		entry_set_rule (entry, rule_create (entry));
+	}
+	return (entry);
+}
 
-    if ((entry != NIL (EntryP)) && (!found)) {
+EntryP
+table_add_generated_rule(TableP table, BoolT traced)
+{
+	unsigned sequence = table_next_generated_key ();
+	unsigned hash     = (sequence % TABLE_SIZE);
+	EntryP  *entryp   = &(table->contents [hash]);
+	EntryP   entry;
+	
+	entry = entry_create_from_number (sequence, ET_RULE, traced, *entryp);
 	entry_set_rule (entry, rule_create (entry));
-    }
-    return (entry);
-}
-
-EntryP
-table_add_generated_rule PROTO_N ((table, traced))
-			 PROTO_T (TableP table X
-				  BoolT  traced)
-{
-    unsigned sequence = table_next_generated_key ();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryP  *entryp   = &(table->contents [hash]);
-    EntryP   entry;
-
-    entry = entry_create_from_number (sequence, ET_RULE, traced, *entryp);
-    entry_set_rule (entry, rule_create (entry));
-    *entryp = entry;
-    return (entry);
-}
-
-EntryP
-table_add_name PROTO_N ((table, key))
-	       PROTO_T (TableP   table X
-			NStringP key)
-{
-    BoolT found;
-
-    return (table_add_entry (table, key, ET_NAME, &found));
-}
-
-EntryP
-table_add_generated_name PROTO_N ((table))
-			 PROTO_T (TableP table)
-{
-    unsigned sequence = table_next_generated_key ();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryP  *entryp   = &(table->contents [hash]);
-    EntryP   entry;
-
-    entry = entry_create_from_number (sequence, ET_NAME, FALSE, *entryp);
-    *entryp = entry;
-    return (entry);
-}
-
-EntryP
-table_add_rename PROTO_N ((table))
-		 PROTO_T (TableP table)
-{
-    unsigned sequence = table_next_generated_key ();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryP  *entryp   = &(table->contents [hash]);
-    EntryP   entry;
-
-    entry = entry_create_from_number (sequence, ET_RENAME, TRUE, *entryp);
-    *entryp = entry;
-    return (entry);
-}
-
-EntryP
-table_add_non_local PROTO_N ((table, key, type))
-		    PROTO_T (TableP   table X
-			     NStringP key X
-			     EntryP   type)
-{
-    BoolT  found;
-    EntryP entry = table_add_entry (table, key, ET_NON_LOCAL, &found);
-
-    if (entry) {
-	entry_set_non_local (entry, type);
-    }
-    return (entry);
-}
-
-EntryP
-table_get_entry PROTO_N ((table, key))
-		PROTO_T (TableP   table X
-			 NStringP key)
-{
-    unsigned hash  = (nstring_hash_value (key) % TABLE_SIZE);
-    EntryP   entry = (table->contents [hash]);
-
-    while (entry) {
-	KeyP ent_key = entry_key (entry);
-
-	if ((key_is_string (ent_key)) &&
-	    (nstring_equal (key_get_string (ent_key), key))) {
-	    return (entry);
-	}
-	entry = entry->next;
-    }
-    return (NIL (EntryP));
-}
-
-EntryP
-table_get_type PROTO_N ((table, key))
-	       PROTO_T (TableP   table X
-			NStringP key)
-{
-    EntryP entry = table_get_entry (table, key);
-
-    if ((entry) && (entry_is_type (entry))) {
+	*entryp = entry;
 	return (entry);
-    } else {
-	return (NIL (EntryP));
-    }
 }
 
 EntryP
-table_get_basic PROTO_N ((table, key))
-		PROTO_T (TableP   table X
-			 NStringP key)
+table_add_name(TableP table, NStringP key)
 {
-    EntryP entry = table_get_entry (table, key);
+	BoolT found;
+	
+	return (table_add_entry (table, key, ET_NAME, &found));
+}
 
-    if ((entry) && (entry_is_basic (entry))) {
+EntryP
+table_add_generated_name(TableP table)
+{
+	unsigned sequence = table_next_generated_key ();
+	unsigned hash     = (sequence % TABLE_SIZE);
+	EntryP  *entryp   = &(table->contents [hash]);
+	EntryP   entry;
+	
+	entry = entry_create_from_number (sequence, ET_NAME, FALSE, *entryp);
+	*entryp = entry;
 	return (entry);
-    } else {
-	return (NIL (EntryP));
-    }
 }
 
 EntryP
-table_get_basic_by_number PROTO_N ((table, number))
-			  PROTO_T (TableP   table X
-				   unsigned number)
+table_add_rename(TableP table)
 {
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i ++) {
-	EntryP entry;
-
-	for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
-	    if (entry_is_basic (entry)) {
-		BasicP basic = entry_get_basic (entry);
-
-		if (basic_terminal (basic) == number) {
-		    return (entry);
-		}
-	    }
-	}
-    }
-    return (NIL (EntryP));
-}
-
-EntryP
-table_get_action PROTO_N ((table, key))
-		 PROTO_T (TableP   table X
-			  NStringP key)
-{
-    EntryP entry = table_get_entry (table, key);
-
-    if ((entry) && (entry_is_action (entry))) {
+	unsigned sequence = table_next_generated_key ();
+	unsigned hash     = (sequence % TABLE_SIZE);
+	EntryP  *entryp   = &(table->contents [hash]);
+	EntryP   entry;
+	
+	entry = entry_create_from_number (sequence, ET_RENAME, TRUE, *entryp);
+	*entryp = entry;
 	return (entry);
-    } else {
-	return (NIL (EntryP));
-    }
 }
 
 EntryP
-table_get_rule PROTO_N ((table, key))
-	       PROTO_T (TableP   table X
-			NStringP key)
+table_add_non_local(TableP table, NStringP key,	EntryP type)
 {
-    EntryP entry = table_get_entry (table, key);
-
-    if ((entry) && (entry_is_rule (entry))) {
+	BoolT  found;
+	EntryP entry = table_add_entry (table, key, ET_NON_LOCAL, &found);
+	
+	if (entry) {
+		entry_set_non_local (entry, type);
+	}
 	return (entry);
-    } else {
-	return (NIL (EntryP));
-    }
 }
 
-void
-table_iter PROTO_N ((table, proc, closure))
-	   PROTO_T (TableP  table X
-		    void   (*proc) PROTO_S ((EntryP, GenericP)) X
-		    GenericP closure)
+EntryP
+table_get_entry(TableP table, NStringP key)
 {
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i ++) {
-	EntryP entry;
-
-	for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
-	    (*proc) (entry, closure);
-	}
-    }
-}
-
-void
-table_untrace PROTO_N ((table))
-	      PROTO_T (TableP table)
-{
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i ++) {
-	EntryP entry;
-
-	for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
-	    entry_not_traced (entry);
-	}
-    }
-}
-
-void
-table_unlink_untraced_rules PROTO_N ((table))
-			    PROTO_T (TableP table)
-{
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i ++) {
-	EntryP entry = (table->contents [i]);
-
+	unsigned hash  = (nstring_hash_value (key) % TABLE_SIZE);
+	EntryP   entry = (table->contents [hash]);
+	
 	while (entry) {
-	    if (entry_is_rule (entry) && (!entry_is_traced (entry))) {
-		rule_deallocate (entry_get_rule (entry));
-		entry_change_type (entry, ET_NAME);
-	    }
-	    entry = entry_next (entry);
+		KeyP ent_key = entry_key (entry);
+		
+		if ((key_is_string (ent_key)) &&
+			(nstring_equal (key_get_string (ent_key), key))) {
+			return (entry);
+		}
+		entry = entry->next;
 	}
-    }
+	return (NIL (EntryP));
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+
+EntryP
+table_get_type(TableP table, NStringP key)
+{
+	EntryP entry = table_get_entry (table, key);
+	
+	if ((entry) && (entry_is_type (entry))) {
+		return (entry);
+	} else {
+		return (NIL (EntryP));
+	}
+}
+
+EntryP
+table_get_basic(TableP table, NStringP key)
+{
+	EntryP entry = table_get_entry (table, key);
+	
+	if ((entry) && (entry_is_basic (entry))) {
+		return (entry);
+	} else {
+		return (NIL (EntryP));
+	}
+}
+
+EntryP
+table_get_basic_by_number(TableP table, unsigned number)
+{
+	unsigned i;
+	
+	for (i = 0; i < TABLE_SIZE; i ++) {
+		EntryP entry;
+		
+		for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
+			if (entry_is_basic (entry)) {
+				BasicP basic = entry_get_basic (entry);
+				
+				if (basic_terminal (basic) == number) {
+					return (entry);
+				}
+			}
+		}
+	}
+	return (NIL (EntryP));
+}
+
+EntryP
+table_get_action(TableP table, NStringP key)
+{
+	EntryP entry = table_get_entry (table, key);
+	
+	if ((entry) && (entry_is_action (entry))) {
+		return (entry);
+	} else {
+		return (NIL (EntryP));
+	}
+}
+
+EntryP
+table_get_rule(TableP table, NStringP key)
+{
+	EntryP entry = table_get_entry (table, key);
+	
+	if ((entry) && (entry_is_rule (entry))) {
+		return (entry);
+	} else {
+		return (NIL (EntryP));
+	}
+}
+
+void
+table_iter(TableP table, void (*proc)(EntryP, GenericP), GenericP closure)
+{
+	unsigned i;
+	
+	for (i = 0; i < TABLE_SIZE; i ++) {
+		EntryP entry;
+		
+		for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
+			(*proc) (entry, closure);
+		}
+	}
+}
+
+void
+table_untrace(TableP table)
+{
+	unsigned i;
+	
+	for (i = 0; i < TABLE_SIZE; i ++) {
+		EntryP entry;
+		
+		for (entry = table->contents [i]; entry; entry = entry_next (entry)) {
+			entry_not_traced (entry);
+		}
+	}
+}
+
+void
+table_unlink_untraced_rules(TableP table)
+{
+	unsigned i;
+	
+	for (i = 0; i < TABLE_SIZE; i ++) {
+		EntryP entry = (table->contents [i]);
+		
+		while (entry) {
+			if (entry_is_rule (entry) && (!entry_is_traced (entry))) {
+				rule_deallocate (entry_get_rule (entry));
+				entry_change_type (entry, ET_NAME);
+			}
+			entry = entry_next (entry);
+		}
+	}
+}

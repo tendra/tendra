@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the basic manipulation routines.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "basic.h"
 #include "action.h"
@@ -80,13 +77,13 @@
 BasicP
 basic_create(GrammarP grammar, BoolT ignored)
 {
-    BasicP basic = ALLOCATE (BasicT);
-
-    basic->terminal        = grammar_next_terminal (grammar);
-    types_init (basic_result (basic));
-    basic->result_code     = NIL (GenericP);
-    basic->ignored         = ignored;
-    return (basic);
+	BasicP basic = ALLOCATE (BasicT);
+	
+	basic->terminal        = grammar_next_terminal (grammar);
+	types_init (basic_result (basic));
+	basic->result_code     = NIL (GenericP);
+	basic->ignored         = ignored;
+	return (basic);
 }
 
 #ifdef FS_FAST
@@ -95,7 +92,7 @@ basic_create(GrammarP grammar, BoolT ignored)
 unsigned
 basic_terminal(BasicP basic)
 {
-    return (basic->terminal);
+	return (basic->terminal);
 }
 #ifdef FS_FAST
 #define basic_terminal(b) ((b)->terminal)
@@ -107,7 +104,7 @@ basic_terminal(BasicP basic)
 TypeTupleP
 basic_result(BasicP basic)
 {
-    return (&(basic->result));
+	return (&(basic->result));
 }
 #ifdef FS_FAST
 #define basic_result(b) (&((b)->result))
@@ -119,7 +116,7 @@ basic_result(BasicP basic)
 GenericP
 basic_get_result_code(BasicP basic)
 {
-    return (basic->result_code);
+	return (basic->result_code);
 }
 #ifdef FS_FAST
 #define basic_get_result_code(b) ((b)->result_code)
@@ -131,7 +128,7 @@ basic_get_result_code(BasicP basic)
 void
 basic_set_result_code(BasicP basic, GenericP code)
 {
-    basic->result_code = code;
+	basic->result_code = code;
 }
 #ifdef FS_FAST
 #define basic_set_result_code(b, c) ((b)->result_code = (c))
@@ -143,7 +140,7 @@ basic_set_result_code(BasicP basic, GenericP code)
 BoolT
 basic_get_ignored(BasicP basic)
 {
-    return (basic->ignored);
+	return (basic->ignored);
 }
 #ifdef FS_FAST
 #define basic_get_ignored(b) ((b)->ignored)
@@ -151,25 +148,24 @@ basic_get_ignored(BasicP basic)
 
 void
 basic_iter_for_table(BasicP basic, BoolT full,
-					 void (*proc)(EntryP, GenericP),
-					 GenericP closure)
+		void (*proc)(EntryP, GenericP), GenericP closure)
 {
-    if (full) {
+	if (full) {
 		types_iter_for_table (basic_result (basic), proc, closure);
-    }
+	}
 }
 
 void
 write_basics(OStreamP ostream, BasicClosureP closure)
 {
-    BitVecP  bitvec   = closure->bitvec;
-    TableP   table    = grammar_table (closure->grammar);
-    unsigned terminal = bitvec_first_bit (bitvec);
-    unsigned num_bits = bitvec_num_bits (bitvec);
-
-    while (num_bits) {
+	BitVecP  bitvec   = closure->bitvec;
+	TableP   table    = grammar_table (closure->grammar);
+	unsigned terminal = bitvec_first_bit (bitvec);
+	unsigned num_bits = bitvec_num_bits (bitvec);
+	
+	while (num_bits) {
 		EntryP entry = table_get_basic_by_number (table, terminal);
-
+		
 		if (entry) {
 			write_char (ostream, '\'');
 			write_key (ostream, entry_key (entry));
@@ -182,14 +178,7 @@ write_basics(OStreamP ostream, BasicClosureP closure)
 		} else if (num_bits == 2) {
 			write_cstring (ostream, " & ");
 		}
-		num_bits --;
+		num_bits--;
 		(void) bitvec_next_bit (bitvec, &terminal);
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** entry-list.h --- Identifier table entry list ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "entry-list.h" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -78,54 +77,39 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct EntryListEntryT {
-    struct EntryListEntryT     *next;
-    EntryP			entry;
+	struct EntryListEntryT     *next;
+	EntryP			entry;
 } EntryListEntryT, *EntryListEntryP;
 
 typedef struct EntryListT {
-    EntryListEntryP		head;
-    EntryListEntryP	       *tail;
+	EntryListEntryP		head;
+	EntryListEntryP	       *tail;
 } EntryListT, *EntryListP;
 
 typedef struct SaveListT {
-    struct EntryListEntryT    **last_ref;
+	struct EntryListEntryT    **last_ref;
 } SaveListT, *SaveListP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			entry_list_init
-	PROTO_S ((EntryListP));
-extern void			entry_list_copy
-	PROTO_S ((EntryListP, EntryListP));
-extern void			entry_list_add
-	PROTO_S ((EntryListP, EntryP));
-extern void			entry_list_add_if_missing
-	PROTO_S ((EntryListP, EntryP));
-extern BoolT			entry_list_contains
-	PROTO_S ((EntryListP, EntryP));
-extern BoolT			entry_list_includes
-	PROTO_S ((EntryListP, EntryListP));
-extern void			entry_list_intersection
-	PROTO_S ((EntryListP, EntryListP, EntryListP));
-extern void			entry_list_unlink_used
-	PROTO_S ((EntryListP, EntryListP));
-extern void			entry_list_append
-	PROTO_S ((EntryListP, EntryListP));
-extern BoolT			entry_list_is_empty
-	PROTO_S ((EntryListP));
-extern void			entry_list_save_state
-	PROTO_S ((EntryListP, SaveListP));
-extern void			entry_list_restore_state
-	PROTO_S ((EntryListP, SaveListP));
-extern void			entry_list_iter
-	PROTO_S ((EntryListP, void (*) (EntryP, GenericP), GenericP));
-extern void			entry_list_iter_table
-	PROTO_S ((EntryListP, BoolT, void (*) (EntryP, GenericP), GenericP));
-extern void			entry_list_destroy
-	PROTO_S ((EntryListP));
+void	entry_list_init(EntryListP);
+void	entry_list_copy(EntryListP, EntryListP);
+void	entry_list_add(EntryListP, EntryP);
+void	entry_list_add_if_missing(EntryListP, EntryP);
+BoolT	entry_list_contains(EntryListP, EntryP);
+BoolT	entry_list_includes(EntryListP, EntryListP);
+void	entry_list_intersection(EntryListP, EntryListP, EntryListP);
+void	entry_list_unlink_used(EntryListP, EntryListP);
+void	entry_list_append(EntryListP, EntryListP);
+BoolT	entry_list_is_empty(EntryListP);
+void	entry_list_save_state(EntryListP, SaveListP);
+void	entry_list_restore_state(EntryListP, SaveListP);
+void	entry_list_iter(EntryListP, void (*) (EntryP, GenericP), GenericP);
+void	entry_list_iter_table(EntryListP, BoolT, void (*) (EntryP, GenericP),
+	    GenericP);
+void	entry_list_destroy(EntryListP);
 
-extern void			write_entry_list
-	PROTO_S ((OStreamP, EntryListP));
+void	write_entry_list(OStreamP, EntryListP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -134,10 +118,3 @@ extern void			write_entry_list
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_ENTRY_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

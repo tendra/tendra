@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** cstring.c --- C string manipulation.
@@ -63,8 +63,7 @@
  *
  * This file implements the C string manipulation facility specified in the
  * file "cstring.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -74,57 +73,53 @@
 /*--------------------------------------------------------------------------*/
 
 CStringP
-cstring_duplicate PROTO_N ((cstring))
-		  PROTO_T (CStringP cstring)
+cstring_duplicate(CStringP cstring)
 {
-    unsigned length = cstring_length (cstring);
-    CStringP tmp    = ALLOCATE_VECTOR (char, length + 1);
-
-    (void) strcpy (tmp, cstring);
-    return (tmp);
+	unsigned length = cstring_length (cstring);
+	CStringP tmp    = ALLOCATE_VECTOR (char, length + 1);
+	
+	(void) strcpy (tmp, cstring);
+	return (tmp);
 }
 
 CStringP
-cstring_duplicate_prefix PROTO_N ((cstring, prefix))
-			 PROTO_T (CStringP cstring X
-				  unsigned prefix)
+cstring_duplicate_prefix(CStringP cstring,
+						 unsigned prefix)
 {
-    unsigned length = cstring_length (cstring);
-
-    if (length <= prefix) {
-	CStringP tmp = ALLOCATE_VECTOR (char, length + 1);
-
-	(void) strcpy (tmp, cstring);
-	return (tmp);
-    } else {
-	CStringP tmp = ALLOCATE_VECTOR (char, prefix + 1);
-
-	(void) memcpy ((GenericP) tmp, (GenericP) cstring, (SizeT) prefix);
-	tmp [prefix] = '\0';
-	return (tmp);
-    }
+	unsigned length = cstring_length (cstring);
+	
+	if (length <= prefix) {
+		CStringP tmp = ALLOCATE_VECTOR (char, length + 1);
+		
+		(void) strcpy (tmp, cstring);
+		return (tmp);
+	} else {
+		CStringP tmp = ALLOCATE_VECTOR (char, prefix + 1);
+		
+		(void) memcpy ((GenericP) tmp, (GenericP) cstring, (SizeT) prefix);
+		tmp [prefix] = '\0';
+		return (tmp);
+	}
 }
 
 unsigned
-cstring_hash_value PROTO_N ((cstring))
-		   PROTO_T (CStringP cstring)
+cstring_hash_value(CStringP cstring)
 {
-    unsigned value = 0;
-
-    while (*cstring) {
-	value += ((unsigned) (*cstring ++));
-    }
-    return (value);
+	unsigned value = 0;
+	
+	while (*cstring) {
+		value += ((unsigned) (*cstring ++));
+	}
+	return (value);
 }
 
 #ifdef FS_FAST
 #undef cstring_length
 #endif /* defined (FS_FAST) */
 unsigned
-cstring_length PROTO_N ((cstring))
-	       PROTO_T (CStringP cstring)
+cstring_length(CStringP cstring)
 {
-    return ((unsigned) strlen (cstring));
+	return ((unsigned) strlen (cstring));
 }
 #ifdef FS_FAST
 #define cstring_length(s) ((unsigned) strlen (s))
@@ -134,72 +129,62 @@ cstring_length PROTO_N ((cstring))
 #undef cstring_equal
 #endif /* defined (FS_FAST) */
 BoolT
-cstring_equal PROTO_N ((cstring1, cstring2))
-	      PROTO_T (CStringP cstring1 X
-		       CStringP cstring2)
+cstring_equal(CStringP cstring1, CStringP cstring2)
 {
-    return (strcmp (cstring1, cstring2) == 0);
+	return (strcmp (cstring1, cstring2) == 0);
 }
 #ifdef FS_FAST
 #define cstring_equal(s1, s2) (strcmp ((s1), (s2)) == 0)
 #endif /* defined (FS_FAST) */
 
 BoolT
-cstring_ci_equal PROTO_N ((cstring1, cstring2))
-		 PROTO_T (CStringP cstring1 X
-			  CStringP cstring2)
+cstring_ci_equal(CStringP cstring1, CStringP cstring2)
 {
-    char c1;
-    char c2;
-
-    do {
-	c1 = syntax_upcase (*cstring1 ++);
-	c2 = syntax_upcase (*cstring2 ++);
-    } while ((c1) && (c2) && (c1 == c2));
-    return (c1 == c2);
+	char c1;
+	char c2;
+	
+	do {
+		c1 = syntax_upcase (*cstring1 ++);
+		c2 = syntax_upcase (*cstring2 ++);
+	} while ((c1) && (c2) && (c1 == c2));
+	return (c1 == c2);
 }
 
 BoolT
-cstring_to_unsigned PROTO_N ((cstring, num_ref))
-		    PROTO_T (CStringP  cstring X
-			     unsigned *num_ref)
+cstring_to_unsigned(CStringP cstring, unsigned *num_ref)
 {
-    unsigned number = 0;
-
-    if (*cstring == '\0') {
-	return (FALSE);
-    }
-    do {
-	int value = syntax_value (*cstring);
-
-	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
-	    (((UINT_MAX - (unsigned) value) / (unsigned) 10) < number)) {
-	    return (FALSE);
+	unsigned number = 0;
+	
+	if (*cstring == '\0') {
+		return (FALSE);
 	}
-	number *= (unsigned) 10;
-	number += (unsigned) value;
-    } while (*++ cstring);
-    *num_ref = number;
-    return (TRUE);
+	do {
+		int value = syntax_value (*cstring);
+		
+		if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
+			(((UINT_MAX - (unsigned) value) / (unsigned) 10) < number)) {
+			return (FALSE);
+		}
+		number *= (unsigned) 10;
+		number += (unsigned) value;
+	} while (*++ cstring);
+	*num_ref = number;
+	return (TRUE);
 }
 
 BoolT
-cstring_starts PROTO_N ((cstring, s))
-	       PROTO_T (CStringP cstring X
-			CStringP s)
+cstring_starts(CStringP cstring, CStringP s)
 {
-    return (strncmp (cstring, s, strlen (s)) == 0);
+	return (strncmp (cstring, s, strlen (s)) == 0);
 }
 
 #ifdef FS_FAST
 #undef cstring_contains
 #endif /* defined (FS_FAST) */
 BoolT
-cstring_contains PROTO_N ((cstring, c))
-		 PROTO_T (CStringP cstring X
-			  char     c)
+cstring_contains(CStringP cstring, char c)
 {
-    return (strchr (cstring, c) != NIL (CStringP));
+	return (strchr (cstring, c) != NIL (CStringP));
 }
 #ifdef FS_FAST
 #define cstring_contains(s, c) (strchr ((s), (c)) != NIL (CStringP))
@@ -209,11 +194,9 @@ cstring_contains PROTO_N ((cstring, c))
 #undef cstring_find
 #endif /* defined (FS_FAST) */
 CStringP
-cstring_find PROTO_N ((cstring, c))
-	     PROTO_T (CStringP cstring X
-		      char     c)
+cstring_find(CStringP cstring, char c)
 {
-    return (strchr (cstring, c));
+	return (strchr (cstring, c));
 }
 #ifdef FS_FAST
 #define cstring_find(s, c) (strchr ((s), (c)))
@@ -223,23 +206,20 @@ cstring_find PROTO_N ((cstring, c))
 #undef cstring_find_reverse
 #endif /* defined (FS_FAST) */
 CStringP
-cstring_find_reverse PROTO_N ((cstring, c))
-		     PROTO_T (CStringP cstring X
-			      char     c)
+cstring_find_reverse(CStringP cstring, char c)
 {
-    return (strrchr (cstring, c));
+	return (strrchr (cstring, c));
 }
 #ifdef FS_FAST
 #define cstring_find_reverse(s, c) (strrchr ((s), (c)))
 #endif /* defined (FS_FAST) */
 
 CStringP
-cstring_find_basename PROTO_N ((cstring))
-		      PROTO_T (CStringP cstring)
+cstring_find_basename(CStringP cstring)
 {
-    CStringP bstring = cstring_find_reverse (cstring, '/');
-    if (bstring != NIL (CStringP)) {
-	cstring = bstring + 1;
-    }
-    return (cstring);
+	CStringP bstring = cstring_find_reverse (cstring, '/');
+	if (bstring != NIL (CStringP)) {
+		cstring = bstring + 1;
+	}
+	return (cstring);
 }

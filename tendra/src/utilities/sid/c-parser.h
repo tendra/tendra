@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** c-parser.h --- SID C parser.
@@ -63,10 +63,7 @@
  *
  * This file specifies the interface to the SID C definition file parser that
  * is produced from the file "c-parser.sid".
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_PARSER
 #define H_C_PARSER
@@ -78,18 +75,10 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern CLexerStreamP		c_current_stream;
+extern CLexerStreamP	c_current_stream;
 extern COutputInfoP		c_current_out_info;
 extern TableP			c_current_table;
-extern void			c_parse_grammar
-	PROTO_S ((void));
+
+void c_parse_grammar(void);
 
 #endif /* !defined (H_C_PARSER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output")
- * eval: (include::add-path-entry "../c-output" "../generated")
- * end:
-**/

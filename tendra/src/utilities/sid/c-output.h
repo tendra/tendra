@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** c-output.h --- Output routines.
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-output.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUTPUT
 #define H_C_OUTPUT
@@ -88,26 +85,12 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern void			c_output_parser
-	PROTO_S ((COutputInfoP, GrammarP));
-extern void			c_output_header
-	PROTO_S ((COutputInfoP, GrammarP));
-extern void			c_output_location
-	PROTO_S ((COutputInfoP, CStringP, unsigned));
-extern void			c_output_key_message
-	PROTO_S ((COutputInfoP, CStringP, KeyP, CStringP, unsigned));
-extern unsigned			c_out_next_label
-	PROTO_S ((void));
-extern void			c_output_open
-	PROTO_S ((COutputInfoP, unsigned));
-extern void			c_output_close
-	PROTO_S ((COutputInfoP, unsigned));
+void	c_output_parser(COutputInfoP, GrammarP);
+void	c_output_header(COutputInfoP, GrammarP);
+void	c_output_location(COutputInfoP, CStringP, unsigned);
+void	c_output_key_message(COutputInfoP, CStringP, KeyP, CStringP, unsigned);
+unsigned c_out_next_label(void);
+void	c_output_open(COutputInfoP, unsigned);
+void	c_output_close(COutputInfoP, unsigned);
 
 #endif /* !defined (H_C_OUTPUT) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,8 +63,7 @@
  *
  * This file implements the command line argument parsing routines specified
  * in "arg-parse.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -76,30 +75,29 @@
 void
 arg_parse_intern_descriptions(ArgListP arg_list)
 {
-    while ((arg_list->name != NIL (CStringP)) ||
+	while ((arg_list->name != NIL (CStringP)) ||
 		   (arg_list->short_name != '\0')) {
 		EStringP estring = error_lookup_string (arg_list->u.name);
-
+		
 		ASSERT (estring != NIL (EStringP));
 		arg_list->u.message = estring;
 		arg_list ++;
-    }
+	}
 }
 
 int
-arg_parse_arguments(ArgListP arg_list, EStringP usage,
-					int argc, char **argv)
+arg_parse_arguments(ArgListP arg_list, EStringP usage, int argc, char **argv)
 {
-    int       tmp_argc = argc;
-    char    **tmp_argv = argv;
-    ArgUsageT closure;
-
-    closure.usage    = error_string_contents (usage);
-    closure.arg_list = arg_list;
-    while (tmp_argc) {
+	int       tmp_argc = argc;
+	char    **tmp_argv = argv;
+	ArgUsageT closure;
+	
+	closure.usage    = error_string_contents (usage);
+	closure.arg_list = arg_list;
+	while (tmp_argc) {
 		CStringP option = (tmp_argv [0]);
 		char     c      = (option [0]);
-
+		
 		if ((((c == '-') && (option [1] == '-')) ||
 			 ((c == '+') && (option [1] == '+'))) && (option [2] == '\0')) {
 			return (argc - tmp_argc + 1);
@@ -109,16 +107,16 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			ArgListP chosen    = NIL (ArgListP);
 			unsigned matches   = 0;
 			CStringP immediate = NIL (CStringP);
-
+			
 			while ((tmp_list->name != NIL (CStringP)) ||
 				   (tmp_list->short_name != '\0')) {
 				CStringP opt = (tmp_list->name);
 				CStringP arg = (&(option [2]));
-
+				
 				if (opt != NIL (CStringP)) {
 					char optch;
 					char argch;
-
+					
 					do {
 						optch = (*opt ++);
 						argch = (*arg ++);
@@ -176,7 +174,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 											   chosen->closure, immediate);
 						} else if (tmp_argc > 1) {
 							tmp_argv ++;
-							tmp_argc --;
+							tmp_argc--;
 							(*(chosen->proc)) (option, &closure,
 											   chosen->closure, tmp_argv [0]);
 						} else {
@@ -190,8 +188,8 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 					break;
 				case AT_FOLLOWING:
 					if (tmp_argc > 1) {
-						tmp_argv ++;
-						tmp_argc --;
+						tmp_argv++;
+						tmp_argc--;
 						(*(chosen->proc)) (option, &closure, chosen->closure,
 										   tmp_argv [0]);
 					} else {
@@ -235,11 +233,11 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			UNREACHED;
 		} else if ((c == '-') || (c == '+')) {
 			CStringP opt = &(option [1]);
-
+			
 			while ((opt != NIL (CStringP)) && (*opt != '\0')) {
 				ArgListP tmp_list = arg_list;
 				ArgListP chosen   = NIL (ArgListP);
-
+				
 				while ((tmp_list->name != NIL (CStringP)) ||
 					   (tmp_list->short_name != '\0')) {
 					if (tmp_list->short_name == *opt) {
@@ -271,7 +269,7 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 											   opt + 1);
 						} else if (tmp_argc > 1) {
 							tmp_argv ++;
-							tmp_argc --;
+							tmp_argc--;
 							(*(chosen->proc)) (opt, &closure, chosen->closure,
 											   tmp_argv [0]);
 						} else {
@@ -283,8 +281,8 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 						break;
 					case AT_FOLLOWING:
 						if (tmp_argc > 1) {
-							tmp_argv ++;
-							tmp_argc --;
+							tmp_argv++;
+							tmp_argc--;
 							(*(chosen->proc)) (opt, &closure, chosen->closure,
 											   tmp_argv [0]);
 						} else {
@@ -334,22 +332,22 @@ arg_parse_arguments(ArgListP arg_list, EStringP usage,
 			return (argc - tmp_argc);
 		}
 		tmp_argv ++;
-		tmp_argc --;
-    }
-    return (argc);
+		tmp_argc--;
+	}
+	return (argc);
 }
 
 void
 write_arg_usage(OStreamP ostream, ArgUsageP closure)
 {
-    CStringP usage    = (closure->usage);
-    ArgListP arg_list = (closure->arg_list);
-
-    write_cstring (ostream, usage);
-    while ((arg_list->name != NIL (CStringP)) ||
+	CStringP usage    = (closure->usage);
+	ArgListP arg_list = (closure->arg_list);
+	
+	write_cstring (ostream, usage);
+	while ((arg_list->name != NIL (CStringP)) ||
 		   (arg_list->short_name != '\0')) {
 		CStringP desc = error_string_contents (arg_list->u.message);
-
+		
 		if (arg_list->name) {
 			write_newline (ostream);
 			write_cstring (ostream, "    {--|++}");
@@ -363,11 +361,5 @@ write_arg_usage(OStreamP ostream, ArgUsageP closure)
 			write_cstring (ostream, desc);
 		}
 		arg_list ++;
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

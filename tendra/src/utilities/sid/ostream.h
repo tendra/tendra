@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** ostream.h --- Output stream handling.
@@ -257,8 +257,7 @@
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file on which the error occured.  The copy should
  * be deallocated when finished with.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -273,11 +272,11 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct OStreamT {
-    FILE		       *file;
-    CStringP			name;
-    CStringP			gen_name;
-    int				no;
-    unsigned			line;
+	FILE		       *file;
+	CStringP			name;
+	CStringP			gen_name;
+	int				no;
+	unsigned			line;
 } OStreamT, *OStreamP;
 
 /*--------------------------------------------------------------------------*/
@@ -288,55 +287,31 @@ extern OStreamT		 *const ostream_error;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			ostream_setup
-	PROTO_S ((void));
-extern void			ostream_init
-	PROTO_S ((OStreamP));
-extern BoolT			ostream_open
-	PROTO_S ((OStreamP, CStringP));
-extern BoolT			ostream_is_open
-	PROTO_S ((OStreamP));
-extern void			ostream_buffer
-	PROTO_S ((OStreamP));
-extern void			ostream_unbuffer
-	PROTO_S ((OStreamP));
-extern void			ostream_close
-	PROTO_S ((OStreamP));
-extern void			ostream_flush
-	PROTO_S ((OStreamP));
-extern CStringP			ostream_name
-	PROTO_S ((OStreamP));
-extern CStringP			ostream_gen_name
-	PROTO_S ((OStreamP));
-extern unsigned			ostream_line
-	PROTO_S ((OStreamP));
+void	ostream_setup(void);
+void	ostream_init(OStreamP);
+BoolT	ostream_open(OStreamP, CStringP);
+BoolT	ostream_is_open(OStreamP);
+void	ostream_buffer(OStreamP);
+void	ostream_unbuffer(OStreamP);
+void	ostream_close(OStreamP);
+void	ostream_flush(OStreamP);
+CStringP ostream_name(OStreamP);
+CStringP ostream_gen_name(OStreamP);
+unsigned ostream_line(OStreamP);
 
-extern void			write_newline
-	PROTO_S ((OStreamP));
-extern void			write_tab
-	PROTO_S ((OStreamP));
-extern void			write_byte
-	PROTO_S ((OStreamP, ByteT));
-extern void			write_char
-	PROTO_S ((OStreamP, char));
-extern void			write_escaped_char
-	PROTO_S ((OStreamP, char));
-extern void			write_int
-	PROTO_S ((OStreamP, int));
-extern void			write_unsigned
-	PROTO_S ((OStreamP, unsigned));
-extern void			write_cstring
-	PROTO_S ((OStreamP, CStringP));
-extern void			write_bytes
-	PROTO_S ((OStreamP, ByteP, unsigned));
-extern void			write_chars
-	PROTO_S ((OStreamP, CStringP, unsigned));
-extern void			write_escaped_chars
-	PROTO_S ((OStreamP, CStringP, unsigned));
-extern void			write_system_error
-	PROTO_S ((OStreamP));
-extern void			write_pointer
-	PROTO_S ((OStreamP, GenericP));
+void	write_newline(OStreamP);
+void	write_tab(OStreamP);
+void	write_byte(OStreamP, ByteT);
+void	write_char(OStreamP, char);
+void	write_escaped_char(OStreamP, char);
+void	write_int(OStreamP, int);
+void	write_unsigned(OStreamP, unsigned);
+void	write_cstring(OStreamP, CStringP);
+void	write_bytes(OStreamP, ByteP, unsigned);
+void	write_chars(OStreamP, CStringP, unsigned);
+void	write_escaped_chars(OStreamP, CStringP, unsigned);
+void	write_system_error(OStreamP);
+void	write_pointer(OStreamP, GenericP);
 
 /*--------------------------------------------------------------------------*/
 

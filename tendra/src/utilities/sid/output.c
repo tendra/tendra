@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** output.c --- Target independent output routines.
@@ -62,90 +62,78 @@
  **** Commentary:
  *
  * This file implements some generic output routines.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "output.h"
 
 /*--------------------------------------------------------------------------*/
 
 void
-out_info_init PROTO_N ((info, prog))
-	      PROTO_T (OutputInfoP info X
-		       CStringP    prog)
+out_info_init(OutputInfoP info, CStringP prog)
 {
-    info->prog_name       = prog;
-    info->current_ostream = NIL (OStreamP);
-    info->istreams        = NIL (IStreamP);
-    info->ostreams        = NIL (OStreamP);
-    info->input_names     = NIL (CStringP *);
-    info->output_names    = NIL (CStringP *);
-    info->tab_width       = 8;
+	info->prog_name       = prog;
+	info->current_ostream = NIL (OStreamP);
+	info->istreams        = NIL (IStreamP);
+	info->ostreams        = NIL (OStreamP);
+	info->input_names     = NIL (CStringP *);
+	info->output_names    = NIL (CStringP *);
+	info->tab_width       = 8;
 }
 
 #ifdef FS_FAST
 #undef out_info_get_prog_name
 #endif /* defined (FS_FAST) */
 CStringP
-out_info_get_prog_name PROTO_N ((info))
-		       PROTO_T (OutputInfoP info)
+out_info_get_prog_name(OutputInfoP info)
 {
-    return (info->prog_name);
+	return (info->prog_name);
 }
 #ifdef FS_FAST
 #define out_info_get_prog_name(o) ((o)->prog_name)
 #endif /* defined (FS_FAST) */
 
 void
-out_info_set_current_ostream PROTO_N ((info, i))
-			     PROTO_T (OutputInfoP info X
-				      unsigned    i)
+out_info_set_current_ostream(OutputInfoP info,
+							 unsigned i)
 {
-    info->current_ostream = &(info->ostreams [i]);
+	info->current_ostream = &(info->ostreams [i]);
 }
 
 #ifdef FS_FAST
 #undef out_info_get_current_ostream
 #endif /* defined (FS_FAST) */
 OStreamP
-out_info_get_current_ostream PROTO_N ((info))
-			     PROTO_T (OutputInfoP info)
+out_info_get_current_ostream(OutputInfoP info)
 {
-    return (info->current_ostream);
+	return (info->current_ostream);
 }
 #ifdef FS_FAST
 #define out_info_get_current_ostream(o) ((o)->current_ostream)
 #endif /* defined (FS_FAST) */
 
 void
-out_info_set_num_input_files PROTO_N ((info, size))
-			     PROTO_T (OutputInfoP info X
-				      unsigned    size)
+out_info_set_num_input_files(OutputInfoP info,
+							 unsigned size)
 {
-    info->istreams    = ALLOCATE_VECTOR (IStreamT, size);
-    info->input_names = ALLOCATE_VECTOR (CStringP, size);
+	info->istreams    = ALLOCATE_VECTOR (IStreamT, size);
+	info->input_names = ALLOCATE_VECTOR (CStringP, size);
 }
 
 void
-out_info_set_num_output_files PROTO_N ((info, size))
-			      PROTO_T (OutputInfoP info X
-				       unsigned    size)
+out_info_set_num_output_files(OutputInfoP info,
+							  unsigned size)
 {
-    info->ostreams     = ALLOCATE_VECTOR (OStreamT, size);
-    info->output_names = ALLOCATE_VECTOR (CStringP, size);
+	info->ostreams     = ALLOCATE_VECTOR (OStreamT, size);
+	info->output_names = ALLOCATE_VECTOR (CStringP, size);
 }
 
 #ifdef FS_FAST
 #undef out_info_get_istream
 #endif /* defined (FS_FAST) */
 IStreamP
-out_info_get_istream PROTO_N ((info, i))
-		     PROTO_T (OutputInfoP info X
-			      unsigned    i)
+out_info_get_istream(OutputInfoP info, unsigned i)
 {
-    return (&(info->istreams [i]));
+	return (&(info->istreams [i]));
 }
 #ifdef FS_FAST
 #define out_info_get_istream(o, i) (&((o)->istreams [(i)]))
@@ -155,11 +143,9 @@ out_info_get_istream PROTO_N ((info, i))
 #undef out_info_get_ostream
 #endif /* defined (FS_FAST) */
 OStreamP
-out_info_get_ostream PROTO_N ((info, i))
-		     PROTO_T (OutputInfoP info X
-			      unsigned    i)
+out_info_get_ostream(OutputInfoP info, unsigned i)
 {
-    return (&(info->ostreams [i]));
+	return (&(info->ostreams [i]));
 }
 #ifdef FS_FAST
 #define out_info_get_ostream(o, i) (&((o)->ostreams [(i)]))
@@ -169,12 +155,10 @@ out_info_get_ostream PROTO_N ((info, i))
 #undef out_info_set_infile_name
 #endif /* defined (FS_FAST) */
 void
-out_info_set_infile_name PROTO_N ((info, i, name))
-			 PROTO_T (OutputInfoP info X
-				  unsigned    i X
-				  CStringP    name)
+out_info_set_infile_name(OutputInfoP info,
+						 unsigned i, CStringP name)
 {
-    info->input_names [i] = name;
+	info->input_names [i] = name;
 }
 #ifdef FS_FAST
 #define out_info_set_infile_name(o, i, s) ((o)->input_names [(i)] = (s))
@@ -184,11 +168,10 @@ out_info_set_infile_name PROTO_N ((info, i, name))
 #undef out_info_get_infile_name
 #endif /* defined (FS_FAST) */
 CStringP
-out_info_get_infile_name PROTO_N ((info, i))
-			 PROTO_T (OutputInfoP info X
-				  unsigned    i)
+out_info_get_infile_name(OutputInfoP info,
+						 unsigned i)
 {
-    return (info->input_names [i]);
+	return (info->input_names [i]);
 }
 #ifdef FS_FAST
 #define out_info_get_infile_name(o, i) ((o)->input_names [(i)])
@@ -198,12 +181,10 @@ out_info_get_infile_name PROTO_N ((info, i))
 #undef out_info_set_outfile_name
 #endif /* defined (FS_FAST) */
 void
-out_info_set_outfile_name PROTO_N ((info, i, name))
-			  PROTO_T (OutputInfoP info X
-				   unsigned    i X
-				   CStringP    name)
+out_info_set_outfile_name(OutputInfoP info,
+						  unsigned i, CStringP name)
 {
-    info->output_names [i] = name;
+	info->output_names [i] = name;
 }
 #ifdef FS_FAST
 #define out_info_set_outfile_name(o, i, s) ((o)->output_names [(i)] = (s))
@@ -213,11 +194,10 @@ out_info_set_outfile_name PROTO_N ((info, i, name))
 #undef out_info_get_outfile_name
 #endif /* defined (FS_FAST) */
 CStringP
-out_info_get_outfile_name PROTO_N ((info, i))
-			  PROTO_T (OutputInfoP info X
-				   unsigned    i)
+out_info_get_outfile_name(OutputInfoP info,
+						  unsigned i)
 {
-    return (info->output_names [i]);
+	return (info->output_names [i]);
 }
 #ifdef FS_FAST
 #define out_info_get_outfile_name(o, i) ((o)->output_names [(i)])
@@ -227,37 +207,26 @@ out_info_get_outfile_name PROTO_N ((info, i))
 #undef out_info_set_tab_width
 #endif /* defined (FS_FAST) */
 void
-out_info_set_tab_width PROTO_N ((info, width))
-		       PROTO_T (OutputInfoP info X
-				unsigned    width)
+out_info_set_tab_width(OutputInfoP info, unsigned width)
 {
-    info->tab_width = width;
+	info->tab_width = width;
 }
 #ifdef FS_FAST
 #define out_info_set_tab_width(o, w) ((o)->tab_width = (w))
 #endif /* defined (FS_FAST) */
 
 void
-output_indent PROTO_N ((info, indent))
-	      PROTO_T (OutputInfoP info X
-		       unsigned    indent)
+output_indent(OutputInfoP info, unsigned indent)
 {
-    OStreamP ostream    = out_info_get_current_ostream (info);
-    unsigned tab_width  = info->tab_width;
-    unsigned num_tabs   = (indent / tab_width);
-    unsigned num_spaces = (indent % tab_width);
-
-    while (num_tabs --) {
-	write_tab (ostream);
-    }
-    while (num_spaces --) {
-	write_char (ostream, ' ');
-    }
+	OStreamP ostream    = out_info_get_current_ostream (info);
+	unsigned tab_width  = info->tab_width;
+	unsigned num_tabs   = (indent / tab_width);
+	unsigned num_spaces = (indent % tab_width);
+	
+	while (num_tabs--) {
+		write_tab (ostream);
+	}
+	while (num_spaces--) {
+		write_char (ostream, ' ');
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

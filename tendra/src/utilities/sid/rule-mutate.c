@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** rule-mutate.c --- Compute mutation effects.
@@ -63,8 +63,7 @@
  *
  * This file implements the functions that compute the propogation of mutation
  * effects from actions that mutate their parameters.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -74,134 +73,117 @@
 
 /*--------------------------------------------------------------------------*/
 
-static void			rule_compute_mutations_3
-	PROTO_S ((EntryP, GenericP));
+static void	rule_compute_mutations_3(EntryP, GenericP);
 
 static void
-rule_compute_mutations_4 PROTO_N ((rule, alt, from_rule))
-			 PROTO_T (RuleP rule X
-				  AltP  alt X
-				  RuleP from_rule)
+rule_compute_mutations_4(RuleP rule, AltP alt,
+						 RuleP from_rule)
 {
-    BoolT  propogate = FALSE;
-    ItemP  item;
-
-    for (item = alt_item_head (alt); item; item = item_next (item)) {
-	switch (item_type (item)) EXHAUSTIVE {
-	  case ET_RULE:
-	    if (entry_get_rule (item_entry (item)) == from_rule) {
-		if (types_compute_mutations (rule_param (rule),
-					     item_param (item),
-					     rule_param (from_rule))) {
-		    propogate = TRUE;
+	BoolT  propogate = FALSE;
+	ItemP  item;
+	
+	for (item = alt_item_head (alt); item; item = item_next (item)) {
+		switch (item_type (item)) EXHAUSTIVE {
+		case ET_RULE:
+			if (entry_get_rule (item_entry (item)) == from_rule) {
+				if (types_compute_mutations (rule_param (rule),
+											 item_param (item),
+											 rule_param (from_rule))) {
+					propogate = TRUE;
+				}
+			}
+			break;
+		case ET_ACTION:
+		case ET_PREDICATE:
+		case ET_RENAME:
+		case ET_BASIC:
+			break;
+		case ET_NON_LOCAL:
+		case ET_TYPE:
+		case ET_NAME:
+			UNREACHED;
 		}
-	    }
-	    break;
-	  case ET_ACTION:
-	  case ET_PREDICATE:
-	  case ET_RENAME:
-	  case ET_BASIC:
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_TYPE:
-	  case ET_NAME:
-	    UNREACHED;
 	}
-    }
-    if (propogate) {
-	entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
-			 (GenericP) rule);
-    }
+	if (propogate) {
+		entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
+						 (GenericP) rule);
+	}
 }
 
 static void
-rule_compute_mutations_3 PROTO_N ((entry, gclosure))
-			 PROTO_T (EntryP   entry X
-				  GenericP gclosure)
+rule_compute_mutations_3(EntryP entry, GenericP gclosure)
 {
-    RuleP rule      = entry_get_rule (entry);
-    RuleP from_rule = (RuleP) gclosure;
-    AltP  alt;
-
-    if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
-	rule_compute_mutations_4 (rule, alt, from_rule);
-    }
-    for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
-	rule_compute_mutations_4 (rule, alt, from_rule);
-    }
+	RuleP rule      = entry_get_rule (entry);
+	RuleP from_rule = (RuleP) gclosure;
+	AltP  alt;
+	
+	if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
+		rule_compute_mutations_4 (rule, alt, from_rule);
+	}
+	for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
+		rule_compute_mutations_4 (rule, alt, from_rule);
+	}
 }
 
 static void
-rule_compute_mutations_2 PROTO_N ((rule, alt))
-			 PROTO_T (RuleP rule X
-				  AltP  alt)
+rule_compute_mutations_2(RuleP rule, AltP alt)
 {
-    BoolT   propogate = FALSE;
-    ItemP   item;
-    ActionP action;
-
-    for (item = alt_item_head (alt); item; item = item_next (item)) {
-	switch (item_type (item)) EXHAUSTIVE {
-	  case ET_ACTION:
-	  case ET_PREDICATE:
-	    action = entry_get_action (item_entry (item));
-	    if (types_compute_mutations (rule_param (rule), item_param (item),
-					 action_param (action))) {
-		propogate = TRUE;
-	    }
-	    break;
-	  case ET_RENAME:
-	  case ET_BASIC:
-	  case ET_RULE:
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_TYPE:
-	  case ET_NAME:
-	    UNREACHED;
+	BoolT   propogate = FALSE;
+	ItemP   item;
+	ActionP action;
+	
+	for (item = alt_item_head (alt); item; item = item_next (item)) {
+		switch (item_type (item)) EXHAUSTIVE {
+		case ET_ACTION:
+		case ET_PREDICATE:
+			action = entry_get_action (item_entry (item));
+			if (types_compute_mutations (rule_param (rule), item_param (item),
+										 action_param (action))) {
+				propogate = TRUE;
+			}
+			break;
+		case ET_RENAME:
+		case ET_BASIC:
+		case ET_RULE:
+			break;
+		case ET_NON_LOCAL:
+		case ET_TYPE:
+		case ET_NAME:
+			UNREACHED;
+		}
+		if (types_compute_assign_mutations (rule_param (rule),
+											item_param (item))) {
+			propogate = TRUE;
+		}
 	}
-	if (types_compute_assign_mutations (rule_param (rule),
-					    item_param (item))) {
-	    propogate = TRUE;
+	if (propogate) {
+		entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
+						 (GenericP) rule);
 	}
-    }
-    if (propogate) {
-	entry_list_iter (rule_reverse_list (rule), rule_compute_mutations_3,
-			 (GenericP) rule);
-    }
 }
 
 static void
-rule_compute_mutations_1 PROTO_N ((rule))
-			 PROTO_T (RuleP rule)
+rule_compute_mutations_1(RuleP rule)
 {
-    AltP alt;
-
-    if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
-	rule_compute_mutations_2 (rule, alt);
-    }
-    for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
-	rule_compute_mutations_2 (rule, alt);
-    }
+	AltP alt;
+	
+	if ((alt = rule_get_handler (rule)) != NIL (AltP)) {
+		rule_compute_mutations_2 (rule, alt);
+	}
+	for (alt = rule_alt_head (rule); alt; alt = alt_next (alt)) {
+		rule_compute_mutations_2 (rule, alt);
+	}
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-rule_compute_mutations PROTO_N ((entry, gclosure))
-		       PROTO_T (EntryP   entry X
-				GenericP gclosure)
+rule_compute_mutations(EntryP entry, GenericP gclosure)
 {
-    UNUSED (gclosure);
-    if (entry_is_rule (entry)) {
-	RuleP rule = entry_get_rule (entry);
-
-	rule_compute_mutations_1 (rule);
-    }
+	UNUSED (gclosure);
+	if (entry_is_rule (entry)) {
+		RuleP rule = entry_get_rule (entry);
+		
+		rule_compute_mutations_1 (rule);
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

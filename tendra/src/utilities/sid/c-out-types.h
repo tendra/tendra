@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** c-out-types.h --- Output type objects.
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-out-types.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUT_TYPES
 #define H_C_OUT_TYPES
@@ -79,35 +76,20 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern void			c_output_assign
-	PROTO_S ((COutputInfoP, EntryP, EntryP, SaveRStackP, SaveRStackP,
-		  unsigned));
-extern void			c_output_type_decl
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP));
-extern void			c_output_type_defn
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP));
-extern void			c_output_result_assign
-	PROTO_S ((COutputInfoP, TypeTupleP, unsigned));
-extern void			c_output_alt_names
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP, SaveRStackP,
-		  unsigned));
-extern void			c_output_rule_params
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP, SaveRStackP));
-extern void			c_output_rename
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP, SaveRStackP,
-		  unsigned));
-extern void			c_output_tail_decls
-	PROTO_S ((COutputInfoP, TypeTupleP, SaveRStackP, TypeTupleP,
-		  SaveRStackP, unsigned));
-extern BoolT			c_output_required_copies
-	PROTO_S ((COutputInfoP, TypeTupleP, TypeTupleP, RStackP, SaveRStackP,
-		  unsigned, TableP));
+void	c_output_assign	(COutputInfoP, EntryP, EntryP, SaveRStackP,
+		 SaveRStackP, unsigned);
+void	c_output_type_decl(COutputInfoP, TypeTupleP, TypeTupleP);
+void	c_output_type_defn(COutputInfoP, TypeTupleP, TypeTupleP);
+void	c_output_result_assign(COutputInfoP, TypeTupleP, unsigned);
+void	c_output_alt_names(COutputInfoP, TypeTupleP, TypeTupleP, SaveRStackP,
+		 unsigned);
+void	c_output_rule_params(COutputInfoP, TypeTupleP, TypeTupleP,
+		 SaveRStackP);
+void	c_output_rename(COutputInfoP, TypeTupleP, TypeTupleP, SaveRStackP,
+		unsigned);
+void	c_output_tail_decls(COutputInfoP, TypeTupleP, SaveRStackP,
+		TypeTupleP, SaveRStackP, unsigned);
+BoolT	c_output_required_copies(COutputInfoP, TypeTupleP, TypeTupleP,
+		RStackP, SaveRStackP, unsigned, TableP);
 
 #endif /* !defined (H_C_OUT_TYPES) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
-**/

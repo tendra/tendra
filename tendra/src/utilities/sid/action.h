@@ -86,12 +86,12 @@ typedef struct ActionT {
 
 /*--------------------------------------------------------------------------*/
 
-extern ActionP			action_create(void);
-extern TypeTupleP		action_param(ActionP);
-extern TypeTupleP		action_result(ActionP);
-extern GenericP			action_get_code(ActionP);
-extern void			action_set_code(ActionP, GenericP);
-extern void			action_iter_for_table(ActionP, BoolT, void (*) (EntryP, GenericP), GenericP);
+ActionP		action_create(void);
+TypeTupleP	action_param(ActionP);
+TypeTupleP	action_result(ActionP);
+GenericP	action_get_code(ActionP);
+void		action_set_code(ActionP, GenericP);
+void		action_iter_for_table(ActionP, BoolT, void (*) (EntryP, GenericP), GenericP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -103,10 +103,3 @@ extern void			action_iter_for_table(ActionP, BoolT, void (*) (EntryP, GenericP),
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_ACTION) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

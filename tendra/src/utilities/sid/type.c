@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** type.c --- Type ADT.
@@ -62,34 +62,30 @@
  **** Commentary:
  *
  * This file implements the type ADT manipulation routines.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "type.h"
 
 /*--------------------------------------------------------------------------*/
 
 TypeP
-type_create PROTO_Z ()
+type_create(void)
 {
-    TypeP type = ALLOCATE (TypeT);
-
-    type->assign_code        = NIL (GenericP);
-    type->param_assign_code  = NIL (GenericP);
-    type->result_assign_code = NIL (GenericP);
-    return (type);
+	TypeP type = ALLOCATE (TypeT);
+	
+	type->assign_code        = NIL (GenericP);
+	type->param_assign_code  = NIL (GenericP);
+	type->result_assign_code = NIL (GenericP);
+	return (type);
 }
 
 #ifdef FS_FAST
 #undef type_get_assign_code
 #endif /* defined (FS_FAST) */
 GenericP
-type_get_assign_code PROTO_N ((type))
-		     PROTO_T (TypeP type)
+type_get_assign_code(TypeP type)
 {
-    return (type->assign_code);
+	return (type->assign_code);
 }
 #ifdef FS_FAST
 #define type_get_assign_code(t) ((t)->assign_code)
@@ -99,12 +95,10 @@ type_get_assign_code PROTO_N ((type))
 #undef type_set_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_assign_code PROTO_N ((type, code))
-		     PROTO_T (TypeP    type X
-			      GenericP code)
+type_set_assign_code(TypeP type, GenericP code)
 {
-    ASSERT (type->assign_code == NIL (GenericP));
-    type->assign_code = code;
+	ASSERT (type->assign_code == NIL (GenericP));
+	type->assign_code = code;
 }
 #ifdef FS_FAST
 #define type_set_assign_code(t, c) ((t)->assign_code = (c))
@@ -114,10 +108,9 @@ type_set_assign_code PROTO_N ((type, code))
 #undef type_get_param_assign_code
 #endif /* defined (FS_FAST) */
 GenericP
-type_get_param_assign_code PROTO_N ((type))
-			   PROTO_T (TypeP type)
+type_get_param_assign_code(TypeP type)
 {
-    return (type->param_assign_code);
+	return (type->param_assign_code);
 }
 #ifdef FS_FAST
 #define type_get_param_assign_code(t) ((t)->param_assign_code)
@@ -127,12 +120,10 @@ type_get_param_assign_code PROTO_N ((type))
 #undef type_set_param_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_param_assign_code PROTO_N ((type, code))
-			   PROTO_T (TypeP    type X
-				    GenericP code)
+type_set_param_assign_code(TypeP type, GenericP code)
 {
-    ASSERT (type->param_assign_code == NIL (GenericP));
-    type->param_assign_code = code;
+	ASSERT (type->param_assign_code == NIL (GenericP));
+	type->param_assign_code = code;
 }
 #ifdef FS_FAST
 #define type_set_param_assign_code(t, c) ((t)->param_assign_code = (c))
@@ -142,10 +133,9 @@ type_set_param_assign_code PROTO_N ((type, code))
 #undef type_get_result_assign_code
 #endif /* defined (FS_FAST) */
 GenericP
-type_get_result_assign_code PROTO_N ((type))
-			    PROTO_T (TypeP type)
+type_get_result_assign_code(TypeP type)
 {
-    return (type->result_assign_code);
+	return (type->result_assign_code);
 }
 #ifdef FS_FAST
 #define type_get_result_assign_code(t) ((t)->result_assign_code)
@@ -155,20 +145,11 @@ type_get_result_assign_code PROTO_N ((type))
 #undef type_set_result_assign_code
 #endif /* defined (FS_FAST) */
 void
-type_set_result_assign_code PROTO_N ((type, code))
-			    PROTO_T (TypeP    type X
-				     GenericP code)
+type_set_result_assign_code(TypeP type, GenericP code)
 {
-    ASSERT (type->result_assign_code == NIL (GenericP));
-    type->result_assign_code = code;
+	ASSERT (type->result_assign_code == NIL (GenericP));
+	type->result_assign_code = code;
 }
 #ifdef FS_FAST
 #define type_set_result_assign_code(t, c) ((t)->result_assign_code = (c))
 #endif /* defined(FS_FAST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

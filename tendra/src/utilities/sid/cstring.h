@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** cstring.h --- C string manipulation.
@@ -80,14 +80,14 @@
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	CStringP		cstring_duplicate
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified
  * cstring.
  *
  ** Function:	CStringP		cstring_duplicate_prefix
- *			PROTO_S ((CStringP cstring, unsigned prefix))
+ *			(CStringP cstring, unsigned prefix))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the specified prefix
@@ -95,7 +95,7 @@
  * length, then only the cstring is used.
  *
  ** Function:	unsigned		cstring_hash_value
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring))
  ** Exceptions:
  *
  * This function returns the hash value associated with the specified
@@ -103,27 +103,27 @@
  * with the same content.
  *
  ** Function:	unsigned		cstring_length
- *			PROTO_S ((CStringP cstring))
+ *			(CStringP cstring))
  ** Exceptions:
  *
  * This function returns the length of the specified cstring.
  *
  ** Function:	BoolT			cstring_equal
- *			PROTO_S ((CStringP cstring1, CStringP cstring2))
+ *			(CStringP cstring1, CStringP cstring2))
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content, and false otherwise.
  *
  ** Function:	BoolT			cstring_ci_equal
- *			PROTO_S ((CStringP cstring1, CStringP cstring2))
+ *			(CStringP cstring1, CStringP cstring2))
  ** Exceptions:
  *
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  *
  ** Function:	BoolT			cstring_to_unsigned
- *			PROTO_S ((CStringP cstring, unsigned *num_ref))
+ *			(CStringP cstring, unsigned *num_ref))
  ** Exceptions:
  *
  * This function parses an unsigned number in cstring.  If there is a valid
@@ -133,27 +133,26 @@
  * big.
  *
  ** Function:	BoolT			cstring_contains
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c))
  ** Exceptions:
  *
  * This function returns true if the specified cstring contains the character
  * c, and false if it doesn't.
  *
  ** Function:	CStringP		cstring_find
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c))
  ** Exceptions:
  *
  * This function returns a pointer to the first occurrence of the specified
  * character in the specified cstring, or nil if there is no occurrence.
  *
  ** Function:	CStringP		cstring_find_reverse
- *			PROTO_S ((CStringP cstring, char c))
+ *			(CStringP cstring, char c))
  ** Exceptions:
  *
  * This function returns a pointer to the last occurrence of the specified
  * character in the specified cstring, or nil if there is no occurrence.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -165,30 +164,18 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern CStringP			cstring_duplicate
-	PROTO_S ((CStringP));
-extern CStringP			cstring_duplicate_prefix
-	PROTO_S ((CStringP, unsigned));
-extern unsigned			cstring_hash_value
-	PROTO_S ((CStringP));
-extern unsigned			cstring_length
-	PROTO_S ((CStringP));
-extern BoolT			cstring_equal
-	PROTO_S ((CStringP, CStringP));
-extern BoolT			cstring_ci_equal
-	PROTO_S ((CStringP, CStringP));
-extern BoolT			cstring_to_unsigned
-	PROTO_S ((CStringP, unsigned *));
-extern BoolT			cstring_starts
-	PROTO_S ((CStringP, CStringP));
-extern BoolT			cstring_contains
-	PROTO_S ((CStringP, char));
-extern CStringP			cstring_find
-	PROTO_S ((CStringP, char));
-extern CStringP			cstring_find_reverse
-	PROTO_S ((CStringP, char));
-extern CStringP			cstring_find_basename
-	PROTO_S ((CStringP));
+CStringP	cstring_duplicate(CStringP);
+CStringP	cstring_duplicate_prefix(CStringP, unsigned);
+unsigned	cstring_hash_value(CStringP);
+unsigned	cstring_length(CStringP);
+BoolT		cstring_equal(CStringP, CStringP);
+BoolT		cstring_ci_equal(CStringP, CStringP);
+BoolT		cstring_to_unsigned(CStringP, unsigned *);
+BoolT		cstring_starts(CStringP, CStringP);
+BoolT		cstring_contains(CStringP, char);
+CStringP	cstring_find(CStringP, char);
+CStringP	cstring_find_reverse(CStringP, char);
+CStringP	cstring_find_basename(CStringP);
 
 /*--------------------------------------------------------------------------*/
 

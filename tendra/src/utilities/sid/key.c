@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** key.c --- Key ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * This file implements the identifier key routines used by SID.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -72,58 +71,51 @@
 /*--------------------------------------------------------------------------*/
 
 void
-key_init_from_string PROTO_N ((key, string, number))
-		     PROTO_T (KeyP     key X
-			      NStringP string X
-			      unsigned number)
+key_init_from_string(KeyP key, NStringP string,
+					 unsigned number)
 {
-    key->type   = KT_STRING;
-    nstring_assign (&(key->string), string);
-    key->number = number;
+	key->type   = KT_STRING;
+	nstring_assign (&(key->string), string);
+	key->number = number;
 }
 
 void
-key_init_from_number PROTO_N ((key, number))
-		     PROTO_T (KeyP     key X
-			      unsigned number)
+key_init_from_number(KeyP key, unsigned number)
 {
-    key->type   = KT_NUMERIC;
-    key->number = number;
+	key->type   = KT_NUMERIC;
+	key->number = number;
 }
 
 CmpT
-key_compare PROTO_N ((key1, key2))
-	    PROTO_T (KeyP key1 X
-		     KeyP key2)
+key_compare(KeyP key1, KeyP key2)
 {
-    if ((key1->type) < (key2->type)) {
-	return (CMP_LT);
-    } else if ((key1->type) > (key2->type)) {
-	return (CMP_GT);
-    }
-    switch (key1->type) EXHAUSTIVE {
-      case KT_STRING:
-	return (nstring_compare (&(key1->string), &(key2->string)));
-      case KT_NUMERIC:
-	if (key1->number < key2->number) {
-	    return (CMP_LT);
-	} else if (key1->number > key2->number) {
-	    return (CMP_GT);
-	} else {
-	    return (CMP_EQ);
+	if ((key1->type) < (key2->type)) {
+		return (CMP_LT);
+	} else if ((key1->type) > (key2->type)) {
+		return (CMP_GT);
 	}
-    }
-    UNREACHED;
+	switch (key1->type) EXHAUSTIVE {
+	case KT_STRING:
+		return (nstring_compare (&(key1->string), &(key2->string)));
+	case KT_NUMERIC:
+		if (key1->number < key2->number) {
+			return (CMP_LT);
+		} else if (key1->number > key2->number) {
+			return (CMP_GT);
+		} else {
+			return (CMP_EQ);
+		}
+	}
+	UNREACHED;
 }
 
 #ifdef FS_FAST
 #undef key_is_string
 #endif /* defined (FS_FAST) */
 BoolT
-key_is_string PROTO_N ((key))
-	      PROTO_T (KeyP key)
+key_is_string(KeyP key)
 {
-    return (key->type == KT_STRING);
+	return (key->type == KT_STRING);
 }
 #ifdef FS_FAST
 #define key_is_string(k) ((k)->type == KT_STRING)
@@ -133,11 +125,10 @@ key_is_string PROTO_N ((key))
 #undef key_get_string
 #endif /* defined (FS_FAST) */
 NStringP
-key_get_string PROTO_N ((key))
-	       PROTO_T (KeyP key)
+key_get_string(KeyP key)
 {
-    ASSERT (key->type == KT_STRING);
-    return (&(key->string));
+	ASSERT (key->type == KT_STRING);
+	return (&(key->string));
 }
 #ifdef FS_FAST
 #define key_get_string(k) (&((k)->string))
@@ -147,46 +138,35 @@ key_get_string PROTO_N ((key))
 #undef key_get_number
 #endif /* defined (FS_FAST) */
 unsigned
-key_get_number PROTO_N ((key))
-	       PROTO_T (KeyP key)
+key_get_number(KeyP key)
 {
-    return (key->number);
+	return (key->number);
 }
 #ifdef FS_FAST
 #define key_get_number(k) ((k)->number)
 #endif /* defined (FS_FAST) */
 
 unsigned
-key_hash_value PROTO_N ((key))
-	       PROTO_T (KeyP key)
+key_hash_value(KeyP key)
 {
-    switch (key->type) EXHAUSTIVE {
-      case KT_NUMERIC:
-	return (key->number);
-      case KT_STRING:
-	return (nstring_hash_value (&(key->string)));
-    }
-    UNREACHED;
+	switch (key->type) EXHAUSTIVE {
+	case KT_NUMERIC:
+		return (key->number);
+	case KT_STRING:
+		return (nstring_hash_value (&(key->string)));
+	}
+	UNREACHED;
 }
 
 void
-write_key PROTO_N ((ostream, key))
-	  PROTO_T (OStreamP ostream X
-		   KeyP     key)
+write_key(OStreamP ostream, KeyP key)
 {
-    switch (key->type) EXHAUSTIVE {
-      case KT_STRING:
-	write_nstring (ostream, &(key->string));
-	break;
-      case KT_NUMERIC:
-	write_unsigned (ostream, key->number);
-	break;
-    }
+	switch (key->type) EXHAUSTIVE {
+	case KT_STRING:
+		write_nstring (ostream, &(key->string));
+		break;
+	case KT_NUMERIC:
+		write_unsigned (ostream, key->number);
+		break;
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * See the file "c-out-info.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_C_OUT_INFO
 #define H_C_OUT_INFO
@@ -80,80 +77,69 @@ struct CCodeT;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int CPrefixT, *CPrefixP;
-#define CPFX_TYPE		(0)
-#define CPFX_FN			(1)
-#define CPFX_IN			(2)
-#define CPFX_OUT		(3)
-#define CPFX_LABEL		(4)
-#define CPFX_TERMINAL		(5)
-#define CPFX_NUM_PREFIXES	(6)
-#else
 typedef enum {
-    CPFX_TYPE,
-    CPFX_FN,
-    CPFX_IN,
-    CPFX_OUT,
-    CPFX_LABEL,
-    CPFX_TERMINAL,
-    CPFX_NUM_PREFIXES
+	CPFX_TYPE,
+	CPFX_FN,
+	CPFX_IN,
+	CPFX_OUT,
+	CPFX_LABEL,
+	CPFX_TERMINAL,
+	CPFX_NUM_PREFIXES
 } CPrefixT, *CPrefixP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct COutputInfoT {
-    OutputInfoP		info;
-    struct CCodeT      *header1;
-    struct CCodeT      *header2;
-    struct CCodeT      *trailer1;
-    struct CCodeT      *trailer2;
-    NStringT		prefixes [CPFX_NUM_PREFIXES];
-    BoolT		prototypes;
-    BoolT		ossg;
-    BoolT		numeric_ids;
-    BoolT		casts;
-    BoolT		unreachable;
-    BoolT		lines;
-    unsigned		split;
+	OutputInfoP	info;
+	struct CCodeT  *header1;
+	struct CCodeT  *header2;
+	struct CCodeT  *trailer1;
+	struct CCodeT  *trailer2;
+	NStringT	prefixes [CPFX_NUM_PREFIXES];
+	BoolT		prototypes;
+	BoolT		ossg;
+	BoolT		numeric_ids;
+	BoolT		casts;
+	BoolT		unreachable;
+	BoolT		lines;
+	unsigned	split;
 } COutputInfoT, *COutputInfoP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			c_out_info_init(COutputInfoP, OutputInfoP);
-extern OutputInfoP		c_out_info_info(COutputInfoP);
-extern OStreamP			c_out_info_ostream(COutputInfoP);
-extern CStringP			c_out_info_program_name(COutputInfoP);
-extern CStringP			c_out_info_source_name(COutputInfoP);
-extern CStringP			c_out_info_c_source_name(COutputInfoP);
-extern struct CCodeT	       *c_out_info_get_header1(COutputInfoP);
-extern void			c_out_info_set_header1(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	       *c_out_info_get_header2(COutputInfoP);
-extern void			c_out_info_set_header2(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	       *c_out_info_get_trailer1(COutputInfoP);
-extern void			c_out_info_set_trailer1(COutputInfoP, struct CCodeT *);
-extern struct CCodeT	       *c_out_info_get_trailer2(COutputInfoP);
-extern void			c_out_info_set_trailer2(COutputInfoP, struct CCodeT *);
-extern NStringP			c_out_info_type_prefix(COutputInfoP);
-extern NStringP			c_out_info_fn_prefix(COutputInfoP);
-extern NStringP			c_out_info_in_prefix(COutputInfoP);
-extern NStringP			c_out_info_out_prefix(COutputInfoP);
-extern NStringP			c_out_info_label_prefix(COutputInfoP);
-extern NStringP			c_out_info_terminal_prefix(COutputInfoP);
-extern NStringP			c_out_info_prefix(COutputInfoP, CPrefixT);
-extern BoolT			c_out_info_get_prototypes(COutputInfoP);
-extern void			c_out_info_set_prototypes(COutputInfoP, BoolT);
-extern BoolT			c_out_info_get_ossg(COutputInfoP);
-extern void			c_out_info_set_ossg(COutputInfoP, BoolT);
-extern BoolT			c_out_info_get_numeric_ids(COutputInfoP);
-extern void			c_out_info_set_numeric_ids(COutputInfoP, BoolT);
-extern BoolT			c_out_info_get_casts(COutputInfoP);
-extern void			c_out_info_set_casts(COutputInfoP, BoolT);
-extern BoolT			c_out_info_get_unreachable(COutputInfoP);
-extern void			c_out_info_set_unreachable(COutputInfoP, BoolT);
-extern BoolT			c_out_info_get_lines(COutputInfoP);
-extern void			c_out_info_set_lines(COutputInfoP, BoolT);
-extern unsigned			c_out_info_get_split(COutputInfoP);
-extern void			c_out_info_set_split(COutputInfoP, unsigned);
+void		c_out_info_init(COutputInfoP, OutputInfoP);
+OutputInfoP	c_out_info_info(COutputInfoP);
+OStreamP	c_out_info_ostream(COutputInfoP);
+CStringP	c_out_info_program_name(COutputInfoP);
+CStringP	c_out_info_source_name(COutputInfoP);
+CStringP	c_out_info_c_source_name(COutputInfoP);
+struct CCodeT  *c_out_info_get_header1(COutputInfoP);
+void		c_out_info_set_header1(COutputInfoP, struct CCodeT *);
+struct CCodeT  *c_out_info_get_header2(COutputInfoP);
+void		c_out_info_set_header2(COutputInfoP, struct CCodeT *);
+struct CCodeT  *c_out_info_get_trailer1(COutputInfoP);
+void		c_out_info_set_trailer1(COutputInfoP, struct CCodeT *);
+struct CCodeT  *c_out_info_get_trailer2(COutputInfoP);
+void		c_out_info_set_trailer2(COutputInfoP, struct CCodeT *);
+NStringP	c_out_info_type_prefix(COutputInfoP);
+NStringP	c_out_info_fn_prefix(COutputInfoP);
+NStringP	c_out_info_in_prefix(COutputInfoP);
+NStringP	c_out_info_out_prefix(COutputInfoP);
+NStringP	c_out_info_label_prefix(COutputInfoP);
+NStringP	c_out_info_terminal_prefix(COutputInfoP);
+NStringP	c_out_info_prefix(COutputInfoP, CPrefixT);
+BoolT		c_out_info_get_prototypes(COutputInfoP);
+void		c_out_info_set_prototypes(COutputInfoP, BoolT);
+BoolT		c_out_info_get_ossg(COutputInfoP);
+void		c_out_info_set_ossg(COutputInfoP, BoolT);
+BoolT		c_out_info_get_numeric_ids(COutputInfoP);
+void		c_out_info_set_numeric_ids(COutputInfoP, BoolT);
+BoolT		c_out_info_get_casts(COutputInfoP);
+void		c_out_info_set_casts(COutputInfoP, BoolT);
+BoolT		c_out_info_get_unreachable(COutputInfoP);
+void		c_out_info_set_unreachable(COutputInfoP, BoolT);
+BoolT		c_out_info_get_lines(COutputInfoP);
+void		c_out_info_set_lines(COutputInfoP, BoolT);
+unsigned	c_out_info_get_split(COutputInfoP);
+void		c_out_info_set_split(COutputInfoP, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
@@ -197,10 +183,3 @@ extern void			c_out_info_set_split(COutputInfoP, unsigned);
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_C_OUT_INFO) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

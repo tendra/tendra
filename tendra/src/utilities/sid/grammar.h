@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** grammar.h --- Grammar transforms frontend.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "grammar.c" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -89,43 +88,25 @@ typedef struct GrammarT {
 
 /*--------------------------------------------------------------------------*/
 
-extern void			grammar_init
-	PROTO_S ((GrammarP));
-extern TableP			grammar_table
-	PROTO_S ((GrammarP));
-extern EntryListP		grammar_entry_list
-	PROTO_S ((GrammarP));
-extern unsigned			grammar_max_terminal
-	PROTO_S ((GrammarP));
-extern unsigned			grammar_next_terminal
-	PROTO_S ((GrammarP));
-extern EntryP			grammar_get_predicate_type
-	PROTO_S ((GrammarP));
-extern void			grammar_set_predicate_type
-	PROTO_S ((GrammarP, EntryP));
-extern EntryP			grammar_get_predicate_id
-	PROTO_S ((GrammarP));
-extern void			grammar_check_complete
-	PROTO_S ((GrammarP));
-extern void			grammar_remove_left_recursion
-	PROTO_S ((GrammarP));
-extern void			grammar_compute_first_sets
-	PROTO_S ((GrammarP));
-extern void			grammar_factor
-	PROTO_S ((GrammarP));
-extern void			grammar_simplify
-	PROTO_S ((GrammarP));
-extern void			grammar_compute_inlining
-	PROTO_S ((GrammarP));
-extern void			grammar_check_collisions
-	PROTO_S ((GrammarP));
-extern void			grammar_recompute_alt_names
-	PROTO_S ((GrammarP));
-extern void			grammar_compute_mutations
-	PROTO_S ((GrammarP));
+void	grammar_init(GrammarP);
+TableP	grammar_table(GrammarP);
+EntryListP grammar_entry_list(GrammarP);
+unsigned grammar_max_terminal(GrammarP);
+unsigned grammar_next_terminal(GrammarP);
+EntryP	grammar_get_predicate_type(GrammarP);
+void	grammar_set_predicate_type(GrammarP, EntryP);
+EntryP	grammar_get_predicate_id(GrammarP);
+void	grammar_check_complete(GrammarP);
+void	grammar_remove_left_recursion(GrammarP);
+void	grammar_compute_first_sets(GrammarP);
+void	grammar_factor(GrammarP);
+void	grammar_simplify(GrammarP);
+void	grammar_compute_inlining(GrammarP);
+void	grammar_check_collisions(GrammarP);
+void	grammar_recompute_alt_names(GrammarP);
+void	grammar_compute_mutations(GrammarP);
 
-extern void			write_grammar
-	PROTO_S ((OStreamP, GrammarP));
+void	write_grammar(OStreamP, GrammarP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -139,10 +120,3 @@ extern void			write_grammar
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_GRAMMAR) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

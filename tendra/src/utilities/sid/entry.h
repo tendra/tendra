@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** entry.h --- Identifier table entry ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "entry.c" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -89,104 +88,64 @@ struct TypeT;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef FS_NO_ENUM
-typedef int EntryTypeT, *EntryTypeP;
-#define ET_TYPE		(0)
-#define ET_BASIC	(1)
-#define ET_RULE		(2)
-#define ET_ACTION	(3)
-#define ET_NAME		(4)
-#define ET_RENAME	(5)
-#define ET_PREDICATE	(6)
-#define ET_NON_LOCAL	(7)
-#else
 typedef enum {
-    ET_TYPE,
-    ET_BASIC,
-    ET_RULE,
-    ET_ACTION,
-    ET_NAME,
-    ET_RENAME,
-    ET_PREDICATE,
-    ET_NON_LOCAL
+	ET_TYPE,
+	ET_BASIC,
+	ET_RULE,
+	ET_ACTION,
+	ET_NAME,
+	ET_RENAME,
+	ET_PREDICATE,
+	ET_NON_LOCAL
 } EntryTypeT, *EntryTypeP;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct EntryT {
-    struct EntryT	       *next;
-    KeyT			key;
-    BoolT			mapped;
-    NStringT			mapping;
-    EntryTypeT			type;
-    BoolT			traced;
-    union {
-	struct BasicT	       *basic;
-	struct RuleT	       *rule;
-	struct ActionT	       *action;
-	struct TypeT	       *type;
-	struct EntryT	       *non_local;
-    } u;
-    struct NameT	       *name;
+	struct EntryT	       *next;
+	KeyT			key;
+	BoolT			mapped;
+	NStringT		mapping;
+	EntryTypeT		type;
+	BoolT			traced;
+	union {
+		struct BasicT	       *basic;
+		struct RuleT	       *rule;
+		struct ActionT	       *action;
+		struct TypeT	       *type;
+		struct EntryT	       *non_local;
+	} u;
+	struct NameT	       *name;
 } EntryT, *EntryP;
 
 /*--------------------------------------------------------------------------*/
 
-extern EntryP			entry_create_from_string
-	PROTO_S ((NStringP, unsigned, EntryTypeT));
-extern EntryP			entry_create_from_number
-	PROTO_S ((unsigned, EntryTypeT, BoolT, EntryP));
-extern void			entry_set_basic
-	PROTO_S ((EntryP, struct BasicT *));
-extern void			entry_set_rule
-	PROTO_S ((EntryP, struct RuleT *));
-extern void			entry_set_action
-	PROTO_S ((EntryP, struct ActionT *));
-extern void			entry_set_type
-	PROTO_S ((EntryP, struct TypeT *));
-extern void			entry_set_non_local
-	PROTO_S ((EntryP, EntryP));
-extern EntryP			entry_next
-	PROTO_S ((EntryP));
-extern EntryP		       *entry_next_ref
-	PROTO_S ((EntryP));
-extern KeyP			entry_key
-	PROTO_S ((EntryP));
-extern EntryTypeT		entry_type
-	PROTO_S ((EntryP));
-extern void			entry_change_type
-	PROTO_S ((EntryP, EntryTypeT));
-extern BoolT			entry_is_basic
-	PROTO_S ((EntryP));
-extern BoolT			entry_is_action
-	PROTO_S ((EntryP));
-extern BoolT			entry_is_rule
-	PROTO_S ((EntryP));
-extern BoolT			entry_is_type
-	PROTO_S ((EntryP));
-extern BoolT			entry_is_non_local
-	PROTO_S ((EntryP));
-extern struct BasicT	       *entry_get_basic
-	PROTO_S ((EntryP));
-extern struct ActionT	       *entry_get_action
-	PROTO_S ((EntryP));
-extern struct RuleT	       *entry_get_rule
-	PROTO_S ((EntryP));
-extern struct NameT	       *entry_get_name
-	PROTO_S ((EntryP));
-extern struct TypeT	       *entry_get_type
-	PROTO_S ((EntryP));
-extern EntryP			entry_get_non_local
-	PROTO_S ((EntryP));
-extern void			entry_set_mapping
-	PROTO_S ((EntryP, NStringP));
-extern NStringP			entry_get_mapping
-	PROTO_S ((EntryP));
-extern void			entry_iter
-	PROTO_S ((EntryP, BoolT, void (*) (EntryP, GenericP), GenericP));
-extern void			entry_not_traced
-	PROTO_S ((EntryP));
-extern BoolT			entry_is_traced
-	PROTO_S ((EntryP));
+EntryP	entry_create_from_string(NStringP, unsigned, EntryTypeT);
+EntryP	entry_create_from_number(unsigned, EntryTypeT, BoolT, EntryP);
+void	entry_set_basic(EntryP, struct BasicT *);
+void	entry_set_rule(EntryP, struct RuleT *);
+void	entry_set_action(EntryP, struct ActionT *);
+void	entry_set_type(EntryP, struct TypeT *);
+void	entry_set_non_local(EntryP, EntryP);
+EntryP	entry_next(EntryP);
+EntryP *entry_next_ref(EntryP);
+KeyP	entry_key(EntryP);
+EntryTypeT	entry_type(EntryP);
+void	entry_change_type(EntryP, EntryTypeT);
+BoolT	entry_is_basic(EntryP);
+BoolT	entry_is_action(EntryP);
+BoolT	entry_is_rule(EntryP);
+BoolT	entry_is_type(EntryP);
+BoolT	entry_is_non_local(EntryP);
+struct BasicT *	entry_get_basic(EntryP);
+struct ActionT *entry_get_action(EntryP);
+struct RuleT *	entry_get_rule(EntryP);
+struct NameT *	entry_get_name(EntryP);
+struct TypeT *	entry_get_type(EntryP);
+EntryP	entry_get_non_local(EntryP);
+void	entry_set_mapping(EntryP, NStringP);
+NStringP entry_get_mapping(EntryP);
+void	entry_iter(EntryP, BoolT, void (*) (EntryP, GenericP), GenericP);
+void	entry_not_traced(EntryP);
+BoolT	entry_is_traced(EntryP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -215,10 +174,3 @@ extern BoolT			entry_is_traced
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** name.h --- Name ADT.
@@ -62,8 +62,7 @@
  *** Commentary:
  *
  * See the file "name.c" for more information.
- *
- *** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -76,34 +75,24 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NameT {
-    BoolT			clash;
-    BoolT			used;
-    BoolT			labelled;
-    unsigned			label;
+	BoolT			clash;
+	BoolT			used;
+	BoolT			labelled;
+	unsigned			label;
 } NameT, *NameP;
 
 /*--------------------------------------------------------------------------*/
 
-extern NameP			name_create
-	PROTO_S ((void));
-extern BoolT			name_test_and_set_clash
-	PROTO_S ((NameP));
-extern void			name_reset_clash
-	PROTO_S ((NameP));
-extern BoolT			name_is_used
-	PROTO_S ((NameP));
-extern void			name_used
-	PROTO_S ((NameP));
-extern void			name_not_used
-	PROTO_S ((NameP));
-extern unsigned			name_get_label
-	PROTO_S ((NameP));
-extern void			name_set_label
-	PROTO_S ((NameP, unsigned));
-extern void			name_reset_label
-	PROTO_S ((NameP));
-extern BoolT			name_has_label
-	PROTO_S ((NameP));
+NameP	name_create(void);
+BoolT	name_test_and_set_clash(NameP);
+void	name_reset_clash(NameP);
+BoolT	name_is_used(NameP);
+void	name_used(NameP);
+void	name_not_used(NameP);
+unsigned name_get_label(NameP);
+void	name_set_label(NameP, unsigned);
+void	name_reset_label(NameP);
+BoolT	name_has_label(NameP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -118,10 +107,3 @@ extern BoolT			name_has_label
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_NAME) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

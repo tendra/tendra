@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** parser.h --- SID parser.
@@ -63,10 +63,7 @@
  *
  * This file specifies the interface to the SID file parser that is produced
  * from the file "parser.sid".
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_PARSER
 #define H_PARSER
@@ -81,14 +78,7 @@
 
 extern LexerStreamP		sid_current_stream;
 extern GrammarP			sid_current_grammar;
-extern void			sid_parse_grammar
-	PROTO_S ((void));
+
+void sid_parse_grammar(void);
 
 #endif /* !defined (H_PARSER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** exception.h --- Exception handling.
@@ -229,8 +229,7 @@
  * cause the normal code region (between the ``HANDLE'' and ``WITH'' macros)
  * to be exited (otherwise the exception handler stack will become corrupt at
  * run time).
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -244,36 +243,35 @@
 typedef CStringP		ExceptionP;
 
 typedef struct {
-    CStringP			exception;
-    GenericP			data;
-    unsigned			line;
-    CStringP			file;
+	CStringP			exception;
+	GenericP			data;
+	unsigned			line;
+	CStringP			file;
 } ThrowDataT, *ThrowDataP;
 
 typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    unsigned			magic_start;
-    CStringP			file;
-    unsigned			line;
+	unsigned			magic_start;
+	CStringP			file;
+	unsigned			line;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-    struct HandlerT	       *next;
-    jmp_buf			buffer;
+	struct HandlerT	       *next;
+	jmp_buf			buffer;
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    unsigned			magic_end;
+	unsigned			magic_end;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
 } HandlerT, *HandlerP;
 
 /*--------------------------------------------------------------------------*/
 
-extern	CStringP		exception_name
-	PROTO_S ((ExceptionP));
+CStringP exception_name(ExceptionP);
 
 /*--------------------------------------------------------------------------*/
 
 extern HandlerP			X__exception_handler_stack;
 extern ThrowDataT		X__exception_throw_data;
-extern NoReturnT		X__exception_throw
-	PROTO_S ((void));
+
+NoReturnT X__exception_throw(void);
 
 /*--------------------------------------------------------------------------*/
 
@@ -312,29 +310,29 @@ extern NoReturnT		X__exception_throw
  X__exception_handler_stack = &X___exception_handler; \
  if (!setjmp (X___exception_handler.buffer)) {
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-
+	 
 #define WITH \
-     X__exception_handler_stack = X___exception_handler.next; \
+	 X__exception_handler_stack = X___exception_handler.next; \
  } else { \
-     X__exception_handler_stack = X___exception_handler.next; {
-
+	 X__exception_handler_stack = X___exception_handler.next; {
+		 
 #define END_HANDLE }}}
-
+	 
 #define EXCEPTION_EXCEPTION() \
 X__exception_throw_data.exception
-
+	 
 #define EXCEPTION_VALUE() \
 X__exception_throw_data.data
-
+	 
 #define EXCEPTION_LINE() \
 X__exception_throw_data.line
-
+	 
 #define EXCEPTION_FILE() \
 X__exception_throw_data.file
-
+	 
 #define RETHROW() \
 X__exception_throw ();
-
+	 
 #define UNHANDLE X__exception_handler_stack = X___exception_handler.next;
-
+	 
 #endif /* !defined (H_EXCEPTION) */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** exception.c --- Exception handling.
@@ -63,17 +63,14 @@
  *
  * This file implements the exception handling facility specified in the file
  * "exception.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
 #include "exception.h"
 
-extern void			E_exception_unhandled
-	PROTO_S ((ExceptionP, CStringP, unsigned));
-extern void			E_exception_corrupt_handler
-	PROTO_S ((CStringP, unsigned));
+void	E_exception_unhandled(ExceptionP, CStringP, unsigned);
+void	E_exception_corrupt_handler(CStringP, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
@@ -83,45 +80,44 @@ ThrowDataT			X__exception_throw_data;
 /*--------------------------------------------------------------------------*/
 
 NoReturnT
-X__exception_throw PROTO_Z ()
+X__exception_throw(void)
 {
-    static BoolT failing = FALSE;
-    HandlerP     stack   = X__exception_handler_stack;
-
-    if (failing) {
-	abort ();
-	UNREACHED;
-    } else if (stack == NIL (HandlerP)) {
-	failing = TRUE;
-	E_exception_unhandled (X__exception_throw_data.exception,
-			       X__exception_throw_data.file,
-			       X__exception_throw_data.line);
-	abort ();
-	UNREACHED;
-    }
+	static BoolT failing = FALSE;
+	HandlerP     stack   = X__exception_handler_stack;
+	
+	if (failing) {
+		abort ();
+		UNREACHED;
+	} else if (stack == NIL (HandlerP)) {
+		failing = TRUE;
+		E_exception_unhandled (X__exception_throw_data.exception,
+							   X__exception_throw_data.file,
+							   X__exception_throw_data.line);
+		abort ();
+		UNREACHED;
+	}
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
-	(stack->magic_end != X__EXCEPTION_MAGIC) ||
+	if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
+		(stack->magic_end != X__EXCEPTION_MAGIC) ||
 #if PO_EXCEPTION_STACK_DIRECTION > 0
-	(((GenericP) stack) > ((GenericP) &stack)) ||
+		(((GenericP) stack) > ((GenericP) &stack)) ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION > 0 */
 #if PO_EXCEPTION_STACK_DIRECTION < 0
-	(((GenericP) stack) < ((GenericP) &stack)) ||
+		(((GenericP) stack) < ((GenericP) &stack)) ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
-	(stack->next == stack)) {
-	failing = TRUE;
-	E_exception_corrupt_handler (stack->file, stack->line);
-	abort ();
-	UNREACHED;
-    }
+		(stack->next == stack)) {
+		failing = TRUE;
+		E_exception_corrupt_handler (stack->file, stack->line);
+		abort ();
+		UNREACHED;
+	}
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-    longjmp (X__exception_handler_stack->buffer, 1);
-    UNREACHED;
+	longjmp (X__exception_handler_stack->buffer, 1);
+	UNREACHED;
 }
 
 CStringP
-exception_name PROTO_N ((exc))
-	       PROTO_T (ExceptionP exc)
+exception_name(ExceptionP exc)
 {
-    return (exc);
+	return (exc);
 }

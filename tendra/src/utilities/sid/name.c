@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** name.c --- Name ADT.
@@ -62,44 +62,39 @@
  *** Commentary:
  *
  * This file implements the name manipulation routines.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "name.h"
 
 /*--------------------------------------------------------------------------*/
 
 NameP
-name_create PROTO_Z ()
+name_create(void)
 {
-    NameP name = ALLOCATE (NameT);
-
-    name->clash    = FALSE;
-    name->used     = FALSE;
-    name->labelled = FALSE;
-    return (name);
+	NameP name = ALLOCATE (NameT);
+	
+	name->clash    = FALSE;
+	name->used     = FALSE;
+	name->labelled = FALSE;
+	return (name);
 }
 
 BoolT
-name_test_and_set_clash PROTO_N ((name))
-			PROTO_T (NameP name)
+name_test_and_set_clash(NameP name)
 {
-    BoolT clash = name->clash;
-
-    name->clash = TRUE;
-    return (clash);
+	BoolT clash = name->clash;
+	
+	name->clash = TRUE;
+	return (clash);
 }
 
 #ifdef FS_FAST
 #undef name_reset_clash
 #endif /* defined (FS_FAST) */
 void
-name_reset_clash PROTO_N ((name))
-		 PROTO_T (NameP name)
+name_reset_clash(NameP name)
 {
-    name->clash = FALSE;
+	name->clash = FALSE;
 }
 #ifdef FS_FAST
 #define name_reset_clash(n) ((n)->clash = FALSE)
@@ -109,10 +104,9 @@ name_reset_clash PROTO_N ((name))
 #undef name_is_used
 #endif /* defined (FS_FAST) */
 BoolT
-name_is_used PROTO_N ((name))
-	     PROTO_T (NameP name)
+name_is_used(NameP name)
 {
-    return (name->used);
+	return (name->used);
 }
 #ifdef FS_FAST
 #define name_is_used(n) ((n)->used)
@@ -122,10 +116,9 @@ name_is_used PROTO_N ((name))
 #undef name_used
 #endif /* defined (FS_FAST) */
 void
-name_used PROTO_N ((name))
-	  PROTO_T (NameP name)
+name_used(NameP name)
 {
-    name->used = TRUE;
+	name->used = TRUE;
 }
 #ifdef FS_FAST
 #define name_used(n) ((n)->used = TRUE)
@@ -135,10 +128,9 @@ name_used PROTO_N ((name))
 #undef name_not_used
 #endif /* defined (FS_FAST) */
 void
-name_not_used PROTO_N ((name))
-	      PROTO_T (NameP name)
+name_not_used(NameP name)
 {
-    name->used = FALSE;
+	name->used = FALSE;
 }
 #ifdef FS_FAST
 #define name_not_used(n) ((n)->used = FALSE)
@@ -148,33 +140,29 @@ name_not_used PROTO_N ((name))
 #undef name_get_label
 #endif /* defined (FS_FAST) */
 unsigned
-name_get_label PROTO_N ((name))
-	       PROTO_T (NameP name)
+name_get_label(NameP name)
 {
-    ASSERT (name->labelled);
-    return (name->label);
+	ASSERT (name->labelled);
+	return (name->label);
 }
 #ifdef FS_FAST
 #define name_get_label(n) ((n)->label)
 #endif /* defined (FS_FAST) */
 
 void
-name_set_label PROTO_N ((name, label))
-	       PROTO_T (NameP    name X
-			unsigned label)
+name_set_label(NameP name, unsigned label)
 {
-    name->labelled = TRUE;
-    name->label    = label;
+	name->labelled = TRUE;
+	name->label    = label;
 }
 
 #ifdef FS_FAST
 #undef name_reset_label
 #endif /* defined (FS_FAST) */
 void
-name_reset_label PROTO_N ((name))
-		 PROTO_T (NameP name)
+name_reset_label(NameP name)
 {
-    name->labelled = FALSE;
+	name->labelled = FALSE;
 }
 #ifdef FS_FAST
 #define name_reset_label(n) ((n)->labelled = FALSE)
@@ -184,18 +172,10 @@ name_reset_label PROTO_N ((name))
 #undef name_has_label
 #endif /* defined (FS_FAST) */
 BoolT
-name_has_label PROTO_N ((name))
-	       PROTO_T (NameP name)
+name_has_label(NameP name)
 {
-    return (name->labelled);
+	return (name->labelled);
 }
 #ifdef FS_FAST
 #define name_has_label(n) ((n)->labelled)
 #endif /* defined (FS_FAST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

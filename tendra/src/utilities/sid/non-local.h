@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** non-local.h --- Non local name ADT.
@@ -62,10 +62,7 @@
  **** Commentary:
  *
  * See the file "non-local.c" for more information.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NON_LOCAL
 #define H_NON_LOCAL
@@ -78,47 +75,31 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NonLocalEntryT {
-    struct NonLocalEntryT      *next;
-    EntryP			name;
-    EntryP			type;
-    EntryP			initialiser;
+	struct NonLocalEntryT      *next;
+	EntryP			name;
+	EntryP			type;
+	EntryP			initialiser;
 } NonLocalEntryT, *NonLocalEntryP;
 
 typedef struct NonLocalListT {
-    NonLocalEntryP		head;
-    NonLocalEntryP	       *tail;
+	NonLocalEntryP		head;
+	NonLocalEntryP	       *tail;
 } NonLocalListT, *NonLocalListP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			non_local_list_init
-	PROTO_S ((NonLocalListP));
-extern NonLocalEntryP		non_local_list_add
-	PROTO_S ((NonLocalListP, EntryP, EntryP));
-extern BoolT			non_local_list_is_empty
-	PROTO_S ((NonLocalListP));
-extern void			non_local_list_iter_for_table
-	PROTO_S ((NonLocalListP, void (*) (EntryP, GenericP), GenericP));
-extern void			non_local_list_destroy
-	PROTO_S ((NonLocalListP));
+void	non_local_list_init(NonLocalListP);
+NonLocalEntryP non_local_list_add(NonLocalListP, EntryP, EntryP);
+BoolT	non_local_list_is_empty(NonLocalListP);
+void	non_local_list_iter_for_table(NonLocalListP,
+		void (*) (EntryP, GenericP), GenericP);
+void	non_local_list_destroy(NonLocalListP);
 
-extern void			write_non_locals
-	PROTO_S ((OStreamP, NonLocalListP));
+void	write_non_locals(OStreamP, NonLocalListP);
 
-extern void			non_local_entry_set_initialiser
-	PROTO_S ((NonLocalEntryP, EntryP));
-extern EntryP			non_local_entry_get_initialiser
-	PROTO_S ((NonLocalEntryP));
-extern EntryP			non_local_entry_get_type
-	PROTO_S ((NonLocalEntryP));
-extern EntryP			non_local_entry_get_name
-	PROTO_S ((NonLocalEntryP));
+void	non_local_entry_set_initialiser(NonLocalEntryP, EntryP);
+EntryP non_local_entry_get_initialiser(NonLocalEntryP);
+EntryP non_local_entry_get_type(NonLocalEntryP);
+EntryP non_local_entry_get_name(NonLocalEntryP);
 
 #endif /* !defined (H_NON_LOCAL) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

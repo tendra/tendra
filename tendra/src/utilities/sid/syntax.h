@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** syntax.h --- Character classification.
@@ -129,10 +129,7 @@
  *
  * This function returns true if the specified character is a decimal digit,
  * and false otherwise.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_SYNTAX
 #define H_SYNTAX
@@ -145,19 +142,12 @@
 
 /*--------------------------------------------------------------------------*/
 
-extern int			syntax_value
-	PROTO_S ((char));
-extern char			syntax_upcase
-	PROTO_S ((char));
-extern char			syntax_downcase
-	PROTO_S ((char));
-extern BoolT			syntax_is_white_space
-	PROTO_S ((char));
-extern BoolT			syntax_is_printable
-	PROTO_S ((char));
-extern BoolT			syntax_is_letter
-	PROTO_S ((char));
-extern BoolT			syntax_is_digit
-	PROTO_S ((char));
+int	syntax_value(char);
+char	syntax_upcase(char);
+char	syntax_downcase(char);
+BoolT	syntax_is_white_space(char);
+BoolT	syntax_is_printable(char);
+BoolT	syntax_is_letter(char);
+BoolT	syntax_is_digit(char);
 
 #endif /* !defined (H_SYNTAX) */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,10 +63,7 @@
  *
  * This file implements the C code ADT used to represent action definitions
  * for the C output language.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "c-code.h"
 #include "c-out-key.h"
@@ -79,56 +76,53 @@
 static void
 c_code_set_labels(CCodeP code)
 {
-    CCodeItemP item;
-
-    for (item = code->head; item; item = item->next) {
+	CCodeItemP item;
+	
+	for (item = code->head; item; item = item->next) {
 		if (item->type == CCT_LABEL) {
 			NameP name = entry_get_name (item->u.ident);
-
+			
 			if (!name_has_label (name)) {
 				name_set_label (name, c_out_next_label ());
 			}
 		}
-    }
+	}
 }
 
 static void
 c_code_reset_labels(CCodeP code)
 {
-    CCodeItemP item;
-
-    for (item = code->head; item; item = item->next) {
+	CCodeItemP item;
+	
+	for (item = code->head; item; item = item->next) {
 		if (item->type == CCT_LABEL) {
 			NameP name = entry_get_name (item->u.ident);
-
+			
 			name_reset_label (name);
 		}
-    }
+	}
 }
 
 static EntryP
-c_code_get_translation(SaveRStackP state,
-					   TypeBTransP translator,
-					   EntryP ident, EntryP *type_ref,
-					   BoolT *reference_ref,
-					   EntryP *entry_ref)
+c_code_get_translation(SaveRStackP state, TypeBTransP translator,
+		EntryP ident, EntryP *type_ref,
+		BoolT *reference_ref,  EntryP *entry_ref)
 {
-    EntryP entry = btrans_get_translation (translator, ident);
-    EntryP stack_entry;
-
-    ASSERT (entry);
-    stack_entry = rstack_get_translation (state, entry, type_ref,
-										  reference_ref);
-    if ((stack_entry == NIL (EntryP)) && (entry_is_non_local (entry))) {
+	EntryP entry = btrans_get_translation (translator, ident);
+	EntryP stack_entry;
+	
+	ASSERT (entry);
+	stack_entry = rstack_get_translation (state, entry, type_ref, reference_ref);
+	if ((stack_entry == NIL (EntryP)) && (entry_is_non_local (entry))) {
 		stack_entry    = entry;
 		*type_ref      = entry_get_non_local (entry);
 		*reference_ref = FALSE;
-    }
-    ASSERT (stack_entry);
-    if (entry_ref) {
+	}
+	ASSERT (stack_entry);
+	if (entry_ref) {
 		*entry_ref = entry;
-    }
-    return (stack_entry);
+	}
+	return (stack_entry);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -136,119 +130,118 @@ c_code_get_translation(SaveRStackP state,
 CCodeP
 c_code_create(CStringP file, unsigned line)
 {
-    CCodeP code = ALLOCATE (CCodeT);
-
-    code->head = NIL (CCodeItemP);
-    code->tail = &(code->head);
-    code->file = file;
-    code->line = line;
-    types_init (&(code->param));
-    types_init (&(code->result));
-    return (code);
+	CCodeP code = ALLOCATE (CCodeT);
+	
+	code->head = NIL (CCodeItemP);
+	code->tail = &(code->head);
+	code->file = file;
+	code->line = line;
+	types_init (&(code->param));
+	types_init (&(code->result));
+	return (code);
 }
 
 void
 c_code_append_string(CCodeP code, NStringP string)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_STRING;
-    nstring_assign (&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_STRING;
+	nstring_assign (&(item->u.string), string);
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_label(CCodeP code, NStringP string)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_LABEL;
-    nstring_assign (&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_LABEL;
+	nstring_assign (&(item->u.string), string);
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_identifier(CCodeP code, NStringP string)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_IDENT;
-    nstring_assign (&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_IDENT;
+	nstring_assign (&(item->u.string), string);
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_modifiable(CCodeP code, NStringP string)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_MOD_IDENT;
-    nstring_assign (&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_MOD_IDENT;
+	nstring_assign (&(item->u.string), string);
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_reference(CCodeP code, NStringP string)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_REF_IDENT;
-    nstring_assign (&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_REF_IDENT;
+	nstring_assign (&(item->u.string), string);
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_exception(CCodeP code)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_EXCEPTION;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_EXCEPTION;
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_advance(CCodeP code)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_ADVANCE;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_ADVANCE;
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
 c_code_append_terminal(CCodeP code)
 {
-    CCodeItemP item = ALLOCATE (CCodeItemT);
-
-    item->next    = NIL (CCodeItemP);
-    item->type    = CCT_TERMINAL;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	CCodeItemP item = ALLOCATE (CCodeItemT);
+	
+	item->next    = NIL (CCodeItemP);
+	item->type    = CCT_TERMINAL;
+	*(code->tail) = item;
+	code->tail    = &(item->next);
 }
 
 void
-c_code_check(CCodeP code, BoolT exceptions,
-			 BoolT param_op, TypeTupleP param,
-			 TypeTupleP result, TableP table)
+c_code_check(CCodeP code, BoolT exceptions, BoolT param_op, TypeTupleP param,
+		TypeTupleP result, TableP table)
 {
-    CCodeItemP item;
-    EntryP     entry;
-
-    for (item = code->head; item; item = item->next) {
+	CCodeItemP item;
+	EntryP     entry;
+	
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_IDENT:
 			entry         = table_add_name (table, &(item->u.string));
@@ -320,21 +313,21 @@ c_code_check(CCodeP code, BoolT exceptions,
 		case CCT_STRING:
 			break;
 		}
-    }
-    if (result) {
+	}
+	if (result) {
 		types_check_used (result, E_code_undefined_result, (GenericP) code);
 		for (item = code->head; item; item = item->next) {
 			if (item->type == CCT_IDENT) {
 				name_not_used (entry_get_name (item->u.ident));
 			}
 		}
-    }
-    if (param) {
+	}
+	if (param) {
 		types_assign (&(code->param), param);
-    }
-    if (result) {
+	}
+	if (result) {
 		types_assign (&(code->result), result);
-    }
+	}
 }
 
 #ifdef FS_FAST
@@ -343,7 +336,7 @@ c_code_check(CCodeP code, BoolT exceptions,
 CStringP
 c_code_file(CCodeP code)
 {
-    return (code->file);
+	return (code->file);
 }
 #ifdef FS_FAST
 #define c_code_file(c) ((c)->file)
@@ -355,7 +348,7 @@ c_code_file(CCodeP code)
 unsigned
 c_code_line(CCodeP code)
 {
-    return (code->line);
+	return (code->line);
 }
 #ifdef FS_FAST
 #define c_code_line(c) ((c)->line)
@@ -364,23 +357,23 @@ c_code_line(CCodeP code)
 TypeTupleP
 c_code_param(CCodeP code)
 {
-    return (&(code->param));
+	return (&(code->param));
 }
 
 TypeTupleP
 c_code_result(CCodeP code)
 {
-    return (&(code->result));
+	return (&(code->result));
 }
 
 void
 c_code_deallocate(CCodeP code)
 {
-    CCodeItemP item = code->head;
-
-    while (item) {
+	CCodeItemP item = code->head;
+	
+	while (item) {
 		CCodeItemP next = item->next;
-
+		
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			nstring_destroy (&(item->u.string));
@@ -396,35 +389,32 @@ c_code_deallocate(CCodeP code)
 		}
 		DEALLOCATE (item);
 		item = next;
-    }
-    types_destroy (&(code->param));
-    types_destroy (&(code->result));
-    DEALLOCATE (code);
+	}
+	types_destroy (&(code->param));
+	types_destroy (&(code->result));
+	DEALLOCATE (code);
 }
 
 void
-c_output_c_code_action(COutputInfoP info,
-					   CCodeP code, TypeTupleP param,
-					   TypeTupleP result,
-					   SaveRStackP state,
-					   RuleP handler_rule)
+c_output_c_code_action(COutputInfoP info,  CCodeP code, TypeTupleP param,
+		TypeTupleP result, SaveRStackP state,  RuleP handler_rule)
 {
-    OStreamP    ostream      = c_out_info_ostream (info);
-    NStringP    label_prefix = c_out_info_label_prefix (info);
-    NStringP    in_prefix    = c_out_info_in_prefix (info);
-    CCodeItemP  item;
-    EntryP      stack_entry;
-    EntryP      entry;
-    EntryP      stack_type;
-    BoolT       stack_reference;
-    BoolT       use_cast;
-    TypeBTransT translator;
-
-    c_code_set_labels (code);
-    btrans_init (&translator);
-    btrans_add_translations (&translator, &(code->param), param);
-    btrans_add_translations (&translator, &(code->result), result);
-    for (item = code->head; item; item = item->next) {
+	OStreamP    ostream      = c_out_info_ostream (info);
+	NStringP    label_prefix = c_out_info_label_prefix (info);
+	NStringP    in_prefix    = c_out_info_in_prefix (info);
+	CCodeItemP  item;
+	EntryP      stack_entry;
+	EntryP      entry;
+	EntryP      stack_type;
+	BoolT       stack_reference;
+	BoolT       use_cast;
+	TypeBTransT translator;
+	
+	c_code_set_labels (code);
+	btrans_init (&translator);
+	btrans_add_translations (&translator, &(code->param), param);
+	btrans_add_translations (&translator, &(code->result), result);
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -493,29 +483,28 @@ c_output_c_code_action(COutputInfoP info,
 			write_cstring (ostream, "CURRENT_TERMINAL");
 			break;
 		}
-    }
-    btrans_destroy (&translator);
-    c_code_reset_labels (code);
+	}
+	btrans_destroy (&translator);
+	c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_basic(COutputInfoP info, CCodeP code,
-					  TypeTupleP result,
-					  SaveRStackP state)
+c_output_c_code_basic(COutputInfoP info, CCodeP code, TypeTupleP result,
+		SaveRStackP state)
 {
-    OStreamP    ostream      = c_out_info_ostream (info);
-    NStringP    label_prefix = c_out_info_label_prefix (info);
-    NStringP    in_prefix    = c_out_info_in_prefix (info);
-    CCodeItemP  item;
-    EntryP      stack_entry;
-    EntryP      stack_type;
-    BoolT       stack_reference;
-    TypeBTransT translator;
-
-    c_code_set_labels (code);
-    btrans_init (&translator);
-    btrans_add_translations (&translator, &(code->result), result);
-    for (item = code->head; item; item = item->next) {
+	OStreamP    ostream      = c_out_info_ostream (info);
+	NStringP    label_prefix = c_out_info_label_prefix (info);
+	NStringP    in_prefix    = c_out_info_in_prefix (info);
+	CCodeItemP  item;
+	EntryP      stack_entry;
+	EntryP      stack_type;
+	BoolT       stack_reference;
+	TypeBTransT translator;
+	
+	c_code_set_labels (code);
+	btrans_init (&translator);
+	btrans_add_translations (&translator, &(code->result), result);
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -539,27 +528,25 @@ c_output_c_code_basic(COutputInfoP info, CCodeP code,
 		case CCT_TERMINAL:
 			UNREACHED;
 		}
-    }
-    btrans_destroy (&translator);
-    c_code_reset_labels (code);
+	}
+	btrans_destroy (&translator);
+	c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_assign(COutputInfoP info,
-					   CCodeP code, EntryP type,
-					   EntryP from, EntryP to,
-					   BoolT from_reference,
-					   BoolT to_reference)
+c_output_c_code_assign(COutputInfoP info, CCodeP code, EntryP type,
+		EntryP from, EntryP to,
+		BoolT from_reference, BoolT to_reference)
 {
-    OStreamP   ostream      = c_out_info_ostream (info);
-    NStringP   label_prefix = c_out_info_label_prefix (info);
-    NStringP   in_prefix    = c_out_info_in_prefix (info);
-    BoolT      is_param;
-    BoolT      use_cast;
-    CCodeItemP item;
-
-    c_code_set_labels (code);
-    for (item = code->head; item; item = item->next) {
+	OStreamP   ostream      = c_out_info_ostream (info);
+	NStringP   label_prefix = c_out_info_label_prefix (info);
+	NStringP   in_prefix    = c_out_info_in_prefix (info);
+	BoolT      is_param;
+	BoolT      use_cast;
+	CCodeItemP item;
+	
+	c_code_set_labels (code);
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -567,7 +554,7 @@ c_output_c_code_assign(COutputInfoP info,
 		case CCT_LABEL:
 			write_nstring (ostream, label_prefix);
 			write_unsigned (ostream,
-							name_get_label (entry_get_name (item->u.ident)));
+				name_get_label (entry_get_name (item->u.ident)));
 			break;
 		case CCT_IDENT:
 			is_param = types_contains (&(code->param), item->u.ident);
@@ -610,24 +597,22 @@ c_output_c_code_assign(COutputInfoP info,
 		case CCT_TERMINAL:
 			UNREACHED;
 		}
-    }
-    c_code_reset_labels (code);
+	}
+	c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_param_assign(COutputInfoP info,
-							 CCodeP code,
-							 EntryP type,
-							 EntryP entry)
+c_output_c_code_param_assign(COutputInfoP info, CCodeP code, EntryP type,
+		EntryP entry)
 {
-    OStreamP   ostream      = c_out_info_ostream (info);
-    NStringP   label_prefix = c_out_info_label_prefix (info);
-    NStringP   in_prefix    = c_out_info_in_prefix (info);
-    NStringP   out_prefix   = c_out_info_out_prefix (info);
-    CCodeItemP item;
-
-    c_code_set_labels (code);
-    for (item = code->head; item; item = item->next) {
+	OStreamP   ostream      = c_out_info_ostream (info);
+	NStringP   label_prefix = c_out_info_label_prefix (info);
+	NStringP   in_prefix    = c_out_info_in_prefix (info);
+	NStringP   out_prefix   = c_out_info_out_prefix (info);
+	CCodeItemP item;
+	
+	c_code_set_labels (code);
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -635,12 +620,12 @@ c_output_c_code_param_assign(COutputInfoP info,
 		case CCT_LABEL:
 			write_nstring (ostream, label_prefix);
 			write_unsigned (ostream,
-							name_get_label (entry_get_name (item->u.ident)));
+				name_get_label (entry_get_name (item->u.ident)));
 			break;
 		case CCT_IDENT:
 			if (types_contains (&(code->param), item->u.ident)) {
 				BoolT use_cast = c_out_info_get_casts (info);
-
+				
 				if (use_cast) {
 					write_cstring (ostream, "((");
 					c_output_mapped_key (info, type);
@@ -661,24 +646,22 @@ c_output_c_code_param_assign(COutputInfoP info,
 		case CCT_TERMINAL:
 			UNREACHED;
 		}
-    }
-    c_code_reset_labels (code);
+	}
+	c_code_reset_labels (code);
 }
 
 void
-c_output_c_code_result_assign(COutputInfoP info,
-							  CCodeP code,
-							  EntryP type,
-							  EntryP entry)
+c_output_c_code_result_assign(COutputInfoP info, CCodeP code, EntryP type,
+		EntryP entry)
 {
-    OStreamP   ostream      = c_out_info_ostream (info);
-    NStringP   label_prefix = c_out_info_label_prefix (info);
-    NStringP   in_prefix    = c_out_info_in_prefix (info);
-    NStringP   out_prefix   = c_out_info_out_prefix (info);
-    CCodeItemP item;
-
-    c_code_set_labels (code);
-    for (item = code->head; item; item = item->next) {
+	OStreamP   ostream      = c_out_info_ostream (info);
+	NStringP   label_prefix = c_out_info_label_prefix (info);
+	NStringP   in_prefix    = c_out_info_in_prefix (info);
+	NStringP   out_prefix   = c_out_info_out_prefix (info);
+	CCodeItemP item;
+	
+	c_code_set_labels (code);
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -686,12 +669,12 @@ c_output_c_code_result_assign(COutputInfoP info,
 		case CCT_LABEL:
 			write_nstring (ostream, label_prefix);
 			write_unsigned (ostream,
-							name_get_label (entry_get_name (item->u.ident)));
+				name_get_label (entry_get_name (item->u.ident)));
 			break;
 		case CCT_IDENT:
 			if (types_contains (&(code->param), item->u.ident)) {
 				BoolT use_cast = c_out_info_get_casts (info);
-
+				
 				if (use_cast) {
 					write_cstring (ostream, "((");
 					c_output_mapped_key (info, type);
@@ -716,17 +699,17 @@ c_output_c_code_result_assign(COutputInfoP info,
 		case CCT_TERMINAL:
 			UNREACHED;
 		}
-    }
-    c_code_reset_labels (code);
+	}
+	c_code_reset_labels (code);
 }
 
 void
 c_output_c_code(COutputInfoP info, CCodeP code)
 {
-    OStreamP   ostream = c_out_info_ostream (info);
-    CCodeItemP item;
-
-    for (item = code->head; item; item = item->next) {
+	OStreamP   ostream = c_out_info_ostream (info);
+	CCodeItemP item;
+	
+	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring (ostream, &(item->u.string));
@@ -740,12 +723,5 @@ c_output_c_code(COutputInfoP info, CCodeP code)
 		case CCT_TERMINAL:
 			UNREACHED;
 		}
-    }
+	}
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** istream.h --- Input stream handling.
@@ -233,8 +233,7 @@
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
  * should be deallocated when finished with.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -248,28 +247,21 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct IStreamT {
-    FILE		       *file;
-    CStringP			buffer;
-    CStringP			current;
-    CStringP			end;
-    CStringP			limit;
-    unsigned			line;
-    CStringP			name;
-    BoolT			read_last;
+	FILE		       *file;
+	CStringP			buffer;
+	CStringP			current;
+	CStringP			end;
+	CStringP			limit;
+	unsigned			line;
+	CStringP			name;
+	BoolT			read_last;
 } IStreamT, *IStreamP;
 
-#ifdef FS_NO_ENUM
-typedef int IStreamStatusT, *IStreamStatusP;
-#define ISTREAM_STAT_READ_CHAR		(0)
-#define ISTREAM_STAT_NO_CHAR		(1)
-#define ISTREAM_STAT_SYNTAX_ERROR	(2)
-#else
 typedef enum {
-    ISTREAM_STAT_READ_CHAR,
-    ISTREAM_STAT_NO_CHAR,
-    ISTREAM_STAT_SYNTAX_ERROR
+	ISTREAM_STAT_READ_CHAR,
+	ISTREAM_STAT_NO_CHAR,
+	ISTREAM_STAT_SYNTAX_ERROR
 } IStreamStatusT, *IStreamStatusP;
-#endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 
@@ -278,35 +270,22 @@ extern IStreamT		 *const istream_input;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			istream_setup
-	PROTO_S ((void));
-extern void			istream_init
-	PROTO_S ((IStreamP));
-extern BoolT			istream_open
-	PROTO_S ((IStreamP, CStringP));
-extern void			istream_assign
-	PROTO_S ((IStreamP, IStreamP));
-extern BoolT			istream_is_open
-	PROTO_S ((IStreamP));
-extern BoolT			istream_read_char
-	PROTO_S ((IStreamP, char *));
-extern BoolT			istream_peek_char
-	PROTO_S ((IStreamP, char *));
-extern IStreamStatusT		istream_read_escaped_char
-	PROTO_S ((IStreamP, char *));
-extern void			istream_inc_line
-	PROTO_S ((IStreamP));
-extern unsigned			istream_line
-	PROTO_S ((IStreamP));
-extern CStringP			istream_name
-	PROTO_S ((IStreamP));
-extern void			istream_close
-	PROTO_S ((IStreamP));
+void	istream_setup(void);
+void	istream_init(IStreamP);
+BoolT	istream_open(IStreamP, CStringP);
+void	istream_assign(IStreamP, IStreamP);
+BoolT	istream_is_open(IStreamP);
+BoolT	istream_read_char(IStreamP, char *);
+BoolT	istream_peek_char(IStreamP, char *);
+IStreamStatusT istream_read_escaped_char(IStreamP, char *);
+void	istream_inc_line(IStreamP);
+unsigned istream_line(IStreamP);
+CStringP istream_name(IStreamP);
+void	istream_close(IStreamP);
 
 /*--------------------------------------------------------------------------*/
 
-extern void			X__istream_fill_buffer
-	PROTO_S ((IStreamP));
+void	X__istream_fill_buffer(IStreamP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -318,18 +297,18 @@ extern void			X__istream_fill_buffer
 
 #define ISTREAM_HANDLE_NULL(istream,redo,eof) \
 { \
-    IStreamP X___is = (istream); \
-    if (X___is->read_last) { \
+	IStreamP X___is = (istream); \
+	if (X___is->read_last) { \
 	if (X___is->current == X___is->end) { \
 	    if (X___is->end == X___is->limit) { \
 		X__istream_fill_buffer (X___is); \
 		goto redo; \
 	    } else { \
-		X___is->current --; \
+		X___is->current--; \
 		goto eof; \
 	    } \
 	} \
-    } else { \
+	} else { \
 	if (X___is->current == (X___is->end - 1)) { \
 	    if (X___is->end == X___is->limit) { \
 		X__istream_fill_buffer (X___is); \
@@ -338,7 +317,7 @@ extern void			X__istream_fill_buffer
 		goto eof; \
 	    } \
 	} \
-    } \
+	} \
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +62,7 @@
  *** Commentary:
  *
  * This file implements the SID output information routines.
- *
- *** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #include "c-out-info.h"
 #include "c-code.h"
@@ -75,24 +72,24 @@
 void
 c_out_info_init(COutputInfoP info, OutputInfoP out_info)
 {
-    info->info        = out_info;
-    info->header1     = NIL (CCodeP);
-    info->header2     = NIL (CCodeP);
-    info->trailer1    = NIL (CCodeP);
-    info->trailer2    = NIL (CCodeP);
-    nstring_copy_cstring (c_out_info_type_prefix (info), "ZT");
-    nstring_copy_cstring (c_out_info_fn_prefix (info), "ZR");
-    nstring_copy_cstring (c_out_info_in_prefix (info), "ZI");
-    nstring_copy_cstring (c_out_info_out_prefix (info), "ZO");
-    nstring_copy_cstring (c_out_info_label_prefix (info), "ZL");
-    nstring_copy_cstring (c_out_info_terminal_prefix (info), "ZB");
-    info->prototypes  = FALSE;
-    info->ossg        = FALSE;
-    info->numeric_ids = FALSE;
-    info->casts       = FALSE;
-    info->unreachable = FALSE;
-    info->lines       = TRUE;
-    info->split       = 0;
+	info->info        = out_info;
+	info->header1     = NIL (CCodeP);
+	info->header2     = NIL (CCodeP);
+	info->trailer1    = NIL (CCodeP);
+	info->trailer2    = NIL (CCodeP);
+	nstring_copy_cstring (c_out_info_type_prefix (info), "ZT");
+	nstring_copy_cstring (c_out_info_fn_prefix (info), "ZR");
+	nstring_copy_cstring (c_out_info_in_prefix (info), "ZI");
+	nstring_copy_cstring (c_out_info_out_prefix (info), "ZO");
+	nstring_copy_cstring (c_out_info_label_prefix (info), "ZL");
+	nstring_copy_cstring (c_out_info_terminal_prefix (info), "ZB");
+	info->prototypes  = FALSE;
+	info->ossg        = FALSE;
+	info->numeric_ids = FALSE;
+	info->casts       = FALSE;
+	info->unreachable = FALSE;
+	info->lines       = TRUE;
+	info->split       = 0;
 }
 
 #ifdef FS_FAST
@@ -101,7 +98,7 @@ c_out_info_init(COutputInfoP info, OutputInfoP out_info)
 OutputInfoP
 c_out_info_info(COutputInfoP info)
 {
-    return (info->info);
+	return (info->info);
 }
 #ifdef FS_FAST
 #define c_out_info_info(o) ((o)->info)
@@ -113,7 +110,7 @@ c_out_info_info(COutputInfoP info)
 OStreamP
 c_out_info_ostream(COutputInfoP info)
 {
-    return (out_info_get_current_ostream (info->info));
+	return (out_info_get_current_ostream (info->info));
 }
 #ifdef FS_FAST
 #define c_out_info_ostream(o) (out_info_get_current_ostream ((o)->info))
@@ -125,7 +122,7 @@ c_out_info_ostream(COutputInfoP info)
 CStringP
 c_out_info_program_name(COutputInfoP info)
 {
-    return (out_info_get_prog_name (info->info));
+	return (out_info_get_prog_name (info->info));
 }
 #ifdef FS_FAST
 #define c_out_info_program_name(o) (out_info_get_prog_name ((o)->info))
@@ -137,7 +134,7 @@ c_out_info_program_name(COutputInfoP info)
 CStringP
 c_out_info_source_name(COutputInfoP info)
 {
-    return (out_info_get_infile_name (info->info, (unsigned) 0));
+	return (out_info_get_infile_name (info->info, (unsigned) 0));
 }
 #ifdef FS_FAST
 #define c_out_info_source_name(o) \
@@ -150,7 +147,7 @@ c_out_info_source_name(COutputInfoP info)
 CStringP
 c_out_info_c_source_name(COutputInfoP info)
 {
-    return (out_info_get_infile_name (info->info, (unsigned) 1));
+	return (out_info_get_infile_name (info->info, (unsigned) 1));
 }
 #ifdef FS_FAST
 #define c_out_info_c_source_name(o) \
@@ -163,7 +160,7 @@ c_out_info_c_source_name(COutputInfoP info)
 CCodeP
 c_out_info_get_header1(COutputInfoP info)
 {
-    return (info->header1);
+	return (info->header1);
 }
 #ifdef FS_FAST
 #define c_out_info_get_header1(o) ((o)->header1)
@@ -176,7 +173,7 @@ void
 c_out_info_set_header1(COutputInfoP info,
 					   CCodeP code)
 {
-    info->header1 = code;
+	info->header1 = code;
 }
 #ifdef FS_FAST
 #define c_out_info_set_header1(o, c) ((o)->header1 = (c))
@@ -188,7 +185,7 @@ c_out_info_set_header1(COutputInfoP info,
 CCodeP
 c_out_info_get_header2(COutputInfoP info)
 {
-    return (info->header2);
+	return (info->header2);
 }
 #ifdef FS_FAST
 #define c_out_info_get_header2(o) ((o)->header2)
@@ -198,10 +195,9 @@ c_out_info_get_header2(COutputInfoP info)
 #undef c_out_info_set_header2
 #endif /* defined (FS_FAST) */
 void
-c_out_info_set_header2(COutputInfoP info,
-					   CCodeP code)
+c_out_info_set_header2(COutputInfoP info, CCodeP code)
 {
-    info->header2 = code;
+	info->header2 = code;
 }
 #ifdef FS_FAST
 #define c_out_info_set_header2(o, c) ((o)->header2 = (c))
@@ -213,7 +209,7 @@ c_out_info_set_header2(COutputInfoP info,
 CCodeP
 c_out_info_get_trailer1(COutputInfoP info)
 {
-    return (info->trailer1);
+	return (info->trailer1);
 }
 #ifdef FS_FAST
 #define c_out_info_get_trailer1(o) ((o)->trailer1)
@@ -223,10 +219,9 @@ c_out_info_get_trailer1(COutputInfoP info)
 #undef c_out_info_set_trailer1
 #endif /* defined (FS_FAST) */
 void
-c_out_info_set_trailer1(COutputInfoP info,
-						CCodeP code)
+c_out_info_set_trailer1(COutputInfoP info, CCodeP code)
 {
-    info->trailer1 = code;
+	info->trailer1 = code;
 }
 #ifdef FS_FAST
 #define c_out_info_set_trailer1(o, c) ((o)->trailer1 = (c))
@@ -238,7 +233,7 @@ c_out_info_set_trailer1(COutputInfoP info,
 CCodeP
 c_out_info_get_trailer2(COutputInfoP info)
 {
-    return (info->trailer2);
+	return (info->trailer2);
 }
 #ifdef FS_FAST
 #define c_out_info_get_trailer2(o) ((o)->trailer2)
@@ -248,10 +243,9 @@ c_out_info_get_trailer2(COutputInfoP info)
 #undef c_out_info_set_trailer2
 #endif /* defined (FS_FAST) */
 void
-c_out_info_set_trailer2(COutputInfoP info,
-						CCodeP code)
+c_out_info_set_trailer2(COutputInfoP info, CCodeP code)
 {
-    info->trailer2 = code;
+	info->trailer2 = code;
 }
 #ifdef FS_FAST
 #define c_out_info_set_trailer2(o, c) ((o)->trailer2 = (c))
@@ -263,7 +257,7 @@ c_out_info_set_trailer2(COutputInfoP info,
 NStringP
 c_out_info_type_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_TYPE]));
+	return (&(info->prefixes [CPFX_TYPE]));
 }
 #ifdef FS_FAST
 #define c_out_info_type_prefix(o) (&((o)->prefixes [CPFX_TYPE]))
@@ -275,7 +269,7 @@ c_out_info_type_prefix(COutputInfoP info)
 NStringP
 c_out_info_fn_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_FN]));
+	return (&(info->prefixes [CPFX_FN]));
 }
 #ifdef FS_FAST
 #define c_out_info_fn_prefix(o) (&((o)->prefixes [CPFX_FN]))
@@ -287,7 +281,7 @@ c_out_info_fn_prefix(COutputInfoP info)
 NStringP
 c_out_info_in_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_IN]));
+	return (&(info->prefixes [CPFX_IN]));
 }
 #ifdef FS_FAST
 #define c_out_info_in_prefix(o) (&((o)->prefixes [CPFX_IN]))
@@ -299,7 +293,7 @@ c_out_info_in_prefix(COutputInfoP info)
 NStringP
 c_out_info_out_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_OUT]));
+	return (&(info->prefixes [CPFX_OUT]));
 }
 #ifdef FS_FAST
 #define c_out_info_out_prefix(o) (&((o)->prefixes [CPFX_OUT]))
@@ -311,7 +305,7 @@ c_out_info_out_prefix(COutputInfoP info)
 NStringP
 c_out_info_label_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_LABEL]));
+	return (&(info->prefixes [CPFX_LABEL]));
 }
 #ifdef FS_FAST
 #define c_out_info_label_prefix(o) (&((o)->prefixes [CPFX_LABEL]))
@@ -323,7 +317,7 @@ c_out_info_label_prefix(COutputInfoP info)
 NStringP
 c_out_info_terminal_prefix(COutputInfoP info)
 {
-    return (&(info->prefixes [CPFX_TERMINAL]));
+	return (&(info->prefixes [CPFX_TERMINAL]));
 }
 #ifdef FS_FAST
 #define c_out_info_terminal_prefix(o) (&((o)->prefixes [CPFX_TERMINAL]))
@@ -335,7 +329,7 @@ c_out_info_terminal_prefix(COutputInfoP info)
 NStringP
 c_out_info_prefix(COutputInfoP info, CPrefixT prefix)
 {
-    return (&(info->prefixes [prefix]));
+	return (&(info->prefixes [prefix]));
 }
 #ifdef FS_FAST
 #define c_out_info_prefix(o, i) (&((o)->prefixes [i]))
@@ -347,7 +341,7 @@ c_out_info_prefix(COutputInfoP info, CPrefixT prefix)
 BoolT
 c_out_info_get_prototypes(COutputInfoP info)
 {
-    return (info->prototypes);
+	return (info->prototypes);
 }
 #ifdef FS_FAST
 #define c_out_info_get_prototypes(o) ((o)->prototypes)
@@ -360,7 +354,7 @@ void
 c_out_info_set_prototypes(COutputInfoP info,
 						  BoolT prototypes)
 {
-    info->prototypes = prototypes;
+	info->prototypes = prototypes;
 }
 #ifdef FS_FAST
 #define c_out_info_set_prototypes(o, b) ((o)->prototypes = (b))
@@ -372,7 +366,7 @@ c_out_info_set_prototypes(COutputInfoP info,
 BoolT
 c_out_info_get_ossg(COutputInfoP info)
 {
-    return (info->ossg);
+	return (info->ossg);
 }
 #ifdef FS_FAST
 #define c_out_info_get_ossg(o) ((o)->ossg)
@@ -384,7 +378,7 @@ c_out_info_get_ossg(COutputInfoP info)
 void
 c_out_info_set_ossg(COutputInfoP info, BoolT ossg)
 {
-    info->ossg = ossg;
+	info->ossg = ossg;
 }
 #ifdef FS_FAST
 #define c_out_info_set_ossg(o, b) ((o)->ossg = (b))
@@ -396,7 +390,7 @@ c_out_info_set_ossg(COutputInfoP info, BoolT ossg)
 BoolT
 c_out_info_get_numeric_ids(COutputInfoP info)
 {
-    return (info->numeric_ids);
+	return (info->numeric_ids);
 }
 #ifdef FS_FAST
 #define c_out_info_get_numeric_ids(o) ((o)->numeric_ids)
@@ -409,7 +403,7 @@ void
 c_out_info_set_numeric_ids(COutputInfoP info,
 						   BoolT numeric_ids)
 {
-    info->numeric_ids = numeric_ids;
+	info->numeric_ids = numeric_ids;
 }
 #ifdef FS_FAST
 #define c_out_info_set_numeric_ids(o, b) ((o)->numeric_ids = (b))
@@ -421,7 +415,7 @@ c_out_info_set_numeric_ids(COutputInfoP info,
 BoolT
 c_out_info_get_casts(COutputInfoP info)
 {
-    return (info->casts);
+	return (info->casts);
 }
 #ifdef FS_FAST
 #define c_out_info_get_casts(o) ((o)->casts)
@@ -433,7 +427,7 @@ c_out_info_get_casts(COutputInfoP info)
 void
 c_out_info_set_casts(COutputInfoP info, BoolT casts)
 {
-    info->casts = casts;
+	info->casts = casts;
 }
 #ifdef FS_FAST
 #define c_out_info_set_casts(o, b) ((o)->casts = (b))
@@ -445,7 +439,7 @@ c_out_info_set_casts(COutputInfoP info, BoolT casts)
 BoolT
 c_out_info_get_unreachable(COutputInfoP info)
 {
-    return (info->unreachable);
+	return (info->unreachable);
 }
 #ifdef FS_FAST
 #define c_out_info_get_unreachable(o) ((o)->unreachable)
@@ -455,10 +449,9 @@ c_out_info_get_unreachable(COutputInfoP info)
 #undef c_out_info_set_unreachable
 #endif /* defined (FS_FAST) */
 void
-c_out_info_set_unreachable(COutputInfoP info,
-						   BoolT unreachable)
+c_out_info_set_unreachable(COutputInfoP info, BoolT unreachable)
 {
-    info->unreachable = unreachable;
+	info->unreachable = unreachable;
 }
 #ifdef FS_FAST
 #define c_out_info_set_unreachable(o, b) ((o)->unreachable = (b))
@@ -470,7 +463,7 @@ c_out_info_set_unreachable(COutputInfoP info,
 BoolT
 c_out_info_get_lines(COutputInfoP info)
 {
-    return (info->lines);
+	return (info->lines);
 }
 #ifdef FS_FAST
 #define c_out_info_get_lines(o) ((o)->lines)
@@ -482,7 +475,7 @@ c_out_info_get_lines(COutputInfoP info)
 void
 c_out_info_set_lines(COutputInfoP info, BoolT lines)
 {
-    info->lines = lines;
+	info->lines = lines;
 }
 #ifdef FS_FAST
 #define c_out_info_set_lines(o, b) ((o)->lines = (b))
@@ -494,7 +487,7 @@ c_out_info_set_lines(COutputInfoP info, BoolT lines)
 unsigned
 c_out_info_get_split(COutputInfoP info)
 {
-    return (info->split);
+	return (info->split);
 }
 #ifdef FS_FAST
 #define c_out_info_get_split(o) ((o)->split)
@@ -506,15 +499,8 @@ c_out_info_get_split(COutputInfoP info)
 void
 c_out_info_set_split(COutputInfoP info, unsigned split)
 {
-    info->split = split;
+	info->split = split;
 }
 #ifdef FS_FAST
 #define c_out_info_set_split(o, n) ((o)->split = (n))
 #endif /* defined (FS_FAST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../transforms" "../output" "../generated")
- * end:
- **/

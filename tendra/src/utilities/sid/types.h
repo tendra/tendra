@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /*** types.h --- Type ADTs.
@@ -62,11 +62,7 @@
  *** Commentary:
  *
  * See the file "types.c" for more information.
- *
- *** Change Log:*/
-
-/****************************************************************************/
-
+ */
 
 #ifndef H_TYPES
 #define H_TYPES
@@ -87,248 +83,176 @@ struct RuleT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct TypeTupleEntryT {
-    struct TypeTupleEntryT     *next;
-    EntryP			type;
-    EntryP			name;
-    unsigned			number;
-    BoolT			reference;
-    BoolT			mutated;
-    BoolT			assign;
+	struct TypeTupleEntryT     *next;
+	EntryP			type;
+	EntryP			name;
+	unsigned		number;
+	BoolT			reference;
+	BoolT			mutated;
+	BoolT			assign;
 } TypeTupleEntryT, *TypeTupleEntryP;
 
 typedef struct TransT {
-    struct TransT	       *next;
-    EntryP			from;
-    EntryP			to;
+	struct TransT	       *next;
+	EntryP			from;
+	EntryP			to;
 } TransT, *TransP;
 
 typedef struct RTransT {
-    struct RTransT	       *next;
-    EntryP			from;
-    EntryP			to;
-    EntryP			type;
-    BoolT			reference;
+	struct RTransT	       *next;
+	EntryP			from;
+	EntryP			to;
+	EntryP			type;
+	BoolT			reference;
 } RTransT, *RTransP;
 
 typedef struct NTransT {
-    struct NTransT	       *next;
-    EntryP			from;
-    unsigned			to;
+	struct NTransT	       *next;
+	EntryP			from;
+	unsigned		to;
 } NTransT, *NTransP;
 
 typedef struct TypeTupleT {
-    TypeTupleEntryP		head;
-    TypeTupleEntryP	       *tail;
+	TypeTupleEntryP		head;
+	TypeTupleEntryP	       *tail;
 } TypeTupleT, *TypeTupleP;
 
 typedef struct TypeBTransT {
-    TransP			head;
-    TransP		       *tail;
+	TransP			head;
+	TransP		       *tail;
 } TypeBTransT, *TypeBTransP;
 
 typedef struct SaveBTransT {
-    TransP		       *last_ref;
+	TransP		       *last_ref;
 } SaveBTransT, *SaveBTransP;
 
 typedef struct TypeTransT {
-    TransP			head;
-    TransP		       *tail;
-    EntryListT			used_names;
+	TransP			head;
+	TransP		       *tail;
+	EntryListT		used_names;
 } TypeTransT, *TypeTransP;
 
 typedef struct SaveTransT {
-    TransP		       *last_ref;
+	TransP		       *last_ref;
 } SaveTransT, *SaveTransP;
 
 typedef struct TypeRTransT {
-    RTransP			head;
-    RTransP		       *tail;
+	RTransP			head;
+	RTransP		       *tail;
 } TypeRTransT, *TypeRTransP;
 
 typedef struct TypeNTransT {
-    unsigned			count;
-    NTransP			head;
-    NTransP		       *tail;
+	unsigned		count;
+	NTransP			head;
+	NTransP		       *tail;
 } TypeNTransT, *TypeNTransP;
 
 typedef struct SaveNTransT {
-    unsigned			last_count;
-    NTransP		       *last_ref;
+	unsigned		last_count;
+	NTransP		       *last_ref;
 } SaveNTransT, *SaveNTransP;
 
 /*--------------------------------------------------------------------------*/
 
 /* Defined in "types.c": */
-extern void			types_init
-	PROTO_S ((TypeTupleP));
-extern void			types_copy
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_copy_and_translate
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeTransP, TableP));
-extern void			types_append_copy
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_translate
-	PROTO_S ((TypeTupleP, TypeBTransP));
-extern void			types_renumber
-	PROTO_S ((TypeTupleP, TypeNTransP));
-extern void			types_assign
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern EntryP			types_find_name_type
-	PROTO_S ((TypeTupleP, EntryP, BoolT *));
-extern BoolT			types_mutated
-	PROTO_S ((TypeTupleP, EntryP));
-extern BoolT			types_compute_mutations
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeTupleP));
-extern BoolT			types_compute_assign_mutations
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_propogate_mutations
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_contains
-	PROTO_S ((TypeTupleP, EntryP));
-extern BoolT			types_contains_names
-	PROTO_S ((TypeTupleP));
-extern BoolT			types_contains_references
-	PROTO_S ((TypeTupleP));
-extern void			types_make_references
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_intersect
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_inplace_intersection
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_compute_intersection
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeTupleP));
-extern CmpT			types_compare
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_equal
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_equal_zero_tuple
-	PROTO_S ((TypeTupleP));
-extern BoolT			types_equal_names
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_equal_numbers
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_add_name_and_type
-	PROTO_S ((TypeTupleP, EntryP, EntryP, BoolT));
-extern void			types_add_name_and_type_var
-	PROTO_S ((TypeTupleP, EntryP, EntryP));
-extern BoolT			types_add_type
-	PROTO_S ((TypeTupleP, TableP, NStringP, BoolT));
-extern void			types_add_name
-	PROTO_S ((TypeTupleP, TableP, NStringP, BoolT));
-extern BoolT			types_add_typed_name
-	PROTO_S ((TypeTupleP, TableP, NStringP, NStringP, BoolT));
-extern void			types_add_name_entry
-	PROTO_S ((TypeTupleP, EntryP));
-extern void			types_add_type_entry
-	PROTO_S ((TypeTupleP, EntryP, BoolT));
-extern void			types_add_new_names
-	PROTO_S ((TypeTupleP, TypeTupleP, EntryP));
-extern BoolT			types_disjoint_names
-	PROTO_S ((TypeTupleP));
-extern BoolT			types_resolve
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeTupleP,
-		  void (*) (KeyP, KeyP, unsigned), KeyP, unsigned));
-extern BoolT			types_check_undefined
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeTupleP,
-		  void (*) (KeyP, KeyP, unsigned), KeyP, unsigned));
-extern BoolT			types_fillin_types
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_fillin_names
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern BoolT			types_check_names
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_check_used
-	PROTO_S ((TypeTupleP, void (*) (GenericP, EntryP), GenericP));
-extern void			types_unlink_used
-	PROTO_S ((TypeTupleP, TypeTupleP));
-extern void			types_unlink_unused
-	PROTO_S ((TypeTupleP, struct AltT *));
-extern void			types_compute_formal_renaming
-	PROTO_S ((TypeTupleP, TypeRTransP));
-extern void			types_compute_formal_inlining
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeRTransP, struct SaveRStackT *));
-extern void			types_compute_local_renaming
-	PROTO_S ((TypeTupleP, TypeTupleP, TypeRTransP, struct SaveRStackT *,
-		  TableP));
-extern void			types_compute_param_from_trans
-	PROTO_S ((TypeTupleP, TypeNTransP, TypeNTransP, TypeTupleP));
-extern BoolT			types_check_shadowing
-	PROTO_S ((TypeTupleP, ScopeStackP, struct RuleT *));
-extern void			types_iter_for_table
-	PROTO_S ((TypeTupleP, void (*) (EntryP, GenericP), GenericP));
-extern void			types_destroy
-	PROTO_S ((TypeTupleP));
+void	types_init(TypeTupleP);
+void	types_copy(TypeTupleP, TypeTupleP);
+void	types_copy_and_translate(TypeTupleP, TypeTupleP, TypeTransP, TableP);
+void	types_append_copy(TypeTupleP, TypeTupleP);
+void	types_translate(TypeTupleP, TypeBTransP);
+void	types_renumber(TypeTupleP, TypeNTransP);
+void	types_assign(TypeTupleP, TypeTupleP);
+extern EntryP			types_find_name_type(TypeTupleP, EntryP, BoolT *);
+BoolT	types_mutated(TypeTupleP, EntryP);
+BoolT	types_compute_mutations(TypeTupleP, TypeTupleP, TypeTupleP);
+BoolT	types_compute_assign_mutations(TypeTupleP, TypeTupleP);
+void	types_propogate_mutations(TypeTupleP, TypeTupleP);
+BoolT	types_contains(TypeTupleP, EntryP);
+BoolT	types_contains_names(TypeTupleP);
+BoolT	types_contains_references(TypeTupleP);
+void	types_make_references(TypeTupleP, TypeTupleP);
+BoolT	types_intersect(TypeTupleP, TypeTupleP);
+void	types_inplace_intersection(TypeTupleP, TypeTupleP);
+void	types_compute_intersection(TypeTupleP, TypeTupleP, TypeTupleP);
+extern CmpT			types_compare(TypeTupleP, TypeTupleP);
+BoolT	types_equal(TypeTupleP, TypeTupleP);
+BoolT	types_equal_zero_tuple(TypeTupleP);
+BoolT	types_equal_names(TypeTupleP, TypeTupleP);
+BoolT	types_equal_numbers(TypeTupleP, TypeTupleP);
+void	types_add_name_and_type(TypeTupleP, EntryP, EntryP, BoolT);
+void	types_add_name_and_type_var(TypeTupleP, EntryP, EntryP);
+BoolT	types_add_type(TypeTupleP, TableP, NStringP, BoolT);
+void	types_add_name(TypeTupleP, TableP, NStringP, BoolT);
+BoolT	types_add_typed_name(TypeTupleP, TableP, NStringP, NStringP, BoolT);
+void	types_add_name_entry(TypeTupleP, EntryP);
+void	types_add_type_entry(TypeTupleP, EntryP, BoolT);
+void	types_add_new_names(TypeTupleP, TypeTupleP, EntryP);
+BoolT	types_disjoint_names(TypeTupleP);
+BoolT	types_resolve(TypeTupleP, TypeTupleP, TypeTupleP,
+		  void (*) (KeyP, KeyP, unsigned), KeyP, unsigned);
+BoolT	types_check_undefined(TypeTupleP, TypeTupleP, TypeTupleP,
+		  void (*) (KeyP, KeyP, unsigned), KeyP, unsigned);
+BoolT	types_fillin_types(TypeTupleP, TypeTupleP);
+BoolT	types_fillin_names(TypeTupleP, TypeTupleP);
+BoolT	types_check_names(TypeTupleP, TypeTupleP);
+void	types_check_used(TypeTupleP, void (*) (GenericP, EntryP), GenericP);
+void	types_unlink_used(TypeTupleP, TypeTupleP);
+void	types_unlink_unused(TypeTupleP, struct AltT *);
+void	types_compute_formal_renaming(TypeTupleP, TypeRTransP);
+void	types_compute_formal_inlining(TypeTupleP, TypeTupleP, TypeRTransP,
+		struct SaveRStackT *);
+void	types_compute_local_renaming(TypeTupleP, TypeTupleP, TypeRTransP,
+		struct SaveRStackT *, TableP);
+void	types_compute_param_from_trans(TypeTupleP, TypeNTransP, TypeNTransP,
+		TypeTupleP);
+BoolT	types_check_shadowing(TypeTupleP, ScopeStackP, struct RuleT *);
+void	types_iter_for_table(TypeTupleP, void (*) (EntryP, GenericP), GenericP);
+void	types_destroy(TypeTupleP);
 
-extern void			write_type_types
-	PROTO_S ((OStreamP, TypeTupleP));
-extern void			write_type_names
-	PROTO_S ((OStreamP, TypeTupleP, BoolT));
+void	write_type_types(OStreamP, TypeTupleP);
+void	write_type_names(OStreamP, TypeTupleP, BoolT);
 
 /*--------------------------------------------------------------------------*/
 
-extern void			btrans_init
-	PROTO_S ((TypeBTransP));
-extern void			btrans_add_translations
-	PROTO_S ((TypeBTransP, TypeTupleP, TypeTupleP));
-extern void			btrans_add_translation
-	PROTO_S ((TypeBTransP, EntryP, EntryP));
-extern void			btrans_generate_names
-	PROTO_S ((TypeBTransP, TypeTupleP, TableP));
-extern void			btrans_regenerate_names
-	PROTO_S ((TypeBTransP, TypeTupleP));
-extern struct ItemT	       *btrans_generate_non_pred_names
-	PROTO_S ((TypeBTransP, TypeTupleP, TypeTupleP, EntryP, TableP));
-extern struct ItemT	       *btrans_regen_non_pred_names
-	PROTO_S ((TypeBTransP, TypeTupleP, TypeTupleP, TableP));
-extern EntryP			btrans_get_translation
-	PROTO_S ((TypeBTransP, EntryP));
-extern void			btrans_destroy
-	PROTO_S ((TypeBTransP));
+void	btrans_init(TypeBTransP);
+void	btrans_add_translations(TypeBTransP, TypeTupleP, TypeTupleP);
+void	btrans_add_translation(TypeBTransP, EntryP, EntryP);
+void	btrans_generate_names(TypeBTransP, TypeTupleP, TableP);
+void	btrans_regenerate_names(TypeBTransP, TypeTupleP);
+struct ItemT *btrans_generate_non_pred_names
+		(TypeBTransP, TypeTupleP, TypeTupleP, EntryP, TableP);
+struct ItemT *btrans_regen_non_pred_names
+		(TypeBTransP, TypeTupleP, TypeTupleP, TableP);
+EntryP btrans_get_translation(TypeBTransP, EntryP);
+void	btrans_destroy(TypeBTransP);
 
 /*--------------------------------------------------------------------------*/
 
-extern void			rtrans_init
-	PROTO_S ((TypeRTransP));
-extern void			rtrans_add_translation
-	PROTO_S ((TypeRTransP, EntryP, EntryP, EntryP, BoolT));
-extern EntryP			rtrans_get_translation
-	PROTO_S ((TypeRTransP, EntryP, EntryP *, BoolT *));
-extern void			rtrans_apply_for_non_locals
-	PROTO_S ((TypeRTransP, void (*) (EntryP, EntryP, GenericP), GenericP));
-extern void			rtrans_destroy
-	PROTO_S ((TypeRTransP));
+void	rtrans_init(TypeRTransP);
+void	rtrans_add_translation(TypeRTransP, EntryP, EntryP, EntryP, BoolT);
+EntryP	rtrans_get_translation(TypeRTransP, EntryP, EntryP *, BoolT *);
+void	rtrans_apply_for_non_locals(TypeRTransP,
+		void (*) (EntryP, EntryP, GenericP), GenericP);
+void	rtrans_destroy(TypeRTransP);
 
 /*--------------------------------------------------------------------------*/
 
-extern void			trans_init
-	PROTO_S ((TypeTransP, TypeTupleP, TypeTupleP, struct AltT *));
-extern void			trans_add_translations
-	PROTO_S ((TypeTransP, TypeTupleP, TypeTupleP));
-extern void			trans_add_translation
-	PROTO_S ((TypeTransP, EntryP, EntryP));
-extern void			trans_save_state
-	PROTO_S ((TypeTransP, SaveTransP));
-extern EntryP			trans_get_translation
-	PROTO_S ((TypeTransP, EntryP));
-extern void			trans_restore_state
-	PROTO_S ((TypeTransP, SaveTransP));
-extern void			trans_destroy
-	PROTO_S ((TypeTransP));
+void	trans_init(TypeTransP, TypeTupleP, TypeTupleP, struct AltT *);
+void	trans_add_translations(TypeTransP, TypeTupleP, TypeTupleP);
+void	trans_add_translation(TypeTransP, EntryP, EntryP);
+void	trans_save_state(TypeTransP, SaveTransP);
+EntryP	trans_get_translation(TypeTransP, EntryP);
+void	trans_restore_state(TypeTransP, SaveTransP);
+void	trans_destroy(TypeTransP);
 
 /*--------------------------------------------------------------------------*/
 
-extern void			ntrans_init
-	PROTO_S ((TypeNTransP));
-extern void			ntrans_save_state
-	PROTO_S ((TypeNTransP, SaveNTransP));
-extern unsigned			ntrans_get_translation
-	PROTO_S ((TypeNTransP, EntryP));
-extern EntryP			ntrans_get_indirect_translation
-	PROTO_S ((TypeNTransP, TypeNTransP, EntryP));
-extern void			ntrans_restore_state
-	PROTO_S ((TypeNTransP, SaveNTransP));
-extern void			ntrans_destroy
-	PROTO_S ((TypeNTransP));
+void	ntrans_init(TypeNTransP);
+void	ntrans_save_state(TypeNTransP, SaveNTransP);
+unsigned ntrans_get_translation(TypeNTransP, EntryP);
+EntryP	ntrans_get_indirect_translation(TypeNTransP, TypeNTransP, EntryP);
+void	ntrans_restore_state(TypeNTransP, SaveNTransP);
+void	ntrans_destroy(TypeNTransP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -337,10 +261,3 @@ extern void			ntrans_destroy
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_TYPES) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

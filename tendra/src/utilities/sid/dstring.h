@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** dstring.h --- String manipulation.
@@ -279,8 +279,7 @@
  ** Exceptions:
  *
  * This function deallocates the contents of the specified dstring.
- *
- **** Change log:*/
+ */
 
 /****************************************************************************/
 
@@ -295,74 +294,47 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct NStringT {
-    unsigned			length;
-    CStringP			contents;
+	unsigned			length;
+	CStringP			contents;
 } NStringT, *NStringP;
 
 typedef struct DStringT {
-    unsigned			length;
-    unsigned			max_length;
-    CStringP			contents;
+	unsigned			length;
+	unsigned			max_length;
+	CStringP			contents;
 } DStringT, *DStringP;
 
 /*--------------------------------------------------------------------------*/
 
-extern void			nstring_init
-	PROTO_S ((NStringP));
-extern void			nstring_init_length
-	PROTO_S ((NStringP, unsigned));
-extern void			nstring_assign
-	PROTO_S ((NStringP, NStringP));
-extern void			nstring_copy_cstring
-	PROTO_S ((NStringP, CStringP));
-extern void			nstring_insert_cstring
-	PROTO_S ((NStringP, CStringP));
-extern void			nstring_copy
-	PROTO_S ((NStringP, NStringP));
-extern CStringP			nstring_to_cstring
-	PROTO_S ((NStringP));
-extern unsigned			nstring_hash_value
-	PROTO_S ((NStringP));
-extern unsigned			nstring_length
-	PROTO_S ((NStringP));
-extern CStringP			nstring_contents
-	PROTO_S ((NStringP));
-extern CmpT			nstring_compare
-	PROTO_S ((NStringP, NStringP));
-extern BoolT			nstring_equal
-	PROTO_S ((NStringP, NStringP));
-extern BoolT			nstring_ci_equal
-	PROTO_S ((NStringP, NStringP));
-extern BoolT			nstring_contains
-	PROTO_S ((NStringP, char));
-extern BoolT			nstring_is_prefix
-	PROTO_S ((NStringP, NStringP));
-extern void			nstring_destroy
-	PROTO_S ((NStringP));
+void	nstring_init(NStringP);
+void	nstring_init_length(NStringP, unsigned);
+void	nstring_assign(NStringP, NStringP);
+void	nstring_copy_cstring(NStringP, CStringP);
+void	nstring_insert_cstring(NStringP, CStringP);
+void	nstring_copy(NStringP, NStringP);
+CStringP	nstring_to_cstring(NStringP);
+unsigned	nstring_hash_value(NStringP);
+unsigned	nstring_length(NStringP);
+CStringP	nstring_contents(NStringP);
+CmpT	nstring_compare(NStringP, NStringP);
+BoolT	nstring_equal(NStringP, NStringP);
+BoolT	nstring_ci_equal(NStringP, NStringP);
+BoolT	nstring_contains(NStringP, char);
+BoolT	nstring_is_prefix(NStringP, NStringP);
+void	nstring_destroy(NStringP);
 
-extern void			write_nstring
-	PROTO_S ((OStreamP, NStringP));
+void	write_nstring(OStreamP, NStringP);
 
-extern void			dstring_init
-	PROTO_S ((DStringP));
-extern unsigned			dstring_length
-	PROTO_S ((DStringP));
-extern void			dstring_append_char
-	PROTO_S ((DStringP, char));
-extern void			dstring_append_cstring
-	PROTO_S ((DStringP, CStringP));
-extern void			dstring_append_nstring
-	PROTO_S ((DStringP, NStringP));
-extern BoolT			dstring_last_char_equal
-	PROTO_S ((DStringP, char));
-extern void			dstring_to_nstring
-	PROTO_S ((DStringP, NStringP));
-extern CStringP			dstring_to_cstring
-	PROTO_S ((DStringP));
-extern CStringP			dstring_destroy_to_cstring
-	PROTO_S ((DStringP));
-extern void			dstring_destroy
-	PROTO_S ((DStringP));
+void	dstring_init(DStringP);
+unsigned dstring_length(DStringP);
+void	dstring_append_char(DStringP, char);
+void	dstring_append_cstring(DStringP, CStringP);
+void	dstring_append_nstring(DStringP, NStringP);
+BoolT	dstring_last_char_equal(DStringP, char);
+void	dstring_to_nstring(DStringP, NStringP);
+CStringP dstring_to_cstring(DStringP);
+CStringP dstring_destroy_to_cstring(DStringP);
+void	dstring_destroy(DStringP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -373,9 +345,3 @@ extern void			dstring_destroy
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_DSTRING) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /**** type.h --- Type ADT.
@@ -62,10 +62,7 @@
  **** Commentary:
  *
  * See the file "type.c" for more information.
- *
- **** Change Log:*/
-
-/****************************************************************************/
+ */
 
 #ifndef H_TYPE
 #define H_TYPE
@@ -77,27 +74,20 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct TypeT {
-    GenericP			assign_code;
-    GenericP			param_assign_code;
-    GenericP			result_assign_code;
+	GenericP			assign_code;
+	GenericP			param_assign_code;
+	GenericP			result_assign_code;
 } TypeT, *TypeP;
 
 /*--------------------------------------------------------------------------*/
 
-extern TypeP			type_create
-	PROTO_S ((void));
-extern GenericP			type_get_assign_code
-	PROTO_S ((TypeP));
-extern void			type_set_assign_code
-	PROTO_S ((TypeP, GenericP));
-extern GenericP			type_get_param_assign_code
-	PROTO_S ((TypeP));
-extern void			type_set_param_assign_code
-	PROTO_S ((TypeP, GenericP));
-extern GenericP			type_get_result_assign_code
-	PROTO_S ((TypeP));
-extern void			type_set_result_assign_code
-	PROTO_S ((TypeP, GenericP));
+TypeP type_create(void);
+GenericP type_get_assign_code(TypeP);
+void	type_set_assign_code(TypeP, GenericP);
+GenericP type_get_param_assign_code(TypeP);
+void	type_set_param_assign_code(TypeP, GenericP);
+GenericP type_get_result_assign_code(TypeP);
+void	type_set_result_assign_code(TypeP, GenericP);
 
 /*--------------------------------------------------------------------------*/
 
@@ -111,10 +101,3 @@ extern void			type_set_result_assign_code
 #endif /* defined (FS_FAST) */
 
 #endif /* !defined (H_TYPE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.ten15.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  *   $TenDRA$
-*/
+ */
 
 
 /**** istream.c --- Input stream handling.
@@ -63,8 +63,7 @@
  *
  * This file implements the input stream facility specified in the file
  * "istream.h".  See that file for more details.
- *
- **** Change Log:*/
+ */
 
 /****************************************************************************/
 
@@ -85,14 +84,14 @@ ExceptionP XX_istream_read_error = EXCEPTION ("error reading from stream");
 static char istream_input_buffer [ISTREAM_BUFSIZE];
 
 static IStreamT		istream_input_1 = {
-    NIL (FILE *),
-    &(istream_input_buffer [0]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE - 1]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE]),
-    &(istream_input_buffer [ISTREAM_BUFSIZE]),
-    1,
-    "<stdin>",
-    FALSE
+	NIL (FILE *),
+	&(istream_input_buffer [0]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE - 1]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE]),
+	&(istream_input_buffer [ISTREAM_BUFSIZE]),
+	1,
+	"<stdin>",
+	FALSE
 };
 
 IStreamT	 *const istream_input = &istream_input_1;
@@ -100,216 +99,202 @@ IStreamT	 *const istream_input = &istream_input_1;
 /*--------------------------------------------------------------------------*/
 
 static IStreamStatusT
-istream_read_hex_char PROTO_N ((istream, c_ref))
-		      PROTO_T (IStreamP istream X
-			       char    *c_ref)
+istream_read_hex_char(IStreamP istream, char *c_ref)
 {
-    int value;
-    int tmp;
-    char c;
-
+	int value;
+	int tmp;
+	char c;
+	
   redo1:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo1, eof);
-	return (ISTREAM_STAT_SYNTAX_ERROR);
-      case '\r':
-	goto redo1;
-      case '\n':
-	istream_inc_line (istream);
-	return (ISTREAM_STAT_SYNTAX_ERROR);
-      default:
-	if (((value = syntax_value (c)) == SYNTAX_NO_VALUE) || (value >= 16)) {
-	    return (ISTREAM_STAT_SYNTAX_ERROR);
+	switch (c = ISTREAM_READ_CHAR (istream)) {
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo1, eof);
+		return (ISTREAM_STAT_SYNTAX_ERROR);
+	case '\r':
+		goto redo1;
+	case '\n':
+		istream_inc_line (istream);
+		return (ISTREAM_STAT_SYNTAX_ERROR);
+	default:
+		if (((value = syntax_value (c)) == SYNTAX_NO_VALUE) || (value >= 16)) {
+			return (ISTREAM_STAT_SYNTAX_ERROR);
+		}
+		tmp = value;
+		break;
 	}
-	tmp = value;
-	break;
-    }
   redo2:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo2, eof);
-	return (ISTREAM_STAT_SYNTAX_ERROR);
-      case '\r':
-	goto redo2;
-      case '\n':
-	istream_inc_line (istream);
-	return (ISTREAM_STAT_SYNTAX_ERROR);
-      default:
-	if (((value = syntax_value (c)) == SYNTAX_NO_VALUE) || (value >= 16)) {
-	    return (ISTREAM_STAT_SYNTAX_ERROR);
+	switch (c = ISTREAM_READ_CHAR (istream)) {
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo2, eof);
+		return (ISTREAM_STAT_SYNTAX_ERROR);
+	case '\r':
+		goto redo2;
+	case '\n':
+		istream_inc_line (istream);
+		return (ISTREAM_STAT_SYNTAX_ERROR);
+	default:
+		if (((value = syntax_value (c)) == SYNTAX_NO_VALUE) || (value >= 16)) {
+			return (ISTREAM_STAT_SYNTAX_ERROR);
+		}
+		break;
 	}
-	break;
-    }
-    *c_ref = (char) ((tmp * 16) + value);
-    return (ISTREAM_STAT_READ_CHAR);
+	*c_ref = (char) ((tmp * 16) + value);
+	return (ISTREAM_STAT_READ_CHAR);
   eof:
-    return (ISTREAM_STAT_SYNTAX_ERROR);
+	return (ISTREAM_STAT_SYNTAX_ERROR);
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-istream_setup PROTO_Z ()
+istream_setup(void)
 {
-    istream_input_1.file = stdin;
+	istream_input_1.file = stdin;
 }
 
 #ifdef FS_FAST
 #undef istream_init
 #endif /* defined (FS_FAST) */
 void
-istream_init PROTO_N ((istream))
-	     PROTO_T (IStreamP istream)
+istream_init(IStreamP istream)
 {
-    istream->name = NIL (CStringP);
+	istream->name = NIL (CStringP);
 }
 #ifdef FS_FAST
 #define istream_init(is) ((is)->name = NIL (CStringP))
 #endif /* defined (FS_FAST) */
 
 BoolT
-istream_open PROTO_N ((istream, name))
-	     PROTO_T (IStreamP istream X
-		      CStringP name)
+istream_open(IStreamP istream, CStringP name)
 {
-    if ((istream->file = fopen (name, "r")) == NIL (FILE *)) {
-	return (FALSE);
-    }
-    istream->buffer  = ALLOCATE_VECTOR (char, ISTREAM_BUFSIZE);
-    istream->limit   = &(istream->buffer [ISTREAM_BUFSIZE]);
-    istream->line    = 1;
-    istream->name    = name;
-    X__istream_fill_buffer (istream);
-    return (TRUE);
+	if ((istream->file = fopen (name, "r")) == NIL (FILE *)) {
+		return (FALSE);
+	}
+	istream->buffer  = ALLOCATE_VECTOR (char, ISTREAM_BUFSIZE);
+	istream->limit   = &(istream->buffer [ISTREAM_BUFSIZE]);
+	istream->line    = 1;
+	istream->name    = name;
+	X__istream_fill_buffer (istream);
+	return (TRUE);
 }
 
 void
-istream_assign PROTO_N ((to, from))
-	       PROTO_T (IStreamP to X
-			IStreamP from)
+istream_assign(IStreamP to, IStreamP from)
 {
-    to->file      = from->file;
-    to->buffer    = from->buffer;
-    to->current   = from->current;
-    to->end       = from->end;
-    to->limit     = from->limit;
-    to->line      = from->line;
-    to->name      = from->name;
-    to->read_last = from->read_last;
+	to->file      = from->file;
+	to->buffer    = from->buffer;
+	to->current   = from->current;
+	to->end       = from->end;
+	to->limit     = from->limit;
+	to->line      = from->line;
+	to->name      = from->name;
+	to->read_last = from->read_last;
 }
 
 #ifdef FS_FAST
 #undef istream_is_open
 #endif /* defined (FS_FAST) */
 BoolT
-istream_is_open PROTO_N ((istream))
-		PROTO_T (IStreamP istream)
+istream_is_open(IStreamP istream)
 {
-    return (istream->name != NIL (CStringP));
+	return (istream->name != NIL (CStringP));
 }
 #ifdef FS_FAST
 #define istream_is_open(is) ((is)->name != NIL (CStringP))
 #endif /* defined (FS_FAST) */
 
 BoolT
-istream_read_char PROTO_N ((istream, c_ref))
-		  PROTO_T (IStreamP istream X
-			   char    *c_ref)
+istream_read_char(IStreamP istream, char *c_ref)
 {
-    char c;
-
+	char c;
+	
   redo:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
-      case '\r':
-	goto redo;
-      case '\n':
-	istream_inc_line (istream);
-	break;
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo, eof);
-	break;
-      default:
-	break;
-    }
-    *c_ref = c;
-    return (TRUE);
+	switch (c = ISTREAM_READ_CHAR (istream)) {
+	case '\r':
+		goto redo;
+	case '\n':
+		istream_inc_line (istream);
+		break;
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo, eof);
+		break;
+	default:
+		break;
+	}
+	*c_ref = c;
+	return (TRUE);
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 BoolT
-istream_peek_char PROTO_N ((istream, c_ref))
-		  PROTO_T (IStreamP istream X
-			   char    *c_ref)
+istream_peek_char(IStreamP istream, char *c_ref)
 {
-    char c;
-
+	char c;
+	
   redo:
-    switch (c = ISTREAM_PEEK_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo, eof);
-	break;
-      default:
-	break;
-    }
-    *c_ref = c;
-    return (TRUE);
+	switch (c = ISTREAM_PEEK_CHAR (istream)) {
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo, eof);
+		break;
+	default:
+		break;
+	}
+	*c_ref = c;
+	return (TRUE);
   eof:
-    return (FALSE);
+	return (FALSE);
 }
 
 IStreamStatusT
-istream_read_escaped_char PROTO_N ((istream, c_ref))
-			  PROTO_T (IStreamP istream X
-				   char    *c_ref)
+istream_read_escaped_char(IStreamP istream,
+						  char *c_ref)
 {
-    char c;
-
+	char c;
+	
   redo:
-    switch (c = ISTREAM_READ_CHAR (istream)) {
-      case '\0':
-	ISTREAM_HANDLE_NULL (istream, redo, eof);
-	*c_ref = c;
-	return (ISTREAM_STAT_READ_CHAR);
-      case '\r':
-	goto redo;
-      case '\n':
-	istream_inc_line (istream);
-	return (ISTREAM_STAT_NO_CHAR);
-      case '0':
-	*c_ref = '\0';
-	return (ISTREAM_STAT_READ_CHAR);
-      case 'f': case 'F':
-	*c_ref = '\f';
-	return (ISTREAM_STAT_READ_CHAR);
-      case 'n': case 'N':
-	*c_ref = '\n';
-	return (ISTREAM_STAT_READ_CHAR);
-      case 'r': case 'R':
-	*c_ref = '\r';
-	return (ISTREAM_STAT_READ_CHAR);
-      case 't': case 'T':
-	*c_ref = '\t';
-	return (ISTREAM_STAT_READ_CHAR);
-      case 'x': case 'X':
-	return (istream_read_hex_char (istream, c_ref));
-      default:
-	*c_ref = c;
-	return (ISTREAM_STAT_READ_CHAR);
-    }
+	switch (c = ISTREAM_READ_CHAR (istream)) {
+	case '\0':
+		ISTREAM_HANDLE_NULL (istream, redo, eof);
+		*c_ref = c;
+		return (ISTREAM_STAT_READ_CHAR);
+	case '\r':
+		goto redo;
+	case '\n':
+		istream_inc_line (istream);
+		return (ISTREAM_STAT_NO_CHAR);
+	case '0':
+		*c_ref = '\0';
+		return (ISTREAM_STAT_READ_CHAR);
+	case 'f': case 'F':
+		*c_ref = '\f';
+		return (ISTREAM_STAT_READ_CHAR);
+	case 'n': case 'N':
+		*c_ref = '\n';
+		return (ISTREAM_STAT_READ_CHAR);
+	case 'r': case 'R':
+		*c_ref = '\r';
+		return (ISTREAM_STAT_READ_CHAR);
+	case 't': case 'T':
+		*c_ref = '\t';
+		return (ISTREAM_STAT_READ_CHAR);
+	case 'x': case 'X':
+		return (istream_read_hex_char (istream, c_ref));
+	default:
+		*c_ref = c;
+		return (ISTREAM_STAT_READ_CHAR);
+	}
   eof:
-    return (ISTREAM_STAT_SYNTAX_ERROR);
+	return (ISTREAM_STAT_SYNTAX_ERROR);
 }
 
 #ifdef FS_FAST
 #undef istream_inc_line
 #endif /* defined (FS_FAST) */
 void
-istream_inc_line PROTO_N ((istream))
-		 PROTO_T (IStreamP istream)
+istream_inc_line(IStreamP istream)
 {
-    istream->line ++;
+	istream->line ++;
 }
 #ifdef FS_FAST
 #define istream_inc_line(is) ((is)->line ++)
@@ -319,10 +304,9 @@ istream_inc_line PROTO_N ((istream))
 #undef istream_line
 #endif /* defined (FS_FAST) */
 unsigned
-istream_line PROTO_N ((istream))
-	     PROTO_T (IStreamP istream)
+istream_line(IStreamP istream)
 {
-    return (istream->line);
+	return (istream->line);
 }
 #ifdef FS_FAST
 #define istream_line(is) ((is)->line)
@@ -332,43 +316,40 @@ istream_line PROTO_N ((istream))
 #undef istream_name
 #endif /* defined (FS_FAST) */
 CStringP
-istream_name PROTO_N ((istream))
-	     PROTO_T (IStreamP istream)
+istream_name(IStreamP istream)
 {
-    return (istream->name);
+	return (istream->name);
 }
 #ifdef FS_FAST
 #define istream_name(is) ((is)->name)
 #endif /* defined (FS_FAST) */
 
 void
-istream_close PROTO_N ((istream))
-	      PROTO_T (IStreamP istream)
+istream_close(IStreamP istream)
 {
-    (void) fclose (istream->file);
-    if (istream != istream_input) {
-	DEALLOCATE (istream->buffer);
-    }
-    istream_init (istream);
+	(void) fclose (istream->file);
+	if (istream != istream_input) {
+		DEALLOCATE (istream->buffer);
+	}
+	istream_init (istream);
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-X__istream_fill_buffer PROTO_N ((istream))
-		       PROTO_T (IStreamP istream)
+X__istream_fill_buffer(IStreamP istream)
 {
-    SizeT bytes = fread ((GenericP) (istream->buffer), sizeof (char),
-			 (SizeT) (ISTREAM_BUFSIZE - 1), istream->file);
-
-    if ((bytes == (SizeT) 0) && (ferror (istream->file))) {
-	CStringP name = cstring_duplicate (istream->name);
-
-	THROW_VALUE (XX_istream_read_error, name);
-	UNREACHED;
-    }
-    istream->current   = istream->buffer;
-    istream->end       = (istream->current + bytes);
-    istream->read_last = FALSE;
-    *(istream->end) ++ = '\0';
+	SizeT bytes = fread ((GenericP) (istream->buffer), sizeof (char),
+						 (SizeT) (ISTREAM_BUFSIZE - 1), istream->file);
+	
+	if ((bytes == (SizeT) 0) && (ferror (istream->file))) {
+		CStringP name = cstring_duplicate (istream->name);
+		
+		THROW_VALUE (XX_istream_read_error, name);
+		UNREACHED;
+	}
+	istream->current   = istream->buffer;
+	istream->end       = (istream->current + bytes);
+	istream->read_last = FALSE;
+	*(istream->end) ++ = '\0';
 }
