@@ -715,7 +715,7 @@ lookup_string(char *s)
 	if (a == 'E' && b == 'D') return (&environ_dir);
 	if (a == 'F' && b == 'N') return (&final_name);
 	if (a == 'M' && b == 'N') return (&machine_name);
-	if (a == 'P' && b == 'N') return (&progname);
+	if (a == 'P' && b == 'N') return (char **)(&progname);
 	if (a == 'T' && b == 'D') return (&temporary_dir);
 	if (a == 'V' && b == 'F') return (&version_flag);
 	if (a == 'W' && b == 'D') return (&workdir);
