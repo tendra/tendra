@@ -255,7 +255,7 @@ static ArgListT cmdl_opts[] = {
 	AP_OPT_EMPTY	(progtstamp,	'n', NULL, opt_progtstamp),
 	AP_OPT_SET		(preproc_input,	'p', NULL, &preproc_input),
 	AP_OPT_SET		(restrict_use,	'r', NULL, &restrict_use),
-	AP_OPT_SET		(allow_longlong,'r', NULL, &allow_long_long),
+	AP_OPT_SET		(allow_longlong,'t', NULL, &allow_long_long),
 	AP_OPT_SET		(unique_names,	'u', NULL, &unique_names),
 	AP_OPT_EMPTY	(verbose,		'v', NULL, opt_verbose),
 	AP_OPT_EMPTY	(nowarns,		'w', NULL, opt_nowarns),
