@@ -68,7 +68,8 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
-static filename *apply_unjoin PROTO_S ((filename *, int));
+
+static filename *apply_unjoin (filename *, int);
 
 
 /*
