@@ -71,6 +71,9 @@ clean:
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
 
+cleandir: .PHONY
+	${REMOVE} -r ${OBJ_SDIR}
+
 install:
 .if defined(API)
 .if !exists(${INSTALL_DIR}/lib/building/${API}.api)
