@@ -42,13 +42,13 @@ ARGS_MKDIR?=	-p
 # Binaries
 
 .if ${MACH_CPU} == "680x0"
-BIN_GAS         /usr/local/bin/gas
-BIN_LD          /bin/ld
+BIN_GAS?=	/usr/local/bin/gas
+BIN_LD?=	/bin/ld
 .endif
 
 .if ${MACH_CPU} == "sparc"
-BIN_AS          /bin/as
-BIN_LD          /bin/ld
+BIN_AS?=	/bin/as
+BIN_LD?=	/bin/ld
 .endif
 
 
