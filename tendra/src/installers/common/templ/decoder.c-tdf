@@ -198,7 +198,7 @@ p%PE, %
 @endif
     n = small_dtdfint ();
     temp = new_%SN (n);
-    for (i = 0 ; i < n; i++) {
+    for (i = 0; i < n; i++) {
 	%SSN e;
 @if sort.sub.special
 	e = hold_check (d_%SSN ());
