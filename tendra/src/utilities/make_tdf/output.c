@@ -73,17 +73,6 @@
 
 
 /*
- *    DO THE INITIAL SEGMENTS OF TWO STRINGS MATCH
- *
- *    This macro gives a convenient method for testing whether the first
- *    C characters of the strings A and B are equal.
- */
-
-#define strneq(A, B, C)\
-	(strncmp ((A), (B), (size_t) (C)) == 0)
-
-
-/*
  *    CURRENT OUTPUT FILE
  *
  *    These variables describe the current output file.
