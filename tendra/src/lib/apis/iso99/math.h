@@ -367,3 +367,27 @@
 +FUNC double nexttoward(double, double);
 +FUNC float nexttowardf(float, float);
 +FUNC long double nexttowardl(long double, long double);
+
+# 7.12.12.1
+
++FUNC double fdim(double, double);
++FUNC float fdimf(float, float);
++FUNC long double fdiml(long double, long double);
+
+# 7.12.12.2
+
++FUNC double fmax(double, double);
++FUNC float fmaxf(float, float);
++FUNC long double fmaxl(long double, long double);
+
+# 7.12.12.3
+
++FUNC double fmin(double, double);
++FUNC float fminf(float, float);
++FUNC long double fminl(long double, long double);
+
+# 7.12.13.1
+
++FUNC double fma(double, double, double);
++FUNC float fmaf(float, float, float);
++FUNC long double fmal(long double, long double, long double);
