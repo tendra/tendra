@@ -2596,7 +2596,7 @@ member-declarator-list : ( p : TYPE, q : BTYPE ) -> () = {
 /*
  *    CLASS MEMBER DECLARATION
  *
- *    This rule describes the class memeber declarations.
+ *    This rule describes the class member declarations.
  */
 
 <declare_member_empty> : ( :BTYPE, :TYPE, :CV ) -> ();
