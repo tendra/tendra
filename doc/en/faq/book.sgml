@@ -37,9 +37,9 @@
         was, until July 2, 2001, the Defense Evaluation and Research
         Agency of the United Kingdom. It has since been split into two
         separate organisations and is now known as <ulink
-        url="http://www.qinetiq.com">QinetiQ</ulink>.
+        url="http://www.qinetiq.com/">QinetiQ</ulink>.
         <acronym>DERA</acronym> was the logical equivalent of the United
-        States' <ulink url="http://www.darpa.mil">DARPA</ulink>. 
+        States' <ulink url="http://www.darpa.mil/">DARPA</ulink>. 
           </para>
         </answer>
 
@@ -168,10 +168,10 @@
         and direct requests to the appropriate place, be it the
         application author, platform vendor, or the TenDRA team. If you
         are unsure of where to go, the <ulink
-        url="http://lists.tendra.org">tendra-help</ulink> list may be a
+        url="http://lists.tendra.org/">tendra-help</ulink> list may be a
         good place to start. Please consult <ulink
-        url="http://www.google.com">Google</ulink> as well as the <ulink
-        url="http://lists.tendra.org">list archives</ulink> before
+        url="http://www.google.com/">Google</ulink> as well as the <ulink
+        url="http://lists.tendra.org/">list archives</ulink> before
         mailing the list. 
           </para>
         </answer>
@@ -282,7 +282,7 @@
         url="http://www.tendra.org/tasks/">task list</ulink> is 
         probably a good idea. See if anything fits your bill, and take
         it up. It is a great idea to subscribe to the <ulink
-        url="http://lists.tendra.org">mailing lists</ulink> to stay
+        url="http://lists.tendra.org/">mailing lists</ulink> to stay
         up-to-date on current developments. Let the developers know
         which are you are interested in contributing to via the
         appropriate list. We always welcome help!
@@ -301,7 +301,7 @@
           <para>Familiarize yourself with the TenDRA source that you
         want to work on, as well as current development. The easiest way
         to 'get in touch' is to be subscribed to the <ulink
-        url="http://lists.tendra.org">mailing lists</ulink> and check out
+        url="http://lists.tendra.org/">mailing lists</ulink> and check out
         the <ulink url="http://www.tendra.org/tasks/">task list</ulink>
         as well. From there, open a dialogue on tendra-dev, and things
         should begin to take shape. We hope to see your contributions
