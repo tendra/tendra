@@ -4,104 +4,140 @@
 
 .include <tendra.base.mk>
 
-# Installation infrastructure framework
+# Installation infrastructure framework. We come after tendra.build.mk.
 
-.if !target(.MAIN)
-.MAIN: all
+# For {ENV, MACH, STARTUP}SUBDIR, a real Makefile should exist in each
+# directory and control should be passed via standard SUBDIR mechanism.
+# At the moment, we have to do all the work here, which is *ugly*.
+
+# This shell function is inlined in rules below. Careful about quoting.
+CONDCREATE= 	@Condcreate() { 					\
+			for dir in $${*} ; do 				\
+				if ${TEST} ! -e $${dir} ; then 		\
+					echo "\# Creating $${dir}/" ; 	\
+					${MKDIR} -p $${dir} ; 		\
+				fi ; 					\
+			done ; 						\
+		} ; Condcreate
+
+# Real workers, mutually exclusive, follow.
+
+.if "${API}" != ""
+#
+# Install API.
+#
+
+# Relative to .OBJDIR.
+CAPIDIR=building/${API}.api
+SAPIDIR=shared/${API}.api
+HAPIDIR=${API}.api
+
+# Absolute target dirs.
+SINSTDIR=${INSTALL_DIR}/lib/include/${SAPIDIR}
+HINSTDIR=${INSTALL_DIR}/lib/include/${HAPIDIR}
+CINSTDIR=${INSTALL_DIR}/lib/${CAPIDIR}
+
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${API} API"
+	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" ;
+. for file in ${:!${ECHO} ${CAPIDIR}/*.c ${CAPIDIR}/M_${API}!:T}
+	${INSTALL} -m 644 ${CAPIDIR}/${file} ${CINSTDIR}/${file}
+. endfor
+. for file in ${:!${ECHO} ${HAPIDIR}/*.h!:T}
+	${INSTALL} -m 644 ${HAPIDIR}/${file} ${HINSTDIR}/${file}
+. endfor
+. if exists(${.OBJDIR}/${SAPIDIR})
+	${CONDCREATE} "${SINSTDIR}" ;
+.  for file in ${:!${ECHO} ${SAPIDIR}/*.h!:T}
+	${INSTALL} -m 644 ${SAPIDIR}/${file} ${SINSTDIR}/${file}
+.  endfor
+. endif
+.elif "${ENVFILE}" != ""
+#
+# Install environment(s).
+#
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${ENVFILE} environments"
+	${CONDCREATE} "${MACH_BASE}/env" ;
+. for entry in ${ENVFILE}
+	${INSTALL} -m 644 ${entry} ${MACH_BASE}/env/${entry}
+. endfor
+.elif "${PROG}" != ""
+#
+# Install a program.
+#
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${PROG}"
+	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
+	${INSTALL} -m 755 ${PROG} ${MACH_BASE}/bin/${PROG}
+. if "${WRAPPER}" != ""
+	${INSTALL} -m 755 ${WRAPPER} ${PUBLIC_BIN}/${PROG}
+. endif
+.elif "${ENVSUBDIR}" != ""
+#
+# Install startup environments. (XXX: seems it's not ever used in tree)
+#
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${ENVSUBDIR} environment directories"
+	${CONDCREATE} "${MACH_BASE}/env" \
+		${ENVSUBDIR:S/^/${MACH_BASE}\/startup\//g}
+. for envsub in ${ENVSUBDIR}
+.  for file in ${:!${ECHO} ${envsub}/*!:T}
+	${INSTALL} -m 644 ${envsub}/${file} ${MACH_BASE}/env/${file}
+.  endfor
+. endfor
+.elif "${STARTUPSUBDIR}" != ""
+#
+# Install additional startup files (?).
+#
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${STARTUPSUBDIR} startup directories"
+	${CONDCREATE} ${STARTUPSUBDIR:S/^/${COMMON_DIR}\/startup\//g}
+. for startsub in ${STARTUPSUBDIR}
+.  for file in ${:!${ECHO} ${startsub}/*!:T}
+	${INSTALL} -m 644 ${startsub}/${file} \
+		${COMMON_DIR}/startup/${startsub}/${file}
+.  endfor
+. endfor
+.elif "${MACHSUBDIR}" != ""
+#
+# Install machine subdirectory data.
+#
+
+# Relative to .CURDIR. XXX: ok?
+IMACH=${MACHSUBDIR}/include
+SMACH=${MACHSUBDIR}/startup
+
+_REALINSTALL: .USE
+	@${ECHO} "# Installing ${MACHSUBDIR} machine directories"
+	${CONDCREATE} "${MACH_BASE}/include" "${MACH_BASE}/startup"
+. for file in ${:!${ECHO} ${IMACH}/*!:T}
+	${INSTALL} -m 644 ${IMACH}/${file} ${MACH_BASE}/include/${file}
+. endfor
+. for file in ${:!${ECHO} ${SMACH}/*!:T}
+	${INSTALL} -m 644 ${SMACH}/${file} ${MACH_BASE}/startup/${file}
+. endfor
+.else
+#
+# Nothing to install.
+#
+_REALINSTALL: .USE
 .endif
 
-.if defined(PROG)
-.if !defined(MAN)
-.if exists(${PROG}.1)
-MAN=    ${PROG}.1
-.endif	# exists(${PROG}.1)
-.endif  # !defined(MAN)
+# Install manual pages, if any. See also tendra.build.mk.
+_MANINSTALL: .USE
+.if "${MAN}" != ""
+	@${ECHO} "# Installing ${MAN} manual pages"
+. for man in ${MAN}
+	${CONDCREATE} "${MAN_DIR}/man${man:E}"
+	${INSTALL} -m 444 ${.CURDIR}/${man} ${MAN_DIR}/man${man:E}/${man}
+. endfor
 .endif
 
-install: _instmanpages
-.if defined(API)
-.if !exists(${INSTALL_DIR}/lib/building/${API}.api)
-	${MKDIR} -p ${INSTALL_DIR}/lib/building/${API}.api
-.endif
-.if !exists(${INSTALL_DIR}/lib/include/${API}.api)
-	${MKDIR} -p ${INSTALL_DIR}/lib/include/${API}.api
-.endif
-	cd ${OBJ_DIR}/${APIS}/building/${API}.api;\
-	for file in M_${API} *.c; do\
-		${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/building/${API}.api/$$file;\
-	done
-	cd ${OBJ_DIR}/${APIS}/include/${API}.api;\
-	for file in *.h; do\
-		${INSTALL} -m 644 $$file ${INSTALL_DIR}/lib/include/${API}.api/$$file;\
-	done
-.endif # API
-.if defined(ENVFILE)
-.if !exists(${MACH_BASE}/env)
-	${MKDIR} -p ${MACH_BASE}/env
-.endif
-	cd ${OBJ_SDIR};
-.for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${OBJ_SDIR}/${entry} ${MACH_BASE}/env/${entry}
-.endfor
-.endif # ENVFILE
-.if defined(PROG)
-	cd ${OBJ_SDIR};
-.if !exists(PUBLIC_BIN)
-	${MKDIR} -p ${PUBLIC_BIN}
-.endif
-.if defined(WRAPPER)
-	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG}.sh ${PUBLIC_BIN}/${PROG}
-.endif
-.if !exists(${MACH_BASE}/bin)
-	${MKDIR} -p ${MACH_BASE}/bin
-.endif
-	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
-.endif # PROG
-# XXX: Very dirty hack...
-.if defined(ENVSUBDIR)
-.if !exists(${MACH_BASE}/env)
-	${MKDIR} -p ${MACH_BASE}/env
-.endif
-.for entry in ${ENVSUBDIR}
-	${MKDIR} -p ${MACH_BASE}/startup/${entry}
-	(cd ${entry} && for file in *;\
-		do ${INSTALL} -m 644 $$file ${MACH_BASE}/env/$$file;\
-		done)
-.endfor
-.endif
-# XXX: Very dirty hack...
-.if defined(STARTUPSUBDIR)
-.if !exists(${COMMON_DIR}/startup)
-	${MKDIR} -p ${COMMON_DIR}/startup
-.endif
-.for entry in ${STARTUPSUBDIR}
-	${MKDIR} -p ${COMMON_DIR}/startup/${entry}
-	(cd ${entry} && for file in *;\
-		do ${INSTALL} -m 644 $$file ${COMMON_DIR}/startup/${entry}/$$file;\
-		done)
-.endfor
-.endif
-.if defined(MACHSUBDIR)
-.if !exists(${MACH_BASE}/include)
-	${MKDIR} -p ${MACH_BASE}/include
-.endif
-.if !exists(${MACH_BASE}/startup)
-	${MKDIR} -p ${MACH_BASE}/startup
-.endif
-	(cd ${MACHSUBDIR}/include && for file in *; do\
-		${INSTALL} -m 644 $$file ${MACH_BASE}/include/$$file;\
-	done)
-	(cd ${MACHSUBDIR}/startup && for file in *; do\
-		${INSTALL} -m 644 $$file ${MACH_BASE}/startup/$$file;\
-	done)
-.endif #MACHSUBDIR
+# Finally, glue all steps together.
 
-_instmanpages: .USE
-.if defined(MAN)
-.for M in ${MAN:O:u}
-.if !exists(${MAN_DIR}/man${M:T:E})
-	${MKDIR} -p ${MAN_DIR}/man${M:T:E}
-.endif
-	${INSTALL} -m 444 ${M} ${MAN_DIR}/man${M:T:E}/${M}
-.endfor
-.endif
+# Make sure subdirs install after we're done.
+.ORDER: _REALINSTALL _MANINSTALL _SUBDIR
+
+# Depending on all not necessary but nice (verify it's not harmful!).
+install: _REALINSTALL _MANINSTALL
