@@ -30,7 +30,7 @@ SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
 	localflags.c machine.c machine_toks.c mark_scope.c me_fns.c misc_c.c\
 	operand.c out.c overlap.c read_fns.c read_sort.c readglob.c\
 	reg_record.c scan2.c spec.c spec_tok.c table_fns.c trans.c translate.c\
-	tv_callees.c unroll.c weights.c xalloc.c\
+	tv_callees.c unroll.c weights.c xalloc.c
 
 .PATH:	${SRC1} ${SRC2} ${SRC3} ${SRC4} ${SRC5} ${SRC6}
 
