@@ -6,7 +6,7 @@ TDFLIB=		target_tok.tl
 CAPSULES=	dep_toks.j map_toks.j except_toks.t var_toks.t
 PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
-.PATH:	${SRC2} ${OBJ_SDIR}
+.PATH:	${SRC2}
 
 basic : sys.j
 	@${ECHO} all done
@@ -21,10 +21,10 @@ var_toks.t : var_toks.j ${SRC2}/var_toks
 	${TCC} -Y${SRC2}/var_toks -Ft -o var_toks.t var_toks.j
 
 sys_toks.j : ${PLTEXT}
-	${TLD} -o ${OBJ_SDIR}/${.TARGET} ${PLTEXT}
+	${TLD} -o ${OBJ_SDIR}/${.TARGET} ${PLTEXT:S/^/${OBJ_SDIR}\//}
 
 sys.j : sys_toks.j
-	${TNC} -t -d -L'.~' sys_toks.j sys.j
+	${TNC} -t -d -L'.~' ${OBJ_SDIR}/sys_toks.j ${OBJ_SDIR}/${.TARGET}
 
 clobber : clean
 	${REMOVE} ${TDFLIB}
