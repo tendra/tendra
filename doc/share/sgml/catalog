@@ -29,6 +29,9 @@ PUBLIC "-//FreeBSD//DOCUMENT DocBook Language Neutral Stylesheet//EN"
 PUBLIC	"-//TenDRA//ENTITIES DocBook Miscellaneous TenDRA Entities//EN"
 	"tendra.ent"
 
+PUBLIC "-//FreeBSD//ENTITIES DocBook Trademark Entities//EN"
+        "trademarks.ent"
+
   -- ...................................................................... --
   -- English specific ..................................................... --
 
