@@ -18,6 +18,11 @@ INSTALL_TARGETS+=	install-bin
 INSTALL_SUB+=		bin
 .endif
 
+.if defined(MKERR_SRC)
+INSTALL_TARGETS+=	install-mkerr
+INSTALL_SUB+=		bin
+.endif
+
 .if defined(STARTUP)
 INSTALL_TARGETS+=	install-startup
 .endif
@@ -147,6 +152,14 @@ install-bin:
 	${BIN_CP} ${INSTALL_FLAGS} \
 		${.OBJDIR}/${PROG} ${INSTALL_PREFIX}/${INSTALL_SUB}
 	${BIN_CHMOD} ${ARGS_CHMOD_BIN} ${INSTALL_PREFIX}/bin/${PROG}
+
+
+# utilities/mkerr
+install-mkerr:
+	${BIN_CP} ${INSTALL_FLAGS} \
+		${.OBJDIR}/${MKERR_SRC:R} ${INSTALL_PREFIX}/${INSTALL_SUB}
+	${BIN_CHMOD} ${ARGS_CHMOD_BIN} ${INSTALL_PREFIX}/bin/${MKERR_SRC:R}
+
 
 # lib/sys: our shared libraries.
 install-shlib:
