@@ -34,6 +34,7 @@
 #pragma TenDRA implicit int type for function return disallow
 /* C99 allows the same type qualifier to occur multiple times. */
 #pragma TenDRA error "dcl_type_cv_dup" off
+#pragma TenDRA error "dcl_type_type_cv" off
 /* Declarations and statements can be mixed freely. */
 #pragma TenDRA error "stmt_dcl_start" off
 /* 6.7.2#2 */
