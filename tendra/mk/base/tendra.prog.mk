@@ -87,6 +87,7 @@ clean-all:
 .endif
 
 obj-dir:
+.if !defined(NO_OBJDIR)
 	@if ! test -d ${OBJ_DIR}/; then \
 		${BIN_MKDIR} ${ARGS_MKDIR} ${OBJ_DIR}; \
 		if ! test -d ${OBJ_DIR}/; then \
@@ -95,6 +96,7 @@ obj-dir:
 		fi; \
 		${BIN_ECHO} "${OBJ_DIR} created for ${.CURDIR}"; \
 	fi
+.endif
 
 make-dir:
 .if defined(MAKEDIR)

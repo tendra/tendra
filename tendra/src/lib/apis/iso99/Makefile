@@ -1,5 +1,8 @@
 # $TenDRA$
 
+# Nothing is actually built in here, so we don't need an object directory.
+NO_OBJDIR=	yes
+
 API=	iso99
 TSPEC_FLAGS=	-t
 
