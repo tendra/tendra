@@ -41,21 +41,22 @@ SGMLFLAGS+=	-D ${.CURDIR}
 
 
 # binaries
-TAR?=		tar
-XARGS?=		xargs
-TEX?=		tex
+BZIP2?=		-9
+BZIP2_CMD?=	bzip2 -qf ${BZIP2}
+CAT?=		cat
+DVIPS?=		dvips
+GZIP?=		-9
+GZIP_CMD?=	gzip -qf ${GZIP}
 LATEX?=		latex
 PDFTEX?=	pdftex
+RM?=		rm
+TAR?=		tar
+TEX?=		tex
 TIDY?=		tidy
 TIDYOPTS?=	-i -m -raw -preserve -f /dev/null ${TIDYFLAGS}
-DVIPS?=		dvips
-GZIP?=	-9
-GZIP_CMD?=	gzip -qf ${GZIP}
-BZIP2?=	-9
-BZIP2_CMD?=	bzip2 -qf ${BZIP2}
-ZIP?=	-9
+XARGS?=		xargs
+ZIP?=		-9
 ZIP_CMD?=	zip -j ${ZIP}
-RM?=		rm
 
 # html-> text conversion
 HTML2TXTOPTS?=	-dump ${HTML2TXTFLAGS}
