@@ -24,4 +24,32 @@
 #
 # $TenDRA$
 #
-+IMPLEMENT "ansi", "signal.h";
+
+# 7.14
+
++SUBSET "_sig_atomic_t" := {
+    +IFNDEF ~building_libs
+    +TYPE (int) ~sig_atomic_t.1 | sig_atomic_t.1;
+    +TYPEDEF ~promote(~sig_atomic_t) __promoted_sig_atomic_t.1;
+    +ELSE
+    +TYPE (int) sig_atomic_t.2 | sig_atomic_t.2;
+    +TYPEDEF ~promote(sig_atomic_t) __promoted_sig_atomic_t.2;
+    +ENDIF
+};
++IFNDEF ~building_libs
++TYPEDEF ~sig_atomic_t sig_atomic_t;
++ENDIF
+
++CONST void (*SIG_DFL)(int);
++CONST void (*SIG_ERR)(int);
++CONST void (*SIG_IGN)(int);
+
++CONST int SIGABRT, SIGFPE, SIGILL, SIGINT, SIGSEGV, SIGTERM;
+
+# 7.14.1.1
+
++FUNC void (*signal(int, void (*)(int)))(int);
+
+# 7.14.2.1
+
++FUNC int raise(int);

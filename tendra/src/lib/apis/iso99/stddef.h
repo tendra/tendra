@@ -24,4 +24,62 @@
 #
 # $TenDRA$
 #
-+IMPLEMENT "ansi", "stddef.h";
+
+# 7.17
+
++SUBSET "_ptrdiff_t" := {
+    +IFNDEF ~building_libs
+    +TYPE (signed) ~ptrdiff_t.1 | ptrdiff_t.1;
+    +TYPEDEF ~promote(~ptrdiff_t) __promoted_ptrdiff_t.1;
+    +ELSE
+    +TYPE (signed) ptrdiff_t.2 | ptrdiff_t.2;
+    +TYPEDEF ~promote(ptrdiff_t) __promoted_ptrdiff_t.2;
+    +ENDIF
+};
++IFNDEF ~building_libs
++TYPEDEF ~ptrdiff_t ptrdiff_t;
++ENDIF
+
++SUBSET "_size_t" := {
+    +IFNDEF ~building_libs
+    +TYPE (unsigned) ~size_t.1 | size_t.1;
+    +TYPEDEF ~promote(~size_t) __promoted_size_t.1;
+    +ELSE
+    +TYPE (unsigned) size_t.2 | size_t.2;
+    +TYPEDEF ~promote(size_t) __promoted_size_t.2;
+    +ENDIF
+};
++SUBSET "size_t" := {
+    +USE "iso99", "stddef.h", "_size_t";
+    +IFNDEF ~building_libs
+    +TYPEDEF ~size_t size_t;
+    +ENDIF
+};
+
++SUBSET "_wchar_t" := {
+    +IFNDEF ~building_libs
+    +TYPE (int) ~wchar_t.1 | wchar_t.1;
+    +TYPEDEF ~promote(~wchar_t) __promoted_wchar_t.1;
+    +ELSE
+    +TYPE (int) wchar_t.2 | wchar_t.2;
+    +TYPEDEF wchar_t ~wchar_t.2;
+    +TYPEDEF ~promote(~wchar_t) __promoted_wchar_t.2;
+    +ENDIF
+};
++SUBSET "wchar_t" := {
+    +USE "iso99", "stddef.h", "_wchar_t";
+    +IFNDEF ~building_libs
+    +TYPEDEF ~wchar_t wchar_t;
+    +ENDIF
+};
+
++SUBSET "null" := {
+    $PROTECT = "";
+    +IFNDEF NULL
+    +DEFINE NULL 0;
+    +ENDIF
+};
+
++TOKEN offsetof # This is tricky
+%% PROC { STRUCT s, TYPE t, MEMBER t : s : m |\
+    TYPE s, MEMBER s : m } EXP const : size_t : %%;

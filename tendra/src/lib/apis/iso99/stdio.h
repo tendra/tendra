@@ -26,18 +26,30 @@
 #
 +USE "ansi", "stdarg.h", "va_list";
 
-+IMPLEMENT "ansi", "stddef.h", "size_t";
-+IMPLEMENT "ansi", "stdio.h", "file";
-+IMPLEMENT "ansi", "stdio.h", "eof";
-+IMPLEMENT "ansi", "stdio.h", "seek_consts";
-+IMPLEMENT "ansi", "stdio.h", "tmp_max";
++IMPLEMENT "iso99", "stddef.h", "size_t";
++IMPLEMENT "iso99", "stddef.h", "null";
 
 # 7.19.1
+
++SUBSET "_file" := {
+    +IFNDEF ~building_libs
+    +TYPE ~FILE.1 | FILE.1;
+    +ELSE
+    +TYPE FILE.2 | FILE.2;
+    +TYPEDEF FILE ~FILE.2;
+    +ENDIF
+};
++IFNDEF ~building_libs
++TYPEDEF ~FILE FILE;
++ENDIF
 
 +TYPE fpos_t;
 +CONST int _IOFBF, _IOLBF, _IONBF;
 +CONST int BUFSIZ;
++CONST int EOF;
 +CONST int FOPEN_MAX, FILENAME_MAX, L_tmpnam;
++CONST int SEEK_CUR, SEEK_END, SEEK_SET;
++CONST int TMP_MAX;
 +EXP FILE *stdin, *stdout, *stderr;
 
 # 7.19.4.1
