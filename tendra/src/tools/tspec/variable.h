@@ -64,6 +64,9 @@
 #ifndef VARIABLE_INCLUDED
 #define VARIABLE_INCLUDED
 
+#ifndef OBJECT_INCLUDED
+#include "object.h"
+#endif
 
 /*
     PROCEDURE DECLARATIONS

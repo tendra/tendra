@@ -64,6 +64,9 @@
 #ifndef MAKEFILE_INCLUDED
 #define MAKEFILE_INCLUDED
 
+#ifndef HASH_INCLUDED
+#include "hash.h"
+#endif
 
 /*
     PROCEDURE DECLARATION

@@ -64,6 +64,9 @@
 #ifndef NAME_INCLUDED
 #define NAME_INCLUDED
 
+#ifndef CONFIG_INCLUDED
+#include "config.h"
+#endif
 
 /*
     INPUT AND OUTPUT DIRECTORIES

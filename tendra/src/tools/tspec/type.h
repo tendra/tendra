@@ -64,6 +64,9 @@
 #ifndef TYPE_INCLUDED
 #define TYPE_INCLUDED
 
+#ifndef OBJECT_INCLUDED
+#include "object.h"
+#endif
 
 /*
     TYPE REPRESENTING A C TYPE

@@ -64,6 +64,9 @@
 #ifndef HASH_INCLUDED
 #define HASH_INCLUDED
 
+#ifndef OBJECT_INCLUDED
+#include "object.h"
+#endif
 
 /*
     TYPE REPRESENTING A HASH TABLE ELEMENT

@@ -64,6 +64,15 @@
 #ifndef PRINT_INCLUDED
 #define PRINT_INCLUDED
 
+#ifndef CONFIG_INCLUDED
+#include "config.h"
+#endif
+#ifndef OBJECT_INCLUDED
+#include "object.h"
+#endif
+#ifndef TYPE_INCLUDED
+#include "type.h"
+#endif
 
 /*
     PROCEDURE DECLARATIONS

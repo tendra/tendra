@@ -64,6 +64,9 @@
 #ifndef OBJECT_INCLUDED
 #define OBJECT_INCLUDED
 
+#ifndef CONFIG_INCLUDED
+#include "config.h"
+#endif
 
 /*
     FORWARD STRUCTURE DECLARATIONS

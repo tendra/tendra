@@ -64,6 +64,9 @@
 #ifndef INDEX_INCLUDED
 #define INDEX_INCLUDED
 
+#ifndef OBJECT_INCLUDED
+#include "object.h"
+#endif
 
 /*
     PROCEDURE DECLARATION

@@ -64,6 +64,7 @@
 #ifndef LEX_INCLUDED
 #define LEX_INCLUDED
 
+#include <stdio.h>
 
 /*
     PROCEDURE DECLARATIONS

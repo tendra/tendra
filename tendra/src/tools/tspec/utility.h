@@ -64,6 +64,9 @@
 #ifndef UTILITY_INCLUDED
 #define UTILITY_INCLUDED
 
+#ifndef CONFIG_INCLUDED
+#include "config.h"
+#endif
 
 /*
     PROCEDURE DECLARATIONS
