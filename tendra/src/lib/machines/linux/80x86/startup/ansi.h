@@ -7,6 +7,7 @@
 #pragma TenDRA no external declaration allow
 #pragma TenDRA incompatible type qualifier allow
 #pragma TenDRA unknown directive allow
+#pragma TenDRA error "cpp_replace_arg_empty" off
 
 /*
  * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
