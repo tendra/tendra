@@ -52,6 +52,8 @@ STRIP= :
 RANLIB=		ranlib
 EXEC_SUFFIX=
 
+BUILD_ERRORS=	${BASE_DIR}/src/build/BUILD_ERRORS
+
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)
 SID?=	${OBJ_DIR}/src/utilities/sid/sid
 .else
