@@ -1,5 +1,5 @@
 # $Id$
 
-SUBDIR = tuname
+SUBDIR = sid tuname
 
 .include "Makefile.inc"
