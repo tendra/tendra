@@ -64,6 +64,7 @@
 #ifndef ENVIRON_INCLUDED
 #define ENVIRON_INCLUDED
 
+#include "utility.h"
 
 /*
     PROCEDURE DECLARATIONS
@@ -72,9 +73,37 @@
 */
 
 extern void	read_env(char *);
-extern int	read_env_aux(char *);
+extern int	read_env_aux(char *, hashtable *);
+extern char	*dereference_var(char *, char*, hashtable *, char *, int);
 extern void	find_envpath(void);
+extern void	reconcile_envopts(void);
 extern void	show_envpath(void);
 
+
+#define TCC_TBLSIZE 119
+#define TCC_KEYSIZE  27
+
+hashtable *environ_hashtable;	/* global set of env keys/values */
+int environ_count;		/* how many -Y env loads are attempted */
+
+
+/*
+ * CHARACTER TYPES
+ *
+ * These macros identify various character types.
+ */
+
+#define is_alphanum(X)  (((X) >= 'A' && (X) <= 'Z') ||\
+			 ((X) >= '0' && (X) <= '9') ||\
+			 ((X) == '_'))
+#define is_whitespace(X)        ((X) == ' ' || (X) == '\t')
+#define is_quote(X)             ((X) == '"')
+#define is_newline(X)           ((X) == '\n')
+
+
+/*
+ * Use variable substitution for each env line read in
+ */
+#define ENVIRONSUB
 
 #endif

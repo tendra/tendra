@@ -173,6 +173,44 @@ insert_item(char *s, list *p)
 
 
 /*
+ *  Insert a command item in ascending order, based on their rank.
+ *  Items with a lower rank value are executed first.
+ *
+ */
+
+list*
+insert_inorder(ordered_node* indata, list *inlst)
+{
+	list *head = inlst;
+	list *curr = inlst;
+	list *newlst  = new_list();
+	list *prev = newlst;
+	list *tmp = inlst;
+
+	newlst->item = indata;
+	newlst->next = NULL;
+
+	if (inlst == NULL){
+	        return newlst;
+	}
+
+	if (indata->rank < ((ordered_node*)curr->item)->rank){
+	        newlst->next = inlst;
+	        return newlst;
+	}
+
+	while (curr != NULL &&
+	           ((ordered_node*)curr->item)->rank <= indata->rank) {
+	        prev = curr;
+	        curr = curr->next;
+	}
+	prev->next = newlst;
+	newlst->next = curr;
+	return head;
+}
+
+
+/*
     CONVERT A STRING TO A LIST
 
     This routine converts a string to a list by breaking it at all white

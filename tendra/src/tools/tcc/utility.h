@@ -76,6 +76,31 @@ extern char *buffer;
 
 
 /*
+ * Hash implementation
+ */
+
+typedef struct _htnode {
+	struct _htnode *next;
+	char *val;
+	char *key;
+	unsigned int  flag;
+	char *file;
+	int  line_num;
+} htnode;
+
+#define TCCENV	0x01U
+#define USR	0x02U
+#define READ	0x04U
+
+typedef struct _hashtable {
+	htnode **node;
+	int tblsize;
+	int keysize; /* max length of key to hash */
+	int (*hashfcn)(char*, int, int);
+} hashtable;
+
+
+/*
     PROCEDURE DECLARATIONS
 
     These routines are concerned with error reporting and memory
@@ -84,10 +109,17 @@ extern char *buffer;
 
 extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
+extern char* find_path_subst(char *);
+extern int hash(char *, int, int);
+extern hashtable *init_table(int, int, int (*fcn)(char *, int, int));
+extern htnode *lookup_table(hashtable *, char *);
 extern pointer xalloc(int);
 extern pointer xrealloc(pointer, int);
+extern char *string_append(char *, char *, char);
 extern char *string_copy(char *);
 extern char *string_concat(char *, char *);
+extern htnode *update_table(hashtable *, char *, char *, unsigned int, char *,
+			    int);
 
 
 /*
@@ -98,6 +130,25 @@ extern char *string_concat(char *, char *);
 
 extern int exit_status;
 extern char *progname;
+
+
+/*
+ * SUBSTITUTION VARIABLES
+ *
+ * This is Table 5.
+ */
+
+static char *PATH_SUBS[] = {
+	"TENDRA_MACHDIR",
+	"TENDRA_BINDIR",
+	"TENDRA_ENVDIR",
+	"TENDRA_LIBDIR",
+	"TENDRA_INCLDIR",
+	"TENDRA_STARTUPDIR",
+	"TENDRA_TMPDIR",
+	"TENDRA_BASEDIR",
+	NULL
+};
 
 
 /*

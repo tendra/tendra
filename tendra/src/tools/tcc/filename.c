@@ -418,7 +418,7 @@ filename *find_filename
 	for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
 	    if (suffixes[i]!= null && streq(e, suffixes[i])) {
 		if (checker) {
-		    if (i == PL_TDF || i == TDF_ARCHIVE)continue;
+		    if (i == PL_TDF || i == TDF_ARCHIVE) continue;
 		}
 		t = i;
 		break;

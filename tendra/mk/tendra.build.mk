@@ -80,6 +80,7 @@ _REALWORK: ${OBJS} .USE
 . if defined(WRAPPER)
 	@${ECHO} "# Adjusting paths for ${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
+		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
 		${.CURDIR}/${WRAPPER} > ${WRAPPER}
 . endif
 

@@ -6,4 +6,4 @@
 +CRT1			""
 +CRTN			""
 +SYS_LIB		"-ltdf -lcygwin -lkernel32"
-+SYS_LINK		"-L/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib -L-LIBDIR-/sys"
++SYS_LINK		"-L/gnuwin32/b18/H-i386-cygwin32/i386-cygwin32/lib -L<TENDRA_LIBDIR>/sys"

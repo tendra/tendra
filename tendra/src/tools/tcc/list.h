@@ -64,6 +64,17 @@
 #ifndef LIST_INCLUDED
 #define LIST_INCLUDED
 
+/*
+ * A ranked instruction.  These structs are used to track commands
+ * issues according to command line options.  Since the commands
+ * must be sort, a priority ranking fields is used.
+ */
+
+typedef struct _tag {
+    char *cmd;
+    int  rank;
+} ordered_node;
+
 
 /*
     TYPE REPRESENTING A LIST OF STRINGS
@@ -87,6 +98,7 @@ typedef struct list_t {
 extern list *add_list(list *, list *);
 extern list *add_item(list *, char *);
 extern list *insert_item(char *, list *);
+extern list *insert_inorder(ordered_node*, list*);
 extern list *make_list(char *);
 extern void free_list(list *);
 

@@ -1,0 +1,5 @@
+/* ENVIRONMENT FOR -Xp ON sol_sparc */
+
++STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xp"
++STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xp"
++CRT1			"/usr/ccs/lib/values-Xc.o"

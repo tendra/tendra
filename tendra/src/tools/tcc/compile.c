@@ -85,8 +85,8 @@ static filename *apply_unjoin(filename *, int);
 */
 
 #define spec_of(p, q)\
-	((q) && ((q) ->type == C_SPEC || (q) ->type == CPP_SPEC)\
-			 && (q) ->uniq == (p) ->uniq)
+	((q) && ((q)->type == C_SPEC || (q)->type == CPP_SPEC)\
+			 && (q)->uniq == (p)->uniq)
 
 
 /*
@@ -237,7 +237,7 @@ apply_cc(filename *input)
 		if (spec_of(p_archive, ps)) {
 		    p_archive->next = ps;
 		    p_archive = p_archive->next;
-		    ps = ps ->next;
+		    ps = ps->next;
 		    p_archive->next = null;
 		    have_spec = 1;
 		}

@@ -61,6 +61,10 @@
 */
 
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -84,125 +88,136 @@ filename *input_files = null;
 
 
 /*
-    THE MAIN OPTION MAP
-
-    This table gives all the command-line options.
-*/
+ *  THE MAIN OPTION MAP
+ *
+ *  This table gives all the command-line options. The first entry is the
+ *  'match in' and roughly corresponds to command line input.  The second
+ *  entry is the 'match out' and provides instructions to the command line
+ *  interpreter.  The third entry is a description.  The the final entry is a
+ *  relative ranking, with lower numbers being higher priority.  Thus, no
+ *  matter what order the command line options are given, the lower ranked
+ *  option will always be evaluated first.  (Option rankings can be disabled
+ *  with the -no_shuffle option.)
+ */
 
 optmap main_optmap[] = {
     /* Common options */
-    { "^-$", "I?$0", "specifies an input file" },
-    { "-o+$", "SFN$1", "specifies output file name" },
-    { "-D+$=$", "D#define$s$1$s$2$n|AOC$0", "defines a macro" },
-    { "-D+$", "D#define$s$1$s1$n|AOC$0", "defines a macro to be 1" },
-    { "-F?", "H$1", "halts the compilation at the given stage" },
-    { "-I+$", "AUI$0|AOC$0|AUP$0", "specifies an include file directory" },
-    { "-L+$", "1ON|Io$0|AUL$0", "specifies a system library directory" },
+    { "^-$", "I?$0", "specifies an input file", 1000 },
+    { "-o+$", "SFN$1", "specifies output file name", 100 },
+    { "-D+$=$", "D#define$s$1$s$2$n|AOC$0", "defines a macro", 101 },
+    { "-D+$", "D#define$s$1$s1$n|AOC$0", "defines a macro to be 1", 102 },
+    { "-F?", "H$1", "halts the compilation at the given stage", 103 },
+    { "-I+$", "AUI$0|AOC$0|AUP$0", "specifies an include file directory", 104 },
+    { "-L+$", "1ON|Io$0|AUL$0", "specifies a system library directory", 105 },
     { "-N+$:+$", "AUI$0|AOC-I$2",
-		 "specifies an include file directory (with mode)" },
-    { "-O$", "1OP|AOC$0", "switches optimisation level" },
-    { "-P?*", "K$1", "causes intermediate files to be preserved" },
-    { "-S", "Hs", "halts compilation after creating .s files" },
-    { "-T+$", "CAT:$1|AOC-D$1", "specifies a command-line token" },
-    { "-U+$", "D#undef$s$1$n|AOC$0", "undefines a macro" },
-    { "-W?,+$,+*", "AQ$1$2", "passed an option to a compilation tool" },
-    { "-W?:+$", "AQ$1$2", "passed an option to a compilation tool" },
-    { "-X:+$,+*", "CAP:$1", "specifies a compilation option" },
-    { "-X$", "EX$1", "specifies a compilation mode" },
-    { "-Y+$", "E$1", "reads an environment" },
-    { "-copyright", "1CR", "outputs copyright notice" },
-    { "-c", "Ho", "halts compilation after creating .o files" },
-    { "-d", "Hd", "halts compilation after creating .d files" },
-    { "-dry", "1VB|1DR", "causes a dry run"  },
-    { "-e+$", "AUe$0", "specifies a producer end-up file" },
-    { "-f+$", "AUf$0", "specifies a producer start-up file" },
-    { "-g", "1DG", "produces debugging information (default format)" },
-    { "-g1", "1DG", "produces debugging information (old format)" },
-    { "-g2", "2DG", "produces debugging information (new format)" },
-    { "-g3", "3DG", "produces debugging information (new format)" },
-    { "-k", "Hk|HK", "halts compilation after creating .k and .K files" },
-    { "-l+$", "1ON|Io$0|AUl$0", "specifies a system library" },
-    { "-not_ansi", "ASs-fnot_ansi", "allows some non-ANSI C features" },
-    { "-nepc", "1NE|ASs-fnepc", "switches off extra portability checks" },
-    { "-sym", "1CS|SDO-d=", "enables symbol table dump linking" },
-    { "-sym:$", "1CS|SDO-d$1=", "enables symbol table dump linking with flags" },
-    { "-v", "1VB", "specifies verbose mode" },
-    { "-vb", "1TC", "specifies fairly verbose mode" },
-    { "-ve", "1TE", "verbose information about tool chain environment" },
-    { "-vt", "1TT", "verbose information about tool chain invocation" },
-
+             "specifies an include file directory (with mode)", 106 },
+    { "-O$", "1OP|AOC$0", "switches optimisation level", 107 },
+    { "-P?*", "K$1", "causes intermediate files to be preserved", 108 },
+    { "-S", "Hs", "halts compilation after creating .s files", 109 },
+    { "-T+$", "CAT:$1|AOC-D$1", "specifies a command-line token", 110 },
+    { "-U+$", "D#undef$s$1$n|AOC$0", "undefines a macro", 111 },
+    { "-W?,+$,+*", "AQ$1$2", "passed an option to a compilation tool", 112 },
+    { "-W?:+$", "AQ$1$2", "passed an option to a compilation tool", 113 },
+    { "-X:+$,+*", "CAP:$1", "specifies a compilation option", 114 },
+    { "-X$", "EX$1", "specifies a compilation mode", 115 },
+    { "-Y+$", "E$1", "reads an environment", 12 },
+    { "-copyright", "1CR", "outputs copyright notice", 117 },
+    { "-c", "Ho", "halts compilation after creating .o files", 118 },
+    { "-d", "Hd", "halts compilation after creating .d files", 119 },
+    { "-dry", "1VB|1DR", "causes a dry run", 120 },
+    { "-e+$", "AUe$0", "specifies a producer end-up file", 121 },
+    { "-f+$", "AUf$0", "specifies a producer start-up file", 122 },
+    { "-g", "1DG", "produces debugging information (default format)", 123 },
+    { "-g1", "1DG", "produces debugging information (old format)", 124 },
+    { "-g2", "2DG", "produces debugging information (new format)", 125 },
+    { "-g3", "3DG", "produces debugging information (new format)", 126 },
+    { "-k", "Hk|HK", "halts compilation after creating .k and .K files", 128 },
+    { "-l+$", "1ON|Io$0|AUl$0", "specifies a system library", 129 },
+    { "-not_ansi", "ASs-fnot_ansi", "allows some non-ANSI C features", 130 },
+    { "-nepc", "1NE|ASs-fnepc", "switches off extra portability checks", 131 },
+    { "-sym", "1CS|SDO-d=", "enables symbol table dump linking", 132 },
+    { "-sym:$", "1CS|SDO-d$1=", "enables symbol table dump linking with flags",
+      133 },
+    { "-v", "1VB", "specifies verbose mode", 50 },
+    { "-vb", "1TC", "specifies fairly verbose mode", 51 },
+    { "-ve", "1TE", "verbose information about tool chain environment", 51 },
+    { "-vt", "1TT", "verbose information about tool chain invocation", 51 },
+    { "-no_shuffle", "1ES", "turns off shuffle ranking of cmd line args", -1 },
+    { "-y+$=$", "E?$1?$2", "sets an env directory variable", 1 },
+    
     /* Options not allowed in checker */
-    { "-J+$", "AUJ-L$1", "specifies a TDF library directory" },
-    { "-M", "1MC", "causes all .j files to be merged" },
-    { "-MA", "1MC|1MP", "as -M, but with hiding" },
-    { "-ch", "1CH", "invokes checker mode" },
-    { "-disp", "1PP", "causes all .j files to be pretty printed" },
-    { "-disp_t", "2PP", "causes all .t files to be pretty printed" },
-    { "-i", "Hj", "halts compilation after creating .j files" },
-    { "-im", "1CS", "enables intermodular checks" },
-    { "-j+$", "AUj-l$1", "specifies a TDF library" },
-    { "-prod", "1AR", "causes a TDF archive to be produced" },
+    { "-J+$", "AUJ-L$1", "specifies a TDF library directory", 20 },
+    { "-M", "1MC", "causes all .j files to be merged", 133 },
+    { "-MA", "1MC|1MP", "as -M, but with hiding", 134 },
+    { "-ch", "1CH", "invokes checker mode", 135 },
+    { "-disp", "1PP", "causes all .j files to be pretty printed", 136 },
+    { "-disp_t", "2PP", "causes all .t files to be pretty printed", 137 },
+    { "-i", "Hj", "halts compilation after creating .j files", 139 },
+    { "-im", "1CS", "enables intermodular checks", 139 },
+    { "-j+$", "AUj-l$1", "specifies a TDF library", 30 },
+    { "-prod", "1AR", "causes a TDF archive to be produced", 141 },
 
     /* Less common options */
-    { "-A+-", "AOC$0", "unasserts all built-in predicates" },
+    { "-A+-", "AOC$0", "unasserts all built-in predicates", 142 },
     { "-A+$", "D#pragma$saccept$sdirective$sassert$n|D#assert$s$1$n|AOC$0",
-	      "asserts a predicate" },
-    { "-B+$", "1ON|Io$0", "passed to the system linker" },
-    { "-C", "AOC$0", "preserves comments when preprocessing" },
-    { "-E", "1PR", "causes C source files to be preprocessed" },
-    { "-E?:+$", "LE$1$2", "specifies an executable to be used" },
-    { "-H", "1PI", "causes included files to be printed" },
-    { "-S?,+$,+*", "I$1$2", "specifies input files" },
-    { "-S?:+$", "I$1$2", "specifies input files" },
-    { "-V", "EVersions|1CR", "causes all tools to print their version numbers" },
-    { "-cc", "1CC", "forces the system compiler to be used" },
-    { "-cc_only", "2CC", "forces only the system compiler to be used" },
-    { "-do?+$", "SN$1$2", "sets a default output file name" },
-    { "-dump", "CDS", "dumps the current status" },
-    { "-ignore_case", "1LC", "ignores case in file names" },
-    { "-im0", "2CS", "disables intermodular checks" },
-    { "-info", "1SA", "causes API information to be printed" },
-    { "-keep_errors", "1KE", "causes files to be preserved on errors" },
-    { "-make_up_names", "1MN", "makes up names for intermediate files" },
-    { "-message+$", "@X$1", "causes %s to print a message" },
-    { "-p", "1PF", "causes profiling information to be produced" },
-    { "-q", "0VB", "specifies quiet mode" },
-    { "-quiet", "0VB", "equivalent to -q" },
-    { "-query", "Q", "causes a list of options to be printed" },
-    { "-s?:+$", "SS$1$2|1SO", "specifies a suffix override" },
-    { "-show_errors", "1SE", "causes error producing commands to be shown" },
-    { "-show_env", "CSE", "causes the environment path to be printed" },
-    { "-special+$", "SXX$1|CSP", "allows various internal options" },
-    { "-startup+$", "@D$1$n", "specifies a start-up option" },
-    { "-target+$", "AOC-target|AOC$1", "provided for cc compatibility" },
-    { "-temp+$", "STD$1", "specifies the temporary directory" },
-    { "-tidy", "1TU", "causes %s to tidy up as it goes along" },
-    { "-time", "1TI|1VB", "causes all commands to be timed" },
-    { "-verbose", "1VB", "equivalent to -v" },
-    { "-version", "CPV", "causes %s to print its version number" },
-    { "-w", "0WA", "suppresses %s warnings" },
-    { "-work+$", "SWD$1", "specifies the work directory" },
+	      "asserts a predicate", 143 },
+    { "-B+$", "1ON|Io$0", "passed to the system linker", 144 },
+    { "-C", "AOC$0", "preserves comments when preprocessing", 30 },
+    { "-E", "1PR", "causes C source files to be preprocessed", 145 },
+    { "-E?:+$", "LE$1$2", "specifies an executable to be used", 146 },
+    { "-H", "1PI", "causes included files to be printed", 147 },
+    { "-S?,+$,+*", "I$1$2", "specifies input files", 15 },
+    { "-S?:+$", "I$1$2", "specifies input files", 15 },
+    { "-V", "EVersions|1CR", "causes all tools to print their version numbers",
+      21 },
+    { "-cc", "1CC", "forces the system compiler to be used", 23 },
+    { "-cc_only", "2CC", "forces only the system compiler to be used", 22 },
+    { "-do?+$", "SN$1$2", "sets a default output file name", 148 },
+    { "-dump", "CDS", "dumps the current status", 200 },
+    { "-ignore_case", "1LC", "ignores case in file names", 12 },
+    { "-im0", "2CS", "disables intermodular checks", 148 },
+    { "-info", "1SA", "causes API information to be printed", 201 },
+    { "-keep_errors", "1KE", "causes files to be preserved on errors", 13 },
+    { "-make_up_names", "1MN", "makes up names for intermediate files", 149 },
+    { "-message+$", "@X$1", "causes %s to print a message", 24 },
+    { "-p", "1PF", "causes profiling information to be produced", 31 },
+    { "-q", "0VB", "specifies quiet mode", 1 },
+    { "-quiet", "0VB", "equivalent to -q", 1 },
+    { "-query", "Q", "causes a list of options to be printed", 2 },
+    { "-s?:+$", "SS$1$2|1SO", "specifies a suffix override", 25 },
+    { "-show_errors", "1SE", "causes error producing commands to be shown", 3 },
+    { "-show_env", "CSE", "causes the environment path to be printed", 202 },
+    { "-special+$", "SXX$1|CSP", "allows various internal options", 4 },
+    { "-startup+$", "@D$1$n", "specifies a start-up option", 5 },
+    { "-target+$", "AOC-target|AOC$1", "provided for cc compatibility", 150 },
+    { "-temp+$", "STD$1", "specifies the temporary directory", 1 },
+    { "-tidy", "1TU", "causes %s to tidy up as it goes along", 152 },
+    { "-time", "1TI|1VB", "causes all commands to be timed", 153 },
+    { "-verbose", "1VB", "equivalent to -v", 1 },
+    { "-version", "CPV", "causes %s to print its version number", 1 },
+    { "-w", "0WA", "suppresses %s warnings", 1 },
+    { "-work+$", "SWD$1", "specifies the work directory", 1 },
 
     /* Options not allowed in checker */
-    { "-G", "EGoption", "provided for cc compatibility" },
-    { "-K+$,+*", "EK-$1", "provided for cc compatibility" },
-    { "-Z$", "EZ-$1", "provided for cc compatibility" },
-    { "-b", "LSc", "suppresses -lc in system linking" },
-    { "-dn", "AOl$0", "passed to the system linker" },
-    { "-dy", "AOl$0", "passed to the system linker" },
-    { "-h+$", "AOl$0", "passed to the system linker" },
-    { "-no_startup_options", "0ST", "suppresses start-up options" },
-    { "-s", "1SR", "passed to the system linker" },
-    { "-u+$", "AOl$0", "passed to the system linker" },
-    { "-wsl", "Ewsl", "causes string literals to be made writable" },
-    { "-z+$", "AOl$0", "passed to the system linker" },
-    { "-#", "1VB", "equivalent to -v" },
-    { "-##", "1VB", "equivalent to -v" },
-    { "-###", "1VB|1DR", "equivalent to -dry" },
+    { "-G", "EGoption", "provided for cc compatibility", 154 },
+    { "-K+$,+*", "EK-$1", "provided for cc compatibility", 155 },
+    { "-Z$", "EZ-$1", "provided for cc compatibility", 156 },
+    { "-b", "LSc", "suppresses -lc in system linking", 157 },
+    { "-dn", "AOl$0", "passed to the system linker", 158 },
+    { "-dy", "AOl$0", "passed to the system linker", 159 },
+    { "-h+$", "AOl$0", "passed to the system linker", 160 },
+    { "-no_startup_options", "0ST", "suppresses start-up options", 161 },
+    { "-s", "1SR", "passed to the system linker" , 162 },
+    { "-u+$", "AOl$0", "passed to the system linker" , 163 },
+    { "-wsl", "Ewsl", "causes string literals to be made writable" , 164 },
+    { "-z+$", "AOl$0", "passed to the system linker" , 165 },
+    { "-#", "1VB", "equivalent to -v" , 1 },
+    { "-##", "1VB", "equivalent to -v" , 1 },
+    { "-###", "1VB|1DR", "equivalent to -dry" , 1 },
 
     /* Default options */
-    { "--+$,+*", "$1", "communicates directly with the option interpreter" },
-    { "$", "XUnknown option,$s$0|AXO$0", "unknown option" },
+    { "--+$,+*", "$1", "communicates directly with the option interpreter", 0 },
+    { "$", "XUnknown option,$s$0|AXO$0", "unknown option", 0 },
 
     /* End marker */
     { null, null, null }
@@ -218,104 +233,117 @@ optmap main_optmap[] = {
 
 optmap environ_optmap[] = {
     /* Options */
-    { "\\+FLAG $", "=$1", null },
-    { "\\+FLAG_TDFC $", "AOc$1", null },
-    { "\\+FLAG_TDFCPP $", "AOp$1", null },
-    { "\\+FLAG_TCPPLUS $", "AOx$1", null },
-    { "\\+FLAG_TCPPLUSPP $", "AOg$1", null },
-    { "\\+FLAG_TOT_CAT $", "", null },
-    { "\\+FLAG_TLD $", "AOL$1", null },
-    { "\\+FLAG_TRANS $", "AOt$1", null },
-    { "\\+FLAG_AS $", "AOa$1", null },
-    { "\\+FLAG_DYN_LINK $", "AOD$1", null },
-    { "\\+FLAG_LD $", "AOl$1", null },
-    { "\\+FLAG_DISP $", "AOd$1", null },
-    { "\\+FLAG_TNC $", "AOn$1", null },
-    { "\\+FLAG_PL_TDF $", "AOP$1", null },
-    { "\\+FLAG_AS1 $", "AOA$1", null },
-    { "\\+FLAG_TDFOPT $", "", null },
-    { "\\+FLAG_SPEC_LINK $", "AOs$1", null },
-    { "\\+FLAG_CPP_SPEC_LINK $", "AOS$1", null },
-    { "\\+FLAG_DUMP_ANAL $", "AOe$1", null },
-    { "\\+FLAG_DUMP_LINK $", "AOu$1", null },
-    { "\\+FLAG_CC $", "AOC$1", null },
-    { "\\+FLAG_INSTALL $", "AOI$1", null },
+    {"\\+FLAG $", "=$1", null, 0},
+    {"\\+FLAG_TDFC $", "AOc$1", null, 0},
+    {"\\+FLAG_TDFCPP $", "AOp$1", null, 0},
+    {"\\+FLAG_TCPPLUS $", "AOx$1", null, 0},
+    {"\\+FLAG_TCPPLUSPP $", "AOg$1", null, 0},
+    {"\\+FLAG_TOT_CAT $", "", null, 0},
+    {"\\+FLAG_TLD $", "AOL$1", null, 0},
+    {"\\+FLAG_TRANS $", "AOt$1", null, 0},
+    {"\\+FLAG_AS $", "AOa$1", null, 0},
+    {"\\+FLAG_DYN_LINK $", "AOD$1", null, 0},
+    {"\\+FLAG_LD $", "AOl$1", null, 0},
+    {"\\+FLAG_DISP $", "AOd$1", null, 0},
+    {"\\+FLAG_TNC $", "AOn$1", null, 0},
+    {"\\+FLAG_PL_TDF $", "AOP$1", null, 0},
+    {"\\+FLAG_AS1 $", "AOA$1", null, 0},
+    {"\\+FLAG_TDFOPT $", "", null, 0},
+    {"\\+FLAG_SPEC_LINK $", "AOs$1", null, 0},
+    {"\\+FLAG_CPP_SPEC_LINK $", "AOS$1", null, 0},
+    {"\\+FLAG_DUMP_ANAL $", "AOe$1", null, 0},
+    {"\\+FLAG_DUMP_LINK $", "AOu$1", null, 0},
+    {"\\+FLAG_CC $", "AOC$1", null, 0},
+    {"\\+FLAG_INSTALL $", "AOI$1", null, 0},
 
     /* Additional filename suffixes */
-    { "\\+SUFFIX_CPP $", "SSC$1|1SO", null },
+    {"\\+SUFFIX_CPP $", "SSC$1|1SO", null, 0},
 
     /* Executables */
-    { "?AS $", "$1Ea$2", null },
-    { "?AS1 $", "$1EA$2", null },
-    { "?BUILD_ARCH $", "$1BB$2", null },
-    { "?CAT $", "$1BC$2", null },
-    { "?CC $", "$1EC$2", null },
-    { "?CPP_SPEC_LINK $", "$1ES$2", null },
-    { "?DISP $", "$1Ed$2", null },
-    { "?DUMP_ANAL $", "$1Ee$2", null },
-    { "?DUMP_LINK $", "$1Eu$2", null },
-    { "?DYN_LINK $", "$1ED$2", null },
-    { "?LD $", "$1El$2", null },
-    { "?MKDIR $", "$1BD$2", null },
-    { "?MOVE $", "$1BM$2", null },
-    { "?PL_TDF $", "$1EP$2", null },
-    { "?REMOVE $", "$1BR$2", null },
-    { "?SPEC_LINK $", "$1Es$2", null },
-    { "?SPLIT_ARCH $", "$1BS$2", null },
-    { "?TCPPLUS $", "$1Ex$2", null },
-    { "?TCPPLUSPP $", "$1Eg$2", null },
-    { "?TDFC $", "$1Ec$2", null },
-    { "?TDFCPP $", "$1Ep$2", null },
-    { "?TDFOPT $", "", null },
-    { "?TLD $", "$1EL$2", null },
-    { "?TNC $", "$1En$2", null },
-    { "?TOUCH $", "$1BT$2", null },
-    { "?TRANS $", "$1Et$2", null },
+    {"?AS $", "$1Ea$2", null, 0},
+    {"?AS1 $", "$1EA$2", null, 0},
+    {"?BUILD_ARCH $", "$1BB$2", null, 0},
+    {"?CAT $", "$1BC$2", null, 0},
+    {"?CC $", "$1EC$2", null, 0},
+    {"?CPP_SPEC_LINK $", "$1ES$2", null, 0},
+    {"?DISP $", "$1Ed$2", null, 0},
+    {"?DUMP_ANAL $", "$1Ee$2", null, 0},
+    {"?DUMP_LINK $", "$1Eu$2", null, 0},
+    {"?DYN_LINK $", "$1ED$2", null, 0},
+    {"?LD $", "$1El$2", null, 0},
+    {"?MKDIR $", "$1BD$2", null, 0},
+    {"?MOVE $", "$1BM$2", null, 0},
+    {"?PL_TDF $", "$1EP$2", null, 0},
+    {"?REMOVE $", "$1BR$2", null, 0},
+    {"?SPEC_LINK $", "$1Es$2", null, 0},
+    {"?SPLIT_ARCH $", "$1BS$2", null, 0},
+    {"?TCPPLUS $", "$1Ex$2", null, 0},
+    {"?TCPPLUSPP $", "$1Eg$2", null, 0},
+    {"?TDFC $", "$1Ec$2", null, 0},
+    {"?TDFCPP $", "$1Ep$2", null, 0},
+    {"?TDFOPT $", "", null, 0},
+    {"?TLD $", "$1EL$2", null, 0},
+    {"?TNC $", "$1En$2", null, 0},
+    {"?TOUCH $", "$1BT$2", null, 0},
+    {"?TRANS $", "$1Et$2", null, 0},
+
+    /*
+     * Set special env file variables.
+     * These must be kept in sync with Table 5 in utility.h
+     */
+    {"$TENDRA_MACHDIR $", "SSV0$2", null, 0},
+    {"$TENDRA_BINDIR $", "SSV1$2", null, 0},
+    {"$TENDRA_ENVDIR $", "SSV2$2", null, 0},
+    {"$TENDRA_LIBDIR $", "SSV3$2", null, 0},
+    {"$TENDRA_INCLDIR $", "SSV4$2", null, 0},
+    {"$TENDRA_STARTUPDIR $", "SSV5$2", null, 0},
+    {"$TENDRA_TMPDIR $", "SSV6$2", null, 0},
+    {"$TENDRA_BASEDIR $", "SSV7$2", null, 0},
 
     /* Flags */
-    { "?API $", "", null },
-    { "?API_NAME $", "", null },
-    { "?INCL $", "$1SI$2", null },
-    { "?INCL_CPP $", "$1Si$2", null },
-    { "?STARTUP_DIR $", "$1Sd$2", null },
-    { "?STARTUP $", "$1Ss$2", null },
-    { "?STARTUP_CPP_DIR $", "$1SD$2", null },
-    { "?STARTUP_CPP $", "$1SS$2", null },
-    { "?PORTABILITY $", "$1SP$2", null },
-    { "?LINK $", "$1SJ$2", null },
-    { "?LIB $", "$1Sj$2", null },
-    { "?CRT0 $", "$1S0$2", null },
-    { "?CRT1 $", "$1S1$2", null },
-    { "?CRTN $", "$1S2$2", null },
-    { "?CRTP_N $", "$1S3$2", null },
-    { "?SYS_LINK $", "$1SL$2", null },
-    { "?SYS_LIB $", "$1Sl$2", null },
-    { "?SYS_LIBC $", "$1Sc$2", null },
-    { "?LINK_ENTRY $", "$1Se$2", null },
+    {"?API $", "", null, 0},
+    {"?API_NAME $", "", null, 0},
+    {"?INCL $", "$1SI$2", null, 0},
+    {"?INCL_CPP $", "$1Si$2", null, 0},
+    {"?STARTUP_DIR $", "$1Sd$2", null, 0},
+    {"?STARTUP $", "$1Ss$2", null, 0},
+    {"?STARTUP_CPP_DIR $", "$1SD$2", null, 0},
+    {"?STARTUP_CPP $", "$1SS$2", null, 0},
+    {"?PORTABILITY $", "$1SP$2", null, 0},
+    {"?LINK $", "$1SJ$2", null, 0},
+    {"?LIB $", "$1Sj$2", null, 0},
+    {"?CRT0 $", "$1S0$2", null, 0},
+    {"?CRT1 $", "$1S1$2", null, 0},
+    {"?CRTN $", "$1S2$2", null, 0},
+    {"?CRTP_N $", "$1S3$2", null, 0},
+    {"?SYS_LINK $", "$1SL$2", null, 0},
+    {"?SYS_LIB $", "$1Sl$2", null, 0},
+    {"?SYS_LIBC $", "$1Sc$2", null, 0},
+    {"?LINK_ENTRY $", "$1Se$2", null, 0},
 
     /* Startup and endup lines */
-    { "\\+COMP_OPTION $", "@CAP:$1", null },
-    { "\\+LINE_START $", "@D$1$n", null },
-    { "\\+LINE_END $", "@F$1$n", null },
+    {"\\+COMP_OPTION $", "@CAP:$1", null, 0},
+    {"\\+LINE_START $", "@D$1$n", null, 0},
+    {"\\+LINE_END $", "@F$1$n", null, 0},
 
     /* Miscellaneous */
-    { "\\+INFO $", "@SAI$1", null },
-    { ">INFO $", "@SAI$SAI@plus@$1", null },
-    { "<INFO $", "@SAI$1@plus@$SAI", null },
-    { "\\+ENVDIR $", "SED$1|CFE", null },
-    { "\\?ENVDIR $", "?:ED$1", null },
-    { "\\+MACHINE $", "SMN$1|CSM", null },
-    { "\\?MACHINE $", "?:MN$1", null },
-    { "\\+SUFFIX $", "STD$1", null },	/* this MUST be wrong !!! */
-    { "\\+TEMP $", "STD$1", null },
-    { "\\?TEMP $", "?:TD$1", null },
-    { "\\+VERSION $", "SVF$1", null },
-    { "\\?VERSION $", "?:VF$1", null },
+    {"\\+INFO $", "@SAI$1", null, 0},
+    {">INFO $", "@SAI$SAI@plus@$1", null, 0},
+    {"<INFO $", "@SAI$1@plus@$SAI", null, 0},
+    {"\\+ENVDIR $", "SED$1|CFE", null, 0},
+    {"\\?ENVDIR $", "?:ED$1", null, 0},
+    {"\\+MACHINE $", "SMN$1|CSM", null, 0},
+    {"\\?MACHINE $", "?:MN$1", null, 0},
+    {"\\+SUFFIX $", "STD$1", null, 0},      /* this MUST be wrong !!! */
+    {"\\+TEMP $", "STD$1", null, 0},
+    {"\\?TEMP $", "?:TD$1", null, 0},
+    {"\\+VERSION $", "SVF$1", null, 0},
+    {"\\?VERSION $", "?:VF$1", null, 0},
 
     /* Errors */
-    { "\\+E$ $", "X+E$soptions$sno$slonger$ssupported", null },
-    { "$ $", "XUnknown$senvironmental$svariable,$s$1", null },
-    { "$", "XIllegal$senvironmental$soption,$s$0", null },
+    {"\\+E$ $", "X+E$soptions$sno$slonger$ssupported", null, 0},
+    {"$ $", "XUnknown$senvironmental$svariable,$s$1", null, 0},
+    {"$", "XIllegal$senvironmental$soption,$s$0", null, 0},
 
     /* End marker */
     { null, null, null }
@@ -412,6 +440,9 @@ lookup_bool(char *s)
 	    if (b == 'L') return(&use_dynlink);
 	    if (b == 'R') return(&dry_run);
 	    break;
+	}
+	case 'E': {
+	    if (b == 'S') return(&no_shuffle);
 	}
 	case 'H': {
 	    if (b == 'L') return(&use_hp_linker);
@@ -654,7 +685,20 @@ lookup_string(char *s)
 	return(null);
     }
     if (a == 'S') {
-	int t = find_type(b, 0);
+	int t;
+	char *p1;
+
+	if (b == 'V') {
+		int i = s[2] - '0';
+		p1 = (s + 3);
+		/* change the path, if it was not set at cmd line */
+		if (env_paths[i] == NULL)
+			env_paths[i] = p1;
+		/* XXX: hack */
+		return(&dev_null);
+	}
+
+	t = find_type(b, 0);
 	return(suffixes + t);
     }
     if (a == 'A' && b == 'I') return(&api_info);
@@ -871,9 +915,10 @@ match_option(char *in, char *out, char *opt, args_out *res)
     /* Print output */
     a = 0;
     for (i = 0; i < loop; i++) {
-	char buff[1000];
+	int count = 0;
+	char buff[MAX_LINE];
 	q = buff;
-	for (p = out; *p; p++) {
+	for (p = out; *p && count < MAX_LINE; p++, count++) {
 	    if (*p == '$') {
 		/* Variable */
 		int n;
@@ -1007,7 +1052,7 @@ interpret_cmd(char *cmd)
     /* Deal with equivalences */
     if (c == '=') {
 	list *p = make_list(cmd + 1);
-	process_options(p, main_optmap);
+	process_options(p, main_optmap, 1);
 	free_list(p);
 	return;
     }
@@ -1060,9 +1105,66 @@ interpret_cmd(char *cmd)
 	}
 
 	case 'E': {
-	    /* Environment */
-	    read_env(cmd + 1);
-	    return;
+            /* Environment */
+            if (*(cmd + 1) == '?') {
+		char var[MAX_LINE];
+		char val[MAX_LINE];
+		int  count;
+		char *p, *q, *r;
+		char c1;
+		char **subs;
+		int i;
+#if FS_STAT
+		struct stat sb;
+#endif
+		q = var;
+		r = val;
+		p = cmd + 2;
+		count = 0;
+		while ((c1 = *p++) != '?') {
+		        *q++ = c1;
+		}
+		*q++='\0';
+
+		while ((c1 = *p++) != NULL) {
+		    *r++ = c1;
+		    /* only the val is user supplied and needs bounds
+		     * checking
+		     */
+		    if (++count >= MAX_LINE){
+			error(FATAL,
+			       "Exceeded maximum buffer length in -y argument\n");
+		    }
+		}
+
+		*r++ ='\0';
+		/* additional error checking for those platforms supporting
+		 * stat
+		 */
+#if FS_STAT
+		if (stat (val, &sb) == -1) {
+		    error(SERIOUS, "interpret_cmd: %s %s\n",
+			val, strerror(errno));
+		}
+#endif
+		i=0;
+		subs = PATH_SUBS;
+		while (*subs) {
+		    if (!strcmp(*subs, var)) {
+			env_paths[i] = string_copy(val);
+			break;
+		    }
+		    i++;
+		    subs++;
+		}
+		if (!*subs)
+		    error(WARNING, "Ignoring non-standard env assignment: %s=%s",
+			   var, val);
+		}
+            else {
+		read_env(cmd + 1);
+            }
+            return;
 	}
 
 	case 'F': {
@@ -1214,12 +1316,14 @@ interpret_cmd(char *cmd)
 */
 
 void
-process_options(list *opt, optmap *tab)
+process_options(list *opt, optmap *tab, int fast)
 {
     optmap *t;
     list *p = opt;
+    list *accum = null;
     char *arg = null;
     int status = MATCH_OK;
+    int a;
 
     /* Scan through the options */
     while (p != null) {
@@ -1235,9 +1339,16 @@ process_options(list *opt, optmap *tab)
 	    switch (status) {
 		case MATCH_OK: {
 		    /* Complete option - interpret result */
-		    int a;
 		    for (a = 0; a < res.argc; a++) {
-			interpret_cmd(res.argv[a]);
+			if (no_shuffle != 0 || fast == 1) {
+			    interpret_cmd(res.argv[a]);
+			} else {
+			    ordered_node *dn = (ordered_node *)
+				xalloc(sizeof(ordered_node));
+			    dn->rank = t->rank;
+			    dn->cmd  = res.argv[a];
+			    accum = insert_inorder(dn, accum);
+			}
 		    }
 		    goto end_search;
 		}
@@ -1276,6 +1387,16 @@ process_options(list *opt, optmap *tab)
     /* Check for incomplete options */
     if (status == MATCH_MORE) {
 	error(WARNING, "Option '%s' is incomplete", arg);
+    }
+
+    /* if the no_shuffle flag is unset, we have order cmds to run */
+    if (no_shuffle == 0 && fast == 0) {
+	while (accum) {
+	    ordered_node* dn;
+	    dn = accum->item;
+	    interpret_cmd (dn->cmd);
+	    accum = accum->next;
+	}
     }
 
     return;

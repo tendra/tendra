@@ -1,0 +1,8 @@
+/* tcc environment for system headers on unknown machine */
+
+>INCL			"-Nsystem1:<TENDRA_MACHDIR>/include -Nsystem:/usr/include"
++FLAG			"-f<TENDRA_MACHDIR>/startup/system.h"
++FLAG			"-Y32bit"
++FLAG_TRANS		"-B0"
+>API_NAME		"-Asystem1 -Asystem"
+>INFO			"System@Headers"

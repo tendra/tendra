@@ -247,7 +247,7 @@ main(int argc, char **argv)
     s = getenv(TCCOPT_VAR);
     if (s != null) {
     	opts = make_list(s);
-        process_options(opts, main_optmap);
+        process_options(opts, main_optmap, 0);
         free_list(opts);
         opts = null;
     }
@@ -256,8 +256,9 @@ main(int argc, char **argv)
     for (a = argc - 1; a >= 1; a--) {
 	opts = insert_item(argv[a], opts);
     }
-    process_options(opts, main_optmap);
+    process_options(opts, main_optmap, 0);
     update_options();
+    reconcile_envopts();
     free_list(opts);
 
     /* Check for input files */
