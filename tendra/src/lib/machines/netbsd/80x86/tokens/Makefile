@@ -27,7 +27,7 @@ var_toks.t: var_toks.j
 	${TCC} ${TCC_OPTS} \
 	-Y${SRC_DIR}/src/lib/machines/common/tokens/var_toks -Ft -o ${.ALLSRC:R:S/$/.t/} ${.ALLSRC}
 
-target_tok.tl:
+target_tok.tl: dep_toks.j map_toks.j except_toks.t var_toks.t
 	${TLD} -mc -o ${.TARGET} dep_toks.j map_toks.j except_toks.t var_toks.t
 
 sys_toks.j: c_toks.j dep_toks.j map_toks.j
