@@ -1,27 +1,18 @@
 # $Id$
 
-SUBDIR= common
+SUBDIR=	common
 
 .include "../../../Makefile.defs"
 .include "../../../mk/tendra.base.mk"
 
-.if exists(${OSFAM}/common/common)
-SUBDIR+=	${OSFAM}/common/common
-.endif
-.if exists(${OSFAM}/common/${BLDARCH})
-SUBDIR+=	${OSFAM}/common/${BLDARCH}
-.endif
-.if exists(${OSFAM}/common/${BLDARCH})
-SUBDIR+=	${OSFAM}/${EXECFORMAT}/common
-.endif
-.if exists(${OSFAM}/common/${BLDARCH})
-SUBDIR+=	${OSFAM}/${EXECFORMAT}/${BLDARCH}
-.endif
-.if exists(${OSFAM}/common/${BLDARCH})
-SUBDIR+=	${OSFAM}/${OSVER}/common
-.endif
-.if exists(${OSFAM}/common/${BLDARCH})
-SUBDIR+=	${OSFAM}/${OSVER}/${BLDARCH}
-.endif
+ENVSUBDIR=	${OSFAM}/common/common ${OSFAM}/common/${BLDARCH}\
+		${OSFAM}/${EXECFORMAT}/common ${OSFAM}/${EXECFORMAT}/${BLDARCH}\
+		${OSFAM}/${OSVER}/common ${OSFAM}/${OSVER}/${BLDARCH}
+
+.for environ in ${ENVSUBDIR}
+. if exists(${environ})
+SUBDIR+=${environ}
+. endif
+.endfor
 
 .include "Makefile.inc"
