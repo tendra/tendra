@@ -62,7 +62,7 @@
 #define cv_outtype_key 1
 
 
-extern ot out_type PROTO_S ((diag_type d, int in_struct));
-extern void out_tagged PROTO_S ((diag_type d));
+extern ot out_type(diag_type d, int in_struct);
+extern void out_tagged(diag_type d);
 
 #endif

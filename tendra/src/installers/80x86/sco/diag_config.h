@@ -67,8 +67,8 @@ typedef diag_descriptor diag_global;		/* used in installtypes.h */
 typedef int OUTPUT_REC;
 #define NEW_DIAG_GLOBAL(x) x
 
-extern void OUTPUT_GLOBALS_TAB PROTO_S ((void));
-extern void OUTPUT_DIAG_TAGS PROTO_S ((void));
-extern void INSPECT_FILENAME PROTO_S ((filename fn));
+extern void OUTPUT_GLOBALS_TAB(void);
+extern void OUTPUT_DIAG_TAGS(void);
+extern void INSPECT_FILENAME(filename fn);
 
 #endif

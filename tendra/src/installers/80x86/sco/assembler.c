@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /* sco/assembler.c */
@@ -74,131 +74,123 @@ int sco_gas = 0;
 
 /* PROCEDURES */
 
-void dot_align
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+dot_align(int n)
 {
-  if (!sco_gas && n> 4)
-    n = 4;
-  outs(".align "); outn((long)n); outnl();
-  return;
+	if (!sco_gas && n> 4)
+		n = 4;
+	outs(".align "); outn((long)n); outnl();
+	return;
 }
 
 
-void outbyte
-    PROTO_Z ()
+void
+outbyte(void)
 {
-  outs(".byte ");
-  return;
+	outs(".byte ");
+	return;
 }
 
-void outshort
-    PROTO_Z ()
+void
+outshort(void)
 {
-  outs(".value ");
-  return;
+	outs(".value ");
+	return;
 }
 
-void outlong
-    PROTO_Z ()
+void
+outlong(void)
 {
-  outs(".long ");
-  return;
+	outs(".long ");
+	return;
 }
 
-void align_label
-    PROTO_N ( (f, jr) )
-    PROTO_T ( int f X exp jr )
+void
+align_label(int f, exp jr)
 {
-  UNUSED(f);
-  UNUSED(jr);
-  if (is80486 && !is80586) {
-    outs(".align 4\n");
-  };
-  return;
+	UNUSED(f);
+	UNUSED(jr);
+	if (is80486 && !is80586) {
+		outs(".align 4\n");
+	};
+	return;
 }
 
-void eval_postlude
-    PROTO_N ( (s, c) )
-    PROTO_T ( char * s X exp c )
+void
+eval_postlude(char * s, exp c)
 {
-  UNUSED(s); UNUSED(c);
+	UNUSED(s); UNUSED(c);
     return;
 }
 
-void out_readonly_section
-    PROTO_Z ()
+void
+out_readonly_section(void)
 {
-  outs (".text");
-  return;
+	outs (".text");
+	return;
 }
 
-void out_dot_comm
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_dot_comm(char * id, shape sha)
 {
 	outs (".comm ");
 	outs (id);
 	outs (",");
 	if (sco_gas)
-	  outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+		outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 	else
-	  outn ((long)((( shape_size(sha)/ 8) + 7) / 8) * 8);
+		outn ((long)(((shape_size(sha)/ 8) + 7) / 8) * 8);
 
 	outnl ();
-  return;
+	return;
 }
 
-void out_dot_lcomm
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_dot_lcomm(char * id, shape sha)
 {
 	outs (".lcomm ");
 	outs (id);
 	outs (",");
 	if (sco_gas)
-	  outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+		outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 	else
-	  outn ((long)((( shape_size(sha)/ 8) + 7) / 8) * 8);
+		outn ((long)(((shape_size(sha)/ 8) + 7) / 8) * 8);
 
 	outnl ();
-  return;
+	return;
 }
 
-void out_bss
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_bss(char * id, shape sha)
 {
 	outs (".bss ");
 	outs (id);
 	outs (",");
 	if (sco_gas)
-	  outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+		outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 	else
-	  outn ((long)((( shape_size(sha)/ 8) + 7) / 8) * 8);
+		outn ((long)(((shape_size(sha)/ 8) + 7) / 8) * 8);
 
 	outnl ();
-  return;
+	return;
 }
 
-void pic_prelude
-    PROTO_Z ()
+void
+pic_prelude(void)
 {
-  return;
+	return;
 }
 
-void out_rename
-    PROTO_N ( (oldid, newid) )
-    PROTO_T ( char * oldid X char * newid )
+void
+out_rename(char * oldid, char * newid)
 {
-  UNUSED(oldid); UNUSED(newid);
-  return;
+	UNUSED(oldid); UNUSED(newid);
+	return;
 }
 
 
-void out_switch_jump
-    PROTO_N ( (tab, a, min) )
-    PROTO_T ( int tab X where a X int min )
+void
+out_switch_jump(int tab, where a, int min)
 {
     outs (" jmp *");
     outs(local_prefix);
@@ -212,103 +204,98 @@ void out_switch_jump
     return;
 }
 
-void out_switch_table
-    PROTO_N ( (tab, min, max, v, absent) )
-    PROTO_T ( int tab X int min X int max X int * v X int absent )
+void
+out_switch_table(int tab, int min, int max,
+				 int * v, int absent)
 {
-  int i;
+	int i;
 
-  dot_align(4);
-  outnl();
+	dot_align(4);
+	outnl();
 
-  outs(local_prefix);
-  outn ((long)tab);
-  outs (":");
-  outnl ();
+	outs(local_prefix);
+	outn ((long)tab);
+	outs (":");
+	outnl ();
 
-  for (i = min; i <= max; ++i) {
-    outs (".long ");
-    if (v[i - min] != -1)  {
-      outs(local_prefix);
-      outn ((long)v[i - min]);
-    }
-    else  {
-      if (absent == -1)
-	outn((long)0);
-      else {
-        outs(local_prefix);
-        outn ((long)absent);
-      };
-    };
-    outnl ();
+	for (i = min; i <= max; ++i) {
+		outs (".long ");
+		if (v[i - min] != -1)  {
+			outs(local_prefix);
+			outn ((long)v[i - min]);
+		}
+		else  {
+			if (absent == -1)
+				outn((long)0);
+			else {
+				outs(local_prefix);
+				outn ((long)absent);
+			};
+		};
+		outnl ();
 
-  };
+	};
 
 }
 
-void proc_size
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+proc_size(char * s)
 {
-  UNUSED(s);
-  return;
+	UNUSED(s);
+	return;
 }
 
-void proc_type
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+proc_type(char * s)
 {
-  UNUSED(s);
-  return;
+	UNUSED(s);
+	return;
 }
 
-void outend
-    PROTO_Z ()
+void
+outend(void)
 {
-  int   st;
+	int   st;
 
-  if (sco_gas) {
-    outs(".text");
-    outnl();
-    dot_align(16);
-  };
+	if (sco_gas) {
+		outs(".text");
+		outnl();
+		dot_align(16);
+	};
 
-  st = fclose (fpout);
-  if (st == EOF) {
-    failer ("failed to close file");
-    exit (EXIT_FAILURE);
-  };
+	st = fclose (fpout);
+	if (st == EOF) {
+		failer ("failed to close file");
+		exit (EXIT_FAILURE);
+	};
 }
 
-void outopenbr
-    PROTO_Z ()
+void
+outopenbr(void)
 {
-  return;
+	return;
 }
 
-void outclosebr
-    PROTO_Z ()
+void
+outclosebr(void)
 {
-  return;
+	return;
 }
 
-void outdivsym
-    PROTO_Z ()
+void
+outdivsym(void)
 {
-  outs("/");
-  return;
+	outs("/");
+	return;
 }
 
-void out_initialiser
-    PROTO_N ( (id) )
-    PROTO_T ( char* id )
+void
+out_initialiser(char* id)
 {
-  outs (".section .init,\"x\"\n");
-  outs (" call ");
-  outs (id);
-  outnl ();
-  outnl ();
-  return;
+	outs (".section .init,\"x\"\n");
+	outs (" call ");
+	outs (id);
+	outnl ();
+	outnl ();
+	return;
 }
-
-

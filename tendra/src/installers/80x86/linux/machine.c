@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /* linux/machine.c */
@@ -81,42 +81,37 @@ char * name_prefix = "";
 
 /* PROCEDURES */
 
-void set_linux_format
-    PROTO_N ( (elf) )
-    PROTO_T ( int elf )
+void
+set_linux_format(int elf)
 {
-  linux_elf = elf;
-  if (elf) {
-    local_prefix = ".L";
-    name_prefix = "";
-  }
-  else {
-    local_prefix = "L";
-    name_prefix = "_";
-  }
-  return;
+	linux_elf = elf;
+	if (elf) {
+		local_prefix = ".L";
+		name_prefix = "";
+	}
+	else {
+		local_prefix = "L";
+		name_prefix = "_";
+	}
+	return;
 }
 
 
 /* is the result of a procedure delivering
-   this shape produced in registers. */
-int reg_result
-    PROTO_N ( (sha) )
-    PROTO_T ( shape sha )
+ *   this shape produced in registers. */
+int
+reg_result(shape sha)
 {
-  unsigned char  n = name(sha);
-  if (gcc_compatible) {
-    int sz = shape_size(sha);
-    if (n == nofhd)
-      return 0;
-    if (n == cpdhd && sz != 8 && sz != 16 && sz != 32 && sz != 64)
-      return 0;
-    return 1;
-  };
-  if (n == cpdhd || n == nofhd)
-    return 0;
-  return 1;
+	unsigned char  n = name(sha);
+	if (gcc_compatible) {
+		int sz = shape_size(sha);
+		if (n == nofhd)
+			return 0;
+		if (n == cpdhd && sz != 8 && sz != 16 && sz != 32 && sz != 64)
+			return 0;
+		return 1;
+	};
+	if (n == cpdhd || n == nofhd)
+		return 0;
+	return 1;
 }
-
-
-

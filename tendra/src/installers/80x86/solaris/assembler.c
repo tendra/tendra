@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@
  *        it may be put.
  *
  * $TenDRA$
-*/
+ */
 
 
 /* sol86/assembler.c */
@@ -71,58 +71,55 @@
 
 /* PROCEDURES */
 
-void dot_align
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+dot_align(int n)
 {
-  outs(".align "); outn((long)n); outnl();
-  return;
+	outs(".align "); outn((long)n); outnl();
+	return;
 }
 
 
-void outbyte
-    PROTO_Z ()
+void
+outbyte(void)
 {
-  outs(".byte ");
-  return;
+	outs(".byte ");
+	return;
 }
 
-void outshort
-    PROTO_Z ()
+void
+outshort(void)
 {
-  outs(".value ");
-  return;
+	outs(".value ");
+	return;
 }
 
-void outlong
-    PROTO_Z ()
+void
+outlong(void)
 {
-  outs(".long ");
-  return;
+	outs(".long ");
+	return;
 }
 
-void align_label
-    PROTO_N ( (f, jr) )
-    PROTO_T ( int f X exp jr )
+void
+align_label(int f, exp jr)
 {
-  if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+	if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 
 /* forward jump and continued into
-    if (f==0)
-      outs(".align 8");
-*/
-    if (f == 1)	/* repeat jump */
-      outs(".align 4");
-    if (f == 2)	/* preceded by a jmp or ret */
-      outs(".align 16");
-    outs("\n");
-  };
-  return;
+ *    if (f==0)
+ *      outs(".align 8");
+ */
+		if (f == 1)	/* repeat jump */
+			outs(".align 4");
+		if (f == 2)	/* preceded by a jmp or ret */
+			outs(".align 16");
+		outs("\n");
+	};
+	return;
 }
 
-void eval_postlude
-    PROTO_N ( (s, c) )
-    PROTO_T ( char * s X exp c )
+void
+eval_postlude(char * s, exp c)
 {
     outs(".size ");
     outs (s);
@@ -136,231 +133,218 @@ void eval_postlude
     return;
 }
 
-void out_readonly_section
-    PROTO_Z ()
+void
+out_readonly_section(void)
 {
-  outs (".section .rodata");
-  return;
+	outs (".section .rodata");
+	return;
 }
 
-void out_dot_comm
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_dot_comm(char * id, shape sha)
 {
 	outs (".comm ");
 	outs (id);
 	outs (",");
-	outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+	outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 
 	outnl ();
-  return;
+	return;
 }
 
-void out_dot_lcomm
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_dot_lcomm(char * id, shape sha)
 {
 	outs (".lcomm ");
 	outs (id);
 	outs (",");
-	outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+	outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 
 	outnl ();
-  return;
+	return;
 }
 
-void out_bss
-    PROTO_N ( (id, sha) )
-    PROTO_T ( char * id X shape sha )
+void
+out_bss(char * id, shape sha)
 {
 	outs (".bss ");
 	outs (id);
 	outs (",");
-	outn ((long)((( shape_size(sha)/ 8) + 3) / 4) * 4);
+	outn ((long)(((shape_size(sha)/ 8) + 3) / 4) * 4);
 
 	outnl ();
-  return;
+	return;
 }
 
 static long pic_label;
 
-void pic_prelude
-    PROTO_Z ()
+void
+pic_prelude(void)
 {
-  long n = next_lab();
-  pic_label = n;
-  outs(" call .L"); outn(n); outnl();
-  outs(".L"); outn(n); outs(":"); outnl();
-  outs(" popl %ebx"); outnl();
-  outs(" addl $_GLOBAL_OFFSET_TABLE_+[.-.L"); outn(n); outs("],%ebx");
+	long n = next_lab();
+	pic_label = n;
+	outs(" call .L"); outn(n); outnl();
+	outs(".L"); outn(n); outs(":"); outnl();
+	outs(" popl %ebx"); outnl();
+	outs(" addl $_GLOBAL_OFFSET_TABLE_+[.-.L"); outn(n); outs("],%ebx");
     outnl();
-  return;
+	return;
 }
 
-void out_rename
-    PROTO_N ( (oldid, newid) )
-    PROTO_T ( char * oldid X char * newid )
+void
+out_rename(char * oldid, char * newid)
 {
-  UNUSED(oldid); UNUSED(newid);
-  return;
+	UNUSED(oldid); UNUSED(newid);
+	return;
 }
 
 
-void out_switch_jump
-    PROTO_N ( (tab, a, min) )
-    PROTO_T ( int tab X where a X int min )
+void
+out_switch_jump(int tab, where a, int min)
 {
-  if (PIC_code)  {
-    outs(" leal ");
-    outs(local_prefix);
-    outn((long)tab);
-    outs("@GOTOFF(%ebx,");
-    operand (32, a, 1, 0);
-    outs(",4),%eax");
-    outnl();
-    outs(" movl ");
-    outs("-");
-    outn((long)(4 * min));
-    outs ("(%eax),%eax");
-    outnl();
-    outs(" addl %ebx,%eax");
-    outnl();
-    outs(" subl $_GLOBAL_OFFSET_TABLE_+[.-.L"); outn(pic_label);
-      outs("],%eax"); outnl();
-    outs(" jmp *%eax");
-    outnl();
-    return;
-    /* MODIFY FOR NEW CASE !!!!! */
-  }
-  else  {
-    outs (" jmp *");
-    outs(local_prefix);
-    outn((long)tab);
-    outs("-");
-    outn((long)(4 * min));
-    outs ("(,");
-    operand (32, a, 1, 0);
-    outs (",4)");
-    outnl ();
-    return;
-  };
-}
-
-void out_switch_table
-    PROTO_N ( (tab, min, max, v, absent) )
-    PROTO_T ( int tab X int min X int max X int * v X int absent )
-{
-  int i;
-
-  dot_align(4);
-  outnl();
-
-  outs(local_prefix);
-  outn ((long)tab);
-  outs (":");
-  outnl ();
-
-  for (i = min; i <= max; ++i) {
-    outs (".long ");
-    if (v[i - min] != -1)  {
-      outs(local_prefix);
-      outn ((long)v[i - min]);
-      if (PIC_code) {
-        outs("-");
-        outs(local_prefix);
-        outn(pic_label);
-      }
-    }
-    else  {
-      if (absent == -1)
-	outn((long)0);
-      else {
-        outs(local_prefix);
-        outn ((long)absent);
-	if (PIC_code) {
-	  outs("-");
-	  outs(local_prefix);
-	  outn(pic_label);
+	if (PIC_code)  {
+		outs(" leal ");
+		outs(local_prefix);
+		outn((long)tab);
+		outs("@GOTOFF(%ebx,");
+		operand (32, a, 1, 0);
+		outs(",4),%eax");
+		outnl();
+		outs(" movl ");
+		outs("-");
+		outn((long)(4 * min));
+		outs ("(%eax),%eax");
+		outnl();
+		outs(" addl %ebx,%eax");
+		outnl();
+		outs(" subl $_GLOBAL_OFFSET_TABLE_+[.-.L"); outn(pic_label);
+		outs("],%eax"); outnl();
+		outs(" jmp *%eax");
+		outnl();
+		return;
+		/* MODIFY FOR NEW CASE !!!!! */
 	}
-      };
-    };
-    outnl ();
-  };
+	else  {
+		outs (" jmp *");
+		outs(local_prefix);
+		outn((long)tab);
+		outs("-");
+		outn((long)(4 * min));
+		outs ("(,");
+		operand (32, a, 1, 0);
+		outs (",4)");
+		outnl ();
+		return;
+	};
 }
 
-void proc_size
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+out_switch_table(int tab, int min, int max,
+				 int * v, int absent)
 {
-  outs(".align 4");
-  outnl();
-  outs(".size ");
-  outs(s);
-  outs(", .-");
-  outs(s);
-  outnl();
+	int i;
+
+	dot_align(4);
+	outnl();
+
+	outs(local_prefix);
+	outn ((long)tab);
+	outs (":");
+	outnl ();
+
+	for (i = min; i <= max; ++i) {
+		outs (".long ");
+		if (v[i - min] != -1)  {
+			outs(local_prefix);
+			outn ((long)v[i - min]);
+			if (PIC_code) {
+				outs("-");
+				outs(local_prefix);
+				outn(pic_label);
+			}
+		}
+		else  {
+			if (absent == -1)
+				outn((long)0);
+			else {
+				outs(local_prefix);
+				outn ((long)absent);
+				if (PIC_code) {
+					outs("-");
+					outs(local_prefix);
+					outn(pic_label);
+				}
+			};
+		};
+		outnl ();
+	};
 }
 
-void proc_type
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+proc_size(char * s)
 {
-  outs(".type ");
-  outs(s);
-  outs(",@function");
-  outnl();
-  return;
+	outs(".align 4");
+	outnl();
+	outs(".size ");
+	outs(s);
+	outs(", .-");
+	outs(s);
+	outnl();
 }
 
-void outend
-    PROTO_Z ()
+void
+proc_type(char * s)
 {
-  int   st;
-
-  dot_align(16);
-
-  st = fclose (fpout);
-  if (st == EOF) {
-    failer ("failed to close file");
-    exit (EXIT_FAILURE);
-  };
+	outs(".type ");
+	outs(s);
+	outs(",@function");
+	outnl();
+	return;
 }
 
-void outopenbr
-    PROTO_Z ()
+void
+outend(void)
 {
-  outs("[");
-  return;
+	int   st;
+
+	dot_align(16);
+
+	st = fclose (fpout);
+	if (st == EOF) {
+		failer ("failed to close file");
+		exit (EXIT_FAILURE);
+	};
 }
 
-void outclosebr
-    PROTO_Z ()
+void
+outopenbr(void)
 {
-  outs("]");
-  return;
+	outs("[");
+	return;
 }
 
-void outdivsym
-    PROTO_Z ()
+void
+outclosebr(void)
 {
-  outs("/");
-  return;
+	outs("]");
+	return;
 }
 
-void out_initialiser
-    PROTO_N ( (id) )
-    PROTO_T ( char* id )
+void
+outdivsym(void)
 {
-  outs (".section .init\n");
-  outs (" call ");
-  outs (id);
-  if (PIC_code)
-    outs ("@PLT");
-  outnl ();
-  return;
+	outs("/");
+	return;
 }
 
-
-
-
-
+void
+out_initialiser(char* id)
+{
+	outs (".section .init\n");
+	outs (" call ");
+	outs (id);
+	if (PIC_code)
+		outs ("@PLT");
+	outnl ();
+	return;
+}

@@ -62,19 +62,19 @@
 #define diag_config_key
 
 
-typedef long OUTPUT_REC ;
-typedef diag_descriptor diag_global ;
+typedef long OUTPUT_REC;
+typedef diag_descriptor diag_global;
 
-#define INSPECT_FILENAME( x )	stab_collect_files ( x )
-#define NEW_DIAG_GLOBAL( x )	( x )
+#define INSPECT_FILENAME(x)	stab_collect_files (x)
+#define NEW_DIAG_GLOBAL(x)	(x)
 #define OUTPUT_DIAG_TAGS()	stab_tagdefs ()
 #define OUTPUT_GLOBALS_TAB()	stab_typedefs ()
 
 #define STABS
 
-extern void stab_collect_files PROTO_S ((filename f));
-extern void stab_tagdefs PROTO_S((void));
-extern void stab_typedefs PROTO_S((void));
-extern void init_stab_aux PROTO_S((void));
+extern void stab_collect_files(filename f);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
+extern void init_stab_aux(void);
 
 #endif

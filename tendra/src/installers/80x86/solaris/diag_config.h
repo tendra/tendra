@@ -25,7 +25,7 @@
  *
  *
  *    		 Crown Copyright (c) 1997
- *    
+ *
  *    This TenDRA(r) Computer Program is subject to Copyright
  *    owned by the United Kingdom Secretary of State for Defence
  *    acting through the Defence Evaluation and Research Agency
@@ -34,18 +34,18 @@
  *    to other parties and amendment for any purpose not excluding
  *    product development provided that any such use et cetera
  *    shall be deemed to be acceptance of the following conditions:-
- *    
+ *
  *        (1) Its Recipients shall ensure that this Notice is
  *        reproduced upon any copies or amended versions of it;
- *    
+ *
  *        (2) Any amended version of it shall be clearly marked to
  *        show both the nature of and the organisation responsible
  *        for the relevant amendment or amendments;
- *    
+ *
  *        (3) Its onward transfer from a recipient to another
  *        party shall be deemed to be that party's acceptance of
  *        these conditions;
- *    
+ *
  *        (4) DERA gives no warranty or assurance as to its
  *        quality or suitability for any purpose and DERA accepts
  *        no liability whatsoever in relation to any use to which
@@ -66,23 +66,23 @@ typedef long OUTPUT_REC ;
 #ifdef NEWDIAGS
 
 extern int dwarf2;
-extern void dw2_proc_start PROTO_S ((exp p, dg_name d));
-extern void dw2_proc_end PROTO_S ((exp p));
-extern void dw2_code_info PROTO_S ((dg_info d, void (*mcode)(void *), void * args));
-extern void dw2_start_basic_block PROTO_S ((void));
+extern void dw2_proc_start(exp p, dg_name d);
+extern void dw2_proc_end(exp p);
+extern void dw2_code_info(dg_info d, void (*mcode)(void *), void * args);
+extern void dw2_start_basic_block(void);
 
-extern void code_diag_info PROTO_S ((diag_info * d, void (*mcode)(void *), void * args));
-extern void out_diag_global PROTO_S ((dg_name di, int global, int cname, char* pname));
-extern void diag_proc_begin PROTO_S ((dg_name di, int global, int cname, char* pname));
-extern void diag_proc_end PROTO_S ((void));
+extern void code_diag_info(diag_info * d, void (*mcode)(void *), void * args);
+extern void out_diag_global(dg_name di, int global, int cname, char* pname);
+extern void diag_proc_begin(dg_name di, int global, int cname, char* pname);
+extern void diag_proc_end(void);
 
 
 
 #define DIAG_VAL_BEGIN(d,g,c,s)	if (!dwarf2) \
 				  out_diag_global (d, g, c, s);
 
-#define DIAG_VAL_END(d)	
-	
+#define DIAG_VAL_END(d)
+
 #define DIAG_PROC_BEGIN(d,g,c,s,p) if (dwarf2) \
 				  dw2_proc_start (p, d);\
 				else \
@@ -110,14 +110,14 @@ extern void diag_proc_end PROTO_S ((void));
 #define OUTPUT_DIAG_TAGS()	stab_tagdefs ()
 #define OUTPUT_GLOBALS_TAB()	stab_typedefs ()
 
-extern void stab_collect_files PROTO_S ((dg_filename f));
-extern void stab_tagdefs PROTO_S((void));
-extern void stab_typedefs PROTO_S((void));
+extern void stab_collect_files(dg_filename f);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
 
 #endif
 
 #define STABS
 
-extern void init_stab_aux PROTO_S((void));
+extern void init_stab_aux(void);
 
 #endif
