@@ -205,7 +205,11 @@ CONST char *ntype_name [ ORDER_ntype ] = {
     "long double",		/* ntype_ldouble */
     "void",			/* ntype_void */
     "<bottom>",			/* ntype_bottom */
+#if LANGUAGE_CPP
     "bool",			/* ntype_bool */
+#else
+    "_Bool",			/* ntype_bool */
+#endif
     "ptrdiff_t",		/* ntype_ptrdiff_t */
     "size_t",			/* ntype_size_t */
     "wchar_t",			/* ntype_wchar_t */
