@@ -25,6 +25,8 @@
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
+
+  $TenDRA$
 */
 
 
@@ -120,9 +122,6 @@ int   main
 	}
 
 	break;
-      case 'B':
-	do_foralls = opt(s[2]);
-	break;
       case 'C':
 	do_loopconsts = opt(s[2]);
 	break;
@@ -160,7 +159,7 @@ int   main
 	do_profile = 1;
 	break;
       case 'Q':
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
       case 'R':
 	round_after_flop = opt(s[2]);
 	break;
