@@ -280,18 +280,18 @@ typedef struct {
 	int	ifdMax;		/* number of file descriptor entries */
 	int	crfd;		/* number of relative file descriptor entries */
 	int	iextMax;	/* max index into external symbols */
-	vm_offset_t	cbLine;	/* number of bytes for line number entries */
-	vm_offset_t	cbLineOffset;/* offset to start of line number entries*/
-	vm_offset_t	cbDnOffset;/* offset to start dense number table */
-	vm_offset_t	cbPdOffset;/* offset to procedure descriptor table */
-	vm_offset_t	cbSymOffset;/* offset to start of local symbols*/
-	vm_offset_t	cbOptOffset;/* offset to optimization symbol entries */
-	vm_offset_t	cbAuxOffset;/* offset to start of auxillary symbol entries*/
-	vm_offset_t	cbSsOffset;/* offset to start of local strings */
-	vm_offset_t	cbSsExtOffset;/* offset to start of external strings */
-	vm_offset_t	cbFdOffset;/* offset to file descriptor table */
-	vm_offset_t	cbRfdOffset;/* offset to relative file descriptor table */
-	vm_offset_t	cbExtOffset;/* offset to start of external symbol entries*/
+	long	cbLine;		/* number of bytes for line number entries */
+	unsigned long	cbLineOffset;/* offset to start of line number entries*/
+	unsigned long	cbDnOffset;/* offset to start dense number table */
+	unsigned long	cbPdOffset;/* offset to procedure descriptor table */
+	unsigned long	cbSymOffset;/* offset to start of local symbols*/
+	unsigned long	cbOptOffset;/* offset to optimization symbol entries */
+	unsigned long	cbAuxOffset;/* offset to start of auxillary symbol entries*/
+	unsigned long	cbSsOffset;/* offset to start of local strings */
+	unsigned long	cbSsExtOffset;/* offset to start of external strings */
+	unsigned long	cbFdOffset;/* offset to file descriptor table */
+	unsigned long	cbRfdOffset;/* offset to relative file descriptor table */
+	unsigned long	cbExtOffset;/* offset to start of external symbol entries*/
 	/* If you add machine dependent fields, add them here */
 	} HDRR, *pHDRR; 
 #define cbHDRR sizeof(HDRR)
@@ -315,10 +315,10 @@ typedef struct {
  * setup at runtime.
  */
 typedef struct fdr {
-	vm_offset_t	adr;	/* memory address of beginning of file */
-	vm_offset_t cbLineOffset;/* byte offset from header for this file ln's */
-	vm_offset_t	cbLine;	/* size of lines for this file */
-	vm_offset_t	cbSs;	/* number of bytes in the ss */
+	unsigned long	adr;	/* memory address of beginning of file */
+	long	cbLineOffset;	/* byte offset from header for this file ln's */
+	long	cbLine;		/* size of lines for this file */
+	long	cbSs;		/* number of bytes in the ss */
 	int	rss;		/* file name (of source, if known) */
 	int	issBase;	/* file's string space */
 	int	isymBase;	/* beginning of symbols */
@@ -358,8 +358,8 @@ typedef struct fdr {
  */
 
 typedef struct pdr {
-	vm_offset_t	adr;	/* memory address of start of procedure */
-	vm_offset_t	cbLineOffset;/* byte offset for this procedure from the fd base */
+	unsigned long	adr;	/* memory address of start of procedure */
+	long	cbLineOffset;	/* byte offset for this procedure from the fd base */
 	int	isym;		/* start of local symbol entries */
 	int	iline;		/* start of line number entries*/
 	int	regmask;	/* save register mask */
@@ -385,7 +385,7 @@ typedef struct pdr {
  * for use by the static exception system.
  */
 typedef struct runtime_pdr {
-	vm_offset_t	adr;	/* memory address of start of procedure */
+	unsigned long	adr;	/* memory address of start of procedure */
 	int	regmask;	/* save register mask */
 	int	regoffset;	/* save register offset */
 	int	fregmask;	/* save floating point register mask */
@@ -424,7 +424,7 @@ typedef int LINER, *pLINER;
  */
 
 typedef struct {
-	vm_offset_t	value;	/* value of symbol */
+	long	value;		/* value of symbol */
 	int	iss;		/* index into String Space of name */
 	unsigned st : 6;	/* symbol type */
 	unsigned sc  : 5;	/* storage class - text, data, etc */
