@@ -71,8 +71,10 @@
 #include "exception.h"
 #include "msgcat.h"
 
-//extern void			MSG_exception_unhandled(ExceptionP, CStringP, unsigned);
-//extern void			MSG_exception_corrupt_handler(CStringP, unsigned);
+#if 0
+extern void			MSG_exception_unhandled(ExceptionP, CStringP, unsigned);
+extern void			MSG_exception_corrupt_handler(CStringP, unsigned);
+#endif
 
 /*--------------------------------------------------------------------------*/
 
