@@ -17,6 +17,8 @@ MACH_EXEC=	elf
 
 .if ${TMP_CPU} == "i386"
 MACH_CPU=	80x86
+.elif ${TMP_CPI} == "sparc"
+MACH_CPU=	sparc
 .endif
 
 .include "config.common.mk"
