@@ -20,12 +20,12 @@
 </refsynopsisdiv>
 
 
-<refsect1 id='pl-description'>
+<refsect1 id='maketdf-description'>
   <title>DESCRIPTION</title>
   <para>To be documented.</para>
 </refsect1>
 
-<refsect1 id='pl-options'>
+<refsect1 id='maketdf-options'>
   <title>OPTIONS</title>
   <variablelist>
     <varlistentry>
