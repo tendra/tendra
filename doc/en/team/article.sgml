@@ -47,7 +47,9 @@
           <row>
             <entry valign="top">Stefan Farfeleder</entry>
             <entry valign="top"><email>stefanf@ten15.org</email></entry>
-            <entry>...</entry>
+            <entry>Stefan plans to concentrate on the C producer in terms of
+              bug fixes and C99 functionality, new APIs (mainly C99 and
+              SUSv3), as well as the Alpha installer.</entry>
           </row>
           <row>
             <entry valign="top">Samuel J. Greear</entry>
