@@ -74,6 +74,11 @@
 #define	REG_ESP		0x80
 #define	REG_ALL_EXCEPT_EAX	(REG_EDX | REG_ECX | REG_EBX | REG_EDI | REG_ESI | REG_EBP)
 
+/*
+ * Special pseudo register to identify floating point stack
+ */
+#define	REG_FLSTACK	0x10000
+
 
 extern void coder(where dest, ash stack, exp e);
 extern int regsinuse;

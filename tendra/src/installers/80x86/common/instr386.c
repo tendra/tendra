@@ -782,7 +782,7 @@ initzeros()
 			   0);
 	
 	flstackid = getexp (f_bottom, nilexp, 0, dummys, nilexp, 0,
-						0x10000, ident_tag);
+						REG_FLSTACK, ident_tag);
 	ptno(flstackid) = reg_pl;
 	flstack = mw (getexp (realsh, nilexp, 0, flstackid, nilexp,
 						  0, 0, name_tag),
@@ -2041,9 +2041,9 @@ move(shape sha, where from, where to)
 		int  f2 = in_fl_reg (to.where_exp);
 		int  f1pos = (f1) ? get_reg_no (f1) : 0;
 		int  f2pos = (f2) ? get_reg_no (f2) : 0;
-		if (f1pos && f1pos == f2pos && f2 != 0x10000)
+		if (f1pos && f1pos == f2pos && f2 != REG_FLSTACK)
 			return;			/* from and to are the same */
-		if (f1pos && f1pos > f2pos && f2 != 0x10000) {
+		if (f1pos && f1pos > f2pos && f2 != REG_FLSTACK) {
 			if (f1pos == fstack_pos &&
 				from.where_exp != flstack.where_exp) {
 				if (flinmem (to)) {	/* are going to pop the floating point

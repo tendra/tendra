@@ -326,7 +326,7 @@ get_reg_no(int regs)
 	/* find the registers associated with the bit pattern regs */
 	
 	fr = first_reg (regs);
-	if (regs == 0x10000 || fr.fr_no == (fstack_pos))
+	if (regs == REG_FLSTACK || fr.fr_no == (fstack_pos))
 		return (fstack_pos);
 	return (fr.fr_no);		/* this is the register number */
 }
