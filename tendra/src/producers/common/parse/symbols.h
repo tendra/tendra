@@ -519,7 +519,7 @@ LEX_TOKEN (lex_omp_lastprivate, "lastprivate", TOK_NONE)
 LEX_TOKEN (lex_omp_shared, "shared", TOK_NONE)
 LEX_TOKEN (lex_omp_default, "default", TOK_NONE)
 LEX_TOKEN (lex_omp_reduction, "reduction", TOK_NONE)
-LEX_TOKEN (lex_omp_copyin, "copyin". TOK_NONE)
+LEX_TOKEN (lex_omp_copyin, "copyin", TOK_NONE)
 LEX_TOKEN (lex_omp_copyprivate, "copyprivate", TOK_NONE)
 
 #endif /* LEX_TOKEN */
