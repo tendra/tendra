@@ -147,7 +147,7 @@
     capsules.</para>
 
   <para>C source files (including preprocessed C) are compiled into
-    target independent TDF capsules using &man.tendra.tdfc;.
+    target independent TDF capsules using &man.tendra.tdfc2;.
     (&man.tendra.tcpplus; does the same for C++ source files when
     <option>-Yc++</option> is specified.)</para>
     <para>Target independent TDF capsules are linked, using
@@ -1233,7 +1233,7 @@
 
   <para>&man.freebsd.as;, &man.freebsd.cc;, &man.tendra.disp;,
   &man.freebsd.ld;, &man.freebsd.prof;, &man.tendra.tchk;,
-  &man.tendra.tdfc;, &man.tendra.tcpplus;,
+  &man.tendra.tdfc2;, &man.tendra.tcpplus;,
   &man.tendra.tld;, &man.tendra.trans386;, &man.tendra.alphatrans;,
   &man.tendra.hppatrans;, &man.tendra.mipstrans;, &man.tendra.sparctrans;,
   &man.tendra.tccenv;.</para>
