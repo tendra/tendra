@@ -34,17 +34,68 @@
 SYSTEM=`/usr/bin/env uname -s`
 VERSION=`/usr/bin/env uname -r`
 
+if [ -f Makefile.defs ]; then
+	echo "NOTICE: old Makefile.defs file found, overwriting..."
+	echo
+fi
+
+echo "${SYSTEM}.${VERSION} detected..."
+echo
+
+# See the URL in the warning below for why this is bad.
+if [ ! -z $LD_LIBRARY_PATH ]; then
+	echo "WARNING: LD_LIBRARY_PATH set, please don't do that (see:"
+	echo "http://www.visi.com/~barr/ldpath.html)"
+	echo "Setting to empty environment variable..."
+	echo
+	LD_LIBRARY_PATH=""
+fi
+
 case "${SYSTEM}.${VERSION}" in
 	DragonFly.1*)	# Use the system supplied GCC for CC.
 			# System definition is __DragonFly__
+			if [ "x$CC" = "x" ]; then
+				CC="cc"
+			fi
+			OSVER="DRAGONFLY1"
 			;;
 	FreeBSD.4*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
+			CC="cc"
+			OSVER="FREEBSD4"
 			;;
 	FreeBSD.5*)	# Use the system supplied GCC for CC.
 			# System definition is __FreeBSD__
+			CC="cc"
+			OSVER="FREEBSD5"
+			;;
+	SunOS.5*)	# Do not use the cc in /usr/ucb since it is an optional
+			# software package.
+			if [ "x$CC" = "x" ]; then
+			    CC=`/usr/bin/env cc`
+			    case "${CC}" in
+				*ucb*cc*)
+				    echo "Please set your PATH or CC environment variable to a working compiler and not"
+				    echo "the ucb/cc one"
+				    exit 1
+				    ;;
+			    esac;
+			fi
+			CC=$CC
+			OSVER="SUNOS5"
 			;;
 	*)		echo "unknown ${SYSTEM} and ${VERSION} combination"
 			echo "please report to the developers..."
 			;;
 esac
+
+echo "Setting Makefile.defs environment to the following:"
+echo
+echo "CC:	$CC"
+echo "OSVER:	$OSVER"
+
+cat > Makefile.defs <<EOF
+CC=$CC
+OSVER=$OSVER
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+EOF
