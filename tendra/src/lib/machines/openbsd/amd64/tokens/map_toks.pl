@@ -28,7 +28,7 @@
 */
 	/* **************************************************** */
 	/*							*/
-	/* Basic Mapping Token Definitions for freebsd i386	*/
+	/* Basic Mapping Token Definitions for openbsd i386	*/
 	/*							*/
 	/* **************************************************** */
 

@@ -1,6 +1,6 @@
 # $Id$
 
-SRC=${BASE}/src/lib/machines/freebsd/80x86/tokens
+SRC=${BASE}/src/lib/machines/openbsd/80x86/tokens
 SRC2=${BASE}/src/lib/machines/common/tokens
 
 LIB=target_tok.tl

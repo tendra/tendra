@@ -9,7 +9,7 @@
 #assert machine(i386)
 #assert cpu(i386)
 #assert system(unix)
-#assert system(FreeBSD)
+#assert system(OpenBSD)
 #unassert lint
 #endif
 
@@ -19,7 +19,7 @@
 #define __i386		1
 #define __unix__	1
 #define __i386__	1
-#define __FreeBSD__	2
+#define __OpenBSD__	2
 
 #ifndef __inline
 #pragma TenDRA keyword __inline for inline
