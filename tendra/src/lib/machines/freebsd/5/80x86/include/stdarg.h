@@ -68,8 +68,8 @@
 */
 
 #ifndef _VA_LIST
-#ifndef _VA_LIST_DECLARED
 #define _VA_LIST
+#ifndef _VA_LIST_DECLARED
 #define _VA_LIST_DECLARED
 typedef char *va_list ;
 #endif
