@@ -44,6 +44,8 @@ syn match sidIdentifier	"[a-zA-Z_-][a-zA-Z0-9_-]*"
 
 syn match sidNotUsed	"![a-zA-Z_-][a-zA-Z0-9_-]*"
 
+syn match sidType	"\s*:\s*(.*)"
+
 "============================================================================
 " COLOUR ASSIGNMENT
 "============================================================================
@@ -62,6 +64,7 @@ if version >= 508 || !exists("did_c_syn_inits")
 	HiLink sidIdentifier	Identifier
 	HiLink sidNotUsed	Error
 	HiLink sidSecHeader	Statement
+	HiLink sidType		Type
 
 	delcommand HiLink
 endif
