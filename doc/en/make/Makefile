@@ -1,9 +1,11 @@
 # $TenDRA$
 
-.include "../Makefile.inc"
+PDF_TITLE=	PMake Tutorial
+PDF_SUBJECT=	PMake Tutorial
 
 DOC?= book
 
 SRCS=   book.sgml
 
+.include "../Makefile.inc"
 .include "${DOC_PREFIX}/share/mk/doc.project.mk"

@@ -40,6 +40,11 @@ PRINTOPTS?=	-ioutput.print -d ${DSLPRINT} ${PRINTFLAGS}
 SGMLFLAGS+=	-D ${.CURDIR}
 
 
+JADETEX_FILE?=	${DOC_PREFIX}/share/misc/jadetex.cfg
+PDF_TITLE?=	not set
+PDF_SUBJECT?=	not set
+
+
 # binaries
 BZIP2?=		-9
 BZIP2_CMD?=	bzip2 -qf ${BZIP2}
@@ -50,6 +55,7 @@ GZIP_CMD?=	gzip -qf ${GZIP}
 LATEX?=		latex
 PDFTEX?=	pdftex
 RM?=		rm
+SED?=		sed
 TAR?=		tar
 TEX?=		tex
 TIDY?=		tidy
@@ -116,24 +122,24 @@ DVIPSOPTS?=	-t ${PAPERSIZE:L} ${DVIPSFLAGS}
 
 
 
+
 .for _curformat in ${FORMATS}
+
 _cf=${_curformat}
 
 .if ${_cf} == "html-split"
 _docs+= index.html HTML.manifest ln*.html
-CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
-		HTML.manifest ln*.html ${IMAGES_PNG}
-CLEANFILES+= PLIST.${_curformat}
+CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) 
+CLEANFILES+= HTML.manifest ln*.html ${IMAGES_PNG} PLIST.${_curformat}
 .else
+
 _docs+= ${DOC}.${_curformat}
-CLEANFILES+= ${DOC}.${_curformat}
-CLEANFILES+= PLIST.${_curformat}
 
 .if ${_cf} == "html-split.tar"
 CLEANFILES+= $$([ -f HTML.manifest ] && ${XARGS} < HTML.manifest) \
 		HTML.manifest ln*.html ${IMAGES_PNG}
-.elif ${_cf} == "html.tar"
 
+.elif ${_cf} == "html.tar"
 CLEANFILES+= ${DOC}.html ${IMAGES_PNG} ${CSS_SHEET}
 
 .elif ${_cf} == "html"
@@ -152,7 +158,7 @@ CLEANFILES+= ${DOC}.aux ${DOC}.log ${IMAGES_EPS}
 CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.tex ${IMAGES_EPS}
 
 .elif ${_cf} == "pdf"
-CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES_PDF}
+CLEANFILES+= ${DOC}.aux ${DOC}.dvi ${DOC}.log ${DOC}.out ${DOC}.tex-pdf ${IMAGES_PDF} jadetex.cfg
 
 .elif ${_cf} == "pdb"
 _docs+= ${.CURDIR:T}.pdb
@@ -283,7 +289,7 @@ ${DOC}.dvi: ${DOC}.tex ${LOCAL_IMAGES_EPS}
 	@${ECHO} "==> TeX pass 3/3"
 	-${TEX} "&jadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex}'
 
-${DOC}.pdf: ${DOC}.tex-pdf ${IMAGES_PDF}
+${DOC}.pdf: jadetex.cfg ${DOC}.tex-pdf ${IMAGES_PDF}
 	@${ECHO} "==> PDFTeX pass 1/3"
 	-${PDFTEX} "&pdfjadetex" '${TEXCMDS} \nonstopmode\input{${DOC}.tex-pdf}'
 	@${ECHO} "==> PDFTeX pass 2/3"
@@ -301,8 +307,13 @@ ${DOC}.tar: ${SRCS} ${LOCAL_IMAGES} ${CSS_SHEET}
 ${CSS_SHEET}:
 	cat ${CSS_FILE} > ${.CURDIR}/${.TARGET} 
 	
-
-
-
 validate:
 	${NSGMLS} -s ${SGMLFLAGS} ${CATALOGS} ${MASTERDOC}
+
+
+jadetex.cfg:
+	${CAT} ${JADETEX_FILE} \
+		| ${SED} \
+			-e "s/%PDF_TITLE%/${PDF_TITLE}/g" \
+			-e "s/%PDF_SUBJECT%/${PDF_SUBJECT}/g" \
+		> ${.CURDIR}/${.TARGET}
