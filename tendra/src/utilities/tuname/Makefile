@@ -18,7 +18,7 @@ LIBS =
 
 NAME = tuname
 
-${NAME} : ${SRC}/tuname.c ${SRCX}/ossg.h
+${NAME} : ${SRC}/tuname.c
 	@${ECHO} ${BASE_DIR}
 	${CC} ${CCOPTS} -o ${NAME} ${SRC}/tuname.c ${LIBS}
 
