@@ -10,6 +10,9 @@ INSTALL_SUB+=		lib/machines
 .if defined(PROG)
 INSTALL_TARGETS+=	install-bin
 INSTALL_SUB+=		bin
+.if !defined(NOMAN)
+MAN+=			${PROG}.1
+.endif
 .endif
 
 .if defined(STARTUP)
@@ -23,6 +26,10 @@ INSTALL_SUB+=		lib/include/${API}.api lib/include/shared/${API}.api
 
 .if defined(INSTALL_ENV)
 INSTALL_TARGETS+=	install-env
+.endif
+
+.if defined(MAN)
+INSTALL_TARGETS+=	install-man
 .endif
 
 .if defined(PROG)
@@ -78,6 +85,13 @@ install-env:
 # installers/*, tools/*, utilities/*: our binary files.
 install-bin:
 	${INSTALL} ${INSTALL_FLAGS} ${.OBJDIR}/${PROG} ${INSTALL_PREFIX}/bin
+
+# installers/*, producers/*, tools/*, utilities/*: our man pages.
+install-man:
+.for i in ${MAN}
+	${MKDIR} -p ${PREFIX}/man/man${i:E}
+	${INSTALL} ${.CURDIR}/${i} ${PREFIX}/man/man${i:E}
+.endfor
 
 install-dir:
 	for i in ${INSTALL_SUB}; do \

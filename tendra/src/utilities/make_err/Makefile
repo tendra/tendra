@@ -6,6 +6,8 @@ SID_OPTS=	-l ossg-c -s no-lines
 
 PROG = make_err
 
+NOMAN=	yes
+
 SRCS=	error.c lex.c main.c process.c syntax.c
 
 #obj_c sources
