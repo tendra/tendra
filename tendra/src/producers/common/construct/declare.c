@@ -154,28 +154,28 @@ CV_SPEC cv_extern = cv_none;
 DECL_SPEC
 complete_dspec(DECL_SPEC ds, BASE_TYPE bt, TYPE t, CV_SPEC cv)
 {
-    DECL_SPEC key = (ds & dspec_nonempty);
+	DECL_SPEC key = (ds & dspec_nonempty);
 #if LANGUAGE_C
-    if (in_for_decl) {
+	if (in_for_decl) {
 		/* Can't have specifiers other than 'auto' or 'register' */
 		DECL_SPEC mask = ~(dspec_auto | dspec_register);
 		if (ds & mask) {
 			report (crt_loc, ERR_stmt_for_storage (ds & mask));
 			ds &= ~mask;
 		}
-    }
+	}
 #endif
-    if (key || bt || !IS_NULL_type (t) || cv) {
+	if (key || bt || !IS_NULL_type (t) || cv) {
 		/* Have a declaration specifier */
 		if (ds & dspec_c) {
 			/* Have a linkage specification */
 			if (ds & dspec_typedef) ds &= ~dspec_extern;
 			ds &= ~dspec_c;
 		}
-    } else {
+	} else {
 		ds |= dspec_empty;
-    }
-    return (ds);
+	}
+	return (ds);
 }
 
 
@@ -190,13 +190,13 @@ complete_dspec(DECL_SPEC ds, BASE_TYPE bt, TYPE t, CV_SPEC cv)
 static DECL_SPEC
 check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 {
-    int infer;
-    TYPE t = *p;
-    int empty = 0;
-    ERROR err = NULL_err;
+	int infer;
+	TYPE t = *p;
+	int empty = 0;
+	ERROR err = NULL_err;
 	
-    /* Report if there are no declaration specifiers */
-    if (ds & dspec_empty) {
+	/* Report if there are no declaration specifiers */
+	if (ds & dspec_empty) {
 		if (mem) {
 			err = ERR_class_mem_ds_empty ();
 		} else {
@@ -204,11 +204,11 @@ check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 		}
 		ds &= ~dspec_empty;
 		empty = 1;
-    }
+	}
 	
-    /* Check on inferred types */
-    infer = is_type_inferred (t);
-    if (infer != INFERRED_NOT) {
+	/* Check on inferred types */
+	infer = is_type_inferred (t);
+	if (infer != INFERRED_NOT) {
 		ERROR err2;
 		t = clean_inferred_type (t);
 		if (empty) {
@@ -218,9 +218,9 @@ check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 		}
 		err = concat_error (err, err2);
 		*p = t;
-    }
-    if (!IS_NULL_err (err)) report (crt_loc, err);
-    return (ds);
+	}
+	if (!IS_NULL_err (err)) report (crt_loc, err);
+	return (ds);
 }
 
 
@@ -235,11 +235,11 @@ check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 static DECL_SPEC
 check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 {
-    int empty = 0;
-    ERROR err = NULL_err;
+	int empty = 0;
+	ERROR err = NULL_err;
 	
-    /* Report if there are no declaration specifiers */
-    if (ds & dspec_empty) {
+	/* Report if there are no declaration specifiers */
+	if (ds & dspec_empty) {
 		if (mem) {
 			err = ERR_class_mem_ds_empty ();
 		} else if (def) {
@@ -249,16 +249,16 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 		}
 		ds &= ~dspec_empty;
 		empty = 1;
-    }
+	}
 	
-    /* Check for template types */
-    while (IS_type_templ (t)) {
+	/* Check for template types */
+	while (IS_type_templ (t)) {
 		ds |= dspec_template;
 		t = DEREF_type (type_templ_defn (t));
-    }
+	}
 	
-    /* Check the return type */
-    if (chk) {
+	/* Check the return type */
+	if (chk) {
 		TYPE r = DEREF_type (type_func_ret (t));
 		int infer = is_type_inferred (r);
 		if (infer != INFERRED_NOT) {
@@ -272,9 +272,9 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 			err = concat_error (err, err2);
 			COPY_type (type_func_ret (t), r);
 		}
-    }
-    if (!IS_NULL_err (err)) report (crt_loc, err);
-    return (ds);
+	}
+	if (!IS_NULL_err (err)) report (crt_loc, err);
+	return (ds);
 }
 
 
@@ -299,10 +299,10 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 static DECL_SPEC
 check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 {
-    DECL_SPEC st = (ds & dspec_storage);
+	DECL_SPEC st = (ds & dspec_storage);
 	
-    /* Check on storage class */
-    switch_label : {
+	/* Check on storage class */
+	switch_label : {
 		switch (DSPEC_STORAGE (st)) {
 			
 	    case DSPEC_STORAGE (dspec_none) : {
@@ -438,8 +438,8 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 			goto switch_label;
 	    }
 		}
-    }
-    return (st);
+	}
+	return (st);
 }
 
 
@@ -455,37 +455,37 @@ check_storage(DECL_SPEC ds, int loc, IDENTIFIER id)
 static DECL_SPEC
 check_func_spec(DECL_SPEC ds, int loc)
 {
-    DECL_SPEC fn = dspec_none;
+	DECL_SPEC fn = dspec_none;
 	
-    /* Only functions can be inline */
-    if (ds & dspec_inline) {
+	/* Only functions can be inline */
+	if (ds & dspec_inline) {
 		if (loc == CONTEXT_FUNCTION || loc == CONTEXT_FUNC_MEMBER) {
 			fn |= dspec_inline;
 		} else {
 			report (crt_loc, ERR_dcl_fct_spec_inline_bad ());
 		}
-    }
+	}
 	
-    /* Only function members can be virtual */
-    if (ds & dspec_virtual) {
+	/* Only function members can be virtual */
+	if (ds & dspec_virtual) {
 		if (loc == CONTEXT_FUNC_MEMBER) {
 			fn |= dspec_virtual;
 		} else {
 			report (crt_loc, ERR_dcl_fct_spec_virtual ());
 		}
-    }
+	}
 	
-    /* Only function members can be explicit */
-    if (ds & dspec_explicit) {
+	/* Only function members can be explicit */
+	if (ds & dspec_explicit) {
 		if (loc == CONTEXT_FUNC_MEMBER) {
 			fn |= dspec_explicit;
 		} else {
 			report (crt_loc, ERR_dcl_fct_spec_explicit ());
 		}
-    }
+	}
 	
-    /* Only functions declared in a class can be friends */
-    if (ds & dspec_friend) {
+	/* Only functions declared in a class can be friends */
+	if (ds & dspec_friend) {
 		if (loc == CONTEXT_FUNCTION && in_class_defn) {
 			/* Don't add to specifier list */
 			/* EMPTY */
@@ -494,13 +494,13 @@ check_func_spec(DECL_SPEC ds, int loc)
 		} else {
 			report (crt_loc, ERR_dcl_friend_class ());
 		}
-    }
+	}
 	
-    /* Allow for function discarding */
-    if (loc == CONTEXT_FUNCTION || loc == CONTEXT_FUNC_MEMBER) {
+	/* Allow for function discarding */
+	if (loc == CONTEXT_FUNCTION || loc == CONTEXT_FUNC_MEMBER) {
 		fn |= dspec_ignore;
-    }
-    return (fn);
+	}
+	return (fn);
 }
 
 
@@ -516,43 +516,43 @@ check_func_spec(DECL_SPEC ds, int loc)
 static IDENTIFIER
 make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 {
-    int reported = 0;
-    IDENTIFIER old_id;
-    unsigned tag = TAG_type (t);
-    QUALIFIER cq = crt_id_qualifier;
-    HASHID nm = DEREF_hashid (id_name (id));
+	int reported = 0;
+	IDENTIFIER old_id;
+	unsigned tag = TAG_type (t);
+	QUALIFIER cq = crt_id_qualifier;
+	HASHID nm = DEREF_hashid (id_name (id));
 	
-    /* Can't have other declaration specifiers with typedef */
-    DECL_SPEC st = (ds & dspec_keyword);
-    if (st != dspec_typedef) {
+	/* Can't have other declaration specifiers with typedef */
+	DECL_SPEC st = (ds & dspec_keyword);
+	if (st != dspec_typedef) {
 		st &= ~dspec_typedef;
 		report (crt_loc, ERR_dcl_typedef_dspec (st));
-    }
+	}
 	
-    /* Check for function cv-qualifiers and exception specifiers */
-    object_type (t, id_type_alias_tag);
+	/* Check for function cv-qualifiers and exception specifiers */
+	object_type (t, id_type_alias_tag);
 	
-    /* Check for previous declaration */
-    if (IS_NULL_member (mem)) {
+	/* Check for previous declaration */
+	if (IS_NULL_member (mem)) {
 		mem = search_member (ns, nm, 1);
 		old_id = DEREF_id (member_id (mem));
 		old_id = redecl_inherit (old_id, cq, in_class_defn, 2);
 		if (IS_NULL_id (old_id)) {
 			report (crt_loc, ERR_lookup_qual_undef (nm, ns));
 		}
-    } else {
+	} else {
 		old_id = DEREF_id (member_id (mem));
 		old_id = redecl_inherit (old_id, cq, in_class_defn, 2);
-    }
+	}
 	
-    /* Allow for type redeclarations */
+	/* Allow for type redeclarations */
 #if LANGUAGE_CPP
-    id = type_member (mem, 3);
-    id = redecl_inherit (id, cq, in_class_defn, 2);
+	id = type_member (mem, 3);
+	id = redecl_inherit (id, cq, in_class_defn, 2);
 #else
-    id = old_id;
+	id = old_id;
 #endif
-    if (!IS_NULL_id (id) && IS_id_class_name_etc (id)) {
+	if (!IS_NULL_id (id) && IS_id_class_name_etc (id)) {
 		/* Already declared as a type name */
 		TYPE s;
 		ERROR err = NULL_err;
@@ -600,14 +600,14 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 		err = concat_error (err, ERR_basic_link_typedef (id, loc));
 		report (crt_loc, err);
 		reported = 1;
-    }
+	}
 	
-    /* Declare the type */
-    id = make_typedef (ns, nm, t, dspec_none);
-    if (is_tagged_type (id)) {
+	/* Declare the type */
+	id = make_typedef (ns, nm, t, dspec_none);
+	if (is_tagged_type (id)) {
 		/* Class-like typedef-names */
 		set_type_member (mem, id);
-    } else {
+	} else {
 		/* Object-like typedef-names */
 		if (!IS_NULL_id (old_id) && !reported) {
 			/* Already declared as an object */
@@ -615,15 +615,15 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 			report (crt_loc, ERR_basic_odr_diff (old_id, loc));
 		}
 		set_member (mem, id);
-    }
-    if (tag == type_func_tag) {
+	}
+	if (tag == type_func_tag) {
 		/* Check function type */
 		decl_func_type (id, t, 0);
-    } else if (tag == type_templ_tag) {
+	} else if (tag == type_templ_tag) {
 		IGNORE check_templ_params (t, id);
 		report (crt_loc, ERR_temp_decl_bad ());
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -637,23 +637,23 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 void
 typedef_special(IDENTIFIER id, TYPE t)
 {
-    int pushed = 0;
-    NAMESPACE ns = nonblock_namespace;
-    if (!EQ_nspace (ns, crt_namespace)) {
+	int pushed = 0;
+	NAMESPACE ns = nonblock_namespace;
+	if (!EQ_nspace (ns, crt_namespace)) {
 		push_namespace (ns);
 		pushed = 1;
-    }
-    decl_loc = preproc_loc;
-    if (in_class_defn) {
+	}
+	decl_loc = preproc_loc;
+	if (in_class_defn) {
 		id = make_member_decl (dspec_typedef, t, id, 0);
-    } else {
+	} else {
 		id = make_object_decl (dspec_typedef, t, id, 0);
-    }
-    if (do_dump) dump_declare (id, &decl_loc, 1);
-    if (pushed) {
+	}
+	if (do_dump) dump_declare (id, &decl_loc, 1);
+	if (pushed) {
 		IGNORE pop_namespace ();
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -668,7 +668,7 @@ typedef_special(IDENTIFIER id, TYPE t)
 static DECL_SPEC
 find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 {
-    if (!IS_NULL_id (id)) {
+	if (!IS_NULL_id (id)) {
 		switch (TAG_id (id)) {
 	    case id_variable_tag :
 	    case id_parameter_tag :
@@ -701,8 +701,8 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 			break;
 	    }
 		}
-    }
-    return (st);
+	}
+	return (st);
 }
 
 
@@ -717,9 +717,9 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 void
 check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 {
-    int func = 0;
-    int local_def = really_in_function_defn;
-    switch (TAG_id (id)) {
+	int func = 0;
+	int local_def = really_in_function_defn;
+	switch (TAG_id (id)) {
 	case id_class_name_tag :
 	case id_enum_name_tag :
 	case id_class_alias_tag :
@@ -751,9 +751,9 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 	    report (crt_loc, ERR_lookup_qual_undef (nm, ns));
 	    return;
 	}
-    }
+	}
 	
-    if (def) {
+	if (def) {
 		/* Check for enclosing namespace scope */
 		if (local_def || !is_subnspace (cns, ns)) {
 			/* Report badly placed definition */
@@ -772,8 +772,8 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 			}
 			report (crt_loc, err);
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -787,14 +787,14 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 void
 check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 {
-    unsigned tag = TAG_type (t);
-    if (tag == type_top_tag || tag == type_bottom_tag) {
+	unsigned tag = TAG_type (t);
+	if (tag == type_top_tag || tag == type_bottom_tag) {
 		/* Always report void declarations */
 		report (crt_loc, ERR_basic_fund_void_decl (id, t));
-    } else if (tag == type_templ_tag) {
+	} else if (tag == type_templ_tag) {
 		/* Shouldn't have template type */
 		report (crt_loc, ERR_temp_decl_bad ());
-    } else if (ds & dspec_defn) {
+	} else if (ds & dspec_defn) {
 		/* Only check otherwise if this is a definition */
 		if (tag == type_array_tag) {
 			/* Arrays may be completed by the initialiser */
@@ -821,8 +821,8 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 				report (crt_loc, err);
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -836,23 +836,23 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 IDENTIFIER
 make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
-    ERROR err;
-    MEMBER mem;
-    NAMESPACE ns;
-    int redef = 0;
-    int simple_id = 1;
-    int tentative = 0;
-    IDENTIFIER old_id;
-    IDENTIFIER alt_id;
-    DECL_SPEC st, df, rs;
-    IDENTIFIER prev_id = NULL_id;
-    unsigned tag = TAG_type (t);
-    unsigned itag = id_variable_tag;
-    HASHID nm = DEREF_hashid (id_name (id));
+	ERROR err;
+	MEMBER mem;
+	NAMESPACE ns;
+	int redef = 0;
+	int simple_id = 1;
+	int tentative = 0;
+	IDENTIFIER old_id;
+	IDENTIFIER alt_id;
+	DECL_SPEC st, df, rs;
+	IDENTIFIER prev_id = NULL_id;
+	unsigned tag = TAG_type (t);
+	unsigned itag = id_variable_tag;
+	HASHID nm = DEREF_hashid (id_name (id));
 	
-    /* Check for template specialisations */
-    bound_specialise = 0;
-    if (is_templ_decl (id, NULL_type) || is_templ_spec (t)) {
+	/* Check for template specialisations */
+	bound_specialise = 0;
+	if (is_templ_decl (id, NULL_type) || is_templ_spec (t)) {
 		t = bind_specialise (&id, t, ds, 0, 1, def);
 		if (IS_NULL_id (id)) {
 			/* Invalid specialisation */
@@ -871,7 +871,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		mem = NULL_member;
 		simple_id = 0;
 		
-    } else {
+	} else {
 		/* Check on identifier name */
 		QUALIFIER cq = crt_id_qualifier;
 		err = check_id_name (id, CONTEXT_OBJECT);
@@ -916,25 +916,25 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			}
 			simple_id = 0;
 		}
-    }
+	}
 	
-    /* Deal with inferred types */
-    ds = check_inferred_type (ds, &t, 0);
+	/* Deal with inferred types */
+	ds = check_inferred_type (ds, &t, 0);
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, CONTEXT_OBJECT, old_id);
+	/* Check on storage class specifiers */
+	st = check_storage (ds, CONTEXT_OBJECT, old_id);
 	
-    /* Deal with type definitions */
-    if (ds & dspec_typedef) {
+	/* Deal with type definitions */
+	if (ds & dspec_typedef) {
 		id = make_type_decl (ns, ds, t, mem, id);
 		return (id);
-    }
+	}
 	
-    /* Check on function specifiers */
-    IGNORE check_func_spec (ds, CONTEXT_OBJECT);
+	/* Check on function specifiers */
+	IGNORE check_func_spec (ds, CONTEXT_OBJECT);
 	
-    /* Find the object linkage and whether it is a definition */
-    if (st == dspec_extern) {
+	/* Find the object linkage and whether it is a definition */
+	if (st == dspec_extern) {
 		/* Explicit extern indicates a declaration (probably) */
 		df = dspec_none;
 		if (in_function_defn && simple_id) {
@@ -946,7 +946,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			prev_id = old_id;
 			st = find_storage (old_id, st, t);
 		}
-    } else {
+	} else {
 		if (tag == type_templ_tag && bound_specialise) {
 			/* A template specialisation is a declaration (probably) */
 			df = dspec_none;
@@ -984,13 +984,13 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			/* find_storage is not applied for objects */
 			if (!def) tentative = LANGUAGE_C;
 		}
-    }
+	}
 	
-    /* Create the declaration */
-    t = lvalue_type (t);
-    rs = (ds & dspec_other);
-    ds = (st | df | rs);
-    if (!IS_NULL_id (old_id)) {
+	/* Create the declaration */
+	t = lvalue_type (t);
+	rs = (ds & dspec_other);
+	ds = (st | df | rs);
+	if (!IS_NULL_id (old_id)) {
 		/* Check redeclarations */
 		old_id = redecl_id (ds, t, old_id, 0, 0);
 		if (IS_NULL_id (old_id) && IS_NULL_member (mem)) {
@@ -999,9 +999,9 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			mem = search_member (ns, nm, 1);
 			itag = id_stat_member_tag;
 		}
-    }
-    object_type (t, itag);
-    if (IS_NULL_id (old_id)) {
+	}
+	object_type (t, itag);
+	if (IS_NULL_id (old_id)) {
 		/* Construct the declaration */
 		ds = adjust_linkage (ds, 0);
 		MAKE_id_variable_etc (itag, nm, ds, ns, decl_loc, t, id);
@@ -1021,7 +1021,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			check_hiding (id);
 		}
 		is_redeclared = 0;
-    } else {
+	} else {
 		/* Redeclare an existing object */
 		id = old_id;
 		if (IS_id_member (id)) {
@@ -1031,12 +1031,12 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		}
 		ds = DEREF_dspec (id_storage (id));
 		is_redeclared = 1;
-    }
+	}
 #if LANGUAGE_CPP
-    if (ds & dspec_c) c_linkage (id, 0);
+	if (ds & dspec_c) c_linkage (id, 0);
 #endif
-    check_obj_decl (ds, t, id, tentative);
-    return (id);
+	check_obj_decl (ds, t, id, tentative);
+	return (id);
 }
 
 
@@ -1051,26 +1051,26 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 IDENTIFIER
 make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
-    ERROR err;
-    MEMBER mem;
-    int ok = 1;
-    int chk = 1;
-    unsigned it;
-    int simple_id = 1;
-    int main_func = 0;
-    IDENTIFIER old_id;
-    NAMESPACE ns, ens;
-    DECL_SPEC st, df, fn, rs;
-    IDENTIFIER over_id = NULL_id;
-    IDENTIFIER prev_id = NULL_id;
-    unsigned itag = id_function_tag;
-    HASHID nm = DEREF_hashid (id_name (id));
+	ERROR err;
+	MEMBER mem;
+	int ok = 1;
+	int chk = 1;
+	unsigned it;
+	int simple_id = 1;
+	int main_func = 0;
+	IDENTIFIER old_id;
+	NAMESPACE ns, ens;
+	DECL_SPEC st, df, fn, rs;
+	IDENTIFIER over_id = NULL_id;
+	IDENTIFIER prev_id = NULL_id;
+	unsigned itag = id_function_tag;
+	HASHID nm = DEREF_hashid (id_name (id));
 #if LANGUAGE_CPP
-    int allocator = 0;
+	int allocator = 0;
 #endif
 	
-    /* Check for template specialisations */
-    if (is_templ_decl (id, t) || is_templ_spec (t)) {
+	/* Check for template specialisations */
+	if (is_templ_decl (id, t) || is_templ_spec (t)) {
 		t = bind_specialise (&id, t, ds, 0, 1, def);
 		if (IS_NULL_id (id)) {
 			/* Invalid specialisation */
@@ -1090,7 +1090,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		old_id = id;
 		simple_id = 0;
 		
-    } else {
+	} else {
 		/* Check on identifier name */
 		QUALIFIER cq = crt_id_qualifier;
 		err = check_id_name (id, CONTEXT_FUNCTION);
@@ -1135,10 +1135,10 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			}
 			simple_id = 0;
 		}
-    }
+	}
 	
-    /* Allow for special functions */
-    if (EQ_KEYWORD (nm, lex_main) && IS_nspace_global (ens)) {
+	/* Allow for special functions */
+	if (EQ_KEYWORD (nm, lex_main) && IS_nspace_global (ens)) {
 		if (ds & dspec_typedef) {
 			/* Ignore type definition */
 			/* EMPTY */
@@ -1146,10 +1146,10 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			t = check_main (t, nm);
 			main_func = 1;
 		}
-    }
-    it = TAG_hashid (nm);
+	}
+	it = TAG_hashid (nm);
 #if LANGUAGE_CPP
-    switch (it) {
+	switch (it) {
 	case hashid_constr_tag : {
 	    t = check_constr (t, id, ns);
 	    ds &= ~dspec_empty;
@@ -1174,19 +1174,19 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	    chk = 0;
 	    break;
 	}
-    }
+	}
 #endif
 	
-    /* Deal with inferred types */
-    ds = check_func_type (ds, t, def, chk, 0);
-    if (main_func) ds |= dspec_main;
+	/* Deal with inferred types */
+	ds = check_func_type (ds, t, def, chk, 0);
+	if (main_func) ds |= dspec_main;
 	
-    /* Handle function definitions */
-    df = (def ? dspec_defn : dspec_none);
+	/* Handle function definitions */
+	df = (def ? dspec_defn : dspec_none);
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, CONTEXT_FUNCTION, old_id);
-    if (st == dspec_static) {
+	/* Check on storage class specifiers */
+	st = check_storage (ds, CONTEXT_FUNCTION, old_id);
+	if (st == dspec_static) {
 		/* Check on static functions */
 		if (main_func) {
 			report (crt_loc, ERR_basic_start_main_link (nm, st));
@@ -1195,7 +1195,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			/* Check static declarations */
 			/* EMPTY */
 		}
-    } else if (ds & dspec_inline) {
+	} else if (ds & dspec_inline) {
 		/* Check on inline functions */
 		if (main_func) {
 			fn = dspec_inline;
@@ -1212,10 +1212,10 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				st = dspec_none;
 			}
 		}
-    }
+	}
 	
-    /* Deal with type definitions */
-    if (ds & dspec_typedef) {
+	/* Deal with type definitions */
+	if (ds & dspec_typedef) {
 		/* Can only apply typedef to declarations, not definitions */
 		if (!def) {
 			if (ok) {
@@ -1227,13 +1227,13 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			return (id);
 		}
 		report (crt_loc, ERR_dcl_typedef_func ());
-    }
+	}
 	
-    /* Check on function specifiers */
-    fn = check_func_spec (ds, CONTEXT_FUNCTION);
+	/* Check on function specifiers */
+	fn = check_func_spec (ds, CONTEXT_FUNCTION);
 	
-    /* Find the function linkage */
-    if (st == dspec_extern) {
+	/* Find the function linkage */
+	if (st == dspec_extern) {
 		if (in_function_defn && simple_id) {
 			prev_id = find_previous (t, id);
 			st = find_storage (prev_id, st, NULL_type);
@@ -1241,7 +1241,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			prev_id = old_id;
 			st = find_storage (old_id, st, t);
 		}
-    } else if (st == dspec_static) {
+	} else if (st == dspec_static) {
 		if (in_function_defn) {
 			/* Can't declare static functions in a block */
 			report (crt_loc, ERR_dcl_stc_stat_block ());
@@ -1251,7 +1251,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				prev_id = old_id;
 			}
 		}
-    } else if (st == dspec_none) {
+	} else if (st == dspec_none) {
 		/* Inline functions have internal linkage */
 		if (fn & dspec_inline) {
 			st = inline_linkage;
@@ -1265,13 +1265,13 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			prev_id = old_id;
 			st = find_storage (old_id, st, t);
 		}
-    }
+	}
 	
-    /* Create the declaration */
-    t = lvalue_type (t);
-    rs = (ds & dspec_other);
-    ds = (st | df | fn | rs);
-    if (!IS_NULL_id (old_id)) {
+	/* Create the declaration */
+	t = lvalue_type (t);
+	rs = (ds & dspec_other);
+	ds = (st | df | fn | rs);
+	if (!IS_NULL_id (old_id)) {
 		/* Check redeclarations */
 		old_id = redecl_func (ds, t, old_id, itag, &over_id, def);
 		if (IS_NULL_id (old_id) && IS_NULL_member (mem)) {
@@ -1281,9 +1281,9 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			if (IS_nspace_ctype (ns)) itag = id_mem_func_tag;
 			over_id = NULL_id;
 		}
-    }
-    object_type (t, itag);
-    if (IS_NULL_id (old_id)) {
+	}
+	object_type (t, itag);
+	if (IS_NULL_id (old_id)) {
 		/* Declare the function */
 		ds = adjust_linkage (ds, 0);
 		MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
@@ -1303,26 +1303,26 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			check_hiding (id);
 		}
 		is_redeclared = 0;
-    } else {
+	} else {
 		/* Redeclare the function */
 		id = old_id;
 		is_redeclared = 1;
-    }
-    ds = DEREF_dspec (id_storage (id));
+	}
+	ds = DEREF_dspec (id_storage (id));
 #if LANGUAGE_CPP
-    if (ds & dspec_c) c_linkage (id, def);
+	if (ds & dspec_c) c_linkage (id, def);
 #endif
 	
-    /* Allow for discarded functions */
-    if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
+	/* Allow for discarded functions */
+	if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
 		ds &= ~dspec_ignore;
 		COPY_dspec (id_storage (id), ds);
-    }
+	}
 #if LANGUAGE_CPP
-    if (allocator) recheck_allocator (id, allocator);
+	if (allocator) recheck_allocator (id, allocator);
 #endif
-    if (main_func) recheck_main (id);
-    return (id);
+	if (main_func) recheck_main (id);
+	return (id);
 }
 
 
@@ -1335,24 +1335,24 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 void
 check_par_decl(TYPE t, IDENTIFIER id, int loc)
 {
-    unsigned tag = TAG_type (t);
-    if (tag == type_compound_tag) {
+	unsigned tag = TAG_type (t);
+	if (tag == type_compound_tag) {
 		/* Parameters can't have abstract type */
 		ERROR err = check_abstract (t);
 		if (!IS_NULL_err (err)) {
 			err = concat_error (err, ERR_class_abstract_par ());
 			report (crt_loc, err);
 		}
-    } else if (tag == type_templ_tag) {
+	} else if (tag == type_templ_tag) {
 		/* Shouldn't have template type */
 		report (crt_loc, ERR_temp_decl_bad ());
-    }
-    if (loc == CONTEXT_WEAK_PARAM) {
+	}
+	if (loc == CONTEXT_WEAK_PARAM) {
 		/* Check for 'void' and other types */
 		ERROR err = check_param_type (id, t);
 		if (!IS_NULL_err (err)) report (crt_loc, err);
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1370,44 +1370,44 @@ check_par_decl(TYPE t, IDENTIFIER id, int loc)
 IDENTIFIER
 make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 {
-    ERROR err;
-    DECL_SPEC st, rs;
-    NAMESPACE ns = crt_namespace;
-    HASHID nm = DEREF_hashid (id_name (id));
-    MEMBER mem = search_member (ns, nm, 1);
-    IDENTIFIER old_id = DEREF_id (member_id (mem));
+	ERROR err;
+	DECL_SPEC st, rs;
+	NAMESPACE ns = crt_namespace;
+	HASHID nm = DEREF_hashid (id_name (id));
+	MEMBER mem = search_member (ns, nm, 1);
+	IDENTIFIER old_id = DEREF_id (member_id (mem));
 	
-    /* Check on identifier name */
-    err = check_id_name (id, loc);
-    if (!IS_NULL_err (err)) report (decl_loc, err);
+	/* Check on identifier name */
+	err = check_id_name (id, loc);
+	if (!IS_NULL_err (err)) report (decl_loc, err);
 	
-    /* Deal with inferred types */
-    ds = check_inferred_type (ds, &t, 0);
-    func_type_defn (1);
+	/* Deal with inferred types */
+	ds = check_inferred_type (ds, &t, 0);
+	func_type_defn (1);
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, loc, old_id);
-    if (st == dspec_register) {
+	/* Check on storage class specifiers */
+	st = check_storage (ds, loc, old_id);
+	if (st == dspec_register) {
 		st = (dspec_auto | dspec_register);
 		used_register = 1;
-    } else {
+	} else {
 		st = dspec_auto;
-    }
+	}
 	
-    /* Deal with type definitions */
-    if (ds & dspec_typedef) {
+	/* Deal with type definitions */
+	if (ds & dspec_typedef) {
 		/* Can't have typedef in function parameters */
 		report (decl_loc, ERR_dcl_typedef_par ());
-    }
+	}
 	
-    /* Check on function specifiers */
-    IGNORE check_func_spec (ds, loc);
+	/* Check on function specifiers */
+	IGNORE check_func_spec (ds, loc);
 	
-    /* Create the parameter declaration */
-    t = make_param_type (t, loc);
-    rs = (ds & dspec_other);
-    ds = (st | rs | dspec_defn);
-    if (!IS_NULL_id (old_id)) {
+	/* Create the parameter declaration */
+	t = make_param_type (t, loc);
+	rs = (ds & dspec_other);
+	ds = (st | rs | dspec_defn);
+	if (!IS_NULL_id (old_id)) {
 		/* Check for redeclarations */
 		if (loc == CONTEXT_TEMPL_PARAM) {
 			report (decl_loc, ERR_temp_param_dup (nm));
@@ -1441,27 +1441,27 @@ make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 				IGNORE redecl_id (ds, t, old_id, 0, 0);
 			}
 		}
-    } else {
+	} else {
 		if (loc == CONTEXT_WEAK_PARAM) {
 			report (decl_loc, ERR_dcl_fct_par_undecl (nm));
 		}
-    }
-    ds = adjust_linkage (ds, 0);
-    if (loc == CONTEXT_TEMPL_PARAM) {
+	}
+	ds = adjust_linkage (ds, 0);
+	if (loc == CONTEXT_TEMPL_PARAM) {
 		IDENTIFIER pid;
 		object_type (t, id_token_tag);
 		id = make_exp_param (t, id);
 		pid = DEREF_id (id_token_alt (id));
 		set_member (mem, pid);
-    } else {
+	} else {
 		t = lvalue_type (t);
 		object_type (t, id_parameter_tag);
 		MAKE_id_parameter (nm, ds, ns, decl_loc, t, id);
 		set_member (mem, id);
-    }
-    check_par_decl (t, id, loc);
-    is_redeclared = 0;
-    return (id);
+	}
+	check_par_decl (t, id, loc);
+	is_redeclared = 0;
+	return (id);
 }
 
 
@@ -1474,19 +1474,19 @@ make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 IDENTIFIER
 weak_param_decl(IDENTIFIER id)
 {
-    NAMESPACE ns = crt_namespace;
-    HASHID nm = DEREF_hashid (id_name (id));
-    MEMBER mem = search_member (ns, nm, 1);
-    IDENTIFIER old_id = DEREF_id (member_id (mem));
-    if (!IS_NULL_id (old_id)) {
+	NAMESPACE ns = crt_namespace;
+	HASHID nm = DEREF_hashid (id_name (id));
+	MEMBER mem = search_member (ns, nm, 1);
+	IDENTIFIER old_id = DEREF_id (member_id (mem));
+	if (!IS_NULL_id (old_id)) {
 		nm = lookup_anon ();
 		mem = search_member (ns, nm, 1);
 		IGNORE redecl_id (dspec_none, NULL_type, old_id, 0, 0);
-    }
-    MAKE_id_weak_param (nm, dspec_none, ns, decl_loc, id);
-    set_member (mem, id);
-    is_redeclared = 0;
-    return (id);
+	}
+	MAKE_id_weak_param (nm, dspec_none, ns, decl_loc, id);
+	set_member (mem, id);
+	is_redeclared = 0;
+	return (id);
 }
 
 
@@ -1500,8 +1500,8 @@ weak_param_decl(IDENTIFIER id)
 void
 check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 {
-    unsigned tag = TAG_type (t);
-    if (ds & dspec_mutable) {
+	unsigned tag = TAG_type (t);
+	if (ds & dspec_mutable) {
 		/* Can't apply mutable to a const member */
 		CV_SPEC qual = find_cv_qual (t);
 		if (qual & cv_const) {
@@ -1512,14 +1512,14 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 				COPY_type (id_member_type (id), t);
 			}
 		}
-    }
-    if (tag == type_top_tag || tag == type_bottom_tag) {
+	}
+	if (tag == type_top_tag || tag == type_bottom_tag) {
 		/* Always report void members */
 		report (crt_loc, ERR_basic_fund_void_mem (id, t));
-    } else if (tag == type_templ_tag) {
+	} else if (tag == type_templ_tag) {
 		/* Shouldn't have template type */
 		report (crt_loc, ERR_temp_decl_bad ());
-    } else if (ds & dspec_defn) {
+	} else if (ds & dspec_defn) {
 		/* Only check otherwise for defined (non-static) members */
 		if (tag == type_ref_tag) {
 			/* References don't need checking */
@@ -1541,8 +1541,8 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 				}
 			}
 		}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1559,34 +1559,34 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 IDENTIFIER
 make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 {
-    ERROR err;
-    HASHID nm;
-    MEMBER mem;
-    int redef = 0;
-    int tokenised = 0;
-    IDENTIFIER old_id;
-    IDENTIFIER alt_id;
-    DECL_SPEC st, df, rs;
-    OFFSET off = NULL_off;
-    CLASS_TYPE ct = crt_class;
-    IDENTIFIER tok_id = NULL_id;
-    NAMESPACE ns = crt_namespace;
-    unsigned tag = TAG_type (t);
-    QUALIFIER cq = crt_id_qualifier;
-    CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
+	ERROR err;
+	HASHID nm;
+	MEMBER mem;
+	int redef = 0;
+	int tokenised = 0;
+	IDENTIFIER old_id;
+	IDENTIFIER alt_id;
+	DECL_SPEC st, df, rs;
+	OFFSET off = NULL_off;
+	CLASS_TYPE ct = crt_class;
+	IDENTIFIER tok_id = NULL_id;
+	NAMESPACE ns = crt_namespace;
+	unsigned tag = TAG_type (t);
+	QUALIFIER cq = crt_id_qualifier;
+	CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
 	
-    /* Check for template specialisations */
-    if (is_templ_decl (id, NULL_type)) {
+	/* Check for template specialisations */
+	if (is_templ_decl (id, NULL_type)) {
 		IGNORE bind_specialise (&id, t, dspec_extern, 0, 1, 0);
 		if (!IS_NULL_id (id)) {
 			report (crt_loc, ERR_temp_spec_member (id));
 		}
 		return (id);
-    }
+	}
 	
-    /* Find previous declaration */
-    nm = DEREF_hashid (id_name (id));
-    if (IS_hashid_constr (nm) && cq == qual_none) {
+	/* Find previous declaration */
+	nm = DEREF_hashid (id_name (id));
+	if (IS_hashid_constr (nm) && cq == qual_none) {
 		DECL_SPEC sds = (dspec_static | dspec_typedef | dspec_reserve);
 		if (!(ds & sds)) {
 			/* Can use class name for non-static member */
@@ -1594,16 +1594,16 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 			id = DEREF_id (hashid_constr_tid (nm));
 			nm = DEREF_hashid (id_name (id));
 		}
-    }
-    mem = search_member (ns, nm, 1);
-    old_id = DEREF_id (member_id (mem));
-    alt_id = DEREF_id (member_alt (mem));
-    if (!IS_NULL_id (old_id)) {
+	}
+	mem = search_member (ns, nm, 1);
+	old_id = DEREF_id (member_id (mem));
+	alt_id = DEREF_id (member_alt (mem));
+	if (!IS_NULL_id (old_id)) {
 		old_id = redecl_inherit (old_id, cq, 1, 2);
-    }
+	}
 	
-    /* Check on member qualifications */
-    if (cq != qual_none) {
+	/* Check on member qualifications */
+	if (cq != qual_none) {
 		if ((ds & dspec_empty) && sm) {
 			/* Spot access declarations */
 			id = access_decl (id);
@@ -1619,18 +1619,18 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 			id = make_object_decl (ds, t, id, 0);
 			return (id);
 		}
-    }
+	}
 	
-    /* Check on identifier name */
-    err = check_id_name (id, CONTEXT_MEMBER);
-    if (!IS_NULL_err (err)) report (crt_loc, err);
+	/* Check on identifier name */
+	err = check_id_name (id, CONTEXT_MEMBER);
+	if (!IS_NULL_err (err)) report (crt_loc, err);
 	
-    /* Deal with inferred types */
-    ds = check_inferred_type (ds, &t, 1);
+	/* Deal with inferred types */
+	ds = check_inferred_type (ds, &t, 1);
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, CONTEXT_MEMBER, old_id);
-    if (st == dspec_static) {
+	/* Check on storage class specifiers */
+	st = check_storage (ds, CONTEXT_MEMBER, old_id);
+	if (st == dspec_static) {
 		if (tag == type_bitfield_tag) {
 			/* Bitfield members can't be static */
 			report (crt_loc, ERR_class_bit_static ());
@@ -1647,13 +1647,13 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 				df = dspec_none;
 			}
 		}
-    } else {
+	} else {
 		/* Other members are defined */
 		df = dspec_defn;
-    }
+	}
 	
-    /* Deal with type definitions */
-    if (ds & dspec_typedef) {
+	/* Deal with type definitions */
+	if (ds & dspec_typedef) {
 		LIST (IDENTIFIER) ft = DEREF_list (ctype_nest (ct));
 		if (tag == type_bitfield_tag) {
 			report (crt_loc, ERR_class_bit_typedef ());
@@ -1663,23 +1663,23 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		CONS_id (id, ft, ft);
 		COPY_list (ctype_nest (ct), ft);
 		return (id);
-    }
+	}
 	
-    /* Check on function specifiers */
-    IGNORE check_func_spec (ds, CONTEXT_MEMBER);
+	/* Check on function specifiers */
+	IGNORE check_func_spec (ds, CONTEXT_MEMBER);
 	
-    /* Record class properties */
-    rs = (ds & dspec_other);
-    if (rs & dspec_token) tokenised = 1;
-    if (st == dspec_static) {
+	/* Record class properties */
+	rs = (ds & dspec_other);
+	if (rs & dspec_token) tokenised = 1;
+	if (st == dspec_static) {
 		ds = (df | rs | crt_access);
-    } else {
+	} else {
 		ds = (st | df | rs | crt_access);
-    }
+	}
 	
-    /* Check for redeclarations */
-    t = lvalue_type (t);
-    if (!IS_NULL_id (old_id)) {
+	/* Check for redeclarations */
+	t = lvalue_type (t);
+	if (!IS_NULL_id (old_id)) {
 		if (st != dspec_static && IS_id_member (old_id)) {
 			/* Allow for token definitions */
 			if (tokenised) {
@@ -1704,17 +1704,17 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 			old_id = redecl_id (ds, t, old_id, 0, 0);
 			if (IS_NULL_id (old_id)) redef = 1;
 		}
-    } else if (!IS_NULL_id (alt_id)) {
+	} else if (!IS_NULL_id (alt_id)) {
 		redef = 1;
-    }
+	}
 	
-    /* Create the declaration */
-    ds = adjust_linkage (ds, 1);
-    if (!really_in_function_defn) ds |= dspec_extern;
-    if (st == dspec_static) {
+	/* Create the declaration */
+	ds = adjust_linkage (ds, 1);
+	if (!really_in_function_defn) ds |= dspec_extern;
+	if (st == dspec_static) {
 		object_type (t, id_stat_member_tag);
 		MAKE_id_stat_member (nm, ds, ns, decl_loc, t, id);
-    } else {
+	} else {
 		object_type (t, id_member_tag);
 		MAKE_id_member (nm, ds, ns, decl_loc, t, id);
 		if (tokenised == 0 || tokenised == 2) {
@@ -1723,10 +1723,10 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		}
 		COPY_off (id_member_off (id), off);
 		if (redef) mem = update_member (ns, mem);
-    }
+	}
 	
-    /* Set the namespace member */
-    if (tokenised >= 2) {
+	/* Set the namespace member */
+	if (tokenised >= 2) {
 		/* Create dummy member */
 		MEMBER mem_old = DEREF_member (nspace_last (ns));
 		if (tokenised == 2) {
@@ -1740,26 +1740,26 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		COPY_id (member_id (mem), id);
 		COPY_member (nspace_last (ns), mem);
 		COPY_member (member_next (mem_old), mem);
-    }
-    set_member (mem, id);
-    check_mem_decl (ds, t, id);
-    is_redeclared = 0;
+	}
+	set_member (mem, id);
+	check_mem_decl (ds, t, id);
+	is_redeclared = 0;
 	
-    /* Adjust class information */
-    if (st == dspec_static) {
+	/* Adjust class information */
+	if (st == dspec_static) {
 		if (really_in_function_defn) {
 			/* Can't have static members in local classes */
 			report (crt_loc, ERR_class_local_static (id));
 		}
 		ci |= cinfo_static;
-    } else {
+	} else {
 		/* Check member types */
 		if (crt_access != dspec_public) ci |= cinfo_private;
 		ci = check_member_type (ct, ci, t, 0);
 		ci &= ~cinfo_empty;
-    }
-    COPY_cinfo (ctype_info (ct), ci);
-    return (id);
+	}
+	COPY_cinfo (ctype_info (ct), ci);
+	return (id);
 }
 
 
@@ -1773,7 +1773,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 void
 special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 {
-    switch (tag) {
+	switch (tag) {
 	case hashid_constr_tag : {
 	    /* Set constructor */
 	    COPY_id (ctype_constr (ct), id);
@@ -1810,8 +1810,8 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 	    COPY_list (ctype_conv (ct), conv);
 	    break;
 	}
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -1829,43 +1829,43 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 IDENTIFIER
 make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 {
-    ERROR err;
-    MEMBER mem;
-    int ok = 1;
-    int chk = 1;
-    unsigned it;
-    unsigned itag;
-    int allocator = 0;
-    IDENTIFIER old_id;
-    LIST (VIRTUAL) vt;
-    DECL_SPEC st, df, fn, rs;
-    IDENTIFIER over_id = NULL_id;
-    IDENTIFIER hide_id = NULL_id;
-    NAMESPACE ns = crt_namespace;
-    QUALIFIER cq = crt_id_qualifier;
-    HASHID nm = DEREF_hashid (id_name (id));
-    CLASS_TYPE ct = crt_class;
-    CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
+	ERROR err;
+	MEMBER mem;
+	int ok = 1;
+	int chk = 1;
+	unsigned it;
+	unsigned itag;
+	int allocator = 0;
+	IDENTIFIER old_id;
+	LIST (VIRTUAL) vt;
+	DECL_SPEC st, df, fn, rs;
+	IDENTIFIER over_id = NULL_id;
+	IDENTIFIER hide_id = NULL_id;
+	NAMESPACE ns = crt_namespace;
+	QUALIFIER cq = crt_id_qualifier;
+	HASHID nm = DEREF_hashid (id_name (id));
+	CLASS_TYPE ct = crt_class;
+	CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
 	
-    /* Check for template specialisations */
-    if (is_templ_decl (id, t) || is_templ_spec (t)) {
+	/* Check for template specialisations */
+	if (is_templ_decl (id, t) || is_templ_spec (t)) {
 		st = (dspec_extern | (ds & dspec_inline));
 		IGNORE bind_specialise (&id, t, st, 0, 1, def);
 		if (!IS_NULL_id (id)) {
 			report (crt_loc, ERR_temp_spec_member (id));
 		}
 		return (id);
-    }
+	}
 	
-    /* Find previous declaration */
-    mem = search_member (ns, nm, 1);
-    old_id = DEREF_id (member_id (mem));
-    if (!IS_NULL_id (old_id)) {
+	/* Find previous declaration */
+	mem = search_member (ns, nm, 1);
+	old_id = DEREF_id (member_id (mem));
+	if (!IS_NULL_id (old_id)) {
 		old_id = redecl_inherit (old_id, cq, 1, 1);
-    }
+	}
 	
-    /* Check on member qualifications */
-    if (cq != qual_none) {
+	/* Check on member qualifications */
+	if (cq != qual_none) {
 		ns = DEREF_nspace (id_parent (id));
 		if (EQ_nspace (ns, crt_namespace)) {
 			/* Qualifier indicates the current class */
@@ -1876,18 +1876,18 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			id = make_func_decl (ds, t, id, def);
 			return (id);
 		}
-    }
+	}
 	
-    /* Check on identifier name */
-    err = check_id_name (id, CONTEXT_FUNC_MEMBER);
-    if (!IS_NULL_err (err)) {
+	/* Check on identifier name */
+	err = check_id_name (id, CONTEXT_FUNC_MEMBER);
+	if (!IS_NULL_err (err)) {
 		report (crt_loc, err);
 		ok = 0;
-    }
+	}
 	
-    /* Allow for special functions */
-    it = TAG_hashid (nm);
-    switch (it) {
+	/* Allow for special functions */
+	it = TAG_hashid (nm);
+	switch (it) {
 	case hashid_constr_tag : {
 	    t = check_constr (t, id, ns);
 	    ds &= ~dspec_empty;
@@ -1911,25 +1911,25 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	    chk = 0;
 	    break;
 	}
-    }
+	}
 	
-    /* Deal with inferred types */
-    ds = check_func_type (ds, t, def, chk, 1);
+	/* Deal with inferred types */
+	ds = check_func_type (ds, t, def, chk, 1);
 	
-    /* Handle function definitions */
-    if (def) {
+	/* Handle function definitions */
+	if (def) {
 		/* Functions defined in a class are inline */
 		df = dspec_defn;
 		ds |= dspec_inline;
-    } else {
+	} else {
 		df = dspec_none;
-    }
+	}
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, CONTEXT_FUNC_MEMBER, old_id);
+	/* Check on storage class specifiers */
+	st = check_storage (ds, CONTEXT_FUNC_MEMBER, old_id);
 	
-    /* Deal with type definitions */
-    if (ds & dspec_typedef) {
+	/* Deal with type definitions */
+	if (ds & dspec_typedef) {
 		/* Can only apply typedef to declarations, not definitions */
 		if (!def) {
 			if (ok) {
@@ -1941,16 +1941,16 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			return (id);
 		}
 		report (crt_loc, ERR_dcl_typedef_func ());
-    }
+	}
 	
-    /* Check special functions */
-    if (allocator) {
+	/* Check special functions */
+	if (allocator) {
 		/* Allocator functions are implicitly static */
 		if (st != dspec_static) {
 			st = dspec_static;
 			allocator |= 0x4;
 		}
-    } else if (st == dspec_static) {
+	} else if (st == dspec_static) {
 		switch (it) {
 	    case hashid_constr_tag : {
 			/* Constructors can't be static */
@@ -1977,12 +1977,12 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			break;
 	    }
 		}
-    }
+	}
 	
-    /* Check on function specifiers */
-    fn = check_func_spec (ds, CONTEXT_FUNC_MEMBER);
-    vt = overrides_virtual (ct, nm, t, &hide_id);
-    if (!IS_NULL_list (vt)) {
+	/* Check on function specifiers */
+	fn = check_func_spec (ds, CONTEXT_FUNC_MEMBER);
+	vt = overrides_virtual (ct, nm, t, &hide_id);
+	if (!IS_NULL_list (vt)) {
 		/* Check for overriding of virtual functions */
 		if (!(fn & dspec_virtual)) {
 			if (!(ds & dspec_implicit)) {
@@ -1991,11 +1991,11 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 			}
 			fn |= dspec_virtual;
 		}
-    } else if (!IS_NULL_id (hide_id)) {
+	} else if (!IS_NULL_id (hide_id)) {
 		err = ERR_class_virtual_hide (nm, hide_id);
 		if (!IS_NULL_err (err)) report (crt_loc, err);
-    }
-    if (fn & dspec_virtual) {
+	}
+	if (fn & dspec_virtual) {
 		if (st == dspec_static) {
 			/* Static members can't be virtual */
 			err = ERR_class_static_mfct_virt ();
@@ -2024,8 +2024,8 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				ci &= ~cinfo_empty;
 			}
 		}
-    }
-    if (fn & dspec_explicit) {
+	}
+	if (fn & dspec_explicit) {
 		/* Only constructors can be explicit */
 		if (it == hashid_constr_tag) {
 			have_constr_expl = 1;
@@ -2038,65 +2038,65 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				fn &= ~dspec_explicit;
 			}
 		}
-    }
-    if (ds & dspec_template) {
+	}
+	if (ds & dspec_template) {
 		/* Check for template function members */
 		if (it == hashid_destr_tag) {
 			report (crt_loc, ERR_temp_mem_destr ());
 		}
-    }
+	}
 	
-    /* Record class properties */
-    rs = (ds & dspec_other);
-    if (st == dspec_static) {
+	/* Record class properties */
+	rs = (ds & dspec_other);
+	if (st == dspec_static) {
 		itag = id_stat_mem_func_tag;
 		ds = (df | fn | rs | crt_access);
-    } else {
+	} else {
 		itag = id_mem_func_tag;
 		ds = (st | df | fn | rs | crt_access);
-    }
-    if (!(ds & dspec_implicit)) ci |= cinfo_function;
-    COPY_cinfo (ctype_info (ct), ci);
+	}
+	if (!(ds & dspec_implicit)) ci |= cinfo_function;
+	COPY_cinfo (ctype_info (ct), ci);
 	
-    /* Create the function declaration */
-    t = lvalue_type (t);
-    if (!IS_NULL_id (old_id)) {
+	/* Create the function declaration */
+	t = lvalue_type (t);
+	if (!IS_NULL_id (old_id)) {
 		/* Check for redeclarations */
 		IGNORE redecl_func (ds, t, old_id, itag, &over_id, def);
-    }
-    object_type (t, itag);
-    ds = adjust_linkage (ds, 1);
-    if (!really_in_function_defn) ds |= dspec_extern;
-    MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
-    if (!IS_NULL_id (over_id)) {
+	}
+	object_type (t, itag);
+	ds = adjust_linkage (ds, 1);
+	if (!really_in_function_defn) ds |= dspec_extern;
+	MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
+	if (!IS_NULL_id (over_id)) {
 		id = hide_functions (id, over_id, 1);
-    }
-    set_member (mem, id);
-    decl_func_type (id, t, def);
-    is_redeclared = 0;
-    ds = DEREF_dspec (id_storage (id));
+	}
+	set_member (mem, id);
+	decl_func_type (id, t, def);
+	is_redeclared = 0;
+	ds = DEREF_dspec (id_storage (id));
 	
-    /* Maintain lists of functions */
-    special_func_mem (ct, id, it, old_id);
-    if (def) {
+	/* Maintain lists of functions */
+	special_func_mem (ct, id, it, old_id);
+	if (def) {
 		LIST (IDENTIFIER) ft = DEREF_list (ctype_nest (ct));
 		CONS_id (id, ft, ft);
 		COPY_list (ctype_nest (ct), ft);
-    }
-    if (ds & dspec_virtual) {
+	}
+	if (ds & dspec_virtual) {
 		add_virtual (ct, id, vt);
-    }
-    if (allocator) {
+	}
+	if (allocator) {
 		allocator &= 0x3;
 		recheck_allocator (id, allocator);
-    }
+	}
 	
-    /* Allow for discarded functions */
-    if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
+	/* Allow for discarded functions */
+	if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
 		ds &= ~dspec_ignore;
 		COPY_dspec (id_storage (id), ds);
-    }
-    return (id);
+	}
+	return (id);
 }
 
 #endif
@@ -2115,23 +2115,23 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 IDENTIFIER
 make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 {
-    ERROR err;
-    MEMBER mem;
-    int chk = 1;
-    unsigned it;
-    int allocator = 0;
-    int main_func = 0;
-    IDENTIFIER old_id;
-    NAMESPACE ns, ens;
-    DECL_SPEC st, df, fn, rs;
-    IDENTIFIER over_id = NULL_id;
-    unsigned itag = id_function_tag;
-    QUALIFIER cq = crt_id_qualifier;
-    int td = crt_templ_qualifier;
-    HASHID nm = DEREF_hashid (id_name (id));
+	ERROR err;
+	MEMBER mem;
+	int chk = 1;
+	unsigned it;
+	int allocator = 0;
+	int main_func = 0;
+	IDENTIFIER old_id;
+	NAMESPACE ns, ens;
+	DECL_SPEC st, df, fn, rs;
+	IDENTIFIER over_id = NULL_id;
+	unsigned itag = id_function_tag;
+	QUALIFIER cq = crt_id_qualifier;
+	int td = crt_templ_qualifier;
+	HASHID nm = DEREF_hashid (id_name (id));
 	
-    /* Check for template specialisations */
-    if (in_template_decl && cq == qual_none && td == 0 && chum) {
+	/* Check for template specialisations */
+	if (in_template_decl && cq == qual_none && td == 0 && chum) {
 		TYPE s = injected_type (t, 1);
 		if (!EQ_type (s, t)) {
 			/* Friend declaration is implicitly a template */
@@ -2142,8 +2142,8 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			if (IS_NULL_id (id)) return (tid);
 			crt_templ_qualifier = 1;
 		}
-    }
-    if (is_templ_decl (id, t) || is_templ_spec (t)) {
+	}
+	if (is_templ_decl (id, t) || is_templ_spec (t)) {
 		t = bind_specialise (&id, t, ds, 0, 1, def);
 		if (IS_NULL_id (id)) {
 			/* Invalid specialisation */
@@ -2165,7 +2165,7 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			check_decl_nspace (id, ns, def, nonclass_namespace);
 		}
 		
-    } else {
+	} else {
 		/* Deal with typedef immediately */
 		if ((ds & dspec_typedef) && !def) {
 			id = make_func_mem_decl (ds, t, id, def);
@@ -2217,21 +2217,21 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 				}
 			}
 		}
-    }
+	}
 	
-    /* Can't define function in local class */
-    if (def && really_in_function_defn) {
+	/* Can't define function in local class */
+	if (def && really_in_function_defn) {
 		report (crt_loc, ERR_class_friend_local ());
-    }
+	}
 	
-    /* Allow for special functions */
-    if (EQ_KEYWORD (nm, lex_main) && IS_nspace_global (ens)) {
+	/* Allow for special functions */
+	if (EQ_KEYWORD (nm, lex_main) && IS_nspace_global (ens)) {
 		/* Declare main as a friend - it could happen */
 		t = check_main (t, nm);
 		main_func = 1;
-    }
-    it = TAG_hashid (nm);
-    switch (it) {
+	}
+	it = TAG_hashid (nm);
+	switch (it) {
 	case hashid_constr_tag : {
 	    t = check_constr (t, id, ns);
 	    ds |= dspec_main;
@@ -2253,44 +2253,44 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 	    chk = 0;
 	    break;
 	}
-    }
+	}
 	
-    /* Deal with inferred types */
-    ds = check_func_type (ds, t, def, chk, 1);
-    if (main_func) ds |= dspec_main;
+	/* Deal with inferred types */
+	ds = check_func_type (ds, t, def, chk, 1);
+	if (main_func) ds |= dspec_main;
 	
-    /* Check on storage class specifiers */
-    st = check_storage (ds, CONTEXT_FUNCTION, old_id);
-    if (st != dspec_none) {
+	/* Check on storage class specifiers */
+	st = check_storage (ds, CONTEXT_FUNCTION, old_id);
+	if (st != dspec_none) {
 		/* Can't have storage class with friend */
 		report (crt_loc, ERR_class_friend_storage (st));
-    }
-    if (def) {
+	}
+	if (def) {
 		/* Functions defined in a class are inline */
 		df = dspec_defn;
 		ds |= dspec_inline;
 		st = find_storage (old_id, inline_linkage, t);
-    } else if (ds & dspec_inline) {
+	} else if (ds & dspec_inline) {
 		df = dspec_none;
 		st = find_storage (old_id, inline_linkage, t);
-    } else {
+	} else {
 		df = dspec_none;
 		st = find_storage (old_id, dspec_extern, t);
-    }
-    if ((ds & dspec_inline) && main_func) {
+	}
+	if ((ds & dspec_inline) && main_func) {
 		report (crt_loc, ERR_basic_start_main_link (nm, dspec_inline));
 		ds &= ~dspec_inline;
 		st = dspec_extern;
-    }
+	}
 	
-    /* Check on function specifiers */
-    fn = check_func_spec (ds, CONTEXT_FUNCTION);
+	/* Check on function specifiers */
+	fn = check_func_spec (ds, CONTEXT_FUNCTION);
 	
-    /* Create the declaration */
-    t = lvalue_type (t);
-    rs = (ds & dspec_other);
-    ds = (st | df | fn | rs);
-    if (!IS_NULL_id (old_id)) {
+	/* Create the declaration */
+	t = lvalue_type (t);
+	rs = (ds & dspec_other);
+	ds = (st | df | fn | rs);
+	if (!IS_NULL_id (old_id)) {
 		/* Check redeclarations */
 		old_id = redecl_func (ds, t, old_id, itag, &over_id, def);
 		if (IS_NULL_id (old_id) && IS_NULL_member (mem)) {
@@ -2300,9 +2300,9 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			if (IS_nspace_ctype (ns)) itag = id_mem_func_tag;
 			over_id = NULL_id;
 		}
-    }
-    object_type (t, itag);
-    if (IS_NULL_id (old_id)) {
+	}
+	object_type (t, itag);
+	if (IS_NULL_id (old_id)) {
 		/* Declare the function */
 		ds = adjust_linkage (ds, 0);
 		MAKE_id_function_etc (itag, nm, ds, ns, decl_loc, t, over_id, id);
@@ -2319,35 +2319,35 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			check_hiding (id);
 		}
 		is_redeclared = 0;
-    } else {
+	} else {
 		/* Redeclare the function */
 		id = old_id;
 		is_redeclared = 1;
-    }
-    ds = DEREF_dspec (id_storage (id));
+	}
+	ds = DEREF_dspec (id_storage (id));
 #if LANGUAGE_CPP
-    if (ds & dspec_c) c_linkage (id, def);
+	if (ds & dspec_c) c_linkage (id, def);
 #endif
 	
-    /* Maintain list of inline functions */
-    if (def) {
+	/* Maintain list of inline functions */
+	if (def) {
 		CLASS_TYPE ct = crt_class;
 		LIST (IDENTIFIER) ft = DEREF_list (ctype_nest (ct));
 		CONS_id (id, ft, ft);
 		COPY_list (ctype_nest (ct), ft);
-    }
+	}
 	
-    /* Allow for discarded functions */
-    if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
+	/* Allow for discarded functions */
+	if (!(rs & dspec_ignore) && option (OPT_discard_func)) {
 		ds &= ~dspec_ignore;
 		COPY_dspec (id_storage (id), ds);
-    }
+	}
 	
-    /* Make the function a friend */
-    if (chum) friend_function (crt_class, id, 1);
-    if (main_func) recheck_main (id);
-    if (allocator) recheck_allocator (id, allocator);
-    return (id);
+	/* Make the function a friend */
+	if (chum) friend_function (crt_class, id, 1);
+	if (main_func) recheck_main (id);
+	if (allocator) recheck_allocator (id, allocator);
+	return (id);
 }
 
 #endif
@@ -2369,14 +2369,14 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 static void
 check_anon_union(CLASS_TYPE ct)
 {
-    CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
-    if (ci & cinfo_private) {
+	CLASS_INFO ci = DEREF_cinfo (ctype_info (ct));
+	if (ci & cinfo_private) {
 		report (crt_loc, ERR_class_union_anon_private ());
-    }
-    if (ci & cinfo_function) {
+	}
+	if (ci & cinfo_function) {
 		report (crt_loc, ERR_class_union_anon_func ());
-    }
-    return;
+	}
+	return;
 }
 
 #endif
@@ -2397,14 +2397,14 @@ check_anon_union(CLASS_TYPE ct)
 static IDENTIFIER
 empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 {
-    CV_SPEC qual;
-    DECL_SPEC st;
-    IDENTIFIER tid;
-    BASE_TYPE key = btype_class;
-    int td = have_type_declaration;
+	CV_SPEC qual;
+	DECL_SPEC st;
+	IDENTIFIER tid;
+	BASE_TYPE key = btype_class;
+	int td = have_type_declaration;
 	
-    /* Check for type declarations */
-    if (IS_type_pre (t)) {
+	/* Check for type declarations */
+	if (IS_type_pre (t)) {
 		QUALIFIER it;
 		DESTROY_type_pre (destroy, qual, tid, key, it, t);
 		if (it == qual_none) {
@@ -2423,15 +2423,15 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 		t = DEREF_type (id_class_name_etc_defn (tid));
 		t = qualify_type (t, qual, 0);
 #endif
-    } else {
+	} else {
 		tid = DEREF_id (type_name (t));
 		qual = DEREF_cv (type_qual (t));
-    }
-    qual &= cv_qual;
+	}
+	qual &= cv_qual;
 	
 #if LANGUAGE_CPP
-    /* Check for anonymous unions */
-    if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
+	/* Check for anonymous unions */
+	if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
 		TYPE s = t;
 		while (IS_type_templ (s)) {
 			s = DEREF_type (type_templ_defn (s));
@@ -2470,11 +2470,11 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				return (id);
 			}
 		}
-    }
+	}
 #endif
 	
-    /* Check declaration specifiers */
-    if (ds != dspec_none) {
+	/* Check declaration specifiers */
+	if (ds != dspec_none) {
 		st = check_storage (ds, CONTEXT_OBJECT, NULL_id);
 		if (st != dspec_none) {
 			/* Can't have a storage class specifier */
@@ -2484,15 +2484,15 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 			report (crt_loc, ERR_dcl_typedef_dcl ());
 		}
 		IGNORE check_func_spec (ds, CONTEXT_OBJECT);
-    }
+	}
 	
-    /* Check type qualifiers */
-    if (qual != cv_none && td != TYPE_DECL_NONE) {
+	/* Check type qualifiers */
+	if (qual != cv_none && td != TYPE_DECL_NONE) {
 		report (crt_loc, ERR_dcl_type_cv_unused (qual));
-    }
+	}
 	
-    /* Check for type definitions */
-    switch (td) {
+	/* Check for type definitions */
+	switch (td) {
 	case TYPE_DECL_NONE : {
 	    report (crt_loc, ERR_dcl_dcl_empty ());
 	    tid = NULL_id;
@@ -2506,8 +2506,8 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	    report (crt_loc, ERR_dcl_type_elab_qual (key));
 	    break;
 	}
-    }
-    return (tid);
+	}
+	return (tid);
 }
 
 
@@ -2524,13 +2524,13 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 static IDENTIFIER
 empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 {
-    CV_SPEC qual;
-    IDENTIFIER tid;
-    BASE_TYPE key = btype_class;
-    int td = have_type_declaration;
+	CV_SPEC qual;
+	IDENTIFIER tid;
+	BASE_TYPE key = btype_class;
+	int td = have_type_declaration;
 	
-    /* Check for type declarations */
-    if (IS_type_pre (t)) {
+	/* Check for type declarations */
+	if (IS_type_pre (t)) {
 		QUALIFIER it;
 		DESTROY_type_pre (destroy, qual, tid, key, it, t);
 		if (it == qual_none) {
@@ -2563,15 +2563,15 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 		}
 		t = DEREF_type (id_class_name_etc_defn (tid));
 		t = qualify_type (t, qual, 0);
-    } else {
+	} else {
 		tid = DEREF_id (type_name (t));
 		qual = DEREF_cv (type_qual (t));
-    }
-    qual &= cv_qual;
+	}
+	qual &= cv_qual;
 	
 #if LANGUAGE_CPP
-    /* Check for anonymous unions */
-    if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
+	/* Check for anonymous unions */
+	if (td == TYPE_DECL_ANON && !(ds & dspec_typedef)) {
 		TYPE s = t;
 		while (IS_type_templ (s)) {
 			s = DEREF_type (type_templ_defn (s));
@@ -2607,11 +2607,11 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				return (id);
 			}
 		}
-    }
+	}
 #endif
 	
-    /* Check declaration specifiers */
-    if (ds != dspec_none) {
+	/* Check declaration specifiers */
+	if (ds != dspec_none) {
 		CLASS_TYPE cs = crt_class;
 		CLASS_TYPE ct = NULL_ctype;
 		DECL_SPEC st = check_storage (ds, CONTEXT_MEMBER, NULL_id);
@@ -2670,15 +2670,15 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 			friend_class (cs, tid, 1);
 			return (tid);
 		}
-    }
+	}
 	
-    /* Check type qualifiers */
-    if (qual != cv_none && td != TYPE_DECL_NONE) {
+	/* Check type qualifiers */
+	if (qual != cv_none && td != TYPE_DECL_NONE) {
 		report (crt_loc, ERR_dcl_type_cv_unused (qual));
-    }
+	}
 	
-    /* Check for type definitions */
-    switch (td) {
+	/* Check for type definitions */
+	switch (td) {
 	case TYPE_DECL_NONE : {
 	    report (crt_loc, ERR_class_mem_empty ());
 	    tid = NULL_id;
@@ -2692,8 +2692,8 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 	    report (crt_loc, ERR_dcl_type_elab_qual (key));
 	    break;
 	}
-    }
-    return (tid);
+	}
+	return (tid);
 }
 
 
@@ -2713,11 +2713,11 @@ IDENTIFIER
 empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 		   int mem)
 {
-    /* Check for empty declarations */
-    IDENTIFIER id;
-    int have_specifier = 1;
-    decl_loc = crt_loc;
-    if (ds == dspec_none && bt == btype_none && cv == cv_none) {
+	/* Check for empty declarations */
+	IDENTIFIER id;
+	int have_specifier = 1;
+	decl_loc = crt_loc;
+	if (ds == dspec_none && bt == btype_none && cv == cv_none) {
 		if (IS_NULL_type (q)) {
 			if (IS_NULL_type (t)) {
 				/* Only semicolon in declaration */
@@ -2736,18 +2736,18 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 				have_specifier = 0;
 			}
 		}
-    }
+	}
 	
 #if LANGUAGE_C	
-    /* Check 'for' statements */
-    if (in_for_decl) {
+	/* Check 'for' statements */
+	if (in_for_decl) {
 		report (crt_loc, ERR_stmt_for_no_object ());
 		return (NULL_id);
-    }
+	}
 #endif
 
-    /* Check for definitions of built-in types */
-    if ((ds & dspec_typedef) && !mem) {
+	/* Check for definitions of built-in types */
+	if ((ds & dspec_typedef) && !mem) {
 		BASE_TYPE bs = key_type (tok);
 		if (bs) {
 			/* Type is now a keyword */
@@ -2761,10 +2761,10 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 			id = make_object_decl (ds, t, id, 0);
 			return (id);
 		}
-    }
+	}
 	
-    /* Check for type access declarations */
-    if (!have_specifier && mem) {
+	/* Check for type access declarations */
+	if (!have_specifier && mem) {
 		if (!IS_NULL_type (t) && IS_type_pre (t)) {
 			BASE_TYPE key = DEREF_btype (type_pre_rep (t));
 			if (key == btype_alias) {
@@ -2776,21 +2776,21 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 				}
 			}
 		}
-    }
+	}
 	
-    /* Perform the declaration */
-    t = empty_complete_pre_type (bt, t, cv, 0);
-    if (mem) {
+	/* Perform the declaration */
+	t = empty_complete_pre_type (bt, t, cv, 0);
+	if (mem) {
 		report (crt_loc, ERR_class_mem_declarator ());
 		id = empty_member_decl (ds, q, t);
-    } else {
+	} else {
 		id = empty_object_decl (ds, q, t);
-    }
-    if (in_weak_param) {
+	}
+	if (in_weak_param) {
 		/* Shouldn't happen in parameter declaration lists */
 		report (crt_loc, ERR_dcl_fct_par_none ());
-    }
-    return (id);
+	}
+	return (id);
 }
 
 
@@ -2806,14 +2806,14 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 void
 external_declaration(EXP e, int d)
 {
-    if (crt_file_type == 0) {
+	if (crt_file_type == 0) {
 		no_declarations += (unsigned long) d;
-    }
-    if (!IS_NULL_exp (e)) {
+	}
+	if (!IS_NULL_exp (e)) {
 		/* Compile any asm definitions */
 		compile_asm (e);
-    }
-    if (!in_preproc_dir) {
+	}
+	if (!in_preproc_dir) {
 		if (crt_access_list.pending) {
 			/* Clear any outstanding access checks */
 			IGNORE report_access (NULL_id);
@@ -2822,6 +2822,6 @@ external_declaration(EXP e, int d)
 			/* Instantiate any pending templates */
 			clear_templates (0);
 		}
-    }
-    return;
+	}
+	return;
 }

@@ -103,15 +103,15 @@
 unsigned
 type_tag(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		unsigned tag = TAG_type (t);
 		if (tag == type_templ_tag) {
 			TYPE s = DEREF_type (type_templ_defn (t));
 			tag = type_tag (s);
 		}
 		return (tag);
-    }
-    return (null_tag);
+	}
+	return (null_tag);
 }
 
 
@@ -127,9 +127,9 @@ type_tag(TYPE t)
 unsigned
 type_category(TYPE *pt)
 {
-    TYPE t = *pt;
-    unsigned res = CTYPE_NONE;
-    if (!IS_NULL_type (t)) {
+	TYPE t = *pt;
+	unsigned res = CTYPE_NONE;
+	if (!IS_NULL_type (t)) {
 		CV_SPEC qual = DEREF_cv (type_qual (t));
 		switch (TAG_type (t)) {
 			
@@ -189,8 +189,8 @@ type_category(TYPE *pt)
 	    }
 		}
 		if (qual & cv_lvalue) res |= CTYPE_LVALUE;
-    }
-    return (res);
+	}
+	return (res);
 }
 
 
@@ -203,17 +203,17 @@ type_category(TYPE *pt)
 int
 eq_itype(INT_TYPE s, INT_TYPE t)
 {
-    int eq = 0;
-    unsigned ns, nt;
-    if (EQ_itype (s, t)) return (1);
-    if (IS_NULL_itype (s)) return (0);
-    if (IS_NULL_itype (t)) return (0);
-    s = expand_itype (s);
-    t = expand_itype (t);
-    if (EQ_itype (s, t)) return (1);
-    ns = TAG_itype (s);
-    nt = TAG_itype (t);
-    if (ns == nt) {
+	int eq = 0;
+	unsigned ns, nt;
+	if (EQ_itype (s, t)) return (1);
+	if (IS_NULL_itype (s)) return (0);
+	if (IS_NULL_itype (t)) return (0);
+	s = expand_itype (s);
+	t = expand_itype (t);
+	if (EQ_itype (s, t)) return (1);
+	ns = TAG_itype (s);
+	nt = TAG_itype (t);
+	if (ns == nt) {
 		ASSERT (ORDER_itype == 6);
 		switch (ns) {
 	    case itype_basic_tag : {
@@ -281,8 +281,8 @@ eq_itype(INT_TYPE s, INT_TYPE t)
 			break;
 	    }
 		}
-    }
-    return (eq);
+	}
+	return (eq);
 }
 
 
@@ -295,14 +295,14 @@ eq_itype(INT_TYPE s, INT_TYPE t)
 int
 eq_ftype(FLOAT_TYPE s, FLOAT_TYPE t)
 {
-    int eq = 0;
-    unsigned ns, nt;
-    if (EQ_ftype (s, t)) return (1);
-    if (IS_NULL_ftype (s)) return (0);
-    if (IS_NULL_ftype (t)) return (0);
-    ns = TAG_ftype (s);
-    nt = TAG_ftype (t);
-    if (ns == nt) {
+	int eq = 0;
+	unsigned ns, nt;
+	if (EQ_ftype (s, t)) return (1);
+	if (IS_NULL_ftype (s)) return (0);
+	if (IS_NULL_ftype (t)) return (0);
+	ns = TAG_ftype (s);
+	nt = TAG_ftype (t);
+	if (ns == nt) {
 		ASSERT (ORDER_ftype == 4);
 		switch (ns) {
 	    case ftype_basic_tag : {
@@ -342,8 +342,8 @@ eq_ftype(FLOAT_TYPE s, FLOAT_TYPE t)
 			break;
 	    }
 		}
-    }
-    return (eq);
+	}
+	return (eq);
 }
 
 
@@ -357,14 +357,14 @@ eq_ftype(FLOAT_TYPE s, FLOAT_TYPE t)
 CV_SPEC
 find_cv_qual(TYPE t)
 {
-    CV_SPEC qt = DEREF_cv (type_qual (t));
-    while (IS_type_array (t)) {
+	CV_SPEC qt = DEREF_cv (type_qual (t));
+	while (IS_type_array (t)) {
 		CV_SPEC qs;
 		t = DEREF_type (type_array_sub (t));
 		qs = DEREF_cv (type_qual (t));
 		qt |= qs;
-    }
-    return (qt);
+	}
+	return (qt);
 }
 
 
@@ -380,11 +380,11 @@ find_cv_qual(TYPE t)
 CV_SPEC
 cv_compare(TYPE s, TYPE t)
 {
-    CV_SPEC qs = find_cv_qual (s);
-    CV_SPEC qt = find_cv_qual (t);
-    qs &= cv_qual;
-    qt &= cv_qual;
-    return (qt & ~qs);
+	CV_SPEC qs = find_cv_qual (s);
+	CV_SPEC qt = find_cv_qual (t);
+	qs &= cv_qual;
+	qt &= cv_qual;
+	return (qt & ~qs);
 }
 
 
@@ -398,9 +398,9 @@ cv_compare(TYPE s, TYPE t)
 static int
 eq_func_lang(TYPE s, TYPE t)
 {
-    CV_SPEC qs = DEREF_cv (type_func_mqual (s));
-    CV_SPEC qt = DEREF_cv (type_func_mqual (t));
-    if (qs != qt) {
+	CV_SPEC qs = DEREF_cv (type_func_mqual (s));
+	CV_SPEC qt = DEREF_cv (type_func_mqual (t));
+	if (qs != qt) {
 		CV_SPEC ps = (qs & cv_language);
 		CV_SPEC pt = (qt & cv_language);
 		if (ps != pt) {
@@ -422,8 +422,8 @@ eq_func_lang(TYPE s, TYPE t)
 			}
 			if (ps != pt) return (0);
 		}
-    }
-    return (1);
+	}
+	return (1);
 }
 
 
@@ -442,16 +442,16 @@ eq_func_lang(TYPE s, TYPE t)
 int
 eq_func_type(TYPE s, TYPE t, int mq, int rf)
 {
-    int eq = 3;
-    int es, et;
-    unsigned ns, nt;
-    LIST (TYPE) ls, lt;
+	int eq = 3;
+	int es, et;
+	unsigned ns, nt;
+	LIST (TYPE) ls, lt;
 	
-    /* Check for obvious equality */
-    if (EQ_type (s, t)) return (3);
-    ns = TAG_type (s);
-    nt = TAG_type (t);
-    if (ns != type_func_tag || nt != type_func_tag) {
+	/* Check for obvious equality */
+	if (EQ_type (s, t)) return (3);
+	ns = TAG_type (s);
+	nt = TAG_type (t);
+	if (ns != type_func_tag || nt != type_func_tag) {
 		if (ns == type_templ_tag && nt == type_templ_tag) {
 			/* Allow for template functions */
 			eq = eq_template (s, t, 1, mq, rf);
@@ -462,19 +462,19 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 			if (eq == 1) return (3);
 			return (0);
 		}
-    }
+	}
 	
-    /* Check number of parameters */
-    es = DEREF_int (type_func_ellipsis (s));
-    et = DEREF_int (type_func_ellipsis (t));
-    ls = DEREF_list (type_func_ptypes (s));
-    lt = DEREF_list (type_func_ptypes (t));
-    if (es != et || LENGTH_list (ls) != LENGTH_list (lt)) {
+	/* Check number of parameters */
+	es = DEREF_int (type_func_ellipsis (s));
+	et = DEREF_int (type_func_ellipsis (t));
+	ls = DEREF_list (type_func_ptypes (s));
+	lt = DEREF_list (type_func_ptypes (t));
+	if (es != et || LENGTH_list (ls) != LENGTH_list (lt)) {
 		return (0);
-    }
+	}
 	
-    /* Check parameter types */
-    while (!IS_NULL_list (ls)) {
+	/* Check parameter types */
+	while (!IS_NULL_list (ls)) {
 		/* Check next parameter */
 		TYPE as = DEREF_type (HEAD_list (ls));
 		TYPE at = DEREF_type (HEAD_list (lt));
@@ -508,10 +508,10 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 		}
 		ls = TAIL_list (ls);
 		lt = TAIL_list (lt);
-    }
+	}
 	
-    /* Check return type */
-    if (eq == 3) {
+	/* Check return type */
+	if (eq == 3) {
 		TYPE rs = DEREF_type (type_func_ret (s));
 		TYPE rt = DEREF_type (type_func_ret (t));
 		if (eq_type (rt, rs) != 1) {
@@ -523,10 +523,10 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 				eq = 1;
 			}
 		}
-    }
+	}
 	
-    /* Check member qualifiers */
-    if (eq) {
+	/* Check member qualifiers */
+	if (eq) {
 		CV_SPEC qs = DEREF_cv (type_func_mqual (s));
 		CV_SPEC qt = DEREF_cv (type_func_mqual (t));
 		if (qs != qt) {
@@ -537,8 +537,8 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 				if (eq == 3 && option (OPT_func_linkage)) eq = 2;
 			}
 		}
-    }
-    return (eq);
+	}
+	return (eq);
 }
 
 
@@ -552,7 +552,7 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 static int
 eq_instance(TYPE s, IDENTIFIER tid)
 {
-    if (IS_type_instance (s)) {
+	if (IS_type_instance (s)) {
 		IDENTIFIER sid = DEREF_id (type_instance_id (s));
 		if (EQ_id (sid, tid)) {
 			CLASS_TYPE cs, ct;
@@ -564,8 +564,8 @@ eq_instance(TYPE s, IDENTIFIER tid)
 			if (IS_NULL_ctype (ct)) return (0);
 			return (eq_ctype (cs, ct));
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -578,11 +578,11 @@ eq_instance(TYPE s, IDENTIFIER tid)
 int
 eq_ctype(CLASS_TYPE cs, CLASS_TYPE ct)
 {
-    if (EQ_ctype (cs, ct)) {
+	if (EQ_ctype (cs, ct)) {
 		/* Simple class equality */
 		return (1);
-    }
-    if (!IS_NULL_ctype (cs) && !IS_NULL_ctype (ct)) {
+	}
+	if (!IS_NULL_ctype (cs) && !IS_NULL_ctype (ct)) {
 		TYPE s = DEREF_type (ctype_form (cs));
 		TYPE t = DEREF_type (ctype_form (ct));
 		if (!IS_NULL_type (s) || !IS_NULL_type (t)) {
@@ -610,8 +610,8 @@ eq_ctype(CLASS_TYPE cs, CLASS_TYPE ct)
 			IDENTIFIER tid = DEREF_id (ctype_name (ct));
 			return (merge_type (sid, tid));
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -624,11 +624,11 @@ eq_ctype(CLASS_TYPE cs, CLASS_TYPE ct)
 int
 eq_etype(ENUM_TYPE es, ENUM_TYPE et)
 {
-    if (EQ_etype (es, et)) {
+	if (EQ_etype (es, et)) {
 		/* Simple equality */
 		return (1);
-    }
-    if (!IS_NULL_etype (es) && !IS_NULL_etype (et)) {
+	}
+	if (!IS_NULL_etype (es) && !IS_NULL_etype (et)) {
 		TYPE s = DEREF_type (etype_form (es));
 		TYPE t = DEREF_type (etype_form (et));
 		if (!IS_NULL_type (s) && !IS_NULL_type (t)) {
@@ -648,8 +648,8 @@ eq_etype(ENUM_TYPE es, ENUM_TYPE et)
 			IDENTIFIER tid = DEREF_id (etype_name (et));
 			return (merge_type (sid, tid));
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -668,16 +668,16 @@ eq_etype(ENUM_TYPE es, ENUM_TYPE et)
 static int
 eq_type_aux(TYPE s, TYPE t, int qu)
 {
-    /* Check for obvious equality */
-    unsigned ns, nt;
-    if (EQ_type (s, t)) return (1);
-    if (IS_NULL_type (s)) return (0);
-    if (IS_NULL_type (t)) return (0);
+	/* Check for obvious equality */
+	unsigned ns, nt;
+	if (EQ_type (s, t)) return (1);
+	if (IS_NULL_type (s)) return (0);
+	if (IS_NULL_type (t)) return (0);
 	
-    /* Tags should be equal */
-    ns = TAG_type (s);
-    nt = TAG_type (t);
-    if (ns != nt) {
+	/* Tags should be equal */
+	ns = TAG_type (s);
+	nt = TAG_type (t);
+	if (ns != nt) {
 		if (ns == type_templ_tag && force_template) {
 			/* Allow for template types */
 			if (deduce_template (s, t, qu)) return (2);
@@ -687,10 +687,10 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 			if (deduce_template (t, s, qu)) return (3);
 		}
 		return (0);
-    }
+	}
 	
-    /* Qualifiers should be equal */
-    if (qu == 0) {
+	/* Qualifiers should be equal */
+	if (qu == 0) {
 		CV_SPEC qs = DEREF_cv (type_qual (s));
 		CV_SPEC qt = DEREF_cv (type_qual (t));
 		if (qs != qt) {
@@ -699,11 +699,11 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 			qt &= cv_qual;
 			if (qs != qt) return (0);
 		}
-    }
+	}
 	
-    /* Check on type components */
-    ASSERT (ORDER_type == 18);
-    switch (ns) {
+	/* Check on type components */
+	ASSERT (ORDER_type == 18);
+	switch (ns) {
 		
 	case type_integer_tag : {
 	    /* Check integer types */
@@ -867,9 +867,9 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 	    int it = DEREF_int (type_dummy_tok (t));
 	    return (is == it);
 	}
-    }
-    /* Simple types compare equal */
-    return (1);
+	}
+	/* Simple types compare equal */
+	return (1);
 }
 
 
@@ -884,10 +884,10 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 int
 unify_type(TYPE s, TYPE t, CV_SPEC cv, int qual)
 {
-    IDENTIFIER id;
-    LIST (TOKEN) args;
-    unsigned tag = TAG_type (s);
-    switch (tag) {
+	IDENTIFIER id;
+	LIST (TOKEN) args;
+	unsigned tag = TAG_type (s);
+	switch (tag) {
 	case type_integer_tag : {
 	    /* Integral types */
 	    INT_TYPE is = DEREF_itype (type_integer_rep (s));
@@ -947,8 +947,8 @@ unify_type(TYPE s, TYPE t, CV_SPEC cv, int qual)
 	    /* Other types */
 	    return (0);
 	}
-    }
-    if (defining_token (id)) {
+	}
+	if (defining_token (id)) {
 		TOKEN sort;
 		if (IS_NULL_list (args)) {
 			t = qualify_type (t, cv, 0);
@@ -970,16 +970,16 @@ unify_type(TYPE s, TYPE t, CV_SPEC cv, int qual)
 				}
 			}
 		}
-    }
-    if (expand_tokdef) {
+	}
+	if (expand_tokdef) {
 		/* Expand token definitions */
 		TOKEN sort = find_tokdef (id);
 		if (!IS_NULL_tok (sort) && IS_tok_type (sort)) {
 			TYPE r = DEREF_type (tok_type_value (sort));
 			if (!IS_NULL_type (r) && eq_type (r, t)) return (1);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -993,7 +993,7 @@ unify_type(TYPE s, TYPE t, CV_SPEC cv, int qual)
 static int
 unify_types(TYPE s, TYPE t, int qu)
 {
-    if (force_tokdef || force_template || expand_tokdef) {
+	if (force_tokdef || force_template || expand_tokdef) {
 		CV_SPEC qs, qt;
 		CV_SPEC rs, rt;
 		if (IS_NULL_type (s)) return (0);
@@ -1010,8 +1010,8 @@ unify_types(TYPE s, TYPE t, int qu)
 		if (rt == cv_none || qu) {
 			if (unify_type (t, s, rs, 0)) return (1);
 		}
-    }
-    return (0);
+	}
+	return (0);
 }
 
 
@@ -1028,11 +1028,11 @@ unify_types(TYPE s, TYPE t, int qu)
 int
 eq_type_qual(TYPE s, TYPE t, int qu)
 {
-    int eq;
-    if (EQ_type (s, t)) return (1);
-    eq = eq_type_aux (s, t, qu);
-    if (eq == 0) eq = unify_types (s, t, qu);
-    return (eq);
+	int eq;
+	if (EQ_type (s, t)) return (1);
+	eq = eq_type_aux (s, t, qu);
+	if (eq == 0) eq = unify_types (s, t, qu);
+	return (eq);
 }
 
 
@@ -1049,10 +1049,10 @@ eq_type_qual(TYPE s, TYPE t, int qu)
 int
 eq_type_offset(TYPE s, TYPE t)
 {
-    unsigned ns = TAG_type (s);
-    unsigned nt = TAG_type (t);
-    if (ns != nt) return (0);
-    if (ns == type_integer_tag) {
+	unsigned ns = TAG_type (s);
+	unsigned nt = TAG_type (t);
+	if (ns != nt) return (0);
+	if (ns == type_integer_tag) {
 		INT_TYPE is = DEREF_itype (type_integer_rep (s));
 		INT_TYPE it = DEREF_itype (type_integer_rep (t));
 		if (IS_itype_basic (is) && IS_itype_basic (it)) {
@@ -1062,8 +1062,8 @@ eq_type_offset(TYPE s, TYPE t)
 			if (builtin_cast (bs, bt) == 6) return (1);
 			return (0);
 		}
-    }
-    return (eq_type_unqual (s, t));
+	}
+	return (eq_type_unqual (s, t));
 }
 
 
@@ -1081,18 +1081,18 @@ eq_type_offset(TYPE s, TYPE t)
 static TYPE
 func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 {
-    TYPE rs, rt;
-    CV_SPEC qs, qt;
-    TYPE mt = NULL_type;
-    int es = DEREF_int (type_func_ellipsis (s));
-    NAMESPACE ns = DEREF_nspace (type_func_pars (s));
-    LIST (TYPE) ps = DEREF_list (type_func_ptypes (s));
-    LIST (TYPE) pt = DEREF_list (type_func_mtypes (s));
-    LIST (IDENTIFIER) pids = DEREF_list (type_func_pids (s));
+	TYPE rs, rt;
+	CV_SPEC qs, qt;
+	TYPE mt = NULL_type;
+	int es = DEREF_int (type_func_ellipsis (s));
+	NAMESPACE ns = DEREF_nspace (type_func_pars (s));
+	LIST (TYPE) ps = DEREF_list (type_func_ptypes (s));
+	LIST (TYPE) pt = DEREF_list (type_func_mtypes (s));
+	LIST (IDENTIFIER) pids = DEREF_list (type_func_pids (s));
 	
-    /* Check parameter types */
-    if (!EQ_list (ps, pt)) mt = DEREF_type (HEAD_list (pt));
-    if (eq == 0) {
+	/* Check parameter types */
+	if (!EQ_list (ps, pt)) mt = DEREF_type (HEAD_list (pt));
+	if (eq == 0) {
 		int et = DEREF_int (type_func_ellipsis (t));
 		if (es & FUNC_NO_PARAMS) {
 			/* s has no parameter information - swap types */
@@ -1241,27 +1241,27 @@ func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 				DESTROY_list (pr, SIZE_type);
 			}
 		}
-    }
+	}
 	
-    /* Check return type */
-    rs = DEREF_type (type_func_ret (s));
-    rt = DEREF_type (type_func_ret (t));
-    rs = type_composite (rs, rt, 0, 1, err, mk);
-    if (IS_NULL_type (rs)) return (NULL_type);
+	/* Check return type */
+	rs = DEREF_type (type_func_ret (s));
+	rt = DEREF_type (type_func_ret (t));
+	rs = type_composite (rs, rt, 0, 1, err, mk);
+	if (IS_NULL_type (rs)) return (NULL_type);
 	
-    /* Check member qualifiers */
-    qs = DEREF_cv (type_func_mqual (s));
-    qt = DEREF_cv (type_func_mqual (t));
-    if (qs != qt) {
+	/* Check member qualifiers */
+	qs = DEREF_cv (type_func_mqual (s));
+	qt = DEREF_cv (type_func_mqual (t));
+	if (qs != qt) {
 		qs &= cv_qual;
 		qt &= cv_qual;
 		if (qs != qt) return (NULL_type);
 		if (!eq_func_lang (s, t)) return (NULL_type);
 		qs = DEREF_cv (type_func_mqual (s));
-    }
+	}
 	
-    /* Construct composite type */
-    if (mk) {
+	/* Construct composite type */
+	if (mk) {
 		CV_SPEC cs = DEREF_cv (type_qual (s));
 		CV_SPEC ct = DEREF_cv (type_qual (t));
 		LIST (TYPE) ex = DEREF_list (type_func_except (s));
@@ -1269,8 +1269,8 @@ func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 		pt = ps;
 		if (!IS_NULL_type (mt)) CONS_type (mt, pt, pt);
 		MAKE_type_func (cs, rs, ps, es, qs, pt, ns, pids, ex, s);
-    }
-    return (s);
+	}
+	return (s);
 }
 
 #endif
@@ -1296,24 +1296,24 @@ func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 TYPE
 type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 {
-    TYPE r = s;
-    int eq = 1;
-    int checked = 0;
-    unsigned ns, nt;
-    CV_SPEC qr, qs, qt;
+	TYPE r = s;
+	int eq = 1;
+	int checked = 0;
+	unsigned ns, nt;
+	CV_SPEC qr, qs, qt;
 	
-    /* Check for obvious equality */
-    if (EQ_type (s, t)) return (s);
-    if (IS_NULL_type (s)) return (NULL_type);
-    if (IS_NULL_type (t)) return (NULL_type);
+	/* Check for obvious equality */
+	if (EQ_type (s, t)) return (s);
+	if (IS_NULL_type (s)) return (NULL_type);
+	if (IS_NULL_type (t)) return (NULL_type);
 	
-    /* Compare type qualifiers */
-    ns = TAG_type (s);
-    nt = TAG_type (t);
-    qs = DEREF_cv (type_qual (s));
-    qt = DEREF_cv (type_qual (t));
-    qr = (qs | qt);
-    if (qs != qt && qual <= 0) {
+	/* Compare type qualifiers */
+	ns = TAG_type (s);
+	nt = TAG_type (t);
+	qs = DEREF_cv (type_qual (s));
+	qt = DEREF_cv (type_qual (t));
+	qr = (qs | qt);
+	if (qs != qt && qual <= 0) {
 		/* Qualifiers should be equal up to lvalues */
 		CV_SPEC rs = (qs & cv_qual);
 		CV_SPEC rt = (qt & cv_qual);
@@ -1328,13 +1328,13 @@ type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 			if (opt == OPTION_DISALLOW) goto return_lab;
 			add_error (err, ERR_basic_link_qual (rs, rt));
 		}
-    }
+	}
 #if LANGUAGE_C
-    qual--;
+	qual--;
 #endif
 	
-    /* Check on type components */
-    if (ns == nt) {
+	/* Check on type components */
+	if (ns == nt) {
 		switch (ns) {
 			
 	    case type_ptr_tag :
@@ -1481,7 +1481,7 @@ type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 #endif
 		}
 		
-    } else {
+	} else {
 		
 		switch (ns) {
 	    case type_top_tag : {
@@ -1527,10 +1527,10 @@ type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 	    }
 #endif
 		}
-    }
+	}
 	
-    /* In other cases compatibility is equality */
-    if (eq) {
+	/* In other cases compatibility is equality */
+	if (eq) {
 		if (!checked) eq = eq_type_unqual (s, t);
 		if (eq == 1) {
 			if (mk) {
@@ -1542,12 +1542,12 @@ type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 			}
 			return (r);
 		}
-    }
-    return_lab : {
+	}
+	return_lab : {
 		if (ns == type_error_tag) return (t);
 		if (nt == type_error_tag) return (s);
 		return (NULL_type);
-    }
+	}
 }
 
 
@@ -1563,15 +1563,15 @@ type_composite(TYPE s, TYPE t, int qual, int depth, ERROR *err, int mk)
 TYPE
 check_compatible(TYPE s, TYPE t, int qual, ERROR *err, int mk)
 {
-    TYPE r;
-    force_tokdef++;
-    r = type_composite (s, t, qual, 0, err, mk);
-    if (IS_NULL_type (r)) {
+	TYPE r;
+	force_tokdef++;
+	r = type_composite (s, t, qual, 0, err, mk);
+	if (IS_NULL_type (r)) {
 		add_error (err, ERR_basic_link_incompat (s, t));
 		r = s;
-    }
-    force_tokdef--;
-    return (r);
+	}
+	force_tokdef--;
+	return (r);
 }
 
 
@@ -1587,8 +1587,8 @@ check_compatible(TYPE s, TYPE t, int qual, ERROR *err, int mk)
 ERROR
 check_object(TYPE t)
 {
-    ERROR err = NULL_err;
-    switch (TAG_type (t)) {
+	ERROR err = NULL_err;
+	switch (TAG_type (t)) {
 	case type_func_tag : {
 	    /* Function types are not object types */
 	    err = ERR_basic_types_obj_func (t);
@@ -1605,8 +1605,8 @@ check_object(TYPE t)
 	    err = check_object (s);
 	    break;
 	}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1621,8 +1621,8 @@ check_object(TYPE t)
 ERROR
 check_abstract(TYPE t)
 {
-    ERROR err = NULL_err;
-    switch (TAG_type (t)) {
+	ERROR err = NULL_err;
+	switch (TAG_type (t)) {
 	case type_compound_tag : {
 	    /* Check for abstract classes */
 	    CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
@@ -1644,8 +1644,8 @@ check_abstract(TYPE t)
 	    err = check_abstract (s);
 	    break;
 	}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1659,8 +1659,8 @@ check_abstract(TYPE t)
 ERROR
 check_incomplete(TYPE t)
 {
-    ERROR err = NULL_err;
-    switch (TAG_type (t)) {
+	ERROR err = NULL_err;
+	switch (TAG_type (t)) {
 	case type_top_tag :
 	case type_bottom_tag : {
 	    /* void and bottom are incomplete */
@@ -1706,8 +1706,8 @@ check_incomplete(TYPE t)
 	    err = check_incomplete (s);
 	    break;
 	}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1721,14 +1721,14 @@ check_incomplete(TYPE t)
 ERROR
 check_complete(TYPE t)
 {
-    ERROR err = check_object (t);
-    if (IS_NULL_err (err)) {
+	ERROR err = check_object (t);
+	if (IS_NULL_err (err)) {
 		err = check_incomplete (t);
 		if (!IS_NULL_err (err)) {
 			err = concat_error (err, ERR_basic_types_obj_incompl ());
 		}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1742,8 +1742,8 @@ check_complete(TYPE t)
 TYPE
 check_pointer(TYPE t, ERROR *err)
 {
-    TYPE s;
-    switch (TAG_type (t)) {
+	TYPE s;
+	switch (TAG_type (t)) {
 	case type_ptr_tag : {
 	    /* Pointer type */
 	    s = DEREF_type (type_ptr_sub (t));
@@ -1769,8 +1769,8 @@ check_pointer(TYPE t, ERROR *err)
 	    /* Shouldn't happen */
 	    return (t);
 	}
-    }
-    if (err != KILL_err) {
+	}
+	if (err != KILL_err) {
 		switch (TAG_type (s)) {
 	    case type_top_tag :
 	    case type_bottom_tag : {
@@ -1782,8 +1782,8 @@ check_pointer(TYPE t, ERROR *err)
 			break;
 	    }
 		}
-    }
-    return (s);
+	}
+	return (s);
 }
 
 
@@ -1799,10 +1799,10 @@ check_pointer(TYPE t, ERROR *err)
 ERROR
 check_modifiable(TYPE t, EXP a)
 {
-    ERROR err;
-    unsigned tag = TAG_type (t);
-    CV_SPEC qual = DEREF_cv (type_qual (t));
-    if (qual & cv_lvalue) {
+	ERROR err;
+	unsigned tag = TAG_type (t);
+	CV_SPEC qual = DEREF_cv (type_qual (t));
+	if (qual & cv_lvalue) {
 		while (tag == type_templ_tag) {
 			t = DEREF_type (type_templ_defn (t));
 			tag = TAG_type (t);
@@ -1839,7 +1839,7 @@ check_modifiable(TYPE t, EXP a)
 				}
 			}
 		}
-    } else {
+	} else {
 		/* rvalues are not modifiable */
 		if (tag == type_error_tag) {
 			err = NULL_err;
@@ -1847,8 +1847,8 @@ check_modifiable(TYPE t, EXP a)
 			err = ERR_basic_lval_not ();
 			err = concat_error (err, ERR_basic_lval_mod_rvalue ());
 		}
-    }
-    return (err);
+	}
+	return (err);
 }
 
 
@@ -1862,7 +1862,7 @@ check_modifiable(TYPE t, EXP a)
 int
 is_global_type(TYPE t)
 {
-    if (!IS_NULL_type (t)) {
+	if (!IS_NULL_type (t)) {
 		ASSERT (ORDER_type == 18);
 		switch (TAG_type (t)) {
 	    case type_ptr_tag : {
@@ -1923,6 +1923,6 @@ is_global_type(TYPE t)
 			return (is_global_type (s));
 	    }
 		}
-    }
-    return (1);
+	}
+	return (1);
 }
