@@ -60,8 +60,8 @@
 #define	FMM_SIGNSIZE	64
 #endif
 
-#define	BLK2FL(blkp)	((struct fmm_freelist*)(blkp)->fbh_data)
-#define	ADDR2BLK(addr)	((struct fmm_blk_hdr *)((char *)(addr) - FMM_BLK_HDRSZ))
+#define	BLK2FL(blkp)	((struct fmm_freelist*)FMM_BLK_DATA(blkp))
+#define	ADDR2BLK(addr)	((struct fmm_blk_hdr *)(addr) - 1)
 
 struct fmm_type *fmm_deftype, *fmm_freetype;
 
@@ -270,13 +270,13 @@ fmm_malloc(size_t size, struct fmm_type *ftp)
 		if (size > FMM_LARGE_ALLOC) {
 			pp->fph_pagesize = allocsize;
 			ftp->ft_memuse += allocsize;
-			blkp = (struct fmm_blk_hdr*)pp->fph_data;
+			blkp = (struct fmm_blk_hdr*)FMM_PAGE_DATA(pp);
 			blkp->fbh_page = pp;
 			goto out;
 		}
 		pp->fph_freecnt = blkcnt;
 		fbp->fb_freeblk += blkcnt;
-		cp = pp->fph_data;
+		cp = FMM_PAGE_DATA(pp);
 		fbp->fb_next = (struct fmm_blk_hdr*)cp;
 		for (;;) {
 			blkp = (struct fmm_blk_hdr*)cp;
@@ -329,7 +329,7 @@ out:
 	ftp->ft_calls++;
 	if (ftp->ft_memuse > ftp->ft_maxused)
 		ftp->ft_maxused = ftp->ft_memuse;
-	cp = blkp->fbh_data;
+	cp = FMM_BLK_DATA(blkp);
 	return (void *)cp;
 }
 
@@ -365,7 +365,7 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 		}
 		pp->fph_pagesize = allocsize;
 		ftp->ft_memuse += allocsize;
-		blkp = (struct fmm_blk_hdr*)pp->fph_data;
+		blkp = (struct fmm_blk_hdr*)FMM_PAGE_DATA(pp);
 		blkp->fbh_page = pp;
 		if (prevp)
 			prevp->fph_next = pp;
@@ -375,7 +375,7 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 			nextp->fph_prev = pp;
 		if (ftp->ft_memuse > ftp->ft_maxused)
 			ftp->ft_maxused = ftp->ft_memuse;
-		return blkp->fbh_data;
+		return FMM_BLK_DATA(blkp);
 	}
 	/* Reuse the original block if appropriate */
 	if (size <= allocsize &&

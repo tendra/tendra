@@ -118,9 +118,9 @@ struct fmm_freelist {
 
 struct fmm_blk_hdr {
 	struct fmm_page_hdr *fbh_page;	/* back reference to the parent page */
-	char	fbh_data[1];
 };
-#define	FMM_BLK_HDRSZ	(sizeof(struct fmm_blk_hdr) - 1)
+#define	FMM_BLK_HDRSZ		(sizeof(struct fmm_blk_hdr))
+#define	FMM_BLK_DATA(blkp)	((void*)((blkp) + 1))
 
 struct fmm_page_hdr {
 	struct fmm_page_hdr *fph_prev;
@@ -130,11 +130,11 @@ struct fmm_page_hdr {
 		unsigned short	freecnt;
 		size_t		pagesize;
 	} fph_un;
-	char	fph_data[1];
 };
 #define fph_freecnt fph_un.freecnt
 #define fph_pagesize fph_un.pagesize
-#define	FMM_PAGE_HDRSZ	(sizeof(struct fmm_page_hdr) - 1)
+#define	FMM_PAGE_HDRSZ		(sizeof(struct fmm_page_hdr))
+#define	FMM_PAGE_DATA(pp)	((void*)((pp) + 1))
 
 /*
  * fmm_deftype catches all allocations for unknown types
