@@ -37,6 +37,11 @@ VERSION=`/usr/bin/env uname -r`
 
 . ./makedefs.funcs
 
+if [ "${1}" = "-h" ]; then
+	usage
+	exit
+fi
+
 if [ -f Makefile.defs ]; then
 	echo "NOTICE: old Makefile.defs file found, overwriting..."
 	echo
@@ -53,6 +58,9 @@ if [ ! -z ${LD_LIBRARY_PATH} ]; then
 	echo
 	LD_LIBRARY_PATH=""
 fi
+
+# Set up defaults
+EXECFORMAT=elf		# ELF is the de facto executable file format nowadays.
 
 case "${SYSTEM}.${VERSION}" in
 	DragonFly.1*)	# Use the system supplied GCC for CC.
@@ -191,6 +199,7 @@ echo "LIBS:		${LIBS}"
 echo "OSFAM:		${OSFAM}"
 echo "OSVER:		${OSVER}"
 echo "BLDARCH:	${BLDARCH} (${HOSTARCH})"
+echo "EXECFORMAT:	${EXECFORMAT}"
 
 cat > Makefile.defs <<EOF
 PREFIX=${PREFIX}
@@ -203,4 +212,5 @@ OSFAM=${OSFAM}
 OSVER=${OSVER}
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
 BLDARCH=${BLDARCH}
+EXECFORMAT=${EXECFORMAT}
 EOF
