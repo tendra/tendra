@@ -63,6 +63,8 @@
 #define	BLK2FL(blkp)	((struct fmm_freelist*)FMM_BLK_DATA(blkp))
 #define	ADDR2BLK(addr)	((struct fmm_blk_hdr *)(addr) - 1)
 
+int fmm_error;
+
 struct fmm_type *fmm_deftype, *fmm_freetype;
 
 /*
@@ -254,6 +256,7 @@ fmm_malloc(size_t size, struct fmm_type *ftp)
 			allocsize = fbp->fb_pagesize;
 		pp = (struct fmm_page_hdr*)malloc(allocsize);
 		if (pp == NULL) {
+			fmm_error = 1;
 			MSG_fmm_malloc_failed(size);
 			/*NOTREACHED*/
 			return NULL;
@@ -359,6 +362,7 @@ fmm_realloc(void *addr, size_t size, struct fmm_type *ftp)
 		ftp->ft_memuse -= pp->fph_pagesize;
 		pp = realloc(pp, allocsize);
 		if (pp == NULL) {
+			fmm_error = 1;
 			MSG_fmm_malloc_failed(size);
 			/*NOTREACHED*/
 			return NULL;

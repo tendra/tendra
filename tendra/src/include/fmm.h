@@ -137,6 +137,11 @@ struct fmm_page_hdr {
 #define	FMM_PAGE_DATA(pp)	((void*)((pp) + 1))
 
 /*
+ * A non-zero value indicates an error occured in the fmm function.
+ */
+extern int fmm_error;
+
+/*
  * fmm_deftype catches all allocations for unknown types
  */
 extern struct fmm_type *fmm_deftype;
