@@ -922,12 +922,16 @@ expand_macro(HASHID macro, TOKEN_LOC *locs,
 				character c;
 				string fn = DEREF_string (posn_file (crt_loc.posn));
 				BUFFER *bf = clear_buffer (&token_buff, NIL (FILE));
-				while (c = *(fn++), c != 0) {
-					if (c == char_quote || c == char_backslash) {
-						/* Escape quotes and backslashes */
-						bfputc (bf, char_backslash);
+				if (DEREF_int (posn_quote_file (crt_loc.posn))) {
+					while (c = *(fn++), c != 0) {
+						if (c == char_quote || c == char_backslash) {
+							/* Escape quotes and backslashes */
+							bfputc (bf, char_backslash);
+						}
+						bfputc (bf, (int) c);
 					}
-					bfputc (bf, (int) c);
+				} else {
+					bfputs (bf, fn);
 				}
 				this_tok = new_pptok ();
 				this_tok->tok = lex_string_Hlit;

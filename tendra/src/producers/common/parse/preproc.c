@@ -1661,7 +1661,7 @@ read_location(int dir)
 		PTR (LOCATION) from = DEREF_ptr (posn_from (posn));
 		off += (ln - ln_old);
 		posn = MAKE_ptr (SIZE_posn);
-		MAKE_posn (fn, input, fn, d, off, from, date, posn);
+		MAKE_posn (fn, 0, input, fn, d, off, from, date, posn);
 		crt_loc.posn = posn;
     }
     crt_loc.line = ln;

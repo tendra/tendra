@@ -1609,6 +1609,7 @@ struct LOCATION (loc) = {
 
 struct POSITION (posn) = {
     string file ;
+    int quote_file ;
     string input ;
     string base ;
     string dir ;

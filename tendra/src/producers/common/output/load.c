@@ -256,7 +256,7 @@ load_loc(BITSTREAM *bs)
 				date2 = date;
 			}
 			posn = MAKE_ptr (SIZE_posn);
-			MAKE_posn (file, input, input, NULL, off, from, date, posn);
+			MAKE_posn (file, 1, input, input, NULL, off, from, date, posn);
 			crt_loc.posn = posn;
 			if (date && date2 && date != date2) {
 				/* File has changed on disk */

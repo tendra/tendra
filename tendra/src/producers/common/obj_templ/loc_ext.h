@@ -73,7 +73,7 @@
 		loc_->line = 1;														\
 		loc_->column = 0;													\
 		loc_->posn = MAKE_ptr (SIZE_posn);									\
-		MAKE_posn ((A), (B), (C), (D), 0, (E), (F), loc_->posn);			\
+		MAKE_posn ((A), 1, (B), (C), (D), 0, (E), (F), loc_->posn);			\
     } while (0)
 
 #define	NULL_loc	{ 0, 0, NULL_ptr (POSITION) }
