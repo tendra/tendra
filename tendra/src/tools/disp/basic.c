@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -47,13 +80,12 @@
     Otherwise the result is ( 2^n - 1 ) plus the next extended number.
 */
 
-long fetch_extn
-    PROTO_N ( ( n ) )
-    PROTO_T ( int n )
+long
+fetch_extn(int n)
 {
-    long r = 0, s ;
-    while ( s = fetch ( n ), s == 0 ) r += ( ( 1 << n ) - 1 ) ;
-    return ( r + s ) ;
+    long r = 0, s;
+    while (s = fetch(n), s == 0)r += ((1 << n) - 1);
+    return(r + s);
 }
 
 
@@ -67,17 +99,17 @@ long fetch_extn
     of which is a flag which is set to mark the last digit.
 */
 
-long tdf_int
-    PROTO_Z ()
+long
+tdf_int(void)
 {
-    long dig ;
-    long num = 0 ;
-    if ( read_error ) return ( 0 ) ;
+    long dig;
+    long num = 0;
+    if (read_error) return(0);
     do {
-	dig = fetch ( 4 ) ;
-	num = 8 * num + ( dig & 7 ) ;
-    } while ( !( dig & 8 ) ) ;
-    return ( num ) ;
+	dig = fetch(4);
+	num = 8 * num + (dig & 7);
+    } while (!(dig & 8));
+    return(num);
 }
 
 
@@ -89,8 +121,8 @@ long tdf_int
     the number of octal digits read.
 */
 
-int tdf_int_digits ;
-static char tdf_int_buff [1000] ;
+int tdf_int_digits;
+static char tdf_int_buff[1000];
 
 
 /*
@@ -100,30 +132,30 @@ static char tdf_int_buff [1000] ;
     recorded in tdf_int_digits.
 */
 
-char *tdf_int_str
-    PROTO_Z ()
+char *
+tdf_int_str(void)
 {
-    long dig ;
-    int i = 0 ;
-    int reported = 0 ;
-    if ( read_error ) {
+    long dig;
+    int i = 0;
+    int reported = 0;
+    if (read_error) {
 	/* allow for recovery */
-	tdf_int_digits = 1 ;
-	return ( "0" ) ;
+	tdf_int_digits = 1;
+	return("0");
     }
     do {
-	dig = fetch ( 4 ) ;
-	if ( i < 1000 ) {
-	    tdf_int_buff [i] = charact ( dig & 7 ) ;
-	    i++ ;
+	dig = fetch(4);
+	if (i < 1000) {
+	    tdf_int_buff[i] = charact(dig & 7);
+	    i++;
 	} else {
-	    if ( !reported ) input_error ( "Numeric overflow" ) ;
-	    reported = 1 ;
+	    if (!reported)input_error("Numeric overflow");
+	    reported = 1;
 	}
-    } while ( !( dig & 8 ) ) ;
-    tdf_int_buff [i] = 0 ;
-    tdf_int_digits = i ;
-    return ( tdf_int_buff ) ;
+    } while (!(dig & 8));
+    tdf_int_buff[i] = 0;
+    tdf_int_digits = i;
+    return(tdf_int_buff);
 }
 
 
@@ -135,37 +167,36 @@ char *tdf_int_str
     translating any unprintable characters into escape sequences.
 */
 
-string get_string
-    PROTO_N ( ( n, sz ) )
-    PROTO_T ( long n X long sz )
+string
+get_string(long n, long sz)
 {
-    long i ;
-    string s ;
-    char buff [5000] ;
-    char *p = buff ;
-    for ( i = 0 ; i < n ; i++ ) {
-	int c = ( int ) fetch ( ( int ) sz ) ;
-	if ( printable ( c ) ) {
-	    if ( c == SLASH || c == QUOTE ) *( p++ ) = SLASH ;
-	    *( p++ ) = ( char ) c ;
+    long i;
+    string s;
+    char buff[5000];
+    char *p = buff;
+    for (i = 0; i < n; i++) {
+	int c = (int)fetch((int)sz);
+	if (printable(c)) {
+	    if (c == SLASH || c == QUOTE)*(p++) = SLASH;
+	    *(p++) = (char)c;
 	} else {
-	    *( p++ ) = SLASH ;
-	    if ( c == NEWLINE ) {
-		*( p++ ) = 'n' ;
-	    } else if ( c == TAB ) {
-		*( p++ ) = 't' ;
+	    *(p++) = SLASH;
+	    if (c == NEWLINE) {
+		*(p++) = 'n';
+	    } else if (c == TAB) {
+		*(p++) = 't';
 	    } else {
-		*( p++ ) = charact ( c / 64 ) ;
-		*( p++ ) = charact ( ( c % 64 ) / 8 ) ;
-		*( p++ ) = charact ( c % 8 ) ;
+		*(p++) = charact(c / 64);
+		*(p++) = charact((c % 64) / 8);
+		*(p++) = charact(c % 8);
 	    }
 	}
     }
-    *( p++ ) = 0 ;
-    n = ( int ) ( p - buff ) ;
-    s = alloc_nof ( char, n ) ;
-    IGNORE memcpy ( s, buff, ( size_t ) n ) ;
-    return ( s ) ;
+    *(p++) = 0;
+    n = (int)(p - buff);
+    s = alloc_nof(char, n);
+    IGNORE memcpy(s, buff,(size_t)n);
+    return(s);
 }
 
 
@@ -178,19 +209,19 @@ string get_string
     or the string is too long, it is deemed to be unprintable.
 */
 
-string de_tdfstring
-    PROTO_Z ()
+string
+de_tdfstring(void)
 {
-    string s ;
-    long sz = tdf_int () ;
-    long n = tdf_int () ;
-    if ( sz == 8 && n < 1000 ) {
-	s = get_string ( n, sz ) ;
+    string s;
+    long sz = tdf_int();
+    long n = tdf_int();
+    if (sz == 8 && n < 1000) {
+	s = get_string(n, sz);
     } else {
-	skip_bits ( ( long ) ( n * sz ) ) ;
-	s = "<UNPRINTABLE>" ;
+	skip_bits((long)(n * sz));
+	s = "<UNPRINTABLE>";
     }
-    return ( s ) ;
+    return(s);
 }
 
 
@@ -201,21 +232,21 @@ string de_tdfstring
     couple of alignments.  This is used by de_extern_name.
 */
 
-string de_tdfstring_align
-    PROTO_Z ()
+string
+de_tdfstring_align(void)
 {
-    string s ;
-    long sz = tdf_int () ;
-    long n = tdf_int () ;
-    byte_align () ;
-    if ( sz == 8 && n < 1000 ) {
-	s = get_string ( n, sz ) ;
+    string s;
+    long sz = tdf_int();
+    long n = tdf_int();
+    byte_align();
+    if (sz == 8 && n < 1000) {
+	s = get_string(n, sz);
     } else {
-	skip_bits ( ( long ) ( n * sz ) ) ;
-	s = "<UNPRINTABLE>" ;
+	skip_bits((long)(n * sz));
+	s = "<UNPRINTABLE>";
     }
-    byte_align () ;
-    return ( s ) ;
+    byte_align();
+    return(s);
 }
 
 
@@ -226,16 +257,16 @@ string de_tdfstring_align
     by a null string.
 */
 
-unique de_unique
-    PROTO_Z ()
+unique
+de_unique(void)
 {
-    long i, n ;
-    unique u ;
-    n = tdf_int () ;
-    u = alloc_nof ( string, n + 1 ) ;
-    for ( i = 0 ; i < n ; i++ ) u [i] = de_tdfstring_align () ;
-    u [n] = null ;
-    return ( u ) ;
+    long i, n;
+    unique u;
+    n = tdf_int();
+    u = alloc_nof(string, n + 1);
+    for (i = 0; i < n; i++)u[i] = de_tdfstring_align();
+    u[n] = null;
+    return(u);
 }
 
 
@@ -246,36 +277,36 @@ unique de_unique
     string or a unique is decoded.
 */
 
-external de_extern_name
-    PROTO_Z ()
+external
+de_extern_name(void)
 {
-    external e ;
-    long n = de_external () ;
-    byte_align () ;
-    switch ( n ) {
-	case external_string_extern : {
-	    e.simple = 1 ;
-	    e.val.str = de_tdfstring_align () ;
-	    break ;
+    external e;
+    long n = de_external();
+    byte_align();
+    switch (n) {
+	case external_string_extern: {
+	    e.simple = 1;
+	    e.val.str = de_tdfstring_align();
+	    break;
 	}
-	case external_unique_extern : {
-	    e.simple = 0 ;
-	    e.val.uniq = de_unique () ;
-	    break ;
+	case external_unique_extern: {
+	    e.simple = 0;
+	    e.val.uniq = de_unique();
+	    break;
 	}
-	case external_chain_extern : {
-	    e.simple = 1 ;
-	    e.val.str = de_tdfstring_align () ;
-	    IGNORE tdf_int () ;
-	    break ;
+	case external_chain_extern: {
+	    e.simple = 1;
+	    e.val.str = de_tdfstring_align();
+	    IGNORE tdf_int();
+	    break;
 	}
 	default : {
-	    e.simple = 1 ;
-	    e.val.str = "<ERROR>" ;
-	    break ;
+	    e.simple = 1;
+	    e.val.str = "<ERROR>";
+	    break;
 	}
     }
-    return ( e ) ;
+    return(e);
 }
 
 
@@ -286,10 +317,10 @@ external de_extern_name
     the foreign sorts known to the program.
 */
 
-int do_foreign_sorts = 0 ;
-long no_foreign_sorts = 0 ;
-sortid *foreign_sorts = null ;
-static long fs_size = 0 ;
+int do_foreign_sorts = 0;
+long no_foreign_sorts = 0;
+sortid *foreign_sorts = null;
+static long fs_size = 0;
 
 
 /*
@@ -299,21 +330,20 @@ static long fs_size = 0 ;
     added to the array of foreign sorts.
 */
 
-void add_foreign_sort
-    PROTO_N ( ( nm, fnm, c ) )
-    PROTO_T ( char *nm X char *fnm X int c )
+void
+add_foreign_sort(char *nm, char *fnm, int c)
 {
-    long n = no_foreign_sorts++ ;
-    if ( n >= fs_size ) {
-	fs_size += 20 ;
-	foreign_sorts = realloc_nof ( foreign_sorts, sortid, fs_size ) ;
+    long n = no_foreign_sorts++;
+    if (n >= fs_size) {
+	fs_size += 20;
+	foreign_sorts = realloc_nof(foreign_sorts, sortid, fs_size);
     }
-    foreign_sorts [n].name = nm ;
-    foreign_sorts [n].fname = fnm ;
-    foreign_sorts [n].decode = ( char ) c ;
-    foreign_sorts [n].res = ( sortname ) ( extra_sorts + n ) ;
-    foreign_sorts [n].args = null ;
-    return ;
+    foreign_sorts[n].name = nm;
+    foreign_sorts[n].fname = fnm;
+    foreign_sorts[n].decode = (char)c;
+    foreign_sorts[n].res = (sortname)(extra_sorts + n);
+    foreign_sorts[n].args = null;
+    return;
 }
 
 
@@ -321,53 +351,52 @@ void add_foreign_sort
     DECODE A COMPLEX SORT AS A STRING
 */
 
-static sortid de_complex_sort
-    PROTO_N ( ( sn ) )
-    PROTO_T ( sortname sn )
+static
+sortid de_complex_sort(sortname sn)
 {
-    sortid cs ;
-    if ( sn == sort_token ) {
-	long i, n ;
-	sortid cp, cr ;
-	char buff [1000] ;
-	char *p = buff ;
+    sortid cs;
+    if (sn == sort_token) {
+	long i, n;
+	sortid cp, cr;
+	char buff[1000];
+	char *p = buff;
 
 	/* Decode result of token sort */
-	cr = de_sort_name ( 0 ) ;
-	cs.res = cr.res ;
-	cr = de_complex_sort ( cs.res ) ;
+	cr = de_sort_name(0);
+	cs.res = cr.res;
+	cr = de_complex_sort(cs.res);
 
 	/* Start decoding token sort */
-	cs.decode = 'T' ;
-	check_list () ;
-	n = tdf_int () ;
-	cs.args = alloc_nof ( char, n + 1 ) ;
-	IGNORE strcpy ( p, "TOKEN(" ) ;
-	p = p + strlen ( p ) ;
+	cs.decode = 'T';
+	check_list();
+	n = tdf_int();
+	cs.args = alloc_nof(char, n + 1);
+	IGNORE strcpy(p, "TOKEN(");
+	p = p + strlen(p);
 
 	/* Decode arguments of token sort */
-	for ( i = 0 ; i < n ; i++ ) {
-	    cp = de_sort_name ( 0 ) ;
-	    cp = de_complex_sort ( cp.res ) ;
-	    if ( i ) *( p++ ) = ',' ;
-	    IGNORE strcpy ( p, cp.name ) ;
-	    p = p + strlen ( p ) ;
-	    cs.args [i] = cp.decode ;
+	for (i = 0; i < n; i++) {
+	    cp = de_sort_name(0);
+	    cp = de_complex_sort(cp.res);
+	    if (i)*(p++) = ',';
+	    IGNORE strcpy(p, cp.name);
+	    p = p + strlen(p);
+	    cs.args[i] = cp.decode;
 	}
-	cs.args [n] = 0 ;
-	IGNORE strcpy ( p, ")->" ) ;
-	p = p + strlen ( p ) ;
+	cs.args[n] = 0;
+	IGNORE strcpy(p, ")->");
+	p = p + strlen(p);
 
 	/* Copy token sort */
-	IGNORE strcpy ( p, cr.name ) ;
-	p = alloc_nof ( char, ( int ) strlen ( buff ) + 1 ) ;
-	IGNORE strcpy ( p, buff ) ;
-	cs.name = p ;
+	IGNORE strcpy(p, cr.name);
+	p = alloc_nof(char,(int)strlen(buff) + 1);
+	IGNORE strcpy(p, buff);
+	cs.name = p;
     } else {
 	/* Non-token sorts are simple */
-	cs = find_sort ( sn ) ;
+	cs = find_sort(sn);
     }
-    return ( cs ) ;
+    return(cs);
 }
 
 
@@ -379,33 +408,32 @@ static sortid de_complex_sort
     discarded.
 */
 
-sortid de_sort_name
-    PROTO_N ( ( expand ) )
-    PROTO_T ( int expand )
+sortid
+de_sort_name(int expand)
 {
-    sortname sn = ( sortname ) de_sortname () ;
-    if ( sn == sort_token && expand ) {
-	return ( de_complex_sort ( sn ) ) ;
+    sortname sn = (sortname)de_sortname();
+    if (sn == sort_token && expand) {
+	return(de_complex_sort(sn));
     }
-    if ( sn == sort_foreign ) {
-	long i ;
-	string nm ;
+    if (sn == sort_foreign) {
+	long i;
+	string nm;
 #if string_ext
-	long n = fetch_extn ( string_bits ) ;
+	long n = fetch_extn(string_bits);
 #else
-	long n = fetch ( string_bits ) ;
+	long n = fetch(string_bits);
 #endif
-	if ( n != string_make_string ) {
-	    input_error ( "Unknown foreign sort" ) ;
+	if (n != string_make_string) {
+	    input_error("Unknown foreign sort");
 	}
-	nm = de_tdfstring () ;
-	for ( i = 0 ; i < no_foreign_sorts ; i++ ) {
-	    if ( streq ( nm, foreign_sorts [i].fname ) ) {
-		return ( foreign_sorts [i] ) ;
+	nm = de_tdfstring();
+	for (i = 0; i < no_foreign_sorts; i++) {
+	    if (streq(nm, foreign_sorts[i].fname)) {
+		return(foreign_sorts[i]);
 	    }
 	}
-	add_foreign_sort ( nm, nm, 'F' ) ;
-	return ( foreign_sorts [i] ) ;
+	add_foreign_sort(nm, nm, 'F');
+	return(foreign_sorts[i]);
     }
-    return ( find_sort ( sn ) ) ;
+    return(find_sort(sn));
 }
