@@ -175,7 +175,10 @@ make_code(dec *my_def)
 	exp tg = my_def->dec_u.dec_val.dec_exp;
 	char *id = my_def->dec_u.dec_val.dec_id;
 
-	if (son(tg) != nilexp && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
+	if (son(tg) == nilexp)
+		return;
+
+	if (shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
 		ash stack;
 
 		stack.ashsize = stack.ashalign = 0;
@@ -187,7 +190,7 @@ make_code(dec *my_def)
 		outnl ();
 	}
 
-	if (son (tg) != nilexp && (my_def->dec_u.dec_val.extnamed || no(tg) != 0)) {
+	if (my_def->dec_u.dec_val.extnamed || no(tg) != 0) {
 		if (name (son (tg)) == proc_tag || name (son (tg)) == general_proc_tag) {
 			if (strncmp("__I.TDF", id+prefix_length, 7)==0) {
 				out_initialiser (id);
@@ -309,9 +312,7 @@ make_code(dec *my_def)
 		}
 	}
 
-	if (son(tg) != nilexp)	{
-		 my_def->dec_u.dec_val.processed = 1;
-	}
+	my_def->dec_u.dec_val.processed = 1;
 	return;
 }
 
