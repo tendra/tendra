@@ -16,6 +16,8 @@ HAVE_CONF=      yes
 
 .MAIN: make-subdir
 
+install: _PROGSUBDIR
+
 make-subdir: _PROGSUBDIR
 
 clean: _PROGSUBDIR
