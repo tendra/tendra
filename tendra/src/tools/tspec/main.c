@@ -101,7 +101,7 @@ handler(int sig)
 	FILE *f = p->u.u_file;
 	if (f) {
 	    char *nm = p->name;
-	    if (verbose)error(ERR_INFO, "Removing %s ...", nm);
+	    if (verbose) IGNORE printf("Removing %s ...", nm);
 	    IGNORE fclose(f);
 	    IGNORE remove(nm);
 	}
@@ -125,7 +125,7 @@ separate(object *p)
     if (i->subset || i->file == null) return;
     if (exec == null)exec = buffer + strlen(buffer);
     IGNORE sprintf(exec, "%s %s", i->api, i->file);
-    if (verbose > 1)error(ERR_INFO, "Executing '%s' ...", buffer);
+    if (verbose > 1) IGNORE printf("Executing '%s' ...", buffer);
     if (system(buffer)) {
 	error(ERR_SERIOUS, "Separate compilation of %s failed", p->name);
     }
