@@ -386,8 +386,8 @@
 
 # 7.12.11.4
 
-+FUNC double nexttoward(double, double);
-+FUNC float nexttowardf(float, float);
++FUNC double nexttoward(double, long double);
++FUNC float nexttowardf(float, long double);
 +FUNC long double nexttowardl(long double, long double);
 
 # 7.12.12.1
