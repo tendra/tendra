@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "ascii.h"
 #include "basic.h"
@@ -66,7 +69,6 @@
 #include "tree.h"
 #include "tdf.h"
 #include "unit.h"
-#include "utility.h"
 
 
 /*
@@ -113,19 +115,14 @@ object
 		if (res_sort (obj) == sort_unknown) {
 			sortname is = implicit_sort (obj);
 			if (is == sort_unknown && warn_undeclared) {
-				int old_recover = recover;
-				int old_exit_status = exit_status;
-				recover = 1;
-				input_error ("Warning : token %s used before it is declared",
+				MSG_token_used_before_it_is_declared (
 							 object_name (var_token, t));
-				recover = old_recover;
-				exit_status = old_exit_status;
 			}
 			if (is != sort_unknown && is != s) {
 				sortid es;
 				out ("<error>");
 				es = find_sort (s);
-				input_error ("Implicit sort error, token %s, %s expected",
+				MSG_implicit_sort_error (
 							 object_name (var_token, t), es.name);
 			}
 			implicit_sort (obj) = s;
@@ -133,8 +130,7 @@ object
 			sortid es;
 			out ("<error>");
 			es = find_sort (s);
-			input_error ("Sort error, token %s, %s expected",
-						 object_name (var_token, t), es.name);
+			MSG_sort_error (object_name (var_token, t), es.name);
 		}
 
 		/* Output token name if appropriate */
@@ -204,10 +200,10 @@ object
 			if (ps && *ps) {
 				if (simple) {
 					SET (t);
-					input_error ("Token arguments missing, token %s",
+					MSG_token_arguments_missing_token (
 								 object_name (var_token, t));
 				} else {
-					input_error ("Token arguments missing");
+					MSG_token_arguments_missing ();
 				}
 			}
 		}
@@ -230,10 +226,10 @@ object
 			if (p + bits != posn (here)) {
 				if (simple) {
 					SET (t);
-					input_error ("Token arguments length wrong, token %s",
+					MSG_token_arguments_length_wrong_token (
 								 object_name (var_token, t));
 				} else {
-					input_error ("Token arguments length wrong");
+					MSG_token_arguments_length_wrong ();
 				}
 			}
 		} else {
@@ -275,7 +271,7 @@ de_make_label(long lab_no)
 		out_int (lab_no);
     }
     if (lab_no < 0 || lab_no >= max_lab_no) {
-		input_error ("Label number %ld out of range", lab_no);
+		MSG_label_number_out_of_range (lab_no);
     }
     return;
 }
@@ -325,7 +321,7 @@ de_tdfstring_format()
 		}
 		while (n) {
 			long m = (n < STRING_WIDTH ? n : STRING_WIDTH);
-			char *w = alloc_nof (char, m + 3);
+			char *w = xmalloc_nof (char, m + 3);
 			IGNORE memcpy (w + 1, s, (size_t) m);
 			w [0] = QUOTE;
 			w [ m + 1 ] = QUOTE;
@@ -393,7 +389,7 @@ de_solve_fn(char *nm, char *str1, char *str2,
 		long m;
 		check_list ();
 		m = tdf_int ();
-		if (m != n) input_error ("Illegal %s construct", nm);
+		if (m != n) MSG_illegal_construct (nm);
     }
 
     for (i = 0 ; i < n ; i++) {

@@ -56,12 +56,14 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "binding.h"
 #include "capsule.h"
 #include "tdf.h"
 #include "tree.h"
-#include "utility.h"
 
 
 /*
@@ -79,7 +81,7 @@ object
     object *p;
     if (objs_left == 0) {
 		objs_left = 200;
-		free_objs = alloc_nof (object, objs_left);
+		free_objs = xmalloc_nof (object, objs_left);
     }
     objs_left--;
     p = free_objs + objs_left;
@@ -128,7 +130,7 @@ binding
 			bt [i].max_no = 0;
 		}
     } else {
-		bt = alloc_nof (binding, n);
+		bt = xmalloc_nof (binding, n);
 		for (i = 0 ; i < n ; i++) {
 			bt [i].max_no = 0;
 			bt [i].sz = 0;
@@ -166,13 +168,13 @@ set_binding_size(binding *bt, long v, long n)
     binding *b;
     long i, m = n + 10;
     if (v < 0 || v >= no_variables) {
-		input_error ("Illegal binding sort");
+		MSG_illegal_binding_sort ();
 		return;
     }
     b = bt + v;
     b->max_no = n;
     if (b->sz < m) {
-		p = realloc_nof (b->table, object *, m);
+		p = xrealloc (b->table, sizeof(object *) * m);
 		b->sz = m;
 		b->table = p;
     } else {
@@ -194,24 +196,23 @@ set_binding(binding *bt, long v, long n, object *p)
 {
     binding *b;
     if (v < 0 || v >= no_variables) {
-		input_error ("Illegal binding sort");
+		MSG_illegal_binding_sort ();
 		return;
     }
     b = bt + v;
     if (n >= b->max_no || n < 0) {
 		out ("<error>");
-		input_error ("Object number %ld (%s) too big", n, var_types [v]);
+		MSG_object_number_too_big ( n, var_types [v]);
 		while (n >= b->sz) {
 			/* Table is extended (errors only) */
 			long i, m = b->sz + 100;
 			b->sz = m;
-			b->table = realloc_nof (b->table, object *, m);
+			b->table = xrealloc (b->table, sizeof (object *) * m);
 			for (i = 1 ; i <= 100 ; i++) b->table [ m - i ] = null;
 		}
     }
     if (b->table [n]) {
-		input_error ("Object %s (%s) already bound", object_name (v, n),
-					 var_types [v]);
+		MSG_object_already_bound (object_name (v, n), var_types [v]);
     }
     b->table [n] = p;
     return;
@@ -253,13 +254,13 @@ object
 {
     binding *b;
     if (v < 0 || v >= no_variables) {
-		input_error ("Illegal binding sort");
+		MSG_illegal_binding_sort ();
 		return (null);
     }
     b = bt + v;
     if (n >= b->max_no || n < 0) {
 		out ("<error>");
-		input_error ("Object number %ld (%s) too big", n, var_types [v]);
+		MSG_object_number_too_big (n, var_types [v]);
     }
     if (n >= b->sz) return (null);
     return (b->table [n]);
@@ -277,7 +278,7 @@ out_object(long n, object *p, long v)
 {
     if (v < 0 || v >= no_variables) {
 		out ("<error>");
-		input_error ("Illegal binding sort");
+		MSG_illegal_binding_sort ();
 		return;
     }
     if (dumb_mode) {
@@ -321,7 +322,7 @@ char
 *object_name(long v, long n)
 {
     object *p;
-    char *buff = alloc_nof (char, 1000);
+    char *buff = xmalloc_nof (char, 1000);
     if (dumb_mode) {
 		IGNORE sprintf (buff, "%ld", n);
 		return (buff);

@@ -56,12 +56,14 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "ascii.h"
 #include "file.h"
 #include "pretty.h"
 #include "tree.h"
-#include "utility.h"
 
 
 /*
@@ -130,11 +132,11 @@ void
 open_files(char *name1, char *name2)
 {
     tdf_file = fopen (name1, "rb");
-    if (tdf_file == null) fatal_error ("Can't open %s", name1);
+    if (tdf_file == null) MSG_cant_open_input_file (name1);
     if (name2 == null) dflag = 0;
     if (dflag) {
 		pp_file = fopen (name2, "w");
-		if (pp_file == null) fatal_error ("Can't open %s", name2);
+		if (pp_file == null) MSG_cant_open_output_file (name2);
     } else {
 		pp_file = stdout;
     }
@@ -167,7 +169,7 @@ next_byte()
 				read_error = 1;
 				if (!dump) {
 					out ("<reading error>");
-					input_error ("Reading error");
+					MSG_reading_error ();
 				}
 			}
 		}
@@ -247,7 +249,7 @@ set_place(place *p)
     here.byte = p->byte;
     here.bit = 0;
     s = fseek (tdf_file, here.byte, SEEK_SET);
-    if (s) fatal_error ("Internal file seek error");
+    if (s) MSG_internal_file_seek_error ();
     ib_size = 0;
     IGNORE fetch (p->bit);
     return;
@@ -299,7 +301,7 @@ init_spaces(int d)
 {
     int i, j;
     if (helpflag) {
-		spaces1 = alloc_nof (char, 5000);
+		spaces1 = xmalloc_nof (char, 5000);
 		/* every dth character should be a '.' */
 		for (i = 0, j = 0 ; i < 5000 ; i++) {
 			if (++j == d) {

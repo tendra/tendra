@@ -2,13 +2,13 @@
 
 CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
 .PATH : ${.CURDIR} ${.CURDIR}/templ .
-SID_OPTS=	-l ossg-c -s no-lines
 
+USE_LIBTEN=	yes
 
 PROG = disp
 
 SRCS=	basic.c binding.c capsule.c file.c main.c pretty.c \
-	sort.c tdf.c tree.c unit.c utility.c
+	sort.c tdf.c tree.c unit.c
 
 DEPEND_SRC=	tdf.c tdf.h
 

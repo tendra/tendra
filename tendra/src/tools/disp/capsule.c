@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "basic.h"
 #include "binding.h"
@@ -64,7 +67,6 @@
 #include "tdf.h"
 #include "tree.h"
 #include "unit.h"
-#include "utility.h"
 
 
 /*
@@ -207,7 +209,7 @@ de_equation(equation_func f)
     no_var = tdf_int ();
     if (no_var) {
 		if (no_var != no_variables) {
-			input_error ("Number of local variables wrong");
+			MSG_number_of_local_variables_wrong ();
 		}
 		crt_binding = new_binding_table ();
 		for (i = 0 ; i < no_var ; i++) {
@@ -224,7 +226,7 @@ de_equation(equation_func f)
 
     /* Read linkage for each type of variable */
     n = tdf_int ();
-    if (n != no_var) input_error ("Number of linkage units wrong");
+    if (n != no_var) MSG_number_of_linkage_units_wrong ();
     if (no_var) {
 		if (dumb_mode) {
 			word *w = new_word (HORIZ_NONE);
@@ -284,7 +286,7 @@ de_equation(equation_func f)
 		long end = posn (here) + n;
 		(*f) ();
 		byte_align ();
-		if (posn (here) != end) input_error ("Unit length wrong");
+		if (posn (here) != end) MSG_unit_length_wrong ();
     }
 
     /* Restore old bindings */
@@ -333,7 +335,7 @@ de_capsule()
 			out ("EQUATION TYPES");
 			blank_line ();
 		}
-		eqn_types = alloc_nof (string, no_eqn);
+		eqn_types = xmalloc_nof (string, no_eqn);
 		for (i = 0 ; i < no_eqn ; i++) {
 			string s = de_tdfstring_align ();
 			eqn_types [i] = s;
@@ -354,9 +356,9 @@ de_capsule()
 			out ("VARIABLE TYPES");
 			blank_line ();
 		}
-		var_types = alloc_nof (string, no_var);
-		var_letters = alloc_nof (char, no_var + 1);
-		var_count = alloc_nof (long, no_var);
+		var_types = xmalloc_nof (string, no_var);
+		var_letters = xmalloc_nof (char, no_var + 1);
+		var_count = xmalloc_nof (long, no_var);
 		var_letters [ no_var ] = 0;
 
 		for (i = 0 ; i < no_var ; i++) {
@@ -380,7 +382,7 @@ de_capsule()
 
     /* Read the external variable names */
     n = tdf_int ();
-    if (n != no_var) input_error ("Number of variables wrong");
+    if (n != no_var) MSG_number_of_variables_wrong ();
     if (no_var) {
 		if (dumb_mode) {
 			out ("EXTERNAL NAMES");
@@ -401,7 +403,7 @@ de_capsule()
 
     /* Read the equations */
     n = tdf_int ();
-    if (n != no_eqn) input_error ("Number of equations wrong");
+    if (n != no_eqn) MSG_number_of_equations_wrong ();
     for (i = 0 ; i < no_eqn ; i++) {
 		int used = 0;
 		char *title = null;

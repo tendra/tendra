@@ -56,6 +56,8 @@
 
 
 #include "config.h"
+#include "fmm.h"
+
 #include "types.h"
 #include "ascii.h"
 #include "basic.h"
@@ -63,7 +65,6 @@
 #include "pretty.h"
 #include "tdf.h"
 #include "tree.h"
-#include "utility.h"
 
 
 /*
@@ -101,7 +102,7 @@ void
 initialize_tree()
 {
     if (page == null) {
-		page = alloc_nof (char, 10000);
+		page = xmalloc_nof (char, 10000);
 		page_length = 10000;
     }
     word_ptr = &word1;
@@ -128,7 +129,7 @@ word
 
 		if (block_count == BLOCK) {
 			/* Allocate space if required */
-			wblock = alloc_nof (word, BLOCK);
+			wblock = xmalloc_nof (word, BLOCK);
 			block_count = 0;
 		}
 
@@ -147,7 +148,7 @@ word
 			page += (length + 1);
 			page_length -= (length + 1);
 			if (page_length < 100) {
-				page = alloc_nof (char, 10000);
+				page = xmalloc_nof (char, 10000);
 				page_length = 10000;
 			}
 			length = 0;

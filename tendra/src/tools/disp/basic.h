@@ -86,7 +86,7 @@ extern int do_foreign_sorts;
 #define check_list()\
 	if (fetch (1)) {\
 	    out ("<error>") ;\
-	    input_error ("Illegal LIST value") ;\
+	    MSG_illegal_LIST_value () ;\
 	}
 
 

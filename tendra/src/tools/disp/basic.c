@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "ascii.h"
 #include "types.h"
 #include "basic.h"
@@ -64,7 +67,6 @@
 #include "sort.h"
 #include "tdf.h"
 #include "tree.h"
-#include "utility.h"
 
 
 /*
@@ -143,7 +145,7 @@ char
 			tdf_int_buff [i] = charact (dig & 7);
 			i++;
 		} else {
-			if (!reported) input_error ("Numeric overflow");
+			if (!reported) MSG_numeric_overflow ();
 			reported = 1;
 		}
     } while (!(dig & 8));
@@ -188,7 +190,7 @@ get_string(long n, long sz)
     }
     *(p++) = 0;
     n = (int) (p - buff);
-    s = alloc_nof (char, n);
+    s = xmalloc_nof (char, n);
     IGNORE memcpy (s, buff, (size_t) n);
     return (s);
 }
@@ -257,7 +259,7 @@ de_unique()
     long i, n;
     unique u;
     n = tdf_int ();
-    u = alloc_nof (string, n + 1);
+    u = xmalloc_nof (string, n + 1);
     for (i = 0 ; i < n ; i++) u [i] = de_tdfstring_align ();
     u [n] = null;
     return (u);
@@ -330,7 +332,7 @@ add_foreign_sort(char *nm, char *fnm, int c)
     long n = no_foreign_sorts++;
     if (n >= fs_size) {
 		fs_size += 20;
-		foreign_sorts = realloc_nof (foreign_sorts, sortid, fs_size);
+		foreign_sorts = xrealloc (foreign_sorts, sizeof(sortid) * fs_size);
     }
     foreign_sorts [n].name = nm;
     foreign_sorts [n].fname = fnm;
@@ -364,7 +366,7 @@ de_complex_sort(sortname sn)
 		cs.decode = 'T';
 		check_list ();
 		n = tdf_int ();
-		cs.args = alloc_nof (char, n + 1);
+		cs.args = xmalloc_nof (char, n + 1);
 		IGNORE strcpy (p, "TOKEN(");
 		p = p + strlen (p);
 
@@ -383,7 +385,7 @@ de_complex_sort(sortname sn)
 
 		/* Copy token sort */
 		IGNORE strcpy (p, cr.name);
-		p = alloc_nof (char, (int) strlen (buff) + 1);
+		p = xmalloc_nof (char, (int) strlen (buff) + 1);
 		IGNORE strcpy (p, buff);
 		cs.name = p;
     } else {
@@ -418,7 +420,7 @@ de_sort_name(int expand)
 		long n = fetch (string_bits);
 #endif
 		if (n != string_make_string) {
-			input_error ("Unknown foreign sort");
+			MSG_unknown_foreign_sort ();
 		}
 		nm = de_tdfstring ();
 		for (i = 0 ; i < no_foreign_sorts ; i++) {

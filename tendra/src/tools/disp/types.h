@@ -63,15 +63,10 @@
  *    ELEMENTARY TYPES
  *
  *    A byte is used to represent a single 8-bit number read from the
- *    input file.  A pointer is a generic pointer.
+ *    input file.
  */
 
 typedef unsigned char byte;
-#if FS_PTR_VOID
-typedef void *pointer;
-#else
-typedef char *pointer;
-#endif
 
 
 /*

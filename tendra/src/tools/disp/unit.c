@@ -56,6 +56,9 @@
 
 
 #include "config.h"
+#include "fmm.h"
+#include "msgcat.h"
+
 #include "types.h"
 #include "basic.h"
 #include "binding.h"
@@ -64,7 +67,6 @@
 #include "sort.h"
 #include "tdf.h"
 #include "tree.h"
-#include "utility.h"
 
 
 /*
@@ -123,7 +125,7 @@ token_sort(object *t, sortname rs, char *args,
     if (res_sort (t) == sort_unknown) {
 		sortname is = implicit_sort (t);
 		if (is != sort_unknown && is != rs) {
-			input_error ("Token %s inconsistent with previous use",
+			MSG_token_inconsistent_with_previous_use (
 						 object_name (var_token, n));
 		}
     } else {
@@ -139,7 +141,7 @@ token_sort(object *t, sortname rs, char *args,
 			if (arg_sorts (t)) good = 0;
 		}
 		if (!good) {
-			input_error ("Token %s declared inconsistently",
+			MSG_token_declared_inconsistently (
 						 object_name (var_token, n));
 		}
     }
@@ -194,7 +196,7 @@ de_tokdec_aux()
 			args = "";
 		} else {
 			word *wp = new_word (HORIZ_BRACKETS);
-			args = alloc_nof (char, m + 1);
+			args = xmalloc_nof (char, m + 1);
 			for (i = 0 ; i < m ; i++) {
 				sortid p;
 				p = de_sort_name (1);
@@ -265,7 +267,7 @@ de_tokdef_aux()
     } else {
 		long i;
 		word *wp = new_word (HORIZ_BRACKETS);
-		args = alloc_nof (char, m + 1);
+		args = xmalloc_nof (char, m + 1);
 		for (i = 0 ; i < m ; i++) {
 			long pn;
 			sortid p;
@@ -280,7 +282,7 @@ de_tokdef_aux()
 			res_sort (tp) = p.res;
 			arg_sorts (tp) = null;
 			if (p.res == sort_token) {
-				object *tpa = alloc_nof (object, 1);
+				object *tpa = xmalloc_nof (object, 1);
 				*tpa = *tp;
 				res_sort (tpa) = p.res;
 				arg_sorts (tpa) = p.args;
@@ -290,7 +292,7 @@ de_tokdef_aux()
 			if (!dumb_mode && !(tp->named)) {
 				tp->named = 1;
 				tp->name.simple = 1;
-				tp->name.val.str = alloc_nof (char, 10);
+				tp->name.val.str = xmalloc_nof (char, 10);
 				IGNORE sprintf (tp->name.val.str, "~par_%ld", i);
 			}
 			out_string (p.name);
@@ -313,7 +315,7 @@ de_tokdef_aux()
 		long bits = end - posn (here);
 		out ("....");
 		if (bits < 0) {
-			input_error ("Token definition size wrong");
+			MSG_token_definition_size_wrong ();
 		} else {
 			skip_bits (bits);
 		}
@@ -323,7 +325,7 @@ de_tokdef_aux()
 		buff [1] = 0;
 		decode (buff);
 		if (posn (here) != end) {
-			input_error ("Token definition size wrong");
+			MSG_token_definition_size_wrong ();
 		}
     }
     return;
@@ -366,7 +368,7 @@ de_tagdec_aux()
     if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
 			string s = object_name (var_tag, t);
-			input_error ("Tag %s declared inconsistently", s);
+			MSG_tag_declared_inconsistently (s);
 		}
 		var (obj) = m;
     }
@@ -403,8 +405,7 @@ de_tagdef_aux()
     t = tdf_int ();
     obj = find_binding (crt_binding, var_tag, t);
     if (obj == null) {
-		input_error ("Tag %s defined but not declared",
-					 object_name (var_tag, t));
+		MSG_tag_defined_but_not_declared (object_name (var_tag, t));
 		obj = new_object (var_tag);
 		set_binding (crt_binding, var_tag, t, obj);
     }
@@ -418,7 +419,7 @@ de_tagdef_aux()
     }
     if (obj) {
 		if (var (obj) != m && var (obj) != 3) {
-			input_error ("Tag %s declared inconsistently",
+			MSG_tag_declared_inconsistently (
 						 object_name (var_tag, t));
 		}
 		var (obj) = m;
@@ -633,7 +634,7 @@ de_usage(long v)
     b = crt_binding + v;
     n = b->sz;
     if (n == 0) return;
-    p = alloc_nof (object *, n);
+    p = xmalloc_nof (object *, n);
     for (i = 0 ; i < n ; i++) {
 		object *q = b->table [i];
 		long rank = (q ? q->order : -1);
@@ -644,7 +645,7 @@ de_usage(long v)
 		}
     }
     if (total_ext != max_ext + 1) {
-		input_error ("Usage information wrong");
+		MSG_usage_information_wrong ();
 		return;
     }
     if (total_ext) {
@@ -711,7 +712,7 @@ de_tld_unit()
 	    break;
 	}
 	default : {
-	    input_error ("Illegal TLD version number %ld", n);
+	    MSG_illegal_tld_version_number (n);
 	    break;
 	}
     }
@@ -894,9 +895,7 @@ de_make_version(char *s)
 		last_minor = v2;
     }
     if (v1 != version_major || v2 > version_minor) {
-		input_error (
-			"Illegal version number, %ld.%ld (supported version is %d.%d)",
-			v1, v2, version_major, version_minor);
+		MSG_illegal_version_number (v1, v2, version_major, version_minor);
     }
     return;
 }
@@ -939,7 +938,7 @@ de_magic(char *s)
     for (i = 0 ; i < n ; i++) {
 		long c = fetch (8);
 		if (c != (long) s [i]) {
-			input_error ("Bad magic number, %s expected", s);
+			MSG_bad_magic_number (s);
 			exit (EXIT_FAILURE);
 		}
     }

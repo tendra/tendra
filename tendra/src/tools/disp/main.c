@@ -56,6 +56,10 @@
 
 
 #include "config.h"
+#include "msgcat.h"
+#include "ostream.h"
+#include "tenapp.h"
+
 #include "release.h"
 #include "types.h"
 #include "ascii.h"
@@ -67,14 +71,16 @@
 #include "tdf.h"
 #include "tree.h"
 #include "unit.h"
-#include "utility.h"
 
 
-/*
- *    CURRENT VERSION
- */
-
-#define version_string		"Version: 1.5"
+static void
+msg_uh_tdfoff(char ch, void *pp)
+{
+	UNUSED(ch);
+	UNUSED(pp);
+	write_fmt(msg_stream, "byte %lu, bit %d: ",
+		(unsigned long)here.byte, here.bit);
+}
 
 
 /*
@@ -87,6 +93,9 @@ main(int argc, char **argv)
     char c;
     int input, output;
     int a, b, stage = 1;
+
+    tenapp_init(argc, argv, "TDF pretty printer", "1.5");
+    msg_uh_add(MSG_GLOB_tdfoff, msg_uh_tdfoff);
 
     /* Read the arguments */
     for (a = 1 ; a < argc ; a++) {
@@ -106,7 +115,6 @@ main(int argc, char **argv)
 					case 'i' : /* Compatibility */ break;
 					case 'p' : progress = 1 ; break;
 					case 'q' : quickflag = 1 ; break;
-					case 'r' : recover = 1 ; break;
 					case 'x' : versions = 0 ; break;
 					case 'A' : {
 						diagnostics = 1;
@@ -123,13 +131,8 @@ main(int argc, char **argv)
 					case 'W' : warn_undeclared = 1 ; break;
 
 					case 'v' : {
-						/* Version number */
-						IGNORE fprintf (stderr, "%s: %s",
-										progname, version_string);
-						IGNORE fprintf (stderr, " (TDF %d.%d)",
-										version_major, version_minor);
-						IGNORE fprintf (stderr, " (release %s)\n",
-										RELEASE);
+						tenapp_report_version ();
+						MSG_TDF_version(version_major, version_minor);
 						break;
 					}
 					}
@@ -148,7 +151,7 @@ main(int argc, char **argv)
     /* Open the files */
     switch (stage) {
 	case 1 : {
-	    fatal_error ("Not enough arguments");
+	    MSG_getopt_not_enough_arguments ();
 	    break;
 	}
 	case 2 : {
@@ -163,7 +166,7 @@ main(int argc, char **argv)
 	    break;
 	}
 	default : {
-	    fatal_error ("Too many arguments");
+	    MSG_getopt_too_many_arguments ();
 	    break;
 	}
     }
