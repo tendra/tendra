@@ -64,7 +64,11 @@ REMOVE ?=	${ENV} rm -f
 .MAIN: all
 .endif
 
-.SUFFIXES: .o .c
+.SUFFIXES: .o .c .sid
+
+.sid.c:
+	@${ECHO} Transforming ${.IMPSRC} and ${.IMPSRC:S/.sid/.act/}...
+	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET}
 
 .c.o:
 	@${ECHO} Compiling ${.IMPSRC}...
