@@ -24,14 +24,36 @@
 #
 # $TenDRA$
 #
++IMPLEMENT "ansi", "stddef.h", "null";
++IMPLEMENT "ansi", "stddef.h", "size_t";
+
+# 7.21.2.1
+
++FUNC void *memcpy(void * restrict, const void * restrict, size_t);
+
+# 7.21.2.2
+
++FUNC void *memmove(void *, const void *, size_t);
 
 # 7.21.2.3
 
-+FUNC char *strcpy(char *, const char *);
++FUNC char *strcpy(char * restrict, const char * restrict);
+
+# 7.21.2.4
+
++FUNC char *strncpy(char * restrict, const char * restrict, size_t);
 
 # 7.21.3.1
 
-+FUNC char *strcat(char *, const char *);
++FUNC char *strcat(char * restrict, const char * restrict);
+
+# 7.21.3.2
+
++FUNC char *strncat(char * restrict, const char * restrict, size_t);
+
+# 7.21.4.1
+
++FUNC int memcmp(const void *, const void *, size_t);
 
 # 7.21.4.2
 
@@ -40,3 +62,55 @@
 # 7.21.4.3
 
 +FUNC int strcoll(const char *, const char *);
+
+# 7.21.4.4
+
++FUNC int strncmp(const char *, const char *, size_t);
+
+# 7.21.4.5
+
++FUNC size_t strxfrm(char * restrict, const char * restrict, size_t);
+
+# 7.21.5.1
+
++FUNC void *memchr(const void *, int, size_t);
+
+# 7.21.5.2
+
++FUNC char *strchr(const char *, int);
+
+# 7.21.5.3
+
++FUNC size_t strcspn(const char *, const char *);
+
+# 7.21.5.4
+
++FUNC char *strpbrk(const char *, const char *);
+
+# 7.21.5.5
+
++FUNC char *strrchr(const char *, int);
+
+# 7.21.5.6
+
++FUNC size_t strspn(const char *, const char *);
+
+# 7.21.5.7
+
++FUNC char *strstr(const char *, const char *);
+
+# 7.21.5.8
+
++FUNC char *strtok(char * restrict, const char * restrict);
+
+# 7.21.6.1
+
++FUNC void *memset(void *, int, size_t);
+
+# 7.21.6.2
+
++FUNC char *strerror(int);
+
+# 7.21.6.3
+
++FUNC size_t strlen(const char *);
