@@ -1,6 +1,39 @@
 /*
+ * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to The TenDRA Project by
+ * Jeroen Ruigrok van der Werven.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997, 1998
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +42,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -98,20 +131,20 @@
     actions to the compiler.
 */
 
-static int builtin_asserts = 1 ;
-static int builtin_macros = 1 ;
-static int check_level = 0 ;
-static int complete_program = 0 ;
-static int have_startup = 0 ;
-static int spec_linker = 0 ;
-static int started_scope = 0 ;
-static int output_last = 1 ;
-static int unmangle_names = 0 ;
-static int quit_immediately = 0 ;
-static string dump_name = NULL ;
-static string dump_opt = NULL ;
-static string spec_name = NULL ;
-static string table_name = NULL ;
+static int builtin_asserts = 1;
+static int builtin_macros = 1;
+static int check_level = 0;
+static int complete_program = 0;
+static int have_startup = 0;
+static int spec_linker = 0;
+static int started_scope = 0;
+static int output_last = 1;
+static int unmangle_names = 0;
+static int quit_immediately = 0;
+static string dump_name = NULL;
+static string dump_opt = NULL;
+static string spec_name = NULL;
+static string table_name = NULL;
 
 
 /*
@@ -124,13 +157,13 @@ static string table_name = NULL ;
 */
 
 typedef struct {
-    char opt ;
-    char space ;
-    CONST char *arg ;
-    CONST char *desc ;
-} PROGRAM_ARG ;
+    char opt;
+    char space;
+    CONST char *arg;
+    CONST char *desc;
+} PROGRAM_ARG;
 
-static PROGRAM_ARG prog_args [] = {
+static PROGRAM_ARG prog_args[] = {
     { 'A', 1, "<pre>(<tok>)", "assert a predicate" },
     { 'D', 1, "<mac>=<def>", "define a macro" },
     { 'E', 0, NULL, "preprocess input file only" },
@@ -171,9 +204,9 @@ static PROGRAM_ARG prog_args [] = {
     { 'z', 0, NULL, "ignore compilation errors" },
     { '?', 0, NULL, "print this help page" },
     { '-', 0, NULL, "specify end of options" }
-} ;
+};
 
-#define no_prog_args	array_size ( prog_args )
+#define no_prog_args	array_size(prog_args)
 
 
 /*
@@ -182,22 +215,21 @@ static PROGRAM_ARG prog_args [] = {
     This routine prints the program usage to the file f.
 */
 
-static void report_usage
-    PROTO_N ( ( f ) )
-    PROTO_T ( FILE *f )
+static void
+report_usage(FILE *f)
 {
-    int i ;
-    fprintf_v ( f, "Usage: %s [options] [input] [output]\n", progname ) ;
-    for ( i = 0 ; i < no_prog_args ; i++ ) {
-	char opt = prog_args [i].opt ;
-	CONST char *arg = prog_args [i].arg ;
-	CONST char *desc = prog_args [i].desc ;
-	if ( arg == NULL ) arg = "\t" ;
-	if ( desc == NULL ) desc = "(not documented)" ;
-	fprintf_v ( f, " -%c%s\t%s\n", opt, arg, desc ) ;
+    int i;
+    fprintf_v(f, "Usage: %s [options] [input] [output]\n", progname);
+    for (i = 0; i < no_prog_args; i++) {
+	char opt = prog_args[i].opt;
+	CONST char *arg = prog_args[i].arg;
+	CONST char *desc = prog_args[i].desc;
+	if (arg == NULL) arg = "\t";
+	if (desc == NULL) desc = "(not documented)";
+	fprintf_v(f, " -%c%s\t%s\n", opt, arg, desc);
     }
-    fputc_v ( '\n', f ) ;
-    return ;
+    fputc_v('\n', f);
+    return;
 }
 
 
@@ -209,27 +241,26 @@ static void report_usage
     descriptor.
 */
 
-static int set_machine
-    PROTO_N ( ( mach ) )
-    PROTO_T ( CONST char *mach )
+static int
+set_machine(CONST char *mach)
 {
-    if ( streq ( mach, "dos" ) ) {
-	allow_dos_newline = 1 ;
-	good_fseek = 0 ;
-	binary_mode = 1 ;
-	file_sep = '\\' ;
-	drive_sep = ':' ;
-	return ( 1 ) ;
+    if (streq(mach, "dos")) {
+	allow_dos_newline = 1;
+	good_fseek = 0;
+	binary_mode = 1;
+	file_sep = '\\';
+	drive_sep = ':';
+	return(1);
     }
-    if ( streq ( mach, "unix" ) ) {
-	allow_dos_newline = 0 ;
-	good_fseek = 1 ;
-	binary_mode = 0 ;
-	file_sep = '/' ;
-	drive_sep = 0 ;
-	return ( 1 ) ;
+    if (streq(mach, "unix")) {
+	allow_dos_newline = 0;
+	good_fseek = 1;
+	binary_mode = 0;
+	file_sep = '/';
+	drive_sep = 0;
+	return(1);
     }
-    return ( 0 ) ;
+    return(0);
 }
 
 
@@ -239,9 +270,9 @@ static int set_machine
     This routine pre-sets the value of option A to be B.
 */
 
-#define preset( A, B )\
-    OPT_CATALOG [A].def [0] = ( B ) ;\
-    OPT_CATALOG [A].def [1] = ( B )
+#define preset(A, B)\
+    OPT_CATALOG[A].def[0] = (B);\
+    OPT_CATALOG[A].def[1] = (B)
 
 
 /*
@@ -251,23 +282,22 @@ static int set_machine
     buffer s of length n, returning the result.
 */
 
-static char *read_arg
-    PROTO_N ( ( f, s, n ) )
-    PROTO_T ( FILE *f X char *s X int n )
+static char *
+read_arg(FILE *f, char *s, int n)
 {
-    char *p = fgets ( s, n, f ) ;
-    if ( p ) {
-	char c = *p ;
-	if ( c == '#' || c == '\n' ) {
+    char *p = fgets(s, n, f);
+    if (p) {
+	char c = *p;
+	if (c == '#' || c == '\n') {
 	    /* Ignore empty lines and comments */
-	    p = read_arg ( f, s, n ) ;
+	    p = read_arg(f, s, n);
 	} else {
 	    /* Remove terminal newline */
-	    char *q = strrchr ( p, '\n' ) ;
-	    if ( q ) *q = 0 ;
+	    char *q = strrchr(p, '\n');
+	    if (q) *q = 0;
 	}
     }
-    return ( p ) ;
+    return(p);
 }
 
 
@@ -279,461 +309,460 @@ static char *read_arg
     input and output files.
 */
 
-static LIST ( string ) process_args
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char **argv )
+static LIST(string)
+process_args(int argc, char **argv)
 {
-    char opt = 0 ;
-    FILE *f = NULL ;
-    char buff [1000] ;
-    int allow_opt = 1 ;
-    string output = NULL ;
-    LIST ( string ) files = NULL_list ( string ) ;
+    char opt = 0;
+    FILE *f = NULL;
+    char buff[1000];
+    int allow_opt = 1;
+    string output = NULL;
+    LIST(string)files = NULL_list(string);
 
     /* Set development default options */
 #ifdef DEBUG
-    output_tokdec = 1 ;
+    output_tokdec = 1;
 #endif
 
     /* Scan through the arguments */
-    for ( ; ; ) {
-	char *arg = NULL ;
-	if ( f != NULL ) {
+    for (; ;) {
+	char *arg = NULL;
+	if (f != NULL) {
 	    /* Get next option from file */
-	    arg = read_arg ( f, buff, ( int ) sizeof ( buff ) ) ;
-	    if ( arg == NULL ) {
+	    arg = read_arg(f, buff,(int)sizeof(buff));
+	    if (arg == NULL) {
 		/* End of file reached */
-		fclose_v ( f ) ;
-		f = NULL ;
+		fclose_v(f);
+		f = NULL;
 	    }
 	}
-	if ( arg == NULL && argc ) {
+	if (arg == NULL && argc) {
 	    /* Get next option from array */
-	    arg = *( argv++ ) ;
-	    argc-- ;
+	    arg = *(argv++);
+	    argc--;
 	}
-	if ( arg == NULL ) {
+	if (arg == NULL) {
 	    /* No more options */
-	    break ;
+	    break;
 	}
-	if ( opt == 0 ) {
+	if (opt == 0) {
 	    /* Find option letter */
-	    if ( arg [0] == '-' && allow_opt ) {
-		opt = arg [1] ;
-		if ( opt ) arg += 2 ;
+	    if (arg[0] == '-' && allow_opt) {
+		opt = arg[1];
+		if (opt) arg += 2;
 	    }
 	}
-	if ( opt == 0 ) {
+	if (opt == 0) {
 	    /* Input or output file 'arg' */
-	    string uarg = xustrcpy ( ustrlit ( arg ) ) ;
-	    CONS_string ( uarg, files, files ) ;
+	    string uarg = xustrcpy(ustrlit(arg));
+	    CONS_string(uarg, files, files);
 
 	} else {
 	    /* Command-line options */
-	    int i ;
-	    int known = 0 ;
-	    char next_opt = 0 ;
+	    int i;
+	    int known = 0;
+	    char next_opt = 0;
 
 	    /* Search through options */
-	    for ( i = 0 ; i < no_prog_args ; i++ ) {
-		if ( opt == prog_args [i].opt ) {
-		    if ( prog_args [i].arg ) {
+	    for (i = 0; i < no_prog_args; i++) {
+		if (opt == prog_args[i].opt) {
+		    if (prog_args[i].arg) {
 			/* Complex options */
-			if ( arg [0] == 0 && prog_args [i].space ) {
-			    next_opt = opt ;
-			    known = 1 ;
+			if (arg[0] == 0 && prog_args[i].space) {
+			    next_opt = opt;
+			    known = 1;
 			} else {
-			    known = 2 ;
+			    known = 2;
 			}
 		    } else {
 			/* Simple options */
-			if ( arg [0] == 0 ) {
-			    known = 2 ;
-			    break ;
+			if (arg[0] == 0) {
+			    known = 2;
+			    break;
 			}
 		    }
 		}
 	    }
 
 	    /* Deal with complete options */
-	    if ( known == 2 ) {
-		string uarg = ustrlit ( arg ) ;
-		switch ( opt ) {
+	    if (known == 2) {
+		string uarg = ustrlit(arg);
+		switch (opt) {
 
-		    case 'A' : {
+		    case 'A': {
 			/* Assertion */
-			BUFFER *bf = &internal_buff ;
-			if ( streq ( arg, "-" ) ) {
-			    builtin_asserts = 0 ;
-			    break ;
+			BUFFER *bf = &internal_buff;
+			if (streq(arg, "-")) {
+			    builtin_asserts = 0;
+			    break;
 			}
-			bfprintf ( bf, "#assert %x\n", arg ) ;
-			preset ( OPT_ppdir_assert, OPTION_ALLOW ) ;
-			preset ( OPT_ppdir_unassert, OPTION_ALLOW ) ;
-			preset ( OPT_ppdir_assert_ignore, OPTION_OFF ) ;
-			preset ( OPT_ppdir_unassert_ignore, OPTION_OFF ) ;
-			have_startup = 1 ;
-			break ;
+			bfprintf(bf, "#assert %x\n", arg);
+			preset(OPT_ppdir_assert, OPTION_ALLOW);
+			preset(OPT_ppdir_unassert, OPTION_ALLOW);
+			preset(OPT_ppdir_assert_ignore, OPTION_OFF);
+			preset(OPT_ppdir_unassert_ignore, OPTION_OFF);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'D' : {
+		    case 'D': {
 			/* Macro definition */
-			char c ;
-			CONST char *def = "1" ;
-			BUFFER *bf = &internal_buff ;
-			bfprintf ( bf, "#define " ) ;
-			while ( c = *( arg++ ), c != 0 ) {
-			    if ( c == '=' ) {
-				def = arg ;
-				break ;
+			char c;
+			CONST char *def = "1";
+			BUFFER *bf = &internal_buff;
+			bfprintf(bf, "#define ");
+			while (c = *(arg++), c != 0) {
+			    if (c == '=') {
+				def = arg;
+				break;
 			    }
-			    bfputc ( bf, ( int ) c ) ;
+			    bfputc(bf,(int)c);
 			}
-			bfprintf ( bf, " %x\n", def ) ;
-			have_startup = 1 ;
-			break ;
+			bfprintf(bf, " %x\n", def);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'E' : {
+		    case 'E': {
 			/* Preprocessor option */
-			preproc_only = 1 ;
-			break ;
+			preproc_only = 1;
+			break;
 		    }
 
-		    case 'F' : {
+		    case 'F': {
 			/* Open option file */
-			if ( f != NULL ) {
-			    CONST char *err = "Nested option files" ;
-			    error ( ERROR_WARNING, err ) ;
-			    break ;
+			if (f != NULL) {
+			    CONST char *err = "Nested option files";
+			    error(ERROR_WARNING, err);
+			    break;
 			}
-			f = fopen ( arg, "r" ) ;
-			if ( f == NULL ) {
-			    CONST char *err = "Can't open option file '%s'" ;
-			    error ( ERROR_WARNING, err, arg ) ;
+			f = fopen(arg, "r");
+			if (f == NULL) {
+			    CONST char *err = "Can't open option file '%s'";
+			    error(ERROR_WARNING, err, arg);
 			}
-			break ;
+			break;
 		    }
 
-		    case 'H' : {
+		    case 'H': {
 			/* Inclusion reporting option */
-			preset ( OPT_include_verbose, OPTION_WARN ) ;
-			break ;
+			preset(OPT_include_verbose, OPTION_WARN);
+			break;
 		    }
 
-		    case 'I' : {
+		    case 'I': {
 			/* Include file search directory */
-			uarg = xustrcpy ( uarg ) ;
-			add_directory ( uarg, NULL_string ) ;
-			break ;
+			uarg = xustrcpy(uarg);
+			add_directory(uarg, NULL_string);
+			break;
 		    }
 
-		    case 'M' : {
+		    case 'M': {
 			/* Machine dependent options */
-			known = set_machine ( arg ) ;
-			break ;
+			known = set_machine(arg);
+			break;
 		    }
 
-		    case 'N' : {
+		    case 'N': {
 			/* Named include file search directory */
-			string dir ;
-			uarg = xustrcpy ( uarg ) ;
-			dir = ustrchr ( uarg, ':' ) ;
-			if ( dir == NULL ) {
-			    CONST char *err = "Bad '-%c' option" ;
-			    error ( ERROR_WARNING, err, opt ) ;
-			    add_directory ( uarg, NULL_string ) ;
+			string dir;
+			uarg = xustrcpy(uarg);
+			dir = ustrchr(uarg, ':');
+			if (dir == NULL) {
+			    CONST char *err = "Bad '-%c' option";
+			    error(ERROR_WARNING, err, opt);
+			    add_directory(uarg, NULL_string);
 			} else {
-			    *dir = 0 ;
-			    add_directory ( dir + 1, uarg ) ;
+			    *dir = 0;
+			    add_directory(dir + 1, uarg);
 			}
-			break ;
+			break;
 		    }
 
-		    case 'O' : {
+		    case 'O': {
 			/* Optimisation mode */
-			output_inline = 1 ;
-			output_unused = 0 ;
-			break ;
+			output_inline = 1;
+			output_unused = 0;
+			break;
 		    }
 
-		    case 'R' : {
+		    case 'R': {
 			/* Reverse order of files */
-			output_last = 0 ;
-			break ;
+			output_last = 0;
+			break;
 		    }
 
-		    case 'S' : {
+		    case 'S': {
 			/* Spec linker option */
-			spec_linker = 1 ;
-			break ;
+			spec_linker = 1;
+			break;
 		    }
 
-		    case 'U' : {
+		    case 'U': {
 			/* Macro undefinition */
-			BUFFER *bf = &internal_buff ;
-			if ( streq ( arg, "-" ) ) {
-			    builtin_macros = 0 ;
-			    break ;
+			BUFFER *bf = &internal_buff;
+			if (streq(arg, "-")) {
+			    builtin_macros = 0;
+			    break;
 			}
-			bfprintf ( bf, "#undef %x\n", arg ) ;
-			have_startup = 1 ;
-			break ;
+			bfprintf(bf, "#undef %x\n", arg);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'V' : {
+		    case 'V': {
 			/* Switch on verbose mode */
-			verbose = 1 ;
-			break ;
+			verbose = 1;
+			break;
 		    }
 
-		    case 'W' : {
+		    case 'W': {
 			/* Switch on checks */
-			char c ;
-			CONST char *sev = "warning" ;
-			BUFFER *bf = &internal_buff ;
-			if ( streq ( arg, "all" ) ) {
-			    check_level = 1 ;
-			    break ;
+			char c;
+			CONST char *sev = "warning";
+			BUFFER *bf = &internal_buff;
+			if (streq(arg, "all")) {
+			    check_level = 1;
+			    break;
 			}
-			if ( !started_scope ) {
-			    bfprintf ( bf, "#pragma TenDRA begin\n" ) ;
-			    started_scope = 1 ;
+			if (!started_scope) {
+			    bfprintf(bf, "#pragma TenDRA begin\n");
+			    started_scope = 1;
 			}
-			bfprintf ( bf, "#pragma TenDRA option \"" ) ;
-			while ( c = *( arg++ ), c != 0 ) {
-			    if ( c == '=' ) {
-				sev = arg ;
-				break ;
+			bfprintf(bf, "#pragma TenDRA option \"");
+			while (c = *(arg++), c != 0) {
+			    if (c == '=') {
+				sev = arg;
+				break;
 			    }
-			    bfputc ( bf, ( int ) c ) ;
+			    bfputc(bf,(int)c);
 			}
-			bfprintf ( bf, "\" %x\n", sev ) ;
-			have_startup = 1 ;
-			break ;
+			bfprintf(bf, "\" %x\n", sev);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'X' : {
+		    case 'X': {
 			/* Disable exception handling */
-			output_except = 0 ;
-			break ;
+			output_except = 0;
+			break;
 		    }
 
-		    case 'Z' : {
+		    case 'Z': {
 			/* Set maximum number of errors */
-			BUFFER *bf = &internal_buff ;
-			if ( !started_scope ) {
-			    bfprintf ( bf, "#pragma TenDRA begin\n" ) ;
-			    started_scope = 1 ;
+			BUFFER *bf = &internal_buff;
+			if (!started_scope) {
+			    bfprintf(bf, "#pragma TenDRA begin\n");
+			    started_scope = 1;
 			}
-			bfprintf ( bf, "#pragma TenDRA set error limit" ) ;
-			bfprintf ( bf, " %x\n", uarg ) ;
-			have_startup = 1 ;
-			break ;
+			bfprintf(bf, "#pragma TenDRA set error limit");
+			bfprintf(bf, " %x\n", uarg);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'a' : {
+		    case 'a': {
 			/* Complete program checks */
-			complete_program = 1 ;
-			break ;
+			complete_program = 1;
+			break;
 		    }
 
-		    case 'c' : {
+		    case 'c': {
 			/* Disable TDF output */
-			output_capsule = 0 ;
-			break ;
+			output_capsule = 0;
+			break;
 		    }
 
-		    case 'd' : {
+		    case 'd': {
 			/* Dump file */
-			string dump ;
-			uarg = xustrcpy ( uarg ) ;
-			dump = ustrchr ( uarg, '=' ) ;
-			if ( dump == NULL ) {
-			    CONST char *err = "Bad '-%c' option" ;
-			    error ( ERROR_WARNING, err, opt ) ;
-			    break ;
+			string dump;
+			uarg = xustrcpy(uarg);
+			dump = ustrchr(uarg, '=');
+			if (dump == NULL) {
+			    CONST char *err = "Bad '-%c' option";
+			    error(ERROR_WARNING, err, opt);
+			    break;
 			}
-			if ( dump_name ) {
-			    CONST char *err = "Multiple dump files" ;
-			    error ( ERROR_WARNING, err ) ;
+			if (dump_name) {
+			    CONST char *err = "Multiple dump files";
+			    error(ERROR_WARNING, err);
 			}
-			dump_opt = uarg ;
-			dump_name = dump + 1 ;
-			break ;
+			dump_opt = uarg;
+			dump_name = dump + 1;
+			break;
 		    }
 
-		    case 'e' : {
+		    case 'e': {
 			/* End-up file */
-			LIST ( string ) p ;
-			uarg = xustrcpy ( uarg ) ;
-			CONS_string ( uarg, NULL_list ( string ), p ) ;
-			endup_files = APPEND_list ( endup_files, p ) ;
-			have_startup = 1 ;
-			break ;
+			LIST(string)p;
+			uarg = xustrcpy(uarg);
+			CONS_string(uarg, NULL_list(string), p);
+			endup_files = APPEND_list(endup_files, p);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'f' : {
+		    case 'f': {
 			/* Start-up file */
-			LIST ( string ) p ;
-			uarg = xustrcpy ( uarg ) ;
-			CONS_string ( uarg, NULL_list ( string ), p ) ;
-			startup_files = APPEND_list ( startup_files, p ) ;
-			have_startup = 1 ;
-			break ;
+			LIST(string)p;
+			uarg = xustrcpy(uarg);
+			CONS_string(uarg, NULL_list(string), p);
+			startup_files = APPEND_list(startup_files, p);
+			have_startup = 1;
+			break;
 		    }
 
-		    case 'g' : {
+		    case 'g': {
 			/* Diagnostics mode */
-			if ( uarg [0] == 0 ) {
-			    output_diag = DIAG_VERSION ;
-			} else if ( uarg [1] == 0 ) {
-			    switch ( uarg [0] ) {
-				case '0' : output_diag = 0 ; break ;
-				case '1' : output_diag = 1 ; break ;
-				case '2' : output_diag = 2 ; break ;
-				default : known = 0 ; break ;
+			if (uarg[0] == 0) {
+			    output_diag = DIAG_VERSION;
+			} else if (uarg[1] == 0) {
+			    switch (uarg[0]) {
+				case '0': output_diag = 0; break;
+				case '1': output_diag = 1; break;
+				case '2': output_diag = 2; break;
+				default : known = 0; break;
 			    }
 			} else {
-			    known = 0 ;
+			    known = 0;
 			}
-			break ;
+			break;
 		    }
 
-		    case 'h' :
-		    case '?' : {
+		    case 'h':
+		    case '?': {
 			/* Help option */
-			report_usage ( error_file ) ;
-			break ;
+			report_usage(error_file);
+			break;
 		    }
 
-		    case 'j' : {
+		    case 'j': {
 			/* Output options */
-			output_option ( uarg ) ;
-			break ;
+			output_option(uarg);
+			break;
 		    }
 
-		    case 'm' : {
+		    case 'm': {
 			/* Error options */
-			error_option ( uarg ) ;
-			break ;
+			error_option(uarg);
+			break;
 		    }
 
-		    case 'n' : {
+		    case 'n': {
 			/* Portability table */
-			if ( table_name ) {
-			    CONST char *err = "Multiple portability tables" ;
-			    error ( ERROR_WARNING, err ) ;
+			if (table_name) {
+			    CONST char *err = "Multiple portability tables";
+			    error(ERROR_WARNING, err);
 			}
-			table_name = xustrcpy ( uarg ) ;
-			break ;
+			table_name = xustrcpy(uarg);
+			break;
 		    }
 
-		    case 'o' : {
+		    case 'o': {
 			/* Output file */
-			if ( output ) {
-			    CONST char *err = "Multiple output files" ;
-			    error ( ERROR_WARNING, err ) ;
+			if (output) {
+			    CONST char *err = "Multiple output files";
+			    error(ERROR_WARNING, err);
 			}
-			output = xustrcpy ( uarg ) ;
-			break ;
+			output = xustrcpy(uarg);
+			break;
 		    }
 
-		    case 'q' : {
+		    case 'q': {
 			/* Quit immediately */
-			quit_immediately = 1 ;
-			break ;
+			quit_immediately = 1;
+			break;
 		    }
 
-		    case 'r' : {
+		    case 'r': {
 			/* Error marker file */
-			output_name [ OUTPUT_ERROR ] = xustrcpy ( uarg ) ;
-			break ;
+			output_name[OUTPUT_ERROR] = xustrcpy(uarg);
+			break;
 		    }
 
-		    case 's' : {
+		    case 's': {
 			/* Spec output file */
-			if ( spec_name ) {
-			    CONST char *err = "Multiple spec output files" ;
-			    error ( ERROR_WARNING, err ) ;
+			if (spec_name) {
+			    CONST char *err = "Multiple spec output files";
+			    error(ERROR_WARNING, err);
 			}
-			spec_name = xustrcpy ( uarg ) ;
-			break ;
+			spec_name = xustrcpy(uarg);
+			break;
 		    }
 
-		    case 't' : {
+		    case 't': {
 			/* Output TDF token declarations */
-			output_tokdec = 1 ;
-			break ;
+			output_tokdec = 1;
+			break;
 		    }
 
-		    case 'u' : {
+		    case 'u': {
 			/* Unmangle an identifier name */
-			unmangle_names = 1 ;
-			break ;
+			unmangle_names = 1;
+			break;
 		    }
 
-		    case 'v' : {
+		    case 'v': {
 			/* Print version number */
-			string v = report_version ( 1 ) ;
-			fprintf_v ( error_file, "%s\n\n", strlit ( v ) ) ;
-			break ;
+			string v = report_version(1);
+			fprintf_v(error_file, "%s\n\n", strlit(v));
+			break;
 		    }
 
-		    case 'w' : {
+		    case 'w': {
 			/* Suppress all warnings */
-			preset ( OPT_warning, OPTION_OFF ) ;
-			check_level = 0 ;
-			break ;
+			preset(OPT_warning, OPTION_OFF);
+			check_level = 0;
+			break;
 		    }
 
-		    case 'z' : {
+		    case 'z': {
 			/* Ignore compilation errors */
-			preset ( OPT_error, OPTION_WARN ) ;
-			max_errors = ULONG_MAX ;
-			break ;
+			preset(OPT_error, OPTION_WARN);
+			max_errors = ULONG_MAX;
+			break;
 		    }
 
-		    case '-' : {
+		    case '-': {
 			/* Last option */
-			allow_opt = 0 ;
-			break ;
+			allow_opt = 0;
+			break;
 		    }
 
 #ifdef DEBUG
-		    case 'x' : {
+		    case 'x': {
 			/* Debug options */
-			debug_option ( arg ) ;
-			quit_immediately = 1 ;
-			break ;
+			debug_option(arg);
+			quit_immediately = 1;
+			break;
 		    }
 #endif
 		}
 	    }
 
 	    /* Deal with unknown options */
-	    if ( known == 0 ) {
-		CONST char *err = "Unknown option, '-%c%s'" ;
-		error ( ERROR_WARNING, err, opt, arg ) ;
+	    if (known == 0) {
+		CONST char *err = "Unknown option, '-%c%s'";
+		error(ERROR_WARNING, err, opt, arg);
 	    }
-	    opt = next_opt ;
+	    opt = next_opt;
 	}
     }
-    if ( opt ) {
-	CONST char *err = "Incomplete option, '-%c'" ;
-	error ( ERROR_WARNING, err, opt ) ;
+    if (opt) {
+	CONST char *err = "Incomplete option, '-%c'";
+	error(ERROR_WARNING, err, opt);
     }
 
     /* Examine list of files */
-    if ( IS_NULL_list ( files ) ) {
-	CONS_string ( NULL, NULL_list ( string ), files ) ;
+    if (IS_NULL_list(files)) {
+	CONS_string(NULL, NULL_list(string), files);
     }
-    if ( output || IS_NULL_list ( TAIL_list ( files ) ) ) {
-	CONS_string ( output, files, files ) ;
-	output_last = 1 ;
+    if (output || IS_NULL_list(TAIL_list(files))) {
+	CONS_string(output, files, files);
+	output_last = 1;
     }
-    files = REVERSE_list ( files ) ;
-    return ( files ) ;
+    files = REVERSE_list(files);
+    return(files);
 }
 
 
@@ -743,16 +772,16 @@ static LIST ( string ) process_args
     This routine initialises the standard file locations.
 */
 
-static void init_loc
-    PROTO_Z ()
+static void
+init_loc(void)
 {
-    IGNORE set_crt_loc ( ustrlit ( "<builtin-in>" ), 1 ) ;
-    builtin_loc = crt_loc ;
-    IGNORE set_crt_loc ( ustrlit ( "<command-line>" ), 1 ) ;
-    preproc_loc = crt_loc ;
-    decl_loc = crt_loc ;
-    stmt_loc = crt_loc ;
-    return ;
+    IGNORE set_crt_loc(ustrlit("<builtin-in>"), 1);
+    builtin_loc = crt_loc;
+    IGNORE set_crt_loc(ustrlit("<command-line>"), 1);
+    preproc_loc = crt_loc;
+    decl_loc = crt_loc;
+    stmt_loc = crt_loc;
+    return;
 }
 
 
@@ -764,16 +793,15 @@ static void init_loc
     language is C++.
 */
 
-static void init_lang
-    PROTO_N ( ( c ) )
-    PROTO_T ( int c )
+static void
+init_lang(int c)
 {
-    if ( c ) {
-	crt_linkage = dspec_c ;
-	set_std_namespace ( NULL_id ) ;
+    if (c) {
+	crt_linkage = dspec_c;
+	set_std_namespace(NULL_id);
     }
-    init_tok ( c ) ;
-    return ;
+    init_tok(c);
+    return;
 }
 
 
@@ -783,45 +811,45 @@ static void init_lang
     This routine calls all the initialisation routines.
 */
 
-static void init_main
-    PROTO_Z ()
+static void
+init_main(void)
 {
     /* Set file locations */
-    crt_loc = builtin_loc ;
-    decl_loc = builtin_loc ;
-    stmt_loc = builtin_loc ;
-    preproc_loc = builtin_loc ;
+    crt_loc = builtin_loc;
+    decl_loc = builtin_loc;
+    stmt_loc = builtin_loc;
+    preproc_loc = builtin_loc;
 
     /* Initialise errors and options */
-    init_hash () ;
-    init_lang ( LANGUAGE_C ) ;
-    init_catalog () ;
-    init_option ( check_level ) ;
-    if ( output_diag ) record_location = 1 ;
-    init_dump ( dump_name, dump_opt ) ;
-    if ( do_header ) dump_start ( &crt_loc, NIL ( INCL_DIR ) ) ;
+    init_hash();
+    init_lang(LANGUAGE_C);
+    init_catalog();
+    init_option(check_level);
+    if (output_diag) record_location = 1;
+    init_dump(dump_name, dump_opt);
+    if (do_header) dump_start(&crt_loc, NIL(INCL_DIR));
 
     /* Initialise macros and keywords */
-    init_char () ;
-    init_constant () ;
-    init_keywords () ;
-    init_macros ( builtin_macros, builtin_asserts ) ;
+    init_char();
+    init_constant();
+    init_keywords();
+    init_macros(builtin_macros, builtin_asserts);
 
     /* Read the portability table */
-    read_table ( table_name ) ;
+    read_table(table_name);
 
     /* Initialise types and namespaces */
-    init_namespace () ;
-    push_namespace ( global_namespace ) ;
-    init_types () ;
-    init_literal () ;
-    init_exception () ;
-    init_printf () ;
-    init_initialise () ;
-    init_token_args () ;
-    init_templates () ;
-    if ( do_header ) dump_end ( &crt_loc ) ;
-    return ;
+    init_namespace();
+    push_namespace(global_namespace);
+    init_types();
+    init_literal();
+    init_exception();
+    init_printf();
+    init_initialise();
+    init_token_args();
+    init_templates();
+    if (do_header) dump_end(&crt_loc);
+    return;
 }
 
 
@@ -831,17 +859,17 @@ static void init_main
     This routine frees any memory unneeded after the parsing routines.
 */
 
-static void term_main
-    PROTO_Z ()
+static void
+term_main(void)
 {
-    free_candidates ( &candidates ) ;
-    free_buffer ( &field_buff ) ;
-    free_buffer ( &token_buff ) ;
-    term_macros () ;
-    term_input () ;
-    term_catalog () ;
-    term_itypes () ;
-    return ;
+    free_candidates(&candidates);
+    free_buffer(&field_buff);
+    free_buffer(&token_buff);
+    term_macros();
+    term_input();
+    term_catalog();
+    term_itypes();
+    return;
 }
 
 
@@ -853,130 +881,129 @@ static void term_main
     the output file.
 */
 
-static void process_files
-    PROTO_N ( ( files ) )
-    PROTO_T ( LIST ( string ) files )
+static void
+process_files(LIST(string)files)
 {
     /* Find output file */
-    int action ;
-    unsigned len ;
-    string output ;
-    PARSE_STATE st ;
-    unsigned max_len = 2 ;
-    int mode = text_mode ;
-    LIST ( string ) input ;
+    int action;
+    unsigned len;
+    string output;
+    PARSE_STATE st;
+    unsigned max_len = 2;
+    int mode = text_mode;
+    LIST(string)input;
 
     /* Find output file */
-    if ( output_last ) {
-	LIST ( string ) end = END_list ( files ) ;
-	output = DEREF_string ( HEAD_list ( end ) ) ;
-	input = files ;
+    if (output_last) {
+	LIST(string)end = END_list(files);
+	output = DEREF_string(HEAD_list(end));
+	input = files;
     } else {
-	output = DEREF_string ( HEAD_list ( files ) ) ;
-	input = TAIL_list ( files ) ;
+	output = DEREF_string(HEAD_list(files));
+	input = TAIL_list(files);
     }
-    output_name [ OUTPUT_TDF ] = output ;
-    output_name [ OUTPUT_SPEC ] = spec_name ;
+    output_name[OUTPUT_TDF] = output;
+    output_name[OUTPUT_SPEC] = spec_name;
 
     /* Find processing action */
-    save_state ( &st, 0 ) ;
-    crt_state_depth = 0 ;
-    if ( spec_linker ) {
+    save_state(&st, 0);
+    crt_state_depth = 0;
+    if (spec_linker) {
 	output_capsule = 0 ;	/* remove later */
-	init_capsule () ;
-	max_len = 0 ;
-	action = 2 ;
-    } else if ( preproc_only ) {
-	output_name [ OUTPUT_PREPROC ] = output ;
-	output_tdf = 0 ;
-	output_capsule = 0 ;
-	action = 1 ;
+	init_capsule();
+	max_len = 0;
+	action = 2;
+    } else if (preproc_only) {
+	output_name[OUTPUT_PREPROC] = output;
+	output_tdf = 0;
+	output_capsule = 0;
+	action = 1;
     } else {
-	init_capsule () ;
-	action = 0 ;
+	init_capsule();
+	action = 0;
     }
 
     /* Check number of input files */
-    len = LENGTH_list ( files ) ;
-    if ( max_len && len > max_len ) {
-	CONST char *err = "Too many arguments (should have %u)" ;
-	error ( ERROR_WARNING, err, max_len ) ;
-	len = max_len ;
+    len = LENGTH_list(files);
+    if (max_len && len > max_len) {
+	CONST char *err = "Too many arguments (should have %u)";
+	error(ERROR_WARNING, err, max_len);
+	len = max_len;
     }
 
     /* Process start-up files in spec linker mode */
-    if ( action == 2 ) {
-	if ( have_startup ) {
-	    IGNORE open_input ( mode ) ;
-	    crt_loc = builtin_loc ;
-	    input_name = NULL ;
-	    input_file = NULL ;
-	    process_file () ;
-	    close_input () ;
+    if (action == 2) {
+	if (have_startup) {
+	    IGNORE open_input(mode);
+	    crt_loc = builtin_loc;
+	    input_name = NULL;
+	    input_file = NULL;
+	    process_file();
+	    close_input();
 	}
-	mode = binary_mode ;
+	mode = binary_mode;
     }
 
     /* Scan through input files */
-    while ( len >= 2 ) {
+    while (len >= 2) {
 	/* Open input file */
-	input_name = DEREF_string ( HEAD_list ( input ) ) ;
-	if ( !open_input ( mode ) ) {
-	    fail ( ERR_fail_input ( input_name ) ) ;
-	    term_error ( 0 ) ;
-	    return ;
+	input_name = DEREF_string(HEAD_list(input));
+	if (!open_input(mode)) {
+	    fail(ERR_fail_input(input_name));
+	    term_error(0);
+	    return;
 	}
-	init_diag () ;
+	init_diag();
 
 	/* Process input file */
-	switch ( action ) {
-	    case 0 : {
+	switch (action) {
+	    case 0: {
 		/* Parsing action */
-		process_file () ;
-		break ;
+		process_file();
+		break;
 	    }
-	    case 1 : {
+	    case 1: {
 		/* Preprocessing action */
-		preprocess_file () ;
-		break ;
+		preprocess_file();
+		break;
 	    }
-	    case 2 : {
+	    case 2: {
 		/* Spec linker action */
-		if ( read_spec () ) have_syntax_error = 1 ;
-		no_declarations++ ;
-		break ;
+		if (read_spec()) have_syntax_error = 1;
+		no_declarations++;
+		break;
 	    }
 	}
 
 	/* Close input file */
-	clear_decl_blocks () ;
-	close_input () ;
-	input = TAIL_list ( input ) ;
-	len-- ;
+	clear_decl_blocks();
+	close_input();
+	input = TAIL_list(input);
+	len--;
     }
 
     /* Write output file */
-    if ( have_syntax_error ) {
-	suppress_variable = 2 ;
-	no_declarations++ ;
+    if (have_syntax_error) {
+	suppress_variable = 2;
+	no_declarations++;
     }
-    init_diag () ;
-    preproc_loc = crt_loc ;
-    restore_state ( &st ) ;
-    if ( action == 1 ) {
+    init_diag();
+    preproc_loc = crt_loc;
+    restore_state(&st);
+    if (action == 1) {
 	/* Preprocessing action */
-	term_option () ;
+	term_option();
     } else {
 	/* Compilation actions */
-	external_declaration ( NULL_exp, 0 ) ;
-	clear_templates ( 2 ) ;
-	term_main () ;
-	IGNORE check_global ( complete_program ) ;
-	term_option () ;
-	compile_pending () ;
-	write_capsule () ;
+	external_declaration(NULL_exp, 0);
+	clear_templates(2);
+	term_main();
+	IGNORE check_global(complete_program);
+	term_option();
+	compile_pending();
+	write_capsule();
     }
-    return ;
+    return;
 }
 
 
@@ -988,25 +1015,24 @@ static void process_files
     routine.
 */
 
-int main
-    PROTO_N ( ( argc, argv ) )
-    PROTO_T ( int argc X char **argv )
+int
+main(int argc, char **argv)
 {
-    LIST ( string ) files ;
-    set_progname ( argv [0], PROG_VERSION ) ;
-    IGNORE set_machine ( FS_MACHINE ) ;
-    init_loc () ;
-    files = process_args ( argc - 1, argv + 1 ) ;
-    builtin_startup () ;
-    if ( !quit_immediately ) {
+    LIST(string)files;
+    set_progname(argv[0], PROG_VERSION);
+    IGNORE set_machine(FS_MACHINE);
+    init_loc();
+    files = process_args(argc - 1, argv + 1);
+    builtin_startup();
+    if (!quit_immediately) {
 	/* Process files */
-	init_main () ;
-	if ( unmangle_names ) {
-	    unmangle_list ( files, stdout, 1 ) ;
+	init_main();
+	if (unmangle_names) {
+	    unmangle_list(files, stdout, 1);
 	} else {
-	    process_files ( files ) ;
-	    term_error ( 0 ) ;
+	    process_files(files);
+	    term_error(0);
 	}
     }
-    return ( exit_status ) ;
+    return(exit_status);
 }
