@@ -50,50 +50,6 @@
 
   <variablelist>
     <varlistentry>
-      <term><option>-g</option></term>
-      <listitem>
-        <para>Makes <command>disp</command> print any diagnostic
-          information units within the TDF capsule.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-n</option><replaceable>columns</replaceable></term>
-      <listitem>
-        <para>Makes <command>disp</command> try to format its output to fit
-          into a page width of <emphasis>columns</emphasis>. The
-          default page width is 80.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-q</option></term>
-      <listitem>
-        <para>Makes <command>disp</command> ignore the specified page width
-          and print its output with the minimum possible indentation. This
-          makes it run faster, but does not make the best use of the
-          available page width.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-r</option></term>
-      <listitem>
-        <para>Makes <command>disp</command> continue after any errors. The
-          use of this flag is not recommended since anything read after an
-          error is likely to be of very little value.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term><option>-v</option></term>
-      <listitem>
-        <para>Makes <command>disp</command> print its version number and
-          the version of the TDF specification it supports.</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term><option>-A</option></term>
       <listitem>
         <para>Makes <command>disp</command> decode all the units it
@@ -169,6 +125,50 @@
       <listitem>
         <para>Makes <command>disp</command> issue a warning about every
           token which is used before it is declared.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-g</option></term>
+      <listitem>
+        <para>Makes <command>disp</command> print any diagnostic
+          information units within the TDF capsule.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-n</option><replaceable>columns</replaceable></term>
+      <listitem>
+        <para>Makes <command>disp</command> try to format its output to fit
+          into a page width of <emphasis>columns</emphasis>. The
+          default page width is 80.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-q</option></term>
+      <listitem>
+        <para>Makes <command>disp</command> ignore the specified page width
+          and print its output with the minimum possible indentation. This
+          makes it run faster, but does not make the best use of the
+          available page width.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-r</option></term>
+      <listitem>
+        <para>Makes <command>disp</command> continue after any errors. The
+          use of this flag is not recommended since anything read after an
+          error is likely to be of very little value.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><option>-v</option></term>
+      <listitem>
+        <para>Makes <command>disp</command> print its version number and
+          the version of the TDF specification it supports.</para>
       </listitem>
     </varlistentry>
   </variablelist>
