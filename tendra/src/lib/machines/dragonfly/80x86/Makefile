@@ -6,7 +6,7 @@ IMACHINE=	freebsd/80x86
 
 # include
 DATA_INCLUDE=	include/ctype.h include/limits.h include/stdarg.h \
-		include/unistd.h include/xti.h 
+		include/unistd.h include/xti.h include/gcc_dependency.h
 
 # include/sys
 DATA_INCLUDE+=	include/sys/param.h include/sys/shm.h
