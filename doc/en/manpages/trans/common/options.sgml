@@ -85,6 +85,18 @@
 '>
 
 
+<!--   G   -->
+<!ENTITY option-cg '
+    <varlistentry>
+      <term><option>-G</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
 <!--   H   -->
 <!ENTITY option-ch '
     <varlistentry>
@@ -145,6 +157,18 @@
         multiplication by the reciprocal of the number. While the latter
         produces faster code, it may lead to rounding errors. By default,
         division by constants is preserved.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   N   -->
+<!ENTITY option-cn '
+    <varlistentry>
+      <term><option>-N</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
       </listitem>
     </varlistentry>
 '>
@@ -277,6 +301,78 @@
 '>
 
 
+<!--   b   -->
+<!ENTITY option-b '
+    <varlistentry>
+      <term><option>-b</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   c   -->
+<!ENTITY option-c '
+    <varlistentry>
+      <term><option>-c</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   d   -->
+<!ENTITY option-d '
+    <varlistentry>
+      <term><option>-d</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   e   -->
+<!ENTITY option-e '
+    <varlistentry>
+      <term><option>-e</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   f   -->
+<!ENTITY option-f '
+    <varlistentry>
+      <term><option>-f</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
+<!--   g   -->
+<!ENTITY option-g '
+    <varlistentry>
+      <term><option>-g</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
+
+
 <!--   h   -->
 <!ENTITY option-h '
     <varlistentry>
@@ -290,6 +386,17 @@
     </varlistentry>
 '>
 
+
+<!--   i   -->
+<!ENTITY option-i '
+    <varlistentry>
+      <term><option>-i</option></term>
+
+      <listitem>
+        <para>To be documented.</para>
+      </listitem>
+    </varlistentry>
+'>
 
 
 <!--   k   -->
