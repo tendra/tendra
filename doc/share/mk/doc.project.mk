@@ -56,7 +56,7 @@
 
 # Document-specific defaults
 DOCFORMAT?=	docbook
-MAINTAINER?=	docs@tendra.org
+MAINTAINER?=	docs@ten15.org
 
 # Master list of known target formats.  The doc.<format>.mk files implement 
 # the code to convert from their source format to one or more of these target

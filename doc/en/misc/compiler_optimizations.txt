@@ -16,7 +16,7 @@ __        __
    \_/\_/     compiler technology.  The idea is to catalog major
               improvements, and determine if they are suitable
 for inclusion in the TenDRA compiler.  You can learn more about
-the TenDRA compiler by visiting http://www.tendra.org/.
+the TenDRA compiler by visiting http://www.ten15.org/.
 
 
 |=-----------------------=[ O V E R V I E W ]=--------------------------=|

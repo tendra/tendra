@@ -1,7 +1,7 @@
 <!--
      Names and email address of contributing authors and CVS committers.
      Entity names for committers should be the same as their login names on
-     tendra.org.
+     ten15.org.
 
      Use these entities when referencing people.
 
@@ -15,8 +15,8 @@
 
 <!ENTITY a.asmodai "Jeroen Ruigrok van der Werven" <email>asmodai@tendra.org</email>">
 
-<!ENTITY a.nonce "Amos B. Haven" <email>nonce@tendra.org</email>">
+<!ENTITY a.nonce "Amos B. Haven" <email>nonce@ten15.org</email>">
 
-<!ENTITY a.verm "Amar Takhar" <email>verm@tendra.org</email>">
+<!ENTITY a.verm "Amar Takhar" <email>verm@ten15.org</email>">
 
-<!ENTITY a.zwane "Zwane Mwaikambo" <email>zwane@tendra.org</email>">
+<!ENTITY a.zwane "Zwane Mwaikambo" <email>zwane@ten15.org</email>">

@@ -26,7 +26,7 @@
     </copyright>
 
     <abstract>
-      <para>Please email us at <email>docs@tendra.org</email> if you see any
+      <para>Please email us at <email>docs@ten15.org</email> if you see any
         errors</para>
     </abstract>
   </bookinfo>
@@ -46,14 +46,14 @@
       <title>Source</title>
 
       <para>The latest TenDRA release is available via the url:
-        <ulink url="http://www.tendra.org/download/">
-        http://www.tendra.org/download/</ulink>.</para>  
+        <ulink url="http://www.ten15.org/download/">
+        http://www.ten15.org/download/</ulink>.</para>  
 
       <para>It is also available from the main FTP site directly accessible
-        via HTTP or FTP: <ulink url="http://ftp.tendra.org/source/">
-        http://ftp.tendra.org/source/</ulink>,
-        <ulink url="ftp://ftp.tendra.org/pub/source/">
-        ftp://ftp.tendra.org/pub/source/</ulink>.</para>
+        via HTTP or FTP: <ulink url="http://ftp.ten15.org/source/">
+        http://ftp.ten15.org/source/</ulink>,
+        <ulink url="ftp://ftp.ten15.org/pub/source/">
+        ftp://ftp.ten15.org/pub/source/</ulink>.</para>
     </sect1>
 
     <sect1>
@@ -61,14 +61,14 @@
 
       <para>TenDRA also has a comprehensive set of documentation you may
         peruse in either HTML, TXT or PDF at:
-        <ulink url="http://www.tendra.org/docs/">http://www.tendra.org/docs/
+        <ulink url="http://www.ten15.org/docs/">http://www.ten15.org/docs/
         </ulink>.</para>
 
       <para>It is also available from the main FTP site directly accessible
-        via HTTP or FTP: <ulink url="http://ftp.tendra.org/docs/">
-        http://ftp.tendra.org/docs/</ulink>,
-        <ulink url="ftp://ftp.tendra.org/pub/docs/">
-        ftp://ftp.tendra.org/pub/docs/</ulink>.</para>
+        via HTTP or FTP: <ulink url="http://ftp.ten15.org/docs/">
+        http://ftp.ten15.org/docs/</ulink>,
+        <ulink url="ftp://ftp.ten15.org/pub/docs/">
+        ftp://ftp.ten15.org/pub/docs/</ulink>.</para>
     </sect1>
 
     <sect1>
@@ -77,7 +77,7 @@
       <para>The TenDRA CVS repository is accessible with the help of
         <ulink url="http://www.cvsup.org/">John Polstra's CVSup
         program</ulink>. An example
-        <ulink url="http://www.tendra.org/download/cvsupfile">cvsupfile
+        <ulink url="http://www.ten15.org/download/cvsupfile">cvsupfile
         </ulink> is also available.</para> 
     </sect1>
   </chapter>

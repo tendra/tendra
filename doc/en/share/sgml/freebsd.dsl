@@ -20,25 +20,25 @@
               (make element gi: "small"
                 (literal "This, and other documents, can be downloaded from ")
 		(create-link
-		  (list (list "HREF" "ftp://ftp.tendra.org/pub/doc/"))
-                  (literal "ftp://ftp.tendra.org/pub/doc/"))
+		  (list (list "HREF" "ftp://ftp.ten15.org/pub/doc/"))
+                  (literal "ftp://ftp.ten15.org/pub/doc/"))
                 (literal ".")))
             (make element gi: "p"
                   attributes: (list (list "align" "center"))
               (make element gi: "small"  
                 (literal "For questions about TenDRA, read the ")
 		(create-link
-		  (list (list "HREF" "http://www.tendra.org/docs/"))
+		  (list (list "HREF" "http://www.ten15.org/docs/"))
                   (literal "documentation"))
                 (literal " before contacting <")
 		(create-link
-		  (list (list "HREF" "mailto:help@tendra.org"))
-                  (literal "help@tendra.org"))
+		  (list (list "HREF" "mailto:help@ten15.org"))
+                  (literal "help@ten15.org"))
                 (literal ">.")
                 (make empty-element gi: "br")
                 (literal "For questions about this documentation, e-mail <")
-		(create-link (list (list "HREF" "mailto:docs@tendra.org"))
-                  (literal "docs@tendra.org"))
+		(create-link (list (list "HREF" "mailto:docs@ten15.org"))
+                  (literal "docs@ten15.org"))
 	        (literal ">.")))))
 
 

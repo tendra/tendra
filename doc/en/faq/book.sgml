@@ -27,7 +27,7 @@
     <abstract>
       <para>This is the Frequently Asked Questions for TenDRA.</para>
 
-      <para>Please email us at <email>docs@tendra.org</email> if you
+      <para>Please email us at <email>docs@ten15.org</email> if you
         see any errors or omissions.</para>
     </abstract>
   </bookinfo>
@@ -162,10 +162,10 @@
             requests to the appropriate place, be it the application author,
             platform vendor, or the TenDRA team.  If you are unsure of where
             to go, the
-            <ulink url="http://lists.tendra.org/">tendra-help</ulink>
+            <ulink url="http://lists.ten15.org/">tendra-help</ulink>
             list may be a good place to start.  Please consult
             <ulink url="http://www.google.com/">Google</ulink> as well as the
-            <ulink url="http://lists.tendra.org/">list archives</ulink> before
+            <ulink url="http://lists.ten15.org/">list archives</ulink> before
             mailing the list.</para>
         </answer>
       </qandaentry>
@@ -190,7 +190,7 @@
 
         <answer>
           <para>As described in
-            <ulink url="http://www.tendra.org/docs/tdfc/#AEN769">section 3.7
+            <ulink url="http://www.ten15.org/docs/tdfc/#AEN769">section 3.7
             of the C Checker Reference Manual</ulink>,
             <parameter class="option">long long</parameter> is supported by
             TenDRA.  It is not enabled by default; you may pass
@@ -239,14 +239,14 @@
             especially due to the nature of the TenDRA compiler; the ANDF
             technology for instance.  Another point of motivation is the fact
             that TenDRA is a
-            <ulink url="http://www.tendra.org/licenses/BSDL.txt">BSD-licensed
+            <ulink url="http://www.ten15.org/licenses/BSDL.txt">BSD-licensed
             </ulink> compiler, which we consider an asset.  Finally, everyone
             has their own reasons, but the above is a fair representation of
             interests shared by all developers.  For more information on the
             technical aspect that we consider so important, please see the
-            <ulink url="http://www.tendra.org/docs/">TenDRA
+            <ulink url="http://www.ten15.org/docs/">TenDRA
             Documentation</ulink>, as well as the
-            <ulink url="http://www.tendra.org/docs/faq/#ANDF-TDF">ANDF/TDF
+            <ulink url="http://www.ten15.org/docs/faq/#ANDF-TDF">ANDF/TDF
             </ulinK> FAQ entry.</para>
         </answer>
       </qandaentry>
@@ -262,7 +262,7 @@
           <para>What does the future hold for TenDRA?</para>
         </question>
         <answer>
-          <para>A peek at the <ulink url="http://www.tendra.org/tasks/">task
+          <para>A peek at the <ulink url="http://www.ten15.org/tasks/">task
             list</ulink> should give a pretty good picture of what is
             currently being worked on, or up for grabs if anyone were to be
             so-inclined.  General goals include standards conformance, and
@@ -284,10 +284,10 @@
         </question>
 
         <answer>
-          <para>A peek at the <ulink url="http://www.tendra.org/tasks/">task
+          <para>A peek at the <ulink url="http://www.ten15.org/tasks/">task
             list</ulink> is probably a good idea.  See if anything lies within
             your abilities and take it up.  It is a great idea to subscribe to
-            the <ulink url="http://lists.tendra.org/">mailing lists</ulink> to
+            the <ulink url="http://lists.ten15.org/">mailing lists</ulink> to
             stay up-to-date on current developments.  Let the developers know
             which area you are interested in contributing to via the
             appropriate list.  We always welcome help!</para>
@@ -304,8 +304,8 @@
           <para>Familiarize yourself with the TenDRA source that you want to
             work on, as well as current development.  The easiest way to 'get
             in touch' is to be subscribed to the
-            <ulink url="http://lists.tendra.org/">mailing lists</ulink> and
-            check out the <ulink url="http://www.tendra.org/tasks/">task
+            <ulink url="http://lists.ten15.org/">mailing lists</ulink> and
+            check out the <ulink url="http://www.ten15.org/tasks/">task
             list</ulink> as well.  From there, open a dialogue on tendra-dev,
             and things should begin to take shape.  We hope to see your
             contributions soon!</para>
