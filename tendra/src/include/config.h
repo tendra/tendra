@@ -190,15 +190,11 @@ typedef enum {
 #define	SET(name)
 #endif
 
-#ifdef __GNUC__
-typedef __volatile__ void NoReturnT;
+#ifdef __TenDRA__
+#pragma TenDRA type NoReturnT for bottom
 #else
-# ifdef __TenDRA__
-#  pragma TenDRA type NoReturnT for bottom
-# else
-#  define NoReturnT void
-# endif /* defined (__TenDRA__) */
-#endif /* defined (__GNUC__) */
+typedef void NoReturnT;
+#endif
 
 
 
