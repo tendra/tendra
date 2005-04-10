@@ -11,7 +11,7 @@ DBXSL=	/usr/local/share/xsl/docbook/xhtml/docbook.xsl
 all:
 .for i in ${DBSRCS}
 	${XSLTPROC} -o ${i:C/xml/html/} --xinclude ${DBXSL} ${i}
-	${TIDY} -im -wrap 78 -xml ${i:C/xml/html/}
+	${TIDY} -im -wrap 78 -access 1 -utf8 ${i:C/xml/html/}
 .endfor
 
 clean:
