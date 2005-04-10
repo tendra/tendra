@@ -32,6 +32,7 @@ _TENDRA_COMPILER_MK_=1
 # EXEC_SUFFIX is used on those platforms where executable names need to
 # have a particular suffix, for example it may be set to ".exe".
 
+.if defined(BOOTSTRAP)
 # Assume that the cc on this system is the GNU C Compiler.
 .if ${CC} == "cc" || ${CC} == "gcc"
   TCCOPTS=
@@ -47,15 +48,6 @@ _TENDRA_COMPILER_MK_=1
   TCCOPTS= -Ysystem
   CCOPTS+=
 .endif
-
-CCOPTS+=	-D_${OSVER}
-
-SYS_INCLUDES=	"-I/usr/include"
-STRIP= :
-RANLIB=		ranlib
-EXEC_SUFFIX=
-
-BUILD_ERRORS=	${BASE_DIR}/src/build/BUILD_ERRORS
 
 .if exists(${OBJ_DIR}/src/utilities/sid/sid)
 SID?=	${OBJ_DIR}/src/utilities/sid/sid
@@ -88,5 +80,23 @@ TPL?=	tpl
 .endif
 
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec
+.else
+TCC=	${BOBJ_DIR}/src/tools/tcc/tcc
+CC=	${TCC}
+TLD=	${BOBJ_DIR}/src/tools/tld/tld
+TNC=	${BOBJ_DIR}/src/tools/tnc/tnc
+TPL=	${BOBJ_DIR}/src/tools/tpl/tpl
+CCOPTS+=-Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src/ \
+	-Y${BOBJ_DIR}/src/lib/env/system
+.endif
+
+CCOPTS+=	-D_${OSVER}
+
+SYS_INCLUDES=	"-I/usr/include"
+STRIP= :
+RANLIB=		ranlib
+EXEC_SUFFIX=
+
+BUILD_ERRORS=	${BASE_DIR}/src/build/BUILD_ERRORS
 
 .endif	# !defined(_TENDRA_COMPILER_MK_)

@@ -68,6 +68,8 @@ OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 .else
 OBJ_DIR=	${BASE_DIR}/obj
 OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+BOBJ_DIR=	${BASE_DIR}/bootstrap
+BOBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 .endif
 TMP_DIR=	/var/tmp
 

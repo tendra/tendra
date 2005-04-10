@@ -25,7 +25,6 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
 		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
 		-o ${.TARGET} ${.IMPSRC}
-#-Ilib/TenDRA/machines/<OSFAM>/<OSVER>/<BLDARCH>/include
 
 .pl.j:
 	@${ECHO} "# Transforming ${PARTIMP}"

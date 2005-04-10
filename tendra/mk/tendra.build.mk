@@ -99,13 +99,13 @@ _objdir=	${OBJ_SDIR}
 _REALWORK: .USE
 	@${ECHO} "# Building ${TDFLIB} token definition"
 
-_objdir= 	${OBJ_SDIR}
+_objdir=	${OBJ_SDIR}
 .elif "${PROG}" != ""
 #
 # Build a program.
 #
 . if !defined(MAN) && exists(${.CURDIR}/${PROG}.1)
-MAN=    	${PROG}.1
+MAN=	${PROG}.1
 . endif
 
 ${PROG}: ${OBJS}

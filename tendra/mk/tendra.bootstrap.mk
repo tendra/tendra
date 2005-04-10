@@ -6,7 +6,6 @@
 _TENDRA_BOOTSTRAP_MK_=1
 
 .include <tendra.base.mk>
-.include <tendra.functions.mk>
 .include <tendra.rules.mk>
 
 # Do some pretty-printing.
@@ -52,6 +51,10 @@ fixenv.sed:
 	@${ECHO} "# Create ${.TARGET}"
 	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g" 		\
 		> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g" 			\
+		>> ${OBJ_DIR}/${.TARGET}
 	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g" 		\
 		>> ${OBJ_DIR}/${.TARGET}
 	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g" 		\
@@ -70,7 +73,7 @@ fixenv.sed:
 _REALWORK: fixenv.sed .USE
 	@${ECHO} "# Fixing paths for ${ENVFILE} environments"
 . for entry in ${ENVFILE}
-	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${entry}
+	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
@@ -90,7 +93,7 @@ _objdir=        ${OBJ_SDIR}
 # Build a program.
 #
 . if !defined(MAN) && exists(${.CURDIR}/${PROG}.1)
-MAN=    	${PROG}.1
+MAN=	${PROG}.1
 . endif
 
 ${PROG}: ${OBJS}
