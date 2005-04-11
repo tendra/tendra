@@ -38,7 +38,7 @@ _REALWORK: api-depend
 	cd ${BASE_DIR}/${APIS}/${API}/ && ${.MAKE} makeapi
 makeapi: ${APIOBJS}
 	@${ECHO} "# Linking ${API} API"
-	${TLD} -o ${APILIB} ${APIOBJS}
+	${TLD} -mc -o ${APILIB} ${APIOBJS}
 
 CLEAN_EXTRA+= ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
               ./building/${API}.api/Makefile
