@@ -231,21 +231,6 @@ void
 print_proto(void)
 {
     comment("Prototype macros");
-    output("#ifndef PROTO_S\n");
-    output("#ifdef __STDC__\n");
-    output("#define PROTO_S( types )%t40types\n");
-    output("#define PROTO_N( names )\n");
-    output("#define(parms )%t40( parms )\n");
-    output("#define(void)%t40( void )\n");
-    output("#define X%t40,\n");
-    output("#else\n");
-    output("#define PROTO_S( types )%t40()\n");
-    output("#define PROTO_N( names )%t40names\n");
-    output("#define(parms )%t40parms ;\n");
-    output("#define(void)%t40()\n");
-    output("#define X%t40;\n");
-    output("#endif\n");
-    output("#endif\n\n");
     output("#ifndef CONST_S\n");
     output("#define CONST_S\n");
     output("#endif\n\n\n");
@@ -281,34 +266,30 @@ static void
 print_assert_decs(void)
 {
     output("#ifdef ASSERTS\n");
-    output("extern %X *check_null_%X PROTO_S ");
-    output("( ( %X *, char *, int ) ) ;\n");
-    output("extern %X *check_tag_%X PROTO_S ");
-    output("( ( %X *, unsigned, char *, int ) ) ;\n");
-    output("extern %X *check_tag_etc_%X PROTO_S ");
-    output("( ( %X *, unsigned, unsigned, char *, int ) ) ;\n");
+    output("extern %X *check_null_%X(%X *, char *, int);\n");
+    output("extern %X *check_tag_%X(%X *, unsigned, char *, int);\n");
+    output("extern %X *check_tag_etc_%X(%X *, unsigned, unsigned, char *, int);\n");
     if (allow_vec) {
-	output("extern int check_int_size PROTO_S ");
-	output("( ( int, int, char *, int ) ) ;\n");
+	output("extern int check_int_size(int, int, char *, int);\n");
     }
-    output("#define CHECK_NULL( P )\\\n");
-    output("    ( check_null_%X ( ( P ), __FILE__, __LINE__ ) )\n");
-    output("#define CHECK_TAG( P, N )\\\n");
-    output("    ( check_tag_%X ( ( P ), ( unsigned ) ( N ), ");
-    output("__FILE__, __LINE__ ) )\n");
-    output("#define CHECK_TAG_ETC( P, L, U )\\\n");
-    output("    ( check_tag_etc_%X ( ( P ), ( unsigned ) ( L ), ");
-    output("( unsigned ) ( U ), __FILE__, __LINE__ ) )\n");
+    output("#define CHECK_NULL(P)\\\n");
+    output("    (check_null_%X ((P), __FILE__, __LINE__))\n");
+    output("#define CHECK_TAG(P, N)\\\n");
+    output("    (check_tag_%X((P), (unsigned) (N), ");
+    output("__FILE__, __LINE__))\n");
+    output("#define CHECK_TAG_ETC(P, L, U)\\\n");
+    output("    (check_tag_etc_%X ((P), (unsigned) (L), ");
+    output("(unsigned) (U), __FILE__, __LINE__))\n");
     if (allow_vec) {
-	output("#define CHECK_INT( N, M )\\\n");
-	output("     ( check_int_size ( ( N ), ( M ), ");
-	output("__FILE__, __LINE__ ) )\n");
+	output("#define CHECK_INT(N, M)\\\n");
+	output("     (check_int_size((N), (M), ");
+	output("__FILE__, __LINE__))\n");
     }
     output("#else\n");
-    output("#define CHECK_NULL( P )%t40( P )\n");
-    output("#define CHECK_TAG( P, N )%t40( P )\n");
-    output("#define CHECK_TAG_ETC( P, L, U )%t40( P )\n");
-    if (allow_vec)output("#define CHECK_INT( N, M )%t40( N )\n");
+    output("#define CHECK_NULL(P)%t40(P)\n");
+    output("#define CHECK_TAG(P, N)%t40(P)\n");
+    output("#define CHECK_TAG_ETC(P, L, U)%t40(P)\n");
+    if (allow_vec)output("#define CHECK_INT(N, M)%t40(N)\n");
     output("#endif\n\n\n");
     return;
 }
@@ -327,58 +308,57 @@ print_assert_fns(void)
 {
     /* Assertion printing */
     output("#ifndef assert_%X\n");
-    output("static void assert_%X\n");
-    output("\n");
-    output("(char *s, char *fn, int ln )\n");
+    output("static void\n");
+    output("assert_%X\n(char *s, char *fn, int ln)\n");
     output("{\n");
-    output("    ( void ) fprintf ( stderr, \"Assertion %%s failed, ");
+    output("    (void)fprintf(stderr, \"Assertion %%s failed, ");
     output("%%s, line %%d.\\n\", s, fn, ln);\n");
-    output("    abort () ;\n");
+    output("    abort() ;\n");
     output("}\n");
     output("#endif\n\n");
 
     /* Null pointer check */
-    output("%X *check_null_%X\n");
-    output("\n");
-    output("(%X *p, char *fn, int ln )\n");
+    output("%X *\n");
+    output("check_null_%X\n");
+    output("(%X *p, char *fn, int ln)\n");
     output("{\n");
-    output("    if ( p == NULL ) ");
-    output("assert_%X ( \"Null pointer\", fn, ln ) ;\n");
-    output("    return ( p ) ;\n");
+    output("    if (p == NULL) ");
+    output("assert_%X(\"Null pointer\", fn, ln);\n");
+    output("    return(p);\n");
     output("}\n\n");
 
     /* Union tag check */
-    output("%X *check_tag_%X\n");
-    output("\n");
-    output("(%X *p, unsigned t, char *fn, int ln )\n");
+    output("%X *\n");
+    output("check_tag_%X\n");
+    output("(%X *p, unsigned t, char *fn, int ln)\n");
     output("{\n");
-    output("    p = check_null_%X ( p, fn, ln ) ;\n");
+    output("    p = check_null_%X(p, fn, ln);\n");
     output("    if ( p->ag_tag != t ) ");
-    output("assert_%X ( \"Union tag\", fn, ln ) ;\n");
-    output("    return ( p ) ;\n");
+    output("assert_%X(\"Union tag\", fn, ln);\n");
+    output("    return(p);\n");
     output("}\n\n");
 
     /* Union tag range check */
-    output("%X *check_tag_etc_%X\n");
-    output("\n");
+    output("%X *\n");
+    output("check_tag_etc_%X\n");
     output("(%X *p, unsigned tl, unsigned tb ");
-    output("X char *fn X int ln )\n");
+    output("X char *fn X int ln)\n");
     output("{\n");
-    output("    p = check_null_%X ( p, fn, ln ) ;\n");
-    output("    if ( p->ag_tag < tl || p->ag_tag >= tb ) {\n");
-    output("\tassert_%X ( \"Union tag\", fn, ln ) ;\n");
+    output("    p = check_null_%X(p, fn, ln);\n");
+    output("    if (p->ag_tag < tl || p->ag_tag >= tb) {\n");
+    output("\tassert_%X(\"Union tag\", fn, ln);\n");
     output("    }\n");
-    output("    return ( p ) ;\n");
+    output("    return(p);\n");
     output("}\n\n");
 
     /* Vector trim range check */
     if (!allow_vec) return;
-    output("int check_int_size\n");
-    output("\n");
-    output("(int n, int m, char *fn, int ln )\n");
+    output("int\n");
+    output("check_int_size\n");
+    output("(int n, int m, char *fn, int ln)\n");
     output("{\n");
-    output("    if ( n > m ) assert_%X ( \"Vector bound\", fn, ln ) ;\n");
-    output("    return ( n ) ;\n");
+    output("    if (n > m ) assert_%X ( \"Vector bound\", fn, ln);\n");
+    output("    return(n);\n");
     output("}\n\n");
     return;
 }
@@ -1725,10 +1705,10 @@ print_map_table(int d)
 {
     output("%MR ( *%MN_%UM_table [ ORDER_%UM ] )");
     if (map_proto) {
-	output("\n    PROTO_S ( ( %UN");
+	output("\n    ( %UN");
 	if (d)output(", DESTROYER");
 	LOOP_MAP_ARGUMENT output(", %AT");
-	output(" ) )");
+	output(" )");
     } else {
 	output(" ()");
     }
