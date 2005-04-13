@@ -36,7 +36,9 @@ api-depend:
 #
 _REALWORK: api-depend
 	cd ${BASE_DIR}/${APIS}/${API}/ && ${.MAKE} makeapi
-makeapi: ${APIOBJS}
+makeapi: ${APILIB}
+
+${APILIB}: ${APIOBJS}
 	@${ECHO} "# Linking ${API} API"
 	${TLD} -mc -o ${APILIB} ${APIOBJS}
 
