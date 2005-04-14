@@ -113,17 +113,17 @@
           <para>
           <b>Encoding number</b>: 1
           <programlisting>
-            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
-            <i>whence</i>:          SOURCEMARK
-            <i>found_at</i>:        EXP POINTER(<i>al</i>)
-            <i>type</i>:            DIAG_TYPE
+src_name:        TDFSTRING(k, n)
+whence:          SOURCEMARK
+found_at:        EXP POINTER(al)
+type:            DIAG_TYPE
                        -&gt; DIAG_DESCRIPTOR
     
             </programlisting>
             Generates a descriptor for an identifier (of
-            <code>DIAG_TYPE</code> <i>type</i>), whose source name was
-            <i>src_name</i> from source location <i>whence</i>. The
-            <code>EXP</code> <i>found_at</i> describes how to access the
+            <code>DIAG_TYPE</code> <varname>type</varname>), whose source name was
+            <varname>src_name</varname> from source location <varname>whence</varname>. The
+            <code>EXP</code> <varname>found_at</varname> describes how to access the
             value.  Note that the <code>EXP</code> need not be unique (e.g.
             FORTRAN EQUIVALENCE might be implemented this way).</para>
         </sect3>
@@ -190,14 +190,14 @@
           <para>
           <b>Encoding number</b>: 0
           <programlisting>
-            <i>no_labels</i>:       TDFINT
-            <i>descriptors</i>:     SLIST(DIAG_DESCRIPTOR)
-                       -&gt; DIAG_UNIT
+no_labels:       TDFINT
+descriptors:     SLIST(DIAG_DESCRIPTOR)
+           -&gt; DIAG_UNIT
     
           </programlisting>
           Create a <code>DIAG_UNIT</code> containing
-          <code>DIAG_DESCRIPTOR</code>s. <i>no_labels</i> is the number of
-          local labels used in <i>descriptors</i> (for conditionals).</para>
+          <code>DIAG_DESCRIPTOR</code>s. <varname>no_labels</varname> is the number of
+          local labels used in <varname>descriptors</varname> (for conditionals).</para>
         </sect3>
       </sect2>
   
@@ -210,11 +210,11 @@
         <b>Linkable entity identification</b>: <i>diagtag</i>
         </para>
   
-        <para><code>DIAG_TAG</code>s are used <i>inter alia</i> to break
+        <para><code>DIAG_TAG</code>s are used inter alia to break
           cyclic diagnostic types. They are (TDF) linkable entities. A
           <code>DIAG_TAG</code> is made from a number, and used in
-          <i>use_diag_tag</i> to obtain the <code>DIAG_TYPE</code> associated
-          with that number by <i>make_diag_tagdef</i>.</para>
+          <varname>use_diag_tag</varname> to obtain the <code>DIAG_TYPE</code> associated
+          with that number by <varname>make_diag_tagdef</varname>.</para>
   
         <sect3 id="S12">
           <title>2.3.1. make_diag_tag</title>
@@ -226,7 +226,7 @@
                        -&gt; DIAG_TAG
     
           </programlisting>
-          Create a <code>DIAG_TAG</code> from <i>num</i>.
+          Create a <code>DIAG_TAG</code> from <varname>num</varname>.
           </para>
         </sect3>
       </sect2>
@@ -248,12 +248,12 @@
           <para>
           <b>Encoding number</b>: 1
           <programlisting>
-            <i>tno</i>:             TDFINT
-            <i>dtype</i>:           DIAG_TYPE
+tno:             TDFINT
+dtype:           DIAG_TYPE
                        -&gt; DIAG_TAGDEF
     
           </programlisting>
-          Associates tag number <i>tno</i> with <i>dtype</i>.
+          Associates tag number <varname>tno</varname> with <varname>dtype</varname>.
           </para>
         </sect3>
       </sect2>
@@ -276,14 +276,14 @@
           <para>
           <b>Encoding number</b>: 0
           <programlisting>
-            <i>no_labels</i>:       TDFINT
-            <i>tagdefs</i>: SLIST(DIAG_TAGDEF)
+no_labels:       TDFINT
+tagdefs: SLIST(DIAG_TAGDEF)
                        -&gt; DIAG_TYPEUNIT
     
           </programlisting>
           Create a <code>DIAG_TYPEUNIT</code> containing
-          <code>DIAG_TAGDEF</code>s. <i>no_labels</i> is the number of local
-          labels used in <i>tagdefs</i> (for conditionals).</para>
+          <code>DIAG_TAGDEF</code>s. <varname>no_labels</varname> is the number of local
+          labels used in <varname>tagdefs</varname> (for conditionals).</para>
         </sect3>
       </sect2>
   
@@ -306,15 +306,15 @@
           <para>
           <b>Encoding number</b>: 1
           <programlisting>
-            <i>token_value</i>:     TOKEN
-            <i>token_args</i>:      BITSTREAM
+token_value:     TOKEN
+token_args:      BITSTREAM
                        -&gt; DIAG_TYPE
     
           </programlisting>
           The token is applied to the arguments to give a
           <code>DIAG_TYPE</code>. If there is a definition for
-          <i>token_value</i> in the <code>CAPSULE</code> then
-          <i>token_args</i> is a <code>BITSTREAM</code> encoding of the
+          <varname>token_value</varname> in the <code>CAPSULE</code> then
+          <varname>token_args</varname> is a <code>BITSTREAM</code> encoding of the
           <code>SORT</code>s of its parameters, in the order specified.</para>
         </sect3>
   
@@ -324,20 +324,20 @@
           <para>
           <b>Encoding number</b>: 2
           <programlisting>
-            <i>element_type</i>:    DIAG_TYPE
-            <i>stride</i>:          EXP OFFSET(<i>p</i>,<i>p</i>)
-            <i>lower_bound</i>:     EXP INTEGER(<i>v</i>)
-            <i>upper_bound</i>:     EXP INTEGER(<i>v</i>)
-            <i>index_type</i>:      DIAG_TYPE
+element_type:    DIAG_TYPE
+stride:          EXP OFFSET(p,p)
+lower_bound:     EXP INTEGER(v)
+upper_bound:     EXP INTEGER(v)
+index_type:      DIAG_TYPE
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          An array of <i>element_type</i> objects. <i>stride</i> is the
-          <code>OFFSET</code> between elements of the array (i.e. <i>p</i> is
-          described by <i>element_type</i>). The bounds are in general not
+          An array of <varname>element_type</varname> objects. <varname>stride</varname> is the
+          <code>OFFSET</code> between elements of the array (i.e. <varname>p</varname> is
+          described by <varname>element_type</varname>). The bounds are in general not
           runtime constants, hence the values are <code>EXP</code>s (not say
-          <code>SIGNED_NAT</code>). The <code>VARIETY</code> <i>v</i> is
-          described by <i>index_type</i>. As in TDF there is no
+          <code>SIGNED_NAT</code>). The <code>VARIETY</code> <varname>v</varname> is
+          described by <varname>index_type</varname>. As in TDF there is no
           multi-dimensional array primitive.</para>
         </sect3>
   
@@ -347,13 +347,13 @@
           <para>
           <b>Encoding number</b>: 3
           <programlisting>
-            <i>type</i>:            DIAG_TYPE
-            <i>number_of_bits</i>:  NAT
+type:            DIAG_TYPE
+number_of_bits:  NAT
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          Describes <i>number_of_bits</i>, which when extracted will have
-          <code>DIAG_TYPE</code> <i>type</i>.</para>
+          Describes <varname>number_of_bits</varname>, which when extracted will have
+          <code>DIAG_TYPE</code> <varname>type</varname>.</para>
         </sect3>
   
         <sect3 id="S21">
@@ -362,14 +362,14 @@
           <para>
           <b>Encoding number</b>: 4
           <programlisting>
-            <i>base_type</i>:       DIAG_TYPE
-            <i>enum_name</i>:       TDFSTRING<i>(k, n)</i>
-            <i>values</i>:          LIST(ENUM_VALUES) 
+base_type:       DIAG_TYPE
+enum_name:       TDFSTRING(k, n)
+values:          LIST(ENUM_VALUES) 
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          An enumeration to be stored in an object of type <i>base_type</i>.
-          If <i>enum_name</i> is a string contining zero characters this
+          An enumeration to be stored in an object of type <varname>base_type</varname>.
+          If <varname>enum_name</varname> is a string contining zero characters this
           signifies no source tag.</para>
         </sect3>
   
@@ -378,12 +378,12 @@
           
           <para><b>Encoding number</b>: 5
           <programlisting>
-            <i>var</i>:             FLOATING_VARIETY
+var:             FLOATING_VARIETY
                        -&gt; DIAG_TYPE
     
           </programlisting>
           Creates a <code>DIAG_TYPE</code> to describe an
-          <code>FLOATING_VARIETY</code> <i>var</i>.</para>
+          <code>FLOATING_VARIETY</code> <varname>var</varname>.</para>
         </sect3>
  
         <sect3 id="S23">
@@ -392,13 +392,13 @@
           <para>
           <b>Encoding number</b>: 6
           <programlisting>
-            <i>object</i>:          DIAG_TYPE
-            <i>qualifier</i>:       DIAG_TQ
+object:          DIAG_TYPE
+qualifier:       DIAG_TQ
                        -&gt; DIAG_TYPE
     
           </programlisting>
           Records the existence of an item of <code>DIAG_TYPE</code>
-          <i>object</i>, qualified by <i>qualifier</i>. <i>diag_loc</i> is
+          <varname>object</varname>, qualified by <varname>qualifier</varname>. <varname>diag_loc</varname> is
           used for variables (which may of course not actually occupy a memory
           location).</para>
         </sect3>
@@ -409,15 +409,15 @@
           <para>
           <b>Encoding number</b>: 7
           <programlisting>
-            <i>params</i>:          LIST(DIAG_TYPE)
-            <i>optional_args</i>:   BOOL
-            <i>result_type</i>:     DIAG_TYPE
+params:          LIST(DIAG_TYPE)
+optional_args:   BOOL
+result_type:     DIAG_TYPE
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          Describes a procedure taking <i>n</i> parameters.
-          <i>optional_args</i> is true if and only if the <i>make_proc</i>
-          which this <i>diag_proc</i> describes had <i>vartag</i>
+          Describes a procedure taking <varname>n</varname> parameters.
+          <varname>optional_args</varname> is true if and only if the <varname>make_proc</varname>
+          which this <varname>diag_proc</varname> describes had <i>vartag</i>
           present.</para>
         </sect3>
   
@@ -427,13 +427,13 @@
           <para>
           <b>Encoding number</b>: 8
           <programlisting>
-            <i>object</i>:          DIAG_TYPE
-            <i>qualifier</i>:       DIAG_TQ
+object</varname>:          DIAG_TYPE
+qualifier</varname>:       DIAG_TQ
                        -&gt; DIAG_TYPE
     
           </programlisting>
           Describes a pointer to an object of <code>DIAG_TYPE</code>
-          <i>object</i>. The <code>DIAG_TQ</code> qualifier <i>qualifier</i>
+          <varname>object</varname>. The <code>DIAG_TQ</code> qualifier <varname>qualifier</varname>
           qualifies the pointer, not the object pointed to.</para>
         </sect3>
   
@@ -443,15 +443,15 @@
           <para>
           <b>Encoding number</b>: 9
           <programlisting>
-            <i>tdf_shape</i>:       SHAPE
-            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
-            <i>fields</i>:          LIST(DIAG_FIELD) 
+tdf_shape:       SHAPE
+src_name:        TDFSTRING(k, n)
+fields:          LIST(DIAG_FIELD) 
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          Describes a structure. If <i>src_name</i> is a string contining zero
+          Describes a structure. If <varname>src_name</varname> is a string contining zero
           characters this signifies no source tag for the whole structure.
-          <i>tdf_shape</i> allows the total size to be computed.</para>
+          <varname>tdf_shape</varname> allows the total size to be computed.</para>
         </sect3>
   
         <sect3 id="S27">
