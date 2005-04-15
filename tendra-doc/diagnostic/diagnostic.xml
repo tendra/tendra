@@ -135,15 +135,15 @@ type:            DIAG_TYPE
           <b>Encoding number</b>: 2
 
           <programlisting>
-            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
-            <i>whence</i>:          SOURCEMARK
-            <i>new_type</i>:        DIAG_TYPE
+src_name:        TDFSTRING(k, n)
+whence:          SOURCEMARK
+new_type:        DIAG_TYPE
                        -&gt; DIAG_DESCRIPTOR
     
           </programlisting>
 
-          Generates a descriptor whose source name was <i>src_name</i>.
-          <i>new_type</i> must be either a <code>DIAG_STRUCT</code>,
+          Generates a descriptor whose source name was <varname>src_name</varname>.
+          <varname>new_type</varname> must be either a <code>DIAG_STRUCT</code>,
           <code>DIAG_UNION</code> or <code>DIAG_ENUM</code>.</para>
   
           <para>This construct is obsolete.</para>
@@ -155,15 +155,15 @@ type:            DIAG_TYPE
           <para>
           <b>Encoding number</b>: 3
           <programlisting>
-            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
-            <i>whence</i>:          SOURCEMARK
-            <i>new_type</i>:        DIAG_TYPE
+src_name:        TDFSTRING(k, n)
+whence:          SOURCEMARK
+new_type:        DIAG_TYPE
                        -&gt; DIAG_DESCRIPTOR
     
           </programlisting>
           
-          Generates a descriptor for a type <i>new_type</i> whose source name
-          was <i>src_name</i>. Note that <i>diag_desc_typedef</i> is used for
+          Generates a descriptor for a type <varname>new_type</varname> whose source name
+          was <varname>src_name</varname>. Note that <varname>diag_desc_typedef</varname> is used for
           associating a name with a type, rather than for any name given in
           the initial description of the type (e.g. in C this is used for
           typedef, not for struct/union/enum tags).</para>
@@ -176,7 +176,7 @@ type:            DIAG_TYPE
         <para>
         <b>Number of encoding bits</b>: 0
         <b>Is coding extendable</b>: no
-        <b>Unit identification</b>: <i>diagdef</i>
+        <b>Unit identification</b>: <varname>diagdef</varname>
         </para>
   
         <para>A <code>DIAG_UNIT</code> is a TDF unit containing
@@ -207,7 +207,7 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
         <para>
         <b>Number of encoding bits</b>: 1
         <b>Is coding extendable</b>: yes
-        <b>Linkable entity identification</b>: <i>diagtag</i>
+        <b>Linkable entity identification</b>: <varname>diagtag</varname>
         </para>
   
         <para><code>DIAG_TAG</code>s are used inter alia to break
@@ -222,7 +222,7 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
           <para>
           <b>Encoding number</b>: 1
           <programlisting>
-            <i>num</i>:             TDFINT
+num:             TDFINT
                        -&gt; DIAG_TAG
     
           </programlisting>
@@ -264,7 +264,7 @@ dtype:           DIAG_TYPE
         <para>
         <b>Number of encoding bits</b>: 0
         <b>Is coding extendable</b>: no
-        <b>Unit identification</b>: <i>diagtype</i>
+        <b>Unit identification</b>: <varname>diagtype</varname>
         </para>
   
         <para>A <code>DIAG_TYPE_UNIT</code> is a TDF unit containing
@@ -292,7 +292,7 @@ tagdefs: SLIST(DIAG_TAGDEF)
         
         <para>
         <b>Sortname</b>:
-        <i>foreign_sort("diag_type")</i>
+        <varname>foreign_sort("diag_type")</varname>
         <b>Number of encoding bits</b>: 4
         <b>Is coding extendable</b>: yes
         </para>
@@ -417,7 +417,7 @@ result_type:     DIAG_TYPE
           </programlisting>
           Describes a procedure taking <varname>n</varname> parameters.
           <varname>optional_args</varname> is true if and only if the <varname>make_proc</varname>
-          which this <varname>diag_proc</varname> describes had <i>vartag</i>
+          which this <varname>diag_proc</varname> describes had <varname>vartag</varname>
           present.</para>
         </sect3>
   
@@ -473,15 +473,15 @@ fields:          LIST(DIAG_FIELD)
           <para>
           <b>Encoding number</b>: 11
           <programlisting>
-            <i>tdf_shape</i>:       SHAPE
-            <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
-            <i>fields</i>:          LIST(DIAG_FIELD)
+tdf_shape:       SHAPE
+src_name:        TDFSTRING(k, n)
+fields:          LIST(DIAG_FIELD)
                        -&gt; DIAG_TYPE
     
           </programlisting>
-          Describes a union. If <i>src_name</i> is a string contining zero
+          Describes a union. If <varname>src_name</varname> is a string contining zero
           characters this signifies no source tag for the whole union.
-          <i>tdf_shape</i> allows the total size to be computed.</para>
+          <varname>tdf_shape</varname> allows the total size to be computed.</para>
         </sect3>
   
         <sect3 id="S29">
@@ -489,12 +489,12 @@ fields:          LIST(DIAG_FIELD)
           
           <para><b>Encoding number</b>: 12
           <programlisting>
-            <i>var</i>:             VARIETY
+var:             VARIETY
                        -&gt; DIAG_TYPE
     
           </programlisting>
           Creates a <code>DIAG_TYPE</code> to describe an integer
-          <code>VARIETY</code> <i>var</i>.
+          <code>VARIETY</code> <varname>var</varname>.
           </para>
         </sect3>
   
@@ -504,12 +504,12 @@ fields:          LIST(DIAG_FIELD)
           <para>
           <b>Encoding number</b>: 13
           <programlisting>
-            <i>dtag</i>:            DIAG_TAG
+dtag:            DIAG_TAG
                        -&gt; DIAG_TYPE
     
           </programlisting>
           Obtains the <code>DIAG_TYPE</code> associated with
-          <code>DIAG_TAG</code> <i>dtag</i>.</para>
+          <code>DIAG_TAG</code> <varname>dtag</varname>.</para>
         </sect3>
       </sect2>
   
@@ -526,16 +526,16 @@ fields:          LIST(DIAG_FIELD)
           
           <para><b>Encoding number</b>: 0
           <programlisting>
-          <i>value</i>:           EXP <i>sh</i>
-          <i>src_name</i>:        TDFSTRING<i>(k, n)</i>
+value:           EXP <varname>sh</varname>
+src_name</varname>:        TDFSTRING(k, n)
                      -&gt; ENUM_VALUES
     
           </programlisting>
           <code>ENUM_VALUES</code> describe elements of an enumerated type.
-          <i>src_name</i> is the source language name. <i>value</i> evaluates
-          to a value of <code>SHAPE</code> <i>sh</i>. Note that all members of
+          <varname>src_name</varname> is the source language name. <varname>value</varname> evaluates
+          to a value of <code>SHAPE</code> <varname>sh</varname>. Note that all members of
           a <code>LIST(ENUM_VALUES</code>) must have the same
-          <i>sh</i>.</para>
+          <varname>sh</varname>.</para>
         </sect3>
       </sect2>
   
@@ -553,18 +553,17 @@ fields:          LIST(DIAG_FIELD)
           <para>
           <b>Encoding number</b>: 0
           <programlisting>
-            <i>field_name</i>:      TDFSTRING<i>(k, n)</i>
-            <i>found_at</i>:        EXP OFFSET( ALIGNMENT <i>whole</i>, ALIGNMENT <i>this_field
-    </i>)
-            <i>field_type</i>:      DIAG_TYPE
+field_name:      TDFSTRING(k, n)
+found_at:        EXP OFFSET(ALIGNMENT whole, ALIGNMENT this_field)
+field_type:      DIAG_TYPE
                        -&gt; DIAG_FIELD
     
           </programlisting>
           <code>DIAG_FIELD</code>s describe one field of a structure or union.
-          <i>field_name</i> is the source language name.  <i>found_at</i> is
-          the <code>OFFSET</code> between <i>whole</i> (the enclosing
-          structure or union), and this field (<i>this_field</i>).
-          <i>field_type</i> is the <code>DIAG_TYPE</code> of the field.</para>
+          <varname>field_name</varname> is the source language name.  <varname>found_at</varname> is
+          the <code>OFFSET</code> between <varname>whole</varname> (the enclosing
+          structure or union), and this field (<varname>this_field</varname>).
+          <varname>field_type</varname> is the <code>DIAG_TYPE</code> of the field.</para>
         </sect3>
       </sect2>
   
