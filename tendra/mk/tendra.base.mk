@@ -52,6 +52,7 @@ APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
 STARTUP=	src/lib/startup
 STARTUP_MACH=	src/lib/machines/${OSFAM}/${BLDARCH}/startup
+TOKENS_MACH=	src/lib/machines/${OSFAM}/${BLDARCH}/tokens
 TOOLS=		src/tools
 UTILITIES=	src/utilities
 
