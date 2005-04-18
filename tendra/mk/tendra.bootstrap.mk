@@ -41,6 +41,10 @@ ${APILIB}: ${APIOBJS}
 	@${ECHO} "# Linking ${API} API"
 	${TLD} -mc -o ${APILIB} ${APIOBJS}
 
+building/${API}.api/sys.j:
+	@${ECHO} "# Symlinking correct sys.j"
+	${LN} ${OBJ_DIR}/${TOKENS_MACH}/sys.j ${.TARGET}
+
 CLEAN_EXTRA+= ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
               ./building/${API}.api/Makefile
 
