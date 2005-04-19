@@ -167,6 +167,8 @@ obj:
 	@${ECHO} "# Creating objdir ${_objdir}"
 	@${MKDIR} -p ${_objdir}
 . endif
+.endif
+.if "${_objdir}" != ""
 	@${REMOVE} ${.CURDIR}/obj
 	@${LN} -sf ${_objdir} ${.CURDIR}/obj
 .endif
