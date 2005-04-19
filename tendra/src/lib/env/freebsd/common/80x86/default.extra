@@ -1,5 +1,6 @@
 +MACHINE	"freebsd-*-80x86"
 +AS		"/usr/bin/as"
-+LD		"/usr/bin/ld -e start -dc -dp"
++LD		"/usr/bin/ld -e _start -dc -dp"
 +CC		"/usr/bin/cc"
-+CRT0		"/usr/lib/crt1.o"
++CRT0		""
++CRT1		"/usr/lib/crt1.o"
