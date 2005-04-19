@@ -7,7 +7,7 @@ SPEC=${BASE}/src/lib/tdf/def_4_0.db
 # Standard variables
 
 TCCOPTS=	-Yansi -Xs
-CCOPTS=		${TCCOPTS} -I${SRC}
+CCOPTS=		${TCCOPTS}
 LIBS=
 
 PROG=		${.CURDIR:T}
