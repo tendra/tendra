@@ -1,5 +1,63 @@
 workspace tendra {
 	ro_prefix "/usr/include"
+	cd "src/utilities"
+
+	project sid {
+		cd "sid"
+
+		ipath "obj"
+		file action.c
+		file alt.c
+		file arg-parse.c
+		file basic.c
+		file bitvec.c
+		file c-check.c
+		file c-code.c
+		file c-lexer.c
+		file c-out-info.c
+		file c-out-key.c
+		file c-out-nl.c
+		file c-out-types.c
+		file c-output.c
+		file c-parser.c
+		file cstring-list.c
+		file cstring.c
+		file dalloc.c
+		file dstring.c
+		file entry-list.c
+		file entry.c
+		file error-file.c
+		file error.c
+		file exception.c
+		file grammar.c
+		file istream.c
+		file item.c
+		file key.c
+		file lexer.c
+		file main.c
+		file name.c
+		file non-local.c
+		file ostream.c
+		file output.c
+		file parser.c
+		file rstack.c
+		file rule-check.c
+		file rule-factor.c
+		file rule-firsts.c
+		file rule-lre.c
+		file rule-mutate.c
+		file rule-names.c
+		file rule-simp.c
+		file rule-tail.c
+		file rule.c
+		file scope.c
+		file syntax.c
+		file table.c
+		file type.c
+		file types.c
+	}
+	cd "../../"
+	
 	cd "src/tools"
 
 	project disp {
