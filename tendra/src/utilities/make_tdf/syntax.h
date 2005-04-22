@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/make_tdf/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/make_tdf/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -46,7 +46,7 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_spec PROTO_S ((SPECIFICATION *));
+extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

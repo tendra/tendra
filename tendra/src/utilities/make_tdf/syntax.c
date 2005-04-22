@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/make_tdf/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/make_tdf/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -87,43 +87,43 @@ typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRlink_Hpack PROTO_S ((SID_LINK_LIST *));
-static void ZRparam_Hlist PROTO_S ((SID_PARAM_LIST *));
-static void ZRclist_Hitem PROTO_S ((void));
-static void ZRslist_Hpack PROTO_S ((void));
-static void ZRedge_Hlist PROTO_S ((void));
-static void ZRkind_Hitem PROTO_S ((LINKAGE *));
-static void ZRoption_Hlist PROTO_S ((void));
-static void ZR139 PROTO_S ((CONSTRUCT *));
-static void ZRold_Hsort_Hname PROTO_S ((SORT *));
-static void ZR140 PROTO_S ((CONSTRUCT *));
-static void ZR141 PROTO_S ((CONSTRUCT *));
-static void ZRclist_Hlist PROTO_S ((void));
-static void ZRlink_Hitem PROTO_S ((LINKAGE *));
-static void ZRslist_Hitem PROTO_S ((void));
-static void ZRkind_Hlist PROTO_S ((SID_LINK_LIST *));
-static void ZRnew_Hsort_Hname PROTO_S ((SORT *));
-static void ZRsort_Hpack PROTO_S ((void));
-static void ZRany_Hname PROTO_S ((string *));
-static void ZRlink_Hlist PROTO_S ((SID_LINK_LIST *));
-static void ZRslist_Hlist PROTO_S ((void));
-static void ZRsort_Hitem PROTO_S ((void));
-static void ZRsort_Hlist PROTO_S ((void));
-static void ZRconstruct_Hpack PROTO_S ((SORT, SID_CONS_LIST *));
-static void ZRconstruct_Hextra PROTO_S ((CONSTRUCT));
-static void ZRboundary_Hitem PROTO_S ((CONSTRUCT));
-static void ZRconstruct_Hitem PROTO_S ((SORT, CONSTRUCT *));
-static void ZRconstruct_Hlist PROTO_S ((SORT, SID_CONS_LIST *));
-static void ZRparam_Hpack PROTO_S ((SID_PARAM_LIST *));
-static void ZRedge_Hpack PROTO_S ((void));
-extern void read_spec PROTO_S ((SPECIFICATION *));
-static void ZRoption_Hpack PROTO_S ((void));
-static void ZRclist_Hpack PROTO_S ((void));
-static void ZRparam_Hitem PROTO_S ((PARAMETER *));
-static void ZRedge_Hitem PROTO_S ((void));
-static void ZRkind_Hpack PROTO_S ((SID_LINK_LIST *));
-static void ZRnumber_Hlist PROTO_S ((CONSTRUCT));
-static void ZRoption_Hitem PROTO_S ((void));
+static void ZRlink_Hpack(SID_LINK_LIST *);
+static void ZRparam_Hlist(SID_PARAM_LIST *);
+static void ZRclist_Hitem(void);
+static void ZRslist_Hpack(void);
+static void ZRedge_Hlist(void);
+static void ZRkind_Hitem(LINKAGE *);
+static void ZRoption_Hlist(void);
+static void ZR139(CONSTRUCT *);
+static void ZRold_Hsort_Hname(SORT *);
+static void ZR140(CONSTRUCT *);
+static void ZR141(CONSTRUCT *);
+static void ZRclist_Hlist(void);
+static void ZRlink_Hitem(LINKAGE *);
+static void ZRslist_Hitem(void);
+static void ZRkind_Hlist(SID_LINK_LIST *);
+static void ZRnew_Hsort_Hname(SORT *);
+static void ZRsort_Hpack(void);
+static void ZRany_Hname(string *);
+static void ZRlink_Hlist(SID_LINK_LIST *);
+static void ZRslist_Hlist(void);
+static void ZRsort_Hitem(void);
+static void ZRsort_Hlist(void);
+static void ZRconstruct_Hpack(SORT, SID_CONS_LIST *);
+static void ZRconstruct_Hextra(CONSTRUCT);
+static void ZRboundary_Hitem(CONSTRUCT);
+static void ZRconstruct_Hitem(SORT, CONSTRUCT *);
+static void ZRconstruct_Hlist(SORT, SID_CONS_LIST *);
+static void ZRparam_Hpack(SID_PARAM_LIST *);
+static void ZRedge_Hpack(void);
+extern void read_spec(SPECIFICATION *);
+static void ZRoption_Hpack(void);
+static void ZRclist_Hpack(void);
+static void ZRparam_Hitem(PARAMETER *);
+static void ZRedge_Hitem(void);
+static void ZRkind_Hpack(SID_LINK_LIST *);
+static void ZRnumber_Hlist(CONSTRUCT);
+static void ZRoption_Hitem(void);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -131,8 +131,7 @@ static void ZRoption_Hitem PROTO_S ((void));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRlink_Hpack PROTO_N ((ZOp))
-  PROTO_T (SID_LINK_LIST *ZOp)
+ZRlink_Hpack(SID_LINK_LIST *ZOp)
 {
     SID_LINK_LIST ZIp;
 
@@ -188,8 +187,7 @@ ZRlink_Hpack PROTO_N ((ZOp))
 }
 
 static void
-ZRparam_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_PARAM_LIST *ZOp)
+ZRparam_Hlist(SID_PARAM_LIST *ZOp)
 {
     SID_PARAM_LIST ZIp;
 
@@ -240,7 +238,7 @@ ZRparam_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRclist_Hitem PROTO_Z ()
+ZRclist_Hitem(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -265,7 +263,7 @@ ZRclist_Hitem PROTO_Z ()
 }
 
 static void
-ZRslist_Hpack PROTO_Z ()
+ZRslist_Hpack(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -308,7 +306,7 @@ ZRslist_Hpack PROTO_Z ()
 }
 
 static void
-ZRedge_Hlist PROTO_Z ()
+ZRedge_Hlist(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -353,8 +351,7 @@ ZRedge_Hlist PROTO_Z ()
 }
 
 static void
-ZRkind_Hitem PROTO_N ((ZOa))
-  PROTO_T (LINKAGE *ZOa)
+ZRkind_Hitem(LINKAGE *ZOa)
 {
     LINKAGE ZIa;
 
@@ -451,7 +448,7 @@ ZRkind_Hitem PROTO_N ((ZOa))
 }
 
 static void
-ZRoption_Hlist PROTO_Z ()
+ZRoption_Hlist(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -482,8 +479,7 @@ ZRoption_Hlist PROTO_Z ()
 }
 
 static void
-ZR139 PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT *ZIc)
+ZR139(CONSTRUCT *ZIc)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -509,8 +505,7 @@ ZR139 PROTO_N ((ZIc))
 }
 
 static void
-ZRold_Hsort_Hname PROTO_N ((ZOs))
-  PROTO_T (SORT *ZOs)
+ZRold_Hsort_Hname(SORT *ZOs)
 {
     SORT ZIs;
 
@@ -545,8 +540,7 @@ ZRold_Hsort_Hname PROTO_N ((ZOs))
 }
 
 static void
-ZR140 PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT *ZIc)
+ZR140(CONSTRUCT *ZIc)
 {
     switch (CURRENT_TERMINAL) {
       case 3:
@@ -640,8 +634,7 @@ ZR140 PROTO_N ((ZIc))
 }
 
 static void
-ZR141 PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT *ZIc)
+ZR141(CONSTRUCT *ZIc)
 {
     switch (CURRENT_TERMINAL) {
       case 29:
@@ -666,7 +659,7 @@ ZR141 PROTO_N ((ZIc))
 }
 
 static void
-ZRclist_Hlist PROTO_Z ()
+ZRclist_Hlist(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -697,8 +690,7 @@ ZRclist_Hlist PROTO_Z ()
 }
 
 static void
-ZRlink_Hitem PROTO_N ((ZOa))
-  PROTO_T (LINKAGE *ZOa)
+ZRlink_Hitem(LINKAGE *ZOa)
 {
     LINKAGE ZIa;
 
@@ -795,7 +787,7 @@ ZRlink_Hitem PROTO_N ((ZOa))
 }
 
 static void
-ZRslist_Hitem PROTO_Z ()
+ZRslist_Hitem(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -820,8 +812,7 @@ ZRslist_Hitem PROTO_Z ()
 }
 
 static void
-ZRkind_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_LINK_LIST *ZOp)
+ZRkind_Hlist(SID_LINK_LIST *ZOp)
 {
     SID_LINK_LIST ZIp;
 
@@ -886,8 +877,7 @@ ZRkind_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRnew_Hsort_Hname PROTO_N ((ZOs))
-  PROTO_T (SORT *ZOs)
+ZRnew_Hsort_Hname(SORT *ZOs)
 {
     SORT ZIs;
 
@@ -922,7 +912,7 @@ ZRnew_Hsort_Hname PROTO_N ((ZOs))
 }
 
 static void
-ZRsort_Hpack PROTO_Z ()
+ZRsort_Hpack(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -965,8 +955,7 @@ ZRsort_Hpack PROTO_Z ()
 }
 
 static void
-ZRany_Hname PROTO_N ((ZOn))
-  PROTO_T (string *ZOn)
+ZRany_Hname(string *ZOn)
 {
     string ZIn;
 
@@ -1137,8 +1126,7 @@ ZRany_Hname PROTO_N ((ZOn))
 }
 
 static void
-ZRlink_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_LINK_LIST *ZOp)
+ZRlink_Hlist(SID_LINK_LIST *ZOp)
 {
     SID_LINK_LIST ZIp;
 
@@ -1203,7 +1191,7 @@ ZRlink_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRslist_Hlist PROTO_Z ()
+ZRslist_Hlist(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -1234,7 +1222,7 @@ ZRslist_Hlist PROTO_Z ()
 }
 
 static void
-ZRsort_Hitem PROTO_Z ()
+ZRsort_Hitem(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -1420,7 +1408,7 @@ ZRsort_Hitem PROTO_Z ()
 }
 
 static void
-ZRsort_Hlist PROTO_Z ()
+ZRsort_Hlist(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -1465,8 +1453,7 @@ ZRsort_Hlist PROTO_Z ()
 }
 
 static void
-ZRconstruct_Hpack PROTO_N ((ZIs, ZOp))
-  PROTO_T (SORT ZIs X SID_CONS_LIST *ZOp)
+ZRconstruct_Hpack(SORT ZIs, SID_CONS_LIST *ZOp)
 {
     SID_CONS_LIST ZIp;
 
@@ -1522,8 +1509,7 @@ ZRconstruct_Hpack PROTO_N ((ZIs, ZOp))
 }
 
 static void
-ZRconstruct_Hextra PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT ZIc)
+ZRconstruct_Hextra(CONSTRUCT ZIc)
 {
     switch (CURRENT_TERMINAL) {
       case 29:
@@ -1548,8 +1534,7 @@ ZRconstruct_Hextra PROTO_N ((ZIc))
 }
 
 static void
-ZRboundary_Hitem PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT ZIc)
+ZRboundary_Hitem(CONSTRUCT ZIc)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -1609,8 +1594,7 @@ ZRboundary_Hitem PROTO_N ((ZIc))
 }
 
 static void
-ZRconstruct_Hitem PROTO_N ((ZIs, ZOc))
-  PROTO_T (SORT ZIs X CONSTRUCT *ZOc)
+ZRconstruct_Hitem(SORT ZIs, CONSTRUCT *ZOc)
 {
     CONSTRUCT ZIc;
 
@@ -1808,8 +1792,7 @@ ZRconstruct_Hitem PROTO_N ((ZIs, ZOc))
 }
 
 static void
-ZRconstruct_Hlist PROTO_N ((ZIs, ZOp))
-  PROTO_T (SORT ZIs X SID_CONS_LIST *ZOp)
+ZRconstruct_Hlist(SORT ZIs, SID_CONS_LIST *ZOp)
 {
     SID_CONS_LIST ZIp;
 
@@ -1874,8 +1857,7 @@ ZRconstruct_Hlist PROTO_N ((ZIs, ZOp))
 }
 
 static void
-ZRparam_Hpack PROTO_N ((ZOp))
-  PROTO_T (SID_PARAM_LIST *ZOp)
+ZRparam_Hpack(SID_PARAM_LIST *ZOp)
 {
     SID_PARAM_LIST ZIp;
 
@@ -1931,7 +1913,7 @@ ZRparam_Hpack PROTO_N ((ZOp))
 }
 
 static void
-ZRedge_Hpack PROTO_Z ()
+ZRedge_Hpack(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -1974,8 +1956,7 @@ ZRedge_Hpack PROTO_Z ()
 }
 
 void
-read_spec PROTO_N ((ZOspec))
-  PROTO_T (SPECIFICATION *ZOspec)
+read_spec(SPECIFICATION *ZOspec)
 {
     SPECIFICATION ZIspec;
 
@@ -2391,7 +2372,7 @@ read_spec PROTO_N ((ZOspec))
 }
 
 static void
-ZRoption_Hpack PROTO_Z ()
+ZRoption_Hpack(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -2434,7 +2415,7 @@ ZRoption_Hpack PROTO_Z ()
 }
 
 static void
-ZRclist_Hpack PROTO_Z ()
+ZRclist_Hpack(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -2477,8 +2458,7 @@ ZRclist_Hpack PROTO_Z ()
 }
 
 static void
-ZRparam_Hitem PROTO_N ((ZOa))
-  PROTO_T (PARAMETER *ZOa)
+ZRparam_Hitem(PARAMETER *ZOa)
 {
     PARAMETER ZIa;
 
@@ -2534,7 +2514,7 @@ ZRparam_Hitem PROTO_N ((ZOa))
 }
 
 static void
-ZRedge_Hitem PROTO_Z ()
+ZRedge_Hitem(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -2634,8 +2614,7 @@ ZRedge_Hitem PROTO_Z ()
 }
 
 static void
-ZRkind_Hpack PROTO_N ((ZOp))
-  PROTO_T (SID_LINK_LIST *ZOp)
+ZRkind_Hpack(SID_LINK_LIST *ZOp)
 {
     SID_LINK_LIST ZIp;
 
@@ -2691,8 +2670,7 @@ ZRkind_Hpack PROTO_N ((ZOp))
 }
 
 static void
-ZRnumber_Hlist PROTO_N ((ZIc))
-  PROTO_T (CONSTRUCT ZIc)
+ZRnumber_Hlist(CONSTRUCT ZIc)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;
@@ -2737,7 +2715,7 @@ ZRnumber_Hlist PROTO_N ((ZIc))
 }
 
 static void
-ZRoption_Hitem PROTO_Z ()
+ZRoption_Hitem(void)
 {
     if ((CURRENT_TERMINAL) == 32) {
 	return;

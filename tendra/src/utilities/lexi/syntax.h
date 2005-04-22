@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/lexi/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/lexi/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -48,7 +48,7 @@ extern char *sid_prefix ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_lex PROTO_S ((void));
+extern void read_lex(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

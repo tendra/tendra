@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/tools/pl/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/tools/pl/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -153,132 +153,132 @@ unsigned long MINOR_NO = minor_version;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_label PROTO_S ((void));
-static void ZR641 PROTO_S ((PTR_Tokdec *));
-static void ZRfull__sortname PROTO_S ((void));
-static void ZR643 PROTO_S ((int *));
-static void ZR645 PROTO_S ((void));
-extern void read_variety PROTO_S ((void));
-static void ZR646 PROTO_S ((void));
-static void ZRtok__formal__list__opt PROTO_S ((void));
-static void ZR647 PROTO_S ((void));
-static void ZR648 PROTO_S ((void));
-static void ZR650 PROTO_S ((void));
-static void ZRsortname__list PROTO_S ((void));
-static void ZRsignature__opt PROTO_S ((void));
-static void ZRexp__sequence PROTO_S ((void));
-static void ZRrange PROTO_S ((void));
-static void ZR654 PROTO_S ((void));
-static void ZR655 PROTO_S ((TDF *, PTR_TDF *));
-static void ZRrange__label__list PROTO_S ((void));
-static void ZR656 PROTO_S ((void));
-extern void read_shape PROTO_S ((void));
-static void ZR657 PROTO_S ((void));
-static void ZRaccess__list PROTO_S ((void));
-static void ZR660 PROTO_S ((TDF *, TDF *, TDF *, TDF *));
-static void ZRtagshacc__list__opt PROTO_S ((void));
-static void ZR661 PROTO_S ((TDF *, PTR_TDF *));
-static void ZRlabdest__opt PROTO_S ((void));
-static void ZR662 PROTO_S ((PTR_TDF *));
-static void ZRalignment__list__opt PROTO_S ((void));
-static void ZR663 PROTO_S ((void));
-extern void read_string PROTO_S ((void));
-static void ZR664 PROTO_S ((void));
-static void ZRotagexp__list PROTO_S ((void));
-static void ZRvariety__sign PROTO_S ((void));
-static void ZR668 PROTO_S ((void));
-static void ZR669 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *));
-static void ZR670 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *));
-extern void read_signed_nat PROTO_S ((void));
-static void ZR672 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_char *));
-extern void read_token PROTO_S ((void));
-static void ZR673 PROTO_S ((void));
-static void ZRnat__not__int PROTO_S ((void));
-static void ZRshape__body PROTO_S ((void));
-static void ZRrepeat__starter__opt PROTO_S ((void));
-static void ZR674 PROTO_S ((void));
-static void ZRfield__list PROTO_S ((void));
-static void ZR675 PROTO_S ((void));
-static void ZR676 PROTO_S ((void));
-static void ZR677 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *));
-static void ZRrounding__mode__opt PROTO_S ((void));
-static void ZR678 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *));
-static void ZRnonst__shape PROTO_S ((void));
-static void ZR679 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *));
-static void ZRaccess__opt PROTO_S ((void));
-extern void read_error_code PROTO_S ((void));
-static void ZRpostlude__opt PROTO_S ((void));
-static void ZR680 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *));
-static void ZRexponent__opt PROTO_S ((void));
-static void ZR681 PROTO_S ((TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *));
-static void ZRclosed__exp PROTO_S ((void));
-extern void read_bool PROTO_S ((void));
-static void ZRvarintro__opt PROTO_S ((void));
-extern void read_ntest PROTO_S ((void));
-extern void read_bitfield_variety PROTO_S ((void));
-static void ZRsigned__nat__body PROTO_S ((void));
-static void ZRlabset__opt PROTO_S ((void));
-static void ZRkeep__item PROTO_S ((void));
-static void ZRstruct__def PROTO_S ((void));
-static void ZRnonst__shape__body PROTO_S ((void));
-extern void read_tag PROTO_S ((void));
-static void ZRvariety__opt PROTO_S ((void));
-extern void read_nat_option PROTO_S ((void));
-static void ZRsortname__list__opt PROTO_S ((void));
-extern void read_floating_variety PROTO_S ((void));
-static void ZRtagshacc PROTO_S ((void));
-static void ZRelement__list__opt PROTO_S ((void));
-extern void read_nat PROTO_S ((void));
-extern void read_alignment PROTO_S ((void));
-static void ZRvarpar__opt PROTO_S ((void));
-static void ZRkeep__list PROTO_S ((void));
-static void ZRproc__def PROTO_S ((void));
-extern void read_error_code_list PROTO_S ((void));
-static void ZRcallee__var__opt PROTO_S ((void));
-static void ZRtag__dec PROTO_S ((void));
-static void ZRtag__intro PROTO_S ((void));
-extern void read_exp PROTO_S ((void));
-static void ZRtag__def PROTO_S ((void));
-static void ZRotagexp__list__opt PROTO_S ((void));
-static void ZRtok__formal__list PROTO_S ((void));
-static void ZRuntidy__opt PROTO_S ((void));
-static void ZRcaller__var__opt PROTO_S ((void));
-static void ZRproc__def__body PROTO_S ((void));
-static void ZRlabelled__list PROTO_S ((void));
-static void ZRoffset__exp__list PROTO_S ((void));
-static void ZRbitfield__sign PROTO_S ((void));
-static void ZRtok__dec PROTO_S ((void));
-static void ZRexp__comma__list PROTO_S ((void));
-static void ZRexp__body PROTO_S ((void));
-static void ZRtok__def PROTO_S ((void));
-static void ZRunary__exp PROTO_S ((void));
-static void ZRtagshacc__list PROTO_S ((void));
-static void ZRshapetok PROTO_S ((void));
-static void ZRalignment__list PROTO_S ((void));
-extern void read_error_treatment PROTO_S ((void));
-static void ZRcallee PROTO_S ((void));
-extern void read_al_tag PROTO_S ((void));
-extern void read_exp_list PROTO_S ((void));
-static void ZRelement PROTO_S ((void));
-static void ZR622 PROTO_S ((void));
-static void ZRtok__def__body PROTO_S ((void));
-static void ZRinteger PROTO_S ((void));
-extern void read_transfer_mode PROTO_S ((void));
-extern void read_rounding_mode PROTO_S ((void));
-static void ZR625 PROTO_S ((void));
-static void ZR626 PROTO_S ((void));
-extern void read_access PROTO_S ((void));
-static void ZR627 PROTO_S ((void));
-static void ZR628 PROTO_S ((void));
-static void ZR629 PROTO_S ((void));
-static void ZR630 PROTO_S ((void));
-static void ZR632 PROTO_S ((void));
-static void ZRkeep__list__opt PROTO_S ((void));
-static void ZR633 PROTO_S ((void));
-static void ZRal__tag__def PROTO_S ((void));
-static void ZRotagexp PROTO_S ((void));
-extern void read_program PROTO_S ((void));
-static void ZR634 PROTO_S ((void));
+extern void read_label(void);
+static void ZR641(PTR_Tokdec *);
+static void ZRfull__sortname(void);
+static void ZR643(int *);
+static void ZR645(void);
+extern void read_variety(void);
+static void ZR646(void);
+static void ZRtok__formal__list__opt(void);
+static void ZR647(void);
+static void ZR648(void);
+static void ZR650(void);
+static void ZRsortname__list(void);
+static void ZRsignature__opt(void);
+static void ZRexp__sequence(void);
+static void ZRrange(void);
+static void ZR654(void);
+static void ZR655(TDF *, PTR_TDF *);
+static void ZRrange__label__list(void);
+static void ZR656(void);
+extern void read_shape(void);
+static void ZR657(void);
+static void ZRaccess__list(void);
+static void ZR660(TDF *, TDF *, TDF *, TDF *);
+static void ZRtagshacc__list__opt(void);
+static void ZR661(TDF *, PTR_TDF *);
+static void ZRlabdest__opt(void);
+static void ZR662(PTR_TDF *);
+static void ZRalignment__list__opt(void);
+static void ZR663(void);
+extern void read_string(void);
+static void ZR664(void);
+static void ZRotagexp__list(void);
+static void ZRvariety__sign(void);
+static void ZR668(void);
+static void ZR669(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *);
+static void ZR670(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *);
+extern void read_signed_nat(void);
+static void ZR672(TDF *, TDF *, PTR_TDF *, PTR_char *);
+extern void read_token(void);
+static void ZR673(void);
+static void ZRnat__not__int(void);
+static void ZRshape__body(void);
+static void ZRrepeat__starter__opt(void);
+static void ZR674(void);
+static void ZRfield__list(void);
+static void ZR675(void);
+static void ZR676(void);
+static void ZR677(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *);
+static void ZRrounding__mode__opt(void);
+static void ZR678(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *);
+static void ZRnonst__shape(void);
+static void ZR679(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, PTR_char *, int *);
+static void ZRaccess__opt(void);
+extern void read_error_code(void);
+static void ZRpostlude__opt(void);
+static void ZR680(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *);
+static void ZRexponent__opt(void);
+static void ZR681(TDF *, TDF *, PTR_TDF *, PTR_Tagdec *, int *);
+static void ZRclosed__exp(void);
+extern void read_bool(void);
+static void ZRvarintro__opt(void);
+extern void read_ntest(void);
+extern void read_bitfield_variety(void);
+static void ZRsigned__nat__body(void);
+static void ZRlabset__opt(void);
+static void ZRkeep__item(void);
+static void ZRstruct__def(void);
+static void ZRnonst__shape__body(void);
+extern void read_tag(void);
+static void ZRvariety__opt(void);
+extern void read_nat_option(void);
+static void ZRsortname__list__opt(void);
+extern void read_floating_variety(void);
+static void ZRtagshacc(void);
+static void ZRelement__list__opt(void);
+extern void read_nat(void);
+extern void read_alignment(void);
+static void ZRvarpar__opt(void);
+static void ZRkeep__list(void);
+static void ZRproc__def(void);
+extern void read_error_code_list(void);
+static void ZRcallee__var__opt(void);
+static void ZRtag__dec(void);
+static void ZRtag__intro(void);
+extern void read_exp(void);
+static void ZRtag__def(void);
+static void ZRotagexp__list__opt(void);
+static void ZRtok__formal__list(void);
+static void ZRuntidy__opt(void);
+static void ZRcaller__var__opt(void);
+static void ZRproc__def__body(void);
+static void ZRlabelled__list(void);
+static void ZRoffset__exp__list(void);
+static void ZRbitfield__sign(void);
+static void ZRtok__dec(void);
+static void ZRexp__comma__list(void);
+static void ZRexp__body(void);
+static void ZRtok__def(void);
+static void ZRunary__exp(void);
+static void ZRtagshacc__list(void);
+static void ZRshapetok(void);
+static void ZRalignment__list(void);
+extern void read_error_treatment(void);
+static void ZRcallee(void);
+extern void read_al_tag(void);
+extern void read_exp_list(void);
+static void ZRelement(void);
+static void ZR622(void);
+static void ZRtok__def__body(void);
+static void ZRinteger(void);
+extern void read_transfer_mode(void);
+extern void read_rounding_mode(void);
+static void ZR625(void);
+static void ZR626(void);
+extern void read_access(void);
+static void ZR627(void);
+static void ZR628(void);
+static void ZR629(void);
+static void ZR630(void);
+static void ZR632(void);
+static void ZRkeep__list__opt(void);
+static void ZR633(void);
+static void ZRal__tag__def(void);
+static void ZRotagexp(void);
+extern void read_program(void);
+static void ZR634(void);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -286,7 +286,7 @@ static void ZR634 PROTO_S ((void));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 void
-read_label PROTO_Z ()
+read_label(void)
 {
   ZL2_label:;
     switch (CURRENT_TERMINAL) {
@@ -353,8 +353,7 @@ read_label PROTO_Z ()
 }
 
 static void
-ZR641 PROTO_N ((ZI640))
-  PROTO_T (PTR_Tokdec *ZI640)
+ZR641(PTR_Tokdec *ZI640)
 {
     switch (CURRENT_TERMINAL) {
       case 43:
@@ -421,7 +420,7 @@ ZR641 PROTO_N ((ZI640))
 }
 
 static void
-ZRfull__sortname PROTO_Z ()
+ZRfull__sortname(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -545,8 +544,7 @@ ZRfull__sortname PROTO_Z ()
 }
 
 static void
-ZR643 PROTO_N ((ZI642))
-  PROTO_T (int *ZI642)
+ZR643(int *ZI642)
 {
     switch (CURRENT_TERMINAL) {
       case 41:
@@ -613,7 +611,7 @@ ZR643 PROTO_N ((ZI642))
 }
 
 static void
-ZR645 PROTO_Z ()
+ZR645(void)
 {
     switch (CURRENT_TERMINAL) {
       case 78:
@@ -771,7 +769,7 @@ ZR645 PROTO_Z ()
 }
 
 void
-read_variety PROTO_Z ()
+read_variety(void)
 {
   ZL2_variety:;
     switch (CURRENT_TERMINAL) {
@@ -965,7 +963,7 @@ read_variety PROTO_Z ()
 }
 
 static void
-ZR646 PROTO_Z ()
+ZR646(void)
 {
     switch (CURRENT_TERMINAL) {
       case 79:
@@ -1058,7 +1056,7 @@ ZR646 PROTO_Z ()
 }
 
 static void
-ZRtok__formal__list__opt PROTO_Z ()
+ZRtok__formal__list__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 54:
@@ -1088,7 +1086,7 @@ ZRtok__formal__list__opt PROTO_Z ()
 }
 
 static void
-ZR647 PROTO_Z ()
+ZR647(void)
 {
     switch (CURRENT_TERMINAL) {
       case 54:
@@ -1163,7 +1161,7 @@ ZR647 PROTO_Z ()
 }
 
 static void
-ZR648 PROTO_Z ()
+ZR648(void)
 {
     switch (CURRENT_TERMINAL) {
       case 76:
@@ -1329,7 +1327,7 @@ ZR648 PROTO_Z ()
 }
 
 static void
-ZR650 PROTO_Z ()
+ZR650(void)
 {
     switch (CURRENT_TERMINAL) {
       case 21:
@@ -1396,7 +1394,7 @@ ZR650 PROTO_Z ()
 }
 
 static void
-ZRsortname__list PROTO_Z ()
+ZRsortname__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1416,7 +1414,7 @@ ZRsortname__list PROTO_Z ()
 }
 
 static void
-ZRsignature__opt PROTO_Z ()
+ZRsignature__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 85: case 104: case 105: case 107:
@@ -1444,7 +1442,7 @@ ZRsignature__opt PROTO_Z ()
 }
 
 static void
-ZRexp__sequence PROTO_Z ()
+ZRexp__sequence(void)
 {
     switch (CURRENT_TERMINAL) {
       case 10: case 19: case 22: case 28: case 41:
@@ -1496,7 +1494,7 @@ ZRexp__sequence PROTO_Z ()
 }
 
 static void
-ZRrange PROTO_Z ()
+ZRrange(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1522,7 +1520,7 @@ ZRrange PROTO_Z ()
 }
 
 static void
-ZR654 PROTO_Z ()
+ZR654(void)
 {
     switch (CURRENT_TERMINAL) {
       case 21:
@@ -1577,8 +1575,7 @@ ZR654 PROTO_Z ()
 }
 
 static void
-ZR655 PROTO_N ((ZIa, ZIb))
-  PROTO_T (TDF *ZIa X PTR_TDF *ZIb)
+ZR655(TDF *ZIa, PTR_TDF *ZIb)
 {
     switch (CURRENT_TERMINAL) {
       case 24:
@@ -1624,7 +1621,7 @@ ZR655 PROTO_N ((ZIa, ZIb))
 }
 
 static void
-ZRrange__label__list PROTO_Z ()
+ZRrange__label__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1662,7 +1659,7 @@ ZRrange__label__list PROTO_Z ()
 }
 
 static void
-ZR656 PROTO_Z ()
+ZR656(void)
 {
     switch (CURRENT_TERMINAL) {
       case 10: case 19: case 22: case 28: case 41:
@@ -1693,7 +1690,7 @@ ZR656 PROTO_Z ()
 }
 
 void
-read_shape PROTO_Z ()
+read_shape(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1735,7 +1732,7 @@ read_shape PROTO_Z ()
 }
 
 static void
-ZR657 PROTO_Z ()
+ZR657(void)
 {
     switch (CURRENT_TERMINAL) {
       case 23:
@@ -1761,7 +1758,7 @@ ZR657 PROTO_Z ()
 }
 
 static void
-ZRaccess__list PROTO_Z ()
+ZRaccess__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1789,8 +1786,7 @@ ZRaccess__list PROTO_Z ()
 }
 
 static void
-ZR660 PROTO_N ((ZIa, ZIb, ZIc, ZId))
-  PROTO_T (TDF *ZIa X TDF *ZIb X TDF *ZIc X TDF *ZId)
+ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 {
     switch (CURRENT_TERMINAL) {
       case 78:
@@ -1930,7 +1926,7 @@ ZR660 PROTO_N ((ZIa, ZIb, ZIc, ZId))
 }
 
 static void
-ZRtagshacc__list__opt PROTO_Z ()
+ZRtagshacc__list__opt(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -1953,8 +1949,7 @@ ZRtagshacc__list__opt PROTO_Z ()
 }
 
 static void
-ZR661 PROTO_N ((ZIa, ZIb))
-  PROTO_T (TDF *ZIa X PTR_TDF *ZIb)
+ZR661(TDF *ZIa, PTR_TDF *ZIb)
 {
     switch (CURRENT_TERMINAL) {
       default:
@@ -2000,7 +1995,7 @@ ZR661 PROTO_N ((ZIa, ZIb))
 }
 
 static void
-ZRlabdest__opt PROTO_Z ()
+ZRlabdest__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 11:
@@ -2045,8 +2040,7 @@ ZRlabdest__opt PROTO_Z ()
 }
 
 static void
-ZR662 PROTO_N ((ZIa))
-  PROTO_T (PTR_TDF *ZIa)
+ZR662(PTR_TDF *ZIa)
 {
     switch (CURRENT_TERMINAL) {
       case 24:
@@ -2089,7 +2083,7 @@ ZR662 PROTO_N ((ZIa))
 }
 
 static void
-ZRalignment__list__opt PROTO_Z ()
+ZRalignment__list__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       default:
@@ -2139,7 +2133,7 @@ ZRalignment__list__opt PROTO_Z ()
 }
 
 static void
-ZR663 PROTO_Z ()
+ZR663(void)
 {
     switch (CURRENT_TERMINAL) {
       case 25:
@@ -2174,7 +2168,7 @@ ZR663 PROTO_Z ()
 }
 
 void
-read_string PROTO_Z ()
+read_string(void)
 {
   ZL2_string:;
     switch (CURRENT_TERMINAL) {
@@ -2325,7 +2319,7 @@ read_string PROTO_Z ()
 }
 
 static void
-ZR664 PROTO_Z ()
+ZR664(void)
 {
     switch (CURRENT_TERMINAL) {
       case 54:
@@ -2349,7 +2343,7 @@ ZR664 PROTO_Z ()
 }
 
 static void
-ZRotagexp__list PROTO_Z ()
+ZRotagexp__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -2377,7 +2371,7 @@ ZRotagexp__list PROTO_Z ()
 }
 
 static void
-ZRvariety__sign PROTO_Z ()
+ZRvariety__sign(void)
 {
     switch (CURRENT_TERMINAL) {
       case 101:
@@ -2412,7 +2406,7 @@ ZRvariety__sign PROTO_Z ()
 }
 
 static void
-ZR668 PROTO_Z ()
+ZR668(void)
 {
     switch (CURRENT_TERMINAL) {
       case 11:
@@ -2447,8 +2441,7 @@ ZR668 PROTO_Z ()
 }
 
 static void
-ZR669 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X int *ZIe)
+ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -2521,8 +2514,7 @@ ZR669 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe))
 }
 
 static void
-ZR670 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X int *ZIe)
+ZR670(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -2583,7 +2575,7 @@ ZR670 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe))
 }
 
 void
-read_signed_nat PROTO_Z ()
+read_signed_nat(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -2606,8 +2598,7 @@ read_signed_nat PROTO_Z ()
 }
 
 static void
-ZR672 PROTO_N ((ZIa, ZIb, ZIc, ZId))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_char *ZId)
+ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 {
     switch (CURRENT_TERMINAL) {
       case 3:
@@ -2768,7 +2759,7 @@ ZR672 PROTO_N ((ZIa, ZIb, ZIc, ZId))
 }
 
 void
-read_token PROTO_Z ()
+read_token(void)
 {
   ZL2_token:;
     switch (CURRENT_TERMINAL) {
@@ -2930,7 +2921,7 @@ read_token PROTO_Z ()
 }
 
 static void
-ZR673 PROTO_Z ()
+ZR673(void)
 {
     switch (CURRENT_TERMINAL) {
       default:
@@ -2976,7 +2967,7 @@ ZR673 PROTO_Z ()
 }
 
 static void
-ZRnat__not__int PROTO_Z ()
+ZRnat__not__int(void)
 {
   ZL2_nat__not__int:;
     switch (CURRENT_TERMINAL) {
@@ -3118,7 +3109,7 @@ ZRnat__not__int PROTO_Z ()
 }
 
 static void
-ZRshape__body PROTO_Z ()
+ZRshape__body(void)
 {
     switch (CURRENT_TERMINAL) {
       case 32:
@@ -3227,7 +3218,7 @@ ZRshape__body PROTO_Z ()
 }
 
 static void
-ZRrepeat__starter__opt PROTO_Z ()
+ZRrepeat__starter__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 78:
@@ -3264,7 +3255,7 @@ ZRrepeat__starter__opt PROTO_Z ()
 }
 
 static void
-ZR674 PROTO_Z ()
+ZR674(void)
 {
     switch (CURRENT_TERMINAL) {
       default:
@@ -3335,7 +3326,7 @@ ZR674 PROTO_Z ()
 }
 
 static void
-ZRfield__list PROTO_Z ()
+ZRfield__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -3436,7 +3427,7 @@ ZRfield__list PROTO_Z ()
 }
 
 static void
-ZR675 PROTO_Z ()
+ZR675(void)
 {
     switch (CURRENT_TERMINAL) {
       case 21:
@@ -3487,7 +3478,7 @@ ZR675 PROTO_Z ()
 }
 
 static void
-ZR676 PROTO_Z ()
+ZR676(void)
 {
     switch (CURRENT_TERMINAL) {
       case 24:
@@ -3586,8 +3577,7 @@ ZR676 PROTO_Z ()
 }
 
 static void
-ZR677 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X PTR_char *ZIe X int *ZIf)
+ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -3653,7 +3643,7 @@ ZR677 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
 }
 
 static void
-ZRrounding__mode__opt PROTO_Z ()
+ZRrounding__mode__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 89: case 90: case 91:
@@ -3683,8 +3673,7 @@ ZRrounding__mode__opt PROTO_Z ()
 }
 
 static void
-ZR678 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X PTR_char *ZIe X int *ZIf)
+ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -3750,7 +3739,7 @@ ZR678 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
 }
 
 static void
-ZRnonst__shape PROTO_Z ()
+ZRnonst__shape(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -3788,8 +3777,7 @@ ZRnonst__shape PROTO_Z ()
 }
 
 static void
-ZR679 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X PTR_char *ZIe X int *ZIf)
+ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -3879,7 +3867,7 @@ ZR679 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIe, ZIf))
 }
 
 static void
-ZRaccess__opt PROTO_Z ()
+ZRaccess__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 79:
@@ -3910,7 +3898,7 @@ ZRaccess__opt PROTO_Z ()
 }
 
 void
-read_error_code PROTO_Z ()
+read_error_code(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -3945,7 +3933,7 @@ read_error_code PROTO_Z ()
 }
 
 static void
-ZRpostlude__opt PROTO_Z ()
+ZRpostlude__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 93:
@@ -3976,8 +3964,7 @@ ZRpostlude__opt PROTO_Z ()
 }
 
 static void
-ZR680 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIf))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X int *ZIf)
+ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -4046,7 +4033,7 @@ ZR680 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIf))
 }
 
 static void
-ZRexponent__opt PROTO_Z ()
+ZRexponent__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 34:
@@ -4077,8 +4064,7 @@ ZRexponent__opt PROTO_Z ()
 }
 
 static void
-ZR681 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIf))
-  PROTO_T (TDF *ZIa X TDF *ZIb X PTR_TDF *ZIc X PTR_Tagdec *ZId X int *ZIf)
+ZR681(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 {
     switch (CURRENT_TERMINAL) {
       case 36:
@@ -4147,7 +4133,7 @@ ZR681 PROTO_N ((ZIa, ZIb, ZIc, ZId, ZIf))
 }
 
 static void
-ZRclosed__exp PROTO_Z ()
+ZRclosed__exp(void)
 {
     switch (CURRENT_TERMINAL) {
       case 58:
@@ -4433,7 +4419,7 @@ ZRclosed__exp PROTO_Z ()
 }
 
 void
-read_bool PROTO_Z ()
+read_bool(void)
 {
   ZL2_bool:;
     switch (CURRENT_TERMINAL) {
@@ -4573,7 +4559,7 @@ read_bool PROTO_Z ()
 }
 
 static void
-ZRvarintro__opt PROTO_Z ()
+ZRvarintro__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 129:
@@ -4609,7 +4595,7 @@ ZRvarintro__opt PROTO_Z ()
 }
 
 void
-read_ntest PROTO_Z ()
+read_ntest(void)
 {
   ZL2_ntest:;
     switch (CURRENT_TERMINAL) {
@@ -4758,7 +4744,7 @@ read_ntest PROTO_Z ()
 }
 
 void
-read_bitfield_variety PROTO_Z ()
+read_bitfield_variety(void)
 {
   ZL2_bitfield__variety:;
     switch (CURRENT_TERMINAL) {
@@ -4932,7 +4918,7 @@ read_bitfield_variety PROTO_Z ()
 }
 
 static void
-ZRsigned__nat__body PROTO_Z ()
+ZRsigned__nat__body(void)
 {
   ZL2_signed__nat__body:;
     switch (CURRENT_TERMINAL) {
@@ -5125,7 +5111,7 @@ ZRsigned__nat__body PROTO_Z ()
 }
 
 static void
-ZRlabset__opt PROTO_Z ()
+ZRlabset__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       default:
@@ -5184,7 +5170,7 @@ ZRlabset__opt PROTO_Z ()
 }
 
 static void
-ZRkeep__item PROTO_Z ()
+ZRkeep__item(void)
 {
     switch (CURRENT_TERMINAL) {
       case 2: case 5: case 9: case 15: case 18:
@@ -5321,7 +5307,7 @@ ZRkeep__item PROTO_Z ()
 }
 
 static void
-ZRstruct__def PROTO_Z ()
+ZRstruct__def(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -5393,7 +5379,7 @@ ZRstruct__def PROTO_Z ()
 }
 
 static void
-ZRnonst__shape__body PROTO_Z ()
+ZRnonst__shape__body(void)
 {
     switch (CURRENT_TERMINAL) {
       case 83:
@@ -5471,7 +5457,7 @@ ZRnonst__shape__body PROTO_Z ()
 }
 
 void
-read_tag PROTO_Z ()
+read_tag(void)
 {
   ZL2_tag:;
     switch (CURRENT_TERMINAL) {
@@ -5548,7 +5534,7 @@ read_tag PROTO_Z ()
 }
 
 static void
-ZRvariety__opt PROTO_Z ()
+ZRvariety__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 78:
@@ -5588,7 +5574,7 @@ ZRvariety__opt PROTO_Z ()
 }
 
 void
-read_nat_option PROTO_Z ()
+read_nat_option(void)
 {
     switch (CURRENT_TERMINAL) {
       case 22: case 55: case 69: case 70: case 71:
@@ -5628,7 +5614,7 @@ read_nat_option PROTO_Z ()
 }
 
 static void
-ZRsortname__list__opt PROTO_Z ()
+ZRsortname__list__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 1: case 4: case 8: case 14: case 17:
@@ -5661,7 +5647,7 @@ ZRsortname__list__opt PROTO_Z ()
 }
 
 void
-read_floating_variety PROTO_Z ()
+read_floating_variety(void)
 {
   ZL2_floating__variety:;
     switch (CURRENT_TERMINAL) {
@@ -5825,7 +5811,7 @@ read_floating_variety PROTO_Z ()
 }
 
 static void
-ZRtagshacc PROTO_Z ()
+ZRtagshacc(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -5901,7 +5887,7 @@ ZRtagshacc PROTO_Z ()
 }
 
 static void
-ZRelement__list__opt PROTO_Z ()
+ZRelement__list__opt(void)
 {
   ZL2_element__list__opt:;
     switch (CURRENT_TERMINAL) {
@@ -5935,7 +5921,7 @@ ZRelement__list__opt PROTO_Z ()
 }
 
 void
-read_nat PROTO_Z ()
+read_nat(void)
 {
   ZL2_nat:;
     switch (CURRENT_TERMINAL) {
@@ -5977,7 +5963,7 @@ read_nat PROTO_Z ()
 }
 
 void
-read_alignment PROTO_Z ()
+read_alignment(void)
 {
   ZL2_alignment:;
     switch (CURRENT_TERMINAL) {
@@ -6154,7 +6140,7 @@ read_alignment PROTO_Z ()
 }
 
 static void
-ZRvarpar__opt PROTO_Z ()
+ZRvarpar__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 129:
@@ -6189,7 +6175,7 @@ ZRvarpar__opt PROTO_Z ()
 }
 
 static void
-ZRkeep__list PROTO_Z ()
+ZRkeep__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -6220,7 +6206,7 @@ ZRkeep__list PROTO_Z ()
 }
 
 static void
-ZRproc__def PROTO_Z ()
+ZRproc__def(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -6309,7 +6295,7 @@ ZRproc__def PROTO_Z ()
 }
 
 void
-read_error_code_list PROTO_Z ()
+read_error_code_list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -6341,7 +6327,7 @@ read_error_code_list PROTO_Z ()
 }
 
 static void
-ZRcallee__var__opt PROTO_Z ()
+ZRcallee__var__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 31:
@@ -6367,7 +6353,7 @@ ZRcallee__var__opt PROTO_Z ()
 }
 
 static void
-ZRtag__dec PROTO_Z ()
+ZRtag__dec(void)
 {
     switch (CURRENT_TERMINAL) {
       case 27:
@@ -6599,7 +6585,7 @@ ZRtag__dec PROTO_Z ()
 }
 
 static void
-ZRtag__intro PROTO_Z ()
+ZRtag__intro(void)
 {
     switch (CURRENT_TERMINAL) {
       case 61:
@@ -6716,7 +6702,7 @@ ZRtag__intro PROTO_Z ()
 }
 
 void
-read_exp PROTO_Z ()
+read_exp(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -6773,7 +6759,7 @@ read_exp PROTO_Z ()
 }
 
 static void
-ZRtag__def PROTO_Z ()
+ZRtag__def(void)
 {
     switch (CURRENT_TERMINAL) {
       case 26:
@@ -7014,7 +7000,7 @@ ZRtag__def PROTO_Z ()
 }
 
 static void
-ZRotagexp__list__opt PROTO_Z ()
+ZRotagexp__list__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 10: case 19: case 22: case 28: case 41:
@@ -7051,7 +7037,7 @@ ZRotagexp__list__opt PROTO_Z ()
 }
 
 static void
-ZRtok__formal__list PROTO_Z ()
+ZRtok__formal__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7106,7 +7092,7 @@ ZRtok__formal__list PROTO_Z ()
 }
 
 static void
-ZRuntidy__opt PROTO_Z ()
+ZRuntidy__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 23:
@@ -7146,7 +7132,7 @@ ZRuntidy__opt PROTO_Z ()
 }
 
 static void
-ZRcaller__var__opt PROTO_Z ()
+ZRcaller__var__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 31:
@@ -7172,7 +7158,7 @@ ZRcaller__var__opt PROTO_Z ()
 }
 
 static void
-ZRproc__def__body PROTO_Z ()
+ZRproc__def__body(void)
 {
     switch (CURRENT_TERMINAL) {
       case 50:
@@ -7389,7 +7375,7 @@ ZRproc__def__body PROTO_Z ()
 }
 
 static void
-ZRlabelled__list PROTO_Z ()
+ZRlabelled__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7456,7 +7442,7 @@ ZRlabelled__list PROTO_Z ()
 }
 
 static void
-ZRoffset__exp__list PROTO_Z ()
+ZRoffset__exp__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7487,7 +7473,7 @@ ZRoffset__exp__list PROTO_Z ()
 }
 
 static void
-ZRbitfield__sign PROTO_Z ()
+ZRbitfield__sign(void)
 {
     switch (CURRENT_TERMINAL) {
       case 16: case 17: case 18:
@@ -7523,7 +7509,7 @@ ZRbitfield__sign PROTO_Z ()
 }
 
 static void
-ZRtok__dec PROTO_Z ()
+ZRtok__dec(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7612,7 +7598,7 @@ ZRtok__dec PROTO_Z ()
 }
 
 static void
-ZRexp__comma__list PROTO_Z ()
+ZRexp__comma__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7648,7 +7634,7 @@ ZRexp__comma__list PROTO_Z ()
 }
 
 static void
-ZRexp__body PROTO_Z ()
+ZRexp__body(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7668,7 +7654,7 @@ ZRexp__body PROTO_Z ()
 }
 
 static void
-ZRtok__def PROTO_Z ()
+ZRtok__def(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -7747,7 +7733,7 @@ ZRtok__def PROTO_Z ()
 }
 
 static void
-ZRunary__exp PROTO_Z ()
+ZRunary__exp(void)
 {
   ZL2_unary__exp:;
     switch (CURRENT_TERMINAL) {
@@ -9033,7 +9019,7 @@ ZRunary__exp PROTO_Z ()
 }
 
 static void
-ZRtagshacc__list PROTO_Z ()
+ZRtagshacc__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -9069,7 +9055,7 @@ ZRtagshacc__list PROTO_Z ()
 }
 
 static void
-ZRshapetok PROTO_Z ()
+ZRshapetok(void)
 {
     switch (CURRENT_TERMINAL) {
       case 32:
@@ -9144,7 +9130,7 @@ ZRshapetok PROTO_Z ()
 }
 
 static void
-ZRalignment__list PROTO_Z ()
+ZRalignment__list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -9164,7 +9150,7 @@ ZRalignment__list PROTO_Z ()
 }
 
 void
-read_error_treatment PROTO_Z ()
+read_error_treatment(void)
 {
   ZL2_error__treatment:;
     switch (CURRENT_TERMINAL) {
@@ -9354,7 +9340,7 @@ read_error_treatment PROTO_Z ()
 }
 
 static void
-ZRcallee PROTO_Z ()
+ZRcallee(void)
 {
     switch (CURRENT_TERMINAL) {
       case 33:
@@ -9452,7 +9438,7 @@ ZRcallee PROTO_Z ()
 }
 
 void
-read_al_tag PROTO_Z ()
+read_al_tag(void)
 {
   ZL2_al__tag:;
     switch (CURRENT_TERMINAL) {
@@ -9520,7 +9506,7 @@ read_al_tag PROTO_Z ()
 }
 
 void
-read_exp_list PROTO_Z ()
+read_exp_list(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -9547,7 +9533,7 @@ read_exp_list PROTO_Z ()
 }
 
 static void
-ZRelement PROTO_Z ()
+ZRelement(void)
 {
     switch (CURRENT_TERMINAL) {
       case 6:
@@ -9625,7 +9611,7 @@ ZRelement PROTO_Z ()
 }
 
 static void
-ZR622 PROTO_Z ()
+ZR622(void)
 {
   ZL2_622:;
     switch (CURRENT_TERMINAL) {
@@ -9669,7 +9655,7 @@ ZR622 PROTO_Z ()
 }
 
 static void
-ZRtok__def__body PROTO_Z ()
+ZRtok__def__body(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -9758,7 +9744,7 @@ ZRtok__def__body PROTO_Z ()
 }
 
 static void
-ZRinteger PROTO_Z ()
+ZRinteger(void)
 {
     switch (CURRENT_TERMINAL) {
       case 55:
@@ -9791,7 +9777,7 @@ ZRinteger PROTO_Z ()
 }
 
 void
-read_transfer_mode PROTO_Z ()
+read_transfer_mode(void)
 {
   ZL2_transfer__mode:;
     switch (CURRENT_TERMINAL) {
@@ -9933,7 +9919,7 @@ read_transfer_mode PROTO_Z ()
 }
 
 void
-read_rounding_mode PROTO_Z ()
+read_rounding_mode(void)
 {
   ZL2_rounding__mode:;
     switch (CURRENT_TERMINAL) {
@@ -10073,7 +10059,7 @@ read_rounding_mode PROTO_Z ()
 }
 
 static void
-ZR625 PROTO_Z ()
+ZR625(void)
 {
   ZL2_625:;
     switch (CURRENT_TERMINAL) {
@@ -10104,7 +10090,7 @@ ZR625 PROTO_Z ()
 }
 
 static void
-ZR626 PROTO_Z ()
+ZR626(void)
 {
   ZL2_626:;
     switch (CURRENT_TERMINAL) {
@@ -10136,7 +10122,7 @@ ZR626 PROTO_Z ()
 }
 
 void
-read_access PROTO_Z ()
+read_access(void)
 {
   ZL2_access:;
     switch (CURRENT_TERMINAL) {
@@ -10281,7 +10267,7 @@ read_access PROTO_Z ()
 }
 
 static void
-ZR627 PROTO_Z ()
+ZR627(void)
 {
   ZL2_627:;
     switch (CURRENT_TERMINAL) {
@@ -10326,7 +10312,7 @@ ZR627 PROTO_Z ()
 }
 
 static void
-ZR628 PROTO_Z ()
+ZR628(void)
 {
   ZL2_628:;
     switch (CURRENT_TERMINAL) {
@@ -10416,7 +10402,7 @@ ZR628 PROTO_Z ()
 }
 
 static void
-ZR629 PROTO_Z ()
+ZR629(void)
 {
   ZL2_629:;
     switch (CURRENT_TERMINAL) {
@@ -10475,7 +10461,7 @@ ZR629 PROTO_Z ()
 }
 
 static void
-ZR630 PROTO_Z ()
+ZR630(void)
 {
     switch (CURRENT_TERMINAL) {
       case 35:
@@ -10779,7 +10765,7 @@ ZR630 PROTO_Z ()
 }
 
 static void
-ZR632 PROTO_Z ()
+ZR632(void)
 {
     switch (CURRENT_TERMINAL) {
       case 3: case 10: case 36: case 63: case 68:
@@ -10815,7 +10801,7 @@ ZR632 PROTO_Z ()
 }
 
 static void
-ZRkeep__list__opt PROTO_Z ()
+ZRkeep__list__opt(void)
 {
     switch (CURRENT_TERMINAL) {
       case 2: case 5: case 9: case 15: case 18:
@@ -10842,7 +10828,7 @@ ZRkeep__list__opt PROTO_Z ()
 }
 
 static void
-ZR633 PROTO_Z ()
+ZR633(void)
 {
   ZL2_633:;
     switch (CURRENT_TERMINAL) {
@@ -10942,7 +10928,7 @@ ZR633 PROTO_Z ()
 }
 
 static void
-ZRal__tag__def PROTO_Z ()
+ZRal__tag__def(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -11015,7 +11001,7 @@ ZRal__tag__def PROTO_Z ()
 }
 
 static void
-ZRotagexp PROTO_Z ()
+ZRotagexp(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -11042,7 +11028,7 @@ ZRotagexp PROTO_Z ()
 }
 
 void
-read_program PROTO_Z ()
+read_program(void)
 {
     if ((CURRENT_TERMINAL) == 130) {
 	return;
@@ -11066,7 +11052,7 @@ read_program PROTO_Z ()
 }
 
 static void
-ZR634 PROTO_Z ()
+ZR634(void)
 {
     switch (CURRENT_TERMINAL) {
       case 22: case 55:

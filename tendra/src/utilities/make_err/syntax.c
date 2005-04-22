@@ -12,7 +12,7 @@
 
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -21,18 +21,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -137,16 +137,16 @@ static PARAM find_param
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRparam_Hlist (LIST_PARAM *);
-static void ZRname_Hlist (LIST_NAME *, LIST_NAME *, LIST_NAME *);
-static void ZRname_Hseq (LIST_NAME *, LIST_NAME *, LIST_NAME *);
-static void ZRprops_Hlist (LIST_PROPERTY *);
-static void ZRmap_Hlist (LIST_PARAM, LIST_MAP *);
-static void ZRentry (ENTRY *);
-extern void read_errors (void);
-static void ZRmessage_Hlist (LIST_PARAM, LIST_MESSAGE *);
-static void ZRsignature (LIST_PARAM *);
-static void ZRentries_Hlist (LIST_ENTRY *);
+static void ZRparam_Hlist(LIST_PARAM *);
+static void ZRname_Hlist(LIST_NAME *, LIST_NAME *, LIST_NAME *);
+static void ZRname_Hseq(LIST_NAME *, LIST_NAME *, LIST_NAME *);
+static void ZRprops_Hlist(LIST_PROPERTY *);
+static void ZRmap_Hlist(LIST_PARAM, LIST_MAP *);
+static void ZRentry(ENTRY *);
+extern void read_errors(void);
+static void ZRmessage_Hlist(LIST_PARAM, LIST_MESSAGE *);
+static void ZRsignature(LIST_PARAM *);
+static void ZRentries_Hlist(LIST_ENTRY *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -154,7 +154,7 @@ static void ZRentries_Hlist (LIST_ENTRY *);
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRparam_Hlist (LIST_PARAM *ZOp)
+ZRparam_Hlist(LIST_PARAM *ZOp)
 {
     LIST_PARAM ZIp;
 
@@ -252,7 +252,7 @@ ZRparam_Hlist (LIST_PARAM *ZOp)
 }
 
 static void
-ZRname_Hlist (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
+ZRname_Hlist(LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 {
     LIST_NAME ZIp;
     LIST_NAME ZIq;
@@ -298,7 +298,7 @@ ZRname_Hlist (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 }
 
 static void
-ZRname_Hseq (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
+ZRname_Hseq(LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 {
     LIST_NAME ZIp;
     LIST_NAME ZIq;
@@ -456,7 +456,7 @@ ZRname_Hseq (LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
 }
 
 static void
-ZRprops_Hlist (LIST_PROPERTY *ZOp)
+ZRprops_Hlist(LIST_PROPERTY *ZOp)
 {
     LIST_PROPERTY ZIp;
 
@@ -524,7 +524,7 @@ ZRprops_Hlist (LIST_PROPERTY *ZOp)
 }
 
 static void
-ZRmap_Hlist (LIST_PARAM ZIs, LIST_MAP *ZOp)
+ZRmap_Hlist(LIST_PARAM ZIs, LIST_MAP *ZOp)
 {
     LIST_MAP ZIp;
 
@@ -630,7 +630,7 @@ ZRmap_Hlist (LIST_PARAM ZIs, LIST_MAP *ZOp)
 }
 
 static void
-ZRentry (ENTRY *ZOe)
+ZRentry(ENTRY *ZOe)
 {
     ENTRY ZIe;
 
@@ -879,7 +879,7 @@ ZRentry (ENTRY *ZOe)
 }
 
 void
-read_errors (void)
+read_errors(void)
 {
     if ((CURRENT_TERMINAL) == 26) {
 	return;
@@ -1382,7 +1382,7 @@ read_errors (void)
 }
 
 static void
-ZRmessage_Hlist (LIST_PARAM ZIs, LIST_MESSAGE *ZOp)
+ZRmessage_Hlist(LIST_PARAM ZIs, LIST_MESSAGE *ZOp)
 {
     LIST_MESSAGE ZIp;
 
@@ -1472,7 +1472,7 @@ ZRmessage_Hlist (LIST_PARAM ZIs, LIST_MESSAGE *ZOp)
 }
 
 static void
-ZRsignature (LIST_PARAM *ZOp)
+ZRsignature(LIST_PARAM *ZOp)
 {
     LIST_PARAM ZIp;
 
@@ -1506,7 +1506,7 @@ ZRsignature (LIST_PARAM *ZOp)
 }
 
 static void
-ZRentries_Hlist (LIST_ENTRY *ZOp)
+ZRentries_Hlist(LIST_ENTRY *ZOp)
 {
     LIST_ENTRY ZIp;
 

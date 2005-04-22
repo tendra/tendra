@@ -46,8 +46,8 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void extra_calculus (void);
-extern void read_calculus (void);
+extern void extra_calculus(void);
+extern void read_calculus(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

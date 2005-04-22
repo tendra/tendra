@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/tools/tspec/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/tools/tspec/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -108,84 +108,84 @@ static char *cv_qualifier [] = {
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRsimple_Htype PROTO_S ((SID_TYPE *));
-static void ZRparameter_Hdeclaration PROTO_S ((SID_TYPE *));
-static void ZRnat_Hdeclarator_Hlist PROTO_S ((SID_COMMAND *));
-static void ZRtype_Hdeclarator_Hlist PROTO_S ((SID_COMMAND *));
-static void ZRfunction_Hoperator PROTO_S ((SID_TYPE *));
-static void ZRexp_Hdeclarator_Hlist PROTO_S ((int, SID_TYPE, int, SID_COMMAND *));
-static void ZRsubset_Hkey PROTO_S ((SID_STRING *));
-static void ZRmacro_Hparam_Hdeclaration PROTO_S ((SID_TYPE *));
-static void ZRifdef_Hmacro_Hname PROTO_S ((SID_STRING *));
-static void ZR285 PROTO_S ((SID_TYPE *));
-static void ZRdefine_Hparam_Hlist PROTO_S ((SID_STRING *));
-static void ZRdeclarator PROTO_S ((SID_IDENTIFIER *, SID_TYPE *));
-static void ZRidentifier PROTO_S ((SID_IDENTIFIER *));
-static void ZRsubset_Hcommand PROTO_S ((SID_COMMAND *));
-static void ZRqualified_Htype PROTO_S ((SID_TYPE *));
-static void ZRabstract_Hdeclarator PROTO_S ((SID_STRING *, SID_TYPE *));
-static void ZR306 PROTO_S ((SID_STRING, SID_TYPE, SID_STRING *, SID_TYPE *));
-static void ZRparameter_Hlist PROTO_S ((SID_TYPE *));
-static void ZRinternal_Hname PROTO_S ((SID_STRING *, int *));
-static void ZRmacro_Hoperator PROTO_S ((SID_TYPE *));
-static void ZRenumerator_Hlist PROTO_S ((SID_COMMAND *));
-static void ZRexternal_Hname PROTO_S ((SID_STRING *, int *));
-static void ZRtype_Hqualifier PROTO_S ((unsigned *));
-static void ZR316 PROTO_S ((SID_IDENTIFIER, SID_TYPE, SID_IDENTIFIER *, SID_TYPE *));
-static void ZRtype_Hkey PROTO_S ((int *));
-static void ZRtype_Hqualifier_Hopt PROTO_S ((unsigned *));
-static void ZRconstant_Hvalue PROTO_S ((SID_STRING *));
-static void ZR318 PROTO_S ((SID_STRING *, SID_STRING *));
-static void ZRspec_Hcommand PROTO_S ((SID_COMMAND *));
-static void ZR319 PROTO_S ((SID_STRING *, SID_STRING *, SID_STRING *));
-static void ZRfunc_Hcommand PROTO_S ((int *));
-static void ZR320 PROTO_S ((SID_COMMAND *));
-static void ZR321 PROTO_S ((int *, SID_COMMAND *));
-static void ZRarray_Hoperator PROTO_S ((SID_TYPE *));
-static void ZR322 PROTO_S ((SID_STRING *, int *, SID_IDENTIFIER *));
-static void ZR323 PROTO_S ((SID_STRING *));
-static void ZRmacro_Hparam_Hlist PROTO_S ((SID_TYPE *));
-static void ZR326 PROTO_S ((SID_STRING *, SID_STRING *));
-static void ZR327 PROTO_S ((int *));
-static void ZR328 PROTO_S ((int *));
-static void ZRenum_Hcommand PROTO_S ((int *));
-static void ZRenumerator PROTO_S ((SID_COMMAND *));
-static void ZRfield_Hdeclarator_Hlist PROTO_S ((SID_TYPE, SID_TYPE, SID_COMMAND *));
-static void ZR331 PROTO_S ((SID_TYPE *, SID_TYPE *));
-static void ZRfield_Hexact PROTO_S ((int *));
-static void ZR333 PROTO_S ((SID_TYPE *));
-static void ZRcommand_Hlist PROTO_S ((SID_COMMAND *));
-static void ZR336 PROTO_S ((SID_STRING *, SID_TYPE *, SID_STRING *, SID_TYPE *));
-static void ZR337 PROTO_S ((SID_TYPE *));
-static void ZR338 PROTO_S ((int *));
-static void ZRdirect_Hdeclarator PROTO_S ((SID_IDENTIFIER *, SID_TYPE *));
-static void ZRtype_Hcommand PROTO_S ((int *));
-static void ZRtext_Hcommand PROTO_S ((SID_COMMAND *));
-static void ZR345 PROTO_S ((SID_IDENTIFIER *, SID_IDENTIFIER *, SID_TYPE *));
-static void ZR346 PROTO_S ((int *));
-static void ZR347 PROTO_S ((int *));
-static void ZRname_Hversion PROTO_S ((int *));
-static void ZR348 PROTO_S ((SID_TYPE *));
-static void ZRdirect_Habstract_Hdeclarator PROTO_S ((SID_STRING *, SID_TYPE *));
-static void ZRfield_Hdeclarator PROTO_S ((SID_IDENTIFIER *, SID_TYPE *));
-static void ZRvariable_Hcommand PROTO_S ((void));
-static void ZR349 PROTO_S ((SID_STRING *));
-static void ZR350 PROTO_S ((SID_STRING *));
-static void ZR351 PROTO_S ((SID_STRING *));
-static void ZRdefine_Hparam_Hclause PROTO_S ((SID_STRING *));
-static void ZRexp_Hcommand PROTO_S ((int *));
-static void ZR352 PROTO_S ((SID_STRING *));
-static void ZRif_Hcommand PROTO_S ((SID_COMMAND *, SID_STRING *));
-static void ZRbitfield_Hoperator PROTO_S ((SID_TYPE *));
-static void ZRuse_Hsubset_Hname PROTO_S ((SID_STRING *));
-extern void read_spec PROTO_S ((SID_COMMAND *));
-static void ZRmacro_Hdeclarator PROTO_S ((SID_IDENTIFIER *, SID_TYPE *));
-static void ZRsubset_Hname PROTO_S ((SID_STRING *));
-static void ZRbuiltin_Htype PROTO_S ((unsigned *));
-static void ZRobject_Hqualifier PROTO_S ((int *));
-static void ZRfield_Hlist PROTO_S ((SID_TYPE, SID_COMMAND *));
-static void ZRptr_Hoperator PROTO_S ((SID_TYPE *));
-static void ZRtype_Hkeyword PROTO_S ((unsigned *));
+static void ZRsimple_Htype(SID_TYPE *);
+static void ZRparameter_Hdeclaration(SID_TYPE *);
+static void ZRnat_Hdeclarator_Hlist(SID_COMMAND *);
+static void ZRtype_Hdeclarator_Hlist(SID_COMMAND *);
+static void ZRfunction_Hoperator(SID_TYPE *);
+static void ZRexp_Hdeclarator_Hlist(int, SID_TYPE, int, SID_COMMAND *);
+static void ZRsubset_Hkey(SID_STRING *);
+static void ZRmacro_Hparam_Hdeclaration(SID_TYPE *);
+static void ZRifdef_Hmacro_Hname(SID_STRING *);
+static void ZR285(SID_TYPE *);
+static void ZRdefine_Hparam_Hlist(SID_STRING *);
+static void ZRdeclarator(SID_IDENTIFIER *, SID_TYPE *);
+static void ZRidentifier(SID_IDENTIFIER *);
+static void ZRsubset_Hcommand(SID_COMMAND *);
+static void ZRqualified_Htype(SID_TYPE *);
+static void ZRabstract_Hdeclarator(SID_STRING *, SID_TYPE *);
+static void ZR306(SID_STRING, SID_TYPE, SID_STRING *, SID_TYPE *);
+static void ZRparameter_Hlist(SID_TYPE *);
+static void ZRinternal_Hname(SID_STRING *, int *);
+static void ZRmacro_Hoperator(SID_TYPE *);
+static void ZRenumerator_Hlist(SID_COMMAND *);
+static void ZRexternal_Hname(SID_STRING *, int *);
+static void ZRtype_Hqualifier(unsigned *);
+static void ZR316(SID_IDENTIFIER, SID_TYPE, SID_IDENTIFIER *, SID_TYPE *);
+static void ZRtype_Hkey(int *);
+static void ZRtype_Hqualifier_Hopt(unsigned *);
+static void ZRconstant_Hvalue(SID_STRING *);
+static void ZR318(SID_STRING *, SID_STRING *);
+static void ZRspec_Hcommand(SID_COMMAND *);
+static void ZR319(SID_STRING *, SID_STRING *, SID_STRING *);
+static void ZRfunc_Hcommand(int *);
+static void ZR320(SID_COMMAND *);
+static void ZR321(int *, SID_COMMAND *);
+static void ZRarray_Hoperator(SID_TYPE *);
+static void ZR322(SID_STRING *, int *, SID_IDENTIFIER *);
+static void ZR323(SID_STRING *);
+static void ZRmacro_Hparam_Hlist(SID_TYPE *);
+static void ZR326(SID_STRING *, SID_STRING *);
+static void ZR327(int *);
+static void ZR328(int *);
+static void ZRenum_Hcommand(int *);
+static void ZRenumerator(SID_COMMAND *);
+static void ZRfield_Hdeclarator_Hlist(SID_TYPE, SID_TYPE, SID_COMMAND *);
+static void ZR331(SID_TYPE *, SID_TYPE *);
+static void ZRfield_Hexact(int *);
+static void ZR333(SID_TYPE *);
+static void ZRcommand_Hlist(SID_COMMAND *);
+static void ZR336(SID_STRING *, SID_TYPE *, SID_STRING *, SID_TYPE *);
+static void ZR337(SID_TYPE *);
+static void ZR338(int *);
+static void ZRdirect_Hdeclarator(SID_IDENTIFIER *, SID_TYPE *);
+static void ZRtype_Hcommand(int *);
+static void ZRtext_Hcommand(SID_COMMAND *);
+static void ZR345(SID_IDENTIFIER *, SID_IDENTIFIER *, SID_TYPE *);
+static void ZR346(int *);
+static void ZR347(int *);
+static void ZRname_Hversion(int *);
+static void ZR348(SID_TYPE *);
+static void ZRdirect_Habstract_Hdeclarator(SID_STRING *, SID_TYPE *);
+static void ZRfield_Hdeclarator(SID_IDENTIFIER *, SID_TYPE *);
+static void ZRvariable_Hcommand(void);
+static void ZR349(SID_STRING *);
+static void ZR350(SID_STRING *);
+static void ZR351(SID_STRING *);
+static void ZRdefine_Hparam_Hclause(SID_STRING *);
+static void ZRexp_Hcommand(int *);
+static void ZR352(SID_STRING *);
+static void ZRif_Hcommand(SID_COMMAND *, SID_STRING *);
+static void ZRbitfield_Hoperator(SID_TYPE *);
+static void ZRuse_Hsubset_Hname(SID_STRING *);
+extern void read_spec(SID_COMMAND *);
+static void ZRmacro_Hdeclarator(SID_IDENTIFIER *, SID_TYPE *);
+static void ZRsubset_Hname(SID_STRING *);
+static void ZRbuiltin_Htype(unsigned *);
+static void ZRobject_Hqualifier(int *);
+static void ZRfield_Hlist(SID_TYPE, SID_COMMAND *);
+static void ZRptr_Hoperator(SID_TYPE *);
+static void ZRtype_Hkeyword(unsigned *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -193,8 +193,7 @@ static void ZRtype_Hkeyword PROTO_S ((unsigned *));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRsimple_Htype PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRsimple_Htype(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -254,8 +253,7 @@ ZRsimple_Htype PROTO_N ((ZOt))
 }
 
 static void
-ZRparameter_Hdeclaration PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRparameter_Hdeclaration(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -291,8 +289,7 @@ ZRparameter_Hdeclaration PROTO_N ((ZOt))
 }
 
 static void
-ZRnat_Hdeclarator_Hlist PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -350,8 +347,7 @@ ZRnat_Hdeclarator_Hlist PROTO_N ((ZOc))
 }
 
 static void
-ZRtype_Hdeclarator_Hlist PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -411,8 +407,7 @@ ZRtype_Hdeclarator_Hlist PROTO_N ((ZOc))
 }
 
 static void
-ZRfunction_Hoperator PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRfunction_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -442,8 +437,7 @@ ZRfunction_Hoperator PROTO_N ((ZOt))
 }
 
 static void
-ZRexp_Hdeclarator_Hlist PROTO_N ((ZIcmd, ZIs, ZIlv, ZOc))
-  PROTO_T (int ZIcmd X SID_TYPE ZIs X int ZIlv X SID_COMMAND *ZOc)
+ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -513,8 +507,7 @@ ZRexp_Hdeclarator_Hlist PROTO_N ((ZIcmd, ZIs, ZIlv, ZOc))
 }
 
 static void
-ZRsubset_Hkey PROTO_N ((ZOkey))
-  PROTO_T (SID_STRING *ZOkey)
+ZRsubset_Hkey(SID_STRING *ZOkey)
 {
     SID_STRING ZIkey;
 
@@ -548,8 +541,7 @@ ZRsubset_Hkey PROTO_N ((ZOkey))
 }
 
 static void
-ZRmacro_Hparam_Hdeclaration PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRmacro_Hparam_Hdeclaration(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -592,8 +584,7 @@ ZRmacro_Hparam_Hdeclaration PROTO_N ((ZOt))
 }
 
 static void
-ZRifdef_Hmacro_Hname PROTO_N ((ZOc))
-  PROTO_T (SID_STRING *ZOc)
+ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 {
     SID_STRING ZIc;
 
@@ -682,8 +673,7 @@ ZRifdef_Hmacro_Hname PROTO_N ((ZOc))
 }
 
 static void
-ZR285 PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZR285(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -717,8 +707,7 @@ ZR285 PROTO_N ((ZOt))
 }
 
 static void
-ZRdefine_Hparam_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_STRING *ZOp)
+ZRdefine_Hparam_Hlist(SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
@@ -753,8 +742,7 @@ ZRdefine_Hparam_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRdeclarator PROTO_N ((ZOid, ZOt))
-  PROTO_T (SID_IDENTIFIER *ZOid X SID_TYPE *ZOt)
+ZRdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 {
     SID_IDENTIFIER ZIid;
     SID_TYPE ZIt;
@@ -801,8 +789,7 @@ ZRdeclarator PROTO_N ((ZOid, ZOt))
 }
 
 static void
-ZRidentifier PROTO_N ((ZOid))
-  PROTO_T (SID_IDENTIFIER *ZOid)
+ZRidentifier(SID_IDENTIFIER *ZOid)
 {
     SID_IDENTIFIER ZIid;
 
@@ -829,8 +816,7 @@ ZRidentifier PROTO_N ((ZOid))
 }
 
 static void
-ZRsubset_Hcommand PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRsubset_Hcommand(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -908,8 +894,7 @@ ZRsubset_Hcommand PROTO_N ((ZOc))
 }
 
 static void
-ZRqualified_Htype PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRqualified_Htype(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -960,8 +945,7 @@ ZRqualified_Htype PROTO_N ((ZOt))
 }
 
 static void
-ZRabstract_Hdeclarator PROTO_N ((ZOnm, ZOt))
-  PROTO_T (SID_STRING *ZOnm X SID_TYPE *ZOt)
+ZRabstract_Hdeclarator(SID_STRING *ZOnm, SID_TYPE *ZOt)
 {
     SID_STRING ZInm;
     SID_TYPE ZIt;
@@ -1006,8 +990,7 @@ ZRabstract_Hdeclarator PROTO_N ((ZOnm, ZOt))
 }
 
 static void
-ZR306 PROTO_N ((ZI302, ZI303, ZO304, ZO305))
-  PROTO_T (SID_STRING ZI302 X SID_TYPE ZI303 X SID_STRING *ZO304 X SID_TYPE *ZO305)
+ZR306(SID_STRING ZI302, SID_TYPE ZI303, SID_STRING *ZO304, SID_TYPE *ZO305)
 {
     SID_STRING ZI304;
     SID_TYPE ZI305;
@@ -1054,8 +1037,7 @@ ZR306 PROTO_N ((ZI302, ZI303, ZO304, ZO305))
 }
 
 static void
-ZRparameter_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_TYPE *ZOp)
+ZRparameter_Hlist(SID_TYPE *ZOp)
 {
     SID_TYPE ZIp;
 
@@ -1107,8 +1089,7 @@ ZRparameter_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZRinternal_Hname PROTO_N ((ZOnm, ZOv))
-  PROTO_T (SID_STRING *ZOnm X int *ZOv)
+ZRinternal_Hname(SID_STRING *ZOnm, int *ZOv)
 {
     SID_STRING ZInm;
     int ZIv;
@@ -1153,8 +1134,7 @@ ZRinternal_Hname PROTO_N ((ZOnm, ZOv))
 }
 
 static void
-ZRmacro_Hoperator PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRmacro_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -1184,8 +1164,7 @@ ZRmacro_Hoperator PROTO_N ((ZOt))
 }
 
 static void
-ZRenumerator_Hlist PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRenumerator_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -1236,8 +1215,7 @@ ZRenumerator_Hlist PROTO_N ((ZOc))
 }
 
 static void
-ZRexternal_Hname PROTO_N ((ZOnm, ZOv))
-  PROTO_T (SID_STRING *ZOnm X int *ZOv)
+ZRexternal_Hname(SID_STRING *ZOnm, int *ZOv)
 {
     SID_STRING ZInm;
     int ZIv;
@@ -1299,8 +1277,7 @@ ZRexternal_Hname PROTO_N ((ZOnm, ZOv))
 }
 
 static void
-ZRtype_Hqualifier PROTO_N ((ZOcv))
-  PROTO_T (unsigned *ZOcv)
+ZRtype_Hqualifier(unsigned *ZOcv)
 {
     unsigned ZIcv;
 
@@ -1353,8 +1330,7 @@ ZRtype_Hqualifier PROTO_N ((ZOcv))
 }
 
 static void
-ZR316 PROTO_N ((ZI310, ZI311, ZO314, ZO315))
-  PROTO_T (SID_IDENTIFIER ZI310 X SID_TYPE ZI311 X SID_IDENTIFIER *ZO314 X SID_TYPE *ZO315)
+ZR316(SID_IDENTIFIER ZI310, SID_TYPE ZI311, SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
 {
     SID_IDENTIFIER ZI314;
     SID_TYPE ZI315;
@@ -1431,8 +1407,7 @@ ZR316 PROTO_N ((ZI310, ZI311, ZO314, ZO315))
 }
 
 static void
-ZRtype_Hkey PROTO_N ((ZOtag))
-  PROTO_T (int *ZOtag)
+ZRtype_Hkey(int *ZOtag)
 {
     int ZItag;
 
@@ -1475,8 +1450,7 @@ ZRtype_Hkey PROTO_N ((ZOtag))
 }
 
 static void
-ZRtype_Hqualifier_Hopt PROTO_N ((ZOcv))
-  PROTO_T (unsigned *ZOcv)
+ZRtype_Hqualifier_Hopt(unsigned *ZOcv)
 {
     unsigned ZIcv;
 
@@ -1510,8 +1484,7 @@ ZRtype_Hqualifier_Hopt PROTO_N ((ZOcv))
 }
 
 static void
-ZRconstant_Hvalue PROTO_N ((ZOs))
-  PROTO_T (SID_STRING *ZOs)
+ZRconstant_Hvalue(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -1598,8 +1571,7 @@ ZRconstant_Hvalue PROTO_N ((ZOs))
 }
 
 static void
-ZR318 PROTO_N ((ZIa, ZOs))
-  PROTO_T (SID_STRING *ZIa X SID_STRING *ZOs)
+ZR318(SID_STRING *ZIa, SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -1646,8 +1618,7 @@ ZR318 PROTO_N ((ZIa, ZOs))
 }
 
 static void
-ZRspec_Hcommand PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRspec_Hcommand(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2077,8 +2048,7 @@ ZRspec_Hcommand PROTO_N ((ZOc))
 }
 
 static void
-ZR319 PROTO_N ((ZIa, ZIb, ZOs))
-  PROTO_T (SID_STRING *ZIa X SID_STRING *ZIb X SID_STRING *ZOs)
+ZR319(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -2125,8 +2095,7 @@ ZR319 PROTO_N ((ZIa, ZIb, ZOs))
 }
 
 static void
-ZRfunc_Hcommand PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZRfunc_Hcommand(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -2156,8 +2125,7 @@ ZRfunc_Hcommand PROTO_N ((ZOcmd))
 }
 
 static void
-ZR320 PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZR320(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2300,8 +2268,7 @@ ZR320 PROTO_N ((ZOc))
 }
 
 static void
-ZR321 PROTO_N ((ZIcmd, ZOc))
-  PROTO_T (int *ZIcmd X SID_COMMAND *ZOc)
+ZR321(int *ZIcmd, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2364,8 +2331,7 @@ ZR321 PROTO_N ((ZIcmd, ZOc))
 }
 
 static void
-ZRarray_Hoperator PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRarray_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -2425,8 +2391,7 @@ ZRarray_Hoperator PROTO_N ((ZOt))
 }
 
 static void
-ZR322 PROTO_N ((ZInm, ZIv, ZOid))
-  PROTO_T (SID_STRING *ZInm X int *ZIv X SID_IDENTIFIER *ZOid)
+ZR322(SID_STRING *ZInm, int *ZIv, SID_IDENTIFIER *ZOid)
 {
     SID_IDENTIFIER ZIid;
 
@@ -2480,8 +2445,7 @@ ZR322 PROTO_N ((ZInm, ZIv, ZOid))
 }
 
 static void
-ZR323 PROTO_N ((ZOp))
-  PROTO_T (SID_STRING *ZOp)
+ZR323(SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
@@ -2523,8 +2487,7 @@ ZR323 PROTO_N ((ZOp))
 }
 
 static void
-ZRmacro_Hparam_Hlist PROTO_N ((ZOp))
-  PROTO_T (SID_TYPE *ZOp)
+ZRmacro_Hparam_Hlist(SID_TYPE *ZOp)
 {
     SID_TYPE ZIp;
 
@@ -2576,8 +2539,7 @@ ZRmacro_Hparam_Hlist PROTO_N ((ZOp))
 }
 
 static void
-ZR326 PROTO_N ((ZI324, ZOp))
-  PROTO_T (SID_STRING *ZI324 X SID_STRING *ZOp)
+ZR326(SID_STRING *ZI324, SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
@@ -2615,8 +2577,7 @@ ZR326 PROTO_N ((ZI324, ZOp))
 }
 
 static void
-ZR327 PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZR327(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -2650,8 +2611,7 @@ ZR327 PROTO_N ((ZOcmd))
 }
 
 static void
-ZR328 PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZR328(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -2700,8 +2660,7 @@ ZR328 PROTO_N ((ZOcmd))
 }
 
 static void
-ZRenum_Hcommand PROTO_N ((ZOtag))
-  PROTO_T (int *ZOtag)
+ZRenum_Hcommand(int *ZOtag)
 {
     int ZItag;
 
@@ -2728,8 +2687,7 @@ ZRenum_Hcommand PROTO_N ((ZOtag))
 }
 
 static void
-ZRenumerator PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRenumerator(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2782,8 +2740,7 @@ ZRenumerator PROTO_N ((ZOc))
 }
 
 static void
-ZRfield_Hdeclarator_Hlist PROTO_N ((ZIm, ZIs, ZOc))
-  PROTO_T (SID_TYPE ZIm X SID_TYPE ZIs X SID_COMMAND *ZOc)
+ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -2848,8 +2805,7 @@ ZRfield_Hdeclarator_Hlist PROTO_N ((ZIm, ZIs, ZOc))
 }
 
 static void
-ZR331 PROTO_N ((ZI329, ZOt))
-  PROTO_T (SID_TYPE *ZI329 X SID_TYPE *ZOt)
+ZR331(SID_TYPE *ZI329, SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -2887,8 +2843,7 @@ ZR331 PROTO_N ((ZI329, ZOt))
 }
 
 static void
-ZRfield_Hexact PROTO_N ((ZOe))
-  PROTO_T (int *ZOe)
+ZRfield_Hexact(int *ZOe)
 {
     int ZIe;
 
@@ -2915,8 +2870,7 @@ ZRfield_Hexact PROTO_N ((ZOe))
 }
 
 static void
-ZR333 PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZR333(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -2976,8 +2930,7 @@ ZR333 PROTO_N ((ZOt))
 }
 
 static void
-ZRcommand_Hlist PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRcommand_Hlist(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -3067,8 +3020,7 @@ ZRcommand_Hlist PROTO_N ((ZOc))
 }
 
 static void
-ZR336 PROTO_N ((ZI334, ZI335, ZO304, ZO305))
-  PROTO_T (SID_STRING *ZI334 X SID_TYPE *ZI335 X SID_STRING *ZO304 X SID_TYPE *ZO305)
+ZR336(SID_STRING *ZI334, SID_TYPE *ZI335, SID_STRING *ZO304, SID_TYPE *ZO305)
 {
     SID_STRING ZI304;
     SID_TYPE ZI305;
@@ -3117,8 +3069,7 @@ ZR336 PROTO_N ((ZI334, ZI335, ZO304, ZO305))
 }
 
 static void
-ZR337 PROTO_N ((ZOq))
-  PROTO_T (SID_TYPE *ZOq)
+ZR337(SID_TYPE *ZOq)
 {
     SID_TYPE ZIq;
 
@@ -3158,8 +3109,7 @@ ZR337 PROTO_N ((ZOq))
 }
 
 static void
-ZR338 PROTO_N ((ZOtag))
-  PROTO_T (int *ZOtag)
+ZR338(int *ZOtag)
 {
     int ZItag;
 
@@ -3298,8 +3248,7 @@ ZR338 PROTO_N ((ZOtag))
 }
 
 static void
-ZRdirect_Hdeclarator PROTO_N ((ZO314, ZO315))
-  PROTO_T (SID_IDENTIFIER *ZO314 X SID_TYPE *ZO315)
+ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO314, SID_TYPE *ZO315)
 {
     SID_IDENTIFIER ZI314;
     SID_TYPE ZI315;
@@ -3365,8 +3314,7 @@ ZRdirect_Hdeclarator PROTO_N ((ZO314, ZO315))
 }
 
 static void
-ZRtype_Hcommand PROTO_N ((ZOtag))
-  PROTO_T (int *ZOtag)
+ZRtype_Hcommand(int *ZOtag)
 {
     int ZItag;
 
@@ -3416,8 +3364,7 @@ ZRtype_Hcommand PROTO_N ((ZOtag))
 }
 
 static void
-ZRtext_Hcommand PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+ZRtext_Hcommand(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -3535,8 +3482,7 @@ ZRtext_Hcommand PROTO_N ((ZOc))
 }
 
 static void
-ZR345 PROTO_N ((ZI343, ZOid, ZOt))
-  PROTO_T (SID_IDENTIFIER *ZI343 X SID_IDENTIFIER *ZOid X SID_TYPE *ZOt)
+ZR345(SID_IDENTIFIER *ZI343, SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 {
     SID_IDENTIFIER ZIid;
     SID_TYPE ZIt;
@@ -3580,8 +3526,7 @@ ZR345 PROTO_N ((ZI343, ZOid, ZOt))
 }
 
 static void
-ZR346 PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZR346(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -3615,8 +3560,7 @@ ZR346 PROTO_N ((ZOcmd))
 }
 
 static void
-ZR347 PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZR347(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -3665,8 +3609,7 @@ ZR347 PROTO_N ((ZOcmd))
 }
 
 static void
-ZRname_Hversion PROTO_N ((ZOv))
-  PROTO_T (int *ZOv)
+ZRname_Hversion(int *ZOv)
 {
     int ZIv;
 
@@ -3712,8 +3655,7 @@ ZRname_Hversion PROTO_N ((ZOv))
 }
 
 static void
-ZR348 PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZR348(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -3773,8 +3715,7 @@ ZR348 PROTO_N ((ZOt))
 }
 
 static void
-ZRdirect_Habstract_Hdeclarator PROTO_N ((ZO304, ZO305))
-  PROTO_T (SID_STRING *ZO304 X SID_TYPE *ZO305)
+ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO304, SID_TYPE *ZO305)
 {
     SID_STRING ZI304;
     SID_TYPE ZI305;
@@ -3857,8 +3798,7 @@ ZRdirect_Habstract_Hdeclarator PROTO_N ((ZO304, ZO305))
 }
 
 static void
-ZRfield_Hdeclarator PROTO_N ((ZOid, ZOt))
-  PROTO_T (SID_IDENTIFIER *ZOid X SID_TYPE *ZOt)
+ZRfield_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 {
     SID_IDENTIFIER ZIid;
     SID_TYPE ZIt;
@@ -3952,7 +3892,7 @@ ZRfield_Hdeclarator PROTO_N ((ZOid, ZOt))
 }
 
 static void
-ZRvariable_Hcommand PROTO_Z ()
+ZRvariable_Hcommand(void)
 {
     switch (CURRENT_TERMINAL) {
       case 20:
@@ -4006,8 +3946,7 @@ ZRvariable_Hcommand PROTO_Z ()
 }
 
 static void
-ZR349 PROTO_N ((ZOkey))
-  PROTO_T (SID_STRING *ZOkey)
+ZR349(SID_STRING *ZOkey)
 {
     SID_STRING ZIkey;
 
@@ -4046,8 +3985,7 @@ ZR349 PROTO_N ((ZOkey))
 }
 
 static void
-ZR350 PROTO_N ((ZOkey))
-  PROTO_T (SID_STRING *ZOkey)
+ZR350(SID_STRING *ZOkey)
 {
     SID_STRING ZIkey;
 
@@ -4096,8 +4034,7 @@ ZR350 PROTO_N ((ZOkey))
 }
 
 static void
-ZR351 PROTO_N ((ZOkey))
-  PROTO_T (SID_STRING *ZOkey)
+ZR351(SID_STRING *ZOkey)
 {
     SID_STRING ZIkey;
 
@@ -4146,8 +4083,7 @@ ZR351 PROTO_N ((ZOkey))
 }
 
 static void
-ZRdefine_Hparam_Hclause PROTO_N ((ZOp))
-  PROTO_T (SID_STRING *ZOp)
+ZRdefine_Hparam_Hclause(SID_STRING *ZOp)
 {
     SID_STRING ZIp;
 
@@ -4181,8 +4117,7 @@ ZRdefine_Hparam_Hclause PROTO_N ((ZOp))
 }
 
 static void
-ZRexp_Hcommand PROTO_N ((ZOcmd))
-  PROTO_T (int *ZOcmd)
+ZRexp_Hcommand(int *ZOcmd)
 {
     int ZIcmd;
 
@@ -4219,8 +4154,7 @@ ZRexp_Hcommand PROTO_N ((ZOcmd))
 }
 
 static void
-ZR352 PROTO_N ((ZInm))
-  PROTO_T (SID_STRING *ZInm)
+ZR352(SID_STRING *ZInm)
 {
     switch (CURRENT_TERMINAL) {
       case 67:
@@ -4284,8 +4218,7 @@ ZR352 PROTO_N ((ZInm))
 }
 
 static void
-ZRif_Hcommand PROTO_N ((ZOc, ZOs))
-  PROTO_T (SID_COMMAND *ZOc X SID_STRING *ZOs)
+ZRif_Hcommand(SID_COMMAND *ZOc, SID_STRING *ZOs)
 {
     SID_COMMAND ZIc;
     SID_STRING ZIs;
@@ -4351,8 +4284,7 @@ ZRif_Hcommand PROTO_N ((ZOc, ZOs))
 }
 
 static void
-ZRbitfield_Hoperator PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRbitfield_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -4389,8 +4321,7 @@ ZRbitfield_Hoperator PROTO_N ((ZOt))
 }
 
 static void
-ZRuse_Hsubset_Hname PROTO_N ((ZOs))
-  PROTO_T (SID_STRING *ZOs)
+ZRuse_Hsubset_Hname(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -4456,8 +4387,7 @@ ZRuse_Hsubset_Hname PROTO_N ((ZOs))
 }
 
 void
-read_spec PROTO_N ((ZOc))
-  PROTO_T (SID_COMMAND *ZOc)
+read_spec(SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -4501,8 +4431,7 @@ read_spec PROTO_N ((ZOc))
 }
 
 static void
-ZRmacro_Hdeclarator PROTO_N ((ZOid, ZOt))
-  PROTO_T (SID_IDENTIFIER *ZOid X SID_TYPE *ZOt)
+ZRmacro_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 {
     SID_IDENTIFIER ZIid;
     SID_TYPE ZIt;
@@ -4553,8 +4482,7 @@ ZRmacro_Hdeclarator PROTO_N ((ZOid, ZOt))
 }
 
 static void
-ZRsubset_Hname PROTO_N ((ZOs))
-  PROTO_T (SID_STRING *ZOs)
+ZRsubset_Hname(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -4589,8 +4517,7 @@ ZRsubset_Hname PROTO_N ((ZOs))
 }
 
 static void
-ZRbuiltin_Htype PROTO_N ((ZOb))
-  PROTO_T (unsigned *ZOb)
+ZRbuiltin_Htype(unsigned *ZOb)
 {
     unsigned ZIb;
 
@@ -4649,8 +4576,7 @@ ZRbuiltin_Htype PROTO_N ((ZOb))
 }
 
 static void
-ZRobject_Hqualifier PROTO_N ((ZOlv))
-  PROTO_T (int *ZOlv)
+ZRobject_Hqualifier(int *ZOlv)
 {
     int ZIlv;
 
@@ -4677,8 +4603,7 @@ ZRobject_Hqualifier PROTO_N ((ZOlv))
 }
 
 static void
-ZRfield_Hlist PROTO_N ((ZIm, ZOc))
-  PROTO_T (SID_TYPE ZIm X SID_COMMAND *ZOc)
+ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 {
     SID_COMMAND ZIc;
 
@@ -4802,8 +4727,7 @@ ZRfield_Hlist PROTO_N ((ZIm, ZOc))
 }
 
 static void
-ZRptr_Hoperator PROTO_N ((ZOt))
-  PROTO_T (SID_TYPE *ZOt)
+ZRptr_Hoperator(SID_TYPE *ZOt)
 {
     SID_TYPE ZIt;
 
@@ -4840,8 +4764,7 @@ ZRptr_Hoperator PROTO_N ((ZOt))
 }
 
 static void
-ZRtype_Hkeyword PROTO_N ((ZOb))
-  PROTO_T (unsigned *ZOb)
+ZRtype_Hkeyword(unsigned *ZOb)
 {
     unsigned ZIb;
 

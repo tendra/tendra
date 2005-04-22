@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/tools/pl/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/tools/pl/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -50,30 +50,30 @@ extern unsigned long MINOR_NO ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_label PROTO_S ((void));
-extern void read_variety PROTO_S ((void));
-extern void read_shape PROTO_S ((void));
-extern void read_string PROTO_S ((void));
-extern void read_signed_nat PROTO_S ((void));
-extern void read_token PROTO_S ((void));
-extern void read_error_code PROTO_S ((void));
-extern void read_bool PROTO_S ((void));
-extern void read_ntest PROTO_S ((void));
-extern void read_bitfield_variety PROTO_S ((void));
-extern void read_tag PROTO_S ((void));
-extern void read_nat_option PROTO_S ((void));
-extern void read_floating_variety PROTO_S ((void));
-extern void read_nat PROTO_S ((void));
-extern void read_alignment PROTO_S ((void));
-extern void read_error_code_list PROTO_S ((void));
-extern void read_exp PROTO_S ((void));
-extern void read_error_treatment PROTO_S ((void));
-extern void read_al_tag PROTO_S ((void));
-extern void read_exp_list PROTO_S ((void));
-extern void read_transfer_mode PROTO_S ((void));
-extern void read_rounding_mode PROTO_S ((void));
-extern void read_access PROTO_S ((void));
-extern void read_program PROTO_S ((void));
+extern void read_label(void);
+extern void read_variety(void);
+extern void read_shape(void);
+extern void read_string(void);
+extern void read_signed_nat(void);
+extern void read_token(void);
+extern void read_error_code(void);
+extern void read_bool(void);
+extern void read_ntest(void);
+extern void read_bitfield_variety(void);
+extern void read_tag(void);
+extern void read_nat_option(void);
+extern void read_floating_variety(void);
+extern void read_nat(void);
+extern void read_alignment(void);
+extern void read_error_code_list(void);
+extern void read_exp(void);
+extern void read_error_treatment(void);
+extern void read_al_tag(void);
+extern void read_exp_list(void);
+extern void read_transfer_mode(void);
+extern void read_rounding_mode(void);
+extern void read_access(void);
+extern void read_program(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

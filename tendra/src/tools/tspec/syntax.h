@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/tools/tspec/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/tools/tspec/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -47,7 +47,7 @@ typedef object *SID_COMMAND ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-extern void read_spec PROTO_S ((SID_COMMAND *));
+extern void read_spec(SID_COMMAND *);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 

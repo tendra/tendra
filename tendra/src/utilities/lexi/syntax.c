@@ -1,8 +1,8 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/utilities/lexi/syntax.sid
+ *	syntax.sid
  * and
- *	/u/g/release/Source/src/utilities/lexi/syntax.act
+ *	syntax.act
  * by:
  *	sid
  */
@@ -93,18 +93,18 @@ static char *crt_cond = NULL ;
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRstring_Hplus PROTO_S ((SID_STRING *));
-static void ZRchars PROTO_S ((SID_CHARS *));
-static void ZRargs PROTO_S ((int *));
-static void ZRtrigraph_Hdefn PROTO_S ((void));
-static void ZR60 PROTO_S ((SID_STRING *, int *));
-extern void read_lex PROTO_S ((void));
-static void ZR68 PROTO_S ((void));
-static void ZRcommand_Hlist PROTO_S ((void));
-static void ZRkeyword_Hdefn PROTO_S ((void));
-static void ZRif_Hcommand PROTO_S ((void));
-static void ZRcommand PROTO_S ((void));
-static void ZRtoken_Hdefn PROTO_S ((void));
+static void ZRstring_Hplus(SID_STRING *);
+static void ZRchars(SID_CHARS *);
+static void ZRargs(int *);
+static void ZRtrigraph_Hdefn(void);
+static void ZR60(SID_STRING *, int *);
+extern void read_lex(void);
+static void ZR68(void);
+static void ZRcommand_Hlist(void);
+static void ZRkeyword_Hdefn(void);
+static void ZRif_Hcommand(void);
+static void ZRcommand(void);
+static void ZRtoken_Hdefn(void);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -112,8 +112,7 @@ static void ZRtoken_Hdefn PROTO_S ((void));
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRstring_Hplus PROTO_N ((ZOs))
-  PROTO_T (SID_STRING *ZOs)
+ZRstring_Hplus(SID_STRING *ZOs)
 {
     SID_STRING ZIs;
 
@@ -197,8 +196,7 @@ ZRstring_Hplus PROTO_N ((ZOs))
 }
 
 static void
-ZRchars PROTO_N ((ZOc))
-  PROTO_T (SID_CHARS *ZOc)
+ZRchars(SID_CHARS *ZOc)
 {
     SID_CHARS ZIc;
 
@@ -227,8 +225,7 @@ ZRchars PROTO_N ((ZOc))
 }
 
 static void
-ZRargs PROTO_N ((ZOa))
-  PROTO_T (int *ZOa)
+ZRargs(int *ZOa)
 {
     int ZIa;
 
@@ -267,7 +264,7 @@ ZRargs PROTO_N ((ZOa))
 }
 
 static void
-ZRtrigraph_Hdefn PROTO_Z ()
+ZRtrigraph_Hdefn(void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -315,8 +312,7 @@ ZRtrigraph_Hdefn PROTO_Z ()
 }
 
 static void
-ZR60 PROTO_N ((ZOi, ZOa))
-  PROTO_T (SID_STRING *ZOi X int *ZOa)
+ZR60(SID_STRING *ZOi, int *ZOa)
 {
     SID_STRING ZIi;
     int ZIa;
@@ -384,7 +380,7 @@ ZR60 PROTO_N ((ZOi, ZOa))
 }
 
 void
-read_lex PROTO_Z ()
+read_lex(void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -423,7 +419,7 @@ read_lex PROTO_Z ()
 }
 
 static void
-ZR68 PROTO_Z ()
+ZR68(void)
 {
     switch (CURRENT_TERMINAL) {
       case 0:
@@ -506,7 +502,7 @@ ZR68 PROTO_Z ()
 }
 
 static void
-ZRcommand_Hlist PROTO_Z ()
+ZRcommand_Hlist(void)
 {
   ZL2_command_Hlist:;
     switch (CURRENT_TERMINAL) {
@@ -538,7 +534,7 @@ ZRcommand_Hlist PROTO_Z ()
 }
 
 static void
-ZRkeyword_Hdefn PROTO_Z ()
+ZRkeyword_Hdefn(void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -594,7 +590,7 @@ ZRkeyword_Hdefn PROTO_Z ()
 }
 
 static void
-ZRif_Hcommand PROTO_Z ()
+ZRif_Hcommand(void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
@@ -699,7 +695,7 @@ ZRif_Hcommand PROTO_Z ()
 }
 
 static void
-ZRcommand PROTO_Z ()
+ZRcommand(void)
 {
     switch (CURRENT_TERMINAL) {
       case 6:
@@ -799,7 +795,7 @@ ZRcommand PROTO_Z ()
 }
 
 static void
-ZRtoken_Hdefn PROTO_Z ()
+ZRtoken_Hdefn(void)
 {
     if ((CURRENT_TERMINAL) == 23) {
 	return;
