@@ -238,24 +238,11 @@ c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
     CStringP        sep        = "";
     BoolT           specials   = FALSE;
     TypeTupleEntryP ptr;
-    BoolT           ossg       = c_out_info_get_ossg(info);
 
     if ((inputs->head == NIL(TypeTupleEntryP)) &&
 	(outputs->head == NIL(TypeTupleEntryP))) {
-	if (ossg) {
 	    write_cstring(ostream, "(void)");
-	} else {
-	    write_cstring(ostream, "(void)");
-	}
     } else {
-	if (ossg) {
-	    write_cstring(ostream, "PROTO_N (");
-	    c_output_non_ansi_params(info, inputs, outputs);
-	    write_char(ostream, ')');
-	    write_newline(ostream);
-	    write_cstring(ostream, "  PROTO_T ");
-	}
-
 	write_char(ostream, '(');
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	    write_cstring(ostream, sep);
@@ -272,14 +259,14 @@ c_output_ansi_type_defn(COutputInfoP info, TypeTupleP inputs,
 	    } else {
 		c_output_key(info, entry_key(ptr->name), in_prefix);
 	    }
-	    sep = (ossg ? " X " : ", ");
+	    sep = ", ";
 	}
 	for (ptr = outputs->head; ptr; ptr = ptr->next) {
 	    write_cstring(ostream, sep);
 	    c_output_mapped_key(info, ptr->type);
 	    write_cstring(ostream, " *");
 	    c_output_key(info, entry_key(ptr->name), out_prefix);
-	    sep = (ossg ? " X " : ", ");
+	    sep = ", ";
 	}
 	write_char(ostream, ')');
     }
@@ -408,11 +395,7 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
     if (c_out_info_get_prototypes(info)) {
 	CStringP        sep  = "";
 	TypeTupleEntryP ptr;
-	BoolT           ossg = c_out_info_get_ossg(info);
 
-	if (ossg) {
-	    write_cstring(ostream, "PROTO_S (");
-	}
 	write_char(ostream, '(');
 	for (ptr = inputs->head; ptr; ptr = ptr->next) {
 	    write_cstring(ostream, sep);
@@ -435,9 +418,6 @@ c_output_type_decl(COutputInfoP info, TypeTupleP inputs, TypeTupleP outputs)
 	    write_cstring(ostream, "void");
 	}
 	write_char(ostream, ')');
-	if (ossg) {
-	    write_char(ostream, ')');
-	}
     } else {
 	write_cstring(ostream, " ()");
     }

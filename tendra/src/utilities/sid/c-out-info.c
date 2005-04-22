@@ -111,7 +111,6 @@ c_out_info_init(COutputInfoP info, OutputInfoP out_info)
     nstring_copy_cstring(c_out_info_label_prefix(info), "ZL");
     nstring_copy_cstring(c_out_info_terminal_prefix(info), "ZB");
     info->prototypes  = FALSE;
-    info->ossg        = FALSE;
     info->numeric_ids = FALSE;
     info->casts       = FALSE;
     info->unreachable = FALSE;
@@ -383,30 +382,6 @@ c_out_info_set_prototypes(COutputInfoP info, BoolT prototypes)
 }
 #ifdef FS_FAST
 #define c_out_info_set_prototypes(o, b)	((o)->prototypes = (b))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef c_out_info_get_ossg
-#endif /* defined (FS_FAST) */
-BoolT
-c_out_info_get_ossg(COutputInfoP info)
-{
-    return(info->ossg);
-}
-#ifdef FS_FAST
-#define c_out_info_get_ossg(o)	((o)->ossg)
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef c_out_info_set_ossg
-#endif /* defined (FS_FAST) */
-void
-c_out_info_set_ossg(COutputInfoP info, BoolT ossg)
-{
-    info->ossg = ossg;
-}
-#ifdef FS_FAST
-#define c_out_info_set_ossg(o, b)	((o)->ossg = (b))
 #endif /* defined (FS_FAST) */
 
 #ifdef FS_FAST

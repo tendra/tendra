@@ -59,7 +59,7 @@ fatal "bad inlining phase" {
 };
 
 fatal "bad language" {
-    "unknown language '${language name}' (should be 'ansi-c', 'pre-ansi-c', 'ossg-c' or 'test')",
+    "unknown language '${language name}' (should be 'ansi-c', 'pre-ansi-c' or 'test')",
     {
 	"language name" : "CStringP" $[
 	    write_cstring(ostream, closure->language_name);

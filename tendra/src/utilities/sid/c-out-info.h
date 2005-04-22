@@ -133,7 +133,6 @@ typedef struct COutputInfoT {
     struct CCodeT      *trailer2;
     NStringT		prefixes[CPFX_NUM_PREFIXES];
     BoolT		prototypes;
-    BoolT		ossg;
     BoolT		numeric_ids;
     BoolT		casts;
     BoolT		unreachable;
@@ -166,8 +165,6 @@ extern NStringP		 c_out_info_terminal_prefix(COutputInfoP);
 extern NStringP		 c_out_info_prefix(COutputInfoP, CPrefixT);
 extern BoolT		 c_out_info_get_prototypes(COutputInfoP);
 extern void		 c_out_info_set_prototypes(COutputInfoP, BoolT);
-extern BoolT		 c_out_info_get_ossg(COutputInfoP);
-extern void		 c_out_info_set_ossg(COutputInfoP, BoolT);
 extern BoolT		 c_out_info_get_numeric_ids(COutputInfoP);
 extern void		 c_out_info_set_numeric_ids(COutputInfoP, BoolT);
 extern BoolT		 c_out_info_get_casts(COutputInfoP);
@@ -206,8 +203,6 @@ extern void		 c_out_info_set_split(COutputInfoP, unsigned);
 #define c_out_info_prefix(o, i)		(&((o)->prefixes[(i)]))
 #define c_out_info_get_prototypes(o)	((o)->prototypes)
 #define c_out_info_set_prototypes(o, b)	((o)->prototypes = (b))
-#define c_out_info_get_ossg(o)		((o)->ossg)
-#define c_out_info_set_ossg(o, b)	((o)->ossg = (b))
 #define c_out_info_get_numeric_ids(o)	((o)->numeric_ids)
 #define c_out_info_set_numeric_ids(o, b)	((o)->numeric_ids = (b))
 #define c_out_info_get_casts(o)		((o)->casts)

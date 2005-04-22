@@ -176,7 +176,7 @@
 \tusage:[option ...]in-file ... out-file ...\n\
 \twhere option is one of:"
 #ifndef VERSION
-#define VERSION "sid: version 1.9#13 (ansi-c, pre-ansi-c, ossg-c, test)"
+#define VERSION "sid: version 1.10.0 (ansi-c, pre-ansi-c, test)"
 #endif /* !defined (VERSION) */
 #ifndef RELEASE
 #define RELEASE "unknown"
@@ -216,7 +216,7 @@ main_handle_phase_all(BoolT enable)
 /*--------------------------------------------------------------------------*/
 
 static GenericP
-main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
+main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi)
 {
     COutputInfoP      c_out_info = ALLOCATE(COutputInfoT);
     CStringListEntryP entry;
@@ -225,9 +225,6 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
     if (ansi) {
 	c_out_info_set_prototypes(c_out_info, TRUE);
     }
-    if (ossg) {
-	c_out_info_set_ossg(c_out_info, TRUE);
-    }
     for (entry = cstring_list_head(options); entry;
 	 entry = cstring_list_entry_deallocate(entry)) {
 	CStringP option = cstring_list_entry_string(entry);
@@ -235,15 +232,9 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
 	if (cstring_equal(option, "prototypes") ||
 	    cstring_equal(option, "proto")) {
 	    c_out_info_set_prototypes(c_out_info, TRUE);
-	    c_out_info_set_ossg(c_out_info, FALSE);
 	} else if (cstring_equal(option, "no-prototypes") ||
 		   cstring_equal(option, "no-proto")) {
 	    c_out_info_set_prototypes(c_out_info, FALSE);
-	    c_out_info_set_ossg(c_out_info, FALSE);
-	} else if (cstring_equal(option, "ossg-prototypes") ||
-		   cstring_equal(option, "ossg-proto")) {
-	    c_out_info_set_prototypes(c_out_info, TRUE);
-	    c_out_info_set_ossg(c_out_info, TRUE);
 	} else if (cstring_equal(option, "split")) {
 	    c_out_info_set_split(c_out_info, (unsigned)5000);
 	} else if (cstring_starts(option, "split=")) {
@@ -281,7 +272,7 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
 	    c_out_info_set_lines(c_out_info, FALSE);
 	} else {
 	    CStringP lang;
-	    lang = (ossg ? "ossg-c" :(ansi ? "ansi-c" : "pre-ansi-c"));
+	    lang = (ansi ? "ansi-c" : "pre-ansi-c");
 	    E_bad_language_option(lang, option);
 	}
     }
@@ -291,19 +282,13 @@ main_init_c(OutputInfoP out_info, CStringListP options, BoolT ansi, BoolT ossg)
 static GenericP
 main_init_ansi_c(OutputInfoP out_info, CStringListP options)
 {
-    return(main_init_c(out_info, options, TRUE, FALSE));
+    return(main_init_c(out_info, options, TRUE));
 }
 
 static GenericP
 main_init_pre_ansi_c(OutputInfoP out_info, CStringListP options)
 {
-    return(main_init_c(out_info, options, FALSE, FALSE));
-}
-
-static GenericP
-main_init_ossg_c(OutputInfoP out_info, CStringListP options)
-{
-    return(main_init_c(out_info, options, TRUE, TRUE));
+    return(main_init_c(out_info, options, FALSE));
 }
 
 static void
@@ -393,7 +378,6 @@ static LangListT main_language_list[] = {
     {"pre-ansi-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
     {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
     {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
-    {"ossg-c", main_init_ossg_c, main_input_c, 2, main_output_c, 2},
     {"test", main_init_test, main_input_test, 1, main_output_test, 0},
     {NIL(CStringP), NIL(GenericP(*)(OutputInfoP, CStringListP)),
      NIL(void(*)(GenericP, GrammarP)), 0,

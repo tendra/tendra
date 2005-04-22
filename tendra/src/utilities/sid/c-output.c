@@ -190,7 +190,6 @@ c_output_declaration_1(COutputInfoP info, RuleP rule)
 	return;
     }
     c_output_mapped_key(info, entry);
-    write_char(ostream, ' ');
     c_output_type_decl(info, rule_param(rule), rule_result(rule));
     write_char(ostream, ';');
     write_newline(ostream);
@@ -219,7 +218,6 @@ c_output_ext_declaration_1(COutputInfoP info, RuleP rule)
 	return;
     }
     c_output_mapped_key(info, entry);
-    write_char(ostream, ' ');
     c_output_type_decl(info, rule_param(rule), rule_result(rule));
     write_char(ostream, ';');
     write_newline(ostream);
@@ -1075,7 +1073,6 @@ c_output_definition_1(COutputInfoP info, RuleP rule, EntryP predicate_id,
     }
     write_newline(ostream);
     c_output_mapped_key(info, entry);
-    write_char(ostream, ' ');
     c_output_type_defn(info, rule_param(rule), rule_result(rule));
     c_out_reset_labels();
     rstack_init(&rstack);

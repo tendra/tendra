@@ -543,33 +543,6 @@
 #  undef FS_STDC_HASH
 # endif /* defined (FS_NO_STDC_HASH) */
 
-# ifdef FS_NO_PROTOTYPES
-#  undef FS_PROTOTYPES
-# endif /* defined (FS_NO_PROTOTYPES) */
-# ifdef FS_PROTOTYPES
-#  define PROTO_S(ansi) ansi
-#  define PROTO_N(names)
-#  define PROTO_T(types) (types)
-#  define PROTO_X ,
-#  define PROTO_Z() (void)
-# else
-#  ifdef __TenDRA__
-#   pragma TenDRA weak prototype analysis on
-#   pragma TenDRA keyword KW_WEAK for weak
-#   define PROTO_S(ansi) KW_WEAK ansi
-#   define PROTO_N(names) names
-#   define PROTO_T(types) types;
-#   define PROTO_X ;
-#   define PROTO_Z() ()
-#  else
-#   define PROTO_S(ansi) ()
-#   define PROTO_N(names) names
-#   define PROTO_T(types) types;
-#   define PROTO_X ;
-#   define PROTO_Z() ()
-#  endif /* defined (__TenDRA__) */
-# endif /* defined (FS_PROTOTYPES) */
-
 # ifdef FS_NO_VOID_PTR
 #  undef FS_VOID_PTR
 # endif /* defined (FS_NO_VOID_PTR) */
@@ -827,10 +800,5 @@ extern CStringP		strerror(int);
 extern int		sys_nerr;
 extern CStringP		sys_errlist[];
 # endif /* defined (FS_SYS_ERRLIST) */
-
-# ifdef X
-# undef X
-# endif
-# define X PROTO_X
 
 #endif /* !defined (H_OS_INTERFACE) */
