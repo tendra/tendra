@@ -682,9 +682,11 @@ int cproc
   outnl ();
 
 
-#if islinux || isfreebsd
+#if isdragonfly || isfreebsd || islinux
   if (
-#if islinux
+#if isdragonfly
+  !dragonfly_elf &&
+#elif islinux
 	!linux_elf &&
 #endif
 	pname[0] != local_prefix[0] &&
@@ -999,9 +1001,11 @@ int cproc
     outnl ();
   }
 
-#if islinux || isfreebsd
+#if isdragonfly || isfreebsd || islinux
   if (
-#if islinux
+#if isdragonfly
+  !dragonfly_elf &&
+#elif islinux
 	!linux_elf &&
 #endif
 	pname[0] != local_prefix[0] &&

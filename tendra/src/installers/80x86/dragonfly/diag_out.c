@@ -248,13 +248,17 @@ static void stabd
 
     if (seg != 0)		/* 0 suppresses always */
     {
-      if (seg < 0)
+      if (seg < 0 && !dragonfly_elf)
 	seg = - seg;
       if (seg > 0)		/* -ve line nos are put out in the stabs */
       {
 	i = next_lab () ;
 	fprintf ( dg_file, "%sL.%ld:\n", local_prefix, i ) ;
 	fprintf ( dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld",seg, lno, local_prefix, i ) ;
+	if (dragonfly_elf && in_proc) {
+    outs("-");
+    out_procname();
+  }
 	outnl ();
       }
     }

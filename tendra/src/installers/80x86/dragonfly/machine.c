@@ -41,12 +41,27 @@
 
 /* VARIABLES */
 
-char * local_prefix = "L";
-char * name_prefix = "_";
+int dragonfly_elf = 1;
+
+char *local_prefix = ".L";
+char *name_prefix = "";
 
 
 
 /* PROCEDURES */
+
+void
+set_dragonfly_format(int elf)
+{
+        dragonfly_elf = elf;
+        (if elf == 1) {
+                local_prefix = ".L";
+                name_prefix = "";
+        } else {
+                local_prefix = "L";
+                name_prefix = "_";
+        }
+}
 
 /* is the result of a procedure delivering
    this shape produced in registers. */

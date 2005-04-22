@@ -382,6 +382,11 @@ int   main
       case 'i':
 	print_inlines = 1;
 	break;
+#if isdragonfly
+      case 'k':
+        set_dragonfly_format (s[2] == '1');
+        break;
+#endif
 #if islinux
       case 'k':
 	set_linux_format (s[2] == '1');
@@ -399,6 +404,10 @@ int   main
     };
   };
 
+#if isdragonfly
+  if (gcc_compatible < 0)
+    gcc_compatible = !dragonfly_elf;
+#endif
 #if islinux
   if (gcc_compatible < 0)
     gcc_compatible = ! linux_elf;

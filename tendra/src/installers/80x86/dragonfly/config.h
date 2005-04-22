@@ -57,7 +57,7 @@
 #define issol86 0
 #define islinux 0
 #define isdragonfly 1
-#define remove_struct_ref 1
+#define remove_struct_ref (!dragonfly_elf)
 
 #define has_setcc 1
 #define little_end 1
@@ -84,7 +84,7 @@
 #define do_case_transforms 1
 #define substitute_complex 1
 #define has_rotate 1
-#define GCC_STRUCTS 1
+#define GCC_STRUCTS -1  /* !dragonfly_elf */
 
 
 #define maxmin_implemented 1
@@ -96,7 +96,8 @@
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-#define prefix_length 1	/* strlen(name_prefix) */
+extern int dragonfly_elf;
+#define prefix_length (dragonfly_elf ? 0 : 1)	/* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
 #define normal_fpucon 0x1272
 
@@ -130,8 +131,8 @@
  * a jump table can contain
  */
 
-
-
 #define temp_mips 0
+
+extern void set_dragonfly_format(int);  /* XXX */
 
 #endif
