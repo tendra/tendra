@@ -129,7 +129,6 @@
 #define PROTO_N( names )	names
 #define PROTO_T( params )	params ;
 #define PROTO_Z()		()
-#define PROTO_X			;
 #endif
 #endif
 
@@ -142,7 +141,6 @@
 #define PROTO_N( names )
 #define PROTO_T( params )	( params )
 #define PROTO_Z()		( void )
-#define PROTO_X			,
 #endif
 #endif
 
@@ -154,27 +152,7 @@
 #define PROTO_N( names )	names
 #define PROTO_T( params )	params ;
 #define PROTO_Z()		()
-#define PROTO_X			;
 #endif
-
-
-/* Definitions of PROTO_V macros */
-
-#if FS_STDARG
-#define PROTO_V( params )	params
-#define PROTO_W( types )	types
-#else
-#define PROTO_V( parms )	( va_alist ) va_dcl
-#define PROTO_W( types )	()
-#endif
-
-
-/* Definition of prototype separator macro */
-
-#ifdef X
-#undef X
-#endif
-#define X			PROTO_X
 
 
 /* Definitions of TenDRA keywords */
