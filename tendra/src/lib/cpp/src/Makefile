@@ -82,3 +82,5 @@ what.o: what.cc
 
 clobber : clean ${EXTRA_CLOBBER}
 	${REMOVE} ${NAME}
+
+.include "../Makefile.inc"
