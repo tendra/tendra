@@ -1,9 +1,6 @@
 /*
- * Copyright (c) 2002, 2003, 2004 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
- *
- * This code is derived from software contributed to The TenDRA Project by
- * Jeroen Ruigrok van der Werven.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
