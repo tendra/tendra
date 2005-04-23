@@ -54,7 +54,7 @@ void
 set_dragonfly_format(int elf)
 {
         dragonfly_elf = elf;
-        (if elf == 1) {
+        if (elf == 1) {
                 local_prefix = ".L";
                 name_prefix = "";
         } else {
