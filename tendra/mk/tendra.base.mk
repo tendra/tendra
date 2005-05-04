@@ -70,9 +70,9 @@ OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 .else
 OBJ_DIR=	${BASE_DIR}/obj
 OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
-BOBJ_DIR=	${BASE_DIR}/bootstrap
-BOBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 .endif
+BOBJ_DIR=	${BASE_DIR}/bootstrap
+BOBJ_SDIR=	${BOBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR=	/var/tmp
 
 # If this file exists then the object tree is complete
