@@ -87,6 +87,7 @@ SHELL=		/bin/sh
 ENV?=		/usr/bin/env
 
 # Keep in alphabetical order
+AR?=		${ENV} ar
 COPY?=		${ENV} cp
 ECHO?=		${ENV} echo
 ECHODIR?=	${ENV} echo
@@ -95,6 +96,7 @@ INSTALL?=	${ENV} install
 LN?=		${ENV} ln
 MKDIR?=		${ENV} mkdir
 MOVE?=		${ENV} mv
+RANLIB?=	${ENV} ranlib
 REMOVE?=	${ENV} rm -f
 TEST?=		${ENV} test
 
