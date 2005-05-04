@@ -75,7 +75,7 @@ typedef char *va_list ;
 #define va_dcl
 #define va_start( l )		( ( void ) ( l = __va_start ( ... ) ) )
 #else
-#define va_start( l, i )	( ( void ) ( l = __va_start ( ... ) ) )
+#define va_start( l, i )	( ( void ) ( __va_start ( l, i ) ) )
 #endif
 
 
