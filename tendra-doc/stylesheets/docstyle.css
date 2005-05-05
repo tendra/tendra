@@ -1,0 +1,167 @@
+/* $Id$ */
+
+html {
+  background-color:       #555577;
+  margin:                 0px;
+  padding:                0px;
+}
+
+body {
+  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  color: white;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+div.container {
+  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  color: #eeddcc;
+  margin: 8px 0px 0px 0px;
+  padding: 0px;
+  position: relative;
+}
+
+a {
+  background:             transparent;
+  color:                  #eeddcc;
+  text-decoration:        none;
+}
+
+a:active {
+  background:             transparent;
+  color:                  #998888;
+  text-decoration:        underline;
+}
+
+a:hover {
+  background:             transparent;
+  color:                  #eeddcc;
+  text-decoration:        none;
+}
+
+a:link {
+  background:             transparent;
+  color:                  #ffcc99;
+  text-decoration:        underline;
+}
+
+a:visited {
+  background:             transparent;
+  color:                  #cc9966;
+  text-decoration:        underline;
+}
+
+code, pre {
+  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  color: #eeddcc;
+  font: 110% monospace;
+}
+
+div#content {
+  background: #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  border: solid #ffcc99;
+  color: #eeddcc;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin: 0px 8px 0px 216px;
+  padding: 1px 1px 1px 1px;
+}
+
+div#content h1 {
+  background:             #aaaadd;
+  border-bottom:          2px solid #8888aa;
+  color:                  #002244;
+  font:                   bold 25px sans-serif;
+  letter-spacing:         0.5em;
+  margin:                 0px;
+  padding:                2px 2px 2px 2px;
+  text-align:             right;
+}
+
+div#content h1 span {
+  display:                block;
+  background-image:       url(tendra-small.png);
+  background-repeat:      no-repeat;
+  background-position:    0px 0%;
+}
+
+div#content p {
+  color:                  #eeddcc;
+  margin:                 0.5em 0.5em 0.5em 0.5em;
+  padding:                2px;
+}
+
+div#content p span {
+  color:                  #ffcc99;
+  margin:                 0px;
+  padding:                2px;
+}
+
+div#content pre {
+  color:                  #eeddcc;
+  margin:                 0.5em 0.5em 0.5em 1em;
+  padding:                2px;
+}
+
+div.menus {
+  background:             #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  color:                  #eeddcc;
+  margin:                 0px 8px 0px 8px;
+  padding:                0px;
+  position:               absolute;
+  width:                  200px;
+}
+
+div.menus li {
+  display:                block;
+  margin:                 0px;
+  padding:                0px;
+}
+
+div.menus ul {
+  margin:                 2px 2px 2px 2px;
+  padding:                0px;
+}
+
+div.menu {
+  background:             #555577 url(buddha.png) no-repeat fixed 100% 10%;
+  border:                 solid #ffcc99;
+  color:                  #eeddcc;
+  margin:                 0px 0px 8px 0px;
+  padding:                1px 1px 1px 1px;
+}
+
+div.menu h3 {
+  background:             #aaaadd;
+  border-bottom:          2px solid #8888aa;
+  color:                  #002244;
+  font-size:              1.0em;
+  margin:                 0px;
+  padding:                2px 2px 0px 2px;
+}
+
+div.menu li {
+  display:                block;
+  margin:                 0px;
+  padding:                0px;
+}
+
+abbr, acronym {
+  border-bottom:          1px dotted;
+  cursor:                 help;
+}
+
+img {
+  border:                 none;
+  margin:                 0px;
+  padding:                0px;
+}
+
+div#indent ul {
+  list-style:             none;
+}
+
+div#compliance p {
+  margin: 8px 8px 0px 0px;
+  text-align:             right;
+}
