@@ -58,6 +58,10 @@ fixenv.sed:
 	@${ECHO} "# Create ${.TARGET}"
 	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g" 		\
 		> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g" 		\
+		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g" 			\
+		>> ${OBJ_DIR}/${.TARGET}
 	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g" 		\
 		>> ${OBJ_DIR}/${.TARGET}
 	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g" 		\
