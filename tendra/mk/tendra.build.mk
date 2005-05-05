@@ -80,7 +80,7 @@ fixenv.sed:
 _REALWORK: fixenv.sed .USE
 	@${ECHO} "# Fixing paths for ${ENVFILE} environments"
 . for entry in ${ENVFILE}
-	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${entry}
+	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
 . endfor
 . if "${ENVEXTRA}" != ""
 	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
