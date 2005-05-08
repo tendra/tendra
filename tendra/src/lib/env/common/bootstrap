@@ -36,7 +36,7 @@
 +STARTUP_CPP_DIR	"-I<TENDRA_STARTUPDIR>/Bounds.ansi -I<TENDRA_STARTUPDIR>/Modes.cpp"
 +STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xc"
 +PORTABILITY		"<TENDRA_STARTUPDIR>/Bounds.ansi/default.pf"
-+LINK			"-L<TENDRA_LIBDIR>"
++LINK			"-L<TENDRA_LIBDIR> -L<TENDRA_INCLDIR>"
 +LIB			"-lansi"
 
 +CRT0			"/lib/crt0.o"
