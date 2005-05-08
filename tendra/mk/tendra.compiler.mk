@@ -80,14 +80,19 @@ TPL?=	tpl
 .endif
 
 TSPEC?=	${OBJ_DIR}/src/tools/tspec/tspec
-.else
-TCC=	${BOBJ_DIR}/src/tools/tcc/tcc
+.else # defined(BOOTSTRAP)
 CC=	${TCC}
+TCC=	${BOBJ_DIR}/src/tools/tcc/tcc
 TLD=	${BOBJ_DIR}/src/tools/tld/tld
 TNC=	${BOBJ_DIR}/src/tools/tnc/tnc
 TPL=	${BOBJ_DIR}/src/tools/tpl/tpl
-CCOPTS+=-Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src/ \
-	-Y${BOBJ_DIR}/src/lib/env/system
+TSPEC?=	${BOBJ_DIR}/src/tools/tspec/tspec
+# The build env must be the first -Y argument, since it sets the default env
+# search path.
+ENVFLAGS=-Y${BOBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${BOBJ_DIR}/src/
+TCCOPTS2:= ${TCCOPTS}
+TCCOPTS=
+CCOPTS+= ${ENVFLAGS} ${TCCOPTS2}
 .endif
 
 CCOPTS+=	-D_${OSVER}
