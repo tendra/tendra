@@ -77,11 +77,11 @@ typedef struct _tag {
     TYPE REPRESENTING A LIST OF STRINGS
 
     A list consists of a simple list of strings linked via their next
-    field.
+    field. The string is either char * or ordered_node.
 */
 
 typedef struct list_t {
-    char *item;
+    void *item;
     struct list_t *next;
 } list;
 
