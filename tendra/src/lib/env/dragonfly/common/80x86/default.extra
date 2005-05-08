@@ -1,7 +1,7 @@
 +MACHINE	"dragonfly-*-80x86"
 +AS		"/usr/bin/as"
 +LD		"/usr/bin/ld"
-+FLAG_LD	"-e _start -dc -dp --dynamic-linker /usr/lib/ld-elf.so.1"
++FLAG_LD	"-e _start -dc -dp --dynamic-linker /usr/libexec/ld-elf.so.1"
 +CC		"/usr/bin/cc"
 +CRT0		""
 +CRT1		"/usr/lib/crt1.o"
