@@ -113,6 +113,17 @@ _REALWORK: ${PROG} .USE
 
 CLEAN_EXTRA+=	${PROG} ${PROG}.core core ${OBJS}
 _objdir=	${OBJ_SDIR}
+.elif "${LIB}" != ""
+#
+# Build a library
+#
+_REALWORK: lib${LIB}.a
+
+lib${LIB}.a: ${OBJS}
+	${AR} cr ${.TARGET} ${OBJS}
+	${RANLIB} ${.TARGET}
+
+_objdir=	${OBJ_SDIR}
 .else
 #
 # Nothing to do here.
