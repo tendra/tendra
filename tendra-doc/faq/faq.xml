@@ -1,0 +1,135 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+<article>
+  <articleinfo>
+    <title>TenDRA - Frequently Asked Questions</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+    
+    <author>Jeroen Ruigrok van der Werven</author>
+    <authorinitials>JRvdW</authorinitials>
+    <pubdate>2004</pubdate>
+  </articleinfo>
+
+  <para>First draft of the FAQ.  Lame set-up, no nice colours, and so on.
+    Also, the order is based on nothing for now.</para>
+
+  <qandaset>
+    <qandaentry>
+      <question>
+        <para>What is/was QinetiQ/Dstl/DERA/DRA?</para>
+      </question>
+
+      <answer>
+        <para>The Defence Research Agency (DRA) was an amalgamation (mix) of
+          organisations formed in 1991 out of: the Royal Aerospace
+          Establishment (RAE), the Royal Armaments Research and Development
+          Establishment (RARDE), the Admiralty Research Establishment (ARE),
+          and the Royal Signals and Radar Establishment (RSRE).  The purpose
+          of DRA was to "provide a more efficient research organisation within
+          the MoD." (Source: United Kingdom Parliament's House of Commons'
+          Select Committee on Defence's Ninth Report, section 'The Future of
+          DERA' and onward)</para>
+
+        <para>through an amalgamation of multiple organisations: the Defence
+          Research Agency (DRA), the Chemical and Biological Defence
+          Establishment (CBDE), the Defence Operational Analysis Centre
+          (DOAC), the Army Personnel Research Establishment and the Test &amp;
+          Evaluation Establishments, e.g. the Aeroplane &amp; Armament
+          Experimental Establishment (A&amp;AEE).</para>
+
+        <para>On the second of July 2001 DERA split off into QinetiQ
+          (http://www.qinetiq.co.uk/) and Defence Science and Technology
+          Laboratory (Dstl).</para>
+      </answer>
+    </qandaentry>
+
+    <qandaentry>
+      <question>
+        <para>What are ANDF and TDF?</para>
+      </question>
+
+      <answer>
+        <para>TDF is an Architecture Neutral Distribution Format (ANDF).  It
+          is similar to a machine-independent intermediate representation in a
+          compiler.  The idea is that software vendors can sell a single
+          shrink-wrapped ANDF version (made by a `producer', similar to a
+          compiler front-end) of their stuff and anyone with an ANDF
+          `installer' (back end) on their machine can buy it and run it.  It
+          is a bit like UNCOL in the breadth of its aims but seems to actually
+          work.</para>
+
+        <para>Only a subset of TDF was chosen by the OSF for its ANDF. This
+          subset is sufficient for ANSI C, but TDF as a whole was designed to
+          support (at least) FORTRAN, COBOL, C++, Ada, ML, and LISP
+          also.</para>
+      </answer>
+    </qandaentry>
+
+    <qandaentry>
+      <question>
+        <para>What is Ten15?</para>
+      </question>
+
+      <answer>
+        <para>We will fill this out soon.</para>
+        <para>See <ulink url="http://www.mca-ltd.com/martin/Ten15/">
+          An Introduction to Ten15 - A personal retrospective</ulink> in the
+          meantime</para>
+      </answer>
+    </qandaentry>
+
+    <qandaentry>
+      <question>
+        <para>Which documents and papers exist for/about TenDRA and ANDF?</para>
+      </question>
+
+      <answer>
+        <itemizedlist>
+          <listitem>
+            <para>TDF Specification</para>
+          </listitem>
+          
+          <listitem>
+            <para>TDF Facts and Figures</para>
+          </listitem>
+          
+          <listitem>
+            <para>TDF and portability</para>
+          </listitem>
+          
+          <listitem>
+            <para>Introductory Guide to TDF</para>
+          </listitem>
+        </itemizedlist>
+      </answer>
+    </qandaentry>
+
+    <qandaentry>
+      <question>
+        <para>I try to compile the following simple C++ program:
+          <programlisting>
+            #include &lt;iostream.h&gt;
+
+            int main()
+            {
+                    cout &lt;&lt; "hello world\n";
+                    return (0);
+            }
+          </programlisting>
+          and the compiler is giving me errors.</para>
+      </question>
+
+      <answer>
+        <para>This release only contains the bare minimum language support
+          library, not the fully standard C++ library.  See the C++ producer
+          documentation for more details.</para>
+      </answer>
+    </qandaentry>
+  </qandaset>
+</article>
