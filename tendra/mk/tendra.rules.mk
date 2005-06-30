@@ -19,12 +19,11 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 .c.j:
 	@${ECHO} "# Compiling ${PARTIMP}"
-	${TCC} -Fj -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
+	${TCC} -yTENDRA_BASEDIR="${OBJ_DIR}/src"\
 		-Y${OBJ_DIR}/${ENVIRONMENT}/bootstrap -Y${BLDARCHBITS}bit\
-		-D__BUILDING_LIBS\
 		-I${DIST_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include\
 		-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h\
-		-o ${.TARGET} ${.IMPSRC}
+		-o ${.TARGET} ${.IMPSRC} -Ymakelib -Ybuilding
 
 .pl.j:
 	@${ECHO} "# Transforming ${PARTIMP}"
