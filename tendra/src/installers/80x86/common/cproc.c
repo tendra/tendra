@@ -686,6 +686,8 @@ int cproc
   if (
 #if isdragonfly
   !dragonfly_elf &&
+#elif isfreebsd
+  !freebsd_elf &&
 #elif islinux
 	!linux_elf &&
 #endif
@@ -1005,6 +1007,8 @@ int cproc
   if (
 #if isdragonfly
   !dragonfly_elf &&
+#elif isfreebsd
+  !freebsd_elf &&
 #elif islinux
 	!linux_elf &&
 #endif

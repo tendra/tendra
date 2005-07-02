@@ -41,12 +41,26 @@
 
 /* VARIABLES */
 
-char * local_prefix = "L";
-char * name_prefix = "_";
+int freebsd_elf = 1;
+char * local_prefix = ".L";
+char * name_prefix = "";
 
 
 
 /* PROCEDURES */
+
+void
+set_freebsd_format(int elf)
+{
+	freebsd_elf = elf;
+	if (elf == 1) {
+		local_prefix = ".L";
+		name_prefix = "";
+	} else {
+		local_prefix = "L";
+		name_prefix = "_";
+	}
+}
 
 /* is the result of a procedure delivering
    this shape produced in registers. */

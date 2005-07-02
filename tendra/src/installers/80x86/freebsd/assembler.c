@@ -47,6 +47,12 @@ void dot_align
     PROTO_N ( (n) )
     PROTO_T ( int n )
 {
+  if (freebsd_elf) {
+    outs(".align ");
+    outn((long)n);
+    outnl();
+    return;
+  }
   if (n == 1)
     return;
   outs(".align ");
@@ -90,6 +96,16 @@ void align_label
     PROTO_N ( (f, jr) )
     PROTO_T ( int f X exp jr )
 {
+  if (freebsd_elf) {
+    if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+      if (f == 1) /* repeat jump */
+        outs(".align 4");
+      if (f == 2) /* preceded by a jmp or ret */
+        outs(".align 16");
+      outs("\n");
+      return;
+    }
+  }
   if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
     if (f == 1)	/* repeat jump */
       outs(".align 3,0x90");
@@ -117,7 +133,10 @@ void eval_postlude
 void out_readonly_section
     PROTO_Z ()
 {
-  outs (".text");
+  if (freebsd_elf)
+    outs(".section .rodata");
+  else
+    outs (".text");
   return;
 }
 
@@ -287,10 +306,17 @@ void out_initialiser
     PROTO_N ( (id) )
     PROTO_T ( char* id )
 {
-  outs(".stabs \"___TDFI_LIST__\",22,0,0,");
-  outs (id);
-  outnl ();
-  outnl ();
+  if (freebsd_elf) {
+    outs(".section .init");
+    outnl();
+    outs(" call ");
+    outs(id);
+  } else {
+    outs(".stabs \"___TDFI_LIST__\",22,0,0,");
+    outs (id);
+    outnl ();
+    outnl ();
+  }
   return;
 }
 
