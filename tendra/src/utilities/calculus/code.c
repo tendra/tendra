@@ -270,13 +270,13 @@ print_assert_decs(void)
 	output("extern int check_int_size(int, int, char *, int);\n");
     }
     output("#define CHECK_NULL(P)\\\n");
-    output("    (check_null_%X ((P), __FILE__, __LINE__))\n");
+    output("    (check_null_%X((P), __FILE__, __LINE__))\n");
     output("#define CHECK_TAG(P, N)\\\n");
-    output("    (check_tag_%X((P), (unsigned) (N), ");
+    output("    (check_tag_%X((P), (unsigned)(N), ");
     output("__FILE__, __LINE__))\n");
     output("#define CHECK_TAG_ETC(P, L, U)\\\n");
-    output("    (check_tag_etc_%X ((P), (unsigned) (L), ");
-    output("(unsigned) (U), __FILE__, __LINE__))\n");
+    output("    (check_tag_etc_%X((P), (unsigned)(L), ");
+    output("(unsigned)(U), __FILE__, __LINE__))\n");
     if (allow_vec) {
 	output("#define CHECK_INT(N, M)\\\n");
 	output("     (check_int_size((N), (M), ");
@@ -434,7 +434,7 @@ print_simple_cons(char *nm, int sz, int d)
 	output("\tDEREF_%e(x%u_ + 1, (A));\\\n", nm);
     }
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned)%d);\\\n", sz + 1);
+    output("\t(D)(x%u_, (unsigned)%d);\\\n", sz + 1);
     output("    }\n\n");
     unique++;
 
@@ -656,7 +656,7 @@ print_types_c(void)
     output("\n\n");
     comment("Run-time type information");
     output("#ifndef GEN_%X\n");
-    output("#define GEN_%X(A, B)%t40gen_%X ((unsigned)(A))\n");
+    output("#define GEN_%X(A, B)%t40gen_%X((unsigned)(A))\n");
     output("#endif\n");
     output("#define TYPEID_ptr%t40((unsigned)0)\n");
     output("#define TYPEID_list%t40((unsigned)1)\n");
@@ -711,7 +711,7 @@ print_ptr_c(void)
     output("    {\\\n");
     g = gen(SIZE_PTR + 1, "list");
     output("\t%X *x%u_ = %e;\\\n", g);
-    output("\tx%u_ [1].ag_ptr = (A);\\\n");
+    output("\tx%u_[1].ag_ptr = (A);\\\n");
     output("\tx%u_->ag_ptr = (B);\\\n");
     output("\t(C) = x%u_;\\\n");
     output("    }\n\n");
@@ -721,7 +721,7 @@ print_ptr_c(void)
     output("#define UN_CONS_ptr(A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
@@ -730,9 +730,9 @@ print_ptr_c(void)
     output("#define DESTROY_CONS_ptr(D, A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned) 2);\\\n");
+    output("\t(D)(x%u_, (unsigned)2);\\\n");
     output("    }\n\n");
     unique++;
 
@@ -740,10 +740,10 @@ print_ptr_c(void)
 	/* Pointer stack constructor */
 	output("#define PUSH_ptr(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	g = gen(SIZE_PTR + 1, "stack");
 	output("\t%X *x%u_ = %e;\\\n", g);
-	output("\tx%u_ [1].ag_ptr = (A);\\\n");
+	output("\tx%u_[1].ag_ptr = (A);\\\n");
 	output("\tx%u_->ag_ptr = *r%u_;\\\n");
 	output("\t*r%u_ = x%u_;\\\n");
 	output("    }\n\n");
@@ -752,11 +752,11 @@ print_ptr_c(void)
 	/* Pointer stack destructor */
 	output("#define POP_ptr(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	output("\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
-	output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+	output("\t(A) = x%u_[1].ag_ptr;\\\n");
 	output("\t*r%u_ = x%u_->ag_ptr;\\\n");
-	output("\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+	output("\tdestroy_%X(x%u_, (unsigned)2);\\\n");
 	output("    }\n\n");
 	unique++;
     }
@@ -783,13 +783,13 @@ print_list_c(void)
     output("#define PTR_TAIL_list(A)%t40");
     output("(%s(A))\n", check_null);
     output("#define TAIL_list(A)%t40");
-    output("(%s(A) ->ag_ptr)\n", check_null);
+    output("(%s(A)->ag_ptr)\n", check_null);
 
-    output("#define LENGTH_list(A)%t40length_%X_list ((A))\n");
-    output("#define END_list(A)%t40end_%X_list ((A))\n");
-    output("#define REVERSE_list(A)%t40reverse_%X_list ((A))\n");
+    output("#define LENGTH_list(A)%t40length_%X_list((A))\n");
+    output("#define END_list(A)%t40end_%X_list((A))\n");
+    output("#define REVERSE_list(A)%t40reverse_%X_list((A))\n");
     output("#define APPEND_list(A, B)%t40");
-    output("append_%X_list ((A), (B))\n\n");
+    output("append_%X_list((A), (B))\n\n");
     output("#define SIZE_list(A)%t40%d\n", SIZE_LIST);
     output("#define NULL_list(A)%t40((%X *) 0)\n");
     output("#define IS_NULL_list(A)%t40((A) == 0)\n");
@@ -797,29 +797,29 @@ print_list_c(void)
     g = gen(1, "list");
     output("#define UNIQ_list(A)%t40%e\n", g);
     output("#define DESTROY_UNIQ_list(A)%t40");
-    output("destroy_%X ((A), (unsigned) 1)\n");
+    output("destroy_%X((A), (unsigned)1)\n");
     output("#ifdef %X_IO_ROUTINES\n");
-    output("#define VOIDSTAR_list(A)%t40((void *) (A))\n");
+    output("#define VOIDSTAR_list(A)%t40((void *)(A))\n");
     output("#endif\n\n");
 
     /* Destruction of lists */
     output("#define DESTROY_list(A, B)\\\n");
     output("    {\\\n");
-    output("\tdestroy_%X_list ((A), (unsigned) (B));\\\n");
+    output("\tdestroy_%X_list((A), (unsigned)(B));\\\n");
     output("    }\n\n");
 
     /* Assignment and dereference of lists */
     output("#define COPY_list(A, B)%t40");
-    output("(%s(A) ->ag_ptr = (B))\n", check_null);
+    output("(%s(A)->ag_ptr = (B))\n", check_null);
     output("#define DEREF_list(A)%t40");
-    output("(%s(A) ->ag_ptr)\n", check_null);
+    output("(%s(A)->ag_ptr)\n", check_null);
 
     /* List list constructor */
     output("#define CONS_list(A, B, C)\\\n");
     output("    {\\\n");
     g = gen(SIZE_LIST + 1, "list");
     output("\t%X *x%u_ = %e;\\\n", g);
-    output("\tx%u_ [1].ag_ptr = (A);\\\n");
+    output("\tx%u_[1].ag_ptr = (A);\\\n");
     output("\tx%u_->ag_ptr = (B);\\\n");
     output("\t(C) = x%u_;\\\n");
     output("    }\n\n");
@@ -829,7 +829,7 @@ print_list_c(void)
     output("#define UN_CONS_list(A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
@@ -838,9 +838,9 @@ print_list_c(void)
     output("#define DESTROY_CONS_list(D, A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned) 2);\\\n");
+    output("\t(D)(x%u_, (unsigned)2);\\\n");
     output("    }\n\n");
     unique++;
 
@@ -848,10 +848,10 @@ print_list_c(void)
 	/* List stack constructor */
 	output("#define PUSH_list(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	g = gen(SIZE_LIST + 1, "stack");
 	output("\t%X *x%u_ = %e;\\\n", g);
-	output("\tx%u_ [1].ag_ptr = (A);\\\n");
+	output("\tx%u_[1].ag_ptr = (A);\\\n");
 	output("\tx%u_->ag_ptr = *r%u_;\\\n");
 	output("\t*r%u_ = x%u_;\\\n");
 	output("    }\n\n");
@@ -860,11 +860,11 @@ print_list_c(void)
 	/* List stack destructor */
 	output("#define POP_list(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	output("\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
-	output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+	output("\t(A) = x%u_[1].ag_ptr;\\\n");
 	output("\t*r%u_ = x%u_->ag_ptr;\\\n");
-	output("\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+	output("\tdestroy_%X(x%u_, (unsigned)2);\\\n");
 	output("    }\n\n");
 	unique++;
     }
@@ -894,16 +894,16 @@ print_stack_c(void)
 
     /* Assignment and dereference of stacks */
     output("#define COPY_stack(A, B)%t40");
-    output("(%s(A) ->ag_ptr = (B))\n", check_null);
+    output("(%s(A)->ag_ptr = (B))\n", check_null);
     output("#define DEREF_stack(A)%t40");
-    output("(%s(A) ->ag_ptr)\n", check_null);
+    output("(%s(A)->ag_ptr)\n", check_null);
 
     /* Stack list constructor */
     output("#define CONS_stack(A, B, C)\\\n");
     output("    {\\\n");
     g = gen(SIZE_STACK + 1, "list");
     output("\t%X *x%u_ = %e;\\\n", g);
-    output("\tx%u_ [1].ag_ptr = (A);\\\n");
+    output("\tx%u_[1].ag_ptr = (A);\\\n");
     output("\tx%u_->ag_ptr = (B);\\\n");
     output("\t(C) = x%u_;\\\n");
     output("    }\n\n");
@@ -913,7 +913,7 @@ print_stack_c(void)
     output("#define UN_CONS_stack(A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
@@ -922,9 +922,9 @@ print_stack_c(void)
     output("#define DESTROY_CONS_stack(D, A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+    output("\t(A) = x%u_[1].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned) 2);\\\n");
+    output("\t(D)(x%u_, (unsigned)2);\\\n");
     output("    }\n\n");
     unique++;
 
@@ -932,10 +932,10 @@ print_stack_c(void)
 	/* Stack stack constructor */
 	output("#define PUSH_stack(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	g = gen(SIZE_STACK + 1, "stack");
 	output("\t%X *x%u_ = %e;\\\n", g);
-	output("\tx%u_ [1].ag_ptr = (A);\\\n");
+	output("\tx%u_[1].ag_ptr = (A);\\\n");
 	output("\tx%u_->ag_ptr = *r%u_;\\\n");
 	output("\t*r%u_ = x%u_;\\\n");
 	output("    }\n\n");
@@ -944,11 +944,11 @@ print_stack_c(void)
 	/* Stack stack destructor */
 	output("#define POP_stack(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	output("\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
-	output("\t(A) = x%u_ [1].ag_ptr;\\\n");
+	output("\t(A) = x%u_[1].ag_ptr;\\\n");
 	output("\t*r%u_ = x%u_->ag_ptr;\\\n");
-	output("\tdestroy_%X (x%u_, (unsigned) 2);\\\n");
+	output("\tdestroy_%X(x%u_, (unsigned)2);\\\n");
 	output("    }\n\n");
 	unique++;
     }
@@ -972,8 +972,8 @@ print_vec_c(void)
     comment("Definitions for vectors");
     output("#define DIM_vec(A)%t40((A).dim)\n");
     output("#define PTR_ptr_vec(A)%t40");
-    output("(%s(A) [2].ag_ptr)\n", check_null);
-    output("#define DIM_ptr_vec(A)%t40((A) ->ag_dim)\n");
+    output("(%s(A)[2].ag_ptr)\n", check_null);
+    output("#define DIM_ptr_vec(A)%t40((A)->ag_dim)\n");
     output("#define SIZE_vec(A)%t40%d\n", SIZE_VEC);
     output("#define NULL_vec(A)%t40empty_%X_vec\n\n");
 
@@ -985,7 +985,7 @@ print_vec_c(void)
     output("\tx%u_.dim = u%u_;\\\n");
     output("\tif (u%u_ == 0) u%u_ = 1;\\\n");
     output("\tx%u_.elems.ptr = ");
-    output("GEN_%X ((SZ) *u%u_, TYPEID_ptr);\\\n");
+    output("GEN_%X((SZ)*u%u_, TYPEID_ptr);\\\n");
     output("\tx%u_.elems.vec = x%u_.elems.ptr;\\\n");
     output("\t(RES) = x%u_;\\\n");
     output("    }\n\n");
@@ -1008,15 +1008,15 @@ print_vec_c(void)
     if (extra_asserts) {
 	output("\tint u%u_, l%u_;\\\n");
 	output("\tx%u_ = (V);\\\n");
-	output("\tu%u_ = CHECK_INT ((U), DIM_vec (x%u_));\\\n");
+	output("\tu%u_ = CHECK_INT ((U), DIM_vec(x%u_));\\\n");
 	output("\tl%u_ = CHECK_INT ((L), u%u_);\\\n");
 	output("\tx%u_.elems.ptr += ((SZ)*l%u_);\\\n");
-	output("\tx%u_.dim = (unsigned) (u%u_ - l%u_);\\\n");
+	output("\tx%u_.dim = (unsigned)(u%u_ - l%u_);\\\n");
     } else {
 	output("\tint l%u_ = (L);\\\n");
 	output("\tx%u_ = (V);\\\n");
 	output("\tx%u_.elems.ptr += ((SZ)*l%u_);\\\n");
-	output("\tx%u_.dim = (unsigned) ((U) - l%u_);\\\n");
+	output("\tx%u_.dim = (unsigned)((U) - l%u_);\\\n");
     }
     output("\t(RES) = x%u_;\\\n");
     output("    }\n\n");
@@ -1028,9 +1028,9 @@ print_vec_c(void)
     output("\t%X *x%u_ = %s(A);\\\n", check_null);
     output("\t%X_VEC y%u_;\\\n");
     output("\ty%u_ = (B);\\\n");
-    output("\tx%u_ [0].ag_dim = y%u_.dim;\\\n");
-    output("\tx%u_ [1].ag_ptr = y%u_.elems.vec;\\\n");
-    output("\tx%u_ [2].ag_ptr = y%u_.elems.ptr;\\\n");
+    output("\tx%u_[0].ag_dim = y%u_.dim;\\\n");
+    output("\tx%u_[1].ag_ptr = y%u_.elems.vec;\\\n");
+    output("\tx%u_[2].ag_ptr = y%u_.elems.ptr;\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1038,10 +1038,10 @@ print_vec_c(void)
     output("#define DEREF_vec(A, B)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(A);\\\n", check_null);
-    output("\t%X_VEC *y%u_ = & (B);\\\n");
-    output("\ty%u_->dim = x%u_ [0].ag_dim;\\\n");
-    output("\ty%u_->elems.vec = x%u_ [1].ag_ptr;\\\n");
-    output("\ty%u_->elems.ptr = x%u_ [2].ag_ptr;\\\n");
+    output("\t%X_VEC *y%u_ = &(B);\\\n");
+    output("\ty%u_->dim = x%u_[0].ag_dim;\\\n");
+    output("\ty%u_->elems.vec = x%u_[1].ag_ptr;\\\n");
+    output("\ty%u_->elems.ptr = x%u_[2].ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1052,9 +1052,9 @@ print_vec_c(void)
     output("\t%X *x%u_ = %e;\\\n", g);
     output("\t%X_VEC y%u_;\\\n");
     output("\ty%u_ = (A);\\\n");
-    output("\tx%u_ [1].ag_dim = y%u_.dim;\\\n");
-    output("\tx%u_ [2].ag_ptr = y%u_.elems.vec;\\\n");
-    output("\tx%u_ [3].ag_ptr = y%u_.elems.ptr;\\\n");
+    output("\tx%u_[1].ag_dim = y%u_.dim;\\\n");
+    output("\tx%u_[2].ag_ptr = y%u_.elems.vec;\\\n");
+    output("\tx%u_[3].ag_ptr = y%u_.elems.ptr;\\\n");
     output("\tx%u_->ag_ptr = (B);\\\n");
     output("\t(C) = x%u_;\\\n");
     output("    }\n\n");
@@ -1064,10 +1064,10 @@ print_vec_c(void)
     output("#define UN_CONS_vec(A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t%X_VEC *y%u_ = & (A);\\\n");
-    output("\ty%u_->dim = x%u_ [1].ag_dim;\\\n");
-    output("\ty%u_->elems.vec = x%u_ [2].ag_ptr;\\\n");
-    output("\ty%u_->elems.ptr = x%u_ [3].ag_ptr;\\\n");
+    output("\t%X_VEC *y%u_ = &(A);\\\n");
+    output("\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+    output("\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+    output("\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
@@ -1076,12 +1076,12 @@ print_vec_c(void)
     output("#define DESTROY_CONS_vec(D, A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t%X_VEC *y%u_ = & (A);\\\n");
-    output("\ty%u_->dim = x%u_ [1].ag_dim;\\\n");
-    output("\ty%u_->elems.vec = x%u_ [2].ag_ptr;\\\n");
-    output("\ty%u_->elems.ptr = x%u_ [3].ag_ptr;\\\n");
+    output("\t%X_VEC *y%u_ = &(A);\\\n");
+    output("\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+    output("\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+    output("\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned) 4);\\\n");
+    output("\t(D)(x%u_, (unsigned)4);\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1089,14 +1089,14 @@ print_vec_c(void)
 	/* Vector stack constructor */
 	output("#define PUSH_vec(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	g = gen(SIZE_VEC + 1, "stack");
 	output("\t%X *x%u_ = %e;\\\n", g);
 	output("\t%X_VEC y%u_;\\\n");
 	output("\ty%u_ = (A);\\\n");
-	output("\tx%u_ [1].ag_dim = y%u_.dim;\\\n");
-	output("\tx%u_ [2].ag_ptr = y%u_.elems.vec;\\\n");
-	output("\tx%u_ [3].ag_ptr = y%u_.elems.ptr;\\\n");
+	output("\tx%u_[1].ag_dim = y%u_.dim;\\\n");
+	output("\tx%u_[2].ag_ptr = y%u_.elems.vec;\\\n");
+	output("\tx%u_[3].ag_ptr = y%u_.elems.ptr;\\\n");
 	output("\tx%u_->ag_ptr = *r%u_;\\\n");
 	output("\t*r%u_ = x%u_;\\\n");
 	output("    }\n\n");
@@ -1105,14 +1105,14 @@ print_vec_c(void)
 	/* Vector stack destructor */
 	output("#define POP_vec(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	output("\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
-	output("\t%X_VEC *y%u_ = & (A);\\\n");
-	output("\ty%u_->dim = x%u_ [1].ag_dim;\\\n");
-	output("\ty%u_->elems.vec = x%u_ [2].ag_ptr;\\\n");
-	output("\ty%u_->elems.ptr = x%u_ [3].ag_ptr;\\\n");
+	output("\t%X_VEC *y%u_ = &(A);\\\n");
+	output("\ty%u_->dim = x%u_[1].ag_dim;\\\n");
+	output("\ty%u_->elems.vec = x%u_[2].ag_ptr;\\\n");
+	output("\ty%u_->elems.ptr = x%u_[3].ag_ptr;\\\n");
 	output("\t*r%u_ = x%u_->ag_ptr;\\\n");
-	output("\tdestroy_%X (x%u_, (unsigned) 4);\\\n");
+	output("\tdestroy_%X(x%u_, (unsigned)4);\\\n");
 	output("    }\n\n");
 	unique++;
     }
@@ -1145,7 +1145,7 @@ print_vec_ptr_c(void)
     output("\t%X_VEC_PTR y%u_;\\\n");
     output("\ty%u_ = (B);\\\n");
     output("\tx%u_->ag_ptr = y%u_.vec;\\\n");
-    output("\tx%u_ [1].ag_ptr = y%u_.ptr;\\\n");
+    output("\tx%u_[1].ag_ptr = y%u_.ptr;\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1153,9 +1153,9 @@ print_vec_ptr_c(void)
     output("#define DEREF_vec_ptr(A, B)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(A);\\\n", check_null);
-    output("\t%X_VEC_PTR *y%u_ = & (B);\\\n");
+    output("\t%X_VEC_PTR *y%u_ = &(B);\\\n");
     output("\ty%u_->vec = x%u_->ag_ptr;\\\n");
-    output("\ty%u_->ptr = x%u_ [1].ag_ptr;\\\n");
+    output("\ty%u_->ptr = x%u_[1].ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1166,8 +1166,8 @@ print_vec_ptr_c(void)
     output("\t%X *x%u_ = %e;\\\n", g);
     output("\t%X_VEC_PTR y%u_;\\\n");
     output("\ty%u_ = (A);\\\n");
-    output("\tx%u_ [1].ag_ptr = y%u_.vec;\\\n");
-    output("\tx%u_ [2].ag_ptr = y%u_.ptr;\\\n");
+    output("\tx%u_[1].ag_ptr = y%u_.vec;\\\n");
+    output("\tx%u_[2].ag_ptr = y%u_.ptr;\\\n");
     output("\tx%u_->ag_ptr = (B);\\\n");
     output("\t(C) = x%u_;\\\n");
     output("    }\n\n");
@@ -1177,9 +1177,9 @@ print_vec_ptr_c(void)
     output("#define UN_CONS_vec_ptr(A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t%X_VEC_PTR *y%u_ = & (A);\\\n");
-    output("\ty%u_->vec = x%u_ [1].ag_ptr;\\\n");
-    output("\ty%u_->ptr = x%u_ [2].ag_ptr;\\\n");
+    output("\t%X_VEC_PTR *y%u_ = &(A);\\\n");
+    output("\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+    output("\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
     output("    }\n\n");
     unique++;
@@ -1188,11 +1188,11 @@ print_vec_ptr_c(void)
     output("#define DESTROY_CONS_vec_ptr(D, A, B, C)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(C);\\\n", check_null);
-    output("\t%X_VEC_PTR *y%u_ = & (A);\\\n");
-    output("\ty%u_->vec = x%u_ [1].ag_ptr;\\\n");
-    output("\ty%u_->ptr = x%u_ [2].ag_ptr;\\\n");
+    output("\t%X_VEC_PTR *y%u_ = &(A);\\\n");
+    output("\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+    output("\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
     output("\t(B) = x%u_->ag_ptr;\\\n");
-    output("\t(D) (x%u_, (unsigned) 3);\\\n");
+    output("\t(D)(x%u_, (unsigned)3);\\\n");
     output("    }\n\n");
     unique++;
 
@@ -1200,13 +1200,13 @@ print_vec_ptr_c(void)
 	/* Vector stack constructor */
 	output("#define PUSH_vec_ptr(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	g = gen(SIZE_VEC_PTR + 1, "stack");
 	output("\t%X *x%u_ = %e;\\\n", g);
 	output("\t%X_VEC_PTR y%u_;\\\n");
 	output("\ty%u_ = (A);\\\n");
-	output("\tx%u_ [1].ag_ptr = y%u_.vec;\\\n");
-	output("\tx%u_ [2].ag_ptr = y%u_.ptr;\\\n");
+	output("\tx%u_[1].ag_ptr = y%u_.vec;\\\n");
+	output("\tx%u_[2].ag_ptr = y%u_.ptr;\\\n");
 	output("\tx%u_->ag_ptr = *r%u_;\\\n");
 	output("\t*r%u_ = x%u_;\\\n");
 	output("    }\n\n");
@@ -1215,13 +1215,13 @@ print_vec_ptr_c(void)
 	/* Vector stack destructor */
 	output("#define POP_vec_ptr(A, B)\\\n");
 	output("    {\\\n");
-	output("\t%X **r%u_ = & (B);\\\n");
+	output("\t%X **r%u_ = &(B);\\\n");
 	output("\t%X *x%u_ = %s(*r%u_);\\\n", check_null);
-	output("\t%X_VEC *y%u_ = & (A);\\\n");
-	output("\ty%u_->vec = x%u_ [1].ag_ptr;\\\n");
-	output("\ty%u_->ptr = x%u_ [2].ag_ptr;\\\n");
+	output("\t%X_VEC *y%u_ = &(A);\\\n");
+	output("\ty%u_->vec = x%u_[1].ag_ptr;\\\n");
+	output("\ty%u_->ptr = x%u_[2].ag_ptr;\\\n");
 	output("\t*r%u_ = x%u_->ag_ptr;\\\n");
-	output("\tdestroy_%X (x%u_, (unsigned) 3);\\\n");
+	output("\tdestroy_%X(x%u_, (unsigned)3);\\\n");
 	output("    }\n\n");
 	unique++;
     }
@@ -1258,9 +1258,9 @@ print_prim_c(void)
     comment("Definitions for primitive %PN");
     output("#define SIZE_%PM%t40%d\n\n", SIZE_PRIM);
     output("#define COPY_%PM(A, B)%t40");
-    output("(%s(A) ->ag_prim_%PM = (B))\n", check_null);
+    output("(%s(A)->ag_prim_%PM = (B))\n", check_null);
     output("#define DEREF_%PM(A)%t40");
-    output("(%s(A) ->ag_prim_%PM)\n", check_null);
+    output("(%s(A)->ag_prim_%PM)\n", check_null);
     print_simple_cons("%PM", SIZE_PRIM, 1);
     return;
 }
@@ -1309,9 +1309,9 @@ print_enum_c(void)
     print_enum_consts();
     output("#define SIZE_%EM%t40%d\n\n", SIZE_ENUM);
     output("#define COPY_%EM(A, B)%t40");
-    output("(%s(A) ->%s = (B))\n", check_null, fld);
+    output("(%s(A)->%s = (B))\n", check_null, fld);
     output("#define DEREF_%EM(A)%t40");
-    output("(%s(A) ->%s)\n", check_null, fld);
+    output("(%s(A)->%s)\n", check_null, fld);
     if (DEREF_int(en_lists(CRT_ENUM))) {
 	print_simple_cons("%EM", SIZE_ENUM, 1);
     } else {
@@ -1360,7 +1360,7 @@ print_struct_c(void)
     output("#define DEREF_%SM(A, B)\\\n");
     output("    {\\\n");
     output("\t%X *x%u_ = %s(A);\\\n", check_null);
-    output("\t%SN *y%u_ = & (B);\\\n");
+    output("\t%SN *y%u_ = &(B);\\\n");
     posn = 0;
     LOOP_STRUCTURE_COMPONENT {
 	TYPE_P ct = DEREF_ptr(cmp_type(CRT_COMPONENT));
@@ -1420,9 +1420,9 @@ print_union_c(void)
     output("#define IS_NULL_%UM(A)%t40((A) == 0)\n");
     output("#define EQ_%UM(A, B)%t40((A) == (B))\n\n");
     output("#define COPY_%UM(A, B)%t40");
-    output("(%s(A) ->ag_ptr = (B))\n", check_null);
+    output("(%s(A)->ag_ptr = (B))\n", check_null);
     output("#define DEREF_%UM(A)%t40");
-    output("(%s(A) ->ag_ptr)\n\n", check_null);
+    output("(%s(A)->ag_ptr)\n\n", check_null);
 
     if (!IS_NULL_ptr(base)) {
 	CLASS_ID_P id = DEREF_ptr(un_id(base));
@@ -1552,10 +1552,10 @@ print_field_c(int sz, int tag, int rng, int al)
 	output("#define %UM_%e_%CN(P)%t40", f);
 	if (extra_asserts && tag != -1) {
 	    if (rng) {
-		output("(CHECK_TAG_ETC ((P), %d, %d) + %d)\n",
+		output("(CHECK_TAG_ETC((P), %d, %d) + %d)\n",
 			 tag, tag + rng, sz);
 	    } else {
-		output("(CHECK_TAG ((P), %d) + %d)\n", tag, sz);
+		output("(CHECK_TAG((P), %d) + %d)\n", tag, sz);
 	    }
 	} else {
 	    output("((P) + %d)\n", sz);
@@ -1598,10 +1598,10 @@ print_field_c(int sz, int tag, int rng, int al)
 	posn = assign_component(ct, posn, v, 0);
     }
     if (al) {
-	    output("\tx%u_ [%d].ag_tag = 0;\\\n", sz);
+	    output("\tx%u_[%d].ag_tag = 0;\\\n", sz);
     }
     if (rng && extra_asserts) {
-	output("\t(%X_%UM) = CHECK_TAG_ETC (x%u_, %d, %d);\\\n",
+	output("\t(%X_%UM) = CHECK_TAG_ETC(x%u_, %d, %d);\\\n",
 		 tag, tag + rng);
     } else {
 	output("\t(%X_%UM) = x%u_;\\\n");
@@ -1620,7 +1620,7 @@ print_field_c(int sz, int tag, int rng, int al)
 	    output("\t(void) CHECK_TAG_ETC");
 	    output(" (x%u_, %d, %d);\\\n", tag, tag + rng);
 	} else {
-	    output("\t(%X_%UM) ->ag_tag = (tag);\\\n");
+	    output("\t(%X_%UM)->ag_tag = (tag);\\\n");
 	}
 	output("    }\n\n");
 	unique++;
@@ -1636,10 +1636,10 @@ print_field_c(int sz, int tag, int rng, int al)
 	if (tag != -1) {
 	    if (extra_asserts) {
 		if (rng) {
-		    output("CHECK_TAG_ETC ((%X_%UM), %d, %d);\\\n",
+		    output("CHECK_TAG_ETC((%X_%UM), %d, %d);\\\n",
 			      tag, tag + rng);
 		} else {
-		    output("CHECK_TAG ((%X_%UM), %d);\\\n", tag);
+		    output("CHECK_TAG((%X_%UM), %d);\\\n", tag);
 		}
 	    } else {
 		output("(%X_%UM);\\\n");
@@ -1670,10 +1670,10 @@ print_field_c(int sz, int tag, int rng, int al)
     if (tag != -1) {
 	if (extra_asserts) {
 	    if (rng) {
-		output("CHECK_TAG_ETC ((%X_%UM), %d, %d);\\\n",
+		output("CHECK_TAG_ETC((%X_%UM), %d, %d);\\\n",
 			 tag, tag + rng);
 	    } else {
-		output("CHECK_TAG ((%X_%UM), %d);\\\n", tag);
+		output("CHECK_TAG((%X_%UM), %d);\\\n", tag);
 	    }
 	} else {
 	    output("(%X_%UM);\\\n");
@@ -1691,7 +1691,7 @@ print_field_c(int sz, int tag, int rng, int al)
 	TYPE_P ct = DEREF_ptr(cmp_type(CRT_COMPONENT));
 	posn = deref_component(ct, posn, "(%CN_)", 0);
     }
-    output("\t(destroyer_) (x%u_, (unsigned) %d);\\\n", sz + al);
+    output("\t(destroyer_)(x%u_, (unsigned)%d);\\\n", sz + al);
     output("    }\n\n");
     unique++;
 
@@ -1706,18 +1706,18 @@ print_field_c(int sz, int tag, int rng, int al)
 	if (tag != -1) {
 		output("\tx%u_->ag_tag = %d;\\\n", tag);
 	}
-	output("\tx%u_ [%d].ag_tag = a%u_;\\\n", sz);
-	output("\tset_%X_alias (x%u_ + %d, a%u_);\\\n", sz);
+	output("\tx%u_[%d].ag_tag = a%u_;\\\n", sz);
+	output("\tset_%X_alias(x%u_ + %d, a%u_);\\\n", sz);
 	output("\t(P) = x%u_;\\\n");
 	output("    }\n\n");
 	unique++;
 
 	output("#define GET_ALIAS_%UM_%FN(P)%t40");
-	output("((%s(P) + %d) ->ag_tag)\n", check_null, sz);
+	output("((%s(P) + %d)->ag_tag)\n", check_null, sz);
 	output("#define SET_ALIAS_%UM_%FN(P, N)%t40");
-	output("set_%X_alias (%s(P) + %d, (N))\n", check_null, sz);
+	output("set_%X_alias(%s(P) + %d, (N))\n", check_null, sz);
 	output("#define FIND_ALIAS_%UM_%FN(N)%t40");
-	output("(find_%X_alias (N) - %d)\n\n", sz);
+	output("(find_%X_alias(N) - %d)\n\n", sz);
 	output("#endif\n\n");
     }
     output("\n");
@@ -1734,7 +1734,7 @@ print_field_c(int sz, int tag, int rng, int al)
 static void
 print_map_table(int d)
 {
-    output("%MR (*%MN_%UM_table [ ORDER_%UM ])");
+    output("%MR (*%MN_%UM_table[ORDER_%UM])");
     if (map_proto) {
 	output("\n    (%UN");
 	if (d) {
@@ -1797,7 +1797,7 @@ print_union_ops_c(char *dir, char *un)
     comment("Operations for union %UN");
     output("#define TAG_%UM(P)%t40", check_null);
     if (is_tagged) {
-	output("(%s(P) ->ag_tag)\n\n\n", check_null);
+	output("(%s(P)->ag_tag)\n\n\n", check_null);
     } else {
 	output("((unsigned) 0)\n\n\n");
     }
@@ -1820,20 +1820,20 @@ print_union_ops_c(char *dir, char *un)
 
 	if (rng) {
 	    comment("Operations for field set %FN_etc of union %UN");
-	    output("#define %UM_%FN_etc_tag%t40((unsigned) %d)\n",
+	    output("#define %UM_%FN_etc_tag%t40((unsigned)%d)\n",
 		     tag + rng);
 	    output("#define IS_%UM_%FN_etc(P)%t40");
-	    output("((unsigned) (%s(P) ->ag_tag - %d)",
+	    output("((unsigned)(%s(P)->ag_tag - %d)",
 		     check_null, tag);
-	    output(" < (unsigned) %d)\n\n", rng);
+	    output(" < (unsigned)%d)\n\n", rng);
 	    print_field_c(sz, tag, rng, al);
 	}
 
 	comment("Operations for field %FN of union %UN");
-	output("#define %UM_%FN_tag%t40((unsigned) %d)\n", tag);
+	output("#define %UM_%FN_tag%t40((unsigned)%d)\n", tag);
 	output("#define IS_%UM_%FN(P)%t40");
 	if (is_tagged) {
-	    output("(%s(P) ->ag_tag == %d)\n\n", check_null, tag);
+	    output("(%s(P)->ag_tag == %d)\n\n", check_null, tag);
 	    print_field_c(sz, tag, 0, al);
 	} else {
 	    output("1\n\n");
@@ -1852,16 +1852,16 @@ print_union_ops_c(char *dir, char *un)
 	print_map_table(hash);
 	output(";\n\n#define %MN_%UM");
 	print_map_args(dest);
-	output("\\\n    ((%MN_%UM_table [ ");
+	output("\\\n    ((%MN_%UM_table[");
 	if (is_tagged) {
 	    if (extra_asserts) {
-		output("CHECK_TAG_ETC ((%X_%UM), 0, ORDER_%UM)");
+		output("CHECK_TAG_ETC((%X_%UM), 0, ORDER_%UM)");
 	    } else {
 		output("(%X_%UM)");
 	    }
-	    output("->ag_tag ]) ");
+	    output("->ag_tag]) ");
 	} else {
-	    output("0 ]) ");
+	    output("0]) ");
 	}
 	print_map_args(dest);
 	output(")\n\n\n");
@@ -1934,13 +1934,13 @@ print_func_hdr(int d, int e)
 
     /* Assignment of field components */
     if (d) {
-	output("\\\n\tDESTROY_%UM_%FN%s (", etc);
+	output("\\\n\tDESTROY_%UM_%FN%s(", etc);
 	output(hash ? "destroyer, " : "destroy_%X, ");
 	print_cons_args(0, "");
 	output(");");
     } else {
 	if (field_not_empty()) {
-	    output("\\\n\tDECONS_%UM_%FN%s (", etc);
+	    output("\\\n\tDECONS_%UM_%FN%s(", etc);
 	    print_cons_args(0, "");
 	    output(");");
 	}
@@ -2010,7 +2010,7 @@ main_action_c(char *dir)
     int ign = 0;
     gen_max = 0;
     output_c_code = 1;
-    check_null = (extra_asserts ? "CHECK_NULL " : "");
+    check_null = (extra_asserts ? "CHECK_NULL" : "");
 
     open_file(dir, MAIN_PREFIX, MAIN_SUFFIX);
     print_main_c();
