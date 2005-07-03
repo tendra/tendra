@@ -147,7 +147,7 @@ output_char(int c)
     if (c == '\n') {
 	column = 0;
     } else if (c == '\t') {
-	column = 8 * ((column + 8) / 8);
+	column = column + (8 - column % 8);
     } else {
 	column++;
     }
