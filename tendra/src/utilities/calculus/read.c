@@ -69,36 +69,38 @@
 
 
 /*
-    BITMASKS
-
-    This array gives the masks for each bit value.
-*/
+ * BITMASKS
+ *
+ * This array gives the masks for each bit value.
+ */
 
 unsigned long bitmask[CHAR_BIT];
 
 
 /*
-    INITIALISE MASKS
-
-    This routine initialises the array of bitmasks.  This is done
-    dynamically rather than statically in case CHAR_BIT is not 8.
-*/
+ * INITIALISE MASKS
+ *
+ * This routine initialises the array of bitmasks.  This is done
+ * dynamically rather than statically in case CHAR_BIT is not 8.
+ */
 
 void
 init_bitmask(void)
 {
     int i;
-    for (i = 0; i < CHAR_BIT; i++)bitmask[i] = MASK(i);
+    for (i = 0; i < CHAR_BIT; i++) {
+	    bitmask[i] = MASK(i);
+    }
     return;
 }
 
 
 /*
-    INPUT FILE
-
-    These variables describe the input file.  There is a one byte input
-    buffer.
-*/
+ * INPUT FILE
+ *
+ * These variables describe the input file.  There is a one byte input
+ * buffer.
+ */
 
 static FILE *input_file;
 static unsigned long input_buff = 0;
@@ -106,10 +108,10 @@ static int input_bits = 0;
 
 
 /*
-    READ A NUMBER OF BITS
-
-    This routine reads the next n bits from the input file.
-*/
+ * READ A NUMBER OF BITS
+ *
+ * This routine reads the next n bits from the input file.
+ */
 
 static unsigned long
 read_bits(int n)
@@ -147,12 +149,12 @@ read_bits(int n)
 
 
 /*
-    READ AN INTEGER
-
-    This routine reads an integer from the input file.  This is encoded
-    as a sequence of octal digits with a marker bit for the end of the
-    number.
-*/
+ * READ AN INTEGER
+ *
+ * This routine reads an integer from the input file.  This is encoded
+ * as a sequence of octal digits with a marker bit for the end of the
+ * number.
+ */
 
 static unsigned long
 read_int(void)
@@ -167,12 +169,12 @@ read_int(void)
 
 
 /*
-    READ A STRING
-
-    This routine reads an integer from the input file.  This is encoded
-    as the string length followed by the characters comprising the
-    string (8 bits each).
-*/
+ * READ A STRING
+ *
+ * This routine reads an integer from the input file.  This is encoded
+ * as the string length followed by the characters comprising the
+ * string (8 bits each).
+ */
 
 static char *
 read_string(void)
@@ -188,11 +190,11 @@ read_string(void)
 
 
 /*
-    READ A FILENAME
-
-    File names are just strings, however they are buffered to save
-    space.
-*/
+ * READ A FILENAME
+ *
+ * File names are just strings, however they are buffered to save
+ * space.
+ */
 
 static char *
 read_filename(void)
@@ -210,11 +212,11 @@ read_filename(void)
 
 
 /*
-    AUTOMATICALLY GENERATED DISK READING ROUTINES
-
-    The main disk reading routines are automatically generated.  The
-    various macros are used to customise these routines.
-*/
+ * AUTOMATICALLY GENERATED DISK READING ROUTINES
+ *
+ * The main disk reading routines are automatically generated.  The
+ * various macros are used to customise these routines.
+ */
 
 #define READ_BITS(N)		((unsigned)read_bits(N))
 #define READ_ALIAS()		((unsigned)read_int())
@@ -229,10 +231,10 @@ read_filename(void)
 
 
 /*
-    READ AN INPUT FILE
-
-    This routine reads an algebra from the input file nm.
-*/
+ * READ AN INPUT FILE
+ *
+ * This routine reads an algebra from the input file nm.
+ */
 
 void
 read_file(char *nm)

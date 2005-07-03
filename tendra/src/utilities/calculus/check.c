@@ -69,19 +69,19 @@
 
 
 /*
-    LIST OF ALL NAMES
-
-    This variable contains a list of all the names defined within the algebra.
-*/
+ *  LIST OF ALL NAMES
+ *
+ *  This variable contains a list of all the names defined within the algebra.
+ */
 
 static NAME *all_names = NULL;
 
 
 /*
-    ARRAY OF NAME ERRORS
-
-    This array gives all the errors associated with the various name types.
-*/
+ *  ARRAY OF NAME ERRORS
+ *
+ *  This array gives all the errors associated with the various name types.
+ */
 
 static char *name_error[] = {
     "Type name %s",
@@ -96,11 +96,11 @@ static char *name_error[] = {
 
 
 /*
-    LOOK UP A NAME
-
-    This routine looks up the name with type n and components a, b and c in
-    the list of all names.
-*/
+ * LOOK UP A NAME
+ *
+ * This routine looks up the name with type n and components a, b and c in
+ * the list of all names.
+ */
 
 static NAME *
 find_name(int n, char *a, char *b, char *c)
@@ -117,11 +117,11 @@ find_name(int n, char *a, char *b, char *c)
 
 
 /*
-    CREATE A NAME
-
-    This routine adds the name with type n and components a, b and c to the
-    list of all names.
-*/
+ * CREATE A NAME
+ *
+ * This routine adds the name with type n and components a, b and c to the
+ * list of all names.
+ */
 
 static void
 make_name(int n, char *a, char *b, char *c)
@@ -154,11 +154,11 @@ make_name(int n, char *a, char *b, char *c)
 
 
 /*
-    EXTRACT NAMES FROM AN IDENTIFIER
-
-    This routine assigns the names from the identifier id into na and nb.
-    It also sets the current file position to the location of id.
-*/
+ * EXTRACT NAMES FROM AN IDENTIFIER
+ *
+ * This routine assigns the names from the identifier id into na and nb.
+ * It also sets the current file position to the location of id.
+ */
 
 static void
 split_id(CLASS_ID_P id, char **na, char **nb)
@@ -172,11 +172,11 @@ split_id(CLASS_ID_P id, char **na, char **nb)
 
 
 /*
-    CHECK FOR NAME CLASHES
-
-    This routine scans through the entire algebra definition checking for
-    name clashes.  Type names are only checked if c is true.
-*/
+ * CHECK FOR NAME CLASHES
+ *
+ * This routine scans through the entire algebra definition checking for
+ * name clashes.  Type names are only checked if c is true.
+ */
 
 void
 check_names(int c)

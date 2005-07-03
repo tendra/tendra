@@ -63,12 +63,12 @@
 
 
 /*
-    LOOP VARIABLES
-
-    These variables are used in the LOOP macros below as loop counters.
-    It should not be necessary to access them directly, instead the
-    CRT macros below should be used.
-*/
+ * LOOP VARIABLES
+ *
+ * These variables are used in the LOOP macros below as loop counters.
+ * It should not be necessary to access them directly, instead the
+ * CRT macros below should be used.
+ */
 
 extern LIST(ECONST_P)crt_ec;
 extern LIST(ENUM_P)crt_en;
@@ -84,13 +84,13 @@ extern LIST(TYPE_P)crt_type;
 
 
 /*
-    LOOP MACROS
-
-    The LOOP macros are used to scan over all elements of a list.  The
-    CRT macros give the effective loop counters.  Thus, for example,
-    LOOP_ENUM is a for statement which makes CRT_ENUM scan over all the
-    enumeration types.
-*/
+ * LOOP MACROS
+ *
+ * The LOOP macros are used to scan over all elements of a list.  The
+ * CRT macros give the effective loop counters.  Thus, for example,
+ * LOOP_ENUM is a for statement which makes CRT_ENUM scan over all the
+ * enumeration types.
+ */
 
 #define LOOP_LIST(X, Y)\
  for ((X) = (Y); !IS_NULL_list(X); (X) = TAIL_list(X))
@@ -160,8 +160,8 @@ extern LIST(TYPE_P)crt_type;
 
 
 /*
-    DECLARATIONS FOR BASIC OUTPUT ROUTINES
-*/
+ * DECLARATIONS FOR BASIC OUTPUT ROUTINES
+ */
 
 extern int unique;
 extern int const_tokens;

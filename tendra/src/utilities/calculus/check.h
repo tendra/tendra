@@ -63,11 +63,11 @@
 
 
 /*
-    TYPE REPRESENTING A NAME
-
-    A name is represented by a name type plus up to three name components.
-    Names may be formed into lists by means of the next field.
-*/
+ * TYPE REPRESENTING A NAME
+ *
+ * A name is represented by a name type plus up to three name components.
+ * Names may be formed into lists by means of the next field.
+ */
 
 typedef struct NAME_tag {
     int type;
@@ -79,10 +79,10 @@ typedef struct NAME_tag {
 
 
 /*
-    NAME TYPES
-
-    These macros give the various identified name types.
-*/
+ * NAME TYPES
+ *
+ * These macros give the various identified name types.
+ */
 
 #define NAME_TYPE		0
 #define NAME_TYPE_AUX		1
@@ -96,8 +96,8 @@ typedef struct NAME_tag {
 
 
 /*
-    DECLARATIONS FOR NAME CHECKING ROUTINES
-*/
+ * DECLARATIONS FOR NAME CHECKING ROUTINES
+ */
 
 extern void check_names(int);
 

@@ -69,12 +69,12 @@
 
 
 /*
-    GET A COMMAND FROM A STRING
-
-    This routine returns the address of the first non-white space character
-    from the string ps.  It returns the null pointer if the end of the line
-    is reached.
-*/
+ * GET A COMMAND FROM A STRING
+ *
+ * This routine returns the address of the first non-white space character
+ * from the string ps.  It returns the null pointer if the end of the line
+ * is reached.
+ */
 
 static char *
 get_command(char **ps)
@@ -104,10 +104,10 @@ get_command(char **ps)
 
 
 /*
-    READ A TEMPLATE FILE
-
-    This routine reads a template file from the file f.
-*/
+ * READ A TEMPLATE FILE
+ *
+ * This routine reads a template file from the file f.
+ */
 
 static COMMAND
 read_template(FILE *f, COMMAND p)
@@ -135,7 +135,9 @@ read_template(FILE *f, COMMAND p)
 	    char *s1, *s2, *s3;
 	    s++;
 	    s1 = get_command(&s);
-	    if (s1 == NULL)s1 = "<empty>";
+	    if (s1 == NULL) {
+		    s1 = "<empty>";
+	    }
 	    s2 = get_command(&s);
 	    s3 = get_command(&s);
 	    if (streq(s1, "if")) {
@@ -218,19 +220,19 @@ read_template(FILE *f, COMMAND p)
 
 
 /*
-    TOKEN CONDITION
-
-    This variable gives the value of the token condition.
-*/
+ * TOKEN CONDITION
+ *
+ * This variable gives the value of the token condition.
+ */
 
 int token_cond = 0;
 
 
 /*
-    EVALUATE A CONDITION
-
-    This routine evaluates the condition s.
-*/
+ * EVALUATE A CONDITION
+ *
+ * This routine evaluates the condition s.
+ */
 
 static int
 eval_cond(char *s)
@@ -257,19 +259,25 @@ eval_cond(char *s)
 	}
 	return(0);
     }
-    if (streq(s, "token")) return(token_cond);
-    if (streq(s, "true")) return(1);
-    if (streq(s, "false")) return(0);
+    if (streq(s, "token")) {
+	    return(token_cond);
+    }
+    if (streq(s, "true")) {
+	    return(1);
+    }
+    if (streq(s, "false")) {
+	    return(0);
+    }
     error(ERROR_SERIOUS, "Unknown condition, '%s'", s);
     return(0);
 }
 
 
 /*
-    WRITE A TEMPLATE FILE
-
-    This routine writes the template file given by the commands cmd.
-*/
+ * WRITE A TEMPLATE FILE
+ *
+ * This routine writes the template file given by the commands cmd.
+ */
 
 static void
 write_template(COMMAND cmd)
@@ -356,10 +364,10 @@ write_template(COMMAND cmd)
 
 
 /*
-    PROCESS A TEMPLATE FILE
-
-    This routine processes the template file in to the output file out.
-*/
+ * PROCESS A TEMPLATE FILE
+ *
+ * This routine processes the template file in to the output file out.
+ */
 
 void
 template_file(char *in, char *out)
@@ -389,6 +397,8 @@ template_file(char *in, char *out)
     write_template(cmd);
     have_varargs = 1;
     flush_output();
-    if (output_file != stdout)fclose_v(output_file);
+    if (output_file != stdout) {
+	    fclose_v(output_file);
+    }
     return;
 }

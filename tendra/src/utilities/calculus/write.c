@@ -68,11 +68,11 @@
 
 
 /*
-    OUTPUT FILE
-
-    These variables describe the output file.  There is a one byte output
-    buffer.
-*/
+ * OUTPUT FILE
+ *
+ * These variables describe the output file.  There is a one byte output
+ * buffer.
+ */
 
 static FILE *output_file;
 static unsigned long output_buff = 0;
@@ -80,10 +80,10 @@ static int output_bits = 0;
 
 
 /*
-    WRITE A NUMBER OF BITS
-
-    This routine writes the value v into n bits.
-*/
+ * WRITE A NUMBER OF BITS
+ *
+ * This routine writes the value v into n bits.
+ */
 
 static void
 write_bits(int n, unsigned long v)
@@ -110,20 +110,22 @@ write_bits(int n, unsigned long v)
 
 
 /*
-    WRITE AN INTEGER
-
-    This routine writes the integer n to the output file.  This is
-    encoded as a sequence of octal digits, plus a flag to indicate the
-    last digit.  The variable d is used to indicate whether this last
-    digit marker should be output.  The normal method of accessing the
-    routine is via the macro write_int.
-*/
+ * WRITE AN INTEGER
+ *
+ * This routine writes the integer n to the output file.  This is
+ * encoded as a sequence of octal digits, plus a flag to indicate the
+ * last digit.  The variable d is used to indicate whether this last
+ * digit marker should be output.  The normal method of accessing the
+ * routine is via the macro write_int.
+ */
 
 static void
 write_int_aux(unsigned long n, unsigned long d)
 {
     unsigned long m = (n >> 3);
-    if (m)write_int_aux(m,(unsigned long)0x00);
+    if (m) {
+	    write_int_aux(m,(unsigned long)0x00);
+    }
     write_bits(4,((n & 0x07) | d));
     return;
 }
@@ -132,12 +134,12 @@ write_int_aux(unsigned long n, unsigned long d)
 
 
 /*
-    WRITE A STRING
-
-    This routine writes the string s to the output file.  This is
-    encoded as the string length followed by the component characters
-    (8 bits each).
-*/
+ * WRITE A STRING
+ *
+ * This routine writes the string s to the output file.  This is
+ * encoded as the string length followed by the component characters
+ * (8 bits each).
+ */
 
 static void
 write_string(char *s)
@@ -152,20 +154,20 @@ write_string(char *s)
 
 
 /*
-    LAST FILE NAME WRITTEN
-
-    This variable is used to store the last file name written.
-*/
+ * LAST FILE NAME WRITTEN
+ *
+ * This variable is used to store the last file name written.
+ */
 
 static char *last_filename = NULL;
 
 
 /*
-    WRITE A FILE NAME
-
-    This routine writes the file name s.  This is just a simple string,
-    but file names are buffered using last_filename.
-*/
+ * WRITE A FILE NAME
+ *
+ * This routine writes the file name s.  This is just a simple string,
+ * but file names are buffered using last_filename.
+ */
 
 static void
 write_filename(char *s)
@@ -183,11 +185,11 @@ write_filename(char *s)
 
 
 /*
-    AUTOMATICALLY GENERATED DISK WRITING ROUTINES
-
-    The main disk writing routines are automatically generated.  The
-    various macros are used to customise these routines.
-*/
+ * AUTOMATICALLY GENERATED DISK WRITING ROUTINES
+ *
+ * The main disk writing routines are automatically generated.  The
+ * various macros are used to customise these routines.
+ */
 
 #define WRITE_BITS(A, B)	write_bits((A), (unsigned long)(B))
 #define WRITE_ALIAS(A)		write_int((unsigned long)(A))
@@ -203,10 +205,10 @@ write_filename(char *s)
 
 
 /*
-    WRITE A FILE
-
-    This routine writes the current algebra to disk into the file nm.
-*/
+ * WRITE A FILE
+ *
+ * This routine writes the current algebra to disk into the file nm.
+ */
 
 void
 write_file(char *nm)

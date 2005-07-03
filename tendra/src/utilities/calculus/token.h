@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR MAIN TOKEN OUTPUT ROUTINES
-*/
+ * DECLARATIONS FOR MAIN TOKEN OUTPUT ROUTINES
+ */
 
 extern void main_action_tok(char *);
 

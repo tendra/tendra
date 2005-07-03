@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR TYPE MANIPULATION ROUTINES
-*/
+ * DECLARATIONS FOR TYPE MANIPULATION ROUTINES
+ */
 
 extern ALGEBRA_DEFN *algebra;
 extern void new_algebra(void);
@@ -83,10 +83,10 @@ extern int is_complex_type(TYPE_P);
 
 
 /*
-    MACROS FOR BASIC CLASS SIZES
-
-    These macros give the sizes of the basic types.
-*/
+ * MACROS FOR BASIC CLASS SIZES
+ *
+ * These macros give the sizes of the basic types.
+ */
 
 #define SIZE_PRIM	1
 #define SIZE_ENUM	1
@@ -99,11 +99,11 @@ extern int is_complex_type(TYPE_P);
 
 
 /*
-    MAXIMUM DEPTH OF TYPE CONSTRUCTORS
-
-    This macro is used to limit the level of type constructors which can
-    be used.  In particular, it is used in the detection of cyclic types.
-*/
+ * MAXIMUM DEPTH OF TYPE CONSTRUCTORS
+ *
+ * This macro is used to limit the level of type constructors which can
+ * be used.  In particular, it is used in the detection of cyclic types.
+ */
 
 #define MAX_TYPE_DEPTH	1000
 

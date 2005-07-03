@@ -63,11 +63,11 @@
 
 
 /*
-    CONFIGURATION CONSTANTS
-
-    These macros describe the number of bits in a byte, how to mask N
-    bits etc.
-*/
+ * CONFIGURATION CONSTANTS
+ *
+ * These macros describe the number of bits in a byte, how to mask N
+ * bits etc.
+ */
 
 #ifndef NO_LIMITS_H
 #include <limits.h>
@@ -81,8 +81,8 @@
 
 
 /*
-    DECLARATIONS FOR DISK READING ROUTINES
-*/
+ * DECLARATIONS FOR DISK READING ROUTINES
+ */
 
 extern unsigned long bitmask[];
 extern void init_bitmask(void);

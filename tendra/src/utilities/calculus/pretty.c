@@ -67,11 +67,11 @@
 
 
 /*
-    AUTOMATICALLY GENERATED PRETTY PRINTING ROUTINES
-
-    The main pretty printing routines are automatically generated.  The
-    various macros are used to customise these routines.
-*/
+ * AUTOMATICALLY GENERATED PRETTY PRINTING ROUTINES
+ *
+ * The main pretty printing routines are automatically generated.  The
+ * various macros are used to customise these routines.
+ */
 
 #define OUTPUT_int(A, B)	fprintf_v((A), "%d",(B))
 #define OUTPUT_number(A, B)	fprintf_v((A), "%lu",(B))
@@ -96,11 +96,11 @@
 
 
 /*
-    PRETTY PRINT AN ALGEBRA
-
-    This routine pretty prints the entire algebra type list into the
-    file named nm.
-*/
+ * PRETTY PRINT AN ALGEBRA
+ *
+ * This routine pretty prints the entire algebra type list into the
+ * file named nm.
+ */
 
 void
 pretty_file(char *nm)

@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR PRETTY PRINTING ROUTINES
-*/
+ * DECLARATIONS FOR PRETTY PRINTING ROUTINES
+ */
 
 extern void pretty_file(char *);
 

@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
-*/
+ * DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
+ */
 
 extern void process_file(char *, int);
 extern int read_token(void);
@@ -79,11 +79,11 @@ extern int saved_lex_token;
 
 
 /*
-    PARSER MACROS
-
-    These macros are used by the SID parser to access the lexical
-    analysis routines.
-*/
+ * PARSER MACROS
+ *
+ * These macros are used by the SID parser to access the lexical
+ * analysis routines.
+ */
 
 #define CURRENT_TERMINAL	crt_lex_token
 #define ADVANCE_LEXER		crt_lex_token = read_token()

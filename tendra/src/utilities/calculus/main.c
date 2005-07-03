@@ -77,11 +77,11 @@
 
 
 /*
-    ACTIONS
-
-    These macros are used to describe the various actions which the
-    program can perform.
-*/
+ * ACTIONS
+ *
+ * These macros are used to describe the various actions which the
+ * program can perform.
+ */
 
 #define ACTION_C		0
 #define ACTION_TOKEN		1
@@ -94,11 +94,11 @@
 
 
 /*
-    LIST ACTION
-
-    This is the trivial action which just prints a list of all the types
-    in the algebra.
-*/
+ * LIST ACTION
+ *
+ * This is the trivial action which just prints a list of all the types
+ * in the algebra.
+ */
 
 static void
 list_action(char *nm)
@@ -114,17 +114,19 @@ list_action(char *nm)
     }
     LOOP_TYPE output("%TT ;\n", CRT_TYPE);
     flush_output();
-    if (output_file != stdout)fclose_v(output_file);
+    if (output_file != stdout) {
+	    fclose_v(output_file);
+    }
     return;
 }
 
 
 /*
-    MAIN ROUTINE
-
-    This is the main routine.  It processes the command-line options,
-    reads the input file, and writes the output files.
-*/
+ * MAIN ROUTINE
+ *
+ * This is the main routine.  It processes the command-line options,
+ * reads the input file, and writes the output files.
+ */
 
 int
 main(int argc, char **argv)
@@ -147,7 +149,9 @@ main(int argc, char **argv)
 	    no_args++;
 	}
     }
-    if (no_args == 1)last_arg = 0;
+    if (no_args == 1) {
+	    last_arg = 0;
+    }
 
     /* Process arguments */
     for (a = 1; a < argc; a++) {
@@ -166,7 +170,9 @@ main(int argc, char **argv)
 		    }
 		    case 'E': {
 			/* File containing extra types */
-			if (need_alg)new_algebra();
+			if (need_alg) {
+				new_algebra();
+			}
 			process_file(arg + 2, 0);
 			need_alg = 0;
 			known = 1;
@@ -174,7 +180,9 @@ main(int argc, char **argv)
 		    }
 		    case 'T': {
 			/* Template file */
-			if (act == ACTION_TOKEN)token_cond = 1;
+			if (act == ACTION_TOKEN) {
+				token_cond = 1;
+			}
 			in = arg + 2;
 			act = ACTION_TEMPL;
 			known = 1;
@@ -216,7 +224,9 @@ main(int argc, char **argv)
 		error(ERROR_WARNING, "Unknown option, '%s'", arg);
 	    }
 	} else if (a != last_arg) {
-	    if (need_alg)new_algebra();
+	    if (need_alg) {
+		    new_algebra();
+	    }
 	    if (text) {
 		process_file(arg, 1);
 	    } else {
@@ -227,8 +237,12 @@ main(int argc, char **argv)
 	    need_alg = 1;
 	}
     }
-    if (no_args == 0)error(ERROR_FATAL, "Not enough arguments");
-    if (!need_alg)error(ERROR_SERIOUS, "Badly placed -E option");
+    if (no_args == 0) {
+	    error(ERROR_FATAL, "Not enough arguments");
+    }
+    if (!need_alg) {
+	    error(ERROR_SERIOUS, "Badly placed -E option");
+    }
 
     /* Look up output algebra */
     if (alg) {

@@ -67,10 +67,10 @@
 
 
 /*
-    TYPE REPRESENTING A LIST OF ALGEBRAS
-
-    This type is used to represent the list of all algebras.
-*/
+ * TYPE REPRESENTING A LIST OF ALGEBRAS
+ *
+ * This type is used to represent the list of all algebras.
+ */
 
 typedef struct ALGEBRA_LIST_tag {
     ALGEBRA_DEFN alg;
@@ -79,22 +79,22 @@ typedef struct ALGEBRA_LIST_tag {
 
 
 /*
-    CURRENT ALGEBRA
-
-    The variable algebra holds all the information on the algebra read
-    from the input file.  The list all_algebras contains a list of all
-    the algebras defined.
-*/
+ * CURRENT ALGEBRA
+ *
+ * The variable algebra holds all the information on the algebra read
+ * from the input file.  The list all_algebras contains a list of all
+ * the algebras defined.
+ */
 
 ALGEBRA_DEFN *algebra = NULL;
 static ALGEBRA_LIST *all_algebras = NULL;
 
 
 /*
-    CREATE A NEW ALGEBRA
-
-    This routine allocates and initialises a new algebra structure.
-*/
+ * CREATE A NEW ALGEBRA
+ *
+ * This routine allocates and initialises a new algebra structure.
+ */
 
 void
 new_algebra(void)
@@ -111,44 +111,46 @@ new_algebra(void)
     p->alg.types = NULL_list(TYPE_P);
     p->next = all_algebras;
     all_algebras = p;
-    algebra = & (p->alg);
+    algebra = &(p->alg);
     return;
 }
 
 
 /*
-    LOOK UP AN ALGEBRA
-
-    This routine looks up the algebra named nm.  It returns null if the
-    algebra has not been defined.
-*/
+ * LOOK UP AN ALGEBRA
+ *
+ * This routine looks up the algebra named nm.  It returns null if the
+ * algebra has not been defined.
+ */
 
 ALGEBRA_DEFN *
 find_algebra(char *nm)
 {
     ALGEBRA_LIST *p;
     for (p = all_algebras; p != NULL; p = p->next) {
-	if (streq(p->alg.name, nm)) return(& (p->alg));
+	if (streq(p->alg.name, nm)) {
+		return(&(p->alg));
+	}
     }
     return(NULL);
 }
 
 
 /*
-    LAST IDENTIFIER
-
-    This variable is set by name_type and name_aux_type to the identifier
-    of the last non-composite type looked up.
-*/
+ * LAST IDENTIFIER
+ *
+ * This variable is set by name_type and name_aux_type to the identifier
+ * of the last non-composite type looked up.
+ */
 
 static CLASS_ID_P last_id = NULL_ptr(CLASS_ID);
 
 
 /*
-    REGISTER A TYPE
-
-    This routine adds the type t to the list of all types.
-*/
+ * REGISTER A TYPE
+ *
+ * This routine adds the type t to the list of all types.
+ */
 
 TYPE_P
 register_type(TYPE_P t)
@@ -175,8 +177,8 @@ register_type(TYPE_P t)
 		    ln2 = ln;
 		}
 		error_posn(ERROR_SERIOUS, fn1, ln1,
-			     "Type %s already defined (at %s, line %d)",
-			     nm, fn2, ln2);
+			   "Type %s already defined (at %s, line %d)", nm, fn2,
+			   ln2);
 	    }
 
 	    COPY_type(s, DEREF_type(t));
@@ -190,12 +192,12 @@ register_type(TYPE_P t)
 
 
 /*
-    LOOK UP A NAMED TYPE
-
-    This routine looks up the type named nm in the list of all types
-    associated with the algebra alg.  The type is created if necessary,
-    and the result is returned.
-*/
+ * LOOK UP A NAMED TYPE
+ *
+ * This routine looks up the type named nm in the list of all types
+ * associated with the algebra alg.  The type is created if necessary,
+ * and the result is returned.
+ */
 
 TYPE_P
 find_type(ALGEBRA_DEFN *alg, char *nm)
@@ -205,7 +207,9 @@ find_type(ALGEBRA_DEFN *alg, char *nm)
     LIST(TYPE_P)t = alg->types;
     while (!IS_NULL_list(t)) {
 	s = DEREF_ptr(HEAD_list(t));
-	if (streq(name_type(s), nm)) return(s);
+	if (streq(name_type(s), nm)) {
+		return(s);
+	}
 	t = TAIL_list(t);
     }
     s = MAKE_ptr(SIZE_type);
@@ -217,11 +221,11 @@ find_type(ALGEBRA_DEFN *alg, char *nm)
 
 
 /*
-    DOES A TYPE INVOLVE AN IDENTITY
-
-    This routine checks whether the type t is an identity or a compound
-    type derived from an identity.
-*/
+ * DOES A TYPE INVOLVE AN IDENTITY
+ *
+ * This routine checks whether the type t is an identity or a compound
+ * type derived from an identity.
+ */
 
 int
 is_identity_type(TYPE_P t)
@@ -235,13 +239,13 @@ is_identity_type(TYPE_P t)
 
 
 /*
-    DEAL WITH COMPOUND TYPES INVOLVING IDENTITIES
-
-    From the point of view of the list of all types, identity types are
-    distinct from their definitions.  This routine is called after creating
-    a compound type, r, to ensure that the corresponding type with any
-    identities replaced by their definition is also created.
-*/
+ * DEAL WITH COMPOUND TYPES INVOLVING IDENTITIES
+ *
+ * From the point of view of the list of all types, identity types are
+ * distinct from their definitions.  This routine is called after creating
+ * a compound type, r, to ensure that the corresponding type with any
+ * identities replaced by their definition is also created.
+ */
 
 static TYPE_P
 compound_identity(TYPE_P r, int depth)
@@ -270,12 +274,12 @@ compound_identity(TYPE_P r, int depth)
 
 
 /*
-    CREATE A COMPOUND TYPE
-
-    This routine creates a compound type from the type operation indicated
-    by tag and the sub-type r.  The routine is designed to ensure that
-    only one copy of each type is created.
-*/
+ * CREATE A COMPOUND TYPE
+ *
+ * This routine creates a compound type from the type operation indicated
+ * by tag and the sub-type r.  The routine is designed to ensure that
+ * only one copy of each type is created.
+ */
 
 TYPE_P
 compound_type(unsigned tag, TYPE_P r, int depth)
@@ -298,18 +302,18 @@ compound_type(unsigned tag, TYPE_P r, int depth)
     MAKE_type_ptr_etc(tag, 0, r, s0);
     COPY_type(s, s0);
     CONS_ptr(s, algebra->types, algebra->types);
-   (void)compound_identity(s, depth);
+    (void)compound_identity(s, depth);
     return(s);
 }
 
 
 /*
-    CHECK FOR UNDEFINED TYPES
-
-    This routine scans the list of all types for any which remain undefined
-    at the end of the compilation.  It also calculates the sizes of all
-    the defined types.
-*/
+ * CHECK FOR UNDEFINED TYPES
+ *
+ * This routine scans the list of all types for any which remain undefined
+ * at the end of the compilation.  It also calculates the sizes of all
+ * the defined types.
+ */
 
 void
 check_types(void)
@@ -332,11 +336,11 @@ check_types(void)
 
 
 /*
-    FIND LIST OF DERIVED TYPES
-
-    This routine builds up a list of all the types used in the derivation
-    of t.
-*/
+ * FIND LIST OF DERIVED TYPES
+ *
+ * This routine builds up a list of all the types used in the derivation
+ * of t.
+ */
 
 static LIST(TYPE_P)
 derived_types(TYPE_P t, LIST(TYPE_P)p)
@@ -346,7 +350,9 @@ derived_types(TYPE_P t, LIST(TYPE_P)p)
     LIST(TYPE_P)q = p;
     while (!IS_NULL_list(q)) {
 	TYPE_P s = DEREF_ptr(HEAD_list(q));
-	if (EQ_ptr(s, t)) return(p);
+	if (EQ_ptr(s, t)) {
+		return(p);
+	}
 	q = TAIL_list(q);
     }
     CONS_ptr(t, p, p);
@@ -430,10 +436,10 @@ derived_types(TYPE_P t, LIST(TYPE_P)p)
 
 
 /*
-    IMPORT A LIST OF TYPES
-
-    This routine imports all the types in the list t.
-*/
+ * IMPORT A LIST OF TYPES
+ *
+ * This routine imports all the types in the list t.
+ */
 
 static void
 import_type_list(LIST(TYPE_P)t)
@@ -490,11 +496,11 @@ import_type_list(LIST(TYPE_P)t)
 
 
 /*
-    IMPORT A SINGLE ITEM FROM AN ALGEBRA
-
-    This routine imports the type named nm from the algebra alg into the
-    current algebra.
-*/
+ * IMPORT A SINGLE ITEM FROM AN ALGEBRA
+ *
+ * This routine imports the type named nm from the algebra alg into the
+ * current algebra.
+ */
 
 void
 import_type(char *alg, char *nm)
@@ -525,11 +531,11 @@ import_type(char *alg, char *nm)
 
 
 /*
-    IMPORT AN ENTIRE ALGEBRA
-
-    This routine imports all the types in the algebra alg into the current
-    algebra.
-*/
+ * IMPORT AN ENTIRE ALGEBRA
+ *
+ * This routine imports all the types in the algebra alg into the current
+ * algebra.
+ */
 
 void
 import_algebra(char *alg)
@@ -548,21 +554,23 @@ import_algebra(char *alg)
 
 
 /*
-    FIND THE SIZE OF A TYPE
-
-    This routine calculates the size of the type t.
-*/
+ * FIND THE SIZE OF A TYPE
+ *
+ * This routine calculates the size of the type t.
+ */
 
 int
 size_type(TYPE_P t, int depth)
 {
     TYPE t0 = DEREF_type(t);
     int sz = DEREF_int(type_size(t0));
-    if (sz) return(sz);
+    if (sz) {
+	    return(sz);
+    }
 
     if (depth > MAX_TYPE_DEPTH) {
 	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
-		name_type(t));
+	      name_type(t));
 	return(1);
     }
 
@@ -597,8 +605,7 @@ size_type(TYPE_P t, int depth)
 	case type_vec_ptr_tag: sz = SIZE_VEC_PTR; break;
 
 	default : {
-	    error(ERROR_SERIOUS, "Can't take size of type %s",
-		    name_type(t));
+	    error(ERROR_SERIOUS, "Can't take size of type %s", name_type(t));
 	    sz = 1;
 	    break;
 	}
@@ -608,10 +615,10 @@ size_type(TYPE_P t, int depth)
 
 
 /*
-    FIND THE NAME OF A TYPE
-
-    This routine finds the long name of the type t.
-*/
+ * FIND THE NAME OF A TYPE
+ *
+ * This routine finds the long name of the type t.
+ */
 
 char *
 name_type(TYPE_P t)
@@ -674,10 +681,10 @@ name_type(TYPE_P t)
 
 
 /*
-    FIND THE AUXILIARY NAME OF A TYPE
-
-    This routine finds the short name of the type t.
-*/
+ * FIND THE AUXILIARY NAME OF A TYPE
+ *
+ * This routine finds the short name of the type t.
+ */
 
 char *
 name_aux_type(TYPE_P t)
@@ -739,12 +746,12 @@ name_aux_type(TYPE_P t)
 
 
 /*
-    CHECK FOR COMPLEX TYPES
-
-    This routine checks whether a type is complex in the sense that it
-    requires the statement versions of COPY and DEREF rather than the
-    expression versions.
-*/
+ * CHECK FOR COMPLEX TYPES
+ *
+ * This routine checks whether a type is complex in the sense that it
+ * requires the statement versions of COPY and DEREF rather than the
+ * expression versions.
+ */
 
 int
 is_complex_type(TYPE_P t)

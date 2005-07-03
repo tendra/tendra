@@ -63,11 +63,11 @@
 
 
 /*
-    EXTRA CALCULUS TOKEN SPECIFICATIONS
-
-    This file contains the specifications for calculus-like tokens used
-    within the program.
-*/
+ * EXTRA CALCULUS TOKEN SPECIFICATIONS
+ *
+ * This file contains the specifications for calculus-like tokens used
+ * within the program.
+ */
 
 #if calculus_SPECIFICATION
 
@@ -83,12 +83,12 @@
 
 
 /*
-    EXTRA CALCULUS TOKEN IMPLEMENTATIONS
-
-    The token specified above are implemented as follows.  The token
-    definitions are implementation specific.  The functions used are
-    defined in calculus.c.
-*/
+ * EXTRA CALCULUS TOKEN IMPLEMENTATIONS
+ *
+ * The token specified above are implemented as follows.  The token
+ * definitions are implementation specific.  The functions used are
+ * defined in calculus.c.
+ */
 
 #if calculus_IMPLEMENTATION
 

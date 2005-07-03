@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR MAIN C OUTPUT ROUTINES
-*/
+ * DECLARATIONS FOR MAIN C OUTPUT ROUTINES
+ */
 
 extern int extra_asserts;
 extern int extra_headers;

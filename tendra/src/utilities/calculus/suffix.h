@@ -63,11 +63,11 @@
 
 
 /*
-    FILE PREFIXES AND SUFFIXES
-
-    These macros give the prefixes and suffixes for the various output
-    files.
-*/
+ * FILE PREFIXES AND SUFFIXES
+ *
+ * These macros give the prefixes and suffixes for the various output
+ * files.
+ */
 
 #define MAIN_PREFIX	algebra->name
 #define READ_PREFIX	"read"

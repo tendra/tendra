@@ -63,8 +63,8 @@
 
 
 /*
-    DECLARATIONS FOR DISK WRITING ROUTINES
-*/
+ * DECLARATIONS FOR DISK WRITING ROUTINES
+ */
 
 extern void write_file(char *);
 

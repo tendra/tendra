@@ -67,12 +67,12 @@
 
 
 /*
-    INPUT FLAGS
-
-    The flag new_format is set to true to indicate the new input format.
-    The flags allow_stack and allow_vec are set to false to suppress the
-    stack and vector operations respectively.
-*/
+ * INPUT FLAGS
+ *
+ * The flag new_format is set to true to indicate the new input format.
+ * The flags allow_stack and allow_vec are set to false to suppress the
+ * stack and vector operations respectively.
+ */
 
 int new_format = 1;
 int allow_stack = 1;
@@ -80,11 +80,11 @@ int allow_vec = 1;
 
 
 /*
-    CHECK STACK FLAG
-
-    This routine is called if the STACK keyword is encountered to check the
-    value of allow_stack.
-*/
+ * CHECK STACK FLAG
+ *
+ * This routine is called if the STACK keyword is encountered to check the
+ * value of allow_stack.
+ */
 
 static int
 check_stack(int t)
@@ -98,11 +98,11 @@ check_stack(int t)
 
 
 /*
-    CHECK VECTOR FLAG
-
-    This routine is called if the VEC or VEC_PTR keywords are encountered
-    to check the value of allow_vec.
-*/
+ * CHECK VECTOR FLAG
+ *
+ * This routine is called if the VEC or VEC_PTR keywords are encountered
+ * to check the value of allow_vec.
+ */
 
 static int
 check_vec(int t)
@@ -116,35 +116,35 @@ check_vec(int t)
 
 
 /*
-    INPUT FILE
-
-    This is the file from which the lexical routine read their input.
-*/
+ * INPUT FILE
+ *
+ * This is the file from which the lexical routine read their input.
+ */
 
 static FILE *lex_input;
 
 
 /*
-    PENDING BUFFER
-
-    Pending characters are dealt with by means of this buffer.  pending
-    is set to the start of the buffer to indicate that there are no
-    characters pending, otherwise the pending characters are stored in
-    the buffer.  The buffer may need increasing in size if the look-ahead
-    required by the lexical analyser increases.
-*/
+ * PENDING BUFFER
+ *
+ * Pending characters are dealt with by means of this buffer.  pending
+ * is set to the start of the buffer to indicate that there are no
+ * characters pending, otherwise the pending characters are stored in
+ * the buffer.  The buffer may need increasing in size if the look-ahead
+ * required by the lexical analyser increases.
+ */
 
 static int pending_buff[12] = { '?' };
 static int *pending = pending_buff;
 
 
 /*
-    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
-
-    These macros give the mappings between the actions used in the
-    automatically generated lexical analyser and the routines defined
-    in this file.
-*/
+ * MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
+ *
+ * These macros give the mappings between the actions used in the
+ * automatically generated lexical analyser and the routines defined
+ * in this file.
+ */
 
 static int read_char(void);
 static int read_comment(void);
@@ -166,20 +166,20 @@ static int read_string(void);
 
 
 /*
-    AUTOMATICALLY GENERATED SECTION
-
-    The main body of the lexical analyser is automatically generated.
-*/
+ * AUTOMATICALLY GENERATED SECTION
+ *
+ * The main body of the lexical analyser is automatically generated.
+ */
 
 #include "lexer.h"
 
 
 /*
-    GET THE NEXT CHARACTER
-
-    This routine reads the next character, either from the pending buffer
-    or from the input file.
-*/
+ * GET THE NEXT CHARACTER
+ *
+ * This routine reads the next character, either from the pending buffer
+ * or from the input file.
+ */
 
 static int
 read_char(void)
@@ -198,12 +198,12 @@ read_char(void)
 
 
 /*
-    TOKEN BUFFER
-
-    This buffer is used by read_token to hold the values of identifiers
-    and strings.  The variable token_value is also used to hold the
-    values of numbers.
-*/
+ * TOKEN BUFFER
+ *
+ * This buffer is used by read_token to hold the values of identifiers
+ * and strings.  The variable token_value is also used to hold the
+ * values of numbers.
+ */
 
 char token_buff[2000];
 static char *token_end = token_buff + sizeof(token_buff);
@@ -212,11 +212,11 @@ number token_value;
 
 
 /*
-    READ AN IDENTIFIER
-
-    This routine reads an identifier beginning with a, returning the
-    corresponding lexical token.  Keywords are dealt with locally.
-*/
+ * READ AN IDENTIFIER
+ *
+ * This routine reads an identifier beginning with a, returning the
+ * corresponding lexical token.  Keywords are dealt with locally.
+ */
 
 static int
 read_identifier(int a)
@@ -225,7 +225,9 @@ read_identifier(int a)
     char *t = token_buff;
     do {
 	*(t++) = (char)c;
-	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
+	if (t == token_end) {
+		error(ERROR_FATAL, "Buffer overflow");
+	}
 	c = read_char();
 	cl = lookup_char(c);
     } while (is_alphanum(cl));
@@ -242,12 +244,12 @@ read_identifier(int a)
 
 
 /*
-    READ A NUMBER
-
-    This routine reads a number beginning with a, returning the
-    corresponding lexical token.  The actual value of the number is built
-    up in token_value.
-*/
+ * READ A NUMBER
+ *
+ * This routine reads a number beginning with a, returning the
+ * corresponding lexical token.  The actual value of the number is built
+ * up in token_value.
+ */
 
 static int
 read_number(int a)
@@ -266,12 +268,12 @@ read_number(int a)
 
 
 /*
-    READ A HEXADECIMAL NUMBER
-
-    This routine reads a hexadecimal number beginning with a, returning the
-    corresponding lexical token.  The actual value of the number is built
-    up in token_value.
-*/
+ * READ A HEXADECIMAL NUMBER
+ *
+ * This routine reads a hexadecimal number beginning with a, returning the
+ * corresponding lexical token.  The actual value of the number is built
+ * up in token_value.
+ */
 
 static int
 read_hex(int a)
@@ -298,11 +300,11 @@ read_hex(int a)
 
 
 /*
-    READ A STRING
-
-    This routine reads a string.  It is entered after the initial
-    quote has been read.  Note that there are no escape sequences.
-*/
+ * READ A STRING
+ *
+ * This routine reads a string.  It is entered after the initial
+ * quote has been read.  Note that there are no escape sequences.
+ */
 
 static int
 read_string(void)
@@ -315,7 +317,9 @@ read_string(void)
 	    break;
 	}
 	*(t++) = (char)c;
-	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
+	if (t == token_end) {
+		error(ERROR_FATAL, "Buffer overflow");
+	}
     }
     *t = 0;
     return(lex_string);
@@ -323,12 +327,12 @@ read_string(void)
 
 
 /*
-    READ A COMMENT
-
-    This routine reads a C style comment, returning the lexical token
-    immediately following.  It is entered after the first two characters
-    have been read.
-*/
+ * READ A COMMENT
+ *
+ * This routine reads a C style comment, returning the lexical token
+ * immediately following.  It is entered after the first two characters
+ * have been read.
+ */
 
 static int
 read_comment(void)
@@ -351,31 +355,35 @@ read_comment(void)
 	    state = 0;
 	}
 	*(t++) = (char)c;
-	if (t == token_end)t = token_buff + 2;
+	if (t == token_end) {
+		t = token_buff + 2;
+	}
     }
     *t = 0;
-    if (first_comment == NULL)first_comment = xstrcpy(token_buff);
+    if (first_comment == NULL) {
+	    first_comment = xstrcpy(token_buff);
+    }
     return(read_token());
 }
 
 
 /*
-    CURRENT TOKEN
-
-    These variables are used by the parser to hold the current and former
-    lexical tokens.
-*/
+ * CURRENT TOKEN
+ *
+ * These variables are used by the parser to hold the current and former
+ * lexical tokens.
+ */
 
 int crt_lex_token;
 int saved_lex_token;
 
 
 /*
-    PROCESS FILE
-
-    This routine processes the input file nm.  If r is true then it is
-    processed using read_calculus, otherwise extra_calculus is used.
-*/
+ * PROCESS FILE
+ *
+ * This routine processes the input file nm.  If r is true then it is
+ * processed using read_calculus, otherwise extra_calculus is used.
+ */
 
 void
 process_file(char *nm, int r)

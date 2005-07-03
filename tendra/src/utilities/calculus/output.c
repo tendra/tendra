@@ -75,11 +75,11 @@
 
 
 /*
-    FIND BINARY LOG OF A NUMBER
-
-    This routine calculates the binary log of n (i.e. the smallest number
-    r such that n <= 2**r).
-*/
+ * FIND BINARY LOG OF A NUMBER
+ *
+ * This routine calculates the binary log of n (i.e. the smallest number
+ * r such that n <= 2**r).
+ */
 
 number
 log2(number n)
@@ -92,11 +92,11 @@ log2(number n)
 
 
 /*
-    LOOP VARIABLES
-
-    These are the counter variables used in the LOOP macros defined in
-    output.h.
-*/
+ * LOOP VARIABLES
+ *
+ * These are the counter variables used in the LOOP macros defined in
+ * output.h.
+ */
 
 LIST(ECONST_P)crt_ec = NULL_list(ECONST_P);
 LIST(ENUM_P)crt_en = NULL_list(ENUM_P);
@@ -113,10 +113,10 @@ int unique = 0;
 
 
 /*
-    CURRENT OUTPUT FILE
-
-    This gives the file which is currently being used for output.
-*/
+ * CURRENT OUTPUT FILE
+ *
+ * This gives the file which is currently being used for output.
+ */
 
 FILE *output_file = NULL;
 static int output_posn = 0;
@@ -129,10 +129,10 @@ int have_varargs = 1;
 
 
 /*
-    PRINT A CHARACTER
-
-    This routine prints the single character c.
-*/
+ * PRINT A CHARACTER
+ *
+ * This routine prints the single character c.
+ */
 
 static void
 output_char(int c)
@@ -147,7 +147,7 @@ output_char(int c)
     if (c == '\n') {
 	column = 0;
     } else if (c == '\t') {
-	column = 8 *((column + 8) / 8);
+	column = 8 * ((column + 8) / 8);
     } else {
 	column++;
     }
@@ -157,25 +157,27 @@ output_char(int c)
 
 
 /*
-    PRINT A STRING
-
-    This routine prints the string s.
-*/
+ * PRINT A STRING
+ *
+ * This routine prints the string s.
+ */
 
 static void
 output_string(CONST char *s)
 {
-    for (; *s; s++)output_char(*s);
+    for (; *s; s++) {
+	    output_char(*s);
+    }
     return;
 }
 
 
 /*
-    FLUSH OUTPUT FILE
-
-    This routine flushes the output file buffer by printing a newline
-    character.
-*/
+ * FLUSH OUTPUT FILE
+ *
+ * This routine flushes the output file buffer by printing a newline
+ * character.
+ */
 
 void
 flush_output(void)
@@ -186,10 +188,10 @@ flush_output(void)
 
 
 /*
-    PRINT A TYPE
-
-    This routine prints the type t.
-*/
+ * PRINT A TYPE
+ *
+ * This routine prints the type t.
+ */
 
 void
 output_type(TYPE_P t)
@@ -198,37 +200,37 @@ output_type(TYPE_P t)
     switch (TAG_type(t0)) {
 	case type_vec_tag: {
 	    TYPE_P_P s = type_vec_sub(t0);
-	    output_string("VEC ( ");
+	    output_string("VEC(");
 	    output_type(DEREF_ptr(s));
-	    output_string(" )");
+	    output_string(")");
 	    break;
 	}
 	case type_ptr_tag: {
 	    TYPE_P_P s = type_ptr_sub(t0);
-	    output_string("PTR ( ");
+	    output_string("PTR(");
 	    output_type(DEREF_ptr(s));
-	    output_string(" )");
+	    output_string(")");
 	    break;
 	}
 	case type_list_tag: {
 	    TYPE_P_P s = type_list_sub(t0);
-	    output_string("LIST ( ");
+	    output_string("LIST(");
 	    output_type(DEREF_ptr(s));
-	    output_string(" )");
+	    output_string(")");
 	    break;
 	}
 	case type_stack_tag: {
 	    TYPE_P_P s = type_stack_sub(t0);
-	    output_string("STACK ( ");
+	    output_string("STACK(");
 	    output_type(DEREF_ptr(s));
-	    output_string(" )");
+	    output_string(")");
 	    break;
 	}
 	case type_vec_ptr_tag: {
 	    TYPE_P_P s = type_vec_ptr_sub(t0);
-	    output_string("VEC_PTR ( ");
+	    output_string("VEC_PTR(");
 	    output_type(DEREF_ptr(s));
-	    output_string(" )");
+	    output_string(")");
 	    break;
 	}
 	default : {
@@ -241,11 +243,11 @@ output_type(TYPE_P t)
 
 
 /*
-    PRINT A TYPE IDENTIFIER
-
-    This routine prints an identifier derived from the type t.  depth
-    determines the depth to which identities are to be expanded.
-*/
+ * PRINT A TYPE IDENTIFIER
+ *
+ * This routine prints an identifier derived from the type t.  depth
+ * determines the depth to which identities are to be expanded.
+ */
 
 static void
 output_type_id(TYPE_P t, int depth)
@@ -303,10 +305,10 @@ output_type_id(TYPE_P t, int depth)
 
 
 /*
-    PRINT A TYPE SIZE
-
-    This routine print the size of the type t.
-*/
+ * PRINT A TYPE SIZE
+ *
+ * This routine print the size of the type t.
+ */
 
 static void
 output_type_size(TYPE_P t)
@@ -315,27 +317,27 @@ output_type_size(TYPE_P t)
     switch (TAG_type(t0)) {
 	case type_vec_tag: {
 	    TYPE_P_P s = type_vec_sub(t0);
-	    output("SIZE_vec ( %TT )", DEREF_ptr(s));
+	    output("SIZE_vec(%TT)", DEREF_ptr(s));
 	    break;
 	}
 	case type_ptr_tag: {
 	    TYPE_P_P s = type_ptr_sub(t0);
-	    output("SIZE_ptr ( %TT )", DEREF_ptr(s));
+	    output("SIZE_ptr(%TT)", DEREF_ptr(s));
 	    break;
 	}
 	case type_list_tag: {
 	    TYPE_P_P s = type_list_sub(t0);
-	    output("SIZE_list ( %TT )", DEREF_ptr(s));
+	    output("SIZE_list(%TT)", DEREF_ptr(s));
 	    break;
 	}
 	case type_stack_tag: {
 	    TYPE_P_P s = type_stack_sub(t0);
-	    output("SIZE_stack ( %TT )", DEREF_ptr(s));
+	    output("SIZE_stack(%TT)", DEREF_ptr(s));
 	    break;
 	}
 	case type_vec_ptr_tag: {
 	    TYPE_P_P s = type_vec_ptr_sub(t0);
-	    output("SIZE_vec_ptr ( %TT )", DEREF_ptr(s));
+	    output("SIZE_vec_ptr(%TT)", DEREF_ptr(s));
 	    break;
 	}
 	case type_ident_tag: {
@@ -354,13 +356,13 @@ output_type_size(TYPE_P t)
 
 
 /*
-    PRINT A FORMAT STRING
-
-    This routine prints the string s, taking any formatting characters
-    into account.  These formatting characters have the form %X or %XY
-    for characters X and Y.  Each is commented within the body of the
-    procedure in the form "%XY -> ....".
-*/
+ * PRINT A FORMAT STRING
+ *
+ * This routine prints the string s, taking any formatting characters
+ * into account.  These formatting characters have the form %X or %XY
+ * for characters X and Y.  Each is commented within the body of the
+ * procedure in the form "%XY -> ....".
+ */
 
 void
 output(char *s, ...) /*VARARGS*/
@@ -767,7 +769,9 @@ output(char *s, ...) /*VARARGS*/
 
 		case 'b': {
 		    /* %b -> backspace */
-		    if (output_posn)output_posn--;
+		    if (output_posn) {
+			    output_posn--;
+		    }
 		    break;
 		}
 
@@ -786,7 +790,9 @@ output(char *s, ...) /*VARARGS*/
 		    /* %e -> evaluated string (extra argument) */
 		    if (have_varargs) {
 			char *ea = va_arg(args, char *);
-			if (ea)output(ea);
+			if (ea) {
+				output(ea);
+			}
 			break;
 		    }
 		    goto bad_format;
@@ -822,7 +828,9 @@ output(char *s, ...) /*VARARGS*/
 		    /* %s -> string (extra argument) */
 		    if (have_varargs) {
 			char *sa = va_arg(args, char *);
-			if (sa)output_string(sa);
+			if (sa) {
+				output_string(sa);
+			}
 			break;
 		    }
 		    goto bad_format;
@@ -858,7 +866,9 @@ output(char *s, ...) /*VARARGS*/
 		    } else if (c == 'c') {
 			/* %xc -> 'EXP const' */
 			output_string("EXP");
-			if (const_tokens)output_string(" const");
+			if (const_tokens) {
+				output_string(" const");
+			}
 		    } else {
 			goto bad_format;
 		    }
@@ -913,11 +923,11 @@ output(char *s, ...) /*VARARGS*/
 
 
 /*
-    PRINT INITIAL COMMENT
-
-    This comment is printed at the start of each output file to indicate
-    that it is automatically generated.
-*/
+ * PRINT INITIAL COMMENT
+ *
+ * This comment is printed at the start of each output file to indicate
+ * that it is automatically generated.
+ */
 
 static void
 print_comment(void)
@@ -926,29 +936,29 @@ print_comment(void)
 	/* Print copyright comment, if present */
 	output("%s\n\n", first_comment);
     }
-    output ( "/*\n" ) ;
-    output ( "    AUTOMATICALLY GENERATED FROM ALGEBRA %X (VERSION %V)\n" ) ;
-    output ( "    BY %ZX (VERSION %ZV)\n" ) ;
-    output ( "*/\n\n" ) ;
+    output("/*\n");
+    output("    AUTOMATICALLY GENERATED FROM ALGEBRA %X (VERSION %V)\n");
+    output("    BY %ZX (VERSION %ZV)\n");
+    output("*/\n\n");
     return;
 }
 
 
 /*
-    C CODE FLAG
-
-    This flag is true if C code is being output.
-*/
+ * C CODE FLAG
+ *
+ * This flag is true if C code is being output.
+ */
 
 int output_c_code = 1;
 
 
 /*
-    OPEN AN OUTPUT FILE
-
-    This routine opens the output file formed by concatenating nm and suff.
-    Two files can be open at once.
-*/
+ * OPEN AN OUTPUT FILE
+ *
+ * This routine opens the output file formed by concatenating nm and suff.
+ * Two files can be open at once.
+ */
 
 void
 open_file(char *dir, char *nm, char *suff)
@@ -970,7 +980,9 @@ open_file(char *dir, char *nm, char *suff)
     if (output_c_code) {
 	/* Set up protection macro */
 	char *tok = "";
-	if (output_c_code == 2)tok = "_TOK";
+	if (output_c_code == 2) {
+		tok = "_TOK";
+	}
 	sprintf_v(buff, "%s%s%s_INCLUDED", nm, suff, tok);
 	for (p = buff; *p; p++) {
 	    char c = *p;
@@ -992,15 +1004,17 @@ open_file(char *dir, char *nm, char *suff)
 
 
 /*
-    CLOSE AN OUTPUT FILE
-
-    This routine closes the current output file.
-*/
+ * CLOSE AN OUTPUT FILE
+ *
+ * This routine closes the current output file.
+ */
 
 void
 close_file(void)
 {
-    if (output_c_code)output("#endif\n");
+    if (output_c_code) {
+	    output("#endif\n");
+    }
     flush_output();
     fclose_v(output_file);
     output_file = output_file_old;
