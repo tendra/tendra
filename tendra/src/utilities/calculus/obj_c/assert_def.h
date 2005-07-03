@@ -38,41 +38,41 @@
 /* Assertion function definitions */
 
 #ifndef assert_calculus
-static void assert_calculus
-    PROTO_N ( ( s, fn, ln ) )
-    PROTO_T ( CONST_S char *s X CONST_S char *fn X int ln )
+static void
+assert_calculus
+(char *s, char *fn, int ln)
 {
-    ( void ) fprintf ( stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln ) ;
-    abort () ;
+    (void)fprintf(stderr, "Assertion %s failed, %s, line %d.\n", s, fn, ln);
+    abort();
 }
 #endif
 
-calculus *check_null_calculus
-    PROTO_N ( ( p, fn, ln ) )
-    PROTO_T ( calculus *p X CONST_S char *fn X int ln )
+calculus *
+check_null_calculus
+(calculus *p, char *fn, int ln)
 {
-    if ( p == NULL ) assert_calculus ( "Null pointer", fn, ln ) ;
-    return ( p ) ;
+    if (p == NULL) assert_calculus("Null pointer", fn, ln);
+    return(p);
 }
 
-calculus *check_tag_calculus
-    PROTO_N ( ( p, t, fn, ln ) )
-    PROTO_T ( calculus *p X unsigned t X CONST_S char *fn X int ln )
+calculus *
+check_tag_calculus
+(calculus *p, unsigned t, char *fn, int ln)
 {
-    p = check_null_calculus ( p, fn, ln ) ;
-    if ( p->ag_tag != t ) assert_calculus ( "Union tag", fn, ln ) ;
-    return ( p ) ;
+    p = check_null_calculus(p, fn, ln);
+    if (p->ag_tag != t) assert_calculus("Union tag", fn, ln);
+    return(p);
 }
 
-calculus *check_tag_etc_calculus
-    PROTO_N ( ( p, tl, tb, fn, ln ) )
-    PROTO_T ( calculus *p X unsigned tl X unsigned tb X CONST_S char *fn X int ln )
+calculus *
+check_tag_etc_calculus
+(calculus *p, unsigned tl, unsigned tb X char *fn X int ln)
 {
-    p = check_null_calculus ( p, fn, ln ) ;
-    if ( p->ag_tag < tl || p->ag_tag >= tb ) {
-	assert_calculus ( "Union tag", fn, ln ) ;
+    p = check_null_calculus(p, fn, ln);
+    if (p->ag_tag < tl || p->ag_tag >= tb) {
+	assert_calculus("Union tag", fn, ln);
     }
-    return ( p ) ;
+    return(p);
 }
 
 #endif

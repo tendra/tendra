@@ -1,36 +1,6 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- * 3. Neither the name of The TenDRA Project nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific, prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
- * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * $Id$
- */
-/*
     		 Crown Copyright (c) 1997
-
+    
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,18 +9,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-
+    
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-
+    
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-
+    
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-
+    
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -72,315 +42,315 @@
 /* Printing function declarations */
 
 #ifndef PRINT_list_cmd
-static void PRINT_list_cmd(FILE *, LIST(COMMAND), char *, int);
+static void PRINT_list_cmd (FILE *, LIST(COMMAND), char *, int);
 #endif
 
 #ifndef PRINT_cmd
-static void PRINT_cmd(FILE *, COMMAND, char *, int);
+static void PRINT_cmd (FILE *, COMMAND, char *, int);
 #endif
 
 #ifndef PRINT_list_ptr_map
-static void PRINT_list_ptr_map(FILE *, LIST(PTR(MAP)), char *, int);
+static void PRINT_list_ptr_map (FILE *, LIST(PTR(MAP)), char *, int);
 #endif
 
 #ifndef PRINT_list_MAP_P
-#define PRINT_list_MAP_P(A, B, C, D) PRINT_list_ptr_map((A), (B), (C), (D))
+#define PRINT_list_MAP_P(A, B, C, D)PRINT_list_ptr_map((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_fld
-static void PRINT_list_ptr_fld(FILE *, LIST(PTR(FIELD)), char *, int);
+static void PRINT_list_ptr_fld (FILE *, LIST(PTR(FIELD)), char *, int);
 #endif
 
 #ifndef PRINT_list_FIELD_P
-#define PRINT_list_FIELD_P(A, B, C, D) PRINT_list_ptr_fld((A), (B), (C), (D))
+#define PRINT_list_FIELD_P(A, B, C, D)PRINT_list_ptr_fld((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_arg
-static void PRINT_list_ptr_arg(FILE *, LIST(PTR(ARGUMENT)), char *, int);
+static void PRINT_list_ptr_arg (FILE *, LIST(PTR(ARGUMENT)), char *, int);
 #endif
 
 #ifndef PRINT_list_ARGUMENT_P
-#define PRINT_list_ARGUMENT_P(A, B, C, D) PRINT_list_ptr_arg((A), (B), (C), (D))
+#define PRINT_list_ARGUMENT_P(A, B, C, D)PRINT_list_ptr_arg((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_cmp
-static void PRINT_list_ptr_cmp(FILE *, LIST(PTR(COMPONENT)), char *, int);
+static void PRINT_list_ptr_cmp (FILE *, LIST(PTR(COMPONENT)), char *, int);
 #endif
 
 #ifndef PRINT_list_COMPONENT_P
-#define PRINT_list_COMPONENT_P(A, B, C, D) PRINT_list_ptr_cmp((A), (B), (C), (D))
+#define PRINT_list_COMPONENT_P(A, B, C, D)PRINT_list_ptr_cmp((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_ec
-static void PRINT_list_ptr_ec(FILE *, LIST(PTR(ECONST)), char *, int);
+static void PRINT_list_ptr_ec (FILE *, LIST(PTR(ECONST)), char *, int);
 #endif
 
 #ifndef PRINT_list_ECONST_P
-#define PRINT_list_ECONST_P(A, B, C, D) PRINT_list_ptr_ec((A), (B), (C), (D))
+#define PRINT_list_ECONST_P(A, B, C, D)PRINT_list_ptr_ec((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_alg
-static void PRINT_alg(FILE *, ALGEBRA_DEFN, char *, int);
+static void PRINT_alg (FILE *, ALGEBRA_DEFN, char *, int);
 #endif
 
 #ifndef PRINT_list_ptr_type
-static void PRINT_list_ptr_type(FILE *, LIST(PTR(TYPE)), char *, int);
+static void PRINT_list_ptr_type (FILE *, LIST(PTR(TYPE)), char *, int);
 #endif
 
 #ifndef PRINT_list_TYPE_P
-#define PRINT_list_TYPE_P(A, B, C, D) PRINT_list_ptr_type((A), (B), (C), (D))
+#define PRINT_list_TYPE_P(A, B, C, D)PRINT_list_ptr_type((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_un
-static void PRINT_list_ptr_un(FILE *, LIST(PTR(UNION)), char *, int);
+static void PRINT_list_ptr_un (FILE *, LIST(PTR(UNION)), char *, int);
 #endif
 
 #ifndef PRINT_list_UNION_P
-#define PRINT_list_UNION_P(A, B, C, D) PRINT_list_ptr_un((A), (B), (C), (D))
+#define PRINT_list_UNION_P(A, B, C, D)PRINT_list_ptr_un((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_str
-static void PRINT_list_ptr_str(FILE *, LIST(PTR(STRUCTURE)), char *, int);
+static void PRINT_list_ptr_str (FILE *, LIST(PTR(STRUCTURE)), char *, int);
 #endif
 
 #ifndef PRINT_list_STRUCTURE_P
-#define PRINT_list_STRUCTURE_P(A, B, C, D) PRINT_list_ptr_str((A), (B), (C), (D))
+#define PRINT_list_STRUCTURE_P(A, B, C, D)PRINT_list_ptr_str((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_en
-static void PRINT_list_ptr_en(FILE *, LIST(PTR(ENUM)), char *, int);
+static void PRINT_list_ptr_en (FILE *, LIST(PTR(ENUM)), char *, int);
 #endif
 
 #ifndef PRINT_list_ENUM_P
-#define PRINT_list_ENUM_P(A, B, C, D) PRINT_list_ptr_en((A), (B), (C), (D))
+#define PRINT_list_ENUM_P(A, B, C, D)PRINT_list_ptr_en((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_ident
-static void PRINT_list_ptr_ident(FILE *, LIST(PTR(IDENTITY)), char *, int);
+static void PRINT_list_ptr_ident (FILE *, LIST(PTR(IDENTITY)), char *, int);
 #endif
 
 #ifndef PRINT_list_IDENTITY_P
-#define PRINT_list_IDENTITY_P(A, B, C, D) PRINT_list_ptr_ident((A), (B), (C), (D))
+#define PRINT_list_IDENTITY_P(A, B, C, D)PRINT_list_ptr_ident((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_list_ptr_prim
-static void PRINT_list_ptr_prim(FILE *, LIST(PTR(PRIMITIVE)), char *, int);
+static void PRINT_list_ptr_prim (FILE *, LIST(PTR(PRIMITIVE)), char *, int);
 #endif
 
 #ifndef PRINT_list_PRIMITIVE_P
-#define PRINT_list_PRIMITIVE_P(A, B, C, D) PRINT_list_ptr_prim((A), (B), (C), (D))
+#define PRINT_list_PRIMITIVE_P(A, B, C, D)PRINT_list_ptr_prim((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_UNION_P
-#define PRINT_UNION_P(A, B, C, D) PRINT_ptr_un((A), (B), (C), (D))
+#define PRINT_UNION_P(A, B, C, D)PRINT_ptr_un((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_un
-static void PRINT_ptr_un(FILE *, PTR(UNION), char *, int);
+static void PRINT_ptr_un (FILE *, PTR(UNION), char *, int);
 #endif
 
 #ifndef PRINT_un
-static void PRINT_un(FILE *, UNION, char *, int);
+static void PRINT_un (FILE *, UNION, char *, int);
 #endif
 
 #ifndef PRINT_TYPE_P_P
-#define PRINT_TYPE_P_P(A, B, C, D) PRINT_ptr_TYPE_P((A), (B), (C), (D))
+#define PRINT_TYPE_P_P(A, B, C, D)PRINT_ptr_TYPE_P((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_ptr_type
-static void PRINT_ptr_ptr_type(FILE *, PTR(PTR(TYPE)), char *, int);
+static void PRINT_ptr_ptr_type (FILE *, PTR(PTR(TYPE)), char *, int);
 #endif
 
 #ifndef PRINT_ptr_TYPE_P
-#define PRINT_ptr_TYPE_P(A, B, C, D) PRINT_ptr_ptr_type((A), (B), (C), (D))
+#define PRINT_ptr_TYPE_P(A, B, C, D)PRINT_ptr_ptr_type((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_TYPE_P
-#define PRINT_TYPE_P(A, B, C, D) PRINT_ptr_type((A), (B), (C), (D))
+#define PRINT_TYPE_P(A, B, C, D)PRINT_ptr_type((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_type
-static void PRINT_ptr_type(FILE *, PTR(TYPE), char *, int);
+static void PRINT_ptr_type (FILE *, PTR(TYPE), char *, int);
 #endif
 
 #ifndef PRINT_type
-static void PRINT_type(FILE *, TYPE, char *, int);
+static void PRINT_type (FILE *, TYPE, char *, int);
 #endif
 
 #ifndef PRINT_STRUCTURE_P
-#define PRINT_STRUCTURE_P(A, B, C, D) PRINT_ptr_str((A), (B), (C), (D))
+#define PRINT_STRUCTURE_P(A, B, C, D)PRINT_ptr_str((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_str
-static void PRINT_ptr_str(FILE *, PTR(STRUCTURE), char *, int);
+static void PRINT_ptr_str (FILE *, PTR(STRUCTURE), char *, int);
 #endif
 
 #ifndef PRINT_str
-static void PRINT_str(FILE *, STRUCTURE, char *, int);
+static void PRINT_str (FILE *, STRUCTURE, char *, int);
 #endif
 
 #ifndef PRINT_PRIMITIVE_P
-#define PRINT_PRIMITIVE_P(A, B, C, D) PRINT_ptr_prim((A), (B), (C), (D))
+#define PRINT_PRIMITIVE_P(A, B, C, D)PRINT_ptr_prim((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_prim
-static void PRINT_ptr_prim(FILE *, PTR(PRIMITIVE), char *, int);
+static void PRINT_ptr_prim (FILE *, PTR(PRIMITIVE), char *, int);
 #endif
 
 #ifndef PRINT_prim
-static void PRINT_prim(FILE *, PRIMITIVE, char *, int);
+static void PRINT_prim (FILE *, PRIMITIVE, char *, int);
 #endif
 
 #ifndef PRINT_MAP_P
-#define PRINT_MAP_P(A, B, C, D) PRINT_ptr_map((A), (B), (C), (D))
+#define PRINT_MAP_P(A, B, C, D)PRINT_ptr_map((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_map
-static void PRINT_ptr_map(FILE *, PTR(MAP), char *, int);
+static void PRINT_ptr_map (FILE *, PTR(MAP), char *, int);
 #endif
 
 #ifndef PRINT_map
-static void PRINT_map(FILE *, MAP, char *, int);
+static void PRINT_map (FILE *, MAP, char *, int);
 #endif
 
 #ifndef PRINT_IDENTITY_P
-#define PRINT_IDENTITY_P(A, B, C, D) PRINT_ptr_ident((A), (B), (C), (D))
+#define PRINT_IDENTITY_P(A, B, C, D)PRINT_ptr_ident((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_ident
-static void PRINT_ptr_ident(FILE *, PTR(IDENTITY), char *, int);
+static void PRINT_ptr_ident (FILE *, PTR(IDENTITY), char *, int);
 #endif
 
 #ifndef PRINT_ident
-static void PRINT_ident(FILE *, IDENTITY, char *, int);
+static void PRINT_ident (FILE *, IDENTITY, char *, int);
 #endif
 
 #ifndef PRINT_FIELD_P
-#define PRINT_FIELD_P(A, B, C, D) PRINT_ptr_fld((A), (B), (C), (D))
+#define PRINT_FIELD_P(A, B, C, D)PRINT_ptr_fld((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_fld
-static void PRINT_ptr_fld(FILE *, PTR(FIELD), char *, int);
+static void PRINT_ptr_fld (FILE *, PTR(FIELD), char *, int);
 #endif
 
 #ifndef PRINT_fld
-static void PRINT_fld(FILE *, FIELD, char *, int);
+static void PRINT_fld (FILE *, FIELD, char *, int);
 #endif
 
 #ifndef PRINT_ENUM_P
-#define PRINT_ENUM_P(A, B, C, D) PRINT_ptr_en((A), (B), (C), (D))
+#define PRINT_ENUM_P(A, B, C, D)PRINT_ptr_en((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_en
-static void PRINT_ptr_en(FILE *, PTR(ENUM), char *, int);
+static void PRINT_ptr_en (FILE *, PTR(ENUM), char *, int);
 #endif
 
 #ifndef PRINT_en
-static void PRINT_en(FILE *, ENUM, char *, int);
+static void PRINT_en (FILE *, ENUM, char *, int);
 #endif
 
 #ifndef PRINT_ECONST_P
-#define PRINT_ECONST_P(A, B, C, D) PRINT_ptr_ec((A), (B), (C), (D))
+#define PRINT_ECONST_P(A, B, C, D)PRINT_ptr_ec((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_ec
-static void PRINT_ptr_ec(FILE *, PTR(ECONST), char *, int);
+static void PRINT_ptr_ec (FILE *, PTR(ECONST), char *, int);
 #endif
 
 #ifndef PRINT_ec
-static void PRINT_ec(FILE *, ECONST, char *, int);
+static void PRINT_ec (FILE *, ECONST, char *, int);
 #endif
 
 #ifndef PRINT_COMPONENT_P
-#define PRINT_COMPONENT_P(A, B, C, D) PRINT_ptr_cmp((A), (B), (C), (D))
+#define PRINT_COMPONENT_P(A, B, C, D)PRINT_ptr_cmp((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_cmp
-static void PRINT_ptr_cmp(FILE *, PTR(COMPONENT), char *, int);
+static void PRINT_ptr_cmp (FILE *, PTR(COMPONENT), char *, int);
 #endif
 
 #ifndef PRINT_cmp
-static void PRINT_cmp(FILE *, COMPONENT, char *, int);
+static void PRINT_cmp (FILE *, COMPONENT, char *, int);
 #endif
 
 #ifndef PRINT_CLASS_ID_P_P
-#define PRINT_CLASS_ID_P_P(A, B, C, D) PRINT_ptr_CLASS_ID_P((A), (B), (C), (D))
+#define PRINT_CLASS_ID_P_P(A, B, C, D)PRINT_ptr_CLASS_ID_P((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_ptr_cid
-static void PRINT_ptr_ptr_cid(FILE *, PTR(PTR(CLASS_ID)), char *, int);
+static void PRINT_ptr_ptr_cid (FILE *, PTR(PTR(CLASS_ID)), char *, int);
 #endif
 
 #ifndef PRINT_ptr_CLASS_ID_P
-#define PRINT_ptr_CLASS_ID_P(A, B, C, D) PRINT_ptr_ptr_cid((A), (B), (C), (D))
+#define PRINT_ptr_CLASS_ID_P(A, B, C, D)PRINT_ptr_ptr_cid((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_CLASS_ID_P
-#define PRINT_CLASS_ID_P(A, B, C, D) PRINT_ptr_cid((A), (B), (C), (D))
+#define PRINT_CLASS_ID_P(A, B, C, D)PRINT_ptr_cid((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_cid
-static void PRINT_ptr_cid(FILE *, PTR(CLASS_ID), char *, int);
+static void PRINT_ptr_cid (FILE *, PTR(CLASS_ID), char *, int);
 #endif
 
 #ifndef PRINT_cid
-static void PRINT_cid(FILE *, CLASS_ID, char *, int);
+static void PRINT_cid (FILE *, CLASS_ID, char *, int);
 #endif
 
 #ifndef PRINT_ARGUMENT_P
-#define PRINT_ARGUMENT_P(A, B, C, D) PRINT_ptr_arg((A), (B), (C), (D))
+#define PRINT_ARGUMENT_P(A, B, C, D)PRINT_ptr_arg((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_arg
-static void PRINT_ptr_arg(FILE *, PTR(ARGUMENT), char *, int);
+static void PRINT_ptr_arg (FILE *, PTR(ARGUMENT), char *, int);
 #endif
 
 #ifndef PRINT_arg
-static void PRINT_arg(FILE *, ARGUMENT, char *, int);
+static void PRINT_arg (FILE *, ARGUMENT, char *, int);
 #endif
 
 #ifndef PRINT_string_P
-#define PRINT_string_P(A, B, C, D) PRINT_ptr_string((A), (B), (C), (D))
+#define PRINT_string_P(A, B, C, D)PRINT_ptr_string((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_string
-static void PRINT_ptr_string(FILE *, PTR(string), char *, int);
+static void PRINT_ptr_string (FILE *, PTR(string), char *, int);
 #endif
 
 #ifndef PRINT_number_P
-#define PRINT_number_P(A, B, C, D) PRINT_ptr_number((A), (B), (C), (D))
+#define PRINT_number_P(A, B, C, D)PRINT_ptr_number((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_number
-static void PRINT_ptr_number(FILE *, PTR(number), char *, int);
+static void PRINT_ptr_number (FILE *, PTR(number), char *, int);
 #endif
 
 #ifndef PRINT_int_P
-#define PRINT_int_P(A, B, C, D) PRINT_ptr_int((A), (B), (C), (D))
+#define PRINT_int_P(A, B, C, D)PRINT_ptr_int((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_ptr_int
-static void PRINT_ptr_int(FILE *, PTR(int), char *, int);
+static void PRINT_ptr_int (FILE *, PTR(int), char *, int);
 #endif
 
 #ifndef PRINT_zero_int
-#define PRINT_zero_int(A, B, C, D) PRINT_int((A), (B), (C), (D))
+#define PRINT_zero_int(A, B, C, D)PRINT_int((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_name_string
-#define PRINT_name_string(A, B, C, D) PRINT_string((A), (B), (C), (D))
+#define PRINT_name_string(A, B, C, D)PRINT_string((A), (B), (C), (D))
 #endif
 
 #ifndef PRINT_string
-static void PRINT_string(FILE *, string, char *, int);
+static void PRINT_string (FILE *, string, char *, int);
 #endif
 
 #ifndef PRINT_number
-static void PRINT_number(FILE *, number, char *, int);
+static void PRINT_number (FILE *, number, char *, int);
 #endif
 
 #ifndef PRINT_int
-static void PRINT_int(FILE *, int, char *, int);
+static void PRINT_int (FILE *, int, char *, int);
 #endif
 
 
@@ -394,8 +364,9 @@ static int print_list_expand = 0;
 
 /* Printing indentation routine */
 
-static void
-print_indent(FILE *f, int d)
+static void print_indent
+
+(FILE *f, int d)
 {
     int i = print_indent_step * d;
     while (i--) (void)fputc(' ', f);
@@ -403,15 +374,15 @@ print_indent(FILE *f, int d)
 }
 
 
-/* Printing routines for LIST ( COMMAND ) */
+/* Printing routines for LIST(COMMAND) */
 
 #ifndef PRINT_list_cmd
 
 static void
-PRINT_list_cmd(FILE *f_, LIST(COMMAND)x_, char *nm_, int d_)
+PRINT_list_cmd(FILE *f_, LIST(COMMAND) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
-   (void)fprintf(f_, "%s = LIST {\n", nm_);
+    (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
 	COMMAND z_;
 	UN_CONS_cmd(z_, x_, x_);
@@ -430,7 +401,7 @@ PRINT_list_cmd(FILE *f_, LIST(COMMAND)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_cmd(LIST(COMMAND)x_)
+DEBUG_list_cmd(LIST(COMMAND) x_)
 {
     PRINT_list_cmd(stdout, x_, "list_cmd", 0);
     return;
@@ -481,7 +452,7 @@ PRINT_cmd(FILE *f_, COMMAND x_, char *nm_, int d_)
 		    PRINT_int(f_, z_, "line", d_ + 1);
 		}
 		{
-		    LIST(COMMAND)z_;
+		    LIST(COMMAND) z_;
 		    z_ = DEREF_list(cmd_compound_seq(x_));
 		    PRINT_list_cmd(f_, z_, "seq", d_ + 1);
 		}
@@ -563,17 +534,17 @@ DEBUG_cmd(COMMAND x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( MAP ) ) */
+/* Printing routines for LIST(PTR(MAP)) */
 
 #ifndef PRINT_list_ptr_map
 
 static void
-PRINT_list_ptr_map(FILE *f_, LIST(PTR(MAP))x_, char *nm_, int d_)
+PRINT_list_ptr_map(FILE *f_, LIST(PTR(MAP)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(MAP)z_;
+	PTR(MAP) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_map(f_, z_, "(ptr_map)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -590,7 +561,7 @@ PRINT_list_ptr_map(FILE *f_, LIST(PTR(MAP))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_map(LIST(PTR(MAP))x_)
+DEBUG_list_ptr_map(LIST(PTR(MAP)) x_)
 {
     PRINT_list_ptr_map(stdout, x_, "list_ptr_map", 0);
     return;
@@ -601,17 +572,17 @@ DEBUG_list_ptr_map(LIST(PTR(MAP))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( FIELD ) ) */
+/* Printing routines for LIST(PTR(FIELD)) */
 
 #ifndef PRINT_list_ptr_fld
 
 static void
-PRINT_list_ptr_fld(FILE *f_, LIST(PTR(FIELD))x_, char *nm_, int d_)
+PRINT_list_ptr_fld(FILE *f_, LIST(PTR(FIELD)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(FIELD)z_;
+	PTR(FIELD) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_fld(f_, z_, "(ptr_fld)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -628,7 +599,7 @@ PRINT_list_ptr_fld(FILE *f_, LIST(PTR(FIELD))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_fld(LIST(PTR(FIELD))x_)
+DEBUG_list_ptr_fld(LIST(PTR(FIELD)) x_)
 {
     PRINT_list_ptr_fld(stdout, x_, "list_ptr_fld", 0);
     return;
@@ -639,17 +610,17 @@ DEBUG_list_ptr_fld(LIST(PTR(FIELD))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( ARGUMENT ) ) */
+/* Printing routines for LIST(PTR(ARGUMENT)) */
 
 #ifndef PRINT_list_ptr_arg
 
 static void
-PRINT_list_ptr_arg(FILE *f_, LIST(PTR(ARGUMENT))x_, char *nm_, int d_)
+PRINT_list_ptr_arg(FILE *f_, LIST(PTR(ARGUMENT)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(ARGUMENT)z_;
+	PTR(ARGUMENT) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_arg(f_, z_, "(ptr_arg)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -666,7 +637,7 @@ PRINT_list_ptr_arg(FILE *f_, LIST(PTR(ARGUMENT))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_arg(LIST(PTR(ARGUMENT))x_)
+DEBUG_list_ptr_arg(LIST(PTR(ARGUMENT)) x_)
 {
     PRINT_list_ptr_arg(stdout, x_, "list_ptr_arg", 0);
     return;
@@ -677,17 +648,17 @@ DEBUG_list_ptr_arg(LIST(PTR(ARGUMENT))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( COMPONENT ) ) */
+/* Printing routines for LIST(PTR(COMPONENT)) */
 
 #ifndef PRINT_list_ptr_cmp
 
 static void
-PRINT_list_ptr_cmp(FILE *f_, LIST(PTR(COMPONENT))x_, char *nm_, int d_)
+PRINT_list_ptr_cmp(FILE *f_, LIST(PTR(COMPONENT)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(COMPONENT)z_;
+	PTR(COMPONENT) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_cmp(f_, z_, "(ptr_cmp)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -704,7 +675,7 @@ PRINT_list_ptr_cmp(FILE *f_, LIST(PTR(COMPONENT))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_cmp(LIST(PTR(COMPONENT))x_)
+DEBUG_list_ptr_cmp(LIST(PTR(COMPONENT)) x_)
 {
     PRINT_list_ptr_cmp(stdout, x_, "list_ptr_cmp", 0);
     return;
@@ -715,17 +686,17 @@ DEBUG_list_ptr_cmp(LIST(PTR(COMPONENT))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( ECONST ) ) */
+/* Printing routines for LIST(PTR(ECONST)) */
 
 #ifndef PRINT_list_ptr_ec
 
 static void
-PRINT_list_ptr_ec(FILE *f_, LIST(PTR(ECONST))x_, char *nm_, int d_)
+PRINT_list_ptr_ec(FILE *f_, LIST(PTR(ECONST)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(ECONST)z_;
+	PTR(ECONST) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_ec(f_, z_, "(ptr_ec)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -742,7 +713,7 @@ PRINT_list_ptr_ec(FILE *f_, LIST(PTR(ECONST))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_ec(LIST(PTR(ECONST))x_)
+DEBUG_list_ptr_ec(LIST(PTR(ECONST)) x_)
 {
     PRINT_list_ptr_ec(stdout, x_, "list_ptr_ec", 0);
     return;
@@ -790,22 +761,22 @@ DEBUG_alg(ALGEBRA_DEFN *x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( TYPE ) ) */
+/* Printing routines for LIST(PTR(TYPE)) */
 
 #ifndef PRINT_list_ptr_type
 
 static void
-PRINT_list_ptr_type(FILE *f_, LIST(PTR(TYPE))x_, char *nm_, int d_)
+PRINT_list_ptr_type(FILE *f_, LIST(PTR(TYPE)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(TYPE)z_;
+	PTR(TYPE) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_type(f_, z_, "(ptr_type)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
 	    print_indent(f_, d_ + 1);
-	   (void)fprintf(f_, "(tail) = 0x%p ;\n", VOIDSTAR_list(x_));
+	    (void)fprintf(f_, "(tail) = 0x%p ;\n", VOIDSTAR_list(x_));
 	    break;
 	}
     }
@@ -817,7 +788,7 @@ PRINT_list_ptr_type(FILE *f_, LIST(PTR(TYPE))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_type(LIST(PTR(TYPE))x_)
+DEBUG_list_ptr_type(LIST(PTR(TYPE)) x_)
 {
     PRINT_list_ptr_type(stdout, x_, "list_ptr_type", 0);
     return;
@@ -828,17 +799,17 @@ DEBUG_list_ptr_type(LIST(PTR(TYPE))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( UNION ) ) */
+/* Printing routines for LIST(PTR(UNION)) */
 
 #ifndef PRINT_list_ptr_un
 
 static void
-PRINT_list_ptr_un(FILE *f_, LIST(PTR(UNION))x_, char *nm_, int d_)
+PRINT_list_ptr_un(FILE *f_, LIST(PTR(UNION)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(UNION)z_;
+	PTR(UNION) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_un(f_, z_, "(ptr_un)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -855,7 +826,7 @@ PRINT_list_ptr_un(FILE *f_, LIST(PTR(UNION))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_un(LIST(PTR(UNION))x_)
+DEBUG_list_ptr_un(LIST(PTR(UNION)) x_)
 {
     PRINT_list_ptr_un(stdout, x_, "list_ptr_un", 0);
     return;
@@ -866,17 +837,17 @@ DEBUG_list_ptr_un(LIST(PTR(UNION))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( STRUCTURE ) ) */
+/* Printing routines for LIST(PTR(STRUCTURE)) */
 
 #ifndef PRINT_list_ptr_str
 
 static void
-PRINT_list_ptr_str(FILE *f_, LIST(PTR(STRUCTURE))x_, char *nm_, int d_)
+PRINT_list_ptr_str(FILE *f_, LIST(PTR(STRUCTURE)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(STRUCTURE)z_;
+	PTR(STRUCTURE) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_str(f_, z_, "(ptr_str)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -893,7 +864,7 @@ PRINT_list_ptr_str(FILE *f_, LIST(PTR(STRUCTURE))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_str(LIST(PTR(STRUCTURE))x_)
+DEBUG_list_ptr_str(LIST(PTR(STRUCTURE)) x_)
 {
     PRINT_list_ptr_str(stdout, x_, "list_ptr_str", 0);
     return;
@@ -904,17 +875,17 @@ DEBUG_list_ptr_str(LIST(PTR(STRUCTURE))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( ENUM ) ) */
+/* Printing routines for LIST(PTR(ENUM)) */
 
 #ifndef PRINT_list_ptr_en
 
 static void
-PRINT_list_ptr_en(FILE *f_, LIST(PTR(ENUM))x_, char *nm_, int d_)
+PRINT_list_ptr_en(FILE *f_, LIST(PTR(ENUM)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(ENUM)z_;
+	PTR(ENUM) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_en(f_, z_, "(ptr_en)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -931,7 +902,7 @@ PRINT_list_ptr_en(FILE *f_, LIST(PTR(ENUM))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_en(LIST(PTR(ENUM))x_)
+DEBUG_list_ptr_en(LIST(PTR(ENUM)) x_)
 {
     PRINT_list_ptr_en(stdout, x_, "list_ptr_en", 0);
     return;
@@ -942,17 +913,17 @@ DEBUG_list_ptr_en(LIST(PTR(ENUM))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( IDENTITY ) ) */
+/* Printing routines for LIST(PTR(IDENTITY)) */
 
 #ifndef PRINT_list_ptr_ident
 
 static void
-PRINT_list_ptr_ident(FILE *f_, LIST(PTR(IDENTITY))x_, char *nm_, int d_)
+PRINT_list_ptr_ident(FILE *f_, LIST(PTR(IDENTITY)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(IDENTITY)z_;
+	PTR(IDENTITY) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_ident(f_, z_, "(ptr_ident)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -969,7 +940,7 @@ PRINT_list_ptr_ident(FILE *f_, LIST(PTR(IDENTITY))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_ident(LIST(PTR(IDENTITY))x_)
+DEBUG_list_ptr_ident(LIST(PTR(IDENTITY)) x_)
 {
     PRINT_list_ptr_ident(stdout, x_, "list_ptr_ident", 0);
     return;
@@ -980,17 +951,17 @@ DEBUG_list_ptr_ident(LIST(PTR(IDENTITY))x_)
 #endif
 
 
-/* Printing routines for LIST ( PTR ( PRIMITIVE ) ) */
+/* Printing routines for LIST(PTR(PRIMITIVE)) */
 
 #ifndef PRINT_list_ptr_prim
 
 static void
-PRINT_list_ptr_prim(FILE *f_, LIST(PTR(PRIMITIVE))x_, char *nm_, int d_)
+PRINT_list_ptr_prim(FILE *f_, LIST(PTR(PRIMITIVE)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     (void)fprintf(f_, "%s = LIST {\n", nm_);
     while (!IS_NULL_list(x_)) {
-	PTR(PRIMITIVE)z_;
+	PTR(PRIMITIVE) z_;
 	UN_CONS_ptr(z_, x_, x_);
 	PRINT_ptr_prim(f_, z_, "(ptr_prim)", d_ + 1);
 	if (!print_list_expand && !IS_NULL_list(x_)) {
@@ -1007,7 +978,7 @@ PRINT_list_ptr_prim(FILE *f_, LIST(PTR(PRIMITIVE))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_list_ptr_prim(LIST(PTR(PRIMITIVE))x_)
+DEBUG_list_ptr_prim(LIST(PTR(PRIMITIVE)) x_)
 {
     PRINT_list_ptr_prim(stdout, x_, "list_ptr_prim", 0);
     return;
@@ -1018,16 +989,16 @@ DEBUG_list_ptr_prim(LIST(PTR(PRIMITIVE))x_)
 #endif
 
 
-/* Printing routines for PTR ( UNION ) */
+/* Printing routines for PTR(UNION) */
 
 #ifndef PRINT_ptr_un
 
 static void
-PRINT_ptr_un(FILE *f_, PTR(UNION)x_, char *nm_, int d_)
+PRINT_ptr_un(FILE *f_, PTR(UNION) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	UNION z_;
 	DEREF_un(x_, z_);
@@ -1044,7 +1015,7 @@ PRINT_ptr_un(FILE *f_, PTR(UNION)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_un(PTR(UNION)x_)
+DEBUG_ptr_un(PTR(UNION) x_)
 {
     PRINT_ptr_un(stdout, x_, "ptr_un", 0);
     return;
@@ -1089,18 +1060,18 @@ DEBUG_un(UNION *x_)
 #endif
 
 
-/* Printing routines for PTR ( PTR ( TYPE ) ) */
+/* Printing routines for PTR(PTR(TYPE)) */
 
 #ifndef PRINT_ptr_ptr_type
 
 static void
-PRINT_ptr_ptr_type(FILE *f_, PTR(PTR(TYPE))x_, char *nm_, int d_)
+PRINT_ptr_ptr_type(FILE *f_, PTR(PTR(TYPE)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
-	PTR(TYPE)z_;
+	PTR(TYPE) z_;
 	z_ = DEREF_ptr(x_);
 	(void)fprintf(f_, "%s = PTR {\n", nm_);
 	PRINT_ptr_type(f_, z_, "(ptr_type)", d_ + 1);
@@ -1115,7 +1086,7 @@ PRINT_ptr_ptr_type(FILE *f_, PTR(PTR(TYPE))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_ptr_type(PTR(PTR(TYPE))x_)
+DEBUG_ptr_ptr_type(PTR(PTR(TYPE)) x_)
 {
     PRINT_ptr_ptr_type(stdout, x_, "ptr_ptr_type", 0);
     return;
@@ -1126,16 +1097,16 @@ DEBUG_ptr_ptr_type(PTR(PTR(TYPE))x_)
 #endif
 
 
-/* Printing routines for PTR ( TYPE ) */
+/* Printing routines for PTR(TYPE) */
 
 #ifndef PRINT_ptr_type
 
 static void
-PRINT_ptr_type(FILE *f_, PTR(TYPE)x_, char *nm_, int d_)
+PRINT_ptr_type(FILE *f_, PTR(TYPE) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	TYPE z_;
 	z_ = DEREF_type(x_);
@@ -1152,7 +1123,7 @@ PRINT_ptr_type(FILE *f_, PTR(TYPE)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_type(PTR(TYPE)x_)
+DEBUG_ptr_type(PTR(TYPE) x_)
 {
     PRINT_ptr_type(stdout, x_, "ptr_type", 0);
     return;
@@ -1178,10 +1149,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_primitive_tag: {
 		unsigned alias_ = GET_ALIAS_type_primitive(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_primitive(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1203,10 +1174,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_ident_tag: {
 		unsigned alias_ = GET_ALIAS_type_ident(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_ident(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1228,10 +1199,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_enumeration_tag: {
 		unsigned alias_ = GET_ALIAS_type_enumeration(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_enumeration(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1253,10 +1224,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_structure_tag: {
 		unsigned alias_ = GET_ALIAS_type_structure(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_structure(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1278,10 +1249,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_onion_tag: {
 		unsigned alias_ = GET_ALIAS_type_onion(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_onion(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1303,10 +1274,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_ptr_tag: {
 		unsigned alias_ = GET_ALIAS_type_ptr(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_ptr(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1328,10 +1299,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_list_tag: {
 		unsigned alias_ = GET_ALIAS_type_list(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_list(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1353,10 +1324,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_stack_tag: {
 		unsigned alias_ = GET_ALIAS_type_stack(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_stack(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1378,10 +1349,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_vec_tag: {
 		unsigned alias_ = GET_ALIAS_type_vec(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_vec(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1403,10 +1374,10 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
 	    case type_vec_ptr_tag: {
 		unsigned alias_ = GET_ALIAS_type_vec_ptr(x_);
 		if (alias_) {
-		   (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
+		    (void)fprintf(f_, "%s = [%u] ;\n", nm_, alias_);
 		    break;
 		}
-		alias_ = ++crt_calculus_alias;
+		alias_ = ++crt_calculus_alias ;
 		SET_ALIAS_type_vec_ptr(x_, alias_);
 		(void)fprintf(f_, "%s = [%u] = {\n", nm_, alias_);
 		print_indent(f_, d_ + 1);
@@ -1484,16 +1455,16 @@ DEBUG_type(TYPE x_)
 #endif
 
 
-/* Printing routines for PTR ( STRUCTURE ) */
+/* Printing routines for PTR(STRUCTURE) */
 
 #ifndef PRINT_ptr_str
 
 static void
-PRINT_ptr_str(FILE *f_, PTR(STRUCTURE)x_, char *nm_, int d_)
+PRINT_ptr_str(FILE *f_, PTR(STRUCTURE) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	STRUCTURE z_;
 	DEREF_str(x_, z_);
@@ -1510,7 +1481,7 @@ PRINT_ptr_str(FILE *f_, PTR(STRUCTURE)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_str(PTR(STRUCTURE)x_)
+DEBUG_ptr_str(PTR(STRUCTURE) x_)
 {
     PRINT_ptr_str(stdout, x_, "ptr_str", 0);
     return;
@@ -1553,16 +1524,16 @@ DEBUG_str(STRUCTURE *x_)
 #endif
 
 
-/* Printing routines for PTR ( PRIMITIVE ) */
+/* Printing routines for PTR(PRIMITIVE) */
 
 #ifndef PRINT_ptr_prim
 
 static void
-PRINT_ptr_prim(FILE *f_, PTR(PRIMITIVE)x_, char *nm_, int d_)
+PRINT_ptr_prim(FILE *f_, PTR(PRIMITIVE) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	PRIMITIVE z_;
 	DEREF_prim(x_, z_);
@@ -1579,7 +1550,7 @@ PRINT_ptr_prim(FILE *f_, PTR(PRIMITIVE)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_prim(PTR(PRIMITIVE)x_)
+DEBUG_ptr_prim(PTR(PRIMITIVE) x_)
 {
     PRINT_ptr_prim(stdout, x_, "ptr_prim", 0);
     return;
@@ -1620,16 +1591,16 @@ DEBUG_prim(PRIMITIVE *x_)
 #endif
 
 
-/* Printing routines for PTR ( MAP ) */
+/* Printing routines for PTR(MAP) */
 
 #ifndef PRINT_ptr_map
 
 static void
-PRINT_ptr_map(FILE *f_, PTR(MAP)x_, char *nm_, int d_)
+PRINT_ptr_map(FILE *f_, PTR(MAP) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	MAP z_;
 	DEREF_map(x_, z_);
@@ -1646,7 +1617,7 @@ PRINT_ptr_map(FILE *f_, PTR(MAP)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_map(PTR(MAP)x_)
+DEBUG_ptr_map(PTR(MAP) x_)
 {
     PRINT_ptr_map(stdout, x_, "ptr_map", 0);
     return;
@@ -1689,16 +1660,16 @@ DEBUG_map(MAP *x_)
 #endif
 
 
-/* Printing routines for PTR ( IDENTITY ) */
+/* Printing routines for PTR(IDENTITY) */
 
 #ifndef PRINT_ptr_ident
 
 static void
-PRINT_ptr_ident(FILE *f_, PTR(IDENTITY)x_, char *nm_, int d_)
+PRINT_ptr_ident(FILE *f_, PTR(IDENTITY) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	IDENTITY z_;
 	DEREF_ident(x_, z_);
@@ -1715,7 +1686,7 @@ PRINT_ptr_ident(FILE *f_, PTR(IDENTITY)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_ident(PTR(IDENTITY)x_)
+DEBUG_ptr_ident(PTR(IDENTITY) x_)
 {
     PRINT_ptr_ident(stdout, x_, "ptr_ident", 0);
     return;
@@ -1756,16 +1727,16 @@ DEBUG_ident(IDENTITY *x_)
 #endif
 
 
-/* Printing routines for PTR ( FIELD ) */
+/* Printing routines for PTR(FIELD) */
 
 #ifndef PRINT_ptr_fld
 
 static void
-PRINT_ptr_fld(FILE *f_, PTR(FIELD)x_, char *nm_, int d_)
+PRINT_ptr_fld(FILE *f_, PTR(FIELD) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	FIELD z_;
 	DEREF_fld(x_, z_);
@@ -1782,7 +1753,7 @@ PRINT_ptr_fld(FILE *f_, PTR(FIELD)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_fld(PTR(FIELD)x_)
+DEBUG_ptr_fld(PTR(FIELD) x_)
 {
     PRINT_ptr_fld(stdout, x_, "ptr_fld", 0);
     return;
@@ -1827,16 +1798,16 @@ DEBUG_fld(FIELD *x_)
 #endif
 
 
-/* Printing routines for PTR ( ENUM ) */
+/* Printing routines for PTR(ENUM) */
 
 #ifndef PRINT_ptr_en
 
 static void
-PRINT_ptr_en(FILE *f_, PTR(ENUM)x_, char *nm_, int d_)
+PRINT_ptr_en(FILE *f_, PTR(ENUM) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	ENUM z_;
 	DEREF_en(x_, z_);
@@ -1853,7 +1824,7 @@ PRINT_ptr_en(FILE *f_, PTR(ENUM)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_en(PTR(ENUM)x_)
+DEBUG_ptr_en(PTR(ENUM) x_)
 {
     PRINT_ptr_en(stdout, x_, "ptr_en", 0);
     return;
@@ -1896,16 +1867,16 @@ DEBUG_en(ENUM *x_)
 #endif
 
 
-/* Printing routines for PTR ( ECONST ) */
+/* Printing routines for PTR(ECONST) */
 
 #ifndef PRINT_ptr_ec
 
 static void
-PRINT_ptr_ec(FILE *f_, PTR(ECONST)x_, char *nm_, int d_)
+PRINT_ptr_ec(FILE *f_, PTR(ECONST) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	ECONST z_;
 	DEREF_ec(x_, z_);
@@ -1922,7 +1893,7 @@ PRINT_ptr_ec(FILE *f_, PTR(ECONST)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_ec(PTR(ECONST)x_)
+DEBUG_ptr_ec(PTR(ECONST) x_)
 {
     PRINT_ptr_ec(stdout, x_, "ptr_ec", 0);
     return;
@@ -1963,16 +1934,16 @@ DEBUG_ec(ECONST *x_)
 #endif
 
 
-/* Printing routines for PTR ( COMPONENT ) */
+/* Printing routines for PTR(COMPONENT) */
 
 #ifndef PRINT_ptr_cmp
 
 static void
-PRINT_ptr_cmp(FILE *f_, PTR(COMPONENT)x_, char *nm_, int d_)
+PRINT_ptr_cmp(FILE *f_, PTR(COMPONENT) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	COMPONENT z_;
 	DEREF_cmp(x_, z_);
@@ -1989,7 +1960,7 @@ PRINT_ptr_cmp(FILE *f_, PTR(COMPONENT)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_cmp(PTR(COMPONENT)x_)
+DEBUG_ptr_cmp(PTR(COMPONENT) x_)
 {
     PRINT_ptr_cmp(stdout, x_, "ptr_cmp", 0);
     return;
@@ -2031,18 +2002,18 @@ DEBUG_cmp(COMPONENT *x_)
 #endif
 
 
-/* Printing routines for PTR ( PTR ( CLASS_ID ) ) */
+/* Printing routines for PTR(PTR(CLASS_ID)) */
 
 #ifndef PRINT_ptr_ptr_cid
 
 static void
-PRINT_ptr_ptr_cid(FILE *f_, PTR(PTR(CLASS_ID))x_, char *nm_, int d_)
+PRINT_ptr_ptr_cid(FILE *f_, PTR(PTR(CLASS_ID)) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
-	PTR(CLASS_ID)z_;
+	PTR(CLASS_ID) z_;
 	z_ = DEREF_ptr(x_);
 	(void)fprintf(f_, "%s = PTR {\n", nm_);
 	PRINT_ptr_cid(f_, z_, "(ptr_cid)", d_ + 1);
@@ -2057,7 +2028,7 @@ PRINT_ptr_ptr_cid(FILE *f_, PTR(PTR(CLASS_ID))x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_ptr_cid(PTR(PTR(CLASS_ID))x_)
+DEBUG_ptr_ptr_cid(PTR(PTR(CLASS_ID)) x_)
 {
     PRINT_ptr_ptr_cid(stdout, x_, "ptr_ptr_cid", 0);
     return;
@@ -2068,16 +2039,16 @@ DEBUG_ptr_ptr_cid(PTR(PTR(CLASS_ID))x_)
 #endif
 
 
-/* Printing routines for PTR ( CLASS_ID ) */
+/* Printing routines for PTR(CLASS_ID) */
 
 #ifndef PRINT_ptr_cid
 
 static void
-PRINT_ptr_cid(FILE *f_, PTR(CLASS_ID)x_, char *nm_, int d_)
+PRINT_ptr_cid(FILE *f_, PTR(CLASS_ID) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	CLASS_ID z_;
 	DEREF_cid(x_, z_);
@@ -2094,7 +2065,7 @@ PRINT_ptr_cid(FILE *f_, PTR(CLASS_ID)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_cid(PTR(CLASS_ID)x_)
+DEBUG_ptr_cid(PTR(CLASS_ID) x_)
 {
     PRINT_ptr_cid(stdout, x_, "ptr_cid", 0);
     return;
@@ -2138,16 +2109,16 @@ DEBUG_cid(CLASS_ID *x_)
 #endif
 
 
-/* Printing routines for PTR ( ARGUMENT ) */
+/* Printing routines for PTR(ARGUMENT) */
 
 #ifndef PRINT_ptr_arg
 
 static void
-PRINT_ptr_arg(FILE *f_, PTR(ARGUMENT)x_, char *nm_, int d_)
+PRINT_ptr_arg(FILE *f_, PTR(ARGUMENT) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	ARGUMENT z_;
 	DEREF_arg(x_, z_);
@@ -2164,7 +2135,7 @@ PRINT_ptr_arg(FILE *f_, PTR(ARGUMENT)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_arg(PTR(ARGUMENT)x_)
+DEBUG_ptr_arg(PTR(ARGUMENT) x_)
 {
     PRINT_ptr_arg(stdout, x_, "ptr_arg", 0);
     return;
@@ -2205,16 +2176,16 @@ DEBUG_arg(ARGUMENT *x_)
 #endif
 
 
-/* Printing routines for PTR ( string ) */
+/* Printing routines for PTR(string) */
 
 #ifndef PRINT_ptr_string
 
 static void
-PRINT_ptr_string(FILE *f_, PTR(string)x_, char *nm_, int d_)
+PRINT_ptr_string(FILE *f_, PTR(string) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	string z_;
 	z_ = DEREF_string(x_);
@@ -2231,7 +2202,7 @@ PRINT_ptr_string(FILE *f_, PTR(string)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_string(PTR(string)x_)
+DEBUG_ptr_string(PTR(string) x_)
 {
     PRINT_ptr_string(stdout, x_, "ptr_string", 0);
     return;
@@ -2242,16 +2213,16 @@ DEBUG_ptr_string(PTR(string)x_)
 #endif
 
 
-/* Printing routines for PTR ( number ) */
+/* Printing routines for PTR(number) */
 
 #ifndef PRINT_ptr_number
 
 static void
-PRINT_ptr_number(FILE *f_, PTR(number)x_, char *nm_, int d_)
+PRINT_ptr_number(FILE *f_, PTR(number) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	number z_;
 	z_ = DEREF_number(x_);
@@ -2268,7 +2239,7 @@ PRINT_ptr_number(FILE *f_, PTR(number)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_number(PTR(number)x_)
+DEBUG_ptr_number(PTR(number) x_)
 {
     PRINT_ptr_number(stdout, x_, "ptr_number", 0);
     return;
@@ -2279,16 +2250,16 @@ DEBUG_ptr_number(PTR(number)x_)
 #endif
 
 
-/* Printing routines for PTR ( int ) */
+/* Printing routines for PTR(int) */
 
 #ifndef PRINT_ptr_int
 
 static void
-PRINT_ptr_int(FILE *f_, PTR(int)x_, char *nm_, int d_)
+PRINT_ptr_int(FILE *f_, PTR(int) x_, char *nm_, int d_)
 {
     print_indent(f_, d_);
     if (IS_NULL_ptr(x_)) {
-	(void)fprintf(f_, "%s = NULL_ptr ;\n", nm_);
+	(void)fprintf(f_, "%s = NULL_ptr;\n", nm_);
     } else if (d_ < print_ptr_depth) {
 	int z_;
 	z_ = DEREF_int(x_);
@@ -2305,7 +2276,7 @@ PRINT_ptr_int(FILE *f_, PTR(int)x_, char *nm_, int d_)
 #ifdef DEBUG
 
 void
-DEBUG_ptr_int(PTR(int)x_)
+DEBUG_ptr_int(PTR(int) x_)
 {
     PRINT_ptr_int(stdout, x_, "ptr_int", 0);
     return;

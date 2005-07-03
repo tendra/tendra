@@ -1,36 +1,6 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- * 3. Neither the name of The TenDRA Project nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific, prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
- * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * $Id$
- */
-/*
     		 Crown Copyright (c) 1997
-
+    
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,18 +9,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-
+    
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-
+    
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-
+    
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-
+    
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -279,18 +249,18 @@ static ARGUMENT READ_arg(void);
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( TYPE ) ) */
+/* Disk reading routine for LIST(PTR(TYPE)) */
 
 #ifndef READ_list_ptr_type
 
-static LIST(PTR(TYPE))
-READ_list_ptr_type (void)
+static LIST(PTR(TYPE)) READ_list_ptr_type
+(void)
 {
-    LIST(PTR(TYPE))x_;
+    LIST(PTR(TYPE)) x_;
     x_ = NULL_list(PTR(TYPE));
     while (READ_BITS(1)) {
-	PTR(TYPE)y_;
-	LIST(PTR(TYPE))z_;
+	PTR(TYPE) y_;
+	LIST(PTR(TYPE)) z_;
 	y_ = READ_ptr_type();
 	CONS_ptr(y_, NULL_list(PTR(TYPE)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -305,8 +275,8 @@ READ_list_ptr_type (void)
 
 #ifndef READ_type
 
-static TYPE
-READ_type(void)
+static TYPE READ_type
+(void)
 {
     TYPE x_;
     x_ = NULL_type;
@@ -458,14 +428,14 @@ READ_type(void)
 		string defn;
 		size = READ_zero_int();
 		defn = READ_string();
-		MAKE_type_quote(size, defn, x_);
+		MAKE_type_quote(size, defn, x_ );
 		break;
 	    }
 	    case type_undef_tag: {
 		string name;
 		size = READ_zero_int();
 		name = READ_string();
-		MAKE_type_undef(size, name, x_);
+		MAKE_type_undef(size, name, x_ );
 		break;
 	    }
 	}
@@ -476,14 +446,14 @@ READ_type(void)
 #endif
 
 
-/* Disk reading routine for PTR ( PRIMITIVE ) */
+/* Disk reading routine for PTR(PRIMITIVE) */
 
 #ifndef READ_ptr_prim
 
-static PTR(PRIMITIVE)
-READ_ptr_prim(void)
+static PTR(PRIMITIVE) READ_ptr_prim
+(void)
 {
-    PTR(PRIMITIVE)x_;
+    PTR(PRIMITIVE) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(PRIMITIVE);
     } else {
@@ -500,8 +470,8 @@ READ_ptr_prim(void)
 
 #ifndef READ_prim
 
-static PRIMITIVE
-READ_prim(void)
+static PRIMITIVE READ_prim
+(void)
 {
     PRIMITIVE x_;
     x_.id = READ_CLASS_ID_P();
@@ -512,14 +482,14 @@ READ_prim(void)
 #endif
 
 
-/* Disk reading routine for PTR ( CLASS_ID ) */
+/* Disk reading routine for PTR(CLASS_ID) */
 
 #ifndef READ_ptr_cid
 
-static PTR(CLASS_ID)
-READ_ptr_cid(void)
+static PTR(CLASS_ID) READ_ptr_cid
+(void)
 {
-    PTR(CLASS_ID)x_;
+    PTR(CLASS_ID) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(CLASS_ID);
     } else {
@@ -536,8 +506,8 @@ READ_ptr_cid(void)
 
 #ifndef READ_cid
 
-static CLASS_ID
-READ_cid(void)
+static CLASS_ID READ_cid
+(void)
 {
     CLASS_ID x_;
     x_.name = READ_string();
@@ -551,14 +521,14 @@ READ_cid(void)
 #endif
 
 
-/* Disk reading routine for PTR ( IDENTITY ) */
+/* Disk reading routine for PTR(IDENTITY) */
 
 #ifndef READ_ptr_ident
 
-static PTR(IDENTITY)
-READ_ptr_ident(void)
+static PTR(IDENTITY) READ_ptr_ident
+(void)
 {
-    PTR(IDENTITY)x_;
+    PTR(IDENTITY) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(IDENTITY);
     } else {
@@ -575,8 +545,8 @@ READ_ptr_ident(void)
 
 #ifndef READ_ident
 
-static IDENTITY
-READ_ident(void)
+static IDENTITY READ_ident
+(void)
 {
     IDENTITY x_;
     x_.id = READ_CLASS_ID_P();
@@ -587,14 +557,14 @@ READ_ident(void)
 #endif
 
 
-/* Disk reading routine for PTR ( TYPE ) */
+/* Disk reading routine for PTR(TYPE) */
 
 #ifndef READ_ptr_type
 
-static PTR(TYPE)
-READ_ptr_type(void)
+static PTR(TYPE) READ_ptr_type
+(void)
 {
-    PTR(TYPE)x_;
+    PTR(TYPE) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(TYPE);
     } else {
@@ -607,14 +577,14 @@ READ_ptr_type(void)
 #endif
 
 
-/* Disk reading routine for PTR ( ENUM ) */
+/* Disk reading routine for PTR(ENUM) */
 
 #ifndef READ_ptr_en
 
-static PTR(ENUM)
-READ_ptr_en(void)
+static PTR(ENUM) READ_ptr_en
+(void)
 {
-    PTR(ENUM)x_;
+    PTR(ENUM) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(ENUM);
     } else {
@@ -631,8 +601,8 @@ READ_ptr_en(void)
 
 #ifndef READ_en
 
-static ENUM
-READ_en(void)
+static ENUM READ_en
+(void)
 {
     ENUM x_;
     x_.id = READ_CLASS_ID_P();
@@ -645,18 +615,18 @@ READ_en(void)
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( ECONST ) ) */
+/* Disk reading routine for LIST(PTR(ECONST)) */
 
 #ifndef READ_list_ptr_ec
 
-static LIST(PTR(ECONST))
-READ_list_ptr_ec(void)
+static LIST(PTR(ECONST)) READ_list_ptr_ec
+(void)
 {
-    LIST(PTR(ECONST))x_;
+    LIST(PTR(ECONST)) x_;
     x_ = NULL_list(PTR(ECONST));
     while (READ_BITS(1)) {
-	PTR(ECONST)y_;
-	LIST(PTR(ECONST))z_;
+	PTR(ECONST) y_;
+	LIST(PTR(ECONST)) z_;
 	y_ = READ_ptr_ec();
 	CONS_ptr(y_, NULL_list(PTR(ECONST)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -667,14 +637,14 @@ READ_list_ptr_ec(void)
 #endif
 
 
-/* Disk reading routine for PTR ( ECONST ) */
+/* Disk reading routine for PTR(ECONST) */
 
 #ifndef READ_ptr_ec
 
-static PTR(ECONST)
-READ_ptr_ec(void)
+static PTR(ECONST) READ_ptr_ec
+(void)
 {
-    PTR(ECONST)x_;
+    PTR(ECONST) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(ECONST);
     } else {
@@ -691,8 +661,8 @@ READ_ptr_ec(void)
 
 #ifndef READ_ec
 
-static ECONST
-READ_ec(void)
+static ECONST READ_ec
+(void)
 {
     ECONST x_;
     x_.name = READ_string();
@@ -703,14 +673,14 @@ READ_ec(void)
 #endif
 
 
-/* Disk reading routine for PTR ( STRUCTURE ) */
+/* Disk reading routine for PTR(STRUCTURE) */
 
 #ifndef READ_ptr_str
 
-static PTR(STRUCTURE)
-READ_ptr_str(void)
+static PTR(STRUCTURE) READ_ptr_str
+(void)
 {
-    PTR(STRUCTURE)x_;
+    PTR(STRUCTURE) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(STRUCTURE);
     } else {
@@ -727,8 +697,8 @@ READ_ptr_str(void)
 
 #ifndef READ_str
 
-static STRUCTURE
-READ_str(void)
+static STRUCTURE READ_str
+(void)
 {
     STRUCTURE x_;
     x_.id = READ_CLASS_ID_P();
@@ -741,18 +711,18 @@ READ_str(void)
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( COMPONENT ) ) */
+/* Disk reading routine for LIST(PTR(COMPONENT)) */
 
 #ifndef READ_list_ptr_cmp
 
-static LIST(PTR(COMPONENT))
-READ_list_ptr_cmp(void)
+static LIST(PTR(COMPONENT)) READ_list_ptr_cmp
+(void)
 {
-    LIST(PTR(COMPONENT))x_;
+    LIST(PTR(COMPONENT)) x_;
     x_ = NULL_list(PTR(COMPONENT));
     while (READ_BITS(1)) {
-	PTR(COMPONENT)y_;
-	LIST(PTR(COMPONENT))z_;
+	PTR(COMPONENT) y_;
+	LIST(PTR(COMPONENT)) z_;
 	y_ = READ_ptr_cmp();
 	CONS_ptr(y_, NULL_list(PTR(COMPONENT)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -763,14 +733,14 @@ READ_list_ptr_cmp(void)
 #endif
 
 
-/* Disk reading routine for PTR ( COMPONENT ) */
+/* Disk reading routine for PTR(COMPONENT) */
 
 #ifndef READ_ptr_cmp
 
-static PTR(COMPONENT)
-READ_ptr_cmp(void)
+static PTR(COMPONENT) READ_ptr_cmp
+(void)
 {
-    PTR(COMPONENT)x_;
+    PTR(COMPONENT) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(COMPONENT);
     } else {
@@ -787,8 +757,8 @@ READ_ptr_cmp(void)
 
 #ifndef READ_cmp
 
-static COMPONENT
-READ_cmp(void)
+static COMPONENT READ_cmp
+(void)
 {
     COMPONENT x_;
     x_.name = READ_string();
@@ -800,14 +770,14 @@ READ_cmp(void)
 #endif
 
 
-/* Disk reading routine for PTR ( UNION ) */
+/* Disk reading routine for PTR(UNION) */
 
 #ifndef READ_ptr_un
 
-static PTR(UNION)
-READ_ptr_un(void)
+static PTR(UNION) READ_ptr_un
+(void)
 {
-    PTR(UNION)x_;
+    PTR(UNION) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(UNION);
     } else {
@@ -824,8 +794,8 @@ READ_ptr_un(void)
 
 #ifndef READ_un
 
-static UNION
-READ_un(void)
+static UNION READ_un
+(void)
 {
     UNION x_;
     x_.id = READ_CLASS_ID_P();
@@ -840,18 +810,18 @@ READ_un(void)
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( FIELD ) ) */
+/* Disk reading routine for LIST(PTR(FIELD)) */
 
 #ifndef READ_list_ptr_fld
 
-static LIST(PTR(FIELD))
-READ_list_ptr_fld(void)
+static LIST(PTR(FIELD)) READ_list_ptr_fld
+(void)
 {
-    LIST(PTR(FIELD))x_;
+    LIST(PTR(FIELD)) x_;
     x_ = NULL_list(PTR(FIELD));
     while (READ_BITS(1)) {
-	PTR(FIELD)y_;
-	LIST(PTR(FIELD))z_;
+	PTR(FIELD) y_;
+	LIST(PTR(FIELD)) z_;
 	y_ = READ_ptr_fld();
 	CONS_ptr(y_, NULL_list(PTR(FIELD)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -862,14 +832,14 @@ READ_list_ptr_fld(void)
 #endif
 
 
-/* Disk reading routine for PTR ( FIELD ) */
+/* Disk reading routine for PTR(FIELD) */
 
 #ifndef READ_ptr_fld
 
-static PTR(FIELD)
-READ_ptr_fld(void)
+static PTR(FIELD) READ_ptr_fld
+(void)
 {
-    PTR(FIELD)x_;
+    PTR(FIELD) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(FIELD);
     } else {
@@ -886,8 +856,8 @@ READ_ptr_fld(void)
 
 #ifndef READ_fld
 
-static FIELD
-READ_fld(void)
+static FIELD READ_fld
+(void)
 {
     FIELD x_;
     x_.name = READ_string();
@@ -902,18 +872,18 @@ READ_fld(void)
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( MAP ) ) */
+/* Disk reading routine for LIST(PTR(MAP)) */
 
 #ifndef READ_list_ptr_map
 
-static LIST(PTR(MAP))
-READ_list_ptr_map(void)
+static LIST(PTR(MAP)) READ_list_ptr_map
+(void)
 {
-    LIST(PTR(MAP))x_;
+    LIST(PTR(MAP)) x_;
     x_ = NULL_list(PTR(MAP));
     while (READ_BITS(1)) {
-	PTR(MAP)y_;
-	LIST(PTR(MAP))z_;
+	PTR(MAP) y_;
+	LIST(PTR(MAP)) z_;
 	y_ = READ_ptr_map();
 	CONS_ptr(y_, NULL_list(PTR(MAP)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -924,14 +894,14 @@ READ_list_ptr_map(void)
 #endif
 
 
-/* Disk reading routine for PTR ( MAP ) */
+/* Disk reading routine for PTR(MAP) */
 
 #ifndef READ_ptr_map
 
-static PTR(MAP)
-READ_ptr_map(void)
+static PTR(MAP) READ_ptr_map
+(void)
 {
-    PTR(MAP)x_;
+    PTR(MAP) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(MAP);
     } else {
@@ -948,8 +918,8 @@ READ_ptr_map(void)
 
 #ifndef READ_map
 
-static MAP
-READ_map(void)
+static MAP READ_map
+(void)
 {
     MAP x_;
     x_.name = READ_string();
@@ -962,18 +932,18 @@ READ_map(void)
 #endif
 
 
-/* Disk reading routine for LIST ( PTR ( ARGUMENT ) ) */
+/* Disk reading routine for LIST(PTR(ARGUMENT)) */
 
 #ifndef READ_list_ptr_arg
 
-static LIST(PTR(ARGUMENT))
-READ_list_ptr_arg(void)
+static LIST(PTR(ARGUMENT)) READ_list_ptr_arg
+(void)
 {
-    LIST(PTR(ARGUMENT))x_;
+    LIST(PTR(ARGUMENT)) x_;
     x_ = NULL_list(PTR(ARGUMENT));
     while (READ_BITS(1)) {
-	PTR(ARGUMENT)y_;
-	LIST(PTR(ARGUMENT))z_;
+	PTR(ARGUMENT) y_;
+	LIST(PTR(ARGUMENT)) z_;
 	y_ = READ_ptr_arg();
 	CONS_ptr(y_, NULL_list(PTR(ARGUMENT)), z_);
 	x_ = APPEND_list(x_, z_);
@@ -984,14 +954,14 @@ READ_list_ptr_arg(void)
 #endif
 
 
-/* Disk reading routine for PTR ( ARGUMENT ) */
+/* Disk reading routine for PTR(ARGUMENT) */
 
 #ifndef READ_ptr_arg
 
-static PTR(ARGUMENT)
-READ_ptr_arg(void)
+static PTR(ARGUMENT) READ_ptr_arg
+(void)
 {
-    PTR(ARGUMENT)x_;
+    PTR(ARGUMENT) x_;
     if (READ_BITS(1) == 0) {
 	x_ = NULL_ptr(ARGUMENT);
     } else {
@@ -1008,8 +978,8 @@ READ_ptr_arg(void)
 
 #ifndef READ_arg
 
-static ARGUMENT
-READ_arg(void)
+static ARGUMENT READ_arg
+(void)
 {
     ARGUMENT x_;
     x_.name = READ_string();
