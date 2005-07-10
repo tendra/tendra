@@ -1957,5 +1957,8 @@
           @end
       </programlisting>
     </para>
+
+    <para>This document was generated on
+      <?dbtimestamp format="Y-m-d H:M"?>.</para>
   </chapter>
 </book>
