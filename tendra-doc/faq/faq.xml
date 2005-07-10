@@ -5,15 +5,26 @@
 <!--
   $Id$
 -->
+
 <article>
   <articleinfo>
     <title>TenDRA - Frequently Asked Questions</title>
 
     <corpauthor>The TenDRA Project</corpauthor>
     
-    <author>Jeroen Ruigrok van der Werven</author>
+    <author>
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+    </author>
     <authorinitials>JRvdW</authorinitials>
     <pubdate>2004</pubdate>
+
+    <copyright>
+      <year>2004</year>
+      <year>2005</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
   </articleinfo>
 
   <para>First draft of the FAQ.  Lame set-up, no nice colours, and so on.
@@ -132,4 +143,7 @@
       </answer>
     </qandaentry>
   </qandaset>
+
+  <para>This document was generated on
+    <?dbtimestamp format="Y-m-d H:M"?>.</para>
 </article>
