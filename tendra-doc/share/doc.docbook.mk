@@ -4,11 +4,15 @@ TIDY= tidy
 XMLLINT= xmllint
 XSLTPROC= xsltproc
 
+STYLEDIR= ../stylesheets
+
 TIDYFLAGS= --doctype strict\
 	   --output-xhtml yes\
 	   -im -wrap 78 -utf8
 
 XMLLINTFLAGS= --noout --valid
+
+#XSLTPROCFLAGS= --stringparam html.stylesheet docstyle.css
 
 # Typical BSD and pkgsrc locations.
 PREFIX=	/usr/local/share /usr/pkg/share
@@ -19,7 +23,7 @@ DBXSL=	${prefix}/xsl/docbook/xhtml/docbook.xsl
 .endfor
 
 ${DOC}.html: ${DOC}.xml
-	${XSLTPROC} -o ${.TARGET} ${DBXSL} ${DOC}.xml
+	${XSLTPROC} -o ${.TARGET} ${XSLTPROCFLAGS} ${DBXSL} ${DOC}.xml
 	${TIDY} ${TIDYFLAGS} ${.TARGET}
 
 all: ${DOC}.html
