@@ -8,7 +8,10 @@
 
     <corpauthor>The TenDRA Project</corpauthor>
 
-    <author>Jeroen Ruigrok van der Werven</author>
+    <author>
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+    </author>
     <authorinitials>JRvdW</authorinitials>
     <pubdate>2004</pubdate>
 
