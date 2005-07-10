@@ -12,7 +12,8 @@ TIDYFLAGS= --doctype strict\
 
 XMLLINTFLAGS= --noout --valid
 
-#XSLTPROCFLAGS= --stringparam html.stylesheet docstyle.css
+XSLTPROCFLAGS= --stringparam html.stylesheet docstyle.css\
+	       --stringparam paper.type A4
 
 # Typical BSD and pkgsrc locations.
 PREFIX=	/usr/local/share /usr/pkg/share
