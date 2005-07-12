@@ -1598,7 +1598,7 @@
     <table>
       <title>DRA-DRA: commands built with base API</title>
 
-      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+      <tgroup align="center" cols="3" colsep="1" rowsep="1">
         <thead>
           <row>
             <entry>API</entry>
@@ -1620,7 +1620,7 @@
     <table>
       <title>DRA-DRA: extending the base API</title>
 
-      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+      <tgroup align="center" cols="3" colsep="1" rowsep="1">
         <thead>
           <row>
             <entry># of extensions</entry>
