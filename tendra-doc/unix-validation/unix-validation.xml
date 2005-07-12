@@ -181,7 +181,7 @@
       system, we did not use this code.</para>
 
     <table>
-      <title>Table 1: rough source code distribution</title>
+      <title>Rough source code distribution</title>
 
       <tgroup align="center" cols="6" colsep="1" rowsep="1">
         <thead>
@@ -217,7 +217,7 @@
       language source files only:</para>
 
     <table>
-      <title>Table 2: C language files</title>
+      <title>C language files</title>
       <tgroup align="center" cols="5" colsep="1" rowsep="1">
         <thead>
           <row>
@@ -1412,7 +1412,7 @@
       are not counted.</para>
 
     <table>
-      <title>Table 3: source files / language</title>
+      <title>Source files / language</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
@@ -1463,7 +1463,7 @@
       because of use of pragma pack directive.</para>
 
     <table>
-      <title>Table 4: DRA-NAT build: C source files / compiler</title>
+      <title>DRA-NAT build: C source files / compiler</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
@@ -1516,8 +1516,7 @@
       shown by the DRA-NAT phases of our project:</para>
 
     <table>
-      <title>Table 5: Maturity of TenDRA &amp; UnixWare sources
-        portability</title>
+      <title>Maturity of TenDRA &amp; UnixWare sources portability</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
@@ -1545,7 +1544,7 @@
       benchmark; the shared variant of libc is used.</para>
 
     <table>
-      <title>Table 6: native vs. DRA-NAT performance, AIMIII</title>
+      <title>Native vs. DRA-NAT performance, AIMIII</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
@@ -1597,7 +1596,7 @@
       in DRA-DRA mode.</para>
 
     <table>
-      <title>Table 7: DRA-DRA: commands built with base API</title>
+      <title>DRA-DRA: commands built with base API</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
@@ -1619,7 +1618,7 @@
     </table>
 
     <table>
-      <title>Table 8: DRA-DRA: extending the base API</title>
+      <title>DRA-DRA: extending the base API</title>
 
       <tgroup align="center" cols="4" colsep="1" rowsep="1">
         <thead>
