@@ -1,0 +1,1870 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<book>
+  <bookinfo>
+    <title>Validation of TenDRA Capability to Implement a UNIX-like Operating
+      System</title>
+
+    <corpauthor>The TenDRA Project</corpauthor>
+
+    <authorgroup>
+      <author>
+        <firstname>Fran&ccedil;ois</firstname>
+        <surname>de Ferri&egrave;re</surname>
+        <affiliation>
+          <orgname>Open Software Foundation Research Institute</orgname>
+        </affiliation>
+      </author>
+
+      <author>
+        <firstname>Fred</firstname>
+        <surname>Roy</surname>
+        <affiliation>
+          <orgname>Open Software Foundation Research Institute</orgname>
+        </affiliation>
+      </author>
+
+      <editor>
+        <firstname>Jeroen</firstname>
+        <surname>Ruigrok van der Werven</surname>
+      </editor>
+    </authorgroup>
+
+    <abstract>
+      <para>This is the final report on work undertaken in relation to the
+        UnixWare(R) operating system on the Intel platform, carried out under
+        contract for the UK Defence Research Agency.</para>
+    </abstract>
+  </bookinfo>
+
+  <chapter>
+    <title>Objectives and Description</title>
+
+    <sect1>
+      <title>Objectives</title>
+
+      <para>A first objective of this project was to perform validation,
+        performance and robustness testing of the TenDRA technology to ensure
+        its capability to implement and fully bootstrap a UNIX-like operating
+        system on a variety of target processor architectures.</para>
+
+      <para>Another objective was to provide an assessment of TenDRA
+        technology to express a fully portable operating system
+        implementation.</para>
+
+      <para>This report summarizes the work done with respect to these two
+        objectives.</para>
+    </sect1>
+
+    <sect1>
+      <title>General description</title>
+
+      <para>A Unix system can be divided into three parts, which characterize
+        the portability level of the code:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The Kernel, which has some parts in assembler, e.g.  for
+            context switching, interruptions, locks, or parts of device
+            drivers.  Assembly code is used either in separate files or is
+            embedded in C programs or header files.</para>
+        </listitem>
+
+        <listitem>
+          <para>The Libraries, some of which may contain assembly code.  The
+            crt0 library and code for system calls are examples.</para>
+        </listitem>
+
+        <listitem>
+          <para>The Commands, in which use of assembly code is very unusual.
+            They share a non-explicit API with the libraries against which
+            they are built.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>As for other software OSF already ported to ANDF, the port of the
+        Unix system has been done in three successive steps:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The NAT-NAT step, which consists in rebuilding the system with
+            the native compilation chain, to ensure that the system can be
+            regenerated from the set of sources.</para>
+        </listitem>
+
+        <listitem>
+          <para>The DRA-NAT step, for which the TenDRA technology is employed
+            as a replacement of the native compilation chain to build the
+            system, using the native system header files, as for a classical
+            compilation chain. This part involves dealing with assembler
+            issues as well as discrepancies between the native and the TenDRA
+            code generators. Note that Unix systems are known to be compiler
+            dependent.</para>
+        </listitem>
+
+        <listitem>
+          <para>The DRA-DRA step, which consists in using the TenDRA
+            technology as a portability tool. The API shared by the commands
+            and libraries has to be defined, and used to produce architecture
+            independent ANDF code for these parts. This code is then installed
+            and validated on the selected machines. Note that the kernel part
+            of the Unix system has not been included in this task since it is
+            essentially not portable.</para>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>Choice of a UNIX system and update of the objectives</title>
+
+      <para>We have used the source for the UnixWare system as the base for
+        performing the port of a Unix source code. We originally planned to
+        conduct the experiment on two different platforms: an Intel/386
+        platform and a Sun/Sparc one. The NAT-NAT, DRA-NAT and part of the
+        DRA-DRA steps have been achieved on the Intel/386 platform. Then, in
+        the light of the experience we gained from this work, we decided to
+        re-focus the project on a more complete DRA-DRA experiment, with a
+        different Unix system.  This report only covers that part of the work
+        done up to this change.</para>
+    </sect1>
+
+    <sect1>
+      <title>Choice of the validation tools</title>
+
+      <para>Throughout this experiment we had to validate the various parts of
+        the system we built.</para>
+
+      <para>A first level of validation was achieved by using the kernel and
+        commands built in the DRA-NAT step for our daily work. In addition, we
+        used the VSX4 and AIMIII validation suites to test more thoroughly the
+        robustness and performance of the system built in DRA-NAT mode.</para>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Software Information</title>
+
+    <para><emphasis>Software Category</emphasis></para>
+
+    <para>UnixWare is a desktop Operating System derived from System V release
+      4.2.</para>
+
+    <para>It includes support for TCP/IP and Netware networking, X/Window,
+      Motif and a Desktop Manager.</para>
+
+    <para><emphasis>UnixWare Version and Release Level</emphasis></para>
+
+    <para>A beta release of UnixWare version 2.0 for the Intel386 family
+      (Load q7.1) source code was used.</para>
+
+    <para><emphasis>Authors</emphasis></para>
+
+    <para>The authors of the UnixWare system are the Novell, Inc., with
+      portions of code developed by other contributors such as the University
+      of Berkeley and MIT.</para>
+
+    <para><emphasis>Source code</emphasis></para>
+
+    <para>The source code delivery for UnixWare 2.0 beta release represents
+      approximately 240 Mbytes of code. Most of the system has been recompiled
+      during the NAT-NAT phase of this project.</para>
+
+    <para>Included in this code is a graphical interface, based on X11 and
+      Motif. However, since this interface contains some code delivered in
+      binary format and since this interface is an optional part of a Unix
+      system, we did not use this code.</para>
+
+    <table>
+      <title>Table 1: rough source code distribution</title>
+
+      <tgroup align="center" cols="6" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry>Libraries</entry>
+            <entry>Kernel</entry>
+            <entry>Commands &amp; tools</entry>
+            <entry>Graphics</entry>
+            <entry>Misc.</entry>
+            <entry>Total</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>15MB</entry>
+            <entry>30MB</entry>
+            <entry>101MB</entry>
+            <entry>85MB</entry>
+            <entry>11MB</entry>
+            <entry>242MB</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>In addition, various data files are delivered, for configuration and
+      messaging, especially under Command &amp; tools directories. In
+      addition, some parts of the system, for example the kernel code for the
+      vxfs file system and some device drivers, appear to be delivered in
+      binary format only. So, a more accurate view of the volume of source
+      code submitted to the TenDRA technology is provided by sizing the C
+      language source files only:</para>
+
+    <table>
+      <title>Table 2: C language files</title>
+      <tgroup align="center" cols="5" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry>Headers</entry>
+            <entry>Libraries</entry>
+            <entry>Kernel</entry>
+            <entry>Commands &amp; tools</entry>
+            <entry>Total</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>19.7MB</entry>
+            <entry>11.2MB</entry>
+            <entry>19.8MB</entry>
+            <entry>39.6MB</entry>
+            <entry>90.3MB</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para><emphasis>TenDRA (ANDF) Technology Version Release</emphasis></para>
+
+    <para>The TDF snapshot dated December 94 (svr4_i386 target) has been used;
+      it is based on the TDF Specification Issue 3.0.</para>
+
+    <para><emphasis>Validation tools</emphasis></para>
+
+    <itemizedlist>
+      <listitem>
+        <para>X/OPEN Verification Suite release 4.2.4</para>
+      </listitem>
+
+      <listitem>
+        <para>AIM Suite III v3.1 (AIM Technology Inc.)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>OS Platform Environment</emphasis></para>
+
+    <para>Two identical Intel486 PCs running UnixWare 2.0 and more than 1 GB
+      of disk space, mostly through NFS servers.</para>
+  </chapter>
+
+  <chapter id="project-phase">
+    <title>Description of Project phases</title>
+
+    <para>In this section we describe the tasks which have been performed
+      under this project on the Intel/386 platform. As already mentioned in
+      this report, the work has been split into three main stages, named the
+      NAT-NAT, DRA-NAT and DRA-DRA steps. Preliminary to these steps, an
+      installation phase was needed to set up the environment and tools for
+      this project.</para>
+
+    <para><emphasis>Installation phase:</emphasis></para>
+
+    <para><emphasis>T1.</emphasis> UnixWare installation.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Install the complete binary code of UnixWare.</para>
+
+        <para>This task consisted in running the UnixWare installation
+          procedure, from the tape we received, on an Intel/386 machine. When
+          this was completed, we installed a second identical machine with the
+          same configuration. Because we used a beta version of the system, we
+          found a few problems, which were solved with assistance from Novell,
+          Inc.</para>
+      </listitem>
+
+      <listitem>
+        <para>Perform some checks to verify that the installation is
+          correct.</para>
+
+        <para>We used these two machines as our normal development
+          machines.</para>
+      </listitem>
+
+      <listitem>
+        <para>Install UnixWare source code and setup various build
+          environments.</para>
+
+        <para>A build environment was provided with the source code delivery
+          of the system. We made a few modifications to it in order to create
+          one build environment for each of the NAT-NAT, DRA-NAT and DRA-DRA
+          phases.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: System running.</para>
+
+    <para><emphasis>T2. </emphasis>TenDRA installation.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Install the TenDRA technology for UnixWare.</para>
+
+        <para>We obtained from DRA a complete TenDRA technology delivery for
+          the UnixWare system. We just needed to recompile some executables
+          since we were not running the same version of the system as
+          them.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: TenDRA installed.</para>
+
+    <para><emphasis>T3.</emphasis>Validation suites installation.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Install the VSX4 suite which is used to check the kernel,
+        the main libraries and some commands of the system built in DRA-NAT
+        phase.</para>
+
+        <para>The VSX4 suite was installed for the NAT-NAT version of the
+          system. Next, a new image of the suite for the validation of the
+          DRA-NAT system was created.</para>
+      </listitem>
+
+      <listitem>
+        <para>Install the AIMIII suite which is used to check the robustness
+          and performance of the system.</para>
+
+        <para>The AIMIII suite was installed to check the native system and
+        then the DRA-NAT one.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: Validation suites installed.</para>
+
+    <para><emphasis>NAT-NAT phase:</emphasis></para>
+
+    <para><emphasis>T4.</emphasis> NAT-NAT build.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Compile the UnixWare build tools and libraries.</para>
+
+        <para>Tools such as make, cc, ld, ..., were built during this step and
+          then used to proceed with the compilation of the libraries.</para>
+      </listitem>
+
+      <listitem>
+        <para>Compile the UnixWare kernel.</para>
+
+        <para>A kernel, along with dynamically loadable modules, has been
+          produced.</para>
+      </listitem>
+
+      <listitem>
+        <para>Compile the UnixWare commands.</para>
+
+        <para>All the UnixWare commands have been built in this step.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: Reference system to which the DRA-NAT
+      built system will be compared.</para>
+
+    <para><emphasis>DRA-NAT phase:</emphasis></para>
+
+    <para><emphasis>T5. </emphasis>DRA-NAT build.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Compile the UnixWare build tools &amp; libraries, kernel and
+          commands using the TenDRA technology. This may show up some bugs in
+          the TenDRA technology, as well as assembly language issues in the
+          UnixWare source code.</para>
+
+        <para>The native cc compiler was replaced by a shell script which
+          modified some options and called the tcc TenDRA compiler in DRA-NAT
+          mode.</para>
+      </listitem>
+
+      <listitem>
+        <para>Report the build problems to DRA.</para>
+
+        <para>When we found problems with the tcc compiler, we isolated the
+          problem in a few lines of C code which were provided to DRA.</para>
+      </listitem>
+
+      <listitem>
+        <para>Use temporary workarounds to complete the task as much as
+          possible.</para>
+
+        <para>When it was possible, we made temporary modifications to the
+          source code in order to bypass the problem.</para>
+      </listitem>
+
+      <listitem>
+        <para>Update the TenDRA technology with the fixes for the build
+          problems.</para>
+
+        <para>When fixes were received from DRA, the tenDRA technology was
+          updated. Then, the sources where the problem showed up were
+          recompiled.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: Details of build problems</para>
+
+    <para>System to be validated.</para>
+
+    <para><emphasis>T6. </emphasis>DRA-NAT validation.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Replace native commands and libraries by those built in DRA-NAT
+          mode, and boot the system with a DRA-NAT kernel.</para>
+
+        <para>We progressively replaced native commands and libraries by the
+          ones produced with the TenDRA technology in DRA-NAT mode. Similarly,
+          we booted the system with a kernel in which we gradually added more
+          and more components built in DRA-NAT mode.</para>
+      </listitem>
+
+      <listitem>
+        <para>Validate the system against the VSX4 validation suite. This will
+          exercise some commands, usual libraries and related system calls
+          implementation inside the kernel.</para>
+
+        <para>First, we ran the VSX4 validation suite on the native system.
+          Then, we ran it on a system built in DRA-NAT mode and compared the
+          results against those obtained with the native system.</para>
+      </listitem>
+
+      <listitem>
+        <para>Validate the system against the AIMIII validation suite.  This
+          will check the performances and robustness of the system with
+          respect to time-sharing.</para>
+
+        <para>We compared the results obtained when running the suite on a
+          native system and a DRA-NAT one.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Delivery</emphasis>: Validation report.</para>
+
+    <para><emphasis>DRA-DRA phase:</emphasis></para>
+
+    <para><emphasis>T7. </emphasis>API definition.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Define the non-explicit API used by the commands. Machine
+          dependent code issues will be addressed
+          specifically.</para>
+
+        <para>We determined the basic standard interfaces upon which the
+          interface was built. Then we extended it in order to cover a minimum
+          set of commands.</para>
+      </listitem>
+
+      <listitem>
+        <para>Build the token libraries for the API used by the commands and
+          libraries.</para>
+
+        <para>We used the TenDRA technology tools to describe and build the
+          interface.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>T8. </emphasis>DRA-DRA assessment.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Build a selected set of commands.</para>
+
+        <para>We built the commands which were covered by the extended
+          interface we implemented.</para>
+      </listitem>
+
+      <listitem>
+        <para>Report problems to DRA.</para>
+      </listitem>
+
+      <listitem>
+        <para>Update the TenDRA technology with the fixes.</para>
+      </listitem>
+
+      <listitem>
+        <para>Complete the compilation of the selected set of
+          commands.</para>
+      </listitem>
+
+      <listitem>
+        <para>Delivery: Assessment report.</para>
+      </listitem>
+    </itemizedlist>
+  </chapter>
+
+  <chapter id="project-environment">
+    <title>Project environment</title>
+
+    <sect1>
+      <title>Hardware environment</title>
+
+      <para>Two identical Intel/486 PCs running UnixWare 2.0 beta release have
+        been used as the development platforms for the various build phases.
+        Each of them was equipped with 16MB of RAM, a local 300 MB disk and an
+        Ethernet controller.  Another 300MB disk was added to one of the
+        machine dedicated to validation.  We also used additional disk space
+        through NFS servers to store the UnixWare source delivery, the TenDRA
+        compilation system as well as the object files created during the
+        three builds. This layout permitted us to run concurrently two
+        different builds from any of the two platforms while keeping the
+        consistency of project files.</para>
+
+      <para>During the validation process of the DRA-NAT build, one machine
+        was dedicated to the validation tests while the other one was
+        preserved for development purposes. This was necessary for three
+        reasons:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The test machine was more likely to crash or have files
+            corrupted.</para>
+        </listitem>
+
+        <listitem>
+          <para>Some tests from the VSX4 test suite require execution from a
+            local disk.</para>
+        </listitem>
+
+        <listitem>
+          <para>The environment for running the AIMIII benchmark has to be
+            kept stable.</para>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>UnixWare source delivery</title>
+
+      <para>The source code delivery for UnixWare on Intel/386 is organized in
+        several subdirectories which reflect the dependency of sources upon
+        CPU and hardware architectures.</para>
+
+      <para>When building a new system, one of the first steps is to construct
+        a WORK tree. This tree is created from a merge between different parts
+        of the original source tree, with symbolic links to the source files,
+        depending on CPU/architecture configuration. Along with this WORK
+        tree, a TOOLS and a MACH trees are also created, which together
+        constitute the private environment for a build. The TOOLS tree is used
+        for the tools and libraries used for internal build purpose. The MACH
+        tree will contain at the end of a build all the components which
+        constitute the actual system we built.</para>
+
+      <para>A set of environment variables defines the current paths for the
+        WORK, TOOLS and MACH trees. This has been used to create different
+        build environments for each of the NAT-NAT, DRA-NAT and DRA-DRA
+        phases.</para>
+
+      <para>The disk space required for building a system is as
+        follows:</para>
+
+      <para>Original source tree: 240 MB</para>
+
+      <para>For each of the NAT-NAT, DRA-NAT and DRA-DRA phases:</para>
+      <para>WORK tree: 350 MB</para>
+      <para>TOOLS tree:	35 MB</para>
+      <para>MACH tree: 220 MB</para>
+
+      <para>In order to keep on-line the NAT-NAT and DRA-NAT builds,
+        approximately 1.5 GB of disk space has been taken on NFS servers. We
+        did not need to perform the last steps at the end of a build, which
+        consist in making packages and images of binary deliveries, because we
+        were not producing a system for distribution. This would have required
+        an additional disk space of about 800 MB per build.</para>
+
+      <para> For the VSX4 validation suite, we needed more than 300 MB of disk
+        space to keep two environments for the validation of the native and
+        DRA-NAT systems.</para>
+    </sect1>
+
+    <sect1>
+      <title>TenDRA technology</title>
+
+      <para>Replacement of one compiler by another, and moreover,
+        compatibility between object files produced by two different
+        compilers, are often difficult issues. But in the case of the TenDRA
+        compiler this has been straightforward.</para>
+
+      <para>TenDRA compilers are designed to be compatible with the native
+        compiler of the platform they are targeted to, generating the same
+        internal format for data, using the same calling conventions, ....
+        This allowed us to link together binary files from one or the other
+        compiler, without any problems.</para>
+
+      <para>Also, the command line options for the TenDRA compilers reflect as
+        much as possible the options for the corresponding native compiler.
+        So, we had very few modifications to make to the option line in order
+        to replace the native cc compiler by the TenDRA tcc one. These changes
+        have been implemented by a front-end shell script which emulates a
+        call to the native compiler by a call to tcc. </para>
+
+      <para>It appeared early on that some source files from the UnixWare
+        distribution were not strictly ANSI compliant. For example, a function
+        declared in a header file using ANSI syntax was actually defined using
+        K&amp;R syntax.  Therefore we had to use the relaxing options:</para>
+
+      <para>-not_ansi -nepc</para>
+
+      <para>Using the TenDRA compiler with the native system header files, the
+        DRA-NAT mode, required the additional option:</para>
+
+      <para>-Ysystem</para>
+
+      <para>Adaptation to special compilation options local to some makefiles
+        are discussed in section 7.</para>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Results of Project phases</title>
+
+    <para>The NAT-NAT and DRA-NAT project phases, described in
+      <link linkend="project-phase">Description of Project phases</link>,
+      have been completed with a good level of success. The DRA-DRA phase has
+      been limited to cover a hundred or so commands. In the next paragraphs
+      we detail the results of each of the phases of the project.</para>
+
+    <sect1>
+      <title>Installation phase</title>
+
+      <para>This phase was not concerned with the TenDRA technology, so it did
+        not produce any noteworthy results.</para>
+    </sect1>
+
+    <sect1>
+      <title>NAT-NAT phase</title>
+
+      <para>The objective of this phase was to check that the system can be
+        completely built with the native system compiler from the source
+        delivery.  Indeed, this phase was very helpful to set-up the build
+        environment, and to evaluate the resources we would need for the next
+        phases.</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-NAT phase</title>
+
+      <para><emphasis>DRA-NAT build</emphasis></para>
+
+      <para>During this phase we compiled the whole system, as for the NAT-NAT
+        build, using the TenDRA technology as a standard compiler. Therefore,
+        we used the system header files instead of the architecture neutral
+        headers.  At completion of this task, we obtained the following
+        results:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>65% of the library source files could be successfully compiled
+            with the TenDRA technology.</para>
+        </listitem>
+
+        <listitem>
+          <para>About 65% of the kernel C code could be successfully compiled
+            with the TenDRA technology.</para>
+        </listitem>
+
+        <listitem>
+          <para>Nearly all the commands and tools could be compiled with the
+            TenDRA technology.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>These figures need some explanation to see why the TenDRA
+        technology failed to compile some of the files. There were essentially
+        three cases where the technology could not compile the files:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>support of assembly language instructions inlined in C
+            programs.</para>
+
+          <para>Such code is not per-se architecture neutral and it is
+            therefore clearly beyond the TenDRA technology goals.</para>
+
+          <para>Assembly code was present in only 2% of the library source
+            files, but was used in 22% of the files for the kernel
+            components.</para>
+        </listitem>
+
+        <listitem>
+          <para>support of special alignments for fields in structures
+            (#pragma pack(n) directive)</para>
+
+          <para>This feature was only relevant for Intel386 architecture. It
+            was present in about 33% of the library C source files (Mostly for
+            the Netware related libraries) and in 12% of the kernel C source
+            files.</para>
+        </listitem>
+
+        <listitem>
+          <para>Code written in C++ language.</para>
+
+          <para>There were also some parts of the system which used the C++
+            language. Since a C++ producer is not yet available for the TenDRA
+            technology, we could not compile these files.</para>
+
+          <para>Files with C++ code represented about 9% of the source code
+            for the libraries and about 5% of the source code for the
+            commands.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>In summary, excluding the C++ files, about 85% of the C source
+        files could be successfully compiled with the TenDRA technology.</para>
+
+      <para>Apart from these issues, we found very few problems in the TenDRA
+        compiler, 8 problems in fact, which were usually fixed or bypassed
+        very quickly. These are included in the Appendix.</para>
+
+      <para><emphasis>DRA-NAT validation</emphasis></para>
+
+      <para>The DRA-NAT built kernel was customized for actual hardware and
+        successfully booted.</para>
+
+      <para>The VSX4 tests have been built and exercised first on the native
+        UNIX version. On this beta release, approximately 6,000 tests are
+        successful while a hundred of them are not. Three libraries are
+        involved (libc being the most important one), and best results are got
+        using the shared version of them.</para>
+
+      <para>The following system software configuration was then used for
+        recompiling and rerunning the VSX4 tests:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>TenDRA compiler in DRA-NAT mode</para>
+        </listitem>
+
+        <listitem>
+          <para>DRA-NAT commands</para>
+        </listitem>
+
+        <listitem>
+          <para>DRA-NAT libraries for compile-time link-edits</para>
+        </listitem>
+
+        <listitem>
+          <para>DRA-NAT version of dynamically-linked libc at
+            runtime.</para>
+        </listitem>
+
+        <listitem>
+          <para>DRA-NAT kernel</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>With this configuration, the VSX4 tests level of success is the
+        same as for the native system. Two modules of the dynamically linked
+        libc library were temporarily replaced by their native version in
+        order to cure problems with the sed command.</para>
+
+      <para>The AIMIII benchmark was used to exercise the native and DRA-NAT
+        systems. At a medium user load level (simulated by the benchmark),
+        i.e. 30-60 users, the performance of the two systems is similar:
+        variations are below 3%.</para>
+
+      <para>During the DRA-NAT validation phase, only 7 problems in TenDRA
+        technology were encountered. These are included in the
+        Appendix.</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-DRA phase</title>
+
+      <para>A base API has been created from a merge between the svid3 and
+        xpg4 APIs, which are included in the TenDRA technology delivery. This
+        allowed us to compile 57 commands (out of approximately 600). This
+        demonstrated the need for a custom extension API for compiling most
+        UnixWare commands. With the present extension API, 46 additional
+        commands have been compiled.</para>
+
+      <para>During this phase, two minor problems in the TenDRA technology
+        were identified (these are included in the Appendix).</para>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Methods applied</title>
+
+    <sect1>
+      <title>Correction of compilation problems</title>
+
+      <para><emphasis>Native C compiler</emphasis></para>
+
+      <para>As stated in <link linkend="project-environment">\xa4  4., page
+        8</link>, binaries made by native and TenDRA compilers are
+        interoperable. So a straightforward method to bypass a problem with
+        TenDRA in DRA-NAT mode is to compile the ``guilty'' source file with
+        the native compiler.  This method has been used in cases where tcc
+        lacked a feature, e.g.  assembly language inlining, or when a bug in
+        the code generated by tcc was identified but not yet fixed.</para>
+
+      <para><emphasis>Source code modifications</emphasis></para>
+
+      <para> In some cases, minor changes were applied to a source file (under
+        #ifdef __ANDF__ conditions) when code rewriting was necessary to avoid
+        a problem.  Example: function f() is defined with no argument but is
+        called sometimes with one argument in original source; the revised
+        source will be:</para>
+
+      <programlisting>
+      int f() { }
+      /* .... */
+      #ifndef __ANDF__
+      	f(1);
+      #else
+      	f();
+      #endif
+      </programlisting>
+
+      <para>In other cases, we had to modify some Makefiles. In the DRA-NAT
+        build, this was necessary for sources which contained assembly
+        instructions for example (or included a header file which used the
+        same feature). When building the libraries and commands, the relevant
+        Makefiles were modified. When building the kernel, a more elegant
+        method has been used: a ''rulefile'', included by all the Makefiles,
+        has been modified to check, prior to compiling a .c file, if a file
+        with the same name plus a specific suffix .NATIVE existed. If so, the
+        native compiler was called. In addition, shell scripts were written to
+        create lists of source files, which were dependent on header files
+        known to contain assembly code (or #pragma pack), and to create the
+        .NATIVE files according to these lists.</para>
+
+      <para>All these modifications on source files and Makefiles were done
+        through a patch procedure:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>In order to patch a file, from the WORK tree, two copies of
+            the file are made in a patch tree, one for modifications and the
+            other for keeping the reference version.</para>
+        </listitem>
+
+        <listitem>
+          <para>Then the initial file, usually a link into the source tree, is
+            replaced by a link to the copy for modifications.</para>
+        </listitem>
+
+        <listitem>
+          <para>Once this has been done, the initial file can be modified,
+            while the initial version of the file is saved.</para>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>Identification of TenDRA built object files</title>
+
+      <para>In order to control the elements of the systems which were built
+        in DRA-NAT mode, it was helpful to insert a special signature in
+        object files created by the TenDRA compiler. An ident directive has
+        been added to the assembly files generated by the TenDRA compiler,
+        with the following pattern:</para>
+
+      <para>/andf/bin/trans386:   (ANDF) 3.0 03/22/95</para>
+
+      <para>Such a pattern can be extracted by mcs or strings commands from
+        binary files (executables and libraries) in order to control a
+        posteriori the number of modules actually compiled by the TenDRA
+        technology.</para>
+
+      <para>The file we modified in the TenDRA source delivery is the
+        <filename>src/installer/trans386/trans.c</filename> file, and the
+        change we made is located in the main() function:</para>
+
+      <programlisting>
+          init_all();
+
+          if (diagnose)
+             out_diagnose_prelude();
+          TRASH d_capsule();
+
+          /* change start */
+          outs(``.ident \''@(#)/andf/bin/trans386:   (ANDF) 3.0 03/22/95\'''');
+          outnl();
+          /* change end */
+
+          while (weak_list)
+              /* ... */
+      </programlisting>
+    </sect1>
+
+    <sect1>
+      <title>Kernel and shared libraries</title>
+
+      <para><emphasis>Configuring the DRA-NAT kernel for actual
+        hardware</emphasis></para>
+
+      <para>The normal way to build a kernel is to create, from the set of
+        object files built for the kernel part of the system, a kernel which
+        is not targeted to any particular hardware. Then, the system must be
+        packaged on a tape and floppies, in order to be installed. An
+        installation procedure would then be used to load the system and
+        interactively configure the generic kernel to the actual hardware.
+        However, going all the way through this procedure would have required
+        a lot of time and disk space.</para>
+
+      <para>We preferred to use a more simple and incremental way of building
+        and configuring a new kernel:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>We dedicated a development machine for the kernel
+            testing.</para>
+        </listitem>
+
+        <listitem>
+          <para>We copied the /etc/conf tree into the ``MACH'' tree of DRA-NAT
+            build. This tree holds the kernel binary components and the kernel
+            configuration files.</para>
+        </listitem>
+
+        <listitem>
+          <para>We replaced (partially or totally) the original binaries by
+            their DRA-NAT version.</para>
+        </listitem>
+
+        <listitem>
+          <para>We then rebuilt a kernel, with the idbuild command.</para>
+
+          <para>Note that the idbuild command is sensitive to the environment
+            variables defining the current build ``MACH'' tree (ROOT and MACH
+            variables).</para>
+        </listitem>
+      </itemizedlist>
+
+      <para><emphasis>Progressive switching from native to DRA-NAT
+        kernel</emphasis></para>
+
+      <para>The method described above has proven very useful for easy fault
+        isolation in case of a system crash.</para>
+
+      <para>Kernel components are divided into two parts: those parts of the
+        base kernel (<filename>/stand/unix</filename>) and those
+        dynamically-loaded (from <filename>/etc/conf/mod.d</filename>). We
+        started by replacing only one, non-critical, component of the kernel.
+        Then, we replaced some dynamically-loaded modules by their DRA-NAT
+        version. We continued by replacing other base kernel modules and
+        concluded with the remaining dynamically-loaded modules. More than ten
+        intermediate kernels were built and exercised during this
+        process.</para>
+
+      <para>Prior to exercising these kernels, emergency recovery floppies
+        were made.  They could be (and have been) used to repair manually the
+        hard disk stand or root file systems when the normal boot process from
+        the hard disk failed.</para>
+
+      <para>In order to switch to a new kernel, built in
+        <filename>$ROOT/$MACH/etc/conf/cf.d/unix</filename>, it has to be
+        copied into <filename>/stand</filename> (for example under the name
+        <filename>unix.dranat</filename>).  The new dynamically-loaded kernel
+        modules, built in the
+        <filename>$ROOT/$MACH/etc/conf/modnew.d</filename> directory, have
+        also to be moved to the <filename>/etc/conf.d/mod.d</filename>
+        directory in order to be loaded at the next system reboot.  This
+        latter operation should be done while the system is quiescent, i.e.
+        after bringing it in single user mode and just before rebooting. To
+        boot the alternative base kernel, the boot sequence is interrupted and
+        an alternate kernel name is supplied by means of the KERNEL=name
+        command.</para>
+
+      <para><emphasis>Switching from native to DRA-NAT shared
+        libraries</emphasis> </para>
+
+      <para>For exercising a shared library made during the DRA-NAT build,
+        e.g. the dynamically loaded libc, relevant files in
+        <filename>/usr/lib</filename> and <filename>/usr/ccs/lib</filename>
+        were replaced by links to either the reference or the DRA-NAT versions
+        of them.  Care must be taken with these links, as shown by an example
+        in <link linkend="dra-nat-validation">\xa4  7.4, page 19</link>.</para>
+    </sect1>
+
+    <sect1>
+      <title>VSX4 validation</title>
+
+      <para><emphasis>Installing VSX4 and building tests for NAT-NAT &amp;
+        DRA-NAT systems validation</emphasis></para>
+
+      <para>The VSX4 test suite is a rather large and complex application.
+        Before actually running the tests, a number of steps have to be
+        performed:</para>
+
+      <itemizedlist>
+        <listitem><para>We loaded the VSX4 test suite on a local disk which we
+            added on one of the machines. Some hardware and system configurations
+            were also needed in order to satisfy the VSX4
+            requirements.</para></listitem>
+
+        <listitem><para>We configured the VSX4 test suite in order to provide it
+            with the actual description of the system. This configuration had to
+            be tuned while executing VSX4 on the native system, since for some
+            parameters we did not have enough information on the system to make
+            the right choice.</para></listitem>
+
+        <listitem><para>We installed the VSX4 test suite, which consisted of the
+            compilation of the tools VSX4 needed for executing the tests and for
+            reporting on them.</para></listitem>
+
+        <listitem><para>We built the VSX4 test suite, which consisted in
+            producing the actual executable code for each test to be
+            executed.</para></listitem>
+
+      </itemizedlist>
+
+      <para>At this point, we were able to execute the tests on the native
+        system to obtain reference results against which the DRA-NAT system
+        would be compared.</para>
+
+      <para>For exercising the DRA-NAT build, we duplicated the tree which
+        contained the executable tests (TESTROOT) and created a new directory
+        to contain the results of build and execution steps. We customized the
+        VSX4 build configuration file to use the TenDRA compiler in DRA-NAT
+        mode and the commands/libraries built in the DRA-NAT phase, and we
+        rebuilt the tests.  Prior to reruning them, the configuration file for
+        VSX4 execution was changed in a way similar to the build configuration
+        file; note that the execution of some tests consists in performing a
+        compilation.</para>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Review of problems and other interesting points</title>
+
+    <sect1>
+      <title>Installation of the UnixWare binary delivery</title>
+
+      <para>When installing the UnixWare system from the binary delivery, we
+        faced one problem when installing optional packages such as nfs. This
+        was due to corrupted entries in a file containing information about
+        every file which is installed on the system through the packaging
+        system, /var/sadm/intall/contents. Deleting the corrupted entries,
+        removing the badly installed package and reinstalling it cured the
+        problem.</para>
+    </sect1>
+
+    <sect1>
+      <title>NAT-NAT build phase</title>
+
+      <para> Very few problems were encountered during this phase. We had some
+        troubles when building X11 &amp; Motif, first because we had forgotten
+        to customize a definition in a Makefile stating that we were using
+        binaries for Motif and not building it from sources; secondly because
+        two Makefiles were buggy.  This had no impact on other project phases
+        since the graphic system was not covered by DRA-NAT and DRA-DRA
+        experiments.</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-NAT build phase</title>
+
+      <para>This phase was the longest and richest. We describe below the
+        problems we had successively.</para>
+
+      <para><emphasis>Use of the TenDRA compiler throughout the build
+        process</emphasis></para>
+
+      <para>In the first steps of the build procedure, just modifying the PATH
+        environment variable was enough to use the TenDRA compiler as a pseudo
+        cc compiler. These steps include the building of libraries and
+        cross-environment tools, among which a new C compiler which was used
+        as soon as it was built. From this stage, we had to modify the build
+        procedure in order to substitute the freshly built compiler by a shell
+        script which emulates a call to the new compiler by a call to the
+        TenDRA tcc compiler.</para>
+
+      <para>In order to mimic the behavior of the compiler we want to replace,
+        we had to pass an option to tcc to modify the search path for the
+        system libraries.  With this option tcc calls the UnixWare linker with
+        information on the location of the libraries. Assuming that the
+        TOOLS_REF variable contains the correct path for the current build
+        tools, the option line we used was:</para>
+
+      <para>-Wl:-YP,$TOOLS_REF/usr/ccs/lib:$TOOLS_REF/usr/lib</para>
+
+      <para><emphasis>C-programming issues</emphasis></para>
+
+      <para>Most issues related to poor ANSI conformance have been by-passed
+        by using the tcc options -Xa -not_ansi -nepc.</para>
+
+      <para>However, in a few cases, we had to make minor changes in source
+        files:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>to avoid type promotion conflicts when a function was declared
+            with the prototype notation, and defined using the K&amp;R syntax.
+            We changed the definition to use the prototype notation
+            also.</para>
+        </listitem>
+
+        <listitem>
+          <para>to fix a mismatch in the number of arguments of a function,
+            e.g. when such function was declared without argument and defined
+            empty, but called with one argument.</para>
+        </listitem>
+
+        <listitem>
+          <para>to force the setting of __USLC__ preprocessor variable, which
+            is set by default by UnixWare C compilers. We discovered this
+            during the link-edit of a library, as some symbols were referenced
+            but undefined.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para><emphasis>Mapping special features of UnixWare compiler to
+        TenDRA</emphasis></para>
+
+      <para>Such features appeared through command line options which were
+        local to some Makefiles, or through #pragma directives in
+        sources.</para>
+
+      <para>Consider first a simple example: the normal option for producing
+        position-independent code is -KPIC, for both UnixWare cc and TenDRA.
+        However, a Makefile, responsible for building a shared library, was
+        using -Kpic instead. This option was supported by UnixWare but ignored
+        by TenDRA.  This resulted in a fatal error at library link-edit time.
+        A quick way to make TenDRA understand the -Kpic option is to create
+        inside the TenDRA svr4_i386/env directory a file named K-pic by
+        linking it to the existing file K-PIC.</para>
+
+      <para>The following two options of the UnixWare compiler can be ignored
+        (e.g.  filtered out): -Kno_host and -W0,-1c. The first one disables
+        the inlining of some C standard functions, and the second tells the
+        compiler to treat literal strings as constants. These two options
+        correspond to the default behavior for TenDRA.</para>
+
+      <para>The UnixWare compiler supports a pragma directive, to disable some
+        floating point optimization, termed fenv_access on. This directive was
+        used in a module to raise a floating point exception at run-time
+        rather than at compilation time. There is no equivalent option for
+        TenDRA, and furthermore tcc would abort when such a source file was
+        compiled. A fix was later supplied by DRA.</para>
+
+      <para>The #pragma weak directive of the native compiler supports nested
+        references to symbols such as:</para>
+
+      <para>#pragma weak sym1 = sym2</para>
+
+      <para>#pragma weak sym2 = sym3</para>
+
+      <para>This rarely used feature was not correctly supported by TenDRA.
+        This has been easily changed in the source code, and DRA will fix the
+        problem.</para>
+
+      <para>UnixWare provides developers with a utility termed fur to reorder
+        the functions in a relocatable object. This utility was used in
+        Makefiles when building the shared version of libraries, and used to
+        fail, complaining of missing function names. These functions appeared
+        to be declared as static in sources, and in such case the TenDRA
+        default behavior is to discard the related symbols. TenDRA supports a
+        pragma directive to change this default behavior. For example #pragma
+        preserve * will keep all symbols. As all library modules compiled with
+        -KPIC option were concerned, we have modified the svr4_i386/K-PIC file
+        already mentioned in this document, adding the line:</para>
+
+      <para>&gt;STARTUP -f/andf/svr4_i386/env/static_pic</para>
+
+      <para>This static_pic file was then created, containing:</para>
+
+      <para>#pragma preserve *</para>
+
+      <para>Finally, we mention a difference between the native compiler and
+        the TenDRA one which had no incidence but a warning message at
+        link-edit time. tcc generates an alignment of 8 for global structures
+        whose size is greater than 63, while the native compiler always use an
+        alignment of 4; when linking an object file compiled by the native
+        compiler and an object file compiled by TenDRA which both declare the
+        same structure, the linker issued a warning.</para>
+    </sect1>
+
+    <sect1 id="dra-nat-validation">
+      <title>DRA-NAT validation, manually exercising commands and
+        libraries</title>
+
+      <para> The first level of validation we performed on the commands built
+        in DRA-NAT mode was to use these commands to replace the native ones.
+        We simply did this by modifying the PATH environment variable. Two
+        errors, inside the vi command, were detected, and then fixed, during
+        these tests.</para>
+
+      <para> We exercised in the same way the DRA-NAT version of the shared
+        libc library.  This validation revealed problems with grep, sed, and
+        the search subcommand of vi, cpio and find. When investigating the
+        grep command, it appeared that using the DRA-NAT static version of the
+        libc library solved the problem.  Thus we focused on the generation of
+        position-independent code (-KPIC option) by the TenDRA compiler. We
+        reported a bug to DRA, which was fixed in the subsequent release of
+        the TenDRA software. Rebuilding the shared libc library with the new
+        version of the TenDRA compiler fixed the problems for the grep, vi and
+        find commands. The sed command still did not behave correctly and
+        needs further investigation. The problem with cpio was due to a
+        mistake in our procedure for switching from the native version of the
+        shared libc library to the DRA-NAT version: we forgot to take into
+        account the file /usr/lib/libdl.so.1 together with the file
+        /usr/lib/libc.so.1, while these two files are linked. This point was
+        discovered after looking at the Makefile of the cpio command (local
+        libraries used here include libld).</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-NAT validation phase, booting the kernel</title>
+
+      <para>Despite the fact that the kernel is a complex and sensitive part
+        of the system, we found only two problems while exercising kernels
+        with more and more DRA-NAT built components.</para>
+
+      <para>The first problem we had was a PANIC message when running a kernel
+        with some DRA-NAT code. Using the crash command on the dumpfile file
+        created at system crash time, we located the problem in a call to a
+        function coded in assembly language. The comments embedded in the
+        source file told us that the code was making special assumptions on
+        the arguments and return value, which appeared to be
+        compiler-dependant. Instead of rewriting the code, we recompiled with
+        the native compiler the few C modules which were calling this
+        function.</para>
+
+      <para>The second problem we had did more damage to the system disk (some
+        configuration files became corrupted). We managed to repair these
+        files using the Emergency Recovery floppies and making comparisons
+        with our second platform (which had been carefully kept away from
+        risky experiments). The problem was due to a small difference between
+        code generated by the native compiler and the TenDRA compiler, which
+        would have usually no incidence.  When a global variable is defined
+        and initialized to zero, the native compiler puts it in a DATA section
+        while the TenDRA compiler puts it (by default) in a COMMON section.
+        During the build of the kernel, a utility was used to patch the value
+        of such a variable inside an object file, and this operation failed
+        (silently) when the object file had been created by TenDRA.  The
+        TenDRA installer comes with an install-time option -h which makes it
+        behave like the native compiler in respect to this point.</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-NAT validation phase, VSX4</title>
+
+      <para>We used the VSX4 test suite to exercise the TenDRA technology in
+        three successive steps.</para>
+
+      <para>Firstly, we built the VSX4 tests with the TenDRA compiler and the
+        static DRA-NAT system libraries. Then we ran the tests on a system
+        with a native kernel.</para>
+
+      <para>Secondly, we ran the tests built in the previous step on a system
+        with a DRA-NAT kernel.</para>
+
+      <para>Finally, we rebuilt the VSX4 tests, with the TenDRA compiler, on
+        a system with shared DRA-NAT system libraries (when available) and a
+        DRA-NAT kernel, and ran the suite on the same system.</para>
+
+      <para>During these three steps, the PATH environment variable was
+        giving access exclusively to DRA-NAT built commands. Only a few
+        commands are actually exercised by the VSX4 test suite: ar, awk, grep,
+        ld, lorder, make, sed, sh, tsort (...) at build time, cpio, gencat and
+        tar at execution time.</para>
+
+      <para>Five libraries are required, thus exercised, to build the VSX4
+        tests for UnixWare: libc, libm, libmalloc, libgen and libcrypt. A
+        dynamically-linked variant exists for libc and libcrypt only.</para>
+
+      <para>Surprisingly enough, none of the problems we had were located in
+        the DRA-NAT build being validated. All the VSX4 tests (approximately
+        6,000) successful when using native system were also successful on the
+        DRA-NAT system.  However, we faced three other types of
+        problems:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Tests failing because of wrong permission on a work directory;
+            this simply came from the way we created a new target tree for
+            VSX4 test binaries.</para>
+        </listitem>
+
+        <listitem>
+          <para>Unclean code in test source. For example, the volatile
+            qualifier of a variable was missing, though the varaible was
+            modified by a signal handler and tested inside a while loop. Since
+            optimizations are enabled by default in TenDRA, this test failed
+            when compiled by tcc. There were two other tests which failed
+            because of undesirable optimizations made by the TenDRA
+            optimizer.</para>
+        </listitem>
+
+        <listitem>
+          <para>The static and shared variant of the libc library does not
+            behave the same in some cases. 14 tests failed when using the
+            static version of the libc library (native or DRA-NAT), which
+            passed when using the shared libc library.</para>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>DRA-NAT validation phase, AIMIII</title>
+
+      <para>Due to a yet unexplained problem occurring when exercising either
+        native or DRA-NAT systems, AIMIII benchmark results have only been
+        obtained up to a load of 63 users.</para>
+
+      <para>When running the benchmark, we tried to use an environment as
+        stable as possible. We installed the benchmark on a local file system,
+        used only for this purpose, and disabled the cron daemon. However, we
+        had noticeable differences (peak difference up to 15%) between the
+        results of two equivalent runs at a small user load (1-10 users),
+        while such differences drop to 1% at a load of 60 users.</para>
+
+      <para>To avoid side effects when measuring performance, we have always
+        used the native compiler to compile the benchmark. The latter has to
+        be linked only with the libc library, and we have used the shared
+        variant.  Exercising the DRA-NAT build requires booting the DRA-NAT
+        kernel and setting up the DRA-NAT version of the dynamically-loaded
+        libc.</para>
+
+      <para>Given these assumptions, native and DRA-NAT systems have similar
+        performance: within a load range of 20-60 users, differences are below
+        3%.</para>
+    </sect1>
+
+    <sect1>
+      <title>DRA-DRA phase</title>
+
+      <para>A first experiment on very simple commands (echo, touch), showed
+        that the base API on which the commands were built was a mix of the
+        svid3 and xpg4 APIs. In fact, 57 commands, out of more than 600, were
+        based on this base API. When we tried to extend this API to cover more
+        commands, it quickly became apparent that most of the commands need
+        their own extension to the base API. Thus, each additional command
+        requires a lot of work in order to compile in DRA-DRA mode. During the
+        time of the experiment, we could only extend the API to cover about
+        100 commands.</para>
+
+      <para>We list below miscellaneous problems we encountered, which
+        required some modification in source files:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Implicit function declarations</para>
+
+          <para>We wanted to suppress all the warnings due to missing function
+            prototypes for the commands we worked on. This was important in
+            order to make sure that every function used by a command was in
+            the interface we defined. However, in most of the commands we
+            worked on, internal functions returning an int were not declared.
+            So, we had to add their declaration in the source files in order
+            to suppress warnings on these functions. When this was done,
+            remaining warnings were due to use of functions without inclusion
+            of the include files where they were defined, or to incomplete
+            include files, in which case we added the prototype to the
+            interface.</para>
+        </listitem>
+
+        <listitem>
+          <para>Redeclaration of errno</para>
+
+          <para>In a few source files, errno was defined as a token by the
+            inclusion of the &lt;errno.h&gt; include file, but was also
+            defined in the file with the instruction:</para>
+
+          <programlisting>
+  extern int errno;
+          </programlisting>
+
+          <para>Since errno can be implemented in different ways on different
+            architectures, it must not be declared as an int variable. This
+            problem has been corrected by removing this declaration from the
+            source file.</para>
+        </listitem>
+
+        <listitem>
+          <para>Redefinition of API functions</para>
+
+          <para>In a few cases, a function was declared in an include file as
+            being part of the API, e.g rewind, but was later defined in the
+            file. We corrected the problem by renaming the internal function
+            so that the conflict does not exist any longer.</para>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Summary of numerical characteristics</title>
+
+    <para>The table below gives the number of files in the UnixWare source
+      delivery in respect to the programming language being used. Header files
+      are not counted.</para>
+
+    <table>
+      <title>Table 3: source files / language</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry/>
+            <entry>C</entry>
+            <entry>Kernel</entry>
+            <entry>asm</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>libraries</entry>
+            <entry>2555 (83%)</entry>
+            <entry>278 (9%)</entry>
+            <entry>254 (8%)</entry>
+          </row>
+
+          <row>
+            <entry>Kernel</entry>
+            <entry>997 (94%)</entry>
+            <entry>/</entry>
+            <entry>67 (6%)</entry>
+          </row>
+
+          <row>
+            <entry>Commands</entry>
+            <entry>4464 (94%)</entry>
+            <entry>216 (5%)</entry>
+            <entry>38 (1%)</entry>
+          </row>
+
+          <row>
+            <entry>Totaal</entry>
+            <entry>8016 (90%)</entry>
+            <entry>494 (6%)</entry>
+            <entry>359 (4%)</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>The following table applies to the DRA-NAT build; it gives the
+      number of C source files and ratios of code compiled by TenDRA versus
+      code compiled by the native compiler. We distinguish the two reasons for
+      using the native C compiler: because of assembly language inclusions, or
+      because of use of pragma pack directive.</para>
+
+    <table>
+      <title>Table 4: DRA-NAT build: C source files / compiler</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry/>
+            <entry>TenDRA</entry>
+            <entry>cc (asm)</entry>
+            <entry>cc (pack)</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>libraries</entry>
+            <entry>1678 (65%)</entry>
+            <entry>62 (2%)</entry>
+            <entry>851 (33%)</entry>
+          </row>
+
+          <row>
+            <entry>Kernel</entry>
+            <entry>664 (66%)</entry>
+            <entry>216 (22%)</entry>
+            <entry>117 (12%)</entry>
+          </row>
+
+          <row>
+            <entry>Commands</entry>
+            <entry>4439 (99%)</entry>
+            <entry>16</entry>
+            <entry>9</entry>
+          </row>
+
+          <row>
+            <entry>Totaal</entry>
+            <entry>6781 (84%)</entry>
+            <entry>294 (4%)</entry>
+            <entry>977 (12%)</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>Note that for libraries, the Netware protocols are responsible for
+      the high number of C sources dependent on the pragma pack
+      feature.</para>
+
+    <para>The following numbers characterize the maturity of the TenDRA C
+      compilation chain and the level of UnixWare source code portability, as
+      shown by the DRA-NAT phases of our project:</para>
+
+    <table>
+      <title>Table 5: Maturity of TenDRA &amp; UnixWare sources
+        portability</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry>KB of C source code</entry>
+            <entry># of changes in sources</entry>
+            <entry># of problems, build</entry>
+            <entry># of problems, validation</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>59,000</entry>
+            <entry>69</entry>
+            <entry>8</entry>
+            <entry>7</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>The table below shows the performance of the native system versus
+      that of DRA-NAT kernel and libc library as measured by the AIMIII
+      benchmark; the shared variant of libc is used.</para>
+
+    <table>
+      <title>Table 6: native vs. DRA-NAT performance, AIMIII</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry># of users</entry>
+            <entry>jobs/min, native</entry>
+            <entry>jobs/min, DRA-NAT</entry>
+            <entry>delta</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>33</entry>
+            <entry>109.6</entry>
+            <entry>108.2</entry>
+            <entry>- 0.7%</entry>
+          </row>
+
+          <row>
+            <entry>43</entry>
+            <entry>106.7</entry>
+            <entry>105.1</entry>
+            <entry>- 1.5%</entry>
+          </row>
+
+          <row>
+            <entry>53</entry>
+            <entry>102.6</entry>
+            <entry>101.3</entry>
+            <entry>- 1.3%</entry>
+          </row>
+
+          <row>
+            <entry>63</entry>
+            <entry>100.6</entry>
+            <entry>100.2</entry>
+            <entry>- 0.4%</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>While the DRA-DRA phase was only partially realized, it is
+      interesting to note that 62 additional source files were so far modified
+      to enforce the portability of code, e.g.to avoid implicit function
+      declarations. The following tables give an idea of the volume of items
+      which must be added to the base API to compile a limited set of commands
+      in DRA-DRA mode.</para>
+
+    <table>
+      <title>Table 7: DRA-DRA: commands built with base API</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry>API</entry>
+            <entry># of commands to build</entry>
+            <entry># of commands built</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>svid3 + xpg4</entry>
+            <entry>600</entry>
+            <entry>57 (9.5%)</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <table>
+      <title>Table 8: DRA-DRA: extending the base API</title>
+
+      <tgroup align="center" cols="4" colsep="1" rowsep="1">
+        <thead>
+          <row>
+            <entry># of extensions</entry>
+            <entry># of commands to build</entry>
+            <entry># of commands built</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>177</entry>
+            <entry>543</entry>
+            <entry>46 (10%)</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>By extension we mean the adding of a specification such as defining
+      a function, a constant, a field inside a structure, etc.</para>
+  </chapter>
+
+  <chapter>
+    <title>Conclusion</title>
+
+    <para>The experiment to compile a whole Unix system with the TenDRA
+      compiler used as a replacement of the native compiler was very
+      successful.  Although Unix sources are known to be compiler dependent,
+      most of the code could be compiled with no, or minor, modifications.
+      Also, we found very few bugs in the technology, and the performance of
+      the system did not change noticeably.</para>
+
+    <para>The DRA-DRA part of the experiment showed that defining an API for
+      the commands was not as simple as one might think. A more complete
+      experiment is required to complement this task.</para>
+  </chapter>
+
+  <chapter>
+    <title>Appendix: list of problems submitted to DRA</title>
+
+    <para>The problems are classified according to their status at the end of
+      June 95.  They were encountered while using the December 94 release of
+      TenDRA. Most of the bugs were fixed in the following version of TenDRA
+      technology, which is the April 95 release.</para>
+
+    <para><emphasis>Possible functional enhancements</emphasis></para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Support of assembly code.</para>
+
+        <para>CR95_037.FB:assembly-code</para>
+      </listitem>
+
+      <listitem>
+        <para>Support of the #pragma pack directive.</para>
+
+        <para>CR95_050.FB:pragma_pack</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Issues closed without changes</emphasis></para>
+
+    <itemizedlist>
+      <listitem>
+        <para>tcc option -Wa,-o,objectfile conflicts with option
+          -c.</para>
+
+        <para>CR94_xxx.FB094.</para>
+
+        <para>Status: closed (option -o must be used instead of
+          -Wa,-o).</para>
+      </listitem>
+
+      <listitem>
+        <para>Structure alignment dependent on size.</para>
+
+        <para>CR94_149:comm_align_8</para>
+
+        <para>Status: closed (any multiple of 4 is correct).</para>
+      </listitem>
+
+      <listitem>
+        <para>Optimization on non volatile variable</para>
+
+        <para>CR95_185.FB::-optim-in-while2</para>
+
+        <para>Status: closed (the volatile qualifier must be used).</para>
+      </listitem>
+
+      <listitem>
+        <para>questionable optimization on the result of a function returning
+          a float value.</para>
+
+        <para>CR95_186.FB::_optim_fp_call</para>
+
+        <para>CR95_211.mantissa_size</para>
+
+        <para>Status: in the process of being resolved (the DRA 80x86
+          installer supports an option, -R1, which forces the desired
+          rounding).</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Bugs which have been fixed</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Error on initialization of an array of computed size.</para>
+
+        <para>CR94_166.FB091.sizeof-array-size.</para>
+
+        <para>Status: fixed by April 95 release</para>
+      </listitem>
+
+      <listitem>
+        <para>Installer aborts with signal 9.</para>
+
+        <para>CR94_166.FB092.</para>
+
+        <para>Status: solved by FIX 118, prior to April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Floating divide by zero causes the compiler to abort.</para>
+
+        <para>CR94_212.FB093.float-div-0</para>
+
+        <para>Status: solved by FIX 119, prior to April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Illegal assembly instruction generated by tcc.</para>
+
+        <para>CR95_028.FB095-as-testb</para>
+
+        <para>Status: fixed by April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>errors using fur command on objects compiled with -KPIC.</para>
+
+        <para>CR95_043.FB:Function_realocator</para>
+
+        <para>Status: solved by using TenDRA #pragma preserve *
+          directive.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error in comparison of the address of an array.</para>
+
+        <para>CR95_131.FB:lower_than_address</para>
+
+        <para>Status: solved by FIX 127, prior to April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>wrong optimization makes i386optim abort.</para>
+
+        <para>CR95_147:bitwise_AND_bitfield</para>
+
+        <para>Status: solved by FIX 128, prior to April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>wrong optimization makes vi work incorrectly.</para>
+
+        <para>CR95_163:optim_in_while</para>
+
+        <para>Status: solved by FIX 129, prior to April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error in stack management with combination of `for' and `switch'
+          C instructions.</para>
+
+        <para>CR95_198.FB::_stack_mngt_error</para>
+
+        <para>Status: fixed by April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>reference to an undefined structure does not cause an
+          error.</para>
+
+        <para>CR95_209.FB::no_err_undef_struct</para>
+
+        <para>Status: fixed by April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error on a switch statement when compiling with option
+          -KPIC</para>
+
+        <para>CR95_216.FB::pic_switch</para>
+
+        <para>Status: fixed by April 95 release.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Pending issues</emphasis></para>
+
+    <para>The issues listed below are either bugs which have been corrected
+      since the April 95 release and are awaiting the next release, or
+      problems which are still being investigated by DRA at the time of
+      writing.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Error on the signed literal value 2^32-1.</para>
+
+        <para>CR95_029.FB096-literal-more-than-32-bits</para>
+
+        <para>Status: under investigation.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error on dependencies between #pragma weak instructions.</para>
+
+        <para>CR95_041.FB:twice_weak</para>
+
+        <para>Status: under investigation.</para>
+      </listitem>
+
+      <listitem>
+        <para>Infinite loop in tdfc after an unclosed #if instruction.</para>
+
+        <para>CR95_119.FB:endif_loop</para>
+
+        <para>Status: corrected since the April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error on re-declaration of a tokenized object.</para>
+
+        <para>CR95_196.FB::_token_double_dec</para>
+
+        <para>Status: corrected since the April 95 release.</para>
+      </listitem>
+
+      <listitem>
+        <para>Error on the definition of an array with a tokenize</para>
+      </listitem>
+    </itemizedlist>
+  </chapter>
+</book>
