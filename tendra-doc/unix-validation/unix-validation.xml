@@ -1658,8 +1658,8 @@
       experiment is required to complement this task.</para>
   </chapter>
 
-  <chapter>
-    <title>Appendix: list of problems submitted to DRA</title>
+  <appendix>
+    <title>List of problems submitted to DRA</title>
 
     <para>The problems are classified according to their status at the end of
       June 95.  They were encountered while using the December 94 release of
@@ -1868,5 +1868,5 @@
 
     <para>This document was generated on
       <?dbtimestamp format="Y-m-d H:M"?>.</para>
-  </chapter>
+  </appendix>
 </book>
