@@ -1865,5 +1865,8 @@
         <para>Error on the definition of an array with a tokenize</para>
       </listitem>
     </itemizedlist>
+
+    <para>This document was generated on
+      <?dbtimestamp format="Y-m-d H:M"?>.</para>
   </chapter>
 </book>
