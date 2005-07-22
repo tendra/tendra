@@ -58,7 +58,7 @@
 
 +SUBSET "_wchar_t" := {
     +IFNDEF ~building_libs
-    +TYPE (int) ~wchar_t.1 | wchar_t.1;
+    +TYPE (int) ~wchar_t.1 | "wchar_t";
     +TYPEDEF ~promote(~wchar_t) __promoted_wchar_t.1;
     +ELSE
     +TYPE (int) wchar_t.2 | wchar_t.2;
