@@ -21,7 +21,7 @@ MACH_VERS!=	${UNAME} -r
 MACH_VERS_MAJOR=	${MACH_VERS:C/^(.).*/\1/}
 # SRC_MACHINES corresponds to the hierarchy in tendra/src/lib/machines.
 
-.if ${MACH_VERS_MAJOR} == "5" || ${MACH_VERS_MAJOR} == "6"
+.if ${MACH_VERS_MAJOR} >= 5
 SRC_MACHINES=	${BUILD_OS}/5/${MACH_CPU}
 .else
 SRC_MACHINES=	${BUILD_OS}/4/${MACH_CPU}
