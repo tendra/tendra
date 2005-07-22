@@ -134,6 +134,7 @@ make_postfix_exp(int op, EXP a)
     TYPE ta;
     ERROR err;
     unsigned ca;
+    int is_bool;
 	
     /* An assignment is a side effect */
     no_side_effects++;
@@ -190,19 +191,18 @@ make_postfix_exp(int op, EXP a)
 			e = b;
 			tb = t;
 		}
-		if (check_int_type (ta, btype_bool)) {
-			/* Booleans are weird */
-			unsigned v = BOOL_TRUE;
-			if (op == lex_plus_Hplus) {
-				report (crt_loc, ERR_expr_post_incr_bool_inc (op, ta));
-			} else {
-				report (crt_loc, ERR_expr_post_incr_bool_dec (op, ta));
-				v = BOOL_FALSE;
-			}
-			e = make_bool_exp (v, exp_int_lit_tag);
+		is_bool = check_int_type (ta, btype_bool);
+		if (is_bool && op == lex_plus_Hplus) {
+			/* bool b; b++ results in b being true. */
+			report (crt_loc, ERR_expr_post_incr_bool_inc (op, ta));
+			e = make_bool_exp (BOOL_TRUE, exp_int_lit_tag);
 		} else {
-			/* Other types are simple */
-			EXP c = make_unit_exp (t);
+			/* Other types and bool-- */
+			EXP c;
+			if (is_bool) {
+				report (crt_loc, ERR_expr_post_incr_bool_dec (op, ta));
+			}
+			c = make_unit_exp (t);
 			if (op == lex_plus_Hplus) {
 				MAKE_exp_plus (t, e, c, e);
 			} else {
@@ -318,6 +318,7 @@ make_prefix_exp(int op, EXP a)
     TYPE ta;
     ERROR err;
     unsigned ca;
+    int is_bool;
 	
     /* An assignment is a side effect */
     no_side_effects++;
@@ -355,20 +356,17 @@ make_prefix_exp(int op, EXP a)
 		TYPE t;
 		OFFSET off = NULL_off;
 		
-		/* Booleans are weird */
-		if (check_int_type (ta, btype_bool)) {
-			unsigned v = BOOL_TRUE;
-			if (op == lex_plus_Hplus) {
-				report (crt_loc, ERR_expr_pre_incr_bool_inc (op, ta));
-			} else {
-				report (crt_loc, ERR_expr_pre_incr_bool_dec (op, ta));
-				v = BOOL_FALSE;
-			}
-			c = make_bool_exp (v, exp_int_lit_tag);
+		is_bool = check_int_type (ta, btype_bool);
+		if (is_bool && op == lex_plus_Hplus) {
+			/* bool b; ++b results in b being true. */
+			report (crt_loc, ERR_expr_pre_incr_bool_inc (op, ta));
+			c = make_bool_exp (BOOL_TRUE, exp_int_lit_tag);
 			e = make_preinc_exp (ta, a, c, NULL_off, lex_assign);
 			return (e);
+		} else if (is_bool) {
+			report (crt_loc, ERR_expr_pre_incr_bool_dec (op, ta));
 		}
-		
+
 		/* Allow for bitfields */
 		if (IS_TYPE_BITF (ca)) off = decons_bitf_exp (&a);
 		
