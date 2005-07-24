@@ -92,7 +92,7 @@ typedef struct {
  *
  *    Explicitly stated version numbers are always positive.  These are
  *    special version numbers for when no version number is given, or
- *    when a match with any version is permissable.
+ *    when a match with any version is permissible.
  */
 
 #define no_version		-1

@@ -67,7 +67,7 @@
  *    SPARE LISTS
  *
  *    This is a list of list structures which have been freed using
- *    free_list.  new_list trys to allocate new list structures from
+ *    free_list.  new_list tries to allocate new list structures from
  *    this list before using its internal array.
  */
 

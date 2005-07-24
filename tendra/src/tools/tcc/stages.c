@@ -585,7 +585,7 @@ do_assemble(filename *input)
  *
  *    This is set by linker_options to be the list of libraries
  *    passed to the linker.  Needs to be passed twice in the
- *    case of DYNLINK with shared libaries.
+ *    case of DYNLINK with shared libraries.
  */
 
 static list *dl_libs = null;

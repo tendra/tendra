@@ -138,7 +138,7 @@ extern void apply_to_all(apply_func, sortname) ;
 
 
 /*
- *    AUXILLIARY TABLE ROUTINES
+ *    AUXILIARY TABLE ROUTINES
  */
 
 extern void new_sort(sortname, int) ;

@@ -547,7 +547,7 @@ read_tokdef(boolean local)
 /*
  *    READ A TOKEN SORT DEFINITION
  *
- *    A token sort defintion is read from the input file.
+ *    A token sort definition is read from the input file.
  */
 
 static void

@@ -87,7 +87,7 @@ static int cmd_no = 0;
  *    DELAY SIGNAL HANDLING
  *
  *    Because the producer occasionally dies with a signal after it has
- *    output some useful errors it is benificial to run the tot even
+ *    output some useful errors it is beneficial to run the tot even
  *    after the signal has been caught. These globals and the functions
  *    below for using them tell the execute function to delay calling the
  *    signal handler until after the tot is called.
@@ -217,7 +217,7 @@ static long running_pid = -1;
 /*
  *    KILL ANY STRAY PROCESSES
  *
- *    Occasionally a runaway process may occur.  This routine is indended
+ *    Occasionally a runaway process may occur.  This routine is intended
  *    to deal with these by sending the signal SIGTERM to the process.
  *    This routine is POSIX compliant.
  */

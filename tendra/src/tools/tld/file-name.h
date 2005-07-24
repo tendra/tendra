@@ -74,14 +74,14 @@
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the file name
- * component of the specifed path.
+ * component of the specified path.
  *
  ** Function:	char *		file_name_dirname
  *			PROTO_S ((char *path))
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the directory name
- * component of the specifed path.
+ * component of the specified path.
  *
  ** Function:	char *		file_name_expand
  *			PROTO_S ((char *dir, char *name,
@@ -91,7 +91,7 @@
  * This function returns a dynamically allocated copy of the path name
  * obtained by expanding the specified name in the specified dir.  If the
  * suffix is non nil, it is also appended to the path name, following the
- * suffix seperator character.
+ * suffix separator character.
  *
  ** Function:	char *		file_name_is_basename
  *			PROTO_S ((char *path))

@@ -138,7 +138,7 @@ pretty_tree()
     /* Do some trial runs to try to fit into right number of columns... */
     printflag = 0;
 
-    /* With a maximum identation of 0... */
+    /* With a maximum indentation of 0... */
     maxtab = 0;
     display (0);
     maximum0 = maximum;

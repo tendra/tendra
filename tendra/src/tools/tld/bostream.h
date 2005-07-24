@@ -145,7 +145,7 @@
  ** Exception:	XX_bostream_write_error (char *name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
- * copy of the name of the file that the write error occured on.  The copy
+ * copy of the name of the file that the write error occurred on.  The copy
  * should be deallocated when finished with.
  *
  **** Change Log:*/

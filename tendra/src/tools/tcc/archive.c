@@ -364,7 +364,7 @@ like_tempnam(char *dir, char *pfx) /* ARGSUSED */
  *    FIND THE SIZE OF A FILE
  *
  *    This routine calculates the length of a file, returning zero for
- *    non-existant files.  Two versions of the routine are provided.
+ *    non-existent files.  Two versions of the routine are provided.
  *    The first is POSIX compliant and uses stat from sys/stat.h to
  *    access the length directly.  The second just reads the file and
  *    counts the number of characters.
@@ -605,7 +605,7 @@ build_archive(char *arch, char **input)
 /*
  *    SPLIT AN ARCHIVE
  *
- *    This routine splits the TDF archive named arch into it consistuent
+ *    This routine splits the TDF archive named arch into its constituent
  *    components.  Any files from the archive are stored in the location
  *    indicated by ret.  The routine returns zero if it is successful.
  */

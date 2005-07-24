@@ -182,8 +182,8 @@ read_env_aux(char *nm, hashtable *ht)
 		int  key_length; /* length of key */
 		char *val_start; /* start of value associated with key */
 		char *val_end;   /* end of value */
-		char *esc_start; /* start of substituion field, always a '<' */
-		char *esc_end;   /* end of susbtitution field, always a '>' */
+		char *esc_start; /* start of substitution field, always a '<' */
+		char *esc_end;   /* end of substitution field, always a '>' */
 		int  esc_len;    /* number of chars to escape over */
 		char *sub;       /* character substitution for escape
 							sequences */
@@ -308,7 +308,7 @@ read_env_aux(char *nm, hashtable *ht)
 							*(pivot + (cnt * delta));
 					}
 
-					/* perform subsitution on resized line */
+					/* perform substitution on resized line */
 					for (cnt = 0; cnt < sub_len; cnt++)
 						*(esc_start + cnt) = sub[cnt];
 

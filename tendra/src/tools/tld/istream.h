@@ -80,7 +80,7 @@
  *
  * This is the return type of the ``istream_read_escaped_char'' function.  The
  * constants represent the results: a character was read, no character was
- * read, and a syntax error occured respectively.
+ * read, and a syntax error occurred respectively.
  *
  ***=== CONSTANTS ============================================================
  *
@@ -231,7 +231,7 @@
  ** Exception:	XX_istream_read_error (char *name)
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
- * copy of the name of the file that the read error occured on.  The copy
+ * copy of the name of the file that the read error occurred on.  The copy
  * should be deallocated when finished with.
  *
  **** Change Log:*/

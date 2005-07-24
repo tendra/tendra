@@ -645,7 +645,7 @@ if-command : () -> ( c : COMMAND, s : STRING ) = {
  *  ENUMERATION COMMANDS
  *
  *  These rules describe the enumeration commands.  Each enumeration type
- *  consists of a list of enumerator namess, each of which may be associated
+ *  consists of a list of enumerator names, each of which may be associated
  *  with a value.
  */
 

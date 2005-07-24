@@ -189,7 +189,7 @@
  * When an exception is caught, it is possible that some of the variables in
  * scope will not contain the correct value.  It is best to declare any
  * variables you wish to use inside an exception handler as ``volatile''.
- * This program assumes that what the ANSI C library specifiaction says about
+ * This program assumes that what the ANSI C library specification says about
  * ``setjmp'' and ``longjmp'' holds, so only non-volatile automatic variables
  * in the indicated region should become corrupted.
  *
