@@ -12,10 +12,12 @@ TIDYFLAGS= --doctype strict\
 
 XMLLINTFLAGS= --noout --valid
 
-XSLTPROCFLAGS= --stringparam html.stylesheet docstyle.css\
+XSLTPROCFLAGS= --stringparam css.decoration 0\
+	       --stringparam html.stylesheet docstyle.css\
 	       --stringparam paper.type A4\
 	       --stringparam section.autolabel 1\
-	       --stringparam section.label.includes.component.label 1
+	       --stringparam section.label.includes.component.label 1\
+	       --xinclude
 
 # Typical BSD and pkgsrc locations.
 PREFIX=	/usr/local/share /usr/pkg/share
@@ -26,7 +28,7 @@ DBXSL=	${prefix}/xsl/docbook/xhtml/docbook.xsl
 .endfor
 
 ${DOC}.html: ${DOC}.xml
-	${XSLTPROC} -o ${.TARGET} ${XSLTPROCFLAGS} ${DBXSL} ${DOC}.xml
+	${XSLTPROC} ${XSLTPROCFLAGS} -o ${.TARGET} ${DBXSL} ${DOC}.xml
 	${TIDY} ${TIDYFLAGS} ${.TARGET}
 
 all: ${DOC}.html
