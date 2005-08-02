@@ -1958,8 +1958,8 @@
           };
           @end
     </programlisting>
-
-    <para>This document was generated on
-      <?dbtimestamp format="Y-m-d H:M"?>.</para>
   </chapter>
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../common/colophon-dera.xml"/>
 </book>
