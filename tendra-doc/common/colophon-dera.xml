@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE colophon PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+  
+<colophon>
+  <para>This piece of documentation is the result of the old DERA text has
+    been written using DocBook/XML using libxml's xsltproc and the docbook-xsl
+    stylesheets to generate XHTML.</para>
+
+  <para>This document was generated on
+    <?dbtimestamp format="Y-m-d H:M"?>.</para>
+</colophon>
