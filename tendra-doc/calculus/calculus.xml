@@ -751,9 +751,9 @@
           assignment and dereference constructs for pointer types, list types,
           stack types, vector types and vector pointer types.  The first three
           are of the first form above, whereas the second two have the second
-          form, as follows:
+          form, as follows:</para>
 
-          <programlisting>
+        <programlisting>
           void COPY_ptr(PTR(PTR(t)), PTR(t));
           PTR(t) DEREF_ptr(PTR (PTR (t)));
           void COPY_list(PTR(LIST(t)), LIST(t));
@@ -764,8 +764,7 @@
           STATEMENT DEREF_vec(PTR(VEC(t)), lvalue VEC(t));
           STATEMENT COPY_vec_ptr(PTR(VEC_PTR(t)), VEC_PTR(t));
           STATEMENT DEREF_vec_ptr(PTR(VEC_PTR(t)), lvalue VEC_PTR(t));
-          </programlisting>
-        </para>
+        </programlisting>
       </sect2>
     </sect1>
 
@@ -1290,9 +1289,9 @@
       <para>The C implementation of the type system
         <link linkend="tokenoutput">specified above</link> is based on a
         single type, <literal>name</literal>, with the same name as the input
-        algebra. This is defined as follows:
+        algebra. This is defined as follows:</para>
 
-        <programlisting>
+      <programlisting>
           typedef union name_tag {
                   unsigned int ag_tag;
                   union name_tag *ag_ptr;
@@ -1302,26 +1301,25 @@
                   t ag_prim_type;
                   ....
           } name;
-        </programlisting>
+      </programlisting>
 
-        where <literal>t</literal> runs over all the primitive types. All of
-        the types in the algebra can be packed into a block of cells of type
-        <literal>name</literal>.  The following paragraphs describe the
+      <para>where <literal>t</literal> runs over all the primitive types.  All
+        of the types in the algebra can be packed into a block of cells of
+        type <literal>name</literal>.  The following paragraphs describe the
         implementation of each type, together with how they are packed as
-        blocks of cells.  This is illustrated by the following diagram:
+        blocks of cells.  This is illustrated by the following diagram:</para>
 
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/calculus.png" format="PNG"/>
-          </imageobject>
-          <textobject>
-            <phrase>Packing of types</phrase>
-          </textobject>
-          <caption>
-            <para>Packing of types in calculus</para>
-          </caption>
-        </mediaobject>
-      </para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/calculus.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Packing of types</phrase>
+        </textobject>
+        <caption>
+          <para>Packing of types in calculus</para>
+        </caption>
+      </mediaobject>
 
       <para>Primitive types are implemented by a <code>typedef</code> defining
         the type in terms of its
@@ -1907,44 +1905,44 @@
       name and <code>%AT</code> gives the argument type.</para>
 
     <para>As an example, the following template file gives a simple algebra
-      pretty printer:
+      pretty printer:</para>
 
-      <programlisting>
+    <programlisting>
           ALGEBRA %X (%V):
-
+          
           /* PRIMITIVE TYPES */
           @loop primitive
           %PN (%PM) = "%PD";
           @end
-
+          
           /* IDENTITY TYPES */
           @loop identity
           %IN (%IM) = %IT;
           @end
-
+          
           /* ENUMERATION TYPES */
           @loop enum
-
+          
           enum %EN (%EM) = {
           @loop enum.const
                   %ES = %EV,
           @end
           };
           @end
-
+          
           /* STRUCTURE TYPES */
           @loop struct
-
+          
           struct %SN (%SM) = {
           @loop struct.comp
                   %CT %CN;
           @end
           };
           @end
-
+          
           /* UNION TYPES */
           @loop union
-
+          
           union %UN (%UM) = {
           @loop union.comp
                   %CT %CN;
@@ -1959,8 +1957,7 @@
           @end
           };
           @end
-      </programlisting>
-    </para>
+    </programlisting>
 
     <para>This document was generated on
       <?dbtimestamp format="Y-m-d H:M"?>.</para>
