@@ -1216,7 +1216,7 @@ set_type_member(MEMBER mem, IDENTIFIER id)
 			if ((ds & dspec_inherit) && !(ds & dspec_alias)) {
 				ds = DEREF_dspec (id_storage (id));
 				if (!(ds & dspec_inherit)) {
-					/* An uninherited type overrrides an inherited object */
+					/* An uninherited type overrides an inherited object */
 					COPY_id (member_id (mem), id);
 				}
 			}

@@ -752,7 +752,7 @@ unify_exp(EXP a, EXP b)
  *    ARE TWO EXPRESSIONS EQUAL?
  *
  *    This routine checks whether the expressions a and b are equal.  If
- *    co is true then commutivity and other such relations are taken
+ *    co is true then commutativity and other such relations are taken
  *    into account.
  */
 
@@ -795,7 +795,7 @@ eq_exp(EXP a, EXP b, int co)
  *    ARE TWO EXPRESSIONS PRECISELY EQUAL?
  *
  *    This routine is similar to eq_exp, but it disallows token and template
- *    unification and does not allow for commutivity relations.
+ *    unification and does not allow for commutativity relations.
  */
 
 int

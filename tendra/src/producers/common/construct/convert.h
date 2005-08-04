@@ -121,7 +121,7 @@ extern int is_ambiguous_func(IDENTIFIER);
  *    QUALIFICATION CONVERSION RULES
  *
  *    These values comprise the bitpattern returned by check_qualifier.  They
- *    indicate which of the conditions required by the qualifaction conversions
+ *    indicate which of the conditions required by the qualification conversions
  *    are satisfied by a particular pair of types.  They are also used to
  *    indicate whether the types are equal or equal functions.
  */

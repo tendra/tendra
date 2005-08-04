@@ -481,7 +481,7 @@ make_ref_object(EXP a, ERROR *err)
     TYPE ta = DEREF_type (exp_type (a));
     unsigned ca = type_category (&ta);
     if (IS_TYPE_ERROR (ca)) {
-		/* Error progagation */
+		/* Error propagation */
 		e = make_error_exp (0);
 		return (e);
     }

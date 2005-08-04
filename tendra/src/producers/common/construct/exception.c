@@ -791,7 +791,7 @@ inject_try_stmt(EXP prev)
 /*
  *    CONTINUE THE CONSTRUCTION OF A TRY STATEMENT
  *
- *    This routine continues the contruction of the try statement prev by
+ *    This routine continues the construction of the try statement prev by
  *    filling in the given body statement.
  */
 
@@ -812,7 +812,7 @@ cont_try_stmt(EXP prev, EXP body)
 /*
  *    COMPLETE THE CONSTRUCTION OF A TRY STATEMENT
  *
- *    This routine completes the contruction of the try statement prev.  It
+ *    This routine completes the construction of the try statement prev.  It
  *    checks whether it contains at least one handler and determines the
  *    reachability of the following statement.
  */

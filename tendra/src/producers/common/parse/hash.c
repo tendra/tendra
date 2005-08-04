@@ -347,7 +347,7 @@ lookup_constr(TYPE t, IDENTIFIER id)
 		CLASS_TYPE ct = DEREF_ctype (type_compound_defn (t));
 		IDENTIFIER cid = DEREF_id (ctype_constr (ct));
 		if (IS_NULL_id (cid)) {
-			/* Create class contructor */
+			/* Create class constructor */
 			NAMESPACE ns = DEREF_nspace (ctype_member (ct));
 			MAKE_hashid_constr (NULL_hashid, 0, t, id, nm);
 			init_hashid (nm, lex_identifier);

@@ -1130,7 +1130,7 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 	    break;
 	}
 	case exp_func_tag : {
-	    /* Function expresssions */
+	    /* Function expressions */
 	    EXP a = DEREF_exp (exp_func_fn (e));
 	    LIST (EXP) args = DEREF_list (exp_func_args (e));
 	    unsigned extra = DEREF_unsigned (exp_func_extra (e));
@@ -1141,7 +1141,7 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 	    break;
 	}
 	case exp_func_id_tag : {
-	    /* Function expresssions */
+	    /* Function expressions */
 	    IDENTIFIER id = DEREF_id (exp_func_id_id (e));
 	    LIST (EXP) args = DEREF_list (exp_func_id_args (e));
 	    EXP a = DEREF_exp (exp_func_id_virt (e));

@@ -2021,7 +2021,7 @@ divides_nat(EXP a, EXP b)
  *
  *    This routine evaluates the boolean expression e, returning BOOL_FALSE,
  *    BOOL_TRUE or BOOL_UNKNOWN depending on whether it is always false,
- *    always true, or constant, but indeterminant.  BOOL_INVALID is returned
+ *    always true, or constant, but indeterminate.  BOOL_INVALID is returned
  *    for non-constant expressions.
  */
 

@@ -942,7 +942,7 @@ print_std(BUFFER *bf, const char *iso)
 			break;
 	if (p != NULL)
 		p += strspn (p, " \t");
-	/* section number missing or ommitted on purpose */
+	/* section number missing or omitted on purpose */
 	if (p == NULL || *p == char_minus || *p == char_comma)
 		return;
 

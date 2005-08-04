@@ -793,7 +793,7 @@ old_delete_array(EXP e)
  *    normal.  This routine is a version of make_array_dim designed exclusively
  *    to deal with this first bound.  Note that the result is not strictly
  *    a legal NAT and is only used to pass the bound information to
- *    make_new_exp, where it is prompty destroyed.
+ *    make_new_exp, where it is promptly destroyed.
  */
 
 NAT

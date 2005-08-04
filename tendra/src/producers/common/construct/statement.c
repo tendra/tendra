@@ -1073,7 +1073,7 @@ make_exp_stmt(EXP e)
  *
  *    This value is used to hold an indicating of the value of the condition
  *    in the current conditional or iteration statement.  There are four
- *    possible values corresponding to true, false and interminate constant
+ *    possible values corresponding to true, false and indeterminate constant
  *    conditions, plus non-constant conditions.
  */
 
@@ -2592,7 +2592,7 @@ end_default_stmt(EXP prev, EXP body)
 /*
  *    CURRENT #IF CONDITION
  *
- *    This variable is used to keep track of the cummulative target dependent
+ *    This variable is used to keep track of the cumulative target dependent
  *    condition at any point in the compilation.  It takes the form
  *    'c1 && c2 && ... && cn' where c1, c2, ..., cn are the target dependent
  *    conditions currently in scope.  The case n = 0 gives the null expression.

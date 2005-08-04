@@ -515,7 +515,7 @@ is_tagged_type(IDENTIFIER id)
 
 
 /*
- *    REPORT AN OVERLOADIN ERROR
+ *    REPORT AN OVERLOADING ERROR
  *
  *    This routine reports the overloading error err for the function id
  *    which cannot be overloaded for the reason corresponding to reason.

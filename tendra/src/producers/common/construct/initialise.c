@@ -2303,7 +2303,7 @@ init_param(IDENTIFIER id, EXP e)
  *    This routine initialises the class member id with the expression e
  *    (which since it is a constant-expression has already undergone the
  *    appropriate operand conversions).  Note that the pure specifier is
- *    indistinguishible syntactically from a member initialiser, and so is
+ *    indistinguishable syntactically from a member initialiser, and so is
  *    only spotted at this stage.  See above for inline definitions of static
  *    data members.  The routine returns 1 for a definition and 0 for a
  *    declaration (see dump_declare).

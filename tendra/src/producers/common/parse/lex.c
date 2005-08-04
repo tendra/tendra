@@ -1333,7 +1333,7 @@ read_extended_id(unsigned long u, int ch)
  *    HASH VALUE FOR IDENTIFIERS
  *
  *    The hash value for identifiers is built up as the identifier is read.
- *    It is then stored in this variable.  The algorithm for calculuating
+ *    It is then stored in this variable.  The algorithm for calculating
  *    the hash value needs to be kept in step with the routine hash (it
  *    is checked by an assertion in lookup_name, so any errors should be
  *    caught quickly if in debug mode).
