@@ -72,7 +72,7 @@
       described below are an example of this.</para>
 
     <sect1 id="options">
-      <title>1.1. Using calculus</title>
+      <title>Using calculus</title>
 
       <para>The general form for invoking <command>calculus</command> is as
         follows:
@@ -112,7 +112,7 @@
     </sect1>
 
     <sect1 id="example">
-      <title>1.2. Example program</title>
+      <title>Example program</title>
 
       <para>The program <command>calculus</command> itself was written using a
         type system specified using the <command>calculus</command> tool. It
@@ -161,7 +161,7 @@
 
     <sect1 id="inputprim">
 
-      <title>2.1. Primitives</title>
+      <title>Primitives</title>
 
       <para>Primitives form the basic components from which the other types in
         the algebra are built up. They are described as follows:
@@ -201,7 +201,7 @@
     </sect1>
 
     <sect1 id="inputident">
-      <title>2.2. Identities</title>
+      <title>Identities</title>
 
       <para>Identities are used to associate a name with a particular type in
         the algebra. In this they correspond to <code>typedef</code>s in C.
@@ -217,7 +217,7 @@
     </sect1>
 
     <sect1 id="inputenum">
-      <title>2.3. Enumerations</title>
+      <title>Enumerations</title>
 
       <para>Enumerations are used to define types which can only take values
         from some finite set. They are described as follows:
@@ -269,7 +269,7 @@
     </sect1>
 
     <sect1 id="inputstruct">
-      <title>2.4. Structures</title>
+      <title>Structures</title>
 
       <para>Structures are used to build up composite types from other types
         in the algebra. They correspond to structures in C. They are described
@@ -327,7 +327,7 @@
     </sect1>
 
     <sect1 id="inputunion">
-      <title>2.5. Unions</title>
+      <title>Unions</title>
 
       <para>Unions are used to build up types which can hold a variety of
         information. They differ from C unions in that they are discriminated.
@@ -442,7 +442,7 @@
     </sect1>
 
     <sect1 id="inputtype">
-      <title>2.6. Type constructors</title>
+      <title>Type constructors</title>
 
       <para>The types derived from the algebra may be described as follows:
         <programlisting>
@@ -465,7 +465,7 @@
     </sect1>
 
     <sect1 id="module">
-      <title>2.7. Relations between algebras</title>
+      <title>Relations between algebras</title>
 
       <para>As <link linkend="options">mentioned above</link>, more than one
         input algebra may be specified to <command>calculus</command>. Each is
@@ -525,7 +525,7 @@
       </para>
 
     <sect1 id="outputinfo">
-      <title>3.1. Version information</title>
+      <title>Version information</title>
 
       <para>Certain basic information about the input algebra is included in
         <literal>name</literal><code>.h</code>. <literal>name</literal>
@@ -540,7 +540,7 @@
     </sect1>
 
     <sect1 id="outputbasic">
-      <title>3.2. Basic types</title>
+      <title>Basic types</title>
 
       <para>Six abstract type operators, each taking a type as argument and
         returning a type, are specified as follows:
@@ -607,7 +607,7 @@
     </sect1>
 
     <sect1 id="outputsize">
-      <title>3.3. Operations on sizes</title>
+      <title>Operations on sizes</title>
 
       <para>The <code>SIZE</code> type constructor is used to represent a
         multiple of the size of a type. It is used, for example, in the
@@ -655,7 +655,7 @@
     </sect1>
 
     <sect1 id="outputptr">
-      <title>3.4. Operations on pointers</title>
+      <title>Operations on pointers</title>
 
       <para>The <code>PTR</code> type constructor is used to represent a
         pointer to an object of type <literal>t</literal>. It should be
@@ -663,7 +663,7 @@
         of the C pointer construct.</para>
 
       <sect2 id="simple-pointer-constructs">
-        <title>3.4.1 Simple pointer constructs</title>
+        <title>Simple pointer constructs</title>
 
         <para>There are several simple operations on pointers, given as
           follows:
@@ -686,7 +686,7 @@
       </sect2>
 
       <sect2 id="unique-pointers">
-        <title>3.4.2 Unique pointers</title>
+        <title>Unique pointers</title>
 
         <para>There are also constructs for generating and destroying unique
           pointers:
@@ -702,7 +702,7 @@
       </sect2>
 
       <sect2 id="pointer-construction-destruction">
-        <title>3.4.3 Pointer construction and destruction</title>
+        <title>Pointer construction and destruction</title>
 
         <para>The constructs:
           <programlisting>
@@ -715,7 +715,7 @@
       </sect2>
 
       <sect2 id="construct-assignment-dereference">
-        <title>3.4.4 Assignment and dereference constructs</title>
+        <title>Assignment and dereference constructs</title>
 
         <para>The constructs for assigning and dereferencing pointers have one
           of two forms depending on the complexity of the type pointed to. For
@@ -769,13 +769,13 @@
     </sect1>
 
     <sect1 id="outputlist">
-      <title>3.5. Operations on lists</title>
+      <title>Operations on lists</title>
 
       <para>The <code>LIST</code> type constructor is used to represent a list
         of objects of type <literal>t</literal>.</para>
 
       <sect2 id="simple-list-constructs">
-        <title>3.5.1 Simple list constructs</title>
+        <title>Simple list constructs</title>
 
         <para>There are several simple list constructs:
           <programlisting>
@@ -802,7 +802,7 @@
       </sect2>
 
       <sect2 id="unique-lists">
-        <title>3.5.2 Unique lists</title>
+        <title>Unique lists</title>
 
         <para>There are also constructs for generating and destroying unique
           lists:
@@ -818,7 +818,7 @@
       </sect2>
 
       <sect2 id="list-construction-destruction">
-        <title>3.5.3 List construction and destruction</title>
+        <title>List construction and destruction</title>
 
         <para>For each type <literal>t</literal> there are operations for
           constructing and deconstructing lists. For the basic types
@@ -866,7 +866,7 @@
     </sect1>
 
     <sect1 id="outputstack">
-      <title>3.6. Operations on stacks</title>
+      <title>Operations on stacks</title>
 
       <para>The <code>STACK</code> type constructor is used to represent
         stacks of objects of type <literal>t</literal>. Empty stacks can be
@@ -905,7 +905,7 @@
     </sect1>
 
     <sect1 id="outputvec">
-      <title>3.7. Operations on vectors</title>
+      <title>Operations on vectors</title>
 
       <para>The <code>VEC</code> type constructor is used to represent vectors
         of objects of type <literal>t</literal>. There are a number of simple
@@ -944,7 +944,7 @@
     </sect1>
 
     <sect1 id="outputvecptr">
-      <title>3.8. Operations on vector pointers</title>
+      <title>Operations on vector pointers</title>
 
       <para>The <code>VEC_PTR</code> type constructor is used to represent a
         pointer to an element of a vector of objects of type
@@ -962,7 +962,7 @@
     </sect1>
 
     <sect1 id="outputprim">
-      <title>3.9. Operations on primitives</title>
+      <title>Operations on primitives</title>
 
       <para>Each primitive specified within the algebra maps onto a
         <code>typedef</code> defining the type in terms of its given
@@ -973,7 +973,7 @@
     </sect1>
 
     <sect1 id="outputident">
-      <title>3.10. Operations on identities</title>
+      <title>Operations on identities</title>
 
       <para>Each identity specified within the algebra maps onto a
         <code>typedef</code> in the output file. There are no operations on
@@ -981,7 +981,7 @@
     </sect1>
 
     <sect1 id="outputenum">
-      <title>3.11. Operations on enumerations</title>
+      <title>Operations on enumerations</title>
 
       <para>Each enumeration specified within the algebra maps onto an
         unsigned integral type in the output file. The 
@@ -1011,7 +1011,7 @@
     </sect1>
 
     <sect1 id="outputstruct">
-      <title>3.12. Operations on structures</title>
+      <title>Operations on structures</title>
 
       <para>Each structure specified within the algebra maps onto a
         <code>typedef</code> defining the type to be the C structure with the
@@ -1062,7 +1062,7 @@
     </sect1>
 
     <sect1 id="outputunion">
-      <title>3.13. Operations on unions</title>
+      <title>Operations on unions</title>
 
       <para>Each union specified within the algebra maps onto an opaque type
         in the output file. In addition to the
@@ -1087,7 +1087,7 @@
         or against each other.</para>
 
       <sect2 id="union-construction-operations">
-        <title>3.13.1 Union construction operations</title>
+        <title>Union construction operations</title>
 
         <para>Most of the output for the union type <literal>t</literal> is
           output into the file <filename>union_ops.h</filename>. This contains
@@ -1162,7 +1162,7 @@
       </sect2>
 
       <sect2 id="union-field-sets">
-        <title>3.13.2 Union field sets</title>
+        <title>Union field sets</title>
 
         <para>Recall that
           <link linkend="inputunion">a number of union field identifiers</link>
@@ -1203,7 +1203,7 @@
       </sect2>
 
       <sect2 id="inheritance-in-unions">
-        <title>3.13.3 Inheritance in unions</title>
+        <title>Inheritance in unions</title>
 
         <para>Inheritance in unions is handled as follows: if
           <literal>t</literal> is a derived union with base union
@@ -1219,7 +1219,7 @@
       </sect2>
 
       <sect2 id="outputunionmaps">
-        <title>3.13.4 Union maps</title>
+        <title>Union maps</title>
 
         <para>For each map, <literal>map</literal>, on the union
           <literal>t</literal>, we have declared in
@@ -1284,7 +1284,7 @@
     <title>Implementation details</title>
 
     <sect1 id="coutputtypes">
-      <title>4.1. Implementation of types</title>
+      <title>Implementation of types</title>
 
       <para>The C implementation of the type system
         <link linkend="tokenoutput">specified above</link> is based on a
@@ -1405,7 +1405,7 @@
     </sect1>
 
     <sect1 id="coutputsupport">
-      <title>4.2. Support routines</title>
+      <title>Support routines</title>
 
       <para>The implementation requires the user to provide certain support
         functions. Most fundamental are the routines for allocating and
@@ -1450,7 +1450,7 @@
     </sect1>
 
     <sect1 id="coutputassert">
-      <title>4.3. Run-time checking</title>
+      <title>Run-time checking</title>
 
       <para>The type checking facilities supported by
         <command>calculus</command> allow for compile-time detection of many
@@ -1502,7 +1502,7 @@
       routines to use.</para>
 
     <sect1 id="diskwrite">
-      <title>5.1. Disk writing routines</title>
+      <title>Disk writing routines</title>
 
       <para>The disk writing routines output in
         <filename>write_def.h</filename> consist of a function:
@@ -1581,7 +1581,7 @@
     </sect1>
 
     <sect1 id="diskread">
-      <title>5.2. Disk reading routines</title>
+      <title>Disk reading routines</title>
 
       <para>The disk reading routines output in
         <filename>read_def.h</filename> are exactly analogous to the disk
@@ -1609,7 +1609,7 @@
     </sect1>
 
     <sect1 id="diskprint">
-      <title>5.3. Object printing routines</title>
+      <title>Object printing routines</title>
 
       <para>The object printing routines output in
         <filename>print_def.h</filename> consist of a function or macro:
@@ -1673,7 +1673,7 @@
     </sect1>
 
     <sect1 id="diskalias">
-      <title>5.4. Aliasing</title>
+      <title>Aliasing</title>
 
       <para>An important feature of the disk reading and writing routines,
         namely aliasing, has been mentioned but not yet described. The problem
@@ -1766,7 +1766,7 @@
     </sect1>
 
     <sect1 id="application">
-      <title>5.5. Application to calculus</title>
+      <title>Application to calculus</title>
 
       <para>As <link linkend="example">mentioned above</link>, the
         <command>calculus</command> program itself is an example of its own
