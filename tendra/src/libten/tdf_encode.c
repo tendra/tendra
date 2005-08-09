@@ -44,7 +44,7 @@ static ByteT revmask[TDF_BYTE_SIZE + 1] = {
 
 /*
  * Write n bits of d to a stream.
- * n should be in range [0..31]
+ * n should be in range [0..sizeof(d)*CHAR_BIT]
  */
 void
 tdf_en_bits(struct tdf_stream *sp, unsigned int n, unsigned long d)
@@ -52,13 +52,14 @@ tdf_en_bits(struct tdf_stream *sp, unsigned int n, unsigned long d)
 	ByteT b;
 	tdf_pos pos;
 	unsigned int bleft, bit;
+	const unsigned int d_width = sizeof(d) * CHAR_BIT;
 
-	ASSERT(n <= 32);
+	ASSERT(n <= d_width);
 	if (n == 0)
 		return;
 
 	/* Align data by the left boundary */
-	d <<= 32 - n;
+	d <<= d_width - n;
 	b = sp->ts_byte;
 	pos = sp->ts_pos;
 	bit = tdf_pos_bit(pos);
@@ -67,7 +68,7 @@ tdf_en_bits(struct tdf_stream *sp, unsigned int n, unsigned long d)
 		if (bleft > n)
 			bleft = n;
 		/* Fill remaining bits in the byte */
-		b |= ((d >> 24) & revmask[bleft]) >> bit;
+		b |= ((d >> (d_width - TDF_BYTE_SIZE)) & revmask[bleft]) >> bit;
 		n -= bleft;
 		bit += bleft;
 		pos += bleft;
