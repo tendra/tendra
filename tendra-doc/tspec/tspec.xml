@@ -105,7 +105,7 @@
       <title>Overview of tspec</title>
   
       <sect2 id="Levels">
-        <title>2.1. Specification Levels</title>
+        <title>Specification Levels</title>
     
         <para>Let us begin by examining the various levels of specification
           with which <command>tspec</command> is concerned. At the
@@ -161,7 +161,7 @@
       </sect2>
 
       <sect2 id="Input">
-        <title>2.2. Input Layout</title>
+        <title>Input Layout</title>
   
         <para>The <code>tspec</code> representation of an API is arranged as a
           directory with the same name as the API, containing a number of
@@ -186,7 +186,7 @@
       </sect2>
 
       <sect2 id="Output">
-        <title>2.3. Output Layout</title>
+        <title>Output Layout</title>
   
         <para><code>tspec</code> actually outputs two sets of output files,
           the include output files, containing the <code>#pragma token</code>
@@ -238,7 +238,7 @@
       </sect2>
 
       <sect2 id="Copyright">
-        <title>2.4. Copyright Messages</title>
+        <title>Copyright Messages</title>
   
         <para><code>tspec</code> will optionally add a copyright message to
           the start of each include output file. This message is copied from a
@@ -249,7 +249,7 @@
       </sect2>
 
       <sect2 id="Options">
-        <title>2.5. Command-line Options</title>
+        <title>Command-line Options</title>
   
         <para>There are three main forms for invoking <code>tspec</code> on
           the command-line, depending on whether it is desired to process an
@@ -388,7 +388,7 @@
         API description. It is these constructs that we consider first.</para>
   
       <sect2 id="Subset">
-        <title>3.1. +SUBSET</title>
+        <title>+SUBSET</title>
   
         <para>A list of <code>tspec</code> constructs within a header can be
           grouped into a named subset by enclosing them within:
@@ -408,7 +408,7 @@
       </sect2>
 
       <sect2 id="Impl">
-        <title>3.2. +IMPLEMENT and +USE</title>
+        <title>+IMPLEMENT and +USE</title>
   
         <para><code>tspec</code> has two import constructs which allow one
           API, or header, or subset of a header to be included in another.
@@ -520,10 +520,10 @@
       remarks on object names.</para>
     
       <sect2 id="S41">
-        <title>4.1. Object Names</title>
+        <title>Object Names</title>
     
         <sect3 id="Names">
-          <title>4.1.1. Internal and External Names</title>
+          <title>Internal and External Names</title>
     
           <para>All objects specified using <code>tspec</code> actually have
             two names. The first is the internal name by which it is
@@ -589,7 +589,7 @@
         </sect3>
   
         <sect3 id="Identifiers">
-          <title>4.1.2. More on Object Names</title>
+          <title>More on Object Names</title>
   
           <para>Basically the legal identifiers in <code>tspec</code> (for
             both internal and external names) are the same as those in C -
@@ -625,7 +625,7 @@
       </sect2>
 
       <sect2 id="Func">
-        <title>4.2. +FUNC</title>
+        <title>+FUNC</title>
   
         <para>The simplest form of object to specify is a procedure. This is
           done by means of:
@@ -695,7 +695,7 @@
       </sect2>
   
       <sect2 id="Exp">
-        <title>4.3. +EXP and +CONST</title>
+        <title>+EXP and +CONST</title>
   
         <para>Expressions correspond to constants, identities and variables.
           They are specified by:
@@ -747,7 +747,7 @@
       </sect2>
 
       <sect2 id="Macro">
-        <title>4.4. +MACRO</title>
+        <title>+MACRO</title>
   
         <para>The <code>+MACRO</code> construct is similar in form to the
           <code>+FUNC</code> construct, except that it means that only a macro
@@ -777,7 +777,7 @@
       </sect2>
 
       <sect2 id="Statement">
-        <title>4.5. +STATEMENT</title>
+        <title>+STATEMENT</title>
   
         <para>The <code>+STATEMENT</code> construct is very similar to the
           <code>+MACRO</code> construct except that, instead of being a C
@@ -796,7 +796,7 @@
       </sect2>
 
       <sect2 id="Define">
-        <title>4.6. +DEFINE</title>
+        <title>+DEFINE</title>
   
         <para>It is possible to insert macro definitions directly into
           <code>tspec</code> using the <code>+DEFINE</code> construct. This
@@ -823,7 +823,7 @@
       </sect2>
 
       <sect2 id="Type">
-        <title>4.7. +TYPE</title>
+        <title>+TYPE</title>
   
         <para>New types may be specified using the <code>+TYPE</code>
           construct. This has the form:
@@ -906,7 +906,7 @@
       </sect2>
 
       <sect2 id="Typedef">
-        <title>4.8. +TYPEDEF</title>
+        <title>+TYPEDEF</title>
 
         <para>It is also possible to define new types in terms of existing
           types. This is done using the <code>+TYPEDEF</code> construct, which
@@ -966,7 +966,7 @@
       </sect2>
 
       <sect2 id="Field">
-        <title>4.9. +FIELD</title>
+        <title>+FIELD</title>
   
         <para>Having specified a structure or union type, or a structure or
           union tag, we may wish to specify certain fields of this structure
@@ -1060,7 +1060,7 @@
       </sect2>
 
       <sect2 id="Nat">
-        <title>4.10. +NAT</title>
+        <title>+NAT</title>
   
         <para>In the example given in
           <link linkend="Field">section 4.9</link>,
@@ -1100,7 +1100,7 @@
       </sect2>
 
       <sect2 id="Enum">
-        <title>4.11. +ENUM</title>
+        <title>+ENUM</title>
   
         <para>Currently <code>tspec</code> only has limited support for
           enumeration types. A <code>+ENUM</code> construct is translated
@@ -1129,7 +1129,7 @@
       </sect2>
 
       <sect2 id="Token">
-        <title>4.12. +TOKEN</title>
+        <title>+TOKEN</title>
   
         <para>As was mentioned in <link linkend="Intro">section 1</link>, the
           <code>#pragma token</code> syntax is highly complex, and the token
@@ -1176,7 +1176,7 @@
         categories.</para>
 
       <sect2 id="If">
-        <title>5.1. +IF, +ELSE and +ENDIF</title>
+        <title>+IF, +ELSE and +ENDIF</title>
   
         <para>It is possible to introduce conditional compilation into the API
           description by means of the constructs:
@@ -1216,7 +1216,7 @@
       </sect2>
 
       <sect2 id="Text">
-        <title>5.2. Quoted Text</title>
+        <title>Quoted Text</title>
   
         <para>It is sometimes desirable to include text in the specification
           file which will be copied directly into one of the output files -
@@ -1240,7 +1240,7 @@
       </sect2>
 
       <sect2 id="Comment">
-        <title>5.3. C Comments</title>
+        <title>C Comments</title>
   
         <para>A special case of quoted text are C style comments:
           <programlisting>
@@ -1250,7 +1250,7 @@
       </sect2>
 
       <sect2 id="Properties">
-        <title>5.4. File Properties</title>
+        <title>File Properties</title>
   
         <para>Various properties of individual sets of objects or global
           properties can be set using file properties. These take the
@@ -1374,7 +1374,7 @@
       <para>In this section we round up a few miscellaneous topics.</para>
   
       <sect2 id="FineImpl">
-        <title>6.1. Fine Control of Included Files</title>
+        <title>Fine Control of Included Files</title>
   
         <para>The <code>+IMPLEMENT</code> and <code>+USE</code> commands
           described in <link linkend="Impl">section 3.2</link> are capable of further
@@ -1442,7 +1442,7 @@
       </sect2>
 
       <sect2 id="Protect">
-        <title>6.2. Protection Macros</title>
+        <title>Protection Macros</title>
   
         <para>Each include output file is surrounded by a construct of the
           form:
@@ -1461,7 +1461,7 @@
       </sect2>
 
       <sect2 id="Index">
-        <title>6.3. Index Printing</title>
+        <title>Index Printing</title>
 
         <para>If it is invoked with the <option>-i</option> command-line
           option, instead of creating its output file, <code>tspec</code>
@@ -1474,7 +1474,7 @@
       </sect2>
 
       <sect2 id="Libraries">
-        <title>6.4. TDF Library Building</title>
+        <title>TDF Library Building</title>
   
         <para>As was explained in reference 1, the <code>#pragma token</code>
           headers output by <code>tspec</code> are used for two purposes -
