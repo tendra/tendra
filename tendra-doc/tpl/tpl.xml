@@ -37,7 +37,7 @@
     <title>PL_TDF Definition</title>
 
     <sect1 id="intro">
-      <title>1 Introduction</title>
+      <title>Introduction</title>
 
       <para>PL_TDF is a language in the lineage of Wirth's PL360 and its later
         derivatives. The basic idea in PL360 was to give one an assembler in
@@ -66,10 +66,10 @@
     </sect1>
 
     <sect1>
-      <title>2 Notation</title>
+      <title>Notation</title>
 
       <sect2 id="S3">
-        <title>2.1. Syntax description</title>
+        <title>Syntax description</title>
 
         <para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
           symbols. Other symbols and words stand for themselves as terminal
@@ -113,7 +113,7 @@
       </sect2>
 
       <sect2 id="S4">
-        <title>2.2. Lexical Units</title>
+        <title>Lexical Units</title>
 
         <para>The terminal symbols ( ), [ ], and { } always occur as
           parenthetic pairs and never form part of other terminal
@@ -165,7 +165,7 @@
       </sect2>
 
       <sect2 id="S5">
-        <title>2.3. Pre-processing</title>
+        <title>Pre-processing</title>
         
         <para>At the moment there is only one pre-processing directive. A line
           starting with #include will textually include the following file
@@ -179,7 +179,7 @@
     </sect1>
 
     <sect1>
-      <title>3 The Language</title>
+      <title>The Language</title>
 
       <para>The basic philosophy of PL_TDF is to provide the "glue"
         constructors of TDF automatically, while still allowing the programmer
@@ -243,7 +243,7 @@
         &lt;ident&gt; names given to TAGs.</para>
 
       <sect2 id="S7">
-        <title>3.1. Program</title>
+        <title>Program</title>
 
         <para>The root expansion of a PL_TDF program is given by
           &lt;Program&gt;:
@@ -275,7 +275,7 @@
         <para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
 
         <sect3 id="S8">
-          <title>3.1.1. Tokdec</title>
+          <title>Tokdec</title>
 
           <para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:
             <programlisting>
@@ -292,7 +292,7 @@
         </sect3>
 
         <sect3 id="S9">
-          <title>3.1.2.Tokdef</title>
+          <title>Tokdef</title>
 
           <para>A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
             &lt;ident&gt; may have previously been introduced by a
@@ -327,7 +327,7 @@
         </sect3>
 
         <sect3 id="S10">
-          <title>3.1.3. Tagdec</title>
+          <title>Tagdec</title>
 
           <para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:
             <programlisting>
@@ -348,7 +348,7 @@
         </sect3>
 
         <sect3 id="S11">
-          <title>3.1.4. Tagdef</title>
+          <title>Tagdef</title>
 
           <para>A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
             &lt;ident&gt; may have previously been introduced by a
@@ -383,7 +383,7 @@
         </sect3>
 
         <sect3 id="S12">
-          <title>3.1.5. Altagdef</title>
+          <title>Altagdef</title>
 
           <para>An &lt;Altagdef&gt; defines an &lt;ident&gt; as an AL_TAG:
           <programlisting>
@@ -395,7 +395,7 @@
         </sect3>
 
         <sect3 id="S13">
-          <title>3.1.6. Structdef</title>
+          <title>Structdef</title>
 
           <para>A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
             together with two TOKENs for each field of the structure to allow
@@ -430,7 +430,7 @@
         </sect3>
 
         <sect3 id="S14">
-          <title>3.1.7. Procdef</title>
+          <title>Procdef</title>
 
           <para>A &lt;Procdef&gt; defines a TAG to be a procedure; it is
             simply an abreviation of a an Iddec &lt;Tagdef&gt;:
@@ -478,7 +478,7 @@
       </sect2>
 
       <sect2 id="S15">
-        <title>3.2. First-class SORT expansions</title>
+        <title>First-class SORT expansions</title>
 
         <para>All of the first-class sorts have similar expansions for native
           TDF constructions and for token applications. I shall take
@@ -513,7 +513,7 @@
           TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
 
         <sect3 id="S16">
-          <title>3.2.1. Access</title>
+          <title>Access</title>
 
           <para>
           <programlisting>
@@ -526,7 +526,7 @@
         </sect3>
 
         <sect3 id="S17">
-          <title>3.2.2. Al_tag</title>
+          <title>Al_tag</title>
 
           <para>
           <programlisting>
@@ -541,7 +541,7 @@
         </sect3>
 
         <sect3 id="S18">
-          <title>3.2.3. Alignment</title>
+          <title>Alignment</title>
 
           <para>
             <programlisting>
@@ -563,7 +563,7 @@
         </sect3>
 
         <sect3 id="S19">
-          <title>3.2.4. Bitfield_variety</title>
+          <title>Bitfield_variety</title>
 
           <para>
             <programlisting>
@@ -583,7 +583,7 @@
         </sect3>
 
         <sect3 id="S20">
-          <title>3.2.5. Bool</title>
+          <title>Bool</title>
 
           <para>
             <programlisting>
@@ -596,7 +596,7 @@
         </sect3>
 
         <sect3 id="S21">
-          <title>3.2.6. Error_treatment</title>
+          <title>Error_treatment</title>
 
           <para>
             <programlisting>
@@ -620,7 +620,7 @@
         </sect3>
 
         <sect3 id="S22">
-          <title>3.2.7.Exp</title>
+          <title>xp</title>
 
           <para>
             <programlisting>
@@ -730,7 +730,7 @@
             &lt;ExpTerm&gt;s</para>
 
           <sect4 id="S23">
-            <title>3.2.7.1. ExpTerm</title>
+            <title>ExpTerm</title>
 
             <para>
             <programlisting>
@@ -843,7 +843,7 @@
         </sect3>
 
         <sect3 id="S24">
-          <title>3.2.8. Floating_variety</title>
+          <title>Floating_variety</title>
 
           <para>
             <programlisting>
@@ -864,7 +864,7 @@
         </sect3>
 
         <sect3 id="S25">
-          <title>3.2.9. Label</title>
+          <title>Label</title>
 
           <para>
             <programlisting>
@@ -879,7 +879,7 @@
         </sect3>
 
         <sect3 id="S26">
-          <title>3.2.10. Nat</title>
+          <title>Nat</title>
 
           <para>
             <programlisting>
@@ -899,7 +899,7 @@
         </sect3>
 
         <sect3 id="S27">
-          <title>3.2.11. Ntest</title>
+          <title>Ntest</title>
 
           <para>
             <programlisting>
@@ -955,7 +955,7 @@
         </sect3>
 
         <sect3 id="S28">
-          <title>3.2.12. Rounding_mode</title>
+          <title>Rounding_mode</title>
 
           <para>
             <programlisting>
@@ -969,7 +969,7 @@
         </sect3>
 
         <sect3 id="S29">
-          <title>3.2.13. Shape</title>
+          <title>Shape</title>
 
           <para>
             <programlisting>
@@ -1012,7 +1012,7 @@
         </sect3>
 
         <sect3 id="S30">
-          <title>3.2.14. Signed_Nat</title>
+          <title>Signed_Nat</title>
 
           <para>
             <programlisting>
@@ -1046,7 +1046,7 @@
         </sect3>
 
         <sect3 id="S31">
-          <title>3.2.15. String</title>
+          <title>String</title>
 
           <para>
             <programlisting>
@@ -1062,7 +1062,7 @@
         </sect3>
 
         <sect3 id="S32">
-          <title>3.2.16. Tag</title>
+          <title>Tag</title>
           <para>
             <programlisting>
           &lt;Tag&gt; ::= &lt;tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt
@@ -1076,7 +1076,7 @@
         </sect3>
 
         <sect3 id="S33">
-          <title>3.2.17. Token</title>
+          <title>Token</title>
 
           <para>TOKEN is rather a limited first-class sort. There is no
             explicit construction given for token_apply_token, since the only
@@ -1101,7 +1101,7 @@
         </sect3>
 
         <sect3 id="S34">
-          <title>3.2.18. Transfer_mode</title>
+          <title>Transfer_mode</title>
           <para>
             <programlisting>
           &lt;Transfer_mode&gt; ::= TRANSFER_MODE ? ( &lt;Exp&gt; , &lt;Transfer_mode&gt;, &lt;Transfer_mode&gt;)
@@ -1113,7 +1113,7 @@
         </sect3>
 
         <sect3 id="S35">
-          <title>3.2.19. Variety</title>
+          <title>Variety</title>
           <para>
             <programlisting>
           &lt;Variety&gt; ::= VARIETY ? ( &lt;Exp&gt; , &lt;Variety&gt;, &lt;Variety&gt;)
@@ -1136,7 +1136,7 @@
       </sect2>
 
       <sect2 id="S36">
-        <title>3.3. Control structure and local declarations</title>
+        <title>Control structure and local declarations</title>
 
         <para>The control and declaration structure is given by
           &lt;ClosedExp&gt;:
@@ -1159,7 +1159,7 @@
           &lt;Assertion&gt; is given below.</para>
 
         <sect3 id="S37">
-          <title>3.3.1.ConditionalExp and Assertion</title>
+          <title>ConditionalExp and Assertion</title>
 
           <para>
             <programlisting>
@@ -1219,7 +1219,7 @@
         </sect3>
 
         <sect3 id="S38">
-          <title>3.3.2. RepeatExp</title>
+          <title>RepeatExp</title>
 
           <para>
             <programlisting>
@@ -1235,7 +1235,7 @@
         </sect3>
 
         <sect3 id="S39">
-          <title>3.3.3. LabelledExp</title>
+          <title>LabelledExp</title>
 
           <para>
             <programlisting>
@@ -1252,7 +1252,7 @@
         </sect3>
 
         <sect3 id="S40">
-          <title>3.3.4. Local_Defn</title>
+          <title>Local_Defn</title>
 
           <para>A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for
             the scope of the component &lt;ClosedExp&gt;. Any containing an
@@ -1282,10 +1282,10 @@
     </sect1>
 
     <sect1 id="S41">
-      <title>4 Example PL_TDF programs</title>
+      <title>Example PL_TDF programs</title>
 
       <sect2 id="S42">
-        <title>4.1. Sieve of Erastothenes</title>
+        <title>Sieve of Erastothenes</title>
 
         <para>
           <programlisting>
@@ -1349,7 +1349,7 @@
       </sect2>
 
       <sect2 id="S43">
-        <title>4.2. Example with structures</title>
+        <title>Example with structures</title>
 
         <para>
           <programlisting>
@@ -1381,7 +1381,7 @@
       </sect2>
 
       <sect2 id="S44">
-        <title>4.3. Test for case</title>
+        <title>Test for case</title>
 
         <para>
           <programlisting>
@@ -1421,7 +1421,7 @@
       </sect2>
 
       <sect2 id="S45">
-        <title>4.4. Example of use of high-order TOKENs</title>
+        <title>Example of use of high-order TOKENs</title>
 
         <para>
           <programlisting>
@@ -1453,7 +1453,7 @@
       </sect2>
 
       <sect2 id="S46">
-        <title>4.5. A test for long jumps</title>
+        <title>A test for long jumps</title>
 
         <para>
           <programlisting>
@@ -1484,7 +1484,7 @@
     </sect1>
 
     <sect1>
-      <title>5 Use of the PL_TDF compiler</title>
+      <title>Use of the PL_TDF compiler</title>
 
       <para>Conventionally, PL_TDF programs are held in normal text files with
         suffix .pl. The PL_TDF compiler is invoked by:
