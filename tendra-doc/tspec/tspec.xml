@@ -33,12 +33,9 @@
     </copyright>
   </bookinfo>
   
-  <chapter>
+  <chapter id="Intro">
     <title>Introduction</title>
 
-    <sect1 id="Intro">
-      <title>Introduction</title>
-  
       <para>As explained in reference 1, TDF may be regarded as an abstract
         target machine which can be used to facilitate the separation of
         target independent and target dependent code which characterises
@@ -95,16 +92,12 @@
         <code>t</code> is a specific C type, they say, there exists a type
         <code>t</code>, and so on. The <code>tspec</code> syntax is designed
         to reflect this.</para>
-    </sect1>
   </chapter>
   
-  <chapter>
-    <title>Overview</title>
-
-    <sect1 id="Overview">
-      <title>Overview of tspec</title>
+  <chapter id="Overview">
+    <title>Overview of tspec</title>
   
-      <sect2 id="Levels">
+      <sect1 id="Levels">
         <title>Specification Levels</title>
     
         <para>Let us begin by examining the various levels of specification
@@ -158,9 +151,9 @@
           example, the <code>stdio.h</code> header of ANSI has a subset named
           <code>file</code>, then this is referred to as
           <code>ansi:stdio.h:file</code>.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Input">
+      <sect1 id="Input">
         <title>Input Layout</title>
   
         <para>The <code>tspec</code> representation of an API is arranged as a
@@ -183,9 +176,9 @@
           <link linkend="Options">section 2.5</link> for a complete list of
           options). The current working directory is always added to the start
           of the path.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Output">
+      <sect1 id="Output">
         <title>Output Layout</title>
   
         <para><code>tspec</code> actually outputs two sets of output files,
@@ -235,9 +228,9 @@
           include output file does not contain any token specifications then
           the source output file is suppressed (see
           <link linkend="Libraries">section 6.4</link>).</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Copyright">
+      <sect1 id="Copyright">
         <title>Copyright Messages</title>
   
         <para><code>tspec</code> will optionally add a copyright message to
@@ -246,9 +239,9 @@
           <code>TSPEC_COPYRIGHT</code> system variable, or by the
           <option>-C</option><filename>file</filename> command-line
           option.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Options">
+      <sect1 id="Options">
         <title>Command-line Options</title>
   
         <para>There are three main forms for invoking <code>tspec</code> on
@@ -362,15 +355,11 @@
           processes the input file <code>file</code>, writing the include
           output file to the standard output.
         </para>
-      </sect2>
-    </sect1>
+      </sect1>
   </chapter>
   
-  <chapter>
-    <title>Structure</title>
-
-    <sect1 id="Structure">
-      <title>Specifying API Structure</title>
+  <chapter id="Structure">
+    <title>Specifying API Structure</title>
   
       <para>The basic form of the <code>tspec</code> description of an API has
         already been explained in <link linkend="Input">section 2.2</link> -
@@ -387,7 +376,7 @@
         <code>tspec</code> also has constructs for imposing structure on the
         API description. It is these constructs that we consider first.</para>
   
-      <sect2 id="Subset">
+      <sect1 id="Subset">
         <title>+SUBSET</title>
   
         <para>A list of <code>tspec</code> constructs within a header can be
@@ -405,9 +394,9 @@
           of the entire header (see <link linkend="Levels">section
           2.1</link>).  Each subset is mapped onto a separate pair of output
           files, so unwary use of subsets is discouraged.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Impl">
+      <sect1 id="Impl">
         <title>+IMPLEMENT and +USE</title>
   
         <para><code>tspec</code> has two import constructs which allow one
@@ -503,15 +492,11 @@
         <para>For further information on the <code>+IMPLEMENT</code> and
           <code>+USE</code> commands see
           <link linkend="FineImpl">section 6.1</link>.</para>
-      </sect2>
-    </sect1>
+      </sect1>
   </chapter>
   
-  <chapter>
-    <title>Objects</title>
-
-    <sect1 id="Objects">
-      <title>Specifying Objects</title>
+  <chapter id="Objects">
+    <title>Specifying Objects</title>
   
       <para>The main body of any <code>tspec</code> description of an API
       consists of a list of object specifications. Most of this section
@@ -519,10 +504,10 @@
       specifying objects of various kinds, however we start with a few
       remarks on object names.</para>
     
-      <sect2 id="S41">
+      <sect1 id="S41">
         <title>Object Names</title>
     
-        <sect3 id="Names">
+        <sect2 id="Names">
           <title>Internal and External Names</title>
     
           <para>All objects specified using <code>tspec</code> actually have
@@ -586,9 +571,9 @@
             </programlisting>
             which makes the object <code>iname</code> have external name
             <code>ename</code> regardless of the naming strategy used.</para>
-        </sect3>
+        </sect2>
   
-        <sect3 id="Identifiers">
+        <sect2 id="Identifiers">
           <title>More on Object Names</title>
   
           <para>Basically the legal identifiers in <code>tspec</code> (for
@@ -621,10 +606,10 @@
             than one version of an object is specified then which version is
             retrieved by <code>tspec</code> in any look-up operation is
             undefined.</para>
-        </sect3>
-      </sect2>
+        </sect2>
+      </sect1>
 
-      <sect2 id="Func">
+      <sect1 id="Func">
         <title>+FUNC</title>
   
         <para>The simplest form of object to specify is a procedure. This is
@@ -692,9 +677,9 @@
           with a single argument of type <code>size_t</code>.  (For an
           alternative approach see
           <link linkend="Typedef">section 4.8</link>.)</para>
-      </sect2>
+      </sect1>
   
-      <sect2 id="Exp">
+      <sect1 id="Exp">
         <title>+EXP and +CONST</title>
   
         <para>Expressions correspond to constants, identities and variables.
@@ -744,9 +729,9 @@
           +CONST int EDOM, ERANGE ;
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Macro">
+      <sect1 id="Macro">
         <title>+MACRO</title>
   
         <para>The <code>+MACRO</code> construct is similar in form to the
@@ -774,9 +759,9 @@
           +MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;
           </programlisting>
           </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Statement">
+      <sect1 id="Statement">
         <title>+STATEMENT</title>
   
         <para>The <code>+STATEMENT</code> construct is very similar to the
@@ -793,9 +778,9 @@
           no argument form does not exist for <code>+MACRO</code>.) As with
           <code>+MACRO</code>, the argument types <code>argi</code> can be
           qualified using <code>lvalue</code>.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Define">
+      <sect1 id="Define">
         <title>+DEFINE</title>
   
         <para>It is possible to insert macro definitions directly into
@@ -820,9 +805,9 @@
           +DEFINE NULL 0 ;
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Type">
+      <sect1 id="Type">
         <title>+TYPE</title>
   
         <para>New types may be specified using the <code>+TYPE</code>
@@ -903,9 +888,9 @@
           +TYPE (int) wchar_t ;
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Typedef">
+      <sect1 id="Typedef">
         <title>+TYPEDEF</title>
 
         <para>It is also possible to define new types in terms of existing
@@ -963,9 +948,9 @@
           </programlisting>
           introducing a local type to stand for the integral promotion of
           <code>size_t</code>.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Field">
+      <sect1 id="Field">
         <title>+FIELD</title>
   
         <para>Having specified a structure or union type, or a structure or
@@ -1057,9 +1042,9 @@
           means that the type <code>type</code> is defined to be exactly the
           given structure or union type, with precisely the given fields in
           the given order.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Nat">
+      <sect1 id="Nat">
         <title>+NAT</title>
   
         <para>In the example given in
@@ -1097,9 +1082,9 @@
           </programlisting>
           Again, local variables have been used for the introduced
           objects.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Enum">
+      <sect1 id="Enum">
         <title>+ENUM</title>
   
         <para>Currently <code>tspec</code> only has limited support for
@@ -1126,9 +1111,9 @@
           +ENUM ACTION := { FIND, ENTER } ;
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Token">
+      <sect1 id="Token">
         <title>+TOKEN</title>
   
         <para>As was mentioned in <link linkend="Intro">section 1</link>, the
@@ -1160,22 +1145,18 @@
           +TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;
           </programlisting>
           See reference 3 for more details on the token syntax.</para>
-      </sect2>
-    </sect1>
+      </sect1>
   </chapter>
   
-  <chapter>
-    <title>Others</title>
-
-    <sect1 id="Others">
-      <title>Other tspec Constructs</title>
+  <chapter id="Others">
+    <title>Other tspec Constructs</title>
   
       <para>Although most <code>tspec</code> constructs are concerned either
         with specifying new objects or imposing structure upon various sets of
         objects, there are a few which do not fall into these
         categories.</para>
 
-      <sect2 id="If">
+      <sect1 id="If">
         <title>+IF, +ELSE and +ENDIF</title>
   
         <para>It is possible to introduce conditional compilation into the API
@@ -1213,9 +1194,9 @@
           macro <code>tspec</code> makes up to protect the file
           <code>api:header</code> against multiple inclusion (see
           <link linkend="Protect">section 6.2</link>).</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Text">
+      <sect1 id="Text">
         <title>Quoted Text</title>
   
         <para>It is sometimes desirable to include text in the specification
@@ -1237,9 +1218,9 @@
           <code>text</code> are copied as normal, and not treated as comments.
           This also applies to the other cases where percent delimiters are
           used.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Comment">
+      <sect1 id="Comment">
         <title>C Comments</title>
   
         <para>A special case of quoted text are C style comments:
@@ -1247,9 +1228,9 @@
           /* text */
           </programlisting>
           which are copied directly into the include output file.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Properties">
+      <sect1 id="Properties">
         <title>File Properties</title>
   
         <para>Various properties of individual sets of objects or global
@@ -1361,19 +1342,15 @@
             </listitem>
           </itemizedlist>
         </para>
-      </sect2>
-    </sect1>
+      </sect1>
   </chapter>
   
-  <chapter>
-    <title>Miscellaneous</title>
-
-    <sect1 id="S6">
-      <title>Miscellaneous Topics</title>
+  <chapter id="S6">
+    <title>Miscellaneous Topics</title>
   
       <para>In this section we round up a few miscellaneous topics.</para>
   
-      <sect2 id="FineImpl">
+      <sect1 id="FineImpl">
         <title>Fine Control of Included Files</title>
   
         <para>The <code>+IMPLEMENT</code> and <code>+USE</code> commands
@@ -1439,9 +1416,9 @@
           indicates that <code>tspec</code> should use the <code>api</code>
           version of <code>header</code> for checking purposes, but allow the
           inclusion of the version from the base API in normal use.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Protect">
+      <sect1 id="Protect">
         <title>Protection Macros</title>
   
         <para>Each include output file is surrounded by a construct of the
@@ -1458,9 +1435,9 @@
           <link linkend="Properties">section 5.4</link>). Setting <code>PROTECT</code>
           to the empty string suppresses the protection construct altogether.
           (Also see <link linkend="If">section 5.1</link>.)</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Index">
+      <sect1 id="Index">
         <title>Index Printing</title>
 
         <para>If it is invoked with the <option>-i</option> command-line
@@ -1471,9 +1448,9 @@
           where in the API description it is defined. It also includes a brief
           description of the object.  It is intended that these indexes should
           be usable as quick reference guides to the underlying APIs.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="Libraries">
+      <sect1 id="Libraries">
         <title>TDF Library Building</title>
   
         <para>As was explained in reference 1, the <code>#pragma token</code>
@@ -1541,15 +1518,11 @@
           (see reference 2). Thus we have defined a token which directly
           accesses the TDF <code>floating_abs</code> construct.
         </para>
-      </sect2>
-    </sect1>
+      </sect1>
   </chapter>
   
-  <chapter>
-    <title>Changes</title>
-
-    <sect1 id="S7">
-      <title>Changes in tspec 2.0</title>
+  <chapter id="S7">
+    <title>Changes in tspec 2.0</title>
   
       <para>This document describes <code>tspec</code> version 2.0.
         <code>tspec</code> 2.0 contains significant changes from previous
@@ -1627,13 +1600,9 @@
           </listitem>
         </itemizedlist>
       </para>
-    </sect1>
   </chapter>
   
-  <chapter>
-    <title>References</title>
-
-    <sect1 id="S8">
+    <chapter id="S8">
       <title>References</title>
     
       <para><remark>"TDF and Portability"</remark>, DRA, 1993.</para>
@@ -1641,6 +1610,5 @@
       <para><remark>"The TDF Notation Compiler"</remark>, DRA, 1993.</para>
     
       <para><remark>"The C to TDF Producer"</remark>, DRA, 1993.</para>
-    </sect1>
   </chapter>
 </book>
