@@ -33,10 +33,7 @@
     </copyright>
   </bookinfo>
 
-  <chapter>
-    <title>PL_TDF Definition</title>
-
-    <sect1 id="intro">
+  <chapter id="intro">
       <title>Introduction</title>
 
       <para>PL_TDF is a language in the lineage of Wirth's PL360 and its later
@@ -63,12 +60,12 @@
       <para>The TDF derived from PL_TDF is guaranteed to be SORT correct;
         however, there is no SHAPE checking, so one can still make illegal
         TDF.</para>
-    </sect1>
+    </chapter>
 
-    <sect1>
+    <chapter>
       <title>Notation</title>
 
-      <sect2 id="S3">
+      <sect1 id="S3">
         <title>Syntax description</title>
 
         <para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
@@ -110,9 +107,9 @@
           terminals and non-terminals within the angle brackets with the same
           kind of expansion. In these cases, the expansion within the angle
           brackets form an anonymous non-terminal.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S4">
+      <sect1 id="S4">
         <title>Lexical Units</title>
 
         <para>The terminal symbols ( ), [ ], and { } always occur as
@@ -162,9 +159,9 @@
 
         <para>An &lt;ident&gt; is any other sequence of characters. They will
           be used to form names for TAGs, TOKENs, AL_TAGs and LABELs.</para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S5">
+      <sect1 id="S5">
         <title>Pre-processing</title>
         
         <para>At the moment there is only one pre-processing directive. A line
@@ -175,10 +172,10 @@
         <para>Comments may be included in the text using the /* ... */
           notation; this differs slightly from the C convention in that
           comments may be nested.</para>
-      </sect2>
-    </sect1>
+      </sect1>
+    </chapter>
 
-    <sect1>
+    <chapter>
       <title>The Language</title>
 
       <para>The basic philosophy of PL_TDF is to provide the "glue"
@@ -242,7 +239,7 @@
       <para>The principle of "no use before declaration" also applies to
         &lt;ident&gt; names given to TAGs.</para>
 
-      <sect2 id="S7">
+      <sect1 id="S7">
         <title>Program</title>
 
         <para>The root expansion of a PL_TDF program is given by
@@ -274,7 +271,7 @@
 
         <para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
 
-        <sect3 id="S8">
+        <sect2 id="S8">
           <title>Tokdec</title>
 
           <para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:
@@ -289,9 +286,9 @@
             This produces a TOKDEC in a tokdec UNIT of the CAPSULE.  Further
             uses of the introduced &lt;ident&gt; will be treated as a
             &lt;x-token&gt; where x is given by the &lt;ResultSort&gt;.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S9">
+        <sect2 id="S9">
           <title>Tokdef</title>
 
           <para>A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
@@ -324,9 +321,9 @@
             </programlisting>
             &lt;Tok_defn&gt; also occurs in an expansion of &lt;Token&gt;, as
             a parameter of a token application.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S10">
+        <sect2 id="S10">
           <title>Tagdec</title>
 
           <para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:
@@ -345,9 +342,9 @@
           <para>The &lt;Shape&gt;s in both &lt;Tagdec&gt;s and &lt;Tagdef&gt;s
             will produce SHAPE TOKENs in a tagdef UNIT; these may be applied
             in various shorthand operations on TAG &lt;ident&gt;s.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S11">
+        <sect2 id="S11">
           <title>Tagdef</title>
 
           <para>A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
@@ -380,9 +377,9 @@
             the tag &lt;ident&gt;, format, could be used straightforwardly as
             the first parameter of printf - see <link linkend="S41">Section 4
             (Example PL_TDF programs)</link>.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S12">
+        <sect2 id="S12">
           <title>Altagdef</title>
 
           <para>An &lt;Altagdef&gt; defines an &lt;ident&gt; as an AL_TAG:
@@ -392,9 +389,9 @@
           This produces an AL_TAGDEF in an al_tagdef UNIT of the CAPSULE. The
           &lt;ident&gt; concerned can be previously used in as an expansion of
           &lt;Alignment&gt;.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S13">
+        <sect2 id="S13">
           <title>Structdef</title>
 
           <para>A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
@@ -427,9 +424,9 @@
             im[E] will extract the components of E where E is an EXP of shape
             Complex; .re and.im give EXP OFFSETs of the the two fields from
             the start of the structure.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S14">
+        <sect2 id="S14">
           <title>Procdef</title>
 
           <para>A &lt;Procdef&gt; defines a TAG to be a procedure; it is
@@ -474,10 +471,10 @@
             cases the &lt;...&gt; option says that the procedure can be called
             with a variable number of parameters. The scope of the tag names
             are the same as for &lt;Simple_Proc&gt;.</para>
-        </sect3>
-      </sect2>
+        </sect2>
+      </sect1>
 
-      <sect2 id="S15">
+      <sect1 id="S15">
         <title>First-class SORT expansions</title>
 
         <para>All of the first-class sorts have similar expansions for native
@@ -512,7 +509,7 @@
           expansion required by the SORT given by the &lt;TokDecPar&gt; of the
           TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
 
-        <sect3 id="S16">
+        <sect2 id="S16">
           <title>Access</title>
 
           <para>
@@ -523,9 +520,9 @@
           </programlisting>
           There are no expansions of &lt;Access&gt; other than the standard
           ones.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S17">
+        <sect2 id="S17">
           <title>Al_tag</title>
 
           <para>
@@ -538,9 +535,9 @@
           </programlisting>
           Any &lt;ident&gt; found as an expansion of &lt;Al_tag&gt; will be
           declared as the name for an AL_TAG.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S18">
+        <sect2 id="S18">
           <title>Alignment</title>
 
           <para>
@@ -560,9 +557,9 @@
             The &lt;Alignment&gt;s in the &lt;Alignment&gt;-List are united
             using unite_alignments. The empty option results in the top
             ALIGNMENT.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S19">
+        <sect2 id="S19">
           <title>Bitfield_variety</title>
 
           <para>
@@ -580,9 +577,9 @@
             </programlisting>
             This expands to bfvar_bits. The empty default on the sign is
             Signed.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S20">
+        <sect2 id="S20">
           <title>Bool</title>
 
           <para>
@@ -593,9 +590,9 @@
             </programlisting>
             There are no expansions of &lt;Bool&gt; other than the standard
             ones.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S21">
+        <sect2 id="S21">
           <title>Error_treatment</title>
 
           <para>
@@ -617,9 +614,9 @@
                   &lt;Error_code&gt; ::= stack_overflow
             </programlisting>
             Produces trap with the &lt;Error_code&gt;s as arguments.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S22">
+        <sect2 id="S22">
           <title>xp</title>
 
           <para>
@@ -729,7 +726,7 @@
           <para>The further expansions of &lt;Exp&gt; are all
             &lt;ExpTerm&gt;s</para>
 
-          <sect4 id="S23">
+          <sect3 id="S23">
             <title>ExpTerm</title>
 
             <para>
@@ -839,10 +836,10 @@
             </programlisting>
             This produces a TDF fail_installer; this construction is useful
             for narrowing down SHAPE errors detected by the translator.</para>
-          </sect4>
-        </sect3>
+          </sect3>
+        </sect2>
 
-        <sect3 id="S24">
+        <sect2 id="S24">
           <title>Floating_variety</title>
 
           <para>
@@ -861,9 +858,9 @@
           &lt;Floating_variety&gt; ::= Double
             </programlisting>
             An IEEE 64 bit floating variety.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S25">
+        <sect2 id="S25">
           <title>Label</title>
 
           <para>
@@ -876,9 +873,9 @@
             </programlisting>
             The &lt;ident&gt; will be declared as a LABEL, whose scope is the
             current procedure.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S26">
+        <sect2 id="S26">
           <title>Nat</title>
 
           <para>
@@ -896,9 +893,9 @@
           &lt;Nat&gt; ::= &lt;character&gt;
             </programlisting>
             Produces a make_nat on the ASCII value of the character.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S27">
+        <sect2 id="S27">
           <title>Ntest</title>
 
           <para>
@@ -952,9 +949,9 @@
           &lt;Ntest&gt; ::= &gt;=
             </programlisting>
             Produces greater_than_or_equal.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S28">
+        <sect2 id="S28">
           <title>Rounding_mode</title>
 
           <para>
@@ -966,9 +963,9 @@
             </programlisting>
             There are no constructions for &lt;Rounding_mode&gt; other than
             the standard ones.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S29">
+        <sect2 id="S29">
           <title>Shape</title>
 
           <para>
@@ -1009,9 +1006,9 @@
           &lt;Shape&gt; ::= Ptr &lt;Shape&gt;
             </programlisting>
             The SHAPE pointer(alignment(&lt;Shape&gt;)).</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S30">
+        <sect2 id="S30">
           <title>Signed_Nat</title>
 
           <para>
@@ -1043,9 +1040,9 @@
             </programlisting>
             This produces an appropriately signed &lt;Signed_Nat&gt; from a
             &lt;Nat&gt;.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S31">
+        <sect2 id="S31">
           <title>String</title>
 
           <para>
@@ -1059,9 +1056,9 @@
           &lt;String&gt; ::= &lt;string&gt;
             </programlisting>
             Produces a make_string.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S32">
+        <sect2 id="S32">
           <title>Tag</title>
           <para>
             <programlisting>
@@ -1073,9 +1070,9 @@
             </programlisting>
             This gives an obtain_tag; the &lt;ident&gt; must been declared as
             a TAG either globally or locally.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S33">
+        <sect2 id="S33">
           <title>Token</title>
 
           <para>TOKEN is rather a limited first-class sort. There is no
@@ -1098,9 +1095,9 @@
             construction is to provide an actual TOKEN parameter to a token
             application where the &lt;Tok_Defn&gt; contains uses of tags or
             labels local to a procedure.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S34">
+        <sect2 id="S34">
           <title>Transfer_mode</title>
           <para>
             <programlisting>
@@ -1110,9 +1107,9 @@
             </programlisting>
             There are no expansions for &lt;Transfer_mode&gt; other than the
             standard expansions.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S35">
+        <sect2 id="S35">
           <title>Variety</title>
           <para>
             <programlisting>
@@ -1132,10 +1129,10 @@
           &lt;Variety&gt; ::= &lt;Sign&gt;-Opt Char
             </programlisting>
             This produces the variety of the appropriate integer shape.</para>
-        </sect3>
-      </sect2>
+        </sect2>
+      </sect1>
 
-      <sect2 id="S36">
+      <sect1 id="S36">
         <title>Control structure and local declarations</title>
 
         <para>The control and declaration structure is given by
@@ -1158,7 +1155,7 @@
           The effect of these, together with the expansion of
           &lt;Assertion&gt; is given below.</para>
 
-        <sect3 id="S37">
+        <sect2 id="S37">
           <title>ConditionalExp and Assertion</title>
 
           <para>
@@ -1216,9 +1213,9 @@
           ?{ ?(a &gt;= b | L ); a | :L: b }
             </programlisting>
             without the hassle of having to invent the LABEL name, L.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S38">
+        <sect2 id="S38">
           <title>RepeatExp</title>
 
           <para>
@@ -1232,9 +1229,9 @@
             empty &lt;LabelSetting&gt;-Opt will follow the same conventions as
             one in a &lt;Conditional&gt;. An empty &lt;Starter&gt;-Opt will
             produce make_top.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S39">
+        <sect2 id="S39">
           <title>LabelledExp</title>
 
           <para>
@@ -1249,9 +1246,9 @@
             This produces a TDF labelled with the obvious parameters. The
             scope of any LABEL &lt;idents&gt; introduced by the &lt;Label&gt;s
             is the &lt;LabelledExp&gt;.</para>
-        </sect3>
+        </sect2>
 
-        <sect3 id="S40">
+        <sect2 id="S40">
           <title>Local_Defn</title>
 
           <para>A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for
@@ -1277,14 +1274,14 @@
           &lt;Local_Defn&gt; ::= Let &lt;ident&gt; &lt;Access&gt;-Opt = &lt;Exp&gt; &lt;ClosedExp&gt;
             </programlisting>
             This produces a TDF identify with the obvious parameters.</para>
-        </sect3>
-      </sect2>
-    </sect1>
+        </sect2>
+      </sect1>
+    </chapter>
 
-    <sect1 id="S41">
+    <chapter id="S41">
       <title>Example PL_TDF programs</title>
 
-      <sect2 id="S42">
+      <sect1 id="S42">
         <title>Sieve of Erastothenes</title>
 
         <para>
@@ -1346,9 +1343,9 @@
           Keep (main)                     /* main will be an external name; so will printf since it is not defined */
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S43">
+      <sect1 id="S43">
         <title>Example with structures</title>
 
         <para>
@@ -1378,9 +1375,9 @@
           Keep(main)
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S44">
+      <sect1 id="S44">
         <title>Test for case</title>
 
         <para>
@@ -1418,9 +1415,9 @@
           Keep (main, test)
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S45">
+      <sect1 id="S45">
         <title>Example of use of high-order TOKENs</title>
 
         <para>
@@ -1450,9 +1447,9 @@
           Keep (main)
           </programlisting>
         </para>
-      </sect2>
+      </sect1>
 
-      <sect2 id="S46">
+      <sect1 id="S46">
         <title>A test for long jumps</title>
 
         <para>
@@ -1480,10 +1477,10 @@
           Keep (main)
           </programlisting>
         </para>
-      </sect2>
-    </sect1>
+      </sect1>
+    </chapter>
 
-    <sect1>
+    <chapter>
       <title>Use of the PL_TDF compiler</title>
 
       <para>Conventionally, PL_TDF programs are held in normal text files with
@@ -1528,6 +1525,5 @@
         correct errors errors thrown up by the translators and not for
         run-time de-bugging, so do not regard a warning like this as a bug in
         the system.</para>
-    </sect1>
-  </chapter>
+    </chapter>
 </book>
