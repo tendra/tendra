@@ -106,6 +106,10 @@
       <title>DIAG_DESCRIPTOR</title>
 
       <informaltable frame="none">
+        <textobject>
+          <phrase>DIAG_DESCRIPTOR encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -128,6 +132,10 @@
         <title>diag_desc_id</title>
 
         <informaltable frame="none">
+          <textobject>
+            <phrase>diag_desc_id encoding</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
@@ -159,6 +167,10 @@ type:            DIAG_TYPE
         <title>diag_desc_struct</title>
 
         <informaltable frame="none">
+          <textobject>
+            <phrase>diag_desc_struct encoding</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
@@ -188,6 +200,9 @@ new_type:        DIAG_TYPE
         <title>diag_desc_typedef</title>
         
         <informaltable frame="none">
+          <textobject>
+            <phrase>diag_desc_typedef encoding</phrase>
+          </textobject>
           <tgroup cols="2">
             <tbody>
               <row>
@@ -218,6 +233,10 @@ new_type:        DIAG_TYPE
       <title>DIAG_UNIT</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>DIAG_UNIT encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -247,6 +266,10 @@ new_type:        DIAG_TYPE
         <title>build_diag_unit</title>
   
         <informaltable frame="none">
+          <textobject>
+            <phrase>build_diag_unit encoding</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
@@ -274,6 +297,10 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
       <title>DIAG_TAG</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>DIAG_TAG encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -305,6 +332,10 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
         <title>make_diag_tag</title>
         
         <informaltable frame="none">
+          <textobject>
+            <phrase>make_diag_tag encoding</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
@@ -329,6 +360,10 @@ num:             TDFINT
       <title>DIAG_TAGDEF</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>DIAG_TAGDEF encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -351,6 +386,10 @@ num:             TDFINT
       <title>make_diag_tagdef</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>make_diag_tagdef encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -377,6 +416,10 @@ dtype:           DIAG_TYPE
     <title>DIAG_TYPE_UNIT</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>DIAG_TYPE_UNIT encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -404,6 +447,10 @@ dtype:           DIAG_TYPE
       <title>build_diagtype_unit</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>build_diagtype_unit encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -431,6 +478,10 @@ tagdefs: SLIST(DIAG_TAGDEF)
     <title>DIAG_TYPE</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>DIAG_TYPE encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -458,6 +509,10 @@ tagdefs: SLIST(DIAG_TAGDEF)
       <title>diag_type_apply_token</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_type_apply_token encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -486,6 +541,10 @@ token_args:      BITSTREAM
       <title>diag_array</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_array encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -519,6 +578,10 @@ index_type:      DIAG_TYPE
       <title>diag_bitfield</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_bitfield encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -543,6 +606,10 @@ number_of_bits:  NAT
       <title>diag_enum</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_enum encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -569,6 +636,10 @@ values:          LIST(ENUM_VALUES)
       <title>diag_floating_variety</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_floating_variety encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -592,6 +663,10 @@ var:             FLOATING_VARIETY
       <title>diag_loc</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_loc encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -618,6 +693,10 @@ qualifier:       DIAG_TQ
       <title>diag_proc</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_proc encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -645,6 +724,9 @@ result_type:     DIAG_TYPE
       <title>diag_ptr</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_ptr encoding</phrase>
+        </textobject>
         <tgroup cols="2">
           <tbody>
             <row>
@@ -671,6 +753,10 @@ qualifier:       DIAG_TQ
       <title>diag_struct</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_struct encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -698,6 +784,9 @@ fields:          LIST(DIAG_FIELD)
       <title>diag_type_null</title>
 
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_type_null encoding</phrase>
+        </textobject>
         <tgroup cols="2">
           <tbody>
             <row>
@@ -719,6 +808,10 @@ fields:          LIST(DIAG_FIELD)
       <title>diag_union</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_union encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -746,6 +839,10 @@ fields:          LIST(DIAG_FIELD)
       <title>diag_variety</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_variety encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -769,6 +866,10 @@ var:             VARIETY
       <title>use_diag_tag</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>use_diag_tag encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -793,6 +894,10 @@ dtag:            DIAG_TAG
     <title>ENUM_VALUES</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>ENUM_VALUES encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -812,6 +917,10 @@ dtag:            DIAG_TAG
       <title>make_enum_values_list</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>make_enum_values_list encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -841,6 +950,10 @@ src_name:        TDFSTRING(k, n)
     <title>DIAG_FIELD</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>DIAG_FIELD encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -859,6 +972,10 @@ src_name:        TDFSTRING(k, n)
       <title>make_diag_field</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>make_diag_field encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -889,6 +1006,10 @@ field_type:      DIAG_TYPE
     <title>DIAG_TQ</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>DIAG_TQ encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -912,6 +1033,10 @@ field_type:      DIAG_TYPE
       <title>add_diag_const</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>add_diag_const encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -935,6 +1060,10 @@ field_type:      DIAG_TYPE
       <title>add_diag_volatile</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>add_diag_volatile encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -958,6 +1087,10 @@ field_type:      DIAG_TYPE
       <title>diag_tq_null</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>diag_tq_null encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -980,6 +1113,10 @@ field_type:      DIAG_TYPE
     <title>FILENAME</title>
     
     <informaltable frame="none">
+      <textobject>
+        <phrase>FILENAME encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -1008,6 +1145,10 @@ field_type:      DIAG_TYPE
       <title>filename_apply_token</title>
 
       <informaltable frame="none">
+        <textobject>
+          <phrase>filename_apply_token encoding</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -1036,6 +1177,10 @@ field_type:      DIAG_TYPE
       <title>make_filename</title>
       
       <informaltable frame="none">
+        <textobject>
+          <phrase>make_filename</phrase>
+        </textobject>
+
         <tgroup cols="2">
           <tbody>
             <row>
@@ -1063,6 +1208,10 @@ field_type:      DIAG_TYPE
     <title>SOURCEMARK</title>
   
     <informaltable frame="none">
+      <textobject>
+        <phrase>SOURCEMARK encoding</phrase>
+      </textobject>
+
       <tgroup cols="2">
         <tbody>
           <row>
@@ -1087,6 +1236,10 @@ field_type:      DIAG_TYPE
         <title>make_sourcemark</title>
         
         <informaltable frame="none">
+          <textobject>
+            <phrase>make_sourcemark encoding</phrase>
+          </textobject>
+
           <tgroup cols="2">
             <tbody>
               <row>
