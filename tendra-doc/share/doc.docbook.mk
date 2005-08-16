@@ -6,7 +6,7 @@ XSLTPROC= xsltproc
 
 STYLEDIR= ../stylesheets
 
-TIDYFLAGS= --doctype strict\
+TIDYFLAGS= --doctype transitional\
 	   --output-xhtml yes\
 	   -im -wrap 78 -utf8
 
