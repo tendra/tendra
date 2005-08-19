@@ -6,7 +6,7 @@
   $Id$
 -->
 
-<article>
+<article class="faq">
   <articleinfo>
     <title>TenDRA - Frequently Asked Questions</title>
 
@@ -30,11 +30,11 @@
   <para>First draft of the FAQ.  Lame set-up, no nice colours, and so on.
     Also, the order is based on nothing for now.</para>
 
-  <qandaset>
-    <qandadiv>
+  <qandaset defaultlabel="qanda">
+    <qandadiv id="tendra-history">
       <title>TenDRA History</title>
 
-      <qandaentry>
+      <qandaentry id="what-is-dera">
         <question>
           <para>What is/was QinetiQ/Dstl/DERA/DRA?</para>
         </question>
@@ -140,7 +140,7 @@
         </answer>
       </qandaentry>
 
-      <qandaentry>
+      <qandaentry id="what-is-ten15">
         <question>
           <para>What is Ten15?</para>
         </question>
@@ -154,10 +154,10 @@
       </qandaentry>
     </qandadiv>
 
-    <qandadiv>
+    <qandadiv id="generic-questions">
       <title>Generic</title>
 
-      <qandaentry>
+      <qandaentry id="what-are-andf-and-tdf">
         <question>
           <para>What are ANDF and TDF?</para>
         </question>
@@ -179,9 +179,10 @@
         </answer>
       </qandaentry>
   
-      <qandaentry>
+      <qandaentry id="documents-papers-about-tendra">
         <question>
-          <para>Which documents and papers exist for/about TenDRA and ANDF?</para>
+          <para>Which documents and papers exist for/about TenDRA and
+            ANDF?</para>
         </question>
   
         <answer>
@@ -206,10 +207,10 @@
       </qandaentry>
     </qandadiv>
 
-    <qandadiv>
+    <qandadiv id="compilation-issues">
       <title>Compilation issues</title>
 
-      <qandaentry>
+      <qandaentry id="cplusplus-compilation-support">
         <question>
           <para>I try to compile the following simple C++ program:
             <programlisting>
