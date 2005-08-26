@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997, 1998
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -45,7 +75,7 @@
 #include <stdio.h>
 #include "ossg.h"
 
-#if defined (__TenDRA__)
+#if defined(__TenDRA__)
 #include "abstract.h"
 #else
 #include "concrete.h"
@@ -59,7 +89,7 @@
 #define STATIC
 #endif  /* ndef DEBUG */
 
-#define UINT32_const(X) ((UINT32) (X))
+#define UINT32_const(X)((UINT32)(X))
 
 
 /* Error Treatments handling */
@@ -78,70 +108,70 @@ int __TDFerror;
 
 /* Declarations of functions used internally */
 
-static TDF_INT64	TDFUplus	PROTO_S ((TDF_INT64, TDF_INT64));
-static TDF_INT64	TDFUminus	PROTO_S ((TDF_INT64, TDF_INT64));
-static TDF_INT64	TDFUmult	PROTO_S ((TDF_INT64, TDF_INT64));
-static TDF_INT64	TDFUdiv_rem	PROTO_S ((TDF_INT64, TDF_INT64, UINT32));
-static TDF_INT64	TDFUshr		PROTO_S ((TDF_INT64, UINT32));
+static TDF_INT64	TDFUplus(TDF_INT64, TDF_INT64);
+static TDF_INT64	TDFUminus(TDF_INT64, TDF_INT64);
+static TDF_INT64	TDFUmult(TDF_INT64, TDF_INT64);
+static TDF_INT64	TDFUdiv_rem(TDF_INT64, TDF_INT64, UINT32);
+static TDF_INT64	TDFUshr(TDF_INT64, UINT32);
 
 
 
 /* Declarations of DEBUG functions */
 
 #if DEBUG
-INT64	make_INT64	PROTO_S ((INT32, UINT32));
-UINT64	make_UINT64	PROTO_S ((UINT32, UINT32));
-void 	INT64_print	PROTO_S ((char *,  INT64, char *));
-void	UINT64_print	PROTO_S ((char *, UINT64, char *));
+INT64	make_INT64(INT32, UINT32);
+UINT64	make_UINT64(UINT32, UINT32);
+void 	INT64_print(char *,  INT64, char *);
+void	UINT64_print(char *, UINT64, char *);
 #endif
 
 
 /*  Forward declarations  */
 
-INT64	__TDFUs_plus	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_minus	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_mult	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_div1	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_div2	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_rem1	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_rem2	PROTO_S ((INT64, INT64));
-INT64	__TDFUneg	PROTO_S ((INT64));
-INT64	__TDFUabs	PROTO_S ((INT64));
-INT64	__TDFUsswiden	PROTO_S ((INT32));
-INT64	__TDFUuswiden	PROTO_S ((UINT32));
-INT32	__TDFUssshorten	PROTO_S ((INT64));
-INT32	__TDFUusshorten	PROTO_S ((UINT64));
-INT64	__TDFUu642s64	PROTO_S ((UINT64));
-INT64	__TDFUs_max	PROTO_S ((INT64, INT64));
-INT64	__TDFUs_min	PROTO_S ((INT64, INT64));
-int	__TDFUs_test	PROTO_S ((INT64, INT64));
+INT64	__TDFUs_plus(INT64, INT64);
+INT64	__TDFUs_minus(INT64, INT64);
+INT64	__TDFUs_mult(INT64, INT64);
+INT64	__TDFUs_div1(INT64, INT64);
+INT64	__TDFUs_div2(INT64, INT64);
+INT64	__TDFUs_rem1(INT64, INT64);
+INT64	__TDFUs_rem2(INT64, INT64);
+INT64	__TDFUneg(INT64);
+INT64	__TDFUabs(INT64);
+INT64	__TDFUsswiden(INT32);
+INT64	__TDFUuswiden(UINT32);
+INT32	__TDFUssshorten(INT64);
+INT32	__TDFUusshorten(UINT64);
+INT64	__TDFUu642s64(UINT64);
+INT64	__TDFUs_max(INT64, INT64);
+INT64	__TDFUs_min(INT64, INT64);
+int	__TDFUs_test(INT64, INT64);
 
-UINT64	__TDFUu_plus	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_minus	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_mult	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_div2	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_rem2	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_shl	PROTO_S ((UINT64, UINT32));
-UINT64	__TDFUu_shr	PROTO_S ((UINT64, UINT32));
-UINT64	__TDFUuuwiden	PROTO_S ((UINT32));
-UINT64	__TDFUsuwiden	PROTO_S ((INT32));
-UINT32	__TDFUsushorten	PROTO_S ((INT64));
-UINT32	__TDFUuushorten	PROTO_S ((UINT64));
-UINT64	__TDFUs642u64	PROTO_S ((INT64));
-UINT64	__TDFUu_max	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUu_min	PROTO_S ((UINT64, UINT64));
-int	__TDFUu_test	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUand	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUor	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUxor	PROTO_S ((UINT64, UINT64));
-UINT64	__TDFUnot	PROTO_S ((UINT64));
+UINT64	__TDFUu_plus(UINT64, UINT64);
+UINT64	__TDFUu_minus(UINT64, UINT64);
+UINT64	__TDFUu_mult(UINT64, UINT64);
+UINT64	__TDFUu_div2(UINT64, UINT64);
+UINT64	__TDFUu_rem2(UINT64, UINT64);
+UINT64	__TDFUu_shl(UINT64, UINT32);
+UINT64	__TDFUu_shr(UINT64, UINT32);
+UINT64	__TDFUuuwiden(UINT32);
+UINT64	__TDFUsuwiden(INT32);
+UINT32	__TDFUsushorten(INT64);
+UINT32	__TDFUuushorten(UINT64);
+UINT64	__TDFUs642u64(INT64);
+UINT64	__TDFUu_max(UINT64, UINT64);
+UINT64	__TDFUu_min(UINT64, UINT64);
+int	__TDFUu_test(UINT64, UINT64);
+UINT64	__TDFUand(UINT64, UINT64);
+UINT64	__TDFUor(UINT64, UINT64);
+UINT64	__TDFUxor(UINT64, UINT64);
+UINT64	__TDFUnot(UINT64);
 
 
 
 #define TDFUis_positive(X)	((hi_32(X) >= 0))
 #define TDFUis_negative(X)	((hi_32(X) < 0))
 #define TDFUis_zero(X)		((hi_32(X) == 0) && (lo_32(X) == 0))
-#define TDFUis_nonzero(X)	((hi_32(X) != 0) || (lo_32(X) != 0))
+#define TDFUis_nonzero(X)	((hi_32(X)!= 0) || (lo_32(X)!= 0))
 
 
 /*
@@ -170,17 +200,17 @@ UINT64	__TDFUnot	PROTO_S ((UINT64));
 */
 
 
-#define _TDFUshl(shifted_a,a,n) \
+#define _TDFUshl(shifted_a,a,n)\
 { \
     if (n > 32)		/* assuming n <= 64 */ \
     { \
-	hi_u32 (shifted_a) = lo_u32(a) << (n -32); \
-	lo_u32 (shifted_a) = (UINT32) 0x00000000; \
+	hi_u32(shifted_a) = lo_u32(a) << (n -32); \
+	lo_u32(shifted_a) = (UINT32)0x00000000; \
     } \
     else	/*  (0 < n <= 32)  */ \
     { \
-	hi_u32 (shifted_a) = (lo_u32(a) >> (32-n)) | (hi_u32(a) << n); \
-	lo_u32 (shifted_a) =  lo_u32(a) << n; \
+	hi_u32(shifted_a) = (lo_u32(a) >> (32-n)) | (hi_u32(a) << n); \
+	lo_u32(shifted_a) =  lo_u32(a) << n; \
     } \
 }
 
@@ -199,23 +229,22 @@ UINT64	__TDFUnot	PROTO_S ((UINT64));
 
 /* Use a "procedure token" to implement TDFUshl */
 
-#pragma token PROC (EXP lvalue : TDF_INT64 : , \
+#pragma token PROC(EXP lvalue : TDF_INT64 : , \
 		    EXP rvalue : TDF_INT64 : , \
-		    EXP rvalue : UINT32 : ) \
+		    EXP rvalue : UINT32 :)\
 		STATEMENT TDFUshl #
-#define TDFUshl(shifted_a,a,n) _TDFUshl((shifted_a),(a),(n))
+#define TDFUshl(shifted_a,a,n)_TDFUshl((shifted_a), (a), (n))
 #else
 
 /* Use a macro (which calls a function) to implement TDFUshl */
 
-TDF_INT64 __TDFUshl PROTO_S ((TDF_INT64, UINT32));
-TDF_INT64 __TDFUshl PROTO_N ((shifted_a, a, n))
-	            PROTO_T (TDF_INT64 a X UINT32 n)
+TDF_INT64 __TDFUshl(TDF_INT64, UINT32);
+TDF_INT64 __TDFUshl(TDF_INT64 a, UINT32 n)
 {
     TDF_INT64 tmp;
 
     _TDFUshl(tmp, a, n);
-    return tmp;    
+    return tmp;
 }
 #define TDFUshl(shifted_a,a,n) { shifted_a = __TDFUshl(a,n); }
 #endif  /* __TenDRA__ */
@@ -234,17 +263,16 @@ TDF_INT64 __TDFUshl PROTO_N ((shifted_a, a, n))
 **  interpretting each as an unsigned value.
 */
 
-static TDF_INT64 TDFUplus PROTO_N ((a, b))
-			  PROTO_T (TDF_INT64 a X TDF_INT64 b)
+static TDF_INT64
+TDFUplus(TDF_INT64 a, TDF_INT64 b)
 {
     TDF_INT64	sum;
 
-    lo_u32 (sum) = lo_u32(a) + lo_u32(b);
+    lo_u32(sum) = lo_u32(a) + lo_u32(b);
     if (lo_u32(sum) < lo_u32(a)) {
-	hi_u32 (sum) = hi_u32(a) + hi_u32(b) + 1;
-    }
-    else {
-	hi_u32 (sum) = hi_u32(a) + hi_u32(b);
+	hi_u32(sum) = hi_u32(a) + hi_u32(b) + 1;
+    } else {
+	hi_u32(sum) = hi_u32(a) + hi_u32(b);
     }
     return sum;
 }
@@ -260,8 +288,8 @@ static TDF_INT64 TDFUplus PROTO_N ((a, b))
 **  or two negative produce a positive, else alright.
 */
 
-INT64 __TDFUs_plus PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_plus(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	sum, a, b;
 
@@ -272,18 +300,16 @@ INT64 __TDFUs_plus PROTO_N ((param_a, param_b))
 
     if (TDFUis_positive(a)	&&	/* a >= 0 */
 	TDFUis_positive(b)	&&	/* b >= 0 */
-	TDFUis_negative(sum))		/* a+b < 0 */
-    {
+	TDFUis_negative(sum)) {		/* a+b < 0 */
 	OVERFLOW_ERROR;
     }
     if (TDFUis_negative(a)	&&	/* a < 0 */
 	TDFUis_negative(b)	&&	/* b < 0 */
-	TDFUis_positive(sum))		/* a+b >= 0 */
-    {
+	TDFUis_positive(sum)) {		/* a+b >= 0 */
 	OVERFLOW_ERROR;
     }
 
-    return  PARAM(sum);
+    return PARAM(sum);
 }
 
 
@@ -295,23 +321,22 @@ INT64 __TDFUs_plus PROTO_N ((param_a, param_b))
 **  than the first argument for error detection.
 */
 
-UINT64 __TDFUu_plus PROTO_N ((param_a, param_b))
-		    PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_plus(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	sum, a, b;
 
     UPARAM(a) = param_a;
     UPARAM(b) = param_b;
     CLEAR_ERRORS;
-    sum = TDFUplus (a, b);
+    sum = TDFUplus(a, b);
 
     if ((hi_u32(sum) <= hi_u32(a))	&&
-	(lo_u32(sum) < lo_u32(a)))	/* sum < a */
-    {
+	(lo_u32(sum) < lo_u32(a))) {	/* sum < a */
 	OVERFLOW_ERROR;
     }
 
-    return  UPARAM(sum);
+    return UPARAM(sum);
 }
 
 
@@ -323,17 +348,16 @@ UINT64 __TDFUu_plus PROTO_N ((param_a, param_b))
 **  integers, interpretting each as an unsigned value.
 */
 
-static TDF_INT64 TDFUminus PROTO_N ((a, b))
-			   PROTO_T (TDF_INT64 a X TDF_INT64 b)
+static TDF_INT64
+TDFUminus(TDF_INT64 a, TDF_INT64 b)
 {
     TDF_INT64	sum;
 
-    lo_u32 (sum) = lo_u32(a) - lo_u32(b);
+    lo_u32(sum) = lo_u32(a) - lo_u32(b);
     if (lo_u32(sum) > lo_u32(a)) {
-	hi_u32 (sum) = hi_u32(a) - hi_u32(b) - 1;
-    }
-    else {
-	hi_u32 (sum) = hi_u32(a) - hi_u32(b);
+	hi_u32(sum) = hi_u32(a) - hi_u32(b) - 1;
+    } else {
+	hi_u32(sum) = hi_u32(a) - hi_u32(b);
     }
     return sum;
 }
@@ -349,8 +373,8 @@ static TDF_INT64 TDFUminus PROTO_N ((a, b))
 **  or two negative produce a positive, else alright.
 */
 
-INT64 __TDFUs_minus PROTO_N ((param_a, param_b))
-		    PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_minus(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	diff, a, b;
 
@@ -361,18 +385,16 @@ INT64 __TDFUs_minus PROTO_N ((param_a, param_b))
 
     if (TDFUis_positive(a)	&&	/* a >= 0 */
 	TDFUis_negative(b)	&&	/* b < 0 */
-	TDFUis_negative(diff))		/* a-b < 0 */
-    {
+	TDFUis_negative(diff)) {	/* a-b < 0 */
 	OVERFLOW_ERROR;
     }
     if (TDFUis_negative(a)	&&	/* a < 0 */
 	TDFUis_positive(b)	&&	/* b >= 0 */
-	TDFUis_positive(diff))		/* a-b >= 0 */
-    {
+	TDFUis_positive(diff)) {	/* a-b >= 0 */
 	OVERFLOW_ERROR;
     }
 
-    return  PARAM(diff);
+    return PARAM(diff);
 }
 
 
@@ -384,23 +406,22 @@ INT64 __TDFUs_minus PROTO_N ((param_a, param_b))
 **  than the first argument for error detection.
 */
 
-UINT64 __TDFUu_minus PROTO_N ((param_a, param_b))
-		     PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_minus(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	diff, a, b;
 
     UPARAM(a) = param_a;
     UPARAM(b) = param_b;
     CLEAR_ERRORS;
-    diff = TDFUminus (a, b);
+    diff = TDFUminus(a, b);
 
     if ((hi_u32(diff) >= hi_u32(a))	&&
-	(lo_u32(diff) > lo_u32(a)))	/* diff > a */
-    {
+	(lo_u32(diff) > lo_u32(a))) {	/* diff > a */
 	OVERFLOW_ERROR;
     }
 
-    return  UPARAM(diff);
+    return UPARAM(diff);
 }
 
 
@@ -446,32 +467,31 @@ UINT64 __TDFUu_minus PROTO_N ((param_a, param_b))
 
 
 #define hi_u16(X)	((X) >> 16)
-#define lo_u16(X)	((X) & ((UINT32) 0xffff))
+#define lo_u16(X)	((X) & ((UINT32)0xffff))
 
-static TDF_INT64 TDFUmult PROTO_N ((a, b))
-			  PROTO_T (TDF_INT64 a X TDF_INT64 b)
+static TDF_INT64
+TDFUmult(TDF_INT64 a, TDF_INT64 b)
 {
     TDF_INT64	prod;
     UINT32	a0, a1, a2, a3;
     UINT32	b0, b1, b2, b3;
     UINT32	work1, work2;
 
-    a0 = lo_u16 (lo_u32(a));
-    a1 = hi_u16 (lo_u32(a));
-    a2 = lo_u16 (hi_u32(a));
-    a3 = hi_u16 (hi_u32(a));
+    a0 = lo_u16(lo_u32(a));
+    a1 = hi_u16(lo_u32(a));
+    a2 = lo_u16(hi_u32(a));
+    a3 = hi_u16(hi_u32(a));
 
-    b0 = lo_u16 (lo_u32(b));
-    b1 = hi_u16 (lo_u32(b));
-    b2 = lo_u16 (hi_u32(b));
-    b3 = hi_u16 (hi_u32(b));
+    b0 = lo_u16(lo_u32(b));
+    b1 = hi_u16(lo_u32(b));
+    b2 = lo_u16(hi_u32(b));
+    b3 = hi_u16(hi_u32(b));
 
     if ((a1 == 0) && (a2 == 0) && (a3 == 0) &&
-	(b1 == 0) && (b2 == 0) && (b3 == 0))
-    {
+	(b1 == 0) && (b2 == 0) && (b3 == 0)) {
 	hi_u32(prod) = 0;	/* result fits into 32 bits */
 	lo_u32(prod) = a0 * b0;
-	return  prod;
+	return prod;
     }
 
 /* Start STAGE1 */
@@ -484,9 +504,8 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
     work1 = a1 * b0;
     work2 = work1 + (a0 * b1);
     if (work2 < work1) {
-	hi_u32(prod) = ((UINT32) 0x10000);		/* set carry in result */
-    }
-    else {
+	hi_u32(prod) = ((UINT32) 0x10000);	/* set carry in result */
+    } else {
 	hi_u32(prod) = 0;		/* must initialise somewhere */
     }
 
@@ -496,8 +515,7 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
     lo_u32(prod) += (work1 << 16);
     if ((work1 << 16) > lo_u32(prod)) {	/* wrap */
 	hi_u32(prod) += (1 + work2);
-    }
-    else {
+    } else {
 	hi_u32(prod) += work2;
     }
 
@@ -529,16 +547,15 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
     work1 = a3 * b0;
     work2 = a2 * b1;
 
-    if ((work1 > ((UINT32) 0xffff)) ||
-	(work2 > ((UINT32) 0xffff)))
-    {
+    if ((work1 > ((UINT32)0xffff)) ||
+	(work2 > ((UINT32)0xffff))) {
 	OVERFLOW_ERROR;
     }
 
     work1 = work1 + work2;
     work2 = a1 * b2;
 
-    if (work2 > ((UINT32) 0xffff)) {
+    if (work2 > ((UINT32)0xffff)) {
 	OVERFLOW_ERROR;
     }
 
@@ -546,9 +563,8 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
     work2 = a0 * b3;
     work1 = work1 + work2;
 
-    if ((work1 > ((UINT32) 0xffff)) ||
-	(work2 > ((UINT32) 0xffff)))
-    {
+    if ((work1 > ((UINT32)0xffff)) ||
+	(work2 > ((UINT32)0xffff))) {
 	OVERFLOW_ERROR;
     }
 
@@ -561,8 +577,7 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
 	(a1 * b3 != 0)		||	/*    must all be zero     */
 	(a3 * b2 != 0)		||
 	(a2 * b3 != 0)		||
-	(a3 * b3 != 0))
-    {
+	(a3 * b3 != 0)) {
 	OVERFLOW_ERROR;
     }
 
@@ -581,8 +596,8 @@ static TDF_INT64 TDFUmult PROTO_N ((a, b))
 */
 
 
-INT64 __TDFUs_mult PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_mult(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	prod, a, b;
     int		sign;
@@ -595,24 +610,22 @@ INT64 __TDFUs_mult PROTO_N ((param_a, param_b))
 
     PARAM(a) = __TDFUabs(param_a);
     PARAM(b) = __TDFUabs(param_b);
-    prod = TDFUmult (a, b);				/* Any overflow will be flagged */
+    prod = TDFUmult (a, b);		/* Any overflow will be flagged */
 
-    if (hi_32(prod) < 0) {				/* definitely okay if this is false */
-	if ((sign == 0) 			   || 	 /* positive int too big for INT_64 */
+    if (hi_32(prod) < 0) {		/* definitely okay if this is false */
+	if ((sign == 0) ||		/* positive int too big for INT_64 */
 	    (hi_u32(prod) > ((UINT32) 0x80000000)) ||   /* signed int too big for INT_64 */
-	    (lo_u32(prod) > ((UINT32) 0x00000000)))
-	{
+	    (lo_u32(prod) > ((UINT32)0x00000000))) {
 	    OVERFLOW_ERROR;
 	}
     }
 
     if ((sign == 0)				 ||	/* result is unsigned */
 	((hi_u32(prod) == ((UINT32) 0x80000000)) &&	/* - this number has the same     */
-	 (lo_u32(prod) != ((UINT32) 0x00000000))))	/* representation as its negation */
-    {
-	return  PARAM(prod);
+	 (lo_u32(prod) != ((UINT32) 0x00000000)))) {	/* representation as its negation */
+	return PARAM(prod);
     }
-    return  __TDFUneg(PARAM(prod));
+    return __TDFUneg(PARAM(prod));
 }
 
 
@@ -627,33 +640,33 @@ INT64 __TDFUs_mult PROTO_N ((param_a, param_b))
 
 #if 0
 
-UINT64 __TDFUu_mult PROTO_N ((param_a, param_b))
-		    PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_mult(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	prod, a, b;
 
-    if (__TDFUu_test(param_b, UPARAM(const_u0)) == 0)  return UPARAM(const_u0);
+    if (__TDFUu_test(param_b, UPARAM(const_u0)) == 0) return UPARAM(const_u0);
 
     UPARAM(a) = param_a;
     UPARAM(b) = param_b;
     prod = const_u0;
 
-    while (__TDFUu_test(UPARAM(b), UPARAM(const_u1)) != 0)
+    while (__TDFUu_test(UPARAM(b), UPARAM(const_u1))!= 0)
     {
-	if ((lo_u32(b) & 1) != 0) {
+	if ((lo_u32(b) & 1)!= 0) {
 	    prod = __TDFUu_plus (UPARAM(prod), UPARAM(a));	/* Any overflow will be flagged */
 	}
-	PARAM(a) = __TDFUu_shl (UPARAM(a), (UINT32) 1);
-	PARAM(b) = __TDFUu_shr (UPARAM(b), (UINT32) 1);
-    } 
+	PARAM(a) = __TDFUu_shl(UPARAM(a), (UINT32)1);
+	PARAM(b) = __TDFUu_shr(UPARAM(b), (UINT32)1);
+    }
 
-    return  UPARAM (__TDFUu_plus (prod, a));
+    return UPARAM(__TDFUu_plus(prod, a));
 }
 
 #else
 
-UINT64 __TDFUu_mult PROTO_N ((param_a, param_b))
-		    PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_mult(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	prod, a, b;
 
@@ -661,7 +674,7 @@ UINT64 __TDFUu_mult PROTO_N ((param_a, param_b))
     UPARAM(b) = param_b;
     CLEAR_ERRORS;
     prod = TDFUmult (a, b);	/* Any overflow will be flagged */
-    return  UPARAM(prod);
+    return UPARAM(prod);
 }
 
 #endif
@@ -720,20 +733,20 @@ UINT64 __TDFUu_mult PROTO_N ((param_a, param_b))
 **
 */
 
-#define S_DIV1		((UINT32) 0)
-#define S_DIV2		((UINT32) 2)
-#define U_DIV2		((UINT32) 3)
-#define S_REM1		((UINT32) 4)
-#define S_REM2		((UINT32) 6)
-#define U_REM2		((UINT32) 7)
-#define S_DIV1_0_1	((UINT32) 8)
+#define S_DIV1		((UINT32)0)
+#define S_DIV2		((UINT32)2)
+#define U_DIV2		((UINT32)3)
+#define S_REM1		((UINT32)4)
+#define S_REM2		((UINT32)6)
+#define U_REM2		((UINT32)7)
+#define S_DIV1_0_1	((UINT32)8)
 
 #define is_signed(X)	(((X) & 1) == 0)
 #define is_class1(X)	(((X) & 2) == 0)
 #define is_div(X)	(((X) & 4) == 0)
 
-static TDF_INT64 TDFUdiv_rem PROTO_N ((a, b, flags))
-			     PROTO_T (TDF_INT64 a X TDF_INT64 b X UINT32 flags)
+static TDF_INT64
+TDFUdiv_rem(TDF_INT64 a, TDF_INT64 b, UINT32 flags)
 {
     TDF_INT64	new_int, a_upper;
     UINT32	i;
@@ -744,47 +757,40 @@ static TDF_INT64 TDFUdiv_rem PROTO_N ((a, b, flags))
     if (hi_u32(a) == 0) {
 	if (hi_u32(b) == 0) {	/* both a and b fit into 32 bits */
 	    lo_u32(new_int) = lo_u32(a) / lo_u32(b);
-	    lo_u32(a_upper) = lo_u32(a) % lo_u32(b);
-	}
-	else {			/* b > a */
+	    lo_u32(a_upper) = lo_u32(a)% lo_u32(b);
+	} else {			/* b > a */
 	    lo_u32(new_int) = 0;
 	    a_upper = a;
 	}
-    }
+    } else {
+	for (i = 64; i > 0; i--) {
+	    TDFUshl(new_int, new_int,(UINT32)1);
 
-    else {
-	for (i = 64; i > 0; i--)
-	{
-	    TDFUshl (new_int, new_int, (UINT32) 1);
-	    
-	    TDFUshl (a_upper, a_upper, (UINT32) 1);
-	    if ((hi_u32(a) >> 31) != 0)
-	    {
+	    TDFUshl(a_upper, a_upper,(UINT32)1);
+	    if ((hi_u32(a) >> 31)!= 0) {
 		hi_u32(a) &= ((UINT32) 0x7fffffff);	/* mask out for shift */
 		lo_u32(a_upper) |= 1;	/* do carry */
 	    }
-	    TDFUshl (a, a, (UINT32) 1);
-	    
+	    TDFUshl(a, a,(UINT32)1);
+
 	    if (__TDFUu_test(UPARAM(a_upper), UPARAM(b)) >= 0) {
-		UPARAM(a_upper) = __TDFUu_minus (UPARAM(a_upper), UPARAM(b));
+		UPARAM(a_upper) = __TDFUu_minus(UPARAM(a_upper), UPARAM(b));
 		lo_u32(new_int) |= 1;
 	    }
-	} 
-	
+	}
+
     }
 
-    if (is_div(flags))		/* result of 'div' */
-    {
+    if (is_div(flags)) {	/* result of 'div' */
 	if ((flags == S_DIV1_0_1)	&&
-	    ((lo_32(a_upper) != 0)	||
-	     (hi_32(a_upper) != 0)))
-	{
+	   ((lo_32(a_upper)!= 0)	||
+	    (hi_32(a_upper)!= 0))) {
 	    PARAM(new_int) = __TDFUs_plus(PARAM(new_int), PARAM(const_1));
 	}
-	return  new_int;
+	return new_int;
     }
 
-    return  a_upper;		/* result of 'rem' */
+    return a_upper;		/* result of 'rem' */
 }
 
 
@@ -795,15 +801,14 @@ static TDF_INT64 TDFUdiv_rem PROTO_N ((a, b, flags))
 **  Division-by-zero is the only possible error.
 */
 
-INT64 __TDFUs_div1 PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_div1(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	quot, a, b;
     int		is_neg;
 
     PARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
@@ -814,22 +819,21 @@ INT64 __TDFUs_div1 PROTO_N ((param_a, param_b))
     PARAM(b) = __TDFUabs(param_b);
 
     if (is_neg) {
-	quot = TDFUdiv_rem (a, b, S_DIV1_0_1);
+	quot = TDFUdiv_rem(a, b, S_DIV1_0_1);
 	CLEAR_ERRORS;					/* May have been set by __TDFUabs */
-	hi_32(quot) = hi_32(quot) ^ ( (INT32) 
+	hi_32(quot) = hi_32(quot)^((INT32)
 		((UINT32) 0xffffffff));		/* Avoid errors, don't call __TDFUneg */
-	lo_32(quot) = lo_32(quot) ^ UINT32_const(0xffffffff);
-	return  PARAM (TDFUplus (quot, const_1));
+	lo_32(quot) = lo_32(quot)^ UINT32_const(0xffffffff);
+	return PARAM(TDFUplus(quot, const_1));
     }
 
-    quot = TDFUdiv_rem (a, b, S_DIV1);
+    quot = TDFUdiv_rem(a, b, S_DIV1);
     CLEAR_ERRORS;	/* May have been set by __TDFUabs */
 
-    if (TDFUis_negative(quot))		/* Only happens for INT_MAX+1 */
-    {
+    if (TDFUis_negative(quot)) {	/* Only happens for INT_MAX+1 */
 	OVERFLOW_ERROR;
     }
-    return  PARAM(quot);
+    return PARAM(quot);
 }
 
 
@@ -840,15 +844,14 @@ INT64 __TDFUs_div1 PROTO_N ((param_a, param_b))
 **  Division-by-zero is the only possible error.
 */
 
-INT64 __TDFUs_div2 PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_div2(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	quot, a, b;
     int		is_neg;
 
     PARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
@@ -858,21 +861,20 @@ INT64 __TDFUs_div2 PROTO_N ((param_a, param_b))
     PARAM(a) = __TDFUabs(param_a);
     PARAM(b) = __TDFUabs(param_b);
 
-    quot = TDFUdiv_rem (a, b, S_DIV2);
+    quot = TDFUdiv_rem(a, b, S_DIV2);
     CLEAR_ERRORS;	/* May have been set by __TDFUabs */
 
     if (is_neg) {
-	hi_32(quot) = hi_32(quot) ^
+	hi_32(quot) = hi_32(quot)^
 	   ( (INT32) ((UINT32) 0xffffffff)); /* Avoid errors, don't call __TDFUneg */
-	lo_32(quot) = lo_32(quot) ^ ((UINT32) 0xffffffff);
-	return  PARAM(TDFUplus (quot, const_1));
+	lo_32(quot) = lo_32(quot)^((UINT32)0xffffffff);
+	return PARAM(TDFUplus(quot, const_1));
     }
 
-    if (TDFUis_negative(quot))		/* Only happens for INT_MAX+1 */
-    {
+    if (TDFUis_negative(quot)) {	/* Only happens for INT_MAX+1 */
 	OVERFLOW_ERROR;
     }
-    return  PARAM(quot);
+    return PARAM(quot);
 }
 
 
@@ -883,22 +885,21 @@ INT64 __TDFUs_div2 PROTO_N ((param_a, param_b))
 **  Division-by-zero is the only possible error.
 */
 
-UINT64 __TDFUu_div2 PROTO_N ((param_a, param_b))
-		    PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_div2(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
     CLEAR_ERRORS;
 
     UPARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
     UPARAM(a) = param_a;
 
-    return  UPARAM (TDFUdiv_rem (a, b, U_DIV2));
+    return UPARAM(TDFUdiv_rem(a, b, U_DIV2));
 }
 
 
@@ -908,15 +909,14 @@ UINT64 __TDFUu_div2 PROTO_N ((param_a, param_b))
 **  Modulo-zero is the only possible error.
 */
 
-INT64 __TDFUs_rem1 PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_rem1(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	rem, a, b, abs_a, abs_b;
     int		is_neg;
 
     PARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
@@ -925,25 +925,25 @@ INT64 __TDFUs_rem1 PROTO_N ((param_a, param_b))
     PARAM(abs_b) = __TDFUabs(param_b);
 
     is_neg = TDFUis_negative(b);	/* is result negative ? */
-    rem = TDFUdiv_rem (abs_a, abs_b, S_REM1);
+    rem = TDFUdiv_rem(abs_a, abs_b, S_REM1);
     CLEAR_ERRORS;		/* May have been set by __TDFUabs */
 
     if (TDFUis_positive(a)	&&
 	TDFUis_negative(b)	&&
-	TDFUis_nonzero(rem))
-    {
-	return  __TDFUs_plus (param_b, PARAM(rem));
+	TDFUis_nonzero(rem)) {
+	return __TDFUs_plus(param_b, PARAM(rem));
     }
 
     if (TDFUis_negative(a)	&&
 	TDFUis_positive(b)	&&
-	TDFUis_nonzero(rem))
-    {
-	return  __TDFUs_minus (param_b, PARAM(rem));
+	TDFUis_nonzero(rem)) {
+	return __TDFUs_minus(param_b, PARAM(rem));
     }
 
-    if (is_neg) return  __TDFUneg(PARAM(rem));
-    return  PARAM(rem);
+    if (is_neg) {
+	    return __TDFUneg(PARAM(rem));
+    }
+    return PARAM(rem);
 }
 
 
@@ -954,15 +954,14 @@ INT64 __TDFUs_rem1 PROTO_N ((param_a, param_b))
 **  Modulo-zero is the only possible error.
 */
 
-INT64 __TDFUs_rem2 PROTO_N ((param_a, param_b))
-		   PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_rem2(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	rem, a, b;
     int		is_neg;
 
     PARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
@@ -972,11 +971,13 @@ INT64 __TDFUs_rem2 PROTO_N ((param_a, param_b))
     PARAM(a) = __TDFUabs(param_a);
     PARAM(b) = __TDFUabs(param_b);
 
-    rem = TDFUdiv_rem (a, b, S_REM2);
+    rem = TDFUdiv_rem(a, b, S_REM2);
     CLEAR_ERRORS;		/* May have been set by __TDFUabs */
 
-    if (is_neg) return  __TDFUneg(PARAM(rem));
-    return  PARAM(rem);
+    if (is_neg) {
+	    return __TDFUneg(PARAM(rem));
+    }
+    return PARAM(rem);
 }
 
 
@@ -987,21 +988,20 @@ INT64 __TDFUs_rem2 PROTO_N ((param_a, param_b))
 **  Modulo-zero is the only possible error.
 */
 
-UINT64 __TDFUu_rem2 PROTO_N ((param_a, param_b))
-		    PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_rem2(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
     UPARAM(b) = param_b;
-    if (TDFUis_zero(b))
-    {
+    if (TDFUis_zero(b)) {
 	DIV_ZERO_ERROR;		/* Stop now - return anything */
 	return param_b;
     }
     UPARAM(a) = param_a;
 
     CLEAR_ERRORS;
-    return  UPARAM (TDFUdiv_rem (a, b, U_REM2));
+    return UPARAM(TDFUdiv_rem(a, b, U_REM2));
 }
 
 
@@ -1013,15 +1013,15 @@ UINT64 __TDFUu_rem2 PROTO_N ((param_a, param_b))
 **  Overflow error if original value was INT64_MIN.
 */
 
-INT64 __TDFUneg PROTO_N ((param_a))
-		PROTO_T (INT64 param_a)
+INT64
+__TDFUneg(INT64 param_a)
 {
     TDF_INT64	a;
 
     PARAM(a) = param_a;
-    hi_32(a) = hi_32(a) ^ ((INT32) ((UINT32) 0xffffffff));
-    lo_32(a) = lo_32(a) ^ ((UINT32) 0xffffffff);
-    return  __TDFUs_plus (PARAM(a), PARAM(const_1));	/* Should handle any errors */
+    hi_32(a) = hi_32(a)^((INT32)((UINT32)0xffffffff));
+    lo_32(a) = lo_32(a)^((UINT32)0xffffffff);
+    return __TDFUs_plus(PARAM(a), PARAM(const_1));	/* Should handle any errors */
 }
 
 
@@ -1039,18 +1039,18 @@ INT64 __TDFUneg PROTO_N ((param_a))
 ** 	__TDFUu_shl:
 **
 **  Does error checking.  If all is okay, returns the value.
-**  
+**
 */
 
-UINT64 __TDFUu_shl PROTO_N ((param_a, n))
-		   PROTO_T (UINT64 param_a X UINT32 n)
+UINT64
+__TDFUu_shl(UINT64 param_a, UINT32 n)
 {
     TDF_INT64	a;
 
     CLEAR_ERRORS;
     if (n > 63) {
 	OVERFLOW_ERROR;
-	return  UPARAM(const_u0);
+	return UPARAM(const_u0);
     }
 
     if (n == 0)	return param_a;
@@ -1059,19 +1059,15 @@ UINT64 __TDFUu_shl PROTO_N ((param_a, n))
 
     UPARAM(a) = param_a;
     if (n > 32) {
-	if (((lo_u32(a) >> (64-n)) != 0)	||
-	    (hi_u32(a) != 0))
-	{
+	if (((lo_u32(a) >> (64-n))!= 0)	|| (hi_u32(a)!= 0)) {
 	    OVERFLOW_ERROR;
 	}
-    }
-    else if ((hi_u32(a) >> (32-n)) != 0)
-    {
+    } else if ((hi_u32(a) >> (32-n))!= 0) {
 	OVERFLOW_ERROR;
     }
 
-    TDFUshl (a, a, n);
-    return  UPARAM(a);
+    TDFUshl(a, a, n);
+    return UPARAM(a);
 }
 
 
@@ -1083,24 +1079,21 @@ UINT64 __TDFUu_shl PROTO_N ((param_a, n))
 **  	     n <= 32 - mask out two contributions and OR together.
 */
 
-static TDF_INT64 TDFUshr PROTO_N ((a, n))
-			 PROTO_T (TDF_INT64 a X UINT32 n)
+static TDF_INT64
+TDFUshr(TDF_INT64 a, UINT32 n)
 {
     TDF_INT64	shifted_a;
 
     CLEAR_ERRORS;
-    if (n >= 32)	/* 32 <= n < 64 */
-    {
-	lo_u32 (shifted_a) = hi_u32(a) >> (n -32);
-	hi_u32 (shifted_a) = (UINT32) 0x00000000;
-    }
-    else	/*  (0 < n <= 32)  */
-    {
-	lo_u32 (shifted_a) = (hi_u32(a) << (32-n)) | (lo_u32(a) >> n);
-	hi_u32 (shifted_a) =  hi_u32(a) >> n;
+    if (n >= 32) {	/* 32 <= n < 64 */
+	lo_u32(shifted_a) = hi_u32(a) >> (n -32);
+	hi_u32(shifted_a) = (UINT32)0x00000000;
+    } else {	/*  (0 < n <= 32)  */
+	lo_u32(shifted_a) = (hi_u32(a) << (32-n)) | (lo_u32(a) >> n);
+	hi_u32(shifted_a) =  hi_u32(a) >> n;
     }
 
-    return  shifted_a;
+    return shifted_a;
 }
 
 
@@ -1119,20 +1112,20 @@ static TDF_INT64 TDFUshr PROTO_N ((a, n))
 **  Error occurs if n > 64 since the result is undefined.
 */
 
-UINT64 __TDFUu_shr PROTO_N ((param_a, n))
-		   PROTO_T (UINT64 param_a X UINT32 n)
+UINT64
+__TDFUu_shr(UINT64 param_a, UINT32 n)
 {
     TDF_INT64	a;
 
     CLEAR_ERRORS;
     if (n > 63) {	/* This is undefined */
 	OVERFLOW_ERROR;
-	return  UPARAM(const_u0);
+	return UPARAM(const_u0);
     }
 
     if (n == 0) return param_a;
     UPARAM(a) = param_a;
-    return  UPARAM (TDFUshr (a, n));
+    return UPARAM(TDFUshr(a, n));
 }
 
 
@@ -1143,21 +1136,21 @@ UINT64 __TDFUu_shr PROTO_N ((param_a, n))
 **  Checks for a negative quantity, for which it
 **  calls '__TDFUneg'.  Overflow for, as for __TDFUneg,
 **  occurs when the value is INT32_MIN.
-**  
+**
 */
 
-INT64 __TDFUabs PROTO_N ((param_a))
-		PROTO_T (INT64 param_a)
+INT64
+__TDFUabs(INT64 param_a)
 {
     TDF_INT64	a;
 
     PARAM(a) = param_a;
     if (TDFUis_negative(a)) {
-	return  __TDFUneg (param_a);	/* This handles any errors */
+	return __TDFUneg (param_a);	/* This handles any errors */
     }
 
     CLEAR_ERRORS;
-    return  param_a;
+    return param_a;
 }
 
 
@@ -1168,15 +1161,15 @@ INT64 __TDFUabs PROTO_N ((param_a))
 **
 */
 
-INT64 __TDFUsswiden PROTO_N ((a))
-		    PROTO_T (INT32 a)
+INT64
+__TDFUsswiden(INT32 a)
 {
     TDF_INT64	ext_int;
 
     CLEAR_ERRORS;
     hi_32(ext_int) = (INT32) ((a < 0) ? -1 : 0);	/* sign-extend a */
-    lo_32(ext_int) = (UINT32) a;
-    return  PARAM(ext_int);
+    lo_32(ext_int) = (UINT32)a;
+    return PARAM(ext_int);
 }
 
 
@@ -1187,21 +1180,19 @@ INT64 __TDFUsswiden PROTO_N ((a))
 **  Otherwise extends the sign bit (just to be safe)
 */
 
-UINT64 __TDFUsuwiden PROTO_N ((a))
-		     PROTO_T (INT32 a)
+UINT64 __TDFUsuwiden(INT32 a)
 {
     TDF_INT64	ext_int;
 
     CLEAR_ERRORS;
-    if (a < 0)
-    {
+    if (a < 0) {
 	OVERFLOW_ERROR;
     }
 
-    hi_u32(ext_int) = (UINT32) ((a < 0) ? 0xffffffff : 0);
+    hi_u32(ext_int) = (UINT32)((a < 0)? 0xffffffff : 0);
 					/* sign-extend a */
-    lo_u32(ext_int) = (UINT32) a;
-    return  UPARAM(ext_int);
+    lo_u32(ext_int) = (UINT32)a;
+    return UPARAM(ext_int);
 }
 
 
@@ -1211,15 +1202,15 @@ UINT64 __TDFUsuwiden PROTO_N ((a))
 **  Puts zero in bits 32-63 and returns
 */
 
-UINT64 __TDFUuuwiden PROTO_N ((a))
-		     PROTO_T (UINT32 a)
+UINT64
+__TDFUuuwiden(UINT32 a)
 {
     TDF_INT64	ext_int;
 
     CLEAR_ERRORS;
     hi_u32(ext_int) = 0;
     lo_u32(ext_int) = a;
-    return  UPARAM(ext_int);
+    return UPARAM(ext_int);
 }
 
 
@@ -1230,15 +1221,15 @@ UINT64 __TDFUuuwiden PROTO_N ((a))
 **
 */
 
-INT64 __TDFUuswiden PROTO_N ((a))
-		    PROTO_T (UINT32 a)
+INT64
+__TDFUuswiden(UINT32 a)
 {
     TDF_INT64	ext_int;
 
     CLEAR_ERRORS;
     hi_32(ext_int) = 0;
     lo_32(ext_int) = a;
-    return  PARAM(ext_int);
+    return PARAM(ext_int);
 }
 
 
@@ -1250,21 +1241,21 @@ INT64 __TDFUuswiden PROTO_N ((a))
 **  bit into bit-31.
 */
 
-INT32 __TDFUssshorten PROTO_N ((param_a))
-		      PROTO_T (INT64 param_a)
+INT32
+__TDFUssshorten(INT64 param_a)
 {
     TDF_INT64	a;
 
     PARAM(a) = param_a;
     CLEAR_ERRORS;
-    switch ((int) hi_32(a)) {
+    switch ((int)hi_32(a)) {
       case 0:
-	  if ((lo_32(a) & ((UINT32) 0x80000000)) != 0) {
+	  if ((lo_32(a) & ((UINT32)0x80000000))!= 0) {
 	      OVERFLOW_ERROR;
 	  }
 	  break;
       case -1:
-	  if ((lo_32(a) & ((UINT32) 0x80000000)) == 0) {
+	  if ((lo_32(a) & ((UINT32)0x80000000)) == 0) {
 	      OVERFLOW_ERROR;
 	  }
 	  break;
@@ -1272,8 +1263,8 @@ INT32 __TDFUssshorten PROTO_N ((param_a))
 	  OVERFLOW_ERROR;
     }
 
-    return  ((((INT32) lo_32(a)) & ((INT32) 0x7fffffff)) |
-		      (hi_32(a)  & ((INT32) ((UINT32) 0x80000000))));
+    return ((((INT32)lo_32(a)) & ((INT32)0x7fffffff)) |
+	    (hi_32(a) & ((INT32)((UINT32)0x80000000))));
 
 }
 
@@ -1286,19 +1277,18 @@ INT32 __TDFUssshorten PROTO_N ((param_a))
 **  is in bits 0-31.
 */
 
-UINT32 __TDFUsushorten PROTO_N ((param_a))
-		       PROTO_T (INT64 param_a)
+UINT32
+__TDFUsushorten(INT64 param_a)
 {
     TDF_INT64	a;
 
     PARAM(a) = param_a;
     CLEAR_ERRORS;
-    if (hi_32(a) != 0)
-    {
+    if (hi_32(a) != 0) {
 	OVERFLOW_ERROR;
     }
 
-    return  lo_32(a);
+    return lo_32(a);
 }
 
 
@@ -1309,19 +1299,18 @@ UINT32 __TDFUsushorten PROTO_N ((param_a))
 **  Return bits 0-31.
 */
 
-UINT32 __TDFUuushorten PROTO_N ((param_a))
-		       PROTO_T (UINT64 param_a)
+UINT32
+__TDFUuushorten(UINT64 param_a)
 {
     TDF_INT64	a;
 
     UPARAM(a) = param_a;
     CLEAR_ERRORS;
-    if (hi_u32(a) != 0)
-    {
+    if (hi_u32(a) != 0) {
 	OVERFLOW_ERROR;
     }
 
-    return  lo_u32(a);
+    return lo_u32(a);
 }
 
 
@@ -1332,20 +1321,19 @@ UINT32 __TDFUuushorten PROTO_N ((param_a))
 **  Return bits 0-31.
 */
 
-INT32 __TDFUusshorten PROTO_N ((param_a))
-		      PROTO_T (UINT64 param_a)
+INT32
+__TDFUusshorten(UINT64 param_a)
 {
     TDF_INT64	a;
 
     UPARAM(a) = param_a;
     CLEAR_ERRORS;
-    if ((hi_u32(a) != 0)		||
-	(((INT32) lo_u32(a)) < 0))	/* Must be an error - started off unsigned */
-    {
+    if ((hi_u32(a)!= 0)	||
+	(((INT32) lo_u32(a)) < 0)) {	/* Must be an error - started off unsigned */
 	OVERFLOW_ERROR;
     }
 
-    return  (INT32) lo_u32(a);
+    return (INT32)lo_u32(a);
 }
 
 
@@ -1356,19 +1344,18 @@ INT32 __TDFUusshorten PROTO_N ((param_a))
 **  Return bits 0-31.
 */
 
-INT64 __TDFUu642s64 PROTO_N ((param_a))
-		    PROTO_T (UINT64 param_a)
+INT64
+__TDFUu642s64(UINT64 param_a)
 {
     TDF_INT64	a;
 
     UPARAM(a) = param_a;
     CLEAR_ERRORS;
-    if (TDFUis_negative(a))	/* Cast and check */
-    {
+    if (TDFUis_negative(a)) {	/* Cast and check */
 	OVERFLOW_ERROR;
     }
 
-    return  PARAM(a);
+    return PARAM(a);
 }
 
 
@@ -1379,19 +1366,18 @@ INT64 __TDFUu642s64 PROTO_N ((param_a))
 **  Return bits 0-31.
 */
 
-UINT64 __TDFUs642u64 PROTO_N ((param_a))
-		     PROTO_T (INT64 param_a)
+UINT64
+__TDFUs642u64(INT64 param_a)
 {
     TDF_INT64	a;
 
     PARAM(a) = param_a;
     CLEAR_ERRORS;
-    if (TDFUis_negative(a))	/* Check and cast */
-    {
+    if (TDFUis_negative(a)) {	/* Check and cast */
 	OVERFLOW_ERROR;
     }
 
-    return  UPARAM(a);
+    return UPARAM(a);
 }
 
 
@@ -1404,14 +1390,14 @@ UINT64 __TDFUs642u64 PROTO_N ((param_a))
 **
 */
 
-INT64 __TDFUs_max PROTO_N ((param_a, param_b))
-		  PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_max(INT64 param_a, INT64 param_b)
 {
     CLEAR_ERRORS;
     if (__TDFUs_test(param_a, param_b) > 0) {
 	 return param_a;			/* a = max(a,b) */
     }
-    return  param_b;				/* b = max(a,b) */
+    return param_b;				/* b = max(a,b) */
 }
 
 
@@ -1422,13 +1408,13 @@ INT64 __TDFUs_max PROTO_N ((param_a, param_b))
 **
 */
 
-UINT64 __TDFUu_max PROTO_N ((param_a, param_b))
-		   PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_max(UINT64 param_a, UINT64 param_b)
 {
     if (__TDFUu_test(param_a, param_b) > 0) {
 	 return param_a;			/* a = max(a,b) */
     }
-    return  param_b;				/* b = max(a,b) */
+    return param_b;				/* b = max(a,b) */
 }
 
 
@@ -1439,8 +1425,8 @@ UINT64 __TDFUu_max PROTO_N ((param_a, param_b))
 **
 */
 
-INT64 __TDFUs_min PROTO_N ((param_a, param_b))
-		  PROTO_T (INT64 param_a X INT64 param_b)
+INT64
+__TDFUs_min(INT64 param_a, INT64 param_b)
 {
     if (__TDFUs_test(param_a, param_b) < 0) {
 	return param_a;				/* a = min(a,b) */
@@ -1456,8 +1442,8 @@ INT64 __TDFUs_min PROTO_N ((param_a, param_b))
 **
 */
 
-UINT64 __TDFUu_min PROTO_N ((param_a, param_b))
-		   PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUu_min(UINT64 param_a, UINT64 param_b)
 {
     if (__TDFUu_test(param_a, param_b) < 0) {
 	return param_a;				/* a = min(a,b) */
@@ -1477,8 +1463,8 @@ UINT64 __TDFUu_min PROTO_N ((param_a, param_b))
 **
 */
 
-int __TDFUs_test PROTO_N ((param_a, param_b))
-		 PROTO_T (INT64 param_a X INT64 param_b)
+int
+__TDFUs_test(INT64 param_a, INT64 param_b)
 {
     TDF_INT64	a, b;
 
@@ -1497,8 +1483,8 @@ int __TDFUs_test PROTO_N ((param_a, param_b))
 **	__TDFUu_test:  as for __TDFUs_test, but for unsigned types.
 */
 
-int __TDFUu_test PROTO_N ((param_a, param_b))
-	         PROTO_T (UINT64 param_a X UINT64 param_b)
+int
+__TDFUu_test(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
@@ -1522,8 +1508,8 @@ int __TDFUu_test PROTO_N ((param_a, param_b))
 **  ANDs the hi- and low-words together, and returns.
 */
 
-UINT64 __TDFUand PROTO_N ((param_a, param_b))
-		 PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUand(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
@@ -1533,7 +1519,7 @@ UINT64 __TDFUand PROTO_N ((param_a, param_b))
 
     hi_u32(a) = (hi_u32(a) & hi_u32(b));
     lo_u32(a) = (lo_u32(a) & lo_u32(b));
-    return  UPARAM(a);
+    return UPARAM(a);
 }
 
 
@@ -1543,8 +1529,8 @@ UINT64 __TDFUand PROTO_N ((param_a, param_b))
 **  ORs the hi- and low-words together, and returns.
 */
 
-UINT64 __TDFUor PROTO_N ((param_a, param_b))
-		PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUor(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
@@ -1554,7 +1540,7 @@ UINT64 __TDFUor PROTO_N ((param_a, param_b))
 
     hi_u32(a) = (hi_u32(a) | hi_u32(b));
     lo_u32(a) = (lo_u32(a) | lo_u32(b));
-    return  UPARAM(a);
+    return UPARAM(a);
 }
 
 
@@ -1565,8 +1551,8 @@ UINT64 __TDFUor PROTO_N ((param_a, param_b))
 **  ORs the hi- and low-words together, and returns.
 */
 
-UINT64 __TDFUxor PROTO_N ((param_a, param_b))
-		 PROTO_T (UINT64 param_a X UINT64 param_b)
+UINT64
+__TDFUxor(UINT64 param_a, UINT64 param_b)
 {
     TDF_INT64	a, b;
 
@@ -1574,9 +1560,9 @@ UINT64 __TDFUxor PROTO_N ((param_a, param_b))
     UPARAM(b) = param_b;
     CLEAR_ERRORS;
 
-    hi_u32(a) = (hi_u32(a) ^ hi_u32(b));
-    lo_u32(a) = (lo_u32(a) ^ lo_u32(b));
-    return  UPARAM(a);
+    hi_u32(a) = (hi_u32(a)^ hi_u32(b));
+    lo_u32(a) = (lo_u32(a)^ lo_u32(b));
+    return UPARAM(a);
 }
 
 
@@ -1587,16 +1573,16 @@ UINT64 __TDFUxor PROTO_N ((param_a, param_b))
 **  XORs the hi- and low-words each with 0xffffffff
 */
 
-UINT64 __TDFUnot PROTO_N ((param_a))
-		 PROTO_T (UINT64 param_a)
+UINT64
+__TDFUnot(UINT64 param_a)
 {
     TDF_INT64	a;
 
     UPARAM(a) = param_a;
     CLEAR_ERRORS;
-    hi_u32(a) = hi_u32(a) ^ ((UINT32) 0xffffffff);
-    lo_u32(a) = lo_u32(a) ^ ((UINT32) 0xffffffff);
-    return  UPARAM(a);
+    hi_u32(a) = hi_u32(a)^((UINT32)0xffffffff);
+    lo_u32(a) = lo_u32(a)^((UINT32)0xffffffff);
+    return UPARAM(a);
 }
 
 
@@ -1605,38 +1591,38 @@ UINT64 __TDFUnot PROTO_N ((param_a))
 /* Functions only used for debug purposes - normally hidden */
 
 #if DEBUG
-INT64 make_INT64 PROTO_N ((new_hi, new_lo))
-		 PROTO_T (INT32 new_hi X UINT32 new_lo)
+INT64
+make_INT64(INT32 new_hi, UINT32 new_lo)
 {
     TDF_INT64	new_int;
 
-    hi_32 (new_int) = new_hi;
-    lo_32 (new_int) = new_lo;
-    return  PARAM(new_int);
+    hi_32(new_int) = new_hi;
+    lo_32(new_int) = new_lo;
+    return PARAM(new_int);
 }
 
 
-UINT64 make_UINT64 PROTO_N ((new_hi, new_lo))
-		   PROTO_T (UINT32 new_hi X UINT32 new_lo)
+UINT64
+make_UINT64(UINT32 new_hi, UINT32 new_lo)
 {
     TDF_INT64	new_int;
 
-    hi_u32 (new_int) = new_hi;
-    lo_u32 (new_int) = new_lo;
-    return  UPARAM(new_int);
+    hi_u32(new_int) = new_hi;
+    lo_u32(new_int) = new_lo;
+    return UPARAM(new_int);
 }
 
-void INT64_print PROTO_N ((t1, a, t2))
-		 PROTO_T (char * t1 X INT64 a X char *t2)
+void
+INT64_print(char * t1, INT64 a, char *t2)
 {
-    IGNORE printf ("%s(%d,%u)%s", t1, (int) a.hi32, (unsigned) a.lo32, t2);
+    IGNORE printf("%s(%d,%u)%s", t1, (int)a.hi32, (unsigned)a.lo32, t2);
     return;
 }
 
-void UINT64_print PROTO_N ((t1, a, t2))
-		  PROTO_T (char * t1 X UINT64 a X char * t2)
+void
+UINT64_print(char * t1, UINT64 a, char * t2)
 {
-    IGNORE printf ("%s(%u,%u)%s", t1, (unsigned) a.hi32, (unsigned) a.lo32, t2);
+    IGNORE printf("%s(%u,%u)%s", t1, (unsigned)a.hi32, (unsigned)a.lo32, t2);
     return;
 }
 #endif  /* DEBUG */
