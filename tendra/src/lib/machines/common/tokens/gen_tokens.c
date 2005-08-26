@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -50,13 +80,11 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <limits.h>
-#include "ossg.h"
 /* Defined in '../../../../utilities/shared' */
 
 
-static void out_nat
-    PROTO_N ((name,value))
-    PROTO_T (char* name X int value)
+static void
+out_nat(char *name, int value)
 {
 #ifdef TNC_SRC
 	(void)printf("( make_tokdef .~%s nat %d )\n\n", name, value);
@@ -67,11 +95,10 @@ static void out_nat
 }
 
 
-static void out_bool
-    PROTO_N ((name,value))
-    PROTO_T (char* name X int value)
+static void
+out_bool(char *name, int value)
 {
-	char *str = ( value ? "true" : "false" );
+	char *str = (value ? "true" : "false");
 #ifdef TNC_SRC
 	(void)printf("( make_tokdef .~%s bool %s )\n\n", name, str);
 #else	/* PL TDF source */
@@ -81,13 +108,12 @@ static void out_bool
 }
 
 
-static int calc_width
-    PROTO_N ((s_max))
-    PROTO_T (unsigned long s_max)
+static int
+calc_width(unsigned long s_max)
 {
 	int i;
 	for (i=1;;i++) {
-		if ((((unsigned long)1)<<i) > s_max) return i+1;
+		if ((((unsigned long)1) <<i) > s_max) return i+1;
 	}
 	/* UNREACHED */
 }
@@ -95,8 +121,8 @@ static int calc_width
 #define width(c)	calc_width((unsigned long)(c))
 
 
-int main
-    PROTO_Z ()
+int
+main(void)
 {
 	int c_width, s_width, i_width, l_width, sz_width;
 	int p_width, al_width, str_ch_width;
@@ -133,14 +159,14 @@ int main
 #ifdef size_t_width
 	sz_width = size_t_width;
 #else
-	sz_width = sizeof(size_t) * c_width;
+	sz_width = sizeof(size_t)* c_width;
 #endif
 	out_nat("size_t_width", sz_width);
 
 #ifdef ptr_width
 	p_width = ptr_width;
 #else
-	p_width = sizeof(char*) * c_width;
+	p_width = sizeof(char*)* c_width;
 #endif
 	out_nat("ptr_width", p_width);
 
@@ -151,17 +177,18 @@ int main
 	{
 		struct t { char c; struct { char c; } s; };
 		struct c { char c; };
-		al_width = offsetof(struct t,s) * c_width;
-		str_ch_width = sizeof(struct c) * c_width;
+		al_width = offsetof(struct t,s)* c_width;
+		str_ch_width = sizeof(struct c)* c_width;
 	}
 #endif
-	if (al_width == str_ch_width)
+	if (al_width == str_ch_width) {
 		out_nat("min_struct_rep", al_width);
+	}
 
 #ifdef char_is_signed
 	c_sgn = char_is_signed;
 #else
-	c_sgn = (CHAR_MIN<0) ? 1 : 0;
+	c_sgn = (CHAR_MIN<0)? 1 : 0;
 #endif
 	out_nat("char_is_signed", c_sgn);
 
@@ -171,7 +198,7 @@ int main
 	{
 		struct { int ibits : 2; } s;
 		s.ibits = -1;
-		bf_sgn = (s.ibits<0) ? 1 : 0;
+		bf_sgn = (s.ibits<0)? 1 : 0;
 	}
 #endif
 	out_nat("bitfield_is_signed", bf_sgn);
@@ -179,7 +206,7 @@ int main
 #ifdef best_div
 	bdiv = best_div;
 #else
-	bdiv = (4%(-6)>0)+1;
+	bdiv = (4%(-6) >0) +1;
 #endif
 	out_nat("best_div", bdiv);
 
@@ -187,15 +214,16 @@ int main
 	l_end = little_endian;
 #else
 	{
-		unsigned u ;
-		u = ('a' << 24) | ('b' << 16) | ('c' << 8) | ('d' << 0) ;
+		unsigned u;
+		u = ('a' << 24) | ('b' << 16) | ('c' << 8) | ('d' << 0);
 		l_end = -1;
-		if (sizeof(u)==4 && *(char *)&u == 'd') l_end = 1;
-		if (sizeof(u)==4 && *(char *)&u == 'a') l_end = 0;
+		if (sizeof(u) ==4 && *(char *) &u == 'd')l_end = 1;
+		if (sizeof(u) ==4 && *(char *) &u == 'a')l_end = 0;
 	}
 #endif
-	if (l_end >= 0 && l_end <= 1)
+	if (l_end >= 0 && l_end <= 1) {
 		out_bool("little_endian", l_end);
+	}
 
 	return 0;
 }
