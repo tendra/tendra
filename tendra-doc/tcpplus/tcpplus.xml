@@ -12,7 +12,10 @@
 
     <corpauthor>The TenDRA Project</corpauthor>
 
-    <author>Jeroen Ruigrok van der Werven</author>
+    <author>
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+    </author>
     <authorinitials>JRvdW</authorinitials>
     <pubdate>2004</pubdate>
 
@@ -2909,7 +2912,7 @@
   </sect3>
   </sect2>
   
-  <sect2>
+  <sect2 id="token">
     <title>2.3. Token syntax</title>
   <para>
   The C and C++ producers allow place-holders for various categories
