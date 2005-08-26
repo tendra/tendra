@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -65,68 +95,68 @@
 
 /* DECODE A %ST */
 
-long de_%SN
-    PROTO_Z ()
+long
+de_%SN(void)
 {
 @if sort.extends
-    long n = fetch_extn ( %SB%1u ) ;
+    long n = fetch_extn(%SB%1u);
 @else
-    long n = fetch ( %SB%0u ) ;
+    long n = fetch(%SB%0u);
 @endif
 @if sort.special
-    if ( n < %u || n > %SM ) {
-	out ( "<error>" ) ;
-	input_error ( "Illegal %ST value, %%ld", n ) ;
-	n = -1 ;
+    if (n < %u || n > %SM) {
+	out("<error>");
+	input_error("Illegal %ST value, %%ld", n);
+	n = -1;
     }
 @else
-    switch ( n ) {
+    switch (n) {
 @loop sort.cons
-	case %CE : {
+	case %CE: {
 @if cons.simple
 @if cons.params
-	    format ( VERT_BRACKETS, "%CN", "%CX" ) ;
+	    format(VERT_BRACKETS, "%CN", "%CX");
 @else
-	    out ( "%CN" ) ;
+	    out("%CN");
 @endif
 @else
 @if cons.cond
-	    format ( VERT_BRACKETS, "%CN", "%CX" ) ;
+	    format(VERT_BRACKETS, "%CN", "%CX");
 @else
 @if cons.token
 @if sort.name.foreign
-	    sortname sn = find_sortname ( '%SX' ) ;
-	    IGNORE de_token_aux ( sn, "%SN" ) ;
+	    sortname sn = find_sortname('%SX');
+	    IGNORE de_token_aux(sn, "%SN");
 @else
-	    IGNORE de_token_aux ( sort_%20SN, "%SN" ) ;
+	    IGNORE de_token_aux(sort_%20SN, "%SN");
 @endif
 @else
 @if cons.edge
-	    long t = tdf_int () ;
+	    long t = tdf_int();
 @if sort.link
-	    out_object ( t, ( object * ) null, var_%SN ) ;
+	    out_object(t,(object *)null, var_%SN);
 @else
-	    de_%CN ( t ) ;
+	    de_%CN(t);
 @endif
 @else
 	    /* Decode string "%CX" */
-	    de_%CN ( "%CN" ) ;
+	    de_%CN("%CN");
 @endif
 @endif
 @endif
 @endif
-	    break ;
+	    break;
 	}
 @end
 	default : {
-	    out ( "<error>" ) ;
-	    input_error ( "Illegal %ST value, %%ld", n ) ;
-	    n = -1 ;
-	    break ;
+	    out("<error>");
+	    input_error("Illegal %ST value, %%ld", n);
+	    n = -1;
+	    break;
 	}
     }
 @endif
-    return ( n ) ;
+    return(n);
 }
 @endif
 @end
@@ -139,23 +169,22 @@ long de_%SN
     pointer to the character following the corresponding ']'.
 */
 
-static char *skip_sub
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+static char *
+skip_sub(char *s)
 {
-    char c = *( s++ ) ;
-    if ( c == '[' ) {
-	int n = 0 ;
-	while ( c = *( s++ ), c != 0 ) {
-	    if ( c == '[' ) n++ ;
-	    if ( c == ']' ) {
-		if ( n == 0 ) return ( s ) ;
-		n-- ;
+    char c = *(s++);
+    if (c == '[') {
+	int n = 0;
+	while (c = *(s++), c != 0) {
+	    if (c == '[')n++;
+	    if (c == ']') {
+		if (n == 0) return(s);
+		n--;
 	    }
 	}
     }
-    input_error ( "Illegal decoding string" ) ;
-    return ( "" ) ;
+    input_error("Illegal decoding string");
+    return("");
 }
 
 
@@ -169,107 +198,106 @@ static char *skip_sub
     TDF integer and decode that number of EXPs.
 */
 
-void decode
-    PROTO_N ( ( str ) )
-    PROTO_T ( char *str )
+void
+decode(char *str)
 {
-    char c ;
-    while ( c = *( str++ ), c != 0 ) {
-	switch ( c ) {
-	    case '[' :
-	    case '{' :
-	    case '}' :
-	    case '&' : {
+    char c;
+    while (c = *(str++), c != 0) {
+	switch (c) {
+	    case '[':
+	    case '{':
+	    case '}':
+	    case '&': {
 		/* Ignore these cases */
-		break ;
+		break;
 	    }
-	    case ']' : {
+	    case ']': {
 		/* Marks the end of a group */
-		return ;
+		return;
 	    }
-	    case 'i' : {
+	    case 'i': {
 		/* Decode an integer */
-		long n = tdf_int () ;
-		out_int ( n ) ;
-		break ;
+		long n = tdf_int();
+		out_int(n);
+		break;
 	    }
-	    case '$' : {
+	    case '$': {
 		/* Decode a string */
-		de_tdfstring_format () ;
-		break ;
+		de_tdfstring_format();
+		break;
 	    }
-	    case 'T' : {
+	    case 'T': {
 		/* Decode a token */
-		IGNORE de_token_aux ( sort_unknown, "token" ) ;
-		break ;
+		IGNORE de_token_aux(sort_unknown, "token");
+		break;
 	    }
-	    case 'F' : {
+	    case 'F': {
 		/* Decode an unknown foreign sort */
-		input_error ( "Unknown foreign sort" ) ;
-		break ;
+		input_error("Unknown foreign sort");
+		break;
 	    }
-	    case '*' : {
+	    case '*': {
 		/* The following text is repeated n times */
-		long i, n ;
-		check_list () ;
-		n = tdf_int () ;
-		if ( n == 0 ) {
-		    out ( "empty" ) ;
+		long i, n;
+		check_list();
+		n = tdf_int();
+		if (n == 0) {
+		    out("empty");
 		} else {
-		    for ( i = 0 ; i < n ; i++ ) decode ( str + 1 ) ;
+		    for (i = 0; i < n; i++)decode(str + 1);
 		}
-		str = skip_sub ( str ) ;
-		break ;
+		str = skip_sub(str);
+		break;
 	    }
-	    case '+' : {
+	    case '+': {
 		/* The following text is repeated n + 1 times */
-		long i, n ;
-		check_list () ;
-		n = tdf_int () ;
-		for ( i = 0 ; i <= n ; i++ ) decode ( str + 1 ) ;
-		str = skip_sub ( str ) ;
-		break ;
+		long i, n;
+		check_list();
+		n = tdf_int();
+		for (i = 0; i <= n; i++)decode(str + 1);
+		str = skip_sub(str);
+		break;
 	    }
-	    case '?' : {
+	    case '?': {
 		/* The following text is optional */
-		if ( tdf_bool () ) {
-		    decode ( str + 1 ) ;
+		if (tdf_bool()) {
+		    decode(str + 1);
 		} else {
-		    out ( "-" ) ;
+		    out("-");
 		}
-		str = skip_sub ( str ) ;
-		break ;
+		str = skip_sub(str);
+		break;
 	    }
-	    case '@' : {
+	    case '@': {
 		/* The following text is a bitstream */
-		long p = tdf_int () ;
-		p += posn ( here ) ;
-		decode ( str + 1 ) ;
-		if ( p != posn ( here ) ) {
-		    input_error ( "Bitstream length wrong" ) ;
+		long p = tdf_int();
+		p += posn(here);
+		decode(str + 1);
+		if (p != posn(here)) {
+		    input_error("Bitstream length wrong");
 		}
-		str = skip_sub ( str ) ;
-		break ;
+		str = skip_sub(str);
+		break;
 	    }
-	    case '|' : {
+	    case '|': {
 		/* Align input stream */
-		byte_align () ;
-		break ;
+		byte_align();
+		break;
 	    }
 @loop sort
 @if sort.basic
 @if !sort.special
-	    case '%SX' : IGNORE de_%SN () ; break ;
+	    case '%SX': IGNORE de_%SN(); break;
 @endif
 @endif
 @end
 	    default : {
-		input_error ( "Illegal decode letter, %%c", c ) ;
-		break ;
+		input_error("Illegal decode letter, %%c", c);
+		break;
 	    }
 	}
     }
-    return ;
+    return;
 }
 
 
@@ -280,49 +308,48 @@ void decode
     number n.
 */
 
-sortid find_sort
-    PROTO_N ( ( n ) )
-    PROTO_T ( sortname n )
+sortid
+find_sort(sortname n)
 {
-    sortid s ;
-    switch ( n ) {
+    sortid s;
+    switch (n) {
 @loop sort
 @if sort.name.simple
 @if !sort.special
-	case sort_%20SN : {
-	    s.name = "%ST" ;
-	    s.decode = '%SX' ;
-	    break ;
+	case sort_%20SN: {
+	    s.name = "%ST";
+	    s.decode = '%SX';
+	    break;
 	}
 @endif
 @endif
 @end
-	case sort_token : {
-	    s.name = "TOKEN" ;
-	    s.decode = 'T' ;
-	    break ;
+	case sort_token: {
+	    s.name = "TOKEN";
+	    s.decode = 'T';
+	    break;
 	}
-	case sort_foreign : {
-	    s.name = "FOREIGN" ;
-	    s.decode = 'F' ;
-	    break ;
+	case sort_foreign: {
+	    s.name = "FOREIGN";
+	    s.decode = 'F';
+	    break;
 	}
 	default: {
-	    int m = n - extra_sorts ;
-	    if ( m >= 0 && m < no_foreign_sorts ) {
-		s.name = foreign_sorts [m].name ;
-		s.decode = foreign_sorts [m].decode ;
+	    int m = n - extra_sorts;
+	    if (m >= 0 && m < no_foreign_sorts) {
+		s.name = foreign_sorts[m].name;
+		s.decode = foreign_sorts[m].decode;
 	    } else {
-		input_error ( "Illegal sort value, %%d", n ) ;
-		s.name = "<error in SORT>" ;
-		s.decode = 'F' ;
+		input_error("Illegal sort value, %%d", n);
+		s.name = "<error in SORT>";
+		s.decode = 'F';
 	    }
-	    break ;
+	    break;
 	}
     }
-    s.res = n ;
-    s.args = null ;
-    return ( s ) ;
+    s.res = n;
+    s.args = null;
+    return(s);
 }
 
 
@@ -334,28 +361,27 @@ sortid find_sort
     number.
 */
 
-sortname find_sortname
-    PROTO_N ( ( c ) )
-    PROTO_T ( int c )
+sortname
+find_sortname(int c)
 {
-    long i ;
-    switch ( c ) {
+    long i;
+    switch (c) {
 @loop sort
 @if sort.name.simple
 @if !sort.special
-	case '%SX' : return ( sort_%20SN ) ;
+	case '%SX': return(sort_%20SN);
 @endif
 @endif
 @end
-	case 'T' : return ( sort_token ) ;
-	case 'F' : return ( sort_foreign ) ;
+	case 'T': return(sort_token);
+	case 'F': return(sort_foreign);
     }
-    for ( i = 0 ; i < no_foreign_sorts ; i++ ) {
-	if ( c == foreign_sorts [i].decode ) {
-	    return ( ( sortname ) ( extra_sorts + i ) ) ;
+    for (i = 0; i < no_foreign_sorts; i++) {
+	if (c == foreign_sorts[i].decode) {
+	    return((sortname)(extra_sorts + i));
 	}
     }
-    return ( sort_unknown ) ;
+    return(sort_unknown);
 }
 
 
@@ -365,15 +391,15 @@ sortname find_sortname
     This routine initialises the array of foreign sort names.
 */
 
-void init_foreign_sorts
-    PROTO_Z ()
+void
+init_foreign_sorts(void)
 {
 @loop sort
 @if sort.name.foreign
-    add_foreign_sort ( "%ST", "%SCN", '%SX' ) ;
+    add_foreign_sort("%ST", "%SCN", '%SX');
 @endif
 @end
-    return ;
+    return;
 }
 
 
@@ -386,7 +412,7 @@ void init_foreign_sorts
 %1u
 @loop sort
 @if sort.link
-long var_%SN = -%u ;
+long var_%SN = -%u;
 @endif
 @end
 
@@ -398,19 +424,18 @@ long var_%SN = -%u ;
     linkage variable indicated by the variable name s.
 */
 
-char find_variable
-    PROTO_N ( ( s, n ) )
-    PROTO_T ( string s X long n )
+char
+find_variable(string s, long n)
 {
 @loop sort
 @if sort.link
-    if ( streq ( s, "%SL" ) ) {
-	var_%SN = n ;
-	return ( '%SX' ) ;
+    if (streq(s, "%SL")) {
+	var_%SN = n;
+	return('%SX');
     }
 @endif
 @end
-    return ( 'F' ) ;
+    return('F');
 }
 
 
@@ -422,28 +447,27 @@ char find_variable
     pt and a usage flag to po.
 */
 
-equation_func find_equation
-    PROTO_N ( ( s, pt, po ) )
-    PROTO_T ( string s X string *pt X int *po )
+equation_func
+find_equation(string s, string *pt, int *po)
 {
 @loop sort
 @if sort.unit
-    if ( streq ( s, "%SU" ) ) {
-	*pt = MSG_%SN ;
-	*po = OPT_%SN ;
-	return ( de_%SN ) ;
+    if (streq(s, "%SU")) {
+	*pt = MSG_%SN;
+	*po = OPT_%SN;
+	return(de_%SN);
     }
 @endif
 @end
-    if ( streq ( s, "tld" ) ) {
-	*pt = MSG_tld_unit ;
-	*po = OPT_tld_unit ;
-	return ( de_tld_unit ) ;
+    if (streq(s, "tld")) {
+	*pt = MSG_tld_unit;
+	*po = OPT_tld_unit;
+	return(de_tld_unit);
     }
-    if ( streq ( s, "tld2" ) ) {
-	*pt = MSG_tld2_unit ;
-	*po = OPT_tld2_unit ;
-	return ( de_tld2_unit ) ;
+    if (streq(s, "tld2")) {
+	*pt = MSG_tld2_unit;
+	*po = OPT_tld2_unit;
+	return(de_tld2_unit);
     }
-    return ( NULL ) ;
+    return(NULL);
 }
