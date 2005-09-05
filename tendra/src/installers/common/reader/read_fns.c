@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -129,47 +159,48 @@ signature bug
 
 /* Some external declarations  */
 
-extern diag_type_unit f_make_diagtype_unit PROTO_S ((void));	/* OLD DIAGS */
-extern int f_make_linkinfo_unit PROTO_S ((void));
-extern void start_make_linkinfo_unit PROTO_S ((int, int, int, int ));
-extern int machine_toks PROTO_S ((char *));
-extern void tidy_initial_values PROTO_S ((void));
+extern diag_type_unit f_make_diagtype_unit(void);	/* OLD DIAGS */
+extern int f_make_linkinfo_unit(void);
+extern void start_make_linkinfo_unit(int, int, int, int);
+extern int machine_toks(char *);
+extern void tidy_initial_values(void);
 
 /* MACROS */
 
     /* codes for the types of unit which are understood here */
-#define UNKNOWN_UNIT 0
-#define TOKDEC_UNIT 1
-#define TOKDEF_UNIT 2
-#define AL_UNIT 3
-#define TAGDEC_UNIT 4
-#define TAGDEF_UNIT 5
-#define DIAGDEF_UNIT 6		/* OLD DIAGS */
-#define DIAGTYPE_UNIT 7		/* OLD DIAGS */
-#define LINKINFO_UNIT 8
-#define VERSIONS_UNIT 9
-#define DGCOMP_UNIT 10		/* NEW DIAGS */
+#define UNKNOWN_UNIT	 0
+#define TOKDEC_UNIT	 1
+#define TOKDEF_UNIT	 2
+#define AL_UNIT		 3
+#define TAGDEC_UNIT	 4
+#define TAGDEF_UNIT	 5
+#define DIAGDEF_UNIT	 6	/* OLD DIAGS */
+#define DIAGTYPE_UNIT	 7	/* OLD DIAGS */
+#define LINKINFO_UNIT	 8
+#define VERSIONS_UNIT	 9
+#define DGCOMP_UNIT	10	/* NEW DIAGS */
 
   /* codes for the kinds of linkable variable which are understood here */
-#define UNKNOWN_TYPE 0
-#define TOK_TYPE 1
-#define TAG_TYPE 2
-#define AL_TYPE 3
-#define DIAGTAG_TYPE 4		/* OLD DIAGS */
-#define DGTAG_TYPE 5		/* NEW DIAGS */
+#define UNKNOWN_TYPE	0
+#define TOK_TYPE	1
+#define TAG_TYPE	2
+#define AL_TYPE		3
+#define DIAGTAG_TYPE	4	/* OLD DIAGS */
+#define DGTAG_TYPE	5	/* NEW DIAGS */
 
 /* VARIABLES */
 /* All variables are initialised, jmf */
 
-int crt_group_type;	 /* the code for the current group of units */
-int crt_links_type;/* the code for the current type of linkable variable                      */
-int crt_extern_link_type;/* the code for the current type of externally
-                             linked variable */
-tdfstring * crt_capsule_groups; /* the identifier for the current group
-                                   of units */
-int crt_capsule_group_no; /* the number in the group */
-int crt_capsule_link_no;  /* the number of linkable variables
-                               of the current type */
+int crt_group_type;		/* the code for the current group of units */
+int crt_links_type;		/* the code for the current type of linkable
+				   variable */
+int crt_extern_link_type;	/* the code for the current type of externally
+				   linked variable */
+tdfstring *crt_capsule_groups;	/* the identifier for the current group
+				   of units */
+int crt_capsule_group_no;	/* the number in the group */
+int crt_capsule_link_no;	/* the number of linkable variables
+				   of the current type */
 capsule_link_list crt_capsule_linking;
 
 static int no_of_local_tokens;
@@ -179,71 +210,85 @@ static int no_of_local_tokens;
 /* PROCEDURES */
 
   /* translates the name of a group of units into  its code */
-int group_type
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+int
+group_type(char *s)
 {
-  if (!strcmp(s, "tokdec"))
+  if (!strcmp(s, "tokdec")) {
     return TOKDEC_UNIT;
-  if (!strcmp(s, "tokdef"))
+  }
+  if (!strcmp(s, "tokdef")) {
     return TOKDEF_UNIT;
-  if (!strcmp(s, "aldef"))
+  }
+  if (!strcmp(s, "aldef")) {
     return AL_UNIT;
-  if (!strcmp(s, "tagdec"))
+  }
+  if (!strcmp(s, "tagdec")) {
     return TAGDEC_UNIT;
-  if (!strcmp(s, "tagdef"))
+  }
+  if (!strcmp(s, "tagdef")) {
     return TAGDEF_UNIT;
-  if (!strcmp(s, "diagdef"))		/* OLD DIAGS */
+  }
+  if (!strcmp(s, "diagdef")) {		/* OLD DIAGS */
     return DIAGDEF_UNIT;
-  if (!strcmp(s, "diagtype"))		/* OLD DIAGS */
+  }
+  if (!strcmp(s, "diagtype")) {		/* OLD DIAGS */
     return DIAGTYPE_UNIT;
-  if (!strcmp(s, "linkinfo"))
+  }
+  if (!strcmp(s, "linkinfo")) {
     return LINKINFO_UNIT;
-  if (!strcmp(s, "versions"))
+  }
+  if (!strcmp(s, "versions")) {
     return VERSIONS_UNIT;
-  if (!strcmp(s, "dgcompunit"))		/* NEW DIAGS */
+  }
+  if (!strcmp(s, "dgcompunit")) {	/* NEW DIAGS */
     return DGCOMP_UNIT;
+  }
   return UNKNOWN_UNIT;
 }
 
   /* translates the name of a kind of linkable variable into its code */
-int links_type
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+int
+links_type(char *s)
 {
-  if (!strcmp(s, "token"))
+  if (!strcmp(s, "token")) {
     return TOK_TYPE;
-  if (!strcmp(s, "tag"))
+  }
+  if (!strcmp(s, "tag")) {
     return TAG_TYPE;
-  if (!strcmp(s, "alignment"))
+  }
+  if (!strcmp(s, "alignment")) {
     return AL_TYPE;
-  if (!strcmp(s, "diagtag"))		/* OLD DIAGS */
+  }
+  if (!strcmp(s, "diagtag")) {		/* OLD DIAGS */
     return DIAGTAG_TYPE;
-  if (!strcmp(s, "dgtag"))		/* NEW DIAGS */
+  }
+  if (!strcmp(s, "dgtag")) {		/* NEW DIAGS */
     return DGTAG_TYPE;
+  }
   return UNKNOWN_TYPE;
 }
 
-char * external_to_string
-    PROTO_N ( (ext) )
-    PROTO_T ( external ext )
+char *
+external_to_string(external ext)
 {
-	char * res;
+	char *res;
 	int n, i, l;
-	tdfstring * t;
+	tdfstring *t;
 	if (ext.isstring) {
-		return (char*)ext.ex.id.ints.chars;
+		return (char *)ext.ex.id.ints.chars;
 	}
 	else {
 		n = ext.ex.u.number;
 		t = ext.ex.u.elems;
 		l=n;
-		for(i=0; i<n; i++) l += t[i].number * (t[i].size / 8);
-		res = (char*)xcalloc(l+1, sizeof(char));
+		for (i = 0; i < n; i++) {
+			l += t[i].number *(t[i].size / 8);
+		}
+		res = (char *)xcalloc(l + 1, sizeof(char));
 		l = 0;
-		for(i=0; i<n; i++) {
-			IGNORE(strcpy(res+l, t[i].ints.chars));
-			l+= t[i].number * (t[i].size / 8);
+		for (i = 0; i < n; i++) {
+			IGNORE(strcpy(res + l, t[i].ints.chars));
+			l += t[i].number * (t[i].size / 8);
 			res[l++] = 'U';
 		}
 		return res;
@@ -251,334 +296,305 @@ char * external_to_string
 }
 
 
-char * make_local_name
-    PROTO_Z ()
+char *
+make_local_name(void)
 {
-      /* invent a local label identifier */
+  /* invent a local label identifier */
   char *id;
-  char *st = intchars (next_lab ());
-  int   l = (int)strlen (st);
+  char *st = intchars(next_lab());
+  int   l = (int)strlen(st);
   int lpl = (int)strlen(local_prefix);
-  id = (char *) xcalloc (l + lpl + 1, sizeof (char));
+  id = (char *)xcalloc(l + lpl + 1, sizeof(char));
   IGNORE strcpy(id, local_prefix);
   IGNORE strcpy(&id[lpl], st);
   return id;
 }
 
-static void check_tok_sig
-    PROTO_N ( (t, sig) )
-    PROTO_T ( tok_define * t X string sig )
+static void
+check_tok_sig(tok_define *t, string sig)
 {
-	char * sid = sig.ints.chars;
-	int s = (sig.size*sig.number)/8;
+	char *sid = sig.ints.chars;
+	int s = (sig.size * sig.number) / 8;
 	if (t->signature != (char*)0) {
-		char * id = t->signature;
-			    	int i;
-		for(i=0; i<s; i++) {
-			if (id[i]!=sid[i]) break;
+		char *id = t->signature;
+		int i;
+		for (i = 0; i < s; i++) {
+			if (id[i] != sid[i])break;
 		}
-		if (i!=s || id[s] !=0) {
-			   IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
-			   failer("Token signatures should be equal");
+		if (i !=s || id[s] != 0) {
+			IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
+			failer("Token signatures should be equal");
 		}
-	}
-	else {
+	} else {
 		t->signature = sid;
 	}
 }
 
-  /* all the _apply_token functions follow this pattern */
-procprops f_procprops_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+/* all the _apply_token functions follow this pattern */
+procprops
+f_procprops_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, PROCPROPS, (tokval*)0);
+   v = apply_tok(token_value, token_args, PROCPROPS,(tokval *)0);
    return v.tk_procprops;
 }
 
-  /* all the _cond functions follow this pattern */
-procprops f_procprops_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+/* all the _cond functions follow this pattern */
+procprops
+f_procprops_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   procprops res;
   int n;
   bs = keep_place();
 
-    /* the control must evaluate to a constant */
-  if (name(control) != val_tag)
+  /* the control must evaluate to a constant */
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-      /* use the second bitstream */
+  if (n == 0) {
+     /* use the second bitstream */
      set_place(e2);
      res = d_procprops();
-   }
-  else
-   {
-      /* use the first bitstream */
+  } else {
+     /* use the first bitstream */
      set_place(e1);
      res = d_procprops();
-   };
+  }
  set_place(bs);
  return res;
 }
 
-string f_string_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+string
+f_string_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, STRING, (tokval*)0);
+   v = apply_tok(token_value, token_args, STRING,(tokval *)0);
    return v.tk_string;
 }
 
-  /* all the _cond functions follow this pattern */
-string f_string_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+/* all the _cond functions follow this pattern */
+string
+f_string_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   string res;
   int n;
   bs = keep_place();
 
-    /* the control must evaluate to a constant */
-  if (name(control) != val_tag)
+  /* the control must evaluate to a constant */
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-      /* use the second bitstream */
-     set_place(e2);
-     res = d_string();
-   }
-  else
-   {
-      /* use the first bitstream */
-     set_place(e1);
-     res = d_string();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    /* use the second bitstream */
+    set_place(e2);
+    res = d_string();
+  } else {
+    /* use the first bitstream */
+    set_place(e1);
+    res = d_string();
+  }
+  set_place(bs);
+  return res;
 }
 
 
-alignment f_alignment_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+alignment
+f_alignment_apply_token(token token_value, bitstream token_args)
 {
-   tokval v;
-   v = apply_tok(token_value, token_args, ALIGNMENT_SORT, (tokval*)0);
-   return v.tk_alignment;
+  tokval v;
+  v = apply_tok(token_value, token_args, ALIGNMENT_SORT,(tokval *)0);
+  return v.tk_alignment;
 }
 
-  /* all the _cond functions follow this pattern */
-alignment f_alignment_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+/* all the _cond functions follow this pattern */
+alignment
+f_alignment_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   alignment res;
   int n;
   bs = keep_place();
 
-    /* the control must evaluate to a constant */
-  if (name(control) != val_tag)
+  /* the control must evaluate to a constant */
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-      /* use the second bitstream */
-     set_place(e2);
-     res = d_alignment();
-   }
-  else
-   {
-      /* use the first bitstream */
-     set_place(e1);
-     res = d_alignment();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    /* use the second bitstream */
+    set_place(e2);
+    res = d_alignment();
+  } else {
+    /* use the first bitstream */
+    set_place(e1);
+    res = d_alignment();
+  }
+  set_place(bs);
+  return res;
 }
 
-access f_access_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+access
+f_access_apply_token(token token_value, bitstream token_args)
 {
-   tokval v;
-   v = apply_tok(token_value, token_args, ACCESS_SORT, (tokval*)0);
-   return v.tk_access;
+  tokval v;
+  v = apply_tok(token_value, token_args, ACCESS_SORT,(tokval *)0);
+  return v.tk_access;
 }
 
 
-access f_access_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+access
+f_access_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   access res;
   int n;
   bs = keep_place();
 
-    /* the control must evaluate to a constant */
-  if (name(control) != val_tag)
+  /* the control must evaluate to a constant */
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-      /* use the second bitstream */
-     set_place(e2);
-     res = d_access();
-   }
-  else
-   {
-      /* use the first bitstream */
-     set_place(e1);
-     res = d_access();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    /* use the second bitstream */
+    set_place(e2);
+    res = d_access();
+  } else {
+    /* use the first bitstream */
+    set_place(e1);
+    res = d_access();
+  }
+  set_place(bs);
+  return res;
 }
 
-transfer_mode f_transfer_mode_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+transfer_mode
+f_transfer_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT, (tokval*)0);
+   v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT,(tokval *)0);
    return v.tk_transfer_mode;
 }
 
 
-transfer_mode f_transfer_mode_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+transfer_mode
+f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   transfer_mode res;
   int n;
   bs = keep_place();
 
-    /* the control must evaluate to a constant */
-  if (name(control) != val_tag)
+  /* the control must evaluate to a constant */
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-      /* use the second bitstream */
-     set_place(e2);
-     res = d_transfer_mode();
-   }
-  else
-   {
-      /* use the first bitstream */
-     set_place(e1);
-     res = d_transfer_mode();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    /* use the second bitstream */
+    set_place(e2);
+    res = d_transfer_mode();
+  } else {
+    /* use the first bitstream */
+    set_place(e1);
+    res = d_transfer_mode();
+  }
+  set_place(bs);
+  return res;
 }
 
 
-bitfield_variety f_bfvar_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+bitfield_variety
+f_bfvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BITFIELD_VARIETY, (tokval*)0);
+   v = apply_tok(token_value, token_args, BITFIELD_VARIETY,(tokval*)0);
    return v.tk_bitfield_variety;
 }
 
-bitfield_variety f_bfvar_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+bitfield_variety
+f_bfvar_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   bitfield_variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-     set_place(e2);
-     res = d_bitfield_variety();
-   }
-  else
-   {
-     set_place(e1);
-     res = d_bitfield_variety();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    set_place(e2);
+    res = d_bitfield_variety();
+  } else {
+    set_place(e1);
+    res = d_bitfield_variety();
+  }
+  set_place(bs);
+  return res;
 }
 
-bool f_bool_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+bool
+f_bool_apply_token
+(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BOOL, (tokval*)0);
+   v = apply_tok(token_value, token_args, BOOL,(tokval *)0);
    return v.tk_bool;
 }
 
-bool f_bool_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+bool
+f_bool_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   bool res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-     set_place(e2);
-     res = d_bool();
-   }
-  else
-   {
-     set_place(e1);
-     res = d_bool();
-   };
- set_place(bs);
- return res;
+  if (n == 0) {
+    set_place(e2);
+    res = d_bool();
+  } else {
+    set_place(e1);
+    res = d_bool();
+  }
+  set_place(bs);
+  return res;
 }
 
 
-  /* locate the index number of the linkable variable */
-int find_index
-    PROTO_N ( (nm) )
-    PROTO_T ( char * nm )
+/* locate the index number of the linkable variable */
+int
+find_index
+(char *nm)
 {
   int i;
-  for (i=0; i < crt_capsule_linking.number; ++i)
-   {
-     if (!strcmp((crt_capsule_linking.members[i]).id, nm))
-        return i;
-   };
+  for (i = 0; i < crt_capsule_linking.number; ++i) {
+    if (!strcmp((crt_capsule_linking.members[i]).id, nm)) {
+      return i;
+    }
+  }
   return -1;
 }
 
 
-void start_make_capsule
-    PROTO_N ( (prop_names, capsule_linking) )
-    PROTO_T ( tdfstring_list prop_names X capsule_link_list capsule_linking )
+void
+start_make_capsule
+(tdfstring_list prop_names, capsule_link_list capsule_linking)
 {
   int i;
 
@@ -587,7 +603,7 @@ void start_make_capsule
     xfree((void*)capsule_freelist->ptr);
     xfree((void*)capsule_freelist);
     capsule_freelist = cf;
-  };
+  }
 
   crt_tagdef_unit_no = -1;
   unit_index = 0;
@@ -601,64 +617,61 @@ void start_make_capsule
   crt_capsule_link_no = capsule_linking.number;
 
   i = find_index("token");
-  capsule_no_of_tokens = (i == -1) ? 0 :
-               natint((capsule_linking.members[i]).n);
+  capsule_no_of_tokens = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
   i = find_index("tag");
-  capsule_no_of_tags = (i == -1) ? 0 :
-               natint((capsule_linking.members[i]).n);
+  capsule_no_of_tags = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
   i = find_index("alignment");
-  capsule_no_of_als = (i == -1) ? 0 :
-               natint((capsule_linking.members[i]).n);
+  capsule_no_of_als = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
   i = find_index("diagtag");		/* OLD DIAGS */
   capsule_no_of_diagtags = (i == -1) ? 0 :
-               natint((capsule_linking.members[i]).n);
+      natint((capsule_linking.members[i]).n);
 
   i = find_index("dgtag");		/* NEW DIAGS */
-  capsule_no_of_dgtags = (i == -1) ? 0 :
-               natint((capsule_linking.members[i]).n);
+  capsule_no_of_dgtags = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
-  capsule_toktab = (tok_define*)xcalloc(capsule_no_of_tokens,
-                          sizeof(tok_define));
-  capsule_tagtab = (dec*)xcalloc(capsule_no_of_tags, sizeof(dec));
-  capsule_altab = (aldef*)xcalloc(capsule_no_of_als, sizeof(aldef));
-  capsule_diag_tagtab = (diag_tagdef*)xcalloc(capsule_no_of_diagtags,
-                                         sizeof(diag_tagdef));	/* OLD DIAGS */
-  capsule_dgtab = (dgtag_struct*)xcalloc(capsule_no_of_dgtags,
-                                         sizeof(dgtag_struct));	/* NEW DIAGS */
+  capsule_toktab = (tok_define *)xcalloc(capsule_no_of_tokens,
+					 sizeof(tok_define));
+  capsule_tagtab = (dec *)xcalloc(capsule_no_of_tags, sizeof(dec));
+  capsule_altab = (aldef *)xcalloc(capsule_no_of_als, sizeof(aldef));
+  capsule_diag_tagtab = (diag_tagdef *)xcalloc(capsule_no_of_diagtags,
+					       sizeof(diag_tagdef));	 
+  /* OLD DIAGS */
+  capsule_dgtab = (dgtag_struct *)xcalloc(capsule_no_of_dgtags,
+					 sizeof(dgtag_struct));	/* NEW DIAGS */
 
   for (i = 0; i < capsule_no_of_tokens; ++i) {
-        /* initialise the table of tokens */
-    tok_define * tp = &capsule_toktab[i];
-    tp -> tok_special = 0;
-    tp -> valpresent = 0;
-    tp -> unit_number = crt_tagdef_unit_no;
-    tp -> defined = 0;
-    tp -> tok_index = i;
-    tp -> is_capsule_token = 1;
-    tp -> recursive = 0;
-  };
+     /* initialise the table of tokens */
+    tok_define *tp = &capsule_toktab[i];
+    tp->tok_special = 0;
+    tp->valpresent = 0;
+    tp->unit_number = crt_tagdef_unit_no;
+    tp->defined = 0;
+    tp->tok_index = i;
+    tp->is_capsule_token = 1;
+    tp->recursive = 0;
+  }
 
   for (i = 0; i < capsule_no_of_tags; ++i) {
-        /* initialise the table of tags */
-    dec * dp = &capsule_tagtab[i];
-    dp -> dec_u.dec_val.dec_outermost = 0;
-    dp -> dec_u.dec_val.dec_id = (char *) 0;
-    dp -> dec_u.dec_val.extnamed = 0;
-    dp -> dec_u.dec_val.diag_info = (diag_global *)0;
-    dp -> dec_u.dec_val.have_def = 0;
-    dp -> dec_u.dec_val.dec_shape = nilexp;
-    dp -> dec_u.dec_val.processed = 0;
-    dp -> dec_u.dec_val.isweak = 0;
-  };
+    /* initialise the table of tags */
+    dec *dp = &capsule_tagtab[i];
+    dp->dec_u.dec_val.dec_outermost = 0;
+    dp->dec_u.dec_val.dec_id = (char *)0;
+    dp->dec_u.dec_val.extnamed = 0;
+    dp->dec_u.dec_val.diag_info = (diag_global *)0;
+    dp->dec_u.dec_val.have_def = 0;
+    dp->dec_u.dec_val.dec_shape = nilexp;
+    dp->dec_u.dec_val.processed = 0;
+    dp->dec_u.dec_val.isweak = 0;
+  }
 
   for (i = 0; i < capsule_no_of_als; ++i) {
-        /* initialise the table of alignment tags */
-    aldef * ap = &capsule_altab[i];
-    ap -> al.al_n = 0;
-  };
+    /* initialise the table of alignment tags */
+    aldef *ap = &capsule_altab[i];
+    ap->al.al_n = 0;
+  }
 
   init_capsule_diagtags();	/* OLD DIAGS */
   init_capsule_dgtags();	/* NEW DIAGS */
@@ -666,108 +679,99 @@ void start_make_capsule
   return;
 }
 
-capsule f_make_capsule
-    PROTO_N ( (prop_names, capsule_linking, external_linkage, units) )
-    PROTO_T ( tdfstring_list prop_names X capsule_link_list capsule_linking X
-	      extern_link_list external_linkage X unit_list units )
+capsule
+f_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking,
+	       extern_link_list external_linkage, unit_list units)
 {
-  UNUSED(prop_names); UNUSED(capsule_linking);
-  UNUSED(external_linkage);UNUSED(units);
+  UNUSED(prop_names);
+  UNUSED(capsule_linking);
+  UNUSED(external_linkage);
+  UNUSED(units);
 
   translate_capsule();
   return 0;
 }
 
-void init_capsule
-    PROTO_Z ()
+void
+init_capsule(void)
 {
   return;
 }
 
-capsule_link f_make_capsule_link
-    PROTO_N ( (sn, n) )
-    PROTO_T ( tdfstring sn X tdfint n )
+capsule_link
+f_make_capsule_link(tdfstring sn, tdfint n)
 {
   capsule_link res;
   res.n = n;
-  res.id = (char*)sn.ints.chars;
+  res.id = (char *)sn.ints.chars;
   return res;
 }
 
-error_treatment f_errt_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+error_treatment
+f_errt_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ERROR_TREATMENT, (tokval*)0);
+   v = apply_tok(token_value, token_args, ERROR_TREATMENT,(tokval *)0);
    return v.tk_error_treatment;
 }
 
-error_treatment f_errt_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+error_treatment
+f_errt_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   error_treatment res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n==0) {
      set_place(e2);
      res = d_error_treatment();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_error_treatment();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
 
-exp f_exp_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+exp
+f_exp_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, EXP_S, (tokval*)0);
+   v = apply_tok(token_value, token_args, EXP_S,(tokval *)0);
    return v.tk_exp;
 }
 
-exp f_exp_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+exp
+f_exp_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   exp res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n==0) {
      set_place(e2);
      res = d_exp();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_exp();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
-external f_string_extern
-    PROTO_N ( (s) )
-    PROTO_T ( tdfstring s )
+external
+f_string_extern(tdfstring s)
 {
   external e;
   e.isstring = 1;
@@ -775,9 +779,8 @@ external f_string_extern
   return e;
 }
 
-external f_unique_extern
-    PROTO_N ( (u) )
-    PROTO_T ( unique u )
+external
+f_unique_extern(unique u)
 {
   external e;
   e.isstring = 0;
@@ -785,166 +788,149 @@ external f_unique_extern
   return e;
 }
 
-external f_chain_extern
-    PROTO_N ( (s, i) )
-    PROTO_T ( tdfstring s X tdfint i )
+external
+f_chain_extern(tdfstring s, tdfint i)
 {
-	UNUSED (s);
-	UNUSED (i);
+	UNUSED(s);
+	UNUSED(i);
 	failer("chain_extern not yet done");
 	return f_dummy_external;
 }
 
-void init_external
-    PROTO_Z ()
+void
+init_external(void)
 {
   return;
 }
 
 external f_dummy_external;
 
-floating_variety f_flvar_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+floating_variety
+f_flvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, FLOATING_VARIETY, (tokval*)0);
+   v = apply_tok(token_value, token_args, FLOATING_VARIETY,(tokval *)0);
    return v.tk_floating_variety;
 }
 
-floating_variety f_flvar_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+floating_variety
+f_flvar_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   floating_variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_floating_variety();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_floating_variety();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
 
-label f_label_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+label
+f_label_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, LABEL, (tokval*)0);
+   v = apply_tok(token_value, token_args, LABEL,(tokval *)0);
    return v.tk_label;
 }
 
-label f_make_label
-    PROTO_N ( (labelno) )
-    PROTO_T ( tdfint labelno )
+label
+f_make_label(tdfint labelno)
 {
   return &unit_labtab[natint(labelno)];
 }
 
-void init_label
-    PROTO_Z ()
+void
+init_label(void)
 {
   return;
 }
 
 label f_dummy_label;
 
-nat f_nat_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+nat
+f_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NAT, (tokval*)0);
+   v = apply_tok(token_value, token_args, NAT, (tokval *)0);
    return v.tk_nat;
 }
 
-nat f_nat_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+nat
+f_nat_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   nat res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_nat();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_nat();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
-ntest f_ntest_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+ntest
+f_ntest_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NTEST, (tokval*)0);
+   v = apply_tok(token_value, token_args, NTEST, (tokval *)0);
    return v.tk_ntest;
 }
 
-ntest f_ntest_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+ntest
+f_ntest_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   ntest res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_ntest();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_ntest();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
-rounding_mode f_rounding_mode_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+rounding_mode
+f_rounding_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ROUNDING_MODE, (tokval*)0);
+   v = apply_tok(token_value, token_args, ROUNDING_MODE, (tokval *)0);
    return v.tk_rounding_mode;
 }
 
-rounding_mode f_rounding_mode_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+rounding_mode
+f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   rounding_mode res;
@@ -954,88 +940,77 @@ rounding_mode f_rounding_mode_cond
     failer(CONTROL_EXP);
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_rounding_mode();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_rounding_mode();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
-shape f_shape_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+shape
+f_shape_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SHAPE, (tokval*)0);
+   v = apply_tok(token_value, token_args, SHAPE, (tokval *)0);
    return v.tk_shape;
 }
 
-shape f_shape_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+shape
+f_shape_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   shape res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_shape();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_shape();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 }
 
-signed_nat f_signed_nat_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+signed_nat
+f_signed_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SIGNED_NAT, (tokval*)0);
+   v = apply_tok(token_value, token_args, SIGNED_NAT, (tokval *)0);
    return v.tk_signed_nat;
 }
 
-signed_nat f_signed_nat_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+signed_nat
+f_signed_nat_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   signed_nat res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
+  if (n == 0) {
      set_place(e2);
      res = d_signed_nat();
-   }
-  else
-   {
+  } else {
      set_place(e1);
      res = d_signed_nat();
-   };
- set_place(bs);
- return res;
+  }
+  set_place(bs);
+  return res;
 
 }
 
@@ -1068,32 +1043,38 @@ sortname f_dg_idname;		/* NEW DIAGS */
 sortname f_dg_name;		/* NEW DIAGS */
 sortname f_dg_type;		/* NEW DIAGS */
 
-sortname f_foreign_sort
-    PROTO_N ( (foreign_name) )
-    PROTO_T ( tdfstring foreign_name )
+sortname
+f_foreign_sort(tdfstring foreign_name)
 {
-  if (!strcmp(foreign_name.ints.chars, "~diag_file"))	/* OLD DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "~diag_file")) {	/* OLD DIAGS */
     return f_diag_filename;
-  if (!strcmp(foreign_name.ints.chars, "~diag_type"))	/* OLD DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "~diag_type")) {	/* OLD DIAGS */
     return f_diag_type;
-  if (!strcmp(foreign_name.ints.chars, "DG"))		/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG")) {		/* NEW DIAGS */
     return f_dg;
-  if (!strcmp(foreign_name.ints.chars, "DG_DIM"))	/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG_DIM")) {	/* NEW DIAGS */
     return f_dg_dim;
-  if (!strcmp(foreign_name.ints.chars, "DG_FILENAME"))	/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG_FILENAME")) {/* NEW DIAGS */
     return f_dg_filename;
-  if (!strcmp(foreign_name.ints.chars, "DG_IDNAME"))	/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG_IDNAME")) {	/* NEW DIAGS */
     return f_dg_idname;
-  if (!strcmp(foreign_name.ints.chars, "DG_NAME"))	/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG_NAME")) {	/* NEW DIAGS */
     return f_dg_name;
-  if (!strcmp(foreign_name.ints.chars, "DG_TYPE"))	/* NEW DIAGS */
+  }
+  if (!strcmp(foreign_name.ints.chars, "DG_TYPE")) {	/* NEW DIAGS */
     return f_dg_type;
+  }
   return f_foreign;
 }
 
-sortname f_token
-    PROTO_N ( (result, params) )
-    PROTO_T ( sortname result X sortname_list params )
+sortname
+f_token(sortname result, sortname_list params)
 {
    sortname res;
    res.code = TOKEN;
@@ -1103,21 +1084,21 @@ sortname f_token
 }
 
 sortname f_variety;
-void init_sortname
-    PROTO_Z ()
+void
+init_sortname(void)
 {
    f_alignment_sort.code = ALIGNMENT_SORT;
-   f_bitfield_variety.code =   BITFIELD_VARIETY;
-   f_bool.code =   BOOL;
-   f_error_treatment.code =   ERROR_TREATMENT;
-   f_exp.code =   EXP_S;
-   f_floating_variety.code =   FLOATING_VARIETY;
+   f_bitfield_variety.code = BITFIELD_VARIETY;
+   f_bool.code = BOOL;
+   f_error_treatment.code = ERROR_TREATMENT;
+   f_exp.code = EXP_S;
+   f_floating_variety.code = FLOATING_VARIETY;
    f_label.code = LABEL;
-   f_nat.code =   NAT;
-   f_ntest.code =   NTEST;
-   f_rounding_mode.code =   ROUNDING_MODE;
-   f_shape.code =   SHAPE;
-   f_signed_nat.code =   SIGNED_NAT;
+   f_nat.code = NAT;
+   f_ntest.code = NTEST;
+   f_rounding_mode.code = ROUNDING_MODE;
+   f_shape.code = SHAPE;
+   f_signed_nat.code = SIGNED_NAT;
    f_tag.code = TAG;
    f_al_tag.code = AL_TAG;
    f_variety.code = VARIETY;
@@ -1140,46 +1121,42 @@ void init_sortname
 
 sortname f_dummy_sortname;
 
-tag f_tag_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+tag
+f_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TAG, (tokval*)0);
+   v = apply_tok(token_value, token_args, TAG, (tokval *)0);
    return v.tk_tag;
 }
 
-al_tag f_al_tag_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+al_tag
+f_al_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, AL_TAG, (tokval*)0);
+   v = apply_tok(token_value, token_args, AL_TAG, (tokval *)0);
    return v.tk_al_tag;
 }
 
-tag f_make_tag
-    PROTO_N ( (tagno) )
-    PROTO_T ( tdfint tagno )
+tag
+f_make_tag(tdfint tagno)
 {
   return get_dec(natint(tagno));
 }
 
-void init_tag
-    PROTO_Z ()
+void
+init_tag(void)
 {
   return;
 }
 
-al_tag f_make_al_tag
-    PROTO_N ( (tagno) )
-    PROTO_T ( tdfint tagno )
+al_tag
+f_make_al_tag(tdfint tagno)
 {
   return get_aldef(natint(tagno));
 }
 
-void init_al_tag
-    PROTO_Z ()
+void
+init_al_tag(void)
 {
   return;
 }
@@ -1187,24 +1164,24 @@ void init_al_tag
 tag f_dummy_tag;
 al_tag f_dummy_al_tag;
 
-void check_sig
-    PROTO_N ( (tg, sig) )
-    PROTO_T ( tag tg X string sig )
+void
+check_sig(tag tg, string sig)
 {
-	char * sid = sig.ints.chars;
-	int s = (sig.size*sig.number)/8;
+	char *sid = sig.ints.chars;
+	int s = (sig.size * sig.number) / 8;
 	if (tg->dec_u.dec_val.has_signature) {
-		char * id = tg->dec_u.dec_val.dec_id;
+		char *id = tg->dec_u.dec_val.dec_id;
 	    	int i;
-		for(i=0; i<s; i++) {
-			if (id[i]!=sid[i]) break;
+		for (i = 0; i < s; i++) {
+			if (id[i] != sid[i]) {
+				break;
+			}
 		}
-		if (i!=s || id[s] !=0) {
+		if (i != s || id[s] != 0) {
 			   IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
 			   failer("Signatures should be equal");
 		}
-	}
-	else {
+	} else {
 		tg->dec_u.dec_val.dec_id = sid;
 		tg->dec_u.dec_val.has_signature = 1;
 	}
@@ -1214,9 +1191,8 @@ void check_sig
 
 
 
-tagdec f_make_id_tagdec
-    PROTO_N ( (t_intro, acc, sig, x) )
-    PROTO_T ( tdfint t_intro X access_option acc X string_option sig X shape x )
+tagdec
+f_make_id_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
   res.tg = get_dec(natint(t_intro));
@@ -1224,14 +1200,15 @@ tagdec f_make_id_tagdec
   res.acc = acc;
   res.is_variable = 0;
   res.is_common = 0;
-  res.tg -> dec_u.dec_val.is_common = 0;
-  if (sig.present) check_sig(res.tg, sig.val);
+  res.tg->dec_u.dec_val.is_common = 0;
+  if (sig.present) {
+    check_sig(res.tg, sig.val);
+  }
   return res;
 }
 
-tagdec f_make_var_tagdec
-    PROTO_N ( (t_intro, acc, sig, x) )
-    PROTO_T ( tdfint t_intro X access_option acc X string_option sig X shape x )
+tagdec
+f_make_var_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
   res.tg = get_dec(natint(t_intro));
@@ -1239,14 +1216,15 @@ tagdec f_make_var_tagdec
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 0;
-  res.tg -> dec_u.dec_val.is_common = 0;
-  if (sig.present) check_sig(res.tg, sig.val);
+  res.tg->dec_u.dec_val.is_common = 0;
+  if (sig.present) {
+    check_sig(res.tg, sig.val);
+  }
   return res;
 }
 
-tagdec f_common_tagdec
-    PROTO_N ( (t_intro, acc, sig, x) )
-    PROTO_T ( tdfint t_intro X access_option acc X string_option sig X shape x )
+tagdec
+f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
   res.tg = get_dec(natint(t_intro));
@@ -1254,13 +1232,15 @@ tagdec f_common_tagdec
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 1;
-  res.tg -> dec_u.dec_val.is_common = 0;
-  if (sig.present) check_sig(res.tg, sig.val);
+  res.tg->dec_u.dec_val.is_common = 0;
+  if (sig.present) {
+    check_sig(res.tg, sig.val);
+  }
   return res;
 }
 
-void init_tagdec
-    PROTO_Z ()
+void
+init_tagdec(void)
 {
   return;
 }
@@ -1268,93 +1248,95 @@ void init_tagdec
 tagdec f_dummy_tagdec;
 
 
-void start_make_id_tagdef
-    PROTO_N ( (t) )
-    PROTO_T ( tdfint t )
+void
+start_make_id_tagdef(tdfint t)
 {
   UNUSED(t);
   rep_make_proc = 0;
   return;
 }
 
-tagdef f_make_id_tagdef
-    PROTO_N ( (t, sig, e) )
-    PROTO_T ( tdfint t X string_option sig X exp e )
+tagdef
+f_make_id_tagdef(tdfint t, string_option sig, exp e)
 {
-  dec * dp = get_dec(natint(t));
+  dec *dp = get_dec(natint(t));
   tagdef res;
   res.tg = dp;
-  if (dp -> dec_u.dec_val.processed ||
-        son(dp -> dec_u.dec_val.dec_exp) != nilexp)
+  if (dp->dec_u.dec_val.processed ||
+      son(dp->dec_u.dec_val.dec_exp) != nilexp) {
     res.def = nilexp; /* set to nilexp if already output */
-  else
+  } else {
     res.def = e;
+  }
   res.var = 0;
   res.is_common = 0;
-  if (sig.present) check_sig(dp, sig.val);
+  if (sig.present) {
+    check_sig(dp, sig.val);
+  }
   rep_make_proc = 1;
   return res;
 }
 
-void start_make_var_tagdef
-    PROTO_N ( (t) )
-    PROTO_T ( tdfint t )
+void
+start_make_var_tagdef(tdfint t)
 {
   UNUSED(t);
 
   return;
 }
 
-tagdef f_make_var_tagdef
-    PROTO_N ( (t, opt_access, sig, e) )
-    PROTO_T ( tdfint t X access_option opt_access X string_option sig X exp e )
+tagdef
+f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
 {
-  dec * dp = get_dec(natint(t));
+  dec *dp = get_dec(natint(t));
   tagdef res;
   UNUSED(opt_access);
   res.tg = dp;
-  if (dp -> dec_u.dec_val.processed ||
-        son(dp -> dec_u.dec_val.dec_exp) != nilexp)
+  if (dp->dec_u.dec_val.processed ||
+      son(dp->dec_u.dec_val.dec_exp) != nilexp) {
     res.def = nilexp; /* set to nilexp if already output */
-  else
+  } else {
     res.def = e;
+  }
   res.var = 1;
   res.is_common = 0;
-  if (sig.present) check_sig(dp, sig.val);
+  if (sig.present) {
+    check_sig(dp, sig.val);
+  }
   return res;
 }
 
-void start_common_tagdef
-    PROTO_N ( (t) )
-    PROTO_T ( tdfint t )
+void
+start_common_tagdef(tdfint t)
 {
   UNUSED(t);
   return;
 }
 
-tagdef f_common_tagdef
-    PROTO_N ( (t, opt_access, sig, e) )
-    PROTO_T ( tdfint t X access_option opt_access X string_option sig X exp e )
+tagdef
+f_common_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
 {
-  dec * dp = get_dec(natint(t));
+  dec *dp = get_dec(natint(t));
   tagdef res;
   UNUSED(opt_access);
   res.tg = dp;
   res.def = e;
   res.var = 1;
   res.is_common = 1;
-  if (sig.present) check_sig(dp, sig.val);
+  if (sig.present) {
+    check_sig(dp, sig.val);
+  }
   return res;
 }
 
-void init_tagdef
-    PROTO_Z ()
+void
+init_tagdef(void)
 {
   return;
 }
 
-void init_al_tagdef
-    PROTO_Z ()
+void
+init_al_tagdef(void)
 {
   return;
 }
@@ -1362,116 +1344,116 @@ void init_al_tagdef
 tagdef f_dummy_tagdef;
 al_tagdef f_dummy_al_tagdef;
 
-char* add_prefix
-    PROTO_N ( (nm) )
-    PROTO_T ( char * nm )
+char *
+add_prefix(char *nm)
 {
-  char * id;
+  char *id;
   int idl = (int)strlen(nm);
-  int   j;
+  int j;
   int npl = (int)strlen(name_prefix);
-  if (npl == 0) return nm;
-  id = (char *) xcalloc ( (idl + npl + 1), sizeof (char));
+  if (npl == 0) {
+    return nm;
+  }
+  id = (char *)xcalloc((idl + npl + 1), sizeof(char));
   id[idl + npl] = 0;
-  for (j = npl; j < (idl+npl); ++j)
-    id[j] = nm[j-npl];
-  for (j = 0; j < npl; ++j)
+  for (j = npl; j < (idl + npl); ++j) {
+    id[j] = nm[j - npl];
+  }
+  for (j = 0; j < npl; ++j) {
     id[j] = name_prefix[j];
+  }
   return id;
 }
 
-tagextern f_make_tagextern
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X external ext )
+tagextern
+f_make_tagextern(tdfint internal, external ext)
 {
-  dec * dp = &capsule_tagtab[natint(internal)];
+  dec *dp = &capsule_tagtab[natint(internal)];
   char *nm = external_to_string(ext);
-  char * id = add_prefix(nm);
-  dp -> dec_u.dec_val.dec_id = id;
-  dp -> dec_u.dec_val.dec_outermost = 1;
-  dp -> dec_u.dec_val.extnamed = 1;
+  char *id = add_prefix(nm);
+  dp->dec_u.dec_val.dec_id = id;
+  dp->dec_u.dec_val.dec_outermost = 1;
+  dp->dec_u.dec_val.extnamed = 1;
 
   return 0;
 }
 
-taglink f_make_taglink
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X tdfint ext )
+taglink
+f_make_taglink(tdfint internal, tdfint ext)
 {
-  unit_ind_tags[natint(internal)] =
-      &capsule_tagtab[natint(ext)];
+  unit_ind_tags[natint(internal)] = &capsule_tagtab[natint(ext)];
   return 0;
 }
 
 
-allink f_make_allink
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X tdfint ext )
+allink
+f_make_allink(tdfint internal, tdfint ext)
 {
-  unit_ind_als[natint(internal)] =
-      &capsule_altab[natint(ext)];
+  unit_ind_als[natint(internal)] = &capsule_altab[natint(ext)];
   return 0;
 }
 
 
-tokdec f_make_tokdec
-    PROTO_N ( (tok, sig, s) )
-    PROTO_T ( tdfint tok X string_option sig X sortname s )
+tokdec
+f_make_tokdec(tdfint tok, string_option sig, sortname s)
 {
-  tok_define * tok_d = get_tok(natint(tok));
-  if (sig.present) check_tok_sig(tok_d, sig.val);
+  tok_define *tok_d = get_tok(natint(tok));
+  if (sig.present) {
+    check_tok_sig(tok_d, sig.val);
+  }
   UNUSED(s);
   return 0;
 }
 
-void init_tokdec
-    PROTO_Z ()
+void
+init_tokdec(void)
 {
   return;
 }
 
 tokdec f_dummy_tokdec;
 
-tokdef f_make_tokdef
-    PROTO_N ( (tokn, sig,def) )
-    PROTO_T ( tdfint tokn X string_option sig X bitstream def )
+tokdef
+f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
 {
   sortname result_sort;
   tokformals_list params;
   place old_place;
-  tok_define * tok = get_tok(natint(tokn));
-  if (sig.present) check_tok_sig(tok, sig.val);
+  tok_define *tok = get_tok(natint(tokn));
+  if (sig.present) {
+    check_tok_sig(tok, sig.val);
+  }
   old_place = keep_place();
   set_place(def);
   IGNORE getcode(1);
   result_sort = d_sortname();
   params = d_tokformals_list();
-  tok -> tdsort = result_sort;
-  tok -> params = params;
-  tok -> tdplace = keep_place();
-  tok -> defined = 1;
-  tok->tok_context = (context*)0;
+  tok->tdsort = result_sort;
+  tok->params = params;
+  tok->tdplace = keep_place();
+  tok->defined = 1;
+  tok->tok_context = (context *)0;
 
     /* record the tables which are current so that they can be
        used when the token is applied */
-  tok -> my_labtab = unit_labtab;
-  tok -> my_tagtab = unit_ind_tags;
-  tok -> my_toktab = unit_ind_tokens;
-  tok -> my_altab = unit_ind_als;
-  tok -> my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-  tok -> my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
-  if (params.number == 0)
+  tok->my_labtab = unit_labtab;
+  tok->my_tagtab = unit_ind_tags;
+  tok->my_toktab = unit_ind_tokens;
+  tok->my_altab = unit_ind_als;
+  tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
+  tok->my_dgtab = unit_ind_dgtags;	/* NEW DIAGS */
+  if (params.number == 0) {
     tok -> re_evaluate = 0;
-  else
+  } else {
     tok -> re_evaluate = 1;
+  }
 
   set_place(old_place);
   return 0;
 }
 
-token f_use_tokdef
-    PROTO_N ( (def) )
-    PROTO_T ( bitstream def )
+token
+f_use_tokdef(bitstream def)
 {
   token tok = (token)xcalloc(1, sizeof(tok_define)) /* space thief ?*/;
   sortname result_sort;
@@ -1483,127 +1465,128 @@ token f_use_tokdef
   IGNORE getcode(1);
   result_sort = d_sortname();
   params = d_tokformals_list();
-  tok -> tok_special = 0;
-  tok -> valpresent = 0;
-  tok -> unit_number = crt_tagdef_unit_no;
-  tok -> defined = 0;
-  tok -> is_capsule_token = 0;
-  tok -> recursive = 0;
-  tok -> tdsort = result_sort;
-  tok -> params = params;
-  tok -> tdplace = keep_place();
-  tok -> defined = 1;
+  tok->tok_special = 0;
+  tok->valpresent = 0;
+  tok->unit_number = crt_tagdef_unit_no;
+  tok->defined = 0;
+  tok->is_capsule_token = 0;
+  tok->recursive = 0;
+  tok->tdsort = result_sort;
+  tok->params = params;
+  tok->tdplace = keep_place();
+  tok->defined = 1;
   tok->tok_context = crt_context;
 
-    /* record the tables which are current so that they can be
-       used when the token is applied */
-  tok -> my_labtab = unit_labtab;
-  tok -> my_tagtab = unit_ind_tags;
-  tok -> my_toktab = unit_ind_tokens;
-  tok -> my_altab = unit_ind_als;
-  tok -> my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-  tok -> my_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+  /* record the tables which are current so that they can be used when
+     the token is applied */
+  tok->my_labtab = unit_labtab;
+  tok->my_tagtab = unit_ind_tags;
+  tok->my_toktab = unit_ind_tokens;
+  tok->my_altab = unit_ind_als;
+  tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
+  tok->my_dgtab = unit_ind_dgtags;	/* NEW DIAGS */
 
-  if (params.number == 0)
-    tok -> re_evaluate = 0;
-  else
-    tok -> re_evaluate = 1;
+  if (params.number == 0) {
+    tok->re_evaluate = 0;
+  } else {
+    tok->re_evaluate = 1;
+  }
 
   set_place(old_place);
   return tok;
 }
 
 
-void init_tokdef
-    PROTO_Z ()
+void
+init_tokdef(void)
 {
   return;
 }
 
 tokdef f_dummy_tokdef;
 
-token f_token_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+token
+f_token_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TOKEN, (tokval*)0);
+   v = apply_tok(token_value, token_args, TOKEN, (tokval *)0);
    return v.tk_token;
 }
 
-token f_make_tok
-    PROTO_N ( (tokno) )
-    PROTO_T ( tdfint tokno )
+token
+f_make_tok(tdfint tokno)
 {
   return get_tok(natint(tokno));
 }
 
-void init_token
-    PROTO_Z ()
+void
+init_token(void)
 {
   return;
 }
 
 token f_dummy_token;
 
-token_defn f_token_definition
-    PROTO_N ( (result_sort, tok_params) )
-    PROTO_T ( sortname result_sort X tokformals_list tok_params )
+token_defn
+f_token_definition(sortname result_sort, tokformals_list tok_params)
 {
-  UNUSED (result_sort);
-  UNUSED (tok_params);
-  failer ("dummy");
+  UNUSED(result_sort);
+  UNUSED(tok_params);
+  failer("dummy");
   return f_dummy_token_defn;
 }
 
-void init_token_defn
-    PROTO_Z ()
+void
+init_token_defn(void)
 {
   return;
 }
 
 token_defn f_dummy_token_defn;
 
-tokextern f_make_tokextern
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X external ext )
+tokextern
+f_make_tokextern(tdfint internal, external ext)
 {
-  tok_define * t = &capsule_toktab[natint(internal)];
-  char * s = external_to_string(ext);
-  t -> tok_name = s;
+  tok_define *t = &capsule_toktab[natint(internal)];
+  char *s = external_to_string(ext);
+  t->tok_name = s;
 
-  if (machine_toks(s))  /* determines special tokens specific
-			   to each machine */
-    t -> tok_special = 1;
+  /* determines special tokens specific to each machine */
+  if (machine_toks(s)) {
+    t->tok_special = 1;
+  }
 
-
-  if (replace_arith_type)  {
-    if (!strcmp(s, "~arith_type"))
-      t -> tok_special = 1;
-    if (!strcmp(s, "~promote"))
-      t -> tok_special = 1;
-    if (!strcmp(s, "~sign_promote"))
-      t -> tok_special = 1;
-    if (!strcmp(s, "~convert"))
-      t -> tok_special = 1;
-  };
-  if (do_alloca && !strcmp(s, "~alloca"))
-    t -> tok_special = 1;
+  if (replace_arith_type) {
+    if (!strcmp(s, "~arith_type")) {
+      t->tok_special = 1;
+    }
+    if (!strcmp(s, "~promote")) {
+      t->tok_special = 1;
+    }
+    if (!strcmp(s, "~sign_promote")) {
+      t->tok_special = 1;
+    }
+    if (!strcmp(s, "~convert")) {
+      t->tok_special = 1;
+    }
+  }
+  if (do_alloca && !strcmp(s, "~alloca")) {
+    t->tok_special = 1;
+  }
   return 0;
 }
 
-alextern f_make_alextern
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X external ext )
+alextern
+f_make_alextern(tdfint internal, external ext)
 {
-  UNUSED(internal); UNUSED(ext);
+  UNUSED(internal);
+  UNUSED(ext);
   return 0;
 }
 
 
-tokformals f_make_tokformals
-    PROTO_N ( (sn, tk) )
-    PROTO_T ( sortname sn X tdfint tk )
+tokformals
+f_make_tokformals(sortname sn, tdfint tk)
 {
   tokformals res;
   res.sn = sn;
@@ -1611,24 +1594,21 @@ tokformals f_make_tokformals
   return res;
 }
 
-void init_tokformals
-    PROTO_Z ()
+void
+init_tokformals(void)
 {
   return;
 }
 
-toklink f_make_toklink
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X tdfint ext )
+toklink
+f_make_toklink(tdfint internal, tdfint ext)
 {
-  unit_ind_tokens[natint(internal)] =
-      &capsule_toktab[natint(ext)];
+  unit_ind_tokens[natint(internal)] = &capsule_toktab[natint(ext)];
   return 0;
 }
 
-link f_make_link
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X tdfint ext )
+link
+f_make_link(tdfint internal, tdfint ext)
 {
   switch (crt_links_type)
    {
@@ -1650,186 +1630,187 @@ link f_make_link
      default:
        failer(VARIABLE_TYPE);
        return 0;
-   };
+   }
 }
 
-unique f_make_unique
-    PROTO_N ( (text) )
-    PROTO_T ( tdfstring_list text )
+unique
+f_make_unique(tdfstring_list text)
 {
   return text;
 }
 
-void init_unique
-    PROTO_Z ()
+void
+init_unique(void)
 {
    return;
 }
 
 
-variety f_var_apply_token
-    PROTO_N ( (token_value, token_args) )
-    PROTO_T ( token token_value X bitstream token_args )
+variety
+f_var_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, VARIETY, (tokval*)0);
+   v = apply_tok(token_value, token_args, VARIETY,(tokval *)0);
    return v.tk_variety;
 }
 
-variety f_var_cond
-    PROTO_N ( (control, e1, e2) )
-    PROTO_T ( exp control X bitstream e1 X bitstream e2 )
+variety
+f_var_cond(exp control, bitstream e1, bitstream e2)
 {
   bitstream bs;
   variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (name(control) != val_tag) {
     failer(CONTROL_EXP);
+  }
   n = no(control);
   retcell(control);
-  if (n==0)
-   {
-     set_place(e2);
-     res = d_variety();
-   }
-  else
-   {
-     set_place(e1);
-     res = d_variety();
-   };
- set_place(bs);
- return res;
+  if (n==0) {
+    set_place(e2);
+    res = d_variety();
+  } else {
+    set_place(e1);
+    res = d_variety();
+  }
+  
+  set_place(bs); return res;
 }
 
 
-void start_make_tokdec_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+		       int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
 
-tokdec_unit f_make_tokdec_unit
-    PROTO_Z ()
+tokdec_unit
+f_make_tokdec_unit(void)
 {
   int i;
   int j = 0;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   start_bytestream();
   IGNORE d_tokdec_list();
   end_bytestream();
   return 0;
 }
 
-void start_make_tokdef_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+		       int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
 
-tokdef_unit f_make_tokdef_unit
-    PROTO_Z ()
+tokdef_unit
+f_make_tokdef_unit(void)
 {
   int i;
   int j = 0;
   int no_of_labels;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_tags; ++i)
-   {
-    if (unit_ind_tags[i] == (dec*)0)
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    if (unit_ind_tags[i] == (dec *)0) {
       unit_ind_tags[i] = &unit_tagtab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_als; ++i)
-   {
-    if (unit_ind_als[i] == (aldef*)0)
+  for (i = 0; i < unit_no_of_als; ++i) {
+    if (unit_ind_als[i] == (aldef *)0) {
       unit_ind_als[i] = &unit_altab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-   {
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0)
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-   };
+    }
+  }
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tokdef_list();
   end_bytestream();
 
@@ -1838,207 +1819,215 @@ tokdef_unit f_make_tokdef_unit
   return 0;
 }
 
-void start_make_tagdec_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+		       int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
 
-tagdec_unit f_make_tagdec_unit
-    PROTO_Z ()
+tagdec_unit
+f_make_tagdec_unit(void)
 {
   int i;
   int j = 0;
   int no_of_labels;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_tags; ++i)
-   {
-    if (unit_ind_tags[i] == (dec*)0)
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    if (unit_ind_tags[i] == (dec *)0) {
       unit_ind_tags[i] = &unit_tagtab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_als; ++i)
-   {
-    if (unit_ind_als[i] == (aldef*)0)
+  for (i = 0; i < unit_no_of_als; ++i) {
+    if (unit_ind_als[i] == (aldef *)0) {
       unit_ind_als[i] = &unit_altab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-   {
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0)
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-   };
+    }
+  }
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tagdec_list();
   end_bytestream();
 
-  xfree((void*)unit_ind_tokens);
-  xfree((void*)unit_ind_tags);
-  xfree((void*)unit_ind_als);
-  xfree((void*)unit_labtab);
+  xfree((void *)unit_ind_tokens);
+  xfree((void *)unit_ind_tags);
+  xfree((void *)unit_ind_als);
+  xfree((void *)unit_labtab);
 
-  xfree((void*)unit_toktab);
+  xfree((void *)unit_toktab);
 
   return 0;
 }
 
-void start_make_versions_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+			 int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
 
-version_props f_make_versions_unit
-    PROTO_Z ()
+version_props
+f_make_versions_unit(void)
 {
   int i;
   int j = 0;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_tags; ++i)
-   {
-    if (unit_ind_tags[i] == (dec*)0)
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    if (unit_ind_tags[i] == (dec *)0) {
       unit_ind_tags[i] = &unit_tagtab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_als; ++i)
-   {
-    if (unit_ind_als[i] == (aldef*)0)
+  for (i = 0; i < unit_no_of_als; ++i) {
+    if (unit_ind_als[i] == (aldef *)0) {
       unit_ind_als[i] = &unit_altab[j++];
-   };
+    }
+  }
   start_bytestream();
   IGNORE d_version_list();
   end_bytestream();
 
-  xfree((void*)unit_ind_tokens);
-  xfree((void*)unit_ind_tags);
-  xfree((void*)unit_ind_als);
+  xfree((void *)unit_ind_tokens);
+  xfree((void *)unit_ind_tags);
+  xfree((void *)unit_ind_als);
 
-  xfree((void*)unit_toktab);
-  xfree((void*)unit_tagtab);
+  xfree((void *)unit_toktab);
+  xfree((void *)unit_tagtab);
 
   return 0;
 }
 
-void start_make_tagdef_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+		       int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
-  if (separate_units)
-   {
+  if (separate_units) {
     ++crt_tagdef_unit_no;
     set_large_alloc();
-   };
+  }
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
@@ -2046,132 +2035,134 @@ void start_make_tagdef_unit
 
 
 
-tagdef_unit f_make_tagdef_unit
-    PROTO_Z ()
+tagdef_unit
+f_make_tagdef_unit(void)
 {
   int i;
   int j = 0;
   int no_of_labels;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_tags; ++i)
-   {
-    if (unit_ind_tags[i] == (dec*)0)
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    if (unit_ind_tags[i] == (dec *)0) {
       unit_ind_tags[i] = &unit_tagtab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_als; ++i)
-   {
-    if (unit_ind_als[i] == (aldef*)0)
+  for (i = 0; i < unit_no_of_als; ++i) {
+    if (unit_ind_als[i] == (aldef *)0) {
       unit_ind_als[i] = &unit_altab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i)	/* NEW DIAGS */
-   {
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0)
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
-   };
+    }
+  }
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tagdef_list();
   tidy_initial_values();
   translate_unit();
   end_bytestream();
 
-  xfree((void*)unit_ind_tokens);
-  xfree((void*)unit_ind_tags);
-  xfree((void*)unit_ind_als);
-  xfree((void*)unit_labtab);
+  xfree((void *)unit_ind_tokens);
+  xfree((void *)unit_ind_tags);
+  xfree((void *)unit_ind_als);
+  xfree((void *)unit_labtab);
 
-  xfree((void*)unit_toktab);
-  xfree((void*)unit_tagtab);
+  xfree((void *)unit_toktab);
+  xfree((void *)unit_tagtab);
 
   return 0;
 }
 
-void start_make_aldef_unit
-    PROTO_N ( (no_of_tokens, no_of_tags, no_of_als, no_of_diagtags, no_of_dgtags) )
-    PROTO_T ( int no_of_tokens X int no_of_tags X int no_of_als X int no_of_diagtags X int no_of_dgtags )
+void
+start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
+		      int no_of_diagtags, int no_of_dgtags)
 {
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define * *)xcalloc(unit_no_of_tokens,
-                    sizeof(tok_define *));
-  for (i = 0; i < unit_no_of_tokens; ++i)
-    unit_ind_tokens[i] = (tok_define*)0;
+  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+					   sizeof(tok_define *));
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    unit_ind_tokens[i] = (tok_define *)0;
+  }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec * *)xcalloc(unit_no_of_tags,
-                    sizeof(dec *));
-  for (i = 0; i < unit_no_of_tags; ++i)
-    unit_ind_tags[i] = (dec*)0;
+  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  for (i = 0; i < unit_no_of_tags; ++i) {
+    unit_ind_tags[i] = (dec *)0;
+  }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef * *)xcalloc(unit_no_of_als,
-                    sizeof(aldef *));
-  for (i = 0; i < unit_no_of_als; ++i)
-    unit_ind_als[i] = (aldef*)0;
+  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  for (i = 0; i < unit_no_of_als; ++i) {
+    unit_ind_als[i] = (aldef *)0;
+  }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef * *)xcalloc(unit_no_of_diagtags,
-                    sizeof(diag_tagdef *));
-  for (i = 0; i < unit_no_of_diagtags; ++i)
+  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+					      sizeof(diag_tagdef *));
+  for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
+  }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct * *)xcalloc(unit_no_of_dgtags,
-                    sizeof(dgtag_struct *));
-  for (i = 0; i < unit_no_of_dgtags; ++i)
+  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+					     sizeof(dgtag_struct *));
+  for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
+  }
 
   return;
 }
 
-aldef_unit f_make_aldef_unit
-    PROTO_Z ()
+aldef_unit
+f_make_aldef_unit(void)
 {
   int i;
   int j = 0;
   int no_of_labels;
-  for (i = 0; i < unit_no_of_tokens; ++i)
-   {
-    if (unit_ind_tokens[i] == (tok_define*)0)
+  for (i = 0; i < unit_no_of_tokens; ++i) {
+    if (unit_ind_tokens[i] == (tok_define *)0) {
       unit_ind_tokens[i] = &unit_toktab[j++];
-   };
+    }
+  }
   j = 0;
-  for (i = 0; i < unit_no_of_als; ++i)
-   {
-    if (unit_ind_als[i] == (aldef*)0)
+  for (i = 0; i < unit_no_of_als; ++i) {
+    if (unit_ind_als[i] == (aldef *)0) {
       unit_ind_als[i] = &unit_altab[j++];
-   };
+    }
+  }
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_al_tagdef_list();
   end_bytestream();
 
-  xfree((void*)unit_ind_tokens);
-  xfree((void*)unit_ind_tags);
-  xfree((void*)unit_ind_als);
-  xfree((void*)unit_labtab);
+  xfree((void *)unit_ind_tokens);
+  xfree((void *)unit_ind_tags);
+  xfree((void *)unit_ind_als);
+  xfree((void *)unit_labtab);
 
-  xfree((void*)unit_toktab);
-  xfree((void*)unit_tagtab);
+  xfree((void *)unit_toktab);
+  xfree((void *)unit_tagtab);
 
   return 0;
 }
 
-void start_make_unit
-    PROTO_N ( (lvl) )
-    PROTO_T ( tdfint_list lvl )
+void
+start_make_unit(tdfint_list lvl)
 {
   int w;
   int ntok = 0;
@@ -2193,9 +2184,9 @@ void start_make_unit
     ndiagtype = (w == -1) ? 0 : natint(lvl.members[w]);
     w = find_index("dgtag");		/* NEW DIAGS */
     ndgtag = (w == -1) ? 0 : natint(lvl.members[w]);
-  };
+  }
 
-  switch(crt_group_type)
+  switch (crt_group_type)
    {
      case TOKDEC_UNIT:
               start_make_tokdec_unit(ntok, ntag, nal, ndiagtype, ndgtag);
@@ -2211,7 +2202,7 @@ void start_make_unit
 	      if (doing_aldefs) {
                 process_aldefs();
 	        doing_aldefs = 0;
-	      };
+	      }
               start_make_tagdec_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
      case TAGDEF_UNIT:
@@ -2224,7 +2215,7 @@ void start_make_unit
 	      if (doing_aldefs) {
                 process_aldefs();
 	        doing_aldefs = 0;
-	      };
+	      }
               start_make_diagtype_unit(ntok, ntag, nal, ndiagtype);
               return;
      case LINKINFO_UNIT:
@@ -2237,20 +2228,21 @@ void start_make_unit
 	      if (doing_aldefs) {
                 process_aldefs();
 	        doing_aldefs = 0;
-	      };
+	      }
               start_make_dg_comp_unit(ntok, ntag, nal, ndgtag);
               return;
      default:
               return;
-   };
+   }
 }
 
-unit f_make_unit
-    PROTO_N ( (lvl, lks, prs) )
-    PROTO_T ( tdfint_list lvl X links_list lks X bytestream prs )
+unit
+f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
 {
-  UNUSED(lvl); UNUSED(lks); UNUSED(prs);
-  switch(crt_group_type)
+  UNUSED(lvl);
+  UNUSED(lks);
+  UNUSED(prs);
+  switch (crt_group_type)
    {
      case TOKDEC_UNIT:
               IGNORE f_make_tokdec_unit();
@@ -2268,16 +2260,18 @@ unit f_make_unit
               IGNORE f_make_tagdef_unit();
               break;
      case DIAGDEF_UNIT:		/* OLD DIAGS */
-              if (diagnose)
+              if (diagnose) {
                 IGNORE f_make_diagdef_unit();
-              else
+	      } else {
                 ignore_bytestream();
+	      }
               break;
      case DIAGTYPE_UNIT:	/* OLD DIAGS */
-              if (diagnose)
+              if (diagnose) {
                 IGNORE f_make_diagtype_unit();
-              else
+	      } else {
                 ignore_bytestream();
+	      }
               break;
      case LINKINFO_UNIT:
               IGNORE f_make_linkinfo_unit();
@@ -2286,21 +2280,21 @@ unit f_make_unit
 	      IGNORE f_make_versions_unit();
 	      break;
      case DGCOMP_UNIT:	/* NEW DIAGS */
-              if (diagnose)
+              if (diagnose) {
                 IGNORE f_make_dg_comp_unit();
-              else
+	      } else {
                 ignore_bytestream();
+	      }
               break;
      default:
               ignore_bytestream();
               break;
-   };
+   }
   return 0;
 }
 
-linkextern f_make_linkextern
-    PROTO_N ( (internal, ext) )
-    PROTO_T ( tdfint internal X external ext )
+linkextern
+f_make_linkextern(tdfint internal, external ext)
 {
   switch (crt_extern_link_type)
    {
@@ -2317,96 +2311,89 @@ linkextern f_make_linkextern
      default:
        failer(VARIABLE_TYPE);
        return 0;
-   };
+   }
 }
 
-group f_make_group
-    PROTO_N ( (us) )
-    PROTO_T ( unit_list us )
+group
+f_make_group(unit_list us)
 {
   UNUSED(us);
   return 0;
 }
 
-links f_make_links
-    PROTO_N ( (ls) )
-    PROTO_T ( link_list ls )
+links
+f_make_links(link_list ls)
 {
   UNUSED(ls);
   return 0;
 }
 
-extern_link f_make_extern_link
-    PROTO_N ( (el) )
-    PROTO_T ( linkextern_list el )
+extern_link
+f_make_extern_link(linkextern_list el)
 {
   UNUSED(el);
   return 0;
 }
 
-tokdef_props f_make_tokdefs
-    PROTO_N ( (nl, tds) )
-    PROTO_T ( tdfint nl X tokdef_list tds )
+tokdef_props
+f_make_tokdefs(tdfint nl, tokdef_list tds)
 {
-  UNUSED(nl); UNUSED(tds);
+  UNUSED(nl);
+  UNUSED(tds);
   return 0;
 }
 
-tokdec_props f_make_tokdecs
-    PROTO_N ( (tds) )
-    PROTO_T ( tokdec_list tds )
+tokdec_props
+f_make_tokdecs(tokdec_list tds)
 {
   UNUSED(tds);
   return 0;
 }
 
-tagdef_props f_make_tagdefs
-    PROTO_N ( (nl, tds) )
-    PROTO_T ( tdfint nl X tagdef_list tds )
+tagdef_props
+f_make_tagdefs(tdfint nl, tagdef_list tds)
 {
-  UNUSED(nl); UNUSED(tds);
+  UNUSED(nl);
+  UNUSED(tds);
   return 0;
 }
 
-al_tagdef_props f_make_al_tagdefs
-    PROTO_N ( (nl, tds) )
-    PROTO_T ( tdfint nl X al_tagdef_list tds )
+al_tagdef_props
+f_make_al_tagdefs(tdfint nl, al_tagdef_list tds)
 {
-  UNUSED(nl); UNUSED(tds);
+  UNUSED(nl);
+  UNUSED(tds);
   return 0;
 }
 
-tagdec_props f_make_tagdecs
-    PROTO_N ( (nl, tds) )
-    PROTO_T ( tdfint nl X tagdec_list tds )
+tagdec_props
+f_make_tagdecs(tdfint nl, tagdec_list tds)
 {
- UNUSED(nl); UNUSED(tds);
+ UNUSED(nl);
+ UNUSED(tds);
  return 0;
 }
 
 
 
-sortname_list new_sortname_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+sortname_list
+new_sortname_list(int n)
 {
   sortname_list res;
   res.number = n;
-  res.elems = (sortname*)xcalloc(n, sizeof(sortname));
+  res.elems = (sortname *)xcalloc(n, sizeof(sortname));
   return res;
 }
 
-sortname_list add_sortname_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( sortname_list list X sortname elem X int index )
+sortname_list
+add_sortname_list(sortname_list list, sortname elem, int index)
 {
   list.elems[index] = elem;
   return list;
 }
 
-tokformals_list new_tokformals_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tokformals_list
+new_tokformals_list(int n)
 {
   tokformals_list res;
   res.number = n;
@@ -2415,175 +2402,174 @@ tokformals_list new_tokformals_list
   return res;
 }
 
-tokformals_list add_tokformals_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tokformals_list list X tokformals elem X int index )
+tokformals_list
+add_tokformals_list(tokformals_list list, tokformals elem, int index)
 {
   list.par_sorts[index] = elem.sn;
   list.par_names[index] = elem.tk;
   return list;
 }
 
-tokdec_list new_tokdec_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tokdec_list
+new_tokdec_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-tokdec_list add_tokdec_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tokdec_list list X tokdec elem X int index )
+tokdec_list
+add_tokdec_list(tokdec_list list, tokdec elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
-tokdef_list new_tokdef_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tokdef_list
+new_tokdef_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-tokdef_list add_tokdef_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tokdef_list list X tokdef elem X int index )
+tokdef_list
+add_tokdef_list(tokdef_list list, tokdef elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
-al_tagdef_list new_al_tagdef_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+al_tagdef_list
+new_al_tagdef_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-al_tagdef_list add_al_tagdef_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( al_tagdef_list list X al_tagdef elem X int index )
+al_tagdef_list
+add_al_tagdef_list(al_tagdef_list list, al_tagdef elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
 
-al_tagdef f_make_al_tagdef
-    PROTO_N ( (t, a) )
-    PROTO_T ( tdfint t X alignment a )
+al_tagdef
+f_make_al_tagdef(tdfint t, alignment a)
 {
-  aldef * ap = get_aldef(natint(t));
-  ap -> next_aldef = top_aldef;
+  aldef *ap = get_aldef(natint(t));
+  ap->next_aldef = top_aldef;
   top_aldef = ap;
-  ap -> al = a -> al;
+  ap->al = a->al;
   return 0;
 }
 
 
 
-tagdec_list new_tagdec_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tagdec_list
+new_tagdec_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-tagdec_list add_tagdec_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tagdec_list list X tagdec elem X int index )
+tagdec_list
+add_tagdec_list(tagdec_list list, tagdec elem, int index)
 {
-    dec * dp = elem.tg;
+    dec *dp = elem.tg;
     shape s;
     exp e;
-    UNUSED(list); UNUSED(index);
+    UNUSED(list);
+    UNUSED(index);
     s = elem.sha;
 
     e = getexp(s, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
 
-    if (elem.is_variable)
-     {
+    if (elem.is_variable) {
 #if keep_PIC_vars
        setvar(e);
 #else
-       if (PIC_code && dp -> dec_u.dec_val.extnamed)
+       if (PIC_code && dp -> dec_u.dec_val.extnamed) {
          sh(e) = f_pointer(f_alignment(s));
-       else
+       } else {
          setvar(e);
+       }
 #endif
-     };
+    }
 
-    if (elem.acc & (f_visible | f_long_jump_access))
+    if (elem.acc & (f_visible | f_long_jump_access)) {
       setvis(e);
-    if (elem.acc & f_constant)
+    }
+    if (elem.acc & f_constant) {
       setcaonly(e);
+    }
 
-    dp -> dec_u.dec_val.acc = elem.acc;
+    dp->dec_u.dec_val.acc = elem.acc;
 
-    dp -> dec_u.dec_val.dec_exp = e;
+    dp->dec_u.dec_val.dec_exp = e;
 
-    if (dp -> dec_u.dec_val.dec_shape != nilexp) {
-      if (shape_size(s) > shape_size(dp -> dec_u.dec_val.dec_shape))
-        dp -> dec_u.dec_val.dec_shape = s;
-    };
+    if (dp->dec_u.dec_val.dec_shape != nilexp) {
+      if (shape_size(s) > shape_size(dp->dec_u.dec_val.dec_shape)) {
+        dp->dec_u.dec_val.dec_shape = s;
+      }
+    }
 
-    if (dp -> dec_u.dec_val.dec_shape == nilexp) {
-      dp -> dec_u.dec_val.dec_shape = s;
-      dp -> def_next = (dec *)0;
+    if (dp->dec_u.dec_val.dec_shape == nilexp) {
+      dp->dec_u.dec_val.dec_shape = s;
+      dp->def_next = (dec *)0;
       *deflist_end = dp;
-      deflist_end = &((*deflist_end) -> def_next);
-    };
+      deflist_end = & ((*deflist_end)->def_next);
+    }
 
-    dp -> dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable) ;
-    if (!dp -> dec_u.dec_val.have_def)
-     {
+    dp->dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable);
+    if (!dp->dec_u.dec_val.have_def) {
       setglob(e);
-     };
+    }
     /* the defining exp */
-    brog(dp -> dec_u.dec_val.dec_exp) = dp;
-    if (dp -> dec_u.dec_val.dec_id == (char *) 0)
-      dp -> dec_u.dec_val.dec_id = make_local_name();
+    brog(dp->dec_u.dec_val.dec_exp) = dp;
+    if (dp->dec_u.dec_val.dec_id == (char *)0) {
+      dp->dec_u.dec_val.dec_id = make_local_name();
+    }
 
   return 0;
 }
 
-tagdef_list new_tagdef_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tagdef_list
+new_tagdef_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-tagdef_list add_tagdef_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tagdef_list list X tagdef elem X int index )
+tagdef_list
+add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
-  dec * dp = elem.tg;
-  exp old_def = son(dp -> dec_u.dec_val.dec_exp);
+  dec *dp = elem.tg;
+  exp old_def = son(dp->dec_u.dec_val.dec_exp);
   exp new_def = elem.def;
-  UNUSED(list); UNUSED(index);
-  if (dp -> dec_u.dec_val.processed || new_def == nilexp)
+  UNUSED(list);
+  UNUSED(index);
+  if (dp->dec_u.dec_val.processed || new_def == nilexp) {
     return 0;
+  }
 
   if (old_def == nilexp ||
-       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
-       (name(new_def) != clear_tag && name(old_def) == clear_tag))  {
-    son(dp -> dec_u.dec_val.dec_exp) = new_def;
-    setfather(dp -> dec_u.dec_val.dec_exp, elem.def);
-  };
+      shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
+      (name(new_def) != clear_tag && name(old_def) == clear_tag)) {
+    son(dp->dec_u.dec_val.dec_exp) = new_def;
+    setfather(dp->dec_u.dec_val.dec_exp, elem.def);
+  }
 
   return 0;
 }
 
-tdfident_list new_tdfident_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tdfident_list
+new_tdfident_list(int n)
 {
   tdfstring_list res;
   res.elems = (tdfstring *)xcalloc(n, sizeof(tdfstring));
@@ -2591,17 +2577,15 @@ tdfident_list new_tdfident_list
   return res;
 }
 
-tdfident_list add_tdfident_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tdfident_list list X tdfident elem X int index )
+tdfident_list
+add_tdfident_list(tdfident_list list, tdfident elem, int index)
 {
   list.elems[index] = elem;
   return list;
 }
 
-tdfint_list new_tdfint_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+tdfint_list
+new_tdfint_list(int n)
 {
   tdfint_list res;
   res.members = (tdfint *)xcalloc(n, sizeof(tdfint));
@@ -2609,77 +2593,77 @@ tdfint_list new_tdfint_list
   return res;
 }
 
-tdfint_list add_tdfint_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( tdfint_list list X tdfint elem X int index )
+tdfint_list
+add_tdfint_list(tdfint_list list, tdfint elem, int index)
 {
   list.members[index] = elem;
   return list;
 }
 
-group_list new_group_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+group_list
+new_group_list(int n)
 {
   UNUSED(n);
   crt_group_type = group_type(crt_capsule_groups[0].ints.chars);
   return 0;
 }
 
-group_list add_group_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( group_list list X group elem X int index )
+group_list
+add_group_list(group_list list, group elem, int index)
 {
-  UNUSED(list); UNUSED(elem);
-  if (index < (crt_capsule_group_no-1))
-    crt_group_type = group_type(crt_capsule_groups[index+1].ints.chars);
+  UNUSED(list);
+  UNUSED(elem);
+  if (index < (crt_capsule_group_no - 1)) {
+    crt_group_type = group_type(crt_capsule_groups[index + 1].ints.chars);
+  }
   return 0;
 }
 
-links_list new_links_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+links_list
+new_links_list(int n)
 {
   UNUSED(n);
-  if (crt_capsule_link_no != 0)
+  if (crt_capsule_link_no != 0) {
     crt_links_type = links_type(crt_capsule_linking.members[0].id);
+  }
   return 0;
 }
 
-links_list add_links_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( links_list list X links elem X int index )
+links_list
+add_links_list(links_list list, links elem, int index)
 {
-  UNUSED(list); UNUSED(elem);
-  if (index < (crt_capsule_linking.number-1))
-    crt_links_type = links_type(crt_capsule_linking.members[index+1].id);
+  UNUSED(list);
+  UNUSED(elem);
+  if (index < (crt_capsule_linking.number - 1)) {
+    crt_links_type = links_type(crt_capsule_linking.members[index + 1].id);
+  }
   return 0;
 }
 
-extern_link_list new_extern_link_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+extern_link_list
+new_extern_link_list(int n)
 {
   UNUSED(n);
-  if (crt_capsule_link_no != 0)
+  if (crt_capsule_link_no != 0) {
     crt_extern_link_type = links_type(crt_capsule_linking.members[0].id);
+  }
   return 0;
 }
 
-extern_link_list add_extern_link_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( extern_link_list list X extern_link elem X int index )
+extern_link_list
+add_extern_link_list(extern_link_list list, extern_link elem, int index)
 {
-  UNUSED(list); UNUSED(elem);
-  if (index < (crt_capsule_linking.number-1))
-     crt_extern_link_type =
-         links_type(crt_capsule_linking.members[index+1].id);
+  UNUSED(list);
+  UNUSED(elem);
+  if (index < (crt_capsule_linking.number - 1)) {
+    crt_extern_link_type =
+	links_type(crt_capsule_linking.members[index + 1].id);
+  }
   return 0;
 }
 
-capsule_link_list new_capsule_link_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+capsule_link_list
+new_capsule_link_list(int n)
 {
   capsule_link_list res;
   res.members = (capsule_link *)xcalloc(n, sizeof(capsule_link));
@@ -2687,33 +2671,31 @@ capsule_link_list new_capsule_link_list
   return res;
 }
 
-capsule_link_list add_capsule_link_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( capsule_link_list list X capsule_link elem X int index )
+capsule_link_list
+add_capsule_link_list(capsule_link_list list, capsule_link elem, int index)
 {
   list.members[index] = elem;
   return list;
 }
 
-unit_list new_unit_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+unit_list
+new_unit_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-unit_list add_unit_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( unit_list list X unit elem X int index )
+unit_list
+add_unit_list(unit_list list, unit elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
-link_list new_link_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+link_list
+new_link_list(int n)
 {
   int i;
   switch (crt_links_type)
@@ -2722,41 +2704,39 @@ link_list new_link_list
      case TOK_TYPE:
        no_of_local_tokens = unit_no_of_tokens - n;
        unit_toktab = (tok_define *)xcalloc(no_of_local_tokens,
-                         sizeof(tok_define));
+					   sizeof(tok_define));
        for (i = 0; i < no_of_local_tokens; ++i) {
-         tok_define * tp = &unit_toktab[i];
-         tp -> tok_special = 0;
-         tp -> valpresent = 0;
-         tp -> unit_number = crt_tagdef_unit_no;
-         tp -> defined = 0;
-         tp -> tok_index = i;
-         tp -> is_capsule_token = 0;
-         tp -> recursive = 0;
-       };
+         tok_define *tp = &unit_toktab[i];
+         tp->tok_special = 0;
+         tp->valpresent = 0;
+         tp->unit_number = crt_tagdef_unit_no;
+         tp->defined = 0;
+         tp->tok_index = i;
+         tp->is_capsule_token = 0;
+         tp->recursive = 0;
+       }
        return 0;
      case TAG_TYPE:
-       unit_tagtab = (dec *)xcalloc(unit_no_of_tags - n,
-                         sizeof(dec));
+       unit_tagtab = (dec *)xcalloc(unit_no_of_tags - n, sizeof(dec));
        for (i = 0; i < unit_no_of_tags - n; ++i) {
-         dec * dp = &unit_tagtab[i];
-         dp -> dec_u.dec_val.dec_outermost = 0;
-         dp -> dec_u.dec_val.dec_id = (char *) 0;
-         dp -> dec_u.dec_val.extnamed = 0;
-         dp -> dec_u.dec_val.diag_info = (diag_global *)0;
-         dp -> dec_u.dec_val.have_def = 0;
-         dp -> dec_u.dec_val.dec_shape = nilexp;
-         dp -> dec_u.dec_val.processed = 0;
-         dp -> dec_u.dec_val.isweak = 0;
-         dp -> dec_u.dec_val.dec_exp = nilexp;
-       };
+         dec *dp = &unit_tagtab[i];
+         dp->dec_u.dec_val.dec_outermost = 0;
+         dp->dec_u.dec_val.dec_id = (char *)0;
+         dp->dec_u.dec_val.extnamed = 0;
+         dp->dec_u.dec_val.diag_info = (diag_global *)0;
+         dp->dec_u.dec_val.have_def = 0;
+         dp->dec_u.dec_val.dec_shape = nilexp;
+         dp->dec_u.dec_val.processed = 0;
+         dp->dec_u.dec_val.isweak = 0;
+         dp->dec_u.dec_val.dec_exp = nilexp;
+       }
        return 0;
      case AL_TYPE:
-       unit_altab = (aldef *)xcalloc(unit_no_of_als - n,
-                         sizeof(aldef));
+       unit_altab = (aldef *)xcalloc(unit_no_of_als - n, sizeof(aldef));
        for (i = 0; i < unit_no_of_als - n; ++i) {
-         aldef * ap = &unit_altab[i];
-         ap -> al.al_n = 0;
-       };
+         aldef *ap = &unit_altab[i];
+         ap->al.al_n = 0;
+       }
        return 0;
      case DIAGTAG_TYPE:		/* OLD DIAGS */
        init_unit_diagtags(n);
@@ -2767,41 +2747,38 @@ link_list new_link_list
      default:
        failer(LINK_TYPE);
        return 0;
-   };
+   }
 }
 
-link_list add_link_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( link_list list X link elem X int index )
+link_list
+add_link_list(link_list list, link elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
-linkextern_list new_linkextern_list
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+linkextern_list
+new_linkextern_list(int n)
 {
   UNUSED(n);
   return 0;
 }
 
-linkextern_list add_linkextern_list
-    PROTO_N ( (list, elem, index) )
-    PROTO_T ( linkextern_list list X linkextern elem X int index )
+linkextern_list
+add_linkextern_list(linkextern_list list, linkextern elem, int index)
 {
-  UNUSED(list); UNUSED(elem); UNUSED(index);
+  UNUSED(list);
+  UNUSED(elem);
+  UNUSED(index);
   return 0;
 }
 
-
-
-
 exp_option no_exp_option;
 
-exp_option yes_exp_option
-    PROTO_N ( (elem) )
-    PROTO_T ( exp elem )
+exp_option
+yes_exp_option(exp elem)
 {
   exp_option res;
   res.present = 1;
@@ -2809,8 +2786,8 @@ exp_option yes_exp_option
   return res;
 }
 
-void init_exp_option
-    PROTO_Z ()
+void
+init_exp_option(void)
 {
    no_exp_option.present = 0;
    return;
@@ -2818,9 +2795,8 @@ void init_exp_option
 
 tag_option no_tag_option;
 
-tag_option yes_tag_option
-    PROTO_N ( (elem) )
-    PROTO_T ( tag elem )
+tag_option
+yes_tag_option(tag elem)
 {
   tag_option res;
   res.present = 1;
@@ -2828,87 +2804,82 @@ tag_option yes_tag_option
   return res;
 }
 
-void init_tag_option
-    PROTO_Z ()
+void
+init_tag_option(void)
 {
    no_tag_option.present = 0;
    return;
 }
 
-void init_capsule_link
-    PROTO_Z ()
+void
+init_capsule_link(void)
 {
   return;
 }
 
 
-void init_extern_link
-    PROTO_Z ()
+void
+init_extern_link(void)
 {
   return;
 }
 
-void init_group
-    PROTO_Z ()
+void
+init_group(void)
 {
   return;
 }
 
-void init_unit
-    PROTO_Z ()
+void
+init_unit(void)
 {
   return;
 }
 
-void init_link
-    PROTO_Z ()
+void
+init_link(void)
 {
   return;
 }
 
-void init_linkextern
-    PROTO_Z ()
+void
+init_linkextern(void)
 {
   return;
 }
 
-void init_links
-    PROTO_Z ()
+void
+init_links(void)
 {
   return;
 }
 
-void init_tagdec_props
-    PROTO_Z ()
+void
+init_tagdec_props(void)
 {
   return;
 }
 
-void init_tagdef_props
-    PROTO_Z ()
+void
+init_tagdef_props(void)
 {
   return;
 }
 
-void init_al_tagdef_props
-    PROTO_Z ()
+void
+init_al_tagdef_props(void)
 {
   return;
 }
 
-void init_tokdec_props
-    PROTO_Z ()
+void
+init_tokdec_props(void)
 {
   return;
 }
 
-void init_tokdef_props
-    PROTO_Z ()
+void
+init_tokdef_props(void)
 {
   return;
 }
-
-
-
-
-

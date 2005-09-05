@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -35,166 +65,166 @@
 
 
 /* SORT DECODING ROUTINES */
-extern access d_access PROTO_S ( ( void ) ) ;
-extern access_option d_access_option PROTO_S ( ( void ) ) ;
-extern al_tag d_al_tag PROTO_S ( ( void ) ) ;
-extern al_tagdef d_al_tagdef PROTO_S ( ( void ) ) ;
-extern al_tagdef_list d_al_tagdef_list PROTO_S ( ( void ) ) ;
-extern al_tagdef_props d_al_tagdef_props PROTO_S ( ( void ) ) ;
-extern alignment d_alignment PROTO_S ( ( void ) ) ;
-extern bitfield_variety d_bitfield_variety PROTO_S ( ( void ) ) ;
-extern bool d_bool PROTO_S ( ( void ) ) ;
-extern bool_option d_bool_option PROTO_S ( ( void ) ) ;
-extern callees d_callees PROTO_S ( ( void ) ) ;
-extern capsule d_capsule PROTO_S ( ( void ) ) ;
-extern capsule_link d_capsule_link PROTO_S ( ( void ) ) ;
-extern capsule_link_list d_capsule_link_list PROTO_S ( ( void ) ) ;
-extern caselim d_caselim PROTO_S ( ( void ) ) ;
-extern caselim_list d_caselim_list PROTO_S ( ( void ) ) ;
-extern dg d_dg PROTO_S ( ( void ) ) ;
-extern dg_accessibility d_dg_accessibility PROTO_S ( ( void ) ) ;
-extern dg_accessibility_option d_dg_accessibility_option PROTO_S ( ( void ) ) ;
-extern dg_append d_dg_append PROTO_S ( ( void ) ) ;
-extern dg_append_list d_dg_append_list PROTO_S ( ( void ) ) ;
-extern dg_bound d_dg_bound PROTO_S ( ( void ) ) ;
-extern dg_class_base d_dg_class_base PROTO_S ( ( void ) ) ;
-extern dg_class_base_list d_dg_class_base_list PROTO_S ( ( void ) ) ;
-extern dg_classmem d_dg_classmem PROTO_S ( ( void ) ) ;
-extern dg_classmem_list d_dg_classmem_list PROTO_S ( ( void ) ) ;
-extern dg_comp_props d_dg_comp_props PROTO_S ( ( void ) ) ;
-extern dg_compilation d_dg_compilation PROTO_S ( ( void ) ) ;
-extern dg_constraint d_dg_constraint PROTO_S ( ( void ) ) ;
-extern dg_constraint_list d_dg_constraint_list PROTO_S ( ( void ) ) ;
-extern dg_constraint_list_option d_dg_constraint_list_option PROTO_S ( ( void ) ) ;
-extern dg_default d_dg_default PROTO_S ( ( void ) ) ;
-extern dg_default_option d_dg_default_option PROTO_S ( ( void ) ) ;
-extern dg_dim d_dg_dim PROTO_S ( ( void ) ) ;
-extern dg_dim_list d_dg_dim_list PROTO_S ( ( void ) ) ;
-extern dg_dim_option d_dg_dim_option PROTO_S ( ( void ) ) ;
-extern dg_discrim d_dg_discrim PROTO_S ( ( void ) ) ;
-extern dg_discrim_list d_dg_discrim_list PROTO_S ( ( void ) ) ;
-extern dg_enum d_dg_enum PROTO_S ( ( void ) ) ;
-extern dg_enum_list d_dg_enum_list PROTO_S ( ( void ) ) ;
-extern dg_filename d_dg_filename PROTO_S ( ( void ) ) ;
-extern dg_filename_option d_dg_filename_option PROTO_S ( ( void ) ) ;
-extern dg_idname d_dg_idname PROTO_S ( ( void ) ) ;
-extern dg_idname_list d_dg_idname_list PROTO_S ( ( void ) ) ;
-extern dg_idname_option d_dg_idname_option PROTO_S ( ( void ) ) ;
-extern dg_list d_dg_list PROTO_S ( ( void ) ) ;
-extern dg_macro d_dg_macro PROTO_S ( ( void ) ) ;
-extern dg_macro_list d_dg_macro_list PROTO_S ( ( void ) ) ;
-extern dg_name d_dg_name PROTO_S ( ( void ) ) ;
-extern dg_name_list d_dg_name_list PROTO_S ( ( void ) ) ;
-extern dg_name_option d_dg_name_option PROTO_S ( ( void ) ) ;
-extern dg_namelist d_dg_namelist PROTO_S ( ( void ) ) ;
-extern dg_param d_dg_param PROTO_S ( ( void ) ) ;
-extern dg_param_list d_dg_param_list PROTO_S ( ( void ) ) ;
-extern dg_param_mode d_dg_param_mode PROTO_S ( ( void ) ) ;
-extern dg_param_mode_option d_dg_param_mode_option PROTO_S ( ( void ) ) ;
-extern dg_qualifier d_dg_qualifier PROTO_S ( ( void ) ) ;
-extern dg_sourcepos d_dg_sourcepos PROTO_S ( ( void ) ) ;
-extern dg_sourcepos_option d_dg_sourcepos_option PROTO_S ( ( void ) ) ;
-extern dg_tag d_dg_tag PROTO_S ( ( void ) ) ;
-extern dg_tag_list d_dg_tag_list PROTO_S ( ( void ) ) ;
-extern dg_tag_option d_dg_tag_option PROTO_S ( ( void ) ) ;
-extern dg_type d_dg_type PROTO_S ( ( void ) ) ;
-extern dg_type_list d_dg_type_list PROTO_S ( ( void ) ) ;
-extern dg_type_list_option d_dg_type_list_option PROTO_S ( ( void ) ) ;
-extern dg_type_option d_dg_type_option PROTO_S ( ( void ) ) ;
-extern dg_variant d_dg_variant PROTO_S ( ( void ) ) ;
-extern dg_variant_list d_dg_variant_list PROTO_S ( ( void ) ) ;
-extern dg_varpart d_dg_varpart PROTO_S ( ( void ) ) ;
-extern dg_varpart_option d_dg_varpart_option PROTO_S ( ( void ) ) ;
-extern dg_virtuality d_dg_virtuality PROTO_S ( ( void ) ) ;
-extern dg_virtuality_option d_dg_virtuality_option PROTO_S ( ( void ) ) ;
-extern diag_descriptor d_diag_descriptor PROTO_S ( ( void ) ) ;
-extern diag_descriptor_list d_diag_descriptor_list PROTO_S ( ( void ) ) ;
-extern diag_field d_diag_field PROTO_S ( ( void ) ) ;
-extern diag_field_list d_diag_field_list PROTO_S ( ( void ) ) ;
-extern diag_tag d_diag_tag PROTO_S ( ( void ) ) ;
-extern diag_tagdef d_diag_tagdef PROTO_S ( ( void ) ) ;
-extern diag_tagdef_list d_diag_tagdef_list PROTO_S ( ( void ) ) ;
-extern diag_tq d_diag_tq PROTO_S ( ( void ) ) ;
-extern diag_type d_diag_type PROTO_S ( ( void ) ) ;
-extern diag_type_list d_diag_type_list PROTO_S ( ( void ) ) ;
-extern diag_type_unit d_diag_type_unit PROTO_S ( ( void ) ) ;
-extern diag_unit d_diag_unit PROTO_S ( ( void ) ) ;
-extern enum_values d_enum_values PROTO_S ( ( void ) ) ;
-extern enum_values_list d_enum_values_list PROTO_S ( ( void ) ) ;
-extern error_code d_error_code PROTO_S ( ( void ) ) ;
-extern error_code_list d_error_code_list PROTO_S ( ( void ) ) ;
-extern error_treatment d_error_treatment PROTO_S ( ( void ) ) ;
-extern exp d_exp PROTO_S ( ( void ) ) ;
-extern exp_list d_exp_list PROTO_S ( ( void ) ) ;
-extern exp_option d_exp_option PROTO_S ( ( void ) ) ;
-extern extern_link d_extern_link PROTO_S ( ( void ) ) ;
-extern extern_link_list d_extern_link_list PROTO_S ( ( void ) ) ;
-extern external d_external PROTO_S ( ( void ) ) ;
-extern filename d_filename PROTO_S ( ( void ) ) ;
-extern floating_variety d_floating_variety PROTO_S ( ( void ) ) ;
-extern group d_group PROTO_S ( ( void ) ) ;
-extern group_list d_group_list PROTO_S ( ( void ) ) ;
-extern label d_label PROTO_S ( ( void ) ) ;
-extern label_list d_label_list PROTO_S ( ( void ) ) ;
-extern link d_link PROTO_S ( ( void ) ) ;
-extern link_list d_link_list PROTO_S ( ( void ) ) ;
-extern linkextern d_linkextern PROTO_S ( ( void ) ) ;
-extern linkextern_list d_linkextern_list PROTO_S ( ( void ) ) ;
-extern linkinfo d_linkinfo PROTO_S ( ( void ) ) ;
-extern linkinfo_list d_linkinfo_list PROTO_S ( ( void ) ) ;
-extern linkinfo_props d_linkinfo_props PROTO_S ( ( void ) ) ;
-extern links d_links PROTO_S ( ( void ) ) ;
-extern links_list d_links_list PROTO_S ( ( void ) ) ;
-extern nat d_nat PROTO_S ( ( void ) ) ;
-extern nat_option d_nat_option PROTO_S ( ( void ) ) ;
-extern ntest d_ntest PROTO_S ( ( void ) ) ;
-extern otagexp d_otagexp PROTO_S ( ( void ) ) ;
-extern otagexp_list d_otagexp_list PROTO_S ( ( void ) ) ;
-extern procprops d_procprops PROTO_S ( ( void ) ) ;
-extern procprops_option d_procprops_option PROTO_S ( ( void ) ) ;
-extern rounding_mode d_rounding_mode PROTO_S ( ( void ) ) ;
-extern shape d_shape PROTO_S ( ( void ) ) ;
-extern shape_option d_shape_option PROTO_S ( ( void ) ) ;
-extern signed_nat d_signed_nat PROTO_S ( ( void ) ) ;
-extern sortname d_sortname PROTO_S ( ( void ) ) ;
-extern sortname_list d_sortname_list PROTO_S ( ( void ) ) ;
-extern sourcemark d_sourcemark PROTO_S ( ( void ) ) ;
-extern string d_string PROTO_S ( ( void ) ) ;
-extern string_list d_string_list PROTO_S ( ( void ) ) ;
-extern string_option d_string_option PROTO_S ( ( void ) ) ;
-extern tag d_tag PROTO_S ( ( void ) ) ;
-extern tag_option d_tag_option PROTO_S ( ( void ) ) ;
-extern tagacc d_tagacc PROTO_S ( ( void ) ) ;
-extern tagacc_option d_tagacc_option PROTO_S ( ( void ) ) ;
-extern tagdec d_tagdec PROTO_S ( ( void ) ) ;
-extern tagdec_list d_tagdec_list PROTO_S ( ( void ) ) ;
-extern tagdec_props d_tagdec_props PROTO_S ( ( void ) ) ;
-extern tagdef d_tagdef PROTO_S ( ( void ) ) ;
-extern tagdef_list d_tagdef_list PROTO_S ( ( void ) ) ;
-extern tagdef_props d_tagdef_props PROTO_S ( ( void ) ) ;
-extern tagshacc d_tagshacc PROTO_S ( ( void ) ) ;
-extern tagshacc_list d_tagshacc_list PROTO_S ( ( void ) ) ;
-extern tdfident_list d_tdfident_list PROTO_S ( ( void ) ) ;
-extern tdfint_list d_tdfint_list PROTO_S ( ( void ) ) ;
-extern tokdec d_tokdec PROTO_S ( ( void ) ) ;
-extern tokdec_list d_tokdec_list PROTO_S ( ( void ) ) ;
-extern tokdec_props d_tokdec_props PROTO_S ( ( void ) ) ;
-extern tokdef d_tokdef PROTO_S ( ( void ) ) ;
-extern tokdef_list d_tokdef_list PROTO_S ( ( void ) ) ;
-extern tokdef_props d_tokdef_props PROTO_S ( ( void ) ) ;
-extern token d_token PROTO_S ( ( void ) ) ;
-extern token_defn d_token_defn PROTO_S ( ( void ) ) ;
-extern token_option d_token_option PROTO_S ( ( void ) ) ;
-extern tokformals d_tokformals PROTO_S ( ( void ) ) ;
-extern tokformals_list d_tokformals_list PROTO_S ( ( void ) ) ;
-extern transfer_mode d_transfer_mode PROTO_S ( ( void ) ) ;
-extern unique d_unique PROTO_S ( ( void ) ) ;
-extern unit d_unit PROTO_S ( ( void ) ) ;
-extern unit_list d_unit_list PROTO_S ( ( void ) ) ;
-extern variety d_variety PROTO_S ( ( void ) ) ;
-extern version d_version PROTO_S ( ( void ) ) ;
-extern version_list d_version_list PROTO_S ( ( void ) ) ;
-extern version_props d_version_props PROTO_S ( ( void ) ) ;
+extern access d_access(void);
+extern access_option d_access_option(void);
+extern al_tag d_al_tag(void);
+extern al_tagdef d_al_tagdef(void);
+extern al_tagdef_list d_al_tagdef_list(void);
+extern al_tagdef_props d_al_tagdef_props(void);
+extern alignment d_alignment(void);
+extern bitfield_variety d_bitfield_variety(void);
+extern bool d_bool(void);
+extern bool_option d_bool_option(void);
+extern callees d_callees(void);
+extern capsule d_capsule(void);
+extern capsule_link d_capsule_link(void);
+extern capsule_link_list d_capsule_link_list(void);
+extern caselim d_caselim(void);
+extern caselim_list d_caselim_list(void);
+extern dg d_dg(void);
+extern dg_accessibility d_dg_accessibility(void);
+extern dg_accessibility_option d_dg_accessibility_option(void);
+extern dg_append d_dg_append(void);
+extern dg_append_list d_dg_append_list(void);
+extern dg_bound d_dg_bound(void);
+extern dg_class_base d_dg_class_base(void);
+extern dg_class_base_list d_dg_class_base_list(void);
+extern dg_classmem d_dg_classmem(void);
+extern dg_classmem_list d_dg_classmem_list(void);
+extern dg_comp_props d_dg_comp_props(void);
+extern dg_compilation d_dg_compilation(void);
+extern dg_constraint d_dg_constraint(void);
+extern dg_constraint_list d_dg_constraint_list(void);
+extern dg_constraint_list_option d_dg_constraint_list_option(void);
+extern dg_default d_dg_default(void);
+extern dg_default_option d_dg_default_option(void);
+extern dg_dim d_dg_dim(void);
+extern dg_dim_list d_dg_dim_list(void);
+extern dg_dim_option d_dg_dim_option(void);
+extern dg_discrim d_dg_discrim(void);
+extern dg_discrim_list d_dg_discrim_list(void);
+extern dg_enum d_dg_enum(void);
+extern dg_enum_list d_dg_enum_list(void);
+extern dg_filename d_dg_filename(void);
+extern dg_filename_option d_dg_filename_option(void);
+extern dg_idname d_dg_idname(void);
+extern dg_idname_list d_dg_idname_list(void);
+extern dg_idname_option d_dg_idname_option(void);
+extern dg_list d_dg_list(void);
+extern dg_macro d_dg_macro(void);
+extern dg_macro_list d_dg_macro_list(void);
+extern dg_name d_dg_name(void);
+extern dg_name_list d_dg_name_list(void);
+extern dg_name_option d_dg_name_option(void);
+extern dg_namelist d_dg_namelist(void);
+extern dg_param d_dg_param(void);
+extern dg_param_list d_dg_param_list(void);
+extern dg_param_mode d_dg_param_mode(void);
+extern dg_param_mode_option d_dg_param_mode_option(void);
+extern dg_qualifier d_dg_qualifier(void);
+extern dg_sourcepos d_dg_sourcepos(void);
+extern dg_sourcepos_option d_dg_sourcepos_option(void);
+extern dg_tag d_dg_tag(void);
+extern dg_tag_list d_dg_tag_list(void);
+extern dg_tag_option d_dg_tag_option(void);
+extern dg_type d_dg_type(void);
+extern dg_type_list d_dg_type_list(void);
+extern dg_type_list_option d_dg_type_list_option(void);
+extern dg_type_option d_dg_type_option(void);
+extern dg_variant d_dg_variant(void);
+extern dg_variant_list d_dg_variant_list(void);
+extern dg_varpart d_dg_varpart(void);
+extern dg_varpart_option d_dg_varpart_option(void);
+extern dg_virtuality d_dg_virtuality(void);
+extern dg_virtuality_option d_dg_virtuality_option(void);
+extern diag_descriptor d_diag_descriptor(void);
+extern diag_descriptor_list d_diag_descriptor_list(void);
+extern diag_field d_diag_field(void);
+extern diag_field_list d_diag_field_list(void);
+extern diag_tag d_diag_tag(void);
+extern diag_tagdef d_diag_tagdef(void);
+extern diag_tagdef_list d_diag_tagdef_list(void);
+extern diag_tq d_diag_tq(void);
+extern diag_type d_diag_type(void);
+extern diag_type_list d_diag_type_list(void);
+extern diag_type_unit d_diag_type_unit(void);
+extern diag_unit d_diag_unit(void);
+extern enum_values d_enum_values(void);
+extern enum_values_list d_enum_values_list(void);
+extern error_code d_error_code(void);
+extern error_code_list d_error_code_list(void);
+extern error_treatment d_error_treatment(void);
+extern exp d_exp(void);
+extern exp_list d_exp_list(void);
+extern exp_option d_exp_option(void);
+extern extern_link d_extern_link(void);
+extern extern_link_list d_extern_link_list(void);
+extern external d_external(void);
+extern filename d_filename(void);
+extern floating_variety d_floating_variety(void);
+extern group d_group(void);
+extern group_list d_group_list(void);
+extern label d_label(void);
+extern label_list d_label_list(void);
+extern link d_link(void);
+extern link_list d_link_list(void);
+extern linkextern d_linkextern(void);
+extern linkextern_list d_linkextern_list(void);
+extern linkinfo d_linkinfo(void);
+extern linkinfo_list d_linkinfo_list(void);
+extern linkinfo_props d_linkinfo_props(void);
+extern links d_links(void);
+extern links_list d_links_list(void);
+extern nat d_nat(void);
+extern nat_option d_nat_option(void);
+extern ntest d_ntest(void);
+extern otagexp d_otagexp(void);
+extern otagexp_list d_otagexp_list(void);
+extern procprops d_procprops(void);
+extern procprops_option d_procprops_option(void);
+extern rounding_mode d_rounding_mode(void);
+extern shape d_shape(void);
+extern shape_option d_shape_option(void);
+extern signed_nat d_signed_nat(void);
+extern sortname d_sortname(void);
+extern sortname_list d_sortname_list(void);
+extern sourcemark d_sourcemark(void);
+extern string d_string(void);
+extern string_list d_string_list(void);
+extern string_option d_string_option(void);
+extern tag d_tag(void);
+extern tag_option d_tag_option(void);
+extern tagacc d_tagacc(void);
+extern tagacc_option d_tagacc_option(void);
+extern tagdec d_tagdec(void);
+extern tagdec_list d_tagdec_list(void);
+extern tagdec_props d_tagdec_props(void);
+extern tagdef d_tagdef(void);
+extern tagdef_list d_tagdef_list(void);
+extern tagdef_props d_tagdef_props(void);
+extern tagshacc d_tagshacc(void);
+extern tagshacc_list d_tagshacc_list(void);
+extern tdfident_list d_tdfident_list(void);
+extern tdfint_list d_tdfint_list(void);
+extern tokdec d_tokdec(void);
+extern tokdec_list d_tokdec_list(void);
+extern tokdec_props d_tokdec_props(void);
+extern tokdef d_tokdef(void);
+extern tokdef_list d_tokdef_list(void);
+extern tokdef_props d_tokdef_props(void);
+extern token d_token(void);
+extern token_defn d_token_defn(void);
+extern token_option d_token_option(void);
+extern tokformals d_tokformals(void);
+extern tokformals_list d_tokformals_list(void);
+extern transfer_mode d_transfer_mode(void);
+extern unique d_unique(void);
+extern unit d_unit(void);
+extern unit_list d_unit_list(void);
+extern variety d_variety(void);
+extern version d_version(void);
+extern version_list d_version_list(void);
+extern version_props d_version_props(void);
 
 
 #endif

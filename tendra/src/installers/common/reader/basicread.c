@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -81,38 +111,37 @@ MAGIC NO
 /* VARIABLES */
 /* All variables are initialised, jmf */
 
-static char * crt_ptr;	/* initialised by init_reader */
-static char * end_ptr;	/* initialised by init_reader */
+static char *crt_ptr;	/* initialised by init_reader */
+static char *end_ptr;	/* initialised by init_reader */
 
 static int getcode_bitposn;
 static union pun_u
-  {unsigned int intc;
+  { unsigned int intc;
     struct pun_s {char a; char b; char c; char d;} chars;
   } crt_bits;		/* set before use */
 
 
 
-static char *crt_dot_t;	/* initialised by init_reader */
-int  crt_lno;		/* initialised to -1 by init_reader */
-int crt_charno;		/* only used if crt_lno != -1. No init needed */
-char * crt_flnm;	/* only used if crt_lno != -1. No init needed */
-static int  failer_count;	/* initialised by init_reader */
+static char *crt_dot_t;		/* initialised by init_reader */
+int crt_lno;			/* initialised to -1 by init_reader */
+int crt_charno;			/* only used if crt_lno != -1. No init needed */
+char *crt_flnm;			/* only used if crt_lno != -1. No init needed */
+static int failer_count;	/* initialised by init_reader */
 				/* number of failures so far. To allow for
 				   limiting error messages */
-static int   pkt_index;	/* initialised by init_reader */
+static int pkt_index;		/* initialised by init_reader */
 				/* the index of the current packet in the
 				   file */
-static int table_flag;	/* initialised by init_reader */
+static int table_flag;		/* initialised by init_reader */
 				/* 1 if reading from memory, 0 if reading
 				   from file buffer */
-static char *crt_line;	/* set before use */
+static char *crt_line;		/* set before use */
 				/* current line of encoding */
-static int   file_pkt;	/* initialised by init_reader */
-				/* holds the index of the packet in the
-				   file */
-static FILE * fpin;	/* initialised by init_reader */
+static int file_pkt;		/* initialised by init_reader */
+				/* holds the index of the packet in the file */
+static FILE *fpin;		/* initialised by init_reader */
 				/* file pointer for input */
-static int  buff[64];	/* set by read_line */
+static int buff[64];		/* set by read_line */
 				/* file buffer for input */
 static place current_place;	/* set before use */
 static place bytestream_pickup;	/* set before use */
@@ -129,7 +158,7 @@ static unsigned int  mask[33] = {
   0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff,
   0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff,
     0x7fffffff, 0xffffffff
-};
+}
  /* used to mask bits out of characters */
 
 
@@ -140,19 +169,21 @@ static unsigned int  mask[33] = {
  **********************************************************************/
 
 /* fails, giving error message s */
-void failer
-    PROTO_N ( (s) )
-    PROTO_T ( char *s )
+void
+failer(char *s)
 {
 
   good_trans = 1;
-  if (crt_lno != -1)
-    IGNORE fprintf (stderr, "trans:%s: internal error: after line %d: char %d: %s\n", crt_flnm, crt_lno, crt_charno, s);
-  else
-    IGNORE fprintf (stderr, "trans:%s: internal error: %s\n", crt_dot_t, s);
+  if (crt_lno != -1) {
+    IGNORE fprintf(stderr, "trans:%s: internal error: after line %d: char %d: %s\n", crt_flnm, crt_lno, crt_charno, s);
+  } else {
+    IGNORE fprintf(stderr, "trans:%s: internal error: %s\n", crt_dot_t, s);
+  }
   ++failer_count;
-  if (failer_count >= 15)	/* errors limited to 15 */
+  /* errors limited to 15 */
+  if (failer_count >= 15) {
     exit(EXIT_FAILURE);
+  }
   return;
 }
 
@@ -163,17 +194,16 @@ void failer
   updates pkt_index, file_pkt and crt_line.
  **************************************************************/
 
-static void read_line
-    PROTO_N ( (complain) )
-    PROTO_T ( int complain )
+static void
+read_line(int complain)
 {
 
-  size_t   test = fread ((char *)buff, sizeof (char), cppkt, fpin);
+  size_t test = fread((char *)buff, sizeof(char), cppkt, fpin);
 
   if (test == (size_t)0 && complain) {
-    failer (READ_PAST_END);
+    failer(READ_PAST_END);
     exit(EXIT_FAILURE);
-  };
+  }
   pkt_index++;
   file_pkt++;
   crt_line = (char *)buff;
@@ -183,48 +213,46 @@ static void read_line
   initreader opens the file called n and sets initial values
   into variables.
  ***************************************************************/
-void check_magic_no PROTO_S ( ( void ) ) ;
+void check_magic_no(void);
 
-bool initreader
-    PROTO_N ( (n) )
-    PROTO_T ( char *n )
+bool
+initreader(char *n)
 {
   crt_dot_t = n;
   crt_lno = -1;
   failer_count = 0;
 
-  fpin = fopen (n, "rb");
-  if (fpin == (FILE *) 0) {
-    failer (CANT_OPEN_FILE);
-    return (0);
-  };
+  fpin = fopen(n, "rb");
+  if (fpin == (FILE *)0) {
+    failer(CANT_OPEN_FILE);
+    return(0);
+  }
 
   pkt_index = -1;
   file_pkt = -1;
   table_flag = 0;
   getcode_bitposn = 0;
-  read_line (1);
+  read_line(1);
 
   crt_line = (char *)buff;
   crt_ptr = crt_line;
   end_ptr = crt_line + cppkt;
   check_magic_no();
-  return (1);
+  return(1);
 }
 
-void endreader
-    PROTO_Z ()
+void
+endreader(void)
 {
-  int   st = fclose (fpin);
+  int st = fclose(fpin);
   if (st == EOF) {
-    failer ("failed to close file");
+    failer("failed to close file");
     exit(EXIT_FAILURE);
-  };
+  }
 }
 
-int  getcode
-    PROTO_N ( (np) )
-    PROTO_T ( int np )
+int
+getcode(int np)
 {
   /* np = no of bits to read, np is >= 1 */
   {
@@ -234,12 +262,12 @@ int  getcode
       int n = np;
       p = getcode_bitposn - n;
       m = mask[n];
-    };
+    }
     if (p >= 0) {
       getcode_bitposn = p;
-      return (int)((crt_bits.intc >> p) & m);
-    };
-  };
+      return(int)((crt_bits.intc >> p) & m);
+    }
+  }
 
   {
     int p = getcode_bitposn;
@@ -250,12 +278,12 @@ int  getcode
       m = mask[n];
       q = (int)((crt_bits.intc & mask[p]) << n);
       p = 32 - n;
-    };
+    }
 
     if (crt_ptr == end_ptr) {
-      read_line (1);
+      read_line(1);
       crt_ptr = crt_line;
-    };
+    }
 
 #ifndef FS_LITTLE_ENDIAN
 !!!!!!!!!!!!!  /* define FS_LITTLE_ENDIAN in config.h */
@@ -275,21 +303,20 @@ int  getcode
   }
 }
 
-int get_big_code
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+int
+get_big_code(int n)
 {
   int t;
   int res = 0;
 
-  while (1)
-   {
+  while (1) {
      t = getcode(n);
-     if (t == 0)
+     if (t == 0) {
        res += (int)(mask[n]);
-     else
-       return (res + t);
-   };
+     } else {
+       return(res + t);
+     }
+  }
 }
 
 /********************************************************************
@@ -298,17 +325,19 @@ int get_big_code
    bits_on field, measured from the start of the recorded line.
  ********************************************************************/
 
-place keep_place
-    PROTO_Z ()
+place
+keep_place(void)
 {
   place new_pl;
   new_pl.flag = table_flag;
-  if (table_flag)
+  if (table_flag) {
     new_pl.pl_mem = crt_line;
+  }
   new_pl.bits_on = (int)(crt_ptr - crt_line) * 8 - getcode_bitposn;
-  if (!table_flag)
+  if (!table_flag) {
     new_pl.bits_on += pkt_index * bppkt;
-  return (new_pl);
+  }
+  return(new_pl);
 }
 
 /********************************************************************
@@ -318,11 +347,10 @@ place keep_place
  ********************************************************************/
 
 
-void set_place
-    PROTO_N ( (pl) )
-    PROTO_T ( place pl )
+void
+set_place(place pl)
 {
-  int  new_pi;
+  int new_pi;
   table_flag = pl.flag;
   if (!table_flag) {
     new_pi = pl.bits_on / bppkt;
@@ -331,14 +359,13 @@ void set_place
     getcode_bitposn = 32 - pl.bits_on % 32;
     pkt_index = file_pkt;
     while (pkt_index < new_pi)
-      read_line (0);
-  }
-  else {
+      read_line(0);
+  } else {
     crt_line = pl.pl_mem;
-    crt_ptr = crt_line + (pl.bits_on/32)*4;
+    crt_ptr = crt_line + (pl.bits_on/32) * 4;
     getcode_bitposn = 32 - pl.bits_on % 32;
     current_place = pl;
-  };
+  }
   if (getcode_bitposn == 32)
     getcode_bitposn = 0;
 
@@ -352,7 +379,7 @@ void set_place
     crt_bits.intc = ((unsigned int*)crt_ptr)[0];
 #endif
     crt_ptr += 4;
-  };
+  }
   return;
 }
 
@@ -361,15 +388,14 @@ void set_place
  ********************************************************************/
 
 
-place add_place
-    PROTO_N ( (pl, n) )
-    PROTO_T ( place pl X int n )
+place
+add_place(place pl, int n)
 {
   place new_pl;
   new_pl.bits_on = pl.bits_on + n;
   new_pl.pl_mem = pl.pl_mem;
   new_pl.flag = pl.flag;
-  return (new_pl);
+  return(new_pl);
 }
 
 /**********************************************************************
@@ -377,11 +403,10 @@ place add_place
    and going on for bn bits. This may cause more lines to be read
    from the file.
  **********************************************************************/
-void add_capsule_frees
-    PROTO_N ( (vp) )
-    PROTO_T ( void * vp )
+void
+add_capsule_frees(void *vp)
 {
-  capsule_frees * cf;
+  capsule_frees *cf;
   cf = (capsule_frees*)xmalloc(sizeof(capsule_frees));
   cf->next = capsule_freelist;
   cf->ptr = vp;
@@ -390,40 +415,38 @@ void add_capsule_frees
 }
 
 
-place new_place
-    PROTO_N ( (bn) )
-    PROTO_T ( int bn )
+place
+new_place(int bn)
 {
   place pl;
-  int   no_chars,
-        i;
+  int   no_chars, i;
   char *mem;
   char  c;
   pl.flag = 1;
 
-  if (!table_flag)  {
+  if (!table_flag) {
     pl.bits_on = 32 - getcode_bitposn;
     if (getcode_bitposn == 0)
       pl.bits_on = 0;
     no_chars = ((pl.bits_on + bn + 31) / 32) * 4;
     if (getcode_bitposn > 0) {
       crt_ptr -= 4;
-    };
-    mem = (char *) xcalloc (no_chars, sizeof (char));
+    }
+    mem = (char *)xcalloc(no_chars, sizeof(char));
     for (i = 0; i < no_chars; ++i) {
       if (crt_ptr == end_ptr) {
-        read_line (1);
+        read_line(1);
         crt_ptr = crt_line;
-      };
+      }
       c = *crt_ptr++;
       mem[i] = c;
-    };
+    }
     pl.pl_mem = mem;
     add_capsule_frees((void*)mem);
-    return (pl);
-  };
+    return(pl);
+  }
 
-  pl.bits_on = (int)(crt_ptr - crt_line) * 8 - getcode_bitposn;
+  pl.bits_on = (int)(crt_ptr - crt_line)* 8 - getcode_bitposn;
   pl.pl_mem = current_place.pl_mem;
   return pl;
 }
@@ -435,20 +458,21 @@ place new_place
   to the last digit only.
  *********************************************************************/
 
-int small_dtdfint
-    PROTO_Z ()
+int
+small_dtdfint(void)
 {
-  int  digit;
+  int digit;
   int total = 0;
-  while (digit = getcode (4), digit < 8)
+  while (digit = getcode(4), digit < 8) {
     total = 8 * total + digit;
-  return (8 * total + (digit - 8));
+  }
+  return(8 * total + (digit - 8));
 }
 
  /* step the input stream on to the next byte boundary */
 
-void to_boundary
-    PROTO_Z ()
+void
+to_boundary(void)
 {
   getcode_bitposn = getcode_bitposn - getcode_bitposn % 8;
   return;
@@ -458,100 +482,103 @@ void to_boundary
  /* delivers a new place for the bitstream in the input stream and steps
     over it */
 
-bitstream d_bitstream
-    PROTO_Z ()
+bitstream
+d_bitstream(void)
 {
   bitstream crt_bitstream;
   place here;
-  int  length;
-  length = small_dtdfint ();
-  here = keep_place ();
-  crt_bitstream = new_place (length);
-  set_place (add_place (here, length));
+  int length;
+  length = small_dtdfint();
+  here = keep_place();
+  crt_bitstream = new_place(length);
+  set_place(add_place(here, length));
   return crt_bitstream;
 }
 
 
 
 
-bytestream d_bytestream
-    PROTO_Z ()
+bytestream
+d_bytestream(void)
 {
   return bytestream_pickup;
 }
 
-void ignore_bytestream
-    PROTO_Z ()
+void
+ignore_bytestream(void)
 {
   /* steps over a bytestream */
-  int  length;
+  int length;
   place here;
-  length = small_dtdfint ();
-  to_boundary ();
-  here = keep_place ();
-  set_place (add_place (here, (length * 8)));
+  length = small_dtdfint();
+  to_boundary();
+  here = keep_place();
+  set_place(add_place(here,(length * 8)));
   return;
 }
 
  /* records in bytestream_pickup the end of a bytestream */
 
-void start_bytestream
-    PROTO_Z ()
+void
+start_bytestream(void)
 {
-  int  length;
+  int length;
   place here;
-  length = small_dtdfint ();
-  to_boundary ();
-  here = keep_place ();
-  bytestream_pickup = add_place (here, (length * 8));
+  length = small_dtdfint();
+  to_boundary();
+  here = keep_place();
+  bytestream_pickup = add_place(here,(length * 8));
   return;
 }
 
 
  /* resets the input stream from bytestream_pickup */
 
-void end_bytestream
-    PROTO_Z ()
+void
+end_bytestream(void)
 {
-  set_place (bytestream_pickup);
+  set_place(bytestream_pickup);
   return;
 }
 
-tdfstring d_tdfstring
-    PROTO_Z ()
+tdfstring
+d_tdfstring(void)
 {
   /* reads a tdfstring from the input stream */
-  int  bits = small_dtdfint ();
-  int  n = small_dtdfint ();
+  int bits = small_dtdfint();
+  int n = small_dtdfint();
   tdfstring tdb;
-  int  i;
+  int i;
   tdb.number = n;
   if (bits <= 8) {
-    tdb.ints.chars = (char *) xcalloc (n + 1, sizeof (char));
-    for (i = 0; i < n; ++i)
-      tdb.ints.chars[i] = (char)getcode (bits);
+    tdb.ints.chars = (char *)xcalloc(n + 1, sizeof(char));
+    for (i = 0; i < n; ++i) {
+      tdb.ints.chars[i] = (char)getcode(bits);
+    }
     tdb.ints.chars[n] = 0;
     tdb.size = 8;
     return tdb;
-  };
+  }
   if (bits <= 16) {
-    tdb.ints.shorts = (short *) xcalloc (n + 1, sizeof (short));
-    for (i = 0; i < n; ++i)
-      tdb.ints.shorts[i] = (short)getcode (bits);
+    tdb.ints.shorts = (short *)xcalloc(n + 1, sizeof(short));
+    for (i = 0; i < n; ++i) {
+      tdb.ints.shorts[i] = (short)getcode(bits);
+    }
     tdb.ints.shorts[n] = 0;
     tdb.size = 16;
     return tdb;
-  };
+  }
   if (bits <= 32) {
-    tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
-    for (i = 0; i < n; ++i)
-      tdb.ints.longs[i] = getcode (bits);
+    tdb.ints.longs = (int *)xcalloc(n + 1, sizeof(int));
+    for (i = 0; i < n; ++i) {
+      tdb.ints.longs[i] = getcode(bits);
+    }
     tdb.ints.longs[n] = 0;
     tdb.size = 32;
     return tdb;
-  };
+  }
   if (bits <= 64) {
-    tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
+    tdb.ints.longs = (int *)xcalloc(n + 1, sizeof(int));
     for (i = 0; i < n; ++i) {
       flt64 x;
       flpt f;
@@ -559,113 +586,114 @@ tdfstring d_tdfstring
       x.small = (unsigned int)getcode(32);
       f = f64_to_flt(x, 0);
       tdb.ints.longs[i] = f;
-    };
+    }
     tdb.ints.longs[n] = 0;
     tdb.size = 64;
     return tdb;
-  };
+  }
   failer(NO_BIG_STRINGS);
   return tdb;
 }
 
-tdfstring d_tdfident
-    PROTO_Z ()
+tdfstring
+d_tdfident(void)
 {
   /* reads a tdfident from the input stream */
-  int  bits = small_dtdfint ();
-  int  n = small_dtdfint ();
+  int bits = small_dtdfint();
+  int n = small_dtdfint();
   tdfstring tdb;
-  int  i;
+  int i;
   tdb.size = bits;
   tdb.number = n;
   if (bits <= 8) {
-    tdb.ints.chars = (char *) xcalloc (n + 1, sizeof (char));
-    to_boundary ();
-    for (i = 0; i < n; ++i)
-      tdb.ints.chars[i] = (char)getcode (bits);
+    tdb.ints.chars = (char *)xcalloc(n + 1, sizeof(char));
+    to_boundary();
+    for (i = 0; i < n; ++i) {
+      tdb.ints.chars[i] = (char)getcode(bits);
+    }
     tdb.ints.chars[n] = 0;
-    to_boundary ();
+    to_boundary();
     return tdb;
-  };
+  }
   if (bits <= 16) {
-    tdb.ints.shorts = (short *) xcalloc (n + 1, sizeof (short));
-    to_boundary ();
-    for (i = 0; i < n; ++i)
-      tdb.ints.shorts[i] = (short)getcode (bits);
+    tdb.ints.shorts = (short *)xcalloc(n + 1, sizeof(short));
+    to_boundary();
+    for (i = 0; i < n; ++i) {
+      tdb.ints.shorts[i] = (short)getcode(bits);
+    }
     tdb.ints.shorts[n] = 0;
-    to_boundary ();
+    to_boundary();
     return tdb;
-  };
-  tdb.ints.longs = (int *) xcalloc (n + 1, sizeof (int));
-  to_boundary ();
-  for (i = 0; i < n; ++i)
-    tdb.ints.longs[i] = getcode (bits);
+  }
+  tdb.ints.longs = (int *)xcalloc(n + 1, sizeof(int));
+  to_boundary();
+  for (i = 0; i < n; ++i) {
+    tdb.ints.longs[i] = getcode(bits);
+  }
   tdb.ints.longs[n] = 0;
-  to_boundary ();
+  to_boundary();
   return tdb;
 }
 
-tdfbool d_tdfbool
-    PROTO_Z ()
+tdfbool
+d_tdfbool(void)
 {
   /* reads a tdfbool from the input stream */
-  return (tdfbool)getcode (1);
+  return (tdfbool)getcode(1);
 }
 
 
 
-tdfint d_tdfint
-    PROTO_Z ()
+tdfint
+d_tdfint(void)
 {
   /* reads a tdfint from the input stream */
   nat n;
   unsigned int  digit;
   unsigned int total = 0;
-  int  small = 1;
+  int small = 1;
   int goon = 1;
   flpt f;
 
   while (goon)
    {
      digit = (unsigned int)getcode(4);
-     if (digit >= 8)
-       { goon = 0;
-         digit -= 8;
-       };
-     if (small)
-       { if (total > 0x1fffffff)
-           { small = 0;
-	     f = floatrep_unsigned(total);
-             flpt_newdig(digit, &flptnos[f], 8);
-           }
-         else
-           total = (total << 3) + digit;
-       }
-     else {
+     if (digit >= 8) {
+	 goon = 0;
+	 digit -= 8;
+     }
+     if (small) {
+	 if (total > 0x1fffffff) {
+	   small = 0;
+	   f = floatrep_unsigned(total);
+	   flpt_newdig(digit, &flptnos[f], 8);
+	 } else {
+	   total = (total << 3) + digit;
+	 }
+     } else {
        SET(f);
        flpt_newdig(digit, &flptnos[f], 8);
-     };
-   };
+     }
+   }
   nat_issmall(n) = (bool)small;
-  if (small)
+  if (small) {
     natint(n) = (int)total;
-  else
-   {
-     SET(f);
-     nat_issmall(n) = 0;
-     natbig(n) = f;
-   };
+  } else {
+    SET(f);
+    nat_issmall(n) = 0;
+    natbig(n) = f;
+   }
   return n;
 }
 
-void check_magic_no
-    PROTO_Z ()
+void
+check_magic_no(void)
 {
 	tdfint maj;
 	tdfint min;
 
 	if (getcode(8) != 'T' || getcode(8) != 'D' || getcode(8) != 'F' ||
-		getcode(8) != 'C') {
+	    getcode(8) != 'C') {
 		failer("This is not a TDF Version >= 4 capsule");
 		exit(EXIT_FAILURE);
 	}
