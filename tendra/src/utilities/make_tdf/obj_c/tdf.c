@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -42,12 +72,12 @@
 */
 
 #define free_tdf_max	16
-static tdf *free_tdf = NULL ;
-static unsigned free_tdf_left = 0 ;
-static tdf *free_tdf_array [ free_tdf_max ] = {
+static tdf *free_tdf = NULL;
+static unsigned free_tdf_left = 0;
+static tdf *free_tdf_array[free_tdf_max] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
-} ;
+};
 
 
 /*
@@ -57,31 +87,30 @@ static tdf *free_tdf_array [ free_tdf_max ] = {
     are allocated from the tdf array, others from the main tdf list.
 */
 
-tdf *gen_tdf
-    PROTO_N ( ( sz ) )
-    PROTO_T ( unsigned sz )
+tdf *
+gen_tdf(unsigned sz)
 {
-    tdf *p ;
-    unsigned n = sz ;
+    tdf *p;
+    unsigned n = sz;
 
-    if ( n < free_tdf_max ) {
+    if (n < free_tdf_max) {
 	/* Allocate from small block array */
-	p = free_tdf_array [n] ;
-	if ( p ) {
-	    free_tdf_array [n] = TAIL_list ( p ) ;
-	    return ( p ) ;
+	p = free_tdf_array[n];
+	if (p) {
+	    free_tdf_array[n] = TAIL_list(p);
+	    return(p);
 	}
     }
 
     /* Allocate from large block */
-    if ( n > free_tdf_left ) {
-	free_tdf_left = 1000 ;
-	free_tdf = xmalloc_nof ( tdf, free_tdf_left ) ;
+    if (n > free_tdf_left) {
+	free_tdf_left = 1000;
+	free_tdf = xmalloc_nof(tdf, free_tdf_left);
     }
-    p = free_tdf ;
-    free_tdf += sz ;
-    free_tdf_left -= sz ;
-    return ( p ) ;
+    p = free_tdf;
+    free_tdf += sz;
+    free_tdf_left -= sz;
+    return(p);
 }
 
 
@@ -92,16 +121,15 @@ tdf *gen_tdf
     blocks are recycled.
 */
 
-void destroy_tdf
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( tdf *p X unsigned sz )
+void
+destroy_tdf(tdf *p, unsigned sz)
 {
-    unsigned n = sz ;
-    if ( p && n < free_tdf_max ) {
-	TAIL_list ( p ) = free_tdf_array [n] ;
-	free_tdf_array [n] = p ;
+    unsigned n = sz;
+    if (p && n < free_tdf_max) {
+	TAIL_list(p) = free_tdf_array[n];
+	free_tdf_array[n] = p;
     }
-    return ;
+    return;
 }
 
 
@@ -111,13 +139,12 @@ void destroy_tdf
     This routine is a dummy destructor which does nothing.
 */
 
-void dummy_destroy_tdf
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( tdf *p X unsigned sz )
+void
+dummy_destroy_tdf(tdf *p, unsigned sz)
 {
-    UNUSED ( p ) ;
-    UNUSED ( sz ) ;
-    return ;
+    UNUSED(p);
+    UNUSED(sz);
+    return;
 }
 
 
@@ -128,18 +155,19 @@ void dummy_destroy_tdf
     list is added to the appropriate entry of the free tdf array.
 */
 
-void destroy_tdf_list
-    PROTO_N ( ( p, sz ) )
-    PROTO_T ( tdf *p X unsigned sz )
+void
+destroy_tdf_list(tdf *p, unsigned sz)
 {
-    unsigned n = sz + 1 ;
-    if ( p && n < free_tdf_max ) {
-	tdf *q = p ;
-	while ( TAIL_list ( p ) ) p = TAIL_list ( p ) ;
-	TAIL_list ( p ) = free_tdf_array [n] ;
-	free_tdf_array [n] = q ;
+    unsigned n = sz + 1;
+    if (p && n < free_tdf_max) {
+	tdf *q = p;
+	while (TAIL_list(p)) {
+	    p = TAIL_list(p);
+	}
+	TAIL_list(p) = free_tdf_array[n];
+	free_tdf_array[n] = q;
     }
-    return ;
+    return;
 }
 
 
@@ -149,14 +177,15 @@ void destroy_tdf_list
     This routine calculates the length of the list p.
 */
 
-unsigned length_tdf_list
-    PROTO_N ( ( p ) )
-    PROTO_T ( tdf *p )
+unsigned
+length_tdf_list(tdf *p)
 {
-    tdf *q ;
-    unsigned n = 0 ;
-    for ( q = p ; q != NULL ; q = TAIL_list ( q ) ) n++ ;
-    return ( n ) ;
+    tdf *q;
+    unsigned n = 0;
+    for (q = p; q != NULL; q = TAIL_list(q)) {
+	n++;
+    }
+    return(n);
 }
 
 
@@ -166,19 +195,18 @@ unsigned length_tdf_list
     This routine reverses the order of the list p.
 */
 
-tdf *reverse_tdf_list
-    PROTO_N ( ( p ) )
-    PROTO_T ( tdf *p )
+tdf *
+reverse_tdf_list(tdf *p)
 {
-    tdf *r = NULL ;
-    tdf *q = p ;
-    while ( q != NULL ) {
-	tdf *nq = TAIL_list ( q ) ;
-	TAIL_list ( q ) = r ;
-	r = q ;
-	q = nq ;
+    tdf *r = NULL;
+    tdf *q = p;
+    while (q != NULL) {
+	tdf *nq = TAIL_list(q);
+	TAIL_list(q) = r;
+	r = q;
+	q = nq;
     }
-    return ( r ) ;
+    return(r);
 }
 
 
@@ -188,15 +216,18 @@ tdf *reverse_tdf_list
     This routine appends the lists of tdf blocks p and q.
 */
 
-tdf *append_tdf_list
-    PROTO_N ( ( p, q ) )
-    PROTO_T ( tdf *p X tdf *q )
+tdf *
+append_tdf_list(tdf *p, tdf *q)
 {
-    tdf *r = p ;
-    if ( r == NULL ) return ( q ) ;
-    while ( TAIL_list ( r ) ) r = TAIL_list ( r ) ;
-    TAIL_list ( r ) = q ;
-    return ( p ) ;
+    tdf *r = p;
+    if (r == NULL) {
+	return(q);
+    }
+    while (TAIL_list(r)) {
+	r = TAIL_list(r);
+    }
+    TAIL_list(r) = q;
+    return(p);
 }
 
 
@@ -206,14 +237,15 @@ tdf *append_tdf_list
     This routine returns the last member of the list of tdf blocks p.
 */
 
-tdf *end_tdf_list
-    PROTO_N ( ( p ) )
-    PROTO_T ( tdf *p )
+tdf *
+end_tdf_list(tdf *p)
 {
-    tdf *r = p ;
-    if ( r == NULL ) return ( NULL ) ;
-    while ( TAIL_list ( r ) ) r = TAIL_list ( r ) ;
-    return ( r ) ;
+    tdf *r = p;
+    if (r == NULL) {
+	return(NULL);
+    }
+    while (TAIL_list(r))r = TAIL_list(r);
+    return(r);
 }
 
 
