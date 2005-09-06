@@ -86,7 +86,7 @@ struct place_t {
 			   pl_mem */
 	char *pl_mem;	/* pointer to the characters */
 	int   bits_on;	/* bit_index displacement of the start */
-}
+};
 
 typedef struct place_t place;
 typedef place bitstream;
