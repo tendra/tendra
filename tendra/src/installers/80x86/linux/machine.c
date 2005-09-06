@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -77,23 +107,21 @@ $Log: machine.c,v $
 
 int linux_elf = 1;
 
-char * local_prefix = ".L";
-char * name_prefix = "";
+char *local_prefix = ".L";
+char *name_prefix = "";
 
 
 
 /* PROCEDURES */
 
-void set_linux_format
-    PROTO_N ( (elf) )
-    PROTO_T ( int elf )
+void
+set_linux_format(int elf)
 {
   linux_elf = elf;
   if (elf) {
     local_prefix = ".L";
     name_prefix = "";
-  }
-  else {
+  } else {
     local_prefix = "L";
     name_prefix = "_";
   }
@@ -103,23 +131,22 @@ void set_linux_format
 
 /* is the result of a procedure delivering
    this shape produced in registers. */
-int reg_result
-    PROTO_N ( (sha) )
-    PROTO_T ( shape sha )
+int
+reg_result(shape sha)
 {
-  unsigned char  n = name(sha);
+  unsigned char n = name(sha);
   if (gcc_compatible) {
     int sz = shape_size(sha);
-    if (n == nofhd)
+    if (n == nofhd) {
       return 0;
-    if (n == cpdhd && sz != 8 && sz != 16 && sz != 32 && sz != 64)
+    }
+    if (n == cpdhd && sz != 8 && sz != 16 && sz != 32 && sz != 64) {
       return 0;
+    }
     return 1;
-  };
-  if (n == cpdhd || n == nofhd)
+  }
+  if (n == cpdhd || n == nofhd) {
     return 0;
+  }
   return 1;
 }
-
-
-
