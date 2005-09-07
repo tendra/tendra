@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -73,208 +103,197 @@ $Log: dw2_config.c,v $
 
 long dwarf_lab_num = 0;
 
-void out_string
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+out_string(char *s)
 {
-  outs (".string \"");
-  outs (s);
-  outs ("\"");
-  d_outnl ();
+  outs(".string \"");
+  outs(s);
+  outs("\"");
+  d_outnl();
   return;
 }
 
-void start_string
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+start_string(char *s)
 {
-  outs (".string \"");
-  outs (s);
+  outs(".string \"");
+  outs(s);
   return;
 }
 
-void end_string
-    PROTO_Z ()
+void
+end_string(void)
 {
-  outs ("\"");
-  d_outnl ();
+  outs("\"");
+  d_outnl();
   return;
 }
 
-void enter_section
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+enter_section(char *s)
 {
-  outs (".section .");
-  outs (s);
-  d_outnl ();
+  outs(".section .");
+  outs(s);
+  d_outnl();
   return;
 }
 
-void exit_section
-    PROTO_Z ()
+void
+exit_section(void)
 {
-  outs (".previous");
-  d_outnl ();
+  outs(".previous");
+  d_outnl();
   return;
 }
 
-void outnl_comment
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+outnl_comment(char *s)
 {
-  outs ("\t/");
-  outs (s);
-  d_outnl ();
+  outs("\t/");
+  outs(s);
+  d_outnl();
   return;
 }
 
-void outnl_comment_i
-    PROTO_N ( (s, i) )
-    PROTO_T ( char * s X long i )
+void
+outnl_comment_i(char *s, long i)
 {
-  outs ("\t/");
-  outs (s);
-  outs (" ");
-  outn (i);
-  d_outnl ();
+  outs("\t/");
+  outs(s);
+  outs(" ");
+  outn(i);
+  d_outnl();
   return;
 }
 
-void out_dwf_label
-    PROTO_N ( (l, set) )
-    PROTO_T ( long l X int set )
+void
+out_dwf_label(long l, int set)
 {
-  if (!l)
-    failer ("unknown label");
-  outs (".Ldw");
-  outn (l);
+  if (!l) {
+    failer("unknown label");
+  }
+  outs(".Ldw");
+  outn(l);
   if (set) {
-    outs (":");
-    d_outnl ();
+    outs(":");
+    d_outnl();
   }
   return;
 }
 
-void out_code_label
-    PROTO_N ( (l) )
-    PROTO_T ( long l )
+void
+out_code_label(long l)
 {
-  outs (local_prefix);
-  outn (l);
+  outs(local_prefix);
+  outn(l);
   return;
 }
 
-void out_dwf_dist_to_label
-    PROTO_N ( (l) )
-    PROTO_T ( long l )
+void
+out_dwf_dist_to_label(long l)
 {
-  out_dwf_label (l, 0);
-  outs (" - . - 4");
+  out_dwf_label(l, 0);
+  outs(" - . - 4");
   return;
 }
 
-void out_dwf_labdiff
-    PROTO_N ( (lo, hi) )
-    PROTO_T ( long lo X long hi )
+void
+out_dwf_labdiff(long lo, long hi)
 {
-  if (hi == lo)
-    outn ((long)0);
-  else {
-    out_dwf_label (hi, 0);
-    outs (" - ");
-    out_dwf_label (lo, 0);
+  if (hi == lo) {
+    outn((long)0);
+  } else {
+    out_dwf_label(hi, 0);
+    outs(" - ");
+    out_dwf_label(lo, 0);
   }
   return;
 }
 
-void out_ext_label
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+out_ext_label(char *s)
 {
-  outs (".globl ");
-  outs (s);
-  d_outnl ();
-  outs (s);
+  outs(".globl ");
+  outs(s);
+  d_outnl();
+  outs(s);
   outs(":");
-  d_outnl ();
+  d_outnl();
   return;
 }
 
-void out_producer
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+out_producer(char *s)
 {
-  outs (".string \"");
-  outs (s);
-  outs ("   with TenDRA 80x86/Solaris installer ");
-  outn ((long)target_version) ;
-  outs (".") ;
-  outn ((long)target_revision) ;
-  outs ("\"");
-  d_outnl ();
+  outs(".string \"");
+  outs(s);
+  outs("   with TenDRA 80x86/Solaris installer ");
+  outn((long)target_version);
+  outs(".");
+  outn((long)target_revision);
+  outs("\"");
+  d_outnl();
   return;
 }
 
 
-static char * first_data = NULL;
-static char * first_ro = NULL;
+static char *first_data = NULL;
+static char *first_ro = NULL;
 
-void note_data
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+note_data(char *s)
 {
-  if (!first_data)
+  if (!first_data) {
     first_data = s;
+  }
   return;
 }
 
-void note_ro
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void
+note_ro(char *s)
 {
-  if (!first_ro)
+  if (!first_ro) {
     first_ro = s;
+  }
   return;
 }
 
-void dw2_data_aranges
-    PROTO_Z ()
+void
+dw2_data_aranges(void)
 {
   long lab_data = 0, lab_ro = 0;
   if (first_data) {
-    lab_data = next_dwarf_label ();
+    lab_data = next_dwarf_label();
     if (do_prom) {
-      outs (".bss ");
-      out_dwf_label (lab_data, 0);
-      outs (", 0");
+      outs(".bss ");
+      out_dwf_label(lab_data, 0);
+      outs(", 0");
       d_outnl();
-    }
-    else {
+    } else {
       outs(".data");
       d_outnl();
-      out_dwf_label (lab_data, 1);
+      out_dwf_label(lab_data, 1);
     }
   }
   if (first_ro) {
-    lab_ro = next_dwarf_label ();
+    lab_ro = next_dwarf_label();
     out_readonly_section();
     d_outnl();
-    out_dwf_label (lab_ro, 1);
+    out_dwf_label(lab_ro, 1);
   }
   outs(".text");
   d_outnl();
-  enter_section ("debug_aranges");
+  enter_section("debug_aranges");
   if (first_data) {
-    out32 (); outs (first_data); d_outnl ();
-    out32 (); out_dwf_label (lab_data, 0); outs (" - ");
-	outs (first_data); d_outnl ();
+    out32(); outs(first_data); d_outnl();
+    out32(); out_dwf_label(lab_data, 0); outs(" - ");
+    outs(first_data); d_outnl();
   }
   if (first_ro) {
-    out32 (); outs (first_ro); d_outnl ();
-    out32 (); out_dwf_label (lab_ro, 0); outs (" - ");
-	outs (first_ro); d_outnl ();
+    out32(); outs(first_ro); d_outnl();
+    out32(); out_dwf_label(lab_ro, 0); outs(" - ");
+    outs(first_ro); d_outnl();
   }
-  exit_section ();
+  exit_section();
   return;
 }

@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -82,9 +112,8 @@ $Log: cv_outtype.c,v $
 
 /* PROCEDURES */
 
-ot out_type
-    PROTO_N ( (t, in_struct) )
-    PROTO_T ( diag_type t X int in_struct )
+ot
+out_type(diag_type t, int in_struct)
 {
   ot res;
 
@@ -92,38 +121,40 @@ ot out_type
    {
      case DIAG_TYPE_VARIETY:
        {
-         variety v = t -> data.var;
+         variety v = t->data.var;
          res.modifier = 0;
-         res.size = shape_size(v)/8;
+         res.size = shape_size(v) /8;
          res.type = 04;
-         if (res.size == 1)
+         if (res.size == 1) {
            res.type = 02;
-         if (res.size == 2)
+	 }
+         if (res.size == 2) {
            res.type = 03;
-         if (!is_signed(v))
+	 }
+         if (!is_signed(v)) {
            res.type += 012;
+	 }
          break;
-       };
+       }
      case DIAG_TYPE_FLOAT:
        {
-         floating_variety v = t -> data.f_var;
+         floating_variety v = t->data.f_var;
          res.modifier = 0;
          res.size = 8;
          res.type = 07;
-         if (v == 0)
-          {
+         if (v == 0) {
             res.type = 06;
             res.size = 4;
-          };
+	 }
          break;
-       };
+       }
      case DIAG_TYPE_ARRAY:
        {
          ot arg;
-         int lwb = no(t -> data.array.lower_b);
-         int upb = no(t -> data.array.upper_b);
+         int lwb = no(t->data.array.lower_b);
+         int upb = no(t->data.array.upper_b);
          int n = upb -lwb +1;
-         arg = out_type(t -> data.array.element_type, in_struct);
+         arg = out_type(t->data.array.element_type, in_struct);
          res.modifier = (arg.modifier << 2) + 3;
          res.type = arg.type;
          res.size = arg.size * n;
@@ -133,81 +164,81 @@ ot out_type
          outn((long)res.size);
          outs("; ");
          break;
-       };
+       }
      case DIAG_TYPE_PTR:
        {
          ot arg;
-         arg = out_type(t -> data.ptr.object, in_struct);
+         arg = out_type(t->data.ptr.object, in_struct);
          res.modifier = (arg.modifier << 2) + 1;
          res.size = 4;
          res.type = arg.type;
          break;
-       };
+       }
      case DIAG_TYPE_PROC:
        {
          ot arg;
-         arg = out_type(t -> data.proc.result_type, in_struct);
+         arg = out_type(t->data.proc.result_type, in_struct);
          res.modifier = (arg.modifier << 4) + 9;
          res.size = 4;
          res.type = arg.type;
          break;
-       };
+       }
      case DIAG_TYPE_STRUCT:
        {
          res.modifier = 0;
          res.type = 010;
-         res.size = shape_size(t -> data.t_struct.tdf_shape)/8;
-         if (t -> been_outed == 1)  {
+         res.size = shape_size(t->data.t_struct.tdf_shape) / 8;
+         if (t->been_outed == 1) {
            outs(".tag ");
-           outs(t -> data.t_struct.nme.ints.chars);
+           outs(t->data.t_struct.nme.ints.chars);
            outs("; ");
            outs(".size ");
            outn((long)res.size);
            outs("; ");
-         };
+         }
          break;
-       };
+       }
      case DIAG_TYPE_UNION:
        {
          res.modifier = 0;
          res.type = 011;
-         res.size = shape_size(t -> data.t_union.tdf_shape)/8;
-         if (t -> been_outed == 1)  {
+         res.size = shape_size(t->data.t_union.tdf_shape) / 8;
+         if (t->been_outed == 1) {
            outs(".tag ");
-           outs(t -> data.t_union.nme.ints.chars);
+           outs(t->data.t_union.nme.ints.chars);
            outs("; ");
            outs(".size ");
            outn((long)res.size);
            outs("; ");
-         };
+         }
          break;
-       };
+       }
      case DIAG_TYPE_ENUM:
        {
          ot arg;
-         arg = out_type(t -> data.t_enum.base_type, in_struct);
+         arg = out_type(t->data.t_enum.base_type, in_struct);
          res.modifier = 0;
          res.type = 012;
          res.size = arg.size;
-         if (!in_struct)  {
+         if (!in_struct) {
            outs(".tag ");
-           outs(t -> data.t_struct.nme.ints.chars);
+           outs(t->data.t_struct.nme.ints.chars);
            outs("; ");
-         };
+         }
          outs(".size ");
          outn((long)res.size);
          outs("; ");
          break;
-       };
+       }
      case DIAG_TYPE_NULL:
        {
          res.modifier = 0;
          res.size = 4;
          res.type = 4;
          break;
-       };
+       }
      case DIAG_TYPE_LOC:
-       res = out_type(t -> data.loc.object, in_struct);
+       res = out_type(t->data.loc.object, in_struct);
        break;
      default:
 /*
@@ -217,133 +248,130 @@ ot out_type
        res.size = 4;
        res.type = 4;
        break;
-   };
+   }
   return res;
 }
 
 static int fixup_no = 0;
 
 
-static void fixup
-    PROTO_N ( (n) )
-    PROTO_T ( char ** n )
+static void
+fixup(char **n)
 {
-  if (*n == (char*)0 || (*n)[0] == 0)
-    {
+  if (*n == (char *)0 || (*n)[0] == 0) {
       char * k = (char*)xcalloc(10, sizeof(char));
       k[0] = '.';
       sprintf(&k[1], "%d", fixup_no++);
       strcpy(k + strlen(k), "fake");
       *n = k;
-    };
+  }
   return;
 }
 
-void out_tagged
-    PROTO_N ( (d) )
-    PROTO_T ( diag_type d )
+void
+out_tagged(diag_type d)
 {
   int i;
-  if ( d -> been_outed )
+  if (d->been_outed) {
      return;
-  switch (d -> key)
+  }
+  switch (d->key)
    {
      case DIAG_TYPE_STRUCT:
       {
         struct diag_field_list_t fs;
-        int sz_in_bits = shape_size(d -> data.t_struct.tdf_shape);
-        int sz = sz_in_bits/8;
-        fs = *d -> data.t_struct.fields;
-        fixup(&d -> data.t_struct.nme.ints.chars);
+        int sz_in_bits = shape_size(d->data.t_struct.tdf_shape);
+        int sz = sz_in_bits / 8;
+        fs = *d->data.t_struct.fields;
+        fixup(&d->data.t_struct.nme.ints.chars);
 
-	d -> been_outed = -1;
-        for (i=fs.len-1; i>=0; --i)
-         { struct diag_field_t f;
+	d->been_outed = -1;
+        for (i = fs.len - 1; i >= 0; --i) {
+	   struct diag_field_t f;
            f = *fs.array[i];
-	   out_tagged (f.field_type);
-	 }
+	   out_tagged(f.field_type);
+	}
 
         fprintf(fpout, " .def %s; .scl 10; .type 010; .size %d; .endef\n",
-                  d -> data.t_struct.nme.ints.chars, sz);
-	d -> been_outed = 1;
-        for (i=fs.len-1; i>=0; --i)
-         { struct diag_field_t f;
+		d->data.t_struct.nme.ints.chars, sz);
+	d->been_outed = 1;
+        for (i=fs.len-1; i>=0; --i) {
+	   struct diag_field_t f;
            ot ty;
            f = *fs.array[i];
 
-           if (f.field_type -> key == DIAG_TYPE_BITFIELD)  {
-             fprintf(fpout, " .def %s; .val %d; .scl 18; .type 04; .size %d; .endef\n",
-                       f.field_name.ints.chars,
-                       no(f.where),
-                       f.field_type -> data.bitfield.no_of_bits.nat_val.small_nat);
-           }
-           else  {
+           if (f.field_type->key == DIAG_TYPE_BITFIELD) {
+             fprintf(fpout,
+		     " .def %s; .val %d; .scl 18; .type 04; .size %d; .endef\n",
+		     f.field_name.ints.chars, no(f.where),
+		     f.field_type->data.bitfield.no_of_bits.nat_val.small_nat);
+           } else {
              fprintf(fpout, " .def %s; .val %d; .scl 8; ",
-                    f.field_name.ints.chars,
-                    no(f.where)/8);
+		     f.field_name.ints.chars, no(f.where) / 8);
              ty = out_type(f.field_type, 1);
-             fprintf(fpout, ".type 0%o; .endef\n",
-                    ty.type + (ty.modifier << 4));
-           };
-         };
-        fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-                  sz, d -> data.t_struct.nme.ints.chars, sz);
+             fprintf(fpout, ".type 0%o; .endef\n", ty.type +
+		     (ty.modifier << 4));
+	   }
+	}
+        fprintf(fpout,
+		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
+		sz, d->data.t_struct.nme.ints.chars, sz);
         return;
-      };
+      }
      case DIAG_TYPE_UNION:
       {
         struct diag_field_list_t fs;
-        int sz_in_bits = shape_size(d -> data.t_union.tdf_shape);
-        int sz = sz_in_bits/8;
-        fs = *d -> data.t_union.fields;
-        fixup(&d -> data.t_union.nme.ints.chars);
+        int sz_in_bits = shape_size(d->data.t_union.tdf_shape);
+        int sz = sz_in_bits / 8;
+        fs = *d->data.t_union.fields;
+        fixup(&d->data.t_union.nme.ints.chars);
 
-	d -> been_outed = -1;
-        for (i=fs.len-1; i>=0; --i)
-         { struct diag_field_t f;
+	d->been_outed = -1;
+        for (i = fs.len - 1; i >= 0; --i) {
+	   struct diag_field_t f;
            f = *fs.array[i];
-	   out_tagged (f.field_type);
-	 }
+	   out_tagged(f.field_type);
+	}
 
         fprintf(fpout, " .def %s; .scl 12; .type 011; .size %d; .endef\n",
-                  d -> data.t_union.nme.ints.chars, sz);
-	d -> been_outed = 1;
-        for (i=fs.len-1; i>=0; --i)
-         { struct diag_field_t f;
+		d->data.t_union.nme.ints.chars, sz);
+	d->been_outed = 1;
+        for (i = fs.len - 1; i >= 0; --i) {
+	   struct diag_field_t f;
            ot ty;
            f = *fs.array[i];
 
            fprintf(fpout, " .def %s; .val 0; .scl 11; ",
-                    f.field_name.ints.chars);
+		   f.field_name.ints.chars);
            ty = out_type(f.field_type, 1);
-           fprintf(fpout, ".type 0%o; .endef\n",
-                    ty.type + (ty.modifier << 4));
-         };
-        fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-                  sz, d -> data.t_union.nme.ints.chars, sz);
+           fprintf(fpout, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+	}
+        fprintf(fpout,
+		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
+		sz, d->data.t_union.nme.ints.chars, sz);
         return;
-      };
+      }
      case DIAG_TYPE_ENUM:
       {
         struct enum_values_list_t es;
         int sz = 4;
-        es = *d -> data.t_enum.values;
-        fixup(&d -> data.t_enum.nme.ints.chars);
+        es = *d->data.t_enum.values;
+        fixup(&d->data.t_enum.nme.ints.chars);
 
         fprintf(fpout, " .def %s; .scl 15; .type 012; .size %d; .endef\n",
-                  d -> data.t_enum.nme.ints.chars, sz);
-        for (i=es.len-1; i>=0; --i)
-         { struct enum_values_t e;
+		d->data.t_enum.nme.ints.chars, sz);
+        for (i = es.len - 1; i >= 0; --i) {
+	   struct enum_values_t e;
            e = *es.array[i];
            fprintf(fpout, " .def %s; .val %d; .scl 16; .type 013; .endef\n",
-                    e.nme.ints.chars, no(e.val));
-         };
-        fprintf(fpout, " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-                  sz, d -> data.t_enum.nme.ints.chars, sz);
+		   e.nme.ints.chars, no(e.val));
+	}
+        fprintf(fpout,
+		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
+		sz, d->data.t_enum.nme.ints.chars, sz);
         return;
-      };
+      }
      default:
         return;
-   };
+   }
 }
-
