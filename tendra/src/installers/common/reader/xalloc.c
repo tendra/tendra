@@ -81,10 +81,12 @@ $Log: xalloc.c,v $
 voidstar
 xcalloc(int n, size_t s)
 {
+  voidstar v;
   if (n == 0) {
     return((voidstar)0);
   }
-  voidstar v = (voidstar)calloc((size_t)n, s);
+
+  v = (voidstar)calloc((size_t)n, s);
   if (v == (voidstar)0) {
     failer(NO_MEMORY);
     exit(EXIT_FAILURE);
@@ -95,7 +97,9 @@ xcalloc(int n, size_t s)
 voidstar
 xrealloc(voidstar p, size_t s)
 {
-  voidstar v = (voidstar)realloc(p, s);
+  voidstar v;
+  
+  v = (voidstar)realloc(p, s);
   if (v == (voidstar)0) {
     failer(NO_MEMORY);
     exit(EXIT_FAILURE);
@@ -115,7 +119,9 @@ xfree(voidstar p)
 voidstar
 xmalloc(size_t s)
 {
-  voidstar v = (voidstar)malloc(s);
+  voidstar v;
+  
+  v = (voidstar)malloc(s);
   if (s != (size_t)0 && v == (voidstar)0) {
     failer(NO_MEMORY);
     exit(EXIT_FAILURE);
