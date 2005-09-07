@@ -111,4 +111,4 @@ union tokval_u {
   dg_idname	tk_dg_idname;	/* NEW DIAGS */
   dg_name	tk_dg_name;	/* NEW DIAGS */
   dg_type	tk_dg_type;	/* NEW DIAGS */
-}
+};
