@@ -136,27 +136,28 @@ typedef int linkinfo_props;
 
 typedef char usage;
 
-struct tok_define_t;
-
 #include "sort_union.h"
 
 #define LOCAL_TOKS 4
 
-typedef struct t_tag_con {
+struct tag_con_t {
 	dec *namet;
 	exp e;
-	struct t_tag_con *rest;
-} tag_con;
+	struct tag_con_t *rest;
+};
+typedef struct tag_con_t tag_con;
 
-typedef struct t_lab_con {
+struct lab_con_t {
 	label namel;
 	exp e;
-	struct t_lab_con *rest;
-} lab_con;
+	struct lab_con_t *rest;
+};
+typedef struct lab_con_t lab_con;
 
 
 typedef union tokval_u tokval;
 
+/* struct holding a token definition */
 struct tok_define_t {
 	dec **my_tagtab;	/* the tagtab current at the definition */
 	aldef **my_altab;	/* the altab current at the definition */
@@ -179,7 +180,7 @@ struct tok_define_t {
 	union tokval_u tdvalue;	/* preserved value if valpresent */
 	int tok_index;		/* index number of this token */
 	int tdtoken;		/* the token */
-	struct t_context *tok_context;	/* context at the token definition */
+	struct context_t *tok_context;	/* context at the token definition */
 	char *signature;
 	unsigned int re_evaluate:1;	/* needs to be reevaluated */
 	unsigned int defined:1;
@@ -189,15 +190,12 @@ struct tok_define_t {
 	unsigned int valpresent:1;	/* the value is constant and has been
 				   	   computed already */
 	unsigned int tok_special:1;	/* locally defined token */
-}
-
-
- /* struct holding a token definition */
-typedef struct tok_define_t  tok_define;
+};
+typedef struct tok_define_t tok_define;
 
 typedef tok_define *token;
 
-typedef struct t_context{
+struct context_t {
         tok_define loctoks[LOCAL_TOKS];
 	tok_define *othertoks; /* most tokens have <=LOCAL_TOKS parameters and
 				  are not recursive so use of local space in
@@ -209,8 +207,9 @@ typedef struct t_context{
 				   in token so have to keep list; NB used only
 				   if recursive */
 	lab_con *labs;
-	struct t_context *outer;
-} context;
+	struct context_t *outer;
+};
+typedef struct context_t context;
 
 extern context *crt_context;
 
@@ -267,7 +266,7 @@ typedef tdfident_list unique;
 union external_u {
 	unique u;
 	tdfstring id;
-}
+};
 
 typedef struct external_t {
 	union external_u ex;
