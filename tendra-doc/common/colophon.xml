@@ -7,9 +7,9 @@
 -->
   
 <colophon>
-  <para>This piece of documentation is the result of the old DERA text that
-    has been rewritten using DocBook/XML using libxslt's xsltproc and the
-    docbook-xsl stylesheets to generate XHTML.</para>
+  <para>This piece of documentation has been written using DocBook/XML using
+    libxslt's xsltproc and the docbook-xsl stylesheets to generate
+    XHTML.</para>
 
   <para>This document was generated on
     <?dbtimestamp format="Y-m-d H:M"?>.</para>
