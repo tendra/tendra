@@ -149,7 +149,7 @@ gcproc(exp p, char *pname, long cname, int is_ext,
 	no_calls = 0;
 	regsinproc = 0;
 	regsinuse = 0;
-	reuseables = 0;
+	reusables = 0;
 	regsindec = 0;
 	stack = 0;
 	special_no = crt_proc_no++;

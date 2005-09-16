@@ -65,7 +65,7 @@ extern bool reserved(char *) ;
 
 extern bitpattern regsinuse;
 extern bitpattern regsinproc;
-extern bitpattern reuseables;
+extern bitpattern reusables;
 extern bitpattern regsindec;
 extern bitpattern bigregs;
 extern long crt_ret_lab;

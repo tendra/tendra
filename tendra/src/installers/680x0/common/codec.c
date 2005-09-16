@@ -289,9 +289,9 @@ logop(void (*op)(shape, where, where, where),
 			t = bro (t);
 		}
 		/* Process the last term */
-		reuseables |= regmsk (REG_D1);
+		reusables |= regmsk (REG_D1);
 		(*op) (sh (e), zw (t), w, dest);
-		reuseables &= ~regmsk (REG_D1);
+		reusables &= ~regmsk (REG_D1);
 		retcell (v);
 		if (have_cond == 3) have_cond = 1;
 		return;

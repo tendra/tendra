@@ -212,7 +212,7 @@ reuse_check(exp e)
     if (name (e) != name_tag) return (0);
     id = son (e);
     if (isglob (id) || pt (id) != reg_pl) return (0);
-    return (reuseables & no (id));
+    return (reusables & no (id));
 }
 
 
@@ -441,7 +441,7 @@ alloc_variable(exp e, exp def, ash stack)
 		if (is_a (n)) {
 			long rg = reuse (def) & 0x3cfc;
 			if (rg) {
-				reuseables &= ~rg;
+				reusables &= ~rg;
 				dc.place = reg_pl;
 				dc.num = rg;
 				return (dc);
@@ -869,10 +869,10 @@ coder(where dest, ash stack, exp e)
 				regsindec &= ~dc.num;
 				if (used_once) {
 					regsinuse |= dc.num;
-					reuseables |= dc.num;
+					reusables |= dc.num;
 				} else {
 					regsinuse |= dc.num;
-					reuseables &= ~dc.num;
+					reusables &= ~dc.num;
 				}
 			}
 
@@ -957,7 +957,7 @@ coder(where dest, ash stack, exp e)
 	    }
 
 	    /* Code the first expression */
-	    reuseables = 0;
+	    reusables = 0;
 	    r1 = regsinuse;
 	    coder (dest, stack, first);
 
@@ -986,11 +986,11 @@ coder(where dest, ash stack, exp e)
 	    }
 
 	    /* Encode the alternative expression */
-	    reuseables = 0;
+	    reusables = 0;
 	    make_label (ptno (record));
 	    coder (dest, stack, alt);
 	    regsinuse = r1;
-	    reuseables = 0;
+	    reusables = 0;
 
 	    /* Output the label for the jump added to first if necessary */
 	    if (name (sh (first)) != bothd) {
@@ -1019,7 +1019,7 @@ coder(where dest, ash stack, exp e)
 	    dc = alloc_variable (e, son (e), stack);
 	    if (dc.place == reg_pl) {
 			regsinuse |= dc.num;
-			reuseables &= ~dc.num;
+			reusables &= ~dc.num;
 	    }
 
 	    /* Encode the body */
@@ -1060,7 +1060,7 @@ coder(where dest, ash stack, exp e)
 	    sonno (record) = stack_dec;
 	    ptno (record) = lb;
 	    pt (son (body)) = record;
-	    reuseables = 0;
+	    reusables = 0;
 
 	    /* Encode the body of the loop */
 	    coder (dest, stack, body);
@@ -1080,7 +1080,7 @@ coder(where dest, ash stack, exp e)
 		/* Output the jump */
 		lab = pt (e);
 		make_jump (m_bra, ptno (pt (son (lab))));
-		reuseables = 0;
+		reusables = 0;
 		return;
 	}
 

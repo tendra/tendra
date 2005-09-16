@@ -209,13 +209,13 @@ next_tmp_reg()
 			r = tmp_reg_prefer;
 			last_reg = r;
 		} else {
-			bitpattern na = (regsinuse | reuseables | regsindec);
+			bitpattern na = (regsinuse | reusables | regsindec);
 			bitpattern a = regsinproc & ~na & 0x3c00;
 			r = (a ? reg (a) : REG_A1);
 			if (r == last_reg) r = REG_A0;
 		}
     } else {
-		bitpattern na = (regsinuse | reuseables | regsindec);
+		bitpattern na = (regsinuse | reusables | regsindec);
 		bitpattern a = regsinproc & ~na & 0x3c00;
 		if (t == 0) {
 			r = (a ? reg (a) : REG_A1);

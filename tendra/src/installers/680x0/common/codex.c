@@ -389,7 +389,7 @@ libcall(char *nm)
  *
  *    regsinuse gives all the registers which are currently allocated
  *    values.  regsinproc is a cumulative record of all the registers
- *    which have been used in the current procedure.  reuseables is
+ *    which have been used in the current procedure.  reusables is
  *    the record of all the current active reusable registers.  bigregs
  *    records all registers in the current procedure which span procedure
  *    calls.
@@ -397,7 +397,7 @@ libcall(char *nm)
 
 bitpattern regsinuse;
 bitpattern regsinproc;
-bitpattern reuseables;
+bitpattern reusables;
 bitpattern regsindec;
 bitpattern bigregs;
 
@@ -874,7 +874,7 @@ cproc(exp p, char *pname, long cname, int is_ext,
     no_calls = 0;
     regsinproc = 0;
     regsinuse = 0;
-    reuseables = 0;
+    reusables = 0;
     regsindec = 0;
     stack = 0;
     special_no = crt_proc_no++;
