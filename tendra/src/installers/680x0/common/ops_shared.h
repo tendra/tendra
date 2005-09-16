@@ -134,7 +134,7 @@ extern long last_cond_sz;
 /*
  *    SET ALTERNATIVE CONDITION CODES
  *
- *    This macro is used to set the alterative last condition to X.
+ *    This macro is used to set the alternative last condition to X.
  */
 
 #define  set_cond_alt(X)		\

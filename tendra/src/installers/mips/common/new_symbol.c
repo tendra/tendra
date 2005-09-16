@@ -367,7 +367,7 @@ new_lsym(char* str, long value, short symtype,
  	newsym.value = value;
   	newsym.st = symtype;
   	newsym.sc = symclass;
-/* do the following as a switch statment */
+/* do the following as a switch statement */
 	
 	if (symtype == stEnd)
 		
@@ -496,7 +496,7 @@ new_esym_d(char* str, long value, short symtype,
 }
 
 
-/********************* Auxillary information  ********************/
+/********************* Auxiliary information  ********************/
 
 AUXU*
 get_aux_ptr(long index, long auxind)

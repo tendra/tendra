@@ -61,7 +61,7 @@
  *
  *contains procedure
  *long add_type_to_aux (diag_type s, long ind)
- *which converts a TDF shape into an AUXU (see sym.h) and adds it to the auxillary table for the file number given as parameter as required by the MIPS symbol table.
+ *which converts a TDF shape into an AUXU (see sym.h) and adds it to the auxiliary table for the file number given as parameter as required by the MIPS symbol table.
  *If the entry generated is greater than 1 AUXU in length the index corresponding to the first entry made is returned.
 
 

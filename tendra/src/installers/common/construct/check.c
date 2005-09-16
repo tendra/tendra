@@ -3753,7 +3753,7 @@ check(exp e, exp scope)
 			};
 			
 #if !temp_mips
-			/* confirm mips doesnt need this */
+			/* confirm mips doesn't need this */
 			if (name (son (e)) == reff_tag) {
 				/* combine reff selections */
 				sh (son (e)) = sh (e);

@@ -160,7 +160,7 @@ int err_continue = 0;
  *  TEST_OVERFLOW2
  *
  *  If an error_treatment is specified and the previous instruction
- *  overflowed then either a trap or a jump is takken.
+ *  overflowed then either a trap or a jump is taken.
  *
  *  The test condition is specified by br_ins
  ************************************************************************/
@@ -181,7 +181,7 @@ test_overflow2(int br_ins)
  *  TEST_OVERFLOW
  *
  *  If an error_treatment is specified and the previous instruction
- *  overflowed then either a trap or a jump is takken.
+ *  overflowed then either a trap or a jump is taken.
  *
  *  This function finds the right test condition based on overflow_type
  ************************************************************************/
@@ -247,7 +247,7 @@ checkalloc_stack(where sz, int do_alloc)
 /*
  *    MARK D1 AS SPECIAL
  *
- *    This flag is used to indicate that the D1 regsiter is being used
+ *    This flag is used to indicate that the D1 register is being used
  *    as a special register and should be treated with care.
  */
 

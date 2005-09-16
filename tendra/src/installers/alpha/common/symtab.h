@@ -95,7 +95,7 @@ typedef struct strings	{long usage;	/* including end of string chars */
 			struct strings *overspill;
 			} STRINGS;
 
-/* auxillary information, each AUXU differs according to the type of the symbol */
+/* auxiliary information, each AUXU differs according to the type of the symbol */
 typedef struct auxtabd	{long num;
 			pAUXU auxinfo;
 			struct auxtabd *moreaux;

@@ -346,7 +346,7 @@ scan_cond(exp *e, exp outer_id)
       bro (ste) = newid;
       setlast (ste);	/* father body = newid */
       son (test1) = tg1;
-      son (test2) = tg2;	/* relace 1st operands of test */
+      son (test2) = tg2;	/* replace 1st operands of test */
       if (!complex(op21) ) { 
 	/* if the second operand of 1st test is 
 	   simple, then identification could go 
@@ -384,7 +384,7 @@ scan_cond(exp *e, exp outer_id)
       bro (op12) = tg2;
       if (!complex(op11) ) { setinlined(newid); }
       kill_exp(op22, op22);
-      /* relace 2nd operands of test */
+      /* replace 2nd operands of test */
       * (e) = newid;
       if (scan_cond (&bro(son(labst)), newid) == 2 && complex(op12) ) { 
 	clearinlined(newid); 
@@ -1088,13 +1088,13 @@ scan(exp *e, exp **at)
 		  )
 		 ) {
 	  props (stare) |= defer_bit;
-	  /* dont take space for this dec */
+	  /* don't take space for this dec */
 	}
 	else if (!isvar (stare)  && !isvis(stare) &&
 		 ((props (stare) & 0x10 /* forced in const */ ) == 0)
 		 && (name (t) == name_tag || name (t) == val_tag )) {
 	  props (stare) |= defer_bit;
-	  /* dont take space for this dec */
+	  /* don't take space for this dec */
 	}
 	else if (fxregble && (/*isinlined(stare)||*/
 			      (bdy.fixneeds < maxfix && 
@@ -1749,7 +1749,7 @@ scan(exp *e, exp **at)
 	  (props (stare) == 5 || props (stare) == 6) &&
 	  (name (son (l)) == cont_tag || name (son (l)) == name_tag)) {
 	/* equality of bits against +ve consts
-	   doesnt need sign adjustment */
+	   doesn't need sign adjustment */
 	long  n = no (r);
 	switch (name (sh (l))) {
 	  case scharhd : {
@@ -2043,7 +2043,7 @@ scan(exp *e, exp **at)
 	   - make them diadic - can do better
 	   a+exp => let x = exp in a+x */
 	exp opn = getexp(sh(op), op, 0, a2, nilexp, 0, 0, name(op));
-	/* dont need to transfer error treatment - nans */
+	/* don't need to transfer error treatment - nans */
 	exp nd = getexp(sh(op), bro(op), last(op), opn, nilexp, 0, 1,
 			ident_tag);
 	exp id = getexp(sh(op), op, 1, nd, nilexp, 0, 0, name_tag);

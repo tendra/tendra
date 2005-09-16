@@ -180,7 +180,7 @@ static int last_reg = 0;
  *    FIND THE NUMBER OF THE NEXT TEMPORARY REGISTER
  *
  *    This is a look-ahead routine to find what the next temporary register
- *    allocated will be.  Let X denote the prefered temporary register
+ *    allocated will be.  Let X denote the preferred temporary register
  *    (if specified) and Y denote any A-register used in the procedure
  *    but not currently active.
  *
@@ -722,7 +722,7 @@ mach_op
     return (p1);
 }
 /*
- *   Used to access caller parrameters in the postlude.
+ *   Used to access caller parameters in the postlude.
  */
 
 mach_op

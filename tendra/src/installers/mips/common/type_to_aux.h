@@ -60,6 +60,6 @@
 extern long add_type_to_aux(diag_type, long);
 
 /*
- *converts a TDF shape into an AUXU (see sym.h) and adds it to the auxillary table for the file number given as parameter as required by the MIPS symbol table.
+ *converts a TDF shape into an AUXU (see sym.h) and adds it to the auxiliary table for the file number given as parameter as required by the MIPS symbol table.
  */
 

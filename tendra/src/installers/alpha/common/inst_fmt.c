@@ -909,7 +909,7 @@ operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
 }
 
 /*
-  Output an operation where the second paramter is an immediate
+  Output an operation where the second parameter is an immediate
   value.  If the immediate value is larger than 8 bits then it 
   needs to be loaded into a register 
 */

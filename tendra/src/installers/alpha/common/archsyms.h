@@ -86,7 +86,7 @@
 #define langC		0	
 #define langPascal	1
 #define langFortran	2
-#define	langAssembler	3	/* one Assembley inst might map to many mach */
+#define	langAssembler	3	/* one Assembly inst might map to many mach */
 #define langMachine	4
 #define langNil		5
 #define langAda		6
@@ -142,7 +142,7 @@
 #define stLocal		4	/* local variable */
 #define stLabel		5	/* label */
 #define stProc		6	/*     "      "	 Procedure */
-#define stBlock		7	/* beginnning of block */
+#define stBlock		7	/* beginning of block */
 #define stEnd		8	/* end (of anything) */
 #define stMember	9	/* member (of anything	- struct/union/enum */
 #define stTypedef	10	/* type definition */
@@ -152,7 +152,7 @@
 #define stStaticProc	14	/* load time only static procs */
 #define stConstant	15	/* const */
 #define stStaParam	16	/* Fortran static parameters */
-    /* Psuedo-symbols - internal to debugger */
+    /* Pseudo-symbols - internal to debugger */
 #define stStr		60	/* string */
 #define stNumber	61	/* pure number (ie. 4 NOR 2+2) */
 #define stExpr		62	/* 2+2 vs. 4 */
@@ -272,7 +272,7 @@ typedef struct {
 	int	ipdMax;		/* number of procedures */
 	int	isymMax;	/* number of local symbols */
 	int	ioptMax;	/* max index into optimization symbol entries */
-	int	iauxMax;	/* number of auxillary symbol entries */
+	int	iauxMax;	/* number of auxiliary symbol entries */
 	int	issMax;		/* max index into local strings */
 	int	issExtMax;	/* max index into external strings */
 	int	ifdMax;		/* number of file descriptor entries */
@@ -284,7 +284,7 @@ typedef struct {
 	unsigned long	cbPdOffset;/* offset to procedure descriptor table */
 	unsigned long	cbSymOffset;/* offset to start of local symbols*/
 	unsigned long	cbOptOffset;/* offset to optimization symbol entries */
-	unsigned long	cbAuxOffset;/* offset to start of auxillary symbol entries*/
+	unsigned long	cbAuxOffset;/* offset to start of auxiliary symbol entries*/
 	unsigned long	cbSsOffset;/* offset to start of local strings */
 	unsigned long	cbSsExtOffset;/* offset to start of external strings */
 	unsigned long	cbFdOffset;/* offset to file descriptor table */
@@ -507,7 +507,7 @@ typedef struct {
 
 
 /*
- * Auxillary information occurs only if needed.
+ * Auxiliary information occurs only if needed.
  * It ALWAYS occurs in this order when present.
 
 	    isymMac		used by stProc only
@@ -561,7 +561,7 @@ typedef struct {
 	unsigned ot: 8;		/* optimization type */
 	unsigned value: 24;	/* address where we are moving it to */
 	RNDXR	rndx;		/* points to a symbol or opt entry */
-	unsigned int	offset;	/* relative offset this occured */
+	unsigned int	offset;	/* relative offset this occurred */
 	} OPTR, *pOPTR;
 #define optNil	((pOPTR) 0)
 #define cbOPTR sizeof(OPTR)
@@ -595,10 +595,10 @@ typedef int FIT, *pFIT;
 /* Dense numbers
  *
  * Rather than use file index, symbol index pairs to represent symbols
- *	and globals, we use dense number so that they can be easily embeded
+ *	and globals, we use dense number so that they can be easily embedded
  *	in intermediate code and the programs that process them can
- *	use direct access tabls instead of hash table (which would be
- *	necesary otherwise because of the sparse name space caused by
+ *	use direct access tables instead of hash table (which would be
+ *	necessary otherwise because of the sparse name space caused by
  *	file index, symbol index pairs. Dense number are represented
  *	by RNDXRs.
  */

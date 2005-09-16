@@ -352,7 +352,7 @@ addsub(shape sha, where a, where b, where dest,
 /*
  *  Some constructs only set the overflow bit for 32 bit results.
  *  This checks values of other varieties to determine whether or not an
- *  overflow has occured
+ *  overflow has occurred
  */
 void
 check_unset_overflow(where dest, shape shp)

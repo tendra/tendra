@@ -185,7 +185,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 		int   dest = regalt (d.answhere);
 		bool usesdest = regremoved (&son (e), dest);
 		exp seq = son (e);
-		/* the destination is in a register; take care that we dont alter
+		/* the destination is in a register; take care that we don't alter
 		 *	   it before possible use as an operand .... */
 		if (usesdest && last (seq)) {
 			/* ...it was used, but there is only one
@@ -239,7 +239,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 int
 non_comm_op(exp e, space sp, where dest, char *rins)
 {
-	/* evalate binary operation e with rins
+	/* evaluate binary operation e with rins
 	 *				   into dest */
 	exp l = son (e);
 	exp r = bro (l);

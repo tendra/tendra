@@ -57,7 +57,7 @@
 extern long add_type_to_aux(diag_type, long);
 
 /*
-converts a TDF shape into an AUXU (see archsyms.h) and adds it to the auxillary
+converts a TDF shape into an AUXU (see archsyms.h) and adds it to the auxiliary
 table for the file number given as parameter as required by the MIPS
 (and alpha, hopefully) symbol table.
 */

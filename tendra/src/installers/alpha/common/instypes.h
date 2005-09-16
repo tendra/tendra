@@ -57,7 +57,7 @@
 
 /*
   instypes.h
-  Provides the definition of the instruction type, and some associted
+  Provides the definition of the instruction type, and some associated
   macros.
 */
 

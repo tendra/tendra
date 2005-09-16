@@ -139,7 +139,7 @@
 
 /*
  * Will evaluating exp 'e' cause last instruction to be a load from store?
- * Always false if generating diagnostics, we dont want to rearrange in
+ * Always false if generating diagnostics, we don't want to rearrange in
  * this case as it makes debugging less obvious.
  * This is not exact, register contents tracking may find a copy in reg.
  */
@@ -1028,7 +1028,7 @@ scan(exp * e, exp * *at)
 				)
 			{
 				props(stare) |= defer_bit;
-				/* dont take space for this dec */
+				/* don't take space for this dec */
 			}
 #endif
 #if 0	/* dont undo large const in loop optimisation */
@@ -1037,7 +1037,7 @@ scan(exp * e, exp * *at)
 					 && (name(t) == name_tag || name(t) == val_tag))
 			{
 				props(stare) |= defer_bit;
-				/* dont take space for this dec */
+				/* don't take space for this dec */
 			}
 #endif
 #if 1
@@ -1049,7 +1049,7 @@ scan(exp * e, exp * *at)
 				)
 			{
 				/*
-				 * dont take space for this constant dec,
+				 * don't take space for this constant dec,
 				 * initialiser is another simple constant ident
 				 * (eg from double nested loop optimisation)
 				 */
@@ -2103,7 +2103,7 @@ scan(exp * e, exp * *at)
 						 * in a+x */
 			exp opn = getexp(sh(op), op, 0, a2, nilexp, 0, 0, name(op));
 			
-			/* dont need to transfer error treatment - nans */
+			/* don't need to transfer error treatment - nans */
 			exp nd = getexp(sh(op), bro(op), last(op), opn, nilexp, 0, 1,
 							ident_tag);
 			exp id = getexp(sh(op), op, 1, nd, nilexp, 0, 0, name_tag);
@@ -2503,7 +2503,7 @@ scan_cond(exp * e, exp outer_id)
 			bro (ste) = newid;
 			setlast (ste);	/* father body = newid */
 			son (test1) = tg1;
-			son (test2) = tg2;	/* relace 1st operands of test */
+			son (test2) = tg2;	/* replace 1st operands of test */
 			if (!complex(op21)) { 
 				/* if the second operand of 1st test is simple, then identification
 				 *	   could go in a t-teg (!!!NB overloading of inlined flag!!!).... */

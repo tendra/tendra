@@ -90,7 +90,7 @@ maxsp(space *a, space b)
 /* 
    accumulate s regs used in e; pars gives bits indicating 
    which s-regs are used for the parameters of current proc; 
-   incpars says dont ignore pars in registers 
+   incpars says don't ignore pars in registers 
 */
 space
 suses(exp e, space *pars, int incpars)

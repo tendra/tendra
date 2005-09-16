@@ -130,7 +130,7 @@ main(int argc, char **argv)
 							 * recast to extra param
 							 * for call struct/union return convention
 							 */
-	diagnose = 0;			/* Produce diagnosics */
+	diagnose = 0;			/* Produce diagnostics */
 	do_profile = 0;		/* Produce profiling info */
 	extra_checks = 1;		/* Do extra portability checks */
 	separate_units = 0;		/* Translate units separately */

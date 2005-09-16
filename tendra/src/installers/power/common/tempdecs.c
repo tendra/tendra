@@ -346,7 +346,7 @@ after_a(exp a, exp id)
 		|| name(dad) == case_tag || name(dad) == goto_tag
 		|| name(dad) == test_tag || APPLYLIKE(dad))
 	{
-		/* dont try too hard ! */
+		/* don't try too hard ! */
 		while (APPLYLIKE(dad) && dad != id)
 			dad = father(dad);
 		if (APPLYLIKE(dad))
@@ -426,7 +426,7 @@ tempdec(exp e, bool enoughs)
 		nouses = no(e);
 	
 	/*
-	 * trace simple successors to assignmnts or init to id to find if all uses
+	 * trace simple successors to assignments or init to id to find if all uses
 	 * occur before unpredictable change of control (or another assignment to
 	 * id)
 	 */

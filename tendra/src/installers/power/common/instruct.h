@@ -187,7 +187,7 @@ INS(i_mtmq        ,"mtmq"    ,"mtmq"    ,"mtmq");
 
 
 #if PowerPC_PRIVILEGED
-/* we dont use privileged instructions */
+/* we don't use privileged instructions */
 INS(i_mfmsr       ,"mfmsr"   ,"mfmsr"   ,"mfmsr");
 INS(i_mfsr        ,"mfsr"    ,"mfsr"    ,"mfsr");
 #endif

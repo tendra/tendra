@@ -197,7 +197,7 @@ iskept(exp e)
 		
 		if (ke != nilexp)
 		{
-			/* there is an accociation with reg i */
+			/* there is an association with reg i */
 			if (
 				((!isc && sim_exp(ke, e)) ||
 				 (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))

@@ -165,8 +165,8 @@ addsub_const(shape sha, long n, where dest,
 	
     /* Destination is not just a value */
 	
-    /* If we don't have to test for overflow, we can chose wheter to add/sub */
-    /* Changeing add and sub might allow us to use quick add or sub */
+    /* If we don't have to test for overflow, we can choose whether to add/sub */
+    /* Changing add and sub might allow us to use quick add or sub */
     if (! have_overflow()) {
 		/* But -(INT_MIN) can't be represented in signed shape */
 		if (n != INT_MIN) {

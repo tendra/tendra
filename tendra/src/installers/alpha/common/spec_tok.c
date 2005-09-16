@@ -173,7 +173,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     arg = d_exp();
     Assert(name(arg) == val_tag);
     if(no(arg) == 0){
-      /* trapb : used to ensure that all pending execptions have been raised
+      /* trapb : used to ensure that all pending exceptions have been raised
 	 before continuing */
       tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,special_tag);
       *done = 1;

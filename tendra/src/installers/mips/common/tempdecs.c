@@ -204,7 +204,7 @@ after_a(exp a, exp id)
 		|| name(dad) == solve_tag || name(dad) == labst_tag
 		|| name(dad) == case_tag || name(dad)== goto_lv_tag
 		|| name(dad) == test_tag ||  name(dad) == apply_tag) {
-		/* dont try too hard ! */
+		/* don't try too hard ! */
 		while (name(dad) != apply_tag && dad !=id) dad = father(dad);
 		if (name(dad) == apply_tag) { useinpar =1;}
 		return;
@@ -247,7 +247,7 @@ tempdec(exp e, bool enoughs)
 	}
 	else nouses = no(e);
 	
-	/* trace simple successors to assignmnts or init to id to find if
+	/* trace simple successors to assignments or init to id to find if
 	 *		all uses occur before unpredictable change of control
 	 *			(or another assignment to id) */
 	

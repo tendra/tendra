@@ -928,7 +928,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 							else {
 								props(se) = sr; no(d)= tr;
 								sp = guardfreg(tr, sp);
-								/* !? swopped and moved in  dump_tag !? */
+								/* !? swapped and moved in dump_tag !? */
 							}
 						}
 						else {
@@ -2805,11 +2805,11 @@ make_code(exp e, space sp, where dest, int exitlab)
 			}
 			a = regalt (dest.answhere);
 			code_here (son (e), sp, dest);
-			/* evaluate arguement into reg */
+			/* evaluate argument into reg */
 		}
 		else {
 			a = reg_operand (son (e), sp);
-			/* evaluate arguement into a */
+			/* evaluate argument into a */
 		}
 		setregalt (aa, a);
 		if (!optop(e)) {
@@ -3035,7 +3035,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 				) {			/* m = 2^shleng   or  m = 2^(shleng +/- 1)
 							 */
 				int   r = reg_operand (son (e), sp);
-				/* evaluate first arguement */
+				/* evaluate first argument */
 				int   rr;
 				space nsp;
 				int   shleng;
@@ -3346,7 +3346,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 		
 		
 		if (name (b) == val_tag) {
-			/* if its a constant shift we dont have to choose shift
+			/* if it's a constant shift we don't have to choose shift
 			 *	     dynamically ... */
 			if (no (b) >= 0) {
 				rri_ins (shnat, d, a, no (b)+norms);
@@ -3564,7 +3564,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 			setfregalt (w.answhere, frg);
 			w.ashwhere = ashof (sh (in));
 			code_here (in, sp, w);
-			/* evaluate fix pt arguement into float pt reg f */
+			/* evaluate fix pt argument into float pt reg f */
 		}
 		else {			/* bytes and halfs must go through fixpt
 						 *				   regs */

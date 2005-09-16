@@ -408,7 +408,7 @@ scan_cond(exp* e, exp outer_id)
 			bro (ste) = newid;
 			setlast (ste);	/* father body = newid */
 			son (test1) = tg1;
-			son (test2) = tg2;	/* relace 1st operands of test */
+			son (test2) = tg2;	/* replace 1st operands of test */
 			if (!complex(op21)) {
 				/* if the second operand of 1st test is simple, then
 				 *	   identification could go in a t-teg (!!!NB overloading
@@ -2103,7 +2103,7 @@ scan(exp * e, exp ** at)
 			(props (stare) == 5 || props (stare) == 6) &&
 			(name (son (l)) == cont_tag ||
 			 name (son (l)) == name_tag)) {
-			/* equality of bits against +ve consts doesnt need
+			/* equality of bits against +ve consts doesn't need
 			 *	   sign adjustment */
 			long n = no (r);
 			switch (name (sh (l))) {

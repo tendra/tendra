@@ -217,7 +217,7 @@ makesymtab(STRINGS* extstrings, ESYMS* extsymbols,
 	}
 	}
 	
-/* write auxillary symbol entries */
+/* write auxiliary symbol entries */
 	
 	tempfileptr=filedescs;
     for (i=1;i<=numfiles;i++,tempfileptr++)

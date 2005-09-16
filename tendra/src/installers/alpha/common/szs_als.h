@@ -58,7 +58,7 @@
 /*
 ** szs_als.h
 **
-** This file provides the sizes and aligments required for the alpha 
+** This file provides the sizes and alignments required for the alpha 
 ** installer.  This information is used in the common part of the installer.
 **
 */

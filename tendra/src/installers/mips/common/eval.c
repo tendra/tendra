@@ -93,7 +93,7 @@ int   data_lab = 33;
 
 int
 next_data_lab()
-{	/*  anonymous label in data space - $$n in assember o/p */
+{	/*  anonymous label in data space - $$n in assembler o/p */
 	return data_lab++;
 }
 

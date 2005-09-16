@@ -184,7 +184,7 @@ regalloc(exp e, int freefixed, int freefloat,
 				)
 			{
 				/*
-				 * dont take space for this constant dec,
+				 * don't take space for this constant dec,
 				 * initialiser is another simple constant ident
 				 * (eg from double nested loop optimisation)
 				 */

@@ -209,7 +209,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
       }
       
       /* the destination is in a register; take care that 
-	 we dont alter it before possible use as an operand .... */
+	 we don't alter it before possible use as an operand .... */
       if (usesdest && last (seq)) {
 	/* ...it was used, but there is only one
 	   other operand */
@@ -258,7 +258,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
 int
 non_comm_op(exp e, space sp, where dest, instruction rins)
 {
-  /* evalate binary operation e with rins
+  /* evaluate binary operation e with rins
      into dest */
   exp l = son (e);
   exp r = bro (l);

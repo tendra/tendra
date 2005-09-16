@@ -203,7 +203,7 @@ andetc_const(int instr, shape sha, long sz,
 
 
 /*
- *    AUXILLARY ROUTINE FOR AND/OR/XOR
+ *    AUXILIARY ROUTINE FOR AND/OR/XOR
  *
  *    The values a1 and a2 of shape sha have the logical operation indicated
  *    by logop applied to them and the result is stored in dest.  (opb,

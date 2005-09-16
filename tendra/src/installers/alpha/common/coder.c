@@ -357,7 +357,7 @@ log2(INT64 val)
   If 1/m can be transformed into the form:
 
   1/m = 1/(2^n) * (2^x/b).  Then return the values of n and x
-  required.  If successfull, return TRUE, otherwise, return FALSE.
+  required.  If successful, return TRUE, otherwise, return FALSE.
 */
 bool
 calculate_shift_for_division(INT64 m, int *n, int *x, bool is_quad)
@@ -623,7 +623,7 @@ convert_shapes(int dest_shape, int src_shape, int reg, int dreg)
 
   This function outputs code to look at the contents of the 
   floating  point control register (FPCR) and determine whether 
-  or not a floating point error has occured.  If an error is 
+  or not a floating point error has occurred.  If an error is 
   detected a jump is made to the label specified in no(son(pt(e))).  
  
   The error status is determined by looking at the summary bit 
@@ -1685,7 +1685,7 @@ tailrecurse:
       placew = nowhere;
      
       if (name (sh (son (e))) == ptrhd && name (son (e)) != cont_tag) {
-	/* We should never be identifing a pointer to bits */
+	/* We should never be identifying a pointer to bits */
 	if (al1(sh(son(e))) == 1) {
 #if 0
 	  failer ("Identify REF BITS");
@@ -1935,7 +1935,7 @@ tailrecurse:
 	    else { 
 	      props(se) = sr; no(d)= tr;
 	      sp = guardfreg(tr, sp); 
-	      /* !? swopped and moved in  dump_tag !? */
+	      /* !? swapped and moved in  dump_tag !? */
 	    }
 	  }
 	  else {
@@ -2392,7 +2392,7 @@ tailrecurse:
 
     case test_tag : {
       /*
-	Tests are performed by either a comparison or subraction
+	Tests are performed by either a comparison or subtraction
 	instruction, followed by a conditional branch.  If the
 	test is unsigned, or if a subtraction could cause an
 	overflow, then comparisons must be used.
@@ -3402,7 +3402,7 @@ tailrecurse:
       for(;name(bdy)==dump_tag || name(bdy)==diagnose_tag;bdy = son(bdy));
 
       while(name(bdy) == ident_tag && isparam(bdy)) {
-	/* go throught the current callers, making sure they are 
+	/* go through the current callers, making sure they are 
 	   in the right place */
 	exp sbody = son(bdy);
 	baseoff b;
@@ -4132,7 +4132,7 @@ tailrecurse:
 	}
 	default: 
 	a = reg_operand (son (e), sp);
-	/* evaluate arguement into a */
+	/* evaluate argument into a */
       }	
       setregalt (aa, a);
       if(sh(son(e)) == sh(e)){
@@ -4532,7 +4532,7 @@ tailrecurse:
 	  /* m = 2^shleng   or  m = 2^(shleng +/- 1) 
 	   */
 	  int   r = reg_operand (son (e), sp);
-	  /* evaluate first arguement */
+	  /* evaluate first argument */
 	  int   rr;
 	  space nsp;
 	  int   shleng;
@@ -5082,7 +5082,7 @@ tailrecurse:
       }
       nsp = guardreg(src_reg,nsp);
       if (name (b) == val_tag) {
-	/* if its a constant shift we dont have to choose shift
+	/* if it's a constant shift we don't have to choose shift
 	   dynamically ... */
 	if (no (b) >= 0) {
 #if 0
@@ -6440,7 +6440,7 @@ null_tag_case : {
 	 son(e) is the test_tag and bro(son(e)) is the assignment.
 	 Note that the test condition is the opposite of the 
 	 condition for the conditional move (because the original
-	 test is a jump over the assigment).
+	 test is a jump over the assignment).
 	*/
        where assdest;
        instruction cinst;

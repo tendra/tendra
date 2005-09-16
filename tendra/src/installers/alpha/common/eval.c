@@ -116,7 +116,7 @@ long  G_number = 64;		/* to give choice of .sdata or data */
 
 int   data_lab = 33;
 
-/* anonymous label in data space - $$n in assember o/p */
+/* anonymous label in data space - $$n in assembler o/p */
 int
 next_data_lab(void)
 {

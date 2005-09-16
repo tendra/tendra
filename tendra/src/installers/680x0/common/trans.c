@@ -198,7 +198,7 @@ translate_capsule()
     opt_all_exps ();
 #endif
 	
-    /* Mark static unaliases declarations */
+    /* Mark static unaliased declarations */
     if (!separate_units) {
 		for (d = top_def ; d ; d = d->def_next) {
 			exp c = d->dec_u.dec_val.dec_exp;

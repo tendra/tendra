@@ -136,7 +136,7 @@ diag_directive dd [] = {
  *
  *    There are three sections of diagnostic information in the new
  *    diagnostics mode (the vt, lntt and gntt sections).  One temporary
- *    file is used for each.  In the old diagnosics mode there is
+ *    file is used for each.  In the old diagnostics mode there is
  *    only one section (the dntt section), and only one file, diagfp2,
  *    is used.
  */

@@ -866,7 +866,7 @@ check_id(exp e, exp scope)
 							{
 								if (isreallyass(tc)) {
 									all_c = 0;
-									all_a = 0; /* so that we dont remove the proc call */
+									all_a = 0; /* so that we don't remove the proc call */
 								}
 								else {			/* something else */
 									exp dad = father (tc);

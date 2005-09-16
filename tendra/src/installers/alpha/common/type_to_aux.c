@@ -60,7 +60,7 @@
 
   contains procedure 
   long add_type_to_aux (diag_type s, long ind) which converts a TDF 
-  shape into an AUXU (see archsyms.h) and adds it to the auxillary table 
+  shape into an AUXU (see archsyms.h) and adds it to the auxiliary table 
   for the file number given as parameter as required by the MIPS 
   (and alpha) symbol table(s).  If the entry generated is greater 
   than 1 AUXU in length the index corresponding to the first entry 

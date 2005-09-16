@@ -125,7 +125,7 @@
 					/* =========================== */
 #define check_shape		1	/* Check shape-correctness */
 #define dont_unpad_apply	1	/* Careful with procedure results */
-#define has_byte_ops		0	/* Have byte opertions */
+#define has_byte_ops		0	/* Have byte operations */
 #define has_byte_regs		0	/* Have byte registers */
 #define has_neg_shift		0	/* Have negative shifts */
 #define has_setcc		0	/* Use scc */

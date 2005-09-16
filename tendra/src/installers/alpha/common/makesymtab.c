@@ -212,7 +212,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
     }
   }
 
-/* write auxillary symbol entries */
+/* write auxiliary symbol entries */
 
   tempfileptr=filedescs;
   for (i=1;i<=numfiles;i++,tempfileptr++){

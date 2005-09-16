@@ -74,7 +74,7 @@ typedef struct stackdef {
 		struct stackdef * nextspace;	/* if more space required */
 			} BSTACK;
 
-/* An elemnt of the stack has the following type (result of popping a stack) */
+/* An element of the stack has the following type (result of popping a stack) */
 typedef struct symstrdef	{long sym;
 				long str;
 				} SYMSTR;

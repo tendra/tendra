@@ -823,7 +823,7 @@ copy_cpd(exp e, exp new_record, exp var, exp lab)
 		copy_labst (q);
 	}
 	
-	/* copy the bodies of the labelled statments */
+	/* copy the bodies of the labelled statements */
 	q = bro (son (e));
 	while (j = copy_res (bro (son (q)), var, lab),
 		   c = pt (q),

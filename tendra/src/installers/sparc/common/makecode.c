@@ -183,7 +183,7 @@ do_exception(int ex)
 
 
 /*
- *  Check whether or not an exception condition has occured and,
+ *  Check whether or not an exception condition has occurred and,
  *  if so, jump to the label given in no(son(pt(e))).
  */
 static void
@@ -3275,7 +3275,7 @@ make_code_1(exp e, space sp, where dest, int exitlab)
 
 				if (name (sh (son (e))) == ptrhd &&
 					name (son (e)) != cont_tag) {
-					/* we should never be identifing a pointer to bits */
+					/* we should never be identifying a pointer to bits */
 					if (al1 (sh (son (e))) == 1) {
 						/* ??? changed al1 to al2 here */
 						/* and back ???? */

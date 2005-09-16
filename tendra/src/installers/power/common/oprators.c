@@ -298,7 +298,7 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 	}				/* end switch */
 }
 
-/* evalate binary operation e with ins into dest */
+/* evaluate binary operation e with ins into dest */
 int
 non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {

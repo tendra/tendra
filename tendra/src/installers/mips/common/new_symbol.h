@@ -67,7 +67,7 @@ extern long add_dense_no(long, long);
 /* returns a dense number (index into dense number table) corresponding to the parameters filenum and symbol table index */
 
 extern long add_aux(AUXU, long);
-/* returns index into auxillary table after adding the AUXU to the table for the file number parameter */
+/* returns index into auxiliary table after adding the AUXU to the table for the file number parameter */
 
 /* The following 4 procedures take parameters:-
  *
@@ -80,10 +80,10 @@ extern long add_aux(AUXU, long);
  *short symclass ... symbol class as given in sym.h
  *
  *type s ... typeof the symbol (except for stFile, stEnd etc) - this is
- *converted to an AUXU which is added to the auxillary table. Structs and
+ *converted to an AUXU which is added to the auxiliary table. Structs and
  *unions must correspond to a type previously entered in the symbol table
  *which can be found by find_aux. Bitfields are negative shapes with
- *size = abs and btUInt in auxillary table. For a symtype stProc or
+ *size = abs and btUInt in auxiliary table. For a symtype stProc or
  *stStaticProc this shape should be the return type.
  *
  *long filenum ... index for the file

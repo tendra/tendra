@@ -102,7 +102,7 @@ static int extra_weight = 0;
  *    ADD A SHAPE TO A THE STACK
  *
  *    Given an ash p, representing the stack, and a shape s, this procedure
- *    returns the ast correponding to the new stack formed by adding s to the
+ *    returns the ast corresponding to the new stack formed by adding s to the
  *    old stack.
  */
 
@@ -201,7 +201,7 @@ alloc_reg(shape sha, int br, bool big)
 /*
  *    IS A GIVEN EXPRESSION A USE OF A REUSABLE REGISTER?
  *
- *    This routine returns 0 if the expression e is not a use of a reuseable
+ *    This routine returns 0 if the expression e is not a use of a reusable
  *    register, and the bitmask of the register otherwise.
  */
 
@@ -219,7 +219,7 @@ reuse_check(exp e)
 /*
  *    CAN WE REUSE A REGISTER?
  *
- *    This routine checks whether or not we can use a reuseable register to
+ *    This routine checks whether or not we can use a reusable register to
  *    store def.  It returns the bitmask of a suitable register if so and 0
  *    otherwise.
  */
@@ -1436,7 +1436,7 @@ coder(where dest, ash stack, exp e)
 
 
 #if 0
-		/* not a normal procedure call, but a way to specify a debuger break point */
+		/* not a normal procedure call, but a way to specify a debugger break point */
 		if ((brog(son(proc))->dec_u.dec_val.processed) &&
 			(brog(son(proc))->dec_u.dec_val.extnamed)  &&
 			(!strcmp(brog(son(proc))->dec_u.dec_val.dec_id, "_TESTPOINT"))) {
@@ -1550,7 +1550,7 @@ coder(where dest, ash stack, exp e)
 					mova (dest, A1);
 				}
 			}
-			/* Make sure we don't reuse A1 accidently */
+			/* Make sure we don't reuse A1 accidentally */
 			avoid_tmp_reg (REG_A1);
 			regsinproc |= regmsk (REG_A1);
 	    }

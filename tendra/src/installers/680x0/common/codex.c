@@ -296,7 +296,7 @@ dec_stack(long d)
 /*
  *    OUTPUT STACK DISPLACEMENT
  *
- *    This routine outputs any accummulated stack changes.
+ *    This routine outputs any accumulated stack changes.
  */
 
 void
@@ -387,10 +387,10 @@ libcall(char *nm)
 /*
  *    REGISTER MASKS
  *
- *    regsinuse gives all the registers which are currented allocated
- *    values.  regsinproc is a cummulative record of all the registers
+ *    regsinuse gives all the registers which are currently allocated
+ *    values.  regsinproc is a cumulative record of all the registers
  *    which have been used in the current procedure.  reuseables is
- *    the record of all the current active reuseable registers.  bigregs
+ *    the record of all the current active reusable registers.  bigregs
  *    records all registers in the current procedure which span procedure
  *    calls.
  */

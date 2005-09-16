@@ -82,10 +82,10 @@ short symtype ... symbol type as given in archsyms.h
 short symclass ... symbol class as given in archsyms.h
 
 type s ... typeof the symbol (except for stFile, stEnd etc) - this is
-converted to an AUXU which is added to the auxillary table. Structs and
+converted to an AUXU which is added to the auxiliary table. Structs and
 unions must correspond to a type previously entered in the symbol table
 which can be found by find_aux. Bitfields are negative shapes with
-size = abs and btUInt in auxillary table. For a symtype stProc or
+size = abs and btUInt in auxiliary table. For a symtype stProc or
 stStaticProc this shape should be the return type.
 
 long filenum ... index for the file

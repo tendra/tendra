@@ -369,7 +369,7 @@ new_lsym(char *chars, int value, int symtype, int symclass, diag_type s, int fil
   newsym.value = value;
   newsym.st = symtype;
   newsym.sc = symclass;
-/* do the following as a switch statment */
+/* do the following as a switch statement */
 
   if (symtype == stEnd){
     SYMSTR symstrind;
@@ -495,7 +495,7 @@ new_esym_d(char *chars, int value, int symtype, int symclass, diag_type s, int f
 }
 
 
-/********************* Auxillary information  ********************/
+/********************* Auxiliary information  ********************/
 
 AUXU *
 get_aux_ptr(int index, int auxind)

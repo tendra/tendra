@@ -444,7 +444,7 @@ rir_ins(Instruction_P ins, int src, long imm,
 	{
 		/*
 		 * See if we can use rlinm instruction, ie a single series of one bits.
-		 * This is prefered to generating an andiX. below, which may cause
+		 * This is preferred to generating an andiX. below, which may cause
 		 * a CR delay.
 		 */
 		unsigned long x = imm;
@@ -465,7 +465,7 @@ rir_ins(Instruction_P ins, int src, long imm,
 	{
 		/*
 		 * See if we can use rlinm instruction, ie a single series of one bits.
-		 * This is prefered to generating an andiX. below, which may cause
+		 * This is preferred to generating an andiX. below, which may cause
 		 * a CR delay.
 		 */
 		unsigned long x = imm;

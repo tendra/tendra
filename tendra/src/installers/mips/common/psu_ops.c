@@ -56,7 +56,7 @@
 
 
 /* psu_ops.c
- *	Output various psuedo operations to assembler
+ *	Output various pseudo operations to assembler
  */
 
 #include "config.h"

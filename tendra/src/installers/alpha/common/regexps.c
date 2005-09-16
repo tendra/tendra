@@ -196,7 +196,7 @@ iskept(exp e)
   for (i = 0; i < 48; i++) {
     exp ke = regexps[i].keptexp;
     bool isc = regexps[i].iscont;
-    if (ke != nilexp) {		/* there is an accociation with reg i */
+    if (ke != nilexp) {		/* there is an association with reg i */
       if (
 	  ((!isc && sim_exp (ke, e)) ||
 	   (name (e) == cont_tag && isc && eq_sze (sh (ke), sh (e))

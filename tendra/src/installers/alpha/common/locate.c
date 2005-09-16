@@ -550,7 +550,7 @@ locate1(exp e, space sp, shape s, int dreg)
      instore isa;
      wans = locate (son (e), sp, sh (son (e)), NO_REG);
      /* answer is wans displace literally by no(e); it should always be
-	a literal store adress */
+	a literal store address */
      
      switch (wans.answhere.discrim) {
       case notinreg: {

@@ -410,7 +410,7 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 		exp seq = son(e);
 		
 		/*
-		 * the destination is in a register; take care that we dont alter it
+		 * the destination is in a register; take care that we don't alter it
 		 * before possible use as an operand ....
 		 */
 		if (usesdest && last(seq))
@@ -485,7 +485,7 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 
 
 int
-non_comm_op(exp e, space sp, where dest, ins_p rins) /* evalate binary operation e with rins into dest */
+non_comm_op(exp e, space sp, where dest, ins_p rins) /* evaluate binary operation e with rins into dest */
 {
 	exp l = son(e);
 	exp r = bro(l);

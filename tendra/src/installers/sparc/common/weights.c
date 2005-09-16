@@ -69,7 +69,7 @@
  *  for later use by reg_alloc.
  *  The type weights consists of two arrays of integers.  In the first
  *  array each integer corresponds to a fixed point register and the
- *  second array's integers correspond to floating point registerss.
+ *  second array's integers correspond to floating point registers.
  *  At the end of a call of weights on an ident exp the props field of
  *  the ident may still contain inreg_bits or infreg_bits, set by scan,
  *  to indicate that a t-register should be used.  Otherwise number of

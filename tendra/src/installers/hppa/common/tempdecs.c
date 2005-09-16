@@ -301,7 +301,7 @@ tempdec(exp e, bool enoughs)
     }
 	
     /*
-	 * trace simple successors to assignmnts or init to id to find if all uses
+	 * trace simple successors to assignments or init to id to find if all uses
 	 * occur before unpredictable change of control (or another assignment to
 	 * id)
 	 */

@@ -328,7 +328,7 @@ gcproc(exp p, char *pname, long cname, int is_ext,
 
 /************************************************************************
  *  restore_regs_subsribers is used by restore_regs.
- *  It is a list of places to put insructions to restore registers.
+ *  It is a list of places to put instructions to restore registers.
  *I If untidy is true, it means that sp shall not be restored.
  */
 
@@ -669,7 +669,7 @@ push_dynamic_callees(exp pcallees, ash stack)
 	coder (A1, stack, ptr);
 	coder (D1, stack, sze);
 	
-	/* are callees of compond shape ? */
+	/* are callees of compound shape ? */
 	if (name (ptr) == name_tag) {
 		ident = son (ptr);
 		ident_def = son (ident);
@@ -784,7 +784,7 @@ A1_result_pointer(long comp_size, long longs,
 		/* Find the space allocated for unwanted results */
 		where w;
 		w = mnw (longs / 8);
-		make_comment("let A1 point to unwanted compund result");
+		make_comment("let A1 point to unwanted compound result");
 		add (slongsh, SP, w, A1);
 	} else {
 		long doff;
@@ -807,7 +807,7 @@ A1_result_pointer(long comp_size, long longs,
 				
 				dest.wh_off = doff + extra_stack;
 				
-				make_comment("let A1 point to compund result used as procedure argument");
+				make_comment("let A1 point to compound result used as procedure argument");
 				mova (dest, A1);
 				
 				/* pop where offset */
@@ -815,7 +815,7 @@ A1_result_pointer(long comp_size, long longs,
 				
 			} else {
 				/* Easy */
-				make_comment("let A1 point to compund result from eval. of call par.");
+				make_comment("let A1 point to compound result from eval. of call par.");
 				mova (dest, A1);
 			}
 			
@@ -824,11 +824,11 @@ A1_result_pointer(long comp_size, long longs,
 		}
 		else {
 			/* Otherwise (easy) ... */
-			make_comment("let A1 point to compund result");
+			make_comment("let A1 point to compound result");
 			mova (dest, A1);
 		}
 	}
-	/* Make sure we don't reuse A1 accidently */
+	/* Make sure we don't reuse A1 accidentally */
 	avoid_tmp_reg (REG_A1);
 	regsinproc |= regmsk (REG_A1);
 }
@@ -1020,7 +1020,7 @@ apply_general_proc(exp e, where dest, ash stack)
 	
 	/* can we cleanup callers now ? */
 	if (! (has_postlude || is_untidy)) {
-		/* Clean up of callers and room for ignored compund result. */
+		/* Clean up of callers and room for ignored compound result. */
 		stack_dec += callers_size + comp_size;
 		dec_stack (- callers_size - comp_size);
 	}
@@ -1091,7 +1091,7 @@ apply_general_proc(exp e, where dest, ash stack)
 			stack_dec += result_size;
 		}
 		
-		/* Delayed clean up of callers and room for ignored compund result.
+		/* Delayed clean up of callers and room for ignored compound result.
 		 *         callees are cleaned by the called proc. */
 		if (! is_untidy) {
 			stack_dec += callers_size + comp_size;
@@ -1103,7 +1103,7 @@ apply_general_proc(exp e, where dest, ash stack)
 /************************************************************************
  *  TEST_PUSH_ARGS
  *
- *  The total stack space requiered by the arguments is returned in args_size.
+ *  The total stack space required by the arguments is returned in args_size.
  *
  *  Returns true if all arguments (args) can be pushed to the stack.
  *
@@ -1272,7 +1272,7 @@ tail_call(exp e, where dest, ash stack)
 		return;
 	}
 	
-	/* nothing more than same calleers ? */
+	/* nothing more than same callees ? */
 	
 	if (! (callee_args || cur_proc_has_vcallees || call_has_vcallees(pcallees))) {
 		restore_regs(ALL);
@@ -1348,7 +1348,7 @@ tail_call(exp e, where dest, ash stack)
 	op2 = make_register (REG_A0);
 	make_instr (m_movl, op1, op2, regmsk (REG_A0));
 	
-	/* add sizeof(new calless) sizeof(ret-addr) + ?+sizeof(callees size)? */
+	/* add sizeof(new callees) sizeof(ret-addr) + ?+sizeof(callees size)? */
 	op1 = make_value(new_callees_size/8+4+(call_has_vcallees(pcallees)?4:0));
 	op2 = make_register (REG_A0);
 	make_instr (m_addl, op1, op2, regmsk (REG_A0));
@@ -1405,7 +1405,7 @@ general_epilogue(bool uses_callers_pointer,
 	/* any calls? */
 	if (no_calls > 0) {
 		if (uses_callers_pointer) {
-			/* Variable number of calles => A5 used as pointer to first caller */
+			/* Variable number of callers => A5 used as pointer to first caller */
 			smsk &= ~regmsk (REG_A5);
 		}
 		
@@ -1779,7 +1779,7 @@ transform(exp e)
 {
 	exp s = son(e);
 	
-	/* Transform the childs (if any) */
+	/* Transform the children (if any) */
 	if (s && (name(e) != name_tag) && (name(e) != env_offset_tag) && (name(e) != case_tag))
 		for (; s && s!=e; s=bro(s)) {
 			transform(s);
