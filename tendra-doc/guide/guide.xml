@@ -133,7 +133,7 @@
   
         <mediaobject>
           <imageobject>
-            <imagedata fileref="guidetable3.png" format="PNG"/>
+            <imagedata fileref="images/guidetable3.png" format="PNG"/>
           </imageobject>
           <textobject>
             <phrase>TBD</phrase>
@@ -348,7 +348,7 @@ make_tokdef(C_plus, empty, token_definition(exp(), (make_tokformals(exp(), l),
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="guide2.png" format="PNG"/>
+            <imagedata fileref="images/guide2.png" format="PNG"/>
           </imageobject>
           <textobject>
             <phrase>TBD</phrase>
@@ -489,7 +489,7 @@ prop_names = ("tagdecs", "tagdefs")
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="guide1.png" format="PNG"/>
+                <imagedata fileref="images/guide1.png" format="PNG"/>
               </imageobject>
               <textobject>
                 <phrase>TBD</phrase>
@@ -2903,7 +2903,7 @@ shape_apply_token(make_tok(T_FILE), ())
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="guide3.png" format="PNG"/>
+            <imagedata fileref="images/guide3.png" format="PNG"/>
           </imageobject>
           <textobject>
             <phrase>TBD</phrase>
