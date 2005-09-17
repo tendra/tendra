@@ -77,8 +77,8 @@ letter *white_space = NULL;
  */
 
 static character passes [2] = {
-    { LAST_LETTER, NULL, NULL, NULL },
-    { LAST_LETTER, NULL, NULL, NULL }
+    { LAST_LETTER, NULL, NULL, NULL, NULL, NULL },
+    { LAST_LETTER, NULL, NULL, NULL, NULL, NULL }
 };
 
 character *pre_pass = passes;
