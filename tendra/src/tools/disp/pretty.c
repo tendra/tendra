@@ -128,7 +128,7 @@ static int dec [7][3] = {
  */
 
 void
-pretty_tree()
+pretty_tree(void)
 {
     int i, j;
     int maximum0;
@@ -240,8 +240,7 @@ display(int test)
  */
 
 static void
-expression(word *ptr, int col, int first,
-		   int last, int flag, int pending)
+expression(word *ptr, int col, int first, int last, int flag, int pending)
 {
     word *p;
     char bar = '|';

@@ -87,7 +87,7 @@ long max_lab_no = 0;
  */
 
 void
-read_no_labs()
+read_no_labs(void)
 {
     long n = tdf_int ();
     if (show_stuff) {
@@ -112,8 +112,7 @@ read_no_labs()
  */
 
 void
-token_sort(object *t, sortname rs, char *args,
-		   long n)
+token_sort(object *t, sortname rs, char *args, long n)
 {
     sortid s;
     s = find_sort (rs);
@@ -160,7 +159,7 @@ token_sort(object *t, sortname rs, char *args,
  */
 
 static void
-de_tokdec_aux()
+de_tokdec_aux(void)
 {
     long t;
     sortid s;
@@ -225,7 +224,7 @@ de_tokdec_aux()
  */
 
 static void
-de_tokdef_aux()
+de_tokdef_aux(void)
 {
 	tdf_pos end;
     long t;
@@ -342,7 +341,7 @@ de_tokdef_aux()
  */
 
 static void
-de_tagdec_aux()
+de_tagdec_aux(void)
 {
     long t;
     char m;
@@ -394,7 +393,7 @@ de_tagdec_aux()
  */
 
 static void
-de_tagdef_aux()
+de_tagdef_aux(void)
 {
     long t;
     char m;
@@ -445,7 +444,7 @@ de_tagdef_aux()
  */
 
 static void
-de_al_tagdef_aux()
+de_al_tagdef_aux(void)
 {
     long t;
     object *obj;
@@ -478,7 +477,7 @@ de_al_tagdef_aux()
  */
 
 void
-de_tokdec_props()
+de_tokdec_props(void)
 {
     long i;
     long n = tdf_int ();
@@ -498,7 +497,7 @@ de_tokdec_props()
  */
 
 void
-de_tokdef_props()
+de_tokdef_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -520,7 +519,7 @@ de_tokdef_props()
  */
 
 void
-de_tagdec_props()
+de_tagdec_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -542,7 +541,7 @@ de_tagdec_props()
  */
 
 void
-de_tagdef_props()
+de_tagdef_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -564,7 +563,7 @@ de_tagdef_props()
  */
 
 void
-de_al_tagdef_props()
+de_al_tagdef_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -684,7 +683,7 @@ de_usage(long v)
  */
 
 void
-de_tld2_unit()
+de_tld2_unit(void)
 {
     de_usage (var_token);
     de_usage (var_tag);
@@ -701,7 +700,7 @@ de_tld2_unit()
  */
 
 void
-de_tld_unit()
+de_tld_unit(void)
 {
     long n = tdf_int ();
     switch (n) {
@@ -732,7 +731,7 @@ de_tld_unit()
 #ifdef HAVE_diag_type_unit
 
 static void
-de_diag_tagdef_aux()
+de_diag_tagdef_aux(void)
 {
     long t;
     object *obj;
@@ -767,7 +766,7 @@ de_diag_tagdef_aux()
 #ifdef HAVE_diag_type_unit
 
 void
-de_diag_type_unit()
+de_diag_type_unit(void)
 {
     long i, n;
     read_no_labs ();
@@ -793,7 +792,7 @@ de_diag_type_unit()
 #ifdef HAVE_diag_unit
 
 void
-de_diag_unit()
+de_diag_unit(void)
 {
     long i, n;
     read_no_labs ();
@@ -819,7 +818,7 @@ de_diag_unit()
 #ifdef HAVE_dg_comp_props
 
 void
-de_dg_comp_props()
+de_dg_comp_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -848,7 +847,7 @@ de_dg_comp_props()
 #ifdef HAVE_linkinfo_props
 
 void
-de_linkinfo_props()
+de_linkinfo_props(void)
 {
     long i, n;
     read_no_labs ();
@@ -911,7 +910,7 @@ de_make_version(char *s)
 #ifdef HAVE_version_props
 
 void
-de_version_props()
+de_version_props(void)
 {
     long i, n;
     n = tdf_int ();

@@ -100,7 +100,7 @@ word *word_ptr;
  */
 
 void
-initialize_tree()
+initialize_tree(void)
 {
     if (page == null) {
 		page = xmalloc_nof (char, 10000);
@@ -118,8 +118,8 @@ initialize_tree()
  *    A new word of layout type c is created.
  */
 
-word
-*new_word(int c)
+word *
+new_word(int c)
 {
 #define BLOCK 100
     static word *wblock;

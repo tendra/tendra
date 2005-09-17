@@ -72,8 +72,8 @@
  *    This routine allocates a new object of type v.
  */
 
-object
-*new_object(long v)
+object *
+new_object(long v)
 {
     static object *free_objs = null;
     static int objs_left = 0;
@@ -117,8 +117,8 @@ static binding *spare_bt = null;
  *    This routine allocates a new binding table and initializes its entries.
  */
 
-binding
-*new_binding_table()
+binding *
+new_binding_table(void)
 {
     binding *bt;
     long i, n = no_variables;
@@ -249,8 +249,8 @@ complete_binding(binding *bt)
  *    The nth entry of the vth entry of binding bt is returned.
  */
 
-object
-*find_binding(binding *bt, long v, long n)
+object *
+find_binding(binding *bt, long v, long n)
 {
     binding *b;
     if (v < 0 || v >= no_variables) {
@@ -318,8 +318,8 @@ out_object(long n, object *p, long v)
  *    The name of object type v and number n is returned.
  */
 
-char
-*object_name(long v, long n)
+char *
+object_name(long v, long n)
 {
     object *p;
     char *buff = xmalloc_nof (char, 1000);

@@ -315,7 +315,7 @@ de_equation(equation_func f)
  */
 
 void
-de_capsule()
+de_capsule(void)
 {
     long i, n;
     long no_eqn, no_var;

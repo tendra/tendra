@@ -87,8 +87,8 @@ BoolT warn_undeclared = FALSE;
  *    tokenised themselves.
  */
 
-object
-*de_token_aux(sortname s, char *nm)
+object *
+de_token_aux(sortname s, char *nm)
 {
     word *w;
     long bits, t;
@@ -363,8 +363,7 @@ de_tdfstring_format(void)
  */
 
 void
-de_solve_fn(char *nm, char *str1, char *str2,
-			char *str3, int ntwice)
+de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 {
     long i, n;
     word *ptr1, *ptr2;
@@ -470,8 +469,7 @@ de_case_fn(char *nm, char *str1, char *str2)
  */
 
 void
-de_mk_proc_fn(char *nm, char *str1, char *str2,
-			  char *str3)
+de_mk_proc_fn(char *nm, char *str1, char *str2, char *str3)
 {
     long i, n;
     word *ptr;

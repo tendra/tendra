@@ -214,7 +214,7 @@ de_tdfstring_align(void)
  */
 
 unique
-de_unique()
+de_unique(void)
 {
     long i, n;
     unique u;
@@ -234,7 +234,7 @@ de_unique()
  */
 
 external
-de_extern_name()
+de_extern_name(void)
 {
     external e;
     long n = de_external ();
