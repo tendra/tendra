@@ -314,7 +314,7 @@ de_tdfstring_format(void)
 		ptr1 = new_word (HORIZ_BRACKETS);
     }
     if (ts.size > 8) {
-		long i;
+		TDFINTL i;
 		for (i = 0; i < ts.number; i++)
 			out_int (ts.ints.longs[i]);
     } else {
