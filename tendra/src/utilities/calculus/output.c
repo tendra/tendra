@@ -799,7 +799,7 @@ output(char *s, ...)
 
 			case 't' : {
 				/* %t[0-9]* -> tab */
-				int t = 0;
+				unsigned t = 0;
 				while (c = *s, (c >= '0' && c <= '9')) {
 					t = 10 * t + (c - '0');
 					s++;
