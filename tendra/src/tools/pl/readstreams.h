@@ -61,21 +61,25 @@
 
 #include "streams.h"
 
-typedef struct{int byte_pos; int bit_pos; Chunk * ch; } Instream;
+typedef struct {
+	int byte_pos;
+	int bit_pos;
+	Chunk *ch;
+} Instream;
 
 extern Instream * curin;
-extern unsigned int get_bit PROTO_S((void));
-extern unsigned int get_basic_int PROTO_S((int bts, Bool e));
-extern unsigned int get_tdfint PROTO_S((void));
-extern unsigned int d_tdfint PROTO_S((int n));
+extern unsigned int get_bit(void);
+extern unsigned int get_basic_int(int bts, Bool e);
+extern unsigned int get_tdfint(void);
+extern unsigned int d_tdfint(int n);
 
-extern unsigned int d_tdfstring PROTO_S((int n));
-extern unsigned int d_tdfident PROTO_S((int n));
-extern unsigned int d_bytestream PROTO_S((int n));
-extern void consname PROTO_S((char * s, int n));
-extern unsigned int d_tdfbool PROTO_S((int n));
-extern void read_cur PROTO_S((unsigned int (*f) PROTO_S((int))));
-extern unsigned int d_bitstream PROTO_S((char * s, int n));
-extern void print_res PROTO_S((void));
+extern unsigned int d_tdfstring(int n);
+extern unsigned int d_tdfident(int n);
+extern unsigned int d_bytestream(int n);
+extern void consname(char * s, int n);
+extern unsigned int d_tdfbool(int n);
+extern void read_cur(unsigned int (*f)(int));
+extern unsigned int d_bitstream(char * s, int n);
+extern void print_res(void);
 
 #endif

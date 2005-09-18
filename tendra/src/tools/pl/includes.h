@@ -61,7 +61,10 @@
 
 extern char * file_name;
 
-typedef struct Path_struct{ char* name; struct Path_struct * next;} Path;
+typedef struct Path_struct {
+	char *name;
+	struct Path_struct *next;
+} Path;
 
 extern void init_includes(void);
 extern void add_include(char *);

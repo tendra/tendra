@@ -65,11 +65,11 @@ extern Tokdec * tokdecs;
 extern Labdec * labdecs;
 extern Al_tagdec * al_tagdecs;
 
-extern Tagdec * find_tag PROTO_S((char * n));
-extern Tokdec * find_tok PROTO_S((char * n));
-extern Labdec * find_lab PROTO_S((char * n));
-extern Al_tagdec * find_al_tag PROTO_S((char * n));
-extern void tidy_labels PROTO_S((Labdec * old));
+extern Tagdec *find_tag(char *n);
+extern Tokdec *find_tok(char *n);
+extern Labdec *find_lab(char *n);
+extern Al_tagdec *find_al_tag(char *n);
+extern void tidy_labels(Labdec *old);
 
 
 #endif

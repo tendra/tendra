@@ -58,13 +58,13 @@
 #ifndef STANDARDSH_INCLUDED
 #define STANDARDSH_INCLUDED
 
-extern void select_tokdef_unit PROTO_S((void));
-extern void add_extra_toks PROTO_S((void));
-extern Name * tokforintsh PROTO_S((Bool issigned));
-extern Name * tokforlongsh PROTO_S((Bool issigned));
-extern Name * tokforshortsh PROTO_S((Bool issigned));
-extern Name * tokforcharsh PROTO_S((Bool issigned));
-extern Name * tokforfloatsh PROTO_S((void));
-extern Name * tokfordoublesh PROTO_S((void));
+extern void select_tokdef_unit(void);
+extern void add_extra_toks(void);
+extern Name *tokforintsh(Bool issigned);
+extern Name *tokforlongsh(Bool issigned);
+extern Name *tokforshortsh(Bool issigned);
+extern Name *tokforcharsh(Bool issigned);
+extern Name *tokforfloatsh(void);
+extern Name *tokfordoublesh(void);
 
 #endif

@@ -62,13 +62,25 @@
 #include "errors.h"
 #include "includes.h"
 
-typedef struct{
+typedef struct {
     int t;
-    union Lex_v{int v; char * name; Tokdec * tokname;} val;
+    union Lex_v {
+	int v;
+	char *name;
+	Tokdec *tokname;
+    } val;
 } LEX;
 
-typedef struct{char *name; int t; void(*f)(void);} Constructs;
-typedef struct{char *name; int t;} Terminals;
+typedef struct {
+    char *name;
+    int t;
+    void (*f)(void);
+} Constructs;
+
+typedef struct {
+    char *name;
+    int t;
+} Terminals;
 
 #define BUFFLEN 600
 extern char buff[BUFFLEN];

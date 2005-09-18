@@ -58,11 +58,11 @@
 #ifndef ANALYSE_SORT_INCLUDED
 #define ANALYSE_SORT_INCLUDED
 
-extern void read_tdfint PROTO_S((void));
-extern void read_tdfbool PROTO_S((void));
-extern void out_toksort PROTO_S((TokSort *));
-extern void out_sort PROTO_S((Sort *));
-extern void analyse_sort PROTO_S((int));
-extern void expand_tok PROTO_S((Tokdec *,TokSort *));
+extern void read_tdfint(void);
+extern void read_tdfbool(void);
+extern void out_toksort(TokSort *);
+extern void out_sort(Sort *);
+extern void analyse_sort(int);
+extern void expand_tok(Tokdec *, TokSort *);
 
 #endif

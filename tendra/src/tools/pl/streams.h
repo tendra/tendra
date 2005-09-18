@@ -63,16 +63,21 @@
 
 typedef int Bool;
 
-typedef struct chunk_struct
-{ struct chunk_struct *next;
+typedef struct chunk_struct {
+	struct chunk_struct *next;
 	short int usage;
-	unsigned char offst; unsigned char aligned;
+	unsigned char offst;
+	unsigned char aligned;
 	unsigned char data[DATA_SIZE];
 } Chunk;
 
 
-typedef struct { Chunk * first; Chunk * last;
-	unsigned int no; unsigned int sort;} TDF;
+typedef struct {
+	Chunk *first;
+	Chunk *last;
+	unsigned int no;
+	unsigned int sort;
+} TDF;
 
 extern TDF * current_TDF;   	/* the current output stream */
 
