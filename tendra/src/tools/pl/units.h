@@ -110,12 +110,6 @@ extern int capsule_names[NO_OF_ENTITIES];
 extern TDF lk_externs[NO_OF_ENTITIES];
 extern char * ent_names[NO_OF_ENTITIES];
 extern char * unit_names[NO_OF_UNITS];
-extern Name * tokforintsh(Bool issigned);
-extern Name * tokforlongsh(Bool issigned);
-extern Name * tokforshortsh(Bool issigned);
-extern Name * tokforcharsh(Bool issigned);
-extern Name * tokforfloatsh(void);
-extern Name * tokfordoublesh(void);
 #define SELECT_UNIT(x) current_TDF = &units[x].tdf; current_Unit = x;\
 			units[x].present = 1;
 #define INIT_TDF(x) (x)->first = (x)->last = create_chunk();\

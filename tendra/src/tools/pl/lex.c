@@ -58,6 +58,7 @@
 #include "config.h"
 #include "cstring.h"
 #include "defs.h"
+#include "find_id.h"
 #include "fmm.h"
 #include "includes.h"
 #include "msgcat.h"

@@ -98,8 +98,6 @@ typedef struct Tokdec_struct {
 	Bool isparam;
 } Tokdec;
 
-extern Tokdec *tokdecs;
-
 typedef union {
 	Name shtok;
 	TDF tdfsh;
@@ -117,10 +115,6 @@ typedef struct Tagdec_struct {
 	struct Tagdec_struct *next;
 } Tagdec;
 
-extern Tagdec *tagdecs;
-extern Tagdec *localdecs;
-
-
 typedef struct Al_tagdec_struct {
 	IdName idname;
 	struct Al_tagdec_struct *next;
@@ -129,20 +123,11 @@ typedef struct Al_tagdec_struct {
 	Bool isused;
 } Al_tagdec;
 
-extern Al_tagdec *al_tagdecs;
-
 typedef struct Labdec_struct {
 	IdName idname;
 	Bool declared;
 	struct Labdec_struct *next;
 } Labdec;
-
-extern Labdec *labdecs;
-
-extern Tokdec *find_tok(char *s);
-extern Tagdec *find_tag(char *s);
-extern Al_tagdec *find_al_tag(char *s);
-extern Labdec *find_lab(char *s);
 
 #define NEW_IDNAME(idn, s,ent)\
 (idn).id = s; (idn).name = next_name(ent);
