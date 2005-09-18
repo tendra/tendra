@@ -106,7 +106,7 @@ get_basic_int(int bts, Bool e)
 
 
 unsigned int
-get_tdfint()
+get_tdfint(void)
 {
     unsigned int x;
     unsigned int ans = 0;
@@ -280,7 +280,7 @@ read_cur(unsigned int (*f)(int))
 
 
 void
-print_res()
+print_res(void)
 {
     unsigned int i;
     TDF * hold = current_TDF;

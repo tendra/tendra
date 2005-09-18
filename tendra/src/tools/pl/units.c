@@ -84,7 +84,7 @@ int line_no_tok = -1;
 
 
 int
-next_label()
+next_label(void)
 {
 	return (units[current_Unit].no_labs++);
 }
@@ -199,7 +199,7 @@ local_name(Name * n, int ent)
 
 
 void
-FILENAME()
+FILENAME(void)
 {
 	o_make_filename(
 		o_make_nat(out_tdfint32(UL(0))),
@@ -210,7 +210,7 @@ FILENAME()
 
 
 void
-init_units()
+init_units(void)
 {
 	int i,j;
 	if (MAJOR_NO == 4 && MINOR_NO == 1) {
@@ -327,7 +327,7 @@ make_unit(int unit_no)
 
 
 static int
-get_byte()
+get_byte(void)
 {
 	unsigned int x=0;
 	int i;

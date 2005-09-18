@@ -68,7 +68,7 @@ static Path * inc_paths;
 
 
 void
-init_includes()
+init_includes(void)
 {
     inc_paths = xalloc(sizeof(*inc_paths));
     inc_paths->name = "";

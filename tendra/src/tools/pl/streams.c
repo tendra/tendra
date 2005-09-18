@@ -215,8 +215,7 @@ out_tdfbool(Bool b)
 
 
 void
-out_tdfstring_bytes(char * s, unsigned int k,
-					unsigned int n)
+out_tdfstring_bytes(char *s, unsigned int k, unsigned int n)
 {
     unsigned int i;
     out_tdfint32(UL(k));
@@ -229,7 +228,7 @@ out_tdfstring_bytes(char * s, unsigned int k,
 
 
 void
-byte_align()
+byte_align(void)
 {
     Chunk * ch = current_TDF->last;
     if (ch->aligned !=0) {

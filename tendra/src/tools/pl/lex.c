@@ -84,7 +84,7 @@ long radix;
 
 
 static void
-push_current()
+push_current(void)
 {
     FStack * x = xalloc(sizeof(*x));
     x->file = in_file; x->fname = file_name;
@@ -94,7 +94,7 @@ push_current()
 
 
 static void
-pop_current()
+pop_current(void)
 {
     in_file = fstack->file; file_name = fstack->fname;
     cLINE = fstack->line;
@@ -103,7 +103,7 @@ pop_current()
 
 
 static int
-directive()
+directive(void)
 {
     if (buff[0] == '#') {
 		char c = buff[8];
@@ -131,7 +131,7 @@ symbol(int s)
 
 
 static int
-mygetc()
+mygetc(void)
 {
     while (bind<0 || buff[bind]==0) {
      	cLINE++;
@@ -168,7 +168,7 @@ string_char(int q)
 
 
 static LEX
-charval()
+charval(void)
 {
     LEX l;
     l.t = lex_character;
@@ -179,7 +179,7 @@ charval()
 
 
 static LEX
-stringval()
+stringval(void)
 {
     LEX l;
     l.t = lex_qstring;
@@ -450,7 +450,7 @@ numval(int c)
 
 
 LEX
-reader()
+reader(void)
 {
     int c;
     int ll;

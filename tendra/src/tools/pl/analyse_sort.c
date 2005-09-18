@@ -68,13 +68,13 @@
 #include "errors.h"
 
 void
-read_tdfint()
+read_tdfint(void)
 {
     MSG_shouldnt_happen();
 }
 
 void
-read_tdfbool()
+read_tdfbool(void)
 {
     MSG_shouldnt_happen();
 }

@@ -82,7 +82,7 @@ static TDFlist * extra_toks = (TDFlist *) 0;
 
 
 void
-select_tokdef_unit()
+select_tokdef_unit(void)
 {
 	/* can define a token while in a token definition in shapes */
 	if (current_Unit != tokdef_unit) {
@@ -100,7 +100,7 @@ select_tokdef_unit()
 
 
 void
-add_extra_toks()
+add_extra_toks(void)
 {
 	SELECT_UNIT(tokdef_unit);
 	while (extra_toks != (TDFlist *) 0) {
@@ -168,7 +168,7 @@ make_charsh(Bool issigned)
 
 
 static void
-make_floatsh()
+make_floatsh(void)
 {
 	o_floating(o_flvar_parms(
 				   o_make_nat(out_tdfint32(UL(2))),
@@ -181,7 +181,7 @@ make_floatsh()
 
 
 static void
-make_doublesh()
+make_doublesh(void)
 {
 	o_floating(o_flvar_parms(
 				   o_make_nat(out_tdfint32(UL(2))),
@@ -274,7 +274,7 @@ tokforcharsh(Bool issigned)
 
 
 Name *
-tokforfloatsh()
+tokforfloatsh(void)
 {
 	TDF * place = current_TDF;
 	int cu = current_Unit;
@@ -294,7 +294,7 @@ tokforfloatsh()
 
 
 Name *
-tokfordoublesh()
+tokfordoublesh(void)
 {
 	TDF * place = current_TDF;
 	int cu = current_Unit;
