@@ -76,25 +76,31 @@
 
 
 
-typedef struct Link_struct{
-	struct Link_struct * next;
+typedef struct Link_struct {
+	struct Link_struct *next;
 	int unit_name;
 	int capsule_name;
 } Link;
 
 
 
-typedef struct{ TDF tdf;
+typedef struct {
+	TDF tdf;
 	int no_labs;
 	int no_entity[NO_OF_ENTITIES];
-	Link * links[NO_OF_ENTITIES];
+	Link *links[NO_OF_ENTITIES];
 	int present;
 } Unit;
 
-typedef struct TDFlist_struct{ TDF t; struct TDFlist_struct * next;}
-TDFlist;
+typedef struct TDFlist_struct {
+	TDF t;
+	struct TDFlist_struct *next;
+} TDFlist;
 
-typedef struct{ int unit_name; int unit_no; } Name;
+typedef struct {
+	int unit_name;
+	int unit_no;
+} Name;
 
 extern FILE *out_file;
 extern int line_no_tok;
