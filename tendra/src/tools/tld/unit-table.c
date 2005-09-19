@@ -124,10 +124,3 @@ unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, void *),
 		}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

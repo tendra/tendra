@@ -110,10 +110,3 @@ write_usage(OStreamP ostream, unsigned use)
     }
     write_char (ostream, '}');
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

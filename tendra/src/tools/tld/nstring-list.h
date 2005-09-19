@@ -150,9 +150,3 @@ extern NStringP			nstring_list_entry_string(NStringListEntryP);
 extern NStringListEntryP	nstring_list_entry_deallocate(NStringListEntryP);
 
 #endif /* !defined (H_NSTRING_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

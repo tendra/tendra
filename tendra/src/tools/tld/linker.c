@@ -356,10 +356,3 @@ linker_main(ArgDataP arg_data)
     linker_hide_and_keep (arg_data, shapes);
     linker_write_capsule (arg_data, units, shapes);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

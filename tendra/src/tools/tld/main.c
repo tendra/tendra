@@ -675,11 +675,3 @@ main(int argc, char **argv)
 		  exit (EXIT_SUCCESS);
     UNREACHED;
 }
-
-/*
- * Local variables(smf):
- * compile-command: "build_tld next-cc"
- * eval: (include::add-path-entry "os-interface" "library" "tdf")
- * eval: (include::add-path-entry "frontends" "generated")
- * End:
- **/

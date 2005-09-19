@@ -525,10 +525,3 @@ name_entry_show_content(NameEntryP entry,
     write_char (ostream_output, '\'');
     write_newline (ostream_output);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

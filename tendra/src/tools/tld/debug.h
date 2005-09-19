@@ -159,9 +159,3 @@ extern void			debug_info_l_suppress(NStringP, NameKeyP);
 extern void			debug_info_l_rename(NStringP, NameKeyP, NameKeyP);
 
 #endif /* !defined (H_DEBUG) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "os-interface" "library" "generated")
- * End:
- **/

@@ -99,10 +99,3 @@ extern void			name_table_iter(NameTableP, void (*) (NameEntryP, void *), void *)
 extern void			name_table_deallocate(NameTableP);
 
 #endif /* !defined (H_NAME_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

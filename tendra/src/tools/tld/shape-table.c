@@ -175,10 +175,3 @@ shape_table_deallocate(ShapeTableP table)
 		}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

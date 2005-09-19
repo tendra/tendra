@@ -137,10 +137,3 @@ extern void			shape_entry_lib_suppress_mult(ShapeEntryP, void *);
 extern void			shape_entry_show_content(ShapeEntryP, void *);
 
 #endif /* !defined (H_SHAPE_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

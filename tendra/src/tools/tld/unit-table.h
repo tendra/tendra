@@ -93,10 +93,3 @@ extern UnitEntryP		unit_table_get(UnitTableP, NStringP);
 extern void			unit_table_iter(UnitTableP, void (*) (UnitEntryP, void *), void *);
 
 #endif /* !defined (H_UNIT_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

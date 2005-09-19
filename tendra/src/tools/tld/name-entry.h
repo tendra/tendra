@@ -163,10 +163,3 @@ extern void			name_entry_lib_suppress_mult(NameEntryP, void *);
 extern void			name_entry_show_content(NameEntryP, void *);
 
 #endif /* !defined (H_NAME_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

@@ -78,10 +78,3 @@
 extern void			extract_main(ArgDataP);
 
 #endif /* !defined (H_EXTRACT) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

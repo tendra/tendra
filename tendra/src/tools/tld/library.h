@@ -137,10 +137,3 @@ extern void			library_write(LibraryP, ShapeTableP, unsigned, CapsuleP *);
 extern void			library_close(LibraryP);
 
 #endif /* !defined (H_LIBRARY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

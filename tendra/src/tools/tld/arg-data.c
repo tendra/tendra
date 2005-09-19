@@ -580,10 +580,3 @@ arg_data_get_files(ArgDataP arg_data)
 {
     return (arg_data->files);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

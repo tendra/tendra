@@ -270,10 +270,3 @@ builder_main(ArgDataP arg_data)
     builder_suppress (arg_data, shapes);
     builder_write_library (arg_data, shapes, num_capsules, capsules);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

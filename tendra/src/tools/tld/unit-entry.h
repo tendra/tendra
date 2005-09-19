@@ -115,10 +115,3 @@ extern void			unit_entry_write_tld_unit(UnitEntryP, ShapeTableP, TDFWriterP);
 extern void			unit_entry_write_units(UnitEntryP, ShapeTableP, unsigned, TDFWriterP);
 
 #endif /* !defined (H_UNIT_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

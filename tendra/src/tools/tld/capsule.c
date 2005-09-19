@@ -1164,10 +1164,3 @@ capsule_get_minor_version()
 {
     return (capsule_minor_version);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

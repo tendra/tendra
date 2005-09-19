@@ -103,10 +103,3 @@ extern void			map_entry_get_link(MapEntryP, unsigned, unsigned *, unsigned *);
 extern void			map_entry_check_non_empty(MapEntryP, void *);
 
 #endif /* !defined (H_MAP_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

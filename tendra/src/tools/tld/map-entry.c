@@ -153,10 +153,3 @@ map_entry_check_non_empty(MapEntryP entry,
 		shape_entry_set_non_empty (shape_entry);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

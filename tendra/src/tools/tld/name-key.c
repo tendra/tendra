@@ -533,10 +533,3 @@ name_key_pair_list_entry_next(NameKeyPairListEntryP entry)
 {
     return (entry->next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

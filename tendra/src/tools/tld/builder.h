@@ -78,10 +78,3 @@
 extern void			builder_main(ArgDataP);
 
 #endif /* !defined (H_BUILDER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

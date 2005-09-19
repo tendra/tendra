@@ -996,9 +996,3 @@ debug_info_l_rename(NStringP shape, NameKeyP from,
 		write_newline (debug_file);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "os-interface" "library" "generated")
- * End:
- **/

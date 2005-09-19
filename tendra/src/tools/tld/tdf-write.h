@@ -95,10 +95,3 @@ extern void			tdf_write_name(TDFWriterP, NameKeyP);
 extern void			tdf_writer_close(TDFWriterP);
 
 #endif /* !defined (H_TDF_WRITE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

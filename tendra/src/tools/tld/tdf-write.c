@@ -190,10 +190,3 @@ tdf_writer_close(TDFWriterP writer)
     tdf_write_align (writer);
     bostream_close (&(writer->bostream));
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

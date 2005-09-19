@@ -98,10 +98,3 @@ extern void			shape_table_iter(ShapeTableP, void (*) (ShapeEntryP, void *), void
 extern void			shape_table_deallocate(ShapeTableP);
 
 #endif /* !defined (H_SHAPE_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

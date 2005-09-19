@@ -251,10 +251,3 @@ unit_entry_write_units(UnitEntryP entry, ShapeTableP shapes,
 		}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

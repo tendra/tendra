@@ -434,10 +434,3 @@ rename_file_parse(char *name, ArgDataP arg_data)
     }
     tenapp_checkerrors(MSG_SEV_ERROR);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

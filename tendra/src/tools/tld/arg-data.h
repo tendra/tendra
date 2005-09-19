@@ -187,10 +187,3 @@ extern unsigned			arg_data_get_num_files(ArgDataP);
 extern char *		       *arg_data_get_files(ArgDataP);
 
 #endif /* !defined (H_ARG_DATA) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

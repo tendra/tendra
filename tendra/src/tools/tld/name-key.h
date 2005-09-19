@@ -152,10 +152,3 @@ extern NameKeyP			name_key_pair_list_entry_to(NameKeyPairListEntryP);
 extern NameKeyPairListEntryP	name_key_pair_list_entry_next(NameKeyPairListEntryP);
 
 #endif /* !defined (H_NAME_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

@@ -125,10 +125,3 @@ extern void			tdf_reader_rewind(TDFReaderP);
 extern void			tdf_reader_close(TDFReaderP);
 
 #endif /* !defined (H_TDF_READ) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

@@ -78,10 +78,3 @@
 extern void			linker_main(ArgDataP);
 
 #endif /* !defined (H_LINKER) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
- **/

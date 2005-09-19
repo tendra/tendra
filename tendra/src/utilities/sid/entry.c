@@ -470,10 +470,3 @@ entry_is_traced(EntryP entry)
 #ifdef FS_FAST
 #define entry_is_traced(e) ((e)->traced)
 #endif /* defined (FS_FAST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

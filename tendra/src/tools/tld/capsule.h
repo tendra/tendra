@@ -125,10 +125,3 @@ extern void			capsule_set_major_version(unsigned);
 extern unsigned			capsule_get_minor_version(void);
 
 #endif /* !defined (H_CAPSULE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

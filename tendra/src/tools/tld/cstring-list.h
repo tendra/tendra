@@ -151,9 +151,3 @@ extern char *			cstring_list_entry_string(CStringListEntryP);
 extern CStringListEntryP	cstring_list_entry_deallocate(CStringListEntryP);
 
 #endif /* !defined (H_CSTRING_LIST) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

@@ -398,10 +398,3 @@ shape_entry_show_content(ShapeEntryP entry,
     name_table_iter (shape_entry_name_table (entry), name_entry_show_content,
 					 NULL);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

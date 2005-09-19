@@ -87,10 +87,3 @@ extern unsigned			tdf_int_size(unsigned);
 extern void			write_usage(OStreamP, unsigned);
 
 #endif /* !defined (H_TDF) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/

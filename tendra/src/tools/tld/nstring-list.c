@@ -110,9 +110,3 @@ nstring_list_entry_deallocate(NStringListEntryP entry)
     DEALLOCATE (entry);
     return (next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../generated")
- * end:
- **/

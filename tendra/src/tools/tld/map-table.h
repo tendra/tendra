@@ -93,10 +93,3 @@ extern MapEntryP		map_table_get(MapTableP, NStringP);
 extern void			map_table_iter(MapTableP, void (*) (MapEntryP, void *), void *);
 
 #endif /* !defined (H_MAP_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
- **/
