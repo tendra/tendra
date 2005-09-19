@@ -35,7 +35,7 @@
 # compiling TenDRA and provide sane compilation defaults.
 
 # Makefile.def revision number, used for determining if we need to rerun.
-MKDEFVER=1
+MKDEFVER=2
 
 HOSTARCH=`/usr/bin/env uname -m`
 SYSTEM=`/usr/bin/env uname -s`
@@ -73,6 +73,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __DragonFly__
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -83,6 +84,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -93,6 +95,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __FreeBSD__
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT="/usr/lib/crt1.o"
 			LIBS="-L/usr/lib -lc"
@@ -103,6 +106,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __linux
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS="--dynamic-linker /lib/ld-linux.so.2"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -113,6 +117,7 @@ case "${SYSTEM}.${VERSION}" in
 			# System definition is __linux
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS="--dynamic-linker /lib/ld-linux.so.2"
 			LDCRT="/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -123,6 +128,7 @@ case "${SYSTEM}.${VERSION}" in
 			# It aims to be C90 conforming.
 			check_cc
 			LD=""
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT=""
 			# Minix only runs on x86 for now.
@@ -133,6 +139,7 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.1*)	#
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
@@ -142,6 +149,7 @@ case "${SYSTEM}.${VERSION}" in
 	NetBSD.2*)	#
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS="--dynamic-linker /libexec/ld.elf_so"
 			LDCRT="/usr/lib/crt0.o /usr/lib/crti.o /usr/lib/crtn.o"
 			LIBS="-L/usr/lib -lc"
@@ -151,6 +159,7 @@ case "${SYSTEM}.${VERSION}" in
 	OpenBSD.3*)	#
 			check_cc
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT="/usr/lib/crt0.o"
 			LIBS="-L/usr/lib -lc"
@@ -171,6 +180,7 @@ case "${SYSTEM}.${VERSION}" in
 			fi
 			CC=${CC}
 			LD="ld"
+			CFLAGS=${CFLAGS}
 			LDOPTS=
 			LDCRT=
 			LIBS="-L/usr/lib -lc"
@@ -199,6 +209,7 @@ echo
 echo "PREFIX:		${PREFIX}"
 echo "CC:		${CC}"
 echo "LD:		${LD}"
+echo "CFLAGS:		${CFLAGS}"
 echo "LDOPTS:		${LDOPTS}"
 echo "LDCRT:		${LDCRT}"
 echo "LIBS:		${LIBS}"
@@ -213,6 +224,7 @@ MKDEFVER=${MKDEFVER}
 PREFIX=${PREFIX}
 CC?=${CC}
 LD?=${LD}
+CFLAGS=${CFLAGS}
 LDOPTS=${LDOPTS}
 LDCRT=${LDCRT}
 LIBS=${LIBS}
