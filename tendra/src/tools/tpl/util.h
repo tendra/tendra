@@ -46,11 +46,7 @@ $Log: util.h,v $
 #ifndef UTIL_INCLUDED
 #define UTIL_INCLUDED
 
-#if FS_PTR_VOID
 typedef void *Pointer;
-#else
-typedef char *Pointer;
-#endif
 
 extern char * copy_string PROTO_S((char *));
 extern char * append_string PROTO_S((char *, char *));

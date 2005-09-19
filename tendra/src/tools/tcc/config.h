@@ -142,11 +142,7 @@
 */
 
 typedef int boolean;
-#if FS_PTR_VOID
 typedef void *pointer;
-#else
-typedef char *pointer;
-#endif
 
 
 /*

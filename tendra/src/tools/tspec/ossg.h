@@ -268,13 +268,6 @@
 #endif
 
 
-/* FS_PTR_VOID indicates whether void * is supported */
-
-#ifndef FS_PTR_VOID
-#define FS_PTR_VOID		FS_STDC
-#endif
-
-
 /* FS_SIGNED indicates whether signed is supported */
 
 #ifndef FS_SIGNED

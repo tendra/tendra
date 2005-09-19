@@ -66,11 +66,7 @@
     GENERIC POINTER
 */
 
-#if FS_PTR_VOID
 typedef void *gen_ptr;
-#else
-typedef char *gen_ptr;
-#endif
 
 
 /*

@@ -70,11 +70,7 @@
 
 typedef char boolean;
 typedef unsigned char byte;
-#if FS_PTR_VOID
 typedef void *pointer;
-#else
-typedef char *pointer;
-#endif
 
 
 /*
