@@ -78,5 +78,6 @@ usage()
 	echo "Available OPTIONS (OPTION=value):"
 	echo "PREFIX		installation prefix"
 	echo "CC		C compiler command name"
+	echo "CFLAGS		C compiler flags"
 	echo "EXECFORMAT	desired default executable format (aout, elf)"
 }
