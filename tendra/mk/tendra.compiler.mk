@@ -38,10 +38,11 @@ _TENDRA_COMPILER_MK_=1
   TCCOPTS=
   WARNS= -W -Wall -Wmissing-prototypes -Wpointer-arith -Wstrict-prototypes
   CCOPTS+= -ansi -pedantic -fno-builtin ${WARNS}
+  CCOPTS+= ${CFLAGS}
 # The Intel C Compiler.
 .elif ${CC} == "icc"
   TCCOPTS=
-  CCOPTS+=
+  CCOPTS+= ${CFLAGS}
 # The TenDRA C Compiler.
 # XXX: How to differentiate between TenDRA and tinycc?
 .elif ${CC} == "tcc"
