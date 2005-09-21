@@ -254,15 +254,20 @@ init_tables(void)
  *    These constructs are predefined.
  */
 
-construct bytestream_cons = { SORT_bytestream, 0, null, null, null };
-construct false_cons = { SORT_tdfbool, 0, null, null, null };
-construct optional_cons = { SORT_option, 0, null, null, null };
-construct string_cons = { SORT_tdfstring, -1, null, null, null };
-construct token_cons = { SORT_token, 0, null, null, null };
-construct true_cons = { SORT_tdfbool, 1, null, null, null };
-construct unknown_cons = { SORT_unknown, 0, "....", null, null };
-construct exp_shape = { SORT_exp, 0, "~exp_with_shape", null, null };
-construct shape_of = { SORT_shape, -1, "~shape_of", null, null };
+construct bytestream_cons = { SORT_bytestream, 0, null, null, null, null,
+    { null } };
+construct false_cons = { SORT_tdfbool, 0, null, null, null, null, { null } };
+construct optional_cons = { SORT_option, 0, null, null, null, null, { null } };
+construct string_cons = { SORT_tdfstring, -1, null, null, null, null,
+    { null } };
+construct token_cons = { SORT_token, 0, null, null, null, null, { null } };
+construct true_cons = { SORT_tdfbool, 1, null, null, null, null, { null } };
+construct unknown_cons = { SORT_unknown, 0, "....", null, null, null,
+    { null } };
+construct exp_shape = { SORT_exp, 0, "~exp_with_shape", null, null, null,
+    { null } };
+construct shape_of = { SORT_shape, -1, "~shape_of", null, null, null,
+    { null } };
 
 
 /*
