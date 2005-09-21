@@ -85,7 +85,7 @@
  */
 
 long
-tdf_int()
+tdf_int(void)
 {
 	return (long)tdf_de_tdfintl (tdfr);
 }
@@ -99,8 +99,8 @@ tdf_int()
  *    read.
  */
 
-construct
-*de_token(node *p, sortname s)
+construct *
+de_token(node *p, sortname s)
 {
     long bits;
     construct *t;
@@ -218,8 +218,8 @@ construct
  *    A construct of the vth variable sort is decoded.
  */
 
-node
-*de_var_sort(long v)
+node *
+de_var_sort(long v)
 {
     long n = tdf_int ();
     node *p = new_node ();
@@ -250,8 +250,8 @@ de_make_label(node *p)
  *    The string of decode character str is decoded.
  */
 
-node
-*de_node(char *str)
+node *
+de_node(char *str)
 {
     char c;
     node *p, *q = null, *qe = null;

@@ -87,7 +87,7 @@ node *sh_top = null;
  */
 
 void
-init_shapes()
+init_shapes(void)
 {
     if (sh_bottom == null) {
 		/* Construct sh_bottom */
@@ -116,8 +116,8 @@ init_shapes()
  *    null node if this cannot be found.
  */
 
-node
-*string_length(node *s)
+node *
+string_length(node *s)
 {
     if (s->cons->encoding == ENC_make_string) {
 		node *str = s->son;
@@ -138,8 +138,8 @@ node
  *    This routine makes a copy of the node p.
  */
 
-node
-*copy_node(node *p)
+node *
+copy_node(node *p)
 {
     node *q;
     if (p == null) return (null);
@@ -161,8 +161,8 @@ node
  *    This routine creates an integer shape from a variety p.
  */
 
-node
-*sh_integer(node *p)
+node *
+sh_integer(node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_integer);
@@ -183,8 +183,8 @@ node
  *    This routine creates a floating shape from a floating variety p.
  */
 
-node
-*sh_floating(node *p)
+node *
+sh_floating(node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_floating);
@@ -205,8 +205,8 @@ node
  *    This routine creates a pointer shape from an alignment p or a shape p.
  */
 
-node
-*sh_pointer(node *p)
+node *
+sh_pointer(node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_pointer);
@@ -228,8 +228,8 @@ node
  *    This routine creates an offset shape from the alignments p and q.
  */
 
-node
-*sh_offset(node *p, node *q)
+node *
+sh_offset(node *p, node *q)
 {
     node *r = new_node ();
     r->cons = cons_no (SORT_shape, ENC_offset);
@@ -261,8 +261,8 @@ node
  *    the shape p.
  */
 
-node
-*sh_nof(node *n, node *p)
+node *
+sh_nof(node *n, node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_nof);
@@ -290,8 +290,8 @@ node
  *    This routine creates a bitfield shape from a bitfield variety p.
  */
 
-node
-*sh_bitfield(node *p)
+node *
+sh_bitfield(node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_bitfield);
@@ -312,8 +312,8 @@ node
  *    This routine creates a compound shape from an expression p.
  */
 
-node
-*sh_compound(node *p)
+node *
+sh_compound(node *p)
 {
     node *q = new_node ();
     q->cons = cons_no (SORT_shape, ENC_compound);
@@ -334,8 +334,8 @@ node
  *    This routine returns the normalized version of the shape p.
  */
 
-node
-*normalize(node *p)
+node *
+normalize(node *p)
 {
     if (p == null) return (null);
     if (p->cons->sortnum == SORT_shape) {
@@ -367,8 +367,8 @@ node
  *    expansion continues until p is not a token application.
  */
 
-node
-*expand_tok(node *p)
+node *
+expand_tok(node *p)
 {
     int count = 0;
     sortname s = p->cons->sortnum;
@@ -399,8 +399,8 @@ node
  *    and sh_top if they are definitely not compatible.
  */
 
-node
-*check_shapes(node *p, node *q, int tg)
+node *
+check_shapes(node *p, node *q, int tg)
 {
     sortname s;
     long np, nq;
@@ -601,8 +601,8 @@ node
  *    A return value of null means that the result is unknown.
  */
 
-node
-*lub(node *p, node *q)
+node *
+lub(node *p, node *q)
 {
     return (check_shapes (p, q, 2));
 }
@@ -616,8 +616,8 @@ node
  *    is flagged and null is returned.
  */
 
-node
-*check1(int t, node *p)
+node *
+check1(int t, node *p)
 {
     long n;
     char *nm = p->cons->name;
@@ -657,8 +657,8 @@ node
  *    indicated by t and to be compatible.  The shape or null is returned.
  */
 
-node
-*check2(int t, node *p, node *q)
+node *
+check2(int t, node *p, node *q)
 {
     node *sp = check1 (t, p);
     node *sq = check1 (t, q);
@@ -709,8 +709,8 @@ node
  *    empty list.
  */
 
-node
-*checkn(int t, node *p, int nz)
+node *
+checkn(int t, node *p, int nz)
 {
     node *q, *r;
     if (p->cons->encoding == 0) {
@@ -737,8 +737,8 @@ node
  *    of previous argument values if set is true.
  */
 
-node
-*set_token_args(construct **c, node *p, int set)
+node *
+set_token_args(construct **c, node *p, int set)
 {
     node *q = null;
     node *aq = null;
@@ -885,8 +885,8 @@ contains_tokens(node *p, int intro, int tok)
  *    recursively.  def is true during the expansion of a token definition.
  */
 
-static node
-*expand_fully_aux(node *p, int c, int def)
+static node *
+expand_fully_aux(node *p, int c, int def)
 {
     node *q;
     switch (c) {
@@ -972,8 +972,8 @@ static node
  *    All applications of tokens in p are expanded.
  */
 
-node
-*expand_fully(node *p)
+node *
+expand_fully(node *p)
 {
     if (p) {
 		int c = contains_tokens (p, 0, 4);
@@ -1066,7 +1066,7 @@ expand_tagdef(construct *p)
  */
 
 void
-expand_all()
+expand_all(void)
 {
     apply_to_all (expand_tokdef, SORT_token);
     apply_to_all (expand_aldef, SORT_al_tag);

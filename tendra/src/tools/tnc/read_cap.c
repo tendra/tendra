@@ -84,8 +84,8 @@
  *    input file.  If local is true this must just be an internal identifier.
  */
 
-static construct
-*read_external(sortname s, boolean local)
+static construct *
+read_external(sortname s, boolean local)
 {
     construct *p;
     node *e = null;
@@ -340,7 +340,7 @@ read_tagdef(boolean local, int is_var)
  */
 
 static sortname
-read_sortname()
+read_sortname(void)
 {
     sortname s;
     if (word_type != INPUT_WORD) {
@@ -631,7 +631,7 @@ sub_file(int ftype, int ex)
  */
 
 void
-read_capsule()
+read_capsule(void)
 {
     int starter;
     read_word ();

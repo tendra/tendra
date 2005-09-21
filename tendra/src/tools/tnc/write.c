@@ -611,7 +611,7 @@ print_high_sort(high_sort *h)
  */
 
 void
-print_capsule()
+print_capsule(void)
 {
     if (high_sorts) {
 		int i;

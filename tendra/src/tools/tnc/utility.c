@@ -85,8 +85,8 @@ boolean text_output = 0;
  *    This routine copies a string into a temporary buffer.
  */
 
-char
-*temp_copy(char *s)
+char *
+temp_copy(char *s)
 {
     static char *buff = null;
     static int bufflen = 0;
@@ -105,8 +105,8 @@ char
  *    The result is returned as a string of octal digits.
  */
 
-char
-*ulong_to_octal(unsigned long n)
+char *
+ulong_to_octal(unsigned long n)
 {
     int i = 99;
     char buff [100];

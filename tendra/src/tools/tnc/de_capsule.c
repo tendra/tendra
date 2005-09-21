@@ -135,8 +135,8 @@ static binding *spare_binding = null;
  *    cleared.
  */
 
-static binding
-*new_binding()
+static binding *
+new_binding(void)
 {
     binding *b;
     unsigned long i, n = no_var;
@@ -268,8 +268,8 @@ set_binding(binding *bt, unsigned long v, unsigned long n, construct *p)
  *    The nth entry of the vth variable sort of the binding bt is returned.
  */
 
-construct
-*find_binding(binding *bt, unsigned long v, unsigned long n)
+construct *
+find_binding(binding *bt, unsigned long v, unsigned long n)
 {
     binding *b;
     if (v >= no_var)
@@ -288,8 +288,8 @@ construct
  *    as an array of characters.
  */
 
-char
-*de_aligned_string()
+char *
+de_aligned_string(void)
 {
 	TDFIDENT ts;
 
@@ -381,7 +381,7 @@ de_equation(equation_func f)
  */
 
 void
-de_capsule()
+de_capsule(void)
 {
     unsigned long i, n;
     unsigned long no_eqn;
@@ -610,7 +610,7 @@ char *capname = null;
  */
 
 void
-de_library()
+de_library(void)
 {
     tdf_pos old_posn;
     long i, no_cap;

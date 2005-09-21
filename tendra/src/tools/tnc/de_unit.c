@@ -119,8 +119,8 @@ set_up_labels(long n)
  *    The nth label in the current unit is returned.
  */
 
-construct
-*find_label(long n)
+construct *
+find_label(long n)
 {
     if (n < 0 || n >= max_lab_no)
 		MSG_FATAL_label_number_too_big (n);
@@ -173,7 +173,7 @@ de_sortname(boolean expand)
  */
 
 void
-de_aldef()
+de_aldef(void)
 {
     long i, n = tdf_int ();
     set_up_labels (n);
@@ -213,7 +213,7 @@ de_aldef()
  */
 
 void
-de_tagdec()
+de_tagdec(void)
 {
     long i, n = tdf_int ();
     set_up_labels (n);
@@ -263,7 +263,7 @@ de_tagdec()
  */
 
 void
-de_tagdef()
+de_tagdef(void)
 {
     long i, n = tdf_int ();
     set_up_labels (n);
@@ -322,7 +322,7 @@ de_tagdef()
  */
 
 void
-de_tokdec()
+de_tokdec(void)
 {
     long i, n = tdf_int ();
     for (i = 0 ; i < n ; i++) {
@@ -482,7 +482,7 @@ de_token_defn(construct *p, node *sig)
  */
 
 void
-de_tokdef()
+de_tokdef(void)
 {
     long i, n = tdf_int ();
     set_up_labels (n);
@@ -525,7 +525,7 @@ int have_version = 0;
  */
 
 static void
-de_version_number()
+de_version_number(void)
 {
 	struct tdf_version v;
 
@@ -545,7 +545,7 @@ de_version_number()
  */
 
 void
-de_version()
+de_version(void)
 {
     long i, n = tdf_int ();
     for (i = 0 ; i < n ; i++) {

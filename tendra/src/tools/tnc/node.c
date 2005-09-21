@@ -81,8 +81,8 @@ static node *free_nodes = null;
  *    A new node is created and its fields cleared.
  */
 
-node
-*new_node()
+node *
+new_node(void)
 {
     node *p = free_nodes;
     if (p == null) {
@@ -133,8 +133,8 @@ free_node(node *p)
  *    construction of p, as recorded by the removals list.
  */
 
-node
-*completion(node *p)
+node *
+completion(node *p)
 {
     node *q = new_node ();
     construct *v = make_construct (SORT_completion);
@@ -154,8 +154,7 @@ node
  */
 
 static boolean
-eq_node_aux(node *p, node *q, construct *ap,
-			construct *aq, int args)
+eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 {
     while (p != null && q != null) {
 		if (p->cons != q->cons) {
@@ -284,8 +283,8 @@ static construct *free_constructs = null;
  *    A new construct is allocated.  Its fields are not initialized.
  */
 
-construct
-*new_construct()
+construct *
+new_construct(void)
 {
     construct *p = free_constructs;
     if (p == null) {
@@ -309,8 +308,8 @@ construct
  *    construct of sort s.
  */
 
-construct
-*make_construct(sortname s)
+construct *
+make_construct(sortname s)
 {
     construct *p = new_construct ();
     p->sortnum = s;
@@ -386,8 +385,7 @@ free_construct(construct **p)
  */
 
 void
-set_token_sort(construct *p, sortname rs,
-			   char *args, node *sig)
+set_token_sort(construct *p, sortname rs, char *args, node *sig)
 {
     tok_info *info = get_tok_info (p);
     if (info->res != SORT_unknown) {
@@ -467,8 +465,8 @@ copy_construct(construct *p)
  *    which is not balanced by a '[' is returned.
  */
 
-char
-*skip_text(char *s)
+char *
+skip_text(char *s)
 {
     int n = 0;
     while (*s) {

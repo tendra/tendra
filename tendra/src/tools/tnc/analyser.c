@@ -138,7 +138,7 @@ static int pending = 0;
  */
 
 void
-read_word()
+read_word(void)
 {
     int c;
     char *p;
@@ -433,7 +433,7 @@ read_word()
  */
 
 long
-skip_words()
+skip_words(void)
 {
     long n = 0;
     int level = 1;

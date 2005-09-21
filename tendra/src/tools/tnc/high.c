@@ -85,8 +85,8 @@ static int total_high_sort = 0;
  *    which is a copy of the local variable q.
  */
 
-high_sort
-*new_high_sort(high_sort *q)
+high_sort *
+new_high_sort(high_sort *q)
 {
     int c;
     high_sort *p;
@@ -149,8 +149,8 @@ set_high_sort(char *nm, tok_info *info)
  *    high level sort h, it returns any equivalent sort.
  */
 
-high_sort
-*unique_high_sort(high_sort *h)
+high_sort *
+unique_high_sort(high_sort *h)
 {
     int i, j;
     for (i = 0 ; i < crt_high_sort ; i++) {
@@ -205,8 +205,8 @@ find_high_sort(char *nm)
  *    of the high level sort p.
  */
 
-char
-*find_decode_string(high_sort *p)
+char *
+find_decode_string(high_sort *p)
 {
     int i, n = p->no_args;
     char abuff [100], *a = abuff;
@@ -233,8 +233,8 @@ char
  *    returning a pointer to the character at the end of the sort encoding.
  */
 
-char
-*find_sortname(char *p, sortname *q)
+char *
+find_sortname(char *p, sortname *q)
 {
     int n = 0;
     sortname s;

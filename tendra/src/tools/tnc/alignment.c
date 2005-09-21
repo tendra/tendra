@@ -90,8 +90,8 @@ static node *al_proc = null;
  *    the alignment of p.
  */
 
-node
-*al_shape(node *p)
+node *
+al_shape(node *p)
 {
     node *q;
     sortname s;
@@ -137,8 +137,8 @@ node
  *    For the node p of the form (pointer a) this routine returns a.
  */
 
-node
-*ptr_to(node *p)
+node *
+ptr_to(node *p)
 {
     p = expand_tok (p);
     if (p && p->cons == cons_no (SORT_shape, ENC_pointer)) {
@@ -154,8 +154,8 @@ node
  *    For the node p of the form (offset a b) this routine returns a.
  */
 
-node
-*offset_from(node *p)
+node *
+offset_from(node *p)
 {
     p = expand_tok (p);
     if (p && p->cons == cons_no (SORT_shape, ENC_offset)) {
@@ -171,8 +171,8 @@ node
  *    For the node p of the form (offset a b) this routine returns b.
  */
 
-node
-*offset_to(node *p)
+node *
+offset_to(node *p)
 {
     p = expand_tok (p);
     if (p && p->cons == cons_no (SORT_shape, ENC_offset)) {
@@ -218,8 +218,8 @@ al_includes(node *p, node *q)
  *    The value of (unite_alignments p q) is returned.
  */
 
-node
-*al_union(node *p, node *q)
+node *
+al_union(node *p, node *q)
 {
     if (p == null || p->cons->sortnum != SORT_alignment) return (null);
     if (q == null || q->cons->sortnum != SORT_alignment) return (null);
@@ -239,7 +239,7 @@ node
  */
 
 void
-init_alignments()
+init_alignments(void)
 {
     /* Set up al_top */
     al_top =  new_node ();

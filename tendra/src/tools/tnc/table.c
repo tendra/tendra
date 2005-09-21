@@ -172,8 +172,8 @@ new_cons(char *nm, sortname s, int n, char *args)
  *    This routine is a dummy which is used for uninitialised decode functions.
  */
 
-static node
-*de_dummy()
+static node *
+de_dummy(void)
 {
     MSG_FATAL_invalid_decode_function ();
     return (null);
@@ -186,8 +186,8 @@ static node
  *    This routine is a dummy which is used for uninitialised read functions.
  */
 
-static node
-*read_dummy(long n)
+static node *
+read_dummy(long n)
 {
     MSG_FATAL_invalid_read_function ();
     UNUSED (n);
@@ -202,7 +202,7 @@ static node
  */
 
 void
-init_tables()
+init_tables(void)
 {
     int i;
 
@@ -285,8 +285,8 @@ boolean show_tagdefs = 1;
  *    Given the sort s, this routine returns the name of s.
  */
 
-char
-*sort_name(sortname s)
+char *
+sort_name(sortname s)
 {
     if (is_high (s)) {
 		high_sort *h = high_sorts + high_no (s);
@@ -308,8 +308,8 @@ char
  *    the same name, or null otherwise.
  */
 
-construct
-*add_to_cons_hash(construct *p, sortname s)
+construct *
+add_to_cons_hash(construct *p, sortname s)
 {
     construct *q;
     int n = hash (p->name);
@@ -331,8 +331,8 @@ construct
  *    construct if it is found, or null otherwise.
  */
 
-construct
-*search_cons_hash(char *p, sortname s)
+construct *
+search_cons_hash(char *p, sortname s)
 {
     construct *q;
     int n = hash (p);
@@ -352,8 +352,8 @@ construct
  *    of the same name, or null otherwise.
  */
 
-construct
-*add_to_var_hash(construct *p, sortname s)
+construct *
+add_to_var_hash(construct *p, sortname s)
 {
     construct *q;
     int n = hash (p->name);
@@ -375,8 +375,8 @@ construct
  *    if it is found, or null otherwise.
  */
 
-construct
-*search_var_hash(char *p, sortname s)
+construct *
+search_var_hash(char *p, sortname s)
 {
     construct *q;
     int n = hash (p);
@@ -496,7 +496,7 @@ BoolT order_names = 1;
  */
 
 void
-sort_all()
+sort_all(void)
 {
     if (order_names) {
 		sort_table (var_hash_tables, SORT_al_tag);

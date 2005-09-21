@@ -171,8 +171,8 @@ read_token(node *p, sortname s)
  *    The token should have sort s.
  */
 
-static node
-*read_token_name(sortname s)
+static node *
+read_token_name(sortname s)
 {
     node *p;
     boolean ok = 0;
@@ -259,8 +259,8 @@ boolean intro_visible = 0;
  *    corresponding to the object named nm of sort s.
  */
 
-static construct
-*search_var_sort(char *nm, sortname s)
+static construct *
+search_var_sort(char *nm, sortname s)
 {
     construct *v = search_var_hash (nm, s);
     if (intro_var) {
@@ -296,8 +296,8 @@ static construct
  *    An identifier representing a construct of sort s is read.
  */
 
-node
-*read_var_sort(sortname s)
+node *
+read_var_sort(sortname s)
 {
     node *p;
     construct *v;
@@ -356,8 +356,8 @@ read_seq_node(node *p)
  *    is true) or null is returned.
  */
 
-static node
-*read_node_aux(char *str, int strict)
+static node *
+read_node_aux(char *str, int strict)
 {
     sortname s;
     char *wtemp;
@@ -740,7 +740,7 @@ adjust_scope(node *p, int end)
  */
 
 static void
-check_comma()
+check_comma(void)
 {
     read_word ();
     if (word_type == INPUT_COMMA) {
@@ -766,8 +766,8 @@ check_comma()
  *    input file.
  */
 
-node
-*read_node(char *str)
+node *
+read_node(char *str)
 {
     char c;
     position store;

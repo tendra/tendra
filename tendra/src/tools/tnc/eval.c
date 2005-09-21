@@ -74,8 +74,8 @@
  *    This routine creates a node corresponding to the nat with value n.
  */
 
-node
-*make_nat(long n)
+node *
+make_nat(long n)
 {
     node *p = new_node ();
     p->cons = cons_no (SORT_nat, ENC_make_nat);
@@ -93,8 +93,8 @@ node
  *    value of n.
  */
 
-node
-*make_int(long n)
+node *
+make_int(long n)
 {
     node *p = new_node ();
     if (n < 0) {
@@ -116,8 +116,8 @@ node
  *    This routine creates a node corresponding to the signed_nat with value n.
  */
 
-static node
-*make_signed_nat(long n)
+static node *
+make_signed_nat(long n)
 {
     node *p = new_node ();
     p->cons = cons_no (SORT_signed_nat, ENC_make_signed_nat);
@@ -133,8 +133,8 @@ static node
  *    shape sh and value n or val.
  */
 
-static node
-*make_int_exp(node *sh, long n, char *val)
+static node *
+make_int_exp(node *sh, long n, char *val)
 {
     node *p = new_node ();
     p->cons = cons_no (SORT_exp, ENC_make_int);
@@ -243,8 +243,8 @@ is_var_width(node *sh, long *pn, long *pm)
  *    This routine calculates '1 << n' as a string of octal digits.
  */
 
-static char
-*shift_one(long n)
+static char *
+shift_one(long n)
 {
     long i;
     char buff [100];
@@ -267,8 +267,8 @@ static char
  *    returning the result as a string of octal digits.
  */
 
-static char
-*minus_one(char *val)
+static char *
+minus_one(char *val)
 {
     int i, n = (int) strlen (val);
     char *res = string_ncopy (val, n);
@@ -294,9 +294,8 @@ static char
  *    routine returns null if the value cannot be calculated.
  */
 
-static node
-*eval_exp(long op, long err, node *sh, long a,
-		  long b)
+static node *
+eval_exp(long op, long err, node *sh, long a, long b)
 {
     long c = 0;
     long sz = 0;
@@ -517,8 +516,8 @@ eval_test(long tst, long a, long b)
  *    null if the value cannot be evaluated.
  */
 
-static node
-*eval_decr(node *p)
+static node *
+eval_decr(node *p)
 {
     if (p->cons->encoding == ENC_make_int) {
 		node *sh = p->shape;
@@ -549,8 +548,8 @@ static node
  *    This routine evaluates the node p.  p will not be null.
  */
 
-static node
-*eval_node(node *p)
+static node *
+eval_node(node *p)
 {
     sortname s = p->cons->sortnum;
     long n = p->cons->encoding;
@@ -766,8 +765,8 @@ static node
  *    all its subnodes.
  */
 
-static node
-*eval_fully(node *p)
+static node *
+eval_fully(node *p)
 {
     if (p) {
 		node *q = p->bro;
@@ -838,7 +837,7 @@ eval_tagdef(construct *p)
  */
 
 void
-eval_all()
+eval_all(void)
 {
     long i;
     unsigned long m = 0;

@@ -292,7 +292,8 @@ static unsigned long lab_total = 0;
  *    The label encoding variables are modified according to the construct p.
  */
 
-/*ARGSUSED*/ static void
+/*ARGSUSED*/
+static void
 enc_label_aux(construct *p)
 {
     UNUSED (p);
@@ -444,7 +445,7 @@ unsigned long version_minor = VERSION_minor;
  */
 
 void
-enc_capsule()
+enc_capsule(void)
 {
     unsigned long n;
     struct tdf_stream *vers_bs;
