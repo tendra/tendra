@@ -229,22 +229,6 @@ de_var_sort(long v)
 
 
 /*
- *    DECODE A LABEL
- *
- *    A label construct is decoded.
- */
-
-void
-de_make_label(node *p)
-{
-    long n = tdf_int ();
-    p->son = new_node ();
-    p->son->cons = find_label (n);
-    return;
-}
-
-
-/*
  *    DECODE A STRING OF DECODE CHARACTERS
  *
  *    The string of decode character str is decoded.

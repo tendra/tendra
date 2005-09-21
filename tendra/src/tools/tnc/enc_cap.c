@@ -62,6 +62,7 @@
 
 #include "file.h"
 #include "types.h"
+#include "enc_cap.h"
 #include "encode.h"
 #include "names.h"
 #include "node.h"

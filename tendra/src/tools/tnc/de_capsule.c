@@ -63,6 +63,7 @@
 
 #include "types.h"
 #include "de_types.h"
+#include "de_capsule.h"
 #include "de_unit.h"
 #include "decode.h"
 #include "file.h"
@@ -288,7 +289,7 @@ find_binding(binding *bt, unsigned long v, unsigned long n)
  *    as an array of characters.
  */
 
-char *
+static char *
 de_aligned_string(void)
 {
 	TDFIDENT ts;

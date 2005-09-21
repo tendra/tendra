@@ -66,6 +66,7 @@
 #include "check.h"
 #include "de_types.h"
 #include "de_capsule.h"
+#include "de_unit.h"
 #include "decode.h"
 #include "file.h"
 #include "high.h"

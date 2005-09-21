@@ -59,6 +59,7 @@
 #include "msgcat.h"
 
 #include "types.h"
+#include "alignment.h"
 #include "check.h"
 #include "node.h"
 #include "shape.h"

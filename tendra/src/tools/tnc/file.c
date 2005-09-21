@@ -62,6 +62,7 @@
 #include "tdf_stream.h"
 
 #include "types.h"
+#include "file.h"
 #include "read_types.h"
 #include "analyser.h"
 #include "utility.h"
