@@ -64,8 +64,6 @@
  */
 
 extern void enc_capsule(void) ;
-extern long version_major;
-extern long version_minor;
 
 
 #endif

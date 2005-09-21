@@ -434,8 +434,8 @@ enc_equation(struct tdf_stream *p, unsigned long ne, struct tdf_stream *q,
  */
 
 static char *magic_number = VERSION_capsule;
-unsigned long version_major = VERSION_major;
-unsigned long version_minor = VERSION_minor;
+static unsigned long version_major = VERSION_major;
+static unsigned long version_minor = VERSION_minor;
 
 
 /*
