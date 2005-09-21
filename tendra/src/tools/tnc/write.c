@@ -89,7 +89,7 @@ BoolT func_output = 0;
  *    An indentation of d spaces is printed to the output file.
  */
 
-void
+static void
 print_spaces(int d)
 {
     int n = 2 * d;
