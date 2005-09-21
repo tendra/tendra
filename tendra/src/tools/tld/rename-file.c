@@ -115,8 +115,7 @@ typedef struct RenameTokenT {
 /*--------------------------------------------------------------------------*/
 
 static BoolT
-rename_file_skip_white_space(IStreamP istream,
-							 char *c_ref)
+rename_file_skip_white_space(IStreamP istream, char *c_ref)
 {
     BoolT comment = FALSE;
 
@@ -148,8 +147,7 @@ rename_file_skip_white_space(IStreamP istream,
 }
 
 static void
-rename_file_read_unique(IStreamP istream,
-						RenameTokenP token)
+rename_file_read_unique(IStreamP istream, RenameTokenP token)
 {
     NameKeyP          name   = &(token->u.name);
     unsigned          length = 1;
@@ -274,8 +272,7 @@ rename_file_read_shape(IStreamP istream, RenameTokenP token)
 }
 
 static void
-rename_file_read_string(IStreamP istream,
-						RenameTokenP token)
+rename_file_read_string(IStreamP istream, RenameTokenP token)
 {
     DStringT dstring;
     NStringT nstring;
@@ -357,9 +354,8 @@ rename_file_next_token(IStreamP istream, RenameTokenP token)
 }
 
 static void
-rename_file_parse_names(IStreamP istream,
-						NStringP shape, ArgDataP arg_data,
-						RenameTokenP token)
+rename_file_parse_names(IStreamP istream, NStringP shape, ArgDataP arg_data,
+    RenameTokenP token)
 {
     rename_file_next_token (istream, token);
     while (token->tag == RTOK_NAME) {

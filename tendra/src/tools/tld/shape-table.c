@@ -74,7 +74,7 @@
 /*--------------------------------------------------------------------------*/
 
 ShapeTableP
-shape_table_create()
+shape_table_create(void)
 {
     ShapeTableP table = ALLOCATE (ShapeTableT);
     unsigned    i;
@@ -148,7 +148,7 @@ shape_table_get_tag_entry(ShapeTableP table)
 
 void
 shape_table_iter(ShapeTableP table, void (*proc)(ShapeEntryP, void *),
-				 void *closure)
+    void *closure)
 {
     unsigned i;
 

@@ -75,7 +75,7 @@
 /*--------------------------------------------------------------------------*/
 
 NameTableP
-name_table_create()
+name_table_create(void)
 {
     NameTableP table = ALLOCATE (NameTableT);
     unsigned   i;
@@ -87,8 +87,7 @@ name_table_create()
 }
 
 void
-name_table_add_rename(NameTableP table, NameKeyP from,
-					  NameKeyP to)
+name_table_add_rename(NameTableP table, NameKeyP from, NameKeyP to)
 {
     unsigned    to_hash_value = (name_key_hash_value (to) % NAME_TABLE_SIZE);
     NameEntryP *to_entryp     = &(table->contents [to_hash_value]);
@@ -118,9 +117,7 @@ name_table_add_rename(NameTableP table, NameKeyP from,
 }
 
 void
-name_table_resolve_renames(NameTableP table,
-						   NStringP shape,
-						   BoolT report)
+name_table_resolve_renames(NameTableP table, NStringP shape, BoolT report)
 {
     unsigned i;
 
@@ -135,8 +132,7 @@ name_table_resolve_renames(NameTableP table,
 }
 
 NameEntryP
-name_table_add(NameTableP table, NameKeyP key,
-			   ShapeEntryP shape_entry)
+name_table_add(NameTableP table, NameKeyP key, ShapeEntryP shape_entry)
 {
     unsigned    hash_value = (name_key_hash_value (key) % NAME_TABLE_SIZE);
     NameEntryP *entryp     = &(table->contents [hash_value]);
@@ -182,7 +178,7 @@ name_table_get(NameTableP table, NameKeyP key)
 
 void
 name_table_iter(NameTableP table, void (*proc)(NameEntryP, void *),
-				void *closure)
+    void *closure)
 {
     unsigned i;
 

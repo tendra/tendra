@@ -113,8 +113,7 @@ bostream_is_open(BOStreamP bostream)
 }
 
 void
-bostream_write_chars(BOStreamP bostream, unsigned length,
-					 char *chars)
+bostream_write_chars(BOStreamP bostream, unsigned length, char *chars)
 {
     unsigned bytes_read = (unsigned) fwrite ((void *) chars, sizeof (char),
 											 (size_t) length, bostream->file);
@@ -128,8 +127,7 @@ bostream_write_chars(BOStreamP bostream, unsigned length,
 }
 
 void
-bostream_write_bytes(BOStreamP bostream, unsigned length,
-					 ByteP bytes)
+bostream_write_bytes(BOStreamP bostream, unsigned length, ByteP bytes)
 {
     unsigned bytes_read = (unsigned) fwrite ((void *) bytes, sizeof (ByteT),
 											 (size_t) length, bostream->file);

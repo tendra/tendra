@@ -124,8 +124,7 @@ tdf_reader_open(TDFReaderP reader, char *name)
 }
 
 void
-tdf_reader_open_string(TDFReaderP reader,
-					   char *name, NStringP bytes)
+tdf_reader_open_string(TDFReaderP reader, char *name, NStringP bytes)
 {
     char *contents = nstring_contents (bytes);
     unsigned length   = nstring_length (bytes);

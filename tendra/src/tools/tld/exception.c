@@ -84,7 +84,7 @@ ThrowDataT			X__exception_throw_data;
 /*--------------------------------------------------------------------------*/
 
 NoReturnT
-X__exception_throw()
+X__exception_throw(void)
 {
     static BoolT failing = FALSE;
     HandlerP     stack   = X__exception_handler_stack;

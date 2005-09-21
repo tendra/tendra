@@ -74,7 +74,7 @@
 /*--------------------------------------------------------------------------*/
 
 UnitTableP
-unit_table_create()
+unit_table_create(void)
 {
     UnitTableP table = ALLOCATE (UnitTableT);
     unsigned   i;
@@ -86,8 +86,7 @@ unit_table_create()
 }
 
 UnitEntryP
-unit_table_add(UnitTableP table, NStringP key,
-			   unsigned order)
+unit_table_add(UnitTableP table, NStringP key, unsigned order)
 {
     unsigned   hash_value = (nstring_hash_value (key) % UNIT_TABLE_SIZE);
     UnitEntryP next       = (table->contents [hash_value]);
@@ -111,7 +110,7 @@ unit_table_get(UnitTableP table, NStringP key)
 
 void
 unit_table_iter(UnitTableP table, void (*proc)(UnitEntryP, void *),
-				void *closure)
+    void *closure)
 {
     unsigned i;
 

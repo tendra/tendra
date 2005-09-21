@@ -115,8 +115,7 @@ bistream_is_open(BIStreamP bistream)
 }
 
 unsigned
-bistream_read_chars(BIStreamP bistream, unsigned length,
-					char *chars)
+bistream_read_chars(BIStreamP bistream, unsigned length, char *chars)
 {
     unsigned bytes_read = (unsigned) fread ((void *) chars, sizeof (char),
 											(size_t) length, bistream->file);
@@ -132,8 +131,7 @@ bistream_read_chars(BIStreamP bistream, unsigned length,
 }
 
 unsigned
-bistream_read_bytes(BIStreamP bistream, unsigned length,
-					ByteP bytes)
+bistream_read_bytes(BIStreamP bistream, unsigned length, ByteP bytes)
 {
     unsigned bytes_read = (unsigned) fread ((void *) bytes, sizeof (ByteT),
 											(size_t) length, bistream->file);

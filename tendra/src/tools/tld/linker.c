@@ -90,8 +90,7 @@ typedef struct RenameClosureT {
 /*--------------------------------------------------------------------------*/
 
 static void
-linker_rename_1(NStringP shape, NameKeyPairListP names,
-				void *gclosure)
+linker_rename_1(NStringP shape, NameKeyPairListP names, void *gclosure)
 {
     RenameClosureP        closure    = (RenameClosureP) gclosure;
     ShapeTableP           shapes     = closure->shapes;
@@ -115,8 +114,7 @@ linker_rename_1(NStringP shape, NameKeyPairListP names,
 }
 
 static void
-linker_rename(ArgDataP arg_data, ShapeTableP shapes,
-			  ShapeTableP lib_shapes)
+linker_rename(ArgDataP arg_data, ShapeTableP shapes, ShapeTableP lib_shapes)
 {
     RenameClosureT closure;
 
@@ -128,8 +126,7 @@ linker_rename(ArgDataP arg_data, ShapeTableP shapes,
 }
 
 static void
-linker_read_capsules(ArgDataP arg_data, UnitTableP units,
-					 ShapeTableP shapes)
+linker_read_capsules(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 {
     unsigned  num_input_files = arg_data_get_num_files (arg_data);
     char **input_files = arg_data_get_files (arg_data);
@@ -191,8 +188,8 @@ linker_load_libraries(ArgDataP arg_data, ShapeTableP lib_shapes)
 }
 
 static void
-linker_suppress_1(NStringP shape, BoolT all,
-				  NameKeyListP names, void *gclosure)
+linker_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
+    void *gclosure)
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
@@ -229,9 +226,8 @@ linker_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 }
 
 static void
-linker_resolve_undefined(UnitTableP units,
-						 ShapeTableP shapes,
-						 ShapeTableP lib_shapes)
+linker_resolve_undefined(UnitTableP units, ShapeTableP shapes,
+    ShapeTableP lib_shapes)
 {
     ShapeLibClosureT closure;
 
@@ -247,8 +243,7 @@ linker_resolve_undefined(UnitTableP units,
 }
 
 static void
-linker_hide(NStringP shape, BoolT all, NameKeyListP names,
-			void *gclosure)
+linker_hide(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
@@ -279,8 +274,7 @@ linker_hide(NStringP shape, BoolT all, NameKeyListP names,
 }
 
 static void
-linker_keep(NStringP shape, BoolT all, NameKeyListP names,
-			void *gclosure)
+linker_keep(NStringP shape, BoolT all, NameKeyListP names, void *gclosure)
 {
     ShapeTableP shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry  = shape_table_get (shapes, shape);
@@ -322,8 +316,7 @@ linker_hide_and_keep(ArgDataP arg_data, ShapeTableP shapes)
 }
 
 static void
-linker_write_capsule(ArgDataP arg_data, UnitTableP units,
-					 ShapeTableP shapes)
+linker_write_capsule(ArgDataP arg_data, UnitTableP units, ShapeTableP shapes)
 {
     char *output_file = arg_data_get_output_file (arg_data);
     CapsuleP capsule;

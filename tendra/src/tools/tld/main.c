@@ -135,8 +135,7 @@ main_handle_basename(char *option, void *gclosure, BoolT enable)
 }
 
 static void
-main_handle_debug_file(char *option, void *gclosure,
-					   char *debug_file)
+main_handle_debug_file(char *option, void *gclosure, char *debug_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -145,8 +144,7 @@ main_handle_debug_file(char *option, void *gclosure,
 }
 
 static void
-main_handle_hide(char *option, void *gclosure, char *shape,
-				 char *name)
+main_handle_hide(char *option, void *gclosure, char *shape, char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -155,8 +153,7 @@ main_handle_hide(char *option, void *gclosure, char *shape,
 }
 
 static void
-main_handle_hide_defined(char *option, void *gclosure,
-						 char *shape)
+main_handle_hide_defined(char *option, void *gclosure, char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -183,8 +180,7 @@ main_handle_info(char *option, void *gclosure, BoolT enable)
 }
 
 static void
-main_handle_keep(char *option, void *gclosure, char *shape,
-				 char *name)
+main_handle_keep(char *option, void *gclosure, char *shape, char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -202,9 +198,7 @@ main_handle_keep_all(char *option, void *gclosure, char *shape)
 }
 
 static void
-main_handle_library_file(char *option,
-						 void *gclosure,
-						 char *library_file)
+main_handle_library_file(char *option, void *gclosure, char *library_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -222,8 +216,7 @@ main_handle_match_base(char *option, void *gclosure, BoolT enable)
 }
 
 static void
-main_handle_output_file(char *option, void *gclosure,
-						char *output_file)
+main_handle_output_file(char *option, void *gclosure, char *output_file)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -232,8 +225,7 @@ main_handle_output_file(char *option, void *gclosure,
 }
 
 static void
-main_handle_library_path(char *option, void *gclosure,
-						 char *directory)
+main_handle_library_path(char *option, void *gclosure, char *directory)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -242,9 +234,8 @@ main_handle_library_path(char *option, void *gclosure,
 }
 
 static void
-main_handle_rename(char *option,
-				   void *gclosure, char *shape,
-				   char *from, char *to)
+main_handle_rename(char *option, void *gclosure, char *shape, char *from,
+    char *to)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -253,9 +244,7 @@ main_handle_rename(char *option,
 }
 
 static void
-main_handle_rename_file(char *option,
-						void *gclosure,
-						char *name)
+main_handle_rename_file(char *option, void *gclosure, char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -273,9 +262,7 @@ main_handle_size(char *option, void *gclosure, BoolT enable)
 }
 
 static void
-main_handle_suppress(char *option,
-					 void *gclosure, char *shape,
-					 char *name)
+main_handle_suppress(char *option, void *gclosure, char *shape, char *name)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -284,9 +271,7 @@ main_handle_suppress(char *option,
 }
 
 static void
-main_handle_suppress_all(char *option,
-						 void *gclosure,
-						 char *shape)
+main_handle_suppress_all(char *option, void *gclosure, char *shape)
 {
     UNUSED (option);
     UNUSED (gclosure);
@@ -295,9 +280,7 @@ main_handle_suppress_all(char *option,
 }
 
 static void
-main_handle_suppress_mult(char *option,
-						  void *gclosure,
-						  BoolT enable)
+main_handle_suppress_mult(char *option, void *gclosure, BoolT enable)
 {
     UNUSED (option);
     UNUSED (gclosure);

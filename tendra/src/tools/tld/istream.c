@@ -144,7 +144,7 @@ istream_read_hex_char(IStreamP istream, char *c_ref)
 /*--------------------------------------------------------------------------*/
 
 void
-istream_setup()
+istream_setup(void)
 {
     istream_input_1.file = stdin;
 }
@@ -242,8 +242,7 @@ istream_peek_char(IStreamP istream, char *c_ref)
 }
 
 IStreamStatusT
-istream_read_escaped_char(IStreamP istream,
-						  char *c_ref)
+istream_read_escaped_char(IStreamP istream, char *c_ref)
 {
     char c;
 

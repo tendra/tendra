@@ -101,14 +101,9 @@ library_writer(LibraryP library)
 /*--------------------------------------------------------------------------*/
 
 static void
-library_check_index_entry(LibraryP library,
-						  ShapeEntryP entry,
-						  BoolT need_dec,
-						  BoolT no_mult,
-						  NStringP shape_key,
-						  NameKeyP key, unsigned use,
-						  LibCapsuleP lib_capsule,
-						  NameTableP table)
+library_check_index_entry(LibraryP library, ShapeEntryP entry, BoolT need_dec,
+    BoolT no_mult, NStringP shape_key, NameKeyP key, unsigned use,
+    LibCapsuleP lib_capsule, NameTableP table)
 {
     NameEntryP  name_entry  = name_table_add (table, key, entry);
     unsigned    name_use    = name_entry_get_use (name_entry);
@@ -268,7 +263,7 @@ static LibTypeProcP library_type_jump_table [] = {
 /*--------------------------------------------------------------------------*/
 
 static NStringP
-library_magic()
+library_magic(void)
 {
     static NStringT const_magic;
     static BoolT    inited = FALSE;
@@ -389,8 +384,7 @@ lib_capsule_loaded(LibCapsuleP capsule)
 /*--------------------------------------------------------------------------*/
 
 void
-write_lib_capsule_full_name(OStreamP ostream,
-							LibCapsuleP capsule)
+write_lib_capsule_full_name(OStreamP ostream, LibCapsuleP capsule)
 {
     write_cstring (ostream, library_name (capsule->library));
     write_char (ostream, '(');
@@ -456,8 +450,8 @@ library_byte(LibraryP library)
 }
 
 void
-library_content(LibraryP library, BoolT want_index,
-				BoolT want_size, BoolT want_version)
+library_content(LibraryP library, BoolT want_index, BoolT want_size,
+    BoolT want_version)
 {
     ShapeTableP shapes = shape_table_create ();
 
@@ -511,9 +505,8 @@ library_extract_all(LibraryP library, BoolT use_basename)
 }
 
 void
-library_extract(LibraryP library, BoolT use_basename,
-				BoolT match_basename, unsigned num_files,
-				char **files)
+library_extract(LibraryP library, BoolT use_basename, BoolT match_basename,
+    unsigned num_files, char **files)
 {
     ShapeTableP shapes = shape_table_create ();
 
@@ -581,8 +574,8 @@ library_read(LibraryP library, ShapeTableP shapes)
 		  }
 
 void
-library_write(LibraryP library, ShapeTableP shapes,
-			  unsigned num_capsules, CapsuleP *capsules)
+library_write(LibraryP library, ShapeTableP shapes, unsigned num_capsules,
+    CapsuleP *capsules)
 {
     TDFWriterP writer     = library_writer (library);
     unsigned   num_shapes = 0;

@@ -74,7 +74,7 @@
 /*--------------------------------------------------------------------------*/
 
 MapTableP
-map_table_create()
+map_table_create(void)
 {
     MapTableP table = ALLOCATE (MapTableT);
     unsigned  i;
@@ -86,8 +86,7 @@ map_table_create()
 }
 
 MapEntryP
-map_table_add(MapTableP table, NStringP key,
-			  unsigned count)
+map_table_add(MapTableP table, NStringP key, unsigned count)
 {
     unsigned  hash_value = (nstring_hash_value (key) % MAP_TABLE_SIZE);
     MapEntryP next       = (table->contents [hash_value]);
@@ -113,8 +112,7 @@ map_table_get(MapTableP table, NStringP key)
 }
 
 void
-map_table_iter(MapTableP table, void (*proc)(MapEntryP, void *),
-			   void *closure)
+map_table_iter(MapTableP table, void (*proc)(MapEntryP, void *), void *closure)
 {
     unsigned i;
 

@@ -182,8 +182,7 @@ debug_info_r_start_names(unsigned num_names)
 }
 
 void
-debug_info_r_start_shape_names(NStringP shape,
-							   unsigned num_names)
+debug_info_r_start_shape_names(NStringP shape, unsigned num_names)
 {
     if (debug_file) {
 		write_cstring (debug_file, "    Reading ");
@@ -196,8 +195,7 @@ debug_info_r_start_shape_names(NStringP shape,
 }
 
 void
-debug_info_r_name(NameKeyP name, unsigned old_id,
-				  unsigned new_id, NameKeyP key)
+debug_info_r_name(NameKeyP name, unsigned old_id, unsigned new_id, NameKeyP key)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      ");
@@ -225,8 +223,7 @@ debug_info_r_start_unit_sets(unsigned num_unit_sets)
 }
 
 void
-debug_info_r_start_units(NStringP unit_set,
-						 unsigned num_units)
+debug_info_r_start_units(NStringP unit_set, unsigned num_units)
 {
     if (debug_file) {
 		write_cstring (debug_file, "    Reading ");
@@ -239,8 +236,7 @@ debug_info_r_start_units(NStringP unit_set,
 }
 
 void
-debug_info_r_start_unit(NStringP unit_set,
-						unsigned unit, unsigned num_units)
+debug_info_r_start_unit(NStringP unit_set, unsigned unit, unsigned num_units)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      Reading ");
@@ -290,8 +286,7 @@ debug_info_r_start_maps(unsigned num_maps)
 }
 
 void
-debug_info_r_start_shape_maps(NStringP shape,
-							  unsigned num_maps)
+debug_info_r_start_shape_maps(NStringP shape, unsigned num_maps)
 {
     if (debug_file) {
 		write_cstring (debug_file, "          Reading ");
@@ -305,7 +300,7 @@ debug_info_r_start_shape_maps(NStringP shape,
 
 void
 debug_info_r_map(unsigned internal, unsigned old_external,
-				 unsigned new_external)
+    unsigned new_external)
 {
     if (debug_file) {
 		write_cstring (debug_file, "            ");
@@ -341,8 +336,7 @@ debug_info_r_tld_version(unsigned version)
 }
 
 void
-debug_info_r_start_usages(NStringP shape,
-						  unsigned num_names)
+debug_info_r_start_usages(NStringP shape, unsigned num_names)
 {
     if (debug_file) {
 		write_cstring (debug_file, "            Reading ");
@@ -355,8 +349,7 @@ debug_info_r_start_usages(NStringP shape,
 }
 
 void
-debug_info_r_usage(unsigned use, unsigned name_use,
-				   NameKeyP key)
+debug_info_r_usage(unsigned use, unsigned name_use, NameKeyP key)
 {
     if (debug_file) {
 		write_cstring (debug_file, "              ");
@@ -371,7 +364,7 @@ debug_info_r_usage(unsigned use, unsigned name_use,
 }
 
 void
-debug_info_r_end_capsule()
+debug_info_r_end_capsule(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Finished reading capsule");
@@ -380,7 +373,7 @@ debug_info_r_end_capsule()
 }
 
 void
-debug_info_r_abort_capsule()
+debug_info_r_abort_capsule(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Aborted reading capsule");
@@ -469,8 +462,7 @@ debug_info_w_start_names(unsigned num_names)
 }
 
 void
-debug_info_w_start_shape_names(NStringP shape,
-							   unsigned num_names)
+debug_info_w_start_shape_names(NStringP shape, unsigned num_names)
 {
     if (debug_file) {
 		write_cstring (debug_file, "    Writing ");
@@ -506,8 +498,7 @@ debug_info_w_start_unit_sets(unsigned num_unit_sets)
 }
 
 void
-debug_info_w_start_units(NStringP unit_set,
-						 unsigned num_units)
+debug_info_w_start_units(NStringP unit_set, unsigned num_units)
 {
     if (debug_file) {
 		write_cstring (debug_file, "    Writing ");
@@ -520,8 +511,7 @@ debug_info_w_start_units(NStringP unit_set,
 }
 
 void
-debug_info_w_start_unit(NStringP unit_set,
-						unsigned unit, unsigned num_units)
+debug_info_w_start_unit(NStringP unit_set, unsigned unit, unsigned num_units)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      Writing ");
@@ -571,8 +561,7 @@ debug_info_w_start_maps(unsigned num_maps)
 }
 
 void
-debug_info_w_start_shape_maps(NStringP shape,
-							  unsigned num_maps)
+debug_info_w_start_shape_maps(NStringP shape, unsigned num_maps)
 {
     if (debug_file) {
 		write_cstring (debug_file, "          Writing ");
@@ -643,7 +632,7 @@ debug_info_w_usage(unsigned use, NameKeyP key)
 }
 
 void
-debug_info_w_end_capsule()
+debug_info_w_end_capsule(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Finished writing capsule");
@@ -665,8 +654,7 @@ debug_info_r_start_library(char *name)
 }
 
 void
-debug_info_r_lib_versions(unsigned major,
-						  unsigned minor)
+debug_info_r_lib_versions(unsigned major, unsigned minor)
 {
     if (debug_file) {
 		write_cstring  (debug_file, "  Reading major version: ");
@@ -724,8 +712,7 @@ debug_info_r_start_index(unsigned num_shapes)
 }
 
 void
-debug_info_r_start_shape_index(NStringP shape,
-							   unsigned num_names)
+debug_info_r_start_shape_index(NStringP shape, unsigned num_names)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      Reading ");
@@ -738,9 +725,8 @@ debug_info_r_start_shape_index(NStringP shape,
 }
 
 void
-debug_info_r_index_entry(NameKeyP name, unsigned use,
-						 unsigned name_use,
-						 NameKeyP key, char *cap_name)
+debug_info_r_index_entry(NameKeyP name, unsigned use, unsigned name_use,
+    NameKeyP key, char *cap_name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "        ");
@@ -759,7 +745,7 @@ debug_info_r_index_entry(NameKeyP name, unsigned use,
 }
 
 void
-debug_info_r_end_library()
+debug_info_r_end_library(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Finished reading library");
@@ -768,7 +754,7 @@ debug_info_r_end_library()
 }
 
 void
-debug_info_r_abort_library()
+debug_info_r_abort_library(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Aborted reading library");
@@ -790,8 +776,7 @@ debug_info_w_start_library(char *name)
 }
 
 void
-debug_info_w_lib_versions(unsigned major,
-						  unsigned minor)
+debug_info_w_lib_versions(unsigned major, unsigned minor)
 {
     if (debug_file) {
 		write_cstring  (debug_file, "  Writing major version: ");
@@ -849,8 +834,7 @@ debug_info_w_start_index(unsigned num_shapes)
 }
 
 void
-debug_info_w_start_shape_index(NStringP shape,
-							   unsigned num_names)
+debug_info_w_start_shape_index(NStringP shape, unsigned num_names)
 {
     if (debug_file) {
 		write_cstring (debug_file, "      Writing ");
@@ -863,9 +847,8 @@ debug_info_w_start_shape_index(NStringP shape,
 }
 
 void
-debug_info_w_index_entry(NameKeyP key, unsigned use,
-						 char *cap_name,
-						 unsigned cap_index)
+debug_info_w_index_entry(NameKeyP key, unsigned use, char *cap_name,
+    unsigned cap_index)
 {
     if (debug_file) {
 		write_cstring (debug_file, "        ");
@@ -882,7 +865,7 @@ debug_info_w_index_entry(NameKeyP key, unsigned use,
 }
 
 void
-debug_info_w_end_library()
+debug_info_w_end_library(void)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Finished writing library");
@@ -893,8 +876,7 @@ debug_info_w_end_library()
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_l_not_needed(NameKeyP key, NStringP shape_key,
-						unsigned use)
+debug_info_l_not_needed(NameKeyP key, NStringP shape_key, unsigned use)
 {
     if (debug_file) {
 		write_cstring (debug_file, "No definition needed for ");
@@ -909,8 +891,7 @@ debug_info_l_not_needed(NameKeyP key, NStringP shape_key,
 }
 
 void
-debug_info_l_not_found(NameKeyP key, NStringP shape_key,
-					   unsigned use)
+debug_info_l_not_found(NameKeyP key, NStringP shape_key, unsigned use)
 {
     if (debug_file) {
 		write_cstring (debug_file, "No definition found for ");
@@ -925,8 +906,7 @@ debug_info_l_not_found(NameKeyP key, NStringP shape_key,
 }
 
 void
-debug_info_l_found(NameKeyP key, NStringP shape_key,
-				   unsigned use, char *name)
+debug_info_l_found(NameKeyP key, NStringP shape_key, unsigned use, char *name)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Definition found for ");
@@ -982,8 +962,7 @@ debug_info_l_suppress(NStringP shape, NameKeyP key)
 }
 
 void
-debug_info_l_rename(NStringP shape, NameKeyP from,
-					NameKeyP to)
+debug_info_l_rename(NStringP shape, NameKeyP from, NameKeyP to)
 {
     if (debug_file) {
 		write_cstring (debug_file, "Renamed external ");

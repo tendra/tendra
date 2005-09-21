@@ -83,8 +83,7 @@ shape_control_init(ShapeControlP control)
 }
 
 static ShapeControlEntryP
-shape_control_find(ShapeControlP control,
-				   char *shape)
+shape_control_find(ShapeControlP control, char *shape)
 {
     NStringT           nstring;
     ShapeControlEntryP entry;
@@ -106,8 +105,7 @@ shape_control_find(ShapeControlP control,
 }
 
 static void
-shape_control_entry_add_name(ShapeControlEntryP entry,
-							 char *name)
+shape_control_entry_add_name(ShapeControlEntryP entry, char *name)
 {
     NameKeyT key;
 
@@ -133,8 +131,7 @@ rename_control_init(RenameControlP control)
 }
 
 static RenameControlEntryP
-rename_control_find(RenameControlP control,
-					NStringP shape)
+rename_control_find(RenameControlP control, NStringP shape)
 {
     RenameControlEntryP entry;
 
@@ -158,9 +155,7 @@ rename_control_entry_names(RenameControlEntryP entry)
 }
 
 static void
-rename_control_entry_parse_pair(RenameControlEntryP entry,
-								char *from,
-								char *to)
+rename_control_entry_parse_pair(RenameControlEntryP entry, char *from, char *to)
 {
     NStringP shape = &(entry->shape);
     NameKeyT from_key;
@@ -181,8 +176,7 @@ rename_control_entry_parse_pair(RenameControlEntryP entry,
 
 void
 shape_control_iter(ShapeControlP control,
-				   void (*proc)(NStringP, BoolT, NameKeyListP, void *),
-				   void *closure)
+    void (*proc)(NStringP, BoolT, NameKeyListP, void *), void *closure)
 {
     ShapeControlEntryP entry;
 
@@ -193,8 +187,7 @@ shape_control_iter(ShapeControlP control,
 
 void
 rename_control_iter(RenameControlP control,
-					void (*proc)(NStringP, NameKeyPairListP, void *),
-					void *closure)
+    void (*proc)(NStringP, NameKeyPairListP, void *), void *closure)
 {
     RenameControlEntryP entry;
 
@@ -232,8 +225,7 @@ arg_data_init(ArgDataP arg_data, char *default_output_file)
 }
 
 void
-arg_data_set_all_hide_defd(ArgDataP arg_data,
-						   BoolT enable)
+arg_data_set_all_hide_defd(ArgDataP arg_data, BoolT enable)
 {
     arg_data->all_hide_defined = enable;
 }
@@ -245,8 +237,7 @@ arg_data_get_all_hide_defd(ArgDataP arg_data)
 }
 
 void
-arg_data_set_suppress_mult(ArgDataP arg_data,
-						   BoolT enable)
+arg_data_set_suppress_mult(ArgDataP arg_data, BoolT enable)
 {
     arg_data->suppress_mult = enable;
 }
@@ -258,8 +249,7 @@ arg_data_get_suppress_mult(ArgDataP arg_data)
 }
 
 void
-arg_data_add_hide(ArgDataP arg_data, char *shape,
-				  char *name)
+arg_data_add_hide(ArgDataP arg_data, char *shape, char *name)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->hides), shape);
 
@@ -267,8 +257,7 @@ arg_data_add_hide(ArgDataP arg_data, char *shape,
 }
 
 void
-arg_data_add_hide_defined(ArgDataP arg_data,
-						  char *shape)
+arg_data_add_hide_defined(ArgDataP arg_data, char *shape)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->hides), shape);
 
@@ -282,8 +271,7 @@ arg_data_get_hides(ArgDataP arg_data)
 }
 
 void
-arg_data_add_keep(ArgDataP arg_data, char *shape,
-				  char *name)
+arg_data_add_keep(ArgDataP arg_data, char *shape, char *name)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->keeps), shape);
 
@@ -305,8 +293,7 @@ arg_data_get_keeps(ArgDataP arg_data)
 }
 
 void
-arg_data_add_suppress(ArgDataP arg_data, char *shape,
-					  char *name)
+arg_data_add_suppress(ArgDataP arg_data, char *shape, char *name)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->suppresses),
 												   shape);
@@ -315,8 +302,7 @@ arg_data_add_suppress(ArgDataP arg_data, char *shape,
 }
 
 void
-arg_data_add_suppress_all(ArgDataP arg_data,
-						  char *shape)
+arg_data_add_suppress_all(ArgDataP arg_data, char *shape)
 {
     ShapeControlEntryP entry = shape_control_find (&(arg_data->suppresses),
 												   shape);
@@ -331,8 +317,8 @@ arg_data_get_suppresses(ArgDataP arg_data)
 }
 
 void
-arg_data_add_rename(ArgDataP arg_data, NStringP shape,
-					NameKeyP from, NameKeyP to)
+arg_data_add_rename(ArgDataP arg_data, NStringP shape, NameKeyP from,
+    NameKeyP to)
 {
     RenameControlEntryP entry;
     NameKeyPairListP    names;
@@ -347,8 +333,7 @@ arg_data_add_rename(ArgDataP arg_data, NStringP shape,
 }
 
 void
-arg_data_parse_rename(ArgDataP arg_data, char *shape,
-					  char *from, char *to)
+arg_data_parse_rename(ArgDataP arg_data, char *shape, char *from, char *to)
 {
     NStringT            nstring;
     RenameControlEntryP entry;
@@ -366,8 +351,7 @@ arg_data_get_renames(ArgDataP arg_data)
 }
 
 void
-arg_data_set_extract_all(ArgDataP arg_data,
-						 BoolT enable)
+arg_data_set_extract_all(ArgDataP arg_data, BoolT enable)
 {
     arg_data->extract_all = enable;
 }
@@ -379,8 +363,7 @@ arg_data_get_extract_all(ArgDataP arg_data)
 }
 
 void
-arg_data_set_extract_basename(ArgDataP arg_data,
-							  BoolT enable)
+arg_data_set_extract_basename(ArgDataP arg_data, BoolT enable)
 {
     arg_data->extract_basename = enable;
 }
@@ -392,8 +375,7 @@ arg_data_get_extract_basename(ArgDataP arg_data)
 }
 
 void
-arg_data_set_extract_match_base(ArgDataP arg_data,
-								BoolT enable)
+arg_data_set_extract_match_base(ArgDataP arg_data, BoolT enable)
 {
     arg_data->extract_match_base = enable;
 }
@@ -405,8 +387,7 @@ arg_data_get_extract_match_base(ArgDataP arg_data)
 }
 
 void
-arg_data_set_content_index(ArgDataP arg_data,
-						   BoolT enable)
+arg_data_set_content_index(ArgDataP arg_data, BoolT enable)
 {
     arg_data->content_index = enable;
 }
@@ -418,8 +399,7 @@ arg_data_get_content_index(ArgDataP arg_data)
 }
 
 void
-arg_data_set_content_size(ArgDataP arg_data,
-						  BoolT enable)
+arg_data_set_content_size(ArgDataP arg_data, BoolT enable)
 {
     arg_data->content_size = enable;
 }
@@ -431,8 +411,7 @@ arg_data_get_content_size(ArgDataP arg_data)
 }
 
 void
-arg_data_set_content_version(ArgDataP arg_data,
-							 BoolT enable)
+arg_data_set_content_version(ArgDataP arg_data, BoolT enable)
 {
     arg_data->content_version = enable;
 }
@@ -444,8 +423,7 @@ arg_data_get_content_version(ArgDataP arg_data)
 }
 
 void
-arg_data_set_debug_file(ArgDataP arg_data,
-						char *debug_file)
+arg_data_set_debug_file(ArgDataP arg_data, char *debug_file)
 {
     if (ostream_is_open (&(arg_data->debug_file))) {
 		MSG_tld_multiple_debug_files ();
@@ -464,8 +442,7 @@ arg_data_get_debug_file(ArgDataP arg_data)
 }
 
 void
-arg_data_set_output_file(ArgDataP arg_data,
-						 char *output_file)
+arg_data_set_output_file(ArgDataP arg_data, char *output_file)
 {
     if (arg_data->output_file) {
 		MSG_tld_multiple_output_files ();
@@ -485,8 +462,7 @@ arg_data_get_output_file(ArgDataP arg_data)
 }
 
 void
-arg_data_add_library_file(ArgDataP arg_data,
-						  char *library_file)
+arg_data_add_library_file(ArgDataP arg_data, char *library_file)
 {
     CStringListP libraries = &(arg_data->library.list.file);
     if (!cstring_list_contains (libraries, library_file)) {
@@ -496,8 +472,7 @@ arg_data_add_library_file(ArgDataP arg_data,
 }
 
 void
-arg_data_add_library_path(ArgDataP arg_data,
-						  char *directory)
+arg_data_add_library_path(ArgDataP arg_data, char *directory)
 {
     arg_data->num_library_paths ++;
     cstring_list_append (&(arg_data->library.list.path), directory);
@@ -550,8 +525,7 @@ arg_data_library_paths(ArgDataP arg_data)
 }
 
 void
-arg_data_set_unit_file(ArgDataP arg_data,
-					   char *unit_file)
+arg_data_set_unit_file(ArgDataP arg_data, char *unit_file)
 {
     if (arg_data->unit_file) {
 		MSG_tld_multiple_unit_files ();
@@ -562,8 +536,7 @@ arg_data_set_unit_file(ArgDataP arg_data,
 }
 
 void
-arg_data_set_files(ArgDataP arg_data, int num_files,
-				   char **files)
+arg_data_set_files(ArgDataP arg_data, int num_files, char **files)
 {
     arg_data->num_files = (unsigned) num_files;
     arg_data->files     = files;

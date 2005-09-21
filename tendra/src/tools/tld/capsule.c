@@ -139,7 +139,7 @@ static unsigned   capsule_minor_version = 0;
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_setup_defaults()
+capsule_setup_defaults(void)
 {
     if (capsule_unit_sets == NIL (UnitSetP)) {
 		unsigned i;
@@ -175,8 +175,7 @@ capsule_setup(UnitTableP units)
 }
 
 static BoolT
-capsule_read_unit_set_name(IStreamP istream,
-						   DStringP dstring)
+capsule_read_unit_set_name(IStreamP istream, DStringP dstring)
 {
     char c;
 
@@ -309,7 +308,7 @@ capsule_writer(CapsuleP capsule)
 }
 
 static NStringP
-capsule_magic()
+capsule_magic(void)
 {
     static NStringT const_magic;
     static BoolT    inited = FALSE;
@@ -360,10 +359,9 @@ capsule_read_header(CapsuleP capsule)
     tdf_read_align (reader);
 }
 
-static UnitEntryP*
-capsule_read_unit_set_names(CapsuleP capsule,
-							UnitTableP units,
-							unsigned *num_unit_sets_ref)
+static UnitEntryP *
+capsule_read_unit_set_names(CapsuleP capsule, UnitTableP units,
+    unsigned *num_unit_sets_ref)
 {
     TDFReaderP  reader        = capsule_reader (capsule);
     unsigned    num_unit_sets = tdf_read_int (reader);
@@ -425,7 +423,7 @@ capsule_read_unit_set_names(CapsuleP capsule,
 
 static ShapeDataP
 capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
-		    unsigned *num_shapes_ref)
+    unsigned *num_shapes_ref)
 {
     TDFReaderP reader     = capsule_reader (capsule);
     unsigned   num_shapes = tdf_read_int (reader);
@@ -462,10 +460,9 @@ capsule_read_shapes(CapsuleP capsule, ShapeTableP shapes,
     return (shapes_vec);
 }
 
-static NameEntryP*
-capsule_read_external_names_1(CapsuleP capsule,
-							  ShapeDataP shape,
-							  unsigned *num_ref)
+static NameEntryP *
+capsule_read_external_names_1(CapsuleP capsule, ShapeDataP shape,
+    unsigned *num_ref)
 {
     TDFReaderP  reader         = capsule_reader (capsule);
     unsigned    num_this_shape = tdf_read_int (reader);
@@ -506,9 +503,8 @@ capsule_read_external_names_1(CapsuleP capsule,
 }
 
 static NameDataP
-capsule_read_external_names(CapsuleP capsule,
-							unsigned num_shapes,
-							ShapeDataP shapes_vec)
+capsule_read_external_names(CapsuleP capsule, unsigned num_shapes,
+    ShapeDataP shapes_vec)
 {
     TDFReaderP reader = capsule_reader (capsule);
     NameDataT *names_vec_vec;
@@ -538,9 +534,8 @@ capsule_read_external_names(CapsuleP capsule,
 /*--------------------------------------------------------------------------*/
 
 static unsigned
-capsule_get_token_index(ShapeTableP shapes,
-						unsigned num_shapes,
-						ShapeDataP shapes_vec)
+capsule_get_token_index(ShapeTableP shapes, unsigned num_shapes,
+    ShapeDataP shapes_vec)
 {
     ShapeEntryP token_entry = shape_table_get_token_entry (shapes);
     unsigned    i;
@@ -554,9 +549,8 @@ capsule_get_token_index(ShapeTableP shapes,
 }
 
 static unsigned
-capsule_get_tag_index(ShapeTableP shapes,
-					  unsigned num_shapes,
-					  ShapeDataP shapes_vec)
+capsule_get_tag_index(ShapeTableP shapes, unsigned num_shapes,
+    ShapeDataP shapes_vec)
 {
     ShapeEntryP tag_entry = shape_table_get_tag_entry (shapes);
     unsigned    i;
@@ -570,9 +564,8 @@ capsule_get_tag_index(ShapeTableP shapes,
 }
 
 static void
-capsule_read_usage(CapsuleP capsule, NameDataP entry,
-				   BoolT need_dec, BoolT no_mult,
-				   NStringP shape_key)
+capsule_read_usage(CapsuleP capsule, NameDataP entry, BoolT need_dec,
+    BoolT no_mult, NStringP shape_key)
 {
     TDFReaderP  reader    = capsule_reader (capsule);
     unsigned    num_names = entry->num_names;
@@ -619,11 +612,8 @@ capsule_read_usage(CapsuleP capsule, NameDataP entry,
 }
 
 static void
-capsule_read_tld_type_0_unit(CapsuleP capsule,
-							 ShapeTableP shapes,
-							 unsigned num_shapes,
-							 ShapeDataP shapes_vec,
-							 NameDataP names_vec_vec)
+capsule_read_tld_type_0_unit(CapsuleP capsule, ShapeTableP shapes,
+    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
     unsigned i;
 
@@ -642,11 +632,8 @@ capsule_read_tld_type_0_unit(CapsuleP capsule,
 }
 
 static void
-capsule_read_tld_type_1_unit(CapsuleP capsule,
-							 ShapeTableP shapes,
-							 unsigned num_shapes,
-							 ShapeDataP shapes_vec,
-							 NameDataP names_vec_vec)
+capsule_read_tld_type_1_unit(CapsuleP capsule, ShapeTableP shapes,
+    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
     unsigned i;
     unsigned token = capsule_get_token_index (shapes, num_shapes, shapes_vec);
@@ -676,8 +663,7 @@ static UnitTypeProcP capsule_type_jump_table [] = {
 /*--------------------------------------------------------------------------*/
 
 static void
-capsule_read_tld_unit_header(CapsuleP capsule,
-							 NStringP unit_set)
+capsule_read_tld_unit_header(CapsuleP capsule, NStringP unit_set)
 {
     TDFReaderP reader = capsule_reader (capsule);
 
@@ -722,11 +708,8 @@ capsule_read_tld_unit_trailer(CapsuleP capsule)
 }
 
 static void
-capsule_read_tld2_units(CapsuleP capsule,
-						ShapeTableP shapes,
-						unsigned num_shapes,
-						ShapeDataP shapes_vec,
-						NameDataP names_vec_vec)
+capsule_read_tld2_units(CapsuleP capsule, ShapeTableP shapes,
+    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
     UnitEntryP tld2_entry = capsule_unit_sets [capsule_tld2_index].entry;
     NStringP   key        = unit_entry_key (tld2_entry);
@@ -741,9 +724,7 @@ capsule_read_tld2_units(CapsuleP capsule,
 
 static void
 capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
-					   unsigned num_shapes,
-					   ShapeDataP shapes_vec,
-					   NameDataP names_vec_vec)
+    unsigned num_shapes, ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
     TDFReaderP reader    = capsule_reader (capsule);
     UnitEntryP tld_entry = capsule_unit_sets [capsule_tld_index].entry;
@@ -763,13 +744,10 @@ capsule_read_tld_units(CapsuleP capsule, ShapeTableP shapes,
     capsule_read_tld_unit_trailer (capsule);
 }
 
-static MapEntryP*
-capsule_read_unit_counts(CapsuleP capsule,
-			 unsigned num_shapes,
-			 ShapeDataP shapes_vec,
-			 unsigned num_counts,
-			 UnitEntryP unit_entry,
-			 UnitP unit, unsigned unit_num)
+static MapEntryP *
+capsule_read_unit_counts(CapsuleP capsule, unsigned num_shapes,
+    ShapeDataP shapes_vec, unsigned num_counts, UnitEntryP unit_entry,
+    UnitP unit, unsigned unit_num)
 {
     if ((num_counts != 0) && (num_counts != num_shapes)) {
 		MSG_unit_count_num_mismatch (capsule, num_counts, num_shapes, unit_num,
@@ -800,10 +778,8 @@ capsule_read_unit_counts(CapsuleP capsule,
 
 static void
 capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
-					   ShapeDataP shapes_vec,
-					   UnitEntryP unit_entry,
-					   unsigned unit_num,
-					   MapEntryP *entries)
+    ShapeDataP shapes_vec, UnitEntryP unit_entry, unsigned unit_num,
+    MapEntryP *entries)
 {
     TDFReaderP reader          = capsule_reader (capsule);
     unsigned   num_link_shapes = tdf_read_int (reader);
@@ -849,10 +825,8 @@ capsule_read_unit_maps(CapsuleP capsule, unsigned num_counts,
 }
 
 static void
-capsule_read_unit(CapsuleP capsule, unsigned num_shapes,
-				  ShapeDataP shapes_vec,
-				  UnitEntryP unit_entry,
-				  unsigned unit_num)
+capsule_read_unit(CapsuleP capsule, unsigned num_shapes, ShapeDataP shapes_vec,
+    UnitEntryP unit_entry, unsigned unit_num)
 {
     TDFReaderP reader     = capsule_reader (capsule);
     unsigned   num_counts = tdf_read_int (reader);
@@ -877,8 +851,7 @@ capsule_read_unit(CapsuleP capsule, unsigned num_shapes,
 
 static void
 capsule_read_units(CapsuleP capsule, unsigned num_shapes,
-				   ShapeDataP shapes_vec,
-				   UnitEntryP unit_entry)
+    ShapeDataP shapes_vec, UnitEntryP unit_entry)
 {
     TDFReaderP reader    = capsule_reader (capsule);
     unsigned   num_units = tdf_read_int (reader);
@@ -895,11 +868,8 @@ capsule_read_units(CapsuleP capsule, unsigned num_shapes,
 
 static void
 capsule_read_unit_sets(CapsuleP capsule, unsigned num_unit_sets,
-					   UnitEntryP *units_vec,
-					   ShapeTableP shapes,
-					   unsigned num_shapes,
-					   ShapeDataP shapes_vec,
-					   NameDataP names_vec_vec)
+    UnitEntryP *units_vec, ShapeTableP shapes, unsigned num_shapes,
+    ShapeDataP shapes_vec, NameDataP names_vec_vec)
 {
     TDFReaderP reader       = capsule_reader (capsule);
     UnitEntryP tld_entry    = capsule_unit_sets [capsule_tld_index].entry;
@@ -977,8 +947,7 @@ capsule_create_stream_input(char *name)
 }
 
 CapsuleP
-capsule_create_string_input(char *name,
-							NStringP contents)
+capsule_create_string_input(char *name, NStringP contents)
 {
     CapsuleP capsule = ALLOCATE (CapsuleT);
 
@@ -1016,8 +985,7 @@ capsule_byte(CapsuleP capsule)
 }
 
 void
-capsule_read(CapsuleP capsule, UnitTableP units,
-			 ShapeTableP shapes)
+capsule_read(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 {
     ASSERT (capsule->type == CT_INPUT);
     capsule_setup (units);
@@ -1092,8 +1060,7 @@ capsule_get_index(CapsuleP capsule)
 }
 
 void
-capsule_write(CapsuleP capsule, UnitTableP units,
-			  ShapeTableP shapes)
+capsule_write(CapsuleP capsule, UnitTableP units, ShapeTableP shapes)
 {
     TDFWriterP      writer     = capsule_writer (capsule);
     UnitEntryP      tld_entry  = capsule_unit_sets [capsule_tld_index].entry;
@@ -1148,7 +1115,7 @@ capsule_close(CapsuleP capsule)
 }
 
 unsigned
-capsule_get_major_version()
+capsule_get_major_version(void)
 {
     return (capsule_major_version);
 }
@@ -1160,7 +1127,7 @@ capsule_set_major_version(unsigned major)
 }
 
 unsigned
-capsule_get_minor_version()
+capsule_get_minor_version(void)
 {
     return (capsule_minor_version);
 }

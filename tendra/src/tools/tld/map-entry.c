@@ -77,8 +77,7 @@
 /*--------------------------------------------------------------------------*/
 
 MapEntryP
-map_entry_create(NStringP key, MapEntryP next,
-				 unsigned count)
+map_entry_create(NStringP key, MapEntryP next, unsigned count)
 {
     MapEntryP entry = ALLOCATE (MapEntryT);
 
@@ -108,8 +107,8 @@ map_entry_set_num_links(MapEntryP entry, unsigned num_links)
 }
 
 void
-map_entry_set_link(MapEntryP entry, unsigned link,
-				   unsigned internal, unsigned external)
+map_entry_set_link(MapEntryP entry, unsigned link, unsigned internal,
+    unsigned external)
 {
     ASSERT (link < entry->num_links);
     entry->links [link].internal = internal;
@@ -129,9 +128,8 @@ map_entry_get_num_links(MapEntryP entry)
 }
 
 void
-map_entry_get_link(MapEntryP entry, unsigned link,
-				   unsigned *internal_ref,
-				   unsigned *external_ref)
+map_entry_get_link(MapEntryP entry, unsigned link, unsigned *internal_ref,
+    unsigned *external_ref)
 {
     ASSERT (link < entry->num_links);
     *internal_ref = entry->links [link].internal;
@@ -141,8 +139,7 @@ map_entry_get_link(MapEntryP entry, unsigned link,
 /*--------------------------------------------------------------------------*/
 
 void
-map_entry_check_non_empty(MapEntryP entry,
-						  void *gclosure)
+map_entry_check_non_empty(MapEntryP entry, void *gclosure)
 {
     ShapeTableP table = (ShapeTableP) gclosure;
 

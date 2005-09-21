@@ -98,8 +98,7 @@ name_key_parse_hex_char(char *name, char *c_ref)
 }
 
 static BoolT
-name_key_parse_escaped(char **name_ref,
-					   char *c_ref)
+name_key_parse_escaped(char **name_ref, char *c_ref)
 {
     char *name = (*name_ref);
 
@@ -137,8 +136,7 @@ name_key_parse_escaped(char **name_ref,
 }
 
 static BoolT
-name_key_parse_cstring_unique(NameKeyP key,
-							  char *name)
+name_key_parse_cstring_unique(NameKeyP key, char *name)
 {
     unsigned length   = 1;
     char *tmp_name = name;
@@ -196,8 +194,7 @@ name_key_parse_cstring_unique(NameKeyP key,
 }
 
 static BoolT
-name_key_parse_cstring_string(NameKeyP key,
-							  char *name)
+name_key_parse_cstring_string(NameKeyP key, char *name)
 {
     DStringT dstring;
     NStringT nstring;
@@ -271,8 +268,7 @@ name_key_parse_cstring(NameKeyP key, char *name)
 }
 
 void
-name_key_set_component(NameKeyP key, unsigned component,
-					   NStringP string)
+name_key_set_component(NameKeyP key, unsigned component, NStringP string)
 {
     ASSERT ((key->type == KT_UNIQUE) && (component < key->u.unique.length));
     nstring_assign (&(key->u.unique.components [component]), string);
@@ -491,8 +487,7 @@ name_key_pair_list_init(NameKeyPairListP list)
 }
 
 BoolT
-name_key_pair_list_add(NameKeyPairListP list,
-					   NameKeyP from, NameKeyP to)
+name_key_pair_list_add(NameKeyPairListP list, NameKeyP from, NameKeyP to)
 {
     NameKeyPairListEntryP entry;
 

@@ -81,10 +81,9 @@
 
 /*--------------------------------------------------------------------------*/
 
-static LibraryP*
-builder_read_libraries(ArgDataP arg_data,
-		       unsigned *num_libs_ref,
-		       unsigned *num_capsules_ref)
+static LibraryP *
+builder_read_libraries(ArgDataP arg_data, unsigned *num_libs_ref,
+    unsigned *num_capsules_ref)
 {
     unsigned  num_lib_files   = arg_data_num_library_files (arg_data);
     char **lib_files = arg_data_library_files (arg_data);
@@ -115,8 +114,7 @@ builder_read_libraries(ArgDataP arg_data,
 
 static void
 builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
-					 unsigned capsule_index,
-					 UnitTableP units, ShapeTableP shapes)
+    unsigned capsule_index, UnitTableP units, ShapeTableP shapes)
 {
     char *name = capsule_name (capsule);
     unsigned i;
@@ -133,9 +131,9 @@ builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
     capsules [capsule_index] = capsule;
 }
 
-static CapsuleP*
+static CapsuleP *
 builder_read_capsules(ArgDataP arg_data, UnitTableP units,
-		      ShapeTableP shapes, unsigned *num_capsules_ref)
+    ShapeTableP shapes, unsigned *num_capsules_ref)
 {
     unsigned  num_input_files = arg_data_get_num_files (arg_data);
     char **input_files = arg_data_get_files (arg_data);
@@ -197,8 +195,8 @@ builder_check_multi_defs(ShapeTableP shapes)
 }
 
 static void
-builder_suppress_1(NStringP shape, BoolT all,
-				   NameKeyListP names, void *gclosure)
+builder_suppress_1(NStringP shape, BoolT all, NameKeyListP names,
+    void *gclosure)
 {
     ShapeTableP lib_shapes = (ShapeTableP) gclosure;
     ShapeEntryP entry      = shape_table_get (lib_shapes, shape);
@@ -238,8 +236,7 @@ builder_suppress(ArgDataP arg_data, ShapeTableP lib_shapes)
 
 static void
 builder_write_library(ArgDataP arg_data, ShapeTableP shapes,
-					  unsigned num_capsules,
-					  CapsuleP *capsules)
+    unsigned num_capsules, CapsuleP *capsules)
 {
     char *output_file = arg_data_get_output_file (arg_data);
     LibraryP library;
