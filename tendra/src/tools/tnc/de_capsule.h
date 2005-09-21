@@ -73,7 +73,7 @@ extern boolean extract_tokdecs;
 
 extern binding *crt_binding;
 extern long al_tag_var, tag_var, tok_var;
-extern construct *find_binding(binding *, long, long) ;
+extern construct *find_binding(binding *, unsigned long, unsigned long);
 
 
 /*
