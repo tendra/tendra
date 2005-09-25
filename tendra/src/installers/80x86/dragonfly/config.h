@@ -87,7 +87,7 @@
 #define issol86 0
 #define islinux 0
 #define isdragonfly 1
-#define remove_struct_ref(!dragonfly_elf)
+#define remove_struct_ref (!dragonfly_elf)
 
 #define has_setcc 1
 #define little_end 1
