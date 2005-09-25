@@ -1,10 +1,10 @@
 /*
  * Automatically generated from the files:
- *	/u/g/release/Source/src/producers/common/parse/psyntax.sid
+ *	psyntax.sid
  * and
- *	/u/g/release/Source/src/producers/common/parse/psyntax.act
+ *	psyntax.act
  * by:
- *	sid
+ *	../../../../bootstrap/src/utilities/sid/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -97,7 +97,7 @@
     These are the aliases for the compound types used in the parser.
 */
 
-typedef LIST ( IDENTIFIER ) SID_LIST_ID ;
+typedef LIST(IDENTIFIER) SID_LIST_ID;
 
 
 /*
@@ -108,9 +108,9 @@ typedef LIST ( IDENTIFIER ) SID_LIST_ID ;
 */
 
 #include "psyntax.h"
-extern void parse_tok_type PROTO_S ( ( TYPE * ) ) ;
-extern void parse_mem_type PROTO_S ( ( TYPE * ) ) ;
-extern void parse_operator PROTO_S ( ( IDENTIFIER * ) ) ;
+extern void parse_tok_type(TYPE *);
+extern void parse_mem_type(TYPE *);
+extern void parse_operator(IDENTIFIER *);
 
 
 /*
@@ -133,8 +133,7 @@ extern void parse_operator PROTO_S ( ( IDENTIFIER * ) ) ;
 
 
 void
-XR550 PROTO_N ((XO397))
-  PROTO_T (int *XO397)
+XR550(int *XO397)
 {
     int XI397;
 
@@ -274,8 +273,7 @@ XR550 PROTO_N ((XO397))
 }
 
 void
-XR447 PROTO_N ((XO409))
-  PROTO_T (DECL_SPEC *XO409)
+XR447(DECL_SPEC *XO409)
 {
     DECL_SPEC XI409;
 
@@ -318,8 +316,7 @@ XR447 PROTO_N ((XO409))
 }
 
 void
-XR757 PROTO_N ((XO708))
-  PROTO_T (int *XO708)
+XR757(int *XO708)
 {
     int XI708;
 
@@ -378,8 +375,7 @@ XR757 PROTO_N ((XO708))
 }
 
 void
-XR741 PROTO_N ((XO445))
-  PROTO_T (unsigned *XO445)
+XR741(unsigned *XO445)
 {
     unsigned XI445;
 
@@ -413,7 +409,7 @@ XR741 PROTO_N ((XO445))
 }
 
 void
-XR482 PROTO_Z ()
+XR482(void)
 {
     if ((CURRENT_TERMINAL) == 354) {
 	return;
@@ -511,8 +507,7 @@ XR482 PROTO_Z ()
 }
 
 void
-XR495 PROTO_N ((XI409))
-  PROTO_T (int XI409)
+XR495(int XI409)
 {
   XL2_495:;
     switch (CURRENT_TERMINAL) {
@@ -581,8 +576,7 @@ XR495 PROTO_N ((XI409))
 }
 
 void
-XR507 PROTO_N ((XO377))
-  PROTO_T (unsigned *XO377)
+XR507(unsigned *XO377)
 {
     unsigned XI377;
 
@@ -641,8 +635,7 @@ XR507 PROTO_N ((XO377))
 }
 
 void
-XR413 PROTO_N ((XO402))
-  PROTO_T (SID_LIST_ID *XO402)
+XR413(SID_LIST_ID *XO402)
 {
     SID_LIST_ID XI402;
 
@@ -693,7 +686,7 @@ XR413 PROTO_N ((XO402))
 }
 
 void
-XR551 PROTO_Z ()
+XR551(void)
 {
     switch (CURRENT_TERMINAL) {
       case 317:
@@ -751,7 +744,7 @@ XR551 PROTO_Z ()
 }
 
 void
-XR497 PROTO_Z ()
+XR497(void)
 {
   XL2_497:;
     switch (CURRENT_TERMINAL) {
@@ -820,8 +813,7 @@ XR497 PROTO_Z ()
 }
 
 void
-XR506 PROTO_N ((XO377))
-  PROTO_T (unsigned *XO377)
+XR506(unsigned *XO377)
 {
     unsigned XI377;
 
@@ -864,8 +856,7 @@ XR506 PROTO_N ((XO377))
 }
 
 void
-XR753 PROTO_N ((XO444))
-  PROTO_T (EXP *XO444)
+XR753(EXP *XO444)
 {
     EXP XI444;
 
@@ -929,8 +920,7 @@ XR753 PROTO_N ((XO444))
 }
 
 void
-XR446 PROTO_N ((XO444, XO445))
-  PROTO_T (int *XO444 X int *XO445)
+XR446(int *XO444, int *XO445)
 {
     int XI444;
     int XI445;
@@ -987,8 +977,7 @@ XR446 PROTO_N ((XO444, XO445))
 }
 
 void
-XR407 PROTO_N ((XI406, XO375))
-  PROTO_T (SID_LIST_ID XI406 X IDENTIFIER *XO375)
+XR407(SID_LIST_ID XI406, IDENTIFIER *XO375)
 {
     IDENTIFIER XI375;
 
@@ -1251,8 +1240,7 @@ XR407 PROTO_N ((XI406, XO375))
 }
 
 void
-XR396 PROTO_N ((XO400))
-  PROTO_T (TOKEN *XO400)
+XR396(TOKEN *XO400)
 {
     TOKEN XI400;
 
@@ -1486,8 +1474,7 @@ XR396 PROTO_N ((XO400))
 }
 
 void
-XR508 PROTO_N ((XO377))
-  PROTO_T (unsigned *XO377)
+XR508(unsigned *XO377)
 {
     unsigned XI377;
 
