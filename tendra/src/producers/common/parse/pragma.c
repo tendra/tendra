@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -78,17 +108,19 @@
     This routine reads the next preprocessing token from the input file.
 */
 
-static PPTOKEN *get_token
-    PROTO_Z ()
+static PPTOKEN *
+get_token(void)
 {
-    PPTOKEN *p = new_pptok () ;
-    int t = read_token () ;
-    update_column () ;
-    p->tok = t ;
-    p->pp_space = WHITE_SPACE ;
-    p->next = NULL ;
-    if ( t <= LAST_COMPLEX_TOKEN ) token_parts ( t, p ) ;
-    return ( p ) ;
+	PPTOKEN *p = new_pptok();
+	int t = read_token();
+	update_column();
+	p->tok = t;
+	p->pp_space = WHITE_SPACE;
+	p->next = NULL;
+	if (t <= LAST_COMPLEX_TOKEN) {
+		token_parts(t, p);
+	}
+	return(p);
 }
 
 
@@ -100,16 +132,15 @@ static PPTOKEN *get_token
     and lex_identifier is returned.
 */
 
-int find_keyword
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+int
+find_keyword(IDENTIFIER id)
 {
-    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-    int t = find_hashid ( nm ) ;
-    if ( t == lex_identifier ) {
-	report ( preproc_loc, ERR_pragma_keyword_bad ( nm ) ) ;
-    }
-    return ( t ) ;
+	HASHID nm = DEREF_hashid(id_name(id));
+	int t = find_hashid(nm);
+	if (t == lex_identifier) {
+		report(preproc_loc, ERR_pragma_keyword_bad(nm));
+	}
+	return(t);
 }
 
 
@@ -121,35 +152,34 @@ int find_keyword
     keywords.
 */
 
-void define_keyword
-    PROTO_N ( ( id, t ) )
-    PROTO_T ( IDENTIFIER id X int t )
+void
+define_keyword(IDENTIFIER id, int t)
 {
-    switch ( t ) {
-	case lex_identifier : {
-	    break ;
+	switch (t) {
+	case lex_identifier: {
+		break;
 	}
-	case lex_representation : {
-	    TOKEN tok = make_sort ( "ZZZ", 1 ) ;
-	    id = make_token_decl ( tok, 0, id, id ) ;
-	    token_interface ( id, lex_no_Hdef ) ;
-	    COPY_int ( tok_proc_key ( tok ), t ) ;
-	    break ;
+	case lex_representation: {
+		TOKEN tok = make_sort("ZZZ", 1);
+		id = make_token_decl(tok, 0, id, id);
+		token_interface(id, lex_no_Hdef);
+		COPY_int(tok_proc_key(tok), t);
+		break;
 	}
-	case lex_typeof : {
-	    TOKEN tok = make_sort ( "SE", 1 ) ;
-	    id = make_token_decl ( tok, 0, id, id ) ;
-	    token_interface ( id, lex_no_Hdef ) ;
-	    COPY_int ( tok_proc_key ( tok ), t ) ;
-	    break ;
+	case lex_typeof: {
+		TOKEN tok = make_sort("SE", 1);
+		id = make_token_decl(tok, 0, id, id);
+		token_interface(id, lex_no_Hdef);
+		COPY_int(tok_proc_key(tok), t);
+		break;
 	}
-	default : {
-	    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-	    IGNORE make_keyword ( nm, t, NULL_id ) ;
-	    break ;
+	default: {
+		HASHID nm = DEREF_hashid(id_name(id));
+		IGNORE make_keyword(nm, t, NULL_id);
+		break;
 	}
-    }
-    return ;
+	}
+	return;
 }
 
 
@@ -159,31 +189,31 @@ void define_keyword
     This routine undefines the keyword id.
 */
 
-void undef_keyword
-    PROTO_N ( ( id ) )
-    PROTO_T ( IDENTIFIER id )
+void
+undef_keyword(IDENTIFIER id)
 {
-    unsigned tag ;
-    HASHID nm = DEREF_hashid ( id_name ( id ) ) ;
-    PTR ( IDENTIFIER ) ptr = hashid_id ( nm ) ;
-    do {
-	IDENTIFIER pid = DEREF_id ( ptr ) ;
-	tag = TAG_id ( pid ) ;
-	switch ( tag ) {
-	    case id_keyword_tag :
-	    case id_iso_keyword_tag :
-	    case id_reserved_tag : {
-		/* Undefine a keyword */
-		if ( do_keyword ) dump_undefine ( pid, &preproc_loc, 1 ) ;
-		pid = DEREF_id ( id_alias ( pid ) ) ;
-		COPY_id ( ptr, pid ) ;
-		COPY_id ( hashid_cache ( nm ), NULL_id ) ;
-		return ;
-	    }
-	}
-	ptr = id_alias ( pid ) ;
-    } while ( tag != id_dummy_tag ) ;
-    return ;
+	unsigned tag;
+	HASHID nm = DEREF_hashid(id_name(id));
+	PTR(IDENTIFIER)ptr = hashid_id(nm);
+	do {
+		IDENTIFIER pid = DEREF_id(ptr);
+		tag = TAG_id(pid);
+		switch (tag) {
+		case id_keyword_tag:
+		case id_iso_keyword_tag:
+		case id_reserved_tag:
+			/* Undefine a keyword */
+			if (do_keyword) {
+				dump_undefine(pid, &preproc_loc, 1);
+			}
+			pid = DEREF_id(id_alias(pid));
+			COPY_id(ptr, pid);
+			COPY_id(hashid_cache(nm), NULL_id);
+			return;
+		}
+		ptr = id_alias(pid);
+	} while (tag != id_dummy_tag);
+	return;
 }
 
 
@@ -195,18 +225,17 @@ void undef_keyword
     these keywords, except that given by s, to identifiers.
 */
 
-void rescan_pragma
-    PROTO_N ( ( s ) )
-    PROTO_T ( int s )
+void
+rescan_pragma(int s)
 {
-    PPTOKEN *p ;
-    for ( p = crt_token ; p != NULL ; p = p->next ) {
-	int t = p->tok ;
-	if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD && t != s ) {
-	    p->tok = lex_identifier ;
+	PPTOKEN *p;
+	for (p = crt_token; p != NULL; p = p->next) {
+		int t = p->tok;
+		if (t >= FIRST_KEYWORD && t <= LAST_KEYWORD && t != s) {
+			p->tok = lex_identifier;
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -217,15 +246,14 @@ void rescan_pragma
     to the lexical token number t.
 */
 
-static void set_token
-    PROTO_N ( ( p, t ) )
-    PROTO_T ( PPTOKEN *p X int t )
+static void
+set_token(PPTOKEN *p, int t)
 {
-    HASHID nm = KEYWORD ( t ) ;
-    p->tok = t ;
-    p->pp_data.id.hash = nm ;
-    p->pp_data.id.use = DEREF_id ( hashid_id ( nm ) ) ;
-    return ;
+	HASHID nm = KEYWORD(t);
+	p->tok = t;
+	p->pp_data.id.hash = nm;
+	p->pp_data.id.use = DEREF_id(hashid_id(nm));
+	return;
 }
 
 
@@ -236,43 +264,45 @@ static void set_token
     statement.  The arguments are as in parse_pragma.
 */
 
-static void patch_pragma
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static void
+patch_pragma(PPTOKEN *p, int tendra)
 {
-    p = clean_tok_list ( p ) ;
-    switch ( p->tok ) {
-	case lex_interface : {
-	    int t = crt_interface ;
-	    if ( t == lex_ignore && tendra ) t = lex_reject ;
-	    set_token ( p, t ) ;
-	    break ;
-	}
-	case lex_member : {
-	    if ( !tendra ) {
-		if ( p->next->tok == lex_definition ) {
-		    set_token ( p, lex_define_Hcap ) ;
-		    set_token ( p->next, lex_member_Hcap ) ;
+	p = clean_tok_list(p);
+	switch (p->tok) {
+	case lex_interface: {
+		int t = crt_interface;
+		if (t == lex_ignore && tendra) {
+			t = lex_reject;
 		}
-	    }
-	    break ;
+		set_token(p, t);
+		break;
 	}
-	case lex_promoted : {
-	    if ( !tendra ) set_token ( p, lex_promote ) ;
-	    break ;
+	case lex_member:
+		if (!tendra) {
+			if (p->next->tok == lex_definition) {
+				set_token(p, lex_define_Hcap);
+				set_token(p->next, lex_member_Hcap);
+			}
+		}
+		break;
+	case lex_promoted:
+		if (!tendra) {
+			set_token(p, lex_promote);
+		}
+		break;
+	case lex_reject:
+		if (!tendra) {
+			set_token(p, lex_ignore);
+		}
+		break;
 	}
-	case lex_reject : {
-	    if ( !tendra ) set_token ( p, lex_ignore ) ;
-	    break ;
+	patch_preproc_dir(p);
+	if (tendra) {
+		p = patch_tokens(tendra);
+		set_token(p, lex_tendra);
+		if (tendra == 2)p->next->tok = lex_plus_Hplus;
 	}
-    }
-    patch_preproc_dir ( p ) ;
-    if ( tendra ) {
-	p = patch_tokens ( tendra ) ;
-	set_token ( p, lex_tendra ) ;
-	if ( tendra == 2 ) p->next->tok = lex_plus_Hplus ;
-    }
-    return ;
+	return;
 }
 
 
@@ -284,76 +314,76 @@ static void patch_pragma
     TenDRA++' statements, and 0 otherwise.
 */
 
-static int parse_pragma
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static int
+parse_pragma(PPTOKEN *p, int tendra)
 {
-    int nt ;
-    PPTOKEN *pt ;
-    PARSE_STATE s ;
-    int pp = preproc_only ;
-    int tok = lex_ignore_token ;
+	int nt;
+	PPTOKEN *pt;
+	PARSE_STATE s;
+	int pp = preproc_only;
+	int tok = lex_ignore_token;
 
-    /* Parsing action */
-    new_linkage = crt_linkage ;
-    save_state ( &s, 0 ) ;
-    init_parser ( p ) ;
-    crt_loc = preproc_loc ;
-    crt_line_changed = 1 ;
-    ADVANCE_LEXER ;
-    if ( pp ) {
-	parse_preproc ( &tok ) ;
-	if ( tok != lex_ignore_token ) {
-	    tok = lex_ignore_token ;
-	    have_syntax_error = 1 ;
+	/* Parsing action */
+	new_linkage = crt_linkage;
+	save_state(&s, 0);
+	init_parser(p);
+	crt_loc = preproc_loc;
+	crt_line_changed = 1;
+	ADVANCE_LEXER;
+	if (pp) {
+		parse_preproc(&tok);
+		if (tok != lex_ignore_token) {
+			tok = lex_ignore_token;
+			have_syntax_error = 1;
+		}
+	} else {
+		parse_tendra(&tok);
 	}
-    } else {
-	parse_tendra ( &tok ) ;
-    }
-    nt = crt_lex_token ;
-    pt = crt_token ;
-    p = restore_parser () ;
+	nt = crt_lex_token;
+	pt = crt_token;
+	p = restore_parser();
 
-    /* Check for end of input */
-    switch ( tok ) {
-	case lex_set :
-	case lex_unused : {
-	    /* Patch inset pragma statements */
-	    PPTOKEN *q = clean_tok_list ( p ) ;
-	    PPTOKEN *r = new_pptok () ;
-	    p = q ;
-	    p->tok = tok ;
-	    while ( q->tok != lex_newline ) q = q->next ;
-	    q->tok = lex_inset_Hend ;
-	    r->tok = lex_newline ;
-	    r->next = q->next ;
-	    q->next = r ;
-	    patch_preproc_dir ( p ) ;
-	    tok = lex_inset_Hstart ;
-	    p = NULL ;
-	    break ;
+	/* Check for end of input */
+	switch (tok) {
+	case lex_set:
+	case lex_unused: {
+		/* Patch inset pragma statements */
+		PPTOKEN *q = clean_tok_list(p);
+		PPTOKEN *r = new_pptok();
+		p = q;
+		p->tok = tok;
+		while (q->tok != lex_newline) {
+			q = q->next;
+		}
+		q->tok = lex_inset_Hend;
+		r->tok = lex_newline;
+		r->next = q->next;
+		q->next = r;
+		patch_preproc_dir(p);
+		tok = lex_inset_Hstart;
+		p = NULL;
+		break;
 	}
-	default : {
-	    /* Should have reached the end of the line */
-	    if ( nt != lex_newline && !have_syntax_error ) {
-		ERROR err = ERR_lex_parse ( pt ) ;
-		err = concat_error ( err, ERR_cpp_end ( lex_pragma ) ) ;
-		report ( preproc_loc, err ) ;
-	    }
-	    break ;
+	default:
+		/* Should have reached the end of the line */
+		if (nt != lex_newline && !have_syntax_error) {
+			ERROR err = ERR_lex_parse(pt);
+			err = concat_error(err, ERR_cpp_end(lex_pragma));
+			report(preproc_loc, err);
+		}
+		break;
 	}
-    }
 
-    /* Preprocessing action */
-    if ( pp ) {
-	patch_pragma ( p, tendra ) ;
-	tok = lex_hash_Hpragma ;
-    } else {
-	free_tok_list ( p ) ;
-    }
-    restore_state ( &s ) ;
-    crt_linkage = new_linkage ;
-    return ( tok ) ;
+	/* Preprocessing action */
+	if (pp) {
+		patch_pragma(p, tendra);
+		tok = lex_hash_Hpragma;
+	} else {
+		free_tok_list(p);
+	}
+	restore_state(&s);
+	crt_linkage = new_linkage;
+	return(tok);
 }
 
 
@@ -365,16 +395,17 @@ static int parse_pragma
     token is returned if there is no colon in p.
 */
 
-static PPTOKEN *skip_to_colon
-    PROTO_N ( ( p ) )
-    PROTO_T ( PPTOKEN *p )
+static PPTOKEN *
+skip_to_colon(PPTOKEN *p)
 {
-    while ( p ) {
-	PPTOKEN *q = p->next ;
-	if ( p->tok == lex_colon ) return ( q ) ;
-	p = q ;
-    }
-    return ( NULL ) ;
+	while (p) {
+		PPTOKEN *q = p->next;
+		if (p->tok == lex_colon) {
+			return(q);
+		}
+		p = q;
+	}
+	return(NULL);
 }
 
 
@@ -388,54 +419,57 @@ static PPTOKEN *skip_to_colon
     token namespace.
 */
 
-static PPTOKEN *mark_tdf_param
-    PROTO_N ( ( p, n, macro ) )
-    PROTO_T ( PPTOKEN *p X int n X int macro )
+static PPTOKEN *
+mark_tdf_param(PPTOKEN *p, int n, int macro)
 {
-    if ( p && p->tok == lex_identifier ) {
-	int t = find_hashid ( p->pp_data.id.hash ) ;
-	if ( t == lex_tag_Hcap ) {
-	    if ( p->next && p->next->tok == lex_identifier ) {
-		/* Have 'TAG id' */
-		p->tok = t ;
-		p = p->next ;
-		p->pp_data.id.use = NULL_id ;
-	    } else {
-		/* Have 'TAG' */
-		if ( n == 0 ) {
-		    /* Interpret as 'TAG' */
-		    p->tok = t ;
+	if (p && p->tok == lex_identifier) {
+		int t = find_hashid(p->pp_data.id.hash);
+		if (t == lex_tag_Hcap) {
+			if (p->next && p->next->tok == lex_identifier) {
+				/* Have 'TAG id' */
+				p->tok = t;
+				p = p->next;
+				p->pp_data.id.use = NULL_id;
+			} else {
+				/* Have 'TAG' */
+				if (n == 0) {
+					/* Interpret as 'TAG' */
+					p->tok = t;
+				} else {
+					/* Interpret as 'id' where id = TAG */
+					p->pp_data.id.use = NULL_id;
+				}
+			}
 		} else {
-		    /* Interpret as 'id' where id = TAG */
-		    p->pp_data.id.use = NULL_id ;
+			/* Have 'id' */
+			if (macro && preproc_only) {
+				/* Mark macro names when preprocessing */
+				HASHID nm = p->pp_data.id.hash;
+				unsigned c = check_macro(nm, 0);
+				IDENTIFIER id =
+				    underlying_id(p->pp_data.id.use);
+				DECL_SPEC ds = DEREF_dspec(id_storage(id));
+				ds |= dspec_token;
+				COPY_dspec(id_storage(id), ds);
+				if (c == PP_TRUE) {
+					/* Token previously defined as macro */
+					PPTOKEN *q;
+					token_macro = DEREF_id(hashid_id(nm));
+					IGNORE patch_cond(lex_hash_Hop,
+							  lex_define);
+					q = patch_tokens(2);
+					q->tok = lex_builtin_Hfile;
+					q->next->tok = lex_hash_Hop;
+				}
+			}
+			p->pp_data.id.use = NULL_id;
 		}
-	    }
-	} else {
-	    /* Have 'id' */
-	    if ( macro && preproc_only ) {
-		/* Mark macro names when preprocessing */
-		HASHID nm = p->pp_data.id.hash ;
-		unsigned c = check_macro ( nm, 0 ) ;
-		IDENTIFIER id = underlying_id ( p->pp_data.id.use ) ;
-		DECL_SPEC ds = DEREF_dspec ( id_storage ( id ) ) ;
-		ds |= dspec_token ;
-		COPY_dspec ( id_storage ( id ), ds ) ;
-		if ( c == PP_TRUE ) {
-		    /* Token previously defined as macro */
-		    PPTOKEN *q ;
-		    token_macro = DEREF_id ( hashid_id ( nm ) ) ;
-		    IGNORE patch_cond ( lex_hash_Hop, lex_define ) ;
-		    q = patch_tokens ( 2 ) ;
-		    q->tok = lex_builtin_Hfile ;
-		    q->next->tok = lex_hash_Hop ;
-		}
-	    }
-	    p->pp_data.id.use = NULL_id ;
+		return(p->next);
 	}
-	return ( p->next ) ;
-    }
-    if ( n ) return ( NULL ) ;
-    return ( p ) ;
+	if (n) {
+		return(NULL);
+	}
+	return(p);
 }
 
 
@@ -446,66 +480,67 @@ static PPTOKEN *mark_tdf_param
     preprocessing tokens p.
 */
 
-static PPTOKEN *mark_prog_param
-    PROTO_N ( ( p ) )
-    PROTO_T ( PPTOKEN *p )
+static PPTOKEN *
+mark_prog_param(PPTOKEN *p)
 {
-    if ( p && p->tok == lex_identifier ) {
-	int t = find_hashid ( p->pp_data.id.hash ) ;
-	switch ( t ) {
-	    case lex_exp_Hcap :
-	    case lex_nat_Hcap :
-	    case lex_int_Hcap :
-	    case lex_stmt_Hcap :
-	    case lex_proc_Hcap : {
-		/* Have the form 'EXP id' etc */
-		p->tok = t ;
-		p = p->next ;
-		if ( p ) p = p->next ;
-		return ( p ) ;
-	    }
-	    case lex_type_Hcap : {
-		/* Have the form 'TYPE t' */
-		int depth = 0 ;
-		p->tok = t ;
-		while ( p ) {
-		    /* Step over type */
-		    switch ( p->tok ) {
-			case lex_open_Hround :
-			case lex_open_Hsquare_H1 :
-			case lex_open_Hsquare_H2 : {
-			    depth++ ;
-			    break ;
+	if (p && p->tok == lex_identifier) {
+		int t = find_hashid(p->pp_data.id.hash);
+		switch (t) {
+		case lex_exp_Hcap:
+		case lex_nat_Hcap:
+		case lex_int_Hcap:
+		case lex_stmt_Hcap:
+		case lex_proc_Hcap:
+			/* Have the form 'EXP id' etc */
+			p->tok = t;
+			p = p->next;
+			if (p) {
+				p = p->next;
 			}
-			case lex_close_Hround :
-			case lex_close_Hsquare_H1 :
-			case lex_close_Hsquare_H2 : {
-			    if ( depth > 0 ) depth-- ;
-			    break ;
+			return(p);
+		case lex_type_Hcap: {
+			/* Have the form 'TYPE t' */
+			int depth = 0;
+			p->tok = t;
+			while (p) {
+				/* Step over type */
+				switch (p->tok) {
+				case lex_open_Hround:
+				case lex_open_Hsquare_H1:
+				case lex_open_Hsquare_H2:
+					depth++;
+					break;
+				case lex_close_Hround:
+				case lex_close_Hsquare_H1:
+				case lex_close_Hsquare_H2:
+					if (depth > 0) {
+						depth--;
+					}
+					break;
+				case lex_comma:
+					if (depth == 0) {
+						return(p);
+					}
+					break;
+				case lex_close_Hbrace_H1:
+				case lex_close_Hbrace_H2:
+					return(p);
+				}
+				p = p->next;
 			}
-			case lex_comma : {
-			    if ( depth == 0 ) return ( p ) ;
-			    break ;
-			}
-			case lex_close_Hbrace_H1 :
-			case lex_close_Hbrace_H2 : {
-			    return ( p ) ;
-			}
-		    }
-		    p = p->next ;
+			break;
 		}
-		break ;
-	    }
-	    case lex_member_Hcap : {
-		/* Have the form 'MEMBER t : id' */
-		p->tok = t ;
-		p = skip_to_colon ( p->next ) ;
-		if ( p ) p = p->next ;
-		return ( p ) ;
-	    }
+		case lex_member_Hcap:
+			/* Have the form 'MEMBER t : id' */
+			p->tok = t;
+			p = skip_to_colon(p->next);
+			if (p) {
+				p = p->next;
+			}
+			return(p);
+		}
 	}
-    }
-    return ( NULL ) ;
+	return(NULL);
 }
 
 
@@ -520,154 +555,164 @@ static PPTOKEN *mark_prog_param
     macro to true if the declared token lies in the macro namespace.
 */
 
-static PPTOKEN *mark_tdf_token
-    PROTO_N ( ( p, macro ) )
-    PROTO_T ( PPTOKEN *p X int *macro )
+static PPTOKEN *
+mark_tdf_token(PPTOKEN *p, int *macro)
 {
-    if ( p == NULL ) return ( NULL ) ;
-    if ( p->tok == lex_identifier ) {
-	int t = find_hashid ( p->pp_data.id.hash ) ;
-	switch ( t ) {
-
-	    case lex_exp_Hcap : {
-		/* Expression token specifiers */
-		*macro = 1 ;
-		p->tok = t ;
-		p = p->next ;
-		if ( p->tok == lex_identifier ) {
-		    /* Check for lvalue or rvalue qualifier */
-		    t = find_hashid ( p->pp_data.id.hash ) ;
-		    if ( t == lex_lvalue || t == lex_rvalue ||
-			 t == lex_const ) {
-			p->tok = t ;
-		    }
-		    p = p->next ;
-		}
-		if ( p->tok == lex_colon ) {
-		    /* Step over type name */
-		    p = skip_to_colon ( p->next ) ;
-		}
-		return ( p ) ;
-	    }
-
-	    case lex_func_Hcap : {
-		/* Function token specifiers */
-		*macro = 1 ;
-		p->tok = t ;
-		p = skip_to_colon ( p->next ) ;
-		return ( p ) ;
-	    }
-
-	    case lex_member_Hcap : {
-		/* Member token specifiers */
-		p->tok = t ;
-		p = p->next ;
-		if ( p->tok == lex_identifier ) {
-		    /* Check for access specifier */
-		    t = find_hashid ( p->pp_data.id.hash ) ;
-		    if ( t == lex_public || t == lex_protected ||
-			 t == lex_private ) {
-			p->tok = t ;
-			p = p->next ;
-		    }
-		}
-		p = skip_to_colon ( p ) ;
-		p = skip_to_colon ( p ) ;
-		return ( p ) ;
-	    }
-
-	    case lex_proc_Hcap : {
-		/* Procedure token specifiers */
-		*macro = 1 ;
-		p->tok = t ;
-		p = p->next ;
-		if ( p == NULL ) return ( NULL ) ;
-		t = p->tok ;
-		if ( t == lex_open_Hbrace_H1 || t == lex_open_Hbrace_H2 ) {
-		    /* General procedure parameters */
-		    p = p->next ;
-		    for ( ; ; ) {
-			if ( p == NULL ) break ;
-			t = p->tok ;
-			if ( t == lex_or_H1 ) {
-			    p = p->next ;
-			    break ;
-			}
-			p = mark_tdf_token ( p, macro ) ;
-			p = mark_tdf_param ( p, 1, 0 ) ;
-			if ( p == NULL ) break ;
-			if ( p->tok == lex_comma ) p = p->next ;
-		    }
-		    for ( ; ; ) {
-			if ( p == NULL ) break ;
-			t = p->tok ;
-			if ( t == lex_close_Hbrace_H1 ||
-			     t == lex_close_Hbrace_H2 ) {
-			    p = p->next ;
-			    break ;
-			}
-			p = mark_prog_param ( p ) ;
-			if ( p == NULL ) break ;
-			if ( p->tok == lex_comma ) p = p->next ;
-		    }
-		} else if ( t == lex_open_Hround ) {
-		    /* Simple procedure parameters */
-		    p = p->next ;
-		    for ( ; ; ) {
-			if ( p == NULL ) break ;
-			t = p->tok ;
-			if ( t == lex_close_Hround ) {
-			    p = p->next ;
-			    break ;
-			}
-			p = mark_tdf_token ( p, macro ) ;
-			p = mark_tdf_param ( p, 0, 0 ) ;
-			if ( p == NULL ) break ;
-			if ( p->tok == lex_comma ) p = p->next ;
-		    }
-		}
-		p = mark_tdf_token ( p, macro ) ;
-		return ( p ) ;
-	    }
-
-	    case lex_variety_Hcap : {
-		/* Integral type token specifiers */
-		p->tok = t ;
-		p = p->next ;
-		if ( p->tok == lex_identifier ) {
-		    /* Check for signed or unsigned qualifier */
-		    t = find_hashid ( p->pp_data.id.hash ) ;
-		    if ( t == lex_signed || t == lex_unsigned ) {
-			p->tok = t ;
-			p = p->next ;
-		    }
-		}
-		return ( p ) ;
-	    }
-
-	    case lex_nat_Hcap :
-	    case lex_int_Hcap :
-	    case lex_stmt_Hcap : {
-		/* Simple token specifiers */
-		*macro = 1 ;
-		p->tok = t ;
-		return ( p->next ) ;
-	    }
-
-	    case lex_arith_Hcap :
-	    case lex_class_Hcap :
-	    case lex_float_Hcap :
-	    case lex_scalar_Hcap :
-	    case lex_struct_Hcap :
-	    case lex_type_Hcap :
-	    case lex_union_Hcap : {
-		/* Type token specifiers */
-		p->tok = t ;
-		return ( p->next ) ;
-	    }
+	if (p == NULL) {
+		return(NULL);
 	}
-    }
-    return ( p->next ) ;
+	if (p->tok == lex_identifier) {
+		int t = find_hashid(p->pp_data.id.hash);
+		switch (t) {
+		case lex_exp_Hcap:
+			/* Expression token specifiers */
+			*macro = 1;
+			p->tok = t;
+			p = p->next;
+			if (p->tok == lex_identifier) {
+				/* Check for lvalue or rvalue qualifier */
+				t = find_hashid(p->pp_data.id.hash);
+				if (t == lex_lvalue || t == lex_rvalue ||
+				    t == lex_const) {
+					p->tok = t;
+				}
+				p = p->next;
+			}
+			if (p->tok == lex_colon) {
+				/* Step over type name */
+				p = skip_to_colon(p->next);
+			}
+			return(p);
+
+		case lex_func_Hcap:
+			/* Function token specifiers */
+			*macro = 1;
+			p->tok = t;
+			p = skip_to_colon(p->next);
+			return(p);
+
+		case lex_member_Hcap:
+			/* Member token specifiers */
+			p->tok = t;
+			p = p->next;
+			if (p->tok == lex_identifier) {
+				/* Check for access specifier */
+				t = find_hashid(p->pp_data.id.hash);
+				if (t == lex_public || t == lex_protected ||
+				    t == lex_private) {
+					p->tok = t;
+					p = p->next;
+				}
+			}
+			p = skip_to_colon(p);
+			p = skip_to_colon(p);
+			return(p);
+
+		case lex_proc_Hcap:
+			/* Procedure token specifiers */
+			*macro = 1;
+			p->tok = t;
+			p = p->next;
+			if (p == NULL) {
+				return(NULL);
+			}
+			t = p->tok;
+			if (t == lex_open_Hbrace_H1 ||
+			    t == lex_open_Hbrace_H2) {
+				/* General procedure parameters */
+				p = p->next;
+				for (;;) {
+					if (p == NULL) {
+						break;
+					}
+					t = p->tok;
+					if (t == lex_or_H1) {
+						p = p->next;
+						break;
+					}
+					p = mark_tdf_token(p, macro);
+					p = mark_tdf_param(p, 1, 0);
+					if (p == NULL) {
+						break;
+					}
+					if (p->tok == lex_comma)p = p->next;
+				}
+				for (;;) {
+					if (p == NULL) {
+						break;
+					}
+					t = p->tok;
+					if (t == lex_close_Hbrace_H1 ||
+					    t == lex_close_Hbrace_H2) {
+						p = p->next;
+						break;
+					}
+					p = mark_prog_param(p);
+					if (p == NULL) {
+						break;
+					}
+					if (p->tok == lex_comma)p = p->next;
+				}
+			} else if (t == lex_open_Hround) {
+				/* Simple procedure parameters */
+				p = p->next;
+				for (;;) {
+					if (p == NULL) {
+						break;
+					}
+					t = p->tok;
+					if (t == lex_close_Hround) {
+						p = p->next;
+						break;
+					}
+					p = mark_tdf_token(p, macro);
+					p = mark_tdf_param(p, 0, 0);
+					if (p == NULL) {
+						break;
+					}
+					if (p->tok == lex_comma) {
+						p = p->next;
+					}
+				}
+			}
+			p = mark_tdf_token(p, macro);
+			return(p);
+
+		case lex_variety_Hcap:
+			/* Integral type token specifiers */
+			p->tok = t;
+			p = p->next;
+			if (p->tok == lex_identifier) {
+				/* Check for signed or unsigned qualifier */
+				t = find_hashid(p->pp_data.id.hash);
+				if (t == lex_signed || t == lex_unsigned) {
+					p->tok = t;
+					p = p->next;
+				}
+			}
+			return(p);
+
+		case lex_nat_Hcap:
+		case lex_int_Hcap:
+		case lex_stmt_Hcap:
+			/* Simple token specifiers */
+			*macro = 1;
+			p->tok = t;
+			return(p->next);
+
+		case lex_arith_Hcap:
+		case lex_class_Hcap:
+		case lex_float_Hcap:
+		case lex_scalar_Hcap:
+		case lex_struct_Hcap:
+		case lex_type_Hcap:
+		case lex_union_Hcap:
+			/* Type token specifiers */
+			p->tok = t;
+			return(p->next);
+		}
+	}
+	return(p->next);
 }
 
 
@@ -680,35 +725,34 @@ static PPTOKEN *mark_tdf_token
     is a simple identifier.
 */
 
-static PPTOKEN *quote_token_name
-    PROTO_N ( ( p ) )
-    PROTO_T ( PPTOKEN *p )
+static PPTOKEN *
+quote_token_name(PPTOKEN *p)
 {
-    PPTOKEN *q = p->next ;
-    if ( q != NULL ) {
-	/* All following tokens are quoted */
-	string s ;
-	unsigned long sp = q->pp_space ;
-	IGNORE quote_tok_list ( q, 0, char_quote ) ;
-	free_tok_list ( q ) ;
-	q = new_pptok () ;
-	q->pp_space = sp ;
-	q->next = NULL ;
-	s = token_buff.start ;
-	if ( ustrseq ( s, "-" ) ) {
-	    /* Special form '-' */
-	    q->tok = lex_minus ;
-	} else {
-	    /* Create an identifier */
-	    unsigned long h = hash ( s ) ;
-	    token_hashid = lookup_name ( s, h, 1, lex_unknown ) ;
-	    q->tok = lex_identifier ;
-	    token_parts ( lex_identifier, q ) ;
+	PPTOKEN *q = p->next;
+	if (q != NULL) {
+		/* All following tokens are quoted */
+		string s;
+		unsigned long sp = q->pp_space;
+		IGNORE quote_tok_list(q, 0, char_quote);
+		free_tok_list(q);
+		q = new_pptok();
+		q->pp_space = sp;
+		q->next = NULL;
+		s = token_buff.start;
+		if (ustrseq(s, "-")) {
+			/* Special form '-' */
+			q->tok = lex_minus;
+		} else {
+			/* Create an identifier */
+			unsigned long h = hash(s);
+			token_hashid = lookup_name(s, h, 1, lex_unknown);
+			q->tok = lex_identifier;
+			token_parts(lex_identifier, q);
+		}
+		p->next = q;
+		p = q;
 	}
-	p->next = q ;
-	p = q ;
-    }
-    return ( p ) ;
+	return(p);
 }
 
 
@@ -719,47 +763,50 @@ static PPTOKEN *quote_token_name
     preprocessing token (i.e. 'token').  tendra is as in parse_pragma.
 */
 
-static int read_tdf_token
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static int
+read_tdf_token(PPTOKEN *p, int tendra)
 {
-    /* Read and macro expand the rest of the line */
-    int t ;
-    PPTOKEN *q = p ;
-    while ( q->next ) q = q->next ;
-    if ( q->tok != lex_newline ) {
-	int macro = 0 ;
-	PPTOKEN *r = read_line ( lex_ignore_token, lex_ignore_token ) ;
-	if ( r ) r->pp_space = WHITE_SPACE ;
-	q->next = r ;
-	r = mark_tdf_token ( r, &macro ) ;
-	r = mark_tdf_param ( r, 1, macro ) ;
-	while ( r ) {
-	    /* Find token name */
-	    t = r->tok ;
-	    if ( t == lex_hash_H1 || t == lex_hash_H2 ) {
-		q = quote_token_name ( r ) ;
-		break ;
-	    }
-	    q = r ;
-	    r = r->next ;
+	/* Read and macro expand the rest of the line */
+	int t;
+	PPTOKEN *q = p;
+	while (q->next)q = q->next;
+	if (q->tok != lex_newline) {
+		int macro = 0;
+		PPTOKEN *r = read_line(lex_ignore_token, lex_ignore_token);
+		if (r) {
+			r->pp_space = WHITE_SPACE;
+		}
+		q->next = r;
+		r = mark_tdf_token(r, &macro);
+		r = mark_tdf_param(r, 1, macro);
+		while (r) {
+			/* Find token name */
+			t = r->tok;
+			if (t == lex_hash_H1 || t == lex_hash_H2) {
+				q = quote_token_name(r);
+				break;
+			}
+			q = r;
+			r = r->next;
+		}
+
+		/* Add newline token */
+		while (q->next) {
+			q = q->next;
+		}
+		q->next = new_pptok();
+		q->next->tok = lex_newline;
+		q->next->next = NULL;
 	}
+	q = expand_tok_list(p);
+	free_tok_list(p);
 
-	/* Add newline token */
-	while ( q->next ) q = q->next ;
-	q->next = new_pptok () ;
-	q->next->tok = lex_newline ;
-	q->next->next = NULL ;
-    }
-    q = expand_tok_list ( p ) ;
-    free_tok_list ( p ) ;
-
-    /* Parse the line */
-    in_token_decl = 1 ;
-    decl_loc = preproc_loc ;
-    t = parse_pragma ( q, tendra ) ;
-    in_token_decl = 0 ;
-    return ( t ) ;
+	/* Parse the line */
+	in_token_decl = 1;
+	decl_loc = preproc_loc;
+	t = parse_pragma(q, tendra);
+	in_token_decl = 0;
+	return(t);
 }
 
 
@@ -771,33 +818,36 @@ static int read_tdf_token
     have already been read into p.  tendra is as in parse_pragma.
 */
 
-static int read_tendra
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static int
+read_tendra(PPTOKEN *p, int tendra)
 {
-    /* Read and macro expand the rest of the line */
-    PPTOKEN *q = p ;
-    while ( q->next ) q = q->next ;
-    if ( q->tok != lex_newline ) {
-	PPTOKEN *r = read_line ( lex_ignore_token, lex_newline ) ;
-	if ( r ) r->pp_space = WHITE_SPACE ;
-	q->next = r ;
-    }
-    q = expand_tok_list ( p ) ;
-    free_tok_list ( p ) ;
-    p = q ;
-
-    /* Replace any identifiers by keywords */
-    for ( q = p ; q != NULL ; q = q->next ) {
-	int t = q->tok ;
-	if ( t == lex_identifier ) {
-	    t = find_hashid ( q->pp_data.id.hash ) ;
-	    q->tok = t ;
+	/* Read and macro expand the rest of the line */
+	PPTOKEN *q = p;
+	while (q->next) {
+		q = q->next;
 	}
-    }
+	if (q->tok != lex_newline) {
+		PPTOKEN *r = read_line(lex_ignore_token, lex_newline);
+		if (r) {
+			r->pp_space = WHITE_SPACE;
+		}
+		q->next = r;
+	}
+	q = expand_tok_list(p);
+	free_tok_list(p);
+	p = q;
 
-    /* Parse the line */
-    return ( parse_pragma ( p, tendra ) ) ;
+	/* Replace any identifiers by keywords */
+	for (q = p; q != NULL; q = q->next) {
+		int t = q->tok;
+		if (t == lex_identifier) {
+			t = find_hashid(q->pp_data.id.hash);
+			q->tok = t;
+		}
+	}
+
+	/* Parse the line */
+	return(parse_pragma(p, tendra));
 }
 
 
@@ -809,46 +859,49 @@ static int read_tendra
     have already been read into p.  tendra is as in parse_pragma.
 */
 
-static int read_interface
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static int
+read_interface(PPTOKEN *p, int tendra)
 {
-    /* Read and macro expand the rest of the line */
-    int tok ;
-    int nl = 0 ;
-    PPTOKEN *q = p ;
-    PPTOKEN *r = p ;
-    while ( q->next ) q = q->next ;
-    if ( q->tok != lex_newline ) {
-	PPTOKEN *s = read_line ( lex_ignore_token, lex_ignore_token ) ;
-	if ( s ) s->pp_space = WHITE_SPACE ;
-	q->next = s ;
-	nl = 1 ;
-    }
-    for ( q = p ; q != NULL ; q = q->next ) {
-	/* Suppress expansion of 'TAG' */
-	int t = q->tok ;
-	if ( t == lex_identifier ) {
-	    t = find_hashid ( q->pp_data.id.hash ) ;
-	    if ( t == lex_tag_Hcap ) q->tok = t ;
-	} else if ( t == lex_hash_H1 || t == lex_hash_H2 ) {
-	    r = quote_token_name ( q ) ;
-	    break ;
+	/* Read and macro expand the rest of the line */
+	int tok;
+	int nl = 0;
+	PPTOKEN *q = p;
+	PPTOKEN *r = p;
+	while (q->next)q = q->next;
+	if (q->tok != lex_newline) {
+		PPTOKEN *s = read_line(lex_ignore_token, lex_ignore_token);
+		if (s) {
+			s->pp_space = WHITE_SPACE;
+		}
+		q->next = s;
+		nl = 1;
 	}
-	r = q ;
-    }
+	for (q = p; q != NULL; q = q->next) {
+		/* Suppress expansion of 'TAG' */
+		int t = q->tok;
+		if (t == lex_identifier) {
+			t = find_hashid(q->pp_data.id.hash);
+			if (t == lex_tag_Hcap) {
+				q->tok = t;
+			}
+		} else if (t == lex_hash_H1 || t == lex_hash_H2) {
+			r = quote_token_name(q);
+			break;
+		}
+		r = q;
+	}
 
-    /* Add newline token */
-    if ( nl ) {
-	while ( r->next ) r = r->next ;
-	r->next = new_pptok () ;
-	r->next->tok = lex_newline ;
-	r->next->next = NULL ;
-    }
+	/* Add newline token */
+	if (nl) {
+		while (r->next)r = r->next;
+		r->next = new_pptok();
+		r->next->tok = lex_newline;
+		r->next->next = NULL;
+	}
 
-    /* Parse the line */
-    tok = parse_pragma ( p, tendra ) ;
-    return ( tok ) ;
+	/* Parse the line */
+	tok = parse_pragma(p, tendra);
+	return(tok);
 }
 
 
@@ -876,210 +929,200 @@ static int read_interface
 	DEFINE MEMBER			TenDRA member definition
 */
 
-static int read_non_tendra
-    PROTO_N ( ( p, tendra ) )
-    PROTO_T ( PPTOKEN *p X int tendra )
+static int
+read_non_tendra(PPTOKEN *p, int tendra)
 {
-    if ( p->tok == lex_identifier ) {
-	int t = find_hashid ( p->pp_data.id.hash ) ;
-	switch ( t ) {
+	if (p->tok == lex_identifier) {
+		int t = find_hashid(p->pp_data.id.hash);
+		switch (t) {
 
-	    case lex_token : {
-		/* Token syntax */
-		p->tok = t ;
-		return ( read_tdf_token ( p, tendra ) ) ;
-	    }
+		case lex_token:
+			/* Token syntax */
+			p->tok = t;
+			return(read_tdf_token(p, tendra));
 
-	    case lex_extend :
-	    case lex_implement : {
-		/* Interface inclusion */
-		int pp ;
-		if ( !tendra ) {
-		    /* Need 'interface' for non-TenDRA form */
-		    PPTOKEN *q = get_token () ;
-		    p->next = q ;
-		    if ( q->tok == lex_identifier ) {
-			int s = find_hashid ( q->pp_data.id.hash ) ;
-			if ( s != lex_interface ) break ;
-		    }
-		}
-		pp = read_include ( 1, lex_pragma ) ;
-		if ( pp == lex_included ) {
-		    /* Update current interface flag */
-		    if ( t == lex_implement ) {
-			crt_interface = lex_define ;
-		    } else {
-			if ( crt_interface != lex_no_Hdef ) {
-			    crt_interface = lex_ignore ;
+		case lex_extend:
+		case lex_implement: {
+			/* Interface inclusion */
+			int pp;
+			if (!tendra) {
+				/* Need 'interface' for non-TenDRA form */
+				PPTOKEN *q = get_token();
+				p->next = q;
+				if (q->tok == lex_identifier) {
+					int s = find_hashid(q->pp_data.id.hash);
+					if (s != lex_interface) {
+						break;
+					}
+				}
 			}
-		    }
-		}
-		return ( pp ) ;
-	    }
-
-	    case lex_define :
-	    case lex_no_Hdef :
-	    case lex_interface : {
-		/* Interface listing */
-		p->tok = t ;
-		return ( read_interface ( p, tendra ) ) ;
-	    }
-
-	    case lex_reject : {
-		/* Interface listing (TenDRA form) */
-		if ( tendra ) {
-		    p->tok = t ;
-		    return ( read_interface ( p, tendra ) ) ;
-		}
-		break ;
-	    }
-
-	    case lex_ignore : {
-		/* Interface listing (non-TenDRA form) */
-		if ( !tendra ) {
-		    p->tok = lex_reject ;
-		    return ( read_interface ( p, tendra ) ) ;
-		}
-		break ;
-	    }
-
-	    case lex_undef : {
-		/* Token undefining */
-		PPTOKEN *q = get_token () ;
-		p->next = q ;
-		if ( q->tok == lex_identifier ) {
-		    int s = find_hashid ( q->pp_data.id.hash ) ;
-		    if ( s == lex_token ) {
-			p->tok = t ;
-			q->tok = s ;
-			return ( read_interface ( p, tendra ) ) ;
-		    }
-		}
-		break ;
-	    }
-
-	    case lex_promote : {
-		/* Promotion specification (non-TenDRA form) */
-		if ( !tendra ) {
-		    set_token ( p, lex_promoted ) ;
-		    return ( read_tendra ( p, tendra ) ) ;
-		}
-		break ;
-	    }
-
-	    case lex_promoted : {
-		/* Promotion specification (TenDRA form) */
-		if ( tendra ) {
-		    set_token ( p, lex_promoted ) ;
-		    return ( read_tendra ( p, tendra ) ) ;
-		}
-		break ;
-	    }
-
-	    case lex_compute : {
-		/* Computed promotion specification */
-		PPTOKEN *q = get_token () ;
-		p->next = q ;
-		if ( q->tok == lex_identifier ) {
-		    int s = find_hashid ( q->pp_data.id.hash ) ;
-		    if ( s == lex_promote ) {
-			set_token ( p, t ) ;
-			set_token ( q, s ) ;
-			return ( read_tendra ( p, tendra ) ) ;
-		    }
-		}
-		break ;
-	    }
-
-	    case lex_integer : {
-		/* Integer literal specification */
-		PPTOKEN *q = get_token () ;
-		p->next = q ;
-		if ( q->tok == lex_identifier ) {
-		    int s = find_hashid ( q->pp_data.id.hash ) ;
-		    if ( s == lex_lit ) {
-			set_token ( p, t ) ;
-			set_token ( q, s ) ;
-			return ( read_tendra ( p, tendra ) ) ;
-		    }
-		}
-		break ;
-	    }
-
-	    case lex_define_Hcap : {
-		/* Member definition (non-TenDRA form) */
-		if ( !tendra ) {
-		    PPTOKEN *q = get_token () ;
-		    p->next = q ;
-		    if ( q->tok == lex_identifier ) {
-			int s = find_hashid ( q->pp_data.id.hash ) ;
-			if ( s == lex_member_Hcap ) {
-			    set_token ( p, lex_member ) ;
-			    set_token ( q, lex_definition ) ;
-			    return ( read_tendra ( p, tendra ) ) ;
+			pp = read_include(1, lex_pragma);
+			if (pp == lex_included) {
+				/* Update current interface flag */
+				if (t == lex_implement) {
+					crt_interface = lex_define;
+				} else {
+					if (crt_interface != lex_no_Hdef) {
+						crt_interface = lex_ignore;
+					}
+				}
 			}
-		    }
+			return(pp);
 		}
-		break ;
-	    }
 
-	    case lex_member : {
-		/* Member definition (TenDRA form) */
-		if ( tendra ) {
-		    PPTOKEN *q = get_token () ;
-		    p->next = q ;
-		    if ( q->tok == lex_identifier ) {
-			int s = find_hashid ( q->pp_data.id.hash ) ;
-			if ( s == lex_definition ) {
-			    set_token ( p, lex_member ) ;
-			    set_token ( q, lex_definition ) ;
-			    return ( read_tendra ( p, tendra ) ) ;
+		case lex_define:
+		case lex_no_Hdef:
+		case lex_interface:
+			/* Interface listing */
+			p->tok = t;
+			return(read_interface(p, tendra));
+
+		case lex_reject:
+			/* Interface listing (TenDRA form) */
+			if (tendra) {
+				p->tok = t;
+				return(read_interface(p, tendra));
 			}
-		    }
-		}
-		break ;
-	    }
+			break;
 
-	    case lex_accept : {
-		/* Conversion tokens (non-TenDRA form) */
-		if ( !tendra ) {
-		    PPTOKEN *q = get_token () ;
-		    p->next = q ;
-		    if ( q->tok == lex_ellipsis ) {
-			return ( read_tendra ( p, tendra ) ) ;
-		    }
-		    if ( q->tok == lex_identifier ) {
-			int s = find_hashid ( q->pp_data.id.hash ) ;
-			if ( s == lex_conversion ) {
-			    return ( read_tendra ( p, tendra ) ) ;
+		case lex_ignore:
+			/* Interface listing (non-TenDRA form) */
+			if (!tendra) {
+				p->tok = lex_reject;
+				return(read_interface(p, tendra));
 			}
-		    }
-		}
-		break ;
-	    }
+			break;
 
-	    case lex_external : {
-		/* External volatility (non-TenDRA form) */
-		if ( !tendra ) {
-		    PPTOKEN *q = get_token () ;
-		    p->next = q ;
-		    if ( q->tok == lex_identifier ) {
-			int s = find_hashid ( q->pp_data.id.hash ) ;
-			if ( s == lex_volatile ) {
-			    return ( read_tendra ( p, tendra ) ) ;
+		case lex_undef: {
+			/* Token undefining */
+			PPTOKEN *q = get_token();
+			p->next = q;
+			if (q->tok == lex_identifier) {
+				int s = find_hashid(q->pp_data.id.hash);
+				if (s == lex_token) {
+					p->tok = t;
+					q->tok = s;
+					return(read_interface(p, tendra));
+				}
 			}
-		    }
+			break;
 		}
-		break ;
-	    }
 
-	    case lex_preserve : {
-		/* Preserve statics (non-TenDRA form) */
-		return ( read_tendra ( p, tendra ) ) ;
-	    }
+		case lex_promote:
+			/* Promotion specification (non-TenDRA form) */
+			if (!tendra) {
+				set_token(p, lex_promoted);
+				return(read_tendra(p, tendra));
+			}
+			break;
+
+		case lex_promoted:
+			/* Promotion specification (TenDRA form) */
+			if (tendra) {
+				set_token(p, lex_promoted);
+				return(read_tendra(p, tendra));
+			}
+			break;
+
+		case lex_compute: {
+			/* Computed promotion specification */
+			PPTOKEN *q = get_token();
+			p->next = q;
+			if (q->tok == lex_identifier) {
+				int s = find_hashid(q->pp_data.id.hash);
+				if (s == lex_promote) {
+					set_token(p, t);
+					set_token(q, s);
+					return(read_tendra(p, tendra));
+				}
+			}
+			break;
+		}
+
+		case lex_integer: {
+			/* Integer literal specification */
+			PPTOKEN *q = get_token();
+			p->next = q;
+			if (q->tok == lex_identifier) {
+				int s = find_hashid(q->pp_data.id.hash);
+				if (s == lex_lit) {
+					set_token(p, t);
+					set_token(q, s);
+					return(read_tendra(p, tendra));
+				}
+			}
+			break;
+		}
+
+		case lex_define_Hcap:
+			/* Member definition (non-TenDRA form) */
+			if (!tendra) {
+				PPTOKEN *q = get_token();
+				p->next = q;
+				if (q->tok == lex_identifier) {
+					int s = find_hashid(q->pp_data.id.hash);
+					if (s == lex_member_Hcap) {
+						set_token(p, lex_member);
+						set_token(q, lex_definition);
+						return(read_tendra(p, tendra));
+					}
+				}
+			}
+			break;
+
+		case lex_member:
+			/* Member definition (TenDRA form) */
+			if (tendra) {
+				PPTOKEN *q = get_token();
+				p->next = q;
+				if (q->tok == lex_identifier) {
+					int s = find_hashid(q->pp_data.id.hash);
+					if (s == lex_definition) {
+						set_token(p, lex_member);
+						set_token(q, lex_definition);
+						return(read_tendra(p, tendra));
+					}
+				}
+			}
+			break;
+
+		case lex_accept:
+			/* Conversion tokens (non-TenDRA form) */
+			if (!tendra) {
+				PPTOKEN *q = get_token();
+				p->next = q;
+				if (q->tok == lex_ellipsis) {
+					return(read_tendra(p, tendra));
+				}
+				if (q->tok == lex_identifier) {
+					int s = find_hashid(q->pp_data.id.hash);
+					if (s == lex_conversion) {
+						return(read_tendra(p, tendra));
+					}
+				}
+			}
+			break;
+
+		case lex_external:
+			/* External volatility (non-TenDRA form) */
+			if (!tendra) {
+				PPTOKEN *q = get_token();
+				p->next = q;
+				if (q->tok == lex_identifier) {
+					int s = find_hashid(q->pp_data.id.hash);
+					if (s == lex_volatile) {
+						return(read_tendra(p, tendra));
+					}
+				}
+			}
+			break;
+
+		case lex_preserve:
+			/* Preserve statics (non-TenDRA form) */
+			return(read_tendra(p, tendra));
+		}
 	}
-    }
-    return ( lex_unknown ) ;
+	return(lex_unknown);
 }
 
 
@@ -1093,68 +1136,70 @@ static int read_non_tendra
     of the preprocessing directive if necessary.
 */
 
-int read_pragma
-    PROTO_Z ()
+int
+read_pragma(void)
 {
-    int t ;
-    PPTOKEN *p = get_token () ;
-    if ( p->tok == lex_identifier ) {
-	t = find_hashid ( p->pp_data.id.hash ) ;
-	switch ( t ) {
+	int t;
+	PPTOKEN *p = get_token();
+	if (p->tok == lex_identifier) {
+		t = find_hashid(p->pp_data.id.hash);
+		switch (t) {
 
-	    case lex_tendra : {
-		/* Deal with '#pragma TenDRA' */
-		int tendra = 1 ;
-		p->next = free_tokens ;
-		free_tokens = p ;
-		p = get_token () ;
-		if ( p->tok == lex_plus_Hplus ) {
-		    /* Allow for TenDRA++ */
+		case lex_tendra: {
+			/* Deal with '#pragma TenDRA' */
+			int tendra = 1;
+			p->next = free_tokens;
+			free_tokens = p;
+			p = get_token();
+			if (p->tok == lex_plus_Hplus) {
+				/* Allow for TenDRA++ */
 #if LANGUAGE_CPP
-		    p->next = free_tokens ;
-		    free_tokens = p ;
-		    p = get_token () ;
-		    tendra = 2 ;
+				p->next = free_tokens;
+				free_tokens = p;
+				p = get_token();
+				tendra = 2;
 #else
-		    return ( lex_ignore_token ) ;
+				return(lex_ignore_token);
 #endif
+			}
+
+			/* Allow for optional TenDRA pragmas */
+			t = read_non_tendra(p, tendra);
+			if (t != lex_unknown) {
+				return(t);
+			}
+
+			/* Deal with TenDRA pragmas */
+			t = read_tendra(p, tendra);
+			return(t);
 		}
 
-		/* Allow for optional TenDRA pragmas */
-		t = read_non_tendra ( p, tendra ) ;
-		if ( t != lex_unknown ) return ( t ) ;
+		case lex_ident:
+			/* Deal with '#pragma ident' */
+			if (!option(OPT_ppdir_ident_ignore)) {
+				read_ident(lex_pragma);
+			}
+			return(lex_ignore_token);
 
-		/* Deal with TenDRA pragmas */
-		t = read_tendra ( p, tendra ) ;
-		return ( t ) ;
-	    }
-
-	    case lex_ident : {
-		/* Deal with '#pragma ident' */
-		if ( !option ( OPT_ppdir_ident_ignore ) ) {
-		    read_ident ( lex_pragma ) ;
+		case lex_weak:
+			/* Deal with '#pragma weak' */
+			if (!option(OPT_ppdir_weak_ignore)) {
+				read_weak(lex_pragma);
+			}
+			return(lex_ignore_token);
 		}
-		return ( lex_ignore_token ) ;
-	    }
-
-	    case lex_weak : {
-		/* Deal with '#pragma weak' */
-		if ( !option ( OPT_ppdir_weak_ignore ) ) {
-		    read_weak ( lex_pragma ) ;
-		}
-		return ( lex_ignore_token ) ;
-	    }
 	}
-    }
 
-    /* Deal with non-TenDRA pragmas */
-    t = read_non_tendra ( p, 0 ) ;
-    if ( t != lex_unknown ) return ( t ) ;
+	/* Deal with non-TenDRA pragmas */
+	t = read_non_tendra(p, 0);
+	if (t != lex_unknown) {
+		return(t);
+	}
 
-    /* Report unknown pragmas */
-    free_tok_list ( p ) ;
-    report ( preproc_loc, ERR_cpp_pragma_unknown ( lex_pragma ) ) ;
-    return ( lex_ignore_token ) ;
+	/* Report unknown pragmas */
+	free_tok_list(p);
+	report(preproc_loc, ERR_cpp_pragma_unknown(lex_pragma));
+	return(lex_ignore_token);
 }
 
 
@@ -1169,52 +1214,49 @@ int read_pragma
     PROTOLIB, PRINTFLIKE and SCANFLIKE.
 */
 
-int lint_comment
-    PROTO_Z ()
+int
+lint_comment(void)
 {
-    string t ;
-    size_t sz ;
-    character c ;
-    string s = token_buff.start ;
-    while ( c = *s, is_white_char ( ( unsigned long ) c ) ) {
-	/* Step over initial white space */
-	s++ ;
-    }
-    t = s ;
-    while ( c = *s, is_alpha_char ( ( unsigned long ) c ) ) {
-	/* Scan to end of identifier */
-	s++ ;
-    }
+	string t;
+	size_t sz;
+	character c;
+	string s = token_buff.start;
+	while (c = *s, is_white_char((unsigned long)c)) {
+		/* Step over initial white space */
+		s++;
+	}
+	t = s;
+	while (c = *s, is_alpha_char((unsigned long)c)) {
+		/* Scan to end of identifier */
+		s++;
+	}
 
-    /* Check identifier */
-    sz = ( size_t ) ( s - t ) ;
-    switch ( sz ) {
-	case 8 : {
-	    if ( strncmp ( strlit ( t ), "ARGSUSED", sz ) == 0 ) {
-		/* Indicate unused variables */
-		suppress_variable = 1 ;
-	    } else if ( strncmp ( strlit ( t ), "FALLTHRU", sz ) == 0 ) {
-		/* Suppress fall through errors */
-		suppress_fall = 1 ;
-	    }
-	    break ;
+	/* Check identifier */
+	sz = (size_t)(s - t);
+	switch (sz) {
+	case 8:
+		if (strncmp(strlit(t), "ARGSUSED", sz) == 0) {
+			/* Indicate unused variables */
+			suppress_variable = 1;
+		} else if (strncmp(strlit(t), "FALLTHRU", sz) == 0) {
+			/* Suppress fall through errors */
+			suppress_fall = 1;
+		}
+		break;
+	case 10:
+		if (strncmp(strlit(t), "NOTREACHED", sz) == 0) {
+			/* Suppress unreached code errors */
+			unreached_last = 1;
+		}
+		break;
+	case 11:
+		if (strncmp(strlit(t), "FALLTHROUGH", sz) == 0) {
+			/* Suppress fall through errors */
+			suppress_fall = 1;
+		}
+		break;
 	}
-	case 10 : {
-	    if ( strncmp ( strlit ( t ), "NOTREACHED", sz ) == 0 ) {
-		/* Suppress unreached code errors */
-		unreached_last = 1 ;
-	    }
-	    break ;
-	}
-	case 11 : {
-	    if ( strncmp ( strlit ( t ), "FALLTHROUGH", sz ) == 0 ) {
-		/* Suppress fall through errors */
-		suppress_fall = 1 ;
-	    }
-	    break ;
-	}
-    }
 
-    /* Rest of comment is ignored */
-    return ( lex_ignore_token ) ;
+	/* Rest of comment is ignored */
+	return(lex_ignore_token);
 }

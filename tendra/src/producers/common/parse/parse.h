@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997, 1998
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -41,13 +71,13 @@
 */
 
 typedef struct pstate_tag {
-    LOCATION loc ;
-    OPTIONS *opts ;
-    int flag [10] ;
-    DECL_SPEC dspec [2] ;
-    NAMESPACE nspace [2] ;
-    STACK ( NAMESPACE ) nstack [3] ;
-} PARSE_STATE ;
+	LOCATION loc;
+	OPTIONS *opts;
+	int flag[10];
+	DECL_SPEC dspec[2];
+	NAMESPACE nspace[2];
+	STACK(NAMESPACE)nstack[3];
+} PARSE_STATE;
 
 
 /*
@@ -76,17 +106,17 @@ typedef struct pstate_tag {
     level lexical analysis and preprocessing routine.
 */
 
-extern void init_parser PROTO_S ( ( PPTOKEN * ) ) ;
-extern int expand_token PROTO_S ( ( int ) ) ;
-extern int expand_preproc PROTO_S ( ( int ) ) ;
-extern void rescan_template PROTO_S ( ( NAMESPACE ) ) ;
-extern PPTOKEN *patch_tokens PROTO_S ( ( int ) ) ;
-extern PPTOKEN *restore_parser PROTO_S ( ( void ) ) ;
-extern PPTOKEN *read_loc_tokens PROTO_S ( ( PPTOKEN * ) ) ;
-extern void snip_tokens PROTO_S ( ( PPTOKEN *, PPTOKEN * ) ) ;
-extern void save_state PROTO_S ( ( PARSE_STATE *, int ) ) ;
-extern void restore_state PROTO_S ( ( PARSE_STATE * ) ) ;
-extern int crt_state_depth ;
+extern void init_parser(PPTOKEN *);
+extern int expand_token(int);
+extern int expand_preproc(int);
+extern void rescan_template(NAMESPACE);
+extern PPTOKEN *patch_tokens(int);
+extern PPTOKEN *restore_parser(void);
+extern PPTOKEN *read_loc_tokens(PPTOKEN *);
+extern void snip_tokens(PPTOKEN *, PPTOKEN *);
+extern void save_state(PARSE_STATE *, int);
+extern void restore_state(PARSE_STATE *);
+extern int crt_state_depth;
 
 
 /*
@@ -99,12 +129,12 @@ extern int crt_state_depth ;
     saved_lex_token is used as a temporary store in exception handling.
 */
 
-extern PPTOKEN *crt_token ;
-extern NAMESPACE crt_lookup ;
-extern int crt_lex_token ;
-extern int saved_lex_token ;
-extern int last_lex_token ;
-extern int have_syntax_error ;
+extern PPTOKEN *crt_token;
+extern NAMESPACE crt_lookup;
+extern int crt_lex_token;
+extern int saved_lex_token;
+extern int last_lex_token;
+extern int have_syntax_error;
 
 
 /*
@@ -118,21 +148,21 @@ extern int have_syntax_error ;
 */
 
 #define CURRENT_TERMINAL	crt_lex_token
-#define RESTORE_LEXER		crt_lex_token = saved_lex_token ;
-#define next_token()		expand_token ( EXPAND_AHEAD )
-#define RESCAN_LEXER		crt_lex_token = expand_token ( EXPAND_RESCAN )
+#define RESTORE_LEXER		crt_lex_token = saved_lex_token;
+#define next_token()		expand_token(EXPAND_AHEAD)
+#define RESCAN_LEXER		crt_lex_token = expand_token(EXPAND_RESCAN)
 
-#define ADVANCE_LEXER\
-    {\
-	last_lex_token = crt_lex_token ;\
-	crt_lex_token = expand_token ( EXPAND_NORMAL ) ;\
+#define ADVANCE_LEXER					\
+    {							\
+	last_lex_token = crt_lex_token;			\
+	crt_lex_token = expand_token(EXPAND_NORMAL);	\
     }
 
 
-#define SAVE_LEXER( T )\
-    {\
-	saved_lex_token = crt_lex_token ;\
-	crt_lex_token = ( T ) ;\
+#define SAVE_LEXER(T)				\
+    {						\
+	saved_lex_token = crt_lex_token;	\
+	crt_lex_token = (T);			\
     }
 
 

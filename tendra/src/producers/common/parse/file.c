@@ -1,6 +1,36 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -54,8 +84,8 @@
     and to which the output routines write.
 */
 
-FILE *input_file = NULL ;
-FILE *output_file [ OUTPUT_FILES ] = { NULL, NULL, NULL, NULL, NULL } ;
+FILE *input_file = NULL;
+FILE *output_file[OUTPUT_FILES] = { NULL, NULL, NULL, NULL, NULL };
 
 
 /*
@@ -67,8 +97,8 @@ FILE *output_file [ OUTPUT_FILES ] = { NULL, NULL, NULL, NULL, NULL } ;
     files.
 */
 
-string input_name = NULL ;
-string output_name [ OUTPUT_FILES ] = { NULL, NULL, NULL, NULL, NULL } ;
+string input_name = NULL;
+string output_name[OUTPUT_FILES] = { NULL, NULL, NULL, NULL, NULL };
 
 
 /*
@@ -79,9 +109,9 @@ string output_name [ OUTPUT_FILES ] = { NULL, NULL, NULL, NULL, NULL } ;
     macros give the corresponding names used in error reports.
 */
 
-#define std_file_name( A )	ustrseq ( ( A ), "-" )
-#define stdin_name		ustrlit ( "<stdin>" )
-#define stdout_name		ustrlit ( "<stdout>" )
+#define std_file_name(A)	ustrseq((A), "-")
+#define stdin_name		ustrlit("<stdin>")
+#define stdout_name		ustrlit("<stdout>")
 
 
 /*
@@ -92,9 +122,9 @@ string output_name [ OUTPUT_FILES ] = { NULL, NULL, NULL, NULL, NULL } ;
     has an associated dummy file and file name.
 */
 
-BUFFER internal_buff = NULL_buff ;
-static FILE *internal_file = NULL ;
-static string internal_name = NULL ;
+BUFFER internal_buff = NULL_buff;
+static FILE *internal_file = NULL;
+static string internal_name = NULL;
 
 
 /*
@@ -104,7 +134,7 @@ static string internal_name = NULL ;
     directives.
 */
 
-BUFFER incl_buff = NULL_buff ;
+BUFFER incl_buff = NULL_buff;
 
 
 /*
@@ -113,13 +143,13 @@ BUFFER incl_buff = NULL_buff ;
     These flags are used to record changes in the current file location.
 */
 
-unsigned long crt_spaces = 0 ;
-unsigned long tab_width = 8 ;
-int crt_line_changed = 0 ;
-int crt_file_changed = 0 ;
-int crt_col_changed = 0 ;
-int crt_file_type = 0 ;
-int bad_crt_loc = 0 ;
+unsigned long crt_spaces = 0;
+unsigned long tab_width = 8;
+int crt_line_changed = 0;
+int crt_file_changed = 0;
+int crt_col_changed = 0;
+int crt_file_type = 0;
+int bad_crt_loc = 0;
 
 
 /*
@@ -135,36 +165,36 @@ int bad_crt_loc = 0 ;
 */
 
 #define NO_BUFFER		4
-#define CHAR_SZ			sizeof ( character )
-#define BUFF_SZ			( ( size_t ) ( BUFSIZ ) )
+#define CHAR_SZ			sizeof(character)
+#define BUFF_SZ			((size_t)(BUFSIZ))
 #define PENDING_SZ		16
 #define OVERFLOW_SZ		16
-#define TOTAL_SZ		( PENDING_SZ + BUFF_SZ + OVERFLOW_SZ )
+#define TOTAL_SZ		(PENDING_SZ + BUFF_SZ + OVERFLOW_SZ)
 
 typedef struct {
-    string buff ;
-    string posn ;
-    string end ;
-    string eof ;
-    long bytes ;
-} INPUT_BUFFER ;
+	string buff;
+	string posn;
+	string end;
+	string eof;
+	long bytes;
+} INPUT_BUFFER;
 
-static INPUT_BUFFER input_buff [ NO_BUFFER ] = {
-    { NULL, NULL, NULL, NULL, 0 },
-    { NULL, NULL, NULL, NULL, 0 },
-    { NULL, NULL, NULL, NULL, 0 },
-    { NULL, NULL, NULL, NULL, 0 }
-} ;
+static INPUT_BUFFER input_buff[NO_BUFFER] = {
+	{ NULL, NULL, NULL, NULL, 0 },
+	{ NULL, NULL, NULL, NULL, 0 },
+	{ NULL, NULL, NULL, NULL, 0 },
+	{ NULL, NULL, NULL, NULL, 0 }
+};
 
-string input_start = NULL ;
-string input_posn = NULL ;
-string input_end = NULL ;
-string input_eof = NULL ;
-string input_crt = NULL ;
-static long input_bytes = 0 ;
-static int input_special = 0 ;
-static int started_buff = 0 ;
-unsigned long crt_buff_no = 0 ;
+string input_start = NULL;
+string input_posn = NULL;
+string input_end = NULL;
+string input_eof = NULL;
+string input_crt = NULL;
+static long input_bytes = 0;
+static int input_special = 0;
+static int started_buff = 0;
+unsigned long crt_buff_no = 0;
 
 
 /*
@@ -174,18 +204,19 @@ unsigned long crt_buff_no = 0 ;
     pathname.
 */
 
-int is_full_pathname
-    PROTO_N ( ( nm ) )
-    PROTO_T ( string nm )
+int
+is_full_pathname(string nm)
 {
-    character c = nm [0] ;
-    character q = ( character ) drive_sep ;
-    if ( c == char_slash ) return ( 1 ) ;
-    if ( c && q && nm [1] == q ) {
-	/* Allow for DOS drive letters */
-	return ( is_alpha_char ( ( unsigned long ) c ) ) ;
-    }
-    return ( 0 ) ;
+	character c = nm[0];
+	character q = (character)drive_sep;
+	if (c == char_slash) {
+		return(1);
+	}
+	if (c && q && nm[1] == q) {
+		/* Allow for DOS drive letters */
+		return(is_alpha_char((unsigned long)c));
+	}
+	return(0);
 }
 
 
@@ -196,19 +227,20 @@ int is_full_pathname
     sensible forward slashes rather backslashes.
 */
 
-string make_pathname
-    PROTO_N ( ( nm ) )
-    PROTO_T ( string nm )
+string
+make_pathname(string nm)
 {
-    character q = ( character ) file_sep ;
-    if ( q != char_slash ) {
-	string s ;
-	nm = xustrcpy ( nm ) ;
-	for ( s = nm ; *s ; s++ ) {
-	    if ( *s == q ) *s = char_slash ;
+	character q = (character)file_sep;
+	if (q != char_slash) {
+		string s;
+		nm = xustrcpy(nm);
+		for (s = nm; *s; s++) {
+			if (*s == q) {
+				*s = char_slash;
+			}
+		}
 	}
-    }
-    return ( nm ) ;
+	return(nm);
 }
 
 
@@ -221,56 +253,60 @@ string make_pathname
     right.
 */
 
-static string normalise_pathname
-    PROTO_N ( ( s ) )
-    PROTO_T ( string s )
+static string
+normalise_pathname(string s)
 {
-    character c ;
-    string p = s ;
-    int depth = 0 ;
-    int changed = 0 ;
-    BUFFER *bf = clear_buffer ( &incl_buff, NIL ( FILE ) ) ;
-    while ( c = *( p++ ), c != 0 ) {
-	if ( c == char_slash ) {
-	    if ( p [0] == char_dot ) {
-		if ( p [1] == char_slash ) {
-		    /* Have '/./' */
-		    p++ ;
-		    changed = 1 ;
-		} else if ( p [1] == char_dot && p [2] == char_slash ) {
-		    /* Have '/../' */
-		    string q = bf->posn ;
-		    if ( depth > 0 ) {
-			string q0 = bf->start ;
-			*q = 0 ;
-			q = ustrrchr ( q0, char_slash ) ;
-			if ( q && q != q0 ) {
-			    bf->posn = q ;
-			    p += 2 ;
-			    changed = 1 ;
-			    c = 0 ;
+	character c;
+	string p = s;
+	int depth = 0;
+	int changed = 0;
+	BUFFER *bf = clear_buffer(&incl_buff, NIL(FILE));
+	while (c = *(p++), c != 0) {
+		if (c == char_slash) {
+			if (p[0] == char_dot) {
+				if (p[1] == char_slash) {
+					/* Have '/./' */
+					p++;
+					changed = 1;
+				} else if (p[1] == char_dot &&
+					   p[2] == char_slash) {
+					/* Have '/../' */
+					string q = bf->posn;
+					if (depth > 0) {
+						string q0 = bf->start;
+						*q = 0;
+						q = ustrrchr(q0, char_slash);
+						if (q && q != q0) {
+							bf->posn = q;
+							p += 2;
+							changed = 1;
+							c = 0;
+						}
+					}
+					if (c) {
+						bfputc(bf, (int)c);
+					}
+					depth--;
+				} else {
+					bfputc(bf, (int)c);
+					depth++;
+				}
+			} else if (p[0] == char_slash) {
+				/* Have '//' */
+				changed = 1;
+			} else {
+				bfputc(bf, (int)c);
+				depth++;
 			}
-		    }
-		    if ( c ) bfputc ( bf, ( int ) c ) ;
-		    depth-- ;
 		} else {
-		    bfputc ( bf, ( int ) c ) ;
-		    depth++ ;
+			bfputc(bf, (int)c);
 		}
-	    } else if ( p [0] == char_slash ) {
-		/* Have '//' */
-		changed = 1 ;
-	    } else {
-		bfputc ( bf, ( int ) c ) ;
-		depth++ ;
-	    }
-	} else {
-	    bfputc ( bf, ( int ) c ) ;
 	}
-    }
-    bfputc ( bf, 0 ) ;
-    if ( changed ) s = xustrcpy ( bf->start ) ;
-    return ( s ) ;
+	bfputc(bf, 0);
+	if (changed) {
+		s = xustrcpy(bf->start);
+	}
+	return(s);
 }
 
 
@@ -281,27 +317,26 @@ static string normalise_pathname
     the result of applying make_pathname to nm.
 */
 
-string set_crt_loc
-    PROTO_N ( ( nm, special ) )
-    PROTO_T ( string nm X int special )
+string
+set_crt_loc(string nm, int special)
 {
-    string en ;
-    unsigned long date ;
-    if ( special ) {
-	/* Standard input */
-	en = ustrlit ( "" ) ;
-	date = 0 ;
-    } else {
-	/* Simple file */
-	STAT_TYPE *fs ;
-	STAT_TYPE fstr ;
-	nm = make_pathname ( nm ) ;
-	en = nm ;
-	fs = stat_func ( strlit ( nm ), &fstr ) ;
-	date = stat_date ( fs ) ;
-    }
-    CREATE_loc ( nm, en, nm, NULL, NULL_ptr ( LOCATION ), date, crt_loc ) ;
-    return ( nm ) ;
+	string en;
+	unsigned long date;
+	if (special) {
+		/* Standard input */
+		en = ustrlit("");
+		date = 0;
+	} else {
+		/* Simple file */
+		STAT_TYPE *fs;
+		STAT_TYPE fstr;
+		nm = make_pathname(nm);
+		en = nm;
+		fs = stat_func(strlit(nm), &fstr);
+		date = stat_date(fs);
+	}
+	CREATE_loc(nm, en, nm, NULL, NULL_ptr(LOCATION), date, crt_loc);
+	return(nm);
 }
 
 
@@ -315,37 +350,40 @@ string set_crt_loc
     1 if the file is opened successfully.
 */
 
-int open_input
-    PROTO_N ( ( bin ) )
-    PROTO_T ( int bin )
+int
+open_input(int bin)
 {
-    if ( input_file == NULL ) {
-	string nm = input_name ;
-	if ( nm == NULL || std_file_name ( nm ) ) {
-	    nm = set_crt_loc ( stdin_name, 1 ) ;
-	    input_special = 1 ;
-	    if ( !bin ) input_file = stdin ;
-	} else {
-	    CONST char *mode = ( bin ? "rb" : "r" ) ;
-	    nm = set_crt_loc ( nm, 0 ) ;
-	    input_special = 0 ;
-	    input_file = fopen ( strlit ( nm ), mode ) ;
+	if (input_file == NULL) {
+		string nm = input_name;
+		if (nm == NULL || std_file_name(nm)) {
+			nm = set_crt_loc(stdin_name, 1);
+			input_special = 1;
+			if (!bin) {
+				input_file = stdin;
+			}
+		} else {
+			CONST char *mode = (bin ? "rb" : "r");
+			nm = set_crt_loc(nm, 0);
+			input_special = 0;
+			input_file = fopen(strlit(nm), mode);
+		}
+		input_name = nm;
+		if (input_file == NULL) {
+			return(0);
+		}
+		if (!started_buff) {
+			unsigned i;
+			for (i = 0; i < NO_BUFFER; i++) {
+				string buff = xmalloc_nof(character, TOTAL_SZ);
+				input_buff[i].buff = buff;
+			}
+			started_buff = 1;
+		}
+		crt_file_changed = 1;
+		crt_line_changed = 1;
+		crt_spaces = 0;
 	}
-	input_name = nm ;
-	if ( input_file == NULL ) return ( 0 ) ;
-	if ( !started_buff ) {
-	    unsigned i ;
-	    for ( i = 0 ; i < NO_BUFFER ; i++ ) {
-		string buff = xmalloc_nof ( character, TOTAL_SZ ) ;
-		input_buff [i].buff = buff ;
-	    }
-	    started_buff = 1 ;
-	}
-	crt_file_changed = 1 ;
-	crt_line_changed = 1 ;
-	crt_spaces = 0 ;
-    }
-    return ( 1 ) ;
+	return(1);
 }
 
 
@@ -355,22 +393,22 @@ int open_input
     This routine frees the memory allocated for the input buffers.
 */
 
-void term_input
-    PROTO_Z ()
+void
+term_input(void)
 {
-    free_buffer ( &incl_buff ) ;
-    free_buffer ( &internal_buff ) ;
-    if ( started_buff ) {
-	unsigned i ;
-	for ( i = 0 ; i < NO_BUFFER ; i++ ) {
-	    xfree_nof ( input_buff [i].buff ) ;
-	    input_buff [i].buff = NULL ;
+	free_buffer(&incl_buff);
+	free_buffer(&internal_buff);
+	if (started_buff) {
+		unsigned i;
+		for (i = 0; i < NO_BUFFER; i++) {
+			xfree_nof(input_buff[i].buff);
+			input_buff[i].buff = NULL;
+		}
+		started_buff = 0;
 	}
-	started_buff = 0 ;
-    }
-    input_start = NULL ;
-    input_bytes = 0 ;
-    return ;
+	input_start = NULL;
+	input_bytes = 0;
+	return;
 }
 
 
@@ -383,26 +421,29 @@ void term_input
     routine returns 1 if the file is opened successfully.
 */
 
-int open_output
-    PROTO_N ( ( n, bin ) )
-    PROTO_T ( int n X int bin )
+int
+open_output(int n, int bin)
 {
-    if ( output_file [n] == NULL ) {
-	string nm = output_name [n] ;
-	if ( nm == NULL || std_file_name ( nm ) ) {
-	    nm = stdout_name ;
-	    output_name [n] = nm ;
-	    output_file [n] = stdout ;
-	    if ( bin ) return ( 0 ) ;
-	} else {
-	    CONST char *mode = ( bin ? "wb" : "w" ) ;
-	    nm = make_pathname ( nm ) ;
-	    output_name [n] = nm ;
-	    output_file [n] = fopen ( strlit ( nm ), mode ) ;
-	    if ( output_file [n] == NULL ) return ( 0 ) ;
+	if (output_file[n] == NULL) {
+		string nm = output_name[n];
+		if (nm == NULL || std_file_name(nm)) {
+			nm = stdout_name;
+			output_name[n] = nm;
+			output_file[n] = stdout;
+			if (bin) {
+				return(0);
+			}
+		} else {
+			CONST char *mode = (bin ? "wb" : "w");
+			nm = make_pathname(nm);
+			output_name[n] = nm;
+			output_file[n] = fopen(strlit(nm), mode);
+			if (output_file[n] == NULL) {
+				return(0);
+			}
+		}
 	}
-    }
-    return ( 1 ) ;
+	return(1);
 }
 
 
@@ -412,18 +453,18 @@ int open_output
     This routine closes the input file.
 */
 
-void close_input
-    PROTO_Z ()
+void
+close_input(void)
 {
-    FILE *fin = input_file ;
-    if ( fin && !input_special ) {
-	if ( ferror ( fin ) || fclose ( fin ) ) {
-	    char *nm = strlit ( input_name ) ;
-	    error ( ERROR_INTERNAL, "Reading error in '%s'", nm ) ;
+	FILE *fin = input_file;
+	if (fin && !input_special) {
+		if (ferror(fin) || fclose(fin)) {
+			char *nm = strlit(input_name);
+			error(ERROR_INTERNAL, "Reading error in '%s'", nm);
+		}
 	}
-    }
-    input_file = NULL ;
-    return ;
+	input_file = NULL;
+	return;
 }
 
 
@@ -433,19 +474,18 @@ void close_input
     This routine closes the nth output file.
 */
 
-void close_output
-    PROTO_N ( ( n ) )
-    PROTO_T ( int n )
+void
+close_output(int n)
 {
-    FILE *fout = output_file [n] ;
-    if ( fout && fout != stdout && fout != stderr ) {
-	if ( ferror ( fout ) || fclose ( fout ) ) {
-	    char *nm = strlit ( output_name [n] ) ;
-	    error ( ERROR_INTERNAL, "Writing error in '%s'", nm ) ;
+	FILE *fout = output_file[n];
+	if (fout && fout != stdout && fout != stderr) {
+		if (ferror(fout) || fclose(fout)) {
+			char *nm = strlit(output_name[n]);
+			error(ERROR_INTERNAL, "Writing error in '%s'", nm);
+		}
 	}
-    }
-    output_file [n] = NULL ;
-    return ;
+	output_file[n] = NULL;
+	return;
 }
 
 
@@ -457,35 +497,39 @@ void close_output
     bytes were read.
 */
 
-static string fill_buffer
-    PROTO_Z ()
+static string
+fill_buffer(void)
 {
-    size_t i, n ;
-    size_t m = TOTAL_SZ ;
-    FILE *f = input_file ;
-    string p = input_start ;
+	size_t i, n;
+	size_t m = TOTAL_SZ;
+	FILE *f = input_file;
+	string p = input_start;
 
-    /* Fill the buffer from the input file */
-    if ( f == internal_file ) {
-	n = ( size_t ) bfread ( &internal_buff, p, ( gen_size ) BUFF_SZ ) ;
-	if ( n < BUFF_SZ ) m = n ;
-    } else if ( f ) {
-	n = fread ( ( gen_ptr ) p, CHAR_SZ, BUFF_SZ, f ) ;
-	if ( n < BUFF_SZ ) m = n ;
-    } else {
-	n = 0 ;
-	m = 0 ;
-    }
-    input_posn = p ;
-    input_end = p + n ;
-    input_eof = p + m ;
-    input_crt = p ;
-    input_bytes += ( long ) n ;
+	/* Fill the buffer from the input file */
+	if (f == internal_file) {
+		n = (size_t)bfread(&internal_buff, p, (gen_size)BUFF_SZ);
+		if (n < BUFF_SZ)m = n;
+	} else if (f) {
+		n = fread((gen_ptr)p, CHAR_SZ, BUFF_SZ, f);
+		if (n < BUFF_SZ)m = n;
+	} else {
+		n = 0;
+		m = 0;
+	}
+	input_posn = p;
+	input_end = p + n;
+	input_eof = p + m;
+	input_crt = p;
+	input_bytes += (long)n;
 
-    /* Fill the overflow area with char_end's */
-    for ( i = n ; i < n + OVERFLOW_SZ ; i++ ) p [i] = char_end ;
-    if ( n == 0 ) p = NULL ;
-    return ( p ) ;
+	/* Fill the overflow area with char_end's */
+	for (i = n; i < n + OVERFLOW_SZ; i++) {
+		p[i] = char_end;
+	}
+	if (n == 0) {
+		p = NULL;
+	}
+	return(p);
 }
 
 
@@ -496,14 +540,13 @@ static string fill_buffer
     buffer.  It returns NULL to indicate an empty file.
 */
 
-string init_buffer
-    PROTO_N ( ( i ) )
-    PROTO_T ( unsigned long i )
+string
+init_buffer(unsigned long i)
 {
-    crt_buff_no = i ;
-    input_start = input_buff [i].buff + PENDING_SZ ;
-    input_bytes = 0 ;
-    return ( fill_buffer () ) ;
+	crt_buff_no = i;
+	input_start = input_buff[i].buff + PENDING_SZ;
+	input_bytes = 0;
+	return(fill_buffer());
 }
 
 
@@ -514,18 +557,17 @@ string init_buffer
     the main values from those stored in the buffer.
 */
 
-static void resume_buffer
-    PROTO_N ( ( i ) )
-    PROTO_T ( unsigned long i )
+static void
+resume_buffer(unsigned long i)
 {
-    INPUT_BUFFER *p = input_buff + i ;
-    input_start = p->buff + PENDING_SZ ;
-    input_posn = p->posn ;
-    input_end = p->end ;
-    input_eof = p->eof ;
-    input_crt = p->posn ;
-    input_bytes = p->bytes ;
-    return ;
+	INPUT_BUFFER *p = input_buff + i;
+	input_start = p->buff + PENDING_SZ;
+	input_posn = p->posn;
+	input_end = p->end;
+	input_eof = p->eof;
+	input_crt = p->posn;
+	input_bytes = p->bytes;
+	return;
 }
 
 
@@ -536,19 +578,20 @@ static void resume_buffer
     in buffer i (which should be the current buffer number).
 */
 
-long tell_buffer
-    PROTO_N ( ( i ) )
-    PROTO_T ( unsigned long i )
+long
+tell_buffer(unsigned long i)
 {
-    long bytes_left ;
-    INPUT_BUFFER *p = input_buff + i ;
-    p->posn = input_posn ;
-    p->end = input_end ;
-    p->eof = input_eof ;
-    p->bytes = input_bytes ;
-    bytes_left = ( long ) ( input_end - input_posn ) ;
-    if ( bytes_left < 0 ) bytes_left = 0 ;
-    return ( input_bytes - bytes_left ) ;
+	long bytes_left;
+	INPUT_BUFFER *p = input_buff + i;
+	p->posn = input_posn;
+	p->end = input_end;
+	p->eof = input_eof;
+	p->bytes = input_bytes;
+	bytes_left = (long)(input_end - input_posn);
+	if (bytes_left < 0) {
+		bytes_left = 0;
+	}
+	return(input_bytes - bytes_left);
 }
 
 
@@ -559,53 +602,54 @@ long tell_buffer
     to number i.  started is false if the file has just been opened.
 */
 
-void seek_buffer
-    PROTO_N ( ( i, n, started ) )
-    PROTO_T ( unsigned long i X long n X int started )
+void
+seek_buffer(unsigned long i, long n, int started)
 {
-    int s ;
-    FILE *f = input_file ;
-    if ( f == NULL ) return ;
-    if ( f == internal_file ) {
-	if ( started ) {
-	    /* Reset position to start of buffer */
-	    internal_buff.posn = internal_buff.start ;
-	    started = 0 ;
+	int s;
+	FILE *f = input_file;
+	if (f == NULL) {
+		return;
 	}
-	s = 0 ;
-    } else {
-	s = file_seek ( f, n ) ;
-    }
-    if ( s == 0 ) {
-	/* Perform seek by hand */
-	string p ;
-	if ( started ) {
-	    /* Rewind to start of file */
-	    IGNORE file_seek ( f, ( long ) 0 ) ;
+	if (f == internal_file) {
+		if (started) {
+			/* Reset position to start of buffer */
+			internal_buff.posn = internal_buff.start;
+			started = 0;
+		}
+		s = 0;
+	} else {
+		s = file_seek(f, n);
 	}
-	p = init_buffer ( i ) ;
-	while ( input_bytes < n ) {
-	    if ( p == NULL ) {
-		char *nm = strlit ( input_name ) ;
-		CONST char *msg = "Internal seek error in '%s'" ;
-		error ( ERROR_INTERNAL, msg, nm ) ;
-		return ;
-	    }
-	    p = fill_buffer () ;
+	if (s == 0) {
+		/* Perform seek by hand */
+		string p;
+		if (started) {
+			/* Rewind to start of file */
+			IGNORE file_seek(f, (long)0);
+		}
+		p = init_buffer(i);
+		while (input_bytes < n) {
+			if (p == NULL) {
+				char *nm = strlit(input_name);
+				CONST char *msg = "Internal seek error in '%s'";
+				error(ERROR_INTERNAL, msg, nm);
+				return;
+			}
+			p = fill_buffer();
+		}
+		input_posn = input_end - (input_bytes - n);
+		input_crt = input_posn;
+	} else {
+		if (s == -1) {
+			char *nm = strlit(input_name);
+			CONST char *msg = "Internal seek error in '%s'";
+			error(ERROR_INTERNAL, msg, nm);
+		}
+		input_start = input_buff[i].buff + PENDING_SZ;
+		input_bytes = n;
+		IGNORE fill_buffer();
 	}
-	input_posn = input_end - ( input_bytes - n ) ;
-	input_crt = input_posn ;
-    } else {
-	if ( s == -1 ) {
-	    char *nm = strlit ( input_name ) ;
-	    CONST char *msg = "Internal seek error in '%s'" ;
-	    error ( ERROR_INTERNAL, msg, nm ) ;
-	}
-	input_start = input_buff [i].buff + PENDING_SZ ;
-	input_bytes = n ;
-	IGNORE fill_buffer () ;
-    }
-    return ;
+	return;
 }
 
 
@@ -616,18 +660,18 @@ void seek_buffer
     The variable input_crt is used to keep track of the last such location.
 */
 
-void update_column
-    PROTO_Z ()
+void
+update_column(void)
 {
-    string p = input_posn ;
-    if ( p ) {
-	unsigned long n = ( unsigned long ) ( p - input_crt ) ;
-	if ( n ) {
-	    crt_loc.column += n ;
-	    input_crt = p ;
+	string p = input_posn;
+	if (p) {
+		unsigned long n = (unsigned long)(p - input_crt);
+		if (n) {
+			crt_loc.column += n;
+			input_crt = p;
+		}
 	}
-    }
-    return ;
+	return;
 }
 
 
@@ -642,21 +686,25 @@ void update_column
     must equal char_end.
 */
 
-int refill_char
-    PROTO_Z ()
+int
+refill_char(void)
 {
-    int c ;
-    update_column () ;
-    do {
-	string p = input_posn ;
-	if ( p <= input_end ) return ( char_end ) ;
-	if ( p > input_eof ) return ( char_eof ) ;
-	crt_loc.column += ( unsigned long ) ( p - input_crt ) ;
-	IGNORE fill_buffer () ;
-	c = next_char () ;
-    } while ( c == char_end ) ;
-    input_crt = input_posn ;
-    return ( c ) ;
+	int c;
+	update_column();
+	do {
+		string p = input_posn;
+		if (p <= input_end) {
+			return(char_end);
+		}
+		if (p > input_eof) {
+			return(char_eof);
+		}
+		crt_loc.column += (unsigned long)(p - input_crt);
+		IGNORE fill_buffer();
+		c = next_char();
+	} while (c == char_end);
+	input_crt = input_posn;
+	return(c);
 }
 
 
@@ -669,9 +717,9 @@ int refill_char
     file was found.
 */
 
-INCL_DIR *dir_path = NULL ;
-static INCL_DIR *crt_dir_path = NULL ;
-static INCL_DIR *crt_found_path = NULL ;
+INCL_DIR *dir_path = NULL;
+static INCL_DIR *crt_dir_path = NULL;
+static INCL_DIR *crt_found_path = NULL;
 
 
 /*
@@ -682,17 +730,18 @@ static INCL_DIR *crt_found_path = NULL ;
     defined.
 */
 
-static INCL_DIR *find_directory
-    PROTO_N ( ( nm ) )
-    PROTO_T ( string nm )
+static INCL_DIR *
+find_directory(string nm)
 {
-    INCL_DIR *p = dir_path ;
-    while ( p != NULL ) {
-	string s = p->name ;
-	if ( s && ustreq ( s, nm ) ) return ( p ) ;
-	p = p->next ;
-    }
-    return ( NULL ) ;
+	INCL_DIR *p = dir_path;
+	while (p != NULL) {
+		string s = p->name;
+		if (s && ustreq(s, nm)) {
+			return(p);
+		}
+		p = p->next;
+	}
+	return(NULL);
 }
 
 
@@ -703,30 +752,31 @@ static INCL_DIR *find_directory
     include file search path.
 */
 
-void add_directory
-    PROTO_N ( ( dir, nm ) )
-    PROTO_T ( string dir X string nm )
+void
+add_directory(string dir, string nm)
 {
-    INCL_DIR *p = dir_path ;
-    INCL_DIR *q = xmalloc_one ( INCL_DIR ) ;
-    if ( nm && find_directory ( nm ) ) {
-	char *s = strlit ( nm ) ;
-	error ( ERROR_WARNING, "Directory '%s' already defined", s ) ;
-	nm = NULL ;
-    }
-    q->path = make_pathname ( dir ) ;
-    q->name = nm ;
-    q->mode = NULL ;
-    q->no = LINK_NONE ;
-    q->next = NULL ;
-    if ( p == NULL ) {
-	dir_path = q ;
-	crt_dir_path = q ;
-    } else {
-	while ( p->next ) p = p->next ;
-	p->next = q ;
-    }
-    return ;
+	INCL_DIR *p = dir_path;
+	INCL_DIR *q = xmalloc_one(INCL_DIR);
+	if (nm && find_directory(nm)) {
+		char *s = strlit(nm);
+		error(ERROR_WARNING, "Directory '%s' already defined", s);
+		nm = NULL;
+	}
+	q->path = make_pathname(dir);
+	q->name = nm;
+	q->mode = NULL;
+	q->no = LINK_NONE;
+	q->next = NULL;
+	if (p == NULL) {
+		dir_path = q;
+		crt_dir_path = q;
+	} else {
+		while (p->next) {
+			p = p->next;
+		}
+		p->next = q;
+	}
+	return;
 }
 
 
@@ -737,20 +787,21 @@ void add_directory
     to be p.
 */
 
-void directory_mode
-    PROTO_N ( ( nm, p ) )
-    PROTO_T ( string nm X OPTIONS *p )
+void
+directory_mode(string nm, OPTIONS *p)
 {
-    INCL_DIR *q = find_directory ( nm ) ;
-    if ( q ) {
-	if ( q->mode ) {
-	    report ( preproc_loc, ERR_pragma_dir_mode ( nm ) ) ;
+	INCL_DIR *q = find_directory(nm);
+	if (q) {
+		if (q->mode) {
+			report(preproc_loc, ERR_pragma_dir_mode(nm));
+		}
+		if (p) {
+			q->mode = p;
+		}
+	} else {
+		report(preproc_loc, ERR_pragma_dir_undef(nm));
 	}
-	if ( p ) q->mode = p ;
-    } else {
-	report ( preproc_loc, ERR_pragma_dir_undef ( nm ) ) ;
-    }
-    return ;
+	return;
 }
 
 
@@ -762,8 +813,8 @@ void directory_mode
     and the end of the main include file.
 */
 
-LIST ( string ) startup_files = NULL_list ( string ) ;
-LIST ( string ) endup_files = NULL_list ( string ) ;
+LIST(string)startup_files = NULL_list(string);
+LIST(string)endup_files = NULL_list(string);
 
 
 /*
@@ -772,19 +823,19 @@ LIST ( string ) endup_files = NULL_list ( string ) ;
     This routine sets up the built-in internal start-up file.
 */
 
-void builtin_startup
-    PROTO_Z ()
+void
+builtin_startup(void)
 {
-    BUFFER *bf = &internal_buff ;
-    internal_name = DEREF_string ( posn_file ( crt_loc.posn ) ) ;
-    internal_file = xmalloc_one ( FILE ) ;
-    if ( bf->posn != bf->start ) {
-	/* Add to list of start-up files if necessary */
-	CONS_string ( internal_name, startup_files, startup_files ) ;
-	bf->end = bf->posn ;
-	bf->posn = bf->start ;
-    }
-    return ;
+	BUFFER *bf = &internal_buff;
+	internal_name = DEREF_string(posn_file(crt_loc.posn));
+	internal_file = xmalloc_one(FILE *);
+	if (bf->posn != bf->start) {
+		/* Add to list of start-up files if necessary */
+		CONS_string(internal_name, startup_files, startup_files);
+		bf->end = bf->posn;
+		bf->posn = bf->start;
+	}
+	return;
 }
 
 
@@ -796,20 +847,22 @@ void builtin_startup
     left.
 */
 
-void open_startup
-    PROTO_Z ()
+void
+open_startup(void)
 {
-    LIST ( string ) p = startup_files ;
-    while ( !IS_NULL_list ( p ) ) {
-	string fn = DEREF_string ( HEAD_list ( p ) ) ;
-	p = TAIL_list ( p ) ;
-	startup_files = p ;
-	preproc_loc = crt_loc ;
-	crt_file_type = 1 ;
-	if ( start_include ( fn, char_quote, 2, 0 ) ) return ;
-    }
-    crt_file_type = 0 ;
-    return ;
+	LIST(string)p = startup_files;
+	while (!IS_NULL_list(p)) {
+		string fn = DEREF_string(HEAD_list(p));
+		p = TAIL_list(p);
+		startup_files = p;
+		preproc_loc = crt_loc;
+		crt_file_type = 1;
+		if (start_include(fn, char_quote, 2, 0)) {
+			return;
+		}
+	}
+	crt_file_type = 0;
+	return;
 }
 
 
@@ -821,19 +874,19 @@ void open_startup
 */
 
 typedef struct incl_file_tag {
-    string name ;
-    int imported ;
-    HASHID macro ;
-    unsigned test ;
-    int state ;
-    PTR ( LOCATION ) from ;
-    STAT_TYPE *data ;
-    STAT_TYPE data_ref ;
-    struct incl_file_tag *next ;
-} INCL_FILE ;
+	string name;
+	int imported;
+	HASHID macro;
+	unsigned test;
+	int state;
+	PTR(LOCATION)from;
+	STAT_TYPE *data;
+	STAT_TYPE data_ref;
+	struct incl_file_tag *next;
+} INCL_FILE;
 
-static INCL_FILE *included_files = NULL ;
-static INCL_FILE *crt_included_file = NULL ;
+static INCL_FILE *included_files = NULL;
+static INCL_FILE *crt_included_file = NULL;
 
 
 /*
@@ -846,23 +899,23 @@ static INCL_FILE *crt_included_file = NULL ;
 */
 
 typedef struct {
-    string name ;
-    FILE *fileptr ;
-    long offset ;
-    int special ;
-    int startup ;
-    int interface ;
-    OPTIONS *mode ;
-    INCL_DIR *path ;
-    INCL_DIR *found ;
-    INCL_FILE *incl ;
-} INCL_BUFF ;
+	string name;
+	FILE *fileptr;
+	long offset;
+	int special;
+	int startup;
+	int interface;
+	OPTIONS *mode;
+	INCL_DIR *path;
+	INCL_DIR *found;
+	INCL_FILE *incl;
+} INCL_BUFF;
 
 #define MAX_INCL_DEPTH		256
 
-static INCL_BUFF position_array [ MAX_INCL_DEPTH ] ;
-static INCL_BUFF *position = position_array ;
-static unsigned long position_size = MAX_INCL_DEPTH ;
+static INCL_BUFF position_array[MAX_INCL_DEPTH];
+static INCL_BUFF *position = position_array;
+static unsigned long position_size = MAX_INCL_DEPTH;
 
 
 /*
@@ -876,7 +929,7 @@ static unsigned long position_size = MAX_INCL_DEPTH ;
     is at least 8 (including the 3 standard files).
 */
 
-#define LAST_BUFFER_NO		( ( unsigned long ) ( NO_BUFFER - 1 ) )
+#define LAST_BUFFER_NO		((unsigned long)(NO_BUFFER - 1))
 #define SIMPLE_INCL_DEPTH	LAST_BUFFER_NO
 
 
@@ -886,24 +939,29 @@ static unsigned long position_size = MAX_INCL_DEPTH ;
     This routine sets the maximum include file depth to n.
 */
 
-void set_incl_depth
-    PROTO_N ( ( n ) )
-    PROTO_T ( unsigned long n )
+void
+set_incl_depth(unsigned long n)
 {
-    if ( n > 10000 ) n = 10000 ;
-    if ( n > position_size ) {
-	/* Allocate more space if necessary */
-	unsigned long i, m ;
-	INCL_BUFF *p = xmalloc_nof ( INCL_BUFF, n ) ;
-	INCL_BUFF *q = position ;
-	m = crt_option_value ( OPT_VAL_include_depth ) ;
-	for ( i = 0 ; i < m ; i++ ) p [i] = q [i] ;
-	position_size = n ;
-	position = p ;
-	if ( q != position_array ) xfree_nof ( q ) ;
-    }
-    option_value ( OPT_VAL_include_depth ) = n ;
-    return ;
+	if (n > 10000) {
+		n = 10000;
+	}
+	if (n > position_size) {
+		/* Allocate more space if necessary */
+		unsigned long i, m;
+		INCL_BUFF *p = xmalloc_nof(INCL_BUFF, n);
+		INCL_BUFF *q = position;
+		m = crt_option_value(OPT_VAL_include_depth);
+		for (i = 0; i < m; i++) {
+			p[i] = q[i];
+		}
+		position_size = n;
+		position = p;
+		if (q != position_array) {
+			xfree_nof(q);
+		}
+	}
+	option_value(OPT_VAL_include_depth) = n;
+	return;
 }
 
 
@@ -916,62 +974,67 @@ void set_incl_depth
     start_include.
 */
 
-int already_included
-    PROTO_N ( ( nm, fs, st ) )
-    PROTO_T ( string nm X STAT_TYPE *fs X int st )
+int
+already_included(string nm, STAT_TYPE *fs, int st)
 {
-    INCL_FILE *p = included_files ;
-    while ( p != NULL ) {
-	int ok ;
-	if ( ustreq ( nm, p->name ) && st != 4 ) {
-	    /* Check file names */
-	    ok = 1 ;
-	} else {
-	    /* Check file statistics */
-	    ok = stat_equal ( fs, p->data ) ;
+	INCL_FILE *p = included_files;
+	while (p != NULL) {
+		int ok;
+		if (ustreq(nm, p->name) && st != 4) {
+			/* Check file names */
+			ok = 1;
+		} else {
+			/* Check file statistics */
+			ok = stat_equal(fs, p->data);
+		}
+		if (ok) {
+			/* Check matching file */
+			if (st == 4) {
+				/* Simple enquiry */
+				return(1);
+			}
+			crt_included_file = p;
+			if (st == 1) {
+				/* Imported file */
+				if (p->imported == 1) {
+					return(1);
+				}
+				p->imported = 1;
+			}
+			if (p->state == 2) {
+				/* Check protection macro */
+				unsigned def = check_macro(p->macro, 0);
+				def &= PP_COND_MASK;
+				if (def == p->test) {
+					return(1);
+				}
+			}
+			return(0);
+		}
+		p = p->next;
 	}
-	if ( ok ) {
-	    /* Check matching file */
-	    if ( st == 4 ) {
-		/* Simple enquiry */
-		return ( 1 ) ;
-	    }
-	    crt_included_file = p ;
-	    if ( st == 1 ) {
-		/* Imported file */
-		if ( p->imported == 1 ) return ( 1 ) ;
-		p->imported = 1 ;
-	    }
-	    if ( p->state == 2 ) {
-		/* Check protection macro */
-		unsigned def = check_macro ( p->macro, 0 ) ;
-		def &= PP_COND_MASK ;
-		if ( def == p->test ) return ( 1 ) ;
-	    }
-	    return ( 0 ) ;
-	}
-	p = p->next ;
-    }
 
-    /* Create new imported file structure */
-    p = xmalloc_one ( INCL_FILE ) ;
-    if ( st != 4 ) crt_included_file = p ;
-    p->name = nm ;
-    p->imported = st ;
-    p->macro = NULL_hashid ;
-    p->state = 0 ;
-    p->test = PP_TRUE ;
-    p->from = NULL_ptr ( LOCATION ) ;
-    if ( fs ) {
-	/* File system information available */
-	p->data = &( p->data_ref ) ;
-	p->data_ref = *fs ;
-    } else {
-	p->data = NULL ;
-    }
-    p->next = included_files ;
-    included_files = p ;
-    return ( 0 ) ;
+	/* Create new imported file structure */
+	p = xmalloc_one(INCL_FILE);
+	if (st != 4) {
+		crt_included_file = p;
+	}
+	p->name = nm;
+	p->imported = st;
+	p->macro = NULL_hashid;
+	p->state = 0;
+	p->test = PP_TRUE;
+	p->from = NULL_ptr(LOCATION);
+	if (fs) {
+		/* File system information available */
+		p->data = & (p->data_ref);
+		p->data_ref = *fs;
+	} else {
+		p->data = NULL;
+	}
+	p->next = included_files;
+	included_files = p;
+	return(0);
 }
 
 
@@ -990,49 +1053,50 @@ int already_included
     current preprocessing directive.
 */
 
-void protection_macro
-    PROTO_N ( ( macro, prev, dir ) )
-    PROTO_T ( HASHID macro X int prev X int dir )
+void
+protection_macro(HASHID macro, int prev, int dir)
 {
-    INCL_FILE *incl = crt_included_file ;
-    if ( incl ) {
-	if ( prev == lex_included ) {
-	    if ( incl->state == 0 ) {
-		if ( dir == lex_ifndef ) {
-		    /* Have '#ifndef macro' at start of file */
-		    incl->macro = macro ;
-		    incl->test = PP_TRUE ;
-		    incl->state = 1 ;
-		    return ;
+	INCL_FILE *incl = crt_included_file;
+	if (incl) {
+		if (prev == lex_included) {
+			if (incl->state == 0) {
+				if (dir == lex_ifndef) {
+					/* Have '#ifndef macro' at start of
+					 * file */
+					incl->macro = macro;
+					incl->test = PP_TRUE;
+					incl->state = 1;
+					return;
+				}
+				if (dir == lex_ifdef) {
+					/* Have '#ifdef macro' at start of
+					 * file */
+					incl->macro = macro;
+					incl->test = PP_FALSE;
+					incl->state = 1;
+					return;
+				}
+				if (dir == lex_eof) {
+					/* Start and end of file coincide */
+					incl->macro = NULL_hashid;
+					incl->test = PP_TRUE;
+					incl->state = 2;
+					return;
+				}
+			}
 		}
-		if ( dir == lex_ifdef ) {
-		    /* Have '#ifdef macro' at start of file */
-		    incl->macro = macro ;
-		    incl->test = PP_FALSE ;
-		    incl->state = 1 ;
-		    return ;
+		if (prev == lex_end_condition) {
+			if (incl->state == 1) {
+				if (dir == lex_eof) {
+					/* Have '#endif' at end of file */
+					incl->state = 2;
+					return;
+				}
+			}
 		}
-		if ( dir == lex_eof ) {
-		    /* Start and end of file coincide */
-		    incl->macro = NULL_hashid ;
-		    incl->test = PP_TRUE ;
-		    incl->state = 2 ;
-		    return ;
-		}
-	    }
+		incl->state = 0;
 	}
-	if ( prev == lex_end_condition ) {
-	    if ( incl->state == 1 ) {
-		if ( dir == lex_eof ) {
-		    /* Have '#endif' at end of file */
-		    incl->state = 2 ;
-		    return ;
-		}
-	    }
-	}
-	incl->state = 0 ;
-    }
-    return ;
+	return;
 }
 
 
@@ -1044,24 +1108,25 @@ void protection_macro
     existing file component is to be removed from d.
 */
 
-static string add_pathname
-    PROTO_N ( ( d, f, up ) )
-    PROTO_T ( string d X string f X int up )
+static string
+add_pathname(string d, string f, int up)
 {
-    if ( d ) {
-	BUFFER *bf = clear_buffer ( &incl_buff, NIL ( FILE ) ) ;
-	bfputs ( bf, d ) ;
-	if ( up ) {
-	    /* Remove file component */
-	    string s = ustrrchr ( bf->start, char_slash ) ;
-	    if ( s == NULL ) return ( f ) ;
-	    bf->posn = s ;
+	if (d) {
+		BUFFER *bf = clear_buffer(&incl_buff, NIL(FILE));
+		bfputs(bf, d);
+		if (up) {
+			/* Remove file component */
+			string s = ustrrchr(bf->start, char_slash);
+			if (s == NULL) {
+				return(f);
+			}
+			bf->posn = s;
+		}
+		bfputc(bf, char_slash);
+		bfputs(bf, f);
+		return(bf->start);
 	}
-	bfputc ( bf, char_slash ) ;
-	bfputs ( bf, f ) ;
-	return ( bf->start ) ;
-    }
-    return ( f ) ;
+	return(f);
 }
 
 
@@ -1077,179 +1142,186 @@ static string add_pathname
     returns 1 to indicate that the file was opened successfully.
 */
 
-int start_include
-    PROTO_N ( ( nm, q, st, next ) )
-    PROTO_T ( string nm X int q X int st X int next )
+int
+start_include(string nm, int q, int st, int next)
 {
-    FILE *g ;
-    FILE *f = NULL ;
-    int special = 0 ;
-    string file = nm ;
-    string dir = NULL ;
-    unsigned long c, m ;
-    string rfile = NULL ;
-    OPTIONS *mode = NULL ;
-    PTR ( LOCATION ) from ;
-    unsigned long date = 0 ;
-    INCL_DIR *found = NULL ;
-    INCL_DIR *path = dir_path ;
-    INCL_FILE *incl = crt_included_file ;
+	FILE *g;
+	FILE *f = NULL;
+	int special = 0;
+	string file = nm;
+	string dir = NULL;
+	unsigned long c, m;
+	string rfile = NULL;
+	OPTIONS *mode = NULL;
+	PTR(LOCATION)from;
+	unsigned long date = 0;
+	INCL_DIR *found = NULL;
+	INCL_DIR *path = dir_path;
+	INCL_FILE *incl = crt_included_file;
 
-    /* Check for empty file name */
-    if ( nm [0] == 0 ) {
-	report ( preproc_loc, ERR_cpp_include_empty () ) ;
-	return ( 0 ) ;
-    }
-
-    /* Search for included file */
-    if ( nm == internal_name ) {
-	/* Allow for command-line options */
-	rfile = ustrlit ( "" ) ;
-	f = internal_file ;
-	special = 1 ;
-
-    } else if ( is_full_pathname ( nm ) ) {
-	/* Allow for full file names */
-	if ( st < 2 ) {
-	    report ( preproc_loc, ERR_cpp_include_full ( nm ) ) ;
-	}
-	f = fopen ( strlit ( file ), "r" ) ;
-
-    } else if ( std_file_name ( nm ) ) {
-	/* Allow for standard input (extension) */
-	file = stdin_name ;
-	rfile = ustrlit ( "" ) ;
-	f = stdin ;
-	special = 1 ;
-
-    } else {
-	/* Check quoted include directives */
-	if ( q == char_quote ) {
-	    file = add_pathname ( input_name, nm, 1 ) ;
-	    f = fopen ( strlit ( file ), "r" ) ;
-	    found = crt_found_path ;
+	/* Check for empty file name */
+	if (nm[0] == 0) {
+		report(preproc_loc, ERR_cpp_include_empty());
+		return(0);
 	}
 
-	/* Search directory path */
-	if ( f == NULL ) {
-	    if ( next ) {
-		/* Start search at current position */
-		path = crt_dir_path ;
-	    }
-	    while ( f == NULL && path != NULL ) {
-		dir = path->path ;
-		file = add_pathname ( dir, nm, 0 ) ;
-		f = fopen ( strlit ( file ), "r" ) ;
-		found = path ;
-		mode = path->mode ;
-		path = path->next ;
-	    }
+	/* Search for included file */
+	if (nm == internal_name) {
+		/* Allow for command-line options */
+		rfile = ustrlit("");
+		f = internal_file;
+		special = 1;
+
+	} else if (is_full_pathname(nm)) {
+		/* Allow for full file names */
+		if (st < 2) {
+			report(preproc_loc, ERR_cpp_include_full(nm));
+		}
+		f = fopen(strlit(file), "r");
+
+	} else if (std_file_name(nm)) {
+		/* Allow for standard input (extension) */
+		file = stdin_name;
+		rfile = ustrlit("");
+		f = stdin;
+		special = 1;
+
 	} else {
-	    path = crt_dir_path ;
-	    dir = DEREF_string ( posn_dir ( crt_loc.posn ) ) ;
+		/* Check quoted include directives */
+		if (q == char_quote) {
+			file = add_pathname(input_name, nm, 1);
+			f = fopen(strlit(file), "r");
+			found = crt_found_path;
+		}
+
+		/* Search directory path */
+		if (f == NULL) {
+			if (next) {
+				/* Start search at current position */
+				path = crt_dir_path;
+			}
+			while (f == NULL && path != NULL) {
+				dir = path->path;
+				file = add_pathname(dir, nm, 0);
+				f = fopen(strlit(file), "r");
+				found = path;
+				mode = path->mode;
+				path = path->next;
+			}
+		} else {
+			path = crt_dir_path;
+			dir = DEREF_string(posn_dir(crt_loc.posn));
+		}
 	}
-    }
-    if ( st == 4 ) {
-	/* Just testing ... */
-	if ( f == NULL ) return ( 0 ) ;
-	if ( !special ) fclose_v ( f ) ;
-	return ( 1 ) ;
-    }
-
-    /* Report unfound files */
-    if ( f == NULL ) {
-	report ( preproc_loc, ERR_cpp_include_unknown ( nm ) ) ;
-	return ( 0 ) ;
-    }
-
-    /* Check for multiple inclusions */
-    file = xustrcpy ( file ) ;
-    if ( special ) {
-	crt_included_file = NULL ;
-    } else {
-	STAT_TYPE fstr ;
-	STAT_TYPE *fs = stat_func ( strlit ( file ), &fstr ) ;
-	if ( already_included ( file, fs, st ) ) {
-	    /* Only read file if necessary */
-	    from = crt_included_file->from ;
-	    report ( preproc_loc, ERR_cpp_include_dup ( nm, from ) ) ;
-	    crt_included_file = incl ;
-	    fclose_v ( f ) ;
-	    return ( 0 ) ;
+	if (st == 4) {
+		/* Just testing ... */
+		if (f == NULL) {
+			return(0);
+		}
+		if (!special) {
+			fclose_v(f);
+		}
+		return(1);
 	}
-	date = stat_date ( fs ) ;
-    }
 
-    /* Store position of #include directive */
-    c = crt_option_value ( OPT_VAL_include_depth ) ;
-    if ( !incr_value ( OPT_VAL_include_depth ) ) {
-	/* Include depth too great */
-	crt_option_value ( OPT_VAL_include_depth ) = c ;
-	crt_included_file = incl ;
-	return ( 0 ) ;
-    }
-    g = input_file ;
-    position [c].name = input_name ;
-    position [c].special = input_special ;
-    position [c].startup = st ;
-    position [c].interface = crt_interface ;
-    position [c].mode = mode ;
-    position [c].path = crt_dir_path ;
-    position [c].found = crt_found_path ;
-    position [c].incl = incl ;
-    if ( c < SIMPLE_INCL_DEPTH || input_special ) {
-	/* Store open file */
-	m = c + 1 ;
-	position [c].fileptr = g ;
-	position [c].offset = tell_buffer ( c ) ;
-    } else {
-	/* Store position in closed file */
-	m = LAST_BUFFER_NO ;
-	position [c].fileptr = NULL ;
-	position [c].offset = tell_buffer ( m ) ;
-	if ( ferror ( g ) || fclose ( g ) ) {
-	    char *gnm = strlit ( input_name ) ;
-	    error ( ERROR_INTERNAL, "Reading error in '%s'", gnm ) ;
+	/* Report unfound files */
+	if (f == NULL) {
+		report(preproc_loc, ERR_cpp_include_unknown(nm));
+		return(0);
 	}
-    }
-    crt_found_path = found ;
-    crt_dir_path = path ;
 
-    /* Set up new file */
-    input_name = file ;
-    input_file = f ;
-    input_special = special ;
-    nm = ( file + ustrlen ( file ) ) - ustrlen ( nm ) ;
-    if ( rfile == NULL ) {
-	rfile = file ;
-	file = normalise_pathname ( file ) ;
-    }
-    if ( option ( OPT_include_verbose ) ) {
-	report ( preproc_loc, ERR_cpp_include_open ( file ) ) ;
-    }
-    crt_loc.line-- ;
-    crt_loc.column = 0 ;
-    input_crt = input_posn ;
-    if ( do_header ) dump_include ( &crt_loc, nm, st, q ) ;
-    from = MAKE_ptr ( SIZE_loc ) ;
-    COPY_loc ( from, crt_loc ) ;
-    CREATE_loc ( file, rfile, nm, dir, from, date, crt_loc ) ;
-    if ( crt_included_file ) {
-	/* Set inclusion position */
-	crt_included_file->from = from ;
-    }
-    if ( do_header ) dump_start ( &crt_loc, found ) ;
-    IGNORE init_buffer ( m ) ;
-    start_preproc_if () ;
-    if ( mode ) {
-	/* Begin new checking scope if necessary */
-	begin_option ( NULL_id ) ;
-	use_mode ( mode, ERROR_SERIOUS ) ;
-    }
-    crt_file_changed = 2 ;
-    crt_line_changed = 1 ;
-    crt_spaces = 0 ;
-    return ( 1 ) ;
+	/* Check for multiple inclusions */
+	file = xustrcpy(file);
+	if (special) {
+		crt_included_file = NULL;
+	} else {
+		STAT_TYPE fstr;
+		STAT_TYPE *fs = stat_func(strlit(file), &fstr);
+		if (already_included(file, fs, st)) {
+			/* Only read file if necessary */
+			from = crt_included_file->from;
+			report(preproc_loc, ERR_cpp_include_dup(nm, from));
+			crt_included_file = incl;
+			fclose_v(f);
+			return(0);
+		}
+		date = stat_date(fs);
+	}
+
+	/* Store position of #include directive */
+	c = crt_option_value(OPT_VAL_include_depth);
+	if (!incr_value(OPT_VAL_include_depth)) {
+		/* Include depth too great */
+		crt_option_value(OPT_VAL_include_depth) = c;
+		crt_included_file = incl;
+		return(0);
+	}
+	g = input_file;
+	position[c].name = input_name;
+	position[c].special = input_special;
+	position[c].startup = st;
+	position[c].interface = crt_interface;
+	position[c].mode = mode;
+	position[c].path = crt_dir_path;
+	position[c].found = crt_found_path;
+	position[c].incl = incl;
+	if (c < SIMPLE_INCL_DEPTH || input_special) {
+		/* Store open file */
+		m = c + 1;
+		position[c].fileptr = g;
+		position[c].offset = tell_buffer(c);
+	} else {
+		/* Store position in closed file */
+		m = LAST_BUFFER_NO;
+		position[c].fileptr = NULL;
+		position[c].offset = tell_buffer(m);
+		if (ferror(g) || fclose(g)) {
+			char *gnm = strlit(input_name);
+			error(ERROR_INTERNAL, "Reading error in '%s'", gnm);
+		}
+	}
+	crt_found_path = found;
+	crt_dir_path = path;
+
+	/* Set up new file */
+	input_name = file;
+	input_file = f;
+	input_special = special;
+	nm = (file + ustrlen(file)) - ustrlen(nm);
+	if (rfile == NULL) {
+		rfile = file;
+		file = normalise_pathname(file);
+	}
+	if (option(OPT_include_verbose)) {
+		report(preproc_loc, ERR_cpp_include_open(file));
+	}
+	crt_loc.line--;
+	crt_loc.column = 0;
+	input_crt = input_posn;
+	if (do_header) {
+		dump_include(&crt_loc, nm, st, q);
+	}
+	from = MAKE_ptr(SIZE_loc);
+	COPY_loc(from, crt_loc);
+	CREATE_loc(file, rfile, nm, dir, from, date, crt_loc);
+	if (crt_included_file) {
+		/* Set inclusion position */
+		crt_included_file->from = from;
+	}
+	if (do_header) {
+		dump_start(&crt_loc, found);
+	}
+	IGNORE init_buffer(m);
+	start_preproc_if ();
+	if (mode) {
+		/* Begin new checking scope if necessary */
+		begin_option(NULL_id);
+		use_mode(mode, ERROR_SERIOUS);
+	}
+	crt_file_changed = 2;
+	crt_line_changed = 1;
+	crt_spaces = 0;
+	return(1);
 }
 
 
@@ -1265,104 +1337,112 @@ int start_include
     end-up files are at depth 0.
 */
 
-int end_include
-    PROTO_N ( ( prev ) )
-    PROTO_T ( int prev )
+int
+end_include(int prev)
 {
-    unsigned long c ;
-    PTR ( LOCATION ) loc ;
-    FILE *f = input_file ;
-    string nm = input_name ;
+	unsigned long c;
+	PTR(LOCATION)loc;
+	FILE *f = input_file;
+	string nm = input_name;
 
-    /* Check for protection macros */
-    if ( !clear_preproc_if () ) prev = lex_end_condition ;
-    protection_macro ( NULL_hashid, prev, lex_eof ) ;
+	/* Check for protection macros */
+	if (!clear_preproc_if ())prev = lex_end_condition;
+	protection_macro(NULL_hashid, prev, lex_eof);
 
-    /* Tidy up the current file */
-    if ( f != NULL ) {
-	if ( input_special ) {
-	    if ( f == internal_file ) {
-		free_buffer ( &internal_buff ) ;
-	    }
+	/* Tidy up the current file */
+	if (f != NULL) {
+		if (input_special) {
+			if (f == internal_file) {
+				free_buffer(&internal_buff);
+			}
+		} else {
+			if (ferror(f) || fclose(f)) {
+				char *fnm = strlit(nm);
+				error(ERROR_INTERNAL, "Reading error in '%s'",
+				      fnm);
+			}
+		}
+		input_file = NULL;
+		if (do_header)dump_end(&crt_loc);
+	}
+
+	/* Check for previous file */
+	c = crt_option_value(OPT_VAL_include_depth);
+	if (c == 0) {
+		/* End of main file - deal with end-up files */
+		LIST(string)p = endup_files;
+		while (!IS_NULL_list(p)) {
+			string fn = DEREF_string(HEAD_list(p));
+			p = TAIL_list(p);
+			endup_files = p;
+			preproc_loc = crt_loc;
+			crt_file_type = 1;
+			if (start_include(fn, char_quote, 3, 0)) {
+				return(1);
+			}
+		}
+		crt_file_type = 0;
+		return(0);
+	}
+	decr_value(OPT_VAL_include_depth);
+	c--;
+
+	/* End checking scope if necessary */
+	if (position[c].mode)end_option(0);
+
+	/* Restore previous file position (don't destroy old value) */
+	loc = DEREF_ptr(posn_from(crt_loc.posn));
+	DEREF_loc(loc, crt_loc);
+	crt_file_changed = 2;
+	crt_line_changed = 1;
+	crt_spaces = 0;
+
+	/* Reopen the previous buffer */
+	input_name = position[c].name;
+	input_file = position[c].fileptr;
+	input_special = position[c].special;
+	crt_dir_path = position[c].path;
+	crt_found_path = position[c].found;
+	crt_included_file = position[c].incl;
+	crt_interface = position[c].interface;
+	if (input_file == NULL) {
+		/* Reopen old file */
+		char *str = strlit(input_name);
+		if (str) {
+			input_file = fopen(str, "r");
+			if (input_file == NULL) {
+				CONST char *msg = "Internal file error in '%s'";
+				error(ERROR_INTERNAL, msg, str);
+				crt_loc.line++;
+				crt_loc.column = 0;
+				input_crt = input_posn;
+				return(end_include(lex_ignore_token));
+			}
+			seek_buffer(LAST_BUFFER_NO, position[c].offset, 0);
+		}
 	} else {
-	    if ( ferror ( f ) || fclose ( f ) ) {
-		char *fnm = strlit ( nm ) ;
-		error ( ERROR_INTERNAL, "Reading error in '%s'", fnm ) ;
-	    }
+		/* Resume old file position */
+		resume_buffer(c);
 	}
-	input_file = NULL ;
-	if ( do_header ) dump_end ( &crt_loc ) ;
-    }
-
-    /* Check for previous file */
-    c = crt_option_value ( OPT_VAL_include_depth ) ;
-    if ( c == 0 ) {
-	/* End of main file - deal with end-up files */
-	LIST ( string ) p = endup_files ;
-	while ( !IS_NULL_list ( p ) ) {
-	    string fn = DEREF_string ( HEAD_list ( p ) ) ;
-	    p = TAIL_list ( p ) ;
-	    endup_files = p ;
-	    preproc_loc = crt_loc ;
-	    crt_file_type = 1 ;
-	    if ( start_include ( fn, char_quote, 3, 0 ) ) return ( 1 ) ;
+	if (option(OPT_include_verbose)) {
+		LOCATION ploc;
+		int st = position[c].startup;
+		ploc = crt_loc;
+		if (st >= 2) {
+			ploc.line++;
+		}
+		report(ploc, ERR_cpp_include_close(nm));
 	}
-	crt_file_type = 0 ;
-	return ( 0 ) ;
-    }
-    decr_value ( OPT_VAL_include_depth ) ;
-    c-- ;
-
-    /* End checking scope if necessary */
-    if ( position [c].mode ) end_option ( 0 ) ;
-
-    /* Restore previous file position (don't destroy old value) */
-    loc = DEREF_ptr ( posn_from ( crt_loc.posn ) ) ;
-    DEREF_loc ( loc, crt_loc ) ;
-    crt_file_changed = 2 ;
-    crt_line_changed = 1 ;
-    crt_spaces = 0 ;
-
-    /* Reopen the previous buffer */
-    input_name = position [c].name ;
-    input_file = position [c].fileptr ;
-    input_special = position [c].special ;
-    crt_dir_path = position [c].path ;
-    crt_found_path = position [c].found ;
-    crt_included_file = position [c].incl ;
-    crt_interface = position [c].interface ;
-    if ( input_file == NULL ) {
-	/* Reopen old file */
-	char *str = strlit ( input_name ) ;
-	if ( str ) {
-	    input_file = fopen ( str, "r" ) ;
-	    if ( input_file == NULL ) {
-		CONST char *msg = "Internal file error in '%s'" ;
-		error ( ERROR_INTERNAL, msg, str ) ;
-		crt_loc.line++ ;
-		crt_loc.column = 0 ;
-		input_crt = input_posn ;
-		return ( end_include ( lex_ignore_token ) ) ;
-	    }
-	    seek_buffer ( LAST_BUFFER_NO, position [c].offset, 0 ) ;
+	if (do_header) {
+		dump_include(&crt_loc, NULL_string, 4, 0);
 	}
-    } else {
-	/* Resume old file position */
-	resume_buffer ( c ) ;
-    }
-    if ( option ( OPT_include_verbose ) ) {
-	LOCATION ploc ;
-	int st = position [c].startup ;
-	ploc = crt_loc ;
-	if ( st >= 2 ) ploc.line++ ;
-	report ( ploc, ERR_cpp_include_close ( nm ) ) ;
-    }
-    if ( do_header ) dump_include ( &crt_loc, NULL_string, 4, 0 ) ;
-    crt_loc.line++ ;
-    crt_loc.column = 0 ;
-    input_crt = input_posn ;
+	crt_loc.line++;
+	crt_loc.column = 0;
+	input_crt = input_posn;
 
-    /* Could be the end of a start-up file - try the next one */
-    if ( c == 0 ) open_startup () ;
-    return ( 1 ) ;
+	/* Could be the end of a start-up file - try the next one */
+	if (c == 0) {
+		open_startup();
+	}
+	return(1);
 }
