@@ -83,33 +83,31 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void			nstring_list_init
- *			PROTO_S ((NStringListP list))
+ ** Function:	void			nstring_list_init(NStringListP list)
  ** Exceptions:
  *
  * This function initialises the specified nstring list to be an empty list.
  *
- ** Function:	void			nstring_list_append
- *			PROTO_S ((NStringListP list, NStringP nstring))
+ ** Function:	void			nstring_list_append(NStringListP list,
+ *					    NStringP nstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified nstring onto the specified list.
  *
- ** Function:	NStringListEntryP	nstring_list_head
- *			PROTO_S ((NStringListP list))
+ ** Function:	NStringListEntryP	nstring_list_head(NStringListP list)
  ** Exceptions:
  *
  * This function returns a pointer to the first entry in the specified list.
  *
- ** Function:	NStringP		nstring_list_entry_string
- *			PROTO_S ((NStringListEntryP entry))
+ ** Function:	NStringP		nstring_list_entry_string(
+ *					    NStringListEntryP entry)
  ** Exceptions:
  *
  * This function returns a pointer to the nstring stored in the specified
  * list entry.
  *
- ** Function:	NStringListEntryP	nstring_list_entry_deallocate
- *			PROTO_S ((NStringListEntryP entry))
+ ** Function:	NStringListEntryP	nstring_list_entry_deallocate(
+ *					    NStringListEntryP entry)
  ** Exceptions:
  *
  * This function deallocates the specified list entry (without deallocating

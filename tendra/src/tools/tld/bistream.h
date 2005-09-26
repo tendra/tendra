@@ -75,14 +75,12 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void			bistream_init
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	void		bistream_init(BIStreamP bistream)
  ** Exceptions:
  *
  * This function initialises the specified bistream not to read from any file.
  *
- ** Function:	BoolT			bistream_open
- *			PROTO_S ((BIStreamP bistream, char *name))
+ ** Function:	BoolT		bistream_open(BIStreamP bistream, char *name)
  ** Exceptions:
  *
  * This function initialises the specified bistream to read from the file with
@@ -91,22 +89,19 @@
  * returns false. If the file is opened successfully, the function returns
  * true.
  *
- ** Function:	void			bistream_assign
- *			PROTO_S ((BIStreamP to, BIStreamP from))
+ ** Function:	void		bistream_assign(BIStreamP to, BIStreamP from)
  ** Exceptions:
  *
  * This function assigns the from bistream to the to bistream.  The from
  * bistream should not be used again.
  *
- ** Function:	BoolT			bistream_is_open
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	BoolT		bistream_is_open(BIStreamP bistream)
  *
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  *
- ** Function:	unsigned		bistream_read_chars
- *			PROTO_S ((BIStreamP bistream, unsigned length,
- *				  char *chars))
+ ** Function:	unsigned	bistream_read_chars(BIStreamP bistream,
+ *				    unsigned length, char *chars)
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next length characters from the specified bistream.
@@ -114,9 +109,8 @@
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  *
- ** Function:	unsigned		bistream_read_bytes
- *			PROTO_S ((BIStreamP bistream, unsigned length,
- *				  ByteP bytes))
+ ** Function:	unsigned	bistream_read_bytes(BIStreamP bistream,
+ *				    unsigned length, ByteP bytes)
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next length bytes from the specified bistream.  The
@@ -124,8 +118,8 @@
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  *
- ** Function:	BoolT			bistream_read_byte
- *			PROTO_S ((BIStreamP bistream, ByteT *byte_ref))
+ ** Function:	BoolT		bistream_read_byte(BIStreamP bistream,
+ *				    ByteT *byte_ref)
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next character from the specified bistream.  If a
@@ -133,29 +127,25 @@
  * function returns true.  If the end of file is reached, the function returns
  * false.
  *
- ** Function:	unsigned		bistream_byte
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	unsigned	bistream_byte(BIStreamP bistream)
  ** Exceptions:
  *
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  *
- ** Function:	char *		bistream_name
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	char *		bistream_name(BIStreamP bistream)
  ** Exceptions:
  *
  * This function returns the name of the file from which the specified
  * bistream is reading. The return value should not be modified or
  * deallocated.
  *
- ** Function:	void			bistream_rewind
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	void		bistream_rewind(BIStreamP bistream)
  ** Exceptions:
  *
  * This function rewinds the specified bistream.
  *
- ** Function:	void			bistream_close
- *			PROTO_S ((BIStreamP bistream))
+ ** Function:	void		bistream_close(BIStreamP bistream)
  ** Exceptions:
  *
  * This function closes the specified bistream.

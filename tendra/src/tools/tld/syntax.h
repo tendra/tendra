@@ -82,49 +82,42 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	int			syntax_value
- *			PROTO_S ((char c))
+ ** Function:	int		syntax_value(char c)
  ** Exceptions:
  *
  * This function returns the positive integer digit value that the specified
  * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
  *
- ** Function:	char			syntax_upcase
- *			PROTO_S ((char c))
+ ** Function:	char		syntax_upcase(char c)
  ** Exceptions:
  *
  * This function returns the upper case version of the specified character if
  * it has one, otherwise it just returns the character.
  *
- ** Function:	char			syntax_downcase
- *			PROTO_S ((char c))
+ ** Function:	char		syntax_downcase(char c)
  ** Exceptions:
  *
  * This function returns the lower case version of the specified character if
  * it has one, otherwise it just returns the character.
  *
- ** Function:	BoolT			syntax_is_white_space
- *			PROTO_S ((char c))
+ ** Function:	BoolT		syntax_is_white_space(char c)
  *
  * This function returns true if the specified character is a white space
  * character, and false otherwise.
  *
- ** Function:	BoolT			syntax_is_printable
- *			PROTO_S ((char c))
+ ** Function:	BoolT		syntax_is_printable(char c)
  ** Exceptions:
  *
  * This function returns true if the specified character can be printed, and
  * false otherwise.
  *
- ** Function:	BoolT			syntax_is_letter
- *			PROTO_S ((char c))
+ ** Function:	BoolT		syntax_is_letter(char c)
  ** Exceptions:
  *
  * This function returns true if the specified character is a letter, and
  * false otherwise.
  *
- ** Function:	BoolT			syntax_is_digit
- *			PROTO_S ((char c))
+ ** Function:	BoolT		syntax_is_digit(char c)
  ** Exceptions:
  *
  * This function returns true if the specified character is a decimal digit,

@@ -70,10 +70,8 @@
  *
  * This file requires that two external functions are provided:
  *
- *	extern void			E_exception_unhandled
- *			PROTO_S ((ExceptionP, char *, unsigned));
- *	extern void			E_exception_corrupt_handler
- *			PROTO_S ((char *, unsigned));
+ *	extern void	E_exception_unhandled(ExceptionP, char *, unsigned);
+ *	extern void	E_exception_corrupt_handler(char *, unsigned);
  *
  * The first of these functions will be called if there is an unhandled
  * exception.  The exception will be given as an argument, along with the name
@@ -117,8 +115,7 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	char *		exception_name
- *			PROTO_S ((ExceptionP exception))
+ ** Function:	char *	exception_name(ExceptionP exception)
  *
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.

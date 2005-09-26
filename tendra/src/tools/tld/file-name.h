@@ -69,23 +69,20 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	char *		file_name_basename
- *			PROTO_S ((char *path))
+ ** Function:	char *		file_name_basename(char *path)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the file name
  * component of the specified path.
  *
- ** Function:	char *		file_name_dirname
- *			PROTO_S ((char *path))
+ ** Function:	char *		file_name_dirname(char *path)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the directory name
  * component of the specified path.
  *
- ** Function:	char *		file_name_expand
- *			PROTO_S ((char *dir, char *name,
- *				  char *suffix))
+ ** Function:	char *		file_name_expand(char *dir, char *name,
+ *				    char *suffix)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function returns a dynamically allocated copy of the path name
@@ -93,21 +90,18 @@
  * suffix is non nil, it is also appended to the path name, following the
  * suffix separator character.
  *
- ** Function:	char *		file_name_is_basename
- *			PROTO_S ((char *path))
+ ** Function:	char *		file_name_is_basename(char *path)
  ** Exceptions:
  *
  * This function returns true if the specified path has no directory
  * component.
  *
- ** Function:	char *		file_name_is_absolute
- *			PROTO_S ((char *path))
+ ** Function:	char *		file_name_is_absolute(char *path)
  ** Exceptions:
  *
  * This function returns true if the specified path is an absolute path name.
  *
- ** Function:	void			file_name_populate
- *			PROTO_S ((char *path))
+ ** Function:	void		file_name_populate(char *path)
  ** Exceptions:
  *
  * This function tries to create all of the directories on the specified path.

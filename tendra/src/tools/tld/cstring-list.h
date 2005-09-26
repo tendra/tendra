@@ -83,33 +83,31 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void			cstring_list_init
- *			PROTO_S ((CStringListP list))
+ ** Function:	void		cstring_list_init(CStringListP list)
  ** Exceptions:
  *
  * This function initialises the specified cstring list to be an empty list.
  *
- ** Function:	void			cstring_list_append
- *			PROTO_S ((CStringListP list, char *cstring))
+ ** Function:	void		cstring_list_append(CStringListP list,
+ *				    char *cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified cstring onto the specified list.
  *
- ** Function:	CStringListEntryP	cstring_list_head
- *			PROTO_S ((CStringListP list))
+ ** Function:	CStringListEntryP	cstring_list_head(CStringListP list)
  ** Exceptions:
  *
  * This function returns a pointer to the first entry in the specified list.
  *
- ** Function:	char *		cstring_list_entry_string
- *			PROTO_S ((CStringListEntryP entry))
+ ** Function:	char *		cstring_list_entry_string(
+ *				    CStringListEntryP entry)
  ** Exceptions:
  *
  * This function returns a pointer to the cstring stored in the specified
  * list entry.
  *
- ** Function:	CStringListEntryP	cstring_list_entry_deallocate
- *			PROTO_S ((CStringListEntryP entry))
+ ** Function:	CStringListEntryP	cstring_list_entry_deallocate(
+ *					    CStringListEntryP entry)
  ** Exceptions:
  *
  * This function deallocates the specified list entry (without deallocating
