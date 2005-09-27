@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -85,89 +115,94 @@ $Log: dwarf_proc.c,v $
 
 extern int continue_decs;
 
-void out_dwarf_proc_args
-    PROTO_N ( (t) )
-    PROTO_T ( diag_type t )
+void
+out_dwarf_proc_args(diag_type t)
 {
-  if (t->key != DIAG_TYPE_PROC)
-    failer("Can't output args of non proc type");
+	if (t->key != DIAG_TYPE_PROC) {
+		failer("Can't output args of non proc type");
+	}
 
-  if (t->data.proc.opt_args)
-  {
-    cont_sib_chain(TAG_unspecified_parameters);
-    leave_dwarf_blk();
-  }
+	if (t->data.proc.opt_args) {
+		cont_sib_chain(TAG_unspecified_parameters);
+		leave_dwarf_blk();
+	}
 }
 
-void diag_proc_begin
-    PROTO_N ( (d_props, global, cname, pname) )
-    PROTO_T ( diag_global * d_props X int global X int cname X char *pname )
+
+void
+diag_proc_begin(diag_global *d_props, int global, int cname, char *pname)
 {
-  UNUSED(cname);
-  UNUSED(pname);
+	UNUSED(cname);
+	UNUSED(pname);
 
-  if (!d_props)
-    return;
+	if (!d_props) {
+		return;
+	}
 
-  outs(COMMENT_2("\t","\tHere beginneth a proc"));
-  outnl();
-  if (d_props->desc->key != DIAG_ID_KEY)
-    failer("proc beg without id");
+	outs(COMMENT_2("\t", "\tHere beginneth a proc"));
+	outnl();
+	if (d_props->desc->key != DIAG_ID_KEY) {
+		failer("proc beg without id");
+	}
 
-  next_dwarf_lab(&(d_props->lab));
-  OUT_DWARF_BEG(&(d_props->lab));
+	next_dwarf_lab(&(d_props->lab));
+	OUT_DWARF_BEG(&(d_props->lab));
 
-  if (global)
-    cont_sib_chain(TAG_global_subroutine);
-  else
-    cont_sib_chain(TAG_subroutine);
+	if (global) {
+		cont_sib_chain(TAG_global_subroutine);
+	} else {
+		cont_sib_chain(TAG_subroutine);
+	}
 
-  out_dwarf_name_attr(TDFSTRING2CHAR(d_props->desc->data.id.nme));
-  out_dwarf_type_attr(d_props->desc->data.id.new_type->data.proc.result_type);
-  OUT_DWARF_ATTR(AT_low_pc);
-  dwarf4(LAB2CHAR(d_props->lab.beg));
-  OUT_DWARF_ATTR(AT_high_pc);
-  dwarf4(LAB2CHAR(d_props->lab.end));
-  leave_dwarf_blk();
-  make_next_new_chain();
+	out_dwarf_name_attr(TDFSTRING2CHAR(d_props->desc->data.id.nme));
+	out_dwarf_type_attr(d_props->desc->data.id.new_type->data.proc.result_type);
+	OUT_DWARF_ATTR(AT_low_pc);
+	dwarf4(LAB2CHAR(d_props->lab.beg));
+	OUT_DWARF_ATTR(AT_high_pc);
+	dwarf4(LAB2CHAR(d_props->lab.end));
+	leave_dwarf_blk();
+	make_next_new_chain();
 
-  out_dwarf_sourcemark(&d_props->desc->data.id.whence); /* must be OUTSIDE blk */
-  out_dwarf_proc_args(d_props->desc->data.id.new_type);
-  continue_decs = 1;
+	/* must be OUTSIDE blk */
+	out_dwarf_sourcemark(&d_props->desc->data.id.whence);
+
+	out_dwarf_proc_args(d_props->desc->data.id.new_type);
+	continue_decs = 1;
 }
 
-void diag_proc_end
-    PROTO_N ( (d_props) )
-    PROTO_T ( diag_global * d_props )
-{
-  if (!d_props)
-    return;
 
-  outs(COMMENT_2("\t","\tHere endeth a proc"));
-  outnl();
-  OUT_DWARF_END(&(d_props->lab));
-  end_sib_chain();
+void
+diag_proc_end(diag_global *d_props)
+{
+	if (!d_props) {
+		return;
+	}
+
+	outs(COMMENT_2("\t", "\tHere endeth a proc"));
+	outnl();
+	OUT_DWARF_END(& (d_props->lab));
+	end_sib_chain();
 }
 
-void diag_val_begin
-    PROTO_N ( (d_props, global, cname, pname) )
-    PROTO_T ( diag_global * d_props X int global X int cname X char *pname )
-{
-  UNUSED(d_props);
-  UNUSED(global);
-  UNUSED(cname);
-  UNUSED(pname);
 
-  outs(COMMENT_2("\t","\tHere beginneth a val"));
-  outnl();
+void
+diag_val_begin(diag_global *d_props, int global, int cname, char *pname)
+{
+	UNUSED(d_props);
+	UNUSED(global);
+	UNUSED(cname);
+	UNUSED(pname);
+
+	outs(COMMENT_2("\t", "\tHere beginneth a val"));
+	outnl();
 }
 
-void diag_val_end
-    PROTO_N ( (d_props) )
-    PROTO_T ( diag_global * d_props )
-{
-  UNUSED(d_props);
 
-  outs(COMMENT_2("\t","\tHere endeth a val"));
-  outnl();
+void
+diag_val_end(diag_global *d_props)
+{
+	UNUSED(d_props);
+
+	outs(COMMENT_2("\t", "\tHere endeth a val"));
+	outnl();
 }
