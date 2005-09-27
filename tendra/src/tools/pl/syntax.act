@@ -168,9 +168,8 @@ static int g_ce_v;
 static int g_unt;
 static Tagdec * g_app_tags;
 
-static void do_procprops
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+static void
+do_procprops(int i)
 {
     switch(i) {
        case 0: return;
@@ -202,8 +201,8 @@ static int defaultlab = -1;
 static TDF g_lablist;
 BoolT do_pp = FALSE;
 
-static void success
-    PROTO_Z ()
+static void
+success(void)
 {
     IGNORE printf("Reached end\n");
     print_res();
