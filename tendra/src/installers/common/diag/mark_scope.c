@@ -122,7 +122,7 @@ mark_scope(exp e)
 	if (name(id) == cont_tag) {
 		id = son(id);
 	}
-	if (name(id)!= name_tag) {
+	if (name(id) != name_tag) {
 		return;
 	}
 	id = son(id);
@@ -135,7 +135,7 @@ mark_scope(exp e)
 		ptr = &((*ptr)->more);
 	}
 	if (!*ptr && name(e) == seq_tag && name(son(son(e))) == ass_tag &&
-	    last(son(son(e))) && name(bro(son(e)))!= ident_tag) {
+	    last(son(son(e))) && name(bro(son(e))) != ident_tag) {
 		ptr = &dgf(bro(son(e)));
 		while (*ptr && (*ptr)->key != DGA_SCOPE) {
 			ptr = &((*ptr)->more);

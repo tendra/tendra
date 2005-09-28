@@ -210,8 +210,8 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 			    isvar(son(son(x)))) {
 				x = son(x);
 			}
-			if ((name(x)!= name_tag || isdiscarded(x)) &&
-			    name(x)!= val_tag && name(x)!= null_tag) {
+			if ((name(x) != name_tag || isdiscarded(x)) &&
+			    name(x) != val_tag && name(x) != null_tag) {
 				break;	/* should do better ! */
 			}
 
@@ -304,7 +304,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 		case DIAG_INFO_ID: {
 			exp x = d->data.id_scope.access;
 
-			if (name(x)!= name_tag) {
+			if (name(x) != name_tag) {
 				failer("diagnosing non-identifier");
 				return;
 			}

@@ -200,7 +200,7 @@ sleb128_length(long value)
 			 * shift */
 			value |= - (1 << ((sizeof(value) * 8) - 7));
 		}
-		if (value == - (long)((byt & 0x40)!= 0)) {
+		if (value == - (long)((byt & 0x40) != 0)) {
 			return op;
 		}
 		op++;
@@ -541,7 +541,7 @@ refloc_length(exp e, exp id)
 {
 	switch (name(e)) {
 	case name_tag:
-		if (son(e)!= id) {
+		if (son(e) != id) {
 			failer(bad_refloc);
 		}
 		if (no(e) == 0) {
@@ -568,7 +568,7 @@ out_refloc(exp e, exp id)
 {
 	switch (name(e)) {
 	case name_tag:
-		if (son(e)!= id) {
+		if (son(e) != id) {
 			failer(bad_refloc);
 		}
 		outs(sep);

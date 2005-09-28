@@ -1788,7 +1788,7 @@ dg_enum
 f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 {
 	dg_enum ans;
-	if (!value || name(value)!= val_tag) {
+	if (!value || name(value) != val_tag) {
 		failer("enum value not const");
 	}
 	ans.enam = idname_chars(idname);
@@ -1804,7 +1804,7 @@ dg_enum
 f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 {
 	dg_enum ans;
-	if (!value || name(value)!= val_tag) {
+	if (!value || name(value) != val_tag) {
 		failer("enum value not const");
 	}
 	ans.chn = idchar.nat_val.small_nat;
@@ -2248,8 +2248,8 @@ dg_discrim
 f_make_dg_discrim(exp lower, exp upper)
 {
 	dg_discrim ans;
-	if (name(lower)!= val_tag || name(upper)!= val_tag ||
-	    sh(lower)!= sh(upper)) {
+	if (name(lower) != val_tag || name(upper) != val_tag ||
+	    sh(lower) != sh(upper)) {
 		failer("malformed discriminant");
 	}
 	ans.lower = diaginfo_exp(lower);

@@ -181,7 +181,7 @@ f_static_name_def(exp e, tdfstring id)
 	char **oldid = &brog(son(e))->dec_u.dec_val.dec_id;
 	char *newid = id_prefix(id.ints.chars);
 
-	if (name(e)!= name_tag || !isglob(son(e))) {
+	if (name(e) != name_tag || !isglob(son(e))) {
 		failer(ILLEGAL_STATIC);
 		kill_exp(e, e);
 		return 0;

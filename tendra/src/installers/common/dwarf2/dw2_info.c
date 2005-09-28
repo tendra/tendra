@@ -313,9 +313,9 @@ check_trivial(exp e)
 #if 0
 	/* This is still far too strong; e may be anything with equivalent
 	   already in a register! */
-	if (e && name(e)!= val_tag && name(e)!= name_tag &&
-	    (name(e)!= cont_tag || name(son(e))!= name_tag) &&
-	    name(e)!= goto_tag && name(e)!= top_tag) {
+	if (e && name(e) != val_tag && name(e) != name_tag &&
+	    (name(e) != cont_tag || name(son(e)) != name_tag) &&
+	    name(e) != goto_tag && name(e) != top_tag) {
 		if (name(e) == chvar_tag || name(e) == chfl_tag)
 			check_trivial(son(e));
 		else
@@ -1142,7 +1142,7 @@ dw2_out_proc(dg_name di)
 	id = di->data.n_proc.obtain_val;
 	if (id) {
 		exp p;
-		if (name(id)!= hold_tag || name(son(id))!= name_tag) {
+		if (name(id) != hold_tag || name(son(id)) != name_tag) {
 			failer("wrong proc obtain_tag");
 			return;
 		}
@@ -1159,7 +1159,7 @@ dw2_out_proc(dg_name di)
 				is_callable = DW_CC_nocall;
 			}
 			while (name(t) == ident_tag && isparam(t) &&
-			       name(son(t))!= formal_callee_tag) {
+			       name(son(t)) != formal_callee_tag) {
 				t = bro(son(t));
 			}
 			if (name(t) == ident_tag &&

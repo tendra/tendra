@@ -477,7 +477,7 @@ scan_diag_names(exp e, exp whole)
 		}
 		return;
 	}
-	if (son(e)!= nilexp && name(e)!= env_offset_tag) {
+	if (son(e) != nilexp && name(e) != env_offset_tag) {
 		exp t = son(e);
 		for (;;) {
 			scan_diag_names(t, whole);
@@ -605,7 +605,7 @@ find_obj_ref(exp contex, exp e)
 {
 	/* e is name_tag for required object */
 	dg_tag ans = (dg_tag)0;
-	while ((name(contex)!= ident_tag || !isglob(contex)) &&
+	while ((name(contex) != ident_tag || !isglob(contex)) &&
 	       (!dgf(contex) || !end_ref_search(e, dgf(contex), &ans))) {
 		contex = father(contex);
 	}
@@ -632,7 +632,7 @@ check_const_exp(exp e)
 	if (!e) {
 		return;
 	}
-	if (name(e)!= hold_tag || name(son(e))!= val_tag) {
+	if (name(e) != hold_tag || name(son(e)) != val_tag) {
 		failer("diag_type may need copying");
 	}
 	/* copy within type, unless all name_tags are uncopied */
@@ -1428,7 +1428,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		return(detch_info *)0;
 	}
 	ans = gather_detch(s, &(dgf(s)), reason, descend, reuse, opt_ref);
-	if (name(e)!= case_tag) {
+	if (name(e) != case_tag) {
 		detch_info ** ptr = &ans;
 		while (!last(s)) {
 			s = bro(s);

@@ -186,7 +186,7 @@ read_diag_id_scope(exp body)
 			       no_dg_accessibility_option);
 
 	if (isparam(son(acc)) ||
-	    (son(son(acc))!= nilexp && name(son(son(acc))) == chvar_tag &&
+	    (son(son(acc)) != nilexp && name(son(son(acc))) == chvar_tag &&
 	     shape_size(sh(son(son(acc)))) < 32 &&
 	     name(son(son(son(acc)))) == cont_tag &&
 	     name(son(son(son(son(acc))))) == name_tag &&
