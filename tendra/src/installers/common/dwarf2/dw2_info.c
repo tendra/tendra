@@ -2294,7 +2294,7 @@ prepare_detch(detch_info *dl)
 
 
 void
-dw2_code_info(dg_info d, void(*mcode)PROTO_S((void *)), void *args)
+dw2_code_info(dg_info d, void(*mcode)(void *), void *args)
 {
 	if (d == nildiag) {
 		(*mcode)(args);
