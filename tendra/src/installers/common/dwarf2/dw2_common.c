@@ -1,4 +1,34 @@
 /*
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of The TenDRA Project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific, prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id$
+ */
+/*
     		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
@@ -68,95 +98,90 @@ $Log: dw2_common.c,v $
 static dg_name_list capnames;
 static int cni = 0;
 
-static void make_bastype
-    PROTO_N ( (s, t) )
-    PROTO_T ( char * s X dg_type t )
+static void
+make_bastype(char *s, dg_type t)
 {
-  dg_name this_name;
-  dg_tag ans = (dgtag_struct *) xmalloc (sizeof(dgtag_struct));
-  init_dgtag (ans);
-  ans->outref.k = LAB_STR;
-  ans->outref.u.s = s;
-  this_name = f_dg_tag_name (ans, f_dg_type_name (
-	no_dg_idname_option,
-	f_dg_null_sourcepos,
-	no_dg_accessibility_option,
-	yes_dg_type_option (t),
-	f_false,
-	no_bool_option,
-	no_dg_constraint_list_option));
-  capnames = add_dg_name_list (capnames, this_name, cni++);
+	dg_name this_name;
+	dg_tag ans = (dgtag_struct *)xmalloc(sizeof(dgtag_struct));
+	init_dgtag(ans);
+	ans->outref.k = LAB_STR;
+	ans->outref.u.s = s;
+	this_name = f_dg_tag_name(ans,
+				  f_dg_type_name(no_dg_idname_option,
+						 f_dg_null_sourcepos,
+						 no_dg_accessibility_option,
+						 yes_dg_type_option(t), f_false,
+						 no_bool_option,
+						 no_dg_constraint_list_option));
+	capnames = add_dg_name_list(capnames, this_name, cni++);
 }
 
 
-static dg_idname m_id
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+static dg_idname
+m_id(char *s)
 {
-  dg_idname ans;
-  ans.id_key = DG_ID_SRC;
-  ans.idd.nam = s;
-  return ans;
+	dg_idname ans;
+	ans.id_key = DG_ID_SRC;
+	ans.idd.nam = s;
+	return ans;
 }
 
 
-static void make_basic_types
-    PROTO_Z ()
+static void
+make_basic_types(void)
 {
-  make_bastype ("__D_void_star", f_dg_address_type (
-		m_id ("void *"), f_pointer (f_alignment (scharsh))));
-  make_bastype ("__D_signed_char", f_dg_char_type (
-		m_id ("signed char"), scharsh));
-  make_bastype ("__D_unsigned_char", f_dg_char_type (
-		m_id ("unsigned char"), ucharsh));
-  make_bastype ("__D_short", f_dg_integer_type (
-		m_id ("short"), swordsh));
-  make_bastype ("__D_unsigned_short", f_dg_integer_type (
-		m_id ("unsigned short"), uwordsh));
-  make_bastype ("__D_int", f_dg_integer_type (
-		m_id ("int"), slongsh));
-  make_bastype ("__D_unsigned_int", f_dg_integer_type (
-		m_id ("unsigned int"), ulongsh));
-  make_bastype ("__D_long", f_dg_integer_type (
-		m_id ("long"), slongsh));
-  make_bastype ("__D_unsigned_long", f_dg_integer_type (
-		m_id ("unsigned long"), ulongsh));
-  make_bastype ("__D_long_long", f_dg_integer_type (
-		m_id ("long long"), s64sh));
-  make_bastype ("__D_unsigned_long_long", f_dg_integer_type (
-		m_id ("unsigned long long"), u64sh));
-  make_bastype ("__D_float", f_dg_float_type (
-		m_id ("float"), shrealfv));
-  make_bastype ("__D_double", f_dg_float_type (
-		m_id ("double"), realfv));
-  make_bastype ("__D_long_double", f_dg_float_type (
-		m_id ("long double"), doublefv));
-  make_bastype ("__D_complex", f_dg_complex_float_type (
-		m_id ("complex"), shcomplexfv));
-  make_bastype ("__D_double_complex", f_dg_complex_float_type (
-		m_id ("double complex"), complexfv));
-  make_bastype ("__D_long_double_complex", f_dg_complex_float_type (
-		m_id ("long double complex"), complexdoublefv));
+	make_bastype("__D_void_star",
+		     f_dg_address_type(m_id("void *"),
+				       f_pointer(f_alignment(scharsh))));
+	make_bastype("__D_signed_char", f_dg_char_type(m_id("signed char"),
+						       scharsh));
+	make_bastype("__D_unsigned_char", f_dg_char_type(m_id("unsigned char"),
+							 ucharsh));
+	make_bastype("__D_short", f_dg_integer_type(m_id("short"), swordsh));
+	make_bastype("__D_unsigned_short",
+		     f_dg_integer_type(m_id("unsigned short"), uwordsh));
+	make_bastype("__D_int", f_dg_integer_type(m_id("int"), slongsh));
+	make_bastype("__D_unsigned_int", f_dg_integer_type(m_id("unsigned int"),
+							   ulongsh));
+	make_bastype("__D_long", f_dg_integer_type(m_id("long"), slongsh));
+	make_bastype("__D_unsigned_long",
+		     f_dg_integer_type(m_id("unsigned long"), ulongsh));
+	make_bastype("__D_long_long", f_dg_integer_type(m_id("long long"),
+							s64sh));
+	make_bastype("__D_unsigned_long_long",
+		     f_dg_integer_type(m_id("unsigned long long"), u64sh));
+	make_bastype("__D_float", f_dg_float_type(m_id("float"), shrealfv));
+	make_bastype("__D_double", f_dg_float_type(m_id("double"), realfv));
+	make_bastype("__D_long_double", f_dg_float_type(m_id("long double"),
+							doublefv));
+	make_bastype("__D_complex", f_dg_complex_float_type(m_id("complex"),
+							    shcomplexfv));
+	make_bastype("__D_double_complex",
+		     f_dg_complex_float_type(m_id("double complex"),
+					     complexfv));
+	make_bastype("__D_long_double_complex",
+		     f_dg_complex_float_type(m_id("long double complex"),
+					     complexdoublefv));
 }
 
 
-void make_dwarf_common
-    PROTO_Z ()
+void
+make_dwarf_common(void)
 {
-  dg_compilation ans;
-  capnames = new_dg_name_list (15);
-  make_basic_types ();
-  ans = (dg_compilation) xmalloc (sizeof (struct dg_comp_t));
-  ans->prim_file = get_filename ((long)0, "", "", "");
-  ans->comp_deps = new_string_list (0);
-  ans->date = 0;
-  ans->language = 1;	/* assume ANSI C */
-  ans->id_case = 0;	/* case sensitive */
-  ans->producer = "TenDRA";
-  ans->comp_dir = get_filename ((long)0, "", "", "");
-  ans->options = new_string_list (0);
-  ans->dn_list = capnames;
-  ans->macros = new_dg_macro_list (0);
-  ans->another = (dg_compilation)0;
-  all_comp_units = ans;
+	dg_compilation ans;
+	capnames = new_dg_name_list(15);
+	make_basic_types();
+	ans = (dg_compilation)xmalloc(sizeof(struct dg_comp_t));
+	ans->prim_file = get_filename((long)0, "", "", "");
+	ans->comp_deps = new_string_list(0);
+	ans->date = 0;
+	ans->language = 1;	/* assume ANSI C */
+	ans->id_case = 0;	/* case sensitive */
+	ans->producer = "TenDRA";
+	ans->comp_dir = get_filename((long)0, "", "", "");
+	ans->options = new_string_list(0);
+	ans->dn_list = capnames;
+	ans->macros = new_dg_macro_list(0);
+	ans->another = (dg_compilation)0;
+	all_comp_units = ans;
 }
