@@ -227,22 +227,34 @@
     no-proto</para>
 
   <para>These enable or disable the use of function prototypes or the OSSG
-    prototype macros.
-    split split=<emphasis>NUMBER</emphasis> no-split
+    prototype macros.</para>
+
+  <para>
+    split split=<emphasis>NUMBER</emphasis> no-split</para>
+
+  <para>
     These enable or disable the output file split option. The generated files
     can be very large even without inlining. This option splits the main
     output file into a number of components containing about
     <emphasis>NUMBER</emphasis> lines each (the default being 50000). These
     components are distinguished by successively substituting 1, 2, 3, ...
-    for the character '@' in the output file name.
-    numeric-ids numeric no-numeric-ids no-numeric
+    for the character '@' in the output file name.</para>
+
+  <para>
+    numeric-ids numeric no-numeric-ids no-numeric</para>
+
+  <para>
     These enable or disable the use of numeric identifiers. Numeric
     identifiers replace the identifier name with a number, which is mainly of
     use in stopping identifier names getting too long. The disadvantage is
     that the code becomes less readable, and more difficult to debug. Numeric
     identifiers are not used by default and are never used for terminal
-    numbers.
-    casts cast no-casts no-cast
+    numbers.</para>
+
+  <para>
+    casts cast no-casts no-cast</para>
+
+  <para>
     These enable or disable casting of action and assignment operator
     immutable parameters. If enabled, a parameter is cast to its own type
     when it is substituted into the action. This will cause some compilers to
@@ -251,9 +263,13 @@
     disadvantage is that not all compilers will reject attempts at mutation,
     and that ANSI doesn't allow casting to structure and union types, which
     means that some code may be illegal. Parameter casting is disabled by
-    default.
+    default.</para>
+
+  <para>
     unreachable-macros unreachable-macro unreachable-comments
-    unreachable-comment
+    unreachable-comment</para>
+
+  <para>
     These choose whether unreachable code is marked by a macro or a comment.
     The default is to mark unreachable code with a comment "/*UNREACHED*/",
     however a macro "UNREACHED;" may be used instead, if desired.
