@@ -315,12 +315,12 @@ de_tokdef_aux(void)
     /* Main definition body */
     out ("Definition :");
     if (skipping || is_foreign (obj)) {
-		tdf_pos bits = end - tdf_stream_tell (tdfr);
+		tdf_pos pos = tdf_stream_tell (tdfr);
 		out ("....");
-		if (bits < 0) {
+		if (pos > end) {
 			MSG_token_definition_size_wrong ();
 		} else {
-			tdf_skip_bits (tdfr, bits);
+			tdf_skip_bits (tdfr, end - pos);
 		}
     } else {
 		char buff [2];
