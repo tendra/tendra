@@ -59,6 +59,7 @@
 #include "types.h"
 #include "ascii.h"
 #include "file.h"
+#include "pretty.h"
 #include "tree.h"
 
 

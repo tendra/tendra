@@ -64,6 +64,7 @@
 #include "types.h"
 #include "basic.h"
 #include "binding.h"
+#include "capsule.h"
 #include "file.h"
 #include "sort.h"
 #include "tdf.h"
