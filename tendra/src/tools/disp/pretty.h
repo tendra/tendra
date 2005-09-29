@@ -70,7 +70,7 @@
  */
 
 extern void pretty_tree(void) ;
-extern int helpflag;
+extern BoolT helpflag;
 extern int maxcol;
 extern BoolT progress;
 extern BoolT quickflag;
