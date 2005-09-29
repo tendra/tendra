@@ -331,8 +331,8 @@ print_action(char *dir)
 			output ("#endif\n\n");
 		} else {
 			output ("#ifndef PRINT_%TI\n", t);
-			output ("static void PRINT_%TI ", t);
-			output ("(FILE *, %TT, char *, int) ;\n", t);
+			output ("static void PRINT_%TI", t);
+			output ("(FILE *, %TT, char *, int);\n", t);
 			output ("#endif\n\n");
 		}
     }
@@ -344,8 +344,8 @@ print_action(char *dir)
     output ("static int print_list_expand = 0;\n\n\n");
 
     comment ("Printing indentation routine");
-    output ("static void print_indent\n");
-    output ("(FILE *f, int d)\n");
+    output ("static void\n");
+    output ("print_indent(FILE *f, int d)\n");
     output ("{\n");
     output ("    int i = print_indent_step * d;\n");
     output ("    while (i--) (void) fputc (' ', f);\n");
@@ -362,8 +362,8 @@ print_action(char *dir)
 			int is_struct = 0;
 			output ("/* Printing routines for %TT */\n\n", t);
 			output ("#ifndef PRINT_%TI\n\n", t);
-			output ("static void PRINT_%TI\n", t);
-			output ("(FILE *f_, %TT x_ X", t);
+			output ("static void\n");
+			output ("PRINT_%TI(FILE *f_, %TT x_,", t, t);
 			output (" char *nm_, int d_)\n");
 			output ("{\n");
 
@@ -448,8 +448,8 @@ print_action(char *dir)
 			if (extra_asserts) {
 			    char *star = (is_struct ? "*" : "");
 			    output ("#ifdef DEBUG\n\n");
-			    output ("void DEBUG_%TI\n", t);
-			    output ("(%TT %sx_)\n", t, star);
+			    output ("void\n");
+			    output ("DEBUG_%TI(%TT %sx_)\n", t, t, star);
 			    output ("{\n    ");
 			    if (is_struct) output ("if (x_) ");
 			    output ("PRINT_%TI (stdout, %sx_, ", t, star);
