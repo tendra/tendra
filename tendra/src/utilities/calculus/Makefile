@@ -27,8 +27,11 @@ keyword.h:
 lexer.h:
 	${LEXI} ${.CURDIR}/lexer.lxi ${OBJ_DIR}/${.TARGET}
 
-assert_def.h calculus.h cmd_ops.h print_def.h type_ops.h::
-	${OBJ_DIR}/calculus -a -p -x calculus.alg
+assert_def.h calculus.h cmd_ops.h type_ops.h::
+	${OBJ_DIR}/calculus -a -x calculus.alg
+
+print_def.h::
+	${OBJ_DIR}/calculus -p calculus.alg
 
 read_def.h write_def.h::
 	${OBJ_DIR}/calculus -d calculus.alg disk.alg .
