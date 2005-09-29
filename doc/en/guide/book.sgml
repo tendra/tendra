@@ -2684,7 +2684,7 @@ assign(obtain_tag(v), lhs).
         also means that the maximum bitfield length possible is the maximum size
         of integer variety that can be implemented on the translator concerned
         (this is defined to be at least 32). On standard architectures, the
-        producer can expect that an array of bitfields of lenth
+        producer can expect that an array of bitfields of length
         2<emphasis>n</emphasis> will be packed without padding; this, of course,
         includes arrays of booleans. For structures of several different
         bitfields, he can be sure of no extra padding bits if the total number of
