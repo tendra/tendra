@@ -17,5 +17,10 @@ syntax.c: syntax.sid syntax.act
 
 CLEANFILES+=	syntax.c syntax.h
 
-.include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
+keyword.h::
+	${OBJ_DIR}/lexi -k lexer.lxi keyword.h
 
+lexer.h::
+	${OBJ_DIR}/lexi -f lexer.lxi lexer.h
+
+.include "${.CURDIR}/../../../mk/base/tendra.prog.mk"

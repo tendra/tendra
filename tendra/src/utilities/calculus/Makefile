@@ -27,6 +27,12 @@ keyword.h:
 lexer.h:
 	${LEXI} ${.CURDIR}/lexer.lxi ${OBJ_DIR}/${.TARGET}
 
+assert_def.h calculus.h cmd_ops.h print_def.h type_ops.h::
+	${OBJ_DIR}/calculus -a -p -x calculus.alg
+
+read_def.h write_def.h::
+	${OBJ_DIR}/calculus -d calculus.alg disk.alg .
+
 CLEANFILES+=	keyword.h lexer.h syntax.c syntax.h
 
 .include "${.CURDIR}/../../../mk/base/tendra.prog.mk"
