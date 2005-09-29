@@ -331,7 +331,7 @@
       <para>Thus the <emphasis>token_args</emphasis> parameter of
         exp_apply_token is just the BITSTREAM formed from the actual parameters
         in the sequence described by the definition of the
-        <emphasis>token_valu</emphasis><emphasis>e</emphasis> parameter. This
+        <emphasis>token_value</emphasis> parameter. This
         will be given in a TOKEN_DEFN somewhere with constructor
         token_definition:</para>
 <programlisting>
@@ -876,7 +876,7 @@ make_linkextern (4, string_extern("printf"))
         <para>First we give the limits of the various name-spaces local to the
           UNIT in the <emphasis>local_vars</emphasis> parameter:</para>
 <programlisting>
-<emphasis>local_vars</emphasis><emphasis>:</emphasis> SLIST(TDFINT<emphasis>)</emphasis>
+<emphasis>local_vars:</emphasis> SLIST(TDFINT<emphasis>)</emphasis>
 </programlisting>
 
         <para>Just in the same way as with
@@ -1201,7 +1201,7 @@ make_link(42, 4)
           possible values that the integer can attain. The SHAPE required for a
           32 bit signed integer would be:</para>
 <programlisting>
-integer(var_limits(-2<emphasis>31</emphasis>, 2<emphasis>31</emphasis>-1))
+integer(var_limits(-2<superscript>31</superscript>, 2<superscript>31</superscript>-1))
 </programlisting>
 
         <para>while an unsigned char is:</para>
@@ -2685,7 +2685,8 @@ assign(obtain_tag(v), lhs).
         of integer variety that can be implemented on the translator concerned
         (this is defined to be at least 32). On standard architectures, the
         producer can expect that an array of bitfields of length
-        2<emphasis>n</emphasis> will be packed without padding; this, of course,
+        2<superscript>n</superscript> will be packed without padding; this, of
+        course,
         includes arrays of booleans. For structures of several different
         bitfields, he can be sure of no extra padding bits if the total number of
         bits involved is less than or equal to 32; similarly if he can subdivide
@@ -3387,33 +3388,33 @@ identify(v, tag, E, B) &lt;=&gt; B[obtain_tag(tag) \ E]
 <programlisting>
 contents(shape(E), obtain_tag(tg)):
 variable(v, tg, E, B) &lt;=&gt; identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
-obtain_tag(nt)]) sequence((S<emphasis>1</emphasis>, ... ,
-S<emphasis>n</emphasis>), sequence((P<emphasis>1</emphasis>, ...,
-P<emphasis>m</emphasis>), R) =&gt; sequence((S<emphasis>1</emphasis>,
-..., S<emphasis>n</emphasis>, P<emphasis>1</emphasis>, ...,
-P<emphasis>m</emphasis>), R) If S<emphasis>i</emphasis> =
-sequence((P<emphasis>1</emphasis>, ..., P<emphasis>m</emphasis>),
-R) : sequence((S<emphasis>1</emphasis>, ... ,
-S<emphasis>n</emphasis>), T) =&gt; sequence((S<emphasis>1</emphasis>,
-..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
-P<emphasis>m</emphasis>, R, S<emphasis>i+1</emphasis>, ...,
-S<emphasis>n</emphasis>), T) E =&gt; sequence(( ), E)
+obtain_tag(nt)]) sequence((S<subscript>1</subscript>, ... ,
+S<subscript>n</subscript>), sequence((P<subscript>1</subscript>, ...,
+P<subscript>m</subscript>), R) =&gt; sequence((S<subscript>1</subscript>,
+..., S<subscript>n</subscript>, P<subscript>1</subscript>, ...,
+P<subscript>m</subscript>), R) If S<subscript>i</subscript> =
+sequence((P<subscript>1</subscript>, ..., P<subscript>m</subscript>),
+R) : sequence((S<subscript>1</subscript>, ... ,
+S<subscript>n</subscript>), T) =&gt; sequence((S<subscript>1</subscript>,
+..., S<subscript>i-1</subscript>, P<subscript>1</subscript>, ...,
+P<subscript>m</subscript>, R, S<subscript>i+1</subscript>, ...,
+S<subscript>n</subscript>), T) E =&gt; sequence(( ), E)
 </programlisting>
 
       <para>If D is either identify or variable:</para>
 <programlisting>
-D(v, tag, sequence((S<emphasis>1</emphasis>,
-..., S<emphasis>n</emphasis>), R), B) &lt;=&gt;
-sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
+D(v, tag, sequence((S<subscript>1</subscript>,
+..., S<subscript>n</subscript>), R), B) &lt;=&gt;
+sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
 D(v, tag, R, B) )
 </programlisting>
 
-      <para>If S<emphasis>i</emphasis> is an EXP BOTTOM , then:</para>
+      <para>If S<subscript>i</subscript> is an EXP BOTTOM , then:</para>
 <programlisting>
-sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>,
-... S<emphasis>n</emphasis>), R) &lt;=&gt;
-sequence((S<emphasis>1</emphasis>, ... S<emphasis>i-1</emphasis>),
-S<emphasis>i</emphasis>)
+sequence((S<subscript>1</subscript>, S<subscript>2</subscript>,
+... S<subscript>n</subscript>), R) &lt;=&gt;
+sequence((S<subscript>1</subscript>, ... S<subscript>i-1</subscript>),
+S<subscript>i</subscript>)
 </programlisting>
 
       <para>If E is an EXP BOTTOM, and if D is either identify or
@@ -3422,20 +3423,20 @@ S<emphasis>i</emphasis>)
 D(v, tag, E, B) &lt;=&gt; E
 </programlisting>
 
-      <para>If S<emphasis>i</emphasis> is make_top(), then:</para>
+      <para>If S<subscript>i</subscript> is make_top(), then:</para>
 <programlisting>
-sequence((S<emphasis>1</emphasis>, S<emphasis>2</emphasis>, ...
-S<emphasis>n</emphasis>), R) =&gt; sequence((S<emphasis>1</emphasis>,
-... S<emphasis>i-1</emphasis>, S<emphasis>i+1</emphasis>,
-...S<emphasis>n</emphasis>), R)
+sequence((S<subscript>1</subscript>, S<subscript>2</subscript>, ...
+S<subscript>n</subscript>), R) =&gt; sequence((S<subscript>1</subscript>,
+... S<subscript>i-1</subscript>, S<subscript>i+1</subscript>,
+...S<subscript>n</subscript>), R)
 </programlisting>
 
-      <para>If S<emphasis>n</emphasis> is an EXP TOP:</para>
+      <para>If S<subscript>n</subscript> is an EXP TOP:</para>
 <programlisting>
-sequence((S<emphasis>1</emphasis>, ...
-S<emphasis>n</emphasis>), make_top()) =&gt;
-sequence((S<emphasis>1</emphasis> , ...,
-S<emphasis>n-1</emphasis>), S<emphasis>n</emphasis>)
+sequence((S<subscript>1</subscript>, ...
+S<subscript>n</subscript>), make_top()) =&gt;
+sequence((S<subscript>1</subscript> , ...,
+S<subscript>n-1</subscript>), S<subscript>n</subscript>)
 </programlisting>
 
       <para>If E is an EXP TOP and E is not side-effecting then:</para>
@@ -3444,25 +3445,25 @@ E &lt;=&gt; make_top()
 </programlisting>
 
       <para>If C is some non order-specifying and non side-effecting
-        constructor, and S<emphasis>i</emphasis> is
-        C(P<emphasis>1</emphasis>,..., P<emphasis>m</emphasis>)</para>
+        constructor, and S<subscript>i</subscript> is
+        C(P<subscript>1</subscript>,..., P<subscript>m</subscript>)</para>
 
       <para>where</para>
 
-      <para>P<emphasis>1..m</emphasis> are the EXP operands of C:</para>
+      <para>P<subscript>1..m</subscript> are the EXP operands of C:</para>
 <programlisting>
-sequence((S<emphasis>1</emphasis>, ...,
-S<emphasis>n</emphasis>), R) &lt;=&gt; sequence((S<emphasis>1</emphasis>,
-..., S<emphasis>i-1</emphasis>, P<emphasis>1</emphasis>, ...,
-P<emphasis>m</emphasis>, S<emphasis>i+1</emphasis>, ...,
-S<emphasis>n</emphasis>), R)
+sequence((S<subscript>1</subscript>, ...,
+S<subscript>n</subscript>), R) &lt;=&gt; sequence((S<subscript>1</subscript>,
+..., S<subscript>i-1</subscript>, P<subscript>1</subscript>, ...,
+P<subscript>m</subscript>, S<subscript>i+1</subscript>, ...,
+S<subscript>n</subscript>), R)
 </programlisting>
 
-      <para>If none of the S<emphasis>i</emphasis> use the label L:</para>
+      <para>If none of the S<subscript>i</subscript> use the label L:</para>
 <programlisting>
-conditional(L, sequence((S<emphasis>1</emphasis>,
-..., S<emphasis>n</emphasis>), R), A) &lt;=&gt;
-sequence((S<emphasis>1</emphasis>, ..., S<emphasis>n</emphasis>),
+conditional(L, sequence((S<subscript>1</subscript>,
+..., S<subscript>n</subscript>), R), A) &lt;=&gt;
+sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
 conditional(L, R, A))
 </programlisting>
 
@@ -3505,41 +3506,41 @@ sequence((E, S), make_top()) ) )
       </para>
 <programlisting>
 make_proc(rshape,
-formal<emphasis>1..n</emphasis>, vtg , B( return
-R<emphasis>1</emphasis>, ..., return R<emphasis>m</emphasis>))
+formal<subscript>1..n</subscript>, vtg , B( return
+R<subscript>1</subscript>, ..., return R<subscript>m</subscript>))
 </programlisting>
 
       <para>where:</para>
 <programlisting>
-formal<emphasis>i</emphasis> =
-make_tagshacc(s<emphasis>i</emphasis>, v<emphasis>i</emphasis>,
-tg<emphasis>i</emphasis>)
+formal<subscript>i</subscript> =
+make_tagshacc(s<subscript>i</subscript>, v<subscript>i</subscript>,
+tg<subscript>i</subscript>)
 </programlisting>
 
       <para>and B is an EXP with all of its internal return constructors
-        indicated parametrically then, if A<emphasis>i</emphasis> has SHAPE
-        s<emphasis>i</emphasis></para>
+        indicated parametrically then, if A<subscript>i</subscript> has SHAPE
+        s<subscript>i</subscript></para>
 <programlisting>
-apply_proc(rshape, f, (A<emphasis>1</emphasis>, ... ,
-A<emphasis>n</emphasis>), V) &lt;=&gt; variable( empty, newtag,
+apply_proc(rshape, f, (A<subscript>1</subscript>, ... ,
+A<subscript>n</subscript>), V) &lt;=&gt; variable( empty, newtag,
 make_value((rshape=BOTTOM)? TOP: rshape), labelled( (L),
-variable(v<emphasis>1</emphasis>, tg<emphasis>1</emphasis>,
-A<emphasis>1</emphasis>, ... , variable(v<emphasis>n</emphasis>,
-tg<emphasis>n</emphasis>, A<emphasis>n</emphasis>, variable(empty,
+variable(v<subscript>1</subscript>, tg<subscript>1</subscript>,
+A<subscript>1</subscript>, ... , variable(v<subscript>n</subscript>,
+tg<subscript>n</subscript>, A<subscript>n</subscript>, variable(empty,
 vtg, V, B(sequence( assign(obtain_tag(newtag),
-R<emphasis>1</emphasis>), goto(L)) , ... , sequence(
-assign(obtain_tag(newtag), R<emphasis>m</emphasis>), goto(L)) ) )
+R<subscript>1</subscript>), goto(L)) , ... , sequence(
+assign(obtain_tag(newtag), R<subscript>m</subscript>), goto(L)) ) )
 ), contents(rshape, obtain_tag(newtag)) ) ) assign(E, make_top())
 &lt;=&gt; sequence( (E), make_top()) contents(TOP, E) &lt;=&gt; sequence((E),
 make_top()) make_value(TOP) &lt;=&gt; make_top() component(s,
 contents(COMPOUND(S), E), D) &lt;=&gt; contents(s, add_to_ptr(E, D))
-make_compound(S, ((E<emphasis>1</emphasis>,
-D<emphasis>1</emphasis>), ..., (E<emphasis>n</emphasis>,
-D<emphasis>n</emphasis>)) ) &lt;=&gt; variable(empty, nt,
+make_compound(S, ((E<subscript>1</subscript>,
+D<subscript>1</subscript>), ..., (E<subscript>n</subscript>,
+D<subscript>n</subscript>)) ) &lt;=&gt; variable(empty, nt,
 make_value(COMPOUND(S)), sequence( (
-assign(add_to_ptr(obtain_tag(nt), D<emphasis>1</emphasis>),
-E<emphasis>1</emphasis>), ... , assign(add_to_ptr(obtain_tag(nt),
-D<emphasis>n</emphasis>), E<emphasis>n</emphasis>) ), contents(S,
+assign(add_to_ptr(obtain_tag(nt), D<subscript>1</subscript>),
+E<subscript>1</subscript>), ... , assign(add_to_ptr(obtain_tag(nt),
+D<subscript>n</subscript>), E<subscript>n</subscript>) ), contents(S,
 obtain_tag(nt)) ) )
 </programlisting>
 
@@ -3899,7 +3900,7 @@ offset_add(~Bitfield_offset_pad(M, b, S), size(bitfield(bfvar_bits(b, N))) )
       define the mapping of a TDF constructor, C, as MAP[C] and the
       representation of a SORT, S, as REPR[S] then:</para>
 <programlisting>
-REPR[ C(P<emphasis>1</emphasis> ,..., P<emphasis>n</emphasis>) ] = MAP[C]( REPR(P<emphasis>1</emphasis>) ,..., REPR(P<emphasis>n</emphasis> ))
+REPR[ C(P<subscript>1</subscript> ,..., P<subscript>n</subscript>) ] = MAP[C]( REPR(P<subscript>1</subscript>) ,..., REPR(P<subscript>n</subscript> ))
 </programlisting>
 
     <para>Any mapping has to preserve the equivalences of the abstract algebra,
