@@ -87,7 +87,7 @@ long max_lab_no = 0;
  *    This routine reads the number of labels in a unit.
  */
 
-void
+static void
 read_no_labs(void)
 {
     long n = tdf_int ();

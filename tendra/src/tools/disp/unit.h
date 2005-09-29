@@ -68,7 +68,6 @@
  */
 
 extern void token_sort(object *, sortname, char *, long) ;
-extern void read_no_labs(void) ;
 extern void de_tagdec_props(void) ;
 extern void de_tagdef_props(void) ;
 extern void de_tokdec_props(void) ;
