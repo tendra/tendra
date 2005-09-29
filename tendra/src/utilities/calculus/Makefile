@@ -31,7 +31,7 @@ assert_def.h calculus.h cmd_ops.h type_ops.h::
 	${OBJ_DIR}/calculus -a -x calculus.alg
 
 print_def.h::
-	${OBJ_DIR}/calculus -p calculus.alg
+	${OBJ_DIR}/calculus -a -p calculus.alg
 
 read_def.h write_def.h::
 	${OBJ_DIR}/calculus -d calculus.alg disk.alg .
