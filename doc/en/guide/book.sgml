@@ -290,7 +290,7 @@
 <programlisting>
 <emphasis>token_value</emphasis>: TOKEN
 <emphasis>token_args</emphasis>:  BITSTREAM <emphasis>param_sorts(token_value)</emphasis>
--&gt; EXP <emphasis>x</emphasis>
+             &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
       <para>we are confronted by the mysterious BITSTREAM where one might
@@ -337,8 +337,8 @@
 <programlisting>
 <emphasis>result_sort</emphasis>: SORTNAME
 <emphasis>tok_params</emphasis>:  LIST(TOKFORMALS)
-<emphasis>body</emphasis>:    <emphasis>result_sort</emphasis>
--&gt; TOKEN_DEFN
+<emphasis>body</emphasis>:        <emphasis>result_sort</emphasis>
+             &rarr; TOKEN_DEFN
 </programlisting>
 
       <para>The <emphasis>result_sort</emphasis> is the SORT of the
@@ -350,9 +350,9 @@
         definition in terms of TOKFORMALS constructed using
         make_tok_formals:</para>
 <programlisting>
-<emphasis>sn</emphasis>:  SORTNAME
-<emphasis>tk</emphasis>:  TDFINT
--&gt; TOKFORMALS
+<emphasis>sn</emphasis>: SORTNAME
+<emphasis>tk</emphasis>: TDFINT
+    &rarr; TOKFORMALS
 </programlisting>
 
       <para>The TDFINT <emphasis>tk</emphasis> will be the integer
@@ -372,10 +372,10 @@
       <para>Usually one gives a name to a TOKEN_DEFN using to form a TOKDEF
         using make_tokdef :</para>
 <programlisting>
-<emphasis>tok</emphasis>: TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>def</emphasis>: BITSTREAM TOKEN_DEFN
--&gt; TOKDEF
+<emphasis>tok</emphasis>:       TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>def</emphasis>:       BITSTREAM TOKEN_DEFN
+           &rarr; TOKDEF
 </programlisting>
 
       <para>Here, <emphasis>tok</emphasis> gives the name that will be used to
@@ -391,18 +391,18 @@
         definition could, for example, be platform-dependent. A TOKDEC introduces
         such a token using make_tokdec:</para>
 <programlisting>
-<emphasis>tok</emphasis>: TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>s</emphasis>:   SORTNAME
--&gt; TOKDEC
+<emphasis>tok</emphasis>:       TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>s</emphasis>:         SORTNAME
+           &rarr; TOKDEC
 </programlisting>
 
       <para>Here the SORTNAME, <emphasis>s</emphasis>, is given by
         token:</para>
 <programlisting>
-<emphasis>result</emphasis>:  SORTNAME
-<emphasis>params</emphasis>:  LIST(SORTNAME)
-               -&gt; SORTNAME
+<emphasis>result</emphasis>: SORTNAME
+<emphasis>params</emphasis>: LIST(SORTNAME)
+        &rarr; SORTNAME
 </programlisting>
 
       <para>which gives the result and parameter SORTs of
@@ -412,8 +412,8 @@
         as an actual parameter of a TOKEN which itself demands a TOKEN parameter.
         To do this one simply uses use_tokdef :</para>
 <programlisting>
-<emphasis>tdef</emphasis>:    BITSTREAM TOKEN_DEFN
--&gt; TOKEN
+<emphasis>tdef</emphasis>: BITSTREAM TOKEN_DEFN
+      &rarr; TOKEN
 </programlisting>
     </sect1>
 
@@ -429,9 +429,9 @@
 <programlisting>
 make_tokdef (C_plus, empty,
   token_definition(
-exp(),
-(make_tokformals(exp(), l), make_tokformals(exp(), r)),
-plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
+    exp(),
+    (make_tokformals(exp(), l), make_tokformals(exp(), r)),
+    plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r,())
   )
 )
 </programlisting>
@@ -935,16 +935,16 @@ make_link(42, 4)
         For tokens, the "type" is a SORTNAME constructed from the SORTNAMEs of
         the parameters and result of the TOKEN using token:</para>
 <programlisting>
-<emphasis>params</emphasis>:  LIST(SORTNAME)
-<emphasis>result</emphasis>:  SORTNAME
-  -&gt; SORTNAME
+<emphasis>params</emphasis>: LIST(SORTNAME)
+<emphasis>result</emphasis>: SORTNAME
+        &rarr; SORTNAME
 </programlisting>
 
       <para>Taking make_tagdefs as a paradigm for PROPS, we have:</para>
 <programlisting>
-<emphasis>no_labels</emphasis>:  TDFINT
-<emphasis>tds</emphasis>:    SLIST(TAGDEF)
--&gt; TAGDEF_PROPS
+<emphasis>no_labels</emphasis>: TDFINT
+<emphasis>tds</emphasis>:       SLIST(TAGDEF)
+           &rarr; TAGDEF_PROPS
 </programlisting>
 
       <para>The <emphasis>no_labels</emphasis> parameter introduces the size of
@@ -958,10 +958,10 @@ make_link(42, 4)
       <para>There are three constructors for TAGDEFs, each with slightly
         different properties. The simplest is make_id_tagdef:</para>
 <programlisting>
-<emphasis>t</emphasis>:   TDFINT
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>e</emphasis>:   EXP <emphasis>x</emphasis>
--&gt; TAGDEF
+<emphasis>t</emphasis>:         TDFINT
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>e</emphasis>:         EXP <emphasis>x</emphasis>
+           &rarr; TAGDEF
 </programlisting>
 
       <para>Here, <emphasis>t</emphasis> is the tag name and the evaluation of
@@ -978,11 +978,11 @@ make_link(42, 4)
         common_tagdef both define variable tags and have the same
         signature:</para>
 <programlisting>
-<emphasis>t</emphasis>:   TDFINT
+<emphasis>t</emphasis>:          TDFINT
 <emphasis>opt_access</emphasis>: OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>e</emphasis>:   EXP <emphasis>x</emphasis>
--&gt; TAGDEF
+<emphasis>signature</emphasis>:  OPTION(STRING)
+<emphasis>e</emphasis>:          EXP <emphasis>x</emphasis>
+            &rarr; TAGDEF
 </programlisting>
 
       <para>
@@ -1012,8 +1012,8 @@ make_link(42, 4)
         (either directly or by token or _cond expansions) to an
         initial_value:</para>
 <programlisting>
-<emphasis>init</emphasis>:    EXP <emphasis>s</emphasis>
--&gt; EXP <emphasis>s</emphasis>
+<emphasis>init</emphasis>: EXP <emphasis>s</emphasis>
+      &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
       <para>The translator will arrange that <emphasis>init</emphasis> will be
@@ -1035,11 +1035,11 @@ make_link(42, 4)
           A TAGDEC is constructed using either make_id_tagdec , make_var_tagdec
           or common_tagdec, all with the same form:</para>
 <programlisting>
-<emphasis>t_intro</emphasis>: TDFINT
-<emphasis>acc</emphasis>:     OPTION(ACCESS)
-<emphasis>signature</emphasis>:   OPTION(STRING)
-<emphasis>x</emphasis>:       SHAPE
--&gt; TAGDEC
+<emphasis>t_intro</emphasis>:   TDFINT
+<emphasis>acc</emphasis>:       OPTION(ACCESS)
+<emphasis>signature</emphasis>: OPTION(STRING)
+<emphasis>x</emphasis>:         SHAPE
+           &rarr; TAGDEC
 </programlisting>
 
         <para>Here the tagname is given by <emphasis>t_intro</emphasis>; the
@@ -1114,14 +1114,14 @@ make_link(42, 4)
           bits, using make_string:</para>
 <programlisting>
 <emphasis>arg</emphasis>: TDFSTRING<emphasis>(k, n)</emphasis>
--&gt; STRING<emphasis>(k, n)</emphasis>
+     &rarr; STRING<emphasis>(k, n)</emphasis>
 </programlisting>
 
         <para>STRINGs may be concatenated using concat_string:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:    STRING<emphasis>(k, n)</emphasis>
-<emphasis>arg2</emphasis>:    STRING<emphasis>(k,m)</emphasis>
--&gt; STRING<emphasis>(k, n+m)</emphasis>
+<emphasis>arg1</emphasis>: STRING<emphasis>(k, n)</emphasis>
+<emphasis>arg2</emphasis>: STRING<emphasis>(k,m)</emphasis>
+      &rarr; STRING<emphasis>(k, n+m)</emphasis>
 </programlisting>
 
         <para>Being able to compose strings, including token applications etc,
@@ -1220,9 +1220,9 @@ integer(var_limits(0, 255))
           of bits required for its 2s-complemennt representation using
           var_width:</para>
 <programlisting>
-signed_width:   BOOL
-width:  NAT
--&gt; VARIETY
+signed_width: BOOL
+width:        NAT
+              &rarr; VARIETY
 </programlisting>
       </sect2>
 
@@ -1235,11 +1235,11 @@ width:  NAT
         <para>A FLOATING_VARIETY for a real number is constructed using
           fvar_parms:</para>
 <programlisting>
-base:   NAT
-mantissa_digits:    NAT
-minimum_exponent:   NAT
-maximum_exponent::  NAT
--&gt; FLOATING_VARIETY
+base:             NAT
+mantissa_digits:  NAT
+minimum_exponent: NAT
+maximum_exponent: NAT
+                  &rarr; FLOATING_VARIETY
 </programlisting>
 
         <para>A FLOATING_VARIETY specifies the base, number of mantissa digits,
@@ -1430,9 +1430,9 @@ maximum_exponent::  NAT
           will be produced implicitly by the offset arithmetic, e.g.,
           offset_pad:</para>
 <programlisting>
-<emphasis>a</emphasis>:  ALIGNMENT
-<emphasis>arg</emphasis>1:   EXP OFFSET(<emphasis>z, t</emphasis>)
--&gt; EXP OFFSET(<emphasis>z</emphasis> &cup; <emphasis>a, a</emphasis>)
+<emphasis>a</emphasis>:    ALIGNMENT
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>z, t</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>z</emphasis> &cup; <emphasis>a, a</emphasis>)
 </programlisting>
 
         <para>This gives the next OFFSET greater or equal to
@@ -1458,9 +1458,9 @@ maximum_exponent::  NAT
         produced the SHAPE. To take the easy one first, the constructor nof has
         signature:</para>
 <programlisting>
-<emphasis>n</emphasis>:   NAT
-<emphasis>s</emphasis>:  SHAPE
--&gt; SHAPE
+<emphasis>n</emphasis>: NAT
+<emphasis>s</emphasis>: SHAPE
+   &rarr; SHAPE
 </programlisting>
 
       <para>This SHAPE describes an array of <emphasis>n</emphasis> values all
@@ -1472,8 +1472,8 @@ maximum_exponent::  NAT
 
       <para>The other compound SHAPEs are produced using compound:</para>
 <programlisting>
-<emphasis>sz</emphasis>:     EXP OFFSET(<emphasis>x, y</emphasis>)
--&gt; S  HAPE
+<emphasis>sz</emphasis>: EXP OFFSET(<emphasis>x, y</emphasis>)
+    &rarr; SHAPE
 </programlisting>
 
       <para>The <emphasis>sz</emphasis> parameter gives the minimum size which
@@ -1528,9 +1528,9 @@ maximum_exponent::  NAT
           by using offset_mult to multiply an offset expression representing the
           stride by an integer expression giving the index:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP OFFSET(<emphasis>x, x</emphasis>)
-<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP OFFSET(<emphasis>x, x</emphasis>)
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x, x</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP OFFSET(<emphasis>x, x</emphasis>)
 </programlisting>
 
         <para>and using add_to_ptr with a pointer expression giving the base of
@@ -1684,11 +1684,11 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
 
       <para>The make_proc constructor has signature:</para>
 <programlisting>
-<emphasis>result_shape</emphasis>:   SHAPE
-<emphasis>params_intro</emphasis>:   LIST(TAGSHACC)
-<emphasis>var_intro</emphasis>:  OPTION(TAGACC)
-<emphasis>body</emphasis>:   EXP BOTTOM
--&gt;    EXP PROC
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>params_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>var_intro</emphasis>:    OPTION(TAGACC)
+<emphasis>body</emphasis>:         EXP BOTTOM
+              &rarr; EXP PROC
 </programlisting>
 
       <para>The <emphasis>params_intro</emphasis> and
@@ -1704,10 +1704,10 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
       <para>Each straightforward formal parameter is introduced by an auxiliary
         SORT TAGSHACC using make_tagshacc:</para>
 <programlisting>
-<emphasis>sha</emphasis>: SHAPE
-<emphasis>opt_access</emphasis>:  OPTION(LIST(ACCESS))
-<emphasis>tg_intro</emphasis>:    TAG POINTER(alignment(<emphasis>sha</emphasis>))
--&gt; TAGSHACC
+<emphasis>sha</emphasis>:        SHAPE
+<emphasis>opt_access</emphasis>: OPTION(LIST(ACCESS))
+<emphasis>tg_intro</emphasis>:   TAG POINTER(alignment(<emphasis>sha</emphasis>))
+            &rarr; TAGSHACC
 </programlisting>
 
       <para>Within <emphasis>body</emphasis>, the formal will be accessed using
@@ -1733,8 +1733,8 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
       <para>Procedures, whether defined by make_proc or make_general_proc, will
         usually terminate and deliver its result with a return:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP <emphasis>x</emphasis>
--&gt; EXP BOTTOM
+<emphasis>arg1</emphasis>: EXP <emphasis>x</emphasis>
+      &rarr; EXP BOTTOM
 </programlisting>
 
       <para>Here <emphasis>x</emphasis> must be identical to the
@@ -1751,11 +1751,11 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
 
       <para>Procedures defined by make_proc are called using apply_proc:</para>
 <programlisting>
-<emphasis>result_shape</emphasis>:   SHAPE
-<emphasis>arg1</emphasis>:   EXP PROC
-<emphasis>arg2</emphasis>:   LIST(EXP)
-<emphasis>varparam</emphasis>:   OPTION(EXP)
---&gt; EXP <emphasis>result_shape</emphasis>
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>arg1</emphasis>:         EXP PROC
+<emphasis>arg2</emphasis>:         LIST(EXP)
+<emphasis>varparam</emphasis>:     OPTION(EXP)
+              &rarr; EXP <emphasis>result_shape</emphasis>
 </programlisting>
 
       <para>
@@ -1814,12 +1814,12 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
 
       <para>A make_general_proc has signature:</para>
 <programlisting>
-<emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>caller_intro</emphasis>:    LIST(TAGSHACC)
-<emphasis>callee_intro</emphasis>:    LIST(TAGSHACC)
-<emphasis>body</emphasis>:    EXP BOTTOM
--&gt; EXP PROC
+<emphasis>result_shape</emphasis>: SHAPE
+<emphasis>prcprops</emphasis>:     OPTION(PROCPROPS)
+<emphasis>caller_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>callee_intro</emphasis>: LIST(TAGSHACC)
+<emphasis>body</emphasis>:         EXP BOTTOM
+              &rarr; EXP PROC
 </programlisting>
 
       <para>Here the formal parameters are split into two sets,
@@ -1845,22 +1845,22 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
       <para>A procedure, <emphasis>p</emphasis>, constructed by
         make_general_proc is called using apply_general_proc:</para>
 <programlisting>
-<emphasis>result_shape</emphasis>:    SHAPE
-<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>p</emphasis>:   EXP PROC
-<emphasis>caller_params</emphasis>:   LIST(OTAGEXP)
-<emphasis>callee_params</emphasis>:   CALLEES
-<emphasis>postlude</emphasis>:    EXP TOP
--&gt; EXP <emphasis>result_shape</emphasis>
+<emphasis>result_shape</emphasis>:  SHAPE
+<emphasis>prcprops</emphasis>:      OPTION(PROCPROPS)
+<emphasis>p</emphasis>:             EXP PROC
+<emphasis>caller_params</emphasis>: LIST(OTAGEXP)
+<emphasis>callee_params</emphasis>: CALLEES
+<emphasis>postlude</emphasis>:      EXP TOP
+               &rarr; EXP <emphasis>result_shape</emphasis>
 </programlisting>
 
       <para>The actual caller parameters are given by
         <emphasis>caller_params</emphasis> as a list of OTAGEXPs constructed
         using make_otagexp:</para>
 <programlisting>
-<emphasis>tgopt</emphasis>:   OPTION(TAG <emphasis>x</emphasis>)
-<emphasis>e</emphasis>:   EXP <emphasis>x</emphasis>
--&gt; OTAGEXP
+<emphasis>tgopt</emphasis>: OPTION(TAG <emphasis>x</emphasis>)
+<emphasis>e</emphasis>:     EXP <emphasis>x</emphasis>
+       &rarr; OTAGEXP
 </programlisting>
 
       <para>
@@ -1926,10 +1926,10 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
           uses the same caller-parameters, but a different set of
           callee-parameters:</para>
 <programlisting>
-<emphasis>prcprops</emphasis>:    OPTION(PROCPROPS)
-<emphasis>p</emphasis>:   EXP PROC
-<emphasis>callee_params</emphasis>:   CALLEES
--&gt; EXP BOTTOM
+<emphasis>prcprops</emphasis>:      OPTION(PROCPROPS)
+<emphasis>p</emphasis>:             EXP PROC
+<emphasis>callee_params</emphasis>: CALLEES
+               &rarr; EXP BOTTOM
 </programlisting>
 
         <para>The procedure p will be called with the same caller parameters as
@@ -2000,8 +2000,8 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
 <emphasis>opt_access</emphasis>: OPTION(ACCESS)
 <emphasis>name_intro</emphasis>: TAG <emphasis>x</emphasis>
 <emphasis>definition</emphasis>: EXP <emphasis>x</emphasis>
-<emphasis>body</emphasis>:    EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
+<emphasis>body</emphasis>:       EXP <emphasis>y</emphasis>
+            &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para>The <emphasis>definition</emphasis> is evaluated and its result
@@ -2016,9 +2016,9 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
 <programlisting>
 <emphasis>opt_access</emphasis>: OPTION(ACCESS)
 <emphasis>name_intro</emphasis>: TAG <emphasis>x</emphasis>
-<emphasis>init</emphasis>:   EXP <emphasis>x</emphasis>
-<emphasis>body</emphasis>:    EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
+<emphasis>init</emphasis>:       EXP <emphasis>x</emphasis>
+<emphasis>body</emphasis>:       EXP <emphasis>y</emphasis>
+            &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para>Here the <emphasis>init</emphasis> EXP is evaluated and its
@@ -2130,10 +2130,10 @@ offset_add(A, B) &ge; A     where B &ge; offset_zero(some compatible alignment)
         <para>Offsets from the current_env of a procedure to a tag declared in
           the procedure are constructed by env_offset:</para>
 <programlisting>
-<emphasis>fa</emphasis>:  ALIGNMENT
-<emphasis>y</emphasis>:   ALIGNMENT
-<emphasis>t</emphasis>:   TAG <emphasis>x</emphasis>
--&gt; EXP OFFSET(<emphasis>fa</emphasis>,<emphasis>y</emphasis>)
+<emphasis>fa</emphasis>: ALIGNMENT
+<emphasis>y</emphasis>:  ALIGNMENT
+<emphasis>t</emphasis>:  TAG <emphasis>x</emphasis>
+    &rarr; EXP OFFSET(<emphasis>fa</emphasis>,<emphasis>y</emphasis>)
 </programlisting>
 
         <para>The frame ALIGNMENT <emphasis>fa</emphasis> will be the
@@ -2187,8 +2187,8 @@ add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t
           dynamically sized local objects which are conceptually part of the
           frame. These are produced by local_alloc:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP OFFSET(<emphasis>x, y</emphasis>)
--&gt; EXP POINTER(alloca_alignment)
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>x, y</emphasis>)
+      &rarr; EXP POINTER(alloca_alignment)
 </programlisting>
 
         <para>The operand <emphasis>arg1</emphasis> gives the size of the new
@@ -2216,9 +2216,9 @@ add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t
         <para>The other constructor is local_free whch is effectively a "pop"
           to local_alloc's "push":</para>
 <programlisting>
-a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
-<emphasis>p</emphasis>:   EXP POINTER(alloca_alignment)
--&gt;    EXP TOP
+a: EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
+<emphasis>p</emphasis>: EXP POINTER(alloca_alignment)
+   &rarr; EXP TOP
 </programlisting>
 
         <para>Here <emphasis>p</emphasis> must evaluate to a pointer generated
@@ -2259,8 +2259,8 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           constructor sequence:</para>
 <programlisting>
 <emphasis>statements</emphasis>: LIST(EXP)
-<emphasis>result</emphasis>: EXP <emphasis>x</emphasis>
--&gt; EXP <emphasis>x</emphasis>
+<emphasis>result</emphasis>:     EXP <emphasis>x</emphasis>
+            &rarr; EXP <emphasis>x</emphasis>
 </programlisting>
 
         <para>Each of the <emphasis>statements</emphasis> are evaluated in
@@ -2291,10 +2291,10 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           the most general is labelled which allows arbitrary jumping between its
           component EXPs:</para>
 <programlisting>
-<emphasis>placelabs_intro</emphasis>:    LIST(LABEL)
-<emphasis>starter</emphasis>:    EXP <emphasis>x</emphasis>
-<emphasis>places</emphasis>: LIST(EXP)
--&gt; EXP <emphasis>w</emphasis>
+<emphasis>placelabs_intro</emphasis>: LIST(LABEL)
+<emphasis>starter</emphasis>:         EXP <emphasis>x</emphasis>
+<emphasis>places</emphasis>:          LIST(EXP)
+                 &rarr; EXP <emphasis>w</emphasis>
 </programlisting>
 
         <para>Each of the EXPs in <emphasis>place</emphasis>s is labelled by
@@ -2353,11 +2353,11 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
           constructors, one for each primitive SHAPE except BITFIELD. I shall use
           integer_test as the paradigm for them all:</para>
 <programlisting>
-<emphasis>nt</emphasis>: NTEST
-<emphasis>dest</emphasis>:   LABEL
-<emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
--&gt;    EXP TOP
+<emphasis>nt</emphasis>:   NTEST
+<emphasis>dest</emphasis>: LABEL
+<emphasis>arg1</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
 
         <para>The NTEST <emphasis>nt</emphasis> chooses a dyadic test (e.g. =,
@@ -2386,7 +2386,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 <emphasis>exhaustive</emphasis>: BOOL
 <emphasis>control</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>branches</emphasis>:   LIST(CASELIM)
--&gt;    EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
+            &rarr; EXP (<emphasis>exhaustive</emphasis> ? BOTTOM : TOP)
 </programlisting>
 
         <para>Each CASELIM is constructed using make_caselim:</para>
@@ -2394,7 +2394,7 @@ a:  EXP OFFSET(<emphasis>x</emphasis>, <emphasis>y</emphasis>)
 branch: LABEL
 lower:  SIGNED_NAT
 upper:  SIGNED_NAT
--&gt; CASELIM
+        &rarr; CASELIM
 </programlisting>
 
         <para>In the case construction, the <emphasis>control</emphasis> EXP is
@@ -2420,10 +2420,10 @@ upper:  SIGNED_NAT
           use them where possible. A conditional expression or statement would
           usually be done using conditional:</para>
 <programlisting>
-<emphasis>alt_label_intro</emphasis>:    LABEL
-<emphasis>first</emphasis>:  EXP <emphasis>x</emphasis>
-<emphasis>alt</emphasis>:    EXP <emphasis>y</emphasis>
--&gt;    EXP(LUB(<emphasis>x, y</emphasis>))
+<emphasis>alt_label_intro</emphasis>: LABEL
+<emphasis>first</emphasis>:           EXP <emphasis>x</emphasis>
+<emphasis>alt</emphasis>:             EXP <emphasis>y</emphasis>
+                 &rarr; EXP(LUB(<emphasis>x, y</emphasis>))
 </programlisting>
 
         <para>Here <emphasis>first</emphasis> is evaluated; if it terminates
@@ -2451,9 +2451,9 @@ upper:  SIGNED_NAT
         <para>A simple loop can be expressed using repeat:</para>
 <programlisting>
 <emphasis>repeat_label_intro</emphasis>: LABEL
-<emphasis>start</emphasis>:  EXP TOP
-<emphasis>body</emphasis>:   EXP <emphasis>y</emphasis>
--&gt; EXP <emphasis>y</emphasis>
+<emphasis>start</emphasis>:              EXP TOP
+<emphasis>body</emphasis>:               EXP <emphasis>y</emphasis>
+                    &rarr; EXP <emphasis>y</emphasis>
 </programlisting>
 
         <para>The EXP <emphasis>start</emphasis> is evaluated, followed by
@@ -2540,9 +2540,9 @@ contents(shape(v), obtain_tag(v))
       <para>In general, the contents constructor takes a SHAPE and an
         expression delivering pointer:</para>
 <programlisting>
-<emphasis>s</emphasis>:  SHAPE
-<emphasis>arg1</emphasis>:   EXP POINTER(<emphasis>x</emphasis>)
--&gt;    EXP <emphasis>s</emphasis>
+<emphasis>s</emphasis>:    SHAPE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP <emphasis>s</emphasis>
 </programlisting>
 
       <para>It delivers the value of SHAPE <emphasis>s</emphasis>, pointed at
@@ -2557,9 +2557,9 @@ contents(shape(v), obtain_tag(v))
 
       <para>A simple assignment in TDF is done using assign:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:   EXP <emphasis>y</emphasis>
--&gt; EXP TOP
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP <emphasis>y</emphasis>
+      &rarr; EXP TOP
 </programlisting>
 
       <para>The EXPs <emphasis>arg1</emphasis> and <emphasis>arg2</emphasis>
@@ -2612,11 +2612,11 @@ assign(obtain_tag(v), lhs).
         size is known at translate-time. Variable sized objects can be moved by
         move_some:</para>
 <programlisting>
-<emphasis>md</emphasis>:  TRANSFER_MODE
-<emphasis>arg1</emphasis>:    EXP POINTER <emphasis>x</emphasis>
-<emphasis>arg2</emphasis>:    EXP POINTER y
-<emphasis>arg3</emphasis>:    EXP OFFSET(z, t)
--&gt;    EXP TOP
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>arg1</emphasis>: EXP POINTER <emphasis>x</emphasis>
+<emphasis>arg2</emphasis>: EXP POINTER y
+<emphasis>arg3</emphasis>: EXP OFFSET(z, t)
+      &rarr; EXP TOP
 </programlisting>
 
       <para>The EXP <emphasis>arg1</emphasis> is the destination pointer, and
@@ -2638,10 +2638,10 @@ assign(obtain_tag(v), lhs).
       <para>There are variants of both the contents and assign constructors.
         The signature of contents_with_mode is:</para>
 <programlisting>
-<emphasis>md</emphasis>:  TRANSFER_MODE
-<emphasis>s</emphasis>:   SHAPE
-<emphasis>arg1</emphasis>:    EXP POINTER(<emphasis>x</emphasis>)
--&gt; EXP s
+<emphasis>md</emphasis>:   TRANSFER_MODE
+<emphasis>s</emphasis>:    SHAPE
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+      &rarr; EXP s
 </programlisting>
 
       <para>Here, the only significant TRANSFER_MODE constructors
@@ -2663,10 +2663,10 @@ assign(obtain_tag(v), lhs).
         pointer value and a bitfield offset from the pointer. The signature of
         bitfield_contents which extracts a bitfield in this manner is:</para>
 <programlisting>
-<emphasis>v</emphasis>:   BITFIELD_VARIETY
-<emphasis>arg1</emphasis>:    EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:    EXP OFFSET(<emphasis>y,z</emphasis>)
--&gt; EXP bitfield(<emphasis>v</emphasis>)
+<emphasis>v</emphasis>:    BITFIELD_VARIETY
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y,z</emphasis>)
+      &rarr; EXP bitfield(<emphasis>v</emphasis>)
 </programlisting>
 
       <para>Here <emphasis>arg1</emphasis> is a pointer to an alignment
@@ -2712,10 +2712,10 @@ assign(obtain_tag(v), lhs).
       <para>The assignment of bitfields follows the same pattern with the same
         constraints using bitfield_assign:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:    EXP POINTER(<emphasis>x</emphasis>)
-<emphasis>arg2</emphasis>:    EXP OFFSET(<emphasis>y,z</emphasis>)
-<emphasis>arg3</emphasis>:    EXP BITFIELD_VARIETY(<emphasis>v</emphasis>)
--&gt; EXP TOP
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>x</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y,z</emphasis>)
+<emphasis>arg3</emphasis>: EXP BITFIELD_VARIETY(<emphasis>v</emphasis>)
+      &rarr; EXP TOP
 </programlisting>
     </sect1>
   </chapter>
@@ -2777,10 +2777,10 @@ assign(obtain_tag(v), lhs).
 
         <para>Taking integer addition as an example, plus has signature:</para>
 <programlisting>
-<emphasis>ov_err</emphasis>:     ERROR_TREATMENT
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
 <emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
 <emphasis>arg2</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
--&gt;    EXP INTEGER(<emphasis>v</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
         <para>The result of the addition has the same integer VARIETY as its
@@ -2802,8 +2802,8 @@ assign(obtain_tag(v), lhs).
         <para>The ERROR_TREATMENT that one would use if one wished to jump to a
           label is error_jump:</para>
 <programlisting>
-<emphasis>lab</emphasis>:    LABEL
--&gt;    ERROR_TREATMENT
+<emphasis>lab</emphasis>: LABEL
+     &rarr; ERROR_TREATMENT
 </programlisting>
 
         <para>A branch to <emphasis>lab</emphasis> will occur if the result
@@ -2822,11 +2822,11 @@ assign(obtain_tag(v), lhs).
         rem1) have two ERROR_TREATMENT parameters, one for overflow and one for
         divide-by-zero e.g. div1 is:</para>
 <programlisting>
-<emphasis>div_by_zero_error</emphasis>:   ERROR_TREATMENT
-<emphasis>ov_err</emphasis>:  ERROR_TREATMENT
-<emphasis>arg1</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>arg2</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
--&gt; EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>div_by_zero_error</emphasis>: ERROR_TREATMENT
+<emphasis>ov_err</emphasis>:            ERROR_TREATMENT
+<emphasis>arg1</emphasis>:              EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>arg2</emphasis>:              EXP INTEGER(<emphasis>v</emphasis>)
+                   &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
       <para>. There are two different kinds of division operators (with
@@ -2851,10 +2851,10 @@ assign(obtain_tag(v), lhs).
       <para>Conversions between the various INTEGER varieties are provided for
         by change_variety:</para>
 <programlisting>
-<emphasis>ov_err</emphasis>:  ERROR_TREATMENT
-<emphasis>r</emphasis>:  VARIETY
+<emphasis>ov_err</emphasis>: ERROR_TREATMENT
+<emphasis>r</emphasis>:      VARIETY
 <emphasis>arg1</emphasis>:   EXP INTEGER(<emphasis>v</emphasis>)
--&gt;    EXP INTEGER(<emphasis>r</emphasis>)
+        &rarr; EXP INTEGER(<emphasis>r</emphasis>)
 </programlisting>
 
       <para>If the value <emphasis>arg1</emphasis> is outside the limits of the
@@ -2913,9 +2913,9 @@ assign(obtain_tag(v), lhs).
       <para>There is one operation to make values of COMPOUND SHAPE,
         make_compound:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP OFFSET(<emphasis>base, y</emphasis>)
-<emphasis>arg2</emphasis>:   LIST(EXP)
--&gt; EXP COMPOUND(<emphasis>sz</emphasis>)
+<emphasis>arg1</emphasis>: EXP OFFSET(<emphasis>base, y</emphasis>)
+<emphasis>arg2</emphasis>: LIST(EXP)
+      &rarr; EXP COMPOUND(<emphasis>sz</emphasis>)
 </programlisting>
 
       <para>The OFFSET <emphasis>arg1</emphasis> is evaluated as a
@@ -2988,10 +2988,10 @@ assign(obtain_tag(v), lhs).
         other that TAG, TOKEN and LABEL, has one of these constructors e.g.
         exp_cond:</para>
 <programlisting>
-<emphasis>control</emphasis>:    EXP INTEGER(<emphasis>v</emphasis>)
-<emphasis>e1</emphasis>:     BITSTREAM EXP <emphasis>x</emphasis>
-<emphasis>e2</emphasis>:     BITSTREAM EXP <emphasis>y</emphasis>
--&gt;    EXP <emphasis>x</emphasis> or EXP <emphasis>y</emphasis>
+<emphasis>control</emphasis>: EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>e1</emphasis>:      BITSTREAM EXP <emphasis>x</emphasis>
+<emphasis>e2</emphasis>:      BITSTREAM EXP <emphasis>y</emphasis>
+         &rarr; EXP <emphasis>x</emphasis> or EXP <emphasis>y</emphasis>
 </programlisting>
 
       <para>The constant, <emphasis>control</emphasis>, is evaluated at
@@ -3012,9 +3012,9 @@ assign(obtain_tag(v), lhs).
 
       <para>Integer constants are constructed using make_int:</para>
 <programlisting>
-<emphasis>v</emphasis>:  VARIETY
-<emphasis>value</emphasis>:  SIGNED_NAT
--&gt;    EXP INTEGER(<emphasis>v</emphasis>)
+<emphasis>v</emphasis>:     VARIETY
+<emphasis>value</emphasis>: SIGNED_NAT
+       &rarr; EXP INTEGER(<emphasis>v</emphasis>)
 </programlisting>
 
       <para>The SIGNED_NAT <emphasis>value</emphasis> is an encoding of the
@@ -3027,9 +3027,9 @@ assign(obtain_tag(v), lhs).
       <para>Constants for both floats and strings use STRINGs. A constant
         string is just an particular example of make_nof_int:</para>
 <programlisting>
-<emphasis>v</emphasis>:  VARIETY
-<emphasis>str</emphasis>:    STRING(<emphasis>k, n</emphasis>)
--&gt;    EXP NOF(<emphasis>n</emphasis>, INTEGER(<emphasis>v</emphasis>))
+<emphasis>v</emphasis>:   VARIETY
+<emphasis>str</emphasis>: STRING(<emphasis>k, n</emphasis>)
+     &rarr; EXP NOF(<emphasis>n</emphasis>, INTEGER(<emphasis>v</emphasis>))
 </programlisting>
 
       <para>Each unsigned integer in <emphasis>str</emphasis> must lie in the
@@ -3045,13 +3045,13 @@ assign(obtain_tag(v), lhs).
         characters of a expansion of the number to some base in
         make_floating:</para>
 <programlisting>
-<emphasis>f</emphasis>:  FLOATING_VARIETY
-<emphasis>rm</emphasis>:     ROUNDING_MODE
-<emphasis>sign</emphasis>:   BOOL
-<emphasis>mantissa</emphasis>:   STRING(<emphasis>k, n</emphasis>)
-<emphasis>base</emphasis>:   NAT
-<emphasis>exponent</emphasis>:   SIGNED_NAT
--&gt;    EXP FLOATING(<emphasis>f</emphasis>)
+<emphasis>f</emphasis>:        FLOATING_VARIETY
+<emphasis>rm</emphasis>:       ROUNDING_MODE
+<emphasis>sign</emphasis>:     BOOL
+<emphasis>mantissa</emphasis>: STRING(<emphasis>k, n</emphasis>)
+<emphasis>base</emphasis>:     NAT
+<emphasis>exponent</emphasis>: SIGNED_NAT
+          &rarr; EXP FLOATING(<emphasis>f</emphasis>)
 </programlisting>
 
       <para>For a normal floating point number, each integer in
@@ -3355,36 +3355,31 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
 
       <para>
           If F is any non order-specifying 
-  
           <footnote>
             <para>The order-specifying constructors are conditional, identify,
             repeat, labelled, sequence and variable</para>
-        </footnote>
-      </para>
-
-      <para>EXP constructor and E is one of the EXP operands of F, then:</para>
+          </footnote>
+          EXP constructor and E is one of the EXP operands of F, then:
 <programlisting>
 F(... , E, ...) &lt;=&gt; identify(empty, newtag, E, F(... ,obtain_tag(newtag), ...))
 </programlisting>
+      </para>
 
       <para>
           If E is a non side-effecting 
-  
           <footnote>
             <para>A sufficient condition for not side-effecting in this sense is
             that there are no apply_procs or local_allocs in E; that any
             assignments in E are to variables defined in E; and that any branches
-            in E are to labels defined in conditionals in E.</para>
+            in E are to labels defined in conditionals in E.
         </footnote>
-      </para>
-
-      <para>EXP and none of the variables used in E are assigned to in
-        B:</para>
+        EXP and none of the variables used in E are assigned to in B:
 <programlisting>
 identify(v, tag, E, B) &lt;=&gt; B[obtain_tag(tag) \ E]
 </programlisting>
+      </para>
 
-      <para>If all uses of tg in B are of the form</para>
+      <para>If all uses of tg in B are of the form
 <programlisting>
 contents(shape(E), obtain_tag(tg)):
 variable(v, tg, E, B) &lt;=&gt; identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
@@ -3741,10 +3736,10 @@ offset_pad(alignment(SH_mystruct), S_c)
       address of a structure or array element. Looking again at its signature in
       a slightly different form:</para>
 <programlisting>
-<emphasis>arg1</emphasis>:   EXP POINTER(<emphasis>y</emphasis> <emphasis>&cup;</emphasis> <emphasis>A</emphasis>)
-<emphasis>arg2</emphasis>:   EXP OFFSET(<emphasis>y, z</emphasis>)
--&gt; EXP POINTER(<emphasis>z</emphasis>)
-... for any ALIGNMENT <emphasis>A</emphasis>
+<emphasis>arg1</emphasis>: EXP POINTER(<emphasis>y</emphasis> <emphasis>&cup;</emphasis> <emphasis>A</emphasis>)
+<emphasis>arg2</emphasis>: EXP OFFSET(<emphasis>y, z</emphasis>)
+      &rarr; EXP POINTER(<emphasis>z</emphasis>)
+        ... for any ALIGNMENT <emphasis>A</emphasis>
 </programlisting>
 
     <para>one sees that <emphasis>arg2</emphasis> can measure an OFFSET from a
@@ -3817,19 +3812,19 @@ offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
         could be:</para>
 <programlisting>
 ~Bitfield_offset_zero:
-<emphasis>n</emphasis>:   NAT
-<emphasis>issigned</emphasis>:    BOOL
--&gt; EXP OFFSET(A, bfvar_bits(<emphasis>issigned</emphasis>, <emphasis>n</emphasis>))
+<emphasis>n</emphasis>:        NAT
+<emphasis>issigned</emphasis>: BOOL
+          &rarr; EXP OFFSET(A, bfvar_bits(<emphasis>issigned</emphasis>, <emphasis>n</emphasis>))
 </programlisting>
 
       <para>Here the result is a zero offset to the bitfield with `minimum'
         integer variety alignment A.</para>
 <programlisting>
 ~Bitfield_offset_pad:
-<emphasis>n</emphasis>:   NAT
-<emphasis>issigned</emphasis>:    BOOL
-<emphasis>sh</emphasis>:  SHAPE
--&gt; EXP OFFSET(alignment(<emphasis>sh</emphasis>) &cup; A, bfvar_bits(<emphasis>issigned</emphasis>,
+<emphasis>n</emphasis>:        NAT
+<emphasis>issigned</emphasis>: BOOL
+<emphasis>sh</emphasis>:       SHAPE
+          &rarr; EXP OFFSET(alignment(<emphasis>sh</emphasis>) &cup; A, bfvar_bits(<emphasis>issigned</emphasis>,
 <emphasis>n</emphasis>))
 </programlisting>
 
@@ -3840,10 +3835,10 @@ offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b
         left at the end of <emphasis>sh.</emphasis></para>
 <programlisting>
 ~Bitfield_offset_mult:
-<emphasis>n</emphasis>:   NAT
-<emphasis>issigned</emphasis>:    BOOL
-<emphasis>ind</emphasis>: EXP INTEGER(v)
--&gt; EXP OFFSET(A, bfvar_bits(<emphasis>issigned</emphasis>, <emphasis>n</emphasis>))
+<emphasis>n</emphasis>:        NAT
+<emphasis>issigned</emphasis>: BOOL
+<emphasis>ind</emphasis>:      EXP INTEGER(v)
+          &rarr; EXP OFFSET(A, bfvar_bits(<emphasis>issigned</emphasis>, <emphasis>n</emphasis>))
 </programlisting>
 
       <para>Here the result is an offset which gives the displacement of
@@ -3981,7 +3976,7 @@ REPR[ A ... B ]= REPR[ A ] &ge; REPR[ B }
 
         <para>Most standard architectures use byte addressing; to address bits
           requires more complication. Hence, a value with SHAPE POINTER(A) where
-          REPR[A)]&ne; 1 is represented by a 32-bit byte address.</para>
+          REPR[A)] &ne; 1 is represented by a 32-bit byte address.</para>
 
         <para>We are not allowed to construct pointers where REPR[A] = 1, but
           we still have offsets whose second alignment is a bitfield. Thus a
