@@ -3035,13 +3035,13 @@ assign(obtain_tag(v), lhs).
       <para>Each unsigned integer in <emphasis>str</emphasis> must lie in the
         variety <emphasis>v</emphasis> and the result is the constant array whose
         elements are the integers considered to be of VARIETY
-        <emphasis>v</emphasis>. An ASCI-C constant string might have
+        <emphasis>v</emphasis>. An ISO C string literal might have
         <emphasis>v</emphasis> = variety(-128,127) and <emphasis>k</emphasis> =
         7; however, make_nof_int can be used to make strings of any INTEGER
         VARIETY; a the elements of a Unicode string would be integers of size 16
         bits.</para>
 
-      <para>A floating constant uses a STRING which contains the ASCI
+      <para>A floating constant uses a STRING which contains the ASCII
         characters of a expansion of the number to some base in
         make_floating:</para>
 <programlisting>
@@ -3055,9 +3055,11 @@ assign(obtain_tag(v), lhs).
 </programlisting>
 
       <para>For a normal floating point number, each integer in
-        <emphasis>mantissa</emphasis> is either the ASCI `.'-symbol or the ASCI
+	<emphasis>mantissa</emphasis> is either the ASCII `.'-symbol or the
+        ASCII
         representation of a digit of the representation in the given
-        <emphasis>base</emphasis>; i.e. if c is the ASCI symbol, the digit value
+        <emphasis>base</emphasis>; i.e. if c is the ASCII symbol, the digit
+        value
         is c-'0'. The resulting floating point number has SHAPE FLOATING(f) and
         value <emphasis>mantissa</emphasis> * <emphasis>base</emphasis>
         <emphasis>exponent</emphasis> rounded according to
