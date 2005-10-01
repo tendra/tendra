@@ -6222,12 +6222,18 @@
           exist, the translator will choose one to minimise space requirements or
           maximise the speed of operations.</para>
 
-        <para>All numbers of the form xb1 M*<emphasis>base N+1-q</emphasis> are
-          required to be represented exactly where M and N are integers such that
-          <emphasis>base</emphasis><emphasis>q-1</emphasis> M &lt;
-          <emphasis>base</emphasis><emphasis>q</emphasis>
-          -<emphasis>min_exponent</emphasis> N
-          <emphasis>max_exponent</emphasis></para>
+        <para>All numbers of the form &plusmn;
+          <emphasis>M*base<superscript>N+1-q</superscript></emphasis> are
+          required to be represented exactly where <emphasis>M</emphasis> and
+          <emphasis>N</emphasis> are integers such that
+<programlisting>
+<emphasis>base<superscript>q-1</superscript></emphasis> &le; M &lt; <emphasis>base<superscript>q</superscript></emphasis>
+</programlisting>
+	  and
+<programlisting>
+<emphasis>-min_exponent</emphasis> &le; N &le; <emphasis>max_exponent</emphasis>
+</programlisting>
+	</para>
 
         <para>Zero will also be represented exactly in any
           <literal>FLOATING_VARIETY</literal>.</para>
