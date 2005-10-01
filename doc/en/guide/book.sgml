@@ -3363,7 +3363,7 @@ identify(empty, new_tag, X, F(obtain_tag(new_tag))).
           </footnote>
           EXP constructor and E is one of the EXP operands of F, then:
 <programlisting>
-F(... , E, ...) &lt;=&gt; identify(empty, newtag, E, F(... ,obtain_tag(newtag), ...))
+F(... , E, ...) &rArr; identify(empty, newtag, E, F(... ,obtain_tag(newtag), ...))
 </programlisting>
       </para>
 
@@ -3377,31 +3377,31 @@ F(... , E, ...) &lt;=&gt; identify(empty, newtag, E, F(... ,obtain_tag(newtag), 
         </footnote>
         EXP and none of the variables used in E are assigned to in B:
 <programlisting>
-identify(v, tag, E, B) &lt;=&gt; B[obtain_tag(tag) \ E]
+identify(v, tag, E, B) &rArr; B[obtain_tag(tag) \ E]
 </programlisting>
       </para>
 
       <para>If all uses of tg in B are of the form
 <programlisting>
 contents(shape(E), obtain_tag(tg)):
-variable(v, tg, E, B) &lt;=&gt; identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
+variable(v, tg, E, B) &rArr; identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \
 obtain_tag(nt)]) sequence((S<subscript>1</subscript>, ... ,
 S<subscript>n</subscript>), sequence((P<subscript>1</subscript>, ...,
-P<subscript>m</subscript>), R) =&gt; sequence((S<subscript>1</subscript>,
+P<subscript>m</subscript>), R) &hArr; sequence((S<subscript>1</subscript>,
 ..., S<subscript>n</subscript>, P<subscript>1</subscript>, ...,
 P<subscript>m</subscript>), R) If S<subscript>i</subscript> =
 sequence((P<subscript>1</subscript>, ..., P<subscript>m</subscript>),
 R) : sequence((S<subscript>1</subscript>, ... ,
-S<subscript>n</subscript>), T) =&gt; sequence((S<subscript>1</subscript>,
+S<subscript>n</subscript>), T) &hArr; sequence((S<subscript>1</subscript>,
 ..., S<subscript>i-1</subscript>, P<subscript>1</subscript>, ...,
 P<subscript>m</subscript>, R, S<subscript>i+1</subscript>, ...,
-S<subscript>n</subscript>), T) E =&gt; sequence(( ), E)
+S<subscript>n</subscript>), T) E &hArr; sequence(( ), E)
 </programlisting>
 
       <para>If D is either identify or variable:</para>
 <programlisting>
 D(v, tag, sequence((S<subscript>1</subscript>,
-..., S<subscript>n</subscript>), R), B) &lt;=&gt;
+..., S<subscript>n</subscript>), R), B) &rArr;
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
 D(v, tag, R, B) )
 </programlisting>
@@ -3409,7 +3409,7 @@ D(v, tag, R, B) )
       <para>If S<subscript>i</subscript> is an EXP BOTTOM , then:</para>
 <programlisting>
 sequence((S<subscript>1</subscript>, S<subscript>2</subscript>,
-... S<subscript>n</subscript>), R) &lt;=&gt;
+... S<subscript>n</subscript>), R) &rArr;
 sequence((S<subscript>1</subscript>, ... S<subscript>i-1</subscript>),
 S<subscript>i</subscript>)
 </programlisting>
@@ -3417,13 +3417,13 @@ S<subscript>i</subscript>)
       <para>If E is an EXP BOTTOM, and if D is either identify or
         variable:</para>
 <programlisting>
-D(v, tag, E, B) &lt;=&gt; E
+D(v, tag, E, B) &rArr; E
 </programlisting>
 
       <para>If S<subscript>i</subscript> is make_top(), then:</para>
 <programlisting>
 sequence((S<subscript>1</subscript>, S<subscript>2</subscript>, ...
-S<subscript>n</subscript>), R) =&gt; sequence((S<subscript>1</subscript>,
+S<subscript>n</subscript>), R) &hArr; sequence((S<subscript>1</subscript>,
 ... S<subscript>i-1</subscript>, S<subscript>i+1</subscript>,
 ...S<subscript>n</subscript>), R)
 </programlisting>
@@ -3431,14 +3431,14 @@ S<subscript>n</subscript>), R) =&gt; sequence((S<subscript>1</subscript>,
       <para>If S<subscript>n</subscript> is an EXP TOP:</para>
 <programlisting>
 sequence((S<subscript>1</subscript>, ...
-S<subscript>n</subscript>), make_top()) =&gt;
+S<subscript>n</subscript>), make_top()) &hArr;
 sequence((S<subscript>1</subscript> , ...,
 S<subscript>n-1</subscript>), S<subscript>n</subscript>)
 </programlisting>
 
       <para>If E is an EXP TOP and E is not side-effecting then:</para>
 <programlisting>
-E &lt;=&gt; make_top()
+E &rArr; make_top()
 </programlisting>
 
       <para>If C is some non order-specifying and non side-effecting
@@ -3450,7 +3450,7 @@ E &lt;=&gt; make_top()
       <para>P<subscript>1..m</subscript> are the EXP operands of C:</para>
 <programlisting>
 sequence((S<subscript>1</subscript>, ...,
-S<subscript>n</subscript>), R) &lt;=&gt; sequence((S<subscript>1</subscript>,
+S<subscript>n</subscript>), R) &rArr; sequence((S<subscript>1</subscript>,
 ..., S<subscript>i-1</subscript>, P<subscript>1</subscript>, ...,
 P<subscript>m</subscript>, S<subscript>i+1</subscript>, ...,
 S<subscript>n</subscript>), R)
@@ -3459,7 +3459,7 @@ S<subscript>n</subscript>), R)
       <para>If none of the S<subscript>i</subscript> use the label L:</para>
 <programlisting>
 conditional(L, sequence((S<subscript>1</subscript>,
-..., S<subscript>n</subscript>), R), A) &lt;=&gt;
+..., S<subscript>n</subscript>), R), A) &rArr;
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
 conditional(L, R, A))
 </programlisting>
@@ -3473,22 +3473,22 @@ conditional(L, R, A))
         </footnote>
       </para>
 <programlisting>
-conditional(L, X, Y) &lt;=&gt;
-X conditional(L, E , goto(Z)) &lt;=&gt; E[L \ Z]
+conditional(L, X, Y) &rArr;
+X conditional(L, E , goto(Z)) &rArr; E[L \ Z]
 </programlisting>
 
       <para>If EXP X contains no use of the LABEL L:</para>
 <programlisting>
-conditional(L, conditional(M, X, Y), Z) &lt;=&gt;
-conditional(M, X, conditional(L, Y, Z)) repeat(L, I, E) &lt;=&gt;
+conditional(L, conditional(M, X, Y), Z) &rArr;
+conditional(M, X, conditional(L, Y, Z)) repeat(L, I, E) &rArr;
 sequence( (I), repeat(L, make_top(), E)) repeat(L, make_top(), E)
-&lt;=&gt; conditional(Z, E[L \ Z], repeat(L, make_top(), E))
+&rArr; conditional(Z, E[L \ Z], repeat(L, make_top(), E))
 </programlisting>
 
       <para>If there are no uses of L in E:</para>
 <programlisting>
 repeat(L, make_top(), sequence((S, E),
-make_top()) &lt;=&gt; conditional(Z, S[L \ Z], repeat(L, make_top(),
+make_top()) &rArr; conditional(Z, S[L \ Z], repeat(L, make_top(),
 sequence((E, S), make_top()) ) )
 </programlisting>
 
@@ -3519,7 +3519,7 @@ tg<subscript>i</subscript>)
         s<subscript>i</subscript></para>
 <programlisting>
 apply_proc(rshape, f, (A<subscript>1</subscript>, ... ,
-A<subscript>n</subscript>), V) &lt;=&gt; variable( empty, newtag,
+A<subscript>n</subscript>), V) &rArr; variable( empty, newtag,
 make_value((rshape=BOTTOM)? TOP: rshape), labelled( (L),
 variable(v<subscript>1</subscript>, tg<subscript>1</subscript>,
 A<subscript>1</subscript>, ... , variable(v<subscript>n</subscript>,
@@ -3528,12 +3528,12 @@ vtg, V, B(sequence( assign(obtain_tag(newtag),
 R<subscript>1</subscript>), goto(L)) , ... , sequence(
 assign(obtain_tag(newtag), R<subscript>m</subscript>), goto(L)) ) )
 ), contents(rshape, obtain_tag(newtag)) ) ) assign(E, make_top())
-&lt;=&gt; sequence( (E), make_top()) contents(TOP, E) &lt;=&gt; sequence((E),
-make_top()) make_value(TOP) &lt;=&gt; make_top() component(s,
-contents(COMPOUND(S), E), D) &lt;=&gt; contents(s, add_to_ptr(E, D))
+&rArr; sequence( (E), make_top()) contents(TOP, E) &rArr; sequence((E),
+make_top()) make_value(TOP) &rArr; make_top() component(s,
+contents(COMPOUND(S), E), D) &rArr; contents(s, add_to_ptr(E, D))
 make_compound(S, ((E<subscript>1</subscript>,
 D<subscript>1</subscript>), ..., (E<subscript>n</subscript>,
-D<subscript>n</subscript>)) ) &lt;=&gt; variable(empty, nt,
+D<subscript>n</subscript>)) ) &rArr; variable(empty, nt,
 make_value(COMPOUND(S)), sequence( (
 assign(add_to_ptr(obtain_tag(nt), D<subscript>1</subscript>),
 E<subscript>1</subscript>), ... , assign(add_to_ptr(obtain_tag(nt),
